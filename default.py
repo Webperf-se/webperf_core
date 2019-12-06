@@ -9,16 +9,15 @@ from crawler import harvest_links
 from common import mysql_query, mysql_query_single_value
 
 from models import Sites, SiteTests, TestData, SiteConfig, ErrorLog, Categories, Articles
+import config
 
 app = Flask(__name__)# mysql stuff
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://webperfs_client:32aqmMZTfvADjwvXOtQxyu5@hachiman.oderland.com/webperfs_wperf"
+app.config['SQLALCHEMY_DATABASE_URI'] = config.mysqlString
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # global variables
 week_limiter = 20
-active_test_ids = set([0, 2, 3, 6, 7, 14, 15, 16, 17, 18, 19, 20])
-
 
 def rating_summary(site_id = None, cat_id = None):
     # TODO: kan skrivas om så all beräkning sker först, alla uppdateringar lagras i en array som körs 100 i taget
@@ -257,7 +256,7 @@ def update_rating(site_id = None, cat_id = None):
     rating_summary_categories()
 
 
-def testing(category_id = None, site_id = None, type_of_test = None, retesting_in_hours=48, include_all_tests = False):
+def testing(category_id = None, site_id = None, type_of_test = None, retesting_in_hours=72, include_all_tests = False):
     iteration = 1
      # None är default
     #site_id = 3843 # 141 är VGR, 3843 är webperf, None är default
@@ -265,7 +264,7 @@ def testing(category_id = None, site_id = None, type_of_test = None, retesting_i
 
     if site_id is None and type_of_test is None:
         while(True):
-            print('###{0}###'.format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+            print('### {0} ###'.format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
             ##############
             print('Kör test: 0 - Google Pagespeed')

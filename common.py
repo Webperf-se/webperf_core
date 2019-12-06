@@ -3,9 +3,10 @@ import requests
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 from sqlalchemy import text
+import config
 
 app = Flask(__name__)# mysql stuff
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://webperfs_client:32aqmMZTfvADjwvXOtQxyu5@hachiman.oderland.com/webperfs_wperf"
+app.config['SQLALCHEMY_DATABASE_URI'] = config.mysqlString
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 

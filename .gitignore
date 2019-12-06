@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 
 playground.py
+config.py
 
 # C extensions
 *.so
@@ -104,3 +105,4 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+.DS_Store

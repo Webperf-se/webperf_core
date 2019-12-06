@@ -10,13 +10,11 @@ import re
 from bs4 import BeautifulSoup
 
 from common import httpRequestGetContent, mysql_query
+import config
 
 ### DEFAULTS
-request_timeout = 30 # seconds, sätt till 0.0001 för att koda timeouthanteringen
-googlePageSpeedApiKey = "AIzaSyAZRZtljuro4yWC0QpVvOubtkcXLPOL0cw"
-# exception är 'requests.exceptions.Timeout', behöver fångas
-
-## GÖRA ETT OBJEKT SOM HAR MÅNGA FUNKTIONER?
+request_timeout = config.http_request_timeout
+googlePageSpeedApiKey = config.googlePageSpeedApiKey
 
 def check_four_o_four(url):
     """
@@ -565,9 +563,5 @@ def is_sitemap(content):
 If file is executed on itself then call a definition, mostly for testing purposes
 """
 if __name__ == '__main__':
-    # fyranollfyra = check_w3c_valid_css('https://www.socialdemokraterna.se')
-    #fyranollfyra = check_w3c_valid_css('https://webperf.se')
-    #print(fyranollfyra[1])
     #print(check_google_usability('https://polismuseet.se'))
-    #print(check_google_pagespeed('https://webperf.se'))
-    print(check_sitespeed_npm('https://polismuseet.se'))
+    print(check_google_pagespeed('https://webperf.se'))

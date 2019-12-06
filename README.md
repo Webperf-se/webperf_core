@@ -1,5 +1,5 @@
-# webperf_core
-Minimalistic client mainly running on PythonAnywhere.com
+# Webperf Core
+Minimalistic client mainly running on PythonAnywhere.com, accessing different websites, or web-APIs, and scraping them.
 
 ## Dependencies
 Not found in the standard lib:

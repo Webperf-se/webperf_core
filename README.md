@@ -13,5 +13,5 @@ Not found in the standard lib:
 Also need some MySQL stuff, but which libs differ on Macos and Linux. On PythonAnywhere.com it worked without any effort.
 
 ## Usage
-Open the terminal, enter folder and type 'python default.py'
-Also support arguments, 'python default.py id=1' to only test site with id 1.
+Open the terminal, enter folder and type *python default.py*  
+Also support arguments, *python default.py id=1* to only test the site with id 1, and *python default.py cat=1* to only test the sites with 'category' set to 1.

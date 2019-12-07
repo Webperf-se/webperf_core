@@ -11,3 +11,7 @@ Not found in the standard lib:
 * BeautifulSoup 4
 
 Also need some MySQL stuff, but which libs differ on Macos and Linux. On PythonAnywhere.com it worked without any effort.
+
+## Usage
+Open the terminal, enter folder and type 'python default.py'
+Also support arguments, 'python default.py id=1' to only test site with id 1.

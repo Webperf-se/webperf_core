@@ -13,3 +13,5 @@ googlePageSpeedApiKey = ""
 
 # enter your connection string, format mysql://userid:password@server.com/db-name
 mysql_string = ""
+
+http_request_timeout = 5

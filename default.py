@@ -11,7 +11,7 @@ from common import mysql_query, mysql_query_single_value
 from models import Sites, SiteTests, TestData, SiteConfig, ErrorLog, Categories, Articles
 import config
 
-app = Flask(__name__)# mysql stuff
+app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = config.mysqlString
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -79,26 +79,6 @@ def rating_perf(site_id = None, cat_id = None):
     result.close()
     return None
 
-def rating_usability(site_id = None, cat_id = None):
-    if site_id is None:
-        sql = text('SELECT sites.id, st.rating FROM sites JOIN (SELECT MAX(id) max_id, site_id FROM sitetests WHERE type_of_test = 16 AND most_recent=1 GROUP BY site_id) test_max ON (test_max.site_id = sites.id) JOIN sitetests st ON (st.id = test_max.max_id) ORDER BY sites.id ASC, st.test_date DESC')
-    elif cat_id is not None:
-        sql = text('SELECT sites.id, st.rating FROM sites JOIN (SELECT MAX(id) max_id, site_id FROM sitetests WHERE type_of_test = 16 AND most_recent=1 GROUP BY site_id) test_max ON (test_max.site_id = sites.id) JOIN sitetests st ON (st.id = test_max.max_id) WHERE sites.category = {0} ORDER BY sites.id ASC, st.test_date DESC'.format(cat_id))
-    else:
-        sql = text('SELECT sites.id, st.rating FROM sites JOIN (SELECT MAX(id) max_id, site_id FROM sitetests WHERE type_of_test = 16 AND most_recent=1 AND sitetests.site_id = {0} GROUP BY site_id) test_max ON (test_max.site_id = sites.id) JOIN sitetests st ON (st.id = test_max.max_id) ORDER BY sites.id ASC, st.test_date DESC'.format(site_id))
-
-    result = db.engine.execute(sql)
-    #names = []
-    for row in result:
-        # names.append(round(row[1], 1))
-        timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        sql_update = text('UPDATE sites SET rating_usability = \'{0}\', date_modified = \'{1}\' WHERE sites.id = {2}'.format(row[1], timestamp, row[0]))
-        db.engine.execute(sql_update)
-
-    # print(names)
-    result.close()
-    return None
-
 def rating_a11y(site_id = None, cat_id = None):
     if site_id is None:
         sql = text('SELECT sites.id, AVG(sitetests.rating) as rating FROM sites LEFT JOIN sitetests on sites.id = sitetests.site_id WHERE (sitetests.type_of_test = 18 OR sitetests.type_of_test = 19) AND most_recent=1 GROUP BY sites.id')
@@ -122,7 +102,7 @@ def rating_a11y(site_id = None, cat_id = None):
 def rating_summary_categories():
     sql = text('SELECT category, AVG(rating_overall) as rating, AVG(rating_a11y) as a_rating, AVG(rating_usability) as u_rating, AVG(rating_pagespeed) as p_rating, AVG(rating_webstandard) as standard_rating FROM sites GROUP BY sites.category')
     result = db.engine.execute(sql)
-    #names = []
+
     for row in result:
         #names.append(round(row[1], 1))
         sql_update = text('UPDATE categories SET rating_overall = \'{0}\', rating_a11y = \'{1}\', rating_usability = \'{2}\', rating_pagespeed = \'{3}\', rating_webstandard = \'{4}\'  WHERE id = {5}'.format(round(row[1], 1), round(row[2], 1), round(row[3], 1), round(row[4], 1), round(row[5], 1), row[0]))
@@ -131,20 +111,6 @@ def rating_summary_categories():
     #print(names)
     result.close()
     return None
-
-"""
-def percentile_rating(num_array):
-    import numpy as np
-    # a = np.array([1,2,3,4,5])
-    a = np.array(num_array)
-    p80 = np.percentile(a, 80) # över får 5 i betyg, under får fyra, return 80th percentile, 80% is lower
-    p60 = np.percentile(a, 60) # betyg 4
-    p40 = np.percentile(a, 40) # betyg 3
-    p20 = np.percentile(a, 20) # betyg 2, under får betyg 1
-    print(p80, p60, p40, p20)
-
-    return (p80, p60, p40, p20)
-"""
 
 def testsites(category_id=None, test_type=None, begin_with_id=None, only_test_id=False, only_test_untested_last_hours=24, order_by='title ASC'):
     """
@@ -158,17 +124,16 @@ def testsites(category_id=None, test_type=None, begin_with_id=None, only_test_id
 
     # TODO: implementera test_type=None
 
-    print("################################################################################################################")
+    print("###############################################")
 
     i = 1
 
     if only_test_id is not False:
         # testa bara en sajt
         sites_query = text('SELECT id, website FROM sites WHERE id = {0}'.format(begin_with_id))
-        #sites = Sites.query.filter_by(id=begin_with_id).order_by(Sites.id)
     else:
         tmp_sql = 'SELECT id, website FROM sites WHERE (timeout IS NULL OR timeout <= DATE_SUB(NOW(),INTERVAL 36 HOUR)) AND active=1'
-        # tmp_sql = 'SELECT id, website FROM sites WHERE active=1'
+
         if category_id is not None and begin_with_id is not None:
             tmp_sql += ' AND category={0} AND id >= {1}'.format(category_id, begin_with_id)
         elif category_id is None and begin_with_id is not None:
@@ -207,8 +172,6 @@ def testsites(category_id=None, test_type=None, begin_with_id=None, only_test_id
                 the_test_result = check_w3c_valid(website)
             elif test_type is 7:
                 the_test_result = check_w3c_valid_css(website)
-            elif test_type is 16:
-                the_test_result = check_google_usability(website)
             elif test_type is 20:
                 the_test_result = check_privacy_webbkollen(website)
             elif test_type is 0:
@@ -236,21 +199,15 @@ def testsites(category_id=None, test_type=None, begin_with_id=None, only_test_id
 
 
                 the_test_result = None # 190506 för att inte skriva testresultat till sajter när testet kraschat. Måste det sättas till ''?
-                # TODO: Klarmarkera skiten (vad då?)
-                # TODO: uppdatera snittbetygen
         except Exception as e:
             print('FAIL!', website, '\n', e)
             pass
 
         i += 1
 
-# behöver kunna ange flera tester att köra, ge array med tester?
-#premium_tests(100, 0, False)"""
-
 def update_rating(site_id = None, cat_id = None):
     rating_a11y(site_id, cat_id)
     rating_perf(site_id, cat_id)
-    rating_usability(site_id, cat_id)
     rating_webstandard(site_id, cat_id)
     rating_summary(site_id, cat_id)
     rating_summary_categories()
@@ -258,8 +215,6 @@ def update_rating(site_id = None, cat_id = None):
 
 def testing(category_id = None, site_id = None, type_of_test = None, retesting_in_hours=72, include_all_tests = False):
     iteration = 1
-     # None är default
-    #site_id = 3843 # 141 är VGR, 3843 är webperf, None är default
     #retesting_in_hours=336 # 72 är tre dygn, 168 är en vecka, 336 är två veckor, 504 är tre veckor (då alltid inom en månad gammalt)
 
     if site_id is None and type_of_test is None:
@@ -276,9 +231,6 @@ def testing(category_id = None, site_id = None, type_of_test = None, retesting_i
             testsites(category_id, 6, only_test_untested_last_hours=retesting_in_hours, order_by='RAND()')
             print('Kör test: 7 - CSS')
             testsites(category_id, 7, only_test_untested_last_hours=retesting_in_hours, order_by='RAND()')
-
-            print('Kör test: 16 - Google Usability')
-            testsites(category_id, 16, only_test_untested_last_hours=retesting_in_hours, order_by='RAND()')
 
             print('Kör test: 20 - Webbkoll')
             testsites(category_id, 20, only_test_untested_last_hours=504, order_by='RAND()') # deal om 1500 queries per månad, så...
@@ -300,9 +252,6 @@ def testing(category_id = None, site_id = None, type_of_test = None, retesting_i
         testsites(None, 6, site_id, True, only_test_untested_last_hours=None)
         print('Kör test: 7 - CSS')
         testsites(None, 7, site_id, True, only_test_untested_last_hours=None)
-
-        print('Kör test: 16 - Google Usability')
-        testsites(None, 16, site_id, True, only_test_untested_last_hours=None)
 
         print('Kör test: 20 - Webbkoll')
         testsites(None, 20, site_id, True, only_test_untested_last_hours=None)

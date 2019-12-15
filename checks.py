@@ -342,98 +342,11 @@ def check_google_pagespeed(url, strategy='mobile'):
 
     return (points, review, return_dict)
 
-def check_google_usability(url, strategy='mobile'):
-    """Checks the Pagespeed Insights with Google
-    In addition to the 'mobile' strategy there is also 'desktop' aimed at the desktop user's preferences
-    Returns a dictionary of the results.
-
-    attributes: check_url, strategy
-    """
-    check_url = url.strip()
-
-    # urlEncodedURL = parse.quote_plus(check_url)	# making sure no spaces or other weird characters f*cks up the request, such as HTTP 400
-    pagespeed_api_request = 'https://www.googleapis.com/pagespeedonline/v2/runPagespeed?url={}&strategy={}&key={}'.format(check_url, strategy, googlePageSpeedApiKey)
-    #print('HTTP request towards GPS API: {}'.format(pagespeed_api_request))
-
-    get_content = ''
-
-    try:
-        get_content = httpRequestGetContent(pagespeed_api_request)
-        get_content = BeautifulSoup(get_content, "html.parser")
-        get_content = str(get_content.encode("ascii"))
-    except:  # breaking and hoping for more luck with the next URL
-        print(
-            'Error! Unfortunately the request for URL "{0}" failed, message:\n{1}'.format(
-                check_url, sys.exc_info()[0]))
-        pass
-    # try:
-    get_content = get_content[2:][:-1]  # removes two first chars and the last one
-    get_content = get_content.replace('\\n', '\n').replace("\\'",
-                                                           "\'")  # .replace('"', '"') #.replace('\'', '\"')
-    get_content = get_content.replace('\\\\"', '\\"').replace('""', '"')
-
-    json_content = ''
-    try:
-        json_content = json.loads(get_content)
-    except:  # might crash if checked resource is not a webpage
-        print('Error! JSON failed parsing for the URL "{0}"\nMessage:\n{1}'.format(
-            check_url, sys.exc_info()[0]))
-        pass
-
-    #print(json_content)
-
-    return_dict = {}
-    try:
-        # overall score
-        for key in json_content['ruleGroups'].keys():
-            # print('Key: {0}, value {1}'.format(key, json_content['ruleGroups'][key]['score']))
-            if key == 'USABILITY':
-                return_dict['Usability'] = json_content['ruleGroups'][key]['score']
-
-        # page potential
-        for key in json_content['formattedResults']['ruleResults'].keys():
-            # print('Key: {0}, value {1}'.format(key, json_content['formattedResults']['ruleResults'][key]['ruleImpact']))
-            if key == 'ConfigureViewport' or key == 'AvoidPlugins' or key == 'SizeContentToViewport' or key == 'SizeTapTargetsAppropriately' or key == 'UseLegibleFontSizes':
-                return_dict[key] = json_content['formattedResults']['ruleResults'][key]['ruleImpact']
-
-    except:
-        print('Error! Request for URL "{0}" failed.\nMessage:\n{1}'.format(check_url, sys.exc_info()[0]))
-        pass
-
-    g_usability = return_dict["Usability"]
-    if  g_usability > 99:
-        points = 5
-        review = '* Väldigt användbar design!\n'
-    elif g_usability >= 98:
-        points = 4
-        review = '* Webbplatsen är användbar.\n'
-    elif g_usability >= 97:
-        points = 3
-        review = '* Genomsnittlig användbarhet, men inte så värst bra.\n'
-    elif g_usability >= 96:
-        points = 2
-        review = '* Webbplatsen behöver bli bättre på användbarhet.\n'
-    elif g_usability < 96:
-        points = 1
-        review = '* Stora brister i användbarheten!\n'
-
-    review += '* Usability: {} av 100\n'.format(return_dict["Usability"])
-    review += '* Mobil viewport konfigurerad: {}\n'.format("Ok" if float(return_dict["ConfigureViewport"]) < 0.01 else "Behöver förbättras")
-    review += '* Bredd på innehåll & viewport: {}\n'.format("Ok" if float(return_dict["SizeContentToViewport"]) < 0.01 else "Behöver förbättras")
-    review += '* Träffytor eller mellanrum för knappar/länkar: {}\n'.format("Ok" if float(return_dict["SizeTapTargetsAppropriately"]) < 0.01 else "Behöver förbättras")
-    review += '* Textens läsbarhet: {}\n'.format("Ok" if float(return_dict["UseLegibleFontSizes"]) < 0.01 else "Behöver förbättras")
-    review += '* Undvik plugins: {}\n'.format("Ok" if float(return_dict["AvoidPlugins"]) < 0.01 else "Behöver förbättras")
-
-    return (points, review, return_dict)
-
 def check_privacy_webbkollen(url):
     import time
     points = 0
     errors = 0
     review = ''
-
-    ## kollar koden
-    #try:
 
     url = 'https://webbkoll.dataskydd.net/sv/check?url={0}'.format(url.replace('/', '%2F').replace(':', '%3A'))
     headers = {'user-agent': 'Mozilla/5.0 (compatible; Webperf; +https://webperf.se)'}
@@ -452,26 +365,7 @@ def check_privacy_webbkollen(url):
     if final_url is not None:
         request2 = requests.get(final_url, allow_redirects=True, headers=headers, timeout=request_timeout*2)
         soup2 = BeautifulSoup(request2.text, 'html.parser')
-        #soup2 = BeautifulSoup(exempelkod, 'html.parser')
         summary = soup2.find_all("div", class_="summary")
-        """
-        success = len(soup2.find_all("i", class_="icon-check success"))
-        fails = len(soup2.find_all("i", class_="icon-times alert"))
-
-        return_dict = dict()
-        return_dict['lyckade_test'] = success
-        return_dict['missade_test'] = fails
-
-        if success is 0 and fails is 0:
-            raise ValueError('FEL: Verkar inte ha genomförts något test!')
-        else:
-            success_rate = success / fails
-            return_dict['success_rate'] = success
-
-        print('* Lyckade test: ', success)
-        print('* Saker att åtgärda: ', fails)
-        print('* Success rate: ', success_rate)
-        """
 
         h3 = soup2.find_all("h3")
         points = 0.0
@@ -480,12 +374,7 @@ def check_privacy_webbkollen(url):
 
         for h3a in h3:
             i += 1
-            status_bild = h3a.find('i')
-            #print(type(status_bild))
-
-            #print(len(h3a.find_all("i", class_="success")))
-            #print(len(h3a.find_all("i", class_="warning")))
-
+            
             #print(type(h3a.contents))
             if len(h3a.find_all("i", class_="success")) > 0:
                 # 1 poäng
@@ -507,24 +396,6 @@ def check_privacy_webbkollen(url):
 
         for line in summary:
             mess += '* {0}'.format(re.sub(' +', ' ', line.text.strip()).replace('\n', ' ').replace('    ', '\n* ').replace('Kolla upp', '').replace('  ', ' '))
-            #print('*', re.sub(' +', ' ', line.text.strip()).replace('\n', ' ').replace('    ', '\n* ').replace('Kolla upp', '').replace('  ', ' '))
-            #print('\n')
-
-        """if  success_rate > 0.84999:
-            points = 5
-            review = '* Webbplatsen är bra på integritet!\n'
-        elif success_rate > 0.64999:
-            points = 4
-            review = '* Webbplatsen kan bli bättre, men är helt ok.\n'
-        elif success_rate > 0.4999:
-            points = 3
-            review = '* Genomsnittlig integritet men borde bli bättre.\n'
-        elif success_rate > 0.2999:
-            points = 2
-            review = '* Dålig integritet.\n'
-        else:
-            points = 1
-            review = '* Väldigt dålig integritet!\n'"""
 
         if  points == 5:
             review = '* Webbplatsen är bra på integritet!\n'
@@ -563,5 +434,4 @@ def is_sitemap(content):
 If file is executed on itself then call a definition, mostly for testing purposes
 """
 if __name__ == '__main__':
-    #print(check_google_usability('https://polismuseet.se'))
     print(check_google_pagespeed('https://webperf.se'))

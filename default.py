@@ -12,7 +12,7 @@ from models import Sites, SiteTests, TestData, SiteConfig, ErrorLog, Categories,
 import config
 
 app = Flask(__name__)# mysql stuff
-app.config['SQLALCHEMY_DATABASE_URI'] = config.mysqlString
+app.config['SQLALCHEMY_DATABASE_URI'] = config.mysql_string
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 

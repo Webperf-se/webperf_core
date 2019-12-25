@@ -120,7 +120,7 @@ def check_four_o_four(url):
         review = review + '* Information är under 150 tecken, vilket tyder på att användaren inte vägleds vidare.\n'
 
     if len(review) == 0:
-        review = 'Inga anmärkningar.'
+        review = '* Inga anmärkningar.'
 
     if points is 0:
       points = 1
@@ -412,7 +412,6 @@ def check_privacy_webbkollen(url):
         review += mess
 
         return (points, review, return_dict)
-
 
 def get_guid(length):
     """

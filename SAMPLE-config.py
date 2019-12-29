@@ -12,6 +12,6 @@ useragent = 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.
 googlePageSpeedApiKey = ""
 
 # enter your connection string, format mysql://userid:password@server.com/db-name
-mysql_string = ""
+db_string = "sqlite:///dbase/dbase.sqllite"
 
 http_request_timeout = 5

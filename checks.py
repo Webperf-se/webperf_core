@@ -9,7 +9,6 @@ import uuid
 import re
 from bs4 import BeautifulSoup
 
-from common import httpRequestGetContent, mysql_query
 import config
 
 ### DEFAULTS
@@ -106,12 +105,7 @@ def check_four_o_four(url):
 
     if found_match is False:
         review = review + '* Verkar sakna text som beskriver att ett fel uppstått (på svenska).\n'
-
-    #if 'saknas' in request.text.lower() or 'finns inte' in request.text.lower() or 'inte hittas' in request.text.lower() or 'kunde inte' in request.text.lower() or 'kunde ej' in request.text.lower() or 'hittades inte' in request.text.lower() or 'tagits bort' in request.text.lower() or 'fel adress' in request.text.lower() or 'trasig' in request.text.lower() or 'inte hitta' in request.text.lower():
-    #    points += 1.5
-    #else:
-    #    review = review + '* Verkar sakna text som beskriver att ett fel uppstått (på svenska).\n'
-
+    
     ## hur långt är inehållet
     soup = BeautifulSoup(request.text, 'html.parser')
     if len(soup.get_text()) > 150:
@@ -206,37 +200,6 @@ def check_w3c_valid_css(url):
         review = '* Den testade sidan har massor med fel i sin CSS-kod. Hela {0} st. \n'.format(errors)
 
     return (points, review)
-
-def check_http_status_code(url):
-    headers = {'user-agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'}
-    request = requests.get(url, allow_redirects=False, headers=headers, timeout=request_timeout)
-    return request.status_code
-
-def check_encoding(url):
-    r = requests.get(url, timeout = request_timeout)
-
-    return r.encoding
-
-def check_content_type(url):
-    r = requests.get(url, timeout = request_timeout)
-
-    return r.headers.get('content-type')
-
-def http_status_code_check(url):
-    r = requests.get(url, timeout = request_timeout)
-    return r.status_code
-
-def check_redirection(url):
-    """
-    Kollar om servern vill skicka runt användaren. Kolla dels redirs men också om HTTP->HTTPS är korrekt
-    """
-    r = requests.head(url, allow_redirects=True, timeout = request_timeout)
-    return (r.url, r.history)
-    # r.url
-    # 'https://github.com/'
-
-    # r.history
-    # [<Response [301]>]
 
 def check_google_pagespeed(url, strategy='mobile'):
     """Checks the Pagespeed Insights with Google
@@ -413,21 +376,33 @@ def check_privacy_webbkollen(url):
 
         return (points, review, return_dict)
 
+def httpRequestGetContent(url):
+    """Trying to fetch the response content
+    Attributes: url, as for the URL to fetch
+    """
+
+    try:
+        a = requests.get(url)
+
+        return a.text
+    except requests.exceptions.SSLError:
+        if 'http://' in url: # trying the same URL over SSL/TLS
+            print('Info: Trying SSL before giving up.')
+            return httpRequestGetContent(url.replace('http://', 'https://'))
+    except requests.exceptions.ConnectionError:
+        print(
+            'Connection error! Unfortunately the request for URL "{0}" failed.\nMessage:\n{1}'.format(url, sys.exc_info()[0]))
+        pass
+    except:
+        print(
+            'Error! Unfortunately the request for URL "{0}" either timed out or failed for other reason(s). The timeout is set to {1} seconds.\nMessage:\n{2}'.format(url, timeout_in_seconds, sys.exc_info()[0]))
+        pass
+
 def get_guid(length):
     """
     Generates a unique string in specified length
     """
     return str(uuid.uuid4())[0:length]
-
-def is_sitemap(content):
-    """Check a string to see if its content is a sitemap or siteindex.
-
-    Attributes: content (string)
-    """
-    if 'http://www.sitemaps.org/schemas/sitemap/' in content or '<sitemapindex' in content:
-        return True
-
-    return False
 
 """
 If file is executed on itself then call a definition, mostly for testing purposes

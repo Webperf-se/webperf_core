@@ -5,6 +5,7 @@ __pycache__/
 
 playground.py
 config.py
+dbase.sqlite
 
 # C extensions
 *.so
@@ -106,3 +107,4 @@ venv.bak/
 # mypy
 .mypy_cache/
 .DS_Store
+dbase/dbase.sqlite

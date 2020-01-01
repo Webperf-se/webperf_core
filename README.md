@@ -28,7 +28,7 @@ You can choose to ignore the Google Pagespeed API. In this case, put a hashtag *
 So it looks like this:  
 *# testsites(test_type=0)*
 
-Google Pagespeed requires an API key. You can come get one like this:
+Google Pagespeed requires an API key. You can get one like this:
 1. Go to [Google Cloud Platform](https://console.cloud.google.com/apis).
 2. Search for *Pagespeed Insights API*.
 3. Click on *Credentials* (you may need to create a project first, if you do not already have one).

@@ -15,7 +15,6 @@ You download the code itself from [GitHub - webperf_core](https://github.com/Web
 ### Adjust the source code
 There are two files that you need to adjust:
 * *SAMPLE-config.py* needs to be renamed to *config.py*
-* In the *dbase* folder, the *SAMPLE-dbase.sqlite* file should be renamed to *dbase.sqlite*
 The reason for this is because if you download a new version of the code, your settings or data should not be overwritten by accident.
 
 Another thing you need to do is to open the *config.py* file and change one thing. The line that looks like the following is incomplete:  
@@ -39,7 +38,7 @@ That code is your API key, that you should put in the *config.py* file in the so
 
 ## Running the code
 You need to go through the following steps before you run the code:
-1. If you do not have Python installed, start with [downloading Python](https://www.python.org/downloads/) (which you can ignore if you run on [PythonAnywhere](https://www.pythonanywhere.com/?affiliate_id=0007e5c6)).
+1. If you do not have Python 3.8 or above installed, start with [downloading Python](https://www.python.org/downloads/) (which you can ignore if you run on [PythonAnywhere](https://www.pythonanywhere.com/?affiliate_id=0007e5c6)).
 2. Open the Terminal (Macos & Linux) or Command Prompt (Windows).
 3. Navigate to where you downloaded (and unpacked) the source code. If you don’t know how to navigate in Terminal/CMD, read the [Windows guide](https://www.digitalcitizen.life/command-prompt-how-use-basic-commands) or [under Step 5 for Mac / Linux](https://computers.tutsplus.com/tutorials/navigating-the-terminal-a-gentle-introduction--mac-3855).
 4. Type the following command and hit Enter:  
@@ -49,16 +48,7 @@ Then some Python extensions will be installed.
 *python default.py*
 
 Now it will begin testing.
-### Adjust the database
-If you have not changed anything in your database, it is webperf.se that will be tested. To change the database, you can download [DB Browser for SQLite](https://sqlitebrowser.org/). However, it does not seem to be available on Linux.
 
-You can add a bunch of websites. Open the database, go to the *sites* table, add a new line / record with each website’s address and title. The test results are added to the table *site_tests* when you run the code.
-
-Good to know about the database:
-* A site identity is called *id* in the *sites* table, which refers to *site_id* in the test results in *sitetests*.
-* *most_recent* in *sitetests* is a filter to get the latest tests for each website, select *1* to only get the most recent tests.
-
-If you don’t know the query language [SQL for databases, there is a good introduction to W3Schools](https://www.w3schools.com/sql/sql_intro.asp). It is with SQL that you can retrieve results from the database, calculate averages and much more.
 ### Are you getting error messages?
 It is often worthwhile to google the error messages you get. If you give up the search then you can always [check if someone on our Slack channel](https://webperf.se/articles/webperf-pa-slack/) have time to help you, but don’t forget to paste your error message directly in the first post. Or, if you think your error are common for more people than yourself, post an issue here at Github.
 

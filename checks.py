@@ -103,7 +103,7 @@ def check_four_o_four(url):
             found_match = True
             break
 
-    if found_match is False:
+    if found_match == False:
         review = review + '* Verkar sakna text som beskriver att ett fel uppstått (på svenska).\n'
     
     ## hur långt är inehållet
@@ -116,7 +116,7 @@ def check_four_o_four(url):
     if len(review) == 0:
         review = '* Inga anmärkningar.'
 
-    if points is 0:
+    if points == 0:
       points = 1
 
     return (points, review, result_dict)
@@ -325,7 +325,7 @@ def check_privacy_webbkollen(url):
 
 
 
-    if final_url is not None:
+    if final_url != None:
         request2 = requests.get(final_url, allow_redirects=True, headers=headers, timeout=request_timeout*2)
         soup2 = BeautifulSoup(request2.text, 'html.parser')
         summary = soup2.find_all("div", class_="summary")

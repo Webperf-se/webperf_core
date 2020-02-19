@@ -11,7 +11,4 @@ useragent = 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.
 # enter your API key for Google Pagespeed API
 googlePageSpeedApiKey = ""
 
-# enter your connection string, format mysql://userid:password@server.com/db-name
-db_string = "sqlite:///dbase/dbase.sqllite"
-
 http_request_timeout = 5

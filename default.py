@@ -6,7 +6,7 @@ from checks import *
 from models import Sites, SiteTests
 import config
 
-def testsites(test_type=None, only_test_untested_last_hours=24, order_by='title ASC'):
+def testsites(sites, test_type=None, only_test_untested_last_hours=24, order_by='title ASC'):
     """
     Executing the actual tests.
     Attributes:
@@ -19,18 +19,17 @@ def testsites(test_type=None, only_test_untested_last_hours=24, order_by='title 
 
     i = 1
 
-    items = list()
+    #sites = list()
     #for row in result:
     #    site_id = row[0]
     #    website = row[1]
-    #    items.append([site_id, website])
-    items.append([0, "https://polisen.se"])
+    #    sites.append([site_id, website])
 
-    print('Webbadresser som testas:', len(items))
+    print('Webbadresser som testas:', len(sites))
 
-    for item in items:
-        site_id = item[0]
-        website = item[1]
+    for site in sites:
+        site_id = site[0]
+        website = site[1]
         print('{}. Testar adress {}'.format(i, website))
         the_test_result = None
 
@@ -69,20 +68,20 @@ def testsites(test_type=None, only_test_untested_last_hours=24, order_by='title 
 
         i += 1
 
-def testing():
+def testing(sites = list([[0, "https://webperf.se"]])):
     print('### {0} ###'.format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     ##############
     print('###############################\nKör test: 0 - Google Pagespeed')
-    testsites(test_type=0)
+    testsites(sites, test_type=0)
     print('###############################\nKör test: 2 - 404-test')
-    testsites(test_type=2)
+    testsites(sites, test_type=2)
     print('###############################\nKör test: 6 - HTML')
-    testsites(test_type=6)
+    testsites(sites, test_type=6)
     print('###############################\nKör test: 7 - CSS')
-    testsites(test_type=7)
+    testsites(sites, test_type=7)
     print('###############################\nKör test: 20 - Webbkoll')
-    testsites(test_type=20)
+    testsites(sites, test_type=20)
 
 """
 If file is executed on itself then call a definition, mostly for testing purposes

@@ -208,6 +208,7 @@ def check_google_pagespeed(url, strategy='mobile'):
 
     attributes: check_url, strategy
     """
+
     check_url = url.strip()
 
     # urlEncodedURL = parse.quote_plus(check_url)	# making sure no spaces or other weird characters f*cks up the request, such as HTTP 400
@@ -240,6 +241,7 @@ def check_google_pagespeed(url, strategy='mobile'):
         pass
 
     return_dict = {}
+
     try:
         # overall score
         for key in json_content['ruleGroups'].keys():
@@ -273,31 +275,54 @@ def check_google_pagespeed(url, strategy='mobile'):
             points = 1
             review = '* Webbplatsen har väldigt dåliga prestanda enligt Google Pagespeed!\n'
 
-        review += '* Antal resurser: {} st\n'.format(return_dict["numberResources"])
-        review += '* Antal värdar: {} st\n'.format(return_dict["numberHosts"])
-        review += '* Storlek på förfrågan: {} bytes\n'.format(return_dict["totalRequestBytes"])
-        review += '* Statiska filer: {} st\n'.format(return_dict["numberStaticResources"])
-        review += '* Storlek på HTML: {} bytes\n'.format(return_dict["htmlResponseBytes"])
-        review += '* Storlek på sidvisning: {} bytes\n'.format(return_dict["overTheWireResponseBytes"])
-        review += '* Storlek på CSS: {} bytes\n'.format(return_dict["cssResponseBytes"])
-        review += '* Storlek på bilder: {} bytes\n'.format(return_dict["imageResponseBytes"])
-        review += '* Storlek på Javascript: {} bytes\n'.format(return_dict["javascriptResponseBytes"])
-        review += '* Antal Javascriptfiler: {} st\n'.format(return_dict["numberJsResources"])
-        review += '* Antal CSS-filer: {} st\n'.format(return_dict["numberCssResources"])
+        if "numberResources" in return_dict:
+            review += '* Antal resurser: {} st\n'.format(return_dict["numberResources"])
+        if "numberHosts" in return_dict:
+            review += '* Antal värdar: {} st\n'.format(return_dict["numberHosts"])
+        if "totalRequestBytes" in return_dict:
+            review += '* Storlek på förfrågan: {} bytes\n'.format(return_dict["totalRequestBytes"])
+        if "numberStaticResources" in return_dict:
+            review += '* Statiska filer: {} st\n'.format(return_dict["numberStaticResources"])
+        if "htmlResponseBytes" in return_dict:
+            review += '* Storlek på HTML: {} bytes\n'.format(return_dict["htmlResponseBytes"])
+        if "overTheWireResponseBytes" in return_dict:
+            review += '* Storlek på sidvisning: {} bytes\n'.format(return_dict["overTheWireResponseBytes"])
+        if "cssResponseBytes" in return_dict:
+            review += '* Storlek på CSS: {} bytes\n'.format(return_dict["cssResponseBytes"])
+        if "imageResponseBytes" in return_dict:
+            review += '* Storlek på bilder: {} bytes\n'.format(return_dict["imageResponseBytes"])
+        if "javascriptResponseBytes" in return_dict:
+            review += '* Storlek på Javascript: {} bytes\n'.format(return_dict["javascriptResponseBytes"])
+        if "numberJsResources" in return_dict:
+            review += '* Antal Javascriptfiler: {} st\n'.format(return_dict["numberJsResources"])
+        if "numberCssResources" in return_dict:
+            review += '* Antal CSS-filer: {} st\n'.format(return_dict["numberCssResources"])
 
         # potential
-        review += '* Antal roundtrips: {} st\n'.format(return_dict["numTotalRoundTrips"])
-        review += '* Antal blockerande roundtrips: {} st\n'.format(return_dict["numRenderBlockingRoundTrips"])
-        review += '* Undvik hänvisningar: {}\n'.format("Ok" if int(return_dict["AvoidLandingPageRedirects"]) < 2 else "Behöver förbättras")
-        review += '* Aktivera GZIP-komprimering: {}\n'.format("Ok" if int(return_dict["EnableGzipCompression"]) < 2 else "Behöver förbättras")
-        review += '* Använd webbläsarens cache: {}\n'.format("Ok" if int(return_dict["LeverageBrowserCaching"]) < 2 else "Behöver förbättras")
-        review += '* Är webbservern snabb: {}\n'.format("Ok" if int(return_dict["MainResourceServerResponseTime"]) < 2 else "Behöver förbättras")
-        review += '* Behöver CSS-filer minimeras: {}\n'.format("Ok" if int(return_dict["MinifyCss"]) < 2 else "Behöver förbättras")
-        review += '* Behöver HTML-filen minimeras: {}\n'.format("Ok" if int(return_dict["MinifyHTML"]) < 2 else "Behöver förbättras")
-        review += '* Behöver Javascript-filer minimeras: {}\n'.format("Ok" if int(return_dict["MinifyJavaScript"]) < 2 else "Behöver förbättras")
-        review += '* Blockeras sidvisningen: {}\n'.format("Ok" if int(return_dict["MinimizeRenderBlockingResources"]) < 2 else "Behöver förbättras")
-        review += '* Behöver bilderna optimeras för webben: {}\n'.format("Ok" if int(return_dict["OptimizeImages"]) < 2 else "Behöver förbättras")
-        review += '* Behöver synligt innehåll prioriteras: {}\n'.format("Ok" if int(return_dict["PrioritizeVisibleContent"]) < 2 else "Behöver förbättras")
+        if "numTotalRoundTrips" in return_dict:
+            review += '* Antal roundtrips: {} st\n'.format(return_dict["numTotalRoundTrips"])
+        if "numRenderBlockingRoundTrips" in return_dict:
+            review += '* Antal blockerande roundtrips: {} st\n'.format(return_dict["numRenderBlockingRoundTrips"])
+        if "AvoidLandingPageRedirects" in return_dict:
+            review += '* Undvik hänvisningar: {}\n'.format("Ok" if int(return_dict["AvoidLandingPageRedirects"]) < 2 else "Behöver förbättras")
+        if "EnableGzipCompression" in return_dict:
+            review += '* Aktivera GZIP-komprimering: {}\n'.format("Ok" if int(return_dict["EnableGzipCompression"]) < 2 else "Behöver förbättras")
+        if "LeverageBrowserCaching" in return_dict:
+            review += '* Använd webbläsarens cache: {}\n'.format("Ok" if int(return_dict["LeverageBrowserCaching"]) < 2 else "Behöver förbättras")
+        if "MainResourceServerResponseTime" in return_dict:
+            review += '* Är webbservern snabb: {}\n'.format("Ok" if int(return_dict["MainResourceServerResponseTime"]) < 2 else "Behöver förbättras")
+        if "MinifyCss" in return_dict:
+            review += '* Behöver CSS-filer minimeras: {}\n'.format("Ok" if int(return_dict["MinifyCss"]) < 2 else "Behöver förbättras")
+        if "MinifyHTML" in return_dict:
+            review += '* Behöver HTML-filen minimeras: {}\n'.format("Ok" if int(return_dict["MinifyHTML"]) < 2 else "Behöver förbättras")
+        if "MinifyJavaScript" in return_dict:
+            review += '* Behöver Javascript-filer minimeras: {}\n'.format("Ok" if int(return_dict["MinifyJavaScript"]) < 2 else "Behöver förbättras")
+        if "MinimizeRenderBlockingResources" in return_dict:
+            review += '* Blockeras sidvisningen: {}\n'.format("Ok" if int(return_dict["MinimizeRenderBlockingResources"]) < 2 else "Behöver förbättras")
+        if "OptimizeImages" in return_dict:
+            review += '* Behöver bilderna optimeras för webben: {}\n'.format("Ok" if int(return_dict["OptimizeImages"]) < 2 else "Behöver förbättras")
+        if "PrioritizeVisibleContent" in return_dict:
+            review += '* Behöver synligt innehåll prioriteras: {}\n'.format("Ok" if int(return_dict["PrioritizeVisibleContent"]) < 2 else "Behöver förbättras")
 
     except:
         print('Error! Request for URL "{0}" failed.\nMessage:\n{1}'.format(check_url, sys.exc_info()[0]))

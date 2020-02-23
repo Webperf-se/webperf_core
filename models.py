@@ -1,5 +1,6 @@
 #-*- coding: utf-8 -*-
 import datetime
+import json
 
 class Sites(object):
     __tablename__ = 'sites'
@@ -31,6 +32,17 @@ class SiteTests(object):
         self.rating = rating
         self.test_date = test_date
         self.json_check_data = json_check_data
+
+    def tojson(self):
+        result = {
+            'id': self.site_id,
+            'type_of_test': self.type_of_test,
+            'rating': self.rating,
+            'date': self.test_date.strftime('%Y-%m-%d %H:%M:%S'),
+            'report': self.check_report.decode('utf-8'),
+            'data': self.json_check_data.decode('utf-8')
+        }
+        return json.dumps(result)
 
     def __repr__(self):
         return '<SiteTest %r>' % self.test_date

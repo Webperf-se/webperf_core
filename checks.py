@@ -15,6 +15,8 @@ import config
 request_timeout = config.http_request_timeout
 googlePageSpeedApiKey = config.googlePageSpeedApiKey
 
+(GOOGLE_PAGESPEED, UNKNOWN_01, PAGE_NOT_FOUND, UNKNOWN_03, UNKNOWN_04, UNKNOWN_05, HTML, CSS, UNKNOWN_08, UNKNOWN_09, UNKNOWN_10, UNKNOWN_11, UNKNOWN_12, UNKNOWN_13, UNKNOWN_14, UNKNOWN_15, UNKNOWN_16, UNKNOWN_17, UNKNOWN_18, UNKNOWN_19, WEBBKOLL) = range(21)
+
 def check_four_o_four(url):
     """
     Only work on a domain-level. Returns tuple with decimal for grade and string with review

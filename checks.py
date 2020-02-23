@@ -28,7 +28,7 @@ def check_four_o_four(url):
     o = urllib.parse.urlparse(url)
     url = '{0}://{1}/{2}-{3}.html'.format(o.scheme, o.netloc, 's1d4-f1nns-1nt3', get_guid(5))
     headers = {'user-agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'}
-    request = requests.get(url, allow_redirects=False, headers=headers, timeout=request_timeout)
+    request = requests.get(url, allow_redirects=True, headers=headers, timeout=request_timeout)
     code = request.status_code
     if code == 404:
         points += 2

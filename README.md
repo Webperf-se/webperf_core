@@ -8,6 +8,9 @@ The tests included in the first version are:
 * Validating the CSS code against W3C
 * Users’ integrity test against Webbkoll, provided by Dataskydd.net
 
+## psst. third party extensions...
+* [webperf-leaderboard](https://github.com/krompaco/webperf-leaderboard) by [Johan Kronberg](https://github.com/krompaco/)
+
 ## Get started with webperf_core
 Here are some suggestions on how to get started with the tests on your own computer. Actually, it is even easier to run the tests on a cloud environment such as [PythonAnywhere - $ 5 / month](https://www.pythonanywhere.com/?affiliate_id=0007e5c6) - then the technical environment is ready to just upload the files.
 

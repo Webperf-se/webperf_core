@@ -37,71 +37,81 @@ def check_four_o_four(url):
 
     result_dict['status_code'] = code
 
-    soup = BeautifulSoup(request.text, 'lxml')
-    try:
-        result_dict['page_title'] = soup.title.text
-    except:
-        print('Error!\nMessage:\n{0}'.format(sys.exc_info()[0]))
-
-    try:
-        result_dict['h1'] = soup.find('h1').text
-    except:
-        print('Error!\nMessage:\n{0}'.format(sys.exc_info()[0]))
-
-    #print(code)
-
-    ## kollar innehållet
-    four_o_four_strings = []
-    four_o_four_strings.append('saknas')
-    four_o_four_strings.append('finns inte')
-    four_o_four_strings.append('inga resultat')
-    four_o_four_strings.append('inte hittas')
-    four_o_four_strings.append('inte hitta')
-    four_o_four_strings.append('kunde inte')
-    four_o_four_strings.append('kunde ej')
-    four_o_four_strings.append('hittades inte')
-    four_o_four_strings.append('hittar inte')
-    four_o_four_strings.append('hittade vi inte')
-    four_o_four_strings.append('hittar vi inte')
-    four_o_four_strings.append('hittades tyvärr inte')
-    four_o_four_strings.append('tagits bort')
-    four_o_four_strings.append('fel adress')
-    four_o_four_strings.append('trasig')
-    four_o_four_strings.append('inte hitta')
-    four_o_four_strings.append('ej hitta')
-    four_o_four_strings.append('ingen sida')
-    four_o_four_strings.append('borttagen')
-    four_o_four_strings.append('flyttad')
-    four_o_four_strings.append('inga resultat')
-    four_o_four_strings.append('inte tillgänglig')
-    four_o_four_strings.append('inte sidan')
-    four_o_four_strings.append('kontrollera adressen')
-    four_o_four_strings.append('kommit utanför')
-    four_o_four_strings.append('gick fel')
-    four_o_four_strings.append('blev något fel')
-    four_o_four_strings.append('kan inte nås')
-    four_o_four_strings.append('gammal sida')
-    four_o_four_strings.append('hoppsan')
-    four_o_four_strings.append('finns inte')
-    four_o_four_strings.append('finns ej')
-    four_o_four_strings.append('byggt om')
-    four_o_four_strings.append('inte finns')
-    four_o_four_strings.append('inte fungera')
-    four_o_four_strings.append('ursäkta')
-    four_o_four_strings.append('uppstått ett fel')
-    four_o_four_strings.append('gick fel')
-
-    #print(four_o_four_strings)
-    text_from_page = request.text.lower()
+    # We use variable to validate it once
+    requestText = ''
+    hasRequestText = False
     found_match = False
 
-    #print(text_from_page)
+    if request.text:
+        requestText = request.text
+        hasRequestText = True
 
-    for item in four_o_four_strings:
-        if item in text_from_page:
-            points += 1.5
-            found_match = True
-            break
+    if hasRequestText:
+        soup = BeautifulSoup(requestText, 'lxml')
+        try:
+            result_dict['page_title'] = soup.title.text
+        except:
+            print('Error!\nMessage:\n{0}'.format(sys.exc_info()[0]))
+
+        try:
+            result_dict['h1'] = soup.find('h1').text
+        except:
+            print('Error!\nMessage:\n{0}'.format(sys.exc_info()[0]))
+
+        #print(code)
+
+        ## kollar innehållet
+        four_o_four_strings = []
+        four_o_four_strings.append('saknas')
+        four_o_four_strings.append('finns inte')
+        four_o_four_strings.append('inga resultat')
+        four_o_four_strings.append('inte hittas')
+        four_o_four_strings.append('inte hitta')
+        four_o_four_strings.append('kunde inte')
+        four_o_four_strings.append('kunde ej')
+        four_o_four_strings.append('hittades inte')
+        four_o_four_strings.append('hittar inte')
+        four_o_four_strings.append('hittade vi inte')
+        four_o_four_strings.append('hittar vi inte')
+        four_o_four_strings.append('hittades tyvärr inte')
+        four_o_four_strings.append('tagits bort')
+        four_o_four_strings.append('fel adress')
+        four_o_four_strings.append('trasig')
+        four_o_four_strings.append('inte hitta')
+        four_o_four_strings.append('ej hitta')
+        four_o_four_strings.append('ingen sida')
+        four_o_four_strings.append('borttagen')
+        four_o_four_strings.append('flyttad')
+        four_o_four_strings.append('inga resultat')
+        four_o_four_strings.append('inte tillgänglig')
+        four_o_four_strings.append('inte sidan')
+        four_o_four_strings.append('kontrollera adressen')
+        four_o_four_strings.append('kommit utanför')
+        four_o_four_strings.append('gick fel')
+        four_o_four_strings.append('blev något fel')
+        four_o_four_strings.append('kan inte nås')
+        four_o_four_strings.append('gammal sida')
+        four_o_four_strings.append('hoppsan')
+        four_o_four_strings.append('finns inte')
+        four_o_four_strings.append('finns ej')
+        four_o_four_strings.append('byggt om')
+        four_o_four_strings.append('inte finns')
+        four_o_four_strings.append('inte fungera')
+        four_o_four_strings.append('ursäkta')
+        four_o_four_strings.append('uppstått ett fel')
+        four_o_four_strings.append('gick fel')
+
+        #print(four_o_four_strings)
+        text_from_page = requestText.lower()
+
+        #print(text_from_page)
+
+        for item in four_o_four_strings:
+            if item in text_from_page:
+                points += 1.5
+                found_match = True
+                break
+
 
     if found_match == False:
         review = review + '* Verkar sakna text som beskriver att ett fel uppstått (på svenska).\n'

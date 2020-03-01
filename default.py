@@ -1,5 +1,6 @@
 #-*- coding: utf-8 -*-
 import sys, getopt
+import json
 import datetime
 from checks import *
 from models import Sites, SiteTests
@@ -106,15 +107,18 @@ def main(argv):
     default.py -u https://webperf.se
 
     Options and arguments:
-    -h/--help\t: Help information on how to use script
-    -u/--url\t: website url to test against
-    -t/--test\t: runs ONE specific test against website(s)
+    -h/--help\t\t\t: Help information on how to use script
+    -u/--url <site url>\t\t: website url to test against
+    -t/--test <0/2/6/7/20>\t: runs ONE specific test against website(s)
+    -i/--input <file path>\t: input file path (JSON)
+    -o/--output <file path>\t: output file path (JSON)
     """
 
     test_type = -1
-    site_url = ''
+    sites = list()
+
     try:
-        opts, args = getopt.getopt(argv,"hu:t:",["help","url","test"])
+        opts, args = getopt.getopt(argv,"hu:t:i:o:",["help","url","test", "input", "output"])
     except getopt.GetoptError:
         print(main.__doc__)
         sys.exit(2)
@@ -128,7 +132,7 @@ def main(argv):
             print(main.__doc__)
             sys.exit()
         elif opt in ("-u", "--url"): # site url
-            site_url = arg
+            sites.append([0, arg])
         elif opt in ("-t", "--test"): # test type
             try:
                 tmp_test_type = int(arg)
@@ -138,11 +142,24 @@ def main(argv):
             except Exception:
                 validate_test_type(arg)
                 sys.exit(2)
+        elif opt in ("-i", "--input"): # input file path
+            with open(arg) as json_input_file:
+                data = json.load(json_input_file)
+                for site in data["sites"]:
+                    sites.append([site["id"], site["url"]])
+            pass
+        elif opt in ("-o", "--output"): # output file path
+            # TODO: make it possible to store result(s) in json file
+            pass
 
-    if (site_url and test_type != -1):
-        testing(list([[0, site_url]]), test_type=test_type)
-    elif (site_url):
-        testing(list([[0, site_url]]))
+
+    if (len(sites)):
+        if (test_type != -1):
+            testing(sites, test_type=test_type)
+        else:
+            testing(sites)
+    else:
+        print(main.__doc__)
 
 
 """

@@ -13,17 +13,13 @@ def testsites(sites, test_type=None, only_test_untested_last_hours=24, order_by=
     * test_type=num|None to execute all available tests
     """
 
+    result = list()
+
     # TODO: implementera test_type=None
 
     print("###############################################")
 
     i = 1
-
-    #sites = list()
-    #for row in result:
-    #    site_id = row[0]
-    #    website = row[1]
-    #    sites.append([site_id, website])
 
     print('Webbadresser som testas:', len(sites))
 
@@ -59,7 +55,9 @@ def testsites(sites, test_type=None, only_test_untested_last_hours=24, order_by=
                 checkreport = str(the_test_result[1]).encode('utf-8') # för att lösa encoding-probs
                 jsondata = str(json_data).encode('utf-8') # --//--
                 
-                site_test = SiteTests(site_id=site_id, type_of_test=test_type, check_report=checkreport, rating=the_test_result[0], test_date=datetime.datetime.now(), json_check_data=jsondata)
+                site_test = SiteTests(site_id=site_id, type_of_test=test_type, check_report=checkreport, rating=the_test_result[0], test_date=datetime.datetime.now(), json_check_data=jsondata).todata()
+
+                result.append(site_test)
 
                 the_test_result = None # 190506 för att inte skriva testresultat till sajter när testet kraschat. Måste det sättas till ''?
         except Exception as e:
@@ -67,25 +65,29 @@ def testsites(sites, test_type=None, only_test_untested_last_hours=24, order_by=
             pass
 
         i += 1
+    
+    return result
 
-def testing(sites = list([[0, "https://webperf.se"]]), test_type= -1):
+def testing(sites, test_type= ALL_TESTS):
     print('### {0} ###'.format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+    tests = {}
     ##############
-    if (test_type == -1 or test_type == GOOGLE_PAGESPEED):
+    if (test_type == ALL_TESTS or test_type == GOOGLE_PAGESPEED):
         print('###############################\nKör test: 0 - Google Pagespeed')
-        testsites(sites, test_type=GOOGLE_PAGESPEED)
-    if (test_type == -1 or test_type == PAGE_NOT_FOUND):
+        tests['google_pagespeed'] = testsites(sites, test_type=GOOGLE_PAGESPEED)
+    if (test_type == ALL_TESTS or test_type == PAGE_NOT_FOUND):
         print('###############################\nKör test: 2 - 404-test')
-        testsites(sites, test_type=PAGE_NOT_FOUND)
-    if (test_type == -1 or test_type == HTML):
+        tests['404'] = testsites(sites, test_type=PAGE_NOT_FOUND)
+    if (test_type == ALL_TESTS or test_type == HTML):
         print('###############################\nKör test: 6 - HTML')
-        testsites(sites, test_type=HTML)
-    if (test_type == -1 or test_type == CSS):
+        tests['html'] = testsites(sites, test_type=HTML)
+    if (test_type == ALL_TESTS or test_type == CSS):
         print('###############################\nKör test: 7 - CSS')
-        testsites(sites, test_type=CSS)
-    if (test_type == -1 or test_type == WEBBKOLL):
+        tests['css'] = testsites(sites, test_type=CSS)
+    if (test_type == ALL_TESTS or test_type == WEBBKOLL):
         print('###############################\nKör test: 20 - Webbkoll')
-        testsites(sites, test_type=WEBBKOLL)
+        tests['webbkoll'] = testsites(sites, test_type=WEBBKOLL)
+    return tests
 
 def validate_test_type(test_type):
     if test_type != HTML and test_type != PAGE_NOT_FOUND and test_type != CSS and test_type != WEBBKOLL and test_type != GOOGLE_PAGESPEED:
@@ -114,8 +116,9 @@ def main(argv):
     -o/--output <file path>\t: output file path (JSON)
     """
 
-    test_type = -1
+    test_type = ALL_TESTS
     sites = list()
+    output_filename = ''
 
     try:
         opts, args = getopt.getopt(argv,"hu:t:i:o:",["help","url","test", "input", "output"])
@@ -149,15 +152,15 @@ def main(argv):
                     sites.append([site["id"], site["url"]])
             pass
         elif opt in ("-o", "--output"): # output file path
-            # TODO: make it possible to store result(s) in json file
+            output_filename = arg
             pass
 
 
     if (len(sites)):
-        if (test_type != -1):
-            testing(sites, test_type=test_type)
-        else:
-            testing(sites)
+        siteTests = testing(sites, test_type=test_type)
+        if (len(output_filename) > 0):
+            with open(output_filename, 'w') as outfile:
+                json.dump(siteTests, outfile)
     else:
         print(main.__doc__)
 

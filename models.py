@@ -33,16 +33,16 @@ class SiteTests(object):
         self.test_date = test_date
         self.json_check_data = json_check_data
 
-    def tojson(self):
+    def todata(self):
         result = {
             'id': self.site_id,
             'type_of_test': self.type_of_test,
             'rating': self.rating,
-            'date': self.test_date.strftime('%Y-%m-%d %H:%M:%S'),
+            'date': self.test_date.isoformat(),
             'report': self.check_report.decode('utf-8'),
             'data': self.json_check_data.decode('utf-8')
         }
-        return json.dumps(result)
+        return result
 
     def __repr__(self):
         return '<SiteTest %r>' % self.test_date

@@ -68,29 +68,29 @@ def testsites(sites, test_type=None, only_test_untested_last_hours=24, order_by=
     
     return result
 
-def testing(sites, test_type= ALL_TESTS):
+def testing(sites, test_type= TEST_ALL):
     print('### {0} ###'.format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
     tests = {}
     ##############
-    if (test_type == ALL_TESTS or test_type == GOOGLE_PAGESPEED):
+    if (test_type == TEST_ALL or test_type == TEST_GOOGLE_PAGESPEED):
         print('###############################\nKör test: 0 - Google Pagespeed')
-        tests['google_pagespeed'] = testsites(sites, test_type=GOOGLE_PAGESPEED)
-    if (test_type == ALL_TESTS or test_type == PAGE_NOT_FOUND):
+        tests['google_pagespeed'] = testsites(sites, test_type=TEST_GOOGLE_PAGESPEED)
+    if (test_type == TEST_ALL or test_type == TEST_PAGE_NOT_FOUND):
         print('###############################\nKör test: 2 - 404-test')
-        tests['404'] = testsites(sites, test_type=PAGE_NOT_FOUND)
-    if (test_type == ALL_TESTS or test_type == HTML):
+        tests['404'] = testsites(sites, test_type=TEST_PAGE_NOT_FOUND)
+    if (test_type == TEST_ALL or test_type == TEST_HTML):
         print('###############################\nKör test: 6 - HTML')
-        tests['html'] = testsites(sites, test_type=HTML)
-    if (test_type == ALL_TESTS or test_type == CSS):
+        tests['html'] = testsites(sites, test_type=TEST_HTML)
+    if (test_type == TEST_ALL or test_type == TEST_CSS):
         print('###############################\nKör test: 7 - CSS')
-        tests['css'] = testsites(sites, test_type=CSS)
-    if (test_type == ALL_TESTS or test_type == WEBBKOLL):
+        tests['css'] = testsites(sites, test_type=TEST_CSS)
+    if (test_type == TEST_ALL or test_type == TEST_WEBBKOLL):
         print('###############################\nKör test: 20 - Webbkoll')
-        tests['webbkoll'] = testsites(sites, test_type=WEBBKOLL)
+        tests['webbkoll'] = testsites(sites, test_type=TEST_WEBBKOLL)
     return tests
 
 def validate_test_type(test_type):
-    if test_type != HTML and test_type != PAGE_NOT_FOUND and test_type != CSS and test_type != WEBBKOLL and test_type != GOOGLE_PAGESPEED:
+    if test_type != TEST_HTML and test_type != TEST_PAGE_NOT_FOUND and test_type != TEST_CSS and test_type != TEST_WEBBKOLL and test_type != TEST_GOOGLE_PAGESPEED:
         print('Valid arguments for option -t/--test:')
         print('-t 0\t: Google Pagespeed')
         print('-t 2\t: 404-test')
@@ -116,7 +116,7 @@ def main(argv):
     -o/--output <file path>\t: output file path (JSON)
     """
 
-    test_type = ALL_TESTS
+    test_type = TEST_ALL
     sites = list()
     output_filename = ''
 

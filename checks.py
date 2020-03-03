@@ -24,7 +24,7 @@ def check_four_o_four(url):
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
 
-    points = 0
+    points = 0.0
     review = ''
     result_dict = {}
 
@@ -35,7 +35,7 @@ def check_four_o_four(url):
     request = requests.get(url, allow_redirects=True, headers=headers, timeout=request_timeout)
     code = request.status_code
     if code == 404:
-        points += 2
+        points += 2.0
     else:
         review = review + '* Fel statuskod. Fick {0} när 404 vore korrekt.\n'.format(request.status_code)
 
@@ -131,7 +131,7 @@ def check_four_o_four(url):
         review = '* Inga anmärkningar.'
 
     if points == 0:
-      points = 1
+      points = 1.0
 
     return (points, review, result_dict)
 
@@ -140,7 +140,7 @@ def check_w3c_valid(url):
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
 
-    points = 0
+    points = 0.0
     review = ''
 
     ## kollar koden
@@ -158,19 +158,19 @@ def check_w3c_valid(url):
         return None
 
     if errors == 0:
-        points = 5
+        points = 5.0
         review = '* Inga fel i HTML-koden.\n'
     elif errors <= 5:
-        points = 4
+        points = 4.0
         review = '* Den testade sidan har {0} st fel i sin HTML-kod.\n'.format(errors)
     elif errors <= 15:
-        points = 3
+        points = 3.0
         review = '* Den testade sidan har {0} st fel i sin HTML-kod.\n'.format(errors)
     elif errors <= 30:
-        points = 2
+        points = 2.0
         review = '* Den testade sidan har {0} st fel i sin HTML-kod. Det är inte så bra.\n'.format(errors)
     elif errors > 30:
-        points = 1
+        points = 1.0
         review = '* Den testade sidan har massor med fel i sin HTML-kod. Hela {0} st. \n'.format(errors)
 
     return (points, review)
@@ -180,7 +180,7 @@ def check_w3c_valid_css(url):
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
 
-    points = 0
+    points = 0.0
     review = ''
 
     ## kollar koden
@@ -198,19 +198,19 @@ def check_w3c_valid_css(url):
         return None
 
     if errors == 0:
-        points = 5
+        points = 5.0
         review = '* Inga fel i CSS-koden.\n'
     elif errors <= 5:
-        points = 4
+        points = 4.0
         review = '* Den testade sidan har {0} st fel i sin CSS-kod.\n'.format(errors)
     elif errors <= 10:
-        points = 3
+        points = 3.0
         review = '* Den testade sidan har {0} st fel i sin CSS-kod.\n'.format(errors)
     elif errors <= 20:
-        points = 2
+        points = 2.0
         review = '* Den testade sidan har {0} st fel i sin CSS-kod. Det är inte så bra.\n'.format(errors)
     elif errors > 20:
-        points = 1
+        points = 1.0
         review = '* Den testade sidan har massor med fel i sin CSS-kod. Hela {0} st. \n'.format(errors)
 
     return (points, review)
@@ -274,19 +274,19 @@ def check_google_pagespeed(url, strategy='mobile'):
 
         g_pagespeed = return_dict["SPEED"]
         if  g_pagespeed >= 84:
-            points = 5
+            points = 5.0
             review = '* Webbplatsen är riktigt snabb!\n'
         elif g_pagespeed >= 76:
-            points = 4
+            points = 4.0
             review = '* Webbplatsen är snabb.\n'
         elif g_pagespeed >= 70:
-            points = 3
+            points = 3.0
             review = '* Genomsnittligt men inte så värst bra.\n'
         elif g_pagespeed >= 60:
-            points = 2
+            points = 2.0
             review = '* Webbplatsen är rätt långsam.\n'
         elif g_pagespeed < 60:
-            points = 1
+            points = 1.0
             review = '* Webbplatsen har väldigt dåliga prestanda enligt Google Pagespeed!\n'
 
         if "numberResources" in return_dict:
@@ -346,7 +346,7 @@ def check_google_pagespeed(url, strategy='mobile'):
 
 def check_privacy_webbkollen(url):
     import time
-    points = 0
+    points = 0.0
     errors = 0
     review = ''
 
@@ -381,7 +381,7 @@ def check_privacy_webbkollen(url):
             if len(h3a.find_all("i", class_="success")) > 0:
                 # 1 poäng
                 #print('success')
-                points += 1
+                points += 1.0
             elif len(h3a.find_all("i", class_="warning")) > 0:
                 # 0,5 poäng
                 #print('warning')

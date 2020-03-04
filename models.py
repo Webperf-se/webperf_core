@@ -44,5 +44,10 @@ class SiteTests(object):
         }
         return result
 
+    @staticmethod
+    def fieldnames():
+        result = [ 'id', 'type_of_test', 'rating', 'date', 'report', 'data']
+        return result
+
     def __repr__(self):
         return '<SiteTest %r>' % self.test_date

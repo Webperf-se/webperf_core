@@ -109,3 +109,4 @@ venv.bak/
 .DS_Store
 dbase/dbase.sqlite
 result.json
+result.csv

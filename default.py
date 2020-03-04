@@ -1,6 +1,7 @@
 #-*- coding: utf-8 -*-
 import sys, getopt
 import json
+import csv
 import datetime
 from checks import *
 from models import Sites, SiteTests
@@ -70,23 +71,23 @@ def testsites(sites, test_type=None, only_test_untested_last_hours=24, order_by=
 
 def testing(sites, test_type= TEST_ALL):
     print('### {0} ###'.format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
-    tests = {}
+    tests = list()
     ##############
     if (test_type == TEST_ALL or test_type == TEST_GOOGLE_PAGESPEED):
         print('###############################\nKör test: 0 - Google Pagespeed')
-        tests['google_pagespeed'] = testsites(sites, test_type=TEST_GOOGLE_PAGESPEED)
+        tests.extend(testsites(sites, test_type=TEST_GOOGLE_PAGESPEED))
     if (test_type == TEST_ALL or test_type == TEST_PAGE_NOT_FOUND):
         print('###############################\nKör test: 2 - 404-test')
-        tests['404'] = testsites(sites, test_type=TEST_PAGE_NOT_FOUND)
+        tests.extend(testsites(sites, test_type=TEST_PAGE_NOT_FOUND))
     if (test_type == TEST_ALL or test_type == TEST_HTML):
         print('###############################\nKör test: 6 - HTML')
-        tests['html'] = testsites(sites, test_type=TEST_HTML)
+        tests.extend(testsites(sites, test_type=TEST_HTML))
     if (test_type == TEST_ALL or test_type == TEST_CSS):
         print('###############################\nKör test: 7 - CSS')
-        tests['css'] = testsites(sites, test_type=TEST_CSS)
+        tests.extend(testsites(sites, test_type=TEST_CSS))
     if (test_type == TEST_ALL or test_type == TEST_WEBBKOLL):
         print('###############################\nKör test: 20 - Webbkoll')
-        tests['webbkoll'] = testsites(sites, test_type=TEST_WEBBKOLL)
+        tests.extend(testsites(sites, test_type=TEST_WEBBKOLL))
     return tests
 
 def validate_test_type(test_type):
@@ -155,12 +156,22 @@ def main(argv):
             output_filename = arg
             pass
 
-
     if (len(sites)):
         siteTests = testing(sites, test_type=test_type)
         if (len(output_filename) > 0):
-            with open(output_filename, 'w') as outfile:
-                json.dump(siteTests, outfile)
+            if (output_filename[-4:].lower() == ".csv"):
+                with open(output_filename, 'w', newline='') as csvfile:
+                    writer = csv.DictWriter(csvfile, fieldnames=SiteTests.fieldnames())
+
+                    writer.writeheader()
+                    writer.writerows(siteTests)
+            else:
+                with open(output_filename, 'w') as outfile:
+                    # json require us to have an object as root element
+                    testsContainerObject = {
+                        "tests": siteTests
+                    }
+                    json.dump(testsContainerObject, outfile)
     else:
         print(main.__doc__)
 

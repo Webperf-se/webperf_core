@@ -113,8 +113,8 @@ def main(argv):
     -h/--help\t\t\t: Help information on how to use script
     -u/--url <site url>\t\t: website url to test against
     -t/--test <0/2/6/7/20>\t: runs ONE specific test against website(s)
-    -i/--input <file path>\t: input file path (JSON)
-    -o/--output <file path>\t: output file path (JSON)
+    -i/--input <file path>\t: input file path (.json)
+    -o/--output <file path>\t: output file path (.json/.csv/.sql)
     """
 
     test_type = TEST_ALL
@@ -159,12 +159,22 @@ def main(argv):
     if (len(sites)):
         siteTests = testing(sites, test_type=test_type)
         if (len(output_filename) > 0):
-            if (output_filename[-4:].lower() == ".csv"):
+            file_ending = output_filename[-4:].lower()
+            if (file_ending == ".csv"):
                 with open(output_filename, 'w', newline='') as csvfile:
                     writer = csv.DictWriter(csvfile, fieldnames=SiteTests.fieldnames())
 
                     writer.writeheader()
                     writer.writerows(siteTests)
+            elif file_ending == ".sql":
+                with open(output_filename, 'w') as outfile:
+                                
+                    for test in siteTests:
+                        format_str = """INSERT INTO sitetests (site_id, test_date, type_of_test, check_report, json_check_data, most_recent, rating)
+                        VALUES (NULL, "{siteid}", "{testdate}", "{testtype}", "{report}", "{json}", "{recent}", "{rating}");\n"""
+                        sql_command = format_str.format(siteid=test["site_id"], testdate=test["date"], testtype=test["type_of_test"], report=test["report"], json=test["data"], recent=1, rating=test["rating"])
+                    
+                        outfile.write(sql_command)
             else:
                 with open(output_filename, 'w') as outfile:
                     # json require us to have an object as root element

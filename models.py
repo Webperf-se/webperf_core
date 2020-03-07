@@ -35,7 +35,7 @@ class SiteTests(object):
 
     def todata(self):
         result = {
-            'id': self.site_id,
+            'site_id': self.site_id,
             'type_of_test': self.type_of_test,
             'rating': self.rating,
             'date': self.test_date.isoformat(),
@@ -46,7 +46,7 @@ class SiteTests(object):
 
     @staticmethod
     def fieldnames():
-        result = [ 'id', 'type_of_test', 'rating', 'date', 'report', 'data']
+        result = [ 'site_id', 'type_of_test', 'rating', 'date', 'report', 'data']
         return result
 
     def __repr__(self):

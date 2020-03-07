@@ -110,3 +110,4 @@ venv.bak/
 dbase/dbase.sqlite
 result.json
 result.csv
+result.sql

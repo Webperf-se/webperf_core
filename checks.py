@@ -53,16 +53,24 @@ def check_four_o_four(url):
     if hasRequestText:
         soup = BeautifulSoup(requestText, 'lxml')
         try:
-            result_dict['page_title'] = soup.title.text
+            title = soup.find('title')
+            if title:
+                result_dict['page_title'] = title.string
+            else:
+                review = review + '* hittade ingen titel på sidan\n'
+
         except:
-            print('Error!\nMessage:\n{0}'.format(sys.exc_info()[0]))
+            print('Error getting page title!\nMessage:\n{0}'.format(sys.exc_info()[0]))
 
         try:
-            result_dict['h1'] = soup.find('h1').text
-        except:
-            print('Error!\nMessage:\n{0}'.format(sys.exc_info()[0]))
+            h1 = soup.find('h1')
+            if h1:
+                result_dict['h1'] = h1.string
+            else:
+                review = review + '* hittade ingen huvud rubrik (h1)\n'
 
-        #print(code)
+        except:
+            print('Error getting H1!\nMessage:\n{0}'.format(sys.exc_info()[0]))
 
         ## kollar innehållet
         four_o_four_strings = []

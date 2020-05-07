@@ -7,7 +7,7 @@ from checks import *
 from models import Sites, SiteTests
 import config
 
-def testsites(sites, test_type=None, only_test_untested_last_hours=24, order_by='title ASC'):
+def testsites(sites, test_type=None, show_reviews=False, only_test_untested_last_hours=24, order_by='title ASC'):
     """
     Executing the actual tests.
     Attributes:
@@ -44,7 +44,8 @@ def testsites(sites, test_type=None, only_test_untested_last_hours=24, order_by=
 
             if the_test_result != None:
                 print('Rating: ', the_test_result[0])
-                #print('Review: ', the_test_result[1])
+                if show_reviews:
+                    print('Review:\n', the_test_result[1])
 
                 json_data = ''
                 try:
@@ -55,7 +56,7 @@ def testsites(sites, test_type=None, only_test_untested_last_hours=24, order_by=
 
                 checkreport = str(the_test_result[1]).encode('utf-8') # för att lösa encoding-probs
                 jsondata = str(json_data).encode('utf-8') # --//--
-                
+
                 site_test = SiteTests(site_id=site_id, type_of_test=test_type, check_report=checkreport, rating=the_test_result[0], test_date=datetime.datetime.now(), json_check_data=jsondata).todata()
 
                 result.append(site_test)
@@ -69,25 +70,25 @@ def testsites(sites, test_type=None, only_test_untested_last_hours=24, order_by=
     
     return result
 
-def testing(sites, test_type= TEST_ALL):
+def testing(sites, test_type= TEST_ALL, show_reviews= False):
     print('### {0} ###'.format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
     tests = list()
     ##############
     if (test_type == TEST_ALL or test_type == TEST_GOOGLE_PAGESPEED):
         print('###############################\nKör test: 0 - Google Pagespeed')
-        tests.extend(testsites(sites, test_type=TEST_GOOGLE_PAGESPEED))
+        tests.extend(testsites(sites, test_type=TEST_GOOGLE_PAGESPEED, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_PAGE_NOT_FOUND):
         print('###############################\nKör test: 2 - 404-test')
-        tests.extend(testsites(sites, test_type=TEST_PAGE_NOT_FOUND))
+        tests.extend(testsites(sites, test_type=TEST_PAGE_NOT_FOUND, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_HTML):
         print('###############################\nKör test: 6 - HTML')
-        tests.extend(testsites(sites, test_type=TEST_HTML))
+        tests.extend(testsites(sites, test_type=TEST_HTML, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_CSS):
         print('###############################\nKör test: 7 - CSS')
-        tests.extend(testsites(sites, test_type=TEST_CSS))
+        tests.extend(testsites(sites, test_type=TEST_CSS, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_WEBBKOLL):
         print('###############################\nKör test: 20 - Webbkoll')
-        tests.extend(testsites(sites, test_type=TEST_WEBBKOLL))
+        tests.extend(testsites(sites, test_type=TEST_WEBBKOLL, show_reviews=show_reviews))
     return tests
 
 def validate_test_type(test_type):
@@ -113,6 +114,7 @@ def main(argv):
     -h/--help\t\t\t: Help information on how to use script
     -u/--url <site url>\t\t: website url to test against
     -t/--test <0/2/6/7/20>\t: runs ONE specific test against website(s)
+    -r/--review\t\t\t: show reviews in terminal
     -i/--input <file path>\t: input file path (.json)
     -o/--output <file path>\t: output file path (.json/.csv/.sql)
     """
@@ -120,9 +122,10 @@ def main(argv):
     test_type = TEST_ALL
     sites = list()
     output_filename = ''
+    show_reviews = False
 
     try:
-        opts, args = getopt.getopt(argv,"hu:t:i:o:",["help","url","test", "input", "output"])
+        opts, args = getopt.getopt(argv,"hu:t:i:o:r",["help","url","test", "input", "output", "review", "report"])
     except getopt.GetoptError:
         print(main.__doc__)
         sys.exit(2)
@@ -155,9 +158,12 @@ def main(argv):
         elif opt in ("-o", "--output"): # output file path
             output_filename = arg
             pass
+        elif opt in ("-r", "--review", "--report"): # writes reviews directly in terminal
+            show_reviews = True
+            pass
 
     if (len(sites)):
-        siteTests = testing(sites, test_type=test_type)
+        siteTests = testing(sites, test_type=test_type, show_reviews=show_reviews)
         if (len(output_filename) > 0):
             file_ending = output_filename[-4:].lower()
             if (file_ending == ".csv"):

@@ -98,7 +98,7 @@ def validate_test_type(test_type):
         print('-t 2\t: 404-test')
         print('-t 6\t: HTML')
         print('-t 7\t: CSS')
-        print('-t 20\t: Webbloll')
+        print('-t 20\t: Webbkoll')
         return -2
     else:
         return test_type
@@ -177,7 +177,7 @@ def main(argv):
                                 
                     for test in siteTests:
                         format_str = """INSERT INTO sitetests (site_id, test_date, type_of_test, check_report, json_check_data, most_recent, rating)
-                        VALUES (NULL, "{siteid}", "{testdate}", "{testtype}", "{report}", "{json}", "{recent}", "{rating}");\n"""
+                        VALUES ("{siteid}", "{testdate}", "{testtype}", "{report}", "{json}", "{recent}", "{rating}");\n"""
                         sql_command = format_str.format(siteid=test["site_id"], testdate=test["date"], testtype=test["type_of_test"], report=test["report"], json=test["data"], recent=1, rating=test["rating"])
                     
                         outfile.write(sql_command)

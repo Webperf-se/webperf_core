@@ -1,7 +1,5 @@
 #-*- coding: utf-8 -*-
 import sys, getopt
-import json
-import csv
 import datetime
 from checks import *
 from models import Sites, SiteTests
@@ -115,17 +113,22 @@ def main(argv):
     -u/--url <site url>\t\t: website url to test against
     -t/--test <0/2/6/7/20>\t: runs ONE specific test against website(s)
     -r/--review\t\t\t: show reviews in terminal
-    -i/--input <file path>\t: input file path (.json)
-    -o/--output <file path>\t: output file path (.json/.csv/.sql)
+    -i/--input <file path>\t: input file path (.json/.sqlite)
+    -o/--output <file path>\t: output file path (.json/.csv/.sql/.sqlite)
+    -a/--addUrl <site url>\t: website url (required in compination with -i/--input)
+    -d/--deleteUrl <site url>\t: website url (required in compination with -i/--input)
     """
 
     test_type = TEST_ALL
     sites = list()
     output_filename = ''
+    input_filename = ''
     show_reviews = False
+    add_url = ''
+    delete_url = ''
 
     try:
-        opts, args = getopt.getopt(argv,"hu:t:i:o:r",["help","url","test", "input", "output", "review", "report"])
+        opts, args = getopt.getopt(argv,"hu:t:i:o:rA:D:",["help","url","test", "input", "output", "review", "report", "addUrl", "deleteUrl"])
     except getopt.GetoptError:
         print(main.__doc__)
         sys.exit(2)
@@ -140,6 +143,10 @@ def main(argv):
             sys.exit()
         elif opt in ("-u", "--url"): # site url
             sites.append([0, arg])
+        elif opt in ("-A", "--addUrl"): # site url
+            add_url = arg
+        elif opt in ("-D", "--deleteUrl"): # site url
+            delete_url = arg
         elif opt in ("-t", "--test"): # test type
             try:
                 tmp_test_type = int(arg)
@@ -150,10 +157,16 @@ def main(argv):
                 validate_test_type(arg)
                 sys.exit(2)
         elif opt in ("-i", "--input"): # input file path
-            with open(arg) as json_input_file:
-                data = json.load(json_input_file)
-                for site in data["sites"]:
-                    sites.append([site["id"], site["url"]])
+            input_filename = arg
+            file_long_ending = ""
+            if (len(input_filename) > 7):
+                file_long_ending = input_filename[-7:].lower()
+
+            if file_long_ending == ".sqlite":                
+                from engines.sqlite import read_sites, add_site, delete_site
+            else:
+                from engines.json import read_sites, add_site, delete_site
+            sites = read_sites(input_filename)
             pass
         elif opt in ("-o", "--output"): # output file path
             output_filename = arg
@@ -162,32 +175,33 @@ def main(argv):
             show_reviews = True
             pass
 
-    if (len(sites)):
+    if (add_url != ''):
+        # check if website url should be added
+        sites = add_site(input_filename, add_url)
+    elif (delete_url != ''):
+        # check if website url should be deleted
+        sites = delete_site(input_filename, delete_url)
+    elif (len(sites)):
+        # run test(s) for every website
         siteTests = testing(sites, test_type=test_type, show_reviews=show_reviews)
         if (len(output_filename) > 0):
-            file_ending = output_filename[-4:].lower()
+            file_ending = ""
+            file_long_ending = ""
+            if (len(output_filename) > 4):
+                file_ending = output_filename[-4:].lower()
+            if (len(output_filename) > 7):
+                file_long_ending = output_filename[-7:].lower()
             if (file_ending == ".csv"):
-                with open(output_filename, 'w', newline='') as csvfile:
-                    writer = csv.DictWriter(csvfile, fieldnames=SiteTests.fieldnames())
-
-                    writer.writeheader()
-                    writer.writerows(siteTests)
+                from engines.csv import write_tests
             elif file_ending == ".sql":
-                with open(output_filename, 'w') as outfile:
-                                
-                    for test in siteTests:
-                        format_str = """INSERT INTO sitetests (site_id, test_date, type_of_test, check_report, json_check_data, most_recent, rating)
-                        VALUES ("{siteid}", "{testdate}", "{testtype}", "{report}", "{json}", "{recent}", "{rating}");\n"""
-                        sql_command = format_str.format(siteid=test["site_id"], testdate=test["date"], testtype=test["type_of_test"], report=test["report"], json=test["data"], recent=1, rating=test["rating"])
-                    
-                        outfile.write(sql_command)
+                from engines.sql import write_tests
+            elif file_long_ending == ".sqlite":
+                from engines.sqlite import write_tests
             else:
-                with open(output_filename, 'w') as outfile:
-                    # json require us to have an object as root element
-                    testsContainerObject = {
-                        "tests": siteTests
-                    }
-                    json.dump(testsContainerObject, outfile)
+                from engines.json import write_tests
+
+            # use loaded engine to write tests
+            write_tests(output_filename, siteTests)
     else:
         print(main.__doc__)
 

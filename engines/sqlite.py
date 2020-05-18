@@ -60,6 +60,14 @@ def write_tests(output_filename, siteTests):
     c = conn.cursor()
 
     for test in siteTests:
+        # set previous testresult as not latest
+        format_str = """UPDATE sitetests SET most_recent=0 WHERE site_id="{siteid}" AND type_of_test="{testtype}" AND most_recent=1;\n"""
+        sql_command = format_str.format(siteid=test["site_id"], testtype=test["type_of_test"])
+
+        c.execute(sql_command)
+        conn.commit()
+
+        # update testresult for all sites
         format_str = """INSERT INTO sitetests (site_id, test_date, type_of_test, check_report, json_check_data, most_recent, rating)
         VALUES ("{siteid}", "{testdate}", "{testtype}", "{report}", "{json}", "{recent}", "{rating}");\n"""
         sql_command = format_str.format(siteid=test["site_id"], testdate=test["date"], testtype=test["type_of_test"], report=test["report"], json=test["data"], recent=1, rating=test["rating"])

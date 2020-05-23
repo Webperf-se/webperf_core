@@ -62,7 +62,7 @@ Now it will begin testing.
 | -a/--addUrl <site url> | website url (required in compination with -i/--input) |
 | -d/--deleteUrl <site url> | website url (required in compination with -i/--input) |
 
-For instance, if you'd like to to test *https://yourwebsite.com*, get the output as a JSON-file named *my-report.json* and also see the reviews in the prompt the statemant is as follows:  
+For instance, if you'd like to test *https://yourwebsite.com*, get the output as a JSON-file named *my-report.json* and also see the reviews in the prompt the statemant is as follows:  
 *python default.py -u https://webperf.se -o my-report.json -r*
 
 ### Are you getting error messages?

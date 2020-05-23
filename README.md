@@ -2,7 +2,7 @@
 Minimalistic client mainly running on PythonAnywhere.com, accessing different websites, or web-APIs, and scraping them.
 
 The tests included in the first version are:
-* Google Pagespeed Insights API
+* Google Pagespeed Insights API *(not working at the moment, to be updated to version 5)*
 * Testing the 404 page and status code
 * Validating the HTML code against W3C
 * Validating the CSS code against W3C
@@ -14,7 +14,7 @@ The tests included in the first version are:
 ## Get started with webperf_core
 Here are some suggestions on how to get started with the tests on your own computer. Actually, it is even easier to run the tests on a cloud environment such as [PythonAnywhere - $ 5 / month](https://www.pythonanywhere.com/?affiliate_id=0007e5c6) - then the technical environment is ready to just upload the files.
 
-You download the code itself from [GitHub - webperf_core](https://github.com/Webperf-se/webperf_core) and place it in a good place on your computer.
+You download the code itself from [GitHub - webperf_core](https://github.com/Webperf-se/webperf_core) and place it in a good location on your computer.
 ### Adjust the source code
 There are two files that you need to adjust:
 * *SAMPLE-config.py* needs to be renamed to *config.py*
@@ -25,11 +25,6 @@ Another thing you need to do is to open the *config.py* file and change one thin
 Between the quotation marks, enter your Google Pagespeed API key. See the following header for how to do this.
 
 ### Google Pagespeed API key
-You can choose to ignore the Google Pagespeed API. In this case, put a hashtag *#* in front of the following line in *default.py*:  
-*testsites(test_type=0)*  
-So it looks like this:  
-*# testsites(test_type=0)*
-
 Google Pagespeed requires an API key. You can get one like this:
 1. Go to [Google Cloud Platform](https://console.cloud.google.com/apis).
 2. Search for *Pagespeed Insights API*.
@@ -48,9 +43,27 @@ You need to go through the following steps before you run the code:
 *pip install -r requirements.txt*  
 Then some Python extensions will be installed.
 5. Start the program with the following command and press Enter:  
-*python default.py*
+*python default.py -u https://webperf.se*
+
+If that command results in errors, you can try addressing **Python3** instead:  
+*python3 default.py -u https://webperf.se*
 
 Now it will begin testing.
+
+### Options and arguments
+|Argument|What happens|
+|---|---|
+| -h/--help | Help information on how to use script |
+| -u/--url <site url> | website url to test against |
+| -t/--test <0/2/6/7/20> | runs ONE specific test against website(s) |
+| -r/--review | show reviews in terminal |
+| -i/--input <file path> | input file path (.json/.sqlite) |
+| -o/--output <file path> | output file path (.json/.csv/.sql/.sqlite) |
+| -a/--addUrl <site url> | website url (required in compination with -i/--input) |
+| -d/--deleteUrl <site url> | website url (required in compination with -i/--input) |
+
+For instance, if you'd like to to test *https://yourwebsite.com*, get the output as a JSON-file named *my-report.json* and also see the reviews in the prompt the statemant is as follows:  
+*python default.py -u https://webperf.se -o my-report.json -r*
 
 ### Are you getting error messages?
 It is often worthwhile to google the error messages you get. If you give up the search then you can always [check if someone on our Slack channel](https://webperf.se/articles/webperf-pa-slack/) have time to help you, but don’t forget to paste your error message directly in the first post. Or, if you think your error are common for more people than yourself, post an issue here at Github.

@@ -17,7 +17,7 @@ googlePageSpeedApiKey = config.googlePageSpeedApiKey
 
 TEST_ALL = -1
 
-(TEST_GOOGLE_PAGESPEED, TEST_UNKNOWN_01, TEST_PAGE_NOT_FOUND, TEST_UNKNOWN_03, TEST_UNKNOWN_04, TEST_UNKNOWN_05, TEST_HTML, TEST_CSS, TEST_UNKNOWN_08, TEST_UNKNOWN_09, TEST_UNKNOWN_10, TEST_UNKNOWN_11, TEST_UNKNOWN_12, TEST_UNKNOWN_13, TEST_UNKNOWN_14, TEST_UNKNOWN_15, TEST_UNKNOWN_16, TEST_UNKNOWN_17, TEST_UNKNOWN_18, TEST_UNKNOWN_19, TEST_WEBBKOLL) = range(21)
+(TEST_UNKNOWN_01, TEST_GOOGLE_LIGHTHOUSE, TEST_PAGE_NOT_FOUND, TEST_UNKNOWN_03, TEST_UNKNOWN_04, TEST_UNKNOWN_05, TEST_HTML, TEST_CSS, TEST_UNKNOWN_08, TEST_UNKNOWN_09, TEST_UNKNOWN_10, TEST_UNKNOWN_11, TEST_UNKNOWN_12, TEST_UNKNOWN_13, TEST_UNKNOWN_14, TEST_UNKNOWN_15, TEST_UNKNOWN_16, TEST_UNKNOWN_17, TEST_UNKNOWN_18, TEST_UNKNOWN_19, TEST_WEBBKOLL) = range(21)
 
 def check_four_o_four(url):
     """
@@ -223,134 +223,91 @@ def check_w3c_valid_css(url):
 
     return (points, review)
 
-def check_google_pagespeed(url, strategy='mobile'):
-    """Checks the Pagespeed Insights with Google
-    In addition to the 'mobile' strategy there is also 'desktop' aimed at the desktop user's preferences
-    Returns a dictionary of the results.
 
-    attributes: check_url, strategy
-    """
+def check_lighthouse(url, strategy='mobile', category='performance'):
+	"""
+	perf = https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category=performance&strategy=mobile&url=YOUR-SITE&key=YOUR-KEY
+	a11y = https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category=accessibility&strategy=mobile&url=YOUR-SITE&key=YOUR-KEY
+	practise = https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category=best-practices&strategy=mobile&url=YOUR-SITE&key=YOUR-KEY
+	pwa = https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category=pwa&strategy=mobile&url=YOUR-SITE&key=YOUR-KEY
+	seo = https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category=seo&strategy=mobile&url=YOUR-SITE&key=YOUR-KEY
+	"""
+	check_url = url.strip()
+	
+	# urlEncodedURL = parse.quote_plus(check_url)	# making sure no spaces or other weird characters f*cks up the request, such as HTTP 400
+	pagespeed_api_request = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category={0}&url={1}&strategy={2}&key={3}'.format(category, check_url, strategy, googlePageSpeedApiKey)
+	#print('HTTP request towards GPS API: {}'.format(pagespeed_api_request))
+	
+	get_content = ''
+	
+	try:
+		get_content = httpRequestGetContent(pagespeed_api_request)
+		get_content = BeautifulSoup(get_content, "html.parser")
+		get_content = str(get_content.encode("ascii"))
+	except:  # breaking and hoping for more luck with the next URL
+		print(
+			'Error! Unfortunately the request for URL "{0}" failed, message:\n{1}'.format(
+				check_url, sys.exc_info()[0]))
+		pass
+	
+	# try:
+	get_content = get_content[2:][:-1]  # removes two first chars and the last one
+	get_content = get_content.replace('\\n', '\n').replace("\\'", "\'")  # .replace('"', '"') #.replace('\'', '\"')
+	get_content = get_content.replace('\\\\"', '\\"').replace('""', '"')
+	
+	json_content = ''
+	
+	try:
+		json_content = json.loads(get_content)
+	except:  # might crash if checked resource is not a webpage
+		print('Error! JSON failed parsing for the URL "{0}"\nMessage:\n{1}'.format(
+			check_url, sys.exc_info()[0]))
+		pass
+	
+	return_dict = {}
+	return_dict = json_content['lighthouseResult']['audits']['metrics']['details']['items'][0]
+	return_dict['ttfb_in_ms'] = json_content['lighthouseResult']['audits']['time-to-first-byte']['numericValue']
+	#return_dict['ttfb_in_ms'] = json_content['lighthouseResult']['audits']['render-blocking-resources']['numericValue']
+	
+	for item in json_content['lighthouseResult']['audits'].keys():
+		try:
+			# print(item, json_content['lighthouseResult']['audits'][item]['numericValue'])
+			return_dict[item] = json_content['lighthouseResult']['audits'][item]['numericValue']
+		except:
+			# has no 'numericValue'
+			#print(item, 'har inget värde')
+			pass
+	
+	speedindex = int(return_dict['observedSpeedIndex'])
+	review = ''
+	
+	if speedindex <= 500:
+		points = 5
+		review = '* Webbplatsen laddar in mycket snabbt!\n'
+	elif speedindex <= 1200:
+		points = 4
+		review = '* Webbplatsen är snabb.\n'
+	elif speedindex <= 2500:
+		points = 3
+		review = '* Genomsnittlig hastighet.\n'
+	elif speedindex <= 3999:
+		points = 2
+		review = '* Webbplatsen är ganska långsam.\n'
+	elif speedindex > 3999:
+		points = 1
+		review = '* Webbplatsen är väldigt långsam!\n'
+	
+	review += '* Observerad hastighet: {} sekunder\n'.format(convert_to_seconds(return_dict["observedSpeedIndex"], False))
+	review += '* Första meningsfulla visuella ändring: {} sek\n'.format(convert_to_seconds(return_dict["firstMeaningfulPaint"], False))
+	review += '* Första meningsfulla visuella ändring på 3G: {} sek\n'.format(convert_to_seconds(return_dict["first-contentful-paint-3g"], False))
+	review += '* CPU vilar efter: {} sek\n'.format(convert_to_seconds(return_dict["firstCPUIdle"], False))
+	review += '* Webbplatsen är interaktiv: {} sek\n'.format(convert_to_seconds(return_dict["interactive"], False))
+	review += '* Tid till första byte: {} sek\n'.format(convert_to_seconds(return_dict["ttfb_in_ms"], False))
+	review += '* Antal hänvisningar: {} st\n'.format(return_dict["redirects"])
+	review += '* Sidans totala vikt: {} kb\n'.format(int(return_dict["total-byte-weight"]/1000))
+	
+	return (points, review, return_dict)
 
-    check_url = url.strip()
-
-    # urlEncodedURL = parse.quote_plus(check_url)	# making sure no spaces or other weird characters f*cks up the request, such as HTTP 400
-    pagespeed_api_request = 'https://www.googleapis.com/pagespeedonline/v4/runPagespeed?url={}&strategy={}&key={}'.format(check_url, strategy, googlePageSpeedApiKey)
-    #print('HTTP request towards GPS API: {}'.format(pagespeed_api_request))
-
-    get_content = ''
-
-    try:
-        get_content = httpRequestGetContent(pagespeed_api_request)
-        get_content = BeautifulSoup(get_content, "html.parser")
-        get_content = str(get_content.encode("ascii"))
-    except:  # breaking and hoping for more luck with the next URL
-        print(
-            'Error! Unfortunately the request for URL "{0}" failed, message:\n{1}'.format(
-                check_url, sys.exc_info()[0]))
-        pass
-    # try:
-    get_content = get_content[2:][:-1]  # removes two first chars and the last one
-    get_content = get_content.replace('\\n', '\n').replace("\\'",
-                                                           "\'")  # .replace('"', '"') #.replace('\'', '\"')
-    get_content = get_content.replace('\\\\"', '\\"').replace('""', '"')
-
-    json_content = ''
-    try:
-        json_content = json.loads(get_content)
-    except:  # might crash if checked resource is not a webpage
-        print('Error! JSON failed parsing for the URL "{0}"\nMessage:\n{1}'.format(
-            check_url, sys.exc_info()[0]))
-        pass
-
-    return_dict = {}
-
-    try:
-        # overall score
-        for key in json_content['ruleGroups'].keys():
-            # print('Key: {0}, value {1}'.format(key, json_content['ruleGroups'][key]['score']))
-            return_dict[key] = json_content['ruleGroups'][key]['score']
-
-        # page statistics
-        for key in json_content['pageStats'].keys():
-            # print('Key: {0}, value {1}'.format(key, json_content['pageStats'][key]))
-            return_dict[key] = json_content['pageStats'][key]
-
-        # page potential
-        for key in json_content['formattedResults']['ruleResults'].keys():
-            # print('Key: {0}, value {1}'.format(key, json_content['formattedResults']['ruleResults'][key]['ruleImpact']))
-            return_dict[key] = json_content['formattedResults']['ruleResults'][key]['ruleImpact']
-
-        g_pagespeed = return_dict["SPEED"]
-        if  g_pagespeed >= 84:
-            points = 5.0
-            review = '* Webbplatsen är riktigt snabb!\n'
-        elif g_pagespeed >= 76:
-            points = 4.0
-            review = '* Webbplatsen är snabb.\n'
-        elif g_pagespeed >= 70:
-            points = 3.0
-            review = '* Genomsnittligt men inte så värst bra.\n'
-        elif g_pagespeed >= 60:
-            points = 2.0
-            review = '* Webbplatsen är rätt långsam.\n'
-        elif g_pagespeed < 60:
-            points = 1.0
-            review = '* Webbplatsen har väldigt dåliga prestanda enligt Google Pagespeed!\n'
-
-        if "numberResources" in return_dict:
-            review += '* Antal resurser: {} st\n'.format(return_dict["numberResources"])
-        if "numberHosts" in return_dict:
-            review += '* Antal värdar: {} st\n'.format(return_dict["numberHosts"])
-        if "totalRequestBytes" in return_dict:
-            review += '* Storlek på förfrågan: {} bytes\n'.format(return_dict["totalRequestBytes"])
-        if "numberStaticResources" in return_dict:
-            review += '* Statiska filer: {} st\n'.format(return_dict["numberStaticResources"])
-        if "htmlResponseBytes" in return_dict:
-            review += '* Storlek på HTML: {} bytes\n'.format(return_dict["htmlResponseBytes"])
-        if "overTheWireResponseBytes" in return_dict:
-            review += '* Storlek på sidvisning: {} bytes\n'.format(return_dict["overTheWireResponseBytes"])
-        if "cssResponseBytes" in return_dict:
-            review += '* Storlek på CSS: {} bytes\n'.format(return_dict["cssResponseBytes"])
-        if "imageResponseBytes" in return_dict:
-            review += '* Storlek på bilder: {} bytes\n'.format(return_dict["imageResponseBytes"])
-        if "javascriptResponseBytes" in return_dict:
-            review += '* Storlek på Javascript: {} bytes\n'.format(return_dict["javascriptResponseBytes"])
-        if "numberJsResources" in return_dict:
-            review += '* Antal Javascriptfiler: {} st\n'.format(return_dict["numberJsResources"])
-        if "numberCssResources" in return_dict:
-            review += '* Antal CSS-filer: {} st\n'.format(return_dict["numberCssResources"])
-
-        # potential
-        if "numTotalRoundTrips" in return_dict:
-            review += '* Antal roundtrips: {} st\n'.format(return_dict["numTotalRoundTrips"])
-        if "numRenderBlockingRoundTrips" in return_dict:
-            review += '* Antal blockerande roundtrips: {} st\n'.format(return_dict["numRenderBlockingRoundTrips"])
-        if "AvoidLandingPageRedirects" in return_dict:
-            review += '* Undvik hänvisningar: {}\n'.format("Ok" if int(return_dict["AvoidLandingPageRedirects"]) < 2 else "Behöver förbättras")
-        if "EnableGzipCompression" in return_dict:
-            review += '* Aktivera GZIP-komprimering: {}\n'.format("Ok" if int(return_dict["EnableGzipCompression"]) < 2 else "Behöver förbättras")
-        if "LeverageBrowserCaching" in return_dict:
-            review += '* Använd webbläsarens cache: {}\n'.format("Ok" if int(return_dict["LeverageBrowserCaching"]) < 2 else "Behöver förbättras")
-        if "MainResourceServerResponseTime" in return_dict:
-            review += '* Är webbservern snabb: {}\n'.format("Ok" if int(return_dict["MainResourceServerResponseTime"]) < 2 else "Behöver förbättras")
-        if "MinifyCss" in return_dict:
-            review += '* Behöver CSS-filer minimeras: {}\n'.format("Ok" if int(return_dict["MinifyCss"]) < 2 else "Behöver förbättras")
-        if "MinifyHTML" in return_dict:
-            review += '* Behöver HTML-filen minimeras: {}\n'.format("Ok" if int(return_dict["MinifyHTML"]) < 2 else "Behöver förbättras")
-        if "MinifyJavaScript" in return_dict:
-            review += '* Behöver Javascript-filer minimeras: {}\n'.format("Ok" if int(return_dict["MinifyJavaScript"]) < 2 else "Behöver förbättras")
-        if "MinimizeRenderBlockingResources" in return_dict:
-            review += '* Blockeras sidvisningen: {}\n'.format("Ok" if int(return_dict["MinimizeRenderBlockingResources"]) < 2 else "Behöver förbättras")
-        if "OptimizeImages" in return_dict:
-            review += '* Behöver bilderna optimeras för webben: {}\n'.format("Ok" if int(return_dict["OptimizeImages"]) < 2 else "Behöver förbättras")
-        if "PrioritizeVisibleContent" in return_dict:
-            review += '* Behöver synligt innehåll prioriteras: {}\n'.format("Ok" if int(return_dict["PrioritizeVisibleContent"]) < 2 else "Behöver förbättras")
-
-    except:
-        print('Error! Request for URL "{0}" failed.\nMessage:\n{1}'.format(check_url, sys.exc_info()[0]))
-        pass
-
-    return (points, review, return_dict)
 
 def check_privacy_webbkollen(url):
     import time
@@ -450,6 +407,16 @@ def get_guid(length):
     Generates a unique string in specified length
     """
     return str(uuid.uuid4())[0:length]
+
+def convert_to_seconds(millis, return_with_seconds=True):
+    """
+    Converts milliseconds to seconds.
+    Arg: 'return_with_seconds' defaults to True and returns string ' sekunder' after the seconds
+    """
+    if return_with_seconds:
+        return (millis/1000)%60 + " sekunder"
+    else:
+        return (millis/1000)%60
 
 """
 If file is executed on itself then call a definition, mostly for testing purposes

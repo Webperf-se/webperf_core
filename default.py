@@ -37,8 +37,8 @@ def testsites(sites, test_type=None, show_reviews=False, only_test_untested_last
                 the_test_result = check_w3c_valid_css(website)
             elif test_type == 20:
                 the_test_result = check_privacy_webbkollen(website)
-            elif test_type == 0:
-                the_test_result = check_google_pagespeed(website)
+            elif test_type == 1:
+                the_test_result = check_lighthouse(website)
 
             if the_test_result != None:
                 print('Rating: ', the_test_result[0])
@@ -72,9 +72,9 @@ def testing(sites, test_type= TEST_ALL, show_reviews= False):
     print('### {0} ###'.format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
     tests = list()
     ##############
-    if (test_type == TEST_ALL or test_type == TEST_GOOGLE_PAGESPEED):
-        print('###############################\nKör test: 0 - Google Pagespeed')
-        tests.extend(testsites(sites, test_type=TEST_GOOGLE_PAGESPEED, show_reviews=show_reviews))
+    if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE):
+        print('###############################\nKör test: 1 - Google Lighthouse Performance')
+        tests.extend(testsites(sites, test_type=TEST_GOOGLE_LIGHTHOUSE, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_PAGE_NOT_FOUND):
         print('###############################\nKör test: 2 - 404-test')
         tests.extend(testsites(sites, test_type=TEST_PAGE_NOT_FOUND, show_reviews=show_reviews))
@@ -90,9 +90,9 @@ def testing(sites, test_type= TEST_ALL, show_reviews= False):
     return tests
 
 def validate_test_type(test_type):
-    if test_type != TEST_HTML and test_type != TEST_PAGE_NOT_FOUND and test_type != TEST_CSS and test_type != TEST_WEBBKOLL and test_type != TEST_GOOGLE_PAGESPEED:
+    if test_type != TEST_HTML and test_type != TEST_PAGE_NOT_FOUND and test_type != TEST_CSS and test_type != TEST_WEBBKOLL and test_type != TEST_GOOGLE_LIGHTHOUSE:
         print('Valid arguments for option -t/--test:')
-        print('-t 0\t: Google Pagespeed')
+        print('-t 1\t: Google Lighthouse Performance')
         print('-t 2\t: 404-test')
         print('-t 6\t: HTML')
         print('-t 7\t: CSS')
@@ -111,7 +111,7 @@ def main(argv):
     Options and arguments:
     -h/--help\t\t\t: Help information on how to use script
     -u/--url <site url>\t\t: website url to test against
-    -t/--test <0/2/6/7/20>\t: runs ONE specific test against website(s)
+    -t/--test <1/2/6/7/20>\t: runs ONE specific test against website(s)
     -r/--review\t\t\t: show reviews in terminal
     -i/--input <file path>\t: input file path (.json/.sqlite)
     -o/--output <file path>\t: output file path (.json/.csv/.sql/.sqlite)

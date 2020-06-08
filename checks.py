@@ -234,29 +234,20 @@ def check_lighthouse(url, strategy='mobile', category='performance'):
 	"""
 	check_url = url.strip()
 	
-	# urlEncodedURL = parse.quote_plus(check_url)	# making sure no spaces or other weird characters f*cks up the request, such as HTTP 400
 	pagespeed_api_request = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category={0}&url={1}&strategy={2}&key={3}'.format(category, check_url, strategy, googlePageSpeedApiKey)
-	#print('HTTP request towards GPS API: {}'.format(pagespeed_api_request))
 	
 	get_content = ''
 	
 	try:
 		get_content = httpRequestGetContent(pagespeed_api_request)
-		get_content = BeautifulSoup(get_content, "html.parser")
-		get_content = str(get_content.encode("ascii"))
 	except:  # breaking and hoping for more luck with the next URL
 		print(
 			'Error! Unfortunately the request for URL "{0}" failed, message:\n{1}'.format(
 				check_url, sys.exc_info()[0]))
 		pass
 	
-	# try:
-	get_content = get_content[2:][:-1]  # removes two first chars and the last one
-	get_content = get_content.replace('\\n', '\n').replace("\\'", "\'")  # .replace('"', '"') #.replace('\'', '\"')
-	get_content = get_content.replace('\\\\"', '\\"').replace('""', '"')
-	
 	json_content = ''
-	
+
 	try:
 		json_content = json.loads(get_content)
 	except:  # might crash if checked resource is not a webpage
@@ -266,12 +257,9 @@ def check_lighthouse(url, strategy='mobile', category='performance'):
 	
 	return_dict = {}
 	return_dict = json_content['lighthouseResult']['audits']['metrics']['details']['items'][0]
-	return_dict['ttfb_in_ms'] = json_content['lighthouseResult']['audits']['time-to-first-byte']['numericValue']
-	#return_dict['ttfb_in_ms'] = json_content['lighthouseResult']['audits']['render-blocking-resources']['numericValue']
 	
 	for item in json_content['lighthouseResult']['audits'].keys():
 		try:
-			# print(item, json_content['lighthouseResult']['audits'][item]['numericValue'])
 			return_dict[item] = json_content['lighthouseResult']['audits'][item]['numericValue']
 		except:
 			# has no 'numericValue'
@@ -302,7 +290,6 @@ def check_lighthouse(url, strategy='mobile', category='performance'):
 	review += '* Första meningsfulla visuella ändring på 3G: {} sek\n'.format(convert_to_seconds(return_dict["first-contentful-paint-3g"], False))
 	review += '* CPU vilar efter: {} sek\n'.format(convert_to_seconds(return_dict["firstCPUIdle"], False))
 	review += '* Webbplatsen är interaktiv: {} sek\n'.format(convert_to_seconds(return_dict["interactive"], False))
-	review += '* Tid till första byte: {} sek\n'.format(convert_to_seconds(return_dict["ttfb_in_ms"], False))
 	review += '* Antal hänvisningar: {} st\n'.format(return_dict["redirects"])
 	review += '* Sidans totala vikt: {} kb\n'.format(int(return_dict["total-byte-weight"]/1000))
 	

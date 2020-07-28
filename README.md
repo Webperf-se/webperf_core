@@ -62,8 +62,11 @@ Now it will begin testing.
 | -a/--addUrl <site url> | website url (required in compination with -i/--input) |
 | -d/--deleteUrl <site url> | website url (required in compination with -i/--input) |
 
-For instance, if you'd like to test *https://yourwebsite.com*, get the output as a JSON-file named *my-report.json* and also see the reviews in the prompt the statemant is as follows:  
+For instance, if you'd like to test *https://yourwebsite.com*, get the output as a JSON-file named *my-report.json* and also see the reviews in the prompt the statement is as follows:  
 *python default.py -u https://webperf.se -o my-report.json -r*
+
+If you want to test multiple URL:s and get the results as a CSV-file, then edit the file *sites.json* and run the following in your terminal to get the result in the file *results.csv*:
+*python default.py -i sites.json -o results.csv*
 
 ### Are you getting error messages?
 It is often worthwhile to google the error messages you get. If you give up the search then you can always [check if someone on our Slack channel](https://webperf.se/articles/webperf-pa-slack/) have time to help you, but don’t forget to paste your error message directly in the first post. Or, if you think your error are common for more people than yourself, post an issue here at Github.

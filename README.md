@@ -68,7 +68,7 @@ For instance, if you'd like to test *https://yourwebsite.com*, get the output as
 If you want to test multiple URL:s and get the results as a CSV-file, then edit the file *sites.json* and run the following in your terminal to get the result in the file *results.csv*:  
 *python default.py -i sites.json -o results.csv*
 
-The file *sites.json* already exists in the repositorys root. If you'd like to check multiple websites or URL:s you've to add them inside the square brackets, separated by commas. For instance:  
+The file *sites.json* already exists in the repository's root. If you'd like to check multiple websites or URL:s you've to add them inside the square brackets, separated by commas. For instance:  
 ```
 { "sites": [
     {

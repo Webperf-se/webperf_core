@@ -9,6 +9,13 @@ import uuid
 import re
 from bs4 import BeautifulSoup
 
+import gettext
+langCode = 'en'
+global _
+language = gettext.translation('webperf-core', localedir='locales', languages=[langCode])
+language.install()
+_ = language.gettext
+
 import config
 
 ### DEFAULTS
@@ -30,14 +37,14 @@ def check_four_o_four(url):
 
     ## kollar koden
     o = urllib.parse.urlparse(url)
-    url = '{0}://{1}/{2}-{3}.html'.format(o.scheme, o.netloc, 's1d4-f1nns-1nt3', get_guid(5))
+    url = '{0}://{1}/2020/{2}-{3}.html'.format(o.scheme, o.netloc, 's1d4-f1nns-1nt3', get_guid(5))
     headers = {'user-agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'}
     request = requests.get(url, allow_redirects=True, headers=headers, timeout=request_timeout)
     code = request.status_code
     if code == 404:
         points += 2.0
     else:
-        review = review + '* Fel statuskod. Fick {0} när 404 vore korrekt.\n'.format(request.status_code)
+        review = review + _('TEST_404_REVIEW_WRONG_STATUS_CODE').format(request.status_code) #'* Fel statuskod. Fick {0} när 404 vore korrekt.\n'.format(request.status_code)
 
     result_dict['status_code'] = code
 
@@ -57,7 +64,7 @@ def check_four_o_four(url):
             if title:
                 result_dict['page_title'] = title.string
             else:
-                review = review + '* hittade ingen titel på sidan\n'
+                review = review + _('TEST_404_REVIEW_NO_TITLE') #'* hittade ingen titel på sidan\n'
 
         except:
             print('Error getting page title!\nMessage:\n{0}'.format(sys.exc_info()[0]))
@@ -67,7 +74,7 @@ def check_four_o_four(url):
             if h1:
                 result_dict['h1'] = h1.string
             else:
-                review = review + '* hittade ingen huvud rubrik (h1)\n'
+                review = review + _('TEST_404_REVIEW_MAIN_HEADER') #'* hittade ingen huvud rubrik (h1)\n'
 
         except:
             print('Error getting H1!\nMessage:\n{0}'.format(sys.exc_info()[0]))
@@ -126,17 +133,17 @@ def check_four_o_four(url):
 
 
     if found_match == False:
-        review = review + '* Verkar sakna text som beskriver att ett fel uppstått (på svenska).\n'
+        review = review + _('TEST_404_REVIEW_NO_SWEDISH_ERROR_MSG') #'* Verkar sakna text som beskriver att ett fel uppstått (på svenska).\n'
     
     ## hur långt är inehållet
     soup = BeautifulSoup(request.text, 'html.parser')
     if len(soup.get_text()) > 150:
         points += 1.5
     else:
-        review = review + '* Information är under 150 tecken, vilket tyder på att användaren inte vägleds vidare.\n'
+        review = review + _('TEST_404_REVIEW_ERROR_MSG_UNDER_150') #'* Information är under 150 tecken, vilket tyder på att användaren inte vägleds vidare.\n'
 
     if len(review) == 0:
-        review = '* Inga anmärkningar.'
+        review = _('TEST_REVIEW_NO_REMARKS')
 
     if points == 0:
       points = 1.0

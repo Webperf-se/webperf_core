@@ -15,6 +15,30 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 
+#: checks.py:47
+msgid "TEST_404_REVIEW_WRONG_STATUS_CODE"
+msgstr "* Wrong status code. Got {0} when 404 would be correct.\n"
+
+#: checks.py:67
+msgid "TEST_404_REVIEW_NO_TITLE"
+msgstr "* Found no page title in the page metadata.\n"
+
+#: checks.py:77
+msgid "TEST_404_REVIEW_MAIN_HEADER"
+msgstr "* Found no headline (h1)\n"
+
+#: checks.py:135
+msgid "TEST_404_REVIEW_NO_SWEDISH_ERROR_MSG"
+msgstr "* Seems to lack text describing that an error has occurred (in Swedish).\n"
+
+#: checks.py:143
+msgid "TEST_404_REVIEW_ERROR_MSG_UNDER_150"
+msgstr "* Text content length is below 150 characters, indicating that the user is not being referred.\n"
+
+#: checks.py:146
+msgid "TEST_REVIEW_NO_REMARKS"
+msgstr "* No remarks"
+
 #: default.py:21
 msgid "TEXT_TEST_START_HEADER"
 msgstr "###############################################"
@@ -89,5 +113,5 @@ msgstr "-t 20\t: Webbkoll"
 
 #: default.py:137 default.py:141 default.py:146 default.py:213
 msgid "TEXT_COMMAND_USAGE"
-msgstr "\n\tWebPerf Core\n\n\tUsage:\ndefault.py -u https://webperf.se\n\n\tOptions and arguments:\n\t-h/--help\t\t\t: Help information on how to use script\n\t-u/--url <site url>\t\t: website url to test against\n\t-t/--test <0/2/6/7/20>\t\t: runs ONE specific test against website(s)\n\t-r/--review\t\t\t: show reviews in terminal\n\t-i/--input <file path>\t\t: input file path (.json/.sqlite)\n\t-o/--output <file path>\t\t: output file path (.json/.csv/.sql/.sqlite)\n\t-A/--addUrl <site url>\t\t: website url (required in compination with -i/--input)\n\t-D/--deleteUrl <site url>\t: website url (required in compination with -i/--input)\n\t-L/--language <lang code>\t: language used for output(en = default/sv)"
+msgstr "\n\tWebPerf Core\n\n\tUsage:\ndefault.py -u https://webperf.se\n\n\tOptions and arguments:\n\t-h/--help\t\t\t: Help information on how to use script\n\t-u/--url <site url>\t\t: website url to test against\n\t-t/--test <1/2/6/7/20>\t\t: runs ONE specific test against website(s)\n\t-r/--review\t\t\t: show reviews in terminal\n\t-i/--input <file path>\t\t: input file path (.json/.sqlite)\n\t-o/--output <file path>\t\t: output file path (.json/.csv/.sql/.sqlite)\n\t-A/--addUrl <site url>\t\t: website url (required in compination with -i/--input)\n\t-D/--deleteUrl <site url>\t: website url (required in compination with -i/--input)\n\t-L/--language <lang code>\t: language used for output(en = default/sv)"
 

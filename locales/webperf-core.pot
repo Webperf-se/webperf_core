@@ -15,27 +15,27 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 
-#: checks.py:40
+#: checks.py:47
 msgid "TEST_404_REVIEW_WRONG_STATUS_CODE"
 msgstr ""
 
-#: checks.py:60
+#: checks.py:67
 msgid "TEST_404_REVIEW_NO_TITLE"
 msgstr ""
 
-#: checks.py:70
+#: checks.py:77
 msgid "TEST_404_REVIEW_MAIN_HEADER"
 msgstr ""
 
-#: checks.py:129
+#: checks.py:135
 msgid "TEST_404_REVIEW_NO_SWEDISH_ERROR_MSG"
 msgstr ""
 
-#: checks.py:136
+#: checks.py:143
 msgid "TEST_404_REVIEW_ERROR_MSG_UNDER_150"
 msgstr ""
 
-#: checks.py:139
+#: checks.py:146
 msgid "TEST_REVIEW_NO_REMARKS"
 msgstr ""
 

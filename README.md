@@ -24,13 +24,14 @@ Another thing you need to do is to open the *config.py* file and change one thin
 *googlePageSpeedApiKey = “”*  
 Between the quotation marks, enter your Google Pagespeed API key. See the following header for how to do this.
 
-### Google Pagespeed API key
-Google Pagespeed requires an API key. You can get one like this:
+### Google Lighthouse API key
+Google Lighthouse API requires an API key. You can get one like this:
 1. Go to [Google Cloud Platform](https://console.cloud.google.com/apis).
 2. Search for *Pagespeed Insights API*.
-3. Click on *Credentials* (you may need to create a project first, if you do not already have one).
-4. Click *+ Create Credentials*, then *API key*
-5. In the dialog the key now appears below *Your API key*, it can look like this *AIzaXyCjEXTvAq7zAU_RV_vA7slvDO9p1weRfgW*
+3. Click the button labelled *Manage*.
+4. Click on *Credentials* (you may need to create a project first, if you do not already have one).
+5. Click *+ Create Credentials*, then *API key*
+6. In the dialogue box the key now appears below *Your API key*, it can look like this *AIzaXyCjEXTvAq7zAU_RV_vA7slvDO9p1weRfgW*
 
 That code is your API key, that you should put in the *config.py* file in the source code, between the quotation marks on the line where you find *googlePageSpeedApiKey*.
 

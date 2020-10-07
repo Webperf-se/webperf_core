@@ -2,7 +2,7 @@
 Minimalistic client mainly running on PythonAnywhere.com, accessing different websites, or web-APIs, and scraping them.
 
 The tests included in the first version are:
-* Google Pagespeed Insights API *(not working at the moment, to be updated to version 5)*
+* Google Lighthouse API
 * Testing the 404 page and status code
 * Validating the HTML code against W3C
 * Validating the CSS code against W3C

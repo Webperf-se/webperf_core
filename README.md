@@ -55,7 +55,7 @@ Now it will begin testing.
 |---|---|
 | -h/--help | Help information on how to use script |
 | -u/--url <site url> | website url to test against |
-| -t/--test <0/2/6/7/20> | runs ONE specific test against website(s) |
+| -t/--test <1/2/6/7/20> | runs ONE specific test against website(s) |
 | -r/--review | show reviews in terminal |
 | -i/--input <file path> | input file path (.json/.sqlite) |
 | -o/--output <file path> | output file path (.json/.csv/.sql/.sqlite) |

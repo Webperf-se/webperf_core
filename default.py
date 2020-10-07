@@ -173,7 +173,7 @@ def main(argv):
 
             if (not foundLang):
                 # Not translateable
-                print('Language not found, only following languages are available:', availableLanguages)
+                print('Language not found, only the following languages are available:', availableLanguages)
                 sys.exit(2)
         elif opt in ("-t", "--test"): # test type
             try:
@@ -203,7 +203,7 @@ def main(argv):
             show_reviews = True
             pass
 
-    # add suspport for language
+    # add support for language
     language = gettext.translation('webperf-core', localedir='locales', languages=[langCode])
     language.install()
     _ = language.gettext

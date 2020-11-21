@@ -49,7 +49,7 @@ msgstr "Number of websites being tested {0}"
 
 #: default.py:30
 msgid "TEXT_TESTING_SITE"
-msgstr "Testing website {0}"
+msgstr "{0}. Testing website {1}"
 
 #: default.py:46
 msgid "TEXT_SITE_RATING"

@@ -37,8 +37,8 @@ def check_four_o_four(url):
 
     ## kollar koden
     o = urllib.parse.urlparse(url)
-    url = '{0}://{1}/2020/{2}-{3}.html'.format(o.scheme, o.netloc, 's1d4-f1nns-1nt3', get_guid(5))
-    headers = {'user-agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'}
+    url = '{0}://{1}/{3}/{2}'.format(o.scheme, o.netloc, 'finns-det-en-sida/pa-den-har-adressen/testanrop/', get_guid(5))
+    headers = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:81.0) Gecko/20100101 Firefox/81.0'}
     request = requests.get(url, allow_redirects=True, headers=headers, timeout=request_timeout)
     code = request.status_code
     if code == 404:

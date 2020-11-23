@@ -112,6 +112,7 @@ You now have support for a new language, please send it to the official reposito
 
 Locate your pygettext.py file:  
 `locate pygettext.py`
+
 It might be as follows:  
 `/Library/Frameworks/Python.framework/Versions/3.8/share/doc/python3.8/examples/Tools/i18n/pygettext.py`
 
@@ -119,6 +120,7 @@ It might be as follows:
 
 Locate your msgfmt.py file:  
 `locate msgfmt.py`
+
 It might be as follows:  
 `/Library/Frameworks/Python.framework/Versions/3.8/share/doc/python3.8/examples/Tools/i18n/msgfmt.py`
 

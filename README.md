@@ -62,6 +62,7 @@ Now it will begin testing.
 | -o/--output <file path> | output file path (.json/.csv/.sql/.sqlite) |
 | -a/--addUrl <site url> | website url (required in compination with -i/--input) |
 | -d/--deleteUrl <site url> | website url (required in compination with -i/--input) |
+| -L/--language <lang code> | language used for output(en = default/sv) |
 
 For instance, if you'd like to test *https://yourwebsite.com*, get the output as a JSON-file named *my-report.json* and also see the reviews in the prompt the statement is as follows:  
 *python default.py -u https://yourwebsite.com -o my-report.json -r*
@@ -84,8 +85,50 @@ The file *sites.json* already exists in the repository's root. If you'd like to 
 }
 ```
 
-### Are you getting error messages?
+### Are you getting error messages? 
+
 It is often worthwhile to google the error messages you get. If you give up the search then you can always [check if someone on our Slack channel](https://webperf.se/articles/webperf-pa-slack/) have time to help you, but don’t forget to paste your error message directly in the first post. Or, if you think your error are common for more people than yourself, post an issue here at Github.
+
+### Want to add another language? 
+
+The multiple language support is built on `gettext` in Python.
+
+#### How to support new language
+
+To create a new language source file:
+`python3 <your path to pygettext.py > -d webperf-core -o locales/webperf-core.pot default.py checks.py`
+
+Copy the file to your locale, for Swedish it would be:
+`locales/sv/LC_MESSAGES/webperf-core.pot`
+
+Rename the file extension from `.pot` to `.po`
+
+After you have translated everything you should run the following command from the LC_MESSAGES folder:
+`python3 <your path to msgfmt.py> -o webperf-core.mo webperf-core.po`
+
+You now have support for a new language, please send it to the official repository using a pull request :)
+
+#### How to find pygettext.py
+
+Locate your pygettext.py file:
+`locate pygettext.py`
+It might be as follows:
+`/Library/Frameworks/Python.framework/Versions/3.8/share/doc/python3.8/examples/Tools/i18n/pygettext.py`
+
+#### How to find msgfmt.py
+
+Locate your msgfmt.py file:
+`locate msgfmt.py`
+It might be as follows:
+`/Library/Frameworks/Python.framework/Versions/3.8/share/doc/python3.8/examples/Tools/i18n/msgfmt.py`
+
+The command can be:
+`python3 /Library/Frameworks/Python.framework/Versions/3.8/share/doc/python3.8/examples/Tools/i18n/pygettext.py -d webperf-core -o locales/webperf-core.pot default.py `
+
+### References
+
+- https://phrase.com/blog/posts/translate-python-gnu-gettext/
+- https://docs.python.org/3/library/gettext.html
 
 ## What you are allowed to do with this code / repo
 The license used is the [MIT license](https://en.wikipedia.org/wiki/MIT_License). This means that you can do whatever you want with the source code, including using it in commercial software and contexts. However, there is no guarantee or liability for the code.

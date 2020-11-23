@@ -1,0 +1,117 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2020-05-23 17:29+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+#: checks.py:47
+msgid "TEST_404_REVIEW_WRONG_STATUS_CODE"
+msgstr ""
+
+#: checks.py:67
+msgid "TEST_404_REVIEW_NO_TITLE"
+msgstr ""
+
+#: checks.py:77
+msgid "TEST_404_REVIEW_MAIN_HEADER"
+msgstr ""
+
+#: checks.py:135
+msgid "TEST_404_REVIEW_NO_SWEDISH_ERROR_MSG"
+msgstr ""
+
+#: checks.py:143
+msgid "TEST_404_REVIEW_ERROR_MSG_UNDER_150"
+msgstr ""
+
+#: checks.py:146
+msgid "TEST_REVIEW_NO_REMARKS"
+msgstr ""
+
+#: default.py:21
+msgid "TEXT_TEST_START_HEADER"
+msgstr ""
+
+#: default.py:25
+msgid "TEXT_TESTING_NUMBER_OF_SITES"
+msgstr ""
+
+#: default.py:30
+msgid "TEXT_TESTING_SITE"
+msgstr ""
+
+#: default.py:46
+msgid "TEXT_SITE_RATING"
+msgstr ""
+
+#: default.py:48
+msgid "TEXT_SITE_REVIEW"
+msgstr ""
+
+#: default.py:66
+msgid "TEXT_EXCEPTION"
+msgstr ""
+
+#: default.py:74
+msgid "TEXT_TESTING_START_HEADER"
+msgstr ""
+
+#: default.py:78
+msgid "TEXT_TEST_GOOGLE_PAGESPEED"
+msgstr ""
+
+#: default.py:81
+msgid "TEXT_TEST_PAGE_NOT_FOUND"
+msgstr ""
+
+#: default.py:84
+msgid "TEXT_TEST_HTML"
+msgstr ""
+
+#: default.py:87
+msgid "TEXT_TEST_CSS"
+msgstr ""
+
+#: default.py:90
+msgid "TEXT_TEST_WEBBKOLL"
+msgstr ""
+
+#: default.py:96
+msgid "TEXT_TEST_VALID_ARGUMENTS"
+msgstr ""
+
+#: default.py:97
+msgid "TEXT_TEST_VALID_ARGUMENTS_GOOGLE_PAGESPEED"
+msgstr ""
+
+#: default.py:98
+msgid "TEXT_TEST_VALID_ARGUMENTS_PAGE_NOT_FOUND"
+msgstr ""
+
+#: default.py:99
+msgid "TEXT_TEST_VALID_ARGUMENTS_HTML"
+msgstr ""
+
+#: default.py:100
+msgid "TEXT_TEST_VALID_ARGUMENTS_CSS"
+msgstr ""
+
+#: default.py:101
+msgid "TEXT_TEST_VALID_ARGUMENTS_WEBBKOLL"
+msgstr ""
+
+#: default.py:212 default.py:243
+msgid "TEXT_COMMAND_USAGE"
+msgstr ""
+

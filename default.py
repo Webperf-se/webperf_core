@@ -4,6 +4,8 @@ import datetime
 from checks import *
 from models import Sites, SiteTests
 import config
+import gettext
+_ = gettext.gettext
 
 def testsites(sites, test_type=None, show_reviews=False, only_test_untested_last_hours=24, order_by='title ASC'):
     """
@@ -16,16 +18,16 @@ def testsites(sites, test_type=None, show_reviews=False, only_test_untested_last
 
     # TODO: implementera test_type=None
 
-    print("###############################################")
+    print(_('TEXT_TEST_START_HEADER'))
 
     i = 1
 
-    print('Webbadresser som testas:', len(sites))
+    print(_('TEXT_TESTING_NUMBER_OF_SITES').format(len(sites)))
 
     for site in sites:
         site_id = site[0]
         website = site[1]
-        print('{}. Testar adress {}'.format(i, website))
+        print(_('TEXT_TESTING_SITE').format(i, website))
         the_test_result = None
 
         try:
@@ -41,9 +43,9 @@ def testsites(sites, test_type=None, show_reviews=False, only_test_untested_last
                 the_test_result = check_lighthouse(website)
 
             if the_test_result != None:
-                print('Rating: ', the_test_result[0])
+                print(_('TEXT_SITE_RATING'), the_test_result[0])
                 if show_reviews:
-                    print('Review:\n', the_test_result[1])
+                    print(_('TEXT_SITE_REVIEW'), the_test_result[1])
 
                 json_data = ''
                 try:
@@ -61,7 +63,7 @@ def testsites(sites, test_type=None, show_reviews=False, only_test_untested_last
 
                 the_test_result = None # 190506 för att inte skriva testresultat till sajter när testet kraschat. Måste det sättas till ''?
         except Exception as e:
-            print('FAIL!', website, '\n', e)
+            print(_('TEXT_EXCEPTION'), website, '\n', e)
             pass
 
         i += 1
@@ -69,34 +71,34 @@ def testsites(sites, test_type=None, show_reviews=False, only_test_untested_last
     return result
 
 def testing(sites, test_type= TEST_ALL, show_reviews= False):
-    print('### {0} ###'.format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+    print(_('TEXT_TESTING_START_HEADER').format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
     tests = list()
     ##############
     if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE):
-        print('###############################\nKör test: 1 - Google Lighthouse Performance')
+        print(_('TEXT_TEST_GOOGLE_PAGESPEED'))
         tests.extend(testsites(sites, test_type=TEST_GOOGLE_LIGHTHOUSE, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_PAGE_NOT_FOUND):
-        print('###############################\nKör test: 2 - 404-test')
+        print(_('TEXT_TEST_PAGE_NOT_FOUND'))
         tests.extend(testsites(sites, test_type=TEST_PAGE_NOT_FOUND, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_HTML):
-        print('###############################\nKör test: 6 - HTML')
+        print(_('TEXT_TEST_HTML'))
         tests.extend(testsites(sites, test_type=TEST_HTML, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_CSS):
-        print('###############################\nKör test: 7 - CSS')
+        print(_('TEXT_TEST_CSS'))
         tests.extend(testsites(sites, test_type=TEST_CSS, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_WEBBKOLL):
-        print('###############################\nKör test: 20 - Webbkoll')
+        print(_('TEXT_TEST_WEBBKOLL'))
         tests.extend(testsites(sites, test_type=TEST_WEBBKOLL, show_reviews=show_reviews))
     return tests
 
 def validate_test_type(test_type):
     if test_type != TEST_HTML and test_type != TEST_PAGE_NOT_FOUND and test_type != TEST_CSS and test_type != TEST_WEBBKOLL and test_type != TEST_GOOGLE_LIGHTHOUSE:
-        print('Valid arguments for option -t/--test:')
-        print('-t 1\t: Google Lighthouse Performance')
-        print('-t 2\t: 404-test')
-        print('-t 6\t: HTML')
-        print('-t 7\t: CSS')
-        print('-t 20\t: Webbkoll')
+        print(_('TEXT_TEST_VALID_ARGUMENTS'))
+        print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_PAGESPEED'))
+        print(_('TEXT_TEST_VALID_ARGUMENTS_PAGE_NOT_FOUND'))
+        print(_('TEXT_TEST_VALID_ARGUMENTS_HTML'))
+        print(_('TEXT_TEST_VALID_ARGUMENTS_CSS'))
+        print(_('TEXT_TEST_VALID_ARGUMENTS_WEBBKOLL'))
         return -2
     else:
         return test_type
@@ -115,8 +117,9 @@ def main(argv):
     -r/--review\t\t\t: show reviews in terminal
     -i/--input <file path>\t: input file path (.json/.sqlite)
     -o/--output <file path>\t: output file path (.json/.csv/.sql/.sqlite)
-    -a/--addUrl <site url>\t: website url (required in compination with -i/--input)
-    -d/--deleteUrl <site url>\t: website url (required in compination with -i/--input)
+    -A/--addUrl <site url>\t: website url (required in compination with -i/--input)
+    -D/--deleteUrl <site url>\t: website url (required in compination with -i/--input)
+    -L/--language <lang code>\t: language used for output(en = default/sv)
     """
 
     test_type = TEST_ALL
@@ -124,29 +127,54 @@ def main(argv):
     output_filename = ''
     input_filename = ''
     show_reviews = False
+    show_help = False
     add_url = ''
     delete_url = ''
+    langCode = 'en'
+    global _
 
     try:
-        opts, args = getopt.getopt(argv,"hu:t:i:o:rA:D:",["help","url","test", "input", "output", "review", "report", "addUrl", "deleteUrl"])
+        opts, args = getopt.getopt(argv,"hu:t:i:o:rA:D:L:",["help","url","test", "input", "output", "review", "report", "addUrl", "deleteUrl", "language"])
     except getopt.GetoptError:
         print(main.__doc__)
         sys.exit(2)
 
     if (opts.__len__() == 0):
-        print(main.__doc__)
-        sys.exit(2)
+        show_help = True
 
     for opt, arg in opts:
         if opt in ('-h', '--help'): # help
-            print(main.__doc__)
-            sys.exit()
+            show_help = True
         elif opt in ("-u", "--url"): # site url
             sites.append([0, arg])
         elif opt in ("-A", "--addUrl"): # site url
             add_url = arg
         elif opt in ("-D", "--deleteUrl"): # site url
             delete_url = arg
+        elif opt in ("-L", "--language"): # language code
+            # loop all available languages and verify language exist
+            import os 
+            availableLanguages = list()
+            localeDirs = os.listdir('locales')
+            foundLang = False
+
+            for localeName in localeDirs:
+                if (localeName[0:1] == '.'):
+                    continue
+
+                languageSubDirectory = os.path.join('locales', localeName, "LC_MESSAGES")
+
+                if (os.path.exists(languageSubDirectory)):
+                    availableLanguages.append(localeName)
+
+                    if (localeName == arg):
+                        langCode = arg
+                        foundLang = True
+
+            if (not foundLang):
+                # Not translateable
+                print('Language not found, only the following languages are available:', availableLanguages)
+                sys.exit(2)
         elif opt in ("-t", "--test"): # test type
             try:
                 tmp_test_type = int(arg)
@@ -174,6 +202,15 @@ def main(argv):
         elif opt in ("-r", "--review", "--report"): # writes reviews directly in terminal
             show_reviews = True
             pass
+
+    # add support for language
+    language = gettext.translation('webperf-core', localedir='locales', languages=[langCode])
+    language.install()
+    _ = language.gettext
+
+    if (show_help):
+        print(_('TEXT_COMMAND_USAGE'))
+        sys.exit(2)
 
     if (add_url != ''):
         # check if website url should be added
@@ -203,7 +240,7 @@ def main(argv):
             # use loaded engine to write tests
             write_tests(output_filename, siteTests)
     else:
-        print(main.__doc__)
+        print(_('TEXT_COMMAND_USAGE'))
 
 
 """

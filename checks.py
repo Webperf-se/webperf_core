@@ -8,14 +8,6 @@ import urllib # https://docs.python.org/3/library/urllib.parse.html
 import uuid
 import re
 from bs4 import BeautifulSoup
-
-import gettext
-langCode = 'en'
-global _
-language = gettext.translation('webperf-core', localedir='locales', languages=[langCode])
-language.install()
-_ = language.gettext
-
 import config
 
 ### DEFAULTS

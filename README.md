@@ -95,31 +95,31 @@ The multiple language support is built on `gettext` in Python.
 
 #### How to support new language
 
-To create a new language source file:
+To create a new language source file:  
 `python3 <your path to pygettext.py > -d webperf-core -o locales/webperf-core.pot default.py checks.py`
 
-Copy the file to your locale, for Swedish it would be:
+Copy the file to your locale, for Swedish it would be:  
 `locales/sv/LC_MESSAGES/webperf-core.pot`
 
 Rename the file extension from `.pot` to `.po`
 
-After you have translated everything you should run the following command from the LC_MESSAGES folder:
+After you have translated everything you should run the following command from the LC_MESSAGES folder:  
 `python3 <your path to msgfmt.py> -o webperf-core.mo webperf-core.po`
 
 You now have support for a new language, please send it to the official repository using a pull request :)
 
 #### How to find pygettext.py
 
-Locate your pygettext.py file:
+Locate your pygettext.py file:  
 `locate pygettext.py`
-It might be as follows:
+It might be as follows:  
 `/Library/Frameworks/Python.framework/Versions/3.8/share/doc/python3.8/examples/Tools/i18n/pygettext.py`
 
 #### How to find msgfmt.py
 
-Locate your msgfmt.py file:
+Locate your msgfmt.py file:  
 `locate msgfmt.py`
-It might be as follows:
+It might be as follows:  
 `/Library/Frameworks/Python.framework/Versions/3.8/share/doc/python3.8/examples/Tools/i18n/msgfmt.py`
 
 The command can be:

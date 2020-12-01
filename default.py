@@ -1,11 +1,14 @@
 #-*- coding: utf-8 -*-
 import sys, getopt
 import datetime
-from checks import *
 from models import Sites, SiteTests
 import config
 import gettext
 _ = gettext.gettext
+
+TEST_ALL = -1
+
+(TEST_UNKNOWN_01, TEST_GOOGLE_LIGHTHOUSE, TEST_PAGE_NOT_FOUND, TEST_UNKNOWN_03, TEST_UNKNOWN_04, TEST_UNKNOWN_05, TEST_HTML, TEST_CSS, TEST_UNKNOWN_08, TEST_UNKNOWN_09, TEST_UNKNOWN_10, TEST_UNKNOWN_11, TEST_UNKNOWN_12, TEST_UNKNOWN_13, TEST_UNKNOWN_14, TEST_UNKNOWN_15, TEST_UNKNOWN_16, TEST_UNKNOWN_17, TEST_UNKNOWN_18, TEST_UNKNOWN_19, TEST_WEBBKOLL) = range(21)
 
 def testsites(sites, test_type=None, show_reviews=False, only_test_untested_last_hours=24, order_by='title ASC'):
     """
@@ -32,15 +35,17 @@ def testsites(sites, test_type=None, show_reviews=False, only_test_untested_last
 
         try:
             if test_type == 2:
-                the_test_result = check_four_o_four(website)
+                from tests.page_not_found import run_test
             elif test_type == 6:
-                the_test_result = check_w3c_valid(website)
+                from tests.w3c_validate_html import run_test
             elif test_type == 7:
-                the_test_result = check_w3c_valid_css(website)
+                from tests.w3c_validate_css import run_test
             elif test_type == 20:
-                the_test_result = check_privacy_webbkollen(website)
+                from tests.privacy_webbhollen import run_test
             elif test_type == 1:
-                the_test_result = check_lighthouse(website)
+                from tests.lighthouse import run_test
+
+            the_test_result = run_test(website)
 
             if the_test_result != None:
                 print(_('TEXT_SITE_RATING'), the_test_result[0])

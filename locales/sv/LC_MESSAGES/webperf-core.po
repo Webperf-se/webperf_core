@@ -15,27 +15,27 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 
-#: checks.py:47
+#: tests/page_not_found.py:35
 msgid "TEST_404_REVIEW_WRONG_STATUS_CODE"
 msgstr "* Fel statuskod. Fick {0} när 404 vore korrekt.\n"
 
-#: checks.py:67
+#: tests/page_not_found.py:55
 msgid "TEST_404_REVIEW_NO_TITLE"
 msgstr "* Hittade ingen titel på sidan\n"
 
-#: checks.py:77
+#: tests/page_not_found.py:65
 msgid "TEST_404_REVIEW_MAIN_HEADER"
 msgstr "* Hittade ingen huvudrubrik (h1)\n"
 
-#: checks.py:135
+#: tests/page_not_found.py:124
 msgid "TEST_404_REVIEW_NO_SWEDISH_ERROR_MSG"
 msgstr "* Verkar sakna text som beskriver att ett fel uppstått (på svenska).\n"
 
-#: checks.py:143
+#: tests/page_not_found.py:131
 msgid "TEST_404_REVIEW_ERROR_MSG_UNDER_150"
 msgstr "* Information är under 150 tecken, vilket tyder på att användaren inte vägleds vidare.\n"
 
-#: checks.py:146
+#: tests/page_not_found.py:134
 msgid "TEST_REVIEW_NO_REMARKS"
 msgstr "* Inga anmärkningar."
 

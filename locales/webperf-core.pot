@@ -15,27 +15,27 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 
-#: checks.py:47
+#: tests/page_not_found.py:35
 msgid "TEST_404_REVIEW_WRONG_STATUS_CODE"
 msgstr ""
 
-#: checks.py:67
+#: tests/page_not_found.py:55
 msgid "TEST_404_REVIEW_NO_TITLE"
 msgstr ""
 
-#: checks.py:77
+#: tests/page_not_found.py:65
 msgid "TEST_404_REVIEW_MAIN_HEADER"
 msgstr ""
 
-#: checks.py:135
+#: tests/page_not_found.py:124
 msgid "TEST_404_REVIEW_NO_SWEDISH_ERROR_MSG"
 msgstr ""
 
-#: checks.py:143
+#: tests/page_not_found.py:131
 msgid "TEST_404_REVIEW_ERROR_MSG_UNDER_150"
 msgstr ""
 
-#: checks.py:146
+#: tests/page_not_found.py:134
 msgid "TEST_REVIEW_NO_REMARKS"
 msgstr ""
 

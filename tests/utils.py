@@ -51,3 +51,16 @@ def convert_to_seconds(millis, return_with_seconds=True):
         return (millis/1000)%60 + " sekunder"
     else:
         return (millis/1000)%60
+
+def is_sitemap(content):
+	"""Check a string to see if its content is a sitemap or siteindex.
+
+	Attributes: content (string)
+	"""
+	try:
+		if 'www.sitemaps.org/schemas/sitemap/' in content or '<sitemapindex' in content:
+			return True
+	except:
+		return False
+
+	return False

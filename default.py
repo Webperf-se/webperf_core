@@ -8,7 +8,7 @@ _ = gettext.gettext
 
 TEST_ALL = -1
 
-(TEST_UNKNOWN_01, TEST_GOOGLE_LIGHTHOUSE, TEST_PAGE_NOT_FOUND, TEST_UNKNOWN_03, TEST_UNKNOWN_04, TEST_UNKNOWN_05, TEST_HTML, TEST_CSS, TEST_UNKNOWN_08, TEST_UNKNOWN_09, TEST_UNKNOWN_10, TEST_UNKNOWN_11, TEST_UNKNOWN_12, TEST_UNKNOWN_13, TEST_UNKNOWN_14, TEST_UNKNOWN_15, TEST_UNKNOWN_16, TEST_UNKNOWN_17, TEST_UNKNOWN_18, TEST_UNKNOWN_19, TEST_WEBBKOLL) = range(21)
+(TEST_UNKNOWN_01, TEST_GOOGLE_LIGHTHOUSE, TEST_PAGE_NOT_FOUND, TEST_UNKNOWN_03, TEST_GOOGLE_LIGHTHOUSE_SEO, TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE, TEST_HTML, TEST_CSS, TEST_GOOGLE_LIGHTHOUSE_PWA, TEST_STANDARD_FILES, TEST_GOOGLE_LIGHTHOUSE_A11Y, TEST_UNKNOWN_11, TEST_UNKNOWN_12, TEST_UNKNOWN_13, TEST_UNKNOWN_14, TEST_UNKNOWN_15, TEST_UNKNOWN_16, TEST_UNKNOWN_17, TEST_UNKNOWN_18, TEST_UNKNOWN_19, TEST_WEBBKOLL) = range(21)
 
 def testsites(sites, test_type=None, show_reviews=False, only_test_untested_last_hours=24, order_by='title ASC'):
     """
@@ -41,9 +41,19 @@ def testsites(sites, test_type=None, show_reviews=False, only_test_untested_last
             elif test_type == 7:
                 from tests.w3c_validate_css import run_test
             elif test_type == 20:
-                from tests.privacy_webbhollen import run_test
+                from tests.privacy_webbkollen import run_test
             elif test_type == 1:
                 from tests.lighthouse import run_test
+            elif test_type == 4:
+                from tests.lighthouse_seo import run_test
+            elif test_type == 5:
+                from tests.lighthouse_best_practice import run_test
+            elif test_type == 8:
+                from tests.lighthouse_pwa import run_test
+            elif test_type == 9:
+                from tests.standard_files import run_test
+            elif test_type == 10:
+                from tests.lighthouse_a11y import run_test
 
             the_test_result = run_test(website)
 
@@ -80,8 +90,20 @@ def testing(sites, test_type= TEST_ALL, show_reviews= False):
     tests = list()
     ##############
     if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE):
-        print(_('TEXT_TEST_GOOGLE_PAGESPEED'))
+        print(_('TEST_GOOGLE_LIGHTHOUSE'))
         tests.extend(testsites(sites, test_type=TEST_GOOGLE_LIGHTHOUSE, show_reviews=show_reviews))
+    if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE_A11Y):
+        print(_('TEST_GOOGLE_LIGHTHOUSE_A11Y'))
+        tests.extend(testsites(sites, test_type=TEST_GOOGLE_LIGHTHOUSE_A11Y, show_reviews=show_reviews))
+    if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE_SEO):
+        print(_('TEST_GOOGLE_LIGHTHOUSE_SEO'))
+        tests.extend(testsites(sites, test_type=TEST_GOOGLE_LIGHTHOUSE_SEO, show_reviews=show_reviews))
+    if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE_PWA):
+        print(_('TEST_GOOGLE_LIGHTHOUSE_PWA'))
+        tests.extend(testsites(sites, test_type=TEST_GOOGLE_LIGHTHOUSE_PWA, show_reviews=show_reviews))
+    if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE):
+        print(_('TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE'))
+        tests.extend(testsites(sites, test_type=TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_PAGE_NOT_FOUND):
         print(_('TEXT_TEST_PAGE_NOT_FOUND'))
         tests.extend(testsites(sites, test_type=TEST_PAGE_NOT_FOUND, show_reviews=show_reviews))
@@ -94,16 +116,25 @@ def testing(sites, test_type= TEST_ALL, show_reviews= False):
     if (test_type == TEST_ALL or test_type == TEST_WEBBKOLL):
         print(_('TEXT_TEST_WEBBKOLL'))
         tests.extend(testsites(sites, test_type=TEST_WEBBKOLL, show_reviews=show_reviews))
+    if (test_type == TEST_ALL or test_type == TEST_STANDARD_FILES):
+        print(_('TEXT_TEST_STANDARD_FILES'))
+        tests.extend(testsites(sites, test_type=TEST_STANDARD_FILES, show_reviews=show_reviews))
+    
     return tests
 
 def validate_test_type(test_type):
-    if test_type != TEST_HTML and test_type != TEST_PAGE_NOT_FOUND and test_type != TEST_CSS and test_type != TEST_WEBBKOLL and test_type != TEST_GOOGLE_LIGHTHOUSE:
+    if test_type != TEST_HTML and test_type != TEST_PAGE_NOT_FOUND and test_type != TEST_CSS and test_type != TEST_WEBBKOLL and test_type != TEST_GOOGLE_LIGHTHOUSE and test_type != TEST_GOOGLE_LIGHTHOUSE_PWA and test_type != TEST_GOOGLE_LIGHTHOUSE_A11Y and test_type != TEST_GOOGLE_LIGHTHOUSE_SEO and test_type != TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE and test_type != TEST_STANDARD_FILES:
         print(_('TEXT_TEST_VALID_ARGUMENTS'))
-        print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_PAGESPEED'))
+        print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE'))
+        print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_SEO'))
+        print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_A11Y'))
+        print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_PWA'))
+        print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_BEST_PRACTICE'))
         print(_('TEXT_TEST_VALID_ARGUMENTS_PAGE_NOT_FOUND'))
         print(_('TEXT_TEST_VALID_ARGUMENTS_HTML'))
         print(_('TEXT_TEST_VALID_ARGUMENTS_CSS'))
         print(_('TEXT_TEST_VALID_ARGUMENTS_WEBBKOLL'))
+        print(_('TEXT_TEST_VALID_ARGUMENTS_STANDARD_FILES'))
         return -2
     else:
         return test_type
@@ -118,7 +149,7 @@ def main(argv):
     Options and arguments:
     -h/--help\t\t\t: Help information on how to use script
     -u/--url <site url>\t\t: website url to test against
-    -t/--test <1/2/6/7/20>\t: runs ONE specific test against website(s)
+    -t/--test <1/2/4/5/6/7/8/9/10/20>\t: runs ONE specific test against website(s)
     -r/--review\t\t\t: show reviews in terminal
     -i/--input <file path>\t: input file path (.json/.sqlite)
     -o/--output <file path>\t: output file path (.json/.csv/.sql/.sqlite)

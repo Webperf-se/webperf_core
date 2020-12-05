@@ -39,79 +39,120 @@ msgstr "* Information är under 150 tecken, vilket tyder på att användaren int
 msgid "TEST_REVIEW_NO_REMARKS"
 msgstr "* Inga anmärkningar."
 
-#: default.py:21
+#: default.py:24
 msgid "TEXT_TEST_START_HEADER"
 msgstr "###############################################"
 
-#: default.py:25
+#: default.py:28
 msgid "TEXT_TESTING_NUMBER_OF_SITES"
 msgstr "Webbadresser som testas {0}"
 
-#: default.py:30
+#: default.py:33
 msgid "TEXT_TESTING_SITE"
 msgstr "{0}. Testar adress {1}"
 
-#: default.py:46
+#: default.py:61
 msgid "TEXT_SITE_RATING"
 msgstr "Betyg: "
 
-#: default.py:48
+#: default.py:63
 msgid "TEXT_SITE_REVIEW"
 msgstr "Omdöme:\n"
 
-#: default.py:66
+#: default.py:81
 msgid "TEXT_EXCEPTION"
 msgstr "Fel, någon behöver ta en titt på detta."
 
-#: default.py:74
+#: default.py:89
 msgid "TEXT_TESTING_START_HEADER"
 msgstr "### {0} ###"
 
-#: default.py:78
-msgid "TEXT_TEST_GOOGLE_PAGESPEED"
-msgstr "###############################\nKör test: 0 - Google Pagespeed"
+#: default.py:93
+msgid "TEST_GOOGLE_LIGHTHOUSE"
+msgstr "###############################\nKör test: 0 - Google Lighthouse prestanda"
 
-#: default.py:81
+#: default.py:96
+msgid "TEXT_TEST_GOOGLE_LIGHTHOUSE_A11Y"
+msgstr "###############################\nKör test: 10 - Google Lighthouse tillgänglighet"
+
+#: default.py:99
+msgid "TEXT_TEST_GOOGLE_LIGHTHOUSE_SEO"
+msgstr "###############################\nKör test: 4 - Google Lighthouse sökmotoroptimering"
+
+#: default.py:102
+msgid "TEXT_TEST_GOOGLE_LIGHTHOUSE_PWA"
+msgstr "###############################\nKör test: 8 - Google Lighthouse progressiv webbapp"
+
+#: default.py:105
+msgid "TEXT_TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE"
+msgstr "###############################\nKör test: 5 - Google Lighthouse god praxis"
+
+
+#: default.py:107
 msgid "TEXT_TEST_PAGE_NOT_FOUND"
-msgstr "###############################\nKör test: 2 - 404 (Page not Found)"
+msgstr "###############################\nKör test: 2 - 404 (sida finns inte)"
 
-#: default.py:84
+#: default.py:111
 msgid "TEXT_TEST_HTML"
 msgstr "###############################\nKör test: 6 - HTML"
 
-#: default.py:87
+#: default.py:114
 msgid "TEXT_TEST_CSS"
 msgstr "###############################\nKör test: 7 - CSS"
 
-#: default.py:90
+#: default.py:117
 msgid "TEXT_TEST_WEBBKOLL"
 msgstr "###############################\nKör test: 20 - Webbkoll"
 
-#: default.py:96
+#: default.py:120
+msgid "TEXT_TEST_STANDARD_FILES"
+msgstr "###############################\nKör test: 9 - Standardfiler"
+
+#: default.py:127
 msgid "TEXT_TEST_VALID_ARGUMENTS"
 msgstr "Giltiga argument att välja på -t/--test:"
 
-#: default.py:97
-msgid "TEXT_TEST_VALID_ARGUMENTS_GOOGLE_PAGESPEED"
-msgstr "-t 0\t: Google Pagespeed"
+#: default.py:128
+msgid "TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE"
+msgstr "-t 0\t: Google Lighthouse prestanda"
 
-#: default.py:98
+#: default.py:129
+msgid "TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_SEO"
+msgstr "-t 4\t: Google Lighthouse sökmotoroptimering"
+
+#: default.py:130
+msgid "TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_A11Y"
+msgstr "-t 10\t: Google Lighthouse tillgänglighet"
+
+#: default.py:131
+msgid "TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_PWA"
+msgstr "-t 8\t: Google Lighthouse progressiv webbapp"
+
+#: default.py:132
+msgid "TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_BEST_PRACTICE"
+msgstr "-t 5\t: Google Lighthouse god praxis"
+
+#: default.py:133
 msgid "TEXT_TEST_VALID_ARGUMENTS_PAGE_NOT_FOUND"
-msgstr "-t 2\t: 404 (Page not Found)"
+msgstr "-t 2\t: 404 (sida finns inte)"
 
-#: default.py:99
+#: default.py:134
 msgid "TEXT_TEST_VALID_ARGUMENTS_HTML"
 msgstr "-t 6\t: HTML"
 
-#: default.py:100
+#: default.py:135
 msgid "TEXT_TEST_VALID_ARGUMENTS_CSS"
 msgstr "-t 7\t: CSS"
 
-#: default.py:101
+#: default.py:136
 msgid "TEXT_TEST_VALID_ARGUMENTS_WEBBKOLL"
 msgstr "-t 20\t: Webbkoll"
 
+#: default.py:137
+msgid "TEXT_TEST_VALID_ARGUMENTS_STANDARD_FILES"
+msgstr "-t 9\t: Standardfiler"
+
 #: default.py:137 default.py:141 default.py:146 default.py:213
 msgid "TEXT_COMMAND_USAGE"
-msgstr "\n\tWebPerf Core\n\n\tAnvänd så här:\ndefault.py -u https://webperf.se\n\n\tVal och argument:\n\t-h/--help\t\t\t: Hjälp och hur du använder skriptet\n\t-u/--url <site url>\t\t: webbplatsens adress att testa\n\t-t/--test <1/2/6/7/20>\t\t: kör ett enda specifikt test mot angiven webbplats(er)\n\t-r/--review\t\t\t: visar omdömen direkt i terminalen\n\t-i/--input <file path>\t\t: sökväg för input-fil (.json/.sqlite)\n\t-o/--output <file path>\t\t: sökväg till output-fil (.json/.csv/.sql/.sqlite)\n\t-A/--addUrl <site url>\t\t: webbplatsens adress/url (ett krav när du använder -i/--input)\n\t-D/--deleteUrl <site url>\t: webbplats adress/url (ett krav när du använder -i/--input)\n\t-L/--language <lang code>\t: språk som används för output(en = default/sv)"
+msgstr "\n\tWebPerf Core\n\n\tAnvänd så här:\ndefault.py -u https://webperf.se\n\n\tVal och argument:\n\t-h/--help\t\t\t: Hjälp och hur du använder skriptet\n\t-u/--url <site url>\t\t: webbplatsens adress att testa\n\t-t/--test <1/2/4/5/6/7/8/9/10/20>\t\t: kör ett enda specifikt test mot angiven webbplats(er)\n\t-r/--review\t\t\t: visar omdömen direkt i terminalen\n\t-i/--input <file path>\t\t: sökväg för input-fil (.json/.sqlite)\n\t-o/--output <file path>\t\t: sökväg till output-fil (.json/.csv/.sql/.sqlite)\n\t-A/--addUrl <site url>\t\t: webbplatsens adress/url (ett krav när du använder -i/--input)\n\t-D/--deleteUrl <site url>\t: webbplats adress/url (ett krav när du använder -i/--input)\n\t-L/--language <lang code>\t: språk som används för output(en = default/sv)"
 

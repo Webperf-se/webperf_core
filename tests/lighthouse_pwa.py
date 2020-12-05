@@ -51,7 +51,7 @@ def run_test(url, strategy='mobile', category='pwa'):
 
 			score = score + int(json_content['lighthouseResult']['audits'][item]['score'])
 			
-			if int(json_content['lighthouseResult']['audits'][item]['score']) is 0:
+			if int(json_content['lighthouseResult']['audits'][item]['score']) == 0:
 				fails += 1
 				fail_dict[item] = json_content['lighthouseResult']['audits'][item]['title']
 		except:
@@ -81,11 +81,11 @@ def run_test(url, strategy='mobile', category='pwa'):
 	review += '* Antal problem med praxis för progressiva webbappar: {} st\n'.format(fails)
 	
 
-	if fails is not 0:
+	if fails != 0:
 		review += '\nProblem:\n'
 
 		for key, value in return_dict.items():
-			if value is 0:
+			if value == 0:
 				review += '* {}\n'.format(fail_dict[key])
 				#print(key)
 	

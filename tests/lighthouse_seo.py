@@ -15,7 +15,7 @@ from tests.utils import *
 request_timeout = config.http_request_timeout
 googlePageSpeedApiKey = config.googlePageSpeedApiKey
 
-def run_test(url, strategy='mobile', category='accessibility'):
+def run_test(url, strategy='mobile', category='seo'):
 	check_url = url.strip()
 	
 	pagespeed_api_request = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category={0}&url={1}&key={2}'.format(category, check_url, googlePageSpeedApiKey)
@@ -29,7 +29,7 @@ def run_test(url, strategy='mobile', category='accessibility'):
 			'Error! Unfortunately the request for URL "{0}" failed, message:\n{1}'.format(
 				check_url, sys.exc_info()[0]))
 		pass
-	
+		
 	json_content = ''
 	
 	try:
@@ -64,28 +64,28 @@ def run_test(url, strategy='mobile', category='accessibility'):
 	
 	if fails == 0:
 		points = 5
-		review = '* Webbplatsen har inga uppenbara fel inom tillgänglighet!\n'
+		review = '* Webbplatsen följer god SEO-praxis fullt ut!\n'
 	elif fails <= 2:
 		points = 4
-		review = '* Webbplatsen kan bli mer tillgänglig, men är helt ok.\n'
+		review = '* Webbplatsen har ändå förbättrings&shy;potential inom SEO.\n'
 	elif fails <= 3:
 		points = 3
-		review = '* Genomsnittlig tillgänglighet men behöver bli bättre.\n'
-	elif fails <= 5:
+		review = '* Genomsnittlig efterlevnad till SEO-praxis.\n'
+	elif fails <= 4:
 		points = 2
-		review = '* Webbplatsen är dålig på tillgänglighet för funktions&shy;varierade personer.\n'
-	elif fails > 5:
+		review = '* Webbplatsen är ganska dålig på sökmotoroptimering.\n'
+	elif fails > 4:
 		points = 1
-		review = '* Väldigt dålig tillgänglighet!\n'
+		review = '* Webbplatsen är inte alls bra på sökmotoroptimering!\n'
 	
-	review += '* Antal problem med tillgänglighet: {} st\n'.format(fails)
+	review += '* Antal problem med god praxis: {} st\n'.format(fails)
 	
 
 	if fails is not 0:
-		review += '\nTillgänglighets&shy;problem:\n'
+		review += '\nProblem:\n'
 
 		for key, value in return_dict.items():
-			if value is 0:
+			if value is not None and value < 1:
 				review += '* {}\n'.format(fail_dict[key])
 				#print(key)
 	

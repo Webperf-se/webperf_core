@@ -15,7 +15,7 @@ from tests.utils import *
 request_timeout = config.http_request_timeout
 googlePageSpeedApiKey = config.googlePageSpeedApiKey
 
-def run_test(url, strategy='mobile', category='accessibility'):
+def run_test(url, strategy='mobile', category='pwa'):
 	check_url = url.strip()
 	
 	pagespeed_api_request = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category={0}&url={1}&key={2}'.format(category, check_url, googlePageSpeedApiKey)
@@ -40,7 +40,7 @@ def run_test(url, strategy='mobile', category='accessibility'):
 		pass
 	
 	return_dict = {}
-
+	
 	score = 0
 	fails = 0
 	fail_dict = {}
@@ -64,29 +64,29 @@ def run_test(url, strategy='mobile', category='accessibility'):
 	
 	if fails == 0:
 		points = 5
-		review = '* Webbplatsen har inga uppenbara fel inom tillgänglighet!\n'
-	elif fails <= 2:
+		#review = '* Webbplatsen följer fullt ut praxis för progressiva webbappar!\n'
+	elif fails <= 4:
 		points = 4
-		review = '* Webbplatsen kan bli mer tillgänglig, men är helt ok.\n'
-	elif fails <= 3:
+		#review = '* Webbplatsen har lite förbättrings&shy;potential för en progressiv webbapp.\n'
+	elif fails <= 7:
 		points = 3
-		review = '* Genomsnittlig tillgänglighet men behöver bli bättre.\n'
-	elif fails <= 5:
+		#review = '* Genomsnittlig efterlevnad till praxis för progressiva webbappar.\n'
+	elif fails <= 9:
 		points = 2
-		review = '* Webbplatsen är dålig på tillgänglighet för funktions&shy;varierade personer.\n'
-	elif fails > 5:
+		#review = '* Webbplatsen är ganska dålig som progressiv webbapp.\n'
+	elif fails > 9:
 		points = 1
-		review = '* Väldigt dålig tillgänglighet!\n'
+		#review = '* Webbplatsen är inte alls bra som progressiv webbapp :/\n'
 	
-	review += '* Antal problem med tillgänglighet: {} st\n'.format(fails)
+	review += '* Antal problem med praxis för progressiva webbappar: {} st\n'.format(fails)
 	
 
 	if fails is not 0:
-		review += '\nTillgänglighets&shy;problem:\n'
+		review += '\nProblem:\n'
 
 		for key, value in return_dict.items():
 			if value is 0:
 				review += '* {}\n'.format(fail_dict[key])
 				#print(key)
 	
-	return (points, review, return_dict)
+	return (points, review, return_dict)	

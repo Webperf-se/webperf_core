@@ -16,27 +16,27 @@ msgstr ""
 
 
 #: tests/page_not_found.py:35
-msgid "TEST_404_REVIEW_WRONG_STATUS_CODE"
+msgid "TEXT_TEST_404_REVIEW_WRONG_STATUS_CODE"
 msgstr "* Wrong status code. Got {0} when 404 would be correct.\n"
 
 #: tests/page_not_found.py:55
-msgid "TEST_404_REVIEW_NO_TITLE"
+msgid "TEXT_TEST_404_REVIEW_NO_TITLE"
 msgstr "* Found no page title in the page metadata.\n"
 
 #: tests/page_not_found.py:65
-msgid "TEST_404_REVIEW_MAIN_HEADER"
+msgid "TEXT_TEST_404_REVIEW_MAIN_HEADER"
 msgstr "* Found no headline (h1)\n"
 
 #: tests/page_not_found.py:124
-msgid "TEST_404_REVIEW_NO_SWEDISH_ERROR_MSG"
+msgid "TEXT_TEST_404_REVIEW_NO_SWEDISH_ERROR_MSG"
 msgstr "* Seems to lack text describing that an error has occurred (in Swedish).\n"
 
 #: tests/page_not_found.py:131
-msgid "TEST_404_REVIEW_ERROR_MSG_UNDER_150"
+msgid "TEXT_TEST_404_REVIEW_ERROR_MSG_UNDER_150"
 msgstr "* Text content length is below 150 characters, indicating that the user is not being referred.\n"
 
 #: tests/page_not_found.py:134
-msgid "TEST_REVIEW_NO_REMARKS"
+msgid "TEXT_TEST_REVIEW_NO_REMARKS"
 msgstr "* No remarks"
 
 #: default.py:24
@@ -68,7 +68,7 @@ msgid "TEXT_TESTING_START_HEADER"
 msgstr "### {0} ###"
 
 #: default.py:93
-msgid "TEST_GOOGLE_LIGHTHOUSE"
+msgid "TEXT_TEST_GOOGLE_LIGHTHOUSE"
 msgstr "###############################\nRunning test: 0 - Google Lighthouse Performance"
 
 #: default.py:96

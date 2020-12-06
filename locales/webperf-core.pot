@@ -16,27 +16,27 @@ msgstr ""
 
 
 #: tests/page_not_found.py:35
-msgid "TEST_404_REVIEW_WRONG_STATUS_CODE"
+msgid "TEXT_TEST_404_REVIEW_WRONG_STATUS_CODE"
 msgstr ""
 
 #: tests/page_not_found.py:55
-msgid "TEST_404_REVIEW_NO_TITLE"
+msgid "TEXT_TEST_404_REVIEW_NO_TITLE"
 msgstr ""
 
 #: tests/page_not_found.py:65
-msgid "TEST_404_REVIEW_MAIN_HEADER"
+msgid "TEXT_TEST_404_REVIEW_MAIN_HEADER"
 msgstr ""
 
 #: tests/page_not_found.py:124
-msgid "TEST_404_REVIEW_NO_SWEDISH_ERROR_MSG"
+msgid "TEXT_TEST_404_REVIEW_NO_SWEDISH_ERROR_MSG"
 msgstr ""
 
 #: tests/page_not_found.py:131
-msgid "TEST_404_REVIEW_ERROR_MSG_UNDER_150"
+msgid "TEXT_TEST_404_REVIEW_ERROR_MSG_UNDER_150"
 msgstr ""
 
 #: tests/page_not_found.py:134
-msgid "TEST_REVIEW_NO_REMARKS"
+msgid "TEXT_TEST_REVIEW_NO_REMARKS"
 msgstr ""
 
 #: default.py:24

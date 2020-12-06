@@ -90,19 +90,19 @@ def testing(sites, test_type= TEST_ALL, show_reviews= False):
     tests = list()
     ##############
     if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE):
-        print(_('TEST_GOOGLE_LIGHTHOUSE'))
+        print(_('TEXT_TEST_GOOGLE_LIGHTHOUSE'))
         tests.extend(testsites(sites, test_type=TEST_GOOGLE_LIGHTHOUSE, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE_A11Y):
-        print(_('TEST_GOOGLE_LIGHTHOUSE_A11Y'))
+        print(_('TEXT_TEST_GOOGLE_LIGHTHOUSE_A11Y'))
         tests.extend(testsites(sites, test_type=TEST_GOOGLE_LIGHTHOUSE_A11Y, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE_SEO):
-        print(_('TEST_GOOGLE_LIGHTHOUSE_SEO'))
+        print(_('TEXT_TEST_GOOGLE_LIGHTHOUSE_SEO'))
         tests.extend(testsites(sites, test_type=TEST_GOOGLE_LIGHTHOUSE_SEO, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE_PWA):
-        print(_('TEST_GOOGLE_LIGHTHOUSE_PWA'))
+        print(_('TEXT_TEST_GOOGLE_LIGHTHOUSE_PWA'))
         tests.extend(testsites(sites, test_type=TEST_GOOGLE_LIGHTHOUSE_PWA, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE):
-        print(_('TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE'))
+        print(_('TEXT_TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE'))
         tests.extend(testsites(sites, test_type=TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_PAGE_NOT_FOUND):
         print(_('TEXT_TEST_PAGE_NOT_FOUND'))

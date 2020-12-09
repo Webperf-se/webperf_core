@@ -107,6 +107,9 @@ msgstr "###############################\nRunning test: 20 - Webbkoll"
 msgid "TEXT_TEST_STANDARD_FILES"
 msgstr "###############################\nRunning test: 9 - Standard files"
 
+msgid "TEXT_TEST_YELLOW_LAB_TOOLS"
+msgstr "###############################\nKör test: 17 - Yellow Lab Tools (Quality on frontend)"
+
 #: default.py:127
 msgid "TEXT_TEST_VALID_ARGUMENTS"
 msgstr "Valid arguments for option -t/--test:"
@@ -129,7 +132,10 @@ msgstr "-t 8\t: Google Lighthouse PWA"
 
 #: default.py:132
 msgid "TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_BEST_PRACTICE"
-msgstr "-t 5\t: Google Lighthouse Best PRactice"
+msgstr "-t 5\t: Google Lighthouse Best Practice"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_YELLOW_LAB_TOOLS"
+msgstr "-t 17\t: Yellow Lab Tools (Quality on frontend)"
 
 #: default.py:133
 msgid "TEXT_TEST_VALID_ARGUMENTS_PAGE_NOT_FOUND"

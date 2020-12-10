@@ -15,6 +15,12 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 
+msgid "TEXT_WEBSITE_URL_ADDED"
+msgstr "website with url: {0} has been added\n"
+
+msgid "TEXT_WEBSITE_URL_DELETED"
+msgstr "website with url: {0} has been deleted\n"
+
 #: tests/page_not_found.py:35
 msgid "TEXT_TEST_404_REVIEW_WRONG_STATUS_CODE"
 msgstr "* Wrong status code. Got {0} when 404 would be correct.\n"

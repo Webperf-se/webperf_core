@@ -24,7 +24,7 @@ def add_site(input_filename, url):
 
     conn.close()
 
-    print("website with url: " + url + " has been added\n")
+    print(_('TEXT_WEBSITE_URL_ADDED').format(url))
 
     return read_sites(input_filename)
 
@@ -39,7 +39,7 @@ def delete_site(input_filename, url):
 
     conn.close()
 
-    print("website with url: " + url + " has been deleted\n")
+    print(_('TEXT_WEBSITE_URL_DELETED').format(site_url))
 
     return read_sites(input_filename)
 

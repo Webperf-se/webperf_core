@@ -3,12 +3,12 @@ import json
 
 def add_site(input_filename, url):
     sites = read_sites(input_filename)
-    print(sites)
+    #print(sites)
     id = len(sites)
     sites.append([id, url])
     write_sites(input_filename, sites)
 
-    print("website with url: " + url + " has been added\n")
+    print(_('TEXT_WEBSITE_URL_ADDED').format(url))
 
     return sites
 
@@ -23,8 +23,8 @@ def delete_site(input_filename, url):
     
     write_sites(input_filename, tmpSites)
 
-    print("website with url: " + url + " has been deleted\n")
-    
+    print(_('TEXT_WEBSITE_URL_DELETED').format(site_url))
+
     return tmpSites
 
 def read_sites(input_filename):

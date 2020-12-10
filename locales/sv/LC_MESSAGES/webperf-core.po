@@ -15,7 +15,12 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 
-#: tests/page_not_found.py:35
+msgid "TEXT_WEBSITE_URL_ADDED"
+msgstr "webbplats med adress: {0} har blivit tillagd\n"
+
+msgid "TEXT_WEBSITE_URL_DELETED"
+msgstr "webbplats med adress: {0} har blivit borttagen\n"
+
 msgid "TEXT_TEST_404_REVIEW_WRONG_STATUS_CODE"
 msgstr "* Fel statuskod. Fick {0} när 404 vore korrekt.\n"
 

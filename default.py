@@ -10,7 +10,7 @@ TEST_ALL = -1
 
 (TEST_UNKNOWN_01, TEST_GOOGLE_LIGHTHOUSE, TEST_PAGE_NOT_FOUND, TEST_UNKNOWN_03, TEST_GOOGLE_LIGHTHOUSE_SEO, TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE, TEST_HTML, TEST_CSS, TEST_GOOGLE_LIGHTHOUSE_PWA, TEST_STANDARD_FILES, TEST_GOOGLE_LIGHTHOUSE_A11Y, TEST_UNKNOWN_11, TEST_UNKNOWN_12, TEST_UNKNOWN_13, TEST_UNKNOWN_14, TEST_UNKNOWN_15, TEST_UNKNOWN_16, TEST_YELLOW_LAB_TOOLS, TEST_UNKNOWN_18, TEST_UNKNOWN_19, TEST_WEBBKOLL) = range(21)
 
-def testsites(sites, test_type=None, show_reviews=False, only_test_untested_last_hours=24, order_by='title ASC'):
+def testsites(langCode, sites, test_type=None, show_reviews=False, only_test_untested_last_hours=24, order_by='title ASC'):
     """
     Executing the actual tests.
     Attributes:
@@ -55,9 +55,9 @@ def testsites(sites, test_type=None, show_reviews=False, only_test_untested_last
             elif test_type == TEST_GOOGLE_LIGHTHOUSE_A11Y:
                 from tests.lighthouse_a11y import run_test
             elif test_type == TEST_YELLOW_LAB_TOOLS:
-                from tests.yellow_lab_tools import run_test
+                from tests.frontend_quality_yellow_lab_tools import run_test
 
-            the_test_result = run_test(website)
+            the_test_result = run_test(langCode, website)
 
             if the_test_result != None:
                 print(_('TEXT_SITE_RATING'), the_test_result[0])
@@ -87,43 +87,42 @@ def testsites(sites, test_type=None, show_reviews=False, only_test_untested_last
     
     return result
 
-def testing(sites, test_type= TEST_ALL, show_reviews= False):
+def testing(langCode, sites, test_type= TEST_ALL, show_reviews= False):
     print(_('TEXT_TESTING_START_HEADER').format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
     tests = list()
     ##############
     if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE):
         print(_('TEXT_TEST_GOOGLE_LIGHTHOUSE'))
-        tests.extend(testsites(sites, test_type=TEST_GOOGLE_LIGHTHOUSE, show_reviews=show_reviews))
+        tests.extend(testsites(langCode, sites, test_type=TEST_GOOGLE_LIGHTHOUSE, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE_A11Y):
         print(_('TEXT_TEST_GOOGLE_LIGHTHOUSE_A11Y'))
-        tests.extend(testsites(sites, test_type=TEST_GOOGLE_LIGHTHOUSE_A11Y, show_reviews=show_reviews))
+        tests.extend(testsites(langCode, sites, test_type=TEST_GOOGLE_LIGHTHOUSE_A11Y, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE_SEO):
         print(_('TEXT_TEST_GOOGLE_LIGHTHOUSE_SEO'))
-        tests.extend(testsites(sites, test_type=TEST_GOOGLE_LIGHTHOUSE_SEO, show_reviews=show_reviews))
+        tests.extend(testsites(langCode, sites, test_type=TEST_GOOGLE_LIGHTHOUSE_SEO, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE_PWA):
         print(_('TEXT_TEST_GOOGLE_LIGHTHOUSE_PWA'))
-        tests.extend(testsites(sites, test_type=TEST_GOOGLE_LIGHTHOUSE_PWA, show_reviews=show_reviews))
+        tests.extend(testsites(langCode, sites, test_type=TEST_GOOGLE_LIGHTHOUSE_PWA, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE):
         print(_('TEXT_TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE'))
-        tests.extend(testsites(sites, test_type=TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE, show_reviews=show_reviews))
+        tests.extend(testsites(langCode, sites, test_type=TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_PAGE_NOT_FOUND):
         print(_('TEXT_TEST_PAGE_NOT_FOUND'))
-        tests.extend(testsites(sites, test_type=TEST_PAGE_NOT_FOUND, show_reviews=show_reviews))
+        tests.extend(testsites(langCode, sites, test_type=TEST_PAGE_NOT_FOUND, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_HTML):
         print(_('TEXT_TEST_HTML'))
-        tests.extend(testsites(sites, test_type=TEST_HTML, show_reviews=show_reviews))
+        tests.extend(testsites(langCode, sites, test_type=TEST_HTML, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_CSS):
         print(_('TEXT_TEST_CSS'))
-        tests.extend(testsites(sites, test_type=TEST_CSS, show_reviews=show_reviews))
+        tests.extend(testsites(langCode, sites, test_type=TEST_CSS, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_WEBBKOLL):
         print(_('TEXT_TEST_WEBBKOLL'))
-        tests.extend(testsites(sites, test_type=TEST_WEBBKOLL, show_reviews=show_reviews))
+        tests.extend(testsites(langCode, sites, test_type=TEST_WEBBKOLL, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_STANDARD_FILES):
         print(_('TEXT_TEST_STANDARD_FILES'))
-        tests.extend(testsites(sites, test_type=TEST_STANDARD_FILES, show_reviews=show_reviews))
+        tests.extend(testsites(langCode, sites, test_type=TEST_STANDARD_FILES, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_YELLOW_LAB_TOOLS):
-        print(_('TEXT_TEST_YELLOW_LAB_TOOLS'))
-        tests.extend(testsites(sites, test_type=TEST_YELLOW_LAB_TOOLS, show_reviews=show_reviews))
+        tests.extend(testsites(langCode, sites, test_type=TEST_YELLOW_LAB_TOOLS, show_reviews=show_reviews))
     
     return tests
 
@@ -268,7 +267,7 @@ def main(argv):
         sites = delete_site(input_filename, delete_url)
     elif (len(sites)):
         # run test(s) for every website
-        siteTests = testing(sites, test_type=test_type, show_reviews=show_reviews)
+        siteTests = testing(langCode, sites, test_type=test_type, show_reviews=show_reviews)
         if (len(output_filename) > 0):
             file_ending = ""
             file_long_ending = ""

@@ -113,9 +113,6 @@ msgstr "###############################\nRunning test: 20 - Webbkoll"
 msgid "TEXT_TEST_STANDARD_FILES"
 msgstr "###############################\nRunning test: 9 - Standard files"
 
-msgid "TEXT_TEST_YELLOW_LAB_TOOLS"
-msgstr "###############################\nKör test: 17 - Yellow Lab Tools (Quality on frontend)"
-
 #: default.py:127
 msgid "TEXT_TEST_VALID_ARGUMENTS"
 msgstr "Valid arguments for option -t/--test:"

@@ -10,16 +10,25 @@ import re
 from bs4 import BeautifulSoup
 import config
 from tests.utils import *
+import gettext
+_ = gettext.gettext
 
 ### DEFAULTS
 request_timeout = config.http_request_timeout
 googlePageSpeedApiKey = config.googlePageSpeedApiKey
 
-def run_test(url, device='phone'):
+def run_test(langCode, url, device='phone'):
 	"""
 	Analyzes URL with Yellow Lab Tools docker image.
 	Devices might be; phone, tablet, desktop
 	"""
+
+	language = gettext.translation('frontend_quality_yellow_lab_tools', localedir='locales', languages=[langCode])
+	language.install()
+	_ = language.gettext
+
+	print(_("TEXT_RUNNING_TEST"))
+
 	r = requests.post('https://yellowlab.tools/api/runs', data = {'url':url, "waitForResponse":'true', 'device': device})
 
 	result_url = r.url
@@ -48,28 +57,28 @@ def run_test(url, device='phone'):
 		rating = 1
 	
 	if rating == 5:
-		review = '* Webbplatsen är välbyggd!\n'
+		review = _("TEXT_WEBSITE_IS_VERY_GOOD")
 	elif rating >= 4:
-		review = '* Webbplatsen är bra.\n'
+		review = _("TEXT_WEBSITE_IS_GOOD")
 	elif rating >= 3:
-		review = '* Helt ok.\n'
+		review = _("TEXT_WEBSITE_IS_OK")
 	elif rating >= 2:
-		review = '* Webbplatsen är rätt långsam eller har dålig frontend-kod.\n'
+		review = _("TEXT_WEBSITE_IS_BAD")
 	elif rating <= 1:
-		review = '* Väldigt dåligt betyg enligt Yellow Lab Tools!\n'
+		review = _("TEXT_WEBSITE_IS_VERY_BAD")
 
-	review += '* Övergripande betyg: {} av 100\n'.format(return_dict["globalScore"])
-	review += '* Testat för devicetyp: {}\n'.format(device)
-	review += '* pageWeight: {}\n'.format(return_dict["pageWeight"])
-	review += '* requests: {}\n'.format(return_dict["requests"])
-	review += '* domComplexity: {}\n'.format(return_dict["domComplexity"])
-	review += '* domManipulations: {}\n'.format(return_dict["domManipulations"])
-	review += '* scroll: {}\n'.format(return_dict["scroll"])
-	review += '* badJavascript: {}\n'.format(return_dict["badJavascript"])
-	review += '* jQuery: {}\n'.format(return_dict["jQuery"])
-	review += '* cssComplexity: {}\n'.format(return_dict["cssComplexity"])
-	review += '* badCSS: {}\n'.format(return_dict["badCSS"])
-	review += '* fonts: {}\n'.format(return_dict["fonts"])
-	review += '* serverConfig: {}\n'.format(return_dict["serverConfig"])
+	review += _("TEXT_OVERALL_GRADE").format(return_dict["globalScore"])
+	review += _("TEXT_TESTED_ON_DEVICETYPE").format(device)
+	review += _("TEXT_PAGE_WEIGHT").format(return_dict["pageWeight"])
+	review += _("TEXT_PAGE_REQUESTS").format(return_dict["requests"])
+	review += _("TEXT_PAGE_DOM_COMPLEXITY").format(return_dict["domComplexity"])
+	review += _("TEXT_PAGE_DOM_MANIPULATIONS").format(return_dict["domManipulations"])
+	review += _("TEXT_PAGE_SCROLL").format(return_dict["scroll"])
+	review += _("TEXT_PAGE_BAD_JS").format(return_dict["badJavascript"])
+	review += _("TEXT_PAGE_JQUERY").format(return_dict["jQuery"])
+	review += _("TEXT_PAGE_CSS_COMPLEXITY").format(return_dict["cssComplexity"])
+	review += _("TEXT_PAGE_BAD_CSS").format(return_dict["badCSS"])
+	review += _("TEXT_PAGE_FONTS").format(return_dict["fonts"])
+	review += _("TEXT_SERVER_CONFIG").format(return_dict["serverConfig"])
 
 	return (rating, review, return_dict)

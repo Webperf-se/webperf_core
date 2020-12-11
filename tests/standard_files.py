@@ -15,7 +15,7 @@ from tests.utils import *
 request_timeout = config.http_request_timeout
 googlePageSpeedApiKey = config.googlePageSpeedApiKey
 
-def run_test(url):
+def run_test(langCode, url):
 	"""
 	Looking for:
 	* robots.txt

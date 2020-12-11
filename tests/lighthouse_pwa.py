@@ -15,7 +15,7 @@ from tests.utils import *
 request_timeout = config.http_request_timeout
 googlePageSpeedApiKey = config.googlePageSpeedApiKey
 
-def run_test(url, strategy='mobile', category='pwa'):
+def run_test(langCode, url, strategy='mobile', category='pwa'):
 	check_url = url.strip()
 	
 	pagespeed_api_request = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category={0}&url={1}&key={2}'.format(category, check_url, googlePageSpeedApiKey)

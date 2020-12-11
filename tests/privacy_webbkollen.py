@@ -14,7 +14,7 @@ from tests.utils import *
 ### DEFAULTS
 request_timeout = config.http_request_timeout
 
-def run_test(url):
+def run_test(langCode, url):
     import time
     points = 0.0
     errors = 0

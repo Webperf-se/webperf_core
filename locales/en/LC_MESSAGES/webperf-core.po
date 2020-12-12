@@ -69,10 +69,6 @@ msgstr "###############################\nRunning test: 8 - Google Lighthouse PWA
 msgid "TEXT_TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE"
 msgstr "###############################\nRunning test: 5 - Google Lighthouse Best Practice"
 
-#: default.py:114
-msgid "TEXT_TEST_CSS"
-msgstr "###############################\nRunning test: 7 - CSS"
-
 #: default.py:117
 msgid "TEXT_TEST_WEBBKOLL"
 msgstr "###############################\nRunning test: 20 - Webbkoll"

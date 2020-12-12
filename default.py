@@ -111,7 +111,6 @@ def testing(langCode, sites, test_type= TEST_ALL, show_reviews= False):
     if (test_type == TEST_ALL or test_type == TEST_HTML):
         tests.extend(testsites(langCode, sites, test_type=TEST_HTML, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_CSS):
-        print(_('TEXT_TEST_CSS'))
         tests.extend(testsites(langCode, sites, test_type=TEST_CSS, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_WEBBKOLL):
         print(_('TEXT_TEST_WEBBKOLL'))

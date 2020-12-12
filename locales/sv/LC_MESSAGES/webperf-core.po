@@ -73,10 +73,6 @@ msgstr "###############################\nKör test: 5 - Google Lighthouse god pr
 msgid "TEXT_TEST_WEBBKOLL"
 msgstr "###############################\nKör test: 20 - Webbkoll"
 
-#: default.py:120
-msgid "TEXT_TEST_STANDARD_FILES"
-msgstr "###############################\nKör test: 9 - Standardfiler"
-
 #: default.py:127
 msgid "TEXT_TEST_VALID_ARGUMENTS"
 msgstr "Giltiga argument att välja på -t/--test:"

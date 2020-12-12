@@ -116,7 +116,6 @@ def testing(langCode, sites, test_type= TEST_ALL, show_reviews= False):
         print(_('TEXT_TEST_WEBBKOLL'))
         tests.extend(testsites(langCode, sites, test_type=TEST_WEBBKOLL, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_STANDARD_FILES):
-        print(_('TEXT_TEST_STANDARD_FILES'))
         tests.extend(testsites(langCode, sites, test_type=TEST_STANDARD_FILES, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_YELLOW_LAB_TOOLS):
         tests.extend(testsites(langCode, sites, test_type=TEST_YELLOW_LAB_TOOLS, show_reviews=show_reviews))

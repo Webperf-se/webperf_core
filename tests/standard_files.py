@@ -10,6 +10,8 @@ import re
 from bs4 import BeautifulSoup
 import config
 from tests.utils import *
+import gettext
+_ = gettext.gettext
 
 ### DEFAULTS
 request_timeout = config.http_request_timeout
@@ -22,6 +24,13 @@ def run_test(langCode, url):
 	* at least one sitemap/siteindex mentioned in robots.txt
 	* a RSS feed mentioned in the page's meta
 	"""
+
+	language = gettext.translation('standard_files', localedir='locales', languages=[langCode])
+	language.install()
+	_ = language.gettext
+
+	print(_('TEXT_RUNNING_TEST'))
+
 	o = urllib.parse.urlparse(url)
 	parsed_url = '{0}://{1}/'.format(o.scheme, o.netloc)
 	robots_content = httpRequestGetContent(parsed_url + 'robots.txt')
@@ -33,18 +42,18 @@ def run_test(langCode, url):
 
 	if robots_content == None or ('user-agent' not in robots_content.lower() and 'disallow' not in robots_content.lower() and 'allow' not in robots_content.lower()):
 		points -= 3
-		review += '* robots.txt saknas, får inte lov att hämtas eller har inte förväntat innehåll.\n'
+		review += _("TEXT_ROBOTS_MISSING")
 		return_dict['robots.txt'] = 'missing content'
 	else:
-		review += '* robots.txt verkar ok.\n'
+		review += _("TEXT_ROBOTS_OK")
 		return_dict['robots.txt'] = 'ok'
 
 		if 'sitemap:' not in robots_content.lower():
 			points -= 2
-			review += '* Sitemap anges inte i robots.txt\n'
+			review += _("TEXT_SITEMAP_MISSING")
 			return_dict['sitemap'] = 'not in robots.txt'
 		else:
-			review += '* Sitemap finns omnämnd i robots.txt\n'
+			review += _("TEXT_SITEMAP_FOUND")
 			return_dict['sitemap'] = 'ok'
 
 		smap_pos = robots_content.lower().find('sitemap')
@@ -62,10 +71,10 @@ def run_test(langCode, url):
 
 			if not is_sitemap(smap_content):
 				points -= 1
-				review += '* Sitemap verkar vara trasig.\n'
+				review += _("TEXT_SITEMAP_BROKEN")
 				return_dict['sitemap_check'] = '\'{0}\' seem to be broken'.format(found_smaps[0])
 			else:
-				review += '* Sitemap verkar fungera.\n'
+				review += _("TEXT_SITEMAP_OK")
 				return_dict['sitemap_check'] = '\'{0}\' seem ok'.format(found_smaps[0])
 		
 	# TODO: validate first feed
@@ -78,11 +87,11 @@ def run_test(langCode, url):
 
 	if len(feed) == 0:
 		points -= 0.5
-		review += '* RSS-prenumeration saknas i meta.\n'
+		review += _("TEXT_RSS_FEED_MISSING")
 		return_dict['feed'] = 'not in meta'
 		return_dict['num_feeds'] = len(feed)
 	elif len(feed) > 0:
-		review += '* RSS-prenumeration hittad.\n'
+		review += _("TEXT_RSS_FEED_FOUND")
 		return_dict['feed'] = 'found in meta'
 		return_dict['num_feeds'] = len(feed)
 		tmp_feed = []

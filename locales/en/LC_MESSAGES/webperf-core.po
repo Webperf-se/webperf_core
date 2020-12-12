@@ -73,10 +73,6 @@ msgstr "###############################\nRunning test: 5 - Google Lighthouse Bes
 msgid "TEXT_TEST_WEBBKOLL"
 msgstr "###############################\nRunning test: 20 - Webbkoll"
 
-#: default.py:120
-msgid "TEXT_TEST_STANDARD_FILES"
-msgstr "###############################\nRunning test: 9 - Standard files"
-
 #: default.py:127
 msgid "TEXT_TEST_VALID_ARGUMENTS"
 msgstr "Valid arguments for option -t/--test:"

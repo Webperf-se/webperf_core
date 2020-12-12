@@ -21,29 +21,6 @@ msgstr "webbplats med adress: {0} har blivit tillagd\n"
 msgid "TEXT_WEBSITE_URL_DELETED"
 msgstr "webbplats med adress: {0} har blivit borttagen\n"
 
-msgid "TEXT_TEST_404_REVIEW_WRONG_STATUS_CODE"
-msgstr "* Fel statuskod. Fick {0} när 404 vore korrekt.\n"
-
-#: tests/page_not_found.py:55
-msgid "TEXT_TEST_404_REVIEW_NO_TITLE"
-msgstr "* Hittade ingen titel på sidan\n"
-
-#: tests/page_not_found.py:65
-msgid "TEXT_TEST_404_REVIEW_MAIN_HEADER"
-msgstr "* Hittade ingen huvudrubrik (h1)\n"
-
-#: tests/page_not_found.py:124
-msgid "TEXT_TEST_404_REVIEW_NO_SWEDISH_ERROR_MSG"
-msgstr "* Verkar sakna text som beskriver att ett fel uppstått (på svenska).\n"
-
-#: tests/page_not_found.py:131
-msgid "TEXT_TEST_404_REVIEW_ERROR_MSG_UNDER_150"
-msgstr "* Information är under 150 tecken, vilket tyder på att användaren inte vägleds vidare.\n"
-
-#: tests/page_not_found.py:134
-msgid "TEXT_TEST_REVIEW_NO_REMARKS"
-msgstr "* Inga anmärkningar."
-
 #: default.py:24
 msgid "TEXT_TEST_START_HEADER"
 msgstr "###############################################"
@@ -91,11 +68,6 @@ msgstr "###############################\nKör test: 8 - Google Lighthouse progre
 #: default.py:105
 msgid "TEXT_TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE"
 msgstr "###############################\nKör test: 5 - Google Lighthouse god praxis"
-
-
-#: default.py:107
-msgid "TEXT_TEST_PAGE_NOT_FOUND"
-msgstr "###############################\nKör test: 2 - 404 (sida finns inte)"
 
 #: default.py:111
 msgid "TEXT_TEST_HTML"

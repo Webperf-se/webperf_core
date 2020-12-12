@@ -1,0 +1,56 @@
+# English (default).
+# Copyright (C) 2020 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2020-12-12 22:00+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: mattias <mattias@webperf.se>\n"
+"Language-Team: English <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "###############################\nRunning test: 1 - Performance (Google Lighthouse)\n###############################"
+
+msgid "TEXT_REVIEW_VERY_GOOD"
+msgstr "* The website loads very fast!\n"
+
+msgid "TEXT_REVIEW_IS_GOOD"
+msgstr "* The website is fast.\n"
+
+msgid "TEXT_REVIEW_IS_OK"
+msgstr "* Average speed.\n"
+
+msgid "TEXT_REVIEW_IS_BAD"
+msgstr "* The website is quite slow.\n"
+
+msgid "TEXT_REVIEW_IS_VERY_BAD"
+msgstr "* The website is very slow!\n"
+
+msgid "TEXT_REVIEW_OBSERVED_SPEED"
+msgstr "* Observed speed: {} seconds\n"
+
+msgid "TEXT_REVIEW_FIRST_MEANINGFUL_PAINT"
+msgstr "* First meaningful visual change: {} sec\n"
+
+msgid "TEXT_REVIEW_FIRST_MEANINGFUL_PAINT_3G"
+msgstr "* First meaningful visual change on 3G: {} sec\n"
+
+msgid "TEXT_REVIEW_CPU_IDLE"
+msgstr "* CPU idle after: {} sec\n"
+
+msgid "TEXT_REVIEW_INTERACTIVE"
+msgstr "* The website is interactive: {} sec\n"
+
+msgid "TEXT_REVIEW_REDIRECTS"
+msgstr "* Number of redirects: {}\n"
+
+msgid "TEXT_REVIEW_TOTAL_WEIGHT"
+msgstr "* Total weight of the page: {} kb\n"
+

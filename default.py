@@ -92,7 +92,6 @@ def testing(langCode, sites, test_type= TEST_ALL, show_reviews= False):
     tests = list()
     ##############
     if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE):
-        print(_('TEXT_TEST_GOOGLE_LIGHTHOUSE'))
         tests.extend(testsites(langCode, sites, test_type=TEST_GOOGLE_LIGHTHOUSE, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE_A11Y):
         print(_('TEXT_TEST_GOOGLE_LIGHTHOUSE_A11Y'))

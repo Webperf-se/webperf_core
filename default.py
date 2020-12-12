@@ -37,7 +37,7 @@ def testsites(langCode, sites, test_type=None, show_reviews=False, only_test_unt
             if test_type == TEST_PAGE_NOT_FOUND:
                 from tests.page_not_found import run_test
             elif test_type == TEST_HTML:
-                from tests.w3c_validate_html import run_test
+                from tests.html_validator_w3c import run_test
             elif test_type == TEST_CSS:
                 from tests.w3c_validate_css import run_test
             elif test_type == TEST_WEBBKOLL:
@@ -109,7 +109,6 @@ def testing(langCode, sites, test_type= TEST_ALL, show_reviews= False):
     if (test_type == TEST_ALL or test_type == TEST_PAGE_NOT_FOUND):
         tests.extend(testsites(langCode, sites, test_type=TEST_PAGE_NOT_FOUND, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_HTML):
-        print(_('TEXT_TEST_HTML'))
         tests.extend(testsites(langCode, sites, test_type=TEST_HTML, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_CSS):
         print(_('TEXT_TEST_CSS'))

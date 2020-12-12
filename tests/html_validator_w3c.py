@@ -10,6 +10,8 @@ import re
 from bs4 import BeautifulSoup
 import config
 from tests.utils import *
+import gettext
+_ = gettext.gettext
 
 ### DEFAULTS
 request_timeout = config.http_request_timeout
@@ -22,6 +24,12 @@ def run_test(langCode, url):
     points = 0.0
     review = ''
 
+    language = gettext.translation('html_validator_w3c', localedir='locales', languages=[langCode])
+    language.install()
+    _ = language.gettext
+
+    print(_('TEXT_RUNNING_TEST'))
+    
     ## kollar koden
     try:
         url = 'https://validator.w3.org/nu/?doc={0}'.format(url.replace('/', '%2F').replace(':', '%3A'))
@@ -38,18 +46,18 @@ def run_test(langCode, url):
 
     if errors == 0:
         points = 5.0
-        review = '* Inga fel i HTML-koden.\n'
+        review = _('TEXT_REVIEW_HTML_VERY_GOOD')
     elif errors <= 5:
         points = 4.0
-        review = '* Den testade sidan har {0} st fel i sin HTML-kod.\n'.format(errors)
+        review = _('TEXT_REVIEW_HTML_IS_GOOD').format(errors)
     elif errors <= 15:
         points = 3.0
-        review = '* Den testade sidan har {0} st fel i sin HTML-kod.\n'.format(errors)
+        review = _('TEXT_REVIEW_HTML_IS_OK').format(errors)
     elif errors <= 30:
         points = 2.0
-        review = '* Den testade sidan har {0} st fel i sin HTML-kod. Det är inte så bra.\n'.format(errors)
+        review = _('TEXT_REVIEW_HTML_IS_BAD').format(errors)
     elif errors > 30:
         points = 1.0
-        review = '* Den testade sidan har massor med fel i sin HTML-kod. Hela {0} st. \n'.format(errors)
+        review = _('TEXT_REVIEW_HTML_IS_VERY_BAD').format(errors)
 
     return (points, review)

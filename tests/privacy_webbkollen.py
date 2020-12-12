@@ -10,6 +10,8 @@ import re
 from bs4 import BeautifulSoup
 import config
 from tests.utils import *
+import gettext
+_ = gettext.gettext
 
 ### DEFAULTS
 request_timeout = config.http_request_timeout
@@ -19,6 +21,12 @@ def run_test(langCode, url):
     points = 0.0
     errors = 0
     review = ''
+
+    language = gettext.translation('privacy_webbkollen', localedir='locales', languages=[langCode])
+    language.install()
+    _ = language.gettext
+
+    print(_('TEXT_RUNNING_TEST'))
 
     url = 'https://webbkoll.dataskydd.net/sv/check?url={0}'.format(url.replace('/', '%2F').replace(':', '%3A'))
     headers = {'user-agent': 'Mozilla/5.0 (compatible; Webperf; +https://webperf.se)'}
@@ -70,15 +78,15 @@ def run_test(langCode, url):
             mess += '* {0}'.format(re.sub(' +', ' ', line.text.strip()).replace('\n', ' ').replace('    ', '\n* ').replace('Kolla upp', '').replace('  ', ' '))
 
         if  points == 5:
-            review = '* Webbplatsen är bra på integritet!\n'
+            review = ('TEXT_REVIEW_VERY_GOOD')
         elif points >= 4:
-            review = '* Webbplatsen kan bli bättre, men är helt ok.\n'
+            review = _('TEXT_REVIEW_IS_GOOD')
         elif points >= 3:
-            review = '* Ok integritet men borde bli bättre.\n'
+            review = _('TEXT_REVIEW_IS_OK')
         elif points >= 2:
-            review = '* Dålig integritet.\n'
+            review = _('TEXT_REVIEW_IS_BAD')
         else:
-            review = '* Väldigt dålig integritet!\n'
+            review = _('TEXT_REVIEW_IS_VERY_BAD')
             points = 1.0
 
         review += mess

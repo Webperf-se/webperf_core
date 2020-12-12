@@ -16,7 +16,7 @@ msgstr ""
 
 
 msgid "TEXT_RUNNING_TEST"
-msgstr "###############################\nRunning test: 17 - Quality on frontend (Yellow Lab Tools)"
+msgstr "###############################\nRunning test: 17 - Quality on frontend (Yellow Lab Tools)\n###############################"
 
 msgid "TEXT_WEBSITE_IS_VERY_GOOD"
 msgstr "* The website is well built!\n"

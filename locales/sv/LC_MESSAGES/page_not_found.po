@@ -16,7 +16,7 @@ msgstr ""
 
 
 msgid "TEXT_RUNNING_TEST"
-msgstr "###############################\nKör test: 2 - 404 (sida finns inte)"
+msgstr "###############################\nKör test: 2 - 404 (sida finns inte)\n###############################"
 
 msgid "TEXT_REVIEW_WRONG_STATUS_CODE"
 msgstr "* Fel statuskod. Fick {0} när 404 vore korrekt.\n"

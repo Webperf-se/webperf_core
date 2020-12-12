@@ -39,21 +39,21 @@ def testsites(langCode, sites, test_type=None, show_reviews=False, only_test_unt
             elif test_type == TEST_HTML:
                 from tests.html_validator_w3c import run_test
             elif test_type == TEST_CSS:
-                from tests.w3c_validate_css import run_test
+                from tests.css_validator_w3c import run_test
             elif test_type == TEST_WEBBKOLL:
                 from tests.privacy_webbkollen import run_test
             elif test_type == TEST_GOOGLE_LIGHTHOUSE:
-                from tests.lighthouse import run_test
+                from tests.performance_lighthouse import run_test
             elif test_type == TEST_GOOGLE_LIGHTHOUSE_SEO:
-                from tests.lighthouse_seo import run_test
+                from tests.seo_lighthouse import run_test
             elif test_type == TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE:
-                from tests.lighthouse_best_practice import run_test
+                from tests.best_practice_lighthouse import run_test
             elif test_type == TEST_GOOGLE_LIGHTHOUSE_PWA:
-                from tests.lighthouse_pwa import run_test
+                from tests.pwa_lighthouse import run_test
             elif test_type == TEST_STANDARD_FILES:
                 from tests.standard_files import run_test
             elif test_type == TEST_GOOGLE_LIGHTHOUSE_A11Y:
-                from tests.lighthouse_a11y import run_test
+                from tests.a11y_lighthouse import run_test
             elif test_type == TEST_YELLOW_LAB_TOOLS:
                 from tests.frontend_quality_yellow_lab_tools import run_test
 

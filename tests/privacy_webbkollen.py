@@ -28,15 +28,15 @@ def run_test(langCode, url):
 
     print(_('TEXT_RUNNING_TEST'))
 
-    webb_kollen_lang_code = 'en'
+    api_lang_code = 'en'
     if langCode == 'sv':
-        webb_kollen_lang_code = 'sv'
+        api_lang_code = 'sv'
     elif langCode == 'de':
-        webb_kollen_lang_code = 'de'
+        api_lang_code = 'de'
     elif langCode == 'no':
-        webb_kollen_lang_code = 'no'
+        api_lang_code = 'no'
 
-    url = 'https://webbkoll.dataskydd.net/{1}/check?url={0}'.format(url.replace('/', '%2F').replace(':', '%3A'), webb_kollen_lang_code)
+    url = 'https://webbkoll.dataskydd.net/{1}/check?url={0}'.format(url.replace('/', '%2F').replace(':', '%3A'), api_lang_code)
     headers = {'user-agent': 'Mozilla/5.0 (compatible; Webperf; +https://webperf.se)'}
     request = requests.get(url, allow_redirects=False, headers=headers, timeout=request_timeout*2)
 

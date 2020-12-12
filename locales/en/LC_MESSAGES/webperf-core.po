@@ -51,7 +51,7 @@ msgstr "### {0} ###"
 
 #: default.py:93
 msgid "TEXT_TEST_GOOGLE_LIGHTHOUSE"
-msgstr "###############################\nRunning test: 0 - Google Lighthouse Performance"
+msgstr "###############################\nRunning test: 1 - Google Lighthouse Performance"
 
 #: default.py:96
 msgid "TEXT_TEST_GOOGLE_LIGHTHOUSE_A11Y"

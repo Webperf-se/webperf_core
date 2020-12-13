@@ -49,7 +49,7 @@ msgid "TEXT_REVIEW_INTERACTIVE"
 msgstr "* Webbplatsen är interaktiv: {} sek\n"
 
 msgid "TEXT_REVIEW_REDIRECTS"
-msgstr "* Antal hänvisningar: {} st\n"
+msgstr "* Tid spenderad på hänvisningar: {} sek\n"
 
 msgid "TEXT_REVIEW_TOTAL_WEIGHT"
 msgstr "* Sidans totala vikt: {} kb\n"

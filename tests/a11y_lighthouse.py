@@ -11,6 +11,9 @@ from bs4 import BeautifulSoup
 import config
 from tests.utils import *
 
+import gettext
+_ = gettext.gettext
+
 ### DEFAULTS
 googlePageSpeedApiKey = config.googlePageSpeedApiKey
 
@@ -63,29 +66,25 @@ def run_test(langCode, url, strategy='mobile', category='accessibility'):
 	
 	if fails == 0:
 		points = 5
-		review = '* Webbplatsen har inga uppenbara fel inom tillgänglighet!\n'
+		review = _('TEXT_REVIEW_A11Y_VERY_GOOD')
 	elif fails <= 2:
 		points = 4
-		review = '* Webbplatsen kan bli mer tillgänglig, men är helt ok.\n'
+		review = _('TEXT_REVIEW_A11Y_IS_GOOD')
 	elif fails <= 3:
 		points = 3
-		review = '* Genomsnittlig tillgänglighet men behöver bli bättre.\n'
+		review = _('TEXT_REVIEW_A11Y_IS_OK')
 	elif fails <= 5:
 		points = 2
-		review = '* Webbplatsen är dålig på tillgänglighet för funktions&shy;varierade personer.\n'
+		review = _('TEXT_REVIEW_A11Y_IS_BAD')
 	elif fails > 5:
 		points = 1
-		review = '* Väldigt dålig tillgänglighet!\n'
+		review = _('TEXT_REVIEW_A11Y_IS_VERY_BAD')
 	
-	review += '* Antal problem med tillgänglighet: {} st\n'.format(fails)
-	
-
 	if fails != 0:
-		review += '\nTillgänglighets&shy;problem:\n'
+		review += _('TEXT_REVIEW_A11Y_IS_VERY_BAD').format(fails)
 
 		for key, value in return_dict.items():
 			if value == 0:
 				review += '* {}\n'.format(fail_dict[key])
-				#print(key)
 	
 	return (points, review, return_dict)

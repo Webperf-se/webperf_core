@@ -63,25 +63,25 @@ def run_test(langCode, url, strategy='mobile', category='best-practices'):
 	
 	if fails == 0:
 		points = 5
-		review = '* Webbplatsen följer god praxis fullt ut!\n'
+		review = _('TEXT_REVIEW_PRACTICE_VERY_GOOD')
 	elif fails <= 2:
 		points = 4
-		review = '* Webbplatsen har ändå förbättrings&shy;potential.\n'
+		review = _('TEXT_REVIEW_PRACTICE_IS_GOOD')
 	elif fails <= 3:
 		points = 3
-		review = '* Genomsnittlig efterlevnad till praxis.\n'
+		review = _('TEXT_REVIEW_PRACTICE_IS_OK')
 	elif fails <= 4:
 		points = 2
-		review = '* Webbplatsen är ganska dålig på att följa god praxis.\n'
+		review = _('TEXT_REVIEW_PRACTICE_IS_BAD')
 	elif fails > 4:
 		points = 1
-		review = '* Webbplatsen är inte alls bra på att följa praxis!\n'
+		review = _('TEXT_REVIEW_PRACTICE_IS_VERY_BAD')
 	
-	review += '* Antal problem med god praxis: {} st\n'.format(fails)
+	review += _('TEXT_REVIEW_PRACTICE_NUMBER_OF_PROBLEMS').format(fails)
 	
 
 	if fails != 0:
-		review += '\nProblem:\n'
+		review += _('TEXT_REVIEW_PRACTICE_PROBLEMS')
 
 		for key, value in return_dict.items():
 			if value == 0:

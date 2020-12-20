@@ -10,6 +10,8 @@ import re
 from bs4 import BeautifulSoup
 import config
 from tests.utils import *
+import gettext
+_ = gettext.gettext
 
 ### DEFAULTS
 googlePageSpeedApiKey = config.googlePageSpeedApiKey
@@ -63,25 +65,25 @@ def run_test(langCode, url, strategy='mobile', category='seo'):
 	
 	if fails == 0:
 		points = 5
-		review = '* Webbplatsen följer god SEO-praxis fullt ut!\n'
+		review = _('TEXT_REVIEW_SEO_VERY_GOOD')
 	elif fails <= 2:
 		points = 4
-		review = '* Webbplatsen har ändå förbättrings&shy;potential inom SEO.\n'
+		review = _('TEXT_REVIEW_SEO_IS_GOOD')
 	elif fails <= 3:
 		points = 3
-		review = '* Genomsnittlig efterlevnad till SEO-praxis.\n'
+		review = _('TEXT_REVIEW_SEO_IS_OK')
 	elif fails <= 4:
 		points = 2
-		review = '* Webbplatsen är ganska dålig på sökmotoroptimering.\n'
+		review = _('TEXT_REVIEW_SEO_IS_BAD')
 	elif fails > 4:
 		points = 1
-		review = '* Webbplatsen är inte alls bra på sökmotoroptimering!\n'
+		review = _('TEXT_REVIEW_SEO_IS_VERY_BAD')
 	
-	review += '* Antal problem med god praxis: {} st\n'.format(fails)
+	review += _('TEXT_REVIEW_SEO_NUMBER_OF_PROBLEMS').format(fails)
 	
 
 	if fails != 0:
-		review += '\nProblem:\n'
+		review += _('TEXT_REVIEW_SEO_PROBLEMS')
 
 		for key, value in return_dict.items():
 			if value != None and value < 1:

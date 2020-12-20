@@ -15,6 +15,7 @@ _ = gettext.gettext
 
 ### DEFAULTS
 request_timeout = config.http_request_timeout
+useragent = config.useragent
 
 def run_test(langCode, url):
     """
@@ -34,7 +35,7 @@ def run_test(langCode, url):
     ## kollar koden
     o = urllib.parse.urlparse(url)
     url = '{0}://{1}/{3}/{2}'.format(o.scheme, o.netloc, 'finns-det-en-sida/pa-den-har-adressen/testanrop/', get_guid(5))
-    headers = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:81.0) Gecko/20100101 Firefox/81.0'}
+    headers = {'user-agent': useragent}
     request = requests.get(url, allow_redirects=True, headers=headers, timeout=request_timeout)
     code = request.status_code
     if code == 404:

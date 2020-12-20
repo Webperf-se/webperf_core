@@ -41,3 +41,18 @@ msgstr "* RSS-prenumeration saknas i meta.\n"
 
 msgid "TEXT_RSS_FEED_FOUND"
 msgstr "* RSS-prenumeration hittad.\n"
+
+msgid "TEXT_SECURITY_MISSING"
+msgstr "* security.txt saknas.\n"
+
+msgid "TEXT_SECURITY_WRONG_CONTENT"
+msgstr "* security.txt har inte förväntat innehåll.\n"
+
+msgid "TEXT_SECURITY_OK_CONTENT"
+msgstr "* security.txt verkar ok.\n"
+
+msgid "TEXT_SECURITY_REQUIRED_CONTACT_MISSING"
+msgstr "* security.txt kontakt fält saknas.\n"
+
+msgid "TEXT_SECURITY_REQUIRED_EXPIRES_MISSING"
+msgstr "* security.txt fält för utgångstid saknas (krav tillagt i utkast v10).\n"

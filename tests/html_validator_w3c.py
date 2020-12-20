@@ -15,6 +15,7 @@ _ = gettext.gettext
 
 ### DEFAULTS
 request_timeout = config.http_request_timeout
+useragent = config.useragent
 
 def run_test(langCode, url):
     """
@@ -33,7 +34,7 @@ def run_test(langCode, url):
     ## kollar koden
     try:
         url = 'https://validator.w3.org/nu/?doc={0}'.format(url.replace('/', '%2F').replace(':', '%3A'))
-        headers = {'user-agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'}
+        headers = {'user-agent': useragent}
         request = requests.get(url, allow_redirects=False, headers=headers, timeout=request_timeout)
 
         ## hämta HTML

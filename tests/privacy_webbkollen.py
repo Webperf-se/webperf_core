@@ -15,6 +15,7 @@ _ = gettext.gettext
 
 ### DEFAULTS
 request_timeout = config.http_request_timeout
+useragent = config.useragent
 
 def run_test(langCode, url):
     import time

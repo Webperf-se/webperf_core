@@ -14,7 +14,6 @@ import gettext
 _ = gettext.gettext
 
 ### DEFAULTS
-request_timeout = config.http_request_timeout
 googlePageSpeedApiKey = config.googlePageSpeedApiKey
 
 def run_test(langCode, url, strategy='mobile', category='performance'):

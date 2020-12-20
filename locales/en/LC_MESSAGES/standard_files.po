@@ -41,3 +41,18 @@ msgstr "* RSS subscription is missing in meta.\n"
 
 msgid "TEXT_RSS_FEED_FOUND"
 msgstr "* RSS subscription found.\n"
+
+msgid "TEXT_SECURITY_MISSING"
+msgstr "* security.txt is missing.\n"
+
+msgid "TEXT_SECURITY_WRONG_CONTENT"
+msgstr "* security.txt has wrong content.\n"
+
+msgid "TEXT_SECURITY_OK_CONTENT"
+msgstr "* security.txt seems to work.\n"
+
+msgid "TEXT_SECURITY_REQUIRED_CONTACT_MISSING"
+msgstr "* security.txt required contact is missing.\n"
+
+msgid "TEXT_SECURITY_REQUIRED_EXPIRES_MISSING"
+msgstr "* security.txt required expires (added in draft v10) is missing.\n"

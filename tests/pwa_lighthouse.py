@@ -12,7 +12,6 @@ import config
 from tests.utils import *
 
 ### DEFAULTS
-request_timeout = config.http_request_timeout
 googlePageSpeedApiKey = config.googlePageSpeedApiKey
 
 def run_test(langCode, url, strategy='mobile', category='pwa'):

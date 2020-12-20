@@ -232,12 +232,18 @@ def main(argv):
                 sys.exit(2)
         elif opt in ("-i", "--input"): # input file path
             input_filename = arg
+
+            file_ending = ""
             file_long_ending = ""
+            if (len(input_filename) > 4):
+                file_ending = input_filename[-4:].lower()
             if (len(input_filename) > 7):
                 file_long_ending = input_filename[-7:].lower()
 
             if file_long_ending == ".sqlite":                
                 from engines.sqlite import read_sites, add_site, delete_site
+            if (file_ending == ".csv"):
+                from engines.csv import read_sites, add_site, delete_site
             else:
                 from engines.json import read_sites, add_site, delete_site
             sites = read_sites(input_filename)

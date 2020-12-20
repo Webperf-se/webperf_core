@@ -10,6 +10,22 @@ class Sites(object):
     website = ""
     active = 1
 
+    def __init__(self, id, website):
+        self.id = id
+        self.website = website
+
+    def todata(self):
+        result = {
+            'id': self.id,
+            'website': self.website
+        }
+        return result
+
+    @staticmethod
+    def fieldnames():
+        result = [ 'id', 'website']
+        return result
+
     def __repr__(self):
         return '<Site %r>' % self.title
 

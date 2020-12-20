@@ -67,7 +67,7 @@ msgid "TEXT_PAGE_BAD_CSS"
 msgstr "* Sidans användning av dålig CSS: {}\n"
 
 msgid "TEXT_PAGE_FONTS"
-msgstr "* Sidans användning av webb typsnitt: {}\n"
+msgstr "* Sidans användning av webbtypsnitt: {}\n"
 
 msgid "TEXT_SERVER_CONFIG"
 msgstr "* Server konfiguration: {}\n"

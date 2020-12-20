@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from models import Sites, SiteTests
+from engines.utils import use_website
 import csv
 
 
@@ -12,7 +13,7 @@ def write_tests(output_filename, siteTests):
 
 
 def add_site(input_filename, url):
-    sites = read_sites(input_filename)
+    sites = read_sites(input_filename, 0, -1)
     # print(sites)
     id = len(sites)
     sites.append([id, url])
@@ -24,7 +25,7 @@ def add_site(input_filename, url):
 
 
 def delete_site(input_filename, url):
-    sites = read_sites(input_filename)
+    sites = read_sites(input_filename, 0, -1)
     tmpSites = list()
     for site in sites:
         site_id = site[0]
@@ -39,29 +40,32 @@ def delete_site(input_filename, url):
     return tmpSites
 
 
-def read_sites(input_filename):
+def read_sites(input_filename, input_skip, input_take):
     sites = list()
 
     with open(input_filename, newline='') as csvfile:
         dialect = csv.Sniffer().sniff(csvfile.read(1024))
         csvfile.seek(0)
-        reader = csv.reader(csvfile, dialect)    
+        reader = csv.reader(csvfile, dialect)
 
     with open(input_filename, newline='') as csvfile:
         csv_reader = csv.reader(csvfile, delimiter=',', quotechar='|')
-        current_siteid = 0
+        current_index = 0
         for row in csv_reader:
             number_of_fields = len(Sites.fieldnames())
             current_number_of_fields = len(row)
             if number_of_fields == current_number_of_fields:
                 # ignore first row as that is our header info
-                if current_siteid != 0:
+                if current_index != 0 and use_website(current_index + 1, input_skip, input_take):
                     sites.append([row[0], row[1]])
             elif current_number_of_fields == 1:
                 # we have no header and only one colmn, use column as website url
-                sites.append([current_siteid, "".join(row)])
-            current_siteid += 1
+                if use_website(current_index, input_skip, input_take):
+                    sites.append([current_index, "".join(row)])
+            current_index += 1
+
     return sites
+
 
 def write_sites(output_filename, sites):
     sites_output = list()
@@ -71,7 +75,7 @@ def write_sites(output_filename, sites):
         site_object = Sites(id=site_id, website=site_url).todata()
         sites_output.append(site_object)
 
-    with open(output_filename, 'w', newline='') as csvfile:
+    with open("output-" + output_filename, 'w', newline='') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=Sites.fieldnames())
 
         writer.writeheader()

@@ -182,6 +182,8 @@ def main(argv):
     sites = list()
     output_filename = ''
     input_filename = ''
+    input_skip = 0
+    input_take = -1
     show_reviews = False
     show_help = False
     add_url = ''
@@ -198,7 +200,7 @@ def main(argv):
 
     try:
         opts, args = getopt.getopt(argv, "hu:t:i:o:rA:D:L:", [
-                                   "help", "url", "test", "input", "output", "review", "report", "addUrl", "deleteUrl", "language"])
+                                   "help", "url=", "test=", "input=", "output=", "review", "report", "addUrl=", "deleteUrl=", "language=", "input-skip=", "input-take="])
     except getopt.GetoptError:
         print(main.__doc__)
         sys.exit(2)
@@ -267,13 +269,26 @@ def main(argv):
 
             if file_long_ending == ".sqlite":
                 from engines.sqlite import read_sites, add_site, delete_site
-            if (file_ending == ".csv"):
+            elif (file_ending == ".csv"):
                 from engines.csv import read_sites, add_site, delete_site
-            if (file_ending == ".xml"):  # https://example.com/sitemap.xml
+            elif (file_ending == ".xml"):  # https://example.com/sitemap.xml
                 from engines.sitemap import read_sites, add_site, delete_site
             else:
                 from engines.json import read_sites, add_site, delete_site
-            sites = read_sites(input_filename)
+            pass
+        elif opt in ("--input-skip"):  # specifies number of items to skip in the begining
+            try:
+                input_skip = int(arg)
+            except Exception:
+                print(_('TEXT_COMMAND_USAGE'))
+                sys.exit(2)
+            pass
+        elif opt in ("--input-take"):  # specifies number of items to take
+            try:
+                input_take = int(arg)
+            except Exception:
+                print(_('TEXT_COMMAND_USAGE'))
+                sys.exit(2)
             pass
         elif opt in ("-o", "--output"):  # output file path
             output_filename = arg
@@ -285,6 +300,9 @@ def main(argv):
     if (show_help):
         print(_('TEXT_COMMAND_USAGE'))
         sys.exit(2)
+
+    if (input_filename != ''):
+        sites = read_sites(input_filename, input_skip, input_take)
 
     if (add_url != ''):
         # check if website url should be added

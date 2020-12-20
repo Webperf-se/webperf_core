@@ -63,25 +63,25 @@ def run_test(langCode, url, strategy='mobile', category='pwa'):
 	
 	if fails == 0:
 		points = 5
-		#review = '* Webbplatsen följer fullt ut praxis för progressiva webbappar!\n'
+		review = _('TEXT_REVIEW_PRACTICE_VERY_GOOD')
 	elif fails <= 4:
 		points = 4
-		#review = '* Webbplatsen har lite förbättrings&shy;potential för en progressiv webbapp.\n'
+		review = _('TEXT_REVIEW_PWA_IS_GOOD')
 	elif fails <= 7:
 		points = 3
-		#review = '* Genomsnittlig efterlevnad till praxis för progressiva webbappar.\n'
+		review = _('TEXT_REVIEW_PWA_IS_OK')
 	elif fails <= 9:
 		points = 2
-		#review = '* Webbplatsen är ganska dålig som progressiv webbapp.\n'
+		review = _('TEXT_REVIEW_PWA_IS_BAD')
 	elif fails > 9:
 		points = 1
-		#review = '* Webbplatsen är inte alls bra som progressiv webbapp :/\n'
+		review = _('TEXT_REVIEW_PWA_IS_VERY_BAD')
 	
-	review += '* Antal problem med praxis för progressiva webbappar: {} st\n'.format(fails)
+	review += _('TEXT_REVIEW_PWA_NUMBER_OF_PROBLEMS').format(fails)
 	
 
 	if fails != 0:
-		review += '\nProblem:\n'
+		review += _('TEXT_REVIEW_PWA_PROBLEMS')
 
 		for key, value in return_dict.items():
 			if value == 0:

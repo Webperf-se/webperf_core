@@ -33,6 +33,9 @@ def httpRequestGetContent(url):
             print('Info: Trying SSL before giving up.')
             return httpRequestGetContent(url.replace('http://', 'https://'))
     except requests.exceptions.ConnectionError:
+        if 'http://' in url:  # trying the same URL over SSL/TLS
+            print('Connection error! Info: Trying SSL before giving up.')
+            return httpRequestGetContent(url.replace('http://', 'https://'))
         print(
             'Connection error! Unfortunately the request for URL "{0}" failed.\nMessage:\n{1}'.format(url, sys.exc_info()[0]))
         pass

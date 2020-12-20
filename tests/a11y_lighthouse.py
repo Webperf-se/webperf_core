@@ -10,7 +10,6 @@ import re
 from bs4 import BeautifulSoup
 import config
 from tests.utils import *
-
 import gettext
 _ = gettext.gettext
 

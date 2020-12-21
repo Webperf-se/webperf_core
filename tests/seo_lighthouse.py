@@ -24,6 +24,8 @@ def run_test(langCode, url, strategy='mobile', category='seo'):
     language.install()
     _ = language.gettext
 
+    print(_('TEXT_RUNNING_TEST'))
+
     check_url = url.strip()
 
     pagespeed_api_request = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category={0}&url={1}&key={2}'.format(

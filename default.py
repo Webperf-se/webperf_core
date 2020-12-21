@@ -102,40 +102,36 @@ def testing(langCode, sites, test_type=TEST_ALL, show_reviews=False):
     if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE):
         tests.extend(testsites(
             langCode, sites, test_type=TEST_GOOGLE_LIGHTHOUSE, show_reviews=show_reviews))
-    if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE_A11Y):
-        print(_('TEXT_TEST_GOOGLE_LIGHTHOUSE_A11Y'))
-        tests.extend(testsites(
-            langCode, sites, test_type=TEST_GOOGLE_LIGHTHOUSE_A11Y, show_reviews=show_reviews))
-    if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE_SEO):
-        print(_('TEXT_TEST_GOOGLE_LIGHTHOUSE_SEO'))
-        tests.extend(testsites(
-            langCode, sites, test_type=TEST_GOOGLE_LIGHTHOUSE_SEO, show_reviews=show_reviews))
-    if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE_PWA):
-        print(_('TEXT_TEST_GOOGLE_LIGHTHOUSE_PWA'))
-        tests.extend(testsites(
-            langCode, sites, test_type=TEST_GOOGLE_LIGHTHOUSE_PWA, show_reviews=show_reviews))
-    if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE):
-        print(_('TEXT_TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE'))
-        tests.extend(testsites(
-            langCode, sites, test_type=TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_PAGE_NOT_FOUND):
         tests.extend(testsites(langCode, sites,
                                test_type=TEST_PAGE_NOT_FOUND, show_reviews=show_reviews))
+    if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE_SEO):
+        tests.extend(testsites(
+            langCode, sites, test_type=TEST_GOOGLE_LIGHTHOUSE_SEO, show_reviews=show_reviews))
+    if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE):
+        tests.extend(testsites(
+            langCode, sites, test_type=TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_HTML):
         tests.extend(testsites(langCode, sites,
                                test_type=TEST_HTML, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_CSS):
         tests.extend(testsites(langCode, sites,
                                test_type=TEST_CSS, show_reviews=show_reviews))
-    if (test_type == TEST_ALL or test_type == TEST_WEBBKOLL):
-        tests.extend(testsites(langCode, sites,
-                               test_type=TEST_WEBBKOLL, show_reviews=show_reviews))
+    if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE_PWA):
+        tests.extend(testsites(
+            langCode, sites, test_type=TEST_GOOGLE_LIGHTHOUSE_PWA, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_STANDARD_FILES):
         tests.extend(testsites(langCode, sites,
                                test_type=TEST_STANDARD_FILES, show_reviews=show_reviews))
+    if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE_A11Y):
+        tests.extend(testsites(
+            langCode, sites, test_type=TEST_GOOGLE_LIGHTHOUSE_A11Y, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_YELLOW_LAB_TOOLS):
         tests.extend(testsites(
             langCode, sites, test_type=TEST_YELLOW_LAB_TOOLS, show_reviews=show_reviews))
+    if (test_type == TEST_ALL or test_type == TEST_WEBBKOLL):
+        tests.extend(testsites(langCode, sites,
+                               test_type=TEST_WEBBKOLL, show_reviews=show_reviews))
 
     return tests
 

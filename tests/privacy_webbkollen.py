@@ -10,17 +10,34 @@ import re
 from bs4 import BeautifulSoup
 import config
 from tests.utils import *
+import gettext
+_ = gettext.gettext
 
 ### DEFAULTS
 request_timeout = config.http_request_timeout
+useragent = config.useragent
 
-def run_test(url):
+def run_test(langCode, url):
     import time
     points = 0.0
     errors = 0
     review = ''
 
-    url = 'https://webbkoll.dataskydd.net/sv/check?url={0}'.format(url.replace('/', '%2F').replace(':', '%3A'))
+    language = gettext.translation('privacy_webbkollen', localedir='locales', languages=[langCode])
+    language.install()
+    _ = language.gettext
+
+    print(_('TEXT_RUNNING_TEST'))
+
+    api_lang_code = 'en'
+    if langCode == 'sv':
+        api_lang_code = 'sv'
+    elif langCode == 'de':
+        api_lang_code = 'de'
+    elif langCode == 'no':
+        api_lang_code = 'no'
+
+    url = 'https://webbkoll.dataskydd.net/{1}/check?url={0}'.format(url.replace('/', '%2F').replace(':', '%3A'), api_lang_code)
     headers = {'user-agent': 'Mozilla/5.0 (compatible; Webperf; +https://webperf.se)'}
     request = requests.get(url, allow_redirects=False, headers=headers, timeout=request_timeout*2)
 
@@ -70,15 +87,15 @@ def run_test(url):
             mess += '* {0}'.format(re.sub(' +', ' ', line.text.strip()).replace('\n', ' ').replace('    ', '\n* ').replace('Kolla upp', '').replace('  ', ' '))
 
         if  points == 5:
-            review = '* Webbplatsen är bra på integritet!\n'
+            review = ('TEXT_REVIEW_VERY_GOOD')
         elif points >= 4:
-            review = '* Webbplatsen kan bli bättre, men är helt ok.\n'
+            review = _('TEXT_REVIEW_IS_GOOD')
         elif points >= 3:
-            review = '* Ok integritet men borde bli bättre.\n'
+            review = _('TEXT_REVIEW_IS_OK')
         elif points >= 2:
-            review = '* Dålig integritet.\n'
+            review = _('TEXT_REVIEW_IS_BAD')
         else:
-            review = '* Väldigt dålig integritet!\n'
+            review = _('TEXT_REVIEW_IS_VERY_BAD')
             points = 1.0
 
         review += mess

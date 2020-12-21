@@ -10,12 +10,13 @@ import re
 from bs4 import BeautifulSoup
 import config
 from tests.utils import *
+import gettext
+_ = gettext.gettext
 
 ### DEFAULTS
-request_timeout = config.http_request_timeout
 googlePageSpeedApiKey = config.googlePageSpeedApiKey
 
-def run_test(url, strategy='mobile', category='performance'):
+def run_test(langCode, url, strategy='mobile', category='performance'):
 	"""
 	perf = https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category=performance&strategy=mobile&url=YOUR-SITE&key=YOUR-KEY
 	a11y = https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category=accessibility&strategy=mobile&url=YOUR-SITE&key=YOUR-KEY
@@ -23,6 +24,13 @@ def run_test(url, strategy='mobile', category='performance'):
 	pwa = https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category=pwa&strategy=mobile&url=YOUR-SITE&key=YOUR-KEY
 	seo = https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category=seo&strategy=mobile&url=YOUR-SITE&key=YOUR-KEY
 	"""
+
+	language = gettext.translation('performance_lighthouse', localedir='locales', languages=[langCode])
+	language.install()
+	_ = language.gettext
+
+	print(_('TEXT_RUNNING_TEST'))
+
 	check_url = url.strip()
 	
 	pagespeed_api_request = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category={0}&url={1}&strategy={2}&key={3}'.format(category, check_url, strategy, googlePageSpeedApiKey)
@@ -62,26 +70,26 @@ def run_test(url, strategy='mobile', category='performance'):
 	
 	if speedindex <= 500:
 		points = 5
-		review = '* Webbplatsen laddar in mycket snabbt!\n'
+		review = _("TEXT_REVIEW_VERY_GOOD")
 	elif speedindex <= 1200:
 		points = 4
-		review = '* Webbplatsen är snabb.\n'
+		review = _("TEXT_REVIEW_IS_GOOD")
 	elif speedindex <= 2500:
 		points = 3
-		review = '* Genomsnittlig hastighet.\n'
+		review = _("TEXT_REVIEW_IS_OK")
 	elif speedindex <= 3999:
 		points = 2
-		review = '* Webbplatsen är ganska långsam.\n'
+		review = _("TEXT_REVIEW_IS_BAD")
 	elif speedindex > 3999:
 		points = 1
-		review = '* Webbplatsen är väldigt långsam!\n'
+		review = _("TEXT_REVIEW_IS_VERY_BAD")
 	
-	review += '* Observerad hastighet: {} sekunder\n'.format(convert_to_seconds(return_dict["observedSpeedIndex"], False))
-	review += '* Första meningsfulla visuella ändring: {} sek\n'.format(convert_to_seconds(return_dict["firstMeaningfulPaint"], False))
-	review += '* Första meningsfulla visuella ändring på 3G: {} sek\n'.format(convert_to_seconds(return_dict["first-contentful-paint-3g"], False))
-	review += '* CPU vilar efter: {} sek\n'.format(convert_to_seconds(return_dict["firstCPUIdle"], False))
-	review += '* Webbplatsen är interaktiv: {} sek\n'.format(convert_to_seconds(return_dict["interactive"], False))
-	review += '* Antal hänvisningar: {} st\n'.format(return_dict["redirects"])
-	review += '* Sidans totala vikt: {} kb\n'.format(int(return_dict["total-byte-weight"]/1000))
+	review += _("TEXT_REVIEW_OBSERVED_SPEED").format(convert_to_seconds(return_dict["observedSpeedIndex"], False))#'* Observerad hastighet: {} sekunder\n'.format(convert_to_seconds(return_dict["observedSpeedIndex"], False))
+	review += _("TEXT_REVIEW_FIRST_MEANINGFUL_PAINT").format(convert_to_seconds(return_dict["firstMeaningfulPaint"], False))#'* Första meningsfulla visuella ändring: {} sek\n'.format(convert_to_seconds(return_dict["firstMeaningfulPaint"], False))
+	review += _("TEXT_REVIEW_FIRST_MEANINGFUL_PAINT_3G").format(convert_to_seconds(return_dict["first-contentful-paint-3g"], False))#'* Första meningsfulla visuella ändring på 3G: {} sek\n'.format(convert_to_seconds(return_dict["first-contentful-paint-3g"], False))
+	review += _("TEXT_REVIEW_CPU_IDLE").format(convert_to_seconds(return_dict["firstCPUIdle"], False))#'* CPU vilar efter: {} sek\n'.format(convert_to_seconds(return_dict["firstCPUIdle"], False))
+	review += _("TEXT_REVIEW_INTERACTIVE").format(convert_to_seconds(return_dict["interactive"], False))#'* Webbplatsen är interaktiv: {} sek\n'.format(convert_to_seconds(return_dict["interactive"], False))
+	review += _("TEXT_REVIEW_REDIRECTS").format(convert_to_seconds(return_dict["redirects"], False))#'* Antal hänvisningar: {} st\n'.format(return_dict["redirects"])
+	review += _("TEXT_REVIEW_TOTAL_WEIGHT").format(int(return_dict["total-byte-weight"]/1000))#'* Sidans totala vikt: {} kb\n'.format(int(return_dict["total-byte-weight"]/1000))
 	
 	return (points, review, return_dict)

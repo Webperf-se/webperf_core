@@ -1,0 +1,39 @@
+# Swedish
+# Copyright (C) 2020 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2020-12-12 10:45+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Marcus <m@webperf.se>\n"
+"Language-Team: Swedish <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "###############################\nKör test: 4 - Sökmotoroptimering (Google Lighthouse)"
+
+msgid "TEXT_REVIEW_SEO_VERY_GOOD"
+msgstr "* Webbplatsen följer god SEO-praxis fullt ut!\n"
+
+msgid "TEXT_REVIEW_SEO_IS_GOOD"
+msgstr "* Webbplatsen har ändå förbättrings&shy;potential inom SEO.\n"
+
+msgid "TEXT_REVIEW_SEO_IS_OK"
+msgstr "* Genomsnittlig efterlevnad till SEO-praxis.\n"
+
+msgid "TEXT_REVIEW_SEO_IS_BAD"
+msgstr "* Webbplatsen är ganska dålig på sökmotoroptimering.\n"
+
+msgid "TEXT_REVIEW_SEO_IS_VERY_BAD"
+msgstr "* Webbplatsen är inte alls bra på sökmotoroptimering!\n"
+
+msgid "TEXT_REVIEW_SEO_NUMBER_OF_PROBLEMS"
+msgstr "* Antal problem med sökmotoroptimering (SEO): {} st\n"
+
+msgid "TEXT_REVIEW_SEO_PROBLEMS"
+msgstr "\nProblem:\n"

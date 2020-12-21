@@ -10,11 +10,14 @@ import re
 from bs4 import BeautifulSoup
 import config
 from tests.utils import *
+import gettext
+_ = gettext.gettext
 
 ### DEFAULTS
 request_timeout = config.http_request_timeout
+useragent = config.useragent
 
-def run_test(url):
+def run_test(langCode, url):
     """
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
@@ -22,10 +25,16 @@ def run_test(url):
     points = 0.0
     review = ''
 
+    language = gettext.translation('css_validator_w3c', localedir='locales', languages=[langCode])
+    language.install()
+    _ = language.gettext
+
+    print(_('TEXT_RUNNING_TEST'))
+
     ## kollar koden
     try:
         url = 'https://jigsaw.w3.org/css-validator/validator?uri={0}&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en'.format(url.replace('/', '%2F').replace(':', '%3A'))
-        headers = {'user-agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'}
+        headers =  {'user-agent': useragent}
         request = requests.get(url, allow_redirects=False, headers=headers, timeout=request_timeout*2)
 
         ## hämta HTML
@@ -38,18 +47,18 @@ def run_test(url):
 
     if errors == 0:
         points = 5.0
-        review = '* Inga fel i CSS-koden.\n'
+        review = _('TEXT_REVIEW_CSS_VERY_GOOD')
     elif errors <= 5:
         points = 4.0
-        review = '* Den testade sidan har {0} st fel i sin CSS-kod.\n'.format(errors)
+        review = _('TEXT_REVIEW_CSS_IS_GOOD').format(errors)
     elif errors <= 10:
         points = 3.0
-        review = '* Den testade sidan har {0} st fel i sin CSS-kod.\n'.format(errors)
+        review = _('TEXT_REVIEW_CSS_IS_OK').format(errors)
     elif errors <= 20:
         points = 2.0
-        review = '* Den testade sidan har {0} st fel i sin CSS-kod. Det är inte så bra.\n'.format(errors)
+        review = _('TEXT_REVIEW_CSS_IS_BAD').format(errors)
     elif errors > 20:
         points = 1.0
-        review = '* Den testade sidan har massor med fel i sin CSS-kod. Hela {0} st. \n'.format(errors)
+        review = _('TEXT_REVIEW_CSS_IS_VERY_BAD').format(errors)
 
     return (points, review)

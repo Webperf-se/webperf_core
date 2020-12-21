@@ -1,5 +1,6 @@
-#-*- coding: utf-8 -*-
-import sys, getopt
+# -*- coding: utf-8 -*-
+import sys
+import getopt
 import datetime
 from models import Sites, SiteTests
 import config
@@ -8,9 +9,11 @@ _ = gettext.gettext
 
 TEST_ALL = -1
 
-(TEST_UNKNOWN_01, TEST_GOOGLE_LIGHTHOUSE, TEST_PAGE_NOT_FOUND, TEST_UNKNOWN_03, TEST_UNKNOWN_04, TEST_UNKNOWN_05, TEST_HTML, TEST_CSS, TEST_UNKNOWN_08, TEST_UNKNOWN_09, TEST_UNKNOWN_10, TEST_UNKNOWN_11, TEST_UNKNOWN_12, TEST_UNKNOWN_13, TEST_UNKNOWN_14, TEST_UNKNOWN_15, TEST_UNKNOWN_16, TEST_UNKNOWN_17, TEST_UNKNOWN_18, TEST_UNKNOWN_19, TEST_WEBBKOLL) = range(21)
+(TEST_UNKNOWN_01, TEST_GOOGLE_LIGHTHOUSE, TEST_PAGE_NOT_FOUND, TEST_UNKNOWN_03, TEST_GOOGLE_LIGHTHOUSE_SEO, TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE, TEST_HTML, TEST_CSS, TEST_GOOGLE_LIGHTHOUSE_PWA, TEST_STANDARD_FILES,
+ TEST_GOOGLE_LIGHTHOUSE_A11Y, TEST_UNKNOWN_11, TEST_UNKNOWN_12, TEST_UNKNOWN_13, TEST_UNKNOWN_14, TEST_UNKNOWN_15, TEST_UNKNOWN_16, TEST_YELLOW_LAB_TOOLS, TEST_UNKNOWN_18, TEST_UNKNOWN_19, TEST_WEBBKOLL) = range(21)
 
-def testsites(sites, test_type=None, show_reviews=False, only_test_untested_last_hours=24, order_by='title ASC'):
+
+def testsites(langCode, sites, test_type=None, show_reviews=False, only_test_untested_last_hours=24, order_by='title ASC'):
     """
     Executing the actual tests.
     Attributes:
@@ -34,18 +37,30 @@ def testsites(sites, test_type=None, show_reviews=False, only_test_untested_last
         the_test_result = None
 
         try:
-            if test_type == 2:
+            if test_type == TEST_PAGE_NOT_FOUND:
                 from tests.page_not_found import run_test
-            elif test_type == 6:
-                from tests.w3c_validate_html import run_test
-            elif test_type == 7:
-                from tests.w3c_validate_css import run_test
-            elif test_type == 20:
-                from tests.privacy_webbhollen import run_test
-            elif test_type == 1:
-                from tests.lighthouse import run_test
+            elif test_type == TEST_HTML:
+                from tests.html_validator_w3c import run_test
+            elif test_type == TEST_CSS:
+                from tests.css_validator_w3c import run_test
+            elif test_type == TEST_WEBBKOLL:
+                from tests.privacy_webbkollen import run_test
+            elif test_type == TEST_GOOGLE_LIGHTHOUSE:
+                from tests.performance_lighthouse import run_test
+            elif test_type == TEST_GOOGLE_LIGHTHOUSE_SEO:
+                from tests.seo_lighthouse import run_test
+            elif test_type == TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE:
+                from tests.best_practice_lighthouse import run_test
+            elif test_type == TEST_GOOGLE_LIGHTHOUSE_PWA:
+                from tests.pwa_lighthouse import run_test
+            elif test_type == TEST_STANDARD_FILES:
+                from tests.standard_files import run_test
+            elif test_type == TEST_GOOGLE_LIGHTHOUSE_A11Y:
+                from tests.a11y_lighthouse import run_test
+            elif test_type == TEST_YELLOW_LAB_TOOLS:
+                from tests.frontend_quality_yellow_lab_tools import run_test
 
-            the_test_result = run_test(website)
+            the_test_result = run_test(langCode, website)
 
             if the_test_result != None:
                 print(_('TEXT_SITE_RATING'), the_test_result[0])
@@ -59,54 +74,86 @@ def testsites(sites, test_type=None, show_reviews=False, only_test_untested_last
                     json_data = ''
                     pass
 
-                checkreport = str(the_test_result[1]).encode('utf-8') # för att lösa encoding-probs
-                jsondata = str(json_data).encode('utf-8') # --//--
+                checkreport = str(the_test_result[1]).encode(
+                    'utf-8')  # för att lösa encoding-probs
+                jsondata = str(json_data).encode('utf-8')  # --//--
 
-                site_test = SiteTests(site_id=site_id, type_of_test=test_type, check_report=checkreport, rating=the_test_result[0], test_date=datetime.datetime.now(), json_check_data=jsondata).todata()
+                site_test = SiteTests(site_id=site_id, type_of_test=test_type, check_report=checkreport,
+                                      rating=the_test_result[0], test_date=datetime.datetime.now(), json_check_data=jsondata).todata()
 
                 result.append(site_test)
 
-                the_test_result = None # 190506 för att inte skriva testresultat till sajter när testet kraschat. Måste det sättas till ''?
+                # 190506 för att inte skriva testresultat till sajter när testet kraschat. Måste det sättas till ''?
+                the_test_result = None
         except Exception as e:
             print(_('TEXT_EXCEPTION'), website, '\n', e)
             pass
 
         i += 1
-    
+
     return result
 
-def testing(sites, test_type= TEST_ALL, show_reviews= False):
-    print(_('TEXT_TESTING_START_HEADER').format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+def testing(langCode, sites, test_type=TEST_ALL, show_reviews=False):
+    print(_('TEXT_TESTING_START_HEADER').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
     tests = list()
     ##############
     if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE):
-        print(_('TEXT_TEST_GOOGLE_PAGESPEED'))
-        tests.extend(testsites(sites, test_type=TEST_GOOGLE_LIGHTHOUSE, show_reviews=show_reviews))
+        tests.extend(testsites(
+            langCode, sites, test_type=TEST_GOOGLE_LIGHTHOUSE, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_PAGE_NOT_FOUND):
-        print(_('TEXT_TEST_PAGE_NOT_FOUND'))
-        tests.extend(testsites(sites, test_type=TEST_PAGE_NOT_FOUND, show_reviews=show_reviews))
+        tests.extend(testsites(langCode, sites,
+                               test_type=TEST_PAGE_NOT_FOUND, show_reviews=show_reviews))
+    if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE_SEO):
+        tests.extend(testsites(
+            langCode, sites, test_type=TEST_GOOGLE_LIGHTHOUSE_SEO, show_reviews=show_reviews))
+    if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE):
+        tests.extend(testsites(
+            langCode, sites, test_type=TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_HTML):
-        print(_('TEXT_TEST_HTML'))
-        tests.extend(testsites(sites, test_type=TEST_HTML, show_reviews=show_reviews))
+        tests.extend(testsites(langCode, sites,
+                               test_type=TEST_HTML, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_CSS):
-        print(_('TEXT_TEST_CSS'))
-        tests.extend(testsites(sites, test_type=TEST_CSS, show_reviews=show_reviews))
+        tests.extend(testsites(langCode, sites,
+                               test_type=TEST_CSS, show_reviews=show_reviews))
+    if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE_PWA):
+        tests.extend(testsites(
+            langCode, sites, test_type=TEST_GOOGLE_LIGHTHOUSE_PWA, show_reviews=show_reviews))
+    if (test_type == TEST_ALL or test_type == TEST_STANDARD_FILES):
+        tests.extend(testsites(langCode, sites,
+                               test_type=TEST_STANDARD_FILES, show_reviews=show_reviews))
+    if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE_A11Y):
+        tests.extend(testsites(
+            langCode, sites, test_type=TEST_GOOGLE_LIGHTHOUSE_A11Y, show_reviews=show_reviews))
+    if (test_type == TEST_ALL or test_type == TEST_YELLOW_LAB_TOOLS):
+        tests.extend(testsites(
+            langCode, sites, test_type=TEST_YELLOW_LAB_TOOLS, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_WEBBKOLL):
-        print(_('TEXT_TEST_WEBBKOLL'))
-        tests.extend(testsites(sites, test_type=TEST_WEBBKOLL, show_reviews=show_reviews))
+        tests.extend(testsites(langCode, sites,
+                               test_type=TEST_WEBBKOLL, show_reviews=show_reviews))
+
     return tests
 
+
 def validate_test_type(test_type):
-    if test_type != TEST_HTML and test_type != TEST_PAGE_NOT_FOUND and test_type != TEST_CSS and test_type != TEST_WEBBKOLL and test_type != TEST_GOOGLE_LIGHTHOUSE:
+    if test_type != TEST_HTML and test_type != TEST_PAGE_NOT_FOUND and test_type != TEST_CSS and test_type != TEST_WEBBKOLL and test_type != TEST_GOOGLE_LIGHTHOUSE and test_type != TEST_GOOGLE_LIGHTHOUSE_PWA and test_type != TEST_GOOGLE_LIGHTHOUSE_A11Y and test_type != TEST_GOOGLE_LIGHTHOUSE_SEO and test_type != TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE and test_type != TEST_STANDARD_FILES and test_type != TEST_YELLOW_LAB_TOOLS:
         print(_('TEXT_TEST_VALID_ARGUMENTS'))
-        print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_PAGESPEED'))
+        print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE'))
         print(_('TEXT_TEST_VALID_ARGUMENTS_PAGE_NOT_FOUND'))
+        print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_SEO'))
+        print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_BEST_PRACTICE'))
         print(_('TEXT_TEST_VALID_ARGUMENTS_HTML'))
         print(_('TEXT_TEST_VALID_ARGUMENTS_CSS'))
+        print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_PWA'))
+        print(_('TEXT_TEST_VALID_ARGUMENTS_STANDARD_FILES'))
+        print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_A11Y'))
+        print(_('TEXT_TEST_VALID_ARGUMENTS_YELLOW_LAB_TOOLS'))
         print(_('TEXT_TEST_VALID_ARGUMENTS_WEBBKOLL'))
         return -2
     else:
         return test_type
+
 
 def main(argv):
     """
@@ -118,7 +165,7 @@ def main(argv):
     Options and arguments:
     -h/--help\t\t\t: Help information on how to use script
     -u/--url <site url>\t\t: website url to test against
-    -t/--test <1/2/6/7/20>\t: runs ONE specific test against website(s)
+    -t/--test <1/2/4/5/6/7/8/9/10/20>\t: runs ONE specific test against website(s)
     -r/--review\t\t\t: show reviews in terminal
     -i/--input <file path>\t: input file path (.json/.sqlite)
     -o/--output <file path>\t: output file path (.json/.csv/.sql/.sqlite)
@@ -131,15 +178,25 @@ def main(argv):
     sites = list()
     output_filename = ''
     input_filename = ''
+    input_skip = 0
+    input_take = -1
     show_reviews = False
     show_help = False
     add_url = ''
     delete_url = ''
     langCode = 'en'
+    language = False
     global _
 
+    # add support for default (en) language
+    language = gettext.translation(
+        'webperf-core', localedir='locales', languages=[langCode])
+    language.install()
+    _ = language.gettext
+
     try:
-        opts, args = getopt.getopt(argv,"hu:t:i:o:rA:D:L:",["help","url","test", "input", "output", "review", "report", "addUrl", "deleteUrl", "language"])
+        opts, args = getopt.getopt(argv, "hu:t:i:o:rA:D:L:", [
+                                   "help", "url=", "test=", "input=", "output=", "review", "report", "addUrl=", "deleteUrl=", "language=", "input-skip=", "input-take="])
     except getopt.GetoptError:
         print(main.__doc__)
         sys.exit(2)
@@ -148,17 +205,17 @@ def main(argv):
         show_help = True
 
     for opt, arg in opts:
-        if opt in ('-h', '--help'): # help
+        if opt in ('-h', '--help'):  # help
             show_help = True
-        elif opt in ("-u", "--url"): # site url
+        elif opt in ("-u", "--url"):  # site url
             sites.append([0, arg])
-        elif opt in ("-A", "--addUrl"): # site url
+        elif opt in ("-A", "--addUrl"):  # site url
             add_url = arg
-        elif opt in ("-D", "--deleteUrl"): # site url
+        elif opt in ("-D", "--deleteUrl"):  # site url
             delete_url = arg
-        elif opt in ("-L", "--language"): # language code
+        elif opt in ("-L", "--language"):  # language code
             # loop all available languages and verify language exist
-            import os 
+            import os
             availableLanguages = list()
             localeDirs = os.listdir('locales')
             foundLang = False
@@ -167,7 +224,8 @@ def main(argv):
                 if (localeName[0:1] == '.'):
                     continue
 
-                languageSubDirectory = os.path.join('locales', localeName, "LC_MESSAGES")
+                languageSubDirectory = os.path.join(
+                    'locales', localeName, "LC_MESSAGES")
 
                 if (os.path.exists(languageSubDirectory)):
                     availableLanguages.append(localeName)
@@ -176,11 +234,17 @@ def main(argv):
                         langCode = arg
                         foundLang = True
 
+                        language = gettext.translation(
+                            'webperf-core', localedir='locales', languages=[langCode])
+                        language.install()
+                        _ = language.gettext
+
             if (not foundLang):
                 # Not translateable
-                print('Language not found, only the following languages are available:', availableLanguages)
+                print(
+                    'Language not found, only the following languages are available:', availableLanguages)
                 sys.exit(2)
-        elif opt in ("-t", "--test"): # test type
+        elif opt in ("-t", "--test"):  # test type
             try:
                 tmp_test_type = int(arg)
                 test_type = validate_test_type(tmp_test_type)
@@ -189,33 +253,52 @@ def main(argv):
             except Exception:
                 validate_test_type(arg)
                 sys.exit(2)
-        elif opt in ("-i", "--input"): # input file path
+        elif opt in ("-i", "--input"):  # input file path
             input_filename = arg
+
+            file_ending = ""
             file_long_ending = ""
+            if (len(input_filename) > 4):
+                file_ending = input_filename[-4:].lower()
             if (len(input_filename) > 7):
                 file_long_ending = input_filename[-7:].lower()
 
-            if file_long_ending == ".sqlite":                
+            if file_long_ending == ".sqlite":
                 from engines.sqlite import read_sites, add_site, delete_site
+            elif (file_ending == ".csv"):
+                from engines.csv import read_sites, add_site, delete_site
+            elif (file_ending == ".xml"):  # https://example.com/sitemap.xml
+                from engines.sitemap import read_sites, add_site, delete_site
             else:
                 from engines.json import read_sites, add_site, delete_site
-            sites = read_sites(input_filename)
             pass
-        elif opt in ("-o", "--output"): # output file path
+        elif opt in ("--input-skip"):  # specifies number of items to skip in the begining
+            try:
+                input_skip = int(arg)
+            except Exception:
+                print(_('TEXT_COMMAND_USAGE'))
+                sys.exit(2)
+            pass
+        elif opt in ("--input-take"):  # specifies number of items to take
+            try:
+                input_take = int(arg)
+            except Exception:
+                print(_('TEXT_COMMAND_USAGE'))
+                sys.exit(2)
+            pass
+        elif opt in ("-o", "--output"):  # output file path
             output_filename = arg
             pass
-        elif opt in ("-r", "--review", "--report"): # writes reviews directly in terminal
+        elif opt in ("-r", "--review", "--report"):  # writes reviews directly in terminal
             show_reviews = True
             pass
-
-    # add support for language
-    language = gettext.translation('webperf-core', localedir='locales', languages=[langCode])
-    language.install()
-    _ = language.gettext
 
     if (show_help):
         print(_('TEXT_COMMAND_USAGE'))
         sys.exit(2)
+
+    if (input_filename != ''):
+        sites = read_sites(input_filename, input_skip, input_take)
 
     if (add_url != ''):
         # check if website url should be added
@@ -225,7 +308,8 @@ def main(argv):
         sites = delete_site(input_filename, delete_url)
     elif (len(sites)):
         # run test(s) for every website
-        siteTests = testing(sites, test_type=test_type, show_reviews=show_reviews)
+        siteTests = testing(
+            langCode, sites, test_type=test_type, show_reviews=show_reviews)
         if (len(output_filename) > 0):
             file_ending = ""
             file_long_ending = ""

@@ -95,7 +95,6 @@ def run_test(langCode, url):
                 item_value = item[1]
                 item_text = item[0]
 
-                review += _('TEXT_REVIEW_ERRORS_ITEM').format(item_text, error_message_grouped_dict.get(
-                    item_text, 0))
+                review += _('TEXT_REVIEW_ERRORS_ITEM').format(item_text, item_value)
 
     return (points, review, error_message_dict)

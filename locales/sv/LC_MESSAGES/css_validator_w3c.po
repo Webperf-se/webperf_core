@@ -32,3 +32,9 @@ msgstr "* Den testade sidan har {0} st fel i sin CSS-kod. Det är inte så bra.\
 
 msgid "TEXT_REVIEW_CSS_IS_VERY_BAD"
 msgstr "* Den testade sidan har massor med fel i sin CSS-kod. Hela {0} st. \n"
+
+msgid "TEXT_REVIEW_ERRORS_GROUPED"
+msgstr "* Problem (grupperad på feltyp):\n"
+
+msgid "TEXT_REVIEW_ERRORS_ITEM"
+msgstr "- {0} (totalt {1} st)\n"

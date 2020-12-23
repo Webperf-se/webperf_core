@@ -32,3 +32,9 @@ msgstr "* The tested page has {0} errors in its CSS code. It is not so good.\n"
 
 msgid "TEXT_REVIEW_CSS_IS_VERY_BAD"
 msgstr "* The tested page has lots of errors in its CSS code. A total of {0}. \n"
+
+msgid "TEXT_REVIEW_ERRORS_GROUPED"
+msgstr "* Problems (grouped by error message):\n"
+
+msgid "TEXT_REVIEW_ERRORS_ITEM"
+msgstr "- {0} (number of errors of this type: {1})\n"

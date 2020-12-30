@@ -104,7 +104,7 @@ def run_test(langCode, url):
 
         for line in summary:
             mess += '* {0}'.format(re.sub(' +', ' ', line.text.strip()).replace(
-                '\n', ' ').replace('    ', '\n* ').replace('Kolla upp', '').replace('  ', ' '))
+                '\n', ' ').replace('    ', '\n* ').replace('Kolla upp', '').replace('Look up', '').replace('  ', ' '))
 
         if points == 5:
             review = ('TEXT_REVIEW_VERY_GOOD')

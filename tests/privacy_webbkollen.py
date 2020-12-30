@@ -60,34 +60,23 @@ def run_test(langCode, url):
             final_url, allow_redirects=True, headers=headers, timeout=request_timeout*2)
         soup2 = BeautifulSoup(request2.text, 'html.parser')
         summary = soup2.find_all("div", class_="summary")
-        results = soup2.find(id="results")
+        results = soup2.find_all(class_="result")
 
-        h3 = results.find_all("h3")
-        i = 0
-
-        for h3a in h3:
-            i += 1
-
-            # print(type(h3a.contents))
+        for result in results:
+            header = result.find("h3")
+            # print(type(header.contents))
             #- alert
-            points -= (len(h3a.find_all("i", class_="warning")) * 1.0)
+            points -= (len(header.find_all("i", class_="alert")) * 1.0)
             #- warning
-            points -= (len(h3a.find_all("i", class_="alert")) * 0.5)
+            points -= (len(header.find_all("i", class_="warning")) * 0.5)
 
-        if i == 0:
-            raise ValueError('FEL: Verkar inte ha genomförts något test!')
-
-        divs = results.find_all("div")
-        i = 0
-
-        for div in divs:
-            i += 1
-
-            # print(type(h3a.contents))
-            #-- alert
-            points -= (len(div.find_all("i", class_="alert")) * 0.1)
-            #-- warning
-            points -= (len(div.find_all("i", class_="warning")) * 0.05)
+            divs = result.find_all("div")
+            for div in divs:
+                # print(type(h3a.contents))
+                #-- alert
+                points -= (len(div.find_all("i", class_="alert")) * 0.1)
+                #-- warning
+                points -= (len(div.find_all("i", class_="warning")) * 0.05)
 
         mess = ''
 

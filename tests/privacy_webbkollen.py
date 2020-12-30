@@ -69,14 +69,10 @@ def run_test(langCode, url):
             i += 1
 
             # print(type(h3a.contents))
-            if len(h3a.find_all("i", class_="warning")) > 0:
-                # 0,5 poäng
-                #print('- warning')
-                points -= 0.5
-            elif len(h3a.find_all("i", class_="alert")) > 0:
-                # 0 poäng
-                #print('- alert')
-                points -= 1.0
+            #- alert
+            points -= (len(h3a.find_all("i", class_="warning")) * 1.0)
+            #- warning
+            points -= (len(h3a.find_all("i", class_="alert")) * 0.5)
 
         if i == 0:
             raise ValueError('FEL: Verkar inte ha genomförts något test!')
@@ -88,17 +84,10 @@ def run_test(langCode, url):
             i += 1
 
             # print(type(h3a.contents))
-            if len(div.find_all("i", class_="warning")) > 0:
-                # 0,5 poäng
-                #print('-- warning')
-                points -= 0.05
-            elif len(div.find_all("i", class_="alert")) > 0:
-                # 0 poäng
-                #print('-- alert')
-                points -= 0.1
-
-        if i == 0:
-            raise ValueError('FEL: Verkar inte ha genomförts något test!')
+            #-- alert
+            points -= (len(div.find_all("i", class_="alert")) * 0.1)
+            #-- warning
+            points -= (len(div.find_all("i", class_="warning")) * 0.05)
 
         mess = ''
 

@@ -32,3 +32,24 @@ msgstr "* Poor integrity.\n"
 
 msgid "TEXT_REVIEW_IS_VERY_BAD"
 msgstr "* Very bad privacy!\n"
+
+msgid "TEXT_RESULT_NOT_READY"
+msgstr "Service are not yet ready with a result, waiting {0} seconds\n"
+
+msgid "TEXT_REVIEW_CATEGORY_VERY_GOOD"
+msgstr ": is very good!\n"
+
+msgid "TEXT_REVIEW_CATEGORY_IS_GOOD"
+msgstr ": is good, but with {0} warning(s). (Giving {1:.2f} less points)\n"
+
+msgid "TEXT_REVIEW_CATEGORY_IS_OK"
+msgstr ": is ok, with {0} error(s) and {1} warning(s). (Giving {2:.2f} less points).\n"
+
+msgid "TEXT_REVIEW_CATEGORY_IS_BAD"
+msgstr ": is bad. (Giving {0:.2f} less points)\n"
+
+msgid "TEXT_REVIEW_CATEGORY_IS_VERY_BAD"
+msgstr ": is very bad. (Giving {0:.2f} less points)\n"
+
+msgid "TEXT_REVIEW_GENERATED"
+msgstr "Result generated: {0} (Cached for 24 hours)\n"

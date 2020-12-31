@@ -13,3 +13,6 @@ useragent = 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.
 googlePageSpeedApiKey = ""
 
 http_request_timeout = 60
+
+# timeout between calls to website
+webbkoll_sleep = 20

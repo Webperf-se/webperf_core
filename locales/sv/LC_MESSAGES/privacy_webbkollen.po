@@ -32,3 +32,24 @@ msgstr "* Dålig integritet.\n"
 
 msgid "TEXT_REVIEW_IS_VERY_BAD"
 msgstr "* Väldigt dålig integritet!\n"
+
+msgid "TEXT_RESULT_NOT_READY"
+msgstr "Tjänsten är inte redo med ett resultat ännu, väntar {0} sekunder\n"
+
+msgid "TEXT_REVIEW_CATEGORY_VERY_GOOD"
+msgstr ": is Väldigt bra!\n"
+
+msgid "TEXT_REVIEW_CATEGORY_IS_GOOD"
+msgstr ": är bra, men har {0} varning(ar). (Vilket ger {1:.2f} färre poäng)\n"
+
+msgid "TEXT_REVIEW_CATEGORY_IS_OK"
+msgstr ": är ok, men har {0} fel och {1} varning(ar). (Vilket ger {1:.2f} färre poäng)\n"
+
+msgid "TEXT_REVIEW_CATEGORY_IS_BAD"
+msgstr ": är dåligt. (Vilket ger {0:.2f} färre poäng)\n"
+
+msgid "TEXT_REVIEW_CATEGORY_IS_VERY_BAD"
+msgstr ": är väldigt dåligt. (Vilket ger {0:.2f} färre poäng)\n"
+
+msgid "TEXT_REVIEW_GENERATED"
+msgstr "Result generated: {0} (Cached for 24 hours)\n"

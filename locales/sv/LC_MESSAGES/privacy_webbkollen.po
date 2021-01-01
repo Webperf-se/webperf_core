@@ -43,7 +43,7 @@ msgid "TEXT_REVIEW_CATEGORY_IS_GOOD"
 msgstr ": är bra, men har {0} varning(ar). (Vilket ger {1:.2f} färre poäng)\n"
 
 msgid "TEXT_REVIEW_CATEGORY_IS_OK"
-msgstr ": är ok, men har {0} fel och {1} varning(ar). (Vilket ger {1:.2f} färre poäng)\n"
+msgstr ": är ok, men har {0} fel och {1} varning(ar). (Vilket ger {2:.2f} färre poäng)\n"
 
 msgid "TEXT_REVIEW_CATEGORY_IS_BAD"
 msgstr ": är dåligt. (Vilket ger {0:.2f} färre poäng)\n"

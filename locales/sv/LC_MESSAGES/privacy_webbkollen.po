@@ -37,7 +37,7 @@ msgid "TEXT_RESULT_NOT_READY"
 msgstr "Tjänsten är inte redo med ett resultat ännu, väntar {0} sekunder\n"
 
 msgid "TEXT_REVIEW_CATEGORY_VERY_GOOD"
-msgstr ": is Väldigt bra!\n"
+msgstr ": är väldigt bra!\n"
 
 msgid "TEXT_REVIEW_CATEGORY_IS_GOOD"
 msgstr ": är bra, men har {0} varning(ar). (Vilket ger {1:.2f} färre poäng)\n"

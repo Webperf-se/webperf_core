@@ -86,15 +86,17 @@ def run_test(langCode, url):
     points = calculate_rating(number_of_error_types, number_of_errors)
 
     if points == 5.0:
-        review = _('TEXT_REVIEW_HTML_VERY_GOOD')
+        review = _('TEXT_REVIEW_HTML_VERY_GOOD') + review
     elif points >= 4.0:
-        review = _('TEXT_REVIEW_HTML_IS_GOOD').format(number_of_errors)
+        review = _('TEXT_REVIEW_HTML_IS_GOOD').format(
+            number_of_errors) + review
     elif points >= 3.0:
-        review = _('TEXT_REVIEW_HTML_IS_OK').format(number_of_errors)
+        review = _('TEXT_REVIEW_HTML_IS_OK').format(number_of_errors) + review
     elif points > 1.0:
-        review = _('TEXT_REVIEW_HTML_IS_BAD').format(number_of_errors)
+        review = _('TEXT_REVIEW_HTML_IS_BAD').format(number_of_errors) + review
     elif points <= 1.0:
-        review = _('TEXT_REVIEW_HTML_IS_VERY_BAD').format(number_of_errors)
+        review = _('TEXT_REVIEW_HTML_IS_VERY_BAD').format(
+            number_of_errors) + review
 
     return (points, review, error_message_dict)
 
@@ -111,4 +113,4 @@ def calculate_rating(number_of_error_types, number_of_errors):
     if rating3 < 1.0:
         rating_result = 1.0
 
-    return rating_result
+    return float("{0:.2f}".format(rating_result))

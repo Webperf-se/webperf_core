@@ -47,7 +47,11 @@ def run_test(langCode, url):
 
         # get JSON
         response = json.loads(request.text)
-        errors = response['messages']
+        errors = list()
+        for message in response['messages']:
+            if message.get('type') == 'error':
+                errors.append(message)
+
         number_of_errors = len(errors)
         # print(len(errors))
     except requests.Timeout:

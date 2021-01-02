@@ -38,3 +38,9 @@ msgstr "* Problems (grouped by error message):\n"
 
 msgid "TEXT_REVIEW_ERRORS_ITEM"
 msgstr "- {0} (number of errors of this type: {1})\n"
+
+msgid "TEXT_REVIEW_RATING_GROUPED"
+msgstr "* Number of grouped error type: {0}, lowering score to: {1: .2f}\n"
+
+msgid "TEXT_REVIEW_RATING_ITEMS"
+msgstr "* Number of errors: {0}, effecting score by lowering it by: {1: .2f}\n"

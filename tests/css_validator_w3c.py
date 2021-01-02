@@ -43,13 +43,38 @@ def run_test(langCode, url):
     regex = r"<style.*>(?P<css>[^<]+)<\/style>"
     matches = re.finditer(regex, html, re.MULTILINE)
     results = list()
+    temp_inline_css = ''
     for matchNum, match in enumerate(matches, start=1):
         inline_style = match.group('css')
-        print('style-tag:')
-        result_inline_css = calculate_rating_for_markup(inline_style, _)
+        # limit number of calls to service (combine rules)
+        temp_inline_css += inline_style
+    if temp_inline_css != '':
+        print('style-tag(s):')
+        result_inline_css = calculate_rating_for_markup(temp_inline_css, _)
         results.append(result_inline_css)
-        #print('result_inline_css:', result_inline_css[0])
+        temp_inline_css = ''
+        time.sleep(10)
+        # print('result_inline_css:', result_inline_css[0])
     # 2.2 FIND ALL style=""
+    regex = r"<(?P<tag>[a-z0-1]+) .*style=[\"|'](?P<css>[^\"|']+)"
+    matches = re.finditer(regex, html, re.MULTILINE)
+    results = list()
+    temp_attribute_css = ''
+    for matchNum, match in enumerate(matches, start=1):
+        attribute_tag = match.group('tag')
+        attribute_style = match.group('css')
+        # limit number of calls to service (combine rules)
+        temp_attribute_css += "{0}{{{1}}}".format(
+            attribute_tag, attribute_style)
+
+    if temp_attribute_css != '':
+        print('style-attribute(s):')
+        result_attribute_css = calculate_rating_for_markup(
+            temp_attribute_css, _)
+        results.append(result_attribute_css)
+        temp_attribute_css = ''
+        time.sleep(10)
+
     #   regex = r"<(?P<tag>[a-z0-1]+) .*style=[\"|'](?P<css>[^\"|']+)"
     # 2.3 GET ERRORS FROM SERVICE
     # 2.4 CALCULATE SCORE
@@ -62,6 +87,7 @@ def run_test(langCode, url):
     parsed_url = '{0}://{1}'.format(o.scheme, o.netloc)
     parsed_url_scheme = o.scheme
 
+    resource_index = 1
     for matchNum, match in enumerate(matches, start=1):
         markup = match.group('markup')
         if 'stylesheet' in markup:
@@ -69,24 +95,25 @@ def run_test(langCode, url):
             if resource_url.startswith('//'):
                 # do nothing, complete url
                 resource_url = parsed_url_scheme + ':' + resource_url
-                #print('- do nothing, complete url')
+                # print('- do nothing, complete url')
             elif resource_url.startswith('/'):
                 # relative url, complement with dns
                 resource_url = parsed_url + resource_url
-                #print('- relative url, complement with dns')
+                # print('- relative url, complement with dns')
             elif resource_url.startswith('http://') or resource_url.startswith('https://'):
                 resource_url = resource_url
             else:
                 # relative url, but without starting /
                 resource_url = parsed_url + '/' + resource_url
 
-            print('resource_url:', resource_url)
-            # 3.1 GET ERRORS FROM SERVICE (FOR EVERY <LINK>)
+            #print('resource_url:', resource_url)
+            print('stylesheet resource #{0}:'.format(resource_index))
+            # 3.1 GET ERRORS FROM SERVICE (FOR EVERY <LINK>) AND CALCULATE SCORE
             result_link_css = calculate_rating_for_resource(resource_url, _)
             results.append(result_link_css)
-            time.sleep(5)
+            resource_index += 1
+            time.sleep(10)
 
-    # 3.2 CALCULATE SCORE
     # 4 COMBINE SCORE(s)
     number_of_results = len(results)
     points = 0.0
@@ -94,13 +121,13 @@ def run_test(langCode, url):
     for result in results:
         points += result[0]
         review += result[1]
-        #print('result[i]:', result)
+        # print('result[i]:', result)
 
-    points = points / number_of_results
+    points = float("{0:.3f}".format(points / number_of_results))
 
-    #points = result_page[0]
-    #review += result_page[1]
-    #error_message_dict = result_page[2]
+    # points = result_page[0]
+    # review += result_page[1]
+    # error_message_dict = result_page[2]
 
     if points == 5.0:
         review = _('TEXT_REVIEW_CSS_VERY_GOOD') + review
@@ -187,7 +214,7 @@ def get_errors_for_css(data):
         response = json.loads(request.text)
         errors = response['messages']
 
-        #print('source:', response['source']['code'])
+        # print('source:', response['source']['code'])
         # errors = list()
         # for message in response['messages']:
         #   if message.get('type') == 'error':

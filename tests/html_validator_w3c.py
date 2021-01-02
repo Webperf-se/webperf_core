@@ -87,7 +87,6 @@ def run_test(langCode, url):
 
     number_of_error_types = len(error_message_grouped_dict)
 
-    points = calculate_rating(number_of_error_types, number_of_errors)
     result = calculate_rating(number_of_error_types, number_of_errors)
     points = result[0]
 

@@ -84,6 +84,15 @@ def run_test(langCode, url):
     number_of_error_types = len(error_message_grouped_dict)
 
     points = calculate_rating(number_of_error_types, number_of_errors)
+    result = calculate_rating(number_of_error_types, number_of_errors)
+    points = result[0]
+
+    if number_of_errors > 0:
+        review = _('TEXT_REVIEW_RATING_ITEMS').format(number_of_errors,
+                                                      result[2]) + review
+    if number_of_error_types > 0:
+        review = _('TEXT_REVIEW_RATING_GROUPED').format(
+            number_of_error_types, result[1]) + review
 
     if points == 5.0:
         review = _('TEXT_REVIEW_HTML_VERY_GOOD') + review
@@ -102,15 +111,13 @@ def run_test(langCode, url):
 
 
 def calculate_rating(number_of_error_types, number_of_errors):
-    rating = 0.0
+    rating_number_of_error_types = 5.0 - (number_of_error_types / 5.0)
 
-    rating = 5.0 - (number_of_error_types / 5.0)
+    rating_number_of_errors = ((number_of_errors / 2.0) / 5.0)
 
-    rating2 = ((number_of_errors / 2.0) / 5.0)
-
-    rating3 = rating - rating2
-    rating_result = rating3
-    if rating3 < 1.0:
+    rating_result = float("{0:.2f}".format(
+        rating_number_of_error_types - rating_number_of_errors))
+    if rating_result < 1.0:
         rating_result = 1.0
 
-    return float("{0:.2f}".format(rating_result))
+    return (rating_result, rating_number_of_error_types, rating_number_of_errors)

@@ -38,3 +38,9 @@ msgstr "* Problem (grupperad på feltyp):\n"
 
 msgid "TEXT_REVIEW_ERRORS_ITEM"
 msgstr "- {0} (totalt {1} st)\n"
+
+msgid "TEXT_REVIEW_RATING_GROUPED"
+msgstr "* Antal (grupperade fel): {0}, vilket ändrar betyget till: {1: .2f}\n"
+
+msgid "TEXT_REVIEW_RATING_ITEMS"
+msgstr "* Antal fel: {0}, vilket ytterligare minskar betyget med: {1: .2f}\n"

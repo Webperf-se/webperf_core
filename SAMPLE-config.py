@@ -16,3 +16,8 @@ http_request_timeout = 60
 
 # timeout between calls to website
 webbkoll_sleep = 20
+
+# Yellow Lab Tools address
+# https://yellowlab.tools when using the public webservice online
+# http://localhost:8383 when installed locally
+ylt_server_address = 'https://yellowlab.tools'

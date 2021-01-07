@@ -14,7 +14,11 @@ import gettext
 _ = gettext.gettext
 
 ### DEFAULTS
-googlePageSpeedApiKey = config.googlePageSpeedApiKey
+try:
+	ylt_server_address = config.ylt_server_address
+except:
+	# If YLT URL is not set in config.py this will be the default
+	ylt_server_address = 'https://yellowlab.tools'
 
 def run_test(langCode, url, device='phone'):
 	"""
@@ -28,12 +32,12 @@ def run_test(langCode, url, device='phone'):
 
 	print(_("TEXT_RUNNING_TEST"))
 
-	r = requests.post('https://yellowlab.tools/api/runs', data = {'url':url, "waitForResponse":'true', 'device': device})
+	r = requests.post('{}/api/runs'.format(ylt_server_address), data = {'url':url, "waitForResponse":'true', 'device': device})
 
 	result_url = r.url
 	test_id = result_url.rsplit('/', 1)[1]
 
-	result_json = httpRequestGetContent('https://yellowlab.tools/api/results/{0}?exclude=toolsResults'.format(test_id))
+	result_json = httpRequestGetContent('{0}/api/results/{1}?exclude=toolsResults'.format(ylt_server_address, test_id))
 	result_dict = json.loads(result_json)
 
 	return_dict = {}

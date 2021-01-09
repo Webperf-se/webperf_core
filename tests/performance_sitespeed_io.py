@@ -25,6 +25,12 @@ def run_test(langCode, url):
 
 	image = "sitespeedio/sitespeed.io:latest"
 
+	language = gettext.translation('performance_sitespeed_io', localedir='locales', languages=[langCode])
+	language.install()
+	_ = language.gettext
+
+	print(_('TEXT_RUNNING_TEST'))
+
 	docker_client = docker.from_env()
 	result = str(docker_client.containers.run(image, arg))
 	result = result.replace('\\n', ' ')
@@ -55,26 +61,26 @@ def run_test(langCode, url):
 
 	if speedindex <= 500:
 		points = 5
-		review = '* Webbplatsen laddar in mycket snabbt!\n'
+		review = _("TEXT_REVIEW_VERY_GOOD")
 	elif speedindex <= 1200:
 		points = 4
-		review = '* Webbplatsen är snabb.\n'
+		review = _("TEXT_REVIEW_IS_GOOD")
 	elif speedindex <= 2500:
 		points = 3
-		review = '* Genomsnittlig hastighet.\n'
+		review = _("TEXT_REVIEW_IS_OK")
 	elif speedindex <= 3999:
 		points = 2
-		review = '* Webbplatsen är ganska långsam.\n'
+		review = _("TEXT_REVIEW_IS_BAD")
 	elif speedindex > 3999:
 		points = 1
-		review = '* Webbplatsen är väldigt långsam!\n'
+		review = _("TEXT_REVIEW_IS_VERY_BAD")
 
 	review += '* Speedindex: {}\n'.format(speedindex)
 	if 's' in result_dict['load']:
-		review += '* Laddtid: {}\n'.format(result_dict['load'])
+		review += _("TEXT_REVIEW_LOAD_TIME").format(result_dict['load'])
 	else:
-		review += '* Laddtid: 0.{}s\n'.format(result_dict['load'])
+		review += _("TEXT_REVIEW_LOAD_TIME_SECONDS").format(result_dict['load'])
 	
-	review += '* Antal requests: {} st'.format(result_dict['requests'])
+	review += _("TEXT_REVIEW_NUMBER_OF_REQUESTS").format(result_dict['requests'])
 
 	return (points, review, result_dict)

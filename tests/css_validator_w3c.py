@@ -18,6 +18,8 @@ _ = gettext.gettext
 # DEFAULTS
 request_timeout = config.http_request_timeout
 useragent = config.useragent
+css_review_group_errors = config.css_review_group_errors
+css_scoring_method = config.css_scoring_method
 
 
 def run_test(langCode, url):
@@ -57,17 +59,46 @@ def run_test(langCode, url):
         results.append(result)
 
     # 4 COMBINE SCORE(s)
-    number_of_results = len(results)
-    points = 0.0
-    error_message_dict = {}
-    for result in results:
-        current_points = result[0]
-        points += current_points
-        if current_points < 5.0:
-            review += result[1]
-        # print('result[i]:', result)
+    # Medelvärdsuträkning för alla resultat
+    if css_scoring_method == 'average':
+        number_of_results = len(results)
+        points = 0.0
+        error_message_dict = {}
+        for result in results:
+            current_points = result[0]
+            points += current_points
+            if current_points < 5.0:
+                review += result[1]
+    elif css_scoring_method == 'median':
+        # Medelvärde för de resultat som EJ fått 5.0 av 5.0
+        number_of_results = 0
+        points = 0.0
+        error_message_dict = {}
+        for result in results:
+            current_points = result[0]
+            if current_points < 5.0:
+                review += result[1]
+                number_of_results += 1
+                points += current_points
+    else:
+        # Använd lägsta värdet för alla resultat som värde
+        number_of_results = 1
+        points = 5.0
+        error_message_dict = {}
+        for result in results:
+            current_points = result[0]
+            if current_points < points:
+                review += result[1]
+                number_of_results = 1
+                points = current_points
 
     points = float("{0:.3f}".format(points / number_of_results))
+
+    if points > 5.0:
+        points = 5.0
+
+    if points < 1.0:
+        points = 1.0
 
     if points == 5.0:
         review = _('TEXT_REVIEW_CSS_VERY_GOOD') + review
@@ -266,8 +297,9 @@ def create_review_and_rating(errors, _, review_header):
 
                 #print(' - error-message:', error_message)
 
-                error_message = re.sub(
-                    regex, "X", error_message, 0, re.MULTILINE)
+                if css_review_group_errors:
+                    error_message = re.sub(
+                        regex, "X", error_message, 0, re.MULTILINE)
 
                 if error_message_grouped_dict.get(error_message, False):
                     error_message_grouped_dict[error_message] = error_message_grouped_dict[error_message] + 1
@@ -275,7 +307,8 @@ def create_review_and_rating(errors, _, review_header):
                     error_message_grouped_dict[error_message] = 1
 
         if len(error_message_grouped_dict) > 0:
-            review += _('TEXT_REVIEW_ERRORS_GROUPED')
+            if css_review_group_errors:
+                review += _('TEXT_REVIEW_ERRORS_GROUPED')
             error_message_grouped_sorted = sorted(
                 error_message_grouped_dict.items(), key=lambda x: x[1], reverse=True)
 

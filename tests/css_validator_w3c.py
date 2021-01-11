@@ -21,6 +21,8 @@ useragent = config.useragent
 css_review_group_errors = config.css_review_group_errors
 css_scoring_method = config.css_scoring_method
 
+global css_features
+
 
 def run_test(langCode, url):
     """
@@ -38,23 +40,28 @@ def run_test(langCode, url):
     print(_('TEXT_RUNNING_TEST'))
 
     results = list()
+
+    # 0. Get list of CSS property names from MDN Web Docs
+    #css_features = get_mdn_web_docs_css_features(True)
+
     # 1. Get ROOT PAGE HTML
     html = get_source(url)
     # 2. FIND ALL INLE CSS (AND CALCULTE)
     # 2.1 FINS ALL <STYLE>
-    results_style_tags = get_errors_for_style_tags(html, _)
+    results_style_tags = get_errors_for_style_tags(html, css_features, _)
     for result in results_style_tags:
         results.append(result)
 
     # 2.2 FIND ALL style=""
-    results_style_attributes = get_errors_for_style_attributes(html, _)
+    results_style_attributes = get_errors_for_style_attributes(
+        html, css_features, _)
     for result in results_style_attributes:
         results.append(result)
 
     # 2.3 GET ERRORS FROM SERVICE
     # 2.4 CALCULATE SCORE
     # 3 FIND ALL <LINK> (rel=\"stylesheet\")
-    results_link_tags = get_errors_for_link_tags(html, url, _)
+    results_link_tags = get_errors_for_link_tags(html, css_features, url, _)
     for result in results_link_tags:
         results.append(result)
 
@@ -114,7 +121,7 @@ def run_test(langCode, url):
     return (points, review, error_message_dict)
 
 
-def get_errors_for_link_tags(html, url, _):
+def get_errors_for_link_tags(html, css_features, url, _):
     results = list()
 
     regex = r"(?P<markup><link[^>]+(href|src)=[\"|'](?P<resource>[^\"|']+)[^>]*>)"
@@ -149,7 +156,7 @@ def get_errors_for_link_tags(html, url, _):
                 resource_index)
             # 3.1 GET ERRORS FROM SERVICE (FOR EVERY <LINK>) AND CALCULATE SCORE
             result_link_css = calculate_rating_for_resource(
-                resource_url, _, review_header)
+                resource_url, css_features, _, review_header)
             results.append(result_link_css)
             resource_index += 1
             time.sleep(10)
@@ -157,7 +164,7 @@ def get_errors_for_link_tags(html, url, _):
     return results
 
 
-def get_errors_for_style_attributes(html, _):
+def get_errors_for_style_attributes(html, css_features, _):
     results = list()
     regex = r"<(?P<tag>[a-z0-1]+) .*style=[\"|'](?P<css>[^\"|']+)"
     matches = re.finditer(regex, html, re.MULTILINE)
@@ -173,7 +180,7 @@ def get_errors_for_style_attributes(html, _):
         # print('style-attribute(s):')
         review_header = '* style="...":\n'
         result_attribute_css = calculate_rating_for_markup(
-            temp_attribute_css, _, review_header)
+            temp_attribute_css, css_features, _, review_header)
         results.append(result_attribute_css)
         temp_attribute_css = ''
         time.sleep(10)
@@ -181,7 +188,7 @@ def get_errors_for_style_attributes(html, _):
     return results
 
 
-def get_errors_for_style_tags(html, _):
+def get_errors_for_style_tags(html, css_features, _):
     regex = r"<style.*>(?P<css>[^<]+)<\/style>"
     matches = re.finditer(regex, html, re.MULTILINE)
     results = list()
@@ -194,7 +201,7 @@ def get_errors_for_style_tags(html, _):
         # print('style-tag(s):')
         review_header = '* <style>:\n'
         result_inline_css = calculate_rating_for_markup(
-            temp_inline_css, _, review_header)
+            temp_inline_css, css_features, _, review_header)
         results.append(result_inline_css)
         temp_inline_css = ''
         time.sleep(10)
@@ -265,26 +272,60 @@ def get_errors_for_css(data):
         return None
 
 
-def calculate_rating_for_markup(data, _, review_header):
+def calculate_rating_for_markup(data, css_features, _, review_header):
     errors = get_errors_for_css(data)
-    result = create_review_and_rating(errors, _, review_header)
+    result = create_review_and_rating(errors, css_features, _, review_header)
     return result
 
 
-def calculate_rating_for_resource(url, _, review_header):
+def calculate_rating_for_resource(url, css_features, _, review_header):
     errors = get_errors_for_url(url)
-    result = create_review_and_rating(errors, _, review_header)
+    result = create_review_and_rating(errors, css_features, _, review_header)
     return result
 
 
-def create_review_and_rating(errors, _, review_header):
+def get_mdn_web_docs_css_features():
+    css_features = list()
+
+    html = httpRequestGetContent(
+        'https://developer.mozilla.org/en-US/docs/Web/CSS/Reference')
+
+    soup = BeautifulSoup(html, 'lxml')
+
+    try:
+        index_element = soup.find('div', class_='index')
+        if index_element:
+            links = index_element.find_all('a')
+            for link in links:
+                #print('link: {0}'.format(link.string))
+                regex = '(?P<name>[a-z\-0-9]+)[ ]*'
+                matches = re.search(regex, link.string)
+                if matches:
+                    property_name = matches.group('name')
+                    # print('-', property_name)
+                    css_features.append(property_name)
+        else:
+            print('no index element found')
+    except:
+        print(
+            'Error! "{0}" '.format(sys.exc_info()[0]))
+        pass
+
+    result = list()
+    for item in css_features:
+        result.append('Property “{0}” doesn\'t exist'.format(item))
+
+    return result
+
+
+css_features = get_mdn_web_docs_css_features()
+
+
+def create_review_and_rating(errors, css_features, _, review_header):
     review = ''
-    whitelisted_words = ['Property “font-display” doesn\'t exist',
-                         'Property “font-variation-settings” doesn\'t exist',
-                         'Property “font-stretch” doesn\'t exist',
-                         'Property “scrollbar-width” doesn\'t exist',
-                         'Property “text-decoration-skip-ink” doesn\'t exist',
-                         '“100%” is not a “font-stretch” value']
+    whitelisted_words = css_features
+
+    whitelisted_words.append('“100%” is not a “font-stretch” value')
 
     number_of_errors = len(errors)
 

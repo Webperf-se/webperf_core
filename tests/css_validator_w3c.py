@@ -117,7 +117,7 @@ def run_test(langCode, url):
 def get_errors_for_link_tags(html, url, _):
     results = list()
 
-    regex = r"(?P<markup><link.*(href|src)=[\"|'](?P<resource>[^\"|']+)[^>]*>)"
+    regex = r"(?P<markup><link[^>]+(href|src)=[\"|'](?P<resource>[^\"|']+)[^>]*>)"
     matches = re.finditer(regex, html, re.MULTILINE)
 
     o = urllib.parse.urlparse(url)
@@ -143,6 +143,7 @@ def get_errors_for_link_tags(html, url, _):
                 # relative url, but without starting /
                 resource_url = parsed_url + '/' + resource_url
 
+            #print('resource_url', resource_url)
             # print('stylesheet resource #{0}:'.format(resource_index))
             review_header = '* <link rel="stylesheet" #{0}>:\n'.format(
                 resource_index)
@@ -203,7 +204,11 @@ def get_errors_for_style_tags(html, _):
 def calculate_rating(number_of_error_types, number_of_errors):
     rating_number_of_error_types = 5.0 - (number_of_error_types / 5.0)
 
-    rating_number_of_errors = ((number_of_errors / 2.0) / 5.0)
+    temp_number_of_errors = number_of_errors - number_of_error_types
+    if number_of_errors <= 0:
+        rating_number_of_errors = 0.0
+    else:
+        rating_number_of_errors = ((temp_number_of_errors / 2.0) / 5.0)
 
     rating_result = float("{0:.2f}".format(
         rating_number_of_error_types - rating_number_of_errors))
@@ -274,8 +279,12 @@ def calculate_rating_for_resource(url, _, review_header):
 
 def create_review_and_rating(errors, _, review_header):
     review = ''
-    whitelisted_words = ['font-display',
-                         'font-variation-settings', 'font-stretch']
+    whitelisted_words = ['Property “font-display” doesn\'t exist',
+                         'Property “font-variation-settings” doesn\'t exist',
+                         'Property “font-stretch” doesn\'t exist',
+                         'Property “scrollbar-width” doesn\'t exist',
+                         'Property “text-decoration-skip-ink” doesn\'t exist',
+                         '“100%” is not a “font-stretch” value']
 
     number_of_errors = len(errors)
 

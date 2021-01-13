@@ -232,7 +232,7 @@ def get_errors_for_url(url):
         params = {'doc': url, 'out': 'json', 'level': 'error'}
         request = requests.get(service_url, allow_redirects=True,
                                headers=headers,
-                               timeout=request_timeout,
+                               timeout=request_timeout * 2,
                                params=params)
 
         # get JSON

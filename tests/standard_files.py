@@ -200,8 +200,8 @@ def validate_security_txt(_, parsed_url):
         pass
     security_root_content = httpRequestGetContent(security_root_url)
 
-    print('security_wellknown_content:', security_wellknown_content)
-    print('security_root_content:', security_root_content)
+    #print('security_wellknown_content:', security_wellknown_content)
+    #print('security_root_content:', security_root_content)
 
     if not security_wellknown_request and not security_root_request:
         # Can't find security.txt (not giving us 200 as status code)
@@ -217,8 +217,8 @@ def validate_security_txt(_, parsed_url):
         security_root_result = rate_securitytxt_content(
             security_root_content, _)
 
-        print('result1:', security_wellknown_result)
-        print('result2:', security_root_result)
+        #print('result1:', security_wellknown_result)
+        #print('result2:', security_root_result)
         security_wellknown_points = security_wellknown_result[0]
         security_root_points = security_root_result[0]
 

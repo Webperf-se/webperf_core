@@ -10,7 +10,7 @@ _ = gettext.gettext
 TEST_ALL = -1
 
 (TEST_UNKNOWN_01, TEST_GOOGLE_LIGHTHOUSE, TEST_PAGE_NOT_FOUND, TEST_UNKNOWN_03, TEST_GOOGLE_LIGHTHOUSE_SEO, TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE, TEST_HTML, TEST_CSS, TEST_GOOGLE_LIGHTHOUSE_PWA, TEST_STANDARD_FILES,
- TEST_GOOGLE_LIGHTHOUSE_A11Y, TEST_UNKNOWN_11, TEST_UNKNOWN_12, TEST_UNKNOWN_13, TEST_UNKNOWN_14, TEST_UNKNOWN_15, TEST_UNKNOWN_16, TEST_YELLOW_LAB_TOOLS, TEST_UNKNOWN_18, TEST_UNKNOWN_19, TEST_WEBBKOLL) = range(21)
+ TEST_GOOGLE_LIGHTHOUSE_A11Y, TEST_UNKNOWN_11, TEST_UNKNOWN_12, TEST_UNKNOWN_13, TEST_UNKNOWN_14, TEST_SITESPEED, TEST_UNKNOWN_16, TEST_YELLOW_LAB_TOOLS, TEST_UNKNOWN_18, TEST_UNKNOWN_19, TEST_WEBBKOLL) = range(21)
 
 
 def testsites(langCode, sites, test_type=None, show_reviews=False, only_test_untested_last_hours=24, order_by='title ASC'):
@@ -57,6 +57,8 @@ def testsites(langCode, sites, test_type=None, show_reviews=False, only_test_unt
                 from tests.standard_files import run_test
             elif test_type == TEST_GOOGLE_LIGHTHOUSE_A11Y:
                 from tests.a11y_lighthouse import run_test
+            elif test_type == TEST_SITESPEED:
+                from tests.performance_sitespeed_io import run_test
             elif test_type == TEST_YELLOW_LAB_TOOLS:
                 from tests.frontend_quality_yellow_lab_tools import run_test
 
@@ -126,6 +128,9 @@ def testing(langCode, sites, test_type=TEST_ALL, show_reviews=False):
     if (test_type == TEST_ALL or test_type == TEST_GOOGLE_LIGHTHOUSE_A11Y):
         tests.extend(testsites(
             langCode, sites, test_type=TEST_GOOGLE_LIGHTHOUSE_A11Y, show_reviews=show_reviews))
+    if (test_type == TEST_ALL or test_type == TEST_SITESPEED):
+        tests.extend(testsites(langCode, sites,
+                               test_type=TEST_SITESPEED, show_reviews=show_reviews))
     if (test_type == TEST_ALL or test_type == TEST_YELLOW_LAB_TOOLS):
         tests.extend(testsites(
             langCode, sites, test_type=TEST_YELLOW_LAB_TOOLS, show_reviews=show_reviews))
@@ -148,6 +153,7 @@ def validate_test_type(test_type):
         print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_PWA'))
         print(_('TEXT_TEST_VALID_ARGUMENTS_STANDARD_FILES'))
         print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_A11Y'))
+        print(_('TEXT_TEST_VALID_ARGUMENTS_SITESPEED'))
         print(_('TEXT_TEST_VALID_ARGUMENTS_YELLOW_LAB_TOOLS'))
         print(_('TEXT_TEST_VALID_ARGUMENTS_WEBBKOLL'))
         return -2
@@ -165,7 +171,7 @@ def main(argv):
     Options and arguments:
     -h/--help\t\t\t: Help information on how to use script
     -u/--url <site url>\t\t: website url to test against
-    -t/--test <1/2/4/5/6/7/8/9/10/20>\t: runs ONE specific test against website(s)
+    -t/--test <1/2/4/5/6/7/8/9/10/15/20>\t: runs ONE specific test against website(s)
     -r/--review\t\t\t: show reviews in terminal
     -i/--input <file path>\t: input file path (.json/.sqlite)
     -o/--output <file path>\t: output file path (.json/.csv/.sql/.sqlite)

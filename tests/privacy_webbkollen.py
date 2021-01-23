@@ -34,6 +34,7 @@ def run_test(langCode, url):
 
     print(_('TEXT_RUNNING_TEST'))
 
+    orginal_url = url
     url = 'https://webbkoll.dataskydd.net/{1}/check?url={0}'.format(
         url.replace('/', '%2F').replace(':', '%3A'), langCode)
     headers = {
@@ -41,10 +42,29 @@ def run_test(langCode, url):
 
     has_refresh_statement = True
     had_refresh_statement = False
+    session = requests.Session()
     while has_refresh_statement:
         has_refresh_statement = False
-        request = requests.get(url, allow_redirects=True,
-                               headers=headers, timeout=request_timeout)
+        request = session.get(url, allow_redirects=True,
+                              headers=headers, timeout=request_timeout)
+
+        if 'type="search" value="{0}">'.format(orginal_url) in request.text:
+            # headers[''] = ''
+            regex = r"_csrf_token[^>]*value=\"(?P<csrf>[^\"]+)\""
+            matches = re.finditer(regex, request.text, re.MULTILINE)
+            csrf_value = ''
+            for matchNum, match in enumerate(matches, start=1):
+                csrf_value = match.group('csrf')
+
+            data = {
+                '_csrf_token': csrf_value,
+                'url': orginal_url,
+                'submit': ''}
+            service_url = 'https://webbkoll.dataskydd.net/{0}/check'.format(
+                langCode)
+            request = session.post(service_url, allow_redirects=True,
+                                   headers=headers, timeout=request_timeout, data=data)
+
         if '<meta http-equiv="refresh"' in request.text:
             has_refresh_statement = True
             had_refresh_statement = True

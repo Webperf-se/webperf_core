@@ -111,3 +111,4 @@ dbase/dbase.sqlite
 result.json
 result.csv
 result.sql
+.vscode/settings.json

@@ -88,6 +88,9 @@ msgstr "-t 6\t: HTML Validation"
 msgid "TEXT_TEST_VALID_ARGUMENTS_CSS"
 msgstr "-t 7\t: CSS Validation"
 
+msgid "TEXT_TEST_VALID_ARGUMENTS_SITESPEED"
+msgstr "-t 7\t: Prestanda (Sitespeed.io)"
+
 #: default.py:136
 msgid "TEXT_TEST_VALID_ARGUMENTS_WEBBKOLL"
 msgstr "-t 20\t: Integrity & Security (Webbkoll)"

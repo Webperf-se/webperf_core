@@ -19,7 +19,7 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "###############################\nKör test: 9 - Standardfiler\n###############################"
 
 msgid "TEXT_ROBOTS_MISSING"
-msgstr "* robots.txt saknas, får inte lov att hämtas eller har inte förväntat innehåll.\n"
+msgstr "* robots.txt antingen saknas, får inte lov att hämtas eller har inte förväntat innehåll.\n"
 
 msgid "TEXT_ROBOTS_OK"
 msgstr "* robots.txt verkar ok.\n"
@@ -37,7 +37,7 @@ msgid "TEXT_SITEMAP_OK"
 msgstr "* Sitemap verkar fungera.\n"
 
 msgid "TEXT_RSS_FEED_MISSING"
-msgstr "* RSS-prenumeration saknas i meta.\n"
+msgstr "* RSS-prenumeration saknas i HTML-kodens metadata.\n"
 
 msgid "TEXT_RSS_FEED_FOUND"
 msgstr "* RSS-prenumeration hittad.\n"
@@ -52,7 +52,7 @@ msgid "TEXT_SECURITY_OK_CONTENT"
 msgstr "* security.txt verkar ok.\n"
 
 msgid "TEXT_SECURITY_REQUIRED_CONTACT_MISSING"
-msgstr "* security.txt kontakt fält saknas.\n"
+msgstr "* security.txt saknar kontaktinformation.\n"
 
 msgid "TEXT_SECURITY_REQUIRED_EXPIRES_MISSING"
-msgstr "* security.txt fält för utgångstid saknas (krav tillagt i utkast v10).\n"
+msgstr "* security.txt information om utgångstid saknas (krav tillagt i utkast v10).\n"

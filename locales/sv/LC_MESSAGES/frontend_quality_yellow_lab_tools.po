@@ -19,16 +19,16 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "###############################\nKör test: 17 - Kvalitet på frontend (Yellow Lab Tools)\n###############################"
 
 msgid "TEXT_WEBSITE_IS_VERY_GOOD"
-msgstr "* Webbplatsen är välbyggd!\n"
+msgstr "* Webbplatsen har välbyggd frontend-kod!\n"
 
 msgid "TEXT_WEBSITE_IS_GOOD"
 msgstr "* Webbplatsen är bra.\n"
 
 msgid "TEXT_WEBSITE_IS_OK"
-msgstr "* Helt ok.\n"
+msgstr "* Helt ok och ganska genomsnittligt.\n"
 
 msgid "TEXT_WEBSITE_IS_BAD"
-msgstr "* Webbplatsen är rätt långsam eller har dålig frontend-kod.\n"
+msgstr "* Webbplatsen har rätt mycket fulkod eller har dålig frontend-kod.\n"
 
 msgid "TEXT_WEBSITE_IS_VERY_BAD"
 msgstr "* Väldigt dåligt betyg enligt Yellow Lab Tools!\n"
@@ -46,22 +46,22 @@ msgid "TEXT_PAGE_REQUESTS"
 msgstr "* Andelen resurser för sidan: {}\n"
 
 msgid "TEXT_PAGE_DOM_COMPLEXITY"
-msgstr "* Sidans DOM komplexitet: {}\n"
+msgstr "* Sidans DOM-komplexitet: {}\n"
 
 msgid "TEXT_PAGE_DOM_MANIPULATIONS"
 msgstr "* Förändringar av sidans DOM: {}\n"
 
 msgid "TEXT_PAGE_SCROLL"
-msgstr "* Sid skrollning: {}\n"
+msgstr "* Sidskrollning: {}\n"
 
 msgid "TEXT_PAGE_BAD_JS"
-msgstr "* Sidans användning av dålig javascript: {}\n"
+msgstr "* Sidans användning av dålig Javascript: {}\n"
 
 msgid "TEXT_PAGE_JQUERY"
 msgstr "* Sidans användning av jQuery: {}\n"
 
 msgid "TEXT_PAGE_CSS_COMPLEXITY"
-msgstr "* Sidans CSS komplexitet: {}\n"
+msgstr "* Sidans CSS-komplexitet: {}\n"
 
 msgid "TEXT_PAGE_BAD_CSS"
 msgstr "* Sidans användning av dålig CSS: {}\n"

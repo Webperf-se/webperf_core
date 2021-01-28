@@ -25,13 +25,13 @@ msgid "TEXT_REVIEW_CSS_IS_GOOD"
 msgstr "* The tested page has {0} errors in its CSS code.\n"
 
 msgid "TEXT_REVIEW_CSS_IS_OK"
-msgstr "* The tested page has {0} errors in its CSS code.\n"
+msgstr "* The tested page has {0} errors in its CSS code. Neither good nor bad.\n"
 
 msgid "TEXT_REVIEW_CSS_IS_BAD"
-msgstr "* The tested page has {0} errors in its CSS code. It is not so good.\n"
+msgstr "* The tested page has {0} errors in its CSS code. It is pretty bad!\n"
 
 msgid "TEXT_REVIEW_CSS_IS_VERY_BAD"
-msgstr "* The tested page has lots of errors in its CSS code. A total of {0}. \n"
+msgstr "* The tested page has lots of errors in its CSS code. A total of {0}. It is really bad!\n"
 
 msgid "TEXT_REVIEW_ERRORS_GROUPED"
 msgstr "* Problems (grouped by error message):\n"

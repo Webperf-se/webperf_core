@@ -24,13 +24,13 @@ msgid "TEXT_REVIEW_A11Y_IS_GOOD"
 msgstr "* The website can be more accessible, but is rather good!\n"
 
 msgid "TEXT_REVIEW_A11Y_IS_OK"
-msgstr "* The accessibility is average, but need to get better.\n"
+msgstr "* The accessibility is about average, but needs to get better.\n"
 
 msgid "TEXT_REVIEW_A11Y_IS_BAD"
 msgstr "* The website is quite bad at accessibility and sucks for disabled people!\n"
 
 msgid "TEXT_REVIEW_A11Y_IS_VERY_BAD"
-msgstr "* The accessibility is apparently really bad!\n"
+msgstr "* The accessibility is apparently really bad! Probably both for disabled people and everyone of us when we require some accessibility!\n"
 
 msgid "TEXT_REVIEW_A11Y_NUMBER_OF_PROBLEMS"
 msgstr "* Number of problems with accessibility: {}\n"

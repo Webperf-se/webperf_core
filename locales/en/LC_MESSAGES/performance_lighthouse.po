@@ -19,19 +19,19 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "###############################\nRunning test: 1 - Performance (Google Lighthouse)\n###############################"
 
 msgid "TEXT_REVIEW_VERY_GOOD"
-msgstr "* The website loads very fast!\n"
+msgstr "* The website is really fast!\n"
 
 msgid "TEXT_REVIEW_IS_GOOD"
 msgstr "* The website is fast.\n"
 
 msgid "TEXT_REVIEW_IS_OK"
-msgstr "* Average speed.\n"
+msgstr "* About average speed.\n"
 
 msgid "TEXT_REVIEW_IS_BAD"
 msgstr "* The website is quite slow.\n"
 
 msgid "TEXT_REVIEW_IS_VERY_BAD"
-msgstr "* The website is very slow!\n"
+msgstr "* The website is really slow!\n"
 
 msgid "TEXT_REVIEW_OBSERVED_SPEED"
 msgstr "* Observed speed: {} seconds\n"
@@ -53,4 +53,3 @@ msgstr "* Time spent for redirects: {} sec\n"
 
 msgid "TEXT_REVIEW_TOTAL_WEIGHT"
 msgstr "* Total weight of the page: {} kb\n"
-

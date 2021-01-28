@@ -21,7 +21,7 @@ msgid "TEXT_REVIEW_SEO_VERY_GOOD"
 msgstr "* Webbplatsen följer god SEO-praxis fullt ut!\n"
 
 msgid "TEXT_REVIEW_SEO_IS_GOOD"
-msgstr "* Webbplatsen har ändå förbättrings&shy;potential inom SEO.\n"
+msgstr "* Webbplatsen kan ändå förbättras inom SEO.\n"
 
 msgid "TEXT_REVIEW_SEO_IS_OK"
 msgstr "* Genomsnittlig efterlevnad till SEO-praxis.\n"

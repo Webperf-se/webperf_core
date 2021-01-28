@@ -28,7 +28,7 @@ msgid "TEXT_REVIEW_HTML_IS_OK"
 msgstr "* The tested page has {0} errors in its HTML code.\n"
 
 msgid "TEXT_REVIEW_HTML_IS_BAD"
-msgstr "* The tested page has {0} errors in its HTML code. It is not so good.\n"
+msgstr "* The tested page has {0} errors in its HTML code. It is not that good.\n"
 
 msgid "TEXT_REVIEW_HTML_IS_VERY_BAD"
 msgstr "* The tested page has lots of errors in its HTML code. A total of {0}. \n"
@@ -37,7 +37,7 @@ msgid "TEXT_REVIEW_ERRORS_GROUPED"
 msgstr "* Problems (grouped by error message):\n"
 
 msgid "TEXT_REVIEW_ERRORS_ITEM"
-msgstr "- {0} (number of errors of this type: {1})\n"
+msgstr "- {0} (errors of this type: {1} pcs)\n"
 
 msgid "TEXT_REVIEW_RATING_GROUPED"
 msgstr "* Number of grouped error type: {0}, lowering score to: {1: .2f}\n"

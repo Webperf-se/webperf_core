@@ -25,7 +25,6 @@ def httpRequestGetContent(url):
         headers = {'user-agent': useragent}
         a = requests.get(url, allow_redirects=False,
                          headers=headers, timeout=request_timeout*2)
-        #a = requests.get(url, timeout=request_timeout)
 
         return a.text
     except requests.exceptions.SSLError:
@@ -43,6 +42,31 @@ def httpRequestGetContent(url):
         print(
             'Error! Unfortunately the request for URL "{0}" either timed out or failed for other reason(s). The timeout is set to {1} seconds.\nMessage:\n{2}'.format(url, request_timeout, sys.exc_info()[0]))
         pass
+
+
+def has_redirect(url):
+    """Trying to fetch the response content
+    Attributes: url, as for the URL to fetch
+    """
+
+    try:
+        headers = {'user-agent': useragent}
+        a = requests.get(url, allow_redirects=False,
+                         headers=headers, timeout=request_timeout*2)
+
+        has_location_header = 'Location' in a.headers
+        #print('httpRequestGetContent', test)
+        if has_location_header:
+            return (True, a.headers['Location'])
+        else:
+            return (False, url)
+        return a.text
+    except requests.exceptions.SSLError:
+        return (False, None)
+    except requests.exceptions.ConnectionError:
+        return (False, None)
+    except:
+        return (False, None)
 
 
 def get_guid(length):

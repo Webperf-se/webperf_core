@@ -16,21 +16,25 @@ useragent = config.useragent
 googlePageSpeedApiKey = config.googlePageSpeedApiKey
 
 
-def httpRequestGetContent(url):
+def httpRequestGetContent(url, allow_redirects=False):
     """Trying to fetch the response content
     Attributes: url, as for the URL to fetch
     """
 
     try:
         headers = {'user-agent': useragent}
-        a = requests.get(url, allow_redirects=False,
+        a = requests.get(url, allow_redirects=allow_redirects,
                          headers=headers, timeout=request_timeout*2)
 
         return a.text
+    except ssl.CertificateError as error:
+        print('Info: Certificate error. {0}'.format(error.reason))
+        pass
     except requests.exceptions.SSLError:
         if 'http://' in url:  # trying the same URL over SSL/TLS
             print('Info: Trying SSL before giving up.')
             return httpRequestGetContent(url.replace('http://', 'https://'))
+        pass
     except requests.exceptions.ConnectionError:
         if 'http://' in url:  # trying the same URL over SSL/TLS
             print('Connection error! Info: Trying SSL before giving up.')
@@ -64,6 +68,9 @@ def has_redirect(url):
         else:
             return (False, url, '')
         return a.text
+    except ssl.CertificateError as error:
+        print('Info: Certificate error. {0}'.format(error.reason))
+        pass
     except requests.exceptions.SSLError:
         return (False, None, 'Unable to verify: SSL error occured')
     except requests.exceptions.ConnectionError:

@@ -56,17 +56,20 @@ def has_redirect(url):
 
         has_location_header = 'Location' in a.headers
         #print('httpRequestGetContent', test)
+
+        #print('has_redirect', has_location_header, url, a.headers)
+
         if has_location_header:
-            return (True, a.headers['Location'])
+            return (True, a.headers['Location'], '')
         else:
-            return (False, url)
+            return (False, url, '')
         return a.text
     except requests.exceptions.SSLError:
-        return (False, None)
+        return (False, None, 'Unable to verify: SSL error occured')
     except requests.exceptions.ConnectionError:
-        return (False, None)
+        return (False, None, 'Unable to verify: connection error occured')
     except:
-        return (False, None)
+        return (False, None, 'Unable to verify: unknown connection error occured')
 
 
 def get_guid(length):

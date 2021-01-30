@@ -83,7 +83,7 @@ def run_test(langCode, url):
     if len(review) == 0:
         review = _('TEXT_REVIEW_NO_REMARKS')
 
-    if points == 0:
+    if points < 1.0:
         points = 1.0
 
     return (points, review, result_dict)
@@ -108,13 +108,11 @@ def check_url(url):
     points += result[0]
     review += '- TLS Version:\r\n'
     review += result[1]
-    #print('TLS Version(s):', result[1])
 
     result = ip_version_score(hostname)
     points += result[0]
     review += '- IP Version:\r\n'
     review += result[1]
-    #print('IP Version:', result)
 
     result = dns_score(hostname)
     points += result[0]
@@ -126,23 +124,27 @@ def check_url(url):
 
 def http_to_https_score(url):
     http_url = ''
-    https_url = ''
+    #https_url = ''
 
     o = urllib.parse.urlparse(url)
 
     if (o.scheme == 'https'):
-        https_url = url
+        #https_url = url
         http_url = url.replace('https://', 'http://')
     else:
         http_url = url
-        https_url = url.replace('http://', 'https://')
+        #https_url = url.replace('http://', 'https://')
 
     redirect_result = has_redirect(http_url)
+
     result_url = ''
     if (redirect_result[0]):
         result_url = redirect_result[1]
     else:
-        result_url = redirect_result[1]
+        result_url = http_url
+
+    if result_url == None:
+        return (0.0, '- Unable to verify HTTP to HTTPS redirect (0.0 points)\r\n')
 
     result_url_o = urllib.parse.urlparse(result_url)
 
@@ -150,9 +152,6 @@ def http_to_https_score(url):
         return (0.0, '- No HTTP to HTTPS redirect (0.0 points)\r\n')
     else:
         return (1.0, '- HTTP to HTTPS redirect (1.0 points)\r\n')
-
-    # if result[0]:
-    #    return (1.0, '-- Have ESNI record (+1.0 points)\r\n')
 
 
 def dns_score(hostname):
@@ -189,37 +188,51 @@ def tls_version_score(hostname):
     review = ''
     # TODO: check cipher security
     # TODO: Check for insecure versions (ALL SSL, TLS 1.0 and TLS 1.1)
-    result = has_tls13(hostname)
-    #print(' - TLS v1.3:', result)
-    if result[0]:
-        points += 0.8
-        review += '-- TLS 1.3 support (+0.8 points)\r\n'
+    result_not_validated = has_tls13(hostname, False)
+    result_validated = has_tls13(hostname, True)
+
+    if result_not_validated[0] and result_validated[0]:
+        points += 0.6
+        review += '-- TLS 1.3 support (+0.6 points)\r\n'
+    elif result_not_validated[0]:
+        review += '-- TLS 1.3 support but wrong certificate (0.0 points)\r\n'
     else:
-        review += '-- No TLS 1.3 support\r\n'
-    #    return (1.0, result[1])
+        review += '-- No TLS 1.3 support (0.0 points)\r\n'
 
-    result = has_tls12(hostname)
-    #print(' - TLS v1.2:', result)
-    if result[0]:
-        points += 0.2
-        review += '-- TLS 1.2 support (+0.2 points)\r\n'
+    result_not_validated = has_tls12(hostname, False)
+    result_validated = has_tls12(hostname, True)
+
+    if result_not_validated[0] and result_validated[0]:
+        points += 0.4
+        review += '-- TLS 1.2 support (+0.4 points)\r\n'
+    elif result_not_validated[0]:
+        review += '-- TLS 1.2 support but wrong certificate (0.0 points)\r\n'
     else:
-        review += '-- No TLS 1.2 support\r\n'
-    #    return (0.5, result[1])
+        review += '-- No TLS 1.2 support (0.0 points)\r\n'
 
-    result = has_tls11(hostname)
-    #print(' - TLS v1.1:', result)
-    if result[0]:
-        points = 0.0
-        review += '-- TLS 1.1 INSECURE support (-1.0 points)\r\n'
-    #    return (0.1, result[1])
+    result_not_validated = has_tls11(hostname, False)
+    result_validated = has_tls11(hostname, True)
 
-    result = has_tls10(hostname)
-    #print(' - TLS v1.0:', result)
-    if result[0]:
+    if result_not_validated[0] and result_validated[0]:
         points = 0.0
-        review += '-- TLS 1.0 INSECURE support (-1.0 points)\r\n'
-    #    return (0.1, result[1])
+        review += '-- TLS 1.1 support, is insecure (=0.0 points)\r\n'
+    elif result_not_validated[0]:
+        points = 0.0
+        review += '-- TLS 1.1 support but wrong certificate, is insecure (=0.0 points)\r\n'
+    # else:
+    #    review += '-- No TLS 1.1 support\r\n'
+
+    result_not_validated = has_tls10(hostname, False)
+    result_validated = has_tls10(hostname, True)
+
+    if result_not_validated[0] and result_validated[0]:
+        points = 0.0
+        review += '-- TLS 1.0 support, is insecure (=0.0 points)\r\n'
+    elif result_validated[0]:
+        points = 0.0
+        review += '-- TLS 1.0 support but wrong certificate, is insecure (=0.0 points)\r\n'
+    # else:
+    #    review += '-- No TLS 1.0 support\r\n'
 
     return (points, review)
 
@@ -321,44 +334,7 @@ def check_http3(url):
         print(e)
 
 
-def test(hostname):
-    """Check if the hostname supports TLSv1.3
-
-    TLSv1.3 is required for ESNI so this method connects to the server and
-    tries to initiate a connection using that. If the connection is
-    successful, we confirm TLSv1.3 support, otherwise we return the highest
-    protocol supported by the server.
-
-    Note that as per the documentation, `create_default_context` uses
-    `ssl.PROTOCOL_TLS`, which in turn selects the highest protocol version
-    that both the client and the server support.
-
-    :return tuple: (True, protocol) if TLSv1.3 is supported,
-                   (False, protocol with error message) if it is not
-    """
-    conn = ssl.create_default_context()
-    try:
-        socket.setdefaulttimeout(10)
-        with socket.create_connection((hostname, 443)) as sock:
-            with conn.wrap_socket(sock,
-                                  server_hostname=hostname) as ssock:
-                protocol = ssock.version()
-                print('TEST', ssock.getpeername())
-    except (ConnectionRefusedError, ConnectionResetError):
-        return (False, "Unable to connect to port 443")
-    except ssl.SSLError as error:
-        return (False, error.reason)
-    except socket.gaierror:
-        return (False, "Hostname lookup failed")
-    except socket.timeout:
-        return (False, "Hostname connection failed")
-    if protocol == "TLSv1.3":
-        return (True, protocol)
-    else:
-        return (False, f"{hostname} supports {protocol}")
-
-
-def has_tls13(hostname):
+def has_tls13(hostname, validate_hostname):
     """Check if the hostname supports TLSv1.3
 
     TLSv1.3 is required for ESNI so this method connects to the server and
@@ -375,6 +351,13 @@ def has_tls13(hostname):
     """
     assert ssl.HAS_TLSv1_3
     conn = ssl.create_default_context()
+
+    # Ensure we validate certificate provided with the hostname
+    if validate_hostname:
+        conn.load_default_certs()
+        conn.verify_mode = ssl.CERT_REQUIRED
+        conn.check_hostname = True
+
     try:
         socket.setdefaulttimeout(10)
         with socket.create_connection((hostname, 443)) as sock:
@@ -396,7 +379,7 @@ def has_tls13(hostname):
         return (False, f"{hostname} supports {protocol}")
 
 
-def has_tls12(hostname):
+def has_tls12(hostname, validate_hostname):
     """Check if the hostname supports TLSv1.2
 
     TLSv1.2 is required for ESNI so this method connects to the server and
@@ -412,15 +395,20 @@ def has_tls12(hostname):
                    (False, protocol with error message) if it is not
     """
     assert ssl.HAS_TLSv1_2
-    #conn = ssl.create_default_context()
     conn = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+
+    # Ensure we validate certificate provided with the hostname
+    if validate_hostname:
+        conn.load_default_certs()
+        conn.verify_mode = ssl.CERT_REQUIRED
+        conn.check_hostname = True
+
     try:
         socket.setdefaulttimeout(10)
         with socket.create_connection((hostname, 443)) as sock:
             with conn.wrap_socket(sock,
                                   server_hostname=hostname) as ssock:
                 protocol = ssock.version()
-                #print('TEST v1.2', ssock.cipher())
     except (ConnectionRefusedError, ConnectionResetError):
         return (False, "Unable to connect to port 443")
     except ssl.SSLError as error:
@@ -435,7 +423,7 @@ def has_tls12(hostname):
         return (False, f"{hostname} supports {protocol}")
 
 
-def has_tls11(hostname):
+def has_tls11(hostname, validate_hostname):
     """Check if the hostname supports TLSv1.1
 
     TLSv1.1 is required for ESNI so this method connects to the server and
@@ -453,6 +441,13 @@ def has_tls11(hostname):
     assert ssl.HAS_TLSv1_1
     #conn = ssl.create_default_context()
     conn = ssl.SSLContext(ssl.PROTOCOL_TLSv1_1)
+
+    # Ensure we validate certificate provided with the hostname
+    if validate_hostname:
+        conn.load_default_certs()
+        conn.verify_mode = ssl.CERT_REQUIRED
+        conn.check_hostname = True
+
     try:
         socket.setdefaulttimeout(10)
         with socket.create_connection((hostname, 443)) as sock:
@@ -474,7 +469,7 @@ def has_tls11(hostname):
         return (False, f"{hostname} supports {protocol}")
 
 
-def has_tls10(hostname):
+def has_tls10(hostname, validate_hostname):
     """Check if the hostname supports TLSv1.0
 
     TLSv1.0 is required for ESNI so this method connects to the server and
@@ -492,6 +487,13 @@ def has_tls10(hostname):
     assert ssl.HAS_TLSv1
     #conn = ssl.create_default_context()
     conn = ssl.SSLContext(ssl.PROTOCOL_TLSv1)
+
+    # Ensure we validate certificate provided with the hostname
+    if validate_hostname:
+        conn.load_default_certs()
+        conn.verify_mode = ssl.CERT_REQUIRED
+        conn.check_hostname = True
+
     try:
         socket.setdefaulttimeout(10)
         with socket.create_connection((hostname, 443)) as sock:

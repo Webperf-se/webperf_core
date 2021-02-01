@@ -18,13 +18,13 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "###############################\nKör test: 10 - Tillgänglighet (Google Lighthouse)"
 
 msgid "TEXT_REVIEW_A11Y_VERY_GOOD"
-msgstr "* Webbplatsen har inga uppenbara fel inom tillgänglighet!\n"
+msgstr "* Webbplatsen har inga uppenbara fel inom tillgänglighet! Bra, men gör manuella undersökningar för säkerhets skull!\n"
 
 msgid "TEXT_REVIEW_A11Y_IS_GOOD"
-msgstr "* Webbplatsen kan bli mer tillgänglig, men är helt ok.\n"
+msgstr "* Webbplatsen kan bli mer tillgänglig, men är ganska ok.\n"
 
 msgid "TEXT_REVIEW_A11Y_IS_OK"
-msgstr "* Genomsnittlig tillgänglighet men behöver bli bättre.\n"
+msgstr "* Genomsnittlig tillgänglighet men och bli bättre gentemot automatiska tester.\n"
 
 msgid "TEXT_REVIEW_A11Y_IS_BAD"
 msgstr "* Webbplatsen är dålig på tillgänglighet för funktions&shy;varierade personer.\n"

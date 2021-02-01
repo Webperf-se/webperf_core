@@ -19,19 +19,19 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "###############################\nRunning test: 17 - Quality on frontend (Yellow Lab Tools)\n###############################"
 
 msgid "TEXT_WEBSITE_IS_VERY_GOOD"
-msgstr "* The website is well built!\n"
+msgstr "* The website is really well built!\n"
 
 msgid "TEXT_WEBSITE_IS_GOOD"
-msgstr "* The website is good.\n"
+msgstr "* The website has good frontend code.\n"
 
 msgid "TEXT_WEBSITE_IS_OK"
-msgstr "* The website is not good or bad.\n"
+msgstr "* The website is neither good nor bad.\n"
 
 msgid "TEXT_WEBSITE_IS_BAD"
-msgstr "* The website is quite slow or has a bad front-end code.\n"
+msgstr "* The website is potentially slow and hava pretty bad frontend code.\n"
 
 msgid "TEXT_WEBSITE_IS_VERY_BAD"
-msgstr "* Very bad rating according to Yellow Lab Tools.\n"
+msgstr "* Very bad frontend rating according to Yellow Lab Tools.\n"
 
 msgid "TEXT_OVERALL_GRADE"
 msgstr "* Overall rating: {} out of 100\n"
@@ -40,7 +40,7 @@ msgid "TEXT_TESTED_ON_DEVICETYPE"
 msgstr "* Tested for device type: {}\n"
 
 msgid "TEXT_PAGE_WEIGHT"
-msgstr "* page weight: {}\n"
+msgstr "* Page weight: {}\n"
 
 msgid "TEXT_PAGE_REQUESTS"
 msgstr "* Number of page requests: {}\n"

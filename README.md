@@ -1,12 +1,18 @@
 # Webperf Core
 Minimalistic client mainly running on PythonAnywhere.com, accessing different websites, or web-APIs, and scraping them.
 
-The tests included in the first version are:
-* Google Lighthouse API
-* Testing the 404 page and status code
+The tests included in 2.0 are:
+* Google Lighthouse accessibility with Axe
+* Google Lighthouse performance
+* Google Lighthouse best practice
+* Google Lighthouse progressive web apps
+* Google Lighthouse SEO
+* Testing the 404 page and status code (by default checks for Swedish text, though)
 * Validating the HTML code against W3C
 * Validating the CSS code against W3C
 * Users’ integrity test against Webbkoll, provided by Dataskydd.net
+* Frontend quality against Yellow Lab Tools
+* *Website performance with Sitespeed.io (requires local instance of Sitespeed.io)*
 
 ## psst. third party extensions...
 * [webperf-leaderboard](https://github.com/krompaco/webperf-leaderboard) by [Johan Kronberg](https://github.com/krompaco/)
@@ -56,19 +62,21 @@ Now it will begin testing.
 |---|---|
 | -h/--help | Help information on how to use script |
 | -u/--url <site url> | website url to test against |
-| -t/--test <1/2/6/7/20> | runs ONE specific test against website(s) |
+| -t/--test <test number> | run ONE test (use ? to list available tests) |
 | -r/--review | show reviews in terminal |
 | -i/--input <file path> | input file path (.json/.sqlite) |
+| -i/--input-skip <number> | number of items to skip |
+| -i/--input-take <number> | number of items to take |
 | -o/--output <file path> | output file path (.json/.csv/.sql/.sqlite) |
 | -a/--addUrl <site url> | website url (required in compination with -i/--input) |
 | -d/--deleteUrl <site url> | website url (required in compination with -i/--input) |
 | -L/--language <lang code> | language used for output(en = default/sv) |
 
 For instance, if you'd like to test *https://yourwebsite.com*, get the output as a JSON-file named *my-report.json* and also see the reviews in the prompt the statement is as follows:  
-*python default.py -u https://yourwebsite.com -o my-report.json -r*
+```python default.py -u https://yourwebsite.com -o my-report.json -r```
 
-If you want to test multiple URL:s and get the results as a CSV-file, then edit the file *sites.json* and run the following in your terminal to get the result in the file *results.csv*:  
-*python default.py -i sites.json -o results.csv*
+If you want to test multiple URL:s and get the results as a CSV-file, then edit the file *sites.json* and run the following in your terminal to get the result in a file of your chosing, for instance *results.csv* in the application root:  
+```python default.py -i sites.json -o results.csv```
 
 The file *sites.json* already exists in the repository's root. If you'd like to check multiple websites or URL:s you've to add them inside the square brackets, separated by commas. For instance:  
 ```
@@ -85,7 +93,7 @@ The file *sites.json* already exists in the repository's root. If you'd like to 
 }
 ```
 
-### Are you getting error messages? 
+### Are you receiving error messages? 
 
 It is often worthwhile to google the error messages you get. If you give up the search then you can always [check if someone on our Slack channel](https://webperf.se/articles/webperf-pa-slack/) have time to help you, but don’t forget to paste your error message directly in the first post. Or, if you think your error are common for more people than yourself, post an issue here at Github.
 
@@ -94,38 +102,39 @@ It is often worthwhile to google the error messages you get. If you give up the 
 The multiple language support is built on `gettext` in Python.
 
 #### How to support new language
+You could either follow the more technical suggestions below, or you perhaps would like an application such as [Poedit](https://poedit.net) (available on Macos, Linux and Windows).
 
 To create a new language source file:  
-`python3 <your path to pygettext.py > -d webperf-core -o locales/webperf-core.pot default.py checks.py`
+```python3 <your path to pygettext.py > -d webperf-core -o locales/webperf-core.pot default.py checks.py```
 
 Copy the file to your locale, for Swedish it would be:  
-`locales/sv/LC_MESSAGES/webperf-core.pot`
+```locales/sv/LC_MESSAGES/webperf-core.pot```
 
 Rename the file extension from `.pot` to `.po`
 
 After you have translated everything you should run the following command from the LC_MESSAGES folder:  
-`python3 <your path to msgfmt.py> -o webperf-core.mo webperf-core.po`
+```python3 <your path to msgfmt.py> -o webperf-core.mo webperf-core.po```
 
 You now have support for a new language, please send it to the official repository using a pull request :)
 
 #### How to find pygettext.py
 
 Locate your pygettext.py file:  
-`locate pygettext.py`
+```locate pygettext.py```
 
 It might be as follows:  
-`/Library/Frameworks/Python.framework/Versions/3.8/share/doc/python3.8/examples/Tools/i18n/pygettext.py`
+```/Library/Frameworks/Python.framework/Versions/3.8/share/doc/python3.8/examples/Tools/i18n/pygettext.py```
 
 #### How to find msgfmt.py
 
 Locate your msgfmt.py file:  
-`locate msgfmt.py`
+```locate msgfmt.py```
 
 It might be as follows:  
-`/Library/Frameworks/Python.framework/Versions/3.8/share/doc/python3.8/examples/Tools/i18n/msgfmt.py`
+```/Library/Frameworks/Python.framework/Versions/3.8/share/doc/python3.8/examples/Tools/i18n/msgfmt.py```
 
 The command can be:
-`python3 /Library/Frameworks/Python.framework/Versions/3.8/share/doc/python3.8/examples/Tools/i18n/pygettext.py -d webperf-core -o locales/webperf-core.pot default.py `
+```python3 /Library/Frameworks/Python.framework/Versions/3.8/share/doc/python3.8/examples/Tools/i18n/pygettext.py -d webperf-core -o locales/webperf-core.pot default.py```
 
 ### References
 

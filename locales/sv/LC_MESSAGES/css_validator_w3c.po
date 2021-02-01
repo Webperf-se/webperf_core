@@ -19,10 +19,17 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "###############################\nKör test: 7 - CSS\n###############################"
 
 msgid "TEXT_REVIEW_CSS_VERY_GOOD"
+<<<<<<< HEAD
+msgstr "* Inga som helst fel i CSS-koden.\n"
+
+msgid "TEXT_REVIEW_CSS_IS_GOOD"
+msgstr "* Den testade sidan har {0} st fel i sin CSS-kod. Ganska bra!\n"
+=======
 msgstr "- CSS är välbyggd!\n"
 
 msgid "TEXT_REVIEW_CSS_IS_GOOD"
 msgstr "- CSS är bra.\n"
+>>>>>>> 405f14099ab3543d83b9eb1fdafa44884e93f80b
 
 msgid "TEXT_REVIEW_CSS_IS_OK"
 msgstr "- CSS är ok.\n"

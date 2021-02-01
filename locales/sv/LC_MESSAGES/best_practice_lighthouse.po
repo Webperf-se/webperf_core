@@ -21,10 +21,10 @@ msgid "TEXT_REVIEW_PRACTICE_VERY_GOOD"
 msgstr "* Webbplatsen följer god praxis fullt ut!\n"
 
 msgid "TEXT_REVIEW_PRACTICE_IS_GOOD"
-msgstr "* Webbplatsen har ändå förbättrings&shy;potential.\n"
+msgstr "* Webbplatsen kan ändå förbättra sig lite inom god praxis!\n"
 
 msgid "TEXT_REVIEW_PRACTICE_IS_OK"
-msgstr "* Genomsnittlig efterlevnad till praxis.\n"
+msgstr "* Genomsnittlig efterlevnad till god praxis.\n"
 
 msgid "TEXT_REVIEW_PRACTICE_IS_BAD"
 msgstr "* Webbplatsen är ganska dålig på att följa god praxis.\n"

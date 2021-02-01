@@ -18,19 +18,19 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "###############################\nRunning test: 5 - Best Practice (Google Lighthouse)"
 
 msgid "TEXT_REVIEW_PRACTICE_VERY_GOOD"
-msgstr "* The website is within good practice according to Google Lighthouse!\n"
+msgstr "* The website is adhering to good practice according to Google Lighthouse!\n"
 
 msgid "TEXT_REVIEW_PRACTICE_IS_GOOD"
-msgstr "* The website can still improve some on best practice.\n"
+msgstr "* The website can still make some improvements on best practice.\n"
 
 msgid "TEXT_REVIEW_PRACTICE_IS_OK"
 msgstr "* About average on following good practice\n"
 
 msgid "TEXT_REVIEW_PRACTICE_IS_BAD"
-msgstr "* The website is pretty bad on what is considered good practice.\n"
+msgstr "* The website is pretty bad on what is considered good practice, according to Google Lighthouse.\n"
 
 msgid "TEXT_REVIEW_PRACTICE_IS_VERY_BAD"
-msgstr "* The website is really bad on adhering to good practice for the web!\n"
+msgstr "* The website is really bad on adhering to good practice for the web, according to Google Lighthouse!\n"
 
 msgid "TEXT_REVIEW_PRACTICE_NUMBER_OF_PROBLEMS"
 msgstr "* Number of problem(s) regarding good practice: {}\n"

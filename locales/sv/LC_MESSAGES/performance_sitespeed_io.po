@@ -41,4 +41,3 @@ msgstr "* Laddtid: 0.{}s\n"
 
 msgid "TEXT_REVIEW_NUMBER_OF_REQUESTS"
 msgstr "* Antal förfrågningar: {} st"
-

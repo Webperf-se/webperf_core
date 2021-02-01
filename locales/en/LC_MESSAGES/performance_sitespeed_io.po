@@ -20,13 +20,13 @@ msgstr "###############################\nRunning test: 15 - Performance (Sitespe
 
 
 msgid "TEXT_REVIEW_VERY_GOOD"
-msgstr "* The website loads very fast!\n"
+msgstr "* The website is really fast!\n"
 
 msgid "TEXT_REVIEW_IS_GOOD"
 msgstr "* The website is fast.\n"
 
 msgid "TEXT_REVIEW_IS_OK"
-msgstr "* Average speed.\n"
+msgstr "* About average speed.\n"
 
 msgid "TEXT_REVIEW_IS_BAD"
 msgstr "* The website is quite slow.\n"
@@ -42,4 +42,3 @@ msgstr "* Loading time: 0.{} sec\n"
 
 msgid "TEXT_REVIEW_NUMBER_OF_REQUESTS"
 msgstr "* Number of requests: {}"
-

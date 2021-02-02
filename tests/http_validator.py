@@ -39,10 +39,10 @@ def run_test(langCode, url):
     review = ''
     result_dict = {}
 
-    # language = gettext.translation(
-    #    'certificate_check', localedir='locales', languages=[langCode])
-    # language.install()
-    # _ = language.gettext
+    language = gettext.translation(
+        'http_validator', localedir='locales', languages=[langCode])
+    language.install()
+    _ = language.gettext
 
     print(_('TEXT_RUNNING_TEST'))
 
@@ -50,8 +50,8 @@ def run_test(langCode, url):
     check_url = True
 
     while check_url and nof_checks < 10:
-        review += '* Result for: ' + url + '\r\n'
-        url_result = validate_url(url)
+        review += _('TEXT_REVIEW_RESULT_FOR').format(url)
+        url_result = validate_url(url, _)
         points += url_result[0]
         review += url_result[1]
 
@@ -61,7 +61,7 @@ def run_test(langCode, url):
         nof_checks += 1
 
     if nof_checks > 1:
-        review += '* Score is divided by {0} (number of urls tested with redirects)'.format(
+        review += _('TEXT_REVIEW_SCORE_IS_DIVIDED').format(
             nof_checks)
 
     points = points / nof_checks
@@ -75,41 +75,41 @@ def run_test(langCode, url):
     return (points, review, result_dict)
 
 
-def validate_url(url):
+def validate_url(url, _):
     points = 0.0
     review = ''
 
     o = urllib.parse.urlparse(url)
     hostname = o.hostname
 
-    result = http_to_https_score(url)
+    result = http_to_https_score(url, _)
     points += result[0]
     review += result[1]
 
-    result = tls_version_score(hostname)
+    result = tls_version_score(hostname, _)
     points += result[0]
-    review += '- TLS Version(s):\r\n'
+    review += _('TEXT_REVIEW_TLS_VERSION')
     review += result[1]
 
-    result = ip_version_score(hostname)
+    result = ip_version_score(hostname, _)
     points += result[0]
-    review += '- IP Version(s):\r\n'
+    review += _('TEXT_REVIEW_IP_VERSION')
     review += result[1]
 
-    result = dns_score(hostname)
+    result = dns_score(hostname, _)
     points += result[0]
-    review += '- DNS Info:\r\n'
+    review += _('TEXT_REVIEW_DNS')
     review += result[1]
 
-    result = http_version_score(hostname, url)
+    result = http_version_score(hostname, url, _)
     points += result[0]
-    review += '- HTTP Version(s):\r\n'
+    review += _('TEXT_REVIEW_HTTP_VERSION')
     review += result[1]
 
     return (points, review)
 
 
-def http_to_https_score(url):
+def http_to_https_score(url, _):
     http_url = ''
 
     o = urllib.parse.urlparse(url)
@@ -128,43 +128,43 @@ def http_to_https_score(url):
         result_url = http_url
 
     if result_url == None:
-        return (0.0, '- Unable to verify HTTP to HTTPS redirect (0.0 points)\r\n')
+        return (0.0, _('TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_UNABLE_TO_VERIFY'))
 
     result_url_o = urllib.parse.urlparse(result_url)
 
     if (result_url_o.scheme == 'http'):
-        return (0.0, '- No HTTP to HTTPS redirect (0.0 points)\r\n')
+        return (0.0, _('TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_NO_REDIRECT'))
     else:
-        return (1.0, '- HTTP to HTTPS redirect (1.0 points)\r\n')
+        return (1.0, _('TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_REDIRECTED'))
 
 
-def dns_score(hostname):
+def dns_score(hostname, _):
     result = dns_lookup('_esni.' + hostname, "TXT")
 
     if result[0]:
-        return (1.0, '-- Have ESNI record (+1.0 points)\r\n')
+        return (1.0, _('TEXT_REVIEW_DNS_HAS_ESNI'))
 
-    return (0.0, '-- No ESNI record found (0.0 points)\r\n')
+    return (0.0, _('TEXT_REVIEW_DNS_NO_ESNI'))
 
 
-def ip_version_score(hostname):
+def ip_version_score(hostname, _):
     ip4_result = dns_lookup(hostname, "A")
 
     ip6_result = dns_lookup(hostname, "AAAA")
 
     if ip4_result[0] and ip6_result[0]:
-        return (1.0, '-- Both IPv4 and IPv6 support (+1.0 points)\r\n')
+        return (1.0, _('TEXT_REVIEW_IP_VERSION_BOTH_IPV4_AND_IPV6'))
 
     if ip6_result[0]:
-        return (0.5, '-- Only IPv6 support (+0.5 points)\r\n')
+        return (0.5, _('TEXT_REVIEW_IP_VERSION_IPV6'))
 
     if ip4_result[0]:
-        return (0.5, '-- Only IPv4 support (+0.5 points)\r\n')
+        return (0.5, _('TEXT_REVIEW_IP_VERSION_IPV4'))
 
-    return (0.0, '-- Unable to get IP version info\r\n')
+    return (0.0, _('TEXT_REVIEW_IP_VERSION_UNABLE_TO_VERIFY'))
 
 
-def tls_version_score(hostname):
+def tls_version_score(hostname, _):
     points = 0.0
     review = ''
     # TODO: check cipher security
@@ -173,42 +173,42 @@ def tls_version_score(hostname):
 
     if result_not_validated[0] and result_validated[0]:
         points += 0.6
-        review += '-- TLSv1.3 support (+0.6 points)\r\n'
+        review += _('TEXT_REVIEW_TLS_VERSION_TLS1_3_SUPPORT')
     elif result_not_validated[0]:
-        review += '-- TLSv1.3 support but wrong certificate (0.0 points)\r\n'
+        review += _('TEXT_REVIEW_TLS_VERSION_TLS1_3_SUPPORT_WRONG_CERT')
     else:
-        review += '-- No TLSv1.3 support (0.0 points)\r\n'
+        review += _('TEXT_REVIEW_TLS_VERSION_TLS1_3_NO_SUPPORT')
 
     result_not_validated = has_tls12(hostname, False)
     result_validated = has_tls12(hostname, True)
 
     if result_not_validated[0] and result_validated[0]:
         points += 0.4
-        review += '-- TLSv1.2 support (+0.4 points)\r\n'
+        review += _('TEXT_REVIEW_TLS_VERSION_TLS1_2_SUPPORT')
     elif result_not_validated[0]:
-        review += '-- TLSv1.2 support but wrong certificate (0.0 points)\r\n'
+        review += _('TEXT_REVIEW_TLS_VERSION_TLS1_2_SUPPORT_WRONG_CERT')
     else:
-        review += '-- No TLSv1.2 support (0.0 points)\r\n'
+        review += _('TEXT_REVIEW_TLS_VERSION_TLS1_2_NO_SUPPORT')
 
     result_not_validated = has_tls11(hostname, False)
     result_validated = has_tls11(hostname, True)
 
     if result_not_validated[0] and result_validated[0]:
         points = 0.0
-        review += '-- TLSv1.1 support, is insecure (=0.0 points)\r\n'
+        review += _('TEXT_REVIEW_TLS_VERSION_TLS1_1_SUPPORT')
     elif result_not_validated[0]:
         points = 0.0
-        review += '-- TLSv1.1 support but wrong certificate, is insecure (=0.0 points)\r\n'
+        review += _('TEXT_REVIEW_TLS_VERSION_TLS1_1_SUPPORT_WRONG_CERT')
 
     result_not_validated = has_tls10(hostname, False)
     result_validated = has_tls10(hostname, True)
 
     if result_not_validated[0] and result_validated[0]:
         points = 0.0
-        review += '-- TLSv1.0 support, is insecure (=0.0 points)\r\n'
+        review += _('TEXT_REVIEW_TLS_VERSION_TLS1_0_SUPPORT')
     elif result_validated[0]:
         points = 0.0
-        review += '-- TLSv1.0 support but wrong certificate, is insecure (=0.0 points)\r\n'
+        review += _('TEXT_REVIEW_TLS_VERSION_TLS1_0_SUPPORT_WRONG_CERT')
 
     return (points, review)
 
@@ -225,29 +225,29 @@ def dns_lookup(hostname, record_type):
     return (True, record)
 
 
-def http_version_score(hostname, url):
+def http_version_score(hostname, url, _):
     points = 0.0
     review = ''
 
     result = check_http11(hostname)
     if result[0]:
         points += 0.5
-        review += '-- HTTPv1.1 support (+0.5 points)\r\n'
+        review += _('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1')
 
     result = check_http2(hostname)
     if result[0]:
         points += 0.5
-        review += '-- HTTPv2 support (+0.5 points)\r\n'
+        review += _('TEXT_REVIEW_HTTP_VERSION_HTTP_2')
 
     # If we still have 0.0 points something must have gone wrong, try fallback
     if points == 0.0:
         result = check_http_fallback(url)
         if result[0]:
             points += 0.5
-            review += '-- HTTPv1.1 support (+0.5 points)\r\n'
+            review += _('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1')
         if result[1]:
             points += 0.5
-            review += '-- HTTPv2 support (+0.5 points)\r\n'
+            review += _('TEXT_REVIEW_HTTP_VERSION_HTTP_2')
 
     return (points, review)
 

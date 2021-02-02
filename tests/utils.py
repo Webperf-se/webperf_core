@@ -64,7 +64,11 @@ def has_redirect(url):
         #print('has_redirect', has_location_header, url, a.headers)
 
         if has_location_header:
-            return (True, a.headers['Location'], '')
+            location_header = a.headers['Location']
+            if len(location_header) > 1 and location_header[0:1] == '/':
+                return (True, url + a.headers['Location'], '')
+            else:
+                return (True, a.headers['Location'], '')
         else:
             return (False, url, '')
         return a.text

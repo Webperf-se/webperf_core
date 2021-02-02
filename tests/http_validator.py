@@ -318,11 +318,16 @@ def check_http_fallback(url):
         print(e)
         pass
 
-    if not has_http11:
-        # This call only supports HTTP/1.1
-        content = httpRequestGetContent(url, True)
-        if '</html>' in content:
-            has_http11 = True
+    try:
+        if not has_http11:
+            # This call only supports HTTP/1.1
+            content = httpRequestGetContent(url, True)
+            if '</html>' in content:
+                has_http11 = True
+    except Exception as e:
+        # Probably a CERT validation error, ignore
+        print(e)
+        pass
 
     return (has_http11, has_http2)
 

@@ -79,7 +79,7 @@ msgid "TEXT_REVIEW_DNS_HAS_ESNI"
 msgstr "-- Have ESNI record (+1.0 points)\r\n"
 
 msgid "TEXT_REVIEW_DNS_NO_ESNI"
-msgstr -- No ESNI record found (0.0 points)\r\n"
+msgstr "-- No ESNI record found (0.0 points)\r\n"
 
 msgid "TEXT_REVIEW_HTTP_VERSION"
 msgstr "- HTTP Version(s):\r\n"

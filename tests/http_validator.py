@@ -422,6 +422,9 @@ def has_tls11(hostname, validate_hostname):
         return (False, "Hostname lookup failed")
     except socket.timeout:
         return (False, "Hostname connection failed")
+    except Exception:
+        return (False, "unknown error")
+
     if protocol == "TLSv1.1":
         return (True, protocol)
     else:
@@ -454,6 +457,9 @@ def has_tls10(hostname, validate_hostname):
         return (False, "Hostname lookup failed")
     except socket.timeout:
         return (False, "Hostname connection failed")
+    except Exception:
+        return (False, "unknown error")
+
     if protocol == "TLSv1.0":
         return (True, protocol)
     else:

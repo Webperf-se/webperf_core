@@ -1,0 +1,103 @@
+# Swedish
+# Copyright (C) 2020 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2021-02-02 20:45+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: mattias <mattias@webperf.se>\n"
+"Language-Team: Swedish <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "###############################\nKör test: 21 - HTTP\n###############################"
+
+msgid "TEXT_REVIEW_RESULT_FOR"
+msgstr "* Resultat för: {0}\r\n"
+
+msgid "TEXT_REVIEW_SCORE_IS_DIVIDED"
+msgstr "* Poäng är dividerat med {0} (antal webbadresser testad med omdirigeringar)\r\n"
+
+msgid "TEXT_REVIEW_TLS_VERSION"
+msgstr "- TLS Version(er):\r\n"
+
+msgid "TEXT_REVIEW_TLS_VERSION_TLS1_3_SUPPORT"
+msgstr "-- TLSv1.3 stöd (+0.6 poäng)\r\n"
+
+msgid "TEXT_REVIEW_TLS_VERSION_TLS1_3_SUPPORT_WRONG_CERT"
+msgstr "-- TLSv1.3 stöd men med fel certifikat (0.0 poäng)\r\n"
+
+msgid "TEXT_REVIEW_TLS_VERSION_TLS1_3_NO_SUPPORT"
+msgstr "-- Inget TLSv1.3 stöd (0.0 poäng)\r\n"
+
+msgid "TEXT_REVIEW_TLS_VERSION_TLS1_2_SUPPORT"
+msgstr "-- TLSv1.2 stöd (+0.4 poäng)\r\n"
+
+msgid "TEXT_REVIEW_TLS_VERSION_TLS1_2_SUPPORT_WRONG_CERT"
+msgstr "-- TLSv1.2 stöd men med fel certifikat (0.0 poäng)\r\n"
+
+msgid "TEXT_REVIEW_TLS_VERSION_TLS1_2_NO_SUPPORT"
+msgstr "-- Inget TLSv1.2 stöd (0.0 poäng)\r\n"
+
+msgid "TEXT_REVIEW_TLS_VERSION_TLS1_1_SUPPORT"
+msgstr "-- TLSv1.1 stöd, vilket är osäkert (=0.0 poäng)\r\n"
+
+msgid "TEXT_REVIEW_TLS_VERSION_TLS1_1_SUPPORT_WRONG_CERT"
+msgstr "-- TLSv1.1 stöd, vilket är osäkert, använder även fel certifikat (=0.0 poäng)\r\n"
+
+msgid "TEXT_REVIEW_TLS_VERSION_TLS1_0_SUPPORT"
+msgstr "-- TLSv1.0 stöd, vilket är osäkert (=0.0 poäng)\r\n"
+
+msgid "TEXT_REVIEW_TLS_VERSION_TLS1_0_SUPPORT_WRONG_CERT"
+msgstr "-- TLSv1.0 stöd, vilket är osäkert, använder även fel certifikat (=0.0 poäng)\r\n"
+
+msgid "TEXT_REVIEW_IP_VERSION"
+msgstr "- IP Version(er):\r\n"
+
+msgid "TEXT_REVIEW_IP_VERSION_BOTH_IPV4_AND_IPV6"
+msgstr "-- Både IPv4 och IPv6 stöd (+1.0 poäng)\r\n"
+
+msgid "TEXT_REVIEW_IP_VERSION_IPV6"
+msgstr "-- Bara IPv6 stöd (+0.5 poäng)\r\n"
+
+msgid "TEXT_REVIEW_IP_VERSION_IPV4"
+msgstr "-- Bara IPv4 stöd (+0.5 poäng)\r\n"
+
+msgid "TEXT_REVIEW_IP_VERSION_UNABLE_TO_VERIFY"
+msgstr "-- Kunde ej få tag på IP versions information\r\n"
+
+msgid "TEXT_REVIEW_DNS"
+msgstr "- DNS Info:\r\n"
+
+msgid "TEXT_REVIEW_DNS_HAS_ESNI"
+msgstr "-- Har ESNI-post (+1.0 poäng)\r\n"
+
+msgid "TEXT_REVIEW_DNS_NO_ESNI"
+msgstr "-- Saknar ESNI-post (0.0 poäng)\r\n"
+
+msgid "TEXT_REVIEW_HTTP_VERSION"
+msgstr "- HTTP Version(er):\r\n"
+
+msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_1_1"
+msgstr "-- HTTPv1.1 stöd (+0.5 poäng)\r\n"
+
+msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_2"
+msgstr "-- HTTPv2 stöd (+0.5 poäng)\r\n"
+
+msgid "TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_UNABLE_TO_VERIFY"
+msgstr "- Kunde ej verifiera HTTP till HTTPS omdirigering (0.0 poäng)\r\n"
+
+msgid "TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_NO_REDIRECT"
+msgstr "- Ingen HTTP till HTTPS omdirigering (0.0 poäng)\r\n"
+
+msgid "TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_REDIRECTED"
+msgstr "- Har HTTP till HTTPS omdirigering (1.0 poäng)\r\n"
+
+msgid "TEXT_REVIEW_NO_REMARKS"
+msgstr "* Ingen anmärkning"

@@ -25,15 +25,6 @@ msgid "TEXT_REVIEW_CSS_IS_GOOD"
 msgstr "- The CSS is good.\n"
 
 msgid "TEXT_REVIEW_CSS_IS_OK"
-<<<<<<< HEAD
-msgstr "* The tested page has {0} errors in its CSS code. Neither good nor bad.\n"
-
-msgid "TEXT_REVIEW_CSS_IS_BAD"
-msgstr "* The tested page has {0} errors in its CSS code. It is pretty bad!\n"
-
-msgid "TEXT_REVIEW_CSS_IS_VERY_BAD"
-msgstr "* The tested page has lots of errors in its CSS code. A total of {0}. It is really bad!\n"
-=======
 msgstr "- The CSS is not good or bad.\n"
 
 msgid "TEXT_REVIEW_CSS_IS_BAD"
@@ -41,7 +32,6 @@ msgstr "- The CSS is bad.\n"
 
 msgid "TEXT_REVIEW_CSS_IS_VERY_BAD"
 msgstr "- The CSS is very bad.\n"
->>>>>>> 405f14099ab3543d83b9eb1fdafa44884e93f80b
 
 msgid "TEXT_REVIEW_ERRORS_GROUPED"
 msgstr "- Problems (grouped by error message):\n"

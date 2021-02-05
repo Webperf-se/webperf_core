@@ -16,22 +16,25 @@ useragent = config.useragent
 googlePageSpeedApiKey = config.googlePageSpeedApiKey
 
 
-def httpRequestGetContent(url):
+def httpRequestGetContent(url, allow_redirects=False):
     """Trying to fetch the response content
     Attributes: url, as for the URL to fetch
     """
 
     try:
         headers = {'user-agent': useragent}
-        a = requests.get(url, allow_redirects=False,
+        a = requests.get(url, allow_redirects=allow_redirects,
                          headers=headers, timeout=request_timeout*2)
-        #a = requests.get(url, timeout=request_timeout)
 
         return a.text
+    except ssl.CertificateError as error:
+        print('Info: Certificate error. {0}'.format(error.reason))
+        pass
     except requests.exceptions.SSLError:
         if 'http://' in url:  # trying the same URL over SSL/TLS
             print('Info: Trying SSL before giving up.')
             return httpRequestGetContent(url.replace('http://', 'https://'))
+        pass
     except requests.exceptions.ConnectionError:
         if 'http://' in url:  # trying the same URL over SSL/TLS
             print('Connection error! Info: Trying SSL before giving up.')
@@ -43,6 +46,41 @@ def httpRequestGetContent(url):
         print(
             'Error! Unfortunately the request for URL "{0}" either timed out or failed for other reason(s). The timeout is set to {1} seconds.\nMessage:\n{2}'.format(url, request_timeout, sys.exc_info()[0]))
         pass
+
+
+def has_redirect(url):
+    """Trying to fetch the response content
+    Attributes: url, as for the URL to fetch
+    """
+
+    try:
+        headers = {'user-agent': useragent}
+        a = requests.get(url, allow_redirects=False,
+                         headers=headers, timeout=request_timeout*2)
+
+        has_location_header = 'Location' in a.headers
+        #print('httpRequestGetContent', test)
+
+        #print('has_redirect', has_location_header, url, a.headers)
+
+        if has_location_header:
+            location_header = a.headers['Location']
+            if len(location_header) > 1 and location_header[0:1] == '/':
+                return (True, url + a.headers['Location'], '')
+            else:
+                return (True, a.headers['Location'], '')
+        else:
+            return (False, url, '')
+        return a.text
+    except ssl.CertificateError as error:
+        print('Info: Certificate error. {0}'.format(error.reason))
+        pass
+    except requests.exceptions.SSLError:
+        return (False, None, 'Unable to verify: SSL error occured')
+    except requests.exceptions.ConnectionError:
+        return (False, None, 'Unable to verify: connection error occured')
+    except:
+        return (False, None, 'Unable to verify: unknown connection error occured')
 
 
 def get_guid(length):

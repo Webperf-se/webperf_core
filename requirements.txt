@@ -2,3 +2,5 @@ beautifulsoup4==4.9.3
 lxml==4.6.2
 requests==2.25.1
 urllib3==1.26.2
+dnspython>=1.16.0
+http3>=0.6.7

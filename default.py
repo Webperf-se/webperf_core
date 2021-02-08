@@ -10,7 +10,7 @@ _ = gettext.gettext
 TEST_ALL = -1
 
 (TEST_UNKNOWN_01, TEST_GOOGLE_LIGHTHOUSE, TEST_PAGE_NOT_FOUND, TEST_UNKNOWN_03, TEST_GOOGLE_LIGHTHOUSE_SEO, TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE, TEST_HTML, TEST_CSS, TEST_GOOGLE_LIGHTHOUSE_PWA, TEST_STANDARD_FILES,
- TEST_GOOGLE_LIGHTHOUSE_A11Y, TEST_UNKNOWN_11, TEST_UNKNOWN_12, TEST_UNKNOWN_13, TEST_UNKNOWN_14, TEST_SITESPEED, TEST_UNKNOWN_16, TEST_YELLOW_LAB_TOOLS, TEST_UNKNOWN_18, TEST_UNKNOWN_19, TEST_WEBBKOLL, TEST_HTTP) = range(22)
+ TEST_GOOGLE_LIGHTHOUSE_A11Y, TEST_UNKNOWN_11, TEST_UNKNOWN_12, TEST_UNKNOWN_13, TEST_UNKNOWN_14, TEST_SITESPEED, TEST_UNKNOWN_16, TEST_YELLOW_LAB_TOOLS, TEST_UNKNOWN_18, TEST_UNKNOWN_19, TEST_WEBBKOLL, TEST_HTTP, TEST_ENERGY_EFFICIENCY) = range(23)
 
 
 def testsites(langCode, sites, test_type=None, show_reviews=False, only_test_untested_last_hours=24, order_by='title ASC'):
@@ -63,6 +63,8 @@ def testsites(langCode, sites, test_type=None, show_reviews=False, only_test_unt
                 from tests.frontend_quality_yellow_lab_tools import run_test
             elif test_type == TEST_HTTP:
                 from tests.http_validator import run_test
+            elif test_type == TEST_ENERGY_EFFICIENCY:
+                from tests.energy_efficiency_websitecarbon import run_test
 
             the_test_result = run_test(langCode, website)
 
@@ -142,12 +144,15 @@ def testing(langCode, sites, test_type=TEST_ALL, show_reviews=False):
     if (test_type == TEST_ALL or test_type == TEST_HTTP):
         tests.extend(testsites(langCode, sites,
                                test_type=TEST_HTTP, show_reviews=show_reviews))
+    if (test_type == TEST_ALL or test_type == TEST_ENERGY_EFFICIENCY):
+        tests.extend(testsites(langCode, sites,
+                               test_type=TEST_ENERGY_EFFICIENCY, show_reviews=show_reviews))
 
     return tests
 
 
 def validate_test_type(test_type):
-    if test_type != TEST_HTML and test_type != TEST_PAGE_NOT_FOUND and test_type != TEST_CSS and test_type != TEST_WEBBKOLL and test_type != TEST_GOOGLE_LIGHTHOUSE and test_type != TEST_GOOGLE_LIGHTHOUSE_PWA and test_type != TEST_GOOGLE_LIGHTHOUSE_A11Y and test_type != TEST_GOOGLE_LIGHTHOUSE_SEO and test_type != TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE and test_type != TEST_STANDARD_FILES and test_type != TEST_YELLOW_LAB_TOOLS and test_type != TEST_HTTP:
+    if test_type != TEST_HTML and test_type != TEST_PAGE_NOT_FOUND and test_type != TEST_CSS and test_type != TEST_WEBBKOLL and test_type != TEST_GOOGLE_LIGHTHOUSE and test_type != TEST_GOOGLE_LIGHTHOUSE_PWA and test_type != TEST_GOOGLE_LIGHTHOUSE_A11Y and test_type != TEST_GOOGLE_LIGHTHOUSE_SEO and test_type != TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE and test_type != TEST_STANDARD_FILES and test_type != TEST_YELLOW_LAB_TOOLS and test_type != TEST_HTTP and test_type != TEST_ENERGY_EFFICIENCY:
         print(_('TEXT_TEST_VALID_ARGUMENTS'))
         print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE'))
         print(_('TEXT_TEST_VALID_ARGUMENTS_PAGE_NOT_FOUND'))
@@ -162,6 +167,7 @@ def validate_test_type(test_type):
         print(_('TEXT_TEST_VALID_ARGUMENTS_YELLOW_LAB_TOOLS'))
         print(_('TEXT_TEST_VALID_ARGUMENTS_WEBBKOLL'))
         print(_('TEXT_TEST_VALID_ARGUMENTS_HTTP'))
+        print(_('TEXT_TEST_VALID_ARGUMENTS_ENERGY_EFFICIENCY'))
         return -2
     else:
         return test_type
@@ -177,7 +183,7 @@ def main(argv):
     Options and arguments:
     -h/--help\t\t\t: Help information on how to use script
     -u/--url <site url>\t\t: website url to test against
-    -t/--test <1/2/4/5/6/7/8/9/10/15/20>\t: runs ONE specific test against website(s)
+    -t/--test <1/2/4/5/6/7/8/9/10/15/20/22>\t: runs ONE specific test against website(s)
     -r/--review\t\t\t: show reviews in terminal
     -i/--input <file path>\t: input file path (.json/.sqlite)
     -o/--output <file path>\t: output file path (.json/.csv/.sql/.sqlite)

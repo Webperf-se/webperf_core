@@ -17,7 +17,7 @@ _ = gettext.gettext
 
 def run_test(langCode, url):
 	"""
-	Analyzes URL with Yellow Lab Tools docker image.
+	Analyzes URL with Website Carbon Calculator API.
 	API documentation: https://api.websitecarbon.com
 	https://gitlab.com/wholegrain/carbon-api-2-0
 	"""

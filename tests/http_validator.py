@@ -15,7 +15,11 @@ import socket
 import ssl
 import json
 import requests
-import urllib  # https://docs.python.org/3/library/urllib.parse.html
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.poolmanager import PoolManager
+from requests.packages.urllib3.util import ssl_
+# https://docs.python.org/3/library/urllib.parse.html
+import urllib
 from urllib.parse import urlparse
 import uuid
 import re
@@ -86,7 +90,7 @@ def validate_url(url, _):
     points += result[0]
     review += result[1]
 
-    result = tls_version_score(hostname, _)
+    result = tls_version_score(url, _)
     points += result[0]
     review += _('TEXT_REVIEW_TLS_VERSION')
     review += result[1]
@@ -94,11 +98,6 @@ def validate_url(url, _):
     result = ip_version_score(hostname, _)
     points += result[0]
     review += _('TEXT_REVIEW_IP_VERSION')
-    review += result[1]
-
-    result = dns_score(hostname, _)
-    points += result[0]
-    review += _('TEXT_REVIEW_DNS')
     review += result[1]
 
     result = http_version_score(hostname, url, _)
@@ -164,51 +163,117 @@ def ip_version_score(hostname, _):
     return (0.0, _('TEXT_REVIEW_IP_VERSION_UNABLE_TO_VERIFY'))
 
 
-def tls_version_score(hostname, _):
+def tls_version_score(orginal_url, _):
     points = 0.0
     review = ''
+
+    url = orginal_url.replace('http://', 'https://')
+
     # TODO: check cipher security
-    result_not_validated = has_tls13(hostname, False)
-    result_validated = has_tls13(hostname, True)
+    # TODO: re add support for identify wrong certificate
 
-    if result_not_validated[0] and result_validated[0]:
-        points += 0.6
-        review += _('TEXT_REVIEW_TLS_VERSION_TLS1_3_SUPPORT')
-    elif result_not_validated[0]:
-        review += _('TEXT_REVIEW_TLS_VERSION_TLS1_3_SUPPORT_WRONG_CERT')
-    else:
-        review += _('TEXT_REVIEW_TLS_VERSION_TLS1_3_NO_SUPPORT')
+    try:
+        assert ssl.HAS_TLSv1_3
 
-    result_not_validated = has_tls12(hostname, False)
-    result_validated = has_tls12(hostname, True)
+        result_not_validated = has_protocol_version(
+            url, False, ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2)
+        result_validated = has_protocol_version(
+            url, True, ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2)
 
-    if result_not_validated[0] and result_validated[0]:
-        points += 0.4
-        review += _('TEXT_REVIEW_TLS_VERSION_TLS1_2_SUPPORT')
-    elif result_not_validated[0]:
-        review += _('TEXT_REVIEW_TLS_VERSION_TLS1_2_SUPPORT_WRONG_CERT')
-    else:
-        review += _('TEXT_REVIEW_TLS_VERSION_TLS1_2_NO_SUPPORT')
+        if result_not_validated[0] and result_validated[0]:
+            points += 0.6
+            review += _('TEXT_REVIEW_TLS_VERSION_TLS1_3_SUPPORT')
+        elif result_not_validated[0]:
+            review += _('TEXT_REVIEW_TLS_VERSION_TLS1_3_SUPPORT_WRONG_CERT')
+        else:
+            review += _('TEXT_REVIEW_TLS_VERSION_TLS1_3_NO_SUPPORT')
+    except:
+        pass
 
-    result_not_validated = has_tls11(hostname, False)
-    result_validated = has_tls11(hostname, True)
+    try:
+        assert ssl.HAS_TLSv1_2
 
-    if result_not_validated[0] and result_validated[0]:
-        points = 0.0
-        review += _('TEXT_REVIEW_TLS_VERSION_TLS1_1_SUPPORT')
-    elif result_not_validated[0]:
-        points = 0.0
-        review += _('TEXT_REVIEW_TLS_VERSION_TLS1_1_SUPPORT_WRONG_CERT')
+        result_not_validated = has_protocol_version(
+            url, False, ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_3)
+        result_validated = has_protocol_version(
+            url, True, ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_3)
 
-    result_not_validated = has_tls10(hostname, False)
-    result_validated = has_tls10(hostname, True)
+        if result_not_validated[0] and result_validated[0]:
+            points += 0.4
+            review += _('TEXT_REVIEW_TLS_VERSION_TLS1_2_SUPPORT')
+        elif result_not_validated[0]:
+            review += _('TEXT_REVIEW_TLS_VERSION_TLS1_2_SUPPORT_WRONG_CERT')
+        else:
+            review += _('TEXT_REVIEW_TLS_VERSION_TLS1_2_NO_SUPPORT')
+    except:
+        pass
 
-    if result_not_validated[0] and result_validated[0]:
-        points = 0.0
-        review += _('TEXT_REVIEW_TLS_VERSION_TLS1_0_SUPPORT')
-    elif result_validated[0]:
-        points = 0.0
-        review += _('TEXT_REVIEW_TLS_VERSION_TLS1_0_SUPPORT_WRONG_CERT')
+    try:
+        assert ssl.HAS_TLSv1_1
+
+        result_not_validated = has_protocol_version(
+            url, False, ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3)
+        result_validated = has_protocol_version(
+            url, True, ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3)
+
+        if result_not_validated[0] and result_validated[0]:
+            points = 0.0
+            review += _('TEXT_REVIEW_TLS_VERSION_TLS1_1_SUPPORT')
+        elif result_not_validated[0]:
+            points = 0.0
+            review += _('TEXT_REVIEW_TLS_VERSION_TLS1_1_SUPPORT_WRONG_CERT')
+    except:
+        pass
+
+    try:
+        assert ssl.HAS_TLSv1
+
+        result_not_validated = has_protocol_version(
+            url, False, ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3)
+        result_validated = has_protocol_version(
+            url, True, ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3)
+
+        if result_not_validated[0] and result_validated[0]:
+            points = 0.0
+            review += _('TEXT_REVIEW_TLS_VERSION_TLS1_0_SUPPORT')
+        elif result_validated[0]:
+            points = 0.0
+            review += _('TEXT_REVIEW_TLS_VERSION_TLS1_0_SUPPORT_WRONG_CERT')
+    except:
+        pass
+
+    try:
+        assert ssl.HAS_SSLv3
+
+        result_not_validated = has_protocol_version(
+            url, False, ssl.OP_NO_SSLv2 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3)
+        result_validated = has_protocol_version(
+            url, True, ssl.OP_NO_SSLv2 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3)
+
+        if result_not_validated[0] and result_validated[0]:
+            points = 0.0
+            review += _('TEXT_REVIEW_TLS_VERSION_SSL3_0_SUPPORT')
+        elif result_validated[0]:
+            points = 0.0
+            review += _('TEXT_REVIEW_TLS_VERSION_SSL3_0_SUPPORT_WRONG_CERT')
+    except:
+        pass
+
+    try:
+        assert ssl.HAS_SSLv2
+        result_not_validated = has_protocol_version(
+            url, False, ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3)
+        result_validated = has_protocol_version(
+            url, True, ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3)
+
+        if result_not_validated[0] and result_validated[0]:
+            points = 0.0
+            review += _('TEXT_REVIEW_TLS_VERSION_SSL2_0_SUPPORT')
+        elif result_validated[0]:
+            points = 0.0
+            review += _('TEXT_REVIEW_TLS_VERSION_SSL2_0_SUPPORT_WRONG_CERT')
+    except:
+        pass
 
     return (points, review)
 
@@ -331,136 +396,81 @@ def check_http_fallback(url):
 
     return (has_http11, has_http2)
 
+# Read post at: https://hussainaliakbar.github.io/restricting-tls-version-and-cipher-suites-in-python-requests-and-testing-with-wireshark/
 
-def has_tls13(hostname, validate_hostname):
-    assert ssl.HAS_TLSv1_3
-    conn = ssl.create_default_context()
 
-    # Ensure we validate certificate provided with the hostname
+CIPHERS = (
+    'ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-SHA256:AES256-SHA'
+)
+
+
+class TlsAdapterCiphers(HTTPAdapter):
+
+    def __init__(self, ssl_options=0, **kwargs):
+        self.ssl_options = ssl_options
+        super(TlsAdapterCiphers, self).__init__(**kwargs)
+
+    def init_poolmanager(self, *pool_args, **pool_kwargs):
+        ctx = ssl_.create_urllib3_context(
+            ciphers=CIPHERS,
+            cert_reqs=ssl.CERT_REQUIRED, options=self.ssl_options)
+
+        self.poolmanager = PoolManager(*pool_args,
+                                       ssl_context=ctx,
+                                       **pool_kwargs)
+
+
+class TlsAdapterCertRequired(HTTPAdapter):
+
+    def __init__(self, ssl_options=0, **kwargs):
+        self.ssl_options = ssl_options
+        super(TlsAdapterCertRequired, self).__init__(**kwargs)
+
+    def init_poolmanager(self, *pool_args, **pool_kwargs):
+        ctx = ssl_.create_urllib3_context(
+            cert_reqs=ssl.CERT_REQUIRED, options=self.ssl_options)
+
+        self.poolmanager = PoolManager(*pool_args,
+                                       ssl_context=ctx,
+                                       **pool_kwargs)
+
+
+class TlsAdapterNoCert(HTTPAdapter):
+
+    def __init__(self, ssl_options=0, **kwargs):
+        self.ssl_options = ssl_options
+        super(TlsAdapterNoCert, self).__init__(**kwargs)
+
+    def init_poolmanager(self, *pool_args, **pool_kwargs):
+        ctx = ssl_.create_urllib3_context(options=self.ssl_options)
+
+        self.poolmanager = PoolManager(*pool_args,
+                                       ssl_context=ctx,
+                                       **pool_kwargs)
+
+
+def has_protocol_version(url, validate_hostname, protocol_version):
+    session = requests.session()
     if validate_hostname:
-        conn.load_default_certs()
-        conn.verify_mode = ssl.CERT_REQUIRED
-        conn.check_hostname = True
+        adapter = TlsAdapterCertRequired(protocol_version)
+    else:
+        adapter = TlsAdapterNoCert(protocol_version)
+
+    session.mount("https://", adapter)
 
     try:
-        socket.setdefaulttimeout(10)
-        with socket.create_connection((hostname, 443)) as sock:
-            with conn.wrap_socket(sock,
-                                  server_hostname=hostname) as ssock:
-                protocol = ssock.version()
-    except (ConnectionRefusedError, ConnectionResetError):
-        return (False, "Unable to connect to port 443")
-    except ssl.CertificateError as error:
-        return (False, error.reason)
-    except ssl.SSLError as error:
-        return (False, error.reason)
-    except socket.gaierror:
-        return (False, "Hostname lookup failed")
-    except socket.timeout:
-        return (False, "Hostname connection failed")
-    if protocol == "TLSv1.3":
-        return (True, protocol)
-    else:
-        return (False, f"{hostname} supports {protocol}")
+        allow_redirects = False
 
+        headers = {'user-agent': useragent}
+        a = session.get(url, allow_redirects=allow_redirects,
+                        headers=headers, timeout=request_timeout*2)
 
-def has_tls12(hostname, validate_hostname):
-    assert ssl.HAS_TLSv1_2
-    conn = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+        if a.status_code == 200 or a.status_code == 301 or a.status_code == 302:
+            return (True, 'is ok')
 
-    # Ensure we validate certificate provided with the hostname
-    if validate_hostname:
-        conn.load_default_certs()
-        conn.verify_mode = ssl.CERT_REQUIRED
-        conn.check_hostname = True
+        resulted_in_html = '<html' in a.text
 
-    try:
-        socket.setdefaulttimeout(10)
-        with socket.create_connection((hostname, 443)) as sock:
-            with conn.wrap_socket(sock,
-                                  server_hostname=hostname) as ssock:
-                protocol = ssock.version()
-    except (ConnectionRefusedError, ConnectionResetError):
-        return (False, "Unable to connect to port 443")
-    except ssl.SSLError as error:
-        return (False, error.reason)
-    except ssl.CertificateError as error:
-        return (False, error.reason)
-    except socket.gaierror:
-        return (False, "Hostname lookup failed")
-    except socket.timeout:
-        return (False, "Hostname connection failed")
-    if protocol == "TLSv1.2":
-        return (True, protocol)
-    else:
-        return (False, f"{hostname} supports {protocol}")
-
-
-def has_tls11(hostname, validate_hostname):
-    assert ssl.HAS_TLSv1_1
-    conn = ssl.SSLContext(ssl.PROTOCOL_TLSv1_1)
-
-    # Ensure we validate certificate provided with the hostname
-    if validate_hostname:
-        conn.load_default_certs()
-        conn.verify_mode = ssl.CERT_REQUIRED
-        conn.check_hostname = True
-
-    try:
-        socket.setdefaulttimeout(10)
-        with socket.create_connection((hostname, 443)) as sock:
-            with conn.wrap_socket(sock,
-                                  server_hostname=hostname) as ssock:
-                protocol = ssock.version()
-    except (ConnectionRefusedError, ConnectionResetError):
-        return (False, "Unable to connect to port 443")
-    except ssl.SSLError as error:
-        return (False, error.reason)
-    except ssl.CertificateError as error:
-        return (False, error.reason)
-    except socket.gaierror:
-        return (False, "Hostname lookup failed")
-    except socket.timeout:
-        return (False, "Hostname connection failed")
-    except Exception:
-        return (False, "unknown error")
-
-    if protocol == "TLSv1.1":
-        return (True, protocol)
-    else:
-        return (False, f"{hostname} supports {protocol}")
-
-
-def has_tls10(hostname, validate_hostname):
-    assert ssl.HAS_TLSv1
-    conn = ssl.SSLContext(ssl.PROTOCOL_TLSv1)
-
-    # Ensure we validate certificate provided with the hostname
-    if validate_hostname:
-        conn.load_default_certs()
-        conn.verify_mode = ssl.CERT_REQUIRED
-        conn.check_hostname = True
-
-    try:
-        socket.setdefaulttimeout(10)
-        with socket.create_connection((hostname, 443)) as sock:
-            with conn.wrap_socket(sock,
-                                  server_hostname=hostname) as ssock:
-                protocol = ssock.version()
-    except (ConnectionRefusedError, ConnectionResetError):
-        return (False, "Unable to connect to port 443")
-    except ssl.SSLError as error:
-        return (False, error.reason)
-    except ssl.CertificateError as error:
-        return (False, error.reason)
-    except socket.gaierror:
-        return (False, "Hostname lookup failed")
-    except socket.timeout:
-        return (False, "Hostname connection failed")
-    except Exception:
-        return (False, "unknown error")
-
-    if protocol == "TLSv1.0":
-        return (True, protocol)
-    else:
-        return (False, f"{hostname} supports {protocol}")
+        return (resulted_in_html, 'has <html tag in result')
+    except Exception as exception:
+        # print(exception)
+        return (False, '{0}'.format(exception))

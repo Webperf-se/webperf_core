@@ -187,6 +187,11 @@ def tls_version_score(orginal_url, _):
             review += _('TEXT_REVIEW_TLS_VERSION_TLS1_3_SUPPORT_WRONG_CERT')
         else:
             review += _('TEXT_REVIEW_TLS_VERSION_TLS1_3_NO_SUPPORT')
+
+        result_weak_cipher = has_weak_cipher(
+            url, ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2)
+        if result_weak_cipher[0]:
+            review += _('TEXT_REVIEW_TLS_VERSION_TLS1_3_WEAK_CIPHERS')
     except:
         pass
 
@@ -205,6 +210,12 @@ def tls_version_score(orginal_url, _):
             review += _('TEXT_REVIEW_TLS_VERSION_TLS1_2_SUPPORT_WRONG_CERT')
         else:
             review += _('TEXT_REVIEW_TLS_VERSION_TLS1_2_NO_SUPPORT')
+
+        result_weak_cipher = has_weak_cipher(
+            url, ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_3)
+        if result_weak_cipher[0]:
+            review += _('TEXT_REVIEW_TLS_VERSION_TLS1_2_WEAK_CIPHERS')
+
     except:
         pass
 
@@ -222,6 +233,11 @@ def tls_version_score(orginal_url, _):
         elif result_not_validated[0]:
             points = 0.0
             review += _('TEXT_REVIEW_TLS_VERSION_TLS1_1_SUPPORT_WRONG_CERT')
+
+        result_weak_cipher = has_weak_cipher(
+            url, ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3)
+        if result_weak_cipher[0]:
+            review += _('TEXT_REVIEW_TLS_VERSION_TLS1_1_WEAK_CIPHERS')
     except:
         pass
 
@@ -239,10 +255,16 @@ def tls_version_score(orginal_url, _):
         elif result_validated[0]:
             points = 0.0
             review += _('TEXT_REVIEW_TLS_VERSION_TLS1_0_SUPPORT_WRONG_CERT')
+
+        result_weak_cipher = has_weak_cipher(
+            url, ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3)
+        if result_weak_cipher[0]:
+            review += _('TEXT_REVIEW_TLS_VERSION_TLS1_0_WEAK_CIPHERS')
     except:
         pass
 
     try:
+        # HOW TO ENABLE SSLv3, https://askubuntu.com/questions/893155/simple-way-of-enabling-sslv2-and-sslv3-in-openssl
         assert ssl.HAS_SSLv3
 
         result_not_validated = has_protocol_version(
@@ -256,10 +278,16 @@ def tls_version_score(orginal_url, _):
         elif result_validated[0]:
             points = 0.0
             review += _('TEXT_REVIEW_TLS_VERSION_SSL3_0_SUPPORT_WRONG_CERT')
+
+        result_weak_cipher = has_weak_cipher(
+            url, ssl.OP_NO_SSLv2 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3)
+        if result_weak_cipher[0]:
+            review += _('TEXT_REVIEW_TLS_VERSION_SSL3_0_WEAK_CIPHERS')
     except:
         pass
 
     try:
+        # HOW TO ENABLE SSLv2, https://askubuntu.com/questions/893155/simple-way-of-enabling-sslv2-and-sslv3-in-openssl
         assert ssl.HAS_SSLv2
         result_not_validated = has_protocol_version(
             url, False, ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3)
@@ -272,6 +300,11 @@ def tls_version_score(orginal_url, _):
         elif result_validated[0]:
             points = 0.0
             review += _('TEXT_REVIEW_TLS_VERSION_SSL2_0_SUPPORT_WRONG_CERT')
+
+        result_weak_cipher = has_weak_cipher(
+            url, ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3)
+        if result_weak_cipher[0]:
+            review += _('TEXT_REVIEW_TLS_VERSION_SSL2_0_WEAK_CIPHERS')
     except:
         pass
 
@@ -396,12 +429,17 @@ def check_http_fallback(url):
 
     return (has_http11, has_http2)
 
-# Read post at: https://hussainaliakbar.github.io/restricting-tls-version-and-cipher-suites-in-python-requests-and-testing-with-wireshark/
+# Read post at: https://hussainaliakbar.github.io/restricting-tls-version-and-cipher-suites-in-python-requests-and-testing-wireshark/
 
 
-CIPHERS = (
-    'ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-SHA256:AES256-SHA'
+WEAK_CIPHERS = (
+    # 'ECDHE-RSA-AES128-CBC-SHA:ECDHE-RSA-AES128-CBC-SHA256:ECDHE-RSA-AES256-CBC-SHA:ECDHE-RSA-AES256-CBC-SHA384:DHE-RSA-CAMELLIA128-CBC-SHA:DHE-RSA-CAMELLIA256-CBC-SHA:ECDHE-RSA-AES128-CBC-SHA:ECDHE-RSA-AES256-CBC-SHA:DHE-RSA-CAMELLIA128-CBC-SHA:DHE-RSA-CAMELLIA256-CBC-SHA:ECDHE-RSA-AES128-CBC-SHA:ECDHE-RSA-AES256-CBC-SHA:DHE-RSA-CAMELLIA128-CBC-SHA:DHE-RSA-CAMELLIA256-CBC-SHA'
+    'ECDHE-RSA-AES128-CBC-SHA:ECDHE-RSA-AES128-CBC-SHA256:ECDHE-RSA-AES256-CBC-SHA:ECDHE-RSA-AES256-CBC-SHA384:DHE-RSA-CAMELLIA128-CBC-SHA:DHE-RSA-CAMELLIA256-CBC-SHA:ECDHE-RSA-AES128-CBC-SHA:ECDHE-RSA-AES256-CBC-SHA:DHE-RSA-CAMELLIA128-CBC-SHA:DHE-RSA-CAMELLIA256-CBC-SHA:ECDHE-RSA-AES128-CBC-SHA:ECDHE-RSA-AES256-CBC-SHA:DHE-RSA-CAMELLIA128-CBC-SHA:DHE-RSA-CAMELLIA256-CBC-SHA'
 )
+
+# WEAK_TLSv1_2_CIPHERS = (
+#    'ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-SHA256:DHE-RSA-AES256-SHA:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-CHACHA20-POLY1305:GOST2012256-GOST89-GOST89:DHE-RSA-CAMELLIA256-SHA256:DHE-RSA-CAMELLIA256-SHA:GOST2001-GOST89-GOST89:AES256-GCM-SHA384:AES256-SHA256:AES256-SHA:CAMELLIA256-SHA256:CAMELLIA256-SHA:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-RSA-CAMELLIA128-SHA256:DHE-RSA-CAMELLIA128-SHA:AES128-GCM-SHA256:AES128-SHA256:AES128-SHA:CAMELLIA128-SHA256:CAMELLIA128-SHA:ECDHE-RSA-RC4-SHA:ECDHE-ECDSA-RC4-SHA:RC4-SHA:RC4-MD5:ECDHE-RSA-DES-CBC3-SHA:ECDHE-ECDSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:DES-CBC3-SHA'
+# )
 
 
 class TlsAdapterCiphers(HTTPAdapter):
@@ -412,12 +450,36 @@ class TlsAdapterCiphers(HTTPAdapter):
 
     def init_poolmanager(self, *pool_args, **pool_kwargs):
         ctx = ssl_.create_urllib3_context(
-            ciphers=CIPHERS,
+            ciphers=WEAK_CIPHERS,
             cert_reqs=ssl.CERT_REQUIRED, options=self.ssl_options)
 
         self.poolmanager = PoolManager(*pool_args,
                                        ssl_context=ctx,
                                        **pool_kwargs)
+
+
+def has_weak_cipher(url, protocol_version):
+    session = requests.session()
+    adapter = TlsAdapterCiphers(protocol_version)
+
+    session.mount("https://", adapter)
+
+    try:
+        allow_redirects = False
+
+        headers = {'user-agent': useragent}
+        a = session.get(url, allow_redirects=allow_redirects,
+                        headers=headers, timeout=request_timeout)
+
+        if a.status_code == 200 or a.status_code == 301 or a.status_code == 302:
+            return (True, 'is ok')
+
+        resulted_in_html = '<html' in a.text
+
+        return (resulted_in_html, 'has <html tag in result')
+    except Exception as exception:
+        # print(exception)
+        return (False, '{0}'.format(exception))
 
 
 class TlsAdapterCertRequired(HTTPAdapter):
@@ -463,7 +525,7 @@ def has_protocol_version(url, validate_hostname, protocol_version):
 
         headers = {'user-agent': useragent}
         a = session.get(url, allow_redirects=allow_redirects,
-                        headers=headers, timeout=request_timeout*2)
+                        headers=headers, timeout=request_timeout)
 
         if a.status_code == 200 or a.status_code == 301 or a.status_code == 302:
             return (True, 'is ok')

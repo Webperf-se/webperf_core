@@ -43,18 +43,15 @@ def run_test(langCode, url):
 	#print("Renare än:", cleaner_than, "%")
 	
 	review = ''
-	rating = -1
+	 # handicap points
+    co2 = float(co2) - 0.8
 
-	if co2 < 0.8:
-		rating = 5
-	elif co2 < 1.2:
-		rating = 4
-	elif co2 < 2:
-		rating = 3
-	elif co2 <= 4:
-		rating = 2
-	elif co2 > 4:
-		rating = 1
+    rating = float("{0:.2f}".format(5 - co2))
+    
+	if rating > 5:
+        rating = 5.0
+    if rating < 1:
+        rating = 1
 
 	#print(rating)
 

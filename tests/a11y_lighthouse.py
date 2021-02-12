@@ -91,7 +91,7 @@ def run_test(langCode, url, strategy='mobile', category='accessibility'):
         review = _('TEXT_REVIEW_A11Y_IS_VERY_BAD')
 
     if fails != 0:
-        review += _('TEXT_REVIEW_A11Y_IS_VERY_BAD').format(fails)
+        review += _('TEXT_REVIEW_A11Y_NUMBER_OF_PROBLEMS').format(fails)
 
         for key, value in return_dict.items():
             if value == 0:

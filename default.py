@@ -183,7 +183,7 @@ def main(argv):
     Options and arguments:
     -h/--help\t\t\t: Help information on how to use script
     -u/--url <site url>\t\t: website url to test against
-    -t/--test <1/2/4/5/6/7/8/9/10/15/20/22>\t: runs ONE specific test against website(s)
+    -t/--test <test number>\t: run ONE test (use ? to list available tests)
     -r/--review\t\t\t: show reviews in terminal
     -i/--input <file path>\t: input file path (.json/.sqlite)
     -o/--output <file path>\t: output file path (.json/.csv/.sql/.sqlite)

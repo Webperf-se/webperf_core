@@ -34,7 +34,7 @@ msgid "TEXT_WEBSITE_IS_VERY_BAD"
 msgstr "* The website is generating a lot of carbon dioxide, for every pageview :(\n"
 
 msgid "TEXT_GRAMS_OF_CO2"
-msgstr "* Carbon dioxid per pageview: {} gram(s)\n"
+msgstr "* Carbon dioxide per pageview: {} gram(s)\n"
 
 msgid "TEXT_GREEN_ENERGY_TRUE"
 msgstr "* The website seem to be on renewable energy!\n"

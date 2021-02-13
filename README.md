@@ -13,6 +13,7 @@ The tests included in 2.0 are:
 * Users’ integrity test against Webbkoll, provided by Dataskydd.net
 * Frontend quality against Yellow Lab Tools
 * *Website performance with Sitespeed.io (requires local instance of Sitespeed.io)*
+* Carbon dioxide checked against Website Carbon Calculator API
 
 ## psst. third party extensions...
 * [webperf-leaderboard](https://github.com/krompaco/webperf-leaderboard) by [Johan Kronberg](https://github.com/krompaco/)

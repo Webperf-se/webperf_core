@@ -1,7 +1,7 @@
 # Webperf Core
 Minimalistic client mainly running on PythonAnywhere.com, accessing different websites, or web-APIs, and scraping them.
 
-The tests included in 2.0 are:
+The tests included in 2.x are:
 * Google Lighthouse accessibility with Axe
 * Google Lighthouse performance
 * Google Lighthouse best practice
@@ -11,8 +11,8 @@ The tests included in 2.0 are:
 * Validating the HTML code against W3C
 * Validating the CSS code against W3C
 * Users’ integrity test against Webbkoll, provided by Dataskydd.net
-* Frontend quality against Yellow Lab Tools
-* *Website performance with Sitespeed.io (requires local instance of Sitespeed.io)*
+* *Frontend quality against Yellow Lab Tools (preferably with [local instance of YLT](https://hub.docker.com/r/jguyomard/yellowlabtools))*
+* *Website performance with Sitespeed.io (requires [local instance of Sitespeed.io](https://hub.docker.com/r/sitespeedio/sitespeed.io))*
 * Carbon dioxide checked against Website Carbon Calculator API
 
 ## psst. third party extensions...

@@ -19,19 +19,19 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "###############################\nKör test: 7 - CSS\n###############################"
 
 msgid "TEXT_REVIEW_CSS_VERY_GOOD"
-msgstr "- CSS är välbyggd!\n"
+msgstr "* CSS är välbyggd!\n"
 
 msgid "TEXT_REVIEW_CSS_IS_GOOD"
-msgstr "- CSS är bra.\n"
+msgstr "* CSS är bra.\n"
 
 msgid "TEXT_REVIEW_CSS_IS_OK"
-msgstr "- CSS är ok.\n"
+msgstr "* CSS är ok.\n"
 
 msgid "TEXT_REVIEW_CSS_IS_BAD"
-msgstr "- CSS är dålig.\n"
+msgstr "* CSS är dålig.\n"
 
 msgid "TEXT_REVIEW_CSS_IS_VERY_BAD"
-msgstr "- CSS är väldigt dålig.\n"
+msgstr "* CSS är väldigt dålig.\n"
 
 msgid "TEXT_REVIEW_ERRORS_GROUPED"
 msgstr "* Problem (grupperat på feltyp):\n"

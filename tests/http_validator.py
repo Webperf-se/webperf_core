@@ -91,6 +91,7 @@ def validate_url(url, _):
     review += result[1]
 
     result = tls_version_score(url, _)
+
     points += result[0]
     review += _('TEXT_REVIEW_TLS_VERSION')
     review += result[1]
@@ -163,6 +164,89 @@ def ip_version_score(hostname, _):
     return (0.0, _('TEXT_REVIEW_IP_VERSION_UNABLE_TO_VERIFY'))
 
 
+def protocol_version_score(url, protocol_version, _):
+    points = 0.0
+    review = ''
+    result_not_validated = (False, '')
+    result_validated = (False, '')
+
+    protocol_rule = False
+    protocol_name = ''
+    protocol_translate_name = ''
+
+    try:
+        if protocol_version == ssl.PROTOCOL_TLS:
+            protocol_name = 'TLSv1.3'
+            protocol_translate_name = 'TLS1_3'
+            assert ssl.HAS_TLSv1_3
+            protocol_rule = ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2
+        elif protocol_version == ssl.PROTOCOL_TLSv1_2:
+            protocol_name = 'TLSv1.2'
+            protocol_translate_name = 'TLS1_2'
+            assert ssl.HAS_TLSv1_2
+            protocol_rule = ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_3
+        elif protocol_version == ssl.PROTOCOL_TLSv1_1:
+            protocol_name = 'TLSv1.1'
+            protocol_translate_name = 'TLS1_1'
+            assert ssl.HAS_TLSv1_1
+            protocol_rule = ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3
+        elif protocol_version == ssl.PROTOCOL_TLSv1:
+            protocol_name = 'TLSv1.0'
+            protocol_translate_name = 'TLS1_0'
+            assert ssl.HAS_TLSv1
+            protocol_rule = ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3
+        elif protocol_version == ssl.PROTOCOL_SSLv3:
+            protocol_name = 'SSLv3'
+            protocol_translate_name = 'SSL3_0'
+            assert ssl.HAS_SSLv3
+            protocol_rule = ssl.OP_NO_SSLv2 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3
+        elif protocol_version == ssl.PROTOCOL_SSLv2:
+            protocol_name = 'SSLv2'
+            protocol_translate_name = 'SSL2_0'
+            protocol_rule = ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3
+            assert ssl.HAS_SSLv2
+
+        result_not_validated = has_protocol_version(
+            url, False, protocol_rule)
+
+        result_validated = has_protocol_version(
+            url, True, protocol_rule)
+
+        if result_not_validated[0] and result_validated[0]:
+            points += 0.6
+            review += _('TEXT_REVIEW_' +
+                        protocol_translate_name + '_SUPPORT')
+        elif result_not_validated[0]:
+            review += _('TEXT_REVIEW_' +
+                        protocol_translate_name + '_SUPPORT_WRONG_CERT')
+        else:
+            review += _('TEXT_REVIEW_' +
+                        protocol_translate_name + '_NO_SUPPORT')
+
+        result_weak_cipher = (False, 'unset')
+        try:
+            result_weak_cipher = has_weak_cipher(
+                url, protocol_rule)
+        except ssl.SSLError as sslex:
+            print('error weak_cipher', sslex)
+            pass
+        if result_weak_cipher[0]:
+            review += _('TEXT_REVIEW_' +
+                        protocol_translate_name + '_WEAK_CIPHERS')
+    except ssl.SSLError as sslex:
+        print('error 0.0s', sslex)
+        pass
+    except AssertionError:
+        print('### No {0} support on your machine, unable to test ###'.format(
+            protocol_name))
+        pass
+    except:
+        print('error protocol_version_score: {0}'.format(sys.exc_info()[0]))
+        pass
+
+    return (points, review)
+
+
 def tls_version_score(orginal_url, _):
     points = 0.0
     review = ''
@@ -173,138 +257,46 @@ def tls_version_score(orginal_url, _):
     # TODO: re add support for identify wrong certificate
 
     try:
-        assert ssl.HAS_TLSv1_3
-
-        result_not_validated = has_protocol_version(
-            url, False, ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2)
-        result_validated = has_protocol_version(
-            url, True, ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2)
-
-        if result_not_validated[0] and result_validated[0]:
-            points += 0.6
-            review += _('TEXT_REVIEW_TLS_VERSION_TLS1_3_SUPPORT')
-        elif result_not_validated[0]:
-            review += _('TEXT_REVIEW_TLS_VERSION_TLS1_3_SUPPORT_WRONG_CERT')
-        else:
-            review += _('TEXT_REVIEW_TLS_VERSION_TLS1_3_NO_SUPPORT')
-
-        result_weak_cipher = has_weak_cipher(
-            url, ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2)
-        if result_weak_cipher[0]:
-            review += _('TEXT_REVIEW_TLS_VERSION_TLS1_3_WEAK_CIPHERS')
+        result = protocol_version_score(url, ssl.PROTOCOL_TLS, _)
+        points += result[0]
+        review += result[1]
     except:
         pass
 
     try:
-        assert ssl.HAS_TLSv1_2
-
-        result_not_validated = has_protocol_version(
-            url, False, ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_3)
-        result_validated = has_protocol_version(
-            url, True, ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_3)
-
-        if result_not_validated[0] and result_validated[0]:
-            points += 0.4
-            review += _('TEXT_REVIEW_TLS_VERSION_TLS1_2_SUPPORT')
-        elif result_not_validated[0]:
-            review += _('TEXT_REVIEW_TLS_VERSION_TLS1_2_SUPPORT_WRONG_CERT')
-        else:
-            review += _('TEXT_REVIEW_TLS_VERSION_TLS1_2_NO_SUPPORT')
-
-        result_weak_cipher = has_weak_cipher(
-            url, ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_3)
-        if result_weak_cipher[0]:
-            review += _('TEXT_REVIEW_TLS_VERSION_TLS1_2_WEAK_CIPHERS')
-
+        result = protocol_version_score(url, ssl.PROTOCOL_TLSv1_2, _)
+        points += result[0]
+        review += result[1]
     except:
         pass
 
     try:
-        assert ssl.HAS_TLSv1_1
-
-        result_not_validated = has_protocol_version(
-            url, False, ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3)
-        result_validated = has_protocol_version(
-            url, True, ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3)
-
-        if result_not_validated[0] and result_validated[0]:
-            points = 0.0
-            review += _('TEXT_REVIEW_TLS_VERSION_TLS1_1_SUPPORT')
-        elif result_not_validated[0]:
-            points = 0.0
-            review += _('TEXT_REVIEW_TLS_VERSION_TLS1_1_SUPPORT_WRONG_CERT')
-
-        result_weak_cipher = has_weak_cipher(
-            url, ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3)
-        if result_weak_cipher[0]:
-            review += _('TEXT_REVIEW_TLS_VERSION_TLS1_1_WEAK_CIPHERS')
+        result = protocol_version_score(url, ssl.PROTOCOL_TLSv1_1, _)
+        points += result[0]
+        review += result[1]
     except:
         pass
 
     try:
-        assert ssl.HAS_TLSv1
-
-        result_not_validated = has_protocol_version(
-            url, False, ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3)
-        result_validated = has_protocol_version(
-            url, True, ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3)
-
-        if result_not_validated[0] and result_validated[0]:
-            points = 0.0
-            review += _('TEXT_REVIEW_TLS_VERSION_TLS1_0_SUPPORT')
-        elif result_validated[0]:
-            points = 0.0
-            review += _('TEXT_REVIEW_TLS_VERSION_TLS1_0_SUPPORT_WRONG_CERT')
-
-        result_weak_cipher = has_weak_cipher(
-            url, ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3)
-        if result_weak_cipher[0]:
-            review += _('TEXT_REVIEW_TLS_VERSION_TLS1_0_WEAK_CIPHERS')
+        result = protocol_version_score(url, ssl.PROTOCOL_TLSv1, _)
+        points += result[0]
+        review += result[1]
     except:
         pass
 
     try:
         # HOW TO ENABLE SSLv3, https://askubuntu.com/questions/893155/simple-way-of-enabling-sslv2-and-sslv3-in-openssl
-        assert ssl.HAS_SSLv3
-
-        result_not_validated = has_protocol_version(
-            url, False, ssl.OP_NO_SSLv2 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3)
-        result_validated = has_protocol_version(
-            url, True, ssl.OP_NO_SSLv2 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3)
-
-        if result_not_validated[0] and result_validated[0]:
-            points = 0.0
-            review += _('TEXT_REVIEW_TLS_VERSION_SSL3_0_SUPPORT')
-        elif result_validated[0]:
-            points = 0.0
-            review += _('TEXT_REVIEW_TLS_VERSION_SSL3_0_SUPPORT_WRONG_CERT')
-
-        result_weak_cipher = has_weak_cipher(
-            url, ssl.OP_NO_SSLv2 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3)
-        if result_weak_cipher[0]:
-            review += _('TEXT_REVIEW_TLS_VERSION_SSL3_0_WEAK_CIPHERS')
+        result = protocol_version_score(url, ssl.PROTOCOL_SSLv3, _)
+        points += result[0]
+        review += result[1]
     except:
         pass
 
     try:
         # HOW TO ENABLE SSLv2, https://askubuntu.com/questions/893155/simple-way-of-enabling-sslv2-and-sslv3-in-openssl
-        assert ssl.HAS_SSLv2
-        result_not_validated = has_protocol_version(
-            url, False, ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3)
-        result_validated = has_protocol_version(
-            url, True, ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3)
-
-        if result_not_validated[0] and result_validated[0]:
-            points = 0.0
-            review += _('TEXT_REVIEW_TLS_VERSION_SSL2_0_SUPPORT')
-        elif result_validated[0]:
-            points = 0.0
-            review += _('TEXT_REVIEW_TLS_VERSION_SSL2_0_SUPPORT_WRONG_CERT')
-
-        result_weak_cipher = has_weak_cipher(
-            url, ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3)
-        if result_weak_cipher[0]:
-            review += _('TEXT_REVIEW_TLS_VERSION_SSL2_0_WEAK_CIPHERS')
+        result = protocol_version_score(url, ssl.PROTOCOL_SSLv2, _)
+        points += result[0]
+        review += result[1]
     except:
         pass
 
@@ -434,8 +426,16 @@ def check_http_fallback(url):
 
 WEAK_CIPHERS = (
     # 'ECDHE-RSA-AES128-CBC-SHA:ECDHE-RSA-AES128-CBC-SHA256:ECDHE-RSA-AES256-CBC-SHA:ECDHE-RSA-AES256-CBC-SHA384:DHE-RSA-CAMELLIA128-CBC-SHA:DHE-RSA-CAMELLIA256-CBC-SHA:ECDHE-RSA-AES128-CBC-SHA:ECDHE-RSA-AES256-CBC-SHA:DHE-RSA-CAMELLIA128-CBC-SHA:DHE-RSA-CAMELLIA256-CBC-SHA:ECDHE-RSA-AES128-CBC-SHA:ECDHE-RSA-AES256-CBC-SHA:DHE-RSA-CAMELLIA128-CBC-SHA:DHE-RSA-CAMELLIA256-CBC-SHA'
-    'ECDHE-RSA-AES128-CBC-SHA:ECDHE-RSA-AES128-CBC-SHA256:ECDHE-RSA-AES256-CBC-SHA:ECDHE-RSA-AES256-CBC-SHA384:DHE-RSA-CAMELLIA128-CBC-SHA:DHE-RSA-CAMELLIA256-CBC-SHA:ECDHE-RSA-AES128-CBC-SHA:ECDHE-RSA-AES256-CBC-SHA:DHE-RSA-CAMELLIA128-CBC-SHA:DHE-RSA-CAMELLIA256-CBC-SHA:ECDHE-RSA-AES128-CBC-SHA:ECDHE-RSA-AES256-CBC-SHA:DHE-RSA-CAMELLIA128-CBC-SHA:DHE-RSA-CAMELLIA256-CBC-SHA'
+    'ECDHE-RSA-AES128-CBC-SHA:ECDHE-RSA-AES256-CBC-SHA'
 )
+
+# WEAK_CIPHERS = (
+#    'ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-CHACHA20-POLY1305:GOST2012256-GOST89-GOST89:GOST2001-GOST89-GOST89:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:DHE-RSA-AES128-SHA:DHE-RSA-CAMELLIA128-SHA:AES128-SHA:CAMELLIA128-SHA:ECDHE-RSA-RC4-SHA:ECDHE-ECDSA-RC4-SHA:RC4-SHA:RC4-MD5:ECDHE-RSA-DES-CBC3-SHA:ECDHE-ECDSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:DES-CBC3-SHA'
+# 'ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:DHE-RSA-AES128-SHA'
+#    'ECDHE-RSA-AES128-CBC-SHA:ECDHE-RSA-AES256-CBC-SHA:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-CHACHA20-POLY1305:GOST2012256-GOST89-GOST89:GOST2001-GOST89-GOST89:ECDHE-ECDSA-AES128-SHA:DHE-RSA-AES128-SHA:DHE-RSA-CAMELLIA128-SHA:AES128-SHA:CAMELLIA128-SHA:ECDHE-RSA-RC4-SHA:ECDHE-ECDSA-RC4-SHA:RC4-SHA:RC4-MD5:ECDHE-RSA-DES-CBC3-SHA:ECDHE-ECDSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:DES-CBC3-SHA'
+#    'ECDHE-RSA-AES128-SHA'
+# )
+
 
 # WEAK_TLSv1_2_CIPHERS = (
 #    'ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-SHA256:DHE-RSA-AES256-SHA:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-CHACHA20-POLY1305:GOST2012256-GOST89-GOST89:DHE-RSA-CAMELLIA256-SHA256:DHE-RSA-CAMELLIA256-SHA:GOST2001-GOST89-GOST89:AES256-GCM-SHA384:AES256-SHA256:AES256-SHA:CAMELLIA256-SHA256:CAMELLIA256-SHA:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-RSA-CAMELLIA128-SHA256:DHE-RSA-CAMELLIA128-SHA:AES128-GCM-SHA256:AES128-SHA256:AES128-SHA:CAMELLIA128-SHA256:CAMELLIA128-SHA:ECDHE-RSA-RC4-SHA:ECDHE-ECDSA-RC4-SHA:RC4-SHA:RC4-MD5:ECDHE-RSA-DES-CBC3-SHA:ECDHE-ECDSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:DES-CBC3-SHA'
@@ -459,27 +459,57 @@ class TlsAdapterCiphers(HTTPAdapter):
 
 
 def has_weak_cipher(url, protocol_version):
-    session = requests.session()
-    adapter = TlsAdapterCiphers(protocol_version)
+    session = False
+    try:
+        session = requests.session()
+        adapter = TlsAdapterCiphers(protocol_version)
 
-    session.mount("https://", adapter)
+        session.mount("https://", adapter)
+
+        #print('ssl._DEFAULT_CIPHERS', ssl._DEFAULT_CIPHERS)
+    except ssl.SSLError as sslex:
+        print('### No weak cipher support on your machine, unable to test: {0} ###'.format(
+            WEAK_CIPHERS))
+
+        print('error has_weak_cipher SSLError3', sslex)
+        return (False, 'weak_cipher SSLError {0}'.format(sslex))
 
     try:
         allow_redirects = False
 
         headers = {'user-agent': useragent}
-        a = session.get(url, allow_redirects=allow_redirects,
+        a = session.get(url, verify=False, allow_redirects=allow_redirects,
                         headers=headers, timeout=request_timeout)
 
-        if a.status_code == 200 or a.status_code == 301 or a.status_code == 302:
+        if a.status_code == 200 or a.status_code == 301 or a.status_code == 302 or a.status_code == 404:
+            print('is ok')
             return (True, 'is ok')
 
         resulted_in_html = '<html' in a.text
 
+        if resulted_in_html:
+            print('has html')
+        else:
+            print('no html')
         return (resulted_in_html, 'has <html tag in result')
+    except ssl.SSLCertVerificationError as sslcertex:
+        print('weak_cipher SSLCertVerificationError', sslcertex)
+        return (True, 'weak_cipher SSLCertVerificationError: {0}'.format(sslcertex))
+    except ssl.SSLError as sslex:
+        print('error has_weak_cipher SSLError1', sslex)
+        return (False, 'weak_cipher SSLError {0}'.format(sslex))
+    except ConnectionResetError as resetex:
+        print('error ConnectionResetError', resetex)
+        return (False, 'weak_cipher ConnectionResetError {0}'.format(resetex))
+    except requests.exceptions.SSLError as sslerror:
+        print('error weak_cipher SSLError2', sslerror)
+        return (False, 'Unable to verify: SSL error occured')
+    except requests.exceptions.ConnectionError as conex:
+        print('error weak_cipher ConnectionError', conex)
+        return (False, 'Unable to verify: connection error occured')
     except Exception as exception:
-        # print(exception)
-        return (False, '{0}'.format(exception))
+        print('weak_cipher test', exception)
+        return (False, 'weak_cipher Exception {0}'.format(exception))
 
 
 class TlsAdapterCertRequired(HTTPAdapter):
@@ -504,7 +534,9 @@ class TlsAdapterNoCert(HTTPAdapter):
         super(TlsAdapterNoCert, self).__init__(**kwargs)
 
     def init_poolmanager(self, *pool_args, **pool_kwargs):
-        ctx = ssl_.create_urllib3_context(options=self.ssl_options)
+        ctx = ssl_.create_urllib3_context(
+            cert_reqs=ssl.CERT_NONE,
+            options=self.ssl_options)
 
         self.poolmanager = PoolManager(*pool_args,
                                        ssl_context=ctx,
@@ -524,15 +556,42 @@ def has_protocol_version(url, validate_hostname, protocol_version):
         allow_redirects = False
 
         headers = {'user-agent': useragent}
-        a = session.get(url, allow_redirects=allow_redirects,
+        a = session.get(url, verify=validate_hostname, allow_redirects=allow_redirects,
                         headers=headers, timeout=request_timeout)
 
         if a.status_code == 200 or a.status_code == 301 or a.status_code == 302:
             return (True, 'is ok')
 
+        if not validate_hostname and a.status_code == 404:
+            return (True, 'is ok')
+
         resulted_in_html = '<html' in a.text
 
         return (resulted_in_html, 'has <html tag in result')
+    except ssl.SSLCertVerificationError as sslcertex:
+        print('protocol version SSLCertVerificationError', sslcertex)
+        if validate_hostname:
+            return (True, 'protocol version SSLCertVerificationError: {0}'.format(sslcertex))
+        else:
+            return (False, 'protocol version SSLCertVerificationError: {0}'.format(sslcertex))
+    except ssl.SSLError as sslex:
+        print('protocol version SSLError', sslex)
+        return (False, 'protocol version SSLError: {0}'.format(sslex))
+    except ssl.SSLCertVerificationError as sslcertex:
+        print('protocol version SSLCertVerificationError', sslcertex)
+        return (True, 'protocol version SSLCertVerificationError: {0}'.format(sslcertex))
+    except ssl.SSLError as sslex:
+        print('error protocol version ', sslex)
+        return (False, 'protocol version SSLError {0}'.format(sslex))
+    except ConnectionResetError as resetex:
+        print('error protocol version  ConnectionResetError', resetex)
+        return (False, 'protocol version  ConnectionResetError {0}'.format(resetex))
+    except requests.exceptions.SSLError as sslerror:
+        print('error protocol version  SSLError', sslerror)
+        return (False, 'Unable to verify: SSL error occured')
+    except requests.exceptions.ConnectionError as conex:
+        print('error protocol version  ConnectionError', conex)
+        return (False, 'Unable to verify: connection error occured')
     except Exception as exception:
-        # print(exception)
-        return (False, '{0}'.format(exception))
+        print('protocol version  test', exception)
+        return (False, 'protocol version  Exception {0}'.format(exception))

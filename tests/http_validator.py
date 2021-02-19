@@ -236,6 +236,17 @@ def protocol_version_score(url, protocol_version, _):
             if not protocol_is_secure:
                 points += 0.5
 
+        result_insecure_cipher = (False, 'unset')
+        try:
+            result_insecure_cipher = has_insecure_cipher(
+                url, protocol_rule)
+        except ssl.SSLError as sslex:
+            print('error insecure_cipher', sslex)
+            pass
+        if result_insecure_cipher[0]:
+            review += _('TEXT_REVIEW_' +
+                        protocol_translate_name + '_INSECURE_CIPHERS')
+
         result_weak_cipher = (False, 'unset')
         try:
             result_weak_cipher = has_weak_cipher(
@@ -312,6 +323,9 @@ def tls_version_score(orginal_url, _):
         review += result[1]
     except:
         pass
+
+    if points > 2.0:
+        points = 2.0
 
     return (points, review)
 
@@ -437,28 +451,35 @@ def check_http_fallback(url):
 
 # Read post at: https://hussainaliakbar.github.io/restricting-tls-version-and-cipher-suites-in-python-requests-and-testing-wireshark/
 WEAK_CIPHERS = (
-    'ECDH+AES128+CBC+SHA:'
-    'ECDH+AES256+CBC+SHA:'
+    'ECDHE+AES128+CBC+SHA:'
+    'ECDHE+AES256+CBC+SHA:'
+    'ECDHE+RSA+3DES+EDE+CBC+SHA:'
+    'ECDHE+RSA+AES256+GCM+SHA383:'
+    'RSA+AES128+CBC+SHA:'
+    'RSA+AES256+CBC+SHA:'
     'RSA+AES128+GCM+SHA256:'
     'RSA+AES256+GCM+SHA:'
+    'RSA+AES256+GCM+SHA383:'
+    'RSA+CAMELLIA128+CBC+SHA:'
+    'RSA+CAMELLIA256+CBC+SHA:'
+    'RSA+IDEA+CBC+SHA:'
     'RSA+AES256+GCM+SHA:'
-    'RSA+3DES+EDE+CBC+SHA'
-
-
-    # 'RSA+CAMELLIA128:RSA+CAMELLIA256:'
-    # 'ECDH+AES256:ECDH+AES128:ECDH+3DES:'
-    # 'DH+3DES:'
-    # 'RSA+AESGCM:RSA+AES:RSA+3DES:'
-    # 'aNULL:'
-    # 'eNULL:MD5'
+    'RSA+3DES+EDE+CBC+SHA:'
+    'RSA+SEED+CBC+SHA:'
+    'DHE+RSA+3DES+EDE+CBC+SHA:'
+    'DHE+RSA+AES128+CBC+SHA:'
+    'DHE+RSA+AES256+CBC+SHA:'
+    'DHE+RSA+CAMELLIA128+CBC+SHA:'
+    'DHE+RSA+CAMELLIA256+CBC+SHA:'
+    'DHE+RSA+SEED+CBC+SHA:'
 )
 
 
-class TlsAdapterCiphers(HTTPAdapter):
+class TlsAdapterWeakCiphers(HTTPAdapter):
 
     def __init__(self, ssl_options=0, **kwargs):
         self.ssl_options = ssl_options
-        super(TlsAdapterCiphers, self).__init__(**kwargs)
+        super(TlsAdapterWeakCiphers, self).__init__(**kwargs)
 
     def init_poolmanager(self, *pool_args, **pool_kwargs):
         ctx = ssl_.create_urllib3_context(
@@ -472,25 +493,23 @@ class TlsAdapterCiphers(HTTPAdapter):
     def proxy_manager_for(self, *args, **kwargs):
         context = ssl_.create_urllib3_context(ciphers=WEAK_CIPHERS)
         kwargs['ssl_context'] = context
-        return super(TlsAdapterCiphers, self).proxy_manager_for(*args, **kwargs)
+        return super(TlsAdapterWeakCiphers, self).proxy_manager_for(*args, **kwargs)
 
 
 def has_weak_cipher(url, protocol_version):
     session = False
 
     try:
-        print('ssl._DEFAULT_CIPHERS', ssl._DEFAULT_CIPHERS)
+        #print('ssl._DEFAULT_CIPHERS', ssl._DEFAULT_CIPHERS)
 
         session = requests.session()
-        adapter = TlsAdapterCiphers(protocol_version)
+        adapter = TlsAdapterWeakCiphers(protocol_version)
 
         session.mount(url, adapter)
 
     except ssl.SSLError as sslex:
-        print('### No weak cipher support on your machine, unable to test: {0} ###'.format(
-            WEAK_CIPHERS))
-
-        print('error has_weak_cipher SSLError3', sslex)
+        # print('### No weak cipher support on your machine, unable to test: {0} ###'.format(
+        #    WEAK_CIPHERS))
         return (False, 'weak_cipher SSLError {0}'.format(sslex))
 
     try:
@@ -501,34 +520,122 @@ def has_weak_cipher(url, protocol_version):
                         headers=headers, timeout=request_timeout)
 
         if a.status_code == 200 or a.status_code == 301 or a.status_code == 302 or a.status_code == 404:
-            print('is ok')
+            #print('is ok')
             return (True, 'is ok')
 
         resulted_in_html = '<html' in a.text
 
-        if resulted_in_html:
-            print('has html')
-        else:
-            print('no html')
+        # if resulted_in_html:
+        #    print('has html')
+        # else:
+        #    print('no html')
         return (resulted_in_html, 'has <html tag in result')
     except ssl.SSLCertVerificationError as sslcertex:
-        print('weak_cipher SSLCertVerificationError', sslcertex)
+        #print('weak_cipher SSLCertVerificationError', sslcertex)
         return (True, 'weak_cipher SSLCertVerificationError: {0}'.format(sslcertex))
     except ssl.SSLError as sslex:
-        print('error has_weak_cipher SSLError1', sslex)
+        #print('error has_weak_cipher SSLError1', sslex)
         return (False, 'weak_cipher SSLError {0}'.format(sslex))
     except ConnectionResetError as resetex:
-        print('error ConnectionResetError', resetex)
+        #print('error ConnectionResetError', resetex)
         return (False, 'weak_cipher ConnectionResetError {0}'.format(resetex))
     except requests.exceptions.SSLError as sslerror:
-        print('error weak_cipher SSLError2', sslerror)
+        #print('error weak_cipher SSLError2', sslerror)
         return (False, 'Unable to verify: SSL error occured')
     except requests.exceptions.ConnectionError as conex:
-        print('error weak_cipher ConnectionError', conex)
+        #print('error weak_cipher ConnectionError', conex)
         return (False, 'Unable to verify: connection error occured')
     except Exception as exception:
-        print('weak_cipher test', exception)
+        #print('weak_cipher test', exception)
         return (False, 'weak_cipher Exception {0}'.format(exception))
+
+
+# Read post at: https://hussainaliakbar.github.io/restricting-tls-version-and-cipher-suites-in-python-requests-and-testing-wireshark/
+INSECURE_CIPHERS = (
+    'RSA+RC4+MD5:'
+    'RSA+RC4128+MD5:'
+    'RSA+RC4+SHA:'
+    'RSA+RC4128+SHA:'
+    'ECDHE+RSA+RC4+SHA:'
+    'ECDHE+RSA+RC4+SHA:'
+    'ECDHE+RSA+RC4128+MD5:'
+    'ECDHE+RSA+RC4128+MD5:'
+)
+
+
+class TlsAdapterInsecureCiphers(HTTPAdapter):
+
+    def __init__(self, ssl_options=0, **kwargs):
+        self.ssl_options = ssl_options
+        super(TlsAdapterInsecureCiphers, self).__init__(**kwargs)
+
+    def init_poolmanager(self, *pool_args, **pool_kwargs):
+        ctx = ssl_.create_urllib3_context(
+            ciphers=INSECURE_CIPHERS,
+            cert_reqs=ssl.CERT_REQUIRED, options=self.ssl_options)
+
+        self.poolmanager = PoolManager(*pool_args,
+                                       ssl_context=ctx,
+                                       **pool_kwargs)
+
+    def proxy_manager_for(self, *args, **kwargs):
+        context = ssl_.create_urllib3_context(ciphers=INSECURE_CIPHERS)
+        kwargs['ssl_context'] = context
+        return super(TlsAdapterInsecureCiphers, self).proxy_manager_for(*args, **kwargs)
+
+
+def has_insecure_cipher(url, protocol_version):
+    session = False
+
+    try:
+        #print('ssl._DEFAULT_CIPHERS', ssl._DEFAULT_CIPHERS)
+
+        session = requests.session()
+        adapter = TlsAdapterInsecureCiphers(protocol_version)
+
+        session.mount(url, adapter)
+
+    except ssl.SSLError as sslex:
+        # print('### No weak cipher support on your machine, unable to test: {0} ###'.format(
+        #    WEAK_CIPHERS))
+        return (False, 'insecure_cipher SSLError {0}'.format(sslex))
+
+    try:
+        allow_redirects = False
+
+        headers = {'user-agent': useragent}
+        a = session.get(url, verify=False, allow_redirects=allow_redirects,
+                        headers=headers, timeout=request_timeout)
+
+        if a.status_code == 200 or a.status_code == 301 or a.status_code == 302 or a.status_code == 404:
+            #print('is ok')
+            return (True, 'is ok')
+
+        resulted_in_html = '<html' in a.text
+
+        # if resulted_in_html:
+        #    print('has html')
+        # else:
+        #    print('no html')
+        return (resulted_in_html, 'has <html tag in result')
+    except ssl.SSLCertVerificationError as sslcertex:
+        #print('weak_cipher SSLCertVerificationError', sslcertex)
+        return (True, 'insecure_cipher SSLCertVerificationError: {0}'.format(sslcertex))
+    except ssl.SSLError as sslex:
+        #print('error has_weak_cipher SSLError1', sslex)
+        return (False, 'insecure_cipher SSLError {0}'.format(sslex))
+    except ConnectionResetError as resetex:
+        #print('error ConnectionResetError', resetex)
+        return (False, 'insecure_cipher ConnectionResetError {0}'.format(resetex))
+    except requests.exceptions.SSLError as sslerror:
+        #print('error weak_cipher SSLError2', sslerror)
+        return (False, 'Unable to verify: SSL error occured')
+    except requests.exceptions.ConnectionError as conex:
+        #print('error weak_cipher ConnectionError', conex)
+        return (False, 'Unable to verify: connection error occured')
+    except Exception as exception:
+        #print('weak_cipher test', exception)
+        return (False, 'insecure_cipher Exception {0}'.format(exception))
 
 
 class TlsAdapterCertRequired(HTTPAdapter):
@@ -588,29 +695,29 @@ def has_protocol_version(url, validate_hostname, protocol_version):
 
         return (resulted_in_html, 'has <html tag in result')
     except ssl.SSLCertVerificationError as sslcertex:
-        print('protocol version SSLCertVerificationError', sslcertex)
+        #print('protocol version SSLCertVerificationError', sslcertex)
         if validate_hostname:
             return (True, 'protocol version SSLCertVerificationError: {0}'.format(sslcertex))
         else:
             return (False, 'protocol version SSLCertVerificationError: {0}'.format(sslcertex))
     except ssl.SSLError as sslex:
-        print('protocol version SSLError', sslex)
+        #print('protocol version SSLError', sslex)
         return (False, 'protocol version SSLError: {0}'.format(sslex))
     except ssl.SSLCertVerificationError as sslcertex:
-        print('protocol version SSLCertVerificationError', sslcertex)
+        #print('protocol version SSLCertVerificationError', sslcertex)
         return (True, 'protocol version SSLCertVerificationError: {0}'.format(sslcertex))
     except ssl.SSLError as sslex:
-        print('error protocol version ', sslex)
+        #print('error protocol version ', sslex)
         return (False, 'protocol version SSLError {0}'.format(sslex))
     except ConnectionResetError as resetex:
-        print('error protocol version  ConnectionResetError', resetex)
+        #print('error protocol version  ConnectionResetError', resetex)
         return (False, 'protocol version  ConnectionResetError {0}'.format(resetex))
     except requests.exceptions.SSLError as sslerror:
-        print('error protocol version  SSLError', sslerror)
+        #print('error protocol version  SSLError', sslerror)
         return (False, 'Unable to verify: SSL error occured')
     except requests.exceptions.ConnectionError as conex:
-        print('error protocol version  ConnectionError', conex)
+        #print('error protocol version  ConnectionError', conex)
         return (False, 'Unable to verify: connection error occured')
     except Exception as exception:
-        print('protocol version  test', exception)
+        #print('protocol version  test', exception)
         return (False, 'protocol version  Exception {0}'.format(exception))

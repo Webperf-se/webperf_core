@@ -173,6 +173,7 @@ def protocol_version_score(url, protocol_version, _):
     protocol_rule = False
     protocol_name = ''
     protocol_translate_name = ''
+    protocol_is_secure = False
 
     try:
         if protocol_version == ssl.PROTOCOL_TLS:
@@ -180,31 +181,37 @@ def protocol_version_score(url, protocol_version, _):
             protocol_translate_name = 'TLS1_3'
             assert ssl.HAS_TLSv1_3
             protocol_rule = ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2
+            protocol_is_secure = True
         elif protocol_version == ssl.PROTOCOL_TLSv1_2:
             protocol_name = 'TLSv1.2'
             protocol_translate_name = 'TLS1_2'
             assert ssl.HAS_TLSv1_2
             protocol_rule = ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_3
+            protocol_is_secure = True
         elif protocol_version == ssl.PROTOCOL_TLSv1_1:
             protocol_name = 'TLSv1.1'
             protocol_translate_name = 'TLS1_1'
             assert ssl.HAS_TLSv1_1
             protocol_rule = ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3
+            protocol_is_secure = False
         elif protocol_version == ssl.PROTOCOL_TLSv1:
             protocol_name = 'TLSv1.0'
             protocol_translate_name = 'TLS1_0'
             assert ssl.HAS_TLSv1
             protocol_rule = ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3
+            protocol_is_secure = False
         elif protocol_version == ssl.PROTOCOL_SSLv3:
             protocol_name = 'SSLv3'
             protocol_translate_name = 'SSL3_0'
             assert ssl.HAS_SSLv3
             protocol_rule = ssl.OP_NO_SSLv2 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3
+            protocol_is_secure = False
         elif protocol_version == ssl.PROTOCOL_SSLv2:
             protocol_name = 'SSLv2'
             protocol_translate_name = 'SSL2_0'
             protocol_rule = ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3
             assert ssl.HAS_SSLv2
+            protocol_is_secure = False
 
         result_not_validated = has_protocol_version(
             url, False, protocol_rule)
@@ -212,16 +219,22 @@ def protocol_version_score(url, protocol_version, _):
         result_validated = has_protocol_version(
             url, True, protocol_rule)
 
-        if result_not_validated[0] and result_validated[0]:
-            points += 0.6
+        has_full_support = result_not_validated[0] and result_validated[0]
+        has_wrong_cert = result_not_validated[0]
+
+        if has_full_support:
+            if protocol_is_secure:
+                points += 0.5
             review += _('TEXT_REVIEW_' +
                         protocol_translate_name + '_SUPPORT')
-        elif result_not_validated[0]:
+        elif has_wrong_cert:
             review += _('TEXT_REVIEW_' +
                         protocol_translate_name + '_SUPPORT_WRONG_CERT')
         else:
             review += _('TEXT_REVIEW_' +
                         protocol_translate_name + '_NO_SUPPORT')
+            if not protocol_is_secure:
+                points += 0.5
 
         result_weak_cipher = (False, 'unset')
         try:

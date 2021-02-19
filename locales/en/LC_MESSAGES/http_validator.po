@@ -46,40 +46,40 @@ msgid "TEXT_REVIEW_TLS1_2_NO_SUPPORT"
 msgstr "-- No TLSv1.2 support (0.0 points)\r\n"
 
 msgid "TEXT_REVIEW_TLS1_1_SUPPORT"
-msgstr "-- TLSv1.1 support, is insecure (=0.0 points)\r\n"
+msgstr "-- TLSv1.1 support, is insecure (0.0 points)\r\n"
 
 msgid "TEXT_REVIEW_TLS1_1_SUPPORT_WRONG_CERT"
-msgstr "-- TLSv1.1 support but wrong certificate, is insecure (=0.0 points)\r\n"
+msgstr "-- TLSv1.1 support but wrong certificate, is insecure (0.0 points)\r\n"
 
 msgid "TEXT_REVIEW_TLS1_1_NO_SUPPORT"
-msgstr "-- No TLSv1.1 support (0.0 points)\r\n"
+msgstr "-- No TLSv1.1 support (+0.5 points)\r\n"
 
 msgid "TEXT_REVIEW_TLS1_0_SUPPORT"
-msgstr "-- TLSv1.0 support, is insecure (=0.0 points)\r\n"
+msgstr "-- TLSv1.0 support, is insecure (0.0 points)\r\n"
 
 msgid "TEXT_REVIEW_TLS1_0_SUPPORT_WRONG_CERT"
-msgstr "-- TLSv1.0 support but wrong certificate, is insecure (=0.0 points)\r\n"
+msgstr "-- TLSv1.0 support but wrong certificate, is insecure (0.0 points)\r\n"
 
 msgid "TEXT_REVIEW_TLS1_0_NO_SUPPORT"
-msgstr "-- No TLSv1.0 support (0.0 points)\r\n"
+msgstr "-- No TLSv1.0 support (+0.5 points)\r\n"
 
 msgid "TEXT_REVIEW_SSL3_0_SUPPORT"
-msgstr "-- SSLv3.0 support, is insecure (=0.0 points)\r\n"
+msgstr "-- SSLv3.0 support, is insecure (0.0 points)\r\n"
 
 msgid "TEXT_REVIEW_SSL3_0_SUPPORT_WRONG_CERT"
-msgstr "-- SSLv3.0 support but wrong certificate, is insecure (=0.0 points)\r\n"
+msgstr "-- SSLv3.0 support but wrong certificate, is insecure (0.0 points)\r\n"
 
 msgid "TEXT_REVIEW_SSL3_0_NO_SUPPORT"
-msgstr "-- No SSLv3.0 support (0.0 points)\r\n"
+msgstr "-- No SSLv3.0 support (+0.5 points)\r\n"
 
 msgid "TEXT_REVIEW_SSL2_0_SUPPORT"
-msgstr "-- SSLv2.0 support, is insecure (=0.0 points)\r\n"
+msgstr "-- SSLv2.0 support, is insecure (0.0 points)\r\n"
 
 msgid "TEXT_REVIEW_SSL2_0_SUPPORT_WRONG_CERT"
-msgstr "-- SSLv2.0 support but wrong certificate, is insecure (=0.0 points)\r\n"
+msgstr "-- SSLv2.0 support but wrong certificate, is insecure (0.0 points)\r\n"
 
 msgid "TEXT_REVIEW_SSL2_0_NO_SUPPORT"
-msgstr "-- No SSLv3.0 support (0.0 points)\r\n"
+msgstr "-- No SSLv3.0 support (+0.5 points)\r\n"
 
 msgid "TEXT_REVIEW_IP_VERSION"
 msgstr "- IP Version(s):\r\n"

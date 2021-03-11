@@ -188,7 +188,7 @@ def validate_security_txt(_, parsed_url):
         pass
 
     security_wellknown_content = httpRequestGetContent(
-        security_wellknown_url)
+        security_wellknown_url, True)
 
     # security.txt can also be placed in root if for example technical reasons prohibit use of /.well-known/
     security_root_url = parsed_url + 'security.txt'
@@ -198,7 +198,7 @@ def validate_security_txt(_, parsed_url):
     except:
         #print('Exception looking for security.txt, probably connection problems')
         pass
-    security_root_content = httpRequestGetContent(security_root_url)
+    security_root_content = httpRequestGetContent(security_root_url, True)
 
     #print('security_wellknown_content:', security_wellknown_content)
     #print('security_root_content:', security_root_content)

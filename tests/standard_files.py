@@ -78,7 +78,7 @@ def validate_robots(_, parsed_url):
     return_dict = dict()
     points = 0.0
 
-    robots_content = httpRequestGetContent(parsed_url + 'robots.txt')
+    robots_content = httpRequestGetContent(parsed_url + 'robots.txt', True)
 
     if robots_content == None or '</html>' in robots_content.lower() or ('user-agent' not in robots_content.lower() and 'disallow' not in robots_content.lower() and 'allow' not in robots_content.lower()):
         points = 3

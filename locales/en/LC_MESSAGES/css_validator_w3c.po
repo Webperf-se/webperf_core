@@ -37,12 +37,6 @@ msgid "TEXT_REVIEW_ERRORS_GROUPED"
 msgstr "- Problems (grouped by error message):\n"
 
 msgid "TEXT_REVIEW_ERRORS_ITEM"
-msgstr "-- {0} (number of errors of this type: {1})\n"
-
-msgid "TEXT_REVIEW_ERRORS_GROUPED"
-msgstr "- Problems (grouped by error message):\n"
-
-msgid "TEXT_REVIEW_ERRORS_ITEM"
 msgstr "- {0} (number of errors of this type: {1})\n"
 
 msgid "TEXT_REVIEW_RATING_GROUPED"

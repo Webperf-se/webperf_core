@@ -114,6 +114,12 @@ msgstr "-- HTTPv1.1 stöd (+0.5 poäng)\r\n"
 msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_2"
 msgstr "-- HTTPv2 stöd (+0.5 poäng)\r\n"
 
+msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_3"
+msgstr "-- HTTPv3 stöd (Experiment, ingen poängpåverkan idag)\r\n"
+
+msgid "TEXT_REVIEW_HTTP_VERSION_QUIC"
+msgstr "-- QUIC stöd (Experiment, ingen poängpåverkan idag)\r\n"
+
 msgid "TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_UNABLE_TO_VERIFY"
 msgstr "- Kunde ej verifiera HTTP till HTTPS omdirigering (0.0 poäng)\r\n"
 

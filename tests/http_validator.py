@@ -366,6 +366,12 @@ def http_version_score(hostname, url, _):
             points += 0.5
             review += _('TEXT_REVIEW_HTTP_VERSION_HTTP_2')
 
+    result = check_http3(hostname)
+    if result[0]:
+        review += _('TEXT_REVIEW_HTTP_VERSION_HTTP_3')
+    if result[1]:
+        review += _('TEXT_REVIEW_HTTP_VERSION_QUIC')
+
     return (points, review)
 
 
@@ -420,6 +426,42 @@ def check_http2(hostname):
         return (False, "http2")
 
 
+def check_http3(host):
+    try:
+        url = 'https://http3check.net/?host={0}'.format(host)
+        headers = {'user-agent': useragent}
+        request = requests.get(url, allow_redirects=True,
+                               headers=headers, timeout=request_timeout)
+
+        # We use variable to validate it once
+        requestText = ''
+        hasRequestText = False
+        has_quic_support = False
+        has_http3_support = False
+
+        if request.text:
+            requestText = request.text
+            hasRequestText = True
+
+        if hasRequestText:
+            try:
+                soup = BeautifulSoup(requestText, 'lxml')
+                elements_success = soup.find_all(
+                    class_="uk-text-success")
+                for result in elements_success:
+                    supportText = result.text.lower()
+                    has_quic_support = has_quic_support or 'quic' in supportText
+                    has_http3_support = has_quic_support or 'http/3' in supportText
+
+            except:
+                print(
+                    'Error getting HTTP/3 or QUIC support!\nMessage:\n{0}'.format(sys.exc_info()[0]))
+        return (has_http3_support, has_quic_support)
+
+    except Exception:
+        return (False, False)
+
+
 def check_http_fallback(url):
     has_http2 = False
     has_http11 = False
@@ -429,10 +471,10 @@ def check_http_fallback(url):
         has_http2 = r.protocol == "HTTP/2"
         has_http11 = r.protocol == "HTTP1.1"
     except ssl.CertificateError as error:
-        print(error)
+        print('ERR1', error)
         pass
     except Exception as e:
-        print(e)
+        print('ERR2', e)
         pass
 
     try:
@@ -443,7 +485,7 @@ def check_http_fallback(url):
                 has_http11 = True
     except Exception as e:
         # Probably a CERT validation error, ignore
-        print(e)
+        print('ERR3', e)
         pass
 
     return (has_http11, has_http2)

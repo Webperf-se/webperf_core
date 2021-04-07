@@ -114,6 +114,12 @@ msgstr "-- HTTPv1.1 support (+0.5 points)\r\n"
 msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_2"
 msgstr "-- HTTPv2 support (+0.5 points)\r\n"
 
+msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_3"
+msgstr "-- HTTPv3 support (Experiment, no point impact today)\r\n"
+
+msgid "TEXT_REVIEW_HTTP_VERSION_QUIC"
+msgstr "-- QUIC support (Experiment, no point impact today)\r\n"
+
 msgid "TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_UNABLE_TO_VERIFY"
 msgstr "- Unable to verify HTTP to HTTPS redirect (0.0 points)\r\n"
 

@@ -26,26 +26,33 @@ def httpRequestGetContent(url, allow_redirects=False):
         a = requests.get(url, allow_redirects=allow_redirects,
                          headers=headers, timeout=request_timeout*2)
 
+        #print('httpRequestGetContent', a.text)
         return a.text
     except ssl.CertificateError as error:
         print('Info: Certificate error. {0}'.format(error.reason))
         pass
-    except requests.exceptions.SSLError:
+    except requests.exceptions.SSLError as error:
         if 'http://' in url:  # trying the same URL over SSL/TLS
             print('Info: Trying SSL before giving up.')
             return httpRequestGetContent(url.replace('http://', 'https://'))
+        else:
+            print('Info: SSLError. {0}'.format(error))
+            return ''
         pass
-    except requests.exceptions.ConnectionError:
+    except requests.exceptions.ConnectionError as error:
         if 'http://' in url:  # trying the same URL over SSL/TLS
             print('Connection error! Info: Trying SSL before giving up.')
             return httpRequestGetContent(url.replace('http://', 'https://'))
-        print(
-            'Connection error! Unfortunately the request for URL "{0}" failed.\nMessage:\n{1}'.format(url, sys.exc_info()[0]))
+        else:
+            print(
+                'Connection error! Unfortunately the request for URL "{0}" failed.\nMessage:\n{1}'.format(url, sys.exc_info()[0]))
+            return ''
         pass
     except:
         print(
             'Error! Unfortunately the request for URL "{0}" either timed out or failed for other reason(s). The timeout is set to {1} seconds.\nMessage:\n{2}'.format(url, request_timeout, sys.exc_info()[0]))
         pass
+    return ''
 
 
 def has_redirect(url):

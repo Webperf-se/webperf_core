@@ -46,6 +46,7 @@ def httpRequestGetContent(url, allow_redirects=False):
         else:
             print(
                 'Connection error! Unfortunately the request for URL "{0}" failed.\nMessage:\n{1}'.format(url, sys.exc_info()[0]))
+            return ''
         pass
     except:
         print(

@@ -234,7 +234,7 @@ def protocol_version_score(url, protocol_version, _):
             review += _('TEXT_REVIEW_' +
                         protocol_translate_name + '_NO_SUPPORT')
             if not protocol_is_secure:
-                points += 0.5
+                points += 0.3
 
         result_insecure_cipher = (False, 'unset')
         try:
@@ -368,8 +368,10 @@ def http_version_score(hostname, url, _):
 
     result = check_http3(hostname)
     if result[0]:
+        points += 0.2
         review += _('TEXT_REVIEW_HTTP_VERSION_HTTP_3')
     if result[1]:
+        points += 0.2
         review += _('TEXT_REVIEW_HTTP_VERSION_QUIC')
 
     return (points, review)

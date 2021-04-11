@@ -66,8 +66,27 @@ def run_test(langCode, url):
 
         elem_tracking_requests_count = browser.find_element(
             By.CLASS_NAME, 'tracking-request-count')  # tracking requests
-        review += '* Tracking requests: {0}\r\n'.format(
-            elem_tracking_requests_count.text[19:])
+
+        number_of_tracking = int(elem_tracking_requests_count.text[19:])
+        tracking_points = 1.0
+
+        tracking_points -= (number_of_tracking * 0.1)
+
+        if tracking_points <= 0.0:
+            tracking_points = 0.0
+            review += '* Tracking ({0} points)\r\n'.format(
+                tracking_points)
+        else:
+            review += '* Tracking (+{0} points)\r\n'.format(
+                tracking_points)
+
+        if number_of_tracking > 0:
+            review += '-- Tracking requests: {0}\r\n'.format(
+                number_of_tracking)
+        else:
+            review += '-- No tracking requests\r\n'
+
+        points += tracking_points
 
         elements_download_links = browser.find_elements_by_css_selector(
             'a[download]')  # download links
@@ -122,7 +141,7 @@ def check_fingerprint(json_content):
     fingerprints_points = 0.0
     number_of_fingerprints = 0
     fingerprints_review = '* Fingerprinting ({0} points)\r\n'.format(
-        number_of_potential_fingerprints)
+        fingerprints_points)
     if number_of_potential_fingerprints > 0:
         while fingerprints_index < number_of_potential_fingerprints:
             fingerprint = fingerprints[fingerprints_index]
@@ -136,7 +155,7 @@ def check_fingerprint(json_content):
 
     if number_of_fingerprints == 0:
         fingerprints_points = 1.0
-        fingerprints_review = '* Fingerprinting (+{0} points):\r\n-- No fingerprinting\r\n'.format(
+        fingerprints_review = '* Fingerprinting (+{0} points)\r\n-- No fingerprinting\r\n'.format(
             fingerprints_points)
 
     return (fingerprints_points, fingerprints_review)
@@ -176,12 +195,12 @@ def check_ads(json_content, adserver_requests):
 
 
 def check_cookies(json_content, hostname):
-    from datetime import datetime
+    #from datetime import datetime
     cookies = json_content['cookies']
     number_of_potential_cookies = len(cookies)
     number_of_cookies = 0
     cookies_index = 0
-    cookies_points = 0.0
+    cookies_points = 1.0
     cookies_review = ''
 
     cookies_number_of_firstparties = 0
@@ -192,6 +211,18 @@ def check_cookies(json_content, hostname):
     cookies_number_of_valid_over_6months = 0
     cookies_number_of_valid_over_9months = 0
     cookies_number_of_valid_over_1year = 0
+
+    # I know it differs around the year but lets get websites the benefit for it..
+    days_in_month = 31
+
+    year1_from_now = (datetime.datetime.now() +
+                      datetime.timedelta(days=12 * days_in_month)).date()
+    months9_from_now = (datetime.datetime.now() +
+                        datetime.timedelta(days=9 * days_in_month)).date()
+    months6_from_now = (datetime.datetime.now() +
+                        datetime.timedelta(days=6 * days_in_month)).date()
+    months3_from_now = (datetime.datetime.now() +
+                        datetime.timedelta(days=3 * days_in_month)).date()
 
     if number_of_potential_cookies > 0:
         while cookies_index < number_of_potential_cookies:
@@ -211,24 +242,24 @@ def check_cookies(json_content, hostname):
                 cookies_number_of_thirdparties += 1
                 number_of_cookies += 1
 
-            # if 'session' in cookie and cookie['session'] == False:
-            #     if 'expires' in cookie:
-            #         cookie_expires_timestamp = int(cookie['expires'])
-            #         cookie_expires_date = datetime.fromtimestamp(
-            #             cookie_expires_timestamp)
+            if 'session' in cookie and cookie['session'] == False:
+                if 'expires' in cookie:
+                    cookie_expires_timestamp = int(cookie['expires'])
+                    cookie_expires_date = datetime.date.fromtimestamp(
+                        cookie_expires_timestamp)
 
-            #         year1 = datetime.now() + datetime.timedelta(months=12)
-            #         months9 = datetime.now() + datetime.timedelta(months=9)
-            #         months6 = datetime.now() + datetime.timedelta(months=6)
-            #         months3 = datetime.now() + datetime.timedelta(months=3)
-            #         if year1 > cookie_expires_date:
-            #             cookies_number_of_valid_over_1year += 1
-            #         elif months9 > cookie_expires_date:
-            #             cookies_number_of_valid_over_9months += 1
-            #         elif months6 > cookie_expires_date:
-            #             cookies_number_of_valid_over_6months += 1
-            #         elif months3 > cookie_expires_date:
-            #             cookies_number_of_valid_over_3months += 1
+                    if year1_from_now < cookie_expires_date:
+                        cookies_number_of_valid_over_1year += 1
+                        cookies_points -= 1.0
+                    elif months9_from_now < cookie_expires_date:
+                        cookies_number_of_valid_over_9months += 1
+                        cookies_points -= 0.9
+                    elif months6_from_now < cookie_expires_date:
+                        cookies_number_of_valid_over_6months += 1
+                        cookies_points -= 0.6
+                    elif months3_from_now < cookie_expires_date:
+                        cookies_number_of_valid_over_3months += 1
+                        cookies_points -= 0.3
 
             number_of_cookies += 1
 
@@ -238,18 +269,19 @@ def check_cookies(json_content, hostname):
     if cookies_number_of_thirdparties > 0:
         cookies_review += '-- Thirdparty: {0}\r\n'.format(
             cookies_number_of_thirdparties)
+        cookies_points -= 0.1
 
     if cookies_number_of_valid_over_1year > 0:
-        cookies_review += '-- Over 1 year valid: {0}\r\n'.format(
+        cookies_review += '-- Valid over 1 year: {0}\r\n'.format(
             cookies_number_of_valid_over_1year)
     elif cookies_number_of_valid_over_9months > 0:
-        cookies_review += '-- Over 9 months valid: {0}\r\n'.format(
+        cookies_review += '-- Valid over 9 months: {0}\r\n'.format(
             cookies_number_of_valid_over_9months)
     elif cookies_number_of_valid_over_6months > 0:
-        cookies_review += '-- Over 6 months valid: {0}\r\n'.format(
+        cookies_review += '-- Valid over 6 months: {0}\r\n'.format(
             cookies_number_of_valid_over_6months)
     elif cookies_number_of_valid_over_3months > 0:
-        cookies_review += '-- Over 3 months valid: {0}\r\n'.format(
+        cookies_review += '-- Valid over 3 months: {0}\r\n'.format(
             cookies_number_of_valid_over_3months)
 
     if cookies_number_of_httponly > 0:
@@ -259,13 +291,19 @@ def check_cookies(json_content, hostname):
     if cookies_number_of_secure > 0:
         cookies_review += '-- Not Secure: {0}\r\n'.format(
             cookies_number_of_secure)
+        cookies_points -= 0.1
+
+    if cookies_points < 0.0:
+        cookies_points = 0.0
 
     if number_of_cookies > 0:
-        cookies_points = 0.0
-        cookies_review = '* Cookies ({0} points)\r\n{1}'.format(
-            cookies_points, cookies_review)
+        if cookies_points > 0.0:
+            cookies_review = '* Cookies (+{0} points)\r\n{1}'.format(
+                cookies_points, cookies_review)
+        else:
+            cookies_review = '* Cookies ({0} points)\r\n{1}'.format(
+                cookies_points, cookies_review)
     else:
-        cookies_points = 1.0
         cookies_review = '* Cookies (+{0} points)\r\n-- No Cookies\r\n'.format(
             cookies_points)
 
@@ -298,23 +336,107 @@ def check_detailed_results(content, adserver_requests, hostname):
 
 
 def check_har_results(content):
-    points = 0.0
+    points = 1.0
     review = ''
+    countries = {}
+    countries_outside_eu = {}
 
     json_content = ''
     try:
         json_content = json.loads(content)
-    except:  # might crash if checked resource is not a webpage
+
+        json_content = json_content['log']
+
+        general_info = json_content['pages'][0]
+        pageId = general_info['id']
+        tested = general_info['startedDateTime']
+
+        entries = json_content['entries']
+        number_of_entries = len(entries)
+        page_entry = entries[0]
+        page_isp_and_countrycode = json.loads(page_entry['comment'])
+
+        #print('page isp:', page_isp_and_countrycode['isp'])
+        #print('page country:', page_isp_and_countrycode['country_code'])
+
+        entries_index = 0
+        while entries_index < number_of_entries:
+            entry_isp_and_countrycode = json.loads(
+                entries[entries_index]['comment'])
+            entry_country_code = entry_isp_and_countrycode['country_code']
+            if entry_country_code in countries:
+                countries[entry_country_code] = countries[entry_country_code] + 1
+            else:
+                countries[entry_country_code] = 1
+                if not is_country_code_in_eu(entry_country_code):
+                    countries_outside_eu[entry_country_code] = 1
+
+            entries_index += 1
+
+        number_of_countries = len(countries)
+
+        review += '-- Number of countries: {0}\r\n'.format(
+            number_of_countries)
+
+        number_of_countries_outside_eu = len(countries_outside_eu)
+        if number_of_countries_outside_eu > 0:
+            review += '-- Countries outside EU: {0}\r\n'.format(
+                number_of_countries_outside_eu)
+            points = 0.0
+
+        page_is_hosted_in_sweden = page_isp_and_countrycode['country_code'] == 'SE'
+        review += '-- Page hosted in Sweden: {0}\r\n'.format(
+            page_is_hosted_in_sweden)
+
+        if points > 0.0:
+            review = '* GDPR and Schrems: (+{0} points)\r\n{1}'.format(
+                points, review)
+        else:
+            review = '* GDPR and Schrems: ({0} points)\r\n{1}'.format(
+                points, review)
+
         return (points, review)
 
-    review += '* Countries: {0}\r\n'.format(
-        4)
-    review += '-- Countries outside EU: {0}\r\n'.format(
-        1)
-    review += '-- Page hosted in Sweden: {0}\r\n'.format(
-        False)
+    except Exception as ex:  # might crash if checked resource is not a webpage
+        #print('crash', ex)
+        return (points, review)
 
-    return (points, review)
+
+def is_country_code_in_eu(country_code):
+    eu_countrycodes = {
+        'BE': 'Belgium',
+        'BG': 'Bulgaria',
+        'CZ': 'Czechia',
+        'DK': 'Denmark',
+        'DE': 'Germany',
+        'EE': 'Estonia',
+        'IE': 'Ireland',
+        'EL': 'Greece',
+        'ES': 'Spain',
+        'FR': 'France',
+        'HR': 'Croatia',
+        'IT': 'Italy',
+        'CY': 'Cyprus',
+        'LV': 'Latvia',
+        'LT': 'Lithuania',
+        'LU': 'Luxembourg',
+        'HU': 'Hungary',
+        'MT': 'Malta',
+        'NL': 'Netherlands',
+        'AT': 'Austria',
+        'PL': 'Poland',
+        'PT': 'Portugal',
+        'RO': 'Romania',
+        'SI': 'Slovenia',
+        'SK': 'Slovakia',
+        'FI': 'Finland',
+        'SE': 'Sweden'
+    }
+
+    if country_code in eu_countrycodes:
+        return True
+
+    return False
 
 
 def get_text_excluding_children(driver, element):

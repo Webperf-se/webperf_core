@@ -138,8 +138,9 @@ def run_test(langCode, url):
 
 
 def check_fingerprint(json_content):
-    fingerprints = json_content['fingerprints']
-    number_of_potential_fingerprints = len(fingerprints)
+    fingerprints = {}
+    possible_fingerprints = json_content['fingerprints']
+    number_of_potential_fingerprints = len(possible_fingerprints)
     fingerprints_index = 0
     fingerprints_points = 0.0
     number_of_fingerprints = 0
@@ -147,14 +148,27 @@ def check_fingerprint(json_content):
         fingerprints_points)
     if number_of_potential_fingerprints > 0:
         while fingerprints_index < number_of_potential_fingerprints:
-            fingerprint = fingerprints[fingerprints_index]
+            fingerprint = possible_fingerprints[fingerprints_index]
             fingerprints_index += 1
 
             if 'level' in fingerprint and ('danger' in fingerprint['level'] or 'warning' in fingerprint['level']):
-                fingerprints_review += '-- {0} ({1}): {2}\r\n'.format(
-                    fingerprint['category'], fingerprint['level'], fingerprint['count'])
-                fingerprints_points = 0.0
-                number_of_fingerprints += 1
+
+                fingerprint_key = "{0} ({1})".format(
+                    fingerprint['category'], fingerprint['level'])
+
+                fingerprint_count = int(fingerprint['count'])
+
+                if fingerprint_key in fingerprints:
+                    fingerprints[fingerprint_key] = fingerprints[fingerprint_key] + \
+                        fingerprint_count
+                else:
+                    fingerprints[fingerprint_key] = fingerprint_count
+
+    number_of_fingerprints = len(fingerprints)
+    fingerprints_list = fingerprints.items()
+    for key, value in fingerprints_list:
+        fingerprints_review += '-- {0}: {1}\r\n'.format(
+            key, value)
 
     if number_of_fingerprints == 0:
         fingerprints_points = 1.0

@@ -252,6 +252,9 @@ def check_cookies(json_content, hostname):
             if 'session' in cookie and cookie['session'] == False:
                 if 'expires' in cookie:
                     cookie_expires_timestamp = int(cookie['expires'])
+                    # sanity check
+                    if cookie_expires_timestamp > 25340230080:
+                        cookie_expires_timestamp = 25340230080
                     cookie_expires_date = datetime.date.fromtimestamp(
                         cookie_expires_timestamp)
 

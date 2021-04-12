@@ -71,6 +71,7 @@ def run_test(langCode, url):
         tracking_points = 1.0
 
         tracking_points -= (number_of_tracking * 0.1)
+        tracking_points = float("{0:.2f}".format(tracking_points))
 
         if tracking_points <= 0.0:
             tracking_points = 0.0
@@ -131,6 +132,8 @@ def run_test(langCode, url):
     if points == 0:
         points = 1.0
 
+    points = float("{0:.2f}".format(points))
+
     return (points, review, result_dict)
 
 
@@ -183,15 +186,6 @@ def check_ads(json_content, adserver_requests):
         ads_review += '-- Visibile Ads: {0}\r\n'.format(
             number_of_ads)
 
-        # ads_index = 0
-        # while ads_index < number_of_ads:
-        #     ad = ads[ads_index]
-        #     ads_index += 1
-
-        #     if 'bidder' in ad:
-        #         ads_review += '---- {0} ({1})\r\n'.format(
-        #             ad['bidder'], ads_index)
-
     return (ads_points, ads_review)
 
 
@@ -205,7 +199,6 @@ def check_cookies(json_content, hostname):
 
     cookies_number_of_firstparties = 0
     cookies_number_of_thirdparties = 0
-    cookies_number_of_httponly = 0
     cookies_number_of_secure = 0
     cookies_number_of_valid_over_3months = 0
     cookies_number_of_valid_over_6months = 0
@@ -229,8 +222,8 @@ def check_cookies(json_content, hostname):
             cookie = cookies[cookies_index]
             cookies_index += 1
 
-            if 'httpOnly' in cookie and cookie['httpOnly'] == False:
-                cookies_number_of_httponly += 1
+            # if 'httpOnly' in cookie and cookie['httpOnly'] == False:
+            #     cookies_number_of_httponly += 1
 
             if 'secure' in cookie and cookie['secure'] == False:
                 cookies_number_of_secure += 1
@@ -263,9 +256,6 @@ def check_cookies(json_content, hostname):
 
             number_of_cookies += 1
 
-    if cookies_number_of_firstparties > 0:
-        cookies_review += '-- Firstparty: {0}\r\n'.format(
-            cookies_number_of_firstparties)
     if cookies_number_of_thirdparties > 0:
         cookies_review += '-- Thirdparty: {0}\r\n'.format(
             cookies_number_of_thirdparties)
@@ -284,10 +274,6 @@ def check_cookies(json_content, hostname):
         cookies_review += '-- Valid over 3 months: {0}\r\n'.format(
             cookies_number_of_valid_over_3months)
 
-    if cookies_number_of_httponly > 0:
-        cookies_review += '-- Not HttpOnly: {0}\r\n'.format(
-            cookies_number_of_httponly)
-
     if cookies_number_of_secure > 0:
         cookies_review += '-- Not Secure: {0}\r\n'.format(
             cookies_number_of_secure)
@@ -295,6 +281,8 @@ def check_cookies(json_content, hostname):
 
     if cookies_points < 0.0:
         cookies_points = 0.0
+
+    cookies_points = float("{0:.2f}".format(cookies_points))
 
     if number_of_cookies > 0:
         if cookies_points > 0.0:

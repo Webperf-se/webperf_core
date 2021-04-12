@@ -164,7 +164,6 @@ def check_fingerprint(json_content):
 def check_ads(json_content, adserver_requests):
     ads = json_content['ads']
     number_of_ads = len(ads)
-    ads_index = 0
     ads_points = 0.0
     ads_review = ''
     if adserver_requests > 0 or number_of_ads > 0:
@@ -183,6 +182,8 @@ def check_ads(json_content, adserver_requests):
     if number_of_ads > 0:
         ads_review += '-- Visibile Ads: {0}\r\n'.format(
             number_of_ads)
+
+        # ads_index = 0
         # while ads_index < number_of_ads:
         #     ad = ads[ads_index]
         #     ads_index += 1
@@ -195,7 +196,6 @@ def check_ads(json_content, adserver_requests):
 
 
 def check_cookies(json_content, hostname):
-    #from datetime import datetime
     cookies = json_content['cookies']
     number_of_potential_cookies = len(cookies)
     number_of_cookies = 0
@@ -348,16 +348,13 @@ def check_har_results(content):
         json_content = json_content['log']
 
         general_info = json_content['pages'][0]
-        pageId = general_info['id']
-        tested = general_info['startedDateTime']
+        #pageId = general_info['id']
+        #tested = general_info['startedDateTime']
 
         entries = json_content['entries']
         number_of_entries = len(entries)
         page_entry = entries[0]
         page_isp_and_countrycode = json.loads(page_entry['comment'])
-
-        #print('page isp:', page_isp_and_countrycode['isp'])
-        #print('page country:', page_isp_and_countrycode['country_code'])
 
         entries_index = 0
         while entries_index < number_of_entries:
@@ -437,19 +434,3 @@ def is_country_code_in_eu(country_code):
         return True
 
     return False
-
-
-def get_text_excluding_children(driver, element):
-    return driver.execute_script("""
-    return jQuery(arguments[0]).contents().filter(function() {
-        return this.nodeType == Node.TEXT_NODE;
-    }).text();
-    """, element)
-
-
-def get_downloadtext_excluding_children(driver, element):
-    return driver.execute_script("""
-    return jQuery(arguments[0]).contents().filter(function() {
-        return this.nodeType == Node.TEXT_NODE;
-    }).text();
-    """, element)

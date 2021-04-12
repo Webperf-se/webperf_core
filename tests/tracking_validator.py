@@ -54,6 +54,8 @@ def run_test(langCode, url):
 
         elem = browser.find_element(By.NAME, 'domain')  # Find the domain box
         elem.send_keys(url + Keys.RETURN)
+    except:
+        if browser != False:
             browser.quit()
         return (1.0, 'Unable to connect to service', result_dict)
 

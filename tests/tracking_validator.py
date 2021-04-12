@@ -54,7 +54,11 @@ def run_test(langCode, url):
 
         elem = browser.find_element(By.NAME, 'domain')  # Find the domain box
         elem.send_keys(url + Keys.RETURN)
+            browser.quit()
+        return (1.0, 'Unable to connect to service', result_dict)
 
+    adserver_requests = 0
+    try:
         # wait for element(s) to appear
         wait = WebDriverWait(browser, 60, poll_frequency=5)
         wait.until(ec.visibility_of_element_located(
@@ -63,7 +67,12 @@ def run_test(langCode, url):
         elem_ad_requests_count = browser.find_element(
             By.CLASS_NAME, 'adserver-request-count')  # Ad requests
         adserver_requests = int(elem_ad_requests_count.text[19:])
+    except:
+        if browser != False:
+            browser.quit()
+        return (1.0, 'Service enountered error while processing request for url', result_dict)
 
+    try:
         elem_tracking_requests_count = browser.find_element(
             By.CLASS_NAME, 'tracking-request-count')  # tracking requests
 

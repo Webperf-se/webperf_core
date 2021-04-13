@@ -59,52 +59,26 @@ def run_test(langCode, url):
             browser.quit()
         return (1.0, 'Unable to connect to service', result_dict)
 
-    adserver_requests = 0
     try:
         # wait for element(s) to appear
         wait = WebDriverWait(browser, 60, poll_frequency=5)
         wait.until(ec.visibility_of_element_located(
             (By.CLASS_NAME, 'adserver-request-count')))
-
-        elem_ad_requests_count = browser.find_element(
-            By.CLASS_NAME, 'adserver-request-count')  # Ad requests
-        adserver_requests = int(elem_ad_requests_count.text[19:])
     except:
         if browser != False:
             browser.quit()
         return (1.0, 'Service enountered error while processing request for url', result_dict)
 
     try:
-        elem_tracking_requests_count = browser.find_element(
-            By.CLASS_NAME, 'tracking-request-count')  # tracking requests
-
-        number_of_tracking = int(elem_tracking_requests_count.text[19:])
-        tracking_points = 1.0
-
-        tracking_points -= (number_of_tracking * 0.1)
-        tracking_points = float("{0:.2f}".format(tracking_points))
-
-        if tracking_points <= 0.0:
-            tracking_points = 0.0
-            review += '* Tracking ({0} points)\r\n'.format(
-                tracking_points)
-        else:
-            review += '* Tracking (+{0} points)\r\n'.format(
-                tracking_points)
-
-        if number_of_tracking > 0:
-            review += '-- Tracking requests: {0}\r\n'.format(
-                number_of_tracking)
-        else:
-            review += '-- No tracking requests\r\n'
-
-        points += tracking_points
-
         elements_download_links = browser.find_elements_by_css_selector(
             'a[download]')  # download links
 
         number_of_download_links = len(elements_download_links)
         download_link_index = 0
+
+        http_archive_content = False
+        detailed_results_content = False
+
         # for download_link in elements_download_links:
         while download_link_index < number_of_download_links:
             download_link = elements_download_links[download_link_index]
@@ -117,17 +91,28 @@ def run_test(langCode, url):
                     download_link_url, True)
 
             if 'Download detailed results' in download_link_text:
-                #print('GET fingerprints, ads and cookies')
-                result = check_detailed_results(
-                    download_link_content, adserver_requests, hostname)
-                points += result[0]
-                review += result[1]
+                detailed_results_content = download_link_content
 
             if 'Download HTTP Archive' in download_link_text:
-                #print('GET countries')
-                result = check_har_results(download_link_content)
-                points += result[0]
-                review += result[1]
+                http_archive_content = download_link_content
+
+        # print('GET countries and tracking')
+        if http_archive_content:
+            result = check_har_results(http_archive_content)
+            points += result[0]
+            review += result[1]
+
+            result = check_tracking(
+                browser, http_archive_content + detailed_results_content)
+            points += result[0]
+            review += result[1]
+
+        # print('GET fingerprints, ads and cookies')
+        if detailed_results_content:
+            result = check_detailed_results(
+                browser, detailed_results_content, hostname)
+            points += result[0]
+            review += result[1]
 
         # time.sleep(30)
     finally:
@@ -146,6 +131,158 @@ def run_test(langCode, url):
     points = float("{0:.2f}".format(points))
 
     return (points, review, result_dict)
+
+
+def check_tracking(browser, json_content):
+    review = ''
+    points = 0.0
+
+    elem_tracking_requests_count = browser.find_element(
+        By.CLASS_NAME, 'tracking-request-count')  # tracking requests
+
+    number_of_tracking = int(elem_tracking_requests_count.text[19:])
+
+    review_analytics = ''
+    analytics_used = get_analytics(json_content)
+    number_of_analytics_used = len(analytics_used)
+    if number_of_analytics_used > 0:
+        review_analytics += '-- Visitor analytics used:\r\n'
+        analytics_used_items = analytics_used.items()
+        for analytics_name, analytics_should_count in analytics_used_items:
+            if analytics_should_count:
+                number_of_tracking += 1
+            review_analytics += '---- {0}\r\n'.format(analytics_name)
+
+    points = 1.0
+
+    number_of_tracking_for_points = number_of_tracking
+    if number_of_tracking >= 2:
+        number_of_tracking_for_points = number_of_tracking - 2
+
+    points -= (number_of_tracking_for_points * 0.1)
+    points = float("{0:.2f}".format(points))
+
+    if points <= 0.0:
+        points = 0.0
+        review += '* Tracking ({0} points)\r\n'.format(
+            points)
+    else:
+        review += '* Tracking (+{0} points)\r\n'.format(
+            points)
+
+    if len(review_analytics) > 0:
+        review += review_analytics
+
+    if number_of_tracking > 0:
+        review += '-- Tracking requests: {0}\r\n'.format(
+            number_of_tracking)
+    else:
+        review += '-- No tracking requests\r\n'
+
+    return (points, review)
+
+
+def get_analytics(json_content):
+    analytics = {}
+
+    if has_matomo(json_content):
+        analytics['Matomo'] = True
+    if has_matomo_tagmanager(json_content):
+        analytics['Matomo TagManager'] = True
+    if has_google_analytics(json_content):
+        analytics['Google Analytics'] = False
+    if has_google_tagmanager(json_content):
+        analytics['Google TagManager'] = False
+    if has_siteimprove_analytics(json_content):
+        analytics['SiteImprove Analytics'] = False
+    if has_Vizzit(json_content):
+        analytics['Vizzit'] = True
+
+    return analytics
+
+
+def has_matomo(json_content):
+    # Look for cookie name
+    if '"name": "_pk_' in json_content:
+        return True
+    if '"name": "MATOMO_' in json_content:
+        return True
+    if '"name": "PIWIK_' in json_content:
+        return True
+
+    # Look for javascript objects
+    if 'window.Matomo=' in json_content:
+        return True
+    if 'window.Piwik=' in json_content:
+        return True
+
+    # Look for file names
+    if 'piwik.js' in json_content:
+        return True
+    if 'matomo.php' in json_content:
+        return True
+
+    return False
+
+
+def has_matomo_tagmanager(json_content):
+    # Look for javascript objects
+    if 'window.MatomoT' in json_content:
+        return True
+
+    return False
+
+
+def has_google_analytics(json_content):
+    # Look for javascript objects
+    if 'window.GoogleAnalyticsObject' in json_content:
+        return True
+
+    # Look for file names
+    if 'google-analytics.com/analytics.js' in json_content:
+        return True
+    if 'google-analytics.com/ga.js' in json_content:
+        return True
+
+    return False
+
+
+def has_google_tagmanager(json_content):
+    # Look for file names
+    if 'googletagmanager.com/gtm.js' in json_content:
+        return True
+    if 'googletagmanager.com/gtag' in json_content:
+        return True
+    # Look server name
+    if '"value": "Google Tag Manager"' in json_content:
+        return True
+
+    return False
+
+
+def has_siteimprove_analytics(json_content):
+    # Look for file names
+    if 'siteimproveanalytics.io' in json_content:
+        return True
+    if 'siteimproveanalytics.com/js/siteanalyze' in json_content:
+        return True
+
+    return False
+
+
+def has_Vizzit(json_content):
+    # Look for javascript objects
+    if '___vizzit' in json_content:
+        return True
+    if '$vizzit_' in json_content:
+        return True
+    if '$vizzit =' in json_content:
+        return True
+    # Look for file names
+    if 'vizzit.se/vizzittag' in json_content:
+        return True
+
+    return False
 
 
 def check_fingerprint(json_content):
@@ -303,7 +440,7 @@ def check_cookies(json_content, hostname):
             cookies_number_of_valid_over_3months)
 
     if cookies_number_of_secure > 0:
-        cookies_review += '-- Not Secure: {0}\r\n'.format(
+        cookies_review += '-- Not secure: {0}\r\n'.format(
             cookies_number_of_secure)
         cookies_points -= 0.1
 
@@ -326,12 +463,17 @@ def check_cookies(json_content, hostname):
     return (cookies_points, cookies_review)
 
 
-def check_detailed_results(content, adserver_requests, hostname):
+def check_detailed_results(browser, content, hostname):
     points = 0.0
     review = ''
 
+    adserver_requests = 0
     json_content = ''
     try:
+        elem_ad_requests_count = browser.find_element(
+            By.CLASS_NAME, 'adserver-request-count')  # Ad requests
+        adserver_requests = int(elem_ad_requests_count.text[19:])
+
         json_content = json.loads(content)
     except:  # might crash if checked resource is not a webpage
         return (points, review)
@@ -364,8 +506,8 @@ def check_har_results(content):
         json_content = json_content['log']
 
         general_info = json_content['pages'][0]
-        #pageId = general_info['id']
-        #tested = general_info['startedDateTime']
+        # pageId = general_info['id']
+        # tested = general_info['startedDateTime']
 
         entries = json_content['entries']
         number_of_entries = len(entries)
@@ -411,7 +553,7 @@ def check_har_results(content):
         return (points, review)
 
     except Exception as ex:  # might crash if checked resource is not a webpage
-        #print('crash', ex)
+        # print('crash', ex)
         return (points, review)
 
 

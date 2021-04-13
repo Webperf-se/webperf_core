@@ -188,11 +188,11 @@ def get_analytics(json_content):
     if has_matomo(json_content):
         analytics['Matomo'] = True
     if has_matomo_tagmanager(json_content):
-        analytics['Matomo TagManager'] = True
+        analytics['Matomo Tag Manager'] = True
     if has_google_analytics(json_content):
         analytics['Google Analytics'] = False
     if has_google_tagmanager(json_content):
-        analytics['Google TagManager'] = False
+        analytics['Google Tag Manager'] = False
     if has_siteimprove_analytics(json_content):
         analytics['SiteImprove Analytics'] = False
     if has_Vizzit(json_content):

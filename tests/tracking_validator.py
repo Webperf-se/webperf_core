@@ -125,7 +125,7 @@ def run_test(langCode, url):
     # if len(review) == 0:
     #    review = _('TEXT_REVIEW_NO_REMARKS')
 
-    if points == 0:
+    if points < 1.0:
         points = 1.0
 
     points = float("{0:.2f}".format(points))

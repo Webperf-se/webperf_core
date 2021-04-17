@@ -155,9 +155,10 @@ def check_tracking(browser, json_content):
 
     points = 1.0
 
-    number_of_tracking_for_points = number_of_tracking
-    if number_of_tracking >= 2:
-        number_of_tracking_for_points = number_of_tracking - 2
+    # Ignore up to 2 tracker requests
+    number_of_tracking_for_points = number_of_tracking - 2
+    if number_of_tracking_for_points <= 0:
+        number_of_tracking_for_points = 0
 
     points -= (number_of_tracking_for_points * 0.1)
     points = float("{0:.2f}".format(points))

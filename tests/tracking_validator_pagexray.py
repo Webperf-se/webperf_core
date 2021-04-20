@@ -34,13 +34,12 @@ def run_test(langCode, url):
     review = ''
     result_dict = {}
 
-    language = gettext.translation(
-        'page_not_found', localedir='locales', languages=[langCode])
-    language.install()
-    _ = language.gettext
+    # language = gettext.translation(
+    #    'tracking_validator_pagexray', localedir='locales', languages=[langCode])
+    # language.install()
+    #_ = language.gettext
 
-    # print(_('TEXT_RUNNING_TEST'))
-    print(_('###############################\r\nRunning test: 23 - Tracking and Privacy\r\n###############################'))
+    print(_('TEXT_RUNNING_TEST'))
 
     browser = False
     try:
@@ -50,7 +49,6 @@ def run_test(langCode, url):
         browser = webdriver.Firefox()
 
         browser.get('https://pagexray.fouanalytics.com/')
-        # print('title', browser.title)
 
         elem = browser.find_element(By.NAME, 'domain')  # Find the domain box
         elem.send_keys(url + Keys.RETURN)

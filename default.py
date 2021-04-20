@@ -66,7 +66,7 @@ def testsites(langCode, sites, test_type=None, show_reviews=False, only_test_unt
             elif test_type == TEST_ENERGY_EFFICIENCY:
                 from tests.energy_efficiency_websitecarbon import run_test
             elif test_type == TEST_TRACKING:
-                from tests.tracking_validator import run_test
+                from tests.tracking_validator_pagexray import run_test
 
             the_test_result = run_test(langCode, website)
 

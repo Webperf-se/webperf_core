@@ -75,7 +75,7 @@ def run_test(langCode, url, strategy='mobile', category='pwa'):
 
     if fails == 0:
         points = 5
-        review = _('TEXT_REVIEW_PRACTICE_VERY_GOOD')
+        review = _('TEXT_REVIEW_PWA_VERY_GOOD')
     elif fails <= 4:
         points = 4
         review = _('TEXT_REVIEW_PWA_IS_GOOD')

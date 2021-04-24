@@ -91,7 +91,10 @@ msgid "TEXT_GDPR_COUNTRIES"
 msgstr "-- Antal olika länder: {0}\r\n"
 
 msgid "TEXT_GDPR_COUNTRIES_OUTSIDE_EU"
-msgstr "-- Antal länder utanför EU: {0}\r\n"
+msgstr "-- Länder utanför EU: {0}\r\n"
+
+msgid "TEXT_GDPR_COUNTRIES_OUTSIDE_EU_REQUESTS"
+msgstr "---- {0}, {1} förfrågningar\r\n"
 
 msgid "TEXT_GDPR_PAGE_IN_SWEDEN"
 msgstr "-- Sidan skickades från Sverige: {0}\r\n"

@@ -476,7 +476,7 @@ def check_cookies(json_content, hostname, _):
             cookies_points, cookies_review)
         # '{0}-- No Cookies\r\n'
         cookies_review = _('TEXT_COOKIE_NO_COOKIES').format(
-            cookies_points)
+            cookies_review)
 
     return (cookies_points, cookies_review)
 
@@ -551,12 +551,19 @@ def check_har_results(content, _):
         # '-- Number of countries: {0}\r\n'
         review += _('TEXT_GDPR_COUNTRIES').format(
             number_of_countries)
+        # for country_code in countries:
+        #    review += '---- {0} (number of requests: {1})\r\n'.format(country_code,
+        #                                                              countries[country_code])
 
         number_of_countries_outside_eu = len(countries_outside_eu)
         if number_of_countries_outside_eu > 0:
             # '-- Countries outside EU: {0}\r\n'
             review += _('TEXT_GDPR_COUNTRIES_OUTSIDE_EU').format(
                 number_of_countries_outside_eu)
+            for country_code in countries_outside_eu:
+                review += _('TEXT_GDPR_COUNTRIES_OUTSIDE_EU_REQUESTS').format(country_code,
+                                                                              countries[country_code])
+
             points = 0.0
 
         page_is_hosted_in_sweden = page_isp_and_countrycode['country_code'] == 'SE'
@@ -576,11 +583,11 @@ def check_har_results(content, _):
         return (points, review)
 
     except Exception as ex:  # might crash if checked resource is not a webpage
-        # print('crash', ex)
+        print('crash', ex)
         return (points, review)
 
 
-def is_country_code_in_eu(country_code):
+def get_eu_countries():
     eu_countrycodes = {
         'BE': 'Belgium',
         'BG': 'Bulgaria',
@@ -610,8 +617,19 @@ def is_country_code_in_eu(country_code):
         'FI': 'Finland',
         'SE': 'Sweden'
     }
+    return eu_countrycodes
 
+
+def is_country_code_in_eu(country_code):
+    eu_countrycodes = get_eu_countries()
     if country_code in eu_countrycodes:
         return True
 
     return False
+
+
+def get_country_name_from_country_code(country_code):
+    eu_countrycodes = get_eu_countries()
+    if country_code in eu_countrycodes:
+        return eu_countrycodes[country_code]
+    return country_code

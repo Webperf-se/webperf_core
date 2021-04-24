@@ -562,7 +562,7 @@ def check_har_results(content, _):
         page_is_hosted_in_sweden = page_isp_and_countrycode['country_code'] == 'SE'
         # '-- Page hosted in Sweden: {0}\r\n'
         review += _('TEXT_GDPR_PAGE_IN_SWEDEN').format(
-            page_is_hosted_in_sweden)
+            _('TEXT_GDPR_{0}'.format(page_is_hosted_in_sweden)))
 
         if points > 0.0:
             # '* GDPR and Schrems: (+{0} points)\r\n{1}'

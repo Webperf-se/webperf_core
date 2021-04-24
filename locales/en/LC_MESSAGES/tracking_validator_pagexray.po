@@ -96,6 +96,12 @@ msgstr "-- Countries outside EU: {0}\r\n"
 msgid "TEXT_GDPR_PAGE_IN_SWEDEN"
 msgstr "-- Page hosted in Sweden: {0}\r\n"
 
+msgid "TEXT_GDPR_True"
+msgstr "Yes"
+
+msgid "TEXT_GDPR_False"
+msgstr "No"
+
 msgid "TEXT_GDPR_HAS_POINTS"
 msgstr "* GDPR and Schrems: (+{0} points)\r\n{1}"
 

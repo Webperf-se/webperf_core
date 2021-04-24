@@ -16,7 +16,7 @@ msgstr ""
 
 
 msgid "TEXT_RUNNING_TEST"
-msgstr "###############################\r\nKör test: 23 - Spårning and Integritet (Pagexray)\r\n###############################"
+msgstr "###############################\r\nKör test: 23 - Spårning och Integritet (Pagexray)\r\n###############################"
 
 msgid "TEXT_SERVICE_UNABLE_TO_CONNECT"
 msgstr "Det går inte att ansluta till tjänsten"
@@ -46,10 +46,10 @@ msgid "TEXT_FINGERPRINTING_HAS_POINTS"
 msgstr "* Identifieringstekniker (+{0} poäng)\r\n-- Inga Identifieringstekniker hittades\r\n"
 
 msgid "TEXT_ADS_NO_POINTS"
-msgstr "* Annonsörer ({0} points)\r\n"
+msgstr "* Annonsörer ({0} poäng)\r\n"
 
 msgid "TEXT_ADS_NO_REQUESTS"
-msgstr "* Annonsörer (+{0} points)\r\n-- Inga annonsörsförfrågningar hittades\r\n"
+msgstr "* Annonsörer (+{0} poäng)\r\n-- Inga annonsörsförfrågningar hittades\r\n"
 
 msgid "TEXT_ADS_HAS_REQUESTS"
 msgstr "-- Annonsörsförfrågningar: {0}\r\n"
@@ -95,6 +95,12 @@ msgstr "-- Antal länder utanför EU: {0}\r\n"
 
 msgid "TEXT_GDPR_PAGE_IN_SWEDEN"
 msgstr "-- Sidan skickades från Sverige: {0}\r\n"
+
+msgid "TEXT_GDPR_True"
+msgstr "Ja"
+
+msgid "TEXT_GDPR_False"
+msgstr "Nej"
 
 msgid "TEXT_GDPR_HAS_POINTS"
 msgstr "* Dataskyddsförordningen och Schrems II-domen: (+{0} poäng)\r\n{1}"

@@ -34,10 +34,10 @@ def run_test(langCode, url):
     review = ''
     result_dict = {}
 
-    # language = gettext.translation(
-    #    'tracking_validator_pagexray', localedir='locales', languages=[langCode])
-    # language.install()
-    #_ = language.gettext
+    language = gettext.translation(
+        'tracking_validator_pagexray', localedir='locales', languages=[langCode])
+    language.install()
+    _ = language.gettext
 
     print(_('TEXT_RUNNING_TEST'))
 
@@ -55,7 +55,7 @@ def run_test(langCode, url):
     except:
         if browser != False:
             browser.quit()
-        return (1.0, 'Unable to connect to service', result_dict)
+        return (1.0, _('TEXT_SERVICE_UNABLE_TO_CONNECT'), result_dict)
 
     try:
         # wait for element(s) to appear
@@ -65,7 +65,7 @@ def run_test(langCode, url):
     except:
         if browser != False:
             browser.quit()
-        return (1.0, 'Service enountered error while processing request for url', result_dict)
+        return (1.0, _('TEXT_SERVICES_ENCOUNTERED_ERROR'), result_dict)
 
     try:
         elements_download_links = browser.find_elements_by_css_selector(
@@ -96,19 +96,19 @@ def run_test(langCode, url):
 
         # print('GET countries and tracking')
         if http_archive_content:
-            result = check_har_results(http_archive_content)
+            result = check_har_results(http_archive_content, _)
             points += result[0]
             review += result[1]
 
             result = check_tracking(
-                browser, http_archive_content + detailed_results_content)
+                browser, http_archive_content + detailed_results_content, _)
             points += result[0]
             review += result[1]
 
         # print('GET fingerprints, ads and cookies')
         if detailed_results_content:
             result = check_detailed_results(
-                browser, detailed_results_content, hostname)
+                browser, detailed_results_content, hostname, _)
             points += result[0]
             review += result[1]
 
@@ -116,12 +116,6 @@ def run_test(langCode, url):
     finally:
         if browser != False:
             browser.quit()
-
-    # if found_match == False:
-    #    review = review + _('TEXT_REVIEW_NO_SWEDISH_ERROR_MSG')
-
-    # if len(review) == 0:
-    #    review = _('TEXT_REVIEW_NO_REMARKS')
 
     if points < 1.0:
         points = 1.0
@@ -131,7 +125,7 @@ def run_test(langCode, url):
     return (points, review, result_dict)
 
 
-def check_tracking(browser, json_content):
+def check_tracking(browser, json_content, _):
     review = ''
     points = 0.0
 
@@ -144,7 +138,8 @@ def check_tracking(browser, json_content):
     analytics_used = get_analytics(json_content)
     number_of_analytics_used = len(analytics_used)
     if number_of_analytics_used > 0:
-        review_analytics += '-- Visitor analytics used:\r\n'
+        # '-- Visitor analytics used:\r\n'
+        review_analytics += _('TEXT_VISITOR_ANALYTICS_USED')
         analytics_used_items = analytics_used.items()
         for analytics_name, analytics_should_count in analytics_used_items:
             if analytics_should_count:
@@ -163,20 +158,24 @@ def check_tracking(browser, json_content):
 
     if points <= 0.0:
         points = 0.0
-        review += '* Tracking ({0} points)\r\n'.format(
+        # '* Tracking ({0} points)\r\n'
+        review += _('TEXT_TRACKING_NO_POINTS').format(
             points)
     else:
-        review += '* Tracking (+{0} points)\r\n'.format(
+        # '* Tracking (+{0} points)\r\n'
+        review += _('TEXT_TRACKING_HAS_POINTS').format(
             points)
 
     if len(review_analytics) > 0:
         review += review_analytics
 
     if number_of_tracking > 0:
-        review += '-- Tracking requests: {0}\r\n'.format(
+        # '-- Tracking requests: {0}\r\n'
+        review += _('TEXT_TRACKING_HAS_REQUESTS').format(
             number_of_tracking)
     else:
-        review += '-- No tracking requests\r\n'
+        # '-- No tracking requests\r\n'
+        review += _('TEXT_TRACKING_NO_REQUESTS')
 
     return (points, review)
 
@@ -189,6 +188,8 @@ def get_analytics(json_content):
     if has_matomo_tagmanager(json_content):
         analytics['Matomo Tag Manager'] = True
     if has_google_analytics(json_content):
+        # TODO: Check if asking for anonymizing IP ("[xxx]*google-analytics.com/j/collect[xxx]*aip=1[xxx]*")
+        # TODO: Check doubleclick? https://stats.g.doubleclick.net/j/collect?[xxx]aip=1[xxx]
         analytics['Google Analytics'] = False
     if has_google_tagmanager(json_content):
         analytics['Google Tag Manager'] = False
@@ -284,14 +285,15 @@ def has_Vizzit(json_content):
     return False
 
 
-def check_fingerprint(json_content):
+def check_fingerprint(json_content, _):
     fingerprints = {}
     possible_fingerprints = json_content['fingerprints']
     number_of_potential_fingerprints = len(possible_fingerprints)
     fingerprints_index = 0
     fingerprints_points = 0.0
     number_of_fingerprints = 0
-    fingerprints_review = '* Fingerprinting ({0} points)\r\n'.format(
+    # '* Fingerprinting ({0} points)\r\n'
+    fingerprints_review = _('TEXT_FINGERPRINTING_NO_POINTS').format(
         fingerprints_points)
     if number_of_potential_fingerprints > 0:
         while fingerprints_index < number_of_potential_fingerprints:
@@ -319,38 +321,43 @@ def check_fingerprint(json_content):
 
     if number_of_fingerprints == 0:
         fingerprints_points = 1.0
-        fingerprints_review = '* Fingerprinting (+{0} points)\r\n-- No fingerprinting\r\n'.format(
+        # '* Fingerprinting (+{0} points)\r\n-- No fingerprinting\r\n'
+        fingerprints_review = _('TEXT_FINGERPRINTING_HAS_POINTS').format(
             fingerprints_points)
 
     return (fingerprints_points, fingerprints_review)
 
 
-def check_ads(json_content, adserver_requests):
+def check_ads(json_content, adserver_requests, _):
     ads = json_content['ads']
     number_of_ads = len(ads)
     ads_points = 0.0
     ads_review = ''
     if adserver_requests > 0 or number_of_ads > 0:
         ads_points = 0.0
-        ads_review = '* Ads ({0} points)\r\n'.format(
+        # '* Ads ({0} points)\r\n'
+        ads_review = _('TEXT_ADS_NO_POINTS').format(
             ads_points)
     else:
         ads_points = 1.0
-        ads_review = '* Ads (+{0} points)\r\n-- No Adserver requests\r\n'.format(
+        # '* Ads (+{0} points)\r\n-- No Adserver requests\r\n'
+        ads_review = _('TEXT_ADS_NO_REQUESTS').format(
             ads_points)
 
     if adserver_requests > 0:
-        ads_review += '-- Adserver requests: {0}\r\n'.format(
+        # '-- Adserver requests: {0}\r\n'
+        ads_review += _('TEXT_ADS_HAS_REQUESTS').format(
             adserver_requests)
 
     if number_of_ads > 0:
-        ads_review += '-- Visibile Ads: {0}\r\n'.format(
+        # '-- Visibile Ads: {0}\r\n'
+        ads_review += _('TEXT_ADS_VISIBLE_ADS').format(
             number_of_ads)
 
     return (ads_points, ads_review)
 
 
-def check_cookies(json_content, hostname):
+def check_cookies(json_content, hostname, _):
     cookies = json_content['cookies']
     number_of_potential_cookies = len(cookies)
     number_of_cookies = 0
@@ -370,7 +377,7 @@ def check_cookies(json_content, hostname):
     days_in_month = 31
 
     year1_from_now = (datetime.datetime.now() +
-                      datetime.timedelta(days=12 * days_in_month)).date()
+                      datetime.timedelta(days=365)).date()
     months9_from_now = (datetime.datetime.now() +
                         datetime.timedelta(days=9 * days_in_month)).date()
     months6_from_now = (datetime.datetime.now() +
@@ -421,25 +428,31 @@ def check_cookies(json_content, hostname):
             number_of_cookies += 1
 
     if cookies_number_of_thirdparties > 0:
-        cookies_review += '-- Thirdparty: {0}\r\n'.format(
+        # '-- Thirdparty: {0}\r\n'
+        cookies_review += _('TEXT_COOKIES_HAS_THIRDPARTY').format(
             cookies_number_of_thirdparties)
         cookies_points -= 0.1
 
     if cookies_number_of_valid_over_1year > 0:
-        cookies_review += '-- Valid over 1 year: {0}\r\n'.format(
+        # '-- Valid over 1 year: {0}\r\n'
+        cookies_review += _('TEXT_COOKIE_HAS_OVER_1YEAR').format(
             cookies_number_of_valid_over_1year)
     elif cookies_number_of_valid_over_9months > 0:
-        cookies_review += '-- Valid over 9 months: {0}\r\n'.format(
+        # '-- Valid over 9 months: {0}\r\n'
+        cookies_review += _('TEXT_COOKIE_HAS_OVER_9MONTH').format(
             cookies_number_of_valid_over_9months)
     elif cookies_number_of_valid_over_6months > 0:
-        cookies_review += '-- Valid over 6 months: {0}\r\n'.format(
+        # '-- Valid over 6 months: {0}\r\n'
+        cookies_review += _('TEXT_COOKIE_HAS_OVER_6MONTH').format(
             cookies_number_of_valid_over_6months)
     elif cookies_number_of_valid_over_3months > 0:
-        cookies_review += '-- Valid over 3 months: {0}\r\n'.format(
+        # '-- Valid over 3 months: {0}\r\n'
+        cookies_review += _('TEXT_COOKIE_HAS_OVER_3MONTH').format(
             cookies_number_of_valid_over_3months)
 
     if cookies_number_of_secure > 0:
-        cookies_review += '-- Not secure: {0}\r\n'.format(
+        # '-- Not secure: {0}\r\n'
+        cookies_review += _('TEXT_COOKIE_NOT_SECURE').format(
             cookies_number_of_secure)
         cookies_points -= 0.1
 
@@ -450,19 +463,25 @@ def check_cookies(json_content, hostname):
 
     if number_of_cookies > 0:
         if cookies_points > 0.0:
-            cookies_review = '* Cookies (+{0} points)\r\n{1}'.format(
+            # '* Cookies (+{0} points)\r\n{1}'
+            cookies_review = _('TEXT_COOKIE_HAS_POINTS').format(
                 cookies_points, cookies_review)
         else:
-            cookies_review = '* Cookies ({0} points)\r\n{1}'.format(
+            # '* Cookies ({0} points)\r\n{1}'
+            cookies_review = _('TEXT_COOKIE_NO_POINTS').format(
                 cookies_points, cookies_review)
     else:
-        cookies_review = '* Cookies (+{0} points)\r\n-- No Cookies\r\n'.format(
+        # '* Cookies (+{0} points)\r\n{1}'
+        cookies_review = _('TEXT_COOKIE_HAS_POINTS').format(
+            cookies_points, cookies_review)
+        # '{0}-- No Cookies\r\n'
+        cookies_review = _('TEXT_COOKIE_NO_COOKIES').format(
             cookies_points)
 
     return (cookies_points, cookies_review)
 
 
-def check_detailed_results(browser, content, hostname):
+def check_detailed_results(browser, content, hostname, _):
     points = 0.0
     review = ''
 
@@ -477,22 +496,22 @@ def check_detailed_results(browser, content, hostname):
     except:  # might crash if checked resource is not a webpage
         return (points, review)
 
-    fingerprint_result = check_fingerprint(json_content)
+    fingerprint_result = check_fingerprint(json_content, _)
     points += fingerprint_result[0]
     review += fingerprint_result[1]
 
-    ads_result = check_ads(json_content, adserver_requests)
+    ads_result = check_ads(json_content, adserver_requests, _)
     points += ads_result[0]
     review += ads_result[1]
 
-    cookies_result = check_cookies(json_content, hostname)
+    cookies_result = check_cookies(json_content, hostname, _)
     points += cookies_result[0]
     review += cookies_result[1]
 
     return (points, review)
 
 
-def check_har_results(content):
+def check_har_results(content, _):
     points = 1.0
     review = ''
     countries = {}
@@ -529,24 +548,29 @@ def check_har_results(content):
 
         number_of_countries = len(countries)
 
-        review += '-- Number of countries: {0}\r\n'.format(
+        # '-- Number of countries: {0}\r\n'
+        review += _('TEXT_GDPR_COUNTRIES').format(
             number_of_countries)
 
         number_of_countries_outside_eu = len(countries_outside_eu)
         if number_of_countries_outside_eu > 0:
-            review += '-- Countries outside EU: {0}\r\n'.format(
+            # '-- Countries outside EU: {0}\r\n'
+            review += _('TEXT_GDPR_COUNTRIES_OUTSIDE_EU').format(
                 number_of_countries_outside_eu)
             points = 0.0
 
         page_is_hosted_in_sweden = page_isp_and_countrycode['country_code'] == 'SE'
-        review += '-- Page hosted in Sweden: {0}\r\n'.format(
+        # '-- Page hosted in Sweden: {0}\r\n'
+        review += _('TEXT_GDPR_PAGE_IN_SWEDEN').format(
             page_is_hosted_in_sweden)
 
         if points > 0.0:
-            review = '* GDPR and Schrems: (+{0} points)\r\n{1}'.format(
+            # '* GDPR and Schrems: (+{0} points)\r\n{1}'
+            review = _('TEXT_GDPR_HAS_POINTS').format(
                 points, review)
         else:
-            review = '* GDPR and Schrems: ({0} points)\r\n{1}'.format(
+            # '* GDPR and Schrems: ({0} points)\r\n{1}'
+            review = _('TEXT_GDPR_NO_POINTS').format(
                 points, review)
 
         return (points, review)

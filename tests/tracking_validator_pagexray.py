@@ -17,6 +17,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.firefox.options import Options
 import gettext
 _ = gettext.gettext
 
@@ -46,7 +47,11 @@ def run_test(langCode, url):
         o = urllib.parse.urlparse(url)
         hostname = o.hostname
 
-        browser = webdriver.Firefox()
+        # Remove options if you want to see browser windows (good for debugging)
+        options = Options()
+        options.add_argument("--headless")
+        browser = webdriver.Firefox(firefox_options=options)
+        #browser = webdriver.Firefox()
 
         browser.get('https://pagexray.fouanalytics.com/')
 

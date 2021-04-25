@@ -22,16 +22,16 @@ msgid "TEXT_REVIEW_HTML_VERY_GOOD"
 msgstr "* Inga fel i HTML-koden.\n"
 
 msgid "TEXT_REVIEW_HTML_IS_GOOD"
-msgstr "* Den testade sidan har {0} st fel i sin HTML-kod.\n"
+msgstr "* Den testade sidan har {0} st fel i sin HTML-kod. Det är rätt ok ändå.\n"
 
 msgid "TEXT_REVIEW_HTML_IS_OK"
-msgstr "* Den testade sidan har {0} st fel i sin HTML-kod.\n"
+msgstr "* Den testade sidan har {0} st fel i sin HTML-kod. Genomsnittligt.\n"
 
 msgid "TEXT_REVIEW_HTML_IS_BAD"
 msgstr "* Den testade sidan har {0} st fel i sin HTML-kod. Det är inte så bra.\n"
 
 msgid "TEXT_REVIEW_HTML_IS_VERY_BAD"
-msgstr "* Den testade sidan har massor med fel i sin HTML-kod. Hela {0} st. \n"
+msgstr "* Den testade sidan har massor med fel i sin HTML-kod. Hela {0} st. Väldigt dåligt!\n"
 
 msgid "TEXT_REVIEW_ERRORS_GROUPED"
 msgstr "* Problem (grupperad på feltyp):\n"

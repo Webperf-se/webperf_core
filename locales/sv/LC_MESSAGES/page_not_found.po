@@ -22,10 +22,10 @@ msgid "TEXT_REVIEW_WRONG_STATUS_CODE"
 msgstr "* Fel statuskod. Fick {0} när 404 vore korrekt.\n"
 
 msgid "TEXT_REVIEW_NO_TITLE"
-msgstr "* Hittade ingen titel på sidan\n"
+msgstr "* Hittade ingen sidtitel på sidan.\n"
 
 msgid "TEXT_REVIEW_MAIN_HEADER"
-msgstr "* Hittade ingen huvudrubrik (h1)\n"
+msgstr "* Hittade ingen huvudrubrik (h1) på sidan.\n"
 
 msgid "TEXT_REVIEW_NO_SWEDISH_ERROR_MSG"
 msgstr "* Verkar sakna text som beskriver att ett fel uppstått (på svenska).\n"

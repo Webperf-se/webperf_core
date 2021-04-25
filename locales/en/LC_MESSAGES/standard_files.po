@@ -37,7 +37,7 @@ msgid "TEXT_SITEMAP_OK"
 msgstr "* Sitemap seems to work.\n"
 
 msgid "TEXT_RSS_FEED_MISSING"
-msgstr "* RSS subscription is missing in meta.\n"
+msgstr "* RSS subscription is missing in the HTMLs metadata.\n"
 
 msgid "TEXT_RSS_FEED_FOUND"
 msgstr "* RSS subscription found.\n"

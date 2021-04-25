@@ -78,7 +78,7 @@ def validate_robots(_, parsed_url):
     return_dict = dict()
     points = 0.0
 
-    robots_content = httpRequestGetContent(parsed_url + 'robots.txt')
+    robots_content = httpRequestGetContent(parsed_url + 'robots.txt', True)
 
     if robots_content == None or '</html>' in robots_content.lower() or ('user-agent' not in robots_content.lower() and 'disallow' not in robots_content.lower() and 'allow' not in robots_content.lower()):
         points = 3
@@ -173,10 +173,6 @@ def validate_feed(_, url):
 
 
 def validate_security_txt(_, parsed_url):
-    review = ''
-    return_dict = dict()
-    points = 0.0
-
     security_wellknown_request = False
     security_root_request = False
 
@@ -192,7 +188,7 @@ def validate_security_txt(_, parsed_url):
         pass
 
     security_wellknown_content = httpRequestGetContent(
-        security_wellknown_url)
+        security_wellknown_url, True)
 
     # security.txt can also be placed in root if for example technical reasons prohibit use of /.well-known/
     security_root_url = parsed_url + 'security.txt'
@@ -202,31 +198,59 @@ def validate_security_txt(_, parsed_url):
     except:
         #print('Exception looking for security.txt, probably connection problems')
         pass
-    security_root_content = httpRequestGetContent(security_root_url)
+    security_root_content = httpRequestGetContent(security_root_url, True)
 
-    #print('security_wellknown_content:' + security_wellknown_content)
-    #print('security_root_content:' + security_root_content)
+    #print('security_wellknown_content:', security_wellknown_content)
+    #print('security_root_content:', security_root_content)
 
     if not security_wellknown_request and not security_root_request:
         # Can't find security.txt (not giving us 200 as status code)
         points = 1.0
-        review += _("TEXT_SECURITY_MISSING")
+        review = ''
+        return_dict = dict()
+        review = _("TEXT_SECURITY_MISSING")
         return_dict['security.txt'] = 'missing'
-    elif (security_wellknown_content == None or ('</html>' in security_wellknown_content.lower()) or (security_root_content == None or ('</html>' in security_root_content.lower()))):
+        return (points, review, return_dict)
+    else:
+        security_wellknown_result = rate_securitytxt_content(
+            security_wellknown_content, _)
+        security_root_result = rate_securitytxt_content(
+            security_root_content, _)
+
+        #print('result1:', security_wellknown_result)
+        #print('result2:', security_root_result)
+        security_wellknown_points = security_wellknown_result[0]
+        security_root_points = security_root_result[0]
+
+        if (security_wellknown_points != security_root_points):
+            if security_wellknown_points < security_root_points:
+                return security_wellknown_result
+            else:
+                return security_root_result
+        else:
+            return security_wellknown_result
+
+
+def rate_securitytxt_content(content, _):
+    review = ''
+    return_dict = dict()
+    points = -10.0
+    if content == None or ('<html' in content.lower()):
         # Html (404 page?) content instead of expected content
         points = 1.0
         review += _("TEXT_SECURITY_WRONG_CONTENT")
         return_dict['security.txt'] = 'wrong content'
-    elif (('Contact:' in security_wellknown_content and 'Expires:' in security_wellknown_content.lower()) or (('Contact:' in security_root_content and 'Expires:' in security_root_content.lower()))):
+    elif ('contact:' in content.lower() and 'expires:' in content.lower()):
         # Everything seems ok
+        points = 0.0
         review += _("TEXT_SECURITY_OK_CONTENT")
         return_dict['security.txt'] = 'ok'
-    elif (not ('Contact:' in security_wellknown_content) and (not ('Contact:' in security_root_content))):
+    elif not ('contact:' in content.lower()):
         # Missing required Contact
         points = 0.5
         review += _("TEXT_SECURITY_REQUIRED_CONTACT_MISSING")
         return_dict['security.txt'] = 'required contact missing'
-    elif (not ('Expires:' in security_wellknown_content) or (not ('Expires:' in security_root_content))):
+    elif not ('expires:' in content.lower()):
         # Missing required Expires (added in version 10 of draft)
         points = 0.25
         review += _("TEXT_SECURITY_REQUIRED_EXPIRES_MISSING")

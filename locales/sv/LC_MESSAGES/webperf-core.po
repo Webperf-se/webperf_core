@@ -16,87 +16,73 @@ msgstr ""
 
 
 msgid "TEXT_WEBSITE_URL_ADDED"
-msgstr "webbplats med adress: {0} har blivit tillagd\n"
+msgstr "Webbplats med adress: {0} har blivit tillagd\n"
 
 msgid "TEXT_WEBSITE_URL_DELETED"
-msgstr "webbplats med adress: {0} har blivit borttagen\n"
+msgstr "Webbplats med adress: {0} har blivit borttagen\n"
 
-#: default.py:24
 msgid "TEXT_TEST_START_HEADER"
 msgstr "###############################################"
 
-#: default.py:28
 msgid "TEXT_TESTING_NUMBER_OF_SITES"
 msgstr "Webbadresser som testas {0}"
 
-#: default.py:33
 msgid "TEXT_TESTING_SITE"
 msgstr "{0}. Testar adress {1}"
 
-#: default.py:61
 msgid "TEXT_SITE_RATING"
 msgstr "Betyg: "
 
-#: default.py:63
 msgid "TEXT_SITE_REVIEW"
 msgstr "Omdöme:\n"
 
-#: default.py:81
 msgid "TEXT_EXCEPTION"
 msgstr "Fel, någon behöver ta en titt på detta."
 
-#: default.py:89
 msgid "TEXT_TESTING_START_HEADER"
 msgstr "### {0} ###"
 
-#: default.py:127
 msgid "TEXT_TEST_VALID_ARGUMENTS"
 msgstr "Giltiga argument att välja på -t/--test:"
 
-#: default.py:128
 msgid "TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE"
 msgstr "-t 1\t: Prestanda (Google Lighthouse)"
 
-#: default.py:129
 msgid "TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_SEO"
 msgstr "-t 4\t: Sökmotoroptimering (Google Lighthouse)"
 
-#: default.py:130
 msgid "TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_A11Y"
 msgstr "-t 10\t: Tillgänglighet (Google Lighthouse)"
 
-#: default.py:131
 msgid "TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_PWA"
 msgstr "-t 8\t: Progressiv webbapp (Google Lighthouse)"
 
-#: default.py:132
 msgid "TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_BEST_PRACTICE"
 msgstr "-t 5\t: God praxis (Google Lighthouse)"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_YELLOW_LAB_TOOLS"
 msgstr "-t 17\t: Kvalitet på frontend (Yellow Lab Tools)"
 
-#: default.py:133
 msgid "TEXT_TEST_VALID_ARGUMENTS_PAGE_NOT_FOUND"
 msgstr "-t 2\t: 404 (sida finns inte)"
 
-#: default.py:134
 msgid "TEXT_TEST_VALID_ARGUMENTS_HTML"
 msgstr "-t 6\t: HTML validering"
 
-#: default.py:135
 msgid "TEXT_TEST_VALID_ARGUMENTS_CSS"
 msgstr "-t 7\t: CSS validering"
 
-#: default.py:136
+msgid "TEXT_TEST_VALID_ARGUMENTS_SITESPEED"
+msgstr "-t 7\t: Prestanda (Sitespeed.io)"
+
 msgid "TEXT_TEST_VALID_ARGUMENTS_WEBBKOLL"
 msgstr "-t 20\t: Integritet & Säkerhet (Webbkoll)"
 
-#: default.py:137
 msgid "TEXT_TEST_VALID_ARGUMENTS_STANDARD_FILES"
 msgstr "-t 9\t: Standardfiler"
 
-#: default.py:137 default.py:141 default.py:146 default.py:213
+msgid "TEXT_TEST_VALID_ARGUMENTS_ENERGY_EFFICIENCY"
+msgstr "-t 22\t:  Energieffektivitet (Website Carbon Calculator)"
+
 msgid "TEXT_COMMAND_USAGE"
 msgstr "\n\tWebPerf Core\n\n\tAnvänd så här:\ndefault.py -u https://webperf.se\n\n\tVal och argument:\n\t-h/--help\t\t\t: Hjälp och hur du använder skriptet\n\t-u/--url <site url>\t\t: webbplatsens adress att testa\n\t-t/--test <test nummer>\t\t: kör ett specifikt test (ange ? för att lista tillgängliga tester)\n\t-r/--review\t\t\t: visar omdömen direkt i terminalen\n\t-i/--input <file path>\t\t: sökväg för input-fil (.json/.sqlite)\n\t-i/--input-skip <nummer>\t: antal att hoppa över\n\t-i/--input-take <nummer>\t: antal att testa\n\t-o/--output <file path>\t\t: sökväg till output-fil (.json/.csv/.sql/.sqlite)\n\t-A/--addUrl <site url>\t\t: webbplatsens adress/url (ett krav när du använder -i/--input)\n\t-D/--deleteUrl <site url>\t: webbplats adress/url (ett krav när du använder -i/--input)\n\t-L/--language <lang code>\t: språk som används för output(en = default/sv)"
-

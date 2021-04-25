@@ -27,13 +27,13 @@ msgid "TEXT_REVIEW_SEO_IS_OK"
 msgstr "* About average on search engine optimisation (SEO) according to Google.\n"
 
 msgid "TEXT_REVIEW_SEO_IS_BAD"
-msgstr "* Pretty bad optimized for search engines (SEO).\n"
+msgstr "* Pretty bad optimised for search engines (SEO).\n"
 
 msgid "TEXT_REVIEW_SEO_IS_VERY_BAD"
 msgstr "* Really bad at SEO (Search Engine Optimisation)!\n"
 
 msgid "TEXT_REVIEW_SEO_NUMBER_OF_PROBLEMS"
-msgstr "* Number of problem(s) with search engine optmisiation (SEO): {}\n"
+msgstr "* Number of problem(s) with search engine optimisation (SEO): {}\n"
 
 msgid "TEXT_REVIEW_SEO_PROBLEMS"
 msgstr "\nProblem(s):\n"

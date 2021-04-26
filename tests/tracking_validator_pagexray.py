@@ -53,7 +53,7 @@ def run_test(langCode, url):
         browser = webdriver.Firefox(firefox_options=options)
         #browser = webdriver.Firefox()
 
-        browser.get('https://pagexray.fouanalytics.com/')
+        browser.get('https://pagexray-eu.fouanalytics.com/')
 
         elem = browser.find_element(By.NAME, 'domain')  # Find the domain box
         elem.send_keys(url + Keys.RETURN)

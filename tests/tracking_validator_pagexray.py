@@ -542,6 +542,8 @@ def check_har_results(content, _):
             entry_isp_and_countrycode = json.loads(
                 entries[entries_index]['comment'])
             entry_country_code = entry_isp_and_countrycode['country_code']
+            if entry_country_code == '':
+                entry_country_code = 'unknown'
             if entry_country_code in countries:
                 countries[entry_country_code] = countries[entry_country_code] + 1
             else:
@@ -620,7 +622,8 @@ def get_eu_countries():
         'SI': 'Slovenia',
         'SK': 'Slovakia',
         'FI': 'Finland',
-        'SE': 'Sweden'
+        'SE': 'Sweden',
+        'unknown': 'Unknown'
     }
     return eu_countrycodes
 

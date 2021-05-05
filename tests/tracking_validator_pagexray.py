@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 import sys
 import socket
 import ssl
@@ -18,12 +19,22 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.firefox.options import Options
+import IP2Location
 import gettext
 _ = gettext.gettext
 
 # DEFAULTS
 request_timeout = config.http_request_timeout
+use_ip2location = config.use_ip2location
 useragent = config.useragent
+
+ip2location_db = False
+if use_ip2location:
+    try:
+        ip2location_db = IP2Location.IP2Location(
+            os.path.join("data", "IP2LOCATION-LITE-DB1.IPV6.BIN"))
+    except Exception as ex:
+        print('Unable to load IP2Location Database from "data/IP2LOCATION-LITE-DB1.IPV6.BIN"', ex)
 
 
 def run_test(langCode, url):
@@ -51,7 +62,6 @@ def run_test(langCode, url):
         options = Options()
         options.add_argument("--headless")
         browser = webdriver.Firefox(firefox_options=options)
-        #browser = webdriver.Firefox()
 
         browser.get('https://pagexray-eu.fouanalytics.com/')
 
@@ -535,13 +545,28 @@ def check_har_results(content, _):
         entries = json_content['entries']
         number_of_entries = len(entries)
         page_entry = entries[0]
+        page_countrycode = ''
+
         page_isp_and_countrycode = json.loads(page_entry['comment'])
+        page_countrycode = page_isp_and_countrycode['country_code']
+
+        page_ip_address = page_entry['serverIPAddress']
+
+        page_countrycode = get_best_country_code(
+            page_ip_address, page_countrycode)
+        if page_countrycode == '':
+            page_countrycode = 'unknown'
 
         entries_index = 0
         while entries_index < number_of_entries:
             entry_isp_and_countrycode = json.loads(
                 entries[entries_index]['comment'])
             entry_country_code = entry_isp_and_countrycode['country_code']
+
+            entry_ip_address = entries[entries_index]['serverIPAddress']
+            entry_country_code = get_best_country_code(
+                entry_ip_address, entry_country_code)
+
             if entry_country_code == '':
                 entry_country_code = 'unknown'
             if entry_country_code in countries:
@@ -573,7 +598,7 @@ def check_har_results(content, _):
 
             points = 0.0
 
-        page_is_hosted_in_sweden = page_isp_and_countrycode['country_code'] == 'SE'
+        page_is_hosted_in_sweden = page_countrycode == 'SE'
         # '-- Page hosted in Sweden: {0}\r\n'
         review += _('TEXT_GDPR_PAGE_IN_SWEDEN').format(
             _('TEXT_GDPR_{0}'.format(page_is_hosted_in_sweden)))
@@ -640,4 +665,31 @@ def get_country_name_from_country_code(country_code):
     eu_countrycodes = get_eu_countries()
     if country_code in eu_countrycodes:
         return eu_countrycodes[country_code]
+    return country_code
+
+
+def get_country_code_from_ip2location(ip_address):
+    if use_ip2location:
+        rec = False
+        try:
+            rec = ip2location_db.get_all(ip_address)
+        except Exception as ex:
+            return ''
+        try:
+            countrycode = rec.country_short
+            return countrycode
+        except Exception as ex:
+            return ''
+
+    return ''
+
+
+def get_best_country_code(ip_address, default_country_code):
+    if is_country_code_in_eu(default_country_code):
+        return default_country_code
+
+    country_code = get_country_code_from_ip2location(ip_address)
+    if country_code == '':
+        return default_country_code
+
     return country_code

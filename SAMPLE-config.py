@@ -17,3 +17,7 @@ webbkoll_sleep = 20
 
 # if you want a more detailed review for the CSS test (Test #7), set this to False
 css_review_group_errors = True
+
+# Tells webperf-core to use "data/IP2LOCATION-LITE-DB1.IPV6.CSV"
+# Go to https://pypi.org/project/IP2Location/ and download the LITE IPV6 database.
+use_ip2location = False

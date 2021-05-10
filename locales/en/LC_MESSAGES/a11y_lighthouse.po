@@ -18,19 +18,19 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "###############################\nRunning test: 10 - Accessibility (Google Lighthouse)"
 
 msgid "TEXT_REVIEW_A11Y_VERY_GOOD"
-msgstr "* The website do not have any apparent issues with accessibility!!\n"
+msgstr "* The website does not have any apparent issues with accessibility!!\n"
 
 msgid "TEXT_REVIEW_A11Y_IS_GOOD"
-msgstr "* The website can be more accessible, but is rather good!\n"
+msgstr "* The website could be more accessible but is rather good!\n"
 
 msgid "TEXT_REVIEW_A11Y_IS_OK"
-msgstr "* The accessibility is about average, but needs to get better.\n"
+msgstr "* Accessibility is about average but needs to be improved.\n"
 
 msgid "TEXT_REVIEW_A11Y_IS_BAD"
-msgstr "* The website is quite bad at accessibility and sucks for disabled people!\n"
+msgstr "* The website is quite bad at accessibility and sucks for people with a disability!\n"
 
 msgid "TEXT_REVIEW_A11Y_IS_VERY_BAD"
-msgstr "* The accessibility is apparently really bad! Probably both for disabled people and everyone of us when we require some accessibility!\n"
+msgstr "* Accessibility is apparently really bad! Probably both for people with a disability and each one of us when we require some accessibility!\n"
 
 msgid "TEXT_REVIEW_A11Y_NUMBER_OF_PROBLEMS"
-msgstr "* Number of problems with accessibility: {}\n"
+msgstr "* Number of accessibility problems: {}\n"

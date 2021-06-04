@@ -87,7 +87,7 @@ def run_test(langCode, url, strategy='mobile', category='performance'):
 	review += _("TEXT_REVIEW_OBSERVED_SPEED").format(convert_to_seconds(return_dict["observedSpeedIndex"], False))#'* Observerad hastighet: {} sekunder\n'.format(convert_to_seconds(return_dict["observedSpeedIndex"], False))
 	review += _("TEXT_REVIEW_FIRST_MEANINGFUL_PAINT").format(convert_to_seconds(return_dict["firstMeaningfulPaint"], False))#'* Första meningsfulla visuella ändring: {} sek\n'.format(convert_to_seconds(return_dict["firstMeaningfulPaint"], False))
 	review += _("TEXT_REVIEW_FIRST_MEANINGFUL_PAINT_3G").format(convert_to_seconds(return_dict["first-contentful-paint-3g"], False))#'* Första meningsfulla visuella ändring på 3G: {} sek\n'.format(convert_to_seconds(return_dict["first-contentful-paint-3g"], False))
-	review += _("TEXT_REVIEW_CPU_IDLE").format(convert_to_seconds(return_dict["firstCPUIdle"], False))#'* CPU vilar efter: {} sek\n'.format(convert_to_seconds(return_dict["firstCPUIdle"], False))
+	# review += _("TEXT_REVIEW_CPU_IDLE").format(convert_to_seconds(return_dict["firstCPUIdle"], False))#'* CPU vilar efter: {} sek\n'.format(convert_to_seconds(return_dict["firstCPUIdle"], False))
 	review += _("TEXT_REVIEW_INTERACTIVE").format(convert_to_seconds(return_dict["interactive"], False))#'* Webbplatsen är interaktiv: {} sek\n'.format(convert_to_seconds(return_dict["interactive"], False))
 	review += _("TEXT_REVIEW_REDIRECTS").format(convert_to_seconds(return_dict["redirects"], False))#'* Antal hänvisningar: {} st\n'.format(return_dict["redirects"])
 	review += _("TEXT_REVIEW_TOTAL_WEIGHT").format(int(return_dict["total-byte-weight"]/1000))#'* Sidans totala vikt: {} kb\n'.format(int(return_dict["total-byte-weight"]/1000))

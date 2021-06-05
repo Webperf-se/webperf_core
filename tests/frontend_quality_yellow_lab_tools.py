@@ -14,7 +14,15 @@ import gettext
 _ = gettext.gettext
 
 # DEFAULTS
-googlePageSpeedApiKey = config.googlePageSpeedApiKey
+time_sleep = config.webbkoll_sleep
+if time_sleep < 5:
+    time_sleep = 5
+
+try:
+    ylt_server_address = config.ylt_server_address
+except:
+    # If YLT URL is not set in config.py this will be the default
+    ylt_server_address = 'https://yellowlab.tools'
 
 
 def run_test(langCode, url, device='phone'):
@@ -23,6 +31,7 @@ def run_test(langCode, url, device='phone'):
     Devices might be; phone, tablet, desktop
     """
 
+    import time
     language = gettext.translation(
         'frontend_quality_yellow_lab_tools', localedir='locales', languages=[langCode])
     language.install()
@@ -30,17 +39,25 @@ def run_test(langCode, url, device='phone'):
 
     print(_("TEXT_RUNNING_TEST"))
 
-    r = requests.post('https://yellowlab.tools/api/runs',
+    r = requests.post('{0}/api/runs'.format(ylt_server_address),
                       data={'url': url, "waitForResponse": 'true', 'device': device})
 
     result_url = r.url
-    test_id = result_url.rsplit('/', 1)[1]
 
-    print(
-        'TEST:', 'https://yellowlab.tools/api/results/{0}?exclude=toolsResults'.format(test_id))
+    running_info = json.loads(r.text)
+    test_id = running_info['runId']
+
+    running_status = 'running'
+    while running_status == 'running':
+        running_json = httpRequestGetContent(
+            '{0}/api/runs/{1}'.format(ylt_server_address, test_id))
+        running_info = json.loads(running_json)
+        running_status = running_info['status']['statusCode']
+        time.sleep(time_sleep)
 
     result_json = httpRequestGetContent(
-        'https://yellowlab.tools/api/results/{0}?exclude=toolsResults'.format(test_id))
+        '{0}/api/results/{1}?exclude=toolsResults'.format(ylt_server_address, test_id))
+
     result_dict = json.loads(result_json)
 
     return_dict = {}

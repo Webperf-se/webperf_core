@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from models import Rating
 import sys
 import socket
 import ssl
@@ -110,7 +111,11 @@ def run_test(langCode, url):
         review = _('TEXT_REVIEW_HTML_IS_VERY_BAD').format(
             number_of_errors) + review
 
-    return (points, review, error_message_dict)
+    rating = Rating()
+    rating.set_overall(points, review)
+    rating.set_standards(points, review)
+
+    return (rating, error_message_dict)
 
 
 def calculate_rating(number_of_error_types, number_of_errors):

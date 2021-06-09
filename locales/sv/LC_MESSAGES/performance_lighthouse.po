@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2020-12-12 22:00+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2021-06-04 20:08+0200\n"
 "Last-Translator: mattias <mattias@webperf.se>\n"
 "Language-Team: Swedish <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
@@ -32,25 +32,3 @@ msgstr "* Webbplatsen är ganska långsam.\n"
 
 msgid "TEXT_REVIEW_IS_VERY_BAD"
 msgstr "* Webbplatsen är väldigt långsam!\n"
-
-msgid "TEXT_REVIEW_OBSERVED_SPEED"
-msgstr "* Observerad hastighet: {} sekunder\n"
-
-msgid "TEXT_REVIEW_FIRST_MEANINGFUL_PAINT"
-msgstr "* Första meningsfulla visuella ändring: {} sek\n"
-
-msgid "TEXT_REVIEW_FIRST_MEANINGFUL_PAINT_3G"
-msgstr "* Första meningsfulla visuella ändring på 3G: {} sek\n"
-
-msgid "TEXT_REVIEW_CPU_IDLE"
-msgstr "* CPU vilar efter: {} sek\n"
-
-msgid "TEXT_REVIEW_INTERACTIVE"
-msgstr "* Webbplatsen är interaktiv: {} sek\n"
-
-msgid "TEXT_REVIEW_REDIRECTS"
-msgstr "* Tid spenderad på hänvisningar: {} sek\n"
-
-msgid "TEXT_REVIEW_TOTAL_WEIGHT"
-msgstr "* Sidans totala vikt: {} kb\n"
-

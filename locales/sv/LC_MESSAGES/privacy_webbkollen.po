@@ -25,7 +25,7 @@ msgid "TEXT_REVIEW_IS_GOOD"
 msgstr "* Webbplatsen kan bli bättre, men är helt ok.\n"
 
 msgid "TEXT_REVIEW_IS_OK"
-msgstr "* Ok integritet men borde nog bättre.\n"
+msgstr "* Ok integritet men borde nog bli bättre.\n"
 
 msgid "TEXT_REVIEW_IS_BAD"
 msgstr "* Dålig integritet.\n"

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from models import Rating
 import time
 import sys
 import socket
@@ -81,7 +82,11 @@ def run_test(langCode, url):
     elif points <= 1.0:
         review = _('TEXT_REVIEW_CSS_IS_VERY_BAD') + review
 
-    return (points, review, error_message_dict)
+    rating = Rating()
+    rating.set_overall(points, review)
+    rating.set_standards(points, review)
+
+    return (rating, error_message_dict)
 
 
 def get_errors_for_link_tags(html, url, _):

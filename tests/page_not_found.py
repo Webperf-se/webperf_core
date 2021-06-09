@@ -1,10 +1,11 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
+from models import Rating
 import sys
 import socket
 import ssl
 import json
 import requests
-import urllib # https://docs.python.org/3/library/urllib.parse.html
+import urllib  # https://docs.python.org/3/library/urllib.parse.html
 import uuid
 import re
 from bs4 import BeautifulSoup
@@ -13,35 +14,44 @@ from tests.utils import *
 import gettext
 _ = gettext.gettext
 
-### DEFAULTS
+# DEFAULTS
 request_timeout = config.http_request_timeout
 useragent = config.useragent
+
 
 def run_test(langCode, url):
     """
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
 
-    points = 0.0
-    review = ''
+    rating = Rating()
     result_dict = {}
 
-    language = gettext.translation('page_not_found', localedir='locales', languages=[langCode])
+    language = gettext.translation(
+        'page_not_found', localedir='locales', languages=[langCode])
     language.install()
     _ = language.gettext
 
     print(_('TEXT_RUNNING_TEST'))
 
-    ## kollar koden
+    # kollar koden
     o = urllib.parse.urlparse(url)
-    url = '{0}://{1}/{3}/{2}'.format(o.scheme, o.netloc, 'finns-det-en-sida/pa-den-har-adressen/testanrop/', get_guid(5))
+    url = '{0}://{1}/{3}/{2}'.format(o.scheme, o.netloc,
+                                     'finns-det-en-sida/pa-den-har-adressen/testanrop/', get_guid(5))
     headers = {'user-agent': useragent}
-    request = requests.get(url, allow_redirects=True, headers=headers, timeout=request_timeout)
+    request = requests.get(url, allow_redirects=True,
+                           headers=headers, timeout=request_timeout)
     code = request.status_code
+    rating_404 = Rating()
     if code == 404:
-        points += 2.0
+        rating_404.set_overall(5.0)
+        rating_404.set_standards(5.0)
     else:
-        review = review + _('TEXT_REVIEW_WRONG_STATUS_CODE').format(request.status_code)
+        rating_404.set_overall(
+            1.0, _('TEXT_REVIEW_WRONG_STATUS_CODE').format(request.status_code))
+        rating_404.set_standards(
+            1.0, _('TEXT_REVIEW_WRONG_STATUS_CODE').format(request.status_code))
+    rating += rating_404
 
     result_dict['status_code'] = code
 
@@ -56,27 +66,46 @@ def run_test(langCode, url):
 
     if hasRequestText:
         soup = BeautifulSoup(requestText, 'lxml')
+        rating_title = Rating()
         try:
             title = soup.find('title')
             if title:
                 result_dict['page_title'] = title.string
+                rating_title.set_overall(5.0)
+                rating_title.set_standards(5.0)
+                rating_title.set_a11y(5.0)
             else:
-                review = review + _('TEXT_REVIEW_NO_TITLE')
+                rating_title.set_overall(1.0, _('TEXT_REVIEW_NO_TITLE'))
+                rating_title.set_standards(1.0, _('TEXT_REVIEW_NO_TITLE'))
+                rating_title.set_a11y(1.0, _('TEXT_REVIEW_NO_TITLE'))
 
         except:
-            print('Error getting page title!\nMessage:\n{0}'.format(sys.exc_info()[0]))
+            print('Error getting page title!\nMessage:\n{0}'.format(
+                sys.exc_info()[0]))
+            rating_title.set_overall(1.0, _('TEXT_REVIEW_NO_TITLE'))
+            rating_title.set_standards(1.0, _('TEXT_REVIEW_NO_TITLE'))
+            rating_title.set_a11y(1.0, _('TEXT_REVIEW_NO_TITLE'))
+        rating += rating_title
 
+        rating_h1 = Rating()
         try:
             h1 = soup.find('h1')
             if h1:
                 result_dict['h1'] = h1.string
+                rating_h1.set_overall(5.0)
+                rating_h1.set_standards(5.0)
+                rating_h1.set_a11y(5.0)
             else:
-                review = review + _('TEXT_REVIEW_MAIN_HEADER')
+                rating_h1.set_overall(1.0, _('TEXT_REVIEW_MAIN_HEADER'))
+                rating_h1.set_standards(1.0, _('TEXT_REVIEW_MAIN_HEADER'))
+                rating_h1.set_a11y(1.0, _('TEXT_REVIEW_MAIN_HEADER'))
 
         except:
             print('Error getting H1!\nMessage:\n{0}'.format(sys.exc_info()[0]))
 
-        ## kollar innehållet
+        rating += rating_h1
+
+        # kollar innehållet
         four_o_four_strings = []
         four_o_four_strings.append('saknas')
         four_o_four_strings.append('finns inte')
@@ -117,32 +146,40 @@ def run_test(langCode, url):
         four_o_four_strings.append('uppstått ett fel')
         four_o_four_strings.append('gick fel')
 
-        #print(four_o_four_strings)
+        # print(four_o_four_strings)
         text_from_page = requestText.lower()
 
-        #print(text_from_page)
+        # print(text_from_page)
 
         for item in four_o_four_strings:
             if item in text_from_page:
-                points += 1.5
+                #points += 1.5
                 found_match = True
                 break
 
+    rating_swedish_text = Rating()
+    if found_match:
+        rating_swedish_text.set_overall(5.0)
+        rating_swedish_text.set_a11y(5.0)
+    else:
+        rating_swedish_text.set_overall(
+            1.0, _('TEXT_REVIEW_NO_SWEDISH_ERROR_MSG'))
+        rating_swedish_text.set_a11y(
+            1.0, _('TEXT_REVIEW_NO_SWEDISH_ERROR_MSG'))
+    rating += rating_swedish_text
 
-    if found_match == False:
-        review = review + _('TEXT_REVIEW_NO_SWEDISH_ERROR_MSG')
-    
-    ## hur långt är inehållet
+    # hur långt är inehållet
+    rating_text_is_150_or_more = Rating()
     soup = BeautifulSoup(request.text, 'html.parser')
     if len(soup.get_text()) > 150:
-        points += 1.5
+        rating_text_is_150_or_more.set_overall(5.0)
+        rating_text_is_150_or_more.set_a11y(5.0)
     else:
-        review = review + _('TEXT_REVIEW_ERROR_MSG_UNDER_150') #'* Information är under 150 tecken, vilket tyder på att användaren inte vägleds vidare.\n'
+        # '* Information är under 150 tecken, vilket tyder på att användaren inte vägleds vidare.\n'
+        rating_text_is_150_or_more.set_overall(
+            1.0, _('TEXT_REVIEW_ERROR_MSG_UNDER_150'))
+        rating_text_is_150_or_more.set_a11y(
+            1.0, _('TEXT_REVIEW_ERROR_MSG_UNDER_150'))
+    rating += rating_text_is_150_or_more
 
-    if len(review) == 0:
-        review = _('TEXT_REVIEW_NO_REMARKS')
-
-    if points == 0:
-      points = 1.0
-
-    return (points, review, result_dict)
+    return (rating, result_dict)

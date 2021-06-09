@@ -71,9 +71,12 @@ def testsites(langCode, sites, test_type=None, show_reviews=False, only_test_unt
             the_test_result = run_test(langCode, website)
 
             if the_test_result != None:
-                print(_('TEXT_SITE_RATING'), the_test_result[0])
+                rating = the_test_result[0]
+                reviews = rating.get_reviews()
+                print(_('TEXT_SITE_RATING'), rating)
                 if show_reviews:
-                    print(_('TEXT_SITE_REVIEW'), the_test_result[1])
+                    print(_('TEXT_SITE_REVIEW'),
+                          reviews)
 
                 json_data = ''
                 try:
@@ -82,12 +85,12 @@ def testsites(langCode, sites, test_type=None, show_reviews=False, only_test_unt
                     json_data = ''
                     pass
 
-                checkreport = str(the_test_result[1]).encode(
+                review_encoded = str(reviews).encode(
                     'utf-8')  # för att lösa encoding-probs
                 jsondata = str(json_data).encode('utf-8')  # --//--
 
-                site_test = SiteTests(site_id=site_id, type_of_test=test_type, check_report=checkreport,
-                                      rating=the_test_result[0], test_date=datetime.datetime.now(), json_check_data=jsondata).todata()
+                site_test = SiteTests(site_id=site_id, type_of_test=test_type, review_encoded=review_encoded,
+                                      rating=rating, test_date=datetime.datetime.now(), json_check_data=jsondata).todata()
 
                 result.append(site_test)
 

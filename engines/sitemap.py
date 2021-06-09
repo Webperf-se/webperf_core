@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from models import Sites, SiteTests
+from models import Sites
 from engines.utils import use_website
 import config
 from tests.utils import *

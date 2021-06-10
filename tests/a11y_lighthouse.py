@@ -34,8 +34,6 @@ def run_test(langCode, url, strategy='mobile', category='accessibility'):
 
     get_content = ''
 
-    print('pagespeed_api_request', pagespeed_api_request)
-
     try:
         get_content = httpRequestGetContent(pagespeed_api_request)
     except:  # breaking and hoping for more luck with the next URL
@@ -68,14 +66,18 @@ def run_test(langCode, url, strategy='mobile', category='accessibility'):
         try:
             return_dict[item] = json_content['lighthouseResult']['audits'][item]['score']
 
-            score = score + \
-                int(json_content['lighthouseResult']['audits'][item]['score'])
+            if int(json_content['lighthouseResult']['audits'][item]['score']) == 1:
+                continue
 
-            if int(json_content['lighthouseResult']['audits'][item]['score']) == 0:
-                fails += 1
-
-            review += _("* {0} - {1}\r\n").format(json_content['lighthouseResult']['audits'][item]['title'],
-                                                  json_content['lighthouseResult']['audits'][item]['displayValue'])
+            item_review = ''
+            if 'displayValue' in json_content['lighthouseResult']['audits'][item]:
+                item_displayvalue = json_content['lighthouseResult']['audits'][item]['displayValue']
+                item_review = _("* {0} - {1}\r\n").format(
+                    json_content['lighthouseResult']['audits'][item]['title'], item_displayvalue)
+            else:
+                item_review = _(
+                    "* {0}\r\n").format(json_content['lighthouseResult']['audits'][item]['title'])
+            review += item_review
 
         except:
             # has no 'numericValue'

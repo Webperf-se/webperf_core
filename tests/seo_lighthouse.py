@@ -55,7 +55,6 @@ def run_test(langCode, url, strategy='mobile', category='seo'):
 
     review = ''
     score = 0
-    fails = 0
 
     # Service score (0-100)
     score = json_content['lighthouseResult']['categories'][category]['score']
@@ -66,20 +65,24 @@ def run_test(langCode, url, strategy='mobile', category='seo'):
         try:
             return_dict[item] = json_content['lighthouseResult']['audits'][item]['score']
 
-            score = score + \
-                int(json_content['lighthouseResult']
-                    ['audits'][item]['score'])
+            if int(json_content['lighthouseResult']['audits'][item]['score']) == 1:
+                continue
 
-            if int(json_content['lighthouseResult']['audits'][item]['score']) == 0:
-                fails += 1
-            review += _("* {0} - {1}\r\n").format(json_content['lighthouseResult']['audits'][item]['title'],
-                                                  json_content['lighthouseResult']['audits'][item]['displayValue'])
+            item_review = ''
+            if 'displayValue' in json_content['lighthouseResult']['audits'][item]:
+                item_displayvalue = json_content['lighthouseResult']['audits'][item]['displayValue']
+                item_review = _("* {0} - {1}\r\n").format(
+                    json_content['lighthouseResult']['audits'][item]['title'], item_displayvalue)
+            else:
+                item_review = _(
+                    "* {0}\r\n").format(json_content['lighthouseResult']['audits'][item]['title'])
+            review += item_review
         except:
             # has no 'numericValue'
             # print(item, 'har inget värde')
             pass
 
-    if points <= 5.0:
+    if points >= 5.0:
         review = _("TEXT_REVIEW_SEO_VERY_GOOD") + review
     elif points >= 4.0:
         review = _("TEXT_REVIEW_SEO_IS_GOOD") + review
@@ -89,8 +92,6 @@ def run_test(langCode, url, strategy='mobile', category='seo'):
         review = _("TEXT_REVIEW_SEO_IS_BAD") + review
     elif points <= 1.0:
         review = _("TEXT_REVIEW_SEO_IS_VERY_BAD") + review
-
-    review += _('TEXT_REVIEW_SEO_NUMBER_OF_PROBLEMS').format(fails)
 
     rating = Rating()
     rating.set_overall(points, review)

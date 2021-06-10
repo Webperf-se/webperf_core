@@ -70,15 +70,25 @@ def run_test(langCode, url, strategy='mobile', category='performance'):
     for item in json_content['lighthouseResult']['audits'].keys():
         try:
             return_dict[item] = json_content['lighthouseResult']['audits'][item]['numericValue']
-            review += _("* {0} - {1}\r\n").format(json_content['lighthouseResult']['audits'][item]['title'],
-                                                  json_content['lighthouseResult']['audits'][item]['displayValue'])
+            if int(json_content['lighthouseResult']['audits'][item]['score']) == 1:
+                continue
+
+            item_review = ''
+            if 'displayValue' in json_content['lighthouseResult']['audits'][item]:
+                item_displayvalue = json_content['lighthouseResult']['audits'][item]['displayValue']
+                item_review = _("* {0} - {1}\r\n").format(
+                    json_content['lighthouseResult']['audits'][item]['title'], item_displayvalue)
+            else:
+                item_review = _(
+                    "* {0}\r\n").format(json_content['lighthouseResult']['audits'][item]['title'])
+            review += item_review
 
         except:
             # has no 'numericValue'
             #print(item, 'har inget värde')
             pass
 
-    if points <= 5.0:
+    if points >= 5.0:
         review = _("TEXT_REVIEW_VERY_GOOD") + review
     elif points >= 4.0:
         review = _("TEXT_REVIEW_IS_GOOD") + review

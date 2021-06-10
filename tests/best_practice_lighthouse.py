@@ -54,7 +54,12 @@ def run_test(langCode, url, strategy='mobile', category='best-practices'):
 
     review = ''
     score = 0
-    fails = 0
+    # look for words indicating item is insecure
+    insecure_strings = ['security', 'säkerhet',
+                        'insecure', 'osäkra', 'unsafe']
+
+    rating = Rating()
+    rating.set_integrity_and_security(5.0)
 
     # Service score (0-100)
     score = json_content['lighthouseResult']['categories'][category]['score']
@@ -65,21 +70,28 @@ def run_test(langCode, url, strategy='mobile', category='best-practices'):
         try:
             return_dict[item] = json_content['lighthouseResult']['audits'][item]['score']
 
-            score = score + \
-                int(json_content['lighthouseResult']['audits'][item]['score'])
+            if int(json_content['lighthouseResult']['audits'][item]['score']) == 1:
+                continue
 
-            if int(json_content['lighthouseResult']['audits'][item]['score']) == 0:
-                fails += 1
+            item_review = ''
+            if 'displayValue' in json_content['lighthouseResult']['audits'][item]:
+                item_displayvalue = json_content['lighthouseResult']['audits'][item]['displayValue']
+                item_review = _("* {0} - {1}\r\n").format(
+                    json_content['lighthouseResult']['audits'][item]['title'], item_displayvalue)
+            else:
+                item_review = _(
+                    "* {0}\r\n").format(json_content['lighthouseResult']['audits'][item]['title'])
+            review += item_review
 
-            review += _("* {0} - {1}\r\n").format(json_content['lighthouseResult']['audits'][item]['title'],
-                                                  json_content['lighthouseResult']['audits'][item]['displayValue'])
-
+            for insecure_str in insecure_strings:
+                if insecure_str in item_review:
+                    rating.set_integrity_and_security(
+                        rating.integrity_and_security - 1.0, rating.integrity_and_security_review + item_review)
+                    break
         except:
             # has no 'numericValue'
             #print(item, 'har inget värde')
             pass
-
-    review += _('TEXT_REVIEW_PRACTICE_NUMBER_OF_PROBLEMS').format(fails)
 
     if points >= 5.0:
         review = _("TEXT_REVIEW_PRACTICE_VERY_GOOD") + review
@@ -92,7 +104,6 @@ def run_test(langCode, url, strategy='mobile', category='best-practices'):
     elif points <= 1.0:
         review = _("TEXT_REVIEW_PRACTICE_IS_VERY_BAD") + review
 
-    rating = Rating()
     rating.set_overall(points, review)
 
     return (rating, return_dict)

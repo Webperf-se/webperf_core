@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from models import Rating
 import sys
 import socket
 import ssl
@@ -71,12 +72,7 @@ def run_test(langCode, url):
     else:
         points = 5.0 - (speedindex_adjusted / 1000)
 
-        if points > 5.0:
-            points = 5.0
-        if points < 1.0:
-            points = 1.0
-
-    if points == 5.0:
+    if points >= 5.0:
         review = _('TEXT_REVIEW_VERY_GOOD')
     elif points >= 4.0:
         review = _('TEXT_REVIEW_IS_GOOD')
@@ -97,4 +93,8 @@ def run_test(langCode, url):
     review += _("TEXT_REVIEW_NUMBER_OF_REQUESTS").format(
         result_dict['requests'])
 
-    return (points, review, result_dict)
+    rating = Rating()
+    rating.set_overall(points, review)
+    rating.set_performance(points, review)
+
+    return (rating, result_dict)

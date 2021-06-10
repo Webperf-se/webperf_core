@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from models import Rating
 import sys
 import socket
 import ssl
@@ -56,6 +57,11 @@ def run_test(langCode, url, strategy='mobile', category='seo'):
     score = 0
     fails = 0
 
+    # Service score (0-100)
+    score = json_content['lighthouseResult']['categories'][category]['score']
+    # change it to % and convert it to a 1-5 grading
+    points = 5.0 * float(score)
+
     for item in json_content['lighthouseResult']['audits'].keys():
         try:
             return_dict[item] = json_content['lighthouseResult']['audits'][item]['score']
@@ -73,25 +79,20 @@ def run_test(langCode, url, strategy='mobile', category='seo'):
             # print(item, 'har inget värde')
             pass
 
-    review = ''
-    points = 0
-
-    if fails == 0:
-        points = 5
-        review = _('TEXT_REVIEW_SEO_VERY_GOOD') + review
-    elif fails <= 2:
-        points = 4
-        review = _('TEXT_REVIEW_SEO_IS_GOOD') + review
-    elif fails <= 3:
-        points = 3
-        review = _('TEXT_REVIEW_SEO_IS_OK') + review
-    elif fails <= 4:
-        points = 2
-        review = _('TEXT_REVIEW_SEO_IS_BAD') + review
-    elif fails > 4:
-        points = 1
-        review = _('TEXT_REVIEW_SEO_IS_VERY_BAD') + review
+    if points <= 5.0:
+        review = _("TEXT_REVIEW_SEO_VERY_GOOD") + review
+    elif points >= 4.0:
+        review = _("TEXT_REVIEW_SEO_IS_GOOD") + review
+    elif points >= 3.0:
+        review = _("TEXT_REVIEW_SEO_IS_OK") + review
+    elif points > 1.0:
+        review = _("TEXT_REVIEW_SEO_IS_BAD") + review
+    elif points <= 1.0:
+        review = _("TEXT_REVIEW_SEO_IS_VERY_BAD") + review
 
     review += _('TEXT_REVIEW_SEO_NUMBER_OF_PROBLEMS').format(fails)
 
-    return (points, review, return_dict)
+    rating = Rating()
+    rating.set_overall(points, review)
+
+    return (rating, return_dict)

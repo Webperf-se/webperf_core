@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from models import Rating
 import sys
 import socket
 import ssl
@@ -58,6 +59,12 @@ def run_test(langCode, url, strategy='mobile', category='performance'):
 
     review = ''
     return_dict = {}
+
+    # Service score (0-100)
+    score = json_content['lighthouseResult']['categories'][category]['score']
+    # change it to % and convert it to a 1-5 grading
+    points = 5.0 * float(score)
+
     return_dict = json_content['lighthouseResult']['audits']['metrics']['details']['items'][0]
 
     for item in json_content['lighthouseResult']['audits'].keys():
@@ -71,22 +78,19 @@ def run_test(langCode, url, strategy='mobile', category='performance'):
             #print(item, 'har inget värde')
             pass
 
-    speedindex = int(return_dict['observedSpeedIndex'])
-
-    if speedindex <= 500:
-        points = 5
+    if points <= 5.0:
         review = _("TEXT_REVIEW_VERY_GOOD") + review
-    elif speedindex <= 1200:
-        points = 4
+    elif points >= 4.0:
         review = _("TEXT_REVIEW_IS_GOOD") + review
-    elif speedindex <= 2500:
-        points = 3
+    elif points >= 3.0:
         review = _("TEXT_REVIEW_IS_OK") + review
-    elif speedindex <= 3999:
-        points = 2
+    elif points > 1.0:
         review = _("TEXT_REVIEW_IS_BAD") + review
-    elif speedindex > 3999:
-        points = 1
+    elif points <= 1.0:
         review = _("TEXT_REVIEW_IS_VERY_BAD") + review
 
-    return (points, review, return_dict)
+    rating = Rating()
+    rating.set_overall(points, review)
+    rating.set_performance(points, review)
+
+    return (rating, return_dict)

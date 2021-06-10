@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from models import Rating
 import sys
 import socket
 import ssl
@@ -33,6 +34,8 @@ def run_test(langCode, url, strategy='mobile', category='accessibility'):
 
     get_content = ''
 
+    print('pagespeed_api_request', pagespeed_api_request)
+
     try:
         get_content = httpRequestGetContent(pagespeed_api_request)
     except:  # breaking and hoping for more luck with the next URL
@@ -56,6 +59,11 @@ def run_test(langCode, url, strategy='mobile', category='accessibility'):
     score = 0
     fails = 0
 
+    # Service score (0-100)
+    score = json_content['lighthouseResult']['categories'][category]['score']
+    # change it to % and convert it to a 1-5 grading
+    points = 5.0 * float(score)
+
     for item in json_content['lighthouseResult']['audits'].keys():
         try:
             return_dict[item] = json_content['lighthouseResult']['audits'][item]['score']
@@ -74,22 +82,19 @@ def run_test(langCode, url, strategy='mobile', category='accessibility'):
             #print(item, 'har inget värde')
             pass
 
-    points = 0
+    if points >= 5.0:
+        review = _("TEXT_REVIEW_A11Y_VERY_GOOD") + review
+    elif points >= 4.0:
+        review = _("TEXT_REVIEW_A11Y_IS_GOOD") + review
+    elif points >= 3.0:
+        review = _("TEXT_REVIEW_A11Y_IS_OK") + review
+    elif points > 1.0:
+        review = _("TEXT_REVIEW_A11Y_IS_BAD") + review
+    elif points <= 1.0:
+        review = _("TEXT_REVIEW_A11Y_IS_VERY_BAD") + review
 
-    if fails == 0:
-        points = 5
-        review = _('TEXT_REVIEW_A11Y_VERY_GOOD') + review
-    elif fails <= 2:
-        points = 4
-        review = _('TEXT_REVIEW_A11Y_IS_GOOD') + review
-    elif fails <= 3:
-        points = 3
-        review = _('TEXT_REVIEW_A11Y_IS_OK') + review
-    elif fails <= 5:
-        points = 2
-        review = _('TEXT_REVIEW_A11Y_IS_BAD') + review
-    elif fails > 5:
-        points = 1
-        review = _('TEXT_REVIEW_A11Y_IS_VERY_BAD') + review
+    rating = Rating()
+    rating.set_overall(points, review)
+    rating.set_a11y(points, review)
 
-    return (points, review, return_dict)
+    return (rating, return_dict)

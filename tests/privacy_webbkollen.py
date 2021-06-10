@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from models import Rating
 import sys
 import socket
 import ssl
@@ -168,7 +169,7 @@ def run_test(langCode, url):
             if info.startswith('20'):
                 review_messages += _('TEXT_REVIEW_GENERATED').format(info)
 
-    if points == 5:
+    if points >= 5:
         review = _('TEXT_REVIEW_VERY_GOOD')
     elif points >= 4:
         review = _('TEXT_REVIEW_IS_GOOD')
@@ -184,4 +185,8 @@ def run_test(langCode, url):
 
     review += review_messages
 
-    return (float("{0:.2f}".format(points)), review, return_dict)
+    rating = Rating()
+    rating.set_overall(points, review)
+    rating.set_integrity_and_security(points, review)
+
+    return (rating, return_dict)

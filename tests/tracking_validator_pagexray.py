@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from models import Rating
 import os
 import sys
 import socket
@@ -45,6 +46,7 @@ def run_test(langCode, url):
     points = 0.0
     review = ''
     result_dict = {}
+    rating = Rating()
 
     language = gettext.translation(
         'tracking_validator_pagexray', localedir='locales', languages=[langCode])
@@ -70,7 +72,8 @@ def run_test(langCode, url):
     except:
         if browser != False:
             browser.quit()
-        return (1.0, _('TEXT_SERVICE_UNABLE_TO_CONNECT'), result_dict)
+        rating.set_overall(1.0, _('TEXT_SERVICE_UNABLE_TO_CONNECT'))
+        return (rating, result_dict)
 
     try:
         # wait for element(s) to appear
@@ -80,7 +83,8 @@ def run_test(langCode, url):
     except:
         if browser != False:
             browser.quit()
-        return (1.0, _('TEXT_SERVICES_ENCOUNTERED_ERROR'), result_dict)
+        rating.set_overall(1.0, _('TEXT_SERVICES_ENCOUNTERED_ERROR'))
+        return (rating, result_dict)
 
     try:
         elements_download_links = browser.find_elements_by_css_selector(
@@ -132,12 +136,11 @@ def run_test(langCode, url):
         if browser != False:
             browser.quit()
 
-    if points < 1.0:
-        points = 1.0
-
     points = float("{0:.2f}".format(points))
 
-    return (points, review, result_dict)
+    rating.set_overall(points, review)
+    rating.set_integrity_and_security(points, review)
+    return (rating, result_dict)
 
 
 def check_tracking(browser, json_content, _):

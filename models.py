@@ -244,12 +244,20 @@ class SiteTests(object):
     json_check_data = ""
     most_recent = 1
     rating = -1  # rating from 1-5 on how good the results were
+    rating_sec = -1  # rating from 1-5 on how good the results were
+    rating_perf = -1  # rating from 1-5 on how good the results were
+    rating_a11y = -1  # rating from 1-5 on how good the results were
+    rating_stand = -1  # rating from 1-5 on how good the results were
 
     def __init__(self, site_id, type_of_test, review_encoded, rating, test_date, json_check_data):
         self.site_id = site_id
         self.type_of_test = type_of_test
         self.check_report = review_encoded
-        self.rating = rating
+        self.rating = rating.get_overall()
+        self.rating_sec = rating.get_integrity_and_security()
+        self.rating_perf = rating.get_performance()
+        self.rating_a11y = rating.get_a11y()
+        self.rating_stand = rating.get_standards()
         self.test_date = test_date
         self.json_check_data = json_check_data
 
@@ -257,9 +265,13 @@ class SiteTests(object):
         result = {
             'site_id': self.site_id,
             'type_of_test': self.type_of_test,
-            'rating': self.rating.get_overall(),
+            'rating': self.rating,
+            'rating_sec': self.rating_sec,
+            'rating_perf': self.rating_perf,
+            'rating_a11y': self.rating_a11y,
+            'rating_stand': self.rating_stand,
             'date': self.test_date.isoformat(),
-            'report': self.check_report,
+            'report': self.check_report.decode('utf-8'),
             'data': self.json_check_data.decode('utf-8')
         }
         return result
@@ -267,7 +279,9 @@ class SiteTests(object):
     @staticmethod
     def fieldnames():
         result = ['site_id', 'type_of_test',
-                  'rating', 'date', 'report', 'data']
+                  'rating', 'rating_sec', 'rating_perf',
+                  'rating_a11y', 'rating_stand',
+                  'date', 'report', 'data']
         return result
 
     def __repr__(self):

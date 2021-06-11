@@ -33,14 +33,19 @@ class Sites(object):
 
 class Rating(object):
     overall = -1
+    overall_count = 1
     overall_review = ''
     integrity_and_security = -1
+    integrity_and_security_count = 1
     integrity_and_security_review = ''
     performance = -1
+    performance_count = 1
     performance_review = ''
     standards = -1
+    standards_count = 1
     standards_review = ''
     a11y = -1
+    a11y_count = 1
     a11y_review = ''
 
     is_set = False
@@ -60,7 +65,7 @@ class Rating(object):
         self.is_set = True
 
     def get_overall(self):
-        return self.transform_value(self.overall)
+        return self.transform_value(self.overall / self.overall_count)
 
     def set_integrity_and_security(self, points, review=''):
         if(points < 1.0):
@@ -73,7 +78,7 @@ class Rating(object):
         self.is_set = True
 
     def get_integrity_and_security(self):
-        return self.transform_value(self.integrity_and_security)
+        return self.transform_value(self.integrity_and_security / self.integrity_and_security_count)
 
     def set_performance(self, points, review=''):
         if(points < 1.0):
@@ -86,7 +91,7 @@ class Rating(object):
         self.is_set = True
 
     def get_performance(self):
-        return self.transform_value(self.performance)
+        return self.transform_value(self.performance / self.performance_count)
 
     def set_standards(self, points, review=''):
         if(points < 1.0):
@@ -99,7 +104,7 @@ class Rating(object):
         self.is_set = True
 
     def get_standards(self):
-        return self.transform_value(self.standards)
+        return self.transform_value(self.standards / self.standards_count)
 
     def set_a11y(self, points, review=''):
         if(points < 1.0):
@@ -112,7 +117,7 @@ class Rating(object):
         self.is_set = True
 
     def get_a11y(self):
-        return self.transform_value(self.a11y)
+        return self.transform_value(self.a11y / self.a11y_count)
 
     def isused(self):
         return self.is_set
@@ -121,15 +126,15 @@ class Rating(object):
         return float("{0:.2f}".format(value))
 
     def get_reviews(self):
-        text = '\r\n* Overall:\r\n{0}'.format(self.overall_review)
-        if (self.integrity_and_security != -1 and self.integrity_and_security_review != ''):
+        text = '\r\n* Overall:\r\n{0}'.format(self.get_overall())
+        if (self.get_integrity_and_security() != -1 and self.integrity_and_security_review != ''):
             text += '* Integrity & Security:\r\n{0}'.format(
                 self.integrity_and_security_review)
-        if (self.performance != -1 and self.performance_review != ''):
+        if (self.get_performance() != -1 and self.performance_review != ''):
             text += '* Performance:\r\n{0}'.format(self.performance_review)
-        if (self.a11y != -1 and self.a11y_review != ''):
+        if (self.get_a11y() != -1 and self.a11y_review != ''):
             text += '* A11y:\r\n{0}'.format(self.a11y_review)
-        if (self.standards != -1 and self.standards_review != ''):
+        if (self.get_standards() != -1 and self.standards_review != ''):
             text += '* Standards:\r\n{0}'.format(
                 self.standards_review)
 
@@ -156,68 +161,74 @@ class Rating(object):
             raise TypeError
         else:
             tmp = Rating()
-            if (self.isused() and other.isused()):
-                tmp.set_overall(tmp.get_combined_value(self.get_overall(
-                ), other.get_overall()), self.overall_review + other.overall_review)
-            elif (self.isused()):
-                tmp.set_overall(self.get_overall(
-                ), self.overall_review)
-            elif (other.isused()):
-                tmp.set_overall(other.get_overall(
-                ), other.overall_review)
-            else:
-                return tmp
 
             tmp_value = tmp.get_combined_value(
-                self.get_integrity_and_security(), other.get_integrity_and_security())
-            if (tmp_value != -1):
-                tmp.integrity_and_security = tmp_value
+                self.get_overall(), self.overall_count, other.get_overall(), other.overall_count)
+            if (tmp_value[0] != -1):
+                tmp.is_set = True
+                tmp.overall = tmp_value[0]
+                tmp.overall_count = tmp_value[1]
+                tmp.overall_review = self.overall_review + \
+                    other.overall_review
+
+            tmp_value = tmp.get_combined_value(
+                self.integrity_and_security, self.integrity_and_security_count, other.integrity_and_security, other.integrity_and_security_count)
+            if (tmp_value[0] != -1):
+                tmp.is_set = True
+                tmp.integrity_and_security = tmp_value[0]
+                tmp.integrity_and_security_count = tmp_value[1]
                 tmp.integrity_and_security_review = self.integrity_and_security_review + \
                     other.integrity_and_security_review
 
-            tmp_value = tmp.get_combined_value(self.get_performance(
-            ), other.get_performance())
-            if (tmp_value != -1):
-                tmp.performance = tmp_value
+            tmp_value = tmp.get_combined_value(
+                self.performance, self.performance_count, other.performance, other.performance_count)
+            if (tmp_value[0] != -1):
+                tmp.is_set = True
+                tmp.performance = tmp_value[0]
+                tmp.performance_count = tmp_value[1]
                 tmp.performance_review = self.performance_review + other.performance_review
 
-            tmp_value = tmp.get_combined_value(self.get_standards(
-            ), other.get_standards())
-            if (tmp_value != -1):
-                tmp.standards = tmp_value
+            tmp_value = tmp.get_combined_value(
+                self.standards, self.standards_count, other.standards, other.standards_count)
+            if (tmp_value[0] != -1):
+                tmp.is_set = True
+                tmp.standards = tmp_value[0]
+                tmp.standards_count = tmp_value[1]
                 tmp.standards_review = self.standards_review + other.standards_review
 
             tmp_value = tmp.get_combined_value(
-                self.get_a11y(), other.get_a11y())
-            if (tmp_value != -1):
-                tmp.a11y = tmp_value
+                self.a11y, self.a11y_count, other.a11y, other.a11y_count)
+            if (tmp_value[0] != -1):
+                tmp.is_set = True
+                tmp.a11y = tmp_value[0]
+                tmp.a11y_count = tmp_value[1]
                 tmp.a11y_review = self.a11y_review + other.a11y_review
             return tmp
 
-    def get_combined_value(self, val1, val2):
+    def get_combined_value(self, val1, val1_count, val2, val2_count):
         val1_has_value = val1 != -1
         val2_has_value = val2 != -1
         if (val1_has_value and val2_has_value):
-            return (val1 + val2) / 2
+            return (val1 + val2, val1_count + val2_count)
         elif (not val1_has_value and not val2_has_value):
-            return -1
+            return (-1, 1)
         elif(val1_has_value):
-            return val1
+            return (val1, val1_count)
         else:
-            return val2
+            return (val2, val2_count)
 
     def __repr__(self):
-        text = '\r\n* Overall: {0}\r\n'.format(self.overall)
-        if (self.integrity_and_security != -1):
+        text = '\r\n* Overall: {0}\r\n'.format(self.get_overall())
+        if (self.get_integrity_and_security() != -1):
             text += '-- Integrity & Security: {0}\r\n'.format(
-                self.integrity_and_security)
-        if (self.performance != -1):
-            text += '-- Performance: {0}\r\n'.format(self.performance)
-        if (self.a11y != -1):
-            text += '-- A11y: {0}\r\n'.format(self.a11y)
-        if (self.standards != -1):
+                self.get_integrity_and_security())
+        if (self.get_performance() != -1):
+            text += '-- Performance: {0}\r\n'.format(self.get_performance())
+        if (self.get_a11y() != -1):
+            text += '-- A11y: {0}\r\n'.format(self.get_a11y())
+        if (self.get_standards() != -1):
             text += '-- Standards: {0}\r\n'.format(
-                self.standards)
+                self.get_standards())
 
         return text
 

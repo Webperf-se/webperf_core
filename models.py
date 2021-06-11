@@ -163,7 +163,7 @@ class Rating(object):
             tmp = Rating()
 
             tmp_value = tmp.get_combined_value(
-                self.get_overall(), self.overall_count, other.get_overall(), other.overall_count)
+                self.overall, self.overall_count, other.overall, other.overall_count)
             if (tmp_value[0] != -1):
                 tmp.is_set = True
                 tmp.overall = tmp_value[0]

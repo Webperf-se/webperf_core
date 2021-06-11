@@ -123,14 +123,14 @@ class Rating(object):
     def get_reviews(self):
         text = '\r\n* Overall:\r\n{0}'.format(self.overall_review)
         if (self.integrity_and_security != -1 and self.integrity_and_security_review != ''):
-            text += '-- Integrity & Security:\r\n{0}'.format(
+            text += '* Integrity & Security:\r\n{0}'.format(
                 self.integrity_and_security_review)
         if (self.performance != -1 and self.performance_review != ''):
-            text += '-- Performance:\r\n{0}'.format(self.performance_review)
+            text += '* Performance:\r\n{0}'.format(self.performance_review)
         if (self.a11y != -1 and self.a11y_review != ''):
-            text += '-- A11y:\r\n{0}'.format(self.a11y_review)
+            text += '* A11y:\r\n{0}'.format(self.a11y_review)
         if (self.standards != -1 and self.standards_review != ''):
-            text += '-- Standards:\r\n{0}'.format(
+            text += '* Standards:\r\n{0}'.format(
                 self.standards_review)
 
         return text

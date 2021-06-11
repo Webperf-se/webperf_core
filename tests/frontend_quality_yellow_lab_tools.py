@@ -152,5 +152,9 @@ def run_test(langCode, url, device='phone'):
 
 def to_points(value):
     points = 5.0 * (int(value) / 100)
+    if points > 5.0:
+        points = 5.0
+    if points < 1.0:
+        points = 1.0
     points = float("{0:.2f}".format(points))
     return points

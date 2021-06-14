@@ -85,12 +85,11 @@ def testsites(langCode, sites, test_type=None, show_reviews=False, only_test_unt
                     json_data = ''
                     pass
 
-                review_encoded = str(reviews).encode(
-                    'utf-8')  # för att lösa encoding-probs
                 jsondata = str(json_data).encode('utf-8')  # --//--
 
-                site_test = SiteTests(site_id=site_id, type_of_test=test_type, review_encoded=review_encoded,
-                                      rating=rating, test_date=datetime.datetime.now(), json_check_data=jsondata).todata()
+                site_test = SiteTests(site_id=site_id, type_of_test=test_type,
+                                      rating=rating,
+                                      test_date=datetime.datetime.now(), json_check_data=jsondata).todata()
 
                 result.append(site_test)
 

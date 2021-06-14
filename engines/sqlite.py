@@ -77,13 +77,58 @@ def write_tests(output_filename, siteTests):
         c.execute(sql_command)
         conn.commit()
 
-        # update testresult for all sites
-        format_str = """INSERT INTO sitetests (site_id, test_date, type_of_test, check_report, json_check_data, most_recent, rating)
-        VALUES ("{siteid}", "{testdate}", "{testtype}", "{report}", "{json}", "{recent}", "{rating}");\n"""
-        sql_command = format_str.format(siteid=test["site_id"], testdate=test["date"], testtype=test["type_of_test"],
-                                        report=test["report"], json=test["data"], recent=1, rating=test["rating"])
+        try:
+            # update testresult for all sites
+            format_str = """INSERT INTO sitetests (site_id, test_date, type_of_test,
+             check_report, check_report_sec, check_report_perf, check_report_a11y, check_report_stand,
+             json_check_data, most_recent, rating, rating_sec, rating_perf, rating_a11y, rating_stand)
+            VALUES ("{siteid}", "{testdate}", "{testtype}", "{report}", "{report_sec}", "{report_perf}", "{report_a11y}", "{report_stand}", "{json}", "{recent}", "{rating}", "{rating_sec}", "{rating_perf}", "{rating_a11y}", "{rating_stand}");\n"""
+            sql_command = format_str.format(siteid=test["site_id"], testdate=test["date"], testtype=test["type_of_test"],
+                                            report=test["report"],
+                                            report_sec=test["report_sec"], report_perf=test["report_perf"], report_a11y=test[
+                                                "report_a11y"], report_stand=test["report_stand"],
+                                            json=test["data"], recent=1, rating=test["rating"], rating_sec=test["rating_sec"], rating_perf=test["rating_perf"], rating_a11y=test["rating_a11y"], rating_stand=test["rating_stand"])
+            c.execute(sql_command)
+            conn.commit()
+        except Exception as ex:
+            if 'rating_sec' in str(ex):
+                # automatically update database
+                print('db -', str(ex))
+                ensure_latest_db_version(output_filename)
+                print('db - upgrading db')
+            else:
+                print('db exception', str(ex))
 
-        c.execute(sql_command)
-        conn.commit()
+    conn.close()
 
+
+def ensure_latest_db_version(output_filename):
+    conn = sqlite3.connect(output_filename)
+    c = conn.cursor()
+
+    sql_command = """ALTER TABLE sitetests ADD check_report_stand text;\n"""
+    c.execute(sql_command)
+
+    sql_command = """ALTER TABLE sitetests ADD check_report_a11y text;\n"""
+    c.execute(sql_command)
+
+    sql_command = """ALTER TABLE sitetests ADD check_report_perf text;\n"""
+    c.execute(sql_command)
+
+    sql_command = """ALTER TABLE sitetests ADD check_report_sec text;\n"""
+    c.execute(sql_command)
+
+    sql_command = """ALTER TABLE sitetests ADD rating_stand float NOT NULL DEFAULT -1;\n"""
+    c.execute(sql_command)
+
+    sql_command = """ALTER TABLE sitetests ADD rating_a11y float NOT NULL DEFAULT -1;\n"""
+    c.execute(sql_command)
+
+    sql_command = """ALTER TABLE sitetests ADD rating_perf float NOT NULL DEFAULT -1;\n"""
+    c.execute(sql_command)
+
+    sql_command = """ALTER TABLE sitetests ADD rating_sec float NOT NULL DEFAULT -1;\n"""
+    c.execute(sql_command)
+
+    conn.commit()
     conn.close()

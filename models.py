@@ -241,6 +241,10 @@ class SiteTests(object):
     test_date = datetime.datetime.now()
     type_of_test = 0
     check_report = ""
+    check_report_sec = ""
+    check_report_perf = ""
+    check_report_a11y = ""
+    check_report_stand = ""
     json_check_data = ""
     most_recent = 1
     rating = -1  # rating from 1-5 on how good the results were
@@ -249,10 +253,15 @@ class SiteTests(object):
     rating_a11y = -1  # rating from 1-5 on how good the results were
     rating_stand = -1  # rating from 1-5 on how good the results were
 
-    def __init__(self, site_id, type_of_test, review_encoded, rating, test_date, json_check_data):
+    def __init__(self, site_id, type_of_test, rating, test_date, json_check_data):
         self.site_id = site_id
         self.type_of_test = type_of_test
-        self.check_report = review_encoded
+        self.check_report = self.encode_review(rating.overall_review)
+        self.check_report_sec = self.encode_review(
+            rating.integrity_and_security_review)
+        self.check_report_perf = self.encode_review(rating.performance_review)
+        self.check_report_a11y = self.encode_review(rating.a11y_review)
+        self.check_report_stand = self.encode_review(rating.standards_review)
         self.rating = rating.get_overall()
         self.rating_sec = rating.get_integrity_and_security()
         self.rating_perf = rating.get_performance()
@@ -260,6 +269,11 @@ class SiteTests(object):
         self.rating_stand = rating.get_standards()
         self.test_date = test_date
         self.json_check_data = json_check_data
+
+    def encode_review(self, review):
+        review_encoded = str(review).encode(
+            'utf-8')  # för att lösa encoding-probs
+        return review_encoded
 
     def todata(self):
         result = {
@@ -272,6 +286,10 @@ class SiteTests(object):
             'rating_stand': self.rating_stand,
             'date': self.test_date.isoformat(),
             'report': self.check_report.decode('utf-8'),
+            'report_sec': self.check_report_sec.decode('utf-8'),
+            'report_perf': self.check_report_perf.decode('utf-8'),
+            'report_a11y': self.check_report_a11y.decode('utf-8'),
+            'report_stand': self.check_report_stand.decode('utf-8'),
             'data': self.json_check_data.decode('utf-8')
         }
         return result
@@ -281,7 +299,7 @@ class SiteTests(object):
         result = ['site_id', 'type_of_test',
                   'rating', 'rating_sec', 'rating_perf',
                   'rating_a11y', 'rating_stand',
-                  'date', 'report', 'data']
+                  'date', 'report', 'report_sec', 'report_perf', 'report_a11y', 'report_stand', 'data']
         return result
 
     def __repr__(self):

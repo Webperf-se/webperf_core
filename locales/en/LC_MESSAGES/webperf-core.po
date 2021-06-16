@@ -94,7 +94,7 @@ msgid "TEXT_TEST_VALID_ARGUMENTS_CSS"
 msgstr "-t 7\t: CSS Validation"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_SITESPEED"
-msgstr "-t 7\t: Prestanda (Sitespeed.io)"
+msgstr "-t 15\t: Performance (Sitespeed.io)"
 
 #: default.py:136
 msgid "TEXT_TEST_VALID_ARGUMENTS_WEBBKOLL"
@@ -104,8 +104,14 @@ msgstr "-t 20\t: Integrity & Security (Webbkoll)"
 msgid "TEXT_TEST_VALID_ARGUMENTS_STANDARD_FILES"
 msgstr "-t 9\t: Standard files"
 
+msgid "TEXT_TEST_VALID_ARGUMENTS_HTTP"
+msgstr "-t 21\t:  HTTP & Network"
+
 msgid "TEXT_TEST_VALID_ARGUMENTS_ENERGY_EFFICIENCY"
 msgstr "-t 22\t:  Energy Efficiency (Website Carbon Calculator)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_TRACKING"
+msgstr "-t 23\t:  Tracking & Integrity (Pagexray)"
 
 #: default.py:137 default.py:141 default.py:146 default.py:213
 msgid "TEXT_COMMAND_USAGE"

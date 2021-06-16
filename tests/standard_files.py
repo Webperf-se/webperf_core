@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from models import Rating
+import datetime
 import sys
 import socket
 import ssl
@@ -12,14 +13,14 @@ from bs4 import BeautifulSoup
 import config
 from tests.utils import *
 import gettext
-_ = gettext.gettext
+_local = gettext.gettext
 
 # DEFAULTS
 request_timeout = config.http_request_timeout
 useragent = config.useragent
 
 
-def run_test(langCode, url):
+def run_test(_, langCode, url):
     """
     Looking for:
     * robots.txt
@@ -30,37 +31,43 @@ def run_test(langCode, url):
     language = gettext.translation(
         'standard_files', localedir='locales', languages=[langCode])
     language.install()
-    _ = language.gettext
+    _local = language.gettext
 
-    print(_('TEXT_RUNNING_TEST'))
+    print(_local('TEXT_RUNNING_TEST'))
+
+    print(_('TEXT_TEST_START').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     o = urllib.parse.urlparse(url)
     parsed_url = '{0}://{1}/'.format(o.scheme, o.netloc)
 
-    rating = Rating()
+    rating = Rating(_)
     return_dict = dict()
 
     # robots.txt
-    robots_result = validate_robots(_, parsed_url)
+    robots_result = validate_robots(_local, parsed_url)
     rating += robots_result[0]
     return_dict.update(robots_result[1])
     robots_content = robots_result[2]
 
     # sitemap.xml
     has_robots_txt = return_dict['robots.txt'] == 'ok'
-    sitemap_result = validate_sitemap(_, robots_content, has_robots_txt)
+    sitemap_result = validate_sitemap(_local, robots_content, has_robots_txt)
     rating += sitemap_result[0]
     return_dict.update(sitemap_result[1])
 
     # rss feed
-    feed_result = validate_feed(_, url)
+    feed_result = validate_feed(_local, url)
     rating += feed_result[0]
     return_dict.update(feed_result[1])
 
     # security.txt
-    security_txt_result = validate_security_txt(_, parsed_url)
+    security_txt_result = validate_security_txt(_local, parsed_url)
     rating += security_txt_result[0]
     return_dict.update(security_txt_result[1])
+
+    print(_('TEXT_TEST_END').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, return_dict)
 

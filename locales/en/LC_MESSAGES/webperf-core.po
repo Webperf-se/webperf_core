@@ -49,7 +49,7 @@ msgid "TEXT_EXCEPTION"
 msgstr "Exception, someone should look at this!"
 
 msgid "TEXT_TEST_START"
-msgstr "Started: {0}\n"
+msgstr "Started: {0}"
 
 msgid "TEXT_TEST_END"
 msgstr "Finished: {0}\n"
@@ -116,4 +116,19 @@ msgstr "-t 23\t:  Tracking & Integrity (Pagexray)"
 #: default.py:137 default.py:141 default.py:146 default.py:213
 msgid "TEXT_COMMAND_USAGE"
 msgstr "\n\tWebPerf Core\n\n\tUsage:\ndefault.py -u https://webperf.se\n\n\tOptions and arguments:\n\t-h/--help\t\t\t: Help information on how to use script\n\t-u/--url <site url>\t\t: website url to test against\n\t-t/--test <test number>\t\t: run ONE test (use ? to list available tests)\n\t-r/--review\t\t\t: show reviews in terminal\n\t-i/--input <file path>\t\t: input file path (.json/.sqlite)\n\t-i/--input-skip <number>\t: number of items to skip\n\t-i/--input-take <number>\t: number of items to take\n\t-o/--output <file path>\t\t: output file path (.json/.csv/.sql/.sqlite)\n\t-A/--addUrl <site url>\t\t: website url (required in compination with -i/--input)\n\t-D/--deleteUrl <site url>\t: website url (required in compination with -i/--input)\n\t-L/--language <lang code>\t: language used for output(en = default/sv)"
+
+msgid "TEXT_TEST_RATING_OVERVIEW"
+msgstr "\r\n#### Overall:\r\n{0}"
+
+msgid "TEXT_TEST_RATING_INTEGRITY_SECURITY"
+msgstr "#### Integrity & Security:\r\n{0}"
+
+msgid "TEXT_TEST_RATING_PERFORMANCE"
+msgstr "#### Performance:\r\n{0}"
+
+msgid "TEXT_TEST_RATING_ALLY"
+msgstr "#### A11y:\r\n{0}"
+
+msgid "TEXT_TEST_RATING_STANDARDS"
+msgstr "#### Standards:\r\n{0}"
 

@@ -20,7 +20,7 @@ request_timeout = config.http_request_timeout
 useragent = config.useragent
 
 
-def run_test(langCode, url):
+def run_test(_, langCode, url):
     """
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """

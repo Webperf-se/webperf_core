@@ -25,21 +25,6 @@ def test(langCode, site, test_type=None, show_reviews=False, only_test_untested_
 
     result = list()
 
-    # TODO: implementera test_type=None
-
-    # print(_('TEXT_TEST_START_HEADER'))
-
-    # i = 1
-    # nOfSites = len(sites)
-    # has_more_then_one_site = nOfSites > 1
-
-    # if has_more_then_one_site:
-    #    print(_('TEXT_TESTING_NUMBER_OF_SITES').format(nOfSites))
-
-    # print(_('TEXT_TESTING_SITE').format(website))
-    # if has_more_then_one_site:
-    #    print(_('TEXT_WEBSITE_X_OF_Y').format(i, nOfSites))
-
     the_test_result = None
 
     try:
@@ -74,13 +59,7 @@ def test(langCode, site, test_type=None, show_reviews=False, only_test_untested_
         elif test_type == TEST_TRACKING:
             from tests.tracking_validator_pagexray import run_test
 
-        print(_('TEXT_TEST_START').format(
-            datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
-
-        the_test_result = run_test(langCode, website)
-
-        # print(_('TEXT_TEST_END').format(
-        #    datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        the_test_result = run_test(_, langCode, website)
 
         if the_test_result != None:
             rating = the_test_result[0]

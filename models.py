@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import datetime
 import json
+import gettext
 
 
 class Sites(object):
@@ -48,11 +49,13 @@ class Rating(object):
     a11y_count = 1
     a11y_review = ''
 
+    _ = False
     is_set = False
 
-    def __init__(self):
+    def __init__(self, _=None):
         # don't know anything we want todo yet
         self.overall = -1
+        self._ = _
 
     def set_overall(self, points, review=''):
         if(points < 1.0):
@@ -126,16 +129,17 @@ class Rating(object):
         return float("{0:.2f}".format(value))
 
     def get_reviews(self):
-        text = '\r\n#### Overall:\r\n{0}'.format(self.overall_review)
+        text = self._('TEXT_TEST_RATING_OVERVIEW').format(self.overall_review)
         if (self.get_integrity_and_security() != -1 and self.integrity_and_security_review != ''):
-            text += '#### Integrity & Security:\r\n{0}'.format(
+            text += self._('TEXT_TEST_RATING_INTEGRITY_SECURITY').format(
                 self.integrity_and_security_review)
         if (self.get_performance() != -1 and self.performance_review != ''):
-            text += '#### Performance:\r\n{0}'.format(self.performance_review)
+            text += self._('TEXT_TEST_RATING_PERFORMANCE').format(
+                self.performance_review)
         if (self.get_a11y() != -1 and self.a11y_review != ''):
-            text += '#### A11y:\r\n{0}'.format(self.a11y_review)
+            text += self._('TEXT_TEST_RATING_ALLY').format(self.a11y_review)
         if (self.get_standards() != -1 and self.standards_review != ''):
-            text += '#### Standards:\r\n{0}'.format(
+            text += self._('TEXT_TEST_RATING_STANDARDS').format(
                 self.standards_review)
 
         return text
@@ -160,7 +164,10 @@ class Rating(object):
         if (not isinstance(other, Rating)):
             raise TypeError
         else:
-            tmp = Rating()
+            if self._ != None:
+                tmp = Rating(self._)
+            else:
+                tmp = Rating(other._)
 
             tmp_value = tmp.get_combined_value(
                 self.overall, self.overall_count, other.overall, other.overall_count)

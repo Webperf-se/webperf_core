@@ -22,7 +22,7 @@ if time_sleep < 5:
     time_sleep = 5
 
 
-def run_test(langCode, url):
+def run_test(_, langCode, url):
     import time
     points = 5.0
     review = ''

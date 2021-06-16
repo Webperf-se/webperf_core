@@ -25,7 +25,7 @@ global css_features
 global css_properties_doesnt_exist
 
 
-def run_test(langCode, url):
+def run_test(_, langCode, url):
     """
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """

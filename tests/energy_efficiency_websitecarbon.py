@@ -17,7 +17,7 @@ import gettext
 _ = gettext.gettext
 
 
-def run_test(langCode, url):
+def run_test(_, langCode, url):
     """
     Analyzes URL with Website Carbon Calculator API.
     API documentation: https://api.websitecarbon.com

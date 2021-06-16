@@ -16,7 +16,7 @@ import gettext
 _ = gettext.gettext
 
 
-def run_test(langCode, url):
+def run_test(_, langCode, url):
     """
     Checking an URL against Sitespeed.io (Docker version). 
     For installation, check out:

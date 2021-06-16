@@ -26,7 +26,7 @@ except:
     ylt_server_address = 'https://yellowlab.tools'
 
 
-def run_test(langCode, url, device='phone'):
+def run_test(_, langCode, url, device='phone'):
     """
     Analyzes URL with Yellow Lab Tools docker image.
     Devices might be; phone, tablet, desktop

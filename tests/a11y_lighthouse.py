@@ -18,7 +18,7 @@ _ = gettext.gettext
 googlePageSpeedApiKey = config.googlePageSpeedApiKey
 
 
-def run_test(langCode, url, strategy='mobile', category='accessibility'):
+def run_test(_, langCode, url, strategy='mobile', category='accessibility'):
 
     language = gettext.translation(
         'a11y_lighthouse', localedir='locales', languages=[langCode])

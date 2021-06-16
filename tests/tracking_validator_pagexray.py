@@ -38,7 +38,7 @@ if use_ip2location:
         print('Unable to load IP2Location Database from "data/IP2LOCATION-LITE-DB1.IPV6.BIN"', ex)
 
 
-def run_test(langCode, url):
+def run_test(_, langCode, url):
     """
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
@@ -46,14 +46,17 @@ def run_test(langCode, url):
     points = 0.0
     review = ''
     result_dict = {}
-    rating = Rating()
+    rating = Rating(_)
 
     language = gettext.translation(
         'tracking_validator_pagexray', localedir='locales', languages=[langCode])
     language.install()
-    _ = language.gettext
+    _local = language.gettext
 
-    print(_('TEXT_RUNNING_TEST'))
+    print(_local('TEXT_RUNNING_TEST'))
+
+    print(_('TEXT_TEST_START').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     browser = False
     try:
@@ -72,7 +75,7 @@ def run_test(langCode, url):
     except:
         if browser != False:
             browser.quit()
-        rating.set_overall(1.0, _('TEXT_SERVICE_UNABLE_TO_CONNECT'))
+        rating.set_overall(1.0, _local('TEXT_SERVICE_UNABLE_TO_CONNECT'))
         return (rating, result_dict)
 
     try:
@@ -83,7 +86,7 @@ def run_test(langCode, url):
     except:
         if browser != False:
             browser.quit()
-        rating.set_overall(1.0, _('TEXT_SERVICES_ENCOUNTERED_ERROR'))
+        rating.set_overall(1.0, _local('TEXT_SERVICES_ENCOUNTERED_ERROR'))
         return (rating, result_dict)
 
     try:
@@ -115,19 +118,19 @@ def run_test(langCode, url):
 
         # print('GET countries and tracking')
         if http_archive_content:
-            result = check_har_results(http_archive_content, _)
+            result = check_har_results(http_archive_content, _local)
             points += result[0]
             review += result[1]
 
             result = check_tracking(
-                browser, http_archive_content + detailed_results_content, _)
+                browser, http_archive_content + detailed_results_content, _local)
             points += result[0]
             review += result[1]
 
         # print('GET fingerprints, ads and cookies')
         if detailed_results_content:
             result = check_detailed_results(
-                browser, detailed_results_content, hostname, _)
+                browser, detailed_results_content, hostname, _local)
             points += result[0]
             review += result[1]
 
@@ -140,6 +143,10 @@ def run_test(langCode, url):
 
     rating.set_overall(points, review)
     rating.set_integrity_and_security(points, review)
+
+    print(_('TEXT_TEST_END').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
     return (rating, result_dict)
 
 

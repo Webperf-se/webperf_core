@@ -126,16 +126,16 @@ class Rating(object):
         return float("{0:.2f}".format(value))
 
     def get_reviews(self):
-        text = '\r\n* Overall:\r\n{0}'.format(self.get_overall())
+        text = '\r\n#### Overall:\r\n{0}'.format(self.overall_review)
         if (self.get_integrity_and_security() != -1 and self.integrity_and_security_review != ''):
-            text += '* Integrity & Security:\r\n{0}'.format(
+            text += '#### Integrity & Security:\r\n{0}'.format(
                 self.integrity_and_security_review)
         if (self.get_performance() != -1 and self.performance_review != ''):
-            text += '* Performance:\r\n{0}'.format(self.performance_review)
+            text += '#### Performance:\r\n{0}'.format(self.performance_review)
         if (self.get_a11y() != -1 and self.a11y_review != ''):
-            text += '* A11y:\r\n{0}'.format(self.a11y_review)
+            text += '#### A11y:\r\n{0}'.format(self.a11y_review)
         if (self.get_standards() != -1 and self.standards_review != ''):
-            text += '* Standards:\r\n{0}'.format(
+            text += '#### Standards:\r\n{0}'.format(
                 self.standards_review)
 
         return text
@@ -218,16 +218,16 @@ class Rating(object):
             return (val2, val2_count)
 
     def __repr__(self):
-        text = '\r\n* Overall: {0}\r\n'.format(self.get_overall())
+        text = '\r\n- Overall: {0}\r\n'.format(self.get_overall())
         if (self.get_integrity_and_security() != -1):
-            text += '-- Integrity & Security: {0}\r\n'.format(
+            text += '- Integrity & Security: {0}\r\n'.format(
                 self.get_integrity_and_security())
         if (self.get_performance() != -1):
-            text += '-- Performance: {0}\r\n'.format(self.get_performance())
+            text += '- Performance: {0}\r\n'.format(self.get_performance())
         if (self.get_a11y() != -1):
-            text += '-- A11y: {0}\r\n'.format(self.get_a11y())
+            text += '- A11y: {0}\r\n'.format(self.get_a11y())
         if (self.get_standards() != -1):
-            text += '-- Standards: {0}\r\n'.format(
+            text += '- Standards: {0}\r\n'.format(
                 self.get_standards())
 
         return text

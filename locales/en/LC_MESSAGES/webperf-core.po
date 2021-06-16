@@ -31,23 +31,28 @@ msgstr "Number of websites being tested {0}"
 
 #: default.py:33
 msgid "TEXT_TESTING_SITE"
-msgstr "{0}. Testing website {1}"
+msgstr "# Testing website {0}\n"
+
+msgid "TEXT_WEBSITE_X_OF_Y"
+msgstr "Website {0} of {1}.\n"
 
 #: default.py:61
 msgid "TEXT_SITE_RATING"
-msgstr "Rating: "
+msgstr "### Rating:\n"
 
 #: default.py:63
 msgid "TEXT_SITE_REVIEW"
-msgstr "Review:\n"
+msgstr "### Review:\n"
 
 #: default.py:81
 msgid "TEXT_EXCEPTION"
 msgstr "Exception, someone should look at this!"
 
-#: default.py:89
-msgid "TEXT_TESTING_START_HEADER"
-msgstr "### {0} ###"
+msgid "TEXT_TEST_START"
+msgstr "Started: {0}\n"
+
+msgid "TEXT_TEST_END"
+msgstr "Finished: {0}\n"
 
 #: default.py:127
 msgid "TEXT_TEST_VALID_ARGUMENTS"

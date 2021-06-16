@@ -28,19 +28,28 @@ msgid "TEXT_TESTING_NUMBER_OF_SITES"
 msgstr "Webbadresser som testas {0}"
 
 msgid "TEXT_TESTING_SITE"
-msgstr "{0}. Testar adress {1}"
+msgstr "# Testar adress {0}"
+
+msgid "TEXT_WEBSITE_X_OF_Y"
+msgstr "Webbplats {0} av {1}.\n"
 
 msgid "TEXT_SITE_RATING"
-msgstr "Betyg: "
+msgstr "### Betyg: "
 
 msgid "TEXT_SITE_REVIEW"
-msgstr "Omdöme:\n"
+msgstr "### Omdöme:\n"
 
 msgid "TEXT_EXCEPTION"
 msgstr "Fel, någon behöver ta en titt på detta."
 
 msgid "TEXT_TESTING_START_HEADER"
 msgstr "### {0} ###"
+
+msgid "TEXT_TEST_START"
+msgstr "Startad: {0}\n"
+
+msgid "TEXT_TEST_END"
+msgstr "Klar: {0}\n"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS"
 msgstr "Giltiga argument att välja på -t/--test:"

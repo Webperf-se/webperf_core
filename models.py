@@ -129,17 +129,17 @@ class Rating(object):
         return float("{0:.2f}".format(value))
 
     def get_reviews(self):
-        text = self._('TEXT_TEST_RATING_OVERVIEW').format(self.overall_review)
+        text = self._('TEXT_TEST_REVIEW_OVERVIEW').format(self.overall_review)
         if (self.get_integrity_and_security() != -1 and self.integrity_and_security_review != ''):
-            text += self._('TEXT_TEST_RATING_INTEGRITY_SECURITY').format(
+            text += self._('TEXT_TEST_REVIEW_INTEGRITY_SECURITY').format(
                 self.integrity_and_security_review)
         if (self.get_performance() != -1 and self.performance_review != ''):
-            text += self._('TEXT_TEST_RATING_PERFORMANCE').format(
+            text += self._('TEXT_TEST_REVIEW_PERFORMANCE').format(
                 self.performance_review)
         if (self.get_a11y() != -1 and self.a11y_review != ''):
-            text += self._('TEXT_TEST_RATING_ALLY').format(self.a11y_review)
+            text += self._('TEXT_TEST_REVIEW_ALLY').format(self.a11y_review)
         if (self.get_standards() != -1 and self.standards_review != ''):
-            text += self._('TEXT_TEST_RATING_STANDARDS').format(
+            text += self._('TEXT_TEST_REVIEW_STANDARDS').format(
                 self.standards_review)
 
         return text
@@ -225,16 +225,16 @@ class Rating(object):
             return (val2, val2_count)
 
     def __repr__(self):
-        text = '\r\n- Overall: {0}\r\n'.format(self.get_overall())
+        text = self._('TEXT_TEST_RATING_OVERVIEW').format(self.get_overall())
         if (self.get_integrity_and_security() != -1):
-            text += '- Integrity & Security: {0}\r\n'.format(
+            text += self._('TEXT_TEST_RATING_INTEGRITY_SECURITY').format(
                 self.get_integrity_and_security())
         if (self.get_performance() != -1):
-            text += '- Performance: {0}\r\n'.format(self.get_performance())
+            text += self._('TEXT_TEST_RATING_PERFORMANCE').format(self.get_performance())
         if (self.get_a11y() != -1):
-            text += '- A11y: {0}\r\n'.format(self.get_a11y())
+            text += self._('TEXT_TEST_RATING_ALLY').format(self.get_a11y())
         if (self.get_standards() != -1):
-            text += '- Standards: {0}\r\n'.format(
+            text += self._('TEXT_TEST_RATING_STANDARDS').format(
                 self.get_standards())
 
         return text

@@ -75,11 +75,11 @@ def run_test(_, langCode, url, strategy='mobile', category='seo'):
             item_review = ''
             if 'displayValue' in json_content['lighthouseResult']['audits'][item]:
                 item_displayvalue = json_content['lighthouseResult']['audits'][item]['displayValue']
-                item_review = _("* {0} - {1}\r\n").format(
+                item_review = _("- {0} - {1}\r\n").format(
                     json_content['lighthouseResult']['audits'][item]['title'], item_displayvalue)
             else:
                 item_review = _(
-                    "* {0}\r\n").format(json_content['lighthouseResult']['audits'][item]['title'])
+                    "- {0}\r\n").format(json_content['lighthouseResult']['audits'][item]['title'])
             review += item_review
         except:
             # has no 'numericValue'

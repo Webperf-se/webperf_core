@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from models import Rating
+import datetime
 import sys
 import socket
 import ssl
@@ -27,13 +28,17 @@ def run_test(_, langCode, url):
     points = 5.0
     review = ''
     return_dict = dict()
+    rating = Rating(_)
 
     language = gettext.translation(
         'privacy_webbkollen', localedir='locales', languages=[langCode])
     language.install()
-    _ = language.gettext
+    _local = language.gettext
 
-    print(_('TEXT_RUNNING_TEST'))
+    print(_local('TEXT_RUNNING_TEST'))
+
+    print(_('TEXT_TEST_START').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     orginal_url = url
     url = 'https://webbkoll.dataskydd.net/{1}/check?url={0}'.format(
@@ -69,7 +74,7 @@ def run_test(_, langCode, url):
         if '<meta http-equiv="refresh"' in request.text:
             has_refresh_statement = True
             had_refresh_statement = True
-            print(_('TEXT_RESULT_NOT_READY').format(
+            print(_local('TEXT_RESULT_NOT_READY').format(
                 time_sleep))
             time.sleep(time_sleep)
 
@@ -85,7 +90,7 @@ def run_test(_, langCode, url):
         print(
             'Error! Unfortunately the request for URL "{0}" failed, message:\nUnexpected result')
         print('request.text:' + request.text)
-        return (-1.0, '* TEST FAILED', return_dict)
+        return (rating, return_dict)
 
     review_messages = ''
 
@@ -140,23 +145,23 @@ def run_test(_, langCode, url):
             points -= points_to_remove_for_current_result
 
         # add review info
-        review_messages += '* ' + header.text.strip()
+        review_messages += '- ' + header.text.strip()
         if number_of_success > 0 and number_of_sub_alerts == 0 and number_of_sub_warnings == 0:
-            review_messages += _('TEXT_REVIEW_CATEGORY_VERY_GOOD')
+            review_messages += _local('TEXT_REVIEW_CATEGORY_VERY_GOOD')
         elif number_of_alerts > 0:
-            review_messages += _('TEXT_REVIEW_CATEGORY_IS_VERY_BAD').format(
+            review_messages += _local('TEXT_REVIEW_CATEGORY_IS_VERY_BAD').format(
                 points_to_remove_for_current_result)
         elif number_of_warnings > 0:
-            review_messages += _('TEXT_REVIEW_CATEGORY_IS_BAD').format(
+            review_messages += _local('TEXT_REVIEW_CATEGORY_IS_BAD').format(
                 points_to_remove_for_current_result)
         elif number_of_sub_alerts > 0 and number_of_sub_warnings > 0:
-            review_messages += _('TEXT_REVIEW_CATEGORY_IS_OK').format(
+            review_messages += _local('TEXT_REVIEW_CATEGORY_IS_OK').format(
                 number_of_sub_alerts, number_of_sub_warnings, points_to_remove_for_current_result)
         elif number_of_sub_alerts > 0:
-            review_messages += _('TEXT_REVIEW_CATEGORY_IS_OK').format(
+            review_messages += _local('TEXT_REVIEW_CATEGORY_IS_OK').format(
                 number_of_sub_alerts, number_of_sub_warnings, points_to_remove_for_current_result)
         elif number_of_sub_warnings > 0:
-            review_messages += _('TEXT_REVIEW_CATEGORY_IS_GOOD').format(
+            review_messages += _local('TEXT_REVIEW_CATEGORY_IS_GOOD').format(
                 number_of_sub_warnings, points_to_remove_for_current_result)
         else:
             review_messages += ": " + more_info + "\n"
@@ -167,26 +172,28 @@ def run_test(_, langCode, url):
         for header_info in result_title_beta[0].strings:
             info = header_info.strip()
             if info.startswith('20'):
-                review_messages += _('TEXT_REVIEW_GENERATED').format(info)
+                review_messages += _local('TEXT_REVIEW_GENERATED').format(info)
 
     if points >= 5:
-        review = _('TEXT_REVIEW_VERY_GOOD')
+        review = _local('TEXT_REVIEW_VERY_GOOD')
     elif points >= 4:
-        review = _('TEXT_REVIEW_IS_GOOD')
+        review = _local('TEXT_REVIEW_IS_GOOD')
     elif points >= 3:
-        review = _('TEXT_REVIEW_IS_OK')
+        review = _local('TEXT_REVIEW_IS_OK')
     elif points >= 2:
-        review = _('TEXT_REVIEW_IS_BAD')
+        review = _local('TEXT_REVIEW_IS_BAD')
     elif points >= 1:
-        review = _('TEXT_REVIEW_IS_VERY_BAD')
+        review = _local('TEXT_REVIEW_IS_VERY_BAD')
     else:
-        review = _('TEXT_REVIEW_IS_VERY_BAD')
+        review = _local('TEXT_REVIEW_IS_VERY_BAD')
         points = 1.0
 
     review += review_messages
 
-    rating = Rating()
     rating.set_overall(points, review)
     rating.set_integrity_and_security(points, review)
+
+    print(_('TEXT_TEST_END').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, return_dict)

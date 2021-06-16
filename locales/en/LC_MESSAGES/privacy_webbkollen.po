@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2020-12-12 20:45+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2021-06-16 19:30+0200\n"
 "Last-Translator: mattias <mattias@webperf.se>\n"
 "Language-Team: English <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
@@ -16,22 +16,22 @@ msgstr ""
 
 
 msgid "TEXT_RUNNING_TEST"
-msgstr "###############################\nRunning test: 20 - Privacy (Webbkollen)\n###############################"
+msgstr "## Test: 20 - Privacy (Webbkollen)\n"
 
 msgid "TEXT_REVIEW_VERY_GOOD"
-msgstr "* The website is great on privacy!\n"
+msgstr "- The website is great on privacy!\n"
 
 msgid "TEXT_REVIEW_IS_GOOD"
-msgstr "* The site could be better, but is pretty good.\n"
+msgstr "- The site could be better, but is pretty good.\n"
 
 msgid "TEXT_REVIEW_IS_OK"
-msgstr "* Ok integrity but should get better.\n"
+msgstr "- Ok integrity but should get better.\n"
 
 msgid "TEXT_REVIEW_IS_BAD"
-msgstr "* Rather poor on user privacy.\n"
+msgstr "- Rather poor on user privacy.\n"
 
 msgid "TEXT_REVIEW_IS_VERY_BAD"
-msgstr "* Very bad privacy!\n"
+msgstr "- Very bad privacy!\n"
 
 msgid "TEXT_RESULT_NOT_READY"
 msgstr "The service is not yet ready with a result, waiting another {0} seconds\n"
@@ -52,4 +52,4 @@ msgid "TEXT_REVIEW_CATEGORY_IS_VERY_BAD"
 msgstr ": is pretty bad. (Giving {0:.2f} less points)\n"
 
 msgid "TEXT_REVIEW_GENERATED"
-msgstr "Result generated: {0} (Cached for 24 hours)\n"
+msgstr "- Result generated: {0} (Cached for 24 hours)\n"

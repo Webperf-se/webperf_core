@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2020-12-12 20:45+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2021-06-16 19:30+0200\n"
 "Last-Translator: mattias <mattias@webperf.se>\n"
 "Language-Team: Swedish <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
@@ -16,22 +16,22 @@ msgstr ""
 
 
 msgid "TEXT_RUNNING_TEST"
-msgstr "###############################\nKör test: 20 - Privacy (Webbkollen)\n###############################"
+msgstr "## Test: 20 - Privacy (Webbkollen)\n"
 
 msgid "TEXT_REVIEW_VERY_GOOD"
-msgstr "* Webbplatsen är riktigt bra på integritet!\n"
+msgstr "- Webbplatsen är riktigt bra på integritet!\n"
 
 msgid "TEXT_REVIEW_IS_GOOD"
-msgstr "* Webbplatsen kan bli bättre, men är helt ok.\n"
+msgstr "- Webbplatsen kan bli bättre, men är helt ok.\n"
 
 msgid "TEXT_REVIEW_IS_OK"
-msgstr "* Ok integritet men borde nog bli bättre.\n"
+msgstr "- Ok integritet men borde nog bli bättre.\n"
 
 msgid "TEXT_REVIEW_IS_BAD"
-msgstr "* Dålig integritet.\n"
+msgstr "- Dålig integritet.\n"
 
 msgid "TEXT_REVIEW_IS_VERY_BAD"
-msgstr "* Riktigt dålig integritet för användarna!\n"
+msgstr "- Riktigt dålig integritet för användarna!\n"
 
 msgid "TEXT_RESULT_NOT_READY"
 msgstr "Tjänsten är inte redo med ett resultat ännu, väntar ytterligare {0} sekunder\n"
@@ -52,4 +52,4 @@ msgid "TEXT_REVIEW_CATEGORY_IS_VERY_BAD"
 msgstr ": är dåligt. (Vilket ger {0:.2f} färre poäng)\n"
 
 msgid "TEXT_REVIEW_GENERATED"
-msgstr "Resultat skapat: {0} (Buffras 24h)\n"
+msgstr "- Resultat skapat: {0} (Buffras 24h)\n"

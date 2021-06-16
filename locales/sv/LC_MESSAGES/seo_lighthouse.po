@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2020-12-12 10:45+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2021-06-16 19:30+0200\n"
 "Last-Translator: Marcus <m@webperf.se>\n"
 "Language-Team: Swedish <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
@@ -15,25 +15,22 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 msgid "TEXT_RUNNING_TEST"
-msgstr "###############################\nKör test: 4 - Sökmotoroptimering (Google Lighthouse)"
+msgstr "## Test: 4 - Sökmotoroptimering (Google Lighthouse)\n"
 
 msgid "TEXT_REVIEW_SEO_VERY_GOOD"
-msgstr "* Webbplatsen följer god SEO-praxis fullt ut!\n"
+msgstr "- Webbplatsen följer god SEO-praxis fullt ut!\n"
 
 msgid "TEXT_REVIEW_SEO_IS_GOOD"
-msgstr "* Webbplatsen kan ändå förbättras inom SEO.\n"
+msgstr "- Webbplatsen kan ändå förbättras inom SEO.\n"
 
 msgid "TEXT_REVIEW_SEO_IS_OK"
-msgstr "* Genomsnittlig efterlevnad till SEO-praxis.\n"
+msgstr "- Genomsnittlig efterlevnad till SEO-praxis.\n"
 
 msgid "TEXT_REVIEW_SEO_IS_BAD"
-msgstr "* Webbplatsen är ganska dålig på sökmotoroptimering.\n"
+msgstr "- Webbplatsen är ganska dålig på sökmotoroptimering.\n"
 
 msgid "TEXT_REVIEW_SEO_IS_VERY_BAD"
-msgstr "* Webbplatsen är inte alls bra på sökmotoroptimering!\n"
+msgstr "- Webbplatsen är inte alls bra på sökmotoroptimering!\n"
 
 msgid "TEXT_REVIEW_SEO_NUMBER_OF_PROBLEMS"
-msgstr "* Antal problem med sökmotoroptimering (SEO): {} st\n"
-
-msgid "TEXT_REVIEW_SEO_PROBLEMS"
-msgstr "\nProblem:\n"
+msgstr "- Antal problem med sökmotoroptimering (SEO): {} st\n"

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from models import Rating
+import datetime
 import sys
 import socket
 import ssl
@@ -23,9 +24,12 @@ def run_test(_, langCode, url, strategy='mobile', category='seo'):
     language = gettext.translation(
         'seo_lighthouse', localedir='locales', languages=[langCode])
     language.install()
-    _ = language.gettext
+    _local = language.gettext
 
-    print(_('TEXT_RUNNING_TEST'))
+    print(_local('TEXT_RUNNING_TEST'))
+
+    print(_('TEXT_TEST_START').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     check_url = url.strip()
 
@@ -83,17 +87,20 @@ def run_test(_, langCode, url, strategy='mobile', category='seo'):
             pass
 
     if points >= 5.0:
-        review = _("TEXT_REVIEW_SEO_VERY_GOOD") + review
+        review = _local("TEXT_REVIEW_SEO_VERY_GOOD") + review
     elif points >= 4.0:
-        review = _("TEXT_REVIEW_SEO_IS_GOOD") + review
+        review = _local("TEXT_REVIEW_SEO_IS_GOOD") + review
     elif points >= 3.0:
-        review = _("TEXT_REVIEW_SEO_IS_OK") + review
+        review = _local("TEXT_REVIEW_SEO_IS_OK") + review
     elif points > 1.0:
-        review = _("TEXT_REVIEW_SEO_IS_BAD") + review
+        review = _local("TEXT_REVIEW_SEO_IS_BAD") + review
     elif points <= 1.0:
-        review = _("TEXT_REVIEW_SEO_IS_VERY_BAD") + review
+        review = _local("TEXT_REVIEW_SEO_IS_VERY_BAD") + review
 
-    rating = Rating()
+    rating = Rating(_)
     rating.set_overall(points, review)
+
+    print(_('TEXT_TEST_END').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, return_dict)

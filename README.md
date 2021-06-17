@@ -70,8 +70,8 @@ Now it will begin testing.
 | -t/--test <test number> | run ONE test (use ? to list available tests) |
 | -r/--review | show reviews in terminal |
 | -i/--input <file path> | input file path (.json/.sqlite) |
-| -i/--input-skip <number> | number of items to skip |
-| -i/--input-take <number> | number of items to take |
+| --input-skip <number> | number of items to skip |
+| --input-take <number> | number of items to take |
 | -o/--output <file path> | output file path (.json/.csv/.sql/.sqlite) |
 | -a/--addUrl <site url> | website url (required in compination with -i/--input) |
 | -d/--deleteUrl <site url> | website url (required in compination with -i/--input) |

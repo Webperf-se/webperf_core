@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from models import Rating
+import datetime
 import sys
 import socket
 import ssl
@@ -13,7 +14,7 @@ from bs4 import BeautifulSoup
 import config
 from tests.utils import *
 import gettext
-_ = gettext.gettext
+_local = gettext.gettext
 
 
 def run_test(_, langCode, url):
@@ -31,9 +32,12 @@ def run_test(_, langCode, url):
     language = gettext.translation(
         'performance_sitespeed_io', localedir='locales', languages=[langCode])
     language.install()
-    _ = language.gettext
+    _local = language.gettext
 
-    print(_('TEXT_RUNNING_TEST'))
+    print(_local('TEXT_RUNNING_TEST'))
+
+    print(_('TEXT_TEST_START').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     docker_client = docker.from_env()
     result = str(docker_client.containers.run(image, arg))
@@ -73,28 +77,31 @@ def run_test(_, langCode, url):
         points = 5.0 - (speedindex_adjusted / 1000)
 
     if points >= 5.0:
-        review = _('TEXT_REVIEW_VERY_GOOD')
+        review = _local('TEXT_REVIEW_VERY_GOOD')
     elif points >= 4.0:
-        review = _('TEXT_REVIEW_IS_GOOD')
+        review = _local('TEXT_REVIEW_IS_GOOD')
     elif points >= 3.0:
-        review = _('TEXT_REVIEW_IS_OK')
+        review = _local('TEXT_REVIEW_IS_OK')
     elif points > 1.0:
-        review = _('TEXT_REVIEW_IS_BAD')
+        review = _local('TEXT_REVIEW_IS_BAD')
     elif points <= 1.0:
-        review = _('TEXT_REVIEW_IS_VERY_BAD')
+        review = _local('TEXT_REVIEW_IS_VERY_BAD')
 
     review += '* Speedindex: {}\n'.format(speedindex)
     if 's' in result_dict['load']:
-        review += _("TEXT_REVIEW_LOAD_TIME").format(result_dict['load'])
+        review += _local("TEXT_REVIEW_LOAD_TIME").format(result_dict['load'])
     else:
-        review += _("TEXT_REVIEW_LOAD_TIME_SECONDS").format(
+        review += _local("TEXT_REVIEW_LOAD_TIME_SECONDS").format(
             result_dict['load'])
 
-    review += _("TEXT_REVIEW_NUMBER_OF_REQUESTS").format(
+    review += _local("TEXT_REVIEW_NUMBER_OF_REQUESTS").format(
         result_dict['requests'])
 
     rating = Rating()
     rating.set_overall(points, review)
     rating.set_performance(points, review)
+
+    print(_('TEXT_TEST_END').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, result_dict)

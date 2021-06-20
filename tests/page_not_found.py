@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from models import Rating
+import datetime
 import sys
 import socket
 import ssl
@@ -24,33 +25,41 @@ def run_test(_, langCode, url):
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
 
-    rating = Rating()
+    rating = Rating(_)
     result_dict = {}
 
     language = gettext.translation(
         'page_not_found', localedir='locales', languages=[langCode])
     language.install()
-    _ = language.gettext
+    _local = language.gettext
 
-    print(_('TEXT_RUNNING_TEST'))
+    print(_local('TEXT_RUNNING_TEST'))
+
+    print(_('TEXT_TEST_START').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     # kollar koden
     o = urllib.parse.urlparse(url)
     url = '{0}://{1}/{3}/{2}'.format(o.scheme, o.netloc,
                                      'finns-det-en-sida/pa-den-har-adressen/testanrop/', get_guid(5))
     headers = {'user-agent': useragent}
-    request = requests.get(url, allow_redirects=True,
-                           headers=headers, timeout=request_timeout)
-    code = request.status_code
-    rating_404 = Rating()
+    code = 'unknown'
+    request = False
+    try:
+        request = requests.get(url, allow_redirects=True,
+                               headers=headers, timeout=request_timeout)
+        code = request.status_code
+    except Exception:
+        code = 'unknown'
+    rating_404 = Rating(_)
     if code == 404:
         rating_404.set_overall(5.0)
         rating_404.set_standards(5.0)
     else:
         rating_404.set_overall(
-            1.0, _('TEXT_REVIEW_WRONG_STATUS_CODE').format(request.status_code))
+            1.0, _local('TEXT_REVIEW_WRONG_STATUS_CODE').format(code))
         rating_404.set_standards(
-            1.0, _('TEXT_REVIEW_WRONG_STATUS_CODE').format(request.status_code))
+            1.0, _local('TEXT_REVIEW_WRONG_STATUS_CODE').format(code))
     rating += rating_404
 
     result_dict['status_code'] = code
@@ -60,13 +69,14 @@ def run_test(_, langCode, url):
     hasRequestText = False
     found_match = False
 
-    if request.text:
-        requestText = request.text
-        hasRequestText = True
+    if request != False:
+        if request.text:
+            requestText = request.text
+            hasRequestText = True
 
     if hasRequestText:
         soup = BeautifulSoup(requestText, 'lxml')
-        rating_title = Rating()
+        rating_title = Rating(_)
         try:
             title = soup.find('title')
             if title:
@@ -75,19 +85,19 @@ def run_test(_, langCode, url):
                 rating_title.set_standards(5.0)
                 rating_title.set_a11y(5.0)
             else:
-                rating_title.set_overall(1.0, _('TEXT_REVIEW_NO_TITLE'))
-                rating_title.set_standards(1.0, _('TEXT_REVIEW_NO_TITLE'))
-                rating_title.set_a11y(1.0, _('TEXT_REVIEW_NO_TITLE'))
+                rating_title.set_overall(1.0, _local('TEXT_REVIEW_NO_TITLE'))
+                rating_title.set_standards(1.0, _local('TEXT_REVIEW_NO_TITLE'))
+                rating_title.set_a11y(1.0, _local('TEXT_REVIEW_NO_TITLE'))
 
         except:
             print('Error getting page title!\nMessage:\n{0}'.format(
                 sys.exc_info()[0]))
-            rating_title.set_overall(1.0, _('TEXT_REVIEW_NO_TITLE'))
-            rating_title.set_standards(1.0, _('TEXT_REVIEW_NO_TITLE'))
-            rating_title.set_a11y(1.0, _('TEXT_REVIEW_NO_TITLE'))
+            rating_title.set_overall(1.0, _local('TEXT_REVIEW_NO_TITLE'))
+            rating_title.set_standards(1.0, _local('TEXT_REVIEW_NO_TITLE'))
+            rating_title.set_a11y(1.0, _local('TEXT_REVIEW_NO_TITLE'))
         rating += rating_title
 
-        rating_h1 = Rating()
+        rating_h1 = Rating(_)
         try:
             h1 = soup.find('h1')
             if h1:
@@ -96,9 +106,9 @@ def run_test(_, langCode, url):
                 rating_h1.set_standards(5.0)
                 rating_h1.set_a11y(5.0)
             else:
-                rating_h1.set_overall(1.0, _('TEXT_REVIEW_MAIN_HEADER'))
-                rating_h1.set_standards(1.0, _('TEXT_REVIEW_MAIN_HEADER'))
-                rating_h1.set_a11y(1.0, _('TEXT_REVIEW_MAIN_HEADER'))
+                rating_h1.set_overall(1.0, _local('TEXT_REVIEW_MAIN_HEADER'))
+                rating_h1.set_standards(1.0, _local('TEXT_REVIEW_MAIN_HEADER'))
+                rating_h1.set_a11y(1.0, _local('TEXT_REVIEW_MAIN_HEADER'))
 
         except:
             print('Error getting H1!\nMessage:\n{0}'.format(sys.exc_info()[0]))
@@ -157,29 +167,32 @@ def run_test(_, langCode, url):
                 found_match = True
                 break
 
-    rating_swedish_text = Rating()
+    rating_swedish_text = Rating(_)
     if found_match:
         rating_swedish_text.set_overall(5.0)
         rating_swedish_text.set_a11y(5.0)
     else:
         rating_swedish_text.set_overall(
-            1.0, _('TEXT_REVIEW_NO_SWEDISH_ERROR_MSG'))
+            1.0, _local('TEXT_REVIEW_NO_SWEDISH_ERROR_MSG'))
         rating_swedish_text.set_a11y(
-            1.0, _('TEXT_REVIEW_NO_SWEDISH_ERROR_MSG'))
+            1.0, _local('TEXT_REVIEW_NO_SWEDISH_ERROR_MSG'))
     rating += rating_swedish_text
 
     # hur långt är inehållet
-    rating_text_is_150_or_more = Rating()
-    soup = BeautifulSoup(request.text, 'html.parser')
+    rating_text_is_150_or_more = Rating(_)
+    soup = BeautifulSoup(requestText, 'html.parser')
     if len(soup.get_text()) > 150:
         rating_text_is_150_or_more.set_overall(5.0)
         rating_text_is_150_or_more.set_a11y(5.0)
     else:
         # '* Information är under 150 tecken, vilket tyder på att användaren inte vägleds vidare.\n'
         rating_text_is_150_or_more.set_overall(
-            1.0, _('TEXT_REVIEW_ERROR_MSG_UNDER_150'))
+            1.0, _local('TEXT_REVIEW_ERROR_MSG_UNDER_150'))
         rating_text_is_150_or_more.set_a11y(
-            1.0, _('TEXT_REVIEW_ERROR_MSG_UNDER_150'))
+            1.0, _local('TEXT_REVIEW_ERROR_MSG_UNDER_150'))
     rating += rating_text_is_150_or_more
+
+    print(_('TEXT_TEST_END').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, result_dict)

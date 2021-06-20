@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2021-02-06 23:14+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2021-06-20 21:08+0200\n"
 "Last-Translator: marcus <m@webperf.se>\n"
 "Language-Team: Swedish <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
@@ -16,31 +16,31 @@ msgstr ""
 
 
 msgid "TEXT_RUNNING_TEST"
-msgstr "###############################\nKör test: 22 - Energieffektivitet (Websitecarbon)\n###############################"
+msgstr "## Test: 22 - Energieffektivitet (Websitecarbon)\n"
 
 msgid "TEXT_WEBSITE_IS_VERY_GOOD"
-msgstr "* Webbsidan genererar väldigt lite koldioxid!\n"
+msgstr "- Webbsidan genererar väldigt lite koldioxid!\n"
 
 msgid "TEXT_WEBSITE_IS_GOOD"
-msgstr "* Webbsidan genererar ganska lite koldioxid.\n"
+msgstr "- Webbsidan genererar ganska lite koldioxid.\n"
 
 msgid "TEXT_WEBSITE_IS_OK"
-msgstr "* Genomsnittligt när det gäller koldioxid.\n"
+msgstr "- Genomsnittligt när det gäller koldioxid.\n"
 
 msgid "TEXT_WEBSITE_IS_BAD"
-msgstr "* Webbsidan genererar en hel del koldioxid :/\n"
+msgstr "- Webbsidan genererar en hel del koldioxid :/\n"
 
 msgid "TEXT_WEBSITE_IS_VERY_BAD"
-msgstr "* Webbsidan är riktigt dålig! Skapar massor av koldioxid för varje sidvisning :(\n"
+msgstr "- Webbsidan är riktigt dålig! Skapar massor av koldioxid för varje sidvisning :(\n"
 
 msgid "TEXT_GRAMS_OF_CO2"
-msgstr "* Koldioxid per sidvisning: {} gram\n"
+msgstr "- Koldioxid per sidvisning: {} gram\n"
 
 msgid "TEXT_GREEN_ENERGY_TRUE"
-msgstr "* Webbplatsen verkar drivas av grön el.\n"
+msgstr "- Webbplatsen verkar drivas av grön el.\n"
 
 msgid "TEXT_GREEN_ENERGY_FALSE"
-msgstr "* Kunde inte se att webbplatsen använder grön el.\n"
+msgstr "- Kunde inte se att webbplatsen använder grön el.\n"
 
 msgid "TEXT_BETTER_THAN"
-msgstr "* Webbsidan är grönare än {} % av testade webbplatser.\n"
+msgstr "- Webbsidan är grönare än {} % av testade webbplatser.\n"

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from models import Rating
+import datetime
 import sys
 import socket
 import ssl
@@ -12,7 +13,7 @@ from bs4 import BeautifulSoup
 import config
 from tests.utils import *
 import gettext
-_ = gettext.gettext
+_local = gettext.gettext
 
 # DEFAULTS
 googlePageSpeedApiKey = config.googlePageSpeedApiKey
@@ -22,9 +23,12 @@ def run_test(_, langCode, url, strategy='mobile', category='best-practices'):
     language = gettext.translation(
         'best_practice_lighthouse', localedir='locales', languages=[langCode])
     language.install()
-    _ = language.gettext
+    _local = language.gettext
 
-    print(_('TEXT_RUNNING_TEST'))
+    print(_local('TEXT_RUNNING_TEST'))
+
+    print(_('TEXT_TEST_START').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     check_url = url.strip()
 
@@ -58,7 +62,7 @@ def run_test(_, langCode, url, strategy='mobile', category='best-practices'):
     insecure_strings = ['security', 'säkerhet',
                         'insecure', 'osäkra', 'unsafe']
 
-    rating = Rating()
+    rating = Rating(_)
     rating.set_integrity_and_security(5.0)
 
     # Service score (0-100)
@@ -76,11 +80,11 @@ def run_test(_, langCode, url, strategy='mobile', category='best-practices'):
             item_review = ''
             if 'displayValue' in json_content['lighthouseResult']['audits'][item]:
                 item_displayvalue = json_content['lighthouseResult']['audits'][item]['displayValue']
-                item_review = _("* {0} - {1}\r\n").format(
+                item_review = _local("- {0} - {1}\r\n").format(
                     json_content['lighthouseResult']['audits'][item]['title'], item_displayvalue)
             else:
-                item_review = _(
-                    "* {0}\r\n").format(json_content['lighthouseResult']['audits'][item]['title'])
+                item_review = _local(
+                    "- {0}\r\n").format(json_content['lighthouseResult']['audits'][item]['title'])
             review += item_review
 
             for insecure_str in insecure_strings:
@@ -94,16 +98,19 @@ def run_test(_, langCode, url, strategy='mobile', category='best-practices'):
             pass
 
     if points >= 5.0:
-        review = _("TEXT_REVIEW_PRACTICE_VERY_GOOD") + review
+        review = _local("TEXT_REVIEW_PRACTICE_VERY_GOOD") + review
     elif points >= 4.0:
-        review = _("TEXT_REVIEW_PRACTICE_IS_GOOD") + review
+        review = _local("TEXT_REVIEW_PRACTICE_IS_GOOD") + review
     elif points >= 3.0:
-        review = _("TEXT_REVIEW_PRACTICE_IS_OK") + review
+        review = _local("TEXT_REVIEW_PRACTICE_IS_OK") + review
     elif points > 1.0:
-        review = _("TEXT_REVIEW_PRACTICE_IS_BAD") + review
+        review = _local("TEXT_REVIEW_PRACTICE_IS_BAD") + review
     elif points <= 1.0:
-        review = _("TEXT_REVIEW_PRACTICE_IS_VERY_BAD") + review
+        review = _local("TEXT_REVIEW_PRACTICE_IS_VERY_BAD") + review
 
     rating.set_overall(points, review)
+
+    print(_('TEXT_TEST_END').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, return_dict)

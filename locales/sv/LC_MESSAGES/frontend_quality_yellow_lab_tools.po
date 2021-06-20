@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2020-12-11 16:14+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2021-06-20 21:08+0200\n"
 "Last-Translator: mattias <mattias@webperf.se>\n"
 "Language-Team: Swedish <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
@@ -16,58 +16,113 @@ msgstr ""
 
 
 msgid "TEXT_RUNNING_TEST"
-msgstr "###############################\nKör test: 17 - Kvalitet på frontend (Yellow Lab Tools)\n###############################"
+msgstr "## Test: 17 - Kvalitet på frontend (Yellow Lab Tools)\n"
 
 msgid "TEXT_WEBSITE_IS_VERY_GOOD"
-msgstr "* Webbplatsen har välbyggd frontend-kod!\n"
+msgstr "- Webbplatsen har välbyggd frontend-kod!\n"
 
 msgid "TEXT_WEBSITE_IS_GOOD"
-msgstr "* Webbplatsen är bra.\n"
+msgstr "- Webbplatsen är bra.\n"
 
 msgid "TEXT_WEBSITE_IS_OK"
-msgstr "* Helt ok och ganska genomsnittligt.\n"
+msgstr "- Helt ok och ganska genomsnittligt.\n"
 
 msgid "TEXT_WEBSITE_IS_BAD"
-msgstr "* Webbplatsen har rätt mycket fulkod eller har dålig frontend-kod.\n"
+msgstr "- Webbplatsen har rätt mycket fulkod eller har dålig frontend-kod.\n"
 
 msgid "TEXT_WEBSITE_IS_VERY_BAD"
-msgstr "* Väldigt dåligt betyg enligt Yellow Lab Tools!\n"
+msgstr "- Väldigt dåligt betyg enligt Yellow Lab Tools!\n"
 
-msgid "TEXT_OVERALL_GRADE"
-msgstr "* Övergripande betyg: {} av 100\n"
+msgid "Page weight"
+msgstr "Sidans storlek"
 
-msgid "TEXT_TESTED_ON_DEVICETYPE"
-msgstr "* Testat för enhetstyp: {}\n"
+msgid "Requests"
+msgstr "Andelen resurser för sidan"
 
-msgid "TEXT_PAGE_WEIGHT"
-msgstr "* Sidans storlek: {}\n"
+msgid "DOM complexity"
+msgstr "Sidans DOM-komplexitet"
 
-msgid "TEXT_PAGE_REQUESTS"
-msgstr "* Andelen resurser för sidan: {}\n"
+msgid "JS complexity"
+msgstr "Sidans Javascript-komplexitet"
 
-msgid "TEXT_PAGE_DOM_COMPLEXITY"
-msgstr "* Sidans DOM-komplexitet: {}\n"
+msgid "Bad JS"
+msgstr "Sidans användning av dålig Javascript"
 
-msgid "TEXT_PAGE_DOM_MANIPULATIONS"
-msgstr "* Förändringar av sidans DOM: {}\n"
+msgid "jQuery"
+msgstr "Sidans användning av jQuery"
 
-msgid "TEXT_PAGE_SCROLL"
-msgstr "* Sidskrollning: {}\n"
+msgid "CSS complexity"
+msgstr "Sidans CSS-komplexitet"
 
-msgid "TEXT_PAGE_BAD_JS"
-msgstr "* Sidans användning av dålig Javascript: {}\n"
+msgid "Bad CSS"
+msgstr "Sidans användning av dålig CSS"
 
-msgid "TEXT_PAGE_JQUERY"
-msgstr "* Sidans användning av jQuery: {}\n"
+msgid "Web fonts"
+msgstr "Sidans användning av webbtypsnitt"
 
-msgid "TEXT_PAGE_CSS_COMPLEXITY"
-msgstr "* Sidans CSS-komplexitet: {}\n"
+msgid "Server config"
+msgstr "Server konfiguration"
 
-msgid "TEXT_PAGE_BAD_CSS"
-msgstr "* Sidans användning av dålig CSS: {}\n"
+msgid "TLS protocols"
+msgstr "TLS protokoll"
 
-msgid "TEXT_PAGE_FONTS"
-msgstr "* Sidans användning av webbtypsnitt: {}\n"
+msgid "Number of iframes"
+msgstr "Användning av iframe"
 
-msgid "TEXT_SERVER_CONFIG"
-msgstr "* Server konfiguration: {}\n"
+msgid "Total JS execution time"
+msgstr "Exikveringstid för Javascript"
+
+msgid "DOM access"
+msgstr "DOM åtkomst"
+
+msgid "Scroll events bound"
+msgstr "Händelser knutna till Scroll"
+
+msgid "document.write calls"
+msgstr "document.write anrop"
+
+msgid "Synchronous Ajax requests"
+msgstr "Synkrona Ajax anrop"
+
+msgid "Rules count"
+msgstr "Antal regler"
+
+msgid "Total weight"
+msgstr "Total vikt"
+
+msgid "Image optimization"
+msgstr "Bild optimimering"
+
+msgid "Oversized images"
+msgstr "Onödigt stora bilder"
+
+msgid "Gzip/Brotli compression"
+msgstr "Gzip/Brotli kompremering"
+
+msgid "File minification"
+msgstr "Filminfiering"
+
+msgid "Requests number"
+msgstr "Antal anrop"
+
+msgid "Different domains"
+msgstr "Olika domäner"
+
+msgid "404 not found"
+msgstr "Hittade inte resursen (404)"
+
+msgid "Connections closed"
+msgstr "Stängning av anslutningar"
+
+msgid "Identical content"
+msgstr "Identiskt innehåll"
+
+msgid "HTTP protocols"
+msgstr "HTTP protokoll"
+
+msgid "CSS syntax error"
+msgstr "CSS syntax fel"
+
+msgid "IDs duplicated"
+msgstr "Duplicerade IDn"
+

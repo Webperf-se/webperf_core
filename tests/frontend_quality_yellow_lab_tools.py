@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from models import Rating
+import datetime
 import sys
 import socket
 import ssl
@@ -12,7 +13,7 @@ from bs4 import BeautifulSoup
 import config
 from tests.utils import *
 import gettext
-_ = gettext.gettext
+_local = gettext.gettext
 
 # DEFAULTS
 time_sleep = config.webbkoll_sleep
@@ -36,11 +37,14 @@ def run_test(_, langCode, url, device='phone'):
     language = gettext.translation(
         'frontend_quality_yellow_lab_tools', localedir='locales', languages=[langCode])
     language.install()
-    _ = language.gettext
+    _local = language.gettext
 
-    rating = Rating()
+    rating = Rating(_)
 
-    print(_("TEXT_RUNNING_TEST"))
+    print(_local("TEXT_RUNNING_TEST"))
+
+    print(_('TEXT_TEST_START').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     r = requests.post('{0}/api/runs'.format(ylt_server_address),
                       data={'url': url, "waitForResponse": 'true', 'device': device})
@@ -74,7 +78,7 @@ def run_test(_, langCode, url, device='phone'):
 
     review = ''
     for key in result_dict['scoreProfiles']['generic']['categories'].keys():
-        review += "* {0}: {1}\n".format(_(result_dict['scoreProfiles']['generic']['categories'][key]['label']),
+        review += "- {0}: {1}\n".format(_local(result_dict['scoreProfiles']['generic']['categories'][key]['label']),
                                         to_points(
             result_dict['scoreProfiles']['generic']['categories'][key]['categoryScore']))
 
@@ -101,8 +105,8 @@ def run_test(_, langCode, url, device='phone'):
             #rule_is_bad = rule['bad']
             #rule_is_abnormal = rule['abnormal']
 
-            rule_label = '-- {0}: {1}\r\n'.format(
-                rule['policy']['label'], rule_score)
+            rule_label = '- {0}: {1}\r\n'.format(
+                _local(rule['policy']['label']), rule_score)
 
             matching_one_category_or_more = False
             # only do stuff for rules we know how to place in category
@@ -135,17 +139,20 @@ def run_test(_, langCode, url, device='phone'):
         do = None
 
     if points >= 5:
-        review = _("TEXT_WEBSITE_IS_VERY_GOOD") + review
+        review = _local("TEXT_WEBSITE_IS_VERY_GOOD") + review
     elif points >= 4:
-        review = _("TEXT_WEBSITE_IS_GOOD") + review
+        review = _local("TEXT_WEBSITE_IS_GOOD") + review
     elif points >= 3:
-        review = _("TEXT_WEBSITE_IS_OK") + review
+        review = _local("TEXT_WEBSITE_IS_OK") + review
     elif points >= 2:
-        review = _("TEXT_WEBSITE_IS_BAD") + review
+        review = _local("TEXT_WEBSITE_IS_BAD") + review
     elif points <= 1:
-        review = _("TEXT_WEBSITE_IS_VERY_BAD") + review
+        review = _local("TEXT_WEBSITE_IS_VERY_BAD") + review
 
     rating.set_overall(points, review)
+
+    print(_('TEXT_TEST_END').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, return_dict)
 

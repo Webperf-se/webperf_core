@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2020-12-12 22:00+0200\n"
-"PO-Revision-Date: 2021-06-04 20:08+0200\n"
+"PO-Revision-Date: 2021-06-20 10:08+0200\n"
 "Last-Translator: mattias <mattias@webperf.se>\n"
 "Language-Team: Swedish <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
@@ -16,19 +16,19 @@ msgstr ""
 
 
 msgid "TEXT_RUNNING_TEST"
-msgstr "###############################\nKör test: 1 - Prestanda (Google Lighthouse)\n###############################"
+msgstr "## Test: 1 - Prestanda (Google Lighthouse)\n"
 
 msgid "TEXT_REVIEW_VERY_GOOD"
-msgstr "* Webbplatsen laddar in mycket snabbt!\n"
+msgstr "- Webbplatsen laddar in mycket snabbt!\n"
 
 msgid "TEXT_REVIEW_IS_GOOD"
-msgstr "* Webbplatsen är snabb.\n"
+msgstr "- Webbplatsen är snabb.\n"
 
 msgid "TEXT_REVIEW_IS_OK"
-msgstr "* Genomsnittlig hastighet.\n"
+msgstr "- Genomsnittlig hastighet.\n"
 
 msgid "TEXT_REVIEW_IS_BAD"
-msgstr "* Webbplatsen är ganska långsam.\n"
+msgstr "- Webbplatsen är ganska långsam.\n"
 
 msgid "TEXT_REVIEW_IS_VERY_BAD"
-msgstr "* Webbplatsen är väldigt långsam!\n"
+msgstr "- Webbplatsen är väldigt långsam!\n"

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from models import Rating
+import datetime
 import time
 import sys
 import socket
@@ -14,7 +15,7 @@ from bs4 import BeautifulSoup
 import config
 from tests.utils import *
 import gettext
-_ = gettext.gettext
+_local = gettext.gettext
 
 # DEFAULTS
 request_timeout = config.http_request_timeout
@@ -36,9 +37,12 @@ def run_test(_, langCode, url):
     language = gettext.translation(
         'css_validator_w3c', localedir='locales', languages=[langCode])
     language.install()
-    _ = language.gettext
+    _local = language.gettext
 
-    print(_('TEXT_RUNNING_TEST'))
+    print(_local('TEXT_RUNNING_TEST'))
+
+    print(_('TEXT_TEST_START').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     errors = list()
 
@@ -46,17 +50,17 @@ def run_test(_, langCode, url):
     html = get_source(url)
     # 2. FIND ALL INLE CSS (AND CALCULTE)
     # 2.1 FINS ALL <STYLE>
-    errors += get_errors_for_style_tags(html, _)
+    errors += get_errors_for_style_tags(html, _local)
 
     # 2.2 FIND ALL style=""
-    errors += get_errors_for_style_attributes(html, _)
+    errors += get_errors_for_style_attributes(html, _local)
 
     # 2.3 GET ERRORS FROM SERVICE
     # 2.4 CALCULATE SCORE
     # 3 FIND ALL <LINK> (rel=\"stylesheet\")
-    errors += get_errors_for_link_tags(html, url, _)
+    errors += get_errors_for_link_tags(html, url, _local)
 
-    result = create_review_and_rating(errors, _, '')
+    result = create_review_and_rating(errors, _local, '')
 
     number_of_results = 1
     points = result[0]
@@ -65,26 +69,23 @@ def run_test(_, langCode, url):
 
     points = float("{0:.3f}".format(points / number_of_results))
 
-    if points > 5.0:
-        points = 5.0
-
-    if points < 1.0:
-        points = 1.0
-
-    if points == 5.0:
-        review = _('TEXT_REVIEW_CSS_VERY_GOOD') + review
+    if points >= 5.0:
+        review = _local('TEXT_REVIEW_CSS_VERY_GOOD') + review
     elif points >= 4.0:
-        review = _('TEXT_REVIEW_CSS_IS_GOOD') + review
+        review = _local('TEXT_REVIEW_CSS_IS_GOOD') + review
     elif points >= 3.0:
-        review = _('TEXT_REVIEW_CSS_IS_OK') + review
+        review = _local('TEXT_REVIEW_CSS_IS_OK') + review
     elif points > 1.0:
-        review = _('TEXT_REVIEW_CSS_IS_BAD') + review
+        review = _local('TEXT_REVIEW_CSS_IS_BAD') + review
     elif points <= 1.0:
-        review = _('TEXT_REVIEW_CSS_IS_VERY_BAD') + review
+        review = _local('TEXT_REVIEW_CSS_IS_VERY_BAD') + review
 
-    rating = Rating()
+    rating = Rating(_)
     rating.set_overall(points, review)
     rating.set_standards(points, review)
+
+    print(_('TEXT_TEST_END').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, error_message_dict)
 

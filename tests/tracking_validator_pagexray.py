@@ -169,7 +169,7 @@ def check_tracking(browser, json_content, _):
         for analytics_name, analytics_should_count in analytics_used_items:
             if analytics_should_count:
                 number_of_tracking += 1
-            review_analytics += '---- {0}\r\n'.format(analytics_name)
+            review_analytics += '    - {0}\r\n'.format(analytics_name)
 
     points = 1.0
 

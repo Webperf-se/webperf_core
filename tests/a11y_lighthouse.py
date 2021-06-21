@@ -13,7 +13,7 @@ from bs4 import BeautifulSoup
 import config
 from tests.utils import *
 import gettext
-_ = gettext.gettext
+_local = gettext.gettext
 
 # DEFAULTS
 googlePageSpeedApiKey = config.googlePageSpeedApiKey
@@ -24,9 +24,12 @@ def run_test(_, langCode, url, strategy='mobile', category='accessibility'):
     language = gettext.translation(
         'a11y_lighthouse', localedir='locales', languages=[langCode])
     language.install()
-    _ = language.gettext
+    _local = language.gettext
 
-    print(_('TEXT_RUNNING_TEST'))
+    print(_local('TEXT_RUNNING_TEST'))
+
+    print(_('TEXT_TEST_START').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     check_url = url.strip()
 
@@ -73,11 +76,11 @@ def run_test(_, langCode, url, strategy='mobile', category='accessibility'):
             item_review = ''
             if 'displayValue' in json_content['lighthouseResult']['audits'][item]:
                 item_displayvalue = json_content['lighthouseResult']['audits'][item]['displayValue']
-                item_review = _("* {0} - {1}\r\n").format(
+                item_review = _("- {0} - {1}\r\n").format(
                     json_content['lighthouseResult']['audits'][item]['title'], item_displayvalue)
             else:
                 item_review = _(
-                    "* {0}\r\n").format(json_content['lighthouseResult']['audits'][item]['title'])
+                    "- {0}\r\n").format(json_content['lighthouseResult']['audits'][item]['title'])
             review += item_review
 
         except:
@@ -86,18 +89,21 @@ def run_test(_, langCode, url, strategy='mobile', category='accessibility'):
             pass
 
     if points >= 5.0:
-        review = _("TEXT_REVIEW_A11Y_VERY_GOOD") + review
+        review = _local("TEXT_REVIEW_A11Y_VERY_GOOD") + review
     elif points >= 4.0:
-        review = _("TEXT_REVIEW_A11Y_IS_GOOD") + review
+        review = _local("TEXT_REVIEW_A11Y_IS_GOOD") + review
     elif points >= 3.0:
-        review = _("TEXT_REVIEW_A11Y_IS_OK") + review
+        review = _local("TEXT_REVIEW_A11Y_IS_OK") + review
     elif points > 1.0:
-        review = _("TEXT_REVIEW_A11Y_IS_BAD") + review
+        review = _local("TEXT_REVIEW_A11Y_IS_BAD") + review
     elif points <= 1.0:
-        review = _("TEXT_REVIEW_A11Y_IS_VERY_BAD") + review
+        review = _local("TEXT_REVIEW_A11Y_IS_VERY_BAD") + review
 
-    rating = Rating()
+    rating = Rating(_)
     rating.set_overall(points, review)
     rating.set_a11y(points, review)
+
+    print(_('TEXT_TEST_END').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, return_dict)

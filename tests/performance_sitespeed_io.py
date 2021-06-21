@@ -87,7 +87,7 @@ def run_test(_, langCode, url):
     elif points <= 1.0:
         review = _local('TEXT_REVIEW_IS_VERY_BAD')
 
-    review += '* Speedindex: {}\n'.format(speedindex)
+    review += '- Speedindex: {}\n'.format(speedindex)
     if 's' in result_dict['load']:
         review += _local("TEXT_REVIEW_LOAD_TIME").format(result_dict['load'])
     else:

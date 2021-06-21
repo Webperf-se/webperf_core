@@ -16,7 +16,7 @@ msgstr ""
 
 
 msgid "TEXT_RUNNING_TEST"
-msgstr "# Test: 23 - Tracking and Privacy (Pagexray)\r\n"
+msgstr "## Test: 23 - Tracking and Privacy (Pagexray)\r\n"
 
 msgid "TEXT_SERVICE_UNABLE_TO_CONNECT"
 msgstr "Unable to connect to service"

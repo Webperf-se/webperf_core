@@ -139,6 +139,20 @@ def validate_sitemap(_, robots_content, has_robots_txt):
     return (rating, return_dict)
 
 
+def is_feed(tag):
+
+    if tag.name != 'link':
+        return False
+
+    if tag.has_attr('type'):
+        tag_type = tag['type']
+        if 'application/rss+xml' in tag_type:
+            return True
+        if 'application/atom+xml' in tag_type:
+            return True
+    return False
+
+
 def validate_feed(_, url):
     # TODO: validate first feed
 
@@ -151,9 +165,7 @@ def validate_feed(_, url):
         request = requests.get(url, allow_redirects=True,
                                headers=headers, timeout=request_timeout)
         soup = BeautifulSoup(request.text, 'lxml')
-        # feed = soup.find_all(rel='alternate')
-        feed = soup.find_all("link", {"type": "application/rss+xml"})
-
+        feed = soup.find_all(is_feed)
     except:
         #print('Exception looking for feed, probably connection problems')
         pass

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import http3
+import datetime
 import h2
 import h11
 import dns.resolver
@@ -25,91 +26,82 @@ import uuid
 import re
 from bs4 import BeautifulSoup
 import config
+from models import Rating
 from tests.utils import httpRequestGetContent, has_redirect
 import gettext
-_ = gettext.gettext
+_local = gettext.gettext
 
 # DEFAULTS
 request_timeout = config.http_request_timeout
 useragent = config.useragent
 
 
-def run_test(langCode, url):
+def run_test(_, langCode, url):
     """
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
 
-    points = 0.0
-    review = ''
+    rating = Rating(_)
     result_dict = {}
 
     language = gettext.translation(
         'http_validator', localedir='locales', languages=[langCode])
     language.install()
-    _ = language.gettext
+    _local = language.gettext
 
-    print(_('TEXT_RUNNING_TEST'))
+    print(_local('TEXT_RUNNING_TEST'))
+
+    print(_('TEXT_TEST_START').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     nof_checks = 0
     check_url = True
 
     while check_url and nof_checks < 10:
-        review += _('TEXT_REVIEW_RESULT_FOR').format(url)
-        url_result = validate_url(url, _)
-        points += url_result[0]
-        review += url_result[1]
+        checked_url_rating = validate_url(url, _local)
 
         redirect_result = has_redirect(url)
         check_url = redirect_result[0]
         url = redirect_result[1]
         nof_checks += 1
 
+        rating += checked_url_rating
+
     if nof_checks > 1:
-        review += _('TEXT_REVIEW_SCORE_IS_DIVIDED').format(
+        rating.overall_review += _local('TEXT_REVIEW_SCORE_IS_DIVIDED').format(
             nof_checks)
 
-    points = points / nof_checks
+    # if len(review) == 0:
+    #    review = _('TEXT_REVIEW_NO_REMARKS')
 
-    if len(review) == 0:
-        review = _('TEXT_REVIEW_NO_REMARKS')
+    print(_('TEXT_TEST_END').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    if points < 1.0:
-        points = 1.0
-
-    return (points, review, result_dict)
+    return (rating, result_dict)
 
 
 def validate_url(url, _):
-    points = 0.0
-    review = ''
+    rating = Rating()
+
+    # points = 0.0
+    # review = ''
 
     o = urllib.parse.urlparse(url)
     hostname = o.hostname
 
-    result = http_to_https_score(url, _)
-    points += result[0]
-    review += result[1]
+    rating += http_to_https_score(url, _)
 
-    result = tls_version_score(url, _)
+    rating += tls_version_score(url, _)
 
-    points += result[0]
-    review += _('TEXT_REVIEW_TLS_VERSION')
-    review += result[1]
+    rating += ip_version_score(hostname, _)
 
-    result = ip_version_score(hostname, _)
-    points += result[0]
-    review += _('TEXT_REVIEW_IP_VERSION')
-    review += result[1]
+    rating += http_version_score(hostname, url, _)
 
-    result = http_version_score(hostname, url, _)
-    points += result[0]
-    review += _('TEXT_REVIEW_HTTP_VERSION')
-    review += result[1]
-
-    return (points, review)
+    return rating
 
 
 def http_to_https_score(url, _):
+    rating = Rating()
     http_url = ''
 
     o = urllib.parse.urlparse(url)
@@ -128,45 +120,71 @@ def http_to_https_score(url, _):
         result_url = http_url
 
     if result_url == None:
-        return (0.0, _('TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_UNABLE_TO_VERIFY'))
+        rating.set_overall(
+            1.0, _('TEXT_REVIEW_RESULT_FOR').format(url) + ': {0}'.format(1.0))
+        rating.set_integrity_and_security(
+            1.0, _('TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_UNABLE_TO_VERIFY').format(1.0))
+        rating.set_standards(1.0, _(
+            'TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_UNABLE_TO_VERIFY').format(1.0))
+        return rating
 
     result_url_o = urllib.parse.urlparse(result_url)
 
     if (result_url_o.scheme == 'http'):
-        return (0.0, _('TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_NO_REDIRECT'))
+        rating.set_overall(
+            1.0, _('TEXT_REVIEW_RESULT_FOR').format(url) + _('TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_NO_REDIRECT').format(1.0))
+        rating.set_integrity_and_security(
+            1.0, _('TEXT_REVIEW_RESULT_FOR').format(url) + _('TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_NO_REDIRECT').format(1.0))
+        rating.set_standards(1.0, _('TEXT_REVIEW_RESULT_FOR').format(
+            url) + _('TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_NO_REDIRECT').format(1.0))
+        return rating
     else:
-        return (1.0, _('TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_REDIRECTED'))
-
-
-def dns_score(hostname, _):
-    result = dns_lookup('_esni.' + hostname, "TXT")
-
-    if result[0]:
-        return (1.0, _('TEXT_REVIEW_DNS_HAS_ESNI'))
-
-    return (0.0, _('TEXT_REVIEW_DNS_NO_ESNI'))
+        rating.set_overall(
+            5.0, _('TEXT_REVIEW_RESULT_FOR').format(url) + _('TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_REDIRECTED').format(5.0))
+        rating.set_integrity_and_security(
+            5.0, _('TEXT_REVIEW_RESULT_FOR').format(url) + _('TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_REDIRECTED').format(5.0))
+        rating.set_standards(5.0, _('TEXT_REVIEW_RESULT_FOR').format(
+            url) + _('TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_REDIRECTED').format(5.0))
+        return rating
 
 
 def ip_version_score(hostname, _):
+    rating = Rating()
+    # review += _('TEXT_REVIEW_IP_VERSION')
     ip4_result = dns_lookup(hostname, "A")
 
     ip6_result = dns_lookup(hostname, "AAAA")
 
     if ip4_result[0] and ip6_result[0]:
-        return (1.0, _('TEXT_REVIEW_IP_VERSION_BOTH_IPV4_AND_IPV6'))
+        rating.set_overall(
+            5.0, _('TEXT_REVIEW_IP_VERSION_BOTH_IPV4_AND_IPV6').format(5.0))
+        rating.set_standards(
+            5.0, _('TEXT_REVIEW_IP_VERSION_BOTH_IPV4_AND_IPV6').format(5.0))
+        return rating
 
     if ip6_result[0]:
-        return (0.5, _('TEXT_REVIEW_IP_VERSION_IPV6'))
+        rating.set_overall(
+            2.5, _('TEXT_REVIEW_IP_VERSION_IPV6').format(2.5))
+        rating.set_standards(
+            2.5, _('TEXT_REVIEW_IP_VERSION_IPV6').format(2.5))
+        return rating
 
     if ip4_result[0]:
-        return (0.5, _('TEXT_REVIEW_IP_VERSION_IPV4'))
+        rating.set_overall(
+            2.5, _('TEXT_REVIEW_IP_VERSION_IPV4').format(2.5))
+        rating.set_standards(
+            2.5, _('TEXT_REVIEW_IP_VERSION_IPV4').format(2.5))
+        return rating
 
-    return (0.0, _('TEXT_REVIEW_IP_VERSION_UNABLE_TO_VERIFY'))
+    rating.set_overall(
+        1.0, _('TEXT_REVIEW_IP_VERSION_UNABLE_TO_VERIFY').format(1.0))
+    return rating
 
 
 def protocol_version_score(url, protocol_version, _):
-    points = 0.0
-    review = ''
+    rating = Rating()
+    # points = 0.0
+    # review = ''
     result_not_validated = (False, '')
     result_validated = (False, '')
 
@@ -224,17 +242,34 @@ def protocol_version_score(url, protocol_version, _):
 
         if has_full_support:
             if protocol_is_secure:
-                points += 0.5
-            review += _('TEXT_REVIEW_' +
-                        protocol_translate_name + '_SUPPORT')
+                rating.set_integrity_and_security(
+                    5.0, _('TEXT_REVIEW_' + protocol_translate_name + '_SUPPORT').format(5.0))
+                # points += 0.5
+            rating.set_overall(
+                5.0, _('TEXT_REVIEW_' + protocol_translate_name + '_SUPPORT').format(5.0))
+            rating.set_standards(5.0, _(
+                'TEXT_REVIEW_' + protocol_translate_name + '_SUPPORT').format(5.0))
+            # review += _('TEXT_REVIEW_' +
+            #            protocol_translate_name + '_SUPPORT')
         elif has_wrong_cert:
-            review += _('TEXT_REVIEW_' +
-                        protocol_translate_name + '_SUPPORT_WRONG_CERT')
+            rating.set_integrity_and_security(
+                1.0, _('TEXT_REVIEW_' + protocol_translate_name + '_SUPPORT_WRONG_CERT').format(1.0))
+            rating.set_standards(
+                3.0, _('TEXT_REVIEW_' + protocol_translate_name + '_SUPPORT_WRONG_CERT').format(3.0))
+            # review += _('TEXT_REVIEW_' +
+            #            protocol_translate_name + '_SUPPORT_WRONG_CERT')
         else:
-            review += _('TEXT_REVIEW_' +
-                        protocol_translate_name + '_NO_SUPPORT')
             if not protocol_is_secure:
-                points += 0.3
+                rating.set_integrity_and_security(
+                    5.0, _('TEXT_REVIEW_' + protocol_translate_name + '_NO_SUPPORT').format(5.0))
+                rating.set_overall(
+                    5.0, _('TEXT_REVIEW_' + protocol_translate_name + '_NO_SUPPORT').format(5.0))
+                # points += 0.3
+            else:
+                rating.set_integrity_and_security(
+                    1.0, _('TEXT_REVIEW_' + protocol_translate_name + '_NO_SUPPORT').format(1.0))
+                rating.set_overall(
+                    3.0, _('TEXT_REVIEW_' + protocol_translate_name + '_NO_SUPPORT').format(3.0))
 
         result_insecure_cipher = (False, 'unset')
         try:
@@ -243,9 +278,9 @@ def protocol_version_score(url, protocol_version, _):
         except ssl.SSLError as sslex:
             print('error insecure_cipher', sslex)
             pass
-        if result_insecure_cipher[0]:
-            review += _('TEXT_REVIEW_' +
-                        protocol_translate_name + '_INSECURE_CIPHERS')
+        # if result_insecure_cipher[0]:
+        #    review += _('TEXT_REVIEW_' +
+        #                protocol_translate_name + '_INSECURE_CIPHERS')
 
         result_weak_cipher = (False, 'unset')
         try:
@@ -254,9 +289,9 @@ def protocol_version_score(url, protocol_version, _):
         except ssl.SSLError as sslex:
             print('error weak_cipher', sslex)
             pass
-        if result_weak_cipher[0]:
-            review += _('TEXT_REVIEW_' +
-                        protocol_translate_name + '_WEAK_CIPHERS')
+        # if result_weak_cipher[0]:
+        #    review += _('TEXT_REVIEW_' +
+        #                protocol_translate_name + '_WEAK_CIPHERS')
     except ssl.SSLError as sslex:
         print('error 0.0s', sslex)
         pass
@@ -268,66 +303,57 @@ def protocol_version_score(url, protocol_version, _):
         print('error protocol_version_score: {0}'.format(sys.exc_info()[0]))
         pass
 
-    return (points, review)
+    return rating
 
 
 def tls_version_score(orginal_url, _):
-    points = 0.0
-    review = ''
-
+    rating = Rating()
+    # review += _('TEXT_REVIEW_TLS_VERSION')
     url = orginal_url.replace('http://', 'https://')
 
     # TODO: check cipher security
     # TODO: re add support for identify wrong certificate
 
     try:
-        result = protocol_version_score(url, ssl.PROTOCOL_TLS, _)
-        points += result[0]
-        review += result[1]
+        tls1_3_rating = protocol_version_score(url, ssl.PROTOCOL_TLS, _)
+        if tls1_3_rating.get_overall() == 5.0:
+            tls1_3_rating.set_performance(
+                5.0, _('TEXT_REVIEW_RESULT_FOR').format(url) + _('TEXT_REVIEW_TLS1_3_SUPPORT').format(5.0))
+        else:
+            tls1_3_rating.set_performance(
+                4.0, _('TEXT_REVIEW_RESULT_FOR').format(url) + _('TEXT_REVIEW_TLS1_3_NO_SUPPORT').format(4.0))
+        rating += tls1_3_rating
     except:
         pass
 
     try:
-        result = protocol_version_score(url, ssl.PROTOCOL_TLSv1_2, _)
-        points += result[0]
-        review += result[1]
+        rating += protocol_version_score(url, ssl.PROTOCOL_TLSv1_2, _)
     except:
         pass
 
     try:
-        result = protocol_version_score(url, ssl.PROTOCOL_TLSv1_1, _)
-        points += result[0]
-        review += result[1]
+        rating += protocol_version_score(url, ssl.PROTOCOL_TLSv1_1, _)
     except:
         pass
 
     try:
-        result = protocol_version_score(url, ssl.PROTOCOL_TLSv1, _)
-        points += result[0]
-        review += result[1]
+        rating += protocol_version_score(url, ssl.PROTOCOL_TLSv1, _)
     except:
         pass
 
     try:
         # HOW TO ENABLE SSLv3, https://askubuntu.com/questions/893155/simple-way-of-enabling-sslv2-and-sslv3-in-openssl
-        result = protocol_version_score(url, ssl.PROTOCOL_SSLv3, _)
-        points += result[0]
-        review += result[1]
+        rating += protocol_version_score(url, ssl.PROTOCOL_SSLv3, _)
     except:
         pass
 
     try:
         # HOW TO ENABLE SSLv2, https://askubuntu.com/questions/893155/simple-way-of-enabling-sslv2-and-sslv3-in-openssl
-        result = protocol_version_score(url, ssl.PROTOCOL_SSLv2, _)
-        points += result[0]
-        review += result[1]
+        rating += protocol_version_score(url, ssl.PROTOCOL_SSLv2, _)
     except:
         pass
 
-    if points > 2.0:
-        points = 2.0
-
-    return (points, review)
+    return rating
 
 
 def dns_lookup(hostname, record_type):
@@ -343,41 +369,25 @@ def dns_lookup(hostname, record_type):
 
 
 def http_version_score(hostname, url, _):
-    points = 0.0
-    review = ''
+    rating = Rating()
 
-    result = check_http11(hostname)
-    if result[0]:
-        points += 0.5
-        review += _('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1')
+    # review += _('TEXT_REVIEW_HTTP_VERSION')
 
-    result = check_http2(hostname)
-    if result[0]:
-        points += 0.5
-        review += _('TEXT_REVIEW_HTTP_VERSION_HTTP_2')
+    rating += check_http11(hostname, _)
 
-    # If we still have 0.0 points something must have gone wrong, try fallback
-    if points == 0.0:
-        result = check_http_fallback(url)
-        if result[0]:
-            points += 0.5
-            review += _('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1')
-        if result[1]:
-            points += 0.5
-            review += _('TEXT_REVIEW_HTTP_VERSION_HTTP_2')
+    rating += check_http2(hostname, _)
 
-    result = check_http3(hostname)
-    if result[0]:
-        points += 0.2
-        review += _('TEXT_REVIEW_HTTP_VERSION_HTTP_3')
-    if result[1]:
-        points += 0.2
-        review += _('TEXT_REVIEW_HTTP_VERSION_QUIC')
+    # If we still have 1.0 points something must have gone wrong, try fallback
+    if not rating.isused():
+        rating = check_http_fallback(url, _)
 
-    return (points, review)
+    rating += check_http3(hostname)
+
+    return rating
 
 
-def check_http11(hostname):
+def check_http11(hostname, _):
+    rating = Rating()
     try:
         socket.setdefaulttimeout(10)
         conn = ssl.create_default_context()
@@ -396,14 +406,23 @@ def check_http11(hostname):
             negotiated_protocol = ssock.selected_npn_protocol()
 
         if negotiated_protocol == "http/1.1":
-            return (True, "http/1.1")
+            rating.set_overall(
+                5.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1').format(5.0))
+            rating.set_standards(
+                5.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1').format(5.0))
         else:
-            return (False, "http/1.1")
+            rating.set_overall(
+                1.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1').format(1.0))
+            rating.set_standards(
+                1.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1').format(1.0))
     except Exception:
-        return (False, "http/1.1")
+        # rating.set_overall(1.0)
+        return rating
+    return rating
 
 
-def check_http2(hostname):
+def check_http2(hostname, _):
+    rating = Rating()
     try:
         socket.setdefaulttimeout(10)
         conn = ssl.create_default_context()
@@ -421,14 +440,23 @@ def check_http2(hostname):
             negotiated_protocol = ssock.selected_npn_protocol()
 
         if negotiated_protocol == "h2":
-            return (True, "http2")
+            rating.set_overall(
+                5.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_2').format(5.0))
+            rating.set_standards(
+                5.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_2').format(5.0))
         else:
-            return (False, "http2")
+            rating.set_overall(
+                1.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_2').format(1.0))
+            rating.set_standards(
+                1.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_2').format(1.0))
     except Exception:
-        return (False, "http2")
+        return rating
+
+    return rating
 
 
 def check_http3(host):
+    rating = Rating()
     try:
         url = 'https://http3check.net/?host={0}'.format(host)
         headers = {'user-agent': useragent}
@@ -458,13 +486,34 @@ def check_http3(host):
             except:
                 print(
                     'Error getting HTTP/3 or QUIC support!\nMessage:\n{0}'.format(sys.exc_info()[0]))
-        return (has_http3_support, has_quic_support)
 
+        if (has_http3_support and has_quic_support):
+            rating.set_overall(
+                5.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_3').format(5.0) + _('TEXT_REVIEW_HTTP_VERSION_QUIC').format(5.0))
+            rating.set_standards(
+                5.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_3').format(5.0) + _('TEXT_REVIEW_HTTP_VERSION_QUIC').format(5.0))
+        elif has_http3_support:
+            rating.set_overall(
+                2.5, _('TEXT_REVIEW_HTTP_VERSION_HTTP_3').format(2.5))
+            rating.set_standards(
+                2.5, _('TEXT_REVIEW_HTTP_VERSION_HTTP_3').format(2.5))
+        elif has_quic_support:
+            rating.set_overall(
+                2.5, _('TEXT_REVIEW_HTTP_VERSION_QUIC').format(2.5))
+            rating.set_standards(
+                2.5, _('TEXT_REVIEW_HTTP_VERSION_QUIC').format(2.5))
+        else:
+            rating.set_overall(1.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_3').format(1.0) +
+                               _('TEXT_REVIEW_HTTP_VERSION_QUIC').format(1.0))
+            rating.set_standards(1.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_3').format(1.0) +
+                                 _('TEXT_REVIEW_HTTP_VERSION_QUIC').format(1.0))
     except Exception:
-        return (False, False)
+        return rating
+    return rating
 
 
-def check_http_fallback(url):
+def check_http_fallback(url, _):
+    rating = Rating()
     has_http2 = False
     has_http11 = False
     try:
@@ -490,7 +539,32 @@ def check_http_fallback(url):
         print('ERR3', e)
         pass
 
-    return (has_http11, has_http2)
+    if has_http11 and has_http2:
+        rating.set_overall(5.0, _(
+            'TEXT_REVIEW_HTTP_VERSION_HTTP_1_1').format(5.0) + _('TEXT_REVIEW_HTTP_VERSION_HTTP_2').format(5.0))
+        rating.set_standards(5.0, _(
+            'TEXT_REVIEW_HTTP_VERSION_HTTP_1_1').format(5.0) + _('TEXT_REVIEW_HTTP_VERSION_HTTP_2').format(5.0))
+        rating.set_performance(
+            5.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_2').format(5.0))
+    elif has_http2:
+        rating.set_overall(
+            2.5, _('TEXT_REVIEW_HTTP_VERSION_HTTP_2').format(2.5))
+        rating.set_standards(
+            2.5, _('TEXT_REVIEW_HTTP_VERSION_HTTP_2').format(2.5))
+        rating.set_performance(
+            5.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_2').format(5.0))
+    elif has_http11:
+        rating.set_overall(
+            2.5, _('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1').format(2.5))
+        rating.set_standards(
+            2.5, _('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1').format(2.5))
+        rating.set_performance(
+            1.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1').format(1.0))
+    else:
+        rating.set_overall(1.0, _(
+            'TEXT_REVIEW_HTTP_VERSION_HTTP_1_1').format(1.0) + _('TEXT_REVIEW_HTTP_VERSION_HTTP_2').format(1.0))
+
+    return rating
 
 
 # Read post at: https://hussainaliakbar.github.io/restricting-tls-version-and-cipher-suites-in-python-requests-and-testing-wireshark/
@@ -544,7 +618,7 @@ def has_weak_cipher(url, protocol_version):
     session = False
 
     try:
-        #print('ssl._DEFAULT_CIPHERS', ssl._DEFAULT_CIPHERS)
+        # print('ssl._DEFAULT_CIPHERS', ssl._DEFAULT_CIPHERS)
 
         session = requests.session()
         adapter = TlsAdapterWeakCiphers(protocol_version)
@@ -564,7 +638,7 @@ def has_weak_cipher(url, protocol_version):
                         headers=headers, timeout=request_timeout)
 
         if a.status_code == 200 or a.status_code == 301 or a.status_code == 302 or a.status_code == 404:
-            #print('is ok')
+            # print('is ok')
             return (True, 'is ok')
 
         resulted_in_html = '<html' in a.text
@@ -575,22 +649,22 @@ def has_weak_cipher(url, protocol_version):
         #    print('no html')
         return (resulted_in_html, 'has <html tag in result')
     except ssl.SSLCertVerificationError as sslcertex:
-        #print('weak_cipher SSLCertVerificationError', sslcertex)
+        # print('weak_cipher SSLCertVerificationError', sslcertex)
         return (True, 'weak_cipher SSLCertVerificationError: {0}'.format(sslcertex))
     except ssl.SSLError as sslex:
-        #print('error has_weak_cipher SSLError1', sslex)
+        # print('error has_weak_cipher SSLError1', sslex)
         return (False, 'weak_cipher SSLError {0}'.format(sslex))
     except ConnectionResetError as resetex:
-        #print('error ConnectionResetError', resetex)
+        # print('error ConnectionResetError', resetex)
         return (False, 'weak_cipher ConnectionResetError {0}'.format(resetex))
     except requests.exceptions.SSLError as sslerror:
-        #print('error weak_cipher SSLError2', sslerror)
+        # print('error weak_cipher SSLError2', sslerror)
         return (False, 'Unable to verify: SSL error occured')
     except requests.exceptions.ConnectionError as conex:
-        #print('error weak_cipher ConnectionError', conex)
+        # print('error weak_cipher ConnectionError', conex)
         return (False, 'Unable to verify: connection error occured')
     except Exception as exception:
-        #print('weak_cipher test', exception)
+        # print('weak_cipher test', exception)
         return (False, 'weak_cipher Exception {0}'.format(exception))
 
 
@@ -632,7 +706,7 @@ def has_insecure_cipher(url, protocol_version):
     session = False
 
     try:
-        #print('ssl._DEFAULT_CIPHERS', ssl._DEFAULT_CIPHERS)
+        # print('ssl._DEFAULT_CIPHERS', ssl._DEFAULT_CIPHERS)
 
         session = requests.session()
         adapter = TlsAdapterInsecureCiphers(protocol_version)
@@ -652,7 +726,7 @@ def has_insecure_cipher(url, protocol_version):
                         headers=headers, timeout=request_timeout)
 
         if a.status_code == 200 or a.status_code == 301 or a.status_code == 302 or a.status_code == 404:
-            #print('is ok')
+            # print('is ok')
             return (True, 'is ok')
 
         resulted_in_html = '<html' in a.text
@@ -663,22 +737,22 @@ def has_insecure_cipher(url, protocol_version):
         #    print('no html')
         return (resulted_in_html, 'has <html tag in result')
     except ssl.SSLCertVerificationError as sslcertex:
-        #print('weak_cipher SSLCertVerificationError', sslcertex)
+        # print('weak_cipher SSLCertVerificationError', sslcertex)
         return (True, 'insecure_cipher SSLCertVerificationError: {0}'.format(sslcertex))
     except ssl.SSLError as sslex:
-        #print('error has_weak_cipher SSLError1', sslex)
+        # print('error has_weak_cipher SSLError1', sslex)
         return (False, 'insecure_cipher SSLError {0}'.format(sslex))
     except ConnectionResetError as resetex:
-        #print('error ConnectionResetError', resetex)
+        # print('error ConnectionResetError', resetex)
         return (False, 'insecure_cipher ConnectionResetError {0}'.format(resetex))
     except requests.exceptions.SSLError as sslerror:
-        #print('error weak_cipher SSLError2', sslerror)
+        # print('error weak_cipher SSLError2', sslerror)
         return (False, 'Unable to verify: SSL error occured')
     except requests.exceptions.ConnectionError as conex:
-        #print('error weak_cipher ConnectionError', conex)
+        # print('error weak_cipher ConnectionError', conex)
         return (False, 'Unable to verify: connection error occured')
     except Exception as exception:
-        #print('weak_cipher test', exception)
+        # print('weak_cipher test', exception)
         return (False, 'insecure_cipher Exception {0}'.format(exception))
 
 
@@ -739,29 +813,29 @@ def has_protocol_version(url, validate_hostname, protocol_version):
 
         return (resulted_in_html, 'has <html tag in result')
     except ssl.SSLCertVerificationError as sslcertex:
-        #print('protocol version SSLCertVerificationError', sslcertex)
+        # print('protocol version SSLCertVerificationError', sslcertex)
         if validate_hostname:
             return (True, 'protocol version SSLCertVerificationError: {0}'.format(sslcertex))
         else:
             return (False, 'protocol version SSLCertVerificationError: {0}'.format(sslcertex))
     except ssl.SSLError as sslex:
-        #print('protocol version SSLError', sslex)
+        # print('protocol version SSLError', sslex)
         return (False, 'protocol version SSLError: {0}'.format(sslex))
     except ssl.SSLCertVerificationError as sslcertex:
-        #print('protocol version SSLCertVerificationError', sslcertex)
+        # print('protocol version SSLCertVerificationError', sslcertex)
         return (True, 'protocol version SSLCertVerificationError: {0}'.format(sslcertex))
     except ssl.SSLError as sslex:
-        #print('error protocol version ', sslex)
+        # print('error protocol version ', sslex)
         return (False, 'protocol version SSLError {0}'.format(sslex))
     except ConnectionResetError as resetex:
-        #print('error protocol version  ConnectionResetError', resetex)
+        # print('error protocol version  ConnectionResetError', resetex)
         return (False, 'protocol version  ConnectionResetError {0}'.format(resetex))
     except requests.exceptions.SSLError as sslerror:
-        #print('error protocol version  SSLError', sslerror)
+        # print('error protocol version  SSLError', sslerror)
         return (False, 'Unable to verify: SSL error occured')
     except requests.exceptions.ConnectionError as conex:
-        #print('error protocol version  ConnectionError', conex)
+        # print('error protocol version  ConnectionError', conex)
         return (False, 'Unable to verify: connection error occured')
     except Exception as exception:
-        #print('protocol version  test', exception)
+        # print('protocol version  test', exception)
         return (False, 'protocol version  Exception {0}'.format(exception))

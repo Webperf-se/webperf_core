@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2020-12-12 10:15+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2021-06-20 21:08+0200\n"
 "Last-Translator: mattias <mattias@webperf.se>\n"
 "Language-Team: Swedish <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
@@ -16,31 +16,31 @@ msgstr ""
 
 
 msgid "TEXT_RUNNING_TEST"
-msgstr "###############################\nKör test: 6 - HTML\n###############################"
+msgstr "## Test: 6 - HTML\n"
 
 msgid "TEXT_REVIEW_HTML_VERY_GOOD"
-msgstr "* Inga fel i HTML-koden.\n"
+msgstr "- Inga fel i HTML-koden.\n"
 
 msgid "TEXT_REVIEW_HTML_IS_GOOD"
-msgstr "* Den testade sidan har {0} st fel i sin HTML-kod. Det är rätt ok ändå.\n"
+msgstr "- Den testade sidan har {0} st fel i sin HTML-kod. Det är rätt ok ändå.\n"
 
 msgid "TEXT_REVIEW_HTML_IS_OK"
-msgstr "* Den testade sidan har {0} st fel i sin HTML-kod. Genomsnittligt.\n"
+msgstr "- Den testade sidan har {0} st fel i sin HTML-kod. Genomsnittligt.\n"
 
 msgid "TEXT_REVIEW_HTML_IS_BAD"
-msgstr "* Den testade sidan har {0} st fel i sin HTML-kod. Det är inte så bra.\n"
+msgstr "- Den testade sidan har {0} st fel i sin HTML-kod. Det är inte så bra.\n"
 
 msgid "TEXT_REVIEW_HTML_IS_VERY_BAD"
-msgstr "* Den testade sidan har massor med fel i sin HTML-kod. Hela {0} st. Väldigt dåligt!\n"
+msgstr "- Den testade sidan har massor med fel i sin HTML-kod. Hela {0} st. Väldigt dåligt!\n"
 
 msgid "TEXT_REVIEW_ERRORS_GROUPED"
-msgstr "* Problem (grupperad på feltyp):\n"
+msgstr "- Problem (grupperad på feltyp):\n"
 
 msgid "TEXT_REVIEW_ERRORS_ITEM"
-msgstr "- {0} (totalt {1} st)\n"
+msgstr "  - {0} (totalt {1} st)\n"
 
 msgid "TEXT_REVIEW_RATING_GROUPED"
-msgstr "* Antal (grupperade fel): {0}, vilket ändrar betyget till: {1: .2f}\n"
+msgstr "- Antal (grupperade fel): {0}, vilket ändrar betyget till: {1: .2f}\n"
 
 msgid "TEXT_REVIEW_RATING_ITEMS"
-msgstr "* Antal fel: {0}, vilket ytterligare minskar betyget med: {1: .2f}\n"
+msgstr "- Antal fel: {0}, vilket ytterligare minskar betyget med: {1: .2f}\n"

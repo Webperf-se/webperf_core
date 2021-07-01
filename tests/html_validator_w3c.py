@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from models import Rating
+import datetime
 import sys
 import socket
 import ssl
@@ -12,14 +14,14 @@ from bs4 import BeautifulSoup
 import config
 from tests.utils import *
 import gettext
-_ = gettext.gettext
+_local = gettext.gettext
 
 # DEFAULTS
 request_timeout = config.http_request_timeout
 useragent = config.useragent
 
 
-def run_test(langCode, url):
+def run_test(_, langCode, url):
     """
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
@@ -30,9 +32,12 @@ def run_test(langCode, url):
     language = gettext.translation(
         'html_validator_w3c', localedir='locales', languages=[langCode])
     language.install()
-    _ = language.gettext
+    _local = language.gettext
 
-    print(_('TEXT_RUNNING_TEST'))
+    print(_local('TEXT_RUNNING_TEST'))
+
+    print(_('TEXT_TEST_START').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     # kollar koden
     try:
@@ -74,7 +79,7 @@ def run_test(langCode, url):
                 error_message_grouped_dict[error_message] = 1
 
         if len(error_message_grouped_dict) > 0:
-            review += _('TEXT_REVIEW_ERRORS_GROUPED')
+            review += _local('TEXT_REVIEW_ERRORS_GROUPED')
             error_message_grouped_sorted = sorted(
                 error_message_grouped_dict.items(), key=lambda x: x[1], reverse=True)
 
@@ -83,7 +88,7 @@ def run_test(langCode, url):
                 item_value = item[1]
                 item_text = item[0]
 
-                review += _('TEXT_REVIEW_ERRORS_ITEM').format(item_text, item_value)
+                review += _local('TEXT_REVIEW_ERRORS_ITEM').format(item_text, item_value)
 
     number_of_error_types = len(error_message_grouped_dict)
 
@@ -91,26 +96,35 @@ def run_test(langCode, url):
     points = result[0]
 
     if number_of_errors > 0:
-        review = _('TEXT_REVIEW_RATING_ITEMS').format(number_of_errors,
-                                                      result[2]) + review
+        review = _local('TEXT_REVIEW_RATING_ITEMS').format(number_of_errors,
+                                                           result[2]) + review
     if number_of_error_types > 0:
-        review = _('TEXT_REVIEW_RATING_GROUPED').format(
+        review = _local('TEXT_REVIEW_RATING_GROUPED').format(
             number_of_error_types, result[1]) + review
 
     if points == 5.0:
-        review = _('TEXT_REVIEW_HTML_VERY_GOOD') + review
+        review = _local('TEXT_REVIEW_HTML_VERY_GOOD') + review
     elif points >= 4.0:
-        review = _('TEXT_REVIEW_HTML_IS_GOOD').format(
+        review = _local('TEXT_REVIEW_HTML_IS_GOOD').format(
             number_of_errors) + review
     elif points >= 3.0:
-        review = _('TEXT_REVIEW_HTML_IS_OK').format(number_of_errors) + review
+        review = _local('TEXT_REVIEW_HTML_IS_OK').format(
+            number_of_errors) + review
     elif points > 1.0:
-        review = _('TEXT_REVIEW_HTML_IS_BAD').format(number_of_errors) + review
+        review = _local('TEXT_REVIEW_HTML_IS_BAD').format(
+            number_of_errors) + review
     elif points <= 1.0:
-        review = _('TEXT_REVIEW_HTML_IS_VERY_BAD').format(
+        review = _local('TEXT_REVIEW_HTML_IS_VERY_BAD').format(
             number_of_errors) + review
 
-    return (points, review, error_message_dict)
+    rating = Rating(_)
+    rating.set_overall(points, review)
+    rating.set_standards(points, review)
+
+    print(_('TEXT_TEST_END').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+    return (rating, error_message_dict)
 
 
 def calculate_rating(number_of_error_types, number_of_errors):

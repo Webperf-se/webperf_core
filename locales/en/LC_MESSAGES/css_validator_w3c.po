@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2020-12-12 10:45+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2021-06-20 21:42+0200\n"
 "Last-Translator: mattias <mattias@webperf.se>\n"
 "Language-Team: English <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
@@ -16,28 +16,28 @@ msgstr ""
 
 
 msgid "TEXT_RUNNING_TEST"
-msgstr "###############################\nRunning test: 7 - CSS\n###############################"
+msgstr "## Test: 7 - CSS\n"
 
 msgid "TEXT_REVIEW_CSS_VERY_GOOD"
-msgstr "* The CSS is very good.\n"
+msgstr "- The CSS is very good.\n"
 
 msgid "TEXT_REVIEW_CSS_IS_GOOD"
-msgstr "* The CSS is good.\n"
+msgstr "- The CSS is good.\n"
 
 msgid "TEXT_REVIEW_CSS_IS_OK"
-msgstr "* The CSS is not good or bad.\n"
+msgstr "- The CSS is not good or bad.\n"
 
 msgid "TEXT_REVIEW_CSS_IS_BAD"
-msgstr "* The CSS is bad.\n"
+msgstr "- The CSS is bad.\n"
 
 msgid "TEXT_REVIEW_CSS_IS_VERY_BAD"
-msgstr "* The CSS is very bad.\n"
+msgstr "- The CSS is very bad.\n"
 
 msgid "TEXT_REVIEW_ERRORS_GROUPED"
 msgstr "- Problems (grouped by error message):\n"
 
 msgid "TEXT_REVIEW_ERRORS_ITEM"
-msgstr "- {0} (number of errors of this type: {1})\n"
+msgstr "  - {0} (number of errors of this type: {1})\n"
 
 msgid "TEXT_REVIEW_RATING_GROUPED"
 msgstr "- Number of grouped error type: {0}, lowering score to: {1: .2f}\n"

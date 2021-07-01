@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2020-12-12 10:45+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2021-06-16 19:30+0200\n"
 "Last-Translator: Marcus <m@webperf.se>\n"
 "Language-Team: English <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
@@ -15,25 +15,22 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 msgid "TEXT_RUNNING_TEST"
-msgstr "###############################\nRunning test: 4 - SEO (Google Lighthouse)"
+msgstr "## Test: 4 - SEO (Google Lighthouse)\n"
 
 msgid "TEXT_REVIEW_SEO_VERY_GOOD"
-msgstr "* The website is really good at SEO!!\n"
+msgstr "- The website is really good at SEO!!\n"
 
 msgid "TEXT_REVIEW_SEO_IS_GOOD"
-msgstr "* Pretty good at SEO, but still has some potential improvements.\n"
+msgstr "- Pretty good at SEO, but still has some potential improvements.\n"
 
 msgid "TEXT_REVIEW_SEO_IS_OK"
-msgstr "* About average on search engine optimisation (SEO) according to Google.\n"
+msgstr "- About average on search engine optimisation (SEO) according to Google.\n"
 
 msgid "TEXT_REVIEW_SEO_IS_BAD"
-msgstr "* Pretty bad optimised for search engines (SEO).\n"
+msgstr "- Pretty bad optimised for search engines (SEO).\n"
 
 msgid "TEXT_REVIEW_SEO_IS_VERY_BAD"
-msgstr "* Really bad at SEO (Search Engine Optimisation)!\n"
+msgstr "- Really bad at SEO (Search Engine Optimisation)!\n"
 
 msgid "TEXT_REVIEW_SEO_NUMBER_OF_PROBLEMS"
-msgstr "* Number of problem(s) with search engine optimisation (SEO): {}\n"
-
-msgid "TEXT_REVIEW_SEO_PROBLEMS"
-msgstr "\nProblem(s):\n"
+msgstr "- Number of problem(s) with search engine optimisation (SEO): {}\n"

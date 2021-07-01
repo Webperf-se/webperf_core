@@ -1,7 +1,7 @@
 # Webperf Core
 Minimalistic client mainly running on PythonAnywhere.com, accessing different websites, or web-APIs, and scraping them.
 
-The tests included in 2.x are:
+The tests included in 3.x are:
 * Google Lighthouse accessibility with Axe
 * Google Lighthouse performance
 * Google Lighthouse best practice
@@ -14,6 +14,10 @@ The tests included in 2.x are:
 * *Frontend quality against Yellow Lab Tools (preferably with [local instance of YLT](https://hub.docker.com/r/jguyomard/yellowlabtools))*
 * *Website performance with Sitespeed.io (requires [local instance of Sitespeed.io](https://hub.docker.com/r/sitespeedio/sitespeed.io))*
 * Carbon dioxide checked against Website Carbon Calculator API
+* Standard files (checks for robots.txt, security.txt and more)
+* HTTP and Network test (checks HTTP version, TLS version and more)
+* Tracking & Integrity test (provided by Pagexray, checks GDPR compliance, tracking and more)
+
 
 ## psst. third party extensions...
 * [webperf-leaderboard](https://github.com/krompaco/webperf-leaderboard) by [Johan Kronberg](https://github.com/krompaco/)
@@ -66,8 +70,8 @@ Now it will begin testing.
 | -t/--test <test number> | run ONE test (use ? to list available tests) |
 | -r/--review | show reviews in terminal |
 | -i/--input <file path> | input file path (.json/.sqlite) |
-| -i/--input-skip <number> | number of items to skip |
-| -i/--input-take <number> | number of items to take |
+| --input-skip <number> | number of items to skip |
+| --input-take <number> | number of items to take |
 | -o/--output <file path> | output file path (.json/.csv/.sql/.sqlite) |
 | -a/--addUrl <site url> | website url (required in compination with -i/--input) |
 | -d/--deleteUrl <site url> | website url (required in compination with -i/--input) |

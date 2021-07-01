@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from models import Rating
 import os
 import sys
 import socket
@@ -37,7 +38,7 @@ if use_ip2location:
         print('Unable to load IP2Location Database from "data/IP2LOCATION-LITE-DB1.IPV6.BIN"', ex)
 
 
-def run_test(langCode, url):
+def run_test(_, langCode, url):
     """
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
@@ -45,13 +46,17 @@ def run_test(langCode, url):
     points = 0.0
     review = ''
     result_dict = {}
+    rating = Rating(_)
 
     language = gettext.translation(
         'tracking_validator_pagexray', localedir='locales', languages=[langCode])
     language.install()
-    _ = language.gettext
+    _local = language.gettext
 
-    print(_('TEXT_RUNNING_TEST'))
+    print(_local('TEXT_RUNNING_TEST'))
+
+    print(_('TEXT_TEST_START').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     browser = False
     try:
@@ -70,7 +75,8 @@ def run_test(langCode, url):
     except:
         if browser != False:
             browser.quit()
-        return (1.0, _('TEXT_SERVICE_UNABLE_TO_CONNECT'), result_dict)
+        rating.set_overall(1.0, _local('TEXT_SERVICE_UNABLE_TO_CONNECT'))
+        return (rating, result_dict)
 
     try:
         # wait for element(s) to appear
@@ -80,7 +86,8 @@ def run_test(langCode, url):
     except:
         if browser != False:
             browser.quit()
-        return (1.0, _('TEXT_SERVICES_ENCOUNTERED_ERROR'), result_dict)
+        rating.set_overall(1.0, _local('TEXT_SERVICES_ENCOUNTERED_ERROR'))
+        return (rating, result_dict)
 
     try:
         elements_download_links = browser.find_elements_by_css_selector(
@@ -111,19 +118,19 @@ def run_test(langCode, url):
 
         # print('GET countries and tracking')
         if http_archive_content:
-            result = check_har_results(http_archive_content, _)
+            result = check_har_results(http_archive_content, _local)
             points += result[0]
             review += result[1]
 
             result = check_tracking(
-                browser, http_archive_content + detailed_results_content, _)
+                browser, http_archive_content + detailed_results_content, _local)
             points += result[0]
             review += result[1]
 
         # print('GET fingerprints, ads and cookies')
         if detailed_results_content:
             result = check_detailed_results(
-                browser, detailed_results_content, hostname, _)
+                browser, detailed_results_content, hostname, _local)
             points += result[0]
             review += result[1]
 
@@ -132,12 +139,15 @@ def run_test(langCode, url):
         if browser != False:
             browser.quit()
 
-    if points < 1.0:
-        points = 1.0
-
     points = float("{0:.2f}".format(points))
 
-    return (points, review, result_dict)
+    rating.set_overall(points, review)
+    rating.set_integrity_and_security(points, review)
+
+    print(_('TEXT_TEST_END').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+    return (rating, result_dict)
 
 
 def check_tracking(browser, json_content, _):
@@ -159,7 +169,7 @@ def check_tracking(browser, json_content, _):
         for analytics_name, analytics_should_count in analytics_used_items:
             if analytics_should_count:
                 number_of_tracking += 1
-            review_analytics += '---- {0}\r\n'.format(analytics_name)
+            review_analytics += '    - {0}\r\n'.format(analytics_name)
 
     points = 1.0
 
@@ -530,7 +540,7 @@ def check_har_results(content, _):
     points = 1.0
     review = ''
     countries = {}
-    countries_outside_eu = {}
+    countries_outside_eu_or_exception_list = {}
 
     json_content = ''
     try:
@@ -573,8 +583,8 @@ def check_har_results(content, _):
                 countries[entry_country_code] = countries[entry_country_code] + 1
             else:
                 countries[entry_country_code] = 1
-                if not is_country_code_in_eu(entry_country_code):
-                    countries_outside_eu[entry_country_code] = 1
+                if not is_country_code_in_eu_or_on_exception_list(entry_country_code):
+                    countries_outside_eu_or_exception_list[entry_country_code] = 1
 
             entries_index += 1
 
@@ -584,17 +594,19 @@ def check_har_results(content, _):
         review += _('TEXT_GDPR_COUNTRIES').format(
             number_of_countries)
         # for country_code in countries:
-        #    review += '---- {0} (number of requests: {1})\r\n'.format(country_code,
-        #                                                              countries[country_code])
+        #    review += '    - {0} (number of requests: {1})\r\n'.format(country_code,
+        #                                                               countries[country_code])
 
-        number_of_countries_outside_eu = len(countries_outside_eu)
+        number_of_countries_outside_eu = len(
+            countries_outside_eu_or_exception_list)
         if number_of_countries_outside_eu > 0:
             # '-- Countries outside EU: {0}\r\n'
-            review += _('TEXT_GDPR_COUNTRIES_OUTSIDE_EU').format(
+            # '-- Countries without adequate level of data protection: {0}\r\n'
+            review += _('TEXT_GDPR_NONE_COMPLIANT_COUNTRIES').format(
                 number_of_countries_outside_eu)
-            for country_code in countries_outside_eu:
-                review += _('TEXT_GDPR_COUNTRIES_OUTSIDE_EU_REQUESTS').format(country_code,
-                                                                              countries[country_code])
+            for country_code in countries_outside_eu_or_exception_list:
+                review += _('TEXT_GDPR_NONE_COMPLIANT_COUNTRIES_REQUESTS').format(country_code,
+                                                                                  countries[country_code])
 
             points = 0.0
 
@@ -647,18 +659,56 @@ def get_eu_countries():
         'SI': 'Slovenia',
         'SK': 'Slovakia',
         'FI': 'Finland',
-        'SE': 'Sweden',
-        'unknown': 'Unknown'
+        'SE': 'Sweden'
     }
     return eu_countrycodes
 
 
+def get_exception_countries():
+    # Countries in below list comes from this page: https://ec.europa.eu/info/law/law-topic/data-protection/international-dimension-data-protection/adequacy-decisions_en
+    # Country codes for every country comes from Wikipedia when searching on country name, example: https://en.wikipedia.org/wiki/Iceland
+    exception_countrycodes = {
+        'NO': 'Norway',
+        'LI': 'Liechtenstein',
+        'IS': 'Iceland',
+        'AD': 'Andorra',
+        'AR': 'Argentina',
+        'CA': 'Canada',
+        'FO': 'Faroe Islands',
+        'GG': 'Guernsey',
+        'IL': 'Israel',
+        'IM': 'Isle of Man',
+        'JP': 'Japan',
+        'JE': 'Jersey',
+        'NZ': 'New Zealand',
+        'CH': 'Switzerland',
+        'UY': 'Uruguay',
+        'KR': 'South Korea',
+        'GB': 'United Kingdom',
+        # If we are unable to guess country, give it the benefit of the doubt.
+        'unknown': 'Unknown'
+    }
+    return exception_countrycodes
+
+
 def is_country_code_in_eu(country_code):
-    eu_countrycodes = get_eu_countries()
-    if country_code in eu_countrycodes:
+    country_codes = get_eu_countries()
+    if country_code in country_codes:
         return True
 
     return False
+
+
+def is_country_code_in_exception_list(country_code):
+    country_codes = get_exception_countries()
+    if country_code in country_codes:
+        return True
+
+    return False
+
+
+def is_country_code_in_eu_or_on_exception_list(country_code):
+    return is_country_code_in_eu(country_code) or is_country_code_in_exception_list(country_code)
 
 
 def get_country_name_from_country_code(country_code):
@@ -685,7 +735,7 @@ def get_country_code_from_ip2location(ip_address):
 
 
 def get_best_country_code(ip_address, default_country_code):
-    if is_country_code_in_eu(default_country_code):
+    if is_country_code_in_eu_or_on_exception_list(default_country_code):
         return default_country_code
 
     country_code = get_country_code_from_ip2location(ip_address)

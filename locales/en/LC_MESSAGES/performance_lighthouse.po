@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2020-12-12 22:00+0200\n"
-"PO-Revision-Date: 2021-06-04 20:08+0200\n"
+"PO-Revision-Date: 2021-06-20 10:08+0200\n"
 "Last-Translator: mattias <mattias@webperf.se>\n"
 "Language-Team: English <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
@@ -16,19 +16,19 @@ msgstr ""
 
 
 msgid "TEXT_RUNNING_TEST"
-msgstr "###############################\nRunning test: 1 - Performance (Google Lighthouse)\n###############################"
+msgstr "## Test: 1 - Performance (Google Lighthouse)\n"
 
 msgid "TEXT_REVIEW_VERY_GOOD"
-msgstr "* The website is really fast!\n"
+msgstr "- The website is really fast!\n"
 
 msgid "TEXT_REVIEW_IS_GOOD"
-msgstr "* The website is fast.\n"
+msgstr "- The website is fast.\n"
 
 msgid "TEXT_REVIEW_IS_OK"
-msgstr "* About average speed.\n"
+msgstr "- About average speed.\n"
 
 msgid "TEXT_REVIEW_IS_BAD"
-msgstr "* The website is quite slow.\n"
+msgstr "- The website is quite slow.\n"
 
 msgid "TEXT_REVIEW_IS_VERY_BAD"
-msgstr "* The website is really slow!\n"
+msgstr "- The website is really slow!\n"

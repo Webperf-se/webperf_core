@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2020-12-11 16:14+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2021-06-20 21:08+0200\n"
 "Last-Translator: mattias <mattias@webperf.se>\n"
 "Language-Team: English <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
@@ -16,58 +16,19 @@ msgstr ""
 
 
 msgid "TEXT_RUNNING_TEST"
-msgstr "###############################\nRunning test: 17 - Quality on frontend (Yellow Lab Tools)\n###############################"
+msgstr "## Test: 17 - Quality on frontend (Yellow Lab Tools)\n"
 
 msgid "TEXT_WEBSITE_IS_VERY_GOOD"
-msgstr "* The website is really well built!\n"
+msgstr "- The website is really well built!\n"
 
 msgid "TEXT_WEBSITE_IS_GOOD"
-msgstr "* The website has good frontend code.\n"
+msgstr "- The website has good frontend code.\n"
 
 msgid "TEXT_WEBSITE_IS_OK"
-msgstr "* The website is neither good nor bad.\n"
+msgstr "- The website is neither good nor bad.\n"
 
 msgid "TEXT_WEBSITE_IS_BAD"
-msgstr "* The website is potentially slow and hava pretty bad frontend code.\n"
+msgstr "- The website is potentially slow and hava pretty bad frontend code.\n"
 
 msgid "TEXT_WEBSITE_IS_VERY_BAD"
-msgstr "* Very bad frontend rating according to Yellow Lab Tools.\n"
-
-msgid "TEXT_OVERALL_GRADE"
-msgstr "* Overall rating: {} out of 100\n"
-
-msgid "TEXT_TESTED_ON_DEVICETYPE"
-msgstr "* Tested for device type: {}\n"
-
-msgid "TEXT_PAGE_WEIGHT"
-msgstr "* Page weight: {}\n"
-
-msgid "TEXT_PAGE_REQUESTS"
-msgstr "* Number of page requests: {}\n"
-
-msgid "TEXT_PAGE_DOM_COMPLEXITY"
-msgstr "* Page DOM complexity: {}\n"
-
-msgid "TEXT_PAGE_DOM_MANIPULATIONS"
-msgstr "* Page DOM manipulations: {}\n"
-
-msgid "TEXT_PAGE_SCROLL"
-msgstr "* Page scroll: {}\n"
-
-msgid "TEXT_PAGE_BAD_JS"
-msgstr "* Page use of bad javascript: {}\n"
-
-msgid "TEXT_PAGE_JQUERY"
-msgstr "* Page use of jQuery: {}\n"
-
-msgid "TEXT_PAGE_CSS_COMPLEXITY"
-msgstr "* Page CSS complexity: {}\n"
-
-msgid "TEXT_PAGE_BAD_CSS"
-msgstr "* Page use of bad CSS: {}\n"
-
-msgid "TEXT_PAGE_FONTS"
-msgstr "* Page use of custom webfonts: {}\n"
-
-msgid "TEXT_SERVER_CONFIG"
-msgstr "* Server configuration rating: {}\n"
+msgstr "- Very bad frontend rating according to Yellow Lab Tools.\n"

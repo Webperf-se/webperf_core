@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2021-04-17 10:45+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2021-06-16 19:30+0200\n"
 "Last-Translator: mattias <mattias@webperf.se>\n"
 "Language-Team: English <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 
 
 msgid "TEXT_RUNNING_TEST"
-msgstr "###############################\r\nRunning test: 23 - Tracking and Privacy (Pagexray)\r\n###############################"
+msgstr "## Test: 23 - Tracking and Privacy (Pagexray)\r\n"
 
 msgid "TEXT_SERVICE_UNABLE_TO_CONNECT"
 msgstr "Unable to connect to service"
@@ -25,79 +25,79 @@ msgid "TEXT_SERVICES_ENCOUNTERED_ERROR"
 msgstr "Service enountered error while processing request for url"
 
 msgid "TEXT_VISITOR_ANALYTICS_USED"
-msgstr "-- Visitor analytics used:\r\n"
+msgstr "  - Visitor analytics used:\r\n"
 
 msgid "TEXT_TRACKING_NO_POINTS"
-msgstr "* Tracking ({0} points)\r\n"
+msgstr "- Tracking ({0} points)\r\n"
 
 msgid "TEXT_TRACKING_HAS_POINTS"
-msgstr "* Tracking (+{0} points)\r\n"
+msgstr "- Tracking (+{0} points)\r\n"
 
 msgid "TEXT_TRACKING_HAS_REQUESTS"
-msgstr "-- Tracking requests: {0}\r\n"
+msgstr "  - Tracking requests: {0}\r\n"
 
 msgid "TEXT_TRACKING_NO_REQUESTS"
-msgstr "-- No tracking requests\r\n"
+msgstr "  - No tracking requests\r\n"
 
 msgid "TEXT_FINGERPRINTING_NO_POINTS"
-msgstr "* Fingerprinting/Identifying technique ({0} points)\r\n"
+msgstr "- Fingerprinting/Identifying technique ({0} points)\r\n"
 
 msgid "TEXT_FINGERPRINTING_HAS_POINTS"
-msgstr "* Fingerprinting/Identifying technique (+{0} points)\r\n-- No fingerprinting / identifying technique found\r\n"
+msgstr "- Fingerprinting/Identifying technique (+{0} points)\r\n-- No fingerprinting / identifying technique found\r\n"
 
 msgid "TEXT_ADS_NO_POINTS"
-msgstr "* Ads ({0} points)\r\n"
+msgstr "- Ads ({0} points)\r\n"
 
 msgid "TEXT_ADS_NO_REQUESTS"
-msgstr "* Ads (+{0} points)\r\n-- No Adserver requests\r\n"
+msgstr "- Ads (+{0} points)\r\n-- No Adserver requests\r\n"
 
 msgid "TEXT_ADS_HAS_REQUESTS"
-msgstr "-- Adserver requests: {0}\r\n"
+msgstr "  - Adserver requests: {0}\r\n"
 
 msgid "TEXT_ADS_VISIBLE_ADS"
-msgstr "-- Visibile Ads: {0}\r\n"
+msgstr "  - Visibile Ads: {0}\r\n"
 
 msgid "TEXT_COOKIES_HAS_THIRDPARTY"
-msgstr "-- Thirdparty: {0}\r\n"
+msgstr "  - Thirdparty: {0}\r\n"
 
 msgid "TEXT_COOKIE_HAS_OVER_1YEAR"
-msgstr "-- Valid over 1 year: {0}\r\n"
+msgstr "  - Valid over 1 year: {0}\r\n"
 
 msgid "TEXT_COOKIE_HAS_OVER_9MONTH"
-msgstr "-- Valid over 9 months: {0}\r\n"
+msgstr "  - Valid over 9 months: {0}\r\n"
 
 msgid "TEXT_COOKIE_HAS_OVER_6MONTH"
-msgstr "-- Valid over 6 months: {0}\r\n"
+msgstr "  - Valid over 6 months: {0}\r\n"
 
 msgid "TEXT_COOKIE_HAS_OVER_3MONTH"
-msgstr "-- Valid over 3 months: {0}\r\n"
+msgstr "  - Valid over 3 months: {0}\r\n"
 
 msgid "TEXT_COOKIE_NOT_SECURE"
-msgstr "-- No requirement for secure transfer: {0}\r\n"
+msgstr "  - No requirement for secure transfer: {0}\r\n"
 
 msgid "TEXT_COOKIE_HAS_POINTS"
-msgstr "* Cookies (+{0} points)\r\n{1}"
+msgstr "- Cookies (+{0} points)\r\n{1}"
 
 msgid "TEXT_COOKIE_NO_POINTS"
-msgstr "* Cookies ({0} points)\r\n{1}"
+msgstr "- Cookies ({0} points)\r\n{1}"
 
 msgid "TEXT_COOKIE_HAS_POINTS"
-msgstr "* Cookies (+{0} points)\r\n{1}"
+msgstr "- Cookies (+{0} points)\r\n{1}"
 
 msgid "TEXT_COOKIE_NO_COOKIES"
-msgstr "{0}-- No Cookies\r\n"
+msgstr "{0}  - No Cookies\r\n"
 
 msgid "TEXT_GDPR_COUNTRIES"
-msgstr "-- Number of countries: {0}\r\n"
+msgstr "  - Number of countries: {0}\r\n"
 
-msgid "TEXT_GDPR_COUNTRIES_OUTSIDE_EU"
-msgstr "-- Countries outside EU: {0}\r\n"
+msgid "TEXT_GDPR_NONE_COMPLIANT_COUNTRIES"
+msgstr "  - Countries without adequate level of data protection: {0}\r\n"
 
-msgid "TEXT_GDPR_COUNTRIES_OUTSIDE_EU_REQUESTS"
-msgstr "---- {0}, {1} request\r\n"
+msgid "TEXT_GDPR_NONE_COMPLIANT_COUNTRIES_REQUESTS"
+msgstr "    - {0}, {1} request\r\n"
 
 msgid "TEXT_GDPR_PAGE_IN_SWEDEN"
-msgstr "-- Page hosted in Sweden: {0}\r\n"
+msgstr "  - Page hosted in Sweden: {0}\r\n"
 
 msgid "TEXT_GDPR_True"
 msgstr "Yes"
@@ -106,7 +106,7 @@ msgid "TEXT_GDPR_False"
 msgstr "No"
 
 msgid "TEXT_GDPR_HAS_POINTS"
-msgstr "* GDPR and Schrems: (+{0} points)\r\n{1}"
+msgstr "- GDPR and Schrems: (+{0} points)\r\n{1}"
 
 msgid "TEXT_GDPR_NO_POINTS"
-msgstr "* GDPR and Schrems: ({0} points)\r\n{1}"
+msgstr "- GDPR and Schrems: ({0} points)\r\n{1}"

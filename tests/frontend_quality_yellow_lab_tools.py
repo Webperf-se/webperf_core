@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from models import Rating
+import datetime
 import sys
 import socket
 import ssl
@@ -11,7 +13,7 @@ from bs4 import BeautifulSoup
 import config
 from tests.utils import *
 import gettext
-_ = gettext.gettext
+_local = gettext.gettext
 
 # DEFAULTS
 time_sleep = config.webbkoll_sleep
@@ -25,7 +27,7 @@ except:
     ylt_server_address = 'https://yellowlab.tools'
 
 
-def run_test(langCode, url, device='phone'):
+def run_test(_, langCode, url, device='phone'):
     """
     Analyzes URL with Yellow Lab Tools docker image.
     Devices might be; phone, tablet, desktop
@@ -35,9 +37,14 @@ def run_test(langCode, url, device='phone'):
     language = gettext.translation(
         'frontend_quality_yellow_lab_tools', localedir='locales', languages=[langCode])
     language.install()
-    _ = language.gettext
+    _local = language.gettext
 
-    print(_("TEXT_RUNNING_TEST"))
+    rating = Rating(_)
+
+    print(_local("TEXT_RUNNING_TEST"))
+
+    print(_('TEXT_TEST_START').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     r = requests.post('{0}/api/runs'.format(ylt_server_address),
                       data={'url': url, "waitForResponse": 'true', 'device': device})
@@ -55,8 +62,10 @@ def run_test(langCode, url, device='phone'):
         running_status = running_info['status']['statusCode']
         time.sleep(time_sleep)
 
-    result_json = httpRequestGetContent(
-        '{0}/api/results/{1}?exclude=toolsResults'.format(ylt_server_address, test_id))
+    result_url = '{0}/api/results/{1}?exclude=toolsResults'.format(
+        ylt_server_address, test_id)
+    result_json = httpRequestGetContent(result_url)
+    #print('result_url', result_url)
 
     result_dict = json.loads(result_json)
 
@@ -69,26 +78,90 @@ def run_test(langCode, url, device='phone'):
 
     review = ''
     for key in result_dict['scoreProfiles']['generic']['categories'].keys():
-        review += "* {0}: {1} {2}\n".format(_(result_dict['scoreProfiles']['generic']['categories'][key]['label']),
-                                            result_dict['scoreProfiles']['generic']['categories'][key]['categoryScore'],
-                                            _("of 100"))
+        review += "- {0}: {1}\n".format(_local(result_dict['scoreProfiles']['generic']['categories'][key]['label']),
+                                        to_points(
+            result_dict['scoreProfiles']['generic']['categories'][key]['categoryScore']))
 
-    rating = (int(yellow_lab) / 20) + 0.5
+    points = to_points(yellow_lab)
 
-    if rating > 5:
-        rating = 5
-    elif rating < 1:
-        rating = 1
+    performance_keys = ['totalWeight', 'imageOptimization',
+                        'imagesTooLarge', 'compression', 'fileMinification',
+                        'totalRequests', 'domains', 'notFound', 'identicalFiles',
+                        'lazyLoadableImagesBelowTheFold', 'iframesCount', 'scriptDuration',
+                        'DOMaccesses', 'eventsScrollBound', 'documentWriteCalls',
+                        'synchronousXHR', 'cssRules', 'fontsCount',
+                        'heavyFonts', 'nonWoff2Fonts', 'oldHttpProtocol',
+                        'oldTlsProtocol', 'closedConnections', 'cachingNotSpecified',
+                        'cachingDisabled', 'cachingTooShort']
+    security_keys = ['jQueryVersion', 'oldTlsProtocol']
+    standards_keys = ['compression', 'notFound', 'DOMidDuplicated',
+                      'cssParsingErrors', 'oldTlsProtocol']
 
-    if rating == 5:
-        review = _("TEXT_WEBSITE_IS_VERY_GOOD") + review
-    elif rating >= 4:
-        review = _("TEXT_WEBSITE_IS_GOOD") + review
-    elif rating >= 3:
-        review = _("TEXT_WEBSITE_IS_OK") + review
-    elif rating >= 2:
-        review = _("TEXT_WEBSITE_IS_BAD") + review
-    elif rating <= 1:
-        review = _("TEXT_WEBSITE_IS_VERY_BAD") + review
+    try:
+        for rule_key in result_dict['rules'].keys():
+            rule = result_dict['rules'][rule_key]
+            rule_score = to_points(rule['score'])
+            #rule_value = rule['value']
+            #rule_is_bad = rule['bad']
+            #rule_is_abnormal = rule['abnormal']
 
-    return (rating, review, return_dict)
+            rule_label = '- {0}: {1}\r\n'.format(
+                _local(rule['policy']['label']), rule_score)
+
+            matching_one_category_or_more = False
+            # only do stuff for rules we know how to place in category
+            if rule_key in performance_keys:
+                matching_one_category_or_more = True
+                rule_rating = Rating()
+                rule_rating.set_performance(
+                    rule_score, rule_label)
+                rating += rule_rating
+
+            if rule_key in security_keys:
+                matching_one_category_or_more = True
+                rule_rating = Rating()
+                rule_rating.set_integrity_and_security(
+                    rule_score, rule_label)
+                rating += rule_rating
+
+            if rule_key in standards_keys:
+                matching_one_category_or_more = True
+                rule_rating = Rating()
+                rule_rating.set_standards(
+                    rule_score, rule_label)
+                rating += rule_rating
+
+            # if not matching_one_category_or_more:
+            #    print('unmtached rule: {0}: {1}'.format(
+            #        key, rule_score))
+
+    except:
+        do = None
+
+    if points >= 5:
+        review = _local("TEXT_WEBSITE_IS_VERY_GOOD") + review
+    elif points >= 4:
+        review = _local("TEXT_WEBSITE_IS_GOOD") + review
+    elif points >= 3:
+        review = _local("TEXT_WEBSITE_IS_OK") + review
+    elif points >= 2:
+        review = _local("TEXT_WEBSITE_IS_BAD") + review
+    elif points <= 1:
+        review = _local("TEXT_WEBSITE_IS_VERY_BAD") + review
+
+    rating.set_overall(points, review)
+
+    print(_('TEXT_TEST_END').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+    return (rating, return_dict)
+
+
+def to_points(value):
+    points = 5.0 * (int(value) / 100)
+    if points > 5.0:
+        points = 5.0
+    if points < 1.0:
+        points = 1.0
+    points = float("{0:.2f}".format(points))
+    return points

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2021-04-24 09:15+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2021-06-16 19:30+0200\n"
 "Last-Translator: mattias <mattias@webperf.se>\n"
 "Language-Team: Swedish <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 
 
 msgid "TEXT_RUNNING_TEST"
-msgstr "###############################\r\nKör test: 23 - Spårning och Integritet (Pagexray)\r\n###############################"
+msgstr "## Test: 23 - Spårning och Integritet (Pagexray)\r\n"
 
 msgid "TEXT_SERVICE_UNABLE_TO_CONNECT"
 msgstr "Det går inte att ansluta till tjänsten"
@@ -25,79 +25,79 @@ msgid "TEXT_SERVICES_ENCOUNTERED_ERROR"
 msgstr "Tjänsten stötte på ett fel under behandlingen av begäran om webbadress"
 
 msgid "TEXT_VISITOR_ANALYTICS_USED"
-msgstr "-- Besökaranalys används:\r\n"
+msgstr "  - Besökaranalys används:\r\n"
 
 msgid "TEXT_TRACKING_NO_POINTS"
-msgstr "* Spårning ({0} poäng)\r\n"
+msgstr "- Spårning ({0} poäng)\r\n"
 
 msgid "TEXT_TRACKING_HAS_POINTS"
-msgstr "* Spårning (+{0} poäng)\r\n"
+msgstr "- Spårning (+{0} poäng)\r\n"
 
 msgid "TEXT_TRACKING_HAS_REQUESTS"
-msgstr "-- Spårning förfrågningar: {0}\r\n"
+msgstr "  - Spårning förfrågningar: {0}\r\n"
 
 msgid "TEXT_TRACKING_NO_REQUESTS"
-msgstr "-- Inga spårnings förfrågningar\r\n"
+msgstr "  - Inga spårnings förfrågningar\r\n"
 
 msgid "TEXT_FINGERPRINTING_NO_POINTS"
-msgstr "* Identifieringstekniker ({0} poäng)\r\n"
+msgstr "- Identifieringstekniker ({0} poäng)\r\n"
 
 msgid "TEXT_FINGERPRINTING_HAS_POINTS"
-msgstr "* Identifieringstekniker (+{0} poäng)\r\n-- Inga Identifieringstekniker hittades\r\n"
+msgstr "- Identifieringstekniker (+{0} poäng)\r\n-- Inga Identifieringstekniker hittades\r\n"
 
 msgid "TEXT_ADS_NO_POINTS"
-msgstr "* Annonsörer ({0} poäng)\r\n"
+msgstr "- Annonsörer ({0} poäng)\r\n"
 
 msgid "TEXT_ADS_NO_REQUESTS"
-msgstr "* Annonsörer (+{0} poäng)\r\n-- Inga annonsörsförfrågningar hittades\r\n"
+msgstr "- Annonsörer (+{0} poäng)\r\n-- Inga annonsörsförfrågningar hittades\r\n"
 
 msgid "TEXT_ADS_HAS_REQUESTS"
-msgstr "-- Annonsörsförfrågningar: {0}\r\n"
+msgstr "  - Annonsörsförfrågningar: {0}\r\n"
 
 msgid "TEXT_ADS_VISIBLE_ADS"
-msgstr "-- Synliga annonser: {0}\r\n"
+msgstr "  - Synliga annonser: {0}\r\n"
 
 msgid "TEXT_COOKIES_HAS_THIRDPARTY"
-msgstr "-- Tredjepartskakor: {0}\r\n"
+msgstr "  - Tredjepartskakor: {0}\r\n"
 
 msgid "TEXT_COOKIE_HAS_OVER_1YEAR"
-msgstr "-- Giltiga över 1 år: {0}\r\n"
+msgstr "  - Giltiga över 1 år: {0}\r\n"
 
 msgid "TEXT_COOKIE_HAS_OVER_9MONTH"
-msgstr "-- Giltiga över 9 månader: {0}\r\n"
+msgstr "  - Giltiga över 9 månader: {0}\r\n"
 
 msgid "TEXT_COOKIE_HAS_OVER_6MONTH"
-msgstr "-- Giltiga över 6 månader: {0}\r\n"
+msgstr "  - Giltiga över 6 månader: {0}\r\n"
 
 msgid "TEXT_COOKIE_HAS_OVER_3MONTH"
-msgstr "-- Giltiga över 3 månader: {0}\r\n"
+msgstr "  - Giltiga över 3 månader: {0}\r\n"
 
 msgid "TEXT_COOKIE_NOT_SECURE"
-msgstr "-- Inget krav på säker överföring: {0}\r\n"
+msgstr "  - Inget krav på säker överföring: {0}\r\n"
 
 msgid "TEXT_COOKIE_HAS_POINTS"
-msgstr "* Kakor (+{0} poäng)\r\n{1}"
+msgstr "- Kakor (+{0} poäng)\r\n{1}"
 
 msgid "TEXT_COOKIE_NO_POINTS"
-msgstr "* Kakor ({0} poäng)\r\n{1}"
+msgstr "- Kakor ({0} poäng)\r\n{1}"
 
 msgid "TEXT_COOKIE_HAS_POINTS"
-msgstr "* Kakor (+{0} poäng)\r\n{1}"
+msgstr "- Kakor (+{0} poäng)\r\n{1}"
 
 msgid "TEXT_COOKIE_NO_COOKIES"
-msgstr "{0}-- Inga kakor\r\n"
+msgstr "{0}  - Inga kakor\r\n"
 
 msgid "TEXT_GDPR_COUNTRIES"
-msgstr "-- Antal olika länder: {0}\r\n"
+msgstr "  - Antal olika länder: {0}\r\n"
 
-msgid "TEXT_GDPR_COUNTRIES_OUTSIDE_EU"
-msgstr "-- Länder utanför EU: {0}\r\n"
+msgid "TEXT_GDPR_NONE_COMPLIANT_COUNTRIES"
+msgstr "  - Länder utan adekvat nivå data skyddsnivå: {0}\r\n"
 
-msgid "TEXT_GDPR_COUNTRIES_OUTSIDE_EU_REQUESTS"
-msgstr "---- {0}, {1} förfrågningar\r\n"
+msgid "TEXT_GDPR_NONE_COMPLIANT_COUNTRIES_REQUESTS"
+msgstr "    - {0}, {1} förfrågningar\r\n"
 
 msgid "TEXT_GDPR_PAGE_IN_SWEDEN"
-msgstr "-- Sidan skickades från Sverige: {0}\r\n"
+msgstr "  - Sidan skickades från Sverige: {0}\r\n"
 
 msgid "TEXT_GDPR_True"
 msgstr "Ja"
@@ -106,7 +106,7 @@ msgid "TEXT_GDPR_False"
 msgstr "Nej"
 
 msgid "TEXT_GDPR_HAS_POINTS"
-msgstr "* Dataskyddsförordningen och Schrems II-domen: (+{0} poäng)\r\n{1}"
+msgstr "- Dataskyddsförordningen och Schrems II-domen: (+{0} poäng)\r\n{1}"
 
 msgid "TEXT_GDPR_NO_POINTS"
-msgstr "* Dataskyddsförordningen och Schrems II-domen: ({0} poäng)\r\n{1}"
+msgstr "- Dataskyddsförordningen och Schrems II-domen: ({0} poäng)\r\n{1}"

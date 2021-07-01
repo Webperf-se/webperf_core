@@ -31,23 +31,28 @@ msgstr "Number of websites being tested {0}"
 
 #: default.py:33
 msgid "TEXT_TESTING_SITE"
-msgstr "{0}. Testing website {1}"
+msgstr "# Testing website {0}\n"
+
+msgid "TEXT_WEBSITE_X_OF_Y"
+msgstr "Website {0} of {1}.\n"
 
 #: default.py:61
 msgid "TEXT_SITE_RATING"
-msgstr "Rating: "
+msgstr "### Rating:"
 
 #: default.py:63
 msgid "TEXT_SITE_REVIEW"
-msgstr "Review:\n"
+msgstr "### Review:\n"
 
 #: default.py:81
 msgid "TEXT_EXCEPTION"
 msgstr "Exception, someone should look at this!"
 
-#: default.py:89
-msgid "TEXT_TESTING_START_HEADER"
-msgstr "### {0} ###"
+msgid "TEXT_TEST_START"
+msgstr "Started: {0}"
+
+msgid "TEXT_TEST_END"
+msgstr "Finished: {0}\n"
 
 #: default.py:127
 msgid "TEXT_TEST_VALID_ARGUMENTS"
@@ -89,7 +94,7 @@ msgid "TEXT_TEST_VALID_ARGUMENTS_CSS"
 msgstr "-t 7\t: CSS Validation"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_SITESPEED"
-msgstr "-t 7\t: Prestanda (Sitespeed.io)"
+msgstr "-t 15\t: Performance (Sitespeed.io)"
 
 #: default.py:136
 msgid "TEXT_TEST_VALID_ARGUMENTS_WEBBKOLL"
@@ -99,10 +104,46 @@ msgstr "-t 20\t: Integrity & Security (Webbkoll)"
 msgid "TEXT_TEST_VALID_ARGUMENTS_STANDARD_FILES"
 msgstr "-t 9\t: Standard files"
 
+msgid "TEXT_TEST_VALID_ARGUMENTS_HTTP"
+msgstr "-t 21\t:  HTTP & Network"
+
 msgid "TEXT_TEST_VALID_ARGUMENTS_ENERGY_EFFICIENCY"
 msgstr "-t 22\t:  Energy Efficiency (Website Carbon Calculator)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_TRACKING"
+msgstr "-t 23\t:  Tracking & Integrity (Pagexray)"
 
 #: default.py:137 default.py:141 default.py:146 default.py:213
 msgid "TEXT_COMMAND_USAGE"
 msgstr "\n\tWebPerf Core\n\n\tUsage:\ndefault.py -u https://webperf.se\n\n\tOptions and arguments:\n\t-h/--help\t\t\t: Help information on how to use script\n\t-u/--url <site url>\t\t: website url to test against\n\t-t/--test <test number>\t\t: run ONE test (use ? to list available tests)\n\t-r/--review\t\t\t: show reviews in terminal\n\t-i/--input <file path>\t\t: input file path (.json/.sqlite)\n\t-i/--input-skip <number>\t: number of items to skip\n\t-i/--input-take <number>\t: number of items to take\n\t-o/--output <file path>\t\t: output file path (.json/.csv/.sql/.sqlite)\n\t-A/--addUrl <site url>\t\t: website url (required in compination with -i/--input)\n\t-D/--deleteUrl <site url>\t: website url (required in compination with -i/--input)\n\t-L/--language <lang code>\t: language used for output(en = default/sv)"
+
+msgid "TEXT_TEST_REVIEW_OVERVIEW"
+msgstr "\r\n#### Overall:\r\n{0}"
+
+msgid "TEXT_TEST_REVIEW_INTEGRITY_SECURITY"
+msgstr "#### Integrity & Security:\r\n{0}"
+
+msgid "TEXT_TEST_REVIEW_PERFORMANCE"
+msgstr "#### Performance:\r\n{0}"
+
+msgid "TEXT_TEST_REVIEW_ALLY"
+msgstr "#### A11y:\r\n{0}"
+
+msgid "TEXT_TEST_REVIEW_STANDARDS"
+msgstr "#### Standards:\r\n{0}"
+
+msgid "TEXT_TEST_RATING_OVERVIEW"
+msgstr "\r\n- Overall: {0}\r\n"
+
+msgid "TEXT_TEST_RATING_INTEGRITY_SECURITY"
+msgstr "- Integrity & Security: {0}\r\n"
+
+msgid "TEXT_TEST_RATING_PERFORMANCE"
+msgstr "- Performance: {0}\r\n"
+
+msgid "TEXT_TEST_RATING_ALLY"
+msgstr "- A11y: {0}\r\n"
+
+msgid "TEXT_TEST_RATING_STANDARDS"
+msgstr "- Standards: {0}\r\n"
 

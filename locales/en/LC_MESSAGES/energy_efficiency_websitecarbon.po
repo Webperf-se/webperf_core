@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2021-02-06 23:14+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2021-06-20 21:08+0200\n"
 "Last-Translator: marcus <m@webperf.se>\n"
 "Language-Team: Swedish <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
@@ -16,31 +16,31 @@ msgstr ""
 
 
 msgid "TEXT_RUNNING_TEST"
-msgstr "###############################\Running test: 22 - Energy efficiency (Websitecarbon)\n###############################"
+msgstr "## Test: 22 - Energy efficiency (Websitecarbon)\n"
 
 msgid "TEXT_WEBSITE_IS_VERY_GOOD"
-msgstr "* Webpage generates very little carbon dioxide!\n"
+msgstr "- Webpage generates very little carbon dioxide!\n"
 
 msgid "TEXT_WEBSITE_IS_GOOD"
-msgstr "* Webpage generates little carbon dioxide!\n"
+msgstr "- Webpage generates little carbon dioxide!\n"
 
 msgid "TEXT_WEBSITE_IS_OK"
-msgstr "* Average regarding carbon dioxide.\n"
+msgstr "- Average regarding carbon dioxide.\n"
 
 msgid "TEXT_WEBSITE_IS_BAD"
-msgstr "* The webpage generates some more carbon dioxide than is preferable :/\n"
+msgstr "- The webpage generates some more carbon dioxide than is preferable :/\n"
 
 msgid "TEXT_WEBSITE_IS_VERY_BAD"
-msgstr "* The website is generating a lot of carbon dioxide, for every pageview :(\n"
+msgstr "- The website is generating a lot of carbon dioxide, for every pageview :(\n"
 
 msgid "TEXT_GRAMS_OF_CO2"
-msgstr "* Carbon dioxide per pageview: {} gram(s)\n"
+msgstr "- Carbon dioxide per pageview: {} gram(s)\n"
 
 msgid "TEXT_GREEN_ENERGY_TRUE"
-msgstr "* The website seem to be on renewable energy!\n"
+msgstr "- The website seem to be on renewable energy!\n"
 
 msgid "TEXT_GREEN_ENERGY_FALSE"
-msgstr "* Could not verify if the website is using renewable nergy.\n"
+msgstr "- Could not verify if the website is using renewable nergy.\n"
 
 msgid "TEXT_BETTER_THAN"
-msgstr "* More green than {} % of the websites tested by Websitecarbon.com\n"
+msgstr "- More green than {} % of the websites tested by Websitecarbon.com\n"

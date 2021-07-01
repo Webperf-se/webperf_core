@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2020-12-12 10:00+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2021-06-20 16:08+0200\n"
 "Last-Translator: mattias <mattias@webperf.se>\n"
 "Language-Team: Swedish <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
@@ -16,22 +16,22 @@ msgstr ""
 
 
 msgid "TEXT_RUNNING_TEST"
-msgstr "###############################\nKör test: 2 - 404 (sida finns inte)\n###############################"
+msgstr "## Test: 2 - 404 (sida finns inte)\n"
 
 msgid "TEXT_REVIEW_WRONG_STATUS_CODE"
-msgstr "* Fel statuskod. Fick {0} när 404 vore korrekt.\n"
+msgstr "- Fel statuskod. Fick {0} när 404 vore korrekt.\n"
 
 msgid "TEXT_REVIEW_NO_TITLE"
-msgstr "* Hittade ingen sidtitel på sidan.\n"
+msgstr "- Hittade ingen sidtitel på sidan.\n"
 
 msgid "TEXT_REVIEW_MAIN_HEADER"
-msgstr "* Hittade ingen huvudrubrik (h1) på sidan.\n"
+msgstr "- Hittade ingen huvudrubrik (h1) på sidan.\n"
 
 msgid "TEXT_REVIEW_NO_SWEDISH_ERROR_MSG"
-msgstr "* Verkar sakna text som beskriver att ett fel uppstått (på svenska).\n"
+msgstr "- Verkar sakna text som beskriver att ett fel uppstått (på svenska).\n"
 
 msgid "TEXT_REVIEW_ERROR_MSG_UNDER_150"
-msgstr "* Information är under 150 tecken, vilket tyder på att användaren inte vägleds vidare.\n"
+msgstr "- Information är under 150 tecken, vilket tyder på att användaren inte vägleds vidare.\n"
 
 msgid "TEXT_REVIEW_NO_REMARKS"
-msgstr "* Inga anmärkningar."
+msgstr "- Inga anmärkningar."

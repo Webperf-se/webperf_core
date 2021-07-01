@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2020-12-12 22:00+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2021-06-19 20:30+0200\n"
 "Last-Translator: marcus <m@webperf.se>\n"
 "Language-Team: Swedish <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
@@ -16,28 +16,28 @@ msgstr ""
 
 
 msgid "TEXT_RUNNING_TEST"
-msgstr "###############################\nKör test: 15 - Prestanda (Sitespeed.io)\n###############################"
+msgstr "## Test: 15 - Prestanda (Sitespeed.io)\n"
 
 msgid "TEXT_REVIEW_VERY_GOOD"
-msgstr "* Webbplatsen laddar in mycket snabbt!\n"
+msgstr "- Webbplatsen laddar in mycket snabbt!\n"
 
 msgid "TEXT_REVIEW_IS_GOOD"
-msgstr "* Webbplatsen är snabb.\n"
+msgstr "- Webbplatsen är snabb.\n"
 
 msgid "TEXT_REVIEW_IS_OK"
-msgstr "* Genomsnittlig hastighet.\n"
+msgstr "- Genomsnittlig hastighet.\n"
 
 msgid "TEXT_REVIEW_IS_BAD"
-msgstr "* Webbplatsen är ganska långsam.\n"
+msgstr "- Webbplatsen är ganska långsam.\n"
 
 msgid "TEXT_REVIEW_IS_VERY_BAD"
-msgstr "* Webbplatsen är väldigt långsam!\n"
+msgstr "- Webbplatsen är väldigt långsam!\n"
 
 msgid "TEXT_REVIEW_LOAD_TIME"
-msgstr "* Laddtid: {}\n"
+msgstr "- Laddtid: {}\n"
 
 msgid "TEXT_REVIEW_LOAD_TIME_SECONDS"
-msgstr "* Laddtid: 0.{}s\n"
+msgstr "- Laddtid: 0.{}s\n"
 
 msgid "TEXT_REVIEW_NUMBER_OF_REQUESTS"
-msgstr "* Antal förfrågningar: {} st"
+msgstr "- Antal förfrågningar: {} st"

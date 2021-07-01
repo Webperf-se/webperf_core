@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from models import Rating
+import datetime
 import sys
 import socket
 import ssl
@@ -11,14 +13,14 @@ from bs4 import BeautifulSoup
 import config
 from tests.utils import *
 import gettext
-_ = gettext.gettext
+_local = gettext.gettext
 
 # DEFAULTS
 request_timeout = config.http_request_timeout
 useragent = config.useragent
 
 
-def run_test(langCode, url):
+def run_test(_, langCode, url):
     """
     Looking for:
     * robots.txt
@@ -29,81 +31,79 @@ def run_test(langCode, url):
     language = gettext.translation(
         'standard_files', localedir='locales', languages=[langCode])
     language.install()
-    _ = language.gettext
+    _local = language.gettext
 
-    print(_('TEXT_RUNNING_TEST'))
+    print(_local('TEXT_RUNNING_TEST'))
+
+    print(_('TEXT_TEST_START').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     o = urllib.parse.urlparse(url)
     parsed_url = '{0}://{1}/'.format(o.scheme, o.netloc)
 
-    review = ''
+    rating = Rating(_)
     return_dict = dict()
-    points = 5.0
 
-    # robots.txt (up to -3)
-    robots_result = validate_robots(_, parsed_url)
-    points -= robots_result[0]
-    review += robots_result[1]
-    return_dict.update(robots_result[2])
-    robots_content = robots_result[3]
+    # robots.txt
+    robots_result = validate_robots(_local, parsed_url)
+    rating += robots_result[0]
+    return_dict.update(robots_result[1])
+    robots_content = robots_result[2]
 
-    # sitemap.xml (up to -3)
+    # sitemap.xml
     has_robots_txt = return_dict['robots.txt'] == 'ok'
-    sitemap_result = validate_sitemap(_, robots_content, has_robots_txt)
-    points -= sitemap_result[0]
-    review += sitemap_result[1]
-    return_dict.update(sitemap_result[2])
+    sitemap_result = validate_sitemap(_local, robots_content, has_robots_txt)
+    rating += sitemap_result[0]
+    return_dict.update(sitemap_result[1])
 
-    # rss feed (up to -0.5)
-    feed_result = validate_feed(_, url)
-    points -= feed_result[0]
-    review += feed_result[1]
-    return_dict.update(feed_result[2])
+    # rss feed
+    feed_result = validate_feed(_local, url)
+    rating += feed_result[0]
+    return_dict.update(feed_result[1])
 
-    # security.txt (up to -1)
-    security_txt_result = validate_security_txt(_, parsed_url)
-    points -= security_txt_result[0]
-    review += security_txt_result[1]
-    return_dict.update(security_txt_result[2])
+    # security.txt
+    security_txt_result = validate_security_txt(_local, parsed_url)
+    rating += security_txt_result[0]
+    return_dict.update(security_txt_result[1])
 
-    # minimum score is 1, make sure we have at least 1
-    if points < 1:
-        points = 1
+    print(_('TEXT_TEST_END').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    return (points, review, return_dict)
+    return (rating, return_dict)
 
 
 def validate_robots(_, parsed_url):
-    review = ''
     return_dict = dict()
-    points = 0.0
+    rating = Rating()
 
     robots_content = httpRequestGetContent(parsed_url + 'robots.txt', True)
 
     if robots_content == None or '</html>' in robots_content.lower() or ('user-agent' not in robots_content.lower() and 'disallow' not in robots_content.lower() and 'allow' not in robots_content.lower()):
-        points = 3
-        review += _("TEXT_ROBOTS_MISSING")
+        rating.set_overall(1.0, _("TEXT_ROBOTS_MISSING"))
+        rating.set_standards(1.0, _("TEXT_ROBOTS_MISSING"))
         return_dict['robots.txt'] = 'missing content'
         robots_content = ''
     else:
-        review += _("TEXT_ROBOTS_OK")
+        rating.set_overall(5.0, _("TEXT_ROBOTS_OK"))
+        rating.set_standards(5.0, _("TEXT_ROBOTS_OK"))
+
         return_dict['robots.txt'] = 'ok'
 
-    return (points, review, return_dict, robots_content)
+    return (rating, return_dict, robots_content)
 
 
 def validate_sitemap(_, robots_content, has_robots_txt):
-    review = ''
+    rating = Rating()
     return_dict = dict()
     return_dict["num_sitemaps"] = 0
-    points = 0.0
 
     if robots_content == None or not has_robots_txt or 'sitemap:' not in robots_content.lower():
-        points += 2
-        review += _("TEXT_SITEMAP_MISSING")
+        rating.set_overall(1.0, _("TEXT_SITEMAP_MISSING"))
+        rating.set_standards(1.0, _("TEXT_SITEMAP_MISSING"))
         return_dict['sitemap'] = 'not in robots.txt'
     else:
-        review += _("TEXT_SITEMAP_FOUND")
+        rating.set_overall(2.0, _("TEXT_SITEMAP_FOUND"))
+        rating.set_standards(2.0, _("TEXT_SITEMAP_FOUND"))
         return_dict['sitemap'] = 'ok'
 
         smap_pos = robots_content.lower().find('sitemap')
@@ -122,45 +122,62 @@ def validate_sitemap(_, robots_content, has_robots_txt):
             smap_content = httpRequestGetContent(found_smaps[0])
 
             if not is_sitemap(smap_content):
-                points += 1
-                review += _("TEXT_SITEMAP_BROKEN")
+                rating.set_overall(
+                    3.0, _("TEXT_SITEMAP_FOUND") + _("TEXT_SITEMAP_BROKEN"))
+                rating.set_standards(
+                    3.0, _("TEXT_SITEMAP_FOUND") + _("TEXT_SITEMAP_BROKEN"))
                 return_dict['sitemap_check'] = '\'{0}\' seem to be broken'.format(
                     found_smaps[0])
             else:
-                review += _("TEXT_SITEMAP_OK")
+                rating.set_overall(
+                    5.0, _("TEXT_SITEMAP_OK"))
+                rating.set_standards(
+                    5.0, _("TEXT_SITEMAP_OK"))
                 return_dict['sitemap_check'] = '\'{0}\' seem ok'.format(
                     found_smaps[0])
 
-    return (points, review, return_dict)
+    return (rating, return_dict)
+
+
+def is_feed(tag):
+
+    if tag.name != 'link':
+        return False
+
+    if tag.has_attr('type'):
+        tag_type = tag['type']
+        if 'application/rss+xml' in tag_type:
+            return True
+        if 'application/atom+xml' in tag_type:
+            return True
+    return False
 
 
 def validate_feed(_, url):
     # TODO: validate first feed
 
-    review = ''
     return_dict = dict()
-    points = 0.0
     feed = list()
+    rating = Rating()
 
     headers = {'user-agent': config.useragent}
     try:
         request = requests.get(url, allow_redirects=True,
                                headers=headers, timeout=request_timeout)
         soup = BeautifulSoup(request.text, 'lxml')
-        # feed = soup.find_all(rel='alternate')
-        feed = soup.find_all("link", {"type": "application/rss+xml"})
-
+        feed = soup.find_all(is_feed)
     except:
         #print('Exception looking for feed, probably connection problems')
         pass
 
     if len(feed) == 0:
-        points = 0.5
-        review += _("TEXT_RSS_FEED_MISSING")
+        rating.set_overall(4.5, _("TEXT_RSS_FEED_MISSING"))
+        #rating.set_standards(1.0, _("TEXT_RSS_FEED_MISSING"))
         return_dict['feed'] = 'not in meta'
         return_dict['num_feeds'] = len(feed)
     elif len(feed) > 0:
-        review += _("TEXT_RSS_FEED_FOUND")
+        rating.set_overall(5.0, _("TEXT_RSS_FEED_FOUND"))
+        #rating.set_standards(5.0, _("TEXT_RSS_FEED_FOUND"))
         return_dict['feed'] = 'found in meta'
         return_dict['num_feeds'] = len(feed)
         tmp_feed = []
@@ -169,7 +186,7 @@ def validate_feed(_, url):
 
         return_dict['feeds'] = tmp_feed
 
-    return (points, review, return_dict)
+    return (rating, return_dict)
 
 
 def validate_security_txt(_, parsed_url):
@@ -205,12 +222,14 @@ def validate_security_txt(_, parsed_url):
 
     if not security_wellknown_request and not security_root_request:
         # Can't find security.txt (not giving us 200 as status code)
-        points = 1.0
-        review = ''
+        rating = Rating()
+        rating.set_overall(1.0, _("TEXT_SECURITY_MISSING"))
+        rating.set_standards(1.0, _("TEXT_SECURITY_MISSING"))
+        rating.set_integrity_and_security(1.0, _("TEXT_SECURITY_MISSING"))
+
         return_dict = dict()
-        review = _("TEXT_SECURITY_MISSING")
         return_dict['security.txt'] = 'missing'
-        return (points, review, return_dict)
+        return (rating, return_dict)
     else:
         security_wellknown_result = rate_securitytxt_content(
             security_wellknown_content, _)
@@ -219,11 +238,11 @@ def validate_security_txt(_, parsed_url):
 
         #print('result1:', security_wellknown_result)
         #print('result2:', security_root_result)
-        security_wellknown_points = security_wellknown_result[0]
-        security_root_points = security_root_result[0]
+        security_wellknown_rating = security_wellknown_result[0]
+        security_root_rating = security_root_result[0]
 
-        if (security_wellknown_points != security_root_points):
-            if security_wellknown_points < security_root_points:
+        if (security_wellknown_rating.get_overall() != security_root_rating.get_overall()):
+            if security_wellknown_rating.get_overall() > security_root_rating.get_overall():
                 return security_wellknown_result
             else:
                 return security_root_result
@@ -232,32 +251,39 @@ def validate_security_txt(_, parsed_url):
 
 
 def rate_securitytxt_content(content, _):
-    review = ''
+    rating = Rating()
     return_dict = dict()
-    points = -10.0
+    rating.set_overall(1.0, _("TEXT_SECURITY_WRONG_CONTENT"))
     if content == None or ('<html' in content.lower()):
         # Html (404 page?) content instead of expected content
-        points = 1.0
-        review += _("TEXT_SECURITY_WRONG_CONTENT")
+        rating.set_overall(1.0, _("TEXT_SECURITY_WRONG_CONTENT"))
+        rating.set_standards(1.0, _("TEXT_SECURITY_WRONG_CONTENT"))
+        rating.set_integrity_and_security(
+            1.0, _("TEXT_SECURITY_WRONG_CONTENT"))
         return_dict['security.txt'] = 'wrong content'
     elif ('contact:' in content.lower() and 'expires:' in content.lower()):
         # Everything seems ok
-        points = 0.0
-        review += _("TEXT_SECURITY_OK_CONTENT")
+        rating.set_overall(5.0, _("TEXT_SECURITY_OK_CONTENT"))
+        rating.set_standards(5.0, _("TEXT_SECURITY_OK_CONTENT"))
+        rating.set_integrity_and_security(5.0, _("TEXT_SECURITY_OK_CONTENT"))
         return_dict['security.txt'] = 'ok'
     elif not ('contact:' in content.lower()):
         # Missing required Contact
-        points = 0.5
-        review += _("TEXT_SECURITY_REQUIRED_CONTACT_MISSING")
+        rating.set_overall(2.5, _("TEXT_SECURITY_REQUIRED_CONTACT_MISSING"))
+        rating.set_standards(2.5, _("TEXT_SECURITY_REQUIRED_CONTACT_MISSING"))
+        rating.set_integrity_and_security(
+            2.5, _("TEXT_SECURITY_REQUIRED_CONTACT_MISSING"))
         return_dict['security.txt'] = 'required contact missing'
     elif not ('expires:' in content.lower()):
         # Missing required Expires (added in version 10 of draft)
-        points = 0.25
-        review += _("TEXT_SECURITY_REQUIRED_EXPIRES_MISSING")
+        rating.set_overall(2.5, _("TEXT_SECURITY_REQUIRED_EXPIRES_MISSING"))
+        rating.set_standards(2.5, _("TEXT_SECURITY_REQUIRED_EXPIRES_MISSING"))
+        rating.set_integrity_and_security(
+            4.0, _("TEXT_SECURITY_REQUIRED_EXPIRES_MISSING"))
         return_dict['security.txt'] = 'required expires missing'
         # print('* security.txt required content is missing')
 
         # print(security_wellknown_content)
         # print('* security.txt seems ok')
 
-    return (points, review, return_dict)
+    return (rating, return_dict)

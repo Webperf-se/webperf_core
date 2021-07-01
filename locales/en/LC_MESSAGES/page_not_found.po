@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2020-12-12 10:00+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2021-06-20 16:08+0200\n"
 "Last-Translator: mattias <mattias@webperf.se>\n"
 "Language-Team: English <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
@@ -16,22 +16,22 @@ msgstr ""
 
 
 msgid "TEXT_RUNNING_TEST"
-msgstr "###############################\nRunning test: 2 - 404 (Page not Found)\n###############################"
+msgstr "## Test: 2 - 404 (Page not Found)\n"
 
 msgid "TEXT_REVIEW_WRONG_STATUS_CODE"
-msgstr "* Wrong status code. Got {0}, when 404 would be correct.\n"
+msgstr "- Wrong status code. Got {0}, when 404 would be correct.\n"
 
 msgid "TEXT_REVIEW_NO_TITLE"
-msgstr "* Found no page title in the page metadata.\n"
+msgstr "- Found no page title in the page metadata.\n"
 
 msgid "TEXT_REVIEW_MAIN_HEADER"
-msgstr "* Found no headline (h1).\n"
+msgstr "- Found no headline (h1).\n"
 
 msgid "TEXT_REVIEW_NO_SWEDISH_ERROR_MSG"
-msgstr "* Seems to lack text describing that an error has occurred (in Swedish).\n"
+msgstr "- Seems to lack text describing that an error has occurred (in Swedish).\n"
 
 msgid "TEXT_REVIEW_ERROR_MSG_UNDER_150"
-msgstr "* Text content length is less than 150 characters, indicating that the user is not being referred, nor advised.\n"
+msgstr "- Text content length is less than 150 characters, indicating that the user is not being referred, nor advised.\n"
 
 msgid "TEXT_REVIEW_NO_REMARKS"
-msgstr "* No remarks"
+msgstr "- No remarks"

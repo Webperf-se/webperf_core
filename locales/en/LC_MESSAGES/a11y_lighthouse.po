@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2020-12-12 10:45+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2021-06-21 17:15+0200\n"
 "Last-Translator: Marcus <m@webperf.se>\n"
 "Language-Team: English <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
@@ -15,22 +15,22 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 msgid "TEXT_RUNNING_TEST"
-msgstr "###############################\nRunning test: 10 - Accessibility (Google Lighthouse)"
+msgstr "## Test: 10 - Accessibility (Google Lighthouse)\n"
 
 msgid "TEXT_REVIEW_A11Y_VERY_GOOD"
-msgstr "* The website do not have any apparent issues with accessibility!!\n"
+msgstr "- The website do not have any apparent issues with accessibility!!\n"
 
 msgid "TEXT_REVIEW_A11Y_IS_GOOD"
-msgstr "* The website can be more accessible, but is rather good!\n"
+msgstr "- The website can be more accessible, but is rather good!\n"
 
 msgid "TEXT_REVIEW_A11Y_IS_OK"
-msgstr "* The accessibility is about average, but needs to get better.\n"
+msgstr "- The accessibility is about average, but needs to get better.\n"
 
 msgid "TEXT_REVIEW_A11Y_IS_BAD"
-msgstr "* The website is quite bad at accessibility and sucks for disabled people!\n"
+msgstr "- The website is quite bad at accessibility and sucks for disabled people!\n"
 
 msgid "TEXT_REVIEW_A11Y_IS_VERY_BAD"
-msgstr "* The accessibility is apparently really bad! Probably both for disabled people and everyone of us when we require some accessibility!\n"
+msgstr "- The accessibility is apparently really bad! Probably both for disabled people and everyone of us when we require some accessibility!\n"
 
 msgid "TEXT_REVIEW_A11Y_NUMBER_OF_PROBLEMS"
-msgstr "* Number of problems with accessibility: {}\n"
+msgstr "- Number of problems with accessibility: {}\n"

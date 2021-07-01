@@ -32,9 +32,6 @@ def delete_site(input_filename, url):
 
 
 def read_sites(input_filename, input_skip, input_take):
-
-    print('A')
-
     sites = list()
     with open(input_filename) as json_input_file:
         data = json.load(json_input_file)

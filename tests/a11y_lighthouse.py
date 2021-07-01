@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from models import Rating
+import datetime
 import sys
 import socket
 import ssl
@@ -11,20 +13,23 @@ from bs4 import BeautifulSoup
 import config
 from tests.utils import *
 import gettext
-_ = gettext.gettext
+_local = gettext.gettext
 
 # DEFAULTS
 googlePageSpeedApiKey = config.googlePageSpeedApiKey
 
 
-def run_test(langCode, url, strategy='mobile', category='accessibility'):
+def run_test(_, langCode, url, strategy='mobile', category='accessibility'):
 
     language = gettext.translation(
         'a11y_lighthouse', localedir='locales', languages=[langCode])
     language.install()
-    _ = language.gettext
+    _local = language.gettext
 
-    print(_('TEXT_RUNNING_TEST'))
+    print(_local('TEXT_RUNNING_TEST'))
+
+    print(_('TEXT_TEST_START').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     check_url = url.strip()
 
@@ -56,40 +61,49 @@ def run_test(langCode, url, strategy='mobile', category='accessibility'):
     score = 0
     fails = 0
 
+    # Service score (0-100)
+    score = json_content['lighthouseResult']['categories'][category]['score']
+    # change it to % and convert it to a 1-5 grading
+    points = 5.0 * float(score)
+
     for item in json_content['lighthouseResult']['audits'].keys():
         try:
             return_dict[item] = json_content['lighthouseResult']['audits'][item]['score']
 
-            score = score + \
-                int(json_content['lighthouseResult']['audits'][item]['score'])
+            if int(json_content['lighthouseResult']['audits'][item]['score']) == 1:
+                continue
 
-            if int(json_content['lighthouseResult']['audits'][item]['score']) == 0:
-                fails += 1
-
-            review += _("* {0} - {1}\r\n").format(json_content['lighthouseResult']['audits'][item]['title'],
-                                                  json_content['lighthouseResult']['audits'][item]['displayValue'])
+            item_review = ''
+            if 'displayValue' in json_content['lighthouseResult']['audits'][item]:
+                item_displayvalue = json_content['lighthouseResult']['audits'][item]['displayValue']
+                item_review = _("- {0} - {1}\r\n").format(
+                    json_content['lighthouseResult']['audits'][item]['title'], item_displayvalue)
+            else:
+                item_review = _(
+                    "- {0}\r\n").format(json_content['lighthouseResult']['audits'][item]['title'])
+            review += item_review
 
         except:
             # has no 'numericValue'
             #print(item, 'har inget värde')
             pass
 
-    points = 0
+    if points >= 5.0:
+        review = _local("TEXT_REVIEW_A11Y_VERY_GOOD") + review
+    elif points >= 4.0:
+        review = _local("TEXT_REVIEW_A11Y_IS_GOOD") + review
+    elif points >= 3.0:
+        review = _local("TEXT_REVIEW_A11Y_IS_OK") + review
+    elif points > 1.0:
+        review = _local("TEXT_REVIEW_A11Y_IS_BAD") + review
+    elif points <= 1.0:
+        review = _local("TEXT_REVIEW_A11Y_IS_VERY_BAD") + review
 
-    if fails == 0:
-        points = 5
-        review = _('TEXT_REVIEW_A11Y_VERY_GOOD') + review
-    elif fails <= 2:
-        points = 4
-        review = _('TEXT_REVIEW_A11Y_IS_GOOD') + review
-    elif fails <= 3:
-        points = 3
-        review = _('TEXT_REVIEW_A11Y_IS_OK') + review
-    elif fails <= 5:
-        points = 2
-        review = _('TEXT_REVIEW_A11Y_IS_BAD') + review
-    elif fails > 5:
-        points = 1
-        review = _('TEXT_REVIEW_A11Y_IS_VERY_BAD') + review
+    rating = Rating(_)
+    rating.set_overall(points, review)
+    rating.set_a11y(points, review)
 
-    return (points, review, return_dict)
+    print(_('TEXT_TEST_END').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+    return (rating, return_dict)

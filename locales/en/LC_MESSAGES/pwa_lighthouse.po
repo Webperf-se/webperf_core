@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2020-12-12 10:45+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2021-06-16 19:30+0200\n"
 "Last-Translator: Marcus <m@webperf.se>\n"
 "Language-Team: English <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
@@ -15,25 +15,22 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 msgid "TEXT_RUNNING_TEST"
-msgstr "###############################\nRunning test: 8 - PWA (Google Lighthouse)"
+msgstr "## Test: 8 - PWA (Google Lighthouse)\n"
 
 msgid "TEXT_REVIEW_PWA_VERY_GOOD"
-msgstr "* The website is all out progressive web app!\n"
+msgstr "- The website is all out progressive web app!\n"
 
 msgid "TEXT_REVIEW_PWA_IS_GOOD"
-msgstr "* Pretty good on the requirements for a Progressive Web App!\n"
+msgstr "- Pretty good on the requirements for a Progressive Web App!\n"
 
 msgid "TEXT_REVIEW_PWA_IS_OK"
-msgstr "* About average support of Progressive Web App technology!\n"
+msgstr "- About average support of Progressive Web App technology!\n"
 
 msgid "TEXT_REVIEW_PWA_IS_BAD"
-msgstr "* Pretty bad as a Progressive Web App (PWA)!\n"
+msgstr "- Pretty bad as a Progressive Web App (PWA)!\n"
 
 msgid "TEXT_REVIEW_PWA_IS_VERY_BAD"
-msgstr "* Really bad as a Progressive Web App (PWA) :/\n"
+msgstr "- Really bad as a Progressive Web App (PWA) :/\n"
 
 msgid "TEXT_REVIEW_PWA_NUMBER_OF_PROBLEMS"
-msgstr "* Number of problems if striving to be a Progressive Web App: {} pcs\n"
-
-msgid "TEXT_REVIEW_PWA_PROBLEMS"
-msgstr "\nProblem(s):\n"
+msgstr "- Number of problems if striving to be a Progressive Web App: {} pcs\n"

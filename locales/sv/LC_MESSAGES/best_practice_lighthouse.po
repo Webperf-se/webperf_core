@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2020-12-12 10:45+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2021-06-20 21:45+0200\n"
 "Last-Translator: Marcus <m@webperf.se>\n"
 "Language-Team: Swedish <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
@@ -15,25 +15,25 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 msgid "TEXT_RUNNING_TEST"
-msgstr "###############################\nKör test: 5 - God praxis (Google Lighthouse)"
+msgstr "## Test: 5 - God praxis (Google Lighthouse)\n"
 
 msgid "TEXT_REVIEW_PRACTICE_VERY_GOOD"
-msgstr "* Webbplatsen följer god praxis fullt ut!\n"
+msgstr "- Webbplatsen följer god praxis fullt ut!\n"
 
 msgid "TEXT_REVIEW_PRACTICE_IS_GOOD"
-msgstr "* Webbplatsen kan ändå förbättra sig lite inom god praxis!\n"
+msgstr "- Webbplatsen kan ändå förbättra sig lite inom god praxis!\n"
 
 msgid "TEXT_REVIEW_PRACTICE_IS_OK"
-msgstr "* Genomsnittlig efterlevnad till god praxis.\n"
+msgstr "- Genomsnittlig efterlevnad till god praxis.\n"
 
 msgid "TEXT_REVIEW_PRACTICE_IS_BAD"
-msgstr "* Webbplatsen är ganska dålig på att följa god praxis.\n"
+msgstr "- Webbplatsen är ganska dålig på att följa god praxis.\n"
 
 msgid "TEXT_REVIEW_PRACTICE_IS_VERY_BAD"
-msgstr "* Webbplatsen är inte alls bra på att följa praxis!\n"
+msgstr "- Webbplatsen är inte alls bra på att följa praxis!\n"
 
 msgid "TEXT_REVIEW_PRACTICE_NUMBER_OF_PROBLEMS"
-msgstr "* Antal problem med god praxis: {} st\n"
+msgstr "- Antal problem med god praxis: {} st\n"
 
 msgid "TEXT_REVIEW_PRACTICE_PROBLEMS"
-msgstr "\nProblem:\n"
+msgstr "\n- Problem:\n"

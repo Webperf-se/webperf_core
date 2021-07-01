@@ -97,7 +97,7 @@ def run_test(_, langCode, url):
     review += _local("TEXT_REVIEW_NUMBER_OF_REQUESTS").format(
         result_dict['requests'])
 
-    rating = Rating()
+    rating = Rating(_)
     rating.set_overall(points, review)
     rating.set_performance(points, review)
 

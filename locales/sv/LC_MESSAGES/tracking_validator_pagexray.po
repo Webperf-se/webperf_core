@@ -90,10 +90,10 @@ msgstr "{0}  - Inga kakor\r\n"
 msgid "TEXT_GDPR_COUNTRIES"
 msgstr "  - Antal olika länder: {0}\r\n"
 
-msgid "TEXT_GDPR_COUNTRIES_OUTSIDE_EU"
-msgstr "  - Länder utanför EU: {0}\r\n"
+msgid "TEXT_GDPR_NONE_COMPLIANT_COUNTRIES"
+msgstr "  - Länder utan adekvat nivå data skyddsnivå: {0}\r\n"
 
-msgid "TEXT_GDPR_COUNTRIES_OUTSIDE_EU_REQUESTS"
+msgid "TEXT_GDPR_NONE_COMPLIANT_COUNTRIES_REQUESTS"
 msgstr "    - {0}, {1} förfrågningar\r\n"
 
 msgid "TEXT_GDPR_PAGE_IN_SWEDEN"

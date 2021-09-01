@@ -163,6 +163,8 @@ def run_test(_, langCode, url):
         elif number_of_sub_warnings > 0:
             review_messages += _local('TEXT_REVIEW_CATEGORY_IS_GOOD').format(
                 number_of_sub_warnings, points_to_remove_for_current_result)
+        elif header_id == 'headers' or header_id == 'cookies':
+            review_messages += _local('TEXT_REVIEW_CATEGORY_VERY_GOOD')
         else:
             review_messages += ": " + more_info + "\n"
 

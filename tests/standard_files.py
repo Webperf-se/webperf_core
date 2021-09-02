@@ -119,7 +119,7 @@ def validate_sitemap(_, robots_content, has_robots_txt):
         if len(found_smaps) > 0:
             return_dict["sitemaps"] = found_smaps
 
-            smap_content = httpRequestGetContent(found_smaps[0])
+            smap_content = httpRequestGetContent(found_smaps[0], True)
 
             if not is_sitemap(smap_content):
                 rating.set_overall(

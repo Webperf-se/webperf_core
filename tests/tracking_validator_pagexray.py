@@ -685,6 +685,7 @@ def get_exception_countries():
         'UY': 'Uruguay',
         'KR': 'South Korea',
         'GB': 'United Kingdom',
+        'AX': 'Åland Islands',
         # If we are unable to guess country, give it the benefit of the doubt.
         'unknown': 'Unknown'
     }

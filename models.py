@@ -283,7 +283,7 @@ class SiteTests(object):
         return review_encoded
 
     def todata(self):
-        result = {
+        result = [{
             'site_id': self.site_id,
             'type_of_test': self.type_of_test,
             'rating': self.rating,
@@ -298,7 +298,7 @@ class SiteTests(object):
             'report_a11y': self.check_report_a11y.decode('utf-8'),
             'report_stand': self.check_report_stand.decode('utf-8'),
             'data': self.json_check_data.decode('utf-8')
-        }
+        }]
         return result
 
     @staticmethod

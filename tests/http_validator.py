@@ -444,10 +444,14 @@ def check_http2(hostname, _):
                 5.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_2').format(5.0))
             rating.set_standards(
                 5.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_2').format(5.0))
+            rating.set_performance(
+                5.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_2').format(5.0))
         else:
             rating.set_overall(
                 1.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_2').format(1.0))
             rating.set_standards(
+                1.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_2').format(1.0))
+            rating.set_performance(
                 1.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_2').format(1.0))
     except Exception:
         return rating

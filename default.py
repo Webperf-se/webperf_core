@@ -23,10 +23,6 @@ def test(langCode, site, test_type=None, show_reviews=False, only_test_untested_
     site_id = site[0]
     website = site[1]
 
-    result = list()
-
-    the_test_result = None
-
     try:
         if test_type == TEST_PAGE_NOT_FOUND:
             from tests.page_not_found import run_test
@@ -83,16 +79,13 @@ def test(langCode, site, test_type=None, show_reviews=False, only_test_untested_
                                   test_date=datetime.datetime.now(), json_check_data=jsondata).todata()
 
             return site_test
-
-            # 190506 för att inte skriva testresultat till sajter när testet kraschat. Måste det sättas till ''?
-            the_test_result = None
     except Exception as e:
         print(_('TEXT_TEST_END').format(
             datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
         print(_('TEXT_EXCEPTION'), website, '\n', e)
         pass
 
-    return None
+    return list()
 
 
 def test_site(langCode, site, test_type=TEST_ALL, show_reviews=False):
@@ -348,10 +341,10 @@ def main(argv):
 
     if (add_url != ''):
         # check if website url should be added
-        sites = add_site(input_filename, add_url)
+        sites = add_site(input_filename, add_url, input_skip, input_take)
     elif (delete_url != ''):
         # check if website url should be deleted
-        sites = delete_site(input_filename, delete_url)
+        sites = delete_site(input_filename, delete_url, input_skip, input_take)
     elif (len(sites)):
         # run test(s) for every website
         test_results = test_sites(

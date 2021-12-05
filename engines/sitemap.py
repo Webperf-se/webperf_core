@@ -25,17 +25,17 @@ def read_sites(input_sitemap_url, input_skip, input_take):
     return sites
 
 
-def add_site(input_filename, url):
+def add_site(input_filename, url, input_skip, input_take):
     print("WARNING: sitemap engine is a read only method for testing all pages in a sitemap.xml, NO changes will be made")
 
-    sites = read_sites(input_filename, 0, -1)
+    sites = read_sites(input_filename, input_skip, input_take)
 
     return sites
 
 
-def delete_site(input_filename, url):
+def delete_site(input_filename, url, input_skip, input_take):
     print("WARNING: sitemap engine is a read only method for testing all pages in a sitemap.xml, NO changes will be made")
 
-    sites = read_sites(input_filename, 0, -1)
+    sites = read_sites(input_filename, input_skip, input_take)
 
     return sites

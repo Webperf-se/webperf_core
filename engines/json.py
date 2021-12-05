@@ -3,8 +3,8 @@ from engines.utils import use_website
 import json
 
 
-def add_site(input_filename, url):
-    sites = read_sites(input_filename, 0, -1)
+def add_site(input_filename, url, input_skip, input_take):
+    sites = read_sites(input_filename, input_skip, input_take)
     # print(sites)
     id = len(sites)
     sites.append([id, url])
@@ -15,8 +15,8 @@ def add_site(input_filename, url):
     return sites
 
 
-def delete_site(input_filename, url):
-    sites = read_sites(input_filename, 0, -1)
+def delete_site(input_filename, url, input_skip, input_take):
+    sites = read_sites(input_filename, input_skip, input_take)
     tmpSites = list()
     for site in sites:
         site_id = site[0]

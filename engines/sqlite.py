@@ -15,7 +15,7 @@ def db_tables(output_filename):
     conn.close()
 
 
-def add_site(input_filename, url):
+def add_site(input_filename, url, input_skip, input_take):
     conn = sqlite3.connect(input_filename)
     c = conn.cursor()
     format_str = """INSERT INTO sites (title, website)
@@ -29,10 +29,10 @@ def add_site(input_filename, url):
 
     print(_('TEXT_WEBSITE_URL_ADDED').format(url))
 
-    return read_sites(input_filename)
+    return read_sites(input_filename, input_skip, input_take)
 
 
-def delete_site(input_filename, url):
+def delete_site(input_filename, url, input_skip, input_take):
     conn = sqlite3.connect(input_filename)
     c = conn.cursor()
     format_str = """DELETE FROM sites WHERE website="{website}";\n"""
@@ -45,7 +45,7 @@ def delete_site(input_filename, url):
 
     print(_('TEXT_WEBSITE_URL_DELETED').format(url))
 
-    return read_sites(input_filename, 0, -1)
+    return read_sites(input_filename, input_skip, input_take)
 
 
 def read_sites(input_filename, input_skip, input_take):
@@ -68,16 +68,16 @@ def write_tests(output_filename, siteTests):
     conn = sqlite3.connect(output_filename)
     c = conn.cursor()
 
-    for test in siteTests:
-        # set previous testresult as not latest
-        format_str = """UPDATE sitetests SET most_recent=0 WHERE site_id="{siteid}" AND type_of_test="{testtype}" AND most_recent=1;\n"""
-        sql_command = format_str.format(
-            siteid=test["site_id"], testtype=test["type_of_test"])
+    try:
+        for test in siteTests:
+            # set previous testresult as not latest
+            format_str = """UPDATE sitetests SET most_recent=0 WHERE site_id="{siteid}" AND type_of_test="{testtype}" AND most_recent=1;\n"""
+            sql_command = format_str.format(
+                siteid=test["site_id"], testtype=test["type_of_test"])
 
-        c.execute(sql_command)
-        conn.commit()
+            c.execute(sql_command)
+            conn.commit()
 
-        try:
             # update testresult for all sites
             format_str = """INSERT INTO sitetests (site_id, test_date, type_of_test,
              check_report, check_report_sec, check_report_perf, check_report_a11y, check_report_stand,
@@ -88,18 +88,21 @@ def write_tests(output_filename, siteTests):
                                             report_sec=test["report_sec"], report_perf=test["report_perf"], report_a11y=test[
                                                 "report_a11y"], report_stand=test["report_stand"],
                                             json=test["data"], recent=1, rating=test["rating"], rating_sec=test["rating_sec"], rating_perf=test["rating_perf"], rating_a11y=test["rating_a11y"], rating_stand=test["rating_stand"])
+
+            #print("WRITE TEST SQL COMMAND:\r\n {0}".format(sql_command))
             c.execute(sql_command)
             conn.commit()
-        except Exception as ex:
-            if 'rating_sec' in str(ex):
-                # automatically update database
-                print('db -', str(ex))
-                ensure_latest_db_version(output_filename)
-                print('db - upgrading db')
-            else:
-                print('db exception', str(ex))
+        conn.close()
+    except Exception as ex:
+        if 'rating_sec' in str(ex) or 'rating_perf' in str(ex) or 'rating_a11y' in str(ex) or 'rating_stand' in str(ex) or 'check_report_sec' in str(ex) or 'check_report_perf' in str(ex) or 'check_report_a11y' in str(ex) or 'check_report_stand' in str(ex):
+            # automatically update database
+            print('db -', str(ex))
+            ensure_latest_db_version(output_filename)
+            write_tests(output_filename, siteTests)
 
-    conn.close()
+            print('db - upgrading db')
+        else:
+            print('db exception', str(ex))
 
 
 def ensure_latest_db_version(output_filename):

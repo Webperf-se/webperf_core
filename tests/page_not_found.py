@@ -42,7 +42,8 @@ def run_test(_, langCode, url):
     o = urllib.parse.urlparse(url)
     url = '{0}://{1}/{3}/{2}'.format(o.scheme, o.netloc,
                                      'finns-det-en-sida/pa-den-har-adressen/testanrop/', get_guid(5))
-    headers = {'user-agent': useragent}
+    headers = {'user-agent': useragent,
+               'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8'}
     code = 'unknown'
     request = False
     try:

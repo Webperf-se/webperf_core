@@ -17,9 +17,11 @@ _local = gettext.gettext
 
 # DEFAULTS
 googlePageSpeedApiKey = config.googlePageSpeedApiKey
+strategy = 'mobile'
+category = 'performance'
 
 
-def run_test(_, langCode, url, strategy='mobile', category='performance'):
+def run_test(_, langCode, url, silance=False):
     """
     perf = https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category=performance&strategy=mobile&url=YOUR-SITE&key=YOUR-KEY
     a11y = https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category=accessibility&strategy=mobile&url=YOUR-SITE&key=YOUR-KEY
@@ -33,10 +35,11 @@ def run_test(_, langCode, url, strategy='mobile', category='performance'):
     language.install()
     _local = language.gettext
 
-    print(_local('TEXT_RUNNING_TEST'))
+    if not silance:
+        print(_local('TEXT_RUNNING_TEST'))
 
-    print(_('TEXT_TEST_START').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        print(_('TEXT_TEST_START').format(
+            datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     check_url = url.strip()
 
@@ -107,7 +110,8 @@ def run_test(_, langCode, url, strategy='mobile', category='performance'):
     rating.set_overall(points, review)
     rating.set_performance(points, review)
 
-    print(_('TEXT_TEST_END').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+    if not silance:
+        print(_('TEXT_TEST_END').format(
+            datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, return_dict)

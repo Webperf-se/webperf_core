@@ -381,7 +381,7 @@ def http_version_score(hostname, url, _):
     if not rating.isused():
         rating = check_http_fallback(url, _)
 
-    rating += check_http3(hostname)
+    rating += check_http3(hostname, _)
 
     return rating
 
@@ -459,7 +459,7 @@ def check_http2(hostname, _):
     return rating
 
 
-def check_http3(host):
+def check_http3(host, _):
     rating = Rating()
     try:
         url = 'https://http3check.net/?host={0}'.format(host)

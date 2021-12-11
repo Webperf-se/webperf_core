@@ -50,7 +50,8 @@ def test(_, langCode, site, test_type=None, show_reviews=False,):
         elif test_type == TEST_HTTP:
             from tests.http_validator import run_test
         elif test_type == TEST_ENERGY_EFFICIENCY:
-            from tests.energy_efficiency_websitecarbon import run_test
+            #from tests.energy_efficiency_websitecarbon import run_test
+            from tests.energy_efficiency import run_test
         elif test_type == TEST_TRACKING:
             from tests.tracking_validator_pagexray import run_test
 

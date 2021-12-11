@@ -67,6 +67,7 @@ def run_test(_, langCode, url):
     speedindex = int(result_dict['speedindex'])
 
     review = ''
+    points = 5.0
 
     # give 0.5 seconds in credit
     speedindex_adjusted = speedindex - 500

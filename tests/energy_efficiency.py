@@ -126,7 +126,7 @@ def run_test(_, langCode, url):
                                                 energy_efficiency_carbon_percentiles.get_generated_date())
 
     transfer_info = format_bytes(transfer_bytes)
-    review += _local("- TEXT_TRANSFER_SIZE: {0:.0f} {1}\r\n").format(transfer_info[0], transfer_info[1]
+    review += _local("TEXT_TRANSFER_SIZE").format(transfer_info[0], transfer_info[1]
                                                                      )
     # if 'false' in green.lower():
     # review += _local("TEXT_GREEN_ENERGY_FALSE")

@@ -123,7 +123,7 @@ def get_errors_for_link_tags(html, url, _):
                 # relative url, but without starting /
                 resource_url = parsed_url + '/' + resource_url
 
-            # print('resource_url', resource_url)
+            print('resource_url', resource_url)
             # print('stylesheet resource #{0}:'.format(resource_index))
             # review_header = '* <link rel="stylesheet" #{0}>:\n'.format(
             #    resource_index)
@@ -212,6 +212,8 @@ def get_errors_for_url(url):
         response = json.loads(request.text)
         errors = response['messages']
 
+        print('errors css:', errors)
+
         return errors
     except requests.Timeout:
         print('Timeout!\nMessage:\n{0}'.format(sys.exc_info()[0]))
@@ -240,7 +242,7 @@ def get_errors_for_css(data):
         response = json.loads(request.text)
         errors = response['messages']
 
-        #print('errors css:', errors)
+        print('errors css:', errors)
 
         return errors
         # print(len(errors))
@@ -251,6 +253,7 @@ def get_errors_for_css(data):
 
 def get_mdn_web_docs_css_features():
     css_features = {}
+    css_functions = {}
 
     html = httpRequestGetContent(
         'https://developer.mozilla.org/en-US/docs/Web/CSS/Reference')
@@ -263,24 +266,31 @@ def get_mdn_web_docs_css_features():
             links = index_element.find_all('a')
             for link in links:
                 # print('link: {0}'.format(link.string))
-                regex = '(?P<name>[a-z\-0-9]+)[ ]*'
+                regex = '(?P<name>[a-z\-0-9]+)(?P<func>[()]{0,2})[ ]*'
                 matches = re.search(regex, link.string)
                 if matches:
                     property_name = matches.group('name')
+                    is_function = matches.group('func') in '()'
                     # print('-', property_name)
                     # css_features.append(property_name)
-                    css_features["{0}".format(
-                        property_name)] = link.get('href')
+                    if is_function:
+                        css_functions["{0}".format(
+                            property_name)] = link.get('href')
+                    else:
+                        css_features["{0}".format(
+                            property_name)] = link.get('href')
         else:
             print('no index element found')
     except:
         print(
             'Error! "{0}" '.format(sys.exc_info()[0]))
         pass
-    return css_features
+    return (css_features, css_functions)
 
 
-css_features = get_mdn_web_docs_css_features()
+css_spec = get_mdn_web_docs_css_features()
+css_features = css_spec[0]
+css_functions = css_spec[1]
 
 
 def get_properties_doesnt_exist_list():
@@ -289,10 +299,26 @@ def get_properties_doesnt_exist_list():
     for item in css_features_keys:
         result.append('Property “{0}” doesn\'t exist'.format(item))
 
+    # TODO: css_functions
+    # [a-z]+: env\([^)]+\) is not a [a-z]+ value
+
+    return result
+
+
+def get_function_is_not_a_value_list():
+    result = list()
+    css_functions_keys = css_functions.keys()
+    for item in css_functions_keys:
+        result.append('{0}('.format(item))
+
+    # TODO: css_functions
+    # [a-z]+: env\([^)]+\) is not a [a-z]+ value
+
     return result
 
 
 css_properties_doesnt_exist = get_properties_doesnt_exist_list()
+css_functions_no_support = get_function_is_not_a_value_list()
 
 
 def create_review_and_rating(errors, _, review_header):
@@ -300,6 +326,7 @@ def create_review_and_rating(errors, _, review_header):
     whitelisted_words = css_properties_doesnt_exist
 
     whitelisted_words.append('“100%” is not a “font-stretch” value')
+    whitelisted_words.extend(css_functions_no_support)
 
     number_of_errors = len(errors)
 

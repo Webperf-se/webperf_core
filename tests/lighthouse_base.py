@@ -48,10 +48,21 @@ def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category):
 
     review = ''
     return_dict = {}
+    weight_dict = {}
     rating = Rating(_)
 
     # Service score (0-100)
     score = json_content['lighthouseResult']['categories'][category]['score']
+
+    total_weight = 0
+    for item in json_content['lighthouseResult']['categories'][category]['auditRefs']:
+        # if item['weight'] > 0:
+        total_weight += item['weight']
+        weight_dict[item['id']] = item['weight']
+        print(item)
+
+    print('total_weight: {0}'.format(total_weight))
+
     # change it to % and convert it to a 1-5 grading
     points = 5.0 * float(score)
 
@@ -60,22 +71,33 @@ def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category):
             if 'numericValue' in json_content['lighthouseResult']['audits'][item]:
                 return_dict[item] = json_content['lighthouseResult']['audits'][item]['numericValue']
 
-            local_score = int(
+            local_score = float(
                 json_content['lighthouseResult']['audits'][item]['score'])
+
+            local_points = 5.0 * local_score
+            if local_points < 1.0:
+                local_points = 1
 
             item_review = ''
             item_title = '- {0}'.format(
                 json_content['lighthouseResult']['audits'][item]['title'])
             item_description = json_content['lighthouseResult']['audits'][item]['description']
-            if 'displayValue' in json_content['lighthouseResult']['audits'][item]:
-                item_displayvalue = json_content['lighthouseResult']['audits'][item]['displayValue']
-                item_review = _(
-                    "{0} - {1}").format(item_title, item_displayvalue)
+            # if 'displayValue' in json_content['lighthouseResult']['audits'][item]:
+            #    item_displayvalue = json_content['lighthouseResult']['audits'][item]['displayValue']
+            #    item_review = _(
+            #        "{0} - {1}: {2:.2f}").format(item_title, item_displayvalue, local_points)
+            # else:
+            #    item_review = "{0}: {1:.2f}".format(_(item_title), local_points)
+            if local_score == 0:
+                item_review = "{0}".format(_(item_title), local_points)
             else:
-                item_review = _(item_title)
+                item_review = "{0}: {1:.2f}".format(
+                    _(item_title), local_points)
 
-            if local_score != 1:
-                review += item_review + '\r\n'
+            #  and local_score != 1
+            if local_score != 0 and weight_dict[item] != 0:
+                review += item_review + \
+                    ' ({0})'.format(weight_dict[item]) + '\r\n'
 
             for insecure_str in insecure_strings:
                 if insecure_str in item_review or insecure_str in item_description:
@@ -107,6 +129,10 @@ def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category):
 
     rating.set_overall(points, review)
     if category == 'performance':
+        rating.set_overall(points, '')
         rating.set_performance(points, review)
+    elif category == 'accessibility':
+        rating.set_overall(points, '')
+        rating.set_a11y(points, review)
 
     return (rating, return_dict)

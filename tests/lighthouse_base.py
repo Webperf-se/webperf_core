@@ -14,6 +14,8 @@ def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category):
     seo = https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category=seo&strategy=mobile&url=YOUR-SITE&key=YOUR-KEY
     """
 
+    review_show_improvements_only = True
+
     check_url = url.strip()
 
     pagespeed_api_request = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed?locale={4}&category={0}&url={1}&strategy={2}&key={3}'.format(
@@ -43,28 +45,25 @@ def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category):
     insecure_strings = ['security', 'säkerhet',
                         'insecure', 'osäkra', 'unsafe', 'insufficient security', 'otillräckliga säkerhetskontroller', 'HTTPS']
 
+    # look for words indicating items is related to standard
     standard_strings = ['gzip, deflate',
                         'Deprecated', 'Utfasade ', 'quirks-mode']
 
-    review = ''
     return_dict = {}
     weight_dict = {}
-    rating = Rating(_)
+    rating = Rating(_, review_show_improvements_only)
 
     # Service score (0-100)
     score = json_content['lighthouseResult']['categories'][category]['score']
 
     total_weight = 0
     for item in json_content['lighthouseResult']['categories'][category]['auditRefs']:
-        # if item['weight'] > 0:
         total_weight += item['weight']
         weight_dict[item['id']] = item['weight']
-        print(item)
-
-    print('total_weight: {0}'.format(total_weight))
 
     # change it to % and convert it to a 1-5 grading
     points = 5.0 * float(score)
+    reviews = []
 
     for item in json_content['lighthouseResult']['audits'].keys():
         try:
@@ -77,48 +76,50 @@ def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category):
             local_points = 5.0 * local_score
             if local_points < 1.0:
                 local_points = 1
+            if local_points >= 4.95:
+                local_points = 5.0
 
             item_review = ''
-            item_title = '- {0}'.format(
+            item_title = '{0}'.format(
                 json_content['lighthouseResult']['audits'][item]['title'])
+            displayValue = ''
             item_description = json_content['lighthouseResult']['audits'][item]['description']
-            # if 'displayValue' in json_content['lighthouseResult']['audits'][item]:
-            #    item_displayvalue = json_content['lighthouseResult']['audits'][item]['displayValue']
-            #    item_review = _(
-            #        "{0} - {1}: {2:.2f}").format(item_title, item_displayvalue, local_points)
-            # else:
-            #    item_review = "{0}: {1:.2f}".format(_(item_title), local_points)
+            if 'displayValue' in json_content['lighthouseResult']['audits'][item]:
+                displayValue = json_content['lighthouseResult']['audits'][item]['displayValue']
             if local_score == 0:
-                item_review = "{0}".format(_(item_title), local_points)
-            else:
-                item_review = "{0}: {1:.2f}".format(
+                item_review = "- {0} ( {1:.2f} rating )".format(
                     _(item_title), local_points)
+            elif local_points == 5.0:
+                item_review = "- {0} ( 5.0 rating )".format(
+                    _(item_title))
+            else:
+                item_review = "- {0}: {2} ( {1:.2f} rating )".format(
+                    _(item_title), local_points, displayValue)
 
-            #  and local_score != 1
-            if local_score != 0 and weight_dict[item] != 0:
-                review += item_review + \
-                    ' ({0})'.format(weight_dict[item]) + '\r\n'
+            reviews.append([local_points - weight_dict[item],
+                            item_review, local_points])
 
             for insecure_str in insecure_strings:
                 if insecure_str in item_review or insecure_str in item_description:
-                    local_rating = Rating(_)
+
+                    local_rating = Rating(_, review_show_improvements_only)
                     if local_score == 1:
                         local_rating.set_integrity_and_security(
-                            5.0, '{0}: {1}\r\n'.format(item_title, 5.0))
+                            5.0, '- {0}: {1:.2f} rating\r\n'.format(item_title, 5.0))
                     else:
                         local_rating.set_integrity_and_security(
-                            1.0, '{0}: {1}\r\n'.format(item_title, 1.0))
+                            1.0, '- {0}: {1:.2f} rating\r\n'.format(item_title, 1.0))
                     rating += local_rating
                     break
             for standard_str in standard_strings:
                 if standard_str in item_review or standard_str in item_description:
-                    local_rating = Rating(_)
+                    local_rating = Rating(_, review_show_improvements_only)
                     if local_score == 1:
                         local_rating.set_standards(
-                            5.0, '{0}: {1}\r\n'.format(item_title, 5.0))
+                            5.0, '- {0}: {1:.2f} rating\r\n'.format(item_title, 5.0))
                     else:
                         local_rating.set_standards(
-                            1.0, '{0}: {1}\r\n'.format(item_title, 1.0))
+                            1.0, '- {0}: {1:.2f} rating\r\n'.format(item_title, 1.0))
                     rating += local_rating
                     break
 
@@ -127,12 +128,21 @@ def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category):
             #print(item, 'har inget värde')
             pass
 
-    rating.set_overall(points, review)
+    reviews.sort()
+    for review_item in reviews:
+        review_rating = Rating(_, review_show_improvements_only)
+        review_rating.set_overall(review_item[2], review_item[1] + '\r\n')
+        rating += review_rating
+    review = rating.overall_review
+
     if category == 'performance':
-        rating.set_overall(points, '')
+        rating.set_overall(points)
         rating.set_performance(points, review)
     elif category == 'accessibility':
-        rating.set_overall(points, '')
+        rating.set_overall(points)
         rating.set_a11y(points, review)
+    else:
+        rating.set_overall(points, review)
+    rating.overall_count = 1
 
     return (rating, return_dict)

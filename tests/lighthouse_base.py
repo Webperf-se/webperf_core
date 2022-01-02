@@ -5,7 +5,7 @@ import json
 from tests.utils import *
 
 
-def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category):
+def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category, review_show_improvements_only):
     """
     perf = https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category=performance&strategy=mobile&url=YOUR-SITE&key=YOUR-KEY
     a11y = https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category=accessibility&strategy=mobile&url=YOUR-SITE&key=YOUR-KEY
@@ -13,8 +13,6 @@ def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category):
     pwa = https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category=pwa&strategy=mobile&url=YOUR-SITE&key=YOUR-KEY
     seo = https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category=seo&strategy=mobile&url=YOUR-SITE&key=YOUR-KEY
     """
-
-    review_show_improvements_only = True
 
     check_url = url.strip()
 
@@ -87,14 +85,14 @@ def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category):
             if 'displayValue' in json_content['lighthouseResult']['audits'][item]:
                 displayValue = json_content['lighthouseResult']['audits'][item]['displayValue']
             if local_score == 0:
-                item_review = "- {0} ( {1:.2f} rating )".format(
-                    _(item_title), local_points)
+                item_review = "- {0}".format(
+                    _(item_title))
             elif local_points == 5.0:
-                item_review = "- {0} ( 5.0 rating )".format(
+                item_review = "- {0}".format(
                     _(item_title))
             else:
-                item_review = "- {0}: {2} ( {1:.2f} rating )".format(
-                    _(item_title), local_points, displayValue)
+                item_review = "- {0}: {1}".format(
+                    _(item_title), displayValue)
 
             reviews.append([local_points - weight_dict[item],
                             item_review, local_points])
@@ -105,10 +103,10 @@ def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category):
                     local_rating = Rating(_, review_show_improvements_only)
                     if local_score == 1:
                         local_rating.set_integrity_and_security(
-                            5.0, '- {0}: {1:.2f} rating\r\n'.format(item_title, 5.0))
+                            5.0, '- {0}'.format(item_title))
                     else:
                         local_rating.set_integrity_and_security(
-                            1.0, '- {0}: {1:.2f} rating\r\n'.format(item_title, 1.0))
+                            1.0, '- {0}'.format(item_title))
                     rating += local_rating
                     break
             for standard_str in standard_strings:
@@ -116,10 +114,10 @@ def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category):
                     local_rating = Rating(_, review_show_improvements_only)
                     if local_score == 1:
                         local_rating.set_standards(
-                            5.0, '- {0}: {1:.2f} rating\r\n'.format(item_title, 5.0))
+                            5.0, '- {0}'.format(item_title))
                     else:
                         local_rating.set_standards(
-                            1.0, '- {0}: {1:.2f} rating\r\n'.format(item_title, 1.0))
+                            1.0, '- {0}'.format(item_title))
                     rating += local_rating
                     break
 
@@ -131,18 +129,21 @@ def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category):
     reviews.sort()
     for review_item in reviews:
         review_rating = Rating(_, review_show_improvements_only)
-        review_rating.set_overall(review_item[2], review_item[1] + '\r\n')
+        review_rating.set_overall(review_item[2], review_item[1])
         rating += review_rating
     review = rating.overall_review
 
     if category == 'performance':
         rating.set_overall(points)
-        rating.set_performance(points, review)
+        rating.set_performance(points)
+        rating.performance_review = review
     elif category == 'accessibility':
         rating.set_overall(points)
-        rating.set_a11y(points, review)
+        rating.set_a11y(points)
+        rating.a11y_review = review
     else:
-        rating.set_overall(points, review)
+        rating.set_overall(points)
+        rating.overall_review = review
     rating.overall_count = 1
 
     return (rating, return_dict)

@@ -18,14 +18,13 @@ _ = gettext.gettext
 # DEFAULTS
 request_timeout = config.http_request_timeout
 useragent = config.useragent
+review_show_improvements_only = config.review_show_improvements_only
 
 
 def run_test(_, langCode, url):
     """
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
-
-    review_show_improvements_only = True
 
     rating = Rating(_)
     result_dict = {}

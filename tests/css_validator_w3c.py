@@ -21,6 +21,7 @@ _local = gettext.gettext
 request_timeout = config.http_request_timeout
 useragent = config.useragent
 css_review_group_errors = config.css_review_group_errors
+review_show_improvements_only = config.review_show_improvements_only
 
 global css_features
 global css_properties_doesnt_exist
@@ -30,8 +31,6 @@ def run_test(_, langCode, url):
     """
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
-
-    review_show_improvements_only = True
 
     points = 0.0
     review = ''

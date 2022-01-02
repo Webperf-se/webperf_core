@@ -21,7 +21,7 @@ useragent = config.useragent
 time_sleep = config.webbkoll_sleep
 if time_sleep < 5:
     time_sleep = 5
-review_show_improvements_only = True
+review_show_improvements_only = config.review_show_improvements_only
 
 
 def run_test(_, langCode, url):

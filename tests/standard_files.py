@@ -18,7 +18,7 @@ _local = gettext.gettext
 # DEFAULTS
 request_timeout = config.http_request_timeout
 useragent = config.useragent
-review_show_improvements_only = True
+review_show_improvements_only = config.review_show_improvements_only
 
 
 def run_test(_, langCode, url):

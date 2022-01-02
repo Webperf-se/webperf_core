@@ -34,6 +34,7 @@ _local = gettext.gettext
 # DEFAULTS
 request_timeout = config.http_request_timeout
 useragent = config.useragent
+review_show_improvements_only = True
 
 
 def run_test(_, langCode, url):
@@ -41,7 +42,7 @@ def run_test(_, langCode, url):
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
 
-    rating = Rating(_)
+    rating = Rating(_, review_show_improvements_only)
     result_dict = {}
 
     language = gettext.translation(
@@ -81,7 +82,7 @@ def run_test(_, langCode, url):
 
 
 def validate_url(url, _):
-    rating = Rating()
+    rating = Rating(_, review_show_improvements_only)
 
     # points = 0.0
     # review = ''
@@ -101,7 +102,7 @@ def validate_url(url, _):
 
 
 def http_to_https_score(url, _):
-    rating = Rating()
+    rating = Rating(_, review_show_improvements_only)
     http_url = ''
 
     o = urllib.parse.urlparse(url)
@@ -149,7 +150,7 @@ def http_to_https_score(url, _):
 
 
 def ip_version_score(hostname, _):
-    rating = Rating()
+    rating = Rating(_, review_show_improvements_only)
     # review += _('TEXT_REVIEW_IP_VERSION')
     ip4_result = dns_lookup(hostname, "A")
 
@@ -182,7 +183,7 @@ def ip_version_score(hostname, _):
 
 
 def protocol_version_score(url, protocol_version, _):
-    rating = Rating()
+    rating = Rating(_, review_show_improvements_only)
     # points = 0.0
     # review = ''
     result_not_validated = (False, '')
@@ -307,7 +308,7 @@ def protocol_version_score(url, protocol_version, _):
 
 
 def tls_version_score(orginal_url, _):
-    rating = Rating()
+    rating = Rating(_, review_show_improvements_only)
     # review += _('TEXT_REVIEW_TLS_VERSION')
     url = orginal_url.replace('http://', 'https://')
 
@@ -369,7 +370,7 @@ def dns_lookup(hostname, record_type):
 
 
 def http_version_score(hostname, url, _):
-    rating = Rating()
+    rating = Rating(_, review_show_improvements_only)
 
     # review += _('TEXT_REVIEW_HTTP_VERSION')
 
@@ -387,7 +388,7 @@ def http_version_score(hostname, url, _):
 
 
 def check_http11(hostname, _):
-    rating = Rating()
+    rating = Rating(_, review_show_improvements_only)
     try:
         socket.setdefaulttimeout(10)
         conn = ssl.create_default_context()
@@ -422,7 +423,7 @@ def check_http11(hostname, _):
 
 
 def check_http2(hostname, _):
-    rating = Rating()
+    rating = Rating(_, review_show_improvements_only)
     try:
         socket.setdefaulttimeout(10)
         conn = ssl.create_default_context()
@@ -460,7 +461,7 @@ def check_http2(hostname, _):
 
 
 def check_http3(host, _):
-    rating = Rating()
+    rating = Rating(_, review_show_improvements_only)
     try:
         url = 'https://http3check.net/?host={0}'.format(host)
         headers = {'user-agent': useragent}
@@ -517,7 +518,7 @@ def check_http3(host, _):
 
 
 def check_http_fallback(url, _):
-    rating = Rating()
+    rating = Rating(_, review_show_improvements_only)
     has_http2 = False
     has_http11 = False
     try:

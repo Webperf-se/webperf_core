@@ -31,6 +31,8 @@ def run_test(_, langCode, url):
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
 
+    review_show_improvements_only = True
+
     points = 0.0
     review = ''
 
@@ -80,7 +82,7 @@ def run_test(_, langCode, url):
     elif points <= 1.0:
         review = _local('TEXT_REVIEW_CSS_IS_VERY_BAD') + review
 
-    rating = Rating(_)
+    rating = Rating(_, review_show_improvements_only)
     rating.set_overall(points, review)
     rating.set_standards(points, review)
 
@@ -123,7 +125,7 @@ def get_errors_for_link_tags(html, url, _):
                 # relative url, but without starting /
                 resource_url = parsed_url + '/' + resource_url
 
-            print('resource_url', resource_url)
+            # print('resource_url', resource_url)
             # print('stylesheet resource #{0}:'.format(resource_index))
             # review_header = '* <link rel="stylesheet" #{0}>:\n'.format(
             #    resource_index)
@@ -212,7 +214,7 @@ def get_errors_for_url(url):
         response = json.loads(request.text)
         errors = response['messages']
 
-        print('errors css:', errors)
+        # print('errors css:', errors)
 
         return errors
     except requests.Timeout:
@@ -242,7 +244,7 @@ def get_errors_for_css(data):
         response = json.loads(request.text)
         errors = response['messages']
 
-        print('errors css:', errors)
+        # print('errors css:', errors)
 
         return errors
         # print(len(errors))

@@ -66,8 +66,9 @@ class Rating(object):
             self.overall = 5.0
         else:
             self.overall = points
-        if not self.review_show_improvements_only or points < 5.0:
-            self.overall_review = review
+        if review != '' and (not self.review_show_improvements_only or points < 5.0):
+            self.overall_review = '{0} ( {1:.2f} rating )\r\n'.format(
+                review, points)
         self.is_set = True
 
     def get_overall(self):
@@ -80,8 +81,9 @@ class Rating(object):
             self.integrity_and_security = 5.0
         else:
             self.integrity_and_security = points
-        if not self.review_show_improvements_only or points < 5.0:
-            self.integrity_and_security_review = review
+        if review != '' and (not self.review_show_improvements_only or points < 5.0):
+            self.integrity_and_security_review = '{0} ( {1:.2f} rating )\r\n'.format(
+                review, points)
         self.is_set = True
 
     def get_integrity_and_security(self):
@@ -94,8 +96,9 @@ class Rating(object):
             self.performance = 5.0
         else:
             self.performance = points
-        if not self.review_show_improvements_only or points < 5.0:
-            self.performance_review = review
+        if review != '' and (not self.review_show_improvements_only or points < 5.0):
+            self.performance_review = '{0} ( {1:.2f} rating )\r\n'.format(
+                review, points)
         self.is_set = True
 
     def get_performance(self):
@@ -108,8 +111,9 @@ class Rating(object):
             self.standards = 5.0
         else:
             self.standards = points
-        if not self.review_show_improvements_only or points < 5.0:
-            self.standards_review = review
+        if review != '' and (not self.review_show_improvements_only or points < 5.0):
+            self.standards_review = '{0} ( {1:.2f} rating )\r\n'.format(
+                review, points)
         self.is_set = True
 
     def get_standards(self):
@@ -122,8 +126,9 @@ class Rating(object):
             self.a11y = 5.0
         else:
             self.a11y = points
-        if not self.review_show_improvements_only or points < 5.0:
-            self.a11y_review = review
+        if review != '' and (not self.review_show_improvements_only or points < 5.0):
+            self.a11y_review = '{0} ( {1:.2f} rating )\r\n'.format(
+                review, points)
         self.is_set = True
 
     def get_a11y(self):

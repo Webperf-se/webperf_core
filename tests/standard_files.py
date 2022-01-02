@@ -18,6 +18,7 @@ _local = gettext.gettext
 # DEFAULTS
 request_timeout = config.http_request_timeout
 useragent = config.useragent
+review_show_improvements_only = True
 
 
 def run_test(_, langCode, url):
@@ -41,7 +42,7 @@ def run_test(_, langCode, url):
     o = urllib.parse.urlparse(url)
     parsed_url = '{0}://{1}/'.format(o.scheme, o.netloc)
 
-    rating = Rating(_)
+    rating = Rating(_, review_show_improvements_only)
     return_dict = dict()
 
     # robots.txt
@@ -74,7 +75,7 @@ def run_test(_, langCode, url):
 
 def validate_robots(_, parsed_url):
     return_dict = dict()
-    rating = Rating()
+    rating = Rating(_, review_show_improvements_only)
 
     robots_content = httpRequestGetContent(parsed_url + 'robots.txt', True)
 
@@ -93,7 +94,7 @@ def validate_robots(_, parsed_url):
 
 
 def validate_sitemap(_, robots_content, has_robots_txt):
-    rating = Rating()
+    rating = Rating(_, review_show_improvements_only)
     return_dict = dict()
     return_dict["num_sitemaps"] = 0
 
@@ -102,8 +103,6 @@ def validate_sitemap(_, robots_content, has_robots_txt):
         rating.set_standards(1.0, _("TEXT_SITEMAP_MISSING"))
         return_dict['sitemap'] = 'not in robots.txt'
     else:
-        rating.set_overall(2.0, _("TEXT_SITEMAP_FOUND"))
-        rating.set_standards(2.0, _("TEXT_SITEMAP_FOUND"))
         return_dict['sitemap'] = 'ok'
 
         smap_pos = robots_content.lower().find('sitemap')
@@ -135,6 +134,9 @@ def validate_sitemap(_, robots_content, has_robots_txt):
                     5.0, _("TEXT_SITEMAP_OK"))
                 return_dict['sitemap_check'] = '\'{0}\' seem ok'.format(
                     found_smaps[0])
+        else:
+            rating.set_overall(2.0, _("TEXT_SITEMAP_FOUND"))
+            rating.set_standards(2.0, _("TEXT_SITEMAP_FOUND"))
 
     return (rating, return_dict)
 
@@ -150,6 +152,8 @@ def is_feed(tag):
             return True
         if 'application/atom+xml' in tag_type:
             return True
+        if 'application/feed+json' in tag_type:
+            return True
     return False
 
 
@@ -158,7 +162,7 @@ def validate_feed(_, url):
 
     return_dict = dict()
     feed = list()
-    rating = Rating()
+    rating = Rating(_, review_show_improvements_only)
 
     headers = {'user-agent': config.useragent}
     try:
@@ -222,7 +226,7 @@ def validate_security_txt(_, parsed_url):
 
     if not security_wellknown_request and not security_root_request:
         # Can't find security.txt (not giving us 200 as status code)
-        rating = Rating()
+        rating = Rating(_, review_show_improvements_only)
         rating.set_overall(1.0, _("TEXT_SECURITY_MISSING"))
         rating.set_standards(1.0, _("TEXT_SECURITY_MISSING"))
         rating.set_integrity_and_security(1.0, _("TEXT_SECURITY_MISSING"))
@@ -251,9 +255,8 @@ def validate_security_txt(_, parsed_url):
 
 
 def rate_securitytxt_content(content, _):
-    rating = Rating()
+    rating = Rating(_, review_show_improvements_only)
     return_dict = dict()
-    rating.set_overall(1.0, _("TEXT_SECURITY_WRONG_CONTENT"))
     if content == None or ('<html' in content.lower()):
         # Html (404 page?) content instead of expected content
         rating.set_overall(1.0, _("TEXT_SECURITY_WRONG_CONTENT"))
@@ -285,5 +288,7 @@ def rate_securitytxt_content(content, _):
 
         # print(security_wellknown_content)
         # print('* security.txt seems ok')
+    else:
+        rating.set_overall(1.0, _("TEXT_SECURITY_WRONG_CONTENT"))
 
     return (rating, return_dict)

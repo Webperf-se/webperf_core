@@ -67,7 +67,7 @@ class Rating(object):
         else:
             self.overall = points
         if review != '' and (not self.review_show_improvements_only or points < 5.0):
-            self.overall_review = '{0} ( {1:.2f} rating )\r\n'.format(
+            self.overall_review = self._('TEXT_TEST_REVIEW_RATING_ITEM').format(
                 review, points)
         self.is_set = True
 
@@ -82,7 +82,7 @@ class Rating(object):
         else:
             self.integrity_and_security = points
         if review != '' and (not self.review_show_improvements_only or points < 5.0):
-            self.integrity_and_security_review = '{0} ( {1:.2f} rating )\r\n'.format(
+            self.integrity_and_security_review = self._('TEXT_TEST_REVIEW_RATING_ITEM').format(
                 review, points)
         self.is_set = True
 
@@ -97,7 +97,7 @@ class Rating(object):
         else:
             self.performance = points
         if review != '' and (not self.review_show_improvements_only or points < 5.0):
-            self.performance_review = '{0} ( {1:.2f} rating )\r\n'.format(
+            self.performance_review = self._('TEXT_TEST_REVIEW_RATING_ITEM').format(
                 review, points)
         self.is_set = True
 
@@ -112,7 +112,7 @@ class Rating(object):
         else:
             self.standards = points
         if review != '' and (not self.review_show_improvements_only or points < 5.0):
-            self.standards_review = '{0} ( {1:.2f} rating )\r\n'.format(
+            self.standards_review = self._('TEXT_TEST_REVIEW_RATING_ITEM').format(
                 review, points)
         self.is_set = True
 
@@ -127,7 +127,7 @@ class Rating(object):
         else:
             self.a11y = points
         if review != '' and (not self.review_show_improvements_only or points < 5.0):
-            self.a11y_review = '{0} ( {1:.2f} rating )\r\n'.format(
+            self.a11y_review = self._('TEXT_TEST_REVIEW_RATING_ITEM').format(
                 review, points)
         self.is_set = True
 

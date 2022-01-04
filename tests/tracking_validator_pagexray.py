@@ -132,11 +132,6 @@ def run_test(_, langCode, url):
         if browser != False:
             browser.quit()
 
-    # points = float("{0:.2f}".format(points))
-
-    # rating.set_overall(points, review)
-    # rating.set_integrity_and_security(points, review)
-
     print(_('TEXT_TEST_END').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
@@ -392,7 +387,6 @@ def check_cookies(json_content, hostname, _local, _):
     number_of_cookies = 0
     cookies_index = 0
     cookies_points = 1.0
-    cookies_review = ''
 
     cookies_number_of_firstparties = 0
     cookies_number_of_thirdparties = 0
@@ -478,8 +472,6 @@ def check_cookies(json_content, hostname, _local, _):
             cookies_number_of_valid_over_1year))
         valid_1year_rating.set_overall(valid_1year_points)
         rating += valid_1year_rating
-        # cookies_review += _local('TEXT_COOKIE_HAS_OVER_1YEAR').format(
-        #     cookies_number_of_valid_over_1year)
     elif cookies_number_of_valid_over_9months > 0:
         # '-- Valid over 9 months: {0}\r\n'
         valid_9months_points = 5.0 - cookies_number_of_valid_over_9months * 4.0
@@ -491,8 +483,6 @@ def check_cookies(json_content, hostname, _local, _):
             cookies_number_of_valid_over_9months))
         valid_9months_rating.set_overall(valid_9months_points)
         rating += valid_9months_rating
-        # cookies_review += _local('TEXT_COOKIE_HAS_OVER_9MONTH').format(
-        #     cookies_number_of_valid_over_9months)
     elif cookies_number_of_valid_over_6months > 0:
         # '-- Valid over 6 months: {0}\r\n'
         valid_6months_points = 5.0 - cookies_number_of_valid_over_6months * 3.0
@@ -504,8 +494,6 @@ def check_cookies(json_content, hostname, _local, _):
             cookies_number_of_valid_over_6months))
         valid_6months_rating.set_overall(valid_6months_points)
         rating += valid_6months_rating
-        # cookies_review += _local('TEXT_COOKIE_HAS_OVER_6MONTH').format(
-        #     cookies_number_of_valid_over_6months)
     elif cookies_number_of_valid_over_3months > 0:
         # '-- Valid over 3 months: {0}\r\n'
         valid_3months_points = 5.0 - cookies_number_of_valid_over_3months * 3.0
@@ -517,8 +505,6 @@ def check_cookies(json_content, hostname, _local, _):
             cookies_number_of_valid_over_3months))
         valid_3months_rating.overall(valid_3months_points)
         rating += valid_3months_rating
-        # cookies_review += _local('TEXT_COOKIE_HAS_OVER_3MONTH').format(
-        #     cookies_number_of_valid_over_3months)
     if cookies_number_of_secure > 0:
         # '-- Not secure: {0}\r\n'
         secure_points = 5.0 - cookies_number_of_secure * 3.0
@@ -530,14 +516,7 @@ def check_cookies(json_content, hostname, _local, _):
             cookies_number_of_secure))
         secure_rating.set_overall(secure_points)
         rating += secure_rating
-        # cookies_review += _local('TEXT_COOKIE_NOT_SECURE').format(
-        #     cookies_number_of_secure)
-        # cookies_points -= 0.1
 
-    # if cookies_points < 0.0:
-    #     cookies_points = 0.0
-
-    # cookies_points = float("{0:.2f}".format(cookies_points))
     tmp_review = rating.integrity_and_security_review
     rating.integrity_and_security_review = ''
 
@@ -550,21 +529,12 @@ def check_cookies(json_content, hostname, _local, _):
             # '* Cookies ({0} points)\r\n{1}'
             rating.integrity_and_security_review = _local('TEXT_COOKIE_NO_POINTS').format(
                 rating.get_overall(), '')
-            # cookies_review = _local('TEXT_COOKIE_NO_POINTS').format(
-            #     cookies_points, cookies_review)
     else:
         no_cookie_points = 5.0
         rating.set_integrity_and_security(no_cookie_points, _local('TEXT_COOKIE_HAS_POINTS').format(
             0.0, ''))
 
         rating.set_overall(no_cookie_points)
-
-    #     # '* Cookies (+{0} points)\r\n{1}'
-    #     cookies_review = _local('TEXT_COOKIE_HAS_POINTS').format(
-    #         cookies_points, cookies_review)
-    #     # '{0}-- No Cookies\r\n'
-    #     cookies_review = _local('TEXT_COOKIE_NO_COOKIES').format(
-    #         cookies_review)
 
     rating.integrity_and_security_review = rating.integrity_and_security_review + tmp_review
 
@@ -675,16 +645,10 @@ def check_har_results(content, _local, _):
             _local('TEXT_GDPR_{0}'.format(page_is_hosted_in_sweden)))
 
         if points > 0.0:
-            # '* GDPR and Schrems: (+{0} points)\r\n{1}'
-            # review = _local('TEXT_GDPR_HAS_POINTS').format(
-            #     points, review)
             rating.set_integrity_and_security(points, _local('TEXT_GDPR_HAS_POINTS').format(
                 0.0, ''))
             rating.set_overall(points)
         else:
-            # '* GDPR and Schrems: ({0} points)\r\n{1}'
-            # review = _local('TEXT_GDPR_NO_POINTS').format(
-            #     points, review)
             rating.set_integrity_and_security(points, _local('TEXT_GDPR_NO_POINTS').format(
                 0.0, ''))
             rating.set_overall(points)

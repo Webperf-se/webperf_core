@@ -53,18 +53,18 @@ def run_test(_, langCode, url):
     # 2. FIND ALL INLE CSS (AND CALCULTE)
     # 2.1 FINS ALL <STYLE>
     errors = get_errors_for_style_tags(html, _local)
-    rating += create_review_and_rating(errors, _, _local, '- `<style>` ')
+    rating += create_review_and_rating(errors, _, _local, '- `<style>`')
 
     # 2.2 FIND ALL style=""
     errors = get_errors_for_style_attributes(html, _local)
-    rating += create_review_and_rating(errors, _, _local, '- `style=""` ')
+    rating += create_review_and_rating(errors, _, _local, '- `style=""`')
 
     # 2.3 GET ERRORS FROM SERVICE
     # 2.4 CALCULATE SCORE
     # 3 FIND ALL <LINK> (rel=\"stylesheet\")
     errors = get_errors_for_link_tags(html, url, _local)
     rating += create_review_and_rating(errors,
-                                       _,  _local, '- `<link rel=\"stylesheet\">` ')
+                                       _,  _local, '- `<link rel=\"stylesheet\">`')
 
     points = rating.get_overall()
     error_message_dict = {}

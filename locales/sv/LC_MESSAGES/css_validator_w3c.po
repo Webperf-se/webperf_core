@@ -34,10 +34,10 @@ msgid "TEXT_REVIEW_CSS_IS_VERY_BAD"
 msgstr "- CSS är väldigt dålig.\n"
 
 msgid "TEXT_REVIEW_ERRORS_ITEM"
-msgstr "- {0} (totalt {1} st)\n"
+msgstr "  - {0} (totalt {1} st)\n"
 
 msgid "TEXT_REVIEW_RATING_GROUPED"
-msgstr "- Antal (grupperade fel):"
+msgstr ", antal grupperade fel: {0}"
 
 msgid "TEXT_REVIEW_RATING_ITEMS"
-msgstr "- Antal fel: {0}"
+msgstr ", antal fel: {0}"

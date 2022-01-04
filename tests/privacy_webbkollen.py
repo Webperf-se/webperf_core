@@ -173,7 +173,7 @@ def run_test(_, langCode, url):
         elif header_id == 'headers' or header_id == 'cookies':
             review_messages += _local('TEXT_REVIEW_CATEGORY_VERY_GOOD')
         else:
-            review_messages += ": " + more_info + "\n"
+            review_messages += ": " + more_info
 
         heading_rating.set_integrity_and_security(
             points_for_current_result, review_messages)

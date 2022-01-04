@@ -59,7 +59,7 @@ def run_test(_, langCode, url):
     check_url = True
 
     while check_url and nof_checks < 10:
-        checked_url_rating = validate_url(url, _local)
+        checked_url_rating = validate_url(url, _, _local)
 
         redirect_result = has_redirect(url)
         check_url = redirect_result[0]
@@ -81,7 +81,7 @@ def run_test(_, langCode, url):
     return (rating, result_dict)
 
 
-def validate_url(url, _):
+def validate_url(url, _, _local):
     rating = Rating(_, review_show_improvements_only)
 
     # points = 0.0
@@ -90,18 +90,18 @@ def validate_url(url, _):
     o = urllib.parse.urlparse(url)
     hostname = o.hostname
 
-    rating += http_to_https_score(url, _)
+    rating += http_to_https_score(url, _, _local)
 
-    rating += tls_version_score(url, _)
+    rating += tls_version_score(url, _, _local)
 
-    rating += ip_version_score(hostname, _)
+    rating += ip_version_score(hostname, _, _local)
 
-    rating += http_version_score(hostname, url, _)
+    rating += http_version_score(hostname, url, _, _local)
 
     return rating
 
 
-def http_to_https_score(url, _):
+def http_to_https_score(url, _, _local):
     rating = Rating(_, review_show_improvements_only)
     http_url = ''
 
@@ -122,34 +122,34 @@ def http_to_https_score(url, _):
 
     if result_url == None:
         rating.set_overall(
-            1.0, _('TEXT_REVIEW_RESULT_FOR').format(url) + ': {0}'.format(0.0))
+            1.0, _local('TEXT_REVIEW_RESULT_FOR').format(url))
         rating.set_integrity_and_security(
-            1.0, _('TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_UNABLE_TO_VERIFY').format(0.0))
-        rating.set_standards(1.0, _(
-            'TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_UNABLE_TO_VERIFY').format(0.0))
+            1.0, _local('TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_UNABLE_TO_VERIFY'))
+        rating.set_standards(1.0, _local(
+            'TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_UNABLE_TO_VERIFY'))
         return rating
 
     result_url_o = urllib.parse.urlparse(result_url)
 
     if (result_url_o.scheme == 'http'):
         rating.set_overall(
-            1.0, _('TEXT_REVIEW_RESULT_FOR').format(url) + _('TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_NO_REDIRECT').format(0.0))
+            1.0, _local('TEXT_REVIEW_RESULT_FOR').format(url) + _local('TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_NO_REDIRECT'))
         rating.set_integrity_and_security(
-            1.0, _('TEXT_REVIEW_RESULT_FOR').format(url) + _('TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_NO_REDIRECT').format(0.0))
-        rating.set_standards(1.0, _('TEXT_REVIEW_RESULT_FOR').format(
-            url) + _('TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_NO_REDIRECT').format(0.0))
+            1.0, _local('TEXT_REVIEW_RESULT_FOR').format(url) + _local('TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_NO_REDIRECT'))
+        rating.set_standards(1.0, _local('TEXT_REVIEW_RESULT_FOR').format(
+            url) + _local('TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_NO_REDIRECT'))
         return rating
     else:
         rating.set_overall(
-            5.0, _('TEXT_REVIEW_RESULT_FOR').format(url) + _('TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_REDIRECTED').format(0.0))
+            5.0, _local('TEXT_REVIEW_RESULT_FOR').format(url) + _local('TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_REDIRECTED'))
         rating.set_integrity_and_security(
-            5.0, _('TEXT_REVIEW_RESULT_FOR').format(url) + _('TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_REDIRECTED').format(0.0))
-        rating.set_standards(5.0, _('TEXT_REVIEW_RESULT_FOR').format(
-            url) + _('TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_REDIRECTED').format(0.0))
+            5.0, _local('TEXT_REVIEW_RESULT_FOR').format(url) + _local('TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_REDIRECTED'))
+        rating.set_standards(5.0, _local('TEXT_REVIEW_RESULT_FOR').format(
+            url) + _local('TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_REDIRECTED'))
         return rating
 
 
-def ip_version_score(hostname, _):
+def ip_version_score(hostname, _, _local):
     rating = Rating(_, review_show_improvements_only)
     # review += _('TEXT_REVIEW_IP_VERSION')
     ip4_result = dns_lookup(hostname, "A")
@@ -158,31 +158,31 @@ def ip_version_score(hostname, _):
 
     if ip4_result[0] and ip6_result[0]:
         rating.set_overall(
-            5.0, _('TEXT_REVIEW_IP_VERSION_BOTH_IPV4_AND_IPV6').format(0.0))
+            5.0, _local('TEXT_REVIEW_IP_VERSION_BOTH_IPV4_AND_IPV6'))
         rating.set_standards(
-            5.0, _('TEXT_REVIEW_IP_VERSION_BOTH_IPV4_AND_IPV6').format(0.0))
+            5.0, _local('TEXT_REVIEW_IP_VERSION_BOTH_IPV4_AND_IPV6'))
         return rating
 
     if ip6_result[0]:
         rating.set_overall(
-            2.5, _('TEXT_REVIEW_IP_VERSION_IPV6').format(0.0))
+            2.5, _local('TEXT_REVIEW_IP_VERSION_IPV6'))
         rating.set_standards(
-            2.5, _('TEXT_REVIEW_IP_VERSION_IPV6').format(0.0))
+            2.5, _local('TEXT_REVIEW_IP_VERSION_IPV6'))
         return rating
 
     if ip4_result[0]:
         rating.set_overall(
-            2.5, _('TEXT_REVIEW_IP_VERSION_IPV4').format(0.0))
+            2.5, _local('TEXT_REVIEW_IP_VERSION_IPV4'))
         rating.set_standards(
-            2.5, _('TEXT_REVIEW_IP_VERSION_IPV4').format(0.0))
+            2.5, _local('TEXT_REVIEW_IP_VERSION_IPV4'))
         return rating
 
     rating.set_overall(
-        1.0, _('TEXT_REVIEW_IP_VERSION_UNABLE_TO_VERIFY').format(0.0))
+        1.0, _local('TEXT_REVIEW_IP_VERSION_UNABLE_TO_VERIFY'))
     return rating
 
 
-def protocol_version_score(url, protocol_version, _):
+def protocol_version_score(url, protocol_version, _, _local):
     rating = Rating(_, review_show_improvements_only)
     # points = 0.0
     # review = ''
@@ -244,33 +244,29 @@ def protocol_version_score(url, protocol_version, _):
         if has_full_support:
             if protocol_is_secure:
                 rating.set_integrity_and_security(
-                    5.0, _('TEXT_REVIEW_' + protocol_translate_name + '_SUPPORT').format(0.0))
+                    5.0, _local('TEXT_REVIEW_' + protocol_translate_name + '_SUPPORT'))
                 # points += 0.5
             rating.set_overall(
-                5.0, _('TEXT_REVIEW_' + protocol_translate_name + '_SUPPORT').format(0.0))
-            rating.set_standards(5.0, _(
-                'TEXT_REVIEW_' + protocol_translate_name + '_SUPPORT').format(0.0))
-            # review += _('TEXT_REVIEW_' +
-            #            protocol_translate_name + '_SUPPORT')
+                5.0, _local('TEXT_REVIEW_' + protocol_translate_name + '_SUPPORT'))
+            rating.set_standards(5.0, _local(
+                'TEXT_REVIEW_' + protocol_translate_name + '_SUPPORT'))
         elif has_wrong_cert:
             rating.set_integrity_and_security(
-                1.0, _('TEXT_REVIEW_' + protocol_translate_name + '_SUPPORT_WRONG_CERT').format(0.0))
+                1.0, _local('TEXT_REVIEW_' + protocol_translate_name + '_SUPPORT_WRONG_CERT'))
             rating.set_standards(
-                3.0, _('TEXT_REVIEW_' + protocol_translate_name + '_SUPPORT_WRONG_CERT').format(0.0))
-            # review += _('TEXT_REVIEW_' +
-            #            protocol_translate_name + '_SUPPORT_WRONG_CERT')
+                3.0, _local('TEXT_REVIEW_' + protocol_translate_name + '_SUPPORT_WRONG_CERT'))
         else:
             if not protocol_is_secure:
                 rating.set_integrity_and_security(
-                    5.0, _('TEXT_REVIEW_' + protocol_translate_name + '_NO_SUPPORT').format(0.0))
+                    5.0, _local('TEXT_REVIEW_' + protocol_translate_name + '_NO_SUPPORT'))
                 rating.set_overall(
-                    5.0, _('TEXT_REVIEW_' + protocol_translate_name + '_NO_SUPPORT').format(0.0))
+                    5.0, _local('TEXT_REVIEW_' + protocol_translate_name + '_NO_SUPPORT'))
                 # points += 0.3
             else:
                 rating.set_integrity_and_security(
-                    1.0, _('TEXT_REVIEW_' + protocol_translate_name + '_NO_SUPPORT').format(0.0))
+                    1.0, _local('TEXT_REVIEW_' + protocol_translate_name + '_NO_SUPPORT'))
                 rating.set_overall(
-                    3.0, _('TEXT_REVIEW_' + protocol_translate_name + '_NO_SUPPORT').format(0.0))
+                    3.0, _local('TEXT_REVIEW_' + protocol_translate_name + '_NO_SUPPORT'))
 
         result_insecure_cipher = (False, 'unset')
         try:
@@ -307,7 +303,7 @@ def protocol_version_score(url, protocol_version, _):
     return rating
 
 
-def tls_version_score(orginal_url, _):
+def tls_version_score(orginal_url, _, _local):
     rating = Rating(_, review_show_improvements_only)
     # review += _('TEXT_REVIEW_TLS_VERSION')
     url = orginal_url.replace('http://', 'https://')
@@ -319,38 +315,38 @@ def tls_version_score(orginal_url, _):
         tls1_3_rating = protocol_version_score(url, ssl.PROTOCOL_TLS, _)
         if tls1_3_rating.get_overall() == 5.0:
             tls1_3_rating.set_performance(
-                5.0, _('TEXT_REVIEW_RESULT_FOR').format(url) + _('TEXT_REVIEW_TLS1_3_SUPPORT').format(0.0))
+                5.0, _local('TEXT_REVIEW_RESULT_FOR').format(url) + _local('TEXT_REVIEW_TLS1_3_SUPPORT'))
         else:
             tls1_3_rating.set_performance(
-                4.0, _('TEXT_REVIEW_RESULT_FOR').format(url) + _('TEXT_REVIEW_TLS1_3_NO_SUPPORT').format(0.0))
+                4.0, _local('TEXT_REVIEW_RESULT_FOR').format(url) + _local('TEXT_REVIEW_TLS1_3_NO_SUPPORT'))
         rating += tls1_3_rating
     except:
         pass
 
     try:
-        rating += protocol_version_score(url, ssl.PROTOCOL_TLSv1_2, _)
+        rating += protocol_version_score(url, ssl.PROTOCOL_TLSv1_2, _, _local)
     except:
         pass
 
     try:
-        rating += protocol_version_score(url, ssl.PROTOCOL_TLSv1_1, _)
+        rating += protocol_version_score(url, ssl.PROTOCOL_TLSv1_1, _, _local)
     except:
         pass
 
     try:
-        rating += protocol_version_score(url, ssl.PROTOCOL_TLSv1, _)
+        rating += protocol_version_score(url, ssl.PROTOCOL_TLSv1, _, _local)
     except:
         pass
 
     try:
         # HOW TO ENABLE SSLv3, https://askubuntu.com/questions/893155/simple-way-of-enabling-sslv2-and-sslv3-in-openssl
-        rating += protocol_version_score(url, ssl.PROTOCOL_SSLv3, _)
+        rating += protocol_version_score(url, ssl.PROTOCOL_SSLv3, _, _local)
     except:
         pass
 
     try:
         # HOW TO ENABLE SSLv2, https://askubuntu.com/questions/893155/simple-way-of-enabling-sslv2-and-sslv3-in-openssl
-        rating += protocol_version_score(url, ssl.PROTOCOL_SSLv2, _)
+        rating += protocol_version_score(url, ssl.PROTOCOL_SSLv2, _, _local)
     except:
         pass
 
@@ -369,25 +365,25 @@ def dns_lookup(hostname, record_type):
     return (True, record)
 
 
-def http_version_score(hostname, url, _):
+def http_version_score(hostname, url, _, _local):
     rating = Rating(_, review_show_improvements_only)
 
     # review += _('TEXT_REVIEW_HTTP_VERSION')
 
-    rating += check_http11(hostname, _)
+    rating += check_http11(hostname, _, _local)
 
-    rating += check_http2(hostname, _)
+    rating += check_http2(hostname, _, _local)
 
     # If we still have 1.0 points something must have gone wrong, try fallback
     if not rating.isused():
-        rating = check_http_fallback(url, _)
+        rating = check_http_fallback(url, _, _local)
 
-    rating += check_http3(hostname, _)
+    rating += check_http3(hostname, _, _local)
 
     return rating
 
 
-def check_http11(hostname, _):
+def check_http11(hostname, _, _local):
     rating = Rating(_, review_show_improvements_only)
     try:
         socket.setdefaulttimeout(10)
@@ -408,21 +404,21 @@ def check_http11(hostname, _):
 
         if negotiated_protocol == "http/1.1":
             rating.set_overall(
-                5.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1').format(0.0))
+                5.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1'))
             rating.set_standards(
-                5.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1').format(0.0))
+                5.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1'))
         else:
             rating.set_overall(
-                1.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1').format(0.0))
+                1.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1'))
             rating.set_standards(
-                1.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1').format(0.0))
+                1.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1'))
     except Exception:
         # rating.set_overall(1.0)
         return rating
     return rating
 
 
-def check_http2(hostname, _):
+def check_http2(hostname, _, _local):
     rating = Rating(_, review_show_improvements_only)
     try:
         socket.setdefaulttimeout(10)
@@ -442,25 +438,25 @@ def check_http2(hostname, _):
 
         if negotiated_protocol == "h2":
             rating.set_overall(
-                5.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_2').format(0.0))
+                5.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_2'))
             rating.set_standards(
-                5.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_2').format(0.0))
+                5.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_2'))
             rating.set_performance(
-                5.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_2').format(0.0))
+                5.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_2'))
         else:
             rating.set_overall(
-                1.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_2').format(0.0))
+                1.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_2'))
             rating.set_standards(
-                1.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_2').format(0.0))
+                1.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_2'))
             rating.set_performance(
-                1.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_2').format(0.0))
+                1.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_2'))
     except Exception:
         return rating
 
     return rating
 
 
-def check_http3(host, _):
+def check_http3(host, _, _local):
     rating = Rating(_, review_show_improvements_only)
     try:
         url = 'https://http3check.net/?host={0}'.format(host)
@@ -494,30 +490,30 @@ def check_http3(host, _):
 
         if (has_http3_support and has_quic_support):
             rating.set_overall(
-                5.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_3').format(0.0) + _('TEXT_REVIEW_HTTP_VERSION_QUIC').format(0.0))
+                5.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_3') + _local('TEXT_REVIEW_HTTP_VERSION_QUIC'))
             rating.set_standards(
-                5.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_3').format(0.0) + _('TEXT_REVIEW_HTTP_VERSION_QUIC').format(0.0))
+                5.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_3') + _local('TEXT_REVIEW_HTTP_VERSION_QUIC'))
         elif has_http3_support:
             rating.set_overall(
-                2.5, _('TEXT_REVIEW_HTTP_VERSION_HTTP_3').format(0.0))
+                2.5, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_3'))
             rating.set_standards(
-                2.5, _('TEXT_REVIEW_HTTP_VERSION_HTTP_3').format(0.0))
+                2.5, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_3'))
         elif has_quic_support:
             rating.set_overall(
-                2.5, _('TEXT_REVIEW_HTTP_VERSION_QUIC').format(0.0))
+                2.5, _local('TEXT_REVIEW_HTTP_VERSION_QUIC'))
             rating.set_standards(
-                2.5, _('TEXT_REVIEW_HTTP_VERSION_QUIC').format(0.0))
+                2.5, _local('TEXT_REVIEW_HTTP_VERSION_QUIC'))
         else:
-            rating.set_overall(1.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_3').format(0.0) +
-                               _('TEXT_REVIEW_HTTP_VERSION_QUIC').format(0.0))
-            rating.set_standards(1.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_3').format(0.0) +
-                                 _('TEXT_REVIEW_HTTP_VERSION_QUIC').format(0.0))
+            rating.set_overall(1.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_3') +
+                               _local('TEXT_REVIEW_HTTP_VERSION_QUIC'))
+            rating.set_standards(1.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_3') +
+                                 _local('TEXT_REVIEW_HTTP_VERSION_QUIC'))
     except Exception:
         return rating
     return rating
 
 
-def check_http_fallback(url, _):
+def check_http_fallback(url, _, _local):
     rating = Rating(_, review_show_improvements_only)
     has_http2 = False
     has_http11 = False
@@ -545,29 +541,29 @@ def check_http_fallback(url, _):
         pass
 
     if has_http11 and has_http2:
-        rating.set_overall(5.0, _(
-            'TEXT_REVIEW_HTTP_VERSION_HTTP_1_1').format(0.0) + _('TEXT_REVIEW_HTTP_VERSION_HTTP_2').format(0.0))
-        rating.set_standards(5.0, _(
-            'TEXT_REVIEW_HTTP_VERSION_HTTP_1_1').format(0.0) + _('TEXT_REVIEW_HTTP_VERSION_HTTP_2').format(0.0))
+        rating.set_overall(5.0, _local(
+            'TEXT_REVIEW_HTTP_VERSION_HTTP_1_1') + _local('TEXT_REVIEW_HTTP_VERSION_HTTP_2'))
+        rating.set_standards(5.0, _local(
+            'TEXT_REVIEW_HTTP_VERSION_HTTP_1_1') + _local('TEXT_REVIEW_HTTP_VERSION_HTTP_2'))
         rating.set_performance(
-            5.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_2').format(0.0))
+            5.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_2'))
     elif has_http2:
         rating.set_overall(
-            2.5, _('TEXT_REVIEW_HTTP_VERSION_HTTP_2').format(0.0))
+            2.5, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_2'))
         rating.set_standards(
-            2.5, _('TEXT_REVIEW_HTTP_VERSION_HTTP_2').format(0.0))
+            2.5, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_2'))
         rating.set_performance(
-            5.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_2').format(0.0))
+            5.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_2'))
     elif has_http11:
         rating.set_overall(
-            2.5, _('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1').format(0.0))
+            2.5, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1'))
         rating.set_standards(
-            2.5, _('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1').format(0.0))
+            2.5, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1'))
         rating.set_performance(
-            1.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1').format(0.0))
+            1.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1'))
     else:
-        rating.set_overall(1.0, _(
-            'TEXT_REVIEW_HTTP_VERSION_HTTP_1_1').format(0.0) + _('TEXT_REVIEW_HTTP_VERSION_HTTP_2').format(0.0))
+        rating.set_overall(1.0, _local(
+            'TEXT_REVIEW_HTTP_VERSION_HTTP_1_1') + _local('TEXT_REVIEW_HTTP_VERSION_HTTP_2'))
 
     return rating
 

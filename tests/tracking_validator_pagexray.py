@@ -28,6 +28,7 @@ _ = gettext.gettext
 request_timeout = config.http_request_timeout
 use_ip2location = config.use_ip2location
 useragent = config.useragent
+review_show_improvements_only = config.review_show_improvements_only
 
 ip2location_db = False
 if use_ip2location:
@@ -43,10 +44,8 @@ def run_test(_, langCode, url):
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
 
-    points = 0.0
-    review = ''
     result_dict = {}
-    rating = Rating(_)
+    rating = Rating(_, review_show_improvements_only)
 
     language = gettext.translation(
         'tracking_validator_pagexray', localedir='locales', languages=[langCode])
@@ -118,31 +117,25 @@ def run_test(_, langCode, url):
 
         # print('GET countries and tracking')
         if http_archive_content:
-            result = check_har_results(http_archive_content, _local)
-            points += result[0]
-            review += result[1]
+            rating += check_har_results(http_archive_content, _local, _)
 
-            result = check_tracking(
-                browser, http_archive_content + detailed_results_content, _local)
-            points += result[0]
-            review += result[1]
+            rating += check_tracking(
+                browser, http_archive_content + detailed_results_content, _local, _)
 
         # print('GET fingerprints, ads and cookies')
         if detailed_results_content:
-            result = check_detailed_results(
-                browser, detailed_results_content, hostname, _local)
-            points += result[0]
-            review += result[1]
+            rating += check_detailed_results(
+                browser, detailed_results_content, hostname, _local, _)
 
         # time.sleep(30)
     finally:
         if browser != False:
             browser.quit()
 
-    points = float("{0:.2f}".format(points))
+    # points = float("{0:.2f}".format(points))
 
-    rating.set_overall(points, review)
-    rating.set_integrity_and_security(points, review)
+    # rating.set_overall(points, review)
+    # rating.set_integrity_and_security(points, review)
 
     print(_('TEXT_TEST_END').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
@@ -150,9 +143,8 @@ def run_test(_, langCode, url):
     return (rating, result_dict)
 
 
-def check_tracking(browser, json_content, _):
-    review = ''
-    points = 0.0
+def check_tracking(browser, json_content, _local, _):
+    rating = Rating(_, review_show_improvements_only)
 
     elem_tracking_requests_count = browser.find_element(
         By.CLASS_NAME, 'tracking-request-count')  # tracking requests
@@ -164,45 +156,49 @@ def check_tracking(browser, json_content, _):
     number_of_analytics_used = len(analytics_used)
     if number_of_analytics_used > 0:
         # '-- Visitor analytics used:\r\n'
-        review_analytics += _('TEXT_VISITOR_ANALYTICS_USED')
+        review_analytics += _local('TEXT_VISITOR_ANALYTICS_USED')
         analytics_used_items = analytics_used.items()
         for analytics_name, analytics_should_count in analytics_used_items:
             if analytics_should_count:
                 number_of_tracking += 1
             review_analytics += '    - {0}\r\n'.format(analytics_name)
 
-    points = 1.0
+    points = 5.0
 
     # Ignore up to 2 tracker requests
     number_of_tracking_for_points = number_of_tracking - 2
     if number_of_tracking_for_points <= 0:
         number_of_tracking_for_points = 0
 
-    points -= (number_of_tracking_for_points * 0.1)
+    points -= (number_of_tracking_for_points * 0.5)
     points = float("{0:.2f}".format(points))
 
-    if points <= 0.0:
-        points = 0.0
+    if points <= 1.0:
+        points = 1.0
         # '* Tracking ({0} points)\r\n'
-        review += _('TEXT_TRACKING_NO_POINTS').format(
-            points)
+        rating.set_integrity_and_security(
+            points, _local('TEXT_TRACKING_NO_POINTS'))
+        rating.set_overall(points)
     else:
         # '* Tracking (+{0} points)\r\n'
-        review += _('TEXT_TRACKING_HAS_POINTS').format(
-            points)
+        rating.set_integrity_and_security(
+            points, _local('TEXT_TRACKING_HAS_POINTS'))
+        rating.set_overall(points)
 
     if len(review_analytics) > 0:
-        review += review_analytics
+        # review += review_analytics
+        rating.integrity_and_security_review = rating.integrity_and_security_review + review_analytics
 
     if number_of_tracking > 0:
         # '-- Tracking requests: {0}\r\n'
-        review += _('TEXT_TRACKING_HAS_REQUESTS').format(
+        rating.integrity_and_security_review = rating.integrity_and_security_review + _local('TEXT_TRACKING_HAS_REQUESTS').format(
             number_of_tracking)
     else:
         # '-- No tracking requests\r\n'
-        review += _('TEXT_TRACKING_NO_REQUESTS')
+        rating.integrity_and_security_review = rating.integrity_and_security_review + \
+            _local('TEXT_TRACKING_NO_REQUESTS')
 
-    return (points, review)
+    return rating
 
 
 def get_analytics(json_content):
@@ -310,16 +306,15 @@ def has_Vizzit(json_content):
     return False
 
 
-def check_fingerprint(json_content, _):
+def check_fingerprint(json_content, _local, _):
     fingerprints = {}
     possible_fingerprints = json_content['fingerprints']
     number_of_potential_fingerprints = len(possible_fingerprints)
     fingerprints_index = 0
-    fingerprints_points = 0.0
+    fingerprints_points = 1.0
     number_of_fingerprints = 0
-    # '* Fingerprinting ({0} points)\r\n'
-    fingerprints_review = _('TEXT_FINGERPRINTING_NO_POINTS').format(
-        fingerprints_points)
+    fingerprints_review = ''
+
     if number_of_potential_fingerprints > 0:
         while fingerprints_index < number_of_potential_fingerprints:
             fingerprint = possible_fingerprints[fingerprints_index]
@@ -344,45 +339,54 @@ def check_fingerprint(json_content, _):
         fingerprints_review += '-- {0}: {1}\r\n'.format(
             key, value)
 
+    rating = Rating(_, review_show_improvements_only)
+
     if number_of_fingerprints == 0:
-        fingerprints_points = 1.0
-        # '* Fingerprinting (+{0} points)\r\n-- No fingerprinting\r\n'
-        fingerprints_review = _('TEXT_FINGERPRINTING_HAS_POINTS').format(
-            fingerprints_points)
+        fingerprints_points = 5.0
+        rating.set_integrity_and_security(
+            fingerprints_points, _local('TEXT_FINGERPRINTING_HAS_POINTS'))
+        rating.set_overall(fingerprints_points)
 
-    return (fingerprints_points, fingerprints_review)
+    else:
+        rating.set_integrity_and_security(
+            fingerprints_points, _local('TEXT_FINGERPRINTING_NO_POINTS'))
+        rating.integrity_and_security_review = rating.integrity_and_security_review + \
+            fingerprints_review
+        rating.set_overall(fingerprints_points)
+
+    return rating
 
 
-def check_ads(json_content, adserver_requests, _):
+def check_ads(json_content, adserver_requests, _local, _):
     ads = json_content['ads']
     number_of_ads = len(ads)
-    ads_points = 0.0
-    ads_review = ''
+    ads_points = 5.0
+    rating = Rating(_, review_show_improvements_only)
+
     if adserver_requests > 0 or number_of_ads > 0:
-        ads_points = 0.0
-        # '* Ads ({0} points)\r\n'
-        ads_review = _('TEXT_ADS_NO_POINTS').format(
-            ads_points)
-    else:
         ads_points = 1.0
-        # '* Ads (+{0} points)\r\n-- No Adserver requests\r\n'
-        ads_review = _('TEXT_ADS_NO_REQUESTS').format(
-            ads_points)
+        rating.set_integrity_and_security(
+            ads_points, _local('TEXT_ADS_NO_POINTS'))
+        rating.set_overall(ads_points)
 
-    if adserver_requests > 0:
-        # '-- Adserver requests: {0}\r\n'
-        ads_review += _('TEXT_ADS_HAS_REQUESTS').format(
-            adserver_requests)
+        if adserver_requests > 0:
+            rating.integrity_and_security_review = rating.integrity_and_security_review + _local('TEXT_ADS_HAS_REQUESTS').format(
+                adserver_requests)
 
-    if number_of_ads > 0:
-        # '-- Visibile Ads: {0}\r\n'
-        ads_review += _('TEXT_ADS_VISIBLE_ADS').format(
-            number_of_ads)
+        if number_of_ads > 0:
+            rating.integrity_and_security_review = rating.integrity_and_security_review + _local('TEXT_ADS_VISIBLE_ADS').format(
+                number_of_ads)
+    else:
+        ads_points = 5.0
+        rating.set_integrity_and_security(
+            ads_points, _local('TEXT_ADS_NO_REQUESTS'))
+        rating.set_overall(ads_points)
 
-    return (ads_points, ads_review)
+    return rating
 
 
-def check_cookies(json_content, hostname, _):
+def check_cookies(json_content, hostname, _local, _):
+    rating = Rating(_, review_show_improvements_only)
     cookies = json_content['cookies']
     number_of_potential_cookies = len(cookies)
     number_of_cookies = 0
@@ -454,61 +458,121 @@ def check_cookies(json_content, hostname, _):
 
     if cookies_number_of_thirdparties > 0:
         # '-- Thirdparty: {0}\r\n'
-        cookies_review += _('TEXT_COOKIES_HAS_THIRDPARTY').format(
-            cookies_number_of_thirdparties)
-        cookies_points -= 0.1
+        nof_points = 5.0 - cookies_number_of_thirdparties * 0.5
+        if nof_points < 1.0:
+            nof_points = 1.0
 
+        nof_rating = Rating(_, review_show_improvements_only)
+        nof_rating.set_integrity_and_security(nof_points, _local('TEXT_COOKIES_HAS_THIRDPARTY').format(
+            cookies_number_of_thirdparties))
+        nof_rating.set_overall(nof_points)
+        rating += nof_rating
     if cookies_number_of_valid_over_1year > 0:
         # '-- Valid over 1 year: {0}\r\n'
-        cookies_review += _('TEXT_COOKIE_HAS_OVER_1YEAR').format(
-            cookies_number_of_valid_over_1year)
+        valid_1year_points = 5.0 - cookies_number_of_valid_over_1year * 5.0
+        if valid_1year_points < 1.0:
+            valid_1year_points = 1.0
+
+        valid_1year_rating = Rating(_, review_show_improvements_only)
+        valid_1year_rating.set_integrity_and_security(valid_1year_points, _local('TEXT_COOKIE_HAS_OVER_1YEAR').format(
+            cookies_number_of_valid_over_1year))
+        valid_1year_rating.set_overall(valid_1year_points)
+        rating += valid_1year_rating
+        # cookies_review += _local('TEXT_COOKIE_HAS_OVER_1YEAR').format(
+        #     cookies_number_of_valid_over_1year)
     elif cookies_number_of_valid_over_9months > 0:
         # '-- Valid over 9 months: {0}\r\n'
-        cookies_review += _('TEXT_COOKIE_HAS_OVER_9MONTH').format(
-            cookies_number_of_valid_over_9months)
+        valid_9months_points = 5.0 - cookies_number_of_valid_over_9months * 4.0
+        if valid_9months_points < 1.0:
+            valid_9months_points = 1.0
+
+        valid_9months_rating = Rating(_, review_show_improvements_only)
+        valid_9months_rating.set_integrity_and_security(valid_9months_points, _local('TEXT_COOKIE_HAS_OVER_9MONTH').format(
+            cookies_number_of_valid_over_9months))
+        valid_9months_rating.set_overall(valid_9months_points)
+        rating += valid_9months_rating
+        # cookies_review += _local('TEXT_COOKIE_HAS_OVER_9MONTH').format(
+        #     cookies_number_of_valid_over_9months)
     elif cookies_number_of_valid_over_6months > 0:
         # '-- Valid over 6 months: {0}\r\n'
-        cookies_review += _('TEXT_COOKIE_HAS_OVER_6MONTH').format(
-            cookies_number_of_valid_over_6months)
+        valid_6months_points = 5.0 - cookies_number_of_valid_over_6months * 3.0
+        if valid_6months_points < 1.0:
+            valid_6months_points = 1.0
+
+        valid_6months_rating = Rating(_, review_show_improvements_only)
+        valid_6months_rating.set_integrity_and_security(valid_6months_points, _local('TEXT_COOKIE_HAS_OVER_6MONTH').format(
+            cookies_number_of_valid_over_6months))
+        valid_6months_rating.set_overall(valid_6months_points)
+        rating += valid_6months_rating
+        # cookies_review += _local('TEXT_COOKIE_HAS_OVER_6MONTH').format(
+        #     cookies_number_of_valid_over_6months)
     elif cookies_number_of_valid_over_3months > 0:
         # '-- Valid over 3 months: {0}\r\n'
-        cookies_review += _('TEXT_COOKIE_HAS_OVER_3MONTH').format(
-            cookies_number_of_valid_over_3months)
+        valid_3months_points = 5.0 - cookies_number_of_valid_over_3months * 3.0
+        if valid_3months_points < 1.0:
+            valid_3months_points = 1.0
 
+        valid_3months_rating = Rating(_, review_show_improvements_only)
+        valid_3months_rating.set_integrity_and_security(valid_3months_points, _local('TEXT_COOKIE_HAS_OVER_3MONTH').format(
+            cookies_number_of_valid_over_3months))
+        valid_3months_rating.overall(valid_3months_points)
+        rating += valid_3months_rating
+        # cookies_review += _local('TEXT_COOKIE_HAS_OVER_3MONTH').format(
+        #     cookies_number_of_valid_over_3months)
     if cookies_number_of_secure > 0:
         # '-- Not secure: {0}\r\n'
-        cookies_review += _('TEXT_COOKIE_NOT_SECURE').format(
-            cookies_number_of_secure)
-        cookies_points -= 0.1
+        secure_points = 5.0 - cookies_number_of_secure * 3.0
+        if secure_points < 1.0:
+            secure_points = 1.0
 
-    if cookies_points < 0.0:
-        cookies_points = 0.0
+        secure_rating = Rating(_, review_show_improvements_only)
+        secure_rating.set_integrity_and_security(secure_points, _local('TEXT_COOKIE_NOT_SECURE').format(
+            cookies_number_of_secure))
+        secure_rating.set_overall(secure_points)
+        rating += secure_rating
+        # cookies_review += _local('TEXT_COOKIE_NOT_SECURE').format(
+        #     cookies_number_of_secure)
+        # cookies_points -= 0.1
 
-    cookies_points = float("{0:.2f}".format(cookies_points))
+    # if cookies_points < 0.0:
+    #     cookies_points = 0.0
+
+    # cookies_points = float("{0:.2f}".format(cookies_points))
+    tmp_review = rating.integrity_and_security_review
+    rating.integrity_and_security_review = ''
 
     if number_of_cookies > 0:
-        if cookies_points > 0.0:
+        if rating.get_overall() > 1.0:
             # '* Cookies (+{0} points)\r\n{1}'
-            cookies_review = _('TEXT_COOKIE_HAS_POINTS').format(
-                cookies_points, cookies_review)
+            rating.integrity_and_security_review = _local('TEXT_COOKIE_HAS_POINTS').format(
+                rating.get_overall(), '')
         else:
             # '* Cookies ({0} points)\r\n{1}'
-            cookies_review = _('TEXT_COOKIE_NO_POINTS').format(
-                cookies_points, cookies_review)
+            rating.integrity_and_security_review = _local('TEXT_COOKIE_NO_POINTS').format(
+                rating.get_overall(), '')
+            # cookies_review = _local('TEXT_COOKIE_NO_POINTS').format(
+            #     cookies_points, cookies_review)
     else:
-        # '* Cookies (+{0} points)\r\n{1}'
-        cookies_review = _('TEXT_COOKIE_HAS_POINTS').format(
-            cookies_points, cookies_review)
-        # '{0}-- No Cookies\r\n'
-        cookies_review = _('TEXT_COOKIE_NO_COOKIES').format(
-            cookies_review)
+        no_cookie_points = 5.0
+        rating.set_integrity_and_security(no_cookie_points, _local('TEXT_COOKIE_HAS_POINTS').format(
+            0.0, ''))
 
-    return (cookies_points, cookies_review)
+        rating.set_overall(no_cookie_points)
+
+    #     # '* Cookies (+{0} points)\r\n{1}'
+    #     cookies_review = _local('TEXT_COOKIE_HAS_POINTS').format(
+    #         cookies_points, cookies_review)
+    #     # '{0}-- No Cookies\r\n'
+    #     cookies_review = _local('TEXT_COOKIE_NO_COOKIES').format(
+    #         cookies_review)
+
+    rating.integrity_and_security_review = rating.integrity_and_security_review + tmp_review
+
+    return rating
 
 
-def check_detailed_results(browser, content, hostname, _):
-    points = 0.0
-    review = ''
+def check_detailed_results(browser, content, hostname, _local, _):
+    rating = Rating(_, review_show_improvements_only)
 
     adserver_requests = 0
     json_content = ''
@@ -519,25 +583,20 @@ def check_detailed_results(browser, content, hostname, _):
 
         json_content = json.loads(content)
     except:  # might crash if checked resource is not a webpage
-        return (points, review)
+        return rating
 
-    fingerprint_result = check_fingerprint(json_content, _)
-    points += fingerprint_result[0]
-    review += fingerprint_result[1]
+    rating += check_fingerprint(json_content, _local, _)
 
-    ads_result = check_ads(json_content, adserver_requests, _)
-    points += ads_result[0]
-    review += ads_result[1]
+    rating += check_ads(json_content, adserver_requests, _local, _)
 
-    cookies_result = check_cookies(json_content, hostname, _)
-    points += cookies_result[0]
-    review += cookies_result[1]
+    rating += check_cookies(json_content, hostname, _local, _)
 
-    return (points, review)
+    return rating
 
 
-def check_har_results(content, _):
-    points = 1.0
+def check_har_results(content, _local, _):
+    rating = Rating(_, review_show_improvements_only)
+    points = 5.0
     review = ''
     countries = {}
     countries_outside_eu_or_exception_list = {}
@@ -548,7 +607,7 @@ def check_har_results(content, _):
 
         json_content = json_content['log']
 
-        general_info = json_content['pages'][0]
+        # general_info = json_content['pages'][0]
         # pageId = general_info['id']
         # tested = general_info['startedDateTime']
 
@@ -591,7 +650,7 @@ def check_har_results(content, _):
         number_of_countries = len(countries)
 
         # '-- Number of countries: {0}\r\n'
-        review += _('TEXT_GDPR_COUNTRIES').format(
+        review += _local('TEXT_GDPR_COUNTRIES').format(
             number_of_countries)
         # for country_code in countries:
         #    review += '    - {0} (number of requests: {1})\r\n'.format(country_code,
@@ -602,33 +661,41 @@ def check_har_results(content, _):
         if number_of_countries_outside_eu > 0:
             # '-- Countries outside EU: {0}\r\n'
             # '-- Countries without adequate level of data protection: {0}\r\n'
-            review += _('TEXT_GDPR_NONE_COMPLIANT_COUNTRIES').format(
+            review += _local('TEXT_GDPR_NONE_COMPLIANT_COUNTRIES').format(
                 number_of_countries_outside_eu)
             for country_code in countries_outside_eu_or_exception_list:
-                review += _('TEXT_GDPR_NONE_COMPLIANT_COUNTRIES_REQUESTS').format(country_code,
-                                                                                  countries[country_code])
+                review += _local('TEXT_GDPR_NONE_COMPLIANT_COUNTRIES_REQUESTS').format(country_code,
+                                                                                       countries[country_code])
 
-            points = 0.0
+            points = 1.0
 
         page_is_hosted_in_sweden = page_countrycode == 'SE'
         # '-- Page hosted in Sweden: {0}\r\n'
-        review += _('TEXT_GDPR_PAGE_IN_SWEDEN').format(
-            _('TEXT_GDPR_{0}'.format(page_is_hosted_in_sweden)))
+        review += _local('TEXT_GDPR_PAGE_IN_SWEDEN').format(
+            _local('TEXT_GDPR_{0}'.format(page_is_hosted_in_sweden)))
 
         if points > 0.0:
             # '* GDPR and Schrems: (+{0} points)\r\n{1}'
-            review = _('TEXT_GDPR_HAS_POINTS').format(
-                points, review)
+            # review = _local('TEXT_GDPR_HAS_POINTS').format(
+            #     points, review)
+            rating.set_integrity_and_security(points, _local('TEXT_GDPR_HAS_POINTS').format(
+                0.0, ''))
+            rating.set_overall(points)
         else:
             # '* GDPR and Schrems: ({0} points)\r\n{1}'
-            review = _('TEXT_GDPR_NO_POINTS').format(
-                points, review)
+            # review = _local('TEXT_GDPR_NO_POINTS').format(
+            #     points, review)
+            rating.set_integrity_and_security(points, _local('TEXT_GDPR_NO_POINTS').format(
+                0.0, ''))
+            rating.set_overall(points)
 
-        return (points, review)
+        rating.integrity_and_security_review = rating.integrity_and_security_review + review
+
+        return rating
 
     except Exception as ex:  # might crash if checked resource is not a webpage
         print('crash', ex)
-        return (points, review)
+        return rating
 
 
 def get_eu_countries():

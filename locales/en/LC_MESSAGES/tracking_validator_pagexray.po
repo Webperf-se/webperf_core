@@ -28,10 +28,10 @@ msgid "TEXT_VISITOR_ANALYTICS_USED"
 msgstr "  - Visitor analytics used:\r\n"
 
 msgid "TEXT_TRACKING_NO_POINTS"
-msgstr "- Tracking ({0} points)\r\n"
+msgstr "- Tracking"
 
 msgid "TEXT_TRACKING_HAS_POINTS"
-msgstr "- Tracking (+{0} points)\r\n"
+msgstr "- Tracking"
 
 msgid "TEXT_TRACKING_HAS_REQUESTS"
 msgstr "  - Tracking requests: {0}\r\n"
@@ -40,16 +40,16 @@ msgid "TEXT_TRACKING_NO_REQUESTS"
 msgstr "  - No tracking requests\r\n"
 
 msgid "TEXT_FINGERPRINTING_NO_POINTS"
-msgstr "- Fingerprinting/Identifying technique ({0} points)\r\n"
+msgstr "- Fingerprinting/Identifying technique"
 
 msgid "TEXT_FINGERPRINTING_HAS_POINTS"
-msgstr "- Fingerprinting/Identifying technique (+{0} points)\r\n-- No fingerprinting / identifying technique found\r\n"
+msgstr "- Fingerprinting/Identifying technique"
 
 msgid "TEXT_ADS_NO_POINTS"
-msgstr "- Ads ({0} points)\r\n"
+msgstr "- Ads"
 
 msgid "TEXT_ADS_NO_REQUESTS"
-msgstr "- Ads (+{0} points)\r\n-- No Adserver requests\r\n"
+msgstr "- Ads"
 
 msgid "TEXT_ADS_HAS_REQUESTS"
 msgstr "  - Adserver requests: {0}\r\n"
@@ -76,13 +76,13 @@ msgid "TEXT_COOKIE_NOT_SECURE"
 msgstr "  - No requirement for secure transfer: {0}\r\n"
 
 msgid "TEXT_COOKIE_HAS_POINTS"
-msgstr "- Cookies (+{0} points)\r\n{1}"
+msgstr "- Cookies"
 
 msgid "TEXT_COOKIE_NO_POINTS"
-msgstr "- Cookies ({0} points)\r\n{1}"
+msgstr "- Cookies"
 
 msgid "TEXT_COOKIE_HAS_POINTS"
-msgstr "- Cookies (+{0} points)\r\n{1}"
+msgstr "- Cookies"
 
 msgid "TEXT_COOKIE_NO_COOKIES"
 msgstr "{0}  - No Cookies\r\n"
@@ -106,7 +106,7 @@ msgid "TEXT_GDPR_False"
 msgstr "No"
 
 msgid "TEXT_GDPR_HAS_POINTS"
-msgstr "- GDPR and Schrems: (+{0} points)\r\n{1}"
+msgstr "- GDPR and Schrems"
 
 msgid "TEXT_GDPR_NO_POINTS"
-msgstr "- GDPR and Schrems: ({0} points)\r\n{1}"
+msgstr "- GDPR and Schrems"

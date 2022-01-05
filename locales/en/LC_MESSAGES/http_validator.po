@@ -78,14 +78,11 @@ msgstr "- SSLv2.0 support but wrong certificate, is insecure"
 msgid "TEXT_REVIEW_SSL2_0_NO_SUPPORT"
 msgstr "- No SSLv2.0 support"
 
-msgid "TEXT_REVIEW_IP_VERSION_BOTH_IPV4_AND_IPV6"
-msgstr "- Both IPv4 and IPv6 support"
-
 msgid "TEXT_REVIEW_IP_VERSION_IPV6"
-msgstr "- Only IPv6 support"
+msgstr "- IPv6 support"
 
 msgid "TEXT_REVIEW_IP_VERSION_IPV4"
-msgstr "- Only IPv4 support"
+msgstr "- IPv4 support"
 
 msgid "TEXT_REVIEW_IP_VERSION_UNABLE_TO_VERIFY"
 msgstr "- Unable to get IP version info"

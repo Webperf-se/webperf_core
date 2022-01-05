@@ -78,14 +78,11 @@ msgstr "- SSLv2.0 stöd, vilket är osäkert, använder även fel certifikat"
 msgid "TEXT_REVIEW_SSL2_0_NO_SUPPORT"
 msgstr "- Inget SSLv2.0 stöd"
 
-msgid "TEXT_REVIEW_IP_VERSION_BOTH_IPV4_AND_IPV6"
-msgstr "- Både IPv4 och IPv6 stöd"
-
 msgid "TEXT_REVIEW_IP_VERSION_IPV6"
-msgstr "- Bara IPv6 stöd"
+msgstr "- IPv6 stöd"
 
 msgid "TEXT_REVIEW_IP_VERSION_IPV4"
-msgstr "- Bara IPv4 stöd"
+msgstr "- IPv4 stöd"
 
 msgid "TEXT_REVIEW_IP_VERSION_UNABLE_TO_VERIFY"
 msgstr "- Kunde ej få tag på IP versions information"

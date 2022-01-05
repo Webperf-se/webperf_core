@@ -373,7 +373,7 @@ def http_version_score(hostname, url, _, _local):
     rating += check_http2(hostname, _, _local)
 
     # If we still have 1.0 points something must have gone wrong, try fallback
-    if not rating.isused():
+    if rating.get_overall() == 1.0:
         rating = check_http_fallback(url, _, _local)
 
     rating += check_http3(hostname, _, _local)
@@ -545,7 +545,7 @@ def check_http_fallback(url, _, _local):
         pass
 
     http11_rating = Rating(_, review_show_improvements_only)
-    if has_http11 and has_http2:
+    if has_http11:
         http11_rating.set_overall(5.0)
         http11_rating.set_standards(5.0, _local(
             'TEXT_REVIEW_HTTP_VERSION_HTTP_1_1'))

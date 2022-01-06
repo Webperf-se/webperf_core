@@ -31,7 +31,7 @@ msgid "TEXT_TRACKING_NO_POINTS"
 msgstr "- Spårning ({0} poäng)\r\n"
 
 msgid "TEXT_TRACKING_HAS_POINTS"
-msgstr "- Spårning (+{0} poäng)\r\n"
+msgstr "- Spårning"
 
 msgid "TEXT_TRACKING_HAS_REQUESTS"
 msgstr "  - Spårning förfrågningar: {0}\r\n"
@@ -40,16 +40,16 @@ msgid "TEXT_TRACKING_NO_REQUESTS"
 msgstr "  - Inga spårnings förfrågningar\r\n"
 
 msgid "TEXT_FINGERPRINTING_NO_POINTS"
-msgstr "- Identifieringstekniker ({0} poäng)\r\n"
+msgstr "- Identifieringstekniker"
 
 msgid "TEXT_FINGERPRINTING_HAS_POINTS"
-msgstr "- Identifieringstekniker (+{0} poäng)\r\n-- Inga Identifieringstekniker hittades\r\n"
+msgstr "- Identifieringstekniker"
 
 msgid "TEXT_ADS_NO_POINTS"
-msgstr "- Annonsörer ({0} poäng)\r\n"
+msgstr "- Annonsörer"
 
 msgid "TEXT_ADS_NO_REQUESTS"
-msgstr "- Annonsörer (+{0} poäng)\r\n-- Inga annonsörsförfrågningar hittades\r\n"
+msgstr "- Annonsörer"
 
 msgid "TEXT_ADS_HAS_REQUESTS"
 msgstr "  - Annonsörsförfrågningar: {0}\r\n"
@@ -76,13 +76,13 @@ msgid "TEXT_COOKIE_NOT_SECURE"
 msgstr "  - Inget krav på säker överföring: {0}\r\n"
 
 msgid "TEXT_COOKIE_HAS_POINTS"
-msgstr "- Kakor (+{0} poäng)\r\n{1}"
+msgstr "- Kakor"
 
 msgid "TEXT_COOKIE_NO_POINTS"
-msgstr "- Kakor ({0} poäng)\r\n{1}"
+msgstr "- Kakor"
 
 msgid "TEXT_COOKIE_HAS_POINTS"
-msgstr "- Kakor (+{0} poäng)\r\n{1}"
+msgstr "- Kakor"
 
 msgid "TEXT_COOKIE_NO_COOKIES"
 msgstr "{0}  - Inga kakor\r\n"
@@ -106,7 +106,7 @@ msgid "TEXT_GDPR_False"
 msgstr "Nej"
 
 msgid "TEXT_GDPR_HAS_POINTS"
-msgstr "- Dataskyddsförordningen och Schrems II-domen: (+{0} poäng)\r\n{1}"
+msgstr "- Dataskyddsförordningen och Schrems II-domen"
 
 msgid "TEXT_GDPR_NO_POINTS"
-msgstr "- Dataskyddsförordningen och Schrems II-domen: ({0} poäng)\r\n{1}"
+msgstr "- Dataskyddsförordningen och Schrems II-domen"

@@ -117,6 +117,9 @@ msgstr "#### A11y:\r\n{0}"
 msgid "TEXT_TEST_REVIEW_STANDARDS"
 msgstr "#### Standarder:\r\n{0}"
 
+msgid "TEXT_TEST_REVIEW_RATING_ITEM"
+msgstr "{0} ( {1:.2f} betyg )\r\n"
+
 msgid "TEXT_TEST_RATING_OVERVIEW"
 msgstr "\r\n- Övergripande: {0}\r\n"
 

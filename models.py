@@ -48,14 +48,16 @@ class Rating(object):
     a11y = -1
     a11y_count = 1
     a11y_review = ''
+    review_show_improvements_only = False
 
     _ = False
     is_set = False
 
-    def __init__(self, _=None):
+    def __init__(self, _=None, review_show_improvements_only=False):
         # don't know anything we want todo yet
         self.overall = -1
         self._ = _
+        self.review_show_improvements_only = review_show_improvements_only
 
     def set_overall(self, points, review=''):
         if(points < 1.0):
@@ -64,7 +66,9 @@ class Rating(object):
             self.overall = 5.0
         else:
             self.overall = points
-        self.overall_review = review
+        if review != '' and (not self.review_show_improvements_only or points < 5.0):
+            self.overall_review = self._('TEXT_TEST_REVIEW_RATING_ITEM').format(
+                review, points)
         self.is_set = True
 
     def get_overall(self):
@@ -77,7 +81,9 @@ class Rating(object):
             self.integrity_and_security = 5.0
         else:
             self.integrity_and_security = points
-        self.integrity_and_security_review = review
+        if review != '' and (not self.review_show_improvements_only or points < 5.0):
+            self.integrity_and_security_review = self._('TEXT_TEST_REVIEW_RATING_ITEM').format(
+                review, points)
         self.is_set = True
 
     def get_integrity_and_security(self):
@@ -90,7 +96,9 @@ class Rating(object):
             self.performance = 5.0
         else:
             self.performance = points
-        self.performance_review = review
+        if review != '' and (not self.review_show_improvements_only or points < 5.0):
+            self.performance_review = self._('TEXT_TEST_REVIEW_RATING_ITEM').format(
+                review, points)
         self.is_set = True
 
     def get_performance(self):
@@ -103,7 +111,9 @@ class Rating(object):
             self.standards = 5.0
         else:
             self.standards = points
-        self.standards_review = review
+        if review != '' and (not self.review_show_improvements_only or points < 5.0):
+            self.standards_review = self._('TEXT_TEST_REVIEW_RATING_ITEM').format(
+                review, points)
         self.is_set = True
 
     def get_standards(self):
@@ -116,7 +126,9 @@ class Rating(object):
             self.a11y = 5.0
         else:
             self.a11y = points
-        self.a11y_review = review
+        if review != '' and (not self.review_show_improvements_only or points < 5.0):
+            self.a11y_review = self._('TEXT_TEST_REVIEW_RATING_ITEM').format(
+                review, points)
         self.is_set = True
 
     def get_a11y(self):
@@ -165,9 +177,9 @@ class Rating(object):
             raise TypeError
         else:
             if self._ != None:
-                tmp = Rating(self._)
+                tmp = Rating(self._, self.review_show_improvements_only)
             else:
-                tmp = Rating(other._)
+                tmp = Rating(other._, other.review_show_improvements_only)
 
             tmp_value = tmp.get_combined_value(
                 self.overall, self.overall_count, other.overall, other.overall_count)
@@ -175,8 +187,8 @@ class Rating(object):
                 tmp.is_set = True
                 tmp.overall = tmp_value[0]
                 tmp.overall_count = tmp_value[1]
-                tmp.overall_review = self.overall_review + \
-                    other.overall_review
+            tmp.overall_review = self.overall_review + \
+                other.overall_review
 
             tmp_value = tmp.get_combined_value(
                 self.integrity_and_security, self.integrity_and_security_count, other.integrity_and_security, other.integrity_and_security_count)
@@ -184,8 +196,8 @@ class Rating(object):
                 tmp.is_set = True
                 tmp.integrity_and_security = tmp_value[0]
                 tmp.integrity_and_security_count = tmp_value[1]
-                tmp.integrity_and_security_review = self.integrity_and_security_review + \
-                    other.integrity_and_security_review
+            tmp.integrity_and_security_review = self.integrity_and_security_review + \
+                other.integrity_and_security_review
 
             tmp_value = tmp.get_combined_value(
                 self.performance, self.performance_count, other.performance, other.performance_count)
@@ -193,7 +205,7 @@ class Rating(object):
                 tmp.is_set = True
                 tmp.performance = tmp_value[0]
                 tmp.performance_count = tmp_value[1]
-                tmp.performance_review = self.performance_review + other.performance_review
+            tmp.performance_review = self.performance_review + other.performance_review
 
             tmp_value = tmp.get_combined_value(
                 self.standards, self.standards_count, other.standards, other.standards_count)
@@ -201,7 +213,7 @@ class Rating(object):
                 tmp.is_set = True
                 tmp.standards = tmp_value[0]
                 tmp.standards_count = tmp_value[1]
-                tmp.standards_review = self.standards_review + other.standards_review
+            tmp.standards_review = self.standards_review + other.standards_review
 
             tmp_value = tmp.get_combined_value(
                 self.a11y, self.a11y_count, other.a11y, other.a11y_count)
@@ -209,7 +221,7 @@ class Rating(object):
                 tmp.is_set = True
                 tmp.a11y = tmp_value[0]
                 tmp.a11y_count = tmp_value[1]
-                tmp.a11y_review = self.a11y_review + other.a11y_review
+            tmp.a11y_review = self.a11y_review + other.a11y_review
             return tmp
 
     def get_combined_value(self, val1, val1_count, val2, val2_count):

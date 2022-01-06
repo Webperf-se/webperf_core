@@ -19,40 +19,40 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 9 - Standard files\n"
 
 msgid "TEXT_ROBOTS_MISSING"
-msgstr "- robots.txt is missing, not allowed to download or has no expected content.\n"
+msgstr "- robots.txt is missing, not allowed to download or has no expected content."
 
 msgid "TEXT_ROBOTS_OK"
-msgstr "- robots.txt seems ok.\n"
+msgstr "- robots.txt seems ok."
 
 msgid "TEXT_SITEMAP_MISSING"
-msgstr "- Sitemap is not specified in robots.txt\n"
+msgstr "- Sitemap is not specified in robots.txt"
 
 msgid "TEXT_SITEMAP_FOUND"
-msgstr "- Sitemap is mentioned in robots.txt\n"
+msgstr "- Sitemap is mentioned in robots.txt"
 
 msgid "TEXT_SITEMAP_BROKEN"
-msgstr "- Sitemap seems to be broken.\n"
+msgstr "- Sitemap seems to be broken."
 
 msgid "TEXT_SITEMAP_OK"
-msgstr "- Sitemap seems to work.\n"
+msgstr "- Sitemap seems to work."
 
 msgid "TEXT_RSS_FEED_MISSING"
-msgstr "- RSS subscription is missing in the HTMLs metadata.\n"
+msgstr "- RSS subscription is missing in the HTMLs metadata."
 
 msgid "TEXT_RSS_FEED_FOUND"
-msgstr "- RSS subscription found.\n"
+msgstr "- RSS subscription found."
 
 msgid "TEXT_SECURITY_MISSING"
-msgstr "- security.txt is missing.\n"
+msgstr "- security.txt is missing."
 
 msgid "TEXT_SECURITY_WRONG_CONTENT"
-msgstr "- security.txt has wrong content.\n"
+msgstr "- security.txt has wrong content."
 
 msgid "TEXT_SECURITY_OK_CONTENT"
-msgstr "- security.txt seems to work.\n"
+msgstr "- security.txt seems to work."
 
 msgid "TEXT_SECURITY_REQUIRED_CONTACT_MISSING"
-msgstr "- security.txt required contact is missing.\n"
+msgstr "- security.txt required contact is missing."
 
 msgid "TEXT_SECURITY_REQUIRED_EXPIRES_MISSING"
-msgstr "- security.txt required expires (added in draft v10) is missing.\n"
+msgstr "- security.txt required expires (added in draft v10) is missing."

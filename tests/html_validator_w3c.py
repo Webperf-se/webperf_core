@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from os import error
 from models import Rating
 import datetime
 import sys
@@ -19,6 +20,7 @@ _local = gettext.gettext
 # DEFAULTS
 request_timeout = config.http_request_timeout
 useragent = config.useragent
+review_show_improvements_only = config.review_show_improvements_only
 
 
 def run_test(_, langCode, url):
@@ -26,6 +28,7 @@ def run_test(_, langCode, url):
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
 
+    rating = Rating(_, review_show_improvements_only)
     points = 0.0
     review = ''
 
@@ -79,7 +82,6 @@ def run_test(_, langCode, url):
                 error_message_grouped_dict[error_message] = 1
 
         if len(error_message_grouped_dict) > 0:
-            review += _local('TEXT_REVIEW_ERRORS_GROUPED')
             error_message_grouped_sorted = sorted(
                 error_message_grouped_dict.items(), key=lambda x: x[1], reverse=True)
 
@@ -93,33 +95,42 @@ def run_test(_, langCode, url):
     number_of_error_types = len(error_message_grouped_dict)
 
     result = calculate_rating(number_of_error_types, number_of_errors)
-    points = result[0]
 
-    if number_of_errors > 0:
-        review = _local('TEXT_REVIEW_RATING_ITEMS').format(number_of_errors,
-                                                           result[2]) + review
-    if number_of_error_types > 0:
-        review = _local('TEXT_REVIEW_RATING_GROUPED').format(
-            number_of_error_types, result[1]) + review
+    # if number_of_error_types > 0:
+    error_types_rating = Rating(_, review_show_improvements_only)
+    error_types_rating.set_overall(result[0], _local('TEXT_REVIEW_RATING_GROUPED').format(
+        number_of_error_types, 0.0))
+    rating += error_types_rating
 
+    # if number_of_errors > 0:
+    error_rating = Rating(_, review_show_improvements_only)
+    error_rating.set_overall(result[1], _local(
+        'TEXT_REVIEW_RATING_ITEMS').format(number_of_errors, 0.0))
+    rating += error_rating
+
+    points = rating.get_overall()
+    rating.set_standards(points)
+    rating.standards_review = review
+
+    review = ''
     if points == 5.0:
-        review = _local('TEXT_REVIEW_HTML_VERY_GOOD') + review
+        review = _local('TEXT_REVIEW_HTML_VERY_GOOD')
     elif points >= 4.0:
         review = _local('TEXT_REVIEW_HTML_IS_GOOD').format(
-            number_of_errors) + review
+            number_of_errors)
     elif points >= 3.0:
         review = _local('TEXT_REVIEW_HTML_IS_OK').format(
-            number_of_errors) + review
+            number_of_errors)
     elif points > 1.0:
         review = _local('TEXT_REVIEW_HTML_IS_BAD').format(
-            number_of_errors) + review
+            number_of_errors)
     elif points <= 1.0:
         review = _local('TEXT_REVIEW_HTML_IS_VERY_BAD').format(
-            number_of_errors) + review
+            number_of_errors)
 
-    rating = Rating(_)
-    rating.set_overall(points, review)
-    rating.set_standards(points, review)
+    # rating.set_overall(points)
+    rating.standards_review = rating.overall_review + rating.standards_review
+    rating.overall_review = review
 
     print(_('TEXT_TEST_END').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
@@ -128,13 +139,14 @@ def run_test(_, langCode, url):
 
 
 def calculate_rating(number_of_error_types, number_of_errors):
+
     rating_number_of_error_types = 5.0 - (number_of_error_types / 5.0)
 
-    rating_number_of_errors = ((number_of_errors / 2.0) / 5.0)
+    rating_number_of_errors = 5.0 - ((number_of_errors / 2.0) / 5.0)
 
-    rating_result = float("{0:.2f}".format(
-        rating_number_of_error_types - rating_number_of_errors))
-    if rating_result < 1.0:
-        rating_result = 1.0
+    if rating_number_of_error_types < 1.0:
+        rating_number_of_error_types = 1.0
+    if rating_number_of_errors < 1.0:
+        rating_number_of_errors = 1.0
 
-    return (rating_result, rating_number_of_error_types, rating_number_of_errors)
+    return (rating_number_of_error_types, rating_number_of_errors)

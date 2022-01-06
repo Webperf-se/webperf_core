@@ -19,40 +19,40 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 9 - Standardfiler\n"
 
 msgid "TEXT_ROBOTS_MISSING"
-msgstr "- robots.txt antingen saknas, får inte lov att hämtas eller har inte förväntat innehåll.\n"
+msgstr "- robots.txt antingen saknas, får inte lov att hämtas eller har inte förväntat innehåll."
 
 msgid "TEXT_ROBOTS_OK"
-msgstr "- robots.txt verkar ok.\n"
+msgstr "- robots.txt verkar ok."
 
 msgid "TEXT_SITEMAP_MISSING"
-msgstr "- Sitemap anges inte i robots.txt\n"
+msgstr "- Sitemap anges inte i robots.txt"
 
 msgid "TEXT_SITEMAP_FOUND"
-msgstr "- Sitemap finns omnämnd i robots.txt\n"
+msgstr "- Sitemap finns omnämnd i robots.txt"
 
 msgid "TEXT_SITEMAP_BROKEN"
-msgstr "- Sitemap verkar vara trasig.\n"
+msgstr "- Sitemap verkar vara trasig."
 
 msgid "TEXT_SITEMAP_OK"
-msgstr "- Sitemap verkar fungera.\n"
+msgstr "- Sitemap verkar fungera."
 
 msgid "TEXT_RSS_FEED_MISSING"
-msgstr "- RSS-prenumeration saknas i HTML-kodens metadata.\n"
+msgstr "- RSS-prenumeration saknas i HTML-kodens metadata."
 
 msgid "TEXT_RSS_FEED_FOUND"
-msgstr "- RSS-prenumeration hittad.\n"
+msgstr "- RSS-prenumeration hittad."
 
 msgid "TEXT_SECURITY_MISSING"
-msgstr "- security.txt saknas.\n"
+msgstr "- security.txt saknas."
 
 msgid "TEXT_SECURITY_WRONG_CONTENT"
-msgstr "- security.txt har inte förväntat innehåll.\n"
+msgstr "- security.txt har inte förväntat innehåll."
 
 msgid "TEXT_SECURITY_OK_CONTENT"
-msgstr "- security.txt verkar ok.\n"
+msgstr "- security.txt verkar ok."
 
 msgid "TEXT_SECURITY_REQUIRED_CONTACT_MISSING"
-msgstr "- security.txt saknar kontaktinformation.\n"
+msgstr "- security.txt saknar kontaktinformation."
 
 msgid "TEXT_SECURITY_REQUIRED_EXPIRES_MISSING"
-msgstr "- security.txt information om utgångstid saknas (krav tillagt i utkast v10).\n"
+msgstr "- security.txt information om utgångstid saknas (krav tillagt i utkast v10)."

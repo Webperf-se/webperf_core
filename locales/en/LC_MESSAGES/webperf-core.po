@@ -132,6 +132,9 @@ msgstr "#### A11y:\r\n{0}"
 msgid "TEXT_TEST_REVIEW_STANDARDS"
 msgstr "#### Standards:\r\n{0}"
 
+msgid "TEXT_TEST_REVIEW_RATING_ITEM"
+msgstr "{0} ( {1:.2f} rating )\r\n"
+
 msgid "TEXT_TEST_RATING_OVERVIEW"
 msgstr "\r\n- Overall: {0}\r\n"
 
@@ -146,4 +149,3 @@ msgstr "- A11y: {0}\r\n"
 
 msgid "TEXT_TEST_RATING_STANDARDS"
 msgstr "- Standards: {0}\r\n"
-

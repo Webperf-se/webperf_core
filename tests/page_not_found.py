@@ -18,6 +18,7 @@ _ = gettext.gettext
 # DEFAULTS
 request_timeout = config.http_request_timeout
 useragent = config.useragent
+review_show_improvements_only = config.review_show_improvements_only
 
 
 def run_test(_, langCode, url):
@@ -52,10 +53,12 @@ def run_test(_, langCode, url):
         code = request.status_code
     except Exception:
         code = 'unknown'
-    rating_404 = Rating(_)
+    rating_404 = Rating(_, review_show_improvements_only)
     if code == 404:
-        rating_404.set_overall(5.0)
-        rating_404.set_standards(5.0)
+        rating_404.set_overall(5.0, _local(
+            'TEXT_REVIEW_WRONG_STATUS_CODE').format(code))
+        rating_404.set_standards(5.0, _local(
+            'TEXT_REVIEW_WRONG_STATUS_CODE').format(code))
     else:
         rating_404.set_overall(
             1.0, _local('TEXT_REVIEW_WRONG_STATUS_CODE').format(code))
@@ -77,14 +80,14 @@ def run_test(_, langCode, url):
 
     if hasRequestText:
         soup = BeautifulSoup(requestText, 'lxml')
-        rating_title = Rating(_)
+        rating_title = Rating(_, review_show_improvements_only)
         try:
             title = soup.find('title')
             if title:
                 result_dict['page_title'] = title.string
-                rating_title.set_overall(5.0)
-                rating_title.set_standards(5.0)
-                rating_title.set_a11y(5.0)
+                rating_title.set_overall(5.0, _local('TEXT_REVIEW_NO_TITLE'))
+                rating_title.set_standards(5.0, _local('TEXT_REVIEW_NO_TITLE'))
+                rating_title.set_a11y(5.0, _local('TEXT_REVIEW_NO_TITLE'))
             else:
                 rating_title.set_overall(1.0, _local('TEXT_REVIEW_NO_TITLE'))
                 rating_title.set_standards(1.0, _local('TEXT_REVIEW_NO_TITLE'))
@@ -98,14 +101,14 @@ def run_test(_, langCode, url):
             rating_title.set_a11y(1.0, _local('TEXT_REVIEW_NO_TITLE'))
         rating += rating_title
 
-        rating_h1 = Rating(_)
+        rating_h1 = Rating(_, review_show_improvements_only)
         try:
             h1 = soup.find('h1')
             if h1:
                 result_dict['h1'] = h1.string
-                rating_h1.set_overall(5.0)
-                rating_h1.set_standards(5.0)
-                rating_h1.set_a11y(5.0)
+                rating_h1.set_overall(5.0, _local('TEXT_REVIEW_MAIN_HEADER'))
+                rating_h1.set_standards(5.0, _local('TEXT_REVIEW_MAIN_HEADER'))
+                rating_h1.set_a11y(5.0, _local('TEXT_REVIEW_MAIN_HEADER'))
             else:
                 rating_h1.set_overall(1.0, _local('TEXT_REVIEW_MAIN_HEADER'))
                 rating_h1.set_standards(1.0, _local('TEXT_REVIEW_MAIN_HEADER'))
@@ -168,10 +171,12 @@ def run_test(_, langCode, url):
                 found_match = True
                 break
 
-    rating_swedish_text = Rating(_)
+    rating_swedish_text = Rating(_, review_show_improvements_only)
     if found_match:
-        rating_swedish_text.set_overall(5.0)
-        rating_swedish_text.set_a11y(5.0)
+        rating_swedish_text.set_overall(
+            5.0, _local('TEXT_REVIEW_NO_SWEDISH_ERROR_MSG'))
+        rating_swedish_text.set_a11y(5.0, _local(
+            'TEXT_REVIEW_NO_SWEDISH_ERROR_MSG'))
     else:
         rating_swedish_text.set_overall(
             1.0, _local('TEXT_REVIEW_NO_SWEDISH_ERROR_MSG'))
@@ -180,11 +185,13 @@ def run_test(_, langCode, url):
     rating += rating_swedish_text
 
     # hur långt är inehållet
-    rating_text_is_150_or_more = Rating(_)
+    rating_text_is_150_or_more = Rating(_, review_show_improvements_only)
     soup = BeautifulSoup(requestText, 'html.parser')
     if len(soup.get_text()) > 150:
-        rating_text_is_150_or_more.set_overall(5.0)
-        rating_text_is_150_or_more.set_a11y(5.0)
+        rating_text_is_150_or_more.set_overall(
+            5.0, _local('TEXT_REVIEW_ERROR_MSG_UNDER_150'))
+        rating_text_is_150_or_more.set_a11y(
+            5.0, _local('TEXT_REVIEW_ERROR_MSG_UNDER_150'))
     else:
         # '* Information är under 150 tecken, vilket tyder på att användaren inte vägleds vidare.\n'
         rating_text_is_150_or_more.set_overall(

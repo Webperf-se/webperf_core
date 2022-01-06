@@ -37,19 +37,19 @@ msgid "TEXT_RESULT_NOT_READY"
 msgstr "The service is not yet ready with a result, waiting another {0} seconds\n"
 
 msgid "TEXT_REVIEW_CATEGORY_VERY_GOOD"
-msgstr ": is good!\n"
+msgstr ": is good!"
 
 msgid "TEXT_REVIEW_CATEGORY_IS_GOOD"
-msgstr ": is good, but with {0} warning(s). (Giving {1:.2f} less points)\n"
+msgstr ": is good, but with {0} warning(s)."
 
 msgid "TEXT_REVIEW_CATEGORY_IS_OK"
-msgstr ": is ok, with {0} error(s) and {1} warning(s). (Giving {2:.2f} less points).\n"
+msgstr ": is ok, with {0} error(s) and {1} warning(s)."
 
 msgid "TEXT_REVIEW_CATEGORY_IS_BAD"
-msgstr ": is not that good. (Giving {0:.2f} less points)\n"
+msgstr ": is not that good."
 
 msgid "TEXT_REVIEW_CATEGORY_IS_VERY_BAD"
-msgstr ": is pretty bad. (Giving {0:.2f} less points)\n"
+msgstr ": is pretty bad."
 
 msgid "TEXT_REVIEW_GENERATED"
 msgstr "- Result generated: {0} (Cached for 24 hours)\n"

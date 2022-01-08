@@ -24,3 +24,11 @@ use_ip2location = False
 
 # Only show reviews that you can improve, set this value to True
 review_show_improvements_only = False
+
+# TO BE IMPLEMENTED:
+# locales - where are the lang files located?
+# at services like PythonAnywhere.com you might have to state a path like '/home/your-username/your-webperf-core-folder/locales'
+locales = 'locales'
+
+# how many iterations of Sitespeed.io requests would you like? Has to be at least 2 not to fail
+sitespeed_iterations = 2

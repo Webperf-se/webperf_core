@@ -1,0 +1,26 @@
+name: "Regression Test"
+on: [ push, pull_request ]
+    #branches: [ master ]
+  #pull_request:
+    # The branches below must be a subset of the branches above
+    #branches: [ master ]
+  #schedule:
+  #  - cron: '18 3 * * 3'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    #permissions:
+    #  actions: read
+    #  contents: read
+    #  security-events: write
+    #strategy:
+    #  fail-fast: false
+    #  matrix:
+    #    language: [ 'csharp' ]    
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+        architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+    - run: python default.py -h

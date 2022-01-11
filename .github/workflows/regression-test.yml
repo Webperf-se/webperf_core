@@ -2,12 +2,22 @@ name: "Regression Test"
 on: [ push, pull_request ]
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: [ubuntu-latest, windows-latest, macos-latest]
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-python@v2
+    - name: Check out repository code
+      uses: actions/checkout@v2
+    - name: Setup python and dependencies
+      uses: actions/setup-python@v2
       with:
         python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
         architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
-    - run: mv SAMPLE-config.py config.py # use sample config as our config
-    - run: python default.py -h
+    - name: Use SAMPLE-config.py as config.py
+      run: mv SAMPLE-config.py config.py # use sample config as our config
+    - name: Test -help command
+      run: python default.py -h > test-help-command.log
+    - name: Test -test ? command
+      run: python default.py -t ? > test-empty-test-command.log
+    - name: Test -test 9 command
+      run: python default.py -t 9 -u https://webperf.se/ > test-test-9-command.log
+    - name: Test -test 21 with review command
+      run: python default.py -t 21 -r -u https://webperf.se/ > test-test-21-command.log

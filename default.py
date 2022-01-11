@@ -127,7 +127,7 @@ def main(argv):
                     sys.exit(2)
             except Exception:
                 validate_test_type(arg)
-                sys.exit(2)
+                sys.exit()
         elif opt in ("-i", "--input"):  # input file path
             input_filename = arg
 

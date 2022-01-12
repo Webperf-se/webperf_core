@@ -16,8 +16,7 @@ jobs:
       run: pip install -r requirements.txt
       if: ${{ success() }}
     - name: Setup config (using SAMPLE-config.py as config.py)
-      run: mv SAMPLE-config.py config.py # use sample config as our config
-      run: sed -i 's/original/new/g' config.py # use sample config as our config
+      run: python .github\workflows\verify_result.py -c
       if: ${{ success() }}
     - name: Test Help command
       run: python default.py -h

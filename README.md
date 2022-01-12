@@ -1,6 +1,9 @@
 # Webperf Core
 Minimalistic client mainly running on PythonAnywhere.com, accessing different websites, or web-APIs, and scraping them.
 
+![Regression Tests](https://github.com/webperf-se/webperf_core/actions/workflows/regression-test.yml/badge.svg)
+![Python CodeQL](https://github.com/webperf-se/webperf_core/actions/workflows/codeql-analysis.yml/badge.svg)
+
 The tests included in 3.x are:
 * Google Lighthouse accessibility with Axe
 * Google Lighthouse performance

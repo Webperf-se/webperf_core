@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
-import io
 from os import path
 import os.path
 import sys
 import getopt
-import datetime
 import filecmp
 import json
 import shutil
@@ -85,10 +83,10 @@ def main(argv):
 
             break
         elif opt in ("-t", "--test"):  # test id
-            dir = os.path.dirname(os.path.realpath(__file__)) + '\\'
+            dir = os.path.dirname(os.path.realpath(__file__)) + os.path.sep
             test_id = f'{int(arg):02}'
             filename = 'testresult-' + test_id + '.json'
-            predicted_filename = dir + 'predicted\\' + filename
+            predicted_filename = dir + 'predicted' + os.path.sep + filename
             filename = dir + filename
             if not path.exists(filename):
                 print('no file exist')

@@ -9,7 +9,7 @@ import shutil
 import re
 
 
-def prepare_config_file(sample_filename, filename):
+def prepare_config_file(sample_filename, filename, secret_key):
     if not path.exists(sample_filename):
         print('no sample file exist')
         sys.exit(2)
@@ -25,7 +25,7 @@ def prepare_config_file(sample_filename, filename):
         sys.exit(2)
 
     regex = r"^googlePageSpeedApiKey.*"
-    subst = "googlePageSpeedApiKey = \"XXX\""
+    subst = "googlePageSpeedApiKey = \"" + secret_key + "\""
     with open(filename, 'r') as file:
         data = file.readlines()
         output = list('')
@@ -62,8 +62,8 @@ def main(argv):
     """
 
     try:
-        opts, args = getopt.getopt(argv, "ht:l:c", [
-                                   "help", "test=", "prep-config", "list="])
+        opts, args = getopt.getopt(argv, "ht:l:c:", [
+                                   "help", "test=", "prep-config=", "list="])
     except getopt.GetoptError:
         print(main.__doc__)
         sys.exit(2)
@@ -77,7 +77,7 @@ def main(argv):
             show_help = True
             break
         elif opt in ("-c", "--prep-config"):
-            prepare_config_file('SAMPLE-config.py', 'config.py')
+            prepare_config_file('SAMPLE-config.py', 'config.py', arg)
             sys.exit(0)
         elif opt in ("-l", "--list tests"):
 
@@ -99,10 +99,10 @@ def main(argv):
             make_test_comparable(filename)
             if filecmp.cmp(filename,
                            predicted_filename, False):
-                print('files match')
+                print('test result mached expected content')
                 sys.exit(0)
             else:
-                print('file diff')
+                print('test result is _NOT_ maching expected content')
                 sys.exit(2)
 
     # No match for command so return error code to fail verification

@@ -1,0 +1,89 @@
+name: "Regression Test"
+on: [ push, pull_request ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v2
+      if: ${{ success() }}
+    - name: Setup python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+        architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+    - name: Setup dependencies using pip
+      run: pip install -r requirements.txt
+      if: ${{ success() }}
+    - name: Setup config (using SAMPLE-config.py as config.py)
+      shell: bash
+      env:
+        API_KEY: ${{ secrets.API_KEY }}
+      run: python .github/workflows/verify_result.py -c $API_KEY
+      if: ${{ success() }}
+    - name: Test Help command
+      run: python default.py -h
+      if: ${{ success() }}
+    - name: Test List tests command
+      run: python default.py -t ?
+      if: ${{ success() }}
+    - name: Test Performance (Google Lighthouse)
+      run: |
+         python default.py -t 1 -r -u https://webperf.se/ -o .github/workflows/testresult-01.json
+         python .github/workflows/verify_result.py -t 1
+      if: ${{ success() }}
+    - name: Test 404 (Page not Found)
+      run: |
+        python default.py -t 2 -r -u https://webperf.se/ -o .github/workflows/testresult-02.json
+        python .github/workflows/verify_result.py -t 2
+      if: ${{ success() }}
+    - name: Test SEO (Google Lighthouse)
+      run: |
+         python default.py -t 4 -r -u https://webperf.se/ -o .github/workflows/testresult-04.json
+         python .github/workflows/verify_result.py -t 4
+      if: ${{ success() }}
+    - name: Test Best Practice (Google Lighthouse)
+      run: |
+         python default.py -t 5 -r -u https://webperf.se/ -o .github/workflows/testresult-05.json
+         python .github/workflows/verify_result.py -t 5
+      if: ${{ success() }}
+    - name: Test HTML Validation
+      run: |
+         python default.py -t 6 -r -u https://webperf.se/ -o .github/workflows/testresult-06.json
+         python .github/workflows/verify_result.py -t 6
+      if: ${{ success() }}
+    - name: Test CSS Validation
+      run: |
+         python default.py -t 7 -r -u https://webperf.se/ -o .github/workflows/testresult-07.json
+         python .github/workflows/verify_result.py -t 7
+      if: ${{ success() }}
+    - name: Test PWA (Google Lighthouse)
+      run: |
+         python default.py -t 8 -r -u https://webperf.se/ -o .github/workflows/testresult-08.json
+         python .github/workflows/verify_result.py -t 8
+      if: ${{ success() }}
+    - name: Test Standard files
+      run: |
+        python default.py -t 9 -r -u https://webperf.se/ -o .github/workflows/testresult-09.json
+        python .github/workflows/verify_result.py -t 9
+      if: ${{ success() }}
+    - name: Test Integrity & Security (Webbkoll)
+      run: |
+         python default.py -t 20 -r -u https://webperf.se/ -o .github/workflows/testresult-20.json
+         python .github/workflows/verify_result.py -t 20
+      if: ${{ success() }}
+    - name: Test HTTP & Network
+      run: |
+        python default.py -t 21 -r -u https://webperf.se/ -o .github/workflows/testresult-21.json
+        python .github/workflows/verify_result.py -t 21
+      if: ${{ success() }}
+    - name: Test Energy Efficiency (Website Carbon Calculator)
+      run: |
+         python default.py -t 22 -r -u https://webperf.se/ -o .github/workflows/testresult-22.json
+         python .github/workflows/verify_result.py -t 22
+      if: ${{ success() }}
+    # - name: Test Tracking & Integrity (Pagexray)
+    #   run: |
+    #      python default.py -t 23 -r -u https://webperf.se/ -o .github/workflows/testresult-23.json
+    #      python .github/workflows/verify_result.py -t 23
+    #   if: ${{ success() }}

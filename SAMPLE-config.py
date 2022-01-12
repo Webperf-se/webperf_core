@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Configurations for the client lib
 """

@@ -17,6 +17,7 @@ jobs:
       if: ${{ success() }}
     - name: Setup config (using SAMPLE-config.py as config.py)
       run: mv SAMPLE-config.py config.py # use sample config as our config
+      run: sed -i 's/original/new/g' config.py # use sample config as our config
       if: ${{ success() }}
     - name: Test Help command
       run: python default.py -h
@@ -25,38 +26,50 @@ jobs:
       run: python default.py -t ?
       if: ${{ success() }}
     # - name: Test Performance (Google Lighthouse)
-    #   run: python default.py -t 1 -r -u https://webperf.se/
+    #   run: python default.py -t 1 -r -u https://webperf.se/ -o .github\workflows\testresult-01.json
+    #   run: python .github\workflows\verify_result.py -t 1
     #   if: ${{ success() }}
     - name: Test 404 (Page not Found)
-      run: python default.py -t 2 -r -u https://webperf.se/
+      run: python default.py -t 2 -r -u https://webperf.se/ -o .github\workflows\testresult-02.json
+      run: python .github\workflows\verify_result.py -t 2
       if: ${{ success() }}
     # - name: Test SEO (Google Lighthouse)
     #   run: python default.py -t 4 -r -u https://webperf.se/
+    #   run: python .github\workflows\verify_result.py -t 4 -o .github\workflows\testresult-04.json
     #   if: ${{ success() }}
     # - name: Test Best Practice (Google Lighthouse)
     #   run: python default.py -t 5 -r -u https://webperf.se/
+    #   run: python .github\workflows\verify_result.py -t 5 -o .github\workflows\testresult-05.json
     #   if: ${{ success() }}
     # - name: Test HTML Validation
     #   run: python default.py -t 6 -r -u https://webperf.se/
+    #   run: python .github\workflows\verify_result.py -t 6 -o .github\workflows\testresult-06.json
     #   if: ${{ success() }}
     # - name: Test CSS Validation
     #   run: python default.py -t 7 -r -u https://webperf.se/
+    #   run: python .github\workflows\verify_result.py -t 7 -o .github\workflows\testresult-07.json
     #   if: ${{ success() }}
     # - name: Test PWA (Google Lighthouse)
     #   run: python default.py -t 8 -r -u https://webperf.se/
+    #   run: python .github\workflows\verify_result.py -t 8 -o .github\workflows\testresult-08.json
     #   if: ${{ success() }}
     - name: Test Standard files
       run: python default.py -t 9 -r -u https://webperf.se/
+      run: python .github\workflows\verify_result.py -t 9 -o .github\workflows\testresult-09.json
       if: ${{ success() }}
     # - name: Test Integrity & Security (Webbkoll)
     #   run: python default.py -t 20 -r -u https://webperf.se/
+    #   run: python .github\workflows\verify_result.py -t 20 -o .github\workflows\testresult-20.json
     #   if: ${{ success() }}
     - name: Test HTTP & Network
       run: python default.py -t 21 -r -u https://webperf.se/
+      run: python .github\workflows\verify_result.py -t 21 -o .github\workflows\testresult-21.json
       if: ${{ success() }}
     # - name: Test Energy Efficiency (Website Carbon Calculator)
     #   run: python default.py -t 22 -r -u https://webperf.se/
+    #   run: python .github\workflows\verify_result.py -t 22 -o .github\workflows\testresult-22.json
     #   if: ${{ success() }}
     # - name: Test Tracking & Integrity (Pagexray)
     #   run: python default.py -t 23 -r -u https://webperf.se/
+    #   run: python .github\workflows\verify_result.py -t 23 -o .github\workflows\testresult-23.json
     #   if: ${{ success() }}

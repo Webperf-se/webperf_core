@@ -84,6 +84,7 @@ def validate_testresult(arg):
     else:
         # for all other test it is enough that we have a file in place for now
         print('test result exists')
+        print_file_content(filename)
         sys.exit(0)
 
 

@@ -77,11 +77,11 @@ jobs:
         python default.py -t 21 -r -u https://webperf.se/ -o .github/workflows/testresult-21.json
         python .github/workflows/verify_result.py -t 21
       if: ${{ success() }}
-    # - name: Test Energy Efficiency (Website Carbon Calculator)
-    #   run: |
-    #      python default.py -t 22 -r -u https://webperf.se/ -o .github/workflows/testresult-22.json
-    #      python .github/workflows/verify_result.py -t 22
-    #   if: ${{ success() }}
+    - name: Test Energy Efficiency (Website Carbon Calculator)
+      run: |
+         python default.py -t 22 -r -u https://webperf.se/ -o .github/workflows/testresult-22.json
+         python .github/workflows/verify_result.py -t 22
+      if: ${{ success() }}
     # - name: Test Tracking & Integrity (Pagexray)
     #   run: |
     #      python default.py -t 23 -r -u https://webperf.se/ -o .github/workflows/testresult-23.json

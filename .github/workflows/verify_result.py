@@ -47,6 +47,40 @@ def make_test_comparable(input_filename):
         json.dump(data, outfile)
 
 
+def print_file_content(input_filename):
+    print('input_filename=' + input_filename)
+    with open(input_filename, 'r') as file:
+        data = file.readlines()
+        for line in data:
+            print(line)
+
+
+def validate_testresult(arg):
+    dir = os.path.dirname(os.path.realpath(__file__)) + os.path.sep
+    test_id = f'{int(arg):02}'
+    filename = 'testresult-' + test_id + '.json'
+    predicted_filename = dir + 'predicted' + os.path.sep + filename
+    filename = dir + filename
+    if not path.exists(filename):
+        print('no file exist')
+        sys.exit(2)
+
+    if not path.exists(predicted_filename):
+        print('no predicted file exist')
+        sys.exit(2)
+
+    make_test_comparable(filename)
+    if filecmp.cmp(filename,
+                   predicted_filename, False):
+        print('test result mached expected content')
+        sys.exit(0)
+    else:
+        print('test result is _NOT_ maching expected content')
+        print_file_content(filename)
+        print_file_content(predicted_filename)
+        sys.exit(2)
+
+
 def main(argv):
     """
     WebPerf Core - Regression Test
@@ -83,27 +117,7 @@ def main(argv):
 
             break
         elif opt in ("-t", "--test"):  # test id
-            dir = os.path.dirname(os.path.realpath(__file__)) + os.path.sep
-            test_id = f'{int(arg):02}'
-            filename = 'testresult-' + test_id + '.json'
-            predicted_filename = dir + 'predicted' + os.path.sep + filename
-            filename = dir + filename
-            if not path.exists(filename):
-                print('no file exist')
-                sys.exit(2)
-
-            if not path.exists(predicted_filename):
-                print('no predicted file exist')
-                sys.exit(2)
-
-            make_test_comparable(filename)
-            if filecmp.cmp(filename,
-                           predicted_filename, False):
-                print('test result mached expected content')
-                sys.exit(0)
-            else:
-                print('test result is _NOT_ maching expected content')
-                sys.exit(2)
+            validate_testresult(arg)
 
     # No match for command so return error code to fail verification
     sys.exit(2)

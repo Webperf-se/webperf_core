@@ -77,18 +77,25 @@ def run_test(_, langCode, url):
     else:
         points = 5.0 - (speedindex_adjusted / 1000)
 
+    review_overall = ''
     if points >= 5.0:
-        review = _local('TEXT_REVIEW_VERY_GOOD')
+        review_overall = _local('TEXT_REVIEW_VERY_GOOD')
     elif points >= 4.0:
-        review = _local('TEXT_REVIEW_IS_GOOD')
+        review_overall = _local('TEXT_REVIEW_IS_GOOD')
     elif points >= 3.0:
-        review = _local('TEXT_REVIEW_IS_OK')
+        review_overall = _local('TEXT_REVIEW_IS_OK')
     elif points > 1.0:
-        review = _local('TEXT_REVIEW_IS_BAD')
+        review_overall = _local('TEXT_REVIEW_IS_BAD')
     elif points <= 1.0:
-        review = _local('TEXT_REVIEW_IS_VERY_BAD')
+        review_overall = _local('TEXT_REVIEW_IS_VERY_BAD')
 
     review += '- Speedindex: {}\n'.format(speedindex)
+
+    rating = Rating(_)
+    rating.set_overall(points, review_overall)
+    rating.set_performance(points, review)
+
+    review = rating.performance_review
     if 's' in result_dict['load']:
         review += _local("TEXT_REVIEW_LOAD_TIME").format(result_dict['load'])
     else:
@@ -98,9 +105,7 @@ def run_test(_, langCode, url):
     review += _local("TEXT_REVIEW_NUMBER_OF_REQUESTS").format(
         result_dict['requests'])
 
-    rating = Rating(_)
-    rating.set_overall(points, review)
-    rating.set_performance(points, review)
+    rating.performance_review = review
 
     print(_('TEXT_TEST_END').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))

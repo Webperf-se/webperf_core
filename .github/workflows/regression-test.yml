@@ -67,6 +67,11 @@ jobs:
         python default.py -t 9 -r -u https://webperf.se/ -o .github/workflows/testresult-09.json
         python .github/workflows/verify_result.py -t 9
       if: ${{ success() }}
+    - name: Test Performance (Sitespeed.io)
+      run: |
+         python default.py -t 15 -r -u https://webperf.se/ -o .github/workflows/testresult-15.json
+         python .github/workflows/verify_result.py -t 15
+      if: ${{ success() }}
     - name: Test Integrity & Security (Webbkoll)
       run: |
          python default.py -t 20 -r -u https://webperf.se/ -o .github/workflows/testresult-20.json

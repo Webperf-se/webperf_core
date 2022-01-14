@@ -1,9 +1,6 @@
 # Webperf Core
 Minimalistic client mainly running on PythonAnywhere.com, accessing different websites, or web-APIs, and scraping them.
 
-![Regression Tests](https://github.com/webperf-se/webperf_core/actions/workflows/regression-test.yml/badge.svg)
-![Python CodeQL](https://github.com/webperf-se/webperf_core/actions/workflows/codeql-analysis.yml/badge.svg)
-
 The tests included in 3.x are:
 * Google Lighthouse accessibility with Axe
 * Google Lighthouse performance
@@ -21,6 +18,17 @@ The tests included in 3.x are:
 * HTTP and Network test (checks HTTP version, TLS version and more)
 * Tracking & Integrity test (provided by Pagexray, checks GDPR compliance, tracking and more)
 
+## Code Tests
+* [![CodeQL (Security and Code Quality)](https://github.com/Webperf-se/webperf_core/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/codeql-analysis.yml)
+* [![Regression Test - Google Lighthouse Based Test(s)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-google-lighthouse-based.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-google-lighthouse-based.yml)
+* [![Regression Test - 404 (Page not Found) Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-404.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-404.yml)
+* [![Regression Test - HTML Validation Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-html.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-html.yml)
+* [![Regression Test - CSS Validation Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-css.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-css.yml)
+* [![Regression Test - Integrity & Security (Webbkoll) Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-webbkoll.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-webbkoll.yml)
+* [![Regression Test - Quality on frontend (Yellow Lab Tools) Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-ylt.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-ylt.yml)
+* [![Regression Test - Performance (Sitespeed.io) Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-sitespeed.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-sitespeed.yml)
+* [![Regression Test - Standard files Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-standard-files.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-standard-files.yml)
+* [![Regression Test - HTTP & Network Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-http.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-http.yml)
 
 ## psst. third party extensions...
 * [webperf-leaderboard](https://github.com/krompaco/webperf-leaderboard) by [Johan Kronberg](https://github.com/krompaco/)

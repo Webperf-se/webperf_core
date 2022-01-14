@@ -26,6 +26,12 @@ except:
     # If YLT URL is not set in config.py this will be the default
     ylt_server_address = 'https://yellowlab.tools'
 
+try:
+    ylt_use_api = config.ylt_use_api
+except:
+    # If YLT use api variable is not set in config.py this will be the default
+    ylt_use_api = True
+
 
 def run_test(_, langCode, url, device='phone'):
     """
@@ -46,25 +52,35 @@ def run_test(_, langCode, url, device='phone'):
     print(_('TEXT_TEST_START').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    r = requests.post('{0}/api/runs'.format(ylt_server_address),
-                      data={'url': url, "waitForResponse": 'true', 'device': device})
+    if ylt_use_api:
+        r = requests.post('{0}/api/runs'.format(ylt_server_address),
+                          data={'url': url, "waitForResponse": 'true', 'device': device})
 
-    result_url = r.url
+        result_url = r.url
 
-    running_info = json.loads(r.text)
-    test_id = running_info['runId']
+        running_info = json.loads(r.text)
+        test_id = running_info['runId']
 
-    running_status = 'running'
-    while running_status == 'running':
-        running_json = httpRequestGetContent(
-            '{0}/api/runs/{1}'.format(ylt_server_address, test_id))
-        running_info = json.loads(running_json)
-        running_status = running_info['status']['statusCode']
-        time.sleep(time_sleep)
+        running_status = 'running'
+        while running_status == 'running':
+            running_json = httpRequestGetContent(
+                '{0}/api/runs/{1}'.format(ylt_server_address, test_id))
+            running_info = json.loads(running_json)
+            running_status = running_info['status']['statusCode']
+            time.sleep(time_sleep)
 
-    result_url = '{0}/api/results/{1}?exclude=toolsResults'.format(
-        ylt_server_address, test_id)
-    result_json = httpRequestGetContent(result_url)
+        result_url = '{0}/api/results/{1}?exclude=toolsResults'.format(
+            ylt_server_address, test_id)
+        result_json = httpRequestGetContent(result_url)
+    else:
+        import subprocess
+
+        bashCommand = "yellowlabtools {0}".format(url)
+        process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+        output, error = process.communicate()
+
+        result_json = output
+
     #print('result_url', result_url)
 
     result_dict = json.loads(result_json)

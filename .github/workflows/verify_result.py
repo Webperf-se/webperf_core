@@ -24,16 +24,27 @@ def prepare_config_file(sample_filename, filename, secret_key):
         print('no file exist')
         sys.exit(2)
 
-    regex = r"^googlePageSpeedApiKey.*"
-    subst = "googlePageSpeedApiKey = \"" + secret_key + "\""
+    regex_api_key = r"^googlePageSpeedApiKey.*"
+    subst_api_key = "googlePageSpeedApiKey = \"" + secret_key + "\""
+
+    regex_ylt = r"^ylt_use_api.*"
+    subst_ylt = "ylt_use_api = False"
+
     with open(filename, 'r') as file:
         data = file.readlines()
         output = list('')
         for line in data:
-            output.append(re.sub(regex, subst, line, 0, re.MULTILINE))
+            tmp = re.sub(regex_api_key, subst_api_key, line, 0, re.MULTILINE)
+            tmp = re.sub(regex_ylt, subst_ylt, tmp, 0, re.MULTILINE)
+
+            output.append(tmp)
 
     with open(filename, 'w') as outfile:
         outfile.writelines(output)
+
+    # show resulting config in output for debug reasons
+    print('config.py:\n')
+    print('\n'.join(output))
 
 
 def make_test_comparable(input_filename):

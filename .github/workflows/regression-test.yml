@@ -15,6 +15,15 @@ jobs:
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
       if: ${{ success() }}
+    - name: Setup node (ONLY used for Yellow Lab Tools)
+      uses: actions/setup-node@v2
+    - name: Setup node dependencies (ONLY used for Yellow Lab Tools)
+      run: npm install -g node-gyp
+    - name: Setup libjpeg and fontconfig (ONLY used for Yellow Lab Tools)
+      run: sudo apt-get install libjpeg-dev libfontconfig
+      shell: bash
+    - name: Setup yellowlabtools npm package (ONLY used for Yellow Lab Tools)
+      run: npm install -g yellowlabtools
     - name: Setup config (using SAMPLE-config.py as config.py)
       shell: bash
       env:
@@ -71,6 +80,11 @@ jobs:
       run: |
          python default.py -t 15 -r -u https://webperf.se/ -o .github/workflows/testresult-15.json
          python .github/workflows/verify_result.py -t 15
+      if: ${{ success() }}
+    - name:  Quality on frontend (Yellow Lab Tools)
+      run: |
+         python default.py -t 17 -r -u https://webperf.se/ -o .github/workflows/testresult-17.json
+         python .github/workflows/verify_result.py -t 17
       if: ${{ success() }}
     - name: Test Integrity & Security (Webbkoll)
       run: |

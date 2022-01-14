@@ -26,6 +26,9 @@ use_ip2location = False
 # Only show reviews that you can improve, set this value to True
 review_show_improvements_only = False
 
+# Tells Yellow Lab Tools Test to use API version or command line version
+ylt_use_api = True
+
 # TO BE IMPLEMENTED:
 # locales - where are the lang files located?
 # at services like PythonAnywhere.com you might have to state a path like '/home/your-username/your-webperf-core-folder/locales'

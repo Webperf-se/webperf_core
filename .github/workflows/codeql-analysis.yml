@@ -9,9 +9,10 @@
 # the `language` matrix defined below to confirm you have the correct set of
 # supported CodeQL languages.
 #
-name: "CodeQL"
+name: "CodeQL (Security and Code Quality)"
 
-on: [ push, pull_request ]
+on: [ push ]
+#on: [ push, pull_request ]
 
 jobs:
   analyze:

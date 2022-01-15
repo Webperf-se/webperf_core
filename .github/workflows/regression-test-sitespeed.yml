@@ -15,6 +15,9 @@ jobs:
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
       if: ${{ success() }}
+    - name: Setup Google Chrome browser (ONLY used for Sitespeed)
+      uses: browser-actions/setup-chrome@latest
+      if: ${{ success() }}
     - name: Setup node (ONLY used for Yellow Lab Tools, lighthouse and Sitespeed)
       uses: actions/setup-node@v2
     - name: Setup Sitespeed.io npm package (ONLY used for Sitespeed)

@@ -20,6 +20,7 @@ The tests included in 3.x are:
 
 ## Code Tests
 * [![CodeQL (Security and Code Quality)](https://github.com/Webperf-se/webperf_core/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/codeql-analysis.yml)
+* [![Regression Test - Verify Translation(s)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-translations.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-translations.yml)
 * [![Regression Test - Google Lighthouse Based Test(s)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-google-lighthouse-based.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-google-lighthouse-based.yml)
 * [![Regression Test - 404 (Page not Found) Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-404.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-404.yml)
 * [![Regression Test - HTML Validation Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-html.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-html.yml)
@@ -29,6 +30,7 @@ The tests included in 3.x are:
 * [![Regression Test - Performance (Sitespeed.io) Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-sitespeed.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-sitespeed.yml)
 * [![Regression Test - Standard files Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-standard-files.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-standard-files.yml)
 * [![Regression Test - HTTP & Network Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-http.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-http.yml)
+
 
 ## psst. third party extensions...
 * [webperf-leaderboard](https://github.com/krompaco/webperf-leaderboard) by [Johan Kronberg](https://github.com/krompaco/)

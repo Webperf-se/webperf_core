@@ -9,6 +9,7 @@ _local = gettext.gettext
 # DEFAULTS
 googlePageSpeedApiKey = config.googlePageSpeedApiKey
 review_show_improvements_only = config.review_show_improvements_only
+lighthouse_use_api = config.lighthouse_use_api
 strategy = 'mobile'
 category = 'performance'
 
@@ -34,7 +35,7 @@ def run_test(_, langCode, url, silance=False):
             datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     test_result = lighthouse_base_run_test(
-        _, langCode, url, googlePageSpeedApiKey, strategy, category, review_show_improvements_only)
+        _, langCode, url, googlePageSpeedApiKey, strategy, category, review_show_improvements_only, lighthouse_use_api)
     rating = test_result[0]
     test_return_dict = test_result[1]
 

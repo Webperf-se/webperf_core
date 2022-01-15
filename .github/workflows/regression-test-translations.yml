@@ -16,8 +16,5 @@ jobs:
       run: pip install -r requirements.txt
       if: ${{ success() }}
     - name: Verifing Translation(s)
-      shell: bash
-      env:
-        API_KEY: ${{ secrets.API_KEY }}
       run: python .github/workflows/verify_result.py -l
       if: ${{ success() }}

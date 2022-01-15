@@ -13,10 +13,9 @@ import re
 import sys
 import getopt
 import gettext
-import subprocess
 
 
-def prepare_config_file(sample_filename, filename, secret_key):
+def prepare_config_file(sample_filename, filename):
     if not os.path.exists(sample_filename):
         print('no sample file exist')
         return False
@@ -31,18 +30,19 @@ def prepare_config_file(sample_filename, filename, secret_key):
         print('no file exist')
         return False
 
-    regex_api_key = r"^googlePageSpeedApiKey.*"
-    subst_api_key = "googlePageSpeedApiKey = \"" + secret_key + "\""
-
     regex_ylt = r"^ylt_use_api.*"
     subst_ylt = "ylt_use_api = False"
+
+    regex_lighthouse = r"^lighthouse_use_api.*"
+    subst_lighthouse = "lighthouse_use_api = False"
 
     with open(filename, 'r') as file:
         data = file.readlines()
         output = list('')
         for line in data:
-            tmp = re.sub(regex_api_key, subst_api_key, line, 0, re.MULTILINE)
-            tmp = re.sub(regex_ylt, subst_ylt, tmp, 0, re.MULTILINE)
+            tmp = re.sub(regex_ylt, subst_ylt, line, 0, re.MULTILINE)
+            tmp = re.sub(regex_lighthouse, subst_lighthouse,
+                         tmp, 0, re.MULTILINE)
 
             output.append(tmp)
 
@@ -89,30 +89,17 @@ def validate_testresult(arg):
     dir = os.path.dirname(os.path.realpath(__file__)) + os.path.sep
     test_id = f'{int(arg):02}'
     filename = 'testresult-' + test_id + '.json'
-    predicted_filename = dir + 'predicted' + os.path.sep + filename
     filename = dir + filename
     if not os.path.exists(filename):
         print('test result doesn\'t exists')
         return False
 
-    # We only have 3 tests that are predictable enough with output to try to match content
-    if test_id == '02' or test_id == '09' or test_id == '21':
-        if not os.path.exists(predicted_filename):
-            print('no predicted file exist')
-            return False
-
-        make_test_comparable(filename)
-        if filecmp.cmp(filename,
-                       predicted_filename, False):
-            print('test result mached expected content')
-            return True
-        else:
-            print('test result is _NOT_ maching expected content')
-            print_file_content(filename)
-            print_file_content(predicted_filename)
-            return False
+    # for all other test it is enough that we have a file in place for now
+    if '{"tests": []}' in get_file_content(filename):
+        print('Test failed, empty test results only')
+        print_file_content(filename)
+        return False
     else:
-        # for all other test it is enough that we have a file in place for now
         print('test result exists')
         print_file_content(filename)
         return True
@@ -281,8 +268,8 @@ def main(argv):
     """
 
     try:
-        opts, args = getopt.getopt(argv, "hlt:c:", [
-                                   "help", "test=", "prep-config=", "language"])
+        opts, args = getopt.getopt(argv, "hlct:", [
+                                   "help", "test=", "prep-config", "language"])
     except getopt.GetoptError:
         print(main.__doc__)
         sys.exit(2)
@@ -297,7 +284,7 @@ def main(argv):
             sys.exit(0)
             break
         elif opt in ("-c", "--prep-config"):
-            if prepare_config_file('SAMPLE-config.py', 'config.py', arg):
+            if prepare_config_file('SAMPLE-config.py', 'config.py'):
                 sys.exit(0)
             else:
                 sys.exit(2)

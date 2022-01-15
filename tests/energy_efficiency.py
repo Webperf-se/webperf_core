@@ -127,7 +127,7 @@ def run_test(_, langCode, url):
 
     transfer_info = format_bytes(transfer_bytes)
     review += _local("TEXT_TRANSFER_SIZE").format(transfer_info[0], transfer_info[1]
-                                                                     )
+                                                  )
     # if 'false' in green.lower():
     # review += _local("TEXT_GREEN_ENERGY_FALSE")
     # elif 'true' in green.lower():

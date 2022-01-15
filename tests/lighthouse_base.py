@@ -5,7 +5,7 @@ import json
 from tests.utils import *
 
 
-def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category, review_show_improvements_only):
+def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category, review_show_improvements_only, lighthouse_use_api):
     """
     perf = https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category=performance&strategy=mobile&url=YOUR-SITE&key=YOUR-KEY
     a11y = https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category=accessibility&strategy=mobile&url=YOUR-SITE&key=YOUR-KEY
@@ -14,30 +14,8 @@ def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category, review
     seo = https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category=seo&strategy=mobile&url=YOUR-SITE&key=YOUR-KEY
     """
 
-    check_url = url.strip()
-
-    pagespeed_api_request = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed?locale={4}&category={0}&url={1}&strategy={2}&key={3}'.format(
-        category, check_url, strategy, googlePageSpeedApiKey, langCode)
-    get_content = ''
-
-    # print('pagespeed_api_request: {0}'.format(pagespeed_api_request))
-
-    try:
-        get_content = httpRequestGetContent(pagespeed_api_request)
-    except:  # breaking and hoping for more luck with the next URL
-        print(
-            'Error! Unfortunately the request for URL "{0}" failed, message:\n{1}'.format(
-                check_url, sys.exc_info()[0]))
-        pass
-
-    json_content = ''
-
-    try:
-        json_content = json.loads(get_content)
-    except:  # might crash if checked resource is not a webpage
-        print('Error! JSON failed parsing for the URL "{0}"\nMessage:\n{1}'.format(
-            check_url, sys.exc_info()[0]))
-        pass
+    json_content = get_json_result(
+        langCode, url, googlePageSpeedApiKey, strategy, category, lighthouse_use_api)
 
     # look for words indicating item is insecure
     insecure_strings = ['security', 'säkerhet',
@@ -52,10 +30,10 @@ def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category, review
     rating = Rating(_, review_show_improvements_only)
 
     # Service score (0-100)
-    score = json_content['lighthouseResult']['categories'][category]['score']
+    score = json_content['categories'][category]['score']
 
     total_weight = 0
-    for item in json_content['lighthouseResult']['categories'][category]['auditRefs']:
+    for item in json_content['categories'][category]['auditRefs']:
         total_weight += item['weight']
         weight_dict[item['id']] = item['weight']
 
@@ -63,13 +41,13 @@ def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category, review
     points = 5.0 * float(score)
     reviews = []
 
-    for item in json_content['lighthouseResult']['audits'].keys():
+    for item in json_content['audits'].keys():
         try:
-            if 'numericValue' in json_content['lighthouseResult']['audits'][item]:
-                return_dict[item] = json_content['lighthouseResult']['audits'][item]['numericValue']
+            if 'numericValue' in json_content['audits'][item]:
+                return_dict[item] = json_content['audits'][item]['numericValue']
 
             local_score = float(
-                json_content['lighthouseResult']['audits'][item]['score'])
+                json_content['audits'][item]['score'])
 
             local_points = 5.0 * local_score
             if local_points < 1.0:
@@ -79,11 +57,11 @@ def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category, review
 
             item_review = ''
             item_title = '{0}'.format(
-                json_content['lighthouseResult']['audits'][item]['title'])
+                json_content['audits'][item]['title'])
             displayValue = ''
-            item_description = json_content['lighthouseResult']['audits'][item]['description']
-            if 'displayValue' in json_content['lighthouseResult']['audits'][item]:
-                displayValue = json_content['lighthouseResult']['audits'][item]['displayValue']
+            item_description = json_content['audits'][item]['description']
+            if 'displayValue' in json_content['audits'][item]:
+                displayValue = json_content['audits'][item]['displayValue']
             if local_score == 0:
                 item_review = "- {0}".format(
                     _(item_title))
@@ -147,3 +125,50 @@ def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category, review
     rating.overall_count = 1
 
     return (rating, return_dict)
+
+
+def str_to_json(content, url):
+    json_content = ''
+
+    try:
+        json_content = json.loads(content)
+        if 'lighthouseResult' in json_content:
+            json_content = json_content['lighthouseResult']
+
+    except:  # might crash if checked resource is not a webpage
+        print('Error! JSON failed parsing for the URL "{0}"\nMessage:\n{1}'.format(
+            url, sys.exc_info()[0]))
+        pass
+
+    return json_content
+
+
+def get_json_result(langCode, url, googlePageSpeedApiKey, strategy, category, lighthouse_use_api):
+    check_url = url.strip()
+
+    if lighthouse_use_api:
+        pagespeed_api_request = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed?locale={3}&category={0}&url={1}&strategy={2}&key={4}'.format(
+            category, check_url, strategy, langCode, googlePageSpeedApiKey)
+        get_content = ''
+
+        # print('pagespeed_api_request: {0}'.format(pagespeed_api_request))
+
+        try:
+            get_content = httpRequestGetContent(pagespeed_api_request)
+        except:  # breaking and hoping for more luck with the next URL
+            print(
+                'Error! Unfortunately the request for URL "{0}" failed, message:\n{1}'.format(
+                    check_url, sys.exc_info()[0]))
+            pass
+    else:
+        import subprocess
+
+        bashCommand = "lighthouse {1} --output json --output-path stdout --locale {3} --only-categories {0} --form-factor {2} --chrome-flags=\"--headless\" --quiet".format(
+            category, check_url, strategy, langCode)
+        process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+        output, error = process.communicate()
+
+        get_content = output
+
+    json_content = str_to_json(get_content, check_url)
+    return json_content

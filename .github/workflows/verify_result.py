@@ -36,12 +36,17 @@ def prepare_config_file(sample_filename, filename):
     regex_lighthouse = r"^lighthouse_use_api.*"
     subst_lighthouse = "lighthouse_use_api = False"
 
+    regex_sitespeed = r"^sitespeed_use_docker.*"
+    subst_sitespeed = "sitespeed_use_docker = False"
+
     with open(filename, 'r') as file:
         data = file.readlines()
         output = list('')
         for line in data:
             tmp = re.sub(regex_ylt, subst_ylt, line, 0, re.MULTILINE)
             tmp = re.sub(regex_lighthouse, subst_lighthouse,
+                         tmp, 0, re.MULTILINE)
+            tmp = re.sub(regex_sitespeed, subst_sitespeed,
                          tmp, 0, re.MULTILINE)
 
             output.append(tmp)

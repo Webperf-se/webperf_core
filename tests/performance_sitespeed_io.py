@@ -30,16 +30,15 @@ def get_result(sitespeed_use_docker, url):
 
         docker_client = docker.from_env()
         result = str(docker_client.containers.run(image, arg))
-        result = result.replace('\\n', ' ')
     else:
         import subprocess
 
         bashCommand = "sitespeed.io {0}".format(arg)
         process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
         output, error = process.communicate()
+        result = str(output)
 
-        result = output
-
+    result = result.replace('\\n', ' ')
     print('sitespeed_result:', result)
 
     return result

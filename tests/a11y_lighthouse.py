@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
-#from models import Rating
 import datetime
 from tests.lighthouse_base import run_test as lighthouse_base_run_test
 import config
 from tests.utils import *
 import gettext
-_local = gettext.gettext
 
 # DEFAULTS
 googlePageSpeedApiKey = config.googlePageSpeedApiKey
 review_show_improvements_only = config.review_show_improvements_only
+lighthouse_use_api = config.lighthouse_use_api
 
 
 def run_test(_, langCode, url, strategy='mobile', category='accessibility'):
@@ -25,7 +24,7 @@ def run_test(_, langCode, url, strategy='mobile', category='accessibility'):
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     test_result = lighthouse_base_run_test(
-        _, langCode, url, googlePageSpeedApiKey, strategy, category, review_show_improvements_only)
+        _, langCode, url, googlePageSpeedApiKey, strategy, category, review_show_improvements_only, lighthouse_use_api)
     rating = test_result[0]
     test_return_dict = test_result[1]
 

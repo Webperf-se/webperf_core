@@ -16,10 +16,7 @@ jobs:
       run: pip install -r requirements.txt
       if: ${{ success() }}
     - name: Setup config (using SAMPLE-config.py as config.py)
-      shell: bash
-      env:
-        API_KEY: ${{ secrets.API_KEY }}
-      run: python .github/workflows/verify_result.py -c $API_KEY
+      run: python .github/workflows/verify_result.py -c
       if: ${{ success() }}
     - name: Test 404 (Page not Found)
       run: |

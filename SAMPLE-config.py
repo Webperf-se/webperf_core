@@ -29,6 +29,9 @@ review_show_improvements_only = False
 # Tells Yellow Lab Tools Test to use API version or command line version
 ylt_use_api = True
 
+# Tells Lighthouse based Test(s) to use API version or command line version
+lighthouse_use_api = True
+
 # TO BE IMPLEMENTED:
 # locales - where are the lang files located?
 # at services like PythonAnywhere.com you might have to state a path like '/home/your-username/your-webperf-core-folder/locales'

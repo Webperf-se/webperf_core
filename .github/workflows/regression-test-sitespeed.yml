@@ -15,6 +15,11 @@ jobs:
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
       if: ${{ success() }}
+    - name: Setup node (ONLY used for Yellow Lab Tools, lighthouse and Sitespeed)
+      uses: actions/setup-node@v2
+    - name: Setup Sitespeed.io npm package (ONLY used for Sitespeed)
+      run: npm install -g sitespeed.io
+      if: ${{ success() }}
     - name: Setup config (using SAMPLE-config.py as config.py)
       run: python .github/workflows/verify_result.py -c
       if: ${{ success() }}

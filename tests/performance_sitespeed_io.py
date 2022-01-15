@@ -24,8 +24,10 @@ def get_result(sitespeed_use_docker, url):
     result = ''
     # arg = '--rm --shm-size=1g -b chrome --xvfb --plugins.remove screenshot --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
     #     config.sitespeed_iterations, url)
-    arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --speedIndex true --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args headless --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+    arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --browsertime.chrome.args headless -n {0} {1}'.format(
         config.sitespeed_iterations, url)
+    # arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --speedIndex true --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args headless --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+    #     config.sitespeed_iterations, url)
     if sitespeed_use_docker:
 
         image = "sitespeedio/sitespeed.io:latest"

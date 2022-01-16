@@ -39,12 +39,16 @@ jobs:
     - name: Test and list content
       run: |
         sitespeed.io --rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --summary-detail true --verbose --logToFile true --outputFolder results --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --html.logDownloadLink true -n 2 https://webperf.se/
-        echo 'root'
+        echo '# root'
         ls /home/runner/work/webperf_core/webperf_core
-        echo 'results'
+        echo '# results'
         ls /home/runner/work/webperf_core/webperf_core/results
-        echo 'logs'
+        echo '# logs'
         ls /home/runner/work/webperf_core/webperf_core/results/logs
+        echo '# cat log'
+        cat /home/runner/work/webperf_core/webperf_core/results/logs/sitespeed.io.log
+        echo '# pages'
+        ls /home/runner/work/webperf_core/webperf_core/results/pages
       if: ${{ always() }}
       
     # - name: Setup BrowserTime

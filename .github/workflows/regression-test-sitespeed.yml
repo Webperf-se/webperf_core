@@ -28,8 +28,7 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install --upgrade setuptools
         python -m pip install pyssim Pillow image
-        wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz
-        sudo tar --strip-components 1 -C /usr/bin -xf ffmpeg-release-amd64-static.tar.xz --wildcards */ffmpeg
+        sudo apt install ffmpeg
       if: ${{ success() }}
     - name: Setup Google Chrome browser (ONLY used for Sitespeed)
       run: |

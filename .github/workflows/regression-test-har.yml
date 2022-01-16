@@ -37,16 +37,19 @@ jobs:
       run: sitespeed.io --rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies --summary-detail true --outputFolder results --firstParty --utc --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n 2 https://webperf.se/
       if: ${{ always() }}
     - name: Test SiteSpeed
-      run: sitespeed.io --rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies --summary-detail true --firstParty --utc --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n 2 https://webperf.se/
+      run: sitespeed.io --rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies --summary-detail true --firstParty --utc --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n 2 https://webperf.se/
       if: ${{ always() }}
     - name: Setup BrowserTime
       run: npm install browsertime -g
       if: ${{ always() }}
     - name: Test BrowserTime
-      run: browsertime https://webperf.se/ -b chrome
+      run: browsertime https://webperf.se/ -b chrome --xvfb
       if: ${{ always() }}
     - name: Test BrowserTime (prettyPrint)
-      run: browsertime https://www.sitespeed.io -b chrome --prettyPrint
+      run: browsertime https://www.sitespeed.io -b chrome --prettyPrint --xvfb
+      if: ${{ always() }}
+    - name: Setup PageXray
+      run: npm install pagexray -g
       if: ${{ always() }}
 
 

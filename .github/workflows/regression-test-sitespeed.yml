@@ -23,8 +23,8 @@ jobs:
         node-version: '14.x'
     - name: Setup SpeedIndex dependencies (ONLY used for Sitespeed)
       run: |
-        apt-get update -y
-        apt-get install -y imagemagick libjpeg-dev xz-utils --no-install-recommends --force-yes
+        sudo apt-get update -y
+        sudo apt-get install -y imagemagick libjpeg-dev xz-utils --no-install-recommends --force-yes
         python -m pip install --upgrade pip
         python -m pip install --upgrade setuptools
         python -m pip install pyssim Pillow image

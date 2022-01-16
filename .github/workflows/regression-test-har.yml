@@ -65,10 +65,10 @@ jobs:
       if: ${{ always() }}
     - name: Setup PageXray npm package (ONLY used for Sitespeed)
       run: npm install pagexray -g
-      if: ${{ success() }}
+      if: ${{ always() }}
     - name: PageXray pretty (ONLY used for Sitespeed)
       run: pagexray --pretty /home/runner/work/webperf_core/webperf_core/results/pages/webperf_se/data/browsertime.har
-      if: ${{ success() }}
+      if: ${{ always() }}
     - name: SiteSpeed Test 2
       run: |
         sitespeed.io -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --summary-detail true --logToFile true --outputFolder results2 --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --html.logDownloadLink true -n 1 https://polisen.se/aktuellt/polisens-nyheter/
@@ -96,4 +96,16 @@ jobs:
         ls /home/runner/work/webperf_core/webperf_core/results3/pages/st_nu
         echo '# root / results3 / pages / st_nu / data'
         ls /home/runner/work/webperf_core/webperf_core/results3/pages/st_nu/data
+      if: ${{ always() }}
+    - name: Tracking test with result
+      run: |
+        mv /home/runner/work/webperf_core/webperf_core/results/pages/webperf_se/data/browsertime.har /home/runner/work/webperf_core/webperf_core/data/webperf.se-har.json
+      if: ${{ always() }}
+    - name: Setup config (using SAMPLE-config.py as config.py)
+      run: python .github/workflows/verify_result.py -c
+      if: ${{ always() }}
+    - name: Test Tracking and Privacy (Pagexray)
+      run: |
+        python default.py -t 23 -r -u https://webperf.se/ -o .github/workflows/testresult-23.json
+        python .github/workflows/verify_result.py -t 23
       if: ${{ always() }}

@@ -39,13 +39,7 @@ jobs:
     - name: Test SiteSpeed
       run: |
         sitespeed.io --rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies --summary-detail true --outputFolder results --firstParty --utc --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n 2 https://webperf.se/
-        ls /home/runner/work/webperf_core/webperf_core/results
-        # cat /home/runner/work/webperf_core/webperf_core/results/detailed.html
-        # cat /home/runner/work/webperf_core/webperf_core/results/assets.html
-        # cat /home/runner/work/webperf_core/webperf_core/results/pages.html
-        # cat /home/runner/work/webperf_core/webperf_core/results/toplist.html
         ls /home/runner/work/webperf_core/webperf_core/results/logs
-        cat /home/runner/work/webperf_core/webperf_core/results/logs
       if: ${{ always() }}
     # - name: Setup BrowserTime
     #   run: npm install browsertime -g

@@ -1,4 +1,4 @@
-name: "Regression Test - Performance (Sitespeed.io) Test"
+name: "Test"
 on: [ push ]
 jobs:
   build:
@@ -36,11 +36,17 @@ jobs:
     # - name: Test Performance (Sitespeed.io)
     #   run: sitespeed.io --rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies --summary-detail true --outputFolder results --firstParty --utc --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n 2 https://webperf.se/
     #   if: ${{ always() }}
-    - name: Test SiteSpeed
+    - name: Test and list content
       run: |
-        sitespeed.io --rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies --summary-detail true --outputFolder results --firstParty --utc --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n 2 https://webperf.se/
+        sitespeed.io --rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --summary-detail true --verbose --logToFile true --outputFolder results --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --html.logDownloadLink true -n 2 https://webperf.se/
+        echo 'root'
+        ls /home/runner/work/webperf_core/webperf_core
+        echo 'results'
+        ls /home/runner/work/webperf_core/webperf_core/results
+        echo 'logs'
         ls /home/runner/work/webperf_core/webperf_core/results/logs
       if: ${{ always() }}
+      
     # - name: Setup BrowserTime
     #   run: npm install browsertime -g
     #   if: ${{ always() }}

@@ -630,8 +630,10 @@ def check_har_results(content, _local, _):
         page_entry = entries[0]
         page_countrycode = ''
 
-        page_isp_and_countrycode = json.loads(page_entry['comment'])
-        page_countrycode = page_isp_and_countrycode['country_code']
+        # website has info in a field called 'comment', local version has not
+        if 'comment' in page_entry:
+            page_isp_and_countrycode = json.loads(page_entry['comment'])
+            page_countrycode = page_isp_and_countrycode['country_code']
 
         page_ip_address = page_entry['serverIPAddress']
 
@@ -642,9 +644,12 @@ def check_har_results(content, _local, _):
 
         entries_index = 0
         while entries_index < number_of_entries:
-            entry_isp_and_countrycode = json.loads(
-                entries[entries_index]['comment'])
-            entry_country_code = entry_isp_and_countrycode['country_code']
+            entry_country_code = ''
+            # website has info in a field called 'comment', local version has not
+            if 'comment' in entries[entries_index]:
+                entry_isp_and_countrycode = json.loads(
+                    entries[entries_index]['comment'])
+                entry_country_code = entry_isp_and_countrycode['country_code']
 
             entry_ip_address = entries[entries_index]['serverIPAddress']
             entry_country_code = get_best_country_code(

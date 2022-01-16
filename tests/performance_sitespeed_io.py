@@ -44,10 +44,7 @@ def get_result(sitespeed_use_docker, url):
         output, error = process.communicate()
         result = str(output)
 
-    print('sitespeed_result_orginal:', result)
-
     result = result.replace('\\n', ' ')
-    # print('sitespeed_result:', result)
 
     return result
 

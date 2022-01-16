@@ -37,7 +37,7 @@ def prepare_config_file(sample_filename, filename):
     subst_lighthouse = "lighthouse_use_api = False"
 
     regex_sitespeed = r"^sitespeed_use_docker.*"
-    subst_sitespeed = "sitespeed_use_docker = False"
+    subst_sitespeed = "sitespeed_use_docker = True"
 
     with open(filename, 'r') as file:
         data = file.readlines()

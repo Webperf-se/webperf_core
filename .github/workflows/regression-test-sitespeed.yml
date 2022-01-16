@@ -23,7 +23,6 @@ jobs:
         node-version: '14.x'
     - name: Setup SpeedIndex dependencies (ONLY used for Sitespeed)
       run: |
-        wget ca-certificates
         apt-get update -y
         apt-get install -y imagemagick libjpeg-dev xz-utils --no-install-recommends --force-yes
         rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

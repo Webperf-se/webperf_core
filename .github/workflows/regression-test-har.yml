@@ -36,25 +36,46 @@ jobs:
     # - name: Test Performance (Sitespeed.io)
     #   run: sitespeed.io --rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies --summary-detail true --outputFolder results --firstParty --utc --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n 2 https://webperf.se/
     #   if: ${{ always() }}
-    - name: Test and list content
+    - name: SiteSpeed Test 1
       run: |
         sitespeed.io -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --summary-detail true --verbose --logToFile true --outputFolder results --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --html.logDownloadLink true -n 2 https://webperf.se/
         echo '# root'
         ls /home/runner/work/webperf_core/webperf_core
-        echo '# results'
+        echo '# root / data'
+        ls /home/runner/work/webperf_core/webperf_core/data
+        echo '# root / results'
         ls /home/runner/work/webperf_core/webperf_core/results
-        echo '# logs'
+        echo '# root / results / logs'
         ls /home/runner/work/webperf_core/webperf_core/results/logs
-        echo '# cat log'
+        echo '# cat root / results / logs / log'
         cat /home/runner/work/webperf_core/webperf_core/results/logs/sitespeed.io.log
-        echo '# pages'
+        echo '# root / results / pages'
         ls /home/runner/work/webperf_core/webperf_core/results/pages
-        echo '# pages / webperf_se'
+        echo '# root / results / pages / webperf_se'
         ls /home/runner/work/webperf_core/webperf_core/results/pages/webperf_se
+        echo '# root / results / pages / webperf_se / data'
+        ls /home/runner/work/webperf_core/webperf_core/results/pages/webperf_se/data
       if: ${{ always() }}
       
-    - name: Setup BrowserTime
-      run: npm install browsertime -g
+    - name: SiteSpeed Test 2
+      run: |
+        sitespeed.io -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --summary-detail true --verbose --logToFile true --outputFolder results --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --html.logDownloadLink true -n 2 https://polisen.se/aktuellt/polisens-nyheter/
+        echo '# root'
+        ls /home/runner/work/webperf_core/webperf_core
+        echo '# root / data'
+        ls /home/runner/work/webperf_core/webperf_core/data
+        echo '# root / results'
+        ls /home/runner/work/webperf_core/webperf_core/results
+        echo '# root / results / logs'
+        ls /home/runner/work/webperf_core/webperf_core/results/logs
+        echo '# cat root / results / logs / log'
+        cat /home/runner/work/webperf_core/webperf_core/results/logs/sitespeed.io.log
+        echo '# root / results / pages'
+        ls /home/runner/work/webperf_core/webperf_core/results/pages
+        echo '# root / results / pages / polisen_se[...]'
+        ls /home/runner/work/webperf_core/webperf_core/results/pages/polisen_se_aktuellt_polisens-nyheter
+        echo '# root / results / pages / polisen_se[...] / data'
+        ls /home/runner/work/webperf_core/webperf_core/results/pages/polisen_se_aktuellt_polisens-nyheter/data
       if: ${{ always() }}
     - name: Test BrowserTime
       run: browsertime https://webperf.se/ -b chrome --xvfb

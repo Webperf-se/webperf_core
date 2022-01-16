@@ -1,0 +1,3422 @@
+{
+	"screenshotPath": "st.nu/2022-01-16-15-site-38524-scan-38517/screenshot-00000.jpeg",
+	"resultsPath": "st.nu/2022-01-16-15-site-38524-scan-38517/results.json.gzipped",
+	"harPath": "st.nu/2022-01-16-15-site-38524-scan-38517/har.json.gzipped",
+	"ads": [
+		{
+			"code": "/34405621/mm/st/frontpage",
+			"location": "https://www.st.nu/",
+			"bidder": "google",
+			"intermediaries": [
+				"google",
+				"googletagservices.com",
+				"doubleclick.net",
+				"googlesyndication.com"
+			],
+			"responseInformation": {
+				"advertiserId": 4914749654,
+				"campaignId": 2779028534,
+				"creativeId": 138332039460,
+				"lineItemId": 5545430637,
+				"sourceAgnosticCreativeId": 138332039460,
+				"sourceAgnosticLineItemId": 5545430637,
+				"isBackfill": false,
+				"yieldGroupIds": null,
+				"companyIds": null,
+				"creativeTemplateId": null,
+				"encryptedTroubleshootingInfo": null,
+				"targeting": {
+					"pos": [
+						"rich_media_premium"
+					],
+					"slotName": [
+						"rich_media_premium"
+					],
+					"slotNameNo": [
+						"1"
+					],
+					"reportKey": [
+						"d/sec/rich_media_premium/1/0"
+					],
+					"demandmanager": [
+						"1"
+					]
+				}
+			}
+		},
+		{
+			"code": "/34405621/mm/st/frontpage",
+			"location": "https://www.st.nu/",
+			"bidder": "google",
+			"intermediaries": [
+				"google",
+				"googletagservices.com",
+				"doubleclick.net",
+				"googlesyndication.com"
+			],
+			"responseInformation": {
+				"targeting": {
+					"pos": [
+						"panorama2"
+					],
+					"slotName": [
+						"panorama"
+					],
+					"slotNameNo": [
+						"2"
+					],
+					"reportKey": [
+						"d/sec/panorama/2/0"
+					],
+					"demandmanager": [
+						"1"
+					],
+					"hb_adomain": [],
+					"hb_format": [],
+					"hb_source": [],
+					"hb_size": [],
+					"hb_pb": [],
+					"hb_adid": [],
+					"hb_bidder": []
+				}
+			}
+		},
+		{
+			"code": "/34405621/mm/st/frontpage",
+			"screenshotPath": "st.nu/2022-01-16-15-site-38524-scan-38517/frontpage-10000.jpeg",
+			"bounds": {
+				"x": 290,
+				"y": 854.09375,
+				"width": 980,
+				"height": 240,
+				"top": 854.09375,
+				"right": 1270,
+				"bottom": 1094.09375,
+				"left": 290
+			},
+			"location": "https://www.st.nu/",
+			"bidder": "google",
+			"intermediaries": [
+				"google",
+				"googletagservices.com",
+				"doubleclick.net",
+				"googlesyndication.com"
+			],
+			"responseInformation": {
+				"advertiserId": 4905707231,
+				"campaignId": 2906844158,
+				"creativeId": 138363827564,
+				"lineItemId": 5789939978,
+				"sourceAgnosticCreativeId": 138363827564,
+				"sourceAgnosticLineItemId": 5789939978,
+				"isBackfill": false,
+				"yieldGroupIds": null,
+				"companyIds": null,
+				"creativeTemplateId": null,
+				"encryptedTroubleshootingInfo": null,
+				"targeting": {
+					"pos": [
+						"panorama1"
+					],
+					"slotName": [
+						"panorama"
+					],
+					"slotNameNo": [
+						"1"
+					],
+					"reportKey": [
+						"d/sec/panorama/1/0"
+					],
+					"demandmanager": [
+						"1"
+					]
+				},
+				"creativeImage": {
+					"url": "https://tpc.googlesyndication.com/simgad/2200676837244982268",
+					"bounds": {
+						"x": 290,
+						"y": 854.09375,
+						"width": 980,
+						"height": 240
+					}
+				}
+			}
+		},
+		{
+			"code": "/34405621/mm/st/frontpage",
+			"screenshotPath": "st.nu/2022-01-16-15-site-38524-scan-38517/frontpage-20000.jpeg",
+			"bounds": {
+				"x": 1310,
+				"y": 1644.09375,
+				"width": 300,
+				"height": 360,
+				"top": 1644.09375,
+				"right": 1610,
+				"bottom": 2004.09375,
+				"left": 1310
+			},
+			"location": "https://www.st.nu/",
+			"bidder": "google",
+			"intermediaries": [
+				"google"
+			],
+			"responseInformation": {
+				"advertiserId": 4621617243,
+				"campaignId": 2653854941,
+				"creativeId": 138300983289,
+				"lineItemId": 5277199396,
+				"sourceAgnosticCreativeId": 138300983289,
+				"sourceAgnosticLineItemId": 5277199396,
+				"isBackfill": false,
+				"yieldGroupIds": null,
+				"companyIds": null,
+				"creativeTemplateId": null,
+				"encryptedTroubleshootingInfo": null,
+				"price": 13.7152,
+				"pricing_model": "cpm",
+				"targeting": {
+					"pos": [
+						"outsider2"
+					],
+					"slotName": [
+						"outsider"
+					],
+					"slotNameNo": [
+						"2"
+					],
+					"reportKey": [
+						"d/sec/outsider/2/0"
+					],
+					"demandmanager": [
+						"1"
+					],
+					"hb_adomain": [],
+					"hb_format": [
+						"banner"
+					],
+					"hb_source": [
+						"client"
+					],
+					"hb_size": [
+						"300x250"
+					],
+					"hb_pb": [
+						"13.70"
+					],
+					"hb_adid": [
+						"20223ac385411027"
+					],
+					"hb_bidder": [
+						"mkappn"
+					]
+				},
+				"creativeImage": {
+					"url": "https://09ace9b031c0e0008f33630172ca02bf.safeframe.googlesyndication.com/safeframe/1-0-38/html/undefined",
+					"bounds": {
+						"x": 1335,
+						"y": 1644.09375,
+						"width": 250,
+						"height": 259.1875
+					}
+				}
+			}
+		},
+		{
+			"code": "/34405621/mm/st/frontpage",
+			"location": "https://www.st.nu/",
+			"bidder": "mkappn",
+			"intermediaries": [
+				"mkappn"
+			],
+			"responseInformation": {
+				"price": 13.7152,
+				"pricing_model": "cpm",
+				"targeting": {
+					"pos": [
+						"outsider3"
+					],
+					"slotName": [
+						"outsider"
+					],
+					"slotNameNo": [
+						"3"
+					],
+					"reportKey": [
+						"d/sec/outsider/3/0"
+					],
+					"demandmanager": [
+						"1"
+					],
+					"hb_adomain": [],
+					"hb_format": [
+						"banner"
+					],
+					"hb_source": [
+						"client"
+					],
+					"hb_size": [
+						"300x250"
+					],
+					"hb_pb": [
+						"13.70"
+					],
+					"hb_adid": [
+						"2045e12bd3ba584e"
+					],
+					"hb_bidder": [
+						"mkappn"
+					]
+				}
+			}
+		},
+		{
+			"code": "/34405621/mm/st/frontpage",
+			"screenshotPath": "st.nu/2022-01-16-15-site-38524-scan-38517/frontpage-30000.jpeg",
+			"bounds": {
+				"x": 1310,
+				"y": 1204.09375,
+				"width": 300,
+				"height": 360,
+				"top": 1204.09375,
+				"right": 1610,
+				"bottom": 1564.09375,
+				"left": 1310
+			},
+			"location": "https://www.st.nu/",
+			"bidder": "google",
+			"intermediaries": [
+				"google"
+			],
+			"responseInformation": {
+				"advertiserId": 4905707231,
+				"campaignId": 2906844158,
+				"creativeId": 138363827561,
+				"lineItemId": 5789939978,
+				"sourceAgnosticCreativeId": 138363827561,
+				"sourceAgnosticLineItemId": 5789939978,
+				"isBackfill": false,
+				"yieldGroupIds": null,
+				"companyIds": null,
+				"creativeTemplateId": null,
+				"encryptedTroubleshootingInfo": null,
+				"price": 0.4827,
+				"pricing_model": "cpm",
+				"targeting": {
+					"pos": [
+						"outsider1"
+					],
+					"slotName": [
+						"outsider"
+					],
+					"slotNameNo": [
+						"1"
+					],
+					"reportKey": [
+						"d/sec/outsider/1/0"
+					],
+					"demandmanager": [
+						"1"
+					],
+					"hb_adomain": [],
+					"hb_format": [
+						"banner"
+					],
+					"hb_source": [
+						"client"
+					],
+					"hb_size": [
+						"300x250"
+					],
+					"hb_pb": [
+						"0.40"
+					],
+					"hb_adid": [
+						"2018ea807fec70a5"
+					],
+					"hb_bidder": [
+						"appnexus"
+					]
+				},
+				"creativeImage": {
+					"url": "https://tpc.googlesyndication.com/simgad/15918445075744350211",
+					"bounds": {
+						"x": 1335,
+						"y": 1204.09375,
+						"width": 250,
+						"height": 360
+					}
+				}
+			}
+		},
+		{
+			"code": "/34405621/mm/st/frontpage",
+			"screenshotPath": "st.nu/2022-01-16-15-site-38524-scan-38517/frontpage-40000.jpeg",
+			"bounds": {
+				"x": 1310,
+				"y": 2418.890625,
+				"width": 300,
+				"height": 360,
+				"top": 2418.890625,
+				"right": 1610,
+				"bottom": 2778.890625,
+				"left": 1310
+			},
+			"location": "https://www.st.nu/",
+			"bidder": "google",
+			"intermediaries": [
+				"google",
+				"googletagservices.com",
+				"doubleclick.net",
+				"googlesyndication.com"
+			],
+			"responseInformation": {
+				"advertiserId": 4622580676,
+				"campaignId": 2681237502,
+				"creativeId": 138308311498,
+				"lineItemId": 5335381416,
+				"sourceAgnosticCreativeId": 138308311498,
+				"sourceAgnosticLineItemId": 5335381416,
+				"isBackfill": false,
+				"yieldGroupIds": null,
+				"companyIds": null,
+				"creativeTemplateId": null,
+				"encryptedTroubleshootingInfo": null,
+				"targeting": {
+					"pos": [
+						"widget1"
+					],
+					"slotName": [
+						"widget"
+					],
+					"slotNameNo": [
+						"1"
+					],
+					"reportKey": [
+						"d/sec/widget/1/0"
+					],
+					"demandmanager": [
+						"1"
+					]
+				},
+				"creativeImage": {
+					"url": "https://deals.innocode.no/api/public/v1/widgets/undefined",
+					"bounds": {
+						"x": 1351,
+						"y": 2498.890625,
+						"width": 218,
+						"height": 184
+					}
+				}
+			}
+		}
+	],
+	"fingerprints": [
+		{
+			"key": "https://www.st.nu/#navigator:info",
+			"url": "https://www.st.nu/",
+			"category": "navigator",
+			"level": "info",
+			"count": 23
+		},
+		{
+			"key": "https://www.st.nu/#screen:info",
+			"url": "https://www.st.nu/",
+			"category": "screen",
+			"level": "info",
+			"count": 5
+		},
+		{
+			"key": "undefined#undefined:undefined",
+			"count": 3
+		},
+		{
+			"key": "https://tpc.googlesyndication.com/sodar/sodar2/225/runner.html#navigator:info",
+			"url": "https://tpc.googlesyndication.com/sodar/sodar2/225/runner.html",
+			"category": "navigator",
+			"level": "info",
+			"count": 5
+		},
+		{
+			"key": "https://tpc.googlesyndication.com/sodar/sodar2/225/runner.html#webgl:danger",
+			"url": "https://tpc.googlesyndication.com/sodar/sodar2/225/runner.html",
+			"category": "webgl",
+			"level": "danger",
+			"count": 1
+		},
+		{
+			"key": "https://tpc.googlesyndication.com/sodar/sodar2/225/runner.html#webgl:warning",
+			"url": "https://tpc.googlesyndication.com/sodar/sodar2/225/runner.html",
+			"category": "webgl",
+			"level": "warning",
+			"count": 1
+		},
+		{
+			"key": "https://09ace9b031c0e0008f33630172ca02bf.safeframe.googlesyndication.com/safeframe/1-0-38/html/container.html#navigator:info",
+			"url": "https://09ace9b031c0e0008f33630172ca02bf.safeframe.googlesyndication.com/safeframe/1-0-38/html/container.html",
+			"category": "navigator",
+			"level": "info",
+			"count": 8
+		},
+		{
+			"key": "https://cdn-tracker.bostadsboxen.bonniernews.se/tracking/proxy.html#navigator:info",
+			"url": "https://cdn-tracker.bostadsboxen.bonniernews.se/tracking/proxy.html",
+			"category": "navigator",
+			"level": "info",
+			"count": 1
+		},
+		{
+			"key": "https://deals.innocode.no/api/public/v1/widgets/302?v=3#navigator:info",
+			"url": "https://deals.innocode.no/api/public/v1/widgets/302?v=3",
+			"category": "navigator",
+			"level": "info",
+			"count": 7
+		},
+		{
+			"key": "https://deals.innocode.no/api/public/v1/widgets/302?v=3#screen:info",
+			"url": "https://deals.innocode.no/api/public/v1/widgets/302?v=3",
+			"category": "screen",
+			"level": "info",
+			"count": 3
+		},
+		{
+			"key": "https://ads.pubmatic.com/AdServer/js/user_sync.html?kdntuid=1&p=156104#navigator:info",
+			"url": "https://ads.pubmatic.com/AdServer/js/user_sync.html?kdntuid=1&p=156104",
+			"category": "navigator",
+			"level": "info",
+			"count": 1
+		},
+		{
+			"key": "https://ads.pubmatic.com/AdServer/js/user_sync.html?kdntuid=1&p=79505#navigator:info",
+			"url": "https://ads.pubmatic.com/AdServer/js/user_sync.html?kdntuid=1&p=79505",
+			"category": "navigator",
+			"level": "info",
+			"count": 2
+		},
+		{
+			"key": "https://eus.rubiconproject.com/usync.html#navigator:info",
+			"url": "https://eus.rubiconproject.com/usync.html",
+			"category": "navigator",
+			"level": "info",
+			"count": 3
+		}
+	],
+	"cookies": [
+		{
+			"name": "__couid",
+			"value": "b4130810-2856-43b8-a2e5-0a2f4087ec5b",
+			"domain": ".st.nu",
+			"path": "/",
+			"expires": 1702825271,
+			"size": 43,
+			"httpOnly": false,
+			"secure": false,
+			"session": false,
+			"priority": "Medium"
+		},
+		{
+			"name": "bau_glimr",
+			"value": "glcountry_de%2Cglng_en",
+			"domain": "www.st.nu",
+			"path": "/",
+			"expires": 1642950071,
+			"size": 31,
+			"httpOnly": false,
+			"secure": false,
+			"session": false,
+			"priority": "Medium"
+		},
+		{
+			"name": "rsid",
+			"value": "1|DNi5OVoMr/vVSy6g0MQzNRXnpsxWJKbdvHdRGdGfb1sb99H5Pm3nQcSfCrqMiOOkQR2vtj7GAAuzFkbJMy/+K1uqnlcKuW1UyhM5ZM7bR0169gWtDr9ePsX1VKfeWVv/VO/a+hEPPQ==",
+			"domain": ".rubiconproject.com",
+			"path": "/",
+			"expires": -1,
+			"size": 146,
+			"httpOnly": false,
+			"secure": true,
+			"session": true,
+			"sameSite": "None",
+			"priority": "Medium"
+		},
+		{
+			"name": "fpv_899839",
+			"value": "1",
+			"domain": ".st.nu",
+			"path": "/",
+			"expires": 1642346472,
+			"size": 11,
+			"httpOnly": false,
+			"secure": false,
+			"session": false,
+			"priority": "Medium"
+		},
+		{
+			"name": "_mtruid",
+			"value": "3248570911",
+			"domain": ".st.nu",
+			"path": "/",
+			"expires": 1676559672,
+			"size": 17,
+			"httpOnly": false,
+			"secure": false,
+			"session": false,
+			"priority": "Medium"
+		},
+		{
+			"name": "ping_once_899839",
+			"value": "1",
+			"domain": ".st.nu",
+			"path": "/",
+			"expires": 1642346472,
+			"size": 17,
+			"httpOnly": false,
+			"secure": false,
+			"session": false,
+			"priority": "Medium"
+		},
+		{
+			"name": "__codnp",
+			"value": "",
+			"domain": ".st.nu",
+			"path": "/",
+			"expires": 1642431672,
+			"size": 7,
+			"httpOnly": false,
+			"secure": false,
+			"session": false,
+			"priority": "Medium"
+		},
+		{
+			"name": "khaos",
+			"value": "KYHDYYBI-26-2Q7K",
+			"domain": ".rubiconproject.com",
+			"path": "/",
+			"expires": 1673881272.223623,
+			"size": 21,
+			"httpOnly": false,
+			"secure": true,
+			"session": false,
+			"sameSite": "None",
+			"priority": "Medium"
+		},
+		{
+			"name": "audit",
+			"value": "1|hLZGFuTafB3z3UymXiy72alC/VNGJZxnF9Nllp8QkCzCr6GSucBatIPT1+Y63celJhsHlJbldDdQeLSI3tgwDaZr5ZVxLWDe",
+			"domain": ".rubiconproject.com",
+			"path": "/",
+			"expires": 1673881272.223676,
+			"size": 103,
+			"httpOnly": false,
+			"secure": true,
+			"session": false,
+			"sameSite": "None",
+			"priority": "Medium"
+		},
+		{
+			"name": "triggerbee_widgets_state_899839",
+			"value": "{\"pageviews\":1}",
+			"domain": ".st.nu",
+			"path": "/",
+			"expires": 1642346172,
+			"size": 46,
+			"httpOnly": false,
+			"secure": false,
+			"session": false,
+			"priority": "Medium"
+		},
+		{
+			"name": "uuid2",
+			"value": "2715118433915928445",
+			"domain": ".adnxs.com",
+			"path": "/",
+			"expires": 1650121278.487219,
+			"size": 24,
+			"httpOnly": true,
+			"secure": true,
+			"session": false,
+			"sameSite": "None",
+			"priority": "Medium"
+		},
+		{
+			"name": "bau_rmp_freq",
+			"value": "true",
+			"domain": "www.st.nu",
+			"path": "/",
+			"expires": 1642359672,
+			"size": 16,
+			"httpOnly": false,
+			"secure": false,
+			"session": false,
+			"priority": "Medium"
+		},
+		{
+			"name": "_ga",
+			"value": "GA1.2.436404948.1642345272",
+			"domain": ".st.nu",
+			"path": "/",
+			"expires": 1705417273,
+			"size": 29,
+			"httpOnly": false,
+			"secure": false,
+			"session": false,
+			"priority": "Medium"
+		},
+		{
+			"name": "_gid",
+			"value": "GA1.2.1823580946.1642345272",
+			"domain": ".st.nu",
+			"path": "/",
+			"expires": 1642431673,
+			"size": 31,
+			"httpOnly": false,
+			"secure": false,
+			"session": false,
+			"priority": "Medium"
+		},
+		{
+			"name": "_gat_UA-2454706-48",
+			"value": "1",
+			"domain": ".st.nu",
+			"path": "/",
+			"expires": 1642345332,
+			"size": 19,
+			"httpOnly": false,
+			"secure": false,
+			"session": false,
+			"priority": "Medium"
+		},
+		{
+			"name": "lcl_wa",
+			"value": "1",
+			"domain": "www.st.nu",
+			"path": "/",
+			"expires": 1642356072,
+			"size": 7,
+			"httpOnly": false,
+			"secure": true,
+			"session": false,
+			"sameSite": "Lax",
+			"priority": "Medium"
+		},
+		{
+			"name": "IDE",
+			"value": "AHWqTUn1PQoCICA7XxzNYWxNg20BnZG-D-hjyUHc-NTXrmob2-UHKeVuEYjPEkNTisQ",
+			"domain": ".doubleclick.net",
+			"path": "/",
+			"expires": 1676041272.374304,
+			"size": 70,
+			"httpOnly": true,
+			"secure": true,
+			"session": false,
+			"sameSite": "None",
+			"priority": "Medium"
+		},
+		{
+			"name": "C",
+			"value": "1",
+			"domain": ".adform.net",
+			"path": "/",
+			"expires": 1645023672.572358,
+			"size": 2,
+			"httpOnly": false,
+			"secure": true,
+			"session": false,
+			"sameSite": "None",
+			"priority": "Medium"
+		},
+		{
+			"name": "uid",
+			"value": "687196746231570845",
+			"domain": ".adform.net",
+			"path": "/",
+			"expires": 1647529277.502471,
+			"size": 21,
+			"httpOnly": false,
+			"secure": true,
+			"session": false,
+			"sameSite": "None",
+			"priority": "Medium"
+		},
+		{
+			"name": "icu",
+			"value": "ChgIjqdxEAoYAyADKAMwueaQjwY4A0ADSAMKGAic93IQChgCIAIoAjC45pCPBjgCQAJIAhC55pCPBhgE",
+			"domain": ".adnxs.com",
+			"path": "/",
+			"expires": 1650121273.078923,
+			"size": 83,
+			"httpOnly": true,
+			"secure": true,
+			"session": false,
+			"sameSite": "None",
+			"priority": "Medium"
+		},
+		{
+			"name": "__gads",
+			"value": "ID=bfb038eecec79bd1:T=1642345272:S=ALNI_MaJWoeJSFTYYTfQobbGTenmZndj3Q",
+			"domain": ".st.nu",
+			"path": "/",
+			"expires": 1676041272,
+			"size": 75,
+			"httpOnly": false,
+			"secure": false,
+			"session": false,
+			"priority": "Medium"
+		},
+		{
+			"name": "visitor",
+			"value": "1642345273754",
+			"domain": ".bonniernews.se",
+			"path": "/",
+			"expires": 1673881273,
+			"size": 20,
+			"httpOnly": false,
+			"secure": true,
+			"session": false,
+			"sameSite": "None",
+			"priority": "Medium"
+		},
+		{
+			"name": "KADUSERCOOKIE",
+			"value": "637251B8-51B4-401D-9765-C8AAB6254604",
+			"domain": ".pubmatic.com",
+			"path": "/",
+			"expires": 1650121277.448312,
+			"size": 49,
+			"httpOnly": false,
+			"secure": true,
+			"session": false,
+			"sameSite": "None",
+			"priority": "Medium"
+		},
+		{
+			"name": "chkChromeAb67Sec",
+			"value": "1",
+			"domain": ".pubmatic.com",
+			"path": "/",
+			"expires": 1650121277.448339,
+			"size": 17,
+			"httpOnly": false,
+			"secure": true,
+			"session": false,
+			"sameSite": "None",
+			"priority": "Medium"
+		},
+		{
+			"name": "pi",
+			"value": "156104:2",
+			"domain": ".pubmatic.com",
+			"path": "/",
+			"expires": 1642431677.448348,
+			"size": 10,
+			"httpOnly": false,
+			"secure": true,
+			"session": false,
+			"sameSite": "None",
+			"priority": "Medium"
+		},
+		{
+			"name": "DPSync3",
+			"value": "1643500800%3A201_197_219%7C1642377600%3A174",
+			"domain": ".pubmatic.com",
+			"path": "/",
+			"expires": 1650121277.448357,
+			"size": 50,
+			"httpOnly": false,
+			"secure": true,
+			"session": false,
+			"sameSite": "None",
+			"priority": "Medium"
+		},
+		{
+			"name": "SyncRTB3",
+			"value": "1643500800%3A21_13_7_161_220_54_3_56%7C1643587200%3A35%7C1642896000%3A223",
+			"domain": ".pubmatic.com",
+			"path": "/",
+			"expires": 1650121277.448364,
+			"size": 81,
+			"httpOnly": false,
+			"secure": true,
+			"session": false,
+			"sameSite": "None",
+			"priority": "Medium"
+		},
+		{
+			"name": "A3",
+			"value": "d=AQABBD0z5GECEBb5fD45Sek5Rva1aBVh2VEFEgEBAQGE5WHuYQAAAAAA_eMAAA&S=AQAAAkc40CBDKMr5EhdqrqMbXXM",
+			"domain": ".yahoo.com",
+			"path": "/",
+			"expires": 1673902877.634725,
+			"size": 96,
+			"httpOnly": true,
+			"secure": true,
+			"session": false,
+			"sameSite": "None",
+			"priority": "Medium"
+		},
+		{
+			"name": "IDSYNC",
+			"value": "18z8~22p3",
+			"domain": ".analytics.yahoo.com",
+			"path": "/",
+			"expires": 1673967677.482132,
+			"size": 15,
+			"httpOnly": false,
+			"secure": true,
+			"session": false,
+			"sameSite": "None",
+			"priority": "Medium"
+		},
+		{
+			"name": "uuid",
+			"value": "6d7361e4-333d-4600-aabd-bd1b6898bbd9",
+			"domain": ".mathtag.com",
+			"path": "/",
+			"expires": 1676300477.488504,
+			"size": 40,
+			"httpOnly": false,
+			"secure": true,
+			"session": false,
+			"sameSite": "None",
+			"priority": "Medium"
+		},
+		{
+			"name": "suid",
+			"value": "EBEAC767CAC24A519756D1EEE7E44400",
+			"domain": ".simpli.fi",
+			"path": "/",
+			"expires": 1673967677.507738,
+			"size": 36,
+			"httpOnly": false,
+			"secure": true,
+			"session": false,
+			"sameSite": "None",
+			"priority": "Medium"
+		},
+		{
+			"name": "KRTBCOOKIE_391",
+			"value": "22924-687196746231570845&KRTB&23263-687196746231570845",
+			"domain": ".pubmatic.com",
+			"path": "/",
+			"expires": 1644937279,
+			"size": 68,
+			"httpOnly": false,
+			"secure": true,
+			"session": false,
+			"sameSite": "None",
+			"priority": "Medium"
+		},
+		{
+			"name": "PUBMDCID",
+			"value": "3",
+			"domain": ".pubmatic.com",
+			"path": "/",
+			"expires": 1650121277.597207,
+			"size": 9,
+			"httpOnly": false,
+			"secure": true,
+			"session": false,
+			"sameSite": "None",
+			"priority": "Medium"
+		},
+		{
+			"name": "KRTBCOOKIE_27",
+			"value": "16735-uid:6d7361e4-333d-4600-aabd-bd1b6898bbd9&KRTB&16736-uid:6d7361e4-333d-4600-aabd-bd1b6898bbd9&KRTB&23019-uid:6d7361e4-333d-4600-aabd-bd1b6898bbd9&KRTB&23208-uid:6d7361e4-333d-4600-aabd-bd1b6898bbd9",
+			"domain": ".pubmatic.com",
+			"path": "/",
+			"expires": 1644937279,
+			"size": 215,
+			"httpOnly": false,
+			"secure": true,
+			"session": false,
+			"sameSite": "None",
+			"priority": "Medium"
+		},
+		{
+			"name": "KRTBCOOKIE_80",
+			"value": "22987-CAESELyvBReMLxsrFATS6eNnCAg&KRTB&16514-CAESELyvBReMLxsrFATS6eNnCAg&KRTB&23025-CAESELyvBReMLxsrFATS6eNnCAg",
+			"domain": ".pubmatic.com",
+			"path": "/",
+			"expires": 1644937279,
+			"size": 124,
+			"httpOnly": false,
+			"secure": true,
+			"session": false,
+			"sameSite": "None",
+			"priority": "Medium"
+		},
+		{
+			"name": "KRTBCOOKIE_57",
+			"value": "22776-2715118433915928445&KRTB&23339-2715118433915928445",
+			"domain": ".pubmatic.com",
+			"path": "/",
+			"expires": 1644937279,
+			"size": 69,
+			"httpOnly": false,
+			"secure": true,
+			"session": false,
+			"sameSite": "None",
+			"priority": "Medium"
+		},
+		{
+			"name": "guid2",
+			"value": "1.8346619689001457795",
+			"domain": ".de17a.com",
+			"path": "/",
+			"expires": 1673449277.539149,
+			"size": 26,
+			"httpOnly": false,
+			"secure": true,
+			"session": false,
+			"sameSite": "None",
+			"priority": "Medium"
+		},
+		{
+			"name": "mt_mop",
+			"value": "9:1642345277",
+			"domain": ".mathtag.com",
+			"path": "/",
+			"expires": 1644937277.544106,
+			"size": 18,
+			"httpOnly": false,
+			"secure": true,
+			"session": false,
+			"sameSite": "None",
+			"priority": "Medium"
+		},
+		{
+			"name": "TDID",
+			"value": "587d91f8-81f5-4eec-a323-e60d03d68a61",
+			"domain": ".adsrvr.org",
+			"path": "/",
+			"expires": 1673881277.579566,
+			"size": 40,
+			"httpOnly": false,
+			"secure": true,
+			"session": false,
+			"sameSite": "None",
+			"priority": "Medium"
+		},
+		{
+			"name": "KRTBCOOKIE_336",
+			"value": "5844-8346619689001457795",
+			"domain": ".pubmatic.com",
+			"path": "/",
+			"expires": 1644937279,
+			"size": 38,
+			"httpOnly": false,
+			"secure": true,
+			"session": false,
+			"sameSite": "None",
+			"priority": "Medium"
+		},
+		{
+			"name": "TDCPM",
+			"value": "CAESFwoIcHVibWF0aWMSCwiwyufK4sKsOhAFGAUgASgCMgsI7K699_jCrDoQBTgB",
+			"domain": ".adsrvr.org",
+			"path": "/",
+			"expires": 1673881277.57959,
+			"size": 69,
+			"httpOnly": false,
+			"secure": true,
+			"session": false,
+			"sameSite": "None",
+			"priority": "Medium"
+		},
+		{
+			"name": "KRTBCOOKIE_377",
+			"value": "6810-587d91f8-81f5-4eec-a323-e60d03d68a61&KRTB&22918-587d91f8-81f5-4eec-a323-e60d03d68a61&KRTB&23031-587d91f8-81f5-4eec-a323-e60d03d68a61",
+			"domain": ".pubmatic.com",
+			"path": "/",
+			"expires": 1644937279,
+			"size": 151,
+			"httpOnly": false,
+			"secure": true,
+			"session": false,
+			"sameSite": "None",
+			"priority": "Medium"
+		},
+		{
+			"name": "PugT",
+			"value": "1642332556",
+			"domain": ".pubmatic.com",
+			"path": "/",
+			"expires": 1644937277.597194,
+			"size": 14,
+			"httpOnly": false,
+			"secure": true,
+			"session": false,
+			"sameSite": "None",
+			"priority": "Medium"
+		},
+		{
+			"name": "SPugT",
+			"value": "1642345278",
+			"domain": ".pubmatic.com",
+			"path": "/",
+			"expires": 1644937279.490665,
+			"size": 15,
+			"httpOnly": false,
+			"secure": true,
+			"session": false,
+			"sameSite": "None",
+			"priority": "Medium"
+		}
+	],
+	"links": [
+		{
+			"bounds": {
+				"x": 290,
+				"y": 1079.09375,
+				"width": 980,
+				"height": 19
+			},
+			"href": "https://googleads.g.doubleclick.net/pcs/click?xai=AKAOjssPrNWt3aUBozY0FQn06Cwbn1Y9tas4Lj3yTpSf3hIMp92Tmm26v5DP1aRQPFQVXwHqfRX_m3AENw4y3bdU1KNcCO6rRzjAcKy7keXJzD8HYZeyLPNxmorau_oFv4EPkVetLqTu9RAe9L5PrEPZm8AlJh3R2YYIfxXcI9FMvQ_WphLqrGMMK1WjCrlcudGyq8lcOhfLQiH-9201wbepy834cfqX1xVQ1vciWDapXYbnxAqYwE1fE0peZMnpSakOhfRACCEfLcpUVuVcOJ1VaUlsMj58qjqAthGFS5fdy_amy1IE&sig=Cg0ArKJSzDFcubzhpM3N&fbs_aeid=[gw_fbsaeid]&adurl=https://webbproduktion.bonniernewslocal.se/tipset/tik"
+		},
+		{
+			"href": "https://adssettings.google.com/whythisad?source=display&reasons=Aa2KcEaTvMU6jLhN9vROqYqVf9BHt0E4rsDt7nvcdNbteOBo_jxuHDUFFljyG99VsWMoVb5K-K9kZFmCsakJbyz04sQxycgwS0GgLbdbhxhiWJxXbiwuWk5Do6UADxmnfOfdmGvMTGQ1a59akp9gABSud6Zn_TNPK-eZUeMt2IbbAdQmwF_NLfOSwe5cehCxtW6QJcb7ReChUfyh6Nt2rwIPl9jbuudZbr4QvenX5cXHwFHnmsi90dfM-G-LGfCnbmUGphhdMcNgmrDoo1byK_7jclUvZXoIsUuHn4c1-AvXu9d2jQ7tzzQDC6-aDjrAdBKO7DAg71tU8WJti7-rLFuT2b6aGUxZ89-HdpVUyGZTFI_FcyusCghBCuNGIHF9fSDtvyG0bB1VSIk5JXiMcNjYZjsBZUkZqZSlymR1ypyI95v8JwXvJCuQFJQwunKSrWWQjR4a8N2RfEGJ4HrZmq_ER0Ebqcv52XT2wKyJ7QqbLXdfhmlaWEslkQvys1V-DgvcZzUsMr9nVb1VnYGlY0-12PgbtFrZVa5TSUxyo3qIyVDQe9Bdx1TEs-lf-OBO51YwjvQln3tXD_XNagCsy3fI-7HPKmeb5pY3-J-k8ReAPgOM4AUZkpGskzO4xLBX9wkzNSEBJla13mGtdgpMJO64nlVPiCUZ72xlwhjFH-jNr5mdejUs1jUzlHmCXXVxgCFeD7QFsMB2BN9Kc79g-yz3_I2zYovzb3zUAbHyTk3Mt9tx65kZf1A-DmAHMh99hWJRzFQ1ZdyRkT7cKjvCqRNJpXldZ2fP4kIJTJlfJkuJNF2MwqYqaUXzumsFFnk8KvvO1blMu3416-oOVbEWOWIQIfEI-8Ndf5RzXy2G9Ccezs2N4dZpx3KoY3X1urwVYHmSdL8ql3P8YbU-QMFNt9ierRbAvGh5TKA0UTzuLcjeM3bbmhiGn4_7xNqa8lsXXnjvoQ3ecxkUxEwMrEJ0SXXC63kScXgsarKDwJGMjXP3iuTqptKWKWpAxbfHF5fUTuHKx-G3FmEWFgHbQ6SS-c0G0JZFukP_3KUuxbNN-vzTBmF6HvO2WnOUuKjPmoy3JiUUxFyA-_Z7kusS4Bafx7mza_kt1_MWk5TiqQrDzO2BpxDGLsAMHuMCoi4vo7Tj5twCpTdHzg"
+		},
+		{
+			"bounds": {
+				"x": 1335,
+				"y": 1549.09375,
+				"width": 250,
+				"height": 19
+			},
+			"href": "https://googleads.g.doubleclick.net/pcs/click?xai=AKAOjstsFtoZZ0DwL3aDl8W7dVb93_lPCEe1dSb3d-Y1WMQGr2J8ZBWcx7XsI8-p6Wv_IqP8n6mkqOi5lQM8bFTg8eUHE76I1tDPT0e2z-uR6P4Y_XoXhW_oK5pb6yzgDl4H7RmKT5DysujIqGBzJiGZpXq-WXMy3sygAJZ8kS09-rK1f8Q__sVzZ2PJKUQLJ5tlbsbbHZyCVY87kTURPW-DLisxEGoUNyKUO9P_tmUNF7X6Mrljt0UIXd0Ku6SYE-lOEkrsWGIiN5sGjZr_pnt7gl1xIgC3K5CA-aDaw6TNzPtgAsWe&sig=Cg0ArKJSzMjhFbNDnDzf&fbs_aeid=[gw_fbsaeid]&adurl=https://webbproduktion.bonniernewslocal.se/tipset/tik"
+		},
+		{
+			"href": "https://adssettings.google.com/whythisad?source=display&reasons=Aa2KcEZdnoM4N1EYO-gdSJy0f2EKuOYZt75kCcWPK687rDc0wp2TrMcYuMb6CFnz_3PjDFzXzYPJiHyEqk4Sj83s-n0G9qv-fWZAgyrJc4Mt6rdIE7tckGXDlrftuFEG_oY7czu3Jpma_qgZXKWS7BVsoU6ElhSSdZasufEy0OZHKGsAEHEvVxEgRXXkHFR1KH8cdJjHIvhtrzHAWd00A66INnkKvRTBtLVNtP5DgtMgphqttLfFoK7ADS9kVSfzT6ZLyJ74RqLBQej0WJjHSu1nqkrgLYDziLUhBnhIk39kwCWNu8N_pWFXi2DB1aX74gFTfRYoltUnm84FA16iJDGEm7UewQ-D2o3SbDRA74T_h4OX0O-jX4dZVo_Qfs0hGt2a1NR57RjfnobLYrVKUMUwKdkthMb_dWFfe7a9kvXXge3Ar03iis2tOKwk_3SHFzHbUJH8puqQyqdYO1-Z_sL-9sQNr7_Q9ZJJBZFTENyROnz86Cl-HGgHChFFSewZBD0YADyrYyTucVuVP2-qaMtHO0gggb5OwA4hsszBfRDcPxy0gefXNWg4tyBWvAKB3-uVITW_yek8v0MOq-mZFVm7KuEUbJA1yMk8HeY6qJWBMHNPPzQol63lTJ_kih63RdGlIC_Mxte8pokE_79V_ny9SWdm1kRgILnEoysChC-dpeHxgg5gdPf18lttTVuF0PL_DitK_pV9iomGdCAO5wuE_y7Cin9aeQWzsvFTC0s-sfZNGoXcZJiSSiamcfFCpeNC74oLVzju2rfl5A7vr-sKOBSyi6_vWF0Qz2x84EpzqLAO9VU7reatZQMaczjK87WkdEOGRuEzDkvM6AA0ADLYL3dcfy-BimsXimSgdXHcjfqbn_635Dtu5fDDR8bXytUaD66qnE3NBGgTP1-zSOWWUdjL9OOtWayLozw5CRFeaOgicfVw5Ip0DNh1wA_UaUmMTYmgYKH_W4W9YUqDsHIbeY3xoNuq2reKtlNsbNUk8dsVpJL90bXcIfXvFoW4v-9fUY-vNUOeWif7ZYqx2RG_nuYHimNM8JPaZEQYlIjjA6onLD9mkuD_A29awm9VcX4iYVGtgxzSpc_-D4qr553daLaX64rjklCdMiH8_3vXJ-BmDY2L0u9KefNxlphhado1TrC4UA"
+		},
+		{
+			"bounds": {
+				"x": 1335,
+				"y": 1644.09375,
+				"width": 250,
+				"height": 360
+			},
+			"href": "http://realestate.bostadsboxen.bonniernews.se/sok/redirect/1862053?utm_source=hittahem&utm_campaign=hittahem&utm_medium=geobox&utm_content=sundsvalls-tidning-desktop"
+		},
+		{
+			"bounds": {
+				"x": 1335,
+				"y": 1644.09375,
+				"width": 250,
+				"height": 360
+			},
+			"href": "http://realestate.bostadsboxen.bonniernews.se/sok/redirect/1862015?utm_source=hittahem&utm_campaign=hittahem&utm_medium=geobox&utm_content=sundsvalls-tidning-desktop"
+		},
+		{
+			"bounds": {
+				"x": 1335,
+				"y": 1644.09375,
+				"width": 250,
+				"height": 360
+			},
+			"href": "http://realestate.bostadsboxen.bonniernews.se/sok/redirect/1877388?utm_source=hittahem&utm_campaign=hittahem&utm_medium=geobox&utm_content=sundsvalls-tidning-desktop"
+		},
+		{
+			"bounds": {
+				"x": 1117,
+				"y": 2498.890625,
+				"width": 218,
+				"height": 264
+			},
+			"href": "https://www.facebook.com/214861395231082/posts/5049419801775193/"
+		},
+		{
+			"bounds": {
+				"x": 1351,
+				"y": 2498.890625,
+				"width": 218,
+				"height": 264
+			},
+			"href": "https://www.facebook.com/532599816760653/posts/4986655108021746/"
+		},
+		{
+			"bounds": {
+				"x": 1424.703125,
+				"y": 2758.890625,
+				"width": 160.296875,
+				"height": 20
+			},
+			"href": "https://innocode.com/product/local-offers/?utm_source=Mittmedia%20Sundsvalls%20Tidning&utm_medium=widget&utm_content=local_offers"
+		},
+		{
+			"bounds": {
+				"x": 0,
+				"y": 0,
+				"width": 1900,
+				"height": 56
+			},
+			"href": "https://kund.bonniernewslocal.se/paket/st"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 69,
+				"width": 270,
+				"height": 54
+			},
+			"href": "https://www.st.nu/"
+		},
+		{
+			"bounds": {
+				"x": 1544.59375,
+				"y": 74,
+				"width": 65.40625,
+				"height": 44
+			},
+			"href": "https://www.st.nu/logga-in"
+		},
+		{
+			"bounds": {
+				"x": 286,
+				"y": 137,
+				"width": 125,
+				"height": 55
+			},
+			"href": "https://www.st.nu/#"
+		},
+		{
+			"bounds": {
+				"x": 306,
+				"y": 202,
+				"width": 216,
+				"height": 49
+			},
+			"href": "https://www.st.nu/sundsvall"
+		},
+		{
+			"bounds": {
+				"x": 306,
+				"y": 252,
+				"width": 216,
+				"height": 49
+			},
+			"href": "https://www.st.nu/timra"
+		},
+		{
+			"bounds": {
+				"x": 306,
+				"y": 302,
+				"width": 216,
+				"height": 49
+			},
+			"href": "https://www.st.nu/ange"
+		},
+		{
+			"href": "https://www.st.nu/#"
+		},
+		{
+			"href": "https://www.st.nu/sport"
+		},
+		{
+			"href": "https://www.st.nu/livesport"
+		},
+		{
+			"href": "https://www.st.nu/ishockey"
+		},
+		{
+			"href": "https://www.st.nu/timra-ik"
+		},
+		{
+			"href": "https://www.st.nu/fotboll"
+		},
+		{
+			"href": "https://www.st.nu/gif-sundsvall"
+		},
+		{
+			"href": "https://www.st.nu/sundsvalls-dff"
+		},
+		{
+			"href": "https://www.bandypuls.se/"
+		},
+		{
+			"href": "https://www.st.nu/trav"
+		},
+		{
+			"href": "https://www.st.nu/innebandy"
+		},
+		{
+			"href": "https://www.st.nu/skidor"
+		},
+		{
+			"href": "https://www.st.nu/sport/resultat"
+		},
+		{
+			"href": "https://www.st.nu/blaljus"
+		},
+		{
+			"href": "https://www.st.nu/naringsliv"
+		},
+		{
+			"href": "https://www.st.nu/opinion"
+		},
+		{
+			"href": "https://www.st.nu/ledare-lib"
+		},
+		{
+			"href": "https://www.st.nu/s-kronika"
+		},
+		{
+			"href": "https://www.st.nu/debatt"
+		},
+		{
+			"href": "https://www.st.nu/kultur"
+		},
+		{
+			"href": "https://www.st.nu/recenserat"
+		},
+		{
+			"href": "https://www.st.nu/familj"
+		},
+		{
+			"href": "https://www.st.nu/slakt-och-vanner"
+		},
+		{
+			"href": "https://www.st.nu/dods-och-minnesannonser"
+		},
+		{
+			"href": "https://www.st.nu/fira-och-uppmarksamma"
+		},
+		{
+			"href": "https://www.st.nu/bostadspuls"
+		},
+		{
+			"href": "https://www.st.nu/fastighetsaffarer"
+		},
+		{
+			"href": "https://www.st.nu/region-vasternorrland"
+		},
+		{
+			"bounds": {
+				"x": 439,
+				"y": 137,
+				"width": 52,
+				"height": 55
+			},
+			"href": "https://www.st.nu/sport"
+		},
+		{
+			"bounds": {
+				"x": 519,
+				"y": 137,
+				"width": 55.609375,
+				"height": 55
+			},
+			"href": "https://www.st.nu/blaljus"
+		},
+		{
+			"bounds": {
+				"x": 602.609375,
+				"y": 137,
+				"width": 81,
+				"height": 55
+			},
+			"href": "https://www.st.nu/naringsliv"
+		},
+		{
+			"bounds": {
+				"x": 711.609375,
+				"y": 137,
+				"width": 64.609375,
+				"height": 55
+			},
+			"href": "https://www.st.nu/opinion"
+		},
+		{
+			"bounds": {
+				"x": 804.21875,
+				"y": 137,
+				"width": 105.40625,
+				"height": 55
+			},
+			"href": "https://www.st.nu/kultur"
+		},
+		{
+			"bounds": {
+				"x": 937.625,
+				"y": 137,
+				"width": 49.8125,
+				"height": 55
+			},
+			"href": "https://www.st.nu/familj"
+		},
+		{
+			"bounds": {
+				"x": 1003.4375,
+				"y": 137,
+				"width": 80,
+				"height": 55
+			},
+			"href": "https://www.st.nu/#site-nav-full"
+		},
+		{
+			"href": "https://www.st.nu/installningar/notiser-android-app"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 257,
+				"width": 300,
+				"height": 49
+			},
+			"href": "https://www.st.nu/nyhetsdygnet"
+		},
+		{
+			"bounds": {
+				"x": 630,
+				"y": 257,
+				"width": 300,
+				"height": 49
+			},
+			"href": "https://www.st.nu/sundsvall"
+		},
+		{
+			"bounds": {
+				"x": 630,
+				"y": 307,
+				"width": 300,
+				"height": 49
+			},
+			"href": "https://www.st.nu/timra"
+		},
+		{
+			"bounds": {
+				"x": 630,
+				"y": 357,
+				"width": 300,
+				"height": 49
+			},
+			"href": "https://www.st.nu/ange"
+		},
+		{
+			"bounds": {
+				"x": 970,
+				"y": 257,
+				"width": 300,
+				"height": 49
+			},
+			"href": "https://www.st.nu/sport"
+		},
+		{
+			"bounds": {
+				"x": 990,
+				"y": 306,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://www.st.nu/livesport"
+		},
+		{
+			"bounds": {
+				"x": 990,
+				"y": 346,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://www.st.nu/ishockey"
+		},
+		{
+			"bounds": {
+				"x": 990,
+				"y": 386,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://www.st.nu/timra-ik"
+		},
+		{
+			"bounds": {
+				"x": 990,
+				"y": 426,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://www.st.nu/fotboll"
+		},
+		{
+			"bounds": {
+				"x": 990,
+				"y": 466,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://www.st.nu/gif-sundsvall"
+		},
+		{
+			"bounds": {
+				"x": 990,
+				"y": 506,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://www.st.nu/sundsvalls-dff"
+		},
+		{
+			"bounds": {
+				"x": 990,
+				"y": 546,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://www.bandypuls.se/"
+		},
+		{
+			"bounds": {
+				"x": 990,
+				"y": 586,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://www.st.nu/trav"
+		},
+		{
+			"bounds": {
+				"x": 990,
+				"y": 626,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://www.st.nu/innebandy"
+		},
+		{
+			"bounds": {
+				"x": 990,
+				"y": 666,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://www.st.nu/skidor"
+		},
+		{
+			"bounds": {
+				"x": 990,
+				"y": 706,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://www.st.nu/sport/resultat"
+		},
+		{
+			"bounds": {
+				"x": 970,
+				"y": 779,
+				"width": 300,
+				"height": 49
+			},
+			"href": "https://www.st.nu/blaljus"
+		},
+		{
+			"bounds": {
+				"x": 970,
+				"y": 829,
+				"width": 300,
+				"height": 49
+			},
+			"href": "https://www.st.nu/naringsliv"
+		},
+		{
+			"bounds": {
+				"x": 970,
+				"y": 879,
+				"width": 300,
+				"height": 49
+			},
+			"href": "https://www.st.nu/opinion"
+		},
+		{
+			"bounds": {
+				"x": 990,
+				"y": 928,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://www.st.nu/ledare-lib"
+		},
+		{
+			"bounds": {
+				"x": 990,
+				"y": 968,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://www.st.nu/s-kronika"
+		},
+		{
+			"bounds": {
+				"x": 990,
+				"y": 1008,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://www.st.nu/debatt"
+		},
+		{
+			"bounds": {
+				"x": 970,
+				"y": 1081,
+				"width": 300,
+				"height": 49
+			},
+			"href": "https://www.st.nu/kultur"
+		},
+		{
+			"bounds": {
+				"x": 990,
+				"y": 1130,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://www.st.nu/recenserat"
+		},
+		{
+			"bounds": {
+				"x": 970,
+				"y": 1203,
+				"width": 300,
+				"height": 49
+			},
+			"href": "https://www.st.nu/familj"
+		},
+		{
+			"bounds": {
+				"x": 990,
+				"y": 1252,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://www.st.nu/slakt-och-vanner"
+		},
+		{
+			"bounds": {
+				"x": 990,
+				"y": 1292,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://www.st.nu/dods-och-minnesannonser"
+		},
+		{
+			"bounds": {
+				"x": 990,
+				"y": 1332,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://www.st.nu/fira-och-uppmarksamma"
+		},
+		{
+			"bounds": {
+				"x": 970,
+				"y": 1405,
+				"width": 300,
+				"height": 49
+			},
+			"href": "https://www.st.nu/bostadspuls"
+		},
+		{
+			"bounds": {
+				"x": 990,
+				"y": 1454,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://www.st.nu/fastighetsaffarer"
+		},
+		{
+			"bounds": {
+				"x": 970,
+				"y": 1527,
+				"width": 300,
+				"height": 49
+			},
+			"href": "https://www.st.nu/region-vasternorrland"
+		},
+		{
+			"href": "https://kundservice.bonniernewslocal.se/sundsvalls-tidning/?a=1"
+		},
+		{
+			"bounds": {
+				"x": 1310,
+				"y": 258,
+				"width": 300,
+				"height": 49
+			},
+			"href": "https://etidning.st.nu/"
+		},
+		{
+			"bounds": {
+				"x": 1310,
+				"y": 308,
+				"width": 300,
+				"height": 49
+			},
+			"href": "https://kundservice.bonniernewslocal.se/sundsvalls-tidning"
+		},
+		{
+			"bounds": {
+				"x": 1310,
+				"y": 358,
+				"width": 300,
+				"height": 49
+			},
+			"href": "https://www.st.nu/tipsa"
+		},
+		{
+			"bounds": {
+				"x": 1330,
+				"y": 407,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://www.st.nu/tipsa-oss"
+		},
+		{
+			"bounds": {
+				"x": 1330,
+				"y": 447,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://www.st.nu/skicka-in-insandare-debatt"
+		},
+		{
+			"bounds": {
+				"x": 1330,
+				"y": 487,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://www.st.nu/skicka-in-lasarsport"
+		},
+		{
+			"bounds": {
+				"x": 1330,
+				"y": 527,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://www.st.nu/beratta-om-din-forening"
+		},
+		{
+			"bounds": {
+				"x": 1330,
+				"y": 567,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://www.st.nu/fodelsedag"
+		},
+		{
+			"bounds": {
+				"x": 1310,
+				"y": 640,
+				"width": 300,
+				"height": 49
+			},
+			"href": "https://www.lasarshoppen.se/"
+		},
+		{
+			"bounds": {
+				"x": 1310,
+				"y": 690,
+				"width": 300,
+				"height": 49
+			},
+			"href": "https://www.st.nu/trafik"
+		},
+		{
+			"bounds": {
+				"x": 1310,
+				"y": 740,
+				"width": 300,
+				"height": 49
+			},
+			"href": "https://www.st.nu/nostalgi"
+		},
+		{
+			"bounds": {
+				"x": 1310,
+				"y": 790,
+				"width": 300,
+				"height": 49
+			},
+			"href": "https://www.st.nu/kronikor"
+		},
+		{
+			"bounds": {
+				"x": 1330,
+				"y": 889,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://sundsvall.lokus.se/"
+		},
+		{
+			"bounds": {
+				"x": 1330,
+				"y": 929,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://lunchguide.nu/"
+		},
+		{
+			"bounds": {
+				"x": 1330,
+				"y": 969,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://st.mittjobb.se/"
+		},
+		{
+			"bounds": {
+				"x": 1330,
+				"y": 1091,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://sundsvall.lokus.se/bokning/skapa/"
+		},
+		{
+			"bounds": {
+				"x": 1330,
+				"y": 1131,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://bonnier-news-mp.ocast.com/se/sundsvalls-tidning/contact"
+		},
+		{
+			"bounds": {
+				"x": 1330,
+				"y": 1171,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://kundservice.bonniernewslocal.se/sundsvalls-tidning/annonsera/"
+		},
+		{
+			"bounds": {
+				"x": 1330,
+				"y": 1211,
+				"width": 280,
+				"height": 40
+			},
+			"href": "https://kundservice.bonniernewslocal.se/sundsvalls-tidning/annonsera/"
+		},
+		{
+			"bounds": {
+				"x": 1210,
+				"y": 137,
+				"width": 75,
+				"height": 55
+			},
+			"href": "https://etidning.st.nu/"
+		},
+		{
+			"bounds": {
+				"x": 1297,
+				"y": 137,
+				"width": 99,
+				"height": 55
+			},
+			"href": "https://kundservice.bonniernewslocal.se/sundsvalls-tidning"
+		},
+		{
+			"bounds": {
+				"x": 1408,
+				"y": 137,
+				"width": 80,
+				"height": 55
+			},
+			"href": "https://www.st.nu/tipsa"
+		},
+		{
+			"bounds": {
+				"x": 1500,
+				"y": 137,
+				"width": 110,
+				"height": 55
+			},
+			"href": "https://www.lasarshoppen.se/"
+		},
+		{
+			"bounds": {
+				"x": 350,
+				"y": 234,
+				"width": 52,
+				"height": 24
+			},
+			"href": "https://www.st.nu/story/f4d31b8e-bec2-4998-9b45-e3bbc5f222c4"
+		},
+		{
+			"bounds": {
+				"x": 350,
+				"y": 264.640625,
+				"width": 600,
+				"height": 224
+			},
+			"href": "https://www.st.nu/2022-01-16/ryska-aluminiumjatten-lanade-ut-pengar-till-sig-sjalv--fick-tillbaka-250-miljoner-pa-skatten"
+		},
+		{
+			"bounds": {
+				"x": 350,
+				"y": 193,
+				"width": 1260,
+				"height": 373.796875
+			},
+			"href": "https://www.st.nu/2022-01-16/ryska-aluminiumjatten-lanade-ut-pengar-till-sig-sjalv--fick-tillbaka-250-miljoner-pa-skatten"
+		},
+		{
+			"bounds": {
+				"x": 485,
+				"y": 613.59375,
+				"width": 262.78125,
+				"height": 104
+			},
+			"href": "https://www.st.nu/2022-01-16/skandalerna-kring-kubals-agare--anklagelser-om-skattefusk-och-organiserad-brottslighet"
+		},
+		{
+			"bounds": {
+				"x": 350,
+				"y": 597.796875,
+				"width": 397.78125,
+				"height": 177.296875
+			},
+			"href": "https://www.st.nu/2022-01-16/skandalerna-kring-kubals-agare--anklagelser-om-skattefusk-och-organiserad-brottslighet"
+		},
+		{
+			"bounds": {
+				"x": 916.109375,
+				"y": 613.59375,
+				"width": 262.78125,
+				"height": 104
+			},
+			"href": "https://www.st.nu/2022-01-15/kubal-fyller-80--efter-ar-av-ekonomiska-hot-och-miljosynder-haller-fotfolket-ihop-vi-ar-som-en-familj"
+		},
+		{
+			"bounds": {
+				"x": 781.109375,
+				"y": 597.796875,
+				"width": 397.78125,
+				"height": 153.296875
+			},
+			"href": "https://www.st.nu/2022-01-15/kubal-fyller-80--efter-ar-av-ekonomiska-hot-och-miljosynder-haller-fotfolket-ihop-vi-ar-som-en-familj"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 1190.09375,
+				"width": 96,
+				"height": 21
+			},
+			"href": "https://www.st.nu/topic/4f6b60b1-29cc-4286-807e-4fb5b7517148"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 1186.09375,
+				"width": 448.5,
+				"height": 26
+			},
+			"href": "https://www.st.nu/2022-01-16/succehelg-for-tove-ericsson--vann-jvm-testet"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 1166.09375,
+				"width": 640,
+				"height": 67
+			},
+			"href": "https://www.st.nu/2022-01-16/succehelg-for-tove-ericsson--vann-jvm-testet"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 1258.09375,
+				"width": 76.609375,
+				"height": 21
+			},
+			"href": "https://www.st.nu/topic/9ee4984e-0d68-38ee-b17e-4e971a55f84f"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 1254.09375,
+				"width": 566.109375,
+				"height": 53
+			},
+			"href": "https://www.st.nu/2022-01-16/timrabackens-skadedom-efter-smallen-behover-genomga-hjarntrappan"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 1234.09375,
+				"width": 640,
+				"height": 93
+			},
+			"href": "https://www.st.nu/2022-01-16/timrabackens-skadedom-efter-smallen-behover-genomga-hjarntrappan"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 1721.265625,
+				"width": 640,
+				"height": 138
+			},
+			"href": "https://www.st.nu/2022-01-16/trafikverket-svarar-pa-kritiken-om-forsenad-e4-otroligt-sorgligt-med-alla-olyckor"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 1874.1875,
+				"width": 171.609375,
+				"height": 21
+			},
+			"href": "https://www.st.nu/story/3ba32592-d344-4af1-8666-73172eb4655d"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 1328.09375,
+				"width": 640,
+				"height": 592
+			},
+			"href": "https://www.st.nu/2022-01-16/trafikverket-svarar-pa-kritiken-om-forsenad-e4-otroligt-sorgligt-med-alla-olyckor"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 2144.421875,
+				"width": 299.984375,
+				"height": 104
+			},
+			"href": "https://www.st.nu/2022-01-16/darfor-stoppades-hjalpen-med-snoskottning-till-pensionarer-i-timra"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 2257.890625,
+				"width": 45,
+				"height": 20
+			},
+			"href": "https://www.st.nu/location/ac0f74a3-d8ff-3459-b6e4-e0d57990dc28"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 1941.09375,
+				"width": 299.984375,
+				"height": 362.796875
+			},
+			"href": "https://www.st.nu/2022-01-16/darfor-stoppades-hjalpen-med-snoskottning-till-pensionarer-i-timra"
+		},
+		{
+			"bounds": {
+				"x": 629.984375,
+				"y": 2144.421875,
+				"width": 299.984375,
+				"height": 52
+			},
+			"href": "https://www.st.nu/2022-01-16/tv-se-jvm-testet--sveriges-basta-mots-i-skelleftea"
+		},
+		{
+			"bounds": {
+				"x": 629.984375,
+				"y": 2205.890625,
+				"width": 171.8125,
+				"height": 20
+			},
+			"href": "https://www.st.nu/story/4c4981c5-8301-47bf-96cd-723a06b138f0"
+		},
+		{
+			"bounds": {
+				"x": 629.984375,
+				"y": 1941.09375,
+				"width": 299.984375,
+				"height": 362.796875
+			},
+			"href": "https://www.st.nu/2022-01-16/tv-se-jvm-testet--sveriges-basta-mots-i-skelleftea"
+		},
+		{
+			"bounds": {
+				"x": 1069.984375,
+				"y": 1968.09375,
+				"width": 48,
+				"height": 20
+			},
+			"href": "https://www.st.nu/organisation/0806c17b-d3c3-497e-ac09-5e55496899fd"
+		},
+		{
+			"bounds": {
+				"x": 989.984375,
+				"y": 2144.421875,
+				"width": 259.984375,
+				"height": 78
+			},
+			"href": "https://www.st.nu/2022-01-04/slipp-krangel-nar-du-startar-eget--gratisappen-skoter-din-bokforing"
+		},
+		{
+			"bounds": {
+				"x": 969.984375,
+				"y": 1941.09375,
+				"width": 299.984375,
+				"height": 362.796875
+			},
+			"href": "https://www.st.nu/2022-01-04/slipp-krangel-nar-du-startar-eget--gratisappen-skoter-din-bokforing"
+		},
+		{
+			"bounds": {
+				"x": 1034,
+				"y": 1246.09375,
+				"width": 236,
+				"height": 48
+			},
+			"href": "https://www.st.nu/2022-01-16/har-du-provat-en-diet-nagon-gang"
+		},
+		{
+			"bounds": {
+				"x": 1034,
+				"y": 1298.09375,
+				"width": 236,
+				"height": 20
+			},
+			"href": "https://www.st.nu/story/3820c106-9fb5-401e-b378-b97fea373d3e"
+		},
+		{
+			"bounds": {
+				"x": 1034,
+				"y": 1339.09375,
+				"width": 236,
+				"height": 48
+			},
+			"href": "https://www.st.nu/2022-01-16/succehelg-for-tove-ericsson--vann-jvm-testet"
+		},
+		{
+			"bounds": {
+				"x": 1034,
+				"y": 1391.09375,
+				"width": 236,
+				"height": 20
+			},
+			"href": "https://www.st.nu/topic/4f6b60b1-29cc-4286-807e-4fb5b7517148"
+		},
+		{
+			"bounds": {
+				"x": 1034,
+				"y": 1432.09375,
+				"width": 236,
+				"height": 48
+			},
+			"href": "https://www.st.nu/2022-01-16/burvall-snappet-fore-kompisen-i-os-jakten"
+		},
+		{
+			"bounds": {
+				"x": 1034,
+				"y": 1484.09375,
+				"width": 236,
+				"height": 20
+			},
+			"href": "https://www.st.nu/topic/667d065e-9319-4a07-ab31-c4dd32ebfe26"
+		},
+		{
+			"bounds": {
+				"x": 1034,
+				"y": 1525.09375,
+				"width": 236,
+				"height": 72
+			},
+			"href": "https://www.st.nu/2022-01-16/timrabackens-skadedom-efter-smallen-behover-genomga-hjarntrappan"
+		},
+		{
+			"bounds": {
+				"x": 1034,
+				"y": 1601.09375,
+				"width": 236,
+				"height": 20
+			},
+			"href": "https://www.st.nu/topic/9ee4984e-0d68-38ee-b17e-4e971a55f84f"
+		},
+		{
+			"bounds": {
+				"x": 1034,
+				"y": 1642.09375,
+				"width": 236,
+				"height": 96
+			},
+			"href": "https://www.st.nu/2022-01-16/trafikverket-svarar-pa-kritiken-om-forsenad-e4-otroligt-sorgligt-med-alla-olyckor"
+		},
+		{
+			"bounds": {
+				"x": 1034,
+				"y": 1742.09375,
+				"width": 236,
+				"height": 20
+			},
+			"href": "https://www.st.nu/story/3ba32592-d344-4af1-8666-73172eb4655d"
+		},
+		{
+			"bounds": {
+				"x": 1034,
+				"y": 1783.09375,
+				"width": 236,
+				"height": 48
+			},
+			"href": "https://www.st.nu/2022-01-16/hagblom-om-talangarbetet-vi-vill-alltid-utvecklas"
+		},
+		{
+			"bounds": {
+				"x": 1034,
+				"y": 1835.09375,
+				"width": 236,
+				"height": 20
+			},
+			"href": "https://www.st.nu/topic/565dbdad-a731-3499-804f-e32363c46729"
+		},
+		{
+			"bounds": {
+				"x": 970,
+				"y": 1885.09375,
+				"width": 300,
+				"height": 35
+			},
+			"href": "https://www.st.nu/nyhetsdygnet"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 2567.21875,
+				"width": 299.984375,
+				"height": 78
+			},
+			"href": "https://www.st.nu/2022-01-16/arets-st--och-sca-stipendiat-en-mastare-i-medmansklighet-och-gemenskap"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 2654.6875,
+				"width": 75.203125,
+				"height": 20
+			},
+			"href": "https://www.st.nu/location/e5f6ab76-b3cb-3a3c-9901-33e12cda88e0"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 2383.890625,
+				"width": 299.984375,
+				"height": 316.796875
+			},
+			"href": "https://www.st.nu/2022-01-16/arets-st--och-sca-stipendiat-en-mastare-i-medmansklighet-och-gemenskap"
+		},
+		{
+			"bounds": {
+				"x": 629.984375,
+				"y": 2567.21875,
+				"width": 299.984375,
+				"height": 52
+			},
+			"href": "https://www.st.nu/2022-01-16/har-du-provat-en-diet-nagon-gang"
+		},
+		{
+			"bounds": {
+				"x": 629.984375,
+				"y": 2628.6875,
+				"width": 84,
+				"height": 20
+			},
+			"href": "https://www.st.nu/story/3820c106-9fb5-401e-b378-b97fea373d3e"
+		},
+		{
+			"bounds": {
+				"x": 629.984375,
+				"y": 2383.890625,
+				"width": 299.984375,
+				"height": 316.796875
+			},
+			"href": "https://www.st.nu/2022-01-16/har-du-provat-en-diet-nagon-gang"
+		},
+		{
+			"bounds": {
+				"x": 969.96875,
+				"y": 2567.21875,
+				"width": 299.984375,
+				"height": 52
+			},
+			"href": "https://www.st.nu/2022-01-16/da-och-nu-mangder-av-postkontor-har-blivit-ett"
+		},
+		{
+			"bounds": {
+				"x": 969.96875,
+				"y": 2628.6875,
+				"width": 78.203125,
+				"height": 20
+			},
+			"href": "https://www.st.nu/story/d1232c5f-92c8-4985-9341-1d6095680908"
+		},
+		{
+			"bounds": {
+				"x": 969.96875,
+				"y": 2383.890625,
+				"width": 299.984375,
+				"height": 316.796875
+			},
+			"href": "https://www.st.nu/2022-01-16/da-och-nu-mangder-av-postkontor-har-blivit-ett"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 3015.015625,
+				"width": 299.984375,
+				"height": 78
+			},
+			"href": "https://www.st.nu/2022-01-12/domdes-till-fangelse-for-bedrageri--fick-tva-jobb-i-sundsvall"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 3102.484375,
+				"width": 75.203125,
+				"height": 20
+			},
+			"href": "https://www.st.nu/location/e5f6ab76-b3cb-3a3c-9901-33e12cda88e0"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 2811.6875,
+				"width": 299.984375,
+				"height": 362.796875
+			},
+			"href": "https://www.st.nu/2022-01-12/domdes-till-fangelse-for-bedrageri--fick-tva-jobb-i-sundsvall"
+		},
+		{
+			"bounds": {
+				"x": 629.984375,
+				"y": 3015.015625,
+				"width": 299.984375,
+				"height": 78
+			},
+			"href": "https://www.st.nu/2022-01-10/carolines-sambo-mordades--berattar-om-sorgen-det-ar-sa-tragiskt"
+		},
+		{
+			"bounds": {
+				"x": 629.984375,
+				"y": 3102.484375,
+				"width": 211.203125,
+				"height": 20
+			},
+			"href": "https://www.st.nu/story/537f0fd2-8412-4b78-8c44-44eb5cca3861"
+		},
+		{
+			"bounds": {
+				"x": 629.984375,
+				"y": 2811.6875,
+				"width": 299.984375,
+				"height": 362.796875
+			},
+			"href": "https://www.st.nu/2022-01-10/carolines-sambo-mordades--berattar-om-sorgen-det-ar-sa-tragiskt"
+		},
+		{
+			"bounds": {
+				"x": 969.96875,
+				"y": 3015.015625,
+				"width": 299.984375,
+				"height": 104
+			},
+			"href": "https://www.st.nu/2022-01-08/titta-in-familjens-paradvaning-i-stenstan-de-har-stora-vaningarna-finns-knappt-kvar-langre"
+		},
+		{
+			"bounds": {
+				"x": 969.96875,
+				"y": 3128.484375,
+				"width": 93.203125,
+				"height": 20
+			},
+			"href": "https://www.st.nu/story/e3336c8d-c0c4-4cd2-9a2f-2793811fdb51"
+		},
+		{
+			"bounds": {
+				"x": 969.96875,
+				"y": 2811.6875,
+				"width": 299.984375,
+				"height": 362.796875
+			},
+			"href": "https://www.st.nu/2022-01-08/titta-in-familjens-paradvaning-i-stenstan-de-har-stora-vaningarna-finns-knappt-kvar-langre"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 3234.484375,
+				"width": 74,
+				"height": 32
+			},
+			"href": "https://www.st.nu/sport"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 3656.15625,
+				"width": 600,
+				"height": 92
+			},
+			"href": "https://www.st.nu/2022-01-16/burvall-snappet-fore-kompisen-i-os-jakten"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 3763.078125,
+				"width": 96,
+				"height": 21
+			},
+			"href": "https://www.st.nu/topic/667d065e-9319-4a07-ab31-c4dd32ebfe26"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 3285.484375,
+				"width": 600,
+				"height": 723.4375
+			},
+			"href": "https://www.st.nu/2022-01-16/burvall-snappet-fore-kompisen-i-os-jakten"
+		},
+		{
+			"bounds": {
+				"x": 930,
+				"y": 3511.328125,
+				"width": 340,
+				"height": 52
+			},
+			"href": "https://www.st.nu/2022-01-16/hagblom-om-talangarbetet-vi-vill-alltid-utvecklas"
+		},
+		{
+			"bounds": {
+				"x": 930,
+				"y": 3572.796875,
+				"width": 51.609375,
+				"height": 20
+			},
+			"href": "https://www.st.nu/topic/565dbdad-a731-3499-804f-e32363c46729"
+		},
+		{
+			"bounds": {
+				"x": 930,
+				"y": 3285.484375,
+				"width": 340,
+				"height": 353.3125
+			},
+			"href": "https://www.st.nu/2022-01-16/hagblom-om-talangarbetet-vi-vill-alltid-utvecklas"
+		},
+		{
+			"bounds": {
+				"x": 930,
+				"y": 3654.390625,
+				"width": 340,
+				"height": 104
+			},
+			"href": "https://www.st.nu/2022-01-16/efter-kollapsen--timraforwardens-ledord-bara-att-dra-pa-sig-blastallet"
+		},
+		{
+			"bounds": {
+				"x": 930,
+				"y": 3767.859375,
+				"width": 142.40625,
+				"height": 20
+			},
+			"href": "https://www.st.nu/story/506db7cc-70e2-4788-8e1c-2537b09c474f"
+		},
+		{
+			"bounds": {
+				"x": 930,
+				"y": 3639.796875,
+				"width": 340,
+				"height": 194.0625
+			},
+			"href": "https://www.st.nu/2022-01-16/efter-kollapsen--timraforwardens-ledord-bara-att-dra-pa-sig-blastallet"
+		},
+		{
+			"bounds": {
+				"x": 930,
+				"y": 3849.453125,
+				"width": 340,
+				"height": 104
+			},
+			"href": "https://www.st.nu/2022-01-15/skidfest-nar-kovlandsloppet-avgjordes--se-alla-bilder-har"
+		},
+		{
+			"bounds": {
+				"x": 930,
+				"y": 3962.921875,
+				"width": 85,
+				"height": 20
+			},
+			"href": "https://www.st.nu/topic/4f6b60b1-29cc-4286-807e-4fb5b7517148"
+		},
+		{
+			"bounds": {
+				"x": 930,
+				"y": 3834.859375,
+				"width": 340,
+				"height": 174.0625
+			},
+			"href": "https://www.st.nu/2022-01-15/skidfest-nar-kovlandsloppet-avgjordes--se-alla-bilder-har"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 4444.09375,
+				"width": 640.015625,
+				"height": 92
+			},
+			"href": "https://www.st.nu/2022-01-16/tv-sa-sag-det-ut-nar-nya-regementet-i-solleftea-invigdes"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 4551.015625,
+				"width": 240.609375,
+				"height": 21
+			},
+			"href": "https://www.st.nu/story/03a44bca-738c-4cbb-8200-78de814807ce"
+		},
+		{
+			"bounds": {
+				"x": 314,
+				"y": 4629.015625,
+				"width": 616.015625,
+				"height": 24
+			},
+			"href": "https://www.st.nu/2022-01-15/nya-regementet-invigs-i-solleftea-en-stor-dag-for-manga"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 4070.921875,
+				"width": 640.015625,
+				"height": 726.59375
+			},
+			"href": "https://www.st.nu/2022-01-16/tv-sa-sag-det-ut-nar-nya-regementet-i-solleftea-invigdes"
+		},
+		{
+			"bounds": {
+				"x": 970.015625,
+				"y": 4254.25,
+				"width": 299.984375,
+				"height": 78
+			},
+			"href": "https://www.st.nu/2022-01-15/mahmoods-dramatiska-resa--fran-kriget-i-syrien-till-dromlivet-i-sundsvall"
+		},
+		{
+			"bounds": {
+				"x": 970.015625,
+				"y": 4341.71875,
+				"width": 75.203125,
+				"height": 20
+			},
+			"href": "https://www.st.nu/location/e5f6ab76-b3cb-3a3c-9901-33e12cda88e0"
+		},
+		{
+			"bounds": {
+				"x": 970.015625,
+				"y": 4070.921875,
+				"width": 299.984375,
+				"height": 336.796875
+			},
+			"href": "https://www.st.nu/2022-01-15/mahmoods-dramatiska-resa--fran-kriget-i-syrien-till-dromlivet-i-sundsvall"
+		},
+		{
+			"bounds": {
+				"x": 970.015625,
+				"y": 4640.046875,
+				"width": 299.984375,
+				"height": 78
+			},
+			"href": "https://www.st.nu/2022-01-15/nu-far-det-vara-slut-pa-slit-och-slang-sloseriet"
+		},
+		{
+			"bounds": {
+				"x": 970.015625,
+				"y": 4727.515625,
+				"width": 75.203125,
+				"height": 20
+			},
+			"href": "https://www.st.nu/location/e5f6ab76-b3cb-3a3c-9901-33e12cda88e0"
+		},
+		{
+			"bounds": {
+				"x": 970.015625,
+				"y": 4408.71875,
+				"width": 299.984375,
+				"height": 388.796875
+			},
+			"href": "https://www.st.nu/2022-01-15/nu-far-det-vara-slut-pa-slit-och-slang-sloseriet"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 5021.84375,
+				"width": 299.984375,
+				"height": 104
+			},
+			"href": "https://www.st.nu/2022-01-16/lista-villa-i-sundsvall-sald-for-over-45-miljoner-kronor--har-ar-veckans-fastighetsaffarer"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 4818.515625,
+				"width": 299.984375,
+				"height": 386.796875
+			},
+			"href": "https://www.st.nu/2022-01-16/lista-villa-i-sundsvall-sald-for-over-45-miljoner-kronor--har-ar-veckans-fastighetsaffarer"
+		},
+		{
+			"bounds": {
+				"x": 629.984375,
+				"y": 5021.84375,
+				"width": 299.984375,
+				"height": 52
+			},
+			"href": "https://www.st.nu/2022-01-16/brak-i-ange--tva-man-anmaler-varandra-for-misshandel"
+		},
+		{
+			"bounds": {
+				"x": 629.984375,
+				"y": 5083.3125,
+				"width": 41.203125,
+				"height": 20
+			},
+			"href": "https://www.st.nu/location/30c075c4-74f3-3401-8347-82523ebbfda0"
+		},
+		{
+			"bounds": {
+				"x": 629.984375,
+				"y": 4818.515625,
+				"width": 299.984375,
+				"height": 386.796875
+			},
+			"href": "https://www.st.nu/2022-01-16/brak-i-ange--tva-man-anmaler-varandra-for-misshandel"
+		},
+		{
+			"bounds": {
+				"x": 969.96875,
+				"y": 5021.84375,
+				"width": 299.984375,
+				"height": 52
+			},
+			"href": "https://www.st.nu/2022-01-16/parkerat-fordon-borjade-brinna"
+		},
+		{
+			"bounds": {
+				"x": 969.96875,
+				"y": 5083.3125,
+				"width": 75.203125,
+				"height": 20
+			},
+			"href": "https://www.st.nu/location/e5f6ab76-b3cb-3a3c-9901-33e12cda88e0"
+		},
+		{
+			"bounds": {
+				"x": 969.96875,
+				"y": 4818.515625,
+				"width": 299.984375,
+				"height": 386.796875
+			},
+			"href": "https://www.st.nu/2022-01-16/parkerat-fordon-borjade-brinna"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 5655.3125,
+				"width": 81,
+				"height": 32
+			},
+			"href": "https://www.st.nu/timra"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 6076.984375,
+				"width": 600,
+				"height": 92
+			},
+			"href": "https://www.st.nu/2022-01-16/ny-chans-att-skada-norrsken--skicka-in-dina-bilder"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 5706.3125,
+				"width": 600,
+				"height": 719.4375
+			},
+			"href": "https://www.st.nu/2022-01-16/ny-chans-att-skada-norrsken--skicka-in-dina-bilder"
+		},
+		{
+			"bounds": {
+				"x": 930,
+				"y": 5932.15625,
+				"width": 340,
+				"height": 78
+			},
+			"href": "https://www.st.nu/2022-01-15/missade-du-den-grona-himlen-se-lasarnas-bilder-pa-norrskenet-sjukaste-vi-sett"
+		},
+		{
+			"bounds": {
+				"x": 930,
+				"y": 5706.3125,
+				"width": 340,
+				"height": 403.3125
+			},
+			"href": "https://www.st.nu/2022-01-15/missade-du-den-grona-himlen-se-lasarnas-bilder-pa-norrskenet-sjukaste-vi-sett"
+		},
+		{
+			"bounds": {
+				"x": 930,
+				"y": 6125.21875,
+				"width": 340,
+				"height": 78
+			},
+			"href": "https://www.st.nu/2022-01-14/lokal-foretagsjatte-ny-agare-till-valetablerad-poolfirma-i-timra"
+		},
+		{
+			"bounds": {
+				"x": 930,
+				"y": 6110.625,
+				"width": 340,
+				"height": 168.0625
+			},
+			"href": "https://www.st.nu/2022-01-14/lokal-foretagsjatte-ny-agare-till-valetablerad-poolfirma-i-timra"
+		},
+		{
+			"bounds": {
+				"x": 930,
+				"y": 6294.28125,
+				"width": 340,
+				"height": 52
+			},
+			"href": "https://www.st.nu/2022-01-14/en-person-till-sjukhus-efter-krock"
+		},
+		{
+			"bounds": {
+				"x": 930,
+				"y": 6279.6875,
+				"width": 340,
+				"height": 146.0625
+			},
+			"href": "https://www.st.nu/2022-01-14/en-person-till-sjukhus-efter-krock"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 6485.75,
+				"width": 67,
+				"height": 32
+			},
+			"href": "https://www.st.nu/ange"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 6907.421875,
+				"width": 600,
+				"height": 92
+			},
+			"href": "https://www.st.nu/2022-01-15/angeborna-har-femte-lagsta-studieskulderna-i-landet"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 6536.75,
+				"width": 600,
+				"height": 699.4375
+			},
+			"href": "https://www.st.nu/2022-01-15/angeborna-har-femte-lagsta-studieskulderna-i-landet"
+		},
+		{
+			"bounds": {
+				"x": 930,
+				"y": 6762.59375,
+				"width": 340,
+				"height": 52
+			},
+			"href": "https://www.st.nu/2022-01-13/gyllene-framtid-for-borgsjos-250-aring-har-gatt-over-forvantan"
+		},
+		{
+			"bounds": {
+				"x": 930,
+				"y": 6536.75,
+				"width": 340,
+				"height": 329.3125
+			},
+			"href": "https://www.st.nu/2022-01-13/gyllene-framtid-for-borgsjos-250-aring-har-gatt-over-forvantan"
+		},
+		{
+			"bounds": {
+				"x": 930,
+				"y": 6881.65625,
+				"width": 340,
+				"height": 104
+			},
+			"href": "https://www.st.nu/2022-01-13/fran-gnistrande-vinterparadis-till-regnbage-och-slask--har-ar-veckans-tvara-vaderkast-i-bilder"
+		},
+		{
+			"bounds": {
+				"x": 930,
+				"y": 6867.0625,
+				"width": 340,
+				"height": 170.0625
+			},
+			"href": "https://www.st.nu/2022-01-13/fran-gnistrande-vinterparadis-till-regnbage-och-slask--har-ar-veckans-tvara-vaderkast-i-bilder"
+		},
+		{
+			"bounds": {
+				"x": 930,
+				"y": 7052.71875,
+				"width": 340,
+				"height": 104
+			},
+			"href": "https://www.st.nu/2022-01-13/vattenlacka-pa-huvudledning--stora-delar-av-fransta-paverkades"
+		},
+		{
+			"bounds": {
+				"x": 930,
+				"y": 7038.125,
+				"width": 340,
+				"height": 198.0625
+			},
+			"href": "https://www.st.nu/2022-01-13/vattenlacka-pa-huvudledning--stora-delar-av-fransta-paverkades"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 7361.78125,
+				"width": 470,
+				"height": 52
+			},
+			"href": "https://www.st.nu/2022-01-15/larm-om-brand-i-haga--kaffekokare-fattade-eld"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 7347.1875,
+				"width": 470,
+				"height": 166.0625
+			},
+			"href": "https://www.st.nu/2022-01-15/larm-om-brand-i-haga--kaffekokare-fattade-eld"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 7528.84375,
+				"width": 470,
+				"height": 78
+			},
+			"href": "https://www.st.nu/2022-01-15/dagens-rubriker-har-byggs-500-lagenheter--kubal-fyller-80--brakforlust-for-timra"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 7514.25,
+				"width": 470,
+				"height": 124.0625
+			},
+			"href": "https://www.st.nu/2022-01-15/dagens-rubriker-har-byggs-500-lagenheter--kubal-fyller-80--brakforlust-for-timra"
+		},
+		{
+			"bounds": {
+				"x": 800,
+				"y": 7361.78125,
+				"width": 470,
+				"height": 104
+			},
+			"href": "https://www.st.nu/2022-01-15/polisen-och-kommunen-satter-in-fler-atgarder-mot-ungdomskriminaliteten-ar-oroliga"
+		},
+		{
+			"bounds": {
+				"x": 800,
+				"y": 7347.1875,
+				"width": 470,
+				"height": 170.0625
+			},
+			"href": "https://www.st.nu/2022-01-15/polisen-och-kommunen-satter-in-fler-atgarder-mot-ungdomskriminaliteten-ar-oroliga"
+		},
+		{
+			"bounds": {
+				"x": 800,
+				"y": 7532.84375,
+				"width": 470,
+				"height": 52
+			},
+			"href": "https://www.st.nu/2022-01-15/byggarbetsplats-i-skonsberg-utsatt-for-inbrott"
+		},
+		{
+			"bounds": {
+				"x": 800,
+				"y": 7518.25,
+				"width": 470,
+				"height": 146.0625
+			},
+			"href": "https://www.st.nu/2022-01-15/byggarbetsplats-i-skonsberg-utsatt-for-inbrott"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 8328.640625,
+				"width": 299.984375,
+				"height": 78
+			},
+			"href": "https://www.st.nu/2022-01-16/svenskt-naringsliv-sa-far-vi-mer-varde-for-skattepengarna-i-n6-kommunerna"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 8125.3125,
+				"width": 299.984375,
+				"height": 336.796875
+			},
+			"href": "https://www.st.nu/2022-01-16/svenskt-naringsliv-sa-far-vi-mer-varde-for-skattepengarna-i-n6-kommunerna"
+		},
+		{
+			"bounds": {
+				"x": 629.984375,
+				"y": 8328.640625,
+				"width": 299.984375,
+				"height": 78
+			},
+			"href": "https://www.st.nu/2022-01-16/manga-saknar-eluttag-vid-sin-bilplats--stort-hinder-for-att-byta-till-elbil"
+		},
+		{
+			"bounds": {
+				"x": 629.984375,
+				"y": 8125.3125,
+				"width": 299.984375,
+				"height": 336.796875
+			},
+			"href": "https://www.st.nu/2022-01-16/manga-saknar-eluttag-vid-sin-bilplats--stort-hinder-for-att-byta-till-elbil"
+		},
+		{
+			"bounds": {
+				"x": 969.96875,
+				"y": 8328.640625,
+				"width": 299.984375,
+				"height": 52
+			},
+			"href": "https://www.st.nu/2022-01-16/sorgligt-att-kantzoner-mot-granan-huggs-ned--hushallningssallskapet-svarar"
+		},
+		{
+			"bounds": {
+				"x": 969.96875,
+				"y": 8125.3125,
+				"width": 299.984375,
+				"height": 336.796875
+			},
+			"href": "https://www.st.nu/2022-01-16/sorgligt-att-kantzoner-mot-granan-huggs-ned--hushallningssallskapet-svarar"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 8522.109375,
+				"width": 174,
+				"height": 32
+			},
+			"href": "https://www.st.nu/kultur"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 8943.78125,
+				"width": 600,
+				"height": 92
+			},
+			"href": "https://www.st.nu/2022-01-14/maximalt-vackert--har-ar-lars-lerins-karleksforklaring-till-hoga-kusten-och-konsten"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 8573.109375,
+				"width": 600,
+				"height": 695.4375
+			},
+			"href": "https://www.st.nu/2022-01-14/maximalt-vackert--har-ar-lars-lerins-karleksforklaring-till-hoga-kusten-och-konsten"
+		},
+		{
+			"bounds": {
+				"x": 930,
+				"y": 8798.953125,
+				"width": 340,
+				"height": 52
+			},
+			"href": "https://www.st.nu/2022-01-15/nya-mord-for-polisen-som-skriver-polisromaner-blev-upprord-over-hur-polisarbete-skildras-i-deckare"
+		},
+		{
+			"bounds": {
+				"x": 930,
+				"y": 8573.109375,
+				"width": 340,
+				"height": 353.3125
+			},
+			"href": "https://www.st.nu/2022-01-15/nya-mord-for-polisen-som-skriver-polisromaner-blev-upprord-over-hur-polisarbete-skildras-i-deckare"
+		},
+		{
+			"bounds": {
+				"x": 930,
+				"y": 8942.015625,
+				"width": 340,
+				"height": 104
+			},
+			"href": "https://www.st.nu/2022-01-14/sextio-ar-gammal-staty-blaste-omkull-i-skonsberg-tank-om-det-statt-nagon-under"
+		},
+		{
+			"bounds": {
+				"x": 930,
+				"y": 8927.421875,
+				"width": 340,
+				"height": 218.0625
+			},
+			"href": "https://www.st.nu/2022-01-14/sextio-ar-gammal-staty-blaste-omkull-i-skonsberg-tank-om-det-statt-nagon-under"
+		},
+		{
+			"bounds": {
+				"x": 930,
+				"y": 9161.078125,
+				"width": 340,
+				"height": 52
+			},
+			"href": "https://www.st.nu/2022-01-14/amerikanerna-alskar-hans-t-shirts--nu-visar-peppe-sedin-bilder-med-manga-lager-pa-granen"
+		},
+		{
+			"bounds": {
+				"x": 930,
+				"y": 9146.484375,
+				"width": 340,
+				"height": 122.0625
+			},
+			"href": "https://www.st.nu/2022-01-14/amerikanerna-alskar-hans-t-shirts--nu-visar-peppe-sedin-bilder-med-manga-lager-pa-granen"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 9703.71875,
+				"width": 640.015625,
+				"height": 138
+			},
+			"href": "https://www.st.nu/2022-01-15/har-byggs-drygt-500-nya-lagenheter--storsatsar-pa-flera-hall-vi-gillar-sundsvall"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 9856.640625,
+				"width": 236.5,
+				"height": 21
+			},
+			"href": "https://www.st.nu/story/422e8fbb-a7eb-494e-a250-2a17390bb2fa"
+		},
+		{
+			"bounds": {
+				"x": 314,
+				"y": 9907.640625,
+				"width": 616.015625,
+				"height": 48
+			},
+			"href": "https://www.st.nu/2022-01-15/hela-listan-bostadsboomen-fortsatter--med-nya-radhus-villor-och-lagenheter"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 9330.546875,
+				"width": 640.015625,
+				"height": 670.59375
+			},
+			"href": "https://www.st.nu/2022-01-15/har-byggs-drygt-500-nya-lagenheter--storsatsar-pa-flera-hall-vi-gillar-sundsvall"
+		},
+		{
+			"bounds": {
+				"x": 970.015625,
+				"y": 9513.875,
+				"width": 299.984375,
+				"height": 52
+			},
+			"href": "https://www.st.nu/2022-01-15/40-procent-av-de-gravida-ovaccinerade-manga-som-kommer-in-och-har-covid-19"
+		},
+		{
+			"bounds": {
+				"x": 970.015625,
+				"y": 9575.34375,
+				"width": 135.8125,
+				"height": 20
+			},
+			"href": "https://www.st.nu/story/f3d32288-0531-463a-9ea6-8f5b61bdf053"
+		},
+		{
+			"bounds": {
+				"x": 970.015625,
+				"y": 9330.546875,
+				"width": 299.984375,
+				"height": 310.796875
+			},
+			"href": "https://www.st.nu/2022-01-15/40-procent-av-de-gravida-ovaccinerade-manga-som-kommer-in-och-har-covid-19"
+		},
+		{
+			"bounds": {
+				"x": 970.015625,
+				"y": 9845.671875,
+				"width": 299.984375,
+				"height": 52
+			},
+			"href": "https://www.st.nu/2022-01-15/larm-om-brand-i-butikslokal--var-valmikrad-mat"
+		},
+		{
+			"bounds": {
+				"x": 970.015625,
+				"y": 9907.140625,
+				"width": 99.40625,
+				"height": 20
+			},
+			"href": "https://www.st.nu/location/a085c8fa-e82a-3ed0-9715-77c151413abe"
+		},
+		{
+			"bounds": {
+				"x": 970.015625,
+				"y": 9642.34375,
+				"width": 299.984375,
+				"height": 358.796875
+			},
+			"href": "https://www.st.nu/2022-01-15/larm-om-brand-i-butikslokal--var-valmikrad-mat"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 10061.140625,
+				"width": 141,
+				"height": 32
+			},
+			"href": "https://www.st.nu/story/3820c106-9fb5-401e-b378-b97fea373d3e"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 10315.46875,
+				"width": 299.984375,
+				"height": 52
+			},
+			"href": "https://www.st.nu/2022-01-15/vad-ar-det-basta-med-draghundsracing"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 10376.9375,
+				"width": 84,
+				"height": 20
+			},
+			"href": "https://www.st.nu/story/3820c106-9fb5-401e-b378-b97fea373d3e"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 10112.140625,
+				"width": 299.984375,
+				"height": 358.796875
+			},
+			"href": "https://www.st.nu/2022-01-15/vad-ar-det-basta-med-draghundsracing"
+		},
+		{
+			"bounds": {
+				"x": 629.984375,
+				"y": 10315.46875,
+				"width": 299.984375,
+				"height": 52
+			},
+			"href": "https://www.st.nu/2022-01-14/hur-skyddar-du-dig-mot-ishalkan"
+		},
+		{
+			"bounds": {
+				"x": 629.984375,
+				"y": 10376.9375,
+				"width": 84,
+				"height": 20
+			},
+			"href": "https://www.st.nu/story/3820c106-9fb5-401e-b378-b97fea373d3e"
+		},
+		{
+			"bounds": {
+				"x": 629.984375,
+				"y": 10112.140625,
+				"width": 299.984375,
+				"height": 358.796875
+			},
+			"href": "https://www.st.nu/2022-01-14/hur-skyddar-du-dig-mot-ishalkan"
+		},
+		{
+			"bounds": {
+				"x": 969.96875,
+				"y": 10315.46875,
+				"width": 299.984375,
+				"height": 52
+			},
+			"href": "https://www.st.nu/2022-01-13/har-du-stadat-bort-julpyntet-an"
+		},
+		{
+			"bounds": {
+				"x": 969.96875,
+				"y": 10376.9375,
+				"width": 84,
+				"height": 20
+			},
+			"href": "https://www.st.nu/story/3820c106-9fb5-401e-b378-b97fea373d3e"
+		},
+		{
+			"bounds": {
+				"x": 969.96875,
+				"y": 10112.140625,
+				"width": 299.984375,
+				"height": 358.796875
+			},
+			"href": "https://www.st.nu/2022-01-13/har-du-stadat-bort-julpyntet-an"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 10946.53125,
+				"width": 470,
+				"height": 78
+			},
+			"href": "https://www.st.nu/2022-01-16/st-16-januari-1997-anrik-symbol-lyste-upp-vintermorkret--den-olympiska-elden-pa-plats"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 11034,
+				"width": 201.984375,
+				"height": 20
+			},
+			"href": "https://www.st.nu/story/89bf99af-da76-4b1f-a549-d193bde8fdd5"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 10931.9375,
+				"width": 470,
+				"height": 168.0625
+			},
+			"href": "https://www.st.nu/2022-01-16/st-16-januari-1997-anrik-symbol-lyste-upp-vintermorkret--den-olympiska-elden-pa-plats"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 11115.59375,
+				"width": 470,
+				"height": 78
+			},
+			"href": "https://www.st.nu/2022-01-16/st-16-januari-1972-hundratusen-hyllade-forsta-kvinnliga-regenten-pa-narmare-600-ar"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 11203.0625,
+				"width": 201.984375,
+				"height": 20
+			},
+			"href": "https://www.st.nu/story/89bf99af-da76-4b1f-a549-d193bde8fdd5"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 11101,
+				"width": 470,
+				"height": 172.0625
+			},
+			"href": "https://www.st.nu/2022-01-16/st-16-januari-1972-hundratusen-hyllade-forsta-kvinnliga-regenten-pa-narmare-600-ar"
+		},
+		{
+			"bounds": {
+				"x": 800,
+				"y": 10946.53125,
+				"width": 470,
+				"height": 78
+			},
+			"href": "https://www.st.nu/2022-01-15/st-15-januari-1972-han-har-byggt-sitt-eget-imperium-av-fabriker--in-minsta-detalj"
+		},
+		{
+			"bounds": {
+				"x": 800,
+				"y": 11034,
+				"width": 201.984375,
+				"height": 20
+			},
+			"href": "https://www.st.nu/story/89bf99af-da76-4b1f-a549-d193bde8fdd5"
+		},
+		{
+			"bounds": {
+				"x": 800,
+				"y": 10931.9375,
+				"width": 470,
+				"height": 192.0625
+			},
+			"href": "https://www.st.nu/2022-01-15/st-15-januari-1972-han-har-byggt-sitt-eget-imperium-av-fabriker--in-minsta-detalj"
+		},
+		{
+			"bounds": {
+				"x": 800,
+				"y": 11139.59375,
+				"width": 470,
+				"height": 78
+			},
+			"href": "https://www.st.nu/2022-01-15/st-15-januari-1997-har-har-plogningen-upphort--bilisterna-tvingas-till-langa-omvagar"
+		},
+		{
+			"bounds": {
+				"x": 800,
+				"y": 11227.0625,
+				"width": 201.984375,
+				"height": 20
+			},
+			"href": "https://www.st.nu/story/89bf99af-da76-4b1f-a549-d193bde8fdd5"
+		},
+		{
+			"bounds": {
+				"x": 800,
+				"y": 11125,
+				"width": 470,
+				"height": 148.0625
+			},
+			"href": "https://www.st.nu/2022-01-15/st-15-januari-1997-har-har-plogningen-upphort--bilisterna-tvingas-till-langa-omvagar"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 11479.0625,
+				"width": 215,
+				"height": 26
+			},
+			"href": "tel:+4660197164"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 11509.0625,
+				"width": 215,
+				"height": 26
+			},
+			"href": "mailto:tips@st.nu"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 11539.0625,
+				"width": 215,
+				"height": 26
+			},
+			"href": "https://www.st.nu/tipsa"
+		},
+		{
+			"bounds": {
+				"x": 545,
+				"y": 11479.0625,
+				"width": 215,
+				"height": 52
+			},
+			"href": "tel:+46107097900"
+		},
+		{
+			"bounds": {
+				"x": 545,
+				"y": 11535.0625,
+				"width": 215,
+				"height": 52
+			},
+			"href": "tel:+46107097000"
+		},
+		{
+			"bounds": {
+				"x": 800,
+				"y": 11479.0625,
+				"width": 215,
+				"height": 26
+			},
+			"href": "https://www.st.nu/info/om-st-och-bonnier-news-local"
+		},
+		{
+			"bounds": {
+				"x": 800,
+				"y": 11509.0625,
+				"width": 215,
+				"height": 26
+			},
+			"href": "https://privacy.bonniernews.se/personuppgiftspolicy"
+		},
+		{
+			"bounds": {
+				"x": 800,
+				"y": 11539.0625,
+				"width": 215,
+				"height": 26
+			},
+			"href": "https://privacy.bonniernews.se/cookiepolicy"
+		},
+		{
+			"bounds": {
+				"x": 1055,
+				"y": 11479.0625,
+				"width": 215,
+				"height": 26
+			},
+			"href": "https://bonnier-news-mp.ocast.com/se/sundsvalls-tidning/contact"
+		},
+		{
+			"bounds": {
+				"x": 1055,
+				"y": 11509.0625,
+				"width": 215,
+				"height": 26
+			},
+			"href": "https://kundservice.bonniernewslocal.se/sundsvalls-tidning/annonsera/"
+		},
+		{
+			"bounds": {
+				"x": 1055,
+				"y": 11539.0625,
+				"width": 215,
+				"height": 26
+			},
+			"href": "https://kundservice.bonniernewslocal.se/sundsvalls-tidning/annonsera/"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 11806.0625,
+				"width": 490,
+				"height": 23
+			},
+			"href": "https://www.st.nu/info/stnu---ansvarig-utgivare"
+		},
+		{
+			"bounds": {
+				"x": 290,
+				"y": 11863.0625,
+				"width": 40,
+				"height": 40
+			},
+			"href": "https://www.facebook.com/mediehusetST"
+		},
+		{
+			"bounds": {
+				"x": 338,
+				"y": 11863.0625,
+				"width": 40,
+				"height": 40
+			},
+			"href": "https://twitter.com/@STnu"
+		},
+		{
+			"bounds": {
+				"x": 957.5,
+				"y": 2945,
+				"width": 195,
+				"height": 35
+			},
+			"href": "https://privacy.bonniernews.se/cookiepolicy"
+		}
+	]
+}

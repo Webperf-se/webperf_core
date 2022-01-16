@@ -1,18 +1,10 @@
 # -*- coding: utf-8 -*-
 from models import Rating
 import os
-import sys
-import socket
-import ssl
 import json
-import requests
 import urllib  # https://docs.python.org/3/library/urllib.parse.html
-import uuid
-import re
-from bs4 import BeautifulSoup
 import config
 from tests.utils import *
-import time
 import datetime
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -29,6 +21,7 @@ request_timeout = config.http_request_timeout
 use_ip2location = config.use_ip2location
 useragent = config.useragent
 review_show_improvements_only = config.review_show_improvements_only
+tracking_use_website = config.tracking_use_website
 
 ip2location_db = False
 if use_ip2location:
@@ -39,29 +32,46 @@ if use_ip2location:
         print('Unable to load IP2Location Database from "data/IP2LOCATION-LITE-DB1.IPV6.BIN"', ex)
 
 
-def run_test(_, langCode, url):
-    """
-    Only work on a domain-level. Returns tuple with decimal for grade and string with review
-    """
+def get_file_content(input_filename):
+    # print('input_filename=' + input_filename)
+    with open(input_filename, 'r', encoding='utf-8') as file:
+        lines = list()
+        data = file.readlines()
+        for line in data:
+            lines.append(line)
+            # print(line)
+    return '\n'.join(lines)
 
-    result_dict = {}
-    rating = Rating(_, review_show_improvements_only)
 
-    language = gettext.translation(
-        'tracking_validator_pagexray', localedir='locales', languages=[langCode])
-    language.install()
-    _local = language.gettext
+def get_data(url):
+    if tracking_use_website:
+        return get_data_from_website(url)
+    else:
+        return get_data_from_file(url)
 
-    print(_local('TEXT_RUNNING_TEST'))
 
-    print(_('TEXT_TEST_START').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+def get_data_from_file(url):
+    http_archive_content = False
+    detailed_results_content = False
+    number_of_tracking = 0
+    adserver_requests = 0
+
+    http_archive_content = get_file_content(os.path.join(
+        'data', 'webperf.se-har.json'))
+    detailed_results_content = get_file_content(os.path.join(
+        'data', 'webperf.se-results.json'))
+
+    return (http_archive_content, detailed_results_content, number_of_tracking, adserver_requests)
+
+
+def get_data_from_website(url):
+    http_archive_content = False
+    detailed_results_content = False
+    number_of_tracking = 0
+    adserver_requests = 0
 
     browser = False
     try:
-        o = urllib.parse.urlparse(url)
-        hostname = o.hostname
-
         # Remove options if you want to see browser windows (good for debugging)
         options = Options()
         options.add_argument("--headless")
@@ -74,8 +84,8 @@ def run_test(_, langCode, url):
     except:
         if browser != False:
             browser.quit()
-        rating.set_overall(1.0, _local('TEXT_SERVICE_UNABLE_TO_CONNECT'))
-        return (rating, result_dict)
+        # rating.set_overall(1.0, _local('TEXT_SERVICE_UNABLE_TO_CONNECT'))
+        return (http_archive_content, detailed_results_content, number_of_tracking, adserver_requests)
 
     try:
         # wait for element(s) to appear
@@ -85,8 +95,8 @@ def run_test(_, langCode, url):
     except:
         if browser != False:
             browser.quit()
-        rating.set_overall(1.0, _local('TEXT_SERVICES_ENCOUNTERED_ERROR'))
-        return (rating, result_dict)
+        # rating.set_overall(1.0, _local('TEXT_SERVICES_ENCOUNTERED_ERROR'))
+        return (http_archive_content, detailed_results_content, number_of_tracking, adserver_requests)
 
     try:
         elements_download_links = browser.find_elements_by_css_selector(
@@ -115,22 +125,60 @@ def run_test(_, langCode, url):
             if 'Download HTTP Archive' in download_link_text:
                 http_archive_content = download_link_content
 
-        # print('GET countries and tracking')
-        if http_archive_content:
-            rating += check_har_results(http_archive_content, _local, _)
+        elem_tracking_requests_count = browser.find_element(
+            By.CLASS_NAME, 'tracking-request-count')  # tracking requests
 
-            rating += check_tracking(
-                browser, http_archive_content + detailed_results_content, _local, _)
+        number_of_tracking = int(elem_tracking_requests_count.text[19:])
 
-        # print('GET fingerprints, ads and cookies')
-        if detailed_results_content:
-            rating += check_detailed_results(
-                browser, detailed_results_content, hostname, _local, _)
+        elem_ad_requests_count = browser.find_element(
+            By.CLASS_NAME, 'adserver-request-count')  # Ad requests
+        adserver_requests = int(elem_ad_requests_count.text[19:])
 
         # time.sleep(30)
     finally:
         if browser != False:
             browser.quit()
+
+    return (http_archive_content, detailed_results_content, number_of_tracking, adserver_requests)
+
+
+def run_test(_, langCode, url):
+    """
+    Only work on a domain-level. Returns tuple with decimal for grade and string with review
+    """
+
+    result_dict = {}
+    rating = Rating(_, review_show_improvements_only)
+
+    language = gettext.translation(
+        'tracking_validator_pagexray', localedir='locales', languages=[langCode])
+    language.install()
+    _local = language.gettext
+
+    print(_local('TEXT_RUNNING_TEST'))
+
+    print(_('TEXT_TEST_START').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+    result = get_data(url)
+    http_archive_content = result[0]
+    detailed_results_content = result[1]
+    number_of_tracking = result[2]
+    adserver_requests = result[3]
+    # print('GET countries and tracking')
+    if http_archive_content:
+        rating += check_har_results(http_archive_content, _local, _)
+
+        rating += check_tracking(
+            number_of_tracking, http_archive_content + detailed_results_content, _local, _)
+
+    # print('GET fingerprints, ads and cookies')
+    if detailed_results_content:
+        o = urllib.parse.urlparse(url)
+        hostname = o.hostname
+
+        rating += check_detailed_results(
+            adserver_requests, detailed_results_content, hostname, _local, _)
 
     print(_('TEXT_TEST_END').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
@@ -138,13 +186,13 @@ def run_test(_, langCode, url):
     return (rating, result_dict)
 
 
-def check_tracking(browser, json_content, _local, _):
+def check_tracking(number_of_tracking, json_content, _local, _):
     rating = Rating(_, review_show_improvements_only)
 
-    elem_tracking_requests_count = browser.find_element(
-        By.CLASS_NAME, 'tracking-request-count')  # tracking requests
+    # elem_tracking_requests_count = browser.find_element(
+    #     By.CLASS_NAME, 'tracking-request-count')  # tracking requests
 
-    number_of_tracking = int(elem_tracking_requests_count.text[19:])
+    # number_of_tracking = int(elem_tracking_requests_count.text[19:])
 
     review_analytics = ''
     analytics_used = get_analytics(json_content)
@@ -541,16 +589,12 @@ def check_cookies(json_content, hostname, _local, _):
     return rating
 
 
-def check_detailed_results(browser, content, hostname, _local, _):
+def check_detailed_results(adserver_requests, content, hostname, _local, _):
     rating = Rating(_, review_show_improvements_only)
 
     adserver_requests = 0
     json_content = ''
     try:
-        elem_ad_requests_count = browser.find_element(
-            By.CLASS_NAME, 'adserver-request-count')  # Ad requests
-        adserver_requests = int(elem_ad_requests_count.text[19:])
-
         json_content = json.loads(content)
     except:  # might crash if checked resource is not a webpage
         return rating

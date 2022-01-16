@@ -1,0 +1,838 @@
+{
+	"screenshotPath": "webperf.se/2022-01-16-13-site-420-scan-38516/screenshot-00000.jpeg",
+	"resultsPath": "webperf.se/2022-01-16-13-site-420-scan-38516/results.json.gzipped",
+	"harPath": "webperf.se/2022-01-16-13-site-420-scan-38516/har.json.gzipped",
+	"ads": [],
+	"fingerprints": [
+		{
+			"key": "https://webperf.se/#navigator:info",
+			"url": "https://webperf.se/",
+			"category": "navigator",
+			"level": "info",
+			"count": 6
+		},
+		{
+			"key": "https://webperf.se/#screen:info",
+			"url": "https://webperf.se/",
+			"category": "screen",
+			"level": "info",
+			"count": 2
+		}
+	],
+	"cookies": [
+		{
+			"name": "_pk_id.8.e4e3",
+			"value": "f337e7e879b41d77.1642340944.",
+			"domain": ".webperf.se",
+			"path": "/",
+			"expires": 1676296144,
+			"size": 41,
+			"httpOnly": false,
+			"secure": false,
+			"session": false,
+			"sameSite": "Lax",
+			"priority": "Medium"
+		},
+		{
+			"name": "_pk_ses.8.e4e3",
+			"value": "1",
+			"domain": ".webperf.se",
+			"path": "/",
+			"expires": 1642342744,
+			"size": 15,
+			"httpOnly": false,
+			"secure": false,
+			"session": false,
+			"sameSite": "Lax",
+			"priority": "Medium"
+		}
+	],
+	"links": [
+		{
+			"bounds": {
+				"x": 16,
+				"y": -106.546875,
+				"width": 229,
+				"height": 24
+			},
+			"href": "https://webperf.se/#content"
+		},
+		{
+			"href": "https://webperf.se/"
+		},
+		{
+			"href": "javascript:void(0)"
+		},
+		{
+			"href": "https://webperf.se/"
+		},
+		{
+			"href": "https://webperf.se/search/"
+		},
+		{
+			"href": "https://webperf.se/login/"
+		},
+		{
+			"href": "https://webperf.se/"
+		},
+		{
+			"href": "https://webperf.se/sites/"
+		},
+		{
+			"href": "https://webperf.se/reports/"
+		},
+		{
+			"href": "https://webperf.se/articles/"
+		},
+		{
+			"href": "https://webperf.se/resurser/"
+		},
+		{
+			"href": "https://webperf.se/webbanalys/"
+		},
+		{
+			"href": "https://webperf.se/articles/nyhetsbrev/"
+		},
+		{
+			"href": "https://webperf.se/events/"
+		},
+		{
+			"href": "https://webperf.se/om/"
+		},
+		{
+			"href": "https://webperf.se/erbjudande/"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 12.25,
+				"width": 166.65625,
+				"height": 36
+			},
+			"href": "https://webperf.se/"
+		},
+		{
+			"bounds": {
+				"x": 1342.25,
+				"y": 18,
+				"width": 51.375,
+				"height": 19
+			},
+			"href": "https://webperf.se/search/"
+		},
+		{
+			"bounds": {
+				"x": 1421.625,
+				"y": 18,
+				"width": 83.375,
+				"height": 19
+			},
+			"href": "https://webperf.se/login/"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 74.1875,
+				"width": 40,
+				"height": 19
+			},
+			"href": "https://webperf.se/"
+		},
+		{
+			"bounds": {
+				"x": 541.34375,
+				"y": 74.1875,
+				"width": 88,
+				"height": 19
+			},
+			"href": "https://webperf.se/sites/"
+		},
+		{
+			"bounds": {
+				"x": 735.6875,
+				"y": 74.1875,
+				"width": 72,
+				"height": 19
+			},
+			"href": "https://webperf.se/reports/"
+		},
+		{
+			"bounds": {
+				"x": 914.03125,
+				"y": 74.1875,
+				"width": 40,
+				"height": 19
+			},
+			"href": "https://webperf.se/articles/"
+		},
+		{
+			"bounds": {
+				"x": 1060.375,
+				"y": 74.1875,
+				"width": 64,
+				"height": 19
+			},
+			"href": "https://webperf.se/resurser/"
+		},
+		{
+			"href": "https://webperf.se/webbanalys/"
+		},
+		{
+			"href": "https://webperf.se/articles/nyhetsbrev/"
+		},
+		{
+			"href": "https://webperf.se/events/"
+		},
+		{
+			"bounds": {
+				"x": 1230.71875,
+				"y": 74.1875,
+				"width": 80,
+				"height": 19
+			},
+			"href": "https://webperf.se/om/"
+		},
+		{
+			"bounds": {
+				"x": 1417.0625,
+				"y": 74.1875,
+				"width": 88,
+				"height": 19
+			},
+			"href": "https://webperf.se/erbjudande/"
+		},
+		{
+			"bounds": {
+				"x": 458,
+				"y": 189.375,
+				"width": 358,
+				"height": 95
+			},
+			"href": "https://webperf.se/articles/webperf-2021/"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 638.84375,
+				"width": 207.5,
+				"height": 19
+			},
+			"href": "https://webperf.se/articles/webp-bildformat/"
+		},
+		{
+			"bounds": {
+				"x": 617.5,
+				"y": 545.171875,
+				"width": 247.28125,
+				"height": 145
+			},
+			"href": "https://webperf.se/articles/webp-bildformat/"
+		},
+		{
+			"bounds": {
+				"x": 965,
+				"y": 638.84375,
+				"width": 207.5,
+				"height": 19
+			},
+			"href": "https://webperf.se/articles/changelog/"
+		},
+		{
+			"bounds": {
+				"x": 1187.5,
+				"y": 545.171875,
+				"width": 287.921875,
+				"height": 109
+			},
+			"href": "https://webperf.se/articles/changelog/"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 959.84375,
+				"width": 207.5,
+				"height": 19
+			},
+			"href": "https://webperf.se/articles/nyhetsbrev-19/"
+		},
+		{
+			"bounds": {
+				"x": 617.5,
+				"y": 866.171875,
+				"width": 160.640625,
+				"height": 37
+			},
+			"href": "https://webperf.se/articles/nyhetsbrev-19/"
+		},
+		{
+			"bounds": {
+				"x": 965,
+				"y": 959.84375,
+				"width": 207.5,
+				"height": 19
+			},
+			"href": "https://webperf.se/articles/custom-dimension-matomo/"
+		},
+		{
+			"bounds": {
+				"x": 1187.5,
+				"y": 866.171875,
+				"width": 287.609375,
+				"height": 145
+			},
+			"href": "https://webperf.se/articles/custom-dimension-matomo/"
+		},
+		{
+			"bounds": {
+				"x": 395.390625,
+				"y": 1188.171875,
+				"width": 172.59375,
+				"height": 32.59375
+			},
+			"href": "https://webperf.se/articles/"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 1346.5625,
+				"width": 470.203125,
+				"height": 37
+			},
+			"href": "https://webperf.se/reports/2021-december-offentlig-sektor/"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 1523.5625,
+				"width": 491.875,
+				"height": 37
+			},
+			"href": "https://webperf.se/reports/2021-december-samhallsservice/"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 1700.5625,
+				"width": 438.5625,
+				"height": 37
+			},
+			"href": "https://webperf.se/reports/2021-december-eu-moln/"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 1877.5625,
+				"width": 419.5625,
+				"height": 73
+			},
+			"href": "https://webperf.se/reports/2021-december-turism/"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 2090.5625,
+				"width": 467.21875,
+				"height": 73
+			},
+			"href": "https://webperf.se/reports/2021-december-omxs-30/"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 2324.5625,
+				"width": 465.890625,
+				"height": 73
+			},
+			"href": "https://webperf.se/reports/2021-december-offentliga-bolag/"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 2558.5625,
+				"width": 453.546875,
+				"height": 73
+			},
+			"href": "https://webperf.se/reports/2021-december-digitalt-sverige/"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 2771.5625,
+				"width": 490.890625,
+				"height": 73
+			},
+			"href": "https://webperf.se/reports/2021-december-webbyraer/"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 2984.5625,
+				"width": 485.21875,
+				"height": 73
+			},
+			"href": "https://webperf.se/reports/2021-december-utbildning-forskning/"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 3197.5625,
+				"width": 404.234375,
+				"height": 73
+			},
+			"href": "https://webperf.se/reports/2021-december-fackforeningar/"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 3410.5625,
+				"width": 461.890625,
+				"height": 73
+			},
+			"href": "https://webperf.se/reports/2021-december-insamlingsorg/"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 3644.5625,
+				"width": 482.546875,
+				"height": 109
+			},
+			"href": "https://webperf.se/reports/2021-december-tankesmedjor/"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 3914.5625,
+				"width": 440.21875,
+				"height": 73
+			},
+			"href": "https://webperf.se/reports/2021-december-patienter-organisationer/"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 4148.5625,
+				"width": 486.546875,
+				"height": 73
+			},
+			"href": "https://webperf.se/reports/2021-december-kultur/"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 4382.5625,
+				"width": 505.53125,
+				"height": 73
+			},
+			"href": "https://webperf.se/reports/2021-december-halso-och-sjukvard/"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 4595.5625,
+				"width": 490.890625,
+				"height": 73
+			},
+			"href": "https://webperf.se/reports/2021-december-medier/"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 4808.5625,
+				"width": 518.875,
+				"height": 73
+			},
+			"href": "https://webperf.se/reports/2021-december-off-sekt-webbtjanster/"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 5042.5625,
+				"width": 457.21875,
+				"height": 73
+			},
+			"href": "https://webperf.se/reports/2021-december-ovrig-offentlig-sektor/"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 5255.5625,
+				"width": 466.5625,
+				"height": 73
+			},
+			"href": "https://webperf.se/reports/2021-december-regioner/"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 5468.5625,
+				"width": 498.5625,
+				"height": 37
+			},
+			"href": "https://webperf.se/reports/2021-december-kommuner/"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 5645.5625,
+				"width": 446.890625,
+				"height": 73
+			},
+			"href": "https://webperf.se/reports/2021-december-politiska-partier/"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 5858.5625,
+				"width": 412.5625,
+				"height": 73
+			},
+			"href": "https://webperf.se/reports/2021-november-offentlig-sektor/"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 6071.5625,
+				"width": 487.203125,
+				"height": 73
+			},
+			"href": "https://webperf.se/reports/2021-november-samhallsservice/"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 6284.5625,
+				"width": 527.875,
+				"height": 73
+			},
+			"href": "https://webperf.se/reports/2021-november-eu-moln/"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 6497.5625,
+				"width": 466.234375,
+				"height": 73
+			},
+			"href": "https://webperf.se/reports/2021-november-turism/"
+		},
+		{
+			"bounds": {
+				"x": 1230,
+				"y": 1341.5625,
+				"width": 210.953125,
+				"height": 37
+			},
+			"href": "https://webperf.se/site/nimbleinitiatives_com/"
+		},
+		{
+			"bounds": {
+				"x": 1235,
+				"y": 1430.75,
+				"width": 166.640625,
+				"height": 109
+			},
+			"href": "https://webperf.se/site/sorundanet_se/"
+		},
+		{
+			"bounds": {
+				"x": 1236,
+				"y": 1591.9375,
+				"width": 117.640625,
+				"height": 37
+			},
+			"href": "https://webperf.se/site/kodagent_se/"
+		},
+		{
+			"bounds": {
+				"x": 1237,
+				"y": 1681.125,
+				"width": 246.625,
+				"height": 37
+			},
+			"href": "https://webperf.se/site/happiness_se/"
+		},
+		{
+			"bounds": {
+				"x": 1236,
+				"y": 1770.3125,
+				"width": 176.953125,
+				"height": 73
+			},
+			"href": "https://webperf.se/site/lokalapartier_se/"
+		},
+		{
+			"bounds": {
+				"x": 1188,
+				"y": 1896.5,
+				"width": 317,
+				"height": 72
+			},
+			"href": "https://webperf.se/toplist/"
+		},
+		{
+			"bounds": {
+				"x": 1212,
+				"y": 2028.296875,
+				"width": 277.59375,
+				"height": 73
+			},
+			"href": "https://webperf.se/category/offentliga-bolag/"
+		},
+		{
+			"bounds": {
+				"x": 1217,
+				"y": 2153.484375,
+				"width": 266.9375,
+				"height": 73
+			},
+			"href": "https://webperf.se/category/fackforeningar/"
+		},
+		{
+			"bounds": {
+				"x": 1218,
+				"y": 2278.671875,
+				"width": 175.625,
+				"height": 73
+			},
+			"href": "https://webperf.se/category/insamlingsorg/"
+		},
+		{
+			"bounds": {
+				"x": 1219,
+				"y": 2403.859375,
+				"width": 138.640625,
+				"height": 37
+			},
+			"href": "https://webperf.se/category/kommuner/"
+		},
+		{
+			"bounds": {
+				"x": 1218,
+				"y": 2493.046875,
+				"width": 248.609375,
+				"height": 37
+			},
+			"href": "https://webperf.se/category/kultur/"
+		},
+		{
+			"bounds": {
+				"x": 1219,
+				"y": 2582.234375,
+				"width": 85.984375,
+				"height": 37
+			},
+			"href": "https://webperf.se/category/medier/"
+		},
+		{
+			"bounds": {
+				"x": 1217,
+				"y": 2671.421875,
+				"width": 201.625,
+				"height": 73
+			},
+			"href": "https://webperf.se/category/off-sekt-webbtjanster/"
+		},
+		{
+			"bounds": {
+				"x": 1220,
+				"y": 2796.609375,
+				"width": 260.265625,
+				"height": 73
+			},
+			"href": "https://webperf.se/category/halso-och-sjukvard/"
+		},
+		{
+			"bounds": {
+				"x": 1218,
+				"y": 2921.796875,
+				"width": 245.28125,
+				"height": 37
+			},
+			"href": "https://webperf.se/category/omxs-30/"
+		},
+		{
+			"bounds": {
+				"x": 1230,
+				"y": 3010.984375,
+				"width": 262.9375,
+				"height": 37
+			},
+			"href": "https://webperf.se/category/patienter-organisationer/"
+		},
+		{
+			"bounds": {
+				"x": 1221,
+				"y": 3100.171875,
+				"width": 186.625,
+				"height": 37
+			},
+			"href": "https://webperf.se/category/politiska-partier/"
+		},
+		{
+			"bounds": {
+				"x": 1226,
+				"y": 3189.359375,
+				"width": 110.640625,
+				"height": 37
+			},
+			"href": "https://webperf.se/category/regioner/"
+		},
+		{
+			"bounds": {
+				"x": 1227,
+				"y": 3278.546875,
+				"width": 195.953125,
+				"height": 37
+			},
+			"href": "https://webperf.se/category/samhallsservice/"
+		},
+		{
+			"bounds": {
+				"x": 1228,
+				"y": 3367.734375,
+				"width": 203.953125,
+				"height": 73
+			},
+			"href": "https://webperf.se/category/eu-moln/"
+		},
+		{
+			"bounds": {
+				"x": 1227,
+				"y": 3492.921875,
+				"width": 270.265625,
+				"height": 73
+			},
+			"href": "https://webperf.se/category/tankesmedjor/"
+		},
+		{
+			"bounds": {
+				"x": 1228,
+				"y": 3618.109375,
+				"width": 80.984375,
+				"height": 37
+			},
+			"href": "https://webperf.se/category/turism/"
+		},
+		{
+			"bounds": {
+				"x": 1226,
+				"y": 3707.296875,
+				"width": 180.625,
+				"height": 73
+			},
+			"href": "https://webperf.se/category/utbildning-forskning/"
+		},
+		{
+			"bounds": {
+				"x": 1229,
+				"y": 3832.484375,
+				"width": 206.953125,
+				"height": 73
+			},
+			"href": "https://webperf.se/category/webbyraer/"
+		},
+		{
+			"bounds": {
+				"x": 1227,
+				"y": 3957.671875,
+				"width": 257.265625,
+				"height": 37
+			},
+			"href": "https://webperf.se/category/ovrig-offentlig-sektor/"
+		},
+		{
+			"bounds": {
+				"x": 1235,
+				"y": 4046.859375,
+				"width": 237.265625,
+				"height": 73
+			},
+			"href": "https://webperf.se/category/digitalt-sverige/"
+		},
+		{
+			"bounds": {
+				"x": 395,
+				"y": 6798.5625,
+				"width": 312,
+				"height": 19
+			},
+			"href": "https://webperf.se/articles/changelog/"
+		},
+		{
+			"bounds": {
+				"x": 965,
+				"y": 6798.5625,
+				"width": 150,
+				"height": 19
+			},
+			"href": "https://webperf.se/articles/nyhetsbrev/"
+		},
+		{
+			"bounds": {
+				"x": 965,
+				"y": 6822.5625,
+				"width": 231,
+				"height": 19
+			},
+			"href": "https://webperf.se/feed.rss"
+		},
+		{
+			"bounds": {
+				"x": 965,
+				"y": 6846.5625,
+				"width": 136,
+				"height": 19
+			},
+			"href": "https://twitter.com/webperf_se"
+		},
+		{
+			"bounds": {
+				"x": 965,
+				"y": 6870.5625,
+				"width": 143,
+				"height": 19
+			},
+			"href": "https://www.linkedin.com/company/webperf/"
+		},
+		{
+			"bounds": {
+				"x": 965,
+				"y": 6894.5625,
+				"width": 45,
+				"height": 19
+			},
+			"href": "https://github.com/Webperf-se"
+		},
+		{
+			"bounds": {
+				"x": 965,
+				"y": 6918.5625,
+				"width": 158,
+				"height": 19
+			},
+			"href": "https://github.com/Webperf-se/notebooks-diy"
+		},
+		{
+			"bounds": {
+				"x": 965,
+				"y": 6942.5625,
+				"width": 121,
+				"height": 19
+			},
+			"href": "https://webperf.se/articles/webperf-pa-slack/"
+		},
+		{
+			"bounds": {
+				"x": 965,
+				"y": 6966.5625,
+				"width": 202,
+				"height": 19
+			},
+			"href": "https://www.patreon.com/webperf"
+		},
+		{
+			"href": "https://webperf.se/#"
+		}
+	]
+}

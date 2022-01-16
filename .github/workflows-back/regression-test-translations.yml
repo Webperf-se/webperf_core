@@ -1,0 +1,20 @@
+name: "Regression Test - Verify Translation(s)"
+on: [ push ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v2
+      if: ${{ success() }}
+    - name: Setup python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+        architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+    - name: Setup dependencies using pip
+      run: pip install -r requirements.txt
+      if: ${{ success() }}
+    - name: Verifing Translation(s)
+      run: python .github/workflows/verify_result.py -l
+      if: ${{ success() }}

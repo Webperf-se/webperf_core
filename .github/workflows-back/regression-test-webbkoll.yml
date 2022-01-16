@@ -1,0 +1,25 @@
+name: "Regression Test - Integrity & Security (Webbkoll) Test"
+on: [ push ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v2
+      if: ${{ success() }}
+    - name: Setup python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+        architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+    - name: Setup dependencies using pip
+      run: pip install -r requirements.txt
+      if: ${{ success() }}
+    - name: Setup config (using SAMPLE-config.py as config.py)
+      run: python .github/workflows/verify_result.py -c
+      if: ${{ success() }}
+    - name: Test Integrity & Security (Webbkoll)
+      run: |
+         python default.py -t 20 -r -u https://webperf.se/ -o .github/workflows/testresult-20.json
+         python .github/workflows/verify_result.py -t 20
+      if: ${{ success() }}

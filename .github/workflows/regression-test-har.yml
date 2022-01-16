@@ -1,0 +1,52 @@
+name: "Regression Test - Performance (Sitespeed.io) Test"
+on: [ push ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v2
+      if: ${{ success() }}
+    - name: Setup python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+        architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+    - name: Setup dependencies using pip
+      run: pip install -r requirements.txt
+      if: ${{ success() }}
+    - name: Setup Node.js (v1 version 14.x)
+      uses: actions/setup-node@v1
+      with:
+        node-version: '14.x'
+    - name: Setup Google Chrome browser (ONLY used for Sitespeed)
+      run: |
+        wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - 
+        sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+        sudo apt-get update
+        sudo apt-get --only-upgrade install google-chrome-stable
+        google-chrome --version      
+      if: ${{ success() }}
+    - name: Setup Sitespeed.io npm package (ONLY used for Sitespeed)
+      run: npm install -g sitespeed.io
+      if: ${{ success() }}
+    - name: Setup config (using SAMPLE-config.py as config.py)
+      run: python .github/workflows/verify_result.py -c
+      if: ${{ success() }}
+    - name: Test Performance (Sitespeed.io)
+      run: sitespeed.io --rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies --summary-detail true --outputFolder results --firstParty --utc --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n 2 https://webperf.se/
+      if: ${{ always() }}
+    - name: Test SiteSpeed
+      run: sitespeed.io --rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies --summary-detail true --firstParty --utc --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n 2 https://webperf.se/
+      if: ${{ always() }}
+    - name: Setup BrowserTime
+      run: npm install browsertime -g
+      if: ${{ always() }}
+    - name: Test BrowserTime
+      run: browsertime https://webperf.se/ -b chrome
+      if: ${{ always() }}
+    - name: Test BrowserTime (prettyPrint)
+      run: browsertime https://www.sitespeed.io -b chrome --prettyPrint
+      if: ${{ always() }}
+
+

@@ -42,42 +42,51 @@ jobs:
     - name: SiteSpeed Test - https://webperf.se/
       run: |
         sitespeed.io -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --summary-detail true --logToFile true --outputFolder results --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --html.logDownloadLink true -n 1 https://webperf.se/
-        mv /home/runner/work/webperf_core/webperf_core/results/pages/webperf_se/data/browsertime.har /home/runner/work/webperf_core/webperf_core/data/webperf.se-har.json
+        cp /home/runner/work/webperf_core/webperf_core/results/pages/webperf_se/data/browsertime.har /home/runner/work/webperf_core/webperf_core/data/webperf.se-har.json
+      if: ${{ always() }}
+    - name: Test Tracking and Privacy - https://webperf.se/
+      run: |
         python default.py -t 23 -r -u https://webperf.se/ -o .github/workflows/testresult-23.json
         python .github/workflows/verify_result.py -t 23
       if: ${{ always() }}
     - name: SiteSpeed Test - https://polisen.se/aktuellt/polisens-nyheter/
       run: |
         sitespeed.io -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --summary-detail true --logToFile true --outputFolder results --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --html.logDownloadLink true -n 1 https://polisen.se/aktuellt/polisens-nyheter/
-        mv /home/runner/work/webperf_core/webperf_core/results/pages/polisen_se/aktuellt/polisens-nyheter/data/browsertime.har /home/runner/work/webperf_core/webperf_core/data/webperf.se-har.json
-        python default.py -t 23 -r -u https://webperf.se/ -o .github/workflows/testresult-23.json
+        cp /home/runner/work/webperf_core/webperf_core/results/pages/polisen_se/aktuellt/polisens-nyheter/data/browsertime.har /home/runner/work/webperf_core/webperf_core/data/webperf.se-har.json
+      if: ${{ always() }}
+    - name: Test Tracking and Privacy - https://polisen.se/aktuellt/polisens-nyheter/
+      run: |
+        python default.py -t 23 -r -u https://polisen.se/aktuellt/polisens-nyheter/ -o .github/workflows/testresult-23.json
         python .github/workflows/verify_result.py -t 23
       if: ${{ always() }}
     - name: SiteSpeed Test - https://st.nu/
       run: |
         sitespeed.io -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --summary-detail true --logToFile true --outputFolder results --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --html.logDownloadLink true -n 1 https://st.nu/
-        mv /home/runner/work/webperf_core/webperf_core/results/pages/st_nu/data/browsertime.har /home/runner/work/webperf_core/webperf_core/data/webperf.se-har.json
-        python default.py -t 23 -r -u https://webperf.se/ -o .github/workflows/testresult-23.json
+        cp /home/runner/work/webperf_core/webperf_core/results/pages/st_nu/data/browsertime.har /home/runner/work/webperf_core/webperf_core/data/webperf.se-har.json
+      if: ${{ always() }}
+    - name: Test Tracking and Privacy - https://st.nu/
+      run: |
+        python default.py -t 23 -r -u https://st.nu/ -o .github/workflows/testresult-23.json
         python .github/workflows/verify_result.py -t 23
       if: ${{ always() }}
     # - name: SiteSpeed Test 1 - HAR
     #   run: cat /home/runner/work/webperf_core/webperf_core/results/pages/webperf_se/data/browsertime.har
     #   if: ${{ always() }}
-    - name: Trace-1 - https://webperf.se/
-      run: |
-        gzip -d /home/runner/work/webperf_core/webperf_core/results/pages/webperf_se/data/trace-1.json.gz
-        cat /home/runner/work/webperf_core/webperf_core/results/pages/webperf_se/data/trace-1.json
-      if: ${{ always() }}
-    - name: Trace-1 - https://polisen.se/aktuellt/polisens-nyheter/
-      run: |
-        gzip -d /home/runner/work/webperf_core/webperf_core/results/pages/polisen_se/aktuellt/polisens-nyheter/data/trace-1.json.gz
-        cat /home/runner/work/webperf_core/webperf_core/results/pages/polisen_se/aktuellt/polisens-nyheter/data/trace-1.json
-      if: ${{ always() }}
-    - name: Trace-1 - https://st.nu/
-      run: |
-        gzip -d /home/runner/work/webperf_core/webperf_core/results/pages/st_nu/data/trace-1.json.gz
-        cat /home/runner/work/webperf_core/webperf_core/results/pages/st_nu/data/trace-1.json
-      if: ${{ always() }}
+    # - name: Trace-1 - https://webperf.se/
+    #   run: |
+    #     gzip -d /home/runner/work/webperf_core/webperf_core/results/pages/webperf_se/data/trace-1.json.gz
+    #     cat /home/runner/work/webperf_core/webperf_core/results/pages/webperf_se/data/trace-1.json
+    #   if: ${{ always() }}
+    # - name: Trace-1 - https://polisen.se/aktuellt/polisens-nyheter/
+    #   run: |
+    #     gzip -d /home/runner/work/webperf_core/webperf_core/results/pages/polisen_se/aktuellt/polisens-nyheter/data/trace-1.json.gz
+    #     cat /home/runner/work/webperf_core/webperf_core/results/pages/polisen_se/aktuellt/polisens-nyheter/data/trace-1.json
+    #   if: ${{ always() }}
+    # - name: Trace-1 - https://st.nu/
+    #   run: |
+    #     gzip -d /home/runner/work/webperf_core/webperf_core/results/pages/st_nu/data/trace-1.json.gz
+    #     cat /home/runner/work/webperf_core/webperf_core/results/pages/st_nu/data/trace-1.json
+    #   if: ${{ always() }}
     - name: Setup PageXray npm package (ONLY used for Sitespeed)
       run: npm install pagexray -g
       if: ${{ always() }}

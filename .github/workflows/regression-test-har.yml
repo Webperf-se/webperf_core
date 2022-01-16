@@ -91,13 +91,13 @@ jobs:
       run: npm install pagexray -g
       if: ${{ always() }}
     - name: PageXray pretty - https://webperf.se/
-      run: pagexray --pretty --includeAssets /home/runner/work/webperf_core/webperf_core/results/pages/webperf_se/data/browsertime.har
+      run: pagexray --pretty /home/runner/work/webperf_core/webperf_core/results/pages/webperf_se/data/browsertime.har
       if: ${{ always() }}
     - name: PageXray pretty - https://polisen.se/aktuellt/polisens-nyheter/
-      run: pagexray --pretty --includeAssets /home/runner/work/webperf_core/webperf_core/results/pages/polisen_se/aktuellt/polisens-nyheter/data/browsertime.har
+      run: pagexray --pretty /home/runner/work/webperf_core/webperf_core/results/pages/polisen_se/aktuellt/polisens-nyheter/data/browsertime.har
       if: ${{ always() }}
     - name: PageXray pretty - https://st.nu/
-      run: pagexray --pretty --includeAssets /home/runner/work/webperf_core/webperf_core/results/pages/st_nu/data/browsertime.har
+      run: pagexray --pretty /home/runner/work/webperf_core/webperf_core/results/pages/st_nu/data/browsertime.har
       if: ${{ always() }}
     # - name: Moving har file to correct location for next step
     #   run: |

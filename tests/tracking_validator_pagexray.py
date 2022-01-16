@@ -51,15 +51,15 @@ def get_data(url):
 
 
 def get_data_from_file(url):
-    http_archive_content = False
-    detailed_results_content = False
+    http_archive_content = ''
+    detailed_results_content = ''
     number_of_tracking = 0
     adserver_requests = 0
 
     http_archive_content = get_file_content(os.path.join(
         'data', 'webperf.se-har.json'))
-    detailed_results_content = get_file_content(os.path.join(
-        'data', 'webperf.se-results.json'))
+    # detailed_results_content = get_file_content(os.path.join(
+    #     'data', 'webperf.se-results.json'))
 
     return (http_archive_content, detailed_results_content, number_of_tracking, adserver_requests)
 
@@ -173,7 +173,7 @@ def run_test(_, langCode, url):
             number_of_tracking, http_archive_content + detailed_results_content, _local, _)
 
     # print('GET fingerprints, ads and cookies')
-    if detailed_results_content:
+    if len(detailed_results_content) > 0:
         o = urllib.parse.urlparse(url)
         hostname = o.hostname
 

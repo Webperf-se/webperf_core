@@ -15,8 +15,6 @@ jobs:
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
       if: ${{ success() }}
-    # - name: Setup node (ONLY used for Yellow Lab Tools, lighthouse and Sitespeed)
-    #   uses: actions/setup-node@v2
     - name: Setup Node.js (v1 version 14.x)
       uses: actions/setup-node@v1
       with:
@@ -38,9 +36,6 @@ jobs:
         sudo apt-get --only-upgrade install google-chrome-stable
         google-chrome --version      
       if: ${{ success() }}
-    # - name: Setup Google Chrome browser (ONLY used for Sitespeed)
-    #   uses: browser-actions/setup-chrome@latest
-    #   if: ${{ success() }}
     - name: Setup Sitespeed.io npm package (ONLY used for Sitespeed)
       run: npm install -g sitespeed.io
       if: ${{ success() }}

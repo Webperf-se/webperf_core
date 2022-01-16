@@ -16,6 +16,32 @@ from tests.utils import *
 import gettext
 _local = gettext.gettext
 
+sitespeed_use_docker = config.sitespeed_use_docker
+
+
+def get_result(sitespeed_use_docker, url):
+
+    result = ''
+    arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+        config.sitespeed_iterations, url)
+    if sitespeed_use_docker:
+
+        image = "sitespeedio/sitespeed.io:latest"
+
+        docker_client = docker.from_env()
+        result = str(docker_client.containers.run(image, arg))
+    else:
+        import subprocess
+
+        bashCommand = "sitespeed.io {0}".format(arg)
+        process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+        output, error = process.communicate()
+        result = str(output)
+
+    result = result.replace('\\n', ' ')
+
+    return result
+
 
 def run_test(_, langCode, url):
     """
@@ -24,11 +50,6 @@ def run_test(_, langCode, url):
     - https://hub.docker.com/r/sitespeedio/sitespeed.io/
     - https://www.sitespeed.io
     """
-    arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-        config.sitespeed_iterations, url)
-
-    image = "sitespeedio/sitespeed.io:latest"
-
     language = gettext.translation(
         'performance_sitespeed_io', localedir='locales', languages=[langCode])
     language.install()
@@ -39,9 +60,7 @@ def run_test(_, langCode, url):
     print(_('TEXT_TEST_START').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    docker_client = docker.from_env()
-    result = str(docker_client.containers.run(image, arg))
-    result = result.replace('\\n', ' ')
+    result = get_result(sitespeed_use_docker, url)
 
     old_val = None
     old_val_unsliced = None

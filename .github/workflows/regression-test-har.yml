@@ -38,7 +38,7 @@ jobs:
     #   if: ${{ always() }}
     - name: SiteSpeed Test 1
       run: |
-        sitespeed.io -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --summary-detail true --verbose --logToFile true --outputFolder results --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --html.logDownloadLink true -n 1 https://webperf.se/
+        sitespeed.io -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --summary-detail true --logToFile true --outputFolder results --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --html.logDownloadLink true -n 1 https://webperf.se/
         echo '# root'
         ls /home/runner/work/webperf_core/webperf_core
         echo '# root / data'
@@ -59,35 +59,35 @@ jobs:
       if: ${{ always() }}
     - name: SiteSpeed Test 1 - Trace-1
       run: |
-        tar -xvzf /home/runner/work/webperf_core/webperf_core/results/pages/webperf_se/data/trace-1.json.gz.gz -C trace-1
+        tar -xvzf /home/runner/work/webperf_core/webperf_core/results/pages/webperf_se/data/trace-1.json.gz -C trace-1
         echo '# cat root / results / pages / webperf_se / data / trace-1'
         ls /home/runner/work/webperf_core/webperf_core/results/pages/webperf_se/data/trace-1
       if: ${{ always() }}
     - name: SiteSpeed Test 2
       run: |
-        sitespeed.io -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --summary-detail true --verbose --logToFile true --outputFolder results2 --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --html.logDownloadLink true -n 1 https://polisen.se/aktuellt/polisens-nyheter/
+        sitespeed.io -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --summary-detail true --logToFile true --outputFolder results2 --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --html.logDownloadLink true -n 1 https://polisen.se/aktuellt/polisens-nyheter/
         echo '# root / results2'
         ls /home/runner/work/webperf_core/webperf_core/results2
         echo '# root / results2 / logs'
         ls /home/runner/work/webperf_core/webperf_core/results2/logs
         echo '# root / results2 / pages'
         ls /home/runner/work/webperf_core/webperf_core/results2/pages
-        echo '# root / results2 / pages / polisen_se[...]'
-        ls /home/runner/work/webperf_core/webperf_core/results2/pages/polisen_se_aktuellt_polisens-nyheter
-        echo '# root / results2 / pages / polisen_se[...] / data'
-        ls /home/runner/work/webperf_core/webperf_core/results2/pages/polisen_se_aktuellt_polisens-nyheter/data
+        echo '# root / results2 / pages / polisen_se'
+        ls /home/runner/work/webperf_core/webperf_core/results2/pages/polisen_se
+        echo '# root / results2 / pages / polisen_se / data'
+        ls /home/runner/work/webperf_core/webperf_core/results2/pages/polisen_se/data
       if: ${{ always() }}
     - name: SiteSpeed Test 3
       run: |
-        sitespeed.io -b chrome --name zelda --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --summary-detail true --verbose --logToFile true --outputFolder results3 --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --html.logDownloadLink true -n 1 https://polisen.se/aktuellt/polisens-nyheter/
+        sitespeed.io -b chrome --name zelda --groupAlias link --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --summary-detail true --logToFile true --outputFolder results3 --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --html.logDownloadLink true -n 1 https://st.nu/
         echo '# root / results3'
         ls /home/runner/work/webperf_core/webperf_core/results3
         echo '# root / results3 / logs'
         ls /home/runner/work/webperf_core/webperf_core/results3/logs
         echo '# root / results3 / pages'
         ls /home/runner/work/webperf_core/webperf_core/results3/pages
-        echo '# root / results3 / pages / zelda'
-        ls /home/runner/work/webperf_core/webperf_core/results3/pages/zelda
-        echo '# root / results3 / pages / zelda / data'
-        ls /home/runner/work/webperf_core/webperf_core/results3/pages/zelda/data
+        echo '# root / results3 / pages / st_nu'
+        ls /home/runner/work/webperf_core/webperf_core/results3/pages/st_nu
+        echo '# root / results3 / pages / st_nu / data'
+        ls /home/runner/work/webperf_core/webperf_core/results3/pages/st_nu/data
       if: ${{ always() }}

@@ -23,7 +23,7 @@ jobs:
       shell: bash
       env:
         IP2LOCATION_BASE64_INDEX_01: ${{ secrets.IP2LOCATION_BASE64_INDEX_01 }}
-      run: "$IP2LOCATION_BASE64_INDEX_01" >> data/IP2LOCATION_BASE64_INDEX_01.txt
+      run: \"$IP2LOCATION_BASE64_INDEX_01\" >> data/IP2LOCATION_BASE64_INDEX_01.txt
       if: ${{ success() }}
     - name: Setup Node.js (v1 version 14.x)
       uses: actions/setup-node@v1

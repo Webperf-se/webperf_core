@@ -18,6 +18,13 @@ jobs:
     - name: Setup config (using SAMPLE-config.py as config.py)
       run: python .github/workflows/verify_result.py -c
       if: ${{ success() }}
+      # TODO: UPLOAD IP2LOCATION-LITE-DB1.IPV6.BIN to repository secrets and then write content to file in a step here, probably base64 format is the best.
+    - name: Get IP2LOCATION DB from repository secret (IP2LOCATION_BASE64_INDEX_XX)
+      shell: bash
+      env:
+        IP2LOCATION_BASE64_INDEX_01: ${{ secrets.IP2LOCATION_BASE64_INDEX_01 }}
+      run: $IP2LOCATION_BASE64_INDEX_01 >> data/IP2LOCATION_BASE64_INDEX_01.txt
+      if: ${{ success() }}
     - name: Setup Node.js (v1 version 14.x)
       uses: actions/setup-node@v1
       with:
@@ -40,6 +47,7 @@ jobs:
     #   run: sitespeed.io --rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies --summary-detail true --outputFolder results --firstParty --utc --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n 2 https://webperf.se/
     #   if: ${{ always() }}
     - name: SiteSpeed Test - https://webperf.se/
+      # TODO: WE CAN'T HAVE FULL PATH IN RUN
       run: |
         sitespeed.io -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --summary-detail true --logToFile true --outputFolder results --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --html.logDownloadLink true -n 1 https://webperf.se/
         cp /home/runner/work/webperf_core/webperf_core/results/pages/webperf_se/data/browsertime.har /home/runner/work/webperf_core/webperf_core/data/webperf.se-har.json
@@ -50,6 +58,7 @@ jobs:
         python .github/workflows/verify_result.py -t 23
       if: ${{ always() }}
     - name: SiteSpeed Test - https://polisen.se/aktuellt/polisens-nyheter/
+      # TODO: WE CAN'T HAVE FULL PATH IN RUN
       run: |
         sitespeed.io -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --summary-detail true --logToFile true --outputFolder results --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --html.logDownloadLink true -n 1 https://polisen.se/aktuellt/polisens-nyheter/
         cp /home/runner/work/webperf_core/webperf_core/results/pages/polisen_se/aktuellt/polisens-nyheter/data/browsertime.har /home/runner/work/webperf_core/webperf_core/data/webperf.se-har.json
@@ -60,6 +69,7 @@ jobs:
         python .github/workflows/verify_result.py -t 23
       if: ${{ always() }}
     - name: SiteSpeed Test - https://st.nu/
+      # TODO: WE CAN'T HAVE FULL PATH IN RUN
       run: |
         sitespeed.io -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --summary-detail true --logToFile true --outputFolder results --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --html.logDownloadLink true -n 1 https://st.nu/
         cp /home/runner/work/webperf_core/webperf_core/results/pages/st_nu/data/browsertime.har /home/runner/work/webperf_core/webperf_core/data/webperf.se-har.json
@@ -91,12 +101,15 @@ jobs:
       run: npm install pagexray -g
       if: ${{ always() }}
     - name: PageXray pretty - https://webperf.se/
+      # TODO: WE CAN'T HAVE FULL PATH IN RUN
       run: pagexray --pretty /home/runner/work/webperf_core/webperf_core/results/pages/webperf_se/data/browsertime.har
       if: ${{ always() }}
     - name: PageXray pretty - https://polisen.se/aktuellt/polisens-nyheter/
+      # TODO: WE CAN'T HAVE FULL PATH IN RUN
       run: pagexray --pretty /home/runner/work/webperf_core/webperf_core/results/pages/polisen_se/aktuellt/polisens-nyheter/data/browsertime.har
       if: ${{ always() }}
     - name: PageXray pretty - https://st.nu/
+      # TODO: WE CAN'T HAVE FULL PATH IN RUN
       run: pagexray --pretty /home/runner/work/webperf_core/webperf_core/results/pages/st_nu/data/browsertime.har
       if: ${{ always() }}
     # - name: Moving har file to correct location for next step

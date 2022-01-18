@@ -15,7 +15,7 @@ jobs:
     # - name: Setup dependencies using pip
     #   run: pip install -r requirements.txt
     #   if: ${{ success() }}
-    - name: Copy repository secret to files (IP2LOCATION_BASE64_INDEX_XX)
+    - name: Copy repository secret to files (IP2LOCATION_BASE64_INDEX_01 - 10)
       shell: bash
       env:
         IP2LOCATION_BASE64_INDEX_01: ${{ secrets.IP2LOCATION_BASE64_INDEX_01 }}
@@ -45,9 +45,13 @@ jobs:
       env:
         IP2LOCATION_BASE64_INDEX_11: ${{ secrets.IP2LOCATION_BASE64_INDEX_11 }}
         IP2LOCATION_BASE64_INDEX_12: ${{ secrets.IP2LOCATION_BASE64_INDEX_12 }}
+        IP2LOCATION_BASE64_INDEX_13: ${{ secrets.IP2LOCATION_BASE64_INDEX_13 }}
+        IP2LOCATION_BASE64_INDEX_14: ${{ secrets.IP2LOCATION_BASE64_INDEX_14 }}
       run: |
         echo "$IP2LOCATION_BASE64_INDEX_11" > data/IP2LOCATION_BASE64_INDEX_11.txt
         echo "$IP2LOCATION_BASE64_INDEX_12" > data/IP2LOCATION_BASE64_INDEX_12.txt
+        echo "$IP2LOCATION_BASE64_INDEX_13" > data/IP2LOCATION_BASE64_INDEX_13.txt
+        echo "$IP2LOCATION_BASE64_INDEX_14" > data/IP2LOCATION_BASE64_INDEX_14.txt
       if: ${{ success() }}
     # - name: Copy repository secret to files (IP2LOCATION_BASE64_INDEX_11 - 20)
     #   shell: bash

@@ -69,10 +69,8 @@ jobs:
       shell: bash
       env:
         IP2LOCATION_BASE64_INDEX_21: ${{ secrets.IP2LOCATION_BASE64_INDEX_21 }}
-        IP2LOCATION_BASE64_INDEX_22: ${{ secrets.IP2LOCATION_BASE64_INDEX_22 }}
       run: |
         echo "$IP2LOCATION_BASE64_INDEX_21" > data/IP2LOCATION_BASE64_INDEX_21.txt
-        echo "$IP2LOCATION_BASE64_INDEX_22" > data/IP2LOCATION_BASE64_INDEX_22.txt
       if: ${{ success() }}
     # - name: Copy repository secret to files (IP2LOCATION_BASE64_INDEX_21 - 33)
     #   shell: bash

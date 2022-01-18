@@ -15,11 +15,7 @@ jobs:
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
       if: ${{ success() }}
-    - name: Setup config (using SAMPLE-config.py as config.py)
-      run: python .github/workflows/verify_result.py -c
-      if: ${{ success() }}
-      # TODO: UPLOAD IP2LOCATION-LITE-DB1.IPV6.BIN to repository secrets and then write content to file in a step here, probably base64 format is the best.
-    - name: Copy repository secret to files (IP2LOCATION_BASE64_INDEX_01 -> 10)
+    - name: Copy repository secret to files (IP2LOCATION_BASE64_INDEX_XX)
       shell: bash
       env:
         IP2LOCATION_BASE64_INDEX_01: ${{ secrets.IP2LOCATION_BASE64_INDEX_01 }}
@@ -44,7 +40,7 @@ jobs:
         echo $IP2LOCATION_BASE64_INDEX_09 > data/IP2LOCATION_BASE64_INDEX_09.txt
         echo $IP2LOCATION_BASE64_INDEX_10 > data/IP2LOCATION_BASE64_INDEX_10.txt
       if: ${{ success() }}
-    - name: Copy repository secret to files (IP2LOCATION_BASE64_INDEX_11 -> 20)
+    - name: Copy repository secret to files (IP2LOCATION_BASE64_INDEX_XX)
       shell: bash
       env:
         IP2LOCATION_BASE64_INDEX_11: ${{ secrets.IP2LOCATION_BASE64_INDEX_11 }}
@@ -69,7 +65,7 @@ jobs:
         echo $IP2LOCATION_BASE64_INDEX_19 > data/IP2LOCATION_BASE64_INDEX_19.txt
         echo $IP2LOCATION_BASE64_INDEX_20 > data/IP2LOCATION_BASE64_INDEX_20.txt
       if: ${{ success() }}
-    - name: Copy repository secret to files (IP2LOCATION_BASE64_INDEX_21 -> 33)
+    - name: Copy repository secret to files (IP2LOCATION_BASE64_INDEX_XX)
       shell: bash
       env:
         IP2LOCATION_BASE64_INDEX_21: ${{ secrets.IP2LOCATION_BASE64_INDEX_21 }}
@@ -115,45 +111,42 @@ jobs:
     - name: Setup Sitespeed.io npm package (ONLY used for Sitespeed)
       run: npm install -g sitespeed.io
       if: ${{ success() }}
-    # - name: Setup config (using SAMPLE-config.py as config.py)
-    #   run: python .github/workflows/verify_result.py -c
-    #   if: ${{ success() }}
+    - name: Setup config (using SAMPLE-config.py as config.py)
+      run: python .github/workflows/verify_result.py -c
+      if: ${{ success() }}
     # - name: Test Performance (Sitespeed.io)
     #   run: sitespeed.io --rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies --summary-detail true --outputFolder results --firstParty --utc --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n 2 https://webperf.se/
     #   if: ${{ always() }}
     - name: SiteSpeed Test - https://webperf.se/
-      # TODO: WE CAN'T HAVE FULL PATH IN RUN
       run: |
         sitespeed.io -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --summary-detail true --logToFile true --outputFolder results --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --html.logDownloadLink true -n 1 https://webperf.se/
-        cp /home/runner/work/webperf_core/webperf_core/results/pages/webperf_se/data/browsertime.har /home/runner/work/webperf_core/webperf_core/data/webperf.se-har.json
-      if: ${{ always() }}
+        cp results/pages/webperf_se/data/browsertime.har data/webperf.se-har.json
+      if: ${{ success() }}
     - name: Test Tracking and Privacy - https://webperf.se/
       run: |
         python default.py -t 23 -r -u https://webperf.se/ -o .github/workflows/testresult-23.json
         python .github/workflows/verify_result.py -t 23
-      if: ${{ always() }}
+      if: ${{ success() }}
     - name: SiteSpeed Test - https://polisen.se/aktuellt/polisens-nyheter/
-      # TODO: WE CAN'T HAVE FULL PATH IN RUN
       run: |
         sitespeed.io -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --summary-detail true --logToFile true --outputFolder results --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --html.logDownloadLink true -n 1 https://polisen.se/aktuellt/polisens-nyheter/
-        cp /home/runner/work/webperf_core/webperf_core/results/pages/polisen_se/aktuellt/polisens-nyheter/data/browsertime.har /home/runner/work/webperf_core/webperf_core/data/webperf.se-har.json
-      if: ${{ always() }}
+        cp results/pages/polisen_se/aktuellt/polisens-nyheter/data/browsertime.har data/webperf.se-har.json
+      if: ${{ success() }}
     - name: Test Tracking and Privacy - https://polisen.se/aktuellt/polisens-nyheter/
       run: |
         python default.py -t 23 -r -u https://polisen.se/aktuellt/polisens-nyheter/ -o .github/workflows/testresult-23.json
         python .github/workflows/verify_result.py -t 23
-      if: ${{ always() }}
+      if: ${{ success() }}
     - name: SiteSpeed Test - https://st.nu/
-      # TODO: WE CAN'T HAVE FULL PATH IN RUN
       run: |
         sitespeed.io -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --summary-detail true --logToFile true --outputFolder results --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --html.logDownloadLink true -n 1 https://st.nu/
-        cp /home/runner/work/webperf_core/webperf_core/results/pages/st_nu/data/browsertime.har /home/runner/work/webperf_core/webperf_core/data/webperf.se-har.json
-      if: ${{ always() }}
+        cp results/pages/st_nu/data/browsertime.har data/webperf.se-har.json
+      if: ${{ success() }}
     - name: Test Tracking and Privacy - https://st.nu/
       run: |
         python default.py -t 23 -r -u https://st.nu/ -o .github/workflows/testresult-23.json
         python .github/workflows/verify_result.py -t 23
-      if: ${{ always() }}
+      if: ${{ success() }}
     # - name: SiteSpeed Test 1 - HAR
     #   run: cat /home/runner/work/webperf_core/webperf_core/results/pages/webperf_se/data/browsertime.har
     #   if: ${{ always() }}
@@ -172,27 +165,15 @@ jobs:
     #     gzip -d /home/runner/work/webperf_core/webperf_core/results/pages/st_nu/data/trace-1.json.gz
     #     cat /home/runner/work/webperf_core/webperf_core/results/pages/st_nu/data/trace-1.json
     #   if: ${{ always() }}
-    - name: Setup PageXray npm package (ONLY used for Sitespeed)
-      run: npm install pagexray -g
-      if: ${{ always() }}
-    - name: PageXray pretty - https://webperf.se/
-      # TODO: WE CAN'T HAVE FULL PATH IN RUN
-      run: pagexray --pretty /home/runner/work/webperf_core/webperf_core/results/pages/webperf_se/data/browsertime.har
-      if: ${{ always() }}
-    - name: PageXray pretty - https://polisen.se/aktuellt/polisens-nyheter/
-      # TODO: WE CAN'T HAVE FULL PATH IN RUN
-      run: pagexray --pretty /home/runner/work/webperf_core/webperf_core/results/pages/polisen_se/aktuellt/polisens-nyheter/data/browsertime.har
-      if: ${{ always() }}
-    - name: PageXray pretty - https://st.nu/
-      # TODO: WE CAN'T HAVE FULL PATH IN RUN
-      run: pagexray --pretty /home/runner/work/webperf_core/webperf_core/results/pages/st_nu/data/browsertime.har
-      if: ${{ always() }}
-    # - name: Moving har file to correct location for next step
-    #   run: |
-    #     mv /home/runner/work/webperf_core/webperf_core/results/pages/webperf_se/data/browsertime.har /home/runner/work/webperf_core/webperf_core/data/webperf.se-har.json
+    # - name: Setup PageXray npm package (ONLY used for Sitespeed)
+    #   run: npm install pagexray -g
     #   if: ${{ always() }}
-    # - name: Test Tracking and Privacy (Pagexray)
-    #   run: |
-    #     python default.py -t 23 -r -u https://webperf.se/ -o .github/workflows/testresult-23.json
-    #     python .github/workflows/verify_result.py -t 23
+    # - name: PageXray pretty - https://webperf.se/
+    #   run: pagexray --pretty results/pages/webperf_se/data/browsertime.har
+    #   if: ${{ always() }}
+    # - name: PageXray pretty - https://polisen.se/aktuellt/polisens-nyheter/
+    #   run: pagexray --pretty pages/polisen_se/aktuellt/polisens-nyheter/data/browsertime.har
+    #   if: ${{ always() }}
+    # - name: PageXray pretty - https://st.nu/
+    #   run: pagexray --pretty results/pages/st_nu/data/browsertime.har
     #   if: ${{ always() }}

@@ -65,31 +65,15 @@ jobs:
         echo "$IP2LOCATION_BASE64_INDEX_19" > data/IP2LOCATION_BASE64_INDEX_19.txt
         echo "$IP2LOCATION_BASE64_INDEX_20" > data/IP2LOCATION_BASE64_INDEX_20.txt
       if: ${{ success() }}
-    # - name: Copy repository secret to files (IP2LOCATION_BASE64_INDEX_11 - 20)
-    #   shell: bash
-    #   env:
-    #     IP2LOCATION_BASE64_INDEX_11: ${{ secrets.IP2LOCATION_BASE64_INDEX_11 }}
-    #     IP2LOCATION_BASE64_INDEX_12: ${{ secrets.IP2LOCATION_BASE64_INDEX_12 }}
-    #     IP2LOCATION_BASE64_INDEX_13: ${{ secrets.IP2LOCATION_BASE64_INDEX_13 }}
-    #     IP2LOCATION_BASE64_INDEX_14: ${{ secrets.IP2LOCATION_BASE64_INDEX_14 }}
-    #     IP2LOCATION_BASE64_INDEX_15: ${{ secrets.IP2LOCATION_BASE64_INDEX_15 }}
-    #     IP2LOCATION_BASE64_INDEX_16: ${{ secrets.IP2LOCATION_BASE64_INDEX_16 }}
-    #     IP2LOCATION_BASE64_INDEX_17: ${{ secrets.IP2LOCATION_BASE64_INDEX_17 }}
-    #     IP2LOCATION_BASE64_INDEX_18: ${{ secrets.IP2LOCATION_BASE64_INDEX_18 }}
-    #     IP2LOCATION_BASE64_INDEX_19: ${{ secrets.IP2LOCATION_BASE64_INDEX_19 }}
-    #     IP2LOCATION_BASE64_INDEX_20: ${{ secrets.IP2LOCATION_BASE64_INDEX_20 }}
-    #   run: |
-    #     echo "$IP2LOCATION_BASE64_INDEX_11" > data/IP2LOCATION_BASE64_INDEX_11.txt
-    #     echo "$IP2LOCATION_BASE64_INDEX_12" > data/IP2LOCATION_BASE64_INDEX_12.txt
-    #     echo "$IP2LOCATION_BASE64_INDEX_13" > data/IP2LOCATION_BASE64_INDEX_13.txt
-    #     echo "$IP2LOCATION_BASE64_INDEX_14" > data/IP2LOCATION_BASE64_INDEX_14.txt
-    #     echo "$IP2LOCATION_BASE64_INDEX_15" > data/IP2LOCATION_BASE64_INDEX_15.txt
-    #     echo "$IP2LOCATION_BASE64_INDEX_16" > data/IP2LOCATION_BASE64_INDEX_16.txt
-    #     echo "$IP2LOCATION_BASE64_INDEX_17" > data/IP2LOCATION_BASE64_INDEX_17.txt
-    #     echo "$IP2LOCATION_BASE64_INDEX_18" > data/IP2LOCATION_BASE64_INDEX_18.txt
-    #     echo "$IP2LOCATION_BASE64_INDEX_19" > data/IP2LOCATION_BASE64_INDEX_19.txt
-    #     echo "$IP2LOCATION_BASE64_INDEX_20" > data/IP2LOCATION_BASE64_INDEX_20.txt
-    #   if: ${{ success() }}
+    - name: Copy repository secret to files (IP2LOCATION_BASE64_INDEX_21 - 33)
+      shell: bash
+      env:
+        IP2LOCATION_BASE64_INDEX_21: ${{ secrets.IP2LOCATION_BASE64_INDEX_21 }}
+        IP2LOCATION_BASE64_INDEX_22: ${{ secrets.IP2LOCATION_BASE64_INDEX_22 }}
+      run: |
+        echo "$IP2LOCATION_BASE64_INDEX_21" > data/IP2LOCATION_BASE64_INDEX_21.txt
+        echo "$IP2LOCATION_BASE64_INDEX_22" > data/IP2LOCATION_BASE64_INDEX_22.txt
+      if: ${{ success() }}
     # - name: Copy repository secret to files (IP2LOCATION_BASE64_INDEX_21 - 33)
     #   shell: bash
     #   env:

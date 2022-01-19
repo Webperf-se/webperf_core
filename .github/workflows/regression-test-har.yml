@@ -12,128 +12,47 @@ jobs:
       with:
         python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
         architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
-    # - name: Setup dependencies using pip
-    #   run: pip install -r requirements.txt
-    #   if: ${{ success() }}
-    - name: Copy repository secret to files (IP2LOCATION_BASE64_INDEX_01 - 10)
+    - name: Setup dependencies using pip
+      run: pip install -r requirements.txt
+      if: ${{ success() }}
+    - name: Setup config (using SAMPLE-config.py as config.py)
+      run: python .github/workflows/verify_result.py -c
+      if: ${{ success() }}
+    - name: Download IP2LOCATION DB (Using repository secret)
       shell: bash
       env:
-        IP2LOCATION_BASE64_INDEX_01: ${{ secrets.IP2LOCATION_BASE64_INDEX_01 }}
-        IP2LOCATION_BASE64_INDEX_02: ${{ secrets.IP2LOCATION_BASE64_INDEX_02 }}
-        IP2LOCATION_BASE64_INDEX_03: ${{ secrets.IP2LOCATION_BASE64_INDEX_03 }}
-        IP2LOCATION_BASE64_INDEX_04: ${{ secrets.IP2LOCATION_BASE64_INDEX_04 }}
-        IP2LOCATION_BASE64_INDEX_05: ${{ secrets.IP2LOCATION_BASE64_INDEX_05 }}
-        IP2LOCATION_BASE64_INDEX_06: ${{ secrets.IP2LOCATION_BASE64_INDEX_06 }}
-        IP2LOCATION_BASE64_INDEX_07: ${{ secrets.IP2LOCATION_BASE64_INDEX_07 }}
-        IP2LOCATION_BASE64_INDEX_08: ${{ secrets.IP2LOCATION_BASE64_INDEX_08 }}
-        IP2LOCATION_BASE64_INDEX_09: ${{ secrets.IP2LOCATION_BASE64_INDEX_09 }}
-        IP2LOCATION_BASE64_INDEX_10: ${{ secrets.IP2LOCATION_BASE64_INDEX_10 }}
-      run: |
-        echo "$IP2LOCATION_BASE64_INDEX_01" > data/IP2LOCATION_BASE64_INDEX_01.txt
-        echo "$IP2LOCATION_BASE64_INDEX_02" > data/IP2LOCATION_BASE64_INDEX_02.txt
-        echo "$IP2LOCATION_BASE64_INDEX_03" > data/IP2LOCATION_BASE64_INDEX_03.txt
-        echo "$IP2LOCATION_BASE64_INDEX_04" > data/IP2LOCATION_BASE64_INDEX_04.txt
-        echo "$IP2LOCATION_BASE64_INDEX_05" > data/IP2LOCATION_BASE64_INDEX_05.txt
-        echo "$IP2LOCATION_BASE64_INDEX_06" > data/IP2LOCATION_BASE64_INDEX_06.txt
-        echo "$IP2LOCATION_BASE64_INDEX_07" > data/IP2LOCATION_BASE64_INDEX_07.txt
-        echo "$IP2LOCATION_BASE64_INDEX_08" > data/IP2LOCATION_BASE64_INDEX_08.txt
-        echo "$IP2LOCATION_BASE64_INDEX_09" > data/IP2LOCATION_BASE64_INDEX_09.txt
-        echo "$IP2LOCATION_BASE64_INDEX_10" > data/IP2LOCATION_BASE64_INDEX_10.txt
+        IP2LOCATION_DOWNLOAD_URL: ${{ secrets.IP2LOCATION_DOWNLOAD_URL }}
+      run: wget -q -O - $IP2LOCATION_DOWNLOAD_URL | tar -xvf IP2LOCATION-LITE-DB1.IPV6.BIN.tar -C data
       if: ${{ success() }}
-    - name: Copy repository secret to files (IP2LOCATION_BASE64_INDEX_11 - 20)
-      shell: bash
-      env:
-        IP2LOCATION_BASE64_INDEX_11: ${{ secrets.IP2LOCATION_BASE64_INDEX_11 }}
-        IP2LOCATION_BASE64_INDEX_12: ${{ secrets.IP2LOCATION_BASE64_INDEX_12 }}
-        IP2LOCATION_BASE64_INDEX_13: ${{ secrets.IP2LOCATION_BASE64_INDEX_13 }}
-        IP2LOCATION_BASE64_INDEX_14: ${{ secrets.IP2LOCATION_BASE64_INDEX_14 }}
-        IP2LOCATION_BASE64_INDEX_15: ${{ secrets.IP2LOCATION_BASE64_INDEX_15 }}
-        IP2LOCATION_BASE64_INDEX_16: ${{ secrets.IP2LOCATION_BASE64_INDEX_16 }}
-        IP2LOCATION_BASE64_INDEX_17: ${{ secrets.IP2LOCATION_BASE64_INDEX_17 }}
-        IP2LOCATION_BASE64_INDEX_18: ${{ secrets.IP2LOCATION_BASE64_INDEX_18 }}
-        IP2LOCATION_BASE64_INDEX_19: ${{ secrets.IP2LOCATION_BASE64_INDEX_19 }}
-        IP2LOCATION_BASE64_INDEX_20: ${{ secrets.IP2LOCATION_BASE64_INDEX_20 }}
-      run: |
-        echo "$IP2LOCATION_BASE64_INDEX_11" > data/IP2LOCATION_BASE64_INDEX_11.txt
-        echo "$IP2LOCATION_BASE64_INDEX_12" > data/IP2LOCATION_BASE64_INDEX_12.txt
-        echo "$IP2LOCATION_BASE64_INDEX_13" > data/IP2LOCATION_BASE64_INDEX_13.txt
-        echo "$IP2LOCATION_BASE64_INDEX_14" > data/IP2LOCATION_BASE64_INDEX_14.txt
-        echo "$IP2LOCATION_BASE64_INDEX_15" > data/IP2LOCATION_BASE64_INDEX_15.txt
-        echo "$IP2LOCATION_BASE64_INDEX_16" > data/IP2LOCATION_BASE64_INDEX_16.txt
-        echo "$IP2LOCATION_BASE64_INDEX_17" > data/IP2LOCATION_BASE64_INDEX_17.txt
-        echo "$IP2LOCATION_BASE64_INDEX_18" > data/IP2LOCATION_BASE64_INDEX_18.txt
-        echo "$IP2LOCATION_BASE64_INDEX_19" > data/IP2LOCATION_BASE64_INDEX_19.txt
-        echo "$IP2LOCATION_BASE64_INDEX_20" > data/IP2LOCATION_BASE64_INDEX_20.txt
+    - name: Setup Node.js (v1 version 14.x)
+      uses: actions/setup-node@v1
+      with:
+        node-version: '14.x'
       if: ${{ success() }}
-    - name: Copy repository secret to files (IP2LOCATION_BASE64_INDEX_21 - 33)
-      shell: bash
-      env:
-        IP2LOCATION_BASE64_INDEX_21: ${{ secrets.IP2LOCATION_BASE64_INDEX_21 }}
+    - name: Setup Google Chrome browser (ONLY used for Sitespeed)
       run: |
-        echo "$IP2LOCATION_BASE64_INDEX_21" > data/IP2LOCATION_BASE64_INDEX_21.txt
+        wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - 
+        sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+        sudo apt-get update
+        sudo apt-get --only-upgrade install google-chrome-stable
+        google-chrome --version
       if: ${{ success() }}
-    # - name: Copy repository secret to files (IP2LOCATION_BASE64_INDEX_21 - 33)
-    #   shell: bash
-    #   env:
-    #     IP2LOCATION_BASE64_INDEX_21: ${{ secrets.IP2LOCATION_BASE64_INDEX_21 }}
-    #     IP2LOCATION_BASE64_INDEX_22: ${{ secrets.IP2LOCATION_BASE64_INDEX_22 }}
-    #     IP2LOCATION_BASE64_INDEX_23: ${{ secrets.IP2LOCATION_BASE64_INDEX_23 }}
-    #     IP2LOCATION_BASE64_INDEX_24: ${{ secrets.IP2LOCATION_BASE64_INDEX_24 }}
-    #     IP2LOCATION_BASE64_INDEX_25: ${{ secrets.IP2LOCATION_BASE64_INDEX_25 }}
-    #     IP2LOCATION_BASE64_INDEX_26: ${{ secrets.IP2LOCATION_BASE64_INDEX_26 }}
-    #     IP2LOCATION_BASE64_INDEX_27: ${{ secrets.IP2LOCATION_BASE64_INDEX_27 }}
-    #     IP2LOCATION_BASE64_INDEX_28: ${{ secrets.IP2LOCATION_BASE64_INDEX_28 }}
-    #     IP2LOCATION_BASE64_INDEX_29: ${{ secrets.IP2LOCATION_BASE64_INDEX_29 }}
-    #     IP2LOCATION_BASE64_INDEX_30: ${{ secrets.IP2LOCATION_BASE64_INDEX_30 }}
-    #     IP2LOCATION_BASE64_INDEX_31: ${{ secrets.IP2LOCATION_BASE64_INDEX_31 }}
-    #     IP2LOCATION_BASE64_INDEX_32: ${{ secrets.IP2LOCATION_BASE64_INDEX_32 }}
-    #     IP2LOCATION_BASE64_INDEX_33: ${{ secrets.IP2LOCATION_BASE64_INDEX_33 }}
-    #   run: |
-    #     echo "$IP2LOCATION_BASE64_INDEX_21" > data/IP2LOCATION_BASE64_INDEX_21.txt
-    #     echo "$IP2LOCATION_BASE64_INDEX_22" > data/IP2LOCATION_BASE64_INDEX_22.txt
-    #     echo "$IP2LOCATION_BASE64_INDEX_23" > data/IP2LOCATION_BASE64_INDEX_23.txt
-    #     echo "$IP2LOCATION_BASE64_INDEX_24" > data/IP2LOCATION_BASE64_INDEX_24.txt
-    #     echo "$IP2LOCATION_BASE64_INDEX_25" > data/IP2LOCATION_BASE64_INDEX_25.txt
-    #     echo "$IP2LOCATION_BASE64_INDEX_26" > data/IP2LOCATION_BASE64_INDEX_26.txt
-    #     echo "$IP2LOCATION_BASE64_INDEX_27" > data/IP2LOCATION_BASE64_INDEX_27.txt
-    #     echo "$IP2LOCATION_BASE64_INDEX_28" > data/IP2LOCATION_BASE64_INDEX_28.txt
-    #     echo "$IP2LOCATION_BASE64_INDEX_29" > data/IP2LOCATION_BASE64_INDEX_29.txt
-    #     echo "$IP2LOCATION_BASE64_INDEX_30" > data/IP2LOCATION_BASE64_INDEX_30.txt
-    #     echo "$IP2LOCATION_BASE64_INDEX_31" > data/IP2LOCATION_BASE64_INDEX_31.txt
-    #     echo "$IP2LOCATION_BASE64_INDEX_32" > data/IP2LOCATION_BASE64_INDEX_32.txt
-    #     echo "$IP2LOCATION_BASE64_INDEX_33" > data/IP2LOCATION_BASE64_INDEX_33.txt
-    #   if: ${{ success() }}
-    # - name: Setup Node.js (v1 version 14.x)
-    #   uses: actions/setup-node@v1
-    #   with:
-    #     node-version: '14.x'
-    # - name: Setup Google Chrome browser (ONLY used for Sitespeed)
-    #   run: |
-    #     wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - 
-    #     sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
-    #     sudo apt-get update
-    #     sudo apt-get --only-upgrade install google-chrome-stable
-    #     google-chrome --version      
-    #   if: ${{ success() }}
-    # - name: Setup Sitespeed.io npm package (ONLY used for Sitespeed)
-    #   run: npm install -g sitespeed.io
-    #   if: ${{ success() }}
-    # - name: Setup config (using SAMPLE-config.py as config.py)
-    #   run: python .github/workflows/verify_result.py -c
-    #   if: ${{ success() }}
+    - name: Setup Sitespeed.io npm package (ONLY used for Sitespeed)
+      run: npm install -g sitespeed.io
+      if: ${{ success() }}
     # - name: Test Performance (Sitespeed.io)
     #   run: sitespeed.io --rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies --summary-detail true --outputFolder results --firstParty --utc --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n 2 https://webperf.se/
     #   if: ${{ always() }}
-    # - name: SiteSpeed Test - https://webperf.se/
-    #   run: |
-    #     sitespeed.io -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --summary-detail true --logToFile true --outputFolder results --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --html.logDownloadLink true -n 1 https://webperf.se/
-    #     cp results/pages/webperf_se/data/browsertime.har data/webperf.se-har.json
-    #   if: ${{ success() }}
-    # - name: Test Tracking and Privacy - https://webperf.se/
-    #   run: |
-    #     python default.py -t 23 -r -u https://webperf.se/ -o .github/workflows/testresult-23.json
-    #     python .github/workflows/verify_result.py -t 23
-    #   if: ${{ success() }}
+    - name: SiteSpeed Test - https://webperf.se/
+      run: |
+        sitespeed.io -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --summary-detail true --logToFile true --outputFolder results --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --html.logDownloadLink true -n 1 https://webperf.se/
+        cp results/pages/webperf_se/data/browsertime.har data/webperf.se-har.json
+      if: ${{ success() }}
+    - name: Test Tracking and Privacy - https://webperf.se/
+      run: |
+        python default.py -t 23 -r -u https://webperf.se/ -o .github/workflows/testresult-23.json
+        python .github/workflows/verify_result.py -t 23
+      if: ${{ success() }}
     # - name: SiteSpeed Test - https://polisen.se/aktuellt/polisens-nyheter/
     #   run: |
     #     sitespeed.io -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --summary-detail true --logToFile true --outputFolder results --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --html.logDownloadLink true -n 1 https://polisen.se/aktuellt/polisens-nyheter/

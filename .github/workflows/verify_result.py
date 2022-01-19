@@ -42,6 +42,9 @@ def prepare_config_file(sample_filename, filename):
     regex_tracking = r"^tracking_use_website.*"
     subst_tracking = "tracking_use_website = False"
 
+    regex_ip2location = r"^use_ip2location.*"
+    subst_ip2location = "use_ip2location = True"
+
     with open(filename, 'r') as file:
         data = file.readlines()
         output = list('')
@@ -52,6 +55,8 @@ def prepare_config_file(sample_filename, filename):
             tmp = re.sub(regex_sitespeed, subst_sitespeed,
                          tmp, 0, re.MULTILINE)
             tmp = re.sub(regex_tracking, subst_tracking,
+                         tmp, 0, re.MULTILINE)
+            tmp = re.sub(regex_ip2location, subst_ip2location,
                          tmp, 0, re.MULTILINE)
 
             output.append(tmp)

@@ -1,16 +1,7 @@
 # -*- coding: utf-8 -*-
 from models import Rating
 import datetime
-import sys
-import socket
-import ssl
-import json
-import requests
-import urllib  # https://docs.python.org/3/library/urllib.parse.html
-import uuid
-import re
 import docker
-from bs4 import BeautifulSoup
 import config
 from tests.utils import *
 import gettext
@@ -19,11 +10,9 @@ _local = gettext.gettext
 sitespeed_use_docker = config.sitespeed_use_docker
 
 
-def get_result(sitespeed_use_docker, url):
+def get_result(sitespeed_use_docker, arg):
 
     result = ''
-    arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-        config.sitespeed_iterations, url)
     if sitespeed_use_docker:
 
         image = "sitespeedio/sitespeed.io:latest"
@@ -38,7 +27,32 @@ def get_result(sitespeed_use_docker, url):
         output, error = process.communicate()
         result = str(output)
 
-    result = result.replace('\\n', ' ')
+    return result
+
+
+def get_local_file_content(input_filename):
+    # print('input_filename=' + input_filename)
+    with open(input_filename, 'r', encoding='utf-8') as file:
+        lines = list()
+        data = file.readlines()
+        for line in data:
+            lines.append(line)
+            # print(line)
+    return '\n'.join(lines)
+
+
+def get_file_content(sitespeed_use_docker, source_file):
+    result = ''
+    if sitespeed_use_docker:
+        image = "sitespeedio/sitespeed.io:latest"
+
+        arg = 'exec --workdir cat {0}'.format(
+            source_file)
+
+        docker_client = docker.from_env()
+        result = str(docker_client.containers.run(image, arg))
+    else:
+        result = get_local_file_content(source_file)
 
     return result
 
@@ -60,7 +74,12 @@ def run_test(_, langCode, url):
     print(_('TEXT_TEST_START').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    result = get_result(sitespeed_use_docker, url)
+    arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+        config.sitespeed_iterations, url)
+
+    result = get_result(sitespeed_use_docker, arg)
+
+    result = result.replace('\\n', ' ')
 
     old_val = None
     old_val_unsliced = None

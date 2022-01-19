@@ -22,6 +22,7 @@ use_ip2location = config.use_ip2location
 useragent = config.useragent
 review_show_improvements_only = config.review_show_improvements_only
 tracking_use_website = config.tracking_use_website
+sitespeed_use_docker = config.sitespeed_use_docker
 
 ip2location_db = False
 if use_ip2location:
@@ -43,11 +44,48 @@ def get_file_content(input_filename):
     return '\n'.join(lines)
 
 
+def get_data_from_sitespeed(url):
+    http_archive_content = ''
+    detailed_results_content = ''
+    number_of_tracking = 0
+    adserver_requests = 0
+
+    result_folder_name = 'resultat-{0}'.format(str(uuid.uuid4()))
+
+    from tests.performance_sitespeed_io import get_result as sitespeed_run_test
+    sitespeed_arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --summary-detail true --logToFile true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --html.logDownloadLink true -n {0} {1}'.format(
+        config.sitespeed_iterations, url, result_folder_name)
+    result = sitespeed_run_test(sitespeed_use_docker, sitespeed_arg)
+
+    filename = '{0}/pages/webperf_se/data/browsertime.har'.format(
+        result_folder_name)
+    print('filename=', filename)
+
+    from tests.performance_sitespeed_io import get_file_content as sitespeed_get_file_content
+    http_archive_content = sitespeed_get_file_content(
+        sitespeed_use_docker, filename)
+
+    print(http_archive_content)
+
+    # http_archive_content = get_file_content(os.path.join(
+    #     'data', 'webperf.se-har.json'))
+    # detailed_results_content = get_file_content(os.path.join(
+    #     'data', 'webperf.se-results.json'))
+
+    # from tests.performance_sitespeed_io import remove_folder as sitespeed_remove_folder
+    # sitespeed_remove_folder(
+    #     sitespeed_use_docker, result_folder_name)
+    # os.rmdir(result_folder_name)
+
+    return (http_archive_content, detailed_results_content, number_of_tracking, adserver_requests)
+
+
 def get_data(url):
     if tracking_use_website:
         return get_data_from_website(url)
     else:
-        return get_data_from_file(url)
+        return get_data_from_sitespeed(url)
+        # return get_data_from_file(url)
 
 
 def get_data_from_file(url):

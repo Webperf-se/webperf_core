@@ -22,7 +22,7 @@ jobs:
       shell: bash
       env:
         IP2LOCATION_DOWNLOAD_URL: ${{ secrets.IP2LOCATION_DOWNLOAD_URL }}
-      run: wget -q -O - $IP2LOCATION_DOWNLOAD_URL | tar -xvf - -C data
+      run: wget -q -O - $IP2LOCATION_DOWNLOAD_URL | tar -xvzf - -C data
       if: ${{ success() }}
     - name: Setup Node.js (v1 version 14.x)
       uses: actions/setup-node@v1

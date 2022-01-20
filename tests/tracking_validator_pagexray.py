@@ -4,6 +4,8 @@ import os
 import json
 import urllib  # https://docs.python.org/3/library/urllib.parse.html
 import config
+import re
+import urllib.parse
 from tests.utils import *
 import datetime
 from selenium import webdriver
@@ -44,6 +46,25 @@ def get_file_content(input_filename):
     return '\n'.join(lines)
 
 
+def get_foldername_from_url(url):
+    print('url=', url)
+    o = urllib.parse.urlparse(url)
+    hostname = o.hostname
+    relative_path = o.path
+
+    test_str = '{0}{1}'.format(hostname, relative_path)
+    print('test_str=', test_str)
+
+    regex = r"[^a-z0-9\-\/]"
+    subst = "_"
+
+    # You can manually specify the number of replacements by changing the 4th argument
+    folder_result = re.sub(regex, subst, test_str, 0, re.MULTILINE)
+    print('folder_result=', folder_result)
+
+    return folder_result
+
+
 def get_data_from_sitespeed(url):
     http_archive_content = ''
     detailed_results_content = ''
@@ -57,15 +78,17 @@ def get_data_from_sitespeed(url):
         config.sitespeed_iterations, url, result_folder_name)
     result = sitespeed_run_test(sitespeed_use_docker, sitespeed_arg)
 
-    filename = '{0}/pages/webperf_se/data/browsertime.har'.format(
-        result_folder_name)
-    print('filename=', filename)
+    website_folder_name = get_foldername_from_url(url)
+
+    filename = '{0}/pages/{1}/data/browsertime.har'.format(
+        result_folder_name, website_folder_name)
+    # print('filename=', filename)
 
     from tests.performance_sitespeed_io import get_file_content as sitespeed_get_file_content
     http_archive_content = sitespeed_get_file_content(
         sitespeed_use_docker, filename)
 
-    print(http_archive_content)
+    # print(http_archive_content)
 
     # http_archive_content = get_file_content(os.path.join(
     #     'data', 'webperf.se-har.json'))

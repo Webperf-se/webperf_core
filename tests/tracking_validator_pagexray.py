@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from importlib.metadata import entry_points
+from urllib import response
 from models import Rating
 import os
 import json
@@ -218,6 +220,9 @@ def run_test(_, langCode, url):
     print(_('TEXT_TEST_START').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
+    o = urllib.parse.urlparse(url)
+    hostname = o.hostname
+
     result = get_data(url)
     http_archive_content = result[0]
     detailed_results_content = result[1]
@@ -225,6 +230,15 @@ def run_test(_, langCode, url):
     adserver_requests = result[3]
     # print('GET countries and tracking')
     if http_archive_content:
+        json_har_content = ''
+        try:
+            json_har_content = json.loads(http_archive_content)
+            rating += rate_har_content(json_har_content, hostname, _local, _)
+            # rating += rate_cookies(json_har_content, _local, _)
+        except Exception as ex:  # might crash if checked resource is not a webpage
+            print('crash', ex)
+            return rating
+
         rating += check_har_results(http_archive_content, _local, _)
 
         rating += check_tracking(
@@ -232,8 +246,6 @@ def run_test(_, langCode, url):
 
     # print('GET fingerprints, ads and cookies')
     if len(detailed_results_content) > 0:
-        o = urllib.parse.urlparse(url)
-        hostname = o.hostname
 
         rating += check_detailed_results(
             adserver_requests, detailed_results_content, hostname, _local, _)
@@ -242,6 +254,202 @@ def run_test(_, langCode, url):
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, result_dict)
+
+
+def rate_har_content(json_har_content, hostname, _local, _):
+    rating = Rating(_, review_show_improvements_only)
+
+    if 'log' not in json_har_content:
+        return rating
+
+    log = json_har_content['log']
+
+    if 'entries' not in log:
+        return rating
+
+    entries = log['entries']
+
+    entries_index = 0
+    number_of_entries = len(entries)
+    while entries_index < number_of_entries:
+        entry = entries[entry]
+
+        rate_cookies(entry, hostname, _local, _)
+
+        entries_index += 1
+
+    return rating
+
+
+def rate_cookies(entry, hostname, _local, _):
+    rating = Rating(_, review_show_improvements_only)
+
+    if 'response' not in entry:
+        return rating
+
+    response = entry['response']
+
+    if 'cookies' not in response:
+        return rating
+
+    cookies = response['cookies']
+
+    number_of_potential_cookies = len(cookies)
+    number_of_cookies = 0
+    cookies_index = 0
+    cookies_points = 1.0
+
+    cookies_number_of_firstparties = 0
+    cookies_number_of_thirdparties = 0
+    cookies_number_of_secure = 0
+    cookies_number_of_valid_over_3months = 0
+    cookies_number_of_valid_over_6months = 0
+    cookies_number_of_valid_over_9months = 0
+    cookies_number_of_valid_over_1year = 0
+
+    # I know it differs around the year but lets get websites the benefit for it..
+    days_in_month = 31
+
+    year1_from_now = (datetime.datetime.now() +
+                      datetime.timedelta(days=365)).date()
+    months9_from_now = (datetime.datetime.now() +
+                        datetime.timedelta(days=9 * days_in_month)).date()
+    months6_from_now = (datetime.datetime.now() +
+                        datetime.timedelta(days=6 * days_in_month)).date()
+    months3_from_now = (datetime.datetime.now() +
+                        datetime.timedelta(days=3 * days_in_month)).date()
+
+    if number_of_potential_cookies > 0:
+        while cookies_index < number_of_potential_cookies:
+            cookie = cookies[cookies_index]
+            cookies_index += 1
+
+            # if 'httpOnly' in cookie and cookie['httpOnly'] == False:
+            #     cookies_number_of_httponly += 1
+
+            if 'secure' in cookie and cookie['secure'] == False:
+                cookies_number_of_secure += 1
+
+            if 'domain' in cookie and cookie['domain'].endswith(hostname):
+                cookies_number_of_firstparties += 1
+                number_of_cookies += 1
+            else:
+                cookies_number_of_thirdparties += 1
+                number_of_cookies += 1
+
+            if 'session' in cookie and cookie['session'] == False:
+                if 'expires' in cookie:
+                    cookie_expires_timestamp = int(cookie['expires'])
+                    # sanity check
+                    if cookie_expires_timestamp > 25340230080:
+                        cookie_expires_timestamp = 25340230080
+                    cookie_expires_date = datetime.date.fromtimestamp(
+                        cookie_expires_timestamp)
+
+                    if year1_from_now < cookie_expires_date:
+                        cookies_number_of_valid_over_1year += 1
+                        cookies_points -= 1.0
+                    elif months9_from_now < cookie_expires_date:
+                        cookies_number_of_valid_over_9months += 1
+                        cookies_points -= 0.9
+                    elif months6_from_now < cookie_expires_date:
+                        cookies_number_of_valid_over_6months += 1
+                        cookies_points -= 0.6
+                    elif months3_from_now < cookie_expires_date:
+                        cookies_number_of_valid_over_3months += 1
+                        cookies_points -= 0.3
+
+            number_of_cookies += 1
+
+    if cookies_number_of_thirdparties > 0:
+        # '-- Thirdparty: {0}\r\n'
+        nof_points = 5.0 - cookies_number_of_thirdparties * 0.5
+        if nof_points < 1.0:
+            nof_points = 1.0
+
+        nof_rating = Rating(_, review_show_improvements_only)
+        nof_rating.set_integrity_and_security(nof_points, _local('TEXT_COOKIES_HAS_THIRDPARTY').format(
+            cookies_number_of_thirdparties))
+        nof_rating.set_overall(nof_points)
+        rating += nof_rating
+    if cookies_number_of_valid_over_1year > 0:
+        # '-- Valid over 1 year: {0}\r\n'
+        valid_1year_points = 5.0 - cookies_number_of_valid_over_1year * 5.0
+        if valid_1year_points < 1.0:
+            valid_1year_points = 1.0
+
+        valid_1year_rating = Rating(_, review_show_improvements_only)
+        valid_1year_rating.set_integrity_and_security(valid_1year_points, _local('TEXT_COOKIE_HAS_OVER_1YEAR').format(
+            cookies_number_of_valid_over_1year))
+        valid_1year_rating.set_overall(valid_1year_points)
+        rating += valid_1year_rating
+    elif cookies_number_of_valid_over_9months > 0:
+        # '-- Valid over 9 months: {0}\r\n'
+        valid_9months_points = 5.0 - cookies_number_of_valid_over_9months * 4.0
+        if valid_9months_points < 1.0:
+            valid_9months_points = 1.0
+
+        valid_9months_rating = Rating(_, review_show_improvements_only)
+        valid_9months_rating.set_integrity_and_security(valid_9months_points, _local('TEXT_COOKIE_HAS_OVER_9MONTH').format(
+            cookies_number_of_valid_over_9months))
+        valid_9months_rating.set_overall(valid_9months_points)
+        rating += valid_9months_rating
+    elif cookies_number_of_valid_over_6months > 0:
+        # '-- Valid over 6 months: {0}\r\n'
+        valid_6months_points = 5.0 - cookies_number_of_valid_over_6months * 3.0
+        if valid_6months_points < 1.0:
+            valid_6months_points = 1.0
+
+        valid_6months_rating = Rating(_, review_show_improvements_only)
+        valid_6months_rating.set_integrity_and_security(valid_6months_points, _local('TEXT_COOKIE_HAS_OVER_6MONTH').format(
+            cookies_number_of_valid_over_6months))
+        valid_6months_rating.set_overall(valid_6months_points)
+        rating += valid_6months_rating
+    elif cookies_number_of_valid_over_3months > 0:
+        # '-- Valid over 3 months: {0}\r\n'
+        valid_3months_points = 5.0 - cookies_number_of_valid_over_3months * 3.0
+        if valid_3months_points < 1.0:
+            valid_3months_points = 1.0
+
+        valid_3months_rating = Rating(_, review_show_improvements_only)
+        valid_3months_rating.set_integrity_and_security(valid_3months_points, _local('TEXT_COOKIE_HAS_OVER_3MONTH').format(
+            cookies_number_of_valid_over_3months))
+        valid_3months_rating.overall(valid_3months_points)
+        rating += valid_3months_rating
+    if cookies_number_of_secure > 0:
+        # '-- Not secure: {0}\r\n'
+        secure_points = 5.0 - cookies_number_of_secure * 3.0
+        if secure_points < 1.0:
+            secure_points = 1.0
+
+        secure_rating = Rating(_, review_show_improvements_only)
+        secure_rating.set_integrity_and_security(secure_points, _local('TEXT_COOKIE_NOT_SECURE').format(
+            cookies_number_of_secure))
+        secure_rating.set_overall(secure_points)
+        rating += secure_rating
+
+    tmp_review = rating.integrity_and_security_review
+    rating.integrity_and_security_review = ''
+
+    if number_of_cookies > 0:
+        if rating.get_overall() > 1.0:
+            # '* Cookies (+{0} points)\r\n{1}'
+            rating.integrity_and_security_review = _local('TEXT_COOKIE_HAS_POINTS').format(
+                rating.get_overall(), '')
+        else:
+            # '* Cookies ({0} points)\r\n{1}'
+            rating.integrity_and_security_review = _local('TEXT_COOKIE_NO_POINTS').format(
+                rating.get_overall(), '')
+    else:
+        no_cookie_points = 5.0
+        rating.set_integrity_and_security(no_cookie_points, _local('TEXT_COOKIE_HAS_POINTS').format(
+            0.0, ''))
+
+        rating.set_overall(no_cookie_points)
+
+    rating.integrity_and_security_review = rating.integrity_and_security_review + tmp_review
+
+    return rating
 
 
 def check_tracking(number_of_tracking, json_content, _local, _):
@@ -488,6 +696,10 @@ def check_ads(json_content, adserver_requests, _local, _):
 
 def check_cookies(json_content, hostname, _local, _):
     rating = Rating(_, review_show_improvements_only)
+
+    if 'cookies' not in json_content:
+        return rating
+
     cookies = json_content['cookies']
     number_of_potential_cookies = len(cookies)
     number_of_cookies = 0

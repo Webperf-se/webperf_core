@@ -306,6 +306,7 @@ def rate_cookies(entry, hostname, _local, _):
 
     number_of_potential_cookies = len(cookies)
 
+    print('entry', entry)
     print('number_of_potential_cookies=', number_of_potential_cookies)
 
     number_of_cookies = 0

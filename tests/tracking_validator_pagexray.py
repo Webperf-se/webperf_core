@@ -71,7 +71,9 @@ def get_data_from_sitespeed(url):
     number_of_tracking = 0
     adserver_requests = 0
 
-    result_folder_name = 'resultat-{0}'.format(str(uuid.uuid4()))
+    # TODO: Change this back when you have debugged
+    # result_folder_name = 'results-{0}'.format(str(uuid.uuid4()))
+    result_folder_name = 'results'
 
     from tests.performance_sitespeed_io import get_result as sitespeed_run_test
     sitespeed_arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --summary-detail true --logToFile true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --html.logDownloadLink true -n {0} {1}'.format(

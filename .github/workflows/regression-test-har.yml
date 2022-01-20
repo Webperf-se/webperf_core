@@ -86,6 +86,9 @@ jobs:
         python default.py -t 23 -r -u https://polisen.se/aktuellt/polisens-nyheter/?lpfm.loc=Stockholms%20l%C3%A4n -o .github/workflows/testresult-23.json
         python .github/workflows/verify_result.py -t 23
       if: ${{ success() }}
+    - name: DEBUG
+      run: cat /home/runner/work/webperf_core/webperf_core/results/pages/polisen_se/aktuellt/polisens-nyheter/
+      if: ${{ always() }}
     # - name: Trace-1 - https://polisen.se/aktuellt/polisens-nyheter/
     #   run: |
     #     gzip -d /home/runner/work/webperf_core/webperf_core/results/pages/polisen_se/aktuellt/polisens-nyheter/data/trace-1.json.gz

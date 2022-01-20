@@ -271,12 +271,22 @@ def rate_har_content(json_har_content, hostname, _local, _):
 
     entries_index = 0
     number_of_entries = len(entries)
+
+    rating_cookies = Rating(_, review_show_improvements_only)
+
     while entries_index < number_of_entries:
         entry = entries[entries_index]
 
-        rating += rate_cookies(entry, hostname, _local, _)
+        tmp_rating_cookies = rate_cookies(entry, hostname, _local, _)
+        if tmp_rating_cookies.get_overall() == 5.0:
+            if not rating_cookies.is_set:
+                rating_cookies += tmp_rating_cookies
+        else:
+            rating_cookies += tmp_rating_cookies
 
         entries_index += 1
+
+    rating += rating_cookies
 
     return rating
 
@@ -295,6 +305,9 @@ def rate_cookies(entry, hostname, _local, _):
     cookies = response['cookies']
 
     number_of_potential_cookies = len(cookies)
+
+    print('number_of_potential_cookies=', number_of_potential_cookies)
+
     number_of_cookies = 0
     cookies_index = 0
     cookies_points = 1.0

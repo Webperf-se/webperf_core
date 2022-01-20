@@ -272,9 +272,9 @@ def rate_har_content(json_har_content, hostname, _local, _):
     entries_index = 0
     number_of_entries = len(entries)
     while entries_index < number_of_entries:
-        entry = entries[entry]
+        entry = entries[entries_index]
 
-        rate_cookies(entry, hostname, _local, _)
+        rating += rate_cookies(entry, hostname, _local, _)
 
         entries_index += 1
 

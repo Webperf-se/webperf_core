@@ -53,9 +53,9 @@ jobs:
         python default.py -t 23 -r -u https://webperf.se/ -o .github/workflows/testresult-23.json
         python .github/workflows/verify_result.py -t 23
       if: ${{ success() }}
-    - name: Content - https://webperf.se/
-      run: cat results/pages/webperf_se/data/browsertime.har
-      if: ${{ success() }}
+    # - name: Content - https://webperf.se/
+    #   run: cat results/pages/webperf_se/data/browsertime.har
+    #   if: ${{ success() }}
     # - name: Test Tracking and Privacy - https://polisen.se/aktuellt/polisens-nyheter/
     #   run: |
     #     python default.py -t 23 -r -u https://polisen.se/aktuellt/polisens-nyheter/ -o .github/workflows/testresult-23.json
@@ -66,17 +66,17 @@ jobs:
         python default.py -t 23 -r -u https://st.nu/ -o .github/workflows/testresult-23.json
         python .github/workflows/verify_result.py -t 23
       if: ${{ success() }}
-    - name: Content - https://webperf.se/
-      run: cat results/pages/st_nu/data/browsertime.har
-      if: ${{ success() }}
+    # - name: Content - https://webperf.se/
+    #   run: cat results/pages/st_nu/data/browsertime.har
+    #   if: ${{ success() }}
     - name: Test Tracking and Privacy - https://dn.se/
       run: |
         python default.py -t 23 -r -u https://dn.se/ -o .github/workflows/testresult-23.json
         python .github/workflows/verify_result.py -t 23
       if: ${{ success() }}
-    - name: Content - https://dn.se/
-      run: cat results/pages/dn_se/data/browsertime.har
-      if: ${{ success() }}
+    # - name: Content - https://dn.se/
+    #   run: cat results/pages/dn_se/data/browsertime.har
+    #   if: ${{ success() }}
     # - name: Trace-1 - https://webperf.se/
     #   run: |
     #     gzip -d /home/runner/work/webperf_core/webperf_core/results/pages/webperf_se/data/trace-1.json.gz

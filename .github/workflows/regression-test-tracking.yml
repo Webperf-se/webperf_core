@@ -18,7 +18,29 @@ jobs:
     - name: Setup config (using SAMPLE-config.py as config.py)
       run: python .github/workflows/verify_result.py -c
       if: ${{ success() }}
-    - name: Test Tracking and Privacy (Pagexray)
+    - name: Download IP2LOCATION DB (Using repository secret)
+      shell: bash
+      env:
+        IP2LOCATION_DOWNLOAD_URL: ${{ secrets.IP2LOCATION_DOWNLOAD_URL }}
+      run: wget -q -O - $IP2LOCATION_DOWNLOAD_URL | tar -xvzf - -C data
+      if: ${{ success() }}
+    - name: Setup Node.js (v1 version 14.x)
+      uses: actions/setup-node@v1
+      with:
+        node-version: '14.x'
+      if: ${{ success() }}
+    - name: Setup Google Chrome browser (ONLY used for Sitespeed)
+      run: |
+        wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - 
+        sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+        sudo apt-get update
+        sudo apt-get --only-upgrade install google-chrome-stable
+        google-chrome --version
+      if: ${{ success() }}
+    - name: Setup Sitespeed.io npm package (ONLY used for Sitespeed)
+      run: npm install -g sitespeed.io
+      if: ${{ success() }}
+    - name: Test Tracking and Privacy
       run: |
         python default.py -t 23 -r -u https://webperf.se/ -o .github/workflows/testresult-23.json
         python .github/workflows/verify_result.py -t 23

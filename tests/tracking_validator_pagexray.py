@@ -47,20 +47,17 @@ def get_file_content(input_filename):
 
 
 def get_foldername_from_url(url):
-    print('url=', url)
     o = urllib.parse.urlparse(url)
     hostname = o.hostname
     relative_path = o.path
 
     test_str = '{0}{1}'.format(hostname, relative_path)
-    print('test_str=', test_str)
 
     regex = r"[^a-z0-9\-\/]"
     subst = "_"
 
     # You can manually specify the number of replacements by changing the 4th argument
     folder_result = re.sub(regex, subst, test_str, 0, re.MULTILINE)
-    print('folder_result=', folder_result)
 
     return folder_result
 
@@ -71,9 +68,7 @@ def get_data_from_sitespeed(url):
     number_of_tracking = 0
     adserver_requests = 0
 
-    # TODO: Change this back when you have debugged
-    # result_folder_name = 'results-{0}'.format(str(uuid.uuid4()))
-    result_folder_name = 'results'
+    result_folder_name = 'results-{0}'.format(str(uuid.uuid4()))
 
     from tests.performance_sitespeed_io import get_result as sitespeed_run_test
     sitespeed_arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --summary-detail true --logToFile true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --html.logDownloadLink true -n {0} {1}'.format(
@@ -84,13 +79,10 @@ def get_data_from_sitespeed(url):
 
     filename = '{0}/pages/{1}/data/browsertime.har'.format(
         result_folder_name, website_folder_name)
-    # print('filename=', filename)
 
     from tests.performance_sitespeed_io import get_file_content as sitespeed_get_file_content
     http_archive_content = sitespeed_get_file_content(
         sitespeed_use_docker, filename)
-
-    # print(http_archive_content)
 
     # http_archive_content = get_file_content(os.path.join(
     #     'data', 'webperf.se-har.json'))

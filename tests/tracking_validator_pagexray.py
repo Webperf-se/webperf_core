@@ -86,8 +86,6 @@ def get_data_from_sitespeed(url):
     http_archive_content = sitespeed_get_file_content(
         sitespeed_use_docker, filename)
 
-    print('http_archive_content=', http_archive_content)
-
     # http_archive_content = get_file_content(os.path.join(
     #     'data', 'webperf.se-har.json'))
     # detailed_results_content = get_file_content(os.path.join(

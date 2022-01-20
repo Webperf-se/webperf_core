@@ -71,8 +71,10 @@ def get_data_from_sitespeed(url):
     result_folder_name = 'results-{0}'.format(str(uuid.uuid4()))
 
     from tests.performance_sitespeed_io import get_result as sitespeed_run_test
-    sitespeed_arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --summary-detail true --logToFile true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --html.logDownloadLink true -n {0} {1}'.format(
+    sitespeed_arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --logToFile true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
         config.sitespeed_iterations, url, result_folder_name)
+    # sitespeed_arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --summary-detail true --logToFile true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --html.logDownloadLink true -n {0} {1}'.format(
+    #     config.sitespeed_iterations, url, result_folder_name)
     result = sitespeed_run_test(sitespeed_use_docker, sitespeed_arg)
 
     website_folder_name = get_foldername_from_url(url)

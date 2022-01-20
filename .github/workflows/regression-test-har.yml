@@ -48,11 +48,11 @@ jobs:
     #     sitespeed.io -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --summary-detail true --logToFile true --outputFolder results --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --html.logDownloadLink true -n 1 https://webperf.se/
     #     cp results/pages/webperf_se/data/browsertime.har data/webperf.se-har.json
     #   if: ${{ success() }}
-    # - name: Test Tracking and Privacy - https://webperf.se/
-    #   run: |
-    #     python default.py -t 23 -r -u https://webperf.se/ -o .github/workflows/testresult-23.json
-    #     python .github/workflows/verify_result.py -t 23
-    #   if: ${{ success() }}
+    - name: Test Tracking and Privacy - https://webperf.se/
+      run: |
+        python default.py -t 23 -r -u https://webperf.se/ -o .github/workflows/testresult-23.json
+        python .github/workflows/verify_result.py -t 23
+      if: ${{ success() }}
     # - name: Test Tracking and Privacy - https://polisen.se/aktuellt/polisens-nyheter/
     #   run: |
     #     python default.py -t 23 -r -u https://polisen.se/aktuellt/polisens-nyheter/ -o .github/workflows/testresult-23.json
@@ -68,14 +68,14 @@ jobs:
     #     gzip -d /home/runner/work/webperf_core/webperf_core/results/pages/webperf_se/data/trace-1.json.gz
     #     cat /home/runner/work/webperf_core/webperf_core/results/pages/webperf_se/data/trace-1.json
     #   if: ${{ always() }}
-    - name: Test Tracking and Privacy - https://polisen.se/aktuellt/polisens-nyheter/?lpfm.loc=Stockholms län
-      run: |
-        python default.py -t 23 -r -u https://polisen.se/aktuellt/polisens-nyheter/?lpfm.loc=Stockholms%20l%C3%A4n -o .github/workflows/testresult-23.json
-        python .github/workflows/verify_result.py -t 23
-      if: ${{ success() }}
-    - name: DEBUG
-      run: ls /home/runner/work/webperf_core/webperf_core/results/pages/polisen_se/aktuellt/polisens-nyheter/
-      if: ${{ always() }}
+    # - name: Test Tracking and Privacy - https://polisen.se/aktuellt/polisens-nyheter/?lpfm.loc=Stockholms län
+    #   run: |
+    #     python default.py -t 23 -r -u https://polisen.se/aktuellt/polisens-nyheter/?lpfm.loc=Stockholms%20l%C3%A4n -o .github/workflows/testresult-23.json
+    #     python .github/workflows/verify_result.py -t 23
+    #   if: ${{ success() }}
+    # - name: DEBUG
+    #   run: ls /home/runner/work/webperf_core/webperf_core/results/pages/polisen_se/aktuellt/polisens-nyheter/
+    #   if: ${{ always() }}
     # - name: Trace-1 - https://polisen.se/aktuellt/polisens-nyheter/
     #   run: |
     #     gzip -d /home/runner/work/webperf_core/webperf_core/results/pages/polisen_se/aktuellt/polisens-nyheter/data/trace-1.json.gz

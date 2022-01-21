@@ -70,6 +70,7 @@ def get_data_from_sitespeed(url):
     number_of_tracking = 0
     adserver_requests = 0
 
+    # TODO: CHANGE THIS BACK TO USE UUID when debugging is done
     # result_folder_name = 'results-{0}'.format(str(uuid.uuid4()))
     result_folder_name = 'results'
 

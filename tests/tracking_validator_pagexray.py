@@ -75,11 +75,13 @@ def get_data_from_sitespeed(url):
     result_folder_name = 'results'
 
     from tests.performance_sitespeed_io import get_result as sitespeed_run_test
-    sitespeed_arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+    sitespeed_arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
         config.sitespeed_iterations, url, result_folder_name)
     # sitespeed_arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --logToFile true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
     #     config.sitespeed_iterations, url, result_folder_name)
     result = sitespeed_run_test(sitespeed_use_docker, sitespeed_arg)
+
+    print('sitespeed_run_test', result)
 
     website_folder_name = get_foldername_from_url(url)
 
@@ -307,8 +309,8 @@ def rate_cookies(entry, hostname, _local, _):
 
     number_of_potential_cookies = len(cookies)
 
-    print('entry', entry)
-    print('number_of_potential_cookies=', number_of_potential_cookies)
+    # print('entry', entry)
+    # print('number_of_potential_cookies=', number_of_potential_cookies)
 
     number_of_cookies = 0
     cookies_index = 0

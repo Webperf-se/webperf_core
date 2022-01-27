@@ -51,7 +51,10 @@ jobs:
         echo "# data folder"
         ls results/pages/webperf_se/data/
         cat results/pages/webperf_se/data/browsertime.har
-        tar -xvzf results/pages/webperf_se/data/chromePerflog-1.json.gz -C chromePerflog
+        gzip -d results/pages/webperf_se/data/chromePerflog-1.json.gz
+        echo "# data folder"
+        ls results/pages/webperf_se/data/
+        echo "# chromePerflog folder"
         ls results/pages/webperf_se/data/chromePerflog/
       if: ${{ success() }}
     - name: Test Tracking and Privacy - https://webperf.se/

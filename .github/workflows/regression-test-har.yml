@@ -50,13 +50,12 @@ jobs:
         ls results/
         echo "# data folder"
         ls results/pages/webperf_se/data/
-        cat results/pages/webperf_se/data/browsertime.har
         gzip -d results/pages/webperf_se/data/chromePerflog-1.json.gz
         echo "# data folder"
         ls results/pages/webperf_se/data/
-        echo "# chromePerflog folder"
-        ls results/pages/webperf_se/data/chromePerflog/
+        cat results/pages/webperf_se/data/chromePerflog-1.json
       if: ${{ success() }}
+    # cat results/pages/webperf_se/data/browsertime.har
     - name: Test Tracking and Privacy - https://webperf.se/
       run: |
         python default.py -t 23 -r -u https://webperf.se/ -o .github/workflows/testresult-23.json

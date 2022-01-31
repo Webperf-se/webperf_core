@@ -18,6 +18,8 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.common.proxy import Proxy
+from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
 from browsermobproxy import Server
 import IP2Location
 import gettext
@@ -448,7 +450,7 @@ def rate_gdpr_and_schrems(browser, url, _local, _):
 
 
 def get_profile():
-    profile = webdriver.FirefoxProfile()
+    profile = FirefoxProfile()
     # https://github.com/firefox-devtools/har-export-trigger/releases
     # https://addons.mozilla.org/firefox/downloads/file/964750/har_export_trigger-0.6.1-an+fx.xpi
     # https://intoli.com/blog/firefox-extensions-with-selenium/

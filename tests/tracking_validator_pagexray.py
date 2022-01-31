@@ -18,9 +18,9 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.firefox.options import Options
-from selenium.webdriver.common.proxy import Proxy
-from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
-from browsermobproxy import Server
+# from selenium.webdriver.common.proxy import Proxy
+# from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
+# from browsermobproxy import Server
 import IP2Location
 import gettext
 _ = gettext.gettext
@@ -114,8 +114,8 @@ def get_data(url, _local, _):
     if tracking_use_website:
         return get_data_from_pagexray(url, _local, _)
     else:
-        return get_data_from_selenium(url, _local, _)
-        # return get_data_from_sitespeed(url)
+        temp1 = get_data_from_selenium(url, _local, _)
+        temp2 = get_data_from_sitespeed(url)
         # return get_data_from_file(url)
 
 
@@ -449,52 +449,52 @@ def rate_gdpr_and_schrems(browser, url, _local, _):
         return rating
 
 
-def get_profile():
-    profile = FirefoxProfile()
-    # https://github.com/firefox-devtools/har-export-trigger/releases
-    # https://addons.mozilla.org/firefox/downloads/file/964750/har_export_trigger-0.6.1-an+fx.xpi
-    # https://intoli.com/blog/firefox-extensions-with-selenium/
-    dir = os.path.dirname(os.path.realpath(__file__)) + os.path.sep
-    dir = Path(dir).parent.resolve()
+# def get_profile():
+#     # profile = FirefoxProfile()
+#     # https://github.com/firefox-devtools/har-export-trigger/releases
+#     # https://addons.mozilla.org/firefox/downloads/file/964750/har_export_trigger-0.6.1-an+fx.xpi
+#     # https://intoli.com/blog/firefox-extensions-with-selenium/
+#     dir = os.path.dirname(os.path.realpath(__file__)) + os.path.sep
+#     dir = Path(dir).parent.resolve()
 
-    extension_file = os.path.join(dir, "har_export_trigger-0.6.1-an+fx.xpi")
-    profile.add_extension(extension_file)
+#     extension_file = os.path.join(dir, "har_export_trigger-0.6.1-an+fx.xpi")
+#     profile.add_extension(extension_file)
 
-    # Enable the automation without having a new HAR file created for every loaded page.
-    profile.set_preference("extensions.netmonitor.har.enableAutomation", True)
-    # Set to a token that is consequently passed into all HAR API calls to verify the user.
-    profile.set_preference("extensions.netmonitor.har.contentAPIToken", "test")
-    # Set if you want to have the HAR object available without the developer toolbox being open.
-    profile.set_preference("extensions.netmonitor.har.autoConnect", True)
+#     # Enable the automation without having a new HAR file created for every loaded page.
+#     profile.set_preference("extensions.netmonitor.har.enableAutomation", True)
+#     # Set to a token that is consequently passed into all HAR API calls to verify the user.
+#     profile.set_preference("extensions.netmonitor.har.contentAPIToken", "test")
+#     # Set if you want to have the HAR object available without the developer toolbox being open.
+#     profile.set_preference("extensions.netmonitor.har.autoConnect", True)
 
-    # Enable netmonitor
-    profile.set_preference("devtools.netmonitor.enabled", True)
-    # If set to true the final HAR file is zipped. This might represents great disk-space optimization especially if HTTP response bodies are included.
-    profile.set_preference("devtools.netmonitor.har.compress", False)
-    # Default name of the target HAR file. The default file name supports formatters
-    # profile.set_preference(
-    #     "devtools.netmonitor.har.defaultFileName", "Autoexport_%y%m%d_%H%M%S")
-    profile.set_preference(
-        "devtools.netmonitor.har.defaultFileName", os.path.join(dir, 'data', 'test'))
-    # Default log directory for generate HAR files. If empty all automatically generated HAR files are stored in <FF-profile>/har/logs
-    profile.set_preference(
-        "devtools.netmonitor.har.defaultLogDir", os.path.join(dir, 'data'))
-    # If true, a new HAR file is created for every loaded page automatically.
-    profile.set_preference(
-        "devtools.netmonitor.har.enableAutoExportToFile", True)
-    # The result HAR file is created even if there are no HTTP requests.
-    profile.set_preference("devtools.netmonitor.har.forceExport", True)
-    # If set to true, HTTP response bodies are also included in the HAR file (can produce significantly bigger amount of data).
-    profile.set_preference(
-        "devtools.netmonitor.har.includeResponseBodies", True)
-    # If set to true the export format is HARP (support for JSONP syntax that is easily transferable cross domains)
-    profile.set_preference("devtools.netmonitor.har.jsonp", False)
-    # Default name of JSONP callback (used for HARP format)
-    profile.set_preference("devtools.netmonitor.har.jsonpCallback", False)
-    # Amount of time [ms] the auto-exporter should wait after the last finished request before exporting the HAR file.
-    profile.set_preference("devtools.netmonitor.har.pageLoadedTimeout", "2500")
+#     # Enable netmonitor
+#     profile.set_preference("devtools.netmonitor.enabled", True)
+#     # If set to true the final HAR file is zipped. This might represents great disk-space optimization especially if HTTP response bodies are included.
+#     profile.set_preference("devtools.netmonitor.har.compress", False)
+#     # Default name of the target HAR file. The default file name supports formatters
+#     # profile.set_preference(
+#     #     "devtools.netmonitor.har.defaultFileName", "Autoexport_%y%m%d_%H%M%S")
+#     profile.set_preference(
+#         "devtools.netmonitor.har.defaultFileName", os.path.join(dir, 'data', 'test'))
+#     # Default log directory for generate HAR files. If empty all automatically generated HAR files are stored in <FF-profile>/har/logs
+#     profile.set_preference(
+#         "devtools.netmonitor.har.defaultLogDir", os.path.join(dir, 'data'))
+#     # If true, a new HAR file is created for every loaded page automatically.
+#     profile.set_preference(
+#         "devtools.netmonitor.har.enableAutoExportToFile", True)
+#     # The result HAR file is created even if there are no HTTP requests.
+#     profile.set_preference("devtools.netmonitor.har.forceExport", True)
+#     # If set to true, HTTP response bodies are also included in the HAR file (can produce significantly bigger amount of data).
+#     profile.set_preference(
+#         "devtools.netmonitor.har.includeResponseBodies", True)
+#     # If set to true the export format is HARP (support for JSONP syntax that is easily transferable cross domains)
+#     profile.set_preference("devtools.netmonitor.har.jsonp", False)
+#     # Default name of JSONP callback (used for HARP format)
+#     profile.set_preference("devtools.netmonitor.har.jsonpCallback", False)
+#     # Amount of time [ms] the auto-exporter should wait after the last finished request before exporting the HAR file.
+#     profile.set_preference("devtools.netmonitor.har.pageLoadedTimeout", "2500")
 
-    return profile
+#     return profile
 
 
 def get_data_from_selenium(url, _local, _):
@@ -505,7 +505,7 @@ def get_data_from_selenium(url, _local, _):
     adserver_requests = 0
 
     # https://stackoverflow.com/questions/48201944/how-to-use-browsermob-with-python-selenium#48266639
-    server = False
+    # server = False
     browser = False
     try:
         # Remove options if you want to see browser windows (good for debugging)
@@ -520,43 +520,44 @@ def get_data_from_selenium(url, _local, _):
         # 'bin'
         # 'browsermob-proxy'
 
-        print('A')
+        # print('A')
 
-        proxy_path = os.path.join(
-            'browsermob-proxy-2.1.4', 'bin', 'browsermob-proxy')
+        # proxy_path = os.path.join(
+        #     'browsermob-proxy-2.1.4', 'bin', 'browsermob-proxy')
 
-        print('B')
+        # print('B')
 
-        server = Server(proxy_path)
+        # server = Server(proxy_path)
 
-        print('C')
+        # print('C')
 
-        server.start()
+        # server.start()
 
-        print('D')
+        # print('D')
 
-        proxy = server.create_proxy()
+        # proxy = server.create_proxy()
 
-        print('E')
+        # print('E')
 
-        #from selenium import webdriver
-        #profile = webdriver.FirefoxProfile()
-        # profile = FirefoxProfile()
-        # profile.set_proxy(proxy.selenium_proxy())
+        # #from selenium import webdriver
+        # #profile = webdriver.FirefoxProfile()
+        # # profile = FirefoxProfile()
+        # # profile.set_proxy(proxy.selenium_proxy())
 
-        tmp_proxy = proxy.selenium_proxy()
+        # tmp_proxy = proxy.selenium_proxy()
 
-        print('F')
+        # print('F')
 
-        # profile.set_preference('network.proxy_type', tmp_proxy.proxy_type)
-        # profile.set_preference('network.proxy.http', tmp_proxy.http_proxy)
-        # profile.set_preference('network.proxy.http_port', proxy.port)
+        # # profile.set_preference('network.proxy_type', tmp_proxy.proxy_type)
+        # # profile.set_preference('network.proxy.http', tmp_proxy.http_proxy)
+        # # profile.set_preference('network.proxy.http_port', proxy.port)
 
-        # browser = webdriver.Firefox(
-        #     firefox_profile=profile, firefox_options=options)
-        browser = webdriver.Firefox(proxy=tmp_proxy)
+        # # browser = webdriver.Firefox(
+        # #     firefox_profile=profile, firefox_options=options)
+        # browser = webdriver.Firefox(proxy=tmp_proxy)
+        browser = webdriver.Firefox(firefox_options=options)
 
-        print('G')
+        # print('G')
 
         # dir = os.path.dirname(os.path.realpath(__file__)) + os.path.sep
         # dir = Path(dir).parent.resolve()
@@ -569,21 +570,21 @@ def get_data_from_selenium(url, _local, _):
 
         browser.implicitly_wait(120)
 
-        print('H')
+        # print('H')
 
-        proxy.new_har("webperf")
+        # proxy.new_har("webperf")
 
-        print('I')
+        # print('I')
 
         browser.get(url)
 
-        print('J')
+        # print('J')
 
-        test = proxy.har  # returns a HAR JSON blob
+        # test = proxy.har  # returns a HAR JSON blob
 
-        print('K')
+        # print('K')
 
-        print('test-har: ', test)
+        # print('test-har: ', test)
 
         # browser.install_addon()
 
@@ -603,14 +604,14 @@ def get_data_from_selenium(url, _local, _):
         WebDriverWait(browser, 120)
 
         # # Stores the header element
-        header = browser.find_element(By.CSS_SELECTOR, "a").send_keys(Keys.F12)
+        # header = browser.find_element(By.CSS_SELECTOR, "a").send_keys(Keys.F12)
 
         # # Executing JavaScript to capture innerText of header element
         # browser.execute_script('return arguments[0].innerText', header)
 
         print('rating: ', rating)
 
-        server.stop()
+        # server.stop()
         browser.quit()
 
         # browser.get_log()
@@ -621,8 +622,8 @@ def get_data_from_selenium(url, _local, _):
     except Exception as ex:
         print('errorssss', ex)
 
-        if server != False:
-            server.stop()
+        # if server != False:
+        #     server.stop()
 
         if browser != False:
             browser.quit()

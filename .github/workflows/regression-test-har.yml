@@ -36,7 +36,18 @@ jobs:
         sudo apt-get update
         sudo apt-get --only-upgrade install google-chrome-stable
         google-chrome --version
+    - name: Setup GeckoDriver (Used for Selenium)
+      run: |
+      run: wget -q -O - https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz | tar -xvzf -
       if: ${{ success() }}
+    - name: Setup BrowserMob Proxy (Used for Selenium)
+      run: |
+      run: wget -q -O - https://github.com/lightbody/browsermob-proxy/releases/download/browsermob-proxy-2.1.4/browsermob-proxy-2.1.4-bin.zip | gzip -d browsermob-proxy-2.1.4-bin.zip
+      if: ${{ success() }}
+    # - name: Setup HarExporter Plugin (Used for Selenium)
+    #   run: |
+    #   run: wget -q -O - https://addons.mozilla.org/firefox/downloads/file/964750/har_export_trigger-0.6.1-an+fx.xpi
+    #   if: ${{ success() }}
     - name: Setup Sitespeed.io npm package (ONLY used for Sitespeed)
       run: npm install -g sitespeed.io
       if: ${{ success() }}

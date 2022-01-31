@@ -519,19 +519,34 @@ def get_data_from_selenium(url, _local, _):
         # 'browsermob-proxy-2.1.4'
         # 'bin'
         # 'browsermob-proxy'
+
+        print('A')
+
         proxy_path = os.path.join(
             'browsermob-proxy-2.1.4', 'bin', 'browsermob-proxy')
 
+        print('B')
+
         server = Server(proxy_path)
+
+        print('C')
+
         server.start()
+
+        print('D')
+
         proxy = server.create_proxy()
+
+        print('E')
 
         #from selenium import webdriver
         #profile = webdriver.FirefoxProfile()
-        profile = FirefoxProfile()
+        # profile = FirefoxProfile()
         # profile.set_proxy(proxy.selenium_proxy())
 
         tmp_proxy = proxy.selenium_proxy()
+
+        print('F')
 
         # profile.set_preference('network.proxy_type', tmp_proxy.proxy_type)
         # profile.set_preference('network.proxy.http', tmp_proxy.http_proxy)
@@ -540,6 +555,8 @@ def get_data_from_selenium(url, _local, _):
         # browser = webdriver.Firefox(
         #     firefox_profile=profile, firefox_options=options)
         browser = webdriver.Firefox(proxy=tmp_proxy)
+
+        print('G')
 
         # dir = os.path.dirname(os.path.realpath(__file__)) + os.path.sep
         # dir = Path(dir).parent.resolve()
@@ -552,10 +569,19 @@ def get_data_from_selenium(url, _local, _):
 
         browser.implicitly_wait(120)
 
+        print('H')
+
         proxy.new_har("webperf")
+
+        print('I')
+
         browser.get(url)
 
+        print('J')
+
         test = proxy.har  # returns a HAR JSON blob
+
+        print('K')
 
         print('test-har: ', test)
 

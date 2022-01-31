@@ -49,9 +49,9 @@ jobs:
     #   run: |
     #   run: wget -q -O - https://addons.mozilla.org/firefox/downloads/file/964750/har_export_trigger-0.6.1-an+fx.xpi
     #   if: ${{ success() }}
-    # - name: Setup Sitespeed.io npm package (ONLY used for Sitespeed)
-    #   run: npm install -g sitespeed.io
-    #   if: ${{ success() }}
+    - name: Setup Sitespeed.io npm package (ONLY used for Sitespeed)
+      run: npm install -g sitespeed.io
+      if: ${{ success() }}
     # - name: Test Performance (Sitespeed.io)
     #   run: sitespeed.io --rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies --summary-detail true --outputFolder results --firstParty --utc --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n 2 https://webperf.se/
     #   if: ${{ always() }}

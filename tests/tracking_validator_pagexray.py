@@ -469,7 +469,8 @@ def get_data_from_selenium(url, _local, _):
         # # browser = webdriver.Firefox(
         # #     firefox_profile=profile, firefox_options=options)
         # browser = webdriver.Firefox(proxy=tmp_proxy)
-        browser = webdriver.Firefox(firefox_options=options)
+        #browser = webdriver.Firefox(firefox_options=options)
+        browser = webdriver.Firefox(options=options)
 
         # print('G')
 

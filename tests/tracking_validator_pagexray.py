@@ -533,12 +533,13 @@ def get_data_from_selenium(url, _local, _):
 
         tmp_proxy = proxy.selenium_proxy()
 
-        profile.set_preference('network.proxy_type', tmp_proxy.proxy_type)
-        profile.set_preference('network.proxy.http', tmp_proxy.http_proxy)
-        profile.set_preference('network.proxy.http_port', proxy.port)
+        # profile.set_preference('network.proxy_type', tmp_proxy.proxy_type)
+        # profile.set_preference('network.proxy.http', tmp_proxy.http_proxy)
+        # profile.set_preference('network.proxy.http_port', proxy.port)
 
-        browser = webdriver.Firefox(
-            firefox_profile=profile, firefox_options=options)
+        # browser = webdriver.Firefox(
+        #     firefox_profile=profile, firefox_options=options)
+        browser = webdriver.Firefox(proxy=tmp_proxy)
 
         # dir = os.path.dirname(os.path.realpath(__file__)) + os.path.sep
         # dir = Path(dir).parent.resolve()

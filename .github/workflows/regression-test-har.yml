@@ -41,8 +41,8 @@ jobs:
       if: ${{ success() }}
     - name: Setup BrowserMob Proxy (Used for Selenium)
       run: |
-      wget -q -O browsermob-proxy-2.1.4-bin.zip https://github.com/lightbody/browsermob-proxy/releases/download/browsermob-proxy-2.1.4/browsermob-proxy-2.1.4-bin.zip
-      gzip -d browsermob-proxy-2.1.4-bin.zip
+        wget -q -O browsermob-proxy-2.1.4-bin.zip https://github.com/lightbody/browsermob-proxy/releases/download/browsermob-proxy-2.1.4/browsermob-proxy-2.1.4-bin.zip
+        gzip -d browsermob-proxy-2.1.4-bin.zip
       if: ${{ success() }}
     # - name: Setup HarExporter Plugin (Used for Selenium)
     #   run: |

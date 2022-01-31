@@ -19,7 +19,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.firefox.options import Options
 # from selenium.webdriver.common.proxy import Proxy
-# from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
+from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
 # from browsermobproxy import Server
 import IP2Location
 import gettext
@@ -303,44 +303,6 @@ def rate_cookies(browser, url, _local, _):
     return rating
 
 
-# def FirefoxProfile buildNetmonitorProfile() throws IOException {
-#         FirefoxProfile profile = new FirefoxProfile();
-
-#         // Load extensions
-#         File harExport = new File("harexporttrigger-0.5.0-beta.7.xpi"); //adjust path as needed
-#         profile.addExtension(harExport);
-
-#         // Enable the automation without having a new HAR file created for every loaded page.
-#         profile.setPreference("extensions.netmonitor.har.enableAutomation", true);
-#         // Set to a token that is consequently passed into all HAR API calls to verify the user.
-#         profile.setPreference("extensions.netmonitor.har.contentAPIToken", "test");
-#         // Set if you want to have the HAR object available without the developer toolbox being open.
-#         profile.setPreference("extensions.netmonitor.har.autoConnect", true);
-
-#         // Enable netmonitor
-#         profile.setPreference("devtools.netmonitor.enabled", true);
-#         // If set to true the final HAR file is zipped. This might represents great disk-space optimization especially if HTTP response bodies are included.
-#         profile.setPreference("devtools.netmonitor.har.compress", false);
-#         // Default name of the target HAR file. The default file name supports formatters
-#         profile.setPreference("devtools.netmonitor.har.defaultFileName", "Autoexport_%y%m%d_%H%M%S");
-#         // Default log directory for generate HAR files. If empty all automatically generated HAR files are stored in <FF-profile>/har/logs
-#         profile.setPreference("devtools.netmonitor.har.defaultLogDir", HARDIR);
-#         // If true, a new HAR file is created for every loaded page automatically.
-#         profile.setPreference("devtools.netmonitor.har.enableAutoExportToFile", true);
-#         // The result HAR file is created even if there are no HTTP requests.
-#         profile.setPreference("devtools.netmonitor.har.forceExport", true);
-#         // If set to true, HTTP response bodies are also included in the HAR file (can produce significantly bigger amount of data).
-#         profile.setPreference("devtools.netmonitor.har.includeResponseBodies", false);
-#         // If set to true the export format is HARP (support for JSONP syntax that is easily transferable cross domains)
-#         profile.setPreference("devtools.netmonitor.har.jsonp", false);
-#         // Default name of JSONP callback (used for HARP format)
-#         profile.setPreference("devtools.netmonitor.har.jsonpCallback", false);
-#         // Amount of time [ms] the auto-exporter should wait after the last finished request before exporting the HAR file.
-#         profile.setPreference("devtools.netmonitor.har.pageLoadedTimeout", "2500");
-
-#         return profile;
-#     }
-
 def rate_gdpr_and_schrems(browser, url, _local, _):
     rating = Rating(_, review_show_improvements_only)
 
@@ -447,54 +409,6 @@ def rate_gdpr_and_schrems(browser, url, _local, _):
     except Exception as ex:  # might crash if checked resource is not a webpage
         print('crash', ex)
         return rating
-
-
-# def get_profile():
-#     # profile = FirefoxProfile()
-#     # https://github.com/firefox-devtools/har-export-trigger/releases
-#     # https://addons.mozilla.org/firefox/downloads/file/964750/har_export_trigger-0.6.1-an+fx.xpi
-#     # https://intoli.com/blog/firefox-extensions-with-selenium/
-#     dir = os.path.dirname(os.path.realpath(__file__)) + os.path.sep
-#     dir = Path(dir).parent.resolve()
-
-#     extension_file = os.path.join(dir, "har_export_trigger-0.6.1-an+fx.xpi")
-#     profile.add_extension(extension_file)
-
-#     # Enable the automation without having a new HAR file created for every loaded page.
-#     profile.set_preference("extensions.netmonitor.har.enableAutomation", True)
-#     # Set to a token that is consequently passed into all HAR API calls to verify the user.
-#     profile.set_preference("extensions.netmonitor.har.contentAPIToken", "test")
-#     # Set if you want to have the HAR object available without the developer toolbox being open.
-#     profile.set_preference("extensions.netmonitor.har.autoConnect", True)
-
-#     # Enable netmonitor
-#     profile.set_preference("devtools.netmonitor.enabled", True)
-#     # If set to true the final HAR file is zipped. This might represents great disk-space optimization especially if HTTP response bodies are included.
-#     profile.set_preference("devtools.netmonitor.har.compress", False)
-#     # Default name of the target HAR file. The default file name supports formatters
-#     # profile.set_preference(
-#     #     "devtools.netmonitor.har.defaultFileName", "Autoexport_%y%m%d_%H%M%S")
-#     profile.set_preference(
-#         "devtools.netmonitor.har.defaultFileName", os.path.join(dir, 'data', 'test'))
-#     # Default log directory for generate HAR files. If empty all automatically generated HAR files are stored in <FF-profile>/har/logs
-#     profile.set_preference(
-#         "devtools.netmonitor.har.defaultLogDir", os.path.join(dir, 'data'))
-#     # If true, a new HAR file is created for every loaded page automatically.
-#     profile.set_preference(
-#         "devtools.netmonitor.har.enableAutoExportToFile", True)
-#     # The result HAR file is created even if there are no HTTP requests.
-#     profile.set_preference("devtools.netmonitor.har.forceExport", True)
-#     # If set to true, HTTP response bodies are also included in the HAR file (can produce significantly bigger amount of data).
-#     profile.set_preference(
-#         "devtools.netmonitor.har.includeResponseBodies", True)
-#     # If set to true the export format is HARP (support for JSONP syntax that is easily transferable cross domains)
-#     profile.set_preference("devtools.netmonitor.har.jsonp", False)
-#     # Default name of JSONP callback (used for HARP format)
-#     profile.set_preference("devtools.netmonitor.har.jsonpCallback", False)
-#     # Amount of time [ms] the auto-exporter should wait after the last finished request before exporting the HAR file.
-#     profile.set_preference("devtools.netmonitor.har.pageLoadedTimeout", "2500")
-
-#     return profile
 
 
 def get_data_from_selenium(url, _local, _):

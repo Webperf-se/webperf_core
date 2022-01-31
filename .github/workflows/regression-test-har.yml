@@ -29,22 +29,22 @@ jobs:
       with:
         node-version: '14.x'
       if: ${{ success() }}
-    # - name: Setup Google Chrome browser (ONLY used for Sitespeed)
-    #   run: |
-    #     wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - 
-    #     sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
-    #     sudo apt-get update
-    #     sudo apt-get --only-upgrade install google-chrome-stable
-    #     google-chrome --version
+    - name: Setup Google Chrome browser (ONLY used for Sitespeed)
+      run: |
+        wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - 
+        sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+        sudo apt-get update
+        sudo apt-get --only-upgrade install google-chrome-stable
+        google-chrome --version
     - name: Setup GeckoDriver (Used for Selenium)
       run: wget -q -O - https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz | tar -xvzf -
       if: ${{ success() }}
-    - name: Setup BrowserMob Proxy (Used for Selenium)
-      run: |
-        wget -q -O browsermob-proxy-2.1.4-bin.zip https://github.com/lightbody/browsermob-proxy/releases/download/browsermob-proxy-2.1.4/browsermob-proxy-2.1.4-bin.zip
-        sudo apt-get install unzip
-        unzip browsermob-proxy-2.1.4-bin.zip
-      if: ${{ success() }}
+    # - name: Setup BrowserMob Proxy (Used for Selenium)
+    #   run: |
+    #     wget -q -O browsermob-proxy-2.1.4-bin.zip https://github.com/lightbody/browsermob-proxy/releases/download/browsermob-proxy-2.1.4/browsermob-proxy-2.1.4-bin.zip
+    #     sudo apt-get install unzip
+    #     unzip browsermob-proxy-2.1.4-bin.zip
+    #   if: ${{ success() }}
     # - name: Setup HarExporter Plugin (Used for Selenium)
     #   run: |
     #   run: wget -q -O - https://addons.mozilla.org/firefox/downloads/file/964750/har_export_trigger-0.6.1-an+fx.xpi

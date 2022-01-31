@@ -529,11 +529,13 @@ def get_data_from_selenium(url, _local, _):
         #from selenium import webdriver
         #profile = webdriver.FirefoxProfile()
         profile = FirefoxProfile()
-        profile.set_proxy(proxy.selenium_proxy())
+        # profile.set_proxy(proxy.selenium_proxy())
 
-        # profile.set_preference('network.proxy_type', 1)
-        # profile.set_preference('network.proxy.http', "91.xx.xxx.xx")
-        # profile.set_preference('network.proxy.http_port', xxxx)
+        tmp_proxy = proxy.selenium_proxy()
+
+        profile.set_preference('network.proxy_type', tmp_proxy.proxy_type)
+        profile.set_preference('network.proxy.http', tmp_proxy.http_proxy)
+        profile.set_preference('network.proxy.http_port', proxy.port)
 
         browser = webdriver.Firefox(
             firefox_profile=profile, firefox_options=options)

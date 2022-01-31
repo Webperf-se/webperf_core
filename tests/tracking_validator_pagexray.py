@@ -424,7 +424,7 @@ def get_data_from_selenium(url, _local, _):
     try:
         # Remove options if you want to see browser windows (good for debugging)
         options = Options()
-        # options.add_argument("--headless")
+        options.add_argument("--headless")
 
         # profile = get_profile()
         # browser = webdriver.Firefox(profile, firefox_options=options)

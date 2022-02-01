@@ -492,9 +492,10 @@ def rate_fingerprint(content, url, _local, _):
     return rating
 
 
-def rate_ads(content, adserver_requests, _local, _):
+def rate_ads(content, url, _local, _):
     rating = Rating(_, review_show_improvements_only)
 
+    adserver_requests = 0
     json_content = ''
     try:
         json_content = json.loads(content)

@@ -102,7 +102,7 @@ def get_rating_from_sitespeed(url, _local, _):
         sitespeed_use_docker, filename)
 
     # - GDPR and Schrems ( 5.00 rating )
-    #rating += rate_gdpr_and_schrems(browser, url, _local, _)
+    rating += rate_gdpr_and_schrems(http_archive_content, url, _local, _)
     # - Tracking ( 5.00 rating )
     # - Fingerprinting/Identifying technique ( 5.00 rating )
     # - Ads ( 5.00 rating )
@@ -314,7 +314,7 @@ def rate_cookies(browser, url, _local, _):
     return rating
 
 
-def rate_gdpr_and_schrems(browser, url, _local, _):
+def rate_gdpr_and_schrems(content, url, _local, _):
     rating = Rating(_, review_show_improvements_only)
 
     o = urllib.parse.urlparse(url)
@@ -563,8 +563,8 @@ def run_test(_, langCode, url):
     print(_('TEXT_TEST_START').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    o = urllib.parse.urlparse(url)
-    hostname = o.hostname
+    # o = urllib.parse.urlparse(url)
+    # hostname = o.hostname
 
     rating += get_rating_from_selenium(url, _local, _)
 
@@ -601,41 +601,6 @@ def run_test(_, langCode, url):
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, result_dict)
-
-
-def rate_har_content(json_har_content, hostname, _local, _):
-    rating = Rating(_, review_show_improvements_only)
-
-    if 'log' not in json_har_content:
-        return rating
-
-    log = json_har_content['log']
-
-    if 'entries' not in log:
-        return rating
-
-    entries = log['entries']
-
-    entries_index = 0
-    number_of_entries = len(entries)
-
-    rating_cookies = Rating(_, review_show_improvements_only)
-
-    while entries_index < number_of_entries:
-        entry = entries[entries_index]
-
-        tmp_rating_cookies = rate_cookies(entry, hostname, _local, _)
-        if tmp_rating_cookies.get_overall() == 5.0:
-            if not rating_cookies.is_set:
-                rating_cookies += tmp_rating_cookies
-        else:
-            rating_cookies += tmp_rating_cookies
-
-        entries_index += 1
-
-    rating += rating_cookies
-
-    return rating
 
 
 def check_tracking(number_of_tracking, json_content, _local, _):

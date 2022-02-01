@@ -430,8 +430,6 @@ def get_rating_from_selenium(url, _local, _):
         # - Cookies ( 5.00 rating )
         rating += rate_cookies(browser, url, _local, _)
 
-        rating += get_rating_from_sitespeed(url, _local, _)
-
         # - GDPR and Schrems ( 5.00 rating )
         #rating += rate_gdpr_and_schrems(browser, url, _local, _)
         # - Tracking ( 5.00 rating )

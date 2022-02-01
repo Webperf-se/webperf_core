@@ -90,7 +90,7 @@ def get_rating_from_sitespeed(url, _local, _):
     #     config.sitespeed_iterations, url, result_folder_name)
     result = sitespeed_run_test(sitespeed_use_docker, sitespeed_arg)
 
-    print('sitespeed_run_test', result)
+    # print('sitespeed_run_test', result)
 
     website_folder_name = get_foldername_from_url(url)
 
@@ -119,15 +119,6 @@ def get_rating_from_sitespeed(url, _local, _):
 
     # return (http_archive_content, detailed_results_content, number_of_tracking, adserver_requests)
     return rating
-
-
-def get_data(url, _local, _):
-    if tracking_use_website:
-        return get_data_from_pagexray(url, _local, _)
-    else:
-        # temp1 = get_data_from_selenium(url, _local, _)
-        temp2 = get_rating_from_sitespeed(url)
-        # return get_data_from_file(url)
 
 
 def get_data_from_file(url):
@@ -320,7 +311,6 @@ def rate_gdpr_and_schrems(content, url, _local, _):
     o = urllib.parse.urlparse(url)
     hostname = o.hostname
 
-    rating = Rating(_, review_show_improvements_only)
     points = 5.0
     review = ''
     countries = {}
@@ -450,7 +440,7 @@ def get_rating_from_selenium(url, _local, _):
 
         WebDriverWait(browser, 120)
 
-        print('rating: ', rating)
+        # print('rating: ', rating)
 
         browser.quit()
 
@@ -461,88 +451,6 @@ def get_rating_from_selenium(url, _local, _):
         if browser != False:
             browser.quit()
         return rating
-
-
-def get_data_from_pagexray(url, _local, _):
-    http_archive_content = False
-    detailed_results_content = False
-    number_of_tracking = 0
-    adserver_requests = 0
-
-    browser = False
-    try:
-        # Remove options if you want to see browser windows (good for debugging)
-        options = Options()
-        options.add_argument("--headless")
-        browser = webdriver.Firefox(firefox_options=options)
-
-        browser.get('https://pagexray-eu.fouanalytics.com/')
-
-        # browser.get_log()
-
-        elem = browser.find_element(By.NAME, 'domain')  # Find the domain box
-        elem.send_keys(url + Keys.RETURN)
-    except:
-        if browser != False:
-            browser.quit()
-        # rating.set_overall(1.0, _local('TEXT_SERVICE_UNABLE_TO_CONNECT'))
-        return (http_archive_content, detailed_results_content, number_of_tracking, adserver_requests)
-
-    try:
-        # wait for element(s) to appear
-        wait = WebDriverWait(browser, 60, poll_frequency=5)
-        wait.until(ec.visibility_of_element_located(
-            (By.CLASS_NAME, 'adserver-request-count')))
-    except:
-        if browser != False:
-            browser.quit()
-        # rating.set_overall(1.0, _local('TEXT_SERVICES_ENCOUNTERED_ERROR'))
-        return (http_archive_content, detailed_results_content, number_of_tracking, adserver_requests)
-
-    try:
-        elements_download_links = browser.find_elements_by_css_selector(
-            'a[download]')  # download links
-
-        number_of_download_links = len(elements_download_links)
-        download_link_index = 0
-
-        http_archive_content = False
-        detailed_results_content = False
-
-        # for download_link in elements_download_links:
-        while download_link_index < number_of_download_links:
-            download_link = elements_download_links[download_link_index]
-            download_link_index += 1
-            download_link_text = download_link.text
-            download_link_url = download_link.get_attribute(
-                'href')
-            if '.json' in download_link_url:
-                download_link_content = httpRequestGetContent(
-                    download_link_url, True)
-
-            if 'Download detailed results' in download_link_text:
-                detailed_results_content = download_link_content
-
-            if 'Download HTTP Archive' in download_link_text:
-                http_archive_content = download_link_content
-
-        elem_tracking_requests_count = browser.find_element(
-            By.CLASS_NAME, 'tracking-request-count')  # tracking requests
-
-        number_of_tracking = int(elem_tracking_requests_count.text[19:])
-
-        elem_ad_requests_count = browser.find_element(
-            By.CLASS_NAME, 'adserver-request-count')  # Ad requests
-        adserver_requests = int(elem_ad_requests_count.text[19:])
-
-        # time.sleep(30)
-    except Exception as ex:
-        print('debug:', ex)
-    finally:
-        if browser != False:
-            browser.quit()
-
-    return (http_archive_content, detailed_results_content, number_of_tracking, adserver_requests)
 
 
 def run_test(_, langCode, url):
@@ -860,109 +768,6 @@ def check_detailed_results(adserver_requests, content, hostname, _local, _):
     rating += check_ads(json_content, adserver_requests, _local, _)
 
     return rating
-
-
-def check_har_results(content, _local, _):
-    rating = Rating(_, review_show_improvements_only)
-    points = 5.0
-    review = ''
-    countries = {}
-    countries_outside_eu_or_exception_list = {}
-
-    json_content = ''
-    try:
-        json_content = json.loads(content)
-
-        json_content = json_content['log']
-
-        # general_info = json_content['pages'][0]
-        # pageId = general_info['id']
-        # tested = general_info['startedDateTime']
-
-        entries = json_content['entries']
-        number_of_entries = len(entries)
-        page_entry = entries[0]
-        page_countrycode = ''
-
-        # website has info in a field called 'comment', local version has not
-        if 'comment' in page_entry:
-            page_isp_and_countrycode = json.loads(page_entry['comment'])
-            page_countrycode = page_isp_and_countrycode['country_code']
-
-        page_ip_address = page_entry['serverIPAddress']
-
-        page_countrycode = get_best_country_code(
-            page_ip_address, page_countrycode)
-        if page_countrycode == '':
-            page_countrycode = 'unknown'
-
-        entries_index = 0
-        while entries_index < number_of_entries:
-            entry_country_code = ''
-            # website has info in a field called 'comment', local version has not
-            if 'comment' in entries[entries_index]:
-                entry_isp_and_countrycode = json.loads(
-                    entries[entries_index]['comment'])
-                entry_country_code = entry_isp_and_countrycode['country_code']
-
-            entry_ip_address = entries[entries_index]['serverIPAddress']
-            entry_country_code = get_best_country_code(
-                entry_ip_address, entry_country_code)
-
-            if entry_country_code == '':
-                entry_country_code = 'unknown'
-            if entry_country_code in countries:
-                countries[entry_country_code] = countries[entry_country_code] + 1
-            else:
-                countries[entry_country_code] = 1
-                if not is_country_code_in_eu_or_on_exception_list(entry_country_code):
-                    countries_outside_eu_or_exception_list[entry_country_code] = 1
-
-            entries_index += 1
-
-        number_of_countries = len(countries)
-
-        # '-- Number of countries: {0}\r\n'
-        review += _local('TEXT_GDPR_COUNTRIES').format(
-            number_of_countries)
-        # for country_code in countries:
-        #    review += '    - {0} (number of requests: {1})\r\n'.format(country_code,
-        #                                                               countries[country_code])
-
-        number_of_countries_outside_eu = len(
-            countries_outside_eu_or_exception_list)
-        if number_of_countries_outside_eu > 0:
-            # '-- Countries outside EU: {0}\r\n'
-            # '-- Countries without adequate level of data protection: {0}\r\n'
-            review += _local('TEXT_GDPR_NONE_COMPLIANT_COUNTRIES').format(
-                number_of_countries_outside_eu)
-            for country_code in countries_outside_eu_or_exception_list:
-                review += _local('TEXT_GDPR_NONE_COMPLIANT_COUNTRIES_REQUESTS').format(country_code,
-                                                                                       countries[country_code])
-
-            points = 1.0
-
-        page_is_hosted_in_sweden = page_countrycode == 'SE'
-        # '-- Page hosted in Sweden: {0}\r\n'
-        review += _local('TEXT_GDPR_PAGE_IN_SWEDEN').format(
-            _local('TEXT_GDPR_{0}'.format(page_is_hosted_in_sweden)))
-
-        if points > 0.0:
-            rating.set_integrity_and_security(points, _local('TEXT_GDPR_HAS_POINTS').format(
-                0.0, ''))
-            rating.set_overall(points)
-        else:
-            rating.set_integrity_and_security(points, _local('TEXT_GDPR_NO_POINTS').format(
-                0.0, ''))
-            rating.set_overall(points)
-
-        rating.integrity_and_security_review = rating.integrity_and_security_review + review
-
-        return rating
-
-    except Exception as ex:  # might crash if checked resource is not a webpage
-        print('crash', ex)
-        return rating
 
 
 def get_eu_countries():

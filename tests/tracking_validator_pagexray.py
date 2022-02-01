@@ -69,58 +69,6 @@ def get_foldername_from_url(url):
     return folder_result
 
 
-def get_rating_from_sitespeed(url, _local, _):
-    rating = Rating(_, review_show_improvements_only)
-
-    http_archive_content = ''
-    detailed_results_content = ''
-    number_of_tracking = 0
-    adserver_requests = 0
-
-    # TODO: CHANGE THIS IF YOU WANT TO DEBUG
-    result_folder_name = 'results-{0}'.format(str(uuid.uuid4()))
-    # result_folder_name = 'results'
-
-    from tests.performance_sitespeed_io import get_result as sitespeed_run_test
-    sitespeed_arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-        config.sitespeed_iterations, url, result_folder_name)
-    # sitespeed_arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --plugins.add analysisstorer --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-    #     config.sitespeed_iterations, url, result_folder_name)
-    # sitespeed_arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --logToFile true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-    #     config.sitespeed_iterations, url, result_folder_name)
-    result = sitespeed_run_test(sitespeed_use_docker, sitespeed_arg)
-
-    # print('sitespeed_run_test', result)
-
-    website_folder_name = get_foldername_from_url(url)
-
-    filename = '{0}/pages/{1}/data/browsertime.har'.format(
-        result_folder_name, website_folder_name)
-
-    from tests.performance_sitespeed_io import get_file_content as sitespeed_get_file_content
-    http_archive_content = sitespeed_get_file_content(
-        sitespeed_use_docker, filename)
-
-    # - GDPR and Schrems ( 5.00 rating )
-    rating += rate_gdpr_and_schrems(http_archive_content, url, _local, _)
-    # - Tracking ( 5.00 rating )
-    # - Fingerprinting/Identifying technique ( 5.00 rating )
-    # - Ads ( 5.00 rating )
-
-    # http_archive_content = get_file_content(os.path.join(
-    #     'data', 'webperf.se-har.json'))
-    # detailed_results_content = get_file_content(os.path.join(
-    #     'data', 'webperf.se-results.json'))
-
-    # from tests.performance_sitespeed_io import remove_folder as sitespeed_remove_folder
-    # sitespeed_remove_folder(
-    #     sitespeed_use_docker, result_folder_name)
-    # os.rmdir(result_folder_name)
-
-    # return (http_archive_content, detailed_results_content, number_of_tracking, adserver_requests)
-    return rating
-
-
 def get_data_from_file(url):
     http_archive_content = ''
     detailed_results_content = ''
@@ -412,6 +360,236 @@ def rate_gdpr_and_schrems(content, url, _local, _):
         return rating
 
 
+def rate_tracking(content, url, _local, _):
+    rating = Rating(_, review_show_improvements_only)
+
+    number_of_tracking = 0
+
+    # TODO: Identify trackers and list them here
+    json_content = ''
+    try:
+        json_content = json.loads(content)
+
+        json_content = json_content['log']
+
+        # number_of_tracking = 0
+
+    except Exception as ex:  # might crash if checked resource is not a webpage
+        print('crash rate_tracking', ex)
+        return rating
+
+    review_analytics = ''
+    analytics_used = get_analytics(content)
+    number_of_analytics_used = len(analytics_used)
+    if number_of_analytics_used > 0:
+        # '-- Visitor analytics used:\r\n'
+        review_analytics += _local('TEXT_VISITOR_ANALYTICS_USED')
+        analytics_used_items = analytics_used.items()
+        for analytics_name, analytics_should_count in analytics_used_items:
+            if analytics_should_count:
+                number_of_tracking += 1
+            review_analytics += '    - {0}\r\n'.format(analytics_name)
+
+    points = 5.0
+
+    # Ignore up to 2 tracker requests
+    number_of_tracking_for_points = number_of_tracking - 2
+    if number_of_tracking_for_points <= 0:
+        number_of_tracking_for_points = 0
+
+    points -= (number_of_tracking_for_points * 0.5)
+    points = float("{0:.2f}".format(points))
+
+    if points <= 1.0:
+        points = 1.0
+        # '* Tracking ({0} points)\r\n'
+        rating.set_integrity_and_security(
+            points, _local('TEXT_TRACKING_NO_POINTS'))
+        rating.set_overall(points)
+    else:
+        # '* Tracking (+{0} points)\r\n'
+        rating.set_integrity_and_security(
+            points, _local('TEXT_TRACKING_HAS_POINTS'))
+        rating.set_overall(points)
+
+    if len(review_analytics) > 0:
+        # review += review_analytics
+        rating.integrity_and_security_review = rating.integrity_and_security_review + review_analytics
+
+    if number_of_tracking > 0:
+        # '-- Tracking requests: {0}\r\n'
+        rating.integrity_and_security_review = rating.integrity_and_security_review + _local('TEXT_TRACKING_HAS_REQUESTS').format(
+            number_of_tracking)
+    else:
+        # '-- No tracking requests\r\n'
+        rating.integrity_and_security_review = rating.integrity_and_security_review + \
+            _local('TEXT_TRACKING_NO_REQUESTS')
+
+    return rating
+
+
+def rate_fingerprint(content, _local, _):
+    rating = Rating(_, review_show_improvements_only)
+
+    json_content = ''
+    try:
+        json_content = json.loads(content)
+
+        json_content = json_content['log']
+
+        # number_of_tracking = 0
+
+    except Exception as ex:  # might crash if checked resource is not a webpage
+        print('crash rate_tracking', ex)
+        return rating
+
+    fingerprints = {}
+    possible_fingerprints = json_content['fingerprints']
+    number_of_potential_fingerprints = len(possible_fingerprints)
+    fingerprints_index = 0
+    fingerprints_points = 1.0
+    number_of_fingerprints = 0
+    fingerprints_review = ''
+
+    if number_of_potential_fingerprints > 0:
+        while fingerprints_index < number_of_potential_fingerprints:
+            fingerprint = possible_fingerprints[fingerprints_index]
+            fingerprints_index += 1
+
+            if 'level' in fingerprint and ('danger' in fingerprint['level'] or 'warning' in fingerprint['level']):
+
+                fingerprint_key = "{0} ({1})".format(
+                    fingerprint['category'], fingerprint['level'])
+
+                fingerprint_count = int(fingerprint['count'])
+
+                if fingerprint_key in fingerprints:
+                    fingerprints[fingerprint_key] = fingerprints[fingerprint_key] + \
+                        fingerprint_count
+                else:
+                    fingerprints[fingerprint_key] = fingerprint_count
+
+    number_of_fingerprints = len(fingerprints)
+    fingerprints_list = fingerprints.items()
+    for key, value in fingerprints_list:
+        fingerprints_review += '-- {0}: {1}\r\n'.format(
+            key, value)
+
+    if number_of_fingerprints == 0:
+        fingerprints_points = 5.0
+        rating.set_integrity_and_security(
+            fingerprints_points, _local('TEXT_FINGERPRINTING_HAS_POINTS'))
+        rating.set_overall(fingerprints_points)
+
+    else:
+        rating.set_integrity_and_security(
+            fingerprints_points, _local('TEXT_FINGERPRINTING_NO_POINTS'))
+        rating.integrity_and_security_review = rating.integrity_and_security_review + \
+            fingerprints_review
+        rating.set_overall(fingerprints_points)
+
+    return rating
+
+
+def rate_ads(content, adserver_requests, _local, _):
+    rating = Rating(_, review_show_improvements_only)
+
+    json_content = ''
+    try:
+        json_content = json.loads(content)
+
+        json_content = json_content['log']
+
+        # number_of_tracking = 0
+
+    except Exception as ex:  # might crash if checked resource is not a webpage
+        print('crash rate_tracking', ex)
+        return rating
+
+    ads = list()
+
+    if 'ads' in json_content:
+        ads = json_content['ads']
+    number_of_ads = len(ads)
+    ads_points = 5.0
+
+    if adserver_requests > 0 or number_of_ads > 0:
+        ads_points = 1.0
+        rating.set_integrity_and_security(
+            ads_points, _local('TEXT_ADS_NO_POINTS'))
+        rating.set_overall(ads_points)
+
+        if adserver_requests > 0:
+            rating.integrity_and_security_review = rating.integrity_and_security_review + _local('TEXT_ADS_HAS_REQUESTS').format(
+                adserver_requests)
+
+        if number_of_ads > 0:
+            rating.integrity_and_security_review = rating.integrity_and_security_review + _local('TEXT_ADS_VISIBLE_ADS').format(
+                number_of_ads)
+    else:
+        ads_points = 5.0
+        rating.set_integrity_and_security(
+            ads_points, _local('TEXT_ADS_NO_REQUESTS'))
+        rating.set_overall(ads_points)
+
+    return rating
+
+
+def get_rating_from_sitespeed(url, _local, _):
+    rating = Rating(_, review_show_improvements_only)
+
+    http_archive_content = ''
+    detailed_results_content = ''
+    number_of_tracking = 0
+    adserver_requests = 0
+
+    # TODO: CHANGE THIS IF YOU WANT TO DEBUG
+    result_folder_name = 'results-{0}'.format(str(uuid.uuid4()))
+    # result_folder_name = 'results'
+
+    from tests.performance_sitespeed_io import get_result as sitespeed_run_test
+    sitespeed_arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+        config.sitespeed_iterations, url, result_folder_name)
+    # sitespeed_arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --plugins.add analysisstorer --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+    #     config.sitespeed_iterations, url, result_folder_name)
+    # sitespeed_arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --logToFile true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+    #     config.sitespeed_iterations, url, result_folder_name)
+    result = sitespeed_run_test(sitespeed_use_docker, sitespeed_arg)
+
+    # print('sitespeed_run_test', result)
+
+    website_folder_name = get_foldername_from_url(url)
+
+    filename = '{0}/pages/{1}/data/browsertime.har'.format(
+        result_folder_name, website_folder_name)
+
+    from tests.performance_sitespeed_io import get_file_content as sitespeed_get_file_content
+    http_archive_content = sitespeed_get_file_content(
+        sitespeed_use_docker, filename)
+
+    # - GDPR and Schrems ( 5.00 rating )
+    rating += rate_gdpr_and_schrems(http_archive_content, url, _local, _)
+    # - Tracking ( 5.00 rating )
+    rating += rate_tracking(http_archive_content, url, _local, _)
+    # - Fingerprinting/Identifying technique ( 5.00 rating )
+    rating += rate_fingerprint(http_archive_content, url, _local, _)
+    # - Ads ( 5.00 rating )
+    rating += rate_ads(http_archive_content, url, _local, _)
+
+    # http_archive_content = get_file_content(os.path.join(
+    #     'data', 'webperf.se-har.json'))
+    # detailed_results_content = get_file_content(os.path.join(
+    #     'data', 'webperf.se-results.json'))
+
+    # from tests.performance_sitespeed_io import remove_folder as sitespeed_remove_folder
+    # sitespeed_remove_folder(
+    #     sitespeed_use_docker, result_folder_name)
+    # os.rmdir(result_folder_name)
+
+    # return (http_archive_content, detailed_results_content, number_of_tracking, adserver_requests)
+    return rating
+
+
 def get_rating_from_selenium(url, _local, _):
     rating = Rating(_, review_show_improvements_only)
 
@@ -507,64 +685,6 @@ def run_test(_, langCode, url):
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, result_dict)
-
-
-def check_tracking(number_of_tracking, json_content, _local, _):
-    rating = Rating(_, review_show_improvements_only)
-
-    # elem_tracking_requests_count = browser.find_element(
-    #     By.CLASS_NAME, 'tracking-request-count')  # tracking requests
-
-    # number_of_tracking = int(elem_tracking_requests_count.text[19:])
-
-    review_analytics = ''
-    analytics_used = get_analytics(json_content)
-    number_of_analytics_used = len(analytics_used)
-    if number_of_analytics_used > 0:
-        # '-- Visitor analytics used:\r\n'
-        review_analytics += _local('TEXT_VISITOR_ANALYTICS_USED')
-        analytics_used_items = analytics_used.items()
-        for analytics_name, analytics_should_count in analytics_used_items:
-            if analytics_should_count:
-                number_of_tracking += 1
-            review_analytics += '    - {0}\r\n'.format(analytics_name)
-
-    points = 5.0
-
-    # Ignore up to 2 tracker requests
-    number_of_tracking_for_points = number_of_tracking - 2
-    if number_of_tracking_for_points <= 0:
-        number_of_tracking_for_points = 0
-
-    points -= (number_of_tracking_for_points * 0.5)
-    points = float("{0:.2f}".format(points))
-
-    if points <= 1.0:
-        points = 1.0
-        # '* Tracking ({0} points)\r\n'
-        rating.set_integrity_and_security(
-            points, _local('TEXT_TRACKING_NO_POINTS'))
-        rating.set_overall(points)
-    else:
-        # '* Tracking (+{0} points)\r\n'
-        rating.set_integrity_and_security(
-            points, _local('TEXT_TRACKING_HAS_POINTS'))
-        rating.set_overall(points)
-
-    if len(review_analytics) > 0:
-        # review += review_analytics
-        rating.integrity_and_security_review = rating.integrity_and_security_review + review_analytics
-
-    if number_of_tracking > 0:
-        # '-- Tracking requests: {0}\r\n'
-        rating.integrity_and_security_review = rating.integrity_and_security_review + _local('TEXT_TRACKING_HAS_REQUESTS').format(
-            number_of_tracking)
-    else:
-        # '-- No tracking requests\r\n'
-        rating.integrity_and_security_review = rating.integrity_and_security_review + \
-            _local('TEXT_TRACKING_NO_REQUESTS')
-
-    return rating
 
 
 def get_analytics(json_content):
@@ -670,85 +790,6 @@ def has_Vizzit(json_content):
         return True
 
     return False
-
-
-def check_fingerprint(json_content, _local, _):
-    fingerprints = {}
-    possible_fingerprints = json_content['fingerprints']
-    number_of_potential_fingerprints = len(possible_fingerprints)
-    fingerprints_index = 0
-    fingerprints_points = 1.0
-    number_of_fingerprints = 0
-    fingerprints_review = ''
-
-    if number_of_potential_fingerprints > 0:
-        while fingerprints_index < number_of_potential_fingerprints:
-            fingerprint = possible_fingerprints[fingerprints_index]
-            fingerprints_index += 1
-
-            if 'level' in fingerprint and ('danger' in fingerprint['level'] or 'warning' in fingerprint['level']):
-
-                fingerprint_key = "{0} ({1})".format(
-                    fingerprint['category'], fingerprint['level'])
-
-                fingerprint_count = int(fingerprint['count'])
-
-                if fingerprint_key in fingerprints:
-                    fingerprints[fingerprint_key] = fingerprints[fingerprint_key] + \
-                        fingerprint_count
-                else:
-                    fingerprints[fingerprint_key] = fingerprint_count
-
-    number_of_fingerprints = len(fingerprints)
-    fingerprints_list = fingerprints.items()
-    for key, value in fingerprints_list:
-        fingerprints_review += '-- {0}: {1}\r\n'.format(
-            key, value)
-
-    rating = Rating(_, review_show_improvements_only)
-
-    if number_of_fingerprints == 0:
-        fingerprints_points = 5.0
-        rating.set_integrity_and_security(
-            fingerprints_points, _local('TEXT_FINGERPRINTING_HAS_POINTS'))
-        rating.set_overall(fingerprints_points)
-
-    else:
-        rating.set_integrity_and_security(
-            fingerprints_points, _local('TEXT_FINGERPRINTING_NO_POINTS'))
-        rating.integrity_and_security_review = rating.integrity_and_security_review + \
-            fingerprints_review
-        rating.set_overall(fingerprints_points)
-
-    return rating
-
-
-def check_ads(json_content, adserver_requests, _local, _):
-    ads = json_content['ads']
-    number_of_ads = len(ads)
-    ads_points = 5.0
-    rating = Rating(_, review_show_improvements_only)
-
-    if adserver_requests > 0 or number_of_ads > 0:
-        ads_points = 1.0
-        rating.set_integrity_and_security(
-            ads_points, _local('TEXT_ADS_NO_POINTS'))
-        rating.set_overall(ads_points)
-
-        if adserver_requests > 0:
-            rating.integrity_and_security_review = rating.integrity_and_security_review + _local('TEXT_ADS_HAS_REQUESTS').format(
-                adserver_requests)
-
-        if number_of_ads > 0:
-            rating.integrity_and_security_review = rating.integrity_and_security_review + _local('TEXT_ADS_VISIBLE_ADS').format(
-                number_of_ads)
-    else:
-        ads_points = 5.0
-        rating.set_integrity_and_security(
-            ads_points, _local('TEXT_ADS_NO_REQUESTS'))
-        rating.set_overall(ads_points)
-
-    return rating
 
 
 def check_detailed_results(adserver_requests, content, hostname, _local, _):

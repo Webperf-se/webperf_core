@@ -428,7 +428,7 @@ def rate_tracking(content, url, _local, _):
     return rating
 
 
-def rate_fingerprint(content, _local, _):
+def rate_fingerprint(content, url, _local, _):
     rating = Rating(_, review_show_improvements_only)
 
     json_content = ''

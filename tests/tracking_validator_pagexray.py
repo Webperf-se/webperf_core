@@ -77,9 +77,9 @@ def get_rating_from_sitespeed(url, _local, _):
     number_of_tracking = 0
     adserver_requests = 0
 
-    # TODO: CHANGE THIS BACK TO USE UUID when debugging is done
-    # result_folder_name = 'results-{0}'.format(str(uuid.uuid4()))
-    result_folder_name = 'results'
+    # TODO: CHANGE THIS IF YOU WANT TO DEBUG
+    result_folder_name = 'results-{0}'.format(str(uuid.uuid4()))
+    # result_folder_name = 'results'
 
     from tests.performance_sitespeed_io import get_result as sitespeed_run_test
     sitespeed_arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(

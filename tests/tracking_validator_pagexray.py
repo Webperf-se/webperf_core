@@ -444,30 +444,31 @@ def rate_fingerprint(content, url, _local, _):
         return rating
 
     fingerprints = {}
-    possible_fingerprints = json_content['fingerprints']
-    number_of_potential_fingerprints = len(possible_fingerprints)
-    fingerprints_index = 0
     fingerprints_points = 1.0
     number_of_fingerprints = 0
     fingerprints_review = ''
+    if 'fingerprints' in json_content:
+        possible_fingerprints = json_content['fingerprints']
+        number_of_potential_fingerprints = len(possible_fingerprints)
+        fingerprints_index = 0
 
-    if number_of_potential_fingerprints > 0:
-        while fingerprints_index < number_of_potential_fingerprints:
-            fingerprint = possible_fingerprints[fingerprints_index]
-            fingerprints_index += 1
+        if number_of_potential_fingerprints > 0:
+            while fingerprints_index < number_of_potential_fingerprints:
+                fingerprint = possible_fingerprints[fingerprints_index]
+                fingerprints_index += 1
 
-            if 'level' in fingerprint and ('danger' in fingerprint['level'] or 'warning' in fingerprint['level']):
+                if 'level' in fingerprint and ('danger' in fingerprint['level'] or 'warning' in fingerprint['level']):
 
-                fingerprint_key = "{0} ({1})".format(
-                    fingerprint['category'], fingerprint['level'])
+                    fingerprint_key = "{0} ({1})".format(
+                        fingerprint['category'], fingerprint['level'])
 
-                fingerprint_count = int(fingerprint['count'])
+                    fingerprint_count = int(fingerprint['count'])
 
-                if fingerprint_key in fingerprints:
-                    fingerprints[fingerprint_key] = fingerprints[fingerprint_key] + \
-                        fingerprint_count
-                else:
-                    fingerprints[fingerprint_key] = fingerprint_count
+                    if fingerprint_key in fingerprints:
+                        fingerprints[fingerprint_key] = fingerprints[fingerprint_key] + \
+                            fingerprint_count
+                    else:
+                        fingerprints[fingerprint_key] = fingerprint_count
 
     number_of_fingerprints = len(fingerprints)
     fingerprints_list = fingerprints.items()

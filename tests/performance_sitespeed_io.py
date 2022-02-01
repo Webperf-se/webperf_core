@@ -31,7 +31,7 @@ def get_result(sitespeed_use_docker, arg):
 
 
 def get_local_file_content(input_filename):
-    #     print('input_filename=' + input_filename)
+    print('input_filename=' + input_filename)
     with open(input_filename, 'r', encoding='utf-8') as file:
         lines = list()
         data = file.readlines()

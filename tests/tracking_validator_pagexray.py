@@ -69,7 +69,9 @@ def get_foldername_from_url(url):
     return folder_result
 
 
-def get_data_from_sitespeed(url):
+def get_rating_from_sitespeed(url, _local, _):
+    rating = Rating(_, review_show_improvements_only)
+
     http_archive_content = ''
     detailed_results_content = ''
     number_of_tracking = 0
@@ -80,8 +82,10 @@ def get_data_from_sitespeed(url):
     result_folder_name = 'results'
 
     from tests.performance_sitespeed_io import get_result as sitespeed_run_test
-    sitespeed_arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --plugins.add analysisstorer --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+    sitespeed_arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
         config.sitespeed_iterations, url, result_folder_name)
+    # sitespeed_arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --plugins.add analysisstorer --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+    #     config.sitespeed_iterations, url, result_folder_name)
     # sitespeed_arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --logToFile true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
     #     config.sitespeed_iterations, url, result_folder_name)
     result = sitespeed_run_test(sitespeed_use_docker, sitespeed_arg)
@@ -97,6 +101,12 @@ def get_data_from_sitespeed(url):
     http_archive_content = sitespeed_get_file_content(
         sitespeed_use_docker, filename)
 
+    # - GDPR and Schrems ( 5.00 rating )
+    #rating += rate_gdpr_and_schrems(browser, url, _local, _)
+    # - Tracking ( 5.00 rating )
+    # - Fingerprinting/Identifying technique ( 5.00 rating )
+    # - Ads ( 5.00 rating )
+
     # http_archive_content = get_file_content(os.path.join(
     #     'data', 'webperf.se-har.json'))
     # detailed_results_content = get_file_content(os.path.join(
@@ -107,15 +117,16 @@ def get_data_from_sitespeed(url):
     #     sitespeed_use_docker, result_folder_name)
     # os.rmdir(result_folder_name)
 
-    return (http_archive_content, detailed_results_content, number_of_tracking, adserver_requests)
+    # return (http_archive_content, detailed_results_content, number_of_tracking, adserver_requests)
+    return rating
 
 
 def get_data(url, _local, _):
     if tracking_use_website:
         return get_data_from_pagexray(url, _local, _)
     else:
-        temp1 = get_data_from_selenium(url, _local, _)
-        temp2 = get_data_from_sitespeed(url)
+        # temp1 = get_data_from_selenium(url, _local, _)
+        temp2 = get_rating_from_sitespeed(url)
         # return get_data_from_file(url)
 
 
@@ -411,195 +422,45 @@ def rate_gdpr_and_schrems(browser, url, _local, _):
         return rating
 
 
-def get_data_from_selenium(url, _local, _):
+def get_rating_from_selenium(url, _local, _):
     rating = Rating(_, review_show_improvements_only)
-    http_archive_content = False
-    detailed_results_content = False
-    number_of_tracking = 0
-    adserver_requests = 0
 
     # https://stackoverflow.com/questions/48201944/how-to-use-browsermob-with-python-selenium#48266639
-    # server = False
     browser = False
     try:
         # Remove options if you want to see browser windows (good for debugging)
         options = Options()
         options.add_argument("--headless")
 
-        # profile = get_profile()
-        # browser = webdriver.Firefox(profile, firefox_options=options)
-        # browser = webdriver.Firefox(firefox_options=options)
-
-        # 'browsermob-proxy-2.1.4'
-        # 'bin'
-        # 'browsermob-proxy'
-
-        # print('A')
-
-        # proxy_path = os.path.join(
-        #     'browsermob-proxy-2.1.4', 'bin', 'browsermob-proxy')
-
-        # print('B')
-
-        # server = Server(proxy_path)
-
-        # print('C')
-
-        # server.start()
-
-        # print('D')
-
-        # proxy = server.create_proxy()
-
-        # print('E')
-
-        # #from selenium import webdriver
-        # #profile = webdriver.FirefoxProfile()
-        # # profile = FirefoxProfile()
-        # # profile.set_proxy(proxy.selenium_proxy())
-
-        # tmp_proxy = proxy.selenium_proxy()
-
-        # print('F')
-
-        # # profile.set_preference('network.proxy_type', tmp_proxy.proxy_type)
-        # # profile.set_preference('network.proxy.http', tmp_proxy.http_proxy)
-        # # profile.set_preference('network.proxy.http_port', proxy.port)
-
-        # # browser = webdriver.Firefox(
-        # #     firefox_profile=profile, firefox_options=options)
-        # browser = webdriver.Firefox(proxy=tmp_proxy)
-        #browser = webdriver.Firefox(firefox_options=options)
         browser = webdriver.Firefox(options=options)
-
-        # print('G')
-
-        # dir = os.path.dirname(os.path.realpath(__file__)) + os.path.sep
-        # dir = Path(dir).parent.resolve()
-
-        # extension_file = os.path.join(
-        #     dir, "har_export_trigger-0.6.1-an+fx.xpi")
-        # profile.add_extension(extension_file)
-
-        # browser.install_addon(extension_file, temporary=True)
-
         browser.implicitly_wait(120)
-
-        # print('H')
-
-        # proxy.new_har("webperf")
-
-        # print('I')
 
         browser.get(url)
 
-        # print('J')
-
-        # test = proxy.har  # returns a HAR JSON blob
-
-        # print('K')
-
-        # print('test-har: ', test)
-
-        # browser.install_addon()
-
         # - Cookies ( 5.00 rating )
         rating += rate_cookies(browser, url, _local, _)
+
+        rating += get_rating_from_sitespeed(url, _local, _)
+
         # - GDPR and Schrems ( 5.00 rating )
         #rating += rate_gdpr_and_schrems(browser, url, _local, _)
         # - Tracking ( 5.00 rating )
         # - Fingerprinting/Identifying technique ( 5.00 rating )
         # - Ads ( 5.00 rating )
 
-        # wait = WebDriverWait(browser, 60, poll_frequency=5)
-        # wait.until(ec.visibility_of_element_located(
-        #     (By.CLASS_NAME, 'bgcover')))
-
-        # print('browser', browser.get_log('client'))
         WebDriverWait(browser, 120)
-
-        # # Stores the header element
-        # header = browser.find_element(By.CSS_SELECTOR, "a").send_keys(Keys.F12)
-
-        # # Executing JavaScript to capture innerText of header element
-        # browser.execute_script('return arguments[0].innerText', header)
 
         print('rating: ', rating)
 
-        # server.stop()
         browser.quit()
 
-        # browser.get_log()
-        return (http_archive_content, detailed_results_content, number_of_tracking, adserver_requests)
-
-        # elem = browser.find_element(By.NAME, 'domain')  # Find the domain box
-        # elem.send_keys(url + Keys.RETURN)
+        return rating
     except Exception as ex:
         print('errorssss', ex)
 
-        # if server != False:
-        #     server.stop()
-
         if browser != False:
             browser.quit()
-        # rating.set_overall(1.0, _local('TEXT_SERVICE_UNABLE_TO_CONNECT'))
-        return (http_archive_content, detailed_results_content, number_of_tracking, adserver_requests)
-
-    try:
-        # wait for element(s) to appear
-        wait = WebDriverWait(browser, 60, poll_frequency=5)
-        wait.until(ec.visibility_of_element_located(
-            (By.CLASS_NAME, 'adserver-request-count')))
-    except:
-        if browser != False:
-            browser.quit()
-        # rating.set_overall(1.0, _local('TEXT_SERVICES_ENCOUNTERED_ERROR'))
-        return (http_archive_content, detailed_results_content, number_of_tracking, adserver_requests)
-
-    try:
-        elements_download_links = browser.find_elements_by_css_selector(
-            'a[download]')  # download links
-
-        number_of_download_links = len(elements_download_links)
-        download_link_index = 0
-
-        http_archive_content = False
-        detailed_results_content = False
-
-        # for download_link in elements_download_links:
-        while download_link_index < number_of_download_links:
-            download_link = elements_download_links[download_link_index]
-            download_link_index += 1
-            download_link_text = download_link.text
-            download_link_url = download_link.get_attribute(
-                'href')
-            if '.json' in download_link_url:
-                download_link_content = httpRequestGetContent(
-                    download_link_url, True)
-
-            if 'Download detailed results' in download_link_text:
-                detailed_results_content = download_link_content
-
-            if 'Download HTTP Archive' in download_link_text:
-                http_archive_content = download_link_content
-
-        elem_tracking_requests_count = browser.find_element(
-            By.CLASS_NAME, 'tracking-request-count')  # tracking requests
-
-        number_of_tracking = int(elem_tracking_requests_count.text[19:])
-
-        elem_ad_requests_count = browser.find_element(
-            By.CLASS_NAME, 'adserver-request-count')  # Ad requests
-        adserver_requests = int(elem_ad_requests_count.text[19:])
-
-        # time.sleep(30)
-    except Exception as ex:
-        print('debug:', ex)
-    finally:
-        if browser != False:
-            browser.quit()
-
-    return (http_archive_content, detailed_results_content, number_of_tracking, adserver_requests)
+        return rating
 
 
 def get_data_from_pagexray(url, _local, _):
@@ -705,32 +566,36 @@ def run_test(_, langCode, url):
     o = urllib.parse.urlparse(url)
     hostname = o.hostname
 
-    result = get_data(url, _local, _)
-    http_archive_content = result[0]
-    detailed_results_content = result[1]
-    number_of_tracking = result[2]
-    adserver_requests = result[3]
-    # print('GET countries and tracking')
-    if http_archive_content:
-        json_har_content = ''
-        try:
-            json_har_content = json.loads(http_archive_content)
-            rating += rate_har_content(json_har_content, hostname, _local, _)
-            # rating += rate_cookies(json_har_content, _local, _)
-        except Exception as ex:  # might crash if checked resource is not a webpage
-            print('crash', ex)
-            return rating
+    rating += get_rating_from_selenium(url, _local, _)
 
-        rating += check_har_results(http_archive_content, _local, _)
+    rating += get_rating_from_sitespeed(url, _local, _)
 
-        rating += check_tracking(
-            number_of_tracking, http_archive_content + detailed_results_content, _local, _)
+    # result = get_data(url, _local, _)
+    # http_archive_content = result[0]
+    # detailed_results_content = result[1]
+    # number_of_tracking = result[2]
+    # adserver_requests = result[3]
+    # # print('GET countries and tracking')
+    # if http_archive_content:
+    #     json_har_content = ''
+    #     try:
+    #         json_har_content = json.loads(http_archive_content)
+    #         rating += rate_har_content(json_har_content, hostname, _local, _)
+    #         # rating += rate_cookies(json_har_content, _local, _)
+    #     except Exception as ex:  # might crash if checked resource is not a webpage
+    #         print('crash', ex)
+    #         return rating
 
-    # print('GET fingerprints, ads and cookies')
-    if len(detailed_results_content) > 0:
+    #     rating += check_har_results(http_archive_content, _local, _)
 
-        rating += check_detailed_results(
-            adserver_requests, detailed_results_content, hostname, _local, _)
+    #     rating += check_tracking(
+    #         number_of_tracking, http_archive_content + detailed_results_content, _local, _)
+
+    # # print('GET fingerprints, ads and cookies')
+    # if len(detailed_results_content) > 0:
+
+    #     rating += check_detailed_results(
+    #         adserver_requests, detailed_results_content, hostname, _local, _)
 
     print(_('TEXT_TEST_END').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))

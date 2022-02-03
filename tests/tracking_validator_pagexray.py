@@ -469,7 +469,7 @@ def rate_tracking(website_urls, _local, _):
         os.path.join('data', 'blacklistproject-tracking-nl.txt'))
 
     request_index = 1
-    for (website_url, website_url_content) in website_urls:
+    for website_url, website_url_content in website_urls.items():
         url_is_tracker = False
         website_domains = get_domains_from_url(website_url)
         for website_domain in website_domains:
@@ -652,7 +652,7 @@ def rate_ads(website_urls, _local, _):
         os.path.join('data', 'blacklistproject-ads-nl.txt'))
 
     request_index = 1
-    for (website_url, website_url_content) in website_urls:
+    for website_url, website_url_content in website_urls.items():
         url_is_adserver_requests = False
         website_domains = get_domains_from_url(website_url)
         for website_domain in website_domains:

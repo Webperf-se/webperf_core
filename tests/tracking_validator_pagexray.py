@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-from asyncio import sleep
-from importlib.metadata import entry_points
-from pathlib import Path
-from urllib import response
-from xml import dom
 from models import Rating
 import os
 import json
@@ -14,14 +9,8 @@ import urllib.parse
 from tests.utils import *
 import datetime
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.firefox.options import Options
-# from selenium.webdriver.common.proxy import Proxy
-from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
-# from browsermobproxy import Server
 import IP2Location
 import gettext
 _ = gettext.gettext
@@ -91,9 +80,61 @@ def get_domains_from_har(content):
         print('crash rate_tracking', ex)
         return domains
 
-    print('domains:', domains)
+    return domains
+
+
+def get_domains_from_url(url):
+    domains = set()
+    o = urllib.parse.urlparse(url)
+    hostname = o.hostname
+    domains.add(hostname)
+
+    hostname_sections = hostname.split(".")
+    if len(hostname_sections) > 2:
+        tmp_hostname = ".".join(hostname_sections[-3:])
+        domains.add(tmp_hostname)
+
+    tmp_hostname = ".".join(hostname_sections[-2:])
+    domains.add(tmp_hostname)
 
     return domains
+
+
+def get_urls_from_har(content):
+    urls = dict()
+
+    entries = list()
+    json_content = list()
+    try:
+        json_content = json.loads(content)
+
+        json_content = json_content['log']
+
+        if 'entries' in json_content:
+            entries = json_content['entries']
+
+        for entry in entries:
+            url = False
+            if 'request' in entry:
+                request = entry['request']
+                if 'url' in request:
+                    url = request['url']
+                    urls[url] = ''
+
+            content_text = False
+            if 'response' in entry:
+                response = entry['response']
+                if 'content' in request:
+                    content = request['content']
+                    if 'text' in content:
+                        content_text = content['text']
+                        urls[url] = content_text
+
+    except Exception as ex:  # might crash if checked resource is not a webpage
+        print('crash get_urls_from_har', ex)
+        return urls
+
+    return urls
 
 
 def get_domains_from_blacklistproject_file(filename):
@@ -418,34 +459,44 @@ def rate_gdpr_and_schrems(content, url, _local, _):
         return rating
 
 
-def rate_tracking(website_domains, content, url, _local, _):
+def rate_tracking(website_urls, content, url, _local, _):
     rating = Rating(_, review_show_improvements_only)
 
     number_of_tracking = 0
+    analytics_used = dict()
 
     tracking_domains = get_domains_from_blacklistproject_file(
         os.path.join('data', 'blacklistproject-tracking-nl.txt'))
 
-    for website_domain in website_domains:
-        if website_domain in tracking_domains:
-            number_of_tracking += 1
+    request_index = 1
+    for (website_url, website_url_content) in website_urls:
+        url_is_tracker = False
+        website_domains = get_domains_from_url(website_url)
+        for website_domain in website_domains:
+            if website_domain in tracking_domains:
+                url_is_tracker = True
+                number_of_tracking += 1
+                break
+
+        analytics_used.update(get_analytics(website_url, request_index))
+        analytics_used.update(get_analytics(
+            website_url_content, request_index))
+
+        url_rating = Rating(_, review_show_improvements_only)
+        if url_is_tracker:
+            url_rating.set_integrity_and_security(
+                1.0, 'Request #{0} - Tracking'.format(request_index))
+            url_rating.set_overall(1.0)
         else:
-            do_something = 1
-    # TODO: Identify trackers and list them here
-    # json_content = list()
-    # try:
-    #     json_content = json.loads(content)
+            url_rating.set_integrity_and_security(
+                5.0, 'Request #{0} - Not tracking'.format(request_index))
+            url_rating.set_overall(5.0)
+        rating += url_rating
 
-    #     json_content = json_content['log']
-
-    #     # number_of_tracking = 0
-
-    # except Exception as ex:  # might crash if checked resource is not a webpage
-    #     print('crash rate_tracking', ex)
-    #     return rating
+        request_index += 1
 
     review_analytics = ''
-    analytics_used = get_analytics(content)
+    # analytics_used = get_analytics(content)
     number_of_analytics_used = len(analytics_used)
     if number_of_analytics_used > 0:
         # '-- Visitor analytics used:\r\n'
@@ -587,37 +638,38 @@ def rate_fingerprint(website_domains, url, _local, _):
     return rating
 
 
-def rate_ads(website_domains, url, _local, _):
+def rate_ads(website_urls, url, _local, _):
     rating = Rating(_, review_show_improvements_only)
 
     adserver_requests = 0
     number_of_ads = 0
     ads_points = 5.0
 
-    # json_content = list()
-    # try:
-    #     json_content = json.loads(content)
-
-    #     json_content = json_content['log']
-
-    #     # number_of_tracking = 0
-
-    # except Exception as ex:  # might crash if checked resource is not a webpage
-    #     print('crash rate_tracking', ex)
-    #     return rating
-
-    # ads = list()
     tracking_domains = get_domains_from_blacklistproject_file(
         os.path.join('data', 'blacklistproject-ads-nl.txt'))
 
-    for website_domain in website_domains:
-        if website_domain in tracking_domains:
-            adserver_requests += 1
-        else:
-            do_something = 1
+    request_index = 1
+    for (website_url, website_url_content) in website_urls:
+        url_is_adserver_requests = False
+        website_domains = get_domains_from_url(website_url)
+        for website_domain in website_domains:
+            if website_domain in tracking_domains:
+                url_is_adserver_requests = True
+                adserver_requests += 1
+                break
 
-    # if 'ads' in json_content:
-    #     ads = json_content['ads']
+        url_rating = Rating(_, review_show_improvements_only)
+        if url_is_adserver_requests:
+            url_rating.set_integrity_and_security(
+                1.0, 'Request #{0} - Advertising'.format(request_index))
+            url_rating.set_overall(1.0)
+        else:
+            url_rating.set_integrity_and_security(
+                5.0, 'Request #{0} - Not advertising'.format(request_index))
+            url_rating.set_overall(5.0)
+        rating += url_rating
+
+        request_index += 1
 
     if adserver_requests > 0 or number_of_ads > 0:
         ads_points = 1.0
@@ -643,11 +695,6 @@ def rate_ads(website_domains, url, _local, _):
 
 def get_rating_from_sitespeed(url, _local, _):
     rating = Rating(_, review_show_improvements_only)
-
-    http_archive_content = ''
-    detailed_results_content = ''
-    number_of_tracking = 0
-    adserver_requests = 0
 
     # TODO: CHANGE THIS IF YOU WANT TO DEBUG
     result_folder_name = 'results-{0}'.format(str(uuid.uuid4()))
@@ -676,27 +723,17 @@ def get_rating_from_sitespeed(url, _local, _):
     # - GDPR and Schrems ( 5.00 rating )
     rating += rate_gdpr_and_schrems(http_archive_content, url, _local, _)
 
-    website_domains = get_domains_from_har(http_archive_content)
+    # website_domains = get_domains_from_har(http_archive_content)
+    website_urls = get_urls_from_har(http_archive_content)
 
     # - Tracking ( 5.00 rating )
-    rating += rate_tracking(website_domains,
+    rating += rate_tracking(website_urls,
                             http_archive_content, url, _local, _)
     # - Fingerprinting/Identifying technique ( 5.00 rating )
-    rating += rate_fingerprint(website_domains, url, _local, _)
+    rating += rate_fingerprint(website_urls, url, _local, _)
     # - Ads ( 5.00 rating )
-    rating += rate_ads(website_domains, url, _local, _)
+    rating += rate_ads(website_urls, url, _local, _)
 
-    # http_archive_content = get_file_content(os.path.join(
-    #     'data', 'webperf.se-har.json'))
-    # detailed_results_content = get_file_content(os.path.join(
-    #     'data', 'webperf.se-results.json'))
-
-    # from tests.performance_sitespeed_io import remove_folder as sitespeed_remove_folder
-    # sitespeed_remove_folder(
-    #     sitespeed_use_docker, result_folder_name)
-    # os.rmdir(result_folder_name)
-
-    # return (http_archive_content, detailed_results_content, number_of_tracking, adserver_requests)
     return rating
 
 
@@ -757,39 +794,9 @@ def run_test(_, langCode, url):
     print(_('TEXT_TEST_START').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    # o = urllib.parse.urlparse(url)
-    # hostname = o.hostname
-
     rating += get_rating_from_selenium(url, _local, _)
 
     rating += get_rating_from_sitespeed(url, _local, _)
-
-    # result = get_data(url, _local, _)
-    # http_archive_content = result[0]
-    # detailed_results_content = result[1]
-    # number_of_tracking = result[2]
-    # adserver_requests = result[3]
-    # # print('GET countries and tracking')
-    # if http_archive_content:
-    #     json_har_content = ''
-    #     try:
-    #         json_har_content = json.loads(http_archive_content)
-    #         rating += rate_har_content(json_har_content, hostname, _local, _)
-    #         # rating += rate_cookies(json_har_content, _local, _)
-    #     except Exception as ex:  # might crash if checked resource is not a webpage
-    #         print('crash', ex)
-    #         return rating
-
-    #     rating += check_har_results(http_archive_content, _local, _)
-
-    #     rating += check_tracking(
-    #         number_of_tracking, http_archive_content + detailed_results_content, _local, _)
-
-    # # print('GET fingerprints, ads and cookies')
-    # if len(detailed_results_content) > 0:
-
-    #     rating += check_detailed_results(
-    #         adserver_requests, detailed_results_content, hostname, _local, _)
 
     print(_('TEXT_TEST_END').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
@@ -797,23 +804,25 @@ def run_test(_, langCode, url):
     return (rating, result_dict)
 
 
-def get_analytics(json_content):
+def get_analytics(json_content, request_index):
     analytics = {}
 
+    text = 'Request #{0} - Has references for {1}'
+
     if has_matomo(json_content):
-        analytics['Matomo'] = True
+        analytics[text.format(request_index, 'Matomo')] = True
     if has_matomo_tagmanager(json_content):
-        analytics['Matomo Tag Manager'] = True
+        analytics[text.format(request_index, 'Matomo Tag Manager')] = True
     if has_google_analytics(json_content):
         # TODO: Check if asking for anonymizing IP ("[xxx]*google-analytics.com/j/collect[xxx]*aip=1[xxx]*")
         # TODO: Check doubleclick? https://stats.g.doubleclick.net/j/collect?[xxx]aip=1[xxx]
-        analytics['Google Analytics'] = False
+        analytics[text.format(request_index, 'Google Analytics')] = False
     if has_google_tagmanager(json_content):
-        analytics['Google Tag Manager'] = False
+        analytics[text.format(request_index, 'Google Tag Manager')] = False
     if has_siteimprove_analytics(json_content):
-        analytics['SiteImprove Analytics'] = False
+        analytics[text.format(request_index, 'SiteImprove Analytics')] = False
     if has_Vizzit(json_content):
-        analytics['Vizzit'] = True
+        analytics[text.format(request_index, 'Vizzit')] = True
 
     return analytics
 

@@ -478,12 +478,16 @@ def rate_tracking(website_urls, _local, _):
                 number_of_tracking += 1
                 break
 
-        try:
-            analytics_used.update(get_analytics(website_url, request_index))
-            analytics_used.update(get_analytics(
-                website_url_content, request_index))
-        except Exception as ex:
-            print('analytics_used exception', ex)
+        url_analytics_used = dict()
+        url_analytics_used.update(get_analytics(website_url, request_index))
+        url_analytics_used.update(get_analytics(
+            website_url_content, request_index))
+        # if len(url_analytics_used) > 0:
+        #     for url_analytics_text, count_as_tracker in url_analytics_used.items():
+        #         if count_as_tracker:
+        #             test = 1
+
+        analytics_used.update(url_analytics_used)
 
         url_rating = Rating(_, review_show_improvements_only)
         if url_is_tracker:
@@ -502,7 +506,6 @@ def rate_tracking(website_urls, _local, _):
 
     print('analytics_used:', analytics_used)
 
-    # analytics_used = get_analytics(content)
     number_of_analytics_used = len(analytics_used)
     if number_of_analytics_used > 0:
         # '-- Visitor analytics used:\r\n'
@@ -513,17 +516,7 @@ def rate_tracking(website_urls, _local, _):
                 number_of_tracking += 1
             review_analytics += '    - {0}\r\n'.format(analytics_name)
 
-    # points = 5.0
-
-    # Ignore up to 2 tracker requests
-    # number_of_tracking_for_points = number_of_tracking - 2
-    # if number_of_tracking_for_points <= 0:
-    #     number_of_tracking_for_points = 0
-
-    # points -= (number_of_tracking_for_points * 0.5)
-    # points = float("{0:.2f}".format(points))
-
-    integrity_and_security_review = rating.integrity_and_security_review
+    integrity_and_security_review = rating.integrity_and_security_review + review_analytics
 
     points = rating.get_overall()
     if points <= 1.0:
@@ -538,11 +531,8 @@ def rate_tracking(website_urls, _local, _):
             points, _local('TEXT_TRACKING_HAS_POINTS'))
         rating.set_overall(points)
 
-    if len(review_analytics) > 0:
-        # review += review_analytics
-        rating.integrity_and_security_review = integrity_and_security_review + review_analytics
-    else:
-        rating.integrity_and_security_review = integrity_and_security_review
+    rating.integrity_and_security_review = rating.integrity_and_security_review + \
+        integrity_and_security_review
 
     # if number_of_tracking > 0:
     #     # '-- Tracking requests: {0}\r\n'
@@ -826,7 +816,7 @@ def run_test(_, langCode, url):
 def get_analytics(json_content, request_index):
     analytics = {}
 
-    text = 'Request #{0} - Has references for {1}'
+    text = 'Request #{0} - Has references to {1}'
 
     if has_matomo(json_content):
         analytics[text.format(request_index, 'Matomo')] = True

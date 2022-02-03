@@ -74,8 +74,18 @@ def get_domains_from_har(content):
                     url = request['url']
                     o = urllib.parse.urlparse(url)
                     hostname = o.hostname
-
                     domains.add(hostname)
+
+                    hostname_sections = hostname.split(".")
+                    if len(hostname_sections) > 2:
+                        tmp_hostname = ".".join(hostname[-3:])
+                        if tmp_hostname != hostname:
+                            domains.add(tmp_hostname)
+                        tmp_hostname = ".".join(hostname[-2:])
+                        if tmp_hostname != hostname:
+                            domains.add(tmp_hostname)
+                    else:
+                        domains.add(".".join(hostname[-2:]))
 
     except Exception as ex:  # might crash if checked resource is not a webpage
         print('crash rate_tracking', ex)
@@ -103,9 +113,6 @@ def get_domains_from_blacklistproject_file(filename):
                 if index <= 35:
                     print('line:', line)
                 domains.add(line)
-            else:
-                if index < 35:
-                    print('comment line:', line)
 
     return domains
 

@@ -78,14 +78,14 @@ def get_domains_from_har(content):
 
                     hostname_sections = hostname.split(".")
                     if len(hostname_sections) > 2:
-                        tmp_hostname = ".".join(hostname[-3:])
+                        tmp_hostname = ".".join(hostname_sections[-3:])
                         if tmp_hostname != hostname:
                             domains.add(tmp_hostname)
-                        tmp_hostname = ".".join(hostname[-2:])
+                        tmp_hostname = ".".join(hostname_sections[-2:])
                         if tmp_hostname != hostname:
                             domains.add(tmp_hostname)
                     else:
-                        domains.add(".".join(hostname[-2:]))
+                        domains.add(".".join(hostname_sections[-2:]))
 
     except Exception as ex:  # might crash if checked resource is not a webpage
         print('crash rate_tracking', ex)

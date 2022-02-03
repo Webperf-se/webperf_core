@@ -459,7 +459,7 @@ def rate_gdpr_and_schrems(content, url, _local, _):
         return rating
 
 
-def rate_tracking(website_urls, content, url, _local, _):
+def rate_tracking(website_urls, _local, _):
     rating = Rating(_, review_show_improvements_only)
 
     number_of_tracking = 0
@@ -478,9 +478,12 @@ def rate_tracking(website_urls, content, url, _local, _):
                 number_of_tracking += 1
                 break
 
-        analytics_used.update(get_analytics(website_url, request_index))
-        analytics_used.update(get_analytics(
-            website_url_content, request_index))
+        # analytics_used.update(get_analytics(website_url, request_index))
+        try:
+            analytics_used.update(get_analytics(
+                website_url_content, request_index))
+        except Exception as ex:
+            print('analytics_used exception', ex)
 
         url_rating = Rating(_, review_show_improvements_only)
         if url_is_tracker:
@@ -638,7 +641,7 @@ def rate_fingerprint(website_domains, url, _local, _):
     return rating
 
 
-def rate_ads(website_urls, url, _local, _):
+def rate_ads(website_urls, _local, _):
     rating = Rating(_, review_show_improvements_only)
 
     adserver_requests = 0
@@ -727,12 +730,20 @@ def get_rating_from_sitespeed(url, _local, _):
     website_urls = get_urls_from_har(http_archive_content)
 
     # - Tracking ( 5.00 rating )
-    rating += rate_tracking(website_urls,
-                            http_archive_content, url, _local, _)
+    try:
+        rating += rate_tracking(website_urls, _local, _)
+    except Exception as ex:
+        print('tracking exception', ex)
     # - Fingerprinting/Identifying technique ( 5.00 rating )
-    rating += rate_fingerprint(website_urls, url, _local, _)
+    try:
+        rating += rate_fingerprint(website_urls, url, _local, _)
+    except Exception as ex:
+        print('fingerprint exception', ex)
     # - Ads ( 5.00 rating )
-    rating += rate_ads(website_urls, url, _local, _)
+    try:
+        rating += rate_ads(website_urls, _local, _)
+    except Exception as ex:
+        print('ads exception', ex)
 
     return rating
 

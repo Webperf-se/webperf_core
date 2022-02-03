@@ -97,15 +97,14 @@ def get_domains_from_blacklistproject_file(filename):
         print('lines read')
         index = 0
         for line in data:
-            if index <= 15:
-                print('lines read')
+            if index <= 35:
                 index += 1
             if line and not line.startswith('#'):
-                if index <= 15:
+                if index <= 35:
                     print('line:', line)
                 domains.add(line)
             else:
-                if index < 15:
+                if index < 35:
                     print('comment line:', line)
 
     return domains

@@ -89,11 +89,25 @@ def get_domains_from_har(content):
 def get_domains_from_blacklistproject_file(filename):
     domains = set()
 
+    print('blacklist project domains file:', filename)
+
     with open(filename, 'r', encoding='utf-8') as file:
+        print('file open')
         data = file.readlines()
+        print('lines read')
+        index = 0
         for line in data:
+            if index <= 15:
+                print('lines read')
+                index += 1
             if line and not line.startswith('#'):
+                if index <= 15:
+                    print('line:', line)
                 domains.add(line)
+            else:
+                if index < 15:
+                    print('comment line:', line)
+
     return domains
 
 

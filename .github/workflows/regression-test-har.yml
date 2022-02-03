@@ -39,6 +39,25 @@ jobs:
     - name: Setup GeckoDriver (Used for Selenium)
       run: wget -q -O - https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz | tar -xvzf -
       if: ${{ success() }}
+    - name: Download Ads database (BlackListProject)
+      run: |
+        wget -q -O data/blacklistproject-ads-nl.txt https://blocklistproject.github.io/Lists/alt-version/ads-nl.txt
+        echo "# data"
+        ls data
+      if: ${{ success() }}
+    - name: Download Tracking database (BlackListProject)
+      run: |
+        wget -q -O data/blacklistproject-tracking-nl.txt https://blocklistproject.github.io/Lists/alt-version/tracking-nl.txt
+        echo "# data"
+        ls data
+      if: ${{ success() }}
+    - name: Download Services database (disconnect)
+      run: |
+        wget -q -O data/disconnect-services.json https://raw.githubusercontent.com/disconnectme/disconnect-tracking-protection/master/services.json
+        echo "# data"
+        ls data
+      if: ${{ success() }}
+      #
     # - name: Setup BrowserMob Proxy (Used for Selenium)
     #   run: |
     #     wget -q -O browsermob-proxy-2.1.4-bin.zip https://github.com/lightbody/browsermob-proxy/releases/download/browsermob-proxy-2.1.4/browsermob-proxy-2.1.4-bin.zip

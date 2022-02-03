@@ -3,6 +3,7 @@ from asyncio import sleep
 from importlib.metadata import entry_points
 from pathlib import Path
 from urllib import response
+from xml import dom
 from models import Rating
 import os
 import json
@@ -51,6 +52,49 @@ def get_file_content(input_filename):
             lines.append(line)
             # print(line)
     return '\n'.join(lines)
+
+
+def get_domains_from_har(content):
+    domains = set()
+
+    entries = list()
+    json_content = list()
+    try:
+        json_content = json.loads(content)
+
+        json_content = json_content['log']
+
+        if 'entries' in json_content:
+            entries = json_content['entries']
+
+        for entry in entries:
+            if 'request' in entry:
+                request = entry['request']
+                if 'url' in request:
+                    url = request['url']
+                    o = urllib.parse.urlparse(url)
+                    hostname = o.hostname
+
+                    domains.add(hostname)
+
+    except Exception as ex:  # might crash if checked resource is not a webpage
+        print('crash rate_tracking', ex)
+        return domains
+
+    print('domains:', domains)
+
+    return domains
+
+
+def get_domains_from_blacklistproject_file(filename):
+    domains = set()
+
+    with open(filename, 'r', encoding='utf-8') as file:
+        data = file.readlines()
+        for line in data:
+            if line and not line.startswith('#'):
+                domains.add(line)
+    return domains
 
 
 def get_foldername_from_url(url):
@@ -360,23 +404,31 @@ def rate_gdpr_and_schrems(content, url, _local, _):
         return rating
 
 
-def rate_tracking(content, url, _local, _):
+def rate_tracking(website_domains, content, url, _local, _):
     rating = Rating(_, review_show_improvements_only)
 
     number_of_tracking = 0
 
+    tracking_domains = get_domains_from_blacklistproject_file(
+        os.path.join('data', 'blacklistproject-tracking-nl.txt'))
+
+    for website_domain in website_domains:
+        if website_domain in tracking_domains:
+            number_of_tracking += 1
+        else:
+            do_something = 1
     # TODO: Identify trackers and list them here
-    json_content = ''
-    try:
-        json_content = json.loads(content)
+    # json_content = list()
+    # try:
+    #     json_content = json.loads(content)
 
-        json_content = json_content['log']
+    #     json_content = json_content['log']
 
-        # number_of_tracking = 0
+    #     # number_of_tracking = 0
 
-    except Exception as ex:  # might crash if checked resource is not a webpage
-        print('crash rate_tracking', ex)
-        return rating
+    # except Exception as ex:  # might crash if checked resource is not a webpage
+    #     print('crash rate_tracking', ex)
+    #     return rating
 
     review_analytics = ''
     analytics_used = get_analytics(content)
@@ -428,20 +480,49 @@ def rate_tracking(content, url, _local, _):
     return rating
 
 
-def rate_fingerprint(content, url, _local, _):
+def rate_fingerprint(website_domains, url, _local, _):
     rating = Rating(_, review_show_improvements_only)
 
-    json_content = ''
-    try:
-        json_content = json.loads(content)
+    # website_domains = get_domains_from_har(content)
 
-        json_content = json_content['log']
+    entries = list()
+    json_content = list()
+    # try:
+    #     json_content = json.loads(content)
 
-        # number_of_tracking = 0
+    #     json_content = json_content['log']
 
-    except Exception as ex:  # might crash if checked resource is not a webpage
-        print('crash rate_tracking', ex)
-        return rating
+    #     if 'entries' in json_content:
+    #         entries = json_content['entries']
+
+    #     # number_of_tracking = 0
+
+    # except Exception as ex:  # might crash if checked resource is not a webpage
+    #     print('crash rate_tracking', ex)
+    #     return rating
+
+    # for entry in entries:
+    #     url = False
+    #     if 'request' in entry:
+    #         request = entry['request']
+    #         if 'url' in request:
+    #             url = request['url']
+
+    #     content_text = False
+    #     if 'response' in entry:
+    #         response = entry['response']
+    #         if 'content' in request:
+    #             content = request['content']
+    #             if 'text' in content:
+    #                 content_text = content['text']
+
+    #     if url:
+    #         # do url checks here
+    #         url_magic = url
+
+    #     if content_text:
+    #         # do text checks here
+    #         content_text_magic = content_text
 
     fingerprints = {}
     fingerprints_points = 1.0
@@ -492,28 +573,37 @@ def rate_fingerprint(content, url, _local, _):
     return rating
 
 
-def rate_ads(content, url, _local, _):
+def rate_ads(website_domains, url, _local, _):
     rating = Rating(_, review_show_improvements_only)
 
     adserver_requests = 0
-    json_content = ''
-    try:
-        json_content = json.loads(content)
-
-        json_content = json_content['log']
-
-        # number_of_tracking = 0
-
-    except Exception as ex:  # might crash if checked resource is not a webpage
-        print('crash rate_tracking', ex)
-        return rating
-
-    ads = list()
-
-    if 'ads' in json_content:
-        ads = json_content['ads']
-    number_of_ads = len(ads)
+    number_of_ads = 0
     ads_points = 5.0
+
+    # json_content = list()
+    # try:
+    #     json_content = json.loads(content)
+
+    #     json_content = json_content['log']
+
+    #     # number_of_tracking = 0
+
+    # except Exception as ex:  # might crash if checked resource is not a webpage
+    #     print('crash rate_tracking', ex)
+    #     return rating
+
+    # ads = list()
+    tracking_domains = get_domains_from_blacklistproject_file(
+        os.path.join('data', 'blacklistproject-ads-nl.txt'))
+
+    for website_domain in website_domains:
+        if website_domain in tracking_domains:
+            adserver_requests += 1
+        else:
+            do_something = 1
+
+    # if 'ads' in json_content:
+    #     ads = json_content['ads']
 
     if adserver_requests > 0 or number_of_ads > 0:
         ads_points = 1.0
@@ -571,12 +661,16 @@ def get_rating_from_sitespeed(url, _local, _):
 
     # - GDPR and Schrems ( 5.00 rating )
     rating += rate_gdpr_and_schrems(http_archive_content, url, _local, _)
+
+    website_domains = get_domains_from_har(http_archive_content)
+
     # - Tracking ( 5.00 rating )
-    rating += rate_tracking(http_archive_content, url, _local, _)
+    rating += rate_tracking(website_domains,
+                            http_archive_content, url, _local, _)
     # - Fingerprinting/Identifying technique ( 5.00 rating )
-    rating += rate_fingerprint(http_archive_content, url, _local, _)
+    rating += rate_fingerprint(website_domains, url, _local, _)
     # - Ads ( 5.00 rating )
-    rating += rate_ads(http_archive_content, url, _local, _)
+    rating += rate_ads(website_domains, url, _local, _)
 
     # http_archive_content = get_file_content(os.path.join(
     #     'data', 'webperf.se-har.json'))

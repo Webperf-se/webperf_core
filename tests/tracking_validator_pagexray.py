@@ -478,8 +478,8 @@ def rate_tracking(website_urls, _local, _):
                 number_of_tracking += 1
                 break
 
-        # analytics_used.update(get_analytics(website_url, request_index))
         try:
+            analytics_used.update(get_analytics(website_url, request_index))
             analytics_used.update(get_analytics(
                 website_url_content, request_index))
         except Exception as ex:
@@ -499,6 +499,9 @@ def rate_tracking(website_urls, _local, _):
         request_index += 1
 
     review_analytics = ''
+
+    print('analytics_used:', analytics_used)
+
     # analytics_used = get_analytics(content)
     number_of_analytics_used = len(analytics_used)
     if number_of_analytics_used > 0:
@@ -510,40 +513,40 @@ def rate_tracking(website_urls, _local, _):
                 number_of_tracking += 1
             review_analytics += '    - {0}\r\n'.format(analytics_name)
 
-    points = 5.0
+    # points = 5.0
 
     # Ignore up to 2 tracker requests
-    number_of_tracking_for_points = number_of_tracking - 2
-    if number_of_tracking_for_points <= 0:
-        number_of_tracking_for_points = 0
+    # number_of_tracking_for_points = number_of_tracking - 2
+    # if number_of_tracking_for_points <= 0:
+    #     number_of_tracking_for_points = 0
 
-    points -= (number_of_tracking_for_points * 0.5)
-    points = float("{0:.2f}".format(points))
+    # points -= (number_of_tracking_for_points * 0.5)
+    # points = float("{0:.2f}".format(points))
 
-    if points <= 1.0:
-        points = 1.0
-        # '* Tracking ({0} points)\r\n'
-        rating.set_integrity_and_security(
-            points, _local('TEXT_TRACKING_NO_POINTS'))
-        rating.set_overall(points)
-    else:
-        # '* Tracking (+{0} points)\r\n'
-        rating.set_integrity_and_security(
-            points, _local('TEXT_TRACKING_HAS_POINTS'))
-        rating.set_overall(points)
+    # if points <= 1.0:
+    #     points = 1.0
+    #     # '* Tracking ({0} points)\r\n'
+    #     rating.set_integrity_and_security(
+    #         points, _local('TEXT_TRACKING_NO_POINTS'))
+    #     rating.set_overall(points)
+    # else:
+    #     # '* Tracking (+{0} points)\r\n'
+    #     rating.set_integrity_and_security(
+    #         points, _local('TEXT_TRACKING_HAS_POINTS'))
+    #     rating.set_overall(points)
 
-    if len(review_analytics) > 0:
-        # review += review_analytics
-        rating.integrity_and_security_review = rating.integrity_and_security_review + review_analytics
+    # if len(review_analytics) > 0:
+    #     # review += review_analytics
+    #     rating.integrity_and_security_review = rating.integrity_and_security_review + review_analytics
 
-    if number_of_tracking > 0:
-        # '-- Tracking requests: {0}\r\n'
-        rating.integrity_and_security_review = rating.integrity_and_security_review + _local('TEXT_TRACKING_HAS_REQUESTS').format(
-            number_of_tracking)
-    else:
-        # '-- No tracking requests\r\n'
-        rating.integrity_and_security_review = rating.integrity_and_security_review + \
-            _local('TEXT_TRACKING_NO_REQUESTS')
+    # if number_of_tracking > 0:
+    #     # '-- Tracking requests: {0}\r\n'
+    #     rating.integrity_and_security_review = rating.integrity_and_security_review + _local('TEXT_TRACKING_HAS_REQUESTS').format(
+    #         number_of_tracking)
+    # else:
+    #     # '-- No tracking requests\r\n'
+    #     rating.integrity_and_security_review = rating.integrity_and_security_review + \
+    #         _local('TEXT_TRACKING_NO_REQUESTS')
 
     return rating
 

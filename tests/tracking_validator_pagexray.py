@@ -492,11 +492,11 @@ def rate_tracking(website_urls, _local, _):
         url_rating = Rating(_, review_show_improvements_only)
         if url_is_tracker:
             url_rating.set_integrity_and_security(
-                1.0, '  - Request #{0} - Tracking'.format(request_index))
+                1.0, '  - Request #{0} - Tracking found'.format(request_index))
             url_rating.set_overall(1.0)
         else:
             url_rating.set_integrity_and_security(
-                5.0, '  - Request #{0} - Not tracking'.format(request_index))
+                5.0, '  - Request #{0} - No tracking found'.format(request_index))
             url_rating.set_overall(5.0)
         rating += url_rating
 

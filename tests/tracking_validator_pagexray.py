@@ -488,11 +488,11 @@ def rate_tracking(website_urls, _local, _):
         url_rating = Rating(_, review_show_improvements_only)
         if url_is_tracker:
             url_rating.set_integrity_and_security(
-                1.0, 'Request #{0} - Tracking'.format(request_index))
+                1.0, '  - Request #{0} - Tracking'.format(request_index))
             url_rating.set_overall(1.0)
         else:
             url_rating.set_integrity_and_security(
-                5.0, 'Request #{0} - Not tracking'.format(request_index))
+                5.0, '  - Request #{0} - Not tracking'.format(request_index))
             url_rating.set_overall(5.0)
         rating += url_rating
 
@@ -523,25 +523,30 @@ def rate_tracking(website_urls, _local, _):
     # points -= (number_of_tracking_for_points * 0.5)
     # points = float("{0:.2f}".format(points))
 
-    # if points <= 1.0:
-    #     points = 1.0
-    #     # '* Tracking ({0} points)\r\n'
-    #     rating.set_integrity_and_security(
-    #         points, _local('TEXT_TRACKING_NO_POINTS'))
-    #     rating.set_overall(points)
-    # else:
-    #     # '* Tracking (+{0} points)\r\n'
-    #     rating.set_integrity_and_security(
-    #         points, _local('TEXT_TRACKING_HAS_POINTS'))
-    #     rating.set_overall(points)
+    integrity_and_security_review = rating.integrity_and_security_review
 
-    # if len(review_analytics) > 0:
-    #     # review += review_analytics
-    #     rating.integrity_and_security_review = rating.integrity_and_security_review + review_analytics
+    points = rating.get_overall()
+    if points <= 1.0:
+        points = 1.0
+        # '* Tracking ({0} points)\r\n'
+        rating.set_integrity_and_security(
+            points, _local('TEXT_TRACKING_NO_POINTS'))
+        rating.set_overall(points)
+    else:
+        # '* Tracking (+{0} points)\r\n'
+        rating.set_integrity_and_security(
+            points, _local('TEXT_TRACKING_HAS_POINTS'))
+        rating.set_overall(points)
+
+    if len(review_analytics) > 0:
+        # review += review_analytics
+        rating.integrity_and_security_review = integrity_and_security_review + review_analytics
+    else:
+        rating.integrity_and_security_review = integrity_and_security_review
 
     # if number_of_tracking > 0:
     #     # '-- Tracking requests: {0}\r\n'
-    #     rating.integrity_and_security_review = rating.integrity_and_security_review + _local('TEXT_TRACKING_HAS_REQUESTS').format(
+    #     rating.integrity_and_security_review = integrity_and_security_review + _local('TEXT_TRACKING_HAS_REQUESTS').format(
     #         number_of_tracking)
     # else:
     #     # '-- No tracking requests\r\n'

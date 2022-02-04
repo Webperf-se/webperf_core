@@ -478,25 +478,39 @@ def rate_tracking(website_urls, _local, _):
                 number_of_tracking += 1
                 break
 
-        url_analytics_used = dict()
-        url_analytics_used.update(get_analytics(website_url, request_index))
-        url_analytics_used.update(get_analytics(
+        resource_analytics_used = dict()
+        url_analytics = get_analytics(website_url, request_index)
+        if len(url_analytics):
+            url_is_tracker = True
+            number_of_tracking += 1
+
+        resource_analytics_used.update(url_analytics)
+        resource_analytics_used.update(get_analytics(
             website_url_content, request_index))
         # if len(url_analytics_used) > 0:
         #     for url_analytics_text, count_as_tracker in url_analytics_used.items():
         #         if count_as_tracker:
         #             test = 1
 
-        analytics_used.update(url_analytics_used)
+        analytics_used.update(resource_analytics_used)
 
         url_rating = Rating(_, review_show_improvements_only)
         if url_is_tracker:
-            url_rating.set_integrity_and_security(
-                1.0, '  - Request #{0} - Tracking found'.format(request_index))
-            url_rating.set_overall(1.0)
+            if number_of_tracking <= 20:
+                url_rating.set_integrity_and_security(
+                    1.0, '  - Request #{0} - Tracking found'.format(request_index))
+                url_rating.set_overall(1.0)
+            elif number_of_tracking == 21:
+                url_rating.set_integrity_and_security(
+                    1.0, '  - More then 20 requests found, filtering out the rest'.format(request_index))
+                url_rating.set_overall(1.0)
+            else:
+                url_rating.set_integrity_and_security(1.0)
+                url_rating.set_overall(1.0)
         else:
-            url_rating.set_integrity_and_security(
-                5.0, '  - Request #{0} - No tracking found'.format(request_index))
+            url_rating.set_integrity_and_security(5.0)
+            # url_rating.set_integrity_and_security(
+            #     5.0, '  - Request #{0} - No tracking found'.format(request_index))
             url_rating.set_overall(5.0)
         rating += url_rating
 

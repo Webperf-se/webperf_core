@@ -45,8 +45,8 @@ def prepare_config_file(sample_filename, filename):
     regex_ip2location = r"^use_ip2location.*"
     subst_ip2location = "use_ip2location = True"
 
-    regex_improvements_only = r"^review_show_improvements_only.*"
-    subst_improvements_only = "review_show_improvements_only = True"
+    # regex_improvements_only = r"^review_show_improvements_only.*"
+    # subst_improvements_only = "review_show_improvements_only = True"
 
     with open(filename, 'r') as file:
         data = file.readlines()
@@ -61,8 +61,8 @@ def prepare_config_file(sample_filename, filename):
                          tmp, 0, re.MULTILINE)
             tmp = re.sub(regex_ip2location, subst_ip2location,
                          tmp, 0, re.MULTILINE)
-            tmp = re.sub(regex_improvements_only, subst_improvements_only,
-                         tmp, 0, re.MULTILINE)
+            # tmp = re.sub(regex_improvements_only, subst_improvements_only,
+            #              tmp, 0, re.MULTILINE)
 
             output.append(tmp)
 

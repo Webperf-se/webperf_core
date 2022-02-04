@@ -481,8 +481,9 @@ def rate_tracking(website_urls, _local, _):
         resource_analytics_used = dict()
         url_analytics = get_analytics(website_url, request_index)
         if len(url_analytics):
+            if not url_is_tracker:
+                number_of_tracking += 1
             url_is_tracker = True
-            number_of_tracking += 1
 
         resource_analytics_used.update(url_analytics)
         resource_analytics_used.update(get_analytics(

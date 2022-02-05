@@ -328,18 +328,37 @@ def rate_cookies(browser, url, _local, _):
         secure_rating.set_overall(secure_points)
         rating += secure_rating
 
-    tmp_review = rating.integrity_and_security_review
-    rating.integrity_and_security_review = ''
+    # tmp_review = rating.integrity_and_security_review
+    # rating.integrity_and_security_review = ''
 
+    # if number_of_cookies > 0:
+    #     if rating.get_overall() > 1.0:
+    #         # '* Cookies (+{0} points)\r\n{1}'
+    #         rating.integrity_and_security_review = _local('TEXT_COOKIE_HAS_POINTS').format(
+    #             rating.get_overall(), '')
+    #     else:
+    #         # '* Cookies ({0} points)\r\n{1}'
+    #         rating.integrity_and_security_review = _local('TEXT_COOKIE_NO_POINTS').format(
+    #             rating.get_overall(), '')
+    # else:
+    #     no_cookie_points = 5.0
+    #     rating.set_integrity_and_security(no_cookie_points, _local('TEXT_COOKIE_HAS_POINTS').format(
+    #         0.0, ''))
+
+    #     rating.set_overall(no_cookie_points)
+
+    integrity_and_security_review = rating.integrity_and_security_review
+    points = rating.get_overall()
     if number_of_cookies > 0:
-        if rating.get_overall() > 1.0:
-            # '* Cookies (+{0} points)\r\n{1}'
-            rating.integrity_and_security_review = _local('TEXT_COOKIE_HAS_POINTS').format(
-                rating.get_overall(), '')
+        if points <= 1.0:
+            points = 1.0
+            rating.set_integrity_and_security(
+                points, _local('TEXT_COOKIE_NO_POINTS'))
+            rating.set_overall(points)
         else:
-            # '* Cookies ({0} points)\r\n{1}'
-            rating.integrity_and_security_review = _local('TEXT_COOKIE_NO_POINTS').format(
-                rating.get_overall(), '')
+            rating.set_integrity_and_security(
+                points, _local('TEXT_COOKIE_HAS_POINTS'))
+            rating.set_overall(points)
     else:
         no_cookie_points = 5.0
         rating.set_integrity_and_security(no_cookie_points, _local('TEXT_COOKIE_HAS_POINTS').format(
@@ -347,7 +366,20 @@ def rate_cookies(browser, url, _local, _):
 
         rating.set_overall(no_cookie_points)
 
-    rating.integrity_and_security_review = rating.integrity_and_security_review + tmp_review
+    # if points <= 1.0:
+    #     points = 1.0
+    #     # '* Tracking ({0} points)\r\n'
+    #     rating.set_integrity_and_security(
+    #         points, _local('TEXT_COOKIE_NO_POINTS'))
+    #     rating.set_overall(points)
+    # else:
+    #     # '* Tracking (+{0} points)\r\n'
+    #     rating.set_integrity_and_security(
+    #         points, _local('TEXT_TRACKING_HAS_POINTS'))
+    #     rating.set_overall(points)
+
+    rating.integrity_and_security_review = rating.integrity_and_security_review + \
+        integrity_and_security_review
 
     return rating
 

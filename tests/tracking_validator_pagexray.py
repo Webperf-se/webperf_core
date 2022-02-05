@@ -764,7 +764,6 @@ def get_rating_from_sitespeed(url, _local, _):
 def get_rating_from_selenium(url, _local, _):
     rating = Rating(_, review_show_improvements_only)
 
-    # https://stackoverflow.com/questions/48201944/how-to-use-browsermob-with-python-selenium#48266639
     browser = False
     try:
         # Remove options if you want to see browser windows (good for debugging)
@@ -818,6 +817,7 @@ def run_test(_, langCode, url):
     print(_('TEXT_TEST_START').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
+    # TODO: Read sitespeed manual on how to return cookies and localStorage (This way we could remove dependency on Selenium)
     rating += get_rating_from_selenium(url, _local, _)
 
     rating += get_rating_from_sitespeed(url, _local, _)
@@ -890,10 +890,6 @@ def has_fathom(json_content):
 
     # Look for file names
     if 'cdn.usefathom.com' in json_content:
-        return True
-    if 'google-analytics.com/analytics.js' in json_content:
-        return True
-    if 'google-analytics.com/ga.js' in json_content:
         return True
 
     return False

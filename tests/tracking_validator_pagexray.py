@@ -140,15 +140,40 @@ def get_urls_from_har(content):
 def get_domains_from_blacklistproject_file(filename):
     domains = set()
 
-    with open(filename, 'r', encoding='utf-8') as file:
-        data = file.readlines()
-        index = 0
-        for line in data:
-            if index <= 35:
-                index += 1
-            if line and not line.startswith('#'):
-                domains.add(line.strip('\n'))
+    try:
+        with open(filename, 'r', encoding='utf-8') as file:
+            data = file.readlines()
+            index = 0
+            for line in data:
+                if index <= 35:
+                    index += 1
+                if line and not line.startswith('#'):
+                    domains.add(line.strip('\n'))
+    except:
+        print('no blacklistproject file found at: {0}'.format(filename))
+        return domains
+    return domains
 
+
+def get_domains_from_disconnect_file(filename, sections):
+    domains = set()
+
+    try:
+        with open(filename) as json_input_file:
+            data = json.load(json_input_file)
+
+            if 'categories' in data:
+                data = data['categories']
+            # current_index = 0
+            for section_name in sections:
+                for entity in data[section_name]:
+                    for entity_name in entity.keys():
+                        for entity_website in entity[entity_name].keys():
+                            for domain in entity[entity_name][entity_website]:
+                                domains.add(domain)
+    except:
+        print('no disconnect file found at: {0}'.format(filename))
+        return domains
     return domains
 
 
@@ -555,97 +580,66 @@ def rate_tracking(website_urls, _local, _):
     return rating
 
 
-def rate_fingerprint(website_domains, url, _local, _):
+def rate_fingerprint(website_urls, url, _local, _):
     rating = Rating(_, review_show_improvements_only)
 
-    # website_domains = get_domains_from_har(content)
+    disconnect_sections = ('FingerprintingInvasive', 'FingerprintingGeneral')
+    fingerprinting_domains = get_domains_from_disconnect_file(
+        os.path.join('data', 'disconnect-services.json'), disconnect_sections)
 
-    entries = list()
-    json_content = list()
-    # try:
-    #     json_content = json.loads(content)
+    fingerprint_requests = 0
 
-    #     json_content = json_content['log']
+    request_index = 1
+    for website_url, website_url_content in website_urls.items():
+        url_is_adserver_requests = False
+        website_domains = get_domains_from_url(website_url)
+        for website_domain in website_domains:
+            if website_domain in fingerprinting_domains:
+                url_is_adserver_requests = True
+                fingerprint_requests += 1
+                break
 
-    #     if 'entries' in json_content:
-    #         entries = json_content['entries']
+        url_rating = Rating(_, review_show_improvements_only)
+        if url_is_adserver_requests:
+            if fingerprint_requests <= 5:
+                url_rating.set_integrity_and_security(
+                    1.0, '  - Request #{0} - Fingerprint found.'.format(request_index))
+                url_rating.set_overall(1.0)
+            elif fingerprint_requests == 6:
+                url_rating.set_integrity_and_security(
+                    1.0, '  - More then 5 requests found, filtering out the rest.'.format(request_index))
+                url_rating.set_overall(1.0)
+            else:
+                url_rating.set_integrity_and_security(1.0)
+                url_rating.set_overall(1.0)
+        else:
+            url_rating.set_integrity_and_security(5.0)
+            url_rating.set_overall(5.0)
+        rating += url_rating
 
-    #     # number_of_tracking = 0
+        request_index += 1
 
-    # except Exception as ex:  # might crash if checked resource is not a webpage
-    #     print('crash rate_tracking', ex)
-    #     return rating
+    integrity_and_security_review = rating.integrity_and_security_review
 
-    # for entry in entries:
-    #     url = False
-    #     if 'request' in entry:
-    #         request = entry['request']
-    #         if 'url' in request:
-    #             url = request['url']
+    if fingerprint_requests >= 6:
+        integrity_and_security_review += '  - A total of {0} fingerprint requests found.\n'.format(
+            fingerprint_requests)
 
-    #     content_text = False
-    #     if 'response' in entry:
-    #         response = entry['response']
-    #         if 'content' in request:
-    #             content = request['content']
-    #             if 'text' in content:
-    #                 content_text = content['text']
-
-    #     if url:
-    #         # do url checks here
-    #         url_magic = url
-
-    #     if content_text:
-    #         # do text checks here
-    #         content_text_magic = content_text
-
-    fingerprints = {}
-    fingerprints_points = 1.0
-    number_of_fingerprints = 0
-    fingerprints_review = ''
-    if 'fingerprints' in json_content:
-        possible_fingerprints = json_content['fingerprints']
-        number_of_potential_fingerprints = len(possible_fingerprints)
-        fingerprints_index = 0
-
-        if number_of_potential_fingerprints > 0:
-            while fingerprints_index < number_of_potential_fingerprints:
-                fingerprint = possible_fingerprints[fingerprints_index]
-                fingerprints_index += 1
-
-                if 'level' in fingerprint and ('danger' in fingerprint['level'] or 'warning' in fingerprint['level']):
-
-                    fingerprint_key = "{0} ({1})".format(
-                        fingerprint['category'], fingerprint['level'])
-
-                    fingerprint_count = int(fingerprint['count'])
-
-                    if fingerprint_key in fingerprints:
-                        fingerprints[fingerprint_key] = fingerprints[fingerprint_key] + \
-                            fingerprint_count
-                    else:
-                        fingerprints[fingerprint_key] = fingerprint_count
-
-    number_of_fingerprints = len(fingerprints)
-    fingerprints_list = fingerprints.items()
-    for key, value in fingerprints_list:
-        fingerprints_review += '-- {0}: {1}\r\n'.format(
-            key, value)
-
-    if number_of_fingerprints == 0:
-        fingerprints_points = 5.0
+    points = rating.get_overall()
+    if points <= 1.0:
+        points = 1.0
+        # '* Tracking ({0} points)\r\n'
         rating.set_integrity_and_security(
-            fingerprints_points, _local('TEXT_FINGERPRINTING_HAS_POINTS'))
-        rating.set_overall(fingerprints_points)
-
+            points, _local('TEXT_FINGERPRINTING_HAS_POINTS'))
+        rating.set_overall(points)
     else:
+        # '* Tracking (+{0} points)\r\n'
         rating.set_integrity_and_security(
-            fingerprints_points, _local('TEXT_FINGERPRINTING_NO_POINTS'))
-        rating.integrity_and_security_review = rating.integrity_and_security_review + \
-            fingerprints_review
-        rating.set_overall(fingerprints_points)
+            points, _local('TEXT_FINGERPRINTING_NO_POINTS'))
+        rating.set_overall(points)
 
-    return rating
+    rating.integrity_and_security_review = rating.integrity_and_security_review + \
+        integrity_and_security_review
 
 
 def rate_ads(website_urls, _local, _):
@@ -711,25 +705,6 @@ def rate_ads(website_urls, _local, _):
 
     rating.integrity_and_security_review = rating.integrity_and_security_review + \
         integrity_and_security_review
-
-    # if adserver_requests > 0 or number_of_ads > 0:
-    #     ads_points = 1.0
-    #     rating.set_integrity_and_security(
-    #         ads_points, _local('TEXT_ADS_NO_POINTS'))
-    #     rating.set_overall(ads_points)
-
-    #     if adserver_requests > 0:
-    #         rating.integrity_and_security_review = rating.integrity_and_security_review + _local('TEXT_ADS_HAS_REQUESTS').format(
-    #             adserver_requests)
-
-    #     if number_of_ads > 0:
-    #         rating.integrity_and_security_review = rating.integrity_and_security_review + _local('TEXT_ADS_VISIBLE_ADS').format(
-    #             number_of_ads)
-    # else:
-    #     ads_points = 5.0
-    #     rating.set_integrity_and_security(
-    #         ads_points, _local('TEXT_ADS_NO_REQUESTS'))
-    #     rating.set_overall(ads_points)
 
     return rating
 
@@ -803,15 +778,9 @@ def get_rating_from_selenium(url, _local, _):
         # - Cookies ( 5.00 rating )
         rating += rate_cookies(browser, url, _local, _)
 
-        # - GDPR and Schrems ( 5.00 rating )
-        #rating += rate_gdpr_and_schrems(browser, url, _local, _)
-        # - Tracking ( 5.00 rating )
-        # - Fingerprinting/Identifying technique ( 5.00 rating )
-        # - Ads ( 5.00 rating )
+        # TODO: Add localStorage and other storage here
 
         WebDriverWait(browser, 120)
-
-        # print('rating: ', rating)
 
         browser.quit()
 

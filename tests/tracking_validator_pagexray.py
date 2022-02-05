@@ -493,9 +493,9 @@ def rate_tracking(website_urls, _local, _):
 
         url_rating = Rating(_, review_show_improvements_only)
         if url_is_tracker:
-            if number_of_tracking == 1:
+            if number_of_tracking <= 2:
                 url_rating.set_integrity_and_security(
-                    5.0, '  - Request #{0} - Tracking found, having one is allowed'.format(request_index))
+                    5.0, '  - Request #{0} - Tracking found, having two are allowed'.format(request_index))
                 url_rating.set_overall(5.0)
             elif number_of_tracking <= 5:
                 url_rating.set_integrity_and_security(
@@ -510,8 +510,6 @@ def rate_tracking(website_urls, _local, _):
                 url_rating.set_overall(1.0)
         else:
             url_rating.set_integrity_and_security(5.0)
-            # url_rating.set_integrity_and_security(
-            #     5.0, '  - Request #{0} - No tracking found'.format(request_index))
             url_rating.set_overall(5.0)
         rating += url_rating
 
@@ -546,15 +544,6 @@ def rate_tracking(website_urls, _local, _):
 
     rating.integrity_and_security_review = rating.integrity_and_security_review + \
         integrity_and_security_review
-
-    # if number_of_tracking > 0:
-    #     # '-- Tracking requests: {0}\r\n'
-    #     rating.integrity_and_security_review = integrity_and_security_review + _local('TEXT_TRACKING_HAS_REQUESTS').format(
-    #         number_of_tracking)
-    # else:
-    #     # '-- No tracking requests\r\n'
-    #     rating.integrity_and_security_review = rating.integrity_and_security_review + \
-    #         _local('TEXT_TRACKING_NO_REQUESTS')
 
     return rating
 
@@ -674,35 +663,64 @@ def rate_ads(website_urls, _local, _):
 
         url_rating = Rating(_, review_show_improvements_only)
         if url_is_adserver_requests:
-            url_rating.set_integrity_and_security(
-                1.0, 'Request #{0} - Advertising'.format(request_index))
-            url_rating.set_overall(1.0)
+            if adserver_requests <= 2:
+                url_rating.set_integrity_and_security(
+                    5.0, '  - Request #{0} - Advertising found, having two are allowed'.format(request_index))
+                url_rating.set_overall(5.0)
+            elif adserver_requests <= 5:
+                url_rating.set_integrity_and_security(
+                    1.0, '  - Request #{0} - Advertising found'.format(request_index))
+                url_rating.set_overall(1.0)
+            elif adserver_requests == 6:
+                url_rating.set_integrity_and_security(
+                    1.0, '  - More then 5 requests found, filtering out the rest'.format(request_index))
+                url_rating.set_overall(1.0)
+            else:
+                url_rating.set_integrity_and_security(1.0)
+                url_rating.set_overall(1.0)
         else:
-            url_rating.set_integrity_and_security(
-                5.0, 'Request #{0} - Not advertising'.format(request_index))
+            url_rating.set_integrity_and_security(5.0)
             url_rating.set_overall(5.0)
         rating += url_rating
 
         request_index += 1
 
-    if adserver_requests > 0 or number_of_ads > 0:
-        ads_points = 1.0
+    integrity_and_security_review = rating.integrity_and_security_review
+
+    points = rating.get_overall()
+    if points <= 1.0:
+        points = 1.0
+        # '* Tracking ({0} points)\r\n'
         rating.set_integrity_and_security(
-            ads_points, _local('TEXT_ADS_NO_POINTS'))
-        rating.set_overall(ads_points)
-
-        if adserver_requests > 0:
-            rating.integrity_and_security_review = rating.integrity_and_security_review + _local('TEXT_ADS_HAS_REQUESTS').format(
-                adserver_requests)
-
-        if number_of_ads > 0:
-            rating.integrity_and_security_review = rating.integrity_and_security_review + _local('TEXT_ADS_VISIBLE_ADS').format(
-                number_of_ads)
+            points, _local('TEXT_ADS_NO_POINTS'))
+        rating.set_overall(points)
     else:
-        ads_points = 5.0
+        # '* Tracking (+{0} points)\r\n'
         rating.set_integrity_and_security(
-            ads_points, _local('TEXT_ADS_NO_REQUESTS'))
-        rating.set_overall(ads_points)
+            points, _local('TEXT_ADS_NO_REQUESTS'))
+        rating.set_overall(points)
+
+    rating.integrity_and_security_review = rating.integrity_and_security_review + \
+        integrity_and_security_review
+
+    # if adserver_requests > 0 or number_of_ads > 0:
+    #     ads_points = 1.0
+    #     rating.set_integrity_and_security(
+    #         ads_points, _local('TEXT_ADS_NO_POINTS'))
+    #     rating.set_overall(ads_points)
+
+    #     if adserver_requests > 0:
+    #         rating.integrity_and_security_review = rating.integrity_and_security_review + _local('TEXT_ADS_HAS_REQUESTS').format(
+    #             adserver_requests)
+
+    #     if number_of_ads > 0:
+    #         rating.integrity_and_security_review = rating.integrity_and_security_review + _local('TEXT_ADS_VISIBLE_ADS').format(
+    #             number_of_ads)
+    # else:
+    #     ads_points = 5.0
+    #     rating.set_integrity_and_security(
+    #         ads_points, _local('TEXT_ADS_NO_REQUESTS'))
+    #     rating.set_overall(ads_points)
 
     return rating
 

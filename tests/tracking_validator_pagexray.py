@@ -612,9 +612,9 @@ def rate_fingerprint(website_urls, url, _local, _):
             else:
                 url_rating.set_integrity_and_security(1.0)
                 url_rating.set_overall(1.0)
-        else:
-            url_rating.set_integrity_and_security(5.0)
-            url_rating.set_overall(5.0)
+        # else:
+        #     url_rating.set_integrity_and_security(5.0)
+        #     url_rating.set_overall(5.0)
         rating += url_rating
 
         request_index += 1
@@ -624,6 +624,10 @@ def rate_fingerprint(website_urls, url, _local, _):
     if fingerprint_requests >= 6:
         integrity_and_security_review += '  - A total of {0} fingerprint requests found.\n'.format(
             fingerprint_requests)
+
+    if fingerprint_requests == 0:
+        rating.set_integrity_and_security(5.0)
+        rating.set_overall(5.0)
 
     points = rating.get_overall()
     if points <= 1.0:

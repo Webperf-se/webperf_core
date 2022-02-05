@@ -479,15 +479,21 @@ def rate_tracking(website_urls, _local, _):
                 break
 
         resource_analytics_used = dict()
-        url_analytics = get_analytics(website_url, request_index)
-        if len(url_analytics):
+        resource_analytics_used.update(
+            get_analytics(website_url, request_index))
+        resource_analytics_used.update(get_analytics(
+            website_url_content, request_index))
+
+        if len(website_url_content) > 0:
+            print('url has content:', website_url)
+        else:
+            print('no content:', website_url)
+
+        if len(resource_analytics_used):
             if not url_is_tracker:
                 number_of_tracking += 1
             url_is_tracker = True
 
-        resource_analytics_used.update(url_analytics)
-        resource_analytics_used.update(get_analytics(
-            website_url_content, request_index))
         # if len(url_analytics_used) > 0:
         #     for url_analytics_text, count_as_tracker in url_analytics_used.items():
         #         if count_as_tracker:
@@ -853,123 +859,106 @@ def get_analytics(content, request_index):
     return analytics
 
 
-def has_matomo(json_content):
+def has_matomo(content):
     # Look for cookie name
-    if '"name": "_pk_' in json_content:
+    if '"name": "_pk_' in content:
         return True
-    if '"name": "MATOMO_' in json_content:
+    if '"name": "MATOMO_' in content:
         return True
-    if '"name": "PIWIK_' in json_content:
+    if '"name": "PIWIK_' in content:
         return True
 
     # Look for javascript objects
-    if 'window.Matomo=' in json_content:
+    if 'window.Matomo=' in content:
         return True
-    if 'window.Piwik=' in json_content:
+    if 'window.Piwik=' in content:
         return True
 
     # Look for file names
-    if 'piwik.js' in json_content:
+    if 'piwik.js' in content:
         return True
-    if 'matomo.php' in json_content:
+    if 'matomo.php' in content:
         return True
 
     return False
 
 
-def has_fathom(json_content):
+def has_fathom(content):
     # Look for javascript objects
-    if 'window.fathom' in json_content:
+    if 'window.fathom' in content:
         return True
-    if 'locationchangefathom' in json_content:
+    if 'locationchangefathom' in content:
         return True
-    if 'blockFathomTracking' in json_content:
+    if 'blockFathomTracking' in content:
         return True
-    if 'fathomScript' in json_content:
+    if 'fathomScript' in content:
         return True
 
     # Look for file names
-    if 'cdn.usefathom.com' in json_content:
+    if 'cdn.usefathom.com' in content:
         return True
 
     return False
 
 
-def has_matomo_tagmanager(json_content):
+def has_matomo_tagmanager(content):
     # Look for javascript objects
-    if 'window.MatomoT' in json_content:
+    if 'window.MatomoT' in content:
         return True
 
     return False
 
 
-def has_google_analytics(json_content):
+def has_google_analytics(content):
     # Look for javascript objects
-    if 'window.GoogleAnalyticsObject' in json_content:
+    if 'window.GoogleAnalyticsObject' in content:
         return True
 
     # Look for file names
-    if 'google-analytics.com/analytics.js' in json_content:
+    if 'google-analytics.com/analytics.js' in content:
         return True
-    if 'google-analytics.com/ga.js' in json_content:
+    if 'google-analytics.com/ga.js' in content:
         return True
 
     return False
 
 
-def has_google_tagmanager(json_content):
+def has_google_tagmanager(content):
     # Look for file names
-    if 'googletagmanager.com/gtm.js' in json_content:
+    if 'googletagmanager.com/gtm.js' in content:
         return True
-    if 'googletagmanager.com/gtag' in json_content:
+    if 'googletagmanager.com/gtag' in content:
         return True
     # Look server name
-    if '"value": "Google Tag Manager"' in json_content:
+    if '"value": "Google Tag Manager"' in content:
         return True
 
     return False
 
 
-def has_siteimprove_analytics(json_content):
+def has_siteimprove_analytics(content):
     # Look for file names
-    if 'siteimproveanalytics.io' in json_content:
+    if 'siteimproveanalytics.io' in content:
         return True
-    if 'siteimproveanalytics.com/js/siteanalyze' in json_content:
+    if 'siteimproveanalytics.com/js/siteanalyze' in content:
         return True
 
     return False
 
 
-def has_Vizzit(json_content):
+def has_Vizzit(content):
     # Look for javascript objects
-    if '___vizzit' in json_content:
+    if '___vizzit' in content:
         return True
-    if '$vizzit_' in json_content:
+    if '$vizzit_' in content:
         return True
-    if '$vizzit =' in json_content:
+    if '$vizzit =' in content:
         return True
     # Look for file names
-    if 'vizzit.se/vizzittag' in json_content:
+    if 'vizzit.se/vizzittag' in content:
         return True
 
     return False
-
-
-def check_detailed_results(adserver_requests, content, hostname, _local, _):
-    rating = Rating(_, review_show_improvements_only)
-
-    adserver_requests = 0
-    json_content = ''
-    try:
-        json_content = json.loads(content)
-    except:  # might crash if checked resource is not a webpage
-        return rating
-
-    rating += check_fingerprint(json_content, _local, _)
-
-    rating += check_ads(json_content, adserver_requests, _local, _)
-
-    return rating
 
 
 def get_eu_countries():

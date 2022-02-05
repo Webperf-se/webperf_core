@@ -113,6 +113,11 @@ jobs:
         python default.py -t 23 -r -u https://skatteverket.se/ -o .github/workflows/testresult-23.json
         python .github/workflows/verify_result.py -t 23
       if: ${{ success() }}
+    - name: Test Tracking and Privacy - https://nimbleinitiatives.com/
+      run: |
+        python default.py -t 23 -r -u https://nimbleinitiatives.com/ -o .github/workflows/testresult-23.json
+        python .github/workflows/verify_result.py -t 23
+      if: ${{ success() }}
     # - name: Content - https://skatteverket.se/
     #   run: cat results/pages/skatteverket_se/data/browsertime.har
     #   if: ${{ success() }}

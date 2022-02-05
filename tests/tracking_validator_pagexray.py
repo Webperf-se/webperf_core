@@ -497,13 +497,13 @@ def rate_tracking(website_urls, _local, _):
 
         url_rating = Rating(_, review_show_improvements_only)
         if url_is_tracker:
-            if number_of_tracking <= 20:
+            if number_of_tracking <= 5:
                 url_rating.set_integrity_and_security(
                     1.0, '  - Request #{0} - Tracking found'.format(request_index))
                 url_rating.set_overall(1.0)
-            elif number_of_tracking == 21:
+            elif number_of_tracking == 6:
                 url_rating.set_integrity_and_security(
-                    1.0, '  - More then 20 requests found, filtering out the rest'.format(request_index))
+                    1.0, '  - More then 5 requests found, filtering out the rest'.format(request_index))
                 url_rating.set_overall(1.0)
             else:
                 url_rating.set_integrity_and_security(1.0)
@@ -870,6 +870,28 @@ def has_matomo(json_content):
     if 'piwik.js' in json_content:
         return True
     if 'matomo.php' in json_content:
+        return True
+
+    return False
+
+
+def has_fathom(json_content):
+    # Look for javascript objects
+    if 'window.fathom' in json_content:
+        return True
+    if 'locationchangefathom' in json_content:
+        return True
+    if 'blockFathomTracking' in json_content:
+        return True
+    if 'fathomScript' in json_content:
+        return True
+
+    # Look for file names
+    if 'cdn.usefathom.com' in json_content:
+        return True
+    if 'google-analytics.com/analytics.js' in json_content:
+        return True
+    if 'google-analytics.com/ga.js' in json_content:
         return True
 
     return False

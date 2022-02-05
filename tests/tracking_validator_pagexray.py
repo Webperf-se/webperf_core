@@ -137,7 +137,7 @@ def get_urls_from_har(content):
     return urls
 
 
-def get_domains_from_blacklistproject_file(filename):
+def get_domains_from_blocklistproject_file(filename):
     domains = set()
 
     try:
@@ -150,7 +150,7 @@ def get_domains_from_blacklistproject_file(filename):
                 if line and not line.startswith('#'):
                     domains.add(line.strip('\n'))
     except:
-        print('no blacklistproject file found at: {0}'.format(filename))
+        print('no blocklistproject file found at: {0}'.format(filename))
         return domains
     return domains
 
@@ -491,8 +491,8 @@ def rate_tracking(website_urls, _local, _):
     number_of_tracking = 0
     analytics_used = dict()
 
-    tracking_domains = get_domains_from_blacklistproject_file(
-        os.path.join('data', 'blacklistproject-tracking-nl.txt'))
+    tracking_domains = get_domains_from_blocklistproject_file(
+        os.path.join('data', 'blocklistproject-tracking-nl.txt'))
 
     request_index = 1
     for website_url, website_url_content in website_urls.items():
@@ -649,8 +649,8 @@ def rate_ads(website_urls, _local, _):
 
     adserver_requests = 0
 
-    tracking_domains = get_domains_from_blacklistproject_file(
-        os.path.join('data', 'blacklistproject-ads-nl.txt'))
+    tracking_domains = get_domains_from_blocklistproject_file(
+        os.path.join('data', 'blocklistproject-ads-nl.txt'))
 
     request_index = 1
     for website_url, website_url_content in website_urls.items():

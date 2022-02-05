@@ -124,8 +124,8 @@ def get_urls_from_har(content):
             content_text = False
             if 'response' in entry:
                 response = entry['response']
-                if 'content' in request:
-                    content = request['content']
+                if 'content' in response:
+                    content = response['content']
                     if 'text' in content:
                         content_text = content['text']
                         urls[url] = content_text

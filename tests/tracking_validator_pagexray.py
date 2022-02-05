@@ -527,7 +527,13 @@ def rate_tracking(website_urls, _local, _):
                 number_of_tracking += 1
             review_analytics += '    - {0}\r\n'.format(analytics_name)
 
-    integrity_and_security_review = rating.integrity_and_security_review + review_analytics
+    integrity_and_security_review = rating.integrity_and_security_review
+
+    if number_of_tracking >= 6:
+        integrity_and_security_review += '  - A total of {0} tracking requests found.\n'.format(
+            number_of_tracking)
+
+    integrity_and_security_review += review_analytics
 
     points = rating.get_overall()
     if points <= 1.0:
@@ -645,8 +651,6 @@ def rate_ads(website_urls, _local, _):
     rating = Rating(_, review_show_improvements_only)
 
     adserver_requests = 0
-    number_of_ads = 0
-    ads_points = 5.0
 
     tracking_domains = get_domains_from_blacklistproject_file(
         os.path.join('data', 'blacklistproject-ads-nl.txt'))
@@ -665,15 +669,15 @@ def rate_ads(website_urls, _local, _):
         if url_is_adserver_requests:
             if adserver_requests <= 2:
                 url_rating.set_integrity_and_security(
-                    5.0, '  - Request #{0} - Advertising found, having two are allowed'.format(request_index))
+                    5.0, '  - Request #{0} - Advertising found, having two are allowed.'.format(request_index))
                 url_rating.set_overall(5.0)
             elif adserver_requests <= 5:
                 url_rating.set_integrity_and_security(
-                    1.0, '  - Request #{0} - Advertising found'.format(request_index))
+                    1.0, '  - Request #{0} - Advertising found.'.format(request_index))
                 url_rating.set_overall(1.0)
             elif adserver_requests == 6:
                 url_rating.set_integrity_and_security(
-                    1.0, '  - More then 5 requests found, filtering out the rest'.format(request_index))
+                    1.0, '  - More then 5 requests found, filtering out the rest.'.format(request_index))
                 url_rating.set_overall(1.0)
             else:
                 url_rating.set_integrity_and_security(1.0)
@@ -686,6 +690,10 @@ def rate_ads(website_urls, _local, _):
         request_index += 1
 
     integrity_and_security_review = rating.integrity_and_security_review
+
+    if adserver_requests >= 6:
+        integrity_and_security_review += '  - A total of {0} advertising requests found.\n'.format(
+            adserver_requests)
 
     points = rating.get_overall()
     if points <= 1.0:

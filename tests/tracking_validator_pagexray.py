@@ -484,26 +484,20 @@ def rate_tracking(website_urls, _local, _):
         resource_analytics_used.update(get_analytics(
             website_url_content, request_index))
 
-        if len(website_url_content) > 0:
-            print('url has content:', website_url)
-        else:
-            print('no content:', website_url)
-
         if len(resource_analytics_used):
             if not url_is_tracker:
                 number_of_tracking += 1
             url_is_tracker = True
 
-        # if len(url_analytics_used) > 0:
-        #     for url_analytics_text, count_as_tracker in url_analytics_used.items():
-        #         if count_as_tracker:
-        #             test = 1
-
         analytics_used.update(resource_analytics_used)
 
         url_rating = Rating(_, review_show_improvements_only)
         if url_is_tracker:
-            if number_of_tracking <= 5:
+            if number_of_tracking == 1:
+                url_rating.set_integrity_and_security(
+                    5.0, '  - Request #{0} - Having one tracking tools is allowed'.format(request_index))
+                url_rating.set_overall(5.0)
+            elif number_of_tracking <= 5:
                 url_rating.set_integrity_and_security(
                     1.0, '  - Request #{0} - Tracking found'.format(request_index))
                 url_rating.set_overall(1.0)

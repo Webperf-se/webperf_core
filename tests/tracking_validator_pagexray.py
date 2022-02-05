@@ -495,7 +495,7 @@ def rate_tracking(website_urls, _local, _):
         if url_is_tracker:
             if number_of_tracking == 1:
                 url_rating.set_integrity_and_security(
-                    5.0, '  - Request #{0} - Having one tracking tools is allowed'.format(request_index))
+                    5.0, '  - Request #{0} - Tracking found, having one is allowed'.format(request_index))
                 url_rating.set_overall(5.0)
             elif number_of_tracking <= 5:
                 url_rating.set_integrity_and_security(
@@ -518,8 +518,6 @@ def rate_tracking(website_urls, _local, _):
         request_index += 1
 
     review_analytics = ''
-
-    print('analytics_used:', analytics_used)
 
     number_of_analytics_used = len(analytics_used)
     if number_of_analytics_used > 0:

@@ -828,25 +828,27 @@ def run_test(_, langCode, url):
     return (rating, result_dict)
 
 
-def get_analytics(json_content, request_index):
+def get_analytics(content, request_index):
     analytics = {}
 
     text = 'Request #{0} - Has references to {1}'
 
-    if has_matomo(json_content):
+    if has_matomo(content):
         analytics[text.format(request_index, 'Matomo')] = True
-    if has_matomo_tagmanager(json_content):
+    if has_matomo_tagmanager(content):
         analytics[text.format(request_index, 'Matomo Tag Manager')] = True
-    if has_google_analytics(json_content):
+    if has_google_analytics(content):
         # TODO: Check if asking for anonymizing IP ("[xxx]*google-analytics.com/j/collect[xxx]*aip=1[xxx]*")
         # TODO: Check doubleclick? https://stats.g.doubleclick.net/j/collect?[xxx]aip=1[xxx]
         analytics[text.format(request_index, 'Google Analytics')] = False
-    if has_google_tagmanager(json_content):
+    if has_google_tagmanager(content):
         analytics[text.format(request_index, 'Google Tag Manager')] = False
-    if has_siteimprove_analytics(json_content):
+    if has_siteimprove_analytics(content):
         analytics[text.format(request_index, 'SiteImprove Analytics')] = False
-    if has_Vizzit(json_content):
+    if has_Vizzit(content):
         analytics[text.format(request_index, 'Vizzit')] = True
+    if has_fathom(content):
+        analytics[text.format(request_index, 'Fathom Analytics')] = True
 
     return analytics
 

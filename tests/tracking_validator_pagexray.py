@@ -641,6 +641,8 @@ def rate_fingerprint(website_urls, url, _local, _):
     rating.integrity_and_security_review = rating.integrity_and_security_review + \
         integrity_and_security_review
 
+    return rating
+
 
 def rate_ads(website_urls, _local, _):
     rating = Rating(_, review_show_improvements_only)

@@ -36,8 +36,12 @@ jobs:
         sudo apt-get update
         sudo apt-get --only-upgrade install google-chrome-stable
         google-chrome --version
+      if: ${{ success() }}
     - name: Setup GeckoDriver (Used for Selenium)
       run: wget -q -O - https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz | tar -xvzf -
+      if: ${{ success() }}
+    - name: Setup Sitespeed.io npm package (ONLY used for Sitespeed)
+      run: npm install -g sitespeed.io
       if: ${{ success() }}
     - name: Download Ads database (BlockListProject)
       run: |
@@ -57,36 +61,6 @@ jobs:
         echo "# data"
         ls data
       if: ${{ success() }}
-      #
-    # - name: Setup BrowserMob Proxy (Used for Selenium)
-    #   run: |
-    #     wget -q -O browsermob-proxy-2.1.4-bin.zip https://github.com/lightbody/browsermob-proxy/releases/download/browsermob-proxy-2.1.4/browsermob-proxy-2.1.4-bin.zip
-    #     sudo apt-get install unzip
-    #     unzip browsermob-proxy-2.1.4-bin.zip
-    #   if: ${{ success() }}
-    # - name: Setup HarExporter Plugin (Used for Selenium)
-    #   run: |
-    #   run: wget -q -O - https://addons.mozilla.org/firefox/downloads/file/964750/har_export_trigger-0.6.1-an+fx.xpi
-    #   if: ${{ success() }}
-    - name: Setup Sitespeed.io npm package (ONLY used for Sitespeed)
-      run: npm install -g sitespeed.io
-      if: ${{ success() }}
-    # - name: Test Performance (Sitespeed.io)
-    #   run: sitespeed.io --rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies --summary-detail true --outputFolder results --firstParty --utc --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n 2 https://webperf.se/
-    #   if: ${{ always() }}
-    # - name: SiteSpeed Test - https://webperf.se/
-    #   run: |
-    #     sitespeed.io -b chrome --plugins.remove screenshot --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --summary-detail true --logToFile true --outputFolder results --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --html.logDownloadLink true -n 1 https://webperf.se/
-    #     echo "# results folder"
-    #     ls results/
-    #     echo "# data folder"
-    #     ls results/pages/webperf_se/data/
-    #     gzip -d results/pages/webperf_se/data/chromePerflog-1.json.gz
-    #     echo "# data folder"
-    #     ls results/pages/webperf_se/data/
-    #     cat results/pages/webperf_se/data/chromePerflog-1.json
-    #   if: ${{ success() }}
-    # cat results/pages/webperf_se/data/browsertime.har
     - name: Test Tracking and Privacy - https://webperf.se/
       run: |
         python default.py -t 23 -r -u https://webperf.se/ -o .github/workflows/testresult-23.json
@@ -105,9 +79,6 @@ jobs:
         python default.py -t 23 -r -u https://www.st.nu/ -o .github/workflows/testresult-23.json
         python .github/workflows/verify_result.py -t 23
       if: ${{ success() }}
-    # - name: Content - https://webperf.se/
-    #   run: cat results/pages/st_nu/data/browsertime.har
-    #   if: ${{ success() }}
     - name: Test Tracking and Privacy - https://skatteverket.se/
       run: |
         python default.py -t 23 -r -u https://skatteverket.se/ -o .github/workflows/testresult-23.json
@@ -118,41 +89,3 @@ jobs:
         python default.py -t 23 -r -u https://nimbleinitiatives.com/ -o .github/workflows/testresult-23.json
         python .github/workflows/verify_result.py -t 23
       if: ${{ success() }}
-    # - name: Content - https://skatteverket.se/
-    #   run: cat results/pages/skatteverket_se/data/browsertime.har
-    #   if: ${{ success() }}
-    # - name: Trace-1 - https://webperf.se/
-    #   run: |
-    #     gzip -d /home/runner/work/webperf_core/webperf_core/results/pages/webperf_se/data/trace-1.json.gz
-    #     cat /home/runner/work/webperf_core/webperf_core/results/pages/webperf_se/data/trace-1.json
-    #   if: ${{ always() }}
-    # - name: Test Tracking and Privacy - https://polisen.se/aktuellt/polisens-nyheter/?lpfm.loc=Stockholms län
-    #   run: |
-    #     python default.py -t 23 -r -u https://polisen.se/aktuellt/polisens-nyheter/?lpfm.loc=Stockholms%20l%C3%A4n -o .github/workflows/testresult-23.json
-    #     python .github/workflows/verify_result.py -t 23
-    #   if: ${{ success() }}
-    # - name: DEBUG
-    #   run: ls /home/runner/work/webperf_core/webperf_core/results/pages/polisen_se/aktuellt/polisens-nyheter/
-    #   if: ${{ always() }}
-    # - name: Trace-1 - https://polisen.se/aktuellt/polisens-nyheter/
-    #   run: |
-    #     gzip -d /home/runner/work/webperf_core/webperf_core/results/pages/polisen_se/aktuellt/polisens-nyheter/data/trace-1.json.gz
-    #     cat /home/runner/work/webperf_core/webperf_core/results/pages/polisen_se/aktuellt/polisens-nyheter/data/trace-1.json
-    #   if: ${{ always() }}
-    # - name: Trace-1 - https://st.nu/
-    #   run: |
-    #     gzip -d /home/runner/work/webperf_core/webperf_core/results/pages/st_nu/data/trace-1.json.gz
-    #     cat /home/runner/work/webperf_core/webperf_core/results/pages/st_nu/data/trace-1.json
-    #   if: ${{ always() }}
-    # - name: Setup PageXray npm package (ONLY used for Sitespeed)
-    #   run: npm install pagexray -g
-    #   if: ${{ always() }}
-    # - name: PageXray pretty - https://webperf.se/
-    #   run: pagexray --pretty results/pages/webperf_se/data/browsertime.har
-    #   if: ${{ always() }}
-    # - name: PageXray pretty - https://polisen.se/aktuellt/polisens-nyheter/
-    #   run: pagexray --pretty pages/polisen_se/aktuellt/polisens-nyheter/data/browsertime.har
-    #   if: ${{ always() }}
-    # - name: PageXray pretty - https://st.nu/
-    #   run: pagexray --pretty results/pages/st_nu/data/browsertime.har
-    #   if: ${{ always() }}

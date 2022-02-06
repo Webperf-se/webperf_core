@@ -37,8 +37,29 @@ jobs:
         sudo apt-get --only-upgrade install google-chrome-stable
         google-chrome --version
       if: ${{ success() }}
+    - name: Setup GeckoDriver (Used for Selenium)
+      run: wget -q -O - https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz | tar -xvzf -
+      if: ${{ success() }}
     - name: Setup Sitespeed.io npm package (ONLY used for Sitespeed)
       run: npm install -g sitespeed.io
+      if: ${{ success() }}
+    - name: Download Ads database (BlockListProject)
+      run: |
+        wget -q -O data/blocklistproject-ads-nl.txt https://blocklistproject.github.io/Lists/alt-version/ads-nl.txt
+        echo "# data"
+        ls data
+      if: ${{ success() }}
+    - name: Download Tracking database (BlockListProject)
+      run: |
+        wget -q -O data/blocklistproject-tracking-nl.txt https://blocklistproject.github.io/Lists/alt-version/tracking-nl.txt
+        echo "# data"
+        ls data
+      if: ${{ success() }}
+    - name: Download Services database (disconnect)
+      run: |
+        wget -q -O data/disconnect-services.json https://raw.githubusercontent.com/disconnectme/disconnect-tracking-protection/master/services.json
+        echo "# data"
+        ls data
       if: ${{ success() }}
     - name: Test Tracking and Privacy
       run: |

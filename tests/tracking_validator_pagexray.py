@@ -303,7 +303,8 @@ def rate_cookies(browser, url, _local, _):
 
         result_rating.set_overall(no_cookie_points)
 
-    result_rating.integrity_and_security_review = rating.integrity_and_security_review + \
+    result_rating.integrity_and_security_review = result_rating.integrity_and_security_review + \
+        rating.integrity_and_security_review + \
         integrity_and_security_review
 
     return result_rating
@@ -500,7 +501,8 @@ def rate_tracking(website_urls, _local, _):
             points, _local('TEXT_TRACKING_HAS_POINTS'))
         result_rating.set_overall(points)
 
-    result_rating.integrity_and_security_review = rating.integrity_and_security_review + \
+    result_rating.integrity_and_security_review = result_rating.integrity_and_security_review + \
+        rating.integrity_and_security_review + \
         integrity_and_security_review
 
     return result_rating
@@ -566,7 +568,8 @@ def rate_fingerprint(website_urls, _local, _):
             points, _local('TEXT_FINGERPRINTING_NO_POINTS'))
         result_rating.set_overall(points)
 
-    result_rating.integrity_and_security_review = rating.integrity_and_security_review + \
+    result_rating.integrity_and_security_review = result_rating.integrity_and_security_review + \
+        rating.integrity_and_security_review + \
         integrity_and_security_review
 
     return result_rating
@@ -634,7 +637,8 @@ def rate_ads(website_urls, _local, _):
             points, _local('TEXT_ADS_NO_REQUESTS'))
         result_rating.set_overall(points)
 
-    result_rating.integrity_and_security_review = rating.integrity_and_security_review + \
+    result_rating.integrity_and_security_review = result_rating.integrity_and_security_review + \
+        rating.integrity_and_security_review + \
         integrity_and_security_review
 
     return result_rating

@@ -143,13 +143,13 @@ def get_foldername_from_url(url):
 
 
 def get_friendly_url_name(url, request_index):
-    request_friendly_name = 'Request #{0}'.format(request_index)
+    request_friendly_name = '#{0}: '.format(request_index)
     if request_index == 1:
-        request_friendly_name = 'Webpage'
+        request_friendly_name = '#{0}: Webpage'.format(request_index)
 
     try:
         o = urlparse(url)
-        tmp = o.path.split('/')
+        tmp = o.path.strip('/').split('/')
         length = len(tmp)
         tmp = tmp[length - 1]
 
@@ -158,10 +158,10 @@ def get_friendly_url_name(url, request_index):
 
         tmp = re.sub(regex, subst, tmp, 0, re.MULTILINE)
         length = len(tmp)
-        if length > 10:
-            request_friendly_name = tmp[:10]
-        elif length > 2:
-            request_friendly_name = tmp
+        if length > 15:
+            request_friendly_name = '#{0}: {1}'.format(request_index, tmp[:15])
+        elif length > 1:
+            request_friendly_name = '#{0}: {1}'.format(request_index, tmp)
     except:
         return request_friendly_name
     return request_friendly_name
@@ -675,8 +675,8 @@ def get_rating_from_sitespeed(url, _local, _):
     rating = Rating(_, review_show_improvements_only)
 
     # TODO: CHANGE THIS IF YOU WANT TO DEBUG
-    result_folder_name = 'results-{0}'.format(str(uuid.uuid4()))
-    # result_folder_name = 'results'
+    #result_folder_name = 'results-{0}'.format(str(uuid.uuid4()))
+    result_folder_name = 'results'
 
     from tests.performance_sitespeed_io import get_result as sitespeed_run_test
     sitespeed_arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(

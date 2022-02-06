@@ -1,0 +1,49 @@
+name: "Regression Test - Performance (Sitespeed.io) Test"
+on: [ push ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v2
+      if: ${{ success() }}
+    - name: Setup python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+        architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+    - name: Setup dependencies using pip
+      run: pip install -r requirements.txt
+      if: ${{ success() }}
+    - name: Setup Node.js (v1 version 14.x)
+      uses: actions/setup-node@v1
+      with:
+        node-version: '14.x'
+    - name: Setup SpeedIndex dependencies (ONLY used for Sitespeed)
+      run: |
+        sudo apt-get update -y
+        sudo apt-get install -y imagemagick libjpeg-dev xz-utils --no-install-recommends --force-yes
+        python -m pip install --upgrade pip
+        python -m pip install --upgrade setuptools
+        python -m pip install pyssim Pillow image
+        sudo apt install ffmpeg
+      if: ${{ success() }}
+    - name: Setup Google Chrome browser (ONLY used for Sitespeed)
+      run: |
+        wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - 
+        sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+        sudo apt-get update
+        sudo apt-get --only-upgrade install google-chrome-stable
+        google-chrome --version      
+      if: ${{ success() }}
+    - name: Setup Sitespeed.io npm package (ONLY used for Sitespeed)
+      run: npm install -g sitespeed.io
+      if: ${{ success() }}
+    - name: Setup config (using SAMPLE-config.py as config.py)
+      run: python .github/workflows/verify_result.py -c
+      if: ${{ success() }}
+    - name: Test Performance (Sitespeed.io)
+      run: |
+         python default.py -t 15 -r -u https://webperf.se/ -o .github/workflows/testresult-15.json
+         python .github/workflows/verify_result.py -t 15
+      if: ${{ success() }}

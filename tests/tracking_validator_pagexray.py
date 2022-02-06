@@ -306,8 +306,6 @@ def rate_cookies(browser, url, _local, _):
     result_rating.integrity_and_security_review = rating.integrity_and_security_review + \
         integrity_and_security_review
 
-    print('rate_cookies:', result_rating)
-
     return result_rating
 
 
@@ -403,8 +401,6 @@ def rate_gdpr_and_schrems(content, _local, _):
             rating.set_overall(points)
 
         rating.integrity_and_security_review = rating.integrity_and_security_review + review
-
-        print('rate_gdpr_and_schrems:', rating)
 
         return rating
 
@@ -507,8 +503,6 @@ def rate_tracking(website_urls, _local, _):
     result_rating.integrity_and_security_review = rating.integrity_and_security_review + \
         integrity_and_security_review
 
-    print('rate_tracking:', result_rating)
-
     return result_rating
 
 
@@ -574,8 +568,6 @@ def rate_fingerprint(website_urls, _local, _):
 
     result_rating.integrity_and_security_review = rating.integrity_and_security_review + \
         integrity_and_security_review
-
-    print('rate_fingerprint:', result_rating)
 
     return result_rating
 
@@ -645,8 +637,6 @@ def rate_ads(website_urls, _local, _):
     result_rating.integrity_and_security_review = rating.integrity_and_security_review + \
         integrity_and_security_review
 
-    print('rate_ads:', result_rating)
-
     return result_rating
 
 
@@ -696,8 +686,6 @@ def get_rating_from_sitespeed(url, _local, _):
     except Exception as ex:
         print('ads exception', ex)
 
-    print('get_rating_from_selenium:', rating)
-
     return rating
 
 
@@ -723,8 +711,6 @@ def get_rating_from_selenium(url, _local, _):
         WebDriverWait(browser, 120)
 
         browser.quit()
-
-        print('get_rating_from_selenium:', rating)
 
         return rating
     except Exception as ex:

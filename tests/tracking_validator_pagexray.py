@@ -32,57 +32,6 @@ if use_ip2location:
         print('Unable to load IP2Location Database from "data/IP2LOCATION-LITE-DB1.IPV6.BIN"', ex)
 
 
-def get_file_content(input_filename):
-    # print('input_filename=' + input_filename)
-    with open(input_filename, 'r', encoding='utf-8') as file:
-        lines = list()
-        data = file.readlines()
-        for line in data:
-            lines.append(line)
-            # print(line)
-    return '\n'.join(lines)
-
-
-def get_domains_from_har(content):
-    domains = set()
-
-    entries = list()
-    json_content = list()
-    try:
-        json_content = json.loads(content)
-
-        json_content = json_content['log']
-
-        if 'entries' in json_content:
-            entries = json_content['entries']
-
-        for entry in entries:
-            if 'request' in entry:
-                request = entry['request']
-                if 'url' in request:
-                    url = request['url']
-                    o = urllib.parse.urlparse(url)
-                    hostname = o.hostname
-                    domains.add(hostname)
-
-                    hostname_sections = hostname.split(".")
-                    if len(hostname_sections) > 2:
-                        tmp_hostname = ".".join(hostname_sections[-3:])
-                        if tmp_hostname != hostname:
-                            domains.add(tmp_hostname)
-                        tmp_hostname = ".".join(hostname_sections[-2:])
-                        if tmp_hostname != hostname:
-                            domains.add(tmp_hostname)
-                    else:
-                        domains.add(".".join(hostname_sections[-2:]))
-
-    except Exception as ex:  # might crash if checked resource is not a webpage
-        print('crash rate_tracking', ex)
-        return domains
-
-    return domains
-
-
 def get_domains_from_url(url):
     domains = set()
     o = urllib.parse.urlparse(url)
@@ -193,20 +142,6 @@ def get_foldername_from_url(url):
     return folder_result
 
 
-def get_data_from_file(url):
-    http_archive_content = ''
-    detailed_results_content = ''
-    number_of_tracking = 0
-    adserver_requests = 0
-
-    http_archive_content = get_file_content(os.path.join(
-        'data', 'webperf.se-har.json'))
-    # detailed_results_content = get_file_content(os.path.join(
-    #     'data', 'webperf.se-results.json'))
-
-    return (http_archive_content, detailed_results_content, number_of_tracking, adserver_requests)
-
-
 def rate_cookies(browser, url, _local, _):
     rating = Rating(_, review_show_improvements_only)
 
@@ -216,9 +151,6 @@ def rate_cookies(browser, url, _local, _):
     cookies = browser.get_cookies()
 
     number_of_potential_cookies = len(cookies)
-
-    # print('entry', entry)
-    # print('number_of_potential_cookies=', number_of_potential_cookies)
 
     number_of_cookies = 0
     cookies_index = 0
@@ -248,9 +180,6 @@ def rate_cookies(browser, url, _local, _):
         while cookies_index < number_of_potential_cookies:
             cookie = cookies[cookies_index]
             cookies_index += 1
-
-            # if 'httpOnly' in cookie and cookie['httpOnly'] == False:
-            #     cookies_number_of_httponly += 1
 
             if 'secure' in cookie and cookie['secure'] == False:
                 cookies_number_of_secure += 1
@@ -378,11 +307,8 @@ def rate_cookies(browser, url, _local, _):
     return rating
 
 
-def rate_gdpr_and_schrems(content, url, _local, _):
+def rate_gdpr_and_schrems(content, _local, _):
     rating = Rating(_, review_show_improvements_only)
-
-    o = urllib.parse.urlparse(url)
-    hostname = o.hostname
 
     points = 5.0
     review = ''
@@ -394,10 +320,6 @@ def rate_gdpr_and_schrems(content, url, _local, _):
         json_content = json.loads(content)
 
         json_content = json_content['log']
-
-        # general_info = json_content['pages'][0]
-        # pageId = general_info['id']
-        # tested = general_info['startedDateTime']
 
         entries = json_content['entries']
         number_of_entries = len(entries)
@@ -580,7 +502,7 @@ def rate_tracking(website_urls, _local, _):
     return rating
 
 
-def rate_fingerprint(website_urls, url, _local, _):
+def rate_fingerprint(website_urls, _local, _):
     rating = Rating(_, review_show_improvements_only)
 
     disconnect_sections = ('FingerprintingInvasive', 'FingerprintingGeneral')
@@ -612,9 +534,6 @@ def rate_fingerprint(website_urls, url, _local, _):
             else:
                 url_rating.set_integrity_and_security(1.0)
                 url_rating.set_overall(1.0)
-        # else:
-        #     url_rating.set_integrity_and_security(5.0)
-        #     url_rating.set_overall(5.0)
         rating += url_rating
 
         request_index += 1
@@ -729,9 +648,7 @@ def get_rating_from_sitespeed(url, _local, _):
     #     config.sitespeed_iterations, url, result_folder_name)
     # sitespeed_arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --logToFile true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
     #     config.sitespeed_iterations, url, result_folder_name)
-    result = sitespeed_run_test(sitespeed_use_docker, sitespeed_arg)
-
-    # print('sitespeed_run_test', result)
+    sitespeed_run_test(sitespeed_use_docker, sitespeed_arg)
 
     website_folder_name = get_foldername_from_url(url)
 
@@ -743,9 +660,8 @@ def get_rating_from_sitespeed(url, _local, _):
         sitespeed_use_docker, filename)
 
     # - GDPR and Schrems ( 5.00 rating )
-    rating += rate_gdpr_and_schrems(http_archive_content, url, _local, _)
+    rating += rate_gdpr_and_schrems(http_archive_content, _local, _)
 
-    # website_domains = get_domains_from_har(http_archive_content)
     website_urls = get_urls_from_har(http_archive_content)
 
     # - Tracking ( 5.00 rating )
@@ -755,7 +671,7 @@ def get_rating_from_sitespeed(url, _local, _):
         print('tracking exception', ex)
     # - Fingerprinting/Identifying technique ( 5.00 rating )
     try:
-        rating += rate_fingerprint(website_urls, url, _local, _)
+        rating += rate_fingerprint(website_urls, _local, _)
     except Exception as ex:
         print('fingerprint exception', ex)
     # - Ads ( 5.00 rating )
@@ -838,8 +754,6 @@ def get_analytics(content, request_index):
     if has_matomo_tagmanager(content):
         analytics[text.format(request_index, 'Matomo Tag Manager')] = True
     if has_google_analytics(content):
-        # TODO: Check if asking for anonymizing IP ("[xxx]*google-analytics.com/j/collect[xxx]*aip=1[xxx]*")
-        # TODO: Check doubleclick? https://stats.g.doubleclick.net/j/collect?[xxx]aip=1[xxx]
         analytics[text.format(request_index, 'Google Analytics')] = False
     if has_google_tagmanager(content):
         analytics[text.format(request_index, 'Google Tag Manager')] = False
@@ -1036,24 +950,17 @@ def is_country_code_in_eu_or_on_exception_list(country_code):
     return is_country_code_in_eu(country_code) or is_country_code_in_exception_list(country_code)
 
 
-def get_country_name_from_country_code(country_code):
-    eu_countrycodes = get_eu_countries()
-    if country_code in eu_countrycodes:
-        return eu_countrycodes[country_code]
-    return country_code
-
-
 def get_country_code_from_ip2location(ip_address):
     if use_ip2location:
         rec = False
         try:
             rec = ip2location_db.get_all(ip_address)
-        except Exception as ex:
+        except Exception:
             return ''
         try:
             countrycode = rec.country_short
             return countrycode
-        except Exception as ex:
+        except Exception:
             return ''
 
     return ''

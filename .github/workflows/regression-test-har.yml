@@ -39,15 +39,15 @@ jobs:
     - name: Setup GeckoDriver (Used for Selenium)
       run: wget -q -O - https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz | tar -xvzf -
       if: ${{ success() }}
-    - name: Download Ads database (BlackListProject)
+    - name: Download Ads database (BlockListProject)
       run: |
-        wget -q -O data/blacklistproject-ads-nl.txt https://blocklistproject.github.io/Lists/alt-version/ads-nl.txt
+        wget -q -O data/blocklistproject-ads-nl.txt https://blocklistproject.github.io/Lists/alt-version/ads-nl.txt
         echo "# data"
         ls data
       if: ${{ success() }}
-    - name: Download Tracking database (BlackListProject)
+    - name: Download Tracking database (BlockListProject)
       run: |
-        wget -q -O data/blacklistproject-tracking-nl.txt https://blocklistproject.github.io/Lists/alt-version/tracking-nl.txt
+        wget -q -O data/blocklistproject-tracking-nl.txt https://blocklistproject.github.io/Lists/alt-version/tracking-nl.txt
         echo "# data"
         ls data
       if: ${{ success() }}

@@ -1,4 +1,4 @@
-name: "Regression Test - Tracking and Privacy (Pagexray) Test"
+name: "Docker Test"
 on: [ push ]
 jobs:
   build:
@@ -10,7 +10,7 @@ jobs:
     - name: Test Tracking and Privacy
       run: |
         docker run --rm -v /home/runner/work/webperf_core/webperf_core/:/sitespeed.io sitespeedio/sitespeed.io:latest --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --firstParty --utc true --xvfb --browsertime.chrome.args ignore-certificate-errors https://webperf.se/
-      if: ${{ success() }}
+      if: ${{ always() }}
     - name: Test Directory
       run: |
         echo "# current folder"
@@ -18,6 +18,20 @@ jobs:
       if: ${{ always() }}
     - name: Test Directory
       run: |
-        echo "# sitespeed"
-        ls sitespeed
+        echo "# sitespeed-result"
+        ls sitespeed-result
+      if: ${{ always() }}
+    - name: SiteSpeedTest
+      run: |
+        docker run --rm -v /home/runner/work/webperf_core/webperf_core/:/sitespeed.io sitespeedio/sitespeed.io:latest https://webperf.se/
+      if: ${{ always() }}
+    - name: Test Directory
+      run: |
+        echo "# current folder"
+        ls
+      if: ${{ always() }}
+    - name: Test Directory
+      run: |
+        echo "# sitespeed-result"
+        ls sitespeed-result
       if: ${{ always() }}

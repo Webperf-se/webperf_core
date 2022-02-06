@@ -15,10 +15,17 @@ def get_result(sitespeed_use_docker, arg):
     result = ''
     if sitespeed_use_docker:
 
-        image = "sitespeedio/sitespeed.io:latest"
+        # image = "sitespeedio/sitespeed.io:latest"
 
-        docker_client = docker.from_env()
-        result = str(docker_client.containers.run(image, arg))
+        # docker_client = docker.from_env()
+        # result = str(docker_client.containers.run(image, arg))
+
+        import subprocess
+
+        bashCommand = "docker run {0}".format(arg)
+        process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+        output, error = process.communicate()
+        result = str(output)
     else:
         import subprocess
 

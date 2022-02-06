@@ -502,7 +502,6 @@ def rate_tracking(website_urls, _local, _):
         result_rating.set_overall(points)
 
     result_rating.integrity_and_security_review = result_rating.integrity_and_security_review + \
-        rating.integrity_and_security_review + \
         integrity_and_security_review
 
     return result_rating
@@ -569,7 +568,6 @@ def rate_fingerprint(website_urls, _local, _):
         result_rating.set_overall(points)
 
     result_rating.integrity_and_security_review = result_rating.integrity_and_security_review + \
-        rating.integrity_and_security_review + \
         integrity_and_security_review
 
     return result_rating
@@ -638,7 +636,6 @@ def rate_ads(website_urls, _local, _):
         result_rating.set_overall(points)
 
     result_rating.integrity_and_security_review = result_rating.integrity_and_security_review + \
-        rating.integrity_and_security_review + \
         integrity_and_security_review
 
     return result_rating

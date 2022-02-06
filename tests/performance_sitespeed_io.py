@@ -48,8 +48,8 @@ def get_file_content(sitespeed_use_docker, source_file):
 
         # arg = 'exec --workdir cat {0}'.format(
         #     source_file)
-        arg = 'cat {0}'.format(
-            source_file)
+        # -v {2}:/results
+        arg = '-v results:/results'
 
         docker_client = docker.from_env()
         result = str(docker_client.containers.run(image, arg))

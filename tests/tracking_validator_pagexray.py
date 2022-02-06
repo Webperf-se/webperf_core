@@ -2,10 +2,10 @@
 from models import Rating
 import os
 import json
-import urllib  # https://docs.python.org/3/library/urllib.parse.html
 import config
 import re
-import urllib.parse
+# https://docs.python.org/3/library/urllib.parse.html
+from urllib.parse import urlparse
 from tests.utils import *
 import datetime
 from selenium import webdriver
@@ -34,7 +34,7 @@ if use_ip2location:
 
 def get_domains_from_url(url):
     domains = set()
-    o = urllib.parse.urlparse(url)
+    o = urlparse(url)
     hostname = o.hostname
     domains.add(hostname)
 
@@ -127,7 +127,7 @@ def get_domains_from_disconnect_file(filename, sections):
 
 
 def get_foldername_from_url(url):
-    o = urllib.parse.urlparse(url)
+    o = urlparse(url)
     hostname = o.hostname
     relative_path = o.path
 
@@ -142,10 +142,32 @@ def get_foldername_from_url(url):
     return folder_result
 
 
+def get_friendly_url_name(url, request_index):
+    request_friendly_name = 'Request #{0}'.format(request_index)
+    try:
+        o = urlparse(url)
+        tmp = o.path.split('/')
+        length = len(tmp)
+        tmp = tmp[length - 1]
+
+        regex = r"[^a-z0-9.]"
+        subst = "-"
+
+        tmp = re.sub(regex, subst, tmp, 0, re.MULTILINE)
+        length = len(tmp)
+        if length > 10:
+            request_friendly_name = tmp[:10]
+        elif length > 2:
+            request_friendly_name = tmp
+    except:
+        return request_friendly_name
+    return request_friendly_name
+
+
 def rate_cookies(browser, url, _local, _):
     rating = Rating(_, review_show_improvements_only)
 
-    o = urllib.parse.urlparse(url)
+    o = urlparse(url)
     hostname = o.hostname
 
     cookies = browser.get_cookies()
@@ -444,17 +466,20 @@ def rate_tracking(website_urls, _local, _):
 
         url_rating = Rating(_, review_show_improvements_only)
         if url_is_tracker:
+            request_friendly_name = get_friendly_url_name(
+                website_url, request_index)
+
             if number_of_tracking <= 2:
                 url_rating.set_integrity_and_security(
-                    5.0, '  - Request #{0} - Tracking found, having two are allowed'.format(request_index))
+                    5.0, '  - {0} - Tracking found, having two are allowed'.format(request_friendly_name))
                 url_rating.set_overall(5.0)
             elif number_of_tracking <= 5:
                 url_rating.set_integrity_and_security(
-                    1.0, '  - Request #{0} - Tracking found'.format(request_index))
+                    1.0, '  - {0} - Tracking found'.format(request_friendly_name))
                 url_rating.set_overall(1.0)
             elif number_of_tracking == 6:
                 url_rating.set_integrity_and_security(
-                    1.0, '  - More then 5 requests found, filtering out the rest'.format(request_index))
+                    1.0, '  - More then 5 requests found, filtering out the rest')
                 url_rating.set_overall(1.0)
             else:
                 url_rating.set_integrity_and_security(1.0)
@@ -529,12 +554,14 @@ def rate_fingerprint(website_urls, _local, _):
         url_rating = Rating(_, review_show_improvements_only)
         if url_is_adserver_requests:
             if fingerprint_requests <= 5:
+                request_friendly_name = get_friendly_url_name(
+                    website_url, request_index)
                 url_rating.set_integrity_and_security(
-                    1.0, '  - Request #{0} - Fingerprint found.'.format(request_index))
+                    1.0, '  - {0} - Fingerprint found.'.format(request_friendly_name))
                 url_rating.set_overall(1.0)
             elif fingerprint_requests == 6:
                 url_rating.set_integrity_and_security(
-                    1.0, '  - More then 5 requests found, filtering out the rest.'.format(request_index))
+                    1.0, '  - More then 5 requests found, filtering out the rest.')
                 url_rating.set_overall(1.0)
             else:
                 url_rating.set_integrity_and_security(1.0)
@@ -593,17 +620,19 @@ def rate_ads(website_urls, _local, _):
 
         url_rating = Rating(_, review_show_improvements_only)
         if url_is_adserver_requests:
+            request_friendly_name = get_friendly_url_name(
+                website_url, request_index)
             if adserver_requests <= 2:
                 url_rating.set_integrity_and_security(
-                    5.0, '  - Request #{0} - Advertising found, having two are allowed.'.format(request_index))
+                    5.0, '  - {0} - Advertising found, having two are allowed.'.format(request_friendly_name))
                 url_rating.set_overall(5.0)
             elif adserver_requests <= 5:
                 url_rating.set_integrity_and_security(
-                    1.0, '  - Request #{0} - Advertising found.'.format(request_index))
+                    1.0, '  - {0} - Advertising found.'.format(request_friendly_name))
                 url_rating.set_overall(1.0)
             elif adserver_requests == 6:
                 url_rating.set_integrity_and_security(
-                    1.0, '  - More then 5 requests found, filtering out the rest.'.format(request_index))
+                    1.0, '  - More then 5 requests found, filtering out the rest.')
                 url_rating.set_overall(1.0)
             else:
                 url_rating.set_integrity_and_security(1.0)

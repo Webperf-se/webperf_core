@@ -61,141 +61,103 @@ jobs:
         echo "# data"
         ls data
       if: ${{ success() }}
-    # - name: Test Tracking and Privacy - https://www.kodagent.se/
-    #   run: |
-    #     python default.py -t 23 -r -u https://www.kodagent.se/ -o .github/workflows/testresult-23.json
-    #     python .github/workflows/verify_result.py -t 23
-    #   if: ${{ always() }}
-    # - name: Test Tracking and Privacy - https://nimbleinitiatives.com/
-    #   run: |
-    #     python default.py -t 23 -r -u https://nimbleinitiatives.com/ -o .github/workflows/testresult-23.json
-    #     python .github/workflows/verify_result.py -t 23
-    #   if: ${{ always() }}
+    - name: Test Tracking and Privacy - https://www.kodagent.se/
+      run: |
+        python default.py -t 23 -r -u https://www.kodagent.se/ -o .github/workflows/testresult-23.json
+        python .github/workflows/verify_result.py -t 23
+      if: ${{ always() }}
+    - name: Test Tracking and Privacy - https://nimbleinitiatives.com/
+      run: |
+        python default.py -t 23 -r -u https://nimbleinitiatives.com/ -o .github/workflows/testresult-23.json
+        python .github/workflows/verify_result.py -t 23
+      if: ${{ always() }}
     - name: Test Tracking and Privacy - https://sorundanet.se/hem/index.html
       run: |
         python default.py -t 23 -r -u https://sorundanet.se/hem/index.html -o .github/workflows/testresult-23.json
         python .github/workflows/verify_result.py -t 23
-      if: ${{ always() }}
-    - name: SHOW - https://sorundanet.se/hem/index.html
-      run: |
-        echo "# pages"
-        ls results/pages/
-        echo "# sorundanet_se"
-        ls results/pages/sorundanet_se/
-        echo "# hem"
-        ls results/pages/sorundanet_se/hem/
-        echo "# index.html"
-        ls results/pages/sorundanet_se/hem/index.html/
       if: ${{ always() }}
     - name: Test Tracking and Privacy - https://lokalapartier.se/home/index.html
       run: |
         python default.py -t 23 -r -u https://lokalapartier.se/home/index.html -o .github/workflows/testresult-23.json
         python .github/workflows/verify_result.py -t 23
       if: ${{ always() }}
-    - name: SHOW - https://lokalapartier.se/home/index.html
+    - name: Test Tracking and Privacy - https://www.textamig.se/
       run: |
-        echo "# pages"
-        ls results/pages/
-        echo "# lokalapartier_se"
-        ls results/pages/lokalapartier_se/
-        echo "# home"
-        ls results/pages/lokalapartier_se/home/
-        echo "# index.html"
-        ls results/pages/lokalapartier_se/home/index.html/
-      if: ${{ always() }}
-    - name: Test Tracking and Privacy - https://polisen.se/aktuellt/polisens-nyheter/?lpfm.loc=Stockholms%20l%C3%A4n
-      run: |
-        python default.py -t 23 -r -u https://polisen.se/aktuellt/polisens-nyheter/?lpfm.loc=Stockholms%20l%C3%A4n -o .github/workflows/testresult-23.json
+        python default.py -t 23 -r -u https://www.textamig.se/ -o .github/workflows/testresult-23.json
         python .github/workflows/verify_result.py -t 23
       if: ${{ always() }}
-    - name: SHOW - https://polisen.se/aktuellt/polisens-nyheter/?lpfm.loc=Stockholms%20l%C3%A4n
+    - name: Test Tracking and Privacy - https://polisen.se/
       run: |
-        echo "# pages"
-        ls results/pages/
-        echo "# polisen_se"
-        ls results/pages/polisen_se/
-        echo "# aktuellt"
-        ls results/pages/polisen_se/aktuellt/
-        echo "# polisens-nyheter"
-        ls results/pages/polisen_se/aktuellt/polisens-nyheter/
+        python default.py -t 23 -r -u https://polisen.se/ -o .github/workflows/testresult-23.json
+        python .github/workflows/verify_result.py -t 23
       if: ${{ always() }}
-    # - name: Test Tracking and Privacy - https://www.textamig.se/
-    #   run: |
-    #     python default.py -t 23 -r -u https://www.textamig.se/ -o .github/workflows/testresult-23.json
-    #     python .github/workflows/verify_result.py -t 23
-    #   if: ${{ always() }}
-    # - name: Test Tracking and Privacy - https://polisen.se/
-    #   run: |
-    #     python default.py -t 23 -r -u https://polisen.se/ -o .github/workflows/testresult-23.json
-    #     python .github/workflows/verify_result.py -t 23
-    #   if: ${{ always() }}
-    # - name: Test Tracking and Privacy - https://www.happiness.se/
-    #   run: |
-    #     python default.py -t 23 -r -u https://www.happiness.se/ -o .github/workflows/testresult-23.json
-    #     python .github/workflows/verify_result.py -t 23
-    #   if: ${{ always() }}
-    # - name: Test Tracking and Privacy - https://www.mucf.se/
-    #   run: |
-    #     python default.py -t 23 -r -u https://www.mucf.se/ -o .github/workflows/testresult-23.json
-    #     python .github/workflows/verify_result.py -t 23
-    #   if: ${{ always() }}
-    # - name: Test Tracking and Privacy - https://axesslab.com/
-    #   run: |
-    #     python default.py -t 23 -r -u https://axesslab.com/ -o .github/workflows/testresult-23.json
-    #     python .github/workflows/verify_result.py -t 23
-    #   if: ${{ always() }}
-    # - name: Test Tracking and Privacy - https://www.itiden.se/
-    #   run: |
-    #     python default.py -t 23 -r -u https://www.itiden.se/ -o .github/workflows/testresult-23.json
-    #     python .github/workflows/verify_result.py -t 23
-    #   if: ${{ always() }}
-    # - name: Test Tracking and Privacy - https://www.municipio.se/
-    #   run: |
-    #     python default.py -t 23 -r -u https://www.municipio.se/ -o .github/workflows/testresult-23.json
-    #     python .github/workflows/verify_result.py -t 23
-    #   if: ${{ always() }}
-    # - name: Test Tracking and Privacy - https://polismuseet.se/
-    #   run: |
-    #     python default.py -t 23 -r -u https://polismuseet.se/ -o .github/workflows/testresult-23.json
-    #     python .github/workflows/verify_result.py -t 23
-    #   if: ${{ always() }}
-    # - name: Test Tracking and Privacy - https://www.oru.se/
-    #   run: |
-    #     python default.py -t 23 -r -u https://www.oru.se/ -o .github/workflows/testresult-23.json
-    #     python .github/workflows/verify_result.py -t 23
-    #   if: ${{ always() }}
-    # - name: Test Tracking and Privacy - https://www.mprt.se/
-    #   run: |
-    #     python default.py -t 23 -r -u https://www.mprt.se/ -o .github/workflows/testresult-23.json
-    #     python .github/workflows/verify_result.py -t 23
-    #   if: ${{ always() }}
-    # - name: Test Tracking and Privacy - https://www.hallakonsument.se/
-    #   run: |
-    #     python default.py -t 23 -r -u https://www.hallakonsument.se/ -o .github/workflows/testresult-23.json
-    #     python .github/workflows/verify_result.py -t 23
-    #   if: ${{ always() }}
-    # - name: Test Tracking and Privacy - https://tidningensvenskpolis.se/
-    #   run: |
-    #     python default.py -t 23 -r -u https://tidningensvenskpolis.se/ -o .github/workflows/testresult-23.json
-    #     python .github/workflows/verify_result.py -t 23
-    #   if: ${{ always() }}
-    # - name: Test Tracking and Privacy - https://www.umu.se/
-    #   run: |
-    #     python default.py -t 23 -r -u https://www.umu.se/ -o .github/workflows/testresult-23.json
-    #     python .github/workflows/verify_result.py -t 23
-    #   if: ${{ always() }}
-    # - name: Test Tracking and Privacy - https://whitespace.se/
-    #   run: |
-    #     python default.py -t 23 -r -u https://whitespace.se/ -o .github/workflows/testresult-23.json
-    #     python .github/workflows/verify_result.py -t 23
-    #   if: ${{ always() }}
-    # - name: Test Tracking and Privacy - https://www.transpatientforening.se/
-    #   run: |
-    #     python default.py -t 23 -r -u https://www.transpatientforening.se/ -o .github/workflows/testresult-23.json
-    #     python .github/workflows/verify_result.py -t 23
-    #   if: ${{ always() }}
-    # - name: Test Tracking and Privacy - https://www.vallentuna.se/
-    #   run: |
-    #     python default.py -t 23 -r -u https://www.vallentuna.se/ -o .github/workflows/testresult-23.json
-    #     python .github/workflows/verify_result.py -t 23
-    #   if: ${{ always() }}
+    - name: Test Tracking and Privacy - https://www.happiness.se/
+      run: |
+        python default.py -t 23 -r -u https://www.happiness.se/ -o .github/workflows/testresult-23.json
+        python .github/workflows/verify_result.py -t 23
+      if: ${{ always() }}
+    - name: Test Tracking and Privacy - https://www.mucf.se/
+      run: |
+        python default.py -t 23 -r -u https://www.mucf.se/ -o .github/workflows/testresult-23.json
+        python .github/workflows/verify_result.py -t 23
+      if: ${{ always() }}
+    - name: Test Tracking and Privacy - https://axesslab.com/
+      run: |
+        python default.py -t 23 -r -u https://axesslab.com/ -o .github/workflows/testresult-23.json
+        python .github/workflows/verify_result.py -t 23
+      if: ${{ always() }}
+    - name: Test Tracking and Privacy - https://www.itiden.se/
+      run: |
+        python default.py -t 23 -r -u https://www.itiden.se/ -o .github/workflows/testresult-23.json
+        python .github/workflows/verify_result.py -t 23
+      if: ${{ always() }}
+    - name: Test Tracking and Privacy - https://www.municipio.se/
+      run: |
+        python default.py -t 23 -r -u https://www.municipio.se/ -o .github/workflows/testresult-23.json
+        python .github/workflows/verify_result.py -t 23
+      if: ${{ always() }}
+    - name: Test Tracking and Privacy - https://polismuseet.se/
+      run: |
+        python default.py -t 23 -r -u https://polismuseet.se/ -o .github/workflows/testresult-23.json
+        python .github/workflows/verify_result.py -t 23
+      if: ${{ always() }}
+    - name: Test Tracking and Privacy - https://www.oru.se/
+      run: |
+        python default.py -t 23 -r -u https://www.oru.se/ -o .github/workflows/testresult-23.json
+        python .github/workflows/verify_result.py -t 23
+      if: ${{ always() }}
+    - name: Test Tracking and Privacy - https://www.mprt.se/
+      run: |
+        python default.py -t 23 -r -u https://www.mprt.se/ -o .github/workflows/testresult-23.json
+        python .github/workflows/verify_result.py -t 23
+      if: ${{ always() }}
+    - name: Test Tracking and Privacy - https://www.hallakonsument.se/
+      run: |
+        python default.py -t 23 -r -u https://www.hallakonsument.se/ -o .github/workflows/testresult-23.json
+        python .github/workflows/verify_result.py -t 23
+      if: ${{ always() }}
+    - name: Test Tracking and Privacy - https://tidningensvenskpolis.se/
+      run: |
+        python default.py -t 23 -r -u https://tidningensvenskpolis.se/ -o .github/workflows/testresult-23.json
+        python .github/workflows/verify_result.py -t 23
+      if: ${{ always() }}
+    - name: Test Tracking and Privacy - https://www.umu.se/
+      run: |
+        python default.py -t 23 -r -u https://www.umu.se/ -o .github/workflows/testresult-23.json
+        python .github/workflows/verify_result.py -t 23
+      if: ${{ always() }}
+    - name: Test Tracking and Privacy - https://whitespace.se/
+      run: |
+        python default.py -t 23 -r -u https://whitespace.se/ -o .github/workflows/testresult-23.json
+        python .github/workflows/verify_result.py -t 23
+      if: ${{ always() }}
+    - name: Test Tracking and Privacy - https://www.transpatientforening.se/
+      run: |
+        python default.py -t 23 -r -u https://www.transpatientforening.se/ -o .github/workflows/testresult-23.json
+        python .github/workflows/verify_result.py -t 23
+      if: ${{ always() }}
+    - name: Test Tracking and Privacy - https://www.vallentuna.se/
+      run: |
+        python default.py -t 23 -r -u https://www.vallentuna.se/ -o .github/workflows/testresult-23.json
+        python .github/workflows/verify_result.py -t 23
+      if: ${{ always() }}

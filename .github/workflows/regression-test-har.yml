@@ -84,6 +84,8 @@ jobs:
         ls results/pages/sorundanet_se/
         echo "# hem"
         ls results/pages/sorundanet_se/hem/
+        echo "# index.html"
+        ls results/pages/sorundanet_se/hem/index.html/
       if: ${{ always() }}
     - name: Test Tracking and Privacy - https://lokalapartier.se/home/index.html
       run: |
@@ -98,6 +100,8 @@ jobs:
         ls results/pages/lokalapartier_se/
         echo "# home"
         ls results/pages/lokalapartier_se/home/
+        echo "# index.html"
+        ls results/pages/lokalapartier_se/home/index.html/
       if: ${{ always() }}
     - name: Test Tracking and Privacy - https://polisen.se/aktuellt/polisens-nyheter/?lpfm.loc=Stockholms%20l%C3%A4n
       run: |

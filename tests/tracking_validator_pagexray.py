@@ -139,6 +139,9 @@ def get_foldername_from_url(url):
     # You can manually specify the number of replacements by changing the 4th argument
     folder_result = re.sub(regex, subst, test_str, 0, re.MULTILINE)
 
+    # NOTE: hopefully temporary fix for "index.html"
+    folder_result = folder_result.replace('index_html', 'index.html')
+
     return folder_result
 
 

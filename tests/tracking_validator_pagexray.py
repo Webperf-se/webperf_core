@@ -683,8 +683,8 @@ def get_rating_from_sitespeed(url, _local, _):
 
     from tests.performance_sitespeed_io import get_result as sitespeed_run_test
     # --rm v "$(pwd)":/sitespeed.io
-    sitespeed_arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-        config.sitespeed_iterations, url, result_folder_name)
+    sitespeed_arg = '--rm -v "$(pwd):/sitespeed.io" --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --firstParty --utc true --xvfb --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+        config.sitespeed_iterations, url)
     # sitespeed_arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
     #     config.sitespeed_iterations, url, result_folder_name)
     # sitespeed_arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --plugins.add analysisstorer --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(

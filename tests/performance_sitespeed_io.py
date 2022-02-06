@@ -46,7 +46,9 @@ def get_file_content(sitespeed_use_docker, source_file):
     if sitespeed_use_docker:
         image = "sitespeedio/sitespeed.io:latest"
 
-        arg = 'exec --workdir cat {0}'.format(
+        # arg = 'exec --workdir cat {0}'.format(
+        #     source_file)
+        arg = 'cat {0}'.format(
             source_file)
 
         docker_client = docker.from_env()

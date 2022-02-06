@@ -144,6 +144,9 @@ def get_foldername_from_url(url):
 
 def get_friendly_url_name(url, request_index):
     request_friendly_name = 'Request #{0}'.format(request_index)
+    if request_index == 1:
+        request_friendly_name = 'Webpage'
+
     try:
         o = urlparse(url)
         tmp = o.path.split('/')
@@ -453,9 +456,7 @@ def rate_tracking(website_urls, _local, _):
 
         resource_analytics_used = dict()
         resource_analytics_used.update(
-            get_analytics(website_url, request_index))
-        resource_analytics_used.update(get_analytics(
-            website_url_content, request_index))
+            get_analytics(website_url, website_url_content, request_index))
 
         if len(resource_analytics_used):
             if not url_is_tracker:
@@ -780,25 +781,35 @@ def run_test(_, langCode, url):
     return (rating, result_dict)
 
 
-def get_analytics(content, request_index):
+def get_analytics(url, content, request_index):
     analytics = {}
 
-    text = 'Request #{0} - Has references to {1}'
+    request_friendly_name = get_friendly_url_name(
+        url, request_index)
 
-    if has_matomo(content):
-        analytics[text.format(request_index, 'Matomo')] = True
-    if has_matomo_tagmanager(content):
-        analytics[text.format(request_index, 'Matomo Tag Manager')] = True
-    if has_google_analytics(content):
-        analytics[text.format(request_index, 'Google Analytics')] = False
-    if has_google_tagmanager(content):
-        analytics[text.format(request_index, 'Google Tag Manager')] = False
-    if has_siteimprove_analytics(content):
-        analytics[text.format(request_index, 'SiteImprove Analytics')] = False
-    if has_Vizzit(content):
-        analytics[text.format(request_index, 'Vizzit')] = True
-    if has_fathom(content):
-        analytics[text.format(request_index, 'Fathom Analytics')] = True
+    text = '{0} - Has references to {1}'
+
+    url_and_content = url + content
+
+    if has_matomo(url_and_content):
+        analytics[text.format(request_friendly_name, 'Matomo')] = True
+    if has_matomo_tagmanager(url_and_content):
+        analytics[text.format(request_friendly_name,
+                              'Matomo Tag Manager')] = True
+    if has_google_analytics(url_and_content):
+        analytics[text.format(request_friendly_name,
+                              'Google Analytics')] = False
+    if has_google_tagmanager(url_and_content):
+        analytics[text.format(request_friendly_name,
+                              'Google Tag Manager')] = False
+    if has_siteimprove_analytics(url_and_content):
+        analytics[text.format(request_friendly_name,
+                              'SiteImprove Analytics')] = False
+    if has_Vizzit(url_and_content):
+        analytics[text.format(request_friendly_name, 'Vizzit')] = True
+    if has_fathom(url_and_content):
+        analytics[text.format(request_friendly_name,
+                              'Fathom Analytics')] = True
 
     return analytics
 

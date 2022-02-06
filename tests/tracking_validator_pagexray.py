@@ -283,30 +283,32 @@ def rate_cookies(browser, url, _local, _):
         rating += secure_rating
 
     integrity_and_security_review = rating.integrity_and_security_review
+
+    result_rating = Rating(_, review_show_improvements_only)
     points = rating.get_overall()
     if number_of_cookies > 0:
         if points <= 1.0:
             points = 1.0
-            rating.set_integrity_and_security(
+            result_rating.set_integrity_and_security(
                 points, _local('TEXT_COOKIE_NO_POINTS'))
-            rating.set_overall(points)
+            result_rating.set_overall(points)
         else:
-            rating.set_integrity_and_security(
+            result_rating.set_integrity_and_security(
                 points, _local('TEXT_COOKIE_HAS_POINTS'))
-            rating.set_overall(points)
+            result_rating.set_overall(points)
     else:
         no_cookie_points = 5.0
-        rating.set_integrity_and_security(no_cookie_points, _local('TEXT_COOKIE_HAS_POINTS').format(
+        result_rating.set_integrity_and_security(no_cookie_points, _local('TEXT_COOKIE_HAS_POINTS').format(
             0.0, ''))
 
-        rating.set_overall(no_cookie_points)
+        result_rating.set_overall(no_cookie_points)
 
-    rating.integrity_and_security_review = rating.integrity_and_security_review + \
+    result_rating.integrity_and_security_review = rating.integrity_and_security_review + \
         integrity_and_security_review
 
-    print('rate_cookies:', rating)
+    print('rate_cookies:', result_rating)
 
-    return rating
+    return result_rating
 
 
 def rate_gdpr_and_schrems(content, _local, _):
@@ -487,25 +489,27 @@ def rate_tracking(website_urls, _local, _):
 
     integrity_and_security_review += review_analytics
 
+    result_rating = Rating(_, review_show_improvements_only)
+
     points = rating.get_overall()
     if points <= 1.0:
         points = 1.0
         # '* Tracking ({0} points)\r\n'
-        rating.set_integrity_and_security(
+        result_rating.set_integrity_and_security(
             points, _local('TEXT_TRACKING_NO_POINTS'))
-        rating.set_overall(points)
+        result_rating.set_overall(points)
     else:
         # '* Tracking (+{0} points)\r\n'
-        rating.set_integrity_and_security(
+        result_rating.set_integrity_and_security(
             points, _local('TEXT_TRACKING_HAS_POINTS'))
-        rating.set_overall(points)
+        result_rating.set_overall(points)
 
-    rating.integrity_and_security_review = rating.integrity_and_security_review + \
+    result_rating.integrity_and_security_review = rating.integrity_and_security_review + \
         integrity_and_security_review
 
-    print('rate_tracking:', rating)
+    print('rate_tracking:', result_rating)
 
-    return rating
+    return result_rating
 
 
 def rate_fingerprint(website_urls, _local, _):
@@ -554,25 +558,26 @@ def rate_fingerprint(website_urls, _local, _):
         rating.set_integrity_and_security(5.0)
         rating.set_overall(5.0)
 
+    result_rating = Rating(_, review_show_improvements_only)
     points = rating.get_overall()
     if points <= 1.0:
         points = 1.0
         # '* Tracking ({0} points)\r\n'
-        rating.set_integrity_and_security(
+        result_rating.set_integrity_and_security(
             points, _local('TEXT_FINGERPRINTING_HAS_POINTS'))
-        rating.set_overall(points)
+        result_rating.set_overall(points)
     else:
         # '* Tracking (+{0} points)\r\n'
-        rating.set_integrity_and_security(
+        result_rating.set_integrity_and_security(
             points, _local('TEXT_FINGERPRINTING_NO_POINTS'))
-        rating.set_overall(points)
+        result_rating.set_overall(points)
 
-    rating.integrity_and_security_review = rating.integrity_and_security_review + \
+    result_rating.integrity_and_security_review = rating.integrity_and_security_review + \
         integrity_and_security_review
 
-    print('rate_tracking:', rating)
+    print('rate_fingerprint:', result_rating)
 
-    return rating
+    return result_rating
 
 
 def rate_ads(website_urls, _local, _):
@@ -623,25 +628,26 @@ def rate_ads(website_urls, _local, _):
         integrity_and_security_review += '  - A total of {0} advertising requests found.\n'.format(
             adserver_requests)
 
+    result_rating = Rating(_, review_show_improvements_only)
     points = rating.get_overall()
     if points <= 1.0:
         points = 1.0
         # '* Tracking ({0} points)\r\n'
-        rating.set_integrity_and_security(
+        result_rating.set_integrity_and_security(
             points, _local('TEXT_ADS_NO_POINTS'))
-        rating.set_overall(points)
+        result_rating.set_overall(points)
     else:
         # '* Tracking (+{0} points)\r\n'
-        rating.set_integrity_and_security(
+        result_rating.set_integrity_and_security(
             points, _local('TEXT_ADS_NO_REQUESTS'))
-        rating.set_overall(points)
+        result_rating.set_overall(points)
 
-    rating.integrity_and_security_review = rating.integrity_and_security_review + \
+    result_rating.integrity_and_security_review = rating.integrity_and_security_review + \
         integrity_and_security_review
 
-    print('rate_ads:', rating)
+    print('rate_ads:', result_rating)
 
-    return rating
+    return result_rating
 
 
 def get_rating_from_sitespeed(url, _local, _):

@@ -68,8 +68,8 @@ jobs:
       if: ${{ success() }}
     - name: Test Directory
       run: |
-        echo "# sitespeed"
-        ls sitespeed
         echo "# current folder"
         ls
+        echo "# sitespeed"
+        ls sitespeed
       if: ${{ always() }}

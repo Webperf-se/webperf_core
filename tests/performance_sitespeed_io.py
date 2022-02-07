@@ -24,8 +24,18 @@ def get_result(sitespeed_use_docker, arg):
         import subprocess
         arguments = list()
         arguments.append(
-            'docker run --rm -v results:/sitespeed.io sitespeedio/sitespeed.io:latest')
-        arguments.extend(arg)
+            'docker')
+        arguments.append(
+            'run')
+        arguments.append(
+            '--rm')
+        arguments.append(
+            '-v results:/sitespeed.io')
+        arguments.append(
+            'sitespeedio/sitespeed.io:latest')
+        # arguments.append(
+        #     'docker run --rm -v results:/sitespeed.io sitespeedio/sitespeed.io:latest')
+        arguments.extend('{0}'.format(arg).split())
         process = subprocess.Popen(arguments, stdout=subprocess.PIPE)
         output, error = process.communicate()
         result = str(output)

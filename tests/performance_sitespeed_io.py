@@ -37,7 +37,7 @@ def get_result(sitespeed_use_docker, arg):
         # #     'docker run --rm -v results:/sitespeed.io sitespeedio/sitespeed.io:latest')
         # arguments.extend('{0}'.format(arg).split())
         # process = subprocess.Popen(arguments, stdout=subprocess.PIPE)
-        bashCommand = "docker run -rm -v data:/sitespeed.io sitespeedio/sitespeed.io:latest {0}".format(
+        bashCommand = "docker run --rm -v data:/sitespeed.io sitespeedio/sitespeed.io:latest {0}".format(
             arg)
         process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
         # process = subprocess.run(arguments, stdout=subprocess.PIPE)

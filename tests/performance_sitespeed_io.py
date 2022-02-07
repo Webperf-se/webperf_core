@@ -22,21 +22,25 @@ def get_result(sitespeed_use_docker, arg):
         # result = str(docker_client.containers.run(image, arg))
 
         import subprocess
-        arguments = list()
-        arguments.append(
-            'docker')
-        arguments.append(
-            'run')
-        arguments.append(
-            '--rm')
-        arguments.append(
-            '-v "data:/sitespeed.io"')
-        arguments.append(
-            'sitespeedio/sitespeed.io:latest')
+        # arguments = list()
         # arguments.append(
-        #     'docker run --rm -v results:/sitespeed.io sitespeedio/sitespeed.io:latest')
-        arguments.extend('{0}'.format(arg).split())
-        process = subprocess.Popen(arguments, stdout=subprocess.PIPE)
+        #     'docker')
+        # arguments.append(
+        #     'run')
+        # arguments.append(
+        #     '--rm')
+        # arguments.append(
+        #     '-v data:/sitespeed.io')
+        # arguments.append(
+        #     'sitespeedio/sitespeed.io:latest')
+        # # arguments.append(
+        # #     'docker run --rm -v results:/sitespeed.io sitespeedio/sitespeed.io:latest')
+        # arguments.extend('{0}'.format(arg).split())
+        # process = subprocess.Popen(arguments, stdout=subprocess.PIPE)
+        bashCommand = "docker run -rm -v data:/sitespeed.io sitespeedio/sitespeed.io:latest {0}".format(
+            arg)
+        process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+        # process = subprocess.run(arguments, stdout=subprocess.PIPE)
         output, error = process.communicate()
         result = str(output)
     else:

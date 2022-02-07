@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 from models import Rating
 import datetime
 import docker
@@ -21,9 +22,11 @@ def get_result(sitespeed_use_docker, arg):
         # result = str(docker_client.containers.run(image, arg))
 
         import subprocess
-
-        bashCommand = "docker run {0}".format(arg)
-        process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+        arguments = list()
+        arguments.append(
+            'docker run --rm -v results:/sitespeed.io sitespeedio/sitespeed.io:latest')
+        arguments.extend(arg)
+        process = subprocess.Popen(arguments, stdout=subprocess.PIPE)
         output, error = process.communicate()
         result = str(output)
     else:
@@ -51,15 +54,25 @@ def get_local_file_content(input_filename):
 def get_file_content(sitespeed_use_docker, source_file):
     result = ''
     if sitespeed_use_docker:
-        image = "sitespeedio/sitespeed.io:latest"
+        # image = "sitespeedio/sitespeed.io:latest"
 
-        # arg = 'exec --workdir cat {0}'.format(
-        #     source_file)
-        # -v {2}:/results
-        arg = '-v results:/results'
+        # # arg = 'exec --workdir cat {0}'.format(
+        # #     source_file)
+        # # -v {2}:/results
+        # arg = '-v results:/results'
 
-        docker_client = docker.from_env()
-        result = str(docker_client.containers.run(image, arg))
+        # docker_client = docker.from_env()
+        # result = str(docker_client.containers.run(image, arg))
+        # import subprocess
+        # arguments = list()
+        # arguments.append(
+        #     'docker run -v results:/results sitespeedio/sitespeed.io:latest')
+        # arguments.extend(arg)
+        # process = subprocess.Popen(arguments, stdout=subprocess.PIPE)
+        # output, error = process.communicate()
+        # result = str(output)
+        result = get_local_file_content(
+            os.path.join('sitespeed-results', source_file))
     else:
         result = get_local_file_content(source_file)
 
@@ -83,7 +96,9 @@ def run_test(_, langCode, url):
     print(_('TEXT_TEST_START').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+    # arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+    #     config.sitespeed_iterations, url)
+    arg = '--shm-size=1g -b chrome --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
         config.sitespeed_iterations, url)
 
     result = get_result(sitespeed_use_docker, arg)

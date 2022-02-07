@@ -30,7 +30,7 @@ def get_result(sitespeed_use_docker, arg):
         arguments.append(
             '--rm')
         arguments.append(
-            '-v "/home/runner/work/webperf_core/webperf_core/data:/sitespeed.io"')
+            '-v "data:/sitespeed.io"')
         arguments.append(
             'sitespeedio/sitespeed.io:latest')
         # arguments.append(

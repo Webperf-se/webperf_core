@@ -30,7 +30,7 @@ def get_result(sitespeed_use_docker, arg):
         arguments.append(
             '--rm')
         arguments.append(
-            '-v "($pwd):/sitespeed.io"')
+            '-v "$(pwd):/sitespeed.io"')
         arguments.append(
             'sitespeedio/sitespeed.io:latest')
         # arguments.append(

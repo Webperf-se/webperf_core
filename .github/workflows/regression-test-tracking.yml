@@ -70,6 +70,14 @@ jobs:
       run: |
         echo "# current folder"
         ls
+      if: ${{ always() }}
+    - name: Test Directory
+      run: |
         echo "# sitespeed"
         ls sitespeed
+      if: ${{ always() }}
+    - name: Test Directory
+      run: |
+        echo "# data"
+        ls data
       if: ${{ always() }}

@@ -54,11 +54,6 @@ jobs:
       if: ${{ always() }}
     - name: Test Directory
       run: |
-        echo "# sitespeed-result"
-        ls sitespeed-result
-      if: ${{ always() }}
-    - name: Test Directory
-      run: |
         echo "# data"
         ls data
       if: ${{ always() }}
@@ -66,4 +61,9 @@ jobs:
       run: |
         echo "# data / sitespeed-result"
         ls data/sitespeed-result
+      if: ${{ always() }}
+    - name: Test Directory
+      run: |
+        echo "# data / sitespeed-result / webperf.se"
+        ls data/sitespeed-result/webperf.se/
       if: ${{ always() }}

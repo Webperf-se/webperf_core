@@ -16,42 +16,15 @@ def get_result(sitespeed_use_docker, arg):
 
     result = ''
     if sitespeed_use_docker:
-
-        # image = "sitespeedio/sitespeed.io:latest"
-
-        # docker_client = docker.from_env()
-        # result = str(docker_client.containers.run(image, arg))
-
-        import subprocess
-        # arguments = list()
-        # arguments.append(
-        #     'docker')
-        # arguments.append(
-        #     'run')
-        # arguments.append(
-        #     '--rm')
-        # arguments.append(
-        #     '-v data:/sitespeed.io')
-        # arguments.append(
-        #     'sitespeedio/sitespeed.io:latest')
-        # # arguments.append(
-        # #     'docker run --rm -v results:/sitespeed.io sitespeedio/sitespeed.io:latest')
-        # arguments.extend('{0}'.format(arg).split())
-        # process = subprocess.Popen(arguments, stdout=subprocess.PIPE)
-
         dir = Path(os.path.dirname(
             os.path.realpath(__file__)) + os.path.sep).parent
         data_dir = os.path.join(dir.resolve(), 'data') + os.sep
 
         bashCommand = "docker run --rm -v {1}:/sitespeed.io sitespeedio/sitespeed.io:latest {0}".format(
             arg, data_dir)
-        # bashCommand = "docker run --rm -v /home/runner/work/webperf_core/webperf_core/:/sitespeed.io sitespeedio/sitespeed.io:latest {0}".format(
-        #     arg)
-        # bashCommand = "docker run --rm -v data:/sitespeed.io sitespeedio/sitespeed.io:latest {0}".format(
-        #     arg)
 
+        import subprocess
         process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-        # process = subprocess.run(arguments, stdout=subprocess.PIPE)
         output, error = process.communicate()
         print('error? get_result: ', error)
         result = str(output)
@@ -85,23 +58,6 @@ def get_local_file_content(input_filename):
 def get_file_content(sitespeed_use_docker, source_file):
     result = ''
     if sitespeed_use_docker:
-        # image = "sitespeedio/sitespeed.io:latest"
-
-        # # arg = 'exec --workdir cat {0}'.format(
-        # #     source_file)
-        # # -v {2}:/results
-        # arg = '-v results:/results'
-
-        # docker_client = docker.from_env()
-        # result = str(docker_client.containers.run(image, arg))
-        # import subprocess
-        # arguments = list()
-        # arguments.append(
-        #     'docker run -v results:/results sitespeedio/sitespeed.io:latest')
-        # arguments.extend(arg)
-        # process = subprocess.Popen(arguments, stdout=subprocess.PIPE)
-        # output, error = process.communicate()
-        # result = str(output)
         result = get_local_file_content(
             os.path.join('sitespeed-results', source_file))
     else:
@@ -127,8 +83,6 @@ def run_test(_, langCode, url):
     print(_('TEXT_TEST_START').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    # arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-    #     config.sitespeed_iterations, url)
     arg = '--shm-size=1g -b chrome --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
         config.sitespeed_iterations, url)
 

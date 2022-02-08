@@ -40,7 +40,7 @@ def get_result(sitespeed_use_docker, arg):
         # process = subprocess.Popen(arguments, stdout=subprocess.PIPE)
 
         dir = Path(os.path.dirname(
-            os.path.realpath(__file__)) + os.path.sep).parent.parent
+            os.path.realpath(__file__)) + os.path.sep).parent
         data_dir = os.path.join(dir.resolve(), 'data') + os.sep
 
         bashCommand = "docker run --rm -v {1}:/sitespeed.io sitespeedio/sitespeed.io:latest {0}".format(

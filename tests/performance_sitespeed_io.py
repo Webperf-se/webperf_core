@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from pathlib import Path
 import os
 from models import Rating
 import datetime
@@ -38,8 +39,14 @@ def get_result(sitespeed_use_docker, arg):
         # arguments.extend('{0}'.format(arg).split())
         # process = subprocess.Popen(arguments, stdout=subprocess.PIPE)
 
-        bashCommand = "docker run --rm -v /home/runner/work/webperf_core/webperf_core/:/sitespeed.io sitespeedio/sitespeed.io:latest {0}".format(
-            arg)
+        dir = Path(os.path.dirname(
+            os.path.realpath(__file__)) + os.path.sep).parent.parent
+        data_dir = os.path.join(dir.resolve(), 'data') + os.sep
+
+        bashCommand = "docker run --rm -v {1}:/sitespeed.io sitespeedio/sitespeed.io:latest {0}".format(
+            arg, data_dir)
+        # bashCommand = "docker run --rm -v /home/runner/work/webperf_core/webperf_core/:/sitespeed.io sitespeedio/sitespeed.io:latest {0}".format(
+        #     arg)
         # bashCommand = "docker run --rm -v data:/sitespeed.io sitespeedio/sitespeed.io:latest {0}".format(
         #     arg)
 

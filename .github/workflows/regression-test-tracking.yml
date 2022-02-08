@@ -18,16 +18,16 @@ jobs:
     - name: Setup config (using SAMPLE-config.py as config.py)
       run: python .github/workflows/verify_result.py -c
       if: ${{ success() }}
+    - name: Setup Node.js (v1 version 14.x)
+      uses: actions/setup-node@v1
+      with:
+        node-version: '14.x'
+      if: ${{ success() }}
     - name: Download IP2LOCATION DB (Using repository secret)
       shell: bash
       env:
         IP2LOCATION_DOWNLOAD_URL: ${{ secrets.IP2LOCATION_DOWNLOAD_URL }}
       run: wget -q -O - $IP2LOCATION_DOWNLOAD_URL | tar -xvzf - -C data
-      if: ${{ success() }}
-    - name: Setup Node.js (v1 version 14.x)
-      uses: actions/setup-node@v1
-      with:
-        node-version: '14.x'
       if: ${{ success() }}
     - name: Setup Google Chrome browser (ONLY used for Sitespeed)
       run: |

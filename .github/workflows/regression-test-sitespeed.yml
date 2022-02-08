@@ -15,6 +15,9 @@ jobs:
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
       if: ${{ success() }}
+    - name: Setup config (using SAMPLE-config.py as config.py)
+      run: python .github/workflows/verify_result.py -c
+      if: ${{ success() }}
     - name: Setup Node.js (v1 version 14.x)
       uses: actions/setup-node@v1
       with:

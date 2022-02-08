@@ -42,11 +42,23 @@ jobs:
     - name: Setup Sitespeed.io npm package (ONLY used for Sitespeed)
       run: npm install -g sitespeed.io
       if: ${{ success() }}
-    - name: Setup config (using SAMPLE-config.py as config.py)
-      run: python .github/workflows/verify_result.py -c
-      if: ${{ success() }}
     - name: Test Performance (Sitespeed.io)
       run: |
          python default.py -t 15 -r -u https://webperf.se/ -o .github/workflows/testresult-15.json
          python .github/workflows/verify_result.py -t 15
       if: ${{ success() }}
+    - name: Test Directory
+      run: |
+        echo "# current folder"
+        ls
+      if: ${{ always() }}
+    - name: Test Directory
+      run: |
+        echo "# sitespeed"
+        ls sitespeed
+      if: ${{ always() }}
+    - name: Test Directory
+      run: |
+        echo "# data"
+        ls data
+      if: ${{ always() }}

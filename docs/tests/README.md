@@ -1,5 +1,8 @@
 # Tests
 
+Add a small ingress here
+
+## List of Tests
 * [Google Lighthouse accessibility with Axe](google-lighthouse-based.md)
 * [Google Lighthouse performance](google-lighthouse-based.md)
 * [Google Lighthouse best practice](google-lighthouse-based.md)
@@ -17,7 +20,10 @@
 * [Tracking & Integrity test (checks GDPR compliance, tracking and more)](tracking.md)
 
 
-## Code Tests
+## Code Quality
+
+Add a small ingress here.
+TODO: Why do we have this and what good does it do?
 
 ### General Regression Test
 * [![CodeQL (Security and Code Quality)](https://github.com/Webperf-se/webperf_core/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/codeql-analysis.yml)

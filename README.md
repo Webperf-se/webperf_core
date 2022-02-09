@@ -9,7 +9,7 @@ Minimalistic client mainly running on PythonAnywhere.com, accessing different we
 # Getting Started
 
 Add a interesting ingress here.
-[Read more about how to get started](./docs/getting-started.md)]
+[Read more about how to get started](./docs/getting-started.md)
 
 * [Locally](./docs/getting-started-local.md)
 * [GitHub Actions](./docs/getting-started-github-actions.md)

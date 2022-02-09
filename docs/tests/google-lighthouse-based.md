@@ -1,11 +1,12 @@
 # Google Lighthouse based Tests
+[![Regression Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-google-lighthouse-based.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-google-lighthouse-based.yml)
 
 * [Google Lighthouse accessibility with Axe](google-lighthouse-based.md)
 * [Google Lighthouse performance](google-lighthouse-based.md)
 * [Google Lighthouse best practice](google-lighthouse-based.md)
 * [Google Lighthouse progressive web apps](google-lighthouse-based.md)
 * [Google Lighthouse SEO](google-lighthouse-based.md)
-* [Carbon dioxide checked against Website Carbon Calculator API](google-lighthouse-based.md)
+* [Energy efficiency](google-lighthouse-based.md)
 
 
 

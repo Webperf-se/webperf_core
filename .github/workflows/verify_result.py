@@ -280,7 +280,7 @@ def main(argv):
     Options and arguments:
     -h/--help\t\t\t: Verify Help command
     -l/--language\t\t: Verify languages
-    -c/--prep-config\t\t: Uses SAMPLE-config.py to creat config.py
+    -c/--prep-config <activate feature, True or False>\t\t: Uses SAMPLE-config.py to creat config.py
     -t/--test <test number>\t: Verify result of specific test
 
     NOTE:
@@ -289,8 +289,8 @@ def main(argv):
     """
 
     try:
-        opts, args = getopt.getopt(argv, "hlct:", [
-                                   "help", "test=", "prep-config", "language"])
+        opts, args = getopt.getopt(argv, "hlc:t:", [
+                                   "help", "test=", "prep-config=", "language"])
     except getopt.GetoptError:
         print(main.__doc__)
         sys.exit(2)
@@ -305,7 +305,11 @@ def main(argv):
             sys.exit(0)
             break
         elif opt in ("-c", "--prep-config"):
-            if prepare_config_file('SAMPLE-config.py', 'config.py'):
+            is_activated = False
+            if 'true' in arg or 'True' in arg or '1' in arg:
+                is_activated = True
+
+            if prepare_config_file('SAMPLE-config.py', 'config.py', is_activated):
                 sys.exit(0)
             else:
                 sys.exit(2)

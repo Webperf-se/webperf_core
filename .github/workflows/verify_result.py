@@ -23,7 +23,6 @@ def prepare_config_file(sample_filename, filename, is_activated):
     if os.path.exists(filename):
         print(filename + ' file already exist, removing it')
         os.remove(filename)
-        return False
 
     shutil.copyfile(sample_filename, filename)
 

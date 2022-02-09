@@ -47,26 +47,26 @@ jobs:
          python default.py -t 15 -r -u https://webperf.se/ -o .github/workflows/testresult-15.json
          python .github/workflows/verify_result.py -t 15
       if: ${{ success() }}
-    - name: Test Directory
-      run: |
-        echo "# current folder"
-        ls
-      if: ${{ always() }}
-    - name: Test Directory
-      run: |
-        echo "# data"
-        ls data
-      if: ${{ always() }}
-    - name: Test Directory
-      run: |
-        echo "# data / sitespeed-result"
-        ls data/sitespeed-result
-      if: ${{ always() }}
-    - name: Test Directory
-      run: |
-        echo "# data / sitespeed-result / webperf.se"
-        ls data/sitespeed-result/webperf.se/
-      if: ${{ always() }}
+    # - name: Test Directory
+    #   run: |
+    #     echo "# current folder"
+    #     ls
+    #   if: ${{ always() }}
+    # - name: Test Directory
+    #   run: |
+    #     echo "# data"
+    #     ls data
+    #   if: ${{ always() }}
+    # - name: Test Directory
+    #   run: |
+    #     echo "# data / sitespeed-result"
+    #     ls data/sitespeed-result
+    #   if: ${{ always() }}
+    # - name: Test Directory
+    #   run: |
+    #     echo "# data / sitespeed-result / webperf.se"
+    #     ls data/sitespeed-result/webperf.se/
+    #   if: ${{ always() }}
     - name: Setup config (using SAMPLE-config.py as config.py) - USE NPM PACKAGE
       run: python .github/workflows/verify_result.py -c false
       if: ${{ success() }}

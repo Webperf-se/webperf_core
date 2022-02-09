@@ -1,4 +1,4 @@
-name: "Regression Test - Tracking and Privacy (Pagexray) Test"
+name: "Regression Test - Tracking and Privacy (Beta) Test"
 on: 
   push:
     paths-ignore:

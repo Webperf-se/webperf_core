@@ -8,6 +8,9 @@ Add small description of what this test is.
 
 ## How are rating being calculated?
 
+## References
+
+Links to other sources where you can test or read more
 
 ## How to setup?
 

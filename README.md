@@ -36,6 +36,19 @@ Minimalistic client mainly running on PythonAnywhere.com, accessing different we
 * Bug reports
 * Pull Requests
 
+## [Contribute](./docs/CONTRIBUTING.md)
+Do you want to contribute?
+[Read more about how to contribute](./docs/CONTRIBUTING.md)
+
+
+## Need help?
+
+It is often worthwhile to google/dockduckgo the error messages you get.
+If you give up the search then you can always [check if someone on our Slack channel](https://webperf.se/articles/webperf-pa-slack/) have time to help you,
+but don’t forget to paste your error message directly in the first post.
+Or, if you think your error are common for more people than yourself, [post an issue here at Github](https://github.com/Webperf-se/webperf_core/issues/new/choose).
+
+
 # [Third party extensions](./docs/thirdparty.md)
 
 Add a good ingress here.
@@ -44,13 +57,4 @@ Add a good ingress here.
 
 
 
-
-### Are you receiving error messages? 
-
-It is often worthwhile to google the error messages you get. If you give up the search then you can always [check if someone on our Slack channel](https://webperf.se/articles/webperf-pa-slack/) have time to help you, but don’t forget to paste your error message directly in the first post. Or, if you think your error are common for more people than yourself, post an issue here at Github.
-
-
-## [Contribute](./docs/CONTRIBUTING.md)
-Do you want to contribute?
-[Read more about how to contribute](./docs/CONTRIBUTING.md)
 

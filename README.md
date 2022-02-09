@@ -1,4 +1,5 @@
-Minimalistic client mainly running on PythonAnywhere.com, accessing different websites, or web-APIs, and scraping them.
+The project goal is to help identify and help you improve the web over time, one improvment at a time.
+It tries to do this by giving you a weighted list of improvment you can (and probably should do) to your website.
 
 
 # Features
@@ -14,7 +15,7 @@ Minimalistic client mainly running on PythonAnywhere.com, accessing different we
   * Networking
   * World Wide Web Standards
 * Validate new release before going into production
-* Test other/more pages then startpage
+* Test other/more pages then [WebPerf.se](https://webperf.se/) do
 
 
 # Getting Started

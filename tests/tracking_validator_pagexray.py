@@ -145,10 +145,12 @@ def get_foldername_from_url(url):
     return folder_result
 
 
-def get_friendly_url_name(url, request_index):
-    request_friendly_name = '#{0}: '.format(request_index)
+def get_friendly_url_name(_local, url, request_index):
+    request_friendly_name = _local(
+        'TEXT_REQUEST_UNKNOWN').format(request_index)
     if request_index == 1:
-        request_friendly_name = '#{0}: Webpage'.format(request_index)
+        request_friendly_name = _local(
+            'TEXT_REQUEST_WEBPAGE').format(request_index)
 
     try:
         o = urlparse(url)
@@ -334,15 +336,15 @@ def rate_cookies(browser, url, _local, _):
         if points <= 1.0:
             points = 1.0
             result_rating.set_integrity_and_security(
-                points, _local('TEXT_COOKIE_NO_POINTS'))
+                points, _local('TEXT_COOKIE'))
             result_rating.set_overall(points)
         else:
             result_rating.set_integrity_and_security(
-                points, _local('TEXT_COOKIE_HAS_POINTS'))
+                points, _local('TEXT_COOKIE'))
             result_rating.set_overall(points)
     else:
         no_cookie_points = 5.0
-        result_rating.set_integrity_and_security(no_cookie_points, _local('TEXT_COOKIE_HAS_POINTS').format(
+        result_rating.set_integrity_and_security(no_cookie_points, _local('TEXT_COOKIE').format(
             0.0, ''))
 
         result_rating.set_overall(no_cookie_points)
@@ -373,11 +375,6 @@ def rate_gdpr_and_schrems(content, _local, _):
         page_entry = entries[0]
         page_countrycode = ''
 
-        # website has info in a field called 'comment', local version has not
-        if 'comment' in page_entry:
-            page_isp_and_countrycode = json.loads(page_entry['comment'])
-            page_countrycode = page_isp_and_countrycode['country_code']
-
         page_ip_address = page_entry['serverIPAddress']
 
         page_countrycode = get_best_country_code(
@@ -388,11 +385,6 @@ def rate_gdpr_and_schrems(content, _local, _):
         entries_index = 0
         while entries_index < number_of_entries:
             entry_country_code = ''
-            # website has info in a field called 'comment', local version has not
-            if 'comment' in entries[entries_index]:
-                entry_isp_and_countrycode = json.loads(
-                    entries[entries_index]['comment'])
-                entry_country_code = entry_isp_and_countrycode['country_code']
 
             entry_ip_address = entries[entries_index]['serverIPAddress']
             entry_country_code = get_best_country_code(
@@ -457,6 +449,10 @@ def rate_gdpr_and_schrems(content, _local, _):
 def rate_tracking(website_urls, _local, _):
     rating = Rating(_, review_show_improvements_only)
 
+    allowed_nof_trackers = 2
+    max_nof_trackers_showed = 5
+
+    limit_message_index = max_nof_trackers_showed + 1
     number_of_tracking = 0
     analytics_used = dict()
 
@@ -475,7 +471,7 @@ def rate_tracking(website_urls, _local, _):
 
         resource_analytics_used = dict()
         resource_analytics_used.update(
-            get_analytics(website_url, website_url_content, request_index))
+            get_analytics(_local, website_url, website_url_content, request_index))
 
         if len(resource_analytics_used):
             if not url_is_tracker:
@@ -486,20 +482,20 @@ def rate_tracking(website_urls, _local, _):
 
         url_rating = Rating(_, review_show_improvements_only)
         if url_is_tracker:
-            request_friendly_name = get_friendly_url_name(
-                website_url, request_index)
+            request_friendly_name = get_friendly_url_name(_local,
+                                                          website_url, request_index)
 
-            if number_of_tracking <= 2:
+            if number_of_tracking <= allowed_nof_trackers:
                 url_rating.set_integrity_and_security(
-                    5.0, '  - {0} - Tracking found, having two are allowed'.format(request_friendly_name))
+                    5.0, _local('TEXT_TRACKING_FOUND_ALLOWED').format(request_friendly_name, allowed_nof_trackers))
                 url_rating.set_overall(5.0)
-            elif number_of_tracking <= 5:
+            elif number_of_tracking <= max_nof_trackers_showed:
                 url_rating.set_integrity_and_security(
-                    1.0, '  - {0} - Tracking found'.format(request_friendly_name))
+                    1.0, _local('TEXT_TRACKING_FOUND').format(request_friendly_name))
                 url_rating.set_overall(1.0)
-            elif number_of_tracking == 6:
+            elif number_of_tracking == limit_message_index:
                 url_rating.set_integrity_and_security(
-                    1.0, '  - More then 5 requests found, filtering out the rest')
+                    1.0, _local('TEXT_TRACKING_MAX_SHOWED').format(max_nof_trackers_showed))
                 url_rating.set_overall(1.0)
             else:
                 url_rating.set_integrity_and_security(1.0)
@@ -526,7 +522,7 @@ def rate_tracking(website_urls, _local, _):
     integrity_and_security_review = rating.integrity_and_security_review
 
     if number_of_tracking >= 6:
-        integrity_and_security_review += '  - A total of {0} tracking requests found.\n'.format(
+        integrity_and_security_review += _local('TEXT_TRACKING_TOTAL_FOUND').format(
             number_of_tracking)
 
     integrity_and_security_review += review_analytics
@@ -538,12 +534,12 @@ def rate_tracking(website_urls, _local, _):
         points = 1.0
         # '* Tracking ({0} points)\r\n'
         result_rating.set_integrity_and_security(
-            points, _local('TEXT_TRACKING_NO_POINTS'))
+            points, _local('TEXT_TRACKING'))
         result_rating.set_overall(points)
     else:
         # '* Tracking (+{0} points)\r\n'
         result_rating.set_integrity_and_security(
-            points, _local('TEXT_TRACKING_HAS_POINTS'))
+            points, _local('TEXT_TRACKING'))
         result_rating.set_overall(points)
 
     result_rating.integrity_and_security_review = result_rating.integrity_and_security_review + \
@@ -555,6 +551,9 @@ def rate_tracking(website_urls, _local, _):
 def rate_fingerprint(website_urls, _local, _):
     rating = Rating(_, review_show_improvements_only)
 
+    max_nof_fingerprints_showed = 5
+
+    limit_message_index = max_nof_fingerprints_showed + 1
     disconnect_sections = ('FingerprintingInvasive', 'FingerprintingGeneral')
     fingerprinting_domains = get_domains_from_disconnect_file(
         os.path.join('data', 'disconnect-services.json'), disconnect_sections)
@@ -573,15 +572,15 @@ def rate_fingerprint(website_urls, _local, _):
 
         url_rating = Rating(_, review_show_improvements_only)
         if url_is_adserver_requests:
-            if fingerprint_requests <= 5:
-                request_friendly_name = get_friendly_url_name(
-                    website_url, request_index)
+            if fingerprint_requests <= max_nof_fingerprints_showed:
+                request_friendly_name = get_friendly_url_name(_local,
+                                                              website_url, request_index)
                 url_rating.set_integrity_and_security(
-                    1.0, '  - {0} - Fingerprint found.'.format(request_friendly_name))
+                    1.0, _local('TEXT_FINGERPRINTING_FOUND').format(request_friendly_name))
                 url_rating.set_overall(1.0)
-            elif fingerprint_requests == 6:
+            elif fingerprint_requests == limit_message_index:
                 url_rating.set_integrity_and_security(
-                    1.0, '  - More then 5 requests found, filtering out the rest.')
+                    1.0, _local('TEXT_FINGERPRINTING_MAX_SHOWED').format(max_nof_fingerprints_showed))
                 url_rating.set_overall(1.0)
             else:
                 url_rating.set_integrity_and_security(1.0)
@@ -593,7 +592,7 @@ def rate_fingerprint(website_urls, _local, _):
     integrity_and_security_review = rating.integrity_and_security_review
 
     if fingerprint_requests >= 6:
-        integrity_and_security_review += '  - A total of {0} fingerprint requests found.\n'.format(
+        integrity_and_security_review += _local('TEXT_FINGERPRINTING_TOTAL_FOUND').format(
             fingerprint_requests)
 
     if fingerprint_requests == 0:
@@ -606,12 +605,12 @@ def rate_fingerprint(website_urls, _local, _):
         points = 1.0
         # '* Tracking ({0} points)\r\n'
         result_rating.set_integrity_and_security(
-            points, _local('TEXT_FINGERPRINTING_HAS_POINTS'))
+            points, _local('TEXT_FINGERPRINTING'))
         result_rating.set_overall(points)
     else:
         # '* Tracking (+{0} points)\r\n'
         result_rating.set_integrity_and_security(
-            points, _local('TEXT_FINGERPRINTING_NO_POINTS'))
+            points, _local('TEXT_FINGERPRINTING'))
         result_rating.set_overall(points)
 
     result_rating.integrity_and_security_review = result_rating.integrity_and_security_review + \
@@ -623,6 +622,10 @@ def rate_fingerprint(website_urls, _local, _):
 def rate_ads(website_urls, _local, _):
     rating = Rating(_, review_show_improvements_only)
 
+    allowed_nof_ads = 2
+    max_nof_ads_showed = 5
+
+    limit_message_index = max_nof_ads_showed + 1
     adserver_requests = 0
 
     tracking_domains = get_domains_from_blocklistproject_file(
@@ -640,19 +643,19 @@ def rate_ads(website_urls, _local, _):
 
         url_rating = Rating(_, review_show_improvements_only)
         if url_is_adserver_requests:
-            request_friendly_name = get_friendly_url_name(
-                website_url, request_index)
-            if adserver_requests <= 2:
+            request_friendly_name = get_friendly_url_name(_local,
+                                                          website_url, request_index)
+            if adserver_requests <= allowed_nof_ads:
                 url_rating.set_integrity_and_security(
-                    5.0, '  - {0} - Advertising found, having two are allowed.'.format(request_friendly_name))
+                    5.0, _local('TEXT_ADS_FOUND_ALLOWED').format(request_friendly_name, allowed_nof_ads))
                 url_rating.set_overall(5.0)
-            elif adserver_requests <= 5:
+            elif adserver_requests <= max_nof_ads_showed:
                 url_rating.set_integrity_and_security(
-                    1.0, '  - {0} - Advertising found.'.format(request_friendly_name))
+                    1.0, _local('TEXT_ADS_FOUND').format(request_friendly_name))
                 url_rating.set_overall(1.0)
-            elif adserver_requests == 6:
+            elif adserver_requests == limit_message_index:
                 url_rating.set_integrity_and_security(
-                    1.0, '  - More then 5 requests found, filtering out the rest.')
+                    1.0, _local('TEXT_ADS_MAX_SHOWED').format(max_nof_ads_showed))
                 url_rating.set_overall(1.0)
             else:
                 url_rating.set_integrity_and_security(1.0)
@@ -667,21 +670,21 @@ def rate_ads(website_urls, _local, _):
     integrity_and_security_review = rating.integrity_and_security_review
 
     if adserver_requests >= 6:
-        integrity_and_security_review += '  - A total of {0} advertising requests found.\n'.format(
+        integrity_and_security_review += _local('TEXT_ADS_TOTAL_FOUND').format(
             adserver_requests)
 
     result_rating = Rating(_, review_show_improvements_only)
     points = rating.get_overall()
     if points <= 1.0:
         points = 1.0
-        # '* Tracking ({0} points)\r\n'
+        # '* Ads ({0} points)\r\n'
         result_rating.set_integrity_and_security(
-            points, _local('TEXT_ADS_NO_POINTS'))
+            points, _local('TEXT_ADS'))
         result_rating.set_overall(points)
     else:
-        # '* Tracking (+{0} points)\r\n'
+        # '* Ads (+{0} points)\r\n'
         result_rating.set_integrity_and_security(
-            points, _local('TEXT_ADS_NO_REQUESTS'))
+            points, _local('TEXT_ADS'))
         result_rating.set_overall(points)
 
     result_rating.integrity_and_security_review = result_rating.integrity_and_security_review + \
@@ -797,13 +800,13 @@ def run_test(_, langCode, url):
     return (rating, result_dict)
 
 
-def get_analytics(url, content, request_index):
+def get_analytics(_local, url, content, request_index):
     analytics = {}
 
-    request_friendly_name = get_friendly_url_name(
-        url, request_index)
+    request_friendly_name = get_friendly_url_name(_local,
+                                                  url, request_index)
 
-    text = '{0} - Has references to {1}'
+    text = _local('TEXT_TRACKING_REFERENCE')
 
     url_and_content = url + content
 

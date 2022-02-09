@@ -3,7 +3,18 @@ Minimalistic client mainly running on PythonAnywhere.com, accessing different we
 
 # Features
 
-* Add a list of awesome features in webperf-core
+* Run same test(s) used by [WebPerf.se](https://webperf.se/) without [WebPerf Premium](https://webperf.se/erbjudande/)
+* Verify that you have done the basics for your website in:
+  * Security
+  * User Integrity
+  * Performance
+  * Accessibility
+  * SEO
+  * Code Quality
+  * Networking
+  * World Wide Web Standards
+* Validate new release before going into production
+* Test other/more pages then startpage
 
 
 # Getting Started

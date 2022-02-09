@@ -79,10 +79,10 @@ jobs:
     - name: Test Directory
       run: |
         echo "# data / sitespeed-result"
-        ls data/sitespeed-result
+        ls data/results
       if: ${{ always() }}
     - name: Test Directory
       run: |
         echo "# data / sitespeed-result / webperf.se"
-        ls data/sitespeed-result/webperf.se/
+        ls data/results/webperf.se/
       if: ${{ always() }}

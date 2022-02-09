@@ -15,13 +15,14 @@ import getopt
 import gettext
 
 
-def prepare_config_file(sample_filename, filename):
+def prepare_config_file(sample_filename, filename, is_activated):
     if not os.path.exists(sample_filename):
         print('no sample file exist')
         return False
 
     if os.path.exists(filename):
-        print(filename + ' file already exist')
+        print(filename + ' file already exist, removing it')
+        os.remove(filename)
         return False
 
     shutil.copyfile(sample_filename, filename)
@@ -37,7 +38,7 @@ def prepare_config_file(sample_filename, filename):
     subst_lighthouse = "lighthouse_use_api = False"
 
     regex_sitespeed = r"^sitespeed_use_docker.*"
-    subst_sitespeed = "sitespeed_use_docker = True"
+    subst_sitespeed = "sitespeed_use_docker = {0}".format(str(is_activated))
 
     regex_tracking = r"^tracking_use_website.*"
     subst_tracking = "tracking_use_website = False"

@@ -15,9 +15,6 @@ jobs:
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
       if: ${{ success() }}
-    - name: Setup config (using SAMPLE-config.py as config.py)
-      run: python .github/workflows/verify_result.py -c
-      if: ${{ success() }}
     - name: Setup Node.js (v1 version 14.x)
       uses: actions/setup-node@v1
       with:
@@ -61,6 +58,9 @@ jobs:
         echo "# data"
         ls data
       if: ${{ success() }}
+    - name: Setup config (using SAMPLE-config.py as config.py) - USE DOCKER
+      run: python .github/workflows/verify_result.py -c true
+      if: ${{ success() }}
     - name: Test Tracking and Privacy
       run: |
         python default.py -t 23 -r -u https://webperf.se/ -o .github/workflows/testresult-23.json
@@ -91,8 +91,36 @@ jobs:
         echo "# data / results / pages / webperf_se"
         ls data/results/pages/webperf_se/
       if: ${{ always() }}
-    - name: Test Directory - logs
+    - name: Setup config (using SAMPLE-config.py as config.py) - USE NPM PACKAGE
+      run: python .github/workflows/verify_result.py -c false
+      if: ${{ success() }}
+    - name: Test Tracking and Privacy
       run: |
-        echo "# data / result / logs"
-        ls data/results/logs/
+        python default.py -t 23 -r -u https://webperf.se/ -o .github/workflows/testresult-23.json
+        python .github/workflows/verify_result.py -t 23
+      if: ${{ success() }}
+    - name: Test Directory - current
+      run: |
+        echo "# current folder"
+        ls
+      if: ${{ always() }}
+    - name: Test Directory - data
+      run: |
+        echo "# data"
+        ls data
+      if: ${{ always() }}
+    - name: Test Directory - results
+      run: |
+        echo "# data / results"
+        ls data/results
+      if: ${{ always() }}
+    - name: Test Directory - pages
+      run: |
+        echo "# data / result / pages"
+        ls data/results/pages/
+      if: ${{ always() }}
+    - name: Test Directory - webperf_se
+      run: |
+        echo "# data / results / pages / webperf_se"
+        ls data/results/pages/webperf_se/
       if: ${{ always() }}

@@ -11,9 +11,10 @@
 #
 name: "CodeQL (Security and Code Quality)"
 
-on: [ push ]
+  push:
+    paths-ignore:
+      - '**.md'
 #on: [ push, pull_request ]
-
 jobs:
   analyze:
     name: Analyze

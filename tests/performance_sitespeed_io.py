@@ -58,8 +58,9 @@ def get_local_file_content(input_filename):
 def get_file_content(sitespeed_use_docker, source_file):
     result = ''
     if sitespeed_use_docker:
-        result = get_local_file_content(
-            os.path.join('sitespeed-results', source_file))
+        # result = get_local_file_content(
+        #     os.path.join('sitespeed-results', source_file))
+        result = get_local_file_content(source_file)
     else:
         result = get_local_file_content(source_file)
 

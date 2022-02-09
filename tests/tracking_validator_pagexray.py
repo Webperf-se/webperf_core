@@ -709,6 +709,8 @@ def get_rating_from_sitespeed(url, _local, _):
 
     website_folder_name = get_foldername_from_url(url)
 
+    # filename = '{0}/pages/{1}/data/browsertime.har'.format(
+    #     result_folder_name, website_folder_name)
     filename = '{0}/pages/{1}/data/browsertime.har'.format(
         result_folder_name, website_folder_name)
 

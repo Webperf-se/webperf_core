@@ -3,12 +3,27 @@
 Do you want to contribute?
 You can contribute here at Github. By checking the code, trying the documentation, suggesting new tests, among other things.
 
+* [Feature requests](#feature-requests)
+* [Bug reports](#bug-reports)
+* [Pull Requests](#pull-requests)
+* [License](#license)
+* [Translations](#translations)
+
 
 ## Feature requests
-## Bug reports
-## Pull Requests
+add ingress here
 
-## What you are allowed to do with this code / repo
+
+## Bug reports
+add ingress here
+
+
+## Pull Requests
+add ingress here
+
+
+## License
+What you are allowed to do with this code / repo.
 The license used is the [MIT license](https://en.wikipedia.org/wiki/MIT_License). This means that you can do whatever you want with the source code, including using it in commercial software and contexts. However, there is no guarantee or liability for the code.
 
 

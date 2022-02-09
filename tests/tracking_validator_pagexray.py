@@ -678,8 +678,9 @@ def get_rating_from_sitespeed(url, _local, _):
     rating = Rating(_, review_show_improvements_only)
 
     # TODO: CHANGE THIS IF YOU WANT TO DEBUG
-    #result_folder_name = 'results-{0}'.format(str(uuid.uuid4()))
-    result_folder_name = os.path.join('data', 'results')
+    result_folder_name = os.path.join(
+        'data', 'results-{0}'.format(str(uuid.uuid4())))
+    #result_folder_name = os.path.join('data', 'results')
 
     from tests.performance_sitespeed_io import get_result as sitespeed_run_test
 

@@ -38,14 +38,14 @@ Add a interesting ingress here.
 * [Tracking & Integrity test (checks GDPR compliance, tracking and more)](./docs/tests/tracking.md)
 
 
-## Contribute
+# Contribute
 
 Do you want to contribute?
 
 [Read more about how to contribute](./docs/CONTRIBUTING.md)
 
 
-## Need help?
+# Need help?
 
 It is often worthwhile to google/dockduckgo the error messages you get.
 If you give up the search then you can always [check if someone on our Slack channel](https://webperf.se/articles/webperf-pa-slack/) have time to help you,

@@ -15,30 +15,11 @@ jobs:
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
       if: ${{ success() }}
-    - name: Setup Node.js (v1 version 14.x)
-      uses: actions/setup-node@v1
-      with:
-        node-version: '14.x'
-      if: ${{ success() }}
     - name: Download IP2LOCATION DB (Using repository secret)
       shell: bash
       env:
         IP2LOCATION_DOWNLOAD_URL: ${{ secrets.IP2LOCATION_DOWNLOAD_URL }}
       run: wget -q -O - $IP2LOCATION_DOWNLOAD_URL | tar -xvzf - -C data
-      if: ${{ success() }}
-    - name: Setup Google Chrome browser (ONLY used for Sitespeed)
-      run: |
-        wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - 
-        sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
-        sudo apt-get update
-        sudo apt-get --only-upgrade install google-chrome-stable
-        google-chrome --version
-      if: ${{ success() }}
-    - name: Setup GeckoDriver (Used for Selenium)
-      run: wget -q -O - https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz | tar -xvzf -
-      if: ${{ success() }}
-    - name: Setup Sitespeed.io npm package (ONLY used for Sitespeed)
-      run: npm install -g sitespeed.io
       if: ${{ success() }}
     - name: Download Ads database (BlockListProject)
       run: |
@@ -58,44 +39,34 @@ jobs:
         echo "# data"
         ls data
       if: ${{ success() }}
-    - name: Setup config (using SAMPLE-config.py as config.py) - USE DOCKER
-      run: python .github/workflows/verify_result.py -c true
-      if: ${{ success() }}
-    - name: Test Tracking and Privacy
+    - name: Test Tracking and Privacy - USE DOCKER
       run: |
+        python .github/workflows/verify_result.py -c true
         python default.py -t 23 -r -u https://webperf.se/ -o .github/workflows/testresult-23.json
         python .github/workflows/verify_result.py -t 23
       if: ${{ success() }}
-    # - name: Test Directory - current
-    #   run: |
-    #     echo "# current folder"
-    #     ls
-    #   if: ${{ always() }}
-    # - name: Test Directory - data
-    #   run: |
-    #     echo "# data"
-    #     ls data
-    #   if: ${{ always() }}
-    # - name: Test Directory - results
-    #   run: |
-    #     echo "# data / results"
-    #     ls data/results
-    #   if: ${{ always() }}
-    # - name: Test Directory - pages
-    #   run: |
-    #     echo "# data / result / pages"
-    #     ls data/results/pages/
-    #   if: ${{ always() }}
-    # - name: Test Directory - webperf_se
-    #   run: |
-    #     echo "# data / results / pages / webperf_se"
-    #     ls data/results/pages/webperf_se/
-    #   if: ${{ always() }}
-    - name: Setup config (using SAMPLE-config.py as config.py) - USE NPM PACKAGE
-      run: python .github/workflows/verify_result.py -c false
+    - name: Setup Node.js (v1 version 14.x)
+      uses: actions/setup-node@v1
+      with:
+        node-version: '14.x'
       if: ${{ success() }}
-    - name: Test Tracking and Privacy
+    - name: Setup Google Chrome browser (ONLY used for Sitespeed)
       run: |
+        wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - 
+        sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+        sudo apt-get update
+        sudo apt-get --only-upgrade install google-chrome-stable
+        google-chrome --version
+      if: ${{ success() }}
+    - name: Setup GeckoDriver (Used for Selenium)
+      run: wget -q -O - https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz | tar -xvzf -
+      if: ${{ success() }}
+    - name: Setup Sitespeed.io npm package (ONLY used for Sitespeed)
+      run: npm install -g sitespeed.io
+      if: ${{ success() }}
+    - name: Test Tracking and Privacy - USE NPM PACKAGE
+      run: |
+        python .github/workflows/verify_result.py -c false
         python default.py -t 23 -r -u https://webperf.se/ -o .github/workflows/testresult-23.json
         python .github/workflows/verify_result.py -t 23
       if: ${{ success() }}
@@ -108,19 +79,4 @@ jobs:
       run: |
         echo "# data"
         ls data
-      if: ${{ always() }}
-    - name: Test Directory - results
-      run: |
-        echo "# data / results"
-        ls data/results
-      if: ${{ always() }}
-    - name: Test Directory - pages
-      run: |
-        echo "# data / result / pages"
-        ls data/results/pages/
-      if: ${{ always() }}
-    - name: Test Directory - webperf_se
-      run: |
-        echo "# data / results / pages / webperf_se"
-        ls data/results/pages/webperf_se/
       if: ${{ always() }}

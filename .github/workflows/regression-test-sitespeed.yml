@@ -15,6 +15,12 @@ jobs:
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
       if: ${{ success() }}
+    - name: Test Performance (Sitespeed.io) - USE DOCKER
+      run: |
+         python .github/workflows/verify_result.py -c true
+         python default.py -t 15 -r -u https://webperf.se/ -o .github/workflows/testresult-15.json
+         python .github/workflows/verify_result.py -t 15
+      if: ${{ success() }}
     - name: Setup Node.js (v1 version 14.x)
       uses: actions/setup-node@v1
       with:
@@ -39,39 +45,9 @@ jobs:
     - name: Setup Sitespeed.io npm package (ONLY used for Sitespeed)
       run: npm install -g sitespeed.io
       if: ${{ success() }}
-    - name: Setup config (using SAMPLE-config.py as config.py) - USE DOCKER
-      run: python .github/workflows/verify_result.py -c true
-      if: ${{ success() }}
-    - name: Test Performance (Sitespeed.io)
+    - name: Test Performance (Sitespeed.io) - USE NPM PACKAGE
       run: |
-         python default.py -t 15 -r -u https://webperf.se/ -o .github/workflows/testresult-15.json
-         python .github/workflows/verify_result.py -t 15
-      if: ${{ success() }}
-    # - name: Test Directory
-    #   run: |
-    #     echo "# current folder"
-    #     ls
-    #   if: ${{ always() }}
-    # - name: Test Directory
-    #   run: |
-    #     echo "# data"
-    #     ls data
-    #   if: ${{ always() }}
-    # - name: Test Directory
-    #   run: |
-    #     echo "# data / sitespeed-result"
-    #     ls data/sitespeed-result
-    #   if: ${{ always() }}
-    # - name: Test Directory
-    #   run: |
-    #     echo "# data / sitespeed-result / webperf.se"
-    #     ls data/sitespeed-result/webperf.se/
-    #   if: ${{ always() }}
-    - name: Setup config (using SAMPLE-config.py as config.py) - USE NPM PACKAGE
-      run: python .github/workflows/verify_result.py -c false
-      if: ${{ success() }}
-    - name: Test Performance (Sitespeed.io)
-      run: |
+         python .github/workflows/verify_result.py -c false
          python default.py -t 15 -r -u https://webperf.se/ -o .github/workflows/testresult-15.json
          python .github/workflows/verify_result.py -t 15
       if: ${{ success() }}
@@ -84,14 +60,4 @@ jobs:
       run: |
         echo "# data"
         ls data
-      if: ${{ always() }}
-    - name: Test Directory
-      run: |
-        echo "# data / sitespeed-result"
-        ls data/sitespeed-result
-      if: ${{ always() }}
-    - name: Test Directory
-      run: |
-        echo "# data / sitespeed-result / webperf.se"
-        ls data/sitespeed-result/webperf.se/
       if: ${{ always() }}

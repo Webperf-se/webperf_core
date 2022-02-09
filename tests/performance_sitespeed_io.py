@@ -1,16 +1,8 @@
 # -*- coding: utf-8 -*-
+from pathlib import Path
+import os
 from models import Rating
 import datetime
-import sys
-import socket
-import ssl
-import json
-import requests
-import urllib  # https://docs.python.org/3/library/urllib.parse.html
-import uuid
-import re
-import docker
-from bs4 import BeautifulSoup
 import config
 from tests.utils import *
 import gettext
@@ -19,17 +11,21 @@ _local = gettext.gettext
 sitespeed_use_docker = config.sitespeed_use_docker
 
 
-def get_result(sitespeed_use_docker, url):
+def get_result(sitespeed_use_docker, arg):
 
     result = ''
-    arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-        config.sitespeed_iterations, url)
     if sitespeed_use_docker:
+        dir = Path(os.path.dirname(
+            os.path.realpath(__file__)) + os.path.sep).parent
+        data_dir = dir.resolve()
 
-        image = "sitespeedio/sitespeed.io:latest"
+        bashCommand = "docker run --rm -v {1}:/sitespeed.io sitespeedio/sitespeed.io:latest {0}".format(
+            arg, data_dir)
 
-        docker_client = docker.from_env()
-        result = str(docker_client.containers.run(image, arg))
+        import subprocess
+        process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+        output, error = process.communicate()
+        result = str(output)
     else:
         import subprocess
 
@@ -37,8 +33,6 @@ def get_result(sitespeed_use_docker, url):
         process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
         output, error = process.communicate()
         result = str(output)
-
-    result = result.replace('\\n', ' ')
 
     return result
 
@@ -60,7 +54,12 @@ def run_test(_, langCode, url):
     print(_('TEXT_TEST_START').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    result = get_result(sitespeed_use_docker, url)
+    arg = '--shm-size=1g -b chrome --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+        config.sitespeed_iterations, url)
+
+    result = get_result(sitespeed_use_docker, arg)
+
+    result = result.replace('\\n', ' ')
 
     old_val = None
     old_val_unsliced = None

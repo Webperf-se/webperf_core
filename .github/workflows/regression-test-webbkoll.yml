@@ -19,7 +19,7 @@ jobs:
       run: pip install -r requirements.txt
       if: ${{ success() }}
     - name: Setup config (using SAMPLE-config.py as config.py)
-      run: python .github/workflows/verify_result.py -c
+      run: python .github/workflows/verify_result.py -c false
       if: ${{ success() }}
     - name: Test Integrity & Security (Webbkoll)
       run: |

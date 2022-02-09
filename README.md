@@ -3,14 +3,23 @@ Minimalistic client mainly running on PythonAnywhere.com, accessing different we
 
 # Features
 
+* Add a list of awesome features in webperf-core
 
-# [Getting Started](./docs/getting-started.md)
+
+# Getting Started
+
+Add a interesting ingress here.
+[Read more about how to get started](./docs/getting-started.md)]
 
 * [Locally](./docs/getting-started-local.md)
 * [GitHub Actions](./docs/getting-started-github-actions.md)
 * [PythonAnywhere.com](./docs/getting-started-others.md)
 
-# [Tests](./docs/tests/README.md)
+
+# Tests
+
+Add a interesting ingress here.
+[Read more about our tests](./docs/tests/README.md) or go directly to a specific test below.
 
 * [Google Lighthouse accessibility with Axe](./docs/tests/google-lighthouse-based.md)
 * [Google Lighthouse performance](./docs/tests/google-lighthouse-based.md)
@@ -29,15 +38,10 @@ Minimalistic client mainly running on PythonAnywhere.com, accessing different we
 * [Tracking & Integrity test (checks GDPR compliance, tracking and more)](./docs/tests/tracking.md)
 
 
-# [How to Contribute](./docs/CONTRIBUTING.md)
+## Contribute
 
-* Translations
-* Feature requests
-* Bug reports
-* Pull Requests
-
-## [Contribute](./docs/CONTRIBUTING.md)
 Do you want to contribute?
+
 [Read more about how to contribute](./docs/CONTRIBUTING.md)
 
 
@@ -49,11 +53,12 @@ but don’t forget to paste your error message directly in the first post.
 Or, if you think your error are common for more people than yourself, [post an issue here at Github](https://github.com/Webperf-se/webperf_core/issues/new/choose).
 
 
-# [Third party extensions](./docs/thirdparty.md)
+# Third party
 
-Add a good ingress here.
+Think this is cool and want to see more?
+Why not look at third parties.
 
-[Go to third party page](./docs/thirdparty.md)
+[Read more about third party](./docs/thirdparty.md)
 
 
 

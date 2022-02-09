@@ -15,14 +15,14 @@ import getopt
 import gettext
 
 
-def prepare_config_file(sample_filename, filename):
+def prepare_config_file(sample_filename, filename, is_activated):
     if not os.path.exists(sample_filename):
         print('no sample file exist')
         return False
 
     if os.path.exists(filename):
-        print(filename + ' file already exist')
-        return False
+        print(filename + ' file already exist, removing it')
+        os.remove(filename)
 
     shutil.copyfile(sample_filename, filename)
 
@@ -37,7 +37,16 @@ def prepare_config_file(sample_filename, filename):
     subst_lighthouse = "lighthouse_use_api = False"
 
     regex_sitespeed = r"^sitespeed_use_docker.*"
-    subst_sitespeed = "sitespeed_use_docker = False"
+    subst_sitespeed = "sitespeed_use_docker = {0}".format(str(is_activated))
+
+    regex_tracking = r"^tracking_use_website.*"
+    subst_tracking = "tracking_use_website = False"
+
+    regex_ip2location = r"^use_ip2location.*"
+    subst_ip2location = "use_ip2location = True"
+
+    # regex_improvements_only = r"^review_show_improvements_only.*"
+    # subst_improvements_only = "review_show_improvements_only = True"
 
     with open(filename, 'r') as file:
         data = file.readlines()
@@ -48,6 +57,12 @@ def prepare_config_file(sample_filename, filename):
                          tmp, 0, re.MULTILINE)
             tmp = re.sub(regex_sitespeed, subst_sitespeed,
                          tmp, 0, re.MULTILINE)
+            tmp = re.sub(regex_tracking, subst_tracking,
+                         tmp, 0, re.MULTILINE)
+            tmp = re.sub(regex_ip2location, subst_ip2location,
+                         tmp, 0, re.MULTILINE)
+            # tmp = re.sub(regex_improvements_only, subst_improvements_only,
+            #              tmp, 0, re.MULTILINE)
 
             output.append(tmp)
 
@@ -264,7 +279,7 @@ def main(argv):
     Options and arguments:
     -h/--help\t\t\t: Verify Help command
     -l/--language\t\t: Verify languages
-    -c/--prep-config\t\t: Uses SAMPLE-config.py to creat config.py
+    -c/--prep-config <activate feature, True or False>\t\t: Uses SAMPLE-config.py to creat config.py
     -t/--test <test number>\t: Verify result of specific test
 
     NOTE:
@@ -273,8 +288,8 @@ def main(argv):
     """
 
     try:
-        opts, args = getopt.getopt(argv, "hlct:", [
-                                   "help", "test=", "prep-config", "language"])
+        opts, args = getopt.getopt(argv, "hlc:t:", [
+                                   "help", "test=", "prep-config=", "language"])
     except getopt.GetoptError:
         print(main.__doc__)
         sys.exit(2)
@@ -289,7 +304,11 @@ def main(argv):
             sys.exit(0)
             break
         elif opt in ("-c", "--prep-config"):
-            if prepare_config_file('SAMPLE-config.py', 'config.py'):
+            is_activated = False
+            if 'true' in arg or 'True' in arg or '1' in arg:
+                is_activated = True
+
+            if prepare_config_file('SAMPLE-config.py', 'config.py', is_activated):
                 sys.exit(0)
             else:
                 sys.exit(2)

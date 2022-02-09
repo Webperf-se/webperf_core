@@ -1,12 +1,12 @@
 # Swedish
-# Copyright (C) 2021 WebPerf
+# Copyright (C) 2022 WebPerf
 # FIRST AUTHOR <mattias@webperf.se>, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2021-04-24 09:15+0200\n"
-"PO-Revision-Date: 2021-06-16 19:30+0200\n"
+"PO-Revision-Date: 2022-02-09 19:30+0200\n"
 "Last-Translator: mattias <mattias@webperf.se>\n"
 "Language-Team: Swedish <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
@@ -16,46 +16,61 @@ msgstr ""
 
 
 msgid "TEXT_RUNNING_TEST"
-msgstr "## Test: 23 - Spårning och Integritet (Pagexray)\r\n"
+msgstr "## Test: 23 - Spårning och Integritet (Beta)\r\n"
 
-msgid "TEXT_SERVICE_UNABLE_TO_CONNECT"
-msgstr "Det går inte att ansluta till tjänsten"
+msgid "TEXT_REQUEST_UNKNOWN"
+msgstr "#{0}: "
 
-msgid "TEXT_SERVICES_ENCOUNTERED_ERROR"
-msgstr "Tjänsten stötte på ett fel under behandlingen av begäran om webbadress"
+msgid "TEXT_REQUEST_WEBPAGE"
+msgstr "#{0}: Webpage"
 
 msgid "TEXT_VISITOR_ANALYTICS_USED"
 msgstr "  - Besökaranalys används:\r\n"
 
-msgid "TEXT_TRACKING_NO_POINTS"
-msgstr "- Spårning ({0} poäng)\r\n"
-
-msgid "TEXT_TRACKING_HAS_POINTS"
+msgid "TEXT_TRACKING"
 msgstr "- Spårning"
 
-msgid "TEXT_TRACKING_HAS_REQUESTS"
-msgstr "  - Spårning förfrågningar: {0}\r\n"
+msgid "TEXT_TRACKING_FOUND_ALLOWED"
+msgstr "  - {0} - Spårning hittad, tillåtet att ha {1} st"
 
-msgid "TEXT_TRACKING_NO_REQUESTS"
-msgstr "  - Inga spårnings förfrågningar\r\n"
+msgid "TEXT_TRACKING_FOUND"
+msgstr "  - {0} - Spårning hittad"
 
-msgid "TEXT_FINGERPRINTING_NO_POINTS"
+msgid "TEXT_TRACKING_MAX_SHOWED"
+msgstr "  - Fler än  {0} Spårningsförfrågningar hittad, döljer resten"
+
+msgid "TEXT_TRACKING_TOTAL_FOUND"
+msgstr "  - Hittade totalt {0} spårningsförfrågningar.\n"
+
+msgid "TEXT_TRACKING_REFERENCE"
+msgstr "{0} - Har reference till {1}"
+
+msgid "TEXT_FINGERPRINTING"
 msgstr "- Identifieringstekniker"
 
-msgid "TEXT_FINGERPRINTING_HAS_POINTS"
-msgstr "- Identifieringstekniker"
+msgid "TEXT_FINGERPRINTING_FOUND"
+msgstr "  - {0} - Identifieringstekniker hittad.\n"
 
-msgid "TEXT_ADS_NO_POINTS"
+msgid "TEXT_FINGERPRINTING_MAX_SHOWED"
+msgstr "  - Hittade totalt {0} identifieringsförfrågningar"
+
+msgid "TEXT_FINGERPRINTING_TOTAL_FOUND"
+msgstr "  - Hittade totalt {0} identifieringsförfrågningar.\n"
+
+msgid "TEXT_ADS"
 msgstr "- Annonsörer"
 
-msgid "TEXT_ADS_NO_REQUESTS"
-msgstr "- Annonsörer"
+msgid "TEXT_ADS_FOUND_ALLOWED"
+msgstr "  - {0} - Annonsörsförfrågning hittad, tillåtet att ha {1} st"
 
-msgid "TEXT_ADS_HAS_REQUESTS"
-msgstr "  - Annonsörsförfrågningar: {0}\r\n"
+msgid "TEXT_ADS_FOUND"
+msgstr "  - {0} - Annonsörsförfrågning hittad"
 
-msgid "TEXT_ADS_VISIBLE_ADS"
-msgstr "  - Synliga annonser: {0}\r\n"
+msgid "TEXT_ADS_MAX_SHOWED"
+msgstr "  - Fler än {0} annonsörsförfrågningar hittad, döljer resten"
+
+msgid "TEXT_ADS_TOTAL_FOUND"
+msgstr "  - Hittade totalt {0} annonsörsförfrågningar.\n"
 
 msgid "TEXT_COOKIES_HAS_THIRDPARTY"
 msgstr "  - Tredjepartskakor: {0}\r\n"
@@ -73,19 +88,10 @@ msgid "TEXT_COOKIE_HAS_OVER_3MONTH"
 msgstr "  - Giltiga över 3 månader: {0}\r\n"
 
 msgid "TEXT_COOKIE_NOT_SECURE"
-msgstr "  - Inget krav på säker överföring: {0}\r\n"
+msgstr "  - Inget krav på säker överföring: {0}"
 
-msgid "TEXT_COOKIE_HAS_POINTS"
+msgid "TEXT_COOKIE"
 msgstr "- Kakor"
-
-msgid "TEXT_COOKIE_NO_POINTS"
-msgstr "- Kakor"
-
-msgid "TEXT_COOKIE_HAS_POINTS"
-msgstr "- Kakor"
-
-msgid "TEXT_COOKIE_NO_COOKIES"
-msgstr "{0}  - Inga kakor\r\n"
 
 msgid "TEXT_GDPR_COUNTRIES"
 msgstr "  - Antal olika länder: {0}\r\n"

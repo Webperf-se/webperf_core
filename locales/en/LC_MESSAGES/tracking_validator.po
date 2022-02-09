@@ -1,12 +1,12 @@
 # English (default).
-# Copyright (C) 2021 WebPerf
+# Copyright (C) 2022 WebPerf
 # FIRST AUTHOR <mattias@webperf.se>, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2021-04-17 10:45+0200\n"
-"PO-Revision-Date: 2021-06-16 19:30+0200\n"
+"PO-Revision-Date: 2022-02-09 19:30+0200\n"
 "Last-Translator: mattias <mattias@webperf.se>\n"
 "Language-Team: English <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
@@ -16,46 +16,61 @@ msgstr ""
 
 
 msgid "TEXT_RUNNING_TEST"
-msgstr "## Test: 23 - Tracking and Privacy (Pagexray)\r\n"
+msgstr "## Test: 23 - Tracking and Privacy (Beta)\r\n"
 
-msgid "TEXT_SERVICE_UNABLE_TO_CONNECT"
-msgstr "Unable to connect to service"
+msgid "TEXT_REQUEST_UNKNOWN"
+msgstr "#{0}: "
 
-msgid "TEXT_SERVICES_ENCOUNTERED_ERROR"
-msgstr "Service enountered error while processing request for url"
+msgid "TEXT_REQUEST_WEBPAGE"
+msgstr "#{0}: Webbsida"
 
 msgid "TEXT_VISITOR_ANALYTICS_USED"
 msgstr "  - Visitor analytics used:\r\n"
 
-msgid "TEXT_TRACKING_NO_POINTS"
+msgid "TEXT_TRACKING"
 msgstr "- Tracking"
 
-msgid "TEXT_TRACKING_HAS_POINTS"
-msgstr "- Tracking"
+msgid "TEXT_TRACKING_FOUND_ALLOWED"
+msgstr "'  - {0} - Tracking found, having {1} are allowed'"
 
-msgid "TEXT_TRACKING_HAS_REQUESTS"
-msgstr "  - Tracking requests: {0}\r\n"
+msgid "TEXT_TRACKING_FOUND"
+msgstr "'  - {0} - Tracking found"
 
-msgid "TEXT_TRACKING_NO_REQUESTS"
-msgstr "  - No tracking requests\r\n"
+msgid "TEXT_TRACKING_MAX_SHOWED"
+msgstr "  - More then {0} requests found, filtering out the rest"
 
-msgid "TEXT_FINGERPRINTING_NO_POINTS"
+msgid "TEXT_TRACKING_TOTAL_FOUND"
+msgstr "  - A total of {0} tracking requests found.\n"
+
+msgid "TEXT_TRACKING_REFERENCE"
+msgstr "{0} - Has references to {1}"
+
+msgid "TEXT_FINGERPRINTING"
 msgstr "- Fingerprinting/Identifying technique"
 
-msgid "TEXT_FINGERPRINTING_HAS_POINTS"
-msgstr "- Fingerprinting/Identifying technique"
+msgid "TEXT_FINGERPRINTING_FOUND"
+msgstr "'  - {0} - Fingerprinting/Identifying found.\n"
 
-msgid "TEXT_ADS_NO_POINTS"
+msgid "TEXT_FINGERPRINTING_MAX_SHOWED"
+msgstr "  - More then {0} requests found, filtering out the rest."
+
+msgid "TEXT_FINGERPRINTING_TOTAL_FOUND"
+msgstr "  - A total of {0} tracking requests found.\n"
+
+msgid "TEXT_ADS"
 msgstr "- Ads"
 
-msgid "TEXT_ADS_NO_REQUESTS"
-msgstr "- Ads"
+msgid "TEXT_ADS_FOUND_ALLOWED"
+msgstr "'  - {0} - Adserver request found, having {1} are allowed'"
 
-msgid "TEXT_ADS_HAS_REQUESTS"
-msgstr "  - Adserver requests: {0}\r\n"
+msgid "TEXT_ADS_FOUND"
+msgstr "'  - {0} - Adserver request found"
 
-msgid "TEXT_ADS_VISIBLE_ADS"
-msgstr "  - Visibile Ads: {0}\r\n"
+msgid "TEXT_ADS_MAX_SHOWED"
+msgstr "  - More then {0} requests found, filtering out the rest"
+
+msgid "TEXT_ADS_TOTAL_FOUND"
+msgstr "  - A total of {0} adserver requests found.\n"
 
 msgid "TEXT_COOKIES_HAS_THIRDPARTY"
 msgstr "  - Thirdparty: {0}\r\n"
@@ -73,19 +88,10 @@ msgid "TEXT_COOKIE_HAS_OVER_3MONTH"
 msgstr "  - Valid over 3 months: {0}\r\n"
 
 msgid "TEXT_COOKIE_NOT_SECURE"
-msgstr "  - No requirement for secure transfer: {0}\r\n"
+msgstr "  - No requirement for secure transfer: {0}"
 
-msgid "TEXT_COOKIE_HAS_POINTS"
+msgid "TEXT_COOKIE"
 msgstr "- Cookies"
-
-msgid "TEXT_COOKIE_NO_POINTS"
-msgstr "- Cookies"
-
-msgid "TEXT_COOKIE_HAS_POINTS"
-msgstr "- Cookies"
-
-msgid "TEXT_COOKIE_NO_COOKIES"
-msgstr "{0}  - No Cookies\r\n"
 
 msgid "TEXT_GDPR_COUNTRIES"
 msgstr "  - Number of countries: {0}\r\n"

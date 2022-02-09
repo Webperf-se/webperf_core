@@ -1,4 +1,4 @@
-The project goal is to help identify and help you improve the web over time, one improvment at a time.
+The project goal is to help identify and improve the web over time, one improvment at a time.
 It tries to do this by giving you a weighted list of improvment you can (and probably should do) to your website.
 
 
@@ -20,7 +20,9 @@ It tries to do this by giving you a weighted list of improvment you can (and pro
 
 # Getting Started
 
-Add a interesting ingress here.
+Easiest setup for testing public websites are by using GitHub Actions
+but you can run this project in many ways and what you choose depends on your needs.
+
 [Read more about how to get started](./docs/getting-started.md)
 
 * [Locally](./docs/getting-started-local.md)

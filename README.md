@@ -1,4 +1,5 @@
-We should restructure readme file and have more linked markdown files for more in depth info on topics like:
+Minimalistic client mainly running on PythonAnywhere.com, accessing different websites, or web-APIs, and scraping them.
+
 
 # Features
 
@@ -35,40 +36,13 @@ We should restructure readme file and have more linked markdown files for more i
 * Bug reports
 * Pull Requests
 
-# Third party extensions
+# [Third party extensions](./docs/thirdparty.md)
+
+Add a good ingression here.
+
+[Go to third party page](./docs/thirdparty.md)
 
 
-
-# Webperf Core
-Minimalistic client mainly running on PythonAnywhere.com, accessing different websites, or web-APIs, and scraping them.
-
-The tests included in 3.x are:
-
-## Code Tests
-* [![CodeQL (Security and Code Quality)](https://github.com/Webperf-se/webperf_core/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/codeql-analysis.yml)
-* [![Regression Test - Verify Translation(s)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-translations.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-translations.yml)
-* [![Regression Test - Google Lighthouse Based Test(s)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-google-lighthouse-based.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-google-lighthouse-based.yml)
-* [![Regression Test - 404 (Page not Found) Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-404.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-404.yml)
-* [![Regression Test - HTML Validation Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-html.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-html.yml)
-* [![Regression Test - CSS Validation Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-css.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-css.yml)
-* [![Regression Test - Integrity & Security (Webbkoll) Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-webbkoll.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-webbkoll.yml)
-* [![Regression Test - Quality on frontend (Yellow Lab Tools) Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-ylt.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-ylt.yml)
-* [![Regression Test - Performance (Sitespeed.io) Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-sitespeed.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-sitespeed.yml)
-* [![Regression Test - Standard files Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-standard-files.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-standard-files.yml)
-* [![Regression Test - HTTP & Network Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-http.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-http.yml)
-
-
-## psst. third party extensions...
-* [webperf-leaderboard](https://github.com/krompaco/webperf-leaderboard) by [Johan Kronberg](https://github.com/krompaco/)
-
-## Get started with webperf_core
-Here are some suggestions on how to get started with the tests on your own computer. Actually, it is even easier to run the tests on a cloud environment such as [PythonAnywhere - $ 5 / month](https://www.pythonanywhere.com/?affiliate_id=0007e5c6) - then the technical environment is ready to just upload the files.
-
-You download the code itself from [GitHub - webperf_core](https://github.com/Webperf-se/webperf_core) and place it in a good location on your computer.
-### Adjust the source code
-There are two files that you need to adjust:
-* *SAMPLE-config.py* needs to be renamed to *config.py*
-The reason for this is because if you download a new version of the code, your settings or data should not be overwritten by accident.
 
 Another thing you need to do is to open the *config.py* file and change one thing. The line that looks like the following is incomplete:  
 *googlePageSpeedApiKey = “”*  

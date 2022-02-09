@@ -10,7 +10,7 @@
 # supported CodeQL languages.
 #
 name: "CodeQL (Security and Code Quality)"
-
+on: 
   push:
     paths-ignore:
       - '**.md'

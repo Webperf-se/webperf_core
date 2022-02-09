@@ -1,22 +1,48 @@
+We should restructure readme file and have more linked markdown files for more in depth info on topics like:
+
+# Features
+
+
+# [Getting Started](./docs/getting-started.md)
+
+* [Locally](./docs/getting-started-local.md)
+* [GitHub Actions](./docs/getting-started-github-actions.md)
+* [PythonAnywhere.com](./docs/getting-started-others.md)
+
+# [Tests](./docs/tests/README.md)
+
+* [Google Lighthouse accessibility with Axe](./docs/tests/google-lighthouse-based.md)
+* [Google Lighthouse performance](./docs/tests/google-lighthouse-based.md)
+* [Google Lighthouse best practice](./docs/tests/google-lighthouse-based.md)
+* [Google Lighthouse progressive web apps](./docs/tests/google-lighthouse-based.md)
+* [Google Lighthouse SEO](./docs/tests/google-lighthouse-based.md)
+* [Testing the 404 page and status code (by default checks for Swedish text, though)](./docs/tests/page-not-found.md)
+* [Validating the HTML code against W3C](./docs/tests/html.md)
+* [Validating the CSS code against W3C](./docs/tests/css.md)
+* [Users’ integrity test against Webbkoll, provided by Dataskydd.net](./docs/tests/webbkoll.md)
+* [Frontend quality against Yellow Lab Tools](./docs/tests/yellowlab.md)
+* [Website performance with Sitespeed.io](./docs/tests/sitespeed.md)
+* [Carbon dioxide checked against Website Carbon Calculator API](./docs/tests/google-lighthouse-based.md)
+* [Standard files (checks for robots.txt, security.txt and more)](./docs/tests/standard.md)
+* [HTTP and Network test (checks HTTP version, TLS version and more)](./docs/tests/http.md)
+* [Tracking & Integrity test (checks GDPR compliance, tracking and more)](./docs/tests/tracking.md)
+
+
+# [How to Contribute](./docs/CONTRIBUTING.md)
+
+* Translations
+* Feature requests
+* Bug reports
+* Pull Requests
+
+# Third party extensions
+
+
+
 # Webperf Core
 Minimalistic client mainly running on PythonAnywhere.com, accessing different websites, or web-APIs, and scraping them.
 
 The tests included in 3.x are:
-* Google Lighthouse accessibility with Axe
-* Google Lighthouse performance
-* Google Lighthouse best practice
-* Google Lighthouse progressive web apps
-* Google Lighthouse SEO
-* Testing the 404 page and status code (by default checks for Swedish text, though)
-* Validating the HTML code against W3C
-* Validating the CSS code against W3C
-* Users’ integrity test against Webbkoll, provided by Dataskydd.net
-* *Frontend quality against Yellow Lab Tools (preferably with [local instance of YLT](https://hub.docker.com/r/jguyomard/yellowlabtools))*
-* *Website performance with Sitespeed.io (requires [local instance of Sitespeed.io](https://hub.docker.com/r/sitespeedio/sitespeed.io))*
-* Carbon dioxide checked against Website Carbon Calculator API
-* Standard files (checks for robots.txt, security.txt and more)
-* HTTP and Network test (checks HTTP version, TLS version and more)
-* Tracking & Integrity test (provided by Pagexray, checks GDPR compliance, tracking and more)
 
 ## Code Tests
 * [![CodeQL (Security and Code Quality)](https://github.com/Webperf-se/webperf_core/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/codeql-analysis.yml)
@@ -162,8 +188,7 @@ The command can be:
 ## What you are allowed to do with this code / repo
 The license used is the [MIT license](https://en.wikipedia.org/wiki/MIT_License). This means that you can do whatever you want with the source code, including using it in commercial software and contexts. However, there is no guarantee or liability for the code.
 
+## Contribute
 ## Do you want to contribute?
 You can contribute here at Github. By checking the code, trying the documentation, suggesting new tests, among other things.
 
-## Hosting webperf_core in the cloud
-* [Get an account on PythonAnywhere and run the code in the cloud](https://www.pythonanywhere.com/?affiliate_id=0007e5c6) - through their “Tasks” function you can automatically run the code for example every day

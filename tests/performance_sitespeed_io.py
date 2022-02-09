@@ -3,7 +3,6 @@ from pathlib import Path
 import os
 from models import Rating
 import datetime
-import docker
 import config
 from tests.utils import *
 import gettext
@@ -26,7 +25,6 @@ def get_result(sitespeed_use_docker, arg):
         import subprocess
         process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
         output, error = process.communicate()
-        print('error? get_result: ', error)
         result = str(output)
     else:
         import subprocess
@@ -35,34 +33,6 @@ def get_result(sitespeed_use_docker, arg):
         process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
         output, error = process.communicate()
         result = str(output)
-
-    return result
-
-
-def get_local_file_content(input_filename):
-    # print('input_filename=' + input_filename)
-    lines = list()
-    try:
-        with open(input_filename, 'r', encoding='utf-8') as file:
-            data = file.readlines()
-            for line in data:
-                lines.append(line)
-                # print(line)
-    except:
-        print('error in get_local_file_content. No such file or directory: {0}'.format(
-            input_filename))
-        return '\n'.join(lines)
-    return '\n'.join(lines)
-
-
-def get_file_content(sitespeed_use_docker, source_file):
-    result = ''
-    if sitespeed_use_docker:
-        # result = get_local_file_content(
-        #     os.path.join('sitespeed-results', source_file))
-        result = get_local_file_content(source_file)
-    else:
-        result = get_local_file_content(source_file)
 
     return result
 

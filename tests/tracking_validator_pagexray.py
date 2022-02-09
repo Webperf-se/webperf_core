@@ -170,6 +170,22 @@ def get_friendly_url_name(url, request_index):
     return request_friendly_name
 
 
+def get_file_content(input_filename):
+    # print('input_filename=' + input_filename)
+    lines = list()
+    try:
+        with open(input_filename, 'r', encoding='utf-8') as file:
+            data = file.readlines()
+            for line in data:
+                lines.append(line)
+                # print(line)
+    except:
+        print('error in get_local_file_content. No such file or directory: {0}'.format(
+            input_filename))
+        return '\n'.join(lines)
+    return '\n'.join(lines)
+
+
 def rate_cookies(browser, url, _local, _):
     rating = Rating(_, review_show_improvements_only)
 
@@ -684,40 +700,17 @@ def get_rating_from_sitespeed(url, _local, _):
 
     from tests.performance_sitespeed_io import get_result as sitespeed_run_test
 
-    #  --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --firstParty --utc true --xvfb --browsertime.chrome.args ignore-certificate-errors
-    # sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --firstParty --utc true --xvfb --browsertime.chrome.args ignore-certificate-errors {1}'.format(
-    #     config.sitespeed_iterations, url)
-    # sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --firstParty --utc true --xvfb --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-    #     config.sitespeed_iterations, url)
     sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
         config.sitespeed_iterations, url, result_folder_name)
 
-    # --rm v "$(pwd)":/sitespeed.io
-    # --rm -v /home/runner/work/webperf_core/webperf_core/:/sitespeed.io sitespeedio/sitespeed.io:latest https://webperf.se/
-    # sitespeed_arg = '--rm -v /home/runner/work/webperf_core/webperf_core/:/sitespeed.io sitespeedio/sitespeed.io:latest {0}'.format(
-    #     url)
-    # sitespeed_arg = '--rm -v /home/runner/work/webperf_core/webperf_core/:/sitespeed.io --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --firstParty --utc true --xvfb --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-    #     config.sitespeed_iterations, url)
-    # sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-    #     config.sitespeed_iterations, url, result_folder_name)
-    # sitespeed_arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-    #     config.sitespeed_iterations, url, result_folder_name)
-    # sitespeed_arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --plugins.add analysisstorer --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-    #     config.sitespeed_iterations, url, result_folder_name)
-    # sitespeed_arg = '--rm --shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --logToFile true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-    #     config.sitespeed_iterations, url, result_folder_name)
     sitespeed_run_test(sitespeed_use_docker, sitespeed_arg)
 
     website_folder_name = get_foldername_from_url(url)
 
-    # filename = '{0}/pages/{1}/data/browsertime.har'.format(
-    #     result_folder_name, website_folder_name)
     filename = '{0}/pages/{1}/data/browsertime.har'.format(
         result_folder_name, website_folder_name)
 
-    from tests.performance_sitespeed_io import get_file_content as sitespeed_get_file_content
-    http_archive_content = sitespeed_get_file_content(
-        sitespeed_use_docker, filename)
+    http_archive_content = get_file_content(filename)
 
     # - GDPR and Schrems ( 5.00 rating )
     rating += rate_gdpr_and_schrems(http_archive_content, _local, _)

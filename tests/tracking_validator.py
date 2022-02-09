@@ -780,7 +780,7 @@ def run_test(_, langCode, url):
     rating = Rating(_, review_show_improvements_only)
 
     language = gettext.translation(
-        'tracking_validator_pagexray', localedir='locales', languages=[langCode])
+        'tracking_validator', localedir='locales', languages=[langCode])
     language.install()
     _local = language.gettext
 

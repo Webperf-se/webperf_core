@@ -21,7 +21,7 @@ jobs:
       run: npm install -g lighthouse
       if: ${{ success() }}
     - name: Setup config (using SAMPLE-config.py as config.py)
-      run: python .github/workflows/verify_result.py -c
+      run: python .github/workflows/verify_result.py -c false
       if: ${{ success() }}
     - name: Test Performance (Google Lighthouse)
       run: |

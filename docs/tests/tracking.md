@@ -9,17 +9,95 @@ This test is aiming to improve user pricacy and integrity.
 
 ### GDPR and Schrems
 
+In this section of the test we determin the use of none GDPR compliant request.
+Currently this is done by guessing the origin country of every request IP.
+We use IP2Location for this guessing, please note that depending on where you run this test from you may get different results.
+If possible you should run this test from a EU country for the most reliable result.
+
+Current EU countries are considered compliant by the test:
+* Belgium
+* Bulgaria
+* Czechia
+* Denmark
+* Germany
+* Estonia
+* Ireland
+* Greece
+* Spain
+* France
+* Croatia
+* Italy
+* Cyprus
+* Latvia
+* Lithuania
+* Luxembourg
+* Hungary
+* Malta
+* Netherlands
+* Austria
+* Poland
+* Portugal
+* Romania
+* Slovenia
+* Slovakia
+* Finland
+* Sweden
+
+In addition to above EU countries we also consider following countries complaint.
+They orginally comes from: https://ec.europa.eu/info/law/law-topic/data-protection/international-dimension-data-protection/adequacy-decisions_en
+
+* Norway
+* Liechtenstein
+* Iceland
+* Andorra
+* Argentina
+* Canada
+* Faroe Islands
+* Guernsey
+* Israel
+* Isle of Man
+* Japan
+* Jersey
+* New Zealand
+* Switzerland
+* Uruguay
+* South Korea
+* United Kingdom
+* Åland Islands
+
+
 ### Tracking
+
+In this section of the test we determin the use of trackers.
+We are using 2 different methods for this.
+* Number of request that match the block list project list for trackers ( https://blocklistproject.github.io/Lists/alt-version/tracking-nl.txt ).
+* Known javascript variablenames and filenames.
+
+A url are allowed to use 2 trackers without impacting rating.
+For all found trackers above that the rating will get lower and lower.
+Please note that this section is relative to the number of none tracking request done by the url.
 
 ### Fingerprinting/Identifying technique
 
+In this section of the test we determin the use of fingerprinting/identifying technique.
+We are currently only using one method for this.
+* Number of request that match the Disconnect list for fingerprinting domains ( We use `FingerprintingInvasive` and `FingerprintingGeneral` section of the file ).
+
 ### Advertising
+
+In this section of the test we determin the use of advertising requests.
+We are currently only using one method for this.
+* Number of request that match the block list project list for ads ( https://blocklistproject.github.io/Lists/alt-version/ads-nl.txt ).
+
+A url are allowed to use 2 advertising requests without impacting rating.
+For all found advertising requests above that the rating will get lower and lower.
+Please note that this section is relative to the number of none advertising request done by the url.
 
 ## How are rating being calculated?
 
 ## Read more
 
-Links to other sources where you can test or read more
+* https://pagexray-eu.fouanalytics.com
 
 ## FAQ
 

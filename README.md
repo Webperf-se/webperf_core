@@ -35,21 +35,21 @@ but you can run this project in many ways and what you choose depends on your ne
 Add a interesting ingress here.
 [Read more about our tests](./docs/tests/README.md) or go directly to a specific test below.
 
-* [Google Lighthouse accessibility with Axe](./docs/tests/google-lighthouse-based.md)
-* [Google Lighthouse performance](./docs/tests/google-lighthouse-based.md)
-* [Google Lighthouse best practice](./docs/tests/google-lighthouse-based.md)
-* [Google Lighthouse progressive web apps](./docs/tests/google-lighthouse-based.md)
-* [Google Lighthouse SEO](./docs/tests/google-lighthouse-based.md)
-* [Testing the 404 page and status code (by default checks for Swedish text, though)](./docs/tests/page-not-found.md)
-* [Validating the HTML code against W3C](./docs/tests/html.md)
-* [Validating the CSS code against W3C](./docs/tests/css.md)
-* [Users’ integrity test against Webbkoll, provided by Dataskydd.net](./docs/tests/webbkoll.md)
-* [Frontend quality against Yellow Lab Tools](./docs/tests/yellowlab.md)
-* [Website performance with Sitespeed.io](./docs/tests/sitespeed.md)
-* [Carbon dioxide checked against Website Carbon Calculator API](./docs/tests/google-lighthouse-based.md)
-* [Standard files (checks for robots.txt, security.txt and more)](./docs/tests/standard.md)
-* [HTTP and Network test (checks HTTP version, TLS version and more)](./docs/tests/http.md)
-* [Tracking & Integrity test (checks GDPR compliance, tracking and more)](./docs/tests/tracking.md)
+* [Accessibility with Axem provided by Lighthouse](./docs/tests/google-lighthouse-based.md)
+* [Website performance, provided by Lighthouse](./docs/tests/google-lighthouse-based.md)
+* [Best practice, provided by Lighthouse](./docs/tests/google-lighthouse-based.md)
+* [Progressive web apps, provided by Lighthouse](./docs/tests/google-lighthouse-based.md)
+* [SEO best practise, provided by Lighthouse](./docs/tests/google-lighthouse-based.md)
+* [Validate 404 page (by default checks for Swedish text, though)](./docs/tests/page-not-found.md)
+* [Validate HTML provided by W3C](./docs/tests/html.md)
+* [Validate CSS, provided by W3C](./docs/tests/css.md)
+* [Security, data-protecting & Integrity, provided by Dataskydd.net](./docs/tests/webbkoll.md)
+* [Frontend quality, provided by YellowLab](./docs/tests/yellowlab.md)
+* [Website performance, provided by SiteSpeed](./docs/tests/sitespeed.md)
+* [Energy Efficiency](./docs/tests/google-lighthouse-based.md)
+* [Standard files](./docs/tests/standard.md)
+* [HTTP and Network](./docs/tests/http.md)
+* [Tracking & Integrity](./docs/tests/tracking.md)
 
 
 # Contribute

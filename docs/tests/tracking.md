@@ -107,6 +107,8 @@ Please note that this section is relative to the number of none advertising requ
 
 ## How are rating being calculated?
 
+This section has not been written yet.
+
 ## Read more
 
 * https://pagexray-eu.fouanalytics.com

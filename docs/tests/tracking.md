@@ -7,6 +7,18 @@ This test is aiming to improve user pricacy and integrity.
 
 ### Cookies
 
+In this section we determin if the use of cookies are done a secure and none tracking manner.
+We are doing this by:
+* Check if and how many cookies that is persistant more then 1 year without revisit
+* Check if and how many cookies that is persistant more then 9 months without revisit
+* Check if and how many cookies that is persistant more then 6 months without revisit
+* Check if and how many cookies that is persistant more then 3 months without revisit
+* Check if and how many cookies that are not requiring a secure context (this make it possible to leak information)
+* Check if and how many thirdpart cookies that are being set just by visiting url
+
+All of above is considered bad behaivor and will result in a lower rating.
+
+
 ### GDPR and Schrems
 
 In this section of the test we determin the use of none GDPR compliant request.

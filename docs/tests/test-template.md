@@ -20,6 +20,7 @@ This section has not been written yet.
 
 ### Prerequirements
 
+* Fork this repository
 Is the website required to be public because we use external service?
 
 ### Setup with GitHub Actions
@@ -30,6 +31,7 @@ Read more on the [general page for github actions](../getting-started-github-act
 ### Setup Locally
 
 This section has not been written yet.
+* Follow [general local setup steps for this repository](../getting-started-local.md)
 
 #### Using NPM package
 

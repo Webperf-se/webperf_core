@@ -1,5 +1,4 @@
-# Tracking & Integrity
-[![Regression Test - Tracking & Integrity](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-tracking.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-tracking.yml)
+# Tracking & Integrity [![Regression Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-tracking.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-tracking.yml)
 
 This test is aiming to improve user pricacy and integrity.
 

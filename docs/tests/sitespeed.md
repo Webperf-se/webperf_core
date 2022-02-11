@@ -5,15 +5,17 @@ Add small description of what this test is.
 
 ## What is being tested?
 
-This section has not been written yet.
+Currently we are only using the SpeedIndex metric from SiteSpeed.io (Expressed in ms).
+You can read more about SpeedIndex at: https://www.sitespeed.io/documentation/sitespeed.io/metrics/#speed-index
 
-## How are rating being calculated?
+After we get this value from SiteSpeed.io we remove 500 from it and do the following calculation:
 
-This section has not been written yet.
+`Rating = 5.0 - (speedindex_adjusted / 1000)`
 
 ## Read more
 
-Links to other sources where you can test or read more
+* https://www.sitespeed.io/documentation/sitespeed.io/
+
 
 ## How to setup?
 
@@ -22,29 +24,35 @@ This section has not been written yet.
 ### Prerequirements
 
 * Fork this repository
-Is the website required to be public because we use external service?
 
 ### Setup with GitHub Actions
 
-This section has not been written yet.
 Read more on the [general page for github actions](../getting-started-github-actions.md).
 
 ### Setup Locally
 
-This section has not been written yet.
 * Follow [general local setup steps for this repository](../getting-started-local.md)
 
 #### Using NPM package
 
-This section has not been written yet.
+On Linux:
+* Update apt-get `sudo apt-get update -y` ( Not needed if you have latest version )
+* Install image library `sudo apt-get install -y imagemagick libjpeg-dev xz-utils --no-install-recommends --force-yes`
+* Upgrade PIP `python -m pip install --upgrade pip` ( Not needed if you have latest version )
+* Install setuptools `python -m pip install --upgrade setuptools`
+* Install ... `python -m pip install pyssim Pillow image`
+* Install ffmpeg `sudo apt install ffmpeg`
+* Download and install Node.js (v1 version 14.x)
+* Download and install Google Chrome browser
+* Install SiteSpeed NPM package ( `npm install -g sitespeed.io` )
+* Set `sitespeed_use_docker = False` in your `config.py`
+
+(You can always see [GitHub Actions SiteSpeed](../../.github/workflows/regression-test-sitespeed.yml) for all steps required line by line)
 
 #### Using Docker image
 
-This section has not been written yet.
-
-#### Using service?
-
-This section has not been written yet.
+* Make sure Docker command is globally accessible on your system.
+* Set `sitespeed_use_docker = True` in your `config.py`
 
 ## FAQ
 

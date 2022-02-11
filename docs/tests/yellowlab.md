@@ -1,4 +1,5 @@
-# Test Header
+# Frontend quality against Yellow Lab Tools
+[![Regression Test - Quality on frontend (Yellow Lab Tools) Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-ylt.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-ylt.yml)
 
 Add small description of what this test is.
 

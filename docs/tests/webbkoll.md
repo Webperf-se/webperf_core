@@ -1,4 +1,5 @@
-# Test Header
+# Users’ integrity test against Webbkoll, provided by Dataskydd.net
+[![Regression Test - Integrity & Security (Webbkoll) Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-webbkoll.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-webbkoll.yml)
 
 Add small description of what this test is.
 

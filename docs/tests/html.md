@@ -1,4 +1,5 @@
-# Test Header
+# HTML Validation
+[![Regression Test - HTML Validation Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-html.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-html.yml)
 
 Add small description of what this test is.
 

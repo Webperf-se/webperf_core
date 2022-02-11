@@ -1,4 +1,5 @@
-# Test Header
+# CSS Validation
+[![Regression Test - CSS Validation Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-css.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-css.yml)
 
 Add small description of what this test is.
 

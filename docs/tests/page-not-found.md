@@ -1,4 +1,5 @@
-# Test Header
+# 404 (Page not Found)
+[Testing the 404 page and status code (by default checks for Swedish text, though)](page-not-found.md)
 
 Add small description of what this test is.
 

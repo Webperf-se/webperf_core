@@ -1,4 +1,4 @@
-# Accessibility with Axe
+# Accessibility with Axe (Powered by Google Lighthouse)
 [![Regression Test - Google Lighthouse Based Test(s)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-google-lighthouse-based.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-google-lighthouse-based.yml)
 
 Add small description of what this test is.

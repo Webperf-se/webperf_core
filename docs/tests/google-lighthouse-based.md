@@ -11,13 +11,6 @@ Following tests are using Google Lighthouse in the background:
 * [Google Lighthouse SEO](google-lighthouse-seo.md)
 * [Energy efficiency](energy-efficiency.md)
 
-
-## Read more
-
-Links to other sources where you can test or read more
-* https://web.dev/
-* https://pagespeed.web.dev/
-
 ## How to setup?
 
 This section has not been written yet.
@@ -60,6 +53,13 @@ Get your API key by:
 6. In the dialogue box the key now appears below *Your API key*, it can look like this *AIzaXyCjEXTvAq7zAU_RV_vA7slvDO9p1weRfgW*
 7. Set `googlePageSpeedApiKey = "<YOUR API KEY>"` in your `config.py`
 8. Set `lighthouse_use_api = True` in your `config.py`
+
+## Read more
+
+Links to other sources where you can test or read more
+* https://web.dev/
+* https://pagespeed.web.dev/
+
 
 ## FAQ
 

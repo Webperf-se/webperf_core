@@ -114,9 +114,6 @@ This section has not been written yet.
 
 * https://pagexray-eu.fouanalytics.com
 
-## FAQ
-
-No frequently asked questions yet :)
 
 ## How to setup?
 
@@ -154,3 +151,6 @@ No frequently asked questions yet :)
 * Set `sitespeed_use_docker = True` in your `config.py`
 
 
+## FAQ
+
+No frequently asked questions yet :)

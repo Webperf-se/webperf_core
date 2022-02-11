@@ -14,10 +14,6 @@ This section has not been written yet.
 
 Links to other sources where you can test or read more
 
-## FAQ
-
-No frequently asked questions yet :)
-
 ## How to setup?
 
 This section has not been written yet.
@@ -46,4 +42,8 @@ This section has not been written yet.
 #### Using service?
 
 This section has not been written yet.
+
+## FAQ
+
+No frequently asked questions yet :)
 

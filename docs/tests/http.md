@@ -44,10 +44,6 @@ This section has not been written yet.
 
 Links to other sources where you can test or read more
 
-## FAQ
-
-No frequently asked questions yet :)
-
 ## How to setup?
 
 ### Prerequirements
@@ -67,4 +63,7 @@ Read more on the [general page for github actions](../getting-started-github-act
 #### Using service?
 
 
+## FAQ
+
+No frequently asked questions yet :)
 

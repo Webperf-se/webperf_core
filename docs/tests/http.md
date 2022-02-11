@@ -28,8 +28,8 @@ Checks for Insecure encryption support
 
 * Checks for HTTP/1.1 support
 * Checks for HTTP/2 support
-* Checks for HTTP/3 support
-* Checks for Quick support
+* Checks for HTTP/3 support ( Tested using https://http3check.net/ )
+* Checks for Quick support ( Tested using https://http3check.net/ )
 
 ### IPv6 and IPv4 support
 
@@ -44,11 +44,14 @@ This section has not been written yet.
 
 Links to other sources where you can test or read more
 
+* https://www.ssllabs.com/ssltest/
+* https://http3check.net/
+
 ## How to setup?
 
 ### Prerequirements
 
-Is the website required to be public because we use external service?
+* Fork this repository
 
 ### Setup with GitHub Actions
 
@@ -56,11 +59,8 @@ Read more on the [general page for github actions](../getting-started-github-act
 
 ### Setup Locally
 
-#### Using NPM package
-
-#### Using Docker image
-
-#### Using service?
+* Follow [general local setup steps for this repository](../getting-started-local.md)
+* Checking for HTTP/3 and Quick support require access to and from https://http3check.net/ to the url you want to test.
 
 
 ## FAQ

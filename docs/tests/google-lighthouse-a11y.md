@@ -1,19 +1,17 @@
 # Accessibility with Axe (Powered by Google Lighthouse)
 [![Regression Test - Google Lighthouse Based Test(s)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-google-lighthouse-based.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-google-lighthouse-based.yml)
 
-Add small description of what this test is.
 
-## What is being tested?
-
-This section has not been written yet.
+We use Google Lighthouse Accessibility directly so better to read more about it from there :)
 
 ## How are rating being calculated?
 
-This section has not been written yet.
+We convert the lighthouse test score (0-100) to our rating (1-5), nothing more to it :)
 
 ## Read more
 
-This section has not been written yet.
+* https://web.dev/lighthouse-accessibility/
+* https://github.com/GoogleChrome/lighthouse
 
 ## How to setup?
 

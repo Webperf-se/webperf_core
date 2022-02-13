@@ -97,7 +97,7 @@ msgid "TEXT_GDPR_COUNTRIES"
 msgstr "  - Antal olika länder: {0}\r\n"
 
 msgid "TEXT_GDPR_NONE_COMPLIANT_COUNTRIES"
-msgstr "  - Länder utan adekvat nivå data skyddsnivå: {0}\r\n"
+msgstr "  - Länder utan adekvat nivå av dataskydd: {0}\r\n"
 
 msgid "TEXT_GDPR_NONE_COMPLIANT_COUNTRIES_REQUESTS"
 msgstr "    - {0}, {1} förfrågningar\r\n"

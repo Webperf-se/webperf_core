@@ -22,7 +22,7 @@ msgid "TEXT_REQUEST_UNKNOWN"
 msgstr "#{0}: "
 
 msgid "TEXT_REQUEST_WEBPAGE"
-msgstr "#{0}: Webpage"
+msgstr "#{0}: Webbsida"
 
 msgid "TEXT_VISITOR_ANALYTICS_USED"
 msgstr "  - Besökaranalys används:\r\n"
@@ -43,7 +43,7 @@ msgid "TEXT_TRACKING_TOTAL_FOUND"
 msgstr "  - Hittade totalt {0} spårningsförfrågningar.\n"
 
 msgid "TEXT_TRACKING_REFERENCE"
-msgstr "{0} - Har reference till {1}"
+msgstr "{0} - Har referens till {1}"
 
 msgid "TEXT_FINGERPRINTING"
 msgstr "- Identifieringstekniker"
@@ -67,7 +67,7 @@ msgid "TEXT_ADS_FOUND"
 msgstr "  - {0} - Annonsörsförfrågning hittad"
 
 msgid "TEXT_ADS_MAX_SHOWED"
-msgstr "  - Fler än {0} annonsörsförfrågningar hittad, döljer resten"
+msgstr "  - Fler än {0} annonsörsförfrågningar hittade, döljer resten"
 
 msgid "TEXT_ADS_TOTAL_FOUND"
 msgstr "  - Hittade totalt {0} annonsörsförfrågningar.\n"

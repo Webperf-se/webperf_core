@@ -1,7 +1,8 @@
 # Energy Efficiency
 [![Regression Test - Google Lighthouse Based Test(s)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-google-lighthouse-based.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-google-lighthouse-based.yml)
 
-Add small description of what this test is.
+Aim for this test is to start discussion regarding website impact on climate and environment.
+It is not perfect but hopefully a start.
 
 ## What is being tested?
 

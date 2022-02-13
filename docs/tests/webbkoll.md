@@ -1,19 +1,36 @@
 # Users’ integrity test against Webbkoll, provided by Dataskydd.net
 [![Regression Test - Integrity & Security (Webbkoll) Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-webbkoll.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-webbkoll.yml)
 
-Add small description of what this test is.
+This test is using Webbkoll provided by Dataskydd.net to show how you handle user security and integrity.
 
 ## What is being tested?
 
-This section has not been written yet.
+We are currently using below sections of Webbkoll report:
+
+* HTTPS by default
+* HTTP Strict Transport Security (HSTS)
+* Content Security Policy
+* Reporting (CSP, Certificate Transparency, Network Error Logging)
+* Referrer Policy
+* Subresource Integrity (SRI)
+* HTTP headers
+* Cookies
 
 ## How are rating being calculated?
 
-This section has not been written yet.
+We are currently giving you 5 in rating by for every section above if there is no error or warning.
+We give you 1 in rating if failed the section (getting a big red X, meaning error).
+We are giving you 2.5 in rating if you have warning on the section level.
+
+In addition to above we will give you following penelty:
+* for every small error we will lower the rating by 0.5
+* for every small warning we will lower the rating by 0.25.
+
+Lowest rating is as always 1.0
 
 ## Read more
 
-Links to other sources where you can test or read more
+* https://webbkoll.dataskydd.net/
 
 ## How to setup?
 
@@ -22,29 +39,16 @@ This section has not been written yet.
 ### Prerequirements
 
 * Fork this repository
-Is the website required to be public because we use external service?
+* As we are using external service ( https://webbkoll.dataskydd.net/ ) your site needs to be publicly available and the machine running
+this test needs to be able to access external service.
 
 ### Setup with GitHub Actions
 
-This section has not been written yet.
 Read more on the [general page for github actions](../getting-started-github-actions.md).
 
 ### Setup Locally
 
-This section has not been written yet.
 * Follow [general local setup steps for this repository](../getting-started-local.md)
-
-#### Using NPM package
-
-This section has not been written yet.
-
-#### Using Docker image
-
-This section has not been written yet.
-
-#### Using service?
-
-This section has not been written yet.
 
 ## FAQ
 

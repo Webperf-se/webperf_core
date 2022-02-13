@@ -1,23 +1,18 @@
 # Frontend quality against Yellow Lab Tools
 [![Regression Test - Quality on frontend (Yellow Lab Tools) Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-ylt.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-ylt.yml)
 
-Add small description of what this test is.
-
-## What is being tested?
-
-This section has not been written yet.
-
-## How are rating being calculated?
-
-This section has not been written yet.
+We use YellowLab Tools for this test and convert their rating 1-100 to our rating 1-5.
+We group every rating into:
+* Overall (other)
+* Integrity & Security
+* Performance
+* Standards
 
 ## Read more
 
 * https://yellowlab.tools/
 
 ## How to setup?
-
-This section has not been written yet.
 
 ### Prerequirements
 

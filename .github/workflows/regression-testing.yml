@@ -1,4 +1,4 @@
-name: "Regression Test - Tracking and Privacy (Pagexray) Test"
+name: "Testing"
 on: [ push ]
 jobs:
   build:
@@ -44,7 +44,7 @@ jobs:
     #     python .github/workflows/verify_result.py -c true
     #     python default.py -t 23 -r -u https://webperf.se/ -o .github/workflows/testresult-23.json
     #     python .github/workflows/verify_result.py -t 23
-      if: ${{ success() }}
+      # if: ${{ success() }}
     - name: Setup Node.js (v1 version 14.x)
       uses: actions/setup-node@v1
       with:

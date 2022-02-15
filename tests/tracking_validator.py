@@ -200,7 +200,6 @@ def rate_cookies(browser, url, _local, _):
 
     number_of_cookies = 0
     cookies_index = 0
-    cookies_points = 1.0
 
     cookies_number_of_firstparties = 0
     cookies_number_of_thirdparties = 0
@@ -248,16 +247,12 @@ def rate_cookies(browser, url, _local, _):
 
                     if year1_from_now < cookie_expires_date:
                         cookies_number_of_valid_over_1year += 1
-                        cookies_points -= 1.0
                     elif months9_from_now < cookie_expires_date:
                         cookies_number_of_valid_over_9months += 1
-                        cookies_points -= 0.9
                     elif months6_from_now < cookie_expires_date:
                         cookies_number_of_valid_over_6months += 1
-                        cookies_points -= 0.6
                     elif months3_from_now < cookie_expires_date:
                         cookies_number_of_valid_over_3months += 1
-                        cookies_points -= 0.3
 
             number_of_cookies += 1
 
@@ -271,6 +266,9 @@ def rate_cookies(browser, url, _local, _):
         nof_rating.set_integrity_and_security(nof_points, _local('TEXT_COOKIES_HAS_THIRDPARTY').format(
             cookies_number_of_thirdparties))
         nof_rating.set_overall(nof_points)
+
+        print('nof_rating:', nof_rating)
+
         rating += nof_rating
     if cookies_number_of_valid_over_1year > 0:
         # '-- Valid over 1 year: {0}\r\n'
@@ -282,6 +280,9 @@ def rate_cookies(browser, url, _local, _):
         valid_1year_rating.set_integrity_and_security(valid_1year_points, _local('TEXT_COOKIE_HAS_OVER_1YEAR').format(
             cookies_number_of_valid_over_1year))
         valid_1year_rating.set_overall(valid_1year_points)
+
+        print('valid_1year_rating:', valid_1year_rating)
+
         rating += valid_1year_rating
     elif cookies_number_of_valid_over_9months > 0:
         # '-- Valid over 9 months: {0}\r\n'
@@ -293,6 +294,9 @@ def rate_cookies(browser, url, _local, _):
         valid_9months_rating.set_integrity_and_security(valid_9months_points, _local('TEXT_COOKIE_HAS_OVER_9MONTH').format(
             cookies_number_of_valid_over_9months))
         valid_9months_rating.set_overall(valid_9months_points)
+
+        print('valid_9months_rating:', valid_9months_rating)
+
         rating += valid_9months_rating
     elif cookies_number_of_valid_over_6months > 0:
         # '-- Valid over 6 months: {0}\r\n'
@@ -304,6 +308,9 @@ def rate_cookies(browser, url, _local, _):
         valid_6months_rating.set_integrity_and_security(valid_6months_points, _local('TEXT_COOKIE_HAS_OVER_6MONTH').format(
             cookies_number_of_valid_over_6months))
         valid_6months_rating.set_overall(valid_6months_points)
+
+        print('valid_6months_rating:', valid_6months_rating)
+
         rating += valid_6months_rating
     elif cookies_number_of_valid_over_3months > 0:
         # '-- Valid over 3 months: {0}\r\n'
@@ -314,7 +321,10 @@ def rate_cookies(browser, url, _local, _):
         valid_3months_rating = Rating(_, review_show_improvements_only)
         valid_3months_rating.set_integrity_and_security(valid_3months_points, _local('TEXT_COOKIE_HAS_OVER_3MONTH').format(
             cookies_number_of_valid_over_3months))
-        valid_3months_rating.overall(valid_3months_points)
+        valid_3months_rating.set_overall(valid_3months_points)
+
+        print('valid_3months_rating:', valid_3months_rating)
+
         rating += valid_3months_rating
     if cookies_number_of_secure > 0:
         # '-- Not secure: {0}\r\n'
@@ -326,12 +336,18 @@ def rate_cookies(browser, url, _local, _):
         secure_rating.set_integrity_and_security(secure_points, _local('TEXT_COOKIE_NOT_SECURE').format(
             cookies_number_of_secure))
         secure_rating.set_overall(secure_points)
+
+        print('secure_rating:', secure_rating)
+
         rating += secure_rating
 
     integrity_and_security_review = rating.integrity_and_security_review
 
     result_rating = Rating(_, review_show_improvements_only)
     points = rating.get_overall()
+
+    print('points:', points)
+
     if number_of_cookies > 0:
         if points <= 1.0:
             points = 1.0
@@ -344,8 +360,8 @@ def rate_cookies(browser, url, _local, _):
             result_rating.set_overall(points)
     else:
         no_cookie_points = 5.0
-        result_rating.set_integrity_and_security(no_cookie_points, _local('TEXT_COOKIE').format(
-            0.0, ''))
+        result_rating.set_integrity_and_security(
+            no_cookie_points, _local('TEXT_COOKIE'))
 
         result_rating.set_overall(no_cookie_points)
 
@@ -515,8 +531,6 @@ def rate_tracking(website_urls, _local, _):
         review_analytics += _local('TEXT_VISITOR_ANALYTICS_USED')
         analytics_used_items = analytics_used.items()
         for analytics_name, analytics_should_count in analytics_used_items:
-            if analytics_should_count:
-                number_of_tracking += 1
             review_analytics += '    - {0}\r\n'.format(analytics_name)
 
     integrity_and_security_review = rating.integrity_and_security_review

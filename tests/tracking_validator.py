@@ -852,7 +852,6 @@ def has_matomo(content):
     if 'piwik.js' in content:
         return True
     if 'matomo.php' in content:
-        print('url: matomo.php', content)
         return True
 
     return False

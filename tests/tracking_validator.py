@@ -348,7 +348,7 @@ def rate_cookies(browser, url, _local, _):
 
     print('points:', points)
 
-    if number_of_cookies > 0:
+    if number_of_cookies > 0 and rating.isused():
         if points <= 1.0:
             points = 1.0
             result_rating.set_integrity_and_security(

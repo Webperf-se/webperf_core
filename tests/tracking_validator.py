@@ -836,29 +836,23 @@ def get_analytics(_local, url, content, request_index):
 def has_matomo(content):
     # Look for cookie name
     if '"name": "_pk_' in content:
-        print('variable: _pk_')
         return True
     if '"name": "MATOMO_' in content:
-        print('variable: MATOMO_')
         return True
     if '"name": "PIWIK_' in content:
-        print('variable: PIWIK_')
         return True
 
     # Look for javascript objects
     if 'window.Matomo=' in content:
-        print('variable: window.Matomo=')
         return True
     if 'window.Piwik=' in content:
-        print('variable: window.Piwik=')
         return True
 
     # Look for file names
     if 'piwik.js' in content:
-        print('url: piwik.js')
         return True
     if 'matomo.php' in content:
-        print('url: matomo.php')
+        print('url: matomo.php', content)
         return True
 
     return False

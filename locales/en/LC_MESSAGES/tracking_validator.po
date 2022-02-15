@@ -22,7 +22,7 @@ msgid "TEXT_REQUEST_UNKNOWN"
 msgstr "#{0}: "
 
 msgid "TEXT_REQUEST_WEBPAGE"
-msgstr "#{0}: Webbsida"
+msgstr "#{0}: Webpage"
 
 msgid "TEXT_VISITOR_ANALYTICS_USED"
 msgstr "  - Visitor analytics used:\r\n"
@@ -31,10 +31,10 @@ msgid "TEXT_TRACKING"
 msgstr "- Tracking"
 
 msgid "TEXT_TRACKING_FOUND_ALLOWED"
-msgstr "'  - {0} - Tracking found, having {1} are allowed'"
+msgstr "  - {0} - Tracking found, having {1} are allowed"
 
 msgid "TEXT_TRACKING_FOUND"
-msgstr "'  - {0} - Tracking found"
+msgstr "  - {0} - Tracking found"
 
 msgid "TEXT_TRACKING_MAX_SHOWED"
 msgstr "  - More then {0} requests found, filtering out the rest"
@@ -49,7 +49,7 @@ msgid "TEXT_FINGERPRINTING"
 msgstr "- Fingerprinting/Identifying technique"
 
 msgid "TEXT_FINGERPRINTING_FOUND"
-msgstr "'  - {0} - Fingerprinting/Identifying found.\n"
+msgstr "  - {0} - Fingerprinting/Identifying found.\n"
 
 msgid "TEXT_FINGERPRINTING_MAX_SHOWED"
 msgstr "  - More then {0} requests found, filtering out the rest."
@@ -61,10 +61,10 @@ msgid "TEXT_ADS"
 msgstr "- Ads"
 
 msgid "TEXT_ADS_FOUND_ALLOWED"
-msgstr "'  - {0} - Adserver request found, having {1} are allowed'"
+msgstr "  - {0} - Adserver request found, having {1} are allowed"
 
 msgid "TEXT_ADS_FOUND"
-msgstr "'  - {0} - Adserver request found"
+msgstr "  - {0} - Adserver request found"
 
 msgid "TEXT_ADS_MAX_SHOWED"
 msgstr "  - More then {0} requests found, filtering out the rest"

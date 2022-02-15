@@ -267,8 +267,6 @@ def rate_cookies(browser, url, _local, _):
             cookies_number_of_thirdparties))
         nof_rating.set_overall(nof_points)
 
-        print('nof_rating:', nof_rating)
-
         rating += nof_rating
     if cookies_number_of_valid_over_1year > 0:
         # '-- Valid over 1 year: {0}\r\n'
@@ -280,8 +278,6 @@ def rate_cookies(browser, url, _local, _):
         valid_1year_rating.set_integrity_and_security(valid_1year_points, _local('TEXT_COOKIE_HAS_OVER_1YEAR').format(
             cookies_number_of_valid_over_1year))
         valid_1year_rating.set_overall(valid_1year_points)
-
-        print('valid_1year_rating:', valid_1year_rating)
 
         rating += valid_1year_rating
     elif cookies_number_of_valid_over_9months > 0:
@@ -295,8 +291,6 @@ def rate_cookies(browser, url, _local, _):
             cookies_number_of_valid_over_9months))
         valid_9months_rating.set_overall(valid_9months_points)
 
-        print('valid_9months_rating:', valid_9months_rating)
-
         rating += valid_9months_rating
     elif cookies_number_of_valid_over_6months > 0:
         # '-- Valid over 6 months: {0}\r\n'
@@ -308,8 +302,6 @@ def rate_cookies(browser, url, _local, _):
         valid_6months_rating.set_integrity_and_security(valid_6months_points, _local('TEXT_COOKIE_HAS_OVER_6MONTH').format(
             cookies_number_of_valid_over_6months))
         valid_6months_rating.set_overall(valid_6months_points)
-
-        print('valid_6months_rating:', valid_6months_rating)
 
         rating += valid_6months_rating
     elif cookies_number_of_valid_over_3months > 0:
@@ -323,8 +315,6 @@ def rate_cookies(browser, url, _local, _):
             cookies_number_of_valid_over_3months))
         valid_3months_rating.set_overall(valid_3months_points)
 
-        print('valid_3months_rating:', valid_3months_rating)
-
         rating += valid_3months_rating
     if cookies_number_of_secure > 0:
         # '-- Not secure: {0}\r\n'
@@ -337,16 +327,12 @@ def rate_cookies(browser, url, _local, _):
             cookies_number_of_secure))
         secure_rating.set_overall(secure_points)
 
-        print('secure_rating:', secure_rating)
-
         rating += secure_rating
 
     integrity_and_security_review = rating.integrity_and_security_review
 
     result_rating = Rating(_, review_show_improvements_only)
     points = rating.get_overall()
-
-    print('points:', points)
 
     if number_of_cookies > 0 and rating.isused():
         if points <= 1.0:
@@ -850,22 +836,29 @@ def get_analytics(_local, url, content, request_index):
 def has_matomo(content):
     # Look for cookie name
     if '"name": "_pk_' in content:
+        print('variable: _pk_')
         return True
     if '"name": "MATOMO_' in content:
+        print('variable: MATOMO_')
         return True
     if '"name": "PIWIK_' in content:
+        print('variable: PIWIK_')
         return True
 
     # Look for javascript objects
     if 'window.Matomo=' in content:
+        print('variable: window.Matomo=')
         return True
     if 'window.Piwik=' in content:
+        print('variable: window.Piwik=')
         return True
 
     # Look for file names
     if 'piwik.js' in content:
+        print('url: piwik.js')
         return True
     if 'matomo.php' in content:
+        print('url: matomo.php')
         return True
 
     return False

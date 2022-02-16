@@ -13,7 +13,7 @@ You can read more about every method on the links below.
 After you have choosen then method to get started and followed the method specific instructions 
 you can view more general information below.
 
-### Options and arguments
+## Options and arguments
 |Argument|What happens|
 |---|---|
 | -h/--help | Help information on how to use script |
@@ -27,4 +27,41 @@ you can view more general information below.
 | -a/--addUrl <site url> | website url (required in compination with -i/--input) |
 | -d/--deleteUrl <site url> | website url (required in compination with -i/--input) |
 | -L/--language <lang code> | language used for output(en = default/sv) |
+
+## Why config.py and what does it do?
+
+Write more about this configuration file and what you control from it.
+
+
+### Why rename SAMPLE-config.py?
+
+The reason for this is because if you download a new version of the code, your settings or data should not be overwritten by accident.
+
+Because of this you need to rename `SAMPLE-config.py` to `config.py`.
+
+
+### What do every configuration do?
+
+
+#### useragent
+
+#### googlePageSpeedApiKey
+
+#### http_request_timeout
+
+#### webbkoll_sleep
+
+#### css_review_group_errors
+
+#### review_show_improvements_only
+
+#### ylt_use_api
+
+#### lighthouse_use_api
+
+#### sitespeed_use_docker
+
+#### locales
+
+#### sitespeed_iterations
 

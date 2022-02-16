@@ -13,8 +13,8 @@ We are calculating rating based on:
 we are then combining the results.
 
 Math used are:
-`rating_number_of_error_types = 5.0 - (number_of_error_types / 5.0)`
-`rating_number_of_errors = 5.0 - ((number_of_errors / 2.0) / 5.0)`
+- `rating_number_of_error_types = 5.0 - (number_of_error_types / 5.0)`
+- `rating_number_of_errors = 5.0 - ((number_of_errors / 2.0) / 5.0)`
 
 As always, minimum rating are 1.0.
 

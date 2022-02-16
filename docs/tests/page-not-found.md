@@ -1,5 +1,5 @@
 # 404 (Page not Found)
-[Testing the 404 page and status code (by default checks for Swedish text, though)](page-not-found.md)
+[![Regression Test - 404 (Page not Found) Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-404.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-404.yml)
 
 This test is checking if you have set up a 404 (page not found) page correctly.
 We are doing this by calling a random url on your domain and verifying following:

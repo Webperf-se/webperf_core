@@ -1,15 +1,64 @@
 # 404 (Page not Found)
 [Testing the 404 page and status code (by default checks for Swedish text, though)](page-not-found.md)
 
-Add small description of what this test is.
-
-## What is being tested?
-
-This section has not been written yet.
+This test is checking if you have set up a 404 (page not found) page correctly.
+We are doing this by calling a random url on your domain and verifying following:
+- HTTP Status Code is 404
+- The resource returned is HTML
+- The HTML has a `title` element
+- The HTML has a `h1` element header
+- Text content are more then 150 chars
+- One or more of the following strings exist on page
+  - saknas
+  - finns inte
+  - inga resultat
+  - inte hittas
+  - inte hitta
+  - kunde inte
+  - kunde ej
+  - hittades inte
+  - hittar inte
+  - hittade vi inte
+  - hittar vi inte
+  - hittades tyvärr inte
+  - tagits bort
+  - fel adress
+  - trasig
+  - inte hitta
+  - ej hitta
+  - ingen sida
+  - borttagen
+  - flyttad
+  - inga resultat
+  - inte tillgänglig
+  - inte sidan
+  - kontrollera adressen
+  - kommit utanför
+  - gick fel
+  - blev något fel
+  - kan inte nås
+  - gammal sida
+  - hoppsan
+  - finns inte
+  - finns ej
+  - byggt om
+  - inte finns
+  - inte fungera
+  - ursäkta
+  - uppstått ett fel
+  - gick fel
 
 ## How are rating being calculated?
 
-This section has not been written yet.
+You can get 1-5 in rating for every section:
+- HTTP Status Code is 404
+- The resource returned is HTML
+- The HTML has a `title` element
+- The HTML has a `h1` element header
+- Text content are more then 150 chars
+- One or more of the following strings exist on page
+
+They are then combined.
 
 ## Read more
 
@@ -17,36 +66,20 @@ Links to other sources where you can test or read more
 
 ## How to setup?
 
-This section has not been written yet.
-
 ### Prerequirements
 
 * Fork this repository
-Is the website required to be public because we use external service?
+* As we are using external service ( https://validator.w3.org/nu/ ) your site needs to be publicly available and the machine running
+this test needs to be able to access external service.
 
 ### Setup with GitHub Actions
 
-This section has not been written yet.
 Read more on the [general page for github actions](../getting-started-github-actions.md).
 
 ### Setup Locally
 
-This section has not been written yet.
 * Follow [general local setup steps for this repository](../getting-started-local.md)
-
-#### Using NPM package
-
-This section has not been written yet.
-
-#### Using Docker image
-
-This section has not been written yet.
-
-#### Using service?
-
-This section has not been written yet.
 
 ## FAQ
 
 No frequently asked questions yet :)
-

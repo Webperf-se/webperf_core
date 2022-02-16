@@ -8,7 +8,7 @@ We are doing this by calling a random url on your domain and verifying following
 - The HTML has a `title` element
 - The HTML has a `h1` element header
 - Text content are more then 150 chars
-- One or more of the following strings exist on page
+- One or more of the following strings exist on page (only swedish for now)
   - saknas
   - finns inte
   - inga resultat

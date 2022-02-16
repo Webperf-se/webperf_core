@@ -34,8 +34,6 @@ Lowest rating is as always 1.0
 
 ## How to setup?
 
-This section has not been written yet.
-
 ### Prerequirements
 
 * Fork this repository

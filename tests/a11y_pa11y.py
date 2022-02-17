@@ -15,12 +15,50 @@ def run_test(_, langCode, url):
 
     print(langCode, url)
 
-    result = subprocess.run(
-        ['pa11y', '--reporter', 'json', url[0][1]], stdout=subprocess.PIPE)
+    import subprocess
+
+    print('A')
+
+    bashCommand = "pa11y --reporter json {0}".format(url)
+
+    print('B')
+
+    process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+
+    print('C')
+
+    output, error = process.communicate()
+
+    print('D')
+
+    result = str(output)
+
+    print('E')
+
+    error_result = str(error)
+
+    print('F')
+
+    print('result:', result)
+    print('error_result:', error_result)
+
+    # result = subprocess.run(
+    #     ['pa11y', '--reporter', 'json', url[0][1]], stdout=subprocess.PIPE)
+
+    print('G')
 
     mod_results = result.stdout.decode("utf-8")
+
+    print('H')
+
     result_list = json.loads(mod_results)
+
+    print('I')
+
     num_errors = len(result_list)
+
+    print('J')
+
     return_dict = {}
 
     points = 0

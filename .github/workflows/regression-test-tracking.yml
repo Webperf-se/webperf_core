@@ -1,5 +1,9 @@
 name: "Regression Test - Tracking and Privacy (Beta) Test"
 on: 
+  schedule:
+    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#onschedule
+    # * is a special character in YAML so you have to quote this string
+    - cron: '30 8,20 * * *'
   push:
     paths-ignore:
       - '**.md'

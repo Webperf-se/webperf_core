@@ -17,19 +17,16 @@ _ = gettext.gettext
 
 # DEFAULTS
 request_timeout = config.http_request_timeout
-use_ip2location = config.use_ip2location
 useragent = config.useragent
 review_show_improvements_only = config.review_show_improvements_only
-tracking_use_website = config.tracking_use_website
 sitespeed_use_docker = config.sitespeed_use_docker
 
 ip2location_db = False
-if use_ip2location:
-    try:
-        ip2location_db = IP2Location.IP2Location(
-            os.path.join("data", "IP2LOCATION-LITE-DB1.IPV6.BIN"))
-    except Exception as ex:
-        print('Unable to load IP2Location Database from "data/IP2LOCATION-LITE-DB1.IPV6.BIN"', ex)
+try:
+    ip2location_db = IP2Location.IP2Location(
+        os.path.join("data", "IP2LOCATION-LITE-DB1.IPV6.BIN"))
+except Exception as ex:
+    print('Unable to load IP2Location Database from "data/IP2LOCATION-LITE-DB1.IPV6.BIN"', ex)
 
 
 def get_domains_from_url(url):
@@ -1017,19 +1014,16 @@ def is_country_code_in_eu_or_on_exception_list(country_code):
 
 
 def get_country_code_from_ip2location(ip_address):
-    if use_ip2location:
-        rec = False
-        try:
-            rec = ip2location_db.get_all(ip_address)
-        except Exception:
-            return ''
-        try:
-            countrycode = rec.country_short
-            return countrycode
-        except Exception:
-            return ''
-
-    return ''
+    rec = False
+    try:
+        rec = ip2location_db.get_all(ip_address)
+    except Exception:
+        return ''
+    try:
+        countrycode = rec.country_short
+        return countrycode
+    except Exception:
+        return ''
 
 
 def get_best_country_code(ip_address, default_country_code):

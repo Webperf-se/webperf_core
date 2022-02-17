@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
-from math import fabs
-from operator import truediv
 from pathlib import Path
 import os
 import os.path
 import sys
 import getopt
-import filecmp
 import json
 import shutil
 import re
@@ -39,12 +36,6 @@ def prepare_config_file(sample_filename, filename, is_activated):
     regex_sitespeed = r"^sitespeed_use_docker.*"
     subst_sitespeed = "sitespeed_use_docker = {0}".format(str(is_activated))
 
-    regex_tracking = r"^tracking_use_website.*"
-    subst_tracking = "tracking_use_website = False"
-
-    regex_ip2location = r"^use_ip2location.*"
-    subst_ip2location = "use_ip2location = True"
-
     # regex_improvements_only = r"^review_show_improvements_only.*"
     # subst_improvements_only = "review_show_improvements_only = True"
 
@@ -56,10 +47,6 @@ def prepare_config_file(sample_filename, filename, is_activated):
             tmp = re.sub(regex_lighthouse, subst_lighthouse,
                          tmp, 0, re.MULTILINE)
             tmp = re.sub(regex_sitespeed, subst_sitespeed,
-                         tmp, 0, re.MULTILINE)
-            tmp = re.sub(regex_tracking, subst_tracking,
-                         tmp, 0, re.MULTILINE)
-            tmp = re.sub(regex_ip2location, subst_ip2location,
                          tmp, 0, re.MULTILINE)
             # tmp = re.sub(regex_improvements_only, subst_improvements_only,
             #              tmp, 0, re.MULTILINE)

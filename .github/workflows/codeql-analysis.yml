@@ -10,10 +10,11 @@
 # supported CodeQL languages.
 #
 name: "CodeQL (Security and Code Quality)"
-
-on: [ push ]
+on: 
+  push:
+    paths-ignore:
+      - '**.md'
 #on: [ push, pull_request ]
-
 jobs:
   analyze:
     name: Analyze

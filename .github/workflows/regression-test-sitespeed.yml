@@ -1,5 +1,8 @@
 name: "Regression Test - Performance (Sitespeed.io) Test"
-on: [ push ]
+on:
+  push:
+    paths-ignore:
+      - '**.md'
 jobs:
   build:
     runs-on: ubuntu-latest

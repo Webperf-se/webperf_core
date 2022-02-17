@@ -1,14 +1,8 @@
 # -*- coding: utf-8 -*-
 from models import Rating
 import datetime
-import sys
-import socket
-import ssl
-import json
 import requests
 import urllib  # https://docs.python.org/3/library/urllib.parse.html
-import uuid
-import re
 from bs4 import BeautifulSoup
 import config
 from tests.utils import *

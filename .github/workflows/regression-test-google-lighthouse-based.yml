@@ -1,5 +1,8 @@
 name: "Regression Test - Google Lighthouse Based Test(s)"
-on: [ push ]
+on:
+  push:
+    paths-ignore:
+      - '**.md'
 jobs:
   build:
     runs-on: ubuntu-latest

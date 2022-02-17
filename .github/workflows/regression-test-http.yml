@@ -1,5 +1,8 @@
 name: "Regression Test - HTTP & Network Test"
-on: [ push ]
+on:
+  push:
+    paths-ignore:
+      - '**.md'
 jobs:
   build:
     runs-on: ubuntu-latest

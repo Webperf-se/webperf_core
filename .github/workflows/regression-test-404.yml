@@ -1,5 +1,8 @@
 name: "Regression Test - 404 (Page not Found) Test"
-on: [ push ]
+on: 
+  push:
+    paths-ignore:
+      - '**.md'
 jobs:
   build:
     runs-on: ubuntu-latest

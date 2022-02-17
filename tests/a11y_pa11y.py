@@ -19,7 +19,7 @@ def run_test(_, langCode, url):
 
     print('A')
 
-    bashCommand = "pa11y --reporter json {0}".format(url)
+    bashCommand = "pa11y-ci --reporter json {0}".format(url)
 
     print('B')
 

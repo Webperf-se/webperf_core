@@ -1,5 +1,7 @@
 # Getting started, other
 
+PLEASE NOTE: Content in this section are obsolete and/or incomplete.
+
 ## Hosting webperf_core in the cloud
 * [Get an account on PythonAnywhere and run the code in the cloud](https://www.pythonanywhere.com/?affiliate_id=0007e5c6) - through their “Tasks” function you can automatically run the code for example every day
 
@@ -39,20 +41,6 @@ If that command results in errors, you can try addressing **Python3** instead:
 
 Now it will begin testing.
 
-### Options and arguments
-|Argument|What happens|
-|---|---|
-| -h/--help | Help information on how to use script |
-| -u/--url <site url> | website url to test against |
-| -t/--test <test number> | run ONE test (use ? to list available tests) |
-| -r/--review | show reviews in terminal |
-| -i/--input <file path> | input file path (.json/.sqlite) |
-| --input-skip <number> | number of items to skip |
-| --input-take <number> | number of items to take |
-| -o/--output <file path> | output file path (.json/.csv/.sql/.sqlite) |
-| -a/--addUrl <site url> | website url (required in compination with -i/--input) |
-| -d/--deleteUrl <site url> | website url (required in compination with -i/--input) |
-| -L/--language <lang code> | language used for output(en = default/sv) |
 
 For instance, if you'd like to test *https://yourwebsite.com*, get the output as a JSON-file named *my-report.json* and also see the reviews in the prompt the statement is as follows:  
 ```python default.py -u https://yourwebsite.com -o my-report.json -r```

@@ -33,6 +33,7 @@ def run_test(_, langCode, url):
 
     points = 0
     review_overall = ''
+    review_a11y = ''
     review = ''
 
     if num_errors == 0:
@@ -51,11 +52,9 @@ def run_test(_, langCode, url):
         points = 3
         review_overall = '- Genomsnittlig tillgänglighet men kan bli bättre.\n'
 
-    review += '- Antal tillgänglighetsproblem: {} st\n'.format(num_errors)
+    review_a11y = '- Antal tillgänglighetsproblem: {} st\n'.format(num_errors)
+    # review += '- Antal tillgänglighetsproblem: {} st\n'.format(num_errors)
     return_dict['antal_problem'] = num_errors
-
-    if num_errors > 0:
-        review += '\nProblem:\n'
 
     unique_errors = set()
 
@@ -74,6 +73,10 @@ def run_test(_, langCode, url):
                 return_dict.update({key: err_mess})
 
     i = 1
+
+    if len(unique_errors) > 0:
+        review += '\nProblem:\n'
+
     for error in unique_errors:
         review += error
         i += 1
@@ -83,7 +86,7 @@ def run_test(_, langCode, url):
 
     rating = Rating(_, review_show_improvements_only)
     rating.set_overall(points, review_overall)
-    rating.set_a11y(points)
+    rating.set_a11y(points, review_a11y)
 
     rating.a11y_review = rating.a11y_review + review
 

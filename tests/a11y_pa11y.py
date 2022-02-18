@@ -16,59 +16,20 @@ def run_test(_, langCode, url):
     print(langCode, url)
 
     import subprocess
-
-    print('A')
-
     bashCommand = "pa11y-ci --reporter json {0}".format(url)
-
-    print('B')
-
     process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-
-    print('C')
-
     output, error = process.communicate()
 
-    print('D')
-
-    result = str(output)
-
-    print('E')
-
-    error_result = str(error)
-
-    print('F')
-
-    print('result:', result)
-    print('error_result:', error_result)
-
-    # result = subprocess.run(
-    #     ['pa11y', '--reporter', 'json', url[0][1]], stdout=subprocess.PIPE)
-
-    print('G')
-
-    # mod_results = result.decode("utf-8")
-
-    print('H')
-
-    # result_list = json.loads(mod_results)
-    # json_result = json.loads(result)
-
-    #print('I.1', json_result)
-
     json_result = json.loads(output)
-
-    print('I.2', json_result)
 
     result_list = list()
     if 'results' in json_result:
         result_list = json_result['results']
 
-    print('J')
+    num_errors = 0
 
-    num_errors = len(result_list)
-
-    print('K')
+    if 'errors' in json_result:
+        num_errors = json_result['errors']
 
     return_dict = {}
 
@@ -101,13 +62,20 @@ def run_test(_, langCode, url):
     i = 1
     old_error = ''
 
-    for error in result_list:
-        err_mess = error.get('message').replace('This', 'A')
-        if err_mess != old_error:
-            old_error = err_mess
-            review += '* {0}\n'.format(err_mess)
-            key = error.get('code')  # '{0}-{1}'.format(error.get('code'), i)
-            return_dict.update({key: err_mess})
+    errors = list()
+    if url in result_list:
+        errors = result_list[url]
+
+    for error in errors:
+        if 'message' in error:
+            err_mess = error['message'].replace('This', 'A')
+            if err_mess != old_error:
+                old_error = err_mess
+                review += '- {0}\n'.format(err_mess)
+                if 'code' in error:
+                    # '{0}-{1}'.format(error.get('code'), i)
+                    key = error['code']
+                    return_dict.update({key: err_mess})
 
             i += 1
 
@@ -117,7 +85,9 @@ def run_test(_, langCode, url):
 
     rating = Rating(_, review_show_improvements_only)
     rating.set_overall(points, review_overall)
-    rating.set_a11y(points, review)
+    rating.set_a11y(points)
+
+    rating.a11y_review = rating.a11y_review + review
 
     print(points, review, return_dict)
     return (rating, return_dict)

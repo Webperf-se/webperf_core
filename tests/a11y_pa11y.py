@@ -60,6 +60,8 @@ def run_test(_, langCode, url):
     i = 1
     old_error = ''
 
+    error_types = set()
+
     errors = list()
     if url in result_list:
         errors = result_list[url]
@@ -69,7 +71,9 @@ def run_test(_, langCode, url):
             err_mess = error['message'].replace('This', 'A')
             if err_mess != old_error:
                 old_error = err_mess
-                review += '- {0}\n'.format(err_mess)
+                error_review = '- {0}\n'.format(err_mess)
+                error_types.add(error_review)
+                review += error_review
                 if 'code' in error:
                     # '{0}-{1}'.format(error.get('code'), i)
                     key = error['code']
@@ -80,6 +84,8 @@ def run_test(_, langCode, url):
         if i > 10:
             review += '- Info: För många unika problem för att lista alla\n'
             break
+
+    print('error_types:', error_types)
 
     rating = Rating(_, review_show_improvements_only)
     rating.set_overall(points, review_overall)

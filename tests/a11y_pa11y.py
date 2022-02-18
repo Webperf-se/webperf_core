@@ -13,8 +13,6 @@ def run_test(_, langCode, url):
 
     """
 
-    print(langCode, url)
-
     import subprocess
     bashCommand = "pa11y-ci --reporter json {0}".format(url)
     process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
@@ -39,21 +37,21 @@ def run_test(_, langCode, url):
 
     if num_errors == 0:
         points = 5
-        review_overall = '* Webbplatsen har inga uppenbara fel kring tillgänglighet!\n'
+        review_overall = '- Webbplatsen har inga uppenbara fel kring tillgänglighet!\n'
     elif num_errors == 1:
         points = 4
-        review_overall = '* Webbplatsen kan bli mer tillgänglig, men är helt ok.\n'
+        review_overall = '- Webbplatsen kan bli mer tillgänglig, men är helt ok.\n'
     elif num_errors > 8:
         points = 1
-        review_overall = '* Väldigt dålig tillgänglighet!\n'
+        review_overall = '- Väldigt dålig tillgänglighet!\n'
     elif num_errors >= 4:
         points = 2
-        review_overall = '* Dålig tillgänglighet.\n'
+        review_overall = '- Dålig tillgänglighet.\n'
     elif num_errors >= 2:
         points = 3
-        review_overall = '* Genomsnittlig tillgänglighet men kan bli bättre.\n'
+        review_overall = '- Genomsnittlig tillgänglighet men kan bli bättre.\n'
 
-    review += '* Antal tillgänglighetsproblem: {} st\n'.format(num_errors)
+    review += '- Antal tillgänglighetsproblem: {} st\n'.format(num_errors)
     return_dict['antal_problem'] = num_errors
 
     if num_errors > 0:
@@ -80,7 +78,7 @@ def run_test(_, langCode, url):
             i += 1
 
         if i > 10:
-            review += '* Info: För många unika problem för att lista alla\n'
+            review += '- Info: För många unika problem för att lista alla\n'
             break
 
     rating = Rating(_, review_show_improvements_only)
@@ -89,7 +87,6 @@ def run_test(_, langCode, url):
 
     rating.a11y_review = rating.a11y_review + review
 
-    print(points, review, return_dict)
     return (rating, return_dict)
 
 

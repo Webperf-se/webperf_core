@@ -72,6 +72,9 @@ msgstr "-t 5\t: God praxis (Google Lighthouse)"
 msgid "TEXT_TEST_VALID_ARGUMENTS_YELLOW_LAB_TOOLS"
 msgstr "-t 17\t: Kvalitet på frontend (Yellow Lab Tools)"
 
+msgid "TEXT_TEST_VALID_ARGUMENTS_PA11Y"
+msgstr "-t 18\t: Tillgänglighet (Pa11y)"
+
 msgid "TEXT_TEST_VALID_ARGUMENTS_PAGE_NOT_FOUND"
 msgstr "-t 2\t: 404 (sida finns inte)"
 

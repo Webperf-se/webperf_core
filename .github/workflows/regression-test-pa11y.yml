@@ -1,0 +1,32 @@
+name: "Regression Test - Accessibility (Pa11y) Test"
+on:
+  push:
+    paths-ignore:
+      - '**.md'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v2
+      if: ${{ success() }}
+    - name: Setup python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+        architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+    - name: Setup dependencies using pip
+      run: pip install -r requirements.txt
+      if: ${{ success() }}
+    - name: Setup node
+      uses: actions/setup-node@v2
+    - name: Setup Pa11y CI npm package
+      run: npm install -g pa11y-ci
+    - name: Setup config (using SAMPLE-config.py as config.py)
+      run: python .github/workflows/verify_result.py -c false
+      if: ${{ success() }}
+    - name: Accessibility (Pa11y)
+      run: |
+         python default.py -t 18 -r -u https://webperf.se/ -o .github/workflows/testresult-18.json
+         python .github/workflows/verify_result.py -t 18
+      if: ${{ success() }}

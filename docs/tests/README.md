@@ -3,21 +3,23 @@
 Add a small ingress here
 
 ## List of Tests
-* [Google Lighthouse accessibility with Axe](google-lighthouse-a11y.md)
-* [Google Lighthouse performance](google-lighthouse-performance.md)
-* [Google Lighthouse best practice](google-lighthouse-best-practice.md)
-* [Google Lighthouse progressive web apps](google-lighthouse-pwa.md)
-* [Google Lighthouse SEO](google-lighthouse-seo.md)
-* [Testing the 404 page and status code (by default checks for Swedish text, though)](page-not-found.md)
-* [Validating the HTML code against W3C](html.md)
-* [Validating the CSS code against W3C](css.md)
-* [Users’ integrity test against Webbkoll, provided by Dataskydd.net](webbkoll.md)
-* [Frontend quality against Yellow Lab Tools](yellowlab.md)
-* [Website performance with Sitespeed.io](sitespeed.md)
-* [Energy efficiency](energy-efficiency.md)
-* [Standard files (checks for robots.txt, security.txt and more)](standard.md)
-* [HTTP and Network test (checks HTTP version, TLS version and more)](http.md)
-* [Tracking & Integrity test (checks GDPR compliance, tracking and more)](tracking.md)
+* [Accessibility (Pa11y)](pa11y.md)
+* [Accessibility (Lighthouse)](google-lighthouse-a11y.md)
+* [Website performance (SiteSpeed)](sitespeed.md)
+* [Website performance (Lighthouse)](google-lighthouse-performance.md)
+* [Best practice on Web (Lighthouse)](google-lighthouse-best-practice.md)
+* [Progressive web apps (Lighthouse)](google-lighthouse-pwa.md)
+* [SEO best practise (Lighthouse)](google-lighthouse-seo.md)
+* [Validate 404 page (by default checks for Swedish text, though)](page-not-found.md)
+* [Validate HTML (W3C)](html.md)
+* [Validate CSS (W3C)](css.md)
+* [Security, data-protecting & Integrity (Webbkoll)](webbkoll.md)
+* [Frontend quality (YellowLab Tools)](yellowlab.md)
+* [Energy Efficiency](energy-efficiency.md)
+* [Standard files](standard.md)
+* [HTTP and Network](http.md)
+* [Tracking & Integrity](tracking.md)
+
 
 
 ## Code Quality

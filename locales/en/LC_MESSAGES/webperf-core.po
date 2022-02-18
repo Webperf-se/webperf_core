@@ -81,6 +81,9 @@ msgstr "-t 5\t: Best Practice (Google Lighthouse)"
 msgid "TEXT_TEST_VALID_ARGUMENTS_YELLOW_LAB_TOOLS"
 msgstr "-t 17\t: Quality on frontend (Yellow Lab Tools)"
 
+msgid "TEXT_TEST_VALID_ARGUMENTS_PA11Y"
+msgstr "-t 18\t: Accessibility (Pa11y)"
+
 #: default.py:133
 msgid "TEXT_TEST_VALID_ARGUMENTS_PAGE_NOT_FOUND"
 msgstr "-t 2\t: 404 (Page not Found)"

@@ -52,7 +52,7 @@ def run_test(_, langCode, url):
     print('H')
 
     # result_list = json.loads(mod_results)
-    json_result = json.loads(result)
+    # json_result = json.loads(result)
 
     print('I.1', json_result)
 

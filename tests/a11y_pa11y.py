@@ -16,7 +16,7 @@ def run_test(_, langCode, url):
     """
 
     language = gettext.translation(
-        'ally_pa11y', localedir='locales', languages=[langCode])
+        'a11y_pa11y', localedir='locales', languages=[langCode])
     language.install()
     _local = language.gettext
 

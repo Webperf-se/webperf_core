@@ -47,11 +47,16 @@ def run_test(_, langCode, url):
 
     print('G')
 
-    mod_results = result.decode("utf-8")
+    # mod_results = result.decode("utf-8")
 
     print('H')
 
-    result_list = json.loads(mod_results)
+    # result_list = json.loads(mod_results)
+    json_result = json.loads(result)
+
+    result_list = list()
+    if 'results' in json_result:
+        result_list = json_result['results']
 
     print('I')
 

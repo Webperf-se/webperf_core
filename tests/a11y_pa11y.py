@@ -54,15 +54,21 @@ def run_test(_, langCode, url):
     # result_list = json.loads(mod_results)
     json_result = json.loads(result)
 
+    print('I.1', json_result)
+
+    json_result = json.loads(output)
+
+    print('I.2', json_result)
+
     result_list = list()
     if 'results' in json_result:
         result_list = json_result['results']
 
-    print('I')
+    print('J')
 
     num_errors = len(result_list)
 
-    print('J')
+    print('K')
 
     return_dict = {}
 

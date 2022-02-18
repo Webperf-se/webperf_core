@@ -47,7 +47,7 @@ def run_test(_, langCode, url):
 
     print('G')
 
-    mod_results = result.stdout.decode("utf-8")
+    mod_results = result.decode("utf-8")
 
     print('H')
 

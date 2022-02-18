@@ -54,7 +54,7 @@ def run_test(_, langCode, url):
     # result_list = json.loads(mod_results)
     # json_result = json.loads(result)
 
-    print('I.1', json_result)
+    #print('I.1', json_result)
 
     json_result = json.loads(output)
 

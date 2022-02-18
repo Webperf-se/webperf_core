@@ -57,10 +57,7 @@ def run_test(_, langCode, url):
     if num_errors > 0:
         review += '\nProblem:\n'
 
-    i = 1
-    old_error = ''
-
-    error_types = set()
+    unique_errors = set()
 
     errors = list()
     if url in result_list:
@@ -69,23 +66,20 @@ def run_test(_, langCode, url):
     for error in errors:
         if 'message' in error:
             err_mess = error['message'].replace('This', 'A')
-            if err_mess != old_error:
-                old_error = err_mess
-                error_review = '- {0}\n'.format(err_mess)
-                error_types.add(error_review)
-                review += error_review
-                if 'code' in error:
-                    # '{0}-{1}'.format(error.get('code'), i)
-                    key = error['code']
-                    return_dict.update({key: err_mess})
+            error_review = '- {0}\n'.format(err_mess)
+            unique_errors.add(error_review)
+            if 'code' in error:
+                # '{0}-{1}'.format(error.get('code'), i)
+                key = error['code']
+                return_dict.update({key: err_mess})
 
-            i += 1
-
+    i = 1
+    for error in unique_errors:
+        review += error
+        i += 1
         if i > 10:
             review += '- Info: För många unika problem för att lista alla\n'
             break
-
-    print('error_types:', error_types)
 
     rating = Rating(_, review_show_improvements_only)
     rating.set_overall(points, review_overall)

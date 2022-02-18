@@ -34,3 +34,9 @@ msgstr "- Väldigt dålig tillgänglighet!"
 
 msgid "TEXT_REVIEW_A11Y_NUMBER_OF_PROBLEMS"
 msgstr "- Antal tillgänglighets&shy;problem: {} st"
+
+msgid "TEXT_REVIEW_A11Y_TOO_MANY_PROBLEMS"
+msgstr "- Info: För många unika problem för att lista alla.\n"
+
+msgid "TEXT_REVIEW_A11Y_PROBLEMS"
+msgstr "\nProblem:\n"

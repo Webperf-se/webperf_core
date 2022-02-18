@@ -34,3 +34,9 @@ msgstr "- The accessibility is apparently really bad! Probably both for disabled
 
 msgid "TEXT_REVIEW_A11Y_NUMBER_OF_PROBLEMS"
 msgstr "- Number of problems with accessibility: {}"
+
+msgid "TEXT_REVIEW_A11Y_TOO_MANY_PROBLEMS"
+msgstr "- Info: Too many unique problems to show them all.\n"
+
+msgid "TEXT_REVIEW_A11Y_PROBLEMS"
+msgstr "\nProblems:\n"

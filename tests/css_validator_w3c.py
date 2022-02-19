@@ -200,6 +200,9 @@ def get_errors_for_url(url):
 
 
 def get_errors_for_css(data):
+
+    data = data.strip()
+
     headers = {'user-agent': useragent,
                'Content-Type': 'text/css; charset=utf-8'}
     params = {'showsource': 'yes', 'css': 'yes',

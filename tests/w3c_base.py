@@ -27,7 +27,7 @@ def get_errors_from_service(headers, params, data=None):
             print('data2:', data)
             request = requests.get(service_url, allow_redirects=True,
                                    headers=headers,
-                                   timeout=request_timeout * 2,
+                                   timeout=request_timeout,
                                    params=params,
                                    data=data)
 
@@ -40,38 +40,6 @@ def get_errors_from_service(headers, params, data=None):
     except Exception:
         print('Unknown Error!\nMessage:\n{0}'.format(sys.exc_info()[0]))
         return None
-    except requests.Timeout:
-        print('Timeout!\nMessage:\n{0}'.format(sys.exc_info()[0]))
-        return None
-
-
-def get_errors_for_url(url):
-    headers = {'user-agent': useragent}
-    params = {'doc': url, 'out': 'json', 'level': 'error'}
-    return get_errors_from_service(headers, params)
-
-
-def get_errors_for_css(data):
-
-    data = data.strip()
-
-    headers = {'user-agent': useragent,
-               'Content-Type': 'text/css; charset=utf-8'}
-    params = {'showsource': 'yes', 'css': 'yes',
-              'out': 'json', 'level': 'error'}
-    return get_errors_from_service(headers, params, data.encode('utf-8'))
-
-
-def get_source(url):
-    try:
-        headers = {'user-agent': useragent}
-        request = requests.get(url, allow_redirects=True,
-                               headers=headers,
-                               timeout=request_timeout)
-
-        # get source
-        return request.text
-
     except requests.Timeout:
         print('Timeout!\nMessage:\n{0}'.format(sys.exc_info()[0]))
         return None

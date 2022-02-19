@@ -34,10 +34,10 @@ def get_errors_from_npm(params, data=None):
 
     if 'doc' in params:
         url = params['doc']
-        arg = '--exit-zero-always{1} --format json --errors-only {0}'.format(
+        arg = '--exit-zero-always{1} --stdout --format json --errors-only {0}'.format(
             url, css_only)
     else:
-        arg = '--exit-zero-always{1} --format json --errors-only \'{0}\''.format(
+        arg = '--exit-zero-always{1} --stdout --format json --errors-only \'{0}\''.format(
             data, css_only)
 
     try:

@@ -1,16 +1,19 @@
 # -*- coding: utf-8 -*-
-from models import Rating
 import datetime
-import time
-import sys
-import requests
-import urllib  # https://docs.python.org/3/library/urllib.parse.html
-import re
-from bs4 import BeautifulSoup
-import config
-from tests.utils import *
 import gettext
-from w3c_base import get_errors_from_service
+import re
+import sys
+import time
+import urllib  # https://docs.python.org/3/library/urllib.parse.html
+
+import config
+import requests
+from bs4 import BeautifulSoup
+from models import Rating
+
+from tests.utils import *
+from tests.w3c_base import get_errors_from_service
+
 _local = gettext.gettext
 
 # DEFAULTS

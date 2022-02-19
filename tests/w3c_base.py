@@ -45,12 +45,12 @@ def get_errors_from_npm(params, data=None):
         process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
         output, error = process.communicate()
 
+        print('output', output)
+        print('error', error)
+
         json_result = json.loads(output)
         if 'messages' in json_result:
             errors = json_result['messages']
-
-        print('output', output)
-        print('error', error)
 
     except Exception:
         print('Unknown Error!\nMessage:\n{0}'.format(sys.exc_info()[0]))

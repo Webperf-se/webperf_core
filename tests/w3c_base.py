@@ -15,30 +15,32 @@ review_show_improvements_only = config.review_show_improvements_only
 w3c_use_website = config.w3c_use_website
 
 
-def get_errors(headers, params, data=None):
+def get_errors(test_type, headers, params, data=None):
     if w3c_use_website:
-        return get_errors_from_service(headers, params, data)
+        return get_errors_from_service(test_type, headers, params, data)
     else:
-        return get_errors_from_npm(params, data)
+        return get_errors_from_npm(test_type, params, data)
 
 
-def get_errors_from_npm(params, data=None):
+def get_errors_from_npm(test_type, params, data=None):
 
     url = ''
     arg = ''
-    css_only = ''
+    test_arg = ''
     errors = list()
 
-    if 'css' in params:
-        css_only = ' -skip-non-css --css'
+    if 'css' in params or test_type == 'css':
+        test_arg = ' -skip-non-css'
+    if 'html' in params or test_type == 'html':
+        test_arg = ' -skip-non-html'
 
     if 'doc' in params:
         url = params['doc']
         arg = '--exit-zero-always{1} --stdout --format json --errors-only {0}'.format(
-            url, css_only)
+            url, test_arg)
     else:
         arg = '--exit-zero-always{1} --stdout --format json --errors-only \'{0}\''.format(
-            data, css_only)
+            data, test_arg)
 
     try:
         bashCommand = "java -jar vnu.jar {0}".format(arg)

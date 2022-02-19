@@ -39,7 +39,7 @@ def run_test(_, langCode, url):
         '/', '%2F').replace(':', '%3A'),
         'out': 'json',
         'level': 'error'}
-    errors = get_errors(headers, params)
+    errors = get_errors('html', headers, params)
     number_of_errors = len(errors)
 
     error_message_dict = {}

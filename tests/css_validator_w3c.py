@@ -21,6 +21,7 @@ request_timeout = config.http_request_timeout
 useragent = config.useragent
 css_review_group_errors = config.css_review_group_errors
 review_show_improvements_only = config.review_show_improvements_only
+w3c_use_website = config.w3c_use_website
 
 global css_features
 global css_properties_doesnt_exist
@@ -128,7 +129,8 @@ def get_errors_for_link_tags(html, url, _):
                 resource_url)
             # results.append(result_link_css)
             resource_index += 1
-            time.sleep(10)
+            if w3c_use_website:
+                time.sleep(10)
 
     return results
 
@@ -150,7 +152,8 @@ def get_errors_for_style_attributes(html, _):
     if temp_attribute_css != '':
         results = get_errors_for_css(temp_attribute_css)
         temp_attribute_css = ''
-        time.sleep(10)
+        if w3c_use_website:
+            time.sleep(10)
 
     return results
 
@@ -173,7 +176,8 @@ def get_errors_for_style_tags(html, _):
         results = get_errors_for_css(temp_inline_css)
         # results.append(result_inline_css)
         temp_inline_css = ''
-        time.sleep(10)
+        if w3c_use_website:
+            time.sleep(10)
     return results
 
 
@@ -194,7 +198,7 @@ def calculate_rating(number_of_error_types, number_of_errors):
 def get_errors_for_url(url):
     headers = {'user-agent': useragent}
     params = {'doc': url, 'out': 'json', 'level': 'error'}
-    return get_errors(headers, params)
+    return get_errors('css', headers, params)
 
 
 def get_errors_for_css(data):
@@ -205,7 +209,7 @@ def get_errors_for_css(data):
                'Content-Type': 'text/css; charset=utf-8'}
     params = {'showsource': 'yes', 'css': 'yes',
               'out': 'json', 'level': 'error'}
-    return get_errors(headers, params, data.encode('utf-8'))
+    return get_errors('css', headers, params, data.encode('utf-8'))
 
 
 def get_mdn_web_docs_css_features():

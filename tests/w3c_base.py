@@ -40,13 +40,21 @@ def get_errors_from_npm(params, data=None):
         arg = '--exit-zero-always{1} --errors-only \'{0}\''.format(
             data, css_only)
 
-    bashCommand = "java -jar vnu {0}".format(arg)
-    process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-    output, error = process.communicate()
+    try:
+        bashCommand = "java -jar vnu {0}".format(arg)
+        process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+        output, error = process.communicate()
 
-    json_result = json.loads(output)
-    if 'messages' in json_result:
-        errors = json_result['messages']
+        json_result = json.loads(output)
+        if 'messages' in json_result:
+            errors = json_result['messages']
+
+        print('output', output)
+        print('error', error)
+
+    except Exception:
+        print('Unknown Error!\nMessage:\n{0}'.format(sys.exc_info()[0]))
+        return errors
 
     return errors
 

@@ -17,11 +17,17 @@ w3c_use_website = config.w3c_use_website
 def get_errors_from_service(headers, params, data=None):
     try:
         service_url = 'https://validator.w3.org/nu/'
-        request = requests.get(service_url, allow_redirects=True,
-                               headers=headers,
-                               timeout=request_timeout * 2,
-                               params=params,
-                               data=data)
+        if data == None:
+            request = requests.get(service_url, allow_redirects=True,
+                                   headers=headers,
+                                   timeout=request_timeout * 2,
+                                   params=params)
+        else:
+            request = requests.get(service_url, allow_redirects=True,
+                                   headers=headers,
+                                   timeout=request_timeout * 2,
+                                   params=params,
+                                   data=data)
 
         # get JSON
         response = json.loads(request.text)

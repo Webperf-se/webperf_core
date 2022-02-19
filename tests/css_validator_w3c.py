@@ -31,8 +31,6 @@ def run_test(_, langCode, url):
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
 
-    # points = 0.0
-    # review = ''
     rating = Rating(_, review_show_improvements_only)
 
     language = gettext.translation(
@@ -51,8 +49,8 @@ def run_test(_, langCode, url):
     html = get_source(url)
     # 2. FIND ALL INLE CSS (AND CALCULTE)
     # 2.1 FINS ALL <STYLE>
-    # errors = get_errors_for_style_tags(html, _local)
-    # rating += create_review_and_rating(errors, _, _local, '- `<style>`')
+    errors = get_errors_for_style_tags(html, _local)
+    rating += create_review_and_rating(errors, _, _local, '- `<style>`')
 
     # 2.2 FIND ALL style=""
     errors = get_errors_for_style_attributes(html, _local)

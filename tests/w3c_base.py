@@ -18,13 +18,11 @@ def get_errors_from_service(headers, params, data=None):
     try:
         service_url = 'https://validator.w3.org/nu/'
         if data == None:
-            #print('data1:', data)
             request = requests.get(service_url, allow_redirects=True,
                                    headers=headers,
                                    timeout=request_timeout * 2,
                                    params=params)
         else:
-            #print('data2:', data)
             request = requests.post(service_url, allow_redirects=True,
                                     headers=headers,
                                     timeout=request_timeout,
@@ -32,7 +30,6 @@ def get_errors_from_service(headers, params, data=None):
                                     data=data)
 
         # get JSON
-        #print('request:', request.text)
         response = json.loads(request.text)
         errors = response['messages']
 

@@ -13,6 +13,7 @@ import re
 import json
 from bs4 import BeautifulSoup
 import config
+from tests.w3c_base import get_errors_from_service
 from tests.utils import *
 import gettext
 _local = gettext.gettext
@@ -42,29 +43,12 @@ def run_test(_, langCode, url):
     print(_('TEXT_TEST_START').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    # kollar koden
-    try:
-        url = 'https://validator.w3.org/nu/?doc={0}'.format(
-            url.replace('/', '%2F').replace(':', '%3A'))
-        headers = {'user-agent': useragent}
-        params = {'out': 'json'}
-        request = requests.get(url, allow_redirects=False,
-                               headers=headers,
-                               timeout=request_timeout,
-                               params=params)
-
-        # get JSON
-        response = json.loads(request.text)
-        errors = list()
-        for message in response['messages']:
-            if message.get('type') == 'error':
-                errors.append(message)
-
-        number_of_errors = len(errors)
-        # print(len(errors))
-    except requests.Timeout:
-        print('Timeout!\nMessage:\n{0}'.format(sys.exc_info()[0]))
-        return None
+    headers = {'user-agent': useragent}
+    # params = {'out': 'json'}
+    params = {'doc': url.replace(
+        '/', '%2F').replace(':', '%3A'), 'out': 'json', 'level': 'error'}
+    errors = get_errors_from_service(headers, params)
+    number_of_errors = len(errors)
 
     error_message_dict = {}
     error_message_grouped_dict = {}

@@ -26,6 +26,8 @@ jobs:
       run: ls
     - name: list node_modules content
       run: ls node_modules
+    - name: list node_modules / vnu-jar
+      run: ls node_modules/vnu-jar
     - name: Setup config (using SAMPLE-config.py as config.py)
       run: python .github/workflows/verify_result.py -c true
       if: ${{ success() }}

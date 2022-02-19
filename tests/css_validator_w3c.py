@@ -207,52 +207,6 @@ def get_errors_for_css(data):
     return get_errors_from_service(headers, params, data.encode('utf-8'))
 
 
-# def get_errors_for_url(url):
-#     try:
-#         service_url = 'https://validator.w3.org/nu/'
-#         headers = {'user-agent': useragent}
-#         params = {'doc': url, 'out': 'json', 'level': 'error'}
-#         request = requests.get(service_url, allow_redirects=True,
-#                                headers=headers,
-#                                timeout=request_timeout * 2,
-#                                params=params)
-
-#         # get JSON
-#         response = json.loads(request.text)
-#         errors = response['messages']
-
-#         return errors
-#     except requests.Timeout:
-#         print('Timeout!\nMessage:\n{0}'.format(sys.exc_info()[0]))
-#         return None
-
-
-# def get_errors_for_css(data):
-#     try:
-#         data = data.strip()
-
-#         service_url = 'https://validator.w3.org/nu/'
-#         headers = {'user-agent': useragent,
-#                    'Content-Type': 'text/css; charset=utf-8'}
-#         params = {'showsource': 'yes', 'css': 'yes',
-#                   'out': 'json', 'level': 'error'}
-#         request = requests.post(service_url, allow_redirects=True,
-#                                 headers=headers,
-#                                 params=params,
-#                                 timeout=request_timeout,
-#                                 data=data.encode('utf-8')
-#                                 )
-
-#         # get JSON
-#         response = json.loads(request.text)
-#         errors = response['messages']
-
-#         return errors
-#     except requests.Timeout:
-#         print('Timeout!\nMessage:\n{0}'.format(sys.exc_info()[0]))
-#         return None
-
-
 def get_mdn_web_docs_css_features():
     css_features = {}
     css_functions = {}

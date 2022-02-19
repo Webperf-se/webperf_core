@@ -28,6 +28,9 @@ def get_errors_from_service(headers, params, data=None):
         errors = response['messages']
 
         return errors
+    except Exception:
+        print('Unknown Error!\nMessage:\n{0}'.format(sys.exc_info()[0]))
+        return None
     except requests.Timeout:
         print('Timeout!\nMessage:\n{0}'.format(sys.exc_info()[0]))
         return None

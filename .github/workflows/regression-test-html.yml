@@ -21,7 +21,7 @@ jobs:
     - name: Setup node
       uses: actions/setup-node@v2
     - name: Setup The Nu Html Checker (v.Nu) npm package
-      run: npm install -g vnu-jar
+      run: npm install --save vnu-jar
     - name: list content
       run: ls
     - name: Setup config (using SAMPLE-config.py as config.py)

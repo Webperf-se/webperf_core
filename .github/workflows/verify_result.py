@@ -36,6 +36,9 @@ def prepare_config_file(sample_filename, filename, is_activated):
     regex_sitespeed = r"^sitespeed_use_docker.*"
     subst_sitespeed = "sitespeed_use_docker = {0}".format(str(is_activated))
 
+    regex_w3c = r"^w3c_use_website.*"
+    subst_w3c = "w3c_use_website = {0}".format(str(is_activated))
+
     # regex_improvements_only = r"^review_show_improvements_only.*"
     # subst_improvements_only = "review_show_improvements_only = True"
 
@@ -47,6 +50,8 @@ def prepare_config_file(sample_filename, filename, is_activated):
             tmp = re.sub(regex_lighthouse, subst_lighthouse,
                          tmp, 0, re.MULTILINE)
             tmp = re.sub(regex_sitespeed, subst_sitespeed,
+                         tmp, 0, re.MULTILINE)
+            tmp = re.sub(regex_w3c, subst_w3c,
                          tmp, 0, re.MULTILINE)
             # tmp = re.sub(regex_improvements_only, subst_improvements_only,
             #              tmp, 0, re.MULTILINE)

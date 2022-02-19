@@ -12,7 +12,7 @@ from bs4 import BeautifulSoup
 from models import Rating
 
 from tests.utils import *
-from tests.w3c_base import get_errors_from_service
+from tests.w3c_base import get_errors
 
 _local = gettext.gettext
 
@@ -194,7 +194,7 @@ def calculate_rating(number_of_error_types, number_of_errors):
 def get_errors_for_url(url):
     headers = {'user-agent': useragent}
     params = {'doc': url, 'out': 'json', 'level': 'error'}
-    return get_errors_from_service(headers, params)
+    return get_errors(headers, params)
 
 
 def get_errors_for_css(data):
@@ -205,7 +205,7 @@ def get_errors_for_css(data):
                'Content-Type': 'text/css; charset=utf-8'}
     params = {'showsource': 'yes', 'css': 'yes',
               'out': 'json', 'level': 'error'}
-    return get_errors_from_service(headers, params, data.encode('utf-8'))
+    return get_errors(headers, params, data.encode('utf-8'))
 
 
 def get_mdn_web_docs_css_features():

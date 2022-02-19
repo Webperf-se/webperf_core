@@ -1,19 +1,9 @@
 # -*- coding: utf-8 -*-
-from os import error
 from models import Rating
 import datetime
-import sys
-import socket
-import ssl
-import json
-import requests
-import urllib  # https://docs.python.org/3/library/urllib.parse.html
-import uuid
 import re
-import json
-from bs4 import BeautifulSoup
 import config
-from tests.w3c_base import get_errors_from_service
+from tests.w3c_base import get_errors
 from tests.utils import *
 import gettext
 _local = gettext.gettext
@@ -46,8 +36,10 @@ def run_test(_, langCode, url):
     headers = {'user-agent': useragent}
     # params = {'out': 'json'}
     params = {'doc': url.replace(
-        '/', '%2F').replace(':', '%3A'), 'out': 'json', 'level': 'error'}
-    errors = get_errors_from_service(headers, params)
+        '/', '%2F').replace(':', '%3A'),
+        'out': 'json',
+        'level': 'error'}
+    errors = get_errors(headers, params)
     number_of_errors = len(errors)
 
     error_message_dict = {}

@@ -18,10 +18,24 @@ jobs:
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
       if: ${{ success() }}
+    - name: Setup node
+      uses: actions/setup-node@v2
+    - name: Setup Pa11y CI npm package
+      run: npm install -g vnu-jar
+    - name: list content
+      run: ls
+    - name: Setup config (using SAMPLE-config.py as config.py)
+      run: python .github/workflows/verify_result.py -c true
+      if: ${{ success() }}
+    - name: Test HTML Validation (true)
+      run: |
+         python default.py -t 6 -r -u https://webperf.se/ -o .github/workflows/testresult-06.json
+         python .github/workflows/verify_result.py -t 6
+      if: ${{ success() }}
     - name: Setup config (using SAMPLE-config.py as config.py)
       run: python .github/workflows/verify_result.py -c false
       if: ${{ success() }}
-    - name: Test HTML Validation
+    - name: Test HTML Validation (false)
       run: |
          python default.py -t 6 -r -u https://webperf.se/ -o .github/workflows/testresult-06.json
          python .github/workflows/verify_result.py -t 6

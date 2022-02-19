@@ -61,7 +61,7 @@ def get_errors_from_npm(test_type, params, data=None):
     return errors
 
 
-def get_errors_from_service(headers, params, data=None):
+def get_errors_from_service(test_type, headers, params, data=None):
     errors = list()
     try:
         service_url = 'https://validator.w3.org/nu/'

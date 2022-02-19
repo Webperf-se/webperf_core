@@ -41,7 +41,7 @@ def get_errors_from_npm(params, data=None):
             data, css_only)
 
     try:
-        bashCommand = "java -jar node_modules/vnu {0}".format(arg)
+        bashCommand = "java -jar node_modules/vnu-jar {0}".format(arg)
         process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
         output, error = process.communicate()
 

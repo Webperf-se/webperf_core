@@ -39,7 +39,7 @@ def get_errors_from_npm(test_type, params, data=None):
 
         if 'https://' not in url and 'http://' not in url:
             raise Exception(
-                'Tested url must start with \'https://\' or \'http://\'')
+                'Tested url must start with \'https://\' or \'http://\': {0}'.format(url))
 
         arg = '--exit-zero-always{1} --stdout --format json --errors-only {0}'.format(
             url, test_arg)

@@ -31,8 +31,8 @@ def get_errors_from_npm(test_type, params, data=None):
 
     if 'css' in params or test_type == 'css':
         test_arg = ' --css --skip-non-css'
-    if 'html' in params or test_type == 'html':
-        test_arg = ' --skip-non-html'
+    # if 'html' in params or test_type == 'html':
+    #     test_arg = ' --skip-non-html'
 
     # if 'doc' in params:
     #     url = params['doc']

@@ -18,10 +18,20 @@ jobs:
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
       if: ${{ success() }}
+    - name: Download vnu.jar (The Nu Html Checker)
+      run: wget -q -O vnu.jar https://github.com/validator/validator/releases/download/latest/vnu.jar
+    - name: Setup config (using SAMPLE-config.py as config.py)
+      run: python .github/workflows/verify_result.py -c true
+      if: ${{ success() }}
+    - name: Test CSS Validation (true)
+      run: |
+         python default.py -t 7 -r -u https://webperf.se/ -o .github/workflows/testresult-07.json
+         python .github/workflows/verify_result.py -t 7
+      if: ${{ success() }}
     - name: Setup config (using SAMPLE-config.py as config.py)
       run: python .github/workflows/verify_result.py -c false
       if: ${{ success() }}
-    - name: Test CSS Validation
+    - name: Test CSS Validation (false)
       run: |
          python default.py -t 7 -r -u https://webperf.se/ -o .github/workflows/testresult-07.json
          python .github/workflows/verify_result.py -t 7

@@ -16,6 +16,9 @@ http_request_timeout = 60
 # timeout between calls to website
 webbkoll_sleep = 20
 
+# Tells CSS/HTML test to use public website or local version
+w3c_use_website = True
+
 # if you want a more detailed review for the CSS test (Test #7), set this to False
 css_review_group_errors = True
 

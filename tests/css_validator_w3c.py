@@ -1,20 +1,19 @@
 # -*- coding: utf-8 -*-
-from models import Rating
 import datetime
-import time
-import sys
-import socket
-import ssl
-import json
-import requests
-import urllib  # https://docs.python.org/3/library/urllib.parse.html
-import uuid
-import re
-import json
-from bs4 import BeautifulSoup
-import config
-from tests.utils import *
 import gettext
+import re
+import sys
+import time
+import urllib  # https://docs.python.org/3/library/urllib.parse.html
+
+import config
+import requests
+from bs4 import BeautifulSoup
+from models import Rating
+
+from tests.utils import *
+from tests.w3c_base import get_errors
+
 _local = gettext.gettext
 
 # DEFAULTS
@@ -22,6 +21,7 @@ request_timeout = config.http_request_timeout
 useragent = config.useragent
 css_review_group_errors = config.css_review_group_errors
 review_show_improvements_only = config.review_show_improvements_only
+w3c_use_website = config.w3c_use_website
 
 global css_features
 global css_properties_doesnt_exist
@@ -32,8 +32,6 @@ def run_test(_, langCode, url):
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
 
-    # points = 0.0
-    # review = ''
     rating = Rating(_, review_show_improvements_only)
 
     language = gettext.translation(
@@ -131,7 +129,8 @@ def get_errors_for_link_tags(html, url, _):
                 resource_url)
             # results.append(result_link_css)
             resource_index += 1
-            time.sleep(10)
+            if w3c_use_website:
+                time.sleep(10)
 
     return results
 
@@ -153,7 +152,8 @@ def get_errors_for_style_attributes(html, _):
     if temp_attribute_css != '':
         results = get_errors_for_css(temp_attribute_css)
         temp_attribute_css = ''
-        time.sleep(10)
+        if w3c_use_website:
+            time.sleep(10)
 
     return results
 
@@ -176,7 +176,8 @@ def get_errors_for_style_tags(html, _):
         results = get_errors_for_css(temp_inline_css)
         # results.append(result_inline_css)
         temp_inline_css = ''
-        time.sleep(10)
+        if w3c_use_website:
+            time.sleep(10)
     return results
 
 
@@ -195,49 +196,20 @@ def calculate_rating(number_of_error_types, number_of_errors):
 
 
 def get_errors_for_url(url):
-    try:
-        service_url = 'https://validator.w3.org/nu/'
-        headers = {'user-agent': useragent}
-        params = {'doc': url, 'out': 'json', 'level': 'error'}
-        request = requests.get(service_url, allow_redirects=True,
-                               headers=headers,
-                               timeout=request_timeout * 2,
-                               params=params)
-
-        # get JSON
-        response = json.loads(request.text)
-        errors = response['messages']
-
-        return errors
-    except requests.Timeout:
-        print('Timeout!\nMessage:\n{0}'.format(sys.exc_info()[0]))
-        return None
+    headers = {'user-agent': useragent}
+    params = {'doc': url, 'out': 'json', 'level': 'error'}
+    return get_errors('css', headers, params)
 
 
 def get_errors_for_css(data):
-    try:
-        data = data.strip()
 
-        service_url = 'https://validator.w3.org/nu/'
-        headers = {'user-agent': useragent,
-                   'Content-Type': 'text/css; charset=utf-8'}
-        params = {'showsource': 'yes', 'css': 'yes',
-                  'out': 'json', 'level': 'error'}
-        request = requests.post(service_url, allow_redirects=True,
-                                headers=headers,
-                                params=params,
-                                timeout=request_timeout,
-                                data=data.encode('utf-8')
-                                )
+    data = data.strip()
 
-        # get JSON
-        response = json.loads(request.text)
-        errors = response['messages']
-
-        return errors
-    except requests.Timeout:
-        print('Timeout!\nMessage:\n{0}'.format(sys.exc_info()[0]))
-        return None
+    headers = {'user-agent': useragent,
+               'Content-Type': 'text/css; charset=utf-8'}
+    params = {'showsource': 'yes', 'css': 'yes',
+              'out': 'json', 'level': 'error'}
+    return get_errors('css', headers, params, data.encode('utf-8'))
 
 
 def get_mdn_web_docs_css_features():

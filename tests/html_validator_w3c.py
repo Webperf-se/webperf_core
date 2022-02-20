@@ -34,10 +34,6 @@ def run_test(_, langCode, url):
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     headers = {'user-agent': useragent}
-    # params = {'doc': url.replace(
-    #     '/', '%2F').replace(':', '%3A'),
-    #     'out': 'json',
-    #     'level': 'error'}
     params = {'doc': url,
               'out': 'json',
               'level': 'error'}

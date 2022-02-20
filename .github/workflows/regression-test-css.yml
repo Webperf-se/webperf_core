@@ -38,3 +38,5 @@ jobs:
          python default.py -t 7 -r -u https://webperf.se/ -o .github/workflows/testresult-07.json
          python .github/workflows/verify_result.py -t 7
       if: ${{ success() }}
+    - name: list content
+      run: ls

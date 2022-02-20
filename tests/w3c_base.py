@@ -30,10 +30,17 @@ def get_errors_from_npm(test_type, params, data=None):
     errors = list()
 
     if 'css' in params or test_type == 'css':
-        test_arg = ' -skip-non-css'
+        test_arg = ' --skip-non-css'
     if 'html' in params or test_type == 'html':
-        test_arg = ' -skip-non-html'
+        test_arg = ' --skip-non-html'
 
+    # if 'doc' in params:
+    #     url = params['doc']
+    #     arg = '--exit-zero-always{1} --stdout --format json --errors-only {0}'.format(
+    #         url, test_arg)
+    # else:
+    #     arg = '--exit-zero-always{1} --stdout --format json --errors-only \'{0}\''.format(
+    #         data, test_arg)
     if 'doc' in params:
         url = params['doc']
         arg = '--exit-zero-always{1} --stdout --format json --errors-only {0}'.format(
@@ -50,12 +57,17 @@ def get_errors_from_npm(test_type, params, data=None):
         print('output', output)
         print('error', error)
 
+    except Exception:
+        print('Unknown SubProcess Error: {0}'.format(sys.exc_info()[0]))
+        return errors
+
+    try:
         json_result = json.loads(output)
         if 'messages' in json_result:
             errors = json_result['messages']
 
     except Exception:
-        print('Unknown Error!\nMessage:\n{0}'.format(sys.exc_info()[0]))
+        print('Unknown JSON Error: {0}'.format(sys.exc_info()[0]))
         return errors
 
     return errors

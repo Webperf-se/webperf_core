@@ -43,6 +43,24 @@ Read more on the [general page for github actions](../getting-started-github-act
 ### Setup Locally
 
 * Follow [general local setup steps for this repository](../getting-started-local.md)
+* Next steps depends on what mode you want to runt test in
+
+#### Call service
+
+By settings `w3c_use_website = True` in `config.py` you tell the test
+you want to use w3c service to test url.
+This means that you can ONLY test public facing websites.
+
+* Beside making sure to set above value to `True` you dont need to do anything more.
+
+#### Jar
+
+By settings `w3c_use_website = False` in `config.py` you tell the test
+you want to use a version able to test privat websites like a test environment not open for public.
+
+* Download and install Java (JDK 8 or above)
+* [Download latest vnu.jar](https://github.com/validator/validator/releases/download/latest/vnu.jar) and place it in your webperf-core directory
+* Set `w3c_use_website = False` in `config.py`
 
 ## FAQ
 

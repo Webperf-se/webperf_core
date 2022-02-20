@@ -20,8 +20,6 @@ jobs:
       if: ${{ success() }}
     - name: Download vnu.jar (The Nu Html Checker)
       run: wget -q -O vnu.jar https://github.com/validator/validator/releases/download/latest/vnu.jar
-    - name: list content
-      run: ls
     - name: Setup config (using SAMPLE-config.py as config.py)
       run: python .github/workflows/verify_result.py -c true
       if: ${{ success() }}
@@ -38,5 +36,13 @@ jobs:
          python default.py -t 6 -r -u https://webperf.se/ -o .github/workflows/testresult-06.json
          python .github/workflows/verify_result.py -t 6
       if: ${{ success() }}
-    - name: list content
-      run: ls
+    - name: Test HTML Validation (false)
+      run: |
+         python default.py -t 6 -r -u https://feber.se/ -o .github/workflows/testresult-06.json
+         python .github/workflows/verify_result.py -t 6
+      if: ${{ success() }}
+    - name: Test HTML Validation (false)
+      run: |
+         python default.py -t 6 -r -u https://aftonbladet.se/ -o .github/workflows/testresult-06.json
+         python .github/workflows/verify_result.py -t 6
+      if: ${{ success() }}

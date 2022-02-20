@@ -31,44 +31,27 @@ def get_errors_from_npm(test_type, params, data=None):
 
     if 'css' in params or test_type == 'css':
         test_arg = ' --css --skip-non-css'
-    # if 'html' in params or test_type == 'html':
-    #     test_arg = ' --skip-non-html'
+    if 'html' in params or test_type == 'html':
+        test_arg = ' --html --skip-non-html'
 
-    # if 'doc' in params:
-    #     url = params['doc']
-    #     arg = '--exit-zero-always{1} --stdout --format json --errors-only {0}'.format(
-    #         url, test_arg)
-    # else:
-    #     arg = '--exit-zero-always{1} --stdout --format json --errors-only \'{0}\''.format(
-    #         data, test_arg)
     if 'doc' in params:
         url = params['doc']
-        arg = '--exit-zero-always{1} --stdout --format json {0}'.format(
+        arg = '--exit-zero-always{1} --stdout --format json --errors-only {0}'.format(
             url, test_arg)
     else:
-        arg = '--exit-zero-always{1} --stdout --format json \'{0}\''.format(
+        arg = '--exit-zero-always{1} --stdout --format json --errors-only \'{0}\''.format(
             data, test_arg)
 
-    try:
-        bashCommand = "java -jar vnu.jar {0}".format(arg)
-        process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-        output, error = process.communicate()
+    bashCommand = "java -jar vnu.jar {0}".format(arg)
+    process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+    output, error = process.communicate()
 
-        print('output', output)
-        print('error', error)
+    # print('output', output)
+    # print('error', error)
 
-    except Exception:
-        print('Unknown SubProcess Error: {0}'.format(sys.exc_info()[0]))
-        return errors
-
-    try:
-        json_result = json.loads(output)
-        if 'messages' in json_result:
-            errors = json_result['messages']
-
-    except Exception:
-        print('Unknown JSON Error: {0}'.format(sys.exc_info()[0]))
-        return errors
+    json_result = json.loads(output)
+    if 'messages' in json_result:
+        errors = json_result['messages']
 
     return errors
 

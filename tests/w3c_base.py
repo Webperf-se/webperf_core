@@ -53,8 +53,8 @@ def get_errors_from_npm(test_type, params, data=None):
     process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
 
-    # print('output', output)
-    # print('error', error)
+    print('output', output)
+    print('error', error)
 
     json_result = json.loads(output)
     if 'messages' in json_result:

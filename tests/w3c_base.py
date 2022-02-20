@@ -30,7 +30,7 @@ def get_errors_from_npm(test_type, params, data=None):
     errors = list()
 
     if 'css' in params or test_type == 'css':
-        test_arg = ' --skip-non-css'
+        test_arg = ' --css --skip-non-css'
     if 'html' in params or test_type == 'html':
         test_arg = ' --skip-non-html'
 
@@ -43,10 +43,10 @@ def get_errors_from_npm(test_type, params, data=None):
     #         data, test_arg)
     if 'doc' in params:
         url = params['doc']
-        arg = '--exit-zero-always{1} --stdout --format json --errors-only {0}'.format(
+        arg = '--exit-zero-always{1} --stdout --format json {0}'.format(
             url, test_arg)
     else:
-        arg = '--exit-zero-always{1} --stdout --format json --errors-only \'{0}\''.format(
+        arg = '--exit-zero-always{1} --stdout --format json \'{0}\''.format(
             data, test_arg)
 
     try:

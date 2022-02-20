@@ -36,13 +36,13 @@ jobs:
          python default.py -t 7 -r -u https://webperf.se/ -o .github/workflows/testresult-07.json
          python .github/workflows/verify_result.py -t 7
       if: ${{ success() }}
-    - name: Test HTML Validation (false)
+    - name: Test CSS Validation (false)
       run: |
-         python default.py -t 7 -r -u https://feber.se/ -o .github/workflows/testresult-07.json
+         python default.py -t 7 -r -u https://www.arbetarbladet.se -o .github/workflows/testresult-07.json
          python .github/workflows/verify_result.py -t 7
       if: ${{ success() }}
-    - name: Test HTML Validation (false)
+    - name: Test CSS Validation (false)
       run: |
-         python default.py -t 7 -r -u https://aftonbladet.se/ -o .github/workflows/testresult-07.json
+         python default.py -t 7 -r -u https://www.hn.se -o .github/workflows/testresult-07.json
          python .github/workflows/verify_result.py -t 7
       if: ${{ success() }}

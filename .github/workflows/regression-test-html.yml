@@ -33,11 +33,6 @@ jobs:
          python default.py -t 6 -r -u https://www.arbetarbladet.se -o .github/workflows/testresult-06.json
          python .github/workflows/verify_result.py -t 6
       if: ${{ success() }}
-    - name: Test HTML Validation (true)
-      run: |
-         python default.py -t 6 -r -u https://www.hn.se -o .github/workflows/testresult-06.json
-         python .github/workflows/verify_result.py -t 6
-      if: ${{ success() }}
     - name: Setup config (using SAMPLE-config.py as config.py)
       run: python .github/workflows/verify_result.py -c false
       if: ${{ success() }}
@@ -49,10 +44,5 @@ jobs:
     - name: Test HTML Validation (false)
       run: |
          python default.py -t 6 -r -u https://www.arbetarbladet.se -o .github/workflows/testresult-06.json
-         python .github/workflows/verify_result.py -t 6
-      if: ${{ success() }}
-    - name: Test HTML Validation (false)
-      run: |
-         python default.py -t 6 -r -u https://www.hn.se -o .github/workflows/testresult-06.json
          python .github/workflows/verify_result.py -t 6
       if: ${{ success() }}

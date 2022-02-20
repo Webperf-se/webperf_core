@@ -33,11 +33,6 @@ jobs:
          python default.py -t 7 -r -u https://www.arbetarbladet.se -o .github/workflows/testresult-07.json
          python .github/workflows/verify_result.py -t 7
       if: ${{ success() }}
-    - name: Test CSS Validation (true)
-      run: |
-         python default.py -t 7 -r -u https://www.hn.se -o .github/workflows/testresult-07.json
-         python .github/workflows/verify_result.py -t 7
-      if: ${{ success() }}
     - name: Setup config (using SAMPLE-config.py as config.py)
       run: python .github/workflows/verify_result.py -c false
       if: ${{ success() }}
@@ -49,10 +44,5 @@ jobs:
     - name: Test CSS Validation (false)
       run: |
          python default.py -t 7 -r -u https://www.arbetarbladet.se -o .github/workflows/testresult-07.json
-         python .github/workflows/verify_result.py -t 7
-      if: ${{ success() }}
-    - name: Test CSS Validation (false)
-      run: |
-         python default.py -t 7 -r -u https://www.hn.se -o .github/workflows/testresult-07.json
          python .github/workflows/verify_result.py -t 7
       if: ${{ success() }}

@@ -34,11 +34,13 @@ def run_test(_, langCode, url):
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     headers = {'user-agent': useragent}
-    # params = {'out': 'json'}
-    params = {'doc': url.replace(
-        '/', '%2F').replace(':', '%3A'),
-        'out': 'json',
-        'level': 'error'}
+    # params = {'doc': url.replace(
+    #     '/', '%2F').replace(':', '%3A'),
+    #     'out': 'json',
+    #     'level': 'error'}
+    params = {'doc': url,
+              'out': 'json',
+              'level': 'error'}
     errors = get_errors('html', headers, params)
     number_of_errors = len(errors)
 

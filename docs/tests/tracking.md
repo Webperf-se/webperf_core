@@ -86,7 +86,7 @@ We are using 2 different methods for this.
 * Number of request that match the block list project list for trackers ( https://blocklistproject.github.io/Lists/alt-version/tracking-nl.txt ).
 * Known javascript variablenames and filenames.
 
-A url are allowed to use 2 trackers without impacting rating.
+A url are allowed to use 2 tracking requests/references without impacting rating.
 For all found trackers above that the rating will get lower and lower.
 Please note that this section is relative to the number of none tracking request done by the url.
 

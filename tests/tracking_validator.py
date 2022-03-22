@@ -105,7 +105,7 @@ def get_domains_from_disconnect_file(filename, sections):
     domains = set()
 
     try:
-        with open(filename) as json_input_file:
+        with open(filename, 'r', encoding='utf-8') as json_input_file:
             data = json.load(json_input_file)
 
             if 'categories' in data:

@@ -452,6 +452,10 @@ def check_http2(hostname, _, _local):
 
 def check_http3(host, _, _local):
     rating = Rating(_, review_show_improvements_only)
+
+    has_quic_support = False
+    has_http3_support = False
+
     try:
         url = 'https://http3check.net/?host={0}'.format(host)
         headers = {'user-agent': useragent}
@@ -461,8 +465,6 @@ def check_http3(host, _, _local):
         # We use variable to validate it once
         requestText = ''
         hasRequestText = False
-        has_quic_support = False
-        has_http3_support = False
 
         if request.text:
             requestText = request.text
@@ -482,38 +484,40 @@ def check_http3(host, _, _local):
                 print(
                     'Error getting HTTP/3 or QUIC support!\nMessage:\n{0}'.format(sys.exc_info()[0]))
 
-        http3_rating = Rating(_, review_show_improvements_only)
-        if (has_http3_support):
-            http3_rating.set_overall(5.0)
-            http3_rating.set_standards(
-                5.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_3'))
-            http3_rating.set_performance(
-                5.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_3'))
-        else:
-            http3_rating.set_overall(1.0)
-            http3_rating.set_performance(
-                2.5, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_3'))
-            http3_rating.set_standards(1.0, _local(
-                'TEXT_REVIEW_HTTP_VERSION_HTTP_3'))
-        rating += http3_rating
+    except Exception as ex:
+        print(
+            'General Error getting HTTP/3 or QUIC support!\nMessage:\n{0}'.format(sys.exc_info()[0]))
 
-        quic_rating = Rating(_, review_show_improvements_only)
-        if (has_quic_support):
-            quic_rating.set_overall(5.0)
-            quic_rating.set_performance(
-                5.0, _local('TEXT_REVIEW_HTTP_VERSION_QUIC'))
-            quic_rating.set_standards(
-                5.0, _local('TEXT_REVIEW_HTTP_VERSION_QUIC'))
-        else:
-            quic_rating.set_overall(1.0)
-            quic_rating.set_performance(
-                2.5, _local('TEXT_REVIEW_HTTP_VERSION_QUIC'))
-            quic_rating.set_standards(1.0, _local(
-                'TEXT_REVIEW_HTTP_VERSION_QUIC'))
-        rating += quic_rating
+    http3_rating = Rating(_, review_show_improvements_only)
+    if (has_http3_support):
+        http3_rating.set_overall(5.0)
+        http3_rating.set_standards(
+            5.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_3'))
+        http3_rating.set_performance(
+            5.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_3'))
+    else:
+        http3_rating.set_overall(1.0)
+        http3_rating.set_performance(
+            2.5, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_3'))
+        http3_rating.set_standards(1.0, _local(
+            'TEXT_REVIEW_HTTP_VERSION_HTTP_3'))
+    rating += http3_rating
 
-    except Exception:
-        return rating
+    quic_rating = Rating(_, review_show_improvements_only)
+    if (has_quic_support):
+        quic_rating.set_overall(5.0)
+        quic_rating.set_performance(
+            5.0, _local('TEXT_REVIEW_HTTP_VERSION_QUIC'))
+        quic_rating.set_standards(
+            5.0, _local('TEXT_REVIEW_HTTP_VERSION_QUIC'))
+    else:
+        quic_rating.set_overall(1.0)
+        quic_rating.set_performance(
+            2.5, _local('TEXT_REVIEW_HTTP_VERSION_QUIC'))
+        quic_rating.set_standards(1.0, _local(
+            'TEXT_REVIEW_HTTP_VERSION_QUIC'))
+    rating += quic_rating
+
     return rating
 
 

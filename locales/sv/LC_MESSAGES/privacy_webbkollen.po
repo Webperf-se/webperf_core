@@ -19,10 +19,10 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 20 - Privacy (Webbkollen)\n"
 
 msgid "TEXT_REVIEW_VERY_GOOD"
-msgstr "- Webbplatsen är riktigt bra på integritet!\n"
+msgstr "- Webbsidan är riktigt bra på integritet!\n"
 
 msgid "TEXT_REVIEW_IS_GOOD"
-msgstr "- Webbplatsen kan bli bättre, men är helt ok.\n"
+msgstr "- Webbsidan kan bli bättre, men är helt ok.\n"
 
 msgid "TEXT_REVIEW_IS_OK"
 msgstr "- Ok integritet men borde nog bli bättre.\n"
@@ -37,19 +37,19 @@ msgid "TEXT_RESULT_NOT_READY"
 msgstr "Tjänsten är inte redo med ett resultat ännu, väntar ytterligare {0} sekunder\n"
 
 msgid "TEXT_REVIEW_CATEGORY_VERY_GOOD"
-msgstr ": är bra!"
+msgstr "; är bra!"
 
 msgid "TEXT_REVIEW_CATEGORY_IS_GOOD"
-msgstr ": är bra, men har {0} varning(ar)."
+msgstr "; är bra, men har {0} varning(ar)."
 
 msgid "TEXT_REVIEW_CATEGORY_IS_OK"
-msgstr ": är ok, men har {0} fel och {1} varning(ar)."
+msgstr "; är ok, men har {0} fel och {1} varning(ar)."
 
 msgid "TEXT_REVIEW_CATEGORY_IS_BAD"
-msgstr ": är inte så bra."
+msgstr "; är inte så bra."
 
 msgid "TEXT_REVIEW_CATEGORY_IS_VERY_BAD"
-msgstr ": är dåligt."
+msgstr "; är dåligt."
 
 msgid "TEXT_REVIEW_GENERATED"
 msgstr "- Resultat skapat: {0} (Buffras 24h)\n"

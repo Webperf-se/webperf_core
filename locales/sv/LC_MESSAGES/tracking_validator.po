@@ -49,7 +49,7 @@ msgid "TEXT_FINGERPRINTING"
 msgstr "- Identifieringstekniker"
 
 msgid "TEXT_FINGERPRINTING_FOUND"
-msgstr "  - {0} - Identifieringstekniker hittad.\n"
+msgstr "  - {0} - Identifieringsteknik hittad.\n"
 
 msgid "TEXT_FINGERPRINTING_MAX_SHOWED"
 msgstr "  - Hittade totalt {0} identifieringsförfrågningar"

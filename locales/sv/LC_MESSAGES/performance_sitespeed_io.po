@@ -19,19 +19,19 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 15 - Prestanda (Sitespeed.io)\n"
 
 msgid "TEXT_REVIEW_VERY_GOOD"
-msgstr "- Webbplatsen laddar in mycket snabbt!\n"
+msgstr "- Webbsidan laddar in mycket snabbt!\n"
 
 msgid "TEXT_REVIEW_IS_GOOD"
-msgstr "- Webbplatsen är snabb.\n"
+msgstr "- Webbsidan är snabb.\n"
 
 msgid "TEXT_REVIEW_IS_OK"
 msgstr "- Genomsnittlig hastighet.\n"
 
 msgid "TEXT_REVIEW_IS_BAD"
-msgstr "- Webbplatsen är ganska långsam.\n"
+msgstr "- Webbsidan är ganska långsam.\n"
 
 msgid "TEXT_REVIEW_IS_VERY_BAD"
-msgstr "- Webbplatsen är väldigt långsam!\n"
+msgstr "- Webbsidan är väldigt långsam!\n"
 
 msgid "TEXT_REVIEW_LOAD_TIME"
 msgstr "- Laddtid: {}\n"

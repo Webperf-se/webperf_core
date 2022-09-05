@@ -18,19 +18,19 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 5 - God praxis (Google Lighthouse)\n"
 
 msgid "TEXT_REVIEW_PRACTICE_VERY_GOOD"
-msgstr "- Webbplatsen följer god praxis fullt ut!\n"
+msgstr "- Webbsidan följer god praxis fullt ut!\n"
 
 msgid "TEXT_REVIEW_PRACTICE_IS_GOOD"
-msgstr "- Webbplatsen kan ändå förbättra sig lite inom god praxis!\n"
+msgstr "- Webbsidan kan ändå förbättra sig lite inom god praxis!\n"
 
 msgid "TEXT_REVIEW_PRACTICE_IS_OK"
 msgstr "- Genomsnittlig efterlevnad till god praxis.\n"
 
 msgid "TEXT_REVIEW_PRACTICE_IS_BAD"
-msgstr "- Webbplatsen är ganska dålig på att följa god praxis.\n"
+msgstr "- Webbsidan är ganska dålig på att följa god praxis.\n"
 
 msgid "TEXT_REVIEW_PRACTICE_IS_VERY_BAD"
-msgstr "- Webbplatsen är inte alls bra på att följa praxis!\n"
+msgstr "- Webbsidan är inte alls bra på att följa praxis!\n"
 
 msgid "TEXT_REVIEW_PRACTICE_NUMBER_OF_PROBLEMS"
 msgstr "- Antal problem med god praxis: {} st\n"

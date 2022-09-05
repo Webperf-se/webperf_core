@@ -22,7 +22,7 @@ msgid "TEXT_REVIEW_RESULT_FOR"
 msgstr "##### Resultat för: {0}\r\n"
 
 msgid "TEXT_REVIEW_SCORE_IS_DIVIDED"
-msgstr "- Poäng är dividerat med {0} (antal webbadresser testad med omdirigeringar)\r\n"
+msgstr "- Poäng är dividerat med {0} (antal webbadresser testade med omdirigeringar)\r\n"
 
 msgid "TEXT_REVIEW_TLS1_3_SUPPORT"
 msgstr "- TLSv1.3 stöd"
@@ -85,7 +85,7 @@ msgid "TEXT_REVIEW_IP_VERSION_IPV4"
 msgstr "- IPv4 stöd"
 
 msgid "TEXT_REVIEW_IP_VERSION_UNABLE_TO_VERIFY"
-msgstr "- Kunde ej få tag på IP versions information"
+msgstr "- Kunde ej få tag på IP-versionsinformation"
 
 msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_1_1"
 msgstr "- HTTPv1.1 stöd"
@@ -100,13 +100,13 @@ msgid "TEXT_REVIEW_HTTP_VERSION_QUIC"
 msgstr "- QUIC stöd"
 
 msgid "TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_UNABLE_TO_VERIFY"
-msgstr "- Kunde ej verifiera HTTP till HTTPS omdirigering"
+msgstr "- Kunde ej verifiera HTTP- till HTTPS-omdirigering"
 
 msgid "TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_NO_REDIRECT"
-msgstr "- Ingen HTTP till HTTPS omdirigering"
+msgstr "- Ingen HTTP- till HTTPS-omdirigering"
 
 msgid "TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_REDIRECTED"
-msgstr "- Har HTTP till HTTPS omdirigering"
+msgstr "- Har HTTP- till HTTPS-omdirigering"
 
 msgid "TEXT_REVIEW_NO_REMARKS"
 msgstr "- Ingen anmärkning"

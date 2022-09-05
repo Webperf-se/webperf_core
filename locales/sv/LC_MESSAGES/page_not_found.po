@@ -19,7 +19,7 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 2 - 404 (sida finns inte)\n"
 
 msgid "TEXT_REVIEW_WRONG_STATUS_CODE"
-msgstr "- Fel statuskod. Fick {0} när 404 vore korrekt."
+msgstr "- Kollat statuskod. Fick {0}, korrekt svar är 404."
 
 msgid "TEXT_REVIEW_NO_TITLE"
 msgstr "- Hittade ingen sidtitel på sidan."

@@ -49,7 +49,7 @@ msgid "Bad JS"
 msgstr "Sidans användning av dålig Javascript"
 
 msgid "jQuery"
-msgstr "Sidans användning av jQuery"
+msgstr "Sidans användning av Jquery"
 
 msgid "CSS complexity"
 msgstr "Sidans CSS-komplexitet"
@@ -70,7 +70,7 @@ msgid "Number of iframes"
 msgstr "Användning av iframe"
 
 msgid "Total JS execution time"
-msgstr "Exikveringstid för Javascript"
+msgstr "Exekveringstid för Javascript"
 
 msgid "DOM access"
 msgstr "DOM åtkomst"
@@ -82,25 +82,25 @@ msgid "document.write calls"
 msgstr "document.write anrop"
 
 msgid "Synchronous Ajax requests"
-msgstr "Synkrona Ajax anrop"
+msgstr "Synkrona Ajax-anrop"
 
 msgid "Rules count"
 msgstr "Antal regler"
 
 msgid "Total weight"
-msgstr "Total vikt"
+msgstr "Total tyngd"
 
 msgid "Image optimization"
-msgstr "Bild optimimering"
+msgstr "Bildoptimimering"
 
 msgid "Oversized images"
 msgstr "Onödigt stora bilder"
 
 msgid "Gzip/Brotli compression"
-msgstr "Gzip/Brotli kompremering"
+msgstr "Gzip/Brotli komprimering"
 
 msgid "File minification"
-msgstr "Filminfiering"
+msgstr "Minifiering av filer"
 
 msgid "Requests number"
 msgstr "Antal anrop"
@@ -121,8 +121,8 @@ msgid "HTTP protocols"
 msgstr "HTTP protokoll"
 
 msgid "CSS syntax error"
-msgstr "CSS syntax fel"
+msgstr "CSS syntaxfel"
 
 msgid "IDs duplicated"
-msgstr "Duplicerade IDn"
+msgstr "Duplicerade ID:n"
 

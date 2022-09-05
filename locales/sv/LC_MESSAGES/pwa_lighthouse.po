@@ -18,19 +18,19 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 8 - Progressiv webbapp (Google Lighthouse)\n"
 
 msgid "TEXT_REVIEW_PWA_VERY_GOOD"
-msgstr "- Webbplatsen följer fullt ut praxis för progressiva webbappar!\n"
+msgstr "- Webbsidan följer fullt ut praxis för progressiva webbappar!\n"
 
 msgid "TEXT_REVIEW_PWA_IS_GOOD"
-msgstr "- Webbplatsen har lite förbättrings&shy;potential för en progressiv webbapp.\n"
+msgstr "- Webbsidan har lite förbättrings&shy;potential för en progressiv webbapp.\n"
 
 msgid "TEXT_REVIEW_PWA_IS_OK"
 msgstr "- Genomsnittlig efterlevnad till praxis för progressiva webbappar.\n"
 
 msgid "TEXT_REVIEW_PWA_IS_BAD"
-msgstr "- Webbplatsen är ganska dålig som progressiv webbapp.\n"
+msgstr "- Webbsidan är ganska dålig som progressiv webbapp.\n"
 
 msgid "TEXT_REVIEW_PWA_IS_VERY_BAD"
-msgstr "- Webbplatsen är inte alls bra som progressiv webbapp :/\n"
+msgstr "- Webbsidan är inte alls bra som progressiv webbapp :/\n"
 
 msgid "TEXT_REVIEW_PWA_NUMBER_OF_PROBLEMS"
 msgstr "- Antal problem med praxis för progressiva webbappar: {} st\n"

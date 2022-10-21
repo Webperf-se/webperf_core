@@ -8,6 +8,5 @@ Let us know by [adding a GitHub issue](https://github.com/Webperf-se/webperf_cor
 
 Reads Webperf Core SQLite data onto a dashboard-like .NET 5.0 Blazor web page.
 
-Author: [Johan Kronberg](https://github.com/krompaco/)
-
-Github Repo: [webperf-leaderboard]](https://github.com/krompaco/webperf-leaderboard)
+* Author: [Johan Kronberg](https://github.com/krompaco/)
+* Github Repo: [webperf-leaderboard](https://github.com/krompaco/webperf-leaderboard)

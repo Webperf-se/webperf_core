@@ -46,8 +46,8 @@ def main(argv):
     -r/--review\t\t\t: show reviews in terminal
     -i/--input <file path>\t: input file path (.json/.sqlite)
     -o/--output <file path>\t: output file path (.json/.csv/.sql/.sqlite)
-    -A/--addUrl <site url>\t: website url (required in compination with -i/--input)
-    -D/--deleteUrl <site url>\t: website url (required in compination with -i/--input)
+    -A/--addUrl <site url>\t: website url (required in combination with -i/--input)
+    -D/--deleteUrl <site url>\t: website url (required in combination with -i/--input)
     -L/--language <lang code>\t: language used for output(en = default/sv)
     """
 

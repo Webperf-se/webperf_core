@@ -15,7 +15,9 @@ from tests.utils import *
 import gettext
 _ = gettext.gettext
 
+
 # DEFAULTS
+regex_allowed_chars = r"[^a-zA-Zå-öÅ-Ö 0-9\-:\/]+"
 request_timeout = config.http_request_timeout
 useragent = config.useragent
 time_sleep = config.webbkoll_sleep
@@ -106,14 +108,14 @@ def run_test(_, langCode, url):
 
         heading_rating = Rating(_, review_show_improvements_only)
 
-        number_of_success = len(header.find_all("i", class_="success"))
+        number_of_success = len(header.find_all("span", class_="success"))
 
         # - alert
-        number_of_alerts = len(header.find_all("i", class_="alert"))
+        number_of_alerts = len(header.find_all("span", class_="alert"))
         points_to_remove_for_current_result += (number_of_alerts * 5.0)
 
         # - warning
-        number_of_warnings = len(header.find_all("i", class_="warning"))
+        number_of_warnings = len(header.find_all("span", class_="warning"))
         points_to_remove_for_current_result += (number_of_warnings * 2.5)
 
         number_of_sub_alerts = 0
@@ -124,21 +126,23 @@ def run_test(_, langCode, url):
         if len(divs) > 0:
             div = divs[0]
             # -- alert
-            number_of_sub_alerts = len(div.find_all("i", class_="alert"))
+            number_of_sub_alerts = len(div.find_all("span", class_="alert"))
             points_to_remove_for_current_result += (
                 number_of_sub_alerts * 0.5)
             # -- warning
             number_of_sub_warnings = len(
-                div.find_all("i", class_="warning"))
+                div.find_all("span", class_="warning"))
             points_to_remove_for_current_result += (
                 number_of_sub_warnings * 0.25)
 
         paragraphs = result.find_all("p")
         if len(paragraphs) > 0:
             for paragraph_text in paragraphs[0].strings:
-                more_info += paragraph_text + " "
+                more_info += re.sub(regex_allowed_chars, '',
+                                    paragraph_text, 0, re.MULTILINE) + " "
         else:
-            more_info = "!" + result.text
+            more_info = "!" + re.sub(regex_allowed_chars, '',
+                                     result.text, 0, re.MULTILINE)
         more_info = more_info.replace("  ", " ").strip()
 
         points_for_current_result = 5.0
@@ -152,7 +156,9 @@ def run_test(_, langCode, url):
             points_for_current_result = 1.0
 
         # add review info
-        review_messages += '- ' + header.text.strip()
+        review_messages += '- ' + re.sub(regex_allowed_chars, '',
+                                         header.text, 0, re.MULTILINE).strip()
+
         if number_of_success > 0 and number_of_sub_alerts == 0 and number_of_sub_warnings == 0:
             review_messages += _local('TEXT_REVIEW_CATEGORY_VERY_GOOD')
         elif number_of_alerts > 0:
@@ -198,7 +204,8 @@ def run_test(_, langCode, url):
     result_title_beta = result_title.find_all('div', class_="beta")
     if len(result_title_beta) > 0:
         for header_info in result_title_beta[0].strings:
-            info = header_info.strip()
+            info = re.sub(regex_allowed_chars, '',
+                          header_info, 0, re.MULTILINE).strip()
             if info.startswith('20'):
                 review += _local('TEXT_REVIEW_GENERATED').format(info)
 

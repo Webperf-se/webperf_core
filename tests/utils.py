@@ -8,6 +8,7 @@ import urllib  # https://docs.python.org/3/library/urllib.parse.html
 import uuid
 import re
 from bs4 import BeautifulSoup
+import dns.resolver
 import config
 
 # DEFAULTS
@@ -120,3 +121,22 @@ def is_sitemap(content):
         return False
 
     return False
+
+
+def dns_lookup(hostname, record_type):
+    names = list()
+
+    try:
+        dns_records = dns.resolver.query(hostname, record_type)
+    except dns.resolver.NXDOMAIN:
+        print("dns lookup error: No record found")
+        return names
+    except (dns.resolver.NoAnswer, dns.resolver.NoNameservers) as error:
+        print("dns lookup error: ", error)
+        return names
+
+    for dns_record in dns_records:
+        names.append(str(dns_record))
+        print('dns_lookup', str(dns_record))
+
+    return names

@@ -3,6 +3,7 @@ import http3
 import datetime
 import h2
 import h11
+import dns.resolver
 import urllib.parse
 import textwrap
 import ipaddress
@@ -54,22 +55,37 @@ def run_test(_, langCode, url):
     print(_('TEXT_TEST_START').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    nof_checks = 0
-    check_url = True
+    o = urllib.parse.urlparse(url)
+    hostname = o.hostname
 
-    while check_url and nof_checks < 10:
-        checked_url_rating = validate_url(url, _, _local)
+    # 1 - Get Email servers
+    # dns_lookup
+    print('test:', len(dns_lookup(hostname, "MX")))
+    # 1.1 - Check IPv4 and IPv6 support
+    #
+    # 1.2 - Check operational
+    # 1.3 - Check Start TLS
+    # 1.4 - Check TLS
+    # 1.5 - Check PKI
+    # 1.6 - Check DNSSEC
+    # 1.7 - Check DANE
 
-        redirect_result = has_redirect(url)
-        check_url = redirect_result[0]
-        url = redirect_result[1]
-        nof_checks += 1
+    # nof_checks = 0
+    # check_url = True
 
-        rating += checked_url_rating
+    # while check_url and nof_checks < 10:
+    #     checked_url_rating = validate_url(url, _, _local)
 
-    if nof_checks > 1:
-        rating.overall_review += _local('TEXT_REVIEW_SCORE_IS_DIVIDED').format(
-            nof_checks)
+    #     redirect_result = has_redirect(url)
+    #     check_url = redirect_result[0]
+    #     url = redirect_result[1]
+    #     nof_checks += 1
+
+    #     rating += checked_url_rating
+
+    # if nof_checks > 1:
+    #     rating.overall_review += _local('TEXT_REVIEW_SCORE_IS_DIVIDED').format(
+    #         nof_checks)
 
     # if len(review) == 0:
     #    review = _('TEXT_REVIEW_NO_REMARKS')
@@ -153,7 +169,7 @@ def ip_version_score(hostname, _, _local):
     ip6_result = dns_lookup(hostname, "AAAA")
 
     ip6_rating = Rating(_, review_show_improvements_only)
-    if len(ip6_result) > 0:
+    if ip6_result[0]:
         ip6_rating.set_overall(5.0)
         ip6_rating.set_standards(
             5.0, _local('TEXT_REVIEW_IP_VERSION_IPV6'))
@@ -165,7 +181,7 @@ def ip_version_score(hostname, _, _local):
     rating += ip6_rating
 
     ip4_rating = Rating(_, review_show_improvements_only)
-    if len(ip4_result) > 0:
+    if ip4_result[0]:
         ip4_rating.set_overall(5.0)
         ip4_rating.set_standards(
             5.0, _local('TEXT_REVIEW_IP_VERSION_IPV4'))

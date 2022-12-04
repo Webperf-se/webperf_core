@@ -129,10 +129,10 @@ def dns_lookup(hostname, record_type):
     try:
         dns_records = dns.resolver.query(hostname, record_type)
     except dns.resolver.NXDOMAIN:
-        print("dns lookup error: No record found")
+        #print("dns lookup error: No record found")
         return names
     except (dns.resolver.NoAnswer, dns.resolver.NoNameservers) as error:
-        print("dns lookup error: ", error)
+        #print("dns lookup error: ", error)
         return names
 
     for dns_record in dns_records:

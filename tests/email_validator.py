@@ -190,11 +190,11 @@ def run_test(_, langCode, url):
     ipv4_servers_operational_starttls = list()
     for ip_address in ipv4_servers:
         try:
-            print('SMTP CONNECT:', ip_address)
+            # print('SMTP CONNECT:', ip_address)
             with smtplib.SMTP(ip_address, port=25, timeout=request_timeout) as smtp:
                 smtp.noop()
             ipv4_servers_operational_starttls.append(ip_address)
-            print('SMTP SUCCESS')
+            # print('SMTP SUCCESS')
         except smtplib.SMTPConnectError as smtp_error:
             print('SMTP ERROR: ', smtp_error)
         except Exception as error:

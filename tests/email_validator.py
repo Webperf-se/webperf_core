@@ -97,16 +97,16 @@ def run_test(_, langCode, url):
     nof_ipv6_rating = Rating(_, review_show_improvements_only)
     if nof_ipv6_servers >= 2:
         nof_ipv6_rating.set_overall(5.0)
-        nof_ipv4_rating.set_integrity_and_security(
+        nof_ipv6_rating.set_integrity_and_security(
             5.0, _local('TEXT_REVIEW_IPV6_REDUNDANCE'))
-        nof_ipv4_rating.set_standards(
+        nof_ipv6_rating.set_standards(
             5.0, _local('TEXT_REVIEW_IPV6_SUPPORT'))
     elif nof_ipv6_servers == 1:
         # example: feber.se (do dns lookup also before)
         nof_ipv6_rating.set_overall(2.5)
-        nof_ipv4_rating.set_integrity_and_security(
+        nof_ipv6_rating.set_integrity_and_security(
             2.5, _local('TEXT_REVIEW_IPV6_NO_REDUNDANCE'))
-        nof_ipv4_rating.set_standards(
+        nof_ipv6_rating.set_standards(
             5.0, _local('TEXT_REVIEW_IPV6_SUPPORT'))
     else:
         # example: huddinge.se

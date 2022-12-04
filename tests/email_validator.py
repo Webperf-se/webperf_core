@@ -56,31 +56,50 @@ def run_test(_, langCode, url):
     except smtplib.SMTPConnectError as smtp_error:
         print('SMTP ERROR: ', smtp_error)
     except Exception as error:
+        # If you get this error on all sites you test against, please verfiy that your provider is not blocking port 25.
         print('GENERAL ERROR: ', error)
 
     try:
-        print('SMTP CONNECT: 565')
-        with smtplib.SMTP("mail.huddinge.se", port=465,
+        print('SMTP CONNECT: 25 (STARTTLS)')
+        with smtplib.SMTP("mail.huddinge.se", port=25,
                           timeout=request_timeout) as smtp:
+            print('SMTP ehlo')
+            smtp.ehlo()
+            print('SMTP starttls')
+            smtp.starttls()
             print('SMTP NOOP')
             smtp.noop()
         print('SMTP SUCCESS')
     except smtplib.SMTPConnectError as smtp_error:
         print('SMTP ERROR: ', smtp_error)
     except Exception as error:
+        # If you get this error on all sites you test against, please verfiy that your provider is not blocking port 25.
         print('GENERAL ERROR: ', error)
 
     try:
-        print('SMTP CONNECT: 587')
-        with smtplib.SMTP("mail.huddinge.se", port=587,
-                          timeout=request_timeout) as smtp:
+        print('SMTP CONNECT: 465')
+        with smtplib.SMTP_SSL("mail.huddinge.se",
+                              timeout=request_timeout) as smtp:
             print('SMTP NOOP')
             smtp.noop()
         print('SMTP SUCCESS')
     except smtplib.SMTPConnectError as smtp_error:
         print('SMTP ERROR: ', smtp_error)
     except Exception as error:
+        # If you get this error on all sites you test against, please verfiy that your provider is not blocking port 465.
         print('GENERAL ERROR: ', error)
+
+    # try:
+    #     print('SMTP CONNECT: 587')
+    #     with smtplib.SMTP("mail.huddinge.se", port=587,
+    #                       timeout=request_timeout) as smtp:
+    #         print('SMTP NOOP')
+    #         smtp.noop()
+    #     print('SMTP SUCCESS')
+    # except smtplib.SMTPConnectError as smtp_error:
+    #     print('SMTP ERROR: ', smtp_error)
+    # except Exception as error:
+    #     print('GENERAL ERROR: ', error)
 
     try:
         print('SMTP_SSL CONNECT: 587')
@@ -92,52 +111,53 @@ def run_test(_, langCode, url):
     except smtplib.SMTPConnectError as smtp_error:
         print('SMTP ERROR: ', smtp_error)
     except Exception as error:
+        # If you get this error on all sites you test against, please verfiy that your provider is not blocking port 587.
         print('GENERAL ERROR: ', error)
 
-    try:
-        print('TELNET CONNECT:')
-        from telnetlib import Telnet
-        with Telnet('mail.huddinge.se', 25) as tn:
-            print('TELNET INTERACT')
-            tn.interact()
-        # smtp = smtplib.SMTP("mail.huddinge.se", port=567,
-        #                     timeout=request_timeout)
-        # smtp.noop()
-        print('TELNET SUCCESS')
-    except smtplib.SMTPConnectError as smtp_error:
-        print('SMTP ERROR: ', smtp_error)
-    except Exception as error:
-        print('GENERAL ERROR: ', error)
+    # try:
+    #     print('TELNET CONNECT:')
+    #     from telnetlib import Telnet
+    #     with Telnet('mail.huddinge.se', 25) as tn:
+    #         print('TELNET INTERACT')
+    #         tn.interact()
+    #     # smtp = smtplib.SMTP("mail.huddinge.se", port=567,
+    #     #                     timeout=request_timeout)
+    #     # smtp.noop()
+    #     print('TELNET SUCCESS')
+    # except smtplib.SMTPConnectError as smtp_error:
+    #     print('SMTP ERROR: ', smtp_error)
+    # except Exception as error:
+    #     print('GENERAL ERROR: ', error)
 
-    try:
-        print('TELNET CONNECT:')
-        from telnetlib import Telnet
-        with Telnet('mail.huddinge.se', 465) as tn:
-            print('TELNET INTERACT')
-            tn.interact()
-        # smtp = smtplib.SMTP("mail.huddinge.se", port=567,
-        #                     timeout=request_timeout)
-        # smtp.noop()
-        print('TELNET SUCCESS')
-    except smtplib.SMTPConnectError as smtp_error:
-        print('SMTP ERROR: ', smtp_error)
-    except Exception as error:
-        print('GENERAL ERROR: ', error)
+    # try:
+    #     print('TELNET CONNECT:')
+    #     from telnetlib import Telnet
+    #     with Telnet('mail.huddinge.se', 465) as tn:
+    #         print('TELNET INTERACT')
+    #         tn.interact()
+    #     # smtp = smtplib.SMTP("mail.huddinge.se", port=567,
+    #     #                     timeout=request_timeout)
+    #     # smtp.noop()
+    #     print('TELNET SUCCESS')
+    # except smtplib.SMTPConnectError as smtp_error:
+    #     print('SMTP ERROR: ', smtp_error)
+    # except Exception as error:
+    #     print('GENERAL ERROR: ', error)
 
-    try:
-        print('TELNET CONNECT:')
-        from telnetlib import Telnet
-        with Telnet('mail.huddinge.se', 587) as tn:
-            print('TELNET INTERACT')
-            tn.interact()
-        # smtp = smtplib.SMTP("mail.huddinge.se", port=567,
-        #                     timeout=request_timeout)
-        # smtp.noop()
-        print('TELNET SUCCESS')
-    except smtplib.SMTPConnectError as smtp_error:
-        print('SMTP ERROR: ', smtp_error)
-    except Exception as error:
-        print('GENERAL ERROR: ', error)
+    # try:
+    #     print('TELNET CONNECT:')
+    #     from telnetlib import Telnet
+    #     with Telnet('mail.huddinge.se', 587) as tn:
+    #         print('TELNET INTERACT')
+    #         tn.interact()
+    #     # smtp = smtplib.SMTP("mail.huddinge.se", port=567,
+    #     #                     timeout=request_timeout)
+    #     # smtp.noop()
+    #     print('TELNET SUCCESS')
+    # except smtplib.SMTPConnectError as smtp_error:
+    #     print('SMTP ERROR: ', smtp_error)
+    # except Exception as error:
+    #     print('GENERAL ERROR: ', error)
 
     return (rating, result_dict)
 

@@ -144,7 +144,6 @@ def run_test(_, langCode, url):
                 smtp.starttls()
                 ipv6_servers_operational_starttls.append(ip_address)
             # print('SMTP SUCCESS')
-        except smtplib.smtperror
         except smtplib.SMTPConnectError as smtp_error:
             print('SMTP ERROR: ', smtp_error)
         except Exception as error:

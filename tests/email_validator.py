@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import smtplib
 import http3
 import datetime
 import h2
@@ -44,6 +45,101 @@ def run_test(_, langCode, url):
 
     rating = Rating(_, review_show_improvements_only)
     result_dict = {}
+
+    try:
+        print('SMTP CONNECT: 25')
+        with smtplib.SMTP("mail.huddinge.se", port=25,
+                          timeout=request_timeout) as smtp:
+            print('SMTP NOOP')
+            smtp.noop()
+        print('SMTP SUCCESS')
+    except smtplib.SMTPConnectError as smtp_error:
+        print('SMTP ERROR: ', smtp_error)
+    except Exception as error:
+        print('GENERAL ERROR: ', error)
+
+    try:
+        print('SMTP CONNECT: 565')
+        with smtplib.SMTP("mail.huddinge.se", port=465,
+                          timeout=request_timeout) as smtp:
+            print('SMTP NOOP')
+            smtp.noop()
+        print('SMTP SUCCESS')
+    except smtplib.SMTPConnectError as smtp_error:
+        print('SMTP ERROR: ', smtp_error)
+    except Exception as error:
+        print('GENERAL ERROR: ', error)
+
+    try:
+        print('SMTP CONNECT: 587')
+        with smtplib.SMTP("mail.huddinge.se", port=587,
+                          timeout=request_timeout) as smtp:
+            print('SMTP NOOP')
+            smtp.noop()
+        print('SMTP SUCCESS')
+    except smtplib.SMTPConnectError as smtp_error:
+        print('SMTP ERROR: ', smtp_error)
+    except Exception as error:
+        print('GENERAL ERROR: ', error)
+
+    try:
+        print('SMTP_SSL CONNECT: 587')
+        with smtplib.SMTP_SSL("mail.huddinge.se", port=587,
+                              timeout=request_timeout) as smtp:
+            print('SMTP NOOP')
+            smtp.noop()
+        print('SMTP SUCCESS')
+    except smtplib.SMTPConnectError as smtp_error:
+        print('SMTP ERROR: ', smtp_error)
+    except Exception as error:
+        print('GENERAL ERROR: ', error)
+
+    try:
+        print('TELNET CONNECT:')
+        from telnetlib import Telnet
+        with Telnet('mail.huddinge.se', 25) as tn:
+            print('TELNET INTERACT')
+            tn.interact()
+        # smtp = smtplib.SMTP("mail.huddinge.se", port=567,
+        #                     timeout=request_timeout)
+        # smtp.noop()
+        print('TELNET SUCCESS')
+    except smtplib.SMTPConnectError as smtp_error:
+        print('SMTP ERROR: ', smtp_error)
+    except Exception as error:
+        print('GENERAL ERROR: ', error)
+
+    try:
+        print('TELNET CONNECT:')
+        from telnetlib import Telnet
+        with Telnet('mail.huddinge.se', 465) as tn:
+            print('TELNET INTERACT')
+            tn.interact()
+        # smtp = smtplib.SMTP("mail.huddinge.se", port=567,
+        #                     timeout=request_timeout)
+        # smtp.noop()
+        print('TELNET SUCCESS')
+    except smtplib.SMTPConnectError as smtp_error:
+        print('SMTP ERROR: ', smtp_error)
+    except Exception as error:
+        print('GENERAL ERROR: ', error)
+
+    try:
+        print('TELNET CONNECT:')
+        from telnetlib import Telnet
+        with Telnet('mail.huddinge.se', 587) as tn:
+            print('TELNET INTERACT')
+            tn.interact()
+        # smtp = smtplib.SMTP("mail.huddinge.se", port=567,
+        #                     timeout=request_timeout)
+        # smtp.noop()
+        print('TELNET SUCCESS')
+    except smtplib.SMTPConnectError as smtp_error:
+        print('SMTP ERROR: ', smtp_error)
+    except Exception as error:
+        print('GENERAL ERROR: ', error)
+
+    return (rating, result_dict)
 
     language = gettext.translation(
         'http_validator', localedir='locales', languages=[langCode])
@@ -124,17 +220,44 @@ def run_test(_, langCode, url):
             1.0, _local('TEXT_REVIEW_IPV6_NO_SUPPORT'))
     rating += nof_ipv6_rating
 
-    #print('test:', len(dns_lookup(hostname, "MX")))
-
     # 1.1 - Check IPv4 and IPv6 support
     #
     # 1.2 - Check operational
+    # try:
+    #     print('SMTP CONNECT:', ip_address)
+    #     with SMTP("smtp.google.com", port=25) as smtp:
+    #         smtp.noop()
+    #     print('SMTP SUCCESS')
+    # except SMTPConnectError as smtp_error:
+    #     print('SMTP ERROR: ', smtp_error)
+    # except Exception as error:
+    #     print('GENERAL ERROR: ', error)
+
+    # email_servers_operational = list()
+    # for ip_address in email_servers:
+    #     try:
+    #         print('SMTP CONNECT:', ip_address)
+    #         with SMTP("mail.huddinge.se", port=25) as smtp:
+    #             smtp.noop()
+    #         email_servers_operational.append(ip_address)
+    #         print('SMTP SUCCESS')
+    #     except SMTPConnectError as smtp_error:
+    #         print('SMTP ERROR: ', smtp_error)
+    #     except Exception as error:
+    #         print('GENERAL ERROR: ', error)
+
+    # if len(email_servers) == len(email_servers_operational):
+    #     print('SMTP ALL OPERATIONAL')
+    # else:
+    #     print('SMTP ONE OR MORE IS NOT WORKING')
+
     # 1.3 - Check Start TLS
     # 1.4 - Check TLS
     # 1.5 - Check PKI
     # 1.6 - Check DNSSEC
     # 1.7 - Check DANE
     # 2.0 - Check GDPR for all IP-adresses
+    # for ip_address in email_servers:
 
     # nof_checks = 0
     # check_url = True

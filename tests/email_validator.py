@@ -46,121 +46,6 @@ def run_test(_, langCode, url):
     rating = Rating(_, review_show_improvements_only)
     result_dict = {}
 
-    try:
-        print('SMTP CONNECT: 25')
-        with smtplib.SMTP("mail.huddinge.se", port=25,
-                          timeout=request_timeout) as smtp:
-            print('SMTP NOOP')
-            smtp.noop()
-        print('SMTP SUCCESS')
-    except smtplib.SMTPConnectError as smtp_error:
-        print('SMTP ERROR: ', smtp_error)
-    except Exception as error:
-        # If you get this error on all sites you test against, please verfiy that your provider is not blocking port 25.
-        print('GENERAL ERROR: ', error)
-
-    try:
-        print('SMTP CONNECT: 25 (STARTTLS)')
-        with smtplib.SMTP("mail.huddinge.se", port=25,
-                          timeout=request_timeout) as smtp:
-            print('SMTP ehlo')
-            smtp.ehlo()
-            print('SMTP starttls')
-            smtp.starttls()
-            print('SMTP NOOP')
-            smtp.noop()
-        print('SMTP SUCCESS')
-    except smtplib.SMTPConnectError as smtp_error:
-        print('SMTP ERROR: ', smtp_error)
-    except Exception as error:
-        # If you get this error on all sites you test against, please verfiy that your provider is not blocking port 25.
-        print('GENERAL ERROR: ', error)
-
-    try:
-        print('SMTP CONNECT: 465')
-        with smtplib.SMTP_SSL("mail.huddinge.se",
-                              timeout=request_timeout) as smtp:
-            print('SMTP NOOP')
-            smtp.noop()
-        print('SMTP SUCCESS')
-    except smtplib.SMTPConnectError as smtp_error:
-        print('SMTP ERROR: ', smtp_error)
-    except Exception as error:
-        # If you get this error on all sites you test against, please verfiy that your provider is not blocking port 465.
-        print('GENERAL ERROR: ', error)
-
-    # try:
-    #     print('SMTP CONNECT: 587')
-    #     with smtplib.SMTP("mail.huddinge.se", port=587,
-    #                       timeout=request_timeout) as smtp:
-    #         print('SMTP NOOP')
-    #         smtp.noop()
-    #     print('SMTP SUCCESS')
-    # except smtplib.SMTPConnectError as smtp_error:
-    #     print('SMTP ERROR: ', smtp_error)
-    # except Exception as error:
-    #     print('GENERAL ERROR: ', error)
-
-    try:
-        print('SMTP_SSL CONNECT: 587')
-        with smtplib.SMTP_SSL("mail.huddinge.se", port=587,
-                              timeout=request_timeout) as smtp:
-            print('SMTP NOOP')
-            smtp.noop()
-        print('SMTP SUCCESS')
-    except smtplib.SMTPConnectError as smtp_error:
-        print('SMTP ERROR: ', smtp_error)
-    except Exception as error:
-        # If you get this error on all sites you test against, please verfiy that your provider is not blocking port 587.
-        print('GENERAL ERROR: ', error)
-
-    # try:
-    #     print('TELNET CONNECT:')
-    #     from telnetlib import Telnet
-    #     with Telnet('mail.huddinge.se', 25) as tn:
-    #         print('TELNET INTERACT')
-    #         tn.interact()
-    #     # smtp = smtplib.SMTP("mail.huddinge.se", port=567,
-    #     #                     timeout=request_timeout)
-    #     # smtp.noop()
-    #     print('TELNET SUCCESS')
-    # except smtplib.SMTPConnectError as smtp_error:
-    #     print('SMTP ERROR: ', smtp_error)
-    # except Exception as error:
-    #     print('GENERAL ERROR: ', error)
-
-    # try:
-    #     print('TELNET CONNECT:')
-    #     from telnetlib import Telnet
-    #     with Telnet('mail.huddinge.se', 465) as tn:
-    #         print('TELNET INTERACT')
-    #         tn.interact()
-    #     # smtp = smtplib.SMTP("mail.huddinge.se", port=567,
-    #     #                     timeout=request_timeout)
-    #     # smtp.noop()
-    #     print('TELNET SUCCESS')
-    # except smtplib.SMTPConnectError as smtp_error:
-    #     print('SMTP ERROR: ', smtp_error)
-    # except Exception as error:
-    #     print('GENERAL ERROR: ', error)
-
-    # try:
-    #     print('TELNET CONNECT:')
-    #     from telnetlib import Telnet
-    #     with Telnet('mail.huddinge.se', 587) as tn:
-    #         print('TELNET INTERACT')
-    #         tn.interact()
-    #     # smtp = smtplib.SMTP("mail.huddinge.se", port=567,
-    #     #                     timeout=request_timeout)
-    #     # smtp.noop()
-    #     print('TELNET SUCCESS')
-    # except smtplib.SMTPConnectError as smtp_error:
-    #     print('SMTP ERROR: ', smtp_error)
-    # except Exception as error:
-    #     print('GENERAL ERROR: ', error)
-
-    return (rating, result_dict)
-
     language = gettext.translation(
         'http_validator', localedir='locales', languages=[langCode])
     language.install()
@@ -244,32 +129,72 @@ def run_test(_, langCode, url):
     #
     # 1.2 - Check operational
     # try:
-    #     print('SMTP CONNECT:', ip_address)
-    #     with SMTP("smtp.google.com", port=25) as smtp:
+    #     print('SMTP CONNECT: 25')
+    #     with smtplib.SMTP("mail.huddinge.se", port=25,
+    #                       timeout=request_timeout) as smtp:
+    #         print('SMTP NOOP')
     #         smtp.noop()
     #     print('SMTP SUCCESS')
-    # except SMTPConnectError as smtp_error:
+    # except smtplib.SMTPConnectError as smtp_error:
     #     print('SMTP ERROR: ', smtp_error)
     # except Exception as error:
+    #     # If you get this error on all sites you test against, please verfiy that your provider is not blocking port 25.
     #     print('GENERAL ERROR: ', error)
 
-    # email_servers_operational = list()
-    # for ip_address in email_servers:
-    #     try:
-    #         print('SMTP CONNECT:', ip_address)
-    #         with SMTP("mail.huddinge.se", port=25) as smtp:
-    #             smtp.noop()
-    #         email_servers_operational.append(ip_address)
-    #         print('SMTP SUCCESS')
-    #     except SMTPConnectError as smtp_error:
-    #         print('SMTP ERROR: ', smtp_error)
-    #     except Exception as error:
-    #         print('GENERAL ERROR: ', error)
+    # try:
+    #     print('SMTP CONNECT: 25 (STARTTLS)')
+    #     with smtplib.SMTP("mail.huddinge.se", port=25,
+    #                       timeout=request_timeout) as smtp:
+    #         print('SMTP ehlo')
+    #         smtp.ehlo()
+    #         print('SMTP starttls')
+    #         smtp.starttls()
+    #         print('SMTP NOOP')
+    #         smtp.noop()
+    #     print('SMTP SUCCESS')
+    # except smtplib.SMTPConnectError as smtp_error:
+    #     print('SMTP ERROR: ', smtp_error)
+    # except Exception as error:
+    #     # If you get this error on all sites you test against, please verfiy that your provider is not blocking port 25.
+    #     print('GENERAL ERROR: ', error)
 
-    # if len(email_servers) == len(email_servers_operational):
-    #     print('SMTP ALL OPERATIONAL')
-    # else:
-    #     print('SMTP ONE OR MORE IS NOT WORKING')
+    email_servers_operational = list()
+    for ip_address in email_servers:
+        try:
+            print('SMTP CONNECT:', ip_address)
+            with smtplib.SMTP(ip_address, port=25, timeout=request_timeout) as smtp:
+                smtp.noop()
+            email_servers_operational.append(ip_address)
+            print('SMTP SUCCESS')
+        except smtplib.SMTPConnectError as smtp_error:
+            print('SMTP ERROR: ', smtp_error)
+        except Exception as error:
+            # If you get this error on all sites you test against, please verfiy that your provider is not blocking port 25.
+            print('GENERAL ERROR: ', error)
+
+    email_servers_operational_starttls = list()
+    for ip_address in email_servers:
+        try:
+            print('SMTP CONNECT:', ip_address)
+            with smtplib.SMTP(ip_address, port=25, timeout=request_timeout) as smtp:
+                smtp.noop()
+            email_servers_operational_starttls.append(ip_address)
+            print('SMTP SUCCESS')
+        except smtplib.SMTPConnectError as smtp_error:
+            print('SMTP ERROR: ', smtp_error)
+        except Exception as error:
+            # If you get this error on all sites you test against, please verfiy that your provider is not blocking port 25.
+            print('GENERAL ERROR: ', error)
+
+    if len(email_servers) == len(email_servers_operational):
+        print('SMTP ALL OPERATIONAL')
+    else:
+        print('SMTP ONE OR MORE IS NOT WORKING')
+
+    if len(email_servers) == len(email_servers_operational_starttls):
+        print('SMTP STARTTLS ALL OPERATIONAL')
+    else:
+        print('SMTP STARTTLS ONE OR MORE IS NOT WORKING')
 
     # 1.3 - Check Start TLS
     # 1.4 - Check TLS

@@ -60,7 +60,72 @@ def run_test(_, langCode, url):
 
     # 1 - Get Email servers
     # dns_lookup
-    print('test:', len(dns_lookup(hostname, "MX")))
+    email_results = dns_lookup(hostname, "MX")
+    email_servers = list()
+
+    ipv4_servers = list()
+    ipv6_servers = list()
+
+    for email_result in email_results:
+        # result is in format "<priority> <domain address/ip>"
+        server_address = email_result.split(' ')[1]
+
+        ipv_4 = dns_lookup(server_address, "A")
+        ipv_6 = dns_lookup(server_address, "AAAA")
+
+        ipv4_servers.extend(ipv_4)
+        ipv6_servers.extend(ipv_6)
+        print('IPv4:', ipv_4)
+        print('IPv6:', ipv_6)
+
+    email_servers.extend(ipv4_servers)
+    email_servers.extend(ipv6_servers)
+
+    nof_ipv4_servers = len(ipv4_servers)
+    nof_ipv4_rating = Rating(_, review_show_improvements_only)
+    if nof_ipv4_servers >= 2:
+        nof_ipv4_rating.set_overall(5.0)
+        nof_ipv4_rating.set_integrity_and_security(
+            5.0, _local('TEXT_REVIEW_IPV4_REDUNDANCE'))
+        nof_ipv4_rating.set_standards(
+            5.0, _local('TEXT_REVIEW_IPV4_SUPPORT'))
+    elif nof_ipv4_servers == 1:
+        # example: feber.se (do dns lookup also before)
+        nof_ipv4_rating.set_overall(2.5)
+        nof_ipv4_rating.set_integrity_and_security(
+            2.5, _local('TEXT_REVIEW_IPV4_NO_REDUNDANCE'))
+        nof_ipv4_rating.set_standards(
+            5.0, _local('TEXT_REVIEW_IPV4_SUPPORT'))
+    else:
+        nof_ipv4_rating.set_overall(1.0)
+        nof_ipv4_rating.set_standards(
+            1.0, _local('TEXT_REVIEW_IPV4_NO_SUPPORT'))
+    rating += nof_ipv4_rating
+
+    nof_ipv6_servers = len(ipv6_servers)
+    nof_ipv6_rating = Rating(_, review_show_improvements_only)
+    if nof_ipv6_servers >= 2:
+        nof_ipv6_rating.set_overall(5.0)
+        nof_ipv4_rating.set_integrity_and_security(
+            5.0, _local('TEXT_REVIEW_IPV6_REDUNDANCE'))
+        nof_ipv4_rating.set_standards(
+            5.0, _local('TEXT_REVIEW_IPV6_SUPPORT'))
+    elif nof_ipv6_servers == 1:
+        # example: feber.se (do dns lookup also before)
+        nof_ipv6_rating.set_overall(2.5)
+        nof_ipv4_rating.set_integrity_and_security(
+            2.5, _local('TEXT_REVIEW_IPV6_NO_REDUNDANCE'))
+        nof_ipv4_rating.set_standards(
+            5.0, _local('TEXT_REVIEW_IPV6_SUPPORT'))
+    else:
+        # example: huddinge.se
+        nof_ipv6_rating.set_overall(1.0)
+        nof_ipv6_rating.set_standards(
+            1.0, _local('TEXT_REVIEW_IPV6_NO_SUPPORT'))
+    rating += nof_ipv6_rating
+
+    #print('test:', len(dns_lookup(hostname, "MX")))
+
     # 1.1 - Check IPv4 and IPv6 support
     #
     # 1.2 - Check operational
@@ -69,6 +134,7 @@ def run_test(_, langCode, url):
     # 1.5 - Check PKI
     # 1.6 - Check DNSSEC
     # 1.7 - Check DANE
+    # 2.0 - Check GDPR for all IP-adresses
 
     # nof_checks = 0
     # check_url = True

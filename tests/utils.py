@@ -137,6 +137,6 @@ def dns_lookup(hostname, record_type):
 
     for dns_record in dns_records:
         names.append(str(dns_record))
-        print('dns_lookup', str(dns_record))
+        #print('dns_lookup', str(dns_record))
 
     return names

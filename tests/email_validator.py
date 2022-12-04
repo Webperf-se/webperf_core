@@ -1,34 +1,13 @@
 # -*- coding: utf-8 -*-
 import smtplib
-import http3
 import datetime
-import h2
-import h11
-import dns.resolver
 import urllib.parse
-import textwrap
-import ipaddress
-import hashlib
 import datetime
-import binascii
-import base64
-import sys
-import socket
-import ssl
-import json
-import requests
-from requests.adapters import HTTPAdapter
-from requests.packages.urllib3.poolmanager import PoolManager
-from requests.packages.urllib3.util import ssl_
 # https://docs.python.org/3/library/urllib.parse.html
 import urllib
-from urllib.parse import urlparse
-import uuid
-import re
-from bs4 import BeautifulSoup
 import config
 from models import Rating
-from tests.utils import dns_lookup, httpRequestGetContent, has_redirect
+from tests.utils import dns_lookup
 import gettext
 _local = gettext.gettext
 
@@ -165,6 +144,7 @@ def run_test(_, langCode, url):
                 smtp.starttls()
                 ipv6_servers_operational_starttls.append(ip_address)
             # print('SMTP SUCCESS')
+        except smtplib.smtperror
         except smtplib.SMTPConnectError as smtp_error:
             print('SMTP ERROR: ', smtp_error)
         except Exception as error:

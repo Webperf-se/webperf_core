@@ -21,12 +21,12 @@ jobs:
     - name: Test Tracking and Privacy - USE DOCKER
       run: |
         python .github/workflows/verify_result.py -c true
-        python default.py -t 24 -r -u https://huddinge.se/ -o .github/workflows/testresult-24.json
+        python default.py -t 24 -r -u https://kalix.se/ -o .github/workflows/testresult-24.json
         python .github/workflows/verify_result.py -t 24
       if: ${{ always() }}
     - name: Test Tracking and Privacy - USE NPM PACKAGE
       run: |
         python .github/workflows/verify_result.py -c false
-        python default.py -t 24 -r -u https://polisen.se/ -o .github/workflows/testresult-24.json
+        python default.py -t 24 -r -u https://feber.se/ -o .github/workflows/testresult-24.json
         python .github/workflows/verify_result.py -t 24
       if: ${{ always() }}

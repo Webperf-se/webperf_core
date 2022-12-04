@@ -192,6 +192,8 @@ def run_test(_, langCode, url):
         try:
             # print('SMTP CONNECT:', ip_address)
             with smtplib.SMTP(ip_address, port=25, timeout=request_timeout) as smtp:
+                smtp.ehlo()
+                smtp.starttls()
                 smtp.noop()
             ipv4_servers_operational_starttls.append(ip_address)
             # print('SMTP SUCCESS')
@@ -205,6 +207,8 @@ def run_test(_, langCode, url):
         try:
             # print('SMTP CONNECT:', ip_address)
             with smtplib.SMTP(ip_address, port=25, timeout=request_timeout) as smtp:
+                smtp.ehlo()
+                smtp.starttls()
                 smtp.noop()
             ipv6_servers_operational_starttls.append(ip_address)
             # print('SMTP SUCCESS')

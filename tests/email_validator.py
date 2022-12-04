@@ -87,8 +87,8 @@ def run_test(_, langCode, url):
 
         ipv4_servers.extend(ipv_4)
         ipv6_servers.extend(ipv_6)
-        print('IPv4:', ipv_4)
-        print('IPv6:', ipv_6)
+        # print('IPv4:', ipv_4)
+        # print('IPv6:', ipv_6)
 
     email_servers.extend(ipv4_servers)
     email_servers.extend(ipv6_servers)
@@ -140,11 +140,11 @@ def run_test(_, langCode, url):
     ipv4_servers_operational = list()
     for ip_address in ipv4_servers:
         try:
-            print('SMTP CONNECT:', ip_address)
+            # print('SMTP CONNECT:', ip_address)
             with smtplib.SMTP(ip_address, port=25, timeout=request_timeout) as smtp:
                 smtp.noop()
             ipv4_servers_operational.append(ip_address)
-            print('SMTP SUCCESS')
+            # print('SMTP SUCCESS')
         except smtplib.SMTPConnectError as smtp_error:
             print('SMTP ERROR: ', smtp_error)
         except Exception as error:
@@ -153,11 +153,11 @@ def run_test(_, langCode, url):
     ipv6_servers_operational = list()
     for ip_address in ipv6_servers:
         try:
-            print('SMTP CONNECT:', ip_address)
+            # print('SMTP CONNECT:', ip_address)
             with smtplib.SMTP(ip_address, port=25, timeout=request_timeout) as smtp:
                 smtp.noop()
             ipv6_servers_operational.append(ip_address)
-            print('SMTP SUCCESS')
+            # print('SMTP SUCCESS')
         except smtplib.SMTPConnectError as smtp_error:
             print('SMTP ERROR: ', smtp_error)
         except Exception as error:
@@ -186,16 +186,6 @@ def run_test(_, langCode, url):
             1.0, _local('TEXT_REVIEW_IPV6_OPERATION_NO_SUPPORT'))
     rating += ipv6_operational_rating
 
-    # if len(ipv4_servers) == len(ipv4_servers_operational):
-    #     print('SMTP over IPv4 ALL OPERATIONAL')
-    # else:
-    #     print('SMTP over IPv4 ONE OR MORE IS NOT WORKING')
-
-    # if len(ipv6_servers) == len(ipv6_servers_operational):
-    #     print('SMTP over IPv6 ALL OPERATIONAL')
-    # else:
-    #     print('SMTP over IPv6 ONE OR MORE IS NOT WORKING')
-
     # 1.3 - Check Start TLS
     ipv4_servers_operational_starttls = list()
     for ip_address in ipv4_servers:
@@ -213,11 +203,11 @@ def run_test(_, langCode, url):
     ipv6_servers_operational_starttls = list()
     for ip_address in ipv6_servers:
         try:
-            print('SMTP CONNECT:', ip_address)
+            # print('SMTP CONNECT:', ip_address)
             with smtplib.SMTP(ip_address, port=25, timeout=request_timeout) as smtp:
                 smtp.noop()
             ipv6_servers_operational_starttls.append(ip_address)
-            print('SMTP SUCCESS')
+            # print('SMTP SUCCESS')
         except smtplib.SMTPConnectError as smtp_error:
             print('SMTP ERROR: ', smtp_error)
         except Exception as error:
@@ -225,7 +215,7 @@ def run_test(_, langCode, url):
             print('GENERAL ERROR: ', error)
 
     ipv4_operational_rating = Rating(_, review_show_improvements_only)
-    if len(ipv6_servers_operational_starttls) > 0 and len(ipv4_servers) == len(ipv4_servers_operational_starttls):
+    if len(ipv4_servers_operational_starttls) > 0 and len(ipv4_servers) == len(ipv4_servers_operational_starttls):
         ipv4_operational_rating.set_overall(5.0)
         ipv4_operational_rating.set_standards(
             5.0, _local('TEXT_REVIEW_IPV4_OPERATION_STARTTLS_SUPPORT'))
@@ -245,16 +235,6 @@ def run_test(_, langCode, url):
         ipv6_operational_rating.set_standards(
             1.0, _local('TEXT_REVIEW_IPV6_OPERATION_STARTTLS_NO_SUPPORT'))
     rating += ipv6_operational_rating
-
-    # if len(ipv4_servers) == len(ipv4_servers_operational_starttls):
-    #     print('SMTP over IPv4 STARTTLS ALL OPERATIONAL')
-    # else:
-    #     print('SMTP over IPv4 STARTTLS ONE OR MORE IS NOT WORKING')
-
-    # if len(ipv6_servers) == len(ipv6_servers_operational_starttls):
-    #     print('SMTP over IPv6 STARTTLS ALL OPERATIONAL')
-    # else:
-    #     print('SMTP over IPv6 STARTTLS ONE OR MORE IS NOT WORKING')
 
     # 1.4 - Check TLS
     # 1.5 - Check PKI

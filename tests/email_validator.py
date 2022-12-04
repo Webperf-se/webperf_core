@@ -62,8 +62,19 @@ def run_test(_, langCode, url):
     # 1 - Get Email servers
     # dns_lookup
     email_results = dns_lookup(hostname, "MX")
-    email_servers = list()
+    has_mx_records_rating = Rating(_, review_show_improvements_only)
+    if len(email_results) > 0:
+        has_mx_records_rating.set_overall(5.0)
+        has_mx_records_rating.set_standards(
+            5.0, _local('TEXT_REVIEW_MX_SUPPORT'))
+    else:
+        has_mx_records_rating.set_overall(1.0)
+        has_mx_records_rating.set_standards(
+            1.0, _local('TEXT_REVIEW_MX_NO_SUPPORT'))
+    rating += has_mx_records_rating
 
+    email_servers = list()
+    # 1.1 - Check IPv4 and IPv6 support
     ipv4_servers = list()
     ipv6_servers = list()
 
@@ -125,46 +136,27 @@ def run_test(_, langCode, url):
             1.0, _local('TEXT_REVIEW_IPV6_NO_SUPPORT'))
     rating += nof_ipv6_rating
 
-    # 1.1 - Check IPv4 and IPv6 support
-    #
     # 1.2 - Check operational
-    # try:
-    #     print('SMTP CONNECT: 25')
-    #     with smtplib.SMTP("mail.huddinge.se", port=25,
-    #                       timeout=request_timeout) as smtp:
-    #         print('SMTP NOOP')
-    #         smtp.noop()
-    #     print('SMTP SUCCESS')
-    # except smtplib.SMTPConnectError as smtp_error:
-    #     print('SMTP ERROR: ', smtp_error)
-    # except Exception as error:
-    #     # If you get this error on all sites you test against, please verfiy that your provider is not blocking port 25.
-    #     print('GENERAL ERROR: ', error)
-
-    # try:
-    #     print('SMTP CONNECT: 25 (STARTTLS)')
-    #     with smtplib.SMTP("mail.huddinge.se", port=25,
-    #                       timeout=request_timeout) as smtp:
-    #         print('SMTP ehlo')
-    #         smtp.ehlo()
-    #         print('SMTP starttls')
-    #         smtp.starttls()
-    #         print('SMTP NOOP')
-    #         smtp.noop()
-    #     print('SMTP SUCCESS')
-    # except smtplib.SMTPConnectError as smtp_error:
-    #     print('SMTP ERROR: ', smtp_error)
-    # except Exception as error:
-    #     # If you get this error on all sites you test against, please verfiy that your provider is not blocking port 25.
-    #     print('GENERAL ERROR: ', error)
-
-    email_servers_operational = list()
-    for ip_address in email_servers:
+    ipv4_servers_operational = list()
+    for ip_address in ipv4_servers:
         try:
             print('SMTP CONNECT:', ip_address)
             with smtplib.SMTP(ip_address, port=25, timeout=request_timeout) as smtp:
                 smtp.noop()
-            email_servers_operational.append(ip_address)
+            ipv4_servers_operational.append(ip_address)
+            print('SMTP SUCCESS')
+        except smtplib.SMTPConnectError as smtp_error:
+            print('SMTP ERROR: ', smtp_error)
+        except Exception as error:
+            # If you get this error on all sites you test against, please verfiy that your provider is not blocking port 25.
+            print('GENERAL ERROR: ', error)
+    ipv6_servers_operational = list()
+    for ip_address in ipv6_servers:
+        try:
+            print('SMTP CONNECT:', ip_address)
+            with smtplib.SMTP(ip_address, port=25, timeout=request_timeout) as smtp:
+                smtp.noop()
+            ipv6_servers_operational.append(ip_address)
             print('SMTP SUCCESS')
         except smtplib.SMTPConnectError as smtp_error:
             print('SMTP ERROR: ', smtp_error)
@@ -172,31 +164,98 @@ def run_test(_, langCode, url):
             # If you get this error on all sites you test against, please verfiy that your provider is not blocking port 25.
             print('GENERAL ERROR: ', error)
 
-    email_servers_operational_starttls = list()
-    for ip_address in email_servers:
-        try:
-            print('SMTP CONNECT:', ip_address)
-            with smtplib.SMTP(ip_address, port=25, timeout=request_timeout) as smtp:
-                smtp.noop()
-            email_servers_operational_starttls.append(ip_address)
-            print('SMTP SUCCESS')
-        except smtplib.SMTPConnectError as smtp_error:
-            print('SMTP ERROR: ', smtp_error)
-        except Exception as error:
-            # If you get this error on all sites you test against, please verfiy that your provider is not blocking port 25.
-            print('GENERAL ERROR: ', error)
-
-    if len(email_servers) == len(email_servers_operational):
-        print('SMTP ALL OPERATIONAL')
+    ipv4_operational_rating = Rating(_, review_show_improvements_only)
+    if len(ipv4_servers_operational) > 0 and len(ipv4_servers) == len(ipv4_servers_operational):
+        ipv4_operational_rating.set_overall(5.0)
+        ipv4_operational_rating.set_standards(
+            5.0, _local('TEXT_REVIEW_IPV4_OPERATION_SUPPORT'))
     else:
-        print('SMTP ONE OR MORE IS NOT WORKING')
+        ipv4_operational_rating.set_overall(1.0)
+        ipv4_operational_rating.set_standards(
+            1.0, _local('TEXT_REVIEW_IPV4_OPERATION_NO_SUPPORT'))
+    rating += ipv4_operational_rating
 
-    if len(email_servers) == len(email_servers_operational_starttls):
-        print('SMTP STARTTLS ALL OPERATIONAL')
+    ipv6_operational_rating = Rating(_, review_show_improvements_only)
+    if len(ipv6_servers_operational) > 0 and len(ipv6_servers) == len(ipv6_servers_operational):
+        ipv6_operational_rating.set_overall(5.0)
+        ipv6_operational_rating.set_standards(
+            5.0, _local('TEXT_REVIEW_IPV6_OPERATION_SUPPORT'))
     else:
-        print('SMTP STARTTLS ONE OR MORE IS NOT WORKING')
+        ipv6_operational_rating.set_overall(1.0)
+        ipv6_operational_rating.set_standards(
+            1.0, _local('TEXT_REVIEW_IPV6_OPERATION_NO_SUPPORT'))
+    rating += ipv6_operational_rating
+
+    # if len(ipv4_servers) == len(ipv4_servers_operational):
+    #     print('SMTP over IPv4 ALL OPERATIONAL')
+    # else:
+    #     print('SMTP over IPv4 ONE OR MORE IS NOT WORKING')
+
+    # if len(ipv6_servers) == len(ipv6_servers_operational):
+    #     print('SMTP over IPv6 ALL OPERATIONAL')
+    # else:
+    #     print('SMTP over IPv6 ONE OR MORE IS NOT WORKING')
 
     # 1.3 - Check Start TLS
+    ipv4_servers_operational_starttls = list()
+    for ip_address in ipv4_servers:
+        try:
+            print('SMTP CONNECT:', ip_address)
+            with smtplib.SMTP(ip_address, port=25, timeout=request_timeout) as smtp:
+                smtp.noop()
+            ipv4_servers_operational_starttls.append(ip_address)
+            print('SMTP SUCCESS')
+        except smtplib.SMTPConnectError as smtp_error:
+            print('SMTP ERROR: ', smtp_error)
+        except Exception as error:
+            # If you get this error on all sites you test against, please verfiy that your provider is not blocking port 25.
+            print('GENERAL ERROR: ', error)
+    ipv6_servers_operational_starttls = list()
+    for ip_address in ipv6_servers:
+        try:
+            print('SMTP CONNECT:', ip_address)
+            with smtplib.SMTP(ip_address, port=25, timeout=request_timeout) as smtp:
+                smtp.noop()
+            ipv6_servers_operational_starttls.append(ip_address)
+            print('SMTP SUCCESS')
+        except smtplib.SMTPConnectError as smtp_error:
+            print('SMTP ERROR: ', smtp_error)
+        except Exception as error:
+            # If you get this error on all sites you test against, please verfiy that your provider is not blocking port 25.
+            print('GENERAL ERROR: ', error)
+
+    ipv4_operational_rating = Rating(_, review_show_improvements_only)
+    if len(ipv6_servers_operational_starttls) > 0 and len(ipv4_servers) == len(ipv4_servers_operational_starttls):
+        ipv4_operational_rating.set_overall(5.0)
+        ipv4_operational_rating.set_standards(
+            5.0, _local('TEXT_REVIEW_IPV4_OPERATION_STARTTLS_SUPPORT'))
+    else:
+        ipv4_operational_rating.set_overall(1.0)
+        ipv4_operational_rating.set_standards(
+            1.0, _local('TEXT_REVIEW_IPV4_OPERATION_STARTTLS_NO_SUPPORT'))
+    rating += ipv4_operational_rating
+
+    ipv6_operational_rating = Rating(_, review_show_improvements_only)
+    if len(ipv6_servers_operational_starttls) > 0 and len(ipv6_servers) == len(ipv6_servers_operational_starttls):
+        ipv6_operational_rating.set_overall(5.0)
+        ipv6_operational_rating.set_standards(
+            5.0, _local('TEXT_REVIEW_IPV6_OPERATION_STARTTLS_SUPPORT'))
+    else:
+        ipv6_operational_rating.set_overall(1.0)
+        ipv6_operational_rating.set_standards(
+            1.0, _local('TEXT_REVIEW_IPV6_OPERATION_STARTTLS_NO_SUPPORT'))
+    rating += ipv6_operational_rating
+
+    # if len(ipv4_servers) == len(ipv4_servers_operational_starttls):
+    #     print('SMTP over IPv4 STARTTLS ALL OPERATIONAL')
+    # else:
+    #     print('SMTP over IPv4 STARTTLS ONE OR MORE IS NOT WORKING')
+
+    # if len(ipv6_servers) == len(ipv6_servers_operational_starttls):
+    #     print('SMTP over IPv6 STARTTLS ALL OPERATIONAL')
+    # else:
+    #     print('SMTP over IPv6 STARTTLS ONE OR MORE IS NOT WORKING')
+
     # 1.4 - Check TLS
     # 1.5 - Check PKI
     # 1.6 - Check DNSSEC

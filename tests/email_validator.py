@@ -46,6 +46,7 @@ class SMTP_WEBPERF(smtplib.SMTP):
         self.command_encoding = 'ascii'
         self.source_address = source_address
         self._auth_challenge_count = 0
+        self.local_hostname = local_hostname
 
         if host:
             (code, msg) = self.connect(host, port)

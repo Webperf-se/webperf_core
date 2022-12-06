@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import smtplib
 import datetime
+import socket
+import sys
 import urllib.parse
 import datetime
 # https://docs.python.org/3/library/urllib.parse.html
@@ -15,6 +17,94 @@ _local = gettext.gettext
 request_timeout = config.http_request_timeout
 useragent = config.useragent
 review_show_improvements_only = config.review_show_improvements_only
+
+# We are doing this to support IPv6
+
+
+class SMTP_WEBPERF(smtplib.SMTP):
+    def __init__(self, host='', port=0, local_hostname=None,
+                 timeout=socket._GLOBAL_DEFAULT_TIMEOUT,
+                 source_address=None):
+        """Initialize a new instance.
+
+        If specified, `host` is the name of the remote host to which to
+        connect.  If specified, `port` specifies the port to which to connect.
+        By default, smtplib.SMTP_PORT is used.  If a host is specified the
+        connect method is called, and if it returns anything other than a
+        success code an SMTPConnectError is raised.  If specified,
+        `local_hostname` is used as the FQDN of the local host in the HELO/EHLO
+        command.  Otherwise, the local hostname is found using
+        socket.getfqdn(). The `source_address` parameter takes a 2-tuple (host,
+        port) for the socket to bind to as its source address before
+        connecting. If the host is '' and port is 0, the OS default behavior
+        will be used.
+
+        """
+        self._host = host
+        self.timeout = timeout
+        self.esmtp_features = {}
+        self.command_encoding = 'ascii'
+        self.source_address = source_address
+        self._auth_challenge_count = 0
+
+        if host:
+            (code, msg) = self.connect(host, port)
+            if code != 220:
+                self.close()
+                raise smtplib.SMTPConnectError(code, msg)
+
+    def connect(self, host='localhost', port=0, source_address=None):
+        """Connect to a host on a given port.
+
+        If the hostname ends with a colon (`:') followed by a number, and
+        there is no port specified, that suffix will be stripped off and the
+        number interpreted as the port number to use. When using an IPv6 literal
+        address, the port must be passed as a seperate parameter.
+
+        Note: This method is automatically invoked by __init__, if a host is
+        specified during instantiation.
+
+        """
+
+        if source_address:
+            self.source_address = source_address
+
+        if not port and (host.find(':') == host.rfind(':')):
+            i = host.rfind(':')
+            if i >= 0:
+                host, port = host[:i], host[i + 1:]
+                try:
+                    port = int(port)
+                except ValueError:
+                    raise OSError("nonnumeric port")
+        if not port:
+            port = self.default_port
+        sys.audit("smtplib.connect", self, host, port)
+        self.sock = self._get_socket(host, port, self.timeout)
+        self.file = None
+        (code, msg) = self.getreply()
+        if self.debuglevel > 0:
+            self._print_debug('connect:', repr(msg))
+
+        if self.local_hostname is None:
+            # RFC 2821 says we should use the fqdn in the EHLO/HELO verb, and
+            # if that can't be calculated, that we should use a domain literal
+            # instead (essentially an encoded IP address like [A.B.C.D]) or
+            # [IPv6:XXXX:XXXX:XXXX:XXXX:XXXX:XXXX:XXXX:XXXX].
+            try:
+                name = socket.getnameinfo(self.sock.getsockname(), 0)
+                if self.sock.family == socket.AF_INET:
+                    self.local_hostname = '[%s]' % name[0]
+                elif self.sock_family == socket.AF_INET6:
+                    self.local_hostname = '[IPv6:%s]' % name[0]
+                else:
+                    if self.debuglevel > 0:
+                        print>>sys.stderr, "Unknown address family in SMTP socket"
+            except socket.gaierror as e:
+                if self.debuglevel > 0:
+                    print>>sys.stderr, "Error while resolving hostname: ", e.string()
+                pass
+        return (code, msg)
 
 
 def run_test(_, langCode, url):
@@ -122,7 +212,7 @@ def run_test(_, langCode, url):
     for ip_address in ipv4_servers:
         try:
             # print('SMTP CONNECT:', ip_address)
-            with smtplib.SMTP(ip_address, port=25, timeout=request_timeout) as smtp:
+            with SMTP_WEBPERF(ip_address, port=25, timeout=request_timeout) as smtp:
                 ipv4_servers_operational.append(ip_address)
                 smtp.starttls()
                 ipv4_servers_operational_starttls.append(ip_address)
@@ -139,7 +229,7 @@ def run_test(_, langCode, url):
     for ip_address in ipv6_servers:
         try:
             # print('SMTP CONNECT:', ip_address)
-            with smtplib.SMTP(ip_address, port=25, timeout=request_timeout) as smtp:
+            with SMTP_WEBPERF(ip_address, port=25, timeout=request_timeout) as smtp:
                 ipv6_servers_operational.append(ip_address)
                 smtp.starttls()
                 ipv6_servers_operational_starttls.append(ip_address)

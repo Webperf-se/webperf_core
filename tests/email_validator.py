@@ -300,6 +300,27 @@ def run_test(_, langCode, url):
     # 1.5 - Check PKI
     # 1.6 - Check DNSSEC
     # 1.7 - Check DANE
+    # 1.8 - Check MTA-STS policy
+    has_mta_sts_policy = False
+    # https://www.rfc-editor.org/rfc/rfc8461#section-3.1
+    mta_sts_results = dns_lookup('_mta-sts.' + hostname, 'TXT')
+    for result in mta_sts_results:
+        if 'v=STSv1;' in result:
+            has_mta_sts_policy = True
+
+    has_mta_sts_records_rating = Rating(_, review_show_improvements_only)
+    if has_mta_sts_policy:
+        has_mta_sts_records_rating.set_overall(5.0)
+        has_mta_sts_records_rating.set_standards(
+            5.0, _local('TEXT_REVIEW_MT_STS_SUPPORT'))
+    else:
+        has_mta_sts_records_rating.set_overall(1.0)
+        has_mta_sts_records_rating.set_standards(
+            1.0, _local('TEXT_REVIEW_MT_STS_NO_SUPPORT'))
+    rating += has_mta_sts_records_rating
+
+    # https://www.rfc-editor.org/rfc/rfc8461#section-3.2
+
     # 2.0 - Check GDPR for all IP-adresses
     # for ip_address in email_servers:
 

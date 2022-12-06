@@ -81,11 +81,22 @@ class SMTP_WEBPERF(smtplib.SMTP):
         if not port:
             port = self.default_port
         sys.audit("smtplib.connect", self, host, port)
+
+        print("_GET_SOCKET:", host, port)
+
         self.sock = self._get_socket(host, port, self.timeout)
         self.file = None
+
+        print("GETREPLY")
+
         (code, msg) = self.getreply()
+
+        print("DEBUGLEVEL", self.debuglevel)
+
         if self.debuglevel > 0:
             self._print_debug('connect:', repr(msg))
+
+        print("LOCAL_HOSTNAME", self.local_hostname)
 
         if self.local_hostname is None:
             # RFC 2821 says we should use the fqdn in the EHLO/HELO verb, and
@@ -213,7 +224,7 @@ def run_test(_, langCode, url):
     for ip_address in ipv4_servers:
         try:
             # print('SMTP CONNECT:', ip_address)
-            with SMTP_WEBPERF(ip_address, port=25, timeout=request_timeout) as smtp:
+            with SMTP_WEBPERF(ip_address, port=25, local_hostname=None, timeout=request_timeout) as smtp:
                 ipv4_servers_operational.append(ip_address)
                 smtp.starttls()
                 ipv4_servers_operational_starttls.append(ip_address)
@@ -230,7 +241,7 @@ def run_test(_, langCode, url):
     for ip_address in ipv6_servers:
         try:
             # print('SMTP CONNECT:', ip_address)
-            with SMTP_WEBPERF(ip_address, port=25, timeout=request_timeout) as smtp:
+            with SMTP_WEBPERF(ip_address, port=25, local_hostname=None, timeout=request_timeout) as smtp:
                 ipv6_servers_operational.append(ip_address)
                 smtp.starttls()
                 ipv6_servers_operational_starttls.append(ip_address)

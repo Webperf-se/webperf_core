@@ -9,7 +9,7 @@ import datetime
 import urllib
 import config
 from models import Rating
-from tests.utils import dns_lookup
+from tests.utils import dns_lookup, httpRequestGetContent
 import gettext
 _local = gettext.gettext
 
@@ -142,7 +142,7 @@ def run_test(_, langCode, url):
 
     # 0.0 - Preflight (Will probably resolve 98% of questions from people trying this test themself)
     # 0.1 - Check for allowed connection over port 25 (most consumer ISP don't allow this)
-    support_port25 = True
+    support_port25 = False
     # 0.2 - Check for allowed IPv6 support (GitHub Actions doesn't support it on network lever on the time of writing this)
     support_IPv6 = False
 
@@ -167,8 +167,8 @@ def run_test(_, langCode, url):
     # 1.7 - Check DANE
     # 1.8 - Check MTA-STS policy
     rating = Validate_MTA_STS_Policy(_, rating, _local, hostname)
-
-    # https://www.rfc-editor.org/rfc/rfc8461#section-3.2
+    # 1.9 - Check SPF policy
+    rating = Validate_SPF_Policy(_, rating, _local, hostname)
 
     # 2.0 - Check GDPR for all IP-adresses
     # for ip_address in email_servers:
@@ -211,16 +211,93 @@ def Validate_MTA_STS_Policy(_, rating, _local, hostname):
     if has_mta_sts_policy:
         has_mta_sts_records_rating.set_overall(5.0)
         has_mta_sts_records_rating.set_integrity_and_security(
-            5.0, _local('TEXT_REVIEW_MT_STS_SUPPORT'))
+            5.0, _local('TEXT_REVIEW_MT_STS_DNS_RECORD_SUPPORT'))
         has_mta_sts_records_rating.set_standards(
-            5.0, _local('TEXT_REVIEW_MT_STS_SUPPORT'))
+            5.0, _local('TEXT_REVIEW_MT_STS_DNS_RECORD_SUPPORT'))
     else:
         has_mta_sts_records_rating.set_overall(1.0)
         has_mta_sts_records_rating.set_integrity_and_security(
-            2.5, _local('TEXT_REVIEW_MT_STS_NO_SUPPORT'))
+            2.5, _local('TEXT_REVIEW_MT_STS_DNS_RECORD_NO_SUPPORT'))
         has_mta_sts_records_rating.set_standards(
-            1.0, _local('TEXT_REVIEW_MT_STS_NO_SUPPORT'))
+            1.0, _local('TEXT_REVIEW_MT_STS_DNS_RECORD_NO_SUPPORT'))
     rating += has_mta_sts_records_rating
+
+    # https://mta-sts.example.com/.well-known/mta-sts.txt
+    content = httpRequestGetContent(
+        "https://mta-sts.{0}/.well-known/mta-sts.txt".format(hostname))
+
+    has_mta_sts_txt_rating = Rating(_, review_show_improvements_only)
+    # https://www.rfc-editor.org/rfc/rfc8461#section-3.2
+    if 'STSv1' in content:
+        has_mta_sts_txt_rating.set_overall(5.0)
+        has_mta_sts_txt_rating.set_integrity_and_security(
+            5.0, _local('TEXT_REVIEW_MT_STS_TXT_SUPPORT'))
+        has_mta_sts_txt_rating.set_standards(
+            5.0, _local('TEXT_REVIEW_MT_STS_TXT_SUPPORT'))
+    else:
+        has_mta_sts_txt_rating.set_overall(1.0)
+        has_mta_sts_txt_rating.set_integrity_and_security(
+            2.5, _local('TEXT_REVIEW_MT_STS_TXT_NO_SUPPORT'))
+        has_mta_sts_txt_rating.set_standards(
+            1.0, _local('TEXT_REVIEW_MT_STS_TXT_NO_SUPPORT'))
+    rating += has_mta_sts_txt_rating
+    return rating
+
+
+def Validate_SPF_Policy(_, rating, _local, hostname):
+    has_spf_policy = False
+    # https://proton.me/support/anti-spoofing-custom-domain
+    spf_results = dns_lookup(hostname, 'TXT')
+    spf_content = ''
+    for result in spf_results:
+        if 'v=spf1 ' in result:
+            has_spf_policy = True
+            spf_content = result
+
+    has_spf_records_rating = Rating(_, review_show_improvements_only)
+    if has_spf_policy:
+        has_spf_records_rating.set_overall(5.0)
+        has_spf_records_rating.set_integrity_and_security(
+            5.0, _local('TEXT_REVIEW_SPF_DNS_RECORD_SUPPORT'))
+        has_spf_records_rating.set_standards(
+            5.0, _local('TEXT_REVIEW_SPF_DNS_RECORD_SUPPORT'))
+    else:
+        has_spf_records_rating.set_overall(1.0)
+        has_spf_records_rating.set_integrity_and_security(
+            2.5, _local('TEXT_REVIEW_SPF_DNS_RECORD_NO_SUPPORT'))
+        has_spf_records_rating.set_standards(
+            1.0, _local('TEXT_REVIEW_SPF_DNS_RECORD_NO_SUPPORT'))
+    rating += has_spf_records_rating
+
+    if has_spf_policy:
+        spf_sections = spf_content.split(' ')
+        print('before del', spf_sections)
+        del spf_sections[0]
+        print('after del', spf_sections)
+
+        ipv4_servers = list()
+        ipv6_servers = list()
+        for section in spf_sections:
+            print('section:', section)
+            if section.startswith('ip4:'):
+                ipv4_servers.append(section[4:])
+            elif section.startswith('ip6:'):
+                ipv6_servers.append(section[4:])
+            elif section.startswith('include:'):
+                # Add support for include here
+                a = 1
+            elif section.startswith('~all'):
+                # add support for SoftFail
+                b = 1
+            elif section.startswith('-all'):
+                # add support for HardFail
+                c = 1
+
+        print('ipv4:', ipv4_servers)
+        print('ipv6:', ipv6_servers)
+
+        # warn IF any servers in MX record is not in this record
+
     return rating
 
 

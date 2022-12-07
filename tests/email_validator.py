@@ -142,10 +142,173 @@ def run_test(_, langCode, url):
 
     # 0.0 - Preflight (Will probably resolve 98% of questions from people trying this test themself)
     # 0.1 - Check for allowed connection over port 25 (most consumer ISP don't allow this)
+    support_port25 = True
     # 0.2 - Check for allowed IPv6 support (GitHub Actions doesn't support it on network lever on the time of writing this)
+    support_IPv6 = False
 
     # 1 - Get Email servers
     # dns_lookup
+    rating, ipv4_servers, ipv6_servers = Validate_MX_Records(
+        _, rating, result_dict, _local, hostname)
+
+    # 1.2 - Check operational
+    if support_port25:
+        rating = Validate_IPv4_Operation_Status(
+            _, rating, _local, ipv4_servers)
+
+    # 1.2 - Check operational
+    if support_port25 and support_IPv6:
+        rating = Validate_IPv6_Operation_Status(
+            _, rating, _local, ipv6_servers)
+
+    # 1.4 - Check TLS
+    # 1.5 - Check PKI
+    # 1.6 - Check DNSSEC
+    # 1.7 - Check DANE
+    # 1.8 - Check MTA-STS policy
+    rating = Validate_MTA_STS_Policy(_, rating, _local, hostname)
+
+    # https://www.rfc-editor.org/rfc/rfc8461#section-3.2
+
+    # 2.0 - Check GDPR for all IP-adresses
+    # for ip_address in email_servers:
+
+    # nof_checks = 0
+    # check_url = True
+
+    # while check_url and nof_checks < 10:
+    #     checked_url_rating = validate_url(url, _, _local)
+
+    #     redirect_result = has_redirect(url)
+    #     check_url = redirect_result[0]
+    #     url = redirect_result[1]
+    #     nof_checks += 1
+
+    #     rating += checked_url_rating
+
+    # if nof_checks > 1:
+    #     rating.overall_review += _local('TEXT_REVIEW_SCORE_IS_DIVIDED').format(
+    #         nof_checks)
+
+    # if len(review) == 0:
+    #    review = _('TEXT_REVIEW_NO_REMARKS')
+
+    print(_('TEXT_TEST_END').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+    return (rating, result_dict)
+
+
+def Validate_MTA_STS_Policy(_, rating, _local, hostname):
+    has_mta_sts_policy = False
+    # https://www.rfc-editor.org/rfc/rfc8461#section-3.1
+    mta_sts_results = dns_lookup('_mta-sts.' + hostname, 'TXT')
+    for result in mta_sts_results:
+        if 'v=STSv1;' in result:
+            has_mta_sts_policy = True
+
+    has_mta_sts_records_rating = Rating(_, review_show_improvements_only)
+    if has_mta_sts_policy:
+        has_mta_sts_records_rating.set_overall(5.0)
+        has_mta_sts_records_rating.set_integrity_and_security(
+            5.0, _local('TEXT_REVIEW_MT_STS_SUPPORT'))
+        has_mta_sts_records_rating.set_standards(
+            5.0, _local('TEXT_REVIEW_MT_STS_SUPPORT'))
+    else:
+        has_mta_sts_records_rating.set_overall(1.0)
+        has_mta_sts_records_rating.set_integrity_and_security(
+            2.5, _local('TEXT_REVIEW_MT_STS_NO_SUPPORT'))
+        has_mta_sts_records_rating.set_standards(
+            1.0, _local('TEXT_REVIEW_MT_STS_NO_SUPPORT'))
+    rating += has_mta_sts_records_rating
+    return rating
+
+
+def Validate_IPv6_Operation_Status(_, rating, _local, ipv6_servers):
+    ipv6_servers_operational = list()
+    # 1.3 - Check Start TLS
+    ipv6_servers_operational_starttls = list()
+    for ip_address in ipv6_servers:
+        try:
+            # print('SMTP CONNECT:', ip_address)
+            with SMTP_WEBPERF(ip_address, port=25, local_hostname=None, timeout=request_timeout) as smtp:
+                ipv6_servers_operational.append(ip_address)
+                smtp.starttls()
+                ipv6_servers_operational_starttls.append(ip_address)
+                # print('SMTP SUCCESS')
+        except smtplib.SMTPConnectError as smtp_error:
+            print('SMTP ERROR: ', smtp_error)
+        except Exception as error:
+            # If you get this error on all sites you test against, please verfiy that your provider is not blocking port 25.
+            print('GENERAL ERROR: ', error)
+
+    ipv6_operational_rating = Rating(_, review_show_improvements_only)
+    if len(ipv6_servers_operational) > 0 and len(ipv6_servers) == len(ipv6_servers_operational):
+        ipv6_operational_rating.set_overall(5.0)
+        ipv6_operational_rating.set_standards(
+            5.0, _local('TEXT_REVIEW_IPV6_OPERATION_SUPPORT'))
+    else:
+        ipv6_operational_rating.set_overall(1.0)
+        ipv6_operational_rating.set_standards(
+            1.0, _local('TEXT_REVIEW_IPV6_OPERATION_NO_SUPPORT'))
+    rating += ipv6_operational_rating
+
+    ipv6_operational_rating = Rating(_, review_show_improvements_only)
+    if len(ipv6_servers_operational_starttls) > 0 and len(ipv6_servers) == len(ipv6_servers_operational_starttls):
+        ipv6_operational_rating.set_overall(5.0)
+        ipv6_operational_rating.set_standards(
+            5.0, _local('TEXT_REVIEW_IPV6_OPERATION_STARTTLS_SUPPORT'))
+    else:
+        ipv6_operational_rating.set_overall(1.0)
+        ipv6_operational_rating.set_standards(
+            1.0, _local('TEXT_REVIEW_IPV6_OPERATION_STARTTLS_NO_SUPPORT'))
+    rating += ipv6_operational_rating
+    return rating
+
+
+def Validate_IPv4_Operation_Status(_, rating, _local, ipv4_servers):
+    ipv4_servers_operational = list()
+    # 1.3 - Check Start TLS
+    ipv4_servers_operational_starttls = list()
+    for ip_address in ipv4_servers:
+        try:
+            # print('SMTP CONNECT:', ip_address)
+            with SMTP_WEBPERF(ip_address, port=25, local_hostname=None, timeout=request_timeout) as smtp:
+                ipv4_servers_operational.append(ip_address)
+                smtp.starttls()
+                ipv4_servers_operational_starttls.append(ip_address)
+                # print('SMTP SUCCESS')
+        except smtplib.SMTPConnectError as smtp_error:
+            print('SMTP ERROR: ', smtp_error)
+        except Exception as error:
+            # If you get this error on all sites you test against, please verfiy that your provider is not blocking port 25.
+            print('GENERAL ERROR: ', error)
+
+    ipv4_operational_rating = Rating(_, review_show_improvements_only)
+    if len(ipv4_servers_operational) > 0 and len(ipv4_servers) == len(ipv4_servers_operational):
+        ipv4_operational_rating.set_overall(5.0)
+        ipv4_operational_rating.set_standards(
+            5.0, _local('TEXT_REVIEW_IPV4_OPERATION_SUPPORT'))
+    else:
+        ipv4_operational_rating.set_overall(1.0)
+        ipv4_operational_rating.set_standards(
+            1.0, _local('TEXT_REVIEW_IPV4_OPERATION_NO_SUPPORT'))
+    rating += ipv4_operational_rating
+
+    ipv4_operational_rating = Rating(_, review_show_improvements_only)
+    if len(ipv4_servers_operational_starttls) > 0 and len(ipv4_servers) == len(ipv4_servers_operational_starttls):
+        ipv4_operational_rating.set_overall(5.0)
+        ipv4_operational_rating.set_standards(
+            5.0, _local('TEXT_REVIEW_IPV4_OPERATION_STARTTLS_SUPPORT'))
+    else:
+        ipv4_operational_rating.set_overall(1.0)
+        ipv4_operational_rating.set_standards(
+            1.0, _local('TEXT_REVIEW_IPV4_OPERATION_STARTTLS_NO_SUPPORT'))
+    rating += ipv4_operational_rating
+    return rating
+
+
+def Validate_MX_Records(_, rating, result_dict, _local, hostname):
     email_results = dns_lookup(hostname, "MX")
     has_mx_records_rating = Rating(_, review_show_improvements_only)
     if len(email_results) > 0:
@@ -179,11 +342,6 @@ def run_test(_, langCode, url):
 
     email_servers.extend(ipv4_servers)
     email_servers.extend(ipv6_servers)
-
-    # add data to result of test
-    result_dict["mx-addresses"] = email_entries
-    result_dict["mx-ipv4-servers"] = ipv4_servers
-    result_dict["mx-ipv6-servers"] = ipv6_servers
 
     nof_ipv4_servers = len(ipv4_servers)
     nof_ipv4_rating = Rating(_, review_show_improvements_only)
@@ -228,138 +386,9 @@ def run_test(_, langCode, url):
             1.0, _local('TEXT_REVIEW_IPV6_NO_SUPPORT'))
     rating += nof_ipv6_rating
 
-    # 1.2 - Check operational
-    ipv4_servers_operational = list()
-    # 1.3 - Check Start TLS
-    ipv4_servers_operational_starttls = list()
-    for ip_address in ipv4_servers:
-        try:
-            # print('SMTP CONNECT:', ip_address)
-            with SMTP_WEBPERF(ip_address, port=25, local_hostname=None, timeout=request_timeout) as smtp:
-                ipv4_servers_operational.append(ip_address)
-                smtp.starttls()
-                ipv4_servers_operational_starttls.append(ip_address)
-                # print('SMTP SUCCESS')
-        except smtplib.SMTPConnectError as smtp_error:
-            print('SMTP ERROR: ', smtp_error)
-        except Exception as error:
-            # If you get this error on all sites you test against, please verfiy that your provider is not blocking port 25.
-            print('GENERAL ERROR: ', error)
-    # 1.2 - Check operational
-    ipv6_servers_operational = list()
-    # 1.3 - Check Start TLS
-    ipv6_servers_operational_starttls = list()
-    for ip_address in ipv6_servers:
-        try:
-            # print('SMTP CONNECT:', ip_address)
-            with SMTP_WEBPERF(ip_address, port=25, local_hostname=None, timeout=request_timeout) as smtp:
-                ipv6_servers_operational.append(ip_address)
-                smtp.starttls()
-                ipv6_servers_operational_starttls.append(ip_address)
-                # print('SMTP SUCCESS')
-        except smtplib.SMTPConnectError as smtp_error:
-            print('SMTP ERROR: ', smtp_error)
-        except Exception as error:
-            # If you get this error on all sites you test against, please verfiy that your provider is not blocking port 25.
-            print('GENERAL ERROR: ', error)
+    # add data to result of test
+    result_dict["mx-addresses"] = email_entries
+    result_dict["mx-ipv4-servers"] = ipv4_servers
+    result_dict["mx-ipv6-servers"] = ipv6_servers
 
-    ipv4_operational_rating = Rating(_, review_show_improvements_only)
-    if len(ipv4_servers_operational) > 0 and len(ipv4_servers) == len(ipv4_servers_operational):
-        ipv4_operational_rating.set_overall(5.0)
-        ipv4_operational_rating.set_standards(
-            5.0, _local('TEXT_REVIEW_IPV4_OPERATION_SUPPORT'))
-    else:
-        ipv4_operational_rating.set_overall(1.0)
-        ipv4_operational_rating.set_standards(
-            1.0, _local('TEXT_REVIEW_IPV4_OPERATION_NO_SUPPORT'))
-    rating += ipv4_operational_rating
-
-    ipv6_operational_rating = Rating(_, review_show_improvements_only)
-    if len(ipv6_servers_operational) > 0 and len(ipv6_servers) == len(ipv6_servers_operational):
-        ipv6_operational_rating.set_overall(5.0)
-        ipv6_operational_rating.set_standards(
-            5.0, _local('TEXT_REVIEW_IPV6_OPERATION_SUPPORT'))
-    else:
-        ipv6_operational_rating.set_overall(1.0)
-        ipv6_operational_rating.set_standards(
-            1.0, _local('TEXT_REVIEW_IPV6_OPERATION_NO_SUPPORT'))
-    rating += ipv6_operational_rating
-
-    ipv4_operational_rating = Rating(_, review_show_improvements_only)
-    if len(ipv4_servers_operational_starttls) > 0 and len(ipv4_servers) == len(ipv4_servers_operational_starttls):
-        ipv4_operational_rating.set_overall(5.0)
-        ipv4_operational_rating.set_standards(
-            5.0, _local('TEXT_REVIEW_IPV4_OPERATION_STARTTLS_SUPPORT'))
-    else:
-        ipv4_operational_rating.set_overall(1.0)
-        ipv4_operational_rating.set_standards(
-            1.0, _local('TEXT_REVIEW_IPV4_OPERATION_STARTTLS_NO_SUPPORT'))
-    rating += ipv4_operational_rating
-
-    ipv6_operational_rating = Rating(_, review_show_improvements_only)
-    if len(ipv6_servers_operational_starttls) > 0 and len(ipv6_servers) == len(ipv6_servers_operational_starttls):
-        ipv6_operational_rating.set_overall(5.0)
-        ipv6_operational_rating.set_standards(
-            5.0, _local('TEXT_REVIEW_IPV6_OPERATION_STARTTLS_SUPPORT'))
-    else:
-        ipv6_operational_rating.set_overall(1.0)
-        ipv6_operational_rating.set_standards(
-            1.0, _local('TEXT_REVIEW_IPV6_OPERATION_STARTTLS_NO_SUPPORT'))
-    rating += ipv6_operational_rating
-
-    # 1.4 - Check TLS
-    # 1.5 - Check PKI
-    # 1.6 - Check DNSSEC
-    # 1.7 - Check DANE
-    # 1.8 - Check MTA-STS policy
-    has_mta_sts_policy = False
-    # https://www.rfc-editor.org/rfc/rfc8461#section-3.1
-    mta_sts_results = dns_lookup('_mta-sts.' + hostname, 'TXT')
-    for result in mta_sts_results:
-        if 'v=STSv1;' in result:
-            has_mta_sts_policy = True
-
-    has_mta_sts_records_rating = Rating(_, review_show_improvements_only)
-    if has_mta_sts_policy:
-        has_mta_sts_records_rating.set_overall(5.0)
-        has_mta_sts_records_rating.set_integrity_and_security(
-            5.0, _local('TEXT_REVIEW_MT_STS_SUPPORT'))
-        has_mta_sts_records_rating.set_standards(
-            5.0, _local('TEXT_REVIEW_MT_STS_SUPPORT'))
-    else:
-        has_mta_sts_records_rating.set_overall(1.0)
-        has_mta_sts_records_rating.set_integrity_and_security(
-            2.5, _local('TEXT_REVIEW_MT_STS_NO_SUPPORT'))
-        has_mta_sts_records_rating.set_standards(
-            1.0, _local('TEXT_REVIEW_MT_STS_NO_SUPPORT'))
-    rating += has_mta_sts_records_rating
-
-    # https://www.rfc-editor.org/rfc/rfc8461#section-3.2
-
-    # 2.0 - Check GDPR for all IP-adresses
-    # for ip_address in email_servers:
-
-    # nof_checks = 0
-    # check_url = True
-
-    # while check_url and nof_checks < 10:
-    #     checked_url_rating = validate_url(url, _, _local)
-
-    #     redirect_result = has_redirect(url)
-    #     check_url = redirect_result[0]
-    #     url = redirect_result[1]
-    #     nof_checks += 1
-
-    #     rating += checked_url_rating
-
-    # if nof_checks > 1:
-    #     rating.overall_review += _local('TEXT_REVIEW_SCORE_IS_DIVIDED').format(
-    #         nof_checks)
-
-    # if len(review) == 0:
-    #    review = _('TEXT_REVIEW_NO_REMARKS')
-
-    print(_('TEXT_TEST_END').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
-
-    return (rating, result_dict)
+    return rating, ipv4_servers, ipv6_servers

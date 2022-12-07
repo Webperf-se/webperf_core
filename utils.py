@@ -71,7 +71,7 @@ def test(_, langCode, site, test_type=None, show_reviews=False,):
 
             json_data = ''
             try:
-                json_data = the_test_result[2]
+                json_data = the_test_result[1]
             except:
                 json_data = ''
                 pass

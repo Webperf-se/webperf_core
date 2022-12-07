@@ -140,6 +140,10 @@ def run_test(_, langCode, url):
     o = urllib.parse.urlparse(url)
     hostname = o.hostname
 
+    # 0.0 - Preflight (Will probably resolve 98% of questions from people trying this test themself)
+    # 0.1 - Check for allowed connection over port 25 (most consumer ISP don't allow this)
+    # 0.2 - Check for allowed IPv6 support (GitHub Actions doesn't support it on network lever on the time of writing this)
+
     # 1 - Get Email servers
     # dns_lookup
     email_results = dns_lookup(hostname, "MX")
@@ -158,11 +162,13 @@ def run_test(_, langCode, url):
     # 1.1 - Check IPv4 and IPv6 support
     ipv4_servers = list()
     ipv6_servers = list()
+    email_entries = list()
 
     for email_result in email_results:
         # result is in format "<priority> <domain address/ip>"
         server_address = email_result.split(' ')[1]
 
+        email_entries.append(server_address)
         ipv_4 = dns_lookup(server_address, "A")
         ipv_6 = dns_lookup(server_address, "AAAA")
 
@@ -173,6 +179,11 @@ def run_test(_, langCode, url):
 
     email_servers.extend(ipv4_servers)
     email_servers.extend(ipv6_servers)
+
+    # add data to result of test
+    result_dict["mx-addresses"] = email_entries
+    result_dict["mx-ipv4-servers"] = ipv4_servers
+    result_dict["mx-ipv6-servers"] = ipv6_servers
 
     nof_ipv4_servers = len(ipv4_servers)
     nof_ipv4_rating = Rating(_, review_show_improvements_only)
@@ -311,10 +322,14 @@ def run_test(_, langCode, url):
     has_mta_sts_records_rating = Rating(_, review_show_improvements_only)
     if has_mta_sts_policy:
         has_mta_sts_records_rating.set_overall(5.0)
+        has_mta_sts_records_rating.set_integrity_and_security(
+            5.0, _local('TEXT_REVIEW_MT_STS_SUPPORT'))
         has_mta_sts_records_rating.set_standards(
             5.0, _local('TEXT_REVIEW_MT_STS_SUPPORT'))
     else:
         has_mta_sts_records_rating.set_overall(1.0)
+        has_mta_sts_records_rating.set_integrity_and_security(
+            2.5, _local('TEXT_REVIEW_MT_STS_NO_SUPPORT'))
         has_mta_sts_records_rating.set_standards(
             1.0, _local('TEXT_REVIEW_MT_STS_NO_SUPPORT'))
     rating += has_mta_sts_records_rating

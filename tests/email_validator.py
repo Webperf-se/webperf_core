@@ -2,6 +2,7 @@
 import smtplib
 import datetime
 import socket
+import ipaddress
 import sys
 import urllib.parse
 import datetime
@@ -140,6 +141,10 @@ def run_test(_, langCode, url):
     o = urllib.parse.urlparse(url)
     hostname = o.hostname
 
+    # We must take in consideration "www." subdomains...
+    if hostname.startswith('www.'):
+        hostname = hostname[4:]
+
     # 0.0 - Preflight (Will probably resolve 98% of questions from people trying this test themself)
     # 0.1 - Check for allowed connection over port 25 (most consumer ISP don't allow this)
     support_port25 = False
@@ -168,30 +173,10 @@ def run_test(_, langCode, url):
     # 1.8 - Check MTA-STS policy
     rating = Validate_MTA_STS_Policy(_, rating, _local, hostname)
     # 1.9 - Check SPF policy
-    rating = Validate_SPF_Policy(_, rating, _local, hostname)
+    rating, spf_lookup_count = Validate_SPF_Policy(
+        _, rating, _local, hostname)
 
     # 2.0 - Check GDPR for all IP-adresses
-    # for ip_address in email_servers:
-
-    # nof_checks = 0
-    # check_url = True
-
-    # while check_url and nof_checks < 10:
-    #     checked_url_rating = validate_url(url, _, _local)
-
-    #     redirect_result = has_redirect(url)
-    #     check_url = redirect_result[0]
-    #     url = redirect_result[1]
-    #     nof_checks += 1
-
-    #     rating += checked_url_rating
-
-    # if nof_checks > 1:
-    #     rating.overall_review += _local('TEXT_REVIEW_SCORE_IS_DIVIDED').format(
-    #         nof_checks)
-
-    # if len(review) == 0:
-    #    review = _('TEXT_REVIEW_NO_REMARKS')
 
     print(_('TEXT_TEST_END').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
@@ -244,8 +229,21 @@ def Validate_MTA_STS_Policy(_, rating, _local, hostname):
     return rating
 
 
-def Validate_SPF_Policy(_, rating, _local, hostname):
+def Validate_SPF_Policy(_, rating, _local, hostname, lookup_count=1):
+
     has_spf_policy = False
+
+    if lookup_count > 10:
+        to_many_spf_dns_lookups_rating = Rating(
+            _, review_show_improvements_only)
+        to_many_spf_dns_lookups_rating.set_overall(1.0)
+        to_many_spf_dns_lookups_rating.set_standards(
+            1.0, _local('TEXT_REVIEW_SPF_TO_MANY_DNS_LOOKUPS'))
+        to_many_spf_dns_lookups_rating.set_performance(
+            4.0, _local('TEXT_REVIEW_SPF_TO_MANY_DNS_LOOKUPS'))
+        rating += to_many_spf_dns_lookups_rating
+        return rating, lookup_count
+
     # https://proton.me/support/anti-spoofing-custom-domain
     spf_results = dns_lookup(hostname, 'TXT')
     spf_content = ''
@@ -264,41 +262,91 @@ def Validate_SPF_Policy(_, rating, _local, hostname):
     else:
         has_spf_records_rating.set_overall(1.0)
         has_spf_records_rating.set_integrity_and_security(
-            2.5, _local('TEXT_REVIEW_SPF_DNS_RECORD_NO_SUPPORT'))
+            1.0, _local('TEXT_REVIEW_SPF_DNS_RECORD_NO_SUPPORT'))
         has_spf_records_rating.set_standards(
             1.0, _local('TEXT_REVIEW_SPF_DNS_RECORD_NO_SUPPORT'))
     rating += has_spf_records_rating
 
     if has_spf_policy:
-        spf_sections = spf_content.split(' ')
-        print('before del', spf_sections)
-        del spf_sections[0]
-        print('after del', spf_sections)
+        try:
+            spf_sections = spf_content.split(' ')
 
-        ipv4_servers = list()
-        ipv6_servers = list()
-        for section in spf_sections:
-            print('section:', section)
-            if section.startswith('ip4:'):
-                ipv4_servers.append(section[4:])
-            elif section.startswith('ip6:'):
-                ipv6_servers.append(section[4:])
-            elif section.startswith('include:'):
-                # Add support for include here
-                a = 1
-            elif section.startswith('~all'):
-                # add support for SoftFail
-                b = 1
-            elif section.startswith('-all'):
-                # add support for HardFail
-                c = 1
+            # http://www.open-spf.org/SPF_Record_Syntax/
+            for section in spf_sections:
+                # print('section:', section)
+                if section.startswith('ip4:'):
+                    data = section[4:]
+                    if '/' in data:
+                        a = 1
+                        # TODO: support for ipv4 network mask
+                        #     if ipaddress.IPv4Network(data, False).overlaps(
+                        #             ipaddress.IPv4Network(blacklisted_ipaddress)):
+                        # print('IPv4Network:', data,
+                        #       blacklisted_ipaddress)
+                    else:
+                        a = 1
+                elif section.startswith('ip6:'):
+                    data = section[4:]
+                    if '/' in data:
+                        a = 1
+                        # TODO: support for ipv6 network mask
+                        # if ipaddress.IPv6Network(data, False).overlaps(
+                        #         ipaddress.IPv6Network(blacklisted_ipaddress)):
+                        #     print('IPv6Network:', data,
+                        #           blacklisted_ipaddress)
+                    else:
+                        a = 1
+                elif section.startswith('include:') or section.startswith('+include:'):
+                    spf_domain = section[8:]
+                    rating, lookup_count = Validate_SPF_Policy(
+                        _, rating, _local, spf_domain, lookup_count + 1)
+                elif section.startswith('?all'):
+                    # TODO: What do this do and should we rate on it?
+                    a = 1
+                elif section.startswith('~all'):
+                    # add support for SoftFail
+                    has_spf_dns_record_softfail_records_rating = Rating(
+                        _, review_show_improvements_only)
+                    has_spf_dns_record_softfail_records_rating.set_overall(5.0)
+                    has_spf_dns_record_softfail_records_rating.set_integrity_and_security(
+                        4.0, _local('TEXT_REVIEW_SPF_DNS_SOFTFAIL_RECORD'))
+                    has_spf_dns_record_softfail_records_rating.set_standards(
+                        5.0, _local('TEXT_REVIEW_SPF_DNS_SOFTFAIL_RECORD'))
+                    rating += has_spf_dns_record_softfail_records_rating
+                elif section.startswith('-all'):
+                    # add support for HardFail
+                    has_spf_dns_record_hardfail_records_rating = Rating(
+                        _, review_show_improvements_only)
+                    has_spf_dns_record_hardfail_records_rating.set_overall(5.0)
+                    has_spf_dns_record_hardfail_records_rating.set_integrity_and_security(
+                        5.0, _local('TEXT_REVIEW_SPF_DNS_HARDFAIL_RECORD'))
+                    has_spf_dns_record_hardfail_records_rating.set_standards(
+                        5.0, _local('TEXT_REVIEW_SPF_DNS_HARDFAIL_RECORD'))
+                    rating += has_spf_dns_record_hardfail_records_rating
+                elif section.startswith('+all'):
+                    # basicly whitelist everything... Big fail
+                    has_spf_ignore_records_rating = Rating(
+                        _, review_show_improvements_only)
+                    has_spf_ignore_records_rating.set_overall(2.0)
+                    has_spf_ignore_records_rating.set_integrity_and_security(
+                        1.0, _local('TEXT_REVIEW_SPF_DNS_IGNORE_RECORD_NO_SUPPORT'))
+                    has_spf_ignore_records_rating.set_standards(
+                        2.5, _local('TEXT_REVIEW_SPF_DNS_IGNORE_RECORD_NO_SUPPORT'))
+                    rating += has_spf_ignore_records_rating
+                elif section.startswith('v=spf1'):
+                    c = 1
+                elif section.startswith('mx') or section.startswith('+mx'):
+                    # TODO: What do this do and should we rate on it?
+                    c = 1
+                elif section.startswith('a') or section.startswith('+a'):
+                    # TODO: What do this do and should we rate on it?
+                    c = 1
+                else:
+                    print('UNSUPPORTED SECTION:', section)
+        except Exception as ex:
+            print('ex C:', ex)
 
-        print('ipv4:', ipv4_servers)
-        print('ipv6:', ipv6_servers)
-
-        # warn IF any servers in MX record is not in this record
-
-    return rating
+    return rating, lookup_count
 
 
 def Validate_IPv6_Operation_Status(_, rating, _local, ipv6_servers):

@@ -27,7 +27,7 @@ def httpRequestGetContent(url, allow_redirects=False):
         a = requests.get(url, allow_redirects=allow_redirects,
                          headers=headers, timeout=request_timeout*2)
 
-        #print('httpRequestGetContent', a.text)
+        # print('httpRequestGetContent', a.text)
         return a.text
     except ssl.CertificateError as error:
         print('Info: Certificate error. {0}'.format(error.reason))
@@ -67,9 +67,9 @@ def has_redirect(url):
                          headers=headers, timeout=request_timeout*2)
 
         has_location_header = 'Location' in a.headers
-        #print('httpRequestGetContent', test)
+        # print('httpRequestGetContent', test)
 
-        #print('has_redirect', has_location_header, url, a.headers)
+        # print('has_redirect', has_location_header, url, a.headers)
 
         if has_location_header:
             location_header = a.headers['Location']
@@ -127,16 +127,19 @@ def dns_lookup(hostname, record_type):
     names = list()
 
     try:
-        dns_records = dns.resolver.query(hostname, record_type)
+        dns_records = dns.resolver.resolve(hostname, record_type)
     except dns.resolver.NXDOMAIN:
-        #print("dns lookup error: No record found")
+        # print("dns lookup error: No record found")
         return names
     except (dns.resolver.NoAnswer, dns.resolver.NoNameservers) as error:
-        #print("dns lookup error: ", error)
+        # print("dns lookup error: ", error)
         return names
 
     for dns_record in dns_records:
-        names.append(str(dns_record))
-        #print('dns_lookup', str(dns_record))
+        if record_type == 'TXT':
+            names.append(''.join(s.decode()
+                                 for s in dns_record.strings))
+        else:
+            names.append(str(dns_record))
 
     return names

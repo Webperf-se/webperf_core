@@ -196,15 +196,15 @@ def Validate_MTA_STS_Policy(_, rating, _local, hostname):
     if has_mta_sts_policy:
         has_mta_sts_records_rating.set_overall(5.0)
         has_mta_sts_records_rating.set_integrity_and_security(
-            5.0, _local('TEXT_REVIEW_MT_STS_DNS_RECORD_SUPPORT'))
+            5.0, _local('TEXT_REVIEW_MTA_STS_DNS_RECORD_SUPPORT'))
         has_mta_sts_records_rating.set_standards(
-            5.0, _local('TEXT_REVIEW_MT_STS_DNS_RECORD_SUPPORT'))
+            5.0, _local('TEXT_REVIEW_MTA_STS_DNS_RECORD_SUPPORT'))
     else:
         has_mta_sts_records_rating.set_overall(1.0)
         has_mta_sts_records_rating.set_integrity_and_security(
-            2.5, _local('TEXT_REVIEW_MT_STS_DNS_RECORD_NO_SUPPORT'))
+            2.5, _local('TEXT_REVIEW_MTA_STS_DNS_RECORD_NO_SUPPORT'))
         has_mta_sts_records_rating.set_standards(
-            1.0, _local('TEXT_REVIEW_MT_STS_DNS_RECORD_NO_SUPPORT'))
+            1.0, _local('TEXT_REVIEW_MTA_STS_DNS_RECORD_NO_SUPPORT'))
     rating += has_mta_sts_records_rating
 
     # https://mta-sts.example.com/.well-known/mta-sts.txt
@@ -216,15 +216,15 @@ def Validate_MTA_STS_Policy(_, rating, _local, hostname):
     if 'STSv1' in content:
         has_mta_sts_txt_rating.set_overall(5.0)
         has_mta_sts_txt_rating.set_integrity_and_security(
-            5.0, _local('TEXT_REVIEW_MT_STS_TXT_SUPPORT'))
+            5.0, _local('TEXT_REVIEW_MTA_STS_TXT_SUPPORT'))
         has_mta_sts_txt_rating.set_standards(
-            5.0, _local('TEXT_REVIEW_MT_STS_TXT_SUPPORT'))
+            5.0, _local('TEXT_REVIEW_MTA_STS_TXT_SUPPORT'))
     else:
         has_mta_sts_txt_rating.set_overall(1.0)
         has_mta_sts_txt_rating.set_integrity_and_security(
-            2.5, _local('TEXT_REVIEW_MT_STS_TXT_NO_SUPPORT'))
+            2.5, _local('TEXT_REVIEW_MTA_STS_TXT_NO_SUPPORT'))
         has_mta_sts_txt_rating.set_standards(
-            1.0, _local('TEXT_REVIEW_MT_STS_TXT_NO_SUPPORT'))
+            1.0, _local('TEXT_REVIEW_MTA_STS_TXT_NO_SUPPORT'))
     rating += has_mta_sts_txt_rating
     return rating
 
@@ -302,7 +302,15 @@ def Validate_SPF_Policy(_, rating, _local, hostname, lookup_count=1):
                         _, rating, _local, spf_domain, lookup_count + 1)
                 elif section.startswith('?all'):
                     # TODO: What do this do and should we rate on it?
-                    a = 1
+                    has_spf_dns_record_neutralfail_records_rating = Rating(
+                        _, review_show_improvements_only)
+                    has_spf_dns_record_neutralfail_records_rating.set_overall(
+                        4.0)
+                    has_spf_dns_record_neutralfail_records_rating.set_integrity_and_security(
+                        3.0, _local('TEXT_REVIEW_SPF_DNS_NEUTRALFAIL_RECORD'))
+                    has_spf_dns_record_neutralfail_records_rating.set_standards(
+                        5.0, _local('TEXT_REVIEW_SPF_DNS_NEUTRALFAIL_RECORD'))
+                    rating += has_spf_dns_record_neutralfail_records_rating
                 elif section.startswith('~all'):
                     # add support for SoftFail
                     has_spf_dns_record_softfail_records_rating = Rating(
@@ -323,7 +331,7 @@ def Validate_SPF_Policy(_, rating, _local, hostname, lookup_count=1):
                     has_spf_dns_record_hardfail_records_rating.set_standards(
                         5.0, _local('TEXT_REVIEW_SPF_DNS_HARDFAIL_RECORD'))
                     rating += has_spf_dns_record_hardfail_records_rating
-                elif section.startswith('+all'):
+                elif section.startswith('+all') or section.startswith('all'):
                     # basicly whitelist everything... Big fail
                     has_spf_ignore_records_rating = Rating(
                         _, review_show_improvements_only)
@@ -341,8 +349,26 @@ def Validate_SPF_Policy(_, rating, _local, hostname, lookup_count=1):
                 elif section.startswith('a') or section.startswith('+a'):
                     # TODO: What do this do and should we rate on it?
                     c = 1
+                elif section.startswith('ptr') or section.startswith('+ptr'):
+                    # TODO: What do this do and should we rate on it?
+                    c = 1
+                elif section.startswith('exists:'):
+                    # TODO: What do this do and should we rate on it?
+                    c = 1
+                elif section.startswith('redirect='):
+                    # TODO: What do this do and should we rate on it?
+                    c = 1
+                elif section.startswith('exp='):
+                    # TODO: What do this do and should we rate on it?
+                    c = 1
                 else:
                     print('UNSUPPORTED SECTION:', section)
+                    has_spf_unknown_section_rating = Rating(
+                        _, review_show_improvements_only)
+                    has_spf_unknown_section_rating.set_overall(1.0)
+                    has_spf_unknown_section_rating.set_standards(
+                        1.0, _local('TEXT_REVIEW_SPF_UNKNOWN_SECTION'))
+                    rating += has_spf_unknown_section_rating
         except Exception as ex:
             print('ex C:', ex)
 

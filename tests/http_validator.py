@@ -3,7 +3,6 @@ import http3
 import datetime
 import h2
 import h11
-import dns.resolver
 import urllib.parse
 import textwrap
 import ipaddress
@@ -27,7 +26,7 @@ import re
 from bs4 import BeautifulSoup
 import config
 from models import Rating
-from tests.utils import httpRequestGetContent, has_redirect
+from tests.utils import dns_lookup, httpRequestGetContent, has_redirect
 import gettext
 _local = gettext.gettext
 
@@ -154,7 +153,7 @@ def ip_version_score(hostname, _, _local):
     ip6_result = dns_lookup(hostname, "AAAA")
 
     ip6_rating = Rating(_, review_show_improvements_only)
-    if ip6_result[0]:
+    if len(ip6_result) > 0:
         ip6_rating.set_overall(5.0)
         ip6_rating.set_standards(
             5.0, _local('TEXT_REVIEW_IP_VERSION_IPV6'))
@@ -166,7 +165,7 @@ def ip_version_score(hostname, _, _local):
     rating += ip6_rating
 
     ip4_rating = Rating(_, review_show_improvements_only)
-    if ip4_result[0]:
+    if len(ip4_result) > 0:
         ip4_rating.set_overall(5.0)
         ip4_rating.set_standards(
             5.0, _local('TEXT_REVIEW_IP_VERSION_IPV4'))
@@ -349,18 +348,6 @@ def tls_version_score(orginal_url, _, _local):
         pass
 
     return rating
-
-
-def dns_lookup(hostname, record_type):
-    try:
-        dns_record = dns.resolver.query(hostname, record_type)
-    except dns.resolver.NXDOMAIN:
-        return (False, "No record found")
-    except (dns.resolver.NoAnswer, dns.resolver.NoNameservers) as error:
-        return (False, error)
-
-    record = '' + str(dns_record[0])
-    return (True, record)
 
 
 def http_version_score(hostname, url, _, _local):

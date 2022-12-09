@@ -1,0 +1,32 @@
+name: "Regression Test - Email (Beta) Test"
+on: 
+  push:
+    paths-ignore:
+      - '**.md'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v3
+      if: ${{ success() }}
+    - name: Setup python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+        architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+    - name: Setup dependencies using pip
+      run: pip install -r requirements.txt
+      if: ${{ success() }}
+    - name: Test Tracking and Privacy - USE DOCKER
+      run: |
+        python .github/workflows/verify_result.py -c true
+        python default.py -t 24 -r -u https://kodagent.se/ -o .github/workflows/testresult-24.json
+        python .github/workflows/verify_result.py -t 24
+      if: ${{ always() }}
+    - name: Test Tracking and Privacy - USE NPM PACKAGE
+      run: |
+        python .github/workflows/verify_result.py -c false
+        python default.py -t 24 -r -u https://feber.se/ -o .github/workflows/testresult-24.json
+        python .github/workflows/verify_result.py -t 24
+      if: ${{ always() }}

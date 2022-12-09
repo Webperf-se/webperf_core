@@ -258,6 +258,27 @@ def Validate_MTA_STS_Policy(_, rating, _local, hostname):
             if 'version' in key:
                 has_version = True
             elif 'mode' in key:
+                if value == 'enforce':
+                    a = 1
+                elif value == 'testing' or value == 'none':
+                    mta_sts_records_not_enforced_rating = Rating(
+                        _, review_show_improvements_only)
+                    mta_sts_records_not_enforced_rating.set_overall(3.0)
+                    mta_sts_records_not_enforced_rating.set_integrity_and_security(
+                        1.0, _local('TEXT_REVIEW_MTA_STS_DNS_RECORD_NOT_ENFORCED'))
+                    mta_sts_records_not_enforced_rating.set_standards(
+                        5.0, _local('TEXT_REVIEW_MTA_STS_DNS_RECORD_NOT_ENFORCED'))
+                    rating += mta_sts_records_not_enforced_rating
+                else:
+                    mta_sts_records_invalid_mode_rating = Rating(
+                        _, review_show_improvements_only)
+                    mta_sts_records_invalid_mode_rating.set_overall(1.0)
+                    mta_sts_records_invalid_mode_rating.set_integrity_and_security(
+                        1.0, _local('TEXT_REVIEW_MTA_STS_DNS_RECORD_INVALID_MODE'))
+                    mta_sts_records_invalid_mode_rating.set_standards(
+                        1.0, _local('TEXT_REVIEW_MTA_STS_DNS_RECORD_INVALID_MODE'))
+                    rating += mta_sts_records_invalid_mode_rating
+
                 has_mode = True
             elif 'mx' in key:
                 has_mx = True

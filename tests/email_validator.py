@@ -129,7 +129,7 @@ def run_test(_, langCode, url):
     result_dict = {}
 
     language = gettext.translation(
-        'http_validator', localedir='locales', languages=[langCode])
+        'email_validator', localedir='locales', languages=[langCode])
     language.install()
     _local = language.gettext
 

@@ -19,7 +19,7 @@ jobs:
       run: pip install -r requirements.txt
       if: ${{ success() }}
     - name: Setup node (ONLY used for Yellow Lab Tools AND lighthouse)
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
     - name: Setup lighthouse npm package (ONLY used for lighthouse)
       run: npm install -g lighthouse
       if: ${{ success() }}

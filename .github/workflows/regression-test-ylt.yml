@@ -19,7 +19,7 @@ jobs:
       run: pip install -r requirements.txt
       if: ${{ success() }}
     - name: Setup node (ONLY used for Yellow Lab Tools)
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
     - name: Setup node dependencies (ONLY used for Yellow Lab Tools)
       run: npm install -g node-gyp
     - name: Setup libjpeg and fontconfig (ONLY used for Yellow Lab Tools)

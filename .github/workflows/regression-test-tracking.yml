@@ -53,7 +53,7 @@ jobs:
         python .github/workflows/verify_result.py -t 23
       if: ${{ success() }}
     - name: Setup Node.js (v1 version 14.x)
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v3
       with:
         node-version: '14.x'
       if: ${{ success() }}

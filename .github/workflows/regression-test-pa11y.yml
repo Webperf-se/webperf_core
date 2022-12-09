@@ -19,7 +19,7 @@ jobs:
       run: pip install -r requirements.txt
       if: ${{ success() }}
     - name: Setup node
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
     - name: Setup Pa11y CI npm package
       run: npm install -g pa11y-ci
     - name: Setup config (using SAMPLE-config.py as config.py)

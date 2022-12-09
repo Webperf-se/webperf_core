@@ -227,7 +227,8 @@ def Validate_MTA_STS_Policy(_, rating, _local, hostname):
         has_mx = False
         has_max_age = False
 
-        # print('content:', content.replace('\r\n', '\\r\\n\r\n'))
+        # print('content:', content.replace(
+        #     '\r\n', '\\r\\n\r\n').replace('\n', '\\n\r\n'))
 
         rows = content.split('\r\n')
         if len(rows) == 1:
@@ -267,7 +268,7 @@ def Validate_MTA_STS_Policy(_, rating, _local, hostname):
                     mta_sts_records_not_enforced_rating.set_integrity_and_security(
                         1.0, _local('TEXT_REVIEW_MTA_STS_DNS_RECORD_NOT_ENFORCED'))
                     mta_sts_records_not_enforced_rating.set_standards(
-                        5.0, _local('TEXT_REVIEW_MTA_STS_DNS_RECORD_NOT_ENFORCED'))
+                        5.0, _local('TEXT_REVIEW_MTA_STS_DNS_RECORD_VALID_MODE'))
                     rating += mta_sts_records_not_enforced_rating
                 else:
                     mta_sts_records_invalid_mode_rating = Rating(

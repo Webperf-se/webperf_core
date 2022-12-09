@@ -94,16 +94,16 @@ msgid "TEXT_TEST_VALID_ARGUMENTS_STANDARD_FILES"
 msgstr "-t 9\t: Standardfiler"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_HTTP"
-msgstr "-t 21\t:  HTTP & Nätverk"
+msgstr "-t 21\t: HTTP & Nätverk"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_ENERGY_EFFICIENCY"
-msgstr "-t 22\t:  Energieffektivitet (Website Carbon Calculator)"
+msgstr "-t 22\t: Energieffektivitet (Website Carbon Calculator)"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_TRACKING"
-msgstr "-t 23\t:  Spårning och Integritet (Beta)"
+msgstr "-t 23\t: Spårning och Integritet (Beta)"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_EMAIL"
-msgstr "-t 24\t:  E-post (Beta)"
+msgstr "-t 24\t: E-post (Beta)"
 
 
 msgid "TEXT_COMMAND_USAGE"

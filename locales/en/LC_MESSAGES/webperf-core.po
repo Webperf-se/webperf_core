@@ -108,16 +108,16 @@ msgid "TEXT_TEST_VALID_ARGUMENTS_STANDARD_FILES"
 msgstr "-t 9\t: Standard files"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_HTTP"
-msgstr "-t 21\t:  HTTP & Network"
+msgstr "-t 21\t: HTTP & Network"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_ENERGY_EFFICIENCY"
-msgstr "-t 22\t:  Energy Efficiency (Website Carbon Calculator)"
+msgstr "-t 22\t: Energy Efficiency (Website Carbon Calculator)"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_TRACKING"
-msgstr "-t 23\t:  Tracking and Privacy (Beta)"
+msgstr "-t 23\t: Tracking and Privacy (Beta)"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_EMAIL"
-msgstr "-t 24\t:  24 - Email (Beta)"
+msgstr "-t 24\t: Email (Beta)"
 
 
 #: default.py:137 default.py:141 default.py:146 default.py:213

@@ -214,11 +214,74 @@ def Validate_MTA_STS_Policy(_, rating, _local, hostname):
     has_mta_sts_txt_rating = Rating(_, review_show_improvements_only)
     # https://www.rfc-editor.org/rfc/rfc8461#section-3.2
     if 'STSv1' in content:
-        has_mta_sts_txt_rating.set_overall(5.0)
-        has_mta_sts_txt_rating.set_integrity_and_security(
-            5.0, _local('TEXT_REVIEW_MTA_STS_TXT_SUPPORT'))
-        has_mta_sts_txt_rating.set_standards(
-            5.0, _local('TEXT_REVIEW_MTA_STS_TXT_SUPPORT'))
+
+        # version: STSv1
+        # mode: enforce
+        # mx: mail1.polisen.se
+        # mx: mail2.polisen.se
+        # max_age: 604800
+
+        is_valid = True
+        has_version = False
+        has_mode = False
+        has_mx = False
+        has_max_age = False
+
+        # print('content:', content.replace('\r\n', '\\r\\n\r\n'))
+
+        rows = content.split('\r\n')
+        if len(rows) == 1:
+            rows = content.split('\n')
+            if len(rows) > 1:
+                # https://www.rfc-editor.org/rfc/rfc8461#section-3.2
+                mta_sts_records_wrong_linebreak_rating = Rating(
+                    _, review_show_improvements_only)
+                mta_sts_records_wrong_linebreak_rating.set_overall(1.0)
+                mta_sts_records_wrong_linebreak_rating.set_integrity_and_security(
+                    2.5, _local('TEXT_REVIEW_MTA_STS_DNS_RECORD_WRONG_LINEBREAK'))
+                mta_sts_records_wrong_linebreak_rating.set_standards(
+                    1.0, _local('TEXT_REVIEW_MTA_STS_DNS_RECORD_WRONG_LINEBREAK'))
+                rating += mta_sts_records_wrong_linebreak_rating
+
+        for row in rows:
+            if row == '':
+                continue
+            key_value_pair = row.split(':')
+            if len(key_value_pair) != 2:
+                print('invalid pair:', key_value_pair)
+                is_valid = False
+                continue
+
+            key = key_value_pair[0].strip(' ')
+            value = key_value_pair[1].strip(' ')
+
+            if 'version' in key:
+                has_version = True
+            elif 'mode' in key:
+                has_mode = True
+            elif 'mx' in key:
+                has_mx = True
+            elif 'max_age' in key:
+                has_max_age = True
+            else:
+                print('invalid key:', key)
+                is_valid = False
+
+        is_valid = is_valid and has_version and has_mode and has_mx and has_max_age
+
+        if is_valid:
+            has_mta_sts_txt_rating.set_overall(5.0)
+            has_mta_sts_txt_rating.set_integrity_and_security(
+                5.0, _local('TEXT_REVIEW_MTA_STS_TXT_SUPPORT'))
+            has_mta_sts_txt_rating.set_standards(
+                5.0, _local('TEXT_REVIEW_MTA_STS_TXT_SUPPORT'))
+        else:
+            has_mta_sts_txt_rating.set_overall(2.0)
+            has_mta_sts_txt_rating.set_integrity_and_security(
+                3.0, _local('TEXT_REVIEW_MTA_STS_TXT_INVALID_FORMAT'))
+            has_mta_sts_txt_rating.set_standards(
+                1.0, _local('TEXT_REVIEW_MTA_STS_TXT_INVALID_FORMAT'))
+
     else:
         has_mta_sts_txt_rating.set_overall(1.0)
         has_mta_sts_txt_rating.set_integrity_and_security(
@@ -251,6 +314,8 @@ def Validate_SPF_Policy(_, rating, _local, hostname, lookup_count=1):
         if 'v=spf1 ' in result:
             has_spf_policy = True
             spf_content = result
+            # print('content:', spf_content.replace(
+            #     '\r\n', '\\r\\n\r\n').replace(' ', '#'))
 
     has_spf_records_rating = Rating(_, review_show_improvements_only)
     if has_spf_policy:
@@ -269,10 +334,21 @@ def Validate_SPF_Policy(_, rating, _local, hostname, lookup_count=1):
 
     if has_spf_policy:
         try:
+            # https://www.rfc-editor.org/rfc/rfc7208#section-9.1
             spf_sections = spf_content.split(' ')
 
             # http://www.open-spf.org/SPF_Record_Syntax/
             for section in spf_sections:
+                if section == '':
+                    has_spf_dns_record_double_space_rating = Rating(
+                        _, review_show_improvements_only)
+                    has_spf_dns_record_double_space_rating.set_overall(
+                        3.0)
+                    has_spf_dns_record_double_space_rating.set_standards(
+                        3.0, _local('TEXT_REVIEW_SPF_DNS_DOUBLE_SPACE_RECORD'))
+                    rating += has_spf_dns_record_double_space_rating
+                    continue
+
                 # print('section:', section)
                 if section.startswith('ip4:'):
                     data = section[4:]
@@ -301,7 +377,7 @@ def Validate_SPF_Policy(_, rating, _local, hostname, lookup_count=1):
                     rating, lookup_count = Validate_SPF_Policy(
                         _, rating, _local, spf_domain, lookup_count + 1)
                 elif section.startswith('?all'):
-                    # TODO: What do this do and should we rate on it?
+                    # What do this do and should we rate on it?
                     has_spf_dns_record_neutralfail_records_rating = Rating(
                         _, review_show_improvements_only)
                     has_spf_dns_record_neutralfail_records_rating.set_overall(
@@ -350,8 +426,13 @@ def Validate_SPF_Policy(_, rating, _local, hostname, lookup_count=1):
                     # TODO: What do this do and should we rate on it?
                     c = 1
                 elif section.startswith('ptr') or section.startswith('+ptr'):
-                    # TODO: What do this do and should we rate on it?
-                    c = 1
+                    # What do this do and should we rate on it?
+                    has_spf_record_ptr_being_used_rating = Rating(
+                        _, review_show_improvements_only)
+                    has_spf_record_ptr_being_used_rating.set_overall(1.0)
+                    has_spf_record_ptr_being_used_rating.set_standards(
+                        1.0, _local('TEXT_REVIEW_SPF_DNS_RECORD_PTR_USED'))
+                    rating += has_spf_record_ptr_being_used_rating
                 elif section.startswith('exists:'):
                     # TODO: What do this do and should we rate on it?
                     c = 1

@@ -26,7 +26,7 @@ jobs:
       shell: bash
       env:
         IP2LOCATION_DOWNLOAD_URL: ${{ secrets.IP2LOCATION_DOWNLOAD_URL }}
-      run: wget -q -O - $IP2LOCATION_DOWNLOAD_URL | tar -xvzf - -C data
+      run: wget -q -O data/IPV6-COUNTRY.BIN $IP2LOCATION_DOWNLOAD_URL
       if: ${{ success() }}
     - name: Download Ads database (BlockListProject)
       run: |

@@ -125,7 +125,7 @@ This section has not been written yet.
 ### Setup with GitHub Actions
 
 * Follow [general github action setup steps for this repository](../getting-started-github-actions.md).
-* Package `IP2LOCATION-LITE-DB1.IPV6.BIN` into a tar file `IP2LOCATION-LITE-DB1.IPV6.BIN.tar` and upload it to a public accessable address.
+* Upload `IP2LOCATION-LITE-DB1.IPV6.BIN` to a public accessable address.
 * Add secret key with name `IP2LOCATION_DOWNLOAD_URL` under `Settings > Security > Secrets > Actions` with the location from previous step.
 
 ### Setup Locally

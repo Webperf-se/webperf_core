@@ -18,6 +18,12 @@ jobs:
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
       if: ${{ success() }}
+    - name: Download IP2LOCATION DB (Using repository secret)
+      shell: bash
+      env:
+        IP2LOCATION_DOWNLOAD_URL: ${{ secrets.IP2LOCATION_DOWNLOAD_URL }}
+      run: wget -q -O data/IP2LOCATION-LITE-DB1.IPV6.BIN $IP2LOCATION_DOWNLOAD_URL
+      if: ${{ success() }}
     - name: Test Tracking and Privacy - USE DOCKER
       run: |
         python .github/workflows/verify_result.py -c true

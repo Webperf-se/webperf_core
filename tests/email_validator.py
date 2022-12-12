@@ -10,7 +10,7 @@ import datetime
 import urllib
 import config
 from models import Rating
-from tests.utils import dns_lookup, httpRequestGetContent
+from tests.utils import dns_lookup, get_best_country_code, httpRequestGetContent, is_country_code_in_eu_or_on_exception_list
 import gettext
 _local = gettext.gettext
 
@@ -178,6 +178,20 @@ def run_test(_, langCode, url):
         _, rating, _local, hostname)
 
     # 2.0 - Check GDPR for all IP-adresses
+    gdpr_ip_addresses = list()
+    gdpr_ip_addresses.extend(ipv4_servers)
+    gdpr_ip_addresses.extend(ipv6_servers)
+    for ip_address in gdpr_ip_addresses:
+        country_code = ''
+        country_code = get_best_country_code(
+            ip_address, country_code)
+        if country_code == '':
+            country_code = 'unknown'
+
+        if is_country_code_in_eu_or_on_exception_list(country_code):
+            print('MX Records - GDPR Compliant Country:', country_code)
+        else:
+            print('MX Records - Country:', country_code)
 
     print(_('TEXT_TEST_END').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))

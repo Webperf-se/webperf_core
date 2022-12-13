@@ -174,7 +174,7 @@ def run_test(_, langCode, url):
     # 1.8 - Check MTA-STS policy
     rating = Validate_MTA_STS_Policy(_, rating, _local, hostname)
     # 1.9 - Check SPF policy
-    rating, spf_addresses, spf_lookup_count = Validate_SPF_Policy(
+    rating = Validate_SPF_Policies(
         _, rating, _local, hostname)
 
     print(_('TEXT_TEST_END').format(
@@ -313,7 +313,61 @@ def Validate_MTA_STS_Policy(_, rating, _local, hostname):
     return rating
 
 
-def Validate_SPF_Policy(_, rating, _local, hostname, lookup_count=1, spf_addresses=list()):
+def Validate_SPF_Policies(_, rating, _local, hostname):
+    lookup_count = 1
+    spf_addresses = list()
+    rating, spf_addresses, lookup_count = Validate_SPF_Policy(_, rating, _local, hostname,
+                                                              lookup_count, spf_addresses)
+    # 2.0 - Check GDPR for all IP-adresses
+    countries_others = {}
+    countries_outside_eu_or_exception_list = {}
+    for ip_address in spf_addresses:
+        # TODO: add support for network mask
+        if '/' in ip_address:
+            continue
+
+        country_code = ''
+        country_code = get_best_country_code(
+            ip_address, country_code)
+        if country_code == '':
+            country_code = 'unknown'
+
+        if not is_country_code_in_eu_or_on_exception_list(country_code):
+            if country_code in countries_outside_eu_or_exception_list:
+                countries_outside_eu_or_exception_list[
+                    country_code] = countries_outside_eu_or_exception_list[country_code] + 1
+            else:
+                countries_outside_eu_or_exception_list[country_code] = 1
+        else:
+            if country_code in countries_others:
+                countries_others[country_code] = countries_others[country_code] + 1
+            else:
+                countries_others[country_code] = 1
+
+    nof_gdpr_countries = len(countries_outside_eu_or_exception_list)
+    nof_none_gdpr_countries = len(countries_others)
+    if nof_gdpr_countries > 0:
+        gdpr_rating = Rating(_, review_show_improvements_only)
+        gdpr_rating.set_overall(5.0)
+        gdpr_rating.set_integrity_and_security(
+            5.0, _local('TEXT_REVIEW_MX_GDPR'))
+        rating += gdpr_rating
+    if nof_none_gdpr_countries > 0:
+        none_gdpr_rating = Rating(_, review_show_improvements_only)
+        none_gdpr_rating.set_overall(4.95)
+        none_gdpr_rating.set_integrity_and_security(
+            4.95, _local('TEXT_REVIEW_MX_NONE_GDPR'))
+        rating += none_gdpr_rating
+
+    print("Email sent through GDPR Compliant countries",
+          countries_outside_eu_or_exception_list)
+
+    print("Email sent through NONE Compliant countries", countries_others)
+
+    return rating
+
+
+def Validate_SPF_Policy(_, rating, _local, hostname, lookup_count, spf_addresses):
 
     has_spf_policy = False
 
@@ -640,7 +694,7 @@ def Validate_MX_Records(_, rating, result_dict, _local, hostname):
     # 2.0 - Check GDPR for all IP-adresses
     countries_others = {}
     countries_outside_eu_or_exception_list = {}
-    for ip_address in email_entries:
+    for ip_address in email_servers:
         country_code = ''
         country_code = get_best_country_code(
             ip_address, country_code)

@@ -174,7 +174,7 @@ def run_test(_, langCode, url):
     # 1.8 - Check MTA-STS policy
     rating = Validate_MTA_STS_Policy(_, rating, _local, hostname)
     # 1.9 - Check SPF policy
-    rating, spf_lookup_count = Validate_SPF_Policy(
+    rating, spf_addresses, spf_lookup_count = Validate_SPF_Policy(
         _, rating, _local, hostname)
 
     print(_('TEXT_TEST_END').format(
@@ -373,21 +373,24 @@ def Validate_SPF_Policy(_, rating, _local, hostname, lookup_count=1, spf_address
                 # print('section:', section)
                 if section.startswith('ip4:'):
                     data = section[4:]
-                    if '/' in data:
-                        # TODO: support for ipv4 network mask
-                        ipaddress.IPv4Network(data, False).hosts
-                        print('IPv4Network:', data)
-                    else:
-                        spf_addresses.append(data)
+                    spf_addresses.append(data)
+                    # if '/' in data:
+                    #     # TODO: support for ipv4 network mask
+                    #     # ipaddress.IPv4Network(data, False).hosts
+                    #     # print('IPv4Network:', data)
+                    #     spf_addresses.append(data)
+                    # else:
+                    #     spf_addresses.append(data)
                 elif section.startswith('ip6:'):
                     data = section[4:]
-                    if '/' in data:
-                        a = 1
-                        # TODO: support for ipv6 network mask
-                        ipaddress.IPv6Network(data, False).hosts
-                        print('IPv4Network:', data)
-                    else:
-                        spf_addresses.append(data)
+                    spf_addresses.append(data)
+                    # if '/' in data:
+                    #     a = 1
+                    #     # TODO: support for ipv6 network mask
+                    #     ipaddress.IPv6Network(data, False).hosts
+                    #     print('IPv4Network:', data)
+                    # else:
+                    #     spf_addresses.append(data)
                 elif section.startswith('include:') or section.startswith('+include:'):
                     spf_domain = section[8:]
                     rating, spf_addresses, lookup_count = Validate_SPF_Policy(

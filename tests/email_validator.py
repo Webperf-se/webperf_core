@@ -360,10 +360,10 @@ def Validate_SPF_Policies(_, rating, _local, hostname):
         rating += none_gdpr_rating
 
     print("Email sent through GDPR Compliant countries",
-          ', '.join(countries_eu_or_exception_list.keys))
+          ', '.join(countries_eu_or_exception_list.keys()))
 
     print("Email sent through NONE Compliant countries",
-          ', '.join(countries_others.keys))
+          ', '.join(countries_others.keys()))
 
     return rating
 
@@ -730,10 +730,10 @@ def Validate_MX_Records(_, rating, result_dict, _local, hostname):
         rating += none_gdpr_rating
 
     print("Email received through GDPR Compliant countries",
-          ', '.join(countries_eu_or_exception_list.keys))
+          ', '.join(countries_eu_or_exception_list.keys()))
 
     print("Email received through NONE Compliant countries",
-          ', '.join(countries_others.keys))
+          ', '.join(countries_others.keys()))
 
     # add data to result of test
     result_dict["mx-addresses"] = email_entries

@@ -177,22 +177,6 @@ def run_test(_, langCode, url):
     rating, spf_lookup_count = Validate_SPF_Policy(
         _, rating, _local, hostname)
 
-    # 2.0 - Check GDPR for all IP-adresses
-    gdpr_ip_addresses = list()
-    gdpr_ip_addresses.extend(ipv4_servers)
-    gdpr_ip_addresses.extend(ipv6_servers)
-    for ip_address in gdpr_ip_addresses:
-        country_code = ''
-        country_code = get_best_country_code(
-            ip_address, country_code)
-        if country_code == '':
-            country_code = 'unknown'
-
-        if is_country_code_in_eu_or_on_exception_list(country_code):
-            print('MX Records - GDPR Compliant Country:', country_code)
-        else:
-            print('MX Records - Country:', country_code)
-
     print(_('TEXT_TEST_END').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
@@ -329,7 +313,7 @@ def Validate_MTA_STS_Policy(_, rating, _local, hostname):
     return rating
 
 
-def Validate_SPF_Policy(_, rating, _local, hostname, lookup_count=1):
+def Validate_SPF_Policy(_, rating, _local, hostname, lookup_count=1, spf_addresses=list()):
 
     has_spf_policy = False
 
@@ -342,7 +326,7 @@ def Validate_SPF_Policy(_, rating, _local, hostname, lookup_count=1):
         to_many_spf_dns_lookups_rating.set_performance(
             4.0, _local('TEXT_REVIEW_SPF_TO_MANY_DNS_LOOKUPS'))
         rating += to_many_spf_dns_lookups_rating
-        return rating, lookup_count
+        return rating, spf_addresses, lookup_count
 
     # https://proton.me/support/anti-spoofing-custom-domain
     spf_results = dns_lookup(hostname, 'TXT')
@@ -390,29 +374,24 @@ def Validate_SPF_Policy(_, rating, _local, hostname, lookup_count=1):
                 if section.startswith('ip4:'):
                     data = section[4:]
                     if '/' in data:
-                        a = 1
                         # TODO: support for ipv4 network mask
-                        #     if ipaddress.IPv4Network(data, False).overlaps(
-                        #             ipaddress.IPv4Network(blacklisted_ipaddress)):
-                        # print('IPv4Network:', data,
-                        #       blacklisted_ipaddress)
+                        ipaddress.IPv4Network(data, False).hosts
+                        print('IPv4Network:', data)
                     else:
-                        a = 1
+                        spf_addresses.append(data)
                 elif section.startswith('ip6:'):
                     data = section[4:]
                     if '/' in data:
                         a = 1
                         # TODO: support for ipv6 network mask
-                        # if ipaddress.IPv6Network(data, False).overlaps(
-                        #         ipaddress.IPv6Network(blacklisted_ipaddress)):
-                        #     print('IPv6Network:', data,
-                        #           blacklisted_ipaddress)
+                        ipaddress.IPv6Network(data, False).hosts
+                        print('IPv4Network:', data)
                     else:
-                        a = 1
+                        spf_addresses.append(data)
                 elif section.startswith('include:') or section.startswith('+include:'):
                     spf_domain = section[8:]
-                    rating, lookup_count = Validate_SPF_Policy(
-                        _, rating, _local, spf_domain, lookup_count + 1)
+                    rating, spf_addresses, lookup_count = Validate_SPF_Policy(
+                        _, rating, _local, spf_domain, lookup_count + 1, spf_addresses)
                 elif section.startswith('?all'):
                     # What do this do and should we rate on it?
                     has_spf_dns_record_neutralfail_records_rating = Rating(
@@ -490,7 +469,7 @@ def Validate_SPF_Policy(_, rating, _local, hostname, lookup_count=1):
         except Exception as ex:
             print('ex C:', ex)
 
-    return rating, lookup_count
+    return rating, spf_addresses, lookup_count
 
 
 def Validate_IPv6_Operation_Status(_, rating, _local, ipv6_servers):
@@ -655,9 +634,53 @@ def Validate_MX_Records(_, rating, result_dict, _local, hostname):
             1.0, _local('TEXT_REVIEW_IPV6_NO_SUPPORT'))
     rating += nof_ipv6_rating
 
+    # 2.0 - Check GDPR for all IP-adresses
+    countries_others = {}
+    countries_outside_eu_or_exception_list = {}
+    for ip_address in email_entries:
+        country_code = ''
+        country_code = get_best_country_code(
+            ip_address, country_code)
+        if country_code == '':
+            country_code = 'unknown'
+
+        if not is_country_code_in_eu_or_on_exception_list(country_code):
+            if country_code in countries_outside_eu_or_exception_list:
+                countries_outside_eu_or_exception_list[
+                    country_code] = countries_outside_eu_or_exception_list[country_code] + 1
+            else:
+                countries_outside_eu_or_exception_list[country_code] = 1
+        else:
+            if country_code in countries_others:
+                countries_others[country_code] = countries_others[country_code] + 1
+            else:
+                countries_others[country_code] = 1
+
+    nof_gdpr_countries = len(countries_outside_eu_or_exception_list)
+    nof_none_gdpr_countries = len(countries_others)
+    if nof_gdpr_countries > 0:
+        gdpr_rating = Rating(_, review_show_improvements_only)
+        gdpr_rating.set_overall(5.0)
+        gdpr_rating.set_integrity_and_security(
+            5.0, _local('TEXT_REVIEW_MX_GDPR'))
+        rating += gdpr_rating
+    if nof_none_gdpr_countries > 0:
+        none_gdpr_rating = Rating(_, review_show_improvements_only)
+        none_gdpr_rating.set_overall(4.95)
+        none_gdpr_rating.set_integrity_and_security(
+            4.95, _local('TEXT_REVIEW_MX_NONE_GDPR'))
+        rating += none_gdpr_rating
+
+    print("Email received through GDPR Compliant countries",
+          countries_outside_eu_or_exception_list)
+
+    print("Email received through NONE Compliant countries", countries_others)
+
     # add data to result of test
     result_dict["mx-addresses"] = email_entries
     result_dict["mx-ipv4-servers"] = ipv4_servers
     result_dict["mx-ipv6-servers"] = ipv6_servers
+    result_dict["mx-gdpr-countries"] = countries_outside_eu_or_exception_list
+    result_dict["mx-none-gdpr-countries"] = countries_others
 
     return rating, ipv4_servers, ipv6_servers

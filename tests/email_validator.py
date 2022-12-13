@@ -320,7 +320,7 @@ def Validate_SPF_Policies(_, rating, _local, hostname):
                                                               lookup_count, spf_addresses)
     # 2.0 - Check GDPR for all IP-adresses
     countries_others = {}
-    countries_outside_eu_or_exception_list = {}
+    countries_eu_or_exception_list = {}
     for ip_address in spf_addresses:
         # TODO: add support for network mask
         if '/' in ip_address:
@@ -332,19 +332,19 @@ def Validate_SPF_Policies(_, rating, _local, hostname):
         if country_code == '':
             country_code = 'unknown'
 
-        if not is_country_code_in_eu_or_on_exception_list(country_code):
-            if country_code in countries_outside_eu_or_exception_list:
-                countries_outside_eu_or_exception_list[
-                    country_code] = countries_outside_eu_or_exception_list[country_code] + 1
+        if is_country_code_in_eu_or_on_exception_list(country_code):
+            if country_code in countries_eu_or_exception_list:
+                countries_eu_or_exception_list[
+                    country_code] = countries_eu_or_exception_list[country_code] + 1
             else:
-                countries_outside_eu_or_exception_list[country_code] = 1
+                countries_eu_or_exception_list[country_code] = 1
         else:
             if country_code in countries_others:
                 countries_others[country_code] = countries_others[country_code] + 1
             else:
                 countries_others[country_code] = 1
 
-    nof_gdpr_countries = len(countries_outside_eu_or_exception_list)
+    nof_gdpr_countries = len(countries_eu_or_exception_list)
     nof_none_gdpr_countries = len(countries_others)
     if nof_gdpr_countries > 0:
         gdpr_rating = Rating(_, review_show_improvements_only)
@@ -360,7 +360,7 @@ def Validate_SPF_Policies(_, rating, _local, hostname):
         rating += none_gdpr_rating
 
     print("Email sent through GDPR Compliant countries",
-          countries_outside_eu_or_exception_list)
+          countries_eu_or_exception_list)
 
     print("Email sent through NONE Compliant countries", countries_others)
 
@@ -693,7 +693,7 @@ def Validate_MX_Records(_, rating, result_dict, _local, hostname):
 
     # 2.0 - Check GDPR for all IP-adresses
     countries_others = {}
-    countries_outside_eu_or_exception_list = {}
+    countries_eu_or_exception_list = {}
     for ip_address in email_servers:
         country_code = ''
         country_code = get_best_country_code(
@@ -701,19 +701,19 @@ def Validate_MX_Records(_, rating, result_dict, _local, hostname):
         if country_code == '':
             country_code = 'unknown'
 
-        if not is_country_code_in_eu_or_on_exception_list(country_code):
-            if country_code in countries_outside_eu_or_exception_list:
-                countries_outside_eu_or_exception_list[
-                    country_code] = countries_outside_eu_or_exception_list[country_code] + 1
+        if is_country_code_in_eu_or_on_exception_list(country_code):
+            if country_code in countries_eu_or_exception_list:
+                countries_eu_or_exception_list[
+                    country_code] = countries_eu_or_exception_list[country_code] + 1
             else:
-                countries_outside_eu_or_exception_list[country_code] = 1
+                countries_eu_or_exception_list[country_code] = 1
         else:
             if country_code in countries_others:
                 countries_others[country_code] = countries_others[country_code] + 1
             else:
                 countries_others[country_code] = 1
 
-    nof_gdpr_countries = len(countries_outside_eu_or_exception_list)
+    nof_gdpr_countries = len(countries_eu_or_exception_list)
     nof_none_gdpr_countries = len(countries_others)
     if nof_gdpr_countries > 0:
         gdpr_rating = Rating(_, review_show_improvements_only)
@@ -729,7 +729,7 @@ def Validate_MX_Records(_, rating, result_dict, _local, hostname):
         rating += none_gdpr_rating
 
     print("Email received through GDPR Compliant countries",
-          countries_outside_eu_or_exception_list)
+          countries_eu_or_exception_list)
 
     print("Email received through NONE Compliant countries", countries_others)
 
@@ -737,7 +737,7 @@ def Validate_MX_Records(_, rating, result_dict, _local, hostname):
     result_dict["mx-addresses"] = email_entries
     result_dict["mx-ipv4-servers"] = ipv4_servers
     result_dict["mx-ipv6-servers"] = ipv6_servers
-    result_dict["mx-gdpr-countries"] = countries_outside_eu_or_exception_list
+    result_dict["mx-gdpr-countries"] = countries_eu_or_exception_list
     result_dict["mx-none-gdpr-countries"] = countries_others
 
     return rating, ipv4_servers, ipv6_servers

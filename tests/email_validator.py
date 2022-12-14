@@ -409,9 +409,9 @@ def Rate_Invalid_format_SPF_Policies(_, rating, result_dict, _local):
 
 def Rate_has_SPF_Policies(_, rating, result_dict, _local):
     has_spf_records_rating = Rating(_, review_show_improvements_only)
-    if result_dict['spf-has-policy']:
+    if 'spf-has-policy' in result_dict:
         txt = _local('TEXT_REVIEW_SPF_DNS_RECORD_SUPPORT')
-        has_spf_records_rating.set_overall(5.0, txt)
+        has_spf_records_rating.set_overall(5.0)
         has_spf_records_rating.set_integrity_and_security(
             5.0, txt)
         has_spf_records_rating.set_standards(
@@ -480,13 +480,13 @@ def Rate_GDPR_for_SPF_Policies(_, rating, result_dict, _local):
         gdpr_rating = Rating(_, review_show_improvements_only)
         gdpr_rating.set_overall(5.0)
         gdpr_rating.set_integrity_and_security(
-            5.0, _local('TEXT_REVIEW_SPF_GDPR') + ': {0}'.format(', '.join(countries_eu_or_exception_list.keys())))
+            5.0, _local('TEXT_REVIEW_SPF_GDPR').format(', '.join(countries_eu_or_exception_list.keys())))
         rating += gdpr_rating
     if nof_none_gdpr_countries > 0:
         none_gdpr_rating = Rating(_, review_show_improvements_only)
         none_gdpr_rating.set_overall(1.0)
         none_gdpr_rating.set_integrity_and_security(
-            1.0, _local('TEXT_REVIEW_SPF_NONE_GDPR' + ': {0}'.format(', '.join(countries_others.keys()))))
+            1.0, _local('TEXT_REVIEW_SPF_NONE_GDPR').format(', '.join(countries_others.keys())))
         rating += none_gdpr_rating
     return rating
 
@@ -795,13 +795,13 @@ def Validate_MX_Records(_, rating, result_dict, _local, hostname):
         gdpr_rating = Rating(_, review_show_improvements_only)
         gdpr_rating.set_overall(5.0)
         gdpr_rating.set_integrity_and_security(
-            5.0, _local('TEXT_REVIEW_MX_GDPR' + ': {0}'.format(', '.join(countries_eu_or_exception_list.keys()))))
+            5.0, _local('TEXT_REVIEW_MX_GDPR').format(', '.join(countries_eu_or_exception_list.keys())))
         rating += gdpr_rating
     if nof_none_gdpr_countries > 0:
         none_gdpr_rating = Rating(_, review_show_improvements_only)
         none_gdpr_rating.set_overall(1.0)
         none_gdpr_rating.set_integrity_and_security(
-            1.0, _local('TEXT_REVIEW_MX_NONE_GDPR' + ': {0}'.format(', '.join(countries_others.keys()))))
+            1.0, _local('TEXT_REVIEW_MX_NONE_GDPR').format(', '.join(countries_others.keys())))
         rating += none_gdpr_rating
 
     # add data to result of test

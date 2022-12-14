@@ -360,31 +360,6 @@ def Validate_SPF_Policies(_, rating, result_dict, _local, hostname):
     return rating
 
 
-def replace_network_with_first_and_last_ipaddress(spf_addresses):
-    networs_to_remove = list()
-    for ip_address in spf_addresses:
-        # support for network mask
-        if '/' in ip_address:
-            network = False
-            if ':' in ip_address:
-                network = ipaddress.IPv6Network(ip_address, False)
-            else:
-                network = ipaddress.IPv4Network(ip_address, False)
-
-            num_addresses = network.num_addresses
-            if num_addresses > 0:
-                spf_addresses.append(network.__getitem__(0).__format__('s'))
-            if num_addresses > 1:
-                spf_addresses.append(network.__getitem__(
-                    network.num_addresses - 1).__format__('s'))
-
-            networs_to_remove.append(ip_address)
-
-    # remove IP networks
-    for ip_address in networs_to_remove:
-        spf_addresses.remove(ip_address)
-
-
 def Validate_SPF_Policy(_, rating, _local, hostname, lookup_count, spf_addresses):
 
     has_spf_policy = False
@@ -410,19 +385,25 @@ def Validate_SPF_Policy(_, rating, _local, hostname, lookup_count, spf_addresses
             # print('content:', spf_content.replace(
             #     '\r\n', '\\r\\n\r\n').replace(' ', '#'))
 
+    is_first_lookup = lookup_count == 1
     has_spf_records_rating = Rating(_, review_show_improvements_only)
+    txt = ''
     if has_spf_policy:
-        has_spf_records_rating.set_overall(5.0)
+        if is_first_lookup:
+            txt = _local('TEXT_REVIEW_SPF_DNS_RECORD_SUPPORT')
+        has_spf_records_rating.set_overall(5.0, txt)
         has_spf_records_rating.set_integrity_and_security(
-            5.0, _local('TEXT_REVIEW_SPF_DNS_RECORD_SUPPORT'))
+            5.0, txt)
         has_spf_records_rating.set_standards(
-            5.0, _local('TEXT_REVIEW_SPF_DNS_RECORD_SUPPORT'))
+            5.0, txt)
     else:
+        if is_first_lookup:
+            txt = _local('TEXT_REVIEW_SPF_DNS_RECORD_NO_SUPPORT')
         has_spf_records_rating.set_overall(1.0)
         has_spf_records_rating.set_integrity_and_security(
-            1.0, _local('TEXT_REVIEW_SPF_DNS_RECORD_NO_SUPPORT'))
+            1.0, txt)
         has_spf_records_rating.set_standards(
-            1.0, _local('TEXT_REVIEW_SPF_DNS_RECORD_NO_SUPPORT'))
+            1.0, txt)
     rating += has_spf_records_rating
 
     if has_spf_policy:
@@ -545,6 +526,31 @@ def Validate_SPF_Policy(_, rating, _local, hostname, lookup_count, spf_addresses
             print('ex C:', ex)
 
     return rating, spf_addresses, lookup_count
+
+
+def replace_network_with_first_and_last_ipaddress(spf_addresses):
+    networs_to_remove = list()
+    for ip_address in spf_addresses:
+        # support for network mask
+        if '/' in ip_address:
+            network = False
+            if ':' in ip_address:
+                network = ipaddress.IPv6Network(ip_address, False)
+            else:
+                network = ipaddress.IPv4Network(ip_address, False)
+
+            num_addresses = network.num_addresses
+            if num_addresses > 0:
+                spf_addresses.append(network.__getitem__(0).__format__('s'))
+            if num_addresses > 1:
+                spf_addresses.append(network.__getitem__(
+                    network.num_addresses - 1).__format__('s'))
+
+            networs_to_remove.append(ip_address)
+
+    # remove IP networks
+    for ip_address in networs_to_remove:
+        spf_addresses.remove(ip_address)
 
 
 def Validate_IPv6_Operation_Status(_, rating, _local, ipv6_servers):

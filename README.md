@@ -51,6 +51,7 @@ Add a interesting ingress here.
 * [Standard files](./docs/tests/standard.md)
 * [HTTP and Network](./docs/tests/http.md)
 * [Tracking & Integrity](./docs/tests/tracking.md)
+* [Email (Beta)](./docs/tests/email.md)
 
 
 # Contribute

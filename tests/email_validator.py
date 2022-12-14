@@ -175,7 +175,7 @@ def run_test(_, langCode, url):
     rating = Validate_MTA_STS_Policy(_, rating, _local, hostname)
     # 1.9 - Check SPF policy
     rating = Validate_SPF_Policies(
-        _, rating, _local, hostname)
+        _, rating, result_dict, _local, hostname)
 
     print(_('TEXT_TEST_END').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
@@ -313,23 +313,42 @@ def Validate_MTA_STS_Policy(_, rating, _local, hostname):
     return rating
 
 
-def Validate_SPF_Policies(_, rating, _local, hostname):
+def Validate_SPF_Policies(_, rating, result_dict, _local, hostname):
     lookup_count = 1
     spf_addresses = list()
     rating, spf_addresses, lookup_count = Validate_SPF_Policy(_, rating, _local, hostname,
                                                               lookup_count, spf_addresses)
     # 2.0 - Check GDPR for all IP-adresses
+    networs_to_remove = list()
+    for ip_address in spf_addresses:
+        # support for network mask
+        if '/' in ip_address:
+            network = False
+            if ':' in ip_address:
+                network = ipaddress.IPv6Network(ip_address, False)
+            else:
+                network = ipaddress.IPv4Network(ip_address, False)
+
+            num_addresses = network.num_addresses
+            if num_addresses > 0:
+                spf_addresses.append(network.__getitem__(0).__format__('s'))
+            if num_addresses > 1:
+                spf_addresses.append(network.__getitem__(
+                    network.num_addresses - 1).__format__('s'))
+
+            networs_to_remove.append(ip_address)
+
+    # remove IP networks
+    for ip_address in networs_to_remove:
+        spf_addresses.remove(ip_address)
+
     countries_others = {}
     countries_eu_or_exception_list = {}
     for ip_address in spf_addresses:
-        # TODO: add support for network mask
-        if '/' in ip_address:
-            continue
-
         country_code = ''
         country_code = get_best_country_code(
             ip_address, country_code)
-        if country_code == '':
+        if country_code == '' or country_code == '-':
             country_code = 'unknown'
 
         if is_country_code_in_eu_or_on_exception_list(country_code):
@@ -350,20 +369,14 @@ def Validate_SPF_Policies(_, rating, _local, hostname):
         gdpr_rating = Rating(_, review_show_improvements_only)
         gdpr_rating.set_overall(5.0)
         gdpr_rating.set_integrity_and_security(
-            5.0, _local('TEXT_REVIEW_MX_GDPR'))
+            5.0, _local('TEXT_REVIEW_SPF_GDPR') + ': {0}'.format(', '.join(countries_eu_or_exception_list.keys())))
         rating += gdpr_rating
     if nof_none_gdpr_countries > 0:
         none_gdpr_rating = Rating(_, review_show_improvements_only)
-        none_gdpr_rating.set_overall(4.95)
+        none_gdpr_rating.set_overall(2.5)
         none_gdpr_rating.set_integrity_and_security(
-            4.95, _local('TEXT_REVIEW_MX_NONE_GDPR'))
+            2.5, _local('TEXT_REVIEW_SPF_NONE_GDPR' + ': {0}'.format(', '.join(countries_others.keys()))))
         rating += none_gdpr_rating
-
-    print("Email sent through GDPR Compliant countries",
-          ', '.join(countries_eu_or_exception_list.keys()))
-
-    print("Email sent through NONE Compliant countries",
-          ', '.join(countries_others.keys()))
 
     return rating
 
@@ -699,7 +712,7 @@ def Validate_MX_Records(_, rating, result_dict, _local, hostname):
         country_code = ''
         country_code = get_best_country_code(
             ip_address, country_code)
-        if country_code == '':
+        if country_code == '' or country_code == '-':
             country_code = 'unknown'
 
         if is_country_code_in_eu_or_on_exception_list(country_code):
@@ -720,20 +733,14 @@ def Validate_MX_Records(_, rating, result_dict, _local, hostname):
         gdpr_rating = Rating(_, review_show_improvements_only)
         gdpr_rating.set_overall(5.0)
         gdpr_rating.set_integrity_and_security(
-            5.0, _local('TEXT_REVIEW_MX_GDPR'))
+            5.0, _local('TEXT_REVIEW_MX_GDPR' + ': {0}'.format(', '.join(countries_eu_or_exception_list.keys()))))
         rating += gdpr_rating
     if nof_none_gdpr_countries > 0:
         none_gdpr_rating = Rating(_, review_show_improvements_only)
-        none_gdpr_rating.set_overall(4.95)
+        none_gdpr_rating.set_overall(2.5)
         none_gdpr_rating.set_integrity_and_security(
-            4.95, _local('TEXT_REVIEW_MX_NONE_GDPR'))
+            2.5, _local('TEXT_REVIEW_MX_NONE_GDPR' + ': {0}'.format(', '.join(countries_others.keys()))))
         rating += none_gdpr_rating
-
-    print("Email received through GDPR Compliant countries",
-          ', '.join(countries_eu_or_exception_list.keys()))
-
-    print("Email received through NONE Compliant countries",
-          ', '.join(countries_others.keys()))
 
     # add data to result of test
     result_dict["mx-addresses"] = email_entries

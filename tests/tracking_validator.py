@@ -382,7 +382,7 @@ def rate_gdpr_and_schrems(content, _local, _):
             entry_country_code = get_best_country_code(
                 entry_ip_address, entry_country_code)
 
-            if entry_country_code == '':
+            if entry_country_code == '' or country_code == '-':
                 entry_country_code = 'unknown'
             if entry_country_code in countries:
                 countries[entry_country_code] = countries[entry_country_code] + 1

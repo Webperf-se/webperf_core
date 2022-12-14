@@ -3,6 +3,7 @@ import sys
 import socket
 import ssl
 import json
+import time
 import requests
 import urllib  # https://docs.python.org/3/library/urllib.parse.html
 import uuid
@@ -141,9 +142,13 @@ def dns_lookup(hostname, record_type):
         dns_records = dns.resolver.resolve(hostname, record_type)
     except dns.resolver.NXDOMAIN:
         # print("dns lookup error: No record found")
+        # sleep so we don't get banned for to many queries on DNS servers
+        time.sleep(1)
         return names
     except (dns.resolver.NoAnswer, dns.resolver.NoNameservers) as error:
         # print("dns lookup error: ", error)
+        # sleep so we don't get banned for to many queries on DNS servers
+        time.sleep(1)
         return names
 
     for dns_record in dns_records:
@@ -153,6 +158,8 @@ def dns_lookup(hostname, record_type):
         else:
             names.append(str(dns_record))
 
+        # sleep so we don't get banned for to many queries on DNS servers
+    time.sleep(1)
     return names
 
 

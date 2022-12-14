@@ -319,28 +319,7 @@ def Validate_SPF_Policies(_, rating, result_dict, _local, hostname):
     rating, spf_addresses, lookup_count = Validate_SPF_Policy(_, rating, _local, hostname,
                                                               lookup_count, spf_addresses)
     # 2.0 - Check GDPR for all IP-adresses
-    networs_to_remove = list()
-    for ip_address in spf_addresses:
-        # support for network mask
-        if '/' in ip_address:
-            network = False
-            if ':' in ip_address:
-                network = ipaddress.IPv6Network(ip_address, False)
-            else:
-                network = ipaddress.IPv4Network(ip_address, False)
-
-            num_addresses = network.num_addresses
-            if num_addresses > 0:
-                spf_addresses.append(network.__getitem__(0).__format__('s'))
-            if num_addresses > 1:
-                spf_addresses.append(network.__getitem__(
-                    network.num_addresses - 1).__format__('s'))
-
-            networs_to_remove.append(ip_address)
-
-    # remove IP networks
-    for ip_address in networs_to_remove:
-        spf_addresses.remove(ip_address)
+    replace_network_with_first_and_last_ipaddress(spf_addresses)
 
     countries_others = {}
     countries_eu_or_exception_list = {}
@@ -373,12 +352,37 @@ def Validate_SPF_Policies(_, rating, result_dict, _local, hostname):
         rating += gdpr_rating
     if nof_none_gdpr_countries > 0:
         none_gdpr_rating = Rating(_, review_show_improvements_only)
-        none_gdpr_rating.set_overall(2.5)
+        none_gdpr_rating.set_overall(1.0)
         none_gdpr_rating.set_integrity_and_security(
-            2.5, _local('TEXT_REVIEW_SPF_NONE_GDPR' + ': {0}'.format(', '.join(countries_others.keys()))))
+            1.0, _local('TEXT_REVIEW_SPF_NONE_GDPR' + ': {0}'.format(', '.join(countries_others.keys()))))
         rating += none_gdpr_rating
 
     return rating
+
+
+def replace_network_with_first_and_last_ipaddress(spf_addresses):
+    networs_to_remove = list()
+    for ip_address in spf_addresses:
+        # support for network mask
+        if '/' in ip_address:
+            network = False
+            if ':' in ip_address:
+                network = ipaddress.IPv6Network(ip_address, False)
+            else:
+                network = ipaddress.IPv4Network(ip_address, False)
+
+            num_addresses = network.num_addresses
+            if num_addresses > 0:
+                spf_addresses.append(network.__getitem__(0).__format__('s'))
+            if num_addresses > 1:
+                spf_addresses.append(network.__getitem__(
+                    network.num_addresses - 1).__format__('s'))
+
+            networs_to_remove.append(ip_address)
+
+    # remove IP networks
+    for ip_address in networs_to_remove:
+        spf_addresses.remove(ip_address)
 
 
 def Validate_SPF_Policy(_, rating, _local, hostname, lookup_count, spf_addresses):
@@ -737,9 +741,9 @@ def Validate_MX_Records(_, rating, result_dict, _local, hostname):
         rating += gdpr_rating
     if nof_none_gdpr_countries > 0:
         none_gdpr_rating = Rating(_, review_show_improvements_only)
-        none_gdpr_rating.set_overall(2.5)
+        none_gdpr_rating.set_overall(1.0)
         none_gdpr_rating.set_integrity_and_security(
-            2.5, _local('TEXT_REVIEW_MX_NONE_GDPR' + ': {0}'.format(', '.join(countries_others.keys()))))
+            1.0, _local('TEXT_REVIEW_MX_NONE_GDPR' + ': {0}'.format(', '.join(countries_others.keys()))))
         rating += none_gdpr_rating
 
     # add data to result of test

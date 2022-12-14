@@ -19,6 +19,7 @@ Add a small ingress here
 * [Standard files](standard.md)
 * [HTTP and Network](http.md)
 * [Tracking & Integrity](tracking.md)
+* [Email (Beta)](email.md)
 
 
 

@@ -11,7 +11,6 @@ import datetime
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.firefox.options import Options
-import IP2Location
 import gettext
 _ = gettext.gettext
 
@@ -20,13 +19,6 @@ request_timeout = config.http_request_timeout
 useragent = config.useragent
 review_show_improvements_only = config.review_show_improvements_only
 sitespeed_use_docker = config.sitespeed_use_docker
-
-ip2location_db = False
-try:
-    ip2location_db = IP2Location.IP2Location(
-        os.path.join("data", "IP2LOCATION-LITE-DB1.IPV6.BIN"))
-except Exception as ex:
-    print('Unable to load IP2Location Database from "data/IP2LOCATION-LITE-DB1.IPV6.BIN"', ex)
 
 
 def get_domains_from_url(url):
@@ -143,6 +135,7 @@ def get_foldername_from_url(url):
 
 
 def get_friendly_url_name(_local, url, request_index):
+
     request_friendly_name = _local(
         'TEXT_REQUEST_UNKNOWN').format(request_index)
     if request_index == 1:
@@ -389,7 +382,7 @@ def rate_gdpr_and_schrems(content, _local, _):
             entry_country_code = get_best_country_code(
                 entry_ip_address, entry_country_code)
 
-            if entry_country_code == '':
+            if entry_country_code == '' or country_code == '-':
                 entry_country_code = 'unknown'
             if entry_country_code in countries:
                 countries[entry_country_code] = countries[entry_country_code] + 1
@@ -930,108 +923,3 @@ def has_Vizzit(content):
         return True
 
     return False
-
-
-def get_eu_countries():
-    eu_countrycodes = {
-        'BE': 'Belgium',
-        'BG': 'Bulgaria',
-        'CZ': 'Czechia',
-        'DK': 'Denmark',
-        'DE': 'Germany',
-        'EE': 'Estonia',
-        'IE': 'Ireland',
-        'EL': 'Greece',
-        'ES': 'Spain',
-        'FR': 'France',
-        'HR': 'Croatia',
-        'IT': 'Italy',
-        'CY': 'Cyprus',
-        'LV': 'Latvia',
-        'LT': 'Lithuania',
-        'LU': 'Luxembourg',
-        'HU': 'Hungary',
-        'MT': 'Malta',
-        'NL': 'Netherlands',
-        'AT': 'Austria',
-        'PL': 'Poland',
-        'PT': 'Portugal',
-        'RO': 'Romania',
-        'SI': 'Slovenia',
-        'SK': 'Slovakia',
-        'FI': 'Finland',
-        'SE': 'Sweden'
-    }
-    return eu_countrycodes
-
-
-def get_exception_countries():
-    # Countries in below list comes from this page: https://ec.europa.eu/info/law/law-topic/data-protection/international-dimension-data-protection/adequacy-decisions_en
-    # Country codes for every country comes from Wikipedia when searching on country name, example: https://en.wikipedia.org/wiki/Iceland
-    exception_countrycodes = {
-        'NO': 'Norway',
-        'LI': 'Liechtenstein',
-        'IS': 'Iceland',
-        'AD': 'Andorra',
-        'AR': 'Argentina',
-        'CA': 'Canada',
-        'FO': 'Faroe Islands',
-        'GG': 'Guernsey',
-        'IL': 'Israel',
-        'IM': 'Isle of Man',
-        'JP': 'Japan',
-        'JE': 'Jersey',
-        'NZ': 'New Zealand',
-        'CH': 'Switzerland',
-        'UY': 'Uruguay',
-        'KR': 'South Korea',
-        'GB': 'United Kingdom',
-        'AX': 'Åland Islands',
-        # If we are unable to guess country, give it the benefit of the doubt.
-        'unknown': 'Unknown'
-    }
-    return exception_countrycodes
-
-
-def is_country_code_in_eu(country_code):
-    country_codes = get_eu_countries()
-    if country_code in country_codes:
-        return True
-
-    return False
-
-
-def is_country_code_in_exception_list(country_code):
-    country_codes = get_exception_countries()
-    if country_code in country_codes:
-        return True
-
-    return False
-
-
-def is_country_code_in_eu_or_on_exception_list(country_code):
-    return is_country_code_in_eu(country_code) or is_country_code_in_exception_list(country_code)
-
-
-def get_country_code_from_ip2location(ip_address):
-    rec = False
-    try:
-        rec = ip2location_db.get_all(ip_address)
-    except Exception:
-        return ''
-    try:
-        countrycode = rec.country_short
-        return countrycode
-    except Exception:
-        return ''
-
-
-def get_best_country_code(ip_address, default_country_code):
-    if is_country_code_in_eu_or_on_exception_list(default_country_code):
-        return default_country_code
-
-    country_code = get_country_code_from_ip2location(ip_address)
-    if country_code == '':
-        return default_country_code
-
-    return country_code

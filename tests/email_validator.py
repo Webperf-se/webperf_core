@@ -10,7 +10,7 @@ import datetime
 import urllib
 import config
 from models import Rating
-from tests.utils import dns_lookup, httpRequestGetContent
+from tests.utils import dns_lookup, get_best_country_code, httpRequestGetContent, is_country_code_in_eu_or_on_exception_list
 import gettext
 _local = gettext.gettext
 
@@ -18,6 +18,7 @@ _local = gettext.gettext
 request_timeout = config.http_request_timeout
 useragent = config.useragent
 review_show_improvements_only = config.review_show_improvements_only
+
 
 # We are doing this to support IPv6
 
@@ -173,10 +174,8 @@ def run_test(_, langCode, url):
     # 1.8 - Check MTA-STS policy
     rating = Validate_MTA_STS_Policy(_, rating, _local, hostname)
     # 1.9 - Check SPF policy
-    rating, spf_lookup_count = Validate_SPF_Policy(
-        _, rating, _local, hostname)
-
-    # 2.0 - Check GDPR for all IP-adresses
+    rating = Validate_SPF_Policies(
+        _, rating, result_dict, _local, hostname)
 
     print(_('TEXT_TEST_END').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
@@ -314,11 +313,122 @@ def Validate_MTA_STS_Policy(_, rating, _local, hostname):
     return rating
 
 
-def Validate_SPF_Policy(_, rating, _local, hostname, lookup_count=1):
+def Validate_SPF_Policies(_, rating, result_dict, _local, hostname):
+    spf_result_dict = Validate_SPF_Policy(_, _local, hostname)
+    result_dict.update(spf_result_dict)
 
-    has_spf_policy = False
+    rating = Rate_has_SPF_Policies(_, rating, result_dict, _local)
+    rating = Rate_Invalid_format_SPF_Policies(_, rating, result_dict, _local)
+    rating = Rate_Too_many_DNS_lookup_for_SPF_Policies(
+        _, rating, result_dict, _local)
+    rating = Rate_Use_of_PTR_for_SPF_Policies(_, rating, result_dict, _local)
 
-    if lookup_count > 10:
+    rating = Rate_Fail_Configuration_for_SPF_Policies(
+        _, rating, result_dict, _local)
+
+    rating = Rate_GDPR_for_SPF_Policies(_, rating, result_dict, _local)
+
+    return rating
+
+
+def Rate_Use_of_PTR_for_SPF_Policies(_, rating, result_dict, _local):
+    if 'spf-uses-ptr' in result_dict:
+        has_spf_record_ptr_being_used_rating = Rating(
+            _, review_show_improvements_only)
+        has_spf_record_ptr_being_used_rating.set_overall(1.0)
+        has_spf_record_ptr_being_used_rating.set_standards(
+            1.0, _local('TEXT_REVIEW_SPF_DNS_RECORD_PTR_USED'))
+        rating += has_spf_record_ptr_being_used_rating
+
+    return rating
+
+
+def Rate_Fail_Configuration_for_SPF_Policies(_, rating, result_dict, _local):
+    if 'spf-uses-ignorefail' in result_dict:
+        has_spf_ignore_records_rating = Rating(
+            _, review_show_improvements_only)
+        has_spf_ignore_records_rating.set_overall(2.0)
+        has_spf_ignore_records_rating.set_integrity_and_security(
+            1.0, _local('TEXT_REVIEW_SPF_DNS_IGNORE_RECORD_NO_SUPPORT'))
+        has_spf_ignore_records_rating.set_standards(
+            2.5, _local('TEXT_REVIEW_SPF_DNS_IGNORE_RECORD_NO_SUPPORT'))
+        rating += has_spf_ignore_records_rating
+
+    if 'spf-uses-neutralfail' in result_dict:
+        has_spf_dns_record_neutralfail_records_rating = Rating(
+            _, review_show_improvements_only)
+        has_spf_dns_record_neutralfail_records_rating.set_overall(
+            4.0)
+        has_spf_dns_record_neutralfail_records_rating.set_integrity_and_security(
+            3.0, _local('TEXT_REVIEW_SPF_DNS_NEUTRALFAIL_RECORD'))
+        has_spf_dns_record_neutralfail_records_rating.set_standards(
+            5.0, _local('TEXT_REVIEW_SPF_DNS_NEUTRALFAIL_RECORD'))
+        rating += has_spf_dns_record_neutralfail_records_rating
+
+    if 'spf-uses-softfail' in result_dict:
+        has_spf_dns_record_softfail_records_rating = Rating(
+            _, review_show_improvements_only)
+        has_spf_dns_record_softfail_records_rating.set_overall(5.0)
+        has_spf_dns_record_softfail_records_rating.set_integrity_and_security(
+            4.0, _local('TEXT_REVIEW_SPF_DNS_SOFTFAIL_RECORD'))
+        has_spf_dns_record_softfail_records_rating.set_standards(
+            5.0, _local('TEXT_REVIEW_SPF_DNS_SOFTFAIL_RECORD'))
+        rating += has_spf_dns_record_softfail_records_rating
+
+    if 'spf-uses-hardfail' in result_dict:
+        has_spf_dns_record_hardfail_records_rating = Rating(
+            _, review_show_improvements_only)
+        has_spf_dns_record_hardfail_records_rating.set_overall(5.0)
+        has_spf_dns_record_hardfail_records_rating.set_integrity_and_security(
+            5.0, _local('TEXT_REVIEW_SPF_DNS_HARDFAIL_RECORD'))
+        has_spf_dns_record_hardfail_records_rating.set_standards(
+            5.0, _local('TEXT_REVIEW_SPF_DNS_HARDFAIL_RECORD'))
+        rating += has_spf_dns_record_hardfail_records_rating
+    return rating
+
+
+def Rate_Invalid_format_SPF_Policies(_, rating, result_dict, _local):
+    if 'spf-uses-none-standard' in result_dict:
+        has_spf_unknown_section_rating = Rating(
+            _, review_show_improvements_only)
+        has_spf_unknown_section_rating.set_overall(1.0)
+        has_spf_unknown_section_rating.set_standards(
+            1.0, _local('TEXT_REVIEW_SPF_UNKNOWN_SECTION'))
+        rating += has_spf_unknown_section_rating
+
+    if 'spf-error-double-space' in result_dict:
+        has_spf_dns_record_double_space_rating = Rating(
+            _, review_show_improvements_only)
+        has_spf_dns_record_double_space_rating.set_overall(
+            3.0)
+        has_spf_dns_record_double_space_rating.set_standards(
+            3.0, _local('TEXT_REVIEW_SPF_DNS_DOUBLE_SPACE_RECORD'))
+        rating += has_spf_dns_record_double_space_rating
+    return rating
+
+
+def Rate_has_SPF_Policies(_, rating, result_dict, _local):
+    has_spf_records_rating = Rating(_, review_show_improvements_only)
+    if 'spf-has-policy' in result_dict:
+        txt = _local('TEXT_REVIEW_SPF_DNS_RECORD_SUPPORT')
+        has_spf_records_rating.set_overall(5.0)
+        has_spf_records_rating.set_integrity_and_security(
+            5.0, txt)
+        has_spf_records_rating.set_standards(
+            5.0, txt)
+    else:
+        txt = _local('TEXT_REVIEW_SPF_DNS_RECORD_NO_SUPPORT')
+        has_spf_records_rating.set_overall(1.0)
+        has_spf_records_rating.set_integrity_and_security(
+            1.0, txt)
+        has_spf_records_rating.set_standards(
+            1.0, txt)
+    rating += has_spf_records_rating
+    return rating
+
+
+def Rate_Too_many_DNS_lookup_for_SPF_Policies(_, rating, result_dict, _local):
+    if 'spf-error-to-many-dns-lookups' in result_dict:
         to_many_spf_dns_lookups_rating = Rating(
             _, review_show_improvements_only)
         to_many_spf_dns_lookups_rating.set_overall(1.0)
@@ -327,34 +437,83 @@ def Validate_SPF_Policy(_, rating, _local, hostname, lookup_count=1):
         to_many_spf_dns_lookups_rating.set_performance(
             4.0, _local('TEXT_REVIEW_SPF_TO_MANY_DNS_LOOKUPS'))
         rating += to_many_spf_dns_lookups_rating
-        return rating, lookup_count
+    return rating
 
+
+def Rate_GDPR_for_SPF_Policies(_, rating, result_dict, _local):
+    spf_addresses = list()
+    if 'spf-ipv4' not in result_dict:
+        result_dict['spf-ipv4'] = list()
+    if 'spf-ipv6' not in result_dict:
+        result_dict['spf-ipv6'] = list()
+    spf_addresses.extend(result_dict['spf-ipv4'])
+    spf_addresses.extend(result_dict['spf-ipv6'])
+
+    # 2.0 - Check GDPR for all IP-adresses
+    replace_network_with_first_and_last_ipaddress(spf_addresses)
+
+    countries_others = {}
+    countries_eu_or_exception_list = {}
+
+    for ip_address in spf_addresses:
+        country_code = ''
+        country_code = get_best_country_code(
+            ip_address, country_code)
+        if country_code == '' or country_code == '-':
+            country_code = 'unknown'
+
+        if is_country_code_in_eu_or_on_exception_list(country_code):
+            if country_code in countries_eu_or_exception_list:
+                countries_eu_or_exception_list[
+                    country_code] = countries_eu_or_exception_list[country_code] + 1
+            else:
+                countries_eu_or_exception_list[country_code] = 1
+        else:
+            if country_code in countries_others:
+                countries_others[country_code] = countries_others[country_code] + 1
+            else:
+                countries_others[country_code] = 1
+
+    nof_gdpr_countries = len(countries_eu_or_exception_list)
+    nof_none_gdpr_countries = len(countries_others)
+    if nof_gdpr_countries > 0:
+        gdpr_rating = Rating(_, review_show_improvements_only)
+        gdpr_rating.set_overall(5.0)
+        gdpr_rating.set_integrity_and_security(
+            5.0, _local('TEXT_REVIEW_SPF_GDPR').format(', '.join(countries_eu_or_exception_list.keys())))
+        rating += gdpr_rating
+    if nof_none_gdpr_countries > 0:
+        none_gdpr_rating = Rating(_, review_show_improvements_only)
+        none_gdpr_rating.set_overall(1.0)
+        none_gdpr_rating.set_integrity_and_security(
+            1.0, _local('TEXT_REVIEW_SPF_NONE_GDPR').format(', '.join(countries_others.keys())))
+        rating += none_gdpr_rating
+    return rating
+
+
+def Validate_SPF_Policy(_, _local, hostname, result_dict={}):
     # https://proton.me/support/anti-spoofing-custom-domain
+
+    if 'spf-dns-lookup-count' in result_dict and result_dict['spf-dns-lookup-count'] > 10:
+        result_dict['spf-error-to-many-dns-lookups'] = True
+        return result_dict
+
+    if 'spf-dns-lookup-count' not in result_dict:
+        result_dict['spf-dns-lookup-count'] = 1
+    else:
+        result_dict['spf-dns-lookup-count'] = result_dict['spf-dns-lookup-count'] + 1
+
     spf_results = dns_lookup(hostname, 'TXT')
     spf_content = ''
+
     for result in spf_results:
         if 'v=spf1 ' in result:
-            has_spf_policy = True
+            result_dict['spf-has-policy'] = True
             spf_content = result
             # print('content:', spf_content.replace(
             #     '\r\n', '\\r\\n\r\n').replace(' ', '#'))
 
-    has_spf_records_rating = Rating(_, review_show_improvements_only)
-    if has_spf_policy:
-        has_spf_records_rating.set_overall(5.0)
-        has_spf_records_rating.set_integrity_and_security(
-            5.0, _local('TEXT_REVIEW_SPF_DNS_RECORD_SUPPORT'))
-        has_spf_records_rating.set_standards(
-            5.0, _local('TEXT_REVIEW_SPF_DNS_RECORD_SUPPORT'))
-    else:
-        has_spf_records_rating.set_overall(1.0)
-        has_spf_records_rating.set_integrity_and_security(
-            1.0, _local('TEXT_REVIEW_SPF_DNS_RECORD_NO_SUPPORT'))
-        has_spf_records_rating.set_standards(
-            1.0, _local('TEXT_REVIEW_SPF_DNS_RECORD_NO_SUPPORT'))
-    rating += has_spf_records_rating
-
-    if has_spf_policy:
+    if 'spf-has-policy' in result_dict:
         try:
             # https://www.rfc-editor.org/rfc/rfc7208#section-9.1
             spf_sections = spf_content.split(' ')
@@ -362,83 +521,37 @@ def Validate_SPF_Policy(_, rating, _local, hostname, lookup_count=1):
             # http://www.open-spf.org/SPF_Record_Syntax/
             for section in spf_sections:
                 if section == '':
-                    has_spf_dns_record_double_space_rating = Rating(
-                        _, review_show_improvements_only)
-                    has_spf_dns_record_double_space_rating.set_overall(
-                        3.0)
-                    has_spf_dns_record_double_space_rating.set_standards(
-                        3.0, _local('TEXT_REVIEW_SPF_DNS_DOUBLE_SPACE_RECORD'))
-                    rating += has_spf_dns_record_double_space_rating
+                    result_dict['spf-error-double-space'] = True
                     continue
 
                 # print('section:', section)
                 if section.startswith('ip4:'):
                     data = section[4:]
-                    if '/' in data:
-                        a = 1
-                        # TODO: support for ipv4 network mask
-                        #     if ipaddress.IPv4Network(data, False).overlaps(
-                        #             ipaddress.IPv4Network(blacklisted_ipaddress)):
-                        # print('IPv4Network:', data,
-                        #       blacklisted_ipaddress)
-                    else:
-                        a = 1
+                    if 'spf-ipv4' not in result_dict:
+                        result_dict['spf-ipv4'] = list()
+                    result_dict['spf-ipv4'].append(data)
                 elif section.startswith('ip6:'):
                     data = section[4:]
-                    if '/' in data:
-                        a = 1
-                        # TODO: support for ipv6 network mask
-                        # if ipaddress.IPv6Network(data, False).overlaps(
-                        #         ipaddress.IPv6Network(blacklisted_ipaddress)):
-                        #     print('IPv6Network:', data,
-                        #           blacklisted_ipaddress)
-                    else:
-                        a = 1
+                    if 'spf-ipv6' not in result_dict:
+                        result_dict['spf-ipv6'] = list()
+                    result_dict['spf-ipv6'].append(data)
                 elif section.startswith('include:') or section.startswith('+include:'):
                     spf_domain = section[8:]
-                    rating, lookup_count = Validate_SPF_Policy(
-                        _, rating, _local, spf_domain, lookup_count + 1)
+                    subresult_dict = Validate_SPF_Policy(
+                        _, _local, spf_domain)
+                    result_dict.update(subresult_dict)
                 elif section.startswith('?all'):
                     # What do this do and should we rate on it?
-                    has_spf_dns_record_neutralfail_records_rating = Rating(
-                        _, review_show_improvements_only)
-                    has_spf_dns_record_neutralfail_records_rating.set_overall(
-                        4.0)
-                    has_spf_dns_record_neutralfail_records_rating.set_integrity_and_security(
-                        3.0, _local('TEXT_REVIEW_SPF_DNS_NEUTRALFAIL_RECORD'))
-                    has_spf_dns_record_neutralfail_records_rating.set_standards(
-                        5.0, _local('TEXT_REVIEW_SPF_DNS_NEUTRALFAIL_RECORD'))
-                    rating += has_spf_dns_record_neutralfail_records_rating
+                    result_dict['spf-uses-neutralfail'] = True
                 elif section.startswith('~all'):
                     # add support for SoftFail
-                    has_spf_dns_record_softfail_records_rating = Rating(
-                        _, review_show_improvements_only)
-                    has_spf_dns_record_softfail_records_rating.set_overall(5.0)
-                    has_spf_dns_record_softfail_records_rating.set_integrity_and_security(
-                        4.0, _local('TEXT_REVIEW_SPF_DNS_SOFTFAIL_RECORD'))
-                    has_spf_dns_record_softfail_records_rating.set_standards(
-                        5.0, _local('TEXT_REVIEW_SPF_DNS_SOFTFAIL_RECORD'))
-                    rating += has_spf_dns_record_softfail_records_rating
+                    result_dict['spf-uses-softfail'] = True
                 elif section.startswith('-all'):
                     # add support for HardFail
-                    has_spf_dns_record_hardfail_records_rating = Rating(
-                        _, review_show_improvements_only)
-                    has_spf_dns_record_hardfail_records_rating.set_overall(5.0)
-                    has_spf_dns_record_hardfail_records_rating.set_integrity_and_security(
-                        5.0, _local('TEXT_REVIEW_SPF_DNS_HARDFAIL_RECORD'))
-                    has_spf_dns_record_hardfail_records_rating.set_standards(
-                        5.0, _local('TEXT_REVIEW_SPF_DNS_HARDFAIL_RECORD'))
-                    rating += has_spf_dns_record_hardfail_records_rating
+                    result_dict['spf-uses-hardfail'] = True
                 elif section.startswith('+all') or section.startswith('all'):
                     # basicly whitelist everything... Big fail
-                    has_spf_ignore_records_rating = Rating(
-                        _, review_show_improvements_only)
-                    has_spf_ignore_records_rating.set_overall(2.0)
-                    has_spf_ignore_records_rating.set_integrity_and_security(
-                        1.0, _local('TEXT_REVIEW_SPF_DNS_IGNORE_RECORD_NO_SUPPORT'))
-                    has_spf_ignore_records_rating.set_standards(
-                        2.5, _local('TEXT_REVIEW_SPF_DNS_IGNORE_RECORD_NO_SUPPORT'))
-                    rating += has_spf_ignore_records_rating
+                    result_dict['spf-uses-ignorefail'] = True
                 elif section.startswith('v=spf1'):
                     c = 1
                 elif section.startswith('mx') or section.startswith('+mx'):
@@ -449,12 +562,7 @@ def Validate_SPF_Policy(_, rating, _local, hostname, lookup_count=1):
                     c = 1
                 elif section.startswith('ptr') or section.startswith('+ptr'):
                     # What do this do and should we rate on it?
-                    has_spf_record_ptr_being_used_rating = Rating(
-                        _, review_show_improvements_only)
-                    has_spf_record_ptr_being_used_rating.set_overall(1.0)
-                    has_spf_record_ptr_being_used_rating.set_standards(
-                        1.0, _local('TEXT_REVIEW_SPF_DNS_RECORD_PTR_USED'))
-                    rating += has_spf_record_ptr_being_used_rating
+                    result_dict['spf-uses-ptr'] = True
                 elif section.startswith('exists:'):
                     # TODO: What do this do and should we rate on it?
                     c = 1
@@ -465,17 +573,36 @@ def Validate_SPF_Policy(_, rating, _local, hostname, lookup_count=1):
                     # TODO: What do this do and should we rate on it?
                     c = 1
                 else:
-                    print('UNSUPPORTED SECTION:', section)
-                    has_spf_unknown_section_rating = Rating(
-                        _, review_show_improvements_only)
-                    has_spf_unknown_section_rating.set_overall(1.0)
-                    has_spf_unknown_section_rating.set_standards(
-                        1.0, _local('TEXT_REVIEW_SPF_UNKNOWN_SECTION'))
-                    rating += has_spf_unknown_section_rating
+                    result_dict['spf-uses-none-standard'] = True
         except Exception as ex:
             print('ex C:', ex)
 
-    return rating, lookup_count
+    return result_dict
+
+
+def replace_network_with_first_and_last_ipaddress(spf_addresses):
+    networs_to_remove = list()
+    for ip_address in spf_addresses:
+        # support for network mask
+        if '/' in ip_address:
+            network = False
+            if ':' in ip_address:
+                network = ipaddress.IPv6Network(ip_address, False)
+            else:
+                network = ipaddress.IPv4Network(ip_address, False)
+
+            num_addresses = network.num_addresses
+            if num_addresses > 0:
+                spf_addresses.append(network.__getitem__(0).__format__('s'))
+            if num_addresses > 1:
+                spf_addresses.append(network.__getitem__(
+                    network.num_addresses - 1).__format__('s'))
+
+            networs_to_remove.append(ip_address)
+
+    # remove IP networks
+    for ip_address in networs_to_remove:
+        spf_addresses.remove(ip_address)
 
 
 def Validate_IPv6_Operation_Status(_, rating, _local, ipv6_servers):
@@ -640,9 +767,48 @@ def Validate_MX_Records(_, rating, result_dict, _local, hostname):
             1.0, _local('TEXT_REVIEW_IPV6_NO_SUPPORT'))
     rating += nof_ipv6_rating
 
+    # 2.0 - Check GDPR for all IP-adresses
+    countries_others = {}
+    countries_eu_or_exception_list = {}
+    for ip_address in email_servers:
+        country_code = ''
+        country_code = get_best_country_code(
+            ip_address, country_code)
+        if country_code == '' or country_code == '-':
+            country_code = 'unknown'
+
+        if is_country_code_in_eu_or_on_exception_list(country_code):
+            if country_code in countries_eu_or_exception_list:
+                countries_eu_or_exception_list[
+                    country_code] = countries_eu_or_exception_list[country_code] + 1
+            else:
+                countries_eu_or_exception_list[country_code] = 1
+        else:
+            if country_code in countries_others:
+                countries_others[country_code] = countries_others[country_code] + 1
+            else:
+                countries_others[country_code] = 1
+
+    nof_gdpr_countries = len(countries_eu_or_exception_list)
+    nof_none_gdpr_countries = len(countries_others)
+    if nof_gdpr_countries > 0:
+        gdpr_rating = Rating(_, review_show_improvements_only)
+        gdpr_rating.set_overall(5.0)
+        gdpr_rating.set_integrity_and_security(
+            5.0, _local('TEXT_REVIEW_MX_GDPR').format(', '.join(countries_eu_or_exception_list.keys())))
+        rating += gdpr_rating
+    if nof_none_gdpr_countries > 0:
+        none_gdpr_rating = Rating(_, review_show_improvements_only)
+        none_gdpr_rating.set_overall(1.0)
+        none_gdpr_rating.set_integrity_and_security(
+            1.0, _local('TEXT_REVIEW_MX_NONE_GDPR').format(', '.join(countries_others.keys())))
+        rating += none_gdpr_rating
+
     # add data to result of test
     result_dict["mx-addresses"] = email_entries
     result_dict["mx-ipv4-servers"] = ipv4_servers
     result_dict["mx-ipv6-servers"] = ipv6_servers
+    result_dict["mx-gdpr-countries"] = countries_eu_or_exception_list
+    result_dict["mx-none-gdpr-countries"] = countries_others
 
     return rating, ipv4_servers, ipv6_servers

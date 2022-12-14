@@ -128,3 +128,15 @@ msgstr "MX DNS IPv6 record has no redundance"
 
 msgid "TEXT_REVIEW_IPV6_NO_SUPPORT"
 msgstr "MX DNS IPv6 record not found"
+
+msgid "TEXT_REVIEW_MX_GDPR"
+msgstr "MX DNS Servers in GDPR compliant countries: {0}"
+
+msgid "TEXT_REVIEW_MX_NONE_GDPR"
+msgstr "MX DNS Servers in none GDPR compiant countries: {0}"
+
+msgid "TEXT_REVIEW_SPF_GDPR"
+msgstr "SPF Servers in GDPR compliant countries: {0}"
+
+msgid "TEXT_REVIEW_SPF_NONE_GDPR"
+msgstr "SPF Servers in none GDPR compiant countries: {0}"

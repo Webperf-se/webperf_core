@@ -54,6 +54,14 @@ def run_test(_, langCode, url):
     print(_('TEXT_TEST_START').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
+    # We must take in consideration "www." subdomains...
+
+    o = urllib.parse.urlparse(url)
+    hostname = o.hostname
+
+    if hostname.startswith('www.'):
+        url = url.replace(hostname, hostname[4:])
+
     nof_checks = 0
     check_url = True
 
@@ -152,8 +160,10 @@ def ip_version_score(hostname, _, _local):
 
     ip6_result = dns_lookup(hostname, "AAAA")
 
+    nof_ip6 = len(ip6_result)
+    nof_ip4 = len(ip4_result)
+
     ip6_rating = Rating(_, review_show_improvements_only)
-    if len(ip6_result) > 0:
         ip6_rating.set_overall(5.0)
         ip6_rating.set_standards(
             5.0, _local('TEXT_REVIEW_IP_VERSION_IPV6'))

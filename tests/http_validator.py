@@ -164,6 +164,7 @@ def ip_version_score(hostname, _, _local):
     nof_ip4 = len(ip4_result)
 
     ip6_rating = Rating(_, review_show_improvements_only)
+    if nof_ip6 > 0:
         ip6_rating.set_overall(5.0)
         ip6_rating.set_standards(
             5.0, _local('TEXT_REVIEW_IP_VERSION_IPV6'))
@@ -175,7 +176,7 @@ def ip_version_score(hostname, _, _local):
     rating += ip6_rating
 
     ip4_rating = Rating(_, review_show_improvements_only)
-    if len(ip4_result) > 0:
+    if nof_ip4 > 0:
         ip4_rating.set_overall(5.0)
         ip4_rating.set_standards(
             5.0, _local('TEXT_REVIEW_IP_VERSION_IPV4'))

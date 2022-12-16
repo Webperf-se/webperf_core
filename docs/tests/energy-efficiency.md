@@ -28,7 +28,7 @@ This section has not been written yet.
 This test is using Google LightHouse in the background
 so please follow instructions on page about [Google Lighthouse Based Test](./google-lighthouse-based.md)
 
-### How to update carbon percentile reference
+### How to update carbon percentile reference?
 
 Below are the steps that you need to do to calculate a new carbon percentile reference file.
 As you can read above, this are required if you want to have a up to date reference regarding carbon footprint.
@@ -49,7 +49,7 @@ We recommend running it as follows:
 python carbon-rating.py -i data\carbon-references-2022.json -o tests\energy_efficiency_carbon_percentiles.py
 ```
 
-For webperf-core to use your new percentiles it has to be placed and names as follows
+For webperf-core to use your new percentiles it has to be placed and named as follows
 ```
 tests\energy_efficiency_carbon_percentiles.py
 ```

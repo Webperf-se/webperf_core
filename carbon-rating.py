@@ -2,17 +2,15 @@
 import sys
 import getopt
 import datetime
-from models import Sites, SiteTests
-import config
 import gettext
 import math
-import csv
 import datetime
 import json
 import gettext
 from datetime import datetime
 
-C2_INDEX = 0
+FIELD_INDEX_DATE = 0
+FIELD_INDEX_DATA = 1
 
 
 def getPercentile(arr, percentile):
@@ -31,41 +29,6 @@ def getPercentile(arr, percentile):
     return percentile
 
 
-def fieldnames():
-    result = ['c2']
-    return result
-
-
-def read_c2(input_filename):
-    c2s = list()
-
-    with open(input_filename, newline='') as csvfile:
-        dialect = csv.Sniffer().sniff(csvfile.read(1024))
-        csvfile.seek(0)
-        reader = csv.reader(csvfile, dialect)
-
-    with open(input_filename, newline='') as csvfile:
-        csv_reader = csv.reader(csvfile, delimiter=',', quotechar='|')
-        current_index = 0
-        for row in csv_reader:
-            number_of_fields = len(fieldnames())
-            current_number_of_fields = len(row)
-            if number_of_fields == current_number_of_fields:
-                # ignore first row as that is our header info
-                if current_index != 0:
-                    c2s.append(transform_value(row[C2_INDEX]))
-            elif current_number_of_fields == 1:
-                # we have no header and only one colmn, use column as website url
-                c2s.append(transform_value("".join(row)))
-            current_index += 1
-
-    return c2s
-
-
-def transform_value(value):
-    return float("{0:.5f}".format(float(value)))
-
-
 def write(output_filename, content):
     with open(output_filename, 'w') as outfile:
         outfile.write(content)
@@ -77,15 +40,12 @@ def main(argv):
 
 
     Usage:
-    1) Alter energy_efficiency.py so the review is ONLY c2 value.
-    2) run webperf-core test on all websites you want to use for your percentiles (with csv as output file)
-    3) alter the csv output file to only have ONE column, the report column (currently holding c2 value)
-    4) run this file against your output file, for example like this: 
-    carbon-rating.py -i data\c2-websitecarbon-com-2020-01-27.csv -o tests\energy_efficiency_carbon_percentiles.py
+    * run webperf-core test on all websites you want to use for your percentiles (with json as output file)
+    * run this file against your output file, for example like this: carbon-rating.py -i data\carbon-references-2022.json -o tests\energy_efficiency_carbon_percentiles.py
 
     Options and arguments:
     -h/--help\t\t\t: Help information on how to use script
-    -i/--input <file path>\t: input file path (.csv)
+    -i/--input <file path>\t: input file path (.json)
     -o/--output <file path>\t: output file path (.py)
     """
 
@@ -132,18 +92,29 @@ def main(argv):
             elif (file_ending == ".xml"):  # https://example.com/sitemap.xml
                 from engines.sitemap import read_sites, add_site, delete_site
             else:
-                from engines.json import read_sites, add_site, delete_site
+                from engines.json import read_tests, read_sites, add_site, delete_site
             pass
         elif opt in ("-o", "--output"):  # output file path
             output_filename = arg
             pass
 
-    c2s = read_c2(input_filename)
-    c2s_sorted = sorted(c2s)
+    tests = read_tests(input_filename, 0, -1)
+    generated_date = False
+    co2s = list()
 
-    intervals = list()
+    for test in tests:
+        if not generated_date:
+            generated_date = datetime.fromisoformat(
+                test[FIELD_INDEX_DATE]).strftime('%Y-%m-%d')
 
-    generated_date = datetime.today().strftime('%Y-%m-%d')
+        str_data = test[FIELD_INDEX_DATA].replace('\'', '"')
+        data = json.loads(str_data)
+        print(str_data)
+        co2s.append(data['co2'])
+
+    if not generated_date:
+        generated_date = datetime.today().strftime('%Y-%m-%d')
+
     output_content = "# This array was last generated with carbon-rating.py on {0}\n".format(
         generated_date)
     output_content += "def get_generated_date():\n"
@@ -153,9 +124,13 @@ def main(argv):
     output_content += "def get_percentiles():\n"
     output_content += "\treturn [\n"
 
+    co2s_sorted = sorted(co2s)
+
+    intervals = list()
+
     index = 1
     while (index <= 100):
-        percentile = getPercentile(c2s_sorted, index)
+        percentile = getPercentile(co2s_sorted, index)
         intervals.append(percentile)
         position = index - 1
         if index < 100:

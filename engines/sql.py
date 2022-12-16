@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-from engines.utils import use_website
+from engines.utils import use_item
 
 
 def write_tests(output_filename, siteTests, input_skip, input_take):
     with open(output_filename, 'w') as outfile:
         current_index = 0
         for test in siteTests:
-            if use_website(current_index, input_skip, input_take):
+            if use_item(current_index, input_skip, input_take):
                 # update testresult for all sites
                 format_str = """INSERT INTO sitetests (site_id, test_date, type_of_test,
                 check_report, check_report_sec, check_report_perf, check_report_a11y, check_report_stand,

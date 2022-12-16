@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from engines.utils import use_website
+from engines.utils import use_item
 import json
 
 
@@ -37,19 +37,10 @@ def read_sites(input_filename, input_skip, input_take):
         data = json.load(json_input_file)
         current_index = 0
         for site in data["sites"]:
-            if use_website(current_index, input_skip, input_take):
+            if use_item(current_index, input_skip, input_take):
                 sites.append([site["id"], site["url"]])
             current_index += 1
     return sites
-
-
-def write_tests(output_filename, siteTests):
-    with open(output_filename, 'w') as outfile:
-        # json require us to have an object as root element
-        testsContainerObject = {
-            "tests": siteTests
-        }
-        json.dump(testsContainerObject, outfile)
 
 
 def write_sites(output_filename, sites):
@@ -68,3 +59,28 @@ def write_sites(output_filename, sites):
             "sites": jsonSites
         }
         json.dump(sitesContainerObject, outfile)
+
+
+def read_tests(input_filename, input_skip, input_take):
+    result = list()
+    with open(input_filename) as json_input_file:
+        data = json.load(json_input_file)
+        current_index = 0
+        for test_result in data["tests"]:
+            if use_item(current_index, input_skip, input_take):
+                if "type_of_test" in test_result and test_result["type_of_test"] == 22:
+                    result.append([test_result["date"], test_result["data"]])
+                else:
+                    print('WARNING: ARE YOU USING CORRECT FILE?!')
+            current_index += 1
+    print('result', result)
+    return result
+
+
+def write_tests(output_filename, siteTests):
+    with open(output_filename, 'w') as outfile:
+        # json require us to have an object as root element
+        testsContainerObject = {
+            "tests": siteTests
+        }
+        json.dump(testsContainerObject, outfile)

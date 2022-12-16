@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from models import Sites, SiteTests
-from engines.utils import use_website
+from engines.utils import use_item
 import csv
 
 
@@ -56,11 +56,11 @@ def read_sites(input_filename, input_skip, input_take):
             current_number_of_fields = len(row)
             if number_of_fields == current_number_of_fields:
                 # ignore first row as that is our header info
-                if current_index != 0 and use_website(current_index + 1, input_skip, input_take):
+                if current_index != 0 and use_item(current_index + 1, input_skip, input_take):
                     sites.append([row[0], row[1]])
             elif current_number_of_fields == 1:
                 # we have no header and only one colmn, use column as website url
-                if use_website(current_index, input_skip, input_take):
+                if use_item(current_index, input_skip, input_take):
                     sites.append([current_index, "".join(row)])
             current_index += 1
 

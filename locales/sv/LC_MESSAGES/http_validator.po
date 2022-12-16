@@ -78,26 +78,44 @@ msgstr "- SSLv2.0 stöd, vilket är osäkert, använder även fel certifikat"
 msgid "TEXT_REVIEW_SSL2_0_NO_SUPPORT"
 msgstr "- Inget SSLv2.0 stöd"
 
-msgid "TEXT_REVIEW_IP_VERSION_IPV6"
+msgid "TEXT_REVIEW_IP_VERSION_IPV6_SUPPORT"
 msgstr "- IPv6 stöd"
 
-msgid "TEXT_REVIEW_IP_VERSION_IPV4"
+msgid "TEXT_REVIEW_IP_VERSION_IPV6_NO_SUPPORT"
+msgstr "- Inget IPv6 stöd"
+
+msgid "TEXT_REVIEW_IP_VERSION_IPV4_SUPPORT"
 msgstr "- IPv4 stöd"
+
+msgid "TEXT_REVIEW_IP_VERSION_IPV4_NO_SUPPORT"
+msgstr "- Inget IPv4 stöd"
 
 msgid "TEXT_REVIEW_IP_VERSION_UNABLE_TO_VERIFY"
 msgstr "- Kunde ej få tag på IP versions information"
 
-msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_1_1"
+msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_SUPPORT"
 msgstr "- HTTPv1.1 stöd"
 
-msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_2"
+msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_NO_SUPPORT"
+msgstr "- Inget HTTPv1.1 stöd"
+
+msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_2_SUPPORT"
 msgstr "- HTTPv2 stöd"
 
-msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_3"
+msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_2_NO_SUPPORT"
+msgstr "- Inget HTTPv2 stöd"
+
+msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_3_SUPPORT"
 msgstr "- HTTPv3 stöd"
 
-msgid "TEXT_REVIEW_HTTP_VERSION_QUIC"
+msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_3_NO_SUPPORT"
+msgstr "- Inget HTTPv3 stöd"
+
+msgid "TEXT_REVIEW_HTTP_VERSION_QUIC_SUPPORT"
 msgstr "- QUIC stöd"
+
+msgid "TEXT_REVIEW_HTTP_VERSION_QUIC_NO_SUPPORT"
+msgstr "- Inget QUIC stöd"
 
 msgid "TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_UNABLE_TO_VERIFY"
 msgstr "- Kunde ej verifiera HTTP till HTTPS omdirigering"

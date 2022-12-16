@@ -78,26 +78,44 @@ msgstr "- SSLv2.0 support but wrong certificate, is insecure"
 msgid "TEXT_REVIEW_SSL2_0_NO_SUPPORT"
 msgstr "- No SSLv2.0 support"
 
-msgid "TEXT_REVIEW_IP_VERSION_IPV6"
+msgid "TEXT_REVIEW_IP_VERSION_IPV6_SUPPORT"
 msgstr "- IPv6 support"
 
-msgid "TEXT_REVIEW_IP_VERSION_IPV4"
+msgid "TEXT_REVIEW_IP_VERSION_IPV6_NO_SUPPORT"
+msgstr "- No IPv6 support"
+
+msgid "TEXT_REVIEW_IP_VERSION_IPV4_SUPPORT"
 msgstr "- IPv4 support"
+
+msgid "TEXT_REVIEW_IP_VERSION_IPV4_NO_SUPPORT"
+msgstr "- No IPv4 support"
 
 msgid "TEXT_REVIEW_IP_VERSION_UNABLE_TO_VERIFY"
 msgstr "- Unable to get IP version info"
 
-msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_1_1"
+msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_SUPPORT"
 msgstr "- HTTPv1.1 support"
 
-msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_2"
+msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_NO_SUPPORT"
+msgstr "- No HTTPv1.1 support"
+
+msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_2_SUPPORT"
 msgstr "- HTTPv2 support"
 
-msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_3"
+msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_2_NO_SUPPORT"
+msgstr "- No HTTPv2 support"
+
+msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_3_SUPPORT"
 msgstr "- HTTPv3 support"
 
-msgid "TEXT_REVIEW_HTTP_VERSION_QUIC"
+msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_3_NO_SUPPORT"
+msgstr "- No HTTPv3 support"
+
+msgid "TEXT_REVIEW_HTTP_VERSION_QUIC_SUPPORT"
 msgstr "- QUIC support"
+
+msgid "TEXT_REVIEW_HTTP_VERSION_QUIC_NO_SUPPORT"
+msgstr "- No QUIC support"
 
 msgid "TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_UNABLE_TO_VERIFY"
 msgstr "- Unable to verify HTTP to HTTPS redirect"

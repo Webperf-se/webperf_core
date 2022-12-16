@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from models import Sites
-from engines.utils import use_website
+from engines.utils import use_item
 import config
 from tests.utils import *
 import re
@@ -19,7 +19,7 @@ def read_sites(input_sitemap_url, input_skip, input_take):
 
         item_url = match.group('itemurl')
 
-        if use_website(current_index, input_skip, input_take):
+        if use_item(current_index, input_skip, input_take):
             sites.append([current_index, item_url])
         current_index += 1
     return sites

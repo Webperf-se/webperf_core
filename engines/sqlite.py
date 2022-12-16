@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from engines.utils import use_website
+from engines.utils import use_item
 import sqlite3
 
 
@@ -57,7 +57,7 @@ def read_sites(input_filename, input_skip, input_take):
 
     current_index = 0
     for row in c.execute('SELECT id, website FROM sites WHERE active=1 ORDER BY {0}'.format(order_by)):
-        if use_website(current_index, input_skip, input_take):
+        if use_item(current_index, input_skip, input_take):
             sites.append([row[0], row[1]])
         current_index += 1
     conn.close()

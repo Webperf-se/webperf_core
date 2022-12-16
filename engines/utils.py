@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-def use_website(current_index, skip, take):
+def use_item(current_index, skip, take):
     if skip > 0 and current_index < skip:
         return False
 

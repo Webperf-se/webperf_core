@@ -44,7 +44,7 @@ On Linux:
 * Install ffmpeg `sudo apt install ffmpeg`
 * Download and install Node.js (v1 version 14.x)
 * Download and install Google Chrome browser
-* Install SiteSpeed NPM package ( `npm install -g sitespeed.io` )
+* Install SiteSpeed NPM package ( `npm install sitespeed.io` )
 * Set `sitespeed_use_docker = False` in your `config.py`
 
 (You can always see [GitHub Actions SiteSpeed](../../.github/workflows/regression-test-sitespeed.yml) for all steps required line by line)

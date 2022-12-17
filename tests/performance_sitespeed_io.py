@@ -29,8 +29,12 @@ def get_result(sitespeed_use_docker, arg):
     else:
         import subprocess
 
-        bashCommand = "sitespeed.io {0}".format(arg)
-        process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+        bashCommand = "node node_modules{1}sitespeed.io{1}bin{1}sitespeed.js {0}".format(
+            arg, os.path.sep)
+
+        process = subprocess.Popen(
+            bashCommand.split(), stdout=subprocess.PIPE)
+
         output, error = process.communicate()
         result = str(output)
 
@@ -56,6 +60,9 @@ def run_test(_, langCode, url):
 
     arg = '--shm-size=1g -b chrome --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
         config.sitespeed_iterations, url)
+    if 'nt' in os.name:
+        arg = '--shm-size=1g -b chrome --plugins.remove screenshot --speedIndex true --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+            config.sitespeed_iterations, url)
 
     result = get_result(sitespeed_use_docker, arg)
 

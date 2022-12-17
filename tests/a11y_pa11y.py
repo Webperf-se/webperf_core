@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 import subprocess
 import datetime
 import json
@@ -25,20 +26,14 @@ def run_test(_, langCode, url):
     print(_('TEXT_TEST_START').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    bashCommand = "pa11y-ci --reporter json {0}".format(url)
+    bashCommand = "node node_modules{1}pa11y{1}bin{1}pa11y.js --reporter json {0}".format(
+        url, os.path.sep)
     process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
 
     json_result = json.loads(output)
 
-    result_list = list()
-    if 'results' in json_result:
-        result_list = json_result['results']
-
-    num_errors = 0
-
-    if 'errors' in json_result:
-        num_errors = json_result['errors']
+    num_errors = len(json_result)
 
     return_dict = {}
 
@@ -69,9 +64,7 @@ def run_test(_, langCode, url):
 
     unique_errors = set()
 
-    errors = list()
-    if url in result_list:
-        errors = result_list[url]
+    errors = json_result
 
     for error in errors:
         if 'message' in error:

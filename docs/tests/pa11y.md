@@ -20,7 +20,6 @@ We are rating the url based on:
 
 ## Read more
 
-* https://github.com/pa11y/pa11y-ci
 * https://github.com/pa11y/pa11y
 
 ## How to setup?
@@ -39,7 +38,8 @@ Read more on the [general page for github actions](../getting-started-github-act
 
 * Follow [general local setup steps for this repository](../getting-started-local.md)
 * Download and install Node.js
-* Install Pa11y CI npm package ( `npm install -g pa11y-ci` )
+* Download and install Google Chrome browser
+* Install Pa11y CI npm package ( `npm install pa11y` )
 
 ## FAQ
 

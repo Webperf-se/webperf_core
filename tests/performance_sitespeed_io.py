@@ -32,13 +32,10 @@ def get_result(sitespeed_use_docker, arg):
         bashCommand = "node node_modules{1}sitespeed.io{1}bin{1}sitespeed.js {0}".format(
             arg, os.path.sep)
 
-        print('B10.03A', bashCommand)
         process = subprocess.Popen(
             bashCommand.split(), stdout=subprocess.PIPE)
 
-        print('B10.04')
         output, error = process.communicate()
-        print('B10.05')
         result = str(output)
 
     return result

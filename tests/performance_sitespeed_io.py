@@ -29,10 +29,6 @@ def get_result(sitespeed_use_docker, arg):
     else:
         import subprocess
 
-        bashCommand = "sitespeed.io {0}".format(arg)
-        process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-        bashCommand = "node node_modules\\sitespeed.io\\bin\\sitespeed.js {0}".format(
-            arg)
         bashCommand = "node node_modules{1}sitespeed.io{1}bin{1}sitespeed.js {0}".format(
             arg, os.path.sep)
 

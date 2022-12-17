@@ -69,7 +69,7 @@ jobs:
       run: wget -q -O - https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz | tar -xvzf -
       if: ${{ success() }}
     - name: Setup Sitespeed.io npm package (ONLY used for Sitespeed)
-      run: npm install -g sitespeed.io
+      run: npm install sitespeed.io
       if: ${{ success() }}
     - name: Test Tracking and Privacy - USE NPM PACKAGE
       run: |

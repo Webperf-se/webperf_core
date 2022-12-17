@@ -82,6 +82,11 @@ jobs:
         echo "# current folder"
         ls
       if: ${{ always() }}
+    - name: Test Directory - node_modules
+      run: |
+        echo "# node_modules"
+        ls node_modules
+      if: ${{ always() }}
     - name: Test Directory - data
       run: |
         echo "# data"

@@ -46,7 +46,7 @@ jobs:
         google-chrome --version      
       if: ${{ success() }}
     - name: Setup Sitespeed.io npm package (ONLY used for Sitespeed)
-      run: npm install -g sitespeed.io
+      run: npm install sitespeed.io
       if: ${{ success() }}
     - name: Test Performance (Sitespeed.io) - USE NPM PACKAGE
       run: |

@@ -147,6 +147,10 @@ This section has not been written yet.
 * Install SiteSpeed NPM package ( `npm install sitespeed.io` )
 * Set `sitespeed_use_docker = False` in your `config.py`
 
+##### Windows Specific
+
+* Allow node to connect through Windows firewall
+
 #### Using Docker image
 
 * Make sure Docker command is globally accessible on your system.

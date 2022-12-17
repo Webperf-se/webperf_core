@@ -60,6 +60,9 @@ def run_test(_, langCode, url):
 
     arg = '--shm-size=1g -b chrome --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
         config.sitespeed_iterations, url)
+    if 'nt' in os.name:
+        arg = '--shm-size=1g -b chrome --plugins.remove screenshot --speedIndex true --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+            config.sitespeed_iterations, url)
 
     result = get_result(sitespeed_use_docker, arg)
 

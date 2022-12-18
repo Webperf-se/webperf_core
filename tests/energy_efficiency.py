@@ -4,6 +4,7 @@ from tests.performance_lighthouse import run_test as lighthouse_perf_run_test
 from models import Rating
 import datetime
 import tests.energy_efficiency_carbon_percentiles as energy_efficiency_carbon_percentiles
+import tests.energy_efficiency_carbon_percentiles2021 as energy_efficiency_carbon_percentiles_2021
 from tests.utils import *
 import gettext
 _local = gettext.gettext
@@ -45,13 +46,17 @@ def convert_2_co2(transfer_bytes):
     return co2Grid
 
 
-def cleaner_than(co2):
+def cleaner_than(co2, year='current'):
     # This array needs to be updated periodically with new data. This was
     # originally calculated with a database query but that was too slow at
     # scale. We can look in to writing a cron job that will generate and export
     # from the database once a month, that is then loaded in this file.
 
-    percentiles = energy_efficiency_carbon_percentiles.get_percentiles()
+    percentiles = False
+    if year == '2021':
+        percentiles = energy_efficiency_carbon_percentiles_2021.get_percentiles()
+    else:
+        percentiles = energy_efficiency_carbon_percentiles.get_percentiles()
     position = 0
     # this should always be exactly 100 number of values
     for item in percentiles:
@@ -100,6 +105,7 @@ def run_test(_, langCode, url):
     result_dict['co2'] = co2
 
     cleaner = cleaner_than(co2) * 100
+    cleaner_2021 = cleaner_than(co2, '2021') * 100
     result_dict['cleaner_than'] = cleaner
 
     review = ''
@@ -124,6 +130,8 @@ def run_test(_, langCode, url):
     review += _local("TEXT_GRAMS_OF_CO2").format(round(co2, 2))
     review += _local("TEXT_BETTER_THAN").format(int(cleaner),
                                                 energy_efficiency_carbon_percentiles.get_generated_date())
+    review += _local("TEXT_BETTER_THAN").format(int(cleaner_2021),
+                                                energy_efficiency_carbon_percentiles_2021.get_generated_date())
 
     transfer_info = format_bytes(transfer_bytes)
     review += _local("TEXT_TRANSFER_SIZE").format(transfer_info[0], transfer_info[1]

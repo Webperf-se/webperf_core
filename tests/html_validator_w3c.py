@@ -40,12 +40,10 @@ def run_test(_, langCode, url):
     errors = get_errors('html', headers, params)
     number_of_errors = len(errors)
 
-    error_message_dict = {}
     error_message_grouped_dict = {}
     if number_of_errors > 0:
         regex = r"(“[^”]+”)"
         for item in errors:
-            error_message_dict[item['message']] = "1"
             error_message = item['message']
             error_message = re.sub(
                 regex, "X", error_message, 0, re.MULTILINE)
@@ -109,7 +107,7 @@ def run_test(_, langCode, url):
     print(_('TEXT_TEST_END').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    return (rating, error_message_dict)
+    return (rating, errors)
 
 
 def calculate_rating(number_of_error_types, number_of_errors):

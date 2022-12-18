@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import os
-from pathlib import Path
 import subprocess
 import datetime
 import json
@@ -117,16 +116,8 @@ def get_pa11y_errors(url, use_axe):
     if use_axe:
         additional_args = '--runner axe '
 
-    if not 'nt' in os.name:
-        dir = Path(os.path.dirname(
-            os.path.realpath(__file__)) + os.path.sep).parent
-        additional_args = additional_args + \
-            '--config {0}{1}pally-config.json '.format(dir, os.path.sep)
-
     bashCommand = "node node_modules{1}pa11y{1}bin{1}pa11y.js --reporter json {2}{0}".format(
         url, os.path.sep, additional_args)
-
-    print('A', bashCommand)
 
     process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()

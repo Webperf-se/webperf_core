@@ -18,19 +18,19 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 18 - Tillgänglighet (Pa11y)\n"
 
 msgid "TEXT_REVIEW_A11Y_VERY_GOOD"
-msgstr "- Webbplatsen har inga uppenbara fel inom tillgänglighet! Bra, men gör manuella undersökningar för säkerhets skull!"
+msgstr "- Webbplatsen har inga uppenbara fel inom tillgänglighet! Bra, men gör manuella undersökningar för säkerhets skull!\n"
 
 msgid "TEXT_REVIEW_A11Y_IS_GOOD"
-msgstr "- Webbplatsen kan bli mer tillgänglig, men är ganska ok."
+msgstr "- Webbplatsen kan bli mer tillgänglig, men är ganska ok.\n"
 
 msgid "TEXT_REVIEW_A11Y_IS_OK"
-msgstr "- Genomsnittlig tillgänglighet men och bli bättre gentemot automatiska tester."
+msgstr "- Genomsnittlig tillgänglighet men och bli bättre gentemot automatiska tester.\n"
 
 msgid "TEXT_REVIEW_A11Y_IS_BAD"
-msgstr "- Webbplatsen är dålig på tillgänglighet för funktions&shy;nedsatta personer."
+msgstr "- Webbplatsen är dålig på tillgänglighet för funktions&shy;nedsatta personer.\n"
 
 msgid "TEXT_REVIEW_A11Y_IS_VERY_BAD"
-msgstr "- Väldigt dålig tillgänglighet!"
+msgstr "- Väldigt dålig tillgänglighet!\n"
 
 msgid "TEXT_REVIEW_A11Y_NUMBER_OF_PROBLEMS"
 msgstr "- Antal tillgänglighets&shy;problem: {} st"
@@ -39,4 +39,13 @@ msgid "TEXT_REVIEW_A11Y_TOO_MANY_PROBLEMS"
 msgstr "- Info: För många unika problem för att lista alla.\n"
 
 msgid "TEXT_REVIEW_A11Y_PROBLEMS"
-msgstr "\nProblem:\n"
+msgstr "\n##### Problem:\n"
+
+msgid "TEXT_REVIEW_ERRORS_ITEM"
+msgstr "  - {0} (totalt {1} st)\n"
+
+msgid "TEXT_REVIEW_RATING_GROUPED"
+msgstr "- Antal grupperade fel: {0}"
+
+msgid "TEXT_REVIEW_RATING_ITEMS"
+msgstr "- Antal fel: {0}"

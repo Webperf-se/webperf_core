@@ -121,7 +121,7 @@ def get_pa11y_errors(url, use_axe):
         dir = Path(os.path.dirname(
             os.path.realpath(__file__)) + os.path.sep).parent
         additional_args = additional_args + \
-            '--config {0}{1}pally-config.json'.format(dir, os.path.sep)
+            '--config {0}{1}pally-config.json '.format(dir, os.path.sep)
 
     bashCommand = "node node_modules{1}pa11y{1}bin{1}pa11y.js --reporter json {2}{0}".format(
         url, os.path.sep, additional_args)

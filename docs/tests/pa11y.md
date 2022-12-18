@@ -11,16 +11,20 @@ Even if this test is not finding anything you should still do a manuall check on
 
 ## How are rating being calculated?
 
-We are rating the url based on:
-- If Pa11y finds 0 errors you get 5.0 in rating
-- If Pa11y finds just 1 error you get 4.0 in rating
-- If Pa11y finds 2-3 errors you get 3.0 in rating
-- If Pa11y finds 4-7 errors you get 2.0 in rating
-- Else you will get 1.0 in rating
+We are calculating rating based on:
+- Number of different error types
+- Number of total number of errors
+
+we are then combining the results.
+
+Math used are:
+- `rating_number_of_error_types = 5.0 - (number_of_error_types / 5.0)`
+- `rating_number_of_errors = 5.0 - ((number_of_errors / 2.0) / 5.0)`
+
+As always, minimum rating are 1.0.
 
 ## Read more
 
-* https://github.com/pa11y/pa11y-ci
 * https://github.com/pa11y/pa11y
 
 ## How to setup?
@@ -39,7 +43,8 @@ Read more on the [general page for github actions](../getting-started-github-act
 
 * Follow [general local setup steps for this repository](../getting-started-local.md)
 * Download and install Node.js
-* Install Pa11y CI npm package ( `npm install -g pa11y-ci` )
+* Download and install Google Chrome browser
+* Install Pa11y CI npm package ( `npm install pa11y` )
 
 ## FAQ
 

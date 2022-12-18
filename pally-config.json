@@ -1,0 +1,6 @@
+{
+    "chromeLaunchConfig": {
+        "ignoreHTTPSErrors": false,
+        "executablePath": "/snap/bin/chromium"
+    }
+}

@@ -26,8 +26,8 @@ jobs:
       run: python .github/workflows/verify_result.py -c false
       if: ${{ success() }}
     # Havn't yet been able to start Google Chrome in headless mode in pa11y since move to Chrome in Pa11y 5
-    # - name: Accessibility (Pa11y)
-    #   run: |
-    #      python default.py -t 18 -r -u https://webperf.se/ -o .github/workflows/testresult-18.json
-    #      python .github/workflows/verify_result.py -t 18
-    #   if: ${{ success() }}
+    - name: Accessibility (Pa11y)
+      run: |
+         python default.py -t 18 -r -u https://webperf.se/ -o .github/workflows/testresult-18.json
+         python .github/workflows/verify_result.py -t 18
+      if: ${{ success() }}

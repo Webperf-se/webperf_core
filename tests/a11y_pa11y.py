@@ -37,7 +37,7 @@ def run_test(_, langCode, url):
     num_errors = len(json_result)
 
     unique_errors = set()
-    return_dict = {}
+    return_dict = json_result
     errors = json_result
 
     for error in errors:
@@ -45,10 +45,6 @@ def run_test(_, langCode, url):
             err_mess = error['message'].replace('This', 'A')
             error_review = '- {0}\n'.format(err_mess)
             unique_errors.add(error_review)
-            if 'code' in error:
-                # '{0}-{1}'.format(error.get('code'), i)
-                key = error['code']
-                return_dict.update({key: err_mess})
 
     num_unique_errors = len(unique_errors)
 

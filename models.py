@@ -61,11 +61,10 @@ class Rating(object):
 
     def set_overall(self, points, review=''):
         if(points < 1.0):
-            self.overall = 1.0
+            points = 1.0
         elif(points > 5.0):
-            self.overall = 5.0
-        else:
-            self.overall = points
+            points = 5.0
+        self.overall = points
         if review != '' and (not self.review_show_improvements_only or points < 5.0):
             self.overall_review = self._('TEXT_TEST_REVIEW_RATING_ITEM').format(
                 review, points)
@@ -76,11 +75,10 @@ class Rating(object):
 
     def set_integrity_and_security(self, points, review=''):
         if(points < 1.0):
-            self.integrity_and_security = 1.0
+            points = 1.0
         elif(points > 5.0):
-            self.integrity_and_security = 5.0
-        else:
-            self.integrity_and_security = points
+            points = 5.0
+        self.integrity_and_security = points
         if review != '' and (not self.review_show_improvements_only or points < 5.0):
             self.integrity_and_security_review = self._('TEXT_TEST_REVIEW_RATING_ITEM').format(
                 review, points)
@@ -91,11 +89,10 @@ class Rating(object):
 
     def set_performance(self, points, review=''):
         if(points < 1.0):
-            self.performance = 1.0
+            points = 1.0
         elif(points > 5.0):
-            self.performance = 5.0
-        else:
-            self.performance = points
+            points = 5.0
+        self.performance = points
         if review != '' and (not self.review_show_improvements_only or points < 5.0):
             self.performance_review = self._('TEXT_TEST_REVIEW_RATING_ITEM').format(
                 review, points)
@@ -106,11 +103,10 @@ class Rating(object):
 
     def set_standards(self, points, review=''):
         if(points < 1.0):
-            self.standards = 1.0
+            points = 1.0
         elif(points > 5.0):
-            self.standards = 5.0
-        else:
-            self.standards = points
+            points = 5.0
+        self.standards = points
         if review != '' and (not self.review_show_improvements_only or points < 5.0):
             self.standards_review = self._('TEXT_TEST_REVIEW_RATING_ITEM').format(
                 review, points)
@@ -121,11 +117,10 @@ class Rating(object):
 
     def set_a11y(self, points, review=''):
         if(points < 1.0):
-            self.a11y = 1.0
+            points = 1.0
         elif(points > 5.0):
-            self.a11y = 5.0
-        else:
-            self.a11y = points
+            points = 5.0
+        self.a11y = points
         if review != '' and (not self.review_show_improvements_only or points < 5.0):
             self.a11y_review = self._('TEXT_TEST_REVIEW_RATING_ITEM').format(
                 review, points)

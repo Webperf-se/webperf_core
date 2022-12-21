@@ -26,30 +26,25 @@ jobs:
     - name: Setup node dependencies (ONLY used for Yellow Lab Tools)
       run: npm install -g node-gyp
     - if: matrix.os == 'ubuntu-latest'
-      name: Setup libjpeg and fontconfig (ONLY used for Yellow Lab Tools)
+      name: Setup libjpeg and fontconfig (ONLY used for Yellow Lab Tools) - LINUX
       run: sudo apt-get install libjpeg-dev libfontconfig
       shell: bash
     - name: Setup yellowlabtools npm package (ONLY used for Yellow Lab Tools)
       run: npm install yellowlabtools
-    - name: Setup config (using SAMPLE-config.py as config.py) - LINUX
+    - if: ${{ matrix.os == 'ubuntu-latest' && success()  }}
+      name: Setup config (using SAMPLE-config.py as config.py) - LINUX
       run: python .github/workflows/verify_result.py -c false
-      if: ${{ success() && matrix.os == 'ubuntu-latest' }}
-    - name: Setup config (using SAMPLE-config.py as config.py) - WINDOWS
+    - if: ${{ matrix.os == 'windows-latest' && success() }}
+      name: Setup config (using SAMPLE-config.py as config.py) - WINDOWS
       run: python .github\workflows\verify_result.py -c false
-      if: ${{ success() && matrix.os == 'windows-latest' }}
-    # We are saving this entry here because hopefully we will later be able to use same tech
-    # - name: Test Performance (Sitespeed.io)
-    #   run: |
-    #      python default.py -t 15 -r -u https://webperf.se/ -o .github/workflows/testresult-15.json
-    #      python .github/workflows/verify_result.py -t 15
-    #   if: ${{ success() }}
-    - name:  Quality on frontend (Yellow Lab Tools) - LINUX
+    - if: ${{ matrix.os == 'ubuntu-latest' && success() }} }}
+      name:  Quality on frontend (Yellow Lab Tools) - LINUX
       run: |
          python default.py -t 17 -r -u https://webperf.se/ -o .github/workflows/testresult-17.json
          python .github/workflows/verify_result.py -t 17
-      if: ${{ success() && matrix.os == 'ubuntu-latest' }} }}
-    - name:  Quality on frontend (Yellow Lab Tools) - WINDOWS
+    - if: ${{ matrix.os == 'windows-latest' && success() }}
+      name:  Quality on frontend (Yellow Lab Tools) - WINDOWS
       run: |
          python default.py -t 17 -r -u https://webperf.se/ -o .github\workflows\testresult-17.json
          python .github\workflows\verify_result.py -t 17
-      if: ${{ success() && matrix.os == 'windows-latest' }}
+      

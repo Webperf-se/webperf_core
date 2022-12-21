@@ -155,7 +155,6 @@ def http_to_https_score(url, _, _local):
 
 def ip_version_score(hostname, _, _local):
     rating = Rating(_, review_show_improvements_only)
-    # review += _('TEXT_REVIEW_IP_VERSION')
     ip4_result = dns_lookup(hostname, "A")
 
     ip6_result = dns_lookup(hostname, "AAAA")
@@ -314,7 +313,6 @@ def protocol_version_score(url, protocol_version, _, _local):
 
 def tls_version_score(orginal_url, _, _local):
     rating = Rating(_, review_show_improvements_only)
-    # review += _('TEXT_REVIEW_TLS_VERSION')
     url = orginal_url.replace('http://', 'https://')
 
     # TODO: check cipher security
@@ -365,8 +363,6 @@ def tls_version_score(orginal_url, _, _local):
 
 def http_version_score(hostname, url, _, _local):
     rating = Rating(_, review_show_improvements_only)
-
-    # review += _('TEXT_REVIEW_HTTP_VERSION')
 
     rating += check_http11(hostname, _, _local)
 

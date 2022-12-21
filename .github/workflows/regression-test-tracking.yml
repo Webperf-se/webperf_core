@@ -38,7 +38,7 @@ jobs:
         IP2LOCATION_DOWNLOAD_URL: ${{ secrets.IP2LOCATION_DOWNLOAD_URL }}
       name: Download IP2LOCATION DB (Using repository secret) - Windows
       run: |
-        Invoke-WebRequest -Uri $IP2LOCATION_DOWNLOAD_URL -OutFile data\IP2LOCATION-LITE-DB1.IPV6.BIN
+        Invoke-WebRequest -Uri ${env:IP2LOCATION_DOWNLOAD_URL} -OutFile data\IP2LOCATION-LITE-DB1.IPV6.BIN
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       shell: bash
       name: Download Ads database (BlockListProject) - Linux

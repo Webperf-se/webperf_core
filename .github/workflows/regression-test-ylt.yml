@@ -3,6 +3,8 @@ on:
   push:
     paths-ignore:
       - '**.md'
+env:
+  TEST_TO_RUN: 17
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -38,13 +40,13 @@ jobs:
       name: Setup config (using SAMPLE-config.py as config.py) - WINDOWS
       run: python .github\workflows\verify_result.py -c false
     - if: ${{ matrix.os == 'ubuntu-latest' && success() }} }}
-      name:  Quality on frontend (Yellow Lab Tools) - LINUX
+      name: RUNNING TEST - LINUX
       run: |
-         python default.py -t 17 -r -u https://webperf.se/ -o .github/workflows/testresult-17.json
-         python .github/workflows/verify_result.py -t 17
+         python default.py -t ${{TEST_TO_RUN}} -r -u https://webperf.se/ -o .github/workflows/testresult-${{TEST_TO_RUN}}.json
+         python .github/workflows/verify_result.py -t ${{TEST_TO_RUN}}
     - if: ${{ matrix.os == 'windows-latest' && success() }}
-      name:  Quality on frontend (Yellow Lab Tools) - WINDOWS
+      name: RUNNING TEST - WINDOWS
       run: |
-         python default.py -t 17 -r -u https://webperf.se/ -o .github\workflows\testresult-17.json
-         python .github\workflows\verify_result.py -t 17
+         python default.py -t ${{TEST_TO_RUN}} -r -u https://webperf.se/ -o .github\workflows\testresult-${{TEST_TO_RUN}}.json
+         python .github\workflows\verify_result.py -t ${{TEST_TO_RUN}}
       

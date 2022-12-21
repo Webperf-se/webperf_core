@@ -47,6 +47,7 @@ jobs:
       run: |
         wget -q -O data/blocklistproject-ads-nl.txt https://blocklistproject.github.io/Lists/alt-version/ads-nl.txt
     - if: ${{ matrix.os == 'windows-latest' && success() }} }}
+      shell: pwsh
       name: Download Ads database (BlockListProject) - Windows
       run: |
         Invoke-WebRequest -Uri https://blocklistproject.github.io/Lists/alt-version/ads-nl.txt -OutFile data\blocklistproject-ads-nl.txt
@@ -56,6 +57,7 @@ jobs:
       run: |
         wget -q -O data/blocklistproject-tracking-nl.txt https://blocklistproject.github.io/Lists/alt-version/tracking-nl.txt
     - if: ${{ matrix.os == 'windows-latest' && success() }} }}
+      shell: pwsh
       name: Download Tracking database (BlockListProject) - Windows
       run: |
         Invoke-WebRequest -Uri https://blocklistproject.github.io/Lists/alt-version/tracking-nl.txt -OutFile data\blocklistproject-tracking-nl.txt
@@ -65,6 +67,7 @@ jobs:
       run: |
         wget -q -O data/disconnect-services.json https://raw.githubusercontent.com/disconnectme/disconnect-tracking-protection/master/services.json
     - if: ${{ matrix.os == 'windows-latest' && success() }} }}
+      shell: pwsh
       name: Download Services database (disconnect) - Windows
       run: |
         Invoke-WebRequest -Uri https://raw.githubusercontent.com/disconnectme/disconnect-tracking-protection/master/services.json -OutFile data\disconnect-services.json

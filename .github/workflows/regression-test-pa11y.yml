@@ -8,7 +8,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
             matrix:
-                os: [ubuntu-latest, windows-latest]
+                # os: [ubuntu-latest, windows-latest]
+                os: [windows-latest]
                 version: [18]
                 verify: [false]
     steps:

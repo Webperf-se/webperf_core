@@ -35,7 +35,7 @@ Read more on the [general page for github actions](../getting-started-github-act
 
 #### Using NPM package
 
-On Linux:
+##### On Linux:
 * Update apt-get `sudo apt-get update -y` ( Not needed if you have latest version )
 * Install image library `sudo apt-get install -y imagemagick libjpeg-dev xz-utils --no-install-recommends --force-yes`
 * Upgrade PIP `python -m pip install --upgrade pip` ( Not needed if you have latest version )
@@ -48,6 +48,15 @@ On Linux:
 * Set `sitespeed_use_docker = False` in your `config.py`
 
 (You can always see [GitHub Actions SiteSpeed](../../.github/workflows/regression-test-sitespeed.yml) for all steps required line by line)
+
+##### On Windows:
+
+* Upgrade PIP `python -m pip install --upgrade pip` ( Not needed if you have latest version )
+* Install setuptools `python -m pip install --upgrade setuptools`
+* Install ... `python -m pip install pyssim Pillow image`
+* Download and Install ffmpeg `https://ffmpeg.org/download.html#build-windows`
+* Install SiteSpeed NPM package ( `npm install sitespeed.io` )
+* Set `sitespeed_use_docker = False` in your `config.py`
 
 #### Using Docker image
 

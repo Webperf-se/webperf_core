@@ -3,14 +3,13 @@ on:
   push:
     paths-ignore:
       - '**.md'
-env:
-  TEST_TO_RUN: 20
 jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
             matrix:
                 os: [ubuntu-latest, windows-latest]
+                TEST_TO_RUN: 20
     steps:
     - name: Check out repository code
       uses: actions/checkout@v3
@@ -32,10 +31,10 @@ jobs:
     - if: ${{ matrix.os == 'ubuntu-latest' && success() }} }}
       name: RUNNING TEST - LINUX
       run: |
-         python default.py -t ${{TEST_TO_RUN}} -r -u https://webperf.se/ -o .github/workflows/testresult-${{TEST_TO_RUN}}.json
-         python .github/workflows/verify_result.py -t ${{TEST_TO_RUN}}
+         python default.py -t ${{matrix.TEST_TO_RUN}} -r -u https://webperf.se/ -o .github/workflows/testresult-${{matrix.TEST_TO_RUN}}.json
+         python .github/workflows/verify_result.py -t ${{matrix.TEST_TO_RUN}}
     - if: ${{ matrix.os == 'windows-latest' && success() }}
       name: RUNNING TEST - WINDOWS
       run: |
-         python default.py -t ${{TEST_TO_RUN}} -r -u https://webperf.se/ -o .github\workflows\testresult-${{TEST_TO_RUN}}.json
-         python .github\workflows\verify_result.py -t ${{TEST_TO_RUN}}
+         python default.py -t ${{matrix.TEST_TO_RUN}} -r -u https://webperf.se/ -o .github\workflows\testresult-${{matrix.TEST_TO_RUN}}.json
+         python .github\workflows\verify_result.py -t ${{matrix.TEST_TO_RUN}}

@@ -24,7 +24,7 @@ jobs:
     - name: Setup node (ONLY used for Yellow Lab Tools AND lighthouse)
       uses: actions/setup-node@v3
     - name: Setup lighthouse npm package (ONLY used for lighthouse)
-      run: npm install -g lighthouse
+      run: npm install lighthouse
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: Setup config (using SAMPLE-config.py as config.py) - LINUX
       run: python .github/workflows/verify_result.py -c ${{ matrix.verify }}

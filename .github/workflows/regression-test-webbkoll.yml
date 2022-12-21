@@ -13,7 +13,6 @@ jobs:
     steps:
     - name: Check out repository code
       uses: actions/checkout@v3
-      if: ${{ success() }}
     - name: Setup python
       uses: actions/setup-python@v4
       with:
@@ -21,19 +20,18 @@ jobs:
         architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
-      if: ${{ success() }}
-    - if: ${{ matrix.os == 'ubuntu-latest' && success()  }}
+    - if: ${{ matrix.os == 'ubuntu-latest'  }}
       name: Setup config (using SAMPLE-config.py as config.py) - LINUX
       run: python .github/workflows/verify_result.py -c false
-    - if: ${{ matrix.os == 'windows-latest' && success() }}
+    - if: ${{ matrix.os == 'windows-latest' }}
       name: Setup config (using SAMPLE-config.py as config.py) - WINDOWS
       run: python .github\workflows\verify_result.py -c false
-    - if: ${{ matrix.os == 'ubuntu-latest' && success() }} }}
+    - if: ${{ matrix.os == 'ubuntu-latest' }} }}
       name: RUNNING TEST - LINUX
       run: |
          python default.py -t ${{ matrix.version }} -r -u https://webperf.se/ -o .github/workflows/testresult-${{ matrix.version }}.json
          python .github/workflows/verify_result.py -t ${{ matrix.version }}
-    - if: ${{ matrix.os == 'windows-latest' && success() }}
+    - if: ${{ matrix.os == 'windows-latest' }}
       name: RUNNING TEST - WINDOWS
       run: |
          python default.py -t ${{ matrix.version }} -r -u https://webperf.se/ -o .github\workflows\testresult-${{ matrix.version }}.json

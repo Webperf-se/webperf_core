@@ -117,14 +117,14 @@ def validate_testresult(arg):
         return True
 
 
-def validate_po_file(locales_dir, localeName, languageSubDirectory, file):
+def validate_po_file(locales_dir, localeName, languageSubDirectory, file, msg_ids):
     file_is_valid = True
     if file.endswith('.pot'):
         print('')
         print('')
         print('# {0} [{1}]'.format(file, localeName))
         print(
-            'Unexpected .pot file found, this should probably be renamed to .po.')
+            '  Unexpected .pot file found, this should probably be renamed to .po.')
         return False
     elif file.endswith('.mo'):
         # ignore this file format
@@ -132,13 +132,13 @@ def validate_po_file(locales_dir, localeName, languageSubDirectory, file):
     elif file.endswith('.po'):
         # print('po file found: {0}'.format(file))
         # for every .po file found, check if we have a .mo file
-        print('# {0} [{1}]'.format(file, localeName))
+        print('  # {0} [{1}]'.format(file, localeName))
 
         file_mo = os.path.join(
             languageSubDirectory, file.replace('.po', '.mo'))
         if not os.path.exists(file_mo):
             print(
-                'Expected compiled translation file not found, file: "{0}"'.format(file.replace('.po', '.mo')))
+                '  Expected compiled translation file not found, file: "{0}"'.format(file.replace('.po', '.mo')))
             return False
         else:
             # for every .mo file found, try to load it to verify it works
@@ -158,7 +158,7 @@ def validate_po_file(locales_dir, localeName, languageSubDirectory, file):
                 for matchNum, match in enumerate(matches, start=1):
                     if n_of_errors >= 5:
                         print(
-                            'More then 5 errors, ignoring rest of errors')
+                            '  More then 5 errors, ignoring rest of errors')
                         return False
 
                     msg_id = match.group('id')
@@ -166,58 +166,138 @@ def validate_po_file(locales_dir, localeName, languageSubDirectory, file):
                     lang_txt = language.gettext(msg_id).replace(
                         '\n', '\\n').replace(
                         '\r', '\\r').replace('\t', '\\t')
+                    msg_ids[msg_id] = msg_txt
+
                     if lang_txt == msg_id:
                         print(
-                            '- Could not find text for msgid "{1}" in file: {0}'.format(file_mo, msg_id))
+                            '  - Could not find text for msgid "{1}" in file: {0}'.format(file_mo, msg_id))
                         n_of_errors += 1
                         continue
                     if lang_txt != msg_txt:
                         print(
-                            '## Text missmatch:')
+                            '  ## Text missmatch:')
                         print('- msgid: {0}'.format(msg_id))
                         if len(msg_txt) > 15:
                             print(
-                                '- expected text: "{0}[...]"'.format(msg_txt[0: 15]))
+                                '  - expected text: "{0}[...]"'.format(msg_txt[0: 15]))
                         else:
                             print(
-                                '- expected text: "{0}"'.format(msg_txt))
+                                '  - expected text: "{0}"'.format(msg_txt))
 
                         if len(lang_txt) > 15:
                             print(
-                                '- recived text:  "{0}[...]"'.format(lang_txt[0:15]))
+                                '  - recived text:  "{0}[...]"'.format(lang_txt[0:15]))
                         else:
                             print(
-                                '- recived text:  "{0}"'.format(lang_txt))
+                                '  - recived text:  "{0}"'.format(lang_txt))
                         n_of_errors += 1
                         continue
                 if n_of_errors > 0:
                     file_is_valid = False
             except Exception as ex:
                 print(
-                    '- Unable to load "{0}" as a valid translation'.format(file_mo))
+                    '  - Unable to load "{0}" as a valid translation'.format(file_mo))
                 return False
 
             if n_of_errors > 0:
                 print('')
                 print('')
             else:
-                print('  - OK')
+                print('    - OK')
 
     else:
         print('')
         print('')
-        print('# {0} [{1}]'.format(file, localeName))
+        print('  # {0} [{1}]'.format(file, localeName))
         print(
-            'Unexpected file extension found. Expected .po and .mo.')
+            '  Unexpected file extension found. Expected .po and .mo.')
         return False
     return file_is_valid
 
 
 def validate_translations():
-    is_valid = True
+    msg_ids = {}
     # loop all available languages and verify language exist
     dir = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent.parent
+
+    print('Validate .po and .mo files')
+    is_valid = validate_locales(dir, msg_ids)
+
+    root_folder = dir.resolve()
+
+    print('')
+    print('')
+    print('Validate _() and _local() uses in .py files')
+    file_is_valid = validate_python_files(root_folder, msg_ids)
+
+    is_valid = is_valid and file_is_valid
+
+    return is_valid
+
+
+def validate_python_files(folder, msg_ids):
+    files_are_valid = True
+    listing = False
+    try:
+        listing = os.listdir(folder)
+    except:
+        # Ignore: is not a directory or has some read problem..
+        return files_are_valid
+    for item in listing:
+        if '.' in item:
+            if len(item) < 3 or not item.endswith('.py'):
+                continue
+            #print('python file:', item)
+            current_file = os.path.join(
+                folder, item)
+
+            file_is_valid = validate_python_file(current_file, msg_ids)
+            files_are_valid = files_are_valid and file_is_valid
+        else:
+            current_dir = os.path.join(
+                folder, item) + os.path.sep
+            dir_is_valid = validate_python_files(current_dir, msg_ids)
+            files_are_valid = files_are_valid and dir_is_valid
+            # print('dir:', current_dir)
+
+    return files_are_valid
+
+
+def validate_python_file(current_file, msg_ids):
+    file_name = current_file[current_file.rindex(os.sep) + 1:]
+    print('  #', file_name)
+    file_is_valid = True
+    # for every .mo file found, try to load it to verify it works
+    n_of_errors = 0
+
+    file_py_content = get_file_content(current_file)
+    regex = r"[^_]_(local){0,1}\(['\"](?P<msgid>[^\"']+)[\"']\)"
+    matches = re.finditer(
+        regex, file_py_content, re.MULTILINE)
+    for matchNum, match in enumerate(matches, start=1):
+        if n_of_errors >= 5:
+            print(
+                '    - More then 5 errors, ignoring rest of errors')
+            return False
+
+        msg_id = match.group('msgid')
+        if msg_id not in msg_ids:
+            file_is_valid = False
+            print('    - Missing msg_id:', msg_id)
+        # else:
+        #     print('  - msg_id', msg_id, 'OK')
+
+    if file_is_valid:
+        print('    - OK')
+    # else:
+    #     print('  - FAIL')
+    return file_is_valid
+
+
+def validate_locales(dir, msg_ids):
+    is_valid = True
+
     availableLanguages = list()
     locales_dir = os.path.join(dir.resolve(), 'locales') + os.sep
     localeDirs = os.listdir(locales_dir)
@@ -239,7 +319,7 @@ def validate_translations():
             files = os.listdir(languageSubDirectory)
             for file in files:
                 # for every .po file found, check if we have a .mo file
-                if validate_po_file(locales_dir, localeName, languageSubDirectory, file):
+                if validate_po_file(locales_dir, localeName, languageSubDirectory, file, msg_ids):
                     current_number_of_valid_translations += 1
                 else:
                     is_valid = False
@@ -249,15 +329,15 @@ def validate_translations():
 
             if number_of_valid_translations != current_number_of_valid_translations:
                 print(
-                    'Different number of translation files for languages. One or more language is missing a translation')
+                    '  Different number of translation files for languages. One or more language is missing a translation')
                 is_valid = False
                 continue
     if len(availableLanguages) > 0:
         print('')
-        print('Available Languages: {0}'.format(', '.join(availableLanguages)))
+        print('  Available Languages: {0}'.format(
+            ', '.join(availableLanguages)))
     else:
-        print('No languages found')
-
+        print('  No languages found')
     return is_valid
 
 

@@ -24,7 +24,6 @@ jobs:
     - if: ${{ matrix.os == 'ubuntu-latest' && success() }} }}
       name: Verifing Translation(s) - LINUX
       run: python .github/workflows/verify_result.py -l
-      if: ${{ success() }}
     - if: ${{ matrix.os == 'ubuntu-latest' && success() }} }}
       name: Verifing Translation(s) - WINDOWS
       run: python .github\workflows\verify_result.py -l

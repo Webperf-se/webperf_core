@@ -36,7 +36,7 @@ Follow the instructions below depending on what you choose.
 Benefit of this option is that you can use it to test pre production urls like your AcceptanceTest environment.
 
 * Download and install Node.js (v2)
-* Installl lighthouse NPM Package ( `npm install -g lighthouse` )
+* Installl lighthouse NPM Package ( `npm install lighthouse` )
 * Set `lighthouse_use_api = False` in your `config.py`
 
 #### Using service?

@@ -317,8 +317,6 @@ def create_review_and_rating(errors, _, _local, review_header):
                     error_message_grouped_dict[error_message] = 1
 
         if len(error_message_grouped_dict) > 0:
-            if css_review_group_errors:
-                review += _local('TEXT_REVIEW_ERRORS_GROUPED')
             error_message_grouped_sorted = sorted(
                 error_message_grouped_dict.items(), key=lambda x: x[1], reverse=True)
 

@@ -5,7 +5,10 @@ on:
       - '**.md'
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+            matrix:
+                os: [ubuntu-latest, windows-latest]
     steps:
     - name: Check out repository code
       uses: actions/checkout@v3
@@ -18,6 +21,11 @@ jobs:
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
       if: ${{ success() }}
-    - name: Verifing Translation(s)
+    - if: ${{ matrix.os == 'ubuntu-latest' && success() }} }}
+      name: Verifing Translation(s) - LINUX
       run: python .github/workflows/verify_result.py -l
+      if: ${{ success() }}
+    - if: ${{ matrix.os == 'ubuntu-latest' && success() }} }}
+      name: Verifing Translation(s) - WINDOWS
+      run: python .github\workflows\verify_result.py -l
       if: ${{ success() }}

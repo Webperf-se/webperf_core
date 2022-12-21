@@ -26,7 +26,7 @@ jobs:
       run: sudo apt-get install libjpeg-dev libfontconfig
       shell: bash
     - name: Setup yellowlabtools npm package (ONLY used for Yellow Lab Tools)
-      run: npm install -g yellowlabtools
+      run: npm install yellowlabtools
     - name: Setup config (using SAMPLE-config.py as config.py)
       run: python .github/workflows/verify_result.py -c false
       if: ${{ success() }}

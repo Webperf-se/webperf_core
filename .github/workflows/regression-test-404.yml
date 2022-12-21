@@ -27,7 +27,7 @@ jobs:
     - if: ${{ matrix.os == 'windows-latest' }}
       name: Setup config (using SAMPLE-config.py as config.py) - WINDOWS
       run: python .github\workflows\verify_result.py -c ${{ matrix.verify }}
-    - if: ${{ matrix.os == 'ubuntu-latest' }} }}
+    - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: RUNNING TEST - LINUX
       run: |
          python default.py -t ${{ matrix.version }} -r -u https://webperf.se/ -o .github/workflows/testresult-${{ matrix.version }}.json

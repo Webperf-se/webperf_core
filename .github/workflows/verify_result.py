@@ -99,7 +99,7 @@ def get_file_content(input_filename):
 
 def validate_testresult(arg):
     dir = os.path.dirname(os.path.realpath(__file__)) + os.path.sep
-    test_id = f'{int(arg):02}'
+    test_id = arg
     filename = 'testresult-' + test_id + '.json'
     filename = dir + filename
     if not os.path.exists(filename):

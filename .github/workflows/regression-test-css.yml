@@ -5,11 +5,15 @@ on:
       - '**.md'
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+            matrix:
+                os: [ubuntu-latest, windows-latest]
+                version: [7]
+                verify: [true, false]
     steps:
     - name: Check out repository code
       uses: actions/checkout@v3
-      if: ${{ success() }}
     - name: Setup python
       uses: actions/setup-python@v4
       with:
@@ -17,22 +21,27 @@ jobs:
         architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
-      if: ${{ success() }}
-    - name: Download vnu.jar (The Nu Html Checker)
+    - if: ${{ matrix.os == 'ubuntu-latest' }}
+      name: Download vnu.jar (The Nu Html Checker) - Linux
       run: wget -q -O vnu.jar https://github.com/validator/validator/releases/download/latest/vnu.jar
-    - name: Setup config (using SAMPLE-config.py as config.py)
-      run: python .github/workflows/verify_result.py -c true
-      if: ${{ success() }}
-    - name: Test CSS Validation (true)
+    - if: ${{ matrix.os == 'windows-latest' }}
+      shell: pwsh
+      name: Download vnu.jar (The Nu Html Checker) - Windows
       run: |
-         python default.py -t 7 -r -u https://webperf.se/ -o .github/workflows/testresult-07.json
-         python .github/workflows/verify_result.py -t 7
-      if: ${{ success() }}
-    - name: Setup config (using SAMPLE-config.py as config.py)
-      run: python .github/workflows/verify_result.py -c false
-      if: ${{ success() }}
-    - name: Test CSS Validation (false)
+        Invoke-WebRequest -Uri https://github.com/validator/validator/releases/download/latest/vnu.jar -OutFile vnu.jar
+    - if: ${{ matrix.os == 'ubuntu-latest' }}
+      name: Setup config (using SAMPLE-config.py as config.py) - LINUX
+      run: python .github/workflows/verify_result.py -c ${{ matrix.verify }}
+    - if: ${{ matrix.os == 'windows-latest' }}
+      name: Setup config (using SAMPLE-config.py as config.py) - WINDOWS
+      run: python .github\workflows\verify_result.py -c ${{ matrix.verify }}
+    - if: ${{ matrix.os == 'ubuntu-latest' }}
+      name: RUNNING TEST - LINUX
       run: |
-         python default.py -t 7 -r -u https://webperf.se/ -o .github/workflows/testresult-07.json
-         python .github/workflows/verify_result.py -t 7
-      if: ${{ success() }}
+         python default.py -t ${{ matrix.version }} -r -u https://webperf.se/ -o .github/workflows/testresult-${{ matrix.version }}.json
+         python .github/workflows/verify_result.py -t ${{ matrix.version }}
+    - if: ${{ matrix.os == 'windows-latest' }}
+      name: RUNNING TEST - WINDOWS
+      run: |
+         python default.py -t ${{ matrix.version }} -r -u https://webperf.se/ -o .github\workflows\testresult-${{ matrix.version }}.json
+         python .github\workflows\verify_result.py -t ${{ matrix.version }}

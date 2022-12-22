@@ -163,8 +163,9 @@ def get_json_result(langCode, url, googlePageSpeedApiKey, strategy, category, li
     else:
         import subprocess
 
-        bashCommand = "lighthouse {1} --output json --output-path stdout --locale {3} --only-categories {0} --form-factor {2} --chrome-flags=\"--headless\" --quiet".format(
-            category, check_url, strategy, langCode)
+        bashCommand = "node node_modules{4}lighthouse{4}lighthouse-cli{4}index.js {1} --output json --output-path stdout --locale {3} --only-categories {0} --form-factor {2} --chrome-flags=\"--headless\" --quiet".format(
+            category, check_url, strategy, langCode, os.path.sep)
+
         process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
         output, error = process.communicate()
 

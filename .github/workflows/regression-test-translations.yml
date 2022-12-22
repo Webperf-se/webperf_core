@@ -5,11 +5,13 @@ on:
       - '**.md'
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+            matrix:
+                os: [ubuntu-latest, windows-latest]
     steps:
     - name: Check out repository code
       uses: actions/checkout@v3
-      if: ${{ success() }}
     - name: Setup python
       uses: actions/setup-python@v4
       with:
@@ -17,7 +19,9 @@ jobs:
         architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
-      if: ${{ success() }}
-    - name: Verifing Translation(s)
+    - if: ${{ matrix.os == 'ubuntu-latest' }}
+      name: Verifing Translation(s) - LINUX
       run: python .github/workflows/verify_result.py -l
-      if: ${{ success() }}
+    - if: ${{ matrix.os == 'windows-latest' }}
+      name: Verifing Translation(s) - WINDOWS
+      run: python .github\workflows\verify_result.py -l

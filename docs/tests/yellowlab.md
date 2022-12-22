@@ -28,11 +28,16 @@ Read more on the [general page for github actions](../getting-started-github-act
 
 #### Using NPM package
 
-On Linux:
+##### On Linux:
 * Download and install Node.js (v2)
 * Download and install node-gyp `npm install -g node-gyp`
 * Setup libjpeg and fontconfig `sudo apt-get install libjpeg-dev libfontconfig`
-* Setup YellowLabTools `npm install -g yellowlabtools`
+* Setup YellowLabTools `npm install yellowlabtools`
+* Set `ylt_use_api = False` in `config.py`
+
+##### On Windows:
+* Download and install Node.js (v2)
+* Setup YellowLabTools `npm install yellowlabtools`
 * Set `ylt_use_api = False` in `config.py`
 
 ## FAQ

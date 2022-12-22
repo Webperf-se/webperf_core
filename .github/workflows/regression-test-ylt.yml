@@ -5,11 +5,14 @@ on:
       - '**.md'
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+            matrix:
+                os: [ubuntu-latest, windows-latest]
+                version: [17]
     steps:
     - name: Check out repository code
       uses: actions/checkout@v3
-      if: ${{ success() }}
     - name: Setup python
       uses: actions/setup-python@v4
       with:
@@ -17,27 +20,30 @@ jobs:
         architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
-      if: ${{ success() }}
     - name: Setup node (ONLY used for Yellow Lab Tools)
       uses: actions/setup-node@v3
     - name: Setup node dependencies (ONLY used for Yellow Lab Tools)
       run: npm install -g node-gyp
-    - name: Setup libjpeg and fontconfig (ONLY used for Yellow Lab Tools)
+    - if: matrix.os == 'ubuntu-latest'
+      name: Setup libjpeg and fontconfig (ONLY used for Yellow Lab Tools) - LINUX
       run: sudo apt-get install libjpeg-dev libfontconfig
       shell: bash
     - name: Setup yellowlabtools npm package (ONLY used for Yellow Lab Tools)
-      run: npm install -g yellowlabtools
-    - name: Setup config (using SAMPLE-config.py as config.py)
+      run: npm install yellowlabtools
+    - if: ${{ matrix.os == 'ubuntu-latest'  }}
+      name: Setup config (using SAMPLE-config.py as config.py) - LINUX
       run: python .github/workflows/verify_result.py -c false
-      if: ${{ success() }}
-    # We are saving this entry here because hopefully we will later be able to use same tech
-    # - name: Test Performance (Sitespeed.io)
-    #   run: |
-    #      python default.py -t 15 -r -u https://webperf.se/ -o .github/workflows/testresult-15.json
-    #      python .github/workflows/verify_result.py -t 15
-    #   if: ${{ success() }}
-    - name:  Quality on frontend (Yellow Lab Tools)
+    - if: ${{ matrix.os == 'windows-latest' }}
+      name: Setup config (using SAMPLE-config.py as config.py) - WINDOWS
+      run: python .github\workflows\verify_result.py -c false
+    - if: ${{ matrix.os == 'ubuntu-latest' }}
+      name: RUNNING TEST - LINUX
       run: |
-         python default.py -t 17 -r -u https://webperf.se/ -o .github/workflows/testresult-17.json
-         python .github/workflows/verify_result.py -t 17
-      if: ${{ success() }}
+         python default.py -t ${{ matrix.version }} -r -u https://webperf.se/ -o .github/workflows/testresult-${{ matrix.version }}.json
+         python .github/workflows/verify_result.py -t ${{ matrix.version }}
+    - if: ${{ matrix.os == 'windows-latest' }}
+      name: RUNNING TEST - WINDOWS
+      run: |
+         python default.py -t ${{ matrix.version }} -r -u https://webperf.se/ -o .github\workflows\testresult-${{ matrix.version }}.json
+         python .github\workflows\verify_result.py -t ${{ matrix.version }}
+      

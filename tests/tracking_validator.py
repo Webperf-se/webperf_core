@@ -131,6 +131,8 @@ def get_foldername_from_url(url):
     # NOTE: hopefully temporary fix for "index.html"
     folder_result = folder_result.replace('index_html', 'index.html')
 
+    folder_result = folder_result.replace('/', os.sep)
+
     return folder_result
 
 
@@ -704,7 +706,7 @@ def get_rating_from_sitespeed(url, _local, _):
     website_folder_name = get_foldername_from_url(url)
 
     filename = os.path.join(result_folder_name, 'pages',
-                            website_folder_name,  'data', 'browsertime.har')
+                            website_folder_name, 'data', 'browsertime.har')
 
     http_archive_content = get_file_content(filename)
 

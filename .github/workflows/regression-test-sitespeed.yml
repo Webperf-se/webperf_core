@@ -43,8 +43,9 @@ jobs:
         python -m pip install pyssim Pillow image
         Invoke-WebRequest -Uri https://github.com/GyanD/codexffmpeg/releases/download/2022-12-19-git-48d5aecfc4/ffmpeg-2022-12-19-git-48d5aecfc4-full_build.zip -OutFile .\data\ffmpeg-2022-12-19-git-48d5aecfc4-essentials_build.zip
         Expand-Archive -LiteralPath .\data\ffmpeg-2022-12-19-git-48d5aecfc4-essentials_build.zip -DestinationPath .\data\
-        Move-Item -Path .\data\ffmpeg-2022-12-19-git-48d5aecfc4-full_build\bin\ffmpeg.exe -Destination .\ffmpeg.exe
+        [System.Environment]::SetEnvironmentVariable("Path", [System.Environment]::GetEnvironmentVariable('Path',[System.EnvironmentVariableTarget]::Process) + ";${env:GITHUB_WORKSPACE}\data\ffmpeg-2022-12-19-git-48d5aecfc4-full_build\bin;",[System.EnvironmentVariableTarget]::Process);
       # TODO: unzip ffmpeg and handle ffmpeg.exe (Best way )
+      # Move-Item -Path .\data\ffmpeg-2022-12-19-git-48d5aecfc4-full_build\bin\ffmpeg.exe -Destination .\ffmpeg.exe
     - if: ${{ matrix.os == 'ubuntu-latest'  }}
       name: Setup Google Chrome browser (ONLY used for Sitespeed) - Linux
       run: |

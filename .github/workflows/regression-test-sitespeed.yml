@@ -38,12 +38,14 @@ jobs:
       name: Setup SpeedIndex dependencies (ONLY used for Sitespeed) - Windows
       shell: pwsh
       run: |
+        Write "${env:GITHUB_WORKSPACE}"
+        Write "${{ github.workspace }}"
         python -m pip install --upgrade pip
         python -m pip install --upgrade setuptools
         python -m pip install pyssim Pillow image
         Invoke-WebRequest -Uri https://github.com/GyanD/codexffmpeg/releases/download/2022-12-19-git-48d5aecfc4/ffmpeg-2022-12-19-git-48d5aecfc4-full_build.zip -OutFile .\data\ffmpeg-2022-12-19-git-48d5aecfc4-essentials_build.zip
         Expand-Archive -LiteralPath .\data\ffmpeg-2022-12-19-git-48d5aecfc4-essentials_build.zip -DestinationPath .\data\
-        [System.Environment]::SetEnvironmentVariable("Path", [System.Environment]::GetEnvironmentVariable('Path',[System.EnvironmentVariableTarget]::Process) + ";${env:GITHUB_WORKSPACE}\data\ffmpeg-2022-12-19-git-48d5aecfc4-full_build\bin;",[System.EnvironmentVariableTarget]::Process);
+        [System.Environment]::SetEnvironmentVariable("Path", [System.Environment]::GetEnvironmentVariable('Path',[System.EnvironmentVariableTarget]::Process) + ";${{ github.workspace }}\data\ffmpeg-2022-12-19-git-48d5aecfc4-full_build\bin;",[System.EnvironmentVariableTarget]::Process);
       # TODO: unzip ffmpeg and handle ffmpeg.exe (Best way )
       # Move-Item -Path .\data\ffmpeg-2022-12-19-git-48d5aecfc4-full_build\bin\ffmpeg.exe -Destination .\ffmpeg.exe
     - if: ${{ matrix.os == 'ubuntu-latest'  }}

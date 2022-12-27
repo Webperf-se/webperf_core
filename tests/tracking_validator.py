@@ -122,14 +122,14 @@ def get_foldername_from_url(url):
 
     test_str = '{0}{1}'.format(hostname, relative_path)
 
-    regex = r"[^a-z0-9\-\/]"
+    regex = r"[^a-zA-Z0-9\-\/]"
     subst = "_"
 
     # You can manually specify the number of replacements by changing the 4th argument
     folder_result = re.sub(regex, subst, test_str, 0, re.MULTILINE)
 
-    # NOTE: hopefully temporary fix for "index.html"
-    folder_result = folder_result.replace('index_html', 'index.html')
+    # NOTE: hopefully temporary fix for "index.html" and Gullspangs-kommun.html
+    folder_result = folder_result.replace('_html', '.html')
 
     folder_result = folder_result.replace('/', os.sep)
 

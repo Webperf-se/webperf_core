@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from pathlib import Path
 from models import Rating
 import os
 import json
@@ -611,28 +612,16 @@ def get_rating_from_sitespeed(url, _local, _):
         sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --outputFolder {2} --firstParty --utc true --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
             config.sitespeed_iterations, url, result_folder_name)
 
-    use_stealth = False
+    use_stealth = True
 
     filename = ''
-    # TODO: REMOVE THIS HARDCODED PATH.
-    # GOTEBORG.SE
-    #filename = 'C:\\code\\therabbit\\webperf_core\\data\\results-52578732-2817-43f1-adc8-8a8c19715cbd\\pages\\goteborg_se\\data\\browsertime.har'
-    # VALLENTUNA.SE
-    # filename = 'C:\\code\\therabbit\\webperf_core\\data\\results-99e3b411-0e30-47e8-a809-0aca277292a9\\pages\\www_vallentuna_se\\data\\browsertime.har'
-    # KALIX.SE
-    # filename = 'C:\\code\\therabbit\\webperf_core\\data\\results-a66070ca-33a2-4460-80b3-26530c49f0be\\pages\\www_kalix_se\\data\\browsertime.har'
-    # HUDDINGE.SE
-    # filename = 'C:\\code\\therabbit\\webperf_core\\data\\results-881ce553-9235-4233-b199-28fe71e53c83\\pages\\www_huddinge_se\\data\\browsertime.har'
-    # ESKILSTUNA.SE
-    # filename = 'C:\\code\\therabbit\\webperf_core\\data\\results-d137ff1a-5367-42cc-9cd5-d0459855d0e5\\pages\\www_eskilstuna_se\\data\\browsertime.har'
-    # POLISEN.SE
-    # filename = 'C:\\code\\therabbit\\webperf_core\\data\\results-b1e4c736-c904-4bcf-a610-9a9d9e00be5e\\pages\\polisen_se\\data\\browsertime.har'
-    # SANDVIKEN.SE
-    # filename = 'C:\\code\\therabbit\\webperf_core\\data\\results-e7d202fb-3a67-483b-bb9d-a7315aa7d392\\pages\\sandviken_se\\data\\browsertime.har'
-    # PITEA.SE
-    # filename = 'C:\\code\\therabbit\\webperf_core\\data\\results-d567beaa-df4a-43f6-a5b8-751a7e9ae473\\pages\\www_pitea_se\\data\\browsertime.har'
-    # WEBPERF.SE
-    # filename = 'C:\\code\\therabbit\\webperf_core\\data\\results-8172d92f-6dba-4bbb-a905-246e65e876e0\\pages\\webperf_se\\data\\browsertime.har'
+
+    # TODO: Remove cache when done
+    import engines.sitespeed_result as input
+    sites = input.read_sites('', -1, -1)
+    for site in sites:
+        if url == site[1]:
+            filename = site[0]
 
     if filename == '':
         sitespeed_run_test(sitespeed_use_docker, sitespeed_arg)
@@ -641,8 +630,6 @@ def get_rating_from_sitespeed(url, _local, _):
 
         filename = os.path.join(result_folder_name, 'pages',
                                 website_folder_name, 'data', 'browsertime.har')
-
-    http_archive_content = get_file_content(filename)
 
     result = {}
     result['tech'] = {}
@@ -661,7 +648,7 @@ def get_rating_from_sitespeed(url, _local, _):
             res = entry['response']
             req_url = req['url']
 
-            print('# ', req_url)
+            # print('# ', req_url)
             if '.aspx' in req_url or '.ashx' in req_url:
                 result['tech']['asp.net'] = req_url
 
@@ -682,6 +669,8 @@ def get_rating_from_sitespeed(url, _local, _):
                 result['cms']['typo3'] = req_url
                 result['tech']['php'] = req_url
 
+            # TODO: Check for https://docs.2sxc.org/index.html ?
+
             if 'matomo.php' in req_url or 'matomo.js' in req_url or 'piwik.php' in req_url or 'piwik.js' in req_url:
                 analytics_dict = {}
                 analytics_dict['name'] = 'Matomo'
@@ -701,7 +690,7 @@ def get_rating_from_sitespeed(url, _local, _):
                     for matchNum, match in enumerate(matches, start=1):
                         matomo_url = match.group('url') + '/CHANGELOG.md'
 
-                    print('matomo_url', matomo_url)
+                    #print('matomo_url', matomo_url)
 
                     matomo_content = httpRequestGetContent(matomo_url)
                     matomo_regex = r"## Matomo (?P<version>[\.0-9]+)"
@@ -908,6 +897,37 @@ def get_rating_from_sitespeed(url, _local, _):
     pretty_result = json.dumps(result, indent=4)
     print('result', pretty_result)
     return rating
+
+
+def get_default(method):
+    result = {}
+    result['method'] = method
+    result['precision'] = 0.0
+    return result
+
+
+def get_default_info(url, method, precision):
+    result = {}
+    result['url'] = url
+    result['method'] = method
+    result['precision'] = precision
+    return result
+
+
+def lookup_request_url(url):
+    result = get_default('url')
+
+    result['tech'] = {}
+    result['webserver'] = {}
+    result['cms'] = {}
+    result['os'] = {}
+    result['analytics'] = {}
+
+    return result
+
+
+def lookup_response_headers(url, headers):
+    return -1
 
 
 def get_rating_from_selenium(url, _local, _):

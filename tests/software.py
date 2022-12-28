@@ -849,6 +849,12 @@ def lookup_request_url(req_url):
 
     if 'matomo.php' in req_url or 'matomo.js' in req_url or 'piwik.php' in req_url or 'piwik.js' in req_url:
         data.append(get_default_info(req_url, 'url', 0.5, 'tech', 'matomo'))
+    if '.php' in req_url:
+        data.append(get_default_info(req_url, 'url', 0.5, 'tech', 'php'))
+    if '.webp' in req_url:
+        data.append(get_default_info(req_url, 'url', 0.5, 'tech', 'webp'))
+    if '.webm' in req_url:
+        data.append(get_default_info(req_url, 'url', 0.5, 'tech', 'webm'))
     if '.js' in req_url:
         # TODO: check framework name and version in comment
         # TODO: check if ".map" is mentioned in file, if so, check it for above framework name and version
@@ -924,110 +930,118 @@ def lookup_response_header(req_url, header_name, header_value):
         if 'image/vnd.microsoft.icon' in header_value:
             data.append(get_default_info(
                 req_url, 'header', 0.3, 'os', 'windows'))
-        if 'X-OPNET-TRANSACTION-TRACE' in header_name:
-            data.append(get_default_info(
-                req_url, 'header', 0.8, 'tech', 'riverbed-steelcentral-transaction-analyzer'))
-            # https://en.wikipedia.org/wiki/OPNET
-            # https://support.riverbed.com/content/support/software/opnet-performance/apptransaction-xpert.html
-        if 'X-POWERED-BY' in header_name:
-            if 'ASP.NET' in header_value:
-                data.append(get_default_info(
-                    req_url, 'header', 0.5, 'webserver', 'iis'))
-                data.append(get_default_info(
-                    req_url, 'header', 0.5, 'tech', 'asp.net'))
-            if 'SERVLET/' in header_value:
-                data.append(get_default_info(
-                    req_url, 'header', 0.5, 'webserver', 'websphere'))
-                data.append(get_default_info(
-                    req_url, 'header', 0.5, 'tech', 'java'))
-                data.append(get_default_info(
-                    req_url, 'header', 0.5, 'tech', 'servlet'))
-        if 'SERVER' in header_name:
-            server_regex = r"(?P<webservername>[a-zA-Z\-]+)\/{0,1}(?P<webserverversion>[0-9.]+){0,1}[ ]{0,1}\({0,1}(?P<osname>[a-zA-Z]*)\){0,1}"
-            matches = re.finditer(
-                server_regex, header_value, re.MULTILINE)
-            webserver_name = ''
-            webserver_version = ''
-            os_name = ''
-            for matchNum, match in enumerate(matches, start=1):
-                webserver_name = match.group('webservername')
-                webserver_version = match.group('webserverversion')
-                os_name = match.group('osname')
-
-                if 'MICROSOFT-IIS' in webserver_name:
-                    data.append(get_default_info(
-                        req_url, 'header', 0.7, 'webserver', 'iis'))
-                    data.append(get_default_info(
-                        req_url, 'header', 0.5, 'os', 'windows'))
-
-                    if '10.0' in webserver_version:
-                        data.append(get_default_info(
-                            req_url, 'header', 0.8, 'os', 'windows server 2016/2019'))
-                        data.append(get_default_info(
-                            req_url, 'header', 0.9, 'webserver', 'iis 10'))
-                    elif '8.5' in webserver_version or '8.0' in webserver_version:
-                        data.append(get_default_info(
-                            req_url, 'header', 0.9, 'os', 'windows server 2012'))
-                        data.append(get_default_info(
-                            req_url, 'header', 0.9, 'webserver', 'iis 8.x'))
-                    elif '7.5' in webserver_version or '7.0' in webserver_version:
-                        data.append(get_default_info(
-                            req_url, 'header', 0.9, 'os', 'windows server 2008'))
-                        data.append(get_default_info(
-                            req_url, 'header', 0.9, 'webserver', 'iis 7.x'))
-                    elif '6.0' in webserver_version:
-                        data.append(get_default_info(
-                            req_url, 'header', 0.9, 'os', 'windows server 2003'))
-                        data.append(get_default_info(
-                            req_url, 'header', 0.9, 'webserver', 'iis 6.x'))
-                    elif None != webserver_version:
-                        data.append(get_default_info(
-                            req_url, 'header', 0.6, 'webserver', 'iis {0}'.format(
-                                webserver_version)))
-
-                if 'APACHE' in webserver_name:
-                    data.append(get_default_info(
-                        req_url, 'header', 0.5, 'webserver', 'apache'))
-                    if webserver_version != None:
-                        data.append(get_default_info(
-                            req_url, 'header', 0.5, 'webserver', 'apache {0}'.format(
-                                webserver_version)))
-
-                if 'UBUNTU' in os_name:
-                    data.append(get_default_info(
-                        req_url, 'header', 0.5, 'os', 'ubuntu'))
-                elif 'NGINX' in webserver_name:
-                    data.append(get_default_info(
-                        req_url, 'header', 0.5, 'os', 'nginx'))
-                elif None == os_name or '' == os_name:
-                    ignore = 1
-                else:
-                    print('UNHANDLED OS:', os_name)
-
-        if 'X-ASPNET-VERSION' in header_name:
+    if 'X-OPNET-TRANSACTION-TRACE' in header_name:
+        data.append(get_default_info(
+            req_url, 'header', 0.8, 'tech', 'riverbed-steelcentral-transaction-analyzer'))
+        # https://en.wikipedia.org/wiki/OPNET
+        # https://support.riverbed.com/content/support/software/opnet-performance/apptransaction-xpert.html
+    if 'X-POWERED-BY' in header_name:
+        if 'ASP.NET' in header_value:
             data.append(get_default_info(
                 req_url, 'header', 0.5, 'webserver', 'iis'))
             data.append(get_default_info(
                 req_url, 'header', 0.5, 'tech', 'asp.net'))
-            # TODO: Fix validation of header_value, it can now include infected data
+        if 'SERVLET/' in header_value:
             data.append(get_default_info(
-                req_url, 'header', 0.8, 'tech', 'asp.net {0}'.format(
-                    header_value)))
-        if 'CONTENT-SECURITY-POLICY' in header_name:
-            regex = r"(?P<name>[a-zA-Z\-]+) (?P<value>[^;]+);*[ ]*"
-            matches = re.finditer(
-                regex, header_value, re.MULTILINE)
-            for matchNum, match in enumerate(matches, start=1):
-                # TODO: look at more values and uses in CSP
-                csp_rule_name = match.group('name').upper()
-                csp_rule_value = match.group('value').upper()
-                if 'DL.EPISERVER.NET' in csp_rule_value:
+                req_url, 'header', 0.5, 'webserver', 'websphere'))
+            data.append(get_default_info(
+                req_url, 'header', 0.5, 'tech', 'java'))
+            data.append(get_default_info(
+                req_url, 'header', 0.5, 'tech', 'servlet'))
+    if 'SERVER' in header_name:
+        server_regex = r"(?P<webservername>[a-zA-Z\-]+)\/{0,1}(?P<webserverversion>[0-9.]+){0,1}[ ]{0,1}\({0,1}(?P<osname>[a-zA-Z]*)\){0,1}"
+        matches = re.finditer(
+            server_regex, header_value, re.MULTILINE)
+        webserver_name = ''
+        webserver_version = ''
+        os_name = ''
+        for matchNum, match in enumerate(matches, start=1):
+            webserver_name = match.group('webservername')
+            if webserver_name != None:
+                webserver_name = webserver_name.upper()
+
+            webserver_version = match.group('webserverversion')
+            if webserver_version != None:
+                webserver_version = webserver_version.upper()
+            os_name = match.group('osname')
+            if os_name != None:
+                os_name = os_name.upper()
+
+            if 'MICROSOFT-IIS' in webserver_name:
+                data.append(get_default_info(
+                    req_url, 'header', 0.7, 'webserver', 'iis'))
+                data.append(get_default_info(
+                    req_url, 'header', 0.5, 'os', 'windows'))
+
+                if '10.0' in webserver_version:
                     data.append(get_default_info(
-                        req_url, 'header', 0.7, 'cms', 'episerver'))
+                        req_url, 'header', 0.8, 'os', 'windows server 2016/2019'))
                     data.append(get_default_info(
-                        req_url, 'header', 0.4, 'tech', 'asp.net'))
+                        req_url, 'header', 0.9, 'webserver', 'iis 10'))
+                elif '8.5' in webserver_version or '8.0' in webserver_version:
                     data.append(get_default_info(
-                        req_url, 'header', 0.4, 'tech', 'tech'))
+                        req_url, 'header', 0.9, 'os', 'windows server 2012'))
+                    data.append(get_default_info(
+                        req_url, 'header', 0.9, 'webserver', 'iis 8.x'))
+                elif '7.5' in webserver_version or '7.0' in webserver_version:
+                    data.append(get_default_info(
+                        req_url, 'header', 0.9, 'os', 'windows server 2008'))
+                    data.append(get_default_info(
+                        req_url, 'header', 0.9, 'webserver', 'iis 7.x'))
+                elif '6.0' in webserver_version:
+                    data.append(get_default_info(
+                        req_url, 'header', 0.9, 'os', 'windows server 2003'))
+                    data.append(get_default_info(
+                        req_url, 'header', 0.9, 'webserver', 'iis 6.x'))
+                elif None != webserver_version:
+                    data.append(get_default_info(
+                        req_url, 'header', 0.6, 'webserver', 'iis {0}'.format(
+                            webserver_version)))
+            elif 'APACHE' in webserver_name:
+                data.append(get_default_info(
+                    req_url, 'header', 0.5, 'webserver', 'apache'))
+                if webserver_version != None:
+                    data.append(get_default_info(
+                        req_url, 'header', 0.5, 'webserver', 'apache {0}'.format(
+                            webserver_version)))
+            elif 'NGINX' in webserver_name:
+                data.append(get_default_info(
+                    req_url, 'header', 0.5, 'webserver', 'nginx'))
+            elif 'LITESPEED' in webserver_name:
+                data.append(get_default_info(
+                    req_url, 'header', 0.5, 'webserver', 'litespeed'))
+            if 'UBUNTU' in os_name:
+                data.append(get_default_info(
+                    req_url, 'header', 0.5, 'os', 'ubuntu'))
+            elif None == os_name or '' == os_name:
+                ignore = 1
+            else:
+                print('UNHANDLED OS:', os_name)
+
+    if 'X-ASPNET-VERSION' in header_name:
+        data.append(get_default_info(
+            req_url, 'header', 0.5, 'webserver', 'iis'))
+        data.append(get_default_info(
+            req_url, 'header', 0.5, 'tech', 'asp.net'))
+        # TODO: Fix validation of header_value, it can now include infected data
+        data.append(get_default_info(
+            req_url, 'header', 0.8, 'tech', 'asp.net {0}'.format(
+                header_value)))
+    if 'CONTENT-SECURITY-POLICY' in header_name:
+        regex = r"(?P<name>[a-zA-Z\-]+) (?P<value>[^;]+);*[ ]*"
+        matches = re.finditer(
+            regex, header_value, re.MULTILINE)
+        for matchNum, match in enumerate(matches, start=1):
+            # TODO: look at more values and uses in CSP
+            csp_rule_name = match.group('name').upper()
+            csp_rule_value = match.group('value').upper()
+            if 'DL.EPISERVER.NET' in csp_rule_value:
+                data.append(get_default_info(
+                    req_url, 'header', 0.7, 'cms', 'episerver'))
+                data.append(get_default_info(
+                    req_url, 'header', 0.4, 'tech', 'asp.net'))
+                data.append(get_default_info(
+                    req_url, 'header', 0.4, 'tech', 'tech'))
 
     return data
 

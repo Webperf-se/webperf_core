@@ -631,224 +631,87 @@ def get_rating_from_sitespeed(url, _local, _):
         filename = os.path.join(result_folder_name, 'pages',
                                 website_folder_name, 'data', 'browsertime.har')
 
-    result = {}
-    result['tech'] = {}
-    result['webserver'] = {}
-    result['cms'] = {}
-    result['os'] = {}
-    result['analytics'] = {}
+    data = list()
 
     import json
     with open(filename) as json_input_file:
-        data = json.load(json_input_file)
-        if 'log' in data:
-            data = data['log']
-        for entry in data["entries"]:
+        har_data = json.load(json_input_file)
+        if 'log' in har_data:
+            har_data = har_data['log']
+        for entry in har_data["entries"]:
             req = entry['request']
             res = entry['response']
             req_url = req['url']
 
-            # print('# ', req_url)
-            if '.aspx' in req_url or '.ashx' in req_url:
-                result['tech']['asp.net'] = req_url
-
-            if '/contentassets/' in req_url or '/globalassets/' in req_url or 'epi-util/find.js' in req_url or 'dl.episerver.net' in req_url:
-                result['cms']['episerver'] = req_url
-                result['tech']['asp.net'] = req_url
-                result['tech']['csharp'] = req_url
-            elif '/sitevision/' in req_url:
-                result['cms']['sitevision'] = req_url
-                result['webserver']['tomcat'] = req_url
-                result['tech']['java'] = req_url
-            elif '/wp-content/' in req_url or '/wp-content/' in req_url:
-                # https://wordpress.org/support/article/upgrading-wordpress-extended-instructions/
-                result['cms']['wordpress'] = req_url
-                result['tech']['php'] = req_url
-            elif '/typo3temp/' in req_url or '/typo3conf/' in req_url or '/t3olayout/' in req_url:
-                # https://typo3.org/
-                result['cms']['typo3'] = req_url
-                result['tech']['php'] = req_url
+            url_data = lookup_request_url(req_url)
+            if url_data != None or len(url_data) > 0:
+                data.extend(url_data)
 
             # TODO: Check for https://docs.2sxc.org/index.html ?
 
-            if 'matomo.php' in req_url or 'matomo.js' in req_url or 'piwik.php' in req_url or 'piwik.js' in req_url:
-                analytics_dict = {}
-                analytics_dict['name'] = 'Matomo'
-                analytics_dict['url'] = req_url
-                matomo_version = 'Matomo'
+            # if 'matomo.php' in req_url or 'matomo.js' in req_url or 'piwik.php' in req_url or 'piwik.js' in req_url:
+            #     analytics_dict = {}
+            #     analytics_dict['name'] = 'Matomo'
+            #     analytics_dict['url'] = req_url
+            #     matomo_version = 'Matomo'
 
-                check_matomo_version = 'matomo' not in result['analytics']
-                if check_matomo_version and not use_stealth:
-                    matomo_o = urlparse(req_url)
-                    matomo_hostname = matomo_o.hostname
-                    matomo_url = '{0}://{1}/CHANGELOG.md'.format(
-                        matomo_o.scheme, matomo_hostname)
+            #     check_matomo_version = 'matomo' not in result['analytics']
+            #     if check_matomo_version and not use_stealth:
+            #         matomo_o = urlparse(req_url)
+            #         matomo_hostname = matomo_o.hostname
+            #         matomo_url = '{0}://{1}/CHANGELOG.md'.format(
+            #             matomo_o.scheme, matomo_hostname)
 
-                    matomo_changelog_url_regex = r"(?P<url>.*)\/(matomo|piwik).(js|php)"
-                    matches = re.finditer(
-                        matomo_changelog_url_regex, req_url, re.MULTILINE)
-                    for matchNum, match in enumerate(matches, start=1):
-                        matomo_url = match.group('url') + '/CHANGELOG.md'
+            #         matomo_changelog_url_regex = r"(?P<url>.*)\/(matomo|piwik).(js|php)"
+            #         matches = re.finditer(
+            #             matomo_changelog_url_regex, req_url, re.MULTILINE)
+            #         for matchNum, match in enumerate(matches, start=1):
+            #             matomo_url = match.group('url') + '/CHANGELOG.md'
 
-                    #print('matomo_url', matomo_url)
+            #         # print('matomo_url', matomo_url)
 
-                    matomo_content = httpRequestGetContent(matomo_url)
-                    matomo_regex = r"## Matomo (?P<version>[\.0-9]+)"
+            #         matomo_content = httpRequestGetContent(matomo_url)
+            #         matomo_regex = r"## Matomo (?P<version>[\.0-9]+)"
 
-                    matches = re.finditer(
-                        matomo_regex, matomo_content, re.MULTILINE)
-                    for matchNum, match in enumerate(matches, start=1):
-                        matomo_version = match.group('version')
-                        analytics_dict['version'] = matomo_version
-                        break
+            #         matches = re.finditer(
+            #             matomo_regex, matomo_content, re.MULTILINE)
+            #         for matchNum, match in enumerate(matches, start=1):
+            #             matomo_version = match.group('version')
+            #             analytics_dict['version'] = matomo_version
+            #             break
 
-                    if 'version' in analytics_dict:
-                        analytics_dict['versions-behind'] = -1
-                        analytics_dict['latest-version'] = ''
+            #         if 'version' in analytics_dict:
+            #             analytics_dict['versions-behind'] = -1
+            #             analytics_dict['latest-version'] = ''
 
-                        matomo_version_index = 0
+            #             matomo_version_index = 0
 
-                        # TODO: Change this request
-                        # matomo_changelog_feed = httpRequestGetContent(
-                        #     'https://matomo.org/changelog/feed/')
-                        matomo_changelog_feed = get_file_content(
-                            'data\\matomo-org-changelog-feed.txt')
+            #             # TODO: Change this request
+            #             # matomo_changelog_feed = httpRequestGetContent(
+            #             #     'https://matomo.org/changelog/feed/')
+            #             matomo_changelog_feed = get_file_content(
+            #                 'data\\matomo-org-changelog-feed.txt')
 
-                        matomo_changelog_regex = r"<title>Matomo (?P<version>[\.0-9]+)<\/title>"
-                        matches = re.finditer(
-                            matomo_changelog_regex, matomo_changelog_feed, re.MULTILINE)
-                        for matchNum, match in enumerate(matches, start=1):
-                            matomo_changelog_version = match.group('version')
-                            if analytics_dict['latest-version'] == '':
-                                analytics_dict['latest-version'] = matomo_changelog_version
-                            # print('changelog version:', matomo_changelog_version)
-                            if matomo_changelog_version in matomo_version:
-                                analytics_dict['versions-behind'] = matomo_version_index
-                                break
-                            matomo_version_index = matomo_version_index + 1
-                if check_matomo_version:
-                    result['analytics']['matomo'] = analytics_dict
-
-            if '.js' in req_url:
-                # TODO: check framework name and version in comment
-                # TODO: check if ".map" is mentioned in file, if so, check it for above framework name and version
-                # TODO: check use of node_modules
-                # https://www.tranemo.se/wp-includes/js/jquery/jquery.min.js?ver=3.6.1
-                # https://www.tranemo.se/wp-includes/js/dist/vendor/regenerator-runtime.min.js?ver=0.13.9
-                result['tech']['js'] = req_url
-            if '.svg' in req_url:
-                # TODO: Check Generator comment
-                # https://www.pajala.se/static/gfx/pajala-kommunvapen.svg
-                # <!-- Generator: Adobe Illustrator 24.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-                # https://start.stockholm/ui/assets/img/logotype.svg
-                # <!-- Generator: Adobe Illustrator 19.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-                result['tech']['svg'] = req_url
-            if '/imagevault/' in req_url:
-                result['tech']['imagevault'] = req_url
+            #             matomo_changelog_regex = r"<title>Matomo (?P<version>[\.0-9]+)<\/title>"
+            #             matches = re.finditer(
+            #                 matomo_changelog_regex, matomo_changelog_feed, re.MULTILINE)
+            #             for matchNum, match in enumerate(matches, start=1):
+            #                 matomo_changelog_version = match.group('version')
+            #                 if analytics_dict['latest-version'] == '':
+            #                     analytics_dict['latest-version'] = matomo_changelog_version
+            #                 # print('changelog version:', matomo_changelog_version)
+            #                 if matomo_changelog_version in matomo_version:
+            #                     analytics_dict['versions-behind'] = matomo_version_index
+            #                     break
+            #                 matomo_version_index = matomo_version_index + 1
+            #     if check_matomo_version:
+            #         result['analytics']['matomo'] = analytics_dict
 
             if 'headers' in res:
                 headers = res['headers']
-                for header in headers:
-                    header_name = header['name'].upper()
-                    header_value = header['value'].upper()
-
-                    # print('header', header_name, header_value)
-
-                    if 'SEt-COOKIE' in header_name:
-                        if 'ASP.NET_SESSIONID' in header_value:
-                            result['webserver']['iis'] = req_url
-                            result['tech']['asp.net'] = req_url
-                            if 'SAMESITE=LAX' in header_value:
-                                # https://learn.microsoft.com/en-us/aspnet/samesite/system-web-samesite
-                                result['tech']['asp.net >=4.7.2'] = req_url
-
-                        if 'JSESSIONID' in header_value:
-                            result['webserver']['tomcat'] = req_url
-                            result['tech']['java'] = req_url
-                        if 'SITEVISION' in header_value:
-                            result['cms']['sitevision'] = req_url
-                            result['webserver']['tomcat'] = req_url
-                            result['tech']['java'] = req_url
-                        if 'SITEVISIONLTM' in header_value:
-                            result['cms']['sitevision'] = req_url
-                            result['webserver']['tomcat'] = req_url
-                            result['tech']['java'] = req_url
-                            result['tech']['sitevision-cloud'] = req_url
-                    if 'CONTENT-TYPE' in header_name:
-                        if 'image/vnd.microsoft.icon' in header_value:
-                            result['os']['windows'] = req_url
-                    if 'X-OPNET-TRANSACTION-TRACE' in header_name:
-                        result['tech']['riverbed-steelcentral-transaction-analyzer'] = req_url
-                        # https://en.wikipedia.org/wiki/OPNET
-                        # https://support.riverbed.com/content/support/software/opnet-performance/apptransaction-xpert.html
-                    if 'X-POWERED-BY' in header_name:
-                        if 'ASP.NET' in header_value:
-                            result['webserver']['iis'] = req_url
-                            result['tech']['asp.net'] = req_url
-                        if 'SERVLET/' in header_value:
-                            result['tech']['java'] = req_url
-                            result['tech']['servlet'] = req_url
-                            result['webserver']['websphere'] = req_url
-                    if 'SERVER' in header_name:
-                        server_regex = r"(?P<webservername>[a-zA-Z\-]+)\/{0,1}(?P<webserverversion>[0-9.]+){0,1}[ ]{0,1}\({0,1}(?P<osname>[a-zA-Z]*)\){0,1}"
-                        matches = re.finditer(
-                            server_regex, header_value, re.MULTILINE)
-                        webserver_name = ''
-                        webserver_version = ''
-                        os_name = ''
-                        for matchNum, match in enumerate(matches, start=1):
-                            webserver_name = match.group('webservername')
-                            webserver_version = match.group('webserverversion')
-                            os_name = match.group('osname')
-
-                        if 'MICROSOFT-IIS' in webserver_name:
-                            result['webserver']['iis'] = req_url
-                            if 'windows' not in result['os']:
-                                result['os']['windows'] = req_url
-
-                            if '10.0' in webserver_version:
-                                result['os']['windows Server 2016 or windows Server 2019'] = req_url
-                                result['webserver']['iis 10'] = req_url
-                            elif '8.5' in webserver_version or '8.0' in webserver_version:
-                                result['os']['windows Server 2012'] = req_url
-                                result['webserver']['iis 8.x'] = req_url
-                            elif '7.5' in webserver_version or '7.0' in webserver_version:
-                                result['os']['windows Server 2008'] = req_url
-                                result['webserver']['iis 7.x'] = req_url
-                            elif '6.0' in webserver_version:
-                                result['os']['windows Server 2003'] = req_url
-                                result['webserver']['iis 6'] = req_url
-                        elif 'APACHE' in webserver_name:
-                            result['webserver']['apache'] = req_url
-                            if webserver_version != None:
-                                result['webserver']['apache {0}'.format(
-                                    webserver_version)] = req_url
-                            if 'UBUNTU' in os_name:
-                                result['os']['Ubuntu'] = req_url
-                        elif 'NGINX' in webserver_name:
-                            result['webserver']['nginx'] = req_url
-                        elif None == os_name or '' == os_name:
-                            ignore = 1
-                        else:
-                            print('UNHANDLED OS:', os_name)
-
-                    if 'X-ASPNET-VERSION' in header_name:
-                        result['webserver']['iis'] = req_url
-                        result['tech']['asp.net'] = req_url
-                        result['tech']['asp.net {0}'.format(
-                            header_value)] = req_url
-                    if 'CONTENT-SECURITY-POLICY' in header_name:
-                        regex = r"(?P<name>[a-zA-Z\-]+) (?P<value>[^;]+);*[ ]*"
-                        matches = re.finditer(
-                            regex, header_value, re.MULTILINE)
-                        for matchNum, match in enumerate(matches, start=1):
-                            # TODO: look at more values and uses in CSP
-                            csp_rule_name = match.group('name').upper()
-                            csp_rule_value = match.group('value').upper()
-                            if 'DL.EPISERVER.NET' in csp_rule_value:
-                                result['cms']['episerver'] = req_url
-                                result['tech']['asp.net'] = req_url
-                                result['tech']['csharp'] = req_url
+                header_data = lookup_response_headers(req_url, headers)
+                if header_data != None or len(header_data) > 0:
+                    data.extend(header_data)
 
     if not use_stealth:
         # TODO: Check if we are missing any type and try to find this info
@@ -894,40 +757,279 @@ def get_rating_from_sitespeed(url, _local, _):
             # https://typo3.org/
             # <meta name="generator" content="TYPO3 CMS" />
 
+    result = {}
+
+    for item in data:
+        domain_item = None
+        if item['domain'] not in result:
+            domain_item = {}
+        else:
+            domain_item = result[item['domain']]
+
+        key = None
+        if 'tech' in item:
+            key = 'tech'
+        elif 'webserver' in item:
+            key = 'webserver'
+        elif 'cms' in item:
+            key = 'cms'
+        elif 'os' in item:
+            key = 'os'
+        elif 'analytics' in item:
+            key = 'analytics'
+        else:
+            key = 'unknown'
+
+        value = item[key]
+        pos = value.find(' ')
+        key2 = value
+        if pos > 0:
+            key2 = value[:pos]
+
+        if key not in domain_item:
+            domain_item[key] = {}
+        if key2 not in domain_item[key]:
+            domain_item[key][key2] = {
+                'name': value, 'precision': 0.0}
+
+        if domain_item[key][key2]['precision'] < item['precision']:
+            obj = {}
+            obj['name'] = value
+            obj['precision'] = item['precision']
+            domain_item[key][key2] = obj
+
+        result[item['domain']] = domain_item
+
     pretty_result = json.dumps(result, indent=4)
     print('result', pretty_result)
     return rating
 
 
-def get_default(method):
+def get_default_info(url, method, precision, key, value):
     result = {}
-    result['method'] = method
-    result['precision'] = 0.0
-    return result
 
+    o = urlparse(url)
+    hostname = o.hostname
+    result['domain'] = hostname
 
-def get_default_info(url, method, precision):
-    result = {}
     result['url'] = url
     result['method'] = method
     result['precision'] = precision
-    return result
-
-
-def lookup_request_url(url):
-    result = get_default('url')
-
-    result['tech'] = {}
-    result['webserver'] = {}
-    result['cms'] = {}
-    result['os'] = {}
-    result['analytics'] = {}
+    result[key] = value
 
     return result
 
 
-def lookup_response_headers(url, headers):
-    return -1
+def lookup_request_url(req_url):
+    data = list()
+
+    # print('# ', req_url)
+    if '.aspx' in req_url or '.ashx' in req_url:
+        data.append(get_default_info(req_url, 'url', 0.5, 'tech', 'asp.net'))
+
+    if '/contentassets/' in req_url or '/globalassets/' in req_url or 'epi-util/find.js' in req_url or 'dl.episerver.net' in req_url:
+        data.append(get_default_info(req_url, 'url', 0.1, 'tech', 'asp.net'))
+        data.append(get_default_info(req_url, 'url', 0.5, 'cms', 'episerver'))
+        data.append(get_default_info(req_url, 'url', 0.5, 'tech', 'csharp'))
+    elif '/sitevision/' in req_url:
+        data.append(get_default_info(req_url, 'url', 0.1, 'tech', 'java'))
+        data.append(get_default_info(req_url, 'url', 0.5, 'cms', 'sitevision'))
+        data.append(get_default_info(
+            req_url, 'url', 0.5, 'webserver', 'tomcat'))
+    elif '/wp-content/' in req_url or '/wp-content/' in req_url:
+        # https://wordpress.org/support/article/upgrading-wordpress-extended-instructions/
+        data.append(get_default_info(req_url, 'url', 0.1, 'tech', 'php'))
+        data.append(get_default_info(req_url, 'url', 0.5, 'cms', 'wordpress'))
+    elif '/typo3temp/' in req_url or '/typo3conf/' in req_url or '/t3olayout/' in req_url:
+        # https://typo3.org/
+        data.append(get_default_info(req_url, 'url', 0.1, 'tech', 'php'))
+        data.append(get_default_info(req_url, 'url', 0.5, 'cms', 'typo3'))
+
+        # TODO: Check for https://docs.2sxc.org/index.html ?
+
+    if 'matomo.php' in req_url or 'matomo.js' in req_url or 'piwik.php' in req_url or 'piwik.js' in req_url:
+        data.append(get_default_info(req_url, 'url', 0.5, 'tech', 'matomo'))
+    if '.js' in req_url:
+        # TODO: check framework name and version in comment
+        # TODO: check if ".map" is mentioned in file, if so, check it for above framework name and version
+        # TODO: check use of node_modules
+        # https://www.tranemo.se/wp-includes/js/jquery/jquery.min.js?ver=3.6.1
+        # https://www.tranemo.se/wp-includes/js/dist/vendor/regenerator-runtime.min.js?ver=0.13.9
+        data.append(get_default_info(req_url, 'url', 0.5, 'tech', 'js'))
+    if '.svg' in req_url:
+        # TODO: Check Generator comment
+        # https://www.pajala.se/static/gfx/pajala-kommunvapen.svg
+        # <!-- Generator: Adobe Illustrator 24.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+        # https://start.stockholm/ui/assets/img/logotype.svg
+        # <!-- Generator: Adobe Illustrator 19.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+        data.append(get_default_info(
+            req_url, 'url', 0.5, 'tech', 'svg'))
+    if '/imagevault/' in req_url:
+        data.append(get_default_info(
+            req_url, 'url', 0.5, 'tech', 'imagevault'))
+
+    return data
+
+
+def lookup_response_headers(req_url, headers):
+    data = list()
+
+    for header in headers:
+        header_name = header['name'].upper()
+        header_value = header['value'].upper()
+
+        # print('header', header_name, header_value)
+        tmp_data = lookup_response_header(req_url, header_name, header_value)
+        if len(tmp_data) != 0:
+            data.extend(tmp_data)
+    return data
+
+
+def lookup_response_header(req_url, header_name, header_value):
+    data = list()
+
+    if 'SET-COOKIE' in header_name:
+        if 'ASP.NET_SESSIONID' in header_value:
+            data.append(get_default_info(
+                req_url, 'cookie', 0.5, 'webserver', 'iis'))
+            data.append(get_default_info(
+                req_url, 'cookie', 0.5, 'tech', 'asp.net'))
+            if 'SAMESITE=LAX' in header_value:
+                # https://learn.microsoft.com/en-us/aspnet/samesite/system-web-samesite
+                data.append(get_default_info(req_url, 'header',
+                            0.9, 'tech', 'asp.net >=4.7.2'))
+
+            if 'JSESSIONID' in header_value:
+                data.append(get_default_info(
+                    req_url, 'cookie', 0.3, 'webserver', 'tomcat'))
+                data.append(get_default_info(
+                    req_url, 'cookie', 0.5, 'tech', 'java'))
+            if 'SITEVISION' in header_value:
+                data.append(get_default_info(
+                    req_url, 'cookie', 0.5, 'cms', 'sitevision'))
+                data.append(get_default_info(
+                    req_url, 'cookie', 0.5, 'tech', 'java'))
+                data.append(get_default_info(
+                    req_url, 'cookie', 0.3, 'webserver', 'tomcat'))
+            if 'SITEVISIONLTM' in header_value:
+                data.append(get_default_info(
+                    req_url, 'cookie', 0.5, 'cms', 'sitevision'))
+                data.append(get_default_info(
+                    req_url, 'cookie', 0.5, 'tech', 'java'))
+                data.append(get_default_info(
+                    req_url, 'cookie', 0.3, 'webserver', 'tomcat'))
+                data.append(get_default_info(
+                    req_url, 'cookie', 0.5, 'cms', 'sitevision-cloud'))
+    if 'CONTENT-TYPE' in header_name:
+        if 'image/vnd.microsoft.icon' in header_value:
+            data.append(get_default_info(
+                req_url, 'header', 0.3, 'os', 'windows'))
+        if 'X-OPNET-TRANSACTION-TRACE' in header_name:
+            data.append(get_default_info(
+                req_url, 'header', 0.8, 'tech', 'riverbed-steelcentral-transaction-analyzer'))
+            # https://en.wikipedia.org/wiki/OPNET
+            # https://support.riverbed.com/content/support/software/opnet-performance/apptransaction-xpert.html
+        if 'X-POWERED-BY' in header_name:
+            if 'ASP.NET' in header_value:
+                data.append(get_default_info(
+                    req_url, 'header', 0.5, 'webserver', 'iis'))
+                data.append(get_default_info(
+                    req_url, 'header', 0.5, 'tech', 'asp.net'))
+            if 'SERVLET/' in header_value:
+                data.append(get_default_info(
+                    req_url, 'header', 0.5, 'webserver', 'websphere'))
+                data.append(get_default_info(
+                    req_url, 'header', 0.5, 'tech', 'java'))
+                data.append(get_default_info(
+                    req_url, 'header', 0.5, 'tech', 'servlet'))
+        if 'SERVER' in header_name:
+            server_regex = r"(?P<webservername>[a-zA-Z\-]+)\/{0,1}(?P<webserverversion>[0-9.]+){0,1}[ ]{0,1}\({0,1}(?P<osname>[a-zA-Z]*)\){0,1}"
+            matches = re.finditer(
+                server_regex, header_value, re.MULTILINE)
+            webserver_name = ''
+            webserver_version = ''
+            os_name = ''
+            for matchNum, match in enumerate(matches, start=1):
+                webserver_name = match.group('webservername')
+                webserver_version = match.group('webserverversion')
+                os_name = match.group('osname')
+
+                if 'MICROSOFT-IIS' in webserver_name:
+                    data.append(get_default_info(
+                        req_url, 'header', 0.7, 'webserver', 'iis'))
+                    data.append(get_default_info(
+                        req_url, 'header', 0.5, 'os', 'windows'))
+
+                    if '10.0' in webserver_version:
+                        data.append(get_default_info(
+                            req_url, 'header', 0.8, 'os', 'windows server 2016/2019'))
+                        data.append(get_default_info(
+                            req_url, 'header', 0.9, 'webserver', 'iis 10'))
+                    elif '8.5' in webserver_version or '8.0' in webserver_version:
+                        data.append(get_default_info(
+                            req_url, 'header', 0.9, 'os', 'windows server 2012'))
+                        data.append(get_default_info(
+                            req_url, 'header', 0.9, 'webserver', 'iis 8.x'))
+                    elif '7.5' in webserver_version or '7.0' in webserver_version:
+                        data.append(get_default_info(
+                            req_url, 'header', 0.9, 'os', 'windows server 2008'))
+                        data.append(get_default_info(
+                            req_url, 'header', 0.9, 'webserver', 'iis 7.x'))
+                    elif '6.0' in webserver_version:
+                        data.append(get_default_info(
+                            req_url, 'header', 0.9, 'os', 'windows server 2003'))
+                        data.append(get_default_info(
+                            req_url, 'header', 0.9, 'webserver', 'iis 6.x'))
+                    elif None != webserver_version:
+                        data.append(get_default_info(
+                            req_url, 'header', 0.6, 'webserver', 'iis {0}'.format(
+                                webserver_version)))
+
+                if 'APACHE' in webserver_name:
+                    data.append(get_default_info(
+                        req_url, 'header', 0.5, 'webserver', 'apache'))
+                    if webserver_version != None:
+                        data.append(get_default_info(
+                            req_url, 'header', 0.5, 'webserver', 'apache {0}'.format(
+                                webserver_version)))
+
+                if 'UBUNTU' in os_name:
+                    data.append(get_default_info(
+                        req_url, 'header', 0.5, 'os', 'ubuntu'))
+                elif 'NGINX' in webserver_name:
+                    data.append(get_default_info(
+                        req_url, 'header', 0.5, 'os', 'nginx'))
+                elif None == os_name or '' == os_name:
+                    ignore = 1
+                else:
+                    print('UNHANDLED OS:', os_name)
+
+        if 'X-ASPNET-VERSION' in header_name:
+            data.append(get_default_info(
+                req_url, 'header', 0.5, 'webserver', 'iis'))
+            data.append(get_default_info(
+                req_url, 'header', 0.5, 'tech', 'asp.net'))
+            # TODO: Fix validation of header_value, it can now include infected data
+            data.append(get_default_info(
+                req_url, 'header', 0.8, 'tech', 'asp.net {0}'.format(
+                    header_value)))
+        if 'CONTENT-SECURITY-POLICY' in header_name:
+            regex = r"(?P<name>[a-zA-Z\-]+) (?P<value>[^;]+);*[ ]*"
+            matches = re.finditer(
+                regex, header_value, re.MULTILINE)
+            for matchNum, match in enumerate(matches, start=1):
+                # TODO: look at more values and uses in CSP
+                csp_rule_name = match.group('name').upper()
+                csp_rule_value = match.group('value').upper()
+                if 'DL.EPISERVER.NET' in csp_rule_value:
+                    data.append(get_default_info(
+                        req_url, 'header', 0.7, 'cms', 'episerver'))
+                    data.append(get_default_info(
+                        req_url, 'header', 0.4, 'tech', 'asp.net'))
+                    data.append(get_default_info(
+                        req_url, 'header', 0.4, 'tech', 'tech'))
+
+    return data
 
 
 def get_rating_from_selenium(url, _local, _):

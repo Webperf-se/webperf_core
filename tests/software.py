@@ -298,8 +298,27 @@ def get_rating_from_sitespeed(url, _local, _):
 
         result[item['domain']] = domain_item
 
-    pretty_result = json.dumps(result, indent=4)
-    print('result', pretty_result)
+    # pretty_result = json.dumps(result, indent=4)
+    # print('result', pretty_result)
+
+    found_cms = False
+    for domain in result.keys():
+        if found_cms:
+            break
+        if 'cms' in result[domain]:
+            for cms_name in result[domain]['cms']:
+                cms_rating = Rating(_, review_show_improvements_only)
+                cms_rating.set_overall(
+                    5.0, cms_name.capitalize())
+                rating += cms_rating
+                found_cms = True
+                break
+
+    if not found_cms:
+        no_cms_rating = Rating(_, review_show_improvements_only)
+        no_cms_rating.set_overall(1.0, _local('NO_CMS'))
+        rating += no_cms_rating
+
     return rating
 
 
@@ -591,38 +610,6 @@ def lookup_response_header(req_url, header_name, header_value):
                     req_url, 'header', 0.4, 'tech', 'tech'))
 
     return data
-
-
-def get_rating_from_selenium(url, _local, _):
-    rating = Rating(_, review_show_improvements_only)
-
-    browser = False
-    try:
-        # Remove options if you want to see browser windows (good for debugging)
-        options = Options()
-        options.add_argument("--headless")
-
-        browser = webdriver.Firefox(options=options)
-        browser.implicitly_wait(120)
-
-        browser.get(url)
-
-        # - Cookies ( 5.00 rating )
-        rating += rate_cookies(browser, url, _local, _)
-
-        # TODO: Add localStorage and other storage here
-
-        WebDriverWait(browser, 120)
-
-        browser.quit()
-
-        return rating
-    except Exception as ex:
-        print('errorssss', ex)
-
-        if browser != False:
-            browser.quit()
-        return rating
 
 
 def run_test(_, langCode, url):

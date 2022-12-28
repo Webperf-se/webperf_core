@@ -917,7 +917,7 @@ def lookup_response_header(req_url, header_name, header_value):
             if 'SAMESITE=LAX' in header_value:
                 # https://learn.microsoft.com/en-us/aspnet/samesite/system-web-samesite
                 data.append(get_default_info(req_url, 'header',
-                            0.9, 'tech', 'asp.net >=4.7.2'))
+                            0.7, 'tech', 'asp.net >=4.7.2'))
 
             if 'JSESSIONID' in header_value:
                 data.append(get_default_info(
@@ -963,7 +963,7 @@ def lookup_response_header(req_url, header_name, header_value):
             data.append(get_default_info(
                 req_url, 'header', 0.5, 'tech', 'servlet'))
     if 'SERVER' in header_name:
-        server_regex = r"(?P<webservername>[a-zA-Z\-]+)\/{0,1}(?P<webserverversion>[0-9.]+){0,1}[ ]{0,1}\({0,1}(?P<osname>[a-zA-Z]*)\){0,1}"
+        server_regex = r"^(?P<webservername>[a-zA-Z\-]+)\/{0,1}(?P<webserverversion>[0-9.]+){0,1}[ ]{0,1}\({0,1}(?P<osname>[a-zA-Z]*)\){0,1}"
         matches = re.finditer(
             server_regex, header_value, re.MULTILINE)
         webserver_name = ''
@@ -1046,6 +1046,28 @@ def lookup_response_header(req_url, header_name, header_value):
             else:
                 print('UNHANDLED OS:', os_name)
 
+    # x-generator
+    if 'X-GENERATOR' in header_name:
+        generator_regex = r"^(?P<cmsname>[a-zA-Z\-]+) {0,1}(?P<cmsversion>[0-9.]+)"
+        matches = re.finditer(
+            generator_regex, header_value, re.MULTILINE)
+        cms_name = ''
+        cms_version = ''
+        for matchNum, match in enumerate(matches, start=1):
+            cms_name = match.group('cmsname')
+            if cms_name != None:
+                cms_name = cms_name.lower()
+                data.append(get_default_info(
+                    req_url, 'header', 0.4, 'cms', cms_name))
+
+            cms_version = match.group('cmsversion')
+            if cms_version != None:
+                cms_version = cms_version.lower()
+                data.append(get_default_info(
+                    req_url, 'header', 0.8, 'cms', "{0} {1}".format(cms_name, cms_version)))
+
+        data.append(get_default_info(
+            req_url, 'header', 0.4, 'webserver', 'nginx'))
     if 'X-NGINX-' in header_name:
         data.append(get_default_info(
             req_url, 'header', 0.4, 'webserver', 'nginx'))

@@ -606,11 +606,13 @@ def get_rating_from_sitespeed(url, _local, _):
 
     from tests.performance_sitespeed_io import get_result as sitespeed_run_test
 
+    sitespeed_iterations = 1
+
     sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-        config.sitespeed_iterations, url, result_folder_name)
+        sitespeed_iterations, url, result_folder_name)
     if 'nt' in os.name:
         sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --outputFolder {2} --firstParty --utc true --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-            config.sitespeed_iterations, url, result_folder_name)
+            sitespeed_iterations, url, result_folder_name)
 
     use_stealth = True
 
@@ -722,17 +724,23 @@ def get_rating_from_sitespeed(url, _local, _):
                 o.scheme, hostname)
             content = httpRequestGetContent(episerver_url)
             if 'EPiServer' in content:
-                result['cms']['episerver'] = episerver_url
-                result['tech']['asp.net'] = episerver_url
-                result['tech']['csharp'] = episerver_url
+                data.append(get_default_info(
+                    req_url, 'url', 0.5, 'cms', 'episerver'))
+                data.append(get_default_info(
+                    req_url, 'url', 0.5, 'tech', 'asp.net'))
+                data.append(get_default_info(
+                    req_url, 'url', 0.5, 'tech', 'csharp'))
             else:
                 episerver_url = '{0}://{1}/util/login.aspx'.format(
                     o.scheme, hostname)
                 content = httpRequestGetContent(episerver_url)
                 if 'episerver-white.svg' in content or "__epiXSRF" in content:
-                    result['cms']['episerver'] = episerver_url
-                    result['tech']['asp.net'] = episerver_url
-                    result['tech']['csharp'] = episerver_url
+                    data.append(get_default_info(
+                        req_url, 'url', 0.5, 'cms', 'episerver'))
+                    data.append(get_default_info(
+                        req_url, 'url', 0.5, 'tech', 'asp.net'))
+                    data.append(get_default_info(
+                        req_url, 'url', 0.5, 'tech', 'csharp'))
         if len(result['cms']) == 0:
             # https://wordpress.org/support/article/upgrading-wordpress-extended-instructions/
             o = urlparse(url)
@@ -741,8 +749,10 @@ def get_rating_from_sitespeed(url, _local, _):
                 o.scheme, hostname)
             content = httpRequestGetContent(wordpress_url)
             if 'dashicons-wordpress' in content:
-                result['cms']['wordpress'] = req_url
-                result['tech']['php'] = req_url
+                data.append(get_default_info(
+                    req_url, 'url', 0.5, 'cms', 'wordpress'))
+                data.append(get_default_info(
+                    req_url, 'url', 0.5, 'tech', 'php'))
             else:
                 o = urlparse(url)
                 hostname = o.hostname
@@ -750,8 +760,10 @@ def get_rating_from_sitespeed(url, _local, _):
                     o.scheme, hostname)
                 content = httpRequestGetContent(wordpress_url)
                 if '/wp-admin/' in content or '/wp-includes/' in content:
-                    result['cms']['wordpress'] = req_url
-                    result['tech']['php'] = req_url
+                    data.append(get_default_info(
+                        req_url, 'url', 0.5, 'cms', 'wordpress'))
+                    data.append(get_default_info(
+                        req_url, 'url', 0.5, 'tech', 'php'))
 
         # if len(result['cms']) == 0:
             # https://typo3.org/
@@ -777,6 +789,8 @@ def get_rating_from_sitespeed(url, _local, _):
             key = 'os'
         elif 'analytics' in item:
             key = 'analytics'
+        elif 'cdn' in item:
+            key = 'cdn'
         else:
             key = 'unknown'
 
@@ -1007,9 +1021,23 @@ def lookup_response_header(req_url, header_name, header_value):
             elif 'NGINX' in webserver_name:
                 data.append(get_default_info(
                     req_url, 'header', 0.5, 'webserver', 'nginx'))
+            elif 'CLOUDFLARE' in webserver_name:
+                data.append(get_default_info(
+                    req_url, 'header', 0.5, 'cdn', 'cloudflare'))
+            elif 'BUNNYCDN' in webserver_name:
+                data.append(get_default_info(
+                    req_url, 'header', 0.5, 'cdn', 'bunnycdn'))
             elif 'LITESPEED' in webserver_name:
                 data.append(get_default_info(
                     req_url, 'header', 0.5, 'webserver', 'litespeed'))
+            elif 'RESIN' in webserver_name:
+                data.append(get_default_info(
+                    req_url, 'header', 0.5, 'webserver', 'resin'))
+                if webserver_version != None:
+                    data.append(get_default_info(
+                        req_url, 'header', 0.5, 'webserver', 'resin {0}'.format(
+                            webserver_version)))
+
             if 'UBUNTU' in os_name:
                 data.append(get_default_info(
                     req_url, 'header', 0.5, 'os', 'ubuntu'))
@@ -1018,6 +1046,19 @@ def lookup_response_header(req_url, header_name, header_value):
             else:
                 print('UNHANDLED OS:', os_name)
 
+    if 'X-NGINX-' in header_name:
+        data.append(get_default_info(
+            req_url, 'header', 0.4, 'webserver', 'nginx'))
+    if 'X-VARNISH' in header_name:
+        # TODO: Check what they mean
+        # X-Varnish: 1079078756 1077313267
+        data.append(get_default_info(
+            req_url, 'header', 0.5, 'tech', 'varnish'))
+    if 'VIA' in header_name and 'VARNISH' in header_value:
+        # TODO: Check if it contains version number and if we can check for it
+        # Via: 1.1 varnish
+        data.append(get_default_info(
+            req_url, 'header', 0.5, 'tech', 'varnish'))
     if 'X-ASPNET-VERSION' in header_name:
         data.append(get_default_info(
             req_url, 'header', 0.5, 'webserver', 'iis'))

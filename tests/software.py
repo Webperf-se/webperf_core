@@ -199,6 +199,9 @@ def get_rating_from_sitespeed(url, _local, _):
                 if header_data != None or len(header_data) > 0:
                     data.extend(header_data)
 
+            # TODO: Add logic to look in markup and text based resources
+            # <meta name=generator content="Hugo 0.108.0">
+
     if not use_stealth:
         # TODO: Check if we are missing any type and try to find this info
         if len(result['cms']) == 0:
@@ -309,7 +312,7 @@ def get_rating_from_sitespeed(url, _local, _):
             for cms_name in result[domain]['cms']:
                 cms_rating = Rating(_, review_show_improvements_only)
                 cms_rating.set_overall(
-                    5.0, cms_name.capitalize())
+                    5.0, '- CMS used: {0}'.format(cms_name.capitalize()))
                 rating += cms_rating
                 found_cms = True
                 break
@@ -625,7 +628,9 @@ def run_test(_, langCode, url):
     language.install()
     _local = language.gettext
 
-    print(_local('TEXT_RUNNING_TEST'))
+    # TODO: Change this to normal logic for texts
+    # print(_local('TEXT_RUNNING_TEST'))
+    print('## Test: 25 - Software (Alpha)')
 
     print(_('TEXT_TEST_START').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))

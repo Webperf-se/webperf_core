@@ -461,9 +461,6 @@ def lookup_response_content(req_url, response_mimetype, response_content):
                             tech_version = license_match.group('version')
                             precision = 0.6
 
-                # TODO: Still no version? Check if there is a map file
-                # //# sourceMappingURL=envision.js.map
-
             if tech_name != None:
                 tech_name = tech_name.lower().replace(' ', '-').strip('-')
                 data.append(get_default_info(
@@ -474,10 +471,20 @@ def lookup_response_content(req_url, response_mimetype, response_content):
                 data.append(get_default_info(
                     req_url, 'content', precision + 0.3, 'js', "{0} {1}".format(tech_name, tech_version)))
 
-            # print('JS COMMENT', comment)
-            # print('    ', tech_name, tech_version)
-            # if tech_name == None:
-            #     print('    COMMENT', comment)
+        if not use_stealth and '//# sourceMappingURL=' in response_content:
+            map_url = req_url + '.map'
+            map_content = httpRequestGetContent(map_url)
+
+            js_map_regex = r"node_modules\/(?P<module>[^\/]+)"
+            matches = re.finditer(js_map_regex, map_content, re.MULTILINE)
+
+            for matchNum, match in enumerate(matches, start=1):
+                module_name = match.group('module')
+                if module_name != None:
+                    module_name = module_name.lower()
+                    data.append(get_default_info(
+                        req_url, 'content', 0.5, 'js', module_name))
+
     elif 'svg' in response_mimetype:
         # TODO: We don't get content for svg files currently, can we change that?
         svg_regex = r"<!-- Generator: (?P<name>[a-zA-Z ]+)[ ]{0,1}(?P<version>[0-9.]*)"

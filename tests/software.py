@@ -342,8 +342,8 @@ def get_rating_from_sitespeed(url, _local, _):
 
         result[item['domain']] = domain_item
 
-    pretty_result = json.dumps(result, indent=4)
-    print('result', pretty_result)
+    # pretty_result = json.dumps(result, indent=4)
+    # print('result', pretty_result)
 
     found_cms = False
     for domain in result.keys():

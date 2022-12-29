@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 from engines.utils import use_item
 import json
+import re
 
 
 def add_site(input_filename, url, input_skip, input_take):
@@ -33,6 +34,30 @@ def delete_site(input_filename, url, input_skip, input_take):
 #     print(_('TEXT_WEBSITE_URL_DELETED').format(site_url))
 
     return tmpSites
+
+
+def get_sanitized_file_content(input_filename):
+    # print('input_filename=' + input_filename)
+    lines = list()
+    try:
+        with open(input_filename, 'r', encoding='utf-8') as file:
+            data = file.readlines()
+            for line in data:
+                lines.append(line)
+                # print(line)
+    except:
+        print('error in get_local_file_content. No such file or directory: {0}'.format(
+            input_filename))
+        return '\n'.join(lines)
+
+    test_str = '\n'.join(lines)
+    regex = r"[^a-zåäöA-ZÅÄÖ0-9\{\}\"\:;.,#*\<\>%'&$?!`=@\-\–\+\~\^\\\/| \(\)\[\]_]"
+    subst = ""
+
+    # You can manually specify the number of replacements by changing the 4th argument
+    result = re.sub(regex, subst, test_str, 0, re.MULTILINE)
+
+    return result
 
 
 def read_sites(input_filename, input_skip, input_take):
@@ -90,8 +115,10 @@ def read_sites(input_filename, input_skip, input_take):
         if full_path == None:
             continue
 
-        with open(full_path) as json_input_file:
-            data = json.load(json_input_file)
+        # Fix for content having unallowed chars
+        json_content = get_sanitized_file_content(full_path)
+        if True:
+            data = json.loads(json_content)
             if 'log' in data:
                 data = data['log']
             if 'pages' in data:

@@ -9,9 +9,6 @@ import re
 from urllib.parse import urlparse
 from tests.utils import *
 import datetime
-from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.firefox.options import Options
 import gettext
 _ = gettext.gettext
 
@@ -80,6 +77,30 @@ def get_foldername_from_url(url):
     return folder_result
 
 
+def get_sanitized_file_content(input_filename):
+    # print('input_filename=' + input_filename)
+    lines = list()
+    try:
+        with open(input_filename, 'r', encoding='utf-8') as file:
+            data = file.readlines()
+            for line in data:
+                lines.append(line)
+                # print(line)
+    except:
+        print('error in get_local_file_content. No such file or directory: {0}'.format(
+            input_filename))
+        return '\n'.join(lines)
+
+    test_str = '\n'.join(lines)
+    regex = r"[^a-zåäöA-ZÅÄÖ0-9\{\}\"\:;.,#*\<\>%'&$?!`=@\-\–\+\~\^\\\/| \(\)\[\]_]"
+    subst = ""
+
+    # You can manually specify the number of replacements by changing the 4th argument
+    result = re.sub(regex, subst, test_str, 0, re.MULTILINE)
+
+    return result
+
+
 def get_rating_from_sitespeed(url, _local, _):
     rating = Rating(_, review_show_improvements_only)
 
@@ -95,8 +116,10 @@ def get_rating_from_sitespeed(url, _local, _):
     sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
         sitespeed_iterations, url, result_folder_name)
     if 'nt' in os.name:
-        sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --outputFolder {2} --firstParty --utc true --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+        sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies all --outputFolder {2} --utc true --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
             sitespeed_iterations, url, result_folder_name)
+        # sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --outputFolder {2} --firstParty --utc true --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+        #     sitespeed_iterations, url, result_folder_name)
 
     use_stealth = True
 
@@ -125,8 +148,10 @@ def get_rating_from_sitespeed(url, _local, _):
     data = list()
 
     import json
-    with open(filename) as json_input_file:
-        har_data = json.load(json_input_file)
+    # Fix for content having unallowed chars
+    json_content = get_sanitized_file_content(filename)
+    if True:
+        har_data = json.loads(json_content)
         if 'log' in har_data:
             har_data = har_data['log']
         for entry in har_data["entries"]:
@@ -137,6 +162,14 @@ def get_rating_from_sitespeed(url, _local, _):
             url_data = lookup_request_url(req_url)
             if url_data != None or len(url_data) > 0:
                 data.extend(url_data)
+
+            if 'content' in res and 'text' in res['content']:
+                response_content = res['content']['text']
+                response_mimetype = res['content']['mimeType']
+                content_data = lookup_response_content(
+                    req_url, response_mimetype, response_content)
+                if content_data != None or len(content_data) > 0:
+                    data.extend(content_data)
 
             # TODO: Check for https://docs.2sxc.org/index.html ?
 
@@ -180,7 +213,7 @@ def get_rating_from_sitespeed(url, _local, _):
             #             # TODO: Change this request
             #             # matomo_changelog_feed = httpRequestGetContent(
             #             #     'https://matomo.org/changelog/feed/')
-            #             matomo_changelog_feed = get_file_content(
+            #             matomo_changelog_feed = get_sanitized_file_content(
             #                 'data\\matomo-org-changelog-feed.txt')
 
             #             matomo_changelog_regex = r"<title>Matomo (?P<version>[\.0-9]+)<\/title>"
@@ -327,7 +360,32 @@ def get_rating_from_sitespeed(url, _local, _):
         no_cms_rating.set_overall(1.0, _local('NO_CMS'))
         rating += no_cms_rating
 
-    return rating
+    return (rating, data)
+
+
+def lookup_response_content(req_url, response_mimetype, response_content):
+    data = list()
+
+    if 'html' in response_mimetype:
+        generator_regex = r"<meta name=['|\"]{0,1}generator['|\"]{0,1} content=['|\"]{0,1}(?P<cmsname>[a-zA-Z]+)[ ]{0,1}(?P<cmsversion>[0-9.]*)"
+        matches = re.finditer(generator_regex, response_content, re.MULTILINE)
+
+        cms_name = ''
+        cms_version = ''
+        for matchNum, match in enumerate(matches, start=1):
+            cms_name = match.group('cmsname')
+            if cms_name != None:
+                cms_name = cms_name.lower()
+                data.append(get_default_info(
+                    req_url, 'content', 0.4, 'cms', cms_name))
+
+            cms_version = match.group('cmsversion')
+            if cms_version != None:
+                cms_version = cms_version.lower()
+                data.append(get_default_info(
+                    req_url, 'content', 0.6, 'cms', "{0} {1}".format(cms_name, cms_version)))
+
+    return data
 
 
 def get_default_info(url, method, precision, key, value):
@@ -640,10 +698,7 @@ def run_test(_, langCode, url):
     print(_('TEXT_TEST_START').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    # TODO: Re add handling from selenium
-    # rating += get_rating_from_selenium(url, _local, _)
-
-    rating += get_rating_from_sitespeed(url, _local, _)
+    (rating, result_dict) = get_rating_from_sitespeed(url, _local, _)
 
     print(_('TEXT_TEST_END').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))

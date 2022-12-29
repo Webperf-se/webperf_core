@@ -17,6 +17,7 @@ request_timeout = config.http_request_timeout
 useragent = config.useragent
 review_show_improvements_only = config.review_show_improvements_only
 sitespeed_use_docker = config.sitespeed_use_docker
+use_stealth = True
 
 
 def get_urls_from_har(content):
@@ -120,8 +121,6 @@ def get_rating_from_sitespeed(url, _local, _):
             sitespeed_iterations, url, result_folder_name)
         # sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --outputFolder {2} --firstParty --utc true --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
         #     sitespeed_iterations, url, result_folder_name)
-
-    use_stealth = True
 
     filename = ''
 
@@ -240,55 +239,55 @@ def get_rating_from_sitespeed(url, _local, _):
             # TODO: Add logic to look in markup and text based resources
             # <meta name=generator content="Hugo 0.108.0">
 
-    if not use_stealth:
-        # TODO: Check if we are missing any type and try to find this info
-        if len(result['cms']) == 0:
-            o = urlparse(url)
-            hostname = o.hostname
-            episerver_url = '{0}://{1}/App_Themes/Default/Styles/system.css'.format(
-                o.scheme, hostname)
-            content = httpRequestGetContent(episerver_url)
-            if 'EPiServer' in content:
-                data.append(get_default_info(
-                    req_url, 'url', 0.5, 'cms', 'episerver'))
-                data.append(get_default_info(
-                    req_url, 'url', 0.5, 'tech', 'asp.net'))
-                data.append(get_default_info(
-                    req_url, 'url', 0.5, 'tech', 'csharp'))
-            else:
-                episerver_url = '{0}://{1}/util/login.aspx'.format(
-                    o.scheme, hostname)
-                content = httpRequestGetContent(episerver_url)
-                if 'episerver-white.svg' in content or "__epiXSRF" in content:
-                    data.append(get_default_info(
-                        req_url, 'url', 0.5, 'cms', 'episerver'))
-                    data.append(get_default_info(
-                        req_url, 'url', 0.5, 'tech', 'asp.net'))
-                    data.append(get_default_info(
-                        req_url, 'url', 0.5, 'tech', 'csharp'))
-        if len(result['cms']) == 0:
-            # https://wordpress.org/support/article/upgrading-wordpress-extended-instructions/
-            o = urlparse(url)
-            hostname = o.hostname
-            wordpress_url = '{0}://{1}/wp-includes/css/dashicons.min.css'.format(
-                o.scheme, hostname)
-            content = httpRequestGetContent(wordpress_url)
-            if 'dashicons-wordpress' in content:
-                data.append(get_default_info(
-                    req_url, 'url', 0.5, 'cms', 'wordpress'))
-                data.append(get_default_info(
-                    req_url, 'url', 0.5, 'tech', 'php'))
-            else:
-                o = urlparse(url)
-                hostname = o.hostname
-                wordpress_url = '{0}://{1}/wp-login.php'.format(
-                    o.scheme, hostname)
-                content = httpRequestGetContent(wordpress_url)
-                if '/wp-admin/' in content or '/wp-includes/' in content:
-                    data.append(get_default_info(
-                        req_url, 'url', 0.5, 'cms', 'wordpress'))
-                    data.append(get_default_info(
-                        req_url, 'url', 0.5, 'tech', 'php'))
+    # if not use_stealth:
+    #     # TODO: Check if we are missing any type and try to find this info
+    #     if len(result['cms']) == 0:
+    #         o = urlparse(url)
+    #         hostname = o.hostname
+    #         episerver_url = '{0}://{1}/App_Themes/Default/Styles/system.css'.format(
+    #             o.scheme, hostname)
+    #         content = httpRequestGetContent(episerver_url)
+    #         if 'EPiServer' in content:
+    #             data.append(get_default_info(
+    #                 req_url, 'url', 0.5, 'cms', 'episerver'))
+    #             data.append(get_default_info(
+    #                 req_url, 'url', 0.5, 'tech', 'asp.net'))
+    #             data.append(get_default_info(
+    #                 req_url, 'url', 0.5, 'tech', 'csharp'))
+    #         else:
+    #             episerver_url = '{0}://{1}/util/login.aspx'.format(
+    #                 o.scheme, hostname)
+    #             content = httpRequestGetContent(episerver_url)
+    #             if 'episerver-white.svg' in content or "__epiXSRF" in content:
+    #                 data.append(get_default_info(
+    #                     req_url, 'url', 0.5, 'cms', 'episerver'))
+    #                 data.append(get_default_info(
+    #                     req_url, 'url', 0.5, 'tech', 'asp.net'))
+    #                 data.append(get_default_info(
+    #                     req_url, 'url', 0.5, 'tech', 'csharp'))
+    #     if len(result['cms']) == 0:
+    #         # https://wordpress.org/support/article/upgrading-wordpress-extended-instructions/
+    #         o = urlparse(url)
+    #         hostname = o.hostname
+    #         wordpress_url = '{0}://{1}/wp-includes/css/dashicons.min.css'.format(
+    #             o.scheme, hostname)
+    #         content = httpRequestGetContent(wordpress_url)
+    #         if 'dashicons-wordpress' in content:
+    #             data.append(get_default_info(
+    #                 req_url, 'url', 0.5, 'cms', 'wordpress'))
+    #             data.append(get_default_info(
+    #                 req_url, 'url', 0.5, 'tech', 'php'))
+    #         else:
+    #             o = urlparse(url)
+    #             hostname = o.hostname
+    #             wordpress_url = '{0}://{1}/wp-login.php'.format(
+    #                 o.scheme, hostname)
+    #             content = httpRequestGetContent(wordpress_url)
+    #             if '/wp-admin/' in content or '/wp-includes/' in content:
+    #                 data.append(get_default_info(
+    #                     req_url, 'url', 0.5, 'cms', 'wordpress'))
+    #                 data.append(get_default_info(
+    #                     req_url, 'url', 0.5, 'tech', 'php'))
 
         # if len(result['cms']) == 0:
             # https://typo3.org/
@@ -316,6 +315,10 @@ def get_rating_from_sitespeed(url, _local, _):
             key = 'analytics'
         elif 'cdn' in item:
             key = 'cdn'
+        elif 'js' in item:
+            key = 'js'
+        elif 'css' in item:
+            key = 'css'
         else:
             key = 'unknown'
 
@@ -339,8 +342,8 @@ def get_rating_from_sitespeed(url, _local, _):
 
         result[item['domain']] = domain_item
 
-    pretty_result = json.dumps(result, indent=4)
-    print('result', pretty_result)
+    # pretty_result = json.dumps(result, indent=4)
+    # print('result', pretty_result)
 
     found_cms = False
     for domain in result.keys():
@@ -360,7 +363,7 @@ def get_rating_from_sitespeed(url, _local, _):
         no_cms_rating.set_overall(1.0, _local('NO_CMS'))
         rating += no_cms_rating
 
-    return (rating, data)
+    return (rating, result)
 
 
 def lookup_response_content(req_url, response_mimetype, response_content):
@@ -396,19 +399,19 @@ def lookup_response_content(req_url, response_mimetype, response_content):
             if tech_name != None:
                 tech_name = tech_name.lower().replace(' ', '-')
                 data.append(get_default_info(
-                    req_url, 'content', 0.5, 'tech', 'css-' + tech_name))
+                    req_url, 'content', 0.5, 'css', tech_name))
 
             tech_version = match.group('version')
             if tech_version != None:
                 tech_version = tech_version.lower()
                 data.append(get_default_info(
-                    req_url, 'content', 0.6, 'tech', "css-" + "{0} {1}".format(tech_name, tech_version)))
+                    req_url, 'content', 0.6, 'css', "{0} {1}".format(tech_name, tech_version)))
     elif 'javascript' in response_mimetype:
-        js_comment_regex = r"\/\*!(?P<comment>[ \t\n\r*@a-zåäöA-ZÅÄÖ0-9\-\/\+.,:\(\)]+)(\*\/){0,1}"
+        js_comment_regex = r"\/\*!(?P<comment>[ \t\n\r*@a-zåäöA-ZÅÄÖ0-9\-\/\+.,:'\(\)]+)\*\/"
         matches = re.finditer(js_comment_regex, response_content, re.MULTILINE)
 
         for matchNum, match in enumerate(matches, start=1):
-            print('# JS', req_url, matchNum)
+            # print('# JS', req_url, matchNum)
             tech_name = None
             tech_version = None
             precision = 0.0
@@ -431,28 +434,50 @@ def lookup_response_content(req_url, response_mimetype, response_content):
                 precision = 0.6
 
             if tech_name == None and tech_version == None:
-                js_simple_comment_regex = r"^[*\n \t]+(?P<name>[a-zA-Z.\-]{4,20})[ ]{0,1}[v]{0,1}(?P<version>[0-9\-\.]+){0,1}"
+                js_simple_comment_regex = r"^[*\n\r \t]+(?P<name>[a-zA-Z.\- ]+) [v]{0,1}(?P<version>[0-9\-\.]+)"
                 simple_matches = re.finditer(
                     js_simple_comment_regex, comment)
                 for matchNum, simple_match in enumerate(simple_matches, start=1):
                     tech_name = simple_match.group('name')
                     tech_version = simple_match.group('version')
-                    precision = 0.1
+                    precision = 0.5
+
+            if tech_name == None and tech_version == None:
+                js_simple_comment_regex = r" (?P<name>[a-zA-Z.\-]+)(?P<license>.LICENSE.txt)"
+                simple_matches = re.finditer(
+                    js_simple_comment_regex, comment)
+                for matchNum, simple_match in enumerate(simple_matches, start=1):
+                    tech_name = simple_match.group('name')
+                    license_path = simple_match.group('license')
+                    precision = 0.3
+
+                    if not use_stealth and license_path != None:
+                        license_url = req_url + license_path
+                        license_content = httpRequestGetContent(license_url)
+                        js_license_regex = r"@version[ \t]+(?P<version>[0-9\-.]+)"
+                        license_matches = re.finditer(
+                            js_license_regex, license_content)
+                        for matchNum, license_match in enumerate(license_matches, start=1):
+                            tech_version = license_match.group('version')
+                            precision = 0.6
+
+                # TODO: Still no version? Check if there is a map file
+                # //# sourceMappingURL=envision.js.map
 
             if tech_name != None:
-                tech_name = tech_name.lower().replace(' ', '-')
+                tech_name = tech_name.lower().replace(' ', '-').strip('-')
                 data.append(get_default_info(
-                    req_url, 'content', precision, 'tech', 'js-' + tech_name))
+                    req_url, 'content', precision, 'js', tech_name))
 
             if tech_version != None and tech_version != '-':
                 tech_version = tech_version.lower()
                 data.append(get_default_info(
-                    req_url, 'content', precision + 0.3, 'tech', "js-" + "{0} {1}".format(tech_name, tech_version)))
+                    req_url, 'content', precision + 0.3, 'js', "{0} {1}".format(tech_name, tech_version)))
 
             # print('JS COMMENT', comment)
-            print('    ', tech_name, tech_version)
+            # print('    ', tech_name, tech_version)
             # if tech_name == None:
-            print('    COMMENT', comment)
+            #     print('    COMMENT', comment)
     elif 'svg' in response_mimetype:
         # TODO: We don't get content for svg files currently, can we change that?
         svg_regex = r"<!-- Generator: (?P<name>[a-zA-Z ]+)[ ]{0,1}(?P<version>[0-9.]*)"

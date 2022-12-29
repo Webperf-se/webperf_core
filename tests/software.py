@@ -109,6 +109,11 @@ def get_rating_from_sitespeed(url, _local, _):
         if url == site[1]:
             filename = site[0]
 
+            file_created_timestamp = os.path.getctime(filename)
+            file_created_date = time.ctime(file_created_timestamp)
+            print('Cached entry found from {0}, using it instead of calling website again.'.format(
+                file_created_date))
+
     if filename == '':
         sitespeed_run_test(sitespeed_use_docker, sitespeed_arg)
 

@@ -528,6 +528,8 @@ def get_default_info(url, method, precision, key, value):
 def lookup_request_url(req_url):
     data = list()
 
+    req_url = req_url.lower()
+
     # print('# ', req_url)
     if '.aspx' in req_url or '.ashx' in req_url:
         data.append(get_default_info(req_url, 'url', 0.5, 'tech', 'asp.net'))
@@ -576,6 +578,9 @@ def lookup_request_url(req_url):
         data.append(get_default_info(
             req_url, 'url', 0.5, 'tech', 'svg'))
     if '/imagevault/' in req_url:
+        # https://product.imagevault.se/docfx/
+        data.append(get_default_info(
+            req_url, 'url', 0.5, 'tech', 'asp.net'))
         data.append(get_default_info(
             req_url, 'url', 0.5, 'tech', 'imagevault'))
 
@@ -631,10 +636,32 @@ def lookup_response_header(req_url, header_name, header_value):
                     req_url, 'cookie', 0.3, 'webserver', 'tomcat'))
                 data.append(get_default_info(
                     req_url, 'cookie', 0.5, 'cms', 'sitevision-cloud'))
+    # ImageProcessedBy: ImageProcessor/2.9.0.207 - ImageProcessor.Web/4.12.0.206
+    if 'IMAGEPROCESSEDBY' in header_name:
+        regex = r"(?P<name>[a-zA-Z.]+)\/(?P<version>[0-9.]+)"
+        matches = re.finditer(regex, header_value, re.MULTILINE)
+        for matchNum, match in enumerate(matches, start=1):
+            tech_name = match.group('name')
+            tech_version = match.group('version')
+            if tech_name != None and tech_version != None:
+                tech_name = tech_name.lower()
+                data.append(get_default_info(
+                    req_url, 'header', 0.9, 'tech', '{0} {1}'.format(tech_name, tech_version)))
+                if 'imageprocessor' in tech_name or 'imageprocessor.web' in tech_name:
+                    # https://www.nuget.org/packages/ImageProcessor.Web/4.12.1#readme-body-tab
+                    data.append(get_default_info(
+                        req_url, 'header', 0.7, 'tech', 'asp.net >=4.5.2'))
+                    # https://github.com/JimBobSquarePants/ImageProcessor
+                    data.append(get_default_info(
+                        req_url, 'header', 0.5, 'os', 'windows'))
+
     if 'CONTENT-TYPE' in header_name:
         if 'image/vnd.microsoft.icon' in header_value:
             data.append(get_default_info(
                 req_url, 'header', 0.3, 'os', 'windows'))
+        if 'image/webp' in header_value:
+            data.append(get_default_info(
+                req_url, 'header', 0.9, 'tech', 'webp'))
     if 'X-OPNET-TRANSACTION-TRACE' in header_name:
         data.append(get_default_info(
             req_url, 'header', 0.8, 'tech', 'riverbed-steelcentral-transaction-analyzer'))

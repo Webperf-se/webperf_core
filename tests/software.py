@@ -17,7 +17,7 @@ request_timeout = config.http_request_timeout
 useragent = config.useragent
 review_show_improvements_only = config.review_show_improvements_only
 sitespeed_use_docker = config.sitespeed_use_docker
-use_stealth = True
+use_stealth = False
 
 
 def get_urls_from_har(content):
@@ -169,6 +169,12 @@ def get_rating_from_sitespeed(url, _local, _):
                     req_url, response_mimetype, response_content)
                 if content_data != None or len(content_data) > 0:
                     data.extend(content_data)
+            else:
+                response_mimetype = res['content']['mimeType']
+                mimetype_data = lookup_response_mimetype(
+                    req_url, response_mimetype)
+                if mimetype_data != None or len(mimetype_data) > 0:
+                    data.extend(mimetype_data)
 
             # TODO: Check for https://docs.2sxc.org/index.html ?
 
@@ -235,9 +241,6 @@ def get_rating_from_sitespeed(url, _local, _):
                 header_data = lookup_response_headers(req_url, headers)
                 if header_data != None or len(header_data) > 0:
                     data.extend(header_data)
-
-            # TODO: Add logic to look in markup and text based resources
-            # <meta name=generator content="Hugo 0.108.0">
 
     # if not use_stealth:
     #     # TODO: Check if we are missing any type and try to find this info
@@ -366,6 +369,34 @@ def get_rating_from_sitespeed(url, _local, _):
     return (rating, result)
 
 
+def lookup_response_mimetype(req_url, response_mimetype):
+    data = list()
+    if 'svg' in response_mimetype:
+        # NOTE: We don't get content for svg files currently, it would be better if we didn't need to request it once more
+        svg_content = httpRequestGetContent(req_url)
+
+        # <!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+        svg_regex = r"<!-- Generator: (?P<name>[a-zA-Z ]+)[ ]{0,1}(?P<version>[0-9.]*)"
+        matches = re.finditer(svg_regex, svg_content, re.MULTILINE)
+
+        tech_name = ''
+        tech_version = ''
+        for matchNum, match in enumerate(matches, start=1):
+            tech_name = match.group('name')
+            if tech_name != None:
+                tech_name = tech_name.lower().strip().replace(' ', '-')
+                data.append(get_default_info(
+                    req_url, 'content', 0.5, 'tech', tech_name))
+
+            tech_version = match.group('version')
+            if tech_version != None:
+                tech_version = tech_version.lower()
+                data.append(get_default_info(
+                    req_url, 'content', 0.6, 'tech', "{0} {1}".format(tech_name, tech_version)))
+
+    return data
+
+
 def lookup_response_content(req_url, response_mimetype, response_content):
     data = list()
 
@@ -486,27 +517,6 @@ def lookup_response_content(req_url, response_mimetype, response_content):
                     module_name = module_name.lower().replace('.min.js', '').replace('.js', '')
                     data.append(get_default_info(
                         req_url, 'content', 0.2, 'js', module_name))
-
-    elif 'svg' in response_mimetype:
-        # TODO: We don't get content for svg files currently, can we change that?
-        svg_regex = r"<!-- Generator: (?P<name>[a-zA-Z ]+)[ ]{0,1}(?P<version>[0-9.]*)"
-        matches = re.finditer(svg_regex, response_content, re.MULTILINE)
-
-        tech_name = ''
-        tech_version = ''
-        for matchNum, match in enumerate(matches, start=1):
-            tech_name = match.group('name')
-            if tech_name != None:
-                tech_name = tech_name.lower().replace(' ', '-')
-                data.append(get_default_info(
-                    req_url, 'content', 0.5, 'tech', tech_name))
-
-            tech_version = match.group('version')
-            if tech_version != None:
-                tech_version = tech_version.lower()
-                data.append(get_default_info(
-                    req_url, 'content', 0.6, 'tech', "{0} {1}".format(tech_name, tech_version)))
-
     return data
 
 

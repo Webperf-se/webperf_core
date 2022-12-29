@@ -339,8 +339,8 @@ def get_rating_from_sitespeed(url, _local, _):
 
         result[item['domain']] = domain_item
 
-    # pretty_result = json.dumps(result, indent=4)
-    # print('result', pretty_result)
+    pretty_result = json.dumps(result, indent=4)
+    print('result', pretty_result)
 
     found_cms = False
     for domain in result.keys():
@@ -384,6 +384,94 @@ def lookup_response_content(req_url, response_mimetype, response_content):
                 cms_version = cms_version.lower()
                 data.append(get_default_info(
                     req_url, 'content', 0.6, 'cms', "{0} {1}".format(cms_name, cms_version)))
+
+    elif 'css' in response_mimetype:
+        css_regex = r"\/\*![ \t\n\r*]+(?P<name>[a-zA-Z.]+)[ ]{0,1}[v]{0,1}(?P<version>[.0-9]+){0,1}"
+        matches = re.finditer(css_regex, response_content, re.MULTILINE)
+
+        tech_name = ''
+        tech_version = ''
+        for matchNum, match in enumerate(matches, start=1):
+            tech_name = match.group('name')
+            if tech_name != None:
+                tech_name = tech_name.lower().replace(' ', '-')
+                data.append(get_default_info(
+                    req_url, 'content', 0.5, 'tech', 'css-' + tech_name))
+
+            tech_version = match.group('version')
+            if tech_version != None:
+                tech_version = tech_version.lower()
+                data.append(get_default_info(
+                    req_url, 'content', 0.6, 'tech', "css-" + "{0} {1}".format(tech_name, tech_version)))
+    elif 'javascript' in response_mimetype:
+        js_comment_regex = r"\/\*!(?P<comment>[ \t\n\r*@a-zåäöA-ZÅÄÖ0-9\-\/\+.,:\(\)]+)(\*\/){0,1}"
+        matches = re.finditer(js_comment_regex, response_content, re.MULTILINE)
+
+        for matchNum, match in enumerate(matches, start=1):
+            print('# JS', req_url, matchNum)
+            tech_name = None
+            tech_version = None
+            precision = 0.0
+            comment = match.group('comment')
+            if comment == None:
+                continue
+
+            js_comment_overview_regex = r"@overview[ \t]+(?P<name>[a-zA-Z0-9\-]+)"
+            overview_matches = re.finditer(
+                js_comment_overview_regex, comment, re.MULTILINE)
+            for matchNum, overview_match in enumerate(overview_matches, start=1):
+                tech_name = overview_match.group('name')
+                precision = 0.6
+
+            js_comment_version_regex = r"@version[ \t]+[a-zA-Z]+(?P<version>[0-9\-.]+)"
+            version_matches = re.finditer(
+                js_comment_version_regex, comment, re.MULTILINE)
+            for matchNum, version_match in enumerate(version_matches, start=1):
+                tech_version = version_match.group('version')
+                precision = 0.6
+
+            if tech_name == None and tech_version == None:
+                js_simple_comment_regex = r"^[*\n \t]+(?P<name>[a-zA-Z.\-]{4,20})[ ]{0,1}[v]{0,1}(?P<version>[0-9\-\.]+){0,1}"
+                simple_matches = re.finditer(
+                    js_simple_comment_regex, comment)
+                for matchNum, simple_match in enumerate(simple_matches, start=1):
+                    tech_name = simple_match.group('name')
+                    tech_version = simple_match.group('version')
+                    precision = 0.1
+
+            if tech_name != None:
+                tech_name = tech_name.lower().replace(' ', '-')
+                data.append(get_default_info(
+                    req_url, 'content', precision, 'tech', 'js-' + tech_name))
+
+            if tech_version != None and tech_version != '-':
+                tech_version = tech_version.lower()
+                data.append(get_default_info(
+                    req_url, 'content', precision + 0.3, 'tech', "js-" + "{0} {1}".format(tech_name, tech_version)))
+
+            # print('JS COMMENT', comment)
+            print('    ', tech_name, tech_version)
+            # if tech_name == None:
+            print('    COMMENT', comment)
+    elif 'svg' in response_mimetype:
+        # TODO: We don't get content for svg files currently, can we change that?
+        svg_regex = r"<!-- Generator: (?P<name>[a-zA-Z ]+)[ ]{0,1}(?P<version>[0-9.]*)"
+        matches = re.finditer(svg_regex, response_content, re.MULTILINE)
+
+        tech_name = ''
+        tech_version = ''
+        for matchNum, match in enumerate(matches, start=1):
+            tech_name = match.group('name')
+            if tech_name != None:
+                tech_name = tech_name.lower().replace(' ', '-')
+                data.append(get_default_info(
+                    req_url, 'content', 0.5, 'tech', tech_name))
+
+            tech_version = match.group('version')
+            if tech_version != None:
+                tech_version = tech_version.lower()
+                data.append(get_default_info(
+                    req_url, 'content', 0.6, 'tech', "{0} {1}".format(tech_name, tech_version)))
 
     return data
 

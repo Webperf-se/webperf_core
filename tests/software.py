@@ -342,8 +342,8 @@ def get_rating_from_sitespeed(url, _local, _):
 
         result[item['domain']] = domain_item
 
-    # pretty_result = json.dumps(result, indent=4)
-    # print('result', pretty_result)
+    pretty_result = json.dumps(result, indent=4)
+    print('result', pretty_result)
 
     found_cms = False
     for domain in result.keys():
@@ -397,7 +397,7 @@ def lookup_response_content(req_url, response_mimetype, response_content):
         for matchNum, match in enumerate(matches, start=1):
             tech_name = match.group('name')
             if tech_name != None:
-                tech_name = tech_name.lower().replace(' ', '-')
+                tech_name = tech_name.lower().replace(' ', '-').replace('.css', '')
                 data.append(get_default_info(
                     req_url, 'content', 0.5, 'css', tech_name))
 
@@ -443,11 +443,12 @@ def lookup_response_content(req_url, response_mimetype, response_content):
                     precision = 0.5
 
             if tech_name == None and tech_version == None:
-                js_simple_comment_regex = r" (?P<name>[a-zA-Z.\-]+)(?P<license>.LICENSE.txt)"
+                js_simple_comment_regex = r" (?P<name>[a-zA-Z\.\-]+)(?P<version>[0-9\.\-]*)[a-zA-Z.\-]*(?P<license>.LICENSE.txt)"
                 simple_matches = re.finditer(
                     js_simple_comment_regex, comment)
                 for matchNum, simple_match in enumerate(simple_matches, start=1):
                     tech_name = simple_match.group('name')
+                    tech_version = simple_match.group('version')
                     license_path = simple_match.group('license')
                     precision = 0.3
 
@@ -462,12 +463,13 @@ def lookup_response_content(req_url, response_mimetype, response_content):
                             precision = 0.6
 
             if tech_name != None:
-                tech_name = tech_name.lower().replace(' ', '-').strip('-')
+                tech_name = tech_name.lower().replace(
+                    ' ', '-').strip('-').replace('.min.js', '').replace('.js', '')
                 data.append(get_default_info(
                     req_url, 'content', precision, 'js', tech_name))
 
-            if tech_version != None and tech_version != '-':
-                tech_version = tech_version.lower()
+            if tech_version != None and tech_version != '' and tech_version != '-':
+                tech_version = tech_version.lower().strip('.')
                 data.append(get_default_info(
                     req_url, 'content', precision + 0.3, 'js', "{0} {1}".format(tech_name, tech_version)))
 
@@ -481,9 +483,9 @@ def lookup_response_content(req_url, response_mimetype, response_content):
             for matchNum, match in enumerate(matches, start=1):
                 module_name = match.group('module')
                 if module_name != None:
-                    module_name = module_name.lower()
+                    module_name = module_name.lower().replace('.min.js', '').replace('.js', '')
                     data.append(get_default_info(
-                        req_url, 'content', 0.5, 'js', module_name))
+                        req_url, 'content', 0.2, 'js', module_name))
 
     elif 'svg' in response_mimetype:
         # TODO: We don't get content for svg files currently, can we change that?

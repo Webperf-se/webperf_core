@@ -103,8 +103,6 @@ def get_sanitized_file_content(input_filename):
 
 
 def get_rating_from_sitespeed(url, _local, _):
-    rating = Rating(_, review_show_improvements_only)
-
     # TODO: CHANGE THIS IF YOU WANT TO DEBUG
     result_folder_name = os.path.join(
         'data', 'results-{0}'.format(str(uuid.uuid4())))
@@ -144,103 +142,161 @@ def get_rating_from_sitespeed(url, _local, _):
         filename = os.path.join(result_folder_name, 'pages',
                                 website_folder_name, 'data', 'browsertime.har')
 
-    data = list()
+    data = identify_software(filename)
+    data = enrich_data(data)
+    result = convert_item_to_domain_data(data)
 
-    import json
-    # Fix for content having unallowed chars
-    json_content = get_sanitized_file_content(filename)
-    if True:
-        har_data = json.loads(json_content)
-        if 'log' in har_data:
-            har_data = har_data['log']
-        for entry in har_data["entries"]:
-            req = entry['request']
-            res = entry['response']
-            req_url = req['url']
 
-            url_data = lookup_request_url(req_url)
-            if url_data != None or len(url_data) > 0:
-                data.extend(url_data)
+    rating = rate_result(_local, _, result, url)
 
-            if 'content' in res and 'text' in res['content']:
-                response_content = res['content']['text']
-                response_mimetype = res['content']['mimeType']
-                content_data = lookup_response_content(
-                    req_url, response_mimetype, response_content)
-                if content_data != None or len(content_data) > 0:
-                    data.extend(content_data)
-            else:
-                response_mimetype = res['content']['mimeType']
-                mimetype_data = lookup_response_mimetype(
-                    req_url, response_mimetype)
-                if mimetype_data != None or len(mimetype_data) > 0:
-                    data.extend(mimetype_data)
+    return (rating, result)
 
-            # TODO: Check for https://docs.2sxc.org/index.html ?
 
-            # if 'matomo.php' in req_url or 'matomo.js' in req_url or 'piwik.php' in req_url or 'piwik.js' in req_url:
-            #     analytics_dict = {}
-            #     analytics_dict['name'] = 'Matomo'
-            #     analytics_dict['url'] = req_url
-            #     matomo_version = 'Matomo'
+def rate_result(_local, _, result, url):
+    rating = Rating(_, review_show_improvements_only)
 
-            #     check_matomo_version = 'matomo' not in result['analytics']
-            #     if check_matomo_version and not use_stealth:
-            #         matomo_o = urlparse(req_url)
-            #         matomo_hostname = matomo_o.hostname
-            #         matomo_url = '{0}://{1}/CHANGELOG.md'.format(
-            #             matomo_o.scheme, matomo_hostname)
+    url_info = urlparse(url)
+    orginal_domain = url_info.hostname
 
-            #         matomo_changelog_url_regex = r"(?P<url>.*)\/(matomo|piwik).(js|php)"
-            #         matches = re.finditer(
-            #             matomo_changelog_url_regex, req_url, re.MULTILINE)
-            #         for matchNum, match in enumerate(matches, start=1):
-            #             matomo_url = match.group('url') + '/CHANGELOG.md'
+    categories = {'cms': 'CMS', 'webserver': 'WebServer', 'os': 'Operating System',
+                  'analytics': 'Analytics', 'tech': 'Technology', 'js': 'JS Libraries', 'css': 'CSS Libraries'}
 
-            #         # print('matomo_url', matomo_url)
+    for domain in result.keys():
+        found_cms = False
+        if len(result[domain]) > 0:
+            cms_rating = Rating(_, review_show_improvements_only)
+            cms_rating.set_overall(
+                5.0, '##### {0}'.format(domain))
+            rating += cms_rating
 
-            #         matomo_content = httpRequestGetContent(matomo_url)
-            #         matomo_regex = r"## Matomo (?P<version>[\.0-9]+)"
+        for category in categories.keys():
+            if category in result[domain]:
+                category_rating = Rating(_, review_show_improvements_only)
 
-            #         matches = re.finditer(
-            #             matomo_regex, matomo_content, re.MULTILINE)
-            #         for matchNum, match in enumerate(matches, start=1):
-            #             matomo_version = match.group('version')
-            #             analytics_dict['version'] = matomo_version
-            #             break
+                category_rating.set_overall(
+                    5.0, '- {1} used: {0}'.format(', '.join(result[domain][category].keys()), categories[category]))
+                rating += category_rating
+            if category == 'cms' and category in result[domain]:
+                found_cms = True
 
-            #         if 'version' in analytics_dict:
-            #             analytics_dict['versions-behind'] = -1
-            #             analytics_dict['latest-version'] = ''
+        if not found_cms and domain in orginal_domain:
+            no_cms_rating = Rating(_, review_show_improvements_only)
+            no_cms_rating.set_overall(1.0, _local('NO_CMS'))
+            rating += no_cms_rating
+    return rating
 
-            #             matomo_version_index = 0
 
-            #             # TODO: Change this request
-            #             # matomo_changelog_feed = httpRequestGetContent(
-            #             #     'https://matomo.org/changelog/feed/')
-            #             matomo_changelog_feed = get_sanitized_file_content(
-            #                 'data\\matomo-org-changelog-feed.txt')
+def convert_item_to_domain_data(data):
+    result = {}
 
-            #             matomo_changelog_regex = r"<title>Matomo (?P<version>[\.0-9]+)<\/title>"
-            #             matches = re.finditer(
-            #                 matomo_changelog_regex, matomo_changelog_feed, re.MULTILINE)
-            #             for matchNum, match in enumerate(matches, start=1):
-            #                 matomo_changelog_version = match.group('version')
-            #                 if analytics_dict['latest-version'] == '':
-            #                     analytics_dict['latest-version'] = matomo_changelog_version
-            #                 # print('changelog version:', matomo_changelog_version)
-            #                 if matomo_changelog_version in matomo_version:
-            #                     analytics_dict['versions-behind'] = matomo_version_index
-            #                     break
-            #                 matomo_version_index = matomo_version_index + 1
-            #     if check_matomo_version:
-            #         result['analytics']['matomo'] = analytics_dict
+    for item in data:
+        domain_item = None
+        if item['domain'] not in result:
+            domain_item = {}
+        else:
+            domain_item = result[item['domain']]
 
-            if 'headers' in res:
-                headers = res['headers']
-                header_data = lookup_response_headers(req_url, headers)
-                if header_data != None or len(header_data) > 0:
-                    data.extend(header_data)
+        key = None
+        if 'tech' in item:
+            key = 'tech'
+        elif 'webserver' in item:
+            key = 'webserver'
+        elif 'cms' in item:
+            key = 'cms'
+        elif 'os' in item:
+            key = 'os'
+        elif 'analytics' in item:
+            key = 'analytics'
+        # elif 'cdn' in item:
+        #     key = 'cdn'
+        elif 'js' in item:
+            key = 'js'
+        elif 'css' in item:
+            key = 'css'
+        else:
+            key = 'unknown'
+
+        value = item[key]
+        pos = value.find(' ')
+        key2 = value
+        if pos > 0:
+            key2 = value[:pos]
+
+        if key not in domain_item:
+            domain_item[key] = {}
+        if key2 not in domain_item[key]:
+            domain_item[key][key2] = {
+                'name': value, 'precision': 0.0}
+
+        if domain_item[key][key2]['precision'] < item['precision']:
+            obj = {}
+            obj['name'] = value
+            obj['precision'] = item['precision']
+            domain_item[key][key2] = obj
+
+        result[item['domain']] = domain_item
+    return result
+
+
+def enrich_data(data):
+    # if True:
+    #     if 'matomo.php' in req_url or 'matomo.js' in req_url or 'piwik.php' in req_url or 'piwik.js' in req_url:
+    #         analytics_dict = {}
+    #         analytics_dict['name'] = 'Matomo'
+    #         analytics_dict['url'] = req_url
+    #         matomo_version = 'Matomo'
+
+    #         check_matomo_version = 'matomo' not in result['analytics']
+    #         if check_matomo_version and not use_stealth:
+    #             matomo_o = urlparse(req_url)
+    #             matomo_hostname = matomo_o.hostname
+    #             matomo_url = '{0}://{1}/CHANGELOG.md'.format(
+    #                 matomo_o.scheme, matomo_hostname)
+
+    #             matomo_changelog_url_regex = r"(?P<url>.*)\/(matomo|piwik).(js|php)"
+    #             matches = re.finditer(
+    #                 matomo_changelog_url_regex, req_url, re.MULTILINE)
+    #             for matchNum, match in enumerate(matches, start=1):
+    #                 matomo_url = match.group('url') + '/CHANGELOG.md'
+
+    #             # print('matomo_url', matomo_url)
+
+    #             matomo_content = httpRequestGetContent(matomo_url)
+    #             matomo_regex = r"## Matomo (?P<version>[\.0-9]+)"
+
+    #             matches = re.finditer(
+    #                 matomo_regex, matomo_content, re.MULTILINE)
+    #             for matchNum, match in enumerate(matches, start=1):
+    #                 matomo_version = match.group('version')
+    #                 analytics_dict['version'] = matomo_version
+    #                 break
+
+    #             if 'version' in analytics_dict:
+    #                 analytics_dict['versions-behind'] = -1
+    #                 analytics_dict['latest-version'] = ''
+
+    #                 matomo_version_index = 0
+
+    #                 # TODO: Change this request
+    #                 # matomo_changelog_feed = httpRequestGetContent(
+    #                 #     'https://matomo.org/changelog/feed/')
+    #                 matomo_changelog_feed = get_sanitized_file_content(
+    #                     'data\\matomo-org-changelog-feed.txt')
+
+    #                 matomo_changelog_regex = r"<title>Matomo (?P<version>[\.0-9]+)<\/title>"
+    #                 matches = re.finditer(
+    #                     matomo_changelog_regex, matomo_changelog_feed, re.MULTILINE)
+    #                 for matchNum, match in enumerate(matches, start=1):
+    #                     matomo_changelog_version = match.group('version')
+    #                     if analytics_dict['latest-version'] == '':
+    #                         analytics_dict['latest-version'] = matomo_changelog_version
+    #                     # print('changelog version:', matomo_changelog_version)
+    #                     if matomo_changelog_version in matomo_version:
+    #                         analytics_dict['versions-behind'] = matomo_version_index
+    #                         break
+    #                     matomo_version_index = matomo_version_index + 1
+    #         if check_matomo_version:
+    #             result['analytics']['matomo'] = analytics_dict
 
     # if not use_stealth:
     #     # TODO: Check if we are missing any type and try to find this info
@@ -292,81 +348,53 @@ def get_rating_from_sitespeed(url, _local, _):
     #                 data.append(get_default_info(
     #                     req_url, 'url', 0.5, 'tech', 'php'))
 
-        # if len(result['cms']) == 0:
-            # https://typo3.org/
-            # <meta name="generator" content="TYPO3 CMS" />
+    # if len(result['cms']) == 0:
+    # https://typo3.org/
+    # <meta name="generator" content="TYPO3 CMS" />
 
-    result = {}
+    return data
 
-    for item in data:
-        domain_item = None
-        if item['domain'] not in result:
-            domain_item = {}
-        else:
-            domain_item = result[item['domain']]
 
-        key = None
-        if 'tech' in item:
-            key = 'tech'
-        elif 'webserver' in item:
-            key = 'webserver'
-        elif 'cms' in item:
-            key = 'cms'
-        elif 'os' in item:
-            key = 'os'
-        elif 'analytics' in item:
-            key = 'analytics'
-        elif 'cdn' in item:
-            key = 'cdn'
-        elif 'js' in item:
-            key = 'js'
-        elif 'css' in item:
-            key = 'css'
-        else:
-            key = 'unknown'
+def identify_software(filename):
+    import json
+    data = list()
+    # Fix for content having unallowed chars
+    json_content = get_sanitized_file_content(filename)
+    if True:
+        har_data = json.loads(json_content)
+        if 'log' in har_data:
+            har_data = har_data['log']
+        for entry in har_data["entries"]:
+            req = entry['request']
+            res = entry['response']
+            req_url = req['url']
 
-        value = item[key]
-        pos = value.find(' ')
-        key2 = value
-        if pos > 0:
-            key2 = value[:pos]
+            url_data = lookup_request_url(req_url)
+            if url_data != None or len(url_data) > 0:
+                data.extend(url_data)
 
-        if key not in domain_item:
-            domain_item[key] = {}
-        if key2 not in domain_item[key]:
-            domain_item[key][key2] = {
-                'name': value, 'precision': 0.0}
+            if 'headers' in res:
+                headers = res['headers']
+                header_data = lookup_response_headers(req_url, headers)
+                if header_data != None or len(header_data) > 0:
+                    data.extend(header_data)
 
-        if domain_item[key][key2]['precision'] < item['precision']:
-            obj = {}
-            obj['name'] = value
-            obj['precision'] = item['precision']
-            domain_item[key][key2] = obj
+            if 'content' in res and 'text' in res['content']:
+                response_content = res['content']['text']
+                response_mimetype = res['content']['mimeType']
+                content_data = lookup_response_content(
+                    req_url, response_mimetype, response_content)
+                if content_data != None or len(content_data) > 0:
+                    data.extend(content_data)
+            else:
+                response_mimetype = res['content']['mimeType']
+                mimetype_data = lookup_response_mimetype(
+                    req_url, response_mimetype)
+                if mimetype_data != None or len(mimetype_data) > 0:
+                    data.extend(mimetype_data)
 
-        result[item['domain']] = domain_item
-
-    # pretty_result = json.dumps(result, indent=4)
-    # print('result', pretty_result)
-
-    found_cms = False
-    for domain in result.keys():
-        if found_cms:
-            break
-        if 'cms' in result[domain]:
-            for cms_name in result[domain]['cms']:
-                cms_rating = Rating(_, review_show_improvements_only)
-                cms_rating.set_overall(
-                    5.0, '- CMS used: {0}'.format(cms_name.capitalize()))
-                rating += cms_rating
-                found_cms = True
-                break
-
-    if not found_cms:
-        no_cms_rating = Rating(_, review_show_improvements_only)
-        no_cms_rating.set_overall(1.0, _local('NO_CMS'))
-        rating += no_cms_rating
-
-    return (rating, result)
+            # TODO: Check for https://docs.2sxc.org/index.html ?
+    return data
 
 
 def lookup_response_mimetype(req_url, response_mimetype):
@@ -578,15 +606,17 @@ def lookup_request_url(req_url):
         # TODO: check use of node_modules
         # https://www.tranemo.se/wp-includes/js/jquery/jquery.min.js?ver=3.6.1
         # https://www.tranemo.se/wp-includes/js/dist/vendor/regenerator-runtime.min.js?ver=0.13.9
-        data.append(get_default_info(req_url, 'url', 0.5, 'tech', 'js'))
+        # data.append(get_default_info(req_url, 'url', 0.5, 'tech', 'js'))
+        a = 1
     if '.svg' in req_url:
         # TODO: Check Generator comment
         # https://www.pajala.se/static/gfx/pajala-kommunvapen.svg
         # <!-- Generator: Adobe Illustrator 24.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
         # https://start.stockholm/ui/assets/img/logotype.svg
         # <!-- Generator: Adobe Illustrator 19.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-        data.append(get_default_info(
-            req_url, 'url', 0.5, 'tech', 'svg'))
+        # data.append(get_default_info(
+        #     req_url, 'url', 0.5, 'tech', 'svg'))
+        a = 1
     if '/imagevault/' in req_url:
         # https://product.imagevault.se/docfx/
         data.append(get_default_info(
@@ -749,12 +779,12 @@ def lookup_response_header(req_url, header_name, header_value):
             elif 'NGINX' in webserver_name:
                 data.append(get_default_info(
                     req_url, 'header', 0.5, 'webserver', 'nginx'))
-            elif 'CLOUDFLARE' in webserver_name:
-                data.append(get_default_info(
-                    req_url, 'header', 0.5, 'cdn', 'cloudflare'))
-            elif 'BUNNYCDN' in webserver_name:
-                data.append(get_default_info(
-                    req_url, 'header', 0.5, 'cdn', 'bunnycdn'))
+            # elif 'CLOUDFLARE' in webserver_name:
+            #     data.append(get_default_info(
+            #         req_url, 'header', 0.5, 'cdn', 'cloudflare'))
+            # elif 'BUNNYCDN' in webserver_name:
+            #     data.append(get_default_info(
+            #         req_url, 'header', 0.5, 'cdn', 'bunnycdn'))
             elif 'LITESPEED' in webserver_name:
                 data.append(get_default_info(
                     req_url, 'header', 0.5, 'webserver', 'litespeed'))
@@ -769,10 +799,10 @@ def lookup_response_header(req_url, header_name, header_value):
             if 'UBUNTU' in os_name:
                 data.append(get_default_info(
                     req_url, 'header', 0.5, 'os', 'ubuntu'))
-            elif None == os_name or '' == os_name:
-                ignore = 1
-            else:
-                print('UNHANDLED OS:', os_name)
+            # elif None == os_name or '' == os_name:
+            #     ignore = 1
+            # else:
+            #     print('UNHANDLED OS:', os_name)
 
     # x-generator
     if 'X-GENERATOR' in header_name:

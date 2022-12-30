@@ -803,6 +803,9 @@ def lookup_response_header(req_url, header_name, header_value):
             if 'UBUNTU' in os_name:
                 data.append(get_default_info(
                     req_url, 'header', 0.5, 'os', 'ubuntu'))
+            elif 'DEBIAN' in os_name:
+                data.append(get_default_info(
+                    req_url, 'header', 0.5, 'os', 'debian'))
             # elif None == os_name or '' == os_name:
             #     ignore = 1
             # else:

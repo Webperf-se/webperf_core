@@ -572,7 +572,7 @@ def lookup_request_url(req_url):
     if '.aspx' in req_url or '.ashx' in req_url:
         data.append(get_default_info(req_url, 'url', 0.5, 'tech', 'asp.net'))
 
-    if '/contentassets/' in req_url or '/globalassets/' in req_url or 'epi-util/find.js' in req_url or 'dl.episerver.net' in req_url:
+    if '/contentassets/' in req_url or '/siteassets/' in req_url or '/globalassets/' in req_url or 'epi-util/find.js' in req_url or 'dl.episerver.net' in req_url:
         data.append(get_default_info(req_url, 'url', 0.1, 'tech', 'asp.net'))
         data.append(get_default_info(req_url, 'url', 0.5, 'cms', 'episerver'))
         data.append(get_default_info(req_url, 'url', 0.5, 'tech', 'csharp'))
@@ -713,13 +713,17 @@ def lookup_response_header(req_url, header_name, header_value):
                 req_url, 'header', 0.5, 'webserver', 'iis'))
             data.append(get_default_info(
                 req_url, 'header', 0.5, 'tech', 'asp.net'))
-        if 'SERVLET/' in header_value:
+        elif 'SERVLET/' in header_value:
             data.append(get_default_info(
                 req_url, 'header', 0.5, 'webserver', 'websphere'))
             data.append(get_default_info(
                 req_url, 'header', 0.5, 'tech', 'java'))
             data.append(get_default_info(
                 req_url, 'header', 0.5, 'tech', 'servlet'))
+        elif 'NEXT.JS' in header_value:
+            data.append(get_default_info(
+                req_url, 'header', 0.5, 'tech', 'next.js'))
+
     if 'SERVER' in header_name:
         server_regex = r"^(?P<webservername>[a-zA-Z\-]+)\/{0,1}(?P<webserverversion>[0-9.]+){0,1}[ ]{0,1}\({0,1}(?P<osname>[a-zA-Z]*)\){0,1}"
         matches = re.finditer(
@@ -829,6 +833,9 @@ def lookup_response_header(req_url, header_name, header_value):
     if 'X-NGINX-' in header_name:
         data.append(get_default_info(
             req_url, 'header', 0.4, 'webserver', 'nginx'))
+    if 'X-NEXTJS-' in header_name:
+        data.append(get_default_info(
+            req_url, 'header', 0.4, 'tech', 'next.js'))
     if 'X-VARNISH' in header_name:
         # TODO: Check what they mean
         # X-Varnish: 1079078756 1077313267

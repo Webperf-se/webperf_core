@@ -17,7 +17,10 @@ request_timeout = config.http_request_timeout
 useragent = config.useragent
 review_show_improvements_only = config.review_show_improvements_only
 sitespeed_use_docker = config.sitespeed_use_docker
-use_stealth = False
+
+use_stealth = True
+# TODO: Add debug flags for every category here, this so we can print out raw values (so we can add more allowed once)
+# TODO: Consider if it is better to use hardcoded lists to match against or not, this would make it more stable but would require maintaining lists
 
 
 def get_urls_from_har(content):
@@ -160,6 +163,8 @@ def rate_result(_local, _, result, url):
 
     categories = {'cms': 'CMS', 'webserver': 'WebServer', 'os': 'Operating System',
                   'analytics': 'Analytics', 'tech': 'Technology', 'js': 'JS Libraries', 'css': 'CSS Libraries'}
+    # TODO: add 'img': 'Image formats' for used image formats
+    # TODO: add 'video': 'Video formats' for used video formats
 
     for domain in result.keys():
         found_cms = False
@@ -196,43 +201,24 @@ def convert_item_to_domain_data(data):
         else:
             domain_item = result[item['domain']]
 
-        key = None
-        if 'tech' in item:
-            key = 'tech'
-        elif 'webserver' in item:
-            key = 'webserver'
-        elif 'cms' in item:
-            key = 'cms'
-        elif 'os' in item:
-            key = 'os'
-        elif 'analytics' in item:
-            key = 'analytics'
-        # elif 'cdn' in item:
-        #     key = 'cdn'
-        elif 'js' in item:
-            key = 'js'
-        elif 'css' in item:
-            key = 'css'
-        else:
-            key = 'unknown'
+        category = item['category']
+        name = item['name']
+        version = item['version']
+        precision = item['precision']
 
-        value = item[key]
-        pos = value.find(' ')
-        key2 = value
-        if pos > 0:
-            key2 = value[:pos]
+        if category not in domain_item:
+            domain_item[category] = {}
+        if name not in domain_item[category]:
+            domain_item[category][name] = {}
+        if version not in domain_item[category][name]:
+            domain_item[category][name][version] = {
+                'name': name, 'precision': precision}
 
-        if key not in domain_item:
-            domain_item[key] = {}
-        if key2 not in domain_item[key]:
-            domain_item[key][key2] = {
-                'name': value, 'precision': 0.0}
-
-        if domain_item[key][key2]['precision'] < item['precision']:
+        if domain_item[category][name][version]['precision'] < precision:
             obj = {}
-            obj['name'] = value
-            obj['precision'] = item['precision']
-            domain_item[key][key2] = obj
+            obj['name'] = name
+            obj['precision'] = precision
+            domain_item[category][version] = obj
 
         result[item['domain']] = domain_item
     return result
@@ -414,13 +400,23 @@ def lookup_response_mimetype(req_url, response_mimetype):
             if tech_name != None:
                 tech_name = tech_name.lower().strip().replace(' ', '-')
                 data.append(get_default_info(
-                    req_url, 'content', 0.5, 'tech', tech_name))
+                    req_url, 'content', 0.5, 'tech', tech_name, None))
 
             tech_version = match.group('version')
             if tech_version != None:
                 tech_version = tech_version.lower()
                 data.append(get_default_info(
-                    req_url, 'content', 0.6, 'tech', "{0} {1}".format(tech_name, tech_version)))
+                    req_url, 'content', 0.6, 'tech', tech_name, tech_version))
+    if 'mp4' in response_mimetype:
+        # Extract metadata to see if we can get produced application and more,
+        # look at: https://www.handinhandsweden.se/wp-content/uploads/se/2022/11/julvideo-startsida.mp4
+        # that has videolan references and more interesting stuff
+        a = 1
+    if 'webp' in response_mimetype or 'png' in response_mimetype or 'jpg' in response_mimetype or 'jpeg' in response_mimetype:
+        # Extract metadata to see if we can get produced application and more,
+        # look at: https://skatteverket.se/images/18.1df9c71e181083ce6f6cbd/1655378197989/mobil-externwebb.jpg
+        # that has adobe photoshop 21.2 (Windows) information
+        a = 1
 
     return data
 
@@ -429,6 +425,13 @@ def lookup_response_content(req_url, response_mimetype, response_content):
     data = list()
 
     if 'html' in response_mimetype:
+
+        # TODO: handle version in generator: wordpress 6.1.1 (Example: https://www.starofhope.se/)
+        # TODO: handle multiple generators (Example: https://www.starofhope.se/)
+        # TODO: handle generators with space in name (Example: https://www.starofhope.se/)
+        # TODO: handle "wpml" and "site" in "- CMS used: wordpress, wpml, site (5.00 rating)" (Example: ibra.se)
+        # TODO: handle "powered" in "- CMS used: powered, wordpress ( 5.00 rating )" (Example: akademiskasbarnfond.se)
+        # TODO: handle "contao" in "- CMS used: contao ( 5.00 rating )" (Example: www.childfriend.com)
         generator_regex = r"<meta name=['|\"]{0,1}generator['|\"]{0,1} content=['|\"]{0,1}(?P<cmsname>[a-zA-Z]+)[ ]{0,1}(?P<cmsversion>[0-9.]*)"
         matches = re.finditer(generator_regex, response_content, re.MULTILINE)
 
@@ -439,15 +442,17 @@ def lookup_response_content(req_url, response_mimetype, response_content):
             if cms_name != None:
                 cms_name = cms_name.lower()
                 data.append(get_default_info(
-                    req_url, 'content', 0.4, 'cms', cms_name))
+                    req_url, 'content', 0.4, 'cms', cms_name, None))
 
             cms_version = match.group('cmsversion')
             if cms_version != None:
                 cms_version = cms_version.lower()
                 data.append(get_default_info(
-                    req_url, 'content', 0.6, 'cms', "{0} {1}".format(cms_name, cms_version)))
+                    req_url, 'content', 0.6, 'cms', cms_name, cms_version))
 
     elif 'css' in response_mimetype:
+        # TODO: Handle "this" in "- CSS Libraries used: this ( 5.00 rating )", example: www.handinhandsweden.se
+        # TODO: handle "this" and "the" in "- CSS Libraries used: this, animate, normalize, the ( 5.00 rating )", example: hundstallet.se
         css_regex = r"\/\*![ \t\n\r*]+(?P<name>[a-zA-Z.]+)[ ]{0,1}[v]{0,1}(?P<version>[.0-9]+){0,1}"
         matches = re.finditer(css_regex, response_content, re.MULTILINE)
 
@@ -458,14 +463,29 @@ def lookup_response_content(req_url, response_mimetype, response_content):
             if tech_name != None:
                 tech_name = tech_name.lower().replace(' ', '-').replace('.css', '')
                 data.append(get_default_info(
-                    req_url, 'content', 0.5, 'css', tech_name))
+                    req_url, 'content', 0.5, 'css', tech_name, None))
 
             tech_version = match.group('version')
             if tech_version != None:
                 tech_version = tech_version.lower()
                 data.append(get_default_info(
-                    req_url, 'content', 0.6, 'css', "{0} {1}".format(tech_name, tech_version)))
+                    req_url, 'content', 0.6, 'css', tech_name, tech_version))
     elif 'javascript' in response_mimetype:
+        # TODO: Look at @link in comments to see if we can identify more libraries
+        # TODO: Look at @source in comments to see if we can identify more libraries
+        # TODO: Look at @license in comments to see if we can identify license type (add a new "Licenses" category?)
+        # TODO: Add support for comments not having ! in begining ( Example: https://www.gislaved.se/sitevision/system-resource/bc115c0e1f6ff62fce025281bf04f9f70a93a23090933bb3f70b067494dfd5e6/js/webAppExternals/react_17_0.js )
+        # TODO: Add support for when @license looks like this:
+        # /** @ license React v17.0.2
+        # * react.production.min.js
+        # *
+        # * Copyright (c) Facebook, Inc. and its affiliates.
+        # *
+        # * This source code is licensed under the MIT license found in the
+        # * LICENSE file in the root directory of this source tree.
+        # */
+        # TODO: "for-license-information-please-see" in "JS Libraries used: for-license-information-please-see" (Example: https://www.helptohelp.se)
+
         js_comment_regex = r"\/\*!(?P<comment>[ \t\n\r*@a-zåäöA-ZÅÄÖ0-9\-\/\+.,:'\(\)]+)\*\/"
         matches = re.finditer(js_comment_regex, response_content, re.MULTILINE)
 
@@ -525,12 +545,12 @@ def lookup_response_content(req_url, response_mimetype, response_content):
                 tech_name = tech_name.lower().replace(
                     ' ', '-').strip('-').replace('.min.js', '').replace('.js', '')
                 data.append(get_default_info(
-                    req_url, 'content', precision, 'js', tech_name))
+                    req_url, 'content', precision, 'js', tech_name, None))
 
             if tech_version != None and tech_version != '' and tech_version != '-':
                 tech_version = tech_version.lower().strip('.')
                 data.append(get_default_info(
-                    req_url, 'content', precision + 0.3, 'js', "{0} {1}".format(tech_name, tech_version)))
+                    req_url, 'content', precision + 0.3, 'js', tech_name, tech_version))
 
         if not use_stealth and '//# sourceMappingURL=' in response_content:
             map_url = req_url + '.map'
@@ -544,11 +564,11 @@ def lookup_response_content(req_url, response_mimetype, response_content):
                 if module_name != None:
                     module_name = module_name.lower().replace('.min.js', '').replace('.js', '')
                     data.append(get_default_info(
-                        req_url, 'content', 0.2, 'js', module_name))
+                        req_url, 'content', 0.2, 'js', module_name, None))
     return data
 
 
-def get_default_info(url, method, precision, key, value):
+def get_default_info(url, method, precision, key, name, version):
     result = {}
 
     o = urlparse(url)
@@ -558,7 +578,9 @@ def get_default_info(url, method, precision, key, value):
     result['url'] = url
     result['method'] = method
     result['precision'] = precision
-    result[key] = value
+    result['category'] = key
+    result['name'] = name
+    result['version'] = version
 
     return result
 
@@ -570,36 +592,47 @@ def lookup_request_url(req_url):
 
     # print('# ', req_url)
     if '.aspx' in req_url or '.ashx' in req_url:
-        data.append(get_default_info(req_url, 'url', 0.5, 'tech', 'asp.net'))
+        data.append(get_default_info(
+            req_url, 'url', 0.5, 'tech', 'asp.net', None))
 
     if '/contentassets/' in req_url or '/siteassets/' in req_url or '/globalassets/' in req_url or 'epi-util/find.js' in req_url or 'dl.episerver.net' in req_url:
-        data.append(get_default_info(req_url, 'url', 0.1, 'tech', 'asp.net'))
-        data.append(get_default_info(req_url, 'url', 0.5, 'cms', 'episerver'))
-        data.append(get_default_info(req_url, 'url', 0.5, 'tech', 'csharp'))
-    elif '/sitevision/' in req_url:
-        data.append(get_default_info(req_url, 'url', 0.1, 'tech', 'java'))
-        data.append(get_default_info(req_url, 'url', 0.5, 'cms', 'sitevision'))
         data.append(get_default_info(
-            req_url, 'url', 0.5, 'webserver', 'tomcat'))
+            req_url, 'url', 0.1, 'tech', 'asp.net', None))
+        data.append(get_default_info(req_url, 'url',
+                    0.5, 'cms', 'episerver', None))
+        data.append(get_default_info(
+            req_url, 'url', 0.5, 'tech', 'csharp', None))
+    elif '/sitevision/' in req_url:
+        data.append(get_default_info(
+            req_url, 'url', 0.1, 'tech', 'java', None))
+        data.append(get_default_info(req_url, 'url',
+                    0.5, 'cms', 'sitevision', None))
+        data.append(get_default_info(
+            req_url, 'url', 0.5, 'webserver', 'tomcat', None))
     elif '/wp-content/' in req_url or '/wp-content/' in req_url:
         # https://wordpress.org/support/article/upgrading-wordpress-extended-instructions/
-        data.append(get_default_info(req_url, 'url', 0.1, 'tech', 'php'))
-        data.append(get_default_info(req_url, 'url', 0.5, 'cms', 'wordpress'))
+        data.append(get_default_info(req_url, 'url', 0.1, 'tech', 'php', None))
+        data.append(get_default_info(req_url, 'url',
+                    0.5, 'cms', 'wordpress', None))
     elif '/typo3temp/' in req_url or '/typo3conf/' in req_url or '/t3olayout/' in req_url:
         # https://typo3.org/
-        data.append(get_default_info(req_url, 'url', 0.1, 'tech', 'php'))
-        data.append(get_default_info(req_url, 'url', 0.5, 'cms', 'typo3'))
+        data.append(get_default_info(req_url, 'url', 0.1, 'tech', 'php', None))
+        data.append(get_default_info(
+            req_url, 'url', 0.5, 'cms', 'typo3', None))
 
         # TODO: Check for https://docs.2sxc.org/index.html ?
 
     if 'matomo.php' in req_url or 'matomo.js' in req_url or 'piwik.php' in req_url or 'piwik.js' in req_url:
-        data.append(get_default_info(req_url, 'url', 0.5, 'tech', 'matomo'))
+        data.append(get_default_info(
+            req_url, 'url', 0.5, 'tech', 'matomo', None))
     if '.php' in req_url:
-        data.append(get_default_info(req_url, 'url', 0.5, 'tech', 'php'))
+        data.append(get_default_info(req_url, 'url', 0.5, 'tech', 'php', None))
     if '.webp' in req_url:
-        data.append(get_default_info(req_url, 'url', 0.5, 'tech', 'webp'))
+        data.append(get_default_info(
+            req_url, 'url', 0.5, 'tech', 'webp', None))
     if '.webm' in req_url:
-        data.append(get_default_info(req_url, 'url', 0.5, 'tech', 'webm'))
+        data.append(get_default_info(
+            req_url, 'url', 0.5, 'tech', 'webm', None))
     if '.js' in req_url:
         # TODO: check framework name and version in comment
         # TODO: check if ".map" is mentioned in file, if so, check it for above framework name and version
@@ -608,21 +641,12 @@ def lookup_request_url(req_url):
         # https://www.tranemo.se/wp-includes/js/dist/vendor/regenerator-runtime.min.js?ver=0.13.9
         # data.append(get_default_info(req_url, 'url', 0.5, 'tech', 'js'))
         a = 1
-    if '.svg' in req_url:
-        # TODO: Check Generator comment
-        # https://www.pajala.se/static/gfx/pajala-kommunvapen.svg
-        # <!-- Generator: Adobe Illustrator 24.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-        # https://start.stockholm/ui/assets/img/logotype.svg
-        # <!-- Generator: Adobe Illustrator 19.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-        # data.append(get_default_info(
-        #     req_url, 'url', 0.5, 'tech', 'svg'))
-        a = 1
     if '/imagevault/' in req_url:
         # https://product.imagevault.se/docfx/
         data.append(get_default_info(
-            req_url, 'url', 0.5, 'tech', 'asp.net'))
+            req_url, 'url', 0.5, 'tech', 'asp.net', None))
         data.append(get_default_info(
-            req_url, 'url', 0.5, 'tech', 'imagevault'))
+            req_url, 'url', 0.5, 'tech', 'imagevault', None))
 
     return data
 
@@ -647,35 +671,35 @@ def lookup_response_header(req_url, header_name, header_value):
     if 'SET-COOKIE' in header_name:
         if 'ASP.NET_SESSIONID' in header_value:
             data.append(get_default_info(
-                req_url, 'cookie', 0.5, 'webserver', 'iis'))
+                req_url, 'cookie', 0.5, 'webserver', 'iis', None))
             data.append(get_default_info(
-                req_url, 'cookie', 0.5, 'tech', 'asp.net'))
+                req_url, 'cookie', 0.5, 'tech', 'asp.net', None))
             if 'SAMESITE=LAX' in header_value:
                 # https://learn.microsoft.com/en-us/aspnet/samesite/system-web-samesite
                 data.append(get_default_info(req_url, 'header',
-                            0.7, 'tech', 'asp.net >=4.7.2'))
+                            0.7, 'tech', 'asp.net', '>=4.7.2'))
 
             if 'JSESSIONID' in header_value:
                 data.append(get_default_info(
-                    req_url, 'cookie', 0.3, 'webserver', 'tomcat'))
+                    req_url, 'cookie', 0.3, 'webserver', 'tomcat', None))
                 data.append(get_default_info(
-                    req_url, 'cookie', 0.5, 'tech', 'java'))
+                    req_url, 'cookie', 0.5, 'tech', 'java', None))
             if 'SITEVISION' in header_value:
                 data.append(get_default_info(
-                    req_url, 'cookie', 0.5, 'cms', 'sitevision'))
+                    req_url, 'cookie', 0.5, 'cms', 'sitevision', None))
                 data.append(get_default_info(
-                    req_url, 'cookie', 0.5, 'tech', 'java'))
+                    req_url, 'cookie', 0.5, 'tech', 'java', None))
                 data.append(get_default_info(
-                    req_url, 'cookie', 0.3, 'webserver', 'tomcat'))
+                    req_url, 'cookie', 0.3, 'webserver', 'tomcat', None))
             if 'SITEVISIONLTM' in header_value:
                 data.append(get_default_info(
-                    req_url, 'cookie', 0.5, 'cms', 'sitevision'))
+                    req_url, 'cookie', 0.5, 'cms', 'sitevision', None))
                 data.append(get_default_info(
-                    req_url, 'cookie', 0.5, 'tech', 'java'))
+                    req_url, 'cookie', 0.5, 'tech', 'java', None))
                 data.append(get_default_info(
-                    req_url, 'cookie', 0.3, 'webserver', 'tomcat'))
+                    req_url, 'cookie', 0.3, 'webserver', 'tomcat', None))
                 data.append(get_default_info(
-                    req_url, 'cookie', 0.5, 'cms', 'sitevision-cloud'))
+                    req_url, 'cookie', 0.5, 'cms', 'sitevision-cloud', None))
     # ImageProcessedBy: ImageProcessor/2.9.0.207 - ImageProcessor.Web/4.12.0.206
     if 'IMAGEPROCESSEDBY' in header_name:
         regex = r"(?P<name>[a-zA-Z.]+)\/(?P<version>[0-9.]+)"
@@ -686,43 +710,43 @@ def lookup_response_header(req_url, header_name, header_value):
             if tech_name != None and tech_version != None:
                 tech_name = tech_name.lower()
                 data.append(get_default_info(
-                    req_url, 'header', 0.9, 'tech', '{0} {1}'.format(tech_name, tech_version)))
+                    req_url, 'header', 0.9, 'tech', tech_name, tech_version))
                 if 'imageprocessor' in tech_name or 'imageprocessor.web' in tech_name:
                     # https://www.nuget.org/packages/ImageProcessor.Web/4.12.1#readme-body-tab
                     data.append(get_default_info(
-                        req_url, 'header', 0.7, 'tech', 'asp.net >=4.5.2'))
+                        req_url, 'header', 0.7, 'tech', 'asp.net', '>=4.5.2'))
                     # https://github.com/JimBobSquarePants/ImageProcessor
                     data.append(get_default_info(
-                        req_url, 'header', 0.5, 'os', 'windows'))
+                        req_url, 'header', 0.5, 'os', 'windows', None))
 
     if 'CONTENT-TYPE' in header_name:
         if 'image/vnd.microsoft.icon' in header_value:
             data.append(get_default_info(
-                req_url, 'header', 0.3, 'os', 'windows'))
+                req_url, 'header', 0.3, 'os', 'windows', None))
         if 'image/webp' in header_value:
             data.append(get_default_info(
-                req_url, 'header', 0.9, 'tech', 'webp'))
+                req_url, 'header', 0.9, 'tech', 'webp', None))
     if 'X-OPNET-TRANSACTION-TRACE' in header_name:
         data.append(get_default_info(
-            req_url, 'header', 0.8, 'tech', 'riverbed-steelcentral-transaction-analyzer'))
+            req_url, 'header', 0.8, 'tech', 'riverbed-steelcentral-transaction-analyzer', None))
         # https://en.wikipedia.org/wiki/OPNET
         # https://support.riverbed.com/content/support/software/opnet-performance/apptransaction-xpert.html
     if 'X-POWERED-BY' in header_name:
         if 'ASP.NET' in header_value:
             data.append(get_default_info(
-                req_url, 'header', 0.5, 'webserver', 'iis'))
+                req_url, 'header', 0.5, 'webserver', 'iis', None))
             data.append(get_default_info(
-                req_url, 'header', 0.5, 'tech', 'asp.net'))
+                req_url, 'header', 0.5, 'tech', 'asp.net', None))
         elif 'SERVLET/' in header_value:
             data.append(get_default_info(
-                req_url, 'header', 0.5, 'webserver', 'websphere'))
+                req_url, 'header', 0.5, 'webserver', 'websphere', None))
             data.append(get_default_info(
-                req_url, 'header', 0.5, 'tech', 'java'))
+                req_url, 'header', 0.5, 'tech', 'java', None))
             data.append(get_default_info(
-                req_url, 'header', 0.5, 'tech', 'servlet'))
+                req_url, 'header', 0.5, 'tech', 'servlet', None))
         elif 'NEXT.JS' in header_value:
             data.append(get_default_info(
-                req_url, 'header', 0.5, 'tech', 'next.js'))
+                req_url, 'header', 0.5, 'tech', 'next.js', None))
 
     if 'SERVER' in header_name:
         server_regex = r"^(?P<webservername>[a-zA-Z\-]+)\/{0,1}(?P<webserverversion>[0-9.]+){0,1}[ ]{0,1}\({0,1}(?P<osname>[a-zA-Z]*)\){0,1}"
@@ -745,44 +769,42 @@ def lookup_response_header(req_url, header_name, header_value):
 
             if 'MICROSOFT-IIS' in webserver_name:
                 data.append(get_default_info(
-                    req_url, 'header', 0.7, 'webserver', 'iis'))
+                    req_url, 'header', 0.7, 'webserver', 'iis', None))
                 data.append(get_default_info(
-                    req_url, 'header', 0.5, 'os', 'windows'))
+                    req_url, 'header', 0.5, 'os', 'windows', None))
 
                 if '10.0' in webserver_version:
                     data.append(get_default_info(
-                        req_url, 'header', 0.8, 'os', 'windows server 2016/2019'))
+                        req_url, 'header', 0.8, 'os', 'windows server', '2016/2019'))
                     data.append(get_default_info(
-                        req_url, 'header', 0.9, 'webserver', 'iis 10'))
+                        req_url, 'header', 0.9, 'webserver', 'iis', '10'))
                 elif '8.5' in webserver_version or '8.0' in webserver_version:
                     data.append(get_default_info(
-                        req_url, 'header', 0.9, 'os', 'windows server 2012'))
+                        req_url, 'header', 0.9, 'os', 'windows server', '2012'))
                     data.append(get_default_info(
-                        req_url, 'header', 0.9, 'webserver', 'iis 8.x'))
+                        req_url, 'header', 0.9, 'webserver', 'iis', '8.x'))
                 elif '7.5' in webserver_version or '7.0' in webserver_version:
                     data.append(get_default_info(
-                        req_url, 'header', 0.9, 'os', 'windows server 2008'))
+                        req_url, 'header', 0.9, 'os', 'windows server', '2008'))
                     data.append(get_default_info(
-                        req_url, 'header', 0.9, 'webserver', 'iis 7.x'))
+                        req_url, 'header', 0.9, 'webserver', 'iis', '7.x'))
                 elif '6.0' in webserver_version:
                     data.append(get_default_info(
-                        req_url, 'header', 0.9, 'os', 'windows server 2003'))
+                        req_url, 'header', 0.9, 'os', 'windows server', '2003'))
                     data.append(get_default_info(
-                        req_url, 'header', 0.9, 'webserver', 'iis 6.x'))
+                        req_url, 'header', 0.9, 'webserver', 'iis', '6.x'))
                 elif None != webserver_version:
                     data.append(get_default_info(
-                        req_url, 'header', 0.6, 'webserver', 'iis {0}'.format(
-                            webserver_version)))
+                        req_url, 'header', 0.6, 'webserver', 'iis', webserver_version))
             elif 'APACHE' in webserver_name:
                 data.append(get_default_info(
-                    req_url, 'header', 0.5, 'webserver', 'apache'))
+                    req_url, 'header', 0.5, 'webserver', 'apache', None))
                 if webserver_version != None:
                     data.append(get_default_info(
-                        req_url, 'header', 0.5, 'webserver', 'apache {0}'.format(
-                            webserver_version)))
+                        req_url, 'header', 0.5, 'webserver', 'apache', webserver_version))
             elif 'NGINX' in webserver_name:
                 data.append(get_default_info(
-                    req_url, 'header', 0.5, 'webserver', 'nginx'))
+                    req_url, 'header', 0.5, 'webserver', 'nginx', None))
             # elif 'CLOUDFLARE' in webserver_name:
             #     data.append(get_default_info(
             #         req_url, 'header', 0.5, 'cdn', 'cloudflare'))
@@ -791,21 +813,20 @@ def lookup_response_header(req_url, header_name, header_value):
             #         req_url, 'header', 0.5, 'cdn', 'bunnycdn'))
             elif 'LITESPEED' in webserver_name:
                 data.append(get_default_info(
-                    req_url, 'header', 0.5, 'webserver', 'litespeed'))
+                    req_url, 'header', 0.5, 'webserver', 'litespeed', None))
             elif 'RESIN' in webserver_name:
                 data.append(get_default_info(
-                    req_url, 'header', 0.5, 'webserver', 'resin'))
+                    req_url, 'header', 0.5, 'webserver', 'resin', None))
                 if webserver_version != None:
                     data.append(get_default_info(
-                        req_url, 'header', 0.5, 'webserver', 'resin {0}'.format(
-                            webserver_version)))
+                        req_url, 'header', 0.5, 'webserver', 'resin', webserver_version))
 
             if 'UBUNTU' in os_name:
                 data.append(get_default_info(
-                    req_url, 'header', 0.5, 'os', 'ubuntu'))
+                    req_url, 'header', 0.5, 'os', 'ubuntu', None))
             elif 'DEBIAN' in os_name:
                 data.append(get_default_info(
-                    req_url, 'header', 0.5, 'os', 'debian'))
+                    req_url, 'header', 0.5, 'os', 'debian', None))
             # elif None == os_name or '' == os_name:
             #     ignore = 1
             # else:
@@ -823,41 +844,40 @@ def lookup_response_header(req_url, header_name, header_value):
             if cms_name != None:
                 cms_name = cms_name.lower()
                 data.append(get_default_info(
-                    req_url, 'header', 0.4, 'cms', cms_name))
+                    req_url, 'header', 0.4, 'cms', cms_name, None))
 
             cms_version = match.group('cmsversion')
             if cms_version != None:
                 cms_version = cms_version.lower()
                 data.append(get_default_info(
-                    req_url, 'header', 0.8, 'cms', "{0} {1}".format(cms_name, cms_version)))
+                    req_url, 'header', 0.8, 'cms', cms_name, cms_version))
 
         data.append(get_default_info(
-            req_url, 'header', 0.4, 'webserver', 'nginx'))
+            req_url, 'header', 0.4, 'webserver', 'nginx', None))
     if 'X-NGINX-' in header_name:
         data.append(get_default_info(
-            req_url, 'header', 0.4, 'webserver', 'nginx'))
+            req_url, 'header', 0.4, 'webserver', 'nginx', None))
     if 'X-NEXTJS-' in header_name:
         data.append(get_default_info(
-            req_url, 'header', 0.4, 'tech', 'next.js'))
+            req_url, 'header', 0.4, 'tech', 'next.js', None))
     if 'X-VARNISH' in header_name:
         # TODO: Check what they mean
         # X-Varnish: 1079078756 1077313267
         data.append(get_default_info(
-            req_url, 'header', 0.5, 'tech', 'varnish'))
+            req_url, 'header', 0.5, 'tech', 'varnish', None))
     if 'VIA' in header_name and 'VARNISH' in header_value:
         # TODO: Check if it contains version number and if we can check for it
         # Via: 1.1 varnish
         data.append(get_default_info(
-            req_url, 'header', 0.5, 'tech', 'varnish'))
+            req_url, 'header', 0.5, 'tech', 'varnish', None))
     if 'X-ASPNET-VERSION' in header_name:
         data.append(get_default_info(
-            req_url, 'header', 0.5, 'webserver', 'iis'))
+            req_url, 'header', 0.5, 'webserver', 'iis', None))
         data.append(get_default_info(
-            req_url, 'header', 0.5, 'tech', 'asp.net'))
+            req_url, 'header', 0.5, 'tech', 'asp.net', None))
         # TODO: Fix validation of header_value, it can now include infected data
         data.append(get_default_info(
-            req_url, 'header', 0.8, 'tech', 'asp.net {0}'.format(
-                header_value)))
+            req_url, 'header', 0.8, 'tech', 'asp.net', header_value))
     if 'CONTENT-SECURITY-POLICY' in header_name:
         regex = r"(?P<name>[a-zA-Z\-]+) (?P<value>[^;]+);*[ ]*"
         matches = re.finditer(
@@ -868,11 +888,11 @@ def lookup_response_header(req_url, header_name, header_value):
             csp_rule_value = match.group('value').upper()
             if 'DL.EPISERVER.NET' in csp_rule_value:
                 data.append(get_default_info(
-                    req_url, 'header', 0.7, 'cms', 'episerver'))
+                    req_url, 'header', 0.7, 'cms', 'episerver', None))
                 data.append(get_default_info(
-                    req_url, 'header', 0.4, 'tech', 'asp.net'))
+                    req_url, 'header', 0.4, 'tech', 'asp.net', None))
                 data.append(get_default_info(
-                    req_url, 'header', 0.4, 'tech', 'tech'))
+                    req_url, 'header', 0.4, 'tech', 'tech', None))
 
     return data
 

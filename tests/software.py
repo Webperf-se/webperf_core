@@ -28,7 +28,7 @@ raw_data = {
         'use': False
     },
     'contents': {
-        'use': False
+        'use': True
     },
     'mime-types': {
         'use': False

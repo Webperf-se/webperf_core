@@ -5,6 +5,8 @@ from engines.utils import use_item
 import json
 import re
 
+sites = list()
+
 
 def add_site(input_filename, url, input_skip, input_take):
     sites = list()
@@ -36,32 +38,27 @@ def delete_site(input_filename, url, input_skip, input_take):
     return tmpSites
 
 
-def get_sanitized_file_content(input_filename):
-    # print('input_filename=' + input_filename)
-    lines = list()
+def get_url_from_file_content(input_filename):
     try:
         with open(input_filename, 'r', encoding='utf-8') as file:
-            data = file.readlines()
-            for line in data:
-                lines.append(line)
-                # print(line)
+            data = file.read(1024)
+            regex = r"\"_url\":\"(?P<url>[^\"]+)\""
+            matches = re.finditer(regex, data, re.MULTILINE)
+            for matchNum, match in enumerate(matches, start=1):
+                return match.group('url')
     except:
         print('error in get_local_file_content. No such file or directory: {0}'.format(
             input_filename))
-        return '\n'.join(lines)
+        return None
 
-    test_str = '\n'.join(lines)
-    regex = r"[^a-zåäöA-ZÅÄÖ0-9\{\}\"\:;.,#*\<\>%'&$?!`=@\-\–\+\~\^\\\/| \(\)\[\]_]"
-    subst = ""
-
-    # You can manually specify the number of replacements by changing the 4th argument
-    result = re.sub(regex, subst, test_str, 0, re.MULTILINE)
-
-    return result
+    return None
 
 
 def read_sites(input_filename, input_skip, input_take):
-    sites = list()
+
+    if len(sites) > 0:
+        return sites
+
     dir = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent
 
@@ -72,6 +69,9 @@ def read_sites(input_filename, input_skip, input_take):
     urls = {}
 
     for result_dir in dirs:
+        if input_take != -1 and len(urls) >= input_take:
+            break
+
         if not result_dir.startswith('results-'):
             continue
         path = os.path.join(
@@ -115,20 +115,14 @@ def read_sites(input_filename, input_skip, input_take):
         if full_path == None:
             continue
 
-        # Fix for content having unallowed chars
-        json_content = get_sanitized_file_content(full_path)
-        if True:
-            data = json.loads(json_content)
-            if 'log' in data:
-                data = data['log']
-            if 'pages' in data:
-                data = data['pages']
+        if not os.path.isfile(full_path):
+            continue
 
-            for page in data:
-                if '_url' in page:
-                    url = page['_url']
-                    urls[url] = full_path
-                    break
+        # No need to read all content, just read the first 1024 bytes as our url will be there
+        # we are doing this for performance
+        url = get_url_from_file_content(full_path)
+        urls[url] = full_path
+
 
     current_index = 0
     for tmp_url in urls.keys():

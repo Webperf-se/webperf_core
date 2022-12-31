@@ -19,6 +19,39 @@ review_show_improvements_only = config.review_show_improvements_only
 sitespeed_use_docker = config.sitespeed_use_docker
 
 use_stealth = True
+
+raw_data = {
+    'urls': {
+        'use': True
+        # unsure of this one.. it would be every single request...
+        # can we make this useable in anyway?
+    },
+    'headers': {
+        'use': False
+    },
+    'contents': {
+        'use': False
+        # unsure of this one.. it would be every single js, css and html file...
+        # should we just take the element we are looking for?
+    },
+    'meta-generator': {
+        'use': False
+    },
+    'mime-types': {
+        'use': False
+    },
+    'css-comments': {
+        'use': False
+    },
+    'js-comments':  {
+        'use': False
+    },
+    'source-mapping-url':  {
+        'use': False
+        # unsure of this one.. it could be every single js..
+        # Is this working good enough already?
+    }
+}
 # TODO: Add debug flags for every category here, this so we can print out raw values (so we can add more allowed once)
 # TODO: Consider if it is better to use hardcoded lists to match against or not, this would make it more stable but would require maintaining lists
 
@@ -225,6 +258,9 @@ def convert_item_to_domain_data(data):
 
 
 def enrich_data(data):
+    # TODO: Move all additional calls into this function.
+    # TODO: Make sure no additional calls are done except in this function
+    # TODO: Make sure this function is ONLY called when `use_stealth = False`
     # if True:
     #     if 'matomo.php' in req_url or 'matomo.js' in req_url or 'piwik.php' in req_url or 'piwik.js' in req_url:
     #         analytics_dict = {}
@@ -342,8 +378,9 @@ def enrich_data(data):
 
 
 def identify_software(filename):
-    import json
     data = list()
+    rules = get_rules()
+
     # Fix for content having unallowed chars
     json_content = get_sanitized_file_content(filename)
     if True:
@@ -355,7 +392,7 @@ def identify_software(filename):
             res = entry['response']
             req_url = req['url']
 
-            url_data = lookup_request_url(req_url)
+            url_data = lookup_request_url(req_url, rules)
             if url_data != None or len(url_data) > 0:
                 data.extend(url_data)
 
@@ -385,6 +422,9 @@ def identify_software(filename):
 
 def lookup_response_mimetype(req_url, response_mimetype):
     data = list()
+    if raw_data['mime-types']['use']:
+        raw_data['mime-types'][response_mimetype] = 'svg' in response_mimetype or 'mp4' in response_mimetype or 'webp' in response_mimetype or 'png' in response_mimetype or 'jpg' in response_mimetype or 'jpeg' in response_mimetype
+
     if 'svg' in response_mimetype:
         # NOTE: We don't get content for svg files currently, it would be better if we didn't need to request it once more
         svg_content = httpRequestGetContent(req_url)
@@ -425,6 +465,15 @@ def lookup_response_content(req_url, response_mimetype, response_content):
     data = list()
 
     if 'html' in response_mimetype:
+        if raw_data['meta-generator']['use']:
+            raw_regex = r"(?P<generator>\<[^\<]+name=[\"|']generator[\"|'][^\>]*\>)"
+            matches = re.finditer(raw_regex, response_content, re.MULTILINE)
+
+            o = urlparse(req_url)
+            hostname = o.hostname
+
+            for matchNum, match in enumerate(matches, start=1):
+                raw_data['meta-generator'][match.group('generator')] = hostname
 
         # TODO: handle version in generator: wordpress 6.1.1 (Example: https://www.starofhope.se/)
         # TODO: handle multiple generators (Example: https://www.starofhope.se/)
@@ -451,6 +500,13 @@ def lookup_response_content(req_url, response_mimetype, response_content):
                     req_url, 'content', 0.6, 'cms', cms_name, cms_version))
 
     elif 'css' in response_mimetype:
+        if raw_data['css-comments']['use']:
+            # (?P<comment>\/\*[^*]*\*+([^\/*][^*]*\*+)*\/)
+            raw_regex = r"(?P<comment>\/\*[^*]*\*+([^\/*][^*]*\*+)*\/)"
+            matches = re.finditer(raw_regex, response_content, re.MULTILINE)
+
+            for matchNum, match in enumerate(matches, start=1):
+                raw_data['css-comments'][match.group('comment')] = False
         # TODO: Handle "this" in "- CSS Libraries used: this ( 5.00 rating )", example: www.handinhandsweden.se
         # TODO: handle "this" and "the" in "- CSS Libraries used: this, animate, normalize, the ( 5.00 rating )", example: hundstallet.se
         css_regex = r"\/\*![ \t\n\r*]+(?P<name>[a-zA-Z.]+)[ ]{0,1}[v]{0,1}(?P<version>[.0-9]+){0,1}"
@@ -471,6 +527,12 @@ def lookup_response_content(req_url, response_mimetype, response_content):
                 data.append(get_default_info(
                     req_url, 'content', 0.6, 'css', tech_name, tech_version))
     elif 'javascript' in response_mimetype:
+        if raw_data['js-comments']['use']:
+            raw_regex = r"(?P<comment>\/\*[^*]*\*+([^\/*][^*]*\*+)*\/)"
+            matches = re.finditer(raw_regex, response_content, re.MULTILINE)
+
+            for matchNum, match in enumerate(matches, start=1):
+                raw_data['js-comments'][match.group('comment')] = False
         # TODO: Look at @link in comments to see if we can identify more libraries
         # TODO: Look at @source in comments to see if we can identify more libraries
         # TODO: Look at @license in comments to see if we can identify license type (add a new "Licenses" category?)
@@ -552,6 +614,13 @@ def lookup_response_content(req_url, response_mimetype, response_content):
                 data.append(get_default_info(
                     req_url, 'content', precision + 0.3, 'js', tech_name, tech_version))
 
+        if raw_data['source-mapping-url']['use']:
+            raw_regex = r"(?P<mapping>.*sourceMappingURL.*)"
+            matches = re.finditer(raw_regex, response_content, re.MULTILINE)
+
+            for matchNum, match in enumerate(matches, start=1):
+                raw_data['source-mapping-url'][match.group('mapping')] = False
+
         if not use_stealth and '//# sourceMappingURL=' in response_content:
             map_url = req_url + '.map'
             map_content = httpRequestGetContent(map_url)
@@ -585,68 +654,60 @@ def get_default_info(url, method, precision, key, name, version):
     return result
 
 
-def lookup_request_url(req_url):
+def lookup_request_url(req_url, rules):
     data = list()
 
-    req_url = req_url.lower()
+    if 'urls' not in rules:
+        return data
 
-    # print('# ', req_url)
-    if '.aspx' in req_url or '.ashx' in req_url:
-        data.append(get_default_info(
-            req_url, 'url', 0.5, 'tech', 'asp.net', None))
+    for rule in rules['urls']:
+        if 'use' not in rule:
+            continue
+        if 'match' not in rule:
+            continue
+        if 'results' not in rule:
+            continue
 
-    if '/contentassets/' in req_url or '/siteassets/' in req_url or '/globalassets/' in req_url or 'epi-util/find.js' in req_url or 'dl.episerver.net' in req_url:
-        data.append(get_default_info(
-            req_url, 'url', 0.1, 'tech', 'asp.net', None))
-        data.append(get_default_info(req_url, 'url',
-                    0.5, 'cms', 'episerver', None))
-        data.append(get_default_info(
-            req_url, 'url', 0.5, 'tech', 'csharp', None))
-    elif '/sitevision/' in req_url:
-        data.append(get_default_info(
-            req_url, 'url', 0.1, 'tech', 'java', None))
-        data.append(get_default_info(req_url, 'url',
-                    0.5, 'cms', 'sitevision', None))
-        data.append(get_default_info(
-            req_url, 'url', 0.5, 'webserver', 'tomcat', None))
-    elif '/wp-content/' in req_url or '/wp-content/' in req_url:
-        # https://wordpress.org/support/article/upgrading-wordpress-extended-instructions/
-        data.append(get_default_info(req_url, 'url', 0.1, 'tech', 'php', None))
-        data.append(get_default_info(req_url, 'url',
-                    0.5, 'cms', 'wordpress', None))
-    elif '/typo3temp/' in req_url or '/typo3conf/' in req_url or '/t3olayout/' in req_url:
-        # https://typo3.org/
-        data.append(get_default_info(req_url, 'url', 0.1, 'tech', 'php', None))
-        data.append(get_default_info(
-            req_url, 'url', 0.5, 'cms', 'typo3', None))
+        req_url = req_url.lower()
 
-        # TODO: Check for https://docs.2sxc.org/index.html ?
+        if raw_data['urls']['use']:
+            raw_data['urls'][req_url] = False
 
-    if 'matomo.php' in req_url or 'matomo.js' in req_url or 'piwik.php' in req_url or 'piwik.js' in req_url:
-        data.append(get_default_info(
-            req_url, 'url', 0.5, 'tech', 'matomo', None))
-    if '.php' in req_url:
-        data.append(get_default_info(req_url, 'url', 0.5, 'tech', 'php', None))
-    if '.webp' in req_url:
-        data.append(get_default_info(
-            req_url, 'url', 0.5, 'tech', 'webp', None))
-    if '.webm' in req_url:
-        data.append(get_default_info(
-            req_url, 'url', 0.5, 'tech', 'webm', None))
-    if '.js' in req_url:
-        # TODO: check framework name and version in comment
-        # TODO: check if ".map" is mentioned in file, if so, check it for above framework name and version
-        # TODO: check use of node_modules
-        # https://www.tranemo.se/wp-includes/js/jquery/jquery.min.js?ver=3.6.1
-        # https://www.tranemo.se/wp-includes/js/dist/vendor/regenerator-runtime.min.js?ver=0.13.9
-        # data.append(get_default_info(req_url, 'url', 0.5, 'tech', 'js'))
-        a = 1
-    if '/imagevault/' in req_url:
-        # https://product.imagevault.se/docfx/
-        data.append(get_default_info(
-            req_url, 'url', 0.5, 'tech', 'asp.net', None))
-        data.append(get_default_info(
-            req_url, 'url', 0.5, 'tech', 'imagevault', None))
+        regex = r"{0}".format(rule['match'])
+        matches = re.finditer(regex, req_url, re.MULTILINE)
+        for matchNum, match in enumerate(matches, start=1):
+            match_name = None
+            match_version = None
+
+            groups = match.groupdict()
+
+            if 'name' in groups:
+                match_name = groups['name']
+            if 'version' in groups:
+                match_version = groups['version']
+
+            for result in rule['results']:
+                name = None
+                version = None
+                if 'category' not in result:
+                    continue
+                if 'precision' not in result:
+                    continue
+
+                category = result['category']
+                precision = result['precision']
+
+                if 'name' in result:
+                    name = result['name']
+                else:
+                    name = match_name
+                if 'version' in result:
+                    version = result['version']
+                else:
+                    version = match_version
+
+                data.append(get_default_info(
+                    req_url, 'url', precision, category, name, version))
 
     return data
 
@@ -657,6 +718,9 @@ def lookup_response_headers(req_url, headers):
     for header in headers:
         header_name = header['name'].upper()
         header_value = header['value'].upper()
+
+        if raw_data['headers']['use']:
+            raw_data['headers'][header_name] = header_value
 
         # print('header', header_name, header_value)
         tmp_data = lookup_response_header(req_url, header_name, header_value)
@@ -895,6 +959,15 @@ def lookup_response_header(req_url, header_name, header_value):
                     req_url, 'header', 0.4, 'tech', 'tech', None))
 
     return data
+
+
+def get_rules():
+    dir = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep)
+
+    with open('{0}{1}software_rules.json'.format(dir, os.path.sep)) as json_rules_file:
+        rules = json.load(json_rules_file)
+    return rules
 
 
 def run_test(_, langCode, url):

@@ -1,0 +1,157 @@
+{
+    "urls": [
+        {
+            "use": true,
+            "match": "(\\/contentassets\\/|\\/siteassets\\/|\\/globalassets\\/)",
+            "results": [
+                {
+                    "category": "tech",
+                    "name": "asp.net",
+                    "precision": 0.1
+                },
+                {
+                    "category": "tech",
+                    "name": "csharp",
+                    "precision": 0.4
+                },
+                {
+                    "category": "cms",
+                    "name": "episerver",
+                    "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "match": "(\\/sitevision\\/)",
+            "results": [
+                {
+                    "category": "tech",
+                    "name": "java",
+                    "precision": 0.1
+                },
+                {
+                    "category": "webserver",
+                    "name": "tomcat",
+                    "precision": 0.1
+                },
+                {
+                    "category": "cms",
+                    "name": "sitevision",
+                    "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "match": "(\\/wp-content\\/|\\/wp-images\\/|\\/wp-includes\\/|\\/wp-admin\\/)",
+            "results": [
+                {
+                    "category": "tech",
+                    "name": "php",
+                    "precision": 0.1
+                },
+                {
+                    "category": "webserver",
+                    "name": "tomcat",
+                    "precision": 0.1
+                },
+                {
+                    "category": "cms",
+                    "name": "wordpress",
+                    "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "match": "(\\/typo3temp\\/|\\/typo3conf\\/|\\/t3olayout\\/)",
+            "results": [
+                {
+                    "category": "tech",
+                    "name": "php",
+                    "precision": 0.1
+                },
+                {
+                    "category": "cms",
+                    "name": "typo3",
+                    "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "match": "(matomo\\.php|matomo\\.js|piwik\\.php|piwik\\.js)",
+            "results": [
+                {
+                    "category": "tech",
+                    "name": "matomo",
+                    "precision": 0.5
+                },
+                {
+                    "category": "tech",
+                    "name": "php",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "match": "(\\/imagevault\\/)",
+            "results": [
+                {
+                    "category": "tech",
+                    "name": "asp.net",
+                    "precision": 0.5
+                },
+                {
+                    "category": "tech",
+                    "name": "imagevault",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "match": "\\.(aspx|ashx)",
+            "results": [
+                {
+                    "category": "tech",
+                    "name": "asp.net",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "match": "\\.(?P<name>php|webp|webm|js|svg|bmp)",
+            "results": [
+                {
+                    "category": "tech",
+                    "precision": 0.5
+                }
+            ]
+        }
+    ],
+    "headers": {
+        "use": false
+    },
+    "contents": {
+        "use": false
+    },
+    "meta-generator": {
+        "use": true
+    },
+    "mime-types": {
+        "use": false
+    },
+    "css-comments": {
+        "use": false
+    },
+    "js-comments": {
+        "use": false
+    },
+    "source-mapping-url": {
+        "use": false
+    }
+}

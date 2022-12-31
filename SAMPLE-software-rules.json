@@ -23,6 +23,31 @@
         },
         {
             "use": true,
+            "match": "(?P<debug>dl\\.(?P<name>episerver)\\.net/(?P<version>[0-9\\.]+)/)",
+            "results": [
+                {
+                    "category": "cms",
+                    "domain": "referrer",
+                    "precision": 0.4
+                },
+                {
+                    "category": "tech",
+                    "name": "asp.net",
+                    "version": "",
+                    "domain": "referrer",
+                    "precision": 0.1
+                },
+                {
+                    "category": "tech",
+                    "name": "csharp",
+                    "version": "",
+                    "domain": "referrer",
+                    "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
             "match": "(?P<debug>\\/sitevision\\/)",
             "results": [
                 {

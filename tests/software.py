@@ -171,7 +171,7 @@ def get_rating_from_sitespeed(url, _local, _):
         filename = os.path.join(result_folder_name, 'pages',
                                 website_folder_name, 'data', 'browsertime.har')
 
-    data = identify_software(filename)
+    data = identify_software(filename, url)
     data = enrich_data(data)
     result = convert_item_to_domain_data(data)
 
@@ -369,9 +369,12 @@ def enrich_data(data):
     return data
 
 
-def identify_software(filename):
+def identify_software(filename, origin_url):
     data = list()
     rules = get_rules()
+
+    o = urlparse(origin_url)
+    origin_domain = o.hostname
 
     # Fix for content having unallowed chars
     json_content = get_sanitized_file_content(filename)
@@ -384,7 +387,7 @@ def identify_software(filename):
             res = entry['response']
             req_url = req['url']
 
-            url_data = lookup_request_url(req_url, rules)
+            url_data = lookup_request_url(req_url, rules, origin_domain)
             if url_data != None or len(url_data) > 0:
                 data.extend(url_data)
 
@@ -676,12 +679,15 @@ def lookup_response_content_old(req_url, response_mimetype, response_content):
     return data
 
 
-def get_default_info(url, method, precision, key, name, version):
+def get_default_info(url, method, precision, key, name, version, domain=None):
     result = {}
 
     o = urlparse(url)
     hostname = o.hostname
-    result['domain'] = hostname
+    if domain != None:
+        result['domain'] = domain
+    else:
+        result['domain'] = hostname
 
     result['url'] = url
     result['method'] = method
@@ -693,7 +699,7 @@ def get_default_info(url, method, precision, key, name, version):
     return result
 
 
-def lookup_request_url(req_url, rules):
+def lookup_request_url(req_url, rules, origin_domain):
     data = list()
 
     if 'urls' not in rules:
@@ -749,9 +755,14 @@ def lookup_request_url(req_url, rules):
                 else:
                     version = match_version
 
+                domain = None
+                if 'domain' in result and result['domain'] == 'referrer':
+                    domain = origin_domain
+
                 if precision > 0.0:
+                    print('# url', name, version, req_url)
                     data.append(get_default_info(
-                        req_url, 'url', precision, category, name, version))
+                        req_url, 'url', precision, category, name, version, domain))
                     is_found = True
                     break
                 elif raw_data['urls']['use']:

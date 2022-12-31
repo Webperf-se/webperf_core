@@ -22,19 +22,12 @@ use_stealth = True
 
 raw_data = {
     'urls': {
-        'use': True
-        # unsure of this one.. it would be every single request...
-        # can we make this useable in anyway?
+        'use': False
     },
     'headers': {
         'use': False
     },
     'contents': {
-        'use': False
-        # unsure of this one.. it would be every single js, css and html file...
-        # should we just take the element we are looking for?
-    },
-    'meta-generator': {
         'use': False
     },
     'mime-types': {
@@ -181,7 +174,6 @@ def get_rating_from_sitespeed(url, _local, _):
     data = identify_software(filename)
     data = enrich_data(data)
     result = convert_item_to_domain_data(data)
-
 
     rating = rate_result(_local, _, result, url)
 
@@ -406,7 +398,7 @@ def identify_software(filename):
                 response_content = res['content']['text']
                 response_mimetype = res['content']['mimeType']
                 content_data = lookup_response_content(
-                    req_url, response_mimetype, response_content)
+                    req_url, response_mimetype, response_content, rules)
                 if content_data != None or len(content_data) > 0:
                     data.extend(content_data)
             else:
@@ -421,7 +413,12 @@ def identify_software(filename):
 
 
 def lookup_response_mimetype(req_url, response_mimetype):
+    # TODO: Move all this to `enrich_data` method
     data = list()
+
+    if use_stealth:
+        return data
+
     if raw_data['mime-types']['use']:
         raw_data['mime-types'][response_mimetype] = 'svg' in response_mimetype or 'mp4' in response_mimetype or 'webp' in response_mimetype or 'png' in response_mimetype or 'jpg' in response_mimetype or 'jpeg' in response_mimetype
 
@@ -461,45 +458,87 @@ def lookup_response_mimetype(req_url, response_mimetype):
     return data
 
 
-def lookup_response_content(req_url, response_mimetype, response_content):
+def lookup_response_content(req_url, response_mimetype, response_content, rules):
     data = list()
 
-    if 'html' in response_mimetype:
-        if raw_data['meta-generator']['use']:
-            raw_regex = r"(?P<generator>\<[^\<]+name=[\"|']generator[\"|'][^\>]*\>)"
-            matches = re.finditer(raw_regex, response_content, re.MULTILINE)
+    if 'contents' not in rules:
+        return data
 
-            o = urlparse(req_url)
-            hostname = o.hostname
+    is_found = False
+    for rule in rules['contents']:
+        if is_found:
+            break
 
-            for matchNum, match in enumerate(matches, start=1):
-                raw_data['meta-generator'][match.group('generator')] = hostname
+        if 'use' not in rule:
+            continue
+        if 'type' not in rule:
+            continue
+        if 'match' not in rule:
+            continue
+        if 'results' not in rule:
+            continue
 
-        # TODO: handle version in generator: wordpress 6.1.1 (Example: https://www.starofhope.se/)
-        # TODO: handle multiple generators (Example: https://www.starofhope.se/)
-        # TODO: handle generators with space in name (Example: https://www.starofhope.se/)
-        # TODO: handle "wpml" and "site" in "- CMS used: wordpress, wpml, site (5.00 rating)" (Example: ibra.se)
-        # TODO: handle "powered" in "- CMS used: powered, wordpress ( 5.00 rating )" (Example: akademiskasbarnfond.se)
-        # TODO: handle "contao" in "- CMS used: contao ( 5.00 rating )" (Example: www.childfriend.com)
-        generator_regex = r"<meta name=['|\"]{0,1}generator['|\"]{0,1} content=['|\"]{0,1}(?P<cmsname>[a-zA-Z]+)[ ]{0,1}(?P<cmsversion>[0-9.]*)"
-        matches = re.finditer(generator_regex, response_content, re.MULTILINE)
+        if rule['type'] not in response_mimetype:
+            continue
 
-        cms_name = ''
-        cms_version = ''
+        req_url = req_url.lower()
+
+        o = urlparse(req_url)
+        hostname = o.hostname
+
+        regex = r"{0}".format(rule['match'])
+        matches = re.finditer(regex, response_content, re.MULTILINE)
         for matchNum, match in enumerate(matches, start=1):
-            cms_name = match.group('cmsname')
-            if cms_name != None:
-                cms_name = cms_name.lower()
-                data.append(get_default_info(
-                    req_url, 'content', 0.4, 'cms', cms_name, None))
+            if is_found:
+                break
+            match_name = None
+            match_version = None
 
-            cms_version = match.group('cmsversion')
-            if cms_version != None:
-                cms_version = cms_version.lower()
-                data.append(get_default_info(
-                    req_url, 'content', 0.6, 'cms', cms_name, cms_version))
+            groups = match.groupdict()
 
-    elif 'css' in response_mimetype:
+            if 'name' in groups:
+                match_name = groups['name']
+            if 'version' in groups:
+                match_version = groups['version']
+
+            for result in rule['results']:
+                if is_found:
+                    break
+
+                name = None
+                version = None
+                if 'category' not in result:
+                    continue
+                if 'precision' not in result:
+                    continue
+
+                category = result['category']
+                precision = result['precision']
+
+                if 'name' in result:
+                    name = result['name']
+                else:
+                    name = match_name
+                if 'version' in result:
+                    version = result['version']
+                else:
+                    version = match_version
+
+                if precision > 0.0:
+                    data.append(get_default_info(
+                        req_url, 'content', precision, category, name, version))
+                    is_found = True
+                    break
+                elif raw_data['contents']['use']:
+                    raw_data['contents'][match.group('debug')] = hostname
+
+    return data
+
+
+def lookup_response_content_old(req_url, response_mimetype, response_content):
+    data = list()
+
+    if 'css' in response_mimetype:
         if raw_data['css-comments']['use']:
             # (?P<comment>\/\*[^*]*\*+([^\/*][^*]*\*+)*\/)
             raw_regex = r"(?P<comment>\/\*[^*]*\*+([^\/*][^*]*\*+)*\/)"
@@ -660,7 +699,10 @@ def lookup_request_url(req_url, rules):
     if 'urls' not in rules:
         return data
 
+    is_found = False
     for rule in rules['urls']:
+        if is_found:
+            break
         if 'use' not in rule:
             continue
         if 'match' not in rule:
@@ -670,12 +712,11 @@ def lookup_request_url(req_url, rules):
 
         req_url = req_url.lower()
 
-        if raw_data['urls']['use']:
-            raw_data['urls'][req_url] = False
-
         regex = r"{0}".format(rule['match'])
         matches = re.finditer(regex, req_url, re.MULTILINE)
         for matchNum, match in enumerate(matches, start=1):
+            if is_found:
+                break
             match_name = None
             match_version = None
 
@@ -687,6 +728,8 @@ def lookup_request_url(req_url, rules):
                 match_version = groups['version']
 
             for result in rule['results']:
+                if is_found:
+                    break
                 name = None
                 version = None
                 if 'category' not in result:
@@ -706,8 +749,13 @@ def lookup_request_url(req_url, rules):
                 else:
                     version = match_version
 
-                data.append(get_default_info(
-                    req_url, 'url', precision, category, name, version))
+                if precision > 0.0:
+                    data.append(get_default_info(
+                        req_url, 'url', precision, category, name, version))
+                    is_found = True
+                    break
+                elif raw_data['urls']['use']:
+                    raw_data['urls'][req_url] = False
 
     return data
 
@@ -997,6 +1045,8 @@ def run_test(_, langCode, url):
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     (rating, result_dict) = get_rating_from_sitespeed(url, _local, _)
+
+    print('raw_data', raw_data)
 
     print(_('TEXT_TEST_END').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))

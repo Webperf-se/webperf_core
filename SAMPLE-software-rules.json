@@ -2,7 +2,7 @@
     "urls": [
         {
             "use": true,
-            "match": "(\\/contentassets\\/|\\/siteassets\\/|\\/globalassets\\/)",
+            "match": "(?P<debug>\\/contentassets\\/|\\/siteassets\\/|\\/globalassets\\/)",
             "results": [
                 {
                     "category": "tech",
@@ -23,7 +23,7 @@
         },
         {
             "use": true,
-            "match": "(\\/sitevision\\/)",
+            "match": "(?P<debug>\\/sitevision\\/)",
             "results": [
                 {
                     "category": "tech",
@@ -44,7 +44,7 @@
         },
         {
             "use": true,
-            "match": "(\\/wp-content\\/|\\/wp-images\\/|\\/wp-includes\\/|\\/wp-admin\\/)",
+            "match": "(?P<debug>\\/wp-content\\/|\\/wp-images\\/|\\/wp-includes\\/|\\/wp-admin\\/)",
             "results": [
                 {
                     "category": "tech",
@@ -65,7 +65,7 @@
         },
         {
             "use": true,
-            "match": "(\\/typo3temp\\/|\\/typo3conf\\/|\\/t3olayout\\/)",
+            "match": "(?P<debug>\\/typo3temp\\/|\\/typo3conf\\/|\\/t3olayout\\/)",
             "results": [
                 {
                     "category": "tech",
@@ -81,7 +81,7 @@
         },
         {
             "use": true,
-            "match": "(matomo\\.php|matomo\\.js|piwik\\.php|piwik\\.js)",
+            "match": "(?P<debug>matomo\\.php|matomo\\.js|piwik\\.php|piwik\\.js)",
             "results": [
                 {
                     "category": "tech",
@@ -97,7 +97,7 @@
         },
         {
             "use": true,
-            "match": "(\\/imagevault\\/)",
+            "match": "(?P<debug>\\/imagevault\\/)",
             "results": [
                 {
                     "category": "tech",
@@ -113,7 +113,7 @@
         },
         {
             "use": true,
-            "match": "\\.(aspx|ashx)",
+            "match": "(?P<debug>\\.(aspx|ashx))",
             "results": [
                 {
                     "category": "tech",
@@ -124,7 +124,7 @@
         },
         {
             "use": true,
-            "match": "\\.(?P<name>php|webp|webm|js|svg|bmp)",
+            "match": "(?P<debug>\\.(?P<name>php|webp|webm|js|svg|bmp))",
             "results": [
                 {
                     "category": "tech",
@@ -136,9 +136,116 @@
     "headers": {
         "use": false
     },
-    "contents": {
-        "use": false
-    },
+    "contents": [
+        {
+            "use": true,
+            "type": "html",
+            "description": "This matches verified CMS when tag start with name attribute",
+            "match": "(?P<debug><meta name=['|\\\"]{0,1}generator['|\\\"]{0,1} content=['|\\\"]{0,1}(?P<name>((?P<verfied>WordPress|Joomla|Wix|TYPO3|Contao|concrete5|concrete|EPiServer|Drupal|Sitecore|Orchard|Umbraco)[ ]{0,1}))( {0,1}(?P<version>[0-9.]*)){0,1}['|\\\"]{0,1}[^>]+>)",
+            "results": [
+                {
+                    "category": "cms",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "This matches verified CMS when tag end with name attribute",
+            "match": "(?P<debug><meta content=['|\\\"]{0,1}(?P<name>((?P<verfied>WordPress|Joomla|Wix|TYPO3|Contao|concrete5|concrete|EPiServer|Drupal|Sitecore|Orchard|Umbraco)[ ]{0,1}))( {0,1}(?P<version>[0-9.]*)){0,1}['|\\\"]{0,1} name=['|\\\"]{0,1}generator['|\\\"]{0,1}[^>]+>)",
+            "results": [
+                {
+                    "category": "cms",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "This matches verified CMS but when plugin uses CMS names when tag start with name attribute",
+            "match": "(?P<debug><meta name=['\\\"]{0,1}generator['\\\"]{0,1} content=['\\\"]{0,1}[^\"']+(?P<name>WordPress|Joomla)[^\"']+['\\\"]{0,1}[^>]+>)",
+            "results": [
+                {
+                    "category": "cms",
+                    "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "This matches verified CMS but when plugin uses CMS names when tag end with name attribute",
+            "match": "(?P<debug><meta content=['\\\"]{0,1}[^\"']+(?P<name>WordPress|Joomla)[^\"']+['\\\"]{0,1} name=['\\\"]{0,1}generator['\\\"]{0,1}[^>]+>)",
+            "results": [
+                {
+                    "category": "cms",
+                    "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "This matches WordPress CMS but from plugin names when tag start with name attribute",
+            "match": "(?P<debug><meta name=['\\\"]{0,1}generator['\\\"]{0,1} content=['\\\"]{0,1}(?P<plugin>(Give v|WooCommerce|WPML ver|Divi |WooFramework|AIOSEO))[^\"']+['\\\"]{0,1}[^>]+>)",
+            "results": [
+                {
+                    "name": "wordpress",
+                    "category": "cms",
+                    "precision": 0.3
+                },
+                {
+                    "name": "php",
+                    "category": "tech",
+                    "precision": 0.3
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "This matches WordPress CMS but from plugin names when tag end with name attribute",
+            "match": "(?P<debug><meta content=['\\\"]{0,1}(?P<plugin>(Give v|WooCommerce|WPML ver|Divi |WooFramework|AIOSEO))[^\"']+['\\\"]{0,1} name=['\\\"]{0,1}generator['\\\"]{0,1}[^>]+>)",
+            "results": [
+                {
+                    "name": "wordpress",
+                    "category": "cms",
+                    "precision": 0.3
+                },
+                {
+                    "name": "tech",
+                    "category": "php",
+                    "precision": 0.3
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "This is for finding new stuff when tag start with name attribute",
+            "match": "(?P<debug><meta name=['|\\\"]{0,1}generator['|\\\"]{0,1} content=['|\\\"]{0,1}(?P<name>[a-zA-ZåäöÅÄÖ ]+)( {0,1}(?P<version>[0-9.]*)){0,1}['|\\\"]{0,1}[^>]+>)",
+            "results": [
+                {
+                    "category": "tech",
+                    "precision": 0.0
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "This is for finding new stuff when tag end with name attribute",
+            "match": "(?P<debug><meta content=['|\\\"]{0,1}(?P<name>[a-zA-ZåäöÅÄÖ ]+)( {0,1}(?P<version>[0-9.]*)){0,1}['|\\\"]{0,1} name=['|\\\"]{0,1}generator['|\\\"]{0,1}[^>]+>)",
+            "results": [
+                {
+                    "category": "tech",
+                    "precision": 0.0
+                }
+            ]
+        }
+    ],
     "meta-generator": {
         "use": true
     },

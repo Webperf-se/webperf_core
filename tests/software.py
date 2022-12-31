@@ -963,9 +963,15 @@ def lookup_response_header(req_url, header_name, header_value):
 
 def get_rules():
     dir = Path(os.path.dirname(
-        os.path.realpath(__file__)) + os.path.sep)
+        os.path.realpath(__file__)) + os.path.sep).parent
 
-    with open('{0}{1}software_rules.json'.format(dir, os.path.sep)) as json_rules_file:
+    file_path = '{0}{1}data{1}software-rules.json'.format(dir, os.path.sep)
+    if not os.path.isfile(file_path):
+        file_path = '{0}{1}SAMPLE-software-rules.json'.format(dir, os.path.sep)
+    if not os.path.isfile(file_path):
+        print("ERROR: No software-rules.json file found!")
+
+    with open(file_path) as json_rules_file:
         rules = json.load(json_rules_file)
     return rules
 

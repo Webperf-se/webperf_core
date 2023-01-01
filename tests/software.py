@@ -229,6 +229,8 @@ def convert_item_to_domain_data(data):
         category = item['category']
         name = item['name']
         version = item['version']
+        if version == None:
+            version = '?'
         precision = item['precision']
 
         if category not in domain_item:
@@ -314,6 +316,7 @@ def enrich_data(data):
 
     # if not use_stealth:
     #     # TODO: Check if we are missing any type and try to find this info
+    #     # TODO: Check for Umbraco ( /umbraco )
     #     if len(result['cms']) == 0:
     #         o = urlparse(url)
     #         hostname = o.hostname
@@ -505,9 +508,6 @@ def lookup_response_content(req_url, response_mimetype, response_content, rules)
                 match_version = groups['version']
 
             for result in rule['results']:
-                if is_found:
-                    break
-
                 name = None
                 version = None
                 if 'category' not in result:
@@ -531,7 +531,6 @@ def lookup_response_content(req_url, response_mimetype, response_content, rules)
                     data.append(get_default_info(
                         req_url, 'content', precision, category, name, version))
                     is_found = True
-                    break
                 elif raw_data['contents']['use']:
                     raw_data['contents'][match.group('debug')] = hostname
 
@@ -689,6 +688,9 @@ def get_default_info(url, method, precision, key, name, version, domain=None):
     else:
         result['domain'] = hostname
 
+    if name != None:
+        name = name.lower().strip()
+
     result['url'] = url
     result['method'] = method
     result['precision'] = precision
@@ -734,8 +736,6 @@ def lookup_request_url(req_url, rules, origin_domain):
                 match_version = groups['version']
 
             for result in rule['results']:
-                if is_found:
-                    break
                 name = None
                 version = None
                 if 'category' not in result:
@@ -760,11 +760,9 @@ def lookup_request_url(req_url, rules, origin_domain):
                     domain = origin_domain
 
                 if precision > 0.0:
-                    print('# url', name, version, req_url)
                     data.append(get_default_info(
                         req_url, 'url', precision, category, name, version, domain))
                     is_found = True
-                    break
                 elif raw_data['urls']['use']:
                     raw_data['urls'][req_url] = False
 

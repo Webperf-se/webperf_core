@@ -343,9 +343,6 @@
             ]
         }
     ],
-    "meta-generator": {
-        "use": true
-    },
     "mime-types": {
         "use": false
     },

@@ -53,12 +53,12 @@
                 {
                     "category": "tech",
                     "name": "java",
-                    "precision": 0.1
+                    "precision": 0.2
                 },
                 {
                     "category": "webserver",
                     "name": "tomcat",
-                    "precision": 0.1
+                    "precision": 0.2
                 },
                 {
                     "category": "cms",
@@ -149,11 +149,48 @@
         },
         {
             "use": true,
+            "description": "According to data collected this is a good hint that it is drupal",
+            "match": "(?P<debug>(jpg|jpeg|gif|bmp|png)\\?(itok)=)",
+            "results": [
+                {
+                    "category": "cms",
+                    "name": "drupal",
+                    "precision": 0.1
+                }
+            ]
+        },
+        {
+            "use": true,
+            "description": "According to data collected this is a good hint that it is sitevision",
+            "match": "(?P<debug>(css)\\?(gridconfigs|directions)=)",
+            "results": [
+                {
+                    "category": "cms",
+                    "name": "sitevision",
+                    "precision": 0.1
+                }
+            ]
+        },
+        {
+            "use": true,
+            "description": "According to data collected this is a good hint that it is umbraco",
+            "reference": "https://github.com/umbraco/Umbraco-CMS/blob/0b53249d5742404e7511d129ae55503ce8673c85/src/Umbraco.Infrastructure/Media/ImageSharpImageUrlGenerator.cs",
+            "match": "(?P<debug>(jpg|jpeg|gif|bmp|png)\\?(anchor|ranchor|width|height|rnd|center|crop|quality|cc|rmode|rxy|croptop|height)=)",
+            "results": [
+                {
+                    "category": "cms",
+                    "name": "umbraco",
+                    "precision": 0.1
+                }
+            ]
+        },
+        {
+            "use": true,
             "match": "(?P<debug>\\.(?P<name>php|webp|webm|js|svg|bmp))",
             "results": [
                 {
                     "category": "tech",
-                    "precision": 0.5
+                    "precision": 0.1
                 }
             ]
         }
@@ -166,7 +203,7 @@
             "use": true,
             "type": "html",
             "description": "This matches verified CMS when tag start with name attribute",
-            "match": "(?P<debug><meta name=['|\\\"]{0,1}generator['|\\\"]{0,1} content=['|\\\"]{0,1}(?P<name>((?P<verfied>WordPress|Joomla|Wix|TYPO3|Contao|concrete5|concrete|EPiServer|Drupal|Sitecore|Orchard|Umbraco|Webflow)[ ]{0,1}))( {0,1}(?P<version>[0-9.]*)){0,1}['|\\\"]{0,1}[^>]+>)",
+            "match": "(?P<debug><meta name=['|\\\"]{0,1}generator['|\\\"]{0,1} content=['|\\\"]{0,1}(?P<name>((?P<verfied>WordPress|Joomla|Wix|TYPO3|Contao|concrete5|concrete|EPiServer|Drupal|Sitecore|Orchard|Umbraco|Webflow|One\\.com Web Editor)[ ]{0,1}))( {0,1}(?P<version>[0-9.]*)){0,1}['|\\\"]{0,1}[^>]+>)",
             "results": [
                 {
                     "category": "cms",
@@ -178,7 +215,7 @@
             "use": true,
             "type": "html",
             "description": "This matches verified CMS when tag end with name attribute",
-            "match": "(?P<debug><meta content=['|\\\"]{0,1}(?P<name>((?P<verfied>WordPress|Joomla|Wix|TYPO3|Contao|concrete5|concrete|EPiServer|Drupal|Sitecore|Orchard|Umbraco|Webflow)[ ]{0,1}))( {0,1}(?P<version>[0-9.]*)){0,1}['|\\\"]{0,1} name=['|\\\"]{0,1}generator['|\\\"]{0,1}[^>]+>)",
+            "match": "(?P<debug><meta content=['|\\\"]{0,1}(?P<name>((?P<verfied>WordPress|Joomla|Wix|TYPO3|Contao|concrete5|concrete|EPiServer|Drupal|Sitecore|Orchard|Umbraco|Webflow|One\\.com Web Editor)[ ]{0,1}))( {0,1}(?P<version>[0-9.]*)){0,1}['|\\\"]{0,1} name=['|\\\"]{0,1}generator['|\\\"]{0,1}[^>]+>)",
             "results": [
                 {
                     "category": "cms",

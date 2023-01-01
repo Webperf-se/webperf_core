@@ -195,9 +195,20 @@
             ]
         }
     ],
-    "headers": {
-        "use": false
-    },
+    "headers": [
+        {
+            "use": true,
+            "type": "x-generator",
+            "description": "This matches verified CMS",
+            "match": "(?P<debug>^(?P<name>(drupal)) {0,1}(?P<version>[0-9.]+))",
+            "results": [
+                {
+                    "category": "cms",
+                    "precision": 0.8
+                }
+            ]
+        }
+    ],
     "contents": [
         {
             "use": true,

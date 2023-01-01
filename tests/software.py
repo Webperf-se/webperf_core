@@ -28,7 +28,7 @@ raw_data = {
         'use': False
     },
     'contents': {
-        'use': True
+        'use': False
     },
     'mime-types': {
         'use': False
@@ -43,6 +43,9 @@ raw_data = {
         'use': False
         # unsure of this one.. it could be every single js..
         # Is this working good enough already?
+    },
+    'test': {
+        'use': True
     }
 }
 # TODO: Add debug flags for every category here, this so we can print out raw values (so we can add more allowed once)
@@ -171,8 +174,11 @@ def get_rating_from_sitespeed(url, _local, _):
         filename = os.path.join(result_folder_name, 'pages',
                                 website_folder_name, 'data', 'browsertime.har')
 
-    data = identify_software(filename, url)
-    data = enrich_data(data)
+    o = urlparse(url)
+    origin_domain = o.hostname
+
+    data = identify_software(filename, origin_domain)
+    data = enrich_data(data, origin_domain)
     result = convert_item_to_domain_data(data)
 
     rating = rate_result(_local, _, result, url)
@@ -187,33 +193,52 @@ def rate_result(_local, _, result, url):
     orginal_domain = url_info.hostname
 
     categories = {'cms': 'CMS', 'webserver': 'WebServer', 'os': 'Operating System',
-                  'analytics': 'Analytics', 'tech': 'Technology', 'js': 'JS Libraries', 'css': 'CSS Libraries'}
+                  'analytics': 'Analytics', 'tech': 'Technology',
+                  'js': 'JS Libraries', 'css': 'CSS Libraries',
+                  'test': 'Testing'}
     # TODO: add 'img': 'Image formats' for used image formats
     # TODO: add 'video': 'Video formats' for used video formats
 
     for domain in result.keys():
-        found_cms = False
-        if len(result[domain]) > 0:
-            cms_rating = Rating(_, review_show_improvements_only)
-            cms_rating.set_overall(
-                5.0, '##### {0}'.format(domain))
-            rating += cms_rating
+        if domain not in orginal_domain:
+            continue
+        item = result[domain]
 
-        for category in categories.keys():
-            if category in result[domain]:
-                category_rating = Rating(_, review_show_improvements_only)
-
-                category_rating.set_overall(
-                    5.0, '- {1} used: {0}'.format(', '.join(result[domain][category].keys()), categories[category]))
-                rating += category_rating
-            if category == 'cms' and category in result[domain]:
-                found_cms = True
+        (found_cms, rating) = rate_domain(_, rating, categories, domain, item)
 
         if not found_cms and domain in orginal_domain:
             no_cms_rating = Rating(_, review_show_improvements_only)
-            no_cms_rating.set_overall(1.0, _local('NO_CMS'))
+            no_cms_rating.set_overall(5.0, _local('NO_CMS'))
             rating += no_cms_rating
+
+    for domain in result.keys():
+        if domain in orginal_domain:
+            continue
+        item = result[domain]
+
+        (found_cms, rating) = rate_domain(_, rating, categories, domain, item)
+
     return rating
+
+
+def rate_domain(_, rating, categories, domain, item):
+    found_cms = False
+    if len(item) > 0:
+        cms_rating = Rating(_, review_show_improvements_only)
+        cms_rating.set_overall(
+            5.0, '##### {0}'.format(domain))
+        rating += cms_rating
+
+    for category in categories.keys():
+        if category in item:
+            category_rating = Rating(_, review_show_improvements_only)
+
+            category_rating.set_overall(
+                5.0, '- {1} used: {0}'.format(', '.join(item[category].keys()), categories[category]))
+            rating += category_rating
+        if category == 'cms' and category in item:
+            found_cms = True
+    return (found_cms, rating)
 
 
 def convert_item_to_domain_data(data):
@@ -245,13 +270,33 @@ def convert_item_to_domain_data(data):
             obj = {}
             obj['name'] = name
             obj['precision'] = precision
-            domain_item[category][version] = obj
+            domain_item[category][name][version] = obj
 
         result[item['domain']] = domain_item
     return result
 
 
-def enrich_data(data):
+def enrich_data(data, orginal_domain):
+
+    cms = None
+    testing = {}
+
+    for item in data:
+        if item['domain'] != orginal_domain:
+            continue
+        if item['category'] == 'cms':
+            cms = item['name']
+
+        if item['category'] == 'test':
+            if item['name'] == 'v' or item['name'] == 'url' or item['name'] == 'etag':
+                continue
+            testing[item['name']] = False
+
+    if len(testing) > 0:
+        raw_data['test'][orginal_domain] = {
+            'cms': cms,
+            'test': testing
+        }
     # TODO: Move all additional calls into this function.
     # TODO: Make sure no additional calls are done except in this function
     # TODO: Make sure this function is ONLY called when `use_stealth = False`
@@ -372,12 +417,9 @@ def enrich_data(data):
     return data
 
 
-def identify_software(filename, origin_url):
+def identify_software(filename, origin_domain):
     data = list()
     rules = get_rules()
-
-    o = urlparse(origin_url)
-    origin_domain = o.hostname
 
     # Fix for content having unallowed chars
     json_content = get_sanitized_file_content(filename)
@@ -396,7 +438,8 @@ def identify_software(filename, origin_url):
 
             if 'headers' in res:
                 headers = res['headers']
-                header_data = lookup_response_headers(req_url, headers)
+                header_data = lookup_response_headers(
+                    req_url, headers, rules, origin_domain)
                 if header_data != None or len(header_data) > 0:
                     data.extend(header_data)
 
@@ -681,11 +724,11 @@ def lookup_response_content_old(req_url, response_mimetype, response_content):
 def get_default_info(url, method, precision, key, name, version, domain=None):
     result = {}
 
-    o = urlparse(url)
-    hostname = o.hostname
     if domain != None:
         result['domain'] = domain
     else:
+        o = urlparse(url)
+        hostname = o.hostname
         result['domain'] = hostname
 
     if name != None:
@@ -769,24 +812,98 @@ def lookup_request_url(req_url, rules, origin_domain):
     return data
 
 
-def lookup_response_headers(req_url, headers):
+def lookup_response_headers(req_url, headers, rules, origin_domain):
     data = list()
 
     for header in headers:
-        header_name = header['name'].upper()
-        header_value = header['value'].upper()
+        header_name = header['name'].lower()
+        header_value = header['value'].lower()
 
         if raw_data['headers']['use']:
             raw_data['headers'][header_name] = header_value
 
         # print('header', header_name, header_value)
-        tmp_data = lookup_response_header(req_url, header_name, header_value)
+        tmp_data = lookup_response_header(
+            req_url, header_name, header_value, rules, origin_domain)
         if len(tmp_data) != 0:
             data.extend(tmp_data)
     return data
 
 
-def lookup_response_header(req_url, header_name, header_value):
+def lookup_response_header(req_url, header_name, header_value, rules, origin_domain):
+    data = list()
+
+    if 'headers' not in rules:
+        return data
+
+    is_found = False
+    for rule in rules['headers']:
+        if is_found:
+            break
+
+        if 'use' not in rule:
+            continue
+        if 'type' not in rule:
+            continue
+        if 'match' not in rule:
+            continue
+        if 'results' not in rule:
+            continue
+
+        if rule['type'] not in header_name:
+            continue
+
+        req_url = req_url.lower()
+
+        o = urlparse(req_url)
+        hostname = o.hostname
+
+        regex = r"{0}".format(rule['match'])
+        matches = re.finditer(regex, header_value, re.MULTILINE)
+        for matchNum, match in enumerate(matches, start=1):
+            if is_found:
+                break
+            match_name = None
+            match_version = None
+
+            groups = match.groupdict()
+
+            if 'name' in groups:
+                match_name = groups['name']
+            if 'version' in groups:
+                match_version = groups['version']
+
+            for result in rule['results']:
+                name = None
+                version = None
+                if 'category' not in result:
+                    continue
+                if 'precision' not in result:
+                    continue
+
+                category = result['category']
+                precision = result['precision']
+
+                if 'name' in result:
+                    name = result['name']
+                else:
+                    name = match_name
+                if 'version' in result:
+                    version = result['version']
+                else:
+                    version = match_version
+
+                if precision > 0.0:
+                    data.append(get_default_info(
+                        req_url, 'header', precision, category, name, version))
+                    is_found = True
+                elif raw_data['headers']['use']:
+                    raw_data['headers'][match.group('debug')] = hostname
+
+    return data
+
+
+def lookup_response_header_old(req_url, header_name, header_value):
     data = list()
 
     if 'SET-COOKIE' in header_name:
@@ -1054,8 +1171,6 @@ def run_test(_, langCode, url):
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     (rating, result_dict) = get_rating_from_sitespeed(url, _local, _)
-
-    print('raw_data', raw_data)
 
     print(_('TEXT_TEST_END').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))

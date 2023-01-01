@@ -288,8 +288,6 @@ def enrich_data(data, orginal_domain):
             cms = item['name']
 
         if item['category'] == 'test':
-            if item['name'] == 'v' or item['name'] == 'url' or item['name'] == 'etag':
-                continue
             testing[item['name']] = False
 
     if len(testing) > 0:
@@ -1070,28 +1068,6 @@ def lookup_response_header_old(req_url, header_name, header_value):
             # else:
             #     print('UNHANDLED OS:', os_name)
 
-    # x-generator
-    if 'X-GENERATOR' in header_name:
-        generator_regex = r"^(?P<cmsname>[a-zA-Z\-]+) {0,1}(?P<cmsversion>[0-9.]+)"
-        matches = re.finditer(
-            generator_regex, header_value, re.MULTILINE)
-        cms_name = ''
-        cms_version = ''
-        for matchNum, match in enumerate(matches, start=1):
-            cms_name = match.group('cmsname')
-            if cms_name != None:
-                cms_name = cms_name.lower()
-                data.append(get_default_info(
-                    req_url, 'header', 0.4, 'cms', cms_name, None))
-
-            cms_version = match.group('cmsversion')
-            if cms_version != None:
-                cms_version = cms_version.lower()
-                data.append(get_default_info(
-                    req_url, 'header', 0.8, 'cms', cms_name, cms_version))
-
-        data.append(get_default_info(
-            req_url, 'header', 0.4, 'webserver', 'nginx', None))
     if 'X-NGINX-' in header_name:
         data.append(get_default_info(
             req_url, 'header', 0.4, 'webserver', 'nginx', None))

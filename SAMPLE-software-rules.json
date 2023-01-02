@@ -194,6 +194,17 @@
         },
         {
             "use": true,
+            "description": "Nuxt framework",
+            "match": "(?P<debug>\\/\\_(?P<name>nuxt)\\/)",
+            "results": [
+                {
+                    "category": "tech",
+                    "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
             "match": "(?P<debug>\\.(?P<name>php|webp|webm|js|svg|bmp))",
             "results": [
                 {

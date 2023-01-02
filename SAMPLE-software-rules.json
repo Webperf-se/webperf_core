@@ -2,6 +2,7 @@
     "urls": [
         {
             "use": true,
+            "description": "EpiServer CMS",
             "match": "(?P<debug>\\/contentassets\\/|\\/siteassets\\/|\\/globalassets\\/)",
             "results": [
                 {
@@ -23,6 +24,7 @@
         },
         {
             "use": true,
+            "description": "EpiServer CMS",
             "match": "(?P<debug>dl\\.(?P<name>episerver)\\.net/(?P<version>[0-9\\.]+)/)",
             "results": [
                 {
@@ -48,6 +50,7 @@
         },
         {
             "use": true,
+            "description": "SiteVision",
             "match": "(?P<debug>\\/sitevision\\/)",
             "results": [
                 {
@@ -69,6 +72,7 @@
         },
         {
             "use": true,
+            "description": "WordPress",
             "match": "(?P<debug>\\/wp-content\\/|\\/wp-images\\/|\\/wp-includes\\/|\\/wp-admin\\/)",
             "results": [
                 {
@@ -90,6 +94,7 @@
         },
         {
             "use": true,
+            "description": "Typeo3",
             "match": "(?P<debug>\\/typo3temp\\/|\\/typo3conf\\/|\\/t3olayout\\/)",
             "results": [
                 {
@@ -106,6 +111,7 @@
         },
         {
             "use": true,
+            "description": "Matomo",
             "match": "(?P<debug>matomo\\.php|matomo\\.js|piwik\\.php|piwik\\.js)",
             "results": [
                 {
@@ -122,6 +128,7 @@
         },
         {
             "use": true,
+            "description": "ImageVault",
             "match": "(?P<debug>\\/imagevault\\/)",
             "results": [
                 {
@@ -138,6 +145,7 @@
         },
         {
             "use": true,
+            "description": "ASP.net",
             "match": "(?P<debug>\\.(aspx|ashx))",
             "results": [
                 {
@@ -250,7 +258,7 @@
             "use": true,
             "type": "html",
             "description": "This matches verified CMS but when plugin uses CMS names when tag start with name attribute",
-            "match": "(?P<debug><meta name=['\\\"]{0,1}generator['\\\"]{0,1} content=['\\\"]{0,1}[^\"']+(?P<name>WordPress|Joomla)[^\"']+['\\\"]{0,1}[^>]+>)",
+            "match": "(?P<debug><meta name=['\\\"]{0,1}generator['\\\"]{0,1} content=['\\\"]{0,1}[^\"']+(?P<name>WordPress|Joomla|CustomPublish)[^\"']+['\\\"]{0,1}[^>]+>)",
             "results": [
                 {
                     "category": "cms",
@@ -262,7 +270,7 @@
             "use": true,
             "type": "html",
             "description": "This matches verified CMS but when plugin uses CMS names when tag end with name attribute",
-            "match": "(?P<debug><meta content=['\\\"]{0,1}[^\"']+(?P<name>WordPress|Joomla)[^\"']+['\\\"]{0,1} name=['\\\"]{0,1}generator['\\\"]{0,1}[^>]+>)",
+            "match": "(?P<debug><meta content=['\\\"]{0,1}[^\"']+(?P<name>WordPress|Joomla|CustomPublish)[^\"']+['\\\"]{0,1} name=['\\\"]{0,1}generator['\\\"]{0,1}[^>]+>)",
             "results": [
                 {
                     "category": "cms",
@@ -303,6 +311,18 @@
                     "name": "tech",
                     "category": "php",
                     "precision": 0.3
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "This matches acos CMS  when tag begins",
+            "match": "(?P<debug><meta name=['\\\"]{0,1}(?P<name>acos)-cmscontext['\\\"]{0,1})",
+            "results": [
+                {
+                    "category": "cms",
+                    "precision": 0.6
                 }
             ]
         },

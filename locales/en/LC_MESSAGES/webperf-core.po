@@ -119,6 +119,8 @@ msgstr "-t 23\t: Tracking and Privacy (Beta)"
 msgid "TEXT_TEST_VALID_ARGUMENTS_EMAIL"
 msgstr "-t 24\t: Email (Beta)"
 
+msgid "TEXT_TEST_VALID_ARGUMENTS_SOFTWARE"
+msgstr "-t 25\t: Software (Alpha)"
 
 #: default.py:137 default.py:141 default.py:146 default.py:213
 msgid "TEXT_COMMAND_USAGE"

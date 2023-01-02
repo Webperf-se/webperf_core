@@ -224,7 +224,7 @@ def rate_result(_local, _, result, url):
     categories = {'cms': 'CMS', 'webserver': 'WebServer', 'os': 'Operating System',
                   'analytics': 'Analytics', 'tech': 'Technology',
                   'js': 'JS Libraries', 'css': 'CSS Libraries',
-                  'test': 'Testing'}
+                  'test': 'Testing', 'security': 'Security'}
     # TODO: add 'img': 'Image formats' for used image formats
     # TODO: add 'video': 'Video formats' for used video formats
 
@@ -233,11 +233,12 @@ def rate_result(_local, _, result, url):
             continue
         item = result[domain]
 
-        (found_cms, rating) = rate_domain(_, rating, categories, domain, item)
+        (found_cms, rating) = rate_domain(
+            _local, _, rating, categories, domain, item)
 
         if not found_cms and domain in orginal_domain:
             no_cms_rating = Rating(_, review_show_improvements_only)
-            no_cms_rating.set_overall(5.0, _local('NO_CMS'))
+            no_cms_rating.set_overall(5.0, _local('TEXT_NO_CMS'))
             rating += no_cms_rating
 
     for domain in result.keys():
@@ -245,12 +246,13 @@ def rate_result(_local, _, result, url):
             continue
         item = result[domain]
 
-        (found_cms, rating) = rate_domain(_, rating, categories, domain, item)
+        (found_cms, rating) = rate_domain(
+            _local, _, rating, categories, domain, item)
 
     return rating
 
 
-def rate_domain(_, rating, categories, domain, item):
+def rate_domain(_local, _, rating, categories, domain, item):
     found_cms = False
     if len(item) > 0:
         cms_rating = Rating(_, review_show_improvements_only)
@@ -263,7 +265,8 @@ def rate_domain(_, rating, categories, domain, item):
             category_rating = Rating(_, review_show_improvements_only)
 
             category_rating.set_overall(
-                5.0, '- {1} used: {0}'.format(', '.join(item[category].keys()), categories[category]))
+                5.0, _local('TEXT_USED_{0}'.format(
+                    category.upper())).format(', '.join(item[category].keys())))
             rating += category_rating
         if category == 'cms' and category in item:
             found_cms = True
@@ -690,13 +693,11 @@ def run_test(_, langCode, url):
     rating = Rating(_, review_show_improvements_only)
 
     language = gettext.translation(
-        'tracking_validator', localedir='locales', languages=[langCode])
+        'software', localedir='locales', languages=[langCode])
     language.install()
     _local = language.gettext
 
-    # TODO: Change this to normal logic for texts
-    # print(_local('TEXT_RUNNING_TEST'))
-    print('## Test: 25 - Software (Alpha)')
+    print(_local('TEXT_RUNNING_TEST'))
 
     print(_('TEXT_TEST_START').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))

@@ -265,7 +265,19 @@
             "use": true,
             "type": "html",
             "description": "find supported languages",
-            "match": "(?P<debug><html[^>]+lang=['\\\"]{0,1}(?P<name>[a-z\\-_]+)['\\\"][^>]*>)",
+            "match": "(?P<debug>lang=[\"'](?P<name>[a-zA-Z\\-_]+)[\"'])",
+            "results": [
+                {
+                    "category": "lang",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "find supported languages",
+            "match": "(?P<debug><meta property=\"og:locale(:alternate){0,1}\" content=['\\\"]{0,1}(?P<name>[a-zA-Z\\-_]+)['\\\"][^\\\/>]*)",
             "results": [
                 {
                     "category": "lang",

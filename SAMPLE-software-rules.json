@@ -211,8 +211,8 @@
         {
             "use": true,
             "type": "server",
-            "description": "This matches verified webservers",
-            "match": "(?P<debug>^(^(?P<name>(microsoft-iis|tomcat|nginx|apache|kestrel|jetty|envoy|litespeed|microsoft-httpapi|cowboy)))\\/{0,1}(?P<version>[0-9.]+){0,1}[ ]{0,1})",
+            "description": "This matches verified webservers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'",
+            "match": "(?P<debug>^(^(microsoft-){0,1}(?P<name>(iis|tomcat|nginx|apache|kestrel|jetty|envoy|litespeed|microsoft-httpapi|cowboy)))\\/{0,1}(?P<version>[0-9.]+){0,1}[ ]{0,1})",
             "results": [
                 {
                     "category": "webserver",

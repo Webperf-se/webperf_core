@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from pathlib import Path
+import shutil
 from models import Rating
 import os
 import json
@@ -107,14 +108,13 @@ def get_rating_from_sitespeed(url, _local, _):
 
     sitespeed_iterations = 1
 
-    sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+    sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --chrome.cdp.performance false --browsertime.chrome.timeline false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --browsertime.chrome.includeResponseBodies all --outputFolder {2} --utc true --xvfb --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
         sitespeed_iterations, url, result_folder_name)
     if 'nt' in os.name:
-        sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies all --outputFolder {2} --utc true --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+        sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --chrome.cdp.performance false --browsertime.chrome.timeline false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --browsertime.chrome.includeResponseBodies all --outputFolder {2} --utc true --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
             sitespeed_iterations, url, result_folder_name)
-        # sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --outputFolder {2} --firstParty --utc true --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+        # sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies all --outputFolder {2} --utc true --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
         #     sitespeed_iterations, url, result_folder_name)
-
     filename = ''
 
     # TODO: Remove cache when done
@@ -128,14 +128,22 @@ def get_rating_from_sitespeed(url, _local, _):
             file_created_date = time.ctime(file_created_timestamp)
             print('Cached entry found from {0}, using it instead of calling website again.'.format(
                 file_created_date))
+            break
 
     if filename == '':
         sitespeed_run_test(sitespeed_use_docker, sitespeed_arg)
 
         website_folder_name = get_foldername_from_url(url)
 
-        filename = os.path.join(result_folder_name, 'pages',
-                                website_folder_name, 'data', 'browsertime.har')
+        filename_old = os.path.join(result_folder_name, 'pages',
+                                    website_folder_name, 'data', 'browsertime.har')
+
+        filename = os.path.join(result_folder_name, 'browsertime.har')
+
+        if os.path.exists(filename_old):
+            os.rename(filename_old, filename)
+            dir_old = os.path.join(result_folder_name, 'pages')
+            shutil.rmtree(dir_old)
 
     o = urlparse(url)
     origin_domain = o.hostname

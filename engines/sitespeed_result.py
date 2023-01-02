@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 from pathlib import Path
+import shutil
 from engines.utils import use_item
 import json
 import re
@@ -77,52 +78,57 @@ def read_sites(input_filename, input_skip, input_take):
         path = os.path.join(
             data_dir, result_dir)
 
-        found = False
-        sub_dirs = os.listdir(path)
-        for sub_dir in sub_dirs:
-            if 'pages' != sub_dir:
+        correct_path = full_path = os.path.join(
+            path, 'browsertime.har')
+        if not os.path.exists(full_path):
+            found = False
+            sub_dirs = os.listdir(path)
+            for sub_dir in sub_dirs:
+                if 'pages' != sub_dir:
+                    continue
+                found = True
+
+            if not found:
                 continue
-            found = True
 
-        if not found:
-            continue
+            pages_path = path = os.path.join(
+                path, 'pages') + os.path.sep
 
-        path = os.path.join(
-            path, 'pages') + os.path.sep
+            found = False
+            sub_dirs = os.listdir(path)
+            for sub_dir in sub_dirs:
+                found = True
+                path = os.path.join(
+                    path, sub_dir) + os.path.sep
 
-        found = False
-        sub_dirs = os.listdir(path)
-        for sub_dir in sub_dirs:
-            found = True
-            path = os.path.join(
-                path, sub_dir) + os.path.sep
-
-        if not found:
-            continue
-
-        full_path = None
-        sub_dirs = os.listdir(path)
-        for sub_dir in sub_dirs:
-            if '1.html' == sub_dir or '2.html' == sub_dir or 'index.html' == sub_dir or 'metrics.html' == sub_dir:
+            if not found:
                 continue
-            if 'data' != sub_dir:
-                full_path = os.path.join(
-                    path, sub_dir, 'data', 'browsertime.har')
-            else:
-                full_path = os.path.join(
-                    path, sub_dir, 'browsertime.har')
 
-        if full_path == None:
-            continue
+            sub_dirs = os.listdir(path)
+            for sub_dir in sub_dirs:
+                if '1.html' == sub_dir or '2.html' == sub_dir or 'index.html' == sub_dir or 'metrics.html' == sub_dir:
+                    continue
+                if 'data' != sub_dir:
+                    full_path = os.path.join(
+                        path, sub_dir, 'data', 'browsertime.har')
+                else:
+                    full_path = os.path.join(
+                        path, sub_dir, 'browsertime.har')
 
-        if not os.path.isfile(full_path):
-            continue
+            if full_path == None:
+                continue
+
+            if not os.path.isfile(full_path):
+                continue
+
+            os.rename(full_path, correct_path)
+            shutil.rmtree(pages_path)
+            full_path = correct_path
 
         # No need to read all content, just read the first 1024 bytes as our url will be there
         # we are doing this for performance
         url = get_url_from_file_content(full_path)
         urls[url] = full_path
-
 
     current_index = 0
     for tmp_url in urls.keys():

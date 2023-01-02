@@ -95,7 +95,65 @@ def get_sanitized_file_content(input_filename):
     # You can manually specify the number of replacements by changing the 4th argument
     result = re.sub(regex, subst, test_str, 0, re.MULTILINE)
 
+    json_result = json.loads(result)
+    has_minified = False
+    if 'log' not in json_result:
+        return ''
+    if 'version' in json_result['log']:
+        del json_result['log']['version']
+        has_minified = True
+    if 'browser' in json_result['log']:
+        del json_result['log']['browser']
+        has_minified = True
+    if 'creator' in json_result['log']:
+        del json_result['log']['creator']
+        has_minified = True
+    if 'pages' in json_result['log']:
+        has_minified = False
+        for page in json_result['log']['pages']:
+            keys_to_remove = list()
+            for key in page.keys():
+                if key != '_url':
+                    keys_to_remove.append(key)
+            for key in keys_to_remove:
+                del page[key]
+                has_minified = True
+    if 'entries' in json_result['log']:
+        has_minified = False
+        for entry in json_result['log']['entries']:
+            keys_to_remove = list()
+            for key in entry.keys():
+                if key != 'request' and key != 'response':
+                    keys_to_remove.append(key)
+            for key in keys_to_remove:
+                del entry[key]
+                has_minified = True
+
+            keys_to_remove = list()
+            for key in entry['request'].keys():
+                if key != 'url':
+                    keys_to_remove.append(key)
+            for key in keys_to_remove:
+                del entry['request'][key]
+                has_minified = True
+
+            keys_to_remove = list()
+            for key in entry['response'].keys():
+                if key != 'content' and key != 'headers':
+                    keys_to_remove.append(key)
+            for key in keys_to_remove:
+                del entry['response'][key]
+                has_minified = True
+
+    if has_minified:
+        write_json(input_filename, json_result)
+
     return result
+
+
+def write_json(filename, data):
+    with open(filename, 'w', encoding='utf-8') as outfile:
+        json.dump(data, outfile)
 
 
 def get_rating_from_sitespeed(url, _local, _):

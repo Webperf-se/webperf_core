@@ -43,7 +43,7 @@ def get_url_from_file_content(input_filename):
     try:
         with open(input_filename, 'r', encoding='utf-8') as file:
             data = file.read(1024)
-            regex = r"\"_url\":\"(?P<url>[^\"]+)\""
+            regex = r"\"_url\":[ ]{0,1}\"(?P<url>[^\"]+)\""
             matches = re.finditer(regex, data, re.MULTILINE)
             for matchNum, match in enumerate(matches, start=1):
                 return match.group('url')
@@ -80,6 +80,17 @@ def read_sites(input_filename, input_skip, input_take):
 
         correct_path = full_path = os.path.join(
             path, 'browsertime.har')
+
+        # cleanup
+        cleanup_dirs = os.listdir(path)
+        for cleanup_dir in cleanup_dirs:
+            if cleanup_dir != 'browsertime.har':
+                cleanup_path = os.path.join(path, cleanup_dir)
+                if os.path.isfile(cleanup_path):
+                    os.remove(cleanup_path)
+                else:
+                    shutil.rmtree(cleanup_path)
+
         if not os.path.exists(full_path):
             found = False
             sub_dirs = os.listdir(path)

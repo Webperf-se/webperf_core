@@ -18,9 +18,16 @@ request_timeout = config.http_request_timeout
 useragent = config.useragent
 review_show_improvements_only = config.review_show_improvements_only
 sitespeed_use_docker = config.sitespeed_use_docker
+try:
+    use_cache = config.cache_when_possible
+except:
+    # If cache_when_possible variable is not set in config.py this will be the default
+    use_cache = False
 
 use_stealth = True
 
+
+# Debug flags for every category here, this so we can print out raw values (so we can add more allowed once)
 raw_data = {
     'urls': {
         'use': False
@@ -49,8 +56,6 @@ raw_data = {
         'use': False
     }
 }
-# TODO: Add debug flags for every category here, this so we can print out raw values (so we can add more allowed once)
-# TODO: Consider if it is better to use hardcoded lists to match against or not, this would make it more stable but would require maintaining lists
 
 
 def get_foldername_from_url(url):
@@ -173,20 +178,21 @@ def get_rating_from_sitespeed(url, _local, _):
             sitespeed_iterations, url, result_folder_name)
         # sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies all --outputFolder {2} --utc true --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
         #     sitespeed_iterations, url, result_folder_name)
+
     filename = ''
+    # Should we use cache when available?
+    if use_cache:
+        import engines.sitespeed_result as input
+        sites = input.read_sites('', -1, -1)
+        for site in sites:
+            if url == site[1]:
+                filename = site[0]
 
-    # TODO: Remove cache when done
-    import engines.sitespeed_result as input
-    sites = input.read_sites('', -1, -1)
-    for site in sites:
-        if url == site[1]:
-            filename = site[0]
-
-            file_created_timestamp = os.path.getctime(filename)
-            file_created_date = time.ctime(file_created_timestamp)
-            print('Cached entry found from {0}, using it instead of calling website again.'.format(
-                file_created_date))
-            break
+                file_created_timestamp = os.path.getctime(filename)
+                file_created_date = time.ctime(file_created_timestamp)
+                print('Cached entry found from {0}, using it instead of calling website again.'.format(
+                    file_created_date))
+                break
 
     if filename == '':
         sitespeed_run_test(sitespeed_use_docker, sitespeed_arg)
@@ -221,10 +227,10 @@ def rate_result(_local, _, result, url):
     url_info = urlparse(url)
     orginal_domain = url_info.hostname
 
-    categories = {'cms': 'CMS', 'webserver': 'WebServer', 'os': 'Operating System',
-                  'analytics': 'Analytics', 'tech': 'Technology',
-                  'js': 'JS Libraries', 'css': 'CSS Libraries',
-                  'test': 'Testing', 'security': 'Security'}
+    categories = ['cms', 'webserver', 'os',
+                  'analytics', 'tech',
+                  'js', 'css',
+                  'test', 'security']
     # TODO: add 'img': 'Image formats' for used image formats
     # TODO: add 'video': 'Video formats' for used video formats
 
@@ -260,7 +266,7 @@ def rate_domain(_local, _, rating, categories, domain, item):
             5.0, '##### {0}'.format(domain))
         rating += cms_rating
 
-    for category in categories.keys():
+    for category in categories:
         if category in item:
             category_rating = Rating(_, review_show_improvements_only)
 

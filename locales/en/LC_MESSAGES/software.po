@@ -42,3 +42,11 @@ msgstr "- JS Libraries used: {0}"
 msgid "TEXT_USED_CSS"
 msgstr "- CSS Libraries used: {0}"
 
+msgid "TEXT_USED_LANG"
+msgstr "- Languages found: {0}"
+
+msgid "TEXT_USED_IMG"
+msgstr "- Image formats used: {0}"
+
+msgid "TEXT_USED_VIDEO"
+msgstr "- Video formats used: {0}"

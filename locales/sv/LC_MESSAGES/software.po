@@ -41,3 +41,12 @@ msgstr "- JS ramverk/bibliotek: {0}"
 
 msgid "TEXT_USED_CSS"
 msgstr "- CSS ramverk/bibliotek: {0}"
+
+msgid "TEXT_USED_LANG"
+msgstr "- Språk: {0}"
+
+msgid "TEXT_USED_IMG"
+msgstr "- Bildformat: {0}"
+
+msgid "TEXT_USED_VIDEO"
+msgstr "- Videoformat: {0}"

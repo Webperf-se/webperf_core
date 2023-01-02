@@ -205,11 +205,31 @@
         },
         {
             "use": true,
-            "match": "(?P<debug>\\.(?P<name>php|webp|webm|js|svg|bmp))",
+            "match": "(?P<debug>\\.(?P<name>php|js))",
             "results": [
                 {
                     "category": "tech",
-                    "precision": 0.1
+                    "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "match": "(?P<debug>\\.(?P<name>webm|mp4))",
+            "results": [
+                {
+                    "category": "video",
+                    "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "match": "(?P<debug>\\.(?P<name>webp|svg|bmp|png|jpg|jpeg|ico|gif))",
+            "results": [
+                {
+                    "category": "img",
+                    "precision": 0.4
                 }
             ]
         }
@@ -241,6 +261,30 @@
         }
     ],
     "contents": [
+        {
+            "use": true,
+            "type": "html",
+            "description": "find supported languages",
+            "match": "(?P<debug><html[^>]+lang=['\\\"]{0,1}(?P<name>[a-z\\-]+)['\\\"][^>]*>)",
+            "results": [
+                {
+                    "category": "lang",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "find supported languages",
+            "match": "(?P<debug><meta property=\"og:locale(:alternate){0,1}\" content=['\\\"]{0,1}(?P<name>[a-zA-Z\\-]+)['\\\"][^\\\/>]*)",
+            "results": [
+                {
+                    "category": "lang",
+                    "precision": 0.8
+                }
+            ]
+        },
         {
             "use": true,
             "type": "html",

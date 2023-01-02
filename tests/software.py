@@ -230,9 +230,8 @@ def rate_result(_local, _, result, url):
     categories = ['cms', 'webserver', 'os',
                   'analytics', 'tech',
                   'js', 'css',
+                  'lang', 'img', 'video',
                   'test', 'security']
-    # TODO: add 'img': 'Image formats' for used image formats
-    # TODO: add 'video': 'Video formats' for used video formats
 
     for domain in result.keys():
         if domain not in orginal_domain:
@@ -337,6 +336,7 @@ def enrich_data(data, orginal_domain):
     # TODO: Make sure no additional calls are done except in this function
     # TODO: Make sure this function is ONLY called when `use_stealth = False`
     # TODO: Check if it is any idea to check matomo version, if so, do it here
+    # TODO: Consider if results from additional calls can use cache
     # TODO: Check if we are missing any type and try to find this info
     # TODO: Additional check for Episerver
     # TODO: Check for Umbraco ( /umbraco )

@@ -375,9 +375,6 @@ def lookup_response_content(req_url, response_mimetype, response_content, rules)
 
     is_found = False
     for rule in rules['contents']:
-        if is_found:
-            break
-
         if 'use' not in rule:
             continue
         if 'type' not in rule:
@@ -398,8 +395,6 @@ def lookup_response_content(req_url, response_mimetype, response_content, rules)
         regex = r"{0}".format(rule['match'])
         matches = re.finditer(regex, response_content, re.MULTILINE)
         for matchNum, match in enumerate(matches, start=1):
-            if is_found:
-                break
             match_name = None
             match_version = None
 
@@ -434,7 +429,7 @@ def lookup_response_content(req_url, response_mimetype, response_content, rules)
                     data.append(get_default_info(
                         req_url, 'content', precision, category, name, version))
                     is_found = True
-                elif raw_data['contents']['use']:
+                elif raw_data['contents']['use'] and not is_found:
                     raw_data['contents'][match.group('debug')] = hostname
 
     return data
@@ -471,8 +466,6 @@ def lookup_request_url(req_url, rules, origin_domain):
 
     is_found = False
     for rule in rules['urls']:
-        if is_found:
-            break
         if 'use' not in rule:
             continue
         if 'match' not in rule:
@@ -485,8 +478,6 @@ def lookup_request_url(req_url, rules, origin_domain):
         regex = r"{0}".format(rule['match'])
         matches = re.finditer(regex, req_url, re.MULTILINE)
         for matchNum, match in enumerate(matches, start=1):
-            if is_found:
-                break
             match_name = None
             match_version = None
 
@@ -525,8 +516,8 @@ def lookup_request_url(req_url, rules, origin_domain):
                     data.append(get_default_info(
                         req_url, 'url', precision, category, name, version, domain))
                     is_found = True
-                elif raw_data['urls']['use']:
-                    raw_data['urls'][req_url] = False
+                if raw_data['urls']['use'] and not is_found:
+                    raw_data['urls'][req_url] = is_found
 
     return data
 
@@ -557,9 +548,6 @@ def lookup_response_header(req_url, header_name, header_value, rules, origin_dom
 
     is_found = False
     for rule in rules['headers']:
-        if is_found:
-            break
-
         if 'use' not in rule:
             continue
         if 'type' not in rule:
@@ -580,8 +568,6 @@ def lookup_response_header(req_url, header_name, header_value, rules, origin_dom
         regex = r"{0}".format(rule['match'])
         matches = re.finditer(regex, header_value, re.MULTILINE)
         for matchNum, match in enumerate(matches, start=1):
-            if is_found:
-                break
             match_name = None
             match_version = None
 
@@ -616,7 +602,7 @@ def lookup_response_header(req_url, header_name, header_value, rules, origin_dom
                     data.append(get_default_info(
                         req_url, 'header', precision, category, name, version))
                     is_found = True
-                elif raw_data['headers']['use']:
+                elif raw_data['headers']['use'] and not is_found:
                     raw_data['headers'][match.group('debug')] = hostname
 
     return data
@@ -661,5 +647,13 @@ def run_test(_, langCode, url):
 
     print(_('TEXT_TEST_END').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+    raw_is_used = False
+    for key in raw_data.keys():
+        raw_is_used = raw_is_used or raw_data[key]['use']
+
+    if raw_is_used:
+        nice_raw = json.dumps(raw_data, indent=2)
+        print(nice_raw)
 
     return (rating, result_dict)

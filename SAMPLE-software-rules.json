@@ -420,6 +420,56 @@
         {
             "use": true,
             "type": "html",
+            "description": "Dublin Core",
+            "match": "(?P<debug><meta name=['\\\"](?P<ignore>(DC.Subject|DC.Creator|DC.Date|DC.Date.Created|DC.Date.Modified|DC.Description|DC.Title|DC.Publisher|DC.Type|DC.Format|DC.Identifier|DC.Language))['\\\"])",
+            "results": [
+                {
+                    "name": "dublin-core",
+                    "category": "meta",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "Open Graph metadata",
+            "match": "(?P<debug><meta property=['\\\"](?P<ignore>(og:title|og:type|og:image|og:url))['\\\"])",
+            "results": [
+                {
+                    "name": "open graph",
+                    "category": "meta",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "common metadata",
+            "match": "(?P<debug><meta name=['\\\"](?P<name>(referrer|twitter:site|viewport|google-site-verification|msvalidate.01))['\\\"])",
+            "results": [
+                {
+                    "category": "meta",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "manifest and other common tech",
+            "match": "(?P<debug><link rel=['\\\"](?P<name>(dns-prefetch|preload|canonical|apple-touch-icon|icon))['\\\"])",
+            "results": [
+                {
+                    "category": "meta",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
             "description": "This is for finding new stuff when tag start with name attribute",
             "match": "(?P<debug><meta name=['|\\\"]{0,1}generator['|\\\"]{0,1} content=['|\\\"]{0,1}(?P<name>[a-zA-ZåäöÅÄÖ ]+)( {0,1}(?P<version>[0-9.]*)){0,1}['|\\\"]{0,1}[^>]+>)",
             "results": [

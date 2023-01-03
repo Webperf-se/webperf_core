@@ -50,3 +50,6 @@ msgstr "- Bildformat: {0}"
 
 msgid "TEXT_USED_VIDEO"
 msgstr "- Videoformat: {0}"
+
+msgid "TEXT_USED_META"
+msgstr "- Metadata: {0}"

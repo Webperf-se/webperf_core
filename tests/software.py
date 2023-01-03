@@ -228,7 +228,7 @@ def rate_result(_local, _, result, url):
     orginal_domain = url_info.hostname
 
     categories = ['cms', 'webserver', 'os',
-                  'analytics', 'tech',
+                  'analytics', 'tech', 'meta',
                   'js', 'css',
                   'lang', 'img', 'video',
                   'test', 'security']

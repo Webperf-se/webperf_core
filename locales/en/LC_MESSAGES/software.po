@@ -53,3 +53,6 @@ msgstr "- Video formats used: {0}"
 
 msgid "TEXT_USED_META"
 msgstr "- Metadata used: {0}"
+
+msgid "TEXT_USED_SECURITY"
+msgstr "- Leaking info: {0}"

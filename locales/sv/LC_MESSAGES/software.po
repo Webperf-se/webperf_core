@@ -53,3 +53,6 @@ msgstr "- Videoformat: {0}"
 
 msgid "TEXT_USED_META"
 msgstr "- Metadata: {0}"
+
+msgid "TEXT_USED_SECURITY"
+msgstr "- Läcker information: {0}"

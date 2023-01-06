@@ -259,20 +259,37 @@ def rate_result(_local, _, result, url):
 
 def rate_domain(_local, _, rating, categories, domain, item):
     found_cms = False
-    if len(item) > 0:
-        cms_rating = Rating(_, review_show_improvements_only)
-        cms_rating.set_overall(
-            5.0, '##### {0}'.format(domain))
-        rating += cms_rating
+    has_announced_overall = False
 
     for category in categories:
         if category in item:
-            category_rating = Rating(_, review_show_improvements_only)
 
-            category_rating.set_overall(
-                5.0, _local('TEXT_USED_{0}'.format(
-                    category.upper())).format(', '.join(item[category].keys())))
-            rating += category_rating
+            if category == 'security':
+                for key in item[category].keys():
+                    category_rating = Rating(_, review_show_improvements_only)
+                    if 'screaming.' in key:
+                        category_rating.set_integrity_and_security(
+                            2.0, _local('TEXT_USED_{0}'.format(
+                                category.upper())).format(domain))
+                    else:
+                        category_rating.set_integrity_and_security(
+                            4.0, _local('TEXT_USED_{0}'.format(
+                                category.upper())).format(domain))
+                    rating += category_rating
+            else:
+                category_rating = Rating(_, review_show_improvements_only)
+                if not has_announced_overall:
+                    domain_header_rating = Rating(
+                        _, review_show_improvements_only)
+                    domain_header_rating.set_overall(
+                        5.0, '##### {0}'.format(domain))
+                    rating += domain_header_rating
+                    has_announced_overall = True
+
+                category_rating.set_overall(
+                    5.0, _local('TEXT_USED_{0}'.format(
+                        category.upper())).format(', '.join(item[category].keys())))
+                rating += category_rating
         if category == 'cms' and category in item:
             found_cms = True
     return (found_cms, rating)
@@ -318,14 +335,26 @@ def enrich_data(data, orginal_domain):
     cms = None
     testing = {}
 
+    tmp_list = list()
+
     for item in data:
-        if item['domain'] != orginal_domain:
-            continue
+        # if item['domain'] != orginal_domain:
+        #     continue
         if item['category'] == 'cms':
             cms = item['name']
 
         if item['category'] == 'test':
             testing[item['name']] = False
+
+        if item['precision'] >= 0.5 and (item['category'] == 'os' or item['category'] == 'webserver' or item['category'] == 'cms'):
+            if item['version'] != None:
+                tmp_list.append(get_default_info(
+                    item['url'], 'enrich', item['precision'], 'security', 'screaming.{0}'.format(item['category']), None))
+            else:
+                tmp_list.append(get_default_info(
+                    item['url'], 'enrich', item['precision'], 'security', 'talking.{0}'.format(item['category']), None))
+
+    data.extend(tmp_list)
 
     if len(testing) > 0:
         raw_data['test'][orginal_domain] = {

@@ -1,0 +1,58 @@
+# Swedish
+# Copyright (C) 2023 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2023-01-02 14:45+0200\n"
+"PO-Revision-Date: 2023-01-02 14:45+0200\n"
+"Last-Translator: mattias <mattias@webperf.se>\n"
+"Language-Team: Swedish <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 25 - Mjukvara (Alfa)\r\n"
+
+msgid "TEXT_NO_CMS"
+msgstr "- Inget eller okänt CMS används på huvuddomänen"
+
+msgid "TEXT_USED_CMS"
+msgstr "- Innehållshanteringssystem: {0}"
+
+msgid "TEXT_USED_WEBSERVER"
+msgstr "- Webserver: {0}"
+
+msgid "TEXT_USED_OS"
+msgstr "- Operativsystem: {0}"
+
+msgid "TEXT_USED_ANALYTICS"
+msgstr "- Besökaranalys: {0}"
+
+msgid "TEXT_USED_TECH"
+msgstr "- Teknik: {0}"
+
+msgid "TEXT_USED_JS"
+msgstr "- JS ramverk/bibliotek: {0}"
+
+msgid "TEXT_USED_CSS"
+msgstr "- CSS ramverk/bibliotek: {0}"
+
+msgid "TEXT_USED_LANG"
+msgstr "- Språk: {0}"
+
+msgid "TEXT_USED_IMG"
+msgstr "- Bildformat: {0}"
+
+msgid "TEXT_USED_VIDEO"
+msgstr "- Videoformat: {0}"
+
+msgid "TEXT_USED_META"
+msgstr "- Metadata: {0}"
+
+msgid "TEXT_USED_SECURITY"
+msgstr "- Läcker information: {0}"

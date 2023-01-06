@@ -1,0 +1,58 @@
+# English (default).
+# Copyright (C) 2023 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2023-01-02 14:45+0200\n"
+"PO-Revision-Date: 2023-01-02 14:45+0200\n"
+"Last-Translator: mattias <mattias@webperf.se>\n"
+"Language-Team: English <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 25 - Software (Alpha)\r\n"
+
+msgid "TEXT_NO_CMS"
+msgstr "- No or unknown CMS used on main domain"
+
+msgid "TEXT_USED_CMS"
+msgstr "- CMS used: {0}"
+
+msgid "TEXT_USED_WEBSERVER"
+msgstr "- WebServer used: {0}"
+
+msgid "TEXT_USED_OS"
+msgstr "- Operating System used: {0}"
+
+msgid "TEXT_USED_ANALYTICS"
+msgstr "- Analytics used: {0}"
+
+msgid "TEXT_USED_TECH"
+msgstr "- Technology used: {0}"
+
+msgid "TEXT_USED_JS"
+msgstr "- JS Libraries used: {0}"
+
+msgid "TEXT_USED_CSS"
+msgstr "- CSS Libraries used: {0}"
+
+msgid "TEXT_USED_LANG"
+msgstr "- Languages found: {0}"
+
+msgid "TEXT_USED_IMG"
+msgstr "- Image formats used: {0}"
+
+msgid "TEXT_USED_VIDEO"
+msgstr "- Video formats used: {0}"
+
+msgid "TEXT_USED_META"
+msgstr "- Metadata used: {0}"
+
+msgid "TEXT_USED_SECURITY"
+msgstr "- Leaking info: {0}"

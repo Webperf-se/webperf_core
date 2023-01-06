@@ -15,6 +15,7 @@ It tries to do this by giving you a weighted list of improvment you can (and pro
   * Networking
   * World Wide Web Standards
   * Email Standards
+  * Software being used
 * Validate new release before going into production
 * Test other/more pages then [WebPerf.se](https://webperf.se/) do
 
@@ -53,6 +54,7 @@ Add a interesting ingress here.
 * [HTTP and Network](./docs/tests/http.md)
 * [Tracking & Integrity](./docs/tests/tracking.md)
 * [Email (Beta)](./docs/tests/email.md)
+* [Software (Alpha)](./docs/tests/software.md)
 
 
 # Contribute

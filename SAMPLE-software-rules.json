@@ -1,0 +1,519 @@
+{
+    "urls": [
+        {
+            "use": true,
+            "description": "EpiServer CMS",
+            "match": "(?P<debug>\\/contentassets\\/|\\/siteassets\\/|\\/globalassets\\/)",
+            "results": [
+                {
+                    "category": "tech",
+                    "name": "asp.net",
+                    "precision": 0.1
+                },
+                {
+                    "category": "tech",
+                    "name": "csharp",
+                    "precision": 0.4
+                },
+                {
+                    "category": "cms",
+                    "name": "episerver",
+                    "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "description": "EpiServer CMS",
+            "match": "(?P<debug>dl\\.(?P<name>episerver)\\.net/(?P<version>[0-9\\.]+)/)",
+            "results": [
+                {
+                    "category": "cms",
+                    "domain": "referrer",
+                    "precision": 0.4
+                },
+                {
+                    "category": "tech",
+                    "name": "asp.net",
+                    "version": "",
+                    "domain": "referrer",
+                    "precision": 0.1
+                },
+                {
+                    "category": "tech",
+                    "name": "csharp",
+                    "version": "",
+                    "domain": "referrer",
+                    "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "description": "SiteVision",
+            "match": "(?P<debug>\\/sitevision\\/)",
+            "results": [
+                {
+                    "category": "tech",
+                    "name": "java",
+                    "precision": 0.2
+                },
+                {
+                    "category": "webserver",
+                    "name": "tomcat",
+                    "precision": 0.2
+                },
+                {
+                    "category": "cms",
+                    "name": "sitevision",
+                    "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "description": "WordPress",
+            "match": "(?P<debug>\\/wp-content\\/|\\/wp-images\\/|\\/wp-includes\\/|\\/wp-admin\\/)",
+            "results": [
+                {
+                    "category": "tech",
+                    "name": "php",
+                    "precision": 0.1
+                },
+                {
+                    "category": "webserver",
+                    "name": "tomcat",
+                    "precision": 0.1
+                },
+                {
+                    "category": "cms",
+                    "name": "wordpress",
+                    "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "description": "Typeo3",
+            "match": "(?P<debug>\\/typo3temp\\/|\\/typo3conf\\/|\\/t3olayout\\/)",
+            "results": [
+                {
+                    "category": "tech",
+                    "name": "php",
+                    "precision": 0.1
+                },
+                {
+                    "category": "cms",
+                    "name": "typo3",
+                    "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "description": "Matomo",
+            "match": "(?P<debug>matomo\\.php|matomo\\.js|piwik\\.php|piwik\\.js)",
+            "results": [
+                {
+                    "category": "tech",
+                    "name": "matomo",
+                    "precision": 0.5
+                },
+                {
+                    "category": "tech",
+                    "name": "php",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "description": "ImageVault",
+            "match": "(?P<debug>\\/imagevault\\/)",
+            "results": [
+                {
+                    "category": "tech",
+                    "name": "asp.net",
+                    "precision": 0.4
+                },
+                {
+                    "category": "tech",
+                    "name": "imagevault",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "description": "ASP.net",
+            "match": "(?P<debug>\\.(aspx|ashx))",
+            "results": [
+                {
+                    "category": "tech",
+                    "name": "asp.net",
+                    "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "description": "According to data collected this is a good hint that it is drupal",
+            "match": "(?P<debug>(jpg|jpeg|gif|bmp|png)\\?(itok)=)",
+            "results": [
+                {
+                    "category": "cms",
+                    "name": "drupal",
+                    "precision": 0.1
+                }
+            ]
+        },
+        {
+            "use": true,
+            "description": "According to data collected this is a good hint that it is sitevision",
+            "match": "(?P<debug>(css)\\?(gridconfigs|directions)=)",
+            "results": [
+                {
+                    "category": "cms",
+                    "name": "sitevision",
+                    "precision": 0.1
+                }
+            ]
+        },
+        {
+            "use": true,
+            "description": "According to data collected this is a good hint that it is umbraco",
+            "reference": "https://github.com/umbraco/Umbraco-CMS/blob/0b53249d5742404e7511d129ae55503ce8673c85/src/Umbraco.Infrastructure/Media/ImageSharpImageUrlGenerator.cs",
+            "match": "(?P<debug>(jpg|jpeg|gif|bmp|png)\\?(anchor|ranchor|width|height|rnd|center|crop|quality|cc|rmode|rxy|croptop|height)=)",
+            "results": [
+                {
+                    "category": "cms",
+                    "name": "umbraco",
+                    "precision": 0.1
+                }
+            ]
+        },
+        {
+            "use": true,
+            "description": "Nuxt framework",
+            "match": "(?P<debug>\\/\\_(?P<name>nuxt)\\/)",
+            "results": [
+                {
+                    "category": "tech",
+                    "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "match": "(?P<debug>\\.(?P<name>php))",
+            "results": [
+                {
+                    "category": "tech",
+                    "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "match": "(?P<debug>\\.(?P<name>webm|mp4))",
+            "results": [
+                {
+                    "category": "video",
+                    "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "match": "(?P<debug>\\.(?P<name>webp|svg|bmp|png|jpg|jpeg|ico|gif))",
+            "results": [
+                {
+                    "category": "img",
+                    "precision": 0.4
+                }
+            ]
+        }
+    ],
+    "headers": [
+        {
+            "use": true,
+            "type": "x-generator",
+            "description": "This matches verified CMS",
+            "match": "(?P<debug>^(?P<name>(drupal)) {0,1}(?P<version>[0-9.]+))",
+            "results": [
+                {
+                    "category": "cms",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "server",
+            "description": "This matches verified webservers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'",
+            "match": "(?P<debug>^(^(microsoft-){0,1}(?P<name>(iis|tomcat|nginx|apache|kestrel|jetty|envoy|litespeed|microsoft-httpapi|cowboy)))\\/{0,1}(?P<version>[0-9.]+){0,1}[ ]{0,1})",
+            "results": [
+                {
+                    "category": "webserver",
+                    "precision": 0.8
+                }
+            ]
+        }
+    ],
+    "contents": [
+        {
+            "use": true,
+            "type": "html",
+            "description": "find supported languages",
+            "match": "(?P<debug>lang=[\"'](?P<name>[a-zA-Z\\-_]+)[\"'])",
+            "results": [
+                {
+                    "category": "lang",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "find supported languages",
+            "match": "(?P<debug><meta property=\"og:locale(:alternate){0,1}\" content=['\\\"]{0,1}(?P<name>[a-zA-Z\\-_]+)['\\\"][^\\\/>]*)",
+            "results": [
+                {
+                    "category": "lang",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "find supported languages",
+            "match": "(?P<debug><meta property=\"og:locale(:alternate){0,1}\" content=['\\\"]{0,1}(?P<name>[a-zA-Z\\-_]+)['\\\"][^\\\/>]*)",
+            "results": [
+                {
+                    "category": "lang",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "This matches verified CMS when tag start with name attribute",
+            "match": "(?P<debug><meta name=['|\\\"]{0,1}generator['|\\\"]{0,1} content=['|\\\"]{0,1}(?P<name>((?P<verfied>WordPress|Joomla|Wix|TYPO3|Contao|concrete5|concrete|EPiServer|Drupal|Sitecore|Orchard|Umbraco|Webflow|One\\.com Web Editor)[ ]{0,1}))( {0,1}(?P<version>[0-9.]*)){0,1}['|\\\"]{0,1}[^>]+>)",
+            "results": [
+                {
+                    "category": "cms",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "This matches verified CMS when tag end with name attribute",
+            "match": "(?P<debug><meta content=['|\\\"]{0,1}(?P<name>((?P<verfied>WordPress|Joomla|Wix|TYPO3|Contao|concrete5|concrete|EPiServer|Drupal|Sitecore|Orchard|Umbraco|Webflow|One\\.com Web Editor)[ ]{0,1}))( {0,1}(?P<version>[0-9.]*)){0,1}['|\\\"]{0,1} name=['|\\\"]{0,1}generator['|\\\"]{0,1}[^>]+>)",
+            "results": [
+                {
+                    "category": "cms",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "This matches verified CMS but when plugin uses CMS names when tag start with name attribute",
+            "match": "(?P<debug><meta name=['\\\"]{0,1}generator['\\\"]{0,1} content=['\\\"]{0,1}[^\"']+(?P<name>WordPress|Joomla|CustomPublish)[^\"']+['\\\"]{0,1}[^>]+>)",
+            "results": [
+                {
+                    "category": "cms",
+                    "precision": 0.6
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "This matches verified CMS but when plugin uses CMS names when tag end with name attribute",
+            "match": "(?P<debug><meta content=['\\\"]{0,1}[^\"']+(?P<name>WordPress|Joomla|CustomPublish)[^\"']+['\\\"]{0,1} name=['\\\"]{0,1}generator['\\\"]{0,1}[^>]+>)",
+            "results": [
+                {
+                    "category": "cms",
+                    "precision": 0.6
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "This matches WordPress CMS but from plugin names when tag start with name attribute",
+            "match": "(?P<debug><meta name=['\\\"]{0,1}generator['\\\"]{0,1} content=['\\\"]{0,1}(?P<plugin>(Give v|WooCommerce|WPML ver|Divi |WooFramework|All in One SEO))[^\"']+['\\\"]{0,1}[^>]+>)",
+            "results": [
+                {
+                    "name": "wordpress",
+                    "category": "cms",
+                    "precision": 0.6
+                },
+                {
+                    "name": "php",
+                    "category": "tech",
+                    "precision": 0.3
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "This matches WordPress CMS but from plugin names when tag end with name attribute",
+            "match": "(?P<debug><meta content=['\\\"]{0,1}(?P<plugin>(Give v|WooCommerce|WPML ver|Divi |WooFramework|All in One SEO))[^\"']+['\\\"]{0,1} name=['\\\"]{0,1}generator['\\\"]{0,1}[^>]+>)",
+            "results": [
+                {
+                    "name": "wordpress",
+                    "category": "cms",
+                    "precision": 0.6
+                },
+                {
+                    "name": "tech",
+                    "category": "php",
+                    "precision": 0.3
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "This matches acos CMS  when tag begins",
+            "match": "(?P<debug><meta name=['\\\"]{0,1}(?P<name>acos)-cmscontext['\\\"]{0,1})",
+            "results": [
+                {
+                    "category": "cms",
+                    "precision": 0.6
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "This matches tech names when tag start with name attribute",
+            "match": "(?P<debug><meta name=['\\\"]{0,1}generator['\\\"]{0,1} content=['\\\"]{0,1}(?P<name>Gatsby)[^\"']+['\\\"]{0,1}[^>]+>)",
+            "results": [
+                {
+                    "category": "tech",
+                    "precision": 0.6
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "This matches tech names when tag end with name attribute",
+            "match": "(?P<debug><meta content=['\\\"]{0,1}(?P<name>Gatsby)[^\"']+['\\\"]{0,1} name=['\\\"]{0,1}generator['\\\"]{0,1}[^>]+>)",
+            "results": [
+                {
+                    "category": "tech",
+                    "precision": 0.6
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "Dublin Core",
+            "match": "(?P<debug><meta name=['\\\"](?P<ignore>(DC.Subject|DC.Creator|DC.Date|DC.Date.Created|DC.Date.Modified|DC.Description|DC.Title|DC.Publisher|DC.Type|DC.Format|DC.Identifier|DC.Language))['\\\"])",
+            "results": [
+                {
+                    "name": "dublin-core",
+                    "category": "meta",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "Open Graph metadata",
+            "match": "(?P<debug><meta property=['\\\"](?P<ignore>(og:title|og:type|og:image|og:url))['\\\"])",
+            "results": [
+                {
+                    "name": "open graph",
+                    "category": "meta",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "common metadata",
+            "match": "(?P<debug><meta name=['\\\"](?P<name>(referrer|viewport))['\\\"])",
+            "results": [
+                {
+                    "category": "meta",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "maybe we could have some kind of verifikation/site category?",
+            "match": "(?P<debug><meta name=['\\\"](?P<name>(twitter:site|google-site-verification|msvalidate.01))['\\\"])",
+            "results": [
+                {
+                    "category": "test",
+                    "precision": 0.0
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "manifest and other common tech",
+            "match": "(?P<debug><link rel=['\\\"](?P<name>(dns-prefetch|preload|canonical|apple-touch-icon|icon))['\\\"])",
+            "results": [
+                {
+                    "category": "meta",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "This is for finding new stuff when tag start with name attribute",
+            "match": "(?P<debug><meta name=['|\\\"]{0,1}generator['|\\\"]{0,1} content=['|\\\"]{0,1}(?P<name>[a-zA-ZåäöÅÄÖ ]+)( {0,1}(?P<version>[0-9.]*)){0,1}['|\\\"]{0,1}[^>]+>)",
+            "results": [
+                {
+                    "category": "tech",
+                    "precision": 0.0
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "This is for finding new stuff when tag end with name attribute",
+            "match": "(?P<debug><meta content=['|\\\"]{0,1}(?P<name>[a-zA-ZåäöÅÄÖ ]+)( {0,1}(?P<version>[0-9.]*)){0,1}['|\\\"]{0,1} name=['|\\\"]{0,1}generator['|\\\"]{0,1}[^>]+>)",
+            "results": [
+                {
+                    "category": "tech",
+                    "precision": 0.0
+                }
+            ]
+        }
+    ],
+    "mime-types": {
+        "use": false
+    },
+    "css-comments": {
+        "use": false
+    },
+    "js-comments": {
+        "use": false
+    },
+    "source-mapping-url": {
+        "use": false
+    }
+}

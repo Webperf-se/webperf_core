@@ -10,7 +10,7 @@ jobs:
             matrix:
                 os: [ubuntu-latest]
                 version: [15]
-                verify: [true, false]
+                verify: [false, true]
     steps:
     - name: Check out repository code
       uses: actions/checkout@v3

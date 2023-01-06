@@ -9,7 +9,7 @@ import gettext
 TEST_ALL = -1
 
 (TEST_UNKNOWN_01, TEST_GOOGLE_LIGHTHOUSE, TEST_PAGE_NOT_FOUND, TEST_UNKNOWN_03, TEST_GOOGLE_LIGHTHOUSE_SEO, TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE, TEST_HTML, TEST_CSS, TEST_GOOGLE_LIGHTHOUSE_PWA, TEST_STANDARD_FILES,
- TEST_GOOGLE_LIGHTHOUSE_A11Y, TEST_UNKNOWN_11, TEST_UNKNOWN_12, TEST_UNKNOWN_13, TEST_UNKNOWN_14, TEST_SITESPEED, TEST_UNKNOWN_16, TEST_YELLOW_LAB_TOOLS, TEST_PA11Y, TEST_UNKNOWN_19, TEST_WEBBKOLL, TEST_HTTP, TEST_ENERGY_EFFICIENCY, TEST_TRACKING, TEST_EMAIL) = range(25)
+ TEST_GOOGLE_LIGHTHOUSE_A11Y, TEST_UNKNOWN_11, TEST_UNKNOWN_12, TEST_UNKNOWN_13, TEST_UNKNOWN_14, TEST_SITESPEED, TEST_UNKNOWN_16, TEST_YELLOW_LAB_TOOLS, TEST_PA11Y, TEST_UNKNOWN_19, TEST_WEBBKOLL, TEST_HTTP, TEST_ENERGY_EFFICIENCY, TEST_TRACKING, TEST_EMAIL, TEST_SOFTWARE) = range(26)
 
 
 def test(_, langCode, site, test_type=None, show_reviews=False,):
@@ -58,6 +58,8 @@ def test(_, langCode, site, test_type=None, show_reviews=False,):
             from tests.tracking_validator import run_test
         elif test_type == TEST_EMAIL:
             from tests.email_validator import run_test
+        elif test_type == TEST_SOFTWARE:
+            from tests.software import run_test
 
         the_test_result = run_test(_, langCode, website)
 
@@ -150,6 +152,9 @@ def test_site(_, langCode, site, test_type=TEST_ALL, show_reviews=False):
     if (run_all_tests or test_type == TEST_EMAIL):
         tests.extend(test(_, langCode, site,
                           test_type=TEST_EMAIL, show_reviews=show_reviews))
+    if (run_all_tests or test_type == TEST_SOFTWARE):
+        tests.extend(test(_, langCode, site,
+                          test_type=TEST_SOFTWARE, show_reviews=show_reviews))
 
     return tests
 

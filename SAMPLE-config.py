@@ -41,3 +41,6 @@ locales = 'locales'
 
 # how many iterations of Sitespeed.io requests would you like? Has to be at least 2 not to fail
 sitespeed_iterations = 2
+
+# Changing this will make webperf-core use local cache where available
+cache_when_possible = False

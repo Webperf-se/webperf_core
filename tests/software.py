@@ -218,6 +218,9 @@ def get_rating_from_sitespeed(url, _local, _):
 
     rating = rate_result(_local, _, result, url)
 
+    if not use_cache:
+        shutil.rmtree(result_folder_name)
+
     return (rating, result)
 
 

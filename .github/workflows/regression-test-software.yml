@@ -13,6 +13,7 @@ jobs:
                 verify: [false]
                 include:
                   - os: ubuntu-latest
+                    version: 25
                     verify: true
     steps:
     - name: Check out repository code

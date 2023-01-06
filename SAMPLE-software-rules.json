@@ -447,11 +447,23 @@
             "use": true,
             "type": "html",
             "description": "common metadata",
-            "match": "(?P<debug><meta name=['\\\"](?P<name>(referrer|twitter:site|viewport|google-site-verification|msvalidate.01))['\\\"])",
+            "match": "(?P<debug><meta name=['\\\"](?P<name>(referrer|viewport))['\\\"])",
             "results": [
                 {
                     "category": "meta",
                     "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "maybe we could have some kind of verifikation/site category?",
+            "match": "(?P<debug><meta name=['\\\"](?P<name>(twitter:site|google-site-verification|msvalidate.01))['\\\"])",
+            "results": [
+                {
+                    "category": "test",
+                    "precision": 0.0
                 }
             ]
         },

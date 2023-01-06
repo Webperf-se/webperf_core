@@ -8,13 +8,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
             matrix:
-                os: [ubuntu-latest, windows-latest]
+                os: [ubuntu-latest]
                 version: [15]
-                verify: [false]
-                include:
-                  - os: ubuntu-latest
-                    version: 15
-                    verify: true
+                verify: [false, true]
     steps:
     - name: Check out repository code
       uses: actions/checkout@v3

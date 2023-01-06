@@ -37,10 +37,27 @@ This section tries to identify what javascript libraries are used for website.
 ### CSS Libraries
 This section tries to identify what CSS libraries are used for website.
 
+### Image formats
+
+This section tries to identify what image formats used for website.
+
+### Languages
+
+This section tries to identify what languages are used for website.
+
+### Metadata
+
+This section tries to identify what known metadata tags are used for website.
+
 ## How are rating being calculated?
 
-You can ignore the rating for this test as it currently only rates its own ability to identify CMS.
-This might change in the future.
+The only thing this test rate right now are leaking of name and version of:
+- operating system
+- webserver
+- cms
+
+If name and version is leaked a rating of 2.0 is given.
+If only name is leaked a rating of 4.0 is given.
 
 ## Read more
 

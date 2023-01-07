@@ -29,7 +29,7 @@ useragent = config.useragent
 googlePageSpeedApiKey = config.googlePageSpeedApiKey
 
 
-def httpRequestGetContent(url, allow_redirects=False):
+def httpRequestGetContent(url, allow_redirects=False, use_text_instead_of_content=True):
     """Trying to fetch the response content
     Attributes: url, as for the URL to fetch
     """
@@ -39,8 +39,10 @@ def httpRequestGetContent(url, allow_redirects=False):
         a = requests.get(url, allow_redirects=allow_redirects,
                          headers=headers, timeout=request_timeout*2)
 
-        # print('httpRequestGetContent', a.text)
-        return a.text
+        if use_text_instead_of_content:
+            return a.text
+        else:
+            return a.content
     except ssl.CertificateError as error:
         print('Info: Certificate error. {0}'.format(error.reason))
         pass

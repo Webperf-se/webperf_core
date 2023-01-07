@@ -8,3 +8,4 @@ certifi>=2022.12.7
 selenium>=4.7.2
 IP2Location>=8.9.0
 docker>=6.0.1
+Pillow>=9.4.0

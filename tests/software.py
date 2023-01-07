@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from PIL.ExifTags import TAGS, GPSTAGS
+from PIL import Image
+import hashlib
 from pathlib import Path
 import shutil
 from models import Rating
@@ -24,7 +27,11 @@ except:
     # If cache_when_possible variable is not set in config.py this will be the default
     use_cache = False
 
-use_stealth = True
+try:
+    use_stealth = config.software_use_stealth
+except:
+    # If software_use_stealth variable is not set in config.py this will be the default
+    use_stealth = True
 
 
 # Debug flags for every category here, this so we can print out raw values (so we can add more allowed once)
@@ -187,6 +194,7 @@ def get_rating_from_sitespeed(url, _local, _):
         for site in sites:
             if url == site[1]:
                 filename = site[0]
+                result_folder_name = filename[:filename.rfind(os.path.sep)]
 
                 file_created_timestamp = os.path.getctime(filename)
                 file_created_date = time.ctime(file_created_timestamp)
@@ -213,7 +221,7 @@ def get_rating_from_sitespeed(url, _local, _):
     origin_domain = o.hostname
 
     data = identify_software(filename, origin_domain)
-    data = enrich_data(data, origin_domain)
+    data = enrich_data(data, origin_domain, result_folder_name)
     result = convert_item_to_domain_data(data)
 
     rating = rate_result(_local, _, result, url)
@@ -271,13 +279,20 @@ def rate_domain(_local, _, rating, categories, domain, item):
                 for key in item[category].keys():
                     category_rating = Rating(_, review_show_improvements_only)
                     if 'screaming.' in key:
+                        item_type = key[10:]
                         category_rating.set_integrity_and_security(
                             2.0, _local('TEXT_USED_{0}'.format(
-                                category.upper())).format(domain))
-                    else:
+                                category.upper())).format('{0} - {1}'.format(item_type, domain)))
+                    elif 'talking.' in key:
+                        item_type = key[8:]
                         category_rating.set_integrity_and_security(
                             4.0, _local('TEXT_USED_{0}'.format(
-                                category.upper())).format(domain))
+                                category.upper())).format('{0} - {1}'.format(item_type, domain)))
+                    elif 'info.' in key:
+                        item_type = key[5:]
+                        category_rating.set_integrity_and_security(
+                            5.0, _local('TEXT_USED_{0}'.format(
+                                category.upper())).format('{0} - {1}'.format(item_type, domain)))
                     rating += category_rating
             else:
                 category_rating = Rating(_, review_show_improvements_only)
@@ -333,7 +348,7 @@ def convert_item_to_domain_data(data):
     return result
 
 
-def enrich_data(data, orginal_domain):
+def enrich_data(data, orginal_domain, result_folder_name):
 
     cms = None
     testing = {}
@@ -357,6 +372,8 @@ def enrich_data(data, orginal_domain):
                 tmp_list.append(get_default_info(
                     item['url'], 'enrich', item['precision'], 'security', 'talking.{0}'.format(item['category']), None))
 
+        enrich_data_from_images(tmp_list, item, result_folder_name)
+
     data.extend(tmp_list)
 
     if len(testing) > 0:
@@ -374,6 +391,166 @@ def enrich_data(data, orginal_domain):
     # TODO: Check for Umbraco ( /umbraco )
 
     return data
+
+
+def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
+    if use_stealth:
+        return
+    if item['category'] != 'img':
+        return
+
+    if item['name'] == 'svg':
+        # NOTE: We don't get content for svg files currently, it would be better if we didn't need to request it once more
+        svg_content = httpRequestGetContent(item['url'])
+
+        # <!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+        svg_regex = r"<!-- Generator: (?P<name>[a-zA-Z ]+)[ ]{0,1}(?P<version>[0-9.]*)"
+        matches = re.finditer(svg_regex, svg_content, re.MULTILINE)
+
+        tech_name = ''
+        tech_version = ''
+        for matchNum, match in enumerate(matches, start=1):
+            tech_name = match.group('name')
+            tech_version = match.group('version')
+
+            if tech_name != None and tech_version == None:
+                tech_name = tech_name.lower().strip().replace(' ', '-')
+                tmp_list.append(get_default_info(
+                    item['url'], 'enrich', item['precision'], 'security', 'talking.{0}-app'.format(item['category']), None))
+
+            if tech_version != None:
+                tech_version = tech_version.lower()
+                tmp_list.append(get_default_info(
+                    item['url'], 'enrich', 0.8, 'security', 'screaming.{0}-app'.format(item['category']), None))
+    else:
+        cache_key = '{0}.cache.{1}'.format(
+            hashlib.sha512(item['url'].encode()).hexdigest(), item['name'])
+        cache_path = os.path.join(result_folder_name, cache_key)
+
+        image_data = None
+        try:
+            if use_cache and os.path.exists(cache_path):
+                image_data = Image.open(cache_path)
+            else:
+                data = httpRequestGetContent(
+                    item['url'], use_text_instead_of_content=False)
+                with open(cache_path, 'wb') as file:
+                    file.write(data)
+                image_data = Image.open(cache_path)
+        except:
+            return
+
+        # extract EXIF data
+        exifdata = image_data.getexif()
+        if nof_tries == 0 and (exifdata == None or len(exifdata.keys()) == 0):
+            test_index = item['url'].rfind(
+                '.{0}'.format(item['name']))
+            if test_index > 0:
+                test_url = '{1}.{0}'.format(
+                    item['name'], item['url'][:test_index])
+                test = get_default_info(
+                    test_url, 'enrich', item['precision'], item['category'], item['name'], item['version'], item['domain'])
+
+                enrich_data_from_images(
+                    tmp_list, test, result_folder_name, nof_tries + 1)
+
+        device_name = None
+        device_version = None
+
+        # iterating over all EXIF data fields
+        for tag_id in exifdata:
+            # get the tag name, instead of human unreadable tag id
+            tag = TAGS.get(tag_id, None)
+            if tag == None:
+                print('UNKNOWN TAG:', tag_id)
+                tag = 'unknown_{0}'.format(tag_id)
+
+            tag_name = tag.lower()
+            tag_data = exifdata.get(tag_id)
+            # decode bytes
+            try:
+                if isinstance(tag_data, bytes):
+                    tag_data = tag_data.decode()
+            except:
+                a = 1
+            tag_name = tag_name.lower()
+            if 'software' == tag_name:
+                regex = r"(?P<debug>^(^(?P<name>([a-zA-Z ]+))) (?P<version>[0-9.]+){0,1}[ (]{0,2}(?P<osname>[a-zA-Z]+){0,1})[)]{0,1}"
+                matches = re.finditer(
+                    regex, tag_data, re.MULTILINE)
+                for matchNum, match in enumerate(matches, start=1):
+                    tech_name = match.group('name')
+                    tech_version = match.group('version')
+                    os_name = match.group('osname')
+                    if tech_name != None and tech_version == None:
+                        tech_name = tech_name.lower().strip().replace(' ', '-')
+                        tmp_list.append(get_default_info(
+                            item['url'], 'enrich', item['precision'], 'security', 'talking.{0}.app'.format(item['category']), None))
+
+                    if tech_version != None:
+                        tech_version = tech_version.lower()
+                        tmp_list.append(get_default_info(
+                            item['url'], 'enrich', 0.8, 'security', 'screaming.{0}.app'.format(item['category']), None))
+
+                    if os_name != None:
+                        os_name = os_name.lower()
+                        tmp_list.append(get_default_info(
+                            item['url'], 'enrich', 0.8, 'security', 'talking.{0}.os'.format(item['category']), None))
+            elif 'artist' == tag_name or 'xpauthor' == tag_name:
+                tmp_list.append(get_default_info(
+                    item['url'], 'enrich', 0.8, 'security', 'info.{0}.person'.format(item['category']), None))
+            elif 'make' == tag_name:
+                tmp_list.append(get_default_info(
+                    item['url'], 'enrich', 0.8, 'security', 'info.{0}.make'.format(item['category']), None))
+                device_name = tag_data.lower().strip()
+                if 'nikon corporation' in device_name:
+                    device_name = device_name.replace(
+                        'nikon corporation', 'nikon')
+            elif 'hostcomputer' == tag_name:
+                regex = r"(?P<debug>^(^(?P<name>([a-zA-Z ]+))) (?P<version>[0-9.]+){0,1}[ (]{0,2}(?P<osname>[a-zA-Z]+){0,1})[)]{0,1}"
+                matches = re.finditer(
+                    regex, tag_data, re.MULTILINE)
+                for matchNum, match in enumerate(matches, start=1):
+                    tech_name = match.group('name')
+                    tech_version = match.group('version')
+                    os_name = match.group('osname')
+                    if tech_name != None and tech_version == None:
+                        tech_name = tech_name.lower().strip().replace(' ', '-')
+                        tmp_list.append(get_default_info(
+                            item['url'], 'enrich', item['precision'], 'security', 'talking.{0}.device'.format(item['category']), None))
+
+                    if tech_version != None:
+                        tech_version = tech_version.lower()
+                        tmp_list.append(get_default_info(
+                            item['url'], 'enrich', 0.8, 'security', 'screaming.{0}.device'.format(item['category']), None))
+
+                    if os_name != None:
+                        os_name = os_name.lower().strip()
+                        tmp_list.append(get_default_info(
+                            item['url'], 'enrich', 0.8, 'security', 'talking.{0}.os'.format(item['category']), None))
+            elif 'model' == tag_name:
+                device_version = tag_data.lower().strip()
+            elif 'gpsinfo' == tag_name:
+                tmp_list.append(get_default_info(
+                    item['url'], 'enrich', 0.8, 'security', 'info.{0}.location'.format(item['category']), None))
+            elif 'resolutionunit' == tag_name or 'exifoffset' == tag_name or 'xresolution' == tag_name or 'yresolution' == tag_name or 'orientation' == tag_name or 'imagewidth' == tag_name or 'imagelength' == tag_name or 'bitspersample' == tag_name or 'samplesperpixel' == tag_name or 'compression' == tag_name or 'datetime' == tag_name or 'copyright' == tag_name or 'photometricinterpretation' == tag_name or 'unknown_59932' == tag_name:
+                a = 1
+            else:
+                print(f"\t{tag_name:25}: {tag_data}")
+
+        if device_name != None or device_version != None:
+            if device_name != None:
+                device_name = device_name.lower().strip()
+            if device_name != None and device_version == None:
+                tmp_list.append(get_default_info(
+                    item['url'], 'enrich', item['precision'], 'security', 'talking.{0}.device'.format(item['category']), None))
+
+            if device_version != None:
+                device_version = device_version.lower()
+                if device_name != None:
+                    device_version = device_version.replace(device_name, '')
+                tmp_list.append(get_default_info(
+                    item['url'], 'enrich', 0.8, 'security', 'screaming.{0}.device'.format(item['category']), None))
 
 
 def identify_software(filename, origin_domain):
@@ -428,36 +605,14 @@ def lookup_response_mimetype(req_url, response_mimetype):
         return data
 
     if raw_data['mime-types']['use']:
-        raw_data['mime-types'][response_mimetype] = 'svg' in response_mimetype or 'mp4' in response_mimetype or 'webp' in response_mimetype or 'png' in response_mimetype or 'jpg' in response_mimetype or 'jpeg' in response_mimetype
+        raw_data['mime-types'][response_mimetype] = 'svg' in response_mimetype or 'mp4' in response_mimetype or 'webp' in response_mimetype or 'png' in response_mimetype or 'jpg' in response_mimetype or 'jpeg' in response_mimetype or 'bmp' in response_mimetype
 
-    if 'svg' in response_mimetype:
-        # NOTE: We don't get content for svg files currently, it would be better if we didn't need to request it once more
-        svg_content = httpRequestGetContent(req_url)
-
-        # <!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-        svg_regex = r"<!-- Generator: (?P<name>[a-zA-Z ]+)[ ]{0,1}(?P<version>[0-9.]*)"
-        matches = re.finditer(svg_regex, svg_content, re.MULTILINE)
-
-        tech_name = ''
-        tech_version = ''
-        for matchNum, match in enumerate(matches, start=1):
-            tech_name = match.group('name')
-            if tech_name != None:
-                tech_name = tech_name.lower().strip().replace(' ', '-')
-                data.append(get_default_info(
-                    req_url, 'content', 0.5, 'tech', tech_name, None))
-
-            tech_version = match.group('version')
-            if tech_version != None:
-                tech_version = tech_version.lower()
-                data.append(get_default_info(
-                    req_url, 'content', 0.6, 'tech', tech_name, tech_version))
     if 'mp4' in response_mimetype:
         # Extract metadata to see if we can get produced application and more,
         # look at: https://www.handinhandsweden.se/wp-content/uploads/se/2022/11/julvideo-startsida.mp4
         # that has videolan references and more interesting stuff
         a = 1
-    if 'webp' in response_mimetype or 'png' in response_mimetype or 'jpg' in response_mimetype or 'jpeg' in response_mimetype:
+    if 'webp' in response_mimetype or 'png' in response_mimetype or 'jpg' in response_mimetype or 'jpeg' in response_mimetype or 'bmp' in response_mimetype:
         # Extract metadata to see if we can get produced application and more,
         # look at: https://skatteverket.se/images/18.1df9c71e181083ce6f6cbd/1655378197989/mobil-externwebb.jpg
         # that has adobe photoshop 21.2 (Windows) information

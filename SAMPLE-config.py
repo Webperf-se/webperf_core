@@ -44,3 +44,6 @@ sitespeed_iterations = 2
 
 # Changing this will make webperf-core use local cache where available
 cache_when_possible = False
+
+# Tell software test to use stealth mode or not, default is 'True'
+software_use_stealth = True

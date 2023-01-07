@@ -84,7 +84,7 @@ def read_sites(input_filename, input_skip, input_take):
         # cleanup
         cleanup_dirs = os.listdir(path)
         for cleanup_dir in cleanup_dirs:
-            if cleanup_dir != 'browsertime.har':
+            if cleanup_dir != 'browsertime.har' and '.cache' not in cleanup_dir:
                 cleanup_path = os.path.join(path, cleanup_dir)
                 if os.path.isfile(cleanup_path):
                     os.remove(cleanup_path)

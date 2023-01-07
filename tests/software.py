@@ -416,12 +416,12 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
             if tech_name != None and tech_version == None:
                 tech_name = tech_name.lower().strip().replace(' ', '-')
                 tmp_list.append(get_default_info(
-                    item['url'], 'enrich', item['precision'], 'security', 'talking.{0}-app'.format(item['category']), None))
+                    item['url'], 'enrich', item['precision'], 'security', 'talking.{0}.app'.format(item['category']), None))
 
             if tech_version != None:
                 tech_version = tech_version.lower()
                 tmp_list.append(get_default_info(
-                    item['url'], 'enrich', 0.8, 'security', 'screaming.{0}-app'.format(item['category']), None))
+                    item['url'], 'enrich', 0.8, 'security', 'screaming.{0}.app'.format(item['category']), None))
     else:
         cache_key = '{0}.cache.{1}'.format(
             hashlib.sha512(item['url'].encode()).hexdigest(), item['name'])
@@ -533,10 +533,10 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
             elif 'gpsinfo' == tag_name:
                 tmp_list.append(get_default_info(
                     item['url'], 'enrich', 0.8, 'security', 'info.{0}.location'.format(item['category']), None))
-            elif 'resolutionunit' == tag_name or 'exifoffset' == tag_name or 'xresolution' == tag_name or 'yresolution' == tag_name or 'orientation' == tag_name or 'imagewidth' == tag_name or 'imagelength' == tag_name or 'bitspersample' == tag_name or 'samplesperpixel' == tag_name or 'compression' == tag_name or 'datetime' == tag_name or 'copyright' == tag_name or 'photometricinterpretation' == tag_name or 'unknown_59932' == tag_name:
-                a = 1
-            else:
-                print(f"\t{tag_name:25}: {tag_data}")
+            # elif 'resolutionunit' == tag_name or 'exifoffset' == tag_name or 'xresolution' == tag_name or 'yresolution' == tag_name or 'orientation' == tag_name or 'imagewidth' == tag_name or 'imagelength' == tag_name or 'bitspersample' == tag_name or 'samplesperpixel' == tag_name or 'compression' == tag_name or 'datetime' == tag_name or 'copyright' == tag_name or 'photometricinterpretation' == tag_name or 'unknown_59932' == tag_name:
+            #     a = 1
+            # else:
+            #     print(f"\t{tag_name:25}: {tag_data}")
 
         if device_name != None or device_version != None:
             if device_name != None:

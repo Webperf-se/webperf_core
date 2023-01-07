@@ -271,22 +271,33 @@ def rate_result(_local, _, result, url):
 def rate_domain(_local, _, rating, categories, domain, item):
     found_cms = False
     has_announced_overall = False
+    has_security = False
 
     for category in categories:
         if category in item:
 
             if category == 'security':
+                has_security = True
+                security_sub_categories = ['os', 'webserver', 'cms', 'img.app',
+                                           'img.os', 'img.device', 'img.location']
+                total_nof_subcategories = len(security_sub_categories)
                 for key in item[category].keys():
+                    sub_key_index = key.find('.') + 1
+                    sub_key = key[sub_key_index:]
+                    if sub_key in security_sub_categories:
+                        security_sub_categories.remove(sub_key)
                     category_rating = Rating(_, review_show_improvements_only)
                     if 'screaming.' in key:
                         item_type = key[10:]
                         category_rating.set_integrity_and_security(
                             2.0, _local('TEXT_USED_{0}'.format(
+                            1.0, _local('TEXT_USED_{0}'.format(
                                 category.upper())).format('{0} - {1}'.format(item_type, domain)))
                     elif 'talking.' in key:
                         item_type = key[8:]
                         category_rating.set_integrity_and_security(
                             4.0, _local('TEXT_USED_{0}'.format(
+                            2.0, _local('TEXT_USED_{0}'.format(
                                 category.upper())).format('{0} - {1}'.format(item_type, domain)))
                     elif 'info.' in key:
                         item_type = key[5:]
@@ -294,6 +305,15 @@ def rate_domain(_local, _, rating, categories, domain, item):
                             5.0, _local('TEXT_USED_{0}'.format(
                                 category.upper())).format('{0} - {1}'.format(item_type, domain)))
                     rating += category_rating
+
+                nof_subcategories = len(security_sub_categories)
+                if total_nof_subcategories > nof_subcategories:
+                    for key in security_sub_categories:
+                        item_type = key
+                        category_rating = Rating(
+                            _, review_show_improvements_only)
+                        category_rating.set_integrity_and_security(5.0)
+                        rating += category_rating
             else:
                 category_rating = Rating(_, review_show_improvements_only)
                 if not has_announced_overall:
@@ -310,6 +330,13 @@ def rate_domain(_local, _, rating, categories, domain, item):
                 rating += category_rating
         if category == 'cms' and category in item:
             found_cms = True
+
+    if not has_security:
+        category_rating = Rating(
+            _, review_show_improvements_only)
+        category_rating.set_integrity_and_security(5.0)
+        rating += category_rating
+
     return (found_cms, rating)
 
 
@@ -351,6 +378,7 @@ def convert_item_to_domain_data(data):
 def enrich_data(data, orginal_domain, result_folder_name):
 
     cms = None
+    matomo = None
     testing = {}
 
     tmp_list = list()
@@ -371,6 +399,56 @@ def enrich_data(data, orginal_domain, result_folder_name):
             else:
                 tmp_list.append(get_default_info(
                     item['url'], 'enrich', item['precision'], 'security', 'talking.{0}'.format(item['category']), None))
+
+        if item['category'] == 'tech' and item['name'] == 'matomo' and matomo == None and not use_stealth:
+            analytics_dict = {}
+            analytics_dict['name'] = 'Matomo'
+            analytics_dict['url'] = item['url']
+            matomo_version = 'Matomo'
+            if True:
+                matomo_o = urlparse(item['url'])
+                matomo_hostname = matomo_o.hostname
+                matomo_url = '{0}://{1}/CHANGELOG.md'.format(
+                    matomo_o.scheme, matomo_hostname)
+                matomo_changelog_url_regex = r"(?P<url>.*)\/(matomo|piwik).(js|php)"
+                matches = re.finditer(
+                    matomo_changelog_url_regex, item['url'], re.MULTILINE)
+                for matchNum, match in enumerate(matches, start=1):
+                    matomo_url = match.group('url') + '/CHANGELOG.md'
+                matomo_content = httpRequestGetContent(matomo_url)
+                matomo_regex = r"## Matomo (?P<version>[\.0-9]+)"
+                matches = re.finditer(
+                    matomo_regex, matomo_content, re.MULTILINE)
+                for matchNum, match in enumerate(matches, start=1):
+                    matomo_version = match.group('version')
+                    analytics_dict['version'] = matomo_version
+                    break
+                if 'version' in analytics_dict:
+                    analytics_dict['versions-behind'] = -1
+                    analytics_dict['latest-version'] = ''
+                    matomo_version_index = 0
+                    # TODO: Change this request
+                    matomo_changelog_feed = httpRequestGetContent(
+                        'https://matomo.org/changelog/feed/')
+                    matomo_changelog_regex = r"<title>Matomo (?P<version>[\.0-9]+)<\/title>"
+                    matches = re.finditer(
+                        matomo_changelog_regex, matomo_changelog_feed, re.MULTILINE)
+                    for matchNum, match in enumerate(matches, start=1):
+                        matomo_changelog_version = match.group('version')
+                        if analytics_dict['latest-version'] == '':
+                            analytics_dict['latest-version'] = matomo_changelog_version
+                        # print('changelog version:', matomo_changelog_version)
+                        if matomo_changelog_version in matomo_version:
+                            analytics_dict['versions-behind'] = matomo_version_index
+                            break
+                        matomo_version_index = matomo_version_index + 1
+            matomo = matomo or analytics_dict
+            if 'version' in matomo:
+                tmp_list.append(get_default_info(
+                    item['url'], 'enrich', 0.8, 'security', 'screaming.matomo.insecure-setup', None))
+                if 'versions-behind' in matomo and matomo['versions-behind'] > 0:
+                    tmp_list.append(get_default_info(
+                        item['url'], 'enrich', 0.8, 'security', 'screaming.matomo.not-latest', None))
 
         enrich_data_from_images(tmp_list, item, result_folder_name)
 

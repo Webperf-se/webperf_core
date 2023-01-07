@@ -55,9 +55,16 @@ The only thing this test rate right now are leaking of name and version of:
 - operating system
 - webserver
 - cms
+- img.app (used image editing software)
+- img.os (used operating system when editing software)
+- img.device (device used to take the image)
+- img.location (there is location information)
 
 If name and version is leaked a rating of 2.0 is given.
 If only name is leaked a rating of 4.0 is given.
+
+We also tell you if we find any:
+- img.person (personal information, if this is by accident you should remove it)
 
 ## Read more
 

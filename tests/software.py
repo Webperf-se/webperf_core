@@ -663,7 +663,6 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
                         os_name = os_name.lower().strip()
                         tmp_list.append(get_default_info(
                             item['url'], 'enrich', 0.8, 'security', 'whisper.{0}.os'.format(item['category']), None))
-                print('C', tag_data)
             elif 'model' == tag_name:
                 # tmp_list.append(get_default_info(
                 #     item['url'], 'enrich', 0.8, 'security', 'info.{0}.model'.format(item['category']), None))

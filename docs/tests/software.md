@@ -51,20 +51,29 @@ This section tries to identify what known metadata tags are used for website.
 
 ## How are rating being calculated?
 
-The only thing this test rate right now are leaking of name and version of:
+Information found in stealth mode (default mode):
 - operating system
 - webserver
 - cms
+
+If name and version is leaked a security rating of 2.0 is given.
+If only name is leaked a security rating of 4.0 is given.
+
+Information found in none stealth mode:
 - img.app (used image editing software)
 - img.os (used operating system when editing software)
 - img.device (device used to take the image)
-- img.location (there is location information)
+- app (software used by this website)
+- app.not-latest (software used by this website is found to not use latest version)
+- app.security-issues (software used by this website has known security issues)
 
-If name and version is leaked a rating of 2.0 is given.
-If only name is leaked a rating of 4.0 is given.
+If name or version is leaked a security rating of 4.0 is given.
+If we can determin you are not using latest version of app and it is not known for security issue a security rating of 4.0 is given.
+If we can determin you are using a version with known security issues a security rating of 1.0 is given.
 
 We also tell you if we find any:
 - img.person (personal information, if this is by accident you should remove it)
+- img.location (location information, if this is by accident you should remove it)
 
 ## Read more
 

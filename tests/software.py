@@ -280,7 +280,6 @@ def rate_domain(_local, _, rating, categories, domain, item):
                 has_security = True
                 security_sub_categories = ['os', 'webserver', 'cms', 'img.app',
                                            'img.os', 'img.device', 'img.location']
-                total_nof_subcategories = len(security_sub_categories)
                 for key in item[category].keys():
                     sub_key_index = key.find('.') + 1
                     sub_key = key[sub_key_index:]
@@ -290,14 +289,22 @@ def rate_domain(_local, _, rating, categories, domain, item):
                     if 'screaming.' in key:
                         item_type = key[10:]
                         category_rating.set_integrity_and_security(
-                            2.0, _local('TEXT_USED_{0}'.format(
                             1.0, _local('TEXT_USED_{0}'.format(
                                 category.upper())).format('{0} - {1}'.format(item_type, domain)))
                     elif 'talking.' in key:
                         item_type = key[8:]
                         category_rating.set_integrity_and_security(
-                            4.0, _local('TEXT_USED_{0}'.format(
                             2.0, _local('TEXT_USED_{0}'.format(
+                                category.upper())).format('{0} - {1}'.format(item_type, domain)))
+                    elif 'whisper.' in key:
+                        item_type = key[8:]
+                        category_rating.set_integrity_and_security(
+                            4.0, _local('TEXT_USED_{0}'.format(
+                                category.upper())).format('{0} - {1}'.format(item_type, domain)))
+                    elif 'guide.' in key:
+                        item_type = key[6:]
+                        category_rating.set_integrity_and_security(
+                            4.9, _local('TEXT_USED_{0}'.format(
                                 category.upper())).format('{0} - {1}'.format(item_type, domain)))
                     elif 'info.' in key:
                         item_type = key[5:]
@@ -305,15 +312,6 @@ def rate_domain(_local, _, rating, categories, domain, item):
                             5.0, _local('TEXT_USED_{0}'.format(
                                 category.upper())).format('{0} - {1}'.format(item_type, domain)))
                     rating += category_rating
-
-                nof_subcategories = len(security_sub_categories)
-                if total_nof_subcategories > nof_subcategories:
-                    for key in security_sub_categories:
-                        item_type = key
-                        category_rating = Rating(
-                            _, review_show_improvements_only)
-                        category_rating.set_integrity_and_security(5.0)
-                        rating += category_rating
             else:
                 category_rating = Rating(_, review_show_improvements_only)
                 if not has_announced_overall:
@@ -400,55 +398,9 @@ def enrich_data(data, orginal_domain, result_folder_name):
                 tmp_list.append(get_default_info(
                     item['url'], 'enrich', item['precision'], 'security', 'talking.{0}'.format(item['category']), None))
 
-        if item['category'] == 'tech' and item['name'] == 'matomo' and matomo == None and not use_stealth:
-            analytics_dict = {}
-            analytics_dict['name'] = 'Matomo'
-            analytics_dict['url'] = item['url']
-            matomo_version = 'Matomo'
-            if True:
-                matomo_o = urlparse(item['url'])
-                matomo_hostname = matomo_o.hostname
-                matomo_url = '{0}://{1}/CHANGELOG.md'.format(
-                    matomo_o.scheme, matomo_hostname)
-                matomo_changelog_url_regex = r"(?P<url>.*)\/(matomo|piwik).(js|php)"
-                matches = re.finditer(
-                    matomo_changelog_url_regex, item['url'], re.MULTILINE)
-                for matchNum, match in enumerate(matches, start=1):
-                    matomo_url = match.group('url') + '/CHANGELOG.md'
-                matomo_content = httpRequestGetContent(matomo_url)
-                matomo_regex = r"## Matomo (?P<version>[\.0-9]+)"
-                matches = re.finditer(
-                    matomo_regex, matomo_content, re.MULTILINE)
-                for matchNum, match in enumerate(matches, start=1):
-                    matomo_version = match.group('version')
-                    analytics_dict['version'] = matomo_version
-                    break
-                if 'version' in analytics_dict:
-                    analytics_dict['versions-behind'] = -1
-                    analytics_dict['latest-version'] = ''
-                    matomo_version_index = 0
-                    # TODO: Change this request
-                    matomo_changelog_feed = httpRequestGetContent(
-                        'https://matomo.org/changelog/feed/')
-                    matomo_changelog_regex = r"<title>Matomo (?P<version>[\.0-9]+)<\/title>"
-                    matches = re.finditer(
-                        matomo_changelog_regex, matomo_changelog_feed, re.MULTILINE)
-                    for matchNum, match in enumerate(matches, start=1):
-                        matomo_changelog_version = match.group('version')
-                        if analytics_dict['latest-version'] == '':
-                            analytics_dict['latest-version'] = matomo_changelog_version
-                        # print('changelog version:', matomo_changelog_version)
-                        if matomo_changelog_version in matomo_version:
-                            analytics_dict['versions-behind'] = matomo_version_index
-                            break
-                        matomo_version_index = matomo_version_index + 1
-            matomo = matomo or analytics_dict
-            if 'version' in matomo:
-                tmp_list.append(get_default_info(
-                    item['url'], 'enrich', 0.8, 'security', 'screaming.matomo.insecure-setup', None))
-                if 'versions-behind' in matomo and matomo['versions-behind'] > 0:
-                    tmp_list.append(get_default_info(
-                        item['url'], 'enrich', 0.8, 'security', 'screaming.matomo.not-latest', None))
+        matomo = enrich_data_from_matomo(matomo, tmp_list, item)
+        # if check_matomo_version:
+        #     result['analytics']['matomo'] = analytics_dict
 
         enrich_data_from_images(tmp_list, item, result_folder_name)
 
@@ -469,6 +421,99 @@ def enrich_data(data, orginal_domain, result_folder_name):
     # TODO: Check for Umbraco ( /umbraco )
 
     return data
+
+
+def get_matomo_versions(current_version):
+    matomo_versions_content = httpRequestGetContent(
+        'https://github.com/matomo-org/matomo/milestones/paginate?page=1&state=closed')
+
+    versions = list()
+    versions_dict = {}
+
+    from distutils.version import LooseVersion
+
+    regex = r"<a href=\"(?P<url>\/matomo-org\/matomo\/milestone\/(?P<id>[0-9]+))\">(?P<name>[0-9.]+)<\/a>"
+    matches = re.finditer(regex, matomo_versions_content, re.MULTILINE)
+    for matchNum, match in enumerate(matches, start=1):
+        id = match.group('id')
+        name = match.group('name')
+        versions.append(name)
+
+        versions_dict[name] = {
+            'id': id,
+            'name': name,
+        }
+    versions = sorted(versions, key=LooseVersion, reverse=True)
+
+    newer_versions = list()
+    for version in versions:
+        if current_version == version:
+            break
+        else:
+            version_security_issues = httpRequestGetContent(
+                'https://api.github.com/repos/matomo-org/matomo/issues?state=closed&milestone={0}&labels=c%3A%20Security'.format(versions_dict[version]['id']))
+            issues = json.loads(version_security_issues)
+            versions_dict[version]['security'] = len(issues)
+            newer_versions.append(versions_dict[version])
+
+    return newer_versions
+
+
+def enrich_data_from_matomo(matomo, tmp_list, item):
+    if use_stealth:
+        return matomo
+    if matomo != None:
+        return matomo
+    if item['category'] != 'tech':
+        return matomo
+    if item['name'] != 'matomo':
+        return matomo
+
+    matomo = {}
+    matomo['name'] = 'Matomo'
+    matomo['url'] = item['url']
+    matomo_version = 'Matomo'
+
+    matomo_o = urlparse(item['url'])
+    matomo_hostname = matomo_o.hostname
+    matomo_url = '{0}://{1}/CHANGELOG.md'.format(
+        matomo_o.scheme, matomo_hostname)
+    matomo_changelog_url_regex = r"(?P<url>.*)\/(matomo|piwik).(js|php)"
+    matches = re.finditer(
+        matomo_changelog_url_regex, item['url'], re.MULTILINE)
+    for matchNum, match in enumerate(matches, start=1):
+        matomo_url = match.group('url') + '/CHANGELOG.md'
+        matomo_content = httpRequestGetContent(matomo_url)
+        matomo_regex = r"## Matomo (?P<version>[\.0-9]+)"
+        matches = re.finditer(
+            matomo_regex, matomo_content, re.MULTILINE)
+        for matchNum, match in enumerate(matches, start=1):
+            matomo_version = match.group('version')
+            matomo['version'] = matomo_version
+            break
+
+    if 'version' in matomo:
+        newer_matomo_versions = get_matomo_versions(matomo['version'])
+        # newer_matomo_versions = get_matomo_versions("4.12.0")
+
+        tmp_list.append(get_default_info(
+            item['url'], 'enrich', 0.8, 'security', 'whisper.app', None))
+        if len(newer_matomo_versions) > 0:
+            is_security_related = False
+            for version_info in newer_matomo_versions:
+                if 'security' in version_info and version_info['security'] > 0:
+                    is_security_related = True
+
+            if is_security_related:
+                tmp_list.append(get_default_info(
+                    item['url'], 'enrich', 0.8, 'security', 'screaming.app.security-issues', None))
+                tmp_list.append(get_default_info(
+                    item['url'], 'enrich', 0.8, 'security', 'screaming.app.not-latest', None))
+            else:
+                tmp_list.append(get_default_info(
+                    item['url'], 'enrich', 0.8, 'security', 'guide.app.not-latest', None))
+
+    return matomo
 
 
 def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
@@ -493,14 +538,19 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
 
             if tech_name != None and tech_version == None:
                 tech_name = tech_name.lower().strip().replace(' ', '-')
+                # tmp_list.append(get_default_info(
+                #     item['url'], 'enrich', 0.5, 'tech', tech_name, None))
                 tmp_list.append(get_default_info(
-                    item['url'], 'enrich', item['precision'], 'security', 'talking.{0}.app'.format(item['category']), None))
+                    item['url'], 'enrich', item['precision'], 'security', 'whisper.{0}.app'.format(item['category']), None))
 
             if tech_version != None:
                 tech_version = tech_version.lower()
+                # tmp_list.append(get_default_info(
+                #     item['url'], 'content', 0.6, 'tech', tech_name, tech_version))
                 tmp_list.append(get_default_info(
-                    item['url'], 'enrich', 0.8, 'security', 'screaming.{0}.app'.format(item['category']), None))
+                    item['url'], 'enrich', 0.8, 'security', 'whisper.{0}.app'.format(item['category']), None))
     else:
+        #print('url', item['url'])
         cache_key = '{0}.cache.{1}'.format(
             hashlib.sha512(item['url'].encode()).hexdigest(), item['name'])
         cache_path = os.path.join(result_folder_name, cache_key)
@@ -523,6 +573,8 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
         if nof_tries == 0 and (exifdata == None or len(exifdata.keys()) == 0):
             test_index = item['url'].rfind(
                 '.{0}'.format(item['name']))
+            # test_index = item['url'].rfind(
+            #     '.{0}?'.format(item['name']))
             if test_index > 0:
                 test_url = '{1}.{0}'.format(
                     item['name'], item['url'][:test_index])
@@ -540,7 +592,6 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
             # get the tag name, instead of human unreadable tag id
             tag = TAGS.get(tag_id, None)
             if tag == None:
-                print('UNKNOWN TAG:', tag_id)
                 tag = 'unknown_{0}'.format(tag_id)
 
             tag_name = tag.lower()
@@ -562,24 +613,26 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
                     os_name = match.group('osname')
                     if tech_name != None and tech_version == None:
                         tech_name = tech_name.lower().strip().replace(' ', '-')
+                        # tmp_list.append(get_default_info(
+                        #     item['url'], 'enrich', 0.5, 'tech', tech_name, None))
                         tmp_list.append(get_default_info(
-                            item['url'], 'enrich', item['precision'], 'security', 'talking.{0}.app'.format(item['category']), None))
+                            item['url'], 'enrich', item['precision'], 'security', 'whisper.{0}.app'.format(item['category']), None))
 
                     if tech_version != None:
                         tech_version = tech_version.lower()
+                        # tmp_list.append(get_default_info(
+                        #     item['url'], 'content', 0.6, 'tech', tech_name, tech_version))
                         tmp_list.append(get_default_info(
-                            item['url'], 'enrich', 0.8, 'security', 'screaming.{0}.app'.format(item['category']), None))
+                            item['url'], 'enrich', 0.8, 'security', 'whisper.{0}.app'.format(item['category']), None))
 
                     if os_name != None:
                         os_name = os_name.lower()
                         tmp_list.append(get_default_info(
-                            item['url'], 'enrich', 0.8, 'security', 'talking.{0}.os'.format(item['category']), None))
+                            item['url'], 'enrich', 0.8, 'security', 'whisper.{0}.os'.format(item['category']), None))
             elif 'artist' == tag_name or 'xpauthor' == tag_name:
                 tmp_list.append(get_default_info(
                     item['url'], 'enrich', 0.8, 'security', 'info.{0}.person'.format(item['category']), None))
             elif 'make' == tag_name:
-                tmp_list.append(get_default_info(
-                    item['url'], 'enrich', 0.8, 'security', 'info.{0}.make'.format(item['category']), None))
                 device_name = tag_data.lower().strip()
                 if 'nikon corporation' in device_name:
                     device_name = device_name.replace(
@@ -594,19 +647,27 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
                     os_name = match.group('osname')
                     if tech_name != None and tech_version == None:
                         tech_name = tech_name.lower().strip().replace(' ', '-')
+                        # tmp_list.append(get_default_info(
+                        #     item['url'], 'enrich', 0.5, 'tech', tech_name, None))
                         tmp_list.append(get_default_info(
-                            item['url'], 'enrich', item['precision'], 'security', 'talking.{0}.device'.format(item['category']), None))
+                            item['url'], 'enrich', item['precision'], 'security', 'whisper.{0}.device'.format(item['category']), None))
 
                     if tech_version != None:
                         tech_version = tech_version.lower()
+                        # tmp_list.append(get_default_info(
+                        #     item['url'], 'content', 0.6, 'tech', tech_name, tech_version))
                         tmp_list.append(get_default_info(
-                            item['url'], 'enrich', 0.8, 'security', 'screaming.{0}.device'.format(item['category']), None))
+                            item['url'], 'enrich', 0.8, 'security', 'whisper.{0}.device'.format(item['category']), None))
 
                     if os_name != None:
                         os_name = os_name.lower().strip()
                         tmp_list.append(get_default_info(
-                            item['url'], 'enrich', 0.8, 'security', 'talking.{0}.os'.format(item['category']), None))
+                            item['url'], 'enrich', 0.8, 'security', 'whisper.{0}.os'.format(item['category']), None))
+                print('C', tag_data)
             elif 'model' == tag_name:
+                # tmp_list.append(get_default_info(
+                #     item['url'], 'enrich', 0.8, 'security', 'info.{0}.model'.format(item['category']), None))
+                # print('B', tag_data)
                 device_version = tag_data.lower().strip()
             elif 'gpsinfo' == tag_name:
                 tmp_list.append(get_default_info(
@@ -620,15 +681,20 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
             if device_name != None:
                 device_name = device_name.lower().strip()
             if device_name != None and device_version == None:
+                # tmp_list.append(get_default_info(
+                #     item['url'], 'enrich', 0.5, 'tech', device_name, None))
                 tmp_list.append(get_default_info(
-                    item['url'], 'enrich', item['precision'], 'security', 'talking.{0}.device'.format(item['category']), None))
+                    item['url'], 'enrich', item['precision'], 'security', 'whisper.{0}.device'.format(item['category']), None))
 
             if device_version != None:
                 device_version = device_version.lower()
                 if device_name != None:
                     device_version = device_version.replace(device_name, '')
+                # tmp_list.append(get_default_info(
+                #     item['url'], 'content', 0.6, 'tech', tech_nadevice_nameme, device_version))
                 tmp_list.append(get_default_info(
-                    item['url'], 'enrich', 0.8, 'security', 'screaming.{0}.device'.format(item['category']), None))
+                    item['url'], 'enrich', 0.8, 'security', 'whisper.{0}.device'.format(item['category']), None))
+            # print('device', device_name, device_version)
 
 
 def identify_software(filename, origin_domain):

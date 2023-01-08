@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime, timedelta
+import hashlib
 import sys
 import socket
 import ssl
@@ -28,6 +30,64 @@ request_timeout = config.http_request_timeout
 useragent = config.useragent
 googlePageSpeedApiKey = config.googlePageSpeedApiKey
 
+try:
+    use_cache = config.cache_when_possible
+except:
+    # If cache_when_possible variable is not set in config.py this will be the default
+    use_cache = False
+
+
+def is_file_older_than(file, delta):
+    cutoff = datetime.utcnow() - delta
+    mtime = datetime.utcfromtimestamp(os.path.getmtime(file))
+    if mtime < cutoff:
+        return True
+    return False
+
+
+def get_cache_path(url, use_text_instead_of_content):
+    cache_key_rule = '{0}.txt.utf-8.cache'
+    if not use_text_instead_of_content:
+        cache_key_rule = '{0}.bytes.cache'
+
+    cache_key = cache_key_rule.format(
+        hashlib.sha512(url.encode()).hexdigest())
+    cache_path = os.path.join('data', cache_key)
+    return cache_path
+
+
+def get_cache_file(url, use_text_instead_of_content, time_delta):
+    if not use_cache:
+        return None
+
+    cache_path = get_cache_path(url, use_text_instead_of_content)
+
+    if not os.path.exists(cache_path):
+        return None
+
+    if is_file_older_than(cache_path, time_delta):
+        return None
+
+    if use_text_instead_of_content:
+        with open(cache_path, 'r', encoding='utf-8') as file:
+            return '\n'.join(file.readlines())
+    else:
+        with open(cache_path, 'rb') as file:
+            return file.read()
+
+
+def set_cache_file(url, content, use_text_instead_of_content):
+    if not use_cache:
+        return None
+
+    cache_path = get_cache_path(url, use_text_instead_of_content)
+    if use_text_instead_of_content:
+        with open(cache_path, 'w', encoding='utf-8') as file:
+            file.write(content)
+    else:
+        with open(cache_path, 'wb') as file:
+            file.write(content)
+
 
 def httpRequestGetContent(url, allow_redirects=False, use_text_instead_of_content=True):
     """Trying to fetch the response content
@@ -35,14 +95,22 @@ def httpRequestGetContent(url, allow_redirects=False, use_text_instead_of_conten
     """
 
     try:
+        content = get_cache_file(
+            url, use_text_instead_of_content, timedelta(days=10))
+        if content != None:
+            return content
+
         headers = {'user-agent': useragent}
         a = requests.get(url, allow_redirects=allow_redirects,
                          headers=headers, timeout=request_timeout*2)
 
         if use_text_instead_of_content:
-            return a.text
+            content = a.text
         else:
-            return a.content
+            content = a.content
+
+        set_cache_file(url, content, use_text_instead_of_content)
+        return content
     except ssl.CertificateError as error:
         print('Info: Certificate error. {0}'.format(error.reason))
         pass

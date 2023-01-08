@@ -232,6 +232,17 @@
                     "precision": 0.4
                 }
             ]
+        },
+        {
+            "use": true,
+            "debug": "(?P<debug>(?P<name>[a-z\\-\\.]+)\\-[v]{0,1}(?P<version>[0-9\\.]+)(?:min){0,1}\\.js)",
+            "match": "(?P<debug>(?P<name>(jquery|modernizr|shareit|elevatezoom|fullscreen|cookie|extend|jvectormap|signalr|migrate|first|parallax|less|bootstrap|fancybox|lazyload))\\-[v]{0,1}(?P<version>[0-9\\.]+)(?:min){0,1}\\.js)",
+            "results": [
+                {
+                    "category": "js",
+                    "precision": 0.4
+                }
+            ]
         }
     ],
     "headers": [

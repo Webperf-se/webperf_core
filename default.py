@@ -208,6 +208,7 @@ def main(argv):
 
             # use loaded engine to write tests
             write_tests(output_filename, test_results)
+            # TODO: Cleanup exipred cache
     else:
         print(_('TEXT_COMMAND_USAGE'))
 

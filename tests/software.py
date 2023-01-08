@@ -399,9 +399,7 @@ def enrich_data(data, orginal_domain, result_folder_name):
                     item['url'], 'enrich', item['precision'], 'security', 'talking.{0}'.format(item['category']), None))
 
         matomo = enrich_data_from_matomo(matomo, tmp_list, item)
-        # if check_matomo_version:
-        #     result['analytics']['matomo'] = analytics_dict
-
+        enrich_data_from_videos(tmp_list, item, result_folder_name)
         enrich_data_from_images(tmp_list, item, result_folder_name)
 
     data.extend(tmp_list)
@@ -411,14 +409,6 @@ def enrich_data(data, orginal_domain, result_folder_name):
             'cms': cms,
             'test': testing
         }
-    # TODO: Move all additional calls into this function.
-    # TODO: Make sure no additional calls are done except in this function
-    # TODO: Make sure this function is ONLY called when `use_stealth = False`
-    # TODO: Check if it is any idea to check matomo version, if so, do it here
-    # TODO: Consider if results from additional calls can use cache
-    # TODO: Check if we are missing any type and try to find this info
-    # TODO: Additional check for Episerver
-    # TODO: Check for Umbraco ( /umbraco )
 
     return data
 
@@ -516,6 +506,18 @@ def enrich_data_from_matomo(matomo, tmp_list, item):
     return matomo
 
 
+def enrich_data_from_videos(tmp_list, item, result_folder_name, nof_tries=0):
+    if use_stealth:
+        return
+    if item['category'] != 'video':
+        return
+
+    if item['name'] != 'mp4':
+        return
+
+    # TODO: Consider if we should read metadata from video
+
+
 def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
     if use_stealth:
         return
@@ -550,7 +552,7 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
                 tmp_list.append(get_default_info(
                     item['url'], 'enrich', 0.8, 'security', 'whisper.{0}.app'.format(item['category']), None))
     else:
-        #print('url', item['url'])
+        # print('url', item['url'])
         cache_key = '{0}.cache.{1}'.format(
             hashlib.sha512(item['url'].encode()).hexdigest(), item['name'])
         cache_path = os.path.join(result_folder_name, cache_key)
@@ -741,11 +743,7 @@ def identify_software(filename, origin_domain):
 
 
 def lookup_response_mimetype(req_url, response_mimetype):
-    # TODO: Move all this to `enrich_data` method
     data = list()
-
-    if use_stealth:
-        return data
 
     if raw_data['mime-types']['use']:
         raw_data['mime-types'][response_mimetype] = 'svg' in response_mimetype or 'mp4' in response_mimetype or 'webp' in response_mimetype or 'png' in response_mimetype or 'jpg' in response_mimetype or 'jpeg' in response_mimetype or 'bmp' in response_mimetype
@@ -754,12 +752,29 @@ def lookup_response_mimetype(req_url, response_mimetype):
         # Extract metadata to see if we can get produced application and more,
         # look at: https://www.handinhandsweden.se/wp-content/uploads/se/2022/11/julvideo-startsida.mp4
         # that has videolan references and more interesting stuff
-        a = 1
-    if 'webp' in response_mimetype or 'png' in response_mimetype or 'jpg' in response_mimetype or 'jpeg' in response_mimetype or 'bmp' in response_mimetype:
+        data.append(get_default_info(
+            req_url, 'mimetype', 0.8, 'video', 'mp4', None))
+
+    if 'webp' in response_mimetype:
         # Extract metadata to see if we can get produced application and more,
-        # look at: https://skatteverket.se/images/18.1df9c71e181083ce6f6cbd/1655378197989/mobil-externwebb.jpg
-        # that has adobe photoshop 21.2 (Windows) information
-        a = 1
+        data.append(get_default_info(
+            req_url, 'mimetype', 0.8, 'img', 'webp', None))
+    elif 'png' in response_mimetype:
+        # Extract metadata to see if we can get produced application and more,
+        data.append(get_default_info(
+            req_url, 'mimetype', 0.8, 'img', 'png', None))
+    elif 'jpg' in response_mimetype:
+        # Extract metadata to see if we can get produced application and more,
+        data.append(get_default_info(
+            req_url, 'mimetype', 0.8, 'img', 'jpg', None))
+    elif 'jpeg' in response_mimetype:
+        # Extract metadata to see if we can get produced application and more,
+        data.append(get_default_info(
+            req_url, 'mimetype', 0.8, 'img', 'jpeg', None))
+    elif 'bmp' in response_mimetype:
+        # Extract metadata to see if we can get produced application and more,
+        data.append(get_default_info(
+            req_url, 'mimetype', 0.8, 'img', 'bmp', None))
 
     return data
 

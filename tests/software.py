@@ -220,10 +220,10 @@ def get_rating_from_sitespeed(url, _local, _):
     o = urlparse(url)
     origin_domain = o.hostname
 
-    data = identify_software(filename, origin_domain)
-    data = enrich_data(data, origin_domain, result_folder_name)
+    rules = get_rules()
+    data = identify_software(filename, origin_domain, rules)
+    data = enrich_data(data, origin_domain, result_folder_name, rules)
     result = convert_item_to_domain_data(data)
-
     rating = rate_result(_local, _, result, url)
 
     if not use_cache:
@@ -275,42 +275,44 @@ def rate_domain(_local, _, rating, categories, domain, item):
 
     for category in categories:
         if category in item:
-
             if category == 'security':
                 has_security = True
                 security_sub_categories = ['os', 'webserver', 'cms', 'img.app',
                                            'img.os', 'img.device', 'img.location']
                 for key in item[category].keys():
+                    points = 5.0
+                    if 'screaming.' in key:
+                        item_type = key[10:]
+                        points = 1.0
+                    elif 'talking.' in key:
+                        item_type = key[8:]
+                        points = 2.0
+                    elif 'whisper.' in key:
+                        item_type = key[8:]
+                        points = 3.0
+                    elif 'guide.' in key:
+                        item_type = key[6:]
+                        points = 4.0
+                    elif 'info.' in key:
+                        item_type = key[5:]
+                        points = 5.0
+
                     sub_key_index = key.find('.') + 1
                     sub_key = key[sub_key_index:]
                     if sub_key in security_sub_categories:
                         security_sub_categories.remove(sub_key)
                     category_rating = Rating(_, review_show_improvements_only)
-                    if 'screaming.' in key:
-                        item_type = key[10:]
+                    if 'not-latest' in key:
                         category_rating.set_integrity_and_security(
-                            1.0, _local('TEXT_USED_{0}'.format(
-                                category.upper())).format('{0} - {1}'.format(item_type, domain)))
-                    elif 'talking.' in key:
-                        item_type = key[8:]
+                            points, ('- REQUIRE_UPDATE: {0}'.format(domain)))
+                    elif 'security-issues' in key:
                         category_rating.set_integrity_and_security(
-                            2.0, _local('TEXT_USED_{0}'.format(
-                                category.upper())).format('{0} - {1}'.format(item_type, domain)))
-                    elif 'whisper.' in key:
-                        item_type = key[8:]
+                            points, ('- KNOWN_SECURITY_ISSUES: {0}'.format(domain)))
+                    else:
                         category_rating.set_integrity_and_security(
-                            4.0, _local('TEXT_USED_{0}'.format(
+                            points, _local('TEXT_USED_{0}'.format(
                                 category.upper())).format('{0} - {1}'.format(item_type, domain)))
-                    elif 'guide.' in key:
-                        item_type = key[6:]
-                        category_rating.set_integrity_and_security(
-                            4.9, _local('TEXT_USED_{0}'.format(
-                                category.upper())).format('{0} - {1}'.format(item_type, domain)))
-                    elif 'info.' in key:
-                        item_type = key[5:]
-                        category_rating.set_integrity_and_security(
-                            5.0, _local('TEXT_USED_{0}'.format(
-                                category.upper())).format('{0} - {1}'.format(item_type, domain)))
+
                     rating += category_rating
             else:
                 category_rating = Rating(_, review_show_improvements_only)
@@ -361,19 +363,28 @@ def convert_item_to_domain_data(data):
             domain_item[category][name] = {}
         if version not in domain_item[category][name]:
             domain_item[category][name][version] = {
-                'name': name, 'precision': precision}
+                'name': name, 'precision': precision
+            }
+            if 'github-owner' in item:
+                domain_item[category][name][version]['github-owner'] = item['github-owner']
+            if 'github-repo' in item:
+                domain_item[category][name][version]['github-repo'] = item['github-repo']
 
         if domain_item[category][name][version]['precision'] < precision:
             obj = {}
             obj['name'] = name
             obj['precision'] = precision
+            if 'github-owner' in item:
+                obj['github-owner'] = item['github-owner']
+            if 'github-repo' in item:
+                obj['github-repo'] = item['github-repo']
             domain_item[category][name][version] = obj
 
         result[item['domain']] = domain_item
     return result
 
 
-def enrich_data(data, orginal_domain, result_folder_name):
+def enrich_data(data, orginal_domain, result_folder_name, rules):
 
     cms = None
     matomo = None
@@ -399,6 +410,7 @@ def enrich_data(data, orginal_domain, result_folder_name):
                     item['url'], 'enrich', item['precision'], 'security', 'talking.{0}'.format(item['category']), None))
 
         matomo = enrich_data_from_matomo(matomo, tmp_list, item)
+        enrich_data_from_javascript(tmp_list, item, rules)
         enrich_data_from_videos(tmp_list, item, result_folder_name)
         enrich_data_from_images(tmp_list, item, result_folder_name)
 
@@ -413,40 +425,173 @@ def enrich_data(data, orginal_domain, result_folder_name):
     return data
 
 
-def get_matomo_versions(current_version):
+def get_github_project_versions(owner, repo, source, security_label, current_version):
     matomo_versions_content = httpRequestGetContent(
-        'https://github.com/matomo-org/matomo/milestones/paginate?page=1&state=closed')
+        'https://api.github.com/repos/{0}/{1}/{2}?state=closed&per_page=100'.format(owner, repo, source))
 
     versions = list()
     versions_dict = {}
 
     from distutils.version import LooseVersion
 
-    regex = r"<a href=\"(?P<url>\/matomo-org\/matomo\/milestone\/(?P<id>[0-9]+))\">(?P<name>[0-9.]+)<\/a>"
-    matches = re.finditer(regex, matomo_versions_content, re.MULTILINE)
-    for matchNum, match in enumerate(matches, start=1):
-        id = match.group('id')
-        name = match.group('name')
-        versions.append(name)
+    version_info = json.loads(matomo_versions_content)
+    for version in version_info:
+        if source == 'milestones':
+            id_key = 'number'
+            name_key = 'title'
+            date_key = 'closed_at'
+        elif source == 'tags':
+            id_key = None
+            name_key = 'name'
+            date_key = None
+        else:
+            id_key = 'id'
+            # we uses tag_name instead of name as bootstrap is missing "name" for some releases
+            name_key = 'tag_name'
+            date_key = 'published_at'
 
+        if name_key not in version:
+            continue
+
+        id = None
+        name = None
+        name2 = None
+        date = None
+
+        if id_key in version:
+            id = '{0}'.format(version[id_key])
+
+        if date_key in version:
+            date = version[date_key]
+
+        # regex = r"^(?P<name>[0-9.]+)"
+        # NOTE: We do this to handle jquery dual release format "1.12.4/2.2.4"
+        regex = r"^[v]{0,1}(?P<name>[0-9.]+)(/(?P<name2>[0-9.]+)){0,1}"
+        matches = re.finditer(regex, version[name_key])
+        for matchNum, match in enumerate(matches, start=1):
+            name = match.group('name')
+            name2 = match.group('name2')
+
+        if name == None:
+            continue
+
+        versions.append(name)
         versions_dict[name] = {
-            'id': id,
             'name': name,
+            'date': date,
+            'id': id
         }
+
+        if name2 != None:
+            versions.append(name2)
+            versions_dict[name2] = {
+                'id': id,
+                'name': name2,
+                'date': date
+            }
+
     versions = sorted(versions, key=LooseVersion, reverse=True)
 
     newer_versions = list()
+    version_found = False
     for version in versions:
         if current_version == version:
+            version_found = True
             break
         else:
-            version_security_issues = httpRequestGetContent(
-                'https://api.github.com/repos/matomo-org/matomo/issues?state=closed&milestone={0}&labels=c%3A%20Security'.format(versions_dict[version]['id']))
-            issues = json.loads(version_security_issues)
-            versions_dict[version]['security'] = len(issues)
+            if security_label != None:
+                # https://api.github.com/repos/matomo-org/matomo/milestones/163/labels
+                version_label_data = httpRequestGetContent(
+                    'https://api.github.com/repos/{0}/{1}/{2}/{3}/labels'.format(owner, repo, source, versions_dict[version]['id']))
+                labels = json.loads(version_label_data)
+
+                fixes_security = False
+                for label in labels:
+                    if 'name' in label and label['name'] == security_label:
+                        fixes_security = True
+
+                versions_dict[version]['fixes-security'] = fixes_security
             newer_versions.append(versions_dict[version])
 
-    return newer_versions
+    return (version_found, newer_versions)
+
+
+def enrich_data_from_javascript(tmp_list, item, rules):
+    if use_stealth:
+        return
+    if item['category'] != 'js':
+        return
+    if 'license-txt' in item:
+        content = httpRequestGetContent(
+            item['license-txt'].lower(), allow_redirects=True)
+        tmp = lookup_response_content(
+            item['license-txt'].lower(), item['mime-type'], content, rules)
+        tmp_list.extend(tmp)
+    if item['version'] == None:
+        return
+
+    github_ower = None
+    github_repo = None
+    github_security_label = None
+    github_release_source = 'milestones'
+    newer_versions = []
+    if item['name'] == 'jquery':
+        github_ower = 'jquery'
+        github_repo = 'jquery'
+    elif item['name'] == 'jquery-ui':
+        github_ower = 'jquery'
+        github_repo = 'jquery-ui'
+    elif item['name'] == 'jquery migrate' or item['name'] == 'jquery-migrate' or item['name'] == 'jquery.migrate':
+        github_ower = 'jquery'
+        github_repo = 'jquery-migrate'
+    elif item['name'] == 'javascript cookie' or item['name'] == 'javascript-cookie' or item['name'] == 'javascript-cookie':
+        github_ower = 'js-cookie'
+        github_repo = 'js-cookie'
+    elif item['name'] == 'modernizr':
+        github_ower = 'Modernizr'
+        github_repo = 'Modernizr'
+        github_release_source = 'tags'
+    elif item['name'] == 'bootstrap':
+        github_ower = 'twbs'
+        github_repo = 'bootstrap'
+        github_release_source = 'releases'
+    elif 'github-owner' in item and 'github-repo' in item:
+        github_ower = item['github-owner']
+        github_repo = item['github-repo']
+        github_release_source = 'tags'
+
+    if github_ower == None:
+        return
+    if github_repo == None:
+        return
+
+    (version_verified, newer_versions) = get_github_project_versions(
+        github_ower, github_repo, github_release_source, github_security_label, item['version'])
+
+    # print('#', item['name'], item['version'], version_verified)
+    # print('\tolder then:', newer_versions)
+    precision = 0.7
+    if version_verified:
+        precision = 0.9
+        tmp_list.append(get_default_info(
+            item['url'], 'enrich', precision, item['category'], item['name'], item['version']))
+
+    # tmp_list.append(get_default_info(
+    #      item['url'], 'enrich', 0.8, 'security', 'whisper.app', None))
+    if len(newer_versions) > 0:
+        is_security_related = False
+        for version_info in newer_versions:
+            if 'fixes-security' in version_info:
+                is_security_related = is_security_related or version_info['fixes-security']
+
+        if is_security_related:
+            tmp_list.append(get_default_info(
+                item['url'], 'enrich', precision, 'security', 'screaming.js.security-issues', None))
+            tmp_list.append(get_default_info(
+                item['url'], 'enrich', precision, 'security', 'screaming.js.not-latest', None))
+        else:
+            tmp_list.append(get_default_info(
+                item['url'], 'enrich', precision, 'security', 'guide.js.not-latest', None))
 
 
 def enrich_data_from_matomo(matomo, tmp_list, item):
@@ -483,25 +628,32 @@ def enrich_data_from_matomo(matomo, tmp_list, item):
             break
 
     if 'version' in matomo:
-        newer_matomo_versions = get_matomo_versions(matomo['version'])
-        # newer_matomo_versions = get_matomo_versions("4.12.0")
+        (version_verified, newer_matomo_versions) = get_github_project_versions(
+            'matomo-org', 'matomo', 'milestones', 'c: Security', matomo['version'])
+
+        precision = 0.7
+        if version_verified:
+            precision = 0.9
+            tmp_list.append(get_default_info(
+                item['url'], 'enrich', precision, item['category'], item['name'], matomo['version']))
 
         tmp_list.append(get_default_info(
-            item['url'], 'enrich', 0.8, 'security', 'whisper.app', None))
+            item['url'], 'enrich', precision, 'security', 'whisper.app', None))
+
         if len(newer_matomo_versions) > 0:
             is_security_related = False
             for version_info in newer_matomo_versions:
-                if 'security' in version_info and version_info['security'] > 0:
-                    is_security_related = True
+                if 'fixes-security' in version_info:
+                    is_security_related = is_security_related or version_info['fixes-security']
 
             if is_security_related:
                 tmp_list.append(get_default_info(
-                    item['url'], 'enrich', 0.8, 'security', 'screaming.app.security-issues', None))
+                    item['url'], 'enrich', precision, 'security', 'screaming.app.security-issues', None))
                 tmp_list.append(get_default_info(
-                    item['url'], 'enrich', 0.8, 'security', 'screaming.app.not-latest', None))
+                    item['url'], 'enrich', precision, 'security', 'screaming.app.not-latest', None))
             else:
                 tmp_list.append(get_default_info(
-                    item['url'], 'enrich', 0.8, 'security', 'guide.app.not-latest', None))
+                    item['url'], 'enrich', precision, 'security', 'guide.app.not-latest', None))
 
     return matomo
 
@@ -698,9 +850,8 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
             # print('device', device_name, device_version)
 
 
-def identify_software(filename, origin_domain):
+def identify_software(filename, origin_domain, rules):
     data = list()
-    rules = get_rules()
 
     # Fix for content having unallowed chars
     json_content = get_sanitized_file_content(filename)
@@ -805,10 +956,13 @@ def lookup_response_content(req_url, response_mimetype, response_content, rules)
         hostname = o.hostname
 
         regex = r"{0}".format(rule['match'])
-        matches = re.finditer(regex, response_content, re.MULTILINE)
+        matches = re.finditer(regex, response_content, re.IGNORECASE)
         for matchNum, match in enumerate(matches, start=1):
             match_name = None
             match_version = None
+            match_github_owner = None
+            match_github_repo = None
+            license_url = None
 
             groups = match.groupdict()
 
@@ -816,6 +970,17 @@ def lookup_response_content(req_url, response_mimetype, response_content, rules)
                 match_name = groups['name']
             if 'version' in groups:
                 match_version = groups['version']
+            if 'owner' in groups:
+                match_github_owner = groups['owner']
+            if 'repo' in groups:
+                match_github_repo = groups['repo']
+            if 'licensetxt' in groups and 'licensefile' in groups:
+                source_segment = groups['licensefile']
+                license_txt = groups['licensetxt']
+                license_index = req_url.rfind(source_segment)
+                tmp_url = req_url[:license_index]
+                license_url = '{0}{1}{2}'.format(
+                    tmp_url, source_segment, license_txt)
 
             for result in rule['results']:
                 name = None
@@ -838,8 +1003,17 @@ def lookup_response_content(req_url, response_mimetype, response_content, rules)
                     version = match_version
 
                 if precision > 0.0:
-                    data.append(get_default_info(
-                        req_url, 'content', precision, category, name, version))
+                    info = get_default_info(
+                        req_url, 'content', precision, category, name, version)
+                    if match_github_owner != None:
+                        info['github-owner'] = match_github_owner
+                    if match_github_repo != None:
+                        info['github-repo'] = match_github_repo
+                    if license_url != None:
+                        info['license-txt'] = license_url
+                    info['mime-type'] = response_mimetype
+
+                    data.append(info)
                     is_found = True
                 elif raw_data['contents']['use'] and not is_found:
                     raw_data['contents'][match.group('debug')] = hostname
@@ -858,7 +1032,10 @@ def get_default_info(url, method, precision, key, name, version, domain=None):
         result['domain'] = hostname
 
     if name != None:
-        name = name.lower().strip()
+        name = name.lower().strip('.').strip('-').strip().replace(' ', '-')
+
+    if version != None:
+        version = version.lower().strip('.').strip('-').strip()
 
     result['url'] = url
     result['method'] = method

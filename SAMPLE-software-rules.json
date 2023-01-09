@@ -236,11 +236,22 @@
         {
             "use": true,
             "debug": "(?P<debug>(?P<name>[a-z\\-\\.]+)\\-[v]{0,1}(?P<version>[0-9\\.]+)(?:min){0,1}\\.js)",
-            "match": "(?P<debug>(?P<name>(jquery|modernizr|shareit|elevatezoom|fullscreen|cookie|extend|jvectormap|signalr|migrate|first|parallax|less|bootstrap|fancybox|lazyload))\\-[v]{0,1}(?P<version>[0-9\\.]+)(?:min){0,1}\\.js)",
+            "match": "(?P<debug>(?P<name>(jquery|modernizr|elevatezoom|fullscreen|cookie|extend|jvectormap|signalr|jquery[.\\-]migrate|first|parallax|less|bootstrap|fancybox|lazyload))\\-[v]{0,1}(?P<version>[0-9\\.]+)(?:min){0,1}\\.js)",
             "results": [
                 {
                     "category": "js",
                     "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "debug": "(?P<debug>(?P<name>[a-z\\-\\.]+)(?:min){0,1}\\.js)",
+            "match": "(?P<debug>(?P<name>(jquery|modernizr|elevatezoom|fullscreen|cookie|extend|jvectormap|signalr|jquery[.\\-]migrate|first|parallax|less|bootstrap|fancybox|lazyload))(?:min){0,1}\\.js)",
+            "results": [
+                {
+                    "category": "js",
+                    "precision": 0.1
                 }
             ]
         }
@@ -487,6 +498,111 @@
                 {
                     "category": "meta",
                     "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "looking for Matomo specific string in js",
+            "match": "(?P<debug>setgenerationtimems is no longer supported since matomo 4\\. the call will be ignored\\.)",
+            "results": [
+                {
+                    "name": "matomo",
+                    "version": "4.x",
+                    "category": "tech",
+                    "precision": 0.6
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "javascript framwork or javascript libraries",
+            "test": "^[\\/!*\\n\\r \\t]+(?P<name>[a-zA-Z\\.\\- ]+) ([ \\-]+){0,1}v(?P<version>[0-9\\-\\.]+)",
+            "match": "^(?P<debug>[\\/!*\\n\\r \\t]+(?:created by){0,1}(?P<name>[a-zA-Z\\- ]+)(?:\\.js){0,1} ([ \\-]+){0,1}v(?P<version>[0-9\\-\\.]+))",
+            "results": [
+                {
+                    "category": "js",
+                    "precision": 0.3
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "javascript framwork or javascript libraries",
+            "test": "^[\\/!*\\n\\r \\t]+(?P<name>[a-zA-Z\\.\\- ]+) ([ \\-]+){0,1}v(?P<version>[0-9\\-\\.]+)",
+            "match": "^(?P<debug>[\\/!*\\n\\r \\t]+(?:created by){0,1}(?P<name>[a-zA-Z\\- ]+)(?:\\.js){0,1} ([ \\-]+){0,1}v(?P<version>[0-9\\-\\.]+))[\\r\\n *]+https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>[a-z\\-]+)",
+            "results": [
+                {
+                    "category": "js",
+                    "precision": 0.3
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "javascript framwork or javascript libraries",
+            "match": "(?P<debug>\\/\\*![\\*\\n\\r \\t]+(?:created by){0,1}(?P<name>[a-z\\- ]+)(?:\\.js){0,1} (?:[ \\-v]+){0,1}(?P<version>[0-9]+\\.[0-9]+(?:\\.[0-9]+){0,1}))",
+            "results": [
+                {
+                    "category": "js",
+                    "precision": 0.3
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "javascript framwork or javascript libraries",
+            "test": "(?P<debug>\\@source https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>[a-z\\-]+))",
+            "match": "(?P<debug>\\@source https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>(?P<name>[a-z\\-]+)))",
+            "results": [
+                {
+                    "category": "js",
+                    "precision": 0.3
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "javascript framwork or javascript libraries",
+            "test": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>[a-z\\-]+))",
+            "match": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>(?P<name>[a-z\\-]+)))",
+            "results": [
+                {
+                    "category": "js",
+                    "precision": 0.1
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "javascript framwork or javascript libraries",
+            "test": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>[a-z\\-]+))",
+            "match": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>(?P<name>[a-z\\-]+))\\/blob\\/[v]{0,1}(?P<version>[0-9\\.]+)\/)",
+            "results": [
+                {
+                    "category": "js",
+                    "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "javascript framwork or javascript libraries",
+            "test": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>[a-z\\-]+))",
+            "match": "(?P<debug>(?P<licensefile>[a-z\\.\\-]+)(?P<licensetxt>\\.LICENSE\\.txt) \\*\\/)",
+            "results": [
+                {
+                    "name": "?",
+                    "category": "js",
+                    "precision": 0.1
                 }
             ]
         },

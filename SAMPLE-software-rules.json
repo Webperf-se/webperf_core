@@ -557,6 +557,18 @@
             "use": true,
             "type": "javascript",
             "description": "javascript framwork or javascript libraries",
+            "match": "(?P<debug>\\/\\*\\* @license (?P<name>[a-z\\- ]+) (?:[ \\-v]+){0,1}(?P<version>[0-9]+\\.[0-9]+(?:\\.[0-9]+){0,1}))",
+            "results": [
+                {
+                    "category": "js",
+                    "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "javascript framwork or javascript libraries",
             "test": "(?P<debug>\\@source https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>[a-z\\-]+))",
             "match": "(?P<debug>\\@source https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>(?P<name>[a-z\\-]+)))",
             "results": [

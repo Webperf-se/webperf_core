@@ -304,7 +304,7 @@ def rate_domain(_local, _, rating, categories, domain, item):
                     category_rating = Rating(_, review_show_improvements_only)
                     if 'not-latest' in key:
                         category_rating.set_integrity_and_security(
-                            points, ('- REQUIRE_UPDATE: {0}'.format(domain)))
+                            points, ('- UPDATE_AVAILABLE: {0}'.format(domain)))
                     elif 'security-issues' in key:
                         category_rating.set_integrity_and_security(
                             points, ('- KNOWN_SECURITY_ISSUES: {0}'.format(domain)))
@@ -413,6 +413,8 @@ def enrich_data(data, orginal_domain, result_folder_name, rules):
         enrich_data_from_javascript(tmp_list, item, rules)
         enrich_data_from_videos(tmp_list, item, result_folder_name)
         enrich_data_from_images(tmp_list, item, result_folder_name)
+        enrich_data_from_github_advisory_database(
+            tmp_list, item, result_folder_name)
 
     data.extend(tmp_list)
 
@@ -425,8 +427,13 @@ def enrich_data(data, orginal_domain, result_folder_name, rules):
     return data
 
 
+def enrich_data_from_github_advisory_database(tmp_list, item, result_folder_name):
+    # https://github.com/github/advisory-database
+    return
+
+
 def get_github_project_versions(owner, repo, source, security_label, current_version):
-    matomo_versions_content = httpRequestGetContent(
+    versions_content = httpRequestGetContent(
         'https://api.github.com/repos/{0}/{1}/{2}?state=closed&per_page=100'.format(owner, repo, source))
 
     versions = list()
@@ -434,7 +441,7 @@ def get_github_project_versions(owner, repo, source, security_label, current_ver
 
     from distutils.version import LooseVersion
 
-    version_info = json.loads(matomo_versions_content)
+    version_info = json.loads(versions_content)
     for version in version_info:
         if source == 'milestones':
             id_key = 'number'
@@ -466,7 +473,7 @@ def get_github_project_versions(owner, repo, source, security_label, current_ver
 
         # regex = r"^(?P<name>[0-9.]+)"
         # NOTE: We do this to handle jquery dual release format "1.12.4/2.2.4"
-        regex = r"^[v]{0,1}(?P<name>[0-9.]+)(/(?P<name2>[0-9.]+)){0,1}"
+        regex = r"^[v]{0,1}(?P<name>[0-9.]+)(\\/(?P<name2>[0-9.]+)){0,1}"
         matches = re.finditer(regex, version[name_key])
         for matchNum, match in enumerate(matches, start=1):
             name = match.group('name')
@@ -530,35 +537,96 @@ def enrich_data_from_javascript(tmp_list, item, rules):
     if item['version'] == None:
         return
 
+    item_alias = item['name']
+    # TODO: remove item with 'name' that maches if-cases below and replace them with alias
+    if item_alias == 'jquery-javascript-library':
+        item_alias = 'jquery'
+    elif item_alias == 'jquery-ui-core' or item_alias == 'query-ui-widget' or item_alias == 'jquery-ui-position' or item_alias == 'jquery-ui-menu' or item_alias == 'jquery-ui-autocomplete':
+        item_alias = 'jquery-ui'
+    elif item_alias == 'jquery migrate' or item_alias == 'jquery.migrate':
+        item_alias = 'jquery-migrate'
+    elif item_alias == 'sizzle-css-selector-engine':
+        item_alias = 'sizzle'
+    elif item_alias == 'javascript cookie' or item_alias == 'javascript.cookie' or item_alias == 'javascript-cookie':
+        item_alias = 'js-cookie'
+
+    # jQuery.fn.jquery = '1.9.1'
+    # Modernizr._version = '3.4.0'
+
+    # TODO: We should look at wordpress plugins specifically as they are widely used and we know they are often used in attacks
+
     github_ower = None
     github_repo = None
     github_security_label = None
-    github_release_source = 'milestones'
+    github_release_source = 'tags'
     newer_versions = []
-    if item['name'] == 'jquery':
+    if item_alias == 'jquery':
         github_ower = 'jquery'
         github_repo = 'jquery'
-    elif item['name'] == 'jquery-ui':
+        github_release_source = 'milestones'
+    elif item_alias == 'jquery-ui' or item_alias.startswith('jquery-ui-'):
         github_ower = 'jquery'
         github_repo = 'jquery-ui'
-    elif item['name'] == 'jquery migrate' or item['name'] == 'jquery-migrate' or item['name'] == 'jquery.migrate':
+        github_release_source = 'milestones'
+    elif item_alias == 'jquery-migrate':
         github_ower = 'jquery'
         github_repo = 'jquery-migrate'
-    elif item['name'] == 'javascript cookie' or item['name'] == 'javascript-cookie' or item['name'] == 'javascript-cookie':
+        github_release_source = 'milestones'
+    elif item_alias == 'sizzle':
+        github_ower = 'jquery'
+        github_repo = 'sizzle'
+    elif item_alias == 'js-cookie':
         github_ower = 'js-cookie'
         github_repo = 'js-cookie'
-    elif item['name'] == 'modernizr':
+    elif item_alias == 'requirejs':
+        github_ower = 'requirejs'
+        github_repo = 'requirejs'
+    elif item_alias == 'vue-devtools':
+        github_ower = 'vuejs'
+        github_repo = 'devtools'
+    elif item_alias == 'eslint':
+        github_ower = 'eslint'
+        github_repo = 'eslint'
+    elif item_alias == 'uuid':
+        github_ower = 'uuidjs'
+        github_repo = 'uuid'
+    elif item_alias == 'chart':
+        github_ower = 'chartjs'
+        github_repo = 'Chart.js'
+    elif item_alias == 'chartjs-plugin-datalabels':
+        github_ower = 'chartjs'
+        github_repo = 'chartjs-plugin-datalabels'
+    elif item_alias == 'chartjs-plugin-deferred':
+        github_ower = 'chartjs'
+        github_repo = 'chartjs-plugin-deferred'
+    elif item_alias == 'css-element-queries':
+        github_ower = 'marcj'
+        github_repo = 'css-element-queries'
+    elif item_alias == 'modernizr':
         github_ower = 'Modernizr'
         github_repo = 'Modernizr'
-        github_release_source = 'tags'
-    elif item['name'] == 'bootstrap':
+    elif item_alias == 'core-js':
+        github_ower = 'zloirock'
+        github_repo = 'core-js'
+    elif item_alias == 'vue':
+        github_ower = 'vuejs'
+        github_repo = 'vue'
+    elif item_alias == 'vue':
+        github_ower = 'vuejs'
+        github_repo = 'vuex'
+    elif item_alias == 'vue-router':
+        github_ower = 'vuejs'
+        github_repo = 'vue-router'
+    elif item_alias == 'react':
+        github_ower = 'facebook'
+        github_repo = 'react'
+    elif item_alias == 'bootstrap':
         github_ower = 'twbs'
         github_repo = 'bootstrap'
         github_release_source = 'releases'
     elif 'github-owner' in item and 'github-repo' in item:
         github_ower = item['github-owner']
         github_repo = item['github-repo']
-        github_release_source = 'tags'
 
     if github_ower == None:
         return

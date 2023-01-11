@@ -303,12 +303,15 @@ def rate_domain(_local, _, rating, categories, domain, item):
                         security_sub_categories.remove(sub_key)
                     category_rating = Rating(_, review_show_improvements_only)
                     if 'not-latest' in key:
+                        category_rating.set_overall(points)
                         category_rating.set_integrity_and_security(
                             points, ('- UPDATE_AVAILABLE: {0}'.format(domain)))
                     elif 'security-issues' in key:
+                        category_rating.set_overall(points)
                         category_rating.set_integrity_and_security(
                             points, ('- KNOWN_SECURITY_ISSUES: {0}'.format(domain)))
                     else:
+                        category_rating.set_overall(points)
                         category_rating.set_integrity_and_security(
                             points, _local('TEXT_USED_{0}'.format(
                                 category.upper())).format('{0} - {1}'.format(item_type, domain)))
@@ -334,6 +337,7 @@ def rate_domain(_local, _, rating, categories, domain, item):
     if not has_security:
         category_rating = Rating(
             _, review_show_improvements_only)
+        category_rating.set_overall(5.0)
         category_rating.set_integrity_and_security(5.0)
         rating += category_rating
 
@@ -369,6 +373,8 @@ def convert_item_to_domain_data(data):
                 domain_item[category][name][version]['github-owner'] = item['github-owner']
             if 'github-repo' in item:
                 domain_item[category][name][version]['github-repo'] = item['github-repo']
+            if 'latest-version' in item:
+                domain_item[category][name]['latest-version'] = item['latest-version']
 
         if domain_item[category][name][version]['precision'] < precision:
             obj = {}
@@ -378,6 +384,8 @@ def convert_item_to_domain_data(data):
                 obj['github-owner'] = item['github-owner']
             if 'github-repo' in item:
                 obj['github-repo'] = item['github-repo']
+            if 'latest-version' in item:
+                domain_item[category][name]['latest-version'] = item['latest-version']
             domain_item[category][name][version] = obj
 
         result[item['domain']] = domain_item
@@ -471,9 +479,8 @@ def get_github_project_versions(owner, repo, source, security_label, current_ver
         if date_key in version:
             date = version[date_key]
 
-        # regex = r"^(?P<name>[0-9.]+)"
         # NOTE: We do this to handle jquery dual release format "1.12.4/2.2.4"
-        regex = r"^[v]{0,1}(?P<name>[0-9.]+)(\\/(?P<name2>[0-9.]+)){0,1}"
+        regex = r"^[v]{0,1}(?P<name>[0-9\\.]+)([\\\/](?P<name2>[0-9\\.]+)){0,1}"
         matches = re.finditer(regex, version[name_key])
         for matchNum, match in enumerate(matches, start=1):
             name = match.group('name')
@@ -492,9 +499,9 @@ def get_github_project_versions(owner, repo, source, security_label, current_ver
         if name2 != None:
             versions.append(name2)
             versions_dict[name2] = {
-                'id': id,
                 'name': name2,
-                'date': date
+                'date': date,
+                'id': id
             }
 
     versions = sorted(versions, key=LooseVersion, reverse=True)
@@ -537,18 +544,18 @@ def enrich_data_from_javascript(tmp_list, item, rules):
     if item['version'] == None:
         return
 
-    item_alias = item['name']
-    # TODO: remove item with 'name' that maches if-cases below and replace them with alias
-    if item_alias == 'jquery-javascript-library':
-        item_alias = 'jquery'
-    elif item_alias == 'jquery-ui-core' or item_alias == 'query-ui-widget' or item_alias == 'jquery-ui-position' or item_alias == 'jquery-ui-menu' or item_alias == 'jquery-ui-autocomplete':
-        item_alias = 'jquery-ui'
-    elif item_alias == 'jquery migrate' or item_alias == 'jquery.migrate':
-        item_alias = 'jquery-migrate'
-    elif item_alias == 'sizzle-css-selector-engine':
-        item_alias = 'sizzle'
-    elif item_alias == 'javascript cookie' or item_alias == 'javascript.cookie' or item_alias == 'javascript-cookie':
-        item_alias = 'js-cookie'
+    # replace 'name' that maches if-cases below and replace them with new.
+    # we are doing this both for more correct name but also consolidating names
+    if item['name'] == 'jquery-javascript-library':
+        item['name'] = 'jquery'
+    elif item['name'] == 'jquery-ui-core' or item['name'] == 'query-ui-widget' or item['name'] == 'jquery-ui-position' or item['name'] == 'jquery-ui-menu' or item['name'] == 'jquery-ui-autocomplete' or item['name'].startswith('jquery-ui-'):
+        item['name'] = 'jquery-ui'
+    elif item['name'] == 'jquery migrate' or item['name'] == 'jquery.migrate':
+        item['name'] = 'jquery-migrate'
+    elif item['name'] == 'sizzle-css-selector-engine':
+        item['name'] = 'sizzle'
+    elif item['name'] == 'javascript cookie' or item['name'] == 'javascript.cookie' or item['name'] == 'javascript-cookie':
+        item['name'] = 'js-cookie'
 
     # jQuery.fn.jquery = '1.9.1'
     # Modernizr._version = '3.4.0'
@@ -560,67 +567,67 @@ def enrich_data_from_javascript(tmp_list, item, rules):
     github_security_label = None
     github_release_source = 'tags'
     newer_versions = []
-    if item_alias == 'jquery':
+    if item['name'] == 'jquery':
         github_ower = 'jquery'
         github_repo = 'jquery'
-        github_release_source = 'milestones'
-    elif item_alias == 'jquery-ui' or item_alias.startswith('jquery-ui-'):
+        # github_release_source = 'milestones'
+    elif item['name'] == 'jquery-ui':
         github_ower = 'jquery'
         github_repo = 'jquery-ui'
-        github_release_source = 'milestones'
-    elif item_alias == 'jquery-migrate':
+        # github_release_source = 'milestones'
+    elif item['name'] == 'jquery-migrate':
         github_ower = 'jquery'
         github_repo = 'jquery-migrate'
         github_release_source = 'milestones'
-    elif item_alias == 'sizzle':
+    elif item['name'] == 'sizzle':
         github_ower = 'jquery'
         github_repo = 'sizzle'
-    elif item_alias == 'js-cookie':
+    elif item['name'] == 'js-cookie':
         github_ower = 'js-cookie'
         github_repo = 'js-cookie'
-    elif item_alias == 'requirejs':
+    elif item['name'] == 'requirejs':
         github_ower = 'requirejs'
         github_repo = 'requirejs'
-    elif item_alias == 'vue-devtools':
+    elif item['name'] == 'vue-devtools':
         github_ower = 'vuejs'
         github_repo = 'devtools'
-    elif item_alias == 'eslint':
+    elif item['name'] == 'eslint':
         github_ower = 'eslint'
         github_repo = 'eslint'
-    elif item_alias == 'uuid':
+    elif item['name'] == 'uuid':
         github_ower = 'uuidjs'
         github_repo = 'uuid'
-    elif item_alias == 'chart':
+    elif item['name'] == 'chart':
         github_ower = 'chartjs'
         github_repo = 'Chart.js'
-    elif item_alias == 'chartjs-plugin-datalabels':
+    elif item['name'] == 'chartjs-plugin-datalabels':
         github_ower = 'chartjs'
         github_repo = 'chartjs-plugin-datalabels'
-    elif item_alias == 'chartjs-plugin-deferred':
+    elif item['name'] == 'chartjs-plugin-deferred':
         github_ower = 'chartjs'
         github_repo = 'chartjs-plugin-deferred'
-    elif item_alias == 'css-element-queries':
+    elif item['name'] == 'css-element-queries':
         github_ower = 'marcj'
         github_repo = 'css-element-queries'
-    elif item_alias == 'modernizr':
+    elif item['name'] == 'modernizr':
         github_ower = 'Modernizr'
         github_repo = 'Modernizr'
-    elif item_alias == 'core-js':
+    elif item['name'] == 'core-js':
         github_ower = 'zloirock'
         github_repo = 'core-js'
-    elif item_alias == 'vue':
+    elif item['name'] == 'vue':
         github_ower = 'vuejs'
         github_repo = 'vue'
-    elif item_alias == 'vue':
+    elif item['name'] == 'vue':
         github_ower = 'vuejs'
         github_repo = 'vuex'
-    elif item_alias == 'vue-router':
+    elif item['name'] == 'vue-router':
         github_ower = 'vuejs'
         github_repo = 'vue-router'
-    elif item_alias == 'react':
+    elif item['name'] == 'react':
         github_ower = 'facebook'
         github_repo = 'react'
-    elif item_alias == 'bootstrap':
+    elif item['name'] == 'bootstrap':
         github_ower = 'twbs'
         github_repo = 'bootstrap'
         github_release_source = 'releases'
@@ -638,15 +645,22 @@ def enrich_data_from_javascript(tmp_list, item, rules):
 
     # print('#', item['name'], item['version'], version_verified)
     # print('\tolder then:', newer_versions)
+    has_more_then_one_newer_versions = len(newer_versions) > 0
+
     precision = 0.7
     if version_verified:
         precision = 0.9
-        tmp_list.append(get_default_info(
-            item['url'], 'enrich', precision, item['category'], item['name'], item['version']))
+        info = get_default_info(
+            item['url'], 'enrich', precision, item['category'], item['name'], item['version'])
+        if has_more_then_one_newer_versions:
+            info['latest-version'] = newer_versions[0]['name']
+        else:
+            info['latest-version'] = item['version']
+        tmp_list.append(info)
 
     # tmp_list.append(get_default_info(
     #      item['url'], 'enrich', 0.8, 'security', 'whisper.app', None))
-    if len(newer_versions) > 0:
+    if has_more_then_one_newer_versions:
         is_security_related = False
         for version_info in newer_versions:
             if 'fixes-security' in version_info:
@@ -696,21 +710,28 @@ def enrich_data_from_matomo(matomo, tmp_list, item):
             break
 
     if 'version' in matomo:
-        (version_verified, newer_matomo_versions) = get_github_project_versions(
+        (version_verified, newer_versions) = get_github_project_versions(
             'matomo-org', 'matomo', 'milestones', 'c: Security', matomo['version'])
+
+        has_more_then_one_newer_versions = len(newer_versions) > 0
 
         precision = 0.7
         if version_verified:
             precision = 0.9
-            tmp_list.append(get_default_info(
-                item['url'], 'enrich', precision, item['category'], item['name'], matomo['version']))
+            info = get_default_info(
+                item['url'], 'enrich', precision, item['category'], item['name'], matomo['version'])
+            if has_more_then_one_newer_versions:
+                info['latest-version'] = newer_versions[0]['name']
+            else:
+                info['is-latest-version'] = True
+            tmp_list.append(info)
 
         tmp_list.append(get_default_info(
             item['url'], 'enrich', precision, 'security', 'whisper.app', None))
 
-        if len(newer_matomo_versions) > 0:
+        if has_more_then_one_newer_versions:
             is_security_related = False
-            for version_info in newer_matomo_versions:
+            for version_info in newer_versions:
                 if 'fixes-security' in version_info:
                     is_security_related = is_security_related or version_info['fixes-security']
 

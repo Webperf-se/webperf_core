@@ -241,7 +241,7 @@ def rate_result(_local, _, result, url):
     categories = ['cms', 'webserver', 'os',
                   'analytics', 'tech', 'meta',
                   'js', 'css',
-                  'lang', 'img', 'video',
+                  'lang', 'img', 'img.software', 'img.os', 'img.device', 'video',
                   'test', 'security']
 
     for domain in result.keys():
@@ -305,11 +305,11 @@ def rate_domain(_local, _, rating, categories, domain, item):
                     if 'not-latest' in key:
                         category_rating.set_overall(points)
                         category_rating.set_integrity_and_security(
-                            points, ('- UPDATE_AVAILABLE: {0}'.format(domain)))
+                            points, _local('UPDATE_AVAILABLE').format(domain))
                     elif 'security-issues' in key:
                         category_rating.set_overall(points)
                         category_rating.set_integrity_and_security(
-                            points, ('- KNOWN_SECURITY_ISSUES: {0}'.format(domain)))
+                            points, _local('KNOWN_SECURITY_ISSUES').format(domain))
                     else:
                         category_rating.set_overall(points)
                         category_rating.set_integrity_and_security(
@@ -356,6 +356,8 @@ def convert_item_to_domain_data(data):
 
         category = item['category']
         name = item['name']
+        if name == '?':
+            continue
         version = item['version']
         if version == None:
             version = '?'
@@ -375,6 +377,8 @@ def convert_item_to_domain_data(data):
                 domain_item[category][name][version]['github-repo'] = item['github-repo']
             if 'latest-version' in item:
                 domain_item[category][name]['latest-version'] = item['latest-version']
+            if 'is-latest-version' in item:
+                domain_item[category][name]['is-latest-version'] = item['is-latest-version']
 
         if domain_item[category][name][version]['precision'] < precision:
             obj = {}
@@ -386,6 +390,8 @@ def convert_item_to_domain_data(data):
                 obj['github-repo'] = item['github-repo']
             if 'latest-version' in item:
                 domain_item[category][name]['latest-version'] = item['latest-version']
+            if 'is-latest-version' in item:
+                domain_item[category][name]['is-latest-version'] = item['is-latest-version']
             domain_item[category][name][version] = obj
 
         result[item['domain']] = domain_item
@@ -480,7 +486,7 @@ def get_github_project_versions(owner, repo, source, security_label, current_ver
             date = version[date_key]
 
         # NOTE: We do this to handle jquery dual release format "1.12.4/2.2.4"
-        regex = r"^[v]{0,1}(?P<name>[0-9\\.]+)([\\\/](?P<name2>[0-9\\.]+)){0,1}"
+        regex = r"^([v]|release\-){0,1}(?P<name>[0-9\\.]+)([\\\/](?P<name2>[0-9\\.]+)){0,1}"
         matches = re.finditer(regex, version[name_key])
         for matchNum, match in enumerate(matches, start=1):
             name = match.group('name')
@@ -570,15 +576,12 @@ def enrich_data_from_javascript(tmp_list, item, rules):
     if item['name'] == 'jquery':
         github_ower = 'jquery'
         github_repo = 'jquery'
-        # github_release_source = 'milestones'
     elif item['name'] == 'jquery-ui':
         github_ower = 'jquery'
         github_repo = 'jquery-ui'
-        # github_release_source = 'milestones'
     elif item['name'] == 'jquery-migrate':
         github_ower = 'jquery'
         github_repo = 'jquery-migrate'
-        github_release_source = 'milestones'
     elif item['name'] == 'sizzle':
         github_ower = 'jquery'
         github_repo = 'sizzle'
@@ -627,6 +630,9 @@ def enrich_data_from_javascript(tmp_list, item, rules):
     elif item['name'] == 'react':
         github_ower = 'facebook'
         github_repo = 'react'
+    elif item['name'] == 'choices':
+        github_ower = 'jshjohnson'
+        github_repo = 'Choices'
     elif item['name'] == 'bootstrap':
         github_ower = 'twbs'
         github_repo = 'bootstrap'
@@ -654,7 +660,9 @@ def enrich_data_from_javascript(tmp_list, item, rules):
             item['url'], 'enrich', precision, item['category'], item['name'], item['version'])
         if has_more_then_one_newer_versions:
             info['latest-version'] = newer_versions[0]['name']
+            info['is-latest-version'] = False
         else:
+            info['is-latest-version'] = True
             info['latest-version'] = item['version']
         tmp_list.append(info)
 
@@ -691,23 +699,25 @@ def enrich_data_from_matomo(matomo, tmp_list, item):
     matomo['url'] = item['url']
     matomo_version = 'Matomo'
 
-    matomo_o = urlparse(item['url'])
-    matomo_hostname = matomo_o.hostname
-    matomo_url = '{0}://{1}/CHANGELOG.md'.format(
-        matomo_o.scheme, matomo_hostname)
-    matomo_changelog_url_regex = r"(?P<url>.*)\/(matomo|piwik).(js|php)"
-    matches = re.finditer(
-        matomo_changelog_url_regex, item['url'], re.MULTILINE)
-    for matchNum, match in enumerate(matches, start=1):
-        matomo_url = match.group('url') + '/CHANGELOG.md'
-        matomo_content = httpRequestGetContent(matomo_url)
-        matomo_regex = r"## Matomo (?P<version>[\.0-9]+)"
-        matches = re.finditer(
-            matomo_regex, matomo_content, re.MULTILINE)
-        for matchNum, match in enumerate(matches, start=1):
-            matomo_version = match.group('version')
-            matomo['version'] = matomo_version
-            break
+    # matomo_o = urlparse(item['url'])
+    # matomo_hostname = matomo_o.hostname
+    # matomo_url = '{0}://{1}/CHANGELOG.md'.format(
+    #     matomo_o.scheme, matomo_hostname)
+    # matomo_changelog_url_regex = r"(?P<url>.*)\/(matomo|piwik).(js|php)"
+    # matches = re.finditer(
+    #     matomo_changelog_url_regex, item['url'], re.MULTILINE)
+    # for matchNum, match in enumerate(matches, start=1):
+    #     # TODO: THIS MUST BE LOOKED AT FROM A 'COMPUTER BREACH' ARGUMENT,
+    #     # THERE IS NO REFERENCE TO THIS SO IT COULD (WRONGLY) BE ARGUED THAT YOU ARE TRYING TO HACK
+    #     matomo_url = match.group('url') + '/CHANGELOG.md'
+    #     matomo_content = httpRequestGetContent(matomo_url)
+    #     matomo_regex = r"## Matomo (?P<version>[\.0-9]+)"
+    #     matches = re.finditer(
+    #         matomo_regex, matomo_content, re.MULTILINE)
+    #     for matchNum, match in enumerate(matches, start=1):
+    #         matomo_version = match.group('version')
+    #         matomo['version'] = matomo_version
+    #         break
 
     if 'version' in matomo:
         (version_verified, newer_versions) = get_github_project_versions(
@@ -722,8 +732,10 @@ def enrich_data_from_matomo(matomo, tmp_list, item):
                 item['url'], 'enrich', precision, item['category'], item['name'], matomo['version'])
             if has_more_then_one_newer_versions:
                 info['latest-version'] = newer_versions[0]['name']
+                info['is-latest-version'] = False
             else:
                 info['is-latest-version'] = True
+                info['latest-version'] = item['version']
             tmp_list.append(info)
 
         tmp_list.append(get_default_info(
@@ -781,15 +793,15 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
 
             if tech_name != None and tech_version == None:
                 tech_name = tech_name.lower().strip().replace(' ', '-')
-                # tmp_list.append(get_default_info(
-                #     item['url'], 'enrich', 0.5, 'tech', tech_name, None))
+                tmp_list.append(get_default_info(
+                    item['url'], 'enrich', 0.5, 'img.software', tech_name, None))
                 tmp_list.append(get_default_info(
                     item['url'], 'enrich', item['precision'], 'security', 'whisper.{0}.app'.format(item['category']), None))
 
             if tech_version != None:
                 tech_version = tech_version.lower()
-                # tmp_list.append(get_default_info(
-                #     item['url'], 'content', 0.6, 'tech', tech_name, tech_version))
+                tmp_list.append(get_default_info(
+                    item['url'], 'content', 0.6, 'img.software', tech_name, tech_version))
                 tmp_list.append(get_default_info(
                     item['url'], 'enrich', 0.8, 'security', 'whisper.{0}.app'.format(item['category']), None))
     else:
@@ -813,19 +825,21 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
 
         # extract EXIF data
         exifdata = image_data.getexif()
-        if nof_tries == 0 and (exifdata == None or len(exifdata.keys()) == 0):
-            test_index = item['url'].rfind(
-                '.{0}'.format(item['name']))
-            # test_index = item['url'].rfind(
-            #     '.{0}?'.format(item['name']))
-            if test_index > 0:
-                test_url = '{1}.{0}'.format(
-                    item['name'], item['url'][:test_index])
-                test = get_default_info(
-                    test_url, 'enrich', item['precision'], item['category'], item['name'], item['version'], item['domain'])
+        # if nof_tries == 0 and (exifdata == None or len(exifdata.keys()) == 0):
+        # TODO: THIS MUST BE LOOKED AT FROM A 'COMPUTER BREACH' ARGUMENT,
+        # THERE IS NO REFERENCE TO THIS SO IT COULD (WRONGLY) BE ARGUED THAT YOU ARE TRYING TO HACK
+        # test_index = item['url'].rfind(
+        #     '.{0}'.format(item['name']))
+        # # test_index = item['url'].rfind(
+        # #     '.{0}?'.format(item['name']))
+        # if test_index > 0:
+        #     test_url = '{1}.{0}'.format(
+        #         item['name'], item['url'][:test_index])
+        #     test = get_default_info(
+        #         test_url, 'enrich', item['precision'], item['category'], item['name'], item['version'], item['domain'])
 
-                enrich_data_from_images(
-                    tmp_list, test, result_folder_name, nof_tries + 1)
+        #     enrich_data_from_images(
+        #         tmp_list, test, result_folder_name, nof_tries + 1)
 
         device_name = None
         device_version = None
@@ -856,20 +870,22 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
                     os_name = match.group('osname')
                     if tech_name != None and tech_version == None:
                         tech_name = tech_name.lower().strip().replace(' ', '-')
-                        # tmp_list.append(get_default_info(
-                        #     item['url'], 'enrich', 0.5, 'tech', tech_name, None))
+                        tmp_list.append(get_default_info(
+                            item['url'], 'enrich', 0.5, 'img.software', tech_name, None))
                         tmp_list.append(get_default_info(
                             item['url'], 'enrich', item['precision'], 'security', 'whisper.{0}.app'.format(item['category']), None))
 
                     if tech_version != None:
                         tech_version = tech_version.lower()
-                        # tmp_list.append(get_default_info(
-                        #     item['url'], 'content', 0.6, 'tech', tech_name, tech_version))
+                        tmp_list.append(get_default_info(
+                            item['url'], 'content', 0.6, 'img.software', tech_name, tech_version))
                         tmp_list.append(get_default_info(
                             item['url'], 'enrich', 0.8, 'security', 'whisper.{0}.app'.format(item['category']), None))
 
                     if os_name != None:
                         os_name = os_name.lower()
+                        tmp_list.append(get_default_info(
+                            item['url'], 'content', 0.6, 'img.os', os_name, None))
                         tmp_list.append(get_default_info(
                             item['url'], 'enrich', 0.8, 'security', 'whisper.{0}.os'.format(item['category']), None))
             elif 'artist' == tag_name or 'xpauthor' == tag_name:
@@ -890,25 +906,29 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
                     os_name = match.group('osname')
                     if tech_name != None and tech_version == None:
                         tech_name = tech_name.lower().strip().replace(' ', '-')
+                        device_name = tech_name
                         # tmp_list.append(get_default_info(
-                        #     item['url'], 'enrich', 0.5, 'tech', tech_name, None))
+                        #     item['url'], 'enrich', 0.5, 'img.device', tech_name, None))
                         tmp_list.append(get_default_info(
                             item['url'], 'enrich', item['precision'], 'security', 'whisper.{0}.device'.format(item['category']), None))
 
                     if tech_version != None:
                         tech_version = tech_version.lower()
+                        device_version = tech_version
                         # tmp_list.append(get_default_info(
-                        #     item['url'], 'content', 0.6, 'tech', tech_name, tech_version))
+                        #     item['url'], 'content', 0.6, 'img.os', tech_name, tech_version))
                         tmp_list.append(get_default_info(
                             item['url'], 'enrich', 0.8, 'security', 'whisper.{0}.device'.format(item['category']), None))
 
                     if os_name != None:
                         os_name = os_name.lower().strip()
                         tmp_list.append(get_default_info(
+                            item['url'], 'content', 0.6, 'img.os', os_name, None))
+                        tmp_list.append(get_default_info(
                             item['url'], 'enrich', 0.8, 'security', 'whisper.{0}.os'.format(item['category']), None))
             elif 'model' == tag_name:
-                # tmp_list.append(get_default_info(
-                #     item['url'], 'enrich', 0.8, 'security', 'info.{0}.model'.format(item['category']), None))
+                tmp_list.append(get_default_info(
+                    item['url'], 'enrich', 0.8, 'security', 'info.{0}.model'.format(item['category']), None))
                 # print('B', tag_data)
                 device_version = tag_data.lower().strip()
             elif 'gpsinfo' == tag_name:
@@ -923,17 +943,17 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
             if device_name != None:
                 device_name = device_name.lower().strip()
             if device_name != None and device_version == None:
-                # tmp_list.append(get_default_info(
-                #     item['url'], 'enrich', 0.5, 'tech', device_name, None))
+                tmp_list.append(get_default_info(
+                    item['url'], 'enrich', 0.5, 'img.device', device_name, None))
                 tmp_list.append(get_default_info(
                     item['url'], 'enrich', item['precision'], 'security', 'whisper.{0}.device'.format(item['category']), None))
 
-            if device_version != None:
+            if device_name != None and device_version != None:
                 device_version = device_version.lower()
                 if device_name != None:
                     device_version = device_version.replace(device_name, '')
-                # tmp_list.append(get_default_info(
-                #     item['url'], 'content', 0.6, 'tech', tech_nadevice_nameme, device_version))
+                tmp_list.append(get_default_info(
+                    item['url'], 'content', 0.6, 'img.device', device_name, device_version))
                 tmp_list.append(get_default_info(
                     item['url'], 'enrich', 0.8, 'security', 'whisper.{0}.device'.format(item['category']), None))
             # print('device', device_name, device_version)
@@ -1057,12 +1077,21 @@ def lookup_response_content(req_url, response_mimetype, response_content, rules)
 
             if 'name' in groups:
                 match_name = groups['name']
+            if '?P<name>' in rule['match'] and match_name == None:
+                continue
             if 'version' in groups:
                 match_version = groups['version']
+            if '?P<version>' in rule['match'] and match_version == None:
+                continue
             if 'owner' in groups:
                 match_github_owner = groups['owner']
+            if '?P<owner>' in rule['match'] and match_github_owner == None:
+                continue
             if 'repo' in groups:
                 match_github_repo = groups['repo']
+            if '?P<repo>' in rule['match'] and match_github_repo == None:
+                continue
+
             if 'licensetxt' in groups and 'licensefile' in groups:
                 source_segment = groups['licensefile']
                 license_txt = groups['licensetxt']
@@ -1166,6 +1195,11 @@ def lookup_request_url(req_url, rules, origin_domain):
             if 'version' in groups:
                 match_version = groups['version']
 
+            if '?P<name>' in rule['match'] and match_name == None:
+                continue
+            if '?P<version>' in rule['match'] and match_version == None:
+                continue
+
             for result in rule['results']:
                 name = None
                 version = None
@@ -1255,6 +1289,11 @@ def lookup_response_header(req_url, header_name, header_value, rules, origin_dom
                 match_name = groups['name']
             if 'version' in groups:
                 match_version = groups['version']
+
+            if '?P<name>' in rule['match'] and match_name == None:
+                continue
+            if '?P<version>' in rule['match'] and match_version == None:
+                continue
 
             for result in rule['results']:
                 name = None

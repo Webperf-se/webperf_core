@@ -48,6 +48,15 @@ msgstr "- Språk: {0}"
 msgid "TEXT_USED_IMG"
 msgstr "- Bildformat: {0}"
 
+msgid "TEXT_USED_IMG.SOFTWARE"
+msgstr "- Bildmjukvara: {0}"
+
+msgid "TEXT_USED_IMG.OS"
+msgstr "- Bild operativsystem: {0}"
+
+msgid "TEXT_USED_IMG.DEVICE"
+msgstr "- Bild hårdvara {0}"
+
 msgid "TEXT_USED_VIDEO"
 msgstr "- Videoformat: {0}"
 
@@ -56,3 +65,9 @@ msgstr "- Metadata: {0}"
 
 msgid "TEXT_USED_SECURITY"
 msgstr "- Läcker information: {0}"
+
+msgid "UPDATE_AVAILABLE"
+msgstr "- Uppdateringar tillgängliga: {0}"
+
+msgid "KNOWN_SECURITY_ISSUES"
+msgstr "- Har kända säkerhetsproblem: {0}"

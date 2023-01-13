@@ -239,7 +239,7 @@ def rate_result(_local, _, result, url):
     orginal_domain = url_info.hostname
 
     categories = ['cms', 'webserver', 'os',
-                  'analytics', 'tech', 'meta',
+                  'analytics', 'tech', 'license', 'meta',
                   'js', 'css',
                   'lang', 'img', 'img.software', 'img.os', 'img.device', 'video',
                   'test', 'security']
@@ -424,6 +424,7 @@ def enrich_data(data, orginal_domain, result_folder_name, rules):
                     item['url'], 'enrich', item['precision'], 'security', 'talking.{0}'.format(item['category']), None))
 
         matomo = enrich_data_from_matomo(matomo, tmp_list, item)
+        enrich_data_from_github_repo(tmp_list, item)
         enrich_data_from_javascript(tmp_list, item, rules)
         enrich_data_from_videos(tmp_list, item, result_folder_name)
         enrich_data_from_images(tmp_list, item, result_folder_name)
@@ -444,6 +445,222 @@ def enrich_data(data, orginal_domain, result_folder_name, rules):
 def enrich_data_from_github_advisory_database(tmp_list, item, result_folder_name):
     # https://github.com/github/advisory-database
     return
+
+
+def enrich_data_from_github_repo(tmp_list, item):
+    # replace 'name' that maches if-cases below and replace them with new.
+    # we are doing this both for more correct name but also consolidating names
+    if item['name'] == 'jquery-javascript-library':
+        item['name'] = 'jquery'
+    elif item['name'] == 'jquery-ui-core' or item['name'] == 'query-ui-widget' or item['name'] == 'jquery-ui-position' or item['name'] == 'jquery-ui-menu' or item['name'] == 'jquery-ui-autocomplete' or item['name'].startswith('jquery-ui-'):
+        item['name'] = 'jquery-ui'
+    elif item['name'] == 'jquery migrate' or item['name'] == 'jquery.migrate':
+        item['name'] = 'jquery-migrate'
+    elif item['name'] == 'sizzle-css-selector-engine':
+        item['name'] = 'sizzle'
+    elif item['name'] == 'javascript cookie' or item['name'] == 'javascript.cookie' or item['name'] == 'javascript-cookie':
+        item['name'] = 'js-cookie'
+
+    github_ower = None
+    github_repo = None
+    github_security_label = None
+    github_release_source = 'tags'
+    newer_versions = []
+
+    if item['name'] == 'jquery':
+        github_ower = 'jquery'
+        github_repo = 'jquery'
+    elif item['name'] == 'jquery-ui':
+        github_ower = 'jquery'
+        github_repo = 'jquery-ui'
+    elif item['name'] == 'jquery-migrate':
+        github_ower = 'jquery'
+        github_repo = 'jquery-migrate'
+    elif item['name'] == 'sizzle':
+        github_ower = 'jquery'
+        github_repo = 'sizzle'
+    elif item['name'] == 'js-cookie':
+        github_ower = 'js-cookie'
+        github_repo = 'js-cookie'
+    elif item['name'] == 'requirejs':
+        github_ower = 'requirejs'
+        github_repo = 'requirejs'
+    elif item['name'] == 'vue-devtools':
+        github_ower = 'vuejs'
+        github_repo = 'devtools'
+    elif item['name'] == 'eslint':
+        github_ower = 'eslint'
+        github_repo = 'eslint'
+    elif item['name'] == 'uuid':
+        github_ower = 'uuidjs'
+        github_repo = 'uuid'
+    elif item['name'] == 'chart':
+        github_ower = 'chartjs'
+        github_repo = 'Chart.js'
+    elif item['name'] == 'chartjs-plugin-datalabels':
+        github_ower = 'chartjs'
+        github_repo = 'chartjs-plugin-datalabels'
+    elif item['name'] == 'chartjs-plugin-deferred':
+        github_ower = 'chartjs'
+        github_repo = 'chartjs-plugin-deferred'
+    elif item['name'] == 'css-element-queries':
+        github_ower = 'marcj'
+        github_repo = 'css-element-queries'
+    elif item['name'] == 'modernizr':
+        github_ower = 'Modernizr'
+        github_repo = 'Modernizr'
+    elif item['name'] == 'core-js':
+        github_ower = 'zloirock'
+        github_repo = 'core-js'
+    elif item['name'] == 'vue':
+        github_ower = 'vuejs'
+        github_repo = 'vue'
+    elif item['name'] == 'vue':
+        github_ower = 'vuejs'
+        github_repo = 'vuex'
+    elif item['name'] == 'vue-router':
+        github_ower = 'vuejs'
+        github_repo = 'vue-router'
+    elif item['name'] == 'react':
+        github_ower = 'facebook'
+        github_repo = 'react'
+    elif item['name'] == 'choices':
+        github_ower = 'jshjohnson'
+        github_repo = 'Choices'
+    elif item['name'] == 'nginx':
+        github_ower = 'nginx'
+        github_repo = 'nginx'
+    elif item['name'] == 'bootstrap':
+        github_ower = 'twbs'
+        github_repo = 'bootstrap'
+        github_release_source = 'releases'
+    elif 'github-owner' in item and 'github-repo' in item:
+        github_ower = item['github-owner']
+        github_repo = item['github-repo']
+
+    if github_ower == None:
+        return
+    if github_repo == None:
+        return
+
+    if 'github-owner' not in item:
+        item['github-owner'] = github_ower
+    if 'github-repo' not in item:
+        item['github-repo'] = github_repo
+
+    info = get_github_repository_info(
+        github_ower, github_repo)
+
+    if info['license'] != None:
+        # https://spdx.org/licenses/
+        tmp_list.append(get_default_info(
+            item['url'], 'enrich', 0.9, 'license', info['license'], None))
+
+    if len(info['tech']) > 0:
+        for name in info['tech']:
+            tmp_list.append(get_default_info(
+                item['url'], 'enrich', 0.9, 'tech', name, None))
+
+    (version_verified, newer_versions) = get_github_project_versions(
+        github_ower, github_repo, github_release_source, github_security_label, item['version'])
+
+    has_more_then_one_newer_versions = len(newer_versions) > 0
+
+    precision = 0.7
+    if version_verified:
+        precision = 0.9
+
+        info = get_default_info(
+            item['url'], 'enrich', precision, item['category'], item['name'], item['version'])
+        if has_more_then_one_newer_versions:
+            info['latest-version'] = newer_versions[0]['name']
+            info['is-latest-version'] = False
+        else:
+            info['is-latest-version'] = True
+            info['latest-version'] = item['version']
+        tmp_list.append(info)
+
+    if has_more_then_one_newer_versions:
+        has_more_then_five_newer_versions = len(newer_versions) > 5
+        has_more_then_ten_newer_versions = len(newer_versions) > 10
+        if has_more_then_ten_newer_versions:
+            tmp_list.append(get_default_info(
+                item['url'], 'enrich', precision, 'security', 'screaming.js.not-latest', None))
+        elif has_more_then_five_newer_versions:
+            tmp_list.append(get_default_info(
+                item['url'], 'enrich', precision, 'security', 'talking.js.not-latest', None))
+        else:
+            tmp_list.append(get_default_info(
+                item['url'], 'enrich', precision, 'security', 'guide.js.not-latest', None))
+        # is_security_related = False
+        # for version_info in newer_versions:
+        #     if 'fixes-security' in version_info:
+        #         is_security_related = is_security_related or version_info['fixes-security']
+
+        # if is_security_related:
+        #     tmp_list.append(get_default_info(
+        #         item['url'], 'enrich', precision, 'security', 'screaming.js.security-issues', None))
+        #     tmp_list.append(get_default_info(
+        #         item['url'], 'enrich', precision, 'security', 'screaming.js.not-latest', None))
+        # else:
+        #     tmp_list.append(get_default_info(
+        #         item['url'], 'enrich', precision, 'security', 'guide.js.not-latest', None))
+
+    return
+
+
+def get_github_repository_info(owner, repo):
+    repo_content = httpRequestGetContent(
+        'https://api.github.com/repos/{0}/{1}'.format(owner, repo))
+
+    info_dict = {}
+
+    from distutils.version import LooseVersion
+
+    github_info = json.loads(repo_content)
+
+    # Get license from github repo ("license.spdx_id") info: https://api.github.com/repos/matomo-org/matomo
+    # for example: MIT, GPL-3.0
+    info_dict['license'] = None
+    if 'license' in github_info and github_info['license'] != None and 'spdx_id' in github_info['license']:
+        license = github_info['license']['spdx_id'].lower()
+        if 'noassertion' != license:
+            info_dict['license'] = license
+
+    techs = list()
+    # Get tech from github repo ("language") info: https://api.github.com/repos/matomo-org/matomo
+    # for example: php, JavaScript (js), C
+    if 'language' in github_info and github_info['language'] != None:
+        lang = github_info['language'].lower()
+        if 'javascript' in lang:
+            lang = 'js'
+        add_tech_if_interesting(techs, lang)
+        # info_dict['language'] = lang
+    # else:
+    #     info_dict['language'] = None
+
+    # TODO: Get tech from github repo ("topics") info: https://api.github.com/repos/matomo-org/matomo
+    # for example: php, mysql
+    if 'topics' in github_info and github_info['topics'] != None:
+        for topic in github_info['topics']:
+            add_tech_if_interesting(techs, topic)
+
+    info_dict['tech'] = techs
+
+    # print('repo:', info_dict)
+    return info_dict
+
+
+def add_tech_if_interesting(techs, topic):
+    tech = topic.lower()
+    if 'js' == tech or 'javascript' == tech:
+        techs.append('js')
+    elif 'c' == tech or 'php' == tech or 'mysql' == tech or 'typescript' == tech:
+        techs.append(tech)
+    elif 'sass' == tech or 'scss' == tech:
+        techs.append(tech)
+    # else:
+    #     print('# TOPIC', tech)
 
 
 def get_github_project_versions(owner, repo, source, security_label, current_version):
@@ -550,138 +767,10 @@ def enrich_data_from_javascript(tmp_list, item, rules):
     if item['version'] == None:
         return
 
-    # replace 'name' that maches if-cases below and replace them with new.
-    # we are doing this both for more correct name but also consolidating names
-    if item['name'] == 'jquery-javascript-library':
-        item['name'] = 'jquery'
-    elif item['name'] == 'jquery-ui-core' or item['name'] == 'query-ui-widget' or item['name'] == 'jquery-ui-position' or item['name'] == 'jquery-ui-menu' or item['name'] == 'jquery-ui-autocomplete' or item['name'].startswith('jquery-ui-'):
-        item['name'] = 'jquery-ui'
-    elif item['name'] == 'jquery migrate' or item['name'] == 'jquery.migrate':
-        item['name'] = 'jquery-migrate'
-    elif item['name'] == 'sizzle-css-selector-engine':
-        item['name'] = 'sizzle'
-    elif item['name'] == 'javascript cookie' or item['name'] == 'javascript.cookie' or item['name'] == 'javascript-cookie':
-        item['name'] = 'js-cookie'
-
     # jQuery.fn.jquery = '1.9.1'
     # Modernizr._version = '3.4.0'
 
     # TODO: We should look at wordpress plugins specifically as they are widely used and we know they are often used in attacks
-
-    github_ower = None
-    github_repo = None
-    github_security_label = None
-    github_release_source = 'tags'
-    newer_versions = []
-    if item['name'] == 'jquery':
-        github_ower = 'jquery'
-        github_repo = 'jquery'
-    elif item['name'] == 'jquery-ui':
-        github_ower = 'jquery'
-        github_repo = 'jquery-ui'
-    elif item['name'] == 'jquery-migrate':
-        github_ower = 'jquery'
-        github_repo = 'jquery-migrate'
-    elif item['name'] == 'sizzle':
-        github_ower = 'jquery'
-        github_repo = 'sizzle'
-    elif item['name'] == 'js-cookie':
-        github_ower = 'js-cookie'
-        github_repo = 'js-cookie'
-    elif item['name'] == 'requirejs':
-        github_ower = 'requirejs'
-        github_repo = 'requirejs'
-    elif item['name'] == 'vue-devtools':
-        github_ower = 'vuejs'
-        github_repo = 'devtools'
-    elif item['name'] == 'eslint':
-        github_ower = 'eslint'
-        github_repo = 'eslint'
-    elif item['name'] == 'uuid':
-        github_ower = 'uuidjs'
-        github_repo = 'uuid'
-    elif item['name'] == 'chart':
-        github_ower = 'chartjs'
-        github_repo = 'Chart.js'
-    elif item['name'] == 'chartjs-plugin-datalabels':
-        github_ower = 'chartjs'
-        github_repo = 'chartjs-plugin-datalabels'
-    elif item['name'] == 'chartjs-plugin-deferred':
-        github_ower = 'chartjs'
-        github_repo = 'chartjs-plugin-deferred'
-    elif item['name'] == 'css-element-queries':
-        github_ower = 'marcj'
-        github_repo = 'css-element-queries'
-    elif item['name'] == 'modernizr':
-        github_ower = 'Modernizr'
-        github_repo = 'Modernizr'
-    elif item['name'] == 'core-js':
-        github_ower = 'zloirock'
-        github_repo = 'core-js'
-    elif item['name'] == 'vue':
-        github_ower = 'vuejs'
-        github_repo = 'vue'
-    elif item['name'] == 'vue':
-        github_ower = 'vuejs'
-        github_repo = 'vuex'
-    elif item['name'] == 'vue-router':
-        github_ower = 'vuejs'
-        github_repo = 'vue-router'
-    elif item['name'] == 'react':
-        github_ower = 'facebook'
-        github_repo = 'react'
-    elif item['name'] == 'choices':
-        github_ower = 'jshjohnson'
-        github_repo = 'Choices'
-    elif item['name'] == 'bootstrap':
-        github_ower = 'twbs'
-        github_repo = 'bootstrap'
-        github_release_source = 'releases'
-    elif 'github-owner' in item and 'github-repo' in item:
-        github_ower = item['github-owner']
-        github_repo = item['github-repo']
-
-    if github_ower == None:
-        return
-    if github_repo == None:
-        return
-
-    (version_verified, newer_versions) = get_github_project_versions(
-        github_ower, github_repo, github_release_source, github_security_label, item['version'])
-
-    # print('#', item['name'], item['version'], version_verified)
-    # print('\tolder then:', newer_versions)
-    has_more_then_one_newer_versions = len(newer_versions) > 0
-
-    precision = 0.7
-    if version_verified:
-        precision = 0.9
-        info = get_default_info(
-            item['url'], 'enrich', precision, item['category'], item['name'], item['version'])
-        if has_more_then_one_newer_versions:
-            info['latest-version'] = newer_versions[0]['name']
-            info['is-latest-version'] = False
-        else:
-            info['is-latest-version'] = True
-            info['latest-version'] = item['version']
-        tmp_list.append(info)
-
-    # tmp_list.append(get_default_info(
-    #      item['url'], 'enrich', 0.8, 'security', 'whisper.app', None))
-    if has_more_then_one_newer_versions:
-        is_security_related = False
-        for version_info in newer_versions:
-            if 'fixes-security' in version_info:
-                is_security_related = is_security_related or version_info['fixes-security']
-
-        if is_security_related:
-            tmp_list.append(get_default_info(
-                item['url'], 'enrich', precision, 'security', 'screaming.js.security-issues', None))
-            tmp_list.append(get_default_info(
-                item['url'], 'enrich', precision, 'security', 'screaming.js.not-latest', None))
-        else:
-            tmp_list.append(get_default_info(
-                item['url'], 'enrich', precision, 'security', 'guide.js.not-latest', None))
 
 
 def enrich_data_from_matomo(matomo, tmp_list, item):
@@ -929,7 +1018,6 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
             elif 'model' == tag_name:
                 tmp_list.append(get_default_info(
                     item['url'], 'enrich', 0.8, 'security', 'info.{0}.model'.format(item['category']), None))
-                # print('B', tag_data)
                 device_version = tag_data.lower().strip()
             elif 'gpsinfo' == tag_name:
                 tmp_list.append(get_default_info(

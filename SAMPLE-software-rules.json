@@ -626,6 +626,12 @@
                     "version": "4.x",
                     "category": "tech",
                     "precision": 0.6
+                },
+                {
+                    "name": "GPL-3.0",
+                    "reference": "https://github.com/matomo-org/matomo/blob/4.x-dev/LICENSE",
+                    "category": "license",
+                    "precision": 0.6
                 }
             ]
         },
@@ -729,6 +735,20 @@
                     "name": "?",
                     "category": "js",
                     "precision": 0.1
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "looking for license types",
+            "test": "(?P<debug> (?P<name>MIT) license)",
+            "reference": "https://spdx.org/licenses/",
+            "match": "(?P<debug> (?P<name>MIT) license)",
+            "results": [
+                {
+                    "category": "license",
+                    "precision": 0.6
                 }
             ]
         },

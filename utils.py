@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import json
 import sys
 import getopt
 import datetime
@@ -74,6 +75,7 @@ def test(_, langCode, site, test_type=None, show_reviews=False,):
             json_data = ''
             try:
                 json_data = the_test_result[1]
+                json_data = json.dumps(json_data)
             except:
                 json_data = ''
                 pass

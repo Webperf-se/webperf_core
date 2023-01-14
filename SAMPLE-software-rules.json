@@ -623,7 +623,7 @@
             "results": [
                 {
                     "name": "matomo",
-                    "version": "4.x",
+                    "version": ">=4.x",
                     "category": "tech",
                     "precision": 0.6
                 },
@@ -721,6 +721,31 @@
                 {
                     "category": "js",
                     "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "core-js javascript framwork",
+            "match": "(?P<debug>[\\\"']__(?P<name>core-js)_shared__[\\\"'])",
+            "results": [
+                {
+                    "category": "js",
+                    "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "core-js javascript framwork",
+            "match": "(?P<debug>\\\"versions\\\",[ ]{0,1}\\[\\]\\)\\.push\\({[\\r\\n\\t ]*version:[ ]{0,1}\\\"(?P<version>[0-9\\.]+)\\\",[\\r\\n\\t ]*mode:[^\\\"]+\\\"pure\\\"[ ]{0,1}:[ ]{0,1}\\\"global\\\",[\\r\\n\\t ]*copyright:[ ]{0,1}\\\".{1}[ 0-9\\-]+Denis Pushkarev)",
+            "results": [
+                {
+                    "name": "core-js",
+                    "category": "js",
+                    "precision": 0.6
                 }
             ]
         },

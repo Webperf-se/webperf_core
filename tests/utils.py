@@ -32,9 +32,11 @@ googlePageSpeedApiKey = config.googlePageSpeedApiKey
 
 try:
     use_cache = config.cache_when_possible
+    cache_time_delta = config.cache_time_delta
 except:
     # If cache_when_possible variable is not set in config.py this will be the default
     use_cache = False
+    cache_time_delta = timedelta(hours=1)
 
 
 def is_file_older_than(file, delta):
@@ -78,7 +80,7 @@ def get_cache_file(url, use_text_instead_of_content, time_delta):
 
 def set_cache_file(url, content, use_text_instead_of_content):
     if not use_cache:
-        return None
+        return
 
     cache_path = get_cache_path(url, use_text_instead_of_content)
     if use_text_instead_of_content:
@@ -96,7 +98,7 @@ def httpRequestGetContent(url, allow_redirects=False, use_text_instead_of_conten
 
     try:
         content = get_cache_file(
-            url, use_text_instead_of_content, timedelta(days=10))
+            url, use_text_instead_of_content, cache_time_delta)
         if content != None:
             return content
 

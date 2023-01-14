@@ -23,9 +23,11 @@ review_show_improvements_only = config.review_show_improvements_only
 sitespeed_use_docker = config.sitespeed_use_docker
 try:
     use_cache = config.cache_when_possible
+    cache_time_delta = config.cache_time_delta
 except:
     # If cache_when_possible variable is not set in config.py this will be the default
     use_cache = False
+    cache_time_delta = timedelta(hours=1)
 
 try:
     use_stealth = config.software_use_stealth
@@ -195,6 +197,10 @@ def get_rating_from_sitespeed(url, _local, _):
             if url == site[1]:
                 filename = site[0]
                 result_folder_name = filename[:filename.rfind(os.path.sep)]
+
+                if is_file_older_than(filename, cache_time_delta):
+                    filename = ''
+                    continue
 
                 file_created_timestamp = os.path.getctime(filename)
                 file_created_date = time.ctime(file_created_timestamp)
@@ -401,7 +407,7 @@ def convert_item_to_domain_data(data):
 def enrich_data(data, orginal_domain, result_folder_name, rules):
 
     cms = None
-    matomo = None
+    # matomo = None
     testing = {}
 
     tmp_list = list()
@@ -423,7 +429,7 @@ def enrich_data(data, orginal_domain, result_folder_name, rules):
                 tmp_list.append(get_default_info(
                     item['url'], 'enrich', item['precision'], 'security', 'talking.{0}'.format(item['category']), None))
 
-        matomo = enrich_data_from_matomo(matomo, tmp_list, item)
+        # matomo = enrich_data_from_matomo(matomo, tmp_list, item)
         enrich_data_from_github_repo(tmp_list, item)
         enrich_data_from_javascript(tmp_list, item, rules)
         enrich_data_from_videos(tmp_list, item, result_folder_name)
@@ -465,7 +471,6 @@ def enrich_data_from_github_repo(tmp_list, item):
     github_repo = None
     github_security_label = None
     github_release_source = 'tags'
-    newer_versions = []
 
     if item['name'] == 'jquery':
         github_ower = 'jquery'
@@ -515,7 +520,7 @@ def enrich_data_from_github_repo(tmp_list, item):
     elif item['name'] == 'vue':
         github_ower = 'vuejs'
         github_repo = 'vue'
-    elif item['name'] == 'vue':
+    elif item['name'] == 'vuex':
         github_ower = 'vuejs'
         github_repo = 'vuex'
     elif item['name'] == 'vue-router':
@@ -530,6 +535,10 @@ def enrich_data_from_github_repo(tmp_list, item):
     elif item['name'] == 'nginx':
         github_ower = 'nginx'
         github_repo = 'nginx'
+    elif item['name'] == 'matomo':
+        github_ower = 'matomo-org'
+        github_repo = 'matomo'
+        github_security_label = 'c: Security'
     elif item['name'] == 'bootstrap':
         github_ower = 'twbs'
         github_repo = 'bootstrap'
@@ -548,37 +557,67 @@ def enrich_data_from_github_repo(tmp_list, item):
     if 'github-repo' not in item:
         item['github-repo'] = github_repo
 
-    info = get_github_repository_info(
+    github_info = get_github_repository_info(
         github_ower, github_repo)
 
-    if info['license'] != None:
-        # https://spdx.org/licenses/
-        tmp_list.append(get_default_info(
-            item['url'], 'enrich', 0.9, 'license', info['license'], None))
+    # TODO: THIS MUST BE LOOKED AT FROM A 'COMPUTER BREACH' ARGUMENT,
+    # THERE IS NO REFERENCE TO THIS SO IT COULD (WRONGLY) BE ARGUED THAT YOU ARE TRYING TO HACK
+    #     matomo = {}
+    #     matomo['name'] = 'Matomo'
+    #     matomo['url'] = item['url']
+    #     matomo_version = 'Matomo'
 
-    if len(info['tech']) > 0:
-        for name in info['tech']:
-            tmp_list.append(get_default_info(
-                item['url'], 'enrich', 0.9, 'tech', name, None))
+    #     # matomo_o = urlparse(item['url'])
+    #     # matomo_hostname = matomo_o.hostname
+    #     # matomo_url = '{0}://{1}/CHANGELOG.md'.format(
+    #     #     matomo_o.scheme, matomo_hostname)
+    #     # matomo_changelog_url_regex = r"(?P<url>.*)\/(matomo|piwik).(js|php)"
+    #     # matches = re.finditer(
+    #     #     matomo_changelog_url_regex, item['url'], re.MULTILINE)
+    #     # for matchNum, match in enumerate(matches, start=1):
+    #     #     matomo_url = match.group('url') + '/CHANGELOG.md'
+    #     #     matomo_content = httpRequestGetContent(matomo_url)
+    #     #     matomo_regex = r"## Matomo (?P<version>[\.0-9]+)"
+    #     #     matches = re.finditer(
+    #     #         matomo_regex, matomo_content, re.MULTILINE)
+    #     #     for matchNum, match in enumerate(matches, start=1):
+    #     #         matomo_version = match.group('version')
+    #     #         matomo['version'] = matomo_version
+    #     #         break
 
-    (version_verified, newer_versions) = get_github_project_versions(
-        github_ower, github_repo, github_release_source, github_security_label, item['version'])
+    newer_versions = []
+    version_verified = False
+    if item['version'] is not None:
+        (version_verified, newer_versions) = get_github_project_versions(
+            github_ower, github_repo, github_release_source, github_security_label, item['version'])
 
     has_more_then_one_newer_versions = len(newer_versions) > 0
 
-    precision = 0.7
-    if version_verified:
-        precision = 0.9
+    precision = 0.8
+    info = get_default_info(
+        item['url'], 'enrich', precision, item['category'], item['name'], item['version'])
 
-        info = get_default_info(
-            item['url'], 'enrich', precision, item['category'], item['name'], item['version'])
+    if version_verified:
+        info['precision'] = precision = 0.9
         if has_more_then_one_newer_versions:
             info['latest-version'] = newer_versions[0]['name']
             info['is-latest-version'] = False
         else:
             info['is-latest-version'] = True
             info['latest-version'] = item['version']
-        tmp_list.append(info)
+
+    if github_info['license'] != None:
+        # https://spdx.org/licenses/
+        tmp_list.append(get_default_info(
+            item['url'], 'enrich', 0.9, 'license', github_info['license'], None))
+        info['license'] = github_info['license']
+
+    if len(github_info['tech']) > 0:
+        for name in github_info['tech']:
+            tmp_list.append(get_default_info(
+                item['url'], 'enrich', 0.9, 'tech', name, None))
+
+    tmp_list.append(info)
 
     if has_more_then_one_newer_versions:
         has_more_then_five_newer_versions = len(newer_versions) > 5
@@ -750,7 +789,10 @@ def get_github_project_versions(owner, repo, source, security_label, current_ver
                 versions_dict[version]['fixes-security'] = fixes_security
             newer_versions.append(versions_dict[version])
 
-    return (version_found, newer_versions)
+    if not version_found:
+        return (version_found, [])
+    else:
+        return (version_found, newer_versions)
 
 
 def enrich_data_from_javascript(tmp_list, item, rules):
@@ -771,81 +813,6 @@ def enrich_data_from_javascript(tmp_list, item, rules):
     # Modernizr._version = '3.4.0'
 
     # TODO: We should look at wordpress plugins specifically as they are widely used and we know they are often used in attacks
-
-
-def enrich_data_from_matomo(matomo, tmp_list, item):
-    if use_stealth:
-        return matomo
-    if matomo != None:
-        return matomo
-    if item['category'] != 'tech':
-        return matomo
-    if item['name'] != 'matomo':
-        return matomo
-
-    matomo = {}
-    matomo['name'] = 'Matomo'
-    matomo['url'] = item['url']
-    matomo_version = 'Matomo'
-
-    # matomo_o = urlparse(item['url'])
-    # matomo_hostname = matomo_o.hostname
-    # matomo_url = '{0}://{1}/CHANGELOG.md'.format(
-    #     matomo_o.scheme, matomo_hostname)
-    # matomo_changelog_url_regex = r"(?P<url>.*)\/(matomo|piwik).(js|php)"
-    # matches = re.finditer(
-    #     matomo_changelog_url_regex, item['url'], re.MULTILINE)
-    # for matchNum, match in enumerate(matches, start=1):
-    #     # TODO: THIS MUST BE LOOKED AT FROM A 'COMPUTER BREACH' ARGUMENT,
-    #     # THERE IS NO REFERENCE TO THIS SO IT COULD (WRONGLY) BE ARGUED THAT YOU ARE TRYING TO HACK
-    #     matomo_url = match.group('url') + '/CHANGELOG.md'
-    #     matomo_content = httpRequestGetContent(matomo_url)
-    #     matomo_regex = r"## Matomo (?P<version>[\.0-9]+)"
-    #     matches = re.finditer(
-    #         matomo_regex, matomo_content, re.MULTILINE)
-    #     for matchNum, match in enumerate(matches, start=1):
-    #         matomo_version = match.group('version')
-    #         matomo['version'] = matomo_version
-    #         break
-
-    if 'version' in matomo:
-        (version_verified, newer_versions) = get_github_project_versions(
-            'matomo-org', 'matomo', 'milestones', 'c: Security', matomo['version'])
-
-        has_more_then_one_newer_versions = len(newer_versions) > 0
-
-        precision = 0.7
-        if version_verified:
-            precision = 0.9
-            info = get_default_info(
-                item['url'], 'enrich', precision, item['category'], item['name'], matomo['version'])
-            if has_more_then_one_newer_versions:
-                info['latest-version'] = newer_versions[0]['name']
-                info['is-latest-version'] = False
-            else:
-                info['is-latest-version'] = True
-                info['latest-version'] = item['version']
-            tmp_list.append(info)
-
-        tmp_list.append(get_default_info(
-            item['url'], 'enrich', precision, 'security', 'whisper.app', None))
-
-        if has_more_then_one_newer_versions:
-            is_security_related = False
-            for version_info in newer_versions:
-                if 'fixes-security' in version_info:
-                    is_security_related = is_security_related or version_info['fixes-security']
-
-            if is_security_related:
-                tmp_list.append(get_default_info(
-                    item['url'], 'enrich', precision, 'security', 'screaming.app.security-issues', None))
-                tmp_list.append(get_default_info(
-                    item['url'], 'enrich', precision, 'security', 'screaming.app.not-latest', None))
-            else:
-                tmp_list.append(get_default_info(
-                    item['url'], 'enrich', precision, 'security', 'guide.app.not-latest', None))
-
-    return matomo
 
 
 def enrich_data_from_videos(tmp_list, item, result_folder_name, nof_tries=0):
@@ -901,7 +868,7 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
 
         image_data = None
         try:
-            if use_cache and os.path.exists(cache_path):
+            if use_cache and os.path.exists(cache_path) and is_file_older_than(cache_path, cache_time_delta):
                 image_data = Image.open(cache_path)
             else:
                 data = httpRequestGetContent(

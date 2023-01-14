@@ -400,6 +400,52 @@
         {
             "use": true,
             "type": "html",
+            "description": "EpiServer CMS",
+            "match": "(?P<debug>\\/link\\/[a-z0-9]{32}\\.aspx)",
+            "results": [
+                {
+                    "category": "tech",
+                    "name": "asp.net",
+                    "precision": 0.5
+                },
+                {
+                    "category": "tech",
+                    "name": "csharp",
+                    "precision": 0.5
+                },
+                {
+                    "category": "cms",
+                    "name": "episerver",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "EpiServer CMS",
+            "match": "(?P<debug>\\/link\\/[a-z0-9]{32})",
+            "results": [
+                {
+                    "category": "tech",
+                    "name": "asp.net",
+                    "precision": 0.4
+                },
+                {
+                    "category": "tech",
+                    "name": "csharp",
+                    "precision": 0.4
+                },
+                {
+                    "category": "cms",
+                    "name": "episerver",
+                    "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
             "description": "find supported languages",
             "match": "(?P<debug>lang=[\"'](?P<name>[a-zA-Z\\-_]+)[\"'])",
             "results": [

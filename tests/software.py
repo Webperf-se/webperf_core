@@ -320,7 +320,10 @@ def rate_domain(_local, _, rating, categories, domain, item):
                         category_rating.set_overall(points)
                         category_rating.set_integrity_and_security(
                             points, _local('TEXT_USED_{0}'.format(
-                                category.upper())).format('{0} - {1}'.format(item_type, domain)))
+                                category.upper())).format('{0}'.format(domain)))
+                        # category_rating.set_integrity_and_security(
+                        #     points, _local('TEXT_USED_{0}'.format(
+                        #         category.upper())).format('{0} - {1}'.format(item_type, domain)))
 
                     rating += category_rating
             else:
@@ -620,14 +623,18 @@ def enrich_data_from_github_repo(tmp_list, item):
     tmp_list.append(info)
 
     if has_more_then_one_newer_versions:
-        has_more_then_five_newer_versions = len(newer_versions) > 5
-        has_more_then_ten_newer_versions = len(newer_versions) > 10
-        if has_more_then_ten_newer_versions:
+        has_more_then_10_newer_versions = len(newer_versions) > 10
+        has_more_then_25_newer_versions = len(newer_versions) > 25
+        has_more_then_50_newer_versions = len(newer_versions) > 50
+        if has_more_then_50_newer_versions:
             tmp_list.append(get_default_info(
                 item['url'], 'enrich', precision, 'security', 'screaming.js.not-latest', None))
-        elif has_more_then_five_newer_versions:
+        elif has_more_then_25_newer_versions:
             tmp_list.append(get_default_info(
                 item['url'], 'enrich', precision, 'security', 'talking.js.not-latest', None))
+        elif has_more_then_10_newer_versions:
+            tmp_list.append(get_default_info(
+                item['url'], 'enrich', precision, 'security', 'whisper.js.not-latest', None))
         else:
             tmp_list.append(get_default_info(
                 item['url'], 'enrich', precision, 'security', 'guide.js.not-latest', None))
@@ -809,8 +816,10 @@ def enrich_data_from_javascript(tmp_list, item, rules):
     if item['version'] == None:
         return
 
+    # TODO: Check if we can run custom javascript in sitespeed.io to add below tests
     # jQuery.fn.jquery = '1.9.1'
     # Modernizr._version = '3.4.0'
+    # window['__core-js_shared__'].versions
 
     # TODO: We should look at wordpress plugins specifically as they are widely used and we know they are often used in attacks
 

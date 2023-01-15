@@ -172,8 +172,12 @@ def write_json(filename, data):
 
 def get_rating_from_sitespeed(url, _local, _):
     # TODO: CHANGE THIS IF YOU WANT TO DEBUG
+    folder_ending = 'tmp'
+    if use_cache:
+        folder_ending = 'cache'
+
     result_folder_name = os.path.join(
-        'data', 'results-{0}'.format(str(uuid.uuid4())))
+        'data', 'results-{0}-{1}'.format(str(uuid.uuid4()), folder_ending))
     # result_folder_name = os.path.join('data', 'results')
 
     from tests.performance_sitespeed_io import get_result as sitespeed_run_test

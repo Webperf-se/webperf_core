@@ -29,12 +29,16 @@ except:
     # If cache_when_possible variable is not set in config.py this will be the default
     use_cache = False
     cache_time_delta = timedelta(hours=1)
-
 try:
     use_stealth = config.software_use_stealth
 except:
     # If software_use_stealth variable is not set in config.py this will be the default
     use_stealth = True
+try:
+    use_detailed_report = config.software_use_detailed_report
+except:
+    # If software_use_detailed_report variable is not set in config.py this will be the default
+    use_detailed_report = False
 
 
 # Debug flags for every category here, this so we can print out raw values (so we can add more allowed once)
@@ -85,8 +89,14 @@ def get_rating_from_sitespeed(url, _local, _):
     rules = get_rules()
     data = identify_software(filename, origin_domain, rules)
     data = enrich_data(data, origin_domain, result_folder_name, rules)
-    result = convert_item_to_domain_data(data)
-    rating = rate_result(_local, _, result, url)
+
+    rating = Rating(_, review_show_improvements_only)
+    result = {}
+    if use_detailed_report:
+        a = 1
+    else:
+        result = convert_item_to_domain_data(data)
+        rating += rate_result(_local, _, result, url)
 
     if not use_cache:
         shutil.rmtree(result_folder_name)

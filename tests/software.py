@@ -93,7 +93,8 @@ def get_rating_from_sitespeed(url, _local, _):
     rating = Rating(_, review_show_improvements_only)
     result = {}
     if use_detailed_report:
-        a = 1
+        result = convert_item_to_software_data(data)
+        # TODO: Add rating for result
     else:
         result = convert_item_to_domain_data(data)
         rating += rate_result(_local, _, result, url)
@@ -102,6 +103,172 @@ def get_rating_from_sitespeed(url, _local, _):
         shutil.rmtree(result_folder_name)
 
     return (rating, result)
+
+
+def create_detailed_review(msg_type, software_name, software_versions):
+    if msg_type == 'cve':
+        msg = ['##### Software related to CVE-XXXXXX ( 1.0 rating )',
+               '',
+               '###### Introduction:',
+               'Software version used is effected by vurnability described in CVE-XXXXXX.',
+               'For a more detailed explanation please search for CVE-XXXXXX.',
+               'In most cases you can fix a CVE related issue by updating software to latest version.',
+               'In some rare cases there is no update and you need to consider not using the software affected.',
+               '###### Detected version(s):',
+               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
+               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
+               '',
+               '###### Detected resource(s):',
+               '- https://example.com/scripts/jquery.js',
+               '']
+    elif msg_type == 'flagged':
+        msg = ['##### Software with security flagged issues ( 1.5 rating )',
+               '',
+               '###### Introduction:',
+               'Software used has a newer version with issues flagged with security in GITHUB_REPO.',
+               'This means that one or more security related issued has been fixed in a later version then you use.',
+               'You can fix this by updating software to latest version.',
+               '###### Detected version(s):',
+               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
+               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
+               '',
+               '###### Detected resource(s):',
+               '- https://example.com/scripts/jquery.js',
+               '']
+    elif msg_type == 'behind100':
+        msg = ['##### Software is behind >=100 versions ( 2.0 rating )',
+               '',
+               '###### Introduction:',
+               'Software used is behind 100 or more version compared to latests.',
+               'This is a very good indicator that you need to update to lastest version.',
+               'It also indicate that you don\'t have a good package routine for your software.'
+               'You can fix this by updating software to latest version.',
+               '###### Detected version(s):',
+               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
+               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
+               '',
+               '###### Detected resource(s):',
+               '- https://example.com/scripts/jquery.js',
+               '']
+    elif msg_type == 'behind50':
+        msg = ['##### Software is behind >=50 versions ( 2.5 rating )',
+               '',
+               '###### Introduction:',
+               'Software used is behind 50 or more version compared to latests.',
+               'This is a very good indicator that you need to update to lastest version.',
+               'It also indicate that you don\'t have a good package routine for your software.'
+               'You can fix this by updating software to latest version.',
+               '###### Detected version(s):',
+               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
+               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
+               '',
+               '###### Detected resource(s):',
+               '- https://example.com/scripts/jquery.js',
+               '']
+    elif msg_type == 'behind25':
+        msg = ['##### Software is behind >=25 versions ( 2.75 rating )',
+               '',
+               '###### Introduction:',
+               'Software used is behind 25 or more version compared to latests.',
+               'This is a good indicator that you need to update to lastest version.',
+               'It also indicate that you don\'t have a good package routine for your software.'
+               'You can fix this by updating software to latest version.',
+               '###### Detected version(s):',
+               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
+               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
+               '',
+               '###### Detected resource(s):',
+               '- https://example.com/scripts/jquery.js',
+               '']
+    elif msg_type == 'behind10':
+        msg = ['##### Software is behind >=10 versions ( 3.0 rating )',
+               '',
+               '###### Introduction:',
+               'Software used is behind 10 or more version compared to latests.',
+               'This is a semi good indicator that you need to update to lastest version.',
+               'It also indicate that you don\'t have a good package routine for your software.'
+               'You can fix this by updating software to latest version.',
+               '###### Detected version(s):',
+               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
+               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
+               '',
+               '###### Detected resource(s):',
+               '- https://example.com/scripts/jquery.js',
+               '']
+    elif msg_type == 'latest-but-leaking-name-and-version':
+        msg = ['##### Software version and name is leaked ( 4.5 rating )',
+               '',
+               '###### Introduction:',
+               'You seem to use latest version BUT you are leaking name and version of software used.',
+               'This make it easier for someone to find vurnabilities to use against you, all from Z-DAY to known security issues.'
+               '###### Detected version(s):',
+               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
+               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
+               '',
+               '###### Detected resource(s):',
+               '- https://example.com/scripts/jquery.js',
+               '']
+    elif msg_type == 'unknown-but-leaking-name-and-version':
+        msg = ['##### Software version and name is leaked ( 4.0 rating )',
+               '',
+               '###### Introduction:',
+               'You are leaking name and version of software used.',
+               'This make it easier for someone to find vurnabilities to use against you, all from Z-DAY to known security issues.'
+               '###### Detected version(s):',
+               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
+               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
+               '',
+               '###### Detected resource(s):',
+               '- https://example.com/scripts/jquery.js',
+               '']
+    elif msg_type == 'leaking-name':
+        msg = ['##### Software version and name is leaked ( 4.8 rating )',
+               '',
+               '###### Introduction:',
+               'Software used is behind 1 or more version compared to latests.',
+               'This is a small indicator that you need to update to lastest version.',
+               'It also indicate that you don\'t have a good package routine for your software.'
+               'You can fix this by updating software to latest version.',
+               '###### Detected version(s):',
+               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
+               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
+               '',
+               '###### Detected resource(s):',
+               '- https://example.com/scripts/jquery.js',
+               '']
+    elif msg_type == 'behind1':
+        msg = ['##### Software is behind >=1 versions ( 4.9 rating )',
+               '',
+               '###### Introduction:',
+               'Software used is behind 1 or more version compared to latests.',
+               'This is a small indicator that you need to update to lastest version.',
+               'It also indicate that you don\'t have a good package routine for your software.'
+               'You can fix this by updating software to latest version.',
+               '###### Detected version(s):',
+               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
+               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
+               '',
+               '###### Detected resource(s):',
+               '- https://example.com/scripts/jquery.js',
+               '']
+    elif msg_type == 'multiple-versions':
+        msg = ['##### Multiple versions of same Software ( 4.9 rating )',
+               '',
+               '###### Introduction:',
+               'You are using multiple version of the same software.',
+               'This can be caused if you include resources from external sources or because of miss configuration.'
+               'This is a small indicator that you don\t have as much control that you probably should.',
+               'It also indicate that you don\'t have a good package routine for your software.'
+               'You can fix this by updating software to latest version or latest version that you use for all instances.',
+               '###### Detected version(s):',
+               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
+               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
+               '',
+               '###### Detected resource(s):',
+               '- https://example.com/scripts/jquery.js',
+               '']
+
+    return '\r\n'.join(msg)
 
 
 def rate_result(_local, _, result, url):
@@ -219,6 +386,53 @@ def rate_domain(_local, _, rating, categories, domain, item):
     return (found_cms, rating)
 
 
+def convert_item_to_software_data(data):
+    result = {}
+
+    for item in data:
+        category = item['category']
+        # if 'tech' not in category and 'js' not in category and 'cms' not in category and 'webserver' not in category and 'security' not in category:
+        #     continue
+        # if 'tech' not in category and 'js' not in category and 'cms' not in category and 'webserver' not in category:
+        #     continue
+        if 'js' not in category and 'cms' not in category and 'webserver' not in category and 'os' not in category:
+            continue
+
+        if category not in result:
+            result[category] = {}
+
+        name = item['name']
+        if name == '?':
+            continue
+        version = item['version']
+        if 'webserver' != category and version == None:
+            continue
+
+        precision = item['precision']
+        if precision < 0.3:
+            continue
+        # print(item)
+
+        if name not in result[category]:
+            result[category][name] = {
+                'versions': [],
+                'sources': []
+            }
+
+        if version != None and version not in result[category][name]['versions']:
+            result[category][name]['versions'].append(version)
+        if 'url' in item and item['url'] not in result[category][name]['sources']:
+            result[category][name]['sources'].append(item['url'])
+        if 'latest-version' in item:
+            result[category][name]['latest-version'] = item['latest-version']
+            print(item)
+        if 'nof-newer-versions' in item:
+            result[category][name]['nof-newer-versions'] = item['nof-newer-versions']
+
+    json_result = json.dumps(result, indent=4)
+    return result
+
+
 def convert_item_to_domain_data(data):
     result = {}
 
@@ -292,6 +506,11 @@ def enrich_data(data, orginal_domain, result_folder_name, rules):
 
         if item['precision'] >= 0.5 and (item['category'] == 'os' or item['category'] == 'webserver' or item['category'] == 'cms'):
             if item['version'] != None:
+                if 'is-latest-version' in item and item['is-latest-version']:
+                    item['security.latest-but-leaking-name-and-version'] = True
+                else:
+                    item['security.leaking-name-and-version'] = True
+
                 tmp_list.append(get_default_info(
                     item['url'], 'enrich', item['precision'], 'security', 'screaming.{0}'.format(item['category']), None))
             else:
@@ -300,9 +519,11 @@ def enrich_data(data, orginal_domain, result_folder_name, rules):
 
         # matomo = enrich_data_from_matomo(matomo, tmp_list, item)
         enrich_data_from_github_repo(tmp_list, item)
+        enrich_versions(tmp_list, item)
         enrich_data_from_javascript(tmp_list, item, rules)
         enrich_data_from_videos(tmp_list, item, result_folder_name)
         enrich_data_from_images(tmp_list, item, result_folder_name)
+        enrich_data_from_documents(tmp_list, item, result_folder_name)
         enrich_data_from_github_advisory_database(
             tmp_list, item, result_folder_name)
 
@@ -314,7 +535,175 @@ def enrich_data(data, orginal_domain, result_folder_name, rules):
             'test': testing
         }
 
+    #print('A', data)
     return data
+
+
+def enrich_versions(tmp_list, item):
+    if item['version'] == None:
+        return
+
+    newer_versions = []
+    version_verified = False
+
+    if item['name'] == 'matomo':
+        a = 1
+        # TODO: THIS MUST BE LOOKED AT FROM A 'COMPUTER BREACH' ARGUMENT,
+        # THERE IS NO REFERENCE TO THIS SO IT COULD (WRONGLY) BE ARGUED THAT YOU ARE TRYING TO HACK
+        #     matomo = {}
+        #     matomo['name'] = 'Matomo'
+        #     matomo['url'] = item['url']
+        #     matomo_version = 'Matomo'
+
+        #     # matomo_o = urlparse(item['url'])
+        #     # matomo_hostname = matomo_o.hostname
+        #     # matomo_url = '{0}://{1}/CHANGELOG.md'.format(
+        #     #     matomo_o.scheme, matomo_hostname)
+        #     # matomo_changelog_url_regex = r"(?P<url>.*)\/(matomo|piwik).(js|php)"
+        #     # matches = re.finditer(
+        #     #     matomo_changelog_url_regex, item['url'], re.MULTILINE)
+        #     # for matchNum, match in enumerate(matches, start=1):
+        #     #     matomo_url = match.group('url') + '/CHANGELOG.md'
+        #     #     matomo_content = httpRequestGetContent(matomo_url)
+        #     #     matomo_regex = r"## Matomo (?P<version>[\.0-9]+)"
+        #     #     matches = re.finditer(
+        #     #         matomo_regex, matomo_content, re.MULTILINE)
+        #     #     for matchNum, match in enumerate(matches, start=1):
+        #     #         matomo_version = match.group('version')
+        #     #         matomo['version'] = matomo_version
+        #     #         break
+
+    if item['name'] == 'apache':
+        (version_verified, newer_versions) = get_apache_httpd_versions(
+            item['version'])
+    elif item['name'] == 'iis':
+        (version_verified, newer_versions) = get_iis_versions(
+            item['version'])
+    elif 'github-owner' in item and 'github-repo' in item:
+        github_ower = item['github-owner']
+        github_repo = item['github-repo']
+        github_release_source = item['github-repo-version-source']
+        github_security_label = item['github-repo-security-label']
+        (version_verified, newer_versions) = get_github_project_versions(
+            github_ower, github_repo, github_release_source, github_security_label, item['version'])
+
+    nof_newer_versions = len(newer_versions)
+    has_more_then_one_newer_versions = nof_newer_versions > 0
+
+    precision = 0.8
+    info = get_default_info(
+        item['url'], 'enrich', precision, item['category'], item['name'], item['version'])
+
+    if version_verified:
+        info['precision'] = precision = 0.9
+        if has_more_then_one_newer_versions:
+            info['latest-version'] = newer_versions[0]['name']
+            info['is-latest-version'] = False
+        else:
+            info['is-latest-version'] = True
+            info['latest-version'] = item['version']
+        info['nof-newer-versions'] = nof_newer_versions
+
+    tmp_list.append(info)
+
+    if has_more_then_one_newer_versions:
+        has_more_then_10_newer_versions = len(newer_versions) > 10
+        has_more_then_25_newer_versions = len(newer_versions) > 25
+        has_more_then_50_newer_versions = len(newer_versions) > 50
+        if has_more_then_50_newer_versions:
+            tmp_list.append(get_default_info(
+                item['url'], 'enrich', precision, 'security', 'screaming.js.not-latest', None))
+        elif has_more_then_25_newer_versions:
+            tmp_list.append(get_default_info(
+                item['url'], 'enrich', precision, 'security', 'talking.js.not-latest', None))
+        elif has_more_then_10_newer_versions:
+            tmp_list.append(get_default_info(
+                item['url'], 'enrich', precision, 'security', 'whisper.js.not-latest', None))
+        else:
+            tmp_list.append(get_default_info(
+                item['url'], 'enrich', precision, 'security', 'guide.js.not-latest', None))
+
+    return
+
+
+def get_iis_versions(current_version):
+    # https://learn.microsoft.com/en-us/lifecycle/products/internet-information-services-iis
+    newer_versions = []
+    content = httpRequestGetContent(
+        'https://learn.microsoft.com/en-us/lifecycle/products/internet-information-services-iis')
+    regex = r"<td>IIS (?P<version>[0-9\.]+)"
+    matches = re.finditer(regex, content, re.MULTILINE)
+
+    versions = list()
+    versions_dict = {}
+    from distutils.version import LooseVersion
+
+    for matchNum, match in enumerate(matches, start=1):
+        name = match.group('version')
+        # version fix because source we use are not using the trailing .0 in all cases
+        if '.' not in name:
+            name = '{0}.0'.format(name)
+        versions.append(name)
+        date = None
+        id = name
+        versions_dict[name] = {
+            'name': name,
+            'date': date,
+            'id': id
+        }
+
+    versions = sorted(versions, key=LooseVersion, reverse=True)
+    newer_versions = list()
+    version_found = False
+    for version in versions:
+        if current_version == version:
+            version_found = True
+            break
+        else:
+            newer_versions.append(versions_dict[version])
+
+    if not version_found:
+        return (version_found, [])
+    else:
+        return (version_found, newer_versions)
+
+
+def get_apache_httpd_versions(current_version):
+    newer_versions = []
+    content = httpRequestGetContent(
+        'https://svn.apache.org/viewvc/httpd/httpd/tags/')
+    regex = r"<a name=\"(?P<version>[0-9\.]+)\""
+    matches = re.finditer(regex, content, re.MULTILINE)
+
+    versions = list()
+    versions_dict = {}
+    from distutils.version import LooseVersion
+
+    for matchNum, match in enumerate(matches, start=1):
+        name = match.group('version')
+        versions.append(name)
+        date = None
+        id = name
+        versions_dict[name] = {
+            'name': name,
+            'date': date,
+            'id': id
+        }
+
+    versions = sorted(versions, key=LooseVersion, reverse=True)
+    newer_versions = list()
+    version_found = False
+    for version in versions:
+        if current_version == version:
+            version_found = True
+            break
+        else:
+            newer_versions.append(versions_dict[version])
+
+    if not version_found:
+        return (version_found, [])
+    else:
+        return (version_found, newer_versions)
 
 
 def enrich_data_from_github_advisory_database(tmp_list, item, result_folder_name):
@@ -425,98 +814,28 @@ def enrich_data_from_github_repo(tmp_list, item):
         item['github-owner'] = github_ower
     if 'github-repo' not in item:
         item['github-repo'] = github_repo
+    if 'github-repo-version-source' not in item:
+        item['github-repo-version-source'] = github_release_source
+    if 'github-repo-security-label' not in item:
+        item['github-repo-security-label'] = github_security_label
 
     github_info = get_github_repository_info(
         github_ower, github_repo)
 
-    # TODO: THIS MUST BE LOOKED AT FROM A 'COMPUTER BREACH' ARGUMENT,
-    # THERE IS NO REFERENCE TO THIS SO IT COULD (WRONGLY) BE ARGUED THAT YOU ARE TRYING TO HACK
-    #     matomo = {}
-    #     matomo['name'] = 'Matomo'
-    #     matomo['url'] = item['url']
-    #     matomo_version = 'Matomo'
-
-    #     # matomo_o = urlparse(item['url'])
-    #     # matomo_hostname = matomo_o.hostname
-    #     # matomo_url = '{0}://{1}/CHANGELOG.md'.format(
-    #     #     matomo_o.scheme, matomo_hostname)
-    #     # matomo_changelog_url_regex = r"(?P<url>.*)\/(matomo|piwik).(js|php)"
-    #     # matches = re.finditer(
-    #     #     matomo_changelog_url_regex, item['url'], re.MULTILINE)
-    #     # for matchNum, match in enumerate(matches, start=1):
-    #     #     matomo_url = match.group('url') + '/CHANGELOG.md'
-    #     #     matomo_content = httpRequestGetContent(matomo_url)
-    #     #     matomo_regex = r"## Matomo (?P<version>[\.0-9]+)"
-    #     #     matches = re.finditer(
-    #     #         matomo_regex, matomo_content, re.MULTILINE)
-    #     #     for matchNum, match in enumerate(matches, start=1):
-    #     #         matomo_version = match.group('version')
-    #     #         matomo['version'] = matomo_version
-    #     #         break
-
-    newer_versions = []
-    version_verified = False
-    if item['version'] is not None:
-        (version_verified, newer_versions) = get_github_project_versions(
-            github_ower, github_repo, github_release_source, github_security_label, item['version'])
-
-    has_more_then_one_newer_versions = len(newer_versions) > 0
-
     precision = 0.8
-    info = get_default_info(
-        item['url'], 'enrich', precision, item['category'], item['name'], item['version'])
-
-    if version_verified:
-        info['precision'] = precision = 0.9
-        if has_more_then_one_newer_versions:
-            info['latest-version'] = newer_versions[0]['name']
-            info['is-latest-version'] = False
-        else:
-            info['is-latest-version'] = True
-            info['latest-version'] = item['version']
-
     if github_info['license'] != None:
+        info = get_default_info(
+            item['url'], 'enrich', precision, item['category'], item['name'], item['version'])
         # https://spdx.org/licenses/
         tmp_list.append(get_default_info(
             item['url'], 'enrich', 0.9, 'license', github_info['license'], None))
         info['license'] = github_info['license']
+        tmp_list.append(info)
 
     if len(github_info['tech']) > 0:
         for name in github_info['tech']:
             tmp_list.append(get_default_info(
                 item['url'], 'enrich', 0.9, 'tech', name, None))
-
-    tmp_list.append(info)
-
-    if has_more_then_one_newer_versions:
-        has_more_then_10_newer_versions = len(newer_versions) > 10
-        has_more_then_25_newer_versions = len(newer_versions) > 25
-        has_more_then_50_newer_versions = len(newer_versions) > 50
-        if has_more_then_50_newer_versions:
-            tmp_list.append(get_default_info(
-                item['url'], 'enrich', precision, 'security', 'screaming.js.not-latest', None))
-        elif has_more_then_25_newer_versions:
-            tmp_list.append(get_default_info(
-                item['url'], 'enrich', precision, 'security', 'talking.js.not-latest', None))
-        elif has_more_then_10_newer_versions:
-            tmp_list.append(get_default_info(
-                item['url'], 'enrich', precision, 'security', 'whisper.js.not-latest', None))
-        else:
-            tmp_list.append(get_default_info(
-                item['url'], 'enrich', precision, 'security', 'guide.js.not-latest', None))
-        # is_security_related = False
-        # for version_info in newer_versions:
-        #     if 'fixes-security' in version_info:
-        #         is_security_related = is_security_related or version_info['fixes-security']
-
-        # if is_security_related:
-        #     tmp_list.append(get_default_info(
-        #         item['url'], 'enrich', precision, 'security', 'screaming.js.security-issues', None))
-        #     tmp_list.append(get_default_info(
-        #         item['url'], 'enrich', precision, 'security', 'screaming.js.not-latest', None))
-        # else:
-        #     tmp_list.append(get_default_info(
-        #         item['url'], 'enrich', precision, 'security', 'guide.js.not-latest', None))
 
     return
 
@@ -700,6 +1019,12 @@ def enrich_data_from_videos(tmp_list, item, result_folder_name, nof_tries=0):
         return
 
     # TODO: Consider if we should read metadata from video
+
+
+def enrich_data_from_documents(tmp_list, item, result_folder_name, nof_tries=0):
+    if use_stealth:
+        return
+    # TODO: Handle: pdf, excel, word, powerpoints (and more?)
 
 
 def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):

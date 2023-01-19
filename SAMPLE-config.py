@@ -53,3 +53,10 @@ cache_time_delta = timedelta(hours=1)
 
 # Tell software test to use stealth mode or not, default is 'True'
 software_use_stealth = True
+
+# Tell software test to use detailed report for review and rating
+software_use_detailed_report = False
+
+# Tell software test the path to where you have repo of: https://github.com/github/advisory-database
+# Used to find CVE:s for npm packages
+software_github_adadvisory_database_path = None

@@ -15,6 +15,8 @@ from tests.utils import *
 from tests.sitespeed_base import get_result
 import datetime
 import gettext
+from distutils.version import LooseVersion
+
 _ = gettext.gettext
 
 # DEFAULTS
@@ -39,6 +41,11 @@ try:
 except:
     # If software_use_detailed_report variable is not set in config.py this will be the default
     use_detailed_report = False
+try:
+    github_adadvisory_database_path = config.software_github_adadvisory_database_path
+except:
+    # If software_github_adadvisory_database_path variable is not set in config.py this will be the default
+    github_adadvisory_database_path = None
 
 
 # Debug flags for every category here, this so we can print out raw values (so we can add more allowed once)
@@ -93,11 +100,11 @@ def get_rating_from_sitespeed(url, _local, _):
     rating = Rating(_, review_show_improvements_only)
     result = {}
     if use_detailed_report:
-        result = convert_item_to_software_data(data)
-        # TODO: Add rating for result
+        result = convert_item_to_software_data(data, url)
+        rating += rate_software_result(_local, _, result, url)
     else:
         result = convert_item_to_domain_data(data)
-        rating += rate_result(_local, _, result, url)
+        rating += rate_domain_result(_local, _, result, url)
 
     if not use_cache:
         shutil.rmtree(result_folder_name)
@@ -105,21 +112,18 @@ def get_rating_from_sitespeed(url, _local, _):
     return (rating, result)
 
 
-def create_detailed_review(msg_type, software_name, software_versions):
+def create_detailed_review(msg_type, points, software_name, software_versions, sources, cve_name=None, references=None):
+    # TODO: Use points from arguments into create_detailed_review and replace it in text (so it is easier to change rating)
     if msg_type == 'cve':
-        msg = ['##### Software related to CVE-XXXXXX ( 1.0 rating )',
+        msg = ['##### Software related to {0} ( 1.0 rating )'.format(cve_name),
                '',
                '###### Introduction:',
-               'Software version used is effected by vurnability described in CVE-XXXXXX.',
-               'For a more detailed explanation please search for CVE-XXXXXX.',
+               'Software version used is effected by vurnability described in {0}.'.format(
+                   cve_name),
+               'For a more detailed explanation please see references below or search for {0}.'.format(
+                   cve_name),
                'In most cases you can fix a CVE related issue by updating software to latest version.',
                'In some rare cases there is no update and you need to consider not using the software affected.',
-               '###### Detected version(s):',
-               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
-               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
-               '',
-               '###### Detected resource(s):',
-               '- https://example.com/scripts/jquery.js',
                '']
     elif msg_type == 'flagged':
         msg = ['##### Software with security flagged issues ( 1.5 rating )',
@@ -128,12 +132,6 @@ def create_detailed_review(msg_type, software_name, software_versions):
                'Software used has a newer version with issues flagged with security in GITHUB_REPO.',
                'This means that one or more security related issued has been fixed in a later version then you use.',
                'You can fix this by updating software to latest version.',
-               '###### Detected version(s):',
-               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
-               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
-               '',
-               '###### Detected resource(s):',
-               '- https://example.com/scripts/jquery.js',
                '']
     elif msg_type == 'behind100':
         msg = ['##### Software is behind >=100 versions ( 2.0 rating )',
@@ -143,12 +141,6 @@ def create_detailed_review(msg_type, software_name, software_versions):
                'This is a very good indicator that you need to update to lastest version.',
                'It also indicate that you don\'t have a good package routine for your software.'
                'You can fix this by updating software to latest version.',
-               '###### Detected version(s):',
-               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
-               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
-               '',
-               '###### Detected resource(s):',
-               '- https://example.com/scripts/jquery.js',
                '']
     elif msg_type == 'behind50':
         msg = ['##### Software is behind >=50 versions ( 2.5 rating )',
@@ -158,12 +150,6 @@ def create_detailed_review(msg_type, software_name, software_versions):
                'This is a very good indicator that you need to update to lastest version.',
                'It also indicate that you don\'t have a good package routine for your software.'
                'You can fix this by updating software to latest version.',
-               '###### Detected version(s):',
-               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
-               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
-               '',
-               '###### Detected resource(s):',
-               '- https://example.com/scripts/jquery.js',
                '']
     elif msg_type == 'behind25':
         msg = ['##### Software is behind >=25 versions ( 2.75 rating )',
@@ -173,12 +159,6 @@ def create_detailed_review(msg_type, software_name, software_versions):
                'This is a good indicator that you need to update to lastest version.',
                'It also indicate that you don\'t have a good package routine for your software.'
                'You can fix this by updating software to latest version.',
-               '###### Detected version(s):',
-               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
-               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
-               '',
-               '###### Detected resource(s):',
-               '- https://example.com/scripts/jquery.js',
                '']
     elif msg_type == 'behind10':
         msg = ['##### Software is behind >=10 versions ( 3.0 rating )',
@@ -188,38 +168,22 @@ def create_detailed_review(msg_type, software_name, software_versions):
                'This is a semi good indicator that you need to update to lastest version.',
                'It also indicate that you don\'t have a good package routine for your software.'
                'You can fix this by updating software to latest version.',
-               '###### Detected version(s):',
-               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
-               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
-               '',
-               '###### Detected resource(s):',
-               '- https://example.com/scripts/jquery.js',
                '']
     elif msg_type == 'latest-but-leaking-name-and-version':
         msg = ['##### Software version and name is leaked ( 4.5 rating )',
                '',
                '###### Introduction:',
                'You seem to use latest version BUT you are leaking name and version of software used.',
-               'This make it easier for someone to find vurnabilities to use against you, all from Z-DAY to known security issues.'
-               '###### Detected version(s):',
-               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
-               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
-               '',
-               '###### Detected resource(s):',
-               '- https://example.com/scripts/jquery.js',
+               'This make it easier for someone to find vurnabilities to use against you, all from ZERO-DAY to known security issues.'
+               'To fix this you need to hide name and version, please view Software documentation on how to do this.'
                '']
     elif msg_type == 'unknown-but-leaking-name-and-version':
         msg = ['##### Software version and name is leaked ( 4.0 rating )',
                '',
                '###### Introduction:',
                'You are leaking name and version of software used.',
-               'This make it easier for someone to find vurnabilities to use against you, all from Z-DAY to known security issues.'
-               '###### Detected version(s):',
-               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
-               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
-               '',
-               '###### Detected resource(s):',
-               '- https://example.com/scripts/jquery.js',
+               'This make it easier for someone to find vurnabilities to use against you, all from ZERO-DAY to known security issues.'
+               'To fix this you need to hide name and version, please view Software documentation on how to do this.'
                '']
     elif msg_type == 'leaking-name':
         msg = ['##### Software version and name is leaked ( 4.8 rating )',
@@ -229,12 +193,6 @@ def create_detailed_review(msg_type, software_name, software_versions):
                'This is a small indicator that you need to update to lastest version.',
                'It also indicate that you don\'t have a good package routine for your software.'
                'You can fix this by updating software to latest version.',
-               '###### Detected version(s):',
-               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
-               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
-               '',
-               '###### Detected resource(s):',
-               '- https://example.com/scripts/jquery.js',
                '']
     elif msg_type == 'behind1':
         msg = ['##### Software is behind >=1 versions ( 4.9 rating )',
@@ -244,12 +202,6 @@ def create_detailed_review(msg_type, software_name, software_versions):
                'This is a small indicator that you need to update to lastest version.',
                'It also indicate that you don\'t have a good package routine for your software.'
                'You can fix this by updating software to latest version.',
-               '###### Detected version(s):',
-               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
-               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
-               '',
-               '###### Detected resource(s):',
-               '- https://example.com/scripts/jquery.js',
                '']
     elif msg_type == 'multiple-versions':
         msg = ['##### Multiple versions of same Software ( 4.9 rating )',
@@ -257,21 +209,160 @@ def create_detailed_review(msg_type, software_name, software_versions):
                '###### Introduction:',
                'You are using multiple version of the same software.',
                'This can be caused if you include resources from external sources or because of miss configuration.'
-               'This is a small indicator that you don\t have as much control that you probably should.',
+               'This is a small indicator that you don\'t have as much control that you probably should.',
                'It also indicate that you don\'t have a good package routine for your software.'
                'You can fix this by updating software to latest version or latest version that you use for all instances.',
-               '###### Detected version(s):',
-               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
-               '- {SOFTWARE_NAME} {SOFTWARE_VERSION}',
-               '',
-               '###### Detected resource(s):',
-               '- https://example.com/scripts/jquery.js',
                '']
+
+    if references != None and len(references) > 0:
+        msg.append('###### Reference(s):')
+
+        for reference in references:
+            msg.append('- {0}'.format(reference))
+        msg.append('')
+
+    if len(software_versions) > 0:
+        msg.append('###### Detected version(s):')
+
+        for version in software_versions:
+            msg.append('- {0} {1}'.format(software_name, version))
+        msg.append('')
+
+    if len(sources) > 0:
+        msg.append('###### Detected resource(s):')
+
+        source_index = 0
+        for source in sources:
+            if source_index > 5:
+                msg.append('- More then 5 sources, hiding rest')
+                break
+            msg.append('- {0}'.format(source))
+            source_index += 1
+        msg.append('')
+        msg.append('')
 
     return '\r\n'.join(msg)
 
 
-def rate_result(_local, _, result, url):
+def update_rating_collection(rating, ratings):
+    points_key = "key_{0:.2f}".format(rating.get_integrity_and_security())
+    if points_key not in ratings:
+        ratings[points_key] = list()
+    ratings[points_key].append(rating)
+    return ratings
+
+
+def rate_software_result(_local, _, result, url):
+    rating = Rating(_, review_show_improvements_only)
+
+    url_info = urlparse(url)
+    orginal_domain = url_info.hostname
+
+    ratings = {}
+
+    categories = ['cms', 'webserver', 'os',
+                  'analytics',
+                  'js',
+                  'img', 'img.software', 'img.os', 'img.device', 'video']
+    for category in categories:
+        if category in result:
+            json_category = json.dumps(result[category], indent=4)
+            print(category, json_category)
+            for software_name in result[category]:
+                info = result[category][software_name]
+                if 'vulnerabilities' in info:
+                    for vuln in info['vulnerabilities']:
+                        points = 1.0
+                        if 'severity' in vuln:
+                            if 'HIGH' in vuln['severity']:
+                                points = 1.5
+                            elif 'MODERATE' in vuln['severity']:
+                                points = 1.9
+
+                        text = create_detailed_review(
+                            'cve', points, software_name, info['versions'], info['sources'], vuln['name'], vuln['references'])
+                        sub_rating = Rating(_, review_show_improvements_only)
+                        sub_rating.set_overall(points)
+                        sub_rating.set_integrity_and_security(points, '.')
+                        sub_rating.integrity_and_security_review = text
+                        ratings = update_rating_collection(sub_rating, ratings)
+
+                if category != 'js' and 'nof-newer-versions' in info and info['nof-newer-versions'] == 0:
+                    points = 4.5
+                    text = create_detailed_review(
+                        'latest-but-leaking-name-and-version', points, software_name, info['versions'], info['sources'])
+                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating.set_overall(points)
+                    sub_rating.set_integrity_and_security(points, '.')
+                    sub_rating.integrity_and_security_review = text
+                    ratings = update_rating_collection(sub_rating, ratings)
+                elif category != 'js':
+                    points = 4.0
+                    text = create_detailed_review(
+                        'unknown-but-leaking-name-and-version', points, software_name, info['versions'], info['sources'])
+                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating.set_overall(points)
+                    sub_rating.set_integrity_and_security(points, '.')
+                    sub_rating.integrity_and_security_review = text
+                    ratings = update_rating_collection(sub_rating, ratings)
+
+                if 'nof-newer-versions' in info and info['nof-newer-versions'] != 0:
+                    points = -1
+                    text = ''
+                    if info['nof-newer-versions'] >= 100:
+                        points = 2.0
+                        text = create_detailed_review(
+                            'behind100', points, software_name, info['versions'], info['sources'])
+                    elif info['nof-newer-versions'] >= 50:
+                        points = 2.5
+                        text = create_detailed_review(
+                            'behind50', points, software_name, info['versions'], info['sources'])
+                    elif info['nof-newer-versions'] >= 25:
+                        points = 2.75
+                        text = create_detailed_review(
+                            'behind25', points, software_name, info['versions'], info['sources'])
+                    elif info['nof-newer-versions'] >= 10:
+                        points = 3.0
+                        text = create_detailed_review(
+                            'behind10', points, software_name, info['versions'], info['sources'])
+                    elif info['nof-newer-versions'] >= 1:
+                        points = 4.9
+                        text = create_detailed_review(
+                            'behind1', points, software_name, info['versions'], info['sources'])
+
+                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating.set_overall(points)
+                    sub_rating.set_integrity_and_security(points, '.')
+                    sub_rating.integrity_and_security_review = text
+                    ratings = update_rating_collection(sub_rating, ratings)
+
+                if len(info['versions']) > 1:
+                    points = 4.0
+                    text = create_detailed_review(
+                        'multiple-versions', points, software_name, info['versions'], info['sources'])
+                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating.set_overall(points)
+                    sub_rating.set_integrity_and_security(points, '.')
+                    sub_rating.integrity_and_security_review = text
+                    ratings = update_rating_collection(sub_rating, ratings)
+
+    sorted_keys = list()
+    for points_key in ratings.keys():
+        sorted_keys.append(points_key)
+
+    sorted_keys.sort()
+
+    for points_key in sorted_keys:
+        for sub_rating in ratings[points_key]:
+            rating += sub_rating
+
+    if rating.get_overall() == -1:
+        rating.set_overall(5.0)
+
+    return rating
+
+
+def rate_domain_result(_local, _, result, url):
     rating = Rating(_, review_show_improvements_only)
 
     url_info = urlparse(url)
@@ -386,8 +477,10 @@ def rate_domain(_local, _, rating, categories, domain, item):
     return (found_cms, rating)
 
 
-def convert_item_to_software_data(data):
-    result = {}
+def convert_item_to_software_data(data, url):
+    result = {
+        'called_url': url
+    }
 
     for item in data:
         category = item['category']
@@ -411,7 +504,6 @@ def convert_item_to_software_data(data):
         precision = item['precision']
         if precision < 0.3:
             continue
-        # print(item)
 
         if name not in result[category]:
             result[category][name] = {
@@ -425,11 +517,122 @@ def convert_item_to_software_data(data):
             result[category][name]['sources'].append(item['url'])
         if 'latest-version' in item:
             result[category][name]['latest-version'] = item['latest-version']
-            print(item)
         if 'nof-newer-versions' in item:
-            result[category][name]['nof-newer-versions'] = item['nof-newer-versions']
+            if 'nof-newer-versions' not in result[category][name] or result[category][name]['nof-newer-versions'] < item['nof-newer-versions']:
+                result[category][name]['nof-newer-versions'] = item['nof-newer-versions']
 
-    json_result = json.dumps(result, indent=4)
+    for category in result:
+        if 'called_url' == category:
+            continue
+
+        if 'js' != category:
+            continue
+
+        for software_name in result[category]:
+            software = result[category][software_name]
+            for version in software['versions']:
+                records = get_cve_records_for_software_and_version(
+                    software_name, version)
+                if len(records) > 0:
+                    nice_records = json.dumps(records, indent=4)
+                    print('found CVE:', nice_records)
+                    result[category][software_name]['vulnerabilities'] = records
+    return result
+
+
+def get_cve_records_for_software_and_version(software_name, version):
+    result = list()
+    root_path = os.path.join(
+        github_adadvisory_database_path, 'advisories', 'github-reviewed')
+    #root_path = os.path.join(input_folder, 'advisories', 'unreviewed')
+    years = os.listdir(root_path)
+    for year in years:
+        year_path = os.path.join(root_path, year)
+        months = os.listdir(year_path)
+        for month in months:
+            month_path = os.path.join(year_path, month)
+            keys = os.listdir(month_path)
+            for key in keys:
+                key_path = os.path.join(
+                    year_path, month, key, '{0}.json'.format(key))
+                json_data = None
+                # Sanity check to make sure file exists
+                if not os.path.exists(key_path):
+                    continue
+
+                with open(key_path, 'r', encoding='utf-8') as file:
+                    json_data = json.load(file)
+                    # nice_json_data = json.dumps(json_data, indent=4)
+                if json_data == None:
+                    continue
+
+                if 'schema_version' not in json_data or json_data['schema_version'] != '1.3.0':
+                    print('ERROR: Unsupported schema version!')
+                    continue
+
+                if 'affected' not in json_data:
+                    continue
+
+                for affected in json_data['affected']:
+                    if 'package' not in affected:
+                        continue
+                    if 'ecosystem' not in affected['package']:
+                        continue
+
+                    ecosystem = affected['package']['ecosystem']
+
+                    if software_name in affected['package']['name']:
+                        print('DEBUG:', affected['package']['name'])
+
+                    if 'npm' == ecosystem:
+                        is_matching = False
+                        if software_name == affected['package']['name'] or '{0}.js'.format(software_name) == affected['package']['name']:
+                            cve_info = {}
+                            nof_aliases = len(json_data['aliases'])
+                            if nof_aliases >= 1:
+                                cve_info['name'] = json_data['aliases'][0]
+                                if nof_aliases > 1:
+                                    cve_info['aliases'] = json_data['aliases']
+                            else:
+                                cve_info['name'] = '{0} vulnerability'.format(
+                                    affected['package']['name'])
+
+                            start_version = None
+                            end_version = None
+                            if 'ranges' in affected:
+                                for range in affected['ranges']:
+                                    if 'type' in range and range['type'] == 'ECOSYSTEM':
+                                        if 'events' in range:
+                                            for event in range['events']:
+                                                if 'introduced' in event:
+                                                    start_version = event['introduced']
+                                                if 'fixed' in event:
+                                                    end_version = event['fixed']
+                                    else:
+                                        print('ERROR: Unknown ecosystem')
+
+                            if start_version != None and end_version != None:
+                                if version != None:
+                                    lversion = LooseVersion(version)
+                                    lstart_version = LooseVersion(
+                                        start_version)
+                                    lend_version = LooseVersion(end_version)
+
+                                    if lversion >= lstart_version and lversion < lend_version:
+                                        is_matching = True
+
+                            references = list()
+                            if 'references' in json_data:
+                                for reference in json_data['references']:
+                                    if 'ADVISORY' in reference['type']:
+                                        references.append(reference['url'])
+                                cve_info['references'] = references
+                            if 'database_specific' in json_data and 'severity' in json_data['database_specific']:
+                                cve_info['severity'] = json_data['database_specific']['severity']
+
+                            if is_matching:
+                                result.append(cve_info)
+
     return result
 
 
@@ -526,6 +729,7 @@ def enrich_data(data, orginal_domain, result_folder_name, rules):
         enrich_data_from_documents(tmp_list, item, result_folder_name)
         enrich_data_from_github_advisory_database(
             tmp_list, item, result_folder_name)
+        enrich_data_from_apache(tmp_list, item, result_folder_name)
 
     data.extend(tmp_list)
 
@@ -636,7 +840,6 @@ def get_iis_versions(current_version):
 
     versions = list()
     versions_dict = {}
-    from distutils.version import LooseVersion
 
     for matchNum, match in enumerate(matches, start=1):
         name = match.group('version')
@@ -704,6 +907,21 @@ def get_apache_httpd_versions(current_version):
         return (version_found, [])
     else:
         return (version_found, newer_versions)
+
+
+def enrich_data_from_apache(tmp_list, item, result_folder_name):
+    if item['name'] != 'apache':
+        return
+
+    if item['version'] == None:
+        return
+
+    # TODO: Add logic for CVE lookup and matching
+    # https://httpd.apache.org/security/vulnerabilities_24.html
+    # raw_data = httpRequestGetContent(
+    #     'https://httpd.apache.org/security/vulnerabilities_24.html')
+
+    return
 
 
 def enrich_data_from_github_advisory_database(tmp_list, item, result_folder_name):
@@ -1416,6 +1634,7 @@ def get_default_info(url, method, precision, key, name, version, domain=None):
     result['category'] = key
     result['name'] = name
     result['version'] = version
+    result['security'] = []
 
     return result
 

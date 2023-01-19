@@ -542,6 +542,36 @@ def convert_item_to_software_data(data, url):
 
 def get_cve_records_for_software_and_version(software_name, version):
     result = list()
+
+    result.extend(get_cve_records_from_github_advisory_database(
+        software_name, version))
+    result.extend(get_cve_records_from_apache(software_name, version))
+    return result
+
+
+def get_cve_records_from_apache(software_name, version):
+    result = list()
+    if software_name != 'apache':
+        return result
+
+    if version == None:
+        return result
+
+    # TODO: Add logic for CVE lookup and matching
+    # https://httpd.apache.org/security/vulnerabilities_24.html
+    # raw_data = httpRequestGetContent(
+    #     'https://httpd.apache.org/security/vulnerabilities_24.html')
+
+    return result
+
+
+def get_cve_records_from_github_advisory_database(software_name, version):
+    # https://github.com/github/advisory-database
+    result = list()
+
+    if github_adadvisory_database_path == None:
+        return result
+
     root_path = os.path.join(
         github_adadvisory_database_path, 'advisories', 'github-reviewed')
     #root_path = os.path.join(input_folder, 'advisories', 'unreviewed')
@@ -586,11 +616,14 @@ def get_cve_records_for_software_and_version(software_name, version):
 
                     if 'npm' == ecosystem:
                         is_matching = False
+                        has_cve_name = False
                         if software_name == affected['package']['name'] or '{0}.js'.format(software_name) == affected['package']['name']:
                             cve_info = {}
+
                             nof_aliases = len(json_data['aliases'])
                             if nof_aliases >= 1:
                                 cve_info['name'] = json_data['aliases'][0]
+                                has_cve_name = True
                                 if nof_aliases > 1:
                                     cve_info['aliases'] = json_data['aliases']
                             else:
@@ -626,6 +659,11 @@ def get_cve_records_for_software_and_version(software_name, version):
                                 for reference in json_data['references']:
                                     if 'ADVISORY' in reference['type']:
                                         references.append(reference['url'])
+                                        if not has_cve_name:
+                                            index = reference['url'].find(
+                                                'CVE-')
+                                            if index != -1:
+                                                cve_info['name'] = reference['url'][index:]
                                 cve_info['references'] = references
                             if 'database_specific' in json_data and 'severity' in json_data['database_specific']:
                                 cve_info['severity'] = json_data['database_specific']['severity']
@@ -727,9 +765,6 @@ def enrich_data(data, orginal_domain, result_folder_name, rules):
         enrich_data_from_videos(tmp_list, item, result_folder_name)
         enrich_data_from_images(tmp_list, item, result_folder_name)
         enrich_data_from_documents(tmp_list, item, result_folder_name)
-        enrich_data_from_github_advisory_database(
-            tmp_list, item, result_folder_name)
-        enrich_data_from_apache(tmp_list, item, result_folder_name)
 
     data.extend(tmp_list)
 
@@ -906,26 +941,6 @@ def get_apache_httpd_versions(current_version):
         return (version_found, [])
     else:
         return (version_found, newer_versions)
-
-
-def enrich_data_from_apache(tmp_list, item, result_folder_name):
-    if item['name'] != 'apache':
-        return
-
-    if item['version'] == None:
-        return
-
-    # TODO: Add logic for CVE lookup and matching
-    # https://httpd.apache.org/security/vulnerabilities_24.html
-    # raw_data = httpRequestGetContent(
-    #     'https://httpd.apache.org/security/vulnerabilities_24.html')
-
-    return
-
-
-def enrich_data_from_github_advisory_database(tmp_list, item, result_folder_name):
-    # https://github.com/github/advisory-database
-    return
 
 
 def enrich_data_from_github_repo(tmp_list, item):

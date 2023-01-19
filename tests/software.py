@@ -115,7 +115,7 @@ def get_rating_from_sitespeed(url, _local, _):
 def create_detailed_review(msg_type, points, software_name, software_versions, sources, cve_name=None, references=None):
     # TODO: Use points from arguments into create_detailed_review and replace it in text (so it is easier to change rating)
     if msg_type == 'cve':
-        msg = ['##### Software related to {0} ( 1.0 rating )'.format(cve_name),
+        msg = ['##### Software related to {0} ( #POINTS# rating )'.format(cve_name),
                '',
                '###### Introduction:',
                'Software version used is effected by vurnability described in {0}.'.format(
@@ -134,7 +134,7 @@ def create_detailed_review(msg_type, points, software_name, software_versions, s
                'You can fix this by updating software to latest version.',
                '']
     elif msg_type == 'behind100':
-        msg = ['##### Software is behind >=100 versions ( 2.0 rating )',
+        msg = ['##### Software is behind >=100 versions ( #POINTS# rating )',
                '',
                '###### Introduction:',
                'Software used is behind 100 or more version compared to latests.',
@@ -143,7 +143,7 @@ def create_detailed_review(msg_type, points, software_name, software_versions, s
                'You can fix this by updating software to latest version.',
                '']
     elif msg_type == 'behind50':
-        msg = ['##### Software is behind >=50 versions ( 2.5 rating )',
+        msg = ['##### Software is behind >=50 versions ( #POINTS# rating )',
                '',
                '###### Introduction:',
                'Software used is behind 50 or more version compared to latests.',
@@ -152,7 +152,7 @@ def create_detailed_review(msg_type, points, software_name, software_versions, s
                'You can fix this by updating software to latest version.',
                '']
     elif msg_type == 'behind25':
-        msg = ['##### Software is behind >=25 versions ( 2.75 rating )',
+        msg = ['##### Software is behind >=25 versions ( #POINTS# rating )',
                '',
                '###### Introduction:',
                'Software used is behind 25 or more version compared to latests.',
@@ -161,7 +161,7 @@ def create_detailed_review(msg_type, points, software_name, software_versions, s
                'You can fix this by updating software to latest version.',
                '']
     elif msg_type == 'behind10':
-        msg = ['##### Software is behind >=10 versions ( 3.0 rating )',
+        msg = ['##### Software is behind >=10 versions ( #POINTS# rating )',
                '',
                '###### Introduction:',
                'Software used is behind 10 or more version compared to latests.',
@@ -170,7 +170,7 @@ def create_detailed_review(msg_type, points, software_name, software_versions, s
                'You can fix this by updating software to latest version.',
                '']
     elif msg_type == 'latest-but-leaking-name-and-version':
-        msg = ['##### Software version and name is leaked ( 4.5 rating )',
+        msg = ['##### Software version and name is leaked ( #POINTS# rating )',
                '',
                '###### Introduction:',
                'You seem to use latest version BUT you are leaking name and version of software used.',
@@ -178,7 +178,7 @@ def create_detailed_review(msg_type, points, software_name, software_versions, s
                'To fix this you need to hide name and version, please view Software documentation on how to do this.'
                '']
     elif msg_type == 'unknown-but-leaking-name-and-version':
-        msg = ['##### Software version and name is leaked ( 4.0 rating )',
+        msg = ['##### Software version and name is leaked ( #POINTS# rating )',
                '',
                '###### Introduction:',
                'You are leaking name and version of software used.',
@@ -186,7 +186,7 @@ def create_detailed_review(msg_type, points, software_name, software_versions, s
                'To fix this you need to hide name and version, please view Software documentation on how to do this.'
                '']
     elif msg_type == 'leaking-name':
-        msg = ['##### Software version and name is leaked ( 4.8 rating )',
+        msg = ['##### Software version and name is leaked ( #POINTS# rating )',
                '',
                '###### Introduction:',
                'Software used is behind 1 or more version compared to latests.',
@@ -195,7 +195,7 @@ def create_detailed_review(msg_type, points, software_name, software_versions, s
                'You can fix this by updating software to latest version.',
                '']
     elif msg_type == 'behind1':
-        msg = ['##### Software is behind >=1 versions ( 4.9 rating )',
+        msg = ['##### Software is behind >=1 versions ( #POINTS# rating )',
                '',
                '###### Introduction:',
                'Software used is behind 1 or more version compared to latests.',
@@ -204,7 +204,7 @@ def create_detailed_review(msg_type, points, software_name, software_versions, s
                'You can fix this by updating software to latest version.',
                '']
     elif msg_type == 'multiple-versions':
-        msg = ['##### Multiple versions of same Software ( 4.9 rating )',
+        msg = ['##### Multiple versions of same Software ( #POINTS# rating )',
                '',
                '###### Introduction:',
                'You are using multiple version of the same software.',
@@ -241,7 +241,7 @@ def create_detailed_review(msg_type, points, software_name, software_versions, s
         msg.append('')
         msg.append('')
 
-    return '\r\n'.join(msg)
+    return '\r\n'.join(msg).replace('#POINTS#', "{0:.2f}".format(points))
 
 
 def update_rating_collection(rating, ratings):
@@ -267,7 +267,7 @@ def rate_software_result(_local, _, result, url):
     for category in categories:
         if category in result:
             json_category = json.dumps(result[category], indent=4)
-            print(category, json_category)
+            #print(category, json_category)
             for software_name in result[category]:
                 info = result[category][software_name]
                 if 'vulnerabilities' in info:
@@ -275,9 +275,9 @@ def rate_software_result(_local, _, result, url):
                         points = 1.0
                         if 'severity' in vuln:
                             if 'HIGH' in vuln['severity']:
-                                points = 1.5
+                                points = 1.2
                             elif 'MODERATE' in vuln['severity']:
-                                points = 1.9
+                                points = 1.5
 
                         text = create_detailed_review(
                             'cve', points, software_name, info['versions'], info['sources'], vuln['name'], vuln['references'])
@@ -535,7 +535,7 @@ def convert_item_to_software_data(data, url):
                     software_name, version)
                 if len(records) > 0:
                     nice_records = json.dumps(records, indent=4)
-                    print('found CVE:', nice_records)
+                    #print('found CVE:', nice_records)
                     result[category][software_name]['vulnerabilities'] = records
     return result
 
@@ -581,8 +581,8 @@ def get_cve_records_for_software_and_version(software_name, version):
 
                     ecosystem = affected['package']['ecosystem']
 
-                    if software_name in affected['package']['name']:
-                        print('DEBUG:', affected['package']['name'])
+                    # if software_name in affected['package']['name']:
+                    #     print('DEBUG:', affected['package']['name'])
 
                     if 'npm' == ecosystem:
                         is_matching = False
@@ -739,7 +739,6 @@ def enrich_data(data, orginal_domain, result_folder_name, rules):
             'test': testing
         }
 
-    #print('A', data)
     return data
 
 
@@ -1096,7 +1095,6 @@ def get_github_repository_info(owner, repo):
 
     info_dict['tech'] = techs
 
-    # print('repo:', info_dict)
     return info_dict
 
 
@@ -1279,7 +1277,6 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
                 tmp_list.append(get_default_info(
                     item['url'], 'enrich', 0.8, 'security', 'whisper.{0}.app'.format(item['category']), None))
     else:
-        # print('url', item['url'])
         cache_key = '{0}.cache.{1}'.format(
             hashlib.sha512(item['url'].encode()).hexdigest(), item['name'])
         cache_path = os.path.join(result_folder_name, cache_key)
@@ -1407,10 +1404,6 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
             elif 'gpsinfo' == tag_name:
                 tmp_list.append(get_default_info(
                     item['url'], 'enrich', 0.8, 'security', 'info.{0}.location'.format(item['category']), None))
-            # elif 'resolutionunit' == tag_name or 'exifoffset' == tag_name or 'xresolution' == tag_name or 'yresolution' == tag_name or 'orientation' == tag_name or 'imagewidth' == tag_name or 'imagelength' == tag_name or 'bitspersample' == tag_name or 'samplesperpixel' == tag_name or 'compression' == tag_name or 'datetime' == tag_name or 'copyright' == tag_name or 'photometricinterpretation' == tag_name or 'unknown_59932' == tag_name:
-            #     a = 1
-            # else:
-            #     print(f"\t{tag_name:25}: {tag_data}")
 
         if device_name != None or device_version != None:
             if device_name != None:
@@ -1429,7 +1422,6 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
                     item['url'], 'content', 0.6, 'img.device', device_name, device_version))
                 tmp_list.append(get_default_info(
                     item['url'], 'enrich', 0.8, 'security', 'whisper.{0}.device'.format(item['category']), None))
-            # print('device', device_name, device_version)
 
 
 def identify_software(filename, origin_domain, rules):
@@ -1718,7 +1710,6 @@ def lookup_response_headers(req_url, headers, rules, origin_domain):
         if raw_data['headers']['use']:
             raw_data['headers'][header_name] = header_value
 
-        # print('header', header_name, header_value)
         tmp_data = lookup_response_header(
             req_url, header_name, header_value, rules, origin_domain)
         if len(tmp_data) != 0:

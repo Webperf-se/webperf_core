@@ -282,7 +282,7 @@
                 },
                 {
                     "name": "windows server",
-                    "version": "2016/2019",
+                    "version": "2016/2019 (inferred from IIS version)",
                     "category": "os",
                     "precision": 0.8
                 }

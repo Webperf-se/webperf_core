@@ -142,6 +142,15 @@ def create_detailed_review(msg_type, points, software_name, software_versions, s
                'It also indicate that you don\'t have a good package routine for your software.'
                'You can fix this by updating software to latest version.',
                '']
+    elif msg_type == 'behind75':
+        msg = ['##### Software is behind >=75 versions ( #POINTS# rating )',
+               '',
+               '###### Introduction:',
+               'Software used is behind 75 or more version compared to latests.',
+               'This is a very good indicator that you need to update to lastest version.',
+               'It also indicate that you don\'t have a good package routine for your software.'
+               'You can fix this by updating software to latest version.',
+               '']
     elif msg_type == 'behind50':
         msg = ['##### Software is behind >=50 versions ( #POINTS# rating )',
                '',
@@ -267,7 +276,7 @@ def rate_software_result(_local, _, result, url):
     for category in categories:
         if category in result:
             json_category = json.dumps(result[category], indent=4)
-            #print(category, json_category)
+            print(category, json_category)
             for software_name in result[category]:
                 info = result[category][software_name]
                 if 'vulnerabilities' in info:
@@ -278,9 +287,18 @@ def rate_software_result(_local, _, result, url):
                                 points = 1.2
                             elif 'MODERATE' in vuln['severity']:
                                 points = 1.5
+                        vuln_versions = list()
+                        vuln_versions.append(vuln['version'])
+                        v_sources_key = 'v-{0}-sources'.format(
+                            vuln['version'])
+
+                        # TODO: FAIL SAFE, we have identified multiple version of same software for same request....
+                        if v_sources_key not in info:
+                            continue
+                        vuln_sources = info[v_sources_key]
 
                         text = create_detailed_review(
-                            'cve', points, software_name, info['versions'], info['sources'], vuln['name'], vuln['references'])
+                            'cve', points, software_name, vuln_versions, vuln_sources, vuln['name'], vuln['references'])
                         sub_rating = Rating(_, review_show_improvements_only)
                         sub_rating.set_overall(points)
                         sub_rating.set_integrity_and_security(points, '.')
@@ -306,38 +324,60 @@ def rate_software_result(_local, _, result, url):
                     sub_rating.integrity_and_security_review = text
                     ratings = update_rating_collection(sub_rating, ratings)
 
-                if 'nof-newer-versions' in info and info['nof-newer-versions'] != 0:
-                    points = -1
-                    text = ''
-                    if info['nof-newer-versions'] >= 100:
-                        points = 2.0
-                        text = create_detailed_review(
-                            'behind100', points, software_name, info['versions'], info['sources'])
-                    elif info['nof-newer-versions'] >= 50:
-                        points = 2.5
-                        text = create_detailed_review(
-                            'behind50', points, software_name, info['versions'], info['sources'])
-                    elif info['nof-newer-versions'] >= 25:
-                        points = 2.75
-                        text = create_detailed_review(
-                            'behind25', points, software_name, info['versions'], info['sources'])
-                    elif info['nof-newer-versions'] >= 10:
-                        points = 3.0
-                        text = create_detailed_review(
-                            'behind10', points, software_name, info['versions'], info['sources'])
-                    elif info['nof-newer-versions'] >= 1:
-                        points = 4.9
-                        text = create_detailed_review(
-                            'behind1', points, software_name, info['versions'], info['sources'])
+                if 'nof-newer-versions' in info and info['nof-newer-versions'] > 0:
+                    for version in info['versions']:
+                        v_newer_key = 'v-{0}-nof-newer-versions'.format(
+                            version)
+                        v_sources_key = 'v-{0}-sources'.format(version)
 
-                    sub_rating = Rating(_, review_show_improvements_only)
-                    sub_rating.set_overall(points)
-                    sub_rating.set_integrity_and_security(points, '.')
-                    sub_rating.integrity_and_security_review = text
-                    ratings = update_rating_collection(sub_rating, ratings)
+                        # TODO: FAIL SAFE, we have identified multiple version of same software for the same request, should not be possible...
+                        if v_newer_key not in info:
+                            continue
+
+                        if info[v_newer_key] == 0:
+                            continue
+
+                        if v_sources_key not in info:
+                            continue
+
+                        tmp_versions = list()
+                        tmp_versions.append(version)
+
+                        points = -1
+                        text = ''
+                        if info[v_newer_key] >= 100:
+                            points = 2.0
+                            text = create_detailed_review(
+                                'behind100', points, software_name, tmp_versions, info[v_sources_key])
+                        elif info[v_newer_key] >= 75:
+                            points = 2.25
+                            text = create_detailed_review(
+                                'behind75', points, software_name, tmp_versions, info[v_sources_key])
+                        elif info[v_newer_key] >= 50:
+                            points = 2.5
+                            text = create_detailed_review(
+                                'behind50', points, software_name, tmp_versions, info[v_sources_key])
+                        elif info[v_newer_key] >= 25:
+                            points = 2.75
+                            text = create_detailed_review(
+                                'behind25', points, software_name, tmp_versions, info[v_sources_key])
+                        elif info[v_newer_key] >= 10:
+                            points = 3.0
+                            text = create_detailed_review(
+                                'behind10', points, software_name, tmp_versions, info[v_sources_key])
+                        elif info[v_newer_key] >= 1:
+                            points = 4.9
+                            text = create_detailed_review(
+                                'behind1', points, software_name, tmp_versions, info[v_sources_key])
+
+                        sub_rating = Rating(_, review_show_improvements_only)
+                        sub_rating.set_overall(points)
+                        sub_rating.set_integrity_and_security(points, '.')
+                        sub_rating.integrity_and_security_review = text
+                        ratings = update_rating_collection(sub_rating, ratings)
 
                 if len(info['versions']) > 1:
-                    points = 4.0
+                    points = 4.1
                     text = create_detailed_review(
                         'multiple-versions', points, software_name, info['versions'], info['sources'])
                     sub_rating = Rating(_, review_show_improvements_only)
@@ -484,10 +524,7 @@ def convert_item_to_software_data(data, url):
 
     for item in data:
         category = item['category']
-        # if 'tech' not in category and 'js' not in category and 'cms' not in category and 'webserver' not in category and 'security' not in category:
-        #     continue
-        # if 'tech' not in category and 'js' not in category and 'cms' not in category and 'webserver' not in category:
-        #     continue
+
         if 'js' not in category and 'cms' not in category and 'webserver' not in category and 'os' not in category:
             continue
 
@@ -515,59 +552,292 @@ def convert_item_to_software_data(data, url):
             result[category][name]['versions'].append(version)
         if 'url' in item and item['url'] not in result[category][name]['sources']:
             result[category][name]['sources'].append(item['url'])
+            if version != None:
+                v_sources_key = 'v-{0}-sources'.format(
+                    version)
+                if v_sources_key not in result[category][name]:
+                    result[category][name][v_sources_key] = list()
+                result[category][name][v_sources_key].append(item['url'])
         if 'latest-version' in item:
             result[category][name]['latest-version'] = item['latest-version']
         if 'nof-newer-versions' in item:
             if 'nof-newer-versions' not in result[category][name] or result[category][name]['nof-newer-versions'] < item['nof-newer-versions']:
                 result[category][name]['nof-newer-versions'] = item['nof-newer-versions']
+            v_newer_key = 'v-{0}-nof-newer-versions'.format(
+                version)
+            result[category][name][v_newer_key] = item['nof-newer-versions']
+
+    result = cleanup_software_result(result)
 
     for category in result:
         if 'called_url' == category:
-            continue
-
-        if 'js' != category:
             continue
 
         for software_name in result[category]:
             software = result[category][software_name]
             for version in software['versions']:
                 records = get_cve_records_for_software_and_version(
-                    software_name, version)
+                    software_name, version, category)
                 if len(records) > 0:
-                    nice_records = json.dumps(records, indent=4)
-                    #print('found CVE:', nice_records)
-                    result[category][software_name]['vulnerabilities'] = records
+                    if 'vulnerabilities' not in result[category][software_name]:
+                        result[category][software_name]['vulnerabilities'] = list()
+                    # nice_records = json.dumps(records, indent=4)
+                    # print('found CVE:', nice_records)
+                    result[category][software_name]['vulnerabilities'].extend(
+                        records)
+
     return result
 
 
-def get_cve_records_for_software_and_version(software_name, version):
+def cleanup_software_result(result):
+
+    for category in result:
+        if 'called_url' == category:
+            continue
+
+        for software_name in result[category]:
+            software = result[category][software_name]
+            versions = software['versions']
+            versions_to_remove = list()
+
+            for version in versions:
+                version_sources_key = 'v-{0}-sources'.format(version)
+                version_newer_key = 'v-{0}-nof-newer-versions'.format(version)
+                should_remove = False
+                if version_sources_key not in software:
+                    should_remove = True
+
+                # if version_newer_key not in software:
+                #     should_remove = True
+
+                if should_remove:
+                    versions_to_remove.append(version)
+
+            for version in versions_to_remove:
+                version_sources_key = 'v-{0}-sources'.format(version)
+                version_newer_key = 'v-{0}-nof-newer-versions'.format(version)
+                software['versions'].remove(version)
+
+                if version_sources_key in software:
+                    del software[version_sources_key]
+
+                if version_newer_key in software:
+                    del software[version_newer_key]
+
+    return result
+
+
+def get_cve_records_for_software_and_version(software_name, version, category):
     result = list()
 
     result.extend(get_cve_records_from_github_advisory_database(
-        software_name, version))
-    result.extend(get_cve_records_from_apache(software_name, version))
+        software_name, version, category))
+    result.extend(get_cve_records_from_apache(
+        software_name, version, category))
+    result.extend(get_cve_records_from_nginx(
+        software_name, version, category))
     return result
 
 
-def get_cve_records_from_apache(software_name, version):
+def get_cve_records_from_nginx(software_name, version, category):
     result = list()
+
+    if 'webserver' != category:
+        return result
+
+    if software_name != 'nginx':
+        return result
+
+    if version == None:
+        return result
+
+    # https://nginx.org/en/security_advisories.html
+    raw_data = httpRequestGetContent(
+        'https://nginx.org/en/security_advisories.html')
+
+    regex_vulnerables = r'((?P<advisory>[^"]+)">Advisory<\/a><br>){0,1}<a href="(?P<more_info>[^"]+)">(?P<cve>CVE-[0-9]{4}\-[0-9]+)<\/a><br>Not vulnerable:(?P<safe>[ 0-9\.+,]+)<br>Vulnerable:(?P<unsafe>[ 0-9\.\-+,]+)'
+    matches_vulnerables = re.finditer(
+        regex_vulnerables, raw_data, re.MULTILINE)
+
+    for matchNum, match_vulnerable in enumerate(matches_vulnerables, start=1):
+        is_match = False
+        cve = match_vulnerable.group('cve')
+        more_info_url = match_vulnerable.group('more_info')
+        safe_versions = match_vulnerable.group('safe')
+        unsafe_versions = match_vulnerable.group('unsafe')
+        advisory_url = match_vulnerable.group('advisory')
+
+        # 0.6.18-1.9.9
+        # 1.1.4-1.2.8, 1.3.9-1.4.0
+        unsafe_sections = unsafe_versions.split(',')
+        safe_sections = safe_versions.split(',')
+        for section in unsafe_sections:
+            ranges = section.split('-')
+            if len(ranges) != 2:
+                continue
+            start_version = ranges[0].strip()
+            end_version = ranges[1].strip()
+            lversion = LooseVersion(version)
+            lstart_version = LooseVersion(start_version)
+            lend_version = LooseVersion(end_version)
+
+            if lversion >= lstart_version and lversion < lend_version:
+                is_match = True
+
+        if is_match:
+            # TODO: REMOVE FIXED VERSIONS
+            # 1.23.2+, 1.22.1+
+            for safe_section in safe_sections:
+                safe_version = safe_section.strip()
+                if '+' not in safe_section:
+                    continue
+                safe_version = safe_version.strip('+')
+                lsafe_version = LooseVersion(safe_version)
+
+                if lversion == lsafe_version:
+                    is_match = False
+
+                lversion_specificity = len(lversion.version)
+                if lversion_specificity == 3 and lversion_specificity == len(lsafe_version.version):
+                    # is same branch and is equal or greater then safe (fixed) version?
+                    if lversion.version[0] == lsafe_version.version[0] and lversion.version[1] == lsafe_version.version[1] and lversion.version[2] >= lsafe_version.version[2]:
+                        is_match = False
+
+        if is_match:
+            cve_info = {
+                'name': cve,
+                'references': [
+                    more_info_url.replace('http://', 'https://')
+                ],
+                'version': version
+            }
+            if advisory_url != None:
+                cve_info['references'].append(
+                    advisory_url.replace('http://', 'https://'))
+            result.append(cve_info)
+
+    return result
+
+
+def get_cve_records_from_apache(software_name, version, category):
+    result = list()
+
+    if 'webserver' != category:
+        return result
+
     if software_name != 'apache':
         return result
 
     if version == None:
         return result
 
-    # TODO: Add logic for CVE lookup and matching
-    # https://httpd.apache.org/security/vulnerabilities_24.html
-    # raw_data = httpRequestGetContent(
-    #     'https://httpd.apache.org/security/vulnerabilities_24.html')
+    raw_data = httpRequestGetContent(
+        'https://httpd.apache.org/security/vulnerabilities_24.html')
 
+    regex_version = r"<h1 id=\"(?P<version>[0-9\.]+)\">"
+    version_sections = re.split(regex_version, raw_data)
+
+    current_version = None
+    for version_section in version_sections:
+        reg_version_validator = r"^(?P<version>[0-9\.]+)$"
+        if re.match(reg_version_validator, version_section) == None:
+            if current_version != None:
+                current_cve = None
+                regex_cve = r"<dt><h3 id=\"(?P<cve>CVE-[0-9]{4}\-[0-9]+)"
+                cve_sections = re.split(regex_cve, version_section)
+                for cve_section in cve_sections:
+                    regex_cve_validator = r"^(?P<cve>CVE-[0-9]{4}\-[0-9]+)$"
+                    if re.match(regex_cve_validator, cve_section) == None:
+                        if current_cve != None:
+                            is_match = False
+                            has_rules = False
+                            ranges = list()
+                            regex_ranges = r'Affects<\/td><td class="cve-value">(?P<range>[0-9\., &glt;=!]+)'
+                            matches_range = re.finditer(
+                                regex_ranges, cve_section, re.MULTILINE)
+
+                            for matchNum, match_range in enumerate(matches_range, start=1):
+                                range_data = match_range.group('range')
+                                for rnge in range_data.split(','):
+                                    tmp = rnge.strip()
+                                    if '&' in tmp or '=' in tmp or '!' in tmp:
+                                        if not has_rules:
+                                            # Set is_match to true and all the rules can do is to remove it from it..
+                                            is_match = True
+                                            has_rules = True
+                                        regex_version_expression = r'(?P<expression>[,&glt;=!]+)(?P<version>[0-9\.]+)'
+                                        matches_version_expression = re.finditer(
+                                            regex_version_expression, tmp, re.MULTILINE)
+                                        for matchNum, match_version_expression in enumerate(matches_version_expression, start=1):
+                                            tmp_expression = match_version_expression.group(
+                                                'expression')
+                                            tmp_version = match_version_expression.group(
+                                                'version')
+                                            # All versions below this version
+                                            # <=2.4.48
+                                            # Versions between 2.4.17 and 2.4.48 (including 2.4.48)
+                                            # <=2.4.48, !<2.4.17
+                                            # Versions between 2.4.7 and 2.4.51
+                                            # >=2.4.7, <=2.4.51
+                                            lversion = LooseVersion(version)
+                                            ltmp_version = LooseVersion(
+                                                tmp_version)
+
+                                            if '!&lt;=' in tmp_expression and lversion <= ltmp_version:
+                                                is_match = False
+                                            elif '!&gt;=' in tmp_expression and lversion >= ltmp_version:
+                                                is_match = False
+                                            elif '!&lt;' in tmp_expression and lversion < ltmp_version:
+                                                is_match = False
+                                            elif '!&gt;' in tmp_expression and lversion > ltmp_version:
+                                                is_match = False
+                                            elif '&lt;=' in tmp_expression and lversion > ltmp_version:
+                                                is_match = False
+                                            elif '&gt;=' in tmp_expression and lversion < ltmp_version:
+                                                is_match = False
+                                            elif '&lt;' in tmp_expression and lversion >= ltmp_version:
+                                                is_match = False
+                                            elif '&gt;' in tmp_expression and lversion <= ltmp_version:
+                                                is_match = False
+
+                                    else:
+                                        # Exactly this version
+                                        # 2.4.49
+                                        # Only listed versions
+                                        # 2.4.46, 2.4.43, 2.4.41, 2.4.39, 2.4.38, 2.4.37, 2.4.35, 2.4.34, 2.4.33, 2.4.29, 2.4.28, 2.4.27, 2.4.26, 2.4.25, 2.4.23, 2.4.20, 2.4.18, 2.4.17, 2.4.16, 2.4.12, 2.4.10, 2.4.9, 2.4.7, 2.4.6, 2.4.4, 2.4.3, 2.4.2, 2.4.1, 2.4.0
+                                        ranges.append(tmp)
+
+                            if version in ranges:
+                                is_match = True
+
+                            if is_match:
+                                cve_info = {
+                                    'name': current_cve,
+                                    'references': [
+                                        'https://httpd.apache.org/security/vulnerabilities_24.html',
+                                        'https://www.cve.org/CVERecord?id={0}'.format(
+                                            current_cve)
+                                    ],
+                                    'version': version
+                                }
+                                result.append(cve_info)
+
+                            current_cve = None
+                    else:
+                        current_cve = cve_section
+
+                current_version = None
+        else:
+            current_version = version_section
     return result
 
 
-def get_cve_records_from_github_advisory_database(software_name, version):
+def get_cve_records_from_github_advisory_database(software_name, version, category):
     # https://github.com/github/advisory-database
     result = list()
+
+    if category != 'js':
+        return result
 
     if github_adadvisory_database_path == None:
         return result
@@ -669,6 +939,7 @@ def get_cve_records_from_github_advisory_database(software_name, version):
                                 cve_info['severity'] = json_data['database_specific']['severity']
 
                             if is_matching:
+                                cve_info['version'] = version
                                 result.append(cve_info)
 
     return result

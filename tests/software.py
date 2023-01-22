@@ -276,7 +276,7 @@ def rate_software_result(_local, _, result, url):
     for category in categories:
         if category in result:
             json_category = json.dumps(result[category], indent=4)
-            print(category, json_category)
+            # print(category, json_category)
             for software_name in result[category]:
                 info = result[category][software_name]
                 if 'vulnerabilities' in info:
@@ -292,9 +292,8 @@ def rate_software_result(_local, _, result, url):
                         v_sources_key = 'v-{0}-sources'.format(
                             vuln['version'])
 
-                        # TODO: FAIL SAFE, we have identified multiple version of same software for same request....
                         if v_sources_key not in info:
-                            continue
+                            v_sources_key = 'sources'
                         vuln_sources = info[v_sources_key]
 
                         text = create_detailed_review(
@@ -332,13 +331,13 @@ def rate_software_result(_local, _, result, url):
 
                         # TODO: FAIL SAFE, we have identified multiple version of same software for the same request, should not be possible...
                         if v_newer_key not in info:
-                            continue
+                            v_newer_key = 'nof-newer-versions'
 
                         if info[v_newer_key] == 0:
                             continue
 
                         if v_sources_key not in info:
-                            continue
+                            v_sources_key = 'sources'
 
                         tmp_versions = list()
                         tmp_versions.append(version)
@@ -581,8 +580,6 @@ def convert_item_to_software_data(data, url):
                 if len(records) > 0:
                     if 'vulnerabilities' not in result[category][software_name]:
                         result[category][software_name]['vulnerabilities'] = list()
-                    # nice_records = json.dumps(records, indent=4)
-                    # print('found CVE:', nice_records)
                     result[category][software_name]['vulnerabilities'].extend(
                         records)
 
@@ -607,9 +604,6 @@ def cleanup_software_result(result):
                 if version_sources_key not in software:
                     should_remove = True
 
-                # if version_newer_key not in software:
-                #     should_remove = True
-
                 if should_remove:
                     versions_to_remove.append(version)
 
@@ -617,6 +611,17 @@ def cleanup_software_result(result):
                 version_sources_key = 'v-{0}-sources'.format(version)
                 version_newer_key = 'v-{0}-nof-newer-versions'.format(version)
                 software['versions'].remove(version)
+
+                if version_sources_key in software:
+                    del software[version_sources_key]
+
+                if version_newer_key in software:
+                    del software[version_newer_key]
+
+            if len(software['versions']) == 1:
+                version = software['versions'][0]
+                version_sources_key = 'v-{0}-sources'.format(version)
+                version_newer_key = 'v-{0}-nof-newer-versions'.format(version)
 
                 if version_sources_key in software:
                     del software[version_sources_key]
@@ -636,6 +641,55 @@ def get_cve_records_for_software_and_version(software_name, version, category):
         software_name, version, category))
     result.extend(get_cve_records_from_nginx(
         software_name, version, category))
+    result.extend(get_cve_records_from_iis(
+        software_name, version, category))
+    return result
+
+
+def get_cve_records_from_iis(software_name, version, category):
+    result = list()
+
+    if 'webserver' != category:
+        return result
+
+    if software_name != 'iis':
+        return result
+
+    if version == None:
+        return result
+
+    # https://www.cvedetails.com/vulnerability-list.php?vendor_id=26&product_id=3427&page=1
+    raw_data = httpRequestGetContent(
+        'https://www.cvedetails.com/vulnerability-list.php?vendor_id=26&product_id=3427&page=1')
+
+    regex_vulnerables = r'href="(?P<url>[^"]+)"[^>]+>(?P<cve>CVE-[0-9]{4}\-[0-9]+)'
+    matches_vulnerables = re.finditer(
+        regex_vulnerables, raw_data, re.MULTILINE)
+
+    for matchNum, match_vulnerable in enumerate(matches_vulnerables, start=1):
+        is_match = False
+        cve = match_vulnerable.group('cve')
+        url = 'https://www.cvedetails.com{0}'.format(
+            match_vulnerable.group('url'))
+        raw_cve_data = httpRequestGetContent(url)
+        regex_version = r'<td>[ \t\r\n]*(?P<version>[0-9]+\.[0-9]+)[ \t\r\n]*<\/td>'
+        matches_version = re.finditer(
+            regex_version, raw_cve_data, re.MULTILINE)
+        for matchNum, match_version in enumerate(matches_version, start=1):
+            cve_affected_version = match_version.group('version')
+            if cve_affected_version == version:
+                is_match = True
+
+        if is_match:
+            cve_info = {
+                'name': cve,
+                'references': [
+                    url
+                ],
+                'version': version
+            }
+            result.append(cve_info)
+
     return result
 
 
@@ -707,6 +761,7 @@ def get_cve_records_from_nginx(software_name, version, category):
             cve_info = {
                 'name': cve,
                 'references': [
+                    'https://nginx.org/en/security_advisories.html',
                     more_info_url.replace('http://', 'https://')
                 ],
                 'version': version

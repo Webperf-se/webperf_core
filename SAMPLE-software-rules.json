@@ -301,7 +301,7 @@
                 },
                 {
                     "name": "windows server",
-                    "version": "2012 R2",
+                    "version": "2012 R2 (inferred from IIS version)",
                     "category": "os",
                     "precision": 0.8
                 }
@@ -320,7 +320,7 @@
                 },
                 {
                     "name": "windows server",
-                    "version": "2012",
+                    "version": "2012 (inferred from IIS version)",
                     "category": "os",
                     "precision": 0.8
                 }
@@ -339,7 +339,7 @@
                 },
                 {
                     "name": "windows server",
-                    "version": "2008 R2",
+                    "version": "2008 R2 (inferred from IIS version)",
                     "category": "os",
                     "precision": 0.8
                 }
@@ -358,7 +358,7 @@
                 },
                 {
                     "name": "windows server",
-                    "version": "2008",
+                    "version": "2008 (inferred from IIS version)",
                     "category": "os",
                     "precision": 0.8
                 }
@@ -377,7 +377,7 @@
                 },
                 {
                     "name": "windows server",
-                    "version": "2003",
+                    "version": "2003 (inferred from IIS version)",
                     "category": "os",
                     "precision": 0.8
                 }

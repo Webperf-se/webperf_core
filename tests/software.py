@@ -275,7 +275,7 @@ def rate_software_result(_local, _, result, url):
                   'img', 'img.software', 'img.os', 'img.device', 'video']
     for category in categories:
         if category in result:
-            json_category = json.dumps(result[category], indent=4)
+            # json_category = json.dumps(result[category], indent=4)
             # print(category, json_category)
             for software_name in result[category]:
                 info = result[category][software_name]
@@ -397,6 +397,8 @@ def rate_software_result(_local, _, result, url):
 
     if rating.get_overall() == -1:
         rating.set_overall(5.0)
+
+    rating.overall_review = 'Visited url: {0}'.format(url)
 
     return rating
 

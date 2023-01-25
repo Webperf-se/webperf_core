@@ -70,7 +70,7 @@ msgid "TEXT_USED_SECURITY"
 msgstr "- Läcker information"
 
 msgid "UPDATE_AVAILABLE"
-msgstr "- Uppdatering(ar) tillgänglig(a)"
+msgstr "- Uppdatering(ar) tillgängliga"
 
 msgid "KNOWN_SECURITY_ISSUES"
 msgstr "- Har kända säkerhetsproblem"

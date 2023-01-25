@@ -99,12 +99,12 @@ def get_rating_from_sitespeed(url, _local, _):
 
     rating = Rating(_, review_show_improvements_only)
     result = {}
+    result = convert_item_to_domain_data(data)
+    rating += sum_overall_software_used(_local, _, result, url)
+
     if use_detailed_report:
         result = convert_item_to_software_data(data, url)
-        rating += rate_software_result(_local, _, result, url)
-    else:
-        result = convert_item_to_domain_data(data)
-        rating += rate_domain_result(_local, _, result, url)
+        rating += rate_software_security_result(_local, _, result, url)
 
     if not use_cache:
         shutil.rmtree(result_folder_name)
@@ -261,7 +261,7 @@ def update_rating_collection(rating, ratings):
     return ratings
 
 
-def rate_software_result(_local, _, result, url):
+def rate_software_security_result(_local, _, result, url):
     rating = Rating(_, review_show_improvements_only)
 
     url_info = urlparse(url)
@@ -398,124 +398,37 @@ def rate_software_result(_local, _, result, url):
     if rating.get_overall() == -1:
         rating.set_overall(5.0)
 
-    rating.overall_review = 'Visited url: {0}'.format(url)
-
     return rating
 
 
-def rate_domain_result(_local, _, result, url):
+def sum_overall_software_used(_local, _, result, url):
     rating = Rating(_, review_show_improvements_only)
-
     url_info = urlparse(url)
-    orginal_domain = url_info.hostname
 
     categories = ['cms', 'webserver', 'os',
                   'analytics', 'tech', 'license', 'meta',
                   'js', 'css',
-                  'lang', 'img', 'img.software', 'img.os', 'img.device', 'video',
-                  'test', 'security']
+                  'lang', 'img', 'img.software', 'img.os', 'img.device', 'video']
 
-    for domain in result.keys():
-        if domain not in orginal_domain:
-            continue
-        item = result[domain]
-
-        (found_cms, rating) = rate_domain(
-            _local, _, rating, categories, domain, item)
-
-        if not found_cms and domain in orginal_domain:
-            no_cms_rating = Rating(_, review_show_improvements_only)
-            no_cms_rating.set_overall(5.0, _local('TEXT_NO_CMS'))
-            rating += no_cms_rating
-
-    for domain in result.keys():
-        if domain in orginal_domain:
-            continue
-        item = result[domain]
-
-        (found_cms, rating) = rate_domain(
-            _local, _, rating, categories, domain, item)
-
-    return rating
-
-
-def rate_domain(_local, _, rating, categories, domain, item):
-    found_cms = False
     has_announced_overall = False
-    has_security = False
 
     for category in categories:
-        if category in item:
-            if category == 'security':
-                has_security = True
-                security_sub_categories = ['os', 'webserver', 'cms', 'img.app',
-                                           'img.os', 'img.device', 'img.location']
-                for key in item[category].keys():
-                    points = 5.0
-                    if 'screaming.' in key:
-                        item_type = key[10:]
-                        points = 1.0
-                    elif 'talking.' in key:
-                        item_type = key[8:]
-                        points = 2.0
-                    elif 'whisper.' in key:
-                        item_type = key[8:]
-                        points = 3.0
-                    elif 'guide.' in key:
-                        item_type = key[6:]
-                        points = 4.0
-                    elif 'info.' in key:
-                        item_type = key[5:]
-                        points = 5.0
+        if category in result:
+            category_rating = Rating(_, review_show_improvements_only)
+            if use_detailed_report and not has_announced_overall:
+                domain_header_rating = Rating(
+                    _, review_show_improvements_only)
+                domain_header_rating.set_overall(
+                    5.0, '##### {0}'.format(url))
+                rating += domain_header_rating
+                has_announced_overall = True
 
-                    sub_key_index = key.find('.') + 1
-                    sub_key = key[sub_key_index:]
-                    if sub_key in security_sub_categories:
-                        security_sub_categories.remove(sub_key)
-                    category_rating = Rating(_, review_show_improvements_only)
-                    if 'not-latest' in key:
-                        category_rating.set_overall(points)
-                        category_rating.set_integrity_and_security(
-                            points, _local('UPDATE_AVAILABLE').format(domain))
-                    elif 'security-issues' in key:
-                        category_rating.set_overall(points)
-                        category_rating.set_integrity_and_security(
-                            points, _local('KNOWN_SECURITY_ISSUES').format(domain))
-                    else:
-                        category_rating.set_overall(points)
-                        category_rating.set_integrity_and_security(
-                            points, _local('TEXT_USED_{0}'.format(
-                                category.upper())).format('{0}'.format(domain)))
-                        # category_rating.set_integrity_and_security(
-                        #     points, _local('TEXT_USED_{0}'.format(
-                        #         category.upper())).format('{0} - {1}'.format(item_type, domain)))
+            category_rating.set_overall(
+                5.0, _local('TEXT_USED_{0}'.format(
+                    category.upper())).format(', '.join(result[category].keys())))
+            rating += category_rating
 
-                    rating += category_rating
-            else:
-                category_rating = Rating(_, review_show_improvements_only)
-                if not has_announced_overall:
-                    domain_header_rating = Rating(
-                        _, review_show_improvements_only)
-                    domain_header_rating.set_overall(
-                        5.0, '##### {0}'.format(domain))
-                    rating += domain_header_rating
-                    has_announced_overall = True
-
-                category_rating.set_overall(
-                    5.0, _local('TEXT_USED_{0}'.format(
-                        category.upper())).format(', '.join(item[category].keys())))
-                rating += category_rating
-        if category == 'cms' and category in item:
-            found_cms = True
-
-    if not has_security:
-        category_rating = Rating(
-            _, review_show_improvements_only)
-        category_rating.set_overall(5.0)
-        category_rating.set_integrity_and_security(5.0)
-        rating += category_rating
-
-    return (found_cms, rating)
+    return rating
 
 
 def convert_item_to_software_data(data, url):
@@ -1006,12 +919,6 @@ def convert_item_to_domain_data(data):
     result = {}
 
     for item in data:
-        domain_item = None
-        if item['domain'] not in result:
-            domain_item = {}
-        else:
-            domain_item = result[item['domain']]
-
         category = item['category']
         name = item['name']
         if name == '?':
@@ -1021,24 +928,24 @@ def convert_item_to_domain_data(data):
             version = '?'
         precision = item['precision']
 
-        if category not in domain_item:
-            domain_item[category] = {}
-        if name not in domain_item[category]:
-            domain_item[category][name] = {}
-        if version not in domain_item[category][name]:
-            domain_item[category][name][version] = {
+        if category not in result:
+            result[category] = {}
+        if name not in result[category]:
+            result[category][name] = {}
+        if version not in result[category][name]:
+            result[category][name][version] = {
                 'name': name, 'precision': precision
             }
             if 'github-owner' in item:
-                domain_item[category][name][version]['github-owner'] = item['github-owner']
+                result[category][name][version]['github-owner'] = item['github-owner']
             if 'github-repo' in item:
-                domain_item[category][name][version]['github-repo'] = item['github-repo']
+                result[category][name][version]['github-repo'] = item['github-repo']
             if 'latest-version' in item:
-                domain_item[category][name]['latest-version'] = item['latest-version']
+                result[category][name]['latest-version'] = item['latest-version']
             if 'is-latest-version' in item:
-                domain_item[category][name]['is-latest-version'] = item['is-latest-version']
+                result[category][name]['is-latest-version'] = item['is-latest-version']
 
-        if domain_item[category][name][version]['precision'] < precision:
+        if result[category][name][version]['precision'] < precision:
             obj = {}
             obj['name'] = name
             obj['precision'] = precision
@@ -1046,13 +953,7 @@ def convert_item_to_domain_data(data):
                 obj['github-owner'] = item['github-owner']
             if 'github-repo' in item:
                 obj['github-repo'] = item['github-repo']
-            if 'latest-version' in item:
-                domain_item[category][name]['latest-version'] = item['latest-version']
-            if 'is-latest-version' in item:
-                domain_item[category][name]['is-latest-version'] = item['is-latest-version']
-            domain_item[category][name][version] = obj
-
-        result[item['domain']] = domain_item
+            result[category][name][version] = obj
     return result
 
 

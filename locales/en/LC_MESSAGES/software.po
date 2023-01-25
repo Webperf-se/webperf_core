@@ -70,7 +70,7 @@ msgid "TEXT_USED_SECURITY"
 msgstr "- Leaking information"
 
 msgid "UPDATE_AVAILABLE"
-msgstr "- Update available(s)"
+msgstr "- Update(s) available"
 
 msgid "KNOWN_SECURITY_ISSUES"
 msgstr "- Has known security issue(s)"

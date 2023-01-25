@@ -411,7 +411,7 @@ def rate_software_security_result(_local, _, result, url):
     if rating.get_overall() == -1:
         rating.set_overall(5.0)
         rating.set_integrity_and_security(5.0)
-    else:
+    elif not use_detailed_report:
         text = '{0}'.format(_local('UPDATE_AVAILABLE'))
         tmp_rating = Rating(_, review_show_improvements_only)
         tmp_rating.set_integrity_and_security(

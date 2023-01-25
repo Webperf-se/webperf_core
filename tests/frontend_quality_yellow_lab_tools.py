@@ -1,15 +1,8 @@
 # -*- coding: utf-8 -*-
 from models import Rating
 import datetime
-import sys
-import socket
-import ssl
 import json
 import requests
-import urllib  # https://docs.python.org/3/library/urllib.parse.html
-import uuid
-import re
-from bs4 import BeautifulSoup
 import config
 from tests.utils import *
 import gettext
@@ -51,7 +44,7 @@ def run_test(_, langCode, url, device='phone'):
     print(_local("TEXT_RUNNING_TEST"))
 
     print(_('TEXT_TEST_START').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     if ylt_use_api:
         r = requests.post('{0}/api/runs'.format(ylt_server_address),
@@ -180,7 +173,7 @@ def run_test(_, langCode, url, device='phone'):
     rating.overall_review = rating.overall_review + review
 
     print(_('TEXT_TEST_END').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, return_dict)
 

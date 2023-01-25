@@ -67,10 +67,10 @@ msgid "TEXT_USED_LICENSE"
 msgstr "- License(s) used: {0}"
 
 msgid "TEXT_USED_SECURITY"
-msgstr "- Leaking info: {0}"
+msgstr "- Leaking information"
 
 msgid "UPDATE_AVAILABLE"
-msgstr "- Update available: {0}"
+msgstr "- Update available(s)"
 
 msgid "KNOWN_SECURITY_ISSUES"
-msgstr "- Known security issues: {0}"
+msgstr "- Has known security issue(s)"

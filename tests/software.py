@@ -100,11 +100,14 @@ def get_rating_from_sitespeed(url, _local, _):
     rating = Rating(_, review_show_improvements_only)
     result = {}
     result = convert_item_to_domain_data(data)
-    rating += sum_overall_software_used(_local, _, result, url)
+    texts = sum_overall_software_used(_local, _, result, url)
 
-    if use_detailed_report:
-        result = convert_item_to_software_data(data, url)
-        rating += rate_software_security_result(_local, _, result, url)
+    result2 = convert_item_to_software_data(data, url)
+    rating += rate_software_security_result(_local, _, result2, url)
+
+    result.update(result2)
+
+    rating.overall_review = '{0}\r\n'.format('\r\n'.join(texts))
 
     if not use_cache:
         shutil.rmtree(result_folder_name)
@@ -264,9 +267,6 @@ def update_rating_collection(rating, ratings):
 def rate_software_security_result(_local, _, result, url):
     rating = Rating(_, review_show_improvements_only)
 
-    url_info = urlparse(url)
-    orginal_domain = url_info.hostname
-
     ratings = {}
 
     categories = ['cms', 'webserver', 'os',
@@ -275,8 +275,6 @@ def rate_software_security_result(_local, _, result, url):
                   'img', 'img.software', 'img.os', 'img.device', 'video']
     for category in categories:
         if category in result:
-            # json_category = json.dumps(result[category], indent=4)
-            # print(category, json_category)
             for software_name in result[category]:
                 info = result[category][software_name]
                 if 'vulnerabilities' in info:
@@ -300,8 +298,11 @@ def rate_software_security_result(_local, _, result, url):
                             'cve', points, software_name, vuln_versions, vuln_sources, vuln['name'], vuln['references'])
                         sub_rating = Rating(_, review_show_improvements_only)
                         sub_rating.set_overall(points)
-                        sub_rating.set_integrity_and_security(points, '.')
-                        sub_rating.integrity_and_security_review = text
+                        if use_detailed_report:
+                            sub_rating.set_integrity_and_security(points, '.')
+                            sub_rating.integrity_and_security_review = text
+                        else:
+                            sub_rating.set_integrity_and_security(points)
                         ratings = update_rating_collection(sub_rating, ratings)
 
                 if category != 'js' and 'nof-newer-versions' in info and info['nof-newer-versions'] == 0:
@@ -310,8 +311,11 @@ def rate_software_security_result(_local, _, result, url):
                         'latest-but-leaking-name-and-version', points, software_name, info['versions'], info['sources'])
                     sub_rating = Rating(_, review_show_improvements_only)
                     sub_rating.set_overall(points)
-                    sub_rating.set_integrity_and_security(points, '.')
-                    sub_rating.integrity_and_security_review = text
+                    if use_detailed_report:
+                        sub_rating.set_integrity_and_security(points, '.')
+                        sub_rating.integrity_and_security_review = text
+                    else:
+                        sub_rating.set_integrity_and_security(points)
                     ratings = update_rating_collection(sub_rating, ratings)
                 elif category != 'js':
                     points = 4.0
@@ -319,8 +323,11 @@ def rate_software_security_result(_local, _, result, url):
                         'unknown-but-leaking-name-and-version', points, software_name, info['versions'], info['sources'])
                     sub_rating = Rating(_, review_show_improvements_only)
                     sub_rating.set_overall(points)
-                    sub_rating.set_integrity_and_security(points, '.')
-                    sub_rating.integrity_and_security_review = text
+                    if use_detailed_report:
+                        sub_rating.set_integrity_and_security(points, '.')
+                        sub_rating.integrity_and_security_review = text
+                    else:
+                        sub_rating.set_integrity_and_security(points)
                     ratings = update_rating_collection(sub_rating, ratings)
 
                 if 'nof-newer-versions' in info and info['nof-newer-versions'] > 0:
@@ -371,8 +378,11 @@ def rate_software_security_result(_local, _, result, url):
 
                         sub_rating = Rating(_, review_show_improvements_only)
                         sub_rating.set_overall(points)
-                        sub_rating.set_integrity_and_security(points, '.')
-                        sub_rating.integrity_and_security_review = text
+                        if use_detailed_report:
+                            sub_rating.set_integrity_and_security(points, '.')
+                            sub_rating.integrity_and_security_review = text
+                        else:
+                            sub_rating.set_integrity_and_security(points)
                         ratings = update_rating_collection(sub_rating, ratings)
 
                 if len(info['versions']) > 1:
@@ -381,8 +391,11 @@ def rate_software_security_result(_local, _, result, url):
                         'multiple-versions', points, software_name, info['versions'], info['sources'])
                     sub_rating = Rating(_, review_show_improvements_only)
                     sub_rating.set_overall(points)
-                    sub_rating.set_integrity_and_security(points, '.')
-                    sub_rating.integrity_and_security_review = text
+                    if use_detailed_report:
+                        sub_rating.set_integrity_and_security(points, '.')
+                        sub_rating.integrity_and_security_review = text
+                    else:
+                        sub_rating.set_integrity_and_security(points)
                     ratings = update_rating_collection(sub_rating, ratings)
 
     sorted_keys = list()
@@ -397,13 +410,20 @@ def rate_software_security_result(_local, _, result, url):
 
     if rating.get_overall() == -1:
         rating.set_overall(5.0)
+        rating.set_integrity_and_security(5.0)
+    else:
+        text = '{0}'.format(_local('UPDATE_AVAILABLE'))
+        tmp_rating = Rating(_, review_show_improvements_only)
+        tmp_rating.set_integrity_and_security(
+            rating.get_integrity_and_security(), text)
+
+        rating.integrity_and_security_review = tmp_rating.integrity_and_security_review
 
     return rating
 
 
 def sum_overall_software_used(_local, _, result, url):
-    rating = Rating(_, review_show_improvements_only)
-    url_info = urlparse(url)
+    texts = list()
 
     categories = ['cms', 'webserver', 'os',
                   'analytics', 'tech', 'license', 'meta',
@@ -414,21 +434,14 @@ def sum_overall_software_used(_local, _, result, url):
 
     for category in categories:
         if category in result:
-            category_rating = Rating(_, review_show_improvements_only)
             if use_detailed_report and not has_announced_overall:
-                domain_header_rating = Rating(
-                    _, review_show_improvements_only)
-                domain_header_rating.set_overall(
-                    5.0, '##### {0}'.format(url))
-                rating += domain_header_rating
+                texts.append('##### {0}'.format(url))
                 has_announced_overall = True
 
-            category_rating.set_overall(
-                5.0, _local('TEXT_USED_{0}'.format(
-                    category.upper())).format(', '.join(result[category].keys())))
-            rating += category_rating
+            texts.append(_local('TEXT_USED_{0}'.format(
+                category.upper())).format(', '.join(result[category].keys())))
 
-    return rating
+    return texts
 
 
 def convert_item_to_software_data(data, url):

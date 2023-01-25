@@ -67,10 +67,10 @@ msgid "TEXT_USED_LICENSE"
 msgstr "- Licenser: {0}"
 
 msgid "TEXT_USED_SECURITY"
-msgstr "- Läcker information: {0}"
+msgstr "- Läcker information"
 
 msgid "UPDATE_AVAILABLE"
-msgstr "- Uppdateringar tillgängliga: {0}"
+msgstr "- Uppdatering(ar) tillgänglig(a)"
 
 msgid "KNOWN_SECURITY_ISSUES"
-msgstr "- Har kända säkerhetsproblem: {0}"
+msgstr "- Har kända säkerhetsproblem"

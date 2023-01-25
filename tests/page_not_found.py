@@ -32,7 +32,7 @@ def run_test(_, langCode, url):
     print(_local('TEXT_RUNNING_TEST'))
 
     print(_('TEXT_TEST_START').format(
-        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     # kollar koden
     o = urllib.parse.urlparse(url)
@@ -196,6 +196,6 @@ def run_test(_, langCode, url):
     rating += rating_text_is_150_or_more
 
     print(_('TEXT_TEST_END').format(
-        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, result_dict)

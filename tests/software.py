@@ -2078,12 +2078,12 @@ def run_test(_, langCode, url):
     print(_local('TEXT_RUNNING_TEST'))
 
     print(_('TEXT_TEST_START').format(
-        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     (rating, result_dict) = get_rating_from_sitespeed(url, _local, _)
 
     print(_('TEXT_TEST_END').format(
-        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     raw_is_used = False
     for key in raw_data.keys():

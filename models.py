@@ -250,7 +250,7 @@ class SiteTests(object):
 
     site_id = 0
     id = 0
-    test_date = datetime.now()
+    test_date = datetime.datetime.now()
     type_of_test = 0
     check_report = ""
     check_report_sec = ""

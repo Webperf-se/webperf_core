@@ -212,13 +212,13 @@ def rate_cookies(browser, url, _local, _):
     # I know it differs around the year but lets get websites the benefit for it..
     days_in_month = 31
 
-    year1_from_now = (datetime.now() +
+    year1_from_now = (datetime.datetime.now() +
                       datetime.timedelta(days=365)).date()
-    months9_from_now = (datetime.now() +
+    months9_from_now = (datetime.datetime.now() +
                         datetime.timedelta(days=9 * days_in_month)).date()
-    months6_from_now = (datetime.now() +
+    months6_from_now = (datetime.datetime.now() +
                         datetime.timedelta(days=6 * days_in_month)).date()
-    months3_from_now = (datetime.now() +
+    months3_from_now = (datetime.datetime.now() +
                         datetime.timedelta(days=3 * days_in_month)).date()
 
     if number_of_potential_cookies > 0:
@@ -783,7 +783,7 @@ def run_test(_, langCode, url):
     print(_local('TEXT_RUNNING_TEST'))
 
     print(_('TEXT_TEST_START').format(
-        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     # TODO: Read sitespeed manual on how to return cookies and localStorage (This way we could remove dependency on Selenium)
     rating += get_rating_from_selenium(url, _local, _)
@@ -791,7 +791,7 @@ def run_test(_, langCode, url):
     rating += get_rating_from_sitespeed(url, _local, _)
 
     print(_('TEXT_TEST_END').format(
-        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, result_dict)
 

@@ -33,7 +33,7 @@ def run_test(_, langCode, url):
     print(_local("TEXT_RUNNING_TEST"))
 
     print(_('TEXT_TEST_START').format(
-        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     result_json = httpRequestGetContent(
         'https://api.websitecarbon.com/site?url={0}'.format(url))
@@ -81,6 +81,6 @@ def run_test(_, langCode, url):
     rating.set_overall(points, review)
 
     print(_('TEXT_TEST_END').format(
-        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, result_dict)

@@ -41,7 +41,7 @@ def run_test(_, langCode, url):
     print(_local('TEXT_RUNNING_TEST'))
 
     print(_('TEXT_TEST_START').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     orginal_url = url
     url = 'https://webbkoll.dataskydd.net/{1}/check?url={0}'.format(
@@ -215,6 +215,6 @@ def run_test(_, langCode, url):
     rating.overall_review = review
 
     print(_('TEXT_TEST_END').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, return_dict)

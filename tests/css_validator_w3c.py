@@ -42,7 +42,7 @@ def run_test(_, langCode, url):
     print(_local('TEXT_RUNNING_TEST'))
 
     print(_('TEXT_TEST_START').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     errors = list()
     error_message_dict = {}
@@ -82,7 +82,7 @@ def run_test(_, langCode, url):
     rating.overall_review = review
 
     print(_('TEXT_TEST_END').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, errors)
 

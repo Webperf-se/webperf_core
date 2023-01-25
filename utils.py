@@ -84,12 +84,12 @@ def test(_, langCode, site, test_type=None, show_reviews=False,):
 
             site_test = SiteTests(site_id=site_id, type_of_test=test_type,
                                   rating=rating,
-                                  test_date=datetime.datetime.now(), json_check_data=jsondata).todata()
+                                  test_date=datetime.now(), json_check_data=jsondata).todata()
 
             return site_test
     except Exception as e:
         print(_('TEXT_TEST_END').format(
-            datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+            datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
         print(_('TEXT_EXCEPTION'), website, '\n', e)
         pass
 
@@ -98,7 +98,7 @@ def test(_, langCode, site, test_type=None, show_reviews=False,):
 
 def test_site(_, langCode, site, test_type=TEST_ALL, show_reviews=False):
     # print(_('TEXT_TESTING_START_HEADER').format(
-    #    datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+    #    datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     tests = list()
     run_all_tests = test_type == TEST_ALL

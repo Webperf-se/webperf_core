@@ -24,7 +24,7 @@ def run_test(_, langCode, url):
     print(_local('TEXT_RUNNING_TEST'))
 
     print(_('TEXT_TEST_START').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     use_axe = False
     json_result = get_pa11y_errors(url, use_axe)
@@ -88,7 +88,7 @@ def run_test(_, langCode, url):
         rating.overall_review = _local('TEXT_REVIEW_A11Y_IS_OK')
 
     print(_('TEXT_TEST_END').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, return_dict)
 

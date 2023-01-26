@@ -87,6 +87,29 @@ We will rate every occurance of:
 - If you are simultaneously using different versions of the same software
 - If you are leaking name and version of operting system, webserver or cms
 
+## How do we find software name and version?
+
+As you can read above we determine this from public accessible information by visting website (as any normal human would do).
+We are then looking at the responses your website send.
+This test have the ability to look at:
+* HTML markup (read: page content and metadata)
+* URLs (read: for example path and querystring used)
+* HTTP Response Headers (read: for example a specific `SERVER` header commonly used to tell what webserver is used)
+* SVG Markup (read: for example generator metadata)
+* Metadata in images (read: for example generator metadata)
+
+If you are not using your own `software-rules.json` file in `data` folder you will be using the `SAMPLE-software-rules.json` file
+provided with this test.
+With this file you can use regular expression to look at:
+* HTML markup
+* URLs
+* HTTP Response Headers
+and tell this test how a regular expression match should be interpreted.
+For every rule in the file you can specify:
+* category (js/os/webserver/cms/tech) with a property called `category`
+* name (either with regular expression group name or a property called `name`)
+* version (either with regular expression group name or a property called `version`)
+* precision (tells how precise the information is and how confident you are in the match)
 
 ## Read more
 

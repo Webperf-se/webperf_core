@@ -1,8 +1,8 @@
 # Software (Alpha)
 [![Regression Test - Software (Alpha)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-software.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-software.yml)
 
-This test is aiming to follow software usage and improve software required for website.
-
+As all other test in webperf-core this test main focus is to improve knowleage and to encourage small and steady improvements.
+This test also has a general information section that aims to give information on software and tech usage at a overview level so you can see for example how common tech X is.
 
 ## What is being tested?
 
@@ -13,6 +13,7 @@ Following areas are determined from public accessible information by visting web
 * Metadata in resources
 
 Test can be set to a none stealth mode, resulting in more request to commonly used paths of CMS and other technology like Matomo.
+Default is to use stealth mode (read: visting website just like a human).
 
 ### CMS
 This section tries to identify what CMS (if any) is used for website.
@@ -40,6 +41,15 @@ This section tries to identify what CSS libraries are used for website.
 ### Image formats
 
 This section tries to identify what image formats used for website.
+Information found in none stealth mode (DON'T use if not approved to do so by website owners):
+- img.app (used image editing software)
+- img.os (used operating system when editing software)
+- img.device (device used to take the image)
+- app (software used by this website)
+
+We also tell you if we find any:
+- img.person (personal information, if this is by accident you should remove it)
+- img.location (location information, if this is by accident you should remove it)
 
 ### Languages
 
@@ -55,25 +65,28 @@ Information found in stealth mode (default mode):
 - operating system
 - webserver
 - cms
+- javascript libraries
 
-If name and version is leaked a security rating of 2.0 is given.
-If only name is leaked a security rating of 4.0 is given.
+If we can find software name, version and github reference for software being used we will look up your version against that github repository and see IF and how many versions you are behind.
 
-Information found in none stealth mode:
-- img.app (used image editing software)
-- img.os (used operating system when editing software)
-- img.device (device used to take the image)
-- app (software used by this website)
-- app.not-latest (software used by this website is found to not use latest version)
-- app.security-issues (software used by this website has known security issues)
+If we have software name and version but not a github reference we will try match software name against a small list
+of known software names and aliases. If match is found we will try to see IF and how many versions you are behind.
 
-If name or version is leaked a security rating of 4.0 is given.
-If we can determin you are not using latest version of app and it is not known for security issue a security rating of 4.0 is given.
-If we can determin you are using a version with known security issues a security rating of 1.0 is given.
+For javascript libraries, some webserver and operating system we will also do a CVE search to see
+if we can find any publicly known vurnabilities matching your used software name and version.
+Please note that we don't know if YOU are vurnable, just that the version of the software you are using has a reported vurnability.
+The security implications and IF you are vurnable can be read more about in the provided links.
 
-We also tell you if we find any:
-- img.person (personal information, if this is by accident you should remove it)
-- img.location (location information, if this is by accident you should remove it)
+We consider it best practise to always use a version without CVE reported and highly recommend you to upgrade.
+Generally you should always strive to have latest version as it will generally make it easier to upgrade
+IF/WHEN someone has found a security issue in a software.
+
+We will rate every occurance of:
+- CVE related to a software version you use
+- How many software versions you are behind latest version
+- If you are simultaneously using different versions of the same software
+- If you are leaking name and version of operting system, webserver or cms
+
 
 ## Read more
 
@@ -84,14 +97,27 @@ TODO: Add links to blogs and articles showing how to remove info regarding what 
 ### Prerequirements
 
 * Fork this repository
+* Access to https://www.cvedetails.com/*
+* Access to https://nginx.org/*
+* Access to https://httpd.apache.org/*
+* Access to https://www.cve.org/*
+* Access to https://learn.microsoft.com/*
+* Access to https://svn.apache.org/*
+* Access to https://api.github.com/*
 
 ### Setup with GitHub Actions
 
 * Follow [general github action setup steps for this repository](../getting-started-github-actions.md).
+* Currently GitHub Actions version is not searching github advisory database (Reason for this is the amount of data)
 
 ### Setup Locally
 
 * Follow [general local setup steps for this repository](../getting-started-local.md)
+* Fork https://github.com/github/advisory-database and set `software_github_adadvisory_database_path` variable in `config.py` to the path of that folder.
+* We recommend you to make use `software_use_stealth` is set to `True`, change this to `False` at your own risk.
+* It is highly recommended to set `cache_when_possible` to `True` and to set `cache_time_delta` to
+* It is highly recommended to set `cache_time_delta` to at least 12 hours (Fail to do so may result in banning of service like github).
+* If you want to get more detailed information, please set `software_use_detailed_report` to `True`.
 * Depending on your preference, follow below NPM package or Docker image steps below.
 
 #### Using NPM package

@@ -56,7 +56,7 @@ def run_test(_, langCode, url):
     print(_local('TEXT_RUNNING_TEST'))
 
     print(_('TEXT_TEST_START').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     arg = '--shm-size=1g -b chrome --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
         config.sitespeed_iterations, url)
@@ -133,6 +133,6 @@ def run_test(_, langCode, url):
     rating.performance_review = review
 
     print(_('TEXT_TEST_END').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, result_dict)

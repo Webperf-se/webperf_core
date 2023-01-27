@@ -48,11 +48,29 @@ msgstr "- Languages found: {0}"
 msgid "TEXT_USED_IMG"
 msgstr "- Image formats used: {0}"
 
+msgid "TEXT_USED_IMG.SOFTWARE"
+msgstr "- Image software used: {0}"
+
+msgid "TEXT_USED_IMG.OS"
+msgstr "- Image operating system used: {0}"
+
+msgid "TEXT_USED_IMG.DEVICE"
+msgstr "- Image device used: {0}"
+
 msgid "TEXT_USED_VIDEO"
 msgstr "- Video formats used: {0}"
 
 msgid "TEXT_USED_META"
 msgstr "- Metadata used: {0}"
 
+msgid "TEXT_USED_LICENSE"
+msgstr "- License(s) used: {0}"
+
 msgid "TEXT_USED_SECURITY"
-msgstr "- Leaking info: {0}"
+msgstr "- Leaking information"
+
+msgid "UPDATE_AVAILABLE"
+msgstr "- Update(s) available"
+
+msgid "KNOWN_SECURITY_ISSUES"
+msgstr "- Has known security issue(s)"

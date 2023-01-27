@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime, timedelta
+import hashlib
+from pathlib import Path
+import shutil
 import sys
 import socket
 import ssl
@@ -28,19 +32,125 @@ request_timeout = config.http_request_timeout
 useragent = config.useragent
 googlePageSpeedApiKey = config.googlePageSpeedApiKey
 
+try:
+    use_cache = config.cache_when_possible
+    cache_time_delta = config.cache_time_delta
+except:
+    # If cache_when_possible variable is not set in config.py this will be the default
+    use_cache = False
+    cache_time_delta = timedelta(hours=1)
 
-def httpRequestGetContent(url, allow_redirects=False):
+
+def is_file_older_than(file, delta):
+    cutoff = datetime.utcnow() - delta
+    mtime = datetime.utcfromtimestamp(os.path.getmtime(file))
+    if mtime < cutoff:
+        return True
+    return False
+
+
+def get_cache_path(url, use_text_instead_of_content):
+    file_ending = '.tmp'
+    if use_cache:
+        file_ending = '.cache'
+
+    cache_key_rule = '{0}.txt.utf-8{1}'
+    if not use_text_instead_of_content:
+        cache_key_rule = '{0}.bytes{1}'
+
+    cache_key = cache_key_rule.format(
+        hashlib.sha512(url.encode()).hexdigest(), file_ending)
+    cache_path = os.path.join('data', cache_key)
+    return cache_path
+
+
+def get_cache_file(url, use_text_instead_of_content, time_delta):
+    cache_path = get_cache_path(url, use_text_instead_of_content)
+
+    if not os.path.exists(cache_path):
+        return None
+
+    if use_cache and is_file_older_than(cache_path, time_delta):
+        return None
+
+    if use_text_instead_of_content:
+        with open(cache_path, 'r', encoding='utf-8') as file:
+            return '\n'.join(file.readlines())
+    else:
+        with open(cache_path, 'rb') as file:
+            return file.read()
+
+
+def clean_cache_files():
+    file_ending = '.tmp'
+    if use_cache:
+        file_ending = '.cache'
+
+    print('Cleaning {0} files...'.format(file_ending[1:]))
+
+    dir = os.path.join(Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep).parent, 'data')
+
+    files_or_subdirs = os.listdir(dir)
+    print(len(files_or_subdirs), 'file and folders in data folder.')
+    cache_files = 0
+    results_folders = 0
+    cache_files_removed = 0
+    results_folders_removed = 0
+    for file_or_dir in files_or_subdirs:
+        if file_or_dir.endswith(file_ending):
+            cache_files += 1
+            path = os.path.join(dir, file_or_dir)
+            if not use_cache or is_file_older_than(path, cache_time_delta):
+                os.remove(path)
+                cache_files_removed += 1
+        if file_or_dir.startswith('results-'):
+            results_folders += 1
+            path = os.path.join(dir, file_or_dir)
+            if not use_cache or is_file_older_than(path, cache_time_delta):
+                shutil.rmtree(path)
+                results_folders_removed += 1
+
+    print(cache_files, '{0} file(s) found.'.format(file_ending[1:]))
+    print(results_folders, 'result folder(s) found.')
+    print(cache_files_removed,
+          '{0} file(s) removed.'.format(file_ending[1:]))
+    print(results_folders_removed,
+          'result folder(s) removed.')
+
+
+def set_cache_file(url, content, use_text_instead_of_content):
+    cache_path = get_cache_path(url, use_text_instead_of_content)
+    if use_text_instead_of_content:
+        with open(cache_path, 'w', encoding='utf-8') as file:
+            file.write(content)
+    else:
+        with open(cache_path, 'wb') as file:
+            file.write(content)
+
+
+def httpRequestGetContent(url, allow_redirects=False, use_text_instead_of_content=True):
     """Trying to fetch the response content
     Attributes: url, as for the URL to fetch
     """
 
     try:
+        content = get_cache_file(
+            url, use_text_instead_of_content, cache_time_delta)
+        if content != None:
+            return content
+
         headers = {'user-agent': useragent}
         a = requests.get(url, allow_redirects=allow_redirects,
                          headers=headers, timeout=request_timeout*2)
 
-        # print('httpRequestGetContent', a.text)
-        return a.text
+        if use_text_instead_of_content:
+            content = a.text
+        else:
+            content = a.content
+
+        set_cache_file(url, content, use_text_instead_of_content)
+        return content
     except ssl.CertificateError as error:
         print('Info: Certificate error. {0}'.format(error.reason))
         pass

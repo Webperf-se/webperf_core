@@ -48,11 +48,29 @@ msgstr "- Språk: {0}"
 msgid "TEXT_USED_IMG"
 msgstr "- Bildformat: {0}"
 
+msgid "TEXT_USED_IMG.SOFTWARE"
+msgstr "- Bildmjukvara: {0}"
+
+msgid "TEXT_USED_IMG.OS"
+msgstr "- Bild operativsystem: {0}"
+
+msgid "TEXT_USED_IMG.DEVICE"
+msgstr "- Bild hårdvara {0}"
+
 msgid "TEXT_USED_VIDEO"
 msgstr "- Videoformat: {0}"
 
 msgid "TEXT_USED_META"
 msgstr "- Metadata: {0}"
 
+msgid "TEXT_USED_LICENSE"
+msgstr "- Licenser: {0}"
+
 msgid "TEXT_USED_SECURITY"
-msgstr "- Läcker information: {0}"
+msgstr "- Läcker information"
+
+msgid "UPDATE_AVAILABLE"
+msgstr "- Uppdatering(ar) tillgängliga"
+
+msgid "KNOWN_SECURITY_ISSUES"
+msgstr "- Har kända säkerhetsproblem"

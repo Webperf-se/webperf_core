@@ -11,6 +11,7 @@ import datetime
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.firefox.options import Options
+from tests.sitespeed_base import get_result
 import gettext
 _ = gettext.gettext
 
@@ -19,6 +20,13 @@ request_timeout = config.http_request_timeout
 useragent = config.useragent
 review_show_improvements_only = config.review_show_improvements_only
 sitespeed_use_docker = config.sitespeed_use_docker
+try:
+    use_cache = config.cache_when_possible
+    cache_time_delta = config.cache_time_delta
+except:
+    # If cache_when_possible variable is not set in config.py this will be the default
+    use_cache = False
+    cache_time_delta = timedelta(hours=1)
 
 
 def get_domains_from_url(url):
@@ -688,25 +696,15 @@ def rate_ads(website_urls, _local, _):
 def get_rating_from_sitespeed(url, _local, _):
     rating = Rating(_, review_show_improvements_only)
 
-    # TODO: CHANGE THIS IF YOU WANT TO DEBUG
-    result_folder_name = os.path.join(
-        'data', 'results-{0}'.format(str(uuid.uuid4())))
-    #result_folder_name = os.path.join('data', 'results')
+    # We don't need extra iterations for what we are using it for
+    sitespeed_iterations = 1
+    sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --chrome.cdp.performance false --browsertime.chrome.timeline false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --browsertime.chrome.includeResponseBodies all --utc true --browsertime.chrome.args ignore-certificate-errors -n {0}'.format(
+        sitespeed_iterations)
+    if 'nt' not in os.name:
+        sitespeed_arg += ' --xvfb'
 
-    from tests.performance_sitespeed_io import get_result as sitespeed_run_test
-
-    sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --outputFolder {2} --firstParty --utc true --xvfb --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-        config.sitespeed_iterations, url, result_folder_name)
-    if 'nt' in os.name:
-        sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.collectPerfLog --browsertime.chrome.includeResponseBodies "all" --html.fetchHARFiles true --outputFolder {2} --firstParty --utc true --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-            config.sitespeed_iterations, url, result_folder_name)
-
-    sitespeed_run_test(sitespeed_use_docker, sitespeed_arg)
-
-    website_folder_name = get_foldername_from_url(url)
-
-    filename = os.path.join(result_folder_name, 'pages',
-                            website_folder_name, 'data', 'browsertime.har')
+    (result_folder_name, filename) = get_result(
+        url, sitespeed_use_docker, sitespeed_arg)
 
     http_archive_content = get_file_content(filename)
 
@@ -730,6 +728,9 @@ def get_rating_from_sitespeed(url, _local, _):
         rating += rate_ads(website_urls, _local, _)
     except Exception as ex:
         print('ads exception', ex)
+
+    if not use_cache:
+        shutil.rmtree(result_folder_name)
 
     return rating
 

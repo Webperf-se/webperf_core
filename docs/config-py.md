@@ -83,3 +83,14 @@ Please read more about this on [SiteSpeed test section](tests/sitespeed.md).
 
 Who knows what this is for... :)
 
+### cache_when_possible
+Changing this to `True` will make webperf-core use local cache where available.
+See other setting to determine how long.
+
+### cache_time_delta
+This tells webperf-core how long to use cached resources
+See https://docs.python.org/3/library/datetime.html#timedelta-objects for possible values.
+This take no effect unless `cache_when_possible` is set to `True`.
+
+### software_use_stealth
+Tell software test to use stealth mode or not, default is `True`

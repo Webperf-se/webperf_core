@@ -5,6 +5,7 @@ import datetime
 from models import Sites, SiteTests
 import config
 import gettext
+from tests.utils import clean_cache_files
 import utils
 
 
@@ -208,6 +209,8 @@ def main(argv):
 
             # use loaded engine to write tests
             write_tests(output_filename, test_results)
+            # Cleanup exipred cache
+        clean_cache_files()
     else:
         print(_('TEXT_COMMAND_USAGE'))
 

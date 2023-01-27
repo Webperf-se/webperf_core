@@ -21,7 +21,7 @@ def run_test(_, langCode, url, strategy='mobile', category='best-practices'):
     print(_local('TEXT_RUNNING_TEST'))
 
     print(_('TEXT_TEST_START').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     test_result = lighthouse_base_run_test(
         _, langCode, url, googlePageSpeedApiKey, strategy, category, review_show_improvements_only, lighthouse_use_api)
@@ -45,6 +45,6 @@ def run_test(_, langCode, url, strategy='mobile', category='best-practices'):
     rating.overall_review = review
 
     print(_('TEXT_TEST_END').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, test_return_dict)

@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from PIL.ExifTags import TAGS, GPSTAGS
+from PIL import Image
+import hashlib
 from pathlib import Path
 import shutil
 from models import Rating
@@ -9,8 +12,11 @@ import re
 # https://docs.python.org/3/library/urllib.parse.html
 from urllib.parse import urlparse
 from tests.utils import *
+from tests.sitespeed_base import get_result
 import datetime
 import gettext
+from distutils.version import LooseVersion
+
 _ = gettext.gettext
 
 # DEFAULTS
@@ -20,11 +26,26 @@ review_show_improvements_only = config.review_show_improvements_only
 sitespeed_use_docker = config.sitespeed_use_docker
 try:
     use_cache = config.cache_when_possible
+    cache_time_delta = config.cache_time_delta
 except:
     # If cache_when_possible variable is not set in config.py this will be the default
     use_cache = False
-
-use_stealth = True
+    cache_time_delta = timedelta(hours=1)
+try:
+    use_stealth = config.software_use_stealth
+except:
+    # If software_use_stealth variable is not set in config.py this will be the default
+    use_stealth = True
+try:
+    use_detailed_report = config.software_use_detailed_report
+except:
+    # If software_use_detailed_report variable is not set in config.py this will be the default
+    use_detailed_report = False
+try:
+    github_adadvisory_database_path = config.software_github_adadvisory_database_path
+except:
+    # If software_github_adadvisory_database_path variable is not set in config.py this will be the default
+    github_adadvisory_database_path = None
 
 
 # Debug flags for every category here, this so we can print out raw values (so we can add more allowed once)
@@ -58,165 +79,35 @@ raw_data = {
 }
 
 
-def get_foldername_from_url(url):
-    o = urlparse(url)
-    hostname = o.hostname
-    relative_path = o.path
-
-    test_str = '{0}{1}'.format(hostname, relative_path)
-
-    regex = r"[^a-zA-Z0-9\-\/]"
-    subst = "_"
-
-    # You can manually specify the number of replacements by changing the 4th argument
-    folder_result = re.sub(regex, subst, test_str, 0, re.MULTILINE)
-
-    # NOTE: hopefully temporary fix for "index.html" and Gullspangs-kommun.html
-    folder_result = folder_result.replace('_html', '.html')
-
-    folder_result = folder_result.replace('/', os.sep)
-
-    return folder_result
-
-
-def get_sanitized_file_content(input_filename):
-    # print('input_filename=' + input_filename)
-    lines = list()
-    try:
-        with open(input_filename, 'r', encoding='utf-8') as file:
-            data = file.readlines()
-            for line in data:
-                lines.append(line)
-                # print(line)
-    except:
-        print('error in get_local_file_content. No such file or directory: {0}'.format(
-            input_filename))
-        return '\n'.join(lines)
-
-    test_str = '\n'.join(lines)
-    regex = r"[^a-zåäöA-ZÅÄÖ0-9\{\}\"\:;.,#*\<\>%'&$?!`=@\-\–\+\~\^\\\/| \(\)\[\]_]"
-    subst = ""
-
-    # You can manually specify the number of replacements by changing the 4th argument
-    result = re.sub(regex, subst, test_str, 0, re.MULTILINE)
-
-    json_result = json.loads(result)
-    has_minified = False
-    if 'log' not in json_result:
-        return ''
-    if 'version' in json_result['log']:
-        del json_result['log']['version']
-        has_minified = True
-    if 'browser' in json_result['log']:
-        del json_result['log']['browser']
-        has_minified = True
-    if 'creator' in json_result['log']:
-        del json_result['log']['creator']
-        has_minified = True
-    if 'pages' in json_result['log']:
-        has_minified = False
-        for page in json_result['log']['pages']:
-            keys_to_remove = list()
-            for key in page.keys():
-                if key != '_url':
-                    keys_to_remove.append(key)
-            for key in keys_to_remove:
-                del page[key]
-                has_minified = True
-    if 'entries' in json_result['log']:
-        has_minified = False
-        for entry in json_result['log']['entries']:
-            keys_to_remove = list()
-            for key in entry.keys():
-                if key != 'request' and key != 'response':
-                    keys_to_remove.append(key)
-            for key in keys_to_remove:
-                del entry[key]
-                has_minified = True
-
-            keys_to_remove = list()
-            for key in entry['request'].keys():
-                if key != 'url':
-                    keys_to_remove.append(key)
-            for key in keys_to_remove:
-                del entry['request'][key]
-                has_minified = True
-
-            keys_to_remove = list()
-            for key in entry['response'].keys():
-                if key != 'content' and key != 'headers':
-                    keys_to_remove.append(key)
-            for key in keys_to_remove:
-                del entry['response'][key]
-                has_minified = True
-
-    if has_minified:
-        write_json(input_filename, json_result)
-
-    return result
-
-
-def write_json(filename, data):
-    with open(filename, 'w', encoding='utf-8') as outfile:
-        json.dump(data, outfile)
-
-
 def get_rating_from_sitespeed(url, _local, _):
-    # TODO: CHANGE THIS IF YOU WANT TO DEBUG
-    result_folder_name = os.path.join(
-        'data', 'results-{0}'.format(str(uuid.uuid4())))
-    # result_folder_name = os.path.join('data', 'results')
-
-    from tests.performance_sitespeed_io import get_result as sitespeed_run_test
-
+    # We don't need extra iterations for what we are using it for
     sitespeed_iterations = 1
+    sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --chrome.cdp.performance false --browsertime.chrome.timeline false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --browsertime.chrome.includeResponseBodies all --utc true --browsertime.chrome.args ignore-certificate-errors -n {0}'.format(
+        sitespeed_iterations)
+    if 'nt' not in os.name:
+        sitespeed_arg += ' --xvfb'
 
-    sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --chrome.cdp.performance false --browsertime.chrome.timeline false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --browsertime.chrome.includeResponseBodies all --outputFolder {2} --utc true --xvfb --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-        sitespeed_iterations, url, result_folder_name)
-    if 'nt' in os.name:
-        sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --chrome.cdp.performance false --browsertime.chrome.timeline false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --browsertime.chrome.includeResponseBodies all --outputFolder {2} --utc true --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-            sitespeed_iterations, url, result_folder_name)
-        # sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --browsertime.chrome.includeResponseBodies all --outputFolder {2} --utc true --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-        #     sitespeed_iterations, url, result_folder_name)
-
-    filename = ''
-    # Should we use cache when available?
-    if use_cache:
-        import engines.sitespeed_result as input
-        sites = input.read_sites('', -1, -1)
-        for site in sites:
-            if url == site[1]:
-                filename = site[0]
-
-                file_created_timestamp = os.path.getctime(filename)
-                file_created_date = time.ctime(file_created_timestamp)
-                print('Cached entry found from {0}, using it instead of calling website again.'.format(
-                    file_created_date))
-                break
-
-    if filename == '':
-        sitespeed_run_test(sitespeed_use_docker, sitespeed_arg)
-
-        website_folder_name = get_foldername_from_url(url)
-
-        filename_old = os.path.join(result_folder_name, 'pages',
-                                    website_folder_name, 'data', 'browsertime.har')
-
-        filename = os.path.join(result_folder_name, 'browsertime.har')
-
-        if os.path.exists(filename_old):
-            os.rename(filename_old, filename)
-            dir_old = os.path.join(result_folder_name, 'pages')
-            shutil.rmtree(dir_old)
+    (result_folder_name, filename) = get_result(
+        url, sitespeed_use_docker, sitespeed_arg)
 
     o = urlparse(url)
     origin_domain = o.hostname
 
-    data = identify_software(filename, origin_domain)
-    data = enrich_data(data, origin_domain)
-    result = convert_item_to_domain_data(data)
+    rules = get_rules()
+    data = identify_software(filename, origin_domain, rules)
+    data = enrich_data(data, origin_domain, result_folder_name, rules)
 
-    rating = rate_result(_local, _, result, url)
+    rating = Rating(_, review_show_improvements_only)
+    result = {}
+    result = convert_item_to_domain_data(data)
+    texts = sum_overall_software_used(_local, _, result, url)
+
+    result2 = convert_item_to_software_data(data, url)
+    rating += rate_software_security_result(_local, _, result2, url)
+
+    result.update(result2)
+
+    rating.overall_review = '{0}\r\n'.format('\r\n'.join(texts))
 
     if not use_cache:
         shutil.rmtree(result_folder_name)
@@ -224,118 +115,865 @@ def get_rating_from_sitespeed(url, _local, _):
     return (rating, result)
 
 
-def rate_result(_local, _, result, url):
+def create_detailed_review(msg_type, points, software_name, software_versions, sources, cve_name=None, references=None):
+    # TODO: Use points from arguments into create_detailed_review and replace it in text (so it is easier to change rating)
+    if msg_type == 'cve':
+        msg = ['##### Software related to {0} ( #POINTS# rating )'.format(cve_name),
+               '',
+               '###### Introduction:',
+               'Software version used is effected by vurnability described in {0}.'.format(
+                   cve_name),
+               'For a more detailed explanation please see references below or search for {0}.'.format(
+                   cve_name),
+               'In most cases you can fix a CVE related issue by updating software to latest version.',
+               'In some rare cases there is no update and you need to consider not using the software affected.',
+               '']
+    elif msg_type == 'flagged':
+        msg = ['##### Software with security flagged issues ( 1.5 rating )',
+               '',
+               '###### Introduction:',
+               'Software used has a newer version with issues flagged with security in GITHUB_REPO.',
+               'This means that one or more security related issued has been fixed in a later version then you use.',
+               'You can fix this by updating software to latest version.',
+               '']
+    elif msg_type == 'behind100':
+        msg = ['##### Software is behind >=100 versions ( #POINTS# rating )',
+               '',
+               '###### Introduction:',
+               'Software used is behind 100 or more version compared to latests.',
+               'This is a very good indicator that you need to update to lastest version.',
+               'It also indicate that you don\'t have a good package routine for your software.'
+               'You can fix this by updating software to latest version.',
+               '']
+    elif msg_type == 'behind75':
+        msg = ['##### Software is behind >=75 versions ( #POINTS# rating )',
+               '',
+               '###### Introduction:',
+               'Software used is behind 75 or more version compared to latests.',
+               'This is a very good indicator that you need to update to lastest version.',
+               'It also indicate that you don\'t have a good package routine for your software.'
+               'You can fix this by updating software to latest version.',
+               '']
+    elif msg_type == 'behind50':
+        msg = ['##### Software is behind >=50 versions ( #POINTS# rating )',
+               '',
+               '###### Introduction:',
+               'Software used is behind 50 or more version compared to latests.',
+               'This is a very good indicator that you need to update to lastest version.',
+               'It also indicate that you don\'t have a good package routine for your software.'
+               'You can fix this by updating software to latest version.',
+               '']
+    elif msg_type == 'behind25':
+        msg = ['##### Software is behind >=25 versions ( #POINTS# rating )',
+               '',
+               '###### Introduction:',
+               'Software used is behind 25 or more version compared to latests.',
+               'This is a good indicator that you need to update to lastest version.',
+               'It also indicate that you don\'t have a good package routine for your software.'
+               'You can fix this by updating software to latest version.',
+               '']
+    elif msg_type == 'behind10':
+        msg = ['##### Software is behind >=10 versions ( #POINTS# rating )',
+               '',
+               '###### Introduction:',
+               'Software used is behind 10 or more version compared to latests.',
+               'This is a semi good indicator that you need to update to lastest version.',
+               'It also indicate that you don\'t have a good package routine for your software.'
+               'You can fix this by updating software to latest version.',
+               '']
+    elif msg_type == 'latest-but-leaking-name-and-version':
+        msg = ['##### Software version and name is leaked ( #POINTS# rating )',
+               '',
+               '###### Introduction:',
+               'You seem to use latest version BUT you are leaking name and version of software used.',
+               'This make it easier for someone to find vurnabilities to use against you, all from ZERO-DAY to known security issues.'
+               'To fix this you need to hide name and version, please view Software documentation on how to do this.'
+               '']
+    elif msg_type == 'unknown-but-leaking-name-and-version':
+        msg = ['##### Software version and name is leaked ( #POINTS# rating )',
+               '',
+               '###### Introduction:',
+               'You are leaking name and version of software used.',
+               'This make it easier for someone to find vurnabilities to use against you, all from ZERO-DAY to known security issues.'
+               'To fix this you need to hide name and version, please view Software documentation on how to do this.'
+               '']
+    elif msg_type == 'leaking-name':
+        msg = ['##### Software version and name is leaked ( #POINTS# rating )',
+               '',
+               '###### Introduction:',
+               'Software used is behind 1 or more version compared to latests.',
+               'This is a small indicator that you need to update to lastest version.',
+               'It also indicate that you don\'t have a good package routine for your software.'
+               'You can fix this by updating software to latest version.',
+               '']
+    elif msg_type == 'behind1':
+        msg = ['##### Software is behind >=1 versions ( #POINTS# rating )',
+               '',
+               '###### Introduction:',
+               'Software used is behind 1 or more version compared to latests.',
+               'This is a small indicator that you need to update to lastest version.',
+               'It also indicate that you don\'t have a good package routine for your software.'
+               'You can fix this by updating software to latest version.',
+               '']
+    elif msg_type == 'multiple-versions':
+        msg = ['##### Multiple versions of same Software ( #POINTS# rating )',
+               '',
+               '###### Introduction:',
+               'You are using multiple version of the same software.',
+               'This can be caused if you include resources from external sources or because of miss configuration.'
+               'This is a small indicator that you don\'t have as much control that you probably should.',
+               'It also indicate that you don\'t have a good package routine for your software.'
+               'You can fix this by updating software to latest version or latest version that you use for all instances.',
+               '']
+
+    if references != None and len(references) > 0:
+        msg.append('###### Reference(s):')
+
+        for reference in references:
+            msg.append('- {0}'.format(reference))
+        msg.append('')
+
+    if len(software_versions) > 0:
+        msg.append('###### Detected version(s):')
+
+        for version in software_versions:
+            msg.append('- {0} {1}'.format(software_name, version))
+        msg.append('')
+
+    if len(sources) > 0:
+        msg.append('###### Detected resource(s):')
+
+        source_index = 0
+        for source in sources:
+            if source_index > 5:
+                msg.append('- More then 5 sources, hiding rest')
+                break
+            msg.append('- {0}'.format(source))
+            source_index += 1
+        msg.append('')
+        msg.append('')
+
+    return '\r\n'.join(msg).replace('#POINTS#', "{0:.2f}".format(points))
+
+
+def update_rating_collection(rating, ratings):
+    points_key = "key_{0:.2f}".format(rating.get_integrity_and_security())
+    if points_key not in ratings:
+        ratings[points_key] = list()
+    ratings[points_key].append(rating)
+    return ratings
+
+
+def rate_software_security_result(_local, _, result, url):
     rating = Rating(_, review_show_improvements_only)
 
-    url_info = urlparse(url)
-    orginal_domain = url_info.hostname
+    ratings = {}
 
     categories = ['cms', 'webserver', 'os',
-                  'analytics', 'tech', 'meta',
-                  'js', 'css',
-                  'lang', 'img', 'video',
-                  'test', 'security']
+                  'analytics',
+                  'js',
+                  'img', 'img.software', 'img.os', 'img.device', 'video']
+    for category in categories:
+        if category in result:
+            for software_name in result[category]:
+                info = result[category][software_name]
+                if 'vulnerabilities' in info:
+                    for vuln in info['vulnerabilities']:
+                        points = 1.0
+                        if 'severity' in vuln:
+                            if 'HIGH' in vuln['severity']:
+                                points = 1.2
+                            elif 'MODERATE' in vuln['severity']:
+                                points = 1.5
+                        vuln_versions = list()
+                        vuln_versions.append(vuln['version'])
+                        v_sources_key = 'v-{0}-sources'.format(
+                            vuln['version'])
 
-    for domain in result.keys():
-        if domain not in orginal_domain:
-            continue
-        item = result[domain]
+                        if v_sources_key not in info:
+                            v_sources_key = 'sources'
+                        vuln_sources = info[v_sources_key]
 
-        (found_cms, rating) = rate_domain(
-            _local, _, rating, categories, domain, item)
+                        text = create_detailed_review(
+                            'cve', points, software_name, vuln_versions, vuln_sources, vuln['name'], vuln['references'])
+                        sub_rating = Rating(_, review_show_improvements_only)
+                        sub_rating.set_overall(points)
+                        if use_detailed_report:
+                            sub_rating.set_integrity_and_security(points, '.')
+                            sub_rating.integrity_and_security_review = text
+                        else:
+                            sub_rating.set_integrity_and_security(points)
+                        ratings = update_rating_collection(sub_rating, ratings)
 
-        if not found_cms and domain in orginal_domain:
-            no_cms_rating = Rating(_, review_show_improvements_only)
-            no_cms_rating.set_overall(5.0, _local('TEXT_NO_CMS'))
-            rating += no_cms_rating
+                if category != 'js' and 'nof-newer-versions' in info and info['nof-newer-versions'] == 0:
+                    points = 4.5
+                    text = create_detailed_review(
+                        'latest-but-leaking-name-and-version', points, software_name, info['versions'], info['sources'])
+                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating.set_overall(points)
+                    if use_detailed_report:
+                        sub_rating.set_integrity_and_security(points, '.')
+                        sub_rating.integrity_and_security_review = text
+                    else:
+                        sub_rating.set_integrity_and_security(points)
+                    ratings = update_rating_collection(sub_rating, ratings)
+                elif category != 'js':
+                    points = 4.0
+                    text = create_detailed_review(
+                        'unknown-but-leaking-name-and-version', points, software_name, info['versions'], info['sources'])
+                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating.set_overall(points)
+                    if use_detailed_report:
+                        sub_rating.set_integrity_and_security(points, '.')
+                        sub_rating.integrity_and_security_review = text
+                    else:
+                        sub_rating.set_integrity_and_security(points)
+                    ratings = update_rating_collection(sub_rating, ratings)
 
-    for domain in result.keys():
-        if domain in orginal_domain:
-            continue
-        item = result[domain]
+                if 'nof-newer-versions' in info and info['nof-newer-versions'] > 0:
+                    for version in info['versions']:
+                        v_newer_key = 'v-{0}-nof-newer-versions'.format(
+                            version)
+                        v_sources_key = 'v-{0}-sources'.format(version)
 
-        (found_cms, rating) = rate_domain(
-            _local, _, rating, categories, domain, item)
+                        # TODO: FAIL SAFE, we have identified multiple version of same software for the same request, should not be possible...
+                        if v_newer_key not in info:
+                            v_newer_key = 'nof-newer-versions'
+
+                        if info[v_newer_key] == 0:
+                            continue
+
+                        if v_sources_key not in info:
+                            v_sources_key = 'sources'
+
+                        tmp_versions = list()
+                        tmp_versions.append(version)
+
+                        points = -1
+                        text = ''
+                        if info[v_newer_key] >= 100:
+                            points = 2.0
+                            text = create_detailed_review(
+                                'behind100', points, software_name, tmp_versions, info[v_sources_key])
+                        elif info[v_newer_key] >= 75:
+                            points = 2.25
+                            text = create_detailed_review(
+                                'behind75', points, software_name, tmp_versions, info[v_sources_key])
+                        elif info[v_newer_key] >= 50:
+                            points = 2.5
+                            text = create_detailed_review(
+                                'behind50', points, software_name, tmp_versions, info[v_sources_key])
+                        elif info[v_newer_key] >= 25:
+                            points = 2.75
+                            text = create_detailed_review(
+                                'behind25', points, software_name, tmp_versions, info[v_sources_key])
+                        elif info[v_newer_key] >= 10:
+                            points = 3.0
+                            text = create_detailed_review(
+                                'behind10', points, software_name, tmp_versions, info[v_sources_key])
+                        elif info[v_newer_key] >= 1:
+                            points = 4.9
+                            text = create_detailed_review(
+                                'behind1', points, software_name, tmp_versions, info[v_sources_key])
+
+                        sub_rating = Rating(_, review_show_improvements_only)
+                        sub_rating.set_overall(points)
+                        if use_detailed_report:
+                            sub_rating.set_integrity_and_security(points, '.')
+                            sub_rating.integrity_and_security_review = text
+                        else:
+                            sub_rating.set_integrity_and_security(points)
+                        ratings = update_rating_collection(sub_rating, ratings)
+
+                if len(info['versions']) > 1:
+                    points = 4.1
+                    text = create_detailed_review(
+                        'multiple-versions', points, software_name, info['versions'], info['sources'])
+                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating.set_overall(points)
+                    if use_detailed_report:
+                        sub_rating.set_integrity_and_security(points, '.')
+                        sub_rating.integrity_and_security_review = text
+                    else:
+                        sub_rating.set_integrity_and_security(points)
+                    ratings = update_rating_collection(sub_rating, ratings)
+
+    sorted_keys = list()
+    for points_key in ratings.keys():
+        sorted_keys.append(points_key)
+
+    sorted_keys.sort()
+
+    for points_key in sorted_keys:
+        for sub_rating in ratings[points_key]:
+            rating += sub_rating
+
+    if rating.get_overall() == -1:
+        rating.set_overall(5.0)
+        rating.set_integrity_and_security(5.0)
+    elif not use_detailed_report:
+        text = '{0}'.format(_local('UPDATE_AVAILABLE'))
+        tmp_rating = Rating(_, review_show_improvements_only)
+        tmp_rating.set_integrity_and_security(
+            rating.get_integrity_and_security(), text)
+
+        rating.integrity_and_security_review = tmp_rating.integrity_and_security_review
 
     return rating
 
 
-def rate_domain(_local, _, rating, categories, domain, item):
-    found_cms = False
+def sum_overall_software_used(_local, _, result, url):
+    texts = list()
+
+    categories = ['cms', 'webserver', 'os',
+                  'analytics', 'tech', 'license', 'meta',
+                  'js', 'css',
+                  'lang', 'img', 'img.software', 'img.os', 'img.device', 'video']
+
     has_announced_overall = False
 
     for category in categories:
-        if category in item:
+        if category in result:
+            if use_detailed_report and not has_announced_overall:
+                texts.append('##### {0}'.format(url))
+                has_announced_overall = True
 
-            if category == 'security':
-                for key in item[category].keys():
-                    category_rating = Rating(_, review_show_improvements_only)
-                    if 'screaming.' in key:
-                        category_rating.set_integrity_and_security(
-                            2.0, _local('TEXT_USED_{0}'.format(
-                                category.upper())).format(domain))
+            texts.append(_local('TEXT_USED_{0}'.format(
+                category.upper())).format(', '.join(result[category].keys())))
+
+    return texts
+
+
+def convert_item_to_software_data(data, url):
+    result = {
+        'called_url': url
+    }
+
+    for item in data:
+        category = item['category']
+
+        if 'js' not in category and 'cms' not in category and 'webserver' not in category and 'os' not in category:
+            continue
+
+        if category not in result:
+            result[category] = {}
+
+        name = item['name']
+        if name == '?':
+            continue
+        version = item['version']
+        if 'webserver' != category and version == None:
+            continue
+
+        precision = item['precision']
+        if precision < 0.3:
+            continue
+
+        if name not in result[category]:
+            result[category][name] = {
+                'versions': [],
+                'sources': []
+            }
+
+        if version != None and version not in result[category][name]['versions']:
+            result[category][name]['versions'].append(version)
+        if 'url' in item and item['url'] not in result[category][name]['sources']:
+            result[category][name]['sources'].append(item['url'])
+            if version != None:
+                v_sources_key = 'v-{0}-sources'.format(
+                    version)
+                if v_sources_key not in result[category][name]:
+                    result[category][name][v_sources_key] = list()
+                result[category][name][v_sources_key].append(item['url'])
+        if 'latest-version' in item:
+            result[category][name]['latest-version'] = item['latest-version']
+        if 'nof-newer-versions' in item:
+            if 'nof-newer-versions' not in result[category][name] or result[category][name]['nof-newer-versions'] < item['nof-newer-versions']:
+                result[category][name]['nof-newer-versions'] = item['nof-newer-versions']
+            v_newer_key = 'v-{0}-nof-newer-versions'.format(
+                version)
+            result[category][name][v_newer_key] = item['nof-newer-versions']
+
+    result = cleanup_software_result(result)
+
+    for category in result:
+        if 'called_url' == category:
+            continue
+
+        for software_name in result[category]:
+            software = result[category][software_name]
+            for version in software['versions']:
+                records = get_cve_records_for_software_and_version(
+                    software_name, version, category)
+                if len(records) > 0:
+                    if 'vulnerabilities' not in result[category][software_name]:
+                        result[category][software_name]['vulnerabilities'] = list()
+                    result[category][software_name]['vulnerabilities'].extend(
+                        records)
+
+    return result
+
+
+def cleanup_software_result(result):
+
+    for category in result:
+        if 'called_url' == category:
+            continue
+
+        for software_name in result[category]:
+            software = result[category][software_name]
+            versions = software['versions']
+            versions_to_remove = list()
+
+            for version in versions:
+                version_sources_key = 'v-{0}-sources'.format(version)
+                version_newer_key = 'v-{0}-nof-newer-versions'.format(version)
+                should_remove = False
+                if version_sources_key not in software:
+                    should_remove = True
+
+                if should_remove:
+                    versions_to_remove.append(version)
+
+            for version in versions_to_remove:
+                version_sources_key = 'v-{0}-sources'.format(version)
+                version_newer_key = 'v-{0}-nof-newer-versions'.format(version)
+                software['versions'].remove(version)
+
+                if version_sources_key in software:
+                    del software[version_sources_key]
+
+                if version_newer_key in software:
+                    del software[version_newer_key]
+
+            if len(software['versions']) == 1:
+                version = software['versions'][0]
+                version_sources_key = 'v-{0}-sources'.format(version)
+                version_newer_key = 'v-{0}-nof-newer-versions'.format(version)
+
+                if version_sources_key in software:
+                    del software[version_sources_key]
+
+                if version_newer_key in software:
+                    del software[version_newer_key]
+
+    return result
+
+
+def get_cve_records_for_software_and_version(software_name, version, category):
+    result = list()
+
+    result.extend(get_cve_records_from_github_advisory_database(
+        software_name, version, category))
+    result.extend(get_cve_records_from_apache(
+        software_name, version, category))
+    result.extend(get_cve_records_from_nginx(
+        software_name, version, category))
+    result.extend(get_cve_records_from_iis(
+        software_name, version, category))
+    return result
+
+
+def get_cve_records_from_iis(software_name, version, category):
+    result = list()
+
+    if 'webserver' != category:
+        return result
+
+    if software_name != 'iis':
+        return result
+
+    if version == None:
+        return result
+
+    # https://www.cvedetails.com/vulnerability-list.php?vendor_id=26&product_id=3427&page=1
+    raw_data = httpRequestGetContent(
+        'https://www.cvedetails.com/vulnerability-list.php?vendor_id=26&product_id=3427&page=1')
+
+    regex_vulnerables = r'href="(?P<url>[^"]+)"[^>]+>(?P<cve>CVE-[0-9]{4}\-[0-9]+)'
+    matches_vulnerables = re.finditer(
+        regex_vulnerables, raw_data, re.MULTILINE)
+
+    for matchNum, match_vulnerable in enumerate(matches_vulnerables, start=1):
+        is_match = False
+        cve = match_vulnerable.group('cve')
+        url = 'https://www.cvedetails.com{0}'.format(
+            match_vulnerable.group('url'))
+        raw_cve_data = httpRequestGetContent(url)
+        regex_version = r'<td>[ \t\r\n]*(?P<version>[0-9]+\.[0-9]+)[ \t\r\n]*<\/td>'
+        matches_version = re.finditer(
+            regex_version, raw_cve_data, re.MULTILINE)
+        for matchNum, match_version in enumerate(matches_version, start=1):
+            cve_affected_version = match_version.group('version')
+            if cve_affected_version == version:
+                is_match = True
+
+        if is_match:
+            cve_info = {
+                'name': cve,
+                'references': [
+                    url
+                ],
+                'version': version
+            }
+            result.append(cve_info)
+
+    return result
+
+
+def get_cve_records_from_nginx(software_name, version, category):
+    result = list()
+
+    if 'webserver' != category:
+        return result
+
+    if software_name != 'nginx':
+        return result
+
+    if version == None:
+        return result
+
+    # https://nginx.org/en/security_advisories.html
+    raw_data = httpRequestGetContent(
+        'https://nginx.org/en/security_advisories.html')
+
+    regex_vulnerables = r'((?P<advisory>[^"]+)">Advisory<\/a><br>){0,1}<a href="(?P<more_info>[^"]+)">(?P<cve>CVE-[0-9]{4}\-[0-9]+)<\/a><br>Not vulnerable:(?P<safe>[ 0-9\.+,]+)<br>Vulnerable:(?P<unsafe>[ 0-9\.\-+,]+)'
+    matches_vulnerables = re.finditer(
+        regex_vulnerables, raw_data, re.MULTILINE)
+
+    for matchNum, match_vulnerable in enumerate(matches_vulnerables, start=1):
+        is_match = False
+        cve = match_vulnerable.group('cve')
+        more_info_url = match_vulnerable.group('more_info')
+        safe_versions = match_vulnerable.group('safe')
+        unsafe_versions = match_vulnerable.group('unsafe')
+        advisory_url = match_vulnerable.group('advisory')
+
+        # 0.6.18-1.9.9
+        # 1.1.4-1.2.8, 1.3.9-1.4.0
+        unsafe_sections = unsafe_versions.split(',')
+        safe_sections = safe_versions.split(',')
+        for section in unsafe_sections:
+            ranges = section.split('-')
+            if len(ranges) != 2:
+                continue
+            start_version = ranges[0].strip()
+            end_version = ranges[1].strip()
+            lversion = LooseVersion(version)
+            lstart_version = LooseVersion(start_version)
+            lend_version = LooseVersion(end_version)
+
+            if lversion >= lstart_version and lversion < lend_version:
+                is_match = True
+
+        if is_match:
+            # TODO: REMOVE FIXED VERSIONS
+            # 1.23.2+, 1.22.1+
+            for safe_section in safe_sections:
+                safe_version = safe_section.strip()
+                if '+' not in safe_section:
+                    continue
+                safe_version = safe_version.strip('+')
+                lsafe_version = LooseVersion(safe_version)
+
+                if lversion == lsafe_version:
+                    is_match = False
+
+                lversion_specificity = len(lversion.version)
+                if lversion_specificity == 3 and lversion_specificity == len(lsafe_version.version):
+                    # is same branch and is equal or greater then safe (fixed) version?
+                    if lversion.version[0] == lsafe_version.version[0] and lversion.version[1] == lsafe_version.version[1] and lversion.version[2] >= lsafe_version.version[2]:
+                        is_match = False
+
+        if is_match:
+            cve_info = {
+                'name': cve,
+                'references': [
+                    'https://nginx.org/en/security_advisories.html',
+                    more_info_url.replace('http://', 'https://')
+                ],
+                'version': version
+            }
+            if advisory_url != None:
+                cve_info['references'].append(
+                    advisory_url.replace('http://', 'https://'))
+            result.append(cve_info)
+
+    return result
+
+
+def get_cve_records_from_apache(software_name, version, category):
+    result = list()
+
+    if 'webserver' != category:
+        return result
+
+    if software_name != 'apache':
+        return result
+
+    if version == None:
+        return result
+
+    raw_data = httpRequestGetContent(
+        'https://httpd.apache.org/security/vulnerabilities_24.html')
+
+    regex_version = r"<h1 id=\"(?P<version>[0-9\.]+)\">"
+    version_sections = re.split(regex_version, raw_data)
+
+    current_version = None
+    for version_section in version_sections:
+        reg_version_validator = r"^(?P<version>[0-9\.]+)$"
+        if re.match(reg_version_validator, version_section) == None:
+            if current_version != None:
+                current_cve = None
+                regex_cve = r"<dt><h3 id=\"(?P<cve>CVE-[0-9]{4}\-[0-9]+)"
+                cve_sections = re.split(regex_cve, version_section)
+                for cve_section in cve_sections:
+                    regex_cve_validator = r"^(?P<cve>CVE-[0-9]{4}\-[0-9]+)$"
+                    if re.match(regex_cve_validator, cve_section) == None:
+                        if current_cve != None:
+                            is_match = False
+                            has_rules = False
+                            ranges = list()
+                            regex_ranges = r'Affects<\/td><td class="cve-value">(?P<range>[0-9\., &glt;=!]+)'
+                            matches_range = re.finditer(
+                                regex_ranges, cve_section, re.MULTILINE)
+
+                            for matchNum, match_range in enumerate(matches_range, start=1):
+                                range_data = match_range.group('range')
+                                for rnge in range_data.split(','):
+                                    tmp = rnge.strip()
+                                    if '&' in tmp or '=' in tmp or '!' in tmp:
+                                        if not has_rules:
+                                            # Set is_match to true and all the rules can do is to remove it from it..
+                                            is_match = True
+                                            has_rules = True
+                                        regex_version_expression = r'(?P<expression>[,&glt;=!]+)(?P<version>[0-9\.]+)'
+                                        matches_version_expression = re.finditer(
+                                            regex_version_expression, tmp, re.MULTILINE)
+                                        for matchNum, match_version_expression in enumerate(matches_version_expression, start=1):
+                                            tmp_expression = match_version_expression.group(
+                                                'expression')
+                                            tmp_version = match_version_expression.group(
+                                                'version')
+                                            # All versions below this version
+                                            # <=2.4.48
+                                            # Versions between 2.4.17 and 2.4.48 (including 2.4.48)
+                                            # <=2.4.48, !<2.4.17
+                                            # Versions between 2.4.7 and 2.4.51
+                                            # >=2.4.7, <=2.4.51
+                                            lversion = LooseVersion(version)
+                                            ltmp_version = LooseVersion(
+                                                tmp_version)
+
+                                            if '!&lt;=' in tmp_expression and lversion <= ltmp_version:
+                                                is_match = False
+                                            elif '!&gt;=' in tmp_expression and lversion >= ltmp_version:
+                                                is_match = False
+                                            elif '!&lt;' in tmp_expression and lversion < ltmp_version:
+                                                is_match = False
+                                            elif '!&gt;' in tmp_expression and lversion > ltmp_version:
+                                                is_match = False
+                                            elif '&lt;=' in tmp_expression and lversion > ltmp_version:
+                                                is_match = False
+                                            elif '&gt;=' in tmp_expression and lversion < ltmp_version:
+                                                is_match = False
+                                            elif '&lt;' in tmp_expression and lversion >= ltmp_version:
+                                                is_match = False
+                                            elif '&gt;' in tmp_expression and lversion <= ltmp_version:
+                                                is_match = False
+
+                                    else:
+                                        # Exactly this version
+                                        # 2.4.49
+                                        # Only listed versions
+                                        # 2.4.46, 2.4.43, 2.4.41, 2.4.39, 2.4.38, 2.4.37, 2.4.35, 2.4.34, 2.4.33, 2.4.29, 2.4.28, 2.4.27, 2.4.26, 2.4.25, 2.4.23, 2.4.20, 2.4.18, 2.4.17, 2.4.16, 2.4.12, 2.4.10, 2.4.9, 2.4.7, 2.4.6, 2.4.4, 2.4.3, 2.4.2, 2.4.1, 2.4.0
+                                        ranges.append(tmp)
+
+                            if version in ranges:
+                                is_match = True
+
+                            if is_match:
+                                cve_info = {
+                                    'name': current_cve,
+                                    'references': [
+                                        'https://httpd.apache.org/security/vulnerabilities_24.html',
+                                        'https://www.cve.org/CVERecord?id={0}'.format(
+                                            current_cve)
+                                    ],
+                                    'version': version
+                                }
+                                result.append(cve_info)
+
+                            current_cve = None
                     else:
-                        category_rating.set_integrity_and_security(
-                            4.0, _local('TEXT_USED_{0}'.format(
-                                category.upper())).format(domain))
-                    rating += category_rating
-            else:
-                category_rating = Rating(_, review_show_improvements_only)
-                if not has_announced_overall:
-                    domain_header_rating = Rating(
-                        _, review_show_improvements_only)
-                    domain_header_rating.set_overall(
-                        5.0, '##### {0}'.format(domain))
-                    rating += domain_header_rating
-                    has_announced_overall = True
+                        current_cve = cve_section
 
-                category_rating.set_overall(
-                    5.0, _local('TEXT_USED_{0}'.format(
-                        category.upper())).format(', '.join(item[category].keys())))
-                rating += category_rating
-        if category == 'cms' and category in item:
-            found_cms = True
-    return (found_cms, rating)
+                current_version = None
+        else:
+            current_version = version_section
+    return result
+
+
+def get_cve_records_from_github_advisory_database(software_name, version, category):
+    # https://github.com/github/advisory-database
+    result = list()
+
+    if category != 'js':
+        return result
+
+    if github_adadvisory_database_path == None:
+        return result
+
+    root_path = os.path.join(
+        github_adadvisory_database_path, 'advisories', 'github-reviewed')
+    #root_path = os.path.join(input_folder, 'advisories', 'unreviewed')
+    years = os.listdir(root_path)
+    for year in years:
+        year_path = os.path.join(root_path, year)
+        months = os.listdir(year_path)
+        for month in months:
+            month_path = os.path.join(year_path, month)
+            keys = os.listdir(month_path)
+            for key in keys:
+                key_path = os.path.join(
+                    year_path, month, key, '{0}.json'.format(key))
+                json_data = None
+                # Sanity check to make sure file exists
+                if not os.path.exists(key_path):
+                    continue
+
+                with open(key_path, 'r', encoding='utf-8') as file:
+                    json_data = json.load(file)
+                    # nice_json_data = json.dumps(json_data, indent=4)
+                if json_data == None:
+                    continue
+
+                if 'schema_version' not in json_data or json_data['schema_version'] != '1.3.0':
+                    print('ERROR: Unsupported schema version!')
+                    continue
+
+                if 'affected' not in json_data:
+                    continue
+
+                for affected in json_data['affected']:
+                    if 'package' not in affected:
+                        continue
+                    if 'ecosystem' not in affected['package']:
+                        continue
+
+                    ecosystem = affected['package']['ecosystem']
+
+                    # if software_name in affected['package']['name']:
+                    #     print('DEBUG:', affected['package']['name'])
+
+                    if 'npm' == ecosystem:
+                        is_matching = False
+                        has_cve_name = False
+                        if software_name == affected['package']['name'] or '{0}.js'.format(software_name) == affected['package']['name']:
+                            cve_info = {}
+
+                            nof_aliases = len(json_data['aliases'])
+                            if nof_aliases >= 1:
+                                cve_info['name'] = json_data['aliases'][0]
+                                has_cve_name = True
+                                if nof_aliases > 1:
+                                    cve_info['aliases'] = json_data['aliases']
+                            else:
+                                cve_info['name'] = '{0} vulnerability'.format(
+                                    affected['package']['name'])
+
+                            start_version = None
+                            end_version = None
+                            if 'ranges' in affected:
+                                for range in affected['ranges']:
+                                    if 'type' in range and range['type'] == 'ECOSYSTEM':
+                                        if 'events' in range:
+                                            for event in range['events']:
+                                                if 'introduced' in event:
+                                                    start_version = event['introduced']
+                                                if 'fixed' in event:
+                                                    end_version = event['fixed']
+                                    else:
+                                        print('ERROR: Unknown ecosystem')
+
+                            if start_version != None and end_version != None:
+                                if version != None:
+                                    lversion = LooseVersion(version)
+                                    lstart_version = LooseVersion(
+                                        start_version)
+                                    lend_version = LooseVersion(end_version)
+
+                                    if lversion >= lstart_version and lversion < lend_version:
+                                        is_matching = True
+
+                            references = list()
+                            if 'references' in json_data:
+                                for reference in json_data['references']:
+                                    if 'ADVISORY' in reference['type']:
+                                        references.append(reference['url'])
+                                        if not has_cve_name:
+                                            index = reference['url'].find(
+                                                'CVE-')
+                                            if index != -1:
+                                                cve_info['name'] = reference['url'][index:]
+                                cve_info['references'] = references
+                            if 'database_specific' in json_data and 'severity' in json_data['database_specific']:
+                                cve_info['severity'] = json_data['database_specific']['severity']
+
+                            if is_matching:
+                                cve_info['version'] = version
+                                result.append(cve_info)
+
+    return result
 
 
 def convert_item_to_domain_data(data):
     result = {}
 
     for item in data:
-        domain_item = None
-        if item['domain'] not in result:
-            domain_item = {}
-        else:
-            domain_item = result[item['domain']]
-
         category = item['category']
         name = item['name']
+        if name == '?':
+            continue
         version = item['version']
         if version == None:
             version = '?'
         precision = item['precision']
 
-        if category not in domain_item:
-            domain_item[category] = {}
-        if name not in domain_item[category]:
-            domain_item[category][name] = {}
-        if version not in domain_item[category][name]:
-            domain_item[category][name][version] = {
-                'name': name, 'precision': precision}
+        if category not in result:
+            result[category] = {}
+        if name not in result[category]:
+            result[category][name] = {}
+        if version not in result[category][name]:
+            result[category][name][version] = {
+                'name': name, 'precision': precision
+            }
+            if 'github-owner' in item:
+                result[category][name][version]['github-owner'] = item['github-owner']
+            if 'github-repo' in item:
+                result[category][name][version]['github-repo'] = item['github-repo']
+            if 'latest-version' in item:
+                result[category][name]['latest-version'] = item['latest-version']
+            if 'is-latest-version' in item:
+                result[category][name]['is-latest-version'] = item['is-latest-version']
 
-        if domain_item[category][name][version]['precision'] < precision:
+        if result[category][name][version]['precision'] < precision:
             obj = {}
             obj['name'] = name
             obj['precision'] = precision
-            domain_item[category][name][version] = obj
-
-        result[item['domain']] = domain_item
+            if 'github-owner' in item:
+                obj['github-owner'] = item['github-owner']
+            if 'github-repo' in item:
+                obj['github-repo'] = item['github-repo']
+            result[category][name][version] = obj
     return result
 
 
-def enrich_data(data, orginal_domain):
+def enrich_data(data, orginal_domain, result_folder_name, rules):
 
     cms = None
+    # matomo = None
     testing = {}
 
     tmp_list = list()
@@ -351,11 +989,24 @@ def enrich_data(data, orginal_domain):
 
         if item['precision'] >= 0.5 and (item['category'] == 'os' or item['category'] == 'webserver' or item['category'] == 'cms'):
             if item['version'] != None:
+                if 'is-latest-version' in item and item['is-latest-version']:
+                    item['security.latest-but-leaking-name-and-version'] = True
+                else:
+                    item['security.leaking-name-and-version'] = True
+
                 tmp_list.append(get_default_info(
                     item['url'], 'enrich', item['precision'], 'security', 'screaming.{0}'.format(item['category']), None))
             else:
                 tmp_list.append(get_default_info(
                     item['url'], 'enrich', item['precision'], 'security', 'talking.{0}'.format(item['category']), None))
+
+        # matomo = enrich_data_from_matomo(matomo, tmp_list, item)
+        enrich_data_from_github_repo(tmp_list, item)
+        enrich_versions(tmp_list, item)
+        enrich_data_from_javascript(tmp_list, item, rules)
+        enrich_data_from_videos(tmp_list, item, result_folder_name)
+        enrich_data_from_images(tmp_list, item, result_folder_name)
+        enrich_data_from_documents(tmp_list, item, result_folder_name)
 
     data.extend(tmp_list)
 
@@ -364,26 +1015,679 @@ def enrich_data(data, orginal_domain):
             'cms': cms,
             'test': testing
         }
-    # TODO: Move all additional calls into this function.
-    # TODO: Make sure no additional calls are done except in this function
-    # TODO: Make sure this function is ONLY called when `use_stealth = False`
-    # TODO: Check if it is any idea to check matomo version, if so, do it here
-    # TODO: Consider if results from additional calls can use cache
-    # TODO: Check if we are missing any type and try to find this info
-    # TODO: Additional check for Episerver
-    # TODO: Check for Umbraco ( /umbraco )
 
     return data
 
 
-def identify_software(filename, origin_domain):
+def enrich_versions(tmp_list, item):
+    if item['version'] == None:
+        return
+
+    newer_versions = []
+    version_verified = False
+
+    if item['name'] == 'matomo':
+        a = 1
+        # TODO: THIS MUST BE LOOKED AT FROM A 'COMPUTER BREACH' ARGUMENT,
+        # THERE IS NO REFERENCE TO THIS SO IT COULD (WRONGLY) BE ARGUED THAT YOU ARE TRYING TO HACK
+        #     matomo = {}
+        #     matomo['name'] = 'Matomo'
+        #     matomo['url'] = item['url']
+        #     matomo_version = 'Matomo'
+
+        #     # matomo_o = urlparse(item['url'])
+        #     # matomo_hostname = matomo_o.hostname
+        #     # matomo_url = '{0}://{1}/CHANGELOG.md'.format(
+        #     #     matomo_o.scheme, matomo_hostname)
+        #     # matomo_changelog_url_regex = r"(?P<url>.*)\/(matomo|piwik).(js|php)"
+        #     # matches = re.finditer(
+        #     #     matomo_changelog_url_regex, item['url'], re.MULTILINE)
+        #     # for matchNum, match in enumerate(matches, start=1):
+        #     #     matomo_url = match.group('url') + '/CHANGELOG.md'
+        #     #     matomo_content = httpRequestGetContent(matomo_url)
+        #     #     matomo_regex = r"## Matomo (?P<version>[\.0-9]+)"
+        #     #     matches = re.finditer(
+        #     #         matomo_regex, matomo_content, re.MULTILINE)
+        #     #     for matchNum, match in enumerate(matches, start=1):
+        #     #         matomo_version = match.group('version')
+        #     #         matomo['version'] = matomo_version
+        #     #         break
+
+    if item['name'] == 'apache':
+        (version_verified, newer_versions) = get_apache_httpd_versions(
+            item['version'])
+    elif item['name'] == 'iis':
+        (version_verified, newer_versions) = get_iis_versions(
+            item['version'])
+    elif 'github-owner' in item and 'github-repo' in item:
+        github_ower = item['github-owner']
+        github_repo = item['github-repo']
+        github_release_source = item['github-repo-version-source']
+        github_security_label = item['github-repo-security-label']
+        (version_verified, newer_versions) = get_github_project_versions(
+            github_ower, github_repo, github_release_source, github_security_label, item['version'])
+
+    nof_newer_versions = len(newer_versions)
+    has_more_then_one_newer_versions = nof_newer_versions > 0
+
+    precision = 0.8
+    info = get_default_info(
+        item['url'], 'enrich', precision, item['category'], item['name'], item['version'])
+
+    if version_verified:
+        info['precision'] = precision = 0.9
+        if has_more_then_one_newer_versions:
+            info['latest-version'] = newer_versions[0]['name']
+            info['is-latest-version'] = False
+        else:
+            info['is-latest-version'] = True
+            info['latest-version'] = item['version']
+        info['nof-newer-versions'] = nof_newer_versions
+
+    tmp_list.append(info)
+
+    if has_more_then_one_newer_versions:
+        has_more_then_10_newer_versions = len(newer_versions) > 10
+        has_more_then_25_newer_versions = len(newer_versions) > 25
+        has_more_then_50_newer_versions = len(newer_versions) > 50
+        if has_more_then_50_newer_versions:
+            tmp_list.append(get_default_info(
+                item['url'], 'enrich', precision, 'security', 'screaming.js.not-latest', None))
+        elif has_more_then_25_newer_versions:
+            tmp_list.append(get_default_info(
+                item['url'], 'enrich', precision, 'security', 'talking.js.not-latest', None))
+        elif has_more_then_10_newer_versions:
+            tmp_list.append(get_default_info(
+                item['url'], 'enrich', precision, 'security', 'whisper.js.not-latest', None))
+        else:
+            tmp_list.append(get_default_info(
+                item['url'], 'enrich', precision, 'security', 'guide.js.not-latest', None))
+
+    return
+
+
+def get_iis_versions(current_version):
+    # https://learn.microsoft.com/en-us/lifecycle/products/internet-information-services-iis
+    newer_versions = []
+    content = httpRequestGetContent(
+        'https://learn.microsoft.com/en-us/lifecycle/products/internet-information-services-iis')
+    regex = r"<td>IIS (?P<version>[0-9\.]+)"
+    matches = re.finditer(regex, content, re.MULTILINE)
+
+    versions = list()
+    versions_dict = {}
+
+    for matchNum, match in enumerate(matches, start=1):
+        name = match.group('version')
+        # version fix because source we use are not using the trailing .0 in all cases
+        if '.' not in name:
+            name = '{0}.0'.format(name)
+        versions.append(name)
+        date = None
+        id = name
+        versions_dict[name] = {
+            'name': name,
+            'date': date,
+            'id': id
+        }
+
+    versions = sorted(versions, key=LooseVersion, reverse=True)
+    newer_versions = list()
+    version_found = False
+    for version in versions:
+        if current_version == version:
+            version_found = True
+            break
+        else:
+            newer_versions.append(versions_dict[version])
+
+    if not version_found:
+        return (version_found, [])
+    else:
+        return (version_found, newer_versions)
+
+
+def get_apache_httpd_versions(current_version):
+    newer_versions = []
+    content = httpRequestGetContent(
+        'https://svn.apache.org/viewvc/httpd/httpd/tags/')
+    regex = r"<a name=\"(?P<version>[0-9\.]+)\""
+    matches = re.finditer(regex, content, re.MULTILINE)
+
+    versions = list()
+    versions_dict = {}
+    from distutils.version import LooseVersion
+
+    for matchNum, match in enumerate(matches, start=1):
+        name = match.group('version')
+        versions.append(name)
+        date = None
+        id = name
+        versions_dict[name] = {
+            'name': name,
+            'date': date,
+            'id': id
+        }
+
+    versions = sorted(versions, key=LooseVersion, reverse=True)
+    newer_versions = list()
+    version_found = False
+    for version in versions:
+        if current_version == version:
+            version_found = True
+            break
+        else:
+            newer_versions.append(versions_dict[version])
+
+    if not version_found:
+        return (version_found, [])
+    else:
+        return (version_found, newer_versions)
+
+
+def enrich_data_from_github_repo(tmp_list, item):
+    # replace 'name' that maches if-cases below and replace them with new.
+    # we are doing this both for more correct name but also consolidating names
+    if item['name'] == 'jquery-javascript-library':
+        item['name'] = 'jquery'
+    elif item['name'] == 'jquery-ui-core' or item['name'] == 'query-ui-widget' or item['name'] == 'jquery-ui-position' or item['name'] == 'jquery-ui-menu' or item['name'] == 'jquery-ui-autocomplete' or item['name'].startswith('jquery-ui-'):
+        item['name'] = 'jquery-ui'
+    elif item['name'] == 'jquery migrate' or item['name'] == 'jquery.migrate':
+        item['name'] = 'jquery-migrate'
+    elif item['name'] == 'sizzle-css-selector-engine':
+        item['name'] = 'sizzle'
+    elif item['name'] == 'javascript cookie' or item['name'] == 'javascript.cookie' or item['name'] == 'javascript-cookie':
+        item['name'] = 'js-cookie'
+
+    github_ower = None
+    github_repo = None
+    github_security_label = None
+    github_release_source = 'tags'
+
+    if item['name'] == 'jquery':
+        github_ower = 'jquery'
+        github_repo = 'jquery'
+    elif item['name'] == 'jquery-ui':
+        github_ower = 'jquery'
+        github_repo = 'jquery-ui'
+    elif item['name'] == 'jquery-migrate':
+        github_ower = 'jquery'
+        github_repo = 'jquery-migrate'
+    elif item['name'] == 'sizzle':
+        github_ower = 'jquery'
+        github_repo = 'sizzle'
+    elif item['name'] == 'js-cookie':
+        github_ower = 'js-cookie'
+        github_repo = 'js-cookie'
+    elif item['name'] == 'requirejs':
+        github_ower = 'requirejs'
+        github_repo = 'requirejs'
+    elif item['name'] == 'vue-devtools':
+        github_ower = 'vuejs'
+        github_repo = 'devtools'
+    elif item['name'] == 'eslint':
+        github_ower = 'eslint'
+        github_repo = 'eslint'
+    elif item['name'] == 'uuid':
+        github_ower = 'uuidjs'
+        github_repo = 'uuid'
+    elif item['name'] == 'chart':
+        github_ower = 'chartjs'
+        github_repo = 'Chart.js'
+    elif item['name'] == 'chartjs-plugin-datalabels':
+        github_ower = 'chartjs'
+        github_repo = 'chartjs-plugin-datalabels'
+    elif item['name'] == 'chartjs-plugin-deferred':
+        github_ower = 'chartjs'
+        github_repo = 'chartjs-plugin-deferred'
+    elif item['name'] == 'css-element-queries':
+        github_ower = 'marcj'
+        github_repo = 'css-element-queries'
+    elif item['name'] == 'modernizr':
+        github_ower = 'Modernizr'
+        github_repo = 'Modernizr'
+    elif item['name'] == 'core-js':
+        github_ower = 'zloirock'
+        github_repo = 'core-js'
+    elif item['name'] == 'vue':
+        github_ower = 'vuejs'
+        github_repo = 'vue'
+    elif item['name'] == 'vuex':
+        github_ower = 'vuejs'
+        github_repo = 'vuex'
+    elif item['name'] == 'vue-router':
+        github_ower = 'vuejs'
+        github_repo = 'vue-router'
+    elif item['name'] == 'react':
+        github_ower = 'facebook'
+        github_repo = 'react'
+    elif item['name'] == 'choices':
+        github_ower = 'jshjohnson'
+        github_repo = 'Choices'
+    elif item['name'] == 'nginx':
+        github_ower = 'nginx'
+        github_repo = 'nginx'
+    elif item['name'] == 'matomo':
+        github_ower = 'matomo-org'
+        github_repo = 'matomo'
+        github_security_label = 'c: Security'
+    elif item['name'] == 'bootstrap':
+        github_ower = 'twbs'
+        github_repo = 'bootstrap'
+        github_release_source = 'releases'
+    elif 'github-owner' in item and 'github-repo' in item:
+        github_ower = item['github-owner']
+        github_repo = item['github-repo']
+
+    if github_ower == None:
+        return
+    if github_repo == None:
+        return
+
+    if 'github-owner' not in item:
+        item['github-owner'] = github_ower
+    if 'github-repo' not in item:
+        item['github-repo'] = github_repo
+    if 'github-repo-version-source' not in item:
+        item['github-repo-version-source'] = github_release_source
+    if 'github-repo-security-label' not in item:
+        item['github-repo-security-label'] = github_security_label
+
+    github_info = get_github_repository_info(
+        github_ower, github_repo)
+
+    precision = 0.8
+    if github_info['license'] != None:
+        info = get_default_info(
+            item['url'], 'enrich', precision, item['category'], item['name'], item['version'])
+        # https://spdx.org/licenses/
+        tmp_list.append(get_default_info(
+            item['url'], 'enrich', 0.9, 'license', github_info['license'], None))
+        info['license'] = github_info['license']
+        tmp_list.append(info)
+
+    if len(github_info['tech']) > 0:
+        for name in github_info['tech']:
+            tmp_list.append(get_default_info(
+                item['url'], 'enrich', 0.9, 'tech', name, None))
+
+    return
+
+
+def get_github_repository_info(owner, repo):
+    repo_content = httpRequestGetContent(
+        'https://api.github.com/repos/{0}/{1}'.format(owner, repo))
+
+    info_dict = {}
+
+    from distutils.version import LooseVersion
+
+    github_info = json.loads(repo_content)
+
+    # Get license from github repo ("license.spdx_id") info: https://api.github.com/repos/matomo-org/matomo
+    # for example: MIT, GPL-3.0
+    info_dict['license'] = None
+    if 'license' in github_info and github_info['license'] != None and 'spdx_id' in github_info['license']:
+        license = github_info['license']['spdx_id'].lower()
+        if 'noassertion' != license:
+            info_dict['license'] = license
+
+    techs = list()
+    # Get tech from github repo ("language") info: https://api.github.com/repos/matomo-org/matomo
+    # for example: php, JavaScript (js), C
+    if 'language' in github_info and github_info['language'] != None:
+        lang = github_info['language'].lower()
+        if 'javascript' in lang:
+            lang = 'js'
+        add_tech_if_interesting(techs, lang)
+        # info_dict['language'] = lang
+    # else:
+    #     info_dict['language'] = None
+
+    # TODO: Get tech from github repo ("topics") info: https://api.github.com/repos/matomo-org/matomo
+    # for example: php, mysql
+    if 'topics' in github_info and github_info['topics'] != None:
+        for topic in github_info['topics']:
+            add_tech_if_interesting(techs, topic)
+
+    info_dict['tech'] = techs
+
+    return info_dict
+
+
+def add_tech_if_interesting(techs, topic):
+    tech = topic.lower()
+    if 'js' == tech or 'javascript' == tech:
+        techs.append('js')
+    elif 'c' == tech or 'php' == tech or 'mysql' == tech or 'typescript' == tech:
+        techs.append(tech)
+    elif 'sass' == tech or 'scss' == tech:
+        techs.append(tech)
+    # else:
+    #     print('# TOPIC', tech)
+
+
+def get_github_project_versions(owner, repo, source, security_label, current_version):
+    versions_content = httpRequestGetContent(
+        'https://api.github.com/repos/{0}/{1}/{2}?state=closed&per_page=100'.format(owner, repo, source))
+
+    versions = list()
+    versions_dict = {}
+
+    from distutils.version import LooseVersion
+
+    version_info = json.loads(versions_content)
+    for version in version_info:
+        if source == 'milestones':
+            id_key = 'number'
+            name_key = 'title'
+            date_key = 'closed_at'
+        elif source == 'tags':
+            id_key = None
+            name_key = 'name'
+            date_key = None
+        else:
+            id_key = 'id'
+            # we uses tag_name instead of name as bootstrap is missing "name" for some releases
+            name_key = 'tag_name'
+            date_key = 'published_at'
+
+        if name_key not in version:
+            continue
+
+        id = None
+        name = None
+        name2 = None
+        date = None
+
+        if id_key in version:
+            id = '{0}'.format(version[id_key])
+
+        if date_key in version:
+            date = version[date_key]
+
+        # NOTE: We do this to handle jquery dual release format "1.12.4/2.2.4"
+        regex = r"^([v]|release\-){0,1}(?P<name>[0-9\\.]+)([\\\/](?P<name2>[0-9\\.]+)){0,1}"
+        matches = re.finditer(regex, version[name_key])
+        for matchNum, match in enumerate(matches, start=1):
+            name = match.group('name')
+            name2 = match.group('name2')
+
+        if name == None:
+            continue
+
+        versions.append(name)
+        versions_dict[name] = {
+            'name': name,
+            'date': date,
+            'id': id
+        }
+
+        if name2 != None:
+            versions.append(name2)
+            versions_dict[name2] = {
+                'name': name2,
+                'date': date,
+                'id': id
+            }
+
+    versions = sorted(versions, key=LooseVersion, reverse=True)
+
+    newer_versions = list()
+    version_found = False
+    for version in versions:
+        if current_version == version:
+            version_found = True
+            break
+        else:
+            if security_label != None:
+                # https://api.github.com/repos/matomo-org/matomo/milestones/163/labels
+                version_label_data = httpRequestGetContent(
+                    'https://api.github.com/repos/{0}/{1}/{2}/{3}/labels'.format(owner, repo, source, versions_dict[version]['id']))
+                labels = json.loads(version_label_data)
+
+                fixes_security = False
+                for label in labels:
+                    if 'name' in label and label['name'] == security_label:
+                        fixes_security = True
+
+                versions_dict[version]['fixes-security'] = fixes_security
+            newer_versions.append(versions_dict[version])
+
+    if not version_found:
+        return (version_found, [])
+    else:
+        return (version_found, newer_versions)
+
+
+def enrich_data_from_javascript(tmp_list, item, rules):
+    if use_stealth:
+        return
+    if item['category'] != 'js':
+        return
+    if 'license-txt' in item:
+        content = httpRequestGetContent(
+            item['license-txt'].lower(), allow_redirects=True)
+        tmp = lookup_response_content(
+            item['license-txt'].lower(), item['mime-type'], content, rules)
+        tmp_list.extend(tmp)
+    if item['version'] == None:
+        return
+
+    # TODO: Check if we can run custom javascript in sitespeed.io to add below tests
+    # jQuery.fn.jquery = '1.9.1'
+    # Modernizr._version = '3.4.0'
+    # window['__core-js_shared__'].versions
+
+    # TODO: We should look at wordpress plugins specifically as they are widely used and we know they are often used in attacks
+
+
+def enrich_data_from_videos(tmp_list, item, result_folder_name, nof_tries=0):
+    if use_stealth:
+        return
+    if item['category'] != 'video':
+        return
+
+    if item['name'] != 'mp4':
+        return
+
+    # TODO: Consider if we should read metadata from video
+
+
+def enrich_data_from_documents(tmp_list, item, result_folder_name, nof_tries=0):
+    if use_stealth:
+        return
+    # TODO: Handle: pdf, excel, word, powerpoints (and more?)
+
+
+def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
+    if use_stealth:
+        return
+    if item['category'] != 'img':
+        return
+
+    if item['name'] == 'svg':
+        # NOTE: We don't get content for svg files currently, it would be better if we didn't need to request it once more
+        svg_content = httpRequestGetContent(item['url'])
+
+        # <!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+        svg_regex = r"<!-- Generator: (?P<name>[a-zA-Z ]+)[ ]{0,1}(?P<version>[0-9.]*)"
+        matches = re.finditer(svg_regex, svg_content, re.MULTILINE)
+
+        tech_name = ''
+        tech_version = ''
+        for matchNum, match in enumerate(matches, start=1):
+            tech_name = match.group('name')
+            tech_version = match.group('version')
+
+            if tech_name != None and tech_version == None:
+                tech_name = tech_name.lower().strip().replace(' ', '-')
+                tmp_list.append(get_default_info(
+                    item['url'], 'enrich', 0.5, 'img.software', tech_name, None))
+                tmp_list.append(get_default_info(
+                    item['url'], 'enrich', item['precision'], 'security', 'whisper.{0}.app'.format(item['category']), None))
+
+            if tech_version != None:
+                tech_version = tech_version.lower()
+                tmp_list.append(get_default_info(
+                    item['url'], 'content', 0.6, 'img.software', tech_name, tech_version))
+                tmp_list.append(get_default_info(
+                    item['url'], 'enrich', 0.8, 'security', 'whisper.{0}.app'.format(item['category']), None))
+    else:
+        cache_key = '{0}.cache.{1}'.format(
+            hashlib.sha512(item['url'].encode()).hexdigest(), item['name'])
+        cache_path = os.path.join(result_folder_name, cache_key)
+
+        image_data = None
+        try:
+            if use_cache and os.path.exists(cache_path) and is_file_older_than(cache_path, cache_time_delta):
+                image_data = Image.open(cache_path)
+            else:
+                data = httpRequestGetContent(
+                    item['url'], use_text_instead_of_content=False)
+                with open(cache_path, 'wb') as file:
+                    file.write(data)
+                image_data = Image.open(cache_path)
+        except:
+            return
+
+        # extract EXIF data
+        exifdata = image_data.getexif()
+        # if nof_tries == 0 and (exifdata == None or len(exifdata.keys()) == 0):
+        # TODO: THIS MUST BE LOOKED AT FROM A 'COMPUTER BREACH' ARGUMENT,
+        # THERE IS NO REFERENCE TO THIS SO IT COULD (WRONGLY) BE ARGUED THAT YOU ARE TRYING TO HACK
+        # test_index = item['url'].rfind(
+        #     '.{0}'.format(item['name']))
+        # # test_index = item['url'].rfind(
+        # #     '.{0}?'.format(item['name']))
+        # if test_index > 0:
+        #     test_url = '{1}.{0}'.format(
+        #         item['name'], item['url'][:test_index])
+        #     test = get_default_info(
+        #         test_url, 'enrich', item['precision'], item['category'], item['name'], item['version'], item['domain'])
+
+        #     enrich_data_from_images(
+        #         tmp_list, test, result_folder_name, nof_tries + 1)
+
+        device_name = None
+        device_version = None
+
+        # iterating over all EXIF data fields
+        for tag_id in exifdata:
+            # get the tag name, instead of human unreadable tag id
+            tag = TAGS.get(tag_id, None)
+            if tag == None:
+                tag = 'unknown_{0}'.format(tag_id)
+
+            tag_name = tag.lower()
+            tag_data = exifdata.get(tag_id)
+            # decode bytes
+            try:
+                if isinstance(tag_data, bytes):
+                    tag_data = tag_data.decode()
+            except:
+                a = 1
+            tag_name = tag_name.lower()
+            if 'software' == tag_name:
+                regex = r"(?P<debug>^(^(?P<name>([a-zA-Z ]+))) (?P<version>[0-9.]+){0,1}[ (]{0,2}(?P<osname>[a-zA-Z]+){0,1})[)]{0,1}"
+                matches = re.finditer(
+                    regex, tag_data, re.MULTILINE)
+                for matchNum, match in enumerate(matches, start=1):
+                    tech_name = match.group('name')
+                    tech_version = match.group('version')
+                    os_name = match.group('osname')
+                    if tech_name != None and tech_version == None:
+                        tech_name = tech_name.lower().strip().replace(' ', '-')
+                        tmp_list.append(get_default_info(
+                            item['url'], 'enrich', 0.5, 'img.software', tech_name, None))
+                        tmp_list.append(get_default_info(
+                            item['url'], 'enrich', item['precision'], 'security', 'whisper.{0}.app'.format(item['category']), None))
+
+                    if tech_version != None:
+                        tech_version = tech_version.lower()
+                        tmp_list.append(get_default_info(
+                            item['url'], 'content', 0.6, 'img.software', tech_name, tech_version))
+                        tmp_list.append(get_default_info(
+                            item['url'], 'enrich', 0.8, 'security', 'whisper.{0}.app'.format(item['category']), None))
+
+                    if os_name != None:
+                        os_name = os_name.lower()
+                        tmp_list.append(get_default_info(
+                            item['url'], 'content', 0.6, 'img.os', os_name, None))
+                        tmp_list.append(get_default_info(
+                            item['url'], 'enrich', 0.8, 'security', 'whisper.{0}.os'.format(item['category']), None))
+            elif 'artist' == tag_name or 'xpauthor' == tag_name:
+                tmp_list.append(get_default_info(
+                    item['url'], 'enrich', 0.8, 'security', 'info.{0}.person'.format(item['category']), None))
+            elif 'make' == tag_name:
+                device_name = tag_data.lower().strip()
+                if 'nikon corporation' in device_name:
+                    device_name = device_name.replace(
+                        'nikon corporation', 'nikon')
+            elif 'hostcomputer' == tag_name:
+                regex = r"(?P<debug>^(^(?P<name>([a-zA-Z ]+))) (?P<version>[0-9.]+){0,1}[ (]{0,2}(?P<osname>[a-zA-Z]+){0,1})[)]{0,1}"
+                matches = re.finditer(
+                    regex, tag_data, re.MULTILINE)
+                for matchNum, match in enumerate(matches, start=1):
+                    tech_name = match.group('name')
+                    tech_version = match.group('version')
+                    os_name = match.group('osname')
+                    if tech_name != None and tech_version == None:
+                        tech_name = tech_name.lower().strip().replace(' ', '-')
+                        device_name = tech_name
+                        # tmp_list.append(get_default_info(
+                        #     item['url'], 'enrich', 0.5, 'img.device', tech_name, None))
+                        tmp_list.append(get_default_info(
+                            item['url'], 'enrich', item['precision'], 'security', 'whisper.{0}.device'.format(item['category']), None))
+
+                    if tech_version != None:
+                        tech_version = tech_version.lower()
+                        device_version = tech_version
+                        # tmp_list.append(get_default_info(
+                        #     item['url'], 'content', 0.6, 'img.os', tech_name, tech_version))
+                        tmp_list.append(get_default_info(
+                            item['url'], 'enrich', 0.8, 'security', 'whisper.{0}.device'.format(item['category']), None))
+
+                    if os_name != None:
+                        os_name = os_name.lower().strip()
+                        tmp_list.append(get_default_info(
+                            item['url'], 'content', 0.6, 'img.os', os_name, None))
+                        tmp_list.append(get_default_info(
+                            item['url'], 'enrich', 0.8, 'security', 'whisper.{0}.os'.format(item['category']), None))
+            elif 'model' == tag_name:
+                tmp_list.append(get_default_info(
+                    item['url'], 'enrich', 0.8, 'security', 'info.{0}.model'.format(item['category']), None))
+                device_version = tag_data.lower().strip()
+            elif 'gpsinfo' == tag_name:
+                tmp_list.append(get_default_info(
+                    item['url'], 'enrich', 0.8, 'security', 'info.{0}.location'.format(item['category']), None))
+
+        if device_name != None or device_version != None:
+            if device_name != None:
+                device_name = device_name.lower().strip()
+            if device_name != None and device_version == None:
+                tmp_list.append(get_default_info(
+                    item['url'], 'enrich', 0.5, 'img.device', device_name, None))
+                tmp_list.append(get_default_info(
+                    item['url'], 'enrich', item['precision'], 'security', 'whisper.{0}.device'.format(item['category']), None))
+
+            if device_name != None and device_version != None:
+                device_version = device_version.lower()
+                if device_name != None:
+                    device_version = device_version.replace(device_name, '')
+                tmp_list.append(get_default_info(
+                    item['url'], 'content', 0.6, 'img.device', device_name, device_version))
+                tmp_list.append(get_default_info(
+                    item['url'], 'enrich', 0.8, 'security', 'whisper.{0}.device'.format(item['category']), None))
+
+
+def identify_software(filename, origin_domain, rules):
     data = list()
-    rules = get_rules()
 
     # Fix for content having unallowed chars
-    json_content = get_sanitized_file_content(filename)
-    if True:
-        har_data = json.loads(json_content)
+    with open(filename) as json_input_file:
+        har_data = json.load(json_input_file)
+
         if 'log' in har_data:
             har_data = har_data['log']
         for entry in har_data["entries"]:
@@ -421,47 +1725,38 @@ def identify_software(filename, origin_domain):
 
 
 def lookup_response_mimetype(req_url, response_mimetype):
-    # TODO: Move all this to `enrich_data` method
     data = list()
 
-    if use_stealth:
-        return data
-
     if raw_data['mime-types']['use']:
-        raw_data['mime-types'][response_mimetype] = 'svg' in response_mimetype or 'mp4' in response_mimetype or 'webp' in response_mimetype or 'png' in response_mimetype or 'jpg' in response_mimetype or 'jpeg' in response_mimetype
+        raw_data['mime-types'][response_mimetype] = 'svg' in response_mimetype or 'mp4' in response_mimetype or 'webp' in response_mimetype or 'png' in response_mimetype or 'jpg' in response_mimetype or 'jpeg' in response_mimetype or 'bmp' in response_mimetype
 
-    if 'svg' in response_mimetype:
-        # NOTE: We don't get content for svg files currently, it would be better if we didn't need to request it once more
-        svg_content = httpRequestGetContent(req_url)
-
-        # <!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-        svg_regex = r"<!-- Generator: (?P<name>[a-zA-Z ]+)[ ]{0,1}(?P<version>[0-9.]*)"
-        matches = re.finditer(svg_regex, svg_content, re.MULTILINE)
-
-        tech_name = ''
-        tech_version = ''
-        for matchNum, match in enumerate(matches, start=1):
-            tech_name = match.group('name')
-            if tech_name != None:
-                tech_name = tech_name.lower().strip().replace(' ', '-')
-                data.append(get_default_info(
-                    req_url, 'content', 0.5, 'tech', tech_name, None))
-
-            tech_version = match.group('version')
-            if tech_version != None:
-                tech_version = tech_version.lower()
-                data.append(get_default_info(
-                    req_url, 'content', 0.6, 'tech', tech_name, tech_version))
     if 'mp4' in response_mimetype:
         # Extract metadata to see if we can get produced application and more,
         # look at: https://www.handinhandsweden.se/wp-content/uploads/se/2022/11/julvideo-startsida.mp4
         # that has videolan references and more interesting stuff
-        a = 1
-    if 'webp' in response_mimetype or 'png' in response_mimetype or 'jpg' in response_mimetype or 'jpeg' in response_mimetype:
+        data.append(get_default_info(
+            req_url, 'mimetype', 0.8, 'video', 'mp4', None))
+
+    if 'webp' in response_mimetype:
         # Extract metadata to see if we can get produced application and more,
-        # look at: https://skatteverket.se/images/18.1df9c71e181083ce6f6cbd/1655378197989/mobil-externwebb.jpg
-        # that has adobe photoshop 21.2 (Windows) information
-        a = 1
+        data.append(get_default_info(
+            req_url, 'mimetype', 0.8, 'img', 'webp', None))
+    elif 'png' in response_mimetype:
+        # Extract metadata to see if we can get produced application and more,
+        data.append(get_default_info(
+            req_url, 'mimetype', 0.8, 'img', 'png', None))
+    elif 'jpg' in response_mimetype:
+        # Extract metadata to see if we can get produced application and more,
+        data.append(get_default_info(
+            req_url, 'mimetype', 0.8, 'img', 'jpg', None))
+    elif 'jpeg' in response_mimetype:
+        # Extract metadata to see if we can get produced application and more,
+        data.append(get_default_info(
+            req_url, 'mimetype', 0.8, 'img', 'jpeg', None))
+    elif 'bmp' in response_mimetype:
+        # Extract metadata to see if we can get produced application and more,
+        data.append(get_default_info(
+            req_url, 'mimetype', 0.8, 'img', 'bmp', None))
 
     return data
 
@@ -492,17 +1787,40 @@ def lookup_response_content(req_url, response_mimetype, response_content, rules)
         hostname = o.hostname
 
         regex = r"{0}".format(rule['match'])
-        matches = re.finditer(regex, response_content, re.MULTILINE)
+        matches = re.finditer(regex, response_content, re.IGNORECASE)
         for matchNum, match in enumerate(matches, start=1):
             match_name = None
             match_version = None
+            match_github_owner = None
+            match_github_repo = None
+            license_url = None
 
             groups = match.groupdict()
 
             if 'name' in groups:
                 match_name = groups['name']
+            if '?P<name>' in rule['match'] and match_name == None:
+                continue
             if 'version' in groups:
                 match_version = groups['version']
+            if '?P<version>' in rule['match'] and match_version == None:
+                continue
+            if 'owner' in groups:
+                match_github_owner = groups['owner']
+            if '?P<owner>' in rule['match'] and match_github_owner == None:
+                continue
+            if 'repo' in groups:
+                match_github_repo = groups['repo']
+            if '?P<repo>' in rule['match'] and match_github_repo == None:
+                continue
+
+            if 'licensetxt' in groups and 'licensefile' in groups:
+                source_segment = groups['licensefile']
+                license_txt = groups['licensetxt']
+                license_index = req_url.rfind(source_segment)
+                tmp_url = req_url[:license_index]
+                license_url = '{0}{1}{2}'.format(
+                    tmp_url, source_segment, license_txt)
 
             for result in rule['results']:
                 name = None
@@ -525,8 +1843,17 @@ def lookup_response_content(req_url, response_mimetype, response_content, rules)
                     version = match_version
 
                 if precision > 0.0:
-                    data.append(get_default_info(
-                        req_url, 'content', precision, category, name, version))
+                    info = get_default_info(
+                        req_url, 'content', precision, category, name, version)
+                    if match_github_owner != None:
+                        info['github-owner'] = match_github_owner
+                    if match_github_repo != None:
+                        info['github-repo'] = match_github_repo
+                    if license_url != None:
+                        info['license-txt'] = license_url
+                    info['mime-type'] = response_mimetype
+
+                    data.append(info)
                     is_found = True
                 elif raw_data['contents']['use'] and not is_found:
                     raw_data['contents'][match.group('debug')] = hostname
@@ -545,7 +1872,10 @@ def get_default_info(url, method, precision, key, name, version, domain=None):
         result['domain'] = hostname
 
     if name != None:
-        name = name.lower().strip()
+        name = name.lower().strip('.').strip('-').strip().replace(' ', '-')
+
+    if version != None:
+        version = version.lower().strip('.').strip('-').strip()
 
     result['url'] = url
     result['method'] = method
@@ -553,6 +1883,7 @@ def get_default_info(url, method, precision, key, name, version, domain=None):
     result['category'] = key
     result['name'] = name
     result['version'] = version
+    result['security'] = []
 
     return result
 
@@ -586,6 +1917,11 @@ def lookup_request_url(req_url, rules, origin_domain):
                 match_name = groups['name']
             if 'version' in groups:
                 match_version = groups['version']
+
+            if '?P<name>' in rule['match'] and match_name == None:
+                continue
+            if '?P<version>' in rule['match'] and match_version == None:
+                continue
 
             for result in rule['results']:
                 name = None
@@ -631,7 +1967,6 @@ def lookup_response_headers(req_url, headers, rules, origin_domain):
         if raw_data['headers']['use']:
             raw_data['headers'][header_name] = header_value
 
-        # print('header', header_name, header_value)
         tmp_data = lookup_response_header(
             req_url, header_name, header_value, rules, origin_domain)
         if len(tmp_data) != 0:
@@ -676,6 +2011,11 @@ def lookup_response_header(req_url, header_name, header_value, rules, origin_dom
                 match_name = groups['name']
             if 'version' in groups:
                 match_version = groups['version']
+
+            if '?P<name>' in rule['match'] and match_name == None:
+                continue
+            if '?P<version>' in rule['match'] and match_version == None:
+                continue
 
             for result in rule['results']:
                 name = None

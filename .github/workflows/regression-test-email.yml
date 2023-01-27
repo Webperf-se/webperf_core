@@ -9,8 +9,8 @@ jobs:
     strategy:
             matrix:
                 os: [ubuntu-latest, windows-latest]
+                config: ['review_show_improvements_only=True']
                 version: [24]
-                verify: [true, false]
     steps:
     - name: Check out repository code
       uses: actions/checkout@v3
@@ -35,10 +35,10 @@ jobs:
       run: Invoke-WebRequest -Uri ${env:IP2LOCATION_DOWNLOAD_URL} -OutFile data\IP2LOCATION-LITE-DB1.IPV6.BIN
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: Setup config (using SAMPLE-config.py as config.py) - LINUX
-      run: python .github/workflows/verify_result.py -c ${{ matrix.verify }}
+      run: python .github/workflows/verify_result.py -c ${{ matrix.config }}
     - if: ${{ matrix.os == 'windows-latest' }}
       name: Setup config (using SAMPLE-config.py as config.py) - WINDOWS
-      run: python .github\workflows\verify_result.py -c ${{ matrix.verify }}
+      run: python .github\workflows\verify_result.py -c ${{ matrix.config }}
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: RUNNING TEST - LINUX
       run: |

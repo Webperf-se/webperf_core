@@ -11,7 +11,7 @@ jobs:
                 # os: [ubuntu-latest, windows-latest]
                 os: [windows-latest]
                 version: [18]
-                verify: [false]
+                config: ['review_show_improvements_only=True']
     steps:
     - name: Check out repository code
       uses: actions/checkout@v3
@@ -27,7 +27,7 @@ jobs:
     - name: Setup Pa11y CI npm package
       run: npm install pa11y
     - name: Setup config (using SAMPLE-config.py as config.py)
-      run: python .github/workflows/verify_result.py -c ${{ matrix.verify }}
+      run: python .github/workflows/verify_result.py -c ${{ matrix.config }}
     # Havn't yet been able to start Google Chrome in headless mode in pa11y since move to Chrome in Pa11y 5
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: RUNNING TEST - LINUX

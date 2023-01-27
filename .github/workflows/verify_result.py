@@ -12,7 +12,9 @@ import getopt
 import gettext
 
 
-def prepare_config_file(sample_filename, filename, is_activated):
+def prepare_config_file(sample_filename, filename, arguments):
+    print('A', arguments)
+
     if not os.path.exists(sample_filename):
         print('no sample file exist')
         return False
@@ -27,35 +29,23 @@ def prepare_config_file(sample_filename, filename, is_activated):
         print('no file exist')
         return False
 
-    regex_ylt = r"^ylt_use_api.*"
-    subst_ylt = "ylt_use_api = False"
-
-    regex_lighthouse = r"^lighthouse_use_api.*"
-    subst_lighthouse = "lighthouse_use_api = False"
-
-    regex_sitespeed = r"^sitespeed_use_docker.*"
-    subst_sitespeed = "sitespeed_use_docker = {0}".format(str(is_activated))
-
-    regex_w3c = r"^w3c_use_website.*"
-    subst_w3c = "w3c_use_website = {0}".format(str(is_activated))
-
-    # regex_improvements_only = r"^review_show_improvements_only.*"
-    # subst_improvements_only = "review_show_improvements_only = True"
-
     with open(filename, 'r') as file:
         data = file.readlines()
         output = list('')
         for line in data:
-            tmp = re.sub(regex_ylt, subst_ylt, line, 0, re.MULTILINE)
-            tmp = re.sub(regex_lighthouse, subst_lighthouse,
-                         tmp, 0, re.MULTILINE)
-            tmp = re.sub(regex_sitespeed, subst_sitespeed,
-                         tmp, 0, re.MULTILINE)
-            tmp = re.sub(regex_w3c, subst_w3c,
-                         tmp, 0, re.MULTILINE)
-            # tmp = re.sub(regex_improvements_only, subst_improvements_only,
-            #              tmp, 0, re.MULTILINE)
+            tmp = line
+            for argument in arguments:
+                index = argument.find('=')
+                pair = argument.split('=')
+                name = argument[:index]
+                value = argument[(index + 1):]
 
+                regex_argument = r'^{0}.*'.format(name)
+                result_argument = r'{0} = {1}'.format(name, value)
+                print('B', regex_argument, result_argument)
+
+                tmp = re.sub(regex_argument, result_argument,
+                             tmp, 0, re.MULTILINE)
             output.append(tmp)
 
     with open(filename, 'w') as outfile:
@@ -376,11 +366,12 @@ def main(argv):
             sys.exit(0)
             break
         elif opt in ("-c", "--prep-config"):
-            is_activated = False
-            if 'true' in arg or 'True' in arg or '1' in arg:
-                is_activated = True
+            if 'true' in arg.lower() or 'false' in arg.lower() or '1' in arg or '0' in arg:
+                raise ValueError(
+                    'c/prep-config argument has changed format, it doesn\'t support previous format')
+            arguments = arg.split(',')
 
-            if prepare_config_file('SAMPLE-config.py', 'config.py', is_activated):
+            if prepare_config_file('SAMPLE-config.py', 'config.py', arguments):
                 sys.exit(0)
             else:
                 sys.exit(2)

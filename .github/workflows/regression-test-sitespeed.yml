@@ -9,8 +9,8 @@ jobs:
     strategy:
             matrix:
                 os: [ubuntu-latest]
+                config: ['review_show_improvements_only=True,sitespeed_use_docker=False', 'review_show_improvements_only=True,sitespeed_use_docker=True']
                 version: [15]
-                verify: [false, true]
     steps:
     - name: Check out repository code
       uses: actions/checkout@v3
@@ -60,10 +60,10 @@ jobs:
       run: npm install sitespeed.io
     - if: ${{ matrix.os == 'ubuntu-latest'  }}
       name: Setup config (using SAMPLE-config.py as config.py) - LINUX
-      run: python .github/workflows/verify_result.py -c ${{ matrix.verify }}
+      run: python .github/workflows/verify_result.py -c ${{ matrix.config }}
     - if: ${{ matrix.os == 'windows-latest' }}
       name: Setup config (using SAMPLE-config.py as config.py) - WINDOWS
-      run: python .github\workflows\verify_result.py -c ${{ matrix.verify }}
+      run: python .github\workflows\verify_result.py -c ${{ matrix.config }}
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: RUNNING TEST - LINUX
       run: |

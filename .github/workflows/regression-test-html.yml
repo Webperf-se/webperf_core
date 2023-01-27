@@ -9,8 +9,8 @@ jobs:
     strategy:
             matrix:
                 os: [ubuntu-latest, windows-latest]
+                config: ['review_show_improvements_only=True,w3c_use_website=True','review_show_improvements_only=True,w3c_use_website=False']
                 version: [6]
-                verify: [true, false]
     steps:
     - name: Check out repository code
       uses: actions/checkout@v3
@@ -31,10 +31,10 @@ jobs:
         Invoke-WebRequest -Uri https://github.com/validator/validator/releases/download/latest/vnu.jar -OutFile vnu.jar
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: Setup config (using SAMPLE-config.py as config.py) - LINUX
-      run: python .github/workflows/verify_result.py -c ${{ matrix.verify }}
+      run: python .github/workflows/verify_result.py -c ${{ matrix.config }}
     - if: ${{ matrix.os == 'windows-latest' }}
       name: Setup config (using SAMPLE-config.py as config.py) - WINDOWS
-      run: python .github\workflows\verify_result.py -c ${{ matrix.verify }}
+      run: python .github\workflows\verify_result.py -c ${{ matrix.config }}
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: RUNNING TEST - LINUX
       run: |

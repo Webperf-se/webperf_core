@@ -47,21 +47,19 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg):
                                     website_folder_name, 'data', 'browsertime.har')
         filename = os.path.join(result_folder_name, 'browsertime.har')
         cleanup_browsertime_content(filename_old)
-        cleanup_results_dir(result_folder_name)
+        cleanup_results_dir(filename_old, result_folder_name)
     return (result_folder_name, filename)
 
 
-def cleanup_results_dir(path):
-    correct_path = full_path = os.path.join(
+def cleanup_results_dir(browsertime_path, path):
+    correct_path = os.path.join(
         path, 'browsertime.har')
 
-    found = False
+    os.rename(browsertime_path, correct_path)
+
     sub_dirs = os.listdir(path)
     for sub_dir in sub_dirs:
-        if 'pages' == sub_dir:
-            found = True
-            continue
-        elif 'browsertime.har' == sub_dir:
+        if 'browsertime.har' == sub_dir:
             continue
         else:
             tmp_path = os.path.join(
@@ -70,43 +68,6 @@ def cleanup_results_dir(path):
                 os.remove(tmp_path)
             else:
                 shutil.rmtree(tmp_path)
-
-    if not found:
-        return
-
-    pages_path = path = os.path.join(
-        path, 'pages') + os.path.sep
-
-    found = False
-    sub_dirs = os.listdir(path)
-    for sub_dir in sub_dirs:
-        found = True
-        path = os.path.join(
-            path, sub_dir) + os.path.sep
-
-    if not found:
-        return
-
-    sub_dirs = os.listdir(path)
-    for sub_dir in sub_dirs:
-        if '1.html' == sub_dir or '2.html' == sub_dir or 'index.html' == sub_dir or 'metrics.html' == sub_dir:
-            continue
-        if 'data' != sub_dir:
-            full_path = os.path.join(
-                path, sub_dir, 'data', 'browsertime.har')
-        else:
-            full_path = os.path.join(
-                path, sub_dir, 'browsertime.har')
-
-    if full_path == None:
-        return
-
-    if not os.path.isfile(full_path):
-        return
-
-    os.rename(full_path, correct_path)
-    shutil.rmtree(pages_path)
-    full_path = correct_path
 
 
 def get_result_using_no_cache(sitespeed_use_docker, arg):
@@ -140,14 +101,12 @@ def get_result_using_no_cache(sitespeed_use_docker, arg):
 
 
 def cleanup_browsertime_content(input_filename):
-    # print('input_filename=' + input_filename)
     lines = list()
     try:
         with open(input_filename, 'r', encoding='utf-8') as file:
             data = file.readlines()
             for line in data:
                 lines.append(line)
-                # print(line)
     except:
         print('error in get_local_file_content. No such file or directory: {0}'.format(
             input_filename))

@@ -42,7 +42,6 @@ def prepare_config_file(sample_filename, filename, arguments):
 
                 regex_argument = r'^{0}.*'.format(name)
                 result_argument = r'{0} = {1}'.format(name, value)
-                print('B', regex_argument, result_argument)
 
                 tmp = re.sub(regex_argument, result_argument,
                              tmp, 0, re.MULTILINE)
@@ -366,7 +365,7 @@ def main(argv):
             sys.exit(0)
             break
         elif opt in ("-c", "--prep-config"):
-            if 'true' in arg.lower() or 'false' in arg.lower() or '1' in arg or '0' in arg:
+            if 'true' == arg.lower() or 'false' == arg.lower() or '1' == arg or '0' == arg:
                 raise ValueError(
                     'c/prep-config argument has changed format, it doesn\'t support previous format')
             arguments = arg.split(',')

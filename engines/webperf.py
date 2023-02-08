@@ -9,8 +9,16 @@ import re
 def read_sites(input_url, input_skip, input_take):
     sites = list()
 
-    'offentlig-sektor'
-    input_url = 'https://webperf.se/category/ovrig-offentlig-sektor/'
+    if 'offentlig-sektor' in input_url:
+        input_url = 'https://webperf.se/category/ovrig-offentlig-sektor/'
+    elif 'kommuner' in input_url:
+        input_url = 'https://webperf.se/category/kommuner/'
+    elif 'regioner' in input_url:
+        input_url = 'https://webperf.se/category/regioner/'
+    elif 'toplist' in input_url:
+        input_url = 'https://webperf.se/toplist/'
+    else:
+        raise NotImplementedError('input is incorrect')
 
     category_content = httpRequestGetContent(input_url)
 

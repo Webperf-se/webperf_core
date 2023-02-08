@@ -15,6 +15,9 @@ _ = gettext.gettext
 
 review_show_improvements_only = config.review_show_improvements_only
 sitespeed_use_docker = config.sitespeed_use_docker
+checked_urls = {}
+digg_url = 'https://www.digg.se/tdosanmalan'
+canonical = 'https://www.digg.se/tdosanmalan'
 
 
 def run_test(_, langCode, url):
@@ -38,48 +41,23 @@ def run_test(_, langCode, url):
     o = urllib.parse.urlparse(url)
     org_url_start = '{0}://{1}'.format(o.scheme,
                                        o.hostname)
+    global canonical
+    canonical = get_digg_report_canonical()
 
-    content = httpRequestGetContent(url, True)
-    statement_urls = get_availability_statement_urls(content, org_url_start)
+    start_item = get_default_info(url, '', 'url.start', 0.0, 0)
+    statements = check_item(start_item, None, org_url_start, _)
 
-    about_urls = get_about_urls(content, org_url_start)
+    if statements != None:
+        for statement in statements:
+            for item in start_item['items']:
+                if statement['url'] == item['url'] and statement['depth'] > item['depth']:
+                    statement['depth'] = item['depth']
 
-    if about_urls != None:
-        tmp_urls = {}
-        for about_url in about_urls.keys():
-            if statement_urls != None:
-                break
-            print('about_url', about_url, about_urls[about_url])
-
-            about_content = httpRequestGetContent(about_url, True)
-            statement_urls = get_availability_statement_urls(
-                about_content, url)
-            if statement_urls == None:
-                tmps = get_about_urls(about_content, url)
-                for tmp in tmps.keys():
-                    if tmp not in about_urls.keys():
-                        print('-', tmp, tmps[tmp])
-                        tmp_urls[tmp] = tmps[tmp]
-            else:
-                print('- STATEMENT')
-
-        for about_url in tmp_urls.keys():
-            if statement_urls != None:
-                break
-            # print('about_url2', about_url)
-
-            about_content = httpRequestGetContent(about_url, True)
-            statement_urls = get_availability_statement_urls(
-                about_content, url)
-
-    if statement_urls != None:
-        # print('statement_url', statement_urls)
-        for statement_url in statement_urls:
-            rating += rate_statement(statement_url, _)
+            rating += rate_statement(statement, _)
             # Should we test all found urls or just best match?
             break
     else:
-        rating += rate_statement(statement_urls, _)
+        rating += rate_statement(None, _)
 
     print(_('TEXT_TEST_END').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
@@ -87,16 +65,122 @@ def run_test(_, langCode, url):
     return (rating, return_dict)
 
 
-def rate_statement(statement_url, _):
+def get_digg_report_canonical():
+    content = httpRequestGetContent(digg_url)
+    content_match = re.search(
+        r'<link rel="canonical" href="(?P<url>[^"]+)', content)
+    if content_match:
+        o = urllib.parse.urlparse(digg_url)
+        org_url_start = '{0}://{1}'.format(o.scheme,
+                                           o.hostname)
+        url = content_match.group('url')
+        if url.startswith('/'):
+            url = '{0}{1}'.format(org_url_start, url)
+    return url
+
+
+def check_item(item, root_item, org_url_start, _):
+    statements = list()
+    content = None
+    if item['url'] not in checked_urls:
+        content = httpRequestGetContent(item['url'], True)
+        checked_urls[item['url']] = content
+    else:
+        content = checked_urls[item['url']]
+        # return statements
+
+    item['root'] = root_item
+    if root_item == None:
+        item['items'] = list()
+    else:
+        item['items'] = item['root']['items']
+
+    item['validated'] = True
+    item['children'] = get_interesting_urls(
+        content, org_url_start, item['depth'] + 1)
+
+    print('A', item['depth'], item['precision'], item['url'])
+
+    if has_statement(item, content, _):
+        item['precision'] = 1.0
+        item['content'] = content
+        statements.append(item)
+    elif item['depth'] < 3:
+        del item['content']
+        for child_pair in item['children'].items():
+            child = child_pair[1]
+            item['items'].append(child)
+            if len(statements) > 0 and child['precision'] < 0.5:
+                continue
+            tmp = check_item(child, root_item, org_url_start, _)
+            if tmp != None:
+                statements.extend(tmp)
+
+    if len(statements) > 0:
+        return statements
+    return None
+
+
+def has_statement(item, content, _):
+    soup = BeautifulSoup(content, 'lxml')
+    element = soup.find('h1', string=re.compile(
+        "tillg(.{1,6}|ä|&auml;|&#228;)nglighetsredog(.{1,6}|ö|&ouml;|&#246;)relse", flags=re.MULTILINE | re.IGNORECASE))
+    if element:
+        return True
+
+    element = soup.find('title', string=re.compile(
+        "tillg(.{1,6}|ä|&auml;|&#228;)nglighetsredog(.{1,6}|ö|&ouml;|&#246;)relse", flags=re.MULTILINE | re.IGNORECASE))
+    if element:
+        return True
+
+    if item['precision'] >= 0.5:
+        return True
+
+    item['content'] = content
+    rating = rate_statement(item, _)
+    if rating.get_overall() > 1:
+        return True
+
+    element = soup.find('a', string=re.compile(
+        "tillg(.{1,6}|ä|&auml;|&#228;)nglighetsredog(.{1,6}|ö|&ouml;|&#246;)relse", flags=re.MULTILINE | re.IGNORECASE))
+
+    # if re.match(r'^tillg(.{1,6}|ä|&auml;|&#228;)nglighetsredog(.{1,6}|ö|&ouml;|&#246;)relse$', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+    #     return '0.0.{0}'.format(text)
+    # if re.match(r'^tillg(.{1,6}|ä|&auml;|&#228;)nglighetsredog(.{1,6}|ö|&ouml;|&#246;)relse', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+    #     return '0.1.{0}'.format(text)
+    # if re.match(r'^tillg(.{1,6}|ä|&auml;|&#228;)nglighet$', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+    #     return '0.2.{0}'.format(text)
+    # if re.match(r'^tillg(.{1,6}|ä|&auml;|&#228;)nglighet', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+    #     return '0.3.{0}'.format(text)
+
+    return False
+
+
+def get_default_info(url, text, method, precision, depth):
+    result = {}
+
+    if text != None:
+        text = text.lower().strip('.').strip('-').strip()
+
+    result['url'] = url
+    result['method'] = method
+    result['precision'] = precision
+    result['text'] = text
+    result['depth'] = depth
+
+    return result
+
+
+def rate_statement(statement, _):
     # https://www.digg.se/kunskap-och-stod/digital-tillganglighet/skapa-en-tillganglighetsredogorelse
     rating = Rating(_, review_show_improvements_only)
 
-    if statement_url != None:
-        rating.set_overall(
-            5.0, '- Tillgänglighetsredogörelse: {0}'.format(statement_url))
+    if statement != None:
+        # rating.set_overall(
+        #     5.0, '- Tillgänglighetsredogörelse: {0}'.format(statement['url']))
         # rating.set_overall(
         #     5.0, '- Tillgänglighetsredogörelse hittad')
-        statement_content = httpRequestGetContent(statement_url, True)
+        statement_content = statement['content']
         soup = BeautifulSoup(statement_content, 'lxml')
 
         # STATEMENTS MUST INCLUDE (ACCORDING TO https://www.digg.se/kunskap-och-stod/digital-tillganglighet/skapa-en-tillganglighetsredogorelse ):
@@ -107,7 +191,6 @@ def rate_statement(statement_url, _):
         # - Detaljerad, fullständig och tydlig förteckning av innehåll som inte är tillgängligt och skälen till varför det inte är tillgängligt.
         # - Datum för bedömning av följsamhet till lagkraven.
         # - Datum för senaste uppdatering.
-        # - Utvärderingsmetod (till exempel självskattning, granskning av extern part).
         # - Meddelandefunktion eller länk till sådan.
         # - Länk till DIGG:s anmälningsfunktion (https://www.digg.se/tdosanmalan).
         rating += rate_notification_function_url(_, soup)
@@ -118,8 +201,44 @@ def rate_statement(statement_url, _):
         # - Redogörelsen ska vara lätt att hitta
         #   - Tillgänglighetsredogörelsen ska vara publicerad i ett tillgängligt format (det bör vara en webbsida).
         #   - För en webbplats ska en länk till tillgänglighetsredogörelsen finnas tydligt presenterad på webbplatsens startsida, alternativt finnas åtkomlig från alla sidor exempelvis i en sidfot.
+        if rating.get_overall() > 1:
+            rating += rate_found_depth(_, statement)
+            # - Utvärderingsmetod (till exempel självskattning, granskning av extern part).
+            rating += rate_evaluation_method(_, soup)
+
+        rating.overall_review = '- Tillgänglighetsredogörelse: {0}\r\n{1}'.format(
+            statement['url'], rating.overall_review)
     else:
         rating.set_overall(1.0, '- Ingen tillgänglighetsredogörelse hittad')
+
+    return rating
+
+
+def rate_found_depth(_, statement):
+    rating = Rating(_, review_show_improvements_only)
+
+    depth = statement["depth"]
+
+    if depth == 1:
+        rating.set_overall(
+            5.0, '- Länk till tillgänglighetsredogörelsen finnas tydligt presenterad på webbplatsens startsida')
+    elif depth > 1:
+        rating.set_overall(
+            3.0, '- Tillgänglighetsredogörelsen hittades på ett länkdjup högre än brukligt')
+
+    return rating
+
+
+def rate_evaluation_method(_, soup):
+    match = soup.find(string=re.compile(
+        "(sj(.{1, 6} | ä | &auml; | &  # 228;)lvskattning|interna kontroller|intern testning|utvärderingsmetod|tillgänglighetsexperter|funka|etu ab|siteimprove|oberoende granskning|oberoende tillgänglighetsgranskningar|tillgänglighetskonsult|med hjälp av|egna tester|oberoende experter|Hur vi testat webbplatsen|vi testat webbplatsen|intervjuer|rutiner|checklistor|checklista|utbildningar)", flags=re.MULTILINE | re.IGNORECASE))
+    rating = Rating(_, review_show_improvements_only)
+    if match:
+        rating.set_overall(
+            5.0, '- Ser ut att ange utvärderingsmetod')
+    else:
+        rating.set_overall(
+            1.0, '- Hittar ej info om utvärderingsmetod')
 
     return rating
 
@@ -134,8 +253,8 @@ def rate_unreasonably_burdensome_accommodation(_, soup):
         rating.set_a11y(
             4.0, '- Anger oskäligt betungande anpassning (12 §)')
     else:
-        rating.set_overall(
-            5.0, '- Anger ej oskäligt betungande anpassning (12 §)')
+        # rating.set_overall(
+        #     5.0, '- Anger ej oskäligt betungande anpassning (12 §)')
         rating.set_a11y(
             5.0, '- Anger ej oskäligt betungande anpassning (12 §)')
 
@@ -143,25 +262,32 @@ def rate_unreasonably_burdensome_accommodation(_, soup):
 
 
 def rate_notification_function_url(_, soup):
-    match = soup.find(href='https://www.digg.se/tdosanmalan')
-    # TODO: Lookup https://www.digg.se/tdosanmalan and look for canonical url
-    # https://www.digg.se/for-privatpersoner/digital-tillganglighet-for-dig-som-privatperson/anmal-bristande-tillganglighet
-    # match_incorrect_url_but_correct_destionation = soup.find(
-    #     href='https://www.digg.se/analys-och-uppfoljning/lagen-om-tillganglighet-till-digital-offentlig-service-dos-lagen/anmal-bristande-tillganglighet')
-    # match_incorrect_url_but_correct_destionation2 = soup.find(
-    #     href='https://www.digg.se/digital-tillganglighet/anmal-bristande-tillganglighet')
+    match_correct_url = soup.find(href=digg_url)
+
+    match_canonical_url = soup.find(href=canonical)
+
+    match_old_reference = soup.find(href=re.compile(
+        "digg\.se[a-z\/\-]+anmal-bristande-tillganglighet", flags=re.MULTILINE | re.IGNORECASE))
+
+    is_digg = False
+    for i in soup.select('link[rel*=canonical]'):
+        if 'digg.se' in i['href']:
+            is_digg = True
+    if is_digg:
+        # NOTE: digg.se has of course all links relative. This is a fix for that..
+        match_canonical_url = soup.find(
+            href=canonical.replace('https://www.digg.se', ''))
+
     rating = Rating(_, review_show_improvements_only)
-    if match:
+    if match_correct_url:
         rating.set_overall(
             5.0, '- Korrekt länk till DIGG:s anmälningsfunktion')
-    # elif match_incorrect_url_but_correct_destionation:
-    #     rating.set_overall(1.9)
-    #     rating.set_a11y(
-    #         1.9, '- Felaktig länk till DIGG:s anmälningsfunktion')
-    # elif match_incorrect_url_but_correct_destionation2:
-    #     rating.set_overall(1.5)
-    #     rating.set_a11y(
-    #         1.5, '- Länk till DIGG:s anmälningsfunktion')
+    elif match_canonical_url:
+        rating.set_overall(
+            5.0, '- Korrekt länk ("canonical") till DIGG:s anmälningsfunktion')
+    elif match_old_reference:
+        rating.set_overall(
+            4.5, '- Använder gammal eller felaktig länk till DIGG:s anmälningsfunktion')
     else:
         rating.set_overall(
             1.0, '- Saknar eller har felaktig länk till DIGG:s anmälningsfunktion')
@@ -200,84 +326,23 @@ def rate_compatible_text(_, soup):
     return rating
 
 
-def get_availability_statement_urls(content, org_url_start):
-    urls = {}
-    soup = BeautifulSoup(content, 'lxml')
-    links = soup.find_all("a")
-
-    for link in links:
-        # if not link.find(string=re.compile(
-        #         "tillg(.{1,6}|ä|&auml;|&#228;)nglighet(sredog(.{1,6}|ö|&ouml;|&#246;)relse){0,1}", flags=re.MULTILINE | re.IGNORECASE)):
-        #     continue
-        if not link.find(string=re.compile(
-                "tillg(.{1,6}|ä|&auml;|&#228;)nglighetsredog(.{1,6}|ö|&ouml;|&#246;)relse", flags=re.MULTILINE | re.IGNORECASE)):
-            continue
-
-        url = link.get('href')
-        if url == None:
-            continue
-        elif url.endswith('.pdf'):
-            continue
-        elif url.startswith('//'):
-            continue
-        elif url.startswith('/'):
-            url = '{0}{1}'.format(org_url_start, url)
-        elif url.startswith('#'):
-            continue
-
-        if not url.startswith(org_url_start):
-            continue
-
-        text = link.get_text().strip()
-        urls[url] = text
-
-    if len(urls) > 0:
-        urls = dict(sorted(urls.items(), key=get_sort_statement_text))
-        return urls
-
-    return None
+def get_sort_on_precision(item):
+    return item[1]["precision"]
 
 
-def get_sort_statement_text(item):
-    text = item[1]
-    if re.match(r'^tillg(.{1,6}|ä|&auml;|&#228;)nglighetsredog(.{1,6}|ö|&ouml;|&#246;)relse$', text, flags=re.MULTILINE | re.IGNORECASE) != None:
-        return '0.{0}'.format(text)
-    if re.match(r'^tillg(.{1,6}|ä|&auml;|&#228;)nglighetsredog(.{1,6}|ö|&ouml;|&#246;)relse', text, flags=re.MULTILINE | re.IGNORECASE) != None:
-        return '1.{0}'.format(text)
-    if re.match(r'^tillg(.{1,6}|ä|&auml;|&#228;)nglighet$', text, flags=re.MULTILINE | re.IGNORECASE) != None:
-        return '2.{0}'.format(text)
-    if re.match(r'^tillg(.{1,6}|ä|&auml;|&#228;)nglighet', text, flags=re.MULTILINE | re.IGNORECASE) != None:
-        return '3.{0}'.format(text)
-
-    return '4.{0}'.format(text)
-
-
-def get_sort_about_text(item):
-    text = item[1]
-    if re.search(r'om webbplats', text, flags=re.MULTILINE | re.IGNORECASE) != None:
-        return '0.{0}'.format(text)
-    if re.match(r'^[ \t\r\n]*om [a-z]+$', text, flags=re.MULTILINE | re.IGNORECASE) != None:
-        return '1.{0}'.format(text)
-    if re.match(r'^[ \t\r\n]*om [a-z]+', text, flags=re.MULTILINE | re.IGNORECASE) != None:
-        return '2.{0}'.format(text)
-
-    return '3.{0}'.format(text)
-
-
-def get_about_urls(content, org_url_start):
+def get_interesting_urls(content, org_url_start, depth):
     urls = {}
 
     soup = BeautifulSoup(content, 'lxml')
     links = soup.find_all("a")
 
     for link in links:
-        # if not link.find(string=re.compile(
-        #         "(om [a-z]+|tillg(.{1,6}|ä|&auml;|&#228;)nglighet)", flags=re.MULTILINE | re.IGNORECASE)):
         if not link.find(string=re.compile(
-                "om [a-z]+", flags=re.MULTILINE | re.IGNORECASE)):
+                r"(om [a-z]+|(tillg(.{1,6}|ä|&auml;|&#228;)nglighet(sredog(.{1,6}|ö|&ouml;|&#246;)relse){0,1}))", flags=re.MULTILINE | re.IGNORECASE)):
             continue
 
         url = '{0}'.format(link.get('href'))
+
         if url == None:
             continue
         elif url.endswith('.pdf'):
@@ -293,14 +358,37 @@ def get_about_urls(content, org_url_start):
             continue
 
         text = link.get_text().strip()
-        urls[url] = text
+
+        precision = 0.0
+        if re.match(r'^[ \t\r\n]*tillg(.{1,6}|ä|&auml;|&#228;)nglighetsredog(.{1,6}|ö|&ouml;|&#246;)relse$', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+            precision = 0.55
+        elif re.match(r'^[ \t\r\n]*tillg(.{1,6}|ä|&auml;|&#228;)nglighetsredog(.{1,6}|ö|&ouml;|&#246;)relse', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+            precision = 0.5
+        elif re.match(r'^[ \t\r\n]*tillg(.{1,6}|ä|&auml;|&#228;)nglighet$', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+            precision = 0.4
+        elif re.match(r'^[ \t\r\n]*tillg(.{1,6}|ä|&auml;|&#228;)nglighet', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+            precision = 0.35
+        elif re.match(r'tillg(.{1,6}|ä|&auml;|&#228;)nglighet', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+            precision = 0.3
+        elif re.search(r'om webbplats', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+            precision = 0.29
+        elif re.match(r'^[ \t\r\n]*om [a-z]+$', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+            precision = 0.25
+        elif re.match(r'^[ \t\r\n]*om [a-z]+', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+            precision = 0.2
+        else:
+            precision = 0.1
+
+        info = get_default_info(
+            url, text, 'url.text', precision, depth)
+        if url not in checked_urls:
+            urls[url] = info
 
     if len(urls) > 0:
-        urls = dict(sorted(urls.items(), key=get_sort_about_text))
-
+        urls = dict(
+            sorted(urls.items(), key=get_sort_on_precision, reverse=True))
         return urls
-
-    return None
+    return urls
 
 
 """

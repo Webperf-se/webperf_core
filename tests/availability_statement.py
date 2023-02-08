@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import re
 import datetime
+import time
 import json
 import os
 import urllib.parse
@@ -84,6 +85,7 @@ def check_item(item, root_item, org_url_start, _):
     content = None
     if item['url'] not in checked_urls:
         content = httpRequestGetContent(item['url'], True)
+        time.sleep(1)
         checked_urls[item['url']] = content
     else:
         content = checked_urls[item['url']]
@@ -105,7 +107,7 @@ def check_item(item, root_item, org_url_start, _):
         item['precision'] = 1.0
         item['content'] = content
         statements.append(item)
-    elif item['depth'] < 3:
+    elif item['depth'] < 2:
         del item['content']
         for child_pair in item['children'].items():
             child = child_pair[1]

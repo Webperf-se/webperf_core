@@ -101,15 +101,17 @@ def check_item(item, root_item, org_url_start, _):
     item['children'] = get_interesting_urls(
         content, org_url_start, item['depth'] + 1)
 
-    print('A', item['depth'], item['precision'], item['url'])
-
-    if has_statement(item, content, _):
+    item['content'] = content
+    if has_statement(item, _):
         item['precision'] = 1.0
-        item['content'] = content
         statements.append(item)
     elif item['depth'] < 2:
         del item['content']
+        child_index = 0
         for child_pair in item['children'].items():
+            if child_index > 10:
+                break
+            child_index += 1
             child = child_pair[1]
             item['items'].append(child)
             if len(statements) > 0 and child['precision'] < 0.5:
@@ -123,37 +125,10 @@ def check_item(item, root_item, org_url_start, _):
     return None
 
 
-def has_statement(item, content, _):
-    soup = BeautifulSoup(content, 'lxml')
-    element = soup.find('h1', string=re.compile(
-        "tillg(.{1,6}|ä|&auml;|&#228;)nglighetsredog(.{1,6}|ö|&ouml;|&#246;)relse", flags=re.MULTILINE | re.IGNORECASE))
-    if element:
-        return True
-
-    element = soup.find('title', string=re.compile(
-        "tillg(.{1,6}|ä|&auml;|&#228;)nglighetsredog(.{1,6}|ö|&ouml;|&#246;)relse", flags=re.MULTILINE | re.IGNORECASE))
-    if element:
-        return True
-
-    if item['precision'] >= 0.5:
-        return True
-
-    item['content'] = content
+def has_statement(item, _):
     rating = rate_statement(item, _)
     if rating.get_overall() > 1:
         return True
-
-    element = soup.find('a', string=re.compile(
-        "tillg(.{1,6}|ä|&auml;|&#228;)nglighetsredog(.{1,6}|ö|&ouml;|&#246;)relse", flags=re.MULTILINE | re.IGNORECASE))
-
-    # if re.match(r'^tillg(.{1,6}|ä|&auml;|&#228;)nglighetsredog(.{1,6}|ö|&ouml;|&#246;)relse$', text, flags=re.MULTILINE | re.IGNORECASE) != None:
-    #     return '0.0.{0}'.format(text)
-    # if re.match(r'^tillg(.{1,6}|ä|&auml;|&#228;)nglighetsredog(.{1,6}|ö|&ouml;|&#246;)relse', text, flags=re.MULTILINE | re.IGNORECASE) != None:
-    #     return '0.1.{0}'.format(text)
-    # if re.match(r'^tillg(.{1,6}|ä|&auml;|&#228;)nglighet$', text, flags=re.MULTILINE | re.IGNORECASE) != None:
-    #     return '0.2.{0}'.format(text)
-    # if re.match(r'^tillg(.{1,6}|ä|&auml;|&#228;)nglighet', text, flags=re.MULTILINE | re.IGNORECASE) != None:
-    #     return '0.3.{0}'.format(text)
 
     return False
 
@@ -203,7 +178,8 @@ def rate_statement(statement, _):
         # - Redogörelsen ska vara lätt att hitta
         #   - Tillgänglighetsredogörelsen ska vara publicerad i ett tillgängligt format (det bör vara en webbsida).
         #   - För en webbplats ska en länk till tillgänglighetsredogörelsen finnas tydligt presenterad på webbplatsens startsida, alternativt finnas åtkomlig från alla sidor exempelvis i en sidfot.
-        if rating.get_overall() > 1:
+
+        if rating.get_overall() > 1 or looks_like_statement(statement, soup):
             rating += rate_found_depth(_, statement)
             # - Utvärderingsmetod (till exempel självskattning, granskning av extern part).
             rating += rate_evaluation_method(_, soup)
@@ -216,6 +192,23 @@ def rate_statement(statement, _):
     return rating
 
 
+def looks_like_statement(statement, soup):
+    element = soup.find('h1', string=re.compile(
+        "tillg(.{1,6}|ä|&auml;|&#228;)nglighetsredog(.{1,6}|ö|&ouml;|&#246;)relse", flags=re.MULTILINE | re.IGNORECASE))
+    if element:
+        return True
+
+    element = soup.find('title', string=re.compile(
+        "tillg(.{1,6}|ä|&auml;|&#228;)nglighetsredog(.{1,6}|ö|&ouml;|&#246;)relse", flags=re.MULTILINE | re.IGNORECASE))
+    if element:
+        return True
+
+    if statement['precision'] >= 0.5:
+        return True
+
+    return False
+
+
 def rate_found_depth(_, statement):
     rating = Rating(_, review_show_improvements_only)
 
@@ -226,7 +219,7 @@ def rate_found_depth(_, statement):
             5.0, '- Länk till tillgänglighetsredogörelsen finnas tydligt presenterad på webbplatsens startsida')
     elif depth > 1:
         rating.set_overall(
-            3.0, '- Tillgänglighetsredogörelsen hittades på ett länkdjup högre än brukligt')
+            3.0, '- Tillgänglighetsredogörelsen hittades på ett länkdjup större än den bör')
 
     return rating
 

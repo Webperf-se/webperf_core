@@ -18,10 +18,10 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 26 - Accessibility Statement\n"
 
 msgid "TEXT_REVIEW_ACCESSIBILITY_STATEMENT_URL"
-msgstr "- Accessibility statement: {0}\r\n{1}"
+msgstr "- Accessibility statement: {0}\n{1}"
 
 msgid "TEXT_REVIEW_CALLED_URL"
-msgstr "- Tested webbsite: {0}\r\n{1}"
+msgstr "- Tested webbsite: {0}\n{1}"
 
 msgid "TEXT_REVIEW_NO_ACCESSIBILITY_STATEMENT"
 msgstr "- No accessibility statement found"
@@ -69,7 +69,7 @@ msgid "TEXT_REVIEW_NOTIFICATION_FUNCTION_URL_FOUND"
 msgstr "- Correct link to DIGG's notification function"
 
 msgid "TEXT_REVIEW_NOTIFICATION_FUNCTION_CANONICAL_URL_FOUND"
-msgstr "- Correct link (\"canonical\") to DIGG's notification function"
+msgstr "- Correct link (canonical) to DIGG's notification function"
 
 msgid "TEXT_REVIEW_NOTIFICATION_FUNCTION_OLD_URL_FOUND"
 msgstr "- Uses old or incorrect link to DIGG's notification function"
@@ -78,22 +78,22 @@ msgid "TEXT_REVIEW_NOTIFICATION_FUNCTION_URL_NOT_FOUND"
 msgstr "- Missing or has an incorrect link to DIGG's notification function"
 
 msgid "TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_NOT_COMPATIBLE"
-msgstr "- Has compliance with the legal requirements with the wording \"not compatible\""
+msgstr "- Has compliance with the legal requirements with the wording not compatible"
 
 msgid "TEXT_REVIEW_COMPATIBLE_TEXT_A11Y_NOT_COMPATIBLE"
-msgstr "- Self-indicates that website is \"not\" compliant with legal requirements"
+msgstr "- Self-indicates that website is not compliant with legal requirements"
 
 msgid "TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_PARTLY_COMPATIBLE"
-msgstr "- Has compliance with the legal requirements with the wording \"partially compliant\""
+msgstr "- Has compliance with the legal requirements with the wording partially compliant"
 
 msgid "TEXT_REVIEW_COMPATIBLE_TEXT_A11Y_PARTLY_COMPATIBLE"
-msgstr "- Self-indicates that the website is only \"partially\" compliant with the legal requirements"
+msgstr "- Self-indicates that the website is only partially compliant with the legal requirements"
 
 msgid "TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_FULL_COMPATIBLE"
-msgstr "- Has compliance with the legal requirements with the wording \"fully compatible\""
+msgstr "- Has compliance with the legal requirements with the wording fully compatible"
 
 msgid "TEXT_REVIEW_COMPATIBLE_TEXT_A11Y_FULL_COMPATIBLE"
-msgstr "- Self-indicates that the website is \"fully\" compliant with the legal requirements"
+msgstr "- Self-indicates that the website is fully compliant with the legal requirements"
 
 msgid "TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_NOT_FOUND"
 msgstr "- Lacks compliance with the legal requirements with the wording"

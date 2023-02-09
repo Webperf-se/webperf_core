@@ -197,10 +197,7 @@ def rate_updated_date(_, soup):
     rating = Rating(_, review_show_improvements_only)
     regex = r"(?P<typ>bedömning|redogörelse|uppdatera|granskad)(?P<text>[^>.]*) (?P<day>[0-9]{1,2} )(?P<month>(?:jan(?:uari)*|feb(?:ruari)*|mar(?:s)*|apr(?:il)*|maj|jun(?:i)*|jul(?:i)*|aug(?:usti)*|sep(?:tember)*|okt(?:ober)*|nov(?:ember)*|dec(?:ember)*) )(?P<year>20[0-9]{2})"
 
-    element = soup.find('main')
-    if element == None:
-        element = soup.find('body')
-
+    element = soup.find('body')
     if element == None:
         return rating
 
@@ -213,6 +210,13 @@ def rate_updated_date(_, soup):
         break
 
     if date_doc == None:
+        regex = r"(?P<typ>bedömning|redogörelse|uppdatera|granskad)(?P<text>[^>.]*) (?P<month>(?:jan(?:uari)*|feb(?:ruari)*|mar(?:s)*|apr(?:il)*|maj|jun(?:i)*|jul(?:i)*|aug(?:usti)*|sep(?:tember)*|okt(?:ober)*|nov(?:ember)*|dec(?:ember)*) )(?P<year>20[0-9]{2})"
+        matches = re.finditer(regex, element_text, re.IGNORECASE)
+        for matchNum, match in enumerate(matches, start=1):
+            date_doc = get_doc_date_from_match(match)
+            break
+
+    if date_doc == None:
         regex = r"(?P<typ>bedömning|redogörels|uppdatera|granska)(?P<text>[^>.]*) (?P<year>20[0-9]{2}-)(?P<month>[0-9]{2}-)(?P<day>[0-9]{2})"
         matches = re.finditer(regex, element_text, re.IGNORECASE)
         for matchNum, match in enumerate(matches, start=1):
@@ -220,6 +224,8 @@ def rate_updated_date(_, soup):
             break
 
     if date_doc == None:
+        rating.set_overall(
+            1.0, '- lyckades inte hitta när tillgänglighetsredogörelsen uppdaterats senast')
         return rating
 
     year = 365
@@ -297,6 +303,8 @@ def get_doc_date_from_match(match):
 
     if day != None:
         day = int(day.strip().strip('-'))
+    else:
+        day = 1
     date_doc = datetime(year, month, day)
     return date_doc
 

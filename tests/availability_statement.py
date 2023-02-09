@@ -221,7 +221,7 @@ def rate_updated_date(_, soup):
 
     if len(dates) == 0:
         rating.set_overall(
-            1.0, '- lyckades inte hitta när tillgänglighetsredogörelsen uppdaterats senast')
+            1.0, '- Lyckades inte hitta när tillgänglighetsredogörelsen uppdaterats senast')
         return rating
 
     dates = sorted(dates, key=get_sort_on_weight)
@@ -246,22 +246,22 @@ def rate_updated_date(_, soup):
 
     if cutoff_1_year < date_doc:
         rating.set_overall(
-            5.0, '- tillgänglighetsredogörelsen ser ut att ha uppdaterats inom 1 år')
+            5.0, '- Tillgänglighetsredogörelsen ser ut att ha uppdaterats inom 1 år')
     elif cutoff_2_year < date_doc:
         rating.set_overall(
-            4.5, '- tillgänglighetsredogörelsen ser ut att vara äldre än 1 år')
+            4.5, '- Tillgänglighetsredogörelsen ser ut att vara äldre än 1 år')
     elif cutoff_3_year < date_doc:
         rating.set_overall(
-            4.0, '- tillgänglighetsredogörelsen ser ut att vara äldre än 2 år')
+            4.0, '- Tillgänglighetsredogörelsen ser ut att vara äldre än 2 år')
     elif cutoff_4_year < date_doc:
         rating.set_overall(
-            3.0, '- tillgänglighetsredogörelsen ser ut att vara äldre än 3 år')
+            3.0, '- Tillgänglighetsredogörelsen ser ut att vara äldre än 3 år')
     elif cutoff_5_year < date_doc:
         rating.set_overall(
-            2.0, '- tillgänglighetsredogörelsen ser ut att vara äldre än 4 år')
+            2.0, '- Tillgänglighetsredogörelsen ser ut att vara äldre än 4 år')
     else:
         rating.set_overall(
-            1.5, '- tillgänglighetsredogörelsen ser ut att vara äldre än 5 år')
+            1.5, '- Tillgänglighetsredogörelsen ser ut att vara äldre än 5 år')
 
     return rating
 

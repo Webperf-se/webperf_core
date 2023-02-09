@@ -195,7 +195,8 @@ def rate_statement(statement, _):
 
 def rate_updated_date(_, soup):
     rating = Rating(_, review_show_improvements_only)
-    regex = r"(?P<typ>bedömning|redogörelse|uppdatera|granskad)(?P<text>[^>.]*) (?P<day>[0-9]{1,2} )(?P<month>(?:jan(?:uari)*|feb(?:ruari)*|mar(?:s)*|apr(?:il)*|maj|jun(?:i)*|jul(?:i)*|aug(?:usti)*|sep(?:tember)*|okt(?:ober)*|nov(?:ember)*|dec(?:ember)*) )(?P<year>20[0-9]{2})"
+    dates = list()
+    regex = r"(?P<typ>bedömning|redogörelse|uppdatera|granska)(?P<text>[^>.]*) (?P<day>[0-9]{1,2} )(?P<month>(?:jan(?:uari)*|feb(?:ruari)*|mar(?:s)*|apr(?:il)*|maj|jun(?:i)*|jul(?:i)*|aug(?:usti)*|sep(?:tember)*|okt(?:ober)*|nov(?:ember)*|dec(?:ember)*) )(?P<year>20[0-9]{2})"
 
     element = soup.find('body')
     if element == None:
@@ -206,27 +207,27 @@ def rate_updated_date(_, soup):
     date_doc = None
 
     for matchNum, match in enumerate(matches, start=1):
-        date_doc = get_doc_date_from_match(match)
-        break
+        dates.append(get_doc_date_from_match(match))
 
-    if date_doc == None:
-        regex = r"(?P<typ>bedömning|redogörelse|uppdatera|granskad)(?P<text>[^>.]*) (?P<month>(?:jan(?:uari)*|feb(?:ruari)*|mar(?:s)*|apr(?:il)*|maj|jun(?:i)*|jul(?:i)*|aug(?:usti)*|sep(?:tember)*|okt(?:ober)*|nov(?:ember)*|dec(?:ember)*) )(?P<year>20[0-9]{2})"
-        matches = re.finditer(regex, element_text, re.IGNORECASE)
-        for matchNum, match in enumerate(matches, start=1):
-            date_doc = get_doc_date_from_match(match)
-            break
+    regex = r"(?P<typ>bedömning|redogörelse|uppdatera|granska)(?P<text>[^>.]*) (?P<day>)(?P<month>(?:jan(?:uari)*|feb(?:ruari)*|mar(?:s)*|apr(?:il)*|maj|jun(?:i)*|jul(?:i)*|aug(?:usti)*|sep(?:tember)*|okt(?:ober)*|nov(?:ember)*|dec(?:ember)*) )(?P<year>20[0-9]{2})"
+    matches = re.finditer(regex, element_text, re.IGNORECASE)
+    for matchNum, match in enumerate(matches, start=1):
+        dates.append(get_doc_date_from_match(match))
 
-    if date_doc == None:
-        regex = r"(?P<typ>bedömning|redogörels|uppdatera|granska)(?P<text>[^>.]*) (?P<year>20[0-9]{2}-)(?P<month>[0-9]{2}-)(?P<day>[0-9]{2})"
-        matches = re.finditer(regex, element_text, re.IGNORECASE)
-        for matchNum, match in enumerate(matches, start=1):
-            date_doc = get_doc_date_from_match(match)
-            break
+    regex = r"(?P<typ>bedömning|redogörelse|uppdatera|granska)(?P<text>[^>.]*) (?P<year>20[0-9]{2}-)(?P<month>[0-9]{2}-)(?P<day>[0-9]{2})"
+    matches = re.finditer(regex, element_text, re.IGNORECASE)
+    for matchNum, match in enumerate(matches, start=1):
+        dates.append(get_doc_date_from_match(match))
 
-    if date_doc == None:
+    if len(dates) == 0:
         rating.set_overall(
             1.0, '- lyckades inte hitta när tillgänglighetsredogörelsen uppdaterats senast')
         return rating
+
+    dates = sorted(dates, key=get_sort_on_weight)
+    nice_date = json.dumps(dates, indent=2)
+    date_info = dates.pop()['date']
+    date_doc = datetime(date_info[0], date_info[1], date_info[2])
 
     year = 365
     delta_1_year = timedelta(days=year)
@@ -267,6 +268,10 @@ def rate_updated_date(_, soup):
 
 
 def get_doc_date_from_match(match):
+    weight = 0.3
+    type = match.group('typ')
+    if type != None:
+        type = type.strip().lower()
     day = match.group('day')
     month = match.group('month')
     year = match.group('year')
@@ -301,12 +306,24 @@ def get_doc_date_from_match(match):
         else:
             month = int(month)
 
-    if day != None:
+    if day != None and day != '':
         day = int(day.strip().strip('-'))
     else:
         day = 1
-    date_doc = datetime(year, month, day)
-    return date_doc
+        weight = 0.1
+    if 'bedömning' in type:
+        weight = 1.0
+    elif 'redogörelse' in type:
+        weight = 0.9
+    elif 'granska' in type:
+        weight = 0.7
+    elif 'uppdatera' in type:
+        weight = 0.5
+    return {
+        'type': type,
+        'date': (year, month, day),
+        'weight': weight
+    }
 
 
 def looks_like_statement(statement, soup):
@@ -440,6 +457,10 @@ def rate_compatible_text(_, soup):
 
 def get_sort_on_precision(item):
     return item[1]["precision"]
+
+
+def get_sort_on_weight(item):
+    return item["weight"]
 
 
 def get_interesting_urls(content, org_url_start, depth):

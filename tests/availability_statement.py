@@ -277,7 +277,7 @@ def get_doc_date_from_match(match):
     if year != None:
         year = int(year.strip().strip('-'))
     if month != None:
-        month = month.strip().strip('-')
+        month = month.strip().strip('-').lower()
         if 'jan' in month:
             month = 1
         elif 'feb' in month:

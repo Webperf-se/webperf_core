@@ -225,7 +225,6 @@ def rate_updated_date(_, soup):
         return rating
 
     dates = sorted(dates, key=get_sort_on_weight)
-    nice_date = json.dumps(dates, indent=2)
     date_info = dates.pop()['date']
     date_doc = datetime(date_info[0], date_info[1], date_info[2])
 
@@ -404,7 +403,7 @@ def rate_notification_function_url(_, soup):
             is_digg = True
     if is_digg:
         # NOTE: digg.se has of course all links relative. This is a fix for that..
-        match_canonical_url = soup.find(
+        match_canonical_url = soup.find('main').find(
             href=canonical.replace('https://www.digg.se', ''))
 
     rating = Rating(_, review_show_improvements_only)

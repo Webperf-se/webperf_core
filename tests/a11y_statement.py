@@ -74,7 +74,9 @@ def get_digg_report_canonical():
         url = content_match.group('url')
         if url.startswith('/'):
             url = '{0}{1}'.format(org_url_start, url)
-    return url
+        return url
+    else:
+        return digg_url
 
 
 def check_item(item, root_item, org_url_start, _):

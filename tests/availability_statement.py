@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
-import datetime
+from datetime import datetime, timedelta
 import time
 import json
 import os
@@ -34,7 +34,7 @@ def run_test(_, langCode, url):
     print(_local('TEXT_RUNNING_TEST'))
 
     print(_('TEXT_TEST_START').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return_dict = {}
     rating = Rating(_, review_show_improvements_only)
@@ -61,7 +61,7 @@ def run_test(_, langCode, url):
         rating += rate_statement(None, _)
 
     print(_('TEXT_TEST_END').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, return_dict)
 
@@ -175,14 +175,15 @@ def rate_statement(statement, _):
         rating += rate_unreasonably_burdensome_accommodation(_, soup)
         # - Redogörelse av innehåll som inte omfattas av lagkraven (9 §).
 
-        # - Redogörelsen ska vara lätt att hitta
-        #   - Tillgänglighetsredogörelsen ska vara publicerad i ett tillgängligt format (det bör vara en webbsida).
-        #   - För en webbplats ska en länk till tillgänglighetsredogörelsen finnas tydligt presenterad på webbplatsens startsida, alternativt finnas åtkomlig från alla sidor exempelvis i en sidfot.
-
         if rating.get_overall() > 1 or looks_like_statement(statement, soup):
+            # - Redogörelsen ska vara lätt att hitta
+            #   - Tillgänglighetsredogörelsen ska vara publicerad i ett tillgängligt format (det bör vara en webbsida).
+            #   - För en webbplats ska en länk till tillgänglighetsredogörelsen finnas tydligt presenterad på webbplatsens startsida, alternativt finnas åtkomlig från alla sidor exempelvis i en sidfot.
             rating += rate_found_depth(_, statement)
             # - Utvärderingsmetod (till exempel självskattning, granskning av extern part).
             rating += rate_evaluation_method(_, soup)
+            # För en webbplats som är (mer eller mindre) statisk, ska tillgänglighetsredogörelsen ses över åtminstone en gång per år.
+            rating += rate_updated_date(_, soup)
 
         rating.overall_review = '- Tillgänglighetsredogörelse: {0}\r\n{1}'.format(
             statement['url'], rating.overall_review)
@@ -190,6 +191,114 @@ def rate_statement(statement, _):
         rating.set_overall(1.0, '- Ingen tillgänglighetsredogörelse hittad')
 
     return rating
+
+
+def rate_updated_date(_, soup):
+    rating = Rating(_, review_show_improvements_only)
+    regex = r"(?P<typ>bedömning|redogörelse|uppdatera|granskad)(?P<text>[^>.]*) (?P<day>[0-9]{1,2} )(?P<month>(?:jan(?:uari)*|feb(?:ruari)*|mar(?:s)*|apr(?:il)*|maj|jun(?:i)*|jul(?:i)*|aug(?:usti)*|sep(?:tember)*|okt(?:ober)*|nov(?:ember)*|dec(?:ember)*) )(?P<year>20[0-9]{2})"
+
+    element = soup.find('main')
+    if element == None:
+        element = soup.find('body')
+
+    if element == None:
+        return rating
+
+    element_text = element.get_text()
+    matches = re.finditer(regex, element_text, re.IGNORECASE)
+    date_doc = None
+
+    for matchNum, match in enumerate(matches, start=1):
+        date_doc = get_doc_date_from_match(match)
+        break
+
+    if date_doc == None:
+        regex = r"(?P<typ>bedömning|redogörels|uppdatera|granska)(?P<text>[^>.]*) (?P<year>20[0-9]{2}-)(?P<month>[0-9]{2}-)(?P<day>[0-9]{2})"
+        matches = re.finditer(regex, element_text, re.IGNORECASE)
+        for matchNum, match in enumerate(matches, start=1):
+            date_doc = get_doc_date_from_match(match)
+            break
+
+    if date_doc == None:
+        return rating
+
+    year = 365
+    delta_1_year = timedelta(days=year)
+    cutoff_1_year = datetime.utcnow() - delta_1_year
+
+    delta_2_year = timedelta(days=2*year)
+    cutoff_2_year = datetime.utcnow() - delta_2_year
+
+    delta_3_year = timedelta(days=3*year)
+    cutoff_3_year = datetime.utcnow() - delta_3_year
+
+    delta_4_year = timedelta(days=4*year)
+    cutoff_4_year = datetime.utcnow() - delta_4_year
+
+    delta_5_year = timedelta(days=5*year)
+    cutoff_5_year = datetime.utcnow() - delta_5_year
+
+    if cutoff_1_year < date_doc:
+        rating.set_overall(
+            5.0, '- tillgänglighetsredogörelsen ser ut att ha uppdaterats inom 1 år')
+    elif cutoff_2_year < date_doc:
+        rating.set_overall(
+            4.5, '- tillgänglighetsredogörelsen ser ut att vara äldre än 1 år')
+    elif cutoff_3_year < date_doc:
+        rating.set_overall(
+            4.0, '- tillgänglighetsredogörelsen ser ut att vara äldre än 2 år')
+    elif cutoff_4_year < date_doc:
+        rating.set_overall(
+            3.0, '- tillgänglighetsredogörelsen ser ut att vara äldre än 3 år')
+    elif cutoff_5_year < date_doc:
+        rating.set_overall(
+            2.0, '- tillgänglighetsredogörelsen ser ut att vara äldre än 4 år')
+    else:
+        rating.set_overall(
+            1.5, '- tillgänglighetsredogörelsen ser ut att vara äldre än 5 år')
+
+    return rating
+
+
+def get_doc_date_from_match(match):
+    day = match.group('day')
+    month = match.group('month')
+    year = match.group('year')
+    if year != None:
+        year = int(year.strip().strip('-'))
+    if month != None:
+        month = month.strip().strip('-')
+        if 'jan' in month:
+            month = 1
+        elif 'feb' in month:
+            month = 2
+        elif 'mar' in month:
+            month = 3
+        elif 'apr' in month:
+            month = 4
+        elif 'maj' in month:
+            month = 5
+        elif 'jun' in month:
+            month = 6
+        elif 'jul' in month:
+            month = 7
+        elif 'aug' in month:
+            month = 8
+        elif 'sep' in month:
+            month = 9
+        elif 'okt' in month:
+            month = 10
+        elif 'nov' in month:
+            month = 11
+        elif 'dec' in month:
+            month = 12
+        else:
+            month = int(month)
+
+    if day != None:
+        day = int(day.strip().strip('-'))
+    date_doc = datetime(year, month, day)
+    return date_doc
 
 
 def looks_like_statement(statement, soup):

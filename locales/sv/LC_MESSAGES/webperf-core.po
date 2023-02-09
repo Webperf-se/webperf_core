@@ -108,6 +108,9 @@ msgstr "-t 24\t: E-post (Beta)"
 msgid "TEXT_TEST_VALID_ARGUMENTS_SOFTWARE"
 msgstr "-t 25\t: Mjukvara (Alfa)"
 
+msgid "TEXT_TEST_VALID_ARGUMENTS_A11Y_STATEMENT"
+msgstr "-t 26\t: Tillgänglighetsredogörelse (Alfa)"
+
 msgid "TEXT_COMMAND_USAGE"
 msgstr "\n\tWebPerf Core\n\n\tAnvänd så här:\ndefault.py -u https://webperf.se\n\n\tVal och argument:\n\t-h/--help\t\t\t: Hjälp och hur du använder skriptet\n\t-u/--url <site url>\t\t: webbplatsens adress att testa\n\t-t/--test <test nummer>\t\t: kör ett specifikt test (ange ? för att lista tillgängliga tester)\n\t-r/--review\t\t\t: visar omdömen direkt i terminalen\n\t-i/--input <file path>\t\t: sökväg för input-fil (.json/.sqlite)\n\t-i/--input-skip <nummer>\t: antal att hoppa över\n\t-i/--input-take <nummer>\t: antal att testa\n\t-o/--output <file path>\t\t: sökväg till output-fil (.json/.csv/.sql/.sqlite)\n\t-A/--addUrl <site url>\t\t: webbplatsens adress/url (ett krav när du använder -i/--input)\n\t-D/--deleteUrl <site url>\t: webbplats adress/url (ett krav när du använder -i/--input)\n\t-L/--language <lang code>\t: språk som används för output(en = default/sv)"
 

@@ -2,12 +2,9 @@
 import re
 from datetime import datetime, timedelta
 import time
-import json
-import os
 import urllib.parse
 from models import Rating
 import config
-from tests.sitespeed_base import get_result
 from bs4 import BeautifulSoup
 import gettext
 
@@ -15,7 +12,6 @@ from tests.utils import httpRequestGetContent
 _ = gettext.gettext
 
 review_show_improvements_only = config.review_show_improvements_only
-sitespeed_use_docker = config.sitespeed_use_docker
 checked_urls = {}
 digg_url = 'https://www.digg.se/tdosanmalan'
 canonical = 'https://www.digg.se/tdosanmalan'
@@ -27,7 +23,7 @@ def run_test(_, langCode, url):
     """
 
     language = gettext.translation(
-        'a11y_pa11y', localedir='locales', languages=[langCode])
+        'a11y_statement', localedir='locales', languages=[langCode])
     language.install()
     _local = language.gettext
 
@@ -54,11 +50,12 @@ def run_test(_, langCode, url):
                 if statement['url'] == item['url'] and statement['depth'] > item['depth']:
                     statement['depth'] = item['depth']
 
-            rating += rate_statement(statement, _)
+            rating += rate_statement(statement, _, _local)
             # Should we test all found urls or just best match?
             break
     else:
-        rating += rate_statement(None, _)
+        info = {'called_url': url}
+        rating += rate_statement(info, _, _local)
 
     print(_('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
@@ -126,7 +123,7 @@ def check_item(item, root_item, org_url_start, _):
 
 
 def has_statement(item, _):
-    rating = rate_statement(item, _)
+    rating = rate_statement(item, _, _)
     if rating.get_overall() > 1:
         return True
 
@@ -148,11 +145,11 @@ def get_default_info(url, text, method, precision, depth):
     return result
 
 
-def rate_statement(statement, _):
+def rate_statement(statement, _, _local):
     # https://www.digg.se/kunskap-och-stod/digital-tillganglighet/skapa-en-tillganglighetsredogorelse
     rating = Rating(_, review_show_improvements_only)
 
-    if statement != None:
+    if 'called_url' not in statement:
         # rating.set_overall(
         #     5.0, '- Tillgänglighetsredogörelse: {0}'.format(statement['url']))
         # rating.set_overall(
@@ -164,36 +161,39 @@ def rate_statement(statement, _):
         # - Namnet på den offentliga aktören.
         # - Namnet på den digitala servicen (till exempel webbplatsens, e-tjänstens eller appens namn).
         # - Följsamhet till lagkraven med formuleringen: helt förenlig, delvis förenlig eller inte förenlig.
-        rating += rate_compatible_text(_, soup)
+        rating += rate_compatible_text(_, _local, soup)
         # - Detaljerad, fullständig och tydlig förteckning av innehåll som inte är tillgängligt och skälen till varför det inte är tillgängligt.
         # - Datum för bedömning av följsamhet till lagkraven.
         # - Datum för senaste uppdatering.
         # - Meddelandefunktion eller länk till sådan.
         # - Länk till DIGG:s anmälningsfunktion (https://www.digg.se/tdosanmalan).
-        rating += rate_notification_function_url(_, soup)
+        rating += rate_notification_function_url(_, _local, soup)
         # - Redogörelse av innehåll som undantagits på grund av oskäligt betungande anpassning (12 §) med tydlig motivering.
-        rating += rate_unreasonably_burdensome_accommodation(_, soup)
+        rating += rate_unreasonably_burdensome_accommodation(_, _local, soup)
         # - Redogörelse av innehåll som inte omfattas av lagkraven (9 §).
 
         if rating.get_overall() > 1 or looks_like_statement(statement, soup):
             # - Redogörelsen ska vara lätt att hitta
             #   - Tillgänglighetsredogörelsen ska vara publicerad i ett tillgängligt format (det bör vara en webbsida).
             #   - För en webbplats ska en länk till tillgänglighetsredogörelsen finnas tydligt presenterad på webbplatsens startsida, alternativt finnas åtkomlig från alla sidor exempelvis i en sidfot.
-            rating += rate_found_depth(_, statement)
+            rating += rate_found_depth(_, _local, statement)
             # - Utvärderingsmetod (till exempel självskattning, granskning av extern part).
-            rating += rate_evaluation_method(_, soup)
+            rating += rate_evaluation_method(_, _local, soup)
             # För en webbplats som är (mer eller mindre) statisk, ska tillgänglighetsredogörelsen ses över åtminstone en gång per år.
-            rating += rate_updated_date(_, soup)
+            rating += rate_updated_date(_, _local, soup)
 
-        rating.overall_review = '- Tillgänglighetsredogörelse: {0}\r\n{1}'.format(
+        rating.overall_review = _local('TEXT_REVIEW_ACCESSIBILITY_STATEMENT_URL').format(
             statement['url'], rating.overall_review)
     else:
-        rating.set_overall(1.0, '- Ingen tillgänglighetsredogörelse hittad')
+        rating.set_overall(1.0, _local(
+            'TEXT_REVIEW_NO_ACCESSIBILITY_STATEMENT'))
+        rating.overall_review = _local('TEXT_REVIEW_CALLED_URL').format(
+            statement['called_url'], rating.overall_review)
 
     return rating
 
 
-def rate_updated_date(_, soup):
+def rate_updated_date(_, _local, soup):
     rating = Rating(_, review_show_improvements_only)
     dates = list()
     regex = r"(?P<typ>bedömning|redogörelse|uppdatera|granska)(?P<text>[^>.]*) (?P<day>[0-9]{1,2} )(?P<month>(?:jan(?:uari)*|feb(?:ruari)*|mar(?:s)*|apr(?:il)*|maj|jun(?:i)*|jul(?:i)*|aug(?:usti)*|sep(?:tember)*|okt(?:ober)*|nov(?:ember)*|dec(?:ember)*) )(?P<year>20[0-9]{2})"
@@ -221,7 +221,7 @@ def rate_updated_date(_, soup):
 
     if len(dates) == 0:
         rating.set_overall(
-            1.0, '- Lyckades inte hitta när tillgänglighetsredogörelsen uppdaterats senast')
+            1.0, _local('TEXT_REVIEW_NO_UPDATE_DATE'))
         return rating
 
     dates = sorted(dates, key=get_sort_on_weight)
@@ -246,22 +246,22 @@ def rate_updated_date(_, soup):
 
     if cutoff_1_year < date_doc:
         rating.set_overall(
-            5.0, '- Tillgänglighetsredogörelsen ser ut att ha uppdaterats inom 1 år')
+            5.0, _local('TEXT_REVIEW_IN_1YEAR_UPDATE_DATE'))
     elif cutoff_2_year < date_doc:
         rating.set_overall(
-            4.5, '- Tillgänglighetsredogörelsen ser ut att vara äldre än 1 år')
+            4.5, _local('TEXT_REVIEW_OLDER_THAN_1YEAR_UPDATE_DATE'))
     elif cutoff_3_year < date_doc:
         rating.set_overall(
-            4.0, '- Tillgänglighetsredogörelsen ser ut att vara äldre än 2 år')
+            4.0, _local('TEXT_REVIEW_OLDER_THAN_2YEAR_UPDATE_DATE'))
     elif cutoff_4_year < date_doc:
         rating.set_overall(
-            3.0, '- Tillgänglighetsredogörelsen ser ut att vara äldre än 3 år')
+            3.0, _local('TEXT_REVIEW_OLDER_THAN_3YEAR_UPDATE_DATE'))
     elif cutoff_5_year < date_doc:
         rating.set_overall(
-            2.0, '- Tillgänglighetsredogörelsen ser ut att vara äldre än 4 år')
+            2.0, _local('TEXT_REVIEW_OLDER_THAN_4YEAR_UPDATE_DATE'))
     else:
         rating.set_overall(
-            1.5, '- Tillgänglighetsredogörelsen ser ut att vara äldre än 5 år')
+            1.5, _local('TEXT_REVIEW_OLDER_THAN_5YEAR_UPDATE_DATE'))
 
     return rating
 
@@ -342,54 +342,54 @@ def looks_like_statement(statement, soup):
     return False
 
 
-def rate_found_depth(_, statement):
+def rate_found_depth(_, _local, statement):
     rating = Rating(_, review_show_improvements_only)
 
     depth = statement["depth"]
 
     if depth == 1:
         rating.set_overall(
-            5.0, '- Länk till tillgänglighetsredogörelsen finnas tydligt presenterad på webbplatsens startsida')
+            5.0, _local('TEXT_REVIEW_LINK_STARTPAGE'))
     elif depth > 1:
         rating.set_overall(
-            3.0, '- Tillgänglighetsredogörelsen hittades på ett länkdjup större än den bör')
+            3.0, _local('TEXT_REVIEW_LINK_OTHER'))
 
     return rating
 
 
-def rate_evaluation_method(_, soup):
+def rate_evaluation_method(_, _local, soup):
     match = soup.find(string=re.compile(
         "(sj(.{1, 6} | ä | &auml; | &  # 228;)lvskattning|interna kontroller|intern testning|utvärderingsmetod|tillgänglighetsexperter|funka|etu ab|siteimprove|oberoende granskning|oberoende tillgänglighetsgranskningar|tillgänglighetskonsult|med hjälp av|egna tester|oberoende experter|Hur vi testat webbplatsen|vi testat webbplatsen|intervjuer|rutiner|checklistor|checklista|utbildningar)", flags=re.MULTILINE | re.IGNORECASE))
     rating = Rating(_, review_show_improvements_only)
     if match:
         rating.set_overall(
-            5.0, '- Ser ut att ange utvärderingsmetod')
+            5.0, _local('TEXT_REVIEW_EVALUATION_METHOD_FOUND'))
     else:
         rating.set_overall(
-            1.0, '- Hittar ej info om utvärderingsmetod')
+            1.0, _local('TEXT_REVIEW_EVALUATION_METHOD_NOT_FOUND'))
 
     return rating
 
 
-def rate_unreasonably_burdensome_accommodation(_, soup):
+def rate_unreasonably_burdensome_accommodation(_, _local, soup):
     match = soup.find(string=re.compile(
         "(Oskäligt betungande anpassning|12[ \t\r\n]§ lagen)", flags=re.MULTILINE | re.IGNORECASE))
     rating = Rating(_, review_show_improvements_only)
     if match:
         rating.set_overall(
-            5.0, '- Anger oskäligt betungande anpassning (12 §)')
+            5.0, _local('TEXT_REVIEW_ADAPTATION_FOUND'))
         rating.set_a11y(
-            4.0, '- Anger oskäligt betungande anpassning (12 §)')
+            4.0, _local('TEXT_REVIEW_ADAPTATION_FOUND'))
     else:
         # rating.set_overall(
         #     5.0, '- Anger ej oskäligt betungande anpassning (12 §)')
         rating.set_a11y(
-            5.0, '- Anger ej oskäligt betungande anpassning (12 §)')
+            5.0, _local('TEXT_REVIEW_ADAPTATION_NOT_FOUND'))
 
     return rating
 
 
-def rate_notification_function_url(_, soup):
+def rate_notification_function_url(_, _local, soup):
     match_correct_url = soup.find(href=digg_url)
 
     match_canonical_url = soup.find(href=canonical)
@@ -409,21 +409,21 @@ def rate_notification_function_url(_, soup):
     rating = Rating(_, review_show_improvements_only)
     if match_correct_url:
         rating.set_overall(
-            5.0, '- Korrekt länk till DIGG:s anmälningsfunktion')
+            5.0, _local('TEXT_REVIEW_NOTIFICATION_FUNCTION_URL_FOUND'))
     elif match_canonical_url:
         rating.set_overall(
-            5.0, '- Korrekt länk ("canonical") till DIGG:s anmälningsfunktion')
+            5.0, _local('TEXT_REVIEW_NOTIFICATION_FUNCTION_CANONICAL_URL_FOUND'))
     elif match_old_reference:
         rating.set_overall(
-            4.5, '- Använder gammal eller felaktig länk till DIGG:s anmälningsfunktion')
+            4.5, _local('TEXT_REVIEW_NOTIFICATION_FUNCTION_OLD_URL_FOUND'))
     else:
         rating.set_overall(
-            1.0, '- Saknar eller har felaktig länk till DIGG:s anmälningsfunktion')
+            1.0, _local('TEXT_REVIEW_NOTIFICATION_FUNCTION_URL_NOT_FOUND'))
 
     return rating
 
 
-def rate_compatible_text(_, soup):
+def rate_compatible_text(_, _local, soup):
     element = soup.find(string=re.compile(
         "(?P<test>helt|delvis|inte) förenlig", flags=re.MULTILINE | re.IGNORECASE))
     rating = Rating(_, review_show_improvements_only)
@@ -434,22 +434,22 @@ def rate_compatible_text(_, soup):
         test = match.group('test').lower()
         if 'inte' in test:
             rating.set_overall(
-                5.0, '- Har följsamhet till lagkraven med formuleringen "inte förenlig"')
+                5.0, _local('TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_NOT_COMPATIBLE'))
             rating.set_a11y(
-                1.0, '- Anger själv att webbplats "inte" är förenlig med lagkraven')
+                1.0, _local('TEXT_REVIEW_COMPATIBLE_TEXT_A11Y_NOT_COMPATIBLE'))
         elif 'delvis' in test:
             rating.set_overall(
-                5.0, '- Har följsamhet till lagkraven med formuleringen "delvis förenlig"')
+                5.0, _local('TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_PARTLY_COMPATIBLE'))
             rating.set_a11y(
-                3.0, '- Anger själv att webbplats bara "delvis" är förenlig med lagkraven')
+                3.0, _local('TEXT_REVIEW_COMPATIBLE_TEXT_A11Y_PARTLY_COMPATIBLE'))
         else:
             rating.set_overall(
-                5.0, '- Har följsamhet till lagkraven med formuleringen "helt förenlig"')
+                5.0, _local('TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_FULL_COMPATIBLE'))
             rating.set_a11y(
-                5.0, '- Anger själv att webbplats är "helt" förenlig med lagkraven')
+                5.0, _local('TEXT_REVIEW_COMPATIBLE_TEXT_A11Y_FULL_COMPATIBLE'))
     else:
         rating.set_overall(
-            1.0, '- Saknar följsamhet till lagkraven med formuleringen')
+            1.0, _local('TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_NOT_FOUND'))
 
     return rating
 

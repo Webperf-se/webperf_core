@@ -15,6 +15,7 @@ It tries to do this by giving you a weighted list of improvment you can (and pro
   * User Integrity
   * Performance
   * Accessibility
+  * Accessibility statement
   * SEO
   * Code Quality
   * Networking
@@ -60,6 +61,7 @@ Add a interesting ingress here.
 * [Tracking & Integrity](./docs/tests/tracking.md)
 * [Email (Beta)](./docs/tests/email.md)
 * [Software (Alpha)](./docs/tests/software.md)
+* [Accessibility Statement (Alpha)](./docs/tests/a11y-statement.md)
 
 
 # Contribute

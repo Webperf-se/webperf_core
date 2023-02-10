@@ -1,0 +1,99 @@
+# Swedish
+# Copyright (C) 2023 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2023-02-09 17:45+0200\n"
+"PO-Revision-Date: 2023-02-09 17:45+0200\n"
+"Last-Translator: Mattias <mattias@webperf.se>\n"
+"Language-Team: Swedish <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 26 - Tillgänglighetsredogörelse\n"
+
+msgid "TEXT_REVIEW_ACCESSIBILITY_STATEMENT_URL"
+msgstr "- Tillgänglighetsredogörelse: {0}\n{1}"
+
+msgid "TEXT_REVIEW_CALLED_URL"
+msgstr "- Testad webbadress: {0}\n{1}"
+
+msgid "TEXT_REVIEW_NO_ACCESSIBILITY_STATEMENT"
+msgstr "- Ingen tillgänglighetsredogörelse hittad"
+
+msgid "TEXT_REVIEW_NO_UPDATE_DATE"
+msgstr "- Lyckades inte hitta när tillgänglighetsredogörelsen uppdaterats senast"
+
+msgid "TEXT_REVIEW_IN_1YEAR_UPDATE_DATE"
+msgstr "- Tillgänglighetsredogörelsen ser ut att ha uppdaterats inom 1 år"
+
+msgid "TEXT_REVIEW_OLDER_THAN_1YEAR_UPDATE_DATE"
+msgstr "- Tillgänglighetsredogörelsen ser ut att vara äldre än 1 år"
+
+msgid "TEXT_REVIEW_OLDER_THAN_2YEAR_UPDATE_DATE"
+msgstr "- Tillgänglighetsredogörelsen ser ut att vara äldre än 2 år"
+
+msgid "TEXT_REVIEW_OLDER_THAN_3YEAR_UPDATE_DATE"
+msgstr "- Tillgänglighetsredogörelsen ser ut att vara äldre än 3 år"
+
+msgid "TEXT_REVIEW_OLDER_THAN_4YEAR_UPDATE_DATE"
+msgstr "- Tillgänglighetsredogörelsen ser ut att vara äldre än 4 år"
+
+msgid "TEXT_REVIEW_OLDER_THAN_5YEAR_UPDATE_DATE"
+msgstr "- Tillgänglighetsredogörelsen ser ut att vara äldre än 5 år"
+
+msgid "TEXT_REVIEW_LINK_STARTPAGE"
+msgstr "- Länk till tillgänglighetsredogörelsen finnas tydligt presenterad på webbplatsens startsida"
+
+msgid "TEXT_REVIEW_LINK_OTHER"
+msgstr "- Tillgänglighetsredogörelsen hittades på ett länkdjup större än den bör"
+
+msgid "TEXT_REVIEW_EVALUATION_METHOD_FOUND"
+msgstr "- Ser ut att ange utvärderingsmetod"
+
+msgid "TEXT_REVIEW_EVALUATION_METHOD_NOT_FOUND"
+msgstr "- Hittar ej info om utvärderingsmetod"
+
+msgid "TEXT_REVIEW_ADAPTATION_FOUND"
+msgstr "- Anger oskäligt betungande anpassning (12 §)"
+
+msgid "TEXT_REVIEW_ADAPTATION_NOT_FOUND"
+msgstr "- Anger ej oskäligt betungande anpassning (12 §)"
+
+msgid "TEXT_REVIEW_NOTIFICATION_FUNCTION_URL_FOUND"
+msgstr "- Korrekt länk till DIGG:s anmälningsfunktion"
+
+msgid "TEXT_REVIEW_NOTIFICATION_FUNCTION_CANONICAL_URL_FOUND"
+msgstr "- Korrekt länk (canonical) till DIGG:s anmälningsfunktion"
+
+msgid "TEXT_REVIEW_NOTIFICATION_FUNCTION_OLD_URL_FOUND"
+msgstr "- Använder gammal eller felaktig länk till DIGG:s anmälningsfunktion"
+
+msgid "TEXT_REVIEW_NOTIFICATION_FUNCTION_URL_NOT_FOUND"
+msgstr "- Saknar eller har felaktig länk till DIGG:s anmälningsfunktion"
+
+msgid "TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_NOT_COMPATIBLE"
+msgstr "- Har följsamhet till lagkraven med formuleringen inte förenlig"
+
+msgid "TEXT_REVIEW_COMPATIBLE_TEXT_A11Y_NOT_COMPATIBLE"
+msgstr "- Anger själv att webbplats inte är förenlig med lagkraven"
+
+msgid "TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_PARTLY_COMPATIBLE"
+msgstr "- Har följsamhet till lagkraven med formuleringen delvis förenlig"
+
+msgid "TEXT_REVIEW_COMPATIBLE_TEXT_A11Y_PARTLY_COMPATIBLE"
+msgstr "- Anger själv att webbplats bara delvis är förenlig med lagkraven"
+
+msgid "TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_FULL_COMPATIBLE"
+msgstr "- Har följsamhet till lagkraven med formuleringen helt förenlig"
+
+msgid "TEXT_REVIEW_COMPATIBLE_TEXT_A11Y_FULL_COMPATIBLE"
+msgstr "- Anger själv att webbplats är helt förenlig med lagkraven"
+
+msgid "TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_NOT_FOUND"
+msgstr "- Saknar följsamhet till lagkraven med formuleringen"

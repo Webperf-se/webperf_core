@@ -10,7 +10,7 @@ import utils
 
 
 def validate_test_type(test_type):
-    if test_type != utils.TEST_HTML and test_type != utils.TEST_PAGE_NOT_FOUND and test_type != utils.TEST_CSS and test_type != utils.TEST_WEBBKOLL and test_type != utils.TEST_GOOGLE_LIGHTHOUSE and test_type != utils.TEST_GOOGLE_LIGHTHOUSE_PWA and test_type != utils.TEST_GOOGLE_LIGHTHOUSE_A11Y and test_type != utils.TEST_GOOGLE_LIGHTHOUSE_SEO and test_type != utils.TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE and test_type != utils.TEST_STANDARD_FILES and test_type != utils.TEST_YELLOW_LAB_TOOLS and test_type != utils.TEST_PA11Y and test_type != utils.TEST_HTTP and test_type != utils.TEST_ENERGY_EFFICIENCY and test_type != utils.TEST_TRACKING and test_type != utils.TEST_SITESPEED and test_type != utils.TEST_EMAIL and test_type != utils.TEST_SOFTWARE:
+    if test_type != utils.TEST_HTML and test_type != utils.TEST_PAGE_NOT_FOUND and test_type != utils.TEST_CSS and test_type != utils.TEST_WEBBKOLL and test_type != utils.TEST_GOOGLE_LIGHTHOUSE and test_type != utils.TEST_GOOGLE_LIGHTHOUSE_PWA and test_type != utils.TEST_GOOGLE_LIGHTHOUSE_A11Y and test_type != utils.TEST_GOOGLE_LIGHTHOUSE_SEO and test_type != utils.TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE and test_type != utils.TEST_STANDARD_FILES and test_type != utils.TEST_YELLOW_LAB_TOOLS and test_type != utils.TEST_PA11Y and test_type != utils.TEST_HTTP and test_type != utils.TEST_ENERGY_EFFICIENCY and test_type != utils.TEST_TRACKING and test_type != utils.TEST_SITESPEED and test_type != utils.TEST_EMAIL and test_type != utils.TEST_SOFTWARE and test_type != utils.TEST_A11Y_STATEMENT:
         print(_('TEXT_TEST_VALID_ARGUMENTS'))
         print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE'))
         print(_('TEXT_TEST_VALID_ARGUMENTS_PAGE_NOT_FOUND'))
@@ -30,6 +30,7 @@ def validate_test_type(test_type):
         print(_('TEXT_TEST_VALID_ARGUMENTS_TRACKING'))
         print(_('TEXT_TEST_VALID_ARGUMENTS_EMAIL'))
         print(_('TEXT_TEST_VALID_ARGUMENTS_SOFTWARE'))
+        print(_('TEXT_TEST_VALID_ARGUMENTS_A11Y_STATEMENT'))
         return -2
     else:
         return test_type
@@ -150,6 +151,8 @@ def main(argv):
                 from engines.sitemap import read_sites, add_site, delete_site
             elif file_long_ending == ".result":
                 from engines.sitespeed_result import read_sites, add_site, delete_site
+            elif file_long_ending == ".webprf":
+                from engines.webperf import read_sites, add_site, delete_site
             else:
                 from engines.json import read_sites, add_site, delete_site
             pass

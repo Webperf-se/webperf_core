@@ -1,0 +1,99 @@
+# English
+# Copyright (C) 2023 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2023-02-09 17:45+0200\n"
+"PO-Revision-Date: 2023-02-09 17:45+0200\n"
+"Last-Translator: Mattias <mattias@webperf.se>\n"
+"Language-Team: English <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 26 - Accessibility Statement\n"
+
+msgid "TEXT_REVIEW_ACCESSIBILITY_STATEMENT_URL"
+msgstr "- Accessibility statement: {0}\n{1}"
+
+msgid "TEXT_REVIEW_CALLED_URL"
+msgstr "- Tested webbsite: {0}\n{1}"
+
+msgid "TEXT_REVIEW_NO_ACCESSIBILITY_STATEMENT"
+msgstr "- No accessibility statement found"
+
+msgid "TEXT_REVIEW_NO_UPDATE_DATE"
+msgstr "- Unable to find when accessibility statement was updated"
+
+msgid "TEXT_REVIEW_IN_1YEAR_UPDATE_DATE"
+msgstr "- Accessibility statement seems to have been updated within a year"
+
+msgid "TEXT_REVIEW_OLDER_THAN_1YEAR_UPDATE_DATE"
+msgstr "- Accessibility statement seems to be older then 1 year"
+
+msgid "TEXT_REVIEW_OLDER_THAN_2YEAR_UPDATE_DATE"
+msgstr "- Accessibility statement seems to be older then 2 year"
+
+msgid "TEXT_REVIEW_OLDER_THAN_3YEAR_UPDATE_DATE"
+msgstr "-Accessibility statement seems to be older then 3 year"
+
+msgid "TEXT_REVIEW_OLDER_THAN_4YEAR_UPDATE_DATE"
+msgstr "- Accessibility statement seems to be older then 4 year"
+
+msgid "TEXT_REVIEW_OLDER_THAN_5YEAR_UPDATE_DATE"
+msgstr "- Accessibility statement seems to be older then 5 year"
+
+msgid "TEXT_REVIEW_LINK_STARTPAGE"
+msgstr "- Link to accessibility statement was found on the startpage"
+
+msgid "TEXT_REVIEW_LINK_OTHER"
+msgstr "- Link to accessibility statement was found on deeper link level then it should"
+
+msgid "TEXT_REVIEW_EVALUATION_METHOD_FOUND"
+msgstr "- Looks like it is specifying a evaluation method"
+
+msgid "TEXT_REVIEW_EVALUATION_METHOD_NOT_FOUND"
+msgstr "- Unable to find evaluation method used"
+
+msgid "TEXT_REVIEW_ADAPTATION_FOUND"
+msgstr "- Indicates unreasonably burdensome accommodation (12 §)"
+
+msgid "TEXT_REVIEW_ADAPTATION_NOT_FOUND"
+msgstr "- No unreasonably burdensome accommodation specified (12 §)"
+
+msgid "TEXT_REVIEW_NOTIFICATION_FUNCTION_URL_FOUND"
+msgstr "- Correct link to DIGG's notification function"
+
+msgid "TEXT_REVIEW_NOTIFICATION_FUNCTION_CANONICAL_URL_FOUND"
+msgstr "- Correct link (canonical) to DIGG's notification function"
+
+msgid "TEXT_REVIEW_NOTIFICATION_FUNCTION_OLD_URL_FOUND"
+msgstr "- Uses old or incorrect link to DIGG's notification function"
+
+msgid "TEXT_REVIEW_NOTIFICATION_FUNCTION_URL_NOT_FOUND"
+msgstr "- Missing or has an incorrect link to DIGG's notification function"
+
+msgid "TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_NOT_COMPATIBLE"
+msgstr "- Has compliance with the legal requirements with the wording not compatible"
+
+msgid "TEXT_REVIEW_COMPATIBLE_TEXT_A11Y_NOT_COMPATIBLE"
+msgstr "- Self-indicates that website is not compliant with legal requirements"
+
+msgid "TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_PARTLY_COMPATIBLE"
+msgstr "- Has compliance with the legal requirements with the wording partially compliant"
+
+msgid "TEXT_REVIEW_COMPATIBLE_TEXT_A11Y_PARTLY_COMPATIBLE"
+msgstr "- Self-indicates that the website is only partially compliant with the legal requirements"
+
+msgid "TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_FULL_COMPATIBLE"
+msgstr "- Has compliance with the legal requirements with the wording fully compatible"
+
+msgid "TEXT_REVIEW_COMPATIBLE_TEXT_A11Y_FULL_COMPATIBLE"
+msgstr "- Self-indicates that the website is fully compliant with the legal requirements"
+
+msgid "TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_NOT_FOUND"
+msgstr "- Lacks compliance with the legal requirements with the wording"

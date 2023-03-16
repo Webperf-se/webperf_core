@@ -157,25 +157,29 @@ def run_test(_, langCode, url):
     rating, ipv4_servers, ipv6_servers = Validate_MX_Records(
         _, rating, result_dict, _local, hostname)
 
-    # 1.2 - Check operational
-    if support_port25:
-        rating = Validate_IPv4_Operation_Status(
-            _, rating, _local, ipv4_servers)
+    # If we have -1.0 in rating, we have no MX records, ignore test.
+    if rating.get_overall() != -1.0:
+        # 1.2 - Check operational
+        if support_port25 and len(ipv4_servers) > 0:
+            rating = Validate_IPv4_Operation_Status(
+                _, rating, _local, ipv4_servers)
 
-    # 1.2 - Check operational
-    if support_port25 and support_IPv6:
-        rating = Validate_IPv6_Operation_Status(
-            _, rating, _local, ipv6_servers)
+        # 1.2 - Check operational
+        if support_port25 and support_IPv6 and len(ipv6_servers) > 0:
+            rating = Validate_IPv6_Operation_Status(
+                _, rating, _local, ipv6_servers)
 
-    # 1.4 - Check TLS
-    # 1.5 - Check PKI
-    # 1.6 - Check DNSSEC
-    # 1.7 - Check DANE
-    # 1.8 - Check MTA-STS policy
-    rating = Validate_MTA_STS_Policy(_, rating, _local, hostname)
-    # 1.9 - Check SPF policy
-    rating = Validate_SPF_Policies(
-        _, rating, result_dict, _local, hostname)
+        # 1.4 - Check TLS
+        # 1.5 - Check PKI
+        # 1.6 - Check DNSSEC
+        # 1.7 - Check DANE
+        # 1.8 - Check MTA-STS policy
+        rating = Validate_MTA_STS_Policy(_, rating, _local, hostname)
+        # 1.9 - Check SPF policy
+        rating = Validate_SPF_Policies(
+            _, rating, result_dict, _local, hostname)
+    else:
+        rating.set_overall(5.0)
 
     print(_('TEXT_TEST_END').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
@@ -692,21 +696,21 @@ def Validate_IPv4_Operation_Status(_, rating, _local, ipv4_servers):
 def Validate_MX_Records(_, rating, result_dict, _local, hostname):
     email_results = dns_lookup(hostname, "MX")
     has_mx_records_rating = Rating(_, review_show_improvements_only)
-    if len(email_results) > 0:
-        has_mx_records_rating.set_overall(5.0)
-        has_mx_records_rating.set_standards(
-            5.0, _local('TEXT_REVIEW_MX_SUPPORT'))
-    else:
-        has_mx_records_rating.set_overall(1.0)
-        has_mx_records_rating.set_standards(
-            1.0, _local('TEXT_REVIEW_MX_NO_SUPPORT'))
-    rating += has_mx_records_rating
 
     email_servers = list()
     # 1.1 - Check IPv4 and IPv6 support
     ipv4_servers = list()
     ipv6_servers = list()
     email_entries = list()
+
+    has_mx_records = len(email_results) > 0
+    if not has_mx_records:
+        return rating, ipv4_servers, ipv6_servers
+
+    has_mx_records_rating.set_overall(5.0)
+    has_mx_records_rating.set_standards(
+        5.0, _local('TEXT_REVIEW_MX_SUPPORT'))
+    rating += has_mx_records_rating
 
     for email_result in email_results:
         # result is in format "<priority> <domain address/ip>"

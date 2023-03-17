@@ -507,8 +507,6 @@ def Validate_SPF_Policy(_, _local, hostname, result_dict):
     else:
         result_dict['spf-dns-lookup-count'] = result_dict['spf-dns-lookup-count'] + 1
 
-    print('spf-dns-lookup-count', result_dict['spf-dns-lookup-count'])
-
     spf_results = dns_lookup(hostname, 'TXT')
     spf_content = ''
 

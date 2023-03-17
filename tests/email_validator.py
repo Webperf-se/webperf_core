@@ -318,7 +318,7 @@ def Validate_MTA_STS_Policy(_, rating, _local, hostname):
 
 
 def Validate_SPF_Policies(_, rating, result_dict, _local, hostname):
-    spf_result_dict = Validate_SPF_Policy(_, _local, hostname)
+    spf_result_dict = Validate_SPF_Policy(_, _local, hostname, result_dict)
     result_dict.update(spf_result_dict)
 
     rating = Rate_has_SPF_Policies(_, rating, result_dict, _local)
@@ -495,10 +495,10 @@ def Rate_GDPR_for_SPF_Policies(_, rating, result_dict, _local):
     return rating
 
 
-def Validate_SPF_Policy(_, _local, hostname, result_dict={}):
+def Validate_SPF_Policy(_, _local, hostname, result_dict):
     # https://proton.me/support/anti-spoofing-custom-domain
 
-    if 'spf-dns-lookup-count' in result_dict and result_dict['spf-dns-lookup-count'] > 10:
+    if 'spf-dns-lookup-count' in result_dict and result_dict['spf-dns-lookup-count'] >= 10:
         result_dict['spf-error-to-many-dns-lookups'] = True
         return result_dict
 
@@ -506,6 +506,8 @@ def Validate_SPF_Policy(_, _local, hostname, result_dict={}):
         result_dict['spf-dns-lookup-count'] = 1
     else:
         result_dict['spf-dns-lookup-count'] = result_dict['spf-dns-lookup-count'] + 1
+
+    print('spf-dns-lookup-count', result_dict['spf-dns-lookup-count'])
 
     spf_results = dns_lookup(hostname, 'TXT')
     spf_content = ''
@@ -542,7 +544,7 @@ def Validate_SPF_Policy(_, _local, hostname, result_dict={}):
                 elif section.startswith('include:') or section.startswith('+include:'):
                     spf_domain = section[8:]
                     subresult_dict = Validate_SPF_Policy(
-                        _, _local, spf_domain)
+                        _, _local, spf_domain, result_dict)
                     result_dict.update(subresult_dict)
                 elif section.startswith('?all'):
                     # What do this do and should we rate on it?

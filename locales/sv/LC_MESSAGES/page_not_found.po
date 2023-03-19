@@ -28,7 +28,7 @@ msgid "TEXT_REVIEW_MAIN_HEADER"
 msgstr "- Hittade ingen huvudrubrik (h1) på sidan."
 
 msgid "TEXT_REVIEW_NO_SWEDISH_ERROR_MSG"
-msgstr "- Verkar sakna text som beskriver att ett fel uppstått (på svenska)."
+msgstr "- Verkar sakna text som beskriver att ett fel uppstått (på svenska eller engelska för engelskspråkig webbplats)."
 
 msgid "TEXT_REVIEW_ERROR_MSG_UNDER_150"
 msgstr "- Information är under 150 tecken, vilket tyder på att användaren inte vägleds vidare."

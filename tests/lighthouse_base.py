@@ -37,6 +37,9 @@ def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category, review
         total_weight += item['weight']
         weight_dict[item['id']] = item['weight']
 
+    # print('score', score)
+    # nice = json.dumps(json_content, indent=4)
+    # print('A', nice)
     # change it to % and convert it to a 1-5 grading
     points = 5.0 * float(score)
     reviews = []
@@ -147,8 +150,8 @@ def get_json_result(langCode, url, googlePageSpeedApiKey, strategy, category, li
     check_url = url.strip()
 
     if lighthouse_use_api:
-        pagespeed_api_request = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed?locale={3}&category={0}&url={1}&strategy={2}&key={4}'.format(
-            category, check_url, strategy, langCode, googlePageSpeedApiKey)
+        pagespeed_api_request = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed?locale={2}&category={0}&url={1}&key={3}'.format(
+            category, check_url, langCode, googlePageSpeedApiKey)
         get_content = ''
 
         # print('pagespeed_api_request: {0}'.format(pagespeed_api_request))
@@ -165,6 +168,8 @@ def get_json_result(langCode, url, googlePageSpeedApiKey, strategy, category, li
 
         bashCommand = "node node_modules{4}lighthouse{4}cli{4}index.js {1} --output json --output-path stdout --locale {3} --only-categories {0} --form-factor {2} --chrome-flags=\"--headless\" --quiet".format(
             category, check_url, strategy, langCode, os.path.sep)
+        # bashCommand = "node node_modules{3}lighthouse{3}cli{3}index.js {1} --output json --output-path stdout --locale {2} --only-categories {0}".format(
+        #     category, check_url, langCode, os.path.sep)
 
         process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
         output, error = process.communicate()

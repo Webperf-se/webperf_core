@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from models import Rating
-import datetime
+from datetime import datetime
 import sys
 import socket
 import ssl

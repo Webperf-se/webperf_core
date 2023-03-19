@@ -205,7 +205,7 @@ def Validate_MTA_STS_Policy(_, rating, _local, hostname):
     else:
         has_mta_sts_records_rating.set_overall(1.0)
         has_mta_sts_records_rating.set_integrity_and_security(
-            2.5, _local('TEXT_REVIEW_MTA_STS_DNS_RECORD_NO_SUPPORT'))
+            1.0, _local('TEXT_REVIEW_MTA_STS_DNS_RECORD_NO_SUPPORT'))
         has_mta_sts_records_rating.set_standards(
             1.0, _local('TEXT_REVIEW_MTA_STS_DNS_RECORD_NO_SUPPORT'))
     rating += has_mta_sts_records_rating
@@ -303,14 +303,14 @@ def Validate_MTA_STS_Policy(_, rating, _local, hostname):
         else:
             has_mta_sts_txt_rating.set_overall(2.0)
             has_mta_sts_txt_rating.set_integrity_and_security(
-                3.0, _local('TEXT_REVIEW_MTA_STS_TXT_INVALID_FORMAT'))
+                1.0, _local('TEXT_REVIEW_MTA_STS_TXT_INVALID_FORMAT'))
             has_mta_sts_txt_rating.set_standards(
                 1.0, _local('TEXT_REVIEW_MTA_STS_TXT_INVALID_FORMAT'))
 
     else:
         has_mta_sts_txt_rating.set_overall(1.0)
         has_mta_sts_txt_rating.set_integrity_and_security(
-            2.5, _local('TEXT_REVIEW_MTA_STS_TXT_NO_SUPPORT'))
+            1.0, _local('TEXT_REVIEW_MTA_STS_TXT_NO_SUPPORT'))
         has_mta_sts_txt_rating.set_standards(
             1.0, _local('TEXT_REVIEW_MTA_STS_TXT_NO_SUPPORT'))
     rating += has_mta_sts_txt_rating
@@ -707,11 +707,6 @@ def Validate_MX_Records(_, rating, result_dict, _local, hostname):
     if not has_mx_records:
         return rating, ipv4_servers, ipv6_servers
 
-    has_mx_records_rating.set_overall(5.0)
-    has_mx_records_rating.set_standards(
-        5.0, _local('TEXT_REVIEW_MX_SUPPORT'))
-    rating += has_mx_records_rating
-
     for email_result in email_results:
         # result is in format "<priority> <domain address/ip>"
         server_address = email_result.split(' ')[1]
@@ -740,7 +735,7 @@ def Validate_MX_Records(_, rating, result_dict, _local, hostname):
         # example: feber.se (do dns lookup also before)
         nof_ipv4_rating.set_overall(2.5)
         nof_ipv4_rating.set_integrity_and_security(
-            2.5, _local('TEXT_REVIEW_IPV4_NO_REDUNDANCE'))
+            1.0, _local('TEXT_REVIEW_IPV4_NO_REDUNDANCE'))
         nof_ipv4_rating.set_standards(
             5.0, _local('TEXT_REVIEW_IPV4_SUPPORT'))
     else:
@@ -761,7 +756,7 @@ def Validate_MX_Records(_, rating, result_dict, _local, hostname):
         # example: feber.se (do dns lookup also before)
         nof_ipv6_rating.set_overall(2.5)
         nof_ipv6_rating.set_integrity_and_security(
-            2.5, _local('TEXT_REVIEW_IPV6_NO_REDUNDANCE'))
+            1.0, _local('TEXT_REVIEW_IPV6_NO_REDUNDANCE'))
         nof_ipv6_rating.set_standards(
             5.0, _local('TEXT_REVIEW_IPV6_SUPPORT'))
     else:

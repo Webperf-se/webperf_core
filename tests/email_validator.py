@@ -362,9 +362,9 @@ def Rate_Fail_Configuration_for_SPF_Policies(_, rating, result_dict, _local):
         has_spf_dns_record_neutralfail_records_rating = Rating(
             _, review_show_improvements_only)
         has_spf_dns_record_neutralfail_records_rating.set_overall(
-            4.0)
+            3.0)
         has_spf_dns_record_neutralfail_records_rating.set_integrity_and_security(
-            3.0, _local('TEXT_REVIEW_SPF_DNS_NEUTRALFAIL_RECORD'))
+            2.0, _local('TEXT_REVIEW_SPF_DNS_NEUTRALFAIL_RECORD'))
         has_spf_dns_record_neutralfail_records_rating.set_standards(
             5.0, _local('TEXT_REVIEW_SPF_DNS_NEUTRALFAIL_RECORD'))
         rating += has_spf_dns_record_neutralfail_records_rating
@@ -374,7 +374,7 @@ def Rate_Fail_Configuration_for_SPF_Policies(_, rating, result_dict, _local):
             _, review_show_improvements_only)
         has_spf_dns_record_softfail_records_rating.set_overall(5.0)
         has_spf_dns_record_softfail_records_rating.set_integrity_and_security(
-            4.0, _local('TEXT_REVIEW_SPF_DNS_SOFTFAIL_RECORD'))
+            2.0, _local('TEXT_REVIEW_SPF_DNS_SOFTFAIL_RECORD'))
         has_spf_dns_record_softfail_records_rating.set_standards(
             5.0, _local('TEXT_REVIEW_SPF_DNS_SOFTFAIL_RECORD'))
         rating += has_spf_dns_record_softfail_records_rating
@@ -404,9 +404,9 @@ def Rate_Invalid_format_SPF_Policies(_, rating, result_dict, _local):
         has_spf_dns_record_double_space_rating = Rating(
             _, review_show_improvements_only)
         has_spf_dns_record_double_space_rating.set_overall(
-            3.0)
+            1.5)
         has_spf_dns_record_double_space_rating.set_standards(
-            3.0, _local('TEXT_REVIEW_SPF_DNS_DOUBLE_SPACE_RECORD'))
+            1.5, _local('TEXT_REVIEW_SPF_DNS_DOUBLE_SPACE_RECORD'))
         rating += has_spf_dns_record_double_space_rating
     return rating
 

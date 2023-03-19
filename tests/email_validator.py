@@ -157,25 +157,29 @@ def run_test(_, langCode, url):
     rating, ipv4_servers, ipv6_servers = Validate_MX_Records(
         _, rating, result_dict, _local, hostname)
 
-    # 1.2 - Check operational
-    if support_port25:
-        rating = Validate_IPv4_Operation_Status(
-            _, rating, _local, ipv4_servers)
+    # If we have -1.0 in rating, we have no MX records, ignore test.
+    if rating.get_overall() != -1.0:
+        # 1.2 - Check operational
+        if support_port25 and len(ipv4_servers) > 0:
+            rating = Validate_IPv4_Operation_Status(
+                _, rating, _local, ipv4_servers)
 
-    # 1.2 - Check operational
-    if support_port25 and support_IPv6:
-        rating = Validate_IPv6_Operation_Status(
-            _, rating, _local, ipv6_servers)
+        # 1.2 - Check operational
+        if support_port25 and support_IPv6 and len(ipv6_servers) > 0:
+            rating = Validate_IPv6_Operation_Status(
+                _, rating, _local, ipv6_servers)
 
-    # 1.4 - Check TLS
-    # 1.5 - Check PKI
-    # 1.6 - Check DNSSEC
-    # 1.7 - Check DANE
-    # 1.8 - Check MTA-STS policy
-    rating = Validate_MTA_STS_Policy(_, rating, _local, hostname)
-    # 1.9 - Check SPF policy
-    rating = Validate_SPF_Policies(
-        _, rating, result_dict, _local, hostname)
+        # 1.4 - Check TLS
+        # 1.5 - Check PKI
+        # 1.6 - Check DNSSEC
+        # 1.7 - Check DANE
+        # 1.8 - Check MTA-STS policy
+        rating = Validate_MTA_STS_Policy(_, rating, _local, hostname)
+        # 1.9 - Check SPF policy
+        rating = Validate_SPF_Policies(
+            _, rating, result_dict, _local, hostname)
+    else:
+        rating.set_overall(5.0)
 
     print(_('TEXT_TEST_END').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
@@ -201,7 +205,7 @@ def Validate_MTA_STS_Policy(_, rating, _local, hostname):
     else:
         has_mta_sts_records_rating.set_overall(1.0)
         has_mta_sts_records_rating.set_integrity_and_security(
-            2.5, _local('TEXT_REVIEW_MTA_STS_DNS_RECORD_NO_SUPPORT'))
+            1.0, _local('TEXT_REVIEW_MTA_STS_DNS_RECORD_NO_SUPPORT'))
         has_mta_sts_records_rating.set_standards(
             1.0, _local('TEXT_REVIEW_MTA_STS_DNS_RECORD_NO_SUPPORT'))
     rating += has_mta_sts_records_rating
@@ -299,14 +303,14 @@ def Validate_MTA_STS_Policy(_, rating, _local, hostname):
         else:
             has_mta_sts_txt_rating.set_overall(2.0)
             has_mta_sts_txt_rating.set_integrity_and_security(
-                3.0, _local('TEXT_REVIEW_MTA_STS_TXT_INVALID_FORMAT'))
+                1.0, _local('TEXT_REVIEW_MTA_STS_TXT_INVALID_FORMAT'))
             has_mta_sts_txt_rating.set_standards(
                 1.0, _local('TEXT_REVIEW_MTA_STS_TXT_INVALID_FORMAT'))
 
     else:
         has_mta_sts_txt_rating.set_overall(1.0)
         has_mta_sts_txt_rating.set_integrity_and_security(
-            2.5, _local('TEXT_REVIEW_MTA_STS_TXT_NO_SUPPORT'))
+            1.0, _local('TEXT_REVIEW_MTA_STS_TXT_NO_SUPPORT'))
         has_mta_sts_txt_rating.set_standards(
             1.0, _local('TEXT_REVIEW_MTA_STS_TXT_NO_SUPPORT'))
     rating += has_mta_sts_txt_rating
@@ -314,7 +318,7 @@ def Validate_MTA_STS_Policy(_, rating, _local, hostname):
 
 
 def Validate_SPF_Policies(_, rating, result_dict, _local, hostname):
-    spf_result_dict = Validate_SPF_Policy(_, _local, hostname)
+    spf_result_dict = Validate_SPF_Policy(_, _local, hostname, result_dict)
     result_dict.update(spf_result_dict)
 
     rating = Rate_has_SPF_Policies(_, rating, result_dict, _local)
@@ -358,9 +362,9 @@ def Rate_Fail_Configuration_for_SPF_Policies(_, rating, result_dict, _local):
         has_spf_dns_record_neutralfail_records_rating = Rating(
             _, review_show_improvements_only)
         has_spf_dns_record_neutralfail_records_rating.set_overall(
-            4.0)
+            3.0)
         has_spf_dns_record_neutralfail_records_rating.set_integrity_and_security(
-            3.0, _local('TEXT_REVIEW_SPF_DNS_NEUTRALFAIL_RECORD'))
+            2.0, _local('TEXT_REVIEW_SPF_DNS_NEUTRALFAIL_RECORD'))
         has_spf_dns_record_neutralfail_records_rating.set_standards(
             5.0, _local('TEXT_REVIEW_SPF_DNS_NEUTRALFAIL_RECORD'))
         rating += has_spf_dns_record_neutralfail_records_rating
@@ -370,7 +374,7 @@ def Rate_Fail_Configuration_for_SPF_Policies(_, rating, result_dict, _local):
             _, review_show_improvements_only)
         has_spf_dns_record_softfail_records_rating.set_overall(5.0)
         has_spf_dns_record_softfail_records_rating.set_integrity_and_security(
-            4.0, _local('TEXT_REVIEW_SPF_DNS_SOFTFAIL_RECORD'))
+            2.0, _local('TEXT_REVIEW_SPF_DNS_SOFTFAIL_RECORD'))
         has_spf_dns_record_softfail_records_rating.set_standards(
             5.0, _local('TEXT_REVIEW_SPF_DNS_SOFTFAIL_RECORD'))
         rating += has_spf_dns_record_softfail_records_rating
@@ -400,9 +404,9 @@ def Rate_Invalid_format_SPF_Policies(_, rating, result_dict, _local):
         has_spf_dns_record_double_space_rating = Rating(
             _, review_show_improvements_only)
         has_spf_dns_record_double_space_rating.set_overall(
-            3.0)
+            1.5)
         has_spf_dns_record_double_space_rating.set_standards(
-            3.0, _local('TEXT_REVIEW_SPF_DNS_DOUBLE_SPACE_RECORD'))
+            1.5, _local('TEXT_REVIEW_SPF_DNS_DOUBLE_SPACE_RECORD'))
         rating += has_spf_dns_record_double_space_rating
     return rating
 
@@ -491,10 +495,10 @@ def Rate_GDPR_for_SPF_Policies(_, rating, result_dict, _local):
     return rating
 
 
-def Validate_SPF_Policy(_, _local, hostname, result_dict={}):
+def Validate_SPF_Policy(_, _local, hostname, result_dict):
     # https://proton.me/support/anti-spoofing-custom-domain
 
-    if 'spf-dns-lookup-count' in result_dict and result_dict['spf-dns-lookup-count'] > 10:
+    if 'spf-dns-lookup-count' in result_dict and result_dict['spf-dns-lookup-count'] >= 10:
         result_dict['spf-error-to-many-dns-lookups'] = True
         return result_dict
 
@@ -538,7 +542,7 @@ def Validate_SPF_Policy(_, _local, hostname, result_dict={}):
                 elif section.startswith('include:') or section.startswith('+include:'):
                     spf_domain = section[8:]
                     subresult_dict = Validate_SPF_Policy(
-                        _, _local, spf_domain)
+                        _, _local, spf_domain, result_dict)
                     result_dict.update(subresult_dict)
                 elif section.startswith('?all'):
                     # What do this do and should we rate on it?
@@ -692,21 +696,16 @@ def Validate_IPv4_Operation_Status(_, rating, _local, ipv4_servers):
 def Validate_MX_Records(_, rating, result_dict, _local, hostname):
     email_results = dns_lookup(hostname, "MX")
     has_mx_records_rating = Rating(_, review_show_improvements_only)
-    if len(email_results) > 0:
-        has_mx_records_rating.set_overall(5.0)
-        has_mx_records_rating.set_standards(
-            5.0, _local('TEXT_REVIEW_MX_SUPPORT'))
-    else:
-        has_mx_records_rating.set_overall(1.0)
-        has_mx_records_rating.set_standards(
-            1.0, _local('TEXT_REVIEW_MX_NO_SUPPORT'))
-    rating += has_mx_records_rating
 
     email_servers = list()
     # 1.1 - Check IPv4 and IPv6 support
     ipv4_servers = list()
     ipv6_servers = list()
     email_entries = list()
+
+    has_mx_records = len(email_results) > 0
+    if not has_mx_records:
+        return rating, ipv4_servers, ipv6_servers
 
     for email_result in email_results:
         # result is in format "<priority> <domain address/ip>"
@@ -736,7 +735,7 @@ def Validate_MX_Records(_, rating, result_dict, _local, hostname):
         # example: feber.se (do dns lookup also before)
         nof_ipv4_rating.set_overall(2.5)
         nof_ipv4_rating.set_integrity_and_security(
-            2.5, _local('TEXT_REVIEW_IPV4_NO_REDUNDANCE'))
+            1.0, _local('TEXT_REVIEW_IPV4_NO_REDUNDANCE'))
         nof_ipv4_rating.set_standards(
             5.0, _local('TEXT_REVIEW_IPV4_SUPPORT'))
     else:
@@ -757,7 +756,7 @@ def Validate_MX_Records(_, rating, result_dict, _local, hostname):
         # example: feber.se (do dns lookup also before)
         nof_ipv6_rating.set_overall(2.5)
         nof_ipv6_rating.set_integrity_and_security(
-            2.5, _local('TEXT_REVIEW_IPV6_NO_REDUNDANCE'))
+            1.0, _local('TEXT_REVIEW_IPV6_NO_REDUNDANCE'))
         nof_ipv6_rating.set_standards(
             5.0, _local('TEXT_REVIEW_IPV6_SUPPORT'))
     else:

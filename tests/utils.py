@@ -74,7 +74,7 @@ def get_cache_file(url, use_text_instead_of_content, time_delta):
         return None
 
     if use_text_instead_of_content:
-        with open(cache_path, 'r', encoding='utf-8') as file:
+        with open(cache_path, 'r', encoding='utf-8', newline='') as file:
             return '\n'.join(file.readlines())
     else:
         with open(cache_path, 'rb') as file:
@@ -122,7 +122,7 @@ def clean_cache_files():
 def set_cache_file(url, content, use_text_instead_of_content):
     cache_path = get_cache_path(url, use_text_instead_of_content)
     if use_text_instead_of_content:
-        with open(cache_path, 'w', encoding='utf-8') as file:
+        with open(cache_path, 'w', encoding='utf-8', newline='') as file:
             file.write(content)
     else:
         with open(cache_path, 'wb') as file:

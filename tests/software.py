@@ -849,8 +849,12 @@ def get_cve_records_from_github_advisory_database(software_name, version, catego
                 if json_data == None:
                     continue
 
-                if 'schema_version' not in json_data or json_data['schema_version'] != '1.3.0':
-                    print('ERROR: Unsupported schema version!')
+                if 'schema_version' not in json_data:
+                    print('ERROR: NO schema version!')
+                    continue
+                elif json_data['schema_version'] != '1.4.0' and json_data['schema_version'] != '1.3.0':
+                    print('ERROR: Unsupported schema version! Assumed 1.3.0 or 1.4.0 but got {0}'.format(
+                        json_data['schema_version']))
                     continue
 
                 if 'affected' not in json_data:

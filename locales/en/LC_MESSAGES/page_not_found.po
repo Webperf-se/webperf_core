@@ -28,7 +28,7 @@ msgid "TEXT_REVIEW_MAIN_HEADER"
 msgstr "- Found no headline (h1)."
 
 msgid "TEXT_REVIEW_NO_SWEDISH_ERROR_MSG"
-msgstr "- Seems to lack text describing that an error has occurred (in Swedish)."
+msgstr "- Seems to lack text describing that an error has occurred (in Swedish OR english for english sites)."
 
 msgid "TEXT_REVIEW_ERROR_MSG_UNDER_150"
 msgstr "- Text content length is less than 150 characters, indicating that the user is not being referred, nor advised."

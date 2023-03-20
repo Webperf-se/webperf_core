@@ -47,6 +47,7 @@ except:
     # If software_github_adadvisory_database_path variable is not set in config.py this will be the default
     github_adadvisory_database_path = None
 
+cve_cache = {}
 
 # Debug flags for every category here, this so we can print out raw values (so we can add more allowed once)
 raw_data = {
@@ -560,17 +561,73 @@ def cleanup_software_result(result):
     return result
 
 
-def get_cve_records_for_software_and_version(software_name, version, category):
-    result = list()
+def get_cve_cache():
+    cache_data = get_cache_file(
+        'cve-cache', use_text_instead_of_content=True, time_delta=cache_time_delta)
 
-    result.extend(get_cve_records_from_github_advisory_database(
-        software_name, version, category))
-    result.extend(get_cve_records_from_apache(
-        software_name, version, category))
-    result.extend(get_cve_records_from_nginx(
-        software_name, version, category))
-    result.extend(get_cve_records_from_iis(
-        software_name, version, category))
+    if cache_data == None:
+        return {'loaded': True}
+
+    return json.loads(cache_data)
+
+
+def get_software_version_cves(software_name, software_version):
+    if not use_cache:
+        return None
+    global cve_cache
+    if 'loaded' not in cve_cache:
+        cve_cache = get_cve_cache()
+        cve_cache['loaded'] = True
+
+    if software_name not in cve_cache:
+        return None
+
+    software_info = cve_cache[software_name]
+    if software_version not in software_info:
+        return None
+
+    items = software_info[software_version]
+    return items
+
+
+def set_software_cves(software_name, software_version, result):
+    global cve_cache
+    if 'loaded' not in cve_cache:
+        cve_cache = get_cve_cache()
+        cve_cache['loaded'] = True
+
+    if software_name not in cve_cache:
+        cve_cache[software_name] = {}
+
+    if software_version not in cve_cache[software_name]:
+        cve_cache[software_name][software_version] = {}
+
+    cve_cache[software_name][software_version] = result
+
+    test = json.dumps(cve_cache, indent=4)
+    set_cache_file('cve-cache',
+                   test, use_text_instead_of_content=True)
+
+
+def get_cve_records_for_software_and_version(software_name, version, category):
+    result = get_software_version_cves(software_name, version)
+    if result == None:
+        result = list()
+        try:
+            result.extend(get_cve_records_from_github_advisory_database(
+                software_name, version, category))
+            result.extend(get_cve_records_from_apache(
+                software_name, version, category))
+            result.extend(get_cve_records_from_nginx(
+                software_name, version, category))
+            result.extend(get_cve_records_from_iis(
+                software_name, version, category))
+            # 63a0b2ce88933b5049d3393ca79850250716b0894da58cea5d0e97d32f9ad317fde14c1946f777fb7c6f0bf0d9fcdf700a2fa3f84d71b627ee29c4ef4fface29.txt.utf-8.cache
+            set_software_cves(software_name, version, result)
+        except:
+            print('CVE Exception', software_name, version, category)
+    else:
+        print('Cached entry in cve cache found, using it instead.')
     return result
 
 
@@ -659,6 +716,7 @@ def get_cve_records_from_nginx(software_name, version, category):
                 continue
             start_version = ranges[0].strip()
             end_version = ranges[1].strip()
+
             lversion = LooseVersion(version)
             lstart_version = LooseVersion(start_version)
             lend_version = LooseVersion(end_version)
@@ -674,12 +732,14 @@ def get_cve_records_from_nginx(software_name, version, category):
                 if '+' not in safe_section:
                     continue
                 safe_version = safe_version.strip('+')
+
                 lsafe_version = LooseVersion(safe_version)
 
                 if lversion == lsafe_version:
                     is_match = False
 
                 lversion_specificity = len(lversion.version)
+
                 if lversion_specificity == 3 and lversion_specificity == len(lsafe_version.version):
                     # is same branch and is equal or greater then safe (fixed) version?
                     if lversion.version[0] == lsafe_version.version[0] and lversion.version[1] == lsafe_version.version[1] and lversion.version[2] >= lsafe_version.version[2]:
@@ -889,6 +949,7 @@ def get_cve_records_from_github_advisory_database(software_name, version, catego
 
                             start_version = None
                             end_version = None
+                            last_affected_version = None
                             if 'ranges' in affected:
                                 for range in affected['ranges']:
                                     if 'type' in range and range['type'] == 'ECOSYSTEM':
@@ -898,18 +959,28 @@ def get_cve_records_from_github_advisory_database(software_name, version, catego
                                                     start_version = event['introduced']
                                                 if 'fixed' in event:
                                                     end_version = event['fixed']
+                                                if 'last_affected' in event:
+                                                    last_affected_version = event['last_affected']
+
                                     else:
                                         print('ERROR: Unknown ecosystem')
 
-                            if start_version != None and end_version != None:
-                                if version != None:
-                                    lversion = LooseVersion(version)
-                                    lstart_version = LooseVersion(
-                                        start_version)
+                            # TODO: We should handle exception better here if version(s) is not valid format
+                            if start_version != None and version != None:
+                                lversion = LooseVersion(version)
+                                lstart_version = LooseVersion(
+                                    start_version)
+                                if end_version != None and end_version != '':
                                     lend_version = LooseVersion(end_version)
-
                                     if lversion >= lstart_version and lversion < lend_version:
                                         is_matching = True
+                                elif last_affected_version != None and last_affected_version != '':
+                                    l_last_affected_version = LooseVersion(
+                                        last_affected_version)
+                                    if lversion >= lstart_version and lversion <= l_last_affected_version:
+                                        is_matching = True
+                                elif lversion >= lstart_version:
+                                    is_matching = True
 
                             references = list()
                             if 'references' in json_data:

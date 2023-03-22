@@ -979,8 +979,10 @@ def get_cve_records_from_github_advisory_database(software_name, version, catego
                                         last_affected_version)
                                     if lversion >= lstart_version and lversion <= l_last_affected_version:
                                         is_matching = True
-                                elif lversion >= lstart_version:
-                                    is_matching = True
+                                # NOTE: Temporarly(?) removed until https://github.com/github/advisory-database/pull/1807
+                                # is approved and merged
+                                # elif lversion >= lstart_version:
+                                #     is_matching = True
 
                             references = list()
                             if 'references' in json_data:

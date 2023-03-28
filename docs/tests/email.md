@@ -36,6 +36,32 @@ For IP-network we use only first and last IP-address of a IP-network, this is do
 Please view [GDPR and Schrems section under Tracking & Integrity](./tracking.md#gdpr-and-schrems) documentation for
 current list of countries.
 
+## Why is this test important?
+
+This test main focus is to help you in the following areas for email handling: integrity, security and web standards.
+
+For your organisation this means it will help you ensure
+a stable (by making sure you have specified redundant services for email).
+It will also ensure that your organisation can recieve emails independent
+if the sender is using legacy (IPv4) or newer (IPv6) Information protocol.
+
+It will also verify if your organisation allow receivers of emails to verify (By using SPF) if e-mail actually came from your organisation or if it was from someone pretending to be from your organisation.
+It will also check what your organisation tell receiving email system it should do with email pretending
+it is you (do nothing, mark it as spam OR block it).
+
+It will also verify your organisations ability to receive Transport Layer Security (TLS) secure SMTP connections.
+This is important because by default you can view emails as a postcard, everyone handling the email from you until it reaches the intended reciever can read all its content.
+If both sending and receiving organisations support TLS (declared with MTA-STS) you have the ability to send your emails as postcards or inside a envelope with the benefit that none other then the sending and receiving email provider can view your email.
+If it matches your usecases you can also force use of TLS for emails, meaning that if the sender is not supporting TLS the email will not be recieved.
+One more possible benefit of using MTA-STS is that the sending party can verify if receiving party supports envelope (TLS) before sending email.
+Please note that it is only encrypted (inside envelope) while in transport, as soon as it is delivered to the email provider it is open again for all eyes to see.
+
+Final test on the security side of things it will test is if email related servers are in GDPR complaint countries or not.
+If test is telling you that you are not compiant it means that
+the email adress and any other potentially personal information MAY be intercepted by
+other countries agencies.
+
+
 ## How are rating being calculated?
 
 This section has not been written yet.

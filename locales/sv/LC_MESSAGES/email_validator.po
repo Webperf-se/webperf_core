@@ -102,6 +102,9 @@ msgstr "IPV4_OPERATION_STARTTLS_NO_SUPPORT"
 msgid "TEXT_REVIEW_MX_NO_SUPPORT"
 msgstr "MX DNS record not found"
 
+msgid "TEXT_REVIEW_MX_ALTERATIVE"
+msgstr "Använder alternativ e-postdomän: {0}\r\n{1}"
+
 msgid "TEXT_REVIEW_IPV4_REDUNDANCE"
 msgstr "MX DNS IPv4 record redundance"
 

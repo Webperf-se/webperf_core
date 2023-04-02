@@ -158,7 +158,6 @@ def run_test(_, langCode, url):
             for interesting_url in interesting_urls:
                 content = httpRequestGetContent(interesting_url, True)
                 result = search_for_email_domain(content)
-                print('URL: ', interesting_url, result)
                 if result != None:
                     break
                 time.sleep(1)
@@ -166,9 +165,8 @@ def run_test(_, langCode, url):
         if result != None:
             rating, result_dict = validate_email_domain(
                 result, result_dict, _, _local)
-
-    if rating.get_overall() == -1.0:
-        rating.set_overall(5.0)
+            rating.overall_review = _local('TEXT_REVIEW_MX_ALTERATIVE').format(
+                result, rating.overall_review)
 
     print(_('TEXT_TEST_END').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
@@ -192,6 +190,15 @@ def search_for_email_domain(content):
     if domain == None:
         return None
 
+    domain = domain.lower().strip()
+
+    # Ignore imy.se in text as it can be related to GDPR texts
+    if 'imy.se' == domain:
+        return None
+    # Ignore digg.se in text as it can be related to WCAG texts
+    if 'digg.se' == domain:
+        return None
+
     return domain
 
 
@@ -203,7 +210,7 @@ def get_interesting_urls(content, org_url_start, depth):
 
     for link in links:
         if not link.find(string=re.compile(
-                r"(kontakta [a-z]+|om [a-z]+|personuppgifter|(tillg(.{1,6}|ä|&auml;|&#228;)nglighet(sredog(.{1,6}|ö|&ouml;|&#246;)relse){0,1}))", flags=re.MULTILINE | re.IGNORECASE)):
+                r"(kontakt(a [a-z]+){0,1}|om [a-z]+|personuppgifter|(tillg(.{1,6}|ä|&auml;|&#228;)nglighet(sredog(.{1,6}|ö|&ouml;|&#246;)relse){0,1}))", flags=re.MULTILINE | re.IGNORECASE)):
             continue
 
         url = '{0}'.format(link.get('href'))
@@ -225,6 +232,8 @@ def get_interesting_urls(content, org_url_start, depth):
         text = link.get_text().strip()
 
         precision = 0.0
+        if re.match(r'^[ \t\r\n]*kontakt', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+            precision = 0.66
         if re.match(r'^[ \t\r\n]*kontakta oss', text, flags=re.MULTILINE | re.IGNORECASE) != None:
             precision = 0.65
         if re.match(r'^[ \t\r\n]*kontakta [a-z]+', text, flags=re.MULTILINE | re.IGNORECASE) != None:

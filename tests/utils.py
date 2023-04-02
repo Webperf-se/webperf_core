@@ -258,7 +258,10 @@ def dns_lookup(hostname, record_type):
     except (dns.resolver.NoAnswer, dns.resolver.NoNameservers) as error:
         # print("dns lookup error: ", error)
         # sleep so we don't get banned for to many queries on DNS servers
-        time.sleep(1)
+        time.sleep(5)
+        return names
+    except Exception as ex:
+        time.sleep(10)
         return names
 
     for dns_record in dns_records:

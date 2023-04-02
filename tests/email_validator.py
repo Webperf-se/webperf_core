@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import re
+from bs4 import BeautifulSoup
 import smtplib
 import datetime
 import socket
@@ -6,6 +8,7 @@ import ipaddress
 import sys
 import urllib.parse
 import datetime
+import time
 # https://docs.python.org/3/library/urllib.parse.html
 import urllib
 import config
@@ -19,6 +22,7 @@ request_timeout = config.http_request_timeout
 useragent = config.useragent
 review_show_improvements_only = config.review_show_improvements_only
 
+checked_urls = {}
 
 # We are doing this to support IPv6
 
@@ -126,7 +130,7 @@ def run_test(_, langCode, url):
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
 
-    rating = Rating(_, review_show_improvements_only)
+    # rating = Rating(_, review_show_improvements_only)
     result_dict = {}
 
     language = gettext.translation(
@@ -142,6 +146,156 @@ def run_test(_, langCode, url):
     o = urllib.parse.urlparse(url)
     hostname = o.hostname
 
+    rating, result_dict = validate_email_domain(
+        hostname, result_dict, _, _local)
+    if rating.get_overall() == -1.0:
+        # NO MX record found for domain, look for e-mail on website for alternative e-mail domain.
+        content = httpRequestGetContent(url, True)
+        time.sleep(1)
+        result = search_for_email_domain(content)
+        if result == None:
+            interesting_urls = get_interesting_urls(content, url, 0)
+            for interesting_url in interesting_urls:
+                content = httpRequestGetContent(interesting_url, True)
+                result = search_for_email_domain(content)
+                if result != None:
+                    break
+                time.sleep(1)
+
+        if result != None:
+            rating, result_dict = validate_email_domain(
+                result, result_dict, _, _local)
+            rating.overall_review = _local('TEXT_REVIEW_MX_ALTERATIVE').format(
+                result, rating.overall_review)
+
+    print(_('TEXT_TEST_END').format(
+        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+    return (rating, result_dict)
+
+
+def search_for_email_domain(content):
+    content_match = re.search(
+        r"[\"']mailto:(?P<email>[^\"']+)\"", content)
+
+    if content_match == None:
+        return None
+
+    email = content_match.group('email')
+    domain_match = re.search(r'@(?P<domain>.*)', email)
+    if domain_match == None:
+        return None
+
+    domain = domain_match.group('domain')
+    if domain == None:
+        return None
+
+    domain = domain.lower().strip()
+
+    # Ignore imy.se in text as it can be related to GDPR texts
+    if 'imy.se' == domain:
+        return None
+    # Ignore digg.se in text as it can be related to WCAG texts
+    if 'digg.se' == domain:
+        return None
+
+    return domain
+
+
+def get_interesting_urls(content, org_url_start, depth):
+    urls = {}
+
+    soup = BeautifulSoup(content, 'lxml')
+    links = soup.find_all("a")
+
+    for link in links:
+        if not link.find(string=re.compile(
+                r"(kontakt(a [a-z]+){0,1}|om [a-z]+|personuppgifter|(tillg(.{1,6}|ä|&auml;|&#228;)nglighet(sredog(.{1,6}|ö|&ouml;|&#246;)relse){0,1}))", flags=re.MULTILINE | re.IGNORECASE)):
+            continue
+
+        url = '{0}'.format(link.get('href'))
+
+        if url == None:
+            continue
+        elif url.endswith('.pdf'):
+            continue
+        elif url.startswith('//'):
+            continue
+        elif url.startswith('/'):
+            url = '{0}{1}'.format(org_url_start, url)
+        elif url.startswith('#'):
+            continue
+
+        if not url.startswith(org_url_start):
+            continue
+
+        text = link.get_text().strip()
+
+        precision = 0.0
+        if re.match(r'^[ \t\r\n]*kontakt', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+            precision = 0.66
+        if re.match(r'^[ \t\r\n]*kontakta oss', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+            precision = 0.65
+        if re.match(r'^[ \t\r\n]*kontakta [a-z]+', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+            precision = 0.60
+        if re.match(r'^[ \t\r\n]*tillg(.{1,6}|ä|&auml;|&#228;)nglighetsredog(.{1,6}|ö|&ouml;|&#246;)relse$', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+            precision = 0.55
+        elif re.match(r'^[ \t\r\n]*tillg(.{1,6}|ä|&auml;|&#228;)nglighetsredog(.{1,6}|ö|&ouml;|&#246;)relse', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+            precision = 0.5
+        elif re.match(r'^[ \t\r\n]*tillg(.{1,6}|ä|&auml;|&#228;)nglighet$', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+            precision = 0.4
+        elif re.match(r'^[ \t\r\n]*tillg(.{1,6}|ä|&auml;|&#228;)nglighet', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+            precision = 0.35
+        if re.match(r'^[ \t\r\n]*personuppgifter', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+            precision = 0.32
+        elif re.match(r'tillg(.{1,6}|ä|&auml;|&#228;)nglighet', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+            precision = 0.3
+        elif re.search(r'om webbplats', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+            precision = 0.29
+        elif re.match(r'^[ \t\r\n]*om [a-z]+$', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+            precision = 0.25
+        elif re.match(r'^[ \t\r\n]*om [a-z]+', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+            precision = 0.2
+        else:
+            precision = 0.1
+
+        info = get_default_info(
+            url, text, 'url.text', precision, depth)
+        if url not in checked_urls:
+            urls[url] = info
+
+    if len(urls) > 0:
+        tmp = sorted(urls.items(), key=get_sort_on_precision)
+        # Take top 10
+        tmp = tmp[:10]
+        urls = dict(tmp)
+
+        return urls
+    return urls
+
+
+def get_sort_on_precision(item):
+    return item[1]["precision"]
+
+
+def get_default_info(url, text, method, precision, depth):
+    result = {}
+
+    if text != None:
+        text = text.lower().strip('.').strip('-').strip()
+
+    result['url'] = url
+    result['method'] = method
+    result['precision'] = precision
+    result['text'] = text
+    result['depth'] = depth
+
+    return result
+
+
+def validate_email_domain(hostname, result_dict, _, _local):
+    rating = Rating(_, review_show_improvements_only)
+    result_dict = {}
     # We must take in consideration "www." subdomains...
     if hostname.startswith('www.'):
         hostname = hostname[4:]
@@ -178,13 +332,8 @@ def run_test(_, langCode, url):
         # 1.9 - Check SPF policy
         rating = Validate_SPF_Policies(
             _, rating, result_dict, _local, hostname)
-    else:
-        rating.set_overall(5.0)
 
-    print(_('TEXT_TEST_END').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
-
-    return (rating, result_dict)
+    return rating, result_dict
 
 
 def Validate_MTA_STS_Policy(_, rating, _local, hostname):

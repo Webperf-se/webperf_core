@@ -806,6 +806,8 @@ def get_analytics(_local, url, content, request_index):
 
     url_and_content = url + content
 
+    if has_piwik_pro(url_and_content):
+        analytics[text.format(request_friendly_name, 'Piwik PRO')] = True
     if has_matomo(url_and_content):
         analytics[text.format(request_friendly_name, 'Matomo')] = True
     if has_matomo_tagmanager(url_and_content):
@@ -829,24 +831,38 @@ def get_analytics(_local, url, content, request_index):
     return analytics
 
 
+def has_piwik_pro(content):
+    # Look for javascript objects
+    if '"Piwik PRO Anonymization"' in content:
+        return True
+    if '"piwik_anonymization"' in content:
+        return True
+    if '"ppasAsyncContainerRegistered"' in content:
+        return True
+    if 'this.window.ppmsWebStorage' in content:
+        return True
+    if 'isPpmsWebStorageEnabled' in content:
+        return True
+
+    # Look for file names
+    if 'piwik.pro/ppms.php' in content:
+        return True
+    if 'piwik.pro/ppms.js' in content:
+        return True
+
+    return False
+
+
 def has_matomo(content):
     # Look for cookie name
-    if '"name": "_pk_' in content:
-        return True
     if '"name": "MATOMO_' in content:
-        return True
-    if '"name": "PIWIK_' in content:
         return True
 
     # Look for javascript objects
     if 'window.Matomo=' in content:
         return True
-    if 'window.Piwik=' in content:
-        return True
 
-    # Look for file names
-    if 'piwik.js' in content:
-        return True
+    # # Look for file names
     if 'matomo.php' in content:
         return True
 

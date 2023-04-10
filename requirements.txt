@@ -9,3 +9,5 @@ selenium>=4.7.2
 IP2Location>=8.9.0
 docker>=6.0.1
 Pillow>=9.4.0
+OpenCV-Python>=4.7.0.72
+Numpy

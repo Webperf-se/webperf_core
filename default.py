@@ -9,31 +9,11 @@ from tests.utils import clean_cache_files
 import utils
 
 
-def validate_test_type(test_type):
-    if test_type != utils.TEST_HTML and test_type != utils.TEST_PAGE_NOT_FOUND and test_type != utils.TEST_CSS and test_type != utils.TEST_WEBBKOLL and test_type != utils.TEST_GOOGLE_LIGHTHOUSE and test_type != utils.TEST_GOOGLE_LIGHTHOUSE_PWA and test_type != utils.TEST_GOOGLE_LIGHTHOUSE_A11Y and test_type != utils.TEST_GOOGLE_LIGHTHOUSE_SEO and test_type != utils.TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE and test_type != utils.TEST_STANDARD_FILES and test_type != utils.TEST_YELLOW_LAB_TOOLS and test_type != utils.TEST_PA11Y and test_type != utils.TEST_HTTP and test_type != utils.TEST_ENERGY_EFFICIENCY and test_type != utils.TEST_TRACKING and test_type != utils.TEST_SITESPEED and test_type != utils.TEST_EMAIL and test_type != utils.TEST_SOFTWARE and test_type != utils.TEST_A11Y_STATEMENT:
-        print(_('TEXT_TEST_VALID_ARGUMENTS'))
-        print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE'))
-        print(_('TEXT_TEST_VALID_ARGUMENTS_PAGE_NOT_FOUND'))
-        print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_SEO'))
-        print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_BEST_PRACTICE'))
-        print(_('TEXT_TEST_VALID_ARGUMENTS_HTML'))
-        print(_('TEXT_TEST_VALID_ARGUMENTS_CSS'))
-        print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_PWA'))
-        print(_('TEXT_TEST_VALID_ARGUMENTS_STANDARD_FILES'))
-        print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_A11Y'))
-        print(_('TEXT_TEST_VALID_ARGUMENTS_SITESPEED'))
-        print(_('TEXT_TEST_VALID_ARGUMENTS_YELLOW_LAB_TOOLS'))
-        print(_('TEXT_TEST_VALID_ARGUMENTS_PA11Y'))
-        print(_('TEXT_TEST_VALID_ARGUMENTS_WEBBKOLL'))
-        print(_('TEXT_TEST_VALID_ARGUMENTS_HTTP'))
-        print(_('TEXT_TEST_VALID_ARGUMENTS_ENERGY_EFFICIENCY'))
-        print(_('TEXT_TEST_VALID_ARGUMENTS_TRACKING'))
-        print(_('TEXT_TEST_VALID_ARGUMENTS_EMAIL'))
-        print(_('TEXT_TEST_VALID_ARGUMENTS_SOFTWARE'))
-        print(_('TEXT_TEST_VALID_ARGUMENTS_A11Y_STATEMENT'))
-        return -2
+def validate_test_type(test_types):
+    if utils.TEST_HTML in test_types and utils.TEST_PAGE_NOT_FOUND in test_types and utils.TEST_CSS in test_types and utils.TEST_WEBBKOLL in test_types and utils.TEST_GOOGLE_LIGHTHOUSE in test_types and utils.TEST_GOOGLE_LIGHTHOUSE_PWA in test_types and utils.TEST_GOOGLE_LIGHTHOUSE_A11Y in test_types and utils.TEST_GOOGLE_LIGHTHOUSE_SEO in test_types and utils.TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE in test_types and utils.TEST_STANDARD_FILES in test_types and utils.TEST_YELLOW_LAB_TOOLS in test_types and utils.TEST_PA11Y in test_types and utils.TEST_HTTP in test_types and utils.TEST_ENERGY_EFFICIENCY in test_types and utils.TEST_TRACKING in test_types and utils.TEST_SITESPEED in test_types and utils.TEST_EMAIL in test_types and utils.TEST_SOFTWARE in test_types and utils.TEST_A11Y_STATEMENT in test_types:
+        return list()
     else:
-        return test_type
+        return test_types
 
 
 def main(argv):
@@ -55,7 +35,7 @@ def main(argv):
     -L/--language <lang code>\t: language used for output(en = default/sv)
     """
 
-    test_type = utils.TEST_ALL
+    test_types = list(utils.TEST_ALL)
     sites = list()
     output_filename = ''
     input_filename = ''
@@ -126,12 +106,32 @@ def main(argv):
                 sys.exit(2)
         elif opt in ("-t", "--test"):  # test type
             try:
-                tmp_test_type = int(arg)
-                test_type = validate_test_type(tmp_test_type)
-                if test_type == -2:
-                    sys.exit(2)
+                tmp_test_types = list(map(int, arg.split(',')))
+                test_types = validate_test_type(tmp_test_types)
             except Exception:
-                validate_test_type(arg)
+                test_types = list()
+
+            if len(test_types) == 0:
+                print(_('TEXT_TEST_VALID_ARGUMENTS'))
+                print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE'))
+                print(_('TEXT_TEST_VALID_ARGUMENTS_PAGE_NOT_FOUND'))
+                print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_SEO'))
+                print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_BEST_PRACTICE'))
+                print(_('TEXT_TEST_VALID_ARGUMENTS_HTML'))
+                print(_('TEXT_TEST_VALID_ARGUMENTS_CSS'))
+                print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_PWA'))
+                print(_('TEXT_TEST_VALID_ARGUMENTS_STANDARD_FILES'))
+                print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_A11Y'))
+                print(_('TEXT_TEST_VALID_ARGUMENTS_SITESPEED'))
+                print(_('TEXT_TEST_VALID_ARGUMENTS_YELLOW_LAB_TOOLS'))
+                print(_('TEXT_TEST_VALID_ARGUMENTS_PA11Y'))
+                print(_('TEXT_TEST_VALID_ARGUMENTS_WEBBKOLL'))
+                print(_('TEXT_TEST_VALID_ARGUMENTS_HTTP'))
+                print(_('TEXT_TEST_VALID_ARGUMENTS_ENERGY_EFFICIENCY'))
+                print(_('TEXT_TEST_VALID_ARGUMENTS_TRACKING'))
+                print(_('TEXT_TEST_VALID_ARGUMENTS_EMAIL'))
+                print(_('TEXT_TEST_VALID_ARGUMENTS_SOFTWARE'))
+                print(_('TEXT_TEST_VALID_ARGUMENTS_A11Y_STATEMENT'))
                 sys.exit()
         elif opt in ("-i", "--input"):  # input file path
             input_filename = arg
@@ -193,7 +193,7 @@ def main(argv):
     elif (len(sites)):
         # run test(s) for every website
         test_results = utils.test_sites(_,
-                                        langCode, sites, test_type=test_type, show_reviews=show_reviews)
+                                        langCode, sites, test_types=test_types, show_reviews=show_reviews)
         if (len(output_filename) > 0):
             file_ending = ""
             file_long_ending = ""

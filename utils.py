@@ -7,10 +7,10 @@ from models import Sites, SiteTests
 import config
 import gettext
 
-TEST_ALL = -1
+# TEST_ALL = -1
 
-(TEST_UNKNOWN_01, TEST_GOOGLE_LIGHTHOUSE, TEST_PAGE_NOT_FOUND, TEST_UNKNOWN_03, TEST_GOOGLE_LIGHTHOUSE_SEO, TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE, TEST_HTML, TEST_CSS, TEST_GOOGLE_LIGHTHOUSE_PWA, TEST_STANDARD_FILES,
- TEST_GOOGLE_LIGHTHOUSE_A11Y, TEST_UNKNOWN_11, TEST_UNKNOWN_12, TEST_UNKNOWN_13, TEST_UNKNOWN_14, TEST_SITESPEED, TEST_UNKNOWN_16, TEST_YELLOW_LAB_TOOLS, TEST_PA11Y, TEST_UNKNOWN_19, TEST_WEBBKOLL, TEST_HTTP, TEST_ENERGY_EFFICIENCY, TEST_TRACKING, TEST_EMAIL, TEST_SOFTWARE, TEST_A11Y_STATEMENT) = range(27)
+TEST_ALL = (TEST_UNKNOWN_01, TEST_GOOGLE_LIGHTHOUSE, TEST_PAGE_NOT_FOUND, TEST_UNKNOWN_03, TEST_GOOGLE_LIGHTHOUSE_SEO, TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE, TEST_HTML, TEST_CSS, TEST_GOOGLE_LIGHTHOUSE_PWA, TEST_STANDARD_FILES,
+            TEST_GOOGLE_LIGHTHOUSE_A11Y, TEST_UNKNOWN_11, TEST_UNKNOWN_12, TEST_UNKNOWN_13, TEST_UNKNOWN_14, TEST_SITESPEED, TEST_UNKNOWN_16, TEST_YELLOW_LAB_TOOLS, TEST_PA11Y, TEST_UNKNOWN_19, TEST_WEBBKOLL, TEST_HTTP, TEST_ENERGY_EFFICIENCY, TEST_TRACKING, TEST_EMAIL, TEST_SOFTWARE, TEST_A11Y_STATEMENT) = range(27)
 
 
 def test(_, langCode, site, test_type=None, show_reviews=False,):
@@ -98,75 +98,74 @@ def test(_, langCode, site, test_type=None, show_reviews=False,):
     return list()
 
 
-def test_site(_, langCode, site, test_type=TEST_ALL, show_reviews=False):
+def test_site(_, langCode, site, test_types=TEST_ALL, show_reviews=False):
     # print(_('TEXT_TESTING_START_HEADER').format(
     #    datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     tests = list()
-    run_all_tests = test_type == TEST_ALL
     ##############
-    if (run_all_tests or test_type == TEST_GOOGLE_LIGHTHOUSE):
+    if TEST_GOOGLE_LIGHTHOUSE in test_types:
         tests.extend(test(_,
                           langCode, site, test_type=TEST_GOOGLE_LIGHTHOUSE, show_reviews=show_reviews))
-    if (run_all_tests or test_type == TEST_PAGE_NOT_FOUND):
+    if TEST_PAGE_NOT_FOUND in test_types:
         tests.extend(test(_, langCode, site,
                           test_type=TEST_PAGE_NOT_FOUND, show_reviews=show_reviews))
-    if (run_all_tests or test_type == TEST_GOOGLE_LIGHTHOUSE_SEO):
+    if TEST_GOOGLE_LIGHTHOUSE_SEO in test_types:
         tests.extend(test(_,
                           langCode, site, test_type=TEST_GOOGLE_LIGHTHOUSE_SEO, show_reviews=show_reviews))
-    if (run_all_tests or test_type == TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE):
+    if TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE in test_types:
         tests.extend(test(_,
                           langCode, site, test_type=TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE, show_reviews=show_reviews))
-    if (run_all_tests or test_type == TEST_HTML):
+    if TEST_HTML in test_types:
         tests.extend(test(_, langCode, site,
                           test_type=TEST_HTML, show_reviews=show_reviews))
-    if (run_all_tests or test_type == TEST_CSS):
+    if TEST_CSS in test_types:
         tests.extend(test(_, langCode, site,
                           test_type=TEST_CSS, show_reviews=show_reviews))
-    if (run_all_tests or test_type == TEST_GOOGLE_LIGHTHOUSE_PWA):
+    if TEST_GOOGLE_LIGHTHOUSE_PWA in test_types:
         tests.extend(test(_,
                           langCode, site, test_type=TEST_GOOGLE_LIGHTHOUSE_PWA, show_reviews=show_reviews))
-    if (run_all_tests or test_type == TEST_STANDARD_FILES):
+    if TEST_STANDARD_FILES in test_types:
         tests.extend(test(_, langCode, site,
                           test_type=TEST_STANDARD_FILES, show_reviews=show_reviews))
-    if (run_all_tests or test_type == TEST_GOOGLE_LIGHTHOUSE_A11Y):
+    if TEST_GOOGLE_LIGHTHOUSE_A11Y in test_types:
         tests.extend(test(_,
                           langCode, site, test_type=TEST_GOOGLE_LIGHTHOUSE_A11Y, show_reviews=show_reviews))
-    if (run_all_tests or test_type == TEST_SITESPEED):
+    if TEST_SITESPEED in test_types:
         tests.extend(test(_, langCode, site,
                           test_type=TEST_SITESPEED, show_reviews=show_reviews))
-    if (run_all_tests or test_type == TEST_YELLOW_LAB_TOOLS):
+    if TEST_YELLOW_LAB_TOOLS in test_types:
         tests.extend(test(_,
                           langCode, site, test_type=TEST_YELLOW_LAB_TOOLS, show_reviews=show_reviews))
-    if (run_all_tests or test_type == TEST_PA11Y):
+    if TEST_PA11Y in test_types:
         tests.extend(test(_,
                           langCode, site, test_type=TEST_PA11Y, show_reviews=show_reviews))
-    if (run_all_tests or test_type == TEST_WEBBKOLL):
+    if TEST_WEBBKOLL in test_types:
         tests.extend(test(_, langCode, site,
                           test_type=TEST_WEBBKOLL, show_reviews=show_reviews))
-    if (run_all_tests or test_type == TEST_HTTP):
+    if TEST_HTTP in test_types:
         tests.extend(test(_, langCode, site,
                           test_type=TEST_HTTP, show_reviews=show_reviews))
-    if (run_all_tests or test_type == TEST_ENERGY_EFFICIENCY):
+    if TEST_ENERGY_EFFICIENCY in test_types:
         tests.extend(test(_, langCode, site,
                           test_type=TEST_ENERGY_EFFICIENCY, show_reviews=show_reviews))
-    if (run_all_tests or test_type == TEST_TRACKING):
+    if TEST_TRACKING in test_types:
         tests.extend(test(_, langCode, site,
                           test_type=TEST_TRACKING, show_reviews=show_reviews))
-    if (run_all_tests or test_type == TEST_EMAIL):
+    if TEST_EMAIL in test_types:
         tests.extend(test(_, langCode, site,
                           test_type=TEST_EMAIL, show_reviews=show_reviews))
-    if (run_all_tests or test_type == TEST_SOFTWARE):
+    if TEST_SOFTWARE in test_types:
         tests.extend(test(_, langCode, site,
                           test_type=TEST_SOFTWARE, show_reviews=show_reviews))
-    if (run_all_tests or test_type == TEST_A11Y_STATEMENT):
+    if TEST_A11Y_STATEMENT in test_types:
         tests.extend(test(_, langCode, site,
                           test_type=TEST_A11Y_STATEMENT, show_reviews=show_reviews))
 
     return tests
 
 
-def test_sites(_, langCode, sites, test_type=TEST_ALL, show_reviews=False):
+def test_sites(_, langCode, sites, test_types=TEST_ALL, show_reviews=False):
     results = list()
 
     print(_('TEXT_TEST_START_HEADER'))
@@ -186,7 +185,7 @@ def test_sites(_, langCode, sites, test_type=TEST_ALL, show_reviews=False):
         if has_more_then_one_site:
             print(_('TEXT_WEBSITE_X_OF_Y').format(site_index + 1, nOfSites))
         results.extend(test_site(_, langCode, site,
-                                 test_type, show_reviews))
+                                 test_types, show_reviews))
 
         site_index += 1
 

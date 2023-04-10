@@ -21,10 +21,10 @@ jobs:
         architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
-    - name: Setup Node.js (v1 version 14.x)
-      uses: actions/setup-node@v1
+    - name: Setup Node.js (v3 version 18.x)
+      uses: actions/setup-node@v3
       with:
-        node-version: '14.x'
+        node-version: '18.x'
     - if: ${{ matrix.os == 'ubuntu-latest'  }}
       name: Setup SpeedIndex dependencies (ONLY used for Sitespeed) - Linux
       run: |

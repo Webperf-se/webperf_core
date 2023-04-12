@@ -68,16 +68,55 @@ def run_test(_, langCode, url):
     rating += mobile_rating
     result_dict.update(mobile_result_dict)
 
-    # result = validate_no_javascript(url)
-    # result = validate_no_external_domain(url)
+    (no_external_rating, no_external_result_dict) = validate_on_mobile_no_external_domain(
+        url, _, _local)
+    rating += no_external_rating
+    result_dict.update(no_external_result_dict)
+
+    (nojs_rating, nojs_result_dict) = validate_on_mobile_no_javascript(url, _, _local)
+    rating += nojs_rating
+    result_dict.update(nojs_result_dict)
 
     print(_('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, result_dict)
 
-# validate_no_javascript
-# validate_no_external_domain
+
+def validate_on_mobile_no_external_domain(url, _, _local):
+    o = urllib.parse.urlparse(url)
+    hostname = o.hostname
+
+    if hostname.startswith('www.'):
+        tmp_url = url.replace(hostname, hostname[4:])
+        o = urllib.parse.urlparse(tmp_url)
+        hostname = o.hostname
+
+    arg = '--shm-size=1g -b chrome --blockDomainsExcept *.{2} --mobile true --connectivity.profile 3gfast --visualMetrics true --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+        config.sitespeed_iterations, url, hostname)
+    if 'nt' in os.name:
+        arg = '--shm-size=1g -b chrome --mobile true --connectivity.profile 3gfast --visualMetrics true --plugins.remove screenshot --speedIndex true --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+            config.sitespeed_iterations, url)
+
+    result = get_result_dict(get_result(
+        sitespeed_use_docker, arg), 'mobile no third parties')
+    rating = rate_result_dict(result, 'mobile no third parties', _, _local)
+
+    return (rating, result)
+
+
+def validate_on_mobile_no_javascript(url, _, _local):
+    arg = '--shm-size=1g -b chrome --block .js --mobile true --connectivity.profile 3gfast --visualMetrics true --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+        config.sitespeed_iterations, url)
+    if 'nt' in os.name:
+        arg = '--shm-size=1g -b chrome --block .js --mobile true --connectivity.profile 3gfast --visualMetrics true --plugins.remove screenshot --speedIndex true --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+            config.sitespeed_iterations, url)
+
+    result = get_result_dict(get_result(
+        sitespeed_use_docker, arg), 'mobile no js')
+    rating = rate_result_dict(result, 'mobile no js', _, _local)
+
+    return (rating, result)
 
 
 def validate_on_desktop(url, _, _local):
@@ -194,6 +233,12 @@ def get_result_dict(data, mode):
             median = total / value_count
             value_range = biggest - median
             result = median
+
+        tmp = {
+            'median': median,
+            'range': value_range,
+            'msg': '{0:.2f}ms (±{1:.2f}ms)'.format(result, value_range)
+        }
 
         str_result = '{0:.2f}ms (±{1:.2f}ms)'.format(result, value_range)
         if 'SpeedIndex' in key:

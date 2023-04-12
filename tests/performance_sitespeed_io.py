@@ -128,7 +128,7 @@ def validate_on_mobile_no_external_domain(url, _, _local, mobile_rating, mobile_
 
             tmp_rating = Rating(_)
             tmp_rating.set_overall(
-                tmp_points, '- [mobile] {0} could be improved by {1:.2f}ms on mobile by removing external resources'.format(key, value_diff))
+                tmp_points, '- [mobile] {0} could be improved by {1:.2f}ms by removing external resources'.format(key, value_diff))
             rating += tmp_rating
             key_matching = True
 
@@ -142,7 +142,7 @@ def validate_on_mobile_no_external_domain(url, _, _local, mobile_rating, mobile_
             tmp_points = 5.0 - ((value_diff / limit) * 0.1)
             tmp_rating = Rating(_)
             tmp_rating.set_overall(
-                tmp_points, '- [mobile] {0} could be ±{1:.2f}ms less "vobbly" on mobile by removing external resources'.format(key, value_diff))
+                tmp_points, '- [mobile] {0} could be ±{1:.2f}ms less "vobbly" by removing external resources'.format(key, value_diff))
             rating += tmp_rating
             key_matching = True
 
@@ -159,7 +159,7 @@ def validate_on_mobile_no_external_domain(url, _, _local, mobile_rating, mobile_
         points = 5.0 - (rating.get_overall() - mobile_rating.get_overall())
         tmp_rating = Rating(_)
         tmp_rating.set_overall(
-            points, '- Performance rating could be improved by removing some/all external resources')
+            points, '- [mobile] Performance rating could be improved by removing some/all external resources')
         rating += tmp_rating
 
     return (rating, result_dict)
@@ -198,7 +198,7 @@ def validate_on_mobile_no_javascript(url, _, _local, mobile_rating, mobile_resul
             tmp_points = 5.0 - ((value_diff / limit) * 0.1)
             tmp_rating = Rating(_)
             tmp_rating.set_overall(
-                tmp_points, '- [mobile] {0} could be improved by {1:.2f}ms on mobile by removing javascript files'.format(key, value_diff))
+                tmp_points, '- [mobile] {0} could be improved by {1:.2f}ms by removing javascript files'.format(key, value_diff))
             rating += tmp_rating
             key_matching = True
 
@@ -212,7 +212,7 @@ def validate_on_mobile_no_javascript(url, _, _local, mobile_rating, mobile_resul
             tmp_points = 5.0 - ((value_diff / limit) * 0.1)
             tmp_rating = Rating(_)
             tmp_rating.set_overall(
-                tmp_points, '- [mobile] {0} could be ±{1:.2f}ms less "vobbly" on mobile by removing javascript files'.format(key, value_diff))
+                tmp_points, '- [mobile] {0} could be ±{1:.2f}ms less "vobbly" by removing javascript files'.format(key, value_diff))
             rating += tmp_rating
             key_matching = True
 
@@ -228,7 +228,7 @@ def validate_on_mobile_no_javascript(url, _, _local, mobile_rating, mobile_resul
         points = 5.0 - (rating.get_overall() - mobile_rating.get_overall())
         tmp_rating = Rating(_)
         tmp_rating.set_overall(
-            points, '- Performance rating could be improved by removing some/all javascript files')
+            points, '- [mobile] Performance rating could be improved by removing some/all javascript files')
         rating += tmp_rating
 
     return (rating, result_dict)
@@ -266,20 +266,19 @@ def rate_result_dict(result_dict, mode, _, _local):
     review = ''
 
     review_overall = ''
-    if points >= 5.0:
-        review_overall = _local('TEXT_REVIEW_VERY_GOOD')
-    elif points >= 4.0:
-        review_overall = _local('TEXT_REVIEW_IS_GOOD')
-    elif points >= 3.0:
-        review_overall = _local('TEXT_REVIEW_IS_OK')
-    elif points > 1.0:
-        review_overall = _local('TEXT_REVIEW_IS_BAD')
-    elif points <= 1.0:
-        review_overall = _local('TEXT_REVIEW_IS_VERY_BAD')
+    if mode == 'desktop' or mode == 'mobile':
+        if points >= 5.0:
+            review_overall = _local('TEXT_REVIEW_VERY_GOOD')
+        elif points >= 4.0:
+            review_overall = _local('TEXT_REVIEW_IS_GOOD')
+        elif points >= 3.0:
+            review_overall = _local('TEXT_REVIEW_IS_OK')
+        elif points > 1.0:
+            review_overall = _local('TEXT_REVIEW_IS_BAD')
+        elif points <= 1.0:
+            review_overall = _local('TEXT_REVIEW_IS_VERY_BAD')
 
     del result_dict['Points']
-
-    # review += '- Speedindex: {}\n'.format(result_dict['SpeedIndex'])
 
     rating = Rating(_)
     rating.set_overall(points, review_overall.replace(
@@ -288,23 +287,14 @@ def rate_result_dict(result_dict, mode, _, _local):
 
     review = rating.performance_review
     for pair in result_dict.items():
-        key = pair[0]
         value = pair[1]
         if 'msg' in value:
             review += value['msg']
-            # review += '- {0}: {1}\r\n'.format(key, value['msg'])
-
-    # if 's' in result_dict['Load']:
-    #     review += _local("TEXT_REVIEW_LOAD_TIME").format(result_dict['Load'])
-    # else:
-    #     review += _local("TEXT_REVIEW_LOAD_TIME_SECONDS").format(
-    #         result_dict['Load'])
 
     # review += _local("TEXT_REVIEW_NUMBER_OF_REQUESTS").format(
     #     result_dict['Requests'])
 
     rating.performance_review = review
-    # rating.overview_review = review_overall
     return rating
 
 
@@ -328,9 +318,7 @@ def get_result_dict(data, mode):
         biggest = 0
         total = 0
         value_range = 0
-        # str_result = ''
         result = 0
-        # print(key)
         for value in values:
             number = 0
             if 'ms' in value:
@@ -359,7 +347,6 @@ def get_result_dict(data, mode):
             'msg': '- [{2}] {3}: {0:.2f}ms (±{1:.2f}ms)\r\n'.format(result, value_range, mode, key)
         }
 
-        # str_result = '{0:.2f}ms (±{1:.2f}ms)'.format(result, value_range)
         if 'SpeedIndex' in key:
             points = 5.0
 
@@ -376,7 +363,5 @@ def get_result_dict(data, mode):
                 points = 5.0 - (speedindex_adjusted / 1000)
 
             result_dict['Points'] = points
-        # print('  ', result)
-        # result_dict['{0} {1}'.format(mode, key)] = str_result
         result_dict[key] = tmp
     return result_dict

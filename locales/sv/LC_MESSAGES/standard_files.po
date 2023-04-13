@@ -52,7 +52,7 @@ msgid "TEXT_SECURITY_OK_CONTENT"
 msgstr "- security.txt verkar ok."
 
 msgid "TEXT_SECURITY_REQUIRED_CONTACT_MISSING"
-msgstr "- security.txt saknar kontaktinformation."
+msgstr "- security.txt saknar kontakt&shy;information."
 
 msgid "TEXT_SECURITY_REQUIRED_EXPIRES_MISSING"
-msgstr "- security.txt information om utgångstid saknas (krav tillagt i utkast v10)."
+msgstr "- security.txt saknar information om utgångstid (krav tillagt i utkast v10)."

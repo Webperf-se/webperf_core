@@ -24,7 +24,7 @@ msgid "TEXT_REVIEW_A11Y_IS_GOOD"
 msgstr "- Webbplatsen kan bli mer tillgänglig, men är ganska ok.\n"
 
 msgid "TEXT_REVIEW_A11Y_IS_OK"
-msgstr "- Genomsnittlig tillgänglighet men och bli bättre gentemot automatiska tester.\n"
+msgstr "- Genomsnittlig tillgänglighet men kan bli bättre på automatiska tester.\n"
 
 msgid "TEXT_REVIEW_A11Y_IS_BAD"
 msgstr "- Webbplatsen är dålig på tillgänglighet för funktions&shy;nedsatta personer.\n"

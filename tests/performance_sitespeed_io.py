@@ -60,21 +60,57 @@ def run_test(_, langCode, url):
 
     rating = Rating(_)
     result_dict = {}
-    (desktop_rating, desktop_result_dict) = validate_on_desktop(url, _, _local)
+
+    # We have this first so it can take any penalty of servers sleeping
+    no_external_result_dict = validate_on_mobile_no_external_domain(
+        url)
+
+    # We have this second so it can take any left penalty of servers sleeping
+    nojs_result_dict = validate_on_mobile_no_javascript(url)
+
+    # Are they still not ready they need to fix it...
+    desktop_result_dict = validate_on_desktop(url)
+
+    mobile_result_dict = validate_on_mobile(url)
+
+    desktop_rating = rate_result_dict(desktop_result_dict, None,
+                                      'desktop', _, _local)
     rating += desktop_rating
     result_dict.update(desktop_result_dict)
 
-    (mobile_rating, mobile_result_dict) = validate_on_mobile(url, _, _local)
+    mobile_rating = rate_result_dict(mobile_result_dict, None,
+                                     'mobile', _, _local)
     rating += mobile_rating
     result_dict.update(mobile_result_dict)
 
-    (no_external_rating, no_external_result_dict) = validate_on_mobile_no_external_domain(
-        url, _, _local, mobile_rating, mobile_result_dict)
+    no_external_rating = rate_result_dict(no_external_result_dict, mobile_result_dict,
+                                          'mobile no third parties', _, _local)
+
+    nojs_rating = rate_result_dict(nojs_result_dict, mobile_result_dict,
+                                   'mobile no js', _, _local)
+
+    if mobile_rating.get_overall() < no_external_rating.get_overall():
+        # points = 5.0 - (no_external_rating.get_overall() -
+        #                 mobile_rating.get_overall())
+        # tmp_rating = Rating(_)
+        # tmp_rating.set_overall(
+        #     points, '- [mobile] Advice: Rating mey improve from {0} to {1} by removing some/all external resources'.format(mobile_rating.get_overall(), no_external_rating.get_overall()) )
+        # rating += tmp_rating
+        rating.overall_review += '- [mobile] Advice: Rating may improve from {0} to {1} by removing some/all external resources'.format(
+            mobile_rating.get_overall(), no_external_rating.get_overall())
     rating += no_external_rating
     result_dict.update(no_external_result_dict)
 
-    (nojs_rating, nojs_result_dict) = validate_on_mobile_no_javascript(
-        url, _, _local, mobile_rating, mobile_result_dict)
+    if mobile_rating.get_overall() < nojs_rating.get_overall():
+        # points = 5.0 - (nojs_rating.get_overall() -
+        #                 mobile_rating.get_overall())
+        # tmp_rating = Rating(_)
+        # tmp_rating.set_overall(
+        #     points, '- [mobile] Advice: Performance rating could be improved by removing some/all javascript files')
+        # rating += tmp_rating
+        rating.overall_review += '- [mobile] Advice: Rating may improve from {0} to {1} by removing some/all javascript resources'.format(
+            mobile_rating.get_overall(), no_external_rating.get_overall())
+
     rating += nojs_rating
     result_dict.update(nojs_result_dict)
 
@@ -84,8 +120,7 @@ def run_test(_, langCode, url):
     return (rating, result_dict)
 
 
-def validate_on_mobile_no_external_domain(url, _, _local, mobile_rating, mobile_result_dict):
-    rating = Rating(_)
+def validate_on_mobile_no_external_domain(url):
     o = urllib.parse.urlparse(url)
     hostname = o.hostname
 
@@ -103,70 +138,10 @@ def validate_on_mobile_no_external_domain(url, _, _local, mobile_rating, mobile_
     result_dict = get_result_dict(get_result(
         sitespeed_use_docker, arg), 'mobile no third parties')
 
-    limit = 250
-
-    external_to_remove = list()
-
-    for pair in mobile_result_dict.items():
-        key = pair[0]
-        mobile_obj = pair[1]
-        key_matching = False
-
-        if key not in result_dict:
-            continue
-
-        noxternal_obj = result_dict[key]
-
-        if 'median' not in mobile_obj:
-            continue
-        if 'median' not in noxternal_obj:
-            continue
-
-        if mobile_obj['median'] > (limit + noxternal_obj['median']):
-            value_diff = mobile_obj['median'] - noxternal_obj['median']
-            tmp_points = 5.0 - ((value_diff / limit) * 0.1)
-
-            tmp_rating = Rating(_)
-            tmp_rating.set_overall(
-                tmp_points, '- [mobile] {0} could be improved by {1:.2f}ms by removing external resources'.format(key, value_diff))
-            rating += tmp_rating
-            key_matching = True
-
-        if 'range' not in mobile_obj:
-            continue
-        if 'range' not in noxternal_obj:
-            continue
-
-        if mobile_obj['range'] > (limit + noxternal_obj['range']):
-            value_diff = mobile_obj['range'] - noxternal_obj['range']
-            tmp_points = 5.0 - ((value_diff / limit) * 0.1)
-            tmp_rating = Rating(_)
-            tmp_rating.set_overall(
-                tmp_points, '- [mobile] {0} could be ±{1:.2f}ms less "vobbly" by removing external resources'.format(key, value_diff))
-            rating += tmp_rating
-            key_matching = True
-
-        if not key_matching:
-            external_to_remove.append(key)
-
-    for key in external_to_remove:
-        del result_dict[key]
-
-    rating += rate_result_dict(result_dict,
-                               'mobile no third parties', _, _local)
-
-    if mobile_rating.get_overall() < rating.get_overall():
-        points = 5.0 - (rating.get_overall() - mobile_rating.get_overall())
-        tmp_rating = Rating(_)
-        tmp_rating.set_overall(
-            points, '- [mobile] Performance rating could be improved by removing some/all external resources')
-        rating += tmp_rating
-
-    return (rating, result_dict)
+    return result_dict
 
 
-def validate_on_mobile_no_javascript(url, _, _local, mobile_rating, mobile_result_dict):
-    rating = Rating(_)
+def validate_on_mobile_no_javascript(url):
     arg = '--shm-size=1g -b chrome --block .js --mobile true --connectivity.profile 3gfast --visualMetrics true --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors --browsertime.chrome.args disable-javascript -n {0} {1}'.format(
         config.sitespeed_iterations, url)
     if 'nt' in os.name:
@@ -176,125 +151,153 @@ def validate_on_mobile_no_javascript(url, _, _local, mobile_rating, mobile_resul
     result_dict = get_result_dict(get_result(
         sitespeed_use_docker, arg), 'mobile no js')
 
-    limit = 250
-    nojs_to_remove = list()
-    for pair in mobile_result_dict.items():
-        key = pair[0]
-        mobile_obj = pair[1]
-        key_matching = False
-
-        if key not in result_dict:
-            continue
-
-        nojs_obj = result_dict[key]
-
-        if 'median' not in mobile_obj:
-            continue
-        if 'median' not in nojs_obj:
-            continue
-
-        if mobile_obj['median'] > (limit + nojs_obj['median']):
-            value_diff = mobile_obj['median'] - nojs_obj['median']
-            tmp_points = 5.0 - ((value_diff / limit) * 0.1)
-            tmp_rating = Rating(_)
-            tmp_rating.set_overall(
-                tmp_points, '- [mobile] {0} could be improved by {1:.2f}ms by removing javascript files'.format(key, value_diff))
-            rating += tmp_rating
-            key_matching = True
-
-        if 'range' not in mobile_obj:
-            continue
-        if 'range' not in nojs_obj:
-            continue
-
-        if mobile_obj['range'] > (limit + nojs_obj['range']):
-            value_diff = mobile_obj['range'] - nojs_obj['range']
-            tmp_points = 5.0 - ((value_diff / limit) * 0.1)
-            tmp_rating = Rating(_)
-            tmp_rating.set_overall(
-                tmp_points, '- [mobile] {0} could be ±{1:.2f}ms less "vobbly" by removing javascript files'.format(key, value_diff))
-            rating += tmp_rating
-            key_matching = True
-
-        if not key_matching:
-            nojs_to_remove.append(key)
-
-    for key in nojs_to_remove:
-        del result_dict[key]
-
-    rating += rate_result_dict(result_dict, 'mobile no js', _, _local)
-
-    if mobile_rating.get_overall() < rating.get_overall():
-        points = 5.0 - (rating.get_overall() - mobile_rating.get_overall())
-        tmp_rating = Rating(_)
-        tmp_rating.set_overall(
-            points, '- [mobile] Performance rating could be improved by removing some/all javascript files')
-        rating += tmp_rating
-
-    return (rating, result_dict)
+    return result_dict
 
 
-def validate_on_desktop(url, _, _local):
+def validate_on_desktop(url):
     arg = '--shm-size=1g -b chrome --connectivity.profile native --visualMetrics true --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
         config.sitespeed_iterations, url)
     if 'nt' in os.name:
         arg = '--shm-size=1g -b chrome --connectivity.profile native --visualMetrics true --plugins.remove screenshot --speedIndex true --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
             config.sitespeed_iterations, url)
 
-    result = get_result_dict(get_result(sitespeed_use_docker, arg), 'desktop')
-    rating = rate_result_dict(result, 'desktop', _, _local)
+    result_dict = get_result_dict(get_result(
+        sitespeed_use_docker, arg), 'desktop')
 
-    return (rating, result)
+    return result_dict
 
 
-def validate_on_mobile(url, _, _local):
+def validate_on_mobile(url):
     arg = '--shm-size=1g -b chrome --mobile true --connectivity.profile 3gfast --visualMetrics true --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
         config.sitespeed_iterations, url)
     if 'nt' in os.name:
         arg = '--shm-size=1g -b chrome --mobile true --connectivity.profile 3gfast --visualMetrics true --plugins.remove screenshot --speedIndex true --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
             config.sitespeed_iterations, url)
 
-    result = get_result_dict(get_result(sitespeed_use_docker, arg), 'mobile')
-    rating = rate_result_dict(result, 'mobile', _, _local)
+    result_dict = get_result_dict(get_result(
+        sitespeed_use_docker, arg), 'mobile')
 
-    return (rating, result)
+    return result_dict
 
 
-def rate_result_dict(result_dict, mode, _, _local):
-    points = int(result_dict['Points'])
-
-    review = ''
-
-    review_overall = ''
-    if mode == 'desktop' or mode == 'mobile':
-        if points >= 5.0:
-            review_overall = _local('TEXT_REVIEW_VERY_GOOD')
-        elif points >= 4.0:
-            review_overall = _local('TEXT_REVIEW_IS_GOOD')
-        elif points >= 3.0:
-            review_overall = _local('TEXT_REVIEW_IS_OK')
-        elif points > 1.0:
-            review_overall = _local('TEXT_REVIEW_IS_BAD')
-        elif points <= 1.0:
-            review_overall = _local('TEXT_REVIEW_IS_VERY_BAD')
-
-    del result_dict['Points']
+def rate_result_dict(result_dict, reference_result_dict, mode, _, _local):
+    limit = 500
 
     rating = Rating(_)
-    rating.set_overall(points, review_overall.replace(
-        '- ', '- [{0}] '.format(mode)))
-    rating.set_performance(points, review)
+    performance_review = ''
+    overview_review = ''
 
-    review = rating.performance_review
+    if reference_result_dict != None:
+        external_to_remove = list()
+        for pair in reference_result_dict.items():
+            key = pair[0]
+            mobile_obj = pair[1]
+            key_matching = False
+
+            if key not in result_dict:
+                continue
+
+            noxternal_obj = result_dict[key]
+
+            if 'median' not in mobile_obj:
+                continue
+            if 'median' not in noxternal_obj:
+                continue
+
+            value_diff = 0
+            if mobile_obj['median'] > (limit + noxternal_obj['median']):
+                value_diff = mobile_obj['median'] - noxternal_obj['median']
+                # tmp_points = 5.0 - ((value_diff / limit) * 0.5)
+
+                # tmp_rating = Rating(_)
+                txt = ''
+                if 'mobile no third parties' in mode:
+                    txt = '- [mobile] Advice: {0} may improve by {1:.2f}ms by removing external resources\r\n'.format(
+                        key, value_diff)
+                elif 'mobile no js' in mode:
+                    txt = '- [mobile] Advice: {0} may improve by {1:.2f}ms by removing javascript resources\r\n'.format(
+                        key, value_diff)
+
+                overview_review += txt
+                # tmp_rating.set_overall(
+                #     tmp_points, txt)
+                # rating += tmp_rating
+                key_matching = True
+
+            if 'range' not in mobile_obj:
+                continue
+            if 'range' not in noxternal_obj:
+                continue
+
+            value_diff = 0
+            if mobile_obj['range'] > (limit + noxternal_obj['range']):
+                value_diff = mobile_obj['range'] - noxternal_obj['range']
+                # tmp_points = 5.0 - ((value_diff / limit) * 0.5)
+                # tmp_rating = Rating(_)
+                txt = ''
+                if 'mobile no third parties' in mode:
+                    txt = '- [mobile] Advice: {0} could be ±{1:.2f}ms less "bumpy" by removing external resources\r\n'.format(
+                        key, value_diff)
+                elif 'mobile no js' in mode:
+                    txt = '- [mobile] Advice: {0} could be ±{1:.2f}ms less "bumpy" by removing javascript resources\r\n'.format(
+                        key, value_diff)
+
+                overview_review += txt
+                # tmp_rating.set_overall(
+                #     tmp_points, txt)
+                # rating += tmp_rating
+                key_matching = True
+
+            if not key_matching:
+                external_to_remove.append(key)
+
+        for key in external_to_remove:
+            del result_dict[key]
+
+    # points = float(result_dict['Points'])
+
+    # review_overall = ''
+    # if True or mode == 'desktop' or mode == 'mobile':
+    #     if points >= 5.0:
+    #         review_overall = _local('TEXT_REVIEW_VERY_GOOD')
+    #     elif points >= 4.0:
+    #         review_overall = _local('TEXT_REVIEW_IS_GOOD')
+    #     elif points >= 3.0:
+    #         review_overall = _local('TEXT_REVIEW_IS_OK')
+    #     elif points > 1.0:
+    #         review_overall = _local('TEXT_REVIEW_IS_BAD')
+    #     elif points <= 1.0:
+    #         review_overall = _local('TEXT_REVIEW_IS_VERY_BAD')
+
+    if 'Points' in result_dict:
+        del result_dict['Points']
+
+    # summary_rating = Rating(_)
+    # summary_rating.set_overall(points, review_overall.replace(
+    #     '- ', '- [{0}] '.format(mode)))
+    # summary_rating.set_performance(points, review)
+
+    # review = summary_rating.performance_review
     for pair in result_dict.items():
         value = pair[1]
-        if 'msg' in value:
-            review += value['msg']
+        if 'msg' not in value:
+            continue
+        if 'points' in value and value['points'] != -1:
+            points = value['points']
+            entry_rating = Rating(_)
+            entry_rating.set_overall(points)
+            entry_rating.set_performance(
+                points, value['msg'])
+            rating += entry_rating
+        else:
+            performance_review += '{0}\r\n'.format(value['msg'])
 
     # review += _local("TEXT_REVIEW_NUMBER_OF_REQUESTS").format(
     #     result_dict['Requests'])
 
-    rating.performance_review = review
+    rating.overall_review = rating.overall_review + overview_review
+    rating.performance_review = rating.performance_review + performance_review
+    # rating += summary_rating
     return rating
 
 
@@ -319,6 +322,7 @@ def get_result_dict(data, mode):
         total = 0
         value_range = 0
         result = 0
+        median = 0
         for value in values:
             number = 0
             if 'ms' in value:
@@ -344,7 +348,8 @@ def get_result_dict(data, mode):
             'range': value_range,
             'mode': mode,
             'points': -1,
-            'msg': '- [{2}] {3}: {0:.2f}ms (±{1:.2f}ms)\r\n'.format(result, value_range, mode, key)
+            'msg': '- [{2}] {3}: {0:.2f}ms, ±{1:.2f}ms'.format(result, value_range, mode, key),
+            'values': values
         }
 
         if 'SpeedIndex' in key:
@@ -354,14 +359,18 @@ def get_result_dict(data, mode):
             if 'mobile' in mode:
                 adjustment = 1500
 
+            limit = 500
             # give 0.5 seconds in credit
             speedindex_adjusted = result - adjustment
             if speedindex_adjusted <= 0:
                 # speed index is 500 or below, give highest score
                 points = 5.0
             else:
-                points = 5.0 - (speedindex_adjusted / 1000)
+                points = 5.0 - ((speedindex_adjusted / limit) * 0.5)
+                # points = 5.0 - (speedindex_adjusted / 1000)
 
-            result_dict['Points'] = points
+            # result_dict['Points'] = points
+            tmp['points'] = points
+
         result_dict[key] = tmp
     return result_dict

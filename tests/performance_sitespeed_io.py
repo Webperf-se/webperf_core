@@ -89,27 +89,30 @@ def run_test(_, langCode, url):
     nojs_rating = rate_result_dict(nojs_result_dict, mobile_result_dict,
                                    'mobile no js', _, _local)
 
-    if mobile_rating.get_overall() < no_external_rating.get_overall():
+    mobile_rating_overall = mobile_rating.get_overall()
+    no_external_rating_overall = no_external_rating.get_overall()
+    if mobile_rating_overall < no_external_rating_overall and mobile_rating_overall != -1 and no_external_rating_overall != -1:
         # points = 5.0 - (no_external_rating.get_overall() -
         #                 mobile_rating.get_overall())
         # tmp_rating = Rating(_)
         # tmp_rating.set_overall(
         #     points, '- [mobile] Advice: Rating mey improve from {0} to {1} by removing some/all external resources'.format(mobile_rating.get_overall(), no_external_rating.get_overall()) )
         # rating += tmp_rating
-        rating.overall_review += '- [mobile] Advice: Rating may improve from {0} to {1} by removing some/all external resources'.format(
-            mobile_rating.get_overall(), no_external_rating.get_overall())
+        rating.overall_review += '- [mobile] Advice: Rating may improve from {0} to {1} by removing some/all external resources\r\n'.format(
+            mobile_rating_overall, no_external_rating_overall)
     rating += no_external_rating
     result_dict.update(no_external_result_dict)
 
-    if mobile_rating.get_overall() < nojs_rating.get_overall():
+    nojs_rating_overall = nojs_rating.get_overall()
+    if mobile_rating_overall < nojs_rating_overall and mobile_rating_overall != -1 and nojs_rating_overall != -1:
         # points = 5.0 - (nojs_rating.get_overall() -
         #                 mobile_rating.get_overall())
         # tmp_rating = Rating(_)
         # tmp_rating.set_overall(
         #     points, '- [mobile] Advice: Performance rating could be improved by removing some/all javascript files')
         # rating += tmp_rating
-        rating.overall_review += '- [mobile] Advice: Rating may improve from {0} to {1} by removing some/all javascript resources'.format(
-            mobile_rating.get_overall(), no_external_rating.get_overall())
+        rating.overall_review += '- [mobile] Advice: Rating may improve from {0} to {1} by removing some/all javascript resources\r\n'.format(
+            mobile_rating_overall, nojs_rating_overall)
 
     rating += nojs_rating
     result_dict.update(nojs_result_dict)
@@ -311,6 +314,7 @@ def get_result_dict(data, mode):
         name = match.group('name')
         value = match.group('value')
         # print('PAIR: ', name, value, '± 10')
+
         if name not in tmp_dict:
             tmp_dict[name] = list()
         tmp_dict[name].append(value)
@@ -343,18 +347,73 @@ def get_result_dict(data, mode):
             value_range = biggest - median
             result = median
 
-        tmp = {
-            'median': median,
-            'range': value_range,
-            'mode': mode,
-            'points': -1,
-            'msg': '- [{2}] {3}: {0:.2f}ms, ±{1:.2f}ms'.format(result, value_range, mode, key),
-            'values': values
-        }
+        fullname = key
+        points = -1
+        if 'TTFB' in key:
+            # https://web.dev/ttfb/
+            fullname = 'TTFB (Time to First Byte)'
+            if 'desktop' in mode:
+                if median <= 250:
+                    points = 5.0
+                elif median <= 450:
+                    points = 3.0
+                else:
+                    points = 1.0
+            elif 'mobile' in mode:
+                if median <= 800:
+                    points = 5.0
+                elif median <= 1800:
+                    points = 3.0
+                else:
+                    points = 1.0
+        elif 'TBT' in key:
+            # https://web.dev/tbt/
+            # https://developer.chrome.com/docs/lighthouse/performance/lighthouse-total-blocking-time/#how-lighthouse-determines-your-tbt-score
+            fullname = 'TBT (Total Blocking Time)'
+            if median <= 200:
+                points = 5.0
+            elif median <= 600:
+                points = 3.0
+            else:
+                points = 1.0
+        elif 'FCP' in key:
+            # https://web.dev/fcp/
+            fullname = 'FCP (First Contentful Paint)'
+            if median <= 1800:
+                points = 5.0
+            elif median <= 3000:
+                points = 3.0
+            else:
+                points = 1.0
+        elif 'LCP' in key:
+            # https://web.dev/lcp/
+            fullname = 'LCP (Largest Contentful Paint)'
+            if 'desktop' in mode:
+                if median <= 500:
+                    points = 5.0
+                elif median <= 1000:
+                    points = 3.0
+                else:
+                    points = 1.0
+            elif 'mobile' in mode:
+                if median <= 1500:
+                    points = 5.0
+                elif median <= 2500:
+                    points = 3.0
+                else:
+                    points = 1.0
+        elif 'CLS' in key:
+            # https://web.dev/cls/
+            fullname = 'CLS (Cumulative Layout Shift)'
+            if median <= 0.1:
+                points = 5.0
+            elif median <= 0.25:
+                points = 3.0
+            else:
+                points = 1.0
 
-        if 'SpeedIndex' in key:
-            points = 5.0
-
+        elif 'SpeedIndex' in key or 'FirstVisualChange' in key or 'VisualComplete85' in key or 'Load' in key:
+            # https://docs.webpagetest.org/metrics/speedindex/
             adjustment = 500
             if 'mobile' in mode:
                 adjustment = 1500
@@ -366,11 +425,19 @@ def get_result_dict(data, mode):
                 # speed index is 500 or below, give highest score
                 points = 5.0
             else:
-                points = 5.0 - ((speedindex_adjusted / limit) * 0.5)
+                points = 5.0 - ((speedindex_adjusted / limit) * 1.0)
                 # points = 5.0 - (speedindex_adjusted / 1000)
 
             # result_dict['Points'] = points
-            tmp['points'] = points
+
+        tmp = {
+            'median': median,
+            'range': value_range,
+            'mode': mode,
+            'points': points,
+            'msg': '- [{2}] {3}: {0:.2f}ms, ±{1:.2f}ms'.format(result, value_range, mode, fullname),
+            'values': values
+        }
 
         result_dict[key] = tmp
     return result_dict

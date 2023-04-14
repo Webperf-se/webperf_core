@@ -16,10 +16,10 @@ msgstr ""
 
 
 msgid "TEXT_WEBSITE_URL_ADDED"
-msgstr "Webbplats med adress: {0} har blivit tillagd\n"
+msgstr "Webbplats med adress: {0} har lats till\n"
 
 msgid "TEXT_WEBSITE_URL_DELETED"
-msgstr "Webbplats med adress: {0} har blivit borttagen\n"
+msgstr "Webbplats med adress: {0} har tagits bort\n"
 
 msgid "TEXT_TEST_START_HEADER"
 msgstr "###############################################"
@@ -79,28 +79,28 @@ msgid "TEXT_TEST_VALID_ARGUMENTS_PAGE_NOT_FOUND"
 msgstr "-t 2\t: 404 (sida finns inte)"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_HTML"
-msgstr "-t 6\t: HTML validering"
+msgstr "-t 6\t: HTML-validering"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_CSS"
-msgstr "-t 7\t: CSS validering"
+msgstr "-t 7\t: CSS-validering"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_SITESPEED"
 msgstr "-t 15\t: Prestanda (Sitespeed.io)"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_WEBBKOLL"
-msgstr "-t 20\t: Integritet & Säkerhet (Webbkoll)"
+msgstr "-t 20\t: Integritet & säkerhet (Webbkoll)"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_STANDARD_FILES"
 msgstr "-t 9\t: Standardfiler"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_HTTP"
-msgstr "-t 21\t: HTTP & Nätverk"
+msgstr "-t 21\t: HTTP & nätverk"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_ENERGY_EFFICIENCY"
-msgstr "-t 22\t: Energieffektivitet (Website Carbon Calculator)"
+msgstr "-t 22\t: Energieffektivitet"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_TRACKING"
-msgstr "-t 23\t: Spårning och Integritet (Beta)"
+msgstr "-t 23\t: Spårning och integritet (Beta)"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_EMAIL"
 msgstr "-t 24\t: E-post (Beta)"
@@ -118,13 +118,13 @@ msgid "TEXT_TEST_REVIEW_OVERVIEW"
 msgstr "\r\n#### Övergripande:\r\n{0}"
 
 msgid "TEXT_TEST_REVIEW_INTEGRITY_SECURITY"
-msgstr "#### Integritet & Säkerhet:\r\n{0}"
+msgstr "#### Integritet & säkerhet:\r\n{0}"
 
 msgid "TEXT_TEST_REVIEW_PERFORMANCE"
 msgstr "#### Prestanda:\r\n{0}"
 
 msgid "TEXT_TEST_REVIEW_ALLY"
-msgstr "#### A11y:\r\n{0}"
+msgstr "#### Tillgänglighet:\r\n{0}"
 
 msgid "TEXT_TEST_REVIEW_STANDARDS"
 msgstr "#### Standarder:\r\n{0}"
@@ -136,13 +136,13 @@ msgid "TEXT_TEST_RATING_OVERVIEW"
 msgstr "\r\n- Övergripande: {0}\r\n"
 
 msgid "TEXT_TEST_RATING_INTEGRITY_SECURITY"
-msgstr "- Integritet & Säkerhet: {0}\r\n"
+msgstr "- Integritet & säkerhet: {0}\r\n"
 
 msgid "TEXT_TEST_RATING_PERFORMANCE"
 msgstr "- Prestanda: {0}\r\n"
 
 msgid "TEXT_TEST_RATING_ALLY"
-msgstr "- A11y: {0}\r\n"
+msgstr "- Tillgänglighet: {0}\r\n"
 
 msgid "TEXT_TEST_RATING_STANDARDS"
 msgstr "- Standarder: {0}\r\n"

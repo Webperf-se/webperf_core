@@ -19,61 +19,61 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 24 - E-post (Beta)\n"
 
 msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_SUPPORT"
-msgstr "MTA-STS DNS record found"
+msgstr "MTA-STS DNS-post hittades"
 
 msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_NO_SUPPORT"
-msgstr "MTA-STS DNS record not found"
+msgstr "MTA-STS DNS-post hittades inte"
 
 msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_WRONG_LINEBREAK"
-msgstr "MTA-STS TXT doesn't use CRLF for linebreak"
+msgstr "MTA-STS TXT använder inte CRLF för radbryt"
 
 msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_NOT_ENFORCED"
-msgstr "MTA-STS TXT is not enforced using mode"
+msgstr "MTA-STS TXT är inte i ett tvingande läge"
 
 msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_VALID_MODE"
-msgstr "MTA-STS TXT mode value is valid"
+msgstr "MTA-STS TXT mode-värdet är korrekt"
 
 msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_INVALID_MODE"
-msgstr "MTA-STS TXT mode value is invalid"
+msgstr "MTA-STS TXT mode-värdet är felaktigt"
 
 msgid "TEXT_REVIEW_MTA_STS_TXT_SUPPORT"
-msgstr "MTA-STS TXT looks good"
+msgstr "MTA-STS TXT ser bra ut"
 
 msgid "TEXT_REVIEW_MTA_STS_TXT_INVALID_FORMAT"
-msgstr "MTA-STS TXT has invalid format"
+msgstr "MTA-STS TXT har ett felaktigt format"
 
 msgid "TEXT_REVIEW_MTA_STS_TXT_NO_SUPPORT"
-msgstr "MTA-STS TXT not found"
+msgstr "MTA-STS TXT hittades inte"
 
 msgid "TEXT_REVIEW_SPF_TO_MANY_DNS_LOOKUPS"
-msgstr "SPF DNS record causes to many DNS lookups"
+msgstr "SPF DNS-post orsakar för många DNS-uppslag"
 
 msgid "TEXT_REVIEW_SPF_DNS_RECORD_SUPPORT"
-msgstr "SPF DNS record found"
+msgstr "SPF DNS-post hittades"
 
 msgid "TEXT_REVIEW_SPF_DNS_RECORD_NO_SUPPORT"
-msgstr "SPF DNS record not found"
+msgstr "SPF DNS-post hittades inte"
 
 msgid "TEXT_REVIEW_SPF_DNS_DOUBLE_SPACE_RECORD"
-msgstr "SPF DNS record use two spaces instead of one"
+msgstr "SPF DNS-post använder två mellanslag istället för ett"
 
 msgid "TEXT_REVIEW_SPF_DNS_NEUTRALFAIL_RECORD"
-msgstr "SPF DNS record uses neutral fail"
+msgstr "SPF DNS-post använder neutralt misslyckande"
 
 msgid "TEXT_REVIEW_SPF_DNS_SOFTFAIL_RECORD"
-msgstr "SPF DNS record uses soft fail"
+msgstr "SPF DNS-post använder mjukt misslyckande"
 
 msgid "TEXT_REVIEW_SPF_DNS_HARDFAIL_RECORD"
-msgstr "SPF DNS record uses hard fail"
+msgstr "SPF DNS-post använder hårt misslyckande"
 
 msgid "TEXT_REVIEW_SPF_DNS_IGNORE_RECORD_NO_SUPPORT"
-msgstr "SPF DNS record is configured to be ignored"
+msgstr "SPF DNS-post är konfigurerad att bli ignorerad"
 
 msgid "TEXT_REVIEW_SPF_DNS_RECORD_PTR_USED"
-msgstr "SPF DNS record is wrongly using PTR"
+msgstr "SPF DNS-post använder felaktigt PTR"
 
 msgid "TEXT_REVIEW_SPF_UNKNOWN_SECTION"
-msgstr "SPF DNS record has unallowed content"
+msgstr "SPF DNS-post har otillåtet innehåll"
 
 msgid "TEXT_REVIEW_IPV6_OPERATION_SUPPORT"
 msgstr "IPV6_OPERATION_SUPPORT"
@@ -100,43 +100,43 @@ msgid "TEXT_REVIEW_IPV4_OPERATION_STARTTLS_NO_SUPPORT"
 msgstr "IPV4_OPERATION_STARTTLS_NO_SUPPORT"
 
 msgid "TEXT_REVIEW_MX_NO_SUPPORT"
-msgstr "MX DNS record not found"
+msgstr "MX DNS-post hittades inte"
 
 msgid "TEXT_REVIEW_MX_ALTERATIVE"
 msgstr "Använder alternativ e-postdomän: {0}\r\n{1}"
 
 msgid "TEXT_REVIEW_IPV4_REDUNDANCE"
-msgstr "MX DNS IPv4 record redundance"
+msgstr "MX DNS IPv4-post är överflödig"
 
 msgid "TEXT_REVIEW_IPV4_SUPPORT"
-msgstr "MX DNS IPv4 record found"
+msgstr "MX DNS IPv4-post hittades"
 
 msgid "TEXT_REVIEW_IPV4_NO_REDUNDANCE"
-msgstr "MX DNS IPv4 record has no redundance"
+msgstr "MX DNS IPv4-post saknar redundans"
 
 msgid "TEXT_REVIEW_IPV4_NO_SUPPORT"
-msgstr "MX DNS IPv4 record not found"
+msgstr "MX DNS IPv4-post hittades inte"
 
 msgid "TEXT_REVIEW_IPV6_REDUNDANCE"
-msgstr "MX DNS IPv6 record redundance"
+msgstr "MX DNS IPv6-post har redundans"
 
 msgid "TEXT_REVIEW_IPV6_SUPPORT"
-msgstr "MX DNS IPv6 record found"
+msgstr "MX DNS IPv6-post hittades"
 
 msgid "TEXT_REVIEW_IPV6_NO_REDUNDANCE"
-msgstr "MX DNS IPv6 record has no redundance"
+msgstr "MX DNS IPv6-post saknar redundans"
 
 msgid "TEXT_REVIEW_IPV6_NO_SUPPORT"
-msgstr "MX DNS IPv6 record not found"
+msgstr "MX DNS IPv6-post hittades inte"
 
 msgid "TEXT_REVIEW_MX_GDPR"
-msgstr "MX DNS Servers in GDPR compliant countries: {0}"
+msgstr "MX DNS-servrar i GDPR-säkert land: {0}"
 
 msgid "TEXT_REVIEW_MX_NONE_GDPR"
-msgstr "MX DNS Serverar i länder utan adekvat nivå av dataskydd: {0}"
+msgstr "MX DNS-servrar i länder utan adekvat nivå av dataskydd: {0}"
 
 msgid "TEXT_REVIEW_SPF_GDPR"
-msgstr "SPF serverar i länder med adekvat nivå av dataskydd: {0}"
+msgstr "SPF-servrar i länder med adekvat nivå av dataskydd: {0}"
 
 msgid "TEXT_REVIEW_SPF_NONE_GDPR"
-msgstr "SPF serverar i länder utan adekvat nivå av dataskydd: {0}"
+msgstr "SPF-servrar i länder utan adekvat nivå av dataskydd: {0}"

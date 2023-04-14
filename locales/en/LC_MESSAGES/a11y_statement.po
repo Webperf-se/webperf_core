@@ -21,79 +21,80 @@ msgid "TEXT_REVIEW_ACCESSIBILITY_STATEMENT_URL"
 msgstr "- Accessibility statement: {0}\n{1}"
 
 msgid "TEXT_REVIEW_CALLED_URL"
-msgstr "- Tested webbsite: {0}\n{1}"
+msgstr "- Tested website: {0}\n{1}"
 
 msgid "TEXT_REVIEW_NO_ACCESSIBILITY_STATEMENT"
 msgstr "- No accessibility statement found"
 
 msgid "TEXT_REVIEW_NO_UPDATE_DATE"
-msgstr "- Unable to find when accessibility statement was updated"
+msgstr "- Unable to find when the accessibility statement was updated"
 
 msgid "TEXT_REVIEW_IN_1YEAR_UPDATE_DATE"
-msgstr "- Accessibility statement seems to have been updated within a year"
+msgstr "- Accessibility statement seems to have been updated the past 12 months"
 
 msgid "TEXT_REVIEW_OLDER_THAN_1YEAR_UPDATE_DATE"
-msgstr "- Accessibility statement seems to be older then 1 year"
+msgstr "- Accessibility statement seems to be older than 1 year"
 
 msgid "TEXT_REVIEW_OLDER_THAN_2YEAR_UPDATE_DATE"
-msgstr "- Accessibility statement seems to be older then 2 year"
+msgstr "- Accessibility statement seems to be older than 2 years"
 
 msgid "TEXT_REVIEW_OLDER_THAN_3YEAR_UPDATE_DATE"
-msgstr "-Accessibility statement seems to be older then 3 year"
+msgstr "-Accessibility statement seems to be older than 3 years"
 
 msgid "TEXT_REVIEW_OLDER_THAN_4YEAR_UPDATE_DATE"
-msgstr "- Accessibility statement seems to be older then 4 year"
+msgstr "- Accessibility statement seems to be older than 4 years"
 
 msgid "TEXT_REVIEW_OLDER_THAN_5YEAR_UPDATE_DATE"
-msgstr "- Accessibility statement seems to be older then 5 year"
+msgstr "- Accessibility statement seems to be older than 5 years"
 
 msgid "TEXT_REVIEW_LINK_STARTPAGE"
-msgstr "- Link to accessibility statement was found on the startpage"
+msgstr "- Link to the accessibility statement was found on the startpage"
 
 msgid "TEXT_REVIEW_LINK_OTHER"
-msgstr "- Link to accessibility statement was found on deeper link level then it should"
+msgstr "- Link to the accessibility statement was found on a deeper link level than it should"
 
 msgid "TEXT_REVIEW_EVALUATION_METHOD_FOUND"
-msgstr "- Looks like it is specifying a evaluation method"
+msgstr "- Looks like it is specifying an audit method"
 
 msgid "TEXT_REVIEW_EVALUATION_METHOD_NOT_FOUND"
-msgstr "- Unable to find evaluation method used"
+msgstr "- Unable to find which audit method used"
 
 msgid "TEXT_REVIEW_ADAPTATION_FOUND"
-msgstr "- Indicates unreasonably burdensome accommodation (12 §)"
+msgstr "- Claims resolution to be unreasonably burdensome (12 §)"
 
 msgid "TEXT_REVIEW_ADAPTATION_NOT_FOUND"
-msgstr "- No unreasonably burdensome accommodation specified (12 §)"
+msgstr "- No unreasonably burdensome claims (12 §)"
 
 msgid "TEXT_REVIEW_NOTIFICATION_FUNCTION_URL_FOUND"
 msgstr "- Correct link to DIGG's notification function"
 
 msgid "TEXT_REVIEW_NOTIFICATION_FUNCTION_CANONICAL_URL_FOUND"
-msgstr "- Correct link (canonical) to DIGG's notification function"
+msgstr "- Correct link (canonical) to DIGG's report function"
 
 msgid "TEXT_REVIEW_NOTIFICATION_FUNCTION_OLD_URL_FOUND"
-msgstr "- Uses old or incorrect link to DIGG's notification function"
+msgstr "- Uses old or incorrect link to DIGG's report function"
 
 msgid "TEXT_REVIEW_NOTIFICATION_FUNCTION_URL_NOT_FOUND"
-msgstr "- Missing or has an incorrect link to DIGG's notification function"
+msgstr "- Missing or has an incorrect link to DIGG's report function"
 
 msgid "TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_NOT_COMPATIBLE"
-msgstr "- Has compliance with the legal requirements with the wording not compatible"
+msgstr "- Has compliance with the legal requirements since they acknowledge the website is not compliant"
 
 msgid "TEXT_REVIEW_COMPATIBLE_TEXT_A11Y_NOT_COMPATIBLE"
 msgstr "- Self-indicates that website is not compliant with legal requirements"
 
 msgid "TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_PARTLY_COMPATIBLE"
-msgstr "- Has compliance with the legal requirements with the wording partially compliant"
+msgstr "- Has compliance with the legal requirements with the wording &quot;partially compliant&quot;"
 
 msgid "TEXT_REVIEW_COMPATIBLE_TEXT_A11Y_PARTLY_COMPATIBLE"
 msgstr "- Self-indicates that the website is only partially compliant with the legal requirements"
 
 msgid "TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_FULL_COMPATIBLE"
-msgstr "- Has compliance with the legal requirements with the wording fully compatible"
+msgstr "- Has compliance with the legal requirements with the wording &quot;fully compatible&quot;"
 
 msgid "TEXT_REVIEW_COMPATIBLE_TEXT_A11Y_FULL_COMPATIBLE"
 msgstr "- Self-indicates that the website is fully compliant with the legal requirements"
 
 msgid "TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_NOT_FOUND"
-msgstr "- Lacks compliance with the legal requirements with the wording"
+msgstr "- Lacks any specific statement on the legal compliancy"
+

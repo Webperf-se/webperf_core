@@ -91,7 +91,7 @@ msgid "TEXT_REVIEW_IP_VERSION_IPV4_NO_SUPPORT"
 msgstr "- Inget IPv4 stöd"
 
 msgid "TEXT_REVIEW_IP_VERSION_UNABLE_TO_VERIFY"
-msgstr "- Kunde ej få tag på IP versions information"
+msgstr "- Kunde ej få tag på information om IP-versioner"
 
 msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_SUPPORT"
 msgstr "- HTTPv1.1 stöd"
@@ -112,19 +112,19 @@ msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_3_NO_SUPPORT"
 msgstr "- Inget HTTPv3 stöd"
 
 msgid "TEXT_REVIEW_HTTP_VERSION_QUIC_SUPPORT"
-msgstr "- QUIC stöd"
+msgstr "- QUIC-stöd"
 
 msgid "TEXT_REVIEW_HTTP_VERSION_QUIC_NO_SUPPORT"
-msgstr "- Inget QUIC stöd"
+msgstr "- Inget QUIC-stöd"
 
 msgid "TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_UNABLE_TO_VERIFY"
-msgstr "- Kunde ej verifiera HTTP till HTTPS omdirigering"
+msgstr "- Kunde ej verifiera omdirigering från HTTP till HTTPS"
 
 msgid "TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_NO_REDIRECT"
-msgstr "- Ingen HTTP till HTTPS omdirigering"
+msgstr "- Ingen HTTP- till HTTPS-omdirigering"
 
 msgid "TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_REDIRECTED"
-msgstr "- Har HTTP till HTTPS omdirigering"
+msgstr "- Har HTTP- till HTTPS-omdirigering"
 
 msgid "TEXT_REVIEW_NO_REMARKS"
 msgstr "- Ingen anmärkning"

@@ -25,7 +25,7 @@ msgid "TEXT_USED_CMS"
 msgstr "- Innehållshanteringssystem: {0}"
 
 msgid "TEXT_USED_WEBSERVER"
-msgstr "- Webserver: {0}"
+msgstr "- Webbserver: {0}"
 
 msgid "TEXT_USED_OS"
 msgstr "- Operativsystem: {0}"
@@ -37,10 +37,10 @@ msgid "TEXT_USED_TECH"
 msgstr "- Teknik: {0}"
 
 msgid "TEXT_USED_JS"
-msgstr "- JS ramverk/bibliotek: {0}"
+msgstr "- JS-ramverk/bibliotek: {0}"
 
 msgid "TEXT_USED_CSS"
-msgstr "- CSS ramverk/bibliotek: {0}"
+msgstr "- CSS-ramverk/bibliotek: {0}"
 
 msgid "TEXT_USED_LANG"
 msgstr "- Språk: {0}"
@@ -52,10 +52,10 @@ msgid "TEXT_USED_IMG.SOFTWARE"
 msgstr "- Bildmjukvara: {0}"
 
 msgid "TEXT_USED_IMG.OS"
-msgstr "- Bild operativsystem: {0}"
+msgstr "- Bild&shy;operativsystem: {0}"
 
 msgid "TEXT_USED_IMG.DEVICE"
-msgstr "- Bild hårdvara {0}"
+msgstr "- Bild&shy;hårdvara {0}"
 
 msgid "TEXT_USED_VIDEO"
 msgstr "- Videoformat: {0}"

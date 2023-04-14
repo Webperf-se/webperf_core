@@ -25,10 +25,10 @@ msgid "TEXT_USED_CMS"
 msgstr "- CMS used: {0}"
 
 msgid "TEXT_USED_WEBSERVER"
-msgstr "- WebServer used: {0}"
+msgstr "- Web server used: {0}"
 
 msgid "TEXT_USED_OS"
-msgstr "- Operating System used: {0}"
+msgstr "- Operating system used: {0}"
 
 msgid "TEXT_USED_ANALYTICS"
 msgstr "- Analytics used: {0}"
@@ -37,10 +37,10 @@ msgid "TEXT_USED_TECH"
 msgstr "- Technology used: {0}"
 
 msgid "TEXT_USED_JS"
-msgstr "- JS Libraries used: {0}"
+msgstr "- Javascript libraries used: {0}"
 
 msgid "TEXT_USED_CSS"
-msgstr "- CSS Libraries used: {0}"
+msgstr "- CSS libraries used: {0}"
 
 msgid "TEXT_USED_LANG"
 msgstr "- Languages found: {0}"

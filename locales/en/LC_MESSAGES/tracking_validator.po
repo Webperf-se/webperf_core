@@ -37,7 +37,7 @@ msgid "TEXT_TRACKING_FOUND"
 msgstr "  - {0} - Tracking found"
 
 msgid "TEXT_TRACKING_MAX_SHOWED"
-msgstr "  - More then {0} requests found, filtering out the rest"
+msgstr "  - More than {0} requests found, filtering out the rest"
 
 msgid "TEXT_TRACKING_TOTAL_FOUND"
 msgstr "  - A total of {0} tracking requests found.\n"
@@ -46,13 +46,13 @@ msgid "TEXT_TRACKING_REFERENCE"
 msgstr "{0} - Has references to {1}"
 
 msgid "TEXT_FINGERPRINTING"
-msgstr "- Fingerprinting/Identifying technique"
+msgstr "- Fingerprinting/identifying technology"
 
 msgid "TEXT_FINGERPRINTING_FOUND"
-msgstr "  - {0} - Fingerprinting/Identifying found.\n"
+msgstr "  - {0} - Fingerprinting/identifying found.\n"
 
 msgid "TEXT_FINGERPRINTING_MAX_SHOWED"
-msgstr "  - More then {0} requests found, filtering out the rest."
+msgstr "  - More than {0} requests found, filtering out the rest."
 
 msgid "TEXT_FINGERPRINTING_TOTAL_FOUND"
 msgstr "  - A total of {0} tracking requests found.\n"
@@ -61,16 +61,16 @@ msgid "TEXT_ADS"
 msgstr "- Ads"
 
 msgid "TEXT_ADS_FOUND_ALLOWED"
-msgstr "  - {0} - Adserver request found, having {1} are allowed"
+msgstr "  - {0} - Ad server request found, having {1} are allowed"
 
 msgid "TEXT_ADS_FOUND"
-msgstr "  - {0} - Adserver request found"
+msgstr "  - {0} - Ad server request found"
 
 msgid "TEXT_ADS_MAX_SHOWED"
-msgstr "  - More then {0} requests found, filtering out the rest"
+msgstr "  - More than {0} requests found, filtering out the rest"
 
 msgid "TEXT_ADS_TOTAL_FOUND"
-msgstr "  - A total of {0} adserver requests found.\n"
+msgstr "  - A total of {0} ad server requests found.\n"
 
 msgid "TEXT_COOKIES_HAS_THIRDPARTY"
 msgstr "  - Thirdparty: {0}\r\n"
@@ -97,7 +97,7 @@ msgid "TEXT_GDPR_COUNTRIES"
 msgstr "  - Number of countries: {0}\r\n"
 
 msgid "TEXT_GDPR_NONE_COMPLIANT_COUNTRIES"
-msgstr "  - Countries without adequate level of data protection: {0}\r\n"
+msgstr "  - Countries lacking adequate level of data protection: {0}\r\n"
 
 msgid "TEXT_GDPR_NONE_COMPLIANT_COUNTRIES_REQUESTS"
 msgstr "    - {0}, {1} request\r\n"

@@ -18,7 +18,7 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 18 - Accessibility (Pa11y)\n"
 
 msgid "TEXT_REVIEW_A11Y_VERY_GOOD"
-msgstr "- The website do not have any apparent issues with accessibility!!\n"
+msgstr "- The website do not have any apparent issues with accessibility!\n"
 
 msgid "TEXT_REVIEW_A11Y_IS_GOOD"
 msgstr "- The website can be more accessible, but is rather good!\n"
@@ -30,22 +30,22 @@ msgid "TEXT_REVIEW_A11Y_IS_BAD"
 msgstr "- The website is quite bad at accessibility and sucks for disabled people!\n"
 
 msgid "TEXT_REVIEW_A11Y_IS_VERY_BAD"
-msgstr "- The accessibility is apparently really bad! Probably both for disabled people and everyone of us when we need some accessibility!\n"
+msgstr "- The accessibility is really bad! Probably both for disabled people and everyone of us when we need some accessibility!\n"
 
 msgid "TEXT_REVIEW_A11Y_NUMBER_OF_PROBLEMS"
 msgstr "- Number of problems with accessibility: {}"
 
 msgid "TEXT_REVIEW_A11Y_TOO_MANY_PROBLEMS"
-msgstr "- Info: Too many unique problems to show them all.\n"
+msgstr "- Info: Too many unique problems to list them all.\n"
 
 msgid "TEXT_REVIEW_A11Y_PROBLEMS"
 msgstr "\n##### Problems:\n"
 
 msgid "TEXT_REVIEW_ERRORS_ITEM"
-msgstr "  - {0} (number of errors of this type: {1})\n"
+msgstr "  - {0} (number of issues of this type: {1})\n"
 
 msgid "TEXT_REVIEW_RATING_GROUPED"
-msgstr "- Number of error type: {0}"
+msgstr "- Number of types of issues: {0}"
 
 msgid "TEXT_REVIEW_RATING_ITEMS"
-msgstr "- Number of errors: {0}"
+msgstr "- Number of issues: {0}"

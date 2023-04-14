@@ -78,7 +78,7 @@ msgid "TEXT_REVIEW_NOTIFICATION_FUNCTION_URL_NOT_FOUND"
 msgstr "- Saknar eller har felaktig länk till DIGG:s anmälnings&shy;funktion"
 
 msgid "TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_NOT_COMPATIBLE"
-msgstr “- Har följsamhet till lagkraven genom att de medger att webbplatsen inte är förenlig”
+msgstr "- Har följsamhet till lagkraven genom att de medger att webbplatsen inte är förenlig"
 
 msgid "TEXT_REVIEW_COMPATIBLE_TEXT_A11Y_NOT_COMPATIBLE"
 msgstr "- Anger själv att webbplatsen inte är förenlig med lagkraven"
@@ -96,4 +96,4 @@ msgid "TEXT_REVIEW_COMPATIBLE_TEXT_A11Y_FULL_COMPATIBLE"
 msgstr "- Anger själv att webbplats är helt förenlig med lagkraven"
 
 msgid "TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_NOT_FOUND"
-msgstr “- Saknar helt formulering om följsamhet till lagkraven”
+msgstr "- Saknar helt formulering om följsamhet till lagkraven"

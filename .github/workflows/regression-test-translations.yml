@@ -25,3 +25,5 @@ jobs:
     - if: ${{ matrix.os == 'windows-latest' }}
       name: Verifing Translation(s) - WINDOWS
       run: python .github\workflows\verify_result.py -l
+    - name: Show us the python paths
+      run: python -c "import sys; print('\n'.join(sys.path))"

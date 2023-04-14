@@ -92,12 +92,6 @@ def run_test(_, langCode, url):
     mobile_rating_overall = mobile_rating.get_overall()
     no_external_rating_overall = no_external_rating.get_overall()
     if mobile_rating_overall < no_external_rating_overall and mobile_rating_overall != -1 and no_external_rating_overall != -1:
-        # points = 5.0 - (no_external_rating.get_overall() -
-        #                 mobile_rating.get_overall())
-        # tmp_rating = Rating(_)
-        # tmp_rating.set_overall(
-        #     points, '- [mobile] Advice: Rating mey improve from {0} to {1} by removing some/all external resources'.format(mobile_rating.get_overall(), no_external_rating.get_overall()) )
-        # rating += tmp_rating
         rating.overall_review += '- [mobile] Advice: Rating may improve from {0} to {1} by removing some/all external resources\r\n'.format(
             mobile_rating_overall, no_external_rating_overall)
     rating += no_external_rating
@@ -105,12 +99,6 @@ def run_test(_, langCode, url):
 
     nojs_rating_overall = nojs_rating.get_overall()
     if mobile_rating_overall < nojs_rating_overall and mobile_rating_overall != -1 and nojs_rating_overall != -1:
-        # points = 5.0 - (nojs_rating.get_overall() -
-        #                 mobile_rating.get_overall())
-        # tmp_rating = Rating(_)
-        # tmp_rating.set_overall(
-        #     points, '- [mobile] Advice: Performance rating could be improved by removing some/all javascript files')
-        # rating += tmp_rating
         rating.overall_review += '- [mobile] Advice: Rating may improve from {0} to {1} by removing some/all javascript resources\r\n'.format(
             mobile_rating_overall, nojs_rating_overall)
 
@@ -210,9 +198,7 @@ def rate_result_dict(result_dict, reference_result_dict, mode, _, _local):
             value_diff = 0
             if mobile_obj['median'] > (limit + noxternal_obj['median']):
                 value_diff = mobile_obj['median'] - noxternal_obj['median']
-                # tmp_points = 5.0 - ((value_diff / limit) * 0.5)
 
-                # tmp_rating = Rating(_)
                 txt = ''
                 if 'mobile no third parties' in mode:
                     txt = '- [mobile] Advice: {0} may improve by {1:.2f}ms by removing external resources\r\n'.format(
@@ -222,9 +208,6 @@ def rate_result_dict(result_dict, reference_result_dict, mode, _, _local):
                         key, value_diff)
 
                 overview_review += txt
-                # tmp_rating.set_overall(
-                #     tmp_points, txt)
-                # rating += tmp_rating
                 key_matching = True
 
             if 'range' not in mobile_obj:
@@ -235,8 +218,7 @@ def rate_result_dict(result_dict, reference_result_dict, mode, _, _local):
             value_diff = 0
             if mobile_obj['range'] > (limit + noxternal_obj['range']):
                 value_diff = mobile_obj['range'] - noxternal_obj['range']
-                # tmp_points = 5.0 - ((value_diff / limit) * 0.5)
-                # tmp_rating = Rating(_)
+
                 txt = ''
                 if 'mobile no third parties' in mode:
                     txt = '- [mobile] Advice: {0} could be ±{1:.2f}ms less "bumpy" by removing external resources\r\n'.format(
@@ -246,9 +228,6 @@ def rate_result_dict(result_dict, reference_result_dict, mode, _, _local):
                         key, value_diff)
 
                 overview_review += txt
-                # tmp_rating.set_overall(
-                #     tmp_points, txt)
-                # rating += tmp_rating
                 key_matching = True
 
             if not key_matching:
@@ -257,30 +236,9 @@ def rate_result_dict(result_dict, reference_result_dict, mode, _, _local):
         for key in external_to_remove:
             del result_dict[key]
 
-    # points = float(result_dict['Points'])
-
-    # review_overall = ''
-    # if True or mode == 'desktop' or mode == 'mobile':
-    #     if points >= 5.0:
-    #         review_overall = _local('TEXT_REVIEW_VERY_GOOD')
-    #     elif points >= 4.0:
-    #         review_overall = _local('TEXT_REVIEW_IS_GOOD')
-    #     elif points >= 3.0:
-    #         review_overall = _local('TEXT_REVIEW_IS_OK')
-    #     elif points > 1.0:
-    #         review_overall = _local('TEXT_REVIEW_IS_BAD')
-    #     elif points <= 1.0:
-    #         review_overall = _local('TEXT_REVIEW_IS_VERY_BAD')
-
     if 'Points' in result_dict:
         del result_dict['Points']
 
-    # summary_rating = Rating(_)
-    # summary_rating.set_overall(points, review_overall.replace(
-    #     '- ', '- [{0}] '.format(mode)))
-    # summary_rating.set_performance(points, review)
-
-    # review = summary_rating.performance_review
     for pair in result_dict.items():
         value = pair[1]
         if 'msg' not in value:
@@ -295,12 +253,8 @@ def rate_result_dict(result_dict, reference_result_dict, mode, _, _local):
         else:
             performance_review += '{0}\r\n'.format(value['msg'])
 
-    # review += _local("TEXT_REVIEW_NUMBER_OF_REQUESTS").format(
-    #     result_dict['Requests'])
-
     rating.overall_review = rating.overall_review + overview_review
     rating.performance_review = rating.performance_review + performance_review
-    # rating += summary_rating
     return rating
 
 
@@ -313,7 +267,6 @@ def get_result_dict(data, mode):
     for matchNum, match in enumerate(matches, start=1):
         name = match.group('name')
         value = match.group('value')
-        # print('PAIR: ', name, value, '± 10')
 
         if name not in tmp_dict:
             tmp_dict[name] = list()
@@ -426,9 +379,6 @@ def get_result_dict(data, mode):
                 points = 5.0
             else:
                 points = 5.0 - ((speedindex_adjusted / limit) * 1.0)
-                # points = 5.0 - (speedindex_adjusted / 1000)
-
-            # result_dict['Points'] = points
 
         tmp = {
             'median': median,

@@ -18,16 +18,16 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 8 - PWA (Google Lighthouse)\n"
 
 msgid "TEXT_REVIEW_PWA_VERY_GOOD"
-msgstr "- The website is all out progressive web app!\n"
+msgstr "- The website is all out a Progressive Web App!\n"
 
 msgid "TEXT_REVIEW_PWA_IS_GOOD"
-msgstr "- Pretty good on the requirements for a Progressive Web App!\n"
+msgstr "- Pretty good on the requirements for a Progressive Web App\n"
 
 msgid "TEXT_REVIEW_PWA_IS_OK"
-msgstr "- About average support of Progressive Web App technology!\n"
+msgstr "- About average support of Progressive Web App technology\n"
 
 msgid "TEXT_REVIEW_PWA_IS_BAD"
-msgstr "- Pretty bad as a Progressive Web App (PWA)!\n"
+msgstr "- Pretty bad as a Progressive Web App (PWA)\n"
 
 msgid "TEXT_REVIEW_PWA_IS_VERY_BAD"
 msgstr "- Really bad as a Progressive Web App (PWA) :/\n"

@@ -18,13 +18,13 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 4 - SEO (Google Lighthouse)\n"
 
 msgid "TEXT_REVIEW_SEO_VERY_GOOD"
-msgstr "- The website is really good at SEO!!\n"
+msgstr "- The webpage is really optimised for SEO!\n"
 
 msgid "TEXT_REVIEW_SEO_IS_GOOD"
 msgstr "- Pretty good at SEO, but still has some potential improvements.\n"
 
 msgid "TEXT_REVIEW_SEO_IS_OK"
-msgstr "- About average on search engine optimisation (SEO) according to Google.\n"
+msgstr "- About average on Search Engine Optimisation (SEO) according to Google Lighthouse.\n"
 
 msgid "TEXT_REVIEW_SEO_IS_BAD"
 msgstr "- Pretty bad optimised for search engines (SEO).\n"

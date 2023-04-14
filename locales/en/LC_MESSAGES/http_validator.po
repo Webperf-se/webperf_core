@@ -28,7 +28,7 @@ msgid "TEXT_REVIEW_TLS1_3_SUPPORT"
 msgstr "- TLSv1.3 support"
 
 msgid "TEXT_REVIEW_TLS1_3_SUPPORT_WRONG_CERT"
-msgstr "- TLSv1.3 support but wrong certificate"
+msgstr "- TLSv1.3 support but faulty certificate"
 
 msgid "TEXT_REVIEW_TLS1_3_NO_SUPPORT"
 msgstr "- No TLSv1.3 support"
@@ -37,43 +37,43 @@ msgid "TEXT_REVIEW_TLS1_2_SUPPORT"
 msgstr "- TLSv1.2 support"
 
 msgid "TEXT_REVIEW_TLS1_2_SUPPORT_WRONG_CERT"
-msgstr "- TLSv1.2 support but wrong certificate"
+msgstr "- TLSv1.2 support but faulty certificate"
 
 msgid "TEXT_REVIEW_TLS1_2_NO_SUPPORT"
 msgstr "- No TLSv1.2 support"
 
 msgid "TEXT_REVIEW_TLS1_1_SUPPORT"
-msgstr "- TLSv1.1 support, is insecure"
+msgstr "- TLSv1.1 support, but is insecure"
 
 msgid "TEXT_REVIEW_TLS1_1_SUPPORT_WRONG_CERT"
-msgstr "- TLSv1.1 support but wrong certificate, is insecure"
+msgstr "- TLSv1.1 support but faulty certificate and is insecure"
 
 msgid "TEXT_REVIEW_TLS1_1_NO_SUPPORT"
 msgstr "- No TLSv1.1 support"
 
 msgid "TEXT_REVIEW_TLS1_0_SUPPORT"
-msgstr "- TLSv1.0 support, is insecure"
+msgstr "- TLSv1.0 support, and insecure"
 
 msgid "TEXT_REVIEW_TLS1_0_SUPPORT_WRONG_CERT"
-msgstr "- TLSv1.0 support but wrong certificate, is insecure"
+msgstr "- TLSv1.0 support but faulty certificate and is insecure"
 
 msgid "TEXT_REVIEW_TLS1_0_NO_SUPPORT"
 msgstr "- No TLSv1.0 support"
 
 msgid "TEXT_REVIEW_SSL3_0_SUPPORT"
-msgstr "- SSLv3.0 support, is insecure"
+msgstr "- SSLv3.0 support, and is insecure"
 
 msgid "TEXT_REVIEW_SSL3_0_SUPPORT_WRONG_CERT"
-msgstr "- SSLv3.0 support but wrong certificate, is insecure"
+msgstr "- SSLv3.0 support but faulty certificate and is insecure"
 
 msgid "TEXT_REVIEW_SSL3_0_NO_SUPPORT"
 msgstr "- No SSLv3.0 support"
 
 msgid "TEXT_REVIEW_SSL2_0_SUPPORT"
-msgstr "- SSLv2.0 support, is insecure"
+msgstr "- SSLv2.0 support, and is insecure"
 
 msgid "TEXT_REVIEW_SSL2_0_SUPPORT_WRONG_CERT"
-msgstr "- SSLv2.0 support but wrong certificate, is insecure"
+msgstr "- SSLv2.0 support but faulty certificate and is insecure"
 
 msgid "TEXT_REVIEW_SSL2_0_NO_SUPPORT"
 msgstr "- No SSLv2.0 support"
@@ -91,7 +91,7 @@ msgid "TEXT_REVIEW_IP_VERSION_IPV4_NO_SUPPORT"
 msgstr "- No IPv4 support"
 
 msgid "TEXT_REVIEW_IP_VERSION_UNABLE_TO_VERIFY"
-msgstr "- Unable to get IP version info"
+msgstr "- Unable to fetch IP version info"
 
 msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_SUPPORT"
 msgstr "- HTTPv1.1 support"
@@ -118,13 +118,13 @@ msgid "TEXT_REVIEW_HTTP_VERSION_QUIC_NO_SUPPORT"
 msgstr "- No QUIC support"
 
 msgid "TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_UNABLE_TO_VERIFY"
-msgstr "- Unable to verify HTTP to HTTPS redirect"
+msgstr "- Unable to verify HTTP-to-HTTPS redirect"
 
 msgid "TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_NO_REDIRECT"
-msgstr "- No HTTP to HTTPS redirect"
+msgstr "- No HTTP-to-HTTPS redirect"
 
 msgid "TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_REDIRECTED"
-msgstr "- HTTP to HTTPS redirect"
+msgstr "- HTTP-to-HTTPS redirect"
 
 msgid "TEXT_REVIEW_NO_REMARKS"
 msgstr "- No remarks"

@@ -22,13 +22,13 @@ msgid "TEXT_WEBSITE_IS_VERY_GOOD"
 msgstr "- The website is really well built!\n"
 
 msgid "TEXT_WEBSITE_IS_GOOD"
-msgstr "- The website has good frontend code.\n"
+msgstr "- The website has rather good frontend code.\n"
 
 msgid "TEXT_WEBSITE_IS_OK"
 msgstr "- The website is neither good nor bad.\n"
 
 msgid "TEXT_WEBSITE_IS_BAD"
-msgstr "- The website is potentially slow and hava pretty bad frontend code.\n"
+msgstr "- The website is potentially slow and have pretty bad frontend code.\n"
 
 msgid "TEXT_WEBSITE_IS_VERY_BAD"
 msgstr "- Very bad frontend rating according to Yellow Lab Tools.\n"

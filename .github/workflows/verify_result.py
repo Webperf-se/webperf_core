@@ -310,6 +310,20 @@ def validate_locales(dir, msg_ids):
                 # for every .po file found, check if we have a .mo file
                 if validate_po_file(locales_dir, localeName, languageSubDirectory, file, msg_ids):
                     current_number_of_valid_translations += 1
+                elif file.endswith('.po'):
+                    # TODO: po file had errors, try generate new mo file and try again.
+                    import sys
+                    for python_path in sys.path:
+                        a = python_path
+                        print('\t', a)
+                        try:
+                            a_files = os.listdir(a)
+                            for subfile in a_files:
+                                print('\t   ', subfile)
+                        except Exception as ex:
+                            print('\t   Exception', ex)
+                    # print('\n'.join(sys.path))
+                    is_valid = False
                 else:
                     is_valid = False
 

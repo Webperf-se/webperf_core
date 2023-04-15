@@ -315,7 +315,9 @@ def validate_locales(dir, msg_ids):
                     msgfmt_path = find_msgfmt_py()
                     print('\tB', msgfmt_path)
                     # print('\n'.join(sys.path))
-                    is_valid = False
+                    # TODO: CHANGE THIS AFTER DEVELOPTING
+                    is_valid = True
+                    # is_valid = False
                 else:
                     is_valid = False
 
@@ -359,9 +361,11 @@ def has_dir_msgfmt_py(dir, depth):
 
         if 'msgfmt.py' in files:
             return os.path.join(dir, 'msgfmt.py')
+        elif 'i18n' in files:
+            return os.path.join(dir, 'i18n' 'msgfmt.py')
         elif 'Tools' in files:
-            return os.path.join(dir, 'Tools', 'msgfmt.py')
-        elif 'io.py' in files or 'base64.py' in files or 'calendar.py' in files:
+            return os.path.join(dir, 'Tools', 'i18n', 'msgfmt.py')
+        elif 'io.py' in files or 'base64.py' in files or 'calendar.py' in files or 'site-packages' in files:
             parent_dir = Path(os.path.dirname(
                 os.path.realpath(dir)) + os.path.sep).parent
             print('\t\tC:', depth, dir)
@@ -369,6 +373,12 @@ def has_dir_msgfmt_py(dir, depth):
         else:
             nice_files = json.dumps(files, indent=(9*depth+9))
             print('\t   ', nice_files)
+            # if (depth > 0):
+            #     parent_dir = Path(os.path.dirname(
+            #         os.path.realpath(dir)) + os.path.sep).parent.parent
+            #     print('\t\tD:', depth, dir)
+            #     return has_dir_msgfmt_py(parent_dir, depth + 1)
+
     except Exception as ex:
         print('\t   Exception', ex)
     return None

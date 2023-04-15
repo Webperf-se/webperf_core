@@ -237,7 +237,7 @@ def validate_python_files(folder, msg_ids):
         if '.' in item:
             if len(item) < 3 or not item.endswith('.py'):
                 continue
-            #print('python file:', item)
+            # print('python file:', item)
             current_file = os.path.join(
                 folder, item)
 
@@ -312,16 +312,8 @@ def validate_locales(dir, msg_ids):
                     current_number_of_valid_translations += 1
                 elif file.endswith('.po'):
                     # TODO: po file had errors, try generate new mo file and try again.
-                    import sys
-                    for python_path in sys.path:
-                        a = python_path
-                        print('\t', a)
-                        try:
-                            a_files = os.listdir(a)
-                            for subfile in a_files:
-                                print('\t   ', subfile)
-                        except Exception as ex:
-                            print('\t   Exception', ex)
+                    msgfmt_path = find_msgfmt_py()
+                    print('\tB', msgfmt_path)
                     # print('\n'.join(sys.path))
                     is_valid = False
                 else:
@@ -342,6 +334,32 @@ def validate_locales(dir, msg_ids):
     else:
         print('  No languages found')
     return is_valid
+
+
+def find_msgfmt_py():
+    import sys
+    for python_path in sys.path:
+        a = python_path
+        print('\t', a)
+        if 'Tools\i18n' in a:
+            # TODO: REMOVE THIS AFTER DEVELOPTING
+            print('\t   ', 'IGNORING TO NOT MAKE IT TOO EASY')
+            continue
+        try:
+            a_files = os.listdir(a)
+            for subfile in a_files:
+                if 'msgfmt.py' == subfile:
+                    return os.path.join(a, subfile)
+                elif 'io.py' == subfile or 'base64.py' == subfile:
+                    dir = Path(os.path.dirname(
+                        os.path.realpath(os.path.join(a, subfile))) + os.path.sep).parent.parent
+                    print('C:', dir)
+                elif 'Tools' in subfile:
+                    return os.path.join(a, subfile, 'msgfmt.py')
+                else:
+                    print('\t   ', subfile)
+        except Exception as ex:
+            print('\t   Exception', ex)
 
 
 def main(argv):

@@ -345,21 +345,33 @@ def find_msgfmt_py():
             # TODO: REMOVE THIS AFTER DEVELOPTING
             print('\t   ', 'IGNORING TO NOT MAKE IT TOO EASY')
             continue
-        try:
-            a_files = os.listdir(a)
-            for subfile in a_files:
-                if 'msgfmt.py' == subfile:
-                    return os.path.join(a, subfile)
-                elif 'io.py' == subfile or 'base64.py' == subfile:
-                    dir = Path(os.path.dirname(
-                        os.path.realpath(os.path.join(a, subfile))) + os.path.sep).parent.parent
-                    print('C:', dir)
-                elif 'Tools' in subfile:
-                    return os.path.join(a, subfile, 'msgfmt.py')
-                else:
-                    print('\t   ', subfile)
-        except Exception as ex:
-            print('\t   Exception', ex)
+
+        msgfmt_path = has_dir_msgfmt_py(a, 0)
+        if msgfmt_path != None:
+            return msgfmt_path
+
+    return None
+
+
+def has_dir_msgfmt_py(dir, depth):
+    try:
+        files = os.listdir(dir)
+
+        if 'msgfmt.py' in files:
+            return os.path.join(dir, 'msgfmt.py')
+        elif 'Tools' in files:
+            return os.path.join(dir, 'Tools', 'msgfmt.py')
+        elif 'io.py' in files or 'base64.py' in files or 'calendar.py' in files:
+            parent_dir = Path(os.path.dirname(
+                os.path.realpath(dir)) + os.path.sep).parent
+            print('\t\tC:', depth, dir)
+            return has_dir_msgfmt_py(parent_dir, depth + 1)
+        else:
+            nice_files = json.dumps(files, indent=(9*depth+9))
+            print('\t   ', nice_files)
+    except Exception as ex:
+        print('\t   Exception', ex)
+    return None
 
 
 def main(argv):

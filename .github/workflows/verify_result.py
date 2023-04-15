@@ -314,6 +314,9 @@ def validate_locales(dir, msg_ids):
                     # TODO: po file had errors, try generate new mo file and try again.
                     msgfmt_path = find_msgfmt_py()
                     print('\tB', msgfmt_path)
+                    if msgfmt_path != None:
+                        print(get_file_content(msgfmt_path))
+
                     # print('\n'.join(sys.path))
                     # TODO: CHANGE THIS AFTER DEVELOPTING
                     is_valid = True

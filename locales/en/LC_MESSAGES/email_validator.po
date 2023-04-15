@@ -70,7 +70,7 @@ msgid "TEXT_REVIEW_SPF_DNS_IGNORE_RECORD_NO_SUPPORT"
 msgstr "SPF DNS record is configured to be ignored"
 
 msgid "TEXT_REVIEW_SPF_DNS_RECORD_PTR_USED"
-msgstr "SPF DNS record is wrongly using PTR"
+msgstr "SPF DNS record is erroneously using PTR"
 
 msgid "TEXT_REVIEW_SPF_UNKNOWN_SECTION"
 msgstr "SPF DNS record has unallowed content"
@@ -130,13 +130,13 @@ msgid "TEXT_REVIEW_IPV6_NO_SUPPORT"
 msgstr "MX DNS IPv6 record not found"
 
 msgid "TEXT_REVIEW_MX_GDPR"
-msgstr "MX DNS Servers in GDPR compliant countries: {0}"
+msgstr "MX DNS servers in countries that are GDPR compliant: {0}"
 
 msgid "TEXT_REVIEW_MX_NONE_GDPR"
-msgstr "MX DNS Servers in none GDPR compiant countries: {0}"
+msgstr "MX DNS servers in countries that are not GDPR compliant: {0}"
 
 msgid "TEXT_REVIEW_SPF_GDPR"
-msgstr "SPF Servers in GDPR compliant countries: {0}"
+msgstr "SPF servers in countries that are GDPR compliant: {0}"
 
 msgid "TEXT_REVIEW_SPF_NONE_GDPR"
-msgstr "SPF Servers in none GDPR compiant countries: {0}"
+msgstr "SPF servers in countries that are not GDPR compliant: {0}"

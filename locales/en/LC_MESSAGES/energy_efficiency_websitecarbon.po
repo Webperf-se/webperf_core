@@ -31,7 +31,7 @@ msgid "TEXT_WEBSITE_IS_OK"
 msgstr "- Average regarding carbon dioxide.\n"
 
 msgid "TEXT_WEBSITE_IS_BAD"
-msgstr "- The webpage generates some more carbon dioxide than is preferable :/\n"
+msgstr "- The webpage generates more carbon dioxide than is preferable :/\n"
 
 msgid "TEXT_WEBSITE_IS_VERY_BAD"
 msgstr "- The website is generating a lot of carbon dioxide, for every pageview :(\n"
@@ -43,7 +43,7 @@ msgid "TEXT_GREEN_ENERGY_TRUE"
 msgstr "- The website seem to be on renewable energy!\n"
 
 msgid "TEXT_GREEN_ENERGY_FALSE"
-msgstr "- Could not verify if the website is using renewable nergy.\n"
+msgstr "- Could not verify if the website is using renewable energy.\n"
 
 msgid "TEXT_BETTER_THAN"
 msgstr "- More green than {0} % of the websites tested by webperf.se (Reference updated: {1}).\n"

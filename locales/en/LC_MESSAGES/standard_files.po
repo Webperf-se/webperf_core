@@ -19,7 +19,7 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 9 - Standard files\n"
 
 msgid "TEXT_ROBOTS_MISSING"
-msgstr "- robots.txt is missing, not allowed to download or has no expected content."
+msgstr "- robots.txt is missing, not allowed to download or has not the expected content."
 
 msgid "TEXT_ROBOTS_OK"
 msgstr "- robots.txt seems ok."
@@ -37,22 +37,22 @@ msgid "TEXT_SITEMAP_OK"
 msgstr "- Sitemap seems to work."
 
 msgid "TEXT_RSS_FEED_MISSING"
-msgstr "- RSS subscription is missing in the HTMLs metadata."
+msgstr "- RSS subscription is missing in the HTML's metadata."
 
 msgid "TEXT_RSS_FEED_FOUND"
-msgstr "- RSS subscription found."
+msgstr "- RSS subscription found in webpage metadata."
 
 msgid "TEXT_SECURITY_MISSING"
 msgstr "- security.txt is missing."
 
 msgid "TEXT_SECURITY_WRONG_CONTENT"
-msgstr "- security.txt has wrong content."
+msgstr "- security.txt has incorrect content."
 
 msgid "TEXT_SECURITY_OK_CONTENT"
 msgstr "- security.txt seems to work."
 
 msgid "TEXT_SECURITY_REQUIRED_CONTACT_MISSING"
-msgstr "- security.txt required contact is missing."
+msgstr "- security.txt is missing the required contact info."
 
 msgid "TEXT_SECURITY_REQUIRED_EXPIRES_MISSING"
-msgstr "- security.txt required expires (added in draft v10) is missing."
+msgstr "- security.txt requires expiration information (added in draft v10) is missing."

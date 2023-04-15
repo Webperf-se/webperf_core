@@ -37,43 +37,43 @@ msgid "TEXT_TRACKING_FOUND"
 msgstr "  - {0} - Spårning hittad"
 
 msgid "TEXT_TRACKING_MAX_SHOWED"
-msgstr "  - Fler än  {0} Spårningsförfrågningar hittad, döljer resten"
+msgstr "  - Fler än  {0} spårnings&shy;förfrågningar hittade, döljer resten"
 
 msgid "TEXT_TRACKING_TOTAL_FOUND"
-msgstr "  - Hittade totalt {0} spårningsförfrågningar.\n"
+msgstr "  - Hittade totalt {0} spårnings&shy;förfrågningar.\n"
 
 msgid "TEXT_TRACKING_REFERENCE"
 msgstr "{0} - Har referens till {1}"
 
 msgid "TEXT_FINGERPRINTING"
-msgstr "- Identifieringstekniker"
+msgstr "- Identifierings&shy;tekniker"
 
 msgid "TEXT_FINGERPRINTING_FOUND"
-msgstr "  - {0} - Identifieringstekniker hittad.\n"
+msgstr "  - {0} - Identifierings&shy;tekniker hittade.\n"
 
 msgid "TEXT_FINGERPRINTING_MAX_SHOWED"
-msgstr "  - Hittade totalt {0} identifieringsförfrågningar"
+msgstr "  - Hittade totalt {0} identifierings&shy;förfrågningar"
 
 msgid "TEXT_FINGERPRINTING_TOTAL_FOUND"
-msgstr "  - Hittade totalt {0} identifieringsförfrågningar.\n"
+msgstr "  - Hittade totalt {0} identifierings&shy;förfrågningar.\n"
 
 msgid "TEXT_ADS"
 msgstr "- Annonsörer"
 
 msgid "TEXT_ADS_FOUND_ALLOWED"
-msgstr "  - {0} - Annonsörsförfrågning hittad, tillåtet att ha {1} st"
+msgstr "  - {0} - Annonsörs&shy;förfrågan hittad, tillåtet att ha {1} st"
 
 msgid "TEXT_ADS_FOUND"
-msgstr "  - {0} - Annonsörsförfrågning hittad"
+msgstr "  - {0} - Annonsörs&shy;förfrågan hittad"
 
 msgid "TEXT_ADS_MAX_SHOWED"
-msgstr "  - Fler än {0} annonsörsförfrågningar hittade, döljer resten"
+msgstr "  - Fler än {0} annonsörs&shy;förfrågningar hittade, döljer resten"
 
 msgid "TEXT_ADS_TOTAL_FOUND"
-msgstr "  - Hittade totalt {0} annonsörsförfrågningar.\n"
+msgstr "  - Hittade totalt {0} annonsörs&shy;förfrågningar.\n"
 
 msgid "TEXT_COOKIES_HAS_THIRDPARTY"
-msgstr "  - Tredjepartskakor: {0}\r\n"
+msgstr "  - Tredjeparts&shy;kakor: {0}\r\n"
 
 msgid "TEXT_COOKIE_HAS_OVER_1YEAR"
 msgstr "  - Giltiga över 1 år: {0}\r\n"

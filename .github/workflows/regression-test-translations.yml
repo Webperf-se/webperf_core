@@ -8,7 +8,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
             matrix:
-                os: [ubuntu-latest, windows-latest]
+                os: [windows-latest]
+                #os: [ubuntu-latest, windows-latest]
     steps:
     - name: Check out repository code
       uses: actions/checkout@v3
@@ -25,3 +26,11 @@ jobs:
     - if: ${{ matrix.os == 'windows-latest' }}
       name: Verifing Translation(s) - WINDOWS
       run: python .github\workflows\verify_result.py -l
+    - if: ${{ matrix.os == 'windows-latest' }}
+      name: Git Add any changes to Translation(s) - WINDOWS
+      run: |
+        git config --global user.name 'GitHub Action'
+        git config --global user.email '7h3Rabbit@users.noreply.github.com'
+        git add locales/
+        git commit -m "Add changed Translation(s) if any"
+        git push

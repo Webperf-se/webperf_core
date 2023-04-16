@@ -45,9 +45,7 @@ Copy the file to your locale, for Swedish it would be:
 
 Rename the file extension from `.pot` to `.po`
 
-After you have translated everything you should run the following command from webperf-core root folder:  
-```python .github\workflows\verify_result.py -l```
-
+After you have translated everything you should check it in, GitHub will take your change and generate .mo files when needed.
 You now have support for a new language, please send it to the official repository using a pull request :)
 
 #### How to find pygettext.py
@@ -57,20 +55,6 @@ Locate your pygettext.py file:
 
 It might be as follows:  
 ```/Library/Frameworks/Python.framework/Versions/3.8/share/doc/python3.8/examples/Tools/i18n/pygettext.py```
-
-#### How to find msgfmt.py
-
-This step is not needed anymore, just run `verify_result.py` command described above.
-IF it doesn't work you can `i18n` folder to python environment variables.
-
-Locate your msgfmt.py file:  
-```locate msgfmt.py```
-
-It might be as follows:  
-```/Library/Frameworks/Python.framework/Versions/3.8/share/doc/python3.8/examples/Tools/i18n/msgfmt.py```
-
-The command can be:
-```python3 /Library/Frameworks/Python.framework/Versions/3.8/share/doc/python3.8/examples/Tools/i18n/pygettext.py -d webperf-core -o locales/webperf-core.pot default.py```
 
 ### References
 

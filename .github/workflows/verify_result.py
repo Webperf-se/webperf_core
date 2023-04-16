@@ -133,6 +133,8 @@ def validate_po_file(locales_dir, localeName, languageSubDirectory, file, msg_id
             # for every .mo file found, try to load it to verify it works
             n_of_errors = 0
             try:
+                # NOTE: gettext is internally caching all mo files, we need to clear this variable to readd the newly generated .mo file.
+                gettext._translations = {}
                 language = gettext.translation(
                     file.replace('.po', ''), localedir=locales_dir, languages=[localeName])
                 language.install()
@@ -165,20 +167,20 @@ def validate_po_file(locales_dir, localeName, languageSubDirectory, file, msg_id
                     if lang_txt != msg_txt:
                         print(
                             '  ## Text missmatch:')
-                        print('- msgid: {0}'.format(msg_id))
+                        print('  - msgid: {0}'.format(msg_id))
                         if len(msg_txt) > 15:
                             print(
-                                '  - expected text: "{0}[...]"'.format(msg_txt[0: 15]))
+                                '    - expected text: "{0}[...]"'.format(msg_txt[0: 15]))
                         else:
                             print(
-                                '  - expected text: "{0}"'.format(msg_txt))
+                                '    - expected text: "{0}"'.format(msg_txt))
 
                         if len(lang_txt) > 15:
                             print(
-                                '  - recived text:  "{0}[...]"'.format(lang_txt[0:15]))
+                                '    - recived text:  "{0}[...]"'.format(lang_txt[0:15]))
                         else:
                             print(
-                                '  - recived text:  "{0}"'.format(lang_txt))
+                                '    - recived text:  "{0}"'.format(lang_txt))
                         n_of_errors += 1
                         continue
                 if n_of_errors > 0:
@@ -311,16 +313,24 @@ def validate_locales(dir, msg_ids):
                 if validate_po_file(locales_dir, localeName, languageSubDirectory, file, msg_ids):
                     current_number_of_valid_translations += 1
                 elif file.endswith('.po'):
-                    # TODO: po file had errors, try generate new mo file and try again.
+                    # po file had errors, try generate new mo file and try again.
                     msgfmt_path = find_msgfmt_py()
-                    print('\tB', msgfmt_path)
                     if msgfmt_path != None:
-                        print(get_file_content(msgfmt_path))
-
-                    # print('\n'.join(sys.path))
-                    # TODO: CHANGE THIS AFTER DEVELOPTING
-                    is_valid = True
-                    # is_valid = False
+                        print(
+                            '  - Trying to generate .mo file so it matches .po file')
+                        bashCommand = "python {0} -o {1} {2}".format(
+                            msgfmt_path, os.path.join(languageSubDirectory, file.replace(
+                                '.po', '.mo')), os.path.join(languageSubDirectory, file))
+                        import subprocess
+                        process = subprocess.Popen(
+                            bashCommand.split(), stdout=subprocess.PIPE)
+                        output, error = process.communicate()
+                        result = str(output)
+                        if validate_po_file(locales_dir, localeName, languageSubDirectory, file, msg_ids):
+                            current_number_of_valid_translations += 1
+                    else:
+                        print(
+                            '  - Unable to generate .mo file because we could not find msgfmt.py in python installation')
                 else:
                     is_valid = False
 
@@ -345,10 +355,13 @@ def find_msgfmt_py():
     import sys
     for python_path in sys.path:
         a = python_path
-        print('\t', a)
+        # print('\t', a)
         if 'Tools\i18n' in a:
             # TODO: REMOVE THIS AFTER DEVELOPTING
-            print('\t   ', 'IGNORING TO NOT MAKE IT TOO EASY')
+            continue
+
+        if a.endswith('.zip'):
+            # Ignore zip files
             continue
 
         msgfmt_path = has_dir_msgfmt_py(a, 0)
@@ -371,16 +384,7 @@ def has_dir_msgfmt_py(dir, depth):
         elif 'io.py' in files or 'base64.py' in files or 'calendar.py' in files or 'site-packages' in files:
             parent_dir = Path(os.path.dirname(
                 os.path.realpath(dir)) + os.path.sep).parent
-            print('\t\tC:', depth, dir)
             return has_dir_msgfmt_py(parent_dir, depth + 1)
-        else:
-            nice_files = json.dumps(files, indent=(9*depth+9))
-            print('\t   ', nice_files)
-            # if (depth > 0):
-            #     parent_dir = Path(os.path.dirname(
-            #         os.path.realpath(dir)) + os.path.sep).parent.parent
-            #     print('\t\tD:', depth, dir)
-            #     return has_dir_msgfmt_py(parent_dir, depth + 1)
 
     except Exception as ex:
         print('\t   Exception', ex)

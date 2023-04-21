@@ -827,8 +827,63 @@ def get_analytics(_local, url, content, request_index):
     if has_fathom(url_and_content):
         analytics[text.format(request_friendly_name,
                               'Fathom Analytics')] = True
+    if has_plausible(url_and_content):
+        analytics[text.format(request_friendly_name,
+                              'Plausible Analytics')] = True
+    if has_monsido(url_and_content):
+        analytics[text.format(request_friendly_name,
+                              'Monsido Statistics')] = True
+    if has_hotjar(url_and_content):
+        analytics[text.format(request_friendly_name,
+                              'Hotjar')] = True
 
     return analytics
+
+
+def has_hotjar(content):
+    # Look for javascript objects
+    if 'window.hjSiteSettings' in content:
+        return True
+    if 'window._hjSettings' in content:
+        return True
+    if 'window.hj=window.hj' in content:
+        return True
+
+    # Look for file names
+    if 'https://static.hotjar.com/c/hotjar-' in content:
+        return True
+
+    return False
+
+
+def has_monsido(content):
+    # Look for javascript objects
+    if 'window._monsido' in content:
+        return True
+
+    # Look for file names
+    if '/monsido-script.js' in content:
+        return True
+    if 'https://app-script.monsido.com/v' in content:
+        return True
+
+    return False
+
+
+def has_plausible(content):
+    # Look for javascript objects
+    if 'window.plausible=' in content:
+        return True
+
+    # Look for file names
+    if 'https://plausible.io/js/script.hash.js' in content:
+        return True
+    if 'https://plausible.io/js/plausible.js' in content:
+        return True
+    if 'https://plausible.io/js/script.js' in content:
+        return True
+
+    return False
 
 
 def has_piwik_pro(content):

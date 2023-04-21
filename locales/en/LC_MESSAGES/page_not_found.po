@@ -19,7 +19,7 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 2 - 404 (Page not Found)\n"
 
 msgid "TEXT_REVIEW_WRONG_STATUS_CODE"
-msgstr "- Correct status code? Got {0}, and 404 is cirrect."
+msgstr "- Correct status code? Got {0}, and 404 is correct."
 
 msgid "TEXT_REVIEW_NO_TITLE"
 msgstr "- Found no page title in the page's metadata."

@@ -11,7 +11,7 @@ The subtests we use are:
 * Desktop (Configured as: Laptop size, full network speed of the system)
 * Mobile (Configured as: Mobile size, 3G Fast network speed)
 * Mobile - No External (Configured as: Mobile but doesn't allow external resources)
-* Mobile - No Javascript (Configured as: Mobile but doesn't allow resources including ".js" in url)
+* Mobile - No Javascript (Configured as: Mobile but doesn't allow javascript)
 
 For every subtest we are using following metrics are used:
 * [SpeedIndex](https://docs.webpagetest.org/metrics/speedindex/)

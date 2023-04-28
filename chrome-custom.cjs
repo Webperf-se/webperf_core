@@ -29,15 +29,15 @@ module.exports = async function (context, commands) {
                     continue;
                 }
                 pair = context.options.webperf[key].replaceAll('%20', ' ').split('=');
-                const newServerHeader = { name: pair[0], value: pair[1] };
+                const newServerHeader = { name: pair[0].replaceAll('%3D', '='), value: pair[1].replaceAll('%3D', '=') };
                 const foundHeaderIndex = responseHeaders.findIndex(
-                    h => h.name === pair[0]
+                    h => h.name === pair[0].replaceAll('%3D', '=')
                 );
                 if (foundHeaderIndex) {
-                    context.log.warn("ADDED HTTP HEADER: " + pair[0] + " = " + pair[1]);
+                    context.log.warn("ADDED HTTP HEADER: " + pair[0].replaceAll('%3D', '=') + " = " + pair[1].replaceAll('%3D', '='));
                     responseHeaders[foundHeaderIndex] = newServerHeader;
                 } else {
-                    context.log.warn("OVERRITE HTTP HEADER: " + pair[0] + " = " + pair[1]);
+                    context.log.warn("OVERRITE HTTP HEADER: " + pair[0].replaceAll('%3D', '=') + " = " + pair[1].replaceAll('%3D', '='));
                     responseHeaders.push(newServerHeader);
                 }
             }
@@ -70,8 +70,8 @@ module.exports = async function (context, commands) {
                     continue;
                 }
                 pair = context.options.webperf[key].replaceAll('%20', ' ').split('=');
-                context.log.warn("HTML CHANGED: " + pair[0] + " = " + pair[1]);
-                body = body.replace(pair[0], pair[1])
+                context.log.warn("HTML CHANGED: " + pair[0].replaceAll('%3D', '=') + " = " + pair[1].replaceAll('%3D', '='));
+                body = body.replace(pair[0].replaceAll('%3D', '='), pair[1].replaceAll('%3D', '='))
             }
         } else {
             context.log.warn("NO PLUGIN OPTIONS");

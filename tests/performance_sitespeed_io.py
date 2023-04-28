@@ -61,12 +61,16 @@ def run_test(_, langCode, url):
     rating = Rating(_)
     result_dict = {}
 
-    # We have this first so it can take any penalty of servers sleeping
-    no_external_result_dict = validate_on_mobile_no_external_domain(
-        url)
+    validator_result_dicts = []
 
-    # We have this second so it can take any left penalty of servers sleeping
-    nojs_result_dict = validate_on_mobile_no_javascript(url)
+    validators = get_validators()
+    for validator in validators:
+        if validator['name'].startswith('mobile'):
+            validator_result_dicts.append(
+                validate_on_mobile_using_validator(url, validator))
+        if validator['name'].startswith('desktop'):
+            validator_result_dicts.append(
+                validate_on_desktop_using_validator(url, validator))
 
     # Are they still not ready they need to fix it...
     desktop_result_dict = validate_on_desktop(url)
@@ -75,35 +79,42 @@ def run_test(_, langCode, url):
 
     desktop_rating = rate_result_dict(desktop_result_dict, None,
                                       'desktop', _, _local)
+
     rating += desktop_rating
     result_dict.update(desktop_result_dict)
 
     mobile_rating = rate_result_dict(mobile_result_dict, None,
                                      'mobile', _, _local)
+
     rating += mobile_rating
     result_dict.update(mobile_result_dict)
 
-    no_external_rating = rate_result_dict(no_external_result_dict, mobile_result_dict,
-                                          'mobile no third parties', _, _local)
+    for validator_result_dict in validator_result_dicts:
+        validator_name = validator_result_dict['name']
+        reference_name = None
+        reference_rating = None
+        reference_result_dict = None
+        use_reference = validator_result_dict['use_reference']
+        if use_reference:
+            if validator['name'].startswith('mobile'):
+                reference_name = 'mobile'
+                reference_rating = mobile_rating.get_overall()
+                reference_result_dict = mobile_result_dict
+            if validator['name'].startswith('desktop'):
+                reference_name = 'desktop'
+                reference_rating = desktop_rating.get_overall()
+                reference_result_dict = desktop_result_dict
 
-    nojs_rating = rate_result_dict(nojs_result_dict, mobile_result_dict,
-                                   'mobile no js', _, _local)
+        validator_rating = rate_result_dict(validator_result_dict, reference_result_dict,
+                                            validator_name, _, _local)
+        rating += validator_rating
+        result_dict.update(validator_result_dict)
 
-    mobile_rating_overall = mobile_rating.get_overall()
-    no_external_rating_overall = no_external_rating.get_overall()
-    if mobile_rating_overall < no_external_rating_overall and mobile_rating_overall != -1 and no_external_rating_overall != -1:
-        rating.overall_review += '- [mobile] Advice: Rating may improve from {0} to {1} by removing some/all external resources\r\n'.format(
-            mobile_rating_overall, no_external_rating_overall)
-    rating += no_external_rating
-    result_dict.update(no_external_result_dict)
-
-    nojs_rating_overall = nojs_rating.get_overall()
-    if mobile_rating_overall < nojs_rating_overall and mobile_rating_overall != -1 and nojs_rating_overall != -1:
-        rating.overall_review += '- [mobile] Advice: Rating may improve from {0} to {1} by removing some/all javascript resources\r\n'.format(
-            mobile_rating_overall, nojs_rating_overall)
-
-    rating += nojs_rating
-    result_dict.update(nojs_result_dict)
+        if use_reference and reference_rating != None:
+            validator_rating_overall = validator_rating.get_overall()
+            if reference_rating < validator_rating_overall and validator_rating_overall != -1 and validator_rating_overall != -1:
+                rating.overall_review += '- [{2}] Advice: Rating may improve from {0} to {1} with {3} changes\r\n'.format(
+                    reference_rating, validator_rating_overall, reference_name, validator_name)
 
     print(_('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
@@ -111,36 +122,74 @@ def run_test(_, langCode, url):
     return (rating, result_dict)
 
 
-def validate_on_mobile_no_external_domain(url):
-    o = urllib.parse.urlparse(url)
-    hostname = o.hostname
+def get_validators():
+    dir = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep).parent
+    config_file = os.path.join(
+        dir.resolve(), 'sitespeed-rules.json')
+    if not os.path.exists(config_file):
+        return []
+    with open(config_file) as json_config_file:
+        data = json.load(json_config_file)
+        return data
 
-    if hostname.startswith('www.'):
-        tmp_url = url.replace(hostname, hostname[4:])
-        o = urllib.parse.urlparse(tmp_url)
-        hostname = o.hostname
 
-    arg = '--shm-size=1g -b chrome --blockDomainsExcept *.{2} --mobile true --connectivity.profile 3gfast --visualMetrics true --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-        config.sitespeed_iterations, url, hostname)
+def validate_on_mobile_using_validator(url, validator_config):
+    browertime_plugin_options = ''
+
+    if 'headers' in validator_config:
+        index = 1
+        for header in validator_config['headers']:
+            browertime_plugin_options += ' --browsertime.webperf.header0{0} {1}={2}'.format(
+                index, header['name'], header['value'].replace(' ', '%20'))
+            index += 1
+    if 'htmls' in validator_config:
+        index = 1
+        for header in validator_config['htmls']:
+            browertime_plugin_options += ' --browsertime.webperf.HTML0{0} {1}={2}'.format(
+                index, header['replace'], header['replaceWith'].replace(' ', '%20'))
+            index += 1
+
+    arg = '--shm-size=1g -b chrome --mobile true --chrome.CPUThrottlingRate 3 --connectivity.profile 3gfast --visualMetrics true --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} --preScript chrome-custom.cjs {1}{2}'.format(
+        config.sitespeed_iterations, url, browertime_plugin_options)
     if 'nt' in os.name:
-        arg = '--shm-size=1g -b chrome --mobile true --connectivity.profile 3gfast --visualMetrics true --plugins.remove screenshot --speedIndex true --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-            config.sitespeed_iterations, url)
+        arg = '--shm-size=1g -b chrome --mobile true --chrome.CPUThrottlingRate 3 --connectivity.profile 3gfast --visualMetrics true --plugins.remove screenshot --speedIndex true --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} --preScript chrome-custom.cjs {1}{2}'.format(
+            config.sitespeed_iterations, url, browertime_plugin_options)
 
     result_dict = get_result_dict(get_result(
-        sitespeed_use_docker, arg), 'mobile no third parties')
+        sitespeed_use_docker, arg), validator_config['name'])
+    result_dict['name'] = validator_config['name']
+    result_dict['use_reference'] = validator_config['use_reference']
 
     return result_dict
 
 
-def validate_on_mobile_no_javascript(url):
-    arg = '--shm-size=1g -b chrome --mobile true --connectivity.profile 3gfast --visualMetrics true --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} --preScript chrome-nojs.cjs {1}'.format(
-        config.sitespeed_iterations, url)
+def validate_on_desktop_using_validator(url, validator_config):
+    browertime_plugin_options = ''
+
+    if 'headers' in validator_config:
+        index = 1
+        for header in validator_config['headers']:
+            browertime_plugin_options += ' --browsertime.webperf.header0{0} {1}={2}'.format(
+                index, header['name'], header['value'].replace(' ', '%20'))
+            index += 1
+    if 'htmls' in validator_config:
+        index = 1
+        for header in validator_config['htmls']:
+            browertime_plugin_options += ' --browsertime.webperf.HTML0{0} {1}={2}'.format(
+                index, header['replace'], header['replaceWith'].replace(' ', '%20'))
+            index += 1
+
+    arg = '--shm-size=1g -b chrome --connectivity.profile native --visualMetrics true --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} --preScript chrome-custom.cjs {1}{2}'.format(
+        config.sitespeed_iterations, url, browertime_plugin_options)
     if 'nt' in os.name:
-        arg = '--shm-size=1g -b chrome --mobile true --connectivity.profile 3gfast --visualMetrics true --plugins.remove screenshot --speedIndex true --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} --preScript chrome-nojs.cjs {1}'.format(
-            config.sitespeed_iterations, url)
+        arg = '--shm-size=1g -b chrome --connectivity.profile native --visualMetrics true --plugins.remove screenshot --speedIndex true --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} --preScript chrome-custom.cjs {1}{2}'.format(
+            config.sitespeed_iterations, url, browertime_plugin_options)
 
     result_dict = get_result_dict(get_result(
-        sitespeed_use_docker, arg), 'mobile no js')
+        sitespeed_use_docker, arg), validator_config['name'])
+    result_dict['name'] = validator_config['name']
+    result_dict['use_reference'] = validator_config['use_reference']
 
     return result_dict
 
@@ -179,6 +228,11 @@ def rate_result_dict(result_dict, reference_result_dict, mode, _, _local):
     overview_review = ''
 
     if reference_result_dict != None:
+        reference_name = 'UNKNOWN'
+        if result_dict['name'].startswith('mobile'):
+            reference_name = 'mobile'
+        if result_dict['name'].startswith('desktop'):
+            reference_name = 'desktop'
         external_to_remove = list()
         for pair in reference_result_dict.items():
             key = pair[0]
@@ -199,13 +253,8 @@ def rate_result_dict(result_dict, reference_result_dict, mode, _, _local):
             if mobile_obj['median'] > (limit + noxternal_obj['median']):
                 value_diff = mobile_obj['median'] - noxternal_obj['median']
 
-                txt = ''
-                if 'mobile no third parties' in mode:
-                    txt = '- [mobile] Advice: {0} may improve by {1:.2f}ms by removing external resources\r\n'.format(
-                        key, value_diff)
-                elif 'mobile no js' in mode:
-                    txt = '- [mobile] Advice: {0} may improve by {1:.2f}ms by removing javascript resources\r\n'.format(
-                        key, value_diff)
+                txt = '- [{2}] Advice: {0} may improve by {1:.2f}ms with {3} changes\r\n'.format(
+                    key, value_diff, reference_name, mode)
 
                 overview_review += txt
                 key_matching = True
@@ -214,18 +263,12 @@ def rate_result_dict(result_dict, reference_result_dict, mode, _, _local):
                 continue
             if 'range' not in noxternal_obj:
                 continue
-
             value_diff = 0
             if mobile_obj['range'] > (limit + noxternal_obj['range']):
                 value_diff = mobile_obj['range'] - noxternal_obj['range']
 
-                txt = ''
-                if 'mobile no third parties' in mode:
-                    txt = '- [mobile] Advice: {0} could be ±{1:.2f}ms less "bumpy" by removing external resources\r\n'.format(
-                        key, value_diff)
-                elif 'mobile no js' in mode:
-                    txt = '- [mobile] Advice: {0} could be ±{1:.2f}ms less "bumpy" by removing javascript resources\r\n'.format(
-                        key, value_diff)
+                txt = '- [{2}] Advice: {0} could be ±{1:.2f}ms less "bumpy" with {3} changes\r\n'.format(
+                    key, value_diff, reference_name)
 
                 overview_review += txt
                 key_matching = True
@@ -238,6 +281,10 @@ def rate_result_dict(result_dict, reference_result_dict, mode, _, _local):
 
     if 'Points' in result_dict:
         del result_dict['Points']
+    if 'name' in result_dict:
+        del result_dict['name']
+    if 'use_reference' in result_dict:
+        del result_dict['use_reference']
 
     for pair in result_dict.items():
         value = pair[1]

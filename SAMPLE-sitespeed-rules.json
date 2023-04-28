@@ -23,7 +23,7 @@
     },
     {
         "name": "mobile, no images",
-        "use_reference": true,
+        "use_reference": false,
         "headers": [
             {
                 "name": "Content-Security-Policy",

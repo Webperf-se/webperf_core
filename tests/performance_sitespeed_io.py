@@ -141,13 +141,13 @@ def validate_on_mobile_using_validator(url, validator_config):
         index = 1
         for header in validator_config['headers']:
             browertime_plugin_options += ' --browsertime.webperf.header0{0} {1}={2}'.format(
-                index, header['name'], header['value'].replace(' ', '%20'))
+                index, header['name'].replace(' ', '%20'), header['value'].replace(' ', '%20'))
             index += 1
     if 'htmls' in validator_config:
         index = 1
         for header in validator_config['htmls']:
             browertime_plugin_options += ' --browsertime.webperf.HTML0{0} {1}={2}'.format(
-                index, header['replace'], header['replaceWith'].replace(' ', '%20'))
+                index, header['replace'].replace(' ', '%20'), header['replaceWith'].replace(' ', '%20'))
             index += 1
 
     arg = '--shm-size=1g -b chrome --mobile true --chrome.CPUThrottlingRate 3 --connectivity.profile 3gfast --visualMetrics true --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} --preScript chrome-custom.cjs {1}{2}'.format(

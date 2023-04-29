@@ -19,7 +19,7 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 2 - 404 (sida finns inte)\n"
 
 msgid "TEXT_REVIEW_WRONG_STATUS_CODE"
-msgstr "- Fel statuskod. Fick {0} när 404 vore korrekt."
+msgstr "- Korrekt statuskod? Fick {0} och 404 är korrekt."
 
 msgid "TEXT_REVIEW_NO_TITLE"
 msgstr "- Hittade ingen sidtitel på sidan."
@@ -28,10 +28,10 @@ msgid "TEXT_REVIEW_MAIN_HEADER"
 msgstr "- Hittade ingen huvudrubrik (h1) på sidan."
 
 msgid "TEXT_REVIEW_NO_SWEDISH_ERROR_MSG"
-msgstr "- Verkar sakna text som beskriver att ett fel uppstått (på svenska eller engelska för engelskspråkig webbplats)."
+msgstr "- Verkar sakna text som beskriver att ett fel uppstått (på svenska, eller engelska för engelskspråkig webbplats)."
 
 msgid "TEXT_REVIEW_ERROR_MSG_UNDER_150"
-msgstr "- Information är under 150 tecken, vilket tyder på att användaren inte vägleds vidare."
+msgstr "- Information är under 150 tecken, vilket tyder på att användaren inte får tillräckligt med information för att vägledas vidare."
 
 msgid "TEXT_REVIEW_NO_REMARKS"
 msgstr "- Inga anmärkningar."

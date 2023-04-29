@@ -18,46 +18,46 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 26 - Tillgänglighetsredogörelse\n"
 
 msgid "TEXT_REVIEW_ACCESSIBILITY_STATEMENT_URL"
-msgstr "- Tillgänglighetsredogörelse: {0}\n{1}"
+msgstr "- Tillgänglighets&shy;redogörelse: {0}\n{1}"
 
 msgid "TEXT_REVIEW_CALLED_URL"
 msgstr "- Testad webbadress: {0}\n{1}"
 
 msgid "TEXT_REVIEW_NO_ACCESSIBILITY_STATEMENT"
-msgstr "- Ingen tillgänglighetsredogörelse hittad"
+msgstr "- Ingen tillgänglighets&shy;redogörelse hittad"
 
 msgid "TEXT_REVIEW_NO_UPDATE_DATE"
-msgstr "- Lyckades inte hitta när tillgänglighetsredogörelsen uppdaterats senast"
+msgstr "- Lyckades inte hitta när tillgänglighets&shy;redogörelsen uppdaterats senast"
 
 msgid "TEXT_REVIEW_IN_1YEAR_UPDATE_DATE"
-msgstr "- Tillgänglighetsredogörelsen ser ut att ha uppdaterats inom 1 år"
+msgstr "- Tillgänglighets&shy;redogörelsen ser ut att ha uppdaterats senaste året"
 
 msgid "TEXT_REVIEW_OLDER_THAN_1YEAR_UPDATE_DATE"
-msgstr "- Tillgänglighetsredogörelsen ser ut att vara äldre än 1 år"
+msgstr "- Tillgänglighets&shy;redogörelsen ser ut att vara äldre än 1 år"
 
 msgid "TEXT_REVIEW_OLDER_THAN_2YEAR_UPDATE_DATE"
-msgstr "- Tillgänglighetsredogörelsen ser ut att vara äldre än 2 år"
+msgstr "- Tillgänglighets&shy;redogörelsen ser ut att vara äldre än 2 år"
 
 msgid "TEXT_REVIEW_OLDER_THAN_3YEAR_UPDATE_DATE"
-msgstr "- Tillgänglighetsredogörelsen ser ut att vara äldre än 3 år"
+msgstr "- Tillgänglighets&shy;redogörelsen ser ut att vara äldre än 3 år"
 
 msgid "TEXT_REVIEW_OLDER_THAN_4YEAR_UPDATE_DATE"
-msgstr "- Tillgänglighetsredogörelsen ser ut att vara äldre än 4 år"
+msgstr "- Tillgänglighets&shy;redogörelsen ser ut att vara äldre än 4 år"
 
 msgid "TEXT_REVIEW_OLDER_THAN_5YEAR_UPDATE_DATE"
-msgstr "- Tillgänglighetsredogörelsen ser ut att vara äldre än 5 år"
+msgstr "- Tillgänglighets&shy;redogörelsen ser ut att vara äldre än 5 år"
 
 msgid "TEXT_REVIEW_LINK_STARTPAGE"
-msgstr "- Länk till tillgänglighetsredogörelsen finnas tydligt presenterad på webbplatsens startsida"
+msgstr "- Länk till tillgänglighets&shy;redogörelsen finns tydligt presenterad på webbplatsens startsida"
 
 msgid "TEXT_REVIEW_LINK_OTHER"
-msgstr "- Tillgänglighetsredogörelsen hittades på ett länkdjup större än den bör"
+msgstr "- Tillgänglighets&shy;redogörelsen hittades på ett länkdjup större än den bör"
 
 msgid "TEXT_REVIEW_EVALUATION_METHOD_FOUND"
-msgstr "- Ser ut att ange utvärderingsmetod"
+msgstr "- Ser ut att ange utvärderings&shy;metod"
 
 msgid "TEXT_REVIEW_EVALUATION_METHOD_NOT_FOUND"
-msgstr "- Hittar ej info om utvärderingsmetod"
+msgstr "- Hittar ej information om utvärderings&shy;metod"
 
 msgid "TEXT_REVIEW_ADAPTATION_FOUND"
 msgstr "- Anger oskäligt betungande anpassning (12 §)"
@@ -66,34 +66,34 @@ msgid "TEXT_REVIEW_ADAPTATION_NOT_FOUND"
 msgstr "- Anger ej oskäligt betungande anpassning (12 §)"
 
 msgid "TEXT_REVIEW_NOTIFICATION_FUNCTION_URL_FOUND"
-msgstr "- Korrekt länk till DIGG:s anmälningsfunktion"
+msgstr "- Korrekt länk till DIGG:s anmälnings&shy;funktion"
 
 msgid "TEXT_REVIEW_NOTIFICATION_FUNCTION_CANONICAL_URL_FOUND"
-msgstr "- Korrekt länk (canonical) till DIGG:s anmälningsfunktion"
+msgstr "- Korrekt länk (canonical) till DIGG:s anmälnings&shy;funktion"
 
 msgid "TEXT_REVIEW_NOTIFICATION_FUNCTION_OLD_URL_FOUND"
-msgstr "- Använder gammal eller felaktig länk till DIGG:s anmälningsfunktion"
+msgstr "- Använder gammal eller felaktig länk till DIGG:s anmälnings&shy;funktion"
 
 msgid "TEXT_REVIEW_NOTIFICATION_FUNCTION_URL_NOT_FOUND"
-msgstr "- Saknar eller har felaktig länk till DIGG:s anmälningsfunktion"
+msgstr "- Saknar eller har felaktig länk till DIGG:s anmälnings&shy;funktion"
 
 msgid "TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_NOT_COMPATIBLE"
-msgstr "- Har följsamhet till lagkraven med formuleringen inte förenlig"
+msgstr "- Har följsamhet till lagkraven genom att de medger att webbplatsen inte är förenlig"
 
 msgid "TEXT_REVIEW_COMPATIBLE_TEXT_A11Y_NOT_COMPATIBLE"
-msgstr "- Anger själv att webbplats inte är förenlig med lagkraven"
+msgstr "- Anger själv att webbplatsen inte är förenlig med lagkraven"
 
 msgid "TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_PARTLY_COMPATIBLE"
-msgstr "- Har följsamhet till lagkraven med formuleringen delvis förenlig"
+msgstr "- Har följsamhet till lagkraven med formuleringen &quot;delvis förenlig&quot;"
 
 msgid "TEXT_REVIEW_COMPATIBLE_TEXT_A11Y_PARTLY_COMPATIBLE"
 msgstr "- Anger själv att webbplats bara delvis är förenlig med lagkraven"
 
 msgid "TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_FULL_COMPATIBLE"
-msgstr "- Har följsamhet till lagkraven med formuleringen helt förenlig"
+msgstr "- Har följsamhet till lagkraven med formuleringen &quot;helt förenlig&quot;"
 
 msgid "TEXT_REVIEW_COMPATIBLE_TEXT_A11Y_FULL_COMPATIBLE"
 msgstr "- Anger själv att webbplats är helt förenlig med lagkraven"
 
 msgid "TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_NOT_FOUND"
-msgstr "- Saknar följsamhet till lagkraven med formuleringen"
+msgstr "- Saknar helt formulering om följsamhet till lagkraven"

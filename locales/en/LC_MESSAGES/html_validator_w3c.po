@@ -31,7 +31,7 @@ msgid "TEXT_REVIEW_HTML_IS_BAD"
 msgstr "- The tested page has {0} errors in its HTML code. It is not that good.\n"
 
 msgid "TEXT_REVIEW_HTML_IS_VERY_BAD"
-msgstr "- The tested page has lots of errors in its HTML code. A total of {0}.\n"
+msgstr "- The tested page has a lot of errors in its HTML code. A total of {0}.\n"
 
 msgid "TEXT_REVIEW_ERRORS_ITEM"
 msgstr "- {0} (errors of this type: {1} pcs)\n"

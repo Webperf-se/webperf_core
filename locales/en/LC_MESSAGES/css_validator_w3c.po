@@ -25,7 +25,7 @@ msgid "TEXT_REVIEW_CSS_IS_GOOD"
 msgstr "- The CSS is good.\n"
 
 msgid "TEXT_REVIEW_CSS_IS_OK"
-msgstr "- The CSS is not good or bad.\n"
+msgstr "- The CSS is neither good or bad.\n"
 
 msgid "TEXT_REVIEW_CSS_IS_BAD"
 msgstr "- The CSS is bad.\n"

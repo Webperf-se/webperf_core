@@ -38,15 +38,14 @@ You could either follow the more technical suggestions below, or you perhaps wou
 
 To create a new language source file:  
 ```python3 <your path to pygettext.py > -d webperf-core -o locales/webperf-core.pot default.py checks.py```
+(or copy an existing one)
 
 Copy the file to your locale, for Swedish it would be:  
 ```locales/sv/LC_MESSAGES/webperf-core.pot```
 
 Rename the file extension from `.pot` to `.po`
 
-After you have translated everything you should run the following command from the LC_MESSAGES folder:  
-```python3 <your path to msgfmt.py> -o webperf-core.mo webperf-core.po```
-
+After you have translated everything you should check it in, GitHub will take your change and generate .mo files when needed.
 You now have support for a new language, please send it to the official repository using a pull request :)
 
 #### How to find pygettext.py
@@ -56,17 +55,6 @@ Locate your pygettext.py file:
 
 It might be as follows:  
 ```/Library/Frameworks/Python.framework/Versions/3.8/share/doc/python3.8/examples/Tools/i18n/pygettext.py```
-
-#### How to find msgfmt.py
-
-Locate your msgfmt.py file:  
-```locate msgfmt.py```
-
-It might be as follows:  
-```/Library/Frameworks/Python.framework/Versions/3.8/share/doc/python3.8/examples/Tools/i18n/msgfmt.py```
-
-The command can be:
-```python3 /Library/Frameworks/Python.framework/Versions/3.8/share/doc/python3.8/examples/Tools/i18n/pygettext.py -d webperf-core -o locales/webperf-core.pot default.py```
 
 ### References
 

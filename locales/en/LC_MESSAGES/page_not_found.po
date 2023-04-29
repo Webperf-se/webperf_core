@@ -19,19 +19,19 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 2 - 404 (Page not Found)\n"
 
 msgid "TEXT_REVIEW_WRONG_STATUS_CODE"
-msgstr "- Wrong status code. Got {0}, when 404 would be correct."
+msgstr "- Correct status code? Got {0}, and 404 is correct."
 
 msgid "TEXT_REVIEW_NO_TITLE"
-msgstr "- Found no page title in the page metadata."
+msgstr "- Found no page title in the page's metadata."
 
 msgid "TEXT_REVIEW_MAIN_HEADER"
 msgstr "- Found no headline (h1)."
 
 msgid "TEXT_REVIEW_NO_SWEDISH_ERROR_MSG"
-msgstr "- Seems to lack text describing that an error has occurred (in Swedish OR english for english sites)."
+msgstr "- Seems to lack text describing that an error has occurred (in Swedish OR English for English sites)."
 
 msgid "TEXT_REVIEW_ERROR_MSG_UNDER_150"
-msgstr "- Text content length is less than 150 characters, indicating that the user is not being referred, nor advised."
+msgstr "- Text content length is less than 150 characters, which indicates that the user is not being referred, nor advised."
 
 msgid "TEXT_REVIEW_NO_REMARKS"
 msgstr "- No remarks"

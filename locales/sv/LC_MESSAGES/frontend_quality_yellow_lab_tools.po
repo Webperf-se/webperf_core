@@ -61,28 +61,28 @@ msgid "Web fonts"
 msgstr "Sidans användning av webbtypsnitt"
 
 msgid "Server config"
-msgstr "Server konfiguration"
+msgstr "Server&shy;konfiguration"
 
 msgid "TLS protocols"
-msgstr "TLS protokoll"
+msgstr "TLS-protokoll"
 
 msgid "Number of iframes"
 msgstr "Användning av iframe"
 
 msgid "Total JS execution time"
-msgstr "Exikveringstid för Javascript"
+msgstr "Exekveringstid för Javascript"
 
 msgid "DOM access"
-msgstr "DOM åtkomst"
+msgstr "DOM-åtkomst"
 
 msgid "Scroll events bound"
-msgstr "Händelser knutna till Scroll"
+msgstr "Händelser knutna till scroll"
 
 msgid "document.write calls"
-msgstr "document.write anrop"
+msgstr "document.write-anrop"
 
 msgid "Synchronous Ajax requests"
-msgstr "Synkrona Ajax anrop"
+msgstr "Synkrona Ajax-anrop"
 
 msgid "Rules count"
 msgstr "Antal regler"
@@ -91,16 +91,16 @@ msgid "Total weight"
 msgstr "Total vikt"
 
 msgid "Image optimization"
-msgstr "Bild optimimering"
+msgstr "Bild&shy;optimimering"
 
 msgid "Oversized images"
 msgstr "Onödigt stora bilder"
 
 msgid "Gzip/Brotli compression"
-msgstr "Gzip/Brotli kompremering"
+msgstr "Gzip/Brotli-kompremering"
 
 msgid "File minification"
-msgstr "Filminfiering"
+msgstr "Filminifiering"
 
 msgid "Requests number"
 msgstr "Antal anrop"
@@ -118,11 +118,11 @@ msgid "Identical content"
 msgstr "Identiskt innehåll"
 
 msgid "HTTP protocols"
-msgstr "HTTP protokoll"
+msgstr "HTTP-protokoll"
 
 msgid "CSS syntax error"
-msgstr "CSS syntax fel"
+msgstr "CSS-syntax är fel"
 
 msgid "IDs duplicated"
-msgstr "Duplicerade IDn"
+msgstr "Överlappande ID:n"
 

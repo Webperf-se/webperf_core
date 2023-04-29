@@ -40,10 +40,10 @@ msgid "TEXT_GRAMS_OF_CO2"
 msgstr "- Koldioxid per sidvisning: {} gram\n"
 
 msgid "TEXT_GREEN_ENERGY_TRUE"
-msgstr "- Webbplatsen verkar drivas av grön el.\n"
+msgstr "- Webbplatsen verkar drivas med grön el.\n"
 
 msgid "TEXT_GREEN_ENERGY_FALSE"
-msgstr "- Kunde inte se att webbplatsen använder grön el.\n"
+msgstr "- Kunde inte se ifall webbplatsen använder grön el.\n"
 
 msgid "TEXT_BETTER_THAN"
 msgstr "- Webbsidan är grönare än {0} % av testade webbplatser på webperf.se (Referens uppdaterad: {1}).\n"

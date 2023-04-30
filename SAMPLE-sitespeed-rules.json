@@ -1,0 +1,44 @@
+[
+    {
+        "name": "mobile, no external",
+        "use_reference": true,
+        "headers": [
+            {
+                "name": "Content-Security-Policy",
+                "value": "default-src \"self\";"
+            }
+        ],
+        "htmls": []
+    },
+    {
+        "name": "mobile, no js",
+        "use_reference": true,
+        "headers": [
+            {
+                "name": "Content-Security-Policy",
+                "value": "script-src \"none\";"
+            }
+        ],
+        "htmls": []
+    },
+    {
+        "name": "mobile, no images",
+        "use_reference": false,
+        "headers": [
+            {
+                "name": "Content-Security-Policy",
+                "value": "img-src%20\"none\";"
+            }
+        ]
+    },
+    {
+        "name": "mobile, defer scripts",
+        "use_reference": true,
+        "htmls": [
+            {
+                "replace": "<script ",
+                "replaceWith": "<script defer "
+            }
+        ]
+    }
+]

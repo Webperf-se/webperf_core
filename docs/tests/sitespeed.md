@@ -5,12 +5,48 @@ Add small description of what this test is.
 
 ## What is being tested?
 
-Currently we are only using the SpeedIndex metric from SiteSpeed.io (Expressed in ms).
-You can read more about SpeedIndex at: https://www.sitespeed.io/documentation/sitespeed.io/metrics/#speed-index
+We will startup the URL specified with a normal browser for X iterations with different subtests.
+You specify the number of iterations to use in your [config.py file](../config-py.md), 3 iterations or more are recommended to get most stable rating.
+The subtests we use are:
+* Desktop (Configured as: Laptop size, full network speed of the system)
+* Mobile (Configured as: Mobile size, 3G Fast network speed)
+* Mobile - No External (Configured as: Mobile but doesn't allow external resources)
+* Mobile - No Javascript (Configured as: Mobile but doesn't allow javascript)
 
-After we get this value from SiteSpeed.io we remove 500 from it and do the following calculation:
+For every subtest we are using following metrics are used:
+* [SpeedIndex](https://docs.webpagetest.org/metrics/speedindex/)
+* [TTFB (Time to First Byte)](https://web.dev/ttfb/)
+* [TBT (Total Blocking Time)](https://web.dev/tbt/) [Alternative reference](https://developer.chrome.com/docs/lighthouse/performance/lighthouse-total-blocking-time/#how-lighthouse-determines-your-tbt-score)
+* [FCP (First Contentful Paint)](https://web.dev/fcp/)
+* [LCP (Largest Contentful Paint)](https://web.dev/lcp/)
+* [CLS (Cumulative Layout Shift)](https://web.dev/cls/)
+* FirstVisualChange
+* VisualComplete85
+* Load
 
-`Rating = 5.0 - (speedindex_adjusted / 1000)`
+The URL are only rated on "Desktop" and "Mobile", the others are only there to give you hints on what can improve.
+We are using different values to rate the URL depending on it is for the subtest "Desktop" or "Mobile", you can read more about them below:
+
+### Desktop rating metrics
+For `SpeedIndex`, `FirstVisualChange`, `VisualComplete85` and `Load` you will get 5.0 points if you are at or below `500ms`, after that you will get penalty for every ms you are above.
+For `CLS (Cumulative Layout Shift)` you will get 5.0 points if you are at or below `0.1ms`, 3.0 points if you are at or below `0.25ms`, else you will get 1.0.
+For `LCP (Largest Contentful Paint)` you will get 5.0 points if you are at or below `500ms`, 3.0 points if you are at or below `1000ms`, else you will get 1.0.
+For `FCP (First Contentful Paint)` you will get 5.0 points if you are at or below `1800ms`, 3.0 points if you are at or below `3000ms`, else you will get 1.0.
+For `TBT (Total Blocking Time)` you will get 5.0 points if you are at or below `200ms`, 3.0 points if you are at or below `600ms`, else you will get 1.0.
+For `TTFB (Time to First Byte)` you will get 5.0 points if you are at or below `250ms`, 3.0 points if you are at or below `450ms`, else you will get 1.0.
+
+### Mobile rating metrics
+For `SpeedIndex`, `FirstVisualChange`, `VisualComplete85` and `Load` you will get 5.0 points if you are at or below `1500ms`, after that you will get penalty for every ms you are above.
+For `CLS (Cumulative Layout Shift)` you will get 5.0 points if you are at or below `0.1ms`, 3.0 points if you are at or below `0.25ms`, else you will get 1.0.
+For `LCP (Largest Contentful Paint)` you will get 5.0 points if you are at or below `1500ms`, 3.0 points if you are at or below `2500ms`, else you will get 1.0.
+For `FCP (First Contentful Paint)` you will get 5.0 points if you are at or below `1800ms`, 3.0 points if you are at or below `3000ms`, else you will get 1.0.
+For `TBT (Total Blocking Time)` you will get 5.0 points if you are at or below `200ms`, 3.0 points if you are at or below `600ms`, else you will get 1.0.
+For `TTFB (Time to First Byte)` you will get 5.0 points if you are at or below `800ms`, 3.0 points if you are at or below `1800ms`, else you will get 1.0.
+
+### Advices
+We will give you advice if subtests `Mobile - No External` or `Mobile - No Javascript` may get you a better rating then your current `Mobile` rating.
+We will give you advice if subtests `Mobile - No External` or `Mobile - No Javascript` may improve any metric above with more then `500ms`.
+We will give you advice if subtests `Mobile - No External` or `Mobile - No Javascript` may improve any metric "bumpy" behaivor with more then `500ms`.
 
 ## Read more
 
@@ -42,7 +78,7 @@ Read more on the [general page for github actions](../getting-started-github-act
 * Install setuptools `python -m pip install --upgrade setuptools`
 * Install ... `python -m pip install pyssim Pillow image`
 * Install ffmpeg `sudo apt install ffmpeg`
-* Download and install Node.js (v1 version 14.x)
+* Download and install Node.js (v1 version 18.x)
 * Download and install Google Chrome browser
 * Install SiteSpeed NPM package ( `npm install sitespeed.io` )
 * Set `sitespeed_use_docker = False` in your `config.py`

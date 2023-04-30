@@ -58,81 +58,383 @@ def run_test(_, langCode, url):
     print(_('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    arg = '--shm-size=1g -b chrome --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-        config.sitespeed_iterations, url)
-    if 'nt' in os.name:
-        arg = '--shm-size=1g -b chrome --plugins.remove screenshot --speedIndex true --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-            config.sitespeed_iterations, url)
-
-    result = get_result(sitespeed_use_docker, arg)
-
-    result = result.replace('\\n', ' ')
-
-    old_val = None
-    old_val_unsliced = None
+    rating = Rating(_)
     result_dict = {}
 
-    for line in result.split(' '):
-        if old_val == 'speedindex' or old_val == 'load' or old_val == 'backendtime' or old_val == 'firstpaint' or old_val == 'firstvisualchange' or old_val == 'domcontentloaded' or old_val == 'visualcomplete85' or old_val == 'lastvisualchange' or old_val == 'rumspeedindex' or old_val == 'dominteractivetime' or old_val == 'domcontentloadedtime' or old_val == 'pageloadtime' or old_val == 'perceptualspeedindex':
-            result_dict[old_val] = line.replace('ms', '')
+    validator_result_dicts = []
 
-        if line[:-1].lower() == 'requests':
-            result_dict['requests'] = old_val_unsliced
+    validators = get_validators()
+    for validator in validators:
+        if validator['name'].startswith('mobile'):
+            validator_result_dicts.append(
+                validate_on_mobile_using_validator(url, validator))
+        if validator['name'].startswith('desktop'):
+            validator_result_dicts.append(
+                validate_on_desktop_using_validator(url, validator))
 
-        old_val = line[:-1].lower()
-        old_val_unsliced = line
+    # Are they still not ready they need to fix it...
+    desktop_result_dict = validate_on_desktop(url)
 
-    if 's' in result_dict['speedindex']:
-        """
-        Changes speedindex to a number if for instance 1.1s it becomes 1100
-        """
-        result_dict['speedindex'] = int(
-            float(result_dict['speedindex'].replace('s', '')) * 1000)
+    mobile_result_dict = validate_on_mobile(url)
 
-    speedindex = int(result_dict['speedindex'])
+    desktop_rating = rate_result_dict(desktop_result_dict, None,
+                                      'desktop', _, _local)
 
-    review = ''
-    points = 5.0
+    rating += desktop_rating
+    result_dict.update(desktop_result_dict)
 
-    # give 0.5 seconds in credit
-    speedindex_adjusted = speedindex - 500
-    if speedindex_adjusted <= 0:
-        # speed index is 500 or below, give highest score
-        points = 5.0
-    else:
-        points = 5.0 - (speedindex_adjusted / 1000)
+    mobile_rating = rate_result_dict(mobile_result_dict, None,
+                                     'mobile', _, _local)
 
-    review_overall = ''
-    if points >= 5.0:
-        review_overall = _local('TEXT_REVIEW_VERY_GOOD')
-    elif points >= 4.0:
-        review_overall = _local('TEXT_REVIEW_IS_GOOD')
-    elif points >= 3.0:
-        review_overall = _local('TEXT_REVIEW_IS_OK')
-    elif points > 1.0:
-        review_overall = _local('TEXT_REVIEW_IS_BAD')
-    elif points <= 1.0:
-        review_overall = _local('TEXT_REVIEW_IS_VERY_BAD')
+    rating += mobile_rating
+    result_dict.update(mobile_result_dict)
 
-    review += '- Speedindex: {}\n'.format(speedindex)
+    for validator_result_dict in validator_result_dicts:
+        validator_name = validator_result_dict['name']
+        reference_name = None
+        reference_rating = None
+        reference_result_dict = None
+        use_reference = validator_result_dict['use_reference']
+        if use_reference:
+            if validator['name'].startswith('mobile'):
+                reference_name = 'mobile'
+                reference_rating = mobile_rating.get_overall()
+                reference_result_dict = mobile_result_dict
+            if validator['name'].startswith('desktop'):
+                reference_name = 'desktop'
+                reference_rating = desktop_rating.get_overall()
+                reference_result_dict = desktop_result_dict
 
-    rating = Rating(_)
-    rating.set_overall(points, review_overall)
-    rating.set_performance(points, review)
+        validator_rating = rate_result_dict(validator_result_dict, reference_result_dict,
+                                            validator_name, _, _local)
+        rating += validator_rating
+        result_dict.update(validator_result_dict)
 
-    review = rating.performance_review
-    if 's' in result_dict['load']:
-        review += _local("TEXT_REVIEW_LOAD_TIME").format(result_dict['load'])
-    else:
-        review += _local("TEXT_REVIEW_LOAD_TIME_SECONDS").format(
-            result_dict['load'])
-
-    review += _local("TEXT_REVIEW_NUMBER_OF_REQUESTS").format(
-        result_dict['requests'])
-
-    rating.performance_review = review
+        if use_reference and reference_rating != None:
+            validator_rating_overall = validator_rating.get_overall()
+            if reference_rating < validator_rating_overall and validator_rating_overall != -1 and validator_rating_overall != -1:
+                rating.overall_review += '- [{2}] Advice: Rating may improve from {0} to {1} with {3} changes\r\n'.format(
+                    reference_rating, validator_rating_overall, reference_name, validator_name)
 
     print(_('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, result_dict)
+
+
+def get_validators():
+    dir = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep).parent
+    config_file = os.path.join(
+        dir.resolve(), 'sitespeed-rules.json')
+    if not os.path.exists(config_file):
+        return []
+    with open(config_file) as json_config_file:
+        data = json.load(json_config_file)
+        return data
+
+
+def validate_on_mobile_using_validator(url, validator_config):
+    browertime_plugin_options = ''
+
+    if 'headers' in validator_config:
+        index = 1
+        for header in validator_config['headers']:
+            browertime_plugin_options += ' --browsertime.webperf.header0{0} {1}={2}'.format(
+                index, header['name'].replace(' ', '%20').replace('=', '%3D'), header['value'].replace(' ', '%20').replace('=', '%3D'))
+            index += 1
+    if 'htmls' in validator_config:
+        index = 1
+        for header in validator_config['htmls']:
+            browertime_plugin_options += ' --browsertime.webperf.HTML0{0} {1}={2}'.format(
+                index, header['replace'].replace(' ', '%20').replace('=', '%3D'), header['replaceWith'].replace(' ', '%20').replace('=', '%3D'))
+            index += 1
+
+    arg = '--shm-size=1g -b chrome --mobile true --chrome.CPUThrottlingRate 3 --connectivity.profile 3gfast --visualMetrics true --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} --preScript chrome-custom.cjs {1}{2}'.format(
+        config.sitespeed_iterations, url, browertime_plugin_options)
+    if 'nt' in os.name:
+        arg = '--shm-size=1g -b chrome --mobile true --chrome.CPUThrottlingRate 3 --connectivity.profile 3gfast --visualMetrics true --plugins.remove screenshot --speedIndex true --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} --preScript chrome-custom.cjs {1}{2}'.format(
+            config.sitespeed_iterations, url, browertime_plugin_options)
+
+    result_dict = get_result_dict(get_result(
+        sitespeed_use_docker, arg), validator_config['name'])
+    result_dict['name'] = validator_config['name']
+    result_dict['use_reference'] = validator_config['use_reference']
+
+    return result_dict
+
+
+def validate_on_desktop_using_validator(url, validator_config):
+    browertime_plugin_options = ''
+
+    if 'headers' in validator_config:
+        index = 1
+        for header in validator_config['headers']:
+            browertime_plugin_options += ' --browsertime.webperf.header0{0} {1}={2}'.format(
+                index, header['name'].replace(' ', '%20').replace('=', '%3D'), header['value'].replace(' ', '%20').replace('=', '%3D'))
+            index += 1
+    if 'htmls' in validator_config:
+        index = 1
+        for header in validator_config['htmls']:
+            browertime_plugin_options += ' --browsertime.webperf.HTML0{0} {1}={2}'.format(
+                index, header['replace'].replace(' ', '%20').replace('=', '%3D'), header['replaceWith'].replace(' ', '%20').replace('=', '%3D'))
+            index += 1
+
+    arg = '--shm-size=1g -b chrome --connectivity.profile native --visualMetrics true --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} --preScript chrome-custom.cjs {1}{2}'.format(
+        config.sitespeed_iterations, url, browertime_plugin_options)
+    if 'nt' in os.name:
+        arg = '--shm-size=1g -b chrome --connectivity.profile native --visualMetrics true --plugins.remove screenshot --speedIndex true --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} --preScript chrome-custom.cjs {1}{2}'.format(
+            config.sitespeed_iterations, url, browertime_plugin_options)
+
+    result_dict = get_result_dict(get_result(
+        sitespeed_use_docker, arg), validator_config['name'])
+    result_dict['name'] = validator_config['name']
+    result_dict['use_reference'] = validator_config['use_reference']
+
+    return result_dict
+
+
+def validate_on_desktop(url):
+    arg = '--shm-size=1g -b chrome --connectivity.profile native --visualMetrics true --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+        config.sitespeed_iterations, url)
+    if 'nt' in os.name:
+        arg = '--shm-size=1g -b chrome --connectivity.profile native --visualMetrics true --plugins.remove screenshot --speedIndex true --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+            config.sitespeed_iterations, url)
+
+    result_dict = get_result_dict(get_result(
+        sitespeed_use_docker, arg), 'desktop')
+
+    return result_dict
+
+
+def validate_on_mobile(url):
+    arg = '--shm-size=1g -b chrome --mobile true --connectivity.profile 3gfast --visualMetrics true --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+        config.sitespeed_iterations, url)
+    if 'nt' in os.name:
+        arg = '--shm-size=1g -b chrome --mobile true --connectivity.profile 3gfast --visualMetrics true --plugins.remove screenshot --speedIndex true --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+            config.sitespeed_iterations, url)
+
+    result_dict = get_result_dict(get_result(
+        sitespeed_use_docker, arg), 'mobile')
+
+    return result_dict
+
+
+def rate_result_dict(result_dict, reference_result_dict, mode, _, _local):
+    limit = 500
+
+    rating = Rating(_)
+    performance_review = ''
+    overview_review = ''
+
+    if reference_result_dict != None:
+        reference_name = 'UNKNOWN'
+        if result_dict['name'].startswith('mobile'):
+            reference_name = 'mobile'
+        if result_dict['name'].startswith('desktop'):
+            reference_name = 'desktop'
+        external_to_remove = list()
+        for pair in reference_result_dict.items():
+            key = pair[0]
+            mobile_obj = pair[1]
+            key_matching = False
+
+            if key not in result_dict:
+                continue
+
+            noxternal_obj = result_dict[key]
+
+            if 'median' not in mobile_obj:
+                continue
+            if 'median' not in noxternal_obj:
+                continue
+
+            value_diff = 0
+            if mobile_obj['median'] > (limit + noxternal_obj['median']):
+                value_diff = mobile_obj['median'] - noxternal_obj['median']
+
+                txt = '- [{2}] Advice: {0} may improve by {1:.2f}ms with {3} changes\r\n'.format(
+                    key, value_diff, reference_name, mode)
+
+                overview_review += txt
+                key_matching = True
+
+            if 'range' not in mobile_obj:
+                continue
+            if 'range' not in noxternal_obj:
+                continue
+            value_diff = 0
+            if mobile_obj['range'] > (limit + noxternal_obj['range']):
+                value_diff = mobile_obj['range'] - noxternal_obj['range']
+
+                txt = '- [{2}] Advice: {0} could be ±{1:.2f}ms less "bumpy" with {3} changes\r\n'.format(
+                    key, value_diff, reference_name)
+
+                overview_review += txt
+                key_matching = True
+
+            if not key_matching:
+                external_to_remove.append(key)
+
+        for key in external_to_remove:
+            del result_dict[key]
+
+    if 'Points' in result_dict:
+        del result_dict['Points']
+    if 'name' in result_dict:
+        del result_dict['name']
+    if 'use_reference' in result_dict:
+        del result_dict['use_reference']
+
+    for pair in result_dict.items():
+        value = pair[1]
+        if 'msg' not in value:
+            continue
+        if 'points' in value and value['points'] != -1:
+            points = value['points']
+            entry_rating = Rating(_)
+            entry_rating.set_overall(points)
+            entry_rating.set_performance(
+                points, value['msg'])
+            rating += entry_rating
+        else:
+            performance_review += '{0}\r\n'.format(value['msg'])
+
+    rating.overall_review = rating.overall_review + overview_review
+    rating.performance_review = rating.performance_review + performance_review
+    return rating
+
+
+def get_result_dict(data, mode):
+    result_dict = {}
+    tmp_dict = {}
+    regex = r"(?P<name>TTFB|DOMContentLoaded|firstPaint|FCP|LCP|Load|TBT|CLS|FirstVisualChange|SpeedIndex|VisualComplete85|LastVisualChange)\:[ ]{0,1}(?P<value>[0-9\.ms]+)"
+    matches = re.finditer(regex, data, re.MULTILINE)
+
+    for matchNum, match in enumerate(matches, start=1):
+        name = match.group('name')
+        value = match.group('value')
+
+        if name not in tmp_dict:
+            tmp_dict[name] = list()
+        tmp_dict[name].append(value)
+
+    for pair in tmp_dict.items():
+        key = pair[0]
+        values = pair[1]
+        biggest = 0
+        total = 0
+        value_range = 0
+        result = 0
+        median = 0
+        for value in values:
+            number = 0
+            if 'ms' in value:
+                number = float(value.replace('ms', ''))
+            elif 's' in value:
+                number = float(
+                    value.replace('s', '')) * 1000
+            total += number
+            if number > biggest:
+                biggest = number
+            # print('  ', number, total)
+        value_count = len(values)
+        if value_count < 2:
+            value_range = 0
+            result = total
+        else:
+            median = total / value_count
+            value_range = biggest - median
+            result = median
+
+        fullname = key
+        points = -1
+        if 'TTFB' in key:
+            # https://web.dev/ttfb/
+            fullname = 'TTFB (Time to First Byte)'
+            if 'desktop' in mode:
+                if median <= 250:
+                    points = 5.0
+                elif median <= 450:
+                    points = 3.0
+                else:
+                    points = 1.0
+            elif 'mobile' in mode:
+                if median <= 800:
+                    points = 5.0
+                elif median <= 1800:
+                    points = 3.0
+                else:
+                    points = 1.0
+        elif 'TBT' in key:
+            # https://web.dev/tbt/
+            # https://developer.chrome.com/docs/lighthouse/performance/lighthouse-total-blocking-time/#how-lighthouse-determines-your-tbt-score
+            fullname = 'TBT (Total Blocking Time)'
+            if median <= 200:
+                points = 5.0
+            elif median <= 600:
+                points = 3.0
+            else:
+                points = 1.0
+        elif 'FCP' in key:
+            # https://web.dev/fcp/
+            fullname = 'FCP (First Contentful Paint)'
+            if median <= 1800:
+                points = 5.0
+            elif median <= 3000:
+                points = 3.0
+            else:
+                points = 1.0
+        elif 'LCP' in key:
+            # https://web.dev/lcp/
+            fullname = 'LCP (Largest Contentful Paint)'
+            if 'desktop' in mode:
+                if median <= 500:
+                    points = 5.0
+                elif median <= 1000:
+                    points = 3.0
+                else:
+                    points = 1.0
+            elif 'mobile' in mode:
+                if median <= 1500:
+                    points = 5.0
+                elif median <= 2500:
+                    points = 3.0
+                else:
+                    points = 1.0
+        elif 'CLS' in key:
+            # https://web.dev/cls/
+            fullname = 'CLS (Cumulative Layout Shift)'
+            if median <= 0.1:
+                points = 5.0
+            elif median <= 0.25:
+                points = 3.0
+            else:
+                points = 1.0
+
+        elif 'SpeedIndex' in key or 'FirstVisualChange' in key or 'VisualComplete85' in key or 'Load' in key:
+            # https://docs.webpagetest.org/metrics/speedindex/
+            adjustment = 500
+            if 'mobile' in mode:
+                adjustment = 1500
+
+            limit = 500
+            # give 0.5 seconds in credit
+            speedindex_adjusted = result - adjustment
+            if speedindex_adjusted <= 0:
+                # speed index is 500 or below, give highest score
+                points = 5.0
+            else:
+                points = 5.0 - ((speedindex_adjusted / limit) * 1.0)
+
+        tmp = {
+            'median': median,
+            'range': value_range,
+            'mode': mode,
+            'points': points,
+            'msg': '- [{2}] {3}: {0:.2f}ms, ±{1:.2f}ms'.format(result, value_range, mode, fullname),
+            'values': values
+        }
+
+        result_dict[key] = tmp
+    return result_dict

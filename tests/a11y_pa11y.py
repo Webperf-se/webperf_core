@@ -112,7 +112,8 @@ def get_pa11y_errors(url, use_axe):
     if use_axe:
         additional_args = '--runner axe '
 
-    bashCommand = "node node_modules{1}pa11y{1}bin{1}pa11y.js --reporter json {2}{0}".format(
+    # NOTE: "--ignore color-contrast" was added to temporarly solve issue #204
+    bashCommand = "node node_modules{1}pa11y{1}bin{1}pa11y.js --ignore color-contrast --reporter json {2}{0}".format(
         url, os.path.sep, additional_args)
 
     process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)

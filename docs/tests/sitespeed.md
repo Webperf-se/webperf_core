@@ -10,8 +10,6 @@ You specify the number of iterations to use in your [config.py file](../config-p
 The subtests we use are:
 * Desktop (Configured as: Laptop size, full network speed of the system)
 * Mobile (Configured as: Mobile size, 3G Fast network speed)
-* Mobile - No External (Configured as: Mobile but doesn't allow external resources)
-* Mobile - No Javascript (Configured as: Mobile but doesn't allow javascript)
 
 For every subtest we are using following metrics are used:
 * [SpeedIndex](https://docs.webpagetest.org/metrics/speedindex/)
@@ -43,10 +41,48 @@ For `FCP (First Contentful Paint)` you will get 5.0 points if you are at or belo
 For `TBT (Total Blocking Time)` you will get 5.0 points if you are at or below `200ms`, 3.0 points if you are at or below `600ms`, else you will get 1.0.
 For `TTFB (Time to First Byte)` you will get 5.0 points if you are at or below `800ms`, 3.0 points if you are at or below `1800ms`, else you will get 1.0.
 
-### Advices
-We will give you advice if subtests `Mobile - No External` or `Mobile - No Javascript` may get you a better rating then your current `Mobile` rating.
-We will give you advice if subtests `Mobile - No External` or `Mobile - No Javascript` may improve any metric above with more then `500ms`.
-We will give you advice if subtests `Mobile - No External` or `Mobile - No Javascript` may improve any metric "bumpy" behaivor with more then `500ms`.
+### Customization and Advices
+
+If you want to test the impact of a change before implementing it on your server in production you can configure webperf-core to simulate the change first.
+You can do this by changing copy `SAMPLE-sitespeed-rules.json` and creating `sitespeed-rules.json` and changing it's content.
+
+This file can contain 1 or more subtests.
+Below is an example that will be showed in review as `mobile, no images`.
+Property `use_reference` tells webperf-core if it should only show lines that are are improvment (`use_reference = True`) or if it should show all lines.
+In below example we tell webperf-core to show all lines.
+There are possible to change HTML or HTTP Response Headers of document (pages), in below example we add/change header `Content-Security-Policy`
+to not allow any images.
+
+```
+    {
+        "name": "mobile, no images",
+        "use_reference": false,
+        "headers": [
+            {
+                "name": "Content-Security-Policy",
+                "value": "img-src%20\"none\";"
+            }
+        ]
+    }
+```
+
+This is an other example showing a subtest that changes the HTML.
+In this case replacing all `<script ` with `<script defer `.
+```
+    {
+        "name": "mobile, defer scripts",
+        "use_reference": true,
+        "htmls": [
+            {
+                "replace": "<script ",
+                "replaceWith": "<script defer "
+            }
+        ]
+    }
+```
+
+You can have up to 10 headers changes and 10 HTML changes in every subtest.
+There are no limit on how many subtests you can have.
 
 ## Read more
 

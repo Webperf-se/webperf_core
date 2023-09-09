@@ -447,6 +447,20 @@ def rate_gdpr_and_schrems(content, _local, _):
         print('crash', ex)
         return rating
 
+def get_analytics_rules():
+    dir = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep).parent
+
+    file_path = '{0}{1}data{1}analytics-rules.json'.format(dir, os.path.sep)
+    if not os.path.isfile(file_path):
+        file_path = '{0}{1}SAMPLE-analytics-rules.json'.format(dir, os.path.sep)
+    if not os.path.isfile(file_path):
+        print("ERROR: No analytics-rules.json file found!")
+
+    with open(file_path) as json_rules_file:
+        rules = json.load(json_rules_file)
+    return rules
+
 
 def rate_tracking(website_urls, _local, _):
     rating = Rating(_, review_show_improvements_only)
@@ -460,6 +474,8 @@ def rate_tracking(website_urls, _local, _):
 
     tracking_domains = get_domains_from_blocklistproject_file(
         os.path.join('data', 'blocklistproject-tracking-nl.txt'))
+    
+    analytics_rules = get_analytics_rules()
 
     request_index = 1
     for website_url, website_url_content in website_urls.items():
@@ -473,7 +489,7 @@ def rate_tracking(website_urls, _local, _):
 
         resource_analytics_used = dict()
         resource_analytics_used.update(
-            get_analytics(_local, website_url, website_url_content, request_index))
+            get_analytics(_local, website_url, website_url_content, request_index, analytics_rules))
 
         if len(resource_analytics_used):
             if not url_is_tracker:
@@ -796,7 +812,7 @@ def run_test(_, langCode, url):
     return (rating, result_dict)
 
 
-def get_analytics(_local, url, content, request_index):
+def get_analytics(_local, url, content, request_index, analytics_rules):
     analytics = {}
 
     request_friendly_name = get_friendly_url_name(_local,
@@ -806,385 +822,13 @@ def get_analytics(_local, url, content, request_index):
 
     url_and_content = url + content
 
-    if has_piwik_pro(url_and_content):
-        analytics[text.format(request_friendly_name, 'Piwik PRO')] = True
-    if has_matomo(url_and_content):
-        analytics[text.format(request_friendly_name, 'Matomo')] = True
-    if has_matomo_tagmanager(url_and_content):
-        analytics[text.format(request_friendly_name,
-                              'Matomo Tag Manager')] = True
-    if has_google_analytics(url_and_content):
-        analytics[text.format(request_friendly_name,
-                              'Google Analytics')] = False
-    if has_google_tagmanager(url_and_content):
-        analytics[text.format(request_friendly_name,
-                              'Google Tag Manager')] = False
-    if has_siteimprove_analytics(url_and_content):
-        analytics[text.format(request_friendly_name,
-                              'SiteImprove Analytics')] = False
-    if has_Vizzit(url_and_content):
-        analytics[text.format(request_friendly_name, 'Vizzit')] = True
-    if has_fathom(url_and_content):
-        analytics[text.format(request_friendly_name,
-                              'Fathom Analytics')] = True
-    if has_plausible(url_and_content):
-        analytics[text.format(request_friendly_name,
-                              'Plausible Analytics')] = True
-    if has_monsido(url_and_content):
-        analytics[text.format(request_friendly_name,
-                              'Monsido Statistics')] = True
-    if has_hotjar(url_and_content):
-        analytics[text.format(request_friendly_name,
-                              'Hotjar')] = True
-    if has_adobe_analytics(url_and_content):
-        analytics[text.format(request_friendly_name,
-                              'Adobe Analytics')] = True
-    if has_new_relic(url_and_content):
-        analytics[text.format(request_friendly_name,
-                              'New Relic')] = True
-    if has_mixpanel(url_and_content):
-        analytics[text.format(request_friendly_name,
-                              'Mixpanel')] = True
-    if has_quantcast(url_and_content):
-        analytics[text.format(request_friendly_name,
-                              'Quantcast Measure')] = True
-    if has_fullstory(url_and_content):
-        analytics[text.format(request_friendly_name,
-                              'Fullstory')] = True
-    if has_simple_analytics(url_and_content):
-        analytics[text.format(request_friendly_name,
-                              'Simple Analytics')] = True
-    if has_cloudflare_insights(url_and_content):
-        analytics[text.format(request_friendly_name,
-                              'Cloudflare Insights')] = False
-    if has_umami(url_and_content):
-        analytics[text.format(request_friendly_name,
-                              'Umami')] = True
-    if has_yandex_metrika(url_and_content):
-        analytics[text.format(request_friendly_name,
-                              'Yandex Metrika')] = False
-    if has_snowplow(url_and_content):
-        analytics[text.format(request_friendly_name,
-                              'Snowplow')] = True
-    if has_klaviyo(url_and_content):
-        analytics[text.format(request_friendly_name,
-                              'Klaviyo')] = True
-    if has_microsoft_clarity(url_and_content):
-        analytics[text.format(request_friendly_name,
-                              'Microsoft Clarity')] = False
-    if has_clicky(url_and_content):
-        analytics[text.format(request_friendly_name,
-                              'Clicky')] = True
-    if has_heap(url_and_content):
-        analytics[text.format(request_friendly_name,
-                              'Heap')] = True
-    if has_pingdom_rum(url_and_content):
-        analytics[text.format(request_friendly_name,
-                              'Pingdom RUM')] = True
-    if has_crazyegg(url_and_content):
-        analytics[text.format(request_friendly_name,
-                              'Crazyegg')] = True
-    if has_sitegainer(url_and_content):
-        analytics[text.format(request_friendly_name,
-                              'SiteGainer')] = True
+    for rule in analytics_rules:
+        name = rule['name']
+        for match in rule['matches']:
+            if (match in url_and_content):
+                analytics[text.format(request_friendly_name, name)] = True
 
     return analytics
 
 
-def has_hotjar(content):
-    # Look for javascript objects
-    if 'window.hjSiteSettings' in content:
-        return True
-    if 'window._hjSettings' in content:
-        return True
-    if 'window.hj=window.hj' in content:
-        return True
 
-    # Look for file names
-    if 'https://static.hotjar.com/c/hotjar-' in content:
-        return True
-
-    return False
-
-
-def has_monsido(content):
-    # Look for javascript objects
-    if 'window._monsido' in content:
-        return True
-
-    # Look for file names
-    if '/monsido-script.js' in content:
-        return True
-    if 'https://app-script.monsido.com/v' in content:
-        return True
-
-    return False
-
-
-def has_plausible(content):
-    # Look for javascript objects
-    if 'window.plausible=' in content:
-        return True
-
-    # Look for file names
-    if 'https://plausible.io/js/script.hash.js' in content:
-        return True
-    if 'https://plausible.io/js/plausible.js' in content:
-        return True
-    if 'https://plausible.io/js/script.js' in content:
-        return True
-
-    return False
-
-
-def has_piwik_pro(content):
-    # Look for javascript objects
-    if '"Piwik PRO Anonymization"' in content:
-        return True
-    if '"piwik_anonymization"' in content:
-        return True
-    if '"ppasAsyncContainerRegistered"' in content:
-        return True
-    if 'this.window.ppmsWebStorage' in content:
-        return True
-    if 'isPpmsWebStorageEnabled' in content:
-        return True
-
-    # Look for file names
-    if 'piwik.pro/ppms.php' in content:
-        return True
-    if 'piwik.pro/ppms.js' in content:
-        return True
-
-    return False
-
-def has_adobe_analytics(content):
-    # Look for javascript objects
-    if 'window.adobe.OptInCategories' in content:
-        return True
-
-    # Look for file names
-    if 'assets.adobedtm.com' in content:
-        return True
-
-    return False
-
-def has_new_relic(content):
-    # Look for file names
-    if 'js-agent.newrelic.com' in content:
-        return True
-
-    return False
-
-def has_mixpanel(content):
-    # Look for file names
-    if 'cdn.mxpnl.com' in content:
-        return True
-
-    return False
-
-def has_quantcast(content):
-    # Look for file names
-    if 'quantserve.com/quant.js' in content:
-        return True
-
-    return False
-
-def has_fullstory(content):
-    # Look for file names
-    if 'fullstory.com/s/fs.js' in content:
-        return True
-
-    return False
-
-def has_simple_analytics(content):
-    # Look for file names
-    if 'scripts.simpleanalyticscdn.com' in content:
-        return True
-
-    return False
-
-def has_cloudflare_insights(content):
-    # Look for file names
-    if 'static.cloudflareinsights.com/beacon.min.js' in content:
-        return True
-
-    return False
-
-def has_umami(content):
-    # Look for file names
-    if '/umami.js' in content:
-        return True
-
-    return False
-
-def has_yandex_metrika(content):
-    # Look for file names
-    if 'yandex.ru/metrika/tag.js' in content:
-        return True
-    if 'yandex.ru/metrika/watch.js' in content:
-        return True
-
-    return False
-
-def has_snowplow(content):
-    # Look for javascript objects
-    if 'window.GlobalSnowplowNamespace' in content:
-        return True
-    if 'window.snowday' in content:
-        return True
-    
-    # Look for file names
-    if '/snowplow-' in content:
-        return True
-    if '/snowday' in content:
-        return True
-
-    return False
-
-def has_klaviyo(content):    
-    # Look for file names
-    if 'static.klaviyo.com' in content:
-        return True
-    if 'klaviyo.js?company_id=' in content:
-        return True
-
-    return False
-
-def has_microsoft_clarity(content):    
-    # Look for file names
-    if 'c.clarity.ms' in content:
-        return True
-    if 'www.clarity.ms/tag' in content:
-        return True
-    if '/clarity.js' in content:
-        return True
-
-    return False
-
-def has_clicky(content):    
-    # Look for file names
-    if 'static.getclicky.com/js' in content:
-        return True
-
-    return False
-
-def has_heap(content):    
-    # Look for file names
-    if 'cdn.heapanalytics.com/js/heap' in content:
-        return True
-
-    return False
-
-def has_pingdom_rum(content):    
-    # Look for file names
-    if 'rum-static.pingdom.net' in content:
-        return True
-
-    return False
-
-def has_crazyegg(content):    
-    # Look for file names
-    if 'script.crazyegg.com/' in content:
-        return True
-
-    return False
-
-def has_sitegainer(content):    
-    # Look for file names
-    if 'cdn-sitegainer.com' in content:
-        return True
-
-    return False
-
-def has_matomo(content):
-    # Look for cookie name
-    if '"name": "MATOMO_' in content:
-        return True
-
-    # Look for javascript objects
-    if 'window.Matomo=' in content:
-        return True
-
-    # # Look for file names
-    if 'matomo.php' in content:
-        return True
-
-    return False
-
-
-def has_fathom(content):
-    # Look for javascript objects
-    if 'window.fathom' in content:
-        return True
-    if 'locationchangefathom' in content:
-        return True
-    if 'blockFathomTracking' in content:
-        return True
-    if 'fathomScript' in content:
-        return True
-
-    # Look for file names
-    if 'cdn.usefathom.com' in content:
-        return True
-
-    return False
-
-
-def has_matomo_tagmanager(content):
-    # Look for javascript objects
-    if 'window.MatomoT' in content:
-        return True
-
-    return False
-
-
-def has_google_analytics(content):
-    # Look for javascript objects
-    if 'window.GoogleAnalyticsObject' in content:
-        return True
-
-    # Look for file names
-    if 'google-analytics.com/analytics.js' in content:
-        return True
-    if 'google-analytics.com/ga.js' in content:
-        return True
-
-    return False
-
-def has_google_tagmanager(content):
-    # Look for file names
-    if 'googletagmanager.com/gtm.js' in content:
-        return True
-    if 'googletagmanager.com/gtag' in content:
-        return True
-    # Look server name
-    if '"value": "Google Tag Manager"' in content:
-        return True
-
-    return False
-
-
-def has_siteimprove_analytics(content):
-    # Look for file names
-    if 'siteimproveanalytics.io' in content:
-        return True
-    if 'siteimproveanalytics.com/js/siteanalyze' in content:
-        return True
-
-    return False
-
-
-def has_Vizzit(content):
-    # Look for javascript objects
-    if '___vizzit' in content:
-        return True
-    if '$vizzit_' in content:
-        return True
-    if '$vizzit =' in content:
-        return True
-    # Look for file names
-    if 'vizzit.se/vizzittag' in content:
-        return True
-
-    return False

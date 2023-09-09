@@ -1,0 +1,216 @@
+[
+    {
+        "name": "Piwik PRO",
+        "matches": [
+            "\"Piwik PRO Anonymization\"",
+            "\"piwik_anonymization\"",
+            "\"ppasAsyncContainerRegistered\"",
+            "this.window.ppmsWebStorage",
+            "isPpmsWebStorageEnabled",
+            "piwik.pro/ppms.php",
+            "piwik.pro/ppms.js"
+        ]
+    },
+    {
+        "name": "Matomo",
+        "matches": [
+            "\"name\": \"MATOMO_",
+            "window.Matomo=",
+            "matomo.php"            
+        ]
+    },
+    {
+        "name": "Matomo Tag Manager",
+        "matches": [
+            "window.MatomoT"            
+        ]
+    },
+    {
+        "name": "Google Analytics",
+        "matches": [
+            "window.GoogleAnalyticsObject",
+            "google-analytics.com/analytics.js",
+            "google-analytics.com/ga.js"
+        ]
+    },
+    {
+        "name": "Google Tag Manager",
+        "matches": [
+            "googletagmanager.com/gtm.js",
+            "googletagmanager.com/gtag",
+            "\"value\": \"Google Tag Manager\""
+        ]
+    },
+    {
+        "name": "SiteImprove Analytics",
+        "matches": [
+            "siteimproveanalytics.io",
+            "siteimproveanalytics.com/js/siteanalyze"
+        ]
+    },
+    {
+        "name": "Vizzit",
+        "matches": [
+            "___vizzit",
+            "$vizzit_",
+            "$vizzit =",
+            "vizzit.se/vizzittag"
+        ]
+    },
+    {
+        "name": "Fathom Analytics",
+        "matches": [
+            "window.fathom",
+            "locationchangefathom",
+            "blockFathomTracking",
+            "fathomScript",
+            "cdn.usefathom.com"
+        ]
+    },
+    {
+        "name": "Plausible Analytics",
+        "matches": [
+            "window.plausible=",
+            "https://plausible.io/js/script.hash.js",
+            "https://plausible.io/js/plausible.js",
+            "https://plausible.io/js/script.js"
+        ]
+    },
+    {
+        "name": "Monsido Statistics",
+        "matches": [
+            "window._monsido",
+            "/monsido-script.js",
+            "https://app-script.monsido.com/v"
+        ]
+    },
+    {
+        "name": "Hotjar",
+        "matches": [
+            "window.hjSiteSettings",
+            "window._hjSettings",
+            "window.hj=window.hj",
+            "https://static.hotjar.com/c/hotjar-"
+        ]
+    },
+    {
+        "name": "Adobe Analytics",
+        "matches": [
+            "window.adobe.OptInCategories",
+            "assets.adobedtm.com"
+        ]
+    },
+    {
+        "name": "New Relic",
+        "matches": [
+            "js-agent.newrelic.com"
+        ]
+    },
+    {
+        "name": "Mixpanel",
+        "matches": [
+            "cdn.mxpnl.com"
+        ]
+    },
+    {
+        "name": "Quantcast Measure",
+        "matches": [
+            "quantserve.com/quant.js"
+        ]
+    },
+    {
+        "name": "Fullstory",
+        "matches": [
+            "fullstory.com/s/fs.js"
+        ]
+    },
+    {
+        "name": "Simple Analytics",
+        "matches": [
+            "scripts.simpleanalyticscdn.com"
+        ]
+    },
+    {
+        "name": "Cloudflare Insights",
+        "matches": [
+            "static.cloudflareinsights.com/beacon.min.js"
+        ]
+    },
+    {
+        "name": "Umami",
+        "matches": [
+            "/umami.js"
+        ]
+    },
+    {
+        "name": "Yandex Metrika",
+        "matches": [
+            "yandex.ru/metrika/tag.js",
+            "yandex.ru/metrika/watch.js"
+        ]
+    },
+    {
+        "name": "Snowplow",
+        "matches": [
+            "window.GlobalSnowplowNamespace",
+            "window.snowday",
+            "/snowplow-",
+            "/snowday"
+        ]
+    },
+    {
+        "name": "Klaviyo",
+        "matches": [
+            "static.klaviyo.com",
+            "klaviyo.js?company_id="
+        ]
+    },
+    {
+        "name": "Microsoft Clarity",
+        "matches": [
+            "c.clarity.ms",
+            "www.clarity.ms/tag",
+            "/clarity.js"
+        ]
+    },
+    {
+        "name": "Clicky",
+        "matches": [
+            "static.getclicky.com/js"
+        ]
+    },
+    {
+        "name": "Heap",
+        "matches": [
+            "cdn.heapanalytics.com/js/heap"
+        ]
+    },
+    {
+        "name": "Pingdom RUM",
+        "matches": [
+            "rum-static.pingdom.net"
+        ]
+    },
+    {
+        "name": "Crazyegg",
+        "matches": [
+            "script.crazyegg.com/"
+        ]
+    },
+    {
+        "name": "SiteGainer",
+        "matches": [
+            "cdn-sitegainer.com"
+        ]
+    },
+    {
+        "name": "Application Insights",
+        "matches": [
+            "Application Insights JavaScript SDK - Web",
+            "\"ApplicationInsights\"",
+            "\"ApplicationInsights2\"",
+            "\"Microsoft.ApplicationInsights.",
+            "\"ApplicationInsightsAnalytics\""
+        ]
+    }
+]

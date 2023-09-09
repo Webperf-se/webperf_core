@@ -785,6 +785,19 @@
         {
             "use": true,
             "type": "javascript",
+            "description": "Microsoft ApplicationInsigt javascript framwork",
+            "match": "\\\"(?P<version>[0-9\\.]+)\\\"[^\\\"]+\\\"Microsoft\\\"[^\\\"]+\\\"ApplicationInsights2\\\"[^\\\"]+\\\"ApplicationInsights\\\"",
+            "results": [
+                {
+                    "name": "ApplicationInsights-JS",
+                    "category": "js",
+                    "precision": 0.6
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
             "description": "core-js javascript framwork",
             "match": "(?P<debug>\\\"versions\\\",[ ]{0,1}\\[\\]\\)\\.push\\({[\\r\\n\\t ]*version:[ ]{0,1}\\\"(?P<version>[0-9\\.]+)\\\",[\\r\\n\\t ]*mode:[^\\\"]+\\\"pure\\\"[ ]{0,1}:[ ]{0,1}\\\"global\\\",[\\r\\n\\t ]*copyright:[ ]{0,1}\\\".{1}[ 0-9\\-]+Denis Pushkarev)",
             "results": [

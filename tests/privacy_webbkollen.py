@@ -7,6 +7,7 @@ import ssl
 import json
 import requests
 import urllib  # https://docs.python.org/3/library/urllib.parse.html
+from urllib.parse import urlparse
 import uuid
 import re
 from bs4 import BeautifulSoup
@@ -45,7 +46,7 @@ def run_test(_, langCode, url):
 
     orginal_url = url
     url = 'https://webbkoll.dataskydd.net/{1}/check?url={0}'.format(
-        url.replace('/', '%2F').replace(':', '%3A'), langCode)
+        urllib.parse.quote(url), langCode)
     headers = {
         'user-agent': 'Mozilla/5.0 (compatible; Webperf; +https://webperf.se)'}
 

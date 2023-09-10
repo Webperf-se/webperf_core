@@ -229,12 +229,16 @@ def rate_cookies(browser, url, _local, _):
             cookie = cookies[cookies_index]
             cookies_index += 1
 
+            matching_analytics_cookie = False
             if 'name' in cookie:
                 for rule in analytics_rules:
-                    if 'cookies' in rule:
+                    if matching_analytics_cookie:
+                        break
+                    elif 'cookies' in rule:
                         for match in rule['cookies']:
                             if (cookie['name'].startswith(match)):
                                 cookies_number_of_analytics += 1
+                                matching_analytics_cookie = True
                                 break
 
 

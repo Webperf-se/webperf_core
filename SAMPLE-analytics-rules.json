@@ -9,6 +9,22 @@
             "isPpmsWebStorageEnabled",
             "piwik.pro/ppms.php",
             "piwik.pro/ppms.js"
+        ],
+        "cookies": [
+            "source: https://help.piwik.pro/support/privacy/cookies-created-for-visitors-by-piwik-pro/",
+            "_pk_id",
+            "_pk_ses",
+            "_pk_cvar",
+            "ppms_privacy_",
+            "stg_traffic_source_priority",
+            "stg_last_interaction",
+            "stg_returning_visitor",
+            "stg_fired__",
+            "stg_utm_campaign",
+            "stg_pk_campaign",
+            "stg_externalReferrer",
+            "_stg_optout",
+            "stg_global_opt_out"
         ]
     },
     {
@@ -17,12 +33,26 @@
             "\"name\": \"MATOMO_",
             "window.Matomo=",
             "matomo.php"            
+        ],
+        "cookies": [
+            "source: https://matomo.org/faq/general/faq_146/",
+            "_pk_ref",
+            "_pk_cvar",
+            "_pk_id",
+            "_pk_ses",
+            "_pk_hsr",
+            "_pk_uid"
         ]
     },
     {
         "name": "Matomo Tag Manager",
         "matches": [
             "window.MatomoT"            
+        ],
+        "cookies": [
+            "source: https://matomo.org/faq/general/faq_146/",
+            "mtm_consent",
+            "mtm_consent_removed"
         ]
     },
     {
@@ -31,6 +61,21 @@
             "window.GoogleAnalyticsObject",
             "google-analytics.com/analytics.js",
             "google-analytics.com/ga.js"
+        ],
+        "cookies":[
+            "source: https://developers.google.com/analytics/devguides/collection/analyticsjs/cookie-usage",
+            "_ga",
+            "_gid",
+            "_gat",
+            "_gac_",
+            "__utma",
+            "__utmt",
+            "__utmb",
+            "__utmc",
+            "__utmz",
+            "__utmv",
+            "__utmx",
+            "__utmxx"
         ]
     },
     {

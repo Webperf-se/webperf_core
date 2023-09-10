@@ -194,6 +194,8 @@ def rate_cookies(browser, url, _local, _):
     o = urlparse(url)
     hostname = o.hostname
 
+    analytics_rules = get_analytics_rules()
+
     cookies = browser.get_cookies()
 
     number_of_potential_cookies = len(cookies)
@@ -208,6 +210,7 @@ def rate_cookies(browser, url, _local, _):
     cookies_number_of_valid_over_6months = 0
     cookies_number_of_valid_over_9months = 0
     cookies_number_of_valid_over_1year = 0
+    cookies_number_of_analytics = 0
 
     # I know it differs around the year but lets get websites the benefit for it..
     days_in_month = 31
@@ -225,6 +228,19 @@ def rate_cookies(browser, url, _local, _):
         while cookies_index < number_of_potential_cookies:
             cookie = cookies[cookies_index]
             cookies_index += 1
+
+            matching_analytics_cookie = False
+            if 'name' in cookie:
+                for rule in analytics_rules:
+                    if matching_analytics_cookie:
+                        break
+                    elif 'cookies' in rule:
+                        for match in rule['cookies']:
+                            if (cookie['name'].startswith(match)):
+                                cookies_number_of_analytics += 1
+                                matching_analytics_cookie = True
+                                break
+
 
             if 'secure' in cookie and cookie['secure'] == False:
                 cookies_number_of_secure += 1
@@ -329,6 +345,20 @@ def rate_cookies(browser, url, _local, _):
 
         rating += secure_rating
 
+    if cookies_number_of_analytics > 0:
+        # '-- Using analytics cookie(s) without consent: {0}\r\n'
+        analytics_points = 5.0 - cookies_number_of_analytics * 3.0
+        if analytics_points < 1.0:
+            analytics_points = 1.0
+
+        analytics_rating = Rating(_, review_show_improvements_only)
+        analytics_rating.set_integrity_and_security(analytics_points, _local('TEXT_COOKIE_HAS_ANALYTICS_COOKIE').format(
+            cookies_number_of_analytics))
+        analytics_rating.set_overall(analytics_points)
+
+        rating += analytics_rating
+
+
     integrity_and_security_review = rating.integrity_and_security_review
 
     result_rating = Rating(_, review_show_improvements_only)
@@ -352,7 +382,6 @@ def rate_cookies(browser, url, _local, _):
         result_rating.set_overall(no_cookie_points)
 
     result_rating.integrity_and_security_review = result_rating.integrity_and_security_review + \
-        rating.integrity_and_security_review + \
         integrity_and_security_review
 
     return result_rating

@@ -43,8 +43,18 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg):
     if filename == '':
         get_result_using_no_cache(sitespeed_use_docker, sitespeed_arg)
         website_folder_name = get_foldername_from_url(url)
+
         filename_old = os.path.join(result_folder_name, 'pages',
                                     website_folder_name, 'data', 'browsertime.har')
+
+        if (not os.path.exists(filename_old)):
+            filename_tmp =os.path.join(result_folder_name, 'pages',
+                                        website_folder_name)
+            sub_dirs = os.listdir(filename_tmp)
+            for sub_dir in sub_dirs:
+                filename_old = os.path.join(result_folder_name, 'pages',
+                                        website_folder_name, sub_dir, 'data', 'browsertime.har')
+                break
         filename = os.path.join(result_folder_name, 'browsertime.har')
         cleanup_browsertime_content(filename_old)
         cleanup_results_dir(filename_old, result_folder_name)

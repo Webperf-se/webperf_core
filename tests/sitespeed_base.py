@@ -18,7 +18,7 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg):
         'data', 'results-{0}-{1}'.format(str(uuid.uuid4()), folder_ending))
     # result_folder_name = os.path.join('data', 'results')
 
-    sitespeed_arg += ' --outputFolder {0} {1}'.format(result_folder_name, url)
+    sitespeed_arg += ' --postScript chrome-cookies.cjs --outputFolder {0} {1}'.format(result_folder_name, url)
 
     filename = ''
     # Should we use cache when available?
@@ -41,7 +41,17 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg):
                 break
 
     if filename == '':
-        get_result_using_no_cache(sitespeed_use_docker, sitespeed_arg)
+        test = get_result_using_no_cache(sitespeed_use_docker, sitespeed_arg)
+        test = test.replace('\\n', '\r\n')
+
+        regex = r"COOKIES:START: {\"cookies\":(?P<COOKIES>.+)} COOKIES:END"
+
+        cookies = '[]'
+        matches = re.finditer(
+            regex, test, re.MULTILINE)
+        for matchNum, match in enumerate(matches, start=1):
+            cookies = match.group('COOKIES')
+
         website_folder_name = get_foldername_from_url(url)
 
         filename_old = os.path.join(result_folder_name, 'pages',
@@ -56,7 +66,9 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg):
                                         website_folder_name, sub_dir, 'data', 'browsertime.har')
                 break
         filename = os.path.join(result_folder_name, 'browsertime.har')
-        cleanup_browsertime_content(filename_old)
+        cookies_json = json.loads(cookies)
+
+        modify_browsertime_content(filename_old, cookies_json)
         cleanup_results_dir(filename_old, result_folder_name)
     return (result_folder_name, filename)
 
@@ -108,9 +120,7 @@ def get_result_using_no_cache(sitespeed_use_docker, arg):
         result = str(output)
 
     return result
-
-
-def cleanup_browsertime_content(input_filename):
+def get_sanitized_browsertime(input_filename):
     lines = list()
     try:
         with open(input_filename, 'r', encoding='utf-8') as file:
@@ -126,13 +136,20 @@ def cleanup_browsertime_content(input_filename):
     regex = r"[^a-zåäöA-ZÅÄÖ0-9\{\}\"\:;.,#*\<\>%'&$?!`=@\-\–\+\~\^\\\/| \(\)\[\]_]"
     subst = ""
 
-    # You can manually specify the number of replacements by changing the 4th argument
     result = re.sub(regex, subst, test_str, 0, re.MULTILINE)
+    return result
 
+
+def modify_browsertime_content(input_filename, cookies):
+    result = get_sanitized_browsertime(input_filename)
     json_result = json.loads(result)
     has_minified = False
     if 'log' not in json_result:
         return ''
+
+    # add cookies
+    json_result['log']['cookies'] = cookies
+
     if 'version' in json_result['log']:
         del json_result['log']['version']
         has_minified = True

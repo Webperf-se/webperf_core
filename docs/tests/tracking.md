@@ -16,6 +16,7 @@ We are doing this by:
 * Check if and how many cookies that is persistant more then 3 months without revisit
 * Check if and how many cookies that are not requiring a secure context (this make it possible to leak information)
 * Check if and how many thirdpart cookies that are being set just by visiting url
+* Check if and how many analytic cookie(s) are used without consent
 
 All of above is considered bad behaivor and will result in a lower rating.
 

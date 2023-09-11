@@ -8,9 +8,6 @@ import re
 from urllib.parse import urlparse
 from tests.utils import *
 import datetime
-from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.firefox.options import Options
 from tests.sitespeed_base import get_result
 import gettext
 _ = gettext.gettext
@@ -188,7 +185,7 @@ def get_file_content(input_filename):
     return '\n'.join(lines)
 
 
-def rate_cookies(browser, url, _local, _):
+def rate_cookies(content, url, _local, _):
     rating = Rating(_, review_show_improvements_only)
 
     o = urlparse(url)
@@ -196,7 +193,19 @@ def rate_cookies(browser, url, _local, _):
 
     analytics_rules = get_analytics_rules()
 
-    cookies = browser.get_cookies()
+    cookies = []
+    json_content = ''
+    try:
+        json_content = json.loads(content)
+
+        json_content = json_content['log']
+
+        cookies = json_content['cookies']
+
+    except Exception as ex:  # might crash if checked resource is not a webpage
+        print('cookie crash', ex)
+        return rating
+
 
     number_of_potential_cookies = len(cookies)
 
@@ -229,6 +238,8 @@ def rate_cookies(browser, url, _local, _):
             cookie = cookies[cookies_index]
             cookies_index += 1
 
+            # print('#', cookie['name'], cookies_index, 'of', number_of_potential_cookies)
+
             matching_analytics_cookie = False
             if 'name' in cookie:
                 for rule in analytics_rules:
@@ -240,6 +251,8 @@ def rate_cookies(browser, url, _local, _):
                                 cookies_number_of_analytics += 1
                                 matching_analytics_cookie = True
                                 break
+                            #else:
+                            #    print('- NO:', rule['name'], match)
 
 
             if 'secure' in cookie and cookie['secure'] == False:
@@ -743,15 +756,21 @@ def get_rating_from_sitespeed(url, _local, _):
 
     # We don't need extra iterations for what we are using it for
     sitespeed_iterations = 1
+
     sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --chrome.cdp.performance false --browsertime.chrome.timeline false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --browsertime.chrome.includeResponseBodies all --utc true --browsertime.chrome.args ignore-certificate-errors -n {0}'.format(
         sitespeed_iterations)
     if 'nt' not in os.name:
         sitespeed_arg += ' --xvfb'
-
+    
     (result_folder_name, filename) = get_result(
         url, sitespeed_use_docker, sitespeed_arg)
 
     http_archive_content = get_file_content(filename)
+
+    # TODO: Read sitespeed manual on how to return localStorage
+
+    # - Cookies ( 5.00 rating )
+    rating += rate_cookies(http_archive_content, url, _local, _)
 
     # - GDPR and Schrems ( 5.00 rating )
     rating += rate_gdpr_and_schrems(http_archive_content, _local, _)
@@ -779,39 +798,6 @@ def get_rating_from_sitespeed(url, _local, _):
 
     return rating
 
-
-def get_rating_from_selenium(url, _local, _):
-    rating = Rating(_, review_show_improvements_only)
-
-    browser = False
-    try:
-        # Remove options if you want to see browser windows (good for debugging)
-        options = Options()
-        options.add_argument("--headless")
-
-        browser = webdriver.Firefox(options=options)
-        browser.implicitly_wait(120)
-
-        browser.get(url)
-
-        # - Cookies ( 5.00 rating )
-        rating += rate_cookies(browser, url, _local, _)
-
-        # TODO: Add localStorage and other storage here
-
-        WebDriverWait(browser, 120)
-
-        browser.quit()
-
-        return rating
-    except Exception as ex:
-        print('errorssss', ex)
-
-        if browser != False:
-            browser.quit()
-        return rating
-
-
 def run_test(_, langCode, url):
     """
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
@@ -829,9 +815,6 @@ def run_test(_, langCode, url):
 
     print(_('TEXT_TEST_START').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
-
-    # TODO: Read sitespeed manual on how to return cookies and localStorage (This way we could remove dependency on Selenium)
-    rating += get_rating_from_selenium(url, _local, _)
 
     rating += get_rating_from_sitespeed(url, _local, _)
 

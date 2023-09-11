@@ -73,25 +73,25 @@ msgid "TEXT_ADS_TOTAL_FOUND"
 msgstr "  - Hittade totalt {0} annonsörs&shy;förfrågningar.\n"
 
 msgid "TEXT_COOKIES_HAS_THIRDPARTY"
-msgstr "  - Tredjeparts&shy;kakor: {0}\r\n"
+msgstr "  - Tredjeparts&shy;kakor: {0}"
 
 msgid "TEXT_COOKIE_HAS_OVER_1YEAR"
-msgstr "  - Giltiga över 1 år: {0}\r\n"
+msgstr "  - Giltiga över 1 år: {0}"
 
 msgid "TEXT_COOKIE_HAS_OVER_9MONTH"
-msgstr "  - Giltiga över 9 månader: {0}\r\n"
+msgstr "  - Giltiga över 9 månader: {0}"
 
 msgid "TEXT_COOKIE_HAS_OVER_6MONTH"
-msgstr "  - Giltiga över 6 månader: {0}\r\n"
+msgstr "  - Giltiga över 6 månader: {0}"
 
 msgid "TEXT_COOKIE_HAS_OVER_3MONTH"
-msgstr "  - Giltiga över 3 månader: {0}\r\n"
+msgstr "  - Giltiga över 3 månader: {0}"
 
 msgid "TEXT_COOKIE_NOT_SECURE"
 msgstr "  - Inget krav på säker överföring: {0}"
 
 msgid "TEXT_COOKIE_HAS_ANALYTICS_COOKIE"
-msgstr "  - Använder analys kakor utan samtycke: {0}"
+msgstr "  - Använder analyskakor utan samtycke: {0}"
 
 msgid "TEXT_COOKIE"
 msgstr "- Kakor"

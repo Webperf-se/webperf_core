@@ -91,7 +91,7 @@ msgid "TEXT_COOKIE_NOT_SECURE"
 msgstr "  - Inget krav på säker överföring: {0}"
 
 msgid "TEXT_COOKIE_HAS_ANALYTICS_COOKIE"
-msgstr "  - Använder analys kakor utan samtycke: {0}"
+msgstr "  - Använder analyskakor utan samtycke: {0}"
 
 msgid "TEXT_COOKIE"
 msgstr "- Kakor"

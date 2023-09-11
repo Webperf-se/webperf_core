@@ -757,18 +757,11 @@ def get_rating_from_sitespeed(url, _local, _):
     # We don't need extra iterations for what we are using it for
     sitespeed_iterations = 1
 
-    sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --chrome.cdp.performance false --browsertime.chrome.timeline false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --browsertime.chrome.includeResponseBodies all --utc true --postScript chrome-cookies.cjs --browsertime.chrome.args ignore-certificate-errors -n {0}'.format(
+    sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --chrome.cdp.performance false --browsertime.chrome.timeline false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --browsertime.chrome.includeResponseBodies all --utc true --browsertime.chrome.args ignore-certificate-errors -n {0}'.format(
         sitespeed_iterations)
     if 'nt' not in os.name:
         sitespeed_arg += ' --xvfb'
     
-    # sitespeed_arg = '--shm-size=1g -b chrome --xvfb --browsertime.chrome.args ignore-certificate-errors -n {0} --postScript chrome-cookies.cjs {1}'.format(
-    #     sitespeed_iterations, url)
-    # if 'nt' in os.name:
-    #     sitespeed_arg = '--shm-size=1g -b chrome --browsertime.chrome.args ignore-certificate-errors -n {0} --postScript chrome-cookies.cjs {1}'.format(
-    #         sitespeed_iterations, url)
-
-
     (result_folder_name, filename) = get_result(
         url, sitespeed_use_docker, sitespeed_arg)
 

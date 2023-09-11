@@ -73,19 +73,19 @@ msgid "TEXT_ADS_TOTAL_FOUND"
 msgstr "  - A total of {0} ad server requests found.\n"
 
 msgid "TEXT_COOKIES_HAS_THIRDPARTY"
-msgstr "  - Thirdparty: {0}\r\n"
+msgstr "  - Thirdparty: {0}"
 
 msgid "TEXT_COOKIE_HAS_OVER_1YEAR"
-msgstr "  - Valid over 1 year: {0}\r\n"
+msgstr "  - Valid over 1 year: {0}"
 
 msgid "TEXT_COOKIE_HAS_OVER_9MONTH"
-msgstr "  - Valid over 9 months: {0}\r\n"
+msgstr "  - Valid over 9 months: {0}"
 
 msgid "TEXT_COOKIE_HAS_OVER_6MONTH"
-msgstr "  - Valid over 6 months: {0}\r\n"
+msgstr "  - Valid over 6 months: {0}"
 
 msgid "TEXT_COOKIE_HAS_OVER_3MONTH"
-msgstr "  - Valid over 3 months: {0}\r\n"
+msgstr "  - Valid over 3 months: {0}"
 
 msgid "TEXT_COOKIE_NOT_SECURE"
 msgstr "  - No requirement for secure transfer: {0}"

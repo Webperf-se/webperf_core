@@ -58,6 +58,8 @@ class Rating(object):
         self.review_show_improvements_only = review_show_improvements_only
 
     def set_overall(self, points, review=''):
+        review = review.replace('GOV-IGNORE', '')
+
         if(points < 1.0):
             points = 1.0
         elif(points > 5.0):
@@ -72,6 +74,8 @@ class Rating(object):
         return self.transform_value(self.overall / self.overall_count)
 
     def set_integrity_and_security(self, points, review=''):
+        review = review.replace('GOV-IGNORE', '')
+
         if(points < 1.0):
             points = 1.0
         elif(points > 5.0):
@@ -86,6 +90,8 @@ class Rating(object):
         return self.transform_value(self.integrity_and_security / self.integrity_and_security_count)
 
     def set_performance(self, points, review=''):
+        review = review.replace('GOV-IGNORE', '')
+
         if(points < 1.0):
             points = 1.0
         elif(points > 5.0):
@@ -100,6 +106,8 @@ class Rating(object):
         return self.transform_value(self.performance / self.performance_count)
 
     def set_standards(self, points, review=''):
+        review = review.replace('GOV-IGNORE', '')
+
         if(points < 1.0):
             points = 1.0
         elif(points > 5.0):
@@ -114,6 +122,8 @@ class Rating(object):
         return self.transform_value(self.standards / self.standards_count)
 
     def set_a11y(self, points, review=''):
+        review = review.replace('GOV-IGNORE', '')
+
         if(points < 1.0):
             points = 1.0
         elif(points > 5.0):
@@ -147,7 +157,7 @@ class Rating(object):
             text += self._('TEXT_TEST_REVIEW_STANDARDS').format(
                 self.standards_review)
 
-        return text
+        return text.replace('GOV-IGNORE', '')
 
     def todata(self):
         result = {

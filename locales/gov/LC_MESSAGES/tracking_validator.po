@@ -28,85 +28,85 @@ msgid "TEXT_VISITOR_ANALYTICS_USED"
 msgstr "  - Visitor analytics used:\r\n"
 
 msgid "TEXT_TRACKING"
-msgstr "- Tracking"
+msgstr "GOV-IGNORE"
 
 msgid "TEXT_TRACKING_FOUND_ALLOWED"
-msgstr "  - {0} - Tracking found, having {1} are allowed"
+msgstr "GOV-IGNORE"
 
 msgid "TEXT_TRACKING_FOUND"
-msgstr "  - {0} - Tracking found"
+msgstr "GOV-IGNORE"
 
 msgid "TEXT_TRACKING_MAX_SHOWED"
-msgstr "  - More than {0} requests found, filtering out the rest"
+msgstr "GOV-IGNORE"
 
 msgid "TEXT_TRACKING_TOTAL_FOUND"
-msgstr "  - A total of {0} tracking requests found.\n"
+msgstr "GOV-IGNORE"
 
 msgid "TEXT_TRACKING_REFERENCE"
 msgstr "{0} - Has references to {1}"
 
 msgid "TEXT_FINGERPRINTING"
-msgstr "- Fingerprinting/identifying technology"
+msgstr "GOV-IGNORE"
 
 msgid "TEXT_FINGERPRINTING_FOUND"
-msgstr "  - {0} - Fingerprinting/identifying found.\n"
+msgstr "GOV-IGNORE"
 
 msgid "TEXT_FINGERPRINTING_MAX_SHOWED"
-msgstr "  - More than {0} requests found, filtering out the rest."
+msgstr "GOV-IGNORE"
 
 msgid "TEXT_FINGERPRINTING_TOTAL_FOUND"
-msgstr "  - A total of {0} tracking requests found.\n"
+msgstr "GOV-IGNORE"
 
 msgid "TEXT_ADS"
-msgstr "- Ads"
+msgstr "GOV-IGNORE"
 
 msgid "TEXT_ADS_FOUND_ALLOWED"
-msgstr "  - {0} - Ad server request found, having {1} are allowed"
+msgstr "GOV-IGNORE"
 
 msgid "TEXT_ADS_FOUND"
-msgstr "  - {0} - Ad server request found"
+msgstr "GOV-IGNORE"
 
 msgid "TEXT_ADS_MAX_SHOWED"
-msgstr "  - More than {0} requests found, filtering out the rest"
+msgstr "GOV-IGNORE"
 
 msgid "TEXT_ADS_TOTAL_FOUND"
-msgstr "  - A total of {0} ad server requests found.\n"
+msgstr "GOV-IGNORE"
 
 msgid "TEXT_COOKIES_HAS_THIRDPARTY"
-msgstr "  - Thirdparty: {0}"
+msgstr "GOV-IGNORE"
 
 msgid "TEXT_COOKIE_HAS_OVER_1YEAR"
-msgstr ""
+msgstr "GOV-IGNORE"
 
 msgid "TEXT_COOKIE_HAS_OVER_9MONTH"
-msgstr ""
+msgstr "GOV-IGNORE"
 
 msgid "TEXT_COOKIE_HAS_OVER_6MONTH"
-msgstr ""
+msgstr "GOV-IGNORE"
 
 msgid "TEXT_COOKIE_HAS_OVER_3MONTH"
-msgstr ""
+msgstr "GOV-IGNORE"
 
 msgid "TEXT_COOKIE_NOT_SECURE"
-msgstr ""
+msgstr "GOV-IGNORE"
 
 msgid "TEXT_COOKIE_HAS_ANALYTICS_COOKIE"
 msgstr "  - Using analytic cookie(s) without consent: {0}"
 
 msgid "TEXT_COOKIE_LESS_THEN_3MONTH"
-msgstr ""
+msgstr "GOV-IGNORE"
 
 msgid "TEXT_COOKIE_SECURE"
-msgstr ""
+msgstr "GOV-IGNORE"
 
 msgid "TEXT_COOKIE_NO_ANALYTICS_COOKIE"
-msgstr ""
+msgstr "GOV-IGNORE"
 
 msgid "TEXT_COOKIE"
 msgstr "- Cookies"
 
 msgid "TEXT_GDPR_COUNTRIES"
-msgstr "  - Number of countries: {0}\r\n"
+msgstr "GOV-IGNORE"
 
 msgid "TEXT_GDPR_NONE_COMPLIANT_COUNTRIES"
 msgstr "  - Countries lacking adequate level of data protection: {0}\r\n"
@@ -115,7 +115,7 @@ msgid "TEXT_GDPR_NONE_COMPLIANT_COUNTRIES_REQUESTS"
 msgstr "    - {0}, {1} request\r\n"
 
 msgid "TEXT_GDPR_PAGE_IN_SWEDEN"
-msgstr ""
+msgstr "GOV-IGNORE"
 
 msgid "TEXT_GDPR_True"
 msgstr "Yes"
@@ -124,7 +124,7 @@ msgid "TEXT_GDPR_False"
 msgstr "No"
 
 msgid "TEXT_GDPR_HAS_POINTS"
-msgstr "- GDPR and Schrems"
+msgstr "- GDPR"
 
 msgid "TEXT_GDPR_NO_POINTS"
-msgstr "- GDPR and Schrems"
+msgstr "- GDPR"

@@ -295,8 +295,14 @@ def rate_cookies(content, url, _local, _):
         nof_rating.set_integrity_and_security(nof_points, _local('TEXT_COOKIES_HAS_THIRDPARTY').format(
             cookies_number_of_thirdparties))
         nof_rating.set_overall(nof_points)
-
         rating += nof_rating
+    else:
+        nof_rating = Rating(_, review_show_improvements_only)
+        nof_rating.set_integrity_and_security(5.0, _local('TEXT_COOKIES_HAS_THIRDPARTY').format(
+            cookies_number_of_thirdparties))
+        nof_rating.set_overall(5.0)
+        rating += nof_rating
+
     if cookies_number_of_valid_over_1year > 0:
         # '-- Valid over 1 year: {0}\r\n'
         valid_1year_points = 5.0 - cookies_number_of_valid_over_1year * 5.0
@@ -345,6 +351,14 @@ def rate_cookies(content, url, _local, _):
         valid_3months_rating.set_overall(valid_3months_points)
 
         rating += valid_3months_rating
+    else:
+        valid_3months_rating = Rating(_, review_show_improvements_only)
+        valid_3months_rating.set_integrity_and_security(5.0, _local('TEXT_COOKIE_LESS_THEN_3MONTH').format(
+            number_of_cookies))
+        valid_3months_rating.set_overall(5.0)
+
+        rating += valid_3months_rating
+
     if cookies_number_of_secure > 0:
         # '-- Not secure: {0}\r\n'
         secure_points = 5.0 - cookies_number_of_secure * 3.0
@@ -355,6 +369,13 @@ def rate_cookies(content, url, _local, _):
         secure_rating.set_integrity_and_security(secure_points, _local('TEXT_COOKIE_NOT_SECURE').format(
             cookies_number_of_secure))
         secure_rating.set_overall(secure_points)
+
+        rating += secure_rating
+    else:
+        secure_rating = Rating(_, review_show_improvements_only)
+        secure_rating.set_integrity_and_security(5.0, _local('TEXT_COOKIE_SECURE').format(
+            number_of_cookies))
+        secure_rating.set_overall(5.0)
 
         rating += secure_rating
 
@@ -368,6 +389,13 @@ def rate_cookies(content, url, _local, _):
         analytics_rating.set_integrity_and_security(analytics_points, _local('TEXT_COOKIE_HAS_ANALYTICS_COOKIE').format(
             cookies_number_of_analytics))
         analytics_rating.set_overall(analytics_points)
+
+        rating += analytics_rating
+    else:
+        analytics_rating = Rating(_, review_show_improvements_only)
+        analytics_rating.set_integrity_and_security(5.0, _local('TEXT_COOKIE_NO_ANALYTICS_COOKIE').format(
+            cookies_number_of_analytics))
+        analytics_rating.set_overall(5.0)
 
         rating += analytics_rating
 

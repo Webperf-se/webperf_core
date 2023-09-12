@@ -93,6 +93,15 @@ msgstr "  - No requirement for secure transfer: {0}"
 msgid "TEXT_COOKIE_HAS_ANALYTICS_COOKIE"
 msgstr "  - Using analytic cookie(s) without consent: {0}"
 
+msgid "TEXT_COOKIE_LESS_THEN_3MONTH"
+msgstr "  - Valid less then 3 months"
+
+msgid "TEXT_COOKIE_SECURE"
+msgstr "  - Require secure transfer"
+
+msgid "TEXT_COOKIE_NO_ANALYTICS_COOKIE"
+msgstr "  - Not using analytic cookies without consent"
+
 msgid "TEXT_COOKIE"
 msgstr "- Cookies"
 

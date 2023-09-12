@@ -93,6 +93,15 @@ msgstr "  - Inget krav på säker överföring: {0}"
 msgid "TEXT_COOKIE_HAS_ANALYTICS_COOKIE"
 msgstr "  - Använder analyskakor utan samtycke: {0}"
 
+msgid "TEXT_COOKIE_LESS_THEN_3MONTH"
+msgstr "  - Giltighetstid är lägre än 3 månader"
+
+msgid "TEXT_COOKIE_SECURE"
+msgstr "  - Kräver säker överföring"
+
+msgid "TEXT_COOKIE_NO_ANALYTICS_COOKIE"
+msgstr "  - Använder ej analyskakor utan samtycke"
+
 msgid "TEXT_COOKIE"
 msgstr "- Kakor"
 

@@ -1,0 +1,130 @@
+# English (default).
+# Copyright (C) 2022 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2021-04-17 10:45+0200\n"
+"PO-Revision-Date: 2022-02-09 19:30+0200\n"
+"Last-Translator: mattias <mattias@webperf.se>\n"
+"Language-Team: English <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 23 - Tracking and Privacy (Beta)\r\n"
+
+msgid "TEXT_REQUEST_UNKNOWN"
+msgstr "#{0}: "
+
+msgid "TEXT_REQUEST_WEBPAGE"
+msgstr "#{0}: Webpage"
+
+msgid "TEXT_VISITOR_ANALYTICS_USED"
+msgstr "  - Visitor analytics used:\r\n"
+
+msgid "TEXT_TRACKING"
+msgstr "- Tracking"
+
+msgid "TEXT_TRACKING_FOUND_ALLOWED"
+msgstr "  - {0} - Tracking found, having {1} are allowed"
+
+msgid "TEXT_TRACKING_FOUND"
+msgstr "  - {0} - Tracking found"
+
+msgid "TEXT_TRACKING_MAX_SHOWED"
+msgstr "  - More than {0} requests found, filtering out the rest"
+
+msgid "TEXT_TRACKING_TOTAL_FOUND"
+msgstr "  - A total of {0} tracking requests found.\n"
+
+msgid "TEXT_TRACKING_REFERENCE"
+msgstr "{0} - Has references to {1}"
+
+msgid "TEXT_FINGERPRINTING"
+msgstr "- Fingerprinting/identifying technology"
+
+msgid "TEXT_FINGERPRINTING_FOUND"
+msgstr "  - {0} - Fingerprinting/identifying found.\n"
+
+msgid "TEXT_FINGERPRINTING_MAX_SHOWED"
+msgstr "  - More than {0} requests found, filtering out the rest."
+
+msgid "TEXT_FINGERPRINTING_TOTAL_FOUND"
+msgstr "  - A total of {0} tracking requests found.\n"
+
+msgid "TEXT_ADS"
+msgstr "- Ads"
+
+msgid "TEXT_ADS_FOUND_ALLOWED"
+msgstr "  - {0} - Ad server request found, having {1} are allowed"
+
+msgid "TEXT_ADS_FOUND"
+msgstr "  - {0} - Ad server request found"
+
+msgid "TEXT_ADS_MAX_SHOWED"
+msgstr "  - More than {0} requests found, filtering out the rest"
+
+msgid "TEXT_ADS_TOTAL_FOUND"
+msgstr "  - A total of {0} ad server requests found.\n"
+
+msgid "TEXT_COOKIES_HAS_THIRDPARTY"
+msgstr "  - Thirdparty: {0}"
+
+msgid "TEXT_COOKIE_HAS_OVER_1YEAR"
+msgstr ""
+
+msgid "TEXT_COOKIE_HAS_OVER_9MONTH"
+msgstr ""
+
+msgid "TEXT_COOKIE_HAS_OVER_6MONTH"
+msgstr ""
+
+msgid "TEXT_COOKIE_HAS_OVER_3MONTH"
+msgstr ""
+
+msgid "TEXT_COOKIE_NOT_SECURE"
+msgstr ""
+
+msgid "TEXT_COOKIE_HAS_ANALYTICS_COOKIE"
+msgstr "  - Using analytic cookie(s) without consent: {0}"
+
+msgid "TEXT_COOKIE_LESS_THEN_3MONTH"
+msgstr ""
+
+msgid "TEXT_COOKIE_SECURE"
+msgstr ""
+
+msgid "TEXT_COOKIE_NO_ANALYTICS_COOKIE"
+msgstr ""
+
+msgid "TEXT_COOKIE"
+msgstr "- Cookies"
+
+msgid "TEXT_GDPR_COUNTRIES"
+msgstr "  - Number of countries: {0}\r\n"
+
+msgid "TEXT_GDPR_NONE_COMPLIANT_COUNTRIES"
+msgstr "  - Countries lacking adequate level of data protection: {0}\r\n"
+
+msgid "TEXT_GDPR_NONE_COMPLIANT_COUNTRIES_REQUESTS"
+msgstr "    - {0}, {1} request\r\n"
+
+msgid "TEXT_GDPR_PAGE_IN_SWEDEN"
+msgstr ""
+
+msgid "TEXT_GDPR_True"
+msgstr "Yes"
+
+msgid "TEXT_GDPR_False"
+msgstr "No"
+
+msgid "TEXT_GDPR_HAS_POINTS"
+msgstr "- GDPR and Schrems"
+
+msgid "TEXT_GDPR_NO_POINTS"
+msgstr "- GDPR and Schrems"

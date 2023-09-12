@@ -1,0 +1,142 @@
+# English (default).
+# Copyright (C) 2022 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2022-12-09 17:04+0200\n"
+"PO-Revision-Date: 2022-12-09 17:04+0200\n"
+"Last-Translator: mattias <mattias@webperf.se>\n"
+"Language-Team: English <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 24 - Email (Beta)\n"
+
+msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_SUPPORT"
+msgstr "MTA-STS DNS record found"
+
+msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_NO_SUPPORT"
+msgstr "MTA-STS DNS record not found"
+
+msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_WRONG_LINEBREAK"
+msgstr "MTA-STS TXT doesn't use CRLF for linebreak"
+
+msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_NOT_ENFORCED"
+msgstr "MTA-STS TXT is not enforced using mode"
+
+msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_VALID_MODE"
+msgstr "MTA-STS TXT mode value is valid"
+
+msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_INVALID_MODE"
+msgstr "MTA-STS TXT mode value is invalid"
+
+msgid "TEXT_REVIEW_MTA_STS_TXT_SUPPORT"
+msgstr "MTA-STS TXT looks good"
+
+msgid "TEXT_REVIEW_MTA_STS_TXT_INVALID_FORMAT"
+msgstr "MTA-STS TXT has invalid format"
+
+msgid "TEXT_REVIEW_MTA_STS_TXT_NO_SUPPORT"
+msgstr "MTA-STS TXT not found"
+
+msgid "TEXT_REVIEW_SPF_TO_MANY_DNS_LOOKUPS"
+msgstr "SPF DNS record causes to many DNS lookups"
+
+msgid "TEXT_REVIEW_SPF_DNS_RECORD_SUPPORT"
+msgstr "SPF DNS record found"
+
+msgid "TEXT_REVIEW_SPF_DNS_RECORD_NO_SUPPORT"
+msgstr "SPF DNS record not found"
+
+msgid "TEXT_REVIEW_SPF_DNS_DOUBLE_SPACE_RECORD"
+msgstr "SPF DNS record use two spaces instead of one"
+
+msgid "TEXT_REVIEW_SPF_DNS_NEUTRALFAIL_RECORD"
+msgstr "SPF DNS record uses neutral fail"
+
+msgid "TEXT_REVIEW_SPF_DNS_SOFTFAIL_RECORD"
+msgstr "SPF DNS record uses soft fail"
+
+msgid "TEXT_REVIEW_SPF_DNS_HARDFAIL_RECORD"
+msgstr "SPF DNS record uses hard fail"
+
+msgid "TEXT_REVIEW_SPF_DNS_IGNORE_RECORD_NO_SUPPORT"
+msgstr "SPF DNS record is configured to be ignored"
+
+msgid "TEXT_REVIEW_SPF_DNS_RECORD_PTR_USED"
+msgstr "SPF DNS record is erroneously using PTR"
+
+msgid "TEXT_REVIEW_SPF_UNKNOWN_SECTION"
+msgstr "SPF DNS record has unallowed content"
+
+msgid "TEXT_REVIEW_IPV6_OPERATION_SUPPORT"
+msgstr "IPV6_OPERATION_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV6_OPERATION_NO_SUPPORT"
+msgstr "IPV6_OPERATION_NO_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV6_OPERATION_STARTTLS_SUPPORT"
+msgstr "IPV6_OPERATION_STARTTLS_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV6_OPERATION_STARTTLS_NO_SUPPORT"
+msgstr "IPV6_OPERATION_STARTTLS_NO_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV4_OPERATION_SUPPORT"
+msgstr "IPV4_OPERATION_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV4_OPERATION_NO_SUPPORT"
+msgstr "IPV4_OPERATION_NO_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV4_OPERATION_STARTTLS_SUPPORT"
+msgstr "IPV4_OPERATION_STARTTLS_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV4_OPERATION_STARTTLS_NO_SUPPORT"
+msgstr "IPV4_OPERATION_STARTTLS_NO_SUPPORT"
+
+msgid "TEXT_REVIEW_MX_NO_SUPPORT"
+msgstr "MX DNS record not found"
+
+msgid "TEXT_REVIEW_MX_ALTERATIVE"
+msgstr "Using alternative email domain: {0}\r\n{1}"
+
+msgid "TEXT_REVIEW_IPV4_REDUNDANCE"
+msgstr "MX DNS IPv4 record redundance"
+
+msgid "TEXT_REVIEW_IPV4_SUPPORT"
+msgstr "MX DNS IPv4 record found"
+
+msgid "TEXT_REVIEW_IPV4_NO_REDUNDANCE"
+msgstr "MX DNS IPv4 record has no redundance"
+
+msgid "TEXT_REVIEW_IPV4_NO_SUPPORT"
+msgstr "MX DNS IPv4 record not found"
+
+msgid "TEXT_REVIEW_IPV6_REDUNDANCE"
+msgstr "MX DNS IPv6 record redundance"
+
+msgid "TEXT_REVIEW_IPV6_SUPPORT"
+msgstr "MX DNS IPv6 record found"
+
+msgid "TEXT_REVIEW_IPV6_NO_REDUNDANCE"
+msgstr "MX DNS IPv6 record has no redundance"
+
+msgid "TEXT_REVIEW_IPV6_NO_SUPPORT"
+msgstr "MX DNS IPv6 record not found"
+
+msgid "TEXT_REVIEW_MX_GDPR"
+msgstr "MX DNS servers in countries that are GDPR compliant: {0}"
+
+msgid "TEXT_REVIEW_MX_NONE_GDPR"
+msgstr "MX DNS servers in countries that are not GDPR compliant: {0}"
+
+msgid "TEXT_REVIEW_SPF_GDPR"
+msgstr "SPF servers in countries that are GDPR compliant: {0}"
+
+msgid "TEXT_REVIEW_SPF_NONE_GDPR"
+msgstr "SPF servers in countries that are not GDPR compliant: {0}"

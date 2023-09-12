@@ -145,7 +145,7 @@ msgid "TEXT_TEST_REVIEW_STANDARDS"
 msgstr "#### Standards:\r\n{0}"
 
 msgid "TEXT_TEST_REVIEW_RATING_ITEM"
-msgstr "{0} ( {1:.2f} rating )\r\n"
+msgstr "{0}\r\n"
 
 msgid "TEXT_TEST_RATING_OVERVIEW"
 msgstr "\r\n- Overall: {0}\r\n"

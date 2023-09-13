@@ -108,7 +108,8 @@ def get_rating_from_sitespeed(url, _local, _):
 
     result.update(result2)
 
-    rating.overall_review = '{0}\r\n'.format('\r\n'.join(texts))
+    rating.overall_review = '{0}\r\n'.format('\r\n'.join(texts)).replace('GOV-IGNORE', '').strip('\r\n\t ')
+    rating.integrity_and_security_review = rating.integrity_and_security_review.replace('GOV-IGNORE', '').strip('\r\n\t ')
 
     if not use_cache:
         shutil.rmtree(result_folder_name)

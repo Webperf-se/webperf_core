@@ -142,6 +142,9 @@ def create_detailed_review(_local, msg_type, points, software_name, software_ver
     elif msg_type == 'multiple-versions':
         msg.append(_local('TEXT_DETAILED_REVIEW_MULTIPLE_VERSIONS').format(cve_name))
 
+    if 'GOV-IGNORE' in msg:
+        return ''
+    
     if references != None and len(references) > 0:
         msg.append(_local('TEXT_DETAILED_REVIEW_REFERENCES'))
 
@@ -346,14 +349,8 @@ def sum_overall_software_used(_local, _, result, url):
                   'js', 'css',
                   'lang', 'img', 'img.software', 'img.os', 'img.device', 'video']
 
-    has_announced_overall = False
-
     for category in categories:
         if category in result:
-            if use_detailed_report and not has_announced_overall:
-                texts.append('##### {0}'.format(url))
-                has_announced_overall = True
-
             texts.append(_local('TEXT_USED_{0}'.format(
                 category.upper())).format(', '.join(result[category].keys())))
 

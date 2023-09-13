@@ -121,15 +121,6 @@ def create_detailed_review(_local, msg_type, points, software_name, software_ver
     msg = list()
     if msg_type == 'cve':
         msg.append(_local('TEXT_DETAILED_REVIEW_CVE').format(cve_name))
-    elif msg_type == 'flagged':
-        msg.append(_local('TEXT_DETAILED_REVIEW_FLAGGED').format(cve_name))
-        # msg = ['##### Software with security flagged issues ( 1.5 rating )',
-        #        '',
-        #        '###### Introduction:',
-        #        'Software used has a newer version with issues flagged with security in GITHUB_REPO.',
-        #        'This means that one or more security related issued has been fixed in a later version then you use.',
-        #        'You can fix this by updating software to latest version.',
-        #        '']
     elif msg_type == 'behind100':
         msg.append(_local('TEXT_DETAILED_REVIEW_BEHIND100').format(cve_name))
     elif msg_type == 'behind75':

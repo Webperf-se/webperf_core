@@ -184,13 +184,17 @@ def rate_statement(statement, _, _local):
             # För en webbplats som är (mer eller mindre) statisk, ska tillgänglighetsredogörelsen ses över åtminstone en gång per år.
             rating += rate_updated_date(_, _local, soup)
 
-        rating.overall_review = _local('TEXT_REVIEW_ACCESSIBILITY_STATEMENT_URL').format(
-            statement['url'], rating.overall_review)
+        tmp = rating.overall_review.replace('GOV-IGNORE', '').strip('\r\n\t ')
+        if len(tmp) > 0:
+            rating.overall_review = _local('TEXT_REVIEW_ACCESSIBILITY_STATEMENT_URL').format(
+                statement['url'], rating.overall_review)
     else:
-        rating.set_overall(1.0, _local(
-            'TEXT_REVIEW_NO_ACCESSIBILITY_STATEMENT'))
-        rating.overall_review = _local('TEXT_REVIEW_CALLED_URL').format(
-            statement['called_url'], rating.overall_review)
+        tmp = rating.overall_review.replace('GOV-IGNORE', '').strip('\r\n\t ')
+        if len(tmp) > 0:
+            rating.set_overall(1.0, _local(
+                'TEXT_REVIEW_NO_ACCESSIBILITY_STATEMENT'))
+            rating.overall_review = _local('TEXT_REVIEW_CALLED_URL').format(
+                statement['called_url'], rating.overall_review)
 
     return rating
 

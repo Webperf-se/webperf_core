@@ -74,3 +74,48 @@ msgstr "- Update(s) available"
 
 msgid "KNOWN_SECURITY_ISSUES"
 msgstr "- Has known security issue(s)"
+
+msgid "TEXT_DETAILED_REVIEW_CVE"
+msgstr "##### Software related to {0} ( #POINTS# rating )\r\n\r\n###### Introduction:\r\nSoftware version used is effected by vurnability described in {0}.\r\nFor a more detailed explanation please see references below or search for {0}.\r\nIn most cases you can fix a CVE related issue by updating software to latest version.\r\nIn some rare cases there is no update and you need to consider not using the software affected.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND100"
+msgstr "##### Software is behind >=100 versions ( #POINTS# rating )\r\n\r\n###### Introduction:\r\nSoftware used is behind 100 or more version compared to latests.\r\nThis is a very good indicator that you need to update to lastest version.\r\nIt also indicate that you don't have a good package routine for your software.\r\nYou can fix this by updating software to latest version.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND075"
+msgstr "##### Software is behind >=75 versions ( #POINTS# rating )\r\n\r\n###### Introduction:\r\nSoftware used is behind 75 or more version compared to latests.\r\nThis is a very good indicator that you need to update to lastest version.\r\nIt also indicate that you don't have a good package routine for your software.\r\nYou can fix this by updating software to latest version.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND050"
+msgstr "##### Software is behind >=50 versions ( #POINTS# rating )\r\n\r\n###### Introduction:\r\nSoftware used is behind 50 or more version compared to latests.\r\nThis is a very good indicator that you need to update to lastest version.\r\nIt also indicate that you don't have a good package routine for your software.\r\nYou can fix this by updating software to latest version.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND025"
+msgstr "##### Software is behind >=25 versions ( #POINTS# rating )\r\n\r\n###### Introduction:\r\nSoftware used is behind 25 or more version compared to latests.\r\nThis is a good indicator that you need to update to lastest version.\r\nIt also indicate that you don't have a good package routine for your software.\r\nYou can fix this by updating software to latest version.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND010"
+msgstr "##### Software is behind >=10 versions ( #POINTS# rating )\r\n\r\n###### Introduction:\r\nSoftware used is behind 10 or more version compared to latests.\r\nThis is a semi good indicator that you need to update to lastest version.\r\nIt also indicate that you don't have a good package routine for your software.\r\nYou can fix this by updating software to latest version.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND001"
+msgstr "##### Software is behind >=1 versions ( #POINTS# rating )\r\n\r\n###### Introduction:\r\nSoftware used is behind 1 or more version compared to latests.\r\nThis is a small indicator that you need to update to lastest version.\r\nYou can fix this by updating software to latest version.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_LATEST_LEAKING_NAME_AND_VERSION"
+msgstr "##### Software version and name is leaked ( #POINTS# rating )\r\n\r\n###### Introduction:\r\nYou seem to use latest version BUT you are leaking name and version of software used.\r\nThis make it easier for someone to find vurnabilities to use against you, all from ZERO-DAY to known security issues.\r\nTo fix this you need to hide name and version, please view Software documentation on how to do this.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNKNOWN_LEAKING_NAME_AND_VERSION"
+msgstr "##### Software version and name is leaked ( #POINTS# rating )\r\n\r\n###### Introduction:\r\nYou are leaking name and version of software used.\r\nThis make it easier for someone to find vurnabilities to use against you, all from ZERO-DAY to known security issues.\r\nTo fix this you need to hide name and version, please view Software documentation on how to do this.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_LEAKING_NAME"
+msgstr "##### Software name is leaked ( #POINTS# rating )\r\n\r\n###### Introduction:\r\nYou are leaking software name used.\r\nThis make it easier for someone to find vurnabilities to use against you, all from ZERO-DAY to known security issues.\r\nTo fix this you need to hide name, please view Software documentation on how to do this.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_MULTIPLE_VERSIONS"
+msgstr "##### Multiple versions of same Software ( #POINTS# rating )\r\n\r\n###### Introduction:\r\nYou are using multiple version of the same software.\r\nThis can be caused if you include resources from external sources or because of miss configuration.\r\nThis is a small indicator that you don't have as much control that you probably should.\r\nIt also indicate that you don't have a good package routine for your software.\r\nYou can fix this by updating software to latest version or latest version that you use for all instances.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_REFERENCES"
+msgstr "###### Reference(s):"
+
+msgid "TEXT_DETAILED_REVIEW_DETECTED_VERSIONS"
+msgstr "###### Detected version(s):"
+
+msgid "TEXT_DETAILED_REVIEW_DETECTED_RESOURCES"
+msgstr "###### Detected resource(s):"
+
+msgid "TEXT_DETAILED_REVIEW_MORE_THEN_5_SOURCES"
+msgstr "- More then 5 sources, hiding rest"

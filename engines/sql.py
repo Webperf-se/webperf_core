@@ -2,7 +2,7 @@
 from engines.utils import use_item
 
 
-def write_tests(output_filename, siteTests, input_skip, input_take):
+def write_tests(output_filename, siteTests, input_skip, input_take, sites):
     with open(output_filename, 'w') as outfile:
         current_index = 0
         for test in siteTests:

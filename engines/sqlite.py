@@ -64,7 +64,7 @@ def read_sites(input_filename, input_skip, input_take):
     return sites
 
 
-def write_tests(output_filename, siteTests):
+def write_tests(output_filename, siteTests, sites):
     conn = sqlite3.connect(output_filename)
     c = conn.cursor()
 
@@ -98,7 +98,7 @@ def write_tests(output_filename, siteTests):
             # automatically update database
             print('db -', str(ex))
             ensure_latest_db_version(output_filename)
-            write_tests(output_filename, siteTests)
+            write_tests(output_filename, siteTests, sites)
 
             print('db - upgrading db')
         else:

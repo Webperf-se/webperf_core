@@ -108,7 +108,8 @@ def get_rating_from_sitespeed(url, _local, _):
 
     result.update(result2)
 
-    rating.overall_review = '{0}\r\n'.format('\r\n'.join(texts))
+    rating.overall_review = '{0}\r\n'.format('\r\n'.join(texts)).replace('GOV-IGNORE', '').strip('\r\n\t ')
+    rating.integrity_and_security_review = rating.integrity_and_security_review.replace('GOV-IGNORE', '').strip('\r\n\t ')
 
     if not use_cache:
         shutil.rmtree(result_folder_name)
@@ -116,138 +117,56 @@ def get_rating_from_sitespeed(url, _local, _):
     return (rating, result)
 
 
-def create_detailed_review(msg_type, points, software_name, software_versions, sources, cve_name=None, references=None):
+def create_detailed_review(_local, msg_type, points, software_name, software_versions, sources, cve_name=None, references=None):
     # TODO: Use points from arguments into create_detailed_review and replace it in text (so it is easier to change rating)
+    msg = list()
     if msg_type == 'cve':
-        msg = ['##### Software related to {0} ( #POINTS# rating )'.format(cve_name),
-               '',
-               '###### Introduction:',
-               'Software version used is effected by vurnability described in {0}.'.format(
-                   cve_name),
-               'For a more detailed explanation please see references below or search for {0}.'.format(
-                   cve_name),
-               'In most cases you can fix a CVE related issue by updating software to latest version.',
-               'In some rare cases there is no update and you need to consider not using the software affected.',
-               '']
-    elif msg_type == 'flagged':
-        msg = ['##### Software with security flagged issues ( 1.5 rating )',
-               '',
-               '###### Introduction:',
-               'Software used has a newer version with issues flagged with security in GITHUB_REPO.',
-               'This means that one or more security related issued has been fixed in a later version then you use.',
-               'You can fix this by updating software to latest version.',
-               '']
+        msg.append(_local('TEXT_DETAILED_REVIEW_CVE').format(cve_name))
     elif msg_type == 'behind100':
-        msg = ['##### Software is behind >=100 versions ( #POINTS# rating )',
-               '',
-               '###### Introduction:',
-               'Software used is behind 100 or more version compared to latests.',
-               'This is a very good indicator that you need to update to lastest version.',
-               'It also indicate that you don\'t have a good package routine for your software.'
-               'You can fix this by updating software to latest version.',
-               '']
+        msg.append(_local('TEXT_DETAILED_REVIEW_BEHIND100').format(cve_name))
     elif msg_type == 'behind75':
-        msg = ['##### Software is behind >=75 versions ( #POINTS# rating )',
-               '',
-               '###### Introduction:',
-               'Software used is behind 75 or more version compared to latests.',
-               'This is a very good indicator that you need to update to lastest version.',
-               'It also indicate that you don\'t have a good package routine for your software.'
-               'You can fix this by updating software to latest version.',
-               '']
+        msg.append(_local('TEXT_DETAILED_REVIEW_BEHIND075').format(cve_name))
     elif msg_type == 'behind50':
-        msg = ['##### Software is behind >=50 versions ( #POINTS# rating )',
-               '',
-               '###### Introduction:',
-               'Software used is behind 50 or more version compared to latests.',
-               'This is a very good indicator that you need to update to lastest version.',
-               'It also indicate that you don\'t have a good package routine for your software.'
-               'You can fix this by updating software to latest version.',
-               '']
+        msg.append(_local('TEXT_DETAILED_REVIEW_BEHIND050').format(cve_name))
     elif msg_type == 'behind25':
-        msg = ['##### Software is behind >=25 versions ( #POINTS# rating )',
-               '',
-               '###### Introduction:',
-               'Software used is behind 25 or more version compared to latests.',
-               'This is a good indicator that you need to update to lastest version.',
-               'It also indicate that you don\'t have a good package routine for your software.'
-               'You can fix this by updating software to latest version.',
-               '']
+        msg.append(_local('TEXT_DETAILED_REVIEW_BEHIND025').format(cve_name))
     elif msg_type == 'behind10':
-        msg = ['##### Software is behind >=10 versions ( #POINTS# rating )',
-               '',
-               '###### Introduction:',
-               'Software used is behind 10 or more version compared to latests.',
-               'This is a semi good indicator that you need to update to lastest version.',
-               'It also indicate that you don\'t have a good package routine for your software.'
-               'You can fix this by updating software to latest version.',
-               '']
+        msg.append(_local('TEXT_DETAILED_REVIEW_BEHIND010').format(cve_name))
     elif msg_type == 'latest-but-leaking-name-and-version':
-        msg = ['##### Software version and name is leaked ( #POINTS# rating )',
-               '',
-               '###### Introduction:',
-               'You seem to use latest version BUT you are leaking name and version of software used.',
-               'This make it easier for someone to find vurnabilities to use against you, all from ZERO-DAY to known security issues.'
-               'To fix this you need to hide name and version, please view Software documentation on how to do this.'
-               '']
+        msg.append(_local('TEXT_DETAILED_REVIEW_LATEST_LEAKING_NAME_AND_VERSION').format(cve_name))
     elif msg_type == 'unknown-but-leaking-name-and-version':
-        msg = ['##### Software version and name is leaked ( #POINTS# rating )',
-               '',
-               '###### Introduction:',
-               'You are leaking name and version of software used.',
-               'This make it easier for someone to find vurnabilities to use against you, all from ZERO-DAY to known security issues.'
-               'To fix this you need to hide name and version, please view Software documentation on how to do this.'
-               '']
+        msg.append(_local('TEXT_DETAILED_REVIEW_UNKNOWN_LEAKING_NAME_AND_VERSION').format(cve_name))
     elif msg_type == 'leaking-name':
-        msg = ['##### Software version and name is leaked ( #POINTS# rating )',
-               '',
-               '###### Introduction:',
-               'Software used is behind 1 or more version compared to latests.',
-               'This is a small indicator that you need to update to lastest version.',
-               'It also indicate that you don\'t have a good package routine for your software.'
-               'You can fix this by updating software to latest version.',
-               '']
+        msg.append(_local('TEXT_DETAILED_REVIEW_LEAKING_NAME').format(cve_name))
     elif msg_type == 'behind1':
-        msg = ['##### Software is behind >=1 versions ( #POINTS# rating )',
-               '',
-               '###### Introduction:',
-               'Software used is behind 1 or more version compared to latests.',
-               'This is a small indicator that you need to update to lastest version.',
-               'It also indicate that you don\'t have a good package routine for your software.'
-               'You can fix this by updating software to latest version.',
-               '']
+        msg.append(_local('TEXT_DETAILED_REVIEW_BEHIND001').format(cve_name))
     elif msg_type == 'multiple-versions':
-        msg = ['##### Multiple versions of same Software ( #POINTS# rating )',
-               '',
-               '###### Introduction:',
-               'You are using multiple version of the same software.',
-               'This can be caused if you include resources from external sources or because of miss configuration.'
-               'This is a small indicator that you don\'t have as much control that you probably should.',
-               'It also indicate that you don\'t have a good package routine for your software.'
-               'You can fix this by updating software to latest version or latest version that you use for all instances.',
-               '']
+        msg.append(_local('TEXT_DETAILED_REVIEW_MULTIPLE_VERSIONS').format(cve_name))
 
+    if 'GOV-IGNORE' in msg:
+        return ''
+    
     if references != None and len(references) > 0:
-        msg.append('###### Reference(s):')
+        msg.append(_local('TEXT_DETAILED_REVIEW_REFERENCES'))
 
         for reference in references:
             msg.append('- {0}'.format(reference))
         msg.append('')
 
     if len(software_versions) > 0:
-        msg.append('###### Detected version(s):')
+        msg.append(_local('TEXT_DETAILED_REVIEW_DETECTED_VERSIONS'))
 
         for version in software_versions:
             msg.append('- {0} {1}'.format(software_name, version))
         msg.append('')
 
     if len(sources) > 0:
-        msg.append('###### Detected resource(s):')
+        msg.append(_local('TEXT_DETAILED_REVIEW_DETECTED_RESOURCES'))
 
         source_index = 0
         for source in sources:
             if source_index > 5:
-                msg.append('- More then 5 sources, hiding rest')
+                msg.append(_local('TEXT_DETAILED_REVIEW_MORE_THEN_5_SOURCES'))
                 break
             msg.append('- {0}'.format(source))
             source_index += 1
@@ -295,7 +214,7 @@ def rate_software_security_result(_local, _, result, url):
                             v_sources_key = 'sources'
                         vuln_sources = info[v_sources_key]
 
-                        text = create_detailed_review(
+                        text = create_detailed_review(_local,
                             'cve', points, software_name, vuln_versions, vuln_sources, vuln['name'], vuln['references'])
                         sub_rating = Rating(_, review_show_improvements_only)
                         sub_rating.set_overall(points)
@@ -308,7 +227,7 @@ def rate_software_security_result(_local, _, result, url):
 
                 if category != 'js' and 'nof-newer-versions' in info and info['nof-newer-versions'] == 0:
                     points = 4.5
-                    text = create_detailed_review(
+                    text = create_detailed_review(_local,
                         'latest-but-leaking-name-and-version', points, software_name, info['versions'], info['sources'])
                     sub_rating = Rating(_, review_show_improvements_only)
                     sub_rating.set_overall(points)
@@ -320,7 +239,7 @@ def rate_software_security_result(_local, _, result, url):
                     ratings = update_rating_collection(sub_rating, ratings)
                 elif category != 'js':
                     points = 4.0
-                    text = create_detailed_review(
+                    text = create_detailed_review(_local,
                         'unknown-but-leaking-name-and-version', points, software_name, info['versions'], info['sources'])
                     sub_rating = Rating(_, review_show_improvements_only)
                     sub_rating.set_overall(points)
@@ -354,27 +273,27 @@ def rate_software_security_result(_local, _, result, url):
                         text = ''
                         if info[v_newer_key] >= 100:
                             points = 2.0
-                            text = create_detailed_review(
+                            text = create_detailed_review(_local,
                                 'behind100', points, software_name, tmp_versions, info[v_sources_key])
                         elif info[v_newer_key] >= 75:
                             points = 2.25
-                            text = create_detailed_review(
+                            text = create_detailed_review(_local,
                                 'behind75', points, software_name, tmp_versions, info[v_sources_key])
                         elif info[v_newer_key] >= 50:
                             points = 2.5
-                            text = create_detailed_review(
+                            text = create_detailed_review(_local,
                                 'behind50', points, software_name, tmp_versions, info[v_sources_key])
                         elif info[v_newer_key] >= 25:
                             points = 2.75
-                            text = create_detailed_review(
+                            text = create_detailed_review(_local,
                                 'behind25', points, software_name, tmp_versions, info[v_sources_key])
                         elif info[v_newer_key] >= 10:
                             points = 3.0
-                            text = create_detailed_review(
+                            text = create_detailed_review(_local,
                                 'behind10', points, software_name, tmp_versions, info[v_sources_key])
                         elif info[v_newer_key] >= 1:
                             points = 4.9
-                            text = create_detailed_review(
+                            text = create_detailed_review(_local,
                                 'behind1', points, software_name, tmp_versions, info[v_sources_key])
 
                         sub_rating = Rating(_, review_show_improvements_only)
@@ -388,7 +307,7 @@ def rate_software_security_result(_local, _, result, url):
 
                 if len(info['versions']) > 1:
                     points = 4.1
-                    text = create_detailed_review(
+                    text = create_detailed_review(_local,
                         'multiple-versions', points, software_name, info['versions'], info['sources'])
                     sub_rating = Rating(_, review_show_improvements_only)
                     sub_rating.set_overall(points)
@@ -431,14 +350,8 @@ def sum_overall_software_used(_local, _, result, url):
                   'js', 'css',
                   'lang', 'img', 'img.software', 'img.os', 'img.device', 'video']
 
-    has_announced_overall = False
-
     for category in categories:
         if category in result:
-            if use_detailed_report and not has_announced_overall:
-                texts.append('##### {0}'.format(url))
-                has_announced_overall = True
-
             texts.append(_local('TEXT_USED_{0}'.format(
                 category.upper())).format(', '.join(result[category].keys())))
 

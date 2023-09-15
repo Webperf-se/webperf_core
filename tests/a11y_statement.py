@@ -184,13 +184,17 @@ def rate_statement(statement, _, _local):
             # För en webbplats som är (mer eller mindre) statisk, ska tillgänglighetsredogörelsen ses över åtminstone en gång per år.
             rating += rate_updated_date(_, _local, soup)
 
-        rating.overall_review = _local('TEXT_REVIEW_ACCESSIBILITY_STATEMENT_URL').format(
-            statement['url'], rating.overall_review)
+        tmp = rating.overall_review.replace('GOV-IGNORE', '').strip('\r\n\t ')
+        if len(tmp) > 0:
+            rating.overall_review = _local('TEXT_REVIEW_ACCESSIBILITY_STATEMENT_URL').format(
+                statement['url'], rating.overall_review)
     else:
-        rating.set_overall(1.0, _local(
-            'TEXT_REVIEW_NO_ACCESSIBILITY_STATEMENT'))
-        rating.overall_review = _local('TEXT_REVIEW_CALLED_URL').format(
-            statement['called_url'], rating.overall_review)
+        tmp = rating.overall_review.replace('GOV-IGNORE', '').strip('\r\n\t ')
+        if len(tmp) > 0:
+            rating.set_overall(1.0, _local(
+                'TEXT_REVIEW_NO_ACCESSIBILITY_STATEMENT'))
+            rating.overall_review = _local('TEXT_REVIEW_CALLED_URL').format(
+                statement['called_url'], rating.overall_review)
 
     return rating
 
@@ -198,25 +202,51 @@ def rate_statement(statement, _, _local):
 def rate_updated_date(_, _local, soup):
     rating = Rating(_, review_show_improvements_only)
     dates = list()
-    regex = r"(?P<typ>bedömning|redogörelse|uppdatera|granska)(?P<text>[^>.]*) (?P<day>[0-9]{1,2} )(?P<month>(?:jan(?:uari)*|feb(?:ruari)*|mar(?:s)*|apr(?:il)*|maj|jun(?:i)*|jul(?:i)*|aug(?:usti)*|sep(?:tember)*|okt(?:ober)*|nov(?:ember)*|dec(?:ember)*) )(?P<year>20[0-9]{2})"
 
     element = soup.find('body')
     if element == None:
         return rating
 
     element_text = element.get_text()
-    matches = re.finditer(regex, element_text, re.IGNORECASE)
+
     date_doc = None
 
-    for matchNum, match in enumerate(matches, start=1):
-        dates.append(get_doc_date_from_match(match))
-
-    regex = r"(?P<typ>bedömning|redogörelse|uppdatera|granska)(?P<text>[^>.]*) (?P<day>)(?P<month>(?:jan(?:uari)*|feb(?:ruari)*|mar(?:s)*|apr(?:il)*|maj|jun(?:i)*|jul(?:i)*|aug(?:usti)*|sep(?:tember)*|okt(?:ober)*|nov(?:ember)*|dec(?:ember)*) )(?P<year>20[0-9]{2})"
+    regex = r"(?P<typ>bedömning|redogörelse|uppdater|gransk)(?P<text>[^>.]*) (?P<day>[0-9]{1,2} )(?P<month>(?:jan(?:uari)*|feb(?:ruari)*|mar(?:s)*|apr(?:il)*|maj|jun(?:i)*|jul(?:i)*|aug(?:usti)*|sep(?:tember)*|okt(?:ober)*|nov(?:ember)*|dec(?:ember)*) )(?P<year>20[0-9]{2})"
     matches = re.finditer(regex, element_text, re.IGNORECASE)
     for matchNum, match in enumerate(matches, start=1):
         dates.append(get_doc_date_from_match(match))
 
-    regex = r"(?P<typ>bedömning|redogörelse|uppdatera|granska)(?P<text>[^>.]*) (?P<year>20[0-9]{2}-)(?P<month>[0-9]{2}-)(?P<day>[0-9]{2})"
+    regex = r" (?P<day>[0-9]{1,2} )(?P<month>(?:jan(?:uari)*|feb(?:ruari)*|mar(?:s)*|apr(?:il)*|maj|jun(?:i)*|jul(?:i)*|aug(?:usti)*|sep(?:tember)*|okt(?:ober)*|nov(?:ember)*|dec(?:ember)*) )(?P<year>20[0-9]{2})(?P<text>[^>.]*)(?P<typ>bedömning|redogörelse|uppdater|gransk)"
+    matches = re.finditer(regex, element_text, re.IGNORECASE)
+    for matchNum, match in enumerate(matches, start=1):
+        dates.append(get_doc_date_from_match(match))
+
+    regex = r"(?P<typ>bedömning|redogörelse|uppdater|gransk)(?P<text>[^>.]*) (?P<day>)(?P<month>(?:jan(?:uari)*|feb(?:ruari)*|mar(?:s)*|apr(?:il)*|maj|jun(?:i)*|jul(?:i)*|aug(?:usti)*|sep(?:tember)*|okt(?:ober)*|nov(?:ember)*|dec(?:ember)*) )(?P<year>20[0-9]{2})"
+    matches = re.finditer(regex, element_text, re.IGNORECASE)
+    for matchNum, match in enumerate(matches, start=1):
+        dates.append(get_doc_date_from_match(match))
+
+    regex = r" (?P<day>)(?P<month>(?:jan(?:uari)*|feb(?:ruari)*|mar(?:s)*|apr(?:il)*|maj|jun(?:i)*|jul(?:i)*|aug(?:usti)*|sep(?:tember)*|okt(?:ober)*|nov(?:ember)*|dec(?:ember)*) )(?P<year>20[0-9]{2})(?P<text>[^>.]*)(?P<typ>bedömning|redogörelse|uppdater|gransk)"
+    matches = re.finditer(regex, element_text, re.IGNORECASE)
+    for matchNum, match in enumerate(matches, start=1):
+        dates.append(get_doc_date_from_match(match))
+
+    regex = r"(?P<typ>bedömning|redogörelse|uppdater|gransk)(?P<text>[^>.]*) (?P<year>20[0-9]{2}-)(?P<month>[0-9]{2}-)(?P<day>[0-9]{2})"
+    matches = re.finditer(regex, element_text, re.IGNORECASE)
+    for matchNum, match in enumerate(matches, start=1):
+        dates.append(get_doc_date_from_match(match))
+
+    regex = r" (?P<year>20[0-9]{2}-)(?P<month>[0-9]{2}-)(?P<day>[0-9]{2})(?P<text>[^>.]*)(?P<typ>bedömning|redogörelse|uppdater|gransk)"
+    matches = re.finditer(regex, element_text, re.IGNORECASE)
+    for matchNum, match in enumerate(matches, start=1):
+        dates.append(get_doc_date_from_match(match))
+
+    regex = r"(?P<typ>bedömning|redogörelse|uppdater|gransk)(?P<text>[^>.]*) (?P<day>[0-9]{1,2} )*(?P<month>(?:jan(?:uari)*|feb(?:ruari)*|mar(?:s)*|apr(?:il)*|maj|jun(?:i)*|jul(?:i)*|aug(?:usti)*|sep(?:tember)*|okt(?:ober)*|nov(?:ember)*|dec(?:ember)*) )(?P<year>20[0-9]{2})"
+    matches = re.finditer(regex, element_text, re.IGNORECASE)
+    for matchNum, match in enumerate(matches, start=1):
+        dates.append(get_doc_date_from_match(match))
+
+    regex = r" (?P<day>[0-9]{1,2} )*(?P<month>(?:jan(?:uari)*|feb(?:ruari)*|mar(?:s)*|apr(?:il)*|maj|jun(?:i)*|jul(?:i)*|aug(?:usti)*|sep(?:tember)*|okt(?:ober)*|nov(?:ember)*|dec(?:ember)*) )(?P<year>20[0-9]{2})(?P<text>[^>.]*)(?P<typ>bedömning|redogörelse|uppdater|gransk)"
     matches = re.finditer(regex, element_text, re.IGNORECASE)
     for matchNum, match in enumerate(matches, start=1):
         dates.append(get_doc_date_from_match(match))
@@ -316,9 +346,9 @@ def get_doc_date_from_match(match):
         weight = 1.0
     elif 'redogörelse' in type:
         weight = 0.9
-    elif 'granska' in type:
+    elif 'gransk' in type:
         weight = 0.7
-    elif 'uppdatera' in type:
+    elif 'uppdater' in type:
         weight = 0.5
     return {
         'type': type,
@@ -361,7 +391,7 @@ def rate_found_depth(_, _local, statement):
 
 def rate_evaluation_method(_, _local, soup):
     match = soup.find(string=re.compile(
-        "(sj(.{1, 6} | ä | &auml; | &  # 228;)lvskattning|interna kontroller|intern testning|utvärderingsmetod|tillgänglighetsexperter|funka|etu ab|siteimprove|oberoende granskning|oberoende tillgänglighetsgranskningar|tillgänglighetskonsult|med hjälp av|egna tester|oberoende experter|Hur vi testat webbplatsen|vi testat webbplatsen|intervjuer|rutiner|checklistor|checklista|utbildningar)", flags=re.MULTILINE | re.IGNORECASE))
+        "(sj(.{1, 6}|ä|&auml;|&#228;)lvskattning|intern[a]{0,1} kontroller|intern[a]{0,1} test(ning|er){0,1}]|utvärderingsmetod|tillgänglighetsexpert(er){0,1}|funka|etu ab|siteimprove|oberoende granskning|oberoende tillgänglighetsgranskning(ar){0,1}|tillgänglighetskonsult(er){0,1}|med hjälp av|egna tester|oberoende experter|Hur vi testat webbplats(en){0,1}|vi testat webbplatsen|intervjuer|rutiner|checklistor|checklista|utbildningar|automatiserade|automatisk|maskinell|kontrollverktyg)", flags=re.MULTILINE | re.IGNORECASE))
     rating = Rating(_, review_show_improvements_only)
     if match:
         rating.set_overall(

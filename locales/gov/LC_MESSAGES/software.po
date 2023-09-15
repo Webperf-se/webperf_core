@@ -1,0 +1,121 @@
+# GOV English.
+# Copyright (C) 2023 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2023-09-12 10:45+0200\n"
+"PO-Revision-Date: 2023-09-12 19:30+0200\n"
+"Last-Translator: mattias <mattias@webperf.se>\n"
+"Language-Team: GOV English <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 25 - Software (Alpha)\r\n"
+
+msgid "TEXT_NO_CMS"
+msgstr "GOV-IGNORE"
+
+msgid "TEXT_USED_CMS"
+msgstr "GOV-IGNORE"
+
+msgid "TEXT_USED_WEBSERVER"
+msgstr "GOV-IGNORE"
+
+msgid "TEXT_USED_OS"
+msgstr "GOV-IGNORE"
+
+msgid "TEXT_USED_ANALYTICS"
+msgstr "GOV-IGNORE"
+
+msgid "TEXT_USED_TECH"
+msgstr "GOV-IGNORE"
+
+msgid "TEXT_USED_JS"
+msgstr "GOV-IGNORE"
+
+msgid "TEXT_USED_CSS"
+msgstr "GOV-IGNORE"
+
+msgid "TEXT_USED_LANG"
+msgstr "GOV-IGNORE"
+
+msgid "TEXT_USED_IMG"
+msgstr "GOV-IGNORE"
+
+msgid "TEXT_USED_IMG.SOFTWARE"
+msgstr "- Image software used: {0}"
+
+msgid "TEXT_USED_IMG.OS"
+msgstr "- Image operating system used: {0}"
+
+msgid "TEXT_USED_IMG.DEVICE"
+msgstr "- Image device used: {0}"
+
+msgid "TEXT_USED_VIDEO"
+msgstr "GOV-IGNORE"
+
+msgid "TEXT_USED_META"
+msgstr "GOV-IGNORE"
+
+msgid "TEXT_USED_LICENSE"
+msgstr "GOV-IGNORE"
+
+msgid "TEXT_USED_SECURITY"
+msgstr "- Leaking information"
+
+msgid "UPDATE_AVAILABLE"
+msgstr "- Update(s) available"
+
+msgid "KNOWN_SECURITY_ISSUES"
+msgstr "- Has known security issue(s)"
+
+msgid "TEXT_DETAILED_REVIEW_CVE"
+msgstr "##### Software related to {0}\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND100"
+msgstr "##### Software is behind >=100 versions\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND075"
+msgstr "##### Software is behind >=75 versions\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND050"
+msgstr "##### Software is behind >=50 versions\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND025"
+msgstr "##### Software is behind >=25 versions\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND010"
+msgstr "GOV-IGNORE"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND001"
+msgstr "GOV-IGNORE"
+
+msgid "TEXT_DETAILED_REVIEW_LATEST_LEAKING_NAME_AND_VERSION"
+msgstr "##### Software version and name is leaked\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNKNOWN_LEAKING_NAME_AND_VERSION"
+msgstr "##### Software version and name is leaked\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_LEAKING_NAME"
+msgstr "##### Software name is leaked\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_MULTIPLE_VERSIONS"
+msgstr "GOV-IGNORE"
+
+msgid "TEXT_DETAILED_REVIEW_REFERENCES"
+msgstr "###### Reference(s):"
+
+msgid "TEXT_DETAILED_REVIEW_DETECTED_VERSIONS"
+msgstr "###### Detected version(s):"
+
+msgid "TEXT_DETAILED_REVIEW_DETECTED_RESOURCES"
+msgstr "###### Detected resource(s):"
+
+msgid "TEXT_DETAILED_REVIEW_MORE_THEN_5_SOURCES"
+msgstr "- More then 5 sources, hiding rest"

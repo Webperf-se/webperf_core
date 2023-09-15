@@ -194,6 +194,7 @@ def main(argv):
         # run test(s) for every website
         test_results = utils.test_sites(_,
                                         langCode, sites, test_types=test_types, show_reviews=show_reviews)
+        
         if (len(output_filename) > 0):
             file_ending = ""
             file_long_ending = ""
@@ -203,6 +204,8 @@ def main(argv):
                 file_long_ending = output_filename[-7:].lower()
             if (file_ending == ".csv"):
                 from engines.csv import write_tests
+            elif file_ending == ".gov":
+                from engines.gov import write_tests
             elif file_ending == ".sql":
                 from engines.sql import write_tests
             elif file_long_ending == ".sqlite":
@@ -211,7 +214,7 @@ def main(argv):
                 from engines.json import write_tests
 
             # use loaded engine to write tests
-            write_tests(output_filename, test_results)
+            write_tests(output_filename, test_results, sites)
             # Cleanup exipred cache
         clean_cache_files()
     else:

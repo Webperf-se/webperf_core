@@ -225,6 +225,12 @@ def rate_updated_date(_, _local, soup):
     for matchNum, match in enumerate(matches, start=1):
         dates.append(get_doc_date_from_match(match))
 
+    regex = r"(?P<typ>bedömning|redogörelse|uppdater|gransk)(?P<text>[^>.]*) (?P<day>[0-9]{1,2} )*(?P<month>(?:jan(?:uari)*|feb(?:ruari)*|mar(?:s)*|apr(?:il)*|maj|jun(?:i)*|jul(?:i)*|aug(?:usti)*|sep(?:tember)*|okt(?:ober)*|nov(?:ember)*|dec(?:ember)*) )(?P<year>20[0-9]{2})"
+    matches = re.finditer(regex, element_text, re.IGNORECASE)
+    for matchNum, match in enumerate(matches, start=1):
+        dates.append(get_doc_date_from_match(match))
+
+
     if len(dates) == 0:
         rating.set_overall(
             1.0, _local('TEXT_REVIEW_NO_UPDATE_DATE'))
@@ -320,9 +326,9 @@ def get_doc_date_from_match(match):
         weight = 1.0
     elif 'redogörelse' in type:
         weight = 0.9
-    elif 'granska' in type:
+    elif 'gransk' in type:
         weight = 0.7
-    elif 'uppdatera' in type:
+    elif 'uppdater' in type:
         weight = 0.5
     return {
         'type': type,
@@ -365,7 +371,7 @@ def rate_found_depth(_, _local, statement):
 
 def rate_evaluation_method(_, _local, soup):
     match = soup.find(string=re.compile(
-        "(sj(.{1, 6} | ä | &auml; | &  # 228;)lvskattning|interna kontroller|intern testning|utvärderingsmetod|tillgänglighetsexperter|funka|etu ab|siteimprove|oberoende granskning|oberoende tillgänglighetsgranskningar|tillgänglighetskonsult|med hjälp av|egna tester|oberoende experter|Hur vi testat webbplatsen|vi testat webbplatsen|intervjuer|rutiner|checklistor|checklista|utbildningar)", flags=re.MULTILINE | re.IGNORECASE))
+        "(sj(.{1, 6} | ä | &auml; | &  # 228;)lvskattning|interna kontroller|intern testning|utvärderingsmetod|tillgänglighetsexperter|funka|etu ab|siteimprove|oberoende granskning|oberoende tillgänglighetsgranskningar|tillgänglighetskonsult|med hjälp av|egna tester|oberoende experter|Hur vi testat webbplatsen|vi testat webbplatsen|intervjuer|rutiner|checklistor|checklista|utbildningar|automatiserade|automatisk|maskinell)", flags=re.MULTILINE | re.IGNORECASE))
     rating = Rating(_, review_show_improvements_only)
     if match:
         rating.set_overall(

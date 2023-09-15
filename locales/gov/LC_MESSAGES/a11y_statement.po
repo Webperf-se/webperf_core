@@ -39,7 +39,7 @@ msgid "TEXT_REVIEW_OLDER_THAN_2YEAR_UPDATE_DATE"
 msgstr "- Accessibility statement seems to be older than 2 years"
 
 msgid "TEXT_REVIEW_OLDER_THAN_3YEAR_UPDATE_DATE"
-msgstr "-Accessibility statement seems to be older than 3 years"
+msgstr "- Accessibility statement seems to be older than 3 years"
 
 msgid "TEXT_REVIEW_OLDER_THAN_4YEAR_UPDATE_DATE"
 msgstr "- Accessibility statement seems to be older than 4 years"

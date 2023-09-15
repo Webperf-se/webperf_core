@@ -11,7 +11,7 @@ def write_tests(output_filename, siteTests, sites):
     for fieldname in standard_fieldnames:
         if 'site_id' == fieldname:
             tmp_fieldnames.append('url')
-        elif 'type_of_test' != fieldname and 'rating' not in fieldname and 'date' not in fieldname and 'perf' not in fieldname and 'sec' not in fieldname and 'a11y' not in fieldname and 'stand' not in fieldname and 'perf' not in fieldname:
+        elif 'type_of_test' != fieldname and 'data' not in fieldname and 'rating' not in fieldname and 'date' not in fieldname and 'perf' not in fieldname and 'sec' not in fieldname and 'a11y' not in fieldname and 'stand' not in fieldname and 'perf' not in fieldname:
             tmp_fieldnames.append(fieldname)
 
     tmp_sites = dict(sites)
@@ -26,6 +26,5 @@ def write_tests(output_filename, siteTests, sites):
             
             writer.writerow({
                 'url': site_url,
-                'report': (siteTest['report'] + siteTest['report_sec']),
-                'data': siteTest['data']
+                'report': (siteTest['report'] + siteTest['report_sec'])
             })

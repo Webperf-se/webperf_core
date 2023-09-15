@@ -293,7 +293,7 @@ class SiteTests(object):
         self.json_check_data = json_check_data
 
     def encode_review(self, review):
-        review_encoded = str(review).encode(
+        review_encoded = str(review).replace('GOV-IGNORE', '').encode(
             'utf-8')  # för att lösa encoding-probs
         return review_encoded
 

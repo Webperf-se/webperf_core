@@ -77,7 +77,7 @@ def read_tests(input_filename, input_skip, input_take):
     return result
 
 
-def write_tests(output_filename, siteTests):
+def write_tests(output_filename, siteTests, sites):
     with open(output_filename, 'w') as outfile:
         # json require us to have an object as root element
         testsContainerObject = {

@@ -4,7 +4,7 @@ from engines.utils import use_item
 import csv
 
 
-def write_tests(output_filename, siteTests):
+def write_tests(output_filename, siteTests, sites):
     with open(output_filename, 'w', newline='') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=SiteTests.fieldnames())
 

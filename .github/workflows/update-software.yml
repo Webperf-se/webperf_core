@@ -1,0 +1,36 @@
+name: "Software - Update version and security info"
+on:
+  push:
+    paths:
+      - 'software-sources.json'
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+            matrix:
+                os: [windows-latest]
+                #os: [ubuntu-latest, windows-latest]
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v3
+    - name: Setup python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+        architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+    - name: Setup dependencies using pip
+      run: pip install -r requirements.txt
+    - if: ${{ matrix.os == 'ubuntu-latest' }}
+      name: Verifing Translation(s) - LINUX
+      run: python update_software.py
+    - if: ${{ matrix.os == 'windows-latest' }}
+      name: Verifing Translation(s) - WINDOWS
+      run: python update_software.py
+    - if: ${{ matrix.os == 'windows-latest' }}
+      name: Git Add any changes to Translation(s) - WINDOWS
+      run: |
+        git config --global user.name 'GitHub Action'
+        git config --global user.email '7h3Rabbit@users.noreply.github.com'
+        git add software-full.json
+        git commit -m "Added changed software"
+        git push

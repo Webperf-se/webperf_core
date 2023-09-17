@@ -1,0 +1,117 @@
+{
+    "loaded": true,
+    "aliases": {
+        "jquery-javascript-library": "jquery",
+        "jquery-ui-core": "jquery-ui",
+        "query-ui-widget": "jquery-ui",
+        "jquery-ui-position": "jquery-ui",
+        "jquery-ui-menu": "jquery-ui",
+        "jquery-ui-autocomplete": "jquery-ui",
+        "jquery-ui-*": "jquery-ui",
+        "jquery migrate": "jquery-migrate",
+        "jquery.migrate'":"jquery-migrate",
+        "sizzle-css-selector-engine": "sizzle",
+        "javascript cookie": "js-cookie",
+        "javascript.cookie": "js-cookie",
+        "javascript-cookie":"js-cookie"
+    },
+    "softwares": {
+        "jquery": {
+            "github-owner": "jquery",
+            "github-repo": "jquery"
+        },
+        "iis": {
+        },
+        "apache": {
+        },
+        "jquery-ui": {
+            "github-owner": "jquery",
+            "github-repo": "jquery-ui"
+        },
+        "jquery-migrate": {
+            "github-owner": "jquery",
+            "github-repo": "jquery-migrate"
+        },
+        "sizzle": {
+            "github-owner": "jquery",
+            "github-repo": "sizzle"
+        },
+        "js-cookie": {
+            "github-owner": "js-cookie",
+            "github-repo": "js-cookie"
+        },
+        "requirejs": {
+            "github-owner": "requirejs",
+            "github-repo": "requirejs"
+        },
+        "vue-devtools": {
+            "github-owner": "vuejs",
+            "github-repo": "devtools"
+        },
+        "eslint": {
+            "github-owner": "eslint",
+            "github-repo": "eslint"
+        },
+        "uuid": {
+            "github-owner": "uuidjs",
+            "github-repo": "uuid"
+        },
+        "chart": {
+            "github-owner": "chartjs",
+            "github-repo": "Chart.js"
+        },
+        "chartjs-plugin-datalabels": {
+            "github-owner": "chartjs",
+            "github-repo": "chartjs-plugin-datalabels"
+        },
+        "chartjs-plugin-deferred": {
+            "github-owner": "chartjs",
+            "github-repo": "chartjs-plugin-deferred"
+        },
+        "css-element-queries": {
+            "github-owner": "marcj",
+            "github-repo": "css-element-queries"
+        },
+        "modernizr": {
+            "github-owner": "Modernizr",
+            "github-repo": "Modernizr"
+        },
+        "core-js": {
+            "github-owner": "zloirock",
+            "github-repo": "core-js"
+        },
+        "vue": {
+            "github-owner": "vuejs",
+            "github-repo": "vue"
+        },
+        "vuex": {
+            "github-owner": "vuejs",
+            "github-repo": "vuex"
+        },
+        "vue-router": {
+            "github-owner": "vuejs",
+            "github-repo": "vue-router"
+        },
+        "react": {
+            "github-owner": "facebook",
+            "github-repo": "react"
+        },
+        "choices": {
+            "github-owner": "jshjohnson",
+            "github-repo": "choices"
+        },
+        "nginx": {
+            "github-owner": "nginx",
+            "github-repo": "nginx"
+        },
+        "matomo": {
+            "github-owner": "matomo-org",
+            "github-repo": "matomo",
+            "github-security-label": "c: Security"
+        },
+        "bootstrap": {
+            "github-owner": "twbs",
+            "github-repo": "bootstrap"
+        }
+    }
+}

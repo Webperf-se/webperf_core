@@ -54,8 +54,6 @@ def main(argv):
     collection = get_softwares()
     # print('software', collection)
 
-    del collection['loaded']
-
     if 'aliases' not in collection:
         collection['aliases'] = {}
 
@@ -471,14 +469,13 @@ def set_softwares(collection):
         os.path.realpath(__file__)) + os.path.sep)
     
     file_path = '{0}{1}data{1}software-sources.json'.format(dir, os.path.sep)
-    print('file_path', file_path)
     if not os.path.isfile(file_path):
         file_path = '{0}{1}software-sources.json'.format(dir, os.path.sep)
-        print('file_path', file_path)
     if not os.path.isfile(file_path):
         print("ERROR: No software-sources.json file found!")
 
     file_path = file_path.replace('-sources.json', '-full.json')
+    print('set_softwares', file_path)
 
     collection["loaded"] = True
     collection["updated"] = '{0}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
@@ -496,15 +493,15 @@ def get_softwares():
         os.path.realpath(__file__)) + os.path.sep)
 
     file_path = '{0}{1}data{1}software-sources.json'.format(dir, os.path.sep)
-    print('file_path', file_path)
     if not os.path.isfile(file_path):
         file_path = '{0}{1}software-sources.json'.format(dir, os.path.sep)
-        print('file_path', file_path)
     if not os.path.isfile(file_path):
         print("ERROR: No software-sources.json file found!")
         return {
             'loaded': False
         }
+
+    print('get_softwares', file_path)
 
     with open(file_path) as json_file:
         softwares = json.load(json_file)

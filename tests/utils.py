@@ -31,6 +31,7 @@ except Exception as ex:
 request_timeout = config.http_request_timeout
 useragent = config.useragent
 googlePageSpeedApiKey = config.googlePageSpeedApiKey
+gitHubApiKey = None
 
 try:
     use_cache = config.cache_when_possible
@@ -39,6 +40,12 @@ except:
     # If cache_when_possible variable is not set in config.py this will be the default
     use_cache = False
     cache_time_delta = timedelta(hours=1)
+
+try:
+    gitHubApiKey=config.github_api_key
+except:
+    gitHubApiKey=None
+
 
 
 def is_file_older_than(file, delta):
@@ -141,6 +148,8 @@ def httpRequestGetContent(url, allow_redirects=False, use_text_instead_of_conten
             return content
 
         headers = {'user-agent': useragent}
+        if 'api.github.com' in url and gitHubApiKey != None:
+            headers['authorization'] = 'Bearer {0}'.format(gitHubApiKey)
         a = requests.get(url, allow_redirects=allow_redirects,
                          headers=headers, timeout=request_timeout*2)
 

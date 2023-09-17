@@ -17,7 +17,8 @@ jobs:
             matrix:
                 os: [windows-latest]
                 #os: [ubuntu-latest, windows-latest]
-                config: ["software_github_adadvisory_database_path=None"]
+                config: ["software_github_adadvisory_database_path=None,github_api_key=${{github.token}}"]
+                #config: ["software_github_adadvisory_database_path=None"]
                 #config: ["software_github_adadvisory_database_path=adadvisory_database"]
     steps:
     - name: Check out repository code

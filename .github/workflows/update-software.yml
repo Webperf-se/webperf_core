@@ -15,7 +15,7 @@ jobs:
     strategy:
             matrix:
                 os: [windows-latest]
-                config: ["software_github_adadvisory_database_path='adadvisory_database'"]
+                config: ["software_github_adadvisory_database_path=adadvisory_database"]
                 #os: [ubuntu-latest, windows-latest]
     steps:
     - name: Check out repository code

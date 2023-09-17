@@ -41,7 +41,11 @@ def prepare_config_file(sample_filename, filename, arguments):
                 value = argument[(index + 1):]
 
                 regex_argument = r'^{0}.*'.format(name)
-                result_argument = r'{0} = {1}'.format(name, value)
+                if value == 'True' or value == 'False':
+                    result_argument = r'{0} = {1}'.format(name, value)
+                else:
+                    result_argument = r'{0} = \'{1}\''.format(name, value)
+
 
                 tmp = re.sub(regex_argument, result_argument,
                              tmp, 0, re.MULTILINE)

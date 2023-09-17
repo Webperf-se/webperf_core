@@ -14,8 +14,8 @@ from urllib.parse import urlparse
 from tests.utils import *
 from tests.sitespeed_base import get_result
 import datetime
+import packaging.version
 import gettext
-from distutils.version import LooseVersion
 
 _ = gettext.gettext
 
@@ -544,380 +544,6 @@ def get_cve_records_for_software_and_version(software_name, version, category):
     return result
 
 
-def get_cve_records_from_iis(software_name, version, category):
-    result = list()
-
-    if 'webserver' != category:
-        return result
-
-    if software_name != 'iis':
-        return result
-
-    if version == None:
-        return result
-
-    # https://www.cvedetails.com/vulnerability-list.php?vendor_id=26&product_id=3427&page=1
-    raw_data = httpRequestGetContent(
-        'https://www.cvedetails.com/vulnerability-list.php?vendor_id=26&product_id=3427&page=1')
-
-    regex_vulnerables = r'href="(?P<url>[^"]+)"[^>]+>(?P<cve>CVE-[0-9]{4}\-[0-9]+)'
-    matches_vulnerables = re.finditer(
-        regex_vulnerables, raw_data, re.MULTILINE)
-
-    for matchNum, match_vulnerable in enumerate(matches_vulnerables, start=1):
-        is_match = False
-        cve = match_vulnerable.group('cve')
-        url = 'https://www.cvedetails.com{0}'.format(
-            match_vulnerable.group('url'))
-        raw_cve_data = httpRequestGetContent(url)
-        regex_version = r'<td>[ \t\r\n]*(?P<version>[0-9]+\.[0-9]+)[ \t\r\n]*<\/td>'
-        matches_version = re.finditer(
-            regex_version, raw_cve_data, re.MULTILINE)
-        for matchNum, match_version in enumerate(matches_version, start=1):
-            cve_affected_version = match_version.group('version')
-            if cve_affected_version == version:
-                is_match = True
-
-        if is_match:
-            cve_info = {
-                'name': cve,
-                'references': [
-                    url
-                ],
-                'version': version
-            }
-            result.append(cve_info)
-
-    return result
-
-
-def get_cve_records_from_nginx(software_name, version, category):
-    result = list()
-
-    if 'webserver' != category:
-        return result
-
-    if software_name != 'nginx':
-        return result
-
-    if version == None:
-        return result
-
-    # https://nginx.org/en/security_advisories.html
-    raw_data = httpRequestGetContent(
-        'https://nginx.org/en/security_advisories.html')
-
-    regex_vulnerables = r'((?P<advisory>[^"]+)">Advisory<\/a><br>){0,1}<a href="(?P<more_info>[^"]+)">(?P<cve>CVE-[0-9]{4}\-[0-9]+)<\/a><br>Not vulnerable:(?P<safe>[ 0-9\.+,]+)<br>Vulnerable:(?P<unsafe>[ 0-9\.\-+,]+)'
-    matches_vulnerables = re.finditer(
-        regex_vulnerables, raw_data, re.MULTILINE)
-
-    for matchNum, match_vulnerable in enumerate(matches_vulnerables, start=1):
-        is_match = False
-        cve = match_vulnerable.group('cve')
-        more_info_url = match_vulnerable.group('more_info')
-        safe_versions = match_vulnerable.group('safe')
-        unsafe_versions = match_vulnerable.group('unsafe')
-        advisory_url = match_vulnerable.group('advisory')
-
-        # 0.6.18-1.9.9
-        # 1.1.4-1.2.8, 1.3.9-1.4.0
-        unsafe_sections = unsafe_versions.split(',')
-        safe_sections = safe_versions.split(',')
-        for section in unsafe_sections:
-            ranges = section.split('-')
-            if len(ranges) != 2:
-                continue
-            start_version = ranges[0].strip()
-            end_version = ranges[1].strip()
-
-            lversion = LooseVersion(version)
-            lstart_version = LooseVersion(start_version)
-            lend_version = LooseVersion(end_version)
-
-            if lversion >= lstart_version and lversion < lend_version:
-                is_match = True
-
-        if is_match:
-            # TODO: REMOVE FIXED VERSIONS
-            # 1.23.2+, 1.22.1+
-            for safe_section in safe_sections:
-                safe_version = safe_section.strip()
-                if '+' not in safe_section:
-                    continue
-                safe_version = safe_version.strip('+')
-
-                lsafe_version = LooseVersion(safe_version)
-
-                if lversion == lsafe_version:
-                    is_match = False
-
-                lversion_specificity = len(lversion.version)
-
-                if lversion_specificity == 3 and lversion_specificity == len(lsafe_version.version):
-                    # is same branch and is equal or greater then safe (fixed) version?
-                    if lversion.version[0] == lsafe_version.version[0] and lversion.version[1] == lsafe_version.version[1] and lversion.version[2] >= lsafe_version.version[2]:
-                        is_match = False
-
-        if is_match:
-            cve_info = {
-                'name': cve,
-                'references': [
-                    'https://nginx.org/en/security_advisories.html',
-                    more_info_url.replace('http://', 'https://')
-                ],
-                'version': version
-            }
-            if advisory_url != None:
-                cve_info['references'].append(
-                    advisory_url.replace('http://', 'https://'))
-            result.append(cve_info)
-
-    return result
-
-
-def get_cve_records_from_apache(software_name, version, category):
-    result = list()
-
-    if 'webserver' != category:
-        return result
-
-    if software_name != 'apache':
-        return result
-
-    if version == None:
-        return result
-
-    raw_data = httpRequestGetContent(
-        'https://httpd.apache.org/security/vulnerabilities_24.html')
-
-    regex_version = r"<h1 id=\"(?P<version>[0-9\.]+)\">"
-    version_sections = re.split(regex_version, raw_data)
-
-    current_version = None
-    for version_section in version_sections:
-        reg_version_validator = r"^(?P<version>[0-9\.]+)$"
-        if re.match(reg_version_validator, version_section) == None:
-            if current_version != None:
-                current_cve = None
-                regex_cve = r"<dt><h3 id=\"(?P<cve>CVE-[0-9]{4}\-[0-9]+)"
-                cve_sections = re.split(regex_cve, version_section)
-                for cve_section in cve_sections:
-                    regex_cve_validator = r"^(?P<cve>CVE-[0-9]{4}\-[0-9]+)$"
-                    if re.match(regex_cve_validator, cve_section) == None:
-                        if current_cve != None:
-                            is_match = False
-                            has_rules = False
-                            ranges = list()
-                            regex_ranges = r'Affects<\/td><td class="cve-value">(?P<range>[0-9\., &glt;=!]+)'
-                            matches_range = re.finditer(
-                                regex_ranges, cve_section, re.MULTILINE)
-
-                            for matchNum, match_range in enumerate(matches_range, start=1):
-                                range_data = match_range.group('range')
-                                for rnge in range_data.split(','):
-                                    tmp = rnge.strip()
-                                    if '&' in tmp or '=' in tmp or '!' in tmp:
-                                        if not has_rules:
-                                            # Set is_match to true and all the rules can do is to remove it from it..
-                                            is_match = True
-                                            has_rules = True
-                                        regex_version_expression = r'(?P<expression>[,&glt;=!]+)(?P<version>[0-9\.]+)'
-                                        matches_version_expression = re.finditer(
-                                            regex_version_expression, tmp, re.MULTILINE)
-                                        for matchNum, match_version_expression in enumerate(matches_version_expression, start=1):
-                                            tmp_expression = match_version_expression.group(
-                                                'expression')
-                                            tmp_version = match_version_expression.group(
-                                                'version')
-                                            # All versions below this version
-                                            # <=2.4.48
-                                            # Versions between 2.4.17 and 2.4.48 (including 2.4.48)
-                                            # <=2.4.48, !<2.4.17
-                                            # Versions between 2.4.7 and 2.4.51
-                                            # >=2.4.7, <=2.4.51
-                                            lversion = LooseVersion(version)
-                                            ltmp_version = LooseVersion(
-                                                tmp_version)
-
-                                            if '!&lt;=' in tmp_expression and lversion <= ltmp_version:
-                                                is_match = False
-                                            elif '!&gt;=' in tmp_expression and lversion >= ltmp_version:
-                                                is_match = False
-                                            elif '!&lt;' in tmp_expression and lversion < ltmp_version:
-                                                is_match = False
-                                            elif '!&gt;' in tmp_expression and lversion > ltmp_version:
-                                                is_match = False
-                                            elif '&lt;=' in tmp_expression and lversion > ltmp_version:
-                                                is_match = False
-                                            elif '&gt;=' in tmp_expression and lversion < ltmp_version:
-                                                is_match = False
-                                            elif '&lt;' in tmp_expression and lversion >= ltmp_version:
-                                                is_match = False
-                                            elif '&gt;' in tmp_expression and lversion <= ltmp_version:
-                                                is_match = False
-
-                                    else:
-                                        # Exactly this version
-                                        # 2.4.49
-                                        # Only listed versions
-                                        # 2.4.46, 2.4.43, 2.4.41, 2.4.39, 2.4.38, 2.4.37, 2.4.35, 2.4.34, 2.4.33, 2.4.29, 2.4.28, 2.4.27, 2.4.26, 2.4.25, 2.4.23, 2.4.20, 2.4.18, 2.4.17, 2.4.16, 2.4.12, 2.4.10, 2.4.9, 2.4.7, 2.4.6, 2.4.4, 2.4.3, 2.4.2, 2.4.1, 2.4.0
-                                        ranges.append(tmp)
-
-                            if version in ranges:
-                                is_match = True
-
-                            if is_match:
-                                cve_info = {
-                                    'name': current_cve,
-                                    'references': [
-                                        'https://httpd.apache.org/security/vulnerabilities_24.html',
-                                        'https://www.cve.org/CVERecord?id={0}'.format(
-                                            current_cve)
-                                    ],
-                                    'version': version
-                                }
-                                result.append(cve_info)
-
-                            current_cve = None
-                    else:
-                        current_cve = cve_section
-
-                current_version = None
-        else:
-            current_version = version_section
-    return result
-
-
-def get_cve_records_from_github_advisory_database(software_name, version, category):
-    # https://github.com/github/advisory-database
-    result = list()
-
-    if category != 'js':
-        return result
-
-    if github_adadvisory_database_path == None:
-        return result
-
-    root_path = os.path.join(
-        github_adadvisory_database_path, 'advisories', 'github-reviewed')
-    #root_path = os.path.join(input_folder, 'advisories', 'unreviewed')
-    years = os.listdir(root_path)
-    for year in years:
-        year_path = os.path.join(root_path, year)
-        months = os.listdir(year_path)
-        for month in months:
-            month_path = os.path.join(year_path, month)
-            keys = os.listdir(month_path)
-            for key in keys:
-                key_path = os.path.join(
-                    year_path, month, key, '{0}.json'.format(key))
-                json_data = None
-                # Sanity check to make sure file exists
-                if not os.path.exists(key_path):
-                    continue
-
-                with open(key_path, 'r', encoding='utf-8') as file:
-                    json_data = json.load(file)
-                    # nice_json_data = json.dumps(json_data, indent=4)
-                if json_data == None:
-                    continue
-
-                if 'schema_version' not in json_data:
-                    print('ERROR: NO schema version!')
-                    continue
-                elif json_data['schema_version'] != '1.4.0' and json_data['schema_version'] != '1.3.0':
-                    print('ERROR: Unsupported schema version! Assumed 1.3.0 or 1.4.0 but got {0}'.format(
-                        json_data['schema_version']))
-                    continue
-
-                if 'affected' not in json_data:
-                    continue
-
-                for affected in json_data['affected']:
-                    if 'package' not in affected:
-                        continue
-                    if 'ecosystem' not in affected['package']:
-                        continue
-
-                    ecosystem = affected['package']['ecosystem']
-
-                    # if software_name in affected['package']['name']:
-                    #     print('DEBUG:', affected['package']['name'])
-
-                    if 'npm' == ecosystem:
-                        is_matching = False
-                        has_cve_name = False
-                        if software_name == affected['package']['name'] or '{0}.js'.format(software_name) == affected['package']['name']:
-                            cve_info = {}
-
-                            nof_aliases = len(json_data['aliases'])
-                            if nof_aliases >= 1:
-                                cve_info['name'] = json_data['aliases'][0]
-                                has_cve_name = True
-                                if nof_aliases > 1:
-                                    cve_info['aliases'] = json_data['aliases']
-                            else:
-                                cve_info['name'] = '{0} vulnerability'.format(
-                                    affected['package']['name'])
-
-                            start_version = None
-                            end_version = None
-                            last_affected_version = None
-                            if 'ranges' in affected:
-                                for range in affected['ranges']:
-                                    if 'type' in range and range['type'] == 'ECOSYSTEM':
-                                        if 'events' in range:
-                                            for event in range['events']:
-                                                if 'introduced' in event:
-                                                    start_version = event['introduced']
-                                                if 'fixed' in event:
-                                                    end_version = event['fixed']
-                                                if 'last_affected' in event:
-                                                    last_affected_version = event['last_affected']
-
-                                    else:
-                                        print('ERROR: Unknown ecosystem')
-
-                            # TODO: We should handle exception better here if version(s) is not valid format
-                            if start_version != None and version != None:
-                                lversion = LooseVersion(version)
-                                lstart_version = LooseVersion(
-                                    start_version)
-                                if end_version != None and end_version != '':
-                                    lend_version = LooseVersion(end_version)
-                                    if lversion >= lstart_version and lversion < lend_version:
-                                        is_matching = True
-                                elif last_affected_version != None and last_affected_version != '':
-                                    l_last_affected_version = LooseVersion(
-                                        last_affected_version)
-                                    if lversion >= lstart_version and lversion <= l_last_affected_version:
-                                        is_matching = True
-                                # NOTE: Temporarly(?) removed until https://github.com/github/advisory-database/pull/1807
-                                # is approved and merged
-                                # elif lversion >= lstart_version:
-                                #     is_matching = True
-
-                            references = list()
-                            if 'references' in json_data:
-                                for reference in json_data['references']:
-                                    if 'ADVISORY' in reference['type']:
-                                        references.append(reference['url'])
-                                        if not has_cve_name:
-                                            index = reference['url'].find(
-                                                'CVE-')
-                                            if index != -1:
-                                                cve_info['name'] = reference['url'][index:]
-                                cve_info['references'] = references
-                            if 'database_specific' in json_data and 'severity' in json_data['database_specific']:
-                                cve_info['severity'] = json_data['database_specific']['severity']
-
-                            if is_matching:
-                                cve_info['version'] = version
-                                result.append(cve_info)
-
-    return result
-
-
 def convert_item_to_domain_data(data):
     result = {}
 
@@ -991,8 +617,8 @@ def enrich_data(data, orginal_domain, result_folder_name, rules):
                     item['url'], 'enrich', item['precision'], 'security', 'talking.{0}'.format(item['category']), None))
 
         # matomo = enrich_data_from_matomo(matomo, tmp_list, item)
-        enrich_data_from_github_repo(tmp_list, item)
         enrich_versions(tmp_list, item)
+        enrich_data_from_github_repo(tmp_list, item)
         enrich_data_from_javascript(tmp_list, item, rules)
         enrich_data_from_videos(tmp_list, item, result_folder_name)
         enrich_data_from_images(tmp_list, item, result_folder_name)
@@ -1008,11 +634,101 @@ def enrich_data(data, orginal_domain, result_folder_name, rules):
 
     return data
 
+def get_softwares():
+    # TODO: change to this version when used in webperf-core
+    dir = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep).parent
+    # dir = Path(os.path.dirname(
+    #     os.path.realpath(__file__)) + os.path.sep)
+
+    file_path = '{0}{1}data{1}software-full.json'.format(dir, os.path.sep)
+    if not os.path.isfile(file_path):
+        file_path = '{0}{1}software-full.json'.format(dir, os.path.sep)
+    if not os.path.isfile(file_path):
+        print("ERROR: No software-full.json file found!")
+        return {
+            'loaded': False
+        }
+
+    # print('get_softwares', file_path)
+
+    with open(file_path) as json_file:
+        softwares = json.load(json_file)
+    return softwares
+
+
+def add_github_software_source(name, github_ower, github_repo):
+    # TODO: change to this version when used in webperf-core
+    dir = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep).parent
+    # dir = Path(os.path.dirname(
+    #     os.path.realpath(__file__)) + os.path.sep)
+
+    file_path = '{0}{1}data{1}software-sources.json'.format(dir, os.path.sep)
+    if not os.path.isfile(file_path):
+        file_path = '{0}{1}software-sources.json'.format(dir, os.path.sep)
+    if not os.path.isfile(file_path):
+        print("ERROR: No software-sources.json file found!")
+        return
+
+    print('add_github_software_source', file_path)
+
+    collection = None
+    with open(file_path) as json_file:
+        collection = json.load(json_file)
+
+    if 'softwares' not in collection:
+        collection['softwares'] = {}
+
+    collection['softwares'][name] = {
+        'github-owner': github_ower,
+        'github-repo': github_repo
+    }
+
+    data = json.dumps(collection, indent=4)
+    with open(file_path, 'w', encoding='utf-8', newline='') as file:
+        file.write(data)
+
+def add_unknown_software_source(name, version, url):
+    # TODO: change to this version when used in webperf-core
+    dir = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep).parent
+    # dir = Path(os.path.dirname(
+    #     os.path.realpath(__file__)) + os.path.sep)
+
+    file_path = '{0}{1}data{1}software-unknown-sources.json'.format(dir, os.path.sep)
+    if not os.path.isfile(file_path):
+        file_path = '{0}{1}software-unknown-sources.json'.format(dir, os.path.sep)
+    if not os.path.isfile(file_path):
+        print("Info: No software-unknown-sources.json file found!")
+
+    # print('add_unknown_software_source', file_path)
+
+    collection = {}
+    try:
+        with open(file_path) as json_file:
+            collection = json.load(json_file)
+    except:
+        print('INFO: There was no ', file_path, 'file.')
+
+    if 'unknowns' not in collection:
+        collection['unknowns'] = {}
+
+    collection['unknowns'][name] = {
+        'version': version,
+        'url': url
+    }
+
+    data = json.dumps(collection, indent=4)
+    with open(file_path, 'w', encoding='utf-8', newline='') as file:
+        file.write(data)
+
 
 def enrich_versions(tmp_list, item):
     if item['version'] == None:
         return
 
+    version = item['version']
     newer_versions = []
     version_verified = False
 
@@ -1043,19 +759,45 @@ def enrich_versions(tmp_list, item):
         #     #         matomo['version'] = matomo_version
         #     #         break
 
-    if item['name'] == 'apache':
-        (version_verified, newer_versions) = get_apache_httpd_versions(
-            item['version'])
-    elif item['name'] == 'iis':
-        (version_verified, newer_versions) = get_iis_versions(
-            item['version'])
-    elif 'github-owner' in item and 'github-repo' in item:
-        github_ower = item['github-owner']
-        github_repo = item['github-repo']
-        github_release_source = item['github-repo-version-source']
-        github_security_label = item['github-repo-security-label']
-        (version_verified, newer_versions) = get_github_project_versions(
-            github_ower, github_repo, github_release_source, github_security_label, item['version'])
+    collection = get_softwares()
+    if 'softwares' not in collection:
+        return
+    
+    if 'aliases' not in collection:
+        return
+    
+    if item['name'] not in collection['softwares']:
+        # Check aliases
+        if item['name'] in collection['aliases']:
+            item['name'] = collection['aliases'][item['name']]
+        else:
+            has_match = False
+            for alias in collection['aliases']:
+                if '*' in alias:
+                    tmp_alias = alias.replace('*', '')
+                    if tmp_alias in item['name']:
+                        item['name'] = collection['aliases'][alias]
+                        has_match = True
+                        break
+            if not has_match:
+                # If not in aliases, add to software-sources.json
+                if 'github-owner' in item and 'github-repo' in item:
+                    add_github_software_source(item['name'], item['github-owner'], item['github-repo'])
+                else:
+                    add_unknown_software_source(item['name'], item['version'], item['url'])
+                return
+
+    software_info = collection['softwares'][item['name']]
+    if 'github-owner' in software_info and 'github-repo' in software_info:
+        item['github-owner'] = software_info['github-owner']
+        item['github-repo'] = software_info['github-repo']
+
+    for current_version in software_info['versions']:
+        if current_version == version:
+            version_verified = True
+            break
+        else:
+            newer_versions.append(current_version)
 
     nof_newer_versions = len(newer_versions)
     has_more_then_one_newer_versions = nof_newer_versions > 0
@@ -1067,7 +809,7 @@ def enrich_versions(tmp_list, item):
     if version_verified:
         info['precision'] = precision = 0.9
         if has_more_then_one_newer_versions:
-            info['latest-version'] = newer_versions[0]['name']
+            info['latest-version'] = newer_versions[0]
             info['is-latest-version'] = False
         else:
             info['is-latest-version'] = True
@@ -1095,177 +837,20 @@ def enrich_versions(tmp_list, item):
 
     return
 
-
-def get_iis_versions(current_version):
-    # https://learn.microsoft.com/en-us/lifecycle/products/internet-information-services-iis
-    newer_versions = []
-    content = httpRequestGetContent(
-        'https://learn.microsoft.com/en-us/lifecycle/products/internet-information-services-iis')
-    regex = r"<td>IIS (?P<version>[0-9\.]+)"
-    matches = re.finditer(regex, content, re.MULTILINE)
-
-    versions = list()
-    versions_dict = {}
-
-    for matchNum, match in enumerate(matches, start=1):
-        name = match.group('version')
-        # version fix because source we use are not using the trailing .0 in all cases
-        if '.' not in name:
-            name = '{0}.0'.format(name)
-        versions.append(name)
-        date = None
-        id = name
-        versions_dict[name] = {
-            'name': name,
-            'date': date,
-            'id': id
-        }
-
-    versions = sorted(versions, key=LooseVersion, reverse=True)
-    newer_versions = list()
-    version_found = False
-    for version in versions:
-        if current_version == version:
-            version_found = True
-            break
-        else:
-            newer_versions.append(versions_dict[version])
-
-    if not version_found:
-        return (version_found, [])
-    else:
-        return (version_found, newer_versions)
-
-
-def get_apache_httpd_versions(current_version):
-    newer_versions = []
-    content = httpRequestGetContent(
-        'https://svn.apache.org/viewvc/httpd/httpd/tags/')
-    regex = r"<a name=\"(?P<version>[0-9\.]+)\""
-    matches = re.finditer(regex, content, re.MULTILINE)
-
-    versions = list()
-    versions_dict = {}
-    from distutils.version import LooseVersion
-
-    for matchNum, match in enumerate(matches, start=1):
-        name = match.group('version')
-        versions.append(name)
-        date = None
-        id = name
-        versions_dict[name] = {
-            'name': name,
-            'date': date,
-            'id': id
-        }
-
-    versions = sorted(versions, key=LooseVersion, reverse=True)
-    newer_versions = list()
-    version_found = False
-    for version in versions:
-        if current_version == version:
-            version_found = True
-            break
-        else:
-            newer_versions.append(versions_dict[version])
-
-    if not version_found:
-        return (version_found, [])
-    else:
-        return (version_found, newer_versions)
-
-
 def enrich_data_from_github_repo(tmp_list, item):
     # replace 'name' that maches if-cases below and replace them with new.
     # we are doing this both for more correct name but also consolidating names
-    if item['name'] == 'jquery-javascript-library':
-        item['name'] = 'jquery'
-    elif item['name'] == 'jquery-ui-core' or item['name'] == 'query-ui-widget' or item['name'] == 'jquery-ui-position' or item['name'] == 'jquery-ui-menu' or item['name'] == 'jquery-ui-autocomplete' or item['name'].startswith('jquery-ui-'):
-        item['name'] = 'jquery-ui'
-    elif item['name'] == 'jquery migrate' or item['name'] == 'jquery.migrate':
-        item['name'] = 'jquery-migrate'
-    elif item['name'] == 'sizzle-css-selector-engine':
-        item['name'] = 'sizzle'
-    elif item['name'] == 'javascript cookie' or item['name'] == 'javascript.cookie' or item['name'] == 'javascript-cookie':
-        item['name'] = 'js-cookie'
 
     github_ower = None
     github_repo = None
     github_security_label = None
     github_release_source = 'tags'
 
-    if item['name'] == 'jquery':
-        github_ower = 'jquery'
-        github_repo = 'jquery'
-    elif item['name'] == 'jquery-ui':
-        github_ower = 'jquery'
-        github_repo = 'jquery-ui'
-    elif item['name'] == 'jquery-migrate':
-        github_ower = 'jquery'
-        github_repo = 'jquery-migrate'
-    elif item['name'] == 'sizzle':
-        github_ower = 'jquery'
-        github_repo = 'sizzle'
-    elif item['name'] == 'js-cookie':
-        github_ower = 'js-cookie'
-        github_repo = 'js-cookie'
-    elif item['name'] == 'requirejs':
-        github_ower = 'requirejs'
-        github_repo = 'requirejs'
-    elif item['name'] == 'vue-devtools':
-        github_ower = 'vuejs'
-        github_repo = 'devtools'
-    elif item['name'] == 'eslint':
-        github_ower = 'eslint'
-        github_repo = 'eslint'
-    elif item['name'] == 'uuid':
-        github_ower = 'uuidjs'
-        github_repo = 'uuid'
-    elif item['name'] == 'chart':
-        github_ower = 'chartjs'
-        github_repo = 'Chart.js'
-    elif item['name'] == 'chartjs-plugin-datalabels':
-        github_ower = 'chartjs'
-        github_repo = 'chartjs-plugin-datalabels'
-    elif item['name'] == 'chartjs-plugin-deferred':
-        github_ower = 'chartjs'
-        github_repo = 'chartjs-plugin-deferred'
-    elif item['name'] == 'css-element-queries':
-        github_ower = 'marcj'
-        github_repo = 'css-element-queries'
-    elif item['name'] == 'modernizr':
-        github_ower = 'Modernizr'
-        github_repo = 'Modernizr'
-    elif item['name'] == 'core-js':
-        github_ower = 'zloirock'
-        github_repo = 'core-js'
-    elif item['name'] == 'vue':
-        github_ower = 'vuejs'
-        github_repo = 'vue'
-    elif item['name'] == 'vuex':
-        github_ower = 'vuejs'
-        github_repo = 'vuex'
-    elif item['name'] == 'vue-router':
-        github_ower = 'vuejs'
-        github_repo = 'vue-router'
-    elif item['name'] == 'react':
-        github_ower = 'facebook'
-        github_repo = 'react'
-    elif item['name'] == 'choices':
-        github_ower = 'jshjohnson'
-        github_repo = 'Choices'
-    elif item['name'] == 'nginx':
-        github_ower = 'nginx'
-        github_repo = 'nginx'
-    elif item['name'] == 'matomo':
-        github_ower = 'matomo-org'
-        github_repo = 'matomo'
-        github_security_label = 'c: Security'
-    elif item['name'] == 'bootstrap':
-        github_ower = 'twbs'
-        github_repo = 'bootstrap'
-        github_release_source = 'releases'
-    elif 'github-owner' in item and 'github-repo' in item:
+    # elif item['name'] == 'bootstrap':
+    #     github_ower = 'twbs'
+    #     github_repo = 'bootstrap'
+    #     github_release_source = 'releases'
+    if 'github-owner' in item and 'github-repo' in item:
         github_ower = item['github-owner']
         github_repo = item['github-repo']
 
@@ -1273,15 +858,6 @@ def enrich_data_from_github_repo(tmp_list, item):
         return
     if github_repo == None:
         return
-
-    if 'github-owner' not in item:
-        item['github-owner'] = github_ower
-    if 'github-repo' not in item:
-        item['github-repo'] = github_repo
-    if 'github-repo-version-source' not in item:
-        item['github-repo-version-source'] = github_release_source
-    if 'github-repo-security-label' not in item:
-        item['github-repo-security-label'] = github_security_label
 
     github_info = get_github_repository_info(
         github_ower, github_repo)
@@ -1309,8 +885,6 @@ def get_github_repository_info(owner, repo):
         'https://api.github.com/repos/{0}/{1}'.format(owner, repo))
 
     info_dict = {}
-
-    from distutils.version import LooseVersion
 
     github_info = json.loads(repo_content)
 
@@ -1363,8 +937,6 @@ def get_github_project_versions(owner, repo, source, security_label, current_ver
 
     versions = list()
     versions_dict = {}
-
-    from distutils.version import LooseVersion
 
     version_info = json.loads(versions_content)
     for version in version_info:
@@ -1421,7 +993,7 @@ def get_github_project_versions(owner, repo, source, security_label, current_ver
                 'id': id
             }
 
-    versions = sorted(versions, key=LooseVersion, reverse=True)
+    versions = sorted(versions, key=packaging.version.Version, reverse=True)
 
     newer_versions = list()
     version_found = False

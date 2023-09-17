@@ -9,11 +9,11 @@
         "jquery-ui-autocomplete": "jquery-ui",
         "jquery-ui-*": "jquery-ui",
         "jquery migrate": "jquery-migrate",
-        "jquery.migrate'":"jquery-migrate",
+        "jquery.migrate'": "jquery-migrate",
         "sizzle-css-selector-engine": "sizzle",
         "javascript cookie": "js-cookie",
         "javascript.cookie": "js-cookie",
-        "javascript-cookie":"js-cookie"
+        "javascript-cookie": "js-cookie"
     },
     "softwares": {
         "angular": {
@@ -25,8 +25,10 @@
             "github-repo": "jquery"
         },
         "iis": {
+            "custom": true
         },
         "apache": {
+            "custom": true
         },
         "jquery-ui": {
             "github-owner": "jquery",
@@ -116,6 +118,26 @@
         "bootstrap": {
             "github-owner": "twbs",
             "github-repo": "bootstrap"
+        },
+        "theia-sticky-sidebar": {
+            "github-owner": "WeCodePixels",
+            "github-repo": "theia-sticky-sidebar"
+        },
+        "jquery-cookie-plugin": {
+            "github-owner": "carhartl",
+            "github-repo": "jquery-cookie"
+        },
+        "jquery-json-plugin": {
+            "github-owner": "Krinkle",
+            "github-repo": "jquery-json"
+        },
+        "cookiejs": {
+            "github-owner": "jaywcjlove",
+            "github-repo": "cookie.js"
+        },
+        "lodash": {
+            "github-owner": "lodash",
+            "github-repo": "lodash"
         }
     }
 }

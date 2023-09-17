@@ -333,10 +333,10 @@ def extend_versions_for_apache_httpd(versions):
 def extend_versions_from_github_advisory_database(software_name, versions):
         print('extend_versions[github]', software_name, 'checking for matching CVE')
         # https://github.com/github/advisory-database
-        result = list()
+        # result = list()
 
         if github_adadvisory_database_path == None:
-            return result
+            return versions
 
         root_path = os.path.join(
             github_adadvisory_database_path, 'advisories', 'github-reviewed')
@@ -457,7 +457,7 @@ def extend_versions_from_github_advisory_database(software_name, versions):
                                         print('extend_versions[github]', software_name, version, 'MATCHED CVE')
                                         cve_info['version'] = version
                                         versions[version].append(cve_info['name'])
-                                        result.append(cve_info)
+                                        # result.append(cve_info)
 
         return versions
 

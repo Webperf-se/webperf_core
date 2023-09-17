@@ -27,6 +27,9 @@ css_review_group_errors = True
 # Only show reviews that you can improve, set this value to True
 review_show_improvements_only = False
 
+# Only show reviews that you can improve, set this value to True
+review_show_only_under_rating = 5.0
+
 # Tells Yellow Lab Tools Test to use API version or command line version
 ylt_use_api = True
 
@@ -50,6 +53,10 @@ cache_when_possible = False
 # This tells webperf-core how long to use cached resources
 # See https://docs.python.org/3/library/datetime.html#timedelta-objects for possible values
 cache_time_delta = timedelta(hours=1)
+
+# GITHUB API Token, used for calls to github API (to remove call limit)
+github_api_key = None
+
 
 # Tell software test to use stealth mode or not, default is 'True'
 software_use_stealth = True

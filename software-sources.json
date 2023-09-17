@@ -138,6 +138,14 @@
         "lodash": {
             "github-owner": "lodash",
             "github-repo": "lodash"
+        },
+        "imagesloaded-packaged": {
+            "github-owner": "desandro",
+            "github-repo": "imagesloaded"
+        },
+        "hammer": {
+            "github-owner": "hammerjs",
+            "github-repo": "hammer.js"
         }
     }
 }

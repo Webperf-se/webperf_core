@@ -711,13 +711,19 @@ def add_unknown_software_source(name, version, url):
     except:
         print('INFO: There was no ', file_path, 'file.')
 
-    if 'unknowns' not in collection:
-        collection['unknowns'] = {}
+    if name not in collection: 
+        collection[name] = {
+            'versions': {},
+        }
+    
+    if version == None or version == '':
+        version = 'unknown'
 
-    collection['unknowns'][name] = {
-        'version': version,
-        'url': url
-    }
+    if version not in collection[name]['versions']:
+        collection[name]['versions'][version] = []
+
+    if len(collection[name]['versions'][version]) < 10:
+        collection[name]['versions'][version].append(url)
 
     data = json.dumps(collection, indent=4)
     with open(file_path, 'w', encoding='utf-8', newline='') as file:

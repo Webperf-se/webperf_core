@@ -19,7 +19,7 @@ jobs:
                 #os: [ubuntu-latest, windows-latest]
                 #config: ["software_github_adadvisory_database_path=None"]
                 #config: ["software_github_adadvisory_database_path=None"]
-                config: ["software_github_adadvisory_database_path=adadvisory_database"]
+                config: ["software_github_adadvisory_database_path=advisory_database"]
     steps:
     - name: Check out repository code
       uses: actions/checkout@v3
@@ -38,14 +38,23 @@ jobs:
     - if: ${{ matrix.os == 'windows-latest' }}
       name: Setup config (using SAMPLE-config.py as config.py) - WINDOWS
       run: python .github\workflows\verify_result.py -c ${{ matrix.config }},github_api_key=${{ secrets.GITHUB_TOKEN }}
-    - if: ${{ matrix.os == 'windows-latest'  }}
-      name: Setup github adadvisory database - Windows
-      shell: pwsh
-      run: |
-        Write "${env:GITHUB_WORKSPACE}"
-        Write "${{ github.workspace }}"
-        Invoke-WebRequest -Uri https://github.com/github/advisory-database/archive/refs/heads/main.zip -OutFile .\data\github-advisory-database.zip
-        Expand-Archive -LiteralPath .\data\github-advisory-database.zip -DestinationPath .\adadvisory_database\
+    - name: Checkout tools repo
+      uses: actions/checkout@v4
+      with:
+        repository: github/advisory-database
+        ref: main
+        path: 
+          advisory_database
+        sparse-checkout: |
+          advisories
+    # - if: ${{ matrix.os == 'windows-latest'  }}
+    #   name: Setup github adadvisory database - Windows
+    #   shell: pwsh
+    #   run: |
+    #     Write "${env:GITHUB_WORKSPACE}"
+    #     Write "${{ github.workspace }}"
+    #     Invoke-WebRequest -Uri https://github.com/github/advisory-database/archive/refs/heads/main.zip -OutFile .\data\github-advisory-database.zip
+    #     Expand-Archive -LiteralPath .\data\github-advisory-database.zip -DestinationPath .\advisory_database\
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: Verifing Software(s) - LINUX
       run: python update_software.py

@@ -8,6 +8,7 @@ on:
     paths:
       - 'software-sources.json'
       - '**update-software.yml'
+      - '**verify_result.py'
       - 'update_software.py'
 jobs:
   build:

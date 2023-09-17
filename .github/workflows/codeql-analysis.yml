@@ -14,6 +14,10 @@ on:
   push:
     paths-ignore:
       - '**.md'
+      - 'software-full.json'
+      - 'software-sources.json'
+      - '**update-software.yml'
+      - 'update_software.py'
 #on: [ push, pull_request ]
 jobs:
   analyze:

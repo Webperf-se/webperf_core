@@ -8,12 +8,14 @@ on:
     paths:
       - 'software-sources.json'
       - '**update-software.yml'
+      - 'update_software.py'
 jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
             matrix:
                 os: [windows-latest]
+                config: ['software_github_adadvisory_database_path=adadvisory_database']
                 #os: [ubuntu-latest, windows-latest]
     steps:
     - name: Check out repository code
@@ -25,6 +27,12 @@ jobs:
         architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
+    - if: ${{ matrix.os == 'ubuntu-latest'  }}
+      name: Setup config (using SAMPLE-config.py as config.py) - LINUX
+      run: python .github/workflows/verify_result.py -c ${{ matrix.config }}
+    - if: ${{ matrix.os == 'windows-latest' }}
+      name: Setup config (using SAMPLE-config.py as config.py) - WINDOWS
+      run: python .github\workflows\verify_result.py -c ${{ matrix.config }}
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: Verifing Software(s) - LINUX
       run: python update_software.py

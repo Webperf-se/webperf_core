@@ -41,7 +41,7 @@ def prepare_config_file(sample_filename, filename, arguments):
                 value = argument[(index + 1):]
 
                 regex_argument = r'^{0}.*'.format(name)
-                if value == 'True' or value == 'False':
+                if value == 'True' or value == 'False' or value == 'None':
                     result_argument = r'{0} = {1}'.format(name, value)
                 else:
                     result_argument = r"{0} = '{1}'".format(name, value)

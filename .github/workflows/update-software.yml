@@ -16,8 +16,9 @@ jobs:
     strategy:
             matrix:
                 os: [windows-latest]
-                config: ["software_github_adadvisory_database_path=adadvisory_database"]
                 #os: [ubuntu-latest, windows-latest]
+                config: ["software_github_adadvisory_database_path=None"]
+                #config: ["software_github_adadvisory_database_path=adadvisory_database"]
     steps:
     - name: Check out repository code
       uses: actions/checkout@v3

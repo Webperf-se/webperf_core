@@ -17,7 +17,7 @@ jobs:
             matrix:
                 os: [windows-latest]
                 #os: [ubuntu-latest, windows-latest]
-                config: ["software_github_adadvisory_database_path=None,github_api_key=${{github.token}}"]
+                config: ["software_github_adadvisory_database_path=None"]
                 #config: ["software_github_adadvisory_database_path=None"]
                 #config: ["software_github_adadvisory_database_path=adadvisory_database"]
     steps:
@@ -32,10 +32,12 @@ jobs:
       run: pip install -r requirements.txt
     - if: ${{ matrix.os == 'ubuntu-latest'  }}
       name: Setup config (using SAMPLE-config.py as config.py) - LINUX
-      run: python .github/workflows/verify_result.py -c ${{ matrix.config }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: python .github/workflows/verify_result.py -c ${{ matrix.config }},github_api_key=${{ secrets.GITHUB_TOKEN }}
     - if: ${{ matrix.os == 'windows-latest' }}
       name: Setup config (using SAMPLE-config.py as config.py) - WINDOWS
-      run: python .github\workflows\verify_result.py -c ${{ matrix.config }}
+      run: python .github\workflows\verify_result.py -c ${{ matrix.config }},github_api_key=${{ secrets.GITHUB_TOKEN }}
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: Verifing Software(s) - LINUX
       run: python update_software.py

@@ -1,4 +1,5 @@
 {
+    "loaded": true,
     "aliases": {
         "jquery-javascript-library": "jquery",
         "jquery-ui-core": "jquery-ui",
@@ -115,6 +116,5 @@
             "github-repo": "bootstrap"
         }
     },
-    "loaded": true,
-    "updated": "2023-09-17 13:38:31"
+    "updated": "2023-09-17 14:28:30"
 }

@@ -7,6 +7,7 @@ on:
   push:
     paths:
       - 'software-sources.json'
+      - 'update-software.xml'
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -25,13 +26,13 @@ jobs:
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
     - if: ${{ matrix.os == 'ubuntu-latest' }}
-      name: Verifing Translation(s) - LINUX
+      name: Verifing Software(s) - LINUX
       run: python update_software.py
     - if: ${{ matrix.os == 'windows-latest' }}
-      name: Verifing Translation(s) - WINDOWS
+      name: Verifing Software(s) - WINDOWS
       run: python update_software.py
     - if: ${{ matrix.os == 'windows-latest' }}
-      name: Git Add any changes to Translation(s) - WINDOWS
+      name: Git Add any changes to Software(s) - WINDOWS
       run: |
         git config --global user.name 'GitHub Action'
         git config --global user.email '7h3Rabbit@users.noreply.github.com'

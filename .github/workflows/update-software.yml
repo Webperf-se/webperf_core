@@ -7,7 +7,7 @@ on:
   push:
     paths:
       - 'software-sources.json'
-      - 'update-software.xml'
+      - '**update-software.xml'
 jobs:
   build:
     runs-on: ${{ matrix.os }}

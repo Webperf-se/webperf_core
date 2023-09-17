@@ -456,7 +456,8 @@ def extend_versions_from_github_advisory_database(software_name, versions):
                                     if is_matching:
                                         print('extend_versions[github]', software_name, version, 'MATCHED CVE')
                                         cve_info['version'] = version
-                                        versions[version].append(cve_info['name'])
+                                        if cve_info['name'] not in versions[version]:
+                                            versions[version].append(cve_info['name'])
                                         # result.append(cve_info)
 
         return versions
@@ -575,9 +576,7 @@ def get_github_versions(owner, repo, source, security_label):
                     fixes_security = True
 
             if fixes_security:
-                versions_dict[version] = {
-                    'name': 'fixes security issues'
-                }
+                versions_dict[version] = ['fixes security issues']
 
     return versions_dict
 
@@ -601,9 +600,7 @@ def get_iis_versions():
     versions = sorted(versions, key=packaging.version.Version, reverse=True)
     for version in versions:
         if packaging.version.Version(version) < packaging.version.Version('8.5'):
-            versions_dict[version] = [{
-                'name': 'END-OF-LIFE'
-            }]
+            versions_dict[version] = ['END-OF-LIFE']
         else:
             versions_dict[version] = []
     return versions_dict

@@ -146,6 +146,14 @@
         "hammer": {
             "github-owner": "hammerjs",
             "github-repo": "hammer.js"
+        },
+        "cookie": {
+            "github-owner": "jaywcjlove",
+            "github-repo": "cookie"
+        },
+        "zlib": {
+            "github-owner": "madler",
+            "github-repo": "zlib"
         }
     }
 }

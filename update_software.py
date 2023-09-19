@@ -517,11 +517,13 @@ def add_tech_if_interesting(techs, topic):
     tech = topic.lower()
     if 'js' == tech or 'javascript' == tech:
         techs.append('js')
-    elif 'c' == tech or 'php' == tech or 'mysql' == tech or 'typescript' == tech:
+    elif 'graphql' == tech or 'mysql' == tech: 
+        techs.append(tech)
+    elif 'c' == tech or 'c++' == tech or 'php' == tech or 'typescript' == tech or 'es6' == tech:
         techs.append(tech)
     elif 'sass' == tech or 'scss' == tech:
         techs.append(tech)
-    else:
+    elif 'markdown' == tech or 'webgl' == tech or 'svg' == tech or 'font' == tech or 'woff' == tech or 'woff2' == tech or 'video' == tech or 'qrcode' == tech or 'pwa' == tech: 
         techs.append(tech)
     # else:
     #     print('# TOPIC', tech)
@@ -548,7 +550,6 @@ def set_github_repository_info(item, owner, repo):
         if 'javascript' in lang:
             lang = 'js'
         add_tech_if_interesting(techs, lang)
-        techs = list(set(techs))
         # info_dict['language'] = lang
     # else:
     #     info_dict['language'] = None
@@ -559,7 +560,9 @@ def set_github_repository_info(item, owner, repo):
         for topic in github_info['topics']:
             add_tech_if_interesting(techs, topic)
 
-    item['tech'] = techs
+    techs = list(set(techs))
+    if len(techs)> 0:
+        item['tech'] = techs
 
     # someone has archived the github repo, project should not be used.
     # info_dict['archived'] = None

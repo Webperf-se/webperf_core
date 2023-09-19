@@ -521,6 +521,8 @@ def add_tech_if_interesting(techs, topic):
         techs.append(tech)
     elif 'sass' == tech or 'scss' == tech:
         techs.append(tech)
+    else:
+        techs.append(tech)
     # else:
     #     print('# TOPIC', tech)
 
@@ -546,6 +548,7 @@ def set_github_repository_info(item, owner, repo):
         if 'javascript' in lang:
             lang = 'js'
         add_tech_if_interesting(techs, lang)
+        techs = list(set(techs))
         # info_dict['language'] = lang
     # else:
     #     info_dict['language'] = None

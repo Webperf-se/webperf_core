@@ -556,12 +556,15 @@ def get_github_versions(owner, repo, source, security_label):
         if name == None:
             continue
 
-        versions.append(name)
+        versions.append(name.strip('.'))
 
         if name2 != None:
-            versions.append(name2)
+            versions.append(name2.strip('.'))
 
-    versions = sorted(versions, key=packaging.version.Version, reverse=True)
+    try:
+        versions = sorted(versions, key=packaging.version.Version, reverse=True)
+    except:
+        print('ERROR: Unable to sort versions for repo: ', owner, repo)
 
     for version in versions:
         versions_dict[version] = []

@@ -447,6 +447,10 @@
             "github-owner": "WordPress",
             "github-repo": "gutenberg"
         },
+        "wordpress": {
+            "github-owner": "WordPress",
+            "github-repo": "WordPress"
+        },
         "jed": {
             "github-owner": "messageformat",
             "github-repo": "Jed"

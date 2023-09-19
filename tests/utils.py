@@ -148,7 +148,7 @@ def httpRequestGetContent(url, allow_redirects=False, use_text_instead_of_conten
             return content
 
         headers = {'user-agent': useragent}
-        if 'https://api.github.com' in url and gitHubApiKey != None:
+        if url.startswith('https://api.github.com') and gitHubApiKey != None:
             headers['authorization'] = 'Bearer {0}'.format(gitHubApiKey)
         a = requests.get(url, allow_redirects=allow_redirects,
                          headers=headers, timeout=request_timeout*2)

@@ -88,6 +88,7 @@ def main(argv):
         
         versions = []
         if github_ower != None:
+            # TODO: Git Archived status for repo and warn for it if it is.
             versions = get_github_versions(github_ower, github_repo, github_release_source, github_security)
         if key == 'iis':
             versions = get_iis_versions()

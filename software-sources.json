@@ -154,6 +154,510 @@
         "zlib": {
             "github-owner": "madler",
             "github-repo": "zlib"
+        },
+        "tag-manager": {
+            "github-owner": "matomo-org",
+            "github-repo": "tag-manager"
+        },
+        "shallow-clone": {
+            "github-owner": "jonschlinkert",
+            "github-repo": "shallow-clone"
+        },
+        "isobject": {
+            "github-owner": "jonschlinkert",
+            "github-repo": "isobject"
+        },
+        "is-plain-object": {
+            "github-owner": "jonschlinkert",
+            "github-repo": "is-plain-object"
+        },
+        "jquery-cookie": {
+            "github-owner": "carhartl",
+            "github-repo": "jquery-cookie"
+        },
+        "svgxuse": {
+            "github-owner": "Keyamoon",
+            "github-repo": "svgxuse"
+        },
+        "common": {
+            "github-owner": "Limepark",
+            "github-repo": "common"
+        },
+        "focus-visible": {
+            "github-owner": "WICG",
+            "github-repo": "focus-visible"
+        },
+        "tabbable": {
+            "github-owner": "focus-trap",
+            "github-repo": "tabbable"
+        },
+        "styled-components": {
+            "github-owner": "styled-components",
+            "github-repo": "styled-components"
+        },
+        "flow": {
+            "github-owner": "facebook",
+            "github-repo": "flow"
+        },
+        "popper-core": {
+            "github-owner": "popperjs",
+            "github-repo": "popper-core"
+        },
+        "date-fns": {
+            "github-owner": "date-fns",
+            "github-repo": "date-fns"
+        },
+        "focus-trap-react": {
+            "github-owner": "focus-trap",
+            "github-repo": "focus-trap-react"
+        },
+        "focus-trap": {
+            "github-owner": "focus-trap",
+            "github-repo": "focus-trap"
+        },
+        "react-day-picker": {
+            "github-owner": "gpbl",
+            "github-repo": "react-day-picker"
+        },
+        "react-redux": {
+            "github-owner": "reduxjs",
+            "github-repo": "react-redux"
+        },
+        "libphonenumber-js": {
+            "github-owner": "catamphetamine",
+            "github-repo": "libphonenumber-js"
+        },
+        "libphonenumber": {
+            "github-owner": "googlei18n",
+            "github-repo": "libphonenumber"
+        },
+        "typescript-wiki": {
+            "github-owner": "Microsoft",
+            "github-repo": "TypeScript-wiki"
+        },
+        "babel-plugin-utf-8-regex": {
+            "github-owner": "danielberndt",
+            "github-repo": "babel-plugin-utf-8-regex"
+        },
+        "semver-compare": {
+            "github-owner": "substack",
+            "github-repo": "semver-compare"
+        },
+        "react-autosuggest": {
+            "github-owner": "moroshko",
+            "github-repo": "react-autosuggest"
+        },
+        "secure-filters": {
+            "github-owner": "salesforce",
+            "github-repo": "secure-filters"
+        },
+        "rhino": {
+            "github-owner": "mozilla",
+            "github-repo": "rhino"
+        },
+        "dot": {
+            "github-owner": "olado",
+            "github-repo": "doT"
+        },
+        "object-fit-images": {
+            "github-owner": "bfred-it",
+            "github-repo": "object-fit-images"
+        },
+        "what-input": {
+            "github-owner": "ten1seven",
+            "github-repo": "what-input"
+        },
+        "color": {
+            "github-owner": "kurkle",
+            "github-repo": "color"
+        },
+        "react-intl": {
+            "github-owner": "formatjs",
+            "github-repo": "react-intl"
+        },
+        "gatsby": {
+            "github-owner": "gatsbyjs",
+            "github-repo": "gatsby"
+        },
+        "slick": {
+            "github-owner": "kenwheeler",
+            "github-repo": "slick"
+        },
+        "pusher-js": {
+            "github-owner": "pusher",
+            "github-repo": "pusher-js"
+        },
+        "pikaday": {
+            "github-owner": "Pikaday",
+            "github-repo": "Pikaday"
+        },
+        "proposal-array-filtering": {
+            "github-owner": "tc39",
+            "github-repo": "proposal-array-filtering"
+        },
+        "es5-shim": {
+            "github-owner": "kitcambridge",
+            "github-repo": "es5-shim"
+        },
+        "string": {
+            "github-owner": "mathiasbynens",
+            "github-repo": "String"
+        },
+        "proposal-symbol-description": {
+            "github-owner": "tc39",
+            "github-repo": "proposal-Symbol-description"
+        },
+        "licensify": {
+            "github-owner": "twada",
+            "github-repo": "licensify"
+        },
+        "accordion": {
+            "github-owner": "michu2k",
+            "github-repo": "Accordion"
+        },
+        "responsive": {
+            "github-owner": "ResponsiveBP",
+            "github-repo": "Responsive"
+        },
+        "js": {
+            "github-owner": "jserz",
+            "github-repo": "js"
+        },
+        "moment": {
+            "github-owner": "moment",
+            "github-repo": "moment"
+        },
+        "moment-isoduration": {
+            "github-owner": "dordille",
+            "github-repo": "moment-isoduration"
+        },
+        "owlcarousel2": {
+            "github-owner": "sitevision",
+            "github-repo": "OwlCarousel2"
+        },
+        "react-markdown": {
+            "github-owner": "remarkjs",
+            "github-repo": "react-markdown"
+        },
+        "is-extendable": {
+            "github-owner": "jonschlinkert",
+            "github-repo": "is-extendable"
+        },
+        "history": {
+            "github-owner": "browserstate",
+            "github-repo": "history"
+        },
+        "jquery-autocomplete": {
+            "github-owner": "devbridge",
+            "github-repo": "jQuery-Autocomplete"
+        },
+        "simpler-sidebar": {
+            "github-owner": "simple-sidebar",
+            "github-repo": "simpler-sidebar"
+        },
+        "toastr": {
+            "github-owner": "CodeSeven",
+            "github-repo": "toastr"
+        },
+        "bootstrap-select": {
+            "github-owner": "silviomoreto",
+            "github-repo": "bootstrap-select"
+        },
+        "html": {
+            "github-owner": "whatwg",
+            "github-repo": "html"
+        },
+        "jquery-color": {
+            "github-owner": "jquery",
+            "github-repo": "jquery-color"
+        },
+        "axios": {
+            "github-owner": "axios",
+            "github-repo": "axios"
+        },
+        "lozad": {
+            "github-owner": "ApoorvSaxena",
+            "github-repo": "lozad"
+        },
+        "awesomplete": {
+            "github-owner": "leaverou",
+            "github-repo": "awesomplete"
+        },
+        "css-vars-ponyfill": {
+            "github-owner": "jhildenbiddle",
+            "github-repo": "css-vars-ponyfill"
+        },
+        "get-css-data": {
+            "github-owner": "jhildenbiddle",
+            "github-repo": "get-css-data"
+        },
+        "style-loader": {
+            "github-owner": "webpack-contrib",
+            "github-repo": "style-loader"
+        },
+        "rollup-plugin-node-resolve": {
+            "github-owner": "rollup",
+            "github-repo": "rollup-plugin-node-resolve"
+        },
+        "jquery-rwdimagemaps": {
+            "github-owner": "stowball",
+            "github-repo": "jQuery-rwdImageMaps"
+        },
+        "focus-lock": {
+            "github-owner": "theKashey",
+            "github-repo": "focus-lock"
+        },
+        "bez": {
+            "github-owner": "rdallasgray",
+            "github-repo": "bez"
+        },
+        "pep": {
+            "github-owner": "jquery",
+            "github-repo": "PEP"
+        },
+        "mapbox-gl-js": {
+            "github-owner": "mapbox",
+            "github-repo": "mapbox-gl-js"
+        },
+        "geotiff": {
+            "github-owner": "geotiffjs",
+            "github-repo": "geotiff"
+        },
+        "jspdf": {
+            "github-owner": "MrRio",
+            "github-repo": "jsPDF"
+        },
+        "pdfkit": {
+            "github-owner": "foliojs",
+            "github-repo": "pdfkit"
+        },
+        "omggif": {
+            "github-owner": "deanm",
+            "github-repo": "omggif"
+        },
+        "regenerator": {
+            "github-owner": "facebook",
+            "github-repo": "regenerator"
+        },
+        "setimmediate": {
+            "github-owner": "w3c",
+            "github-repo": "setImmediate"
+        },
+        "gutenberg": {
+            "github-owner": "WordPress",
+            "github-repo": "gutenberg"
+        },
+        "jed": {
+            "github-owner": "messageformat",
+            "github-repo": "Jed"
+        },
+        "jquery-json": {
+            "github-owner": "Krinkle",
+            "github-repo": "jquery-json"
+        },
+        "jquery-tiny-pubsub": {
+            "github-owner": "cowboy",
+            "github-repo": "jquery-tiny-pubsub"
+        },
+        "commonregexjs": {
+            "github-owner": "talyssonoc",
+            "github-repo": "CommonRegexJS"
+        },
+        "foundation-sites": {
+            "github-owner": "zurb",
+            "github-repo": "foundation-sites"
+        },
+        "query-string": {
+            "github-owner": "sindresorhus",
+            "github-repo": "query-string"
+        },
+        "shave": {
+            "github-owner": "yowainwright",
+            "github-repo": "shave"
+        },
+        "base64": {
+            "github-owner": "davidchambers",
+            "github-repo": "Base64"
+        },
+        "react-google-maps": {
+            "github-owner": "tomchentw",
+            "github-repo": "react-google-maps"
+        },
+        "vue-simple-suggest": {
+            "github-owner": "KazanExpress",
+            "github-repo": "vue-simple-suggest"
+        },
+        "javascript-autocomplete": {
+            "github-owner": "Pixabay",
+            "github-repo": "JavaScript-autoComplete"
+        },
+        "cycle": {
+            "github-owner": "malsup",
+            "github-repo": "cycle"
+        },
+        "vue-simple-spinner": {
+            "github-owner": "dzwillia",
+            "github-repo": "vue-simple-spinner"
+        },
+        "cssremedy": {
+            "github-owner": "mozdevs",
+            "github-repo": "cssremedy"
+        },
+        "tailwindcss": {
+            "github-owner": "tailwindlabs",
+            "github-repo": "tailwindcss"
+        },
+        "gecko-dev": {
+            "github-owner": "mozilla",
+            "github-repo": "gecko-dev"
+        },
+        "video": {
+            "github-owner": "videojs",
+            "github-repo": "video"
+        },
+        "vtt": {
+            "github-owner": "mozilla",
+            "github-repo": "vtt"
+        },
+        "parse-headers": {
+            "github-owner": "kesla",
+            "github-repo": "parse-headers"
+        },
+        "webvr-spec": {
+            "github-owner": "mozvr",
+            "github-repo": "webvr-spec"
+        },
+        "deviceorientation": {
+            "github-owner": "w3c",
+            "github-repo": "deviceorientation"
+        },
+        "eventdispatcher": {
+            "github-owner": "mrdoob",
+            "github-repo": "eventdispatcher"
+        },
+        "webvr": {
+            "github-owner": "w3c",
+            "github-repo": "webvr"
+        },
+        "earcut": {
+            "github-owner": "mapbox",
+            "github-repo": "earcut"
+        },
+        "imgliquid": {
+            "github-owner": "karacas",
+            "github-repo": "imgLiquid"
+        },
+        "fetch": {
+            "github-owner": "github",
+            "github-repo": "fetch"
+        },
+        "snabbdom": {
+            "github-owner": "paldepind",
+            "github-repo": "snabbdom"
+        },
+        "ios-orientationchange-fix": {
+            "github-owner": "scottjehl",
+            "github-repo": "iOS-Orientationchange-Fix"
+        },
+        "ecma262": {
+            "github-owner": "tc39",
+            "github-repo": "ecma262"
+        },
+        "proposal-flatmap": {
+            "github-owner": "tc39",
+            "github-repo": "proposal-flatMap"
+        },
+        "proposal-math-extensions": {
+            "github-owner": "rwaldron",
+            "github-repo": "proposal-math-extensions"
+        },
+        "proposal-setmap-offrom": {
+            "github-owner": "tc39",
+            "github-repo": "proposal-setmap-offrom"
+        },
+        "papers": {
+            "github-owner": "jfbastien",
+            "github-repo": "papers"
+        },
+        "map-set": {
+            "github-owner": "DavidBruant",
+            "github-repo": "Map-Set"
+        },
+        "proposal-string-pad-start-end": {
+            "github-owner": "tc39",
+            "github-repo": "proposal-string-pad-start-end"
+        },
+        "ws": {
+            "github-owner": "websockets",
+            "github-repo": "ws"
+        },
+        "ieee754": {
+            "github-owner": "feross",
+            "github-repo": "ieee754"
+        },
+        "rexexp": {
+            "github-owner": "benjamingr",
+            "github-repo": "RexExp"
+        },
+        "array": {
+            "github-owner": "tc39",
+            "github-repo": "Array"
+        },
+        "tc39-notes": {
+            "github-owner": "rwaldron",
+            "github-repo": "tc39-notes"
+        },
+        "proposal-is-error": {
+            "github-owner": "ljharb",
+            "github-repo": "proposal-is-error"
+        },
+        "proposal-global": {
+            "github-owner": "tc39",
+            "github-repo": "proposal-global"
+        },
+        "proposal-object-values-entries": {
+            "github-owner": "tc39",
+            "github-repo": "proposal-object-values-entries"
+        },
+        "proposal-object-getownpropertydescriptors": {
+            "github-owner": "tc39",
+            "github-repo": "proposal-object-getownpropertydescriptors"
+        },
+        "es-observable": {
+            "github-owner": "zenparsing",
+            "github-repo": "es-observable"
+        },
+        "proposal-promise-finally": {
+            "github-owner": "tc39",
+            "github-repo": "proposal-promise-finally"
+        },
+        "proposal-promise-try": {
+            "github-owner": "tc39",
+            "github-repo": "proposal-promise-try"
+        },
+        "ecmascript-string-left-right-trim": {
+            "github-owner": "sebmarkbage",
+            "github-repo": "ecmascript-string-left-right-trim"
+        },
+        "touchswipe-jquery-plugin": {
+            "github-owner": "mattbryson",
+            "github-repo": "TouchSwipe-Jquery-Plugin"
+        },
+        "iframe-resizer": {
+            "github-owner": "davidjbradshaw",
+            "github-repo": "iframe-resizer"
+        },
+        "meanmenu": {
+            "github-owner": "meanthemes",
+            "github-repo": "meanMenu"
+        },
+        "bootstrap-datepicker": {
+            "github-owner": "eternicode",
+            "github-repo": "bootstrap-datepicker"
+        },
+        "lightbox2": {
+            "github-owner": "lokesh",
+            "github-repo": "lightbox2"
         }
     }
 }

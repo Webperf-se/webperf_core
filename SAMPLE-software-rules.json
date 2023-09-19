@@ -25,9 +25,16 @@
         {
             "use": true,
             "description": "EpiServer CMS",
-            "match": "(?P<debug>dl\\.(?P<name>episerver)\\.net/(?P<version>[0-9\\.]+)/)",
+            "match": "(?P<debug>dl\\.episerver\\.net/(?P<version>[0-9\\.]+)/)",
             "results": [
                 {
+                    "name": "epifind",
+                    "category": "tech",
+                    "domain": "referrer",
+                    "precision": 0.8
+                },
+                {
+                    "name": "episerver",
                     "category": "cms",
                     "domain": "referrer",
                     "precision": 0.4
@@ -273,7 +280,7 @@
             "use": true,
             "type": "server",
             "reference": "https://en.wikipedia.org/wiki/Internet_Information_Services",
-            "description": "This matches verified webservers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'",
+            "description": "This matches verified webservers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'. (OS is inferred from IIS version)",
             "match": "(?P<debug>^(^(microsoft-){0,1}(?P<name>(iis)))\\/{0,1}(?P<version>10\\.0){0,1}[ ]{0,1})",
             "results": [
                 {
@@ -282,9 +289,9 @@
                 },
                 {
                     "name": "windows server",
-                    "version": "2016/2019 (inferred from IIS version)",
+                    "version": "2016/2019/2022",
                     "category": "os",
-                    "precision": 0.8
+                    "precision": 0.6
                 }
             ]
         },
@@ -292,7 +299,7 @@
             "use": true,
             "type": "server",
             "reference": "https://en.wikipedia.org/wiki/Internet_Information_Services",
-            "description": "This matches verified webservers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'",
+            "description": "This matches verified webservers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'. (OS is inferred from IIS version)",
             "match": "(?P<debug>^(^(microsoft-){0,1}(?P<name>(iis)))\\/{0,1}(?P<version>8\\.5){0,1}[ ]{0,1})",
             "results": [
                 {
@@ -301,7 +308,7 @@
                 },
                 {
                     "name": "windows server",
-                    "version": "2012 R2 (inferred from IIS version)",
+                    "version": "2012 R2",
                     "category": "os",
                     "precision": 0.8
                 }
@@ -311,7 +318,7 @@
             "use": true,
             "type": "server",
             "reference": "https://en.wikipedia.org/wiki/Internet_Information_Services",
-            "description": "This matches verified webservers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'",
+            "description": "This matches verified webservers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'. (OS is inferred from IIS version)",
             "match": "(?P<debug>^(^(microsoft-){0,1}(?P<name>(iis)))\\/{0,1}(?P<version>8\\.0){0,1}[ ]{0,1})",
             "results": [
                 {
@@ -320,7 +327,7 @@
                 },
                 {
                     "name": "windows server",
-                    "version": "2012 (inferred from IIS version)",
+                    "version": "2012",
                     "category": "os",
                     "precision": 0.8
                 }
@@ -330,7 +337,7 @@
             "use": true,
             "type": "server",
             "reference": "https://en.wikipedia.org/wiki/Internet_Information_Services",
-            "description": "This matches verified webservers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'",
+            "description": "This matches verified webservers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'. (OS is inferred from IIS version)",
             "match": "(?P<debug>^(^(microsoft-){0,1}(?P<name>(iis)))\\/{0,1}(?P<version>7\\.5){0,1}[ ]{0,1})",
             "results": [
                 {
@@ -339,7 +346,7 @@
                 },
                 {
                     "name": "windows server",
-                    "version": "2008 R2 (inferred from IIS version)",
+                    "version": "2008 R2",
                     "category": "os",
                     "precision": 0.8
                 }
@@ -349,7 +356,7 @@
             "use": true,
             "type": "server",
             "reference": "https://en.wikipedia.org/wiki/Internet_Information_Services",
-            "description": "This matches verified webservers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'",
+            "description": "This matches verified webservers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'. (OS is inferred from IIS version)",
             "match": "(?P<debug>^(^(microsoft-){0,1}(?P<name>(iis)))\\/{0,1}(?P<version>7\\.0){0,1}[ ]{0,1})",
             "results": [
                 {
@@ -358,7 +365,7 @@
                 },
                 {
                     "name": "windows server",
-                    "version": "2008 (inferred from IIS version)",
+                    "version": "2008",
                     "category": "os",
                     "precision": 0.8
                 }
@@ -368,7 +375,7 @@
             "use": true,
             "type": "server",
             "reference": "https://en.wikipedia.org/wiki/Internet_Information_Services",
-            "description": "This matches verified webservers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'",
+            "description": "This matches verified webservers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'. (OS is inferred from IIS version)",
             "match": "(?P<debug>^(^(microsoft-){0,1}(?P<name>(iis)))\\/{0,1}(?P<version>6\\.0){0,1}[ ]{0,1})",
             "results": [
                 {
@@ -377,7 +384,7 @@
                 },
                 {
                     "name": "windows server",
-                    "version": "2003 (inferred from IIS version)",
+                    "version": "2003",
                     "category": "os",
                     "precision": 0.8
                 }
@@ -686,11 +693,11 @@
             "type": "javascript",
             "description": "javascript framwork or javascript libraries",
             "test": "^[\\/!*\\n\\r \\t]+(?P<name>[a-zA-Z\\.\\- ]+) ([ \\-]+){0,1}v(?P<version>[0-9\\-\\.]+)",
-            "match": "^(?P<debug>[\\/!*\\n\\r \\t]+(?:created by){0,1}(?P<name>[a-zA-Z\\- ]+)(?:\\.js){0,1} ([ \\-]+){0,1}v(?P<version>[0-9\\-\\.]+))",
+            "match": "^(?P<debug>[\\/!*\\n\\r \\t]+(?:created by){0,1}(?P<name>[a-zA-Z0-9\\- ]+)(?:\\.js){0,1} ([ \\-]+){0,1}v(?P<version>[0-9\\-\\.]+))",
             "results": [
                 {
                     "category": "js",
-                    "precision": 0.3
+                    "precision": 0.5
                 }
             ]
         },
@@ -699,7 +706,20 @@
             "type": "javascript",
             "description": "javascript framwork or javascript libraries",
             "test": "^[\\/!*\\n\\r \\t]+(?P<name>[a-zA-Z\\.\\- ]+) ([ \\-]+){0,1}v(?P<version>[0-9\\-\\.]+)",
-            "match": "^(?P<debug>[\\/!*\\n\\r \\t]+(?:created by){0,1}(?P<name>[a-zA-Z\\- ]+)(?:\\.js){0,1} ([ \\-]+){0,1}v(?P<version>[0-9\\-\\.]+))[\\r\\n *]+https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>[a-z\\-]+)",
+            "match": "^(?P<debug>[\\/!*\\n\\r \\t]+(?:created by){0,1}(?P<name>[a-zA-Z0-9\\- ]+)(?:\\.js){0,1} ([ \\-]+){0,1}v(?P<version>[0-9\\-\\.]+))[\\r\\n *]+https:\\/\\/github\\.com\\/(?P<owner>[a-zA-Z0-9\\-]+)\\/(?P<repo>[a-zA-Z0-9\\-]+)",
+            "results": [
+                {
+                    "category": "js",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "javascript framwork or javascript libraries",
+            "test": "http://bestiejs.github.io/json3",
+            "match": "(?P<debug>http[s]{0,1}:\\/\\/(?P<owner>[a-zA-Z0-9\\-]+)\\.github\\.io\\/(?P<name>(?P<repo>[a-zA-Z0-9\\-]+)))",
             "results": [
                 {
                     "category": "js",
@@ -711,11 +731,11 @@
             "use": true,
             "type": "javascript",
             "description": "javascript framwork or javascript libraries",
-            "match": "(?P<debug>\\/\\*![\\*\\n\\r \\t]+(?:created by){0,1}(?P<name>[a-z\\- ]+)(?:\\.js){0,1} (?:[ \\-v]+){0,1}(?P<version>[0-9]+\\.[0-9]+(?:\\.[0-9]+){0,1}))",
+            "match": "(?P<debug>\\/\\*![\\*\\n\\r \\t]+(?:created by){0,1}(?P<name>[a-zA-Z0-9\\- ]+)(?:\\.js){0,1} (?:[ \\-v]+){0,1}(?P<version>[0-9]+\\.[0-9]+(?:\\.[0-9]+){0,1}))",
             "results": [
                 {
                     "category": "js",
-                    "precision": 0.3
+                    "precision": 0.5
                 }
             ]
         },
@@ -723,11 +743,11 @@
             "use": true,
             "type": "javascript",
             "description": "javascript framwork or javascript libraries",
-            "match": "(?P<debug>\\/\\*\\* @license (?P<name>[a-z\\- ]+) (?:[ \\-v]+){0,1}(?P<version>[0-9]+\\.[0-9]+(?:\\.[0-9]+){0,1}))",
+            "match": "(?P<debug>\\/\\*\\* @license (?P<name>[a-zA-Z0-9\\- ]+) (?:[ \\-v]+){0,1}(?P<version>[0-9]+\\.[0-9]+(?:\\.[0-9]+){0,1}))",
             "results": [
                 {
                     "category": "js",
-                    "precision": 0.4
+                    "precision": 0.5
                 }
             ]
         },
@@ -736,7 +756,7 @@
             "type": "javascript",
             "description": "javascript framwork or javascript libraries",
             "test": "(?P<debug>\\@source https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>[a-z\\-]+))",
-            "match": "(?P<debug>\\@source https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>(?P<name>[a-z\\-]+)))",
+            "match": "(?P<debug>\\@source https:\\/\\/github\\.com\\/(?P<owner>[a-zA-Z0-9\\-]+)\\/(?P<repo>(?P<name>[a-zA-Z0-9\\-]+)))",
             "results": [
                 {
                     "category": "js",
@@ -749,7 +769,7 @@
             "type": "javascript",
             "description": "javascript framwork or javascript libraries",
             "test": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>[a-z\\-]+))",
-            "match": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>(?P<name>[a-z\\-]+)))",
+            "match": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-zA-Z0-9\\-]+)\\/(?P<repo>(?P<name>[a-zA-Z0-9\\-]+)))",
             "results": [
                 {
                     "category": "js",
@@ -762,7 +782,7 @@
             "type": "javascript",
             "description": "javascript framwork or javascript libraries",
             "test": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>[a-z\\-]+))",
-            "match": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>(?P<name>[a-z\\-]+))\\/blob\\/[v]{0,1}(?P<version>[0-9\\.]+)\/)",
+            "match": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-zA-Z0-9\\-]+)\\/(?P<repo>(?P<name>[a-zA-Z0-9\\-]+))\\/blob\\/[v]{0,1}(?P<version>[0-9\\.]+)\/)",
             "results": [
                 {
                     "category": "js",
@@ -813,7 +833,7 @@
             "type": "javascript",
             "description": "javascript framwork or javascript libraries",
             "test": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>[a-z\\-]+))",
-            "match": "(?P<debug>(?P<licensefile>[a-z\\.\\-]+)(?P<licensetxt>\\.LICENSE\\.txt) \\*\\/)",
+            "match": "(?P<debug>(?P<licensefile>[a-zA-Z0-9\\.\\-]+)(?P<licensetxt>\\.LICENSE\\.txt) \\*\\/)",
             "results": [
                 {
                     "name": "?",

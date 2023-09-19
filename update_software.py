@@ -72,6 +72,7 @@ def main(argv):
         # if index > 15:
         #     break
         # print('software', key)
+        item = collection['softwares'][key]
 
         github_ower = None
         github_repo = None
@@ -88,6 +89,7 @@ def main(argv):
         
         versions = []
         if github_ower != None:
+            set_github_repository_info(item, github_ower, github_repo)
             # TODO: Git Archived status for repo and warn for it if it is.
             versions = get_github_versions(github_ower, github_repo, github_release_source, github_security)
         if key == 'iis':
@@ -510,6 +512,58 @@ def get_softwares():
     with open(file_path) as json_file:
         softwares = json.load(json_file)
     return softwares
+
+def add_tech_if_interesting(techs, topic):
+    tech = topic.lower()
+    if 'js' == tech or 'javascript' == tech:
+        techs.append('js')
+    elif 'c' == tech or 'php' == tech or 'mysql' == tech or 'typescript' == tech:
+        techs.append(tech)
+    elif 'sass' == tech or 'scss' == tech:
+        techs.append(tech)
+    # else:
+    #     print('# TOPIC', tech)
+
+def set_github_repository_info(item, owner, repo):
+    repo_content = httpRequestGetContent(
+        'https://api.github.com/repos/{0}/{1}'.format(owner, repo))
+
+    github_info = json.loads(repo_content)
+
+    # Get license from github repo ("license.spdx_id") info: https://api.github.com/repos/matomo-org/matomo
+    # for example: MIT, GPL-3.0
+    item['license'] = None
+    if 'license' in github_info and github_info['license'] != None and 'spdx_id' in github_info['license']:
+        license = github_info['license']['spdx_id'].lower()
+        if 'noassertion' != license:
+            item['license'] = license
+
+    techs = list()
+    # Get tech from github repo ("language") info: https://api.github.com/repos/matomo-org/matomo
+    # for example: php, JavaScript (js), C
+    if 'language' in github_info and github_info['language'] != None:
+        lang = github_info['language'].lower()
+        if 'javascript' in lang:
+            lang = 'js'
+        add_tech_if_interesting(techs, lang)
+        # info_dict['language'] = lang
+    # else:
+    #     info_dict['language'] = None
+
+    # TODO: Get tech from github repo ("topics") info: https://api.github.com/repos/matomo-org/matomo
+    # for example: php, mysql
+    if 'topics' in github_info and github_info['topics'] != None:
+        for topic in github_info['topics']:
+            add_tech_if_interesting(techs, topic)
+
+    item['tech'] = techs
+
+    # someone has archived the github repo, project should not be used.
+    # info_dict['archived'] = None
+    if 'archived' in github_info and github_info['archived'] != None:
+        item['archived'] = github_info['archived']
+
+    return
 
 def get_github_versions(owner, repo, source, security_label):
     versions_content = httpRequestGetContent(

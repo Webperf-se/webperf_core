@@ -24,14 +24,9 @@
             "github-repo": "angular",
             "license": "mit",
             "tech": [
-                "typescript",
-                "angular",
-                "js",
                 "pwa",
-                "typescript",
-                "web",
-                "web-framework",
-                "web-performance"
+                "js",
+                "typescript"
             ],
             "archived": false,
             "versions": {
@@ -78,16 +73,14 @@
         "angularjs": {
             "github-owner": "angular",
             "github-repo": "angularjs",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "jquery": {
             "github-owner": "jquery",
             "github-repo": "jquery",
             "license": "mit",
             "tech": [
-                "js",
-                "jquery"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -6029,9 +6022,7 @@
             "github-repo": "jquery-ui",
             "license": null,
             "tech": [
-                "js",
-                "js",
-                "jquery"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -6526,8 +6517,6 @@
             "github-repo": "js-cookie",
             "license": "mit",
             "tech": [
-                "js",
-                "cookie",
                 "js"
             ],
             "archived": false,
@@ -6711,12 +6700,7 @@
             "github-repo": "eslint",
             "license": "mit",
             "tech": [
-                "js",
-                "ecmascript",
-                "eslint",
-                "js",
-                "linter",
-                "static-code-analysis"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -6868,13 +6852,6 @@
             "github-repo": "Chart.js",
             "license": "mit",
             "tech": [
-                "js",
-                "canvas",
-                "chart",
-                "graph",
-                "hacktoberfest",
-                "html5",
-                "html5-charts",
                 "js"
             ],
             "archived": false,
@@ -7013,11 +6990,7 @@
             "github-repo": "chartjs-plugin-datalabels",
             "license": "mit",
             "tech": [
-                "js",
-                "chartjs",
-                "chartjs-plugin",
-                "label",
-                "plugin"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -7039,10 +7012,7 @@
             "github-repo": "chartjs-plugin-deferred",
             "license": "mit",
             "tech": [
-                "js",
-                "chartjs",
-                "lazy-loading",
-                "plugin"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -7060,11 +7030,7 @@
             "github-repo": "css-element-queries",
             "license": "mit",
             "tech": [
-                "js",
-                "css",
-                "element-query",
-                "media-query",
-                "responsive"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -7096,13 +7062,7 @@
             "github-repo": "Modernizr",
             "license": "mit",
             "tech": [
-                "js",
-                "css3-features",
-                "feature-detection",
-                "hacktoberfest",
-                "js",
-                "javascript-library",
-                "modernizr"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -7158,22 +7118,7 @@
             "license": "mit",
             "tech": [
                 "js",
-                "ecmascript-proposals",
-                "es2015",
-                "es2019",
-                "es6",
-                "es7",
-                "esnext",
-                "js",
-                "js",
-                "polyfill",
-                "ponyfill",
-                "promise",
-                "proposal",
-                "proposals",
-                "shim",
-                "symbol",
-                "weakmap"
+                "es6"
             ],
             "archived": false,
             "versions": {
@@ -7284,11 +7229,8 @@
             "github-repo": "vue",
             "license": "mit",
             "tech": [
-                "typescript",
-                "framework",
-                "frontend",
                 "js",
-                "vue"
+                "typescript"
             ],
             "archived": false,
             "versions": {
@@ -7371,12 +7313,7 @@
             "github-repo": "vuex",
             "license": "mit",
             "tech": [
-                "js",
-                "js",
-                "state-management",
-                "time-travel",
-                "vue",
-                "vuex"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -7433,10 +7370,7 @@
             "github-repo": "vue-router",
             "license": "mit",
             "tech": [
-                "js",
-                "js",
-                "router",
-                "vue"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -7531,13 +7465,7 @@
             "github-repo": "react",
             "license": "mit",
             "tech": [
-                "js",
-                "declarative",
-                "frontend",
-                "js",
-                "library",
-                "react",
-                "ui"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -7627,8 +7555,7 @@
         "choices": {
             "github-owner": "jshjohnson",
             "github-repo": "choices",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "nginx": {
             "github-owner": "nginx",
@@ -8432,22 +8359,8 @@
             "github-security-label": "c: Security",
             "license": "gpl-3.0",
             "tech": [
-                "php",
-                "analytics",
-                "growth",
-                "hacktoberfest",
-                "intranet",
-                "log",
-                "marketing",
-                "matomo",
-                "mobile",
                 "mysql",
-                "php",
-                "piwik",
-                "privacy",
-                "security",
-                "web-analytics",
-                "website"
+                "php"
             ],
             "archived": false,
             "versions": {
@@ -8494,14 +8407,9 @@
             "github-repo": "bootstrap",
             "license": "mit",
             "tech": [
+                "scss",
                 "js",
-                "bootstrap",
-                "css",
-                "css-framework",
-                "html",
-                "js",
-                "sass",
-                "scss"
+                "sass"
             ],
             "archived": false,
             "versions": {
@@ -8840,13 +8748,7 @@
             "github-repo": "theia-sticky-sidebar",
             "license": "mit",
             "tech": [
-                "js",
-                "js",
-                "scrolling",
-                "sidebar",
-                "sidebar-height",
-                "ux",
-                "website-sidebars"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -8956,13 +8858,7 @@
             "github-repo": "cookie.js",
             "license": null,
             "tech": [
-                "js",
-                "cookie",
-                "cookies",
-                "esm",
-                "js",
-                "mdn-cookies",
-                "umd"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -8997,11 +8893,7 @@
             "github-repo": "lodash",
             "license": null,
             "tech": [
-                "js",
-                "js",
-                "lodash",
-                "modules",
-                "utilities"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -9310,8 +9202,7 @@
         "cookie": {
             "github-owner": "jaywcjlove",
             "github-repo": "cookie",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "zlib": {
             "github-owner": "madler",
@@ -9402,13 +9293,7 @@
             "github-repo": "tag-manager",
             "license": "gpl-3.0",
             "tech": [
-                "php",
-                "analytics",
-                "manager",
-                "matomo",
-                "plugin",
-                "tag",
-                "tag-manager"
+                "php"
             ],
             "archived": false
         },
@@ -9417,13 +9302,7 @@
             "github-repo": "shallow-clone",
             "license": "mit",
             "tech": [
-                "js",
-                "array",
-                "clone",
-                "object",
-                "regex",
-                "regular-expression",
-                "shallow"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -9440,20 +9319,7 @@
             "github-repo": "isobject",
             "license": "mit",
             "tech": [
-                "js",
-                "is",
-                "is-obj",
-                "is-object",
-                "isobject",
-                "js",
-                "jonschlinkert",
-                "kind",
-                "kind-of",
-                "nodejs",
-                "object",
-                "type",
-                "type-of",
-                "typeof"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -9472,16 +9338,7 @@
             "github-repo": "is-plain-object",
             "license": "mit",
             "tech": [
-                "html",
-                "is",
-                "is-obj",
-                "is-object",
-                "is-plain-obj",
-                "isobject",
-                "js",
-                "object",
-                "plain-object",
-                "plain-objects"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -9565,8 +9422,7 @@
         "common": {
             "github-owner": "Limepark",
             "github-repo": "common",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "focus-visible": {
             "github-owner": "WICG",
@@ -9605,11 +9461,7 @@
             "github-repo": "tabbable",
             "license": "mit",
             "tech": [
-                "js",
-                "a11y",
-                "dependabot",
-                "focus-trap",
-                "focusable"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -9663,11 +9515,7 @@
             "github-repo": "styled-components",
             "license": "mit",
             "tech": [
-                "typescript",
-                "css",
-                "css-in-js",
-                "react",
-                "styled-components"
+                "typescript"
             ],
             "archived": false,
             "versions": {
@@ -9720,9 +9568,6 @@
             "github-owner": "facebook",
             "github-repo": "flow",
             "license": "mit",
-            "tech": [
-                "ocaml"
-            ],
             "archived": false,
             "versions": {
                 "0.216.1": [],
@@ -9832,14 +9677,7 @@
             "github-repo": "fancybox",
             "license": null,
             "tech": [
-                "js",
-                "fancybox",
-                "gallery",
-                "jquery",
-                "lightbox",
-                "modal",
-                "responsive",
-                "touch"
+                "js"
             ],
             "archived": true,
             "versions": {
@@ -9882,23 +9720,15 @@
         "popper-core": {
             "github-owner": "popperjs",
             "github-repo": "popper-core",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "date-fns": {
             "github-owner": "date-fns",
             "github-repo": "date-fns",
             "license": "mit",
             "tech": [
-                "typescript",
-                "date",
-                "date-fns",
-                "hacktoberfest",
                 "js",
-                "modules",
-                "nodejs",
-                "time",
-                "utilities"
+                "typescript"
             ],
             "archived": false,
             "versions": {
@@ -9967,11 +9797,7 @@
             "github-repo": "focus-trap-react",
             "license": "mit",
             "tech": [
-                "js",
-                "dependabot",
-                "focus-trap",
-                "react-a11y",
-                "tappable"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -10047,8 +9873,7 @@
             "github-repo": "focus-trap",
             "license": "mit",
             "tech": [
-                "js",
-                "dependabot"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -10131,17 +9956,7 @@
             "github-repo": "react-day-picker",
             "license": "mit",
             "tech": [
-                "typescript",
-                "calendar",
-                "calendar-component",
-                "calendar-widget",
-                "component",
-                "date-fns",
-                "date-picker",
-                "date-picker-range",
-                "datepicker",
-                "react",
-                "react-component"
+                "typescript"
             ],
             "archived": false,
             "versions": {
@@ -10184,9 +9999,7 @@
             "github-repo": "react-redux",
             "license": "mit",
             "tech": [
-                "typescript",
-                "react",
-                "redux"
+                "typescript"
             ],
             "archived": false,
             "versions": {
@@ -10264,9 +10077,7 @@
             "github-repo": "libphonenumber-js",
             "license": "mit",
             "tech": [
-                "js",
-                "number",
-                "phone"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -10375,8 +10186,7 @@
         "libphonenumber": {
             "github-owner": "googlei18n",
             "github-repo": "libphonenumber",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "typescript-wiki": {
             "github-owner": "Microsoft",
@@ -10403,20 +10213,14 @@
         "semver-compare": {
             "github-owner": "substack",
             "github-repo": "semver-compare",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "react-autosuggest": {
             "github-owner": "moroshko",
             "github-repo": "react-autosuggest",
             "license": "mit",
             "tech": [
-                "js",
-                "accessible",
-                "autocomplete",
-                "autosuggest",
-                "react",
-                "typeahead"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -10582,8 +10386,7 @@
         "object-fit-images": {
             "github-owner": "bfred-it",
             "github-repo": "object-fit-images",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "what-input": {
             "github-owner": "ten1seven",
@@ -10683,8 +10486,7 @@
         "react-intl": {
             "github-owner": "formatjs",
             "github-repo": "react-intl",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "gatsby": {
             "github-owner": "gatsbyjs",
@@ -10692,13 +10494,7 @@
             "license": "mit",
             "tech": [
                 "js",
-                "blog",
-                "compiler",
-                "gatsby",
-                "graphql",
-                "react",
-                "static-site-generator",
-                "web-app"
+                "graphql"
             ],
             "archived": false,
             "versions": {
@@ -11015,30 +10811,22 @@
             "github-owner": "tc39",
             "github-repo": "proposal-array-filtering",
             "license": "mit",
-            "tech": [
-                "html"
-            ],
             "archived": false
         },
         "es5-shim": {
             "github-owner": "kitcambridge",
             "github-repo": "es5-shim",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "string": {
             "github-owner": "mathiasbynens",
             "github-repo": "String",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "proposal-symbol-description": {
             "github-owner": "tc39",
             "github-repo": "proposal-Symbol-description",
             "license": null,
-            "tech": [
-                "shell"
-            ],
             "archived": false
         },
         "licensify": {
@@ -11076,13 +10864,7 @@
             "license": "mit",
             "tech": [
                 "js",
-                "a11y",
-                "accessibility",
-                "accordion",
-                "aria",
-                "es6",
-                "js",
-                "javascript-library"
+                "es6"
             ],
             "archived": false,
             "versions": {
@@ -11125,13 +10907,7 @@
             "github-repo": "Responsive",
             "license": "mit",
             "tech": [
-                "html",
-                "accessibility",
-                "css",
-                "html5",
                 "js",
-                "responsive-grid",
-                "rwd",
                 "sass"
             ],
             "archived": false,
@@ -11194,8 +10970,7 @@
         "js": {
             "github-owner": "jserz",
             "github-repo": "js",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "moment": {
             "github-owner": "moment",
@@ -11688,11 +11463,7 @@
             "license": "mit",
             "tech": [
                 "js",
-                "commonmark",
-                "gfm",
-                "markdown",
-                "react",
-                "remark"
+                "markdown"
             ],
             "archived": false,
             "versions": {
@@ -11775,13 +11546,7 @@
             "github-repo": "is-extendable",
             "license": "mit",
             "tech": [
-                "js",
-                "function",
-                "is-obj",
-                "is-object",
-                "isobject",
-                "js",
-                "object"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -11794,18 +11559,14 @@
         "history": {
             "github-owner": "browserstate",
             "github-repo": "history",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "jquery-autocomplete": {
             "github-owner": "devbridge",
             "github-repo": "jQuery-Autocomplete",
             "license": null,
             "tech": [
-                "js",
-                "ajax-autocomplete",
-                "autocomplete",
-                "autosuggest"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -11853,8 +11614,7 @@
         "simpler-sidebar": {
             "github-owner": "simple-sidebar",
             "github-repo": "simpler-sidebar",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "toastr": {
             "github-owner": "CodeSeven",
@@ -11884,25 +11644,12 @@
         "bootstrap-select": {
             "github-owner": "silviomoreto",
             "github-repo": "bootstrap-select",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "html": {
             "github-owner": "whatwg",
             "github-repo": "html",
             "license": null,
-            "tech": [
-                "html",
-                "canvas",
-                "eventsource",
-                "html",
-                "html-standard",
-                "standard",
-                "storage",
-                "websocket",
-                "whatwg",
-                "workers"
-            ],
             "archived": false
         },
         "jquery-color": {
@@ -11928,12 +11675,7 @@
             "github-repo": "axios",
             "license": "mit",
             "tech": [
-                "js",
-                "hacktoberfest",
-                "http-client",
-                "js",
-                "nodejs",
-                "promise"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -12187,8 +11929,7 @@
         "lozad": {
             "github-owner": "ApoorvSaxena",
             "github-repo": "lozad",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "awesomplete": {
             "github-owner": "leaverou",
@@ -12214,27 +11955,7 @@
             "github-repo": "css-vars-ponyfill",
             "license": "mit",
             "tech": [
-                "js",
-                "client",
-                "client-side",
-                "css",
-                "custom-properties",
-                "custom-property",
-                "ie",
-                "ie10",
-                "ie11",
-                "ie9",
-                "internet-explorer",
-                "js",
-                "legacy",
-                "module",
-                "polyfill",
-                "ponyfill",
-                "shadow",
-                "shadow-dom",
-                "variables",
-                "vars",
-                "web-component"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -12305,22 +12026,7 @@
             "license": "mit",
             "tech": [
                 "js",
-                "css",
-                "cssom",
-                "custom-properties",
-                "custom-property",
-                "es6",
-                "iframe",
-                "import",
-                "js",
-                "legacy",
-                "link",
-                "module",
-                "shadow",
-                "shadow-dom",
-                "style",
-                "stylesheet",
-                "web-component"
+                "es6"
             ],
             "archived": false,
             "versions": {
@@ -12359,11 +12065,7 @@
             "github-repo": "style-loader",
             "license": "mit",
             "tech": [
-                "js",
-                "loader",
-                "stylesheets",
-                "webpack",
-                "webpack-loader"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -12478,10 +12180,7 @@
             "github-repo": "jQuery-rwdImageMaps",
             "license": "mit",
             "tech": [
-                "js",
-                "jquery",
-                "jquery-plugin",
-                "responsive"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -12552,25 +12251,15 @@
         "pep": {
             "github-owner": "jquery",
             "github-repo": "PEP",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "mapbox-gl-js": {
             "github-owner": "mapbox",
             "github-repo": "mapbox-gl-js",
             "license": null,
             "tech": [
-                "js",
-                "geojson",
-                "js",
-                "map",
-                "mapbox",
-                "mapbox-gl",
-                "mapbox-gl-js",
-                "monorepo",
-                "openstreetmap",
-                "vector-tiles",
-                "webgl"
+                "webgl",
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -12630,14 +12319,12 @@
         "geotiff": {
             "github-owner": "geotiffjs",
             "github-repo": "geotiff",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "jspdf": {
             "github-owner": "MrRio",
             "github-repo": "jsPDF",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "pdfkit": {
             "github-owner": "foliojs",
@@ -12794,9 +12481,6 @@
             "github-owner": "w3c",
             "github-repo": "setImmediate",
             "license": null,
-            "tech": [
-                "html"
-            ],
             "archived": true
         },
         "gutenberg": {
@@ -12804,10 +12488,7 @@
             "github-repo": "gutenberg",
             "license": null,
             "tech": [
-                "js",
-                "gutenberg",
-                "wordpress",
-                "wordpress-plugin"
+                "js"
             ],
             "archived": false
         },
@@ -12983,21 +12664,14 @@
         "foundation-sites": {
             "github-owner": "zurb",
             "github-repo": "foundation-sites",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "query-string": {
             "github-owner": "sindresorhus",
             "github-repo": "query-string",
             "license": "mit",
             "tech": [
-                "js",
-                "npm-package",
-                "parse",
-                "query-string",
-                "stringify",
-                "url",
-                "urlsearchparams"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -13087,10 +12761,7 @@
             "github-repo": "shave",
             "license": "mit",
             "tech": [
-                "typescript",
-                "ellipsis",
-                "truncate-text",
-                "truncation"
+                "typescript"
             ],
             "archived": false,
             "versions": {
@@ -13233,18 +12904,14 @@
         "base64": {
             "github-owner": "davidchambers",
             "github-repo": "Base64",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "react-google-maps": {
             "github-owner": "tomchentw",
             "github-repo": "react-google-maps",
             "license": "mit",
             "tech": [
-                "js",
-                "google-maps-javascript-api",
-                "react",
-                "react-styleguidist"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -13354,29 +13021,6 @@
             "github-owner": "KazanExpress",
             "github-repo": "vue-simple-suggest",
             "license": "mit",
-            "tech": [
-                "vue",
-                "accessibility",
-                "aria",
-                "autocomplete",
-                "autocomplete-component",
-                "autocomplete-suggestions",
-                "autosuggest",
-                "autosuggestion",
-                "customizable",
-                "frontend",
-                "hacktoberfest",
-                "search",
-                "suggest",
-                "suggestions",
-                "versatile",
-                "vue",
-                "vue-components",
-                "vuejs",
-                "wai-aria",
-                "zero-config",
-                "zero-configuration"
-            ],
             "archived": false,
             "versions": {
                 "1.11.2": [],
@@ -13401,9 +13045,6 @@
             "github-owner": "Pixabay",
             "github-repo": "JavaScript-autoComplete",
             "license": null,
-            "tech": [
-                "html"
-            ],
             "archived": false,
             "versions": {
                 "1.0.4": []
@@ -13425,15 +13066,6 @@
             "github-owner": "dzwillia",
             "github-repo": "vue-simple-spinner",
             "license": "mit",
-            "tech": [
-                "vue",
-                "component",
-                "progress",
-                "spinner",
-                "ui",
-                "vue",
-                "vuejs"
-            ],
             "archived": false,
             "versions": {
                 "1.2.10": [],
@@ -13464,23 +13096,12 @@
         "cssremedy": {
             "github-owner": "mozdevs",
             "github-repo": "cssremedy",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "tailwindcss": {
             "github-owner": "tailwindlabs",
             "github-repo": "tailwindcss",
             "license": "mit",
-            "tech": [
-                "html",
-                "css",
-                "css-framework",
-                "functional-css",
-                "postcss",
-                "responsive",
-                "tailwindcss",
-                "utility-classes"
-            ],
             "archived": false,
             "versions": {
                 "3.3.3": [],
@@ -13566,20 +13187,17 @@
             "github-owner": "mozilla",
             "github-repo": "gecko-dev",
             "license": null,
-            "tech": [],
             "archived": false
         },
         "video": {
             "github-owner": "videojs",
             "github-repo": "video",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "vtt": {
             "github-owner": "mozilla",
             "github-repo": "vtt",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "parse-headers": {
             "github-owner": "kesla",
@@ -13605,42 +13223,30 @@
         "webvr-spec": {
             "github-owner": "mozvr",
             "github-repo": "webvr-spec",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "deviceorientation": {
             "github-owner": "w3c",
             "github-repo": "deviceorientation",
             "license": null,
-            "tech": [
-                "bikeshed"
-            ],
             "archived": false
         },
         "eventdispatcher": {
             "github-owner": "mrdoob",
             "github-repo": "eventdispatcher",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "webvr": {
             "github-owner": "w3c",
             "github-repo": "webvr",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "earcut": {
             "github-owner": "mapbox",
             "github-repo": "earcut",
             "license": "isc",
             "tech": [
-                "js",
-                "algorithm",
-                "computational-geometry",
-                "js",
-                "polygon",
-                "tessellation",
-                "triangulation"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -13709,9 +13315,6 @@
             "github-owner": "karacas",
             "github-repo": "imgLiquid",
             "license": "mit",
-            "tech": [
-                "html"
-            ],
             "archived": false,
             "versions": {
                 "0.9.944": [],
@@ -13748,14 +13351,12 @@
         "fetch": {
             "github-owner": "github",
             "github-repo": "fetch",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "snabbdom": {
             "github-owner": "paldepind",
             "github-repo": "snabbdom",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "ios-orientationchange-fix": {
             "github-owner": "scottjehl",
@@ -13771,8 +13372,6 @@
             "github-repo": "ecma262",
             "license": null,
             "tech": [
-                "html",
-                "ecmascript",
                 "js"
             ],
             "archived": false
@@ -13781,43 +13380,30 @@
             "github-owner": "tc39",
             "github-repo": "proposal-flatMap",
             "license": null,
-            "tech": [
-                "html"
-            ],
             "archived": true
         },
         "proposal-math-extensions": {
             "github-owner": "rwaldron",
             "github-repo": "proposal-math-extensions",
             "license": null,
-            "tech": [
-                "html"
-            ],
             "archived": false
         },
         "proposal-setmap-offrom": {
             "github-owner": "tc39",
             "github-repo": "proposal-setmap-offrom",
             "license": null,
-            "tech": [
-                "html"
-            ],
             "archived": false
         },
         "papers": {
             "github-owner": "jfbastien",
             "github-repo": "papers",
             "license": null,
-            "tech": [
-                "bikeshed"
-            ],
             "archived": false
         },
         "map-set": {
             "github-owner": "DavidBruant",
             "github-repo": "Map-Set",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "magnific-popup": {
             "github-owner": "dimsemenov",
@@ -13855,9 +13441,6 @@
             "github-owner": "tc39",
             "github-repo": "proposal-string-pad-start-end",
             "license": "mit",
-            "tech": [
-                "css"
-            ],
             "archived": true
         },
         "ws": {
@@ -13865,19 +13448,11 @@
             "github-repo": "ws",
             "license": "mit",
             "tech": [
-                "js",
-                "js",
-                "node",
-                "nodejs",
-                "real-time",
-                "rfc-6455",
-                "websocket",
-                "websocket-client",
-                "websocket-compression",
-                "websocket-server"
+                "js"
             ],
             "archived": false,
             "versions": {
+                "8.14.2": [],
                 "8.14.1": [],
                 "8.14.0": [],
                 "8.13.0": [],
@@ -13928,9 +13503,6 @@
                     "CVE-2021-32640"
                 ],
                 "7.4.0": [
-                    "CVE-2021-32640"
-                ],
-                "7.3.1": [
                     "CVE-2021-32640"
                 ],
                 "0.4.31": [
@@ -14270,12 +13842,7 @@
             "github-repo": "ieee754",
             "license": "bsd-3-clause",
             "tech": [
-                "js",
-                "browser",
-                "buffer",
-                "ieee754",
-                "js",
-                "nodejs"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -14300,14 +13867,12 @@
         "rexexp": {
             "github-owner": "benjamingr",
             "github-repo": "RexExp",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "array": {
             "github-owner": "tc39",
             "github-repo": "Array",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "tc39-notes": {
             "github-owner": "rwaldron",
@@ -14322,51 +13887,35 @@
             "github-owner": "ljharb",
             "github-repo": "proposal-is-error",
             "license": "mit",
-            "tech": [
-                "css"
-            ],
             "archived": true
         },
         "proposal-global": {
             "github-owner": "tc39",
             "github-repo": "proposal-global",
             "license": "mit",
-            "tech": [
-                "html"
-            ],
             "archived": true
         },
         "proposal-object-values-entries": {
             "github-owner": "tc39",
             "github-repo": "proposal-object-values-entries",
             "license": "mit",
-            "tech": [
-                "html"
-            ],
             "archived": true
         },
         "proposal-object-getownpropertydescriptors": {
             "github-owner": "tc39",
             "github-repo": "proposal-object-getownpropertydescriptors",
             "license": null,
-            "tech": [
-                "css"
-            ],
             "archived": true
         },
         "es-observable": {
             "github-owner": "zenparsing",
             "github-repo": "es-observable",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "proposal-promise-finally": {
             "github-owner": "tc39",
             "github-repo": "proposal-promise-finally",
             "license": "mit",
-            "tech": [
-                "html"
-            ],
             "archived": true
         },
         "proposal-promise-try": {
@@ -14381,8 +13930,7 @@
         "ecmascript-string-left-right-trim": {
             "github-owner": "sebmarkbage",
             "github-repo": "ecmascript-string-left-right-trim",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "touchswipe-jquery-plugin": {
             "github-owner": "mattbryson",
@@ -14420,11 +13968,7 @@
             "github-repo": "iframe-resizer",
             "license": "mit",
             "tech": [
-                "js",
-                "cross-domain-iframes",
-                "iframe",
-                "iframed-page",
-                "resize"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -14542,8 +14086,7 @@
         "bootstrap-datepicker": {
             "github-owner": "eternicode",
             "github-repo": "bootstrap-datepicker",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "lightbox2": {
             "github-owner": "lokesh",
@@ -14578,9 +14121,6 @@
             "github-owner": "w3c",
             "github-repo": "IntersectionObserver",
             "license": null,
-            "tech": [
-                "bikeshed"
-            ],
             "archived": false
         },
         "when": {
@@ -14708,8 +14248,7 @@
         "script": {
             "github-owner": "ded",
             "github-repo": "script",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "pubsubjs": {
             "github-owner": "mroderick",
@@ -14768,11 +14307,7 @@
             "github-repo": "verge",
             "license": "mit",
             "tech": [
-                "js",
-                "js",
-                "responsive-design",
-                "viewport",
-                "viewport-dimensions"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -14816,14 +14351,12 @@
         "matchmedia": {
             "github-owner": "benschwarz",
             "github-repo": "matchMedia",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "bowser": {
             "github-owner": "ded",
             "github-repo": "bowser",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "jquery-focuspoint": {
             "github-owner": "jonom",
@@ -14848,17 +14381,6 @@
             "github-owner": "understrap",
             "github-repo": "understrap",
             "license": "gpl-3.0",
-            "tech": [
-                "css",
-                "bootstrap",
-                "bootstrap-wordpress",
-                "starter-theme",
-                "understrap",
-                "wordpress-development",
-                "wordpress-framework",
-                "wordpress-starter-theme",
-                "wordpress-theme"
-            ],
             "archived": false,
             "versions": {
                 "1.2.2": [],
@@ -15121,44 +14643,22 @@
             "github-repo": "xstate",
             "license": "mit",
             "tech": [
-                "typescript",
-                "finite-state-machine",
-                "fsm",
-                "hacktoberfest",
-                "interpreter",
                 "js",
-                "orchestration",
-                "scxml",
-                "state",
-                "state-machine",
-                "state-management",
-                "statechart",
-                "statecharts",
-                "typescript",
-                "visualizer",
-                "workflow"
+                "typescript"
             ],
             "archived": false
         },
         "crypto-browserify": {
             "github-owner": "crypto-browserify",
             "github-repo": "crypto-browserify",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "react-smooth-scroll-hook": {
             "github-owner": "ron0115",
             "github-repo": "react-smooth-scroll-hook",
             "license": "mit",
             "tech": [
-                "typescript",
-                "hook",
-                "react",
-                "react-hooks",
-                "react-smooth-scroll",
-                "scrollto",
-                "smooth-scroll",
-                "smooth-scrolling"
+                "typescript"
             ],
             "archived": false,
             "versions": {
@@ -15177,13 +14677,6 @@
             "github-owner": "Wruczek",
             "github-repo": "Bootstrap-Cookie-Alert",
             "license": "mit",
-            "tech": [
-                "html",
-                "bootstrap",
-                "cookie-alert",
-                "lightweight",
-                "small"
-            ],
             "archived": false
         },
         "rollup-plugin-vue": {
@@ -15191,9 +14684,7 @@
             "github-repo": "rollup-plugin-vue",
             "license": "mit",
             "tech": [
-                "typescript",
-                "rollup",
-                "vue"
+                "typescript"
             ],
             "archived": true,
             "versions": {
@@ -15275,24 +14766,8 @@
             "github-repo": "lightGallery",
             "license": null,
             "tech": [
-                "typescript",
-                "angular",
-                "angular-gallery",
-                "css-animations",
-                "html5-video",
-                "image-gallery",
-                "lightbox",
-                "lightbox-gallery-plugin",
-                "lit-element",
-                "react",
-                "react-gallery",
-                "thumbnails",
                 "video",
-                "video-gallery",
-                "vimeo",
-                "vue",
-                "vue-gallery",
-                "youtube"
+                "typescript"
             ],
             "archived": false,
             "versions": {
@@ -15369,9 +14844,6 @@
             "github-owner": "paypal",
             "github-repo": "bootstrap-accessibility-plugin",
             "license": "bsd-3-clause",
-            "tech": [
-                "html"
-            ],
             "archived": false,
             "versions": {
                 "1.0.7": [],
@@ -15434,12 +14906,7 @@
             "github-repo": "buffer",
             "license": "mit",
             "tech": [
-                "js",
-                "browser",
-                "browserify",
-                "buffer",
-                "js",
-                "nodejs"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -15580,12 +15047,7 @@
             "github-repo": "vite",
             "license": "mit",
             "tech": [
-                "typescript",
-                "build-tool",
-                "dev-server",
-                "frontend",
-                "hmr",
-                "vite"
+                "typescript"
             ],
             "archived": false,
             "versions": {
@@ -15737,10 +15199,8 @@
             "github-repo": "Hyphenopoly",
             "license": "mit",
             "tech": [
-                "typescript",
-                "hyphenation",
-                "hyphenation-algorithm",
-                "js"
+                "js",
+                "typescript"
             ],
             "archived": false,
             "versions": {
@@ -15791,26 +15251,14 @@
         "klaro": {
             "github-owner": "KIProtect",
             "github-repo": "klaro",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "msw": {
             "github-owner": "mswjs",
             "github-repo": "msw",
             "license": "mit",
             "tech": [
-                "typescript",
-                "api",
-                "api-mocking",
-                "devtools",
-                "mock",
-                "mock-service-worker",
-                "mocking",
-                "mocking-framework",
-                "mocking-library",
-                "msw",
-                "mswjs",
-                "service-worker"
+                "typescript"
             ],
             "archived": false,
             "versions": {
@@ -15919,14 +15367,6 @@
             "github-owner": "wet-boew",
             "github-repo": "wet-boew",
             "license": null,
-            "tech": [
-                "handlebars",
-                "accessiblity",
-                "framework",
-                "multilingual",
-                "wcag",
-                "web"
-            ],
             "archived": false,
             "versions": {
                 "4.0.76": [],
@@ -16033,21 +15473,14 @@
         "autonumeric": {
             "github-owner": "BobKnothe",
             "github-repo": "autoNumeric",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "tablesaw": {
             "github-owner": "filamentgroup",
             "github-repo": "tablesaw",
             "license": "mit",
             "tech": [
-                "js",
-                "datatables",
-                "html",
-                "npm-package",
-                "responsive",
-                "rwd",
-                "table"
+                "js"
             ],
             "archived": true,
             "versions": {
@@ -16090,11 +15523,7 @@
             "github-repo": "ssr-window",
             "license": "mit",
             "tech": [
-                "js",
-                "server-side-rendering",
-                "ssr",
-                "ssr-environment",
-                "ssr-window"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -16112,21 +15541,9 @@
             "github-repo": "amcharts4",
             "license": null,
             "tech": [
-                "typescript",
-                "amcharts",
-                "chart",
-                "charting",
-                "charting-library",
-                "charts",
-                "data-visualization",
-                "data-viz",
-                "dataviz",
-                "graph",
                 "js",
-                "maps",
                 "svg",
-                "typescript",
-                "visualization"
+                "typescript"
             ],
             "archived": false,
             "versions": {
@@ -16236,9 +15653,6 @@
             "github-owner": "briancherne",
             "github-repo": "jquery-hoverIntent",
             "license": null,
-            "tech": [
-                "html"
-            ],
             "archived": false,
             "versions": {
                 "1.10.2": [],
@@ -16256,12 +15670,7 @@
             "github-repo": "jquery-circle-progress",
             "license": "mit",
             "tech": [
-                "js",
-                "animation",
-                "circle",
-                "js",
-                "jquery",
-                "jquery-plugin"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -16326,7 +15735,6 @@
             "github-owner": "imakewebthings",
             "github-repo": "jquery-waypoints",
             "license": null,
-            "tech": [],
             "archived": false,
             "versions": {
                 "2.0.5": []
@@ -16335,8 +15743,7 @@
         "typed": {
             "github-owner": "mattboldt",
             "github-repo": "typed",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "gl-matrix": {
             "github-owner": "toji",
@@ -16544,7 +15951,6 @@
             "github-owner": "esimakin",
             "github-repo": "twbs-pagination",
             "license": null,
-            "tech": [],
             "archived": false
         },
         "polished": {
@@ -16552,11 +15958,7 @@
             "github-repo": "polished",
             "license": "mit",
             "tech": [
-                "js",
-                "css-in-js",
-                "inline-styles",
-                "styled-components",
-                "styling"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -16644,8 +16046,7 @@
         "player": {
             "github-owner": "vimeo",
             "github-repo": "player",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "promise-polyfill": {
             "github-owner": "taylorhakes",
@@ -16921,24 +16322,15 @@
         "responsive-menus": {
             "github-owner": "copyblogger",
             "github-repo": "responsive-menus",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "cli": {
             "github-owner": "react-native-community",
             "github-repo": "cli",
             "license": "mit",
             "tech": [
-                "typescript",
-                "android",
-                "cli",
-                "hacktoberfest",
-                "ios",
                 "js",
-                "npm",
-                "react-native",
-                "typescript",
-                "yarn"
+                "typescript"
             ],
             "archived": false,
             "versions": {
@@ -17005,14 +16397,8 @@
             "github-repo": "panzoom",
             "license": "mit",
             "tech": [
-                "typescript",
-                "css",
-                "pan",
-                "panzoom",
-                "pointer-events",
                 "svg",
-                "typescript",
-                "zoom"
+                "typescript"
             ],
             "archived": false,
             "versions": {
@@ -17177,11 +16563,7 @@
             "github-repo": "CanvasBlocker",
             "license": "mpl-2.0",
             "tech": [
-                "js",
-                "fingerprinting",
-                "firefox",
-                "privacy",
-                "web-extension"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -17270,14 +16652,11 @@
             "github-repo": "icons",
             "license": "mit",
             "tech": [
-                "js",
-                "bootstrap",
+                "woff2",
                 "font",
-                "icons",
-                "sprite",
-                "svg",
                 "woff",
-                "woff2"
+                "js",
+                "svg"
             ],
             "archived": false,
             "versions": {
@@ -17316,18 +16695,7 @@
             "github-repo": "form",
             "license": "lgpl-2.1",
             "tech": [
-                "js",
-                "ajax",
-                "ajax-form",
-                "form",
-                "form-serialization",
-                "html-form",
-                "js",
-                "jquery",
-                "jquery-form",
-                "jquery-plugin",
-                "json",
-                "json-form"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -17407,14 +16775,12 @@
         "animate": {
             "github-owner": "daneden",
             "github-repo": "animate",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "webhint": {
             "github-owner": "webhintio",
             "github-repo": "webhint",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "dialogs-manager": {
             "github-owner": "kobizz",
@@ -17488,12 +16854,7 @@
             "license": null,
             "tech": [
                 "js",
-                "ads",
-                "js",
-                "player",
-                "preroll",
-                "video",
-                "videojs"
+                "video"
             ],
             "archived": false,
             "versions": {
@@ -17594,27 +16955,19 @@
         "uri": {
             "github-owner": "medialize",
             "github-repo": "URI",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "inclusive-components-demos": {
             "github-owner": "heydon",
             "github-repo": "inclusive-components-demos",
-            "license": null,
-            "tech": []
+            "license": null
         },
         "clicky-menus": {
             "github-owner": "mrwweb",
             "github-repo": "clicky-menus",
             "license": "mit",
             "tech": [
-                "js",
-                "accessibility",
-                "dropdown",
-                "menu",
-                "navigation",
-                "progressive-enhancement",
-                "submenu"
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -17627,18 +16980,7 @@
             "license": "mit",
             "tech": [
                 "js",
-                "canvas-qrcode",
-                "easyqrcode",
-                "html5-qrcode",
-                "javascript-qrcode",
-                "js-qrcode",
-                "qr-generator",
-                "qrcode",
-                "qrcode-generator",
-                "qrcode-image",
-                "qrcode-javascript",
-                "qrcode-js",
-                "qrcode-svg"
+                "qrcode"
             ],
             "archived": false,
             "versions": {
@@ -17691,19 +17033,7 @@
             "license": "mit",
             "tech": [
                 "js",
-                "easyqrcodejs",
-                "easyqrcodejs-nodejs",
-                "javascript-qrcode",
-                "js-qrcode",
-                "node-qrcode",
-                "nodejs",
-                "nodejs-qrcode",
-                "qrcode",
-                "qrcode-api",
-                "qrcode-generator",
-                "qrcode-node",
-                "qrcode-svg",
-                "qrcodejs"
+                "qrcode"
             ],
             "archived": false,
             "versions": {
@@ -17742,5 +17072,5 @@
             }
         }
     },
-    "updated": "2023-09-19 15:15:36"
+    "updated": "2023-09-19 16:53:32"
 }

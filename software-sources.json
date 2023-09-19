@@ -13,12 +13,18 @@
         "sizzle-css-selector-engine": "sizzle",
         "javascript cookie": "js-cookie",
         "javascript.cookie": "js-cookie",
-        "javascript-cookie": "js-cookie"
+        "javascript-cookie": "js-cookie",
+        "lightbox": "lightbox2",
+        "datepicker-for-bootstrap":"bootstrap-datepicker"
     },
     "softwares": {
         "angular": {
             "github-owner": "angular",
             "github-repo": "angular"
+        },
+        "angularjs": {
+            "github-owner": "angular",
+            "github-repo": "angularjs"
         },
         "jquery": {
             "github-owner": "jquery",
@@ -28,6 +34,9 @@
             "custom": true
         },
         "apache": {
+            "custom": true
+        },
+        "windows-server": {
             "custom": true
         },
         "jquery-ui": {
@@ -131,6 +140,10 @@
             "github-owner": "Krinkle",
             "github-repo": "jquery-json"
         },
+        "jquery-timepicker-addon": {
+            "github-owner": "trentrichardson",
+            "github-repo": "jQuery-Timepicker-Addon"
+        },
         "cookiejs": {
             "github-owner": "jaywcjlove",
             "github-repo": "cookie.js"
@@ -198,6 +211,10 @@
         "flow": {
             "github-owner": "facebook",
             "github-repo": "flow"
+        },
+        "fancybox": {
+            "github-owner": "fancyapps",
+            "github-repo": "fancybox"
         },
         "popper-core": {
             "github-owner": "popperjs",
@@ -547,6 +564,10 @@
             "github-owner": "mapbox",
             "github-repo": "earcut"
         },
+        "enquire": {
+            "github-owner": "WickyNilliams",
+            "github-repo": "enquire.js"
+        },
         "imgliquid": {
             "github-owner": "karacas",
             "github-repo": "imgLiquid"
@@ -586,6 +607,10 @@
         "map-set": {
             "github-owner": "DavidBruant",
             "github-repo": "Map-Set"
+        },
+        "magnific-popups": {
+            "github-owner": "dimsemenov",
+            "github-repo": "Magnific-Popup"
         },
         "proposal-string-pad-start-end": {
             "github-owner": "tc39",

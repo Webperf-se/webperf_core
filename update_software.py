@@ -93,6 +93,8 @@ def main(argv):
         if key == 'iis':
             versions = get_iis_versions()
             versions = extend_versions_for_iis(versions)
+        elif key == 'windows-server':
+            versions = get_windows_versions()
         elif key == 'apache':
             versions = get_apache_httpd_versions()
             versions = extend_versions_for_apache_httpd(versions)
@@ -609,6 +611,20 @@ def get_iis_versions():
             versions_dict[version] = []
     return versions_dict
 
+def get_windows_versions():
+    # source: https://learn.microsoft.com/en-us/lifecycle/products/export/
+    # source: https://learn.microsoft.com/en-us/lifecycle/products/?products=windows&terms=windows%20server&skip=10
+
+    versions_dict = {
+        "2016/2019/2022": [],
+        "2012 r2": [],
+        "2012": ['END-OF-LIFE'],
+        "2008 r2": ['END-OF-LIFE'],
+        "2008": ['END-OF-LIFE'],
+        "2003": ['END-OF-LIFE']
+    }
+
+    return versions_dict
 
 def get_apache_httpd_versions():
     # newer_versions = []

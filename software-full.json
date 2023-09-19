@@ -25,8 +25,13 @@
             "license": "mit",
             "tech": [
                 "typescript",
+                "angular",
                 "js",
-                "typescript"
+                "pwa",
+                "typescript",
+                "web",
+                "web-framework",
+                "web-performance"
             ],
             "archived": false,
             "versions": {
@@ -81,7 +86,8 @@
             "github-repo": "jquery",
             "license": "mit",
             "tech": [
-                "js"
+                "js",
+                "jquery"
             ],
             "archived": false,
             "versions": {
@@ -6024,7 +6030,8 @@
             "license": null,
             "tech": [
                 "js",
-                "js"
+                "js",
+                "jquery"
             ],
             "archived": false,
             "versions": {
@@ -6520,6 +6527,7 @@
             "license": "mit",
             "tech": [
                 "js",
+                "cookie",
                 "js"
             ],
             "archived": false,
@@ -6704,7 +6712,11 @@
             "license": "mit",
             "tech": [
                 "js",
-                "js"
+                "ecmascript",
+                "eslint",
+                "js",
+                "linter",
+                "static-code-analysis"
             ],
             "archived": false,
             "versions": {
@@ -6857,6 +6869,12 @@
             "license": "mit",
             "tech": [
                 "js",
+                "canvas",
+                "chart",
+                "graph",
+                "hacktoberfest",
+                "html5",
+                "html5-charts",
                 "js"
             ],
             "archived": false,
@@ -6995,7 +7013,11 @@
             "github-repo": "chartjs-plugin-datalabels",
             "license": "mit",
             "tech": [
-                "js"
+                "js",
+                "chartjs",
+                "chartjs-plugin",
+                "label",
+                "plugin"
             ],
             "archived": false,
             "versions": {
@@ -7017,7 +7039,10 @@
             "github-repo": "chartjs-plugin-deferred",
             "license": "mit",
             "tech": [
-                "js"
+                "js",
+                "chartjs",
+                "lazy-loading",
+                "plugin"
             ],
             "archived": false,
             "versions": {
@@ -7035,7 +7060,11 @@
             "github-repo": "css-element-queries",
             "license": "mit",
             "tech": [
-                "js"
+                "js",
+                "css",
+                "element-query",
+                "media-query",
+                "responsive"
             ],
             "archived": false,
             "versions": {
@@ -7068,7 +7097,12 @@
             "license": "mit",
             "tech": [
                 "js",
-                "js"
+                "css3-features",
+                "feature-detection",
+                "hacktoberfest",
+                "js",
+                "javascript-library",
+                "modernizr"
             ],
             "archived": false,
             "versions": {
@@ -7124,8 +7158,22 @@
             "license": "mit",
             "tech": [
                 "js",
+                "ecmascript-proposals",
+                "es2015",
+                "es2019",
+                "es6",
+                "es7",
+                "esnext",
                 "js",
-                "js"
+                "js",
+                "polyfill",
+                "ponyfill",
+                "promise",
+                "proposal",
+                "proposals",
+                "shim",
+                "symbol",
+                "weakmap"
             ],
             "archived": false,
             "versions": {
@@ -7237,7 +7285,10 @@
             "license": "mit",
             "tech": [
                 "typescript",
-                "js"
+                "framework",
+                "frontend",
+                "js",
+                "vue"
             ],
             "archived": false,
             "versions": {
@@ -7321,7 +7372,11 @@
             "license": "mit",
             "tech": [
                 "js",
-                "js"
+                "js",
+                "state-management",
+                "time-travel",
+                "vue",
+                "vuex"
             ],
             "archived": false,
             "versions": {
@@ -7379,7 +7434,9 @@
             "license": "mit",
             "tech": [
                 "js",
-                "js"
+                "js",
+                "router",
+                "vue"
             ],
             "archived": false,
             "versions": {
@@ -7475,7 +7532,12 @@
             "license": "mit",
             "tech": [
                 "js",
-                "js"
+                "declarative",
+                "frontend",
+                "js",
+                "library",
+                "react",
+                "ui"
             ],
             "archived": false,
             "versions": {
@@ -8371,8 +8433,21 @@
             "license": "gpl-3.0",
             "tech": [
                 "php",
+                "analytics",
+                "growth",
+                "hacktoberfest",
+                "intranet",
+                "log",
+                "marketing",
+                "matomo",
+                "mobile",
                 "mysql",
-                "php"
+                "php",
+                "piwik",
+                "privacy",
+                "security",
+                "web-analytics",
+                "website"
             ],
             "archived": false,
             "versions": {
@@ -8420,6 +8495,10 @@
             "license": "mit",
             "tech": [
                 "js",
+                "bootstrap",
+                "css",
+                "css-framework",
+                "html",
                 "js",
                 "sass",
                 "scss"
@@ -8762,7 +8841,12 @@
             "license": "mit",
             "tech": [
                 "js",
-                "js"
+                "js",
+                "scrolling",
+                "sidebar",
+                "sidebar-height",
+                "ux",
+                "website-sidebars"
             ],
             "archived": false,
             "versions": {
@@ -8873,7 +8957,12 @@
             "license": null,
             "tech": [
                 "js",
-                "js"
+                "cookie",
+                "cookies",
+                "esm",
+                "js",
+                "mdn-cookies",
+                "umd"
             ],
             "archived": false,
             "versions": {
@@ -8909,7 +8998,10 @@
             "license": null,
             "tech": [
                 "js",
-                "js"
+                "js",
+                "lodash",
+                "modules",
+                "utilities"
             ],
             "archived": false,
             "versions": {
@@ -9310,7 +9402,13 @@
             "github-repo": "tag-manager",
             "license": "gpl-3.0",
             "tech": [
-                "php"
+                "php",
+                "analytics",
+                "manager",
+                "matomo",
+                "plugin",
+                "tag",
+                "tag-manager"
             ],
             "archived": false
         },
@@ -9319,7 +9417,13 @@
             "github-repo": "shallow-clone",
             "license": "mit",
             "tech": [
-                "js"
+                "js",
+                "array",
+                "clone",
+                "object",
+                "regex",
+                "regular-expression",
+                "shallow"
             ],
             "archived": false,
             "versions": {
@@ -9337,7 +9441,19 @@
             "license": "mit",
             "tech": [
                 "js",
-                "js"
+                "is",
+                "is-obj",
+                "is-object",
+                "isobject",
+                "js",
+                "jonschlinkert",
+                "kind",
+                "kind-of",
+                "nodejs",
+                "object",
+                "type",
+                "type-of",
+                "typeof"
             ],
             "archived": false,
             "versions": {
@@ -9356,7 +9472,16 @@
             "github-repo": "is-plain-object",
             "license": "mit",
             "tech": [
-                "js"
+                "html",
+                "is",
+                "is-obj",
+                "is-object",
+                "is-plain-obj",
+                "isobject",
+                "js",
+                "object",
+                "plain-object",
+                "plain-objects"
             ],
             "archived": false,
             "versions": {
@@ -9480,7 +9605,11 @@
             "github-repo": "tabbable",
             "license": "mit",
             "tech": [
-                "js"
+                "js",
+                "a11y",
+                "dependabot",
+                "focus-trap",
+                "focusable"
             ],
             "archived": false,
             "versions": {
@@ -9534,7 +9663,11 @@
             "github-repo": "styled-components",
             "license": "mit",
             "tech": [
-                "typescript"
+                "typescript",
+                "css",
+                "css-in-js",
+                "react",
+                "styled-components"
             ],
             "archived": false,
             "versions": {
@@ -9587,7 +9720,9 @@
             "github-owner": "facebook",
             "github-repo": "flow",
             "license": "mit",
-            "tech": [],
+            "tech": [
+                "ocaml"
+            ],
             "archived": false,
             "versions": {
                 "0.216.1": [],
@@ -9697,7 +9832,14 @@
             "github-repo": "fancybox",
             "license": null,
             "tech": [
-                "js"
+                "js",
+                "fancybox",
+                "gallery",
+                "jquery",
+                "lightbox",
+                "modal",
+                "responsive",
+                "touch"
             ],
             "archived": true,
             "versions": {
@@ -9749,7 +9891,14 @@
             "license": "mit",
             "tech": [
                 "typescript",
-                "js"
+                "date",
+                "date-fns",
+                "hacktoberfest",
+                "js",
+                "modules",
+                "nodejs",
+                "time",
+                "utilities"
             ],
             "archived": false,
             "versions": {
@@ -9818,7 +9967,11 @@
             "github-repo": "focus-trap-react",
             "license": "mit",
             "tech": [
-                "js"
+                "js",
+                "dependabot",
+                "focus-trap",
+                "react-a11y",
+                "tappable"
             ],
             "archived": false,
             "versions": {
@@ -9894,7 +10047,8 @@
             "github-repo": "focus-trap",
             "license": "mit",
             "tech": [
-                "js"
+                "js",
+                "dependabot"
             ],
             "archived": false,
             "versions": {
@@ -9977,7 +10131,17 @@
             "github-repo": "react-day-picker",
             "license": "mit",
             "tech": [
-                "typescript"
+                "typescript",
+                "calendar",
+                "calendar-component",
+                "calendar-widget",
+                "component",
+                "date-fns",
+                "date-picker",
+                "date-picker-range",
+                "datepicker",
+                "react",
+                "react-component"
             ],
             "archived": false,
             "versions": {
@@ -10020,7 +10184,9 @@
             "github-repo": "react-redux",
             "license": "mit",
             "tech": [
-                "typescript"
+                "typescript",
+                "react",
+                "redux"
             ],
             "archived": false,
             "versions": {
@@ -10098,7 +10264,9 @@
             "github-repo": "libphonenumber-js",
             "license": "mit",
             "tech": [
-                "js"
+                "js",
+                "number",
+                "phone"
             ],
             "archived": false,
             "versions": {
@@ -10243,7 +10411,12 @@
             "github-repo": "react-autosuggest",
             "license": "mit",
             "tech": [
-                "js"
+                "js",
+                "accessible",
+                "autocomplete",
+                "autosuggest",
+                "react",
+                "typeahead"
             ],
             "archived": false,
             "versions": {
@@ -10518,7 +10691,14 @@
             "github-repo": "gatsby",
             "license": "mit",
             "tech": [
-                "js"
+                "js",
+                "blog",
+                "compiler",
+                "gatsby",
+                "graphql",
+                "react",
+                "static-site-generator",
+                "web-app"
             ],
             "archived": false,
             "versions": {
@@ -10835,7 +11015,9 @@
             "github-owner": "tc39",
             "github-repo": "proposal-array-filtering",
             "license": "mit",
-            "tech": [],
+            "tech": [
+                "html"
+            ],
             "archived": false
         },
         "es5-shim": {
@@ -10854,7 +11036,9 @@
             "github-owner": "tc39",
             "github-repo": "proposal-Symbol-description",
             "license": null,
-            "tech": [],
+            "tech": [
+                "shell"
+            ],
             "archived": false
         },
         "licensify": {
@@ -10892,7 +11076,13 @@
             "license": "mit",
             "tech": [
                 "js",
-                "js"
+                "a11y",
+                "accessibility",
+                "accordion",
+                "aria",
+                "es6",
+                "js",
+                "javascript-library"
             ],
             "archived": false,
             "versions": {
@@ -10935,7 +11125,13 @@
             "github-repo": "Responsive",
             "license": "mit",
             "tech": [
+                "html",
+                "accessibility",
+                "css",
+                "html5",
                 "js",
+                "responsive-grid",
+                "rwd",
                 "sass"
             ],
             "archived": false,
@@ -11491,7 +11687,12 @@
             "github-repo": "react-markdown",
             "license": "mit",
             "tech": [
-                "js"
+                "js",
+                "commonmark",
+                "gfm",
+                "markdown",
+                "react",
+                "remark"
             ],
             "archived": false,
             "versions": {
@@ -11575,7 +11776,12 @@
             "license": "mit",
             "tech": [
                 "js",
-                "js"
+                "function",
+                "is-obj",
+                "is-object",
+                "isobject",
+                "js",
+                "object"
             ],
             "archived": false,
             "versions": {
@@ -11596,7 +11802,10 @@
             "github-repo": "jQuery-Autocomplete",
             "license": null,
             "tech": [
-                "js"
+                "js",
+                "ajax-autocomplete",
+                "autocomplete",
+                "autosuggest"
             ],
             "archived": false,
             "versions": {
@@ -11682,7 +11891,18 @@
             "github-owner": "whatwg",
             "github-repo": "html",
             "license": null,
-            "tech": [],
+            "tech": [
+                "html",
+                "canvas",
+                "eventsource",
+                "html",
+                "html-standard",
+                "standard",
+                "storage",
+                "websocket",
+                "whatwg",
+                "workers"
+            ],
             "archived": false
         },
         "jquery-color": {
@@ -11709,7 +11929,11 @@
             "license": "mit",
             "tech": [
                 "js",
-                "js"
+                "hacktoberfest",
+                "http-client",
+                "js",
+                "nodejs",
+                "promise"
             ],
             "archived": false,
             "versions": {
@@ -11991,7 +12215,26 @@
             "license": "mit",
             "tech": [
                 "js",
-                "js"
+                "client",
+                "client-side",
+                "css",
+                "custom-properties",
+                "custom-property",
+                "ie",
+                "ie10",
+                "ie11",
+                "ie9",
+                "internet-explorer",
+                "js",
+                "legacy",
+                "module",
+                "polyfill",
+                "ponyfill",
+                "shadow",
+                "shadow-dom",
+                "variables",
+                "vars",
+                "web-component"
             ],
             "archived": false,
             "versions": {
@@ -12062,7 +12305,22 @@
             "license": "mit",
             "tech": [
                 "js",
-                "js"
+                "css",
+                "cssom",
+                "custom-properties",
+                "custom-property",
+                "es6",
+                "iframe",
+                "import",
+                "js",
+                "legacy",
+                "link",
+                "module",
+                "shadow",
+                "shadow-dom",
+                "style",
+                "stylesheet",
+                "web-component"
             ],
             "archived": false,
             "versions": {
@@ -12101,7 +12359,11 @@
             "github-repo": "style-loader",
             "license": "mit",
             "tech": [
-                "js"
+                "js",
+                "loader",
+                "stylesheets",
+                "webpack",
+                "webpack-loader"
             ],
             "archived": false,
             "versions": {
@@ -12216,7 +12478,10 @@
             "github-repo": "jQuery-rwdImageMaps",
             "license": "mit",
             "tech": [
-                "js"
+                "js",
+                "jquery",
+                "jquery-plugin",
+                "responsive"
             ],
             "archived": false,
             "versions": {
@@ -12296,7 +12561,16 @@
             "license": null,
             "tech": [
                 "js",
-                "js"
+                "geojson",
+                "js",
+                "map",
+                "mapbox",
+                "mapbox-gl",
+                "mapbox-gl-js",
+                "monorepo",
+                "openstreetmap",
+                "vector-tiles",
+                "webgl"
             ],
             "archived": false,
             "versions": {
@@ -12520,7 +12794,9 @@
             "github-owner": "w3c",
             "github-repo": "setImmediate",
             "license": null,
-            "tech": [],
+            "tech": [
+                "html"
+            ],
             "archived": true
         },
         "gutenberg": {
@@ -12528,7 +12804,10 @@
             "github-repo": "gutenberg",
             "license": null,
             "tech": [
-                "js"
+                "js",
+                "gutenberg",
+                "wordpress",
+                "wordpress-plugin"
             ],
             "archived": false
         },
@@ -12712,7 +12991,13 @@
             "github-repo": "query-string",
             "license": "mit",
             "tech": [
-                "js"
+                "js",
+                "npm-package",
+                "parse",
+                "query-string",
+                "stringify",
+                "url",
+                "urlsearchparams"
             ],
             "archived": false,
             "versions": {
@@ -12802,7 +13087,10 @@
             "github-repo": "shave",
             "license": "mit",
             "tech": [
-                "typescript"
+                "typescript",
+                "ellipsis",
+                "truncate-text",
+                "truncation"
             ],
             "archived": false,
             "versions": {
@@ -12953,7 +13241,10 @@
             "github-repo": "react-google-maps",
             "license": "mit",
             "tech": [
-                "js"
+                "js",
+                "google-maps-javascript-api",
+                "react",
+                "react-styleguidist"
             ],
             "archived": false,
             "versions": {
@@ -13063,7 +13354,29 @@
             "github-owner": "KazanExpress",
             "github-repo": "vue-simple-suggest",
             "license": "mit",
-            "tech": [],
+            "tech": [
+                "vue",
+                "accessibility",
+                "aria",
+                "autocomplete",
+                "autocomplete-component",
+                "autocomplete-suggestions",
+                "autosuggest",
+                "autosuggestion",
+                "customizable",
+                "frontend",
+                "hacktoberfest",
+                "search",
+                "suggest",
+                "suggestions",
+                "versatile",
+                "vue",
+                "vue-components",
+                "vuejs",
+                "wai-aria",
+                "zero-config",
+                "zero-configuration"
+            ],
             "archived": false,
             "versions": {
                 "1.11.2": [],
@@ -13088,7 +13401,9 @@
             "github-owner": "Pixabay",
             "github-repo": "JavaScript-autoComplete",
             "license": null,
-            "tech": [],
+            "tech": [
+                "html"
+            ],
             "archived": false,
             "versions": {
                 "1.0.4": []
@@ -13110,7 +13425,15 @@
             "github-owner": "dzwillia",
             "github-repo": "vue-simple-spinner",
             "license": "mit",
-            "tech": [],
+            "tech": [
+                "vue",
+                "component",
+                "progress",
+                "spinner",
+                "ui",
+                "vue",
+                "vuejs"
+            ],
             "archived": false,
             "versions": {
                 "1.2.10": [],
@@ -13148,7 +13471,16 @@
             "github-owner": "tailwindlabs",
             "github-repo": "tailwindcss",
             "license": "mit",
-            "tech": [],
+            "tech": [
+                "html",
+                "css",
+                "css-framework",
+                "functional-css",
+                "postcss",
+                "responsive",
+                "tailwindcss",
+                "utility-classes"
+            ],
             "archived": false,
             "versions": {
                 "3.3.3": [],
@@ -13280,7 +13612,9 @@
             "github-owner": "w3c",
             "github-repo": "deviceorientation",
             "license": null,
-            "tech": [],
+            "tech": [
+                "bikeshed"
+            ],
             "archived": false
         },
         "eventdispatcher": {
@@ -13301,7 +13635,12 @@
             "license": "isc",
             "tech": [
                 "js",
-                "js"
+                "algorithm",
+                "computational-geometry",
+                "js",
+                "polygon",
+                "tessellation",
+                "triangulation"
             ],
             "archived": false,
             "versions": {
@@ -13370,7 +13709,9 @@
             "github-owner": "karacas",
             "github-repo": "imgLiquid",
             "license": "mit",
-            "tech": [],
+            "tech": [
+                "html"
+            ],
             "archived": false,
             "versions": {
                 "0.9.944": [],
@@ -13430,6 +13771,8 @@
             "github-repo": "ecma262",
             "license": null,
             "tech": [
+                "html",
+                "ecmascript",
                 "js"
             ],
             "archived": false
@@ -13438,28 +13781,36 @@
             "github-owner": "tc39",
             "github-repo": "proposal-flatMap",
             "license": null,
-            "tech": [],
+            "tech": [
+                "html"
+            ],
             "archived": true
         },
         "proposal-math-extensions": {
             "github-owner": "rwaldron",
             "github-repo": "proposal-math-extensions",
             "license": null,
-            "tech": [],
+            "tech": [
+                "html"
+            ],
             "archived": false
         },
         "proposal-setmap-offrom": {
             "github-owner": "tc39",
             "github-repo": "proposal-setmap-offrom",
             "license": null,
-            "tech": [],
+            "tech": [
+                "html"
+            ],
             "archived": false
         },
         "papers": {
             "github-owner": "jfbastien",
             "github-repo": "papers",
             "license": null,
-            "tech": [],
+            "tech": [
+                "bikeshed"
+            ],
             "archived": false
         },
         "map-set": {
@@ -13504,7 +13855,9 @@
             "github-owner": "tc39",
             "github-repo": "proposal-string-pad-start-end",
             "license": "mit",
-            "tech": [],
+            "tech": [
+                "css"
+            ],
             "archived": true
         },
         "ws": {
@@ -13513,7 +13866,15 @@
             "license": "mit",
             "tech": [
                 "js",
-                "js"
+                "js",
+                "node",
+                "nodejs",
+                "real-time",
+                "rfc-6455",
+                "websocket",
+                "websocket-client",
+                "websocket-compression",
+                "websocket-server"
             ],
             "archived": false,
             "versions": {
@@ -13910,7 +14271,11 @@
             "license": "bsd-3-clause",
             "tech": [
                 "js",
-                "js"
+                "browser",
+                "buffer",
+                "ieee754",
+                "js",
+                "nodejs"
             ],
             "archived": false,
             "versions": {
@@ -13957,28 +14322,36 @@
             "github-owner": "ljharb",
             "github-repo": "proposal-is-error",
             "license": "mit",
-            "tech": [],
+            "tech": [
+                "css"
+            ],
             "archived": true
         },
         "proposal-global": {
             "github-owner": "tc39",
             "github-repo": "proposal-global",
             "license": "mit",
-            "tech": [],
+            "tech": [
+                "html"
+            ],
             "archived": true
         },
         "proposal-object-values-entries": {
             "github-owner": "tc39",
             "github-repo": "proposal-object-values-entries",
             "license": "mit",
-            "tech": [],
+            "tech": [
+                "html"
+            ],
             "archived": true
         },
         "proposal-object-getownpropertydescriptors": {
             "github-owner": "tc39",
             "github-repo": "proposal-object-getownpropertydescriptors",
             "license": null,
-            "tech": [],
+            "tech": [
+                "css"
+            ],
             "archived": true
         },
         "es-observable": {
@@ -13991,7 +14364,9 @@
             "github-owner": "tc39",
             "github-repo": "proposal-promise-finally",
             "license": "mit",
-            "tech": [],
+            "tech": [
+                "html"
+            ],
             "archived": true
         },
         "proposal-promise-try": {
@@ -14045,7 +14420,11 @@
             "github-repo": "iframe-resizer",
             "license": "mit",
             "tech": [
-                "js"
+                "js",
+                "cross-domain-iframes",
+                "iframe",
+                "iframed-page",
+                "resize"
             ],
             "archived": false,
             "versions": {
@@ -14199,7 +14578,9 @@
             "github-owner": "w3c",
             "github-repo": "IntersectionObserver",
             "license": null,
-            "tech": [],
+            "tech": [
+                "bikeshed"
+            ],
             "archived": false
         },
         "when": {
@@ -14388,7 +14769,10 @@
             "license": "mit",
             "tech": [
                 "js",
-                "js"
+                "js",
+                "responsive-design",
+                "viewport",
+                "viewport-dimensions"
             ],
             "archived": false,
             "versions": {
@@ -14464,7 +14848,17 @@
             "github-owner": "understrap",
             "github-repo": "understrap",
             "license": "gpl-3.0",
-            "tech": [],
+            "tech": [
+                "css",
+                "bootstrap",
+                "bootstrap-wordpress",
+                "starter-theme",
+                "understrap",
+                "wordpress-development",
+                "wordpress-framework",
+                "wordpress-starter-theme",
+                "wordpress-theme"
+            ],
             "archived": false,
             "versions": {
                 "1.2.2": [],
@@ -14728,8 +15122,21 @@
             "license": "mit",
             "tech": [
                 "typescript",
+                "finite-state-machine",
+                "fsm",
+                "hacktoberfest",
+                "interpreter",
                 "js",
-                "typescript"
+                "orchestration",
+                "scxml",
+                "state",
+                "state-machine",
+                "state-management",
+                "statechart",
+                "statecharts",
+                "typescript",
+                "visualizer",
+                "workflow"
             ],
             "archived": false
         },
@@ -14744,7 +15151,14 @@
             "github-repo": "react-smooth-scroll-hook",
             "license": "mit",
             "tech": [
-                "typescript"
+                "typescript",
+                "hook",
+                "react",
+                "react-hooks",
+                "react-smooth-scroll",
+                "scrollto",
+                "smooth-scroll",
+                "smooth-scrolling"
             ],
             "archived": false,
             "versions": {
@@ -14763,7 +15177,13 @@
             "github-owner": "Wruczek",
             "github-repo": "Bootstrap-Cookie-Alert",
             "license": "mit",
-            "tech": [],
+            "tech": [
+                "html",
+                "bootstrap",
+                "cookie-alert",
+                "lightweight",
+                "small"
+            ],
             "archived": false
         },
         "rollup-plugin-vue": {
@@ -14771,7 +15191,9 @@
             "github-repo": "rollup-plugin-vue",
             "license": "mit",
             "tech": [
-                "typescript"
+                "typescript",
+                "rollup",
+                "vue"
             ],
             "archived": true,
             "versions": {
@@ -14853,7 +15275,24 @@
             "github-repo": "lightGallery",
             "license": null,
             "tech": [
-                "typescript"
+                "typescript",
+                "angular",
+                "angular-gallery",
+                "css-animations",
+                "html5-video",
+                "image-gallery",
+                "lightbox",
+                "lightbox-gallery-plugin",
+                "lit-element",
+                "react",
+                "react-gallery",
+                "thumbnails",
+                "video",
+                "video-gallery",
+                "vimeo",
+                "vue",
+                "vue-gallery",
+                "youtube"
             ],
             "archived": false,
             "versions": {
@@ -14930,7 +15369,9 @@
             "github-owner": "paypal",
             "github-repo": "bootstrap-accessibility-plugin",
             "license": "bsd-3-clause",
-            "tech": [],
+            "tech": [
+                "html"
+            ],
             "archived": false,
             "versions": {
                 "1.0.7": [],
@@ -14994,7 +15435,11 @@
             "license": "mit",
             "tech": [
                 "js",
-                "js"
+                "browser",
+                "browserify",
+                "buffer",
+                "js",
+                "nodejs"
             ],
             "archived": false,
             "versions": {
@@ -15135,7 +15580,12 @@
             "github-repo": "vite",
             "license": "mit",
             "tech": [
-                "typescript"
+                "typescript",
+                "build-tool",
+                "dev-server",
+                "frontend",
+                "hmr",
+                "vite"
             ],
             "archived": false,
             "versions": {
@@ -15288,6 +15738,8 @@
             "license": "mit",
             "tech": [
                 "typescript",
+                "hyphenation",
+                "hyphenation-algorithm",
                 "js"
             ],
             "archived": false,
@@ -15347,7 +15799,18 @@
             "github-repo": "msw",
             "license": "mit",
             "tech": [
-                "typescript"
+                "typescript",
+                "api",
+                "api-mocking",
+                "devtools",
+                "mock",
+                "mock-service-worker",
+                "mocking",
+                "mocking-framework",
+                "mocking-library",
+                "msw",
+                "mswjs",
+                "service-worker"
             ],
             "archived": false,
             "versions": {
@@ -15456,7 +15919,14 @@
             "github-owner": "wet-boew",
             "github-repo": "wet-boew",
             "license": null,
-            "tech": [],
+            "tech": [
+                "handlebars",
+                "accessiblity",
+                "framework",
+                "multilingual",
+                "wcag",
+                "web"
+            ],
             "archived": false,
             "versions": {
                 "4.0.76": [],
@@ -15571,7 +16041,13 @@
             "github-repo": "tablesaw",
             "license": "mit",
             "tech": [
-                "js"
+                "js",
+                "datatables",
+                "html",
+                "npm-package",
+                "responsive",
+                "rwd",
+                "table"
             ],
             "archived": true,
             "versions": {
@@ -15614,7 +16090,11 @@
             "github-repo": "ssr-window",
             "license": "mit",
             "tech": [
-                "js"
+                "js",
+                "server-side-rendering",
+                "ssr",
+                "ssr-environment",
+                "ssr-window"
             ],
             "archived": false,
             "versions": {
@@ -15633,8 +16113,20 @@
             "license": null,
             "tech": [
                 "typescript",
+                "amcharts",
+                "chart",
+                "charting",
+                "charting-library",
+                "charts",
+                "data-visualization",
+                "data-viz",
+                "dataviz",
+                "graph",
                 "js",
-                "typescript"
+                "maps",
+                "svg",
+                "typescript",
+                "visualization"
             ],
             "archived": false,
             "versions": {
@@ -15744,7 +16236,9 @@
             "github-owner": "briancherne",
             "github-repo": "jquery-hoverIntent",
             "license": null,
-            "tech": [],
+            "tech": [
+                "html"
+            ],
             "archived": false,
             "versions": {
                 "1.10.2": [],
@@ -15763,7 +16257,11 @@
             "license": "mit",
             "tech": [
                 "js",
-                "js"
+                "animation",
+                "circle",
+                "js",
+                "jquery",
+                "jquery-plugin"
             ],
             "archived": false,
             "versions": {
@@ -16054,7 +16552,11 @@
             "github-repo": "polished",
             "license": "mit",
             "tech": [
-                "js"
+                "js",
+                "css-in-js",
+                "inline-styles",
+                "styled-components",
+                "styling"
             ],
             "archived": false,
             "versions": {
@@ -16428,8 +16930,15 @@
             "license": "mit",
             "tech": [
                 "typescript",
+                "android",
+                "cli",
+                "hacktoberfest",
+                "ios",
                 "js",
-                "typescript"
+                "npm",
+                "react-native",
+                "typescript",
+                "yarn"
             ],
             "archived": false,
             "versions": {
@@ -16497,7 +17006,13 @@
             "license": "mit",
             "tech": [
                 "typescript",
-                "typescript"
+                "css",
+                "pan",
+                "panzoom",
+                "pointer-events",
+                "svg",
+                "typescript",
+                "zoom"
             ],
             "archived": false,
             "versions": {
@@ -16607,7 +17122,9 @@
             "github-owner": "sass",
             "github-repo": "libsass",
             "license": null,
-            "tech": [],
+            "tech": [
+                "c++"
+            ],
             "archived": false,
             "versions": {
                 "3.6.5": [],
@@ -16660,7 +17177,11 @@
             "github-repo": "CanvasBlocker",
             "license": "mpl-2.0",
             "tech": [
-                "js"
+                "js",
+                "fingerprinting",
+                "firefox",
+                "privacy",
+                "web-extension"
             ],
             "archived": false,
             "versions": {
@@ -16749,7 +17270,14 @@
             "github-repo": "icons",
             "license": "mit",
             "tech": [
-                "js"
+                "js",
+                "bootstrap",
+                "font",
+                "icons",
+                "sprite",
+                "svg",
+                "woff",
+                "woff2"
             ],
             "archived": false,
             "versions": {
@@ -16789,7 +17317,17 @@
             "license": "lgpl-2.1",
             "tech": [
                 "js",
-                "js"
+                "ajax",
+                "ajax-form",
+                "form",
+                "form-serialization",
+                "html-form",
+                "js",
+                "jquery",
+                "jquery-form",
+                "jquery-plugin",
+                "json",
+                "json-form"
             ],
             "archived": false,
             "versions": {
@@ -16950,7 +17488,12 @@
             "license": null,
             "tech": [
                 "js",
-                "js"
+                "ads",
+                "js",
+                "player",
+                "preroll",
+                "video",
+                "videojs"
             ],
             "archived": false,
             "versions": {
@@ -17065,7 +17608,13 @@
             "github-repo": "clicky-menus",
             "license": "mit",
             "tech": [
-                "js"
+                "js",
+                "accessibility",
+                "dropdown",
+                "menu",
+                "navigation",
+                "progressive-enhancement",
+                "submenu"
             ],
             "archived": false,
             "versions": {
@@ -17077,7 +17626,19 @@
             "github-repo": "EasyQRCodeJS",
             "license": "mit",
             "tech": [
-                "js"
+                "js",
+                "canvas-qrcode",
+                "easyqrcode",
+                "html5-qrcode",
+                "javascript-qrcode",
+                "js-qrcode",
+                "qr-generator",
+                "qrcode",
+                "qrcode-generator",
+                "qrcode-image",
+                "qrcode-javascript",
+                "qrcode-js",
+                "qrcode-svg"
             ],
             "archived": false,
             "versions": {
@@ -17129,7 +17690,20 @@
             "github-repo": "EasyQRCodeJS-NodeJS",
             "license": "mit",
             "tech": [
-                "js"
+                "js",
+                "easyqrcodejs",
+                "easyqrcodejs-nodejs",
+                "javascript-qrcode",
+                "js-qrcode",
+                "node-qrcode",
+                "nodejs",
+                "nodejs-qrcode",
+                "qrcode",
+                "qrcode-api",
+                "qrcode-generator",
+                "qrcode-node",
+                "qrcode-svg",
+                "qrcodejs"
             ],
             "archived": false,
             "versions": {
@@ -17168,5 +17742,5 @@
             }
         }
     },
-    "updated": "2023-09-19 14:24:08"
+    "updated": "2023-09-19 15:15:36"
 }

@@ -24,8 +24,8 @@
             "github-repo": "angular",
             "license": "mit",
             "tech": [
-                "typescript",
                 "js",
+                "typescript",
                 "pwa"
             ],
             "archived": false,
@@ -7117,8 +7117,8 @@
             "github-repo": "core-js",
             "license": "mit",
             "tech": [
-                "es6",
-                "js"
+                "js",
+                "es6"
             ],
             "archived": false,
             "versions": {
@@ -7229,8 +7229,8 @@
             "github-repo": "vue",
             "license": "mit",
             "tech": [
-                "typescript",
-                "js"
+                "js",
+                "typescript"
             ],
             "archived": false,
             "versions": {
@@ -8359,8 +8359,8 @@
             "github-security-label": "c: Security",
             "license": "gpl-3.0",
             "tech": [
-                "mysql",
-                "php"
+                "php",
+                "mysql"
             ],
             "archived": false,
             "versions": {
@@ -8407,9 +8407,9 @@
             "github-repo": "bootstrap",
             "license": "mit",
             "tech": [
-                "sass",
                 "js",
-                "scss"
+                "scss",
+                "sass"
             ],
             "archived": false,
             "versions": {
@@ -9727,8 +9727,8 @@
             "github-repo": "date-fns",
             "license": "mit",
             "tech": [
-                "typescript",
-                "js"
+                "js",
+                "typescript"
             ],
             "archived": false,
             "versions": {
@@ -10863,8 +10863,8 @@
             "github-repo": "Accordion",
             "license": "mit",
             "tech": [
-                "es6",
-                "js"
+                "js",
+                "es6"
             ],
             "archived": false,
             "versions": {
@@ -10907,8 +10907,8 @@
             "github-repo": "Responsive",
             "license": "mit",
             "tech": [
-                "sass",
-                "js"
+                "js",
+                "sass"
             ],
             "archived": false,
             "versions": {
@@ -12025,8 +12025,8 @@
             "github-repo": "get-css-data",
             "license": "mit",
             "tech": [
-                "es6",
-                "js"
+                "js",
+                "es6"
             ],
             "archived": false,
             "versions": {
@@ -14643,8 +14643,8 @@
             "github-repo": "xstate",
             "license": "mit",
             "tech": [
-                "typescript",
-                "js"
+                "js",
+                "typescript"
             ],
             "archived": false
         },
@@ -14766,8 +14766,8 @@
             "github-repo": "lightGallery",
             "license": null,
             "tech": [
-                "typescript",
-                "video"
+                "video",
+                "typescript"
             ],
             "archived": false,
             "versions": {
@@ -15198,8 +15198,8 @@
             "github-repo": "Hyphenopoly",
             "license": "mit",
             "tech": [
-                "typescript",
-                "js"
+                "js",
+                "typescript"
             ],
             "archived": false,
             "versions": {
@@ -15540,8 +15540,8 @@
             "github-repo": "amcharts4",
             "license": null,
             "tech": [
-                "typescript",
                 "js",
+                "typescript",
                 "svg"
             ],
             "archived": false,
@@ -16328,8 +16328,8 @@
             "github-repo": "cli",
             "license": "mit",
             "tech": [
-                "typescript",
-                "js"
+                "js",
+                "typescript"
             ],
             "archived": false,
             "versions": {
@@ -16651,10 +16651,10 @@
             "github-repo": "icons",
             "license": "mit",
             "tech": [
-                "font",
                 "woff2",
-                "svg",
                 "js",
+                "svg",
+                "font",
                 "woff"
             ],
             "archived": false,
@@ -17069,7 +17069,118 @@
                 "3.3.0": [],
                 "3.2.0": []
             }
+        },
+        "prebid": {
+            "github-owner": "prebid",
+            "github-repo": "Prebid.js",
+            "license": "apache-2.0",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "8.15.0": [],
+                "8.14.0": [],
+                "8.13.0": [],
+                "8.12.0": [],
+                "8.11.0": [],
+                "8.10.0": [],
+                "8.9.0": [],
+                "8.8.0": [],
+                "8.7.0": [],
+                "8.6.0": [],
+                "8.5.0": [],
+                "8.4.0": [],
+                "8.3.0": [],
+                "8.2.0": [],
+                "8.1.0": [],
+                "8.0.0": [],
+                "7.54.5": [],
+                "7.54.4": [],
+                "7.54.3": [],
+                "7.54.2": [],
+                "7.54.1": [],
+                "7.54.0": [],
+                "7.53.0": [],
+                "7.52.0": [],
+                "7.51.0": [],
+                "7.50.0": [],
+                "7.49.0": [],
+                "7.48.0": [],
+                "7.47.0": [],
+                "7.46.0": [],
+                "7.45.0": [],
+                "7.44.0": [],
+                "7.43.0": [],
+                "7.42.0": [],
+                "7.41.0": [],
+                "7.40.0": [],
+                "7.39.0": [],
+                "7.38.0": [],
+                "7.37.0": [],
+                "7.36.0": [],
+                "7.35.0": [],
+                "7.34.0": [],
+                "7.33.0": [],
+                "7.32.0": [],
+                "7.31.0": [],
+                "7.30.0": [],
+                "7.29.0": [],
+                "7.28.0": [],
+                "7.27.0": [],
+                "7.26.0": [],
+                "7.25.0": [],
+                "7.24.0": [],
+                "7.23.1": [],
+                "7.23.0": [],
+                "7.22.0": [],
+                "7.21.0": [],
+                "7.20.0": [],
+                "7.19.0": [],
+                "7.18.0": [],
+                "7.17.0": [],
+                "7.16.0": [],
+                "7.15.0": [],
+                "7.14.0": [],
+                "7.13.0": [],
+                "7.12.0": [],
+                "7.11.0": [],
+                "7.10.0": [],
+                "7.9.0": [],
+                "7.8.0": [],
+                "7.7.0": [],
+                "7.6.0": [],
+                "7.5.0": [],
+                "7.4.0": [],
+                "7.3.0": [],
+                "7.2.0": [],
+                "7.1.0": [],
+                "7.0.0": [],
+                "6.29.3": [],
+                "6.29.2": [],
+                "6.29.1": [],
+                "6.29.0": [],
+                "6.28.0": [],
+                "6.27.0": [],
+                "6.26.0": [],
+                "6.25.0": [],
+                "6.24.1": [],
+                "6.24.0": [],
+                "6.23.0": [],
+                "6.22.0": [],
+                "6.21.1": [],
+                "6.21.0": [],
+                "6.20.0": [],
+                "6.19.0": [],
+                "6.18.0": [],
+                "6.17.0": [],
+                "6.16.0": [],
+                "6.15.0": [],
+                "6.14.0": [],
+                "6.13.0": [],
+                "6.12.0": []
+            }
         }
     },
-    "updated": "2023-09-20 16:00:54"
+    "updated": "2023-09-20 16:23:26"
 }

@@ -848,7 +848,21 @@
             "description": "looking for license types",
             "test": "(?P<debug> (?P<name>MIT) license)",
             "reference": "https://spdx.org/licenses/",
-            "match": "(?P<debug> (?P<name>MIT) license)",
+            "match": "(?P<debug> (?P<name>(0BSD|AAL|Abstyles|AdaCore-doc|Adobe-2006|Adobe-Glyph|Adobe-Glyph|ADSL|AFL-1.1|AFL-1.2|AFL-1.2|AFL-1.2|AFL-1.2|AFL-1.2|AGPL-1.0-onlyAGPL-1.0-or-later|AGPL-3.0-only|AGPL-3.0-or-later|AGPL-3.0-or-later|AMDPLPA|AML|AMPAS|ANTLR-PD|ANTLR-PD-fallback|Apache-1.0|Apache-1.1|Apache-2.0|APAFML|APL-1.0|App-s2p|APSL-1.0|APSL-1.1|APSL-1.1|APSL-2.0|Arphic-1999|Artistic-1.0|Artistic-1.0-cl8|Artistic-1.0-Perl|Artistic-2.0|ASWF-Digital-Assets-1.0|ASWF-Digital-Assets-1.1|Baekmuk|Bahyph|Barr|Beerware|Bitstream-Charter|Bitstream-Vera|BitTorrent-1.0|BitTorrent-1.1|blessing|BlueOak-1.0.0|Boehm-GC|Borceux|Brian-Gladman-3-Clause|BSD-1-Clause|BSD-2-Clause|BSD-2-Clause|BSD-2-Clause-Views|BSD-3-Clause|BSD-3-Clause|BSD-3-Clause-Clear|BSD-3-Clause-LBNL|BSD-3-Clause-Modification|BSD-3-Clause-Modification|BSD-3-Clause-Modification|BSD-3-Clause-No-Nuclear-License-2014|BSD-3-Clause-No-Nuclear-Warranty|BSD-3-Clause-Open-MPI|BSD-4-Clause|BSD-4-Clause-Shortened|BSD-4-Clause-Shortened|BSD-4.3RENO|BSD-4.3TAHOE|BSD-Advertising-Acknowledgement|BSD-Attribution-HPND-disclaimer|BSD-Attribution-HPND-disclaimer|BSD-Source-Code|BSL-1.0|BUSL-1.1|bzip2-1.0.6|C-UDA-1.0|CAL-1.0|CAL-1.0-Combined-Work-Exception|Caldera|CATOSL-1.1|CC-BY-1.0|CC-BY-2.0|CC-BY-2.0|CC-BY-2.5-AU|CC-BY-3.0|CC-BY-3.0-AT|CC-BY-3.0-DE|CC-BY-3.0-IGO|CC-BY-3.0-NL|CC-BY-3.0-US|CC-BY-4.0|CC-BY-NC-1.0|CC-BY-NC-1.0|CC-BY-NC-2.5|CC-BY-NC-3.0|CC-BY-NC-3.0-DE|CC-BY-NC-3.0-DE|CC-BY-NC-ND-1.0|CC-BY-NC-ND-2.0|CC-BY-NC-ND-2.5|CC-BY-NC-ND-3.0|CC-BY-NC-ND-3.0-DE|CC-BY-NC-ND-3.0-IGO|CC-BY-NC-ND-4.0|CC-BY-NC-SA-1.0|CC-BY-NC-SA-2.0|CC-BY-NC-SA-2.0-DE|CC-BY-NC-SA-2.0-FR|CC-BY-NC-SA-2.0-UK|CC-BY-NC-SA-2.5|CC-BY-NC-SA-2.5|CC-BY-NC-SA-3.0-DE|CC-BY-NC-SA-3.0-IGO|CC-BY-NC-SA-4.0|CC-BY-ND-1.0|CC-BY-ND-2.0|CC-BY-ND-2.5|CC-BY-ND-3.0|CC-BY-ND-3.0-DE|CC-BY-ND-4.0|CC-BY-SA-1.0|CC-BY-SA-2.0|CC-BY-SA-2.0-UK|CC-BY-SA-2.1-JP|CC-BY-SA-2.5|CC-BY-SA-3.0|CC-BY-SA-3.0|CC-BY-SA-3.0-DE|CC-BY-SA-3.0-IGO|CC-BY-SA-4.0|CC-PDDC|CC0-1.0|CDDL-1.0|CDDL-1.0|CDL-1.0|CDLA-Permissive-1.0|CDLA-Permissive-1.0|CDLA-Permissive-1.0|CECILL-1.0|CECILL-1.0|CECILL-1.0|CECILL-2.1|CECILL-2.1|CECILL-C|CERN-OHL-1.1|CERN-OHL-1.2|CERN-OHL-P-2.0|CERN-OHL-S-2.0|CERN-OHL-W-2.0|MIT)) license)",
+            "results": [
+                {
+                    "category": "license",
+                    "precision": 0.6
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "looking for SPDX-license types",
+            "test": "(?P<debug>SPDX-License-Identifier: (?P<name>MIT))",
+            "reference": "https://spdx.org/licenses/",
+            "match": "(?P<debug>SPDX-License-Identifier: (?P<name>[a-zA-Z0-9\\.\\-]+))",
             "results": [
                 {
                     "category": "license",

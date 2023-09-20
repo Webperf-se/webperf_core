@@ -34,23 +34,14 @@ except:
 
 def main(argv):
     """
-    WebPerf Core
-
-    Usage:
-    test.py -u https://webperf.se
-
-    Options and arguments:
-    -h/--help\t\t\t: Help information on how to use script
-    -u/--url <site url>\t\t: website url to test against
-    -t/--test <test number>\t: run ONE test (use ? to list available tests)
-    -r/--review\t\t\t: show reviews in terminal
-    -i/--input <file path>\t: input file path (.json/.sqlite)
-    -o/--output <file path>\t: output file path (.json/.csv/.sql/.sqlite)
-    -A/--addUrl <site url>\t: website url (required in combination with -i/--input)
-    -D/--deleteUrl <site url>\t: website url (required in combination with -i/--input)
-    -L/--language <lang code>\t: language used for output(en = default/sv)
+    WebPerf Core - Software update
     """
 
+    update_licenses()
+    update_software_info()
+
+
+def update_software_info():
     collection = get_softwares()
     # print('software', collection)
 
@@ -110,6 +101,71 @@ def main(argv):
 
         set_softwares(collection)
         index += 1
+
+
+def update_licenses():
+    # https://spdx.org/licenses/
+    raw_data = httpRequestGetContent(
+        'https://spdx.org/licenses/')
+
+    regex = r'<code property="spdx:licenseId">(?P<licenseId>[^<]+)<\/code'
+    matches = re.finditer(
+        regex, raw_data, re.MULTILINE)
+
+    licenses = list()
+    for matchNum, match_vulnerable in enumerate(matches, start=1):
+        license_id = match_vulnerable.group('licenseId')
+        licenses.append(license_id.replace('.', '\\.').replace('-', '\\-').replace('+', '\\+'))
+
+    rules = get_software_rules()
+    if 'contents' not in rules:
+        return
+    
+    for content_rule in rules['contents']:
+        if 'match' not in content_rule:
+            continue
+
+        if '?P<license>' not in content_rule['match']:
+            continue
+
+        content = content_rule['match']
+        regex = r'(?P<licenses>\?P\<license\>\([^\)]*\))'
+        matches = re.finditer(
+            regex, content, re.MULTILINE)
+        for matchNum, match_vulnerable in enumerate(matches, start=1):
+            match_content = match_vulnerable.group('licenses')
+            # print('A', match_content)
+            content_rule['match'] = content_rule['match'].replace(match_content, '?P<license>({0})'.format('|'.join(licenses)))
+
+        # print('B', content_rule['match'])
+    save_software_rules(rules)
+
+def get_software_rules():
+    dir = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep)
+
+    file_path = '{0}{1}SAMPLE-software-rules.json'.format(dir, os.path.sep)
+    if not os.path.isfile(file_path):
+        print("ERROR: No software-rules.json file found!")
+        return
+
+    with open(file_path) as json_rules_file:
+        rules = json.load(json_rules_file)
+    return rules
+    
+def save_software_rules(rules):
+    dir = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep)
+
+    file_path = '{0}{1}SAMPLE-software-rules.json'.format(dir, os.path.sep)
+    if not os.path.isfile(file_path):
+        print("ERROR: No software-rules.json file found!")
+        return
+
+    with open(file_path, 'w') as outfile:
+        json.dump(rules, outfile, indent=4)
+    return rules
+    
 
 
 def extend_versions_for_nginx(versions):

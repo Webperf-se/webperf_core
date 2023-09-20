@@ -3,7 +3,7 @@ on:
   schedule:
   #  https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#onschedule
   #  * is a special character in YAML so you have to quote this string
-    - cron: '30 8 15,30 * *'
+    - cron: '30 8 14,28 * *'
   push:
     paths:
       - 'software-sources.json'

@@ -466,7 +466,7 @@
             "use": true,
             "type": "html",
             "description": "find supported languages",
-            "match": "(?P<debug><meta property=\"og:locale(:alternate){0,1}\" content=['\\\"]{0,1}(?P<name>[a-zA-Z\\-_]+)['\\\"][^\\\/>]*)",
+            "match": "(?P<debug><meta property=\"og:locale(:alternate){0,1}\" content=['\\\"]{0,1}(?P<name>[a-zA-Z\\-_]+)['\\\"][^\\/>]*)",
             "results": [
                 {
                     "category": "lang",
@@ -478,7 +478,7 @@
             "use": true,
             "type": "html",
             "description": "find supported languages",
-            "match": "(?P<debug><meta property=\"og:locale(:alternate){0,1}\" content=['\\\"]{0,1}(?P<name>[a-zA-Z\\-_]+)['\\\"][^\\\/>]*)",
+            "match": "(?P<debug><meta property=\"og:locale(:alternate){0,1}\" content=['\\\"]{0,1}(?P<name>[a-zA-Z\\-_]+)['\\\"][^\\/>]*)",
             "results": [
                 {
                     "category": "lang",
@@ -782,7 +782,7 @@
             "type": "javascript",
             "description": "javascript framwork or javascript libraries",
             "test": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>[a-z\\-]+))",
-            "match": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-zA-Z0-9\\-]+)\\/(?P<repo>(?P<name>[a-zA-Z0-9\\-]+))\\/blob\\/[v]{0,1}(?P<version>[0-9\\.]+)\/)",
+            "match": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-zA-Z0-9\\-]+)\\/(?P<repo>(?P<name>[a-zA-Z0-9\\-]+))\\/blob\\/[v]{0,1}(?P<version>[0-9\\.]+)/)",
             "results": [
                 {
                     "category": "js",
@@ -874,7 +874,7 @@
             "use": true,
             "type": "html",
             "description": "This is for finding new stuff when tag start with name attribute",
-            "match": "(?P<debug><meta name=['|\\\"]{0,1}generator['|\\\"]{0,1} content=['|\\\"]{0,1}(?P<name>[a-zA-ZåäöÅÄÖ ]+)( {0,1}(?P<version>[0-9.]*)){0,1}['|\\\"]{0,1}[^>]+>)",
+            "match": "(?P<debug><meta name=['|\\\"]{0,1}generator['|\\\"]{0,1} content=['|\\\"]{0,1}(?P<name>[a-zA-Z\u00c3\u00a5\u00c3\u00a4\u00c3\u00b6\u00c3\u2026\u00c3\u201e\u00c3\u2013 ]+)( {0,1}(?P<version>[0-9.]*)){0,1}['|\\\"]{0,1}[^>]+>)",
             "results": [
                 {
                     "category": "tech",
@@ -886,7 +886,7 @@
             "use": true,
             "type": "html",
             "description": "This is for finding new stuff when tag end with name attribute",
-            "match": "(?P<debug><meta content=['|\\\"]{0,1}(?P<name>[a-zA-ZåäöÅÄÖ ]+)( {0,1}(?P<version>[0-9.]*)){0,1}['|\\\"]{0,1} name=['|\\\"]{0,1}generator['|\\\"]{0,1}[^>]+>)",
+            "match": "(?P<debug><meta content=['|\\\"]{0,1}(?P<name>[a-zA-Z\u00c3\u00a5\u00c3\u00a4\u00c3\u00b6\u00c3\u2026\u00c3\u201e\u00c3\u2013 ]+)( {0,1}(?P<version>[0-9.]*)){0,1}['|\\\"]{0,1} name=['|\\\"]{0,1}generator['|\\\"]{0,1}[^>]+>)",
             "results": [
                 {
                     "category": "tech",

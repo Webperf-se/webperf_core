@@ -948,6 +948,10 @@
         "easyqrcodejs-nodejs": {
             "github-owner": "ushelp",
             "github-repo": "EasyQRCodeJS-NodeJS"
+        },
+        "prebid": {
+            "github-owner": "prebid",
+            "github-repo": "Prebid.js"
         }
     }
 }

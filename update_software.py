@@ -104,6 +104,8 @@ def update_software_info():
 
 
 def update_licenses():
+    print('updates licesences used in SAMPLE-software-rules.json')
+
     # https://spdx.org/licenses/
     raw_data = httpRequestGetContent(
         'https://spdx.org/licenses/')
@@ -146,7 +148,7 @@ def get_software_rules():
 
     file_path = '{0}{1}SAMPLE-software-rules.json'.format(dir, os.path.sep)
     if not os.path.isfile(file_path):
-        print("ERROR: No software-rules.json file found!")
+        print("ERROR: No SAMPLE-software-rules.json file found!")
         return
 
     with open(file_path) as json_rules_file:

@@ -201,6 +201,10 @@
             "github-owner": "WICG",
             "github-repo": "focus-visible"
         },
+        "font-awesome-free": {
+            "github-owner": "FortAwesome",
+            "github-repo": "Font-Awesome"
+        },
         "tabbable": {
             "github-owner": "focus-trap",
             "github-repo": "tabbable"

@@ -676,15 +676,26 @@ def get_github_versions(owner, repo, source, security_label):
         if name == None:
             continue
 
-        versions.append(name.strip('.'))
+        try:
+            name = name.strip('.')
+            name_version = packaging.version.parse(name)
+            # Ignore dev and pre releases, for example Matomo 5.0.0-rc3
+            if not name_version.is_prerelease:
+                versions.append(name)
+        except:
+            print('ERROR: Unable to parse version for repo: ', owner, repo, 'with value:', name)
 
         if name2 != None:
-            versions.append(name2.strip('.'))
+            try:
+                name2 = name2.strip('.')
+                name2_version = packaging.version.parse(name2)
+                # Ignore dev and pre releases, for example Matomo 5.0.0-rc3
+                if not name2_version.is_prerelease:
+                    versions.append(name2)
+            except:
+                print('ERROR: Unable to parse version for repo: ', owner, repo, 'with value:', name2)
 
-    try:
-        versions = sorted(versions, key=packaging.version.Version, reverse=True)
-    except:
-        print('ERROR: Unable to sort versions for repo: ', owner, repo)
+    versions = sorted(versions, key=packaging.version.Version, reverse=True)
 
     for version in versions:
         versions_dict[version] = []
@@ -753,11 +764,16 @@ def get_apache_httpd_versions():
 
     versions = list()
     versions_dict = {}
-    from distutils.version import LooseVersion
 
     for matchNum, match in enumerate(matches, start=1):
         name = match.group('version')
-        versions.append(name)
+        try:
+            name_version = packaging.version.parse(name)
+            # Ignore dev and pre releases, for example Matomo 5.0.0-rc3
+            if not name_version.is_prerelease:
+                versions.append(name)
+        except:
+            print('ERROR: Unable to parse version for apache httpd for version value ', name)
 
     versions = sorted(versions, key=packaging.version.Version, reverse=True)
     for version in versions:

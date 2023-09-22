@@ -24,8 +24,8 @@
             "github-repo": "angular",
             "license": "mit",
             "tech": [
-                "typescript",
                 "pwa",
+                "typescript",
                 "js"
             ],
             "archived": false,
@@ -7116,8 +7116,8 @@
             "github-repo": "core-js",
             "license": "mit",
             "tech": [
-                "js",
-                "es6"
+                "es6",
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -8406,9 +8406,9 @@
             "github-repo": "bootstrap",
             "license": "mit",
             "tech": [
-                "scss",
+                "sass",
                 "js",
-                "sass"
+                "scss"
             ],
             "archived": false,
             "versions": {
@@ -9460,8 +9460,8 @@
             "github-repo": "Font-Awesome",
             "license": null,
             "tech": [
-                "font",
-                "js"
+                "js",
+                "font"
             ],
             "archived": false,
             "versions": {
@@ -10949,8 +10949,8 @@
             "github-repo": "Accordion",
             "license": "mit",
             "tech": [
-                "js",
-                "es6"
+                "es6",
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -10993,8 +10993,8 @@
             "github-repo": "Responsive",
             "license": "mit",
             "tech": [
-                "js",
-                "sass"
+                "sass",
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -12111,8 +12111,8 @@
             "github-repo": "get-css-data",
             "license": "mit",
             "tech": [
-                "js",
-                "es6"
+                "es6",
+                "js"
             ],
             "archived": false,
             "versions": {
@@ -14852,8 +14852,8 @@
             "github-repo": "lightGallery",
             "license": null,
             "tech": [
-                "typescript",
-                "video"
+                "video",
+                "typescript"
             ],
             "archived": false,
             "versions": {
@@ -15626,8 +15626,8 @@
             "github-repo": "amcharts4",
             "license": null,
             "tech": [
-                "typescript",
                 "svg",
+                "typescript",
                 "js"
             ],
             "archived": false,
@@ -16480,8 +16480,8 @@
             "github-repo": "panzoom",
             "license": "mit",
             "tech": [
-                "typescript",
-                "svg"
+                "svg",
+                "typescript"
             ],
             "archived": false,
             "versions": {
@@ -16735,10 +16735,10 @@
             "github-repo": "icons",
             "license": "mit",
             "tech": [
-                "woff",
                 "woff2",
-                "svg",
                 "js",
+                "svg",
+                "woff",
                 "font"
             ],
             "archived": false,
@@ -17266,5 +17266,5 @@
             }
         }
     },
-    "updated": "2023-09-22 21:21:19"
+    "updated": "2023-09-22 22:05:59"
 }

@@ -667,7 +667,7 @@ def get_github_versions(owner, repo, source, security_label):
             date = version[date_key]
 
         # NOTE: We do this to handle jquery dual release format "1.12.4/2.2.4"
-        regex = r"^([v]|release\-){0,1}(?P<name>[0-9\\.]+)([\\\/](?P<name2>[0-9\\.]+)){0,1}"
+        regex = r"^([v]|release\-){0,1}(?P<name>[0-9\\.\\-a-zA-Z]+)([\\\/](?P<name2>[0-9\\.\\-a-zA-Z]+)){0,1}"
         matches = re.finditer(regex, version[name_key])
         for matchNum, match in enumerate(matches, start=1):
             name = match.group('name')
@@ -759,7 +759,7 @@ def get_apache_httpd_versions():
     # newer_versions = []
     content = httpRequestGetContent(
         'https://svn.apache.org/viewvc/httpd/httpd/tags/')
-    regex = r"<a name=\"(?P<version>[0-9\.]+)\""
+    regex = r"<a name=\"(?P<version>[0-9\.]+(\-[0-9\.\-a-zA-Z]+){0,1})\""
     matches = re.finditer(regex, content, re.MULTILINE)
 
     versions = list()

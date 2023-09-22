@@ -101,7 +101,7 @@
         },
         {
             "use": true,
-            "description": "Typeo3",
+            "description": "Typo3",
             "match": "(?P<debug>\\/typo3temp\\/|\\/typo3conf\\/|\\/t3olayout\\/)",
             "results": [
                 {
@@ -164,7 +164,7 @@
         },
         {
             "use": true,
-            "description": "According to data collected this is a good hint that it is drupal",
+            "description": "According to data collected this is a good hint that it is Drupal",
             "match": "(?P<debug>(jpg|jpeg|gif|bmp|png)\\?(itok)=)",
             "results": [
                 {
@@ -176,7 +176,7 @@
         },
         {
             "use": true,
-            "description": "According to data collected this is a good hint that it is sitevision",
+            "description": "According to data collected this is a good hint that it is Sitevision",
             "match": "(?P<debug>(css)\\?(gridconfigs|directions)=)",
             "results": [
                 {
@@ -188,7 +188,7 @@
         },
         {
             "use": true,
-            "description": "According to data collected this is a good hint that it is umbraco",
+            "description": "According to data collected this is a good hint that it is Umbraco",
             "reference": "https://github.com/umbraco/Umbraco-CMS/blob/0b53249d5742404e7511d129ae55503ce8673c85/src/Umbraco.Infrastructure/Media/ImageSharpImageUrlGenerator.cs",
             "match": "(?P<debug>(jpg|jpeg|gif|bmp|png)\\?(anchor|ranchor|width|height|rnd|center|crop|quality|cc|rmode|rxy|croptop|height)=)",
             "results": [
@@ -280,7 +280,7 @@
             "use": true,
             "type": "server",
             "reference": "https://en.wikipedia.org/wiki/Internet_Information_Services",
-            "description": "This matches verified webservers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'. (OS is inferred from IIS version)",
+            "description": "This matches verified web servers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'. (OS is inferred from IIS version)",
             "match": "(?P<debug>^(^(microsoft-){0,1}(?P<name>(iis)))\\/{0,1}(?P<version>10\\.0){0,1}[ ]{0,1})",
             "results": [
                 {
@@ -299,7 +299,7 @@
             "use": true,
             "type": "server",
             "reference": "https://en.wikipedia.org/wiki/Internet_Information_Services",
-            "description": "This matches verified webservers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'. (OS is inferred from IIS version)",
+            "description": "This matches verified web servers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'. (OS is inferred from IIS version)",
             "match": "(?P<debug>^(^(microsoft-){0,1}(?P<name>(iis)))\\/{0,1}(?P<version>8\\.5){0,1}[ ]{0,1})",
             "results": [
                 {
@@ -318,7 +318,7 @@
             "use": true,
             "type": "server",
             "reference": "https://en.wikipedia.org/wiki/Internet_Information_Services",
-            "description": "This matches verified webservers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'. (OS is inferred from IIS version)",
+            "description": "This matches verified web servers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'. (OS is inferred from IIS version)",
             "match": "(?P<debug>^(^(microsoft-){0,1}(?P<name>(iis)))\\/{0,1}(?P<version>8\\.0){0,1}[ ]{0,1})",
             "results": [
                 {
@@ -337,7 +337,7 @@
             "use": true,
             "type": "server",
             "reference": "https://en.wikipedia.org/wiki/Internet_Information_Services",
-            "description": "This matches verified webservers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'. (OS is inferred from IIS version)",
+            "description": "This matches verified web servers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'. (OS is inferred from IIS version)",
             "match": "(?P<debug>^(^(microsoft-){0,1}(?P<name>(iis)))\\/{0,1}(?P<version>7\\.5){0,1}[ ]{0,1})",
             "results": [
                 {
@@ -356,7 +356,7 @@
             "use": true,
             "type": "server",
             "reference": "https://en.wikipedia.org/wiki/Internet_Information_Services",
-            "description": "This matches verified webservers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'. (OS is inferred from IIS version)",
+            "description": "This matches verified web servers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'. (OS is inferred from IIS version)",
             "match": "(?P<debug>^(^(microsoft-){0,1}(?P<name>(iis)))\\/{0,1}(?P<version>7\\.0){0,1}[ ]{0,1})",
             "results": [
                 {
@@ -375,7 +375,7 @@
             "use": true,
             "type": "server",
             "reference": "https://en.wikipedia.org/wiki/Internet_Information_Services",
-            "description": "This matches verified webservers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'. (OS is inferred from IIS version)",
+            "description": "This matches verified web servers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'. (OS is inferred from IIS version)",
             "match": "(?P<debug>^(^(microsoft-){0,1}(?P<name>(iis)))\\/{0,1}(?P<version>6\\.0){0,1}[ ]{0,1})",
             "results": [
                 {
@@ -393,7 +393,7 @@
         {
             "use": true,
             "type": "server",
-            "description": "This matches verified webservers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'",
+            "description": "This matches verified web servers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'",
             "match": "(?P<debug>^(^(microsoft-){0,1}(?P<name>(iis|tomcat|nginx|apache|kestrel|jetty|envoy|litespeed|microsoft-httpapi|cowboy)))\\/{0,1}(?P<version>[0-9.]+){0,1}[ ]{0,1})",
             "results": [
                 {
@@ -573,7 +573,7 @@
         {
             "use": true,
             "type": "html",
-            "description": "This matches acos CMS  when tag begins",
+            "description": "This matches acos CMS when tag begins with",
             "match": "(?P<debug><meta name=['\\\"]{0,1}(?P<name>acos)-cmscontext['\\\"]{0,1})",
             "results": [
                 {
@@ -647,7 +647,7 @@
         {
             "use": true,
             "type": "html",
-            "description": "maybe we could have some kind of verifikation/site category?",
+            "description": "maybe we could have some kind of verification/site category?",
             "match": "(?P<debug><meta name=['\\\"](?P<name>(twitter:site|google-site-verification|msvalidate.01))['\\\"])",
             "results": [
                 {
@@ -691,7 +691,7 @@
         {
             "use": true,
             "type": "javascript",
-            "description": "javascript framwork or javascript libraries",
+            "description": "javascript framework or javascript libraries",
             "test": "^[\\/!*\\n\\r \\t]+(?P<name>[a-zA-Z\\.\\- ]+) ([ \\-]+){0,1}v(?P<version>[0-9\\-\\.]+)",
             "match": "^(?P<debug>[\\/!*\\n\\r \\t]+(?:created by){0,1}(?P<name>[a-zA-Z0-9\\- ]+)(?:\\.js){0,1} ([ \\-]+){0,1}v(?P<version>[0-9\\-\\.]+))",
             "results": [
@@ -704,7 +704,7 @@
         {
             "use": true,
             "type": "javascript",
-            "description": "javascript framwork or javascript libraries",
+            "description": "javascript framework or javascript libraries",
             "test": "^[\\/!*\\n\\r \\t]+(?P<name>[a-zA-Z\\.\\- ]+) ([ \\-]+){0,1}v(?P<version>[0-9\\-\\.]+)",
             "match": "^(?P<debug>[\\/!*\\n\\r \\t]+(?:created by){0,1}(?P<name>[a-zA-Z0-9\\- ]+)(?:\\.js){0,1} ([ \\-]+){0,1}v(?P<version>[0-9\\-\\.]+))[\\r\\n *]+https:\\/\\/github\\.com\\/(?P<owner>[a-zA-Z0-9\\-]+)\\/(?P<repo>[a-zA-Z0-9\\-]+)",
             "results": [
@@ -730,7 +730,7 @@
         {
             "use": true,
             "type": "javascript",
-            "description": "javascript framwork or javascript libraries",
+            "description": "javascript framework or javascript libraries",
             "match": "(?P<debug>\\/\\*![\\*\\n\\r \\t]+(?:created by){0,1}(?P<name>[a-zA-Z0-9\\- ]+)(?:\\.js){0,1} (?:[ \\-v]+){0,1}(?P<version>[0-9]+\\.[0-9]+(?:\\.[0-9]+){0,1}))",
             "results": [
                 {
@@ -742,7 +742,7 @@
         {
             "use": true,
             "type": "javascript",
-            "description": "javascript framwork or javascript libraries",
+            "description": "javascript framework or javascript libraries",
             "match": "(?P<debug>\\/\\*\\* @license (?P<name>[a-zA-Z0-9\\- ]+) (?:[ \\-v]+){0,1}(?P<version>[0-9]+\\.[0-9]+(?:\\.[0-9]+){0,1}))",
             "results": [
                 {
@@ -754,7 +754,7 @@
         {
             "use": true,
             "type": "javascript",
-            "description": "javascript framwork or javascript libraries",
+            "description": "javascript framework or javascript libraries",
             "test": "(?P<debug>\\@source https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>[a-z\\-]+))",
             "match": "(?P<debug>\\@source https:\\/\\/github\\.com\\/(?P<owner>[a-zA-Z0-9\\-]+)\\/(?P<repo>(?P<name>[a-zA-Z0-9\\-]+)))",
             "results": [
@@ -767,7 +767,7 @@
         {
             "use": true,
             "type": "javascript",
-            "description": "javascript framwork or javascript libraries",
+            "description": "javascript framework or javascript libraries",
             "test": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>[a-z\\-]+))",
             "match": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-zA-Z0-9\\-]+)\\/(?P<repo>(?P<name>[a-zA-Z0-9\\-]+)))",
             "results": [
@@ -780,7 +780,7 @@
         {
             "use": true,
             "type": "javascript",
-            "description": "javascript framwork or javascript libraries",
+            "description": "javascript framework or javascript libraries",
             "test": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>[a-z\\-]+))",
             "match": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-zA-Z0-9\\-]+)\\/(?P<repo>(?P<name>[a-zA-Z0-9\\-]+))\\/blob\\/[v]{0,1}(?P<version>[0-9\\.]+)/)",
             "results": [
@@ -793,7 +793,7 @@
         {
             "use": true,
             "type": "javascript",
-            "description": "core-js javascript framwork",
+            "description": "core-js javascript framework",
             "match": "(?P<debug>[\\\"']__(?P<name>core-js)_shared__[\\\"'])",
             "results": [
                 {
@@ -805,7 +805,7 @@
         {
             "use": true,
             "type": "javascript",
-            "description": "Microsoft ApplicationInsigt javascript framwork",
+            "description": "Microsoft Application Insights javascript framework",
             "match": "\\\"(?P<version>[0-9\\.]+)\\\"[^\\\"]+\\\"Microsoft\\\"[^\\\"]+\\\"ApplicationInsights2\\\"[^\\\"]+\\\"ApplicationInsights\\\"",
             "results": [
                 {
@@ -818,7 +818,7 @@
         {
             "use": true,
             "type": "javascript",
-            "description": "core-js javascript framwork",
+            "description": "core-js javascript framework",
             "match": "(?P<debug>\\\"versions\\\",[ ]{0,1}\\[\\]\\)\\.push\\({[\\r\\n\\t ]*version:[ ]{0,1}\\\"(?P<version>[0-9\\.]+)\\\",[\\r\\n\\t ]*mode:[^\\\"]+\\\"pure\\\"[ ]{0,1}:[ ]{0,1}\\\"global\\\",[\\r\\n\\t ]*copyright:[ ]{0,1}\\\".{1}[ 0-9\\-]+Denis Pushkarev)",
             "results": [
                 {
@@ -831,7 +831,7 @@
         {
             "use": true,
             "type": "javascript",
-            "description": "javascript framwork or javascript libraries",
+            "description": "javascript framework or javascript libraries",
             "test": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>[a-z\\-]+))",
             "match": "(?P<debug>(?P<licensefile>[a-zA-Z0-9\\.\\-]+)(?P<licensetxt>\\.LICENSE\\.txt) \\*\\/)",
             "results": [

@@ -575,7 +575,7 @@ def get_softwares():
         softwares = json.load(json_file)
     return softwares
 
-def add_tech_if_interesting(techs, topic):
+def add_tech_if_interesting(techs, imgs, topic):
     tech = topic.lower()
     if 'js' == tech or 'javascript' == tech:
         techs.append('js')
@@ -585,7 +585,9 @@ def add_tech_if_interesting(techs, topic):
         techs.append(tech)
     elif 'sass' == tech or 'scss' == tech:
         techs.append(tech)
-    elif 'markdown' == tech or 'webgl' == tech or 'svg' == tech or 'font' == tech or 'woff' == tech or 'woff2' == tech or 'video' == tech or 'qrcode' == tech or 'pwa' == tech: 
+    elif 'markdown' == tech or 'webgl' == tech or 'font' == tech or 'woff' == tech or 'woff2' == tech or 'video' == tech or 'qrcode' == tech or 'pwa' == tech: 
+        techs.append(tech)
+    elif 'svg' == tech or 'png' == tech or 'jpg' == tech or 'jpeg' == tech or 'gif' == tech or 'webp' == tech or 'ico' == tech:
         techs.append(tech)
     # else:
     #     print('# TOPIC', tech)
@@ -605,13 +607,14 @@ def set_github_repository_info(item, owner, repo):
             item['license'] = license
 
     techs = list()
+    imgs = list()
     # Get tech from github repo ("language") info: https://api.github.com/repos/matomo-org/matomo
     # for example: php, JavaScript (js), C
     if 'language' in github_info and github_info['language'] != None:
         lang = github_info['language'].lower()
         if 'javascript' in lang:
             lang = 'js'
-        add_tech_if_interesting(techs, lang)
+        add_tech_if_interesting(techs, imgs, lang)
         # info_dict['language'] = lang
     # else:
     #     info_dict['language'] = None
@@ -620,13 +623,17 @@ def set_github_repository_info(item, owner, repo):
     # for example: php, mysql
     if 'topics' in github_info and github_info['topics'] != None:
         for topic in github_info['topics']:
-            add_tech_if_interesting(techs, topic)
+            add_tech_if_interesting(techs, imgs, topic)
 
     techs = list(set(techs))
     if len(techs)> 0:
         techs = sorted(techs)
-
         item['tech'] = techs
+
+    imgs = list(set(imgs))
+    if len(imgs)> 0:
+        imgs = sorted(imgs)
+        item['img'] = imgs
 
     # someone has archived the github repo, project should not be used.
     # info_dict['archived'] = None

@@ -29,7 +29,7 @@
             "results": [
                 {
                     "name": "epifind",
-                    "category": "tech",
+                    "category": "js",
                     "domain": "referrer",
                     "precision": 0.8
                 },
@@ -122,13 +122,18 @@
             "match": "(?P<debug>matomo\\.php|matomo\\.js|piwik\\.php|piwik\\.js)",
             "results": [
                 {
-                    "category": "tech",
+                    "category": "js",
                     "name": "matomo",
                     "precision": 0.5
                 },
                 {
                     "category": "tech",
                     "name": "php",
+                    "precision": 0.5
+                },
+                {
+                    "category": "tech",
+                    "name": "mysql",
                     "precision": 0.5
                 }
             ]
@@ -225,7 +230,7 @@
             "match": "(?P<debug>\\.(?P<name>webm|mp4))",
             "results": [
                 {
-                    "category": "video",
+                    "category": "tech",
                     "precision": 0.4
                 }
             ]
@@ -677,7 +682,7 @@
                 {
                     "name": "matomo",
                     "version": ">=4.x",
-                    "category": "tech",
+                    "category": "js",
                     "precision": 0.6
                 },
                 {

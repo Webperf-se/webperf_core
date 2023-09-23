@@ -11,6 +11,7 @@ on:
       - 'software-sources.json'
       - '**update-software.yml'
       - 'update_software.py'
+      - 'SAMPLE-software-rules.json'
 jobs:
   build:
     runs-on: ${{ matrix.os }}

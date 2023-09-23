@@ -18,7 +18,8 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg):
         'data', 'results-{0}-{1}'.format(str(uuid.uuid4()), folder_ending))
     # result_folder_name = os.path.join('data', 'results')
 
-    sitespeed_arg += ' --postScript chrome-cookies.cjs --outputFolder {0} {1}'.format(result_folder_name, url)
+    sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs --outputFolder {0} {1}'.format(result_folder_name, url)
+    # sitespeed_arg += ' --postScript chrome-cookies.cjs --outputFolder {0} {1} chrome-versions.cjs --multi'.format(result_folder_name, url)
 
     filename = ''
     # Should we use cache when available?
@@ -45,12 +46,20 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg):
         test = test.replace('\\n', '\r\n')
 
         regex = r"COOKIES:START: {\"cookies\":(?P<COOKIES>.+)} COOKIES:END"
-
         cookies = '[]'
         matches = re.finditer(
             regex, test, re.MULTILINE)
         for matchNum, match in enumerate(matches, start=1):
             cookies = match.group('COOKIES')
+
+        regex = r"VERSIONS:START: (?P<VERSIONS>[^V]+) VERSIONS:END"
+        versions = '[]'
+        matches = re.finditer(
+            regex, test, re.MULTILINE)
+        for matchNum, match in enumerate(matches, start=1):
+            versions = match.group('VERSIONS')
+
+        # print('DEBUG VERSIONS:', test, versions)
 
         website_folder_name = get_foldername_from_url(url)
 
@@ -67,8 +76,9 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg):
                 break
         filename = os.path.join(result_folder_name, 'browsertime.har')
         cookies_json = json.loads(cookies)
+        versions_json = json.loads(versions)
 
-        modify_browsertime_content(filename_old, cookies_json)
+        modify_browsertime_content(filename_old, cookies_json, versions_json)
         cleanup_results_dir(filename_old, result_folder_name)
     return (result_folder_name, filename)
 
@@ -140,7 +150,7 @@ def get_sanitized_browsertime(input_filename):
     return result
 
 
-def modify_browsertime_content(input_filename, cookies):
+def modify_browsertime_content(input_filename, cookies, versions):
     result = get_sanitized_browsertime(input_filename)
     json_result = json.loads(result)
     has_minified = False
@@ -149,6 +159,8 @@ def modify_browsertime_content(input_filename, cookies):
 
     # add cookies
     json_result['log']['cookies'] = cookies
+    # add software name and versions
+    json_result['log']['software'] = versions
 
     if 'version' in json_result['log']:
         del json_result['log']['version']

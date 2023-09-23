@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from functools import cmp_to_key
 from PIL.ExifTags import TAGS, GPSTAGS
 from PIL import Image
 import hashlib
@@ -102,8 +103,6 @@ def get_rating_from_sitespeed(url, _local, _):
         #     *"mime-type": "mime-type"
         # }
     # ]
-    # nice_raw = json.dumps(data, indent=2)
-    # print('DEBUG 3', nice_raw)
     data = enrich_data(data, origin_domain, result_folder_name, rules)
 
     rating = Rating(_, review_show_improvements_only)
@@ -122,13 +121,13 @@ def get_rating_from_sitespeed(url, _local, _):
     #       }
     #   }
     # }
+    texts = ''
+    # texts = sum_overall_software_used(_local, _, result)
 
-    texts = sum_overall_software_used(_local, _, result)
+    # result2 = convert_item_to_software_data(data, url)
+    # rating += rate_software_security_result(_local, _, result2, url)
 
-    result2 = convert_item_to_software_data(data, url)
-    rating += rate_software_security_result(_local, _, result2, url)
-
-    result.update(result2)
+    # result.update(result2)
 
     rating.overall_review = '{0}\r\n'.format('\r\n'.join(texts)).replace('GOV-IGNORE', '').strip('\r\n\t ')
     rating.integrity_and_security_review = rating.integrity_and_security_review.replace('GOV-IGNORE', '').strip('\r\n\t ')
@@ -138,11 +137,50 @@ def get_rating_from_sitespeed(url, _local, _):
 
     return (rating, result)
 
+def cleanup_domain_data(data):
+    # result = {
+    #   "<category-name>": {
+    #       "<item-name>": {
+    #           "<version>": {
+    #               "<item-name>": "",
+    #               "<precision>": <precision>
+    #           }
+    #       }
+    #   }
+    # }
+
+    # removes matches with unknown version if we have a match for same software with version
+    for category_name in data.keys():
+        if category_name == 'issues':
+            continue
+        for software_name in data[category_name].keys():
+            if len(data[category_name][software_name].keys()) > 1 and '?' in data[category_name][software_name]:
+                del data[category_name][software_name]['?']
+
+    if len(data['issues'])> 0:
+        issues = list(set(data['issues']))
+        issues = sorted(issues, key=cmp_to_key(sort_issues), reverse=True)
+        data['issues'] = issues
+
+def sort_issues(item1, item2):
+    if item1.startswith('CVE-') and not item2.startswith('CVE-'):
+        return 1
+    elif item2.startswith('CVE-') and not item1.startswith('CVE-'):
+        return -1
+    
+    if item1 < item2:
+        return -1
+    elif item1 < item2:
+        return 1
+    else:
+        return 0
 
 def create_detailed_review(_local, msg_type, points, software_name, software_versions, sources, cve_name=None, references=None):
     # TODO: Use points from arguments into create_detailed_review and replace it in text (so it is easier to change rating)
+    # TODO: match on issue names directly
     msg = list()
     if msg_type == 'cve':
+        # TODO: use startswith for 'CVE-'
         msg.append(_local('TEXT_DETAILED_REVIEW_CVE').format(cve_name))
     elif msg_type == 'behind100':
         msg.append(_local('TEXT_DETAILED_REVIEW_BEHIND100').format(cve_name))
@@ -164,7 +202,8 @@ def create_detailed_review(_local, msg_type, points, software_name, software_ver
         msg.append(_local('TEXT_DETAILED_REVIEW_BEHIND001').format(cve_name))
     elif msg_type == 'multiple-versions':
         msg.append(_local('TEXT_DETAILED_REVIEW_MULTIPLE_VERSIONS').format(cve_name))
-
+    elif msg_type == 'ARCHIVED-SOURCE':
+        msg.append(_local('TEXT_DETAILED_REVIEW_ARCHIVED_SOURCE').format(cve_name))
     if 'GOV-IGNORE' in msg:
         return ''
     
@@ -414,7 +453,7 @@ def convert_item_to_software_data(data, url):
                     'issues': []
                 }
 
-            if 'issues' in match:
+            if 'issues' in match and len(match['issues']) > 0:
                 result[category][name]['issues'].extend(match['issues'])
 
             if version != None and version not in result[category][name]['versions']:
@@ -503,10 +542,15 @@ def cleanup_software_result(result):
 
 
 def convert_item_to_domain_data(data):
-    result = {}
+    result = {
+        'issues': []
+    }
 
     for item in data:
         for match in item['matches']:
+            if 'issues' in match:
+                result['issues'].extend(match['issues'])
+
             category = match['category']
             name = match['name']
             if name == '?':
@@ -524,14 +568,39 @@ def convert_item_to_domain_data(data):
                 result[category][name][version] = {
                     'name': name, 'precision': precision
                 }
-                if 'github-owner' in match:
-                    result[category][name][version]['github-owner'] = match['github-owner']
-                if 'github-repo' in match:
-                    result[category][name][version]['github-repo'] = match['github-repo']
-                if 'latest-version' in match:
-                    result[category][name]['latest-version'] = match['latest-version']
-                if 'is-latest-version' in match:
-                    result[category][name]['is-latest-version'] = match['is-latest-version']
+            if 'github-owner' in match:
+                result[category][name][version]['github-owner'] = match['github-owner']
+            if 'github-repo' in match:
+                result[category][name][version]['github-repo'] = match['github-repo']
+            if 'latest-version' in match:
+                result[category][name]['latest-version'] = match['latest-version']
+            if 'is-latest-version' in match:
+                result[category][name]['is-latest-version'] = match['is-latest-version']
+            if 'tech' in match:
+                # if software has info about tech, add it
+                if 'tech' not in result:
+                    result['tech'] = {}
+                for tech in match['tech']:
+                    if tech not in result['tech']:
+                        result['tech'][tech] = {
+                            "?": {
+                                "name": tech,
+                                "precision": 0.8
+                            }
+                        }
+
+            if 'img' in match:
+                # if software has info about tech, add it
+                if 'img' not in result:
+                    result['img'] = {}
+                for img in match['img']:
+                    if tech not in result['img']:
+                        result['img'][img] = {
+                            "?": {
+                                "name": img,
+                                "precision": 0.8
+                            }
+                        }
 
             if result[category][name][version]['precision'] < precision:
                 obj = {}
@@ -542,6 +611,9 @@ def convert_item_to_domain_data(data):
                 if 'github-repo' in match:
                     obj['github-repo'] = match['github-repo']
                 result[category][name][version] = obj
+
+    cleanup_domain_data(result)
+
     return result
 
 
@@ -557,7 +629,7 @@ def enrich_data(data, orginal_domain, result_folder_name, rules):
         # if item['domain'] != orginal_domain:
         #     continue
 
-        enrich_versions(tmp_list, item)
+        enrich_versions(item)
 
         # if item['category'] == 'cms':
         #     cms = item['name']
@@ -579,20 +651,19 @@ def enrich_data(data, orginal_domain, result_folder_name, rules):
         #             item['url'], 'enrich', item['precision'], 'security', 'talking.{0}'.format(item['category']), None))
 
         # # matomo = enrich_data_from_matomo(matomo, tmp_list, item)
-        enrich_data_from_github_repo(tmp_list, item)
         enrich_data_from_javascript(tmp_list, item, rules)
         enrich_data_from_videos(tmp_list, item, result_folder_name)
         enrich_data_from_images(tmp_list, item, result_folder_name)
         enrich_data_from_documents(tmp_list, item, result_folder_name)
 
-        ignore = False
-        for match in item['matches']:
-            if match['category'] == 'img' or match['category'] == 'meta':
-                ignore = True
+        # ignore = False
+        # for match in item['matches']:
+        #     if match['category'] == 'img' or match['category'] == 'meta':
+        #         ignore = True
 
-        if not ignore:
-            nice_raw = json.dumps(item, indent=2)
-            print('DEBUG', nice_raw)
+        # if not ignore:
+        #     nice_raw = json.dumps(item, indent=2)
+        #     print('DEBUG', nice_raw)
 
     # data.extend(tmp_list)
 
@@ -705,25 +776,19 @@ def add_unknown_software_source(name, version, url):
         file.write(data)
 
 
-def enrich_versions(tmp_list, item):
+def enrich_versions(item):
+    collection = get_softwares()
+    if 'softwares' not in collection:
+        return
+        
+    if 'aliases' not in collection:
+        return
+
     for match in item['matches']:
         if match['category'] != 'tech' and match['category'] != 'js' and match['category'] != 'cms' and match['category'] != 'os':
             continue
 
-        # print('TEST 3')
-        collection = get_softwares()
-        if 'softwares' not in collection:
-            return
-        
-        if 'aliases' not in collection:
-            return
-        
-        # if match['version'] == None:
-        #     return
-
-        version = match['version']
         newer_versions = []
-        version_verified = False
 
         # TODO: THIS MUST BE LOOKED AT FROM A 'COMPUTER BREACH' ARGUMENT,
         # if item['name'] == 'matomo':
@@ -783,115 +848,72 @@ def enrich_versions(tmp_list, item):
 
         if 'license' in software_info:
             match['license'] = software_info['license']
-        if 'archived' in software_info:
-            match['archived'] = software_info['archived']
+        if 'archived' in software_info and software_info['archived']:
+            # if 'issues' not in item:
+            #     match['issues'] = []
+            match['issues'].append('ARCHIVED-SOURCE')
         if 'tech' in software_info:
             match['tech'] = software_info['tech']
 
+        if match['version'] == None:
+            continue
 
+        version = None
+
+        try:
+            # ensure version field uses valid format
+            version = packaging.version.Version(match['version'])
+        except:
+            # TODO: handle matomo like software rules where version = '>=4.x'.
+            # TODO: handle matomo like software rules where version = '>4.x'.
+            # TODO: handle matomo like software rules where version = '<5.x'.
+            # TODO: handle matomo like software rules where version = '=4.x'.
+            print('DEBUG A', match['version'])
+            continue
+       
         for current_version in software_info['versions'].keys():
-            if current_version == version:
-                version_verified = True
-                if 'issues' not in item:
-                    match['issues'] = []
-                match['issues'].extend(software_info['versions'][version])
-                for note in software_info['versions'][version]:
-                    precision = 0.8
-                    info = get_default_info(
-                        item['url'], 'enrich', precision, 'security', match['name'], match['version'])
+            tmp_version = None
+            try:
+                tmp_version = packaging.version.Version(current_version)
+            except:
+                # print('DEBUG B', current_version)
+                continue
+
+            if tmp_version == version:
+                match['issues'].extend(software_info['versions'][match['version']])
                 break
-            else:
+            elif tmp_version > version:
+                # handle versions that doesn't match but we know is less or greater then versions we know.
+                # For example if: software_info['versions'] = [4.0, 3.0, 2.0, 1.0]. version = '1.7'. We know it is behind versions [4.0, 3.0, 2.0]
+                # So we should be able to show them as newer, great for when websites use a prerelease version for example.
                 newer_versions.append(current_version)
 
         nof_newer_versions = len(newer_versions)
         has_more_then_one_newer_versions = nof_newer_versions > 0
 
-        precision = 0.8
-        info = get_default_info(
-            item['url'], 'enrich', precision, match['category'], match['name'], match['version'])
-
-        if version_verified:
-            info['precision'] = precision = 0.9
-            if has_more_then_one_newer_versions:
-                info['latest-version'] = newer_versions[0]
-                info['is-latest-version'] = False
-            else:
-                info['is-latest-version'] = True
-                info['latest-version'] = match['version']
-            info['nof-newer-versions'] = nof_newer_versions
-
-        tmp_list.append(info)
-
         if has_more_then_one_newer_versions:
-            has_more_then_10_newer_versions = len(newer_versions) > 10
-            has_more_then_25_newer_versions = len(newer_versions) > 25
-            has_more_then_50_newer_versions = len(newer_versions) > 50
-            if has_more_then_50_newer_versions:
-                tmp_list.append(get_default_info(
-                    item['url'], 'enrich', precision, 'security', 'screaming.js.not-latest', None))
+            has_more_then_10_newer_versions = len(newer_versions) >= 10
+            has_more_then_25_newer_versions = len(newer_versions) >= 25
+            has_more_then_50_newer_versions = len(newer_versions) >= 50
+            has_more_then_75_newer_versions = len(newer_versions) >= 75
+            has_more_then_100_newer_versions = len(newer_versions) >= 100
+            if has_more_then_100_newer_versions:
+                match['issues'].append('BEHIND100')
+            elif has_more_then_75_newer_versions:
+                match['issues'].append('BEHIND075')
+            elif has_more_then_50_newer_versions:
+                match['issues'].append('BEHIND050')
             elif has_more_then_25_newer_versions:
-                tmp_list.append(get_default_info(
-                    item['url'], 'enrich', precision, 'security', 'talking.js.not-latest', None))
+                match['issues'].append('BEHIND025')
             elif has_more_then_10_newer_versions:
-                tmp_list.append(get_default_info(
-                    item['url'], 'enrich', precision, 'security', 'whisper.js.not-latest', None))
+                match['issues'].append('BEHIND010')
             else:
-                tmp_list.append(get_default_info(
-                    item['url'], 'enrich', precision, 'security', 'guide.js.not-latest', None))
+                match['issues'].append('BEHIND001')
 
+    # nice_raw = json.dumps(item, indent=2)
+    # print('DEBUG', nice_raw)
 
-    # print('DEBUG', item, tmp_list)
-
-    return
-
-def enrich_data_from_github_repo(tmp_list, item):
-    for match in item['matches']:
-        # replace 'name' that maches if-cases below and replace them with new.
-        # we are doing this both for more correct name but also consolidating names
-
-        github_ower = None
-        github_repo = None
-
-        # elif item['name'] == 'bootstrap':
-        #     github_ower = 'twbs'
-        #     github_repo = 'bootstrap'
-        #     github_release_source = 'releases'
-        if 'github-owner' in match and 'github-repo' in match:
-            github_ower = match['github-owner']
-            github_repo = match['github-repo']
-
-        if github_ower == None:
-            return
-        if github_repo == None:
-            return
-
-        precision = 0.8
-        if match['license'] != None:
-            # info = get_default_info(
-            #     item['url'], 'enrich', precision, item['category'], item['name'], item['version'])
-            # https://spdx.org/licenses/
-            tmp_list.append(get_default_info(
-                item['url'], 'enrich', 0.9, 'license', match['license'], None))
-            # info['license'] = item['license']
-            # tmp_list.append(info)
-
-        if len(match['tech']) > 0:
-            for name in match['tech']:
-                tmp_list.append(get_default_info(
-                    item['url'], 'enrich', 0.9, 'tech', name, None))
-
-    return
-
-def add_tech_if_interesting(techs, topic):
-    tech = topic.lower()
-    if 'js' == tech or 'javascript' == tech:
-        techs.append('js')
-    elif 'c' == tech or 'php' == tech or 'mysql' == tech or 'typescript' == tech:
-        techs.append(tech)
-    elif 'sass' == tech or 'scss' == tech:
-        techs.append(tech)
-    # else:
-    #     print('# TOPIC', tech)
+    # return
 
 def enrich_data_from_javascript(tmp_list, item, rules):
     if use_stealth:
@@ -907,12 +929,6 @@ def enrich_data_from_javascript(tmp_list, item, rules):
             tmp_list.extend(tmp)
         if match['version'] == None:
             return
-
-    # TODO: Check if we can run custom javascript in sitespeed.io to add below tests
-    # jQuery.fn.jquery = '1.9.1'
-    # Modernizr._version = '3.4.0'
-    # window['__core-js_shared__'].versions
-
     # TODO: We should look at wordpress plugins specifically as they are widely used and we know they are often used in attacks
 
 
@@ -1124,8 +1140,18 @@ def identify_software(filename, origin_domain, rules):
     with open(filename) as json_input_file:
         har_data = json.load(json_input_file)
 
+        global_software = None
+
         if 'log' in har_data:
             har_data = har_data['log']
+
+        if 'software' in har_data:
+            global_software = har_data['software']
+
+            nice_raw = json.dumps(global_software, indent=2)
+            print('DEBUG - Global Software', nice_raw)
+
+
         for entry in har_data["entries"]:
             req = entry['request']
             res = entry['response']
@@ -1163,13 +1189,33 @@ def identify_software(filename, origin_domain, rules):
 
             # cleanup_duplicate_matches(item)
 
+            cleanup_used_global_software(global_software, item)
             data.append(item)
 
-    remove_empty_items(data)
+    # remove_empty_items(data)
     # nice_raw = json.dumps(data, indent=2)
     # print('DEBUG 3', nice_raw)
     # TODO: Check for https://docs.2sxc.org/index.html ?
+
+    for software_name in global_software.keys():
+        versions = global_software[software_name]
+        if len(versions) == 0:
+            continue
+        for version in versions:
+            info = get_default_info(
+                req_url, 'js-objects', 0.8, 'js', software_name, version)
+            item['matches'].append(info)
+
+    nice_raw = json.dumps(global_software, indent=2)
+    print('DEBUG - Global Software, UNRESOLVED', nice_raw)
+
     return data
+
+
+def cleanup_used_global_software(global_software, item):
+    for match in item['matches']:
+        if match['name'] in global_software and match['version'] in global_software[match['name']]:
+            global_software[match['name']].remove(match['version'])
 
 def cleanup_duplicate_matches(item):
     tmp = set()
@@ -1363,6 +1409,7 @@ def get_default_info(url, method, precision, key, name, version, domain=None):
     result['category'] = key
     result['name'] = name
     result['version'] = version
+    result['issues'] = []
     # result['security'] = []
 
     return result

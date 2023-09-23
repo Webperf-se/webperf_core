@@ -18,6 +18,7 @@ on:
       - 'software-sources.json'
       - '**update-software.yml'
       - 'update_software.py'
+      - 'SAMPLE-software-rules.json'
 #on: [ push, pull_request ]
 jobs:
   analyze:

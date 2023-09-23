@@ -285,6 +285,7 @@ def extend_versions_for_iis(versions):
                 #     'version': version
                 # })
                 versions[version].append(cve)
+                versions[version] = sorted(versions[version], reverse=True)
 
     return versions
 
@@ -383,6 +384,7 @@ def extend_versions_for_apache_httpd(versions):
                                     #     'name': current_cve
                                     # })
                                     versions[version].append(current_cve)
+                                    versions[version] = sorted(versions[version], reverse=True)
 
                                 current_cve = None
                         else:
@@ -521,6 +523,8 @@ def extend_versions_from_github_advisory_database(software_name, versions):
                                         cve_info['version'] = version
                                         if cve_info['name'] not in versions[version]:
                                             versions[version].append(cve_info['name'])
+                                            versions[version] = sorted(versions[version], reverse=True)
+
                                         # result.append(cve_info)
 
         return versions
@@ -620,6 +624,8 @@ def set_github_repository_info(item, owner, repo):
 
     techs = list(set(techs))
     if len(techs)> 0:
+        techs = sorted(techs)
+
         item['tech'] = techs
 
     # someone has archived the github repo, project should not be used.

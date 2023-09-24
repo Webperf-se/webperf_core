@@ -27,9 +27,6 @@ css_review_group_errors = True
 # Only show reviews that you can improve, set this value to True
 review_show_improvements_only = False
 
-# Only show reviews that you can improve, set this value to True
-review_show_only_under_rating = 5.0
-
 # Tells Yellow Lab Tools Test to use API version or command line version
 ylt_use_api = True
 

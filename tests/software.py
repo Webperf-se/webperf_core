@@ -109,8 +109,8 @@ def get_rating_from_sitespeed(url, _local, _):
     result = {}
     result = convert_item_to_domain_data(data)
 
-    nice_raw = json.dumps(result, indent=2)
-    print('DEBUG 3', nice_raw)
+    # nice_raw = json.dumps(result, indent=2)
+    # print('DEBUG 3', nice_raw)
     # result = {
     #   "<category-name>": {
     #       "<item-name>": {
@@ -122,10 +122,10 @@ def get_rating_from_sitespeed(url, _local, _):
     #   }
     # }
     texts = ''
-    # texts = sum_overall_software_used(_local, _, result)
+    texts = sum_overall_software_used(_local, _, result)
 
     # result2 = convert_item_to_software_data(data, url)
-    # rating += rate_software_security_result(_local, _, result2, url)
+    rating += rate_software_security_result(_local, _, result, url)
 
     # result.update(result2)
 
@@ -248,160 +248,246 @@ def update_rating_collection(rating, ratings):
 def rate_software_security_result(_local, _, result, url):
     rating = Rating(_, review_show_improvements_only)
 
-    ratings = {}
 
-    categories = ['cms', 'webserver', 'os',
-                  'analytics',
-                  'js',
-                  'img', 'img.software', 'img.os', 'img.device', 'video']
-    for category in categories:
-        if category in result:
-            for software_name in result[category]:
-                info = result[category][software_name]
-                if 'issues' in info:
-                    for issue in info['issues']:
-                        points = 1.0
-                        # if 'severity' in vuln:
-                        #     if 'HIGH' in vuln['severity']:
-                        #         points = 1.2
-                        #     elif 'MODERATE' in vuln['severity']:
-                        #         points = 1.5
-                        vuln_versions = list()
-                        # vuln_versions.append(vuln['version'])
-                        # v_sources_key = 'v-{0}-sources'.format(
-                        #     vuln['version'])
+    has_cve_issues = False
+    has_behind_issues = False
+    has_archived_source_issues = False
+    # has_multiple_versions_issues = False
 
-                        # if v_sources_key not in info:
-                        #     v_sources_key = 'sources'
-                        # vuln_sources = info[v_sources_key]
-                        vuln_sources = list()
-
-                        text = create_detailed_review(_local,
-                            'cve', points, software_name, vuln_versions, vuln_sources, issue, list()) # vuln['references']
-                        sub_rating = Rating(_, review_show_improvements_only)
-                        sub_rating.set_overall(points)
-                        if use_detailed_report:
-                            sub_rating.set_integrity_and_security(points, '.')
-                            sub_rating.integrity_and_security_review = text
-                        else:
-                            sub_rating.set_integrity_and_security(points)
-                        ratings = update_rating_collection(sub_rating, ratings)
-
-                if category != 'js' and 'nof-newer-versions' in info and info['nof-newer-versions'] == 0:
-                    points = 4.5
-                    text = create_detailed_review(_local,
-                        'latest-but-leaking-name-and-version', points, software_name, info['versions'], info['sources'])
-                    sub_rating = Rating(_, review_show_improvements_only)
-                    sub_rating.set_overall(points)
-                    if use_detailed_report:
-                        sub_rating.set_integrity_and_security(points, '.')
-                        sub_rating.integrity_and_security_review = text
-                    else:
-                        sub_rating.set_integrity_and_security(points)
-                    ratings = update_rating_collection(sub_rating, ratings)
-                elif category != 'js':
-                    points = 4.0
-                    text = create_detailed_review(_local,
-                        'unknown-but-leaking-name-and-version', points, software_name, info['versions'], info['sources'])
-                    sub_rating = Rating(_, review_show_improvements_only)
-                    sub_rating.set_overall(points)
-                    if use_detailed_report:
-                        sub_rating.set_integrity_and_security(points, '.')
-                        sub_rating.integrity_and_security_review = text
-                    else:
-                        sub_rating.set_integrity_and_security(points)
-                    ratings = update_rating_collection(sub_rating, ratings)
-
-                if 'nof-newer-versions' in info and info['nof-newer-versions'] > 0:
-                    for version in info['versions']:
-                        v_newer_key = 'v-{0}-nof-newer-versions'.format(
-                            version)
-                        v_sources_key = 'v-{0}-sources'.format(version)
-
-                        # TODO: FAIL SAFE, we have identified multiple version of same software for the same request, should not be possible...
-                        if v_newer_key not in info:
-                            v_newer_key = 'nof-newer-versions'
-
-                        if info[v_newer_key] == 0:
-                            continue
-
-                        if v_sources_key not in info:
-                            v_sources_key = 'sources'
-
-                        tmp_versions = list()
-                        tmp_versions.append(version)
-
-                        points = -1
-                        text = ''
-                        if info[v_newer_key] >= 100:
-                            points = 2.0
-                            text = create_detailed_review(_local,
-                                'behind100', points, software_name, tmp_versions, info[v_sources_key])
-                        elif info[v_newer_key] >= 75:
-                            points = 2.25
-                            text = create_detailed_review(_local,
-                                'behind75', points, software_name, tmp_versions, info[v_sources_key])
-                        elif info[v_newer_key] >= 50:
-                            points = 2.5
-                            text = create_detailed_review(_local,
-                                'behind50', points, software_name, tmp_versions, info[v_sources_key])
-                        elif info[v_newer_key] >= 25:
-                            points = 2.75
-                            text = create_detailed_review(_local,
-                                'behind25', points, software_name, tmp_versions, info[v_sources_key])
-                        elif info[v_newer_key] >= 10:
-                            points = 3.0
-                            text = create_detailed_review(_local,
-                                'behind10', points, software_name, tmp_versions, info[v_sources_key])
-                        elif info[v_newer_key] >= 1:
-                            points = 4.9
-                            text = create_detailed_review(_local,
-                                'behind1', points, software_name, tmp_versions, info[v_sources_key])
-
-                        sub_rating = Rating(_, review_show_improvements_only)
-                        sub_rating.set_overall(points)
-                        if use_detailed_report:
-                            sub_rating.set_integrity_and_security(points, '.')
-                            sub_rating.integrity_and_security_review = text
-                        else:
-                            sub_rating.set_integrity_and_security(points)
-                        ratings = update_rating_collection(sub_rating, ratings)
-
-                if len(info['versions']) > 1:
-                    points = 4.1
-                    text = create_detailed_review(_local,
-                        'multiple-versions', points, software_name, info['versions'], info['sources'])
-                    sub_rating = Rating(_, review_show_improvements_only)
-                    sub_rating.set_overall(points)
-                    if use_detailed_report:
-                        sub_rating.set_integrity_and_security(points, '.')
-                        sub_rating.integrity_and_security_review = text
-                    else:
-                        sub_rating.set_integrity_and_security(points)
-                    ratings = update_rating_collection(sub_rating, ratings)
-
-    sorted_keys = list()
-    for points_key in ratings.keys():
-        sorted_keys.append(points_key)
-
-    sorted_keys.sort()
-
-    for points_key in sorted_keys:
-        for sub_rating in ratings[points_key]:
+    for issue_type in result['issues']:
+        if issue_type.startswith('CVE-'):
+            has_cve_issues = True
+            points = 1.0
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(points)
+            if use_detailed_report:
+                sub_rating.set_integrity_and_security(points, '.')
+                # sub_rating.integrity_and_security_review = text
+            else:
+                sub_rating.set_integrity_and_security(points)
             rating += sub_rating
+        elif issue_type.startswith('BEHIND'):
+            has_behind_issues = True
+            points = 5.0
+            if issue_type == 'BEHIND100':
+                points = 2.0
+            elif issue_type == 'BEHIND075':
+                points = 2.25
+            elif issue_type == 'BEHIND050':
+                points = 2.5
+            elif issue_type == 'BEHIND025':
+                points = 2.75
+            elif issue_type == 'BEHIND010':
+                points = 3.0
+            elif issue_type == 'BEHIND001':
+                points = 4.9
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(points)
+            if use_detailed_report:
+                sub_rating.set_integrity_and_security(points, '.')
+                # sub_rating.integrity_and_security_review = text
+            else:
+                sub_rating.set_integrity_and_security(points)
+            rating += sub_rating
+        elif issue_type.startswith('ARCHIVED-SOURCE'):
+            has_archived_source_issues = True
+        # elif issue_type.startswith('MULTIPLE-VERSIONS'):
+        #     has_multiple_versions_issues = True
 
-    if rating.get_overall() == -1:
-        rating.set_overall(5.0)
-        rating.set_integrity_and_security(5.0)
-    elif not use_detailed_report:
-        text = '{0}'.format(_local('UPDATE_AVAILABLE'))
-        tmp_rating = Rating(_, review_show_improvements_only)
-        tmp_rating.set_integrity_and_security(
-            rating.get_integrity_and_security(), text)
+    if not has_cve_issues:
+        points = 5.0
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(points)
+        if use_detailed_report:
+            sub_rating.set_integrity_and_security(points, '.')
+            # sub_rating.integrity_and_security_review = text
+        else:
+            sub_rating.set_integrity_and_security(points)
+        rating += sub_rating
 
-        rating.integrity_and_security_review = tmp_rating.integrity_and_security_review
+    if not has_behind_issues:
+        points = 5.0
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(points)
+        if use_detailed_report:
+            sub_rating.set_integrity_and_security(points, '.')
+            # sub_rating.integrity_and_security_review = text
+        else:
+            sub_rating.set_integrity_and_security(points)
+        rating += sub_rating
+
+    if not has_archived_source_issues:
+        points = 5.0
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(points)
+        if use_detailed_report:
+            sub_rating.set_integrity_and_security(points, '.')
+            # sub_rating.integrity_and_security_review = text
+        else:
+            sub_rating.set_integrity_and_security(points)
+        rating += sub_rating
+
+    if not use_detailed_report:
+        test = 1
+    else:
+        test = 2
 
     return rating
+
+    # ratings = {}
+
+    # categories = ['cms', 'webserver', 'os',
+    #               'analytics',
+    #               'js',
+    #               'img', 'img.software', 'img.os', 'img.device', 'video']
+    # for category in categories:
+    #     if category in result:
+    #         for software_name in result[category]:
+    #             info = result[category][software_name]
+    #             if 'issues' in info:
+    #                 for issue in info['issues']:
+    #                     points = 1.0
+    #                     # if 'severity' in vuln:
+    #                     #     if 'HIGH' in vuln['severity']:
+    #                     #         points = 1.2
+    #                     #     elif 'MODERATE' in vuln['severity']:
+    #                     #         points = 1.5
+    #                     vuln_versions = list()
+    #                     # vuln_versions.append(vuln['version'])
+    #                     # v_sources_key = 'v-{0}-sources'.format(
+    #                     #     vuln['version'])
+
+    #                     # if v_sources_key not in info:
+    #                     #     v_sources_key = 'sources'
+    #                     # vuln_sources = info[v_sources_key]
+    #                     vuln_sources = list()
+
+    #                     text = create_detailed_review(_local,
+    #                         'cve', points, software_name, vuln_versions, vuln_sources, issue, list()) # vuln['references']
+    #                     sub_rating = Rating(_, review_show_improvements_only)
+    #                     sub_rating.set_overall(points)
+    #                     if use_detailed_report:
+    #                         sub_rating.set_integrity_and_security(points, '.')
+    #                         sub_rating.integrity_and_security_review = text
+    #                     else:
+    #                         sub_rating.set_integrity_and_security(points)
+    #                     ratings = update_rating_collection(sub_rating, ratings)
+
+    #             if category != 'js' and 'nof-newer-versions' in info and info['nof-newer-versions'] == 0:
+    #                 points = 4.5
+    #                 text = create_detailed_review(_local,
+    #                     'latest-but-leaking-name-and-version', points, software_name, info['versions'], info['sources'])
+    #                 sub_rating = Rating(_, review_show_improvements_only)
+    #                 sub_rating.set_overall(points)
+    #                 if use_detailed_report:
+    #                     sub_rating.set_integrity_and_security(points, '.')
+    #                     sub_rating.integrity_and_security_review = text
+    #                 else:
+    #                     sub_rating.set_integrity_and_security(points)
+    #                 ratings = update_rating_collection(sub_rating, ratings)
+    #             elif category != 'js':
+    #                 points = 4.0
+    #                 text = create_detailed_review(_local,
+    #                     'unknown-but-leaking-name-and-version', points, software_name, info['versions'], info['sources'])
+    #                 sub_rating = Rating(_, review_show_improvements_only)
+    #                 sub_rating.set_overall(points)
+    #                 if use_detailed_report:
+    #                     sub_rating.set_integrity_and_security(points, '.')
+    #                     sub_rating.integrity_and_security_review = text
+    #                 else:
+    #                     sub_rating.set_integrity_and_security(points)
+    #                 ratings = update_rating_collection(sub_rating, ratings)
+
+    #             if 'nof-newer-versions' in info and info['nof-newer-versions'] > 0:
+    #                 for version in info['versions']:
+    #                     v_newer_key = 'v-{0}-nof-newer-versions'.format(
+    #                         version)
+    #                     v_sources_key = 'v-{0}-sources'.format(version)
+
+    #                     # TODO: FAIL SAFE, we have identified multiple version of same software for the same request, should not be possible...
+    #                     if v_newer_key not in info:
+    #                         v_newer_key = 'nof-newer-versions'
+
+    #                     if info[v_newer_key] == 0:
+    #                         continue
+
+    #                     if v_sources_key not in info:
+    #                         v_sources_key = 'sources'
+
+    #                     tmp_versions = list()
+    #                     tmp_versions.append(version)
+
+    #                     points = -1
+    #                     text = ''
+    #                     if info[v_newer_key] >= 100:
+    #                         points = 2.0
+    #                         text = create_detailed_review(_local,
+    #                             'behind100', points, software_name, tmp_versions, info[v_sources_key])
+    #                     elif info[v_newer_key] >= 75:
+    #                         points = 2.25
+    #                         text = create_detailed_review(_local,
+    #                             'behind75', points, software_name, tmp_versions, info[v_sources_key])
+    #                     elif info[v_newer_key] >= 50:
+    #                         points = 2.5
+    #                         text = create_detailed_review(_local,
+    #                             'behind50', points, software_name, tmp_versions, info[v_sources_key])
+    #                     elif info[v_newer_key] >= 25:
+    #                         points = 2.75
+    #                         text = create_detailed_review(_local,
+    #                             'behind25', points, software_name, tmp_versions, info[v_sources_key])
+    #                     elif info[v_newer_key] >= 10:
+    #                         points = 3.0
+    #                         text = create_detailed_review(_local,
+    #                             'behind10', points, software_name, tmp_versions, info[v_sources_key])
+    #                     elif info[v_newer_key] >= 1:
+    #                         points = 4.9
+    #                         text = create_detailed_review(_local,
+    #                             'behind1', points, software_name, tmp_versions, info[v_sources_key])
+
+    #                     sub_rating = Rating(_, review_show_improvements_only)
+    #                     sub_rating.set_overall(points)
+    #                     if use_detailed_report:
+    #                         sub_rating.set_integrity_and_security(points, '.')
+    #                         sub_rating.integrity_and_security_review = text
+    #                     else:
+    #                         sub_rating.set_integrity_and_security(points)
+    #                     ratings = update_rating_collection(sub_rating, ratings)
+
+    #             if len(info['versions']) > 1:
+    #                 points = 4.1
+    #                 text = create_detailed_review(_local,
+    #                     'multiple-versions', points, software_name, info['versions'], info['sources'])
+    #                 sub_rating = Rating(_, review_show_improvements_only)
+    #                 sub_rating.set_overall(points)
+    #                 if use_detailed_report:
+    #                     sub_rating.set_integrity_and_security(points, '.')
+    #                     sub_rating.integrity_and_security_review = text
+    #                 else:
+    #                     sub_rating.set_integrity_and_security(points)
+    #                 ratings = update_rating_collection(sub_rating, ratings)
+
+    # sorted_keys = list()
+    # for points_key in ratings.keys():
+    #     sorted_keys.append(points_key)
+
+    # sorted_keys.sort()
+
+    # for points_key in sorted_keys:
+    #     for sub_rating in ratings[points_key]:
+    #         rating += sub_rating
+
+    # if rating.get_overall() == -1:
+    #     rating.set_overall(5.0)
+    #     rating.set_integrity_and_security(5.0)
+    # elif not use_detailed_report:
+    #     text = '{0}'.format(_local('UPDATE_AVAILABLE'))
+    #     tmp_rating = Rating(_, review_show_improvements_only)
+    #     tmp_rating.set_integrity_and_security(
+    #         rating.get_integrity_and_security(), text)
+
+    #     rating.integrity_and_security_review = tmp_rating.integrity_and_security_review
+
+    # return rating
 
 
 def sum_overall_software_used(_local, _, result):
@@ -868,7 +954,7 @@ def enrich_versions(item):
             # TODO: handle matomo like software rules where version = '>4.x'.
             # TODO: handle matomo like software rules where version = '<5.x'.
             # TODO: handle matomo like software rules where version = '=4.x'.
-            print('DEBUG A', match['version'])
+            # print('DEBUG A', match['version'])
             continue
        
         for current_version in software_info['versions'].keys():
@@ -1148,8 +1234,8 @@ def identify_software(filename, origin_domain, rules):
         if 'software' in har_data:
             global_software = har_data['software']
 
-            nice_raw = json.dumps(global_software, indent=2)
-            print('DEBUG - Global Software', nice_raw)
+            # nice_raw = json.dumps(global_software, indent=2)
+            # print('DEBUG - Global Software', nice_raw)
 
 
         for entry in har_data["entries"]:
@@ -1206,8 +1292,8 @@ def identify_software(filename, origin_domain, rules):
                 req_url, 'js-objects', 0.8, 'js', software_name, version)
             item['matches'].append(info)
 
-    nice_raw = json.dumps(global_software, indent=2)
-    print('DEBUG - Global Software, UNRESOLVED', nice_raw)
+    # nice_raw = json.dumps(global_software, indent=2)
+    # print('DEBUG - Global Software, UNRESOLVED', nice_raw)
 
     return data
 
@@ -1267,7 +1353,7 @@ def lookup_response_mimetype(item, response_mimetype):
         # look at: https://www.handinhandsweden.se/wp-content/uploads/se/2022/11/julvideo-startsida.mp4
         # that has videolan references and more interesting stuff
         item['matches'].append(get_default_info(
-            item['url'], 'mimetype', 0.8, 'video', 'mp4', None))
+            item['url'], 'mimetype', 0.8, 'tech', 'mp4', None))
 
     if 'webp' in response_mimetype:
         # Extract metadata to see if we can get produced application and more,

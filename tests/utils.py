@@ -61,7 +61,6 @@ def get_cache_path(url, use_text_instead_of_content):
     o = urlparse(url)
     hostname = o.hostname
 
-
     file_ending = '.tmp'
     folder = 'tmp'
     if use_cache:
@@ -110,7 +109,6 @@ def clean_cache_files():
         folder = 'tmp'
         dir = os.path.join(Path(os.path.dirname(
             os.path.realpath(__file__)) + os.path.sep).parent, folder)
-        shutil.rmtree(folder)
         if os.path.exists(dir):
             shutil.rmtree(dir)
         return
@@ -118,7 +116,6 @@ def clean_cache_files():
     file_ending = '.cache'
     folder = 'cache'
 
-    print('Cleaning {0} files...'.format(file_ending[1:]))
 
     dir = os.path.join(Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent, folder)
@@ -160,7 +157,6 @@ def set_cache_file(url, content, use_text_instead_of_content):
     else:
         with open(cache_path, 'wb') as file:
             file.write(content)
-
 
 def httpRequestGetContent(url, allow_redirects=False, use_text_instead_of_content=True):
     """Trying to fetch the response content

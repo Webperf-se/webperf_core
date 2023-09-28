@@ -676,6 +676,17 @@
         {
             "use": true,
             "type": "javascript",
+            "match": "(?P<debug>version:[ \t\r\n]*\"(?P<version>[0-9\\.]+)\",[ \t\r\n]*rendererPackageName:[ \t\r\n]*\"(?P<name>react)\\-dom\")",
+            "results": [
+                {
+                    "category": "js",
+                    "precision": 0.6
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
             "description": "looking for Matomo specific string in js",
             "match": "(?P<debug>setgenerationtimems is no longer supported since matomo 4\\. the call will be ignored\\.)",
             "results": [

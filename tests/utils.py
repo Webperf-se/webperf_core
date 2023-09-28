@@ -17,6 +17,7 @@ import dns.resolver
 import config
 import IP2Location
 import os
+from urllib.parse import urlparse
 
 
 ip2location_db = False
@@ -57,9 +58,15 @@ def is_file_older_than(file, delta):
 
 
 def get_cache_path(url, use_text_instead_of_content):
+    o = urlparse(url)
+    hostname = o.hostname
+
+
     file_ending = '.tmp'
+    folder = 'tmp'
     if use_cache:
         file_ending = '.cache'
+        folder = 'cache'
 
     cache_key_rule = '{0}.txt.utf-8{1}'
     if not use_text_instead_of_content:
@@ -67,7 +74,7 @@ def get_cache_path(url, use_text_instead_of_content):
 
     cache_key = cache_key_rule.format(
         hashlib.sha512(url.encode()).hexdigest(), file_ending)
-    cache_path = os.path.join('data', cache_key)
+    cache_path = os.path.join(folder, hostname, cache_key)
     return cache_path
 
 
@@ -89,34 +96,36 @@ def get_cache_file(url, use_text_instead_of_content, time_delta):
 
 
 def clean_cache_files():
-    file_ending = '.tmp'
-    if use_cache:
-        file_ending = '.cache'
+    if not use_cache:
+        # If we don't want to cache stuff, why complicate stuff, just empy tmp folder when done
+        folder = 'tmp'
+        dir = os.path.join(Path(os.path.dirname(
+            os.path.realpath(__file__)) + os.path.sep).parent, folder)
+        shutil.rmtree(folder)
+        return
+    
+    folder = 'cache'
 
     print('Cleaning {0} files...'.format(file_ending[1:]))
 
     dir = os.path.join(Path(os.path.dirname(
-        os.path.realpath(__file__)) + os.path.sep).parent, 'data')
+        os.path.realpath(__file__)) + os.path.sep).parent, folder)
 
-    files_or_subdirs = os.listdir(dir)
-    print(len(files_or_subdirs), 'file and folders in data folder.')
+    subdirs = os.listdir(dir)
+    print(len(subdirs), 'file and folders in {0} folder.'.format(folder))
     cache_files = 0
     results_folders = 0
     cache_files_removed = 0
     results_folders_removed = 0
-    for file_or_dir in files_or_subdirs:
-        if file_or_dir.endswith(file_ending):
-            cache_files += 1
-            path = os.path.join(dir, file_or_dir)
-            if not use_cache or is_file_older_than(path, cache_time_delta):
-                os.remove(path)
-                cache_files_removed += 1
-        if file_or_dir.startswith('results-'):
-            results_folders += 1
-            path = os.path.join(dir, file_or_dir)
-            if not use_cache or is_file_older_than(path, cache_time_delta):
-                shutil.rmtree(path)
-                results_folders_removed += 1
+    for subdir in subdirs:
+        files_or_subdirs = os.listdir(os.path.join(dir, subdir))
+        for file_or_dir in files_or_subdirs:
+            if file_or_dir.endswith(file_ending):
+                cache_files += 1
+                path = os.path.join(dir, subdir, file_or_dir)
+                if not use_cache or is_file_older_than(path, cache_time_delta):
+                    os.remove(path)
+                    cache_files_removed += 1
 
     print(cache_files, '{0} file(s) found.'.format(file_ending[1:]))
     print(results_folders, 'result folder(s) found.')

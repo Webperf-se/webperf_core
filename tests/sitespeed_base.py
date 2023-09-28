@@ -9,13 +9,15 @@ sitespeed_use_docker = config.sitespeed_use_docker
 
 
 def get_result(url, sitespeed_use_docker, sitespeed_arg):
-    folder_ending = 'tmp'
+    folder = 'tmp'
     if use_cache:
-        folder_ending = 'cache'
+        folder = 'cache'
+
+    o = urlparse(url)
+    hostname = o.hostname
 
     # TODO: CHANGE THIS IF YOU WANT TO DEBUG
-    result_folder_name = os.path.join(
-        'data', 'results-{0}-{1}'.format(str(uuid.uuid4()), folder_ending))
+    result_folder_name = os.path.join(folder, hostname, '{0}'.format(str(uuid.uuid4())))
     # result_folder_name = os.path.join('data', 'results')
 
     sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs --outputFolder {0} {1}'.format(result_folder_name, url)
@@ -25,7 +27,7 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg):
     # Should we use cache when available?
     if use_cache:
         import engines.sitespeed_result as input
-        sites = input.read_sites('', -1, -1)
+        sites = input.read_sites(hostname, -1, -1)
         for site in sites:
             if url == site[1]:
                 filename = site[0]
@@ -59,7 +61,7 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg):
         for matchNum, match in enumerate(matches, start=1):
             versions = match.group('VERSIONS')
 
-        # print('DEBUG VERSIONS:', test, versions)
+        print('DEBUG VERSIONS:', versions)
 
         website_folder_name = get_foldername_from_url(url)
 
@@ -74,7 +76,7 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg):
                 filename_old = os.path.join(result_folder_name, 'pages',
                                         website_folder_name, sub_dir, 'data', 'browsertime.har')
                 break
-        filename = os.path.join(result_folder_name, 'browsertime.har')
+        filename = '{0}{1}'.format(result_folder_name, '.har')
         cookies_json = json.loads(cookies)
         versions_json = json.loads(versions)
 
@@ -84,22 +86,9 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg):
 
 
 def cleanup_results_dir(browsertime_path, path):
-    correct_path = os.path.join(
-        path, 'browsertime.har')
-
+    correct_path = '{0}{1}'.format(path, '.har')
     os.rename(browsertime_path, correct_path)
-
-    sub_dirs = os.listdir(path)
-    for sub_dir in sub_dirs:
-        if 'browsertime.har' == sub_dir:
-            continue
-        else:
-            tmp_path = os.path.join(
-                path, sub_dir)
-            if os.path.isfile(tmp_path):
-                os.remove(tmp_path)
-            else:
-                shutil.rmtree(tmp_path)
+    shutil.rmtree(path)
 
 
 def get_result_using_no_cache(sitespeed_use_docker, arg):

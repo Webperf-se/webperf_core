@@ -37,7 +37,29 @@ module.exports = async function (context, commands) {
 
     jquery_versions = []
     try {
-        jquery_versions = await commands.js.run('return "jQuery" in window && "fn" in window["jQuery"] && "jquery" in window["jQuery"]["fn"] ? [window["jQuery"]["fn"]["jquery"]] : []');
+        tmp = await commands.js.run('return typeof jQuery !== "undefined"');
+        tmp = await commands.js.run('return typeof jQuery !== "undefined" && typeof jQuery.prototype !== "undefined"');
+        tmp = await commands.js.run('return typeof jQuery !== "undefined" && typeof jQuery.prototype !== "undefined" && jQuery.prototype.jquery !== "undefined"');
+        jquery_versions = await commands.js.run('return typeof jQuery !== "undefined" && typeof jQuery.prototype !== "undefined" && jQuery.prototype.jquery !== "undefined" ? [jQuery.prototype.jquery] : []');
+
+        // Add support for "jQuery running noConflict"
+        tmp = await commands.js.run('return "jQuery" in window');
+        if (tmp) {
+            jquery_versions = await commands.js.run(
+                [
+                    "jquery_versions = []",
+                    "for (x in window) {",
+                    "if ((typeof(window[x]) === 'object' || typeof(window[x]) === 'function') && typeof (window[x]) !== 'undefined' && window[x] !== null) {",
+                    "if (Object.keys(window[x]).indexOf('fn') !== -1) {",
+                            "if (window[x] && 'jquery' in window[x]['fn']) {",
+                                "jquery_versions.push(window[x]['fn']['jquery'])",
+                            "}",
+                        "}",
+                    "}",
+                    "}",
+                    "return jquery_versions;"
+                ].join('\r\n'));
+        }
         if (jquery_versions === null || jquery_versions == {}) {
             jquery_versions = []
         }

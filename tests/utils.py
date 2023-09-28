@@ -68,6 +68,14 @@ def get_cache_path(url, use_text_instead_of_content):
         file_ending = '.cache'
         folder = 'cache'
 
+    folder_path = os.path.join(folder)
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+
+    hostname_path = os.path.join(folder, hostname)
+    if not os.path.exists(hostname_path):
+        os.makedirs(hostname_path)
+
     cache_key_rule = '{0}.txt.utf-8{1}'
     if not use_text_instead_of_content:
         cache_key_rule = '{0}.bytes{1}'
@@ -75,6 +83,7 @@ def get_cache_path(url, use_text_instead_of_content):
     cache_key = cache_key_rule.format(
         hashlib.sha512(url.encode()).hexdigest(), file_ending)
     cache_path = os.path.join(folder, hostname, cache_key)
+
     return cache_path
 
 
@@ -102,14 +111,22 @@ def clean_cache_files():
         dir = os.path.join(Path(os.path.dirname(
             os.path.realpath(__file__)) + os.path.sep).parent, folder)
         shutil.rmtree(folder)
+        if os.path.exists(dir):
+            shutil.rmtree(dir)
         return
     
+    file_ending = '.cache'
     folder = 'cache'
 
     print('Cleaning {0} files...'.format(file_ending[1:]))
 
     dir = os.path.join(Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent, folder)
+    
+    if not os.path.exists(dir):
+        return
+
+    print('Cleaning {0} files...'.format(file_ending[1:]))
 
     subdirs = os.listdir(dir)
     print(len(subdirs), 'file and folders in {0} folder.'.format(folder))

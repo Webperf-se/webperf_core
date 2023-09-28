@@ -45,7 +45,7 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg):
 
     if filename == '':
         test = get_result_using_no_cache(sitespeed_use_docker, sitespeed_arg)
-        test = test.replace('\\n', '\r\n')
+        test = test.replace('\\n', '\r\n').replace('\\\\', '\\')
 
         regex = r"COOKIES:START: {\"cookies\":(?P<COOKIES>.+)} COOKIES:END"
         cookies = '[]'

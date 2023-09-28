@@ -61,7 +61,7 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg):
         for matchNum, match in enumerate(matches, start=1):
             versions = match.group('VERSIONS')
 
-        print('DEBUG VERSIONS:', versions)
+        # print('DEBUG VERSIONS:', versions)
 
         website_folder_name = get_foldername_from_url(url)
 
@@ -82,6 +82,7 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg):
 
         modify_browsertime_content(filename_old, cookies_json, versions_json)
         cleanup_results_dir(filename_old, result_folder_name)
+
     return (result_folder_name, filename)
 
 

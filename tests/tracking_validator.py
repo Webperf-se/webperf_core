@@ -179,7 +179,7 @@ def get_file_content(input_filename):
                 lines.append(line)
                 # print(line)
     except:
-        print('error in get_local_file_content. No such file or directory: {0}'.format(
+        print('error in get_file_content. No such file or directory: {0}'.format(
             input_filename))
         return '\n'.join(lines)
     return '\n'.join(lines)
@@ -820,9 +820,6 @@ def get_rating_from_sitespeed(url, _local, _):
         rating += rate_ads(website_urls, _local, _)
     except Exception as ex:
         print('ads exception', ex)
-
-    if not use_cache:
-        shutil.rmtree(result_folder_name)
 
     return rating
 

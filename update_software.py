@@ -139,10 +139,8 @@ def update_licenses():
             regex, content, re.MULTILINE)
         for matchNum, match_vulnerable in enumerate(matches, start=1):
             match_content = match_vulnerable.group('licenses')
-            # print('A', match_content)
             content_rule['match'] = content_rule['match'].replace(match_content, '?P<license>({0})'.format('|'.join(licenses)))
 
-        # print('B', content_rule['match'])
     save_software_rules(rules)
 
 def get_software_rules():
@@ -237,18 +235,6 @@ def extend_versions_for_nginx(versions):
                             is_match = False
 
             if is_match:
-                # cve_info = {
-                #     'name': cve,
-                #     'references': [
-                #         'https://nginx.org/en/security_advisories.html',
-                #         more_info_url.replace('http://', 'https://')
-                #     ],
-                #     'version': version
-                # }
-                # if advisory_url != None:
-                #     cve_info['references'].append(
-                #         advisory_url.replace('http://', 'https://'))
-                # result.append(cve_info)
                 versions[version].append(cve)
 
     return versions
@@ -280,13 +266,6 @@ def extend_versions_for_iis(versions):
                     is_match = True
 
             if is_match:
-                # versions[version].append({
-                #     'name': cve,
-                #     'references': [
-                #         url
-                #     ],
-                #     'version': version
-                # })
                 versions[version].append(cve)
                 versions[version] = sorted(versions[version], reverse=True)
 
@@ -295,7 +274,7 @@ def extend_versions_for_iis(versions):
 def extend_versions_for_php(versions):
     raw_data = httpRequestGetContent(
         'https://www.php.net/eol.php')
-    regex = r'(?P<date>\([a-zA-Z0-9 ]+\))<\/em>[\r\n\t]*<\/td>[\r\n\t]*<td>[\r\n\t]*<a [^>]+>[\r\n\t]*(?P<version>[0-9\.]+)'
+    regex = r'(?P<date>\([a-zA-Z0-9 ,]+\))<\/em>[\r\n\t]*<\/td>[\r\n\t]*<td>[\r\n\t]*<a [^>]+>[\r\n\t]*(?P<version>[0-9\.]+)'
     matches = re.finditer(
         regex, raw_data, re.MULTILINE)
 
@@ -403,17 +382,6 @@ def extend_versions_for_apache_httpd(versions):
                                     is_match = True
 
                                 if is_match:
-                                    # versions[version].append({
-                                    #     'name': current_cve,
-                                    #     'references': [
-                                    #         'https://httpd.apache.org/security/vulnerabilities_24.html',
-                                    #         'https://www.cve.org/CVERecord?id={0}'.format(
-                                    #             current_cve)
-                                    #     ]
-                                    # })
-                                    # versions[version].append({
-                                    #     'name': current_cve
-                                    # })
                                     versions[version].append(current_cve)
                                     versions[version] = sorted(versions[version], reverse=True)
 
@@ -429,14 +397,12 @@ def extend_versions_for_apache_httpd(versions):
 def extend_versions_from_github_advisory_database(software_name, versions):
         print('extend_versions[github]', software_name, 'checking for matching CVE')
         # https://github.com/github/advisory-database
-        # result = list()
 
         if github_adadvisory_database_path == None:
             return versions
 
         root_path = os.path.join(
             github_adadvisory_database_path, 'advisories', 'github-reviewed')
-        #root_path = os.path.join(input_folder, 'advisories', 'unreviewed')
         years = os.listdir(root_path)
         for year in years:
             year_path = os.path.join(root_path, year)
@@ -454,7 +420,6 @@ def extend_versions_from_github_advisory_database(software_name, versions):
 
                     with open(key_path, 'r', encoding='utf-8') as file:
                         json_data = json.load(file)
-                        # nice_json_data = json.dumps(json_data, indent=4)
                     if json_data == None:
                         continue
 
@@ -476,9 +441,6 @@ def extend_versions_from_github_advisory_database(software_name, versions):
                             continue
 
                         ecosystem = affected['package']['ecosystem']
-
-                        # if software_name in affected['package']['name']:
-                        #     print('DEBUG:', affected['package']['name'])
 
                         if 'npm' == ecosystem:
                             is_matching = False
@@ -556,14 +518,9 @@ def extend_versions_from_github_advisory_database(software_name, versions):
                                             versions[version].append(cve_info['name'])
                                             versions[version] = sorted(versions[version], reverse=True)
 
-                                        # result.append(cve_info)
-
         return versions
 
 def set_softwares(collection):
-    # TODO: change to this version when used in webperf-core
-    # dir = Path(os.path.dirname(
-    #     os.path.realpath(__file__)) + os.path.sep).parent
     dir = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep)
     
@@ -585,9 +542,6 @@ def set_softwares(collection):
    
 
 def get_softwares():
-    # TODO: change to this version when used in webperf-core
-    # dir = Path(os.path.dirname(
-    #     os.path.realpath(__file__)) + os.path.sep).parent
     dir = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep)
 
@@ -646,11 +600,8 @@ def set_github_repository_info(item, owner, repo):
         if 'javascript' in lang:
             lang = 'js'
         add_tech_if_interesting(techs, imgs, lang)
-        # info_dict['language'] = lang
-    # else:
-    #     info_dict['language'] = None
 
-    # TODO: Get tech from github repo ("topics") info: https://api.github.com/repos/matomo-org/matomo
+    # Get tech from github repo ("topics") info: https://api.github.com/repos/matomo-org/matomo
     # for example: php, mysql
     if 'topics' in github_info and github_info['topics'] != None:
         for topic in github_info['topics']:
@@ -667,7 +618,6 @@ def set_github_repository_info(item, owner, repo):
         item['img'] = imgs
 
     # someone has archived the github repo, project should not be used.
-    # info_dict['archived'] = None
     if 'archived' in github_info and github_info['archived'] != None:
         item['archived'] = github_info['archived']
 

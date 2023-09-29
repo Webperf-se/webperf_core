@@ -253,6 +253,7 @@ def rate_software_security_result(_local, _, result, url):
     has_behind_issues = False
     has_archived_source_issues = False
     # has_multiple_versions_issues = False
+    has_end_of_life_issues = False
 
     for issue_type in result['issues']:
         if issue_type.startswith('CVE-'):
@@ -291,6 +292,16 @@ def rate_software_security_result(_local, _, result, url):
             rating += sub_rating
         elif issue_type.startswith('ARCHIVED-SOURCE'):
             has_archived_source_issues = True
+        elif issue_type.startswith('END-OF-LIFE'):
+            has_end_of_life_issues = True
+            points = 1.75
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(points)
+            if use_detailed_report:
+                sub_rating.set_integrity_and_security(points, '.')
+                # sub_rating.integrity_and_security_review = text
+            else:
+                sub_rating.set_integrity_and_security(points)
         # elif issue_type.startswith('MULTIPLE-VERSIONS'):
         #     has_multiple_versions_issues = True
 
@@ -326,6 +337,18 @@ def rate_software_security_result(_local, _, result, url):
         else:
             sub_rating.set_integrity_and_security(points)
         rating += sub_rating
+
+    if not has_end_of_life_issues:
+        points = 5.0
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(points)
+        if use_detailed_report:
+            sub_rating.set_integrity_and_security(points, '.')
+            # sub_rating.integrity_and_security_review = text
+        else:
+            sub_rating.set_integrity_and_security(points)
+        rating += sub_rating
+
 
     if not use_detailed_report:
         test = 1
@@ -871,7 +894,7 @@ def enrich_versions(item):
         return
 
     for match in item['matches']:
-        if match['category'] != 'tech' and match['category'] != 'js' and match['category'] != 'cms' and match['category'] != 'os':
+        if match['category'] != 'tech' and match['category'] != 'js' and match['category'] != 'cms' and match['category'] != 'os' and match['category'] != 'webserver':
             continue
 
         newer_versions = []

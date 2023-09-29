@@ -93,6 +93,9 @@ def update_software_info():
             versions = extend_versions_for_apache_httpd(versions)
         elif key == 'nginx':
             versions = extend_versions_for_nginx(versions)
+        elif key == 'php':
+            versions = get_php_versions()
+            versions = extend_versions_for_php(versions)
         versions = extend_versions_from_github_advisory_database(key, versions)
 
         # print(key, len(versions))
@@ -285,6 +288,34 @@ def extend_versions_for_iis(versions):
                 #     'version': version
                 # })
                 versions[version].append(cve)
+                versions[version] = sorted(versions[version], reverse=True)
+
+    return versions
+
+def extend_versions_for_php(versions):
+    raw_data = httpRequestGetContent(
+        'https://www.php.net/eol.php')
+    regex = r'(?P<date>\([a-zA-Z0-9 ]+\))<\/em>[\r\n\t]*<\/td>[\r\n\t]*<td>[\r\n\t]*<a [^>]+>[\r\n\t]*(?P<version>[0-9\.]+)'
+    matches = re.finditer(
+        regex, raw_data, re.MULTILINE)
+
+    end_of_life_branches = {}
+    for matchNum, match in enumerate(matches, start=1):
+        is_match = False
+        end_of_life_branch = None
+        end_of_life_version = match.group('version')
+        end_of_life_dating = match.group('date')
+
+        if len(end_of_life_version) > 3:
+            end_of_life_branch = end_of_life_version[:3]
+            end_of_life_branches[end_of_life_branch] = 'END-OF-LIFE {0}'.format(end_of_life_dating)
+
+    for version in versions.keys():
+        print('extend_versions', 'php', version)
+        if len(version) > 3:
+            version_branch = version[:3]
+            if version_branch in end_of_life_branches:
+                versions[version].append(end_of_life_branches[version_branch])
                 versions[version] = sorted(versions[version], reverse=True)
 
     return versions
@@ -766,6 +797,31 @@ def get_windows_versions():
         "2003": ['END-OF-LIFE']
     }
 
+    return versions_dict
+
+def get_php_versions():
+    # newer_versions = []
+    content = httpRequestGetContent(
+        'https://www.php.net/releases/')
+    regex = r"<h2>(?P<version>[0-9\.]+)<\/h2>"
+    matches = re.finditer(regex, content, re.MULTILINE)
+
+    versions = list()
+    versions_dict = {}
+
+    for matchNum, match in enumerate(matches, start=1):
+        name = match.group('version')
+        try:
+            name_version = packaging.version.parse(name)
+            # Ignore dev and pre releases, for example Matomo 5.0.0-rc3
+            if not name_version.is_prerelease:
+                versions.append(name)
+        except:
+            print('ERROR: Unable to parse version for php for version value ', name)
+
+    versions = sorted(versions, key=packaging.version.Version, reverse=True)
+    for version in versions:
+        versions_dict[version] = []
     return versions_dict
 
 def get_apache_httpd_versions():

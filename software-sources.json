@@ -40,6 +40,9 @@
         "windows-server": {
             "custom": true
         },
+        "php": {
+            "custom": true
+        },
         "jquery-ui": {
             "github-owner": "jquery",
             "github-repo": "jquery-ui"

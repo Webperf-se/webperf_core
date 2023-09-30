@@ -285,8 +285,8 @@
             "use": true,
             "type": "x-powered-by",
             "description": "This matches verified PHP",
-            "test": "(?P<debug>^(?P<name>([a-z]+]))\/(?P<version>[0-9.]+))",
-            "match": "(?P<debug>^(?P<name>(php))\/(?P<version>[0-9.]+))",
+            "test": "(?P<debug>^(?P<name>([a-z]+]))/(?P<version>[0-9.]+))",
+            "match": "(?P<debug>^(?P<name>(php))/(?P<version>[0-9.]+))",
             "results": [
                 {
                     "category": "tech",

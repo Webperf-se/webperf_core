@@ -383,7 +383,10 @@ def convert_item_to_domain_data(data):
                             result['issues'][issue_key]['sub-issues'].append(issue_name)
 
                     if len(result['issues'][issue_key]['softwares']) < 15:
-                        software_key = '{0} {1}'.format(match['name'], match['version'])
+                        tmp = ''
+                        if match['version'] != None:
+                            tmp = ' {0}'.format(match['version'])
+                        software_key = '{0} {1}'.format(match['name'], tmp)
                         if software_key not in result['issues'][issue_key]['softwares']:
                             result['issues'][issue_key]['softwares'].append(software_key)
 

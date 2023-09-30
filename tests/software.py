@@ -209,7 +209,7 @@ def rate_software_security_result(_local, _, result, url):
             if use_detailed_report:
                 text = _local('TEXT_DETAILED_REVIEW_CVE').replace('#POINTS#', str(cve_ratings.get_integrity_and_security()))
 
-                text += _local('TEXT_DETAILED_REVIEW_CVE')
+                text += _local('TEXT_DETAILED_REVIEW_CVES')
                 text += '\r\n'
                 for cve in result['issues'][issue_type]['sub-issues']:
                     text += '- {0}\r\n'.format(cve)

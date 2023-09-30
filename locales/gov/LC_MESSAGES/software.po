@@ -120,7 +120,7 @@ msgstr "###### Detected resource(s):"
 msgid "TEXT_DETAILED_REVIEW_MORE_THEN_5_SOURCES"
 msgstr "- More then 5 sources, hiding rest"
 
-msgid "TEXT_DETAILED_REVIEW_CVE"
+msgid "TEXT_DETAILED_REVIEW_CVES"
 msgstr "###### Common Vulnerabilities and Exposures"
 
 msgid "TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE"

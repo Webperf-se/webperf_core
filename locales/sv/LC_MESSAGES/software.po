@@ -123,7 +123,7 @@ msgstr "- Fler än 5 resurser. Döljer resten."
 msgid "TEXT_DETAILED_REVIEW_ARCHIVED_SOURCE"
 msgstr "##### Mjukvaran är markerad som arkiverad ( #POINTS# rating )\r\n\r\n###### Introduktion:\r\nDet ser ut som du använder mjukvara som är markerad som arkiverad, detta innebär att den ej får ny funktionalitet eller säkerhetsuppdateringar.\r\nFör att åtgärda detta måste du hitta en annan mjukvara som uppfyller dina behov, ofta pekar utvecklarna på ett alternativ som de tycker är bra från det ställe du hittade mjukvaran.\r\n\r\n"
 
-msgid "TEXT_DETAILED_REVIEW_CVE"
+msgid "TEXT_DETAILED_REVIEW_CVES"
 msgstr "###### Vanliga sårbarheter och exponeringar"
 
 msgid "TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE"

@@ -283,6 +283,19 @@
         },
         {
             "use": true,
+            "type": "x-powered-by",
+            "description": "This matches verified PHP",
+            "test": "(?P<debug>^(?P<name>([a-z]+]))\/(?P<version>[0-9.]+))",
+            "match": "(?P<debug>^(?P<name>(php))\/(?P<version>[0-9.]+))",
+            "results": [
+                {
+                    "category": "tech",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
             "type": "server",
             "reference": "https://en.wikipedia.org/wiki/Internet_Information_Services",
             "description": "This matches verified web servers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'. (OS is inferred from IIS version)",
@@ -422,8 +435,8 @@
         {
             "use": true,
             "type": "server",
-            "description": "This matches PHP (Using APACHE server header, reference: https://httpd.apache.org/docs/2.4/mod/core.html#serversignature",
-            "match": "(?P<debug>(?P<name>php)\\/{0,1}(?P<version>[0-9.]+){0,1}[ ]{0,1})",
+            "description": "This matches PHP and OpenSSL (Using APACHE server header, reference: https://httpd.apache.org/docs/2.4/mod/core.html#serversignature",
+            "match": "(?P<debug>(?P<name>php|openssl)\\/{0,1}(?P<version>[0-9a-z\\.]+){0,1}[ ]{0,1})",
             "results": [
                 {
                     "category": "tech",

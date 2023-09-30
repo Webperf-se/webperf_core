@@ -4,9 +4,6 @@ from pathlib import Path
 from urllib.parse import urlparse
 import re
 
-sites = list()
-
-
 def add_site(input_filename, url, input_skip, input_take):
     sites = list()
     return sites
@@ -36,7 +33,7 @@ def get_url_from_file_content(input_filename):
 
 
 def read_sites(hostname_or_argument, input_skip, input_take):
-
+    sites = list()
     hostname = hostname_or_argument
     if hostname_or_argument.endswith('.result'):
         tmp = hostname_or_argument[:hostname_or_argument.rfind('.result')]

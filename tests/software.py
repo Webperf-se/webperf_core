@@ -109,7 +109,6 @@ def get_rating_from_sitespeed(url, _local, _):
     # print('DEBUG 2', nice_raw)
 
     rating = Rating(_, review_show_improvements_only)
-    result = {}
     result = convert_item_to_domain_data(data)
 
     # if 'issues' in result:
@@ -133,7 +132,9 @@ def get_rating_from_sitespeed(url, _local, _):
 
     rating += rate_software_security_result(_local, _, result, url)
 
-    rating.overall_review = '{0}\r\n'.format('\r\n'.join(texts)).replace('GOV-IGNORE', '').strip('\r\n\t ')
+    rating.overall_review = '{0}\r\n'.format('\r\n'.join(texts))
+    if len(rating.overall_review.strip('\r\n\t ')) == 0:
+        rating.overall_review = ''
     rating.integrity_and_security_review = rating.integrity_and_security_review.replace('GOV-IGNORE', '').strip('\r\n\t ')
 
     if not use_cache:
@@ -655,6 +656,9 @@ def enrich_versions(item):
             # TODO: handle matomo like software rules where version = '<5.x'.
             # TODO: handle matomo like software rules where version = '=4.x'.
             # print('DEBUG A', match['version'])
+            continue
+
+        if 'versions' not in software_info:
             continue
        
         for current_version in software_info['versions'].keys():

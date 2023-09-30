@@ -96,11 +96,8 @@ msgstr "##### Software is behind >=10 versions ( #POINTS# rating )\r\n\r\n######
 msgid "TEXT_DETAILED_REVIEW_BEHIND001"
 msgstr "##### Software is behind >=1 versions ( #POINTS# rating )\r\n\r\n###### Introduction:\r\nSoftware used is behind 1 or more version compared to latests.\r\nThis is a small indicator that you need to update to latest version.\r\nYou can fix this by updating software to latest version.\r\n\r\n"
 
-msgid "TEXT_DETAILED_REVIEW_BEHIND100"
-msgstr "##### Software is behind >=100 versions ( #POINTS# rating )\r\n\r\n###### Introduction:\r\nSoftware used is behind 100 or more version compared to latests.\r\nThis is a very good indicator that you need to update to latest version.\r\nIt also indicate that you don't have a good package routine for your software.\r\nYou can fix this by updating software to latest version.\r\n\r\n"
-
 msgid "TEXT_DETAILED_REVIEW_ARCHIVED_SOURCE"
-msgstr "##### Software version and name is leaked ( #POINTS# rating )\r\n\r\n###### Introduction:\r\nYou seem to use latest version BUT you are leaking name and version of software used.\r\nThis make it easier for someone to find vulnerabilities to use against you, all from ZERO-DAY to known security issues.\r\nTo fix this you need to hide name and version, please view software documentation on how to do this.\r\n\r\n"
+msgstr "##### Software has been marked as archived ( #POINTS# rating )\r\n\r\n###### Introduction:\r\nYou seem to use software that has been marked as archived, this means it doesn't get any new features or security updates.\r\nTo fix this you need find an alternative, often developers try to point you in the correct direction if you visit the place you got it from.\r\n\r\n"
 
 msgid "TEXT_DETAILED_REVIEW_UNKNOWN_LEAKING_NAME_AND_VERSION"
 msgstr "##### Software version and name is leaked ( #POINTS# rating )\r\n\r\n###### Introduction:\r\nYou are leaking name and version of software used.\r\nThis make it easier for someone to find vulnerabilities to use against you, all from ZERO-DAY to known security issues.\r\nTo fix this you need to hide name and version, please view software documentation on how to do this.\r\n\r\n"

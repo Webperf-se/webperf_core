@@ -105,12 +105,19 @@ def get_rating_from_sitespeed(url, _local, _):
     # ]
     data = enrich_data(data, origin_domain, result_folder_name, rules)
 
+    # nice_raw = json.dumps(data, indent=2)
+    # print('DEBUG 2', nice_raw)
+
     rating = Rating(_, review_show_improvements_only)
     result = {}
     result = convert_item_to_domain_data(data)
 
-    # nice_raw = json.dumps(result, indent=2)
-    # print('DEBUG 3', nice_raw)
+    # if 'issues' in result:
+    #     nice_raw2 = json.dumps(result['issues'], indent=2)
+    #     print('DEBUG 3a', nice_raw2)
+    # else:
+    #     nice_raw2 = json.dumps(result, indent=2)
+    #     print('DEBUG 3b', nice_raw2)
     # result = {
     #   "<category-name>": {
     #       "<item-name>": {
@@ -124,10 +131,7 @@ def get_rating_from_sitespeed(url, _local, _):
     texts = ''
     texts = sum_overall_software_used(_local, _, result)
 
-    # result2 = convert_item_to_software_data(data, url)
     rating += rate_software_security_result(_local, _, result, url)
-
-    # result.update(result2)
 
     rating.overall_review = '{0}\r\n'.format('\r\n'.join(texts)).replace('GOV-IGNORE', '').strip('\r\n\t ')
     rating.integrity_and_security_review = rating.integrity_and_security_review.replace('GOV-IGNORE', '').strip('\r\n\t ')
@@ -157,10 +161,15 @@ def cleanup_domain_data(data):
             if len(data[category_name][software_name].keys()) > 1 and '?' in data[category_name][software_name]:
                 del data[category_name][software_name]['?']
 
-    if len(data['issues'])> 0:
-        issues = list(set(data['issues']))
-        issues = sorted(issues, key=cmp_to_key(sort_issues), reverse=True)
-        data['issues'] = issues
+    if len(data['issues'].keys())> 0:
+        tmp = {}
+        issue_keys = list(data['issues'].keys())
+        issue_keys = sorted(issue_keys, key=cmp_to_key(sort_issues), reverse=True)
+
+        for key in issue_keys:
+            tmp[key] = data['issues'][key]
+
+        data['issues'] = tmp
 
 def sort_issues(item1, item2):
     if item1.startswith('CVE-') and not item2.startswith('CVE-'):
@@ -175,79 +184,9 @@ def sort_issues(item1, item2):
     else:
         return 0
 
-def create_detailed_review(_local, msg_type, points, software_name, software_versions, sources, cve_name=None, references=None):
-    # TODO: Use points from arguments into create_detailed_review and replace it in text (so it is easier to change rating)
-    # TODO: match on issue names directly
-    msg = list()
-    if msg_type == 'cve':
-        # TODO: use startswith for 'CVE-'
-        msg.append(_local('TEXT_DETAILED_REVIEW_CVE').format(cve_name))
-    elif msg_type == 'behind100':
-        msg.append(_local('TEXT_DETAILED_REVIEW_BEHIND100').format(cve_name))
-    elif msg_type == 'behind75':
-        msg.append(_local('TEXT_DETAILED_REVIEW_BEHIND075').format(cve_name))
-    elif msg_type == 'behind50':
-        msg.append(_local('TEXT_DETAILED_REVIEW_BEHIND050').format(cve_name))
-    elif msg_type == 'behind25':
-        msg.append(_local('TEXT_DETAILED_REVIEW_BEHIND025').format(cve_name))
-    elif msg_type == 'behind10':
-        msg.append(_local('TEXT_DETAILED_REVIEW_BEHIND010').format(cve_name))
-    elif msg_type == 'latest-but-leaking-name-and-version':
-        msg.append(_local('TEXT_DETAILED_REVIEW_LATEST_LEAKING_NAME_AND_VERSION').format(cve_name))
-    elif msg_type == 'unknown-but-leaking-name-and-version':
-        msg.append(_local('TEXT_DETAILED_REVIEW_UNKNOWN_LEAKING_NAME_AND_VERSION').format(cve_name))
-    elif msg_type == 'leaking-name':
-        msg.append(_local('TEXT_DETAILED_REVIEW_LEAKING_NAME').format(cve_name))
-    elif msg_type == 'behind1':
-        msg.append(_local('TEXT_DETAILED_REVIEW_BEHIND001').format(cve_name))
-    elif msg_type == 'multiple-versions':
-        msg.append(_local('TEXT_DETAILED_REVIEW_MULTIPLE_VERSIONS').format(cve_name))
-    elif msg_type == 'ARCHIVED-SOURCE':
-        msg.append(_local('TEXT_DETAILED_REVIEW_ARCHIVED_SOURCE').format(cve_name))
-    if 'GOV-IGNORE' in msg:
-        return ''
-    
-    if references != None and len(references) > 0:
-        msg.append(_local('TEXT_DETAILED_REVIEW_REFERENCES'))
-
-        for reference in references:
-            msg.append('- {0}'.format(reference))
-        msg.append('')
-
-    if len(software_versions) > 0:
-        msg.append(_local('TEXT_DETAILED_REVIEW_DETECTED_VERSIONS'))
-
-        for version in software_versions:
-            msg.append('- {0} {1}'.format(software_name, version))
-        msg.append('')
-
-    if len(sources) > 0:
-        msg.append(_local('TEXT_DETAILED_REVIEW_DETECTED_RESOURCES'))
-
-        source_index = 0
-        for source in sources:
-            if source_index > 5:
-                msg.append(_local('TEXT_DETAILED_REVIEW_MORE_THEN_5_SOURCES'))
-                break
-            msg.append('- {0}'.format(source))
-            source_index += 1
-        msg.append('')
-        msg.append('')
-
-    return '\r\n'.join(msg).replace('#POINTS#', "{0:.2f}".format(points))
-
-
-def update_rating_collection(rating, ratings):
-    points_key = "key_{0:.2f}".format(rating.get_integrity_and_security())
-    if points_key not in ratings:
-        ratings[points_key] = list()
-    ratings[points_key].append(rating)
-    return ratings
-
 
 def rate_software_security_result(_local, _, result, url):
     rating = Rating(_, review_show_improvements_only)
-
 
     has_cve_issues = False
     has_behind_issues = False
@@ -256,17 +195,29 @@ def rate_software_security_result(_local, _, result, url):
     has_end_of_life_issues = False
 
     for issue_type in result['issues']:
-        if issue_type.startswith('CVE-'):
+        text = ''
+        if issue_type.startswith('CVE'):
             has_cve_issues = True
             points = 1.0
-            sub_rating = Rating(_, review_show_improvements_only)
-            sub_rating.set_overall(points)
-            if use_detailed_report:
-                sub_rating.set_integrity_and_security(points, '.')
-                # sub_rating.integrity_and_security_review = text
-            else:
+            cve_ratings = Rating(_, review_show_improvements_only)
+            for sub_issue in result['issues']['CVE']['sub-issues']:
+                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating.set_overall(points)
                 sub_rating.set_integrity_and_security(points)
-            rating += sub_rating
+                cve_ratings += sub_rating
+            if use_detailed_report:
+                text = _local('TEXT_DETAILED_REVIEW_CVE').replace('#POINTS#', str(cve_ratings.get_integrity_and_security()))
+                text += '###### Detected software:\r\n'
+                for software in result['issues'][issue_type]['softwares']:
+                    text += '- {0}\r\n'.format(software)
+
+                text += '\r\n'
+                text += '###### Affected resources:\r\n'
+                for resource in result['issues'][issue_type]['resources']:
+                    text += '- {0}\r\n'.format(resource)
+
+                cve_ratings.integrity_and_security_review = text
+            rating += cve_ratings
         elif issue_type.startswith('BEHIND'):
             has_behind_issues = True
             points = 5.0
@@ -284,24 +235,60 @@ def rate_software_security_result(_local, _, result, url):
                 points = 4.9
             sub_rating = Rating(_, review_show_improvements_only)
             sub_rating.set_overall(points)
+            sub_rating.set_integrity_and_security(points)
+
             if use_detailed_report:
-                sub_rating.set_integrity_and_security(points, '.')
-                # sub_rating.integrity_and_security_review = text
-            else:
-                sub_rating.set_integrity_and_security(points)
+                text = _local('TEXT_DETAILED_REVIEW_{0}'.format(issue_type)).replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
+                text += '###### Detected software:\r\n'
+                for software in result['issues'][issue_type]['softwares']:
+                    text += '- {0}\r\n'.format(software)
+
+                text += '\r\n'
+                text += '###### Affected resources:\r\n'
+                for resource in result['issues'][issue_type]['resources']:
+                    text += '- {0}\r\n'.format(resource)
+                sub_rating.integrity_and_security_review = text
+
             rating += sub_rating
-        elif issue_type.startswith('ARCHIVED-SOURCE'):
+        elif issue_type.startswith('ARCHIVED_SOURCE'):
             has_archived_source_issues = True
-        elif issue_type.startswith('END-OF-LIFE'):
+            points = 1.75
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(points)
+            sub_rating.set_integrity_and_security(points)
+            if use_detailed_report:
+                text = _local('TEXT_DETAILED_REVIEW_{0}'.format(issue_type)).replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
+                text += '###### Detected software:\r\n'
+                for software in result['issues'][issue_type]['softwares']:
+                    text += '- {0}\r\n'.format(software)
+
+                text += '\r\n'
+                text += '###### Affected resources:\r\n'
+                for resource in result['issues'][issue_type]['resources']:
+                    text += '- {0}\r\n'.format(resource)
+                sub_rating.integrity_and_security_review = text
+            rating += sub_rating
+
+        elif issue_type.startswith('END_OF_LIFE'):
             has_end_of_life_issues = True
             points = 1.75
             sub_rating = Rating(_, review_show_improvements_only)
             sub_rating.set_overall(points)
+            sub_rating.set_integrity_and_security(points)
+
             if use_detailed_report:
-                sub_rating.set_integrity_and_security(points, '.')
-                # sub_rating.integrity_and_security_review = text
-            else:
-                sub_rating.set_integrity_and_security(points)
+                text = _local('TEXT_DETAILED_REVIEW_{0}'.format(issue_type)).replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
+                text += '###### Detected software:\r\n'
+                for software in result['issues'][issue_type]['softwares']:
+                    text += '- {0}\r\n'.format(software)
+
+                text += '\r\n'
+                text += '###### Affected resources:\r\n'
+                for resource in result['issues'][issue_type]['resources']:
+                    text += '- {0}\r\n'.format(resource)
+                sub_rating.integrity_and_security_review = text
+            rating += sub_rating
+
         # elif issue_type.startswith('MULTIPLE-VERSIONS'):
         #     has_multiple_versions_issues = True
 
@@ -310,8 +297,7 @@ def rate_software_security_result(_local, _, result, url):
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(points)
         if use_detailed_report:
-            sub_rating.set_integrity_and_security(points, '.')
-            # sub_rating.integrity_and_security_review = text
+            sub_rating.set_integrity_and_security(points, 'TEXT_DETAILED_REVIEW_NO_CVE')
         else:
             sub_rating.set_integrity_and_security(points)
         rating += sub_rating
@@ -321,8 +307,7 @@ def rate_software_security_result(_local, _, result, url):
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(points)
         if use_detailed_report:
-            sub_rating.set_integrity_and_security(points, '.')
-            # sub_rating.integrity_and_security_review = text
+            sub_rating.set_integrity_and_security(points, 'TEXT_DETAILED_REVIEW_NO_BEHIND')
         else:
             sub_rating.set_integrity_and_security(points)
         rating += sub_rating
@@ -332,8 +317,7 @@ def rate_software_security_result(_local, _, result, url):
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(points)
         if use_detailed_report:
-            sub_rating.set_integrity_and_security(points, '.')
-            # sub_rating.integrity_and_security_review = text
+            sub_rating.set_integrity_and_security(points, 'TEXT_DETAILED_REVIEW_NO_ARCHIVES')
         else:
             sub_rating.set_integrity_and_security(points)
         rating += sub_rating
@@ -343,174 +327,12 @@ def rate_software_security_result(_local, _, result, url):
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(points)
         if use_detailed_report:
-            sub_rating.set_integrity_and_security(points, '.')
-            # sub_rating.integrity_and_security_review = text
+            sub_rating.set_integrity_and_security(points, 'TEXT_DETAILED_REVIEW_NO_END_OF_LIFE')
         else:
             sub_rating.set_integrity_and_security(points)
         rating += sub_rating
 
-
-    if not use_detailed_report:
-        test = 1
-    else:
-        test = 2
-
     return rating
-
-    # ratings = {}
-
-    # categories = ['cms', 'webserver', 'os',
-    #               'analytics',
-    #               'js',
-    #               'img', 'img.software', 'img.os', 'img.device', 'video']
-    # for category in categories:
-    #     if category in result:
-    #         for software_name in result[category]:
-    #             info = result[category][software_name]
-    #             if 'issues' in info:
-    #                 for issue in info['issues']:
-    #                     points = 1.0
-    #                     # if 'severity' in vuln:
-    #                     #     if 'HIGH' in vuln['severity']:
-    #                     #         points = 1.2
-    #                     #     elif 'MODERATE' in vuln['severity']:
-    #                     #         points = 1.5
-    #                     vuln_versions = list()
-    #                     # vuln_versions.append(vuln['version'])
-    #                     # v_sources_key = 'v-{0}-sources'.format(
-    #                     #     vuln['version'])
-
-    #                     # if v_sources_key not in info:
-    #                     #     v_sources_key = 'sources'
-    #                     # vuln_sources = info[v_sources_key]
-    #                     vuln_sources = list()
-
-    #                     text = create_detailed_review(_local,
-    #                         'cve', points, software_name, vuln_versions, vuln_sources, issue, list()) # vuln['references']
-    #                     sub_rating = Rating(_, review_show_improvements_only)
-    #                     sub_rating.set_overall(points)
-    #                     if use_detailed_report:
-    #                         sub_rating.set_integrity_and_security(points, '.')
-    #                         sub_rating.integrity_and_security_review = text
-    #                     else:
-    #                         sub_rating.set_integrity_and_security(points)
-    #                     ratings = update_rating_collection(sub_rating, ratings)
-
-    #             if category != 'js' and 'nof-newer-versions' in info and info['nof-newer-versions'] == 0:
-    #                 points = 4.5
-    #                 text = create_detailed_review(_local,
-    #                     'latest-but-leaking-name-and-version', points, software_name, info['versions'], info['sources'])
-    #                 sub_rating = Rating(_, review_show_improvements_only)
-    #                 sub_rating.set_overall(points)
-    #                 if use_detailed_report:
-    #                     sub_rating.set_integrity_and_security(points, '.')
-    #                     sub_rating.integrity_and_security_review = text
-    #                 else:
-    #                     sub_rating.set_integrity_and_security(points)
-    #                 ratings = update_rating_collection(sub_rating, ratings)
-    #             elif category != 'js':
-    #                 points = 4.0
-    #                 text = create_detailed_review(_local,
-    #                     'unknown-but-leaking-name-and-version', points, software_name, info['versions'], info['sources'])
-    #                 sub_rating = Rating(_, review_show_improvements_only)
-    #                 sub_rating.set_overall(points)
-    #                 if use_detailed_report:
-    #                     sub_rating.set_integrity_and_security(points, '.')
-    #                     sub_rating.integrity_and_security_review = text
-    #                 else:
-    #                     sub_rating.set_integrity_and_security(points)
-    #                 ratings = update_rating_collection(sub_rating, ratings)
-
-    #             if 'nof-newer-versions' in info and info['nof-newer-versions'] > 0:
-    #                 for version in info['versions']:
-    #                     v_newer_key = 'v-{0}-nof-newer-versions'.format(
-    #                         version)
-    #                     v_sources_key = 'v-{0}-sources'.format(version)
-
-    #                     # TODO: FAIL SAFE, we have identified multiple version of same software for the same request, should not be possible...
-    #                     if v_newer_key not in info:
-    #                         v_newer_key = 'nof-newer-versions'
-
-    #                     if info[v_newer_key] == 0:
-    #                         continue
-
-    #                     if v_sources_key not in info:
-    #                         v_sources_key = 'sources'
-
-    #                     tmp_versions = list()
-    #                     tmp_versions.append(version)
-
-    #                     points = -1
-    #                     text = ''
-    #                     if info[v_newer_key] >= 100:
-    #                         points = 2.0
-    #                         text = create_detailed_review(_local,
-    #                             'behind100', points, software_name, tmp_versions, info[v_sources_key])
-    #                     elif info[v_newer_key] >= 75:
-    #                         points = 2.25
-    #                         text = create_detailed_review(_local,
-    #                             'behind75', points, software_name, tmp_versions, info[v_sources_key])
-    #                     elif info[v_newer_key] >= 50:
-    #                         points = 2.5
-    #                         text = create_detailed_review(_local,
-    #                             'behind50', points, software_name, tmp_versions, info[v_sources_key])
-    #                     elif info[v_newer_key] >= 25:
-    #                         points = 2.75
-    #                         text = create_detailed_review(_local,
-    #                             'behind25', points, software_name, tmp_versions, info[v_sources_key])
-    #                     elif info[v_newer_key] >= 10:
-    #                         points = 3.0
-    #                         text = create_detailed_review(_local,
-    #                             'behind10', points, software_name, tmp_versions, info[v_sources_key])
-    #                     elif info[v_newer_key] >= 1:
-    #                         points = 4.9
-    #                         text = create_detailed_review(_local,
-    #                             'behind1', points, software_name, tmp_versions, info[v_sources_key])
-
-    #                     sub_rating = Rating(_, review_show_improvements_only)
-    #                     sub_rating.set_overall(points)
-    #                     if use_detailed_report:
-    #                         sub_rating.set_integrity_and_security(points, '.')
-    #                         sub_rating.integrity_and_security_review = text
-    #                     else:
-    #                         sub_rating.set_integrity_and_security(points)
-    #                     ratings = update_rating_collection(sub_rating, ratings)
-
-    #             if len(info['versions']) > 1:
-    #                 points = 4.1
-    #                 text = create_detailed_review(_local,
-    #                     'multiple-versions', points, software_name, info['versions'], info['sources'])
-    #                 sub_rating = Rating(_, review_show_improvements_only)
-    #                 sub_rating.set_overall(points)
-    #                 if use_detailed_report:
-    #                     sub_rating.set_integrity_and_security(points, '.')
-    #                     sub_rating.integrity_and_security_review = text
-    #                 else:
-    #                     sub_rating.set_integrity_and_security(points)
-    #                 ratings = update_rating_collection(sub_rating, ratings)
-
-    # sorted_keys = list()
-    # for points_key in ratings.keys():
-    #     sorted_keys.append(points_key)
-
-    # sorted_keys.sort()
-
-    # for points_key in sorted_keys:
-    #     for sub_rating in ratings[points_key]:
-    #         rating += sub_rating
-
-    # if rating.get_overall() == -1:
-    #     rating.set_overall(5.0)
-    #     rating.set_integrity_and_security(5.0)
-    # elif not use_detailed_report:
-    #     text = '{0}'.format(_local('UPDATE_AVAILABLE'))
-    #     tmp_rating = Rating(_, review_show_improvements_only)
-    #     tmp_rating.set_integrity_and_security(
-    #         rating.get_integrity_and_security(), text)
-
-    #     rating.integrity_and_security_review = tmp_rating.integrity_and_security_review
-
-    # return rating
 
 
 def sum_overall_software_used(_local, _, result):
@@ -529,137 +351,41 @@ def sum_overall_software_used(_local, _, result):
     return texts
 
 
-def convert_item_to_software_data(data, url):
-    result = {
-        'called_url': url
-    }
-
-    for item in data:
-        for match in item['matches']:
-            category = match['category']
-
-            if 'js' not in category and 'cms' not in category and 'webserver' not in category and 'os' not in category:
-                continue
-
-            if category not in result:
-                result[category] = {}
-
-            name = match['name']
-            if name == '?':
-                continue
-            version = match['version']
-            if 'webserver' != category and version == None:
-                continue
-
-            precision = match['precision']
-            if precision < 0.3:
-                continue
-
-            if name not in result[category]:
-                result[category][name] = {
-                    'versions': [],
-                    'sources': [],
-                    'issues': []
-                }
-
-            if 'issues' in match and len(match['issues']) > 0:
-                result[category][name]['issues'].extend(match['issues'])
-
-            if version != None and version not in result[category][name]['versions']:
-                result[category][name]['versions'].append(version)
-            if 'url' in item and item['url'] not in result[category][name]['sources']:
-                result[category][name]['sources'].append(item['url'])
-                if version != None:
-                    v_sources_key = 'v-{0}-sources'.format(
-                        version)
-                    if v_sources_key not in result[category][name]:
-                        result[category][name][v_sources_key] = list()
-                    result[category][name][v_sources_key].append(item['url'])
-            if 'latest-version' in match:
-                result[category][name]['latest-version'] = match['latest-version']
-            if 'nof-newer-versions' in match:
-                if 'nof-newer-versions' not in result[category][name] or result[category][name]['nof-newer-versions'] < match['nof-newer-versions']:
-                    result[category][name]['nof-newer-versions'] = match['nof-newer-versions']
-                v_newer_key = 'v-{0}-nof-newer-versions'.format(
-                    version)
-                result[category][name][v_newer_key] = match['nof-newer-versions']
-
-    result = cleanup_software_result(result)
-
-    # for category in result:
-    #     if 'called_url' == category:
-    #         continue
-
-    #     for software_name in result[category]:
-    #         software = result[category][software_name]
-    #         for version in software['versions']:
-    #             records = get_cve_records_for_software_and_version(
-    #                 software_name, version, category)
-    #             if len(records) > 0:
-    #                 if 'vulnerabilities' not in result[category][software_name]:
-    #                     result[category][software_name]['vulnerabilities'] = list()
-    #                 result[category][software_name]['vulnerabilities'].extend(
-    #                     records)
-
-    return result
-
-
-def cleanup_software_result(result):
-
-    for category in result:
-        if 'called_url' == category:
-            continue
-
-        for software_name in result[category]:
-            software = result[category][software_name]
-            versions = software['versions']
-            versions_to_remove = list()
-
-            for version in versions:
-                version_sources_key = 'v-{0}-sources'.format(version)
-                version_newer_key = 'v-{0}-nof-newer-versions'.format(version)
-                should_remove = False
-                if version_sources_key not in software:
-                    should_remove = True
-
-                if should_remove:
-                    versions_to_remove.append(version)
-
-            for version in versions_to_remove:
-                version_sources_key = 'v-{0}-sources'.format(version)
-                version_newer_key = 'v-{0}-nof-newer-versions'.format(version)
-                software['versions'].remove(version)
-
-                if version_sources_key in software:
-                    del software[version_sources_key]
-
-                if version_newer_key in software:
-                    del software[version_newer_key]
-
-            if len(software['versions']) == 1:
-                version = software['versions'][0]
-                version_sources_key = 'v-{0}-sources'.format(version)
-                version_newer_key = 'v-{0}-nof-newer-versions'.format(version)
-
-                if version_sources_key in software:
-                    del software[version_sources_key]
-
-                if version_newer_key in software:
-                    del software[version_newer_key]
-
-    return result
-
-
 def convert_item_to_domain_data(data):
     result = {
-        'issues': []
+        'issues': {}
     }
 
     for item in data:
         for match in item['matches']:
             if 'issues' in match:
-                result['issues'].extend(match['issues'])
+                for issue_name in match['issues']:
+                    issue_key = issue_name
+                    if issue_key.startswith('CVE-'):
+                        issue_key = 'CVE'
+                    elif issue_key.startswith('END_OF_LIFE'):
+                        issue_key = 'END_OF_LIFE'
 
+                    if issue_key not in result['issues']:
+                        result['issues'][issue_key] = {
+                            'softwares': [],
+                            'resources': [],
+                            'sub-issues': []
+                        }
+
+                    if issue_key != issue_name:
+                        if issue_name not in result['issues'][issue_key]['sub-issues']:
+                            result['issues'][issue_key]['sub-issues'].append(issue_name)
+
+                    if len(result['issues'][issue_key]['softwares']) < 15:
+                        software_key = '{0} {1}'.format(match['name'], match['version'])
+                        if software_key not in result['issues'][issue_key]['softwares']:
+                            result['issues'][issue_key]['softwares'].append(software_key)
+
+                    if len(result['issues'][issue_key]['resources']) < 15:
+                        if item['url'] not in result['issues'][issue_key]['resources']:
+                            result['issues'][issue_key]['resources'].append(item['url'])
+                    
             category = match['category']
             name = match['name']
             if name == '?':
@@ -735,46 +461,12 @@ def enrich_data(data, orginal_domain, result_folder_name, rules):
     tmp_list = list()
 
     for item in data:
-        # if item['domain'] != orginal_domain:
-        #     continue
-
         enrich_versions(item)
 
-        # if item['category'] == 'cms':
-        #     cms = item['name']
-
-        # if item['category'] == 'test':
-        #     testing[item['name']] = False
-
-        # if item['precision'] >= 0.5 and (item['category'] == 'os' or item['category'] == 'webserver' or item['category'] == 'cms'):
-        #     if item['version'] != None:
-        #         if 'is-latest-version' in item and item['is-latest-version']:
-        #             item['security.latest-but-leaking-name-and-version'] = True
-        #         else:
-        #             item['security.leaking-name-and-version'] = True
-
-        #         tmp_list.append(get_default_info(
-        #             item['url'], 'enrich', item['precision'], 'security', 'screaming.{0}'.format(item['category']), None))
-        #     else:
-        #         tmp_list.append(get_default_info(
-        #             item['url'], 'enrich', item['precision'], 'security', 'talking.{0}'.format(item['category']), None))
-
-        # # matomo = enrich_data_from_matomo(matomo, tmp_list, item)
         enrich_data_from_javascript(tmp_list, item, rules)
         enrich_data_from_videos(tmp_list, item, result_folder_name)
         enrich_data_from_images(tmp_list, item, result_folder_name)
         enrich_data_from_documents(tmp_list, item, result_folder_name)
-
-        # ignore = False
-        # for match in item['matches']:
-        #     if match['category'] == 'img' or match['category'] == 'meta':
-        #         ignore = True
-
-        # if not ignore:
-        #     nice_raw = json.dumps(item, indent=2)
-        #     print('DEBUG', nice_raw)
-
-    # data.extend(tmp_list)
 
     if len(testing) > 0:
         raw_data['test'][orginal_domain] = {
@@ -785,15 +477,11 @@ def enrich_data(data, orginal_domain, result_folder_name, rules):
     # nice_raw = json.dumps(tmp_list, indent=2)
     # print('DEBUG 2', nice_raw)
 
-
     return data
 
 def get_softwares():
-    # TODO: change to this version when used in webperf-core
     dir = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent
-    # dir = Path(os.path.dirname(
-    #     os.path.realpath(__file__)) + os.path.sep)
 
     file_path = '{0}{1}data{1}software-full.json'.format(dir, os.path.sep)
     if not os.path.isfile(file_path):
@@ -804,19 +492,14 @@ def get_softwares():
             'loaded': False
         }
 
-    # print('get_softwares', file_path)
-
     with open(file_path) as json_file:
         softwares = json.load(json_file)
     return softwares
 
 
 def add_github_software_source(name, github_ower, github_repo):
-    # TODO: change to this version when used in webperf-core
     dir = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent
-    # dir = Path(os.path.dirname(
-    #     os.path.realpath(__file__)) + os.path.sep)
 
     file_path = '{0}{1}data{1}software-sources.json'.format(dir, os.path.sep)
     if not os.path.isfile(file_path):
@@ -845,19 +528,14 @@ def add_github_software_source(name, github_ower, github_repo):
         file.write(data)
 
 def add_unknown_software_source(name, version, url):
-    # TODO: change to this version when used in webperf-core
     dir = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent
-    # dir = Path(os.path.dirname(
-    #     os.path.realpath(__file__)) + os.path.sep)
 
     file_path = '{0}{1}data{1}software-unknown-sources.json'.format(dir, os.path.sep)
     if not os.path.isfile(file_path):
         file_path = '{0}{1}software-unknown-sources.json'.format(dir, os.path.sep)
     if not os.path.isfile(file_path):
         print("Info: No software-unknown-sources.json file found!")
-
-    # print('add_unknown_software_source', file_path)
 
     collection = {}
     try:
@@ -925,7 +603,6 @@ def enrich_versions(item):
         #     #         matomo_version = match.group('version')
         #     #         matomo['version'] = matomo_version
         #     #         break
-
     
         if match['name'] not in collection['softwares']:
             # Check aliases
@@ -960,7 +637,7 @@ def enrich_versions(item):
         if 'archived' in software_info and software_info['archived']:
             # if 'issues' not in item:
             #     match['issues'] = []
-            match['issues'].append('ARCHIVED-SOURCE')
+            match['issues'].append('ARCHIVED_SOURCE')
         if 'tech' in software_info:
             match['tech'] = software_info['tech']
 
@@ -1021,8 +698,6 @@ def enrich_versions(item):
 
     # nice_raw = json.dumps(item, indent=2)
     # print('DEBUG', nice_raw)
-
-    # return
 
 def enrich_data_from_javascript(tmp_list, item, rules):
     if use_stealth:
@@ -1296,8 +971,6 @@ def identify_software(filename, origin_domain, rules):
             #   "version": null
             # }
 
-            # cleanup_duplicate_matches(item)
-
             cleanup_used_global_software(global_software, item)
             data.append(item)
 
@@ -1312,8 +985,8 @@ def identify_software(filename, origin_domain, rules):
             continue
         for version in versions:
             info = get_default_info(
-                req_url, 'js-objects', 0.8, 'js', software_name, version)
-            item['matches'].append(info)
+                data[0]['url'], 'js-objects', 0.8, 'js', software_name, version)
+            data[0]['matches'].append(info)
 
     # nice_raw = json.dumps(global_software, indent=2)
     # print('DEBUG - Global Software, UNRESOLVED', nice_raw)
@@ -1325,45 +998,6 @@ def cleanup_used_global_software(global_software, item):
     for match in item['matches']:
         if match['name'] in global_software and match['version'] in global_software[match['name']]:
             global_software[match['name']].remove(match['version'])
-
-def cleanup_duplicate_matches(item):
-    tmp = set()
-    for index, match in enumerate(item['matches']):
-        for index2, match2 in enumerate(item['matches']):
-            if index == index2:
-                continue
-            if match['category'] != match2['category']:
-                continue
-            if match['name'] != match2['name']:
-                continue
-            if match['version'] != match2['version']:
-                continue
-
-            if len(match.keys()) != len(match2.keys()):
-                continue
-
-            if match['precision'] < match2['precision']:
-                tmp.add(index)
-            else:
-                tmp.add(index2)
-
-    tmp = list(tmp)
-    if len(tmp) > 0:
-        tmp = reversed(tmp)
-        for index3 in tmp:
-            del item['matches'][index3]
-
-def remove_empty_items(data):
-    tmp = set()
-    for index, item in enumerate(data):
-        if len(item['matches']) == 0:
-            tmp.add(index)
-
-    tmp = list(tmp)
-    if len(tmp) > 0:
-        tmp = reversed(tmp)
-        for index3 in tmp:
-            del data[index3]
 
 
 def lookup_response_mimetype(item, response_mimetype):
@@ -1512,23 +1146,19 @@ def get_default_info(url, method, precision, key, name, version, domain=None):
     if version != None:
         version = version.lower().strip('.').strip('-').strip()
 
-    # result['url'] = url
     result['method'] = method
     result['precision'] = precision
     result['category'] = key
     result['name'] = name
     result['version'] = version
     result['issues'] = []
-    # result['security'] = []
 
     return result
 
 
 def lookup_request_url(item, rules, origin_domain):
-    data = list()
-
     if 'urls' not in rules:
-        return data
+        return
 
     is_found = False
     for rule in rules['urls']:
@@ -1589,11 +1219,8 @@ def lookup_request_url(item, rules, origin_domain):
                     is_found = True
                 if raw_data['urls']['use'] and not is_found:
                     raw_data['urls'][req_url] = is_found
-    # return item
 
 def lookup_response_headers(item, headers, rules, origin_domain):
-    data = list()
-
     for header in headers:
         header_name = header['name'].lower()
         header_value = header['value'].lower()
@@ -1603,16 +1230,11 @@ def lookup_response_headers(item, headers, rules, origin_domain):
 
         lookup_response_header(
             item, header_name, header_value, rules, origin_domain)
-    #     if len(tmp_data) != 0:
-    #         data.extend(tmp_data)
-    # return data
-
 
 def lookup_response_header(item, header_name, header_value, rules, origin_domain):
-    # data = list()
 
     if 'headers' not in rules:
-        return# data
+        return
 
     is_found = False
     for rule in rules['headers']:
@@ -1677,9 +1299,6 @@ def lookup_response_header(item, header_name, header_value, rules, origin_domain
                     is_found = True
                 elif raw_data['headers']['use'] and not is_found:
                     raw_data['headers'][match.group('debug')] = hostname
-
-    # return data
-
 
 def get_rules():
     dir = Path(os.path.dirname(

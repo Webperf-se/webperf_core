@@ -247,12 +247,15 @@ def rate_software_security_result(_local, _, result, url):
 
             if use_detailed_report:
                 text = _local('TEXT_DETAILED_REVIEW_{0}'.format(issue_type)).replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
-                text += '###### Detected software:\r\n'
+                text += '\r\n'
+                text += _local('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
+                text += '\r\n'
                 for software in result['issues'][issue_type]['softwares']:
                     text += '- {0}\r\n'.format(software)
 
                 text += '\r\n'
-                text += '###### Affected resources:\r\n'
+                text += _local('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
+                text += '\r\n'
                 for resource in result['issues'][issue_type]['resources']:
                     text += '- {0}\r\n'.format(resource)
                 sub_rating.integrity_and_security_review = text
@@ -266,12 +269,15 @@ def rate_software_security_result(_local, _, result, url):
             sub_rating.set_integrity_and_security(points)
             if use_detailed_report:
                 text = _local('TEXT_DETAILED_REVIEW_{0}'.format(issue_type)).replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
-                text += '###### Detected software:\r\n'
+                text += '\r\n'
+                text += _local('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
+                text += '\r\n'
                 for software in result['issues'][issue_type]['softwares']:
                     text += '- {0}\r\n'.format(software)
 
                 text += '\r\n'
-                text += '###### Affected resources:\r\n'
+                text += _local('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
+                text += '\r\n'
                 for resource in result['issues'][issue_type]['resources']:
                     text += '- {0}\r\n'.format(resource)
                 sub_rating.integrity_and_security_review = text
@@ -286,12 +292,15 @@ def rate_software_security_result(_local, _, result, url):
 
             if use_detailed_report:
                 text = _local('TEXT_DETAILED_REVIEW_{0}'.format(issue_type)).replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
-                text += '###### Detected software:\r\n'
+                text += '\r\n'
+                text += _local('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
+                text += '\r\n'
                 for software in result['issues'][issue_type]['softwares']:
                     text += '- {0}\r\n'.format(software)
 
                 text += '\r\n'
-                text += '###### Affected resources:\r\n'
+                text += _local('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
+                text += '\r\n'
                 for resource in result['issues'][issue_type]['resources']:
                     text += '- {0}\r\n'.format(resource)
                 sub_rating.integrity_and_security_review = text
@@ -305,7 +314,7 @@ def rate_software_security_result(_local, _, result, url):
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(points)
         if use_detailed_report:
-            sub_rating.set_integrity_and_security(points, 'TEXT_DETAILED_REVIEW_NO_CVE')
+            sub_rating.set_integrity_and_security(points, _local('TEXT_DETAILED_REVIEW_NO_CVE'))
         else:
             sub_rating.set_integrity_and_security(points)
         rating += sub_rating
@@ -315,7 +324,7 @@ def rate_software_security_result(_local, _, result, url):
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(points)
         if use_detailed_report:
-            sub_rating.set_integrity_and_security(points, 'TEXT_DETAILED_REVIEW_NO_BEHIND')
+            sub_rating.set_integrity_and_security(points, _local('TEXT_DETAILED_REVIEW_NO_BEHIND'))
         else:
             sub_rating.set_integrity_and_security(points)
         rating += sub_rating
@@ -325,7 +334,7 @@ def rate_software_security_result(_local, _, result, url):
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(points)
         if use_detailed_report:
-            sub_rating.set_integrity_and_security(points, 'TEXT_DETAILED_REVIEW_NO_ARCHIVES')
+            sub_rating.set_integrity_and_security(points, _local('TEXT_DETAILED_REVIEW_NO_ARCHIVES'))
         else:
             sub_rating.set_integrity_and_security(points)
         rating += sub_rating
@@ -335,7 +344,7 @@ def rate_software_security_result(_local, _, result, url):
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(points)
         if use_detailed_report:
-            sub_rating.set_integrity_and_security(points, 'TEXT_DETAILED_REVIEW_NO_END_OF_LIFE')
+            sub_rating.set_integrity_and_security(points, _local('TEXT_DETAILED_REVIEW_NO_END_OF_LIFE'))
         else:
             sub_rating.set_integrity_and_security(points)
         rating += sub_rating

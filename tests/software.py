@@ -201,17 +201,21 @@ def rate_software_security_result(_local, _, result, url):
             has_cve_issues = True
             points = 1.0
             cve_ratings = Rating(_, review_show_improvements_only)
-            for sub_issue in result['issues']['CVE']['sub-issues']:
+            for sub_issue in result['issues'][issue_type]['sub-issues']:
                 sub_rating = Rating(_, review_show_improvements_only)
                 sub_rating.set_overall(points)
                 sub_rating.set_integrity_and_security(points)
                 cve_ratings += sub_rating
             if use_detailed_report:
                 text = _local('TEXT_DETAILED_REVIEW_CVE').replace('#POINTS#', str(cve_ratings.get_integrity_and_security()))
+
+                text += '###### Common Vulnerabilities and Exposures:\r\n'
+                for cve in result['issues'][issue_type]['sub-issues']:
+                    text += '- {0}\r\n'.format(cve)
+                text += '\r\n'
                 text += '###### Detected software:\r\n'
                 for software in result['issues'][issue_type]['softwares']:
                     text += '- {0}\r\n'.format(software)
-
                 text += '\r\n'
                 text += '###### Affected resources:\r\n'
                 for resource in result['issues'][issue_type]['resources']:

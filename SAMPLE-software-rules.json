@@ -587,6 +587,18 @@
                     "precision": 0.8
                 }
             ]
+        },
+        {
+            "use": true,
+            "type": "server",
+            "description": "IGNORE, here to remove entries from debug.json",
+            "match": "(?P<debug>(amazons3|cloudflare|cdn77-turbo|google tag manager))",
+            "results": [
+                {
+                    "category": "ignore",
+                    "precision": 0.0
+                }
+            ]
         }
     ],
     "contents": [

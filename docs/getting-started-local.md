@@ -4,7 +4,7 @@ This method is best if you want to test/verify private websites like acceptance 
 it is also best/fastest when wanting to contribute with new tests, translations or other stuff.
 
 ## How to setup
-- [Download and install Python 3.8 (or later)](https://www.python.org/downloads/) if you don't have it installed already.
+- [Download and install Python 3.10 (or later)](https://www.python.org/downloads/) if you don't have it installed already.
 - [Fork webperf-core repository](https://github.com/Webperf-se/webperf_core/fork?fragment=1) or [download webperf-core](https://github.com/Webperf-se/webperf_core/archive/refs/heads/main.zip) to your machine.
 - Copy `SAMPLE-config.py` to new file named `config.py`, [read more about config.py here](config-py.md)
 - Open the Terminal (Macos & Linux) or Command Prompt (Windows).

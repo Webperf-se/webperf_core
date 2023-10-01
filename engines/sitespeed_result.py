@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
 from pathlib import Path
+from urllib.parse import urlparse
 import re
-
-sites = list()
-
 
 def add_site(input_filename, url, input_skip, input_take):
     sites = list()
@@ -18,6 +16,8 @@ def delete_site(input_filename, url, input_skip, input_take):
 
 def get_url_from_file_content(input_filename):
     try:
+        # No need to read all content, just read the first 1024 bytes as our url will be there
+        # we are doing this for performance
         with open(input_filename, 'r', encoding='utf-8') as file:
             data = file.read(1024)
             regex = r"\"_url\":[ ]{0,1}\"(?P<url>[^\"]+)\""
@@ -32,7 +32,13 @@ def get_url_from_file_content(input_filename):
     return None
 
 
-def read_sites(input_filename, input_skip, input_take):
+def read_sites(hostname_or_argument, input_skip, input_take):
+    sites = list()
+    hostname = hostname_or_argument
+    if hostname_or_argument.endswith('.result'):
+        tmp = hostname_or_argument[:hostname_or_argument.rfind('.result')]
+        o = urlparse(tmp)
+        hostname = o.hostname
 
     if len(sites) > 0:
         return sites
@@ -40,26 +46,24 @@ def read_sites(input_filename, input_skip, input_take):
     dir = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent
 
-    data_dir = os.path.join(dir, 'data') + os.path.sep
+    data_dir = os.path.join(dir, 'cache', hostname) + os.path.sep
+    if not os.path.exists(data_dir):
+        return sites
 
     dirs = os.listdir(data_dir)
 
     urls = {}
 
-    for result_dir in dirs:
+    for file_name in dirs:
         if input_take != -1 and len(urls) >= input_take:
             break
 
-        if not result_dir.startswith('results-'):
+        if not file_name.endswith('.har'):
             continue
-        path = os.path.join(
-            data_dir, result_dir)
 
         full_path = os.path.join(
-            path, 'browsertime.har')
+            data_dir, file_name)
 
-        # No need to read all content, just read the first 1024 bytes as our url will be there
-        # we are doing this for performance
         url = get_url_from_file_content(full_path)
         urls[url] = full_path
 

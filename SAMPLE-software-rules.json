@@ -25,9 +25,16 @@
         {
             "use": true,
             "description": "EpiServer CMS",
-            "match": "(?P<debug>dl\\.(?P<name>episerver)\\.net/(?P<version>[0-9\\.]+)/)",
+            "match": "(?P<debug>dl\\.episerver\\.net/(?P<version>[0-9\\.]+)/)",
             "results": [
                 {
+                    "name": "epifind",
+                    "category": "js",
+                    "domain": "referrer",
+                    "precision": 0.8
+                },
+                {
+                    "name": "episerver",
                     "category": "cms",
                     "domain": "referrer",
                     "precision": 0.4
@@ -115,13 +122,18 @@
             "match": "(?P<debug>matomo\\.php|matomo\\.js|piwik\\.php|piwik\\.js)",
             "results": [
                 {
-                    "category": "tech",
+                    "category": "js",
                     "name": "matomo",
                     "precision": 0.5
                 },
                 {
                     "category": "tech",
                     "name": "php",
+                    "precision": 0.5
+                },
+                {
+                    "category": "tech",
+                    "name": "mysql",
                     "precision": 0.5
                 }
             ]
@@ -180,7 +192,7 @@
             ]
         },
         {
-            "use": true,
+            "use": false,
             "description": "According to data collected this is a good hint that it is Umbraco",
             "reference": "https://github.com/umbraco/Umbraco-CMS/blob/0b53249d5742404e7511d129ae55503ce8673c85/src/Umbraco.Infrastructure/Media/ImageSharpImageUrlGenerator.cs",
             "match": "(?P<debug>(jpg|jpeg|gif|bmp|png)\\?(anchor|ranchor|width|height|rnd|center|crop|quality|cc|rmode|rxy|croptop|height)=)",
@@ -218,7 +230,7 @@
             "match": "(?P<debug>\\.(?P<name>webm|mp4))",
             "results": [
                 {
-                    "category": "video",
+                    "category": "tech",
                     "precision": 0.4
                 }
             ]
@@ -259,6 +271,58 @@
     "headers": [
         {
             "use": true,
+            "type": "content-language",
+            "description": "find supported languages",
+            "match": "(?P<debug>^(?P<name>[a-zA-Z\\-_]+))",
+            "results": [
+                {
+                    "category": "lang",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "x-redirect-by",
+            "description": "Matching wordpress",
+            "match": "(?P<debug>^wordpress)",
+            "results": [
+                {
+                    "name": "wordpress",
+                    "category": "tech",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "x-aspnet-version",
+            "description": "Matching asp.net",
+            "match": "(?P<debug>^(?P<ignoreclrversion>4\\.0\\.30319))",
+            "results": [
+                {
+                    "name": "asp.net",
+                    "version": "4.x",
+                    "category": "tech",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "x-aspnetmvc-version",
+            "description": "Matching asp.net",
+            "match": "(?P<debug>^(?P<ignoremvcversion>[0-9.]+))",
+            "results": [
+                {
+                    "name": "asp.net",
+                    "category": "tech",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
             "type": "x-generator",
             "description": "This matches verified CMS",
             "match": "(?P<debug>^(?P<name>(drupal)) {0,1}(?P<version>[0-9.]+))",
@@ -271,9 +335,78 @@
         },
         {
             "use": true,
+            "type": "x-content-encoded-by",
+            "description": "This matches verified CMS",
+            "match": "(?P<debug>^(?P<name>(joomla)))",
+            "results": [
+                {
+                    "category": "cms",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "x-litespeed-cache",
+            "description": "This matches verified webserver",
+            "match": "(?P<debug>.*)",
+            "results": [
+                {
+                    "name": "litespeed",
+                    "category": "webserver",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "x-litespeed-cache-control",
+            "description": "This matches verified webserver",
+            "match": "(?P<debug>.*)",
+            "results": [
+                {
+                    "name": "litespeed",
+                    "category": "webserver",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "x-powered-by",
+            "description": "This matches verified PHP & ExpressJS & asp.net",
+            "test": "(?P<debug>^(?P<name>([a-z]+]))/(?P<version>[0-9.]+))",
+            "match": "(?P<debug>^(?P<name>(php|express|asp\\.net))/(?P<version>[0-9.]+))",
+            "results": [
+                {
+                    "category": "tech",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "x-powered-by",
+            "description": "This matches verified ExpressJS & asp.net",
+            "test": "(?P<debug>^(?P<name>([a-z]+]))/(?P<version>[0-9.]+))",
+            "match": "(?P<debug>^(?P<name>(php|express|asp\\.net)))",
+            "results": [
+                {
+                    "category": "tech",
+                    "precision": 0.4
+                },
+                {
+                    "name": "nodejs",
+                    "category": "tech",
+                    "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
             "type": "server",
             "reference": "https://en.wikipedia.org/wiki/Internet_Information_Services",
-            "description": "This matches verified web servers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'",
+            "description": "This matches verified web servers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'. (OS is inferred from IIS version)",
             "match": "(?P<debug>^(^(microsoft-){0,1}(?P<name>(iis)))\\/{0,1}(?P<version>10\\.0){0,1}[ ]{0,1})",
             "results": [
                 {
@@ -282,9 +415,9 @@
                 },
                 {
                     "name": "windows server",
-                    "version": "2016/2019 (inferred from IIS version)",
+                    "version": "2016/2019/2022",
                     "category": "os",
-                    "precision": 0.8
+                    "precision": 0.6
                 }
             ]
         },
@@ -292,7 +425,7 @@
             "use": true,
             "type": "server",
             "reference": "https://en.wikipedia.org/wiki/Internet_Information_Services",
-            "description": "This matches verified web servers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'",
+            "description": "This matches verified web servers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'. (OS is inferred from IIS version)",
             "match": "(?P<debug>^(^(microsoft-){0,1}(?P<name>(iis)))\\/{0,1}(?P<version>8\\.5){0,1}[ ]{0,1})",
             "results": [
                 {
@@ -301,7 +434,7 @@
                 },
                 {
                     "name": "windows server",
-                    "version": "2012 R2 (inferred from IIS version)",
+                    "version": "2012 R2",
                     "category": "os",
                     "precision": 0.8
                 }
@@ -311,7 +444,7 @@
             "use": true,
             "type": "server",
             "reference": "https://en.wikipedia.org/wiki/Internet_Information_Services",
-            "description": "This matches verified web servers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'",
+            "description": "This matches verified web servers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'. (OS is inferred from IIS version)",
             "match": "(?P<debug>^(^(microsoft-){0,1}(?P<name>(iis)))\\/{0,1}(?P<version>8\\.0){0,1}[ ]{0,1})",
             "results": [
                 {
@@ -320,7 +453,7 @@
                 },
                 {
                     "name": "windows server",
-                    "version": "2012 (inferred from IIS version)",
+                    "version": "2012",
                     "category": "os",
                     "precision": 0.8
                 }
@@ -330,7 +463,7 @@
             "use": true,
             "type": "server",
             "reference": "https://en.wikipedia.org/wiki/Internet_Information_Services",
-            "description": "This matches verified web servers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'",
+            "description": "This matches verified web servers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'. (OS is inferred from IIS version)",
             "match": "(?P<debug>^(^(microsoft-){0,1}(?P<name>(iis)))\\/{0,1}(?P<version>7\\.5){0,1}[ ]{0,1})",
             "results": [
                 {
@@ -339,7 +472,7 @@
                 },
                 {
                     "name": "windows server",
-                    "version": "2008 R2 (inferred from IIS version)",
+                    "version": "2008 R2",
                     "category": "os",
                     "precision": 0.8
                 }
@@ -349,7 +482,7 @@
             "use": true,
             "type": "server",
             "reference": "https://en.wikipedia.org/wiki/Internet_Information_Services",
-            "description": "This matches verified web servers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'",
+            "description": "This matches verified web servers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'. (OS is inferred from IIS version)",
             "match": "(?P<debug>^(^(microsoft-){0,1}(?P<name>(iis)))\\/{0,1}(?P<version>7\\.0){0,1}[ ]{0,1})",
             "results": [
                 {
@@ -358,7 +491,7 @@
                 },
                 {
                     "name": "windows server",
-                    "version": "2008 (inferred from IIS version)",
+                    "version": "2008",
                     "category": "os",
                     "precision": 0.8
                 }
@@ -368,7 +501,7 @@
             "use": true,
             "type": "server",
             "reference": "https://en.wikipedia.org/wiki/Internet_Information_Services",
-            "description": "This matches verified web servers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'",
+            "description": "This matches verified web servers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'. (OS is inferred from IIS version)",
             "match": "(?P<debug>^(^(microsoft-){0,1}(?P<name>(iis)))\\/{0,1}(?P<version>6\\.0){0,1}[ ]{0,1})",
             "results": [
                 {
@@ -377,7 +510,7 @@
                 },
                 {
                     "name": "windows server",
-                    "version": "2003 (inferred from IIS version)",
+                    "version": "2003",
                     "category": "os",
                     "precision": 0.8
                 }
@@ -387,11 +520,83 @@
             "use": true,
             "type": "server",
             "description": "This matches verified web servers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'",
-            "match": "(?P<debug>^(^(microsoft-){0,1}(?P<name>(iis|tomcat|nginx|apache|kestrel|jetty|envoy|litespeed|microsoft-httpapi|cowboy)))\\/{0,1}(?P<version>[0-9.]+){0,1}[ ]{0,1})",
+            "match": "(?P<debug>((microsoft-){0,1}(?P<name>(iis|tomcat|nginx|apache|kestrel|jetty|envoy|litespeed|microsoft-httpapi|cowboy)))\\/{0,1}(?P<version>[0-9.]+){0,1}[ ]{0,1})",
             "results": [
                 {
                     "category": "webserver",
                     "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "server",
+            "description": "This matches YAWS, https://github.com/erlyaws/yaws",
+            "match": "(?P<debug>^(^(?P<name>(yaws))) (?P<version>[0-9.]+){0,1})",
+            "results": [
+                {
+                    "category": "webserver",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "server",
+            "description": "This matches verified web servers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'",
+            "match": "(?P<debug>((microsoft-){0,1}(?P<name>(iis|tomcat|nginx|apache|kestrel|jetty|envoy|litespeed|microsoft-httpapi|cowboy))))",
+            "results": [
+                {
+                    "category": "webserver",
+                    "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "server",
+            "description": "This matches OS",
+            "match": "(?P<debug>((microsoft-){0,1}((iis|tomcat|nginx|apache|kestrel|jetty|envoy|litespeed|microsoft-httpapi|cowboy)))\\/{0,1}([0-9.]+){0,1}[ ]{0,1}\\((?P<name>[a-z]+))",
+            "results": [
+                {
+                    "category": "os",
+                    "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "server",
+            "description": "This matches PHP and OpenSSL (Using APACHE server header, reference: https://httpd.apache.org/docs/2.4/mod/core.html#serversignature",
+            "match": "(?P<debug>(?P<name>php|openssl)\\/{0,1}(?P<version>[0-9a-z\\.]+){0,1}[ ]{0,1})",
+            "results": [
+                {
+                    "category": "tech",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "imageprocessedby",
+            "description": "This matches imageprocessor, https://github.com/JimBobSquarePants/ImageProcessor/",
+            "match": "(?P<debug>(?P<name>imageprocessor)\\/{0,1}(?P<version>[0-9a-z\\.]+){0,1}[ ]{0,1})",
+            "results": [
+                {
+                    "category": "tech",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "server",
+            "description": "IGNORE, here to remove entries from debug.json",
+            "match": "(?P<debug>(amazons3|cloudflare|cdn77-turbo|google tag manager))",
+            "results": [
+                {
+                    "category": "ignore",
+                    "precision": 0.0
                 }
             ]
         }
@@ -459,7 +664,7 @@
             "use": true,
             "type": "html",
             "description": "find supported languages",
-            "match": "(?P<debug><meta property=\"og:locale(:alternate){0,1}\" content=['\\\"]{0,1}(?P<name>[a-zA-Z\\-_]+)['\\\"][^\\\/>]*)",
+            "match": "(?P<debug><meta property=\"og:locale(:alternate){0,1}\" content=['\\\"]{0,1}(?P<name>[a-zA-Z\\-_]+)['\\\"][^\\/>]*)",
             "results": [
                 {
                     "category": "lang",
@@ -471,7 +676,7 @@
             "use": true,
             "type": "html",
             "description": "find supported languages",
-            "match": "(?P<debug><meta property=\"og:locale(:alternate){0,1}\" content=['\\\"]{0,1}(?P<name>[a-zA-Z\\-_]+)['\\\"][^\\\/>]*)",
+            "match": "(?P<debug><meta property=\"og:locale(:alternate){0,1}\" content=['\\\"]{0,1}(?P<name>[a-zA-Z\\-_]+)['\\\"][^\\/>]*)",
             "results": [
                 {
                     "category": "lang",
@@ -664,13 +869,24 @@
         {
             "use": true,
             "type": "javascript",
+            "match": "(?P<debug>version:[ \t\r\n]*\"(?P<version>[0-9\\.]+)\",[ \t\r\n]*rendererPackageName:[ \t\r\n]*\"(?P<name>react)\\-dom\")",
+            "results": [
+                {
+                    "category": "js",
+                    "precision": 0.6
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
             "description": "looking for Matomo specific string in js",
             "match": "(?P<debug>setgenerationtimems is no longer supported since matomo 4\\. the call will be ignored\\.)",
             "results": [
                 {
                     "name": "matomo",
                     "version": ">=4.x",
-                    "category": "tech",
+                    "category": "js",
                     "precision": 0.6
                 },
                 {
@@ -686,11 +902,11 @@
             "type": "javascript",
             "description": "javascript framework or javascript libraries",
             "test": "^[\\/!*\\n\\r \\t]+(?P<name>[a-zA-Z\\.\\- ]+) ([ \\-]+){0,1}v(?P<version>[0-9\\-\\.]+)",
-            "match": "^(?P<debug>[\\/!*\\n\\r \\t]+(?:created by){0,1}(?P<name>[a-zA-Z\\- ]+)(?:\\.js){0,1} ([ \\-]+){0,1}v(?P<version>[0-9\\-\\.]+))",
+            "match": "^(?P<debug>[\\/!*\\n\\r \\t]+(?:created by){0,1}(?P<name>[a-zA-Z0-9\\- ]+)(?:\\.js){0,1} ([ \\-]+){0,1}v(?P<version>[0-9\\-\\.]+))",
             "results": [
                 {
                     "category": "js",
-                    "precision": 0.3
+                    "precision": 0.5
                 }
             ]
         },
@@ -699,7 +915,20 @@
             "type": "javascript",
             "description": "javascript framework or javascript libraries",
             "test": "^[\\/!*\\n\\r \\t]+(?P<name>[a-zA-Z\\.\\- ]+) ([ \\-]+){0,1}v(?P<version>[0-9\\-\\.]+)",
-            "match": "^(?P<debug>[\\/!*\\n\\r \\t]+(?:created by){0,1}(?P<name>[a-zA-Z\\- ]+)(?:\\.js){0,1} ([ \\-]+){0,1}v(?P<version>[0-9\\-\\.]+))[\\r\\n *]+https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>[a-z\\-]+)",
+            "match": "^(?P<debug>[\\/!*\\n\\r \\t]+(?:created by){0,1}(?P<name>[a-zA-Z0-9\\- ]+)(?:\\.js){0,1} ([ \\-]+){0,1}v(?P<version>[0-9\\-\\.]+))[\\r\\n *]+https:\\/\\/github\\.com\\/(?P<owner>[a-zA-Z0-9\\-]+)\\/(?P<repo>[a-zA-Z0-9\\-]+)",
+            "results": [
+                {
+                    "category": "js",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "javascript framwork or javascript libraries",
+            "test": "http://bestiejs.github.io/json3",
+            "match": "(?P<debug>http[s]{0,1}:\\/\\/(?P<owner>[a-zA-Z0-9\\-]+)\\.github\\.io\\/(?P<name>(?P<repo>[a-zA-Z0-9\\-]+)))",
             "results": [
                 {
                     "category": "js",
@@ -711,11 +940,11 @@
             "use": true,
             "type": "javascript",
             "description": "javascript framework or javascript libraries",
-            "match": "(?P<debug>\\/\\*![\\*\\n\\r \\t]+(?:created by){0,1}(?P<name>[a-z\\- ]+)(?:\\.js){0,1} (?:[ \\-v]+){0,1}(?P<version>[0-9]+\\.[0-9]+(?:\\.[0-9]+){0,1}))",
+            "match": "(?P<debug>\\/\\*![\\*\\n\\r \\t]+(?:created by){0,1}(?P<name>[a-zA-Z0-9\\- ]+)(?:\\.js){0,1} (?:[ \\-v]+){0,1}(?P<version>[0-9]+\\.[0-9]+(?:\\.[0-9]+){0,1}))",
             "results": [
                 {
                     "category": "js",
-                    "precision": 0.3
+                    "precision": 0.5
                 }
             ]
         },
@@ -723,11 +952,11 @@
             "use": true,
             "type": "javascript",
             "description": "javascript framework or javascript libraries",
-            "match": "(?P<debug>\\/\\*\\* @license (?P<name>[a-z\\- ]+) (?:[ \\-v]+){0,1}(?P<version>[0-9]+\\.[0-9]+(?:\\.[0-9]+){0,1}))",
+            "match": "(?P<debug>\\/\\*\\* @license (?P<name>[a-zA-Z0-9\\- ]+) (?:[ \\-v]+){0,1}(?P<version>[0-9]+\\.[0-9]+(?:\\.[0-9]+){0,1}))",
             "results": [
                 {
                     "category": "js",
-                    "precision": 0.4
+                    "precision": 0.5
                 }
             ]
         },
@@ -736,7 +965,7 @@
             "type": "javascript",
             "description": "javascript framework or javascript libraries",
             "test": "(?P<debug>\\@source https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>[a-z\\-]+))",
-            "match": "(?P<debug>\\@source https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>(?P<name>[a-z\\-]+)))",
+            "match": "(?P<debug>\\@source https:\\/\\/github\\.com\\/(?P<owner>[a-zA-Z0-9\\-]+)\\/(?P<repo>(?P<name>[a-zA-Z0-9\\-]+)))",
             "results": [
                 {
                     "category": "js",
@@ -749,7 +978,7 @@
             "type": "javascript",
             "description": "javascript framework or javascript libraries",
             "test": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>[a-z\\-]+))",
-            "match": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>(?P<name>[a-z\\-]+)))",
+            "match": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-zA-Z0-9\\-]+)\\/(?P<repo>(?P<name>[a-zA-Z0-9\\-]+)))",
             "results": [
                 {
                     "category": "js",
@@ -762,7 +991,7 @@
             "type": "javascript",
             "description": "javascript framework or javascript libraries",
             "test": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>[a-z\\-]+))",
-            "match": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>(?P<name>[a-z\\-]+))\\/blob\\/[v]{0,1}(?P<version>[0-9\\.]+)\/)",
+            "match": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-zA-Z0-9\\-]+)\\/(?P<repo>(?P<name>[a-zA-Z0-9\\-]+))\\/blob\\/[v]{0,1}(?P<version>[0-9\\.]+)/)",
             "results": [
                 {
                     "category": "js",
@@ -813,7 +1042,7 @@
             "type": "javascript",
             "description": "javascript framework or javascript libraries",
             "test": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>[a-z\\-]+))",
-            "match": "(?P<debug>(?P<licensefile>[a-z\\.\\-]+)(?P<licensetxt>\\.LICENSE\\.txt) \\*\\/)",
+            "match": "(?P<debug>(?P<licensefile>[a-zA-Z0-9\\.\\-]+)(?P<licensetxt>\\.LICENSE\\.txt) \\*\\/)",
             "results": [
                 {
                     "name": "?",
@@ -828,7 +1057,21 @@
             "description": "looking for license types",
             "test": "(?P<debug> (?P<name>MIT) license)",
             "reference": "https://spdx.org/licenses/",
-            "match": "(?P<debug> (?P<name>MIT) license)",
+            "match": "(?P<debug> (?P<name>(0BSD|AAL|Abstyles|AdaCore-doc|Adobe-2006|Adobe-Glyph|Adobe-Glyph|ADSL|AFL-1.1|AFL-1.2|AFL-1.2|AFL-1.2|AFL-1.2|AFL-1.2|AGPL-1.0-onlyAGPL-1.0-or-later|AGPL-3.0-only|AGPL-3.0-or-later|AGPL-3.0-or-later|AMDPLPA|AML|AMPAS|ANTLR-PD|ANTLR-PD-fallback|Apache-1.0|Apache-1.1|Apache-2.0|APAFML|APL-1.0|App-s2p|APSL-1.0|APSL-1.1|APSL-1.1|APSL-2.0|Arphic-1999|Artistic-1.0|Artistic-1.0-cl8|Artistic-1.0-Perl|Artistic-2.0|ASWF-Digital-Assets-1.0|ASWF-Digital-Assets-1.1|Baekmuk|Bahyph|Barr|Beerware|Bitstream-Charter|Bitstream-Vera|BitTorrent-1.0|BitTorrent-1.1|blessing|BlueOak-1.0.0|Boehm-GC|Borceux|Brian-Gladman-3-Clause|BSD-1-Clause|BSD-2-Clause|BSD-2-Clause|BSD-2-Clause-Views|BSD-3-Clause|BSD-3-Clause|BSD-3-Clause-Clear|BSD-3-Clause-LBNL|BSD-3-Clause-Modification|BSD-3-Clause-Modification|BSD-3-Clause-Modification|BSD-3-Clause-No-Nuclear-License-2014|BSD-3-Clause-No-Nuclear-Warranty|BSD-3-Clause-Open-MPI|BSD-4-Clause|BSD-4-Clause-Shortened|BSD-4-Clause-Shortened|BSD-4.3RENO|BSD-4.3TAHOE|BSD-Advertising-Acknowledgement|BSD-Attribution-HPND-disclaimer|BSD-Attribution-HPND-disclaimer|BSD-Source-Code|BSL-1.0|BUSL-1.1|bzip2-1.0.6|C-UDA-1.0|CAL-1.0|CAL-1.0-Combined-Work-Exception|Caldera|CATOSL-1.1|CC-BY-1.0|CC-BY-2.0|CC-BY-2.0|CC-BY-2.5-AU|CC-BY-3.0|CC-BY-3.0-AT|CC-BY-3.0-DE|CC-BY-3.0-IGO|CC-BY-3.0-NL|CC-BY-3.0-US|CC-BY-4.0|CC-BY-NC-1.0|CC-BY-NC-1.0|CC-BY-NC-2.5|CC-BY-NC-3.0|CC-BY-NC-3.0-DE|CC-BY-NC-3.0-DE|CC-BY-NC-ND-1.0|CC-BY-NC-ND-2.0|CC-BY-NC-ND-2.5|CC-BY-NC-ND-3.0|CC-BY-NC-ND-3.0-DE|CC-BY-NC-ND-3.0-IGO|CC-BY-NC-ND-4.0|CC-BY-NC-SA-1.0|CC-BY-NC-SA-2.0|CC-BY-NC-SA-2.0-DE|CC-BY-NC-SA-2.0-FR|CC-BY-NC-SA-2.0-UK|CC-BY-NC-SA-2.5|CC-BY-NC-SA-2.5|CC-BY-NC-SA-3.0-DE|CC-BY-NC-SA-3.0-IGO|CC-BY-NC-SA-4.0|CC-BY-ND-1.0|CC-BY-ND-2.0|CC-BY-ND-2.5|CC-BY-ND-3.0|CC-BY-ND-3.0-DE|CC-BY-ND-4.0|CC-BY-SA-1.0|CC-BY-SA-2.0|CC-BY-SA-2.0-UK|CC-BY-SA-2.1-JP|CC-BY-SA-2.5|CC-BY-SA-3.0|CC-BY-SA-3.0|CC-BY-SA-3.0-DE|CC-BY-SA-3.0-IGO|CC-BY-SA-4.0|CC-PDDC|CC0-1.0|CDDL-1.0|CDDL-1.0|CDL-1.0|CDLA-Permissive-1.0|CDLA-Permissive-1.0|CDLA-Permissive-1.0|CECILL-1.0|CECILL-1.0|CECILL-1.0|CECILL-2.1|CECILL-2.1|CECILL-C|CERN-OHL-1.1|CERN-OHL-1.2|CERN-OHL-P-2.0|CERN-OHL-S-2.0|CERN-OHL-W-2.0|CFITSIO|checkmk|ClArtistic|ClArtistic|CMU-Mach|CNRI-Jython|CNRI-Python|CNRI-Python-GPL-Compatible|COIL-1.0|Community-Spec-1.0|Condor-1.1|copyleft-next-0.3.0|copyleft-next-0.3.1|copyleft-next-0.3.1|CPAL-1.0|CPL-1.0|CPOL-1.02|CPOL-1.02|CPOL-1.02|CUA-OPL-1.0|CUA-OPL-1.0|CUA-OPL-1.0|D-FSL-1.0|diffmark|DL-DE-BY-2.0|DOC|Dotseqn|DRL-1.0|DSDP|DSDP|dvipdfm|ECL-1.0|ECL-2.0|EFL-1.0|EFL-2.0|eGenix|Elastic-2.0|Entessa|Entessa|EPL-1.0|EPL-2.0|ErlPL-1.1|MIT)) license)",
+            "results": [
+                {
+                    "category": "license",
+                    "precision": 0.6
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "looking for SPDX-license types",
+            "test": "(?P<debug>SPDX-License-Identifier: (?P<name>MIT))",
+            "reference": "https://spdx.org/licenses/",
+            "match": "(?P<debug>SPDX-License-Identifier: (?P<name>[a-zA-Z0-9\\.\\-]+))",
             "results": [
                 {
                     "category": "license",
@@ -840,7 +1083,7 @@
             "use": true,
             "type": "html",
             "description": "This is for finding new stuff when tag start with name attribute",
-            "match": "(?P<debug><meta name=['|\\\"]{0,1}generator['|\\\"]{0,1} content=['|\\\"]{0,1}(?P<name>[a-zA-ZåäöÅÄÖ ]+)( {0,1}(?P<version>[0-9.]*)){0,1}['|\\\"]{0,1}[^>]+>)",
+            "match": "(?P<debug><meta name=['|\\\"]{0,1}generator['|\\\"]{0,1} content=['|\\\"]{0,1}(?P<name>[a-zA-Z\u00c3\u00a5\u00c3\u00a4\u00c3\u00b6\u00c3\u2026\u00c3\u201e\u00c3\u2013 ]+)( {0,1}(?P<version>[0-9.]*)){0,1}['|\\\"]{0,1}[^>]+>)",
             "results": [
                 {
                     "category": "tech",
@@ -852,11 +1095,111 @@
             "use": true,
             "type": "html",
             "description": "This is for finding new stuff when tag end with name attribute",
-            "match": "(?P<debug><meta content=['|\\\"]{0,1}(?P<name>[a-zA-ZåäöÅÄÖ ]+)( {0,1}(?P<version>[0-9.]*)){0,1}['|\\\"]{0,1} name=['|\\\"]{0,1}generator['|\\\"]{0,1}[^>]+>)",
+            "match": "(?P<debug><meta content=['|\\\"]{0,1}(?P<name>[a-zA-Z\u00c3\u00a5\u00c3\u00a4\u00c3\u00b6\u00c3\u2026\u00c3\u201e\u00c3\u2013 ]+)( {0,1}(?P<version>[0-9.]*)){0,1}['|\\\"]{0,1} name=['|\\\"]{0,1}generator['|\\\"]{0,1}[^>]+>)",
             "results": [
                 {
                     "category": "tech",
                     "precision": 0.0
+                }
+            ]
+        }
+    ],
+    "cookies": [
+        {
+            "use": true,
+            "type": "name",
+            "description": "Matching use of java session cookie",
+            "match": "(?P<debug>^(jsessionid))",
+            "results": [
+                {
+                    "name": "java",
+                    "category": "tech",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "name",
+            "description": "Matching use of asp.net session cookie",
+            "match": "(?P<debug>^(asp\\.net_sessionid))",
+            "results": [
+                {
+                    "name": "asp.net",
+                    "category": "tech",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "name",
+            "description": "Matching use of php session cookie",
+            "match": "(?P<debug>^(phpsessid))",
+            "results": [
+                {
+                    "name": "php",
+                    "category": "tech",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "name",
+            "description": "Matching use of AspNetCore cookie",
+            "match": "(?P<debug>^(\\.aspnetcore\\.))",
+            "results": [
+                {
+                    "name": "asp.net-core",
+                    "category": "tech",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "name",
+            "description": "Matching use of EpiServer cookie",
+            "match": "(?P<debug>^(\\.epiform_))",
+            "results": [
+                {
+                    "category": "tech",
+                    "name": "asp.net",
+                    "precision": 0.1
+                },
+                {
+                    "category": "tech",
+                    "name": "csharp",
+                    "precision": 0.4
+                },
+                {
+                    "name": "episerver",
+                    "category": "cms",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "name",
+            "description": "Matching use of EpiServer cookie",
+            "match": "(?P<debug>^(epi[\\:]{0,1}statemarker))",
+            "results": [
+                {
+                    "category": "tech",
+                    "name": "asp.net",
+                    "precision": 0.1
+                },
+                {
+                    "category": "tech",
+                    "name": "csharp",
+                    "precision": 0.4
+                },
+                {
+                    "name": "episerver",
+                    "category": "cms",
+                    "precision": 0.5
                 }
             ]
         }

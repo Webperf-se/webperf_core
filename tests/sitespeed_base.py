@@ -9,22 +9,25 @@ sitespeed_use_docker = config.sitespeed_use_docker
 
 
 def get_result(url, sitespeed_use_docker, sitespeed_arg):
-    folder_ending = 'tmp'
+    folder = 'tmp'
     if use_cache:
-        folder_ending = 'cache'
+        folder = 'cache'
+
+    o = urlparse(url)
+    hostname = o.hostname
 
     # TODO: CHANGE THIS IF YOU WANT TO DEBUG
-    result_folder_name = os.path.join(
-        'data', 'results-{0}-{1}'.format(str(uuid.uuid4()), folder_ending))
+    result_folder_name = os.path.join(folder, hostname, '{0}'.format(str(uuid.uuid4())))
     # result_folder_name = os.path.join('data', 'results')
 
-    sitespeed_arg += ' --postScript chrome-cookies.cjs --outputFolder {0} {1}'.format(result_folder_name, url)
+    sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs --outputFolder {0} {1}'.format(result_folder_name, url)
+    # sitespeed_arg += ' --postScript chrome-cookies.cjs --outputFolder {0} {1} chrome-versions.cjs --multi'.format(result_folder_name, url)
 
     filename = ''
     # Should we use cache when available?
     if use_cache:
         import engines.sitespeed_result as input
-        sites = input.read_sites('', -1, -1)
+        sites = input.read_sites(hostname, -1, -1)
         for site in sites:
             if url == site[1]:
                 filename = site[0]
@@ -42,15 +45,23 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg):
 
     if filename == '':
         test = get_result_using_no_cache(sitespeed_use_docker, sitespeed_arg)
-        test = test.replace('\\n', '\r\n')
+        test = test.replace('\\n', '\r\n').replace('\\\\', '\\')
 
         regex = r"COOKIES:START: {\"cookies\":(?P<COOKIES>.+)} COOKIES:END"
-
         cookies = '[]'
         matches = re.finditer(
             regex, test, re.MULTILINE)
         for matchNum, match in enumerate(matches, start=1):
             cookies = match.group('COOKIES')
+
+        regex = r"VERSIONS:START: (?P<VERSIONS>[^V]+) VERSIONS:END"
+        versions = '[]'
+        matches = re.finditer(
+            regex, test, re.MULTILINE)
+        for matchNum, match in enumerate(matches, start=1):
+            versions = match.group('VERSIONS')
+
+        # print('DEBUG VERSIONS:', versions)
 
         website_folder_name = get_foldername_from_url(url)
 
@@ -65,31 +76,20 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg):
                 filename_old = os.path.join(result_folder_name, 'pages',
                                         website_folder_name, sub_dir, 'data', 'browsertime.har')
                 break
-        filename = os.path.join(result_folder_name, 'browsertime.har')
+        filename = '{0}{1}'.format(result_folder_name, '.har')
         cookies_json = json.loads(cookies)
+        versions_json = json.loads(versions)
 
-        modify_browsertime_content(filename_old, cookies_json)
+        modify_browsertime_content(filename_old, cookies_json, versions_json)
         cleanup_results_dir(filename_old, result_folder_name)
+
     return (result_folder_name, filename)
 
 
 def cleanup_results_dir(browsertime_path, path):
-    correct_path = os.path.join(
-        path, 'browsertime.har')
-
+    correct_path = '{0}{1}'.format(path, '.har')
     os.rename(browsertime_path, correct_path)
-
-    sub_dirs = os.listdir(path)
-    for sub_dir in sub_dirs:
-        if 'browsertime.har' == sub_dir:
-            continue
-        else:
-            tmp_path = os.path.join(
-                path, sub_dir)
-            if os.path.isfile(tmp_path):
-                os.remove(tmp_path)
-            else:
-                shutil.rmtree(tmp_path)
+    shutil.rmtree(path)
 
 
 def get_result_using_no_cache(sitespeed_use_docker, arg):
@@ -140,7 +140,7 @@ def get_sanitized_browsertime(input_filename):
     return result
 
 
-def modify_browsertime_content(input_filename, cookies):
+def modify_browsertime_content(input_filename, cookies, versions):
     result = get_sanitized_browsertime(input_filename)
     json_result = json.loads(result)
     has_minified = False
@@ -149,6 +149,8 @@ def modify_browsertime_content(input_filename, cookies):
 
     # add cookies
     json_result['log']['cookies'] = cookies
+    # add software name and versions
+    json_result['log']['software'] = versions
 
     if 'version' in json_result['log']:
         del json_result['log']['version']

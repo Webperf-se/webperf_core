@@ -121,3 +121,6 @@ package-lock.json
 package.json
 sitespeed-rules.json
 vnu.jar
+software-unknown-sources.json
+tmp
+cache

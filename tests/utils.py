@@ -17,6 +17,7 @@ import dns.resolver
 import config
 import IP2Location
 import os
+from urllib.parse import urlparse
 
 
 ip2location_db = False
@@ -31,6 +32,7 @@ except Exception as ex:
 request_timeout = config.http_request_timeout
 useragent = config.useragent
 googlePageSpeedApiKey = config.googlePageSpeedApiKey
+gitHubApiKey = None
 
 try:
     use_cache = config.cache_when_possible
@@ -39,6 +41,12 @@ except:
     # If cache_when_possible variable is not set in config.py this will be the default
     use_cache = False
     cache_time_delta = timedelta(hours=1)
+
+try:
+    gitHubApiKey=config.github_api_key
+except:
+    gitHubApiKey=None
+
 
 
 def is_file_older_than(file, delta):
@@ -50,9 +58,22 @@ def is_file_older_than(file, delta):
 
 
 def get_cache_path(url, use_text_instead_of_content):
+    o = urlparse(url)
+    hostname = o.hostname
+
     file_ending = '.tmp'
+    folder = 'tmp'
     if use_cache:
         file_ending = '.cache'
+        folder = 'cache'
+
+    folder_path = os.path.join(folder)
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+
+    hostname_path = os.path.join(folder, hostname)
+    if not os.path.exists(hostname_path):
+        os.makedirs(hostname_path)
 
     cache_key_rule = '{0}.txt.utf-8{1}'
     if not use_text_instead_of_content:
@@ -60,7 +81,8 @@ def get_cache_path(url, use_text_instead_of_content):
 
     cache_key = cache_key_rule.format(
         hashlib.sha512(url.encode()).hexdigest(), file_ending)
-    cache_path = os.path.join('data', cache_key)
+    cache_path = os.path.join(folder, hostname, cache_key)
+
     return cache_path
 
 
@@ -82,34 +104,42 @@ def get_cache_file(url, use_text_instead_of_content, time_delta):
 
 
 def clean_cache_files():
-    file_ending = '.tmp'
-    if use_cache:
-        file_ending = '.cache'
+    if not use_cache:
+        # If we don't want to cache stuff, why complicate stuff, just empy tmp folder when done
+        folder = 'tmp'
+        dir = os.path.join(Path(os.path.dirname(
+            os.path.realpath(__file__)) + os.path.sep).parent, folder)
+        if os.path.exists(dir):
+            shutil.rmtree(dir)
+        return
+    
+    file_ending = '.cache'
+    folder = 'cache'
+
+
+    dir = os.path.join(Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep).parent, folder)
+    
+    if not os.path.exists(dir):
+        return
 
     print('Cleaning {0} files...'.format(file_ending[1:]))
 
-    dir = os.path.join(Path(os.path.dirname(
-        os.path.realpath(__file__)) + os.path.sep).parent, 'data')
-
-    files_or_subdirs = os.listdir(dir)
-    print(len(files_or_subdirs), 'file and folders in data folder.')
+    subdirs = os.listdir(dir)
+    print(len(subdirs), 'file and folders in {0} folder.'.format(folder))
     cache_files = 0
     results_folders = 0
     cache_files_removed = 0
     results_folders_removed = 0
-    for file_or_dir in files_or_subdirs:
-        if file_or_dir.endswith(file_ending):
-            cache_files += 1
-            path = os.path.join(dir, file_or_dir)
-            if not use_cache or is_file_older_than(path, cache_time_delta):
-                os.remove(path)
-                cache_files_removed += 1
-        if file_or_dir.startswith('results-'):
-            results_folders += 1
-            path = os.path.join(dir, file_or_dir)
-            if not use_cache or is_file_older_than(path, cache_time_delta):
-                shutil.rmtree(path)
-                results_folders_removed += 1
+    for subdir in subdirs:
+        files_or_subdirs = os.listdir(os.path.join(dir, subdir))
+        for file_or_dir in files_or_subdirs:
+            if file_or_dir.endswith(file_ending):
+                cache_files += 1
+                path = os.path.join(dir, subdir, file_or_dir)
+                if not use_cache or is_file_older_than(path, cache_time_delta):
+                    os.remove(path)
+                    cache_files_removed += 1
 
     print(cache_files, '{0} file(s) found.'.format(file_ending[1:]))
     print(results_folders, 'result folder(s) found.')
@@ -128,7 +158,6 @@ def set_cache_file(url, content, use_text_instead_of_content):
         with open(cache_path, 'wb') as file:
             file.write(content)
 
-
 def httpRequestGetContent(url, allow_redirects=False, use_text_instead_of_content=True):
     """Trying to fetch the response content
     Attributes: url, as for the URL to fetch
@@ -141,6 +170,8 @@ def httpRequestGetContent(url, allow_redirects=False, use_text_instead_of_conten
             return content
 
         headers = {'user-agent': useragent}
+        if url.startswith('https://api.github.com') and gitHubApiKey != None:
+            headers['authorization'] = 'Bearer {0}'.format(gitHubApiKey)
         a = requests.get(url, allow_redirects=allow_redirects,
                          headers=headers, timeout=request_timeout*2)
 

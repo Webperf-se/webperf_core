@@ -3,6 +3,8 @@ on:
   push:
     paths-ignore:
       - '**.md'
+      - 'software-sources.json'
+      - '**update-software.yml'
 jobs:
   build:
     runs-on: ${{ matrix.os }}

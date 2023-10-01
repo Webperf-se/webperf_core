@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2023-01-02 14:45+0200\n"
-"PO-Revision-Date: 2023-01-02 14:45+0200\n"
+"PO-Revision-Date: 2023-09-30 21:40+0200\n"
 "Last-Translator: mattias <mattias@webperf.se>\n"
 "Language-Team: Swedish <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
@@ -76,7 +76,7 @@ msgid "KNOWN_SECURITY_ISSUES"
 msgstr "- Har kända säkerhetsproblem"
 
 msgid "TEXT_DETAILED_REVIEW_CVE"
-msgstr "##### Mjukvara relaterad till {0} ( #POINTS# betyg )\r\n\r\n###### Introduktion:\r\nMjukvaruversionen som används påverkas av sårbarheten som beskrivs i {0}.\r\nFör en mer detaljerad förklaring se referenserna nedan eller sök efter {0}.\r\nI de flesta fall kan du åtgärda ett CVE-relaterat problem genom att uppdatera programvaran till senaste version.\r\nI vissa sällsynta fall finns det ingen uppdatering och du måste överväga att inte använda programvaran som påverkas.\r\n\r\n"
+msgstr "##### Mjukvara relaterad till CVE:s ( #POINTS# betyg )\r\n\r\n###### Introduktion:\r\nMjukvaruversionen som används påverkas av sårbarheten som beskrivs nedan.\r\nI de flesta fall kan du åtgärda ett CVE-relaterat problem genom att uppdatera programvaran till senaste version.\r\nI vissa sällsynta fall finns det ingen uppdatering och du måste överväga att inte använda programvaran som påverkas.\r\n\r\n"
 
 msgid "TEXT_DETAILED_REVIEW_BEHIND100"
 msgstr "##### Mjukvara ligger efter >=100 versioner ( #POINTS# betyg )\r\n\r\n###### Introduktion:\r\nProgramvara som används ligger efter 100 eller fler versioner jämfört med senaste versionen.\r\nDetta är en mycket bra indikator på att du behöver uppdatera till senaste versionen.\r\nDet indikerar också att du inte har en bra paketrutin för din programvara. \r\nDu kan fixa detta genom att uppdatera programvaran till senaste versionen.\r\n\r\n"
@@ -119,3 +119,27 @@ msgstr "###### Upptäckta resurser:"
 
 msgid "TEXT_DETAILED_REVIEW_MORE_THEN_5_SOURCES"
 msgstr "- Fler än 5 resurser. Döljer resten."
+
+msgid "TEXT_DETAILED_REVIEW_ARCHIVED_SOURCE"
+msgstr "##### Mjukvaran är markerad som arkiverad ( #POINTS# rating )\r\n\r\n###### Introduktion:\r\nDet ser ut som du använder mjukvara som är markerad som arkiverad, detta innebär att den ej får ny funktionalitet eller säkerhetsuppdateringar.\r\nFör att åtgärda detta måste du hitta en annan mjukvara som uppfyller dina behov, ofta pekar utvecklarna på ett alternativ som de tycker är bra från det ställe du hittade mjukvaran.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_CVES"
+msgstr "###### Vanliga sårbarheter och exponeringar"
+
+msgid "TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE"
+msgstr "###### Upptäckta mjukvaror:"
+
+msgid "TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES"
+msgstr "###### Påverkade resurser:"
+
+msgid "TEXT_DETAILED_REVIEW_NO_CVE"
+msgstr "##### INga vanliga sårbarheter och exponeringar hittade"
+
+msgid "TEXT_DETAILED_REVIEW_NO_BEHIND"
+msgstr "##### Det ser ut som att du använder senaste versionen på all mjukvara vi hittar"
+
+msgid "TEXT_DETAILED_REVIEW_NO_ARCHIVES"
+msgstr "##### Mjukvara är ej markerad som arkiverad"
+
+msgid "TEXT_DETAILED_REVIEW_NO_END_OF_LIFE"
+msgstr "##### Mjukvara som används ser ej ut att ha nått sitt bäst före datum"

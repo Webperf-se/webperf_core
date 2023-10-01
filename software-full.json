@@ -9528,6 +9528,35 @@
                 ]
             }
         },
+        "imageprocessor": {
+            "github-owner": "JimBobSquarePants",
+            "github-repo": "ImageProcessor",
+            "license": "apache-2.0",
+            "tech": [
+                "gif",
+                "jpeg",
+                "png",
+                "webp"
+            ],
+            "archived": true,
+            "versions": {
+                "2.9.1": [],
+                "2.9.0": [],
+                "2.8.0": [],
+                "2.3.0": [],
+                "2.2.3": [],
+                "2.2.0": [],
+                "2.1.2": [],
+                "2.1.0": [],
+                "2.0.1": [],
+                "2.0.0": [],
+                "1.3.0": [],
+                "1.2.0": [],
+                "1.1.0": [],
+                "1.0.2": [],
+                "1.0.0": []
+            }
+        },
         "imagesloaded-packaged": {
             "github-owner": "desandro",
             "github-repo": "imagesloaded",
@@ -20433,6 +20462,12 @@
             ],
             "archived": false
         },
+        "yaws": {
+            "github-owner": "erlyaws",
+            "github-repo": "yaws",
+            "license": "bsd-3-clause",
+            "archived": false
+        },
         "zenscroll": {
             "github-owner": "zengabor",
             "github-repo": "zenscroll",
@@ -20543,5 +20578,5 @@
             }
         }
     },
-    "updated": "2023-10-01 13:30:15"
+    "updated": "2023-10-01 17:06:43"
 }

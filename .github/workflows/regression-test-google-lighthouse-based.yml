@@ -15,8 +15,8 @@ jobs:
             matrix:
                 os: [ubuntu-latest, windows-latest]
                 config: ['review_show_improvements_only=True,lighthouse_use_api=False']
-                version: [1, 4, 8, 10, 22]
-                #version: [1, 4, 5, 8, 10, 22]
+                version: [1, 4, 5, 8, 10, 22]
+                #version: [1, 4, 8, 10, 22]
     steps:
     - name: Check out repository code
       uses: actions/checkout@v3

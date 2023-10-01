@@ -1263,9 +1263,6 @@ def lookup_cookies(item, cookies, rules, origin_domain):
         cookie_name = cookie['name'].lower()
         cookie_value = cookie['value'].lower()
 
-        if raw_data['cookies']['use']:
-            raw_data['cookies'][cookie_name] = cookie_value
-
         lookup_cookie(
             item, cookie_name, cookie_value, rules, origin_domain)
 
@@ -1344,14 +1341,17 @@ def lookup_cookie(item, cookie_name, cookie_value, rules, origin_domain):
                 elif raw_data['cookies']['use'] and not is_found:
                     raw_data['cookies'][match.group('debug')] = hostname
 
+    if raw_data['cookies']['use'] and not is_found:
+        if cookie_name not in raw_data['cookies']:
+            raw_data['cookies'][cookie_name] = []
+        raw_data['cookies'][cookie_name].append(cookie_value)
+
+
 
 def lookup_response_headers(item, headers, rules, origin_domain):
     for header in headers:
         header_name = header['name'].lower()
         header_value = header['value'].lower()
-
-        if raw_data['headers']['use']:
-            raw_data['headers'][header_name] = header_value
 
         lookup_response_header(
             item, header_name, header_value, rules, origin_domain)
@@ -1426,6 +1426,13 @@ def lookup_response_header(item, header_name, header_value, rules, origin_domain
                     is_found = True
                 elif raw_data['headers']['use'] and not is_found:
                     raw_data['headers'][match.group('debug')] = hostname
+
+    if raw_data['headers']['use'] and not is_found:
+        if header_name not in raw_data['headers']:
+            raw_data['headers'][header_name] = []
+        raw_data['headers'][header_name].append(header_value)
+
+
 
 def get_rules():
     dir = Path(os.path.dirname(

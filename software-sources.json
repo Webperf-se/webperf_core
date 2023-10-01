@@ -27,6 +27,10 @@
             "github-owner": "michu2k",
             "github-repo": "Accordion"
         },
+        "yaws": {
+            "github-owner": "erlyaws",
+            "github-repo": "yaws"
+        },
         "algoliasearch-client-javascript": {
             "github-owner": "algolia",
             "github-repo": "algoliasearch-client-javascript"
@@ -349,6 +353,10 @@
         "isobject": {
             "github-owner": "jonschlinkert",
             "github-repo": "isobject"
+        },
+        "imageprocessor": {
+            "github-owner": "JimBobSquarePants",
+            "github-repo": "ImageProcessor"
         },
         "jarallax": {
             "github-owner": "nk-o",

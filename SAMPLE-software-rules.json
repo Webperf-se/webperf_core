@@ -271,6 +271,58 @@
     "headers": [
         {
             "use": true,
+            "type": "content-language",
+            "description": "find supported languages",
+            "match": "(?P<debug>^(?P<name>[a-zA-Z\\-_]+))",
+            "results": [
+                {
+                    "category": "lang",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "x-redirect-by",
+            "description": "Matching wordpress",
+            "match": "(?P<debug>^wordpress)",
+            "results": [
+                {
+                    "name": "wordpress",
+                    "category": "tech",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "x-aspnet-version",
+            "description": "Matching asp.net",
+            "match": "(?P<debug>^(?P<ignoreclrversion>4\\.0\\.30319))",
+            "results": [
+                {
+                    "name": "asp.net",
+                    "version": "4.x",
+                    "category": "tech",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "x-aspnetmvc-version",
+            "description": "Matching asp.net",
+            "match": "(?P<debug>^(?P<ignoremvcversion>[0-9.]+))",
+            "results": [
+                {
+                    "name": "asp.net",
+                    "category": "tech",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
             "type": "x-generator",
             "description": "This matches verified CMS",
             "match": "(?P<debug>^(?P<name>(drupal)) {0,1}(?P<version>[0-9.]+))",
@@ -283,10 +335,48 @@
         },
         {
             "use": true,
+            "type": "x-content-encoded-by",
+            "description": "This matches verified CMS",
+            "match": "(?P<debug>^(?P<name>(joomla)))",
+            "results": [
+                {
+                    "category": "cms",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "x-litespeed-cache",
+            "description": "This matches verified webserver",
+            "match": "(?P<debug>.*)",
+            "results": [
+                {
+                    "name": "litespeed",
+                    "category": "webserver",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "x-litespeed-cache-control",
+            "description": "This matches verified webserver",
+            "match": "(?P<debug>.*)",
+            "results": [
+                {
+                    "name": "litespeed",
+                    "category": "webserver",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
             "type": "x-powered-by",
-            "description": "This matches verified PHP & ExpressJS",
+            "description": "This matches verified PHP & ExpressJS & asp.net",
             "test": "(?P<debug>^(?P<name>([a-z]+]))/(?P<version>[0-9.]+))",
-            "match": "(?P<debug>^(?P<name>(php|express))/(?P<version>[0-9.]+))",
+            "match": "(?P<debug>^(?P<name>(php|express|asp\\.net))/(?P<version>[0-9.]+))",
             "results": [
                 {
                     "category": "tech",
@@ -297,9 +387,9 @@
         {
             "use": true,
             "type": "x-powered-by",
-            "description": "This matches verified ExpressJS",
+            "description": "This matches verified ExpressJS & asp.net",
             "test": "(?P<debug>^(?P<name>([a-z]+]))/(?P<version>[0-9.]+))",
-            "match": "(?P<debug>^(?P<name>(express)))",
+            "match": "(?P<debug>^(?P<name>(php|express|asp\\.net)))",
             "results": [
                 {
                     "category": "tech",
@@ -430,7 +520,19 @@
             "use": true,
             "type": "server",
             "description": "This matches verified web servers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'",
-            "match": "(?P<debug>^(^(microsoft-){0,1}(?P<name>(iis|tomcat|nginx|apache|kestrel|jetty|envoy|litespeed|microsoft-httpapi|cowboy)))\\/{0,1}(?P<version>[0-9.]+){0,1}[ ]{0,1})",
+            "match": "(?P<debug>((microsoft-){0,1}(?P<name>(iis|tomcat|nginx|apache|kestrel|jetty|envoy|litespeed|microsoft-httpapi|cowboy)))\\/{0,1}(?P<version>[0-9.]+){0,1}[ ]{0,1})",
+            "results": [
+                {
+                    "category": "webserver",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "server",
+            "description": "This matches YAWS, https://github.com/erlyaws/yaws",
+            "match": "(?P<debug>^(^(?P<name>(yaws))) (?P<version>[0-9.]+){0,1})",
             "results": [
                 {
                     "category": "webserver",
@@ -442,7 +544,7 @@
             "use": true,
             "type": "server",
             "description": "This matches verified web servers (removing 'microsoft-' to get 'iis' instead of 'microsoft-iis'",
-            "match": "(?P<debug>^(^(microsoft-){0,1}(?P<name>(iis|tomcat|nginx|apache|kestrel|jetty|envoy|litespeed|microsoft-httpapi|cowboy))))",
+            "match": "(?P<debug>((microsoft-){0,1}(?P<name>(iis|tomcat|nginx|apache|kestrel|jetty|envoy|litespeed|microsoft-httpapi|cowboy))))",
             "results": [
                 {
                     "category": "webserver",
@@ -454,7 +556,7 @@
             "use": true,
             "type": "server",
             "description": "This matches OS",
-            "match": "(?P<debug>^(^(microsoft-){0,1}((iis|tomcat|nginx|apache|kestrel|jetty|envoy|litespeed|microsoft-httpapi|cowboy)))\\/{0,1}([0-9.]+){0,1}[ ]{0,1}\\((?P<name>[a-z]+))",
+            "match": "(?P<debug>((microsoft-){0,1}((iis|tomcat|nginx|apache|kestrel|jetty|envoy|litespeed|microsoft-httpapi|cowboy)))\\/{0,1}([0-9.]+){0,1}[ ]{0,1}\\((?P<name>[a-z]+))",
             "results": [
                 {
                     "category": "os",
@@ -473,7 +575,20 @@
                     "precision": 0.8
                 }
             ]
+        },
+        {
+            "use": true,
+            "type": "imageprocessedby",
+            "description": "This matches imageprocessor, https://github.com/JimBobSquarePants/ImageProcessor/",
+            "match": "(?P<debug>(?P<name>imageprocessor)\\/{0,1}(?P<version>[0-9a-z\\.]+){0,1}[ ]{0,1})",
+            "results": [
+                {
+                    "category": "tech",
+                    "precision": 0.8
+                }
+            ]
         }
+
     ],
     "contents": [
         {
@@ -982,6 +1097,45 @@
         {
             "use": true,
             "type": "name",
+            "description": "Matching use of java session cookie",
+            "match": "(?P<debug>^(jsessionid))",
+            "results": [
+                {
+                    "name": "java",
+                    "category": "tech",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "name",
+            "description": "Matching use of asp.net session cookie",
+            "match": "(?P<debug>^(asp\\.net_sessionid))",
+            "results": [
+                {
+                    "name": "asp.net",
+                    "category": "tech",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "name",
+            "description": "Matching use of php session cookie",
+            "match": "(?P<debug>^(phpsessid))",
+            "results": [
+                {
+                    "name": "php",
+                    "category": "tech",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "name",
             "description": "Matching use of AspNetCore cookie",
             "match": "(?P<debug>^(\\.aspnetcore\\.))",
             "results": [
@@ -1019,7 +1173,7 @@
             "use": true,
             "type": "name",
             "description": "Matching use of EpiServer cookie",
-            "match": "(?P<debug>^(epistatemarker))",
+            "match": "(?P<debug>^(epi[\\:]{0,1}statemarker))",
             "results": [
                 {
                     "category": "tech",

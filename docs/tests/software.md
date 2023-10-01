@@ -120,13 +120,7 @@ TODO: Add links to blogs and articles showing how to remove info regarding what 
 ### Prerequirements
 
 * Fork this repository
-* Access to https://www.cvedetails.com/*
-* Access to https://nginx.org/*
-* Access to https://httpd.apache.org/*
-* Access to https://www.cve.org/*
-* Access to https://learn.microsoft.com/*
-* Access to https://svn.apache.org/*
-* Access to https://api.github.com/*
+
 
 ### Setup with GitHub Actions
 
@@ -136,7 +130,6 @@ TODO: Add links to blogs and articles showing how to remove info regarding what 
 ### Setup Locally
 
 * Follow [general local setup steps for this repository](../getting-started-local.md)
-* Fork https://github.com/github/advisory-database and set `software_github_adadvisory_database_path` variable in `config.py` to the path of that folder.
 * We recommend you to make use `software_use_stealth` is set to `True`, change this to `False` at your own risk.
 * It is highly recommended to set `cache_when_possible` to `True` and to set `cache_time_delta` to
 * It is highly recommended to set `cache_time_delta` to at least 12 hours (Fail to do so may result in banning of service like github).
@@ -162,4 +155,19 @@ TODO: Add links to blogs and articles showing how to remove info regarding what 
 
 ## FAQ
 
-No frequently asked questions yet :)
+### How to update software-full.json?
+
+Make sure your system has access to following addresses:
+* Access to https://www.cvedetails.com/*
+* Access to https://nginx.org/*
+* Access to https://httpd.apache.org/*
+* Access to https://www.cve.org/*
+* Access to https://learn.microsoft.com/*
+* Access to https://svn.apache.org/*
+* Access to https://api.github.com/*
+
+Fork https://github.com/github/advisory-database and set `software_github_adadvisory_database_path` variable in `config.py` to the path of that folder.
+
+Make sure you add a valid GitHub API key in your `config.py`.
+
+run `update_software.py`

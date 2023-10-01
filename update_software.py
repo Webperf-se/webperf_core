@@ -1,26 +1,12 @@
 # -*- coding: utf-8 -*-
 import sys
-import getopt
 import config
-import gettext
-import utils
-from datetime import datetime, timedelta
-import hashlib
+from datetime import datetime
 from pathlib import Path
-import shutil
 import sys
-import socket
-import ssl
 import json
-import time
-import requests
-import urllib  # https://docs.python.org/3/library/urllib.parse.html
-import uuid
 import re
-from bs4 import BeautifulSoup
-import dns.resolver
 import config
-import IP2Location
 import os
 from tests.utils import *
 import packaging.version
@@ -42,14 +28,8 @@ def main(argv):
 
 
 def update_software_info():
-    collection = get_softwares()
+    collection = get_software_sources()
     # print('software', collection)
-
-    if 'aliases' not in collection:
-        collection['aliases'] = {}
-
-    if 'softwares' not in collection:
-        collection['softwares'] = {}
 
     for key in collection['aliases'].keys():
         if collection['aliases'][key] not in collection['softwares']:
@@ -520,6 +500,25 @@ def extend_versions_from_github_advisory_database(software_name, versions):
 
         return versions
 
+def set_software_sources(collection):
+    dir = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep)
+    
+    file_path = '{0}{1}data{1}software-sources.json'.format(dir, os.path.sep)
+    if not os.path.isfile(file_path):
+        file_path = '{0}{1}software-sources.json'.format(dir, os.path.sep)
+    if not os.path.isfile(file_path):
+        print("ERROR: No software-sources.json file found!")
+
+    print('set_software_sources', file_path)
+
+    collection["loaded"] = True
+    collection["updated"] = '{0}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+
+    data = json.dumps(collection, indent=4)
+    with open(file_path, 'w', encoding='utf-8', newline='') as file:
+        file.write(data)
+
 def set_softwares(collection):
     dir = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep)
@@ -541,7 +540,7 @@ def set_softwares(collection):
         file.write(data)
    
 
-def get_softwares():
+def get_software_sources():
     dir = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep)
 
@@ -554,11 +553,44 @@ def get_softwares():
             'loaded': False
         }
 
-    print('get_softwares', file_path)
-
+    print('get_software_sources', file_path)
+    collection = {}
     with open(file_path) as json_file:
-        softwares = json.load(json_file)
-    return softwares
+        collection = json.load(json_file)
+
+    if 'aliases' not in collection:
+        collection['aliases'] = {}
+
+    if 'softwares' not in collection:
+        collection['softwares'] = {}
+
+    # sort on software names
+    if len(collection['aliases'].keys())> 0:
+        tmp = {}
+        issue_aliases_keys = list(collection['aliases'].keys())
+        issue_aliases_keys_sorted = sorted(issue_aliases_keys, reverse=False)
+
+        for key in issue_aliases_keys_sorted:
+            tmp[key] = collection['aliases'][key]
+
+        collection['aliases'] = tmp
+        if issue_aliases_keys != issue_aliases_keys_sorted:
+            set_software_sources(collection)
+
+    # sort on software names
+    if len(collection['softwares'].keys())> 0:
+        tmp = {}
+        issue_keys = list(collection['softwares'].keys())
+        issue_keys_sorted = sorted(issue_keys, reverse=False)
+
+        for key in issue_keys_sorted:
+            tmp[key] = collection['softwares'][key]
+
+        collection['softwares'] = tmp
+        if issue_keys != issue_keys_sorted:
+            set_software_sources(collection)
+
+    return collection
 
 def add_tech_if_interesting(techs, imgs, topic):
     tech = topic.lower()

@@ -52,6 +52,14 @@ jobs:
       name: Verifing Software(s) - WINDOWS
       run: python update_software.py
     - if: ${{ matrix.os == 'windows-latest' }}
+      name: Git Fix sort order to Software sources(s) - WINDOWS
+      run: |
+        git config --global user.name 'GitHub Action'
+        git config --global user.email '7h3Rabbit@users.noreply.github.com'
+        git add software-sources.json
+        git commit -m "Added changed software"
+        git push
+    - if: ${{ matrix.os == 'windows-latest' }}
       name: Git Add any changes to Software(s) - WINDOWS
       run: |
         git config --global user.name 'GitHub Action'

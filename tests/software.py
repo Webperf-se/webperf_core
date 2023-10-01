@@ -51,6 +51,9 @@ raw_data = {
     'headers': {
         'use': False
     },
+    'cookies': {
+        'use': False
+    },
     'contents': {
         'use': False
     },
@@ -1259,8 +1262,8 @@ def lookup_cookies(item, cookies, rules, origin_domain):
         cookie_name = cookie['name'].lower()
         cookie_value = cookie['value'].lower()
 
-        # if raw_data['cookies']['use']:
-        #     raw_data['cookies'][cookie_name] = cookie_value
+        if raw_data['cookies']['use']:
+            raw_data['cookies'][cookie_name] = cookie_value
 
         lookup_cookie(
             item, cookie_name, cookie_value, rules, origin_domain)
@@ -1337,8 +1340,8 @@ def lookup_cookie(item, cookie_name, cookie_value, rules, origin_domain):
                     item['matches'].append(get_default_info(
                         req_url, 'cookies', precision, category, name, version))
                     is_found = True
-                # elif raw_data['cookies']['use'] and not is_found:
-                #     raw_data['cookies'][match.group('debug')] = hostname
+                elif raw_data['cookies']['use'] and not is_found:
+                    raw_data['cookies'][match.group('debug')] = hostname
 
 
 def lookup_response_headers(item, headers, rules, origin_domain):
@@ -1468,5 +1471,9 @@ def run_test(_, langCode, url):
     if raw_is_used:
         nice_raw = json.dumps(raw_data, indent=2)
         print(nice_raw)
+
+        with open('debug.json', 'w', encoding='utf-8', newline='') as file:
+            file.write(nice_raw)
+
 
     return (rating, result_dict)

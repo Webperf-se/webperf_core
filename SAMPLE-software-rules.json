@@ -981,6 +981,16 @@
             "match": "(?P<debug>^(\\.epiform_))",
             "results": [
                 {
+                    "category": "tech",
+                    "name": "asp.net",
+                    "precision": 0.1
+                },
+                {
+                    "category": "tech",
+                    "name": "csharp",
+                    "precision": 0.4
+                },
+                {
                     "name":"episerver",
                     "category": "cms",
                     "precision": 0.5
@@ -991,8 +1001,18 @@
             "use": true,
             "type": "name",
             "description": "Matching use of EpiServer cookie",
-            "match": "(?P<debug>^(EPiStateMarker))",
+            "match": "(?P<debug>^(epistatemarker))",
             "results": [
+                {
+                    "category": "tech",
+                    "name": "asp.net",
+                    "precision": 0.1
+                },
+                {
+                    "category": "tech",
+                    "name": "csharp",
+                    "precision": 0.4
+                },
                 {
                     "name":"episerver",
                     "category": "cms",

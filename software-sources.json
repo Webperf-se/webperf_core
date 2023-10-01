@@ -959,6 +959,62 @@
         "prebid": {
             "github-owner": "prebid",
             "github-repo": "Prebid.js"
+        },
+        "docdash": {
+            "github-owner": "torarvid",
+            "github-repo": "docdash"
+        },
+        "tweetnacl-util-js": {
+            "github-owner": "dchest",
+            "github-repo": "tweetnacl-util-js"
+        },
+        "jarallax": {
+            "github-owner": "nk-o",
+            "github-repo": "jarallax"
+        },
+        "shariff": {
+            "github-owner": "heiseonline",
+            "github-repo": "shariff"
+        },
+        "algoliasearch-client-javascript": {
+            "github-owner": "algolia",
+            "github-repo": "algoliasearch-client-javascript"
+        },
+        "algoliasearch-client-js": {
+            "github-owner": "algolia",
+            "github-repo": "algoliasearch-client-js"
+        },
+        "autocomplete": {
+            "github-owner": "algolia",
+            "github-repo": "autocomplete"
+        },
+        "webappsec": {
+            "github-owner": "w3c",
+            "github-repo": "webappsec"
+        },
+        "jsurl": {
+            "github-owner": "Mikhus",
+            "github-repo": "jsurl"
+        },
+        "sentry-javascript": {
+            "github-owner": "getsentry",
+            "github-repo": "sentry-javascript"
+        },
+        "select2": {
+            "github-owner": "select2",
+            "github-repo": "select2"
+        },
+        "waypoints": {
+            "github-owner": "imakewebthings",
+            "github-repo": "waypoints"
+        },
+        "paginationjs": {
+            "github-owner": "superRaytin",
+            "github-repo": "paginationjs"
+        },
+        "domready": {
+            "github-owner": "ded",
+            "github-repo": "domready"
         }
     }
 }

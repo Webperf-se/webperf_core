@@ -1276,7 +1276,6 @@ def lookup_cookie(item, cookie_name, cookie_value, rules, origin_domain):
             continue
         if not rule['use']:
             continue
-        print('TEST B.2.3')
         if 'type' not in rule:
             continue
         if 'match' not in rule:

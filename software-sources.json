@@ -27,10 +27,6 @@
             "github-owner": "michu2k",
             "github-repo": "Accordion"
         },
-        "yaws": {
-            "github-owner": "erlyaws",
-            "github-repo": "yaws"
-        },
         "algoliasearch-client-javascript": {
             "github-owner": "algolia",
             "github-repo": "algoliasearch-client-javascript"
@@ -330,6 +326,10 @@
         "iis": {
             "custom": true
         },
+        "imageprocessor": {
+            "github-owner": "JimBobSquarePants",
+            "github-repo": "ImageProcessor"
+        },
         "imagesloaded-packaged": {
             "github-owner": "desandro",
             "github-repo": "imagesloaded"
@@ -353,10 +353,6 @@
         "isobject": {
             "github-owner": "jonschlinkert",
             "github-repo": "isobject"
-        },
-        "imageprocessor": {
-            "github-owner": "JimBobSquarePants",
-            "github-repo": "ImageProcessor"
         },
         "jarallax": {
             "github-owner": "nk-o",
@@ -857,6 +853,10 @@
             "github-owner": "statelyai",
             "github-repo": "xstate"
         },
+        "yaws": {
+            "github-owner": "erlyaws",
+            "github-repo": "yaws"
+        },
         "zenscroll": {
             "github-owner": "zengabor",
             "github-repo": "zenscroll"
@@ -866,5 +866,5 @@
             "github-repo": "zlib"
         }
     },
-    "updated": "2023-10-01 13:20:44"
+    "updated": "2023-10-01 16:57:21"
 }

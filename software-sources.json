@@ -1,6 +1,8 @@
 {
     "loaded": true,
     "aliases": {
+        "algoliasearch-client-js": "algoliasearch-client-javascript",
+        "cookie": "cookiejs",
         "datepicker-for-bootstrap": "bootstrap-datepicker",
         "javascript cookie": "js-cookie",
         "javascript-cookie": "js-cookie",
@@ -13,14 +15,12 @@
         "jquery-ui-menu": "jquery-ui",
         "jquery-ui-position": "jquery-ui",
         "jquery.migrate'": "jquery-migrate",
+        "jsurl": "domurl",
+        "klaro": "privacy-manager",
         "lightbox": "lightbox2",
         "magnific-popups": "magnific-popup",
         "query-ui-widget": "jquery-ui",
-        "sizzle-css-selector-engine": "sizzle",
-        "algoliasearch-client-js":"algoliasearch-client-javascript",
-        "cookie": "cookiejs",
-        "jsurl": "domurl",
-        "klaro": "privacy-manager"
+        "sizzle-css-selector-engine": "sizzle"
     },
     "softwares": {
         "accordion": {
@@ -197,6 +197,10 @@
         "domready": {
             "github-owner": "ded",
             "github-repo": "domready"
+        },
+        "domurl": {
+            "github-owner": "Mikhus",
+            "github-repo": "domurl"
         },
         "dot": {
             "github-owner": "olado",
@@ -438,14 +442,6 @@
             "github-owner": "parallax",
             "github-repo": "jsPDF"
         },
-        "domurl": {
-            "github-owner": "Mikhus",
-            "github-repo": "domurl"
-        },
-        "privacy-manager": {
-            "github-owner": "klaro-org",
-            "github-repo": "privacy-manager"
-        },
         "libphonenumber": {
             "github-owner": "google",
             "github-repo": "libphonenumber"
@@ -565,6 +561,10 @@
         "prebid": {
             "github-owner": "prebid",
             "github-repo": "Prebid.js"
+        },
+        "privacy-manager": {
+            "github-owner": "klaro-org",
+            "github-repo": "privacy-manager"
         },
         "promise-polyfill": {
             "github-owner": "taylorhakes",
@@ -858,5 +858,5 @@
             "github-repo": "zlib"
         }
     },
-    "updated": "2023-10-01 10:55:45"
+    "updated": "2023-10-01 13:20:44"
 }

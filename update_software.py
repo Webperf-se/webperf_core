@@ -54,10 +54,16 @@ def update_software_info():
             github_ower = collection['softwares'][key]['github-owner']
         if 'github-repo' in collection['softwares'][key]:
             github_repo = collection['softwares'][key]['github-repo']
+        if 'github-source' in collection['softwares'][key]:
+            github_release_source = collection['softwares'][key]['github-source']
 
         if 'github-security' in collection['softwares'][key]:
-            github_security = collection['softwares'][key]['github-security']
-        
+            github_release_source = collection['softwares'][key]['github-security']
+
+        if 'note' in collection['softwares'][key]:
+            print('ERROR! You are not allowed to add "software-sources.json" when it still includes "note" field.')
+            raise ValueError('ERROR! You are not allowed to add "software-sources.json" when it still includes "note" field.')
+
         versions = []
         if github_ower != None:
             set_github_repository_info(item, github_ower, github_repo)

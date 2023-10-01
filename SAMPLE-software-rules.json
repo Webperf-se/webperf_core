@@ -968,7 +968,7 @@
             "match": "(?P<debug>^(\\.aspnetcore\\.))",
             "results": [
                 {
-                    "name":"asp.net-core",
+                    "name": "asp.net-core",
                     "category": "tech",
                     "precision": 0.5
                 }
@@ -991,7 +991,7 @@
                     "precision": 0.4
                 },
                 {
-                    "name":"episerver",
+                    "name": "episerver",
                     "category": "cms",
                     "precision": 0.5
                 }
@@ -1014,7 +1014,7 @@
                     "precision": 0.4
                 },
                 {
-                    "name":"episerver",
+                    "name": "episerver",
                     "category": "cms",
                     "precision": 0.5
                 }

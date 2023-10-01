@@ -943,17 +943,20 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
 def identify_software(filename, origin_domain, rules):
     data = list()
 
+    global_software = None
+    global_cookies = None
+    
     # Fix for content having unallowed chars
     with open(filename) as json_input_file:
         har_data = json.load(json_input_file)
-
-        global_software = None
 
         if 'log' in har_data:
             har_data = har_data['log']
 
         if 'software' in har_data:
             global_software = har_data['software']
+        if 'cookies' in har_data:
+            global_cookies = har_data['cookies']
 
             # nice_raw = json.dumps(global_software, indent=2)
             # print('DEBUG - Global Software', nice_raw)
@@ -1001,6 +1004,10 @@ def identify_software(filename, origin_domain, rules):
     # nice_raw = json.dumps(data, indent=2)
     # print('DEBUG 3', nice_raw)
     # TODO: Check for https://docs.2sxc.org/index.html ?
+
+    if global_cookies != None:
+        lookup_cookies(
+            data[0], global_cookies, rules, origin_domain)
 
     for software_name in global_software.keys():
         versions = global_software[software_name]
@@ -1064,6 +1071,8 @@ def lookup_response_content(item, response_mimetype, response_content, rules):
     is_found = False
     for rule in rules['contents']:
         if 'use' not in rule:
+            continue
+        if not rule['use']:
             continue
         if 'type' not in rule:
             continue
@@ -1187,6 +1196,8 @@ def lookup_request_url(item, rules, origin_domain):
     for rule in rules['urls']:
         if 'use' not in rule:
             continue
+        if not rule['use']:
+            continue
         if 'match' not in rule:
             continue
         if 'results' not in rule:
@@ -1243,6 +1254,94 @@ def lookup_request_url(item, rules, origin_domain):
                 if raw_data['urls']['use'] and not is_found:
                     raw_data['urls'][req_url] = is_found
 
+def lookup_cookies(item, cookies, rules, origin_domain):
+    for cookie in cookies:
+        cookie_name = cookie['name'].lower()
+        cookie_value = cookie['value'].lower()
+
+        # if raw_data['cookies']['use']:
+        #     raw_data['cookies'][cookie_name] = cookie_value
+
+        lookup_cookie(
+            item, cookie_name, cookie_value, rules, origin_domain)
+
+def lookup_cookie(item, cookie_name, cookie_value, rules, origin_domain):
+
+    if 'cookies' not in rules:
+        return
+
+    is_found = False
+    for rule in rules['cookies']:
+        if 'use' not in rule:
+            continue
+        if not rule['use']:
+            continue
+        print('TEST B.2.3')
+        if 'type' not in rule:
+            continue
+        if 'match' not in rule:
+            continue
+        if 'results' not in rule:
+            continue
+
+        value = ''
+        if 'name' == rule['type']:
+            value = cookie_name
+        elif 'value' == rule['type']:
+            value = cookie_value
+
+        req_url = item['url'].lower()
+
+        o = urlparse(req_url)
+        hostname = o.hostname
+
+
+        regex = r"{0}".format(rule['match'])
+        matches = re.finditer(regex, value, re.MULTILINE)
+        for matchNum, match in enumerate(matches, start=1):
+            match_name = None
+            match_version = None
+
+            groups = match.groupdict()
+
+            if 'name' in groups:
+                match_name = groups['name']
+            if 'version' in groups:
+                match_version = groups['version']
+
+            if '?P<name>' in rule['match'] and match_name == None:
+                continue
+            if '?P<version>' in rule['match'] and match_version == None:
+                continue
+
+            for result in rule['results']:
+                name = None
+                version = None
+                if 'category' not in result:
+                    continue
+                if 'precision' not in result:
+                    continue
+
+                category = result['category']
+                precision = result['precision']
+
+                if 'name' in result:
+                    name = result['name']
+                else:
+                    name = match_name
+                if 'version' in result:
+                    version = result['version']
+                else:
+                    version = match_version
+
+                if precision > 0.0:
+                    item['matches'].append(get_default_info(
+                        req_url, 'cookies', precision, category, name, version))
+                    is_found = True
+                # elif raw_data['cookies']['use'] and not is_found:
+                #     raw_data['cookies'][match.group('debug')] = hostname
+
+
 def lookup_response_headers(item, headers, rules, origin_domain):
     for header in headers:
         header_name = header['name'].lower()
@@ -1262,6 +1361,8 @@ def lookup_response_header(item, header_name, header_value, rules, origin_domain
     is_found = False
     for rule in rules['headers']:
         if 'use' not in rule:
+            continue
+        if not rule['use']:
             continue
         if 'type' not in rule:
             continue

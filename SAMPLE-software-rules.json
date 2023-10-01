@@ -192,7 +192,7 @@
             ]
         },
         {
-            "use": true,
+            "use": false,
             "description": "According to data collected this is a good hint that it is Umbraco",
             "reference": "https://github.com/umbraco/Umbraco-CMS/blob/0b53249d5742404e7511d129ae55503ce8673c85/src/Umbraco.Infrastructure/Media/ImageSharpImageUrlGenerator.cs",
             "match": "(?P<debug>(jpg|jpeg|gif|bmp|png)\\?(anchor|ranchor|width|height|rnd|center|crop|quality|cc|rmode|rxy|croptop|height)=)",
@@ -956,6 +956,47 @@
                 {
                     "category": "tech",
                     "precision": 0.0
+                }
+            ]
+        }
+    ],
+    "cookies": [
+        {
+            "use": true,
+            "type": "name",
+            "description": "Matching use of AspNetCore cookie",
+            "match": "(?P<debug>^(\\.aspnetcore\\.))",
+            "results": [
+                {
+                    "name":"asp.net-core",
+                    "category": "tech",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "name",
+            "description": "Matching use of EpiServer cookie",
+            "match": "(?P<debug>^(\\.epiform_))",
+            "results": [
+                {
+                    "name":"episerver",
+                    "category": "cms",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "name",
+            "description": "Matching use of EpiServer cookie",
+            "match": "(?P<debug>^(EPiStateMarker))",
+            "results": [
+                {
+                    "name":"episerver",
+                    "category": "cms",
+                    "precision": 0.5
                 }
             ]
         }

@@ -18,7 +18,7 @@ _ = gettext.gettext
 
 
 # DEFAULTS
-regex_allowed_chars = r"[^a-zA-Zå-öÅ-Ö 0-9\-:\/]+"
+regex_allowed_chars = r"[^\u00E5\u00E4\u00F6\u00C5\u00C4\u00D6a-zA-Zå-öÅ-Ö 0-9\-:\/]+"
 request_timeout = config.http_request_timeout
 useragent = config.useragent
 time_sleep = config.webbkoll_sleep

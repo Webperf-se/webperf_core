@@ -12,17 +12,9 @@ request_timeout = config.http_request_timeout
 useragent = config.useragent
 css_review_group_errors = config.css_review_group_errors
 review_show_improvements_only = config.review_show_improvements_only
-w3c_use_website = config.w3c_use_website
 
 
-def get_errors(test_type, headers, params, data=None):
-    if w3c_use_website:
-        return get_errors_from_service(test_type, headers, params, data)
-    else:
-        return get_errors_from_npm(test_type, params, data)
-
-
-def get_errors_from_npm(test_type, params, data=None):
+def get_errors(test_type, params):
 
     url = ''
     arg = ''
@@ -40,20 +32,19 @@ def get_errors_from_npm(test_type, params, data=None):
         if 'https://' not in url and 'http://' not in url:
             raise Exception(
                 'Tested url must start with \'https://\' or \'http://\': {0}'.format(url))
+        
+        file_path = get_cache_path(url, True)
 
         arg = '--exit-zero-always{1} --stdout --format json --errors-only {0}'.format(
-            url, test_arg)
-    else:
-        # TODO: read from file instead of data
-        arg = '--exit-zero-always{1} --stdout --format json --errors-only \'{0}\''.format(
-            data, test_arg)
+            file_path, test_arg)
 
     bashCommand = "java -jar vnu.jar {0}".format(arg)
     process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
 
-    # print('output', output)
-    # print('error', error)
+    # print('bashCommand', bashCommand)
+    # print('- output', output)
+    # print('- error', error)
 
     json_result = json.loads(output)
     if 'messages' in json_result:

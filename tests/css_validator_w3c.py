@@ -13,6 +13,8 @@ from models import Rating
 
 from tests.utils import *
 from tests.w3c_base import get_errors
+from tests.sitespeed_base import get_result
+
 
 _local = gettext.gettext
 
@@ -22,6 +24,14 @@ useragent = config.useragent
 css_review_group_errors = config.css_review_group_errors
 review_show_improvements_only = config.review_show_improvements_only
 w3c_use_website = config.w3c_use_website
+sitespeed_use_docker = config.sitespeed_use_docker
+try:
+    use_cache = config.cache_when_possible
+    cache_time_delta = config.cache_time_delta
+except:
+    # If cache_when_possible variable is not set in config.py this will be the default
+    use_cache = False
+    cache_time_delta = timedelta(hours=1)
 
 global css_features
 global css_properties_doesnt_exist
@@ -47,23 +57,39 @@ def run_test(_, langCode, url):
     errors = list()
     error_message_dict = {}
 
-    # 1. Get ROOT PAGE HTML
-    html = httpRequestGetContent(url, True, True)
+    # We don't need extra iterations for what we are using it for
+    sitespeed_iterations = 1
+    sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --chrome.cdp.performance false --browsertime.chrome.timeline false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --browsertime.chrome.includeResponseBodies all --utc true --browsertime.chrome.args ignore-certificate-errors -n {0}'.format(
+        sitespeed_iterations)
+    if 'nt' not in os.name:
+        sitespeed_arg += ' --xvfb'
+
+    (result_folder_name, filename) = get_result(
+        url, sitespeed_use_docker, sitespeed_arg)
+
+    # 1. Visit page like a normal user
+    data = identify_styles(filename)
     # 2. FIND ALL INLE CSS (AND CALCULTE)
     # 2.1 FINS ALL <STYLE>
-    errors = get_errors_for_style_tags(html, _local)
-    rating += create_review_and_rating(errors, _, _local, '- `<style>`')
+    for entry in data['htmls']:
+        req_url = entry['url']
+        html = entry['content']
+        (elements, errors) = get_errors_for_style_tags(req_url, html, _local)
+        if len(elements) > 0:
+            rating += create_review_and_rating(errors, _, _local, '- `<style>`')
 
-    # 2.2 FIND ALL style=""
-    errors = get_errors_for_style_attributes(html, _local)
-    rating += create_review_and_rating(errors, _, _local, '- `style=""`')
+        # 2.2 FIND ALL style=""
+        (elements, errors) = get_errors_for_style_attributes(req_url, html, _local)
+        if len(elements) > 0:
+            rating += create_review_and_rating(errors, _, _local, '- `style=""`')
 
-    # 2.3 GET ERRORS FROM SERVICE
-    # 2.4 CALCULATE SCORE
-    # 3 FIND ALL <LINK> (rel=\"stylesheet\")
-    errors = get_errors_for_link_tags(html, url, _local)
-    rating += create_review_and_rating(errors,
-                                       _,  _local, '- `<link rel=\"stylesheet\">`')
+        # 2.3 GET ERRORS FROM SERVICE
+        # 2.4 CALCULATE SCORE
+        # 3 FIND ALL <LINK> (rel=\"stylesheet\")
+        (elements, errors) = get_errors_for_link_tags(html, url, _local)
+        if len(elements) > 0:
+            rating += create_review_and_rating(errors,
+                                            _,  _local, '- `<link rel=\"stylesheet\">`')
 
     points = rating.get_overall()
 
@@ -86,6 +112,49 @@ def run_test(_, langCode, url):
 
     return (rating, errors)
 
+def identify_styles(filename):
+    data = {
+        'htmls': [],
+        'elements': [],
+        'attributes': [],
+        'resources': []
+    }
+
+    with open(filename) as json_input_file:
+        har_data = json.load(json_input_file)
+
+        if 'log' in har_data:
+            har_data = har_data['log']
+
+        for entry in har_data["entries"]:
+            req = entry['request']
+            res = entry['response']
+            req_url = req['url']
+
+            if 'content' not in res:
+                continue
+            if 'mimeType' not in res['content']:
+                continue
+            if 'size' not in res['content']:
+                continue
+            if res['content']['size'] <= 0:
+                continue
+
+            if 'html' in res['content']['mimeType']:
+                # TODO: check for html tags
+                set_cache_file(req_url, res['content']['text'], True)
+                data['htmls'].append({
+                    'url': req_url,
+                    'content': res['content']['text']
+                    })
+            elif 'css' in res['content']['mimeType']:
+                set_cache_file(req_url, res['content']['text'], True)
+                data['resources'].append({
+                    'url': req_url,
+                    'content': res['content']['text']
+                    })
+
+    return data
 
 def get_errors_for_link_tags(html, url, _):
     #print('link tag(s)')
@@ -98,6 +167,8 @@ def get_errors_for_link_tags(html, url, _):
     parsed_url = '{0}://{1}'.format(o.scheme, o.netloc)
     parsed_url_scheme = o.scheme
 
+    matching_elements = list()
+    
     resource_index = 1
     for element in elements:
         # print(element)
@@ -131,7 +202,7 @@ def get_errors_for_link_tags(html, url, _):
                 # relative url, but without starting /
                 resource_url = parsed_url + '/' + resource_url
 
-            # print('resource_url', resource_url)
+            print('resource_url', resource_url)
             # print('stylesheet resource #{0}:'.format(resource_index))
             # review_header = '* <link rel="stylesheet" #{0}>:\n'.format(
             #    resource_index)
@@ -140,13 +211,15 @@ def get_errors_for_link_tags(html, url, _):
                 resource_url)
             # results.append(result_link_css)
             resource_index += 1
+            matching_elements.append(resource_url)
+
             if w3c_use_website:
                 time.sleep(10)
 
-    return results
+    return (matching_elements, results)
 
 
-def get_errors_for_style_attributes(html, _):
+def get_errors_for_style_attributes(url, html, _):
     #print('style attribute(s)')
 
     soup = BeautifulSoup(html, 'lxml')
@@ -161,15 +234,17 @@ def get_errors_for_style_attributes(html, _):
             element.name, element['style'])
 
     if temp_attribute_css != '':
-        results = get_errors_for_css(temp_attribute_css)
+        tmp_url = '{0}#styles-attributes'.format(url)
+        set_cache_file(tmp_url, temp_attribute_css, True)
+        results = get_errors_for_url(tmp_url)
         temp_attribute_css = ''
         if w3c_use_website:
             time.sleep(10)
 
-    return results
+    return (elements, results)
 
 
-def get_errors_for_style_tags(html, _):
+def get_errors_for_style_tags(url, html, _):
     #print('style tag(s)')
 
     soup = BeautifulSoup(html, 'lxml')
@@ -182,14 +257,16 @@ def get_errors_for_style_tags(html, _):
         temp_inline_css += '' + element.text
 
     if temp_inline_css != '':
+        tmp_url = '{0}#style-elements'.format(url)
+        set_cache_file(tmp_url, temp_inline_css, True)
         # print('style-tag(s):')
         #review_header = '* <style>:\n'
-        results = get_errors_for_css(temp_inline_css)
+        results = get_errors_for_url(tmp_url)
         # results.append(result_inline_css)
         temp_inline_css = ''
         if w3c_use_website:
             time.sleep(10)
-    return results
+    return (elements, results)
 
 
 def calculate_rating(number_of_error_types, number_of_errors):
@@ -205,23 +282,9 @@ def calculate_rating(number_of_error_types, number_of_errors):
 
     return (rating_number_of_error_types, rating_number_of_errors)
 
-
 def get_errors_for_url(url):
-    headers = {'user-agent': useragent}
     params = {'doc': url, 'out': 'json', 'level': 'error'}
-    return get_errors('css', headers, params)
-
-
-def get_errors_for_css(data):
-
-    data = data.strip()
-
-    headers = {'user-agent': useragent,
-               'Content-Type': 'text/css; charset=utf-8'}
-    params = {'showsource': 'yes', 'css': 'yes',
-              'out': 'json', 'level': 'error'}
-    return get_errors('css', headers, params, data.encode('utf-8'))
-
+    return get_errors('css', params)
 
 def get_mdn_web_docs_css_features():
     css_features = {}

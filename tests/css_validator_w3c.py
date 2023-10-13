@@ -48,7 +48,7 @@ def run_test(_, langCode, url):
     error_message_dict = {}
 
     # 1. Get ROOT PAGE HTML
-    html = get_source(url)
+    html = httpRequestGetContent(url, True, True)
     # 2. FIND ALL INLE CSS (AND CALCULTE)
     # 2.1 FINS ALL <STYLE>
     errors = get_errors_for_style_tags(html, _local)
@@ -100,9 +100,20 @@ def get_errors_for_link_tags(html, url, _):
 
     resource_index = 1
     for element in elements:
-        # print(element.contents)
+        # print(element)
+        if not element.has_attr('rel'):
+            # TODO: we should probably see if this is valid, if not, give reduced points
+            continue
         resource_type = element['rel']
+        is_css_link = False
         if 'stylesheet' in resource_type:
+            is_css_link = True
+        if 'prefetch' in resource_type and element.has_attr('as') and 'style' == element['as']:
+            is_css_link = True
+        if is_css_link:
+            if not element.has_attr('href'):
+                # TODO: we should probably see if this is valid, if not, give reduced points
+                continue
             resource_url = element['href']
             #temp_inline_css += '' + element['href'].text
 
@@ -227,7 +238,7 @@ def get_mdn_web_docs_css_features():
             links = index_element.find_all('a')
             for link in links:
                 # print('link: {0}'.format(link.string))
-                regex = '(?P<name>[a-z\-0-9]+)(?P<func>[()]{0,2})[ ]*'
+                regex = r'(?P<name>[a-z\-0-9]+)(?P<func>[()]{0,2})[ ]*'
                 matches = re.search(regex, link.string)
                 if matches:
                     property_name = matches.group('name')
@@ -348,18 +359,3 @@ def create_review_and_rating(errors, _, _local, review_header):
     rating.standards_review = rating.standards_review + review
 
     return rating
-
-
-def get_source(url):
-    try:
-        headers = {'user-agent': useragent}
-        request = requests.get(url, allow_redirects=True,
-                               headers=headers,
-                               timeout=request_timeout)
-
-        # get source
-        return request.text
-
-    except requests.Timeout:
-        print('Timeout!\nMessage:\n{0}'.format(sys.exc_info()[0]))
-        return None

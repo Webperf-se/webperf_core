@@ -44,6 +44,7 @@ def get_errors_from_npm(test_type, params, data=None):
         arg = '--exit-zero-always{1} --stdout --format json --errors-only {0}'.format(
             url, test_arg)
     else:
+        # TODO: read from file instead of data
         arg = '--exit-zero-always{1} --stdout --format json --errors-only \'{0}\''.format(
             data, test_arg)
 

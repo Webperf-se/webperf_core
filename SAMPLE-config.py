@@ -18,9 +18,6 @@ http_request_timeout = 60
 # timeout between calls to website
 webbkoll_sleep = 20
 
-# Tells CSS/HTML test to use public website or local version
-w3c_use_website = True
-
 # if you want a more detailed review for the CSS test (Test #7), set this to False
 css_review_group_errors = True
 
@@ -53,7 +50,6 @@ cache_time_delta = timedelta(hours=1)
 
 # GITHUB API Token, used for calls to github API (to remove call limit)
 github_api_key = None
-
 
 # Tell software test to use stealth mode or not, default is 'True'
 software_use_stealth = True

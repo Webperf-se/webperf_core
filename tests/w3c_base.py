@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 import subprocess
-import sys
 import json
-import requests
 import json
 import config
 from tests.utils import *
@@ -42,41 +40,8 @@ def get_errors(test_type, params):
     process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
 
-    # print('bashCommand', bashCommand)
-    # print('- output', output)
-    # print('- error', error)
-
     json_result = json.loads(output)
     if 'messages' in json_result:
         errors = json_result['messages']
 
     return errors
-
-
-def get_errors_from_service(test_type, headers, params, data=None):
-    errors = list()
-    try:
-        service_url = 'https://validator.w3.org/nu/'
-        if data == None:
-            request = requests.get(service_url, allow_redirects=True,
-                                   headers=headers,
-                                   timeout=request_timeout * 2,
-                                   params=params)
-        else:
-            request = requests.post(service_url, allow_redirects=True,
-                                    headers=headers,
-                                    timeout=request_timeout,
-                                    params=params,
-                                    data=data)
-
-        # get JSON
-        response = json.loads(request.text)
-        if 'messages' in response:
-            errors = response['messages']
-        return errors
-    except Exception:
-        print('Unknown Error!\nMessage:\n{0}'.format(sys.exc_info()[0]))
-        return errors
-    except requests.Timeout:
-        print('Timeout!\nMessage:\n{0}'.format(sys.exc_info()[0]))
-        return errors

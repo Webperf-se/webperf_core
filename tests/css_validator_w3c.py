@@ -3,18 +3,15 @@ import datetime
 import gettext
 import re
 import sys
-import time
 import urllib  # https://docs.python.org/3/library/urllib.parse.html
 
 import config
-import requests
 from bs4 import BeautifulSoup
 from models import Rating
 
 from tests.utils import *
 from tests.w3c_base import get_errors
 from tests.sitespeed_base import get_result
-
 
 _local = gettext.gettext
 
@@ -23,7 +20,6 @@ request_timeout = config.http_request_timeout
 useragent = config.useragent
 css_review_group_errors = config.css_review_group_errors
 review_show_improvements_only = config.review_show_improvements_only
-w3c_use_website = config.w3c_use_website
 sitespeed_use_docker = config.sitespeed_use_docker
 try:
     use_cache = config.cache_when_possible
@@ -141,7 +137,6 @@ def identify_styles(filename):
                 continue
 
             if 'html' in res['content']['mimeType']:
-                # TODO: check for html tags
                 set_cache_file(req_url, res['content']['text'], True)
                 data['htmls'].append({
                     'url': req_url,
@@ -157,7 +152,6 @@ def identify_styles(filename):
     return data
 
 def get_errors_for_link_tags(html, url, _):
-    #print('link tag(s)')
     results = list()
 
     soup = BeautifulSoup(html, 'lxml')
@@ -171,9 +165,7 @@ def get_errors_for_link_tags(html, url, _):
     
     resource_index = 1
     for element in elements:
-        # print(element)
         if not element.has_attr('rel'):
-            # TODO: we should probably see if this is valid, if not, give reduced points
             continue
         resource_type = element['rel']
         is_css_link = False
@@ -183,45 +175,35 @@ def get_errors_for_link_tags(html, url, _):
             is_css_link = True
         if is_css_link:
             if not element.has_attr('href'):
-                # TODO: we should probably see if this is valid, if not, give reduced points
                 continue
             resource_url = element['href']
-            #temp_inline_css += '' + element['href'].text
 
             if resource_url.startswith('//'):
                 # do nothing, complete url
                 resource_url = parsed_url_scheme + ':' + resource_url
-                # print('- do nothing, complete url')
             elif resource_url.startswith('/'):
                 # relative url, complement with dns
                 resource_url = parsed_url + resource_url
-                # print('- relative url, complement with dns')
             elif resource_url.startswith('http://') or resource_url.startswith('https://'):
                 resource_url = resource_url
             else:
                 # relative url, but without starting /
                 resource_url = parsed_url + '/' + resource_url
 
-            print('resource_url', resource_url)
+            # print('resource_url', resource_url)
             # print('stylesheet resource #{0}:'.format(resource_index))
             # review_header = '* <link rel="stylesheet" #{0}>:\n'.format(
             #    resource_index)
             # 3.1 GET ERRORS FROM SERVICE (FOR EVERY <LINK>) AND CALCULATE SCORE
             results += get_errors_for_url(
                 resource_url)
-            # results.append(result_link_css)
             resource_index += 1
             matching_elements.append(resource_url)
-
-            if w3c_use_website:
-                time.sleep(10)
 
     return (matching_elements, results)
 
 
 def get_errors_for_style_attributes(url, html, _):
-    #print('style attribute(s)')
-
     soup = BeautifulSoup(html, 'lxml')
     elements = soup.find_all(attrs={"style": True})
 
@@ -229,7 +211,6 @@ def get_errors_for_style_attributes(url, html, _):
     temp_attribute_css = ''
 
     for element in elements:
-        # print(element.contents)
         temp_attribute_css += '' + "{0}{{{1}}}".format(
             element.name, element['style'])
 
@@ -238,34 +219,25 @@ def get_errors_for_style_attributes(url, html, _):
         set_cache_file(tmp_url, temp_attribute_css, True)
         results = get_errors_for_url(tmp_url)
         temp_attribute_css = ''
-        if w3c_use_website:
-            time.sleep(10)
 
     return (elements, results)
 
 
 def get_errors_for_style_tags(url, html, _):
-    #print('style tag(s)')
-
     soup = BeautifulSoup(html, 'lxml')
     elements = soup.find_all('style')
 
     results = list()
     temp_inline_css = ''
     for element in elements:
-        # print(element.contents)
         temp_inline_css += '' + element.text
 
     if temp_inline_css != '':
         tmp_url = '{0}#style-elements'.format(url)
         set_cache_file(tmp_url, temp_inline_css, True)
-        # print('style-tag(s):')
-        #review_header = '* <style>:\n'
         results = get_errors_for_url(tmp_url)
-        # results.append(result_inline_css)
         temp_inline_css = ''
-        if w3c_use_website:
-            time.sleep(10)
+
     return (elements, results)
 
 
@@ -300,14 +272,11 @@ def get_mdn_web_docs_css_features():
         if index_element:
             links = index_element.find_all('a')
             for link in links:
-                # print('link: {0}'.format(link.string))
                 regex = r'(?P<name>[a-z\-0-9]+)(?P<func>[()]{0,2})[ ]*'
                 matches = re.search(regex, link.string)
                 if matches:
                     property_name = matches.group('name')
                     is_function = matches.group('func') in '()'
-                    # print('-', property_name)
-                    # css_features.append(property_name)
                     if is_function:
                         css_functions["{0}".format(
                             property_name)] = link.get('href')

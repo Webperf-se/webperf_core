@@ -52,7 +52,7 @@ Read more on the [general page for github actions](../getting-started-github-act
 
 #### Using NPM package
 
-* Download and install Node.js (v1 version 14.x)
+* Download and install Node.js (version 18.x)
 * Download and install Google Chrome browser
 * Install SiteSpeed NPM package ( `npm install sitespeed.io` )
 * Set `sitespeed_use_docker = False` in your `config.py`

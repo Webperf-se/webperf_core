@@ -70,6 +70,7 @@ def run_test(_, langCode, url):
     has_style_elements = False
     has_style_attributes = False
     has_css_files = False
+    has_css_contenttypes = False
     all_link_resources = list()
 
     request_index = 1
@@ -108,17 +109,20 @@ def run_test(_, langCode, url):
             if data_resource_info['url'] == link_resource:
                 data_resource_info_to_remove = data_resource_info
                 break
-        
-        data['resources'].remove(data_resource_info_to_remove)
+        if data_resource_info_to_remove != None:
+            data['resources'].remove(data_resource_info_to_remove)
         
     errors = list()
     for data_resource_info in data['resources']:
+        has_css_contenttypes = True
         errors += get_errors_for_url(
             data_resource_info['url'])
-    rating += create_review_and_rating(errors,
-        _,  _local, '- `content-type=\".*css.*\"`')
+        request_index = data_resource_info['index']
+        name = get_friendly_url_name(_, data_resource_info['url'], request_index)
+        rating += create_review_and_rating(errors,
+            _,  _local, '- `content-type=\".*css.*\"` in: {0}'.format(name))
 
-            
+    # Give full points if nothing was found
     if not has_style_elements:
         errors_type_rating = Rating(_, review_show_improvements_only)
         errors_type_rating.set_overall(5.0)
@@ -152,6 +156,19 @@ def run_test(_, langCode, url):
         errors_rating.set_overall(5.0)
         errors_rating.set_standards(5.0, '- `<link rel=\"stylesheet\">`' + _local('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0)),
         rating += errors_rating
+
+    if not has_css_contenttypes:
+        errors_type_rating = Rating(_, review_show_improvements_only)
+        errors_type_rating.set_overall(5.0)
+        errors_type_rating.set_standards(5.0, '- `content-type=\".*css.*\"`' + _local('TEXT_REVIEW_RATING_GROUPED').format(
+            0, 0.0))
+        rating += errors_type_rating
+
+        errors_rating = Rating(_, review_show_improvements_only)
+        errors_rating.set_overall(5.0)
+        errors_rating.set_standards(5.0, '- `content-type=\".*css.*\"`' + _local('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0)),
+        rating += errors_rating
+
 
     points = rating.get_overall()
 
@@ -188,6 +205,7 @@ def identify_styles(filename):
         if 'log' in har_data:
             har_data = har_data['log']
 
+        req_index = 1
         for entry in har_data["entries"]:
             req = entry['request']
             res = entry['response']
@@ -214,8 +232,10 @@ def identify_styles(filename):
                     set_cache_file(req_url, res['content']['text'], True)
                 data['resources'].append({
                     'url': req_url,
-                    'content': res['content']['text']
+                    'content': res['content']['text'],
+                    'index': req_index
                     })
+            req_index += 1
 
     return data
 

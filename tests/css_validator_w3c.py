@@ -424,6 +424,7 @@ def create_review_and_rating(errors, _, _local, review_header):
 
     error_message_dict = {}
     error_message_grouped_dict = {}
+    error_message_grouped_for_rating_dict = {}
     if number_of_errors > 0:
         regex = r"(“[^”]+”)"
         for item in errors:
@@ -438,14 +439,21 @@ def create_review_and_rating(errors, _, _local, review_header):
             if not is_whitelisted:
                 error_message_dict[error_message] = "1"
 
+                tmp = re.sub(
+                    regex, "X", error_message, 0, re.MULTILINE)
                 if css_review_group_errors:
-                    error_message = re.sub(
-                        regex, "X", error_message, 0, re.MULTILINE)
+                    error_message = tmp
 
                 if error_message_grouped_dict.get(error_message, False):
                     error_message_grouped_dict[error_message] = error_message_grouped_dict[error_message] + 1
                 else:
                     error_message_grouped_dict[error_message] = 1
+
+                if error_message_grouped_for_rating_dict.get(tmp, False):
+                    error_message_grouped_for_rating_dict[tmp] = error_message_grouped_for_rating_dict[tmp] + 1
+                else:
+                    error_message_grouped_for_rating_dict[tmp] = 1
+
 
         if len(error_message_grouped_dict) > 0:
             error_message_grouped_sorted = sorted(
@@ -460,7 +468,7 @@ def create_review_and_rating(errors, _, _local, review_header):
 
     rating = Rating(_, review_show_improvements_only)
 
-    number_of_error_types = len(error_message_grouped_dict)
+    number_of_error_types = len(error_message_grouped_for_rating_dict)
 
     result = calculate_rating(number_of_error_types, number_of_errors)
 

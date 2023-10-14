@@ -67,25 +67,69 @@ def run_test(_, langCode, url):
     data = identify_styles(filename)
     # 2. FIND ALL INLE CSS (AND CALCULTE)
     # 2.1 FINS ALL <STYLE>
+    has_style_elements = False
+    has_style_attributes = False
+    has_css_files = False
+    request_index = 1
     for entry in data['htmls']:
         req_url = entry['url']
+        name = get_friendly_url_name(_, req_url, request_index)
         html = entry['content']
         (elements, errors) = get_errors_for_style_tags(req_url, html, _local)
         if len(elements) > 0:
-            rating += create_review_and_rating(errors, _, _local, '- `<style>`')
+            has_style_elements = True
+            rating += create_review_and_rating(errors, _, _local, '- `<style>` in: {0}'.format(name))
 
         # 2.2 FIND ALL style=""
         (elements, errors) = get_errors_for_style_attributes(req_url, html, _local)
         if len(elements) > 0:
-            rating += create_review_and_rating(errors, _, _local, '- `style=""`')
+            has_style_attributes = True
+            rating += create_review_and_rating(errors, _, _local, '- `style=""` in: {0}'.format(name))
 
         # 2.3 GET ERRORS FROM SERVICE
         # 2.4 CALCULATE SCORE
         # 3 FIND ALL <LINK> (rel=\"stylesheet\")
         (elements, errors) = get_errors_for_link_tags(html, url, _local)
         if len(elements) > 0:
+            has_css_files = True
             rating += create_review_and_rating(errors,
-                                            _,  _local, '- `<link rel=\"stylesheet\">`')
+                                            _,  _local, '- `<link rel=\"stylesheet\">` in: {0}'.format(name))
+            
+        request_index += 1
+            
+    if not has_style_elements:
+        errors_type_rating = Rating(_, review_show_improvements_only)
+        errors_type_rating.set_overall(5.0)
+        errors_type_rating.set_standards(5.0, '- `<style>`' + _local('TEXT_REVIEW_RATING_GROUPED').format(
+            0, 0.0))
+        rating += errors_type_rating
+
+        errors_rating = Rating(_, review_show_improvements_only)
+        errors_rating.set_overall(5.0)
+        errors_rating.set_standards(5.0, '- `<style>`' + _local('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0)),
+        rating += errors_rating
+    if not has_style_attributes:
+        errors_type_rating = Rating(_, review_show_improvements_only)
+        errors_type_rating.set_overall(5.0)
+        errors_type_rating.set_standards(5.0, '- `style=""`'+ _local('TEXT_REVIEW_RATING_GROUPED').format(
+            0, 0.0))
+        rating += errors_type_rating
+
+        errors_rating = Rating(_, review_show_improvements_only)
+        errors_rating.set_overall(5.0)
+        errors_rating.set_standards(5.0, '- `style=""`' + _local('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0)),
+        rating += errors_rating
+    if not has_css_files:
+        errors_type_rating = Rating(_, review_show_improvements_only)
+        errors_type_rating.set_overall(5.0)
+        errors_type_rating.set_standards(5.0, '- `<link rel=\"stylesheet\">`' + _local('TEXT_REVIEW_RATING_GROUPED').format(
+            0, 0.0))
+        rating += errors_type_rating
+
+        errors_rating = Rating(_, review_show_improvements_only)
+        errors_rating.set_overall(5.0)
+        errors_rating.set_standards(5.0, '- `<link rel=\"stylesheet\">`' + _local('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0)),
+        rating += errors_rating
 
     points = rating.get_overall()
 
@@ -137,13 +181,15 @@ def identify_styles(filename):
                 continue
 
             if 'html' in res['content']['mimeType']:
-                set_cache_file(req_url, res['content']['text'], True)
+                if not has_cache_file(req_url, True, cache_time_delta):
+                    set_cache_file(req_url, res['content']['text'], True)
                 data['htmls'].append({
                     'url': req_url,
                     'content': res['content']['text']
                     })
             elif 'css' in res['content']['mimeType']:
-                set_cache_file(req_url, res['content']['text'], True)
+                if not has_cache_file(req_url, True, cache_time_delta):
+                    set_cache_file(req_url, res['content']['text'], True)
                 data['resources'].append({
                     'url': req_url,
                     'content': res['content']['text']

@@ -21,9 +21,6 @@ msgstr "## Test: 23 - Spårning och Integritet (Beta)\r\n"
 msgid "TEXT_REQUEST_UNKNOWN"
 msgstr "#{0}: "
 
-msgid "TEXT_REQUEST_WEBPAGE"
-msgstr "#{0}: Webbsida"
-
 msgid "TEXT_VISITOR_ANALYTICS_USED"
 msgstr "  - Besökaranalys används:\r\n"
 

@@ -102,6 +102,17 @@ def get_cache_file(url, use_text_instead_of_content, time_delta):
         with open(cache_path, 'rb') as file:
             return file.read()
 
+def has_cache_file(url, use_text_instead_of_content, time_delta):
+    cache_path = get_cache_path(url, use_text_instead_of_content)
+
+    if not os.path.exists(cache_path):
+        return False
+
+    if use_cache and is_file_older_than(cache_path, time_delta):
+        return False
+    
+    return True
+
 
 def clean_cache_files():
     if not use_cache:
@@ -410,3 +421,33 @@ def get_best_country_code(ip_address, default_country_code):
         return default_country_code
 
     return country_code
+
+def get_friendly_url_name(_, url, request_index):
+
+    if request_index == None:
+        request_index = '?'
+
+    request_friendly_name = _(
+        'TEXT_REQUEST_UNKNOWN').format(request_index)
+    if request_index == 1:
+        request_friendly_name = _(
+            'TEXT_REQUEST_WEBPAGE').format(request_index)
+
+    try:
+        o = urlparse(url)
+        tmp = o.path.strip('/').split('/')
+        length = len(tmp)
+        tmp = tmp[length - 1]
+
+        regex = r"[^a-zA-Z0-9.]"
+        subst = "-"
+
+        tmp = re.sub(regex, subst, tmp, 0, re.MULTILINE)
+        length = len(tmp)
+        if length > 15:
+            request_friendly_name = '#{0}: {1}'.format(request_index, tmp[:15])
+        elif length > 1:
+            request_friendly_name = '#{0}: {1}'.format(request_index, tmp)
+    except:
+        return request_friendly_name
+    return request_friendly_name

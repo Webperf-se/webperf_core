@@ -14,8 +14,12 @@ jobs:
     strategy:
             matrix:
                 os: [ubuntu-latest, windows-latest]
-                config: ['review_show_improvements_only=True,w3c_use_website=True','review_show_improvements_only=True,w3c_use_website=False']
+                config: ['review_show_improvements_only=True,sitespeed_use_docker=False']
                 version: [6]
+                include:
+                  - os: ubuntu-latest
+                    config: 'review_show_improvements_only=True,sitespeed_use_docker=True'
+                    version: 6
     steps:
     - name: Check out repository code
       uses: actions/checkout@v3
@@ -34,6 +38,21 @@ jobs:
       name: Download vnu.jar (The Nu Html Checker) - Windows
       run: |
         Invoke-WebRequest -Uri https://github.com/validator/validator/releases/download/latest/vnu.jar -OutFile vnu.jar
+    - name: Setup Node.js (v3 version 18.x)
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+    - if: ${{ matrix.os == 'ubuntu-latest' }}
+      shell: bash
+      name: Setup Google Chrome browser (ONLY used for Sitespeed)
+      run: |
+        wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - 
+        sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+        sudo apt-get update
+        sudo apt-get --only-upgrade install google-chrome-stable
+        google-chrome --version
+    - name: Setup Sitespeed.io npm package (ONLY used for Sitespeed)
+      run: npm install sitespeed.io
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: Setup config (using SAMPLE-config.py as config.py) - LINUX
       run: python .github/workflows/verify_result.py -c ${{ matrix.config }}

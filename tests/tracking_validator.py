@@ -141,34 +141,6 @@ def get_foldername_from_url(url):
     return folder_result
 
 
-def get_friendly_url_name(_local, url, request_index):
-
-    request_friendly_name = _local(
-        'TEXT_REQUEST_UNKNOWN').format(request_index)
-    if request_index == 1:
-        request_friendly_name = _local(
-            'TEXT_REQUEST_WEBPAGE').format(request_index)
-
-    try:
-        o = urlparse(url)
-        tmp = o.path.strip('/').split('/')
-        length = len(tmp)
-        tmp = tmp[length - 1]
-
-        regex = r"[^a-z0-9.]"
-        subst = "-"
-
-        tmp = re.sub(regex, subst, tmp, 0, re.MULTILINE)
-        length = len(tmp)
-        if length > 15:
-            request_friendly_name = '#{0}: {1}'.format(request_index, tmp[:15])
-        elif length > 1:
-            request_friendly_name = '#{0}: {1}'.format(request_index, tmp)
-    except:
-        return request_friendly_name
-    return request_friendly_name
-
-
 def get_file_content(input_filename):
     # print('input_filename=' + input_filename)
     lines = list()
@@ -570,7 +542,7 @@ def rate_tracking(website_urls, _local, _):
 
         url_rating = Rating(_, review_show_improvements_only)
         if url_is_tracker:
-            request_friendly_name = get_friendly_url_name(_local,
+            request_friendly_name = get_friendly_url_name(_,
                                                           website_url, request_index)
 
             if number_of_tracking <= allowed_nof_trackers:
@@ -659,7 +631,7 @@ def rate_fingerprint(website_urls, _local, _):
         url_rating = Rating(_, review_show_improvements_only)
         if url_is_adserver_requests:
             if fingerprint_requests <= max_nof_fingerprints_showed:
-                request_friendly_name = get_friendly_url_name(_local,
+                request_friendly_name = get_friendly_url_name(_,
                                                               website_url, request_index)
                 url_rating.set_integrity_and_security(
                     1.0, _local('TEXT_FINGERPRINTING_FOUND').format(request_friendly_name))
@@ -729,7 +701,7 @@ def rate_ads(website_urls, _local, _):
 
         url_rating = Rating(_, review_show_improvements_only)
         if url_is_adserver_requests:
-            request_friendly_name = get_friendly_url_name(_local,
+            request_friendly_name = get_friendly_url_name(_,
                                                           website_url, request_index)
             if adserver_requests <= allowed_nof_ads:
                 url_rating.set_integrity_and_security(
@@ -852,7 +824,7 @@ def run_test(_, langCode, url):
 def get_analytics(_local, url, content, request_index, analytics_rules):
     analytics = {}
 
-    request_friendly_name = get_friendly_url_name(_local,
+    request_friendly_name = get_friendly_url_name(_,
                                                   url, request_index)
 
     text = _local('TEXT_TRACKING_REFERENCE')

@@ -2,7 +2,7 @@
 [![Regression Test - CSS Validation Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-css.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-css.yml)
 
 This test is validating all used CSS on the url specified.
-We are currently sending following sources to [W3C CSS Validation](https://validator.w3.org/nu/) for validation:
+We are currently using local version of [W3C CSS Validation](https://validator.w3.org/nu/) for validation:
 - Inline CSS in `style`-element
 - Inline CSS in `style`-attribute
 - CSS referenced using `link`-element
@@ -33,7 +33,7 @@ As always, minimum rating are 1.0.
 ### Prerequirements
 
 * Fork this repository
-* As we are using external service ( https://validator.w3.org/nu/ and https://developer.mozilla.org/en-US/docs/Web/CSS/Reference ) your site needs to be publicly available and the machine running
+* As we are using external service ( https://developer.mozilla.org/en-US/docs/Web/CSS/Reference )so the machine running
 this test needs to be able to access external service.
 
 ### Setup with GitHub Actions
@@ -43,24 +43,28 @@ Read more on the [general page for github actions](../getting-started-github-act
 ### Setup Locally
 
 * Follow [general local setup steps for this repository](../getting-started-local.md)
-* Next steps depends on what mode you want to runt test in
-
-#### Call service
-
-By settings `w3c_use_website = True` in `config.py` you tell the test
-you want to use w3c service to test url.
-This means that you can ONLY test public facing websites.
-
-* Beside making sure to set above value to `True` you dont need to do anything more.
-
-#### Jar
-
-By settings `w3c_use_website = False` in `config.py` you tell the test
-you want to use a version able to test privat websites like a test environment not open for public.
+* It is highly recommended to set `cache_when_possible` to `True` and to set `cache_time_delta` to
+* It is highly recommended to set `cache_time_delta` to at least 12 hours (Fail to do so may result in banning of service like github).
+* Depending on your preference, follow below NPM package or Docker image steps below.
 
 * Download and install Java (JDK 8 or above)
 * [Download latest vnu.jar](https://github.com/validator/validator/releases/download/latest/vnu.jar) and place it in your webperf-core directory
-* Set `w3c_use_website = False` in `config.py`
+
+#### Using NPM package
+
+* Download and install Node.js (version 18.x)
+* Download and install Google Chrome browser
+* Install SiteSpeed NPM package ( `npm install sitespeed.io` )
+* Set `sitespeed_use_docker = False` in your `config.py`
+
+##### Windows Specific
+
+* Allow node to connect through Windows firewall
+
+#### Using Docker image
+
+* Make sure Docker command is globally accessible on your system.
+* Set `sitespeed_use_docker = True` in your `config.py`
 
 ## FAQ
 

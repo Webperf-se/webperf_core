@@ -33,11 +33,10 @@ def run_test(_, langCode, url):
     print(_('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    headers = {'user-agent': useragent}
     params = {'doc': url,
               'out': 'json',
               'level': 'error'}
-    errors = get_errors('html', headers, params)
+    errors = get_errors('html', params)
     number_of_errors = len(errors)
 
     error_message_grouped_dict = {}

@@ -14,8 +14,12 @@ jobs:
     strategy:
             matrix:
                 os: [ubuntu-latest, windows-latest]
-                config: ['review_show_improvements_only=True']
+                config: ['review_show_improvements_only=True,sitespeed_use_docker=False']
                 version: [6]
+                include:
+                  - os: ubuntu-latest
+                    config: 'review_show_improvements_only=True,sitespeed_use_docker=True'
+                    version: 6
     steps:
     - name: Check out repository code
       uses: actions/checkout@v3

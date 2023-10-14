@@ -43,9 +43,28 @@ Read more on the [general page for github actions](../getting-started-github-act
 ### Setup Locally
 
 * Follow [general local setup steps for this repository](../getting-started-local.md)
+* It is highly recommended to set `cache_when_possible` to `True` and to set `cache_time_delta` to
+* It is highly recommended to set `cache_time_delta` to at least 12 hours (Fail to do so may result in banning of service like github).
+* Depending on your preference, follow below NPM package or Docker image steps below.
 
 * Download and install Java (JDK 8 or above)
 * [Download latest vnu.jar](https://github.com/validator/validator/releases/download/latest/vnu.jar) and place it in your webperf-core directory
+
+#### Using NPM package
+
+* Download and install Node.js (v1 version 14.x)
+* Download and install Google Chrome browser
+* Install SiteSpeed NPM package ( `npm install sitespeed.io` )
+* Set `sitespeed_use_docker = False` in your `config.py`
+
+##### Windows Specific
+
+* Allow node to connect through Windows firewall
+
+#### Using Docker image
+
+* Make sure Docker command is globally accessible on your system.
+* Set `sitespeed_use_docker = True` in your `config.py`
 
 ## FAQ
 

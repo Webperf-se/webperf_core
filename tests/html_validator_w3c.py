@@ -78,6 +78,21 @@ def run_test(_, langCode, url):
             regex = r"(“[^”]+”)"
             for item in errors:
                 error_message = item['message']
+
+                # Filter out CSS: entries that should not be here
+                if error_message.startswith('CSS: '):
+                    number_of_errors -= 1
+                    continue
+
+                # Filter out start html document stuff if not start webpage
+                if entry['index'] > 1:
+                    if 'Start tag seen without seeing a doctype first. Expected “<!DOCTYPE html>”' in error_message:
+                        number_of_errors -= 1
+                        continue
+                    if 'Element “head” is missing a required instance of child element “title”.' in error_message:
+                        number_of_errors -= 1
+                        continue
+                    
                 error_message = re.sub(
                     regex, "X", error_message, 0, re.MULTILINE)
 

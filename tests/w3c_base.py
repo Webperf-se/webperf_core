@@ -25,11 +25,13 @@ def get_errors(test_type, params):
     arg = ''
     test_arg = ''
     errors = list()
+    is_html = False
 
     if 'css' in params or test_type == 'css':
         test_arg = ' --css --skip-non-css'
     if 'html' in params or test_type == 'html':
         test_arg = ' --html --skip-non-html'
+        is_html = True
 
     if 'doc' in params:
         url = params['doc']
@@ -39,10 +41,11 @@ def get_errors(test_type, params):
                 'Tested url must start with \'https://\' or \'http://\': {0}'.format(url))
         
         file_path = get_cache_path(url, True)
-        html_file_ending_fix = file_path.replace('.cache', '.cache.html')
-        if has_cache_file(url, True, cache_time_delta) and not os.path.exists(file_path):
-            os.rename(file_path, html_file_ending_fix)
-        file_path = html_file_ending_fix
+        if is_html:
+            html_file_ending_fix = file_path.replace('.cache', '.cache.html')
+            if has_cache_file(url, True, cache_time_delta) and not os.path.exists(html_file_ending_fix):
+                os.rename(file_path, html_file_ending_fix)
+            file_path = html_file_ending_fix
 
         arg = '--exit-zero-always{1} --stdout --format json --errors-only {0}'.format(
             file_path, test_arg)

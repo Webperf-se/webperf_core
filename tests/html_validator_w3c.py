@@ -74,7 +74,6 @@ def run_test(_, langCode, url):
 
 
         error_message_grouped_dict = {}
-        error_message_grouped_for_rating_dict = {}
         if number_of_errors > 0:
             regex = r"(“[^”]+”)"
             for item in errors:

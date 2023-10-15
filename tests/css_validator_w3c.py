@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 from models import Rating
 
 from tests.utils import *
-from tests.w3c_base import get_errors
+from tests.w3c_base import get_errors, identify_files
 from tests.sitespeed_base import get_result
 
 _local = gettext.gettext
@@ -64,7 +64,7 @@ def run_test(_, langCode, url):
         url, sitespeed_use_docker, sitespeed_arg)
 
     # 1. Visit page like a normal user
-    data = identify_styles(filename)
+    data = identify_files(filename)
     # 2. FIND ALL INLE CSS (AND CALCULTE)
     # 2.1 FINS ALL <STYLE>
     has_style_elements = False
@@ -73,10 +73,9 @@ def run_test(_, langCode, url):
     has_css_contenttypes = False
     all_link_resources = list()
 
-    request_index = 1
     for entry in data['htmls']:
         req_url = entry['url']
-        name = get_friendly_url_name(_, req_url, request_index)
+        name = get_friendly_url_name(_, req_url, entry['index'])
         html = entry['content']
         (elements, errors) = get_errors_for_style_tags(req_url, html, _local)
         if len(elements) > 0:
@@ -99,8 +98,6 @@ def run_test(_, langCode, url):
             rating += create_review_and_rating(errors,
                                             _,  _local, '- `<link rel=\"stylesheet\">` in: {0}'.format(name))
             
-        request_index += 1
-
 
     # 4 Check if website inlcuded css files in other ways
     for link_resource in all_link_resources:
@@ -190,54 +187,6 @@ def run_test(_, langCode, url):
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, errors)
-
-def identify_styles(filename):
-    data = {
-        'htmls': [],
-        'elements': [],
-        'attributes': [],
-        'resources': []
-    }
-
-    with open(filename) as json_input_file:
-        har_data = json.load(json_input_file)
-
-        if 'log' in har_data:
-            har_data = har_data['log']
-
-        req_index = 1
-        for entry in har_data["entries"]:
-            req = entry['request']
-            res = entry['response']
-            req_url = req['url']
-
-            if 'content' not in res:
-                continue
-            if 'mimeType' not in res['content']:
-                continue
-            if 'size' not in res['content']:
-                continue
-            if res['content']['size'] <= 0:
-                continue
-
-            if 'html' in res['content']['mimeType']:
-                if not has_cache_file(req_url, True, cache_time_delta):
-                    set_cache_file(req_url, res['content']['text'], True)
-                data['htmls'].append({
-                    'url': req_url,
-                    'content': res['content']['text']
-                    })
-            elif 'css' in res['content']['mimeType']:
-                if not has_cache_file(req_url, True, cache_time_delta):
-                    set_cache_file(req_url, res['content']['text'], True)
-                data['resources'].append({
-                    'url': req_url,
-                    'content': res['content']['text'],
-                    'index': req_index
-                    })
-            req_index += 1
-
-    return data
 
 def get_errors_for_link_tags(html, url, _):
     results = list()

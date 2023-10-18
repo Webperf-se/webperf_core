@@ -22,7 +22,7 @@ msgid "TEXT_REQUEST_UNKNOWN"
 msgstr "#{0}: "
 
 msgid "TEXT_VISITOR_ANALYTICS_USED"
-msgstr "Visitor analytics used:\r\n"
+msgstr "  Visitor analytics used:\r\n"
 
 msgid "TEXT_TRACKING"
 msgstr "GOV-IGNORE"

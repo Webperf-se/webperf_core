@@ -19,10 +19,10 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 23 - Tracking and Privacy (Beta)\r\n"
 
 msgid "TEXT_VISITOR_ANALYTICS_USED"
-msgstr "  - Visitor analytics used:\r\n"
+msgstr "  Visitor analytics used:\r\n"
 
 msgid "TEXT_TRACKING"
-msgstr "- Tracking"
+msgstr "##### Tracking"
 
 msgid "TEXT_TRACKING_FOUND_ALLOWED"
 msgstr "  - {0} - Tracking found, having {1} are allowed"
@@ -40,7 +40,7 @@ msgid "TEXT_TRACKING_REFERENCE"
 msgstr "{0} - Has references to {1}"
 
 msgid "TEXT_FINGERPRINTING"
-msgstr "- Fingerprinting/identifying technology"
+msgstr "##### Fingerprinting/identifying technology"
 
 msgid "TEXT_FINGERPRINTING_FOUND"
 msgstr "  - {0} - Fingerprinting/identifying found.\n"
@@ -52,7 +52,7 @@ msgid "TEXT_FINGERPRINTING_TOTAL_FOUND"
 msgstr "  - A total of {0} tracking requests found.\n"
 
 msgid "TEXT_ADS"
-msgstr "- Ads"
+msgstr "##### Ads"
 
 msgid "TEXT_ADS_FOUND_ALLOWED"
 msgstr "  - {0} - Ad server request found, having {1} are allowed"
@@ -97,19 +97,19 @@ msgid "TEXT_COOKIE_NO_ANALYTICS_COOKIE"
 msgstr "  - Not using analytic cookies without consent"
 
 msgid "TEXT_COOKIE"
-msgstr "- Cookies"
+msgstr "##### Cookies"
 
 msgid "TEXT_GDPR_COUNTRIES"
-msgstr "  - Number of countries: {0}\r\n"
+msgstr "  Number of countries: {0}\r\n"
 
 msgid "TEXT_GDPR_NONE_COMPLIANT_COUNTRIES"
-msgstr "  - Countries lacking adequate level of data protection: {0}\r\n"
+msgstr "  Countries lacking adequate level of data protection: {0}\r\n"
 
 msgid "TEXT_GDPR_NONE_COMPLIANT_COUNTRIES_REQUESTS"
-msgstr "    - {0}, {1} request\r\n"
+msgstr "  {0}, {1} request:\r\n"
 
 msgid "TEXT_GDPR_PAGE_IN_SWEDEN"
-msgstr "  - Page hosted in Sweden: {0}\r\n"
+msgstr "  Page hosted in Sweden: {0}\r\n"
 
 msgid "TEXT_GDPR_True"
 msgstr "Yes"
@@ -118,7 +118,11 @@ msgid "TEXT_GDPR_False"
 msgstr "No"
 
 msgid "TEXT_GDPR_HAS_POINTS"
-msgstr "- GDPR and Schrems"
+msgstr "##### GDPR and Schrems"
 
 msgid "TEXT_GDPR_NO_POINTS"
-msgstr "- GDPR and Schrems"
+msgstr "##### GDPR and Schrems"
+
+msgid "TEXT_GDPR_MAX_SHOWED"
+msgstr "  - More than {0} requests found, filtering out the rest\r\n"
+

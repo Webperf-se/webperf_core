@@ -407,6 +407,8 @@ def rate_gdpr_and_schrems(content, _local, _):
     review = ''
     countries = {}
     countries_outside_eu_or_exception_list = {}
+    max_nof_requests_showed = 5
+    limit_message_index = max_nof_requests_showed + 1
 
     json_content = ''
     try:
@@ -428,6 +430,14 @@ def rate_gdpr_and_schrems(content, _local, _):
 
         entries_index = 0
         while entries_index < number_of_entries:
+            request_friendly_name = None
+            if 'request' in entries[entries_index]:
+                request = entries[entries_index]['request']
+                if 'url' in request:
+                    url = request['url']
+                    request_friendly_name = get_friendly_url_name(_,
+                        url, entries_index + 1)
+
             entry_country_code = ''
 
             entry_ip_address = entries[entries_index]['serverIPAddress']
@@ -436,12 +446,14 @@ def rate_gdpr_and_schrems(content, _local, _):
 
             if entry_country_code == '' or entry_country_code == '-':
                 entry_country_code = 'unknown'
-            if entry_country_code in countries:
-                countries[entry_country_code] = countries[entry_country_code] + 1
-            else:
-                countries[entry_country_code] = 1
-                if not is_country_code_in_eu_or_on_exception_list(entry_country_code):
-                    countries_outside_eu_or_exception_list[entry_country_code] = 1
+            if entry_country_code not in countries:
+                countries[entry_country_code] = list()
+            countries[entry_country_code].append(request_friendly_name)
+
+            if not is_country_code_in_eu_or_on_exception_list(entry_country_code):
+                if entry_country_code not in countries_outside_eu_or_exception_list:
+                    countries_outside_eu_or_exception_list[entry_country_code] = list()
+                countries_outside_eu_or_exception_list[entry_country_code].append(request_friendly_name)
 
             entries_index += 1
 
@@ -454,6 +466,11 @@ def rate_gdpr_and_schrems(content, _local, _):
         #    review += '    - {0} (number of requests: {1})\r\n'.format(country_code,
         #                                                               countries[country_code])
 
+        page_is_hosted_in_sweden = page_countrycode == 'SE'
+        # '-- Page hosted in Sweden: {0}\r\n'
+        review += _local('TEXT_GDPR_PAGE_IN_SWEDEN').format(
+            _local('TEXT_GDPR_{0}'.format(page_is_hosted_in_sweden)))
+
         number_of_countries_outside_eu = len(
             countries_outside_eu_or_exception_list)
         if number_of_countries_outside_eu > 0:
@@ -463,14 +480,17 @@ def rate_gdpr_and_schrems(content, _local, _):
                 number_of_countries_outside_eu)
             for country_code in countries_outside_eu_or_exception_list:
                 review += _local('TEXT_GDPR_NONE_COMPLIANT_COUNTRIES_REQUESTS').format(country_code,
-                                                                                       countries[country_code])
+                                                                                       len(countries[country_code]))
+                
+                request_index = 1
+                for req_url in countries[country_code]:
+                    if request_index <= max_nof_requests_showed:
+                        review += '  - {0}\r\n'.format(req_url)
+                    elif request_index == limit_message_index:
+                        review += _local('TEXT_GDPR_MAX_SHOWED').format(max_nof_requests_showed)
+                    request_index += 1
 
             points = 1.0
-
-        page_is_hosted_in_sweden = page_countrycode == 'SE'
-        # '-- Page hosted in Sweden: {0}\r\n'
-        review += _local('TEXT_GDPR_PAGE_IN_SWEDEN').format(
-            _local('TEXT_GDPR_{0}'.format(page_is_hosted_in_sweden)))
 
         if points > 0.0:
             rating.set_integrity_and_security(points, _local('TEXT_GDPR_HAS_POINTS').format(
@@ -531,7 +551,7 @@ def rate_tracking(website_urls, _local, _):
 
         resource_analytics_used = dict()
         resource_analytics_used.update(
-            get_analytics(_local, website_url, website_url_content, request_index, analytics_rules))
+            get_analytics(_, _local, website_url, website_url_content, request_index, analytics_rules))
 
         if len(resource_analytics_used):
             if not url_is_tracker:
@@ -575,7 +595,7 @@ def rate_tracking(website_urls, _local, _):
         review_analytics += _local('TEXT_VISITOR_ANALYTICS_USED')
         analytics_used_items = analytics_used.items()
         for analytics_name, analytics_should_count in analytics_used_items:
-            review_analytics += '    - {0}\r\n'.format(analytics_name)
+            review_analytics += '  - {0}\r\n'.format(analytics_name)
 
     integrity_and_security_review = rating.integrity_and_security_review
 
@@ -821,7 +841,7 @@ def run_test(_, langCode, url):
     return (rating, result_dict)
 
 
-def get_analytics(_local, url, content, request_index, analytics_rules):
+def get_analytics(_, _local, url, content, request_index, analytics_rules):
     analytics = {}
 
     request_friendly_name = get_friendly_url_name(_,

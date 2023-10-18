@@ -125,3 +125,6 @@ msgstr "##### Dataskyddsförordningen och Schrems II-domen"
 
 msgid "TEXT_GDPR_NO_POINTS"
 msgstr "##### Dataskyddsförordningen och Schrems II-domen"
+
+msgid "TEXT_GDPR_MAX_SHOWED"
+msgstr "    - Fler än {0} förfrågningar hittade, döljer resten"

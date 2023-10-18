@@ -124,5 +124,5 @@ msgid "TEXT_GDPR_NO_POINTS"
 msgstr "##### GDPR and Schrems"
 
 msgid "TEXT_GDPR_MAX_SHOWED"
-msgstr "    - More than {0} requests found, filtering out the rest"
+msgstr "      - More than {0} requests found, filtering out the rest"
 

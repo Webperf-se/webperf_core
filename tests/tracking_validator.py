@@ -485,7 +485,7 @@ def rate_gdpr_and_schrems(content, _local, _):
                 request_index = 1
                 for req_url in countries[country_code]:
                     if request_index <= max_nof_requests_showed:
-                        review += '      - {0}\r\n'.format(req_url)
+                        review += '  - {0}\r\n'.format(req_url)
                     elif request_index == limit_message_index:
                         review += _local('TEXT_GDPR_MAX_SHOWED').format(max_nof_requests_showed)
                     request_index += 1
@@ -595,7 +595,7 @@ def rate_tracking(website_urls, _local, _):
         review_analytics += _local('TEXT_VISITOR_ANALYTICS_USED')
         analytics_used_items = analytics_used.items()
         for analytics_name, analytics_should_count in analytics_used_items:
-            review_analytics += '    - {0}\r\n'.format(analytics_name)
+            review_analytics += '  - {0}\r\n'.format(analytics_name)
 
     integrity_and_security_review = rating.integrity_and_security_review
 

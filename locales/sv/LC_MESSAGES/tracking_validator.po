@@ -22,7 +22,7 @@ msgid "TEXT_REQUEST_UNKNOWN"
 msgstr "#{0}: "
 
 msgid "TEXT_VISITOR_ANALYTICS_USED"
-msgstr "  - Besökaranalys används:\r\n"
+msgstr "Besökaranalys används:\r\n"
 
 msgid "TEXT_TRACKING"
 msgstr "##### Spårning"
@@ -103,16 +103,16 @@ msgid "TEXT_COOKIE"
 msgstr "##### Kakor"
 
 msgid "TEXT_GDPR_COUNTRIES"
-msgstr "  - Antal olika länder: {0}\r\n"
+msgstr "Antal olika länder: {0}\r\n"
 
 msgid "TEXT_GDPR_NONE_COMPLIANT_COUNTRIES"
-msgstr "  - Länder utan adekvat nivå av dataskydd: {0}\r\n"
+msgstr "Länder utan adekvat nivå av dataskydd: {0}\r\n"
 
 msgid "TEXT_GDPR_NONE_COMPLIANT_COUNTRIES_REQUESTS"
-msgstr "    - {0}, {1} förfrågningar\r\n"
+msgstr "  - {0}, {1} förfrågningar\r\n"
 
 msgid "TEXT_GDPR_PAGE_IN_SWEDEN"
-msgstr "  - Sidan skickades från Sverige: {0}\r\n"
+msgstr "Sidan skickades från Sverige: {0}\r\n"
 
 msgid "TEXT_GDPR_True"
 msgstr "Ja"
@@ -127,4 +127,4 @@ msgid "TEXT_GDPR_NO_POINTS"
 msgstr "##### Dataskyddsförordningen och Schrems II-domen"
 
 msgid "TEXT_GDPR_MAX_SHOWED"
-msgstr "      - Fler än {0} förfrågningar hittade, döljer resten\r\n"
+msgstr "  - Fler än {0} förfrågningar hittade, döljer resten\r\n"

@@ -486,6 +486,10 @@
             "github-owner": "mapbox",
             "github-repo": "mapbox-gl-js"
         },
+        "marked": {
+            "github-owner": "markedjs",
+            "github-repo": "marked"
+        },
         "matchmedia": {
             "github-owner": "benschwarz",
             "github-repo": "matchMedia"
@@ -866,5 +870,5 @@
             "github-repo": "zlib"
         }
     },
-    "updated": "2023-10-01 16:57:21"
+    "updated": "2023-10-20 05:27:49"
 }

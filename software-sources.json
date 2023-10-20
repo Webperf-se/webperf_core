@@ -866,7 +866,6 @@
             "github-repo": "zlib"
         },
         "marked": {
-            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
             "github-owner": "markedjs",
             "github-repo": "marked"
         }

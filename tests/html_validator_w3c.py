@@ -3,8 +3,9 @@ from models import Rating
 import datetime
 import re
 import config
-from tests.w3c_base import get_errors
 from tests.utils import *
+from tests.w3c_base import get_errors, identify_files
+from tests.sitespeed_base import get_result
 import gettext
 _local = gettext.gettext
 
@@ -12,6 +13,14 @@ _local = gettext.gettext
 request_timeout = config.http_request_timeout
 useragent = config.useragent
 review_show_improvements_only = config.review_show_improvements_only
+sitespeed_use_docker = config.sitespeed_use_docker
+try:
+    use_cache = config.cache_when_possible
+    cache_time_delta = config.cache_time_delta
+except:
+    # If cache_when_possible variable is not set in config.py this will be the default
+    use_cache = False
+    cache_time_delta = timedelta(hours=1)
 
 
 def run_test(_, langCode, url):
@@ -33,52 +42,92 @@ def run_test(_, langCode, url):
     print(_('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    headers = {'user-agent': useragent}
-    params = {'doc': url,
-              'out': 'json',
-              'level': 'error'}
-    errors = get_errors('html', headers, params)
-    number_of_errors = len(errors)
+    errors = list()
+    error_message_dict = {}
 
-    error_message_grouped_dict = {}
-    if number_of_errors > 0:
-        regex = r"(“[^”]+”)"
-        for item in errors:
-            error_message = item['message']
-            error_message = re.sub(
-                regex, "X", error_message, 0, re.MULTILINE)
+    # We don't need extra iterations for what we are using it for
+    sitespeed_iterations = 1
+    sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --chrome.cdp.performance false --browsertime.chrome.timeline false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --browsertime.chrome.includeResponseBodies all --utc true --browsertime.chrome.args ignore-certificate-errors -n {0}'.format(
+        sitespeed_iterations)
+    if 'nt' not in os.name:
+        sitespeed_arg += ' --xvfb'
 
-            if error_message_grouped_dict.get(error_message, False):
-                error_message_grouped_dict[error_message] = error_message_grouped_dict[error_message] + 1
-            else:
-                error_message_grouped_dict[error_message] = 1
+    (result_folder_name, filename) = get_result(
+        url, sitespeed_use_docker, sitespeed_arg)
 
-        if len(error_message_grouped_dict) > 0:
-            error_message_grouped_sorted = sorted(
-                error_message_grouped_dict.items(), key=lambda x: x[1], reverse=True)
+    # 1. Visit page like a normal user
+    data = identify_files(filename)
 
-            for item in error_message_grouped_sorted:
 
-                item_value = item[1]
-                item_text = item[0]
+    for entry in data['htmls']:
+        req_url = entry['url']
+        name = get_friendly_url_name(_, req_url, entry['index'])
+        review_header = '- {0} '.format(name)
+        html = entry['content']
+        set_cache_file(req_url, html, True)
 
-                review += _local('TEXT_REVIEW_ERRORS_ITEM').format(item_text, item_value)
+        params = {'doc': req_url,
+                'out': 'json',
+                'level': 'error'}
+        errors = get_errors('html', params)
+        number_of_errors = len(errors)
 
-    number_of_error_types = len(error_message_grouped_dict)
 
-    result = calculate_rating(number_of_error_types, number_of_errors)
+        error_message_grouped_dict = {}
+        if number_of_errors > 0:
+            regex = r"(“[^”]+”)"
+            for item in errors:
+                error_message = item['message']
 
-    # if number_of_error_types > 0:
-    error_types_rating = Rating(_, review_show_improvements_only)
-    error_types_rating.set_overall(result[0], _local('TEXT_REVIEW_RATING_GROUPED').format(
-        number_of_error_types, 0.0))
-    rating += error_types_rating
+                # Filter out CSS: entries that should not be here
+                if error_message.startswith('CSS: '):
+                    number_of_errors -= 1
+                    continue
 
-    # if number_of_errors > 0:
-    error_rating = Rating(_, review_show_improvements_only)
-    error_rating.set_overall(result[1], _local(
-        'TEXT_REVIEW_RATING_ITEMS').format(number_of_errors, 0.0))
-    rating += error_rating
+                # Filter out start html document stuff if not start webpage
+                if entry['index'] > 1:
+                    if 'Start tag seen without seeing a doctype first. Expected “<!DOCTYPE html>”' in error_message:
+                        number_of_errors -= 1
+                        continue
+                    if 'Element “head” is missing a required instance of child element “title”.' in error_message:
+                        number_of_errors -= 1
+                        continue
+                    
+                error_message = re.sub(
+                    regex, "X", error_message, 0, re.MULTILINE)
+
+                if error_message_grouped_dict.get(error_message, False):
+                    error_message_grouped_dict[error_message] = error_message_grouped_dict[error_message] + 1
+                else:
+                    error_message_grouped_dict[error_message] = 1
+
+            if len(error_message_grouped_dict) > 0:
+                error_message_grouped_sorted = sorted(
+                    error_message_grouped_dict.items(), key=lambda x: x[1], reverse=True)
+
+                for item in error_message_grouped_sorted:
+
+                    item_value = item[1]
+                    item_text = item[0]
+
+                    review += _local('TEXT_REVIEW_ERRORS_ITEM').format(item_text, item_value)
+
+        number_of_error_types = len(error_message_grouped_dict)
+
+        result = calculate_rating(number_of_error_types, number_of_errors)
+
+        # if number_of_error_types > 0:
+        error_types_rating = Rating(_, review_show_improvements_only)
+        error_types_rating.set_overall(result[0], review_header + _local('TEXT_REVIEW_RATING_GROUPED').format(
+            number_of_error_types, 0.0))
+        rating += error_types_rating
+
+        # if number_of_errors > 0:
+        error_rating = Rating(_, review_show_improvements_only)
+        error_rating.set_overall(result[1], review_header + _local(
+            'TEXT_REVIEW_RATING_ITEMS').format(number_of_errors, 0.0))
+        rating += error_rating
+
 
     points = rating.get_overall()
     rating.set_standards(points)

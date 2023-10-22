@@ -161,3 +161,9 @@ msgstr "- A11y: {0}\r\n"
 
 msgid "TEXT_TEST_RATING_STANDARDS"
 msgstr "- Standards: {0}\r\n"
+
+msgid "TEXT_REQUEST_UNKNOWN"
+msgstr "#{0}: "
+
+msgid "TEXT_REQUEST_WEBPAGE"
+msgstr "#{0}: Webpage"

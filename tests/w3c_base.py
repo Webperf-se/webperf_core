@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 import subprocess
-import sys
 import json
-import requests
 import json
 import config
 from tests.utils import *
@@ -12,27 +10,28 @@ request_timeout = config.http_request_timeout
 useragent = config.useragent
 css_review_group_errors = config.css_review_group_errors
 review_show_improvements_only = config.review_show_improvements_only
-w3c_use_website = config.w3c_use_website
+try:
+    use_cache = config.cache_when_possible
+    cache_time_delta = config.cache_time_delta
+except:
+    # If cache_when_possible variable is not set in config.py this will be the default
+    use_cache = False
+    cache_time_delta = timedelta(hours=1)
 
 
-def get_errors(test_type, headers, params, data=None):
-    if w3c_use_website:
-        return get_errors_from_service(test_type, headers, params, data)
-    else:
-        return get_errors_from_npm(test_type, params, data)
-
-
-def get_errors_from_npm(test_type, params, data=None):
+def get_errors(test_type, params):
 
     url = ''
     arg = ''
     test_arg = ''
     errors = list()
+    is_html = False
 
     if 'css' in params or test_type == 'css':
         test_arg = ' --css --skip-non-css'
     if 'html' in params or test_type == 'html':
         test_arg = ' --html --skip-non-html'
+        is_html = True
 
     if 'doc' in params:
         url = params['doc']
@@ -40,19 +39,20 @@ def get_errors_from_npm(test_type, params, data=None):
         if 'https://' not in url and 'http://' not in url:
             raise Exception(
                 'Tested url must start with \'https://\' or \'http://\': {0}'.format(url))
+        
+        file_path = get_cache_path(url, True)
+        if is_html:
+            html_file_ending_fix = file_path.replace('.cache', '.cache.html')
+            if has_cache_file(url, True, cache_time_delta) and not os.path.exists(html_file_ending_fix):
+                os.rename(file_path, html_file_ending_fix)
+            file_path = html_file_ending_fix
 
         arg = '--exit-zero-always{1} --stdout --format json --errors-only {0}'.format(
-            url, test_arg)
-    else:
-        arg = '--exit-zero-always{1} --stdout --format json --errors-only \'{0}\''.format(
-            data, test_arg)
+            file_path, test_arg)
 
     bashCommand = "java -jar vnu.jar {0}".format(arg)
     process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
-
-    # print('output', output)
-    # print('error', error)
 
     json_result = json.loads(output)
     if 'messages' in json_result:
@@ -60,31 +60,51 @@ def get_errors_from_npm(test_type, params, data=None):
 
     return errors
 
+def identify_files(filename):
+    data = {
+        'htmls': [],
+        'elements': [],
+        'attributes': [],
+        'resources': []
+    }
 
-def get_errors_from_service(test_type, headers, params, data=None):
-    errors = list()
-    try:
-        service_url = 'https://validator.w3.org/nu/'
-        if data == None:
-            request = requests.get(service_url, allow_redirects=True,
-                                   headers=headers,
-                                   timeout=request_timeout * 2,
-                                   params=params)
-        else:
-            request = requests.post(service_url, allow_redirects=True,
-                                    headers=headers,
-                                    timeout=request_timeout,
-                                    params=params,
-                                    data=data)
+    with open(filename) as json_input_file:
+        har_data = json.load(json_input_file)
 
-        # get JSON
-        response = json.loads(request.text)
-        if 'messages' in response:
-            errors = response['messages']
-        return errors
-    except Exception:
-        print('Unknown Error!\nMessage:\n{0}'.format(sys.exc_info()[0]))
-        return errors
-    except requests.Timeout:
-        print('Timeout!\nMessage:\n{0}'.format(sys.exc_info()[0]))
-        return errors
+        if 'log' in har_data:
+            har_data = har_data['log']
+
+        req_index = 1
+        for entry in har_data["entries"]:
+            req = entry['request']
+            res = entry['response']
+            req_url = req['url']
+
+            if 'content' not in res:
+                continue
+            if 'mimeType' not in res['content']:
+                continue
+            if 'size' not in res['content']:
+                continue
+            if res['content']['size'] <= 0:
+                continue
+
+            if 'html' in res['content']['mimeType']:
+                if not has_cache_file(req_url, True, cache_time_delta):
+                    set_cache_file(req_url, res['content']['text'], True)
+                data['htmls'].append({
+                    'url': req_url,
+                    'content': res['content']['text'],
+                    'index': req_index
+                    })
+            elif 'css' in res['content']['mimeType']:
+                if not has_cache_file(req_url, True, cache_time_delta):
+                    set_cache_file(req_url, res['content']['text'], True)
+                data['resources'].append({
+                    'url': req_url,
+                    'content': res['content']['text'],
+                    'index': req_index
+                    })
+            req_index += 1
+
+    return data

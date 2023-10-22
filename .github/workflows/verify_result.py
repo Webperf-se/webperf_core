@@ -2,6 +2,7 @@
 from pathlib import Path
 import os
 import os.path
+import ssl
 import sys
 import getopt
 import json
@@ -10,6 +11,8 @@ import re
 import sys
 import getopt
 import gettext
+
+import requests
 
 
 def prepare_config_file(sample_filename, filename, arguments):
@@ -319,7 +322,7 @@ def validate_locales(dir, msg_ids):
                     current_number_of_valid_translations += 1
                 elif file.endswith('.po'):
                     # po file had errors, try generate new mo file and try again.
-                    msgfmt_path = find_msgfmt_py()
+                    msgfmt_path = ensure_msgfmt_py()
                     if msgfmt_path != None:
                         print(
                             '  - Trying to generate .mo file so it matches .po file')
@@ -357,8 +360,56 @@ def validate_locales(dir, msg_ids):
         print('  No languages found')
     return is_valid
 
+def httpRequestGetContent(url, allow_redirects=False, use_text_instead_of_content=True):
+    """Trying to fetch the response content
+    Attributes: url, as for the URL to fetch
+    """
 
-def find_msgfmt_py():
+    try:
+        headers = {'user-agent': 'Mozilla/5.0 (compatible; Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36 Edg/88.0.705.56'}
+        a = requests.get(url, allow_redirects=allow_redirects,
+                         headers=headers, timeout=120)
+
+        if use_text_instead_of_content:
+            content = a.text
+        else:
+            content = a.content
+        return content
+    except ssl.CertificateError as error:
+        print('Info: Certificate error. {0}'.format(error.reason))
+        pass
+    except requests.exceptions.SSLError as error:
+        if 'http://' in url:  # trying the same URL over SSL/TLS
+            print('Info: Trying SSL before giving up.')
+            return httpRequestGetContent(url.replace('http://', 'https://'))
+        else:
+            print('Info: SSLError. {0}'.format(error))
+            return ''
+        pass
+    except requests.exceptions.ConnectionError as error:
+        if 'http://' in url:  # trying the same URL over SSL/TLS
+            print('Connection error! Info: Trying SSL before giving up.')
+            return httpRequestGetContent(url.replace('http://', 'https://'))
+        else:
+            print(
+                'Connection error! Unfortunately the request for URL "{0}" failed.\nMessage:\n{1}'.format(url, sys.exc_info()[0]))
+            return ''
+        pass
+    except:
+        print(
+            'Error! Unfortunately the request for URL "{0}" either timed out or failed for other reason(s). The timeout is set to {1} seconds.\nMessage:\n{2}'.format(url, 120, sys.exc_info()[0]))
+        pass
+    return ''
+
+def set_file(file_path, content, use_text_instead_of_content):
+    if use_text_instead_of_content:
+        with open(file_path, 'w', encoding='utf-8', newline='') as file:
+            file.write(content)
+    else:
+        with open(file_path, 'wb') as file:
+            file.write(content)
+
+def ensure_msgfmt_py():
     import sys
     for python_path in sys.path:
         a = python_path
@@ -370,7 +421,17 @@ def find_msgfmt_py():
         msgfmt_path = has_dir_msgfmt_py(a, 0)
         if msgfmt_path != None:
             return msgfmt_path
+        else:
+            dir = Path(os.path.dirname(
+                os.path.realpath(__file__)) + os.path.sep).parent.parent
+            data_dir = os.path.join(dir.resolve(), 'data') + os.sep
+            filename = 'msgfmt.py'
+            file_path = os.path.join(data_dir,filename)
 
+            if not os.path.exists(file_path):
+                content = httpRequestGetContent('https://raw.githubusercontent.com/python/cpython/main/Tools/i18n/msgfmt.py', True, True)
+                set_file(file_path, content, True)
+            return file_path
     return None
 
 

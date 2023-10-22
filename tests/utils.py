@@ -279,6 +279,14 @@ def is_sitemap(content):
 def dns_lookup(hostname, record_type):
     names = list()
 
+    cache_key = 'dnslookup://{0}#{1}'.format(hostname, record_type)
+
+    content = get_cache_file(
+        cache_key, True, cache_time_delta)
+    if content != None:
+        names = json.loads(content)
+        return names
+
     try:
         dns_records = dns.resolver.resolve(hostname, record_type)
     except dns.resolver.NXDOMAIN:
@@ -304,6 +312,10 @@ def dns_lookup(hostname, record_type):
 
         # sleep so we don't get banned for to many queries on DNS servers
     time.sleep(1)
+
+    nice_raw = json.dumps(names, indent=2)
+    set_cache_file(cache_key, nice_raw, True)
+
     return names
 
 

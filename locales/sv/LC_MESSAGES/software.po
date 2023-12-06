@@ -143,3 +143,6 @@ msgstr "##### Mjukvara är ej markerad som arkiverad"
 
 msgid "TEXT_DETAILED_REVIEW_NO_END_OF_LIFE"
 msgstr "##### Mjukvara som används ser ej ut att ha nått sitt bäst före datum"
+
+msgid "TEXT_DETAILED_REVIEW_END_OF_LIFE"
+msgstr "##### Mjukvara används som tycks ha nått sitt bäst före datum"

@@ -88,7 +88,7 @@ msgid "TEXT_COOKIE_HAS_ANALYTICS_COOKIE"
 msgstr "  - Using analytic cookie(s) without consent: {0}"
 
 msgid "TEXT_COOKIE_LESS_THEN_3MONTH"
-msgstr "  - Valid less then 3 months"
+msgstr "  - Valid less than 3 months"
 
 msgid "TEXT_COOKIE_SECURE"
 msgstr "  - Require secure transfer"

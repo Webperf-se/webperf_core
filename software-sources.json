@@ -486,10 +486,6 @@
             "github-owner": "mapbox",
             "github-repo": "mapbox-gl-js"
         },
-        "marked": {
-            "github-owner": "markedjs",
-            "github-repo": "marked"
-        },
         "matchmedia": {
             "github-owner": "benschwarz",
             "github-repo": "matchMedia"
@@ -868,7 +864,2477 @@
         "zlib": {
             "github-owner": "madler",
             "github-repo": "zlib"
+        },
+        "clarity": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "microsoft",
+            "github-repo": "clarity"
+        },
+        "clamp": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "xavi160",
+            "github-repo": "Clamp"
+        },
+        "blog": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "artsy",
+            "github-repo": "blog"
+        },
+        "scrolltobyspeed": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "ryanburnette",
+            "github-repo": "scrollToBySpeed"
+        },
+        "wp-themes": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "KriesiMedia",
+            "github-repo": "wp-themes"
+        },
+        "pdfobject": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "pipwerks",
+            "github-repo": "PDFObject"
+        },
+        "jszip": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "stuk",
+            "github-repo": "jszip"
+        },
+        "pako": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "nodeca",
+            "github-repo": "pako"
+        },
+        "codebird-php": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "jublonet",
+            "github-repo": "codebird-php"
+        },
+        "dialog-polyfill": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "GoogleChrome",
+            "github-repo": "dialog-polyfill"
+        },
+        "grab-to-pan": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "Rob--W",
+            "github-repo": "grab-to-pan"
+        },
+        "cocktail": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "onsi",
+            "github-repo": "cocktail"
+        },
+        "backbone": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "marionettejs",
+            "github-repo": "backbone"
+        },
+        "twig": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "schmittjoh",
+            "github-repo": "twig"
+        },
+        "onhoverintent": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "joeldbirch",
+            "github-repo": "onHoverIntent"
+        },
+        "jquery-validation": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "jzaefferer",
+            "github-repo": "jquery-validation"
+        },
+        "inherits": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "isaacs",
+            "github-repo": "inherits"
+        },
+        "vivus": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "maxwellito",
+            "github-repo": "vivus"
+        },
+        "fullpage": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "alvarotrigo",
+            "github-repo": "fullPage"
+        },
+        "countup": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "inorganik",
+            "github-repo": "countUp"
+        },
+        "html": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "whatwg",
+            "github-repo": "html"
+        },
+        "js": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "jserz",
+            "github-repo": "js"
+        },
+        "react-player": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "CookPete",
+            "github-repo": "react-player"
+        },
+        "object-hash": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "puleos",
+            "github-repo": "object-hash"
+        },
+        "moment-isoduration": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "dordille",
+            "github-repo": "moment-isoduration"
+        },
+        "animate": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "daneden",
+            "github-repo": "animate"
+        },
+        "tippyjs": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "atomiks",
+            "github-repo": "tippyjs"
+        },
+        "popper": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "FezVrasta",
+            "github-repo": "popper"
+        },
+        "tippy": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "atomiks",
+            "github-repo": "tippy"
+        },
+        "es6-promise": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "stefanpenner",
+            "github-repo": "es6-promise"
+        },
+        "webappsec": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "w3c",
+            "github-repo": "webappsec"
+        },
+        "overlappingmarkerspiderfier": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "jawj",
+            "github-repo": "OverlappingMarkerSpiderfier"
+        },
+        "swag": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "elving",
+            "github-repo": "swag"
+        },
+        "fastclick": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "ftlabs",
+            "github-repo": "fastclick"
+        },
+        "bootstrap-3-xforms-fix": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "KnowitLabs",
+            "github-repo": "Bootstrap-3-XForms-Fix"
+        },
+        "bootstrap-fileinput": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "kartik-v",
+            "github-repo": "bootstrap-fileinput"
+        },
+        "simpleformvalidation": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "SubZane",
+            "github-repo": "simpleformvalidation"
+        },
+        "pickr": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "Simonwep",
+            "github-repo": "pickr"
+        },
+        "nanopop": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "Simonwep",
+            "github-repo": "nanopop"
+        },
+        "common": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "Limepark",
+            "github-repo": "common"
+        },
+        "international-telephone-input": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "jackocnr",
+            "github-repo": "intl-tel-input"
+        },
+        "intl-tel-input": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "jackocnr",
+            "github-repo": "intl-tel-input"
+        },
+        "inputmask": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "RobinHerbots",
+            "github-repo": "Inputmask"
+        },
+        "zxcvbn": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "dropbox",
+            "github-repo": "zxcvbn"
+        },
+        "prebid-universal-creative": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "prebid",
+            "github-repo": "prebid-universal-creative"
+        },
+        "components": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "angular",
+            "github-repo": "components"
+        },
+        "redux-toolkit": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "reduxjs",
+            "github-repo": "redux-toolkit"
+        },
+        "entropizer": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "jreesuk",
+            "github-repo": "entropizer"
+        },
+        "modern-normalize": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "sindresorhus",
+            "github-repo": "modern-normalize"
+        },
+        "react-infinite-scroll-component": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "ankeetmaini",
+            "github-repo": "react-infinite-scroll-component"
+        },
+        "material-ui": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "mui",
+            "github-repo": "material-ui"
+        },
+        "add-to-calendar-button": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "jekuer",
+            "github-repo": "add-to-calendar-button"
+        },
+        "postscribe": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "krux",
+            "github-repo": "postscribe"
+        },
+        "twemoji": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "twitter",
+            "github-repo": "twemoji"
+        },
+        "setimmediate": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "w3c",
+            "github-repo": "setImmediate"
+        },
+        "proposal-relative-indexing-method": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "tc39",
+            "github-repo": "proposal-relative-indexing-method"
+        },
+        "es5-shim": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "es-shims",
+            "github-repo": "es5-shim"
+        },
+        "proposal-accessible-object-hasownproperty": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "tc39",
+            "github-repo": "proposal-accessible-object-hasownproperty"
+        },
+        "waves": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "fians",
+            "github-repo": "Waves"
+        },
+        "license": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "polymer",
+            "github-repo": "LICENSE"
+        },
+        "authors": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "polymer",
+            "github-repo": "AUTHORS"
+        },
+        "contributors": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "polymer",
+            "github-repo": "CONTRIBUTORS"
+        },
+        "patents": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "polymer",
+            "github-repo": "PATENTS"
+        },
+        "polyfill-service": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "Financial-Times",
+            "github-repo": "polyfill-service"
+        },
+        "fuse": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "krisk",
+            "github-repo": "Fuse"
+        },
+        "kind-of": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "jonschlinkert",
+            "github-repo": "kind-of"
+        },
+        "proposal-observable": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "tc39",
+            "github-repo": "proposal-observable"
+        },
+        "omggif": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "deanm",
+            "github-repo": "omggif"
+        },
+        "semver-compare": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "substack",
+            "github-repo": "semver-compare"
+        },
+        "proposal-array-filtering": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "tc39",
+            "github-repo": "proposal-array-filtering"
+        },
+        "string": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "mathiasbynens",
+            "github-repo": "String"
+        },
+        "proposal-symbol-description": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "tc39",
+            "github-repo": "proposal-Symbol-description"
+        },
+        "ios-orientationchange-fix": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "scottjehl",
+            "github-repo": "iOS-Orientationchange-Fix"
+        },
+        "webvr-spec": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "mozvr",
+            "github-repo": "webvr-spec"
+        },
+        "deviceorientation": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "w3c",
+            "github-repo": "deviceorientation"
+        },
+        "webvr": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "w3c",
+            "github-repo": "webvr"
+        },
+        "srcset-polyfill": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "borismus",
+            "github-repo": "srcset-polyfill"
+        },
+        "typeahead": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "corejavascript",
+            "github-repo": "typeahead"
+        },
+        "ecma262": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "tc39",
+            "github-repo": "ecma262"
+        },
+        "proposal-flatmap": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "tc39",
+            "github-repo": "proposal-flatMap"
+        },
+        "proposal-global": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "tc39",
+            "github-repo": "proposal-global"
+        },
+        "proposal-string-pad-start-end": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "tc39",
+            "github-repo": "proposal-string-pad-start-end"
+        },
+        "array": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "tc39",
+            "github-repo": "Array"
+        },
+        "proposal-object-values-entries": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "tc39",
+            "github-repo": "proposal-object-values-entries"
+        },
+        "proposal-object-getownpropertydescriptors": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "tc39",
+            "github-repo": "proposal-object-getownpropertydescriptors"
+        },
+        "proposal-promise-finally": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "tc39",
+            "github-repo": "proposal-promise-finally"
+        },
+        "ecmascript-string-left-right-trim": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "sebmarkbage",
+            "github-repo": "ecmascript-string-left-right-trim"
+        },
+        "jquery-deserialize": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "kflorence",
+            "github-repo": "jquery-deserialize"
+        },
+        "closure-library": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "google",
+            "github-repo": "closure-library"
+        },
+        "scrolldir": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "yowainwright",
+            "github-repo": "scrolldir"
+        },
+        "css-support": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "dperini",
+            "github-repo": "css-support"
+        },
+        "punycode": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "bestiejs",
+            "github-repo": "punycode"
+        },
+        "proposal-well-formed-stringify": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "tc39",
+            "github-repo": "proposal-well-formed-stringify"
+        },
+        "proposal-object-from-entries": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "tc39",
+            "github-repo": "proposal-object-from-entries"
+        },
+        "proposal-promise-allsettled": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "tc39",
+            "github-repo": "proposal-promise-allSettled"
+        },
+        "proposal-string-matchall": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "tc39",
+            "github-repo": "proposal-string-matchall"
+        },
+        "response": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "ryanve",
+            "github-repo": "response"
+        },
+        "respond": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "scottjehl",
+            "github-repo": "Respond"
+        },
+        "meanmenu": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "meanthemes",
+            "github-repo": "meanMenu"
+        },
+        "sweetalert2": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "sweetalert2",
+            "github-repo": "sweetalert2"
+        },
+        "piwik": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "piwik",
+            "github-repo": "piwik"
+        },
+        "x-editable": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "vitalets",
+            "github-repo": "x-editable"
+        },
+        "fingerprintjs": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "fingerprintjs",
+            "github-repo": "fingerprintjs"
+        },
+        "safevalues": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "google",
+            "github-repo": "safevalues"
+        },
+        "hyphenator": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "mnater",
+            "github-repo": "Hyphenator"
+        },
+        "proposal-math-extensions": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "rwaldron",
+            "github-repo": "proposal-math-extensions"
+        },
+        "proposal-setmap-offrom": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "tc39",
+            "github-repo": "proposal-setmap-offrom"
+        },
+        "papers": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "jfbastien",
+            "github-repo": "papers"
+        },
+        "webcomponents": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "w3c",
+            "github-repo": "webcomponents"
+        },
+        "react-select": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "jedwatson",
+            "github-repo": "react-select"
+        },
+        "jquery-nice-select": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "hernansartorio",
+            "github-repo": "jquery-nice-select"
+        },
+        "map-set": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "DavidBruant",
+            "github-repo": "Map-Set"
+        },
+        "rexexp": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "benjamingr",
+            "github-repo": "RexExp"
+        },
+        "tc39-notes": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "rwaldron",
+            "github-repo": "tc39-notes"
+        },
+        "proposal-is-error": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "ljharb",
+            "github-repo": "proposal-is-error"
+        },
+        "es-observable": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "zenparsing",
+            "github-repo": "es-observable"
+        },
+        "proposal-promise-try": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "tc39",
+            "github-repo": "proposal-promise-try"
+        },
+        "mutation-observer-inner-html-shim": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "javan",
+            "github-repo": "mutation-observer-inner-html-shim"
+        },
+        "object": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "ljharb",
+            "github-repo": "object"
+        },
+        "get-own-property-symbols": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "WebReflection",
+            "github-repo": "get-own-property-symbols"
+        },
+        "react-router": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "reactjs",
+            "github-repo": "react-router"
+        },
+        "react-datepicker": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "Hacker0x01",
+            "github-repo": "react-datepicker"
+        },
+        "create-react-app": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "facebookincubator",
+            "github-repo": "create-react-app"
+        },
+        "rollup": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "rollup",
+            "github-repo": "rollup"
+        },
+        "react-onclickoutside": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "Pomax",
+            "github-repo": "react-onclickoutside"
+        },
+        "loose-envify": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "zertosh",
+            "github-repo": "loose-envify"
+        },
+        "lightslider": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "sachinchoolur",
+            "github-repo": "lightslider"
+        },
+        "chartjs-plugin-labels": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "emn178",
+            "github-repo": "chartjs-plugin-labels"
+        },
+        "clipboard": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "zenorocha",
+            "github-repo": "clipboard"
+        },
+        "to-array": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "timoxley",
+            "github-repo": "to-array"
+        },
+        "extend": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "segmentio",
+            "github-repo": "extend"
+        },
+        "leaflet-locatecontrol": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "domoritz",
+            "github-repo": "leaflet-locatecontrol"
+        },
+        "invariant-packages": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "apollographql",
+            "github-repo": "invariant-packages"
+        },
+        "symbol-observable": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "benlesh",
+            "github-repo": "symbol-observable"
+        },
+        "jquery-date-range-picker": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "longbill",
+            "github-repo": "jquery-date-range-picker"
+        },
+        "chosen": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "harvesthq",
+            "github-repo": "chosen"
+        },
+        "divi": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "elegantthemes",
+            "github-repo": "Divi"
+        },
+        "enllax": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "mmkjony",
+            "github-repo": "enllax"
+        },
+        "jquery-smartresize": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "louisremi",
+            "github-repo": "jquery-smartresize"
+        },
+        "jquery-visible": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "teamdf",
+            "github-repo": "jquery-visible"
+        },
+        "shuffle": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "vestride",
+            "github-repo": "Shuffle"
+        },
+        "jquery-mousewheel": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "brandonaaron",
+            "github-repo": "jquery-mousewheel"
+        },
+        "weex-native-directive": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "Hanks10100",
+            "github-repo": "weex-native-directive"
+        },
+        "jsrsasign": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "kjur",
+            "github-repo": "jsrsasign"
+        },
+        "justified-gallery": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "miromannino",
+            "github-repo": "Justified-Gallery"
+        },
+        "readmore": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "jedfoster",
+            "github-repo": "Readmore"
+        },
+        "jquery-idletimer": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "thorst",
+            "github-repo": "jquery-idletimer"
+        },
+        "js-offcanvas": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "vmitsaras",
+            "github-repo": "js-offcanvas"
+        },
+        "tilt": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "gijsroge",
+            "github-repo": "tilt"
+        },
+        "ion": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "IonDen",
+            "github-repo": "ion"
+        },
+        "jquery-browser-plugin": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "gabceb",
+            "github-repo": "jquery-browser-plugin"
+        },
+        "element-query": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "Mr0grog",
+            "github-repo": "element-query"
+        },
+        "javascript-detect-element-resize": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "sdecima",
+            "github-repo": "javascript-detect-element-resize"
+        },
+        "javascript-debounce": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "jgarber623",
+            "github-repo": "javascript-debounce"
+        },
+        "handlebars": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "wycats",
+            "github-repo": "handlebars"
+        },
+        "bonzo": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "ded",
+            "github-repo": "bonzo"
+        },
+        "scrolltofixed": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "bigspotteddog",
+            "github-repo": "ScrollToFixed"
+        },
+        "hover3d": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "ariona",
+            "github-repo": "hover3d"
+        },
+        "waitforimages": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "alexanderdickson",
+            "github-repo": "waitForImages"
+        },
+        "jquery-fontspy": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "patrickmarabeas",
+            "github-repo": "jQuery-FontSpy"
+        },
+        "hotkeys": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "jaywcjlove",
+            "github-repo": "hotkeys"
+        },
+        "infinite-scroll": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "paulirish",
+            "github-repo": "infinite-scroll"
+        },
+        "tram": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "bkwld",
+            "github-repo": "tram"
+        },
+        "cyclosm-cartocss-style": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "cyclosm",
+            "github-repo": "cyclosm-cartocss-style"
+        },
+        "botframework-webchat": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "microsoft",
+            "github-repo": "BotFramework-WebChat"
+        },
+        "webgl-noise": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "ashima",
+            "github-repo": "webgl-noise"
+        },
+        "matter-wrap": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "liabru",
+            "github-repo": "matter-wrap"
+        },
+        "flatpickr": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "chmln",
+            "github-repo": "flatpickr"
+        },
+        "css": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "ridjohansen",
+            "github-repo": "css"
+        },
+        "customevent-polyfill": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "d4tocchini",
+            "github-repo": "customevent-polyfill"
+        },
+        "jcarousel": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "jsor",
+            "github-repo": "jcarousel"
+        },
+        "masonry": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "desandro",
+            "github-repo": "masonry"
+        },
+        "smartscroll": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "lukeshumard",
+            "github-repo": "smartscroll"
+        },
+        "jquery-hashchange": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "cowboy",
+            "github-repo": "jquery-hashchange"
+        },
+        "bootstrap-tab-history": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "mnarayan01",
+            "github-repo": "bootstrap-tab-history"
+        },
+        "svgpathconverter": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "Waest",
+            "github-repo": "SVGPathConverter"
+        },
+        "tooltipster": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "calebjacob",
+            "github-repo": "tooltipster"
+        },
+        "jquery-simulate": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "jquery",
+            "github-repo": "jquery-simulate"
+        },
+        "instafeed": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "stevenschobert",
+            "github-repo": "instafeed"
+        },
+        "intersectionobserver": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "w3c",
+            "github-repo": "IntersectionObserver"
+        },
+        "remodal": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "vodkabears",
+            "github-repo": "remodal"
+        },
+        "featherlight": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "noelboss",
+            "github-repo": "featherlight"
+        },
+        "osrm-frontend": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "Project-OSRM",
+            "github-repo": "osrm-frontend"
+        },
+        "pdf": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "mozilla",
+            "github-repo": "pdf"
+        },
+        "react-responsive-carousel": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "leandrowd",
+            "github-repo": "react-responsive-carousel"
+        },
+        "sidr": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "artberri",
+            "github-repo": "sidr"
+        },
+        "media-playback-quality": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "wicg",
+            "github-repo": "media-playback-quality"
+        },
+        "resizeobserver": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "wicg",
+            "github-repo": "ResizeObserver"
+        },
+        "media-source": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "w3c",
+            "github-repo": "media-source"
+        },
+        "webvtt": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "w3c",
+            "github-repo": "webvtt"
+        },
+        "screenfull": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "sindresorhus",
+            "github-repo": "screenfull"
+        },
+        "xhr": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "naugtur",
+            "github-repo": "xhr"
+        },
+        "vfo-standards-support": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "FreedomScientific",
+            "github-repo": "VFO-standards-support"
+        },
+        "m3u8-parser": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "videojs",
+            "github-repo": "m3u8-parser"
+        },
+        "pkcs7": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "brightcove",
+            "github-repo": "pkcs7"
+        },
+        "videojs-http-streaming": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "videojs",
+            "github-repo": "videojs-http-streaming"
+        },
+        "classlist": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "eligrey",
+            "github-repo": "classList"
+        },
+        "core": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "vuejs",
+            "github-repo": "core"
+        },
+        "esbuild": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "evanw",
+            "github-repo": "esbuild"
+        },
+        "proj4leaflet": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "kartena",
+            "github-repo": "Proj4Leaflet"
+        },
+        "pointerevents": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "w3c",
+            "github-repo": "pointerevents"
+        },
+        "leaflet": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "Leaflet",
+            "github-repo": "Leaflet"
+        },
+        "typescript": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "microsoft",
+            "github-repo": "TypeScript"
+        },
+        "router": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "vuejs",
+            "github-repo": "router"
+        },
+        "url": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "whatwg",
+            "github-repo": "url"
+        },
+        "modestmaps-js": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "modestmaps",
+            "github-repo": "modestmaps-js"
+        },
+        "scrollmagic": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "janpaepke",
+            "github-repo": "ScrollMagic"
+        },
+        "countdown": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "epiksel",
+            "github-repo": "countdown"
+        },
+        "lazysizes": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "afarkas",
+            "github-repo": "lazysizes"
+        },
+        "bootstrap-responsive-tabs": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "openam",
+            "github-repo": "bootstrap-responsive-tabs"
+        },
+        "jquery-scrollie-plugin": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "Funsella",
+            "github-repo": "jquery-scrollie"
+        },
+        "jquery-scrollie": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "Funsella",
+            "github-repo": "jquery-scrollie"
+        },
+        "simple-keyboard": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "hodgef",
+            "github-repo": "simple-keyboard"
+        },
+        "simple-keyboard-layouts": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "hodgef",
+            "github-repo": "simple-keyboard-layouts"
+        },
+        "parallax": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "pixelcog",
+            "github-repo": "parallax"
+        },
+        "lazyload": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "verlok",
+            "github-repo": "vanilla-lazyload"
+        },
+        "vanilla-lazyload": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "verlok",
+            "github-repo": "vanilla-lazyload"
+        },
+        "skrollr": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "Prinzhorn",
+            "github-repo": "skrollr"
+        },
+        "woocommerce-gutenberg-products-block": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "woocommerce",
+            "github-repo": "woocommerce-gutenberg-products-block"
+        },
+        "woocommerce-blocks": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "woocommerce",
+            "github-repo": "woocommerce-blocks"
+        },
+        "elliptic": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "indutny",
+            "github-repo": "elliptic"
+        },
+        "player-component": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "dotlottie",
+            "github-repo": "player-component"
+        },
+        "jquery-viewport-checker": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "dirkgroenen",
+            "github-repo": "jQuery-viewport-checker"
+        },
+        "proposal-array-find-from-last": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "tc39",
+            "github-repo": "proposal-array-find-from-last"
+        },
+        "bun": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "oven-sh",
+            "github-repo": "bun"
+        },
+        "proposal-error-cause": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "tc39",
+            "github-repo": "proposal-error-cause"
+        },
+        "deno": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "denoland",
+            "github-repo": "deno"
+        },
+        "node": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "nodejs",
+            "github-repo": "node"
+        },
+        "bezier-easing": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "gre",
+            "github-repo": "bezier-easing"
+        },
+        "eventlisteneroptions": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "WICG",
+            "github-repo": "EventListenerOptions"
+        },
+        "vuescroll": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "YvesCoding",
+            "github-repo": "vuescroll"
+        },
+        "smooth-scroll": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "cferdinandi",
+            "github-repo": "smooth-scroll"
+        },
+        "element-resize-detector": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "wnr",
+            "github-repo": "element-resize-detector"
+        },
+        "bugsnag-js": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "bugsnag",
+            "github-repo": "bugsnag-js"
+        },
+        "sister": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "gajus",
+            "github-repo": "sister"
+        },
+        "babel": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "babel",
+            "github-repo": "babel"
+        },
+        "sly": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "darsain",
+            "github-repo": "sly"
+        },
+        "selectize": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "selectize",
+            "github-repo": "selectize"
+        },
+        "instantsearch": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "algolia",
+            "github-repo": "instantsearch"
+        },
+        "jquery-onavailable": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "furf",
+            "github-repo": "jquery-onavailable"
+        },
+        "weakmap-polyfill": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "polygonplanet",
+            "github-repo": "weakmap-polyfill"
+        },
+        "docs": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "angular-translate",
+            "github-repo": "docs"
+        },
+        "angular-recaptcha": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "vividcortex",
+            "github-repo": "angular-recaptcha"
+        },
+        "alpine": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "alpinejs",
+            "github-repo": "alpine"
+        },
+        "marked": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "markedjs",
+            "github-repo": "marked"
+        },
+        "vuex-i18n": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "dkfbasel",
+            "github-repo": "vuex-i18n"
+        },
+        "stylis": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "thysultan",
+            "github-repo": "stylis"
+        },
+        "murmurhash-js": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "garycourt",
+            "github-repo": "murmurhash-js"
+        },
+        "smhasher": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "aappleby",
+            "github-repo": "smhasher"
+        },
+        "q": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "kriskowal",
+            "github-repo": "q"
+        },
+        "rsvp": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "tildeio",
+            "github-repo": "rsvp"
+        },
+        "color-temperature": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "neilbartlett",
+            "github-repo": "color-temperature"
+        },
+        "promises-spec": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "promises-aplus",
+            "github-repo": "promises-spec"
+        },
+        "path-to-regexp": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "pillarjs",
+            "github-repo": "path-to-regexp"
+        },
+        "react-transition-group": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "reactjs",
+            "github-repo": "react-transition-group"
+        },
+        "fbjs": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "facebook",
+            "github-repo": "fbjs"
+        },
+        "eslint-plugin-flowtype-errors": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "amilajack",
+            "github-repo": "eslint-plugin-flowtype-errors"
+        },
+        "mixin-deep": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "jonschlinkert",
+            "github-repo": "mixin-deep"
+        },
+        "expressiveannotations": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "jwaliszko",
+            "github-repo": "ExpressiveAnnotations"
+        },
+        "mobx": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "mobxjs",
+            "github-repo": "mobx"
+        },
+        "html5-boilerplate": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "h5bp",
+            "github-repo": "html5-boilerplate"
+        },
+        "eases": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "mattdesl",
+            "github-repo": "eases"
+        },
+        "svelte": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "sveltejs",
+            "github-repo": "svelte"
+        },
+        "string-hash": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "darkskyapp",
+            "github-repo": "string-hash"
+        },
+        "animsition": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "blivesta",
+            "github-repo": "animsition"
+        },
+        "equalize": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "tsvensen",
+            "github-repo": "equalize"
+        },
+        "a11y-menu": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "webmandesign",
+            "github-repo": "a11y-menu"
+        },
+        "scroll-watch": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "webmandesign",
+            "github-repo": "scroll-watch"
+        },
+        "scroll-up-bar": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "eduardomb",
+            "github-repo": "scroll-up-bar"
+        },
+        "vide": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "VodkaBears",
+            "github-repo": "Vide"
+        },
+        "a11y-slider": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "mmahandev",
+            "github-repo": "a11y-slider"
+        },
+        "simplesharebuttons": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "SubZane",
+            "github-repo": "simplesharebuttons"
+        },
+        "jquery-requestanimationframe": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "gnarf37",
+            "github-repo": "jquery-requestAnimationFrame"
+        },
+        "uncommonjs": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "kriskowal",
+            "github-repo": "uncommonjs"
+        },
+        "protractor": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "angular",
+            "github-repo": "protractor"
+        },
+        "big": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "MikeMcl",
+            "github-repo": "big"
+        },
+        "rangeslider": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "andreruffert",
+            "github-repo": "rangeslider"
+        },
+        "bootstrap-datetimepicker": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "Eonasdan",
+            "github-repo": "bootstrap-datetimepicker"
+        },
+        "storyblok-js": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "storyblok",
+            "github-repo": "storyblok-js"
+        },
+        "flickity": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "metafizzy",
+            "github-repo": "flickity"
+        },
+        "isinviewport": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "zeusdeux",
+            "github-repo": "isInViewport"
+        },
+        "flaunt-js": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "toddmotto",
+            "github-repo": "flaunt-js"
+        },
+        "react-use-measure": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "react-spring",
+            "github-repo": "react-use-measure"
+        },
+        "in-view": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "camwiegert",
+            "github-repo": "in-view"
+        },
+        "pickadate": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "amsul",
+            "github-repo": "pickadate"
+        },
+        "shareaholic-api-docs": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "shareaholic",
+            "github-repo": "shareaholic-api-docs"
+        },
+        "accounting": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "openexchangerates",
+            "github-repo": "accounting"
+        },
+        "float-labels": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "pryley",
+            "github-repo": "float-labels"
+        },
+        "give-recurring": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "impress-org",
+            "github-repo": "give-recurring"
+        },
+        "infinitescroll": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "paulirish",
+            "github-repo": "infinitescroll"
+        },
+        "snap": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "adobe-webplatform",
+            "github-repo": "Snap"
+        },
+        "blazy": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "dinbror",
+            "github-repo": "blazy"
+        },
+        "compat-table": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "kangax",
+            "github-repo": "compat-table"
+        },
+        "stickyfill": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "wilddeer",
+            "github-repo": "stickyfill"
+        },
+        "dropzone": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "enyo",
+            "github-repo": "dropzone"
+        },
+        "ios-imagefile-megapixel": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "stomita",
+            "github-repo": "ios-imagefile-megapixel"
+        },
+        "primus": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "primus",
+            "github-repo": "primus"
+        },
+        "tippyjs-react": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "atomiks",
+            "github-repo": "tippyjs-react"
+        },
+        "litepicker": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "wakirin",
+            "github-repo": "Litepicker"
+        },
+        "accessibility-font-resizer": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "SatelliteWP",
+            "github-repo": "accessibility-font-resizer"
+        },
+        "bootstrap-star-rating": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "kartik-v",
+            "github-repo": "bootstrap-star-rating"
+        },
+        "jquery-placeholder": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "mathiasbynens",
+            "github-repo": "jquery-placeholder"
+        },
+        "navgoco": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "tefra",
+            "github-repo": "navgoco"
+        },
+        "bootstrap-hover-dropdown": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "CWSpear",
+            "github-repo": "bootstrap-hover-dropdown"
+        },
+        "jquery-throttle-debounce": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "cowboy",
+            "github-repo": "jquery-throttle-debounce"
+        },
+        "js-xss": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "leizongmin",
+            "github-repo": "js-xss"
+        },
+        "cropperjs": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "fengyuanchen",
+            "github-repo": "cropperjs"
+        },
+        "signature": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "szimek",
+            "github-repo": "signature"
+        },
+        "metismenu": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "onokumus",
+            "github-repo": "metismenu"
+        },
+        "in-field-labels-jquery-plugin": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "dcneiner",
+            "github-repo": "In-Field-Labels-jQuery-Plugin"
+        },
+        "aria-tablist": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "mynamesleon",
+            "github-repo": "aria-tablist"
+        },
+        "jss": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "cssinjs",
+            "github-repo": "jss"
+        },
+        "msgpack": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "msgpack",
+            "github-repo": "msgpack"
+        },
+        "feedek": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "enginkizil",
+            "github-repo": "FeedEk"
+        },
+        "jquery-powertip": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "stevenbenner",
+            "github-repo": "jquery-powertip"
+        },
+        "react-spectrum": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "adobe",
+            "github-repo": "react-spectrum"
+        },
+        "hc-sticky": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "somewebmedia",
+            "github-repo": "hc-sticky"
+        },
+        "imagefill": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "johnpolacek",
+            "github-repo": "imagefill"
+        },
+        "imagesloaded": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "desandro",
+            "github-repo": "imagesloaded"
+        },
+        "pace": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "CodeByZach",
+            "github-repo": "pace"
+        },
+        "wai-aria-patterns-and-widgets": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "smillart",
+            "github-repo": "WAI-ARIA-Patterns-And-Widgets"
+        },
+        "form-request-submit-polyfill": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "javan",
+            "github-repo": "form-request-submit-polyfill"
+        },
+        "vue-instantsearch": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "algolia",
+            "github-repo": "vue-instantsearch"
+        },
+        "remixicon": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "Remix-Design",
+            "github-repo": "RemixIcon"
+        },
+        "grunticon": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "filamentgroup",
+            "github-repo": "grunticon"
+        },
+        "jquery-mobile": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "jquery",
+            "github-repo": "jquery-mobile"
+        },
+        "jquery-ajaxtransport-xdomainrequest": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "MoonScript",
+            "github-repo": "jQuery-ajaxTransport-XDomainRequest"
+        },
+        "iframe-messenger": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "guardian",
+            "github-repo": "iframe-messenger"
+        },
+        "fontawesome-iconpicker": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "itsjavi",
+            "github-repo": "fontawesome-iconpicker"
+        },
+        "liferay-amd-loader": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "liferay",
+            "github-repo": "liferay-amd-loader"
+        },
+        "rxjs-contrib": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "Reactive-Extensions",
+            "github-repo": "RxJS-Contrib"
+        },
+        "smartbanner": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "ain",
+            "github-repo": "smartbanner"
+        },
+        "jquery-simple-datetimepicker": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "mugifly",
+            "github-repo": "jquery-simple-datetimepicker"
+        },
+        "clockpicker": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "weareoutman",
+            "github-repo": "clockpicker"
+        },
+        "rive-wasm": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "rive-app",
+            "github-repo": "rive-wasm"
+        },
+        "web-avo-inspector": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "avohq",
+            "github-repo": "web-avo-inspector"
+        },
+        "platform": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "angular-redux",
+            "github-repo": "platform"
+        },
+        "aws-iot-device-sdk-js": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "aws",
+            "github-repo": "aws-iot-device-sdk-js"
+        },
+        "webpersonalization-js": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "scarabresearch",
+            "github-repo": "webpersonalization-js"
+        },
+        "raygun4js": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "MindscapeHQ",
+            "github-repo": "raygun4js"
+        },
+        "knockout": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "SteveSanderson",
+            "github-repo": "knockout"
+        },
+        "bluebird": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "petkaantonov",
+            "github-repo": "bluebird"
+        },
+        "flexslider": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "woocommerce",
+            "github-repo": "FlexSlider"
+        },
+        "zustand": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "pmndrs",
+            "github-repo": "zustand"
+        },
+        "dashboards": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "agatehq",
+            "github-repo": "dashboards"
+        },
+        "adsviu-iab-config": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "nextchance",
+            "github-repo": "adsviu-IAB-config"
+        },
+        "unveil2": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "nabble",
+            "github-repo": "unveil2"
+        },
+        "tweet": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "seaofclouds",
+            "github-repo": "tweet"
+        },
+        "fingerprintjs2": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "Valve",
+            "github-repo": "fingerprintjs2"
+        },
+        "react-sortablejs": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "SortableJS",
+            "github-repo": "react-sortablejs"
+        },
+        "react-quill": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "zenoamaro",
+            "github-repo": "react-quill"
+        },
+        "expiredstorage": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "RonenNess",
+            "github-repo": "ExpiredStorage"
+        },
+        "baguettebox": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "feimosi",
+            "github-repo": "baguetteBox"
+        },
+        "jquery-doubletaptogo": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "dachcom-digital",
+            "github-repo": "jquery-doubletaptogo"
+        },
+        "multiscroll": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "alvarotrigo",
+            "github-repo": "multiscroll"
+        },
+        "bigtext": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "zachleat",
+            "github-repo": "bigtext"
+        },
+        "reframe": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "yowainwright",
+            "github-repo": "reframe"
+        },
+        "dompurify": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "cure53",
+            "github-repo": "DOMPurify"
+        },
+        "skrollr-menu": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "Prinzhorn",
+            "github-repo": "skrollr-menu"
+        },
+        "object-fit-polyfill": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "constancecchen",
+            "github-repo": "object-fit-polyfill"
+        },
+        "moment-duration-format": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "jsmreese",
+            "github-repo": "moment-duration-format"
+        },
+        "dynamic-polyfill": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "PascalAOMS",
+            "github-repo": "dynamic-polyfill"
+        },
+        "cash": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "fabiospampinato",
+            "github-repo": "cash"
+        },
+        "datepicker": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "fengyuanchen",
+            "github-repo": "datepicker"
+        },
+        "jquery-deparam": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "AceMetrix",
+            "github-repo": "jquery-deparam"
+        },
+        "mobile-detect": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "hgoebl",
+            "github-repo": "mobile-detect"
+        },
+        "tablesorter": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "Mottie",
+            "github-repo": "tablesorter"
+        },
+        "javascript-natural-sort": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "overset",
+            "github-repo": "javascript-natural-sort"
+        },
+        "selectwoo": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "woocommerce",
+            "github-repo": "selectWoo"
+        },
+        "responsive-elements": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "kumailht",
+            "github-repo": "responsive-elements"
+        },
+        "moduler": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "simplyio",
+            "github-repo": "moduler"
+        },
+        "flexnav": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "indyplanets",
+            "github-repo": "flexnav"
+        },
+        "sticky-sidebar": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "abouolia",
+            "github-repo": "sticky-sidebar"
+        },
+        "wselect": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "websanova",
+            "github-repo": "wSelect"
+        },
+        "vuetify": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "vuetifyjs",
+            "github-repo": "vuetify"
+        },
+        "superjson": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "blitz-js",
+            "github-repo": "superjson"
+        },
+        "emotion": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "emotion-js",
+            "github-repo": "emotion"
+        },
+        "cubic-bezier": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "arian",
+            "github-repo": "cubic-bezier"
+        },
+        "jquery-boilerplate": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "jquery-boilerplate",
+            "github-repo": "jquery-boilerplate"
+        },
+        "countries": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "mledoze",
+            "github-repo": "countries"
+        },
+        "jquery-lazyload-any": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "emn178",
+            "github-repo": "jquery-lazyload-any"
+        },
+        "iris": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "Automattic",
+            "github-repo": "Iris"
+        },
+        "slug": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "Trott",
+            "github-repo": "slug"
+        },
+        "video-worker": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "nk-o",
+            "github-repo": "video-worker"
+        },
+        "airbrake-js": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "airbrake",
+            "github-repo": "airbrake-js"
+        },
+        "pushy": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "christophery",
+            "github-repo": "pushy"
+        },
+        "angular-focusmanager": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "obogo",
+            "github-repo": "angular-focusmanager"
+        },
+        "dropkick": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "robdel12",
+            "github-repo": "DropKick"
+        },
+        "smoothscroll-for-websites": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "galambalazs",
+            "github-repo": "smoothscroll-for-websites"
+        },
+        "ngx-cookie-service": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "stevermeister",
+            "github-repo": "ngx-cookie-service"
+        },
+        "inputevent": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "marcandre",
+            "github-repo": "inputevent"
+        },
+        "turbolinks": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "turbolinks",
+            "github-repo": "turbolinks"
+        },
+        "jquery-selectbox": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "marcj",
+            "github-repo": "jquery-selectBox"
+        },
+        "venobox": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "nicolafranchini",
+            "github-repo": "VenoBox"
+        },
+        "breakdance-elements": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "soflyy",
+            "github-repo": "breakdance-elements"
+        },
+        "breakdance": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "soflyy",
+            "github-repo": "breakdance"
+        },
+        "swiper": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "nolimits4web",
+            "github-repo": "swiper"
+        },
+        "devtools-detect": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "sindresorhus",
+            "github-repo": "devtools-detect"
+        },
+        "jquery-parallax": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "aledelgo",
+            "github-repo": "jQuery-Parallax"
+        },
+        "scrollfix": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "joelambert",
+            "github-repo": "ScrollFix"
+        },
+        "validate-element-name": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "sindresorhus",
+            "github-repo": "validate-element-name"
+        },
+        "ecom": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "wix-private",
+            "github-repo": "ecom"
+        },
+        "dom-helpers": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "react-bootstrap",
+            "github-repo": "dom-helpers"
+        },
+        "colvertize": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "Philipp-M",
+            "github-repo": "colvertize"
+        },
+        "ant-design": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "ant-design",
+            "github-repo": "ant-design"
+        },
+        "kissy": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "kissyteam",
+            "github-repo": "kissy"
+        },
+        "trigger": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "react-component",
+            "github-repo": "trigger"
+        },
+        "calendar": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "react-component",
+            "github-repo": "calendar"
+        },
+        "react-animate-height": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "Stanko",
+            "github-repo": "react-animate-height"
+        },
+        "zepto": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "madrobby",
+            "github-repo": "zepto"
+        },
+        "compass": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "Compass",
+            "github-repo": "compass"
+        },
+        "convert-css-length": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "KyleAMathews",
+            "github-repo": "convert-css-length"
+        },
+        "raf": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "component",
+            "github-repo": "raf"
+        },
+        "gallery": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "blueimp",
+            "github-repo": "Gallery"
+        },
+        "swipe": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "bradbirdsall",
+            "github-repo": "Swipe"
+        },
+        "purecounterjs": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "srexi",
+            "github-repo": "purecounterjs"
+        },
+        "jquery-fullscreensize": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "Jimdo",
+            "github-repo": "jquery-fullscreensize"
+        },
+        "superslides": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "nicinabox",
+            "github-repo": "superslides"
+        },
+        "jquery-countto": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "mhuggins",
+            "github-repo": "jquery-countTo"
+        },
+        "wix-ricos": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "wix-private",
+            "github-repo": "wix-ricos"
+        },
+        "pattern-fill": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "highcharts",
+            "github-repo": "pattern-fill"
+        },
+        "angular-filter": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "a8m",
+            "github-repo": "angular-filter"
+        },
+        "highcharts": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "highcharts",
+            "github-repo": "highcharts"
+        },
+        "jdate": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "tahajahangir",
+            "github-repo": "jdate"
+        },
+        "bootstrap-validator": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "1000hz",
+            "github-repo": "bootstrap-validator"
+        },
+        "papaparse": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "mholt",
+            "github-repo": "PapaParse"
+        },
+        "json-stat": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "badosa",
+            "github-repo": "JSON-stat"
+        },
+        "codem-isoboxer": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "madebyhiro",
+            "github-repo": "codem-isoboxer"
+        },
+        "vue-cookies": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "cmp-cc",
+            "github-repo": "vue-cookies"
+        },
+        "video-js-swf": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "videojs",
+            "github-repo": "video-js-swf"
+        },
+        "proposal-shadowrealm": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "tc39",
+            "github-repo": "proposal-shadowrealm"
+        },
+        "detect-passive-events": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "rafgraph",
+            "github-repo": "detect-passive-events"
+        },
+        "jump": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "callmecavs",
+            "github-repo": "jump"
+        },
+        "vue-ctk-date-time-picker": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "chronotruck",
+            "github-repo": "vue-ctk-date-time-picker"
+        },
+        "font-awesome": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "fortawesome",
+            "github-repo": "Font-Awesome"
+        },
+        "localforage": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "mozilla",
+            "github-repo": "localForage"
+        },
+        "flexbugs": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "philipwalton",
+            "github-repo": "flexbugs"
+        },
+        "openseadragon": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "openseadragon",
+            "github-repo": "openseadragon"
+        },
+        "addon-sdk": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "mozilla",
+            "github-repo": "addon-sdk"
+        },
+        "simple-placeholder": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "marcgg",
+            "github-repo": "Simple-Placeholder"
+        },
+        "webpack": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "webpack",
+            "github-repo": "webpack"
+        },
+        "open-in-browser": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "Rob--W",
+            "github-repo": "open-in-browser"
+        },
+        "array-foreach": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "twada",
+            "github-repo": "array-foreach"
+        },
+        "react-emojione": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "pladaria",
+            "github-repo": "react-emojione"
+        },
+        "slackdown": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "blockmar",
+            "github-repo": "slackdown"
+        },
+        "announcements-4": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "select2",
+            "github-repo": "announcements-4"
+        },
+        "viewerjs": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "fengyuanchen",
+            "github-repo": "viewerjs"
+        },
+        "instagramfeed": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "jsanahuja",
+            "github-repo": "InstagramFeed"
+        },
+        "prescribe": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "krux",
+            "github-repo": "prescribe"
+        },
+        "jquery-nstslider": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "lokku",
+            "github-repo": "jquery-nstslider"
+        },
+        "ableplayer": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "ableplayer",
+            "github-repo": "ableplayer"
+        },
+        "bxslider-4": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "stevenwanderski",
+            "github-repo": "bxslider-4"
+        },
+        "keen-tracking": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "keen",
+            "github-repo": "keen-tracking"
+        },
+        "jqvmap": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "manifestinteractive",
+            "github-repo": "jqvmap"
+        },
+        "proposal-using-statement": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "tc39",
+            "github-repo": "proposal-using-statement"
+        },
+        "proposal-pattern-matching": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "tc39",
+            "github-repo": "proposal-pattern-matching"
+        },
+        "proposal-decorator-metadata": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "tc39",
+            "github-repo": "proposal-decorator-metadata"
+        },
+        "proposal-decorators": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "tc39",
+            "github-repo": "proposal-decorators"
+        },
+        "tablefilter": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "koalyptus",
+            "github-repo": "TableFilter"
+        },
+        "fetchmanager": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "wezz",
+            "github-repo": "FetchManager"
+        },
+        "storemanager": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "wezz",
+            "github-repo": "StoreManager"
+        },
+        "ariatabmanager": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "wezz",
+            "github-repo": "ARIATabManager"
+        },
+        "ariamanager": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "wezz",
+            "github-repo": "ARIAManager"
+        },
+        "jquery-smooth-scroll": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "kswedberg",
+            "github-repo": "jquery-smooth-scroll"
+        },
+        "microsoft-authentication-library-for-js": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "AzureAD",
+            "github-repo": "microsoft-authentication-library-for-js"
+        },
+        "scroll-lock": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "FL3NKEY",
+            "github-repo": "scroll-lock"
+        },
+        "cssjanus": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "cssjanus",
+            "github-repo": "cssjanus"
+        },
+        "foundation": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "blai",
+            "github-repo": "foundation"
+        },
+        "stylus-type-utils": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "blakeembrey",
+            "github-repo": "stylus-type-utils"
+        },
+        "wp-color-picker-alpha": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "kallookoo",
+            "github-repo": "wp-color-picker-alpha"
+        },
+        "jquery-animatenumber": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "aishek",
+            "github-repo": "jquery-animateNumber"
+        },
+        "bootstrap-timepicker": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "jdewit",
+            "github-repo": "bootstrap-timepicker"
+        },
+        "region-flags": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "behdad",
+            "github-repo": "region-flags"
+        },
+        "vite-plugin-vue": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "vitejs",
+            "github-repo": "vite-plugin-vue"
+        },
+        "jquery-trap-input": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "julienw",
+            "github-repo": "jquery-trap-input"
+        },
+        "accessible-mega-menu": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "adobe-accessibility",
+            "github-repo": "Accessible-Mega-Menu"
+        },
+        "van11y-accessible-accordion-aria": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "nico3333fr",
+            "github-repo": "van11y-accessible-accordion-aria"
+        },
+        "select-or-die": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "vestman",
+            "github-repo": "Select-or-Die"
+        },
+        "web-ticker": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "jonmifsud",
+            "github-repo": "Web-Ticker"
+        },
+        "viewport-units-buggyfill": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "rodneyrehm",
+            "github-repo": "viewport-units-buggyfill"
+        },
+        "custom-event-polyfill": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "krambuhl",
+            "github-repo": "custom-event-polyfill"
+        },
+        "yjs": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "yjs",
+            "github-repo": "yjs"
+        },
+        "sequence": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "IanLunn",
+            "github-repo": "Sequence"
+        },
+        "tiny-slider": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "ganlanyuan",
+            "github-repo": "tiny-slider"
+        },
+        "emscripten": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "emscripten-core",
+            "github-repo": "emscripten"
+        },
+        "virtual-background": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "Volcomix",
+            "github-repo": "virtual-background"
+        },
+        "sframe": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "medooze",
+            "github-repo": "sframe"
+        },
+        "dom-testing-library": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "testing-library",
+            "github-repo": "dom-testing-library"
+        },
+        "jquery-file-upload": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "blueimp",
+            "github-repo": "jQuery-File-Upload"
+        },
+        "react-native": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "facebook",
+            "github-repo": "react-native"
+        },
+        "phpjs": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "kvz",
+            "github-repo": "phpjs"
+        },
+        "jquery-stickit": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "emn178",
+            "github-repo": "jquery-stickit"
+        },
+        "svginjector": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "iconic",
+            "github-repo": "SVGInjector"
+        },
+        "ua-parser-js": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.",
+            "github-owner": "faisalman",
+            "github-repo": "ua-parser-js"
         }
     },
-    "updated": "2023-10-20 05:27:49"
+    "updated": "2023-10-01 16:57:21"
 }

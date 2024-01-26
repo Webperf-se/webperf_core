@@ -109,7 +109,7 @@ msgid "TEXT_DETAILED_REVIEW_MORE_THEN_5_SOURCES"
 msgstr "- More then 5 sources, hiding the rest."
 
 msgid "TEXT_DETAILED_REVIEW_ARCHIVED_SOURCE"
-msgstr "##### Software has been marked as archived ( #POINTS# rating )\r\n\r\n###### Introduction:\r\nYou seem to use software that has been marked as archived, this means it doesn't get any new features or security updates.\r\nTo fix this you need find an alternative, often developers try to point you in the correct direction if you visit the place you got it from.\r\n\r\n"
+msgstr "##### Software has been marked as archived ( #POINTS# rating )\r\n\r\n###### Introduction:\r\nYou seem to use software that has been marked as archived, this means it doesn't get any new features or security updates.\r\nTo fix this you need to find an alternative, often developers try to point you in the correct direction if you visit the place you got it from.\r\n\r\n"
 
 msgid "TEXT_DETAILED_REVIEW_CVES"
 msgstr "###### Common Vulnerabilities and Exposures"
@@ -131,3 +131,6 @@ msgstr "##### Opensource software used seem to be active"
 
 msgid "TEXT_DETAILED_REVIEW_NO_END_OF_LIFE"
 msgstr "##### You don't seem to be using 'END OF LIFE' software"
+
+msgid "TEXT_DETAILED_REVIEW_END_OF_LIFE"
+msgstr "##### You seem to be using 'END OF LIFE' software"

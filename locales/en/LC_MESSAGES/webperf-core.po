@@ -166,4 +166,4 @@ msgid "TEXT_REQUEST_UNKNOWN"
 msgstr "#{0}: "
 
 msgid "TEXT_REQUEST_WEBPAGE"
-msgstr "#{0}: Webpage"
+msgstr "#{0}: Webpage "

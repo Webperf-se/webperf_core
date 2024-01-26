@@ -97,7 +97,7 @@ msgid "Oversized images"
 msgstr "Onödigt stora bilder"
 
 msgid "Gzip/Brotli compression"
-msgstr "Gzip/Brotli-kompremering"
+msgstr "Gzip/Brotli-komprimering"
 
 msgid "File minification"
 msgstr "Filminifiering"

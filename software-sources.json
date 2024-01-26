@@ -19,6 +19,7 @@
         "klaro": "privacy-manager",
         "lightbox": "lightbox2",
         "magnific-popups": "magnific-popup",
+        "next": "next.js",
         "query-ui-widget": "jquery-ui",
         "sizzle-css-selector-engine": "sizzle"
     },
@@ -797,6 +798,10 @@
         "vtt": {
             "github-owner": "mozilla",
             "github-repo": "vtt.js"
+        },
+        "next.js": {
+            "github-owner": "vercel",
+            "github-repo": "next.js"
         },
         "vue": {
             "github-owner": "vuejs",

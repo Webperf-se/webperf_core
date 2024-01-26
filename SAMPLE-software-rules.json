@@ -266,6 +266,17 @@
                     "precision": 0.1
                 }
             ]
+        },
+        {
+            "use": true,
+            "match": "(?P<debug>/_next/)",
+            "results": [
+                {
+                    "name": "next.js",
+                    "category": "js",
+                    "precision": 0.4
+                }
+            ]
         }
     ],
     "headers": [
@@ -1100,6 +1111,19 @@
                 {
                     "category": "tech",
                     "precision": 0.0
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "looking next.js version info",
+            "match": "(?P<debug>window\\.next[ \\n\\r\\t]*=[ \\n\\r\\t]*\\{[ \\n\\r\\t]*version:[ \\n\\r\\t]*\"(?P<version>[0-9\\.]+)\")",
+            "results": [
+                {
+                    "name": "next.js",
+                    "category": "js",
+                    "precision": 0.8
                 }
             ]
         }

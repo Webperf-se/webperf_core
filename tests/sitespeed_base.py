@@ -48,14 +48,14 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg):
         test = test.replace('\\n', '\r\n').replace('\\\\', '\\')
 
         regex = r"COOKIES:START: {\"cookies\":(?P<COOKIES>.+)} COOKIES:END"
-        cookies = '[]'
+        cookies = '{}'
         matches = re.finditer(
             regex, test, re.MULTILINE)
         for matchNum, match in enumerate(matches, start=1):
             cookies = match.group('COOKIES')
 
         regex = r"VERSIONS:START: (?P<VERSIONS>[^V]+) VERSIONS:END"
-        versions = '[]'
+        versions = '{}'
         matches = re.finditer(
             regex, test, re.MULTILINE)
         for matchNum, match in enumerate(matches, start=1):

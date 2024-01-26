@@ -1126,6 +1126,29 @@
                     "precision": 0.8
                 }
             ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "EpiServer CMS",
+            "match": "(?P<debug>(\\/|%2F)contentassets(\\/|%2F)|(\\/|%2F)siteassets(\\/|%2F)|(\\/|%2F)globalassets(\\/|%2F))",
+            "results": [
+                {
+                    "category": "tech",
+                    "name": "asp.net",
+                    "precision": 0.1
+                },
+                {
+                    "category": "tech",
+                    "name": "csharp",
+                    "precision": 0.4
+                },
+                {
+                    "category": "cms",
+                    "name": "episerver",
+                    "precision": 0.4
+                }
+            ]
         }
     ],
     "cookies": [

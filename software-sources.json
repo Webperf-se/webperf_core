@@ -512,6 +512,10 @@
             "github-owner": "mswjs",
             "github-repo": "msw"
         },
+        "next.js": {
+            "github-owner": "vercel",
+            "github-repo": "next.js"
+        },
         "nginx": {
             "github-owner": "nginx",
             "github-repo": "nginx"
@@ -799,10 +803,6 @@
             "github-owner": "mozilla",
             "github-repo": "vtt.js"
         },
-        "next.js": {
-            "github-owner": "vercel",
-            "github-repo": "next.js"
-        },
         "vue": {
             "github-owner": "vuejs",
             "github-repo": "vue"
@@ -875,5 +875,5 @@
             "github-repo": "zlib"
         }
     },
-    "updated": "2023-12-11 16:11:49"
+    "updated": "2024-01-26 21:34:42"
 }

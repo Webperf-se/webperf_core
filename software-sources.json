@@ -20,8 +20,8 @@
         "lightbox": "lightbox2",
         "magnific-popups": "magnific-popup",
         "next": "next.js",
-        "query-ui-widget": "jquery-ui",
         "piwik": "matomo",
+        "query-ui-widget": "jquery-ui",
         "sizzle-css-selector-engine": "sizzle"
     },
     "softwares": {
@@ -876,5 +876,5 @@
             "github-repo": "zlib"
         }
     },
-    "updated": "2024-01-26 21:34:42"
+    "updated": "2024-01-27 14:20:27"
 }

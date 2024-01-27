@@ -21,6 +21,7 @@
         "magnific-popups": "magnific-popup",
         "next": "next.js",
         "query-ui-widget": "jquery-ui",
+        "piwik": "matomo",
         "sizzle-css-selector-engine": "sizzle"
     },
     "softwares": {

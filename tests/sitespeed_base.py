@@ -21,7 +21,7 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg):
     # result_folder_name = os.path.join('data', 'results')
 
     sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs --outputFolder {0} {1}'.format(result_folder_name, url)
-    # sitespeed_arg += ' --postScript chrome-cookies.cjs --outputFolder {0} {1} chrome-versions.cjs --multi'.format(result_folder_name, url)
+    # sitespeed_arg += ' --outputFolder {0} {1}'.format(result_folder_name, url)
 
     filename = ''
     # Should we use cache when available?

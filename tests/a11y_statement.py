@@ -427,7 +427,7 @@ def rate_notification_function_url(_, _local, soup):
     match_canonical_url = soup.find(href=canonical)
 
     match_old_reference = soup.find(href=re.compile(
-        "digg\.se[a-z\/\-]+anmal-bristande-tillganglighet", flags=re.MULTILINE | re.IGNORECASE))
+        "digg\\.se[a-z\\/\\-]+anmal\\-bristande\\-tillganglighet", flags=re.MULTILINE | re.IGNORECASE))
 
     is_digg = False
     for i in soup.select('link[rel*=canonical]'):

@@ -2,7 +2,7 @@
  * USED FOR SITESPEED TEST (TO collect software and javascript used)!!!
  */
 module.exports = async function (context, commands) {
-    cdpClient = commands.cdp.engineDelegate.getCDPClient()
+    // cdpClient = commands.cdp.engineDelegate.getCDPClient()
     // https://chromedevtools.github.io/devtools-protocol/tot/Storage/#method-getCookies
     // bodyResult = await cdpClient.send('Runtime.evaluate', {
     //     'expression': 'document.location.href'
@@ -13,7 +13,13 @@ module.exports = async function (context, commands) {
     //     'allowUnsafeEvalBlockedByCSP': true,
     //     'expression': '"jQuery" in window && "fn" in window.jQuery && "jquery" in window.jQuery.fn ? window.jQuery.fn.jquery : ""'
     // });
-    commands.wait.byPageToComplete();
+    // commands.wait.byCondition(commands.wait.byPageToComplete, 5000);
+    try {
+        // Fix for exception thrown on some pages where this function doesn't trigger until timeout: https://github.com/sitespeedio/browsertime/blob/main/lib/core/engine/command/wait.js#L126
+        await commands.wait.byPageToComplete();
+    } catch (error) {
+        
+    }
 
     core_js_versions = [];
     try {

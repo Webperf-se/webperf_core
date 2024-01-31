@@ -94,11 +94,14 @@ def cleanup_results_dir(browsertime_path, path):
 
 def get_result_using_no_cache(sitespeed_use_docker, arg):
 
+    print('DEBUG get_result_using_no_cache(arg)', arg)
     result = ''
     if sitespeed_use_docker:
         dir = Path(os.path.dirname(
             os.path.realpath(__file__)) + os.path.sep).parent
         data_dir = dir.resolve()
+
+        print('DEBUG get_result_using_no_cache(data_dir)', data_dir)
 
         bashCommand = "docker run --rm -v {1}:/sitespeed.io sitespeedio/sitespeed.io:latest {0}".format(
             arg, data_dir)
@@ -106,6 +109,10 @@ def get_result_using_no_cache(sitespeed_use_docker, arg):
         import subprocess
         process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
         output, error = process.communicate()
+
+        if error != None:
+            print('DEBUG get_result_using_no_cache(error)', error)
+
         result = str(output)
     else:
         import subprocess
@@ -117,7 +124,15 @@ def get_result_using_no_cache(sitespeed_use_docker, arg):
             bashCommand.split(), stdout=subprocess.PIPE)
 
         output, error = process.communicate()
+        
+        if error != None:
+            print('DEBUG get_result_using_no_cache(error)', error)
         result = str(output)
+
+        if 'Could not locate Firefox on the current system' in result:
+            print('ERROR! Could not locate Firefox on the current system.')
+        #else:
+        print('DEBUG get_result_using_no_cache(result)', '\n\t', result.replace('\\n', '\n\t'))
 
     return result
 def get_sanitized_browsertime(input_filename):

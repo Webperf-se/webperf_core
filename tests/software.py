@@ -990,7 +990,13 @@ def identify_software(filename, origin_domain, rules):
 
             if 'content' in res and 'text' in res['content']:
                 response_content = res['content']['text']
-                response_mimetype = res['content']['mimeType']
+
+                response_mimetype = None
+                if 'mimeType' in res['content']:
+                    response_mimetype = res['content']['mimeType']
+                else:
+                    print('ERROR! No mimeType', res['content'])
+
                 lookup_response_content(
                     item, response_mimetype, response_content, rules)
             else:

@@ -114,6 +114,11 @@ def get_result_using_no_cache(sitespeed_use_docker, arg):
             print('DEBUG get_result_using_no_cache(error)', error)
 
         result = str(output)
+
+        if 'Could not locate Firefox on the current system' in result:
+            print('ERROR! Could not locate Firefox on the current system.')
+        #else:
+        print('DEBUG get_result_using_no_cache(result)', '\n\t', result.replace('\\n', '\n\t'))
     else:
         import subprocess
 
@@ -127,6 +132,7 @@ def get_result_using_no_cache(sitespeed_use_docker, arg):
         
         if error != None:
             print('DEBUG get_result_using_no_cache(error)', error)
+
         result = str(output)
 
         if 'Could not locate Firefox on the current system' in result:

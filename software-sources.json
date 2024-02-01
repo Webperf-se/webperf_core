@@ -72,6 +72,10 @@
             "github-owner": "davidchambers",
             "github-repo": "Base64.js"
         },
+        "backbone": {
+            "github-owner": "jashkenas",
+            "github-repo": "backbone"
+        },
         "base64-js": {
             "github-owner": "beatgammit",
             "github-repo": "base64-js"

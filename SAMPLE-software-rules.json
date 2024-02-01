@@ -1142,6 +1142,19 @@
         },
         {
             "use": true,
+            "type": "javascript",
+            "description": "looking Backbone version info",
+            "match": "(?P<debug>\\.Backbone[\\,\\.\\;\\w\\=\\+\\,\\(\\)\\[\\]]+push[\\,\\.\\;\\w\\=\\+\\,\\(\\)\\[\\]]+slice[\\,\\.\\;\\w\\=\\+\\,\\(\\)\\[\\]]+\\.VERSION=\"(?P<version>[0-9\\.]+)\")",
+            "results": [
+                {
+                    "name": "backbone",
+                    "category": "js",
+                    "precision": 0.6
+                }
+            ]
+        },
+        {
+            "use": true,
             "type": "html",
             "description": "EpiServer CMS",
             "match": "(?P<debug>(\\/|%2F)contentassets(\\/|%2F)|(\\/|%2F)siteassets(\\/|%2F)|(\\/|%2F)globalassets(\\/|%2F))",

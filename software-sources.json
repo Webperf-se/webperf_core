@@ -68,13 +68,13 @@
             "github-owner": "danielberndt",
             "github-repo": "babel-plugin-utf-8-regex"
         },
-        "base64": {
-            "github-owner": "davidchambers",
-            "github-repo": "Base64.js"
-        },
         "backbone": {
             "github-owner": "jashkenas",
             "github-repo": "backbone"
+        },
+        "base64": {
+            "github-owner": "davidchambers",
+            "github-repo": "Base64.js"
         },
         "base64-js": {
             "github-owner": "beatgammit",
@@ -880,5 +880,5 @@
             "github-repo": "zlib"
         }
     },
-    "updated": "2024-01-27 14:20:27"
+    "updated": "2024-02-01 20:47:47"
 }

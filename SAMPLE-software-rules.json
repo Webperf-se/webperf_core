@@ -1129,6 +1129,19 @@
         },
         {
             "use": true,
+            "type": "javascript",
+            "description": "looking jQuery Migrate version info",
+            "match": "(?P<debug>\\w\\.migrateVersion[ \\n\\r\\t]*=[ \\n\\r\\t]*\"(?P<version>[0-9\\.]+)\")",
+            "results": [
+                {
+                    "name": "jquery-migrate",
+                    "category": "js",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
             "type": "html",
             "description": "EpiServer CMS",
             "match": "(?P<debug>(\\/|%2F)contentassets(\\/|%2F)|(\\/|%2F)siteassets(\\/|%2F)|(\\/|%2F)globalassets(\\/|%2F))",

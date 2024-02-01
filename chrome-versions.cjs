@@ -41,6 +41,13 @@ module.exports = async function (context, commands) {
         console.error(error);
     }
 
+    next_versions = []
+    try {
+        next_versions = await commands.js.run('return "next" in window && "version" in window.next ? [window.next.version] : []');
+    } catch (error) {
+        console.error(error);
+    }
+
     jquery_versions = []
     try {
         tmp = await commands.js.run('return typeof jQuery !== "undefined"');
@@ -76,7 +83,8 @@ module.exports = async function (context, commands) {
     versions = {
         'jquery': jquery_versions,
         'modernizr': modernizr_versions,
-        'core-js': core_js_versions
+        'core-js': core_js_versions,
+        'next.js': next_versions
     }
 
 

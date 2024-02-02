@@ -25,10 +25,6 @@
         "sizzle-css-selector-engine": "sizzle"
     },
     "softwares": {
-        "alpinejs": {
-            "github-owner": "alpinejs",
-            "github-repo": "alpine"
-        },
         "accordion": {
             "github-owner": "michu2k",
             "github-repo": "Accordion"
@@ -36,6 +32,10 @@
         "algoliasearch-client-javascript": {
             "github-owner": "algolia",
             "github-repo": "algoliasearch-client-javascript"
+        },
+        "alpinejs": {
+            "github-owner": "alpinejs",
+            "github-repo": "alpine"
         },
         "amcharts4": {
             "github-owner": "amcharts",
@@ -889,5 +889,5 @@
             "github-repo": "zlib"
         }
     },
-    "updated": "2024-02-02 13:31:07"
+    "updated": "2024-02-02 18:28:13"
 }

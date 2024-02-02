@@ -57,6 +57,39 @@
         },
         {
             "use": true,
+            "description": "EpiServer CMS",
+            "match": "(?P<debug>\\/epi\\-util\\/find\\.js)",
+            "results": [
+                {
+                    "name": "epifind",
+                    "category": "js",
+                    "domain": "referrer",
+                    "precision": 0.8
+                },
+                {
+                    "name": "episerver",
+                    "category": "cms",
+                    "domain": "referrer",
+                    "precision": 0.4
+                },
+                {
+                    "category": "tech",
+                    "name": "asp.net",
+                    "version": "",
+                    "domain": "referrer",
+                    "precision": 0.1
+                },
+                {
+                    "category": "tech",
+                    "name": "csharp",
+                    "version": "",
+                    "domain": "referrer",
+                    "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
             "description": "SiteVision",
             "match": "(?P<debug>\\/sitevision\\/)",
             "results": [
@@ -275,6 +308,53 @@
                     "name": "next.js",
                     "category": "js",
                     "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "match": "(?P<debug>plausible_ignore[ ]{0,1}==[=]{0,1}[ ]{0,1}[\"|']{0,1}true[\"|']{0,1})",
+            "results": [
+                {
+                    "name": "plausible-analytics",
+                    "category": "js",
+                    "precision": 0.6
+                }
+            ]
+        },
+        {
+            "use": true,
+            "match": "(?P<debug>window\\.localStorage\\.plausible_ignore[ ]{0,1}==[=]{0,1}[ ]{0,1}[\"|']{0,1}true[\"|']{0,1}\\)[ ]{0,1}[\\{]{0,1}[ \t\r\n]*return onIgnoredEvent\\('localStorage flag\\')",
+            "results": [
+                {
+                    "name": "plausible-analytics",
+                    "version": "2.0.0",
+                    "category": "js",
+                    "precision": 0.6
+                }
+            ]
+        },
+        {
+            "use": true,
+            "match": "(?P<debug>window\\.localStorage\\.plausible_ignore[ ]{0,1}==[=]{0,1}[ ]{0,1}[\"|']{0,1}true[\"|']{0,1}\\)[ ]{0,1}[\\{]{0,1}[ \t\r\n]*return warn\\('localStorage flag\\')",
+            "results": [
+                {
+                    "name": "plausible-analytics",
+                    "version": "1.5.0",
+                    "category": "js",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
+            "match": "(?P<debug>\\(plausible_ignore[ ]{0,1}==[ ]{0,1}[\"|']{0,1}true[\"|']{0,1}\\)[ ]{0,1}[\\{]{0,1}[ \t\r\n]*return warn\\('localStorage flag\\'\\))",
+            "results": [
+                {
+                    "name": "plausible-analytics",
+                    "version": "1.4.4",
+                    "category": "js",
+                    "precision": 0.8
                 }
             ]
         }

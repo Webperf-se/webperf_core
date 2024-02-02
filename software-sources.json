@@ -545,11 +545,6 @@
             "github-owner": "kesla",
             "github-repo": "parse-headers"
         },
-        "plausible-analytics": {
-            "github-owner": "plausible",
-            "github-repo": "analytics",
-            "github-source": "releases"
-        },
         "pdfkit": {
             "github-owner": "foliojs",
             "github-repo": "pdfkit"
@@ -568,6 +563,11 @@
         "pikaday": {
             "github-owner": "Pikaday",
             "github-repo": "Pikaday"
+        },
+        "plausible-analytics": {
+            "github-owner": "plausible",
+            "github-repo": "analytics",
+            "github-source": "releases"
         },
         "player": {
             "github-owner": "vimeo",
@@ -885,5 +885,5 @@
             "github-repo": "zlib"
         }
     },
-    "updated": "2024-02-01 20:47:47"
+    "updated": "2024-02-02 13:31:07"
 }

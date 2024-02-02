@@ -545,6 +545,11 @@
             "github-owner": "kesla",
             "github-repo": "parse-headers"
         },
+        "plausible-analytics": {
+            "github-owner": "plausible",
+            "github-repo": "analytics",
+            "github-source": "releases"
+        },
         "pdfkit": {
             "github-owner": "foliojs",
             "github-repo": "pdfkit"

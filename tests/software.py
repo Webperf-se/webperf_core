@@ -999,7 +999,7 @@ def identify_software(filename, origin_domain, rules):
 
                 lookup_response_content(
                     item, response_mimetype, response_content, rules)
-            else:
+            elif 'mimeType' in res['content']:
                 response_mimetype = res['content']['mimeType']
                 lookup_response_mimetype(
                     item, response_mimetype)

@@ -25,6 +25,10 @@
         "sizzle-css-selector-engine": "sizzle"
     },
     "softwares": {
+        "alpinejs": {
+            "github-owner": "alpinejs",
+            "github-repo": "alpine"
+        },
         "accordion": {
             "github-owner": "michu2k",
             "github-repo": "Accordion"

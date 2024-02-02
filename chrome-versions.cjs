@@ -41,6 +41,13 @@ module.exports = async function (context, commands) {
         console.error(error);
     }
 
+    alpine_versions = []
+    try {
+        alpine_versions = await commands.js.run('return "Alpine" in window && "version" in window.Alpine ? [window.Alpine.version] : []');
+    } catch (error) {
+        console.error(error);
+    }
+
     next_versions = []
     try {
         next_versions = await commands.js.run('return "next" in window && "version" in window.next ? [window.next.version] : []');
@@ -84,7 +91,8 @@ module.exports = async function (context, commands) {
         'jquery': jquery_versions,
         'modernizr': modernizr_versions,
         'core-js': core_js_versions,
-        'next.js': next_versions
+        'next.js': next_versions,
+        'alpinejs': alpine_versions
     }
 
 

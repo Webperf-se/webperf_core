@@ -310,53 +310,6 @@
                     "precision": 0.4
                 }
             ]
-        },
-        {
-            "use": true,
-            "match": "(?P<debug>plausible_ignore[ ]{0,1}==[=]{0,1}[ ]{0,1}[\"|']{0,1}true[\"|']{0,1})",
-            "results": [
-                {
-                    "name": "plausible-analytics",
-                    "category": "js",
-                    "precision": 0.6
-                }
-            ]
-        },
-        {
-            "use": true,
-            "match": "(?P<debug>window\\.localStorage\\.plausible_ignore[ ]{0,1}==[=]{0,1}[ ]{0,1}[\"|']{0,1}true[\"|']{0,1}\\)[ ]{0,1}[\\{]{0,1}[ \t\r\n]*return onIgnoredEvent\\('localStorage flag\\')",
-            "results": [
-                {
-                    "name": "plausible-analytics",
-                    "version": "2.0.0",
-                    "category": "js",
-                    "precision": 0.6
-                }
-            ]
-        },
-        {
-            "use": true,
-            "match": "(?P<debug>window\\.localStorage\\.plausible_ignore[ ]{0,1}==[=]{0,1}[ ]{0,1}[\"|']{0,1}true[\"|']{0,1}\\)[ ]{0,1}[\\{]{0,1}[ \t\r\n]*return warn\\('localStorage flag\\')",
-            "results": [
-                {
-                    "name": "plausible-analytics",
-                    "version": "1.5.0",
-                    "category": "js",
-                    "precision": 0.8
-                }
-            ]
-        },
-        {
-            "use": true,
-            "match": "(?P<debug>\\(plausible_ignore[ ]{0,1}==[ ]{0,1}[\"|']{0,1}true[\"|']{0,1}\\)[ ]{0,1}[\\{]{0,1}[ \t\r\n]*return warn\\('localStorage flag\\'\\))",
-            "results": [
-                {
-                    "name": "plausible-analytics",
-                    "version": "1.4.4",
-                    "category": "js",
-                    "precision": 0.8
-                }
-            ]
         }
     ],
     "headers": [
@@ -779,7 +732,7 @@
             "use": true,
             "type": "html",
             "description": "This matches verified CMS when tag start with name attribute",
-            "match": "(?P<debug><meta name=['|\\\"]{0,1}generator['|\\\"]{0,1} content=['|\\\"]{0,1}(?P<name>((?P<verfied>WordPress|Joomla|Wix|TYPO3|Contao|concrete5|concrete|EPiServer|Drupal|Sitecore|Orchard|Umbraco|Webflow|One\\.com Web Editor)[ ]{0,1}))( {0,1}(?P<version>[0-9.]*)){0,1}['|\\\"]{0,1}[^>]+>)",
+            "match": "(?P<debug><meta name=['|\"]{0,1}generator['|\"]{0,1} content=['|\"]{0,1}(?P<name>((?P<verfied>WordPress|Joomla|Wix|TYPO3|Contao|concrete5|concrete|EPiServer|Drupal|Sitecore|Orchard|Umbraco|Webflow|One\\.com Web Editor)[ ]{0,1}))( {0,1}(?P<version>[0-9.]*)){0,1}['|\"]{0,1}[^>]+[\\/]{0,1}>)",
             "results": [
                 {
                     "category": "cms",
@@ -791,7 +744,7 @@
             "use": true,
             "type": "html",
             "description": "This matches verified CMS when tag end with name attribute",
-            "match": "(?P<debug><meta content=['|\\\"]{0,1}(?P<name>((?P<verfied>WordPress|Joomla|Wix|TYPO3|Contao|concrete5|concrete|EPiServer|Drupal|Sitecore|Orchard|Umbraco|Webflow|One\\.com Web Editor)[ ]{0,1}))( {0,1}(?P<version>[0-9.]*)){0,1}['|\\\"]{0,1} name=['|\\\"]{0,1}generator['|\\\"]{0,1}[^>]+>)",
+            "match": "(?P<debug><meta content=['|\"]{0,1}(?P<name>((?P<verfied>WordPress|Joomla|Wix|TYPO3|Contao|concrete5|concrete|EPiServer|Drupal|Sitecore|Orchard|Umbraco|Webflow|One\\.com Web Editor)[ ]{0,1}))( {0,1}(?P<version>[0-9.]*)){0,1}['|\"]{0,1} name=['|\"]{0,1}generator['|\"]{0,1}[^>]+[\\/]{0,1}>)",
             "results": [
                 {
                     "category": "cms",
@@ -803,7 +756,7 @@
             "use": true,
             "type": "html",
             "description": "This matches verified CMS but when plugin uses CMS names when tag start with name attribute",
-            "match": "(?P<debug><meta name=['\\\"]{0,1}generator['\\\"]{0,1} content=['\\\"]{0,1}[^\"']+(?P<name>WordPress|Joomla|CustomPublish)[^\"']+['\\\"]{0,1}[^>]+>)",
+            "match": "(?P<debug><meta name=['\"]{0,1}generator['\"]{0,1} content=['\"]{0,1}[^\"']+(?P<name>WordPress|Joomla|CustomPublish)[^\"']+['\"]{0,1}[^>]+[\\/]{0,1}>)",
             "results": [
                 {
                     "category": "cms",
@@ -815,7 +768,7 @@
             "use": true,
             "type": "html",
             "description": "This matches verified CMS but when plugin uses CMS names when tag end with name attribute",
-            "match": "(?P<debug><meta content=['\\\"]{0,1}[^\"']+(?P<name>WordPress|Joomla|CustomPublish)[^\"']+['\\\"]{0,1} name=['\\\"]{0,1}generator['\\\"]{0,1}[^>]+>)",
+            "match": "(?P<debug><meta content=['\"]{0,1}[^\"']+(?P<name>WordPress|Joomla|CustomPublish)[^\"']+['\"]{0,1} name=['\"]{0,1}generator['\"]{0,1}[^>]+[\\/]{0,1}>)",
             "results": [
                 {
                     "category": "cms",
@@ -827,7 +780,7 @@
             "use": true,
             "type": "html",
             "description": "This matches WordPress CMS but from plugin names when tag start with name attribute",
-            "match": "(?P<debug><meta name=['\\\"]{0,1}generator['\\\"]{0,1} content=['\\\"]{0,1}(?P<plugin>(Give v|WooCommerce|WPML ver|Divi |WooFramework|All in One SEO))[^\"']+['\\\"]{0,1}[^>]+>)",
+            "match": "(?P<debug><meta name=['\"]{0,1}generator['\"]{0,1} content=['\"]{0,1}(?P<plugin>(Give v|WooCommerce|WPML ver|Divi |WooFramework|All in One SEO))[^\"']+['\"]{0,1}[^>]+[\\/]{0,1}>)",
             "results": [
                 {
                     "name": "wordpress",
@@ -845,7 +798,7 @@
             "use": true,
             "type": "html",
             "description": "This matches WordPress CMS but from plugin names when tag end with name attribute",
-            "match": "(?P<debug><meta content=['\\\"]{0,1}(?P<plugin>(Give v|WooCommerce|WPML ver|Divi |WooFramework|All in One SEO))[^\"']+['\\\"]{0,1} name=['\\\"]{0,1}generator['\\\"]{0,1}[^>]+>)",
+            "match": "(?P<debug><meta content=['\"]{0,1}(?P<plugin>(Give v|WooCommerce|WPML ver|Divi |WooFramework|All in One SEO))[^\"']+['\"]{0,1} name=['\"]{0,1}generator['\"]{0,1}[^>]+[\\/]{0,1}>)",
             "results": [
                 {
                     "name": "wordpress",
@@ -863,7 +816,7 @@
             "use": true,
             "type": "html",
             "description": "This matches acos CMS when tag begins with",
-            "match": "(?P<debug><meta name=['\\\"]{0,1}(?P<name>acos)-cmscontext['\\\"]{0,1})",
+            "match": "(?P<debug><meta name=['\"]{0,1}(?P<name>acos)-cmscontext['\"]{0,1})",
             "results": [
                 {
                     "category": "cms",
@@ -875,7 +828,7 @@
             "use": true,
             "type": "html",
             "description": "This matches tech names when tag start with name attribute",
-            "match": "(?P<debug><meta name=['\\\"]{0,1}generator['\\\"]{0,1} content=['\\\"]{0,1}(?P<name>Gatsby)[^\"']+['\\\"]{0,1}[^>]+>)",
+            "match": "(?P<debug><meta name=['\"]{0,1}generator['\"]{0,1} content=['\"]{0,1}(?P<name>Gatsby)[^\"']+['\"]{0,1}[^>]+>)",
             "results": [
                 {
                     "category": "tech",
@@ -887,7 +840,7 @@
             "use": true,
             "type": "html",
             "description": "This matches tech names when tag end with name attribute",
-            "match": "(?P<debug><meta content=['\\\"]{0,1}(?P<name>Gatsby)[^\"']+['\\\"]{0,1} name=['\\\"]{0,1}generator['\\\"]{0,1}[^>]+>)",
+            "match": "(?P<debug><meta content=['\"]{0,1}(?P<name>Gatsby)[^\"']+['\\\"]{0,1} name=['\"]{0,1}generator['\"]{0,1}[^>]+>)",
             "results": [
                 {
                     "category": "tech",
@@ -899,7 +852,7 @@
             "use": true,
             "type": "html",
             "description": "Dublin Core",
-            "match": "(?P<debug><meta name=['\\\"](?P<ignore>(DC.Subject|DC.Creator|DC.Date|DC.Date.Created|DC.Date.Modified|DC.Description|DC.Title|DC.Publisher|DC.Type|DC.Format|DC.Identifier|DC.Language))['\\\"])",
+            "match": "(?P<debug><meta name=['\"](?P<ignore>(DC.Subject|DC.Creator|DC.Date|DC.Date.Created|DC.Date.Modified|DC.Description|DC.Title|DC.Publisher|DC.Type|DC.Format|DC.Identifier|DC.Language))['\"])",
             "results": [
                 {
                     "name": "dublin-core",
@@ -1253,6 +1206,74 @@
                     "category": "cms",
                     "name": "episerver",
                     "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "Plausible Analytics",
+            "match": "(?P<debug>plausible_ignore([ ]{0,1}==[=]{0,1}[ ]{0,1}[\"|']{0,1}true[\"|']{0,1}){0,1})",
+            "results": [
+                {
+                    "name": "plausible-analytics",
+                    "category": "js",
+                    "precision": 0.6
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "Plausible Analytics",
+            "match": "(?P<debug>window\\.localStorage\\.plausible_ignore[ ]{0,1}==[=]{0,1}[ ]{0,1}[\"|']{0,1}true[\"|']{0,1}\\)[ ]{0,1}[\\{]{0,1}[ \t\r\n]*return onIgnoredEvent\\('localStorage flag\\')",
+            "results": [
+                {
+                    "name": "plausible-analytics",
+                    "version": "2.0.0",
+                    "category": "js",
+                    "precision": 0.6
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "Plausible Analytics",
+            "match": "(?P<debug>window\\.localStorage\\.plausible_ignore[ ]{0,1}==[=]{0,1}[ ]{0,1}[\"|']{0,1}true[\"|']{0,1}\\)[ ]{0,1}[\\{]{0,1}[ \t\r\n]*return warn\\('localStorage flag\\')",
+            "results": [
+                {
+                    "name": "plausible-analytics",
+                    "version": "1.5.0",
+                    "category": "js",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "Plausible Analytics",
+            "match": "(?P<debug>\\(plausible_ignore[ ]{0,1}==[ ]{0,1}[\"|']{0,1}true[\"|']{0,1}\\)[ ]{0,1}[\\{]{0,1}[ \t\r\n]*return warn\\('localStorage flag\\'\\))",
+            "results": [
+                {
+                    "name": "plausible-analytics",
+                    "version": "1.4.4",
+                    "category": "js",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "find unknown",
+            "match": "[\\'\"](?P<debug>(?P<version>[0-9]{1,4}\\.[0-9]{1,3}\\.[0-9]{1,3}(\\.[0-9]{1,3}){0,1}))[\\'\"]",
+            "results": [
+                {
+                    "name": "unknown",
+                    "category": "js",
+                    "precision": 0.0
                 }
             ]
         }

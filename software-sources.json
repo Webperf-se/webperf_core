@@ -887,6 +887,22 @@
         "zlib": {
             "github-owner": "madler",
             "github-repo": "zlib"
+        },
+        "material-ui": {
+            "github-owner": "mui",
+            "github-repo": "material-ui"
+        },
+        "systemjs": {
+            "github-owner": "systemjs",
+            "github-repo": "systemjs"
+        },
+        "elliptic": {
+            "github-owner": "indutny",
+            "github-repo": "elliptic"
+        },
+        "postscribe": {
+            "github-owner": "krux",
+            "github-repo": "postscribe"
         }
     },
     "updated": "2024-02-02 18:28:13"

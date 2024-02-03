@@ -1267,6 +1267,18 @@
         {
             "use": true,
             "type": "javascript",
+            "description": "axios",
+            "match": "(?P<debug>{\"name\":\"(?P<name>axios)\",\"version\":\"(?P<version>[0-9\\.]+)\")",
+            "results": [
+                {
+                    "category": "js",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
             "description": "find unknown",
             "match": "[\\'\"](?P<debug>(?P<version>[0-9]{1,4}\\.[0-9]{1,3}\\.[0-9]{1,3}(\\.[0-9]{1,3}){0,1}))[\\'\"]",
             "results": [

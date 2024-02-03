@@ -26,6 +26,11 @@ useragent = config.useragent
 review_show_improvements_only = config.review_show_improvements_only
 sitespeed_use_docker = config.sitespeed_use_docker
 try:
+    software_browser = config.software_browser
+except:
+    # If browser is not set in config.py this will be the default
+    software_browser = 'chrome'
+try:
     use_cache = config.cache_when_possible
     cache_time_delta = config.cache_time_delta
 except:
@@ -84,8 +89,18 @@ def get_rating_from_sitespeed(url, _local, _):
     #     sitespeed_iterations)
     # sitespeed_arg = '--shm-size=1g -b firefox --plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --chrome.cdp.performance false --browsertime.chrome.timeline false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --browsertime.chrome.includeResponseBodies all --utc true --browsertime.chrome.args ignore-certificate-errors -n {0}'.format(
     #     sitespeed_iterations)
-    sitespeed_arg = '--shm-size=1g -b firefox --firefox.includeResponseBodies all --firefox.preference privacy.trackingprotection.enabled:false --firefox.preference privacy.donottrackheader.enabled:false --firefox.preference browser.safebrowsing.malware.enabled:false --firefox.preference browser.safebrowsing.phishing.enabled:false --plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --chrome.cdp.performance false --browsertime.chrome.timeline false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --browsertime.chrome.includeResponseBodies all --utc true --browsertime.chrome.args ignore-certificate-errors -n {0}'.format(
+    sitespeed_arg = '--plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --utc true -n {0}'.format(
         sitespeed_iterations)
+
+    if 'firefox' in software_browser:
+        sitespeed_arg = '-b firefox --firefox.includeResponseBodies all --firefox.preference privacy.trackingprotection.enabled:false --firefox.preference privacy.donottrackheader.enabled:false --firefox.preference browser.safebrowsing.malware.enabled:false --firefox.preference browser.safebrowsing.phishing.enabled:false {0}'.format(
+            sitespeed_arg)
+    else:
+        sitespeed_arg = '-b chrome --chrome.cdp.performance false --browsertime.chrome.timeline false --browsertime.chrome.includeResponseBodies all --browsertime.chrome.args ignore-certificate-errors {0}'.format(
+            sitespeed_arg)
+
+    sitespeed_arg = '--shm-size=1g {0}'.format(
+        sitespeed_arg)
 
     if 'nt' not in os.name:
         sitespeed_arg += ' --xvfb'

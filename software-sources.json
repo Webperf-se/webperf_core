@@ -52,6 +52,11 @@
         "apache": {
             "custom": true
         },
+        "applicationinsights-js": {
+            "github-owner": "Microsoft",
+            "github-repo": "ApplicationInsights-JS",
+            "github-source": "releases"
+        },
         "autocomplete": {
             "github-owner": "algolia",
             "github-repo": "autocomplete"
@@ -793,11 +798,6 @@
             "github-owner": "Microsoft",
             "github-repo": "TypeScript-wiki"
         },
-        "applicationinsights-js": {
-            "github-owner": "Microsoft",
-            "github-repo": "ApplicationInsights-JS",
-            "github-source": "releases"
-        },
         "umd": {
             "github-owner": "ForbesLindesay",
             "github-repo": "umd"
@@ -910,5 +910,5 @@
             "github-repo": "zlib"
         }
     },
-    "updated": "2024-02-03 20:18:15"
+    "updated": "2024-02-03 21:21:32"
 }

@@ -793,6 +793,11 @@
             "github-owner": "Microsoft",
             "github-repo": "TypeScript-wiki"
         },
+        "applicationinsights-js": {
+            "github-owner": "Microsoft",
+            "github-repo": "ApplicationInsights-JS",
+            "github-source": "releases"
+        },
         "umd": {
             "github-owner": "ForbesLindesay",
             "github-repo": "umd"

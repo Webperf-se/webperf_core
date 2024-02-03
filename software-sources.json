@@ -228,6 +228,10 @@
             "github-owner": "ushelp",
             "github-repo": "EasyQRCodeJS-NodeJS"
         },
+        "elliptic": {
+            "github-owner": "indutny",
+            "github-repo": "elliptic"
+        },
         "enquire": {
             "github-owner": "WickyNilliams",
             "github-repo": "enquire.js"
@@ -504,6 +508,10 @@
             "github-owner": "benschwarz",
             "github-repo": "matchMedia"
         },
+        "material-ui": {
+            "github-owner": "mui",
+            "github-repo": "material-ui"
+        },
         "matomo": {
             "github-owner": "matomo-org",
             "github-repo": "matomo",
@@ -584,6 +592,10 @@
         "popper-core": {
             "github-owner": "floating-ui",
             "github-repo": "floating-ui"
+        },
+        "postscribe": {
+            "github-owner": "krux",
+            "github-repo": "postscribe"
         },
         "prebid": {
             "github-owner": "prebid",
@@ -732,6 +744,10 @@
         "svgxuse": {
             "github-owner": "Keyamoon",
             "github-repo": "svgxuse"
+        },
+        "systemjs": {
+            "github-owner": "systemjs",
+            "github-repo": "systemjs"
         },
         "tabbable": {
             "github-owner": "focus-trap",
@@ -887,23 +903,7 @@
         "zlib": {
             "github-owner": "madler",
             "github-repo": "zlib"
-        },
-        "material-ui": {
-            "github-owner": "mui",
-            "github-repo": "material-ui"
-        },
-        "systemjs": {
-            "github-owner": "systemjs",
-            "github-repo": "systemjs"
-        },
-        "elliptic": {
-            "github-owner": "indutny",
-            "github-repo": "elliptic"
-        },
-        "postscribe": {
-            "github-owner": "krux",
-            "github-repo": "postscribe"
         }
     },
-    "updated": "2024-02-02 18:28:13"
+    "updated": "2024-02-03 20:18:15"
 }

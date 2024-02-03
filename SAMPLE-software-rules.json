@@ -1279,6 +1279,19 @@
         {
             "use": true,
             "type": "javascript",
+            "description": "Application Insights SDK JS",
+            "match": "(?P<debug>Application Insights JavaScript SDK \\- Web, (?P<version>[0-9\\.]+))",
+            "results": [
+                {
+                    "name": "applicationinsights-js",
+                    "category": "js",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
             "description": "find unknown",
             "match": "[\\'\"](?P<debug>(?P<version>[0-9]{1,4}\\.[0-9]{1,3}\\.[0-9]{1,3}(\\.[0-9]{1,3}){0,1}))[\\'\"]",
             "results": [

@@ -62,4 +62,4 @@ software_use_detailed_report = False
 software_github_adadvisory_database_path = None
 
 # Tells firefox what browser to use (chrome/firefox), default = chrome
-# software_browser = "chrome"
+software_browser = "chrome"

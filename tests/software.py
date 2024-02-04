@@ -541,6 +541,10 @@ def get_softwares():
 
 
 def add_github_software_source(name, github_ower, github_repo):
+    # ignore this owner as there is no release and nothing to use
+    if github_ower == 'tc39':
+        return
+
     dir = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent
 

@@ -629,6 +629,12 @@ def set_github_repository_info(item, owner, repo):
         if 'noassertion' != license:
             item['license'] = license
 
+    # Lets get an indication if the project is worked on or not
+    item['pushed_at'] = None
+    if 'pushed_at' in github_info and github_info['pushed_at'] != None:
+        pushed_at = github_info['pushed_at']
+        item['pushed_at'] = pushed_at
+
     techs = list()
     imgs = list()
     # Get tech from github repo ("language") info: https://api.github.com/repos/matomo-org/matomo

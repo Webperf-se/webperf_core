@@ -25,6 +25,26 @@
         "sizzle-css-selector-engine": "sizzle"
     },
     "softwares": {
+        "fullpage": {
+            "github-owner": "alvarotrigo",
+            "github-repo": "fullPage.js"
+        },        
+        "vivus": {
+            "github-owner": "maxwellito",
+            "github-repo": "vivus"
+        },        
+        "inherits": {
+            "github-owner": "isaacs",
+            "github-repo": "inherits"
+        },        
+        "jquery-validation": {
+            "github-owner": "jquery-validation",
+            "github-repo": "jquery-validation"
+        },        
+        "twig": {
+            "github-owner": "schmittjoh",
+            "github-repo": "twig.js"
+        },        
         "accordion": {
             "github-owner": "michu2k",
             "github-repo": "Accordion"
@@ -80,6 +100,10 @@
         "backbone": {
             "github-owner": "jashkenas",
             "github-repo": "backbone"
+        },
+        "backbone.marionette": {
+            "github-owner": "marionettejs",
+            "github-repo": "backbone.marionette"
         },
         "base64": {
             "github-owner": "davidchambers",

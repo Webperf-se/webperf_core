@@ -257,6 +257,9 @@
             "github-owner": "WickyNilliams",
             "github-repo": "enquire.js"
         },
+        "epifind": {
+            "custom": true
+        },
         "eslint": {
             "github-owner": "eslint",
             "github-repo": "eslint"
@@ -941,9 +944,6 @@
         "windows-server": {
             "custom": true
         },
-        "epifind": {
-            "custom": true
-        },
         "wordpress": {
             "github-owner": "WordPress",
             "github-repo": "WordPress"
@@ -969,5 +969,5 @@
             "github-repo": "zlib"
         }
     },
-    "updated": "2024-02-04 19:04:04"
+    "updated": "2024-02-04 19:52:54"
 }

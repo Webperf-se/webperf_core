@@ -61,5 +61,5 @@ software_use_detailed_report = False
 # Used to find CVE:s for npm packages
 software_github_adadvisory_database_path = None
 
-# Tells firefox what browser to use (chrome/firefox), default = chrome
+# Tells software test what browser to use (chrome/firefox), default = chrome
 software_browser = "chrome"

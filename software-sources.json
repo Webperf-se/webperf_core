@@ -941,6 +941,9 @@
         "windows-server": {
             "custom": true
         },
+        "epifind": {
+            "custom": true
+        },
         "wordpress": {
             "github-owner": "WordPress",
             "github-repo": "WordPress"

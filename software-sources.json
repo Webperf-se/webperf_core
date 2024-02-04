@@ -25,38 +25,6 @@
         "sizzle-css-selector-engine": "sizzle"
     },
     "softwares": {
-        "cocktail": {
-            "github-owner": "onsi",
-            "github-repo": "cocktail"
-        },        
-        "pdf.js": {
-            "github-owner": "mozilla",
-            "github-repo": "pdf.js"
-        },
-        "clarity": {
-            "github-owner": "microsoft",
-            "github-repo": "clarity"
-        },
-        "dialog-polyfill": {
-            "github-owner": "GoogleChrome",
-            "github-repo": "dialog-polyfill"
-        },
-        "pako": {
-            "github-owner": "nodeca",
-            "github-repo": "pako"
-        },
-        "jszip": {
-            "github-owner": "stuk",
-            "github-repo": "jszip"
-        },        
-        "pdfobject": {
-            "github-owner": "pipwerks",
-            "github-repo": "PDFObject"
-        },        
-        "scrolltobyspeed": {
-            "github-owner": "ryanburnette",
-            "github-repo": "scrollToBySpeed"
-        },
         "accordion": {
             "github-owner": "michu2k",
             "github-repo": "Accordion"
@@ -173,6 +141,10 @@
             "github-owner": "Choices-js",
             "github-repo": "choices"
         },
+        "clarity": {
+            "github-owner": "microsoft",
+            "github-repo": "clarity"
+        },
         "classnames": {
             "github-owner": "jedwatson",
             "github-repo": "classnames"
@@ -184,6 +156,10 @@
         "clicky-menus": {
             "github-owner": "mrwweb",
             "github-repo": "clicky-menus"
+        },
+        "cocktail": {
+            "github-owner": "onsi",
+            "github-repo": "cocktail"
         },
         "color": {
             "github-owner": "kurkle",
@@ -232,6 +208,10 @@
         "date-fns": {
             "github-owner": "date-fns",
             "github-repo": "date-fns"
+        },
+        "dialog-polyfill": {
+            "github-owner": "GoogleChrome",
+            "github-repo": "dialog-polyfill"
         },
         "dialogs-manager": {
             "github-owner": "kobizz",
@@ -497,6 +477,10 @@
             "github-owner": "parallax",
             "github-repo": "jsPDF"
         },
+        "jszip": {
+            "github-owner": "stuk",
+            "github-repo": "jszip"
+        },
         "libphonenumber": {
             "github-owner": "google",
             "github-repo": "libphonenumber"
@@ -586,6 +570,10 @@
             "github-owner": "superRaytin",
             "github-repo": "paginationjs"
         },
+        "pako": {
+            "github-owner": "nodeca",
+            "github-repo": "pako"
+        },
         "panzoom": {
             "github-owner": "timmywil",
             "github-repo": "panzoom"
@@ -594,9 +582,17 @@
             "github-owner": "kesla",
             "github-repo": "parse-headers"
         },
+        "pdf.js": {
+            "github-owner": "mozilla",
+            "github-repo": "pdf.js"
+        },
         "pdfkit": {
             "github-owner": "foliojs",
             "github-repo": "pdfkit"
+        },
+        "pdfobject": {
+            "github-owner": "pipwerks",
+            "github-repo": "PDFObject"
         },
         "pep": {
             "github-owner": "jquery",
@@ -725,6 +721,10 @@
         "script": {
             "github-owner": "ded",
             "github-repo": "script.js"
+        },
+        "scrolltobyspeed": {
+            "github-owner": "ryanburnette",
+            "github-repo": "scrollToBySpeed"
         },
         "secure-filters": {
             "github-owner": "salesforce",
@@ -942,5 +942,5 @@
             "github-repo": "zlib"
         }
     },
-    "updated": "2024-02-03 21:21:32"
+    "updated": "2024-02-04 15:42:18"
 }

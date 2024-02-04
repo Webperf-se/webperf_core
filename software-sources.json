@@ -25,6 +25,38 @@
         "sizzle-css-selector-engine": "sizzle"
     },
     "softwares": {
+        "cocktail": {
+            "github-owner": "onsi",
+            "github-repo": "cocktail"
+        },        
+        "pdf.js": {
+            "github-owner": "mozilla",
+            "github-repo": "pdf.js"
+        },
+        "clarity": {
+            "github-owner": "microsoft",
+            "github-repo": "clarity"
+        },
+        "dialog-polyfill": {
+            "github-owner": "GoogleChrome",
+            "github-repo": "dialog-polyfill"
+        },
+        "pako": {
+            "github-owner": "nodeca",
+            "github-repo": "pako"
+        },
+        "jszip": {
+            "github-owner": "stuk",
+            "github-repo": "jszip"
+        },        
+        "pdfobject": {
+            "github-owner": "pipwerks",
+            "github-repo": "PDFObject"
+        },        
+        "scrolltobyspeed": {
+            "github-owner": "ryanburnette",
+            "github-repo": "scrollToBySpeed"
+        },
         "accordion": {
             "github-owner": "michu2k",
             "github-repo": "Accordion"

@@ -25,26 +25,6 @@
         "sizzle-css-selector-engine": "sizzle"
     },
     "softwares": {
-        "fullpage": {
-            "github-owner": "alvarotrigo",
-            "github-repo": "fullPage.js"
-        },        
-        "vivus": {
-            "github-owner": "maxwellito",
-            "github-repo": "vivus"
-        },        
-        "inherits": {
-            "github-owner": "isaacs",
-            "github-repo": "inherits"
-        },        
-        "jquery-validation": {
-            "github-owner": "jquery-validation",
-            "github-repo": "jquery-validation"
-        },        
-        "twig": {
-            "github-owner": "schmittjoh",
-            "github-repo": "twig.js"
-        },        
         "accordion": {
             "github-owner": "michu2k",
             "github-repo": "Accordion"
@@ -329,6 +309,10 @@
             "github-owner": "foundation",
             "github-repo": "foundation-sites"
         },
+        "fullpage": {
+            "github-owner": "alvarotrigo",
+            "github-repo": "fullPage.js"
+        },
         "gatsby": {
             "github-owner": "gatsbyjs",
             "github-repo": "gatsby"
@@ -392,6 +376,10 @@
         "imgliquid": {
             "github-owner": "karacas",
             "github-repo": "imgLiquid"
+        },
+        "inherits": {
+            "github-owner": "isaacs",
+            "github-repo": "inherits"
         },
         "is-extendable": {
             "github-owner": "jonschlinkert",
@@ -484,6 +472,10 @@
         "jquery-ui": {
             "github-owner": "jquery",
             "github-repo": "jquery-ui"
+        },
+        "jquery-validation": {
+            "github-owner": "jquery-validation",
+            "github-repo": "jquery-validation"
         },
         "jquery-waypoints": {
             "github-owner": "imakewebthings",
@@ -846,6 +838,10 @@
             "github-owner": "dchest",
             "github-repo": "tweetnacl-util-js"
         },
+        "twig": {
+            "github-owner": "schmittjoh",
+            "github-repo": "twig.js"
+        },
         "typed": {
             "github-owner": "mattboldt",
             "github-repo": "typed.js"
@@ -889,6 +885,10 @@
         "vite": {
             "github-owner": "vitejs",
             "github-repo": "vite"
+        },
+        "vivus": {
+            "github-owner": "maxwellito",
+            "github-repo": "vivus"
         },
         "vtt": {
             "github-owner": "mozilla",
@@ -966,5 +966,5 @@
             "github-repo": "zlib"
         }
     },
-    "updated": "2024-02-04 15:42:18"
+    "updated": "2024-02-04 19:04:04"
 }

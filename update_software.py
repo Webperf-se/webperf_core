@@ -774,7 +774,7 @@ def get_iis_versions():
 
     versions = sorted(versions, key=packaging.version.Version, reverse=True)
     for version in versions:
-        if packaging.version.Version(version) < packaging.version.Version('8.5'):
+        if packaging.version.Version(version) < packaging.version.Version('10'):
             versions_dict[version] = ['END_OF_LIFE']
         else:
             versions_dict[version] = []
@@ -786,7 +786,7 @@ def get_windows_versions():
 
     versions_dict = {
         "2016/2019/2022": [],
-        "2012 r2": [],
+        "2012 r2": ['END_OF_LIFE'],
         "2012": ['END_OF_LIFE'],
         "2008 r2": ['END_OF_LIFE'],
         "2008": ['END_OF_LIFE'],

@@ -111,7 +111,7 @@ def get_result_using_no_cache(sitespeed_use_docker, arg):
 
         import subprocess
         process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-        output, error = process.communicate()
+        output, error = process.communicate(timeout=request_timeout)
 
         if error != None:
             print('DEBUG get_result_using_no_cache(error)', error)
@@ -131,7 +131,7 @@ def get_result_using_no_cache(sitespeed_use_docker, arg):
         process = subprocess.Popen(
             bashCommand.split(), stdout=subprocess.PIPE)
 
-        output, error = process.communicate()
+        output, error = process.communicate(timeout=request_timeout)
         
         if error != None:
             print('DEBUG get_result_using_no_cache(error)', error)

@@ -1086,7 +1086,7 @@
             "type": "javascript",
             "description": "javascript framework or javascript libraries",
             "test": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>[a-z\\-]+))",
-            "match": "(?P<debug>(?P<licensefile>[a-zA-Z0-9\\.\\-]+)(?P<licensetxt>\\.LICENSE\\.txt) \\*\\/)",
+            "match": "(?P<debug>(?P<licensefile>[a-zA-Z0-9\\.\\-]{3,50})(?P<licensetxt>\\.LICENSE\\.txt) \\*\\/)",
             "results": [
                 {
                     "name": "?",

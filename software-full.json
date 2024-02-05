@@ -312,7 +312,7 @@
             "github-owner": "angular",
             "github-repo": "angular",
             "license": "mit",
-            "pushed_at": "2024-02-05T15:30:36Z",
+            "pushed_at": "2024-02-05T19:05:24Z",
             "tech": [
                 "js",
                 "pwa",
@@ -6454,7 +6454,7 @@
             "github-repo": "ApplicationInsights-JS",
             "github-source": "releases",
             "license": "mit",
-            "pushed_at": "2024-02-03T05:50:04Z",
+            "pushed_at": "2024-02-05T18:57:34Z",
             "tech": [
                 "js",
                 "typescript"
@@ -9284,13 +9284,14 @@
             "github-owner": "ushelp",
             "github-repo": "EasyQRCodeJS",
             "license": "mit",
-            "pushed_at": "2023-11-06T15:15:08Z",
+            "pushed_at": "2024-02-05T16:32:04Z",
             "tech": [
                 "js",
                 "qrcode"
             ],
             "archived": false,
             "versions": {
+                "4.6.1": [],
                 "4.6.0": [],
                 "4.5.1": [],
                 "4.5.0": [],
@@ -9341,13 +9342,14 @@
             "github-owner": "ushelp",
             "github-repo": "EasyQRCodeJS-NodeJS",
             "license": "mit",
-            "pushed_at": "2023-12-01T07:56:38Z",
+            "pushed_at": "2024-02-05T16:32:56Z",
             "tech": [
                 "js",
                 "qrcode"
             ],
             "archived": false,
             "versions": {
+                "4.5.2": [],
                 "4.5.1": [],
                 "4.5.0": [],
                 "4.4.6": [],
@@ -9887,7 +9889,7 @@
             "github-owner": "eslint",
             "github-repo": "eslint",
             "license": "mit",
-            "pushed_at": "2024-02-05T11:58:28Z",
+            "pushed_at": "2024-02-05T18:44:06Z",
             "tech": [
                 "js"
             ],
@@ -11084,7 +11086,7 @@
             "github-owner": "mozilla",
             "github-repo": "gecko-dev",
             "license": null,
-            "pushed_at": "2024-02-05T15:31:26Z",
+            "pushed_at": "2024-02-05T18:39:23Z",
             "archived": false
         },
         "geotiff": {
@@ -11170,7 +11172,7 @@
             "github-repo": "gutenberg",
             "github-source": "releases",
             "license": null,
-            "pushed_at": "2024-02-05T16:18:11Z",
+            "pushed_at": "2024-02-05T19:09:21Z",
             "tech": [
                 "js"
             ],
@@ -12058,7 +12060,7 @@
             "github-owner": "jquery",
             "github-repo": "jquery",
             "license": "mit",
-            "pushed_at": "2024-02-05T16:13:04Z",
+            "pushed_at": "2024-02-05T18:25:31Z",
             "tech": [
                 "js"
             ],
@@ -12707,7 +12709,7 @@
             "github-owner": "jquery",
             "github-repo": "jquery-migrate",
             "license": null,
-            "pushed_at": "2024-02-03T02:18:39Z",
+            "pushed_at": "2024-02-05T17:36:19Z",
             "tech": [
                 "js"
             ],
@@ -14429,7 +14431,7 @@
             "github-owner": "markedjs",
             "github-repo": "marked",
             "license": null,
-            "pushed_at": "2024-02-05T16:09:30Z",
+            "pushed_at": "2024-02-05T17:32:23Z",
             "tech": [
                 "js",
                 "markdown"
@@ -14669,7 +14671,7 @@
             "github-owner": "mui",
             "github-repo": "material-ui",
             "license": "mit",
-            "pushed_at": "2024-02-05T16:18:39Z",
+            "pushed_at": "2024-02-05T18:31:13Z",
             "tech": [
                 "js",
                 "typescript"
@@ -14783,7 +14785,7 @@
             "github-repo": "matomo",
             "github-security-label": "c: Security",
             "license": "gpl-3.0",
-            "pushed_at": "2024-02-05T15:59:52Z",
+            "pushed_at": "2024-02-05T17:21:47Z",
             "tech": [
                 "mysql",
                 "php"
@@ -15356,7 +15358,7 @@
             "github-owner": "mswjs",
             "github-repo": "msw",
             "license": "mit",
-            "pushed_at": "2024-02-05T10:48:21Z",
+            "pushed_at": "2024-02-05T18:51:26Z",
             "tech": [
                 "typescript"
             ],
@@ -15467,7 +15469,7 @@
             "github-owner": "vercel",
             "github-repo": "next.js",
             "license": "mit",
-            "pushed_at": "2024-02-05T16:21:36Z",
+            "pushed_at": "2024-02-05T19:09:12Z",
             "tech": [
                 "js"
             ],
@@ -18033,7 +18035,7 @@
             "github-repo": "analytics",
             "github-source": "releases",
             "license": "agpl-3.0",
-            "pushed_at": "2024-02-05T13:46:43Z",
+            "pushed_at": "2024-02-05T17:36:18Z",
             "archived": false,
             "versions": {
                 "2.0.0": [],
@@ -18317,7 +18319,7 @@
             "github-owner": "prebid",
             "github-repo": "Prebid.js",
             "license": "apache-2.0",
-            "pushed_at": "2024-02-05T15:36:12Z",
+            "pushed_at": "2024-02-05T17:58:36Z",
             "tech": [
                 "js"
             ],
@@ -18837,7 +18839,7 @@
             "github-owner": "facebook",
             "github-repo": "react",
             "license": "mit",
-            "pushed_at": "2024-02-05T16:21:01Z",
+            "pushed_at": "2024-02-05T18:59:37Z",
             "tech": [
                 "js"
             ],
@@ -20122,7 +20124,7 @@
             "github-owner": "getsentry",
             "github-repo": "sentry-javascript",
             "license": "mit",
-            "pushed_at": "2024-02-05T16:09:26Z",
+            "pushed_at": "2024-02-05T18:42:46Z",
             "tech": [
                 "js",
                 "typescript"
@@ -21367,7 +21369,7 @@
             "github-owner": "Microsoft",
             "github-repo": "TypeScript-wiki",
             "license": "cc-by-4.0",
-            "pushed_at": "2024-02-02T20:50:01Z",
+            "pushed_at": "2024-02-05T18:00:55Z",
             "tech": [
                 "js"
             ],
@@ -22183,7 +22185,7 @@
             "github-owner": "vitejs",
             "github-repo": "vite",
             "license": "mit",
-            "pushed_at": "2024-02-05T14:36:53Z",
+            "pushed_at": "2024-02-05T17:01:41Z",
             "tech": [
                 "typescript"
             ],
@@ -22581,7 +22583,7 @@
             "github-owner": "vuejs",
             "github-repo": "devtools",
             "license": "mit",
-            "pushed_at": "2024-02-05T10:44:34Z",
+            "pushed_at": "2024-02-05T16:58:55Z",
             "tech": [
                 "typescript"
             ],
@@ -23853,5 +23855,5 @@
             }
         }
     },
-    "updated": "2024-02-05 16:26:47"
+    "updated": "2024-02-05 19:17:24"
 }

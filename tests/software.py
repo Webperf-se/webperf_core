@@ -1102,6 +1102,10 @@ def lookup_response_content(item, response_mimetype, response_content, rules):
     if 'contents' not in rules:
         return
 
+    req_url = item['url'].lower()
+    o = urlparse(req_url)
+    hostname = o.hostname
+
     is_found = False
     for rule in rules['contents']:
         if 'use' not in rule:
@@ -1118,10 +1122,6 @@ def lookup_response_content(item, response_mimetype, response_content, rules):
         if rule['type'] not in response_mimetype:
             continue
 
-        req_url = item['url'].lower()
-
-        o = urlparse(req_url)
-        hostname = o.hostname
 
         regex = r"{0}".format(rule['match'])
         matches = re.finditer(regex, response_content, re.IGNORECASE)

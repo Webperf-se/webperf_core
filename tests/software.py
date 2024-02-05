@@ -540,7 +540,7 @@ def get_softwares():
     return softwares
 
 
-def add_github_software_source(name, github_ower, github_repo):
+def add_github_software_source(name, github_ower, github_repo, url):
     # ignore this owner as there is no release and nothing to use
     if github_ower == 'tc39':
         return
@@ -568,7 +568,8 @@ def add_github_software_source(name, github_ower, github_repo):
         collection['softwares'][name] = {
             'note': 'BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.',
             'github-owner': github_ower,
-            'github-repo': github_repo
+            'github-repo': github_repo,
+            'url': url
         }
 
     data = json.dumps(collection, indent=4)
@@ -670,7 +671,7 @@ def enrich_versions(item):
                 if not has_match:
                     # If not in aliases, add to software-sources.json
                     if 'github-owner' in match and 'github-repo' in match:
-                        add_github_software_source(match['name'], match['github-owner'], match['github-repo'])
+                        add_github_software_source(match['name'], match['github-owner'], match['github-repo'], item['url'])
                     else:
                         add_unknown_software_source(match['name'], match['version'], item['url'])
                     continue

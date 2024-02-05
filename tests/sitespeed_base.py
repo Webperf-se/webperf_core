@@ -26,10 +26,13 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg):
     filename = ''
     # Should we use cache when available?
     if use_cache:
+        # added for firefox support
+        url2 = '{0}/'.format(url)
+
         import engines.sitespeed_result as input
         sites = input.read_sites(hostname, -1, -1)
         for site in sites:
-            if url == site[1]:
+            if url == site[1] or url2 == site[1]:
                 filename = site[0]
                 result_folder_name = filename[:filename.rfind(os.path.sep)]
 

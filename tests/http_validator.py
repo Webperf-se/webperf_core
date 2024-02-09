@@ -41,6 +41,8 @@ def run_test(_, langCode, url):
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
 
+    # TODO: Check if we can use sitespeed instead (to make it more accurate), https://addons.mozilla.org/en-US/firefox/addon/http2-indicator/
+
     rating = Rating(_, review_show_improvements_only)
     result_dict = {}
 

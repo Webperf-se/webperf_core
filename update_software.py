@@ -632,10 +632,16 @@ def set_github_repository_info(item, owner, repo):
             item['license'] = license
 
     # Lets get an indication if the project is worked on or not
-    item['pushed_at'] = None
+    item['last_pushed_year'] = None
     if 'pushed_at' in github_info and github_info['pushed_at'] != None:
         pushed_at = github_info['pushed_at']
-        item['pushed_at'] = pushed_at
+
+        # we only use year today, but who knows...
+        regex = r"^(?P<date>(?P<year>[0-9]{4})\-(?P<month>[0-9]{2})\-(?P<day>[0-9]{2}))"
+        match = re.match(regex, pushed_at)
+        if match:
+            pushed_at = match.group('year')
+            item['last_pushed_year'] = pushed_at
 
     techs = list()
     imgs = list()

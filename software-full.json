@@ -2,8 +2,10 @@
     "loaded": true,
     "aliases": {
         "algoliasearch-client-js": "algoliasearch-client-javascript",
+        "chart": "chart.js",
         "cookie": "cookiejs",
         "datepicker-for-bootstrap": "bootstrap-datepicker",
+        "international-telephone-input": "intl-tel-input",
         "javascript cookie": "js-cookie",
         "javascript-cookie": "js-cookie",
         "javascript.cookie": "js-cookie",
@@ -14,6 +16,7 @@
         "jquery-ui-core": "jquery-ui",
         "jquery-ui-menu": "jquery-ui",
         "jquery-ui-position": "jquery-ui",
+        "jquery.inputmask": "inputmask",
         "jquery.migrate'": "jquery-migrate",
         "jsurl": "domurl",
         "klaro": "privacy-manager",
@@ -360,6 +363,68 @@
                 "10.2.5": []
             }
         },
+        "angular-filter": {
+            "github-owner": "a8m",
+            "github-repo": "angular-filter",
+            "license": "mit",
+            "last_pushed_year": "2017",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "0.5.17": [],
+                "0.5.16": [],
+                "0.5.15": [],
+                "0.5.14": [],
+                "0.5.12": [],
+                "0.5.11": [],
+                "0.5.10": [],
+                "0.5.9": [],
+                "0.5.8": [],
+                "0.5.7": [],
+                "0.5.6": [],
+                "0.5.5": [],
+                "0.5.4": [],
+                "0.5.3": [],
+                "0.5.2": [],
+                "0.5.1": [],
+                "0.5.0": [],
+                "0.4.9": [],
+                "0.4.8": [],
+                "0.4.7": [],
+                "0.4.6": [],
+                "0.4.5": [],
+                "0.4.4": [],
+                "0.4.3": [],
+                "0.4.2": [],
+                "0.4.1": [],
+                "0.3.9": [],
+                "0.3.8": [],
+                "0.3.7": [],
+                "0.3.6": [],
+                "0.3.5": [],
+                "0.3.4": [],
+                "0.3.3": [],
+                "0.3.1": [],
+                "0.3.0": [],
+                "0.2.5": [],
+                "0.2.3": [],
+                "0.2.2": [],
+                "0.2.1": [],
+                "0.2.0": [],
+                "0.1.1": [],
+                "0.1.0": [],
+                "0.0.30": [],
+                "0.0.24": [],
+                "0.0.23": [],
+                "0.0.22": [],
+                "0.0.21": [],
+                "0.0.3": [],
+                "0.0.2": [],
+                "0.0.1": []
+            }
+        },
         "angularjs": {
             "github-owner": "angular",
             "github-repo": "angular.js",
@@ -444,6 +509,12 @@
                 "1.3.1": [],
                 "1.3.0": []
             }
+        },
+        "animate.css": {
+            "github-owner": "daneden",
+            "github-repo": "animate.css",
+            "license": null,
+            "last_pushed_year": null
         },
         "apache": {
             "custom": true,
@@ -7955,6 +8026,44 @@
                 ]
             }
         },
+        "bootstrap-validator": {
+            "github-owner": "1000hz",
+            "github-repo": "bootstrap-validator",
+            "license": "mit",
+            "last_pushed_year": "2019",
+            "tech": [
+                "js"
+            ],
+            "archived": true,
+            "versions": {
+                "0.11.9": [],
+                "0.11.8": [],
+                "0.11.7": [],
+                "0.11.6": [],
+                "0.11.5": [],
+                "0.11.4": [],
+                "0.11.3": [],
+                "0.11.2": [],
+                "0.11.1": [],
+                "0.11.0": [],
+                "0.10.2": [],
+                "0.10.1": [],
+                "0.10.0": [],
+                "0.9.0": [],
+                "0.8.1": [],
+                "0.8.0": [],
+                "0.7.3": [],
+                "0.7.2": [],
+                "0.7.1": [],
+                "0.7.0": [],
+                "0.6.0": [],
+                "0.5.0": [],
+                "0.4.0": [],
+                "0.3.0": [],
+                "0.2.1": [],
+                "0.2.0": []
+            }
+        },
         "bowser": {
             "github-owner": "lancedikson",
             "github-repo": "bowser",
@@ -8109,7 +8218,7 @@
                 "0.1": []
             }
         },
-        "chart": {
+        "chart.js": {
             "github-owner": "chartjs",
             "github-repo": "Chart.js",
             "license": "mit",
@@ -8673,6 +8782,102 @@
                 "0.1.0": []
             }
         },
+        "cookies.js": {
+            "github-owner": "madmurphy",
+            "github-repo": "cookies.js",
+            "license": "gpl-3.0",
+            "last_pushed_year": "2020",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "1.3.0": [],
+                "1.2.0": []
+            }
+        },
+        "core": {
+            "github-owner": "vuejs",
+            "github-repo": "core",
+            "license": "mit",
+            "last_pushed_year": "2024",
+            "tech": [
+                "typescript"
+            ],
+            "archived": false,
+            "versions": {
+                "3.4.18": [],
+                "3.4.17": [],
+                "3.4.16": [],
+                "3.4.15": [],
+                "3.4.14": [],
+                "3.4.13": [],
+                "3.4.12": [],
+                "3.4.11": [],
+                "3.4.10": [],
+                "3.4.9": [],
+                "3.4.8": [],
+                "3.4.7": [],
+                "3.4.6": [],
+                "3.4.5": [],
+                "3.4.4": [],
+                "3.4.3": [],
+                "3.4.2": [],
+                "3.4.1": [],
+                "3.4.0": [],
+                "3.3.13": [],
+                "3.3.12": [],
+                "3.3.11": [],
+                "3.3.10": [],
+                "3.3.9": [],
+                "3.3.8": [],
+                "3.3.7": [],
+                "3.3.6": [],
+                "3.3.5": [],
+                "3.3.4": [],
+                "3.3.3": [],
+                "3.3.2": [],
+                "3.3.1": [],
+                "3.3.0": [],
+                "3.2.47": [],
+                "3.2.46": [],
+                "3.2.45": [],
+                "3.2.44": [],
+                "3.2.43": [],
+                "3.2.42": [],
+                "3.2.41": [],
+                "3.2.40": [],
+                "3.2.39": [],
+                "3.2.38": [],
+                "3.2.37": [],
+                "3.2.36": [],
+                "3.2.35": [],
+                "3.2.34": [],
+                "3.2.33": [],
+                "3.2.32": [],
+                "3.2.31": [],
+                "3.2.30": [],
+                "3.2.29": [],
+                "3.2.28": [],
+                "3.2.27": [],
+                "3.2.26": [],
+                "3.2.25": [],
+                "3.2.24": [],
+                "3.2.23": [],
+                "3.2.22": [],
+                "3.2.21": [],
+                "3.2.20": [],
+                "3.2.19": [],
+                "3.2.18": [],
+                "3.2.17": [],
+                "3.2.16": [],
+                "3.2.15": [],
+                "3.2.14": [],
+                "3.2.13": [],
+                "3.2.12": [],
+                "3.2.11": []
+            }
+        },
         "core-js": {
             "github-owner": "zloirock",
             "github-repo": "core-js",
@@ -9023,6 +9228,56 @@
                 "2.1.0": [],
                 "2.0.1": [],
                 "2.0.0": []
+            }
+        },
+        "decimal.js-light": {
+            "github-owner": "MikeMcl",
+            "github-repo": "decimal.js-light",
+            "license": "mit",
+            "last_pushed_year": "2021",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "2.5.1": [],
+                "2.5.0": [],
+                "2.4.1": [],
+                "2.4.0": [],
+                "2.3.1": [],
+                "2.3.0": [],
+                "2.2.5": [],
+                "2.2.4": [],
+                "2.2.3": [],
+                "2.2.2": [],
+                "2.2.1": [],
+                "2.2.0": [],
+                "2.0.2": [],
+                "1.0.4": [],
+                "1.0.3": [],
+                "1.0.2": []
+            }
+        },
+        "detect-passive-events": {
+            "github-owner": "rafgraph",
+            "github-repo": "detect-passive-events",
+            "license": "mit",
+            "last_pushed_year": "2021",
+            "tech": [
+                "typescript"
+            ],
+            "archived": false,
+            "versions": {
+                "2.0.3": [],
+                "2.0.2": [],
+                "2.0.1": [],
+                "2.0.0": [],
+                "1.0.5": [],
+                "1.0.4": [],
+                "1.0.3": [],
+                "1.0.2": [],
+                "1.0.1": [],
+                "1.0.0": []
             }
         },
         "dialog-polyfill": {
@@ -10006,6 +10261,16 @@
                 "1.0.0": []
             }
         },
+        "eventlisteneroptions": {
+            "github-owner": "WICG",
+            "github-repo": "EventListenerOptions",
+            "license": null,
+            "last_pushed_year": "2018",
+            "tech": [
+                "js"
+            ],
+            "archived": true
+        },
         "fancybox": {
             "github-owner": "fancyapps",
             "github-repo": "fancybox",
@@ -10051,6 +10316,36 @@
                 "2.0.6": [],
                 "2.0.5": [],
                 "2.0.4": []
+            }
+        },
+        "fastclick": {
+            "github-owner": "ftlabs",
+            "github-repo": "fastclick",
+            "license": "mit",
+            "last_pushed_year": "2021",
+            "archived": true,
+            "versions": {
+                "1.0.6": [],
+                "1.0.5": [],
+                "1.0.4": [],
+                "1.0.3": [],
+                "1.0.2": [],
+                "1.0.1": [],
+                "1.0.0": [],
+                "0.6.12": [],
+                "0.6.11": [],
+                "0.6.10": [],
+                "0.6.9": [],
+                "0.6.8": [],
+                "0.6.7": [],
+                "0.6.5": [],
+                "0.6.4": [],
+                "0.6.2": [],
+                "0.6.0": [],
+                "0.5.6": [],
+                "0.5.4": [],
+                "0.3.0": [],
+                "0.2.0": []
             }
         },
         "fetch": {
@@ -11140,6 +11435,35 @@
                 "1.0.0": []
             }
         },
+        "get-own-property-symbols": {
+            "github-owner": "es-shims",
+            "github-repo": "get-own-property-symbols",
+            "license": "mit",
+            "last_pushed_year": "2022",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "0.9.5": [],
+                "0.9.4": [],
+                "0.9.3": [],
+                "0.9.2": [],
+                "0.7.0": [],
+                "0.6.1": [],
+                "0.6.0": [],
+                "0.5.1": [],
+                "0.5.0": [],
+                "0.3.1": [],
+                "0.3.0": [],
+                "0.2.2": [],
+                "0.2.1": [],
+                "0.2.0": [],
+                "0.1.2": [],
+                "0.1.1": [],
+                "0.1.0": []
+            }
+        },
         "gl-matrix": {
             "github-owner": "toji",
             "github-repo": "gl-matrix",
@@ -11279,6 +11603,386 @@
                 "1.0.2": [],
                 "1.0.1": [],
                 "1.0.0": []
+            }
+        },
+        "highcharts": {
+            "github-owner": "highcharts",
+            "github-repo": "highcharts",
+            "license": null,
+            "last_pushed_year": "2024",
+            "tech": [
+                "typescript"
+            ],
+            "archived": false,
+            "versions": {
+                "11.3.0": [],
+                "11.2.0": [],
+                "11.1.0": [],
+                "11.0.1": [],
+                "11.0.0": [],
+                "10.3.3": [],
+                "10.3.2": [],
+                "10.3.1": [],
+                "10.3.0": [],
+                "10.2.1": [],
+                "10.2.0": [],
+                "10.1.0": [],
+                "10.0.0": [],
+                "9.3.3": [],
+                "9.3.2": [],
+                "9.3.1": [],
+                "9.3.0": [],
+                "9.2.2": [],
+                "9.2.1": [],
+                "9.2.0": [],
+                "9.1.2": [],
+                "9.1.1": [],
+                "9.1.0": [],
+                "9.0.1": [],
+                "9.0.0": [],
+                "8.2.2": [
+                    "CVE-2021-29489"
+                ],
+                "8.2.0": [
+                    "CVE-2021-29489"
+                ],
+                "8.1.2": [
+                    "CVE-2021-29489"
+                ],
+                "8.1.1": [
+                    "CVE-2021-29489"
+                ],
+                "8.1.0": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489"
+                ],
+                "8.0.4": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489"
+                ],
+                "8.0.3": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489"
+                ],
+                "8.0.2": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489"
+                ],
+                "8.0.1": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489"
+                ],
+                "8.0.0": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489"
+                ],
+                "7.2.2": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489"
+                ],
+                "7.2.1": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489"
+                ],
+                "7.2.0": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489"
+                ],
+                "7.1.3": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489"
+                ],
+                "7.1.2.999": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489"
+                ],
+                "7.1.2": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489"
+                ],
+                "7.1.1": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489"
+                ],
+                "7.1.0": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489"
+                ],
+                "7.0.3": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489"
+                ],
+                "7.0.2": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489"
+                ],
+                "7.0.1": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489"
+                ],
+                "7.0.0": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489"
+                ],
+                "6.2.0": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489"
+                ],
+                "6.1.4": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489"
+                ],
+                "6.1.3": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489"
+                ],
+                "6.1.2": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489"
+                ],
+                "6.1.1": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489"
+                ],
+                "6.1.0": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489"
+                ],
+                "6.0.7": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "6.0.6": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "6.0.5": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "6.0.4": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "6.0.3": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "6.0.2": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "6.0.1": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "6.0.0": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "5.0.14": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "5.0.13": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "5.0.12": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "5.0.11": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "5.0.10": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "5.0.9": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "5.0.8": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "5.0.7": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "5.0.6": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "5.0.5": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "5.0.4": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "5.0.3": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "5.0.2": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "5.0.1": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "5.0.0": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "4.2.7": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "4.2.6": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "4.2.5": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "4.2.4": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "4.2.3": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "4.2.2": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "4.2.1": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "4.2.0": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "4.1.10": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "4.1.9": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "4.1.8": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "4.1.7": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "4.1.6": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "4.1.5": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "4.1.4": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "4.1.3": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "4.1.2": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "4.1.1": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "4.1.0": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "4.0.4": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "4.0.3": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "4.0.1": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "4.0.0": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ],
+                "3.0.10": [
+                    "highcharts vulnerability",
+                    "CVE-2021-29489",
+                    "CVE-2018-20801"
+                ]
             }
         },
         "history": {
@@ -11693,6 +12397,139 @@
                 "2.0.1": [],
                 "2.0.0": [],
                 "1.0.1": []
+            }
+        },
+        "inputmask": {
+            "github-owner": "RobinHerbots",
+            "github-repo": "Inputmask",
+            "license": "mit",
+            "last_pushed_year": "2024",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "5.0.8": [],
+                "5.0.7": [],
+                "5.0.6": [],
+                "5.0.5": [],
+                "5.0.4": [],
+                "5.0.3": [],
+                "5.0.2": [],
+                "5.0.1": [],
+                "5.0.0": []
+            }
+        },
+        "intl-tel-input": {
+            "github-owner": "jackocnr",
+            "github-repo": "intl-tel-input",
+            "license": "mit",
+            "last_pushed_year": "2024",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "19.2.16": [],
+                "19.2.15": [],
+                "19.2.14": [],
+                "19.2.13": [],
+                "19.2.12": [],
+                "19.2.11": [],
+                "19.2.10": [],
+                "19.2.9": [],
+                "19.2.8": [],
+                "19.2.7": [],
+                "19.2.6": [],
+                "19.2.5": [],
+                "19.2.4": [],
+                "19.2.3": [],
+                "19.2.2": [],
+                "19.2.1": [],
+                "19.2.0": [],
+                "19.1.1": [],
+                "19.1.0": [],
+                "19.0.2": [],
+                "19.0.1": [],
+                "19.0.0": [],
+                "18.5.3": [],
+                "18.5.2": [],
+                "18.5.1": [],
+                "18.5.0": [],
+                "18.4.0": [],
+                "18.3.5": [],
+                "18.3.4": [],
+                "18.3.3": [],
+                "18.3.2": [],
+                "18.3.1": [],
+                "18.3.0": [],
+                "18.2.1": [],
+                "18.2.0": [],
+                "18.1.8": [],
+                "18.1.7": [],
+                "18.1.6": [],
+                "18.1.5": [],
+                "18.1.4": [],
+                "18.1.3": [],
+                "18.1.2": [],
+                "18.1.1": [],
+                "18.1.0": [],
+                "18.0.3": [],
+                "18.0.2": [],
+                "18.0.1": [],
+                "18.0.0": [],
+                "17.0.21": [],
+                "17.0.20": [],
+                "17.0.19": [],
+                "17.0.18": [],
+                "17.0.17": [],
+                "17.0.16": [],
+                "17.0.15": [],
+                "17.0.14": [],
+                "17.0.13": [],
+                "17.0.12": [],
+                "17.0.11": [],
+                "17.0.10": [],
+                "17.0.9": [],
+                "17.0.8": [],
+                "17.0.7": [],
+                "17.0.6": [],
+                "17.0.5": [],
+                "17.0.4": [],
+                "17.0.3": [],
+                "17.0.2": [],
+                "17.0.1": [],
+                "17.0.0": [],
+                "16.1.0": [],
+                "16.0.15": [],
+                "16.0.14": [],
+                "16.0.13": [],
+                "16.0.12": [],
+                "16.0.11": [],
+                "16.0.10": [],
+                "16.0.9": [],
+                "16.0.8": [],
+                "16.0.7": [],
+                "16.0.6": [],
+                "16.0.5": [],
+                "16.0.4": [],
+                "16.0.3": [],
+                "16.0.2": [],
+                "16.0.1": [],
+                "16.0.0": [],
+                "15.1.2": [],
+                "15.1.1": [],
+                "15.1.0": [],
+                "15.0.2": [],
+                "15.0.1": [],
+                "15.0.0": [],
+                "14.1.0": [],
+                "14.0.10": [],
+                "14.0.9": [],
+                "14.0.8": [],
+                "14.0.7": [],
+                "14.0.6": [],
+                "14.0.5": []
             }
         },
         "is-extendable": {
@@ -12640,6 +13477,36 @@
                 "1.0": []
             }
         },
+        "jquery-deserialize": {
+            "github-owner": "kflorence",
+            "github-repo": "jquery-deserialize",
+            "license": "gpl-2.0",
+            "last_pushed_year": "2021",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "2.0.0": [],
+                "1.3.7": [],
+                "1.3.6": [],
+                "1.3.5": [],
+                "1.3.4": [],
+                "1.3.3": [],
+                "1.3.2": [],
+                "1.3.1": [],
+                "1.3.0": [],
+                "1.2.1": [],
+                "1.2.0": [],
+                "1.1.5": [],
+                "1.1.4": [],
+                "1.1.3": [],
+                "1.1.2": [],
+                "1.1.1": [],
+                "1.1": [],
+                "1.0": []
+            }
+        },
         "jquery-focuspoint": {
             "github-owner": "jonom",
             "github-repo": "jquery-focuspoint",
@@ -12737,6 +13604,12 @@
                 "1.1.0": [],
                 "1.0.0": []
             }
+        },
+        "jquery-mousewheel": {
+            "github-owner": "brandonaaron",
+            "github-repo": "jquery-mousewheel",
+            "license": null,
+            "last_pushed_year": null
         },
         "jquery-rwdimagemaps": {
             "github-owner": "stowball",
@@ -13337,6 +14210,112 @@
                 "2.0.5": []
             }
         },
+        "jquery.fullscreen": {
+            "github-owner": "private-face",
+            "github-repo": "jquery.fullscreen",
+            "license": "mit",
+            "last_pushed_year": "2016",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "0.6.0": [],
+                "0.5.0": [],
+                "0.4.2": [],
+                "0.4.1": [],
+                "0.4.0": [],
+                "0.3.5": [],
+                "0.3.4": [],
+                "0.3.3": [],
+                "0.3.2": [],
+                "0.3.1": [],
+                "0.3.0": [],
+                "0.2.1": [],
+                "0.2.0": [],
+                "0.1.0": []
+            }
+        },
+        "jquery.sumoselect": {
+            "github-owner": "hemantnegi",
+            "github-repo": "jquery.sumoselect",
+            "license": null,
+            "last_pushed_year": "2023",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "3.4.9": [],
+                "3.4.8": [],
+                "3.4.7": [],
+                "3.4.6": [],
+                "3.4.5": [],
+                "3.4.4": [],
+                "3.4.3": [],
+                "3.4.2": [],
+                "3.4.1": [],
+                "3.4.0": [],
+                "3.3.30": [],
+                "3.3.29": [],
+                "3.3.28": [],
+                "3.3.27": [],
+                "3.3.26": [],
+                "3.3.25": [],
+                "3.3.24": [],
+                "3.3.23": [],
+                "3.3.22": [],
+                "3.3.21": [],
+                "3.3.20": [],
+                "3.3.19": [],
+                "3.3.18": [],
+                "3.3.17": [],
+                "3.3.16": [],
+                "3.3.15": [],
+                "3.3.14": [],
+                "3.3.13": [],
+                "3.3.12": [],
+                "3.3.11": [],
+                "3.3.10": [],
+                "3.3.9": [],
+                "3.3.8": [],
+                "3.3.7": [],
+                "3.3.6": [],
+                "3.3.5": [],
+                "3.3.4": [],
+                "3.3.3": [],
+                "3.3.2": [],
+                "3.3.1": [],
+                "3.3.0": [],
+                "3.2.6": [],
+                "3.2.5": [],
+                "3.2.4": [],
+                "3.2.3": [],
+                "3.2.2": [],
+                "3.2.1": [],
+                "3.2.0": [],
+                "3.1.6": [],
+                "3.1.5": [],
+                "3.1.4": [],
+                "3.1.3": [],
+                "3.1.2": [],
+                "3.1.1": [],
+                "3.1.0": [],
+                "3.0.6": [],
+                "3.0.5": [],
+                "3.0.4": [],
+                "3.0.2": [],
+                "3.0.1": [],
+                "3.0.0": [],
+                "2.0.2": [],
+                "2.0.1": [],
+                "2.0.0": [],
+                "1.2.0": [],
+                "1.1.1": [],
+                "1.1.0": [],
+                "0.1.0": []
+            }
+        },
         "js-cookie": {
             "github-owner": "js-cookie",
             "github-repo": "js-cookie",
@@ -13687,6 +14666,32 @@
                     "CVE-2022-48285",
                     "CVE-2021-23413"
                 ]
+            }
+        },
+        "jump.js": {
+            "github-owner": "callmecavs",
+            "github-repo": "jump.js",
+            "license": "mit",
+            "last_pushed_year": "2021",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "1.0.2": [],
+                "1.0.1": [],
+                "1.0.0": [],
+                "0.4.0": [],
+                "0.3.2": [],
+                "0.3.1": [],
+                "0.3.0": [],
+                "0.2.1": [],
+                "0.2.0": [],
+                "0.1.3": [],
+                "0.1.2": [],
+                "0.1.1": [],
+                "0.1.0": [],
+                "0.0.1": []
             }
         },
         "libphonenumber": {
@@ -14103,6 +15108,26 @@
                 "1.1.3": []
             }
         },
+        "lightslider": {
+            "github-owner": "sachinchoolur",
+            "github-repo": "lightslider",
+            "license": "mit",
+            "last_pushed_year": "2022",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "1.1.6": [],
+                "1.1.5": [],
+                "1.1.4": [],
+                "1.1.3": [],
+                "1.1.2": [],
+                "1.1.1": [],
+                "1.1.0": [],
+                "1.0.0": []
+            }
+        },
         "lodash": {
             "github-owner": "lodash",
             "github-repo": "lodash",
@@ -14368,6 +15393,13 @@
                 "0.8.2": [],
                 "0.8.1": []
             }
+        },
+        "map-set.prototype.tojson": {
+            "github-owner": "DavidBruant",
+            "github-repo": "Map-Set.prototype.toJSON",
+            "license": null,
+            "last_pushed_year": "2016",
+            "archived": true
         },
         "mapbox-gl-js": {
             "github-owner": "mapbox",
@@ -15469,6 +16501,31 @@
                 "0.28.0": []
             }
         },
+        "nanopop": {
+            "github-owner": "Simonwep",
+            "github-repo": "nanopop",
+            "license": "mit",
+            "last_pushed_year": "2024",
+            "tech": [
+                "typescript"
+            ],
+            "archived": false,
+            "versions": {
+                "2.4.2": [],
+                "2.4.1": [],
+                "2.4.0": [],
+                "2.3.0": [],
+                "2.1.0": [],
+                "2.0.0": [],
+                "1.3.0": [],
+                "1.2.0": [],
+                "1.1.3": [],
+                "1.1.2": [],
+                "1.1.1": [],
+                "1.1.0": [],
+                "1.0.0": []
+            }
+        },
         "next.js": {
             "github-owner": "vercel",
             "github-repo": "next.js",
@@ -16306,6 +17363,62 @@
                 "2.3.2": []
             }
         },
+        "object.assign": {
+            "github-owner": "ljharb",
+            "github-repo": "object.assign",
+            "license": "mit",
+            "last_pushed_year": "2023",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "4.1.5": [],
+                "4.1.4": [],
+                "4.1.3": [],
+                "4.1.2": [],
+                "4.1.1": [],
+                "4.1.0": [],
+                "4.0.4": [],
+                "4.0.3": [],
+                "4.0.2": [],
+                "4.0.1": [],
+                "4.0.0": [],
+                "3.0.1": [],
+                "3.0.0": [],
+                "2.0.3": [],
+                "2.0.2": [],
+                "2.0.1": [],
+                "2.0.0": [],
+                "1.1.1": [],
+                "1.1.0": [],
+                "1.0.3": [],
+                "1.0.2": [],
+                "1.0.1": [],
+                "1.0.0": [],
+                "0.5.0": [],
+                "0.4.3": [],
+                "0.4.2": [],
+                "0.4.1": [],
+                "0.4.0": [],
+                "0.3.1": [],
+                "0.3.0": [],
+                "0.2.1": [],
+                "0.2.0": [],
+                "0.1.1": [],
+                "0.1.0": []
+            }
+        },
+        "omggif": {
+            "github-owner": "deanm",
+            "github-repo": "omggif",
+            "license": null,
+            "last_pushed_year": "2019",
+            "tech": [
+                "js"
+            ],
+            "archived": false
+        },
         "owlcarousel2": {
             "github-owner": "sitevision",
             "github-repo": "OwlCarousel2",
@@ -16503,6 +17616,304 @@
                 "0.2.0": [],
                 "0.1.1": [],
                 "0.1.0": []
+            }
+        },
+        "papaparse": {
+            "github-owner": "mholt",
+            "github-repo": "PapaParse",
+            "license": "mit",
+            "last_pushed_year": "2023",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "5.4.1": [],
+                "5.4.0": [],
+                "5.3.2": [],
+                "5.3.1": [],
+                "5.3.0": [],
+                "5.2.0": [],
+                "5.1.1": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "5.1.0": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "5.0.2": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "5.0.1": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "5.0.0": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "4.6.3": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "4.6.2": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "4.6.1": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "4.6.0": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "4.5.1": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "4.5.0": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "4.4.0": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "4.3.7": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "4.3.6": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "4.3.5": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "4.3.4": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "4.3.3": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "4.3.2": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "4.3.1": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "4.3.0": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "4.2.0": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "4.1.4": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "4.1.3": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "4.1.2": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "4.1.1": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "4.1.0": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "4.0.7": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "4.0.6": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "4.0.5": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "4.0.4": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "4.0.3": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "4.0.2": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "4.0.1": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "4.0.0": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "3.1.4": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "3.1.3": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "3.1.2": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "3.1.1": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "3.1.0": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "3.0.1": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "3.0.0": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "2.1.4": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "2.1.3": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "2.1.2": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "2.1.1": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "2.1.0": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "2.0.8": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "2.0.7": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "2.0.6": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "2.0.5": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "2.0.4": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "2.0.3": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "2.0.2": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "2.0.1": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "2.0.0": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "1.1.1": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "1.1.0": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "1.0.1": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "1.0.0": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "0.6.1": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "0.6.0": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "0.5.9": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "0.5.8": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "0.5.7": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "0.5.6": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "0.5.5": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "0.5.4": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "0.5.3": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "0.5.2": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ],
+                "0.5.0": [
+                    "papaparse vulnerability",
+                    "CVE-2020-36649"
+                ]
             }
         },
         "parse-headers": {
@@ -17981,6 +19392,98 @@
                 ]
             }
         },
+        "pickr": {
+            "github-owner": "Simonwep",
+            "github-repo": "pickr",
+            "license": "mit",
+            "last_pushed_year": "2024",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "1.8.2": [],
+                "1.8.1": [],
+                "1.8.0": [],
+                "1.7.4": [],
+                "1.7.3": [],
+                "1.7.2": [],
+                "1.7.1": [],
+                "1.7.0": [],
+                "1.6.0": [],
+                "1.5.1": [],
+                "1.5.0": [],
+                "1.4.8": [],
+                "1.4.7": [],
+                "1.4.6": [],
+                "1.4.5": [],
+                "1.4.4": [],
+                "1.4.3": [],
+                "1.4.2": [],
+                "1.4.1": [],
+                "1.4.0": [],
+                "1.3.0": [],
+                "1.2.7": [],
+                "1.2.6": [],
+                "1.2.5": [],
+                "1.2.4": [],
+                "1.2.3": [],
+                "1.2.2": [],
+                "1.2.1": [],
+                "1.2.0": [],
+                "1.1.2": [],
+                "1.1.1": [],
+                "1.1.0": [],
+                "1.0.1": [],
+                "1.0.0": [],
+                "0.6.6": [],
+                "0.6.5": [],
+                "0.6.4": [],
+                "0.6.3": [],
+                "0.6.2": [],
+                "0.6.1": [],
+                "0.6.0": [],
+                "0.5.1": [],
+                "0.5.0": [],
+                "0.4.11": [],
+                "0.4.10": [],
+                "0.4.9": [],
+                "0.4.8": [],
+                "0.4.7": [],
+                "0.4.6": [],
+                "0.4.5": [],
+                "0.4.4": [],
+                "0.4.3": [],
+                "0.4.2": [],
+                "0.4.1": [],
+                "0.4.0": [],
+                "0.3.6": [],
+                "0.3.5": [],
+                "0.3.4": [],
+                "0.3.3": [],
+                "0.3.2": [],
+                "0.3.1": [],
+                "0.3.0": [],
+                "0.2.5": [],
+                "0.2.4": [],
+                "0.2.3": [],
+                "0.2.2": [],
+                "0.2.1": [],
+                "0.2.0": [],
+                "0.1.9": [],
+                "0.1.8": [],
+                "0.1.7": [],
+                "0.1.6": [],
+                "0.1.5": [],
+                "0.1.4": [],
+                "0.1.3": [],
+                "0.1.2": [],
+                "0.1.1": [],
+                "0.1.0": [],
+                "0.0.3": [],
+                "0.0.2": []
+            }
+        },
         "picturefill": {
             "github-owner": "scottjehl",
             "github-repo": "picturefill",
@@ -18313,11 +19816,11 @@
             "github-owner": "krux",
             "github-repo": "postscribe",
             "license": "mit",
-            "last_pushed_year": "2022",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
-            "archived": false
+            "archived": true
         },
         "prebid": {
             "github-owner": "prebid",
@@ -18589,6 +20092,18 @@
                 "1.0.1": []
             }
         },
+        "promises-spec": {
+            "github-owner": "promises-aplus",
+            "github-repo": "promises-spec",
+            "license": "cc0-1.0",
+            "last_pushed_year": "2023",
+            "archived": false,
+            "versions": {
+                "1.1.1": [],
+                "1.1.0": [],
+                "1.0.0": []
+            }
+        },
         "pubsubjs": {
             "github-owner": "mroderick",
             "github-repo": "PubSubJS",
@@ -18640,6 +20155,49 @@
                 "1.0.1": [],
                 "1.0": [],
                 "0.9": []
+            }
+        },
+        "punycode.js": {
+            "github-owner": "mathiasbynens",
+            "github-repo": "punycode.js",
+            "license": "mit",
+            "last_pushed_year": "2023",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "2.3.1": [],
+                "2.3.0": [],
+                "2.2.3": [],
+                "2.2.2": [],
+                "2.2.1": [],
+                "2.2.0": [],
+                "2.1.1": [],
+                "2.1.0": [],
+                "2.0.1": [],
+                "2.0.0": [],
+                "1.4.1": [],
+                "1.4.0": [],
+                "1.3.2": [],
+                "1.3.1": [],
+                "1.3.0": [],
+                "1.2.4": [],
+                "1.2.3": [],
+                "1.2.2": [],
+                "1.2.1": [],
+                "1.2.0": [],
+                "1.1.1": [],
+                "1.1.0": [],
+                "1.0.0": [],
+                "0.3.0": [],
+                "0.2.2": [],
+                "0.2.1": [],
+                "0.2.0": [],
+                "0.1.2": [],
+                "0.1.1": [],
+                "0.1.0": [],
+                "0.0.1337": []
             }
         },
         "pusher-js": {
@@ -19194,6 +20752,63 @@
                 "0.2.1": []
             }
         },
+        "react-infinite-scroll-component": {
+            "github-owner": "ankeetmaini",
+            "github-repo": "react-infinite-scroll-component",
+            "license": "mit",
+            "last_pushed_year": "2023",
+            "tech": [
+                "typescript"
+            ],
+            "archived": false,
+            "versions": {
+                "6.1.0": [],
+                "6.0.1": [],
+                "6.0.0": [],
+                "5.1.0": [],
+                "5.0.6": [],
+                "5.0.5": [],
+                "5.0.4": [],
+                "5.0.3": [],
+                "5.0.2": [],
+                "5.0.1": [],
+                "5.0.0": [],
+                "4.5.3": [],
+                "4.5.2": [],
+                "4.5.1": [],
+                "4.5.0": [],
+                "4.4.0": [],
+                "4.3.0": [],
+                "4.2.0": [],
+                "4.1.0": [],
+                "4.0.3": [],
+                "4.0.2": [],
+                "4.0.1": [],
+                "4.0.0": [],
+                "3.0.2": [],
+                "3.0.1": [],
+                "3.0.0": [],
+                "2.6.0": [],
+                "2.5.0": [],
+                "2.4.0": [],
+                "2.3.0": [],
+                "2.2.2": [],
+                "2.2.1": [],
+                "2.2.0": [],
+                "2.1.3": [],
+                "2.1.2": [],
+                "2.1.1": [],
+                "2.1.0": [],
+                "2.0.1": [],
+                "2.0.0": [],
+                "1.4.1": [],
+                "1.4.0": [],
+                "1.3.0": [],
+                "1.2.0": [],
+                "1.1.0": [],
+                "1.0.1": []
+            }
+        },
         "react-markdown": {
             "github-owner": "remarkjs",
             "github-repo": "react-markdown",
@@ -19375,6 +20990,59 @@
                 "1.2.0": [],
                 "1.1.0": [],
                 "1.0.1": [],
+                "1.0.0": []
+            }
+        },
+        "react-transition-group": {
+            "github-owner": "reactjs",
+            "github-repo": "react-transition-group",
+            "license": null,
+            "last_pushed_year": "2023",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "4.4.5": [],
+                "4.4.4": [],
+                "4.4.3": [],
+                "4.4.2": [],
+                "4.4.1": [],
+                "4.4.0": [],
+                "4.3.0": [],
+                "4.2.2": [],
+                "4.2.1": [],
+                "4.2.0": [],
+                "4.1.1": [],
+                "4.1.0": [],
+                "4.0.1": [],
+                "4.0.0": [],
+                "3.0.0": [],
+                "2.9.0": [],
+                "2.8.0": [],
+                "2.7.1": [],
+                "2.7.0": [],
+                "2.6.1": [],
+                "2.6.0": [],
+                "2.5.3": [],
+                "2.5.2": [],
+                "2.5.1": [],
+                "2.5.0": [],
+                "2.4.0": [],
+                "2.3.1": [],
+                "2.3.0": [],
+                "2.2.1": [],
+                "2.2.0": [],
+                "2.1.0": [],
+                "2.0.2": [],
+                "2.0.1": [],
+                "2.0.0": [],
+                "1.2.1": [],
+                "1.2.0": [],
+                "1.1.3": [],
+                "1.1.2": [],
+                "1.1.1": [],
+                "1.1.0": [],
                 "1.0.0": []
             }
         },
@@ -19569,6 +21237,73 @@
                 "0.8.0": [],
                 "0.2.1": [],
                 "0.2.0": []
+            }
+        },
+        "respond": {
+            "github-owner": "scottjehl",
+            "github-repo": "Respond",
+            "license": "mit",
+            "last_pushed_year": "2018",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "1.4.2": [],
+                "1.4.1": [],
+                "1.4.0": [],
+                "1.3.0": [],
+                "1.2.0": [],
+                "1.1.0": [],
+                "1.0.1": [],
+                "1.0.0": []
+            }
+        },
+        "response.js": {
+            "github-owner": "ryanve",
+            "github-repo": "response.js",
+            "license": null,
+            "last_pushed_year": "2021",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "0.10.1": [],
+                "0.10.0": [],
+                "0.9.1": [],
+                "0.9.0": [],
+                "0.8.0": [],
+                "0.7.13": [],
+                "0.7.12": [],
+                "0.7.11": [],
+                "0.7.10": [],
+                "0.7.9": [],
+                "0.7.8": [],
+                "0.7.7": [],
+                "0.7.6": [],
+                "0.7.5": [],
+                "0.7.4": [],
+                "0.7.3": [],
+                "0.7.2": [],
+                "0.7.1": [],
+                "0.7.0": [],
+                "0.6.1": [],
+                "0.6.0": [],
+                "0.5.3": [],
+                "0.5.2": [],
+                "0.5.1": [],
+                "0.5.0": [],
+                "0.4.2": [],
+                "0.4.1": [],
+                "0.4.0": [],
+                "0.3.1": [],
+                "0.3.0": [],
+                "0.2.9": [],
+                "0.2.8": [],
+                "0.2.7": [],
+                "0.2.6": [],
+                "0.2.5": []
             }
         },
         "responsive": {
@@ -19990,6 +21725,72 @@
                 "2.5.1": [],
                 "2.5.0": [],
                 "2.4.1": []
+            }
+        },
+        "script.js": {
+            "github-owner": "ded",
+            "github-repo": "script.js",
+            "license": "mit",
+            "last_pushed_year": "2020",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "2.5.8": [],
+                "2.5.7": [],
+                "2.5.6": [],
+                "2.5.5": [],
+                "2.5.3": [],
+                "2.5.2": [],
+                "2.5.1": [],
+                "2.5.0": [],
+                "2.4.1": []
+            }
+        },
+        "scrolldir": {
+            "github-owner": "yowainwright",
+            "github-repo": "scrolldir",
+            "license": "mit",
+            "last_pushed_year": "2023",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "1.5.3": [],
+                "1.5.2": [],
+                "1.5.1": [],
+                "1.5.0": [],
+                "1.4.0": [],
+                "1.3.0": [],
+                "1.2.25": [],
+                "1.2.23": [],
+                "1.2.18": [],
+                "1.2.17": [],
+                "1.2.16": [],
+                "1.2.15": [],
+                "1.2.13": [],
+                "1.2.9": [],
+                "1.2.7": [],
+                "1.2.6": [],
+                "1.2.5": [],
+                "1.2.3": [],
+                "1.2.2": [],
+                "1.2.1": [],
+                "1.2.0": [],
+                "1.1.8": [],
+                "1.1.7": [],
+                "1.1.6": [],
+                "1.1.5": [],
+                "1.1.4": [],
+                "1.1.3": [],
+                "1.1.2": [],
+                "1.1.1": [],
+                "0.0.4": [],
+                "0.0.3": [],
+                "0.0.2": [],
+                "0.0.1": []
             }
         },
         "scrolltobyspeed": {
@@ -20696,6 +22497,92 @@
                 "1.0.0": []
             }
         },
+        "storyblok-js": {
+            "github-owner": "storyblok",
+            "github-repo": "storyblok-js",
+            "license": null,
+            "last_pushed_year": "2024",
+            "tech": [
+                "js",
+                "typescript"
+            ],
+            "archived": false,
+            "versions": {
+                "3.0.6": [],
+                "3.0.5": [],
+                "3.0.4": [],
+                "3.0.3": [],
+                "3.0.2": [],
+                "3.0.1": [],
+                "3.0.0": [],
+                "2.3.0": [],
+                "2.2.12": [],
+                "2.2.11": [],
+                "2.2.10": [],
+                "2.2.9": [],
+                "2.2.8": [],
+                "2.2.7": [],
+                "2.2.6": [],
+                "2.2.5": [],
+                "2.2.4": [],
+                "2.2.3": [],
+                "2.2.2": [],
+                "2.2.1": [],
+                "2.2.0": [],
+                "2.1.6": [],
+                "2.1.5": [],
+                "2.1.4": [],
+                "2.1.3": [],
+                "2.1.2": [],
+                "2.1.1": [],
+                "2.1.0": [],
+                "2.0.16": [],
+                "2.0.15": [],
+                "2.0.14": [],
+                "2.0.13": [],
+                "2.0.12": [],
+                "2.0.11": [],
+                "2.0.10": [],
+                "2.0.9": [],
+                "2.0.8": [],
+                "2.0.7": [],
+                "2.0.6": [],
+                "2.0.5": [],
+                "2.0.4": [],
+                "2.0.3": [],
+                "2.0.2": [],
+                "2.0.1": [],
+                "2.0.0": [],
+                "1.8.6": [],
+                "1.8.5": [],
+                "1.8.4": [],
+                "1.8.3": [],
+                "1.8.2": [],
+                "1.8.1": [],
+                "1.8.0": [],
+                "1.7.2": [],
+                "1.7.1": [],
+                "1.7.0": [],
+                "1.6.6": [],
+                "1.6.5": [],
+                "1.6.4": [],
+                "1.6.3": [],
+                "1.6.2": [],
+                "1.6.1": [],
+                "1.6.0": [],
+                "1.5.0": [],
+                "1.4.0": [],
+                "1.3.0": [],
+                "1.2.1": [],
+                "1.2.0": [],
+                "1.1.0": [],
+                "1.0.4": [],
+                "1.0.3": [],
+                "1.0.2": [],
+                "1.0.1": [],
+                "1.0.0": []
+            }
+        },
         "style-loader": {
             "github-owner": "webpack-contrib",
             "github-repo": "style-loader",
@@ -20870,6 +22757,118 @@
                 "1.0.2": [],
                 "1.0.1": [],
                 "1.0.0": []
+            }
+        },
+        "sweetalert2": {
+            "github-owner": "sweetalert2",
+            "github-repo": "sweetalert2",
+            "license": "mit",
+            "last_pushed_year": "2024",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "11.10.5": [],
+                "11.10.4": [],
+                "11.10.3": [],
+                "11.10.2": [],
+                "11.10.1": [],
+                "11.10.0": [],
+                "11.9.1": [],
+                "11.9.0": [],
+                "11.8.0": [],
+                "11.7.32": [],
+                "11.7.31": [],
+                "11.7.30": [],
+                "11.7.29": [],
+                "11.7.28": [],
+                "11.7.27": [],
+                "11.7.26": [],
+                "11.7.25": [],
+                "11.7.24": [],
+                "11.7.23": [],
+                "11.7.22": [],
+                "11.7.21": [],
+                "11.7.20": [],
+                "11.7.19": [],
+                "11.7.18": [],
+                "11.7.17": [],
+                "11.7.16": [],
+                "11.7.15": [],
+                "11.7.14": [],
+                "11.7.13": [],
+                "11.7.12": [],
+                "11.7.11": [],
+                "11.7.10": [],
+                "11.7.9": [],
+                "11.7.8": [],
+                "11.7.7": [],
+                "11.7.6": [],
+                "11.7.5": [],
+                "11.7.4": [],
+                "11.7.3": [],
+                "11.7.2": [],
+                "11.7.1": [],
+                "11.7.0": [],
+                "11.6.16": [],
+                "11.6.15": [],
+                "11.6.14": [],
+                "11.6.13": [],
+                "11.6.12": [],
+                "11.6.11": [],
+                "11.6.10": [],
+                "11.6.9": [],
+                "11.6.8": [],
+                "11.6.7": [],
+                "11.6.6": [],
+                "11.6.5": [],
+                "11.6.4": [],
+                "11.6.3": [],
+                "11.6.2": [],
+                "11.6.1": [],
+                "11.6.0": [],
+                "11.5.2": [],
+                "11.5.1": [],
+                "11.5.0": [],
+                "11.4.38": [],
+                "11.4.37": [],
+                "11.4.36": [],
+                "11.4.35": [],
+                "11.4.34": [],
+                "11.4.33": [],
+                "11.4.32": [],
+                "11.4.31": [],
+                "11.4.30": [],
+                "11.4.29": [],
+                "11.4.28": [],
+                "11.4.27": [],
+                "11.4.26": [],
+                "11.4.25": [],
+                "11.4.24": [],
+                "11.4.23": [],
+                "11.4.22": [],
+                "11.4.21": [],
+                "11.4.20": [],
+                "11.4.19": [],
+                "11.4.18": [],
+                "11.4.17": [],
+                "11.4.16": [],
+                "11.4.15": [],
+                "11.4.14": [],
+                "11.4.13": [],
+                "11.4.12": [],
+                "11.4.11": [],
+                "11.4.10": [],
+                "11.4.9": [],
+                "11.4.8": [],
+                "11.4.7": [],
+                "11.4.6": [],
+                "11.4.5": [],
+                "11.4.4": [],
+                "11.4.3": [],
+                "11.4.2": [],
+                "11.4.1": []
             }
         },
         "systemjs": {
@@ -21327,7 +23326,86 @@
                 "1.0.0": []
             }
         },
+        "typeahead.js": {
+            "github-owner": "corejavascript",
+            "github-repo": "typeahead.js",
+            "license": "mit",
+            "last_pushed_year": "2024",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "1.3.4": [],
+                "1.3.3": [],
+                "1.3.2": [],
+                "1.3.1": [],
+                "1.3.0": [],
+                "1.2.1": [],
+                "1.2.0": [],
+                "1.1.1": [],
+                "1.1.0": [],
+                "1.0.1": [],
+                "0.11.1": [],
+                "0.11.0": [],
+                "0.10.5": [],
+                "0.10.4": [],
+                "0.10.3": [],
+                "0.10.2": [],
+                "0.10.1": [],
+                "0.10.0": [],
+                "0.9.3": [],
+                "0.9.2": [],
+                "0.9.1": [],
+                "0.9.0": [],
+                "0.8.2": [],
+                "0.8.1": [],
+                "0.8.0": []
+            }
+        },
         "typed": {
+            "github-owner": "mattboldt",
+            "github-repo": "typed.js",
+            "license": "mit",
+            "last_pushed_year": "2024",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "2.1.0": [],
+                "2.0.132": [],
+                "2.0.17": [],
+                "2.0.16": [],
+                "2.0.15": [],
+                "2.0.14": [],
+                "2.0.13.1": [],
+                "2.0.13": [],
+                "2.0.12": [],
+                "2.0.11": [],
+                "2.0.10": [],
+                "2.0.9": [],
+                "2.0.8": [],
+                "2.0.7": [],
+                "2.0.6": [],
+                "2.0.5": [],
+                "2.0.4": [],
+                "2.0.3": [],
+                "2.0.2": [],
+                "2.0.1": [],
+                "2.0.0": [],
+                "1.1.7": [],
+                "1.1.6": [],
+                "1.1.5": [],
+                "1.1.4": [],
+                "1.1.3": [],
+                "1.1.2": [],
+                "1.1.1": [],
+                "1.1": [],
+                "1.0": []
+            }
+        },
+        "typed.js": {
             "github-owner": "mattboldt",
             "github-repo": "typed.js",
             "license": "mit",
@@ -21790,6 +23868,91 @@
                 "1.0.0": []
             }
         },
+        "uri.js": {
+            "github-owner": "medialize",
+            "github-repo": "URI.js",
+            "license": "mit",
+            "last_pushed_year": "2023",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "1.19.11": [],
+                "1.19.10": [],
+                "1.19.9": [],
+                "1.19.8": [],
+                "1.19.7": [],
+                "1.19.6": [],
+                "1.19.5": [],
+                "1.19.4": [],
+                "1.19.3": [],
+                "1.19.2": [],
+                "1.19.1": [],
+                "1.19.0": [],
+                "1.18.12": [],
+                "1.18.11": [],
+                "1.18.10": [],
+                "1.18.9": [],
+                "1.18.8": [],
+                "1.18.7": [],
+                "1.18.6": [],
+                "1.18.5": [],
+                "1.18.4": [],
+                "1.18.3": [],
+                "1.18.2": [],
+                "1.18.1": [],
+                "1.18.0": [],
+                "1.17.1": [],
+                "1.17.0": [],
+                "1.16.1": [],
+                "1.16.0": [],
+                "1.15.2": [],
+                "1.15.1": [],
+                "1.15.0": [],
+                "1.14.2": [],
+                "1.14.1": [],
+                "1.14.0": [],
+                "1.13.2": [],
+                "1.13.1": [],
+                "1.13.0": [],
+                "1.12.1": [],
+                "1.12.0": [],
+                "1.11.2": [],
+                "1.11.1": [],
+                "1.11.0": [],
+                "1.10.2": [],
+                "1.10.1": [],
+                "1.10.0": [],
+                "1.9.1": [],
+                "1.9.0": [],
+                "1.8.3": [],
+                "1.8.2": [],
+                "1.8.1": [],
+                "1.8.0": [],
+                "1.7.4": [],
+                "1.7.3": [],
+                "1.7.2": [],
+                "1.7.1": [],
+                "1.7.0": [],
+                "1.6.3": [],
+                "1.6.2": [],
+                "1.6.1": [],
+                "1.6.0": [],
+                "1.5.1": [],
+                "1.5.0": [],
+                "1.4.3": [],
+                "1.4.2": [],
+                "1.4.1": [],
+                "1.4.0": [],
+                "1.3.2": [],
+                "1.3.1": [],
+                "1.3.0": [],
+                "1.2.0": [],
+                "1.1.0": [],
+                "1.0.0": []
+            }
+        },
         "uuid": {
             "github-owner": "uuidjs",
             "github-repo": "uuid",
@@ -22071,6 +24234,53 @@
                 "7.7.2": [
                     "CVE-2021-23414"
                 ]
+            }
+        },
+        "video-js-swf": {
+            "github-owner": "videojs",
+            "github-repo": "video-js-swf",
+            "license": null,
+            "last_pushed_year": "2020",
+            "tech": [
+                "js",
+                "video"
+            ],
+            "archived": true,
+            "versions": {
+                "5.4.2": [],
+                "5.4.1": [],
+                "5.4.0": [],
+                "5.3.0": [],
+                "5.2.0": [],
+                "5.1.0": [],
+                "5.0.3": [],
+                "5.0.2": [],
+                "5.0.1": [],
+                "5.0.0": [],
+                "4.7.5": [],
+                "4.7.4": [],
+                "4.7.3": [],
+                "4.7.2": [],
+                "4.7.1": [],
+                "4.7.0": [],
+                "4.6.1": [],
+                "4.6.0": [],
+                "4.5.4": [],
+                "4.5.3": [],
+                "4.5.2": [],
+                "4.5.1": [],
+                "4.5.0": [],
+                "4.4.5": [],
+                "4.4.4": [],
+                "4.4.3": [],
+                "4.4.2": [],
+                "4.4.1": [],
+                "4.4.0": [],
+                "4.3.5": [],
+                "4.3.4": [],
+                "4.3.3": [],
+                "4.3.2": [],
+                "4.3.1": []
             }
         },
         "videojs-contrib-ads": {
@@ -23715,6 +25925,33 @@
                 ]
             }
         },
+        "x-editable": {
+            "github-owner": "vitalets",
+            "github-repo": "x-editable",
+            "license": "mit",
+            "last_pushed_year": "2022",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "1.5.1": [],
+                "1.5.0": [],
+                "1.4.6": [],
+                "1.4.5": [],
+                "1.4.4": [],
+                "1.4.3": [],
+                "1.4.2": [],
+                "1.4.1": [],
+                "1.4.0": [],
+                "1.3.0": [],
+                "1.2.0": [],
+                "1.1.1": [],
+                "1.1.0": [],
+                "1.0.1": [],
+                "1.0.0": []
+            }
+        },
         "xstate": {
             "github-owner": "statelyai",
             "github-repo": "xstate",
@@ -23844,7 +26081,46 @@
                 "0.9": [],
                 "0.8": []
             }
+        },
+        "zxcvbn": {
+            "github-owner": "dropbox",
+            "github-repo": "zxcvbn",
+            "license": "mit",
+            "last_pushed_year": "2024",
+            "archived": false,
+            "versions": {
+                "4.4.2": [],
+                "4.4.1": [],
+                "4.4.0": [],
+                "4.3.0": [],
+                "4.2.0": [],
+                "4.1.1": [],
+                "4.1.0": [],
+                "4.0.1": [],
+                "3.5.0": [],
+                "3.4.0": [],
+                "3.3.1": [],
+                "3.3.0": [],
+                "3.2.2": [],
+                "3.2.1": [],
+                "3.2.0": [],
+                "3.1.0": [],
+                "3.0.2": [],
+                "3.0.1": [],
+                "3.0.0": [],
+                "2.0.2": [],
+                "2.0.1": [],
+                "1.1.0": [],
+                "1.0.7": [],
+                "1.0.6": [],
+                "1.0.5": [],
+                "1.0.4": [],
+                "1.0.3": [],
+                "1.0.2": [],
+                "1.0.1": [],
+                "1.0": []
+            }
         }
     },
-    "updated": "2024-02-09 14:13:28"
+    "updated": "2024-02-09 21:45:34"
 }

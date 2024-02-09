@@ -562,7 +562,7 @@ def add_github_software_source(name, github_ower, github_repo, url):
 
     if name not in collection['softwares']:
         collection['softwares'][name] = {
-            'note': 'BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.',
+            'note': 'BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/{0}/{1}/tags'.format(github_ower, github_repo),
             'github-owner': github_ower,
             'github-repo': github_repo,
             'url': url

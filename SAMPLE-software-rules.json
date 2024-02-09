@@ -36,6 +36,7 @@
                 {
                     "name": "episerver",
                     "category": "cms",
+                    "version": "",
                     "domain": "referrer",
                     "precision": 0.4
                 },

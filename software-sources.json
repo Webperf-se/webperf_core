@@ -2,8 +2,10 @@
     "loaded": true,
     "aliases": {
         "algoliasearch-client-js": "algoliasearch-client-javascript",
+        "chart": "chart.js",
         "cookie": "cookiejs",
         "datepicker-for-bootstrap": "bootstrap-datepicker",
+        "international-telephone-input": "intl-tel-input",
         "javascript cookie": "js-cookie",
         "javascript-cookie": "js-cookie",
         "javascript.cookie": "js-cookie",
@@ -14,6 +16,7 @@
         "jquery-ui-core": "jquery-ui",
         "jquery-ui-menu": "jquery-ui",
         "jquery-ui-position": "jquery-ui",
+        "jquery.inputmask": "inputmask",
         "jquery.migrate'": "jquery-migrate",
         "jsurl": "domurl",
         "klaro": "privacy-manager",
@@ -22,10 +25,7 @@
         "next": "next.js",
         "piwik": "matomo",
         "query-ui-widget": "jquery-ui",
-        "sizzle-css-selector-engine": "sizzle",
-        "international-telephone-input": "intl-tel-input",
-        "jquery.inputmask": "inputmask",
-        "chart":  "chart.js"
+        "sizzle-css-selector-engine": "sizzle"
     },
     "softwares": {
         "accordion": {
@@ -48,9 +48,17 @@
             "github-owner": "angular",
             "github-repo": "angular"
         },
+        "angular-filter": {
+            "github-owner": "a8m",
+            "github-repo": "angular-filter"
+        },
         "angularjs": {
             "github-owner": "angular",
             "github-repo": "angular.js"
+        },
+        "animate.css": {
+            "github-owner": "daneden",
+            "github-repo": "animate.css"
         },
         "apache": {
             "custom": true
@@ -120,6 +128,10 @@
             "github-owner": "snapappointments",
             "github-repo": "bootstrap-select"
         },
+        "bootstrap-validator": {
+            "github-owner": "1000hz",
+            "github-repo": "bootstrap-validator"
+        },
         "bowser": {
             "github-owner": "lancedikson",
             "github-repo": "bowser"
@@ -131,6 +143,10 @@
         "canvasblocker": {
             "github-owner": "kkapsner",
             "github-repo": "CanvasBlocker"
+        },
+        "chart.js": {
+            "github-owner": "chartjs",
+            "github-repo": "Chart.js"
         },
         "chartjs-plugin-datalabels": {
             "github-owner": "chartjs",
@@ -184,6 +200,14 @@
             "github-owner": "ScottHamper",
             "github-repo": "Cookies"
         },
+        "cookies.js": {
+            "github-owner": "madmurphy",
+            "github-repo": "cookies.js"
+        },
+        "core": {
+            "github-owner": "vuejs",
+            "github-repo": "core"
+        },
         "core-js": {
             "github-owner": "zloirock",
             "github-repo": "core-js"
@@ -211,6 +235,14 @@
         "date-fns": {
             "github-owner": "date-fns",
             "github-repo": "date-fns"
+        },
+        "decimal.js-light": {
+            "github-owner": "MikeMcl",
+            "github-repo": "decimal.js-light"
+        },
+        "detect-passive-events": {
+            "github-owner": "rafgraph",
+            "github-repo": "detect-passive-events"
         },
         "dialog-polyfill": {
             "github-owner": "GoogleChrome",
@@ -267,9 +299,17 @@
             "github-owner": "mrdoob",
             "github-repo": "eventdispatcher.js"
         },
+        "eventlisteneroptions": {
+            "github-owner": "WICG",
+            "github-repo": "EventListenerOptions"
+        },
         "fancybox": {
             "github-owner": "fancyapps",
             "github-repo": "fancybox"
+        },
+        "fastclick": {
+            "github-owner": "ftlabs",
+            "github-repo": "fastclick"
         },
         "fetch": {
             "github-owner": "github",
@@ -331,6 +371,10 @@
             "github-owner": "jhildenbiddle",
             "github-repo": "get-css-data"
         },
+        "get-own-property-symbols": {
+            "github-owner": "es-shims",
+            "github-repo": "get-own-property-symbols"
+        },
         "gl-matrix": {
             "github-owner": "toji",
             "github-repo": "gl-matrix"
@@ -343,6 +387,10 @@
         "hammer": {
             "github-owner": "hammerjs",
             "github-repo": "hammer.js"
+        },
+        "highcharts": {
+            "github-owner": "highcharts",
+            "github-repo": "highcharts"
         },
         "history": {
             "github-owner": "browserstate",
@@ -382,6 +430,14 @@
         "inherits": {
             "github-owner": "isaacs",
             "github-repo": "inherits"
+        },
+        "inputmask": {
+            "github-owner": "RobinHerbots",
+            "github-repo": "Inputmask"
+        },
+        "intl-tel-input": {
+            "github-owner": "jackocnr",
+            "github-repo": "intl-tel-input"
         },
         "is-extendable": {
             "github-owner": "jonschlinkert",
@@ -439,6 +495,10 @@
             "github-owner": "carhartl",
             "github-repo": "jquery-cookie"
         },
+        "jquery-deserialize": {
+            "github-owner": "kflorence",
+            "github-repo": "jquery-deserialize"
+        },
         "jquery-focuspoint": {
             "github-owner": "jonom",
             "github-repo": "jquery-focuspoint"
@@ -458,6 +518,10 @@
         "jquery-migrate": {
             "github-owner": "jquery",
             "github-repo": "jquery-migrate"
+        },
+        "jquery-mousewheel": {
+            "github-owner": "brandonaaron",
+            "github-repo": "jquery-mousewheel"
         },
         "jquery-rwdimagemaps": {
             "github-owner": "stowball",
@@ -483,6 +547,14 @@
             "github-owner": "imakewebthings",
             "github-repo": "jquery-waypoints"
         },
+        "jquery.fullscreen": {
+            "github-owner": "private-face",
+            "github-repo": "jquery.fullscreen"
+        },
+        "jquery.sumoselect": {
+            "github-owner": "hemantnegi",
+            "github-repo": "jquery.sumoselect"
+        },
         "js-cookie": {
             "github-owner": "js-cookie",
             "github-repo": "js-cookie"
@@ -498,6 +570,10 @@
         "jszip": {
             "github-owner": "stuk",
             "github-repo": "jszip"
+        },
+        "jump.js": {
+            "github-owner": "callmecavs",
+            "github-repo": "jump.js"
         },
         "libphonenumber": {
             "github-owner": "google",
@@ -523,6 +599,10 @@
             "github-owner": "sachinchoolur",
             "github-repo": "lightGallery"
         },
+        "lightslider": {
+            "github-owner": "sachinchoolur",
+            "github-repo": "lightslider"
+        },
         "lodash": {
             "github-owner": "lodash",
             "github-repo": "lodash"
@@ -534,6 +614,10 @@
         "magnific-popup": {
             "github-owner": "dimsemenov",
             "github-repo": "Magnific-Popup"
+        },
+        "map-set.prototype.tojson": {
+            "github-owner": "DavidBruant",
+            "github-repo": "Map-Set.prototype.toJSON"
         },
         "mapbox-gl-js": {
             "github-owner": "mapbox",
@@ -568,6 +652,10 @@
             "github-owner": "mswjs",
             "github-repo": "msw"
         },
+        "nanopop": {
+            "github-owner": "Simonwep",
+            "github-repo": "nanopop"
+        },
         "next.js": {
             "github-owner": "vercel",
             "github-repo": "next.js"
@@ -579,6 +667,14 @@
         "object-fit-images": {
             "github-owner": "fregante",
             "github-repo": "object-fit-images"
+        },
+        "object.assign": {
+            "github-owner": "ljharb",
+            "github-repo": "object.assign"
+        },
+        "omggif": {
+            "github-owner": "deanm",
+            "github-repo": "omggif"
         },
         "owlcarousel2": {
             "github-owner": "sitevision",
@@ -595,6 +691,10 @@
         "panzoom": {
             "github-owner": "timmywil",
             "github-repo": "panzoom"
+        },
+        "papaparse": {
+            "github-owner": "mholt",
+            "github-repo": "PapaParse"
         },
         "parse-headers": {
             "github-owner": "kesla",
@@ -618,6 +718,10 @@
         },
         "php": {
             "custom": true
+        },
+        "pickr": {
+            "github-owner": "Simonwep",
+            "github-repo": "pickr"
         },
         "picturefill": {
             "github-owner": "scottjehl",
@@ -660,9 +764,17 @@
             "github-owner": "taylorhakes",
             "github-repo": "promise-polyfill"
         },
+        "promises-spec": {
+            "github-owner": "promises-aplus",
+            "github-repo": "promises-spec"
+        },
         "pubsubjs": {
             "github-owner": "mroderick",
             "github-repo": "PubSubJS"
+        },
+        "punycode.js": {
+            "github-owner": "mathiasbynens",
+            "github-repo": "punycode.js"
         },
         "pusher-js": {
             "github-owner": "pusher",
@@ -688,6 +800,10 @@
             "github-owner": "tomchentw",
             "github-repo": "react-google-maps"
         },
+        "react-infinite-scroll-component": {
+            "github-owner": "ankeetmaini",
+            "github-repo": "react-infinite-scroll-component"
+        },
         "react-markdown": {
             "github-owner": "remarkjs",
             "github-repo": "react-markdown"
@@ -700,6 +816,10 @@
             "github-owner": "ron0115",
             "github-repo": "react-smooth-scroll-hook"
         },
+        "react-transition-group": {
+            "github-owner": "reactjs",
+            "github-repo": "react-transition-group"
+        },
         "regenerator": {
             "github-owner": "facebook",
             "github-repo": "regenerator"
@@ -707,6 +827,14 @@
         "requirejs": {
             "github-owner": "requirejs",
             "github-repo": "requirejs"
+        },
+        "respond": {
+            "github-owner": "scottjehl",
+            "github-repo": "Respond"
+        },
+        "response.js": {
+            "github-owner": "ryanve",
+            "github-repo": "response.js"
         },
         "responsive": {
             "github-owner": "ResponsiveBP",
@@ -739,6 +867,14 @@
         "script": {
             "github-owner": "ded",
             "github-repo": "script.js"
+        },
+        "script.js": {
+            "github-owner": "ded",
+            "github-repo": "script.js"
+        },
+        "scrolldir": {
+            "github-owner": "yowainwright",
+            "github-repo": "scrolldir"
         },
         "scrolltobyspeed": {
             "github-owner": "ryanburnette",
@@ -788,6 +924,10 @@
             "github-owner": "nolimits4web",
             "github-repo": "ssr-window"
         },
+        "storyblok-js": {
+            "github-owner": "storyblok",
+            "github-repo": "storyblok-js"
+        },
         "style-loader": {
             "github-owner": "webpack-contrib",
             "github-repo": "style-loader"
@@ -799,6 +939,10 @@
         "svgxuse": {
             "github-owner": "Keyamoon",
             "github-repo": "svgxuse"
+        },
+        "sweetalert2": {
+            "github-owner": "sweetalert2",
+            "github-repo": "sweetalert2"
         },
         "systemjs": {
             "github-owner": "systemjs",
@@ -844,7 +988,15 @@
             "github-owner": "schmittjoh",
             "github-repo": "twig.js"
         },
+        "typeahead.js": {
+            "github-owner": "corejavascript",
+            "github-repo": "typeahead.js"
+        },
         "typed": {
+            "github-owner": "mattboldt",
+            "github-repo": "typed.js"
+        },
+        "typed.js": {
             "github-owner": "mattboldt",
             "github-repo": "typed.js"
         },
@@ -868,6 +1020,10 @@
             "github-owner": "medialize",
             "github-repo": "URI.js"
         },
+        "uri.js": {
+            "github-owner": "medialize",
+            "github-repo": "URI.js"
+        },
         "uuid": {
             "github-owner": "uuidjs",
             "github-repo": "uuid"
@@ -879,6 +1035,10 @@
         "video": {
             "github-owner": "videojs",
             "github-repo": "video.js"
+        },
+        "video-js-swf": {
+            "github-owner": "videojs",
+            "github-repo": "video-js-swf"
         },
         "videojs-contrib-ads": {
             "github-owner": "videojs",
@@ -951,6 +1111,10 @@
             "github-owner": "websockets",
             "github-repo": "ws"
         },
+        "x-editable": {
+            "github-owner": "vitalets",
+            "github-repo": "x-editable"
+        },
         "xstate": {
             "github-owner": "statelyai",
             "github-repo": "xstate"
@@ -967,174 +1131,10 @@
             "github-owner": "madler",
             "github-repo": "zlib"
         },
-        "uri.js": {
-            "github-owner": "medialize",
-            "github-repo": "URI.js"
-        },
-        "script.js": {
-            "github-owner": "ded",
-            "github-repo": "script.js"
-        },
-        "jump.js": {
-            "github-owner": "callmecavs",
-            "github-repo": "jump.js"
-        },
-        "omggif": {
-            "github-owner": "deanm",
-            "github-repo": "omggif"
-        },
-        "papaparse": {
-            "github-owner": "mholt",
-            "github-repo": "PapaParse"
-        },
-        "jquery-deserialize": {
-            "github-owner": "kflorence",
-            "github-repo": "jquery-deserialize"
-        },
-        "scrolldir": {
-            "github-owner": "yowainwright",
-            "github-repo": "scrolldir"
-        },
-        "sweetalert2": {
-            "github-owner": "sweetalert2",
-            "github-repo": "sweetalert2"
-        },
-        "core": {
-            "github-owner": "vuejs",
-            "github-repo": "core"
-        },
-        "video-js-swf": {
-            "github-owner": "videojs",
-            "github-repo": "video-js-swf"
-        },
-        "typeahead.js": {
-            "github-owner": "corejavascript",
-            "github-repo": "typeahead.js"
-        },
-        "decimal.js-light": {
-            "github-owner": "MikeMcl",
-            "github-repo": "decimal.js-light"
-        },
-        "storyblok-js": {
-            "github-owner": "storyblok",
-            "github-repo": "storyblok-js"
-        },
-        "map-set.prototype.tojson": {
-            "github-owner": "DavidBruant",
-            "github-repo": "Map-Set.prototype.toJSON"
-        },
-        "animate.css": {
-            "github-owner": "daneden",
-            "github-repo": "animate.css"
-        },
-        "react-transition-group": {
-            "github-owner": "reactjs",
-            "github-repo": "react-transition-group"
-        },
-        "pickr": {
-            "github-owner": "Simonwep",
-            "github-repo": "pickr"
-        },
-        "nanopop": {
-            "github-owner": "Simonwep",
-            "github-repo": "nanopop"
-        },
-        "typed.js": {
-            "github-owner": "mattboldt",
-            "github-repo": "typed.js"
-        },
-        "cookies.js": {
-            "github-owner": "madmurphy",
-            "github-repo": "cookies.js"
-        },
-        "promises-spec": {
-            "github-owner": "promises-aplus",
-            "github-repo": "promises-spec"
-        },
-        "object.assign": {
-            "github-owner": "ljharb",
-            "github-repo": "object.assign"
-        },
-        "get-own-property-symbols": {
-            "github-owner": "es-shims",
-            "github-repo": "get-own-property-symbols"
-        },
-        "react-infinite-scroll-component": {
-            "github-owner": "ankeetmaini",
-            "github-repo": "react-infinite-scroll-component"
-        },
-        "eventlisteneroptions": {
-            "github-owner": "WICG",
-            "github-repo": "EventListenerOptions"
-        },
-        "detect-passive-events": {
-            "github-owner": "rafgraph",
-            "github-repo": "detect-passive-events"
-        },
-        "angular-filter": {
-            "github-owner": "a8m",
-            "github-repo": "angular-filter"
-        },
-        "chart.js": {
-            "github-owner": "chartjs",
-            "github-repo": "Chart.js"
-        },
-        "punycode.js": {
-            "github-owner": "mathiasbynens",
-            "github-repo": "punycode.js"
-        },
-        "fastclick": {
-            "github-owner": "ftlabs",
-            "github-repo": "fastclick"
-        },
-        "response.js": {
-            "github-owner": "ryanve",
-            "github-repo": "response.js"
-        },
-        "respond": {
-            "github-owner": "scottjehl",
-            "github-repo": "Respond"
-        },
-        "x-editable": {
-            "github-owner": "vitalets",
-            "github-repo": "x-editable"
-        },
-        "bootstrap-validator": {
-            "github-owner": "1000hz",
-            "github-repo": "bootstrap-validator"
-        },
-        "lightslider": {
-            "github-owner": "sachinchoolur",
-            "github-repo": "lightslider"
-        },
-        "jquery.sumoselect": {
-            "github-owner": "hemantnegi",
-            "github-repo": "jquery.sumoselect"
-        },
-        "jquery.fullscreen": {
-            "github-owner": "private-face",
-            "github-repo": "jquery.fullscreen"
-        },
-        "intl-tel-input": {
-            "github-owner": "jackocnr",
-            "github-repo": "intl-tel-input"
-        },
-        "inputmask": {
-            "github-owner": "RobinHerbots",
-            "github-repo": "Inputmask"
-        },
         "zxcvbn": {
             "github-owner": "dropbox",
             "github-repo": "zxcvbn"
-        },
-        "jquery-mousewheel": {
-            "github-owner": "brandonaaron",
-            "github-repo": "jquery-mousewheel"
-        },
-        "highcharts": {
-            "github-owner": "highcharts",
-            "github-repo": "highcharts"
         }
     },
-    "updated": "2024-02-04 19:52:54"
+    "updated": "2024-02-09 21:32:49"
 }

@@ -22,7 +22,10 @@
         "next": "next.js",
         "piwik": "matomo",
         "query-ui-widget": "jquery-ui",
-        "sizzle-css-selector-engine": "sizzle"
+        "sizzle-css-selector-engine": "sizzle",
+        "international-telephone-input": "intl-tel-input",
+        "jquery.inputmask": "inputmask",
+        "chart":  "chart.js"
     },
     "softwares": {
         "accordion": {
@@ -128,10 +131,6 @@
         "canvasblocker": {
             "github-owner": "kkapsner",
             "github-repo": "CanvasBlocker"
-        },
-        "chart": {
-            "github-owner": "chartjs",
-            "github-repo": "Chart.js"
         },
         "chartjs-plugin-datalabels": {
             "github-owner": "chartjs",
@@ -967,6 +966,174 @@
         "zlib": {
             "github-owner": "madler",
             "github-repo": "zlib"
+        },
+        "uri.js": {
+            "github-owner": "medialize",
+            "github-repo": "URI.js"
+        },
+        "script.js": {
+            "github-owner": "ded",
+            "github-repo": "script.js"
+        },
+        "jump.js": {
+            "github-owner": "callmecavs",
+            "github-repo": "jump.js"
+        },
+        "omggif": {
+            "github-owner": "deanm",
+            "github-repo": "omggif"
+        },
+        "papaparse": {
+            "github-owner": "mholt",
+            "github-repo": "PapaParse"
+        },
+        "jquery-deserialize": {
+            "github-owner": "kflorence",
+            "github-repo": "jquery-deserialize"
+        },
+        "scrolldir": {
+            "github-owner": "yowainwright",
+            "github-repo": "scrolldir"
+        },
+        "sweetalert2": {
+            "github-owner": "sweetalert2",
+            "github-repo": "sweetalert2"
+        },
+        "core": {
+            "github-owner": "vuejs",
+            "github-repo": "core"
+        },
+        "video-js-swf": {
+            "github-owner": "videojs",
+            "github-repo": "video-js-swf"
+        },
+        "typeahead.js": {
+            "github-owner": "corejavascript",
+            "github-repo": "typeahead.js"
+        },
+        "decimal.js-light": {
+            "github-owner": "MikeMcl",
+            "github-repo": "decimal.js-light"
+        },
+        "storyblok-js": {
+            "github-owner": "storyblok",
+            "github-repo": "storyblok-js"
+        },
+        "map-set.prototype.tojson": {
+            "github-owner": "DavidBruant",
+            "github-repo": "Map-Set.prototype.toJSON"
+        },
+        "animate.css": {
+            "github-owner": "daneden",
+            "github-repo": "animate.css"
+        },
+        "react-transition-group": {
+            "github-owner": "reactjs",
+            "github-repo": "react-transition-group"
+        },
+        "pickr": {
+            "github-owner": "Simonwep",
+            "github-repo": "pickr"
+        },
+        "nanopop": {
+            "github-owner": "Simonwep",
+            "github-repo": "nanopop"
+        },
+        "typed.js": {
+            "github-owner": "mattboldt",
+            "github-repo": "typed.js"
+        },
+        "cookies.js": {
+            "github-owner": "madmurphy",
+            "github-repo": "cookies.js"
+        },
+        "promises-spec": {
+            "github-owner": "promises-aplus",
+            "github-repo": "promises-spec"
+        },
+        "object.assign": {
+            "github-owner": "ljharb",
+            "github-repo": "object.assign"
+        },
+        "get-own-property-symbols": {
+            "github-owner": "es-shims",
+            "github-repo": "get-own-property-symbols"
+        },
+        "react-infinite-scroll-component": {
+            "github-owner": "ankeetmaini",
+            "github-repo": "react-infinite-scroll-component"
+        },
+        "eventlisteneroptions": {
+            "github-owner": "WICG",
+            "github-repo": "EventListenerOptions"
+        },
+        "detect-passive-events": {
+            "github-owner": "rafgraph",
+            "github-repo": "detect-passive-events"
+        },
+        "angular-filter": {
+            "github-owner": "a8m",
+            "github-repo": "angular-filter"
+        },
+        "chart.js": {
+            "github-owner": "chartjs",
+            "github-repo": "Chart.js"
+        },
+        "punycode.js": {
+            "github-owner": "mathiasbynens",
+            "github-repo": "punycode.js"
+        },
+        "fastclick": {
+            "github-owner": "ftlabs",
+            "github-repo": "fastclick"
+        },
+        "response.js": {
+            "github-owner": "ryanve",
+            "github-repo": "response.js"
+        },
+        "respond": {
+            "github-owner": "scottjehl",
+            "github-repo": "Respond"
+        },
+        "x-editable": {
+            "github-owner": "vitalets",
+            "github-repo": "x-editable"
+        },
+        "bootstrap-validator": {
+            "github-owner": "1000hz",
+            "github-repo": "bootstrap-validator"
+        },
+        "lightslider": {
+            "github-owner": "sachinchoolur",
+            "github-repo": "lightslider"
+        },
+        "jquery.sumoselect": {
+            "github-owner": "hemantnegi",
+            "github-repo": "jquery.sumoselect"
+        },
+        "jquery.fullscreen": {
+            "github-owner": "private-face",
+            "github-repo": "jquery.fullscreen"
+        },
+        "intl-tel-input": {
+            "github-owner": "jackocnr",
+            "github-repo": "intl-tel-input"
+        },
+        "inputmask": {
+            "github-owner": "RobinHerbots",
+            "github-repo": "Inputmask"
+        },
+        "zxcvbn": {
+            "github-owner": "dropbox",
+            "github-repo": "zxcvbn"
+        },
+        "jquery-mousewheel": {
+            "github-owner": "brandonaaron",
+            "github-repo": "jquery-mousewheel"
+        },
+        "highcharts": {
+            "github-owner": "highcharts",
+            "github-repo": "highcharts"
         }
     },
     "updated": "2024-02-04 19:52:54"

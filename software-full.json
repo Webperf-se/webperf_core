@@ -29,7 +29,7 @@
             "github-owner": "michu2k",
             "github-repo": "Accordion",
             "license": "mit",
-            "pushed_at": "2024-01-10T09:36:36Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "es6",
                 "js"
@@ -74,7 +74,7 @@
             "github-owner": "algolia",
             "github-repo": "algoliasearch-client-javascript",
             "license": "mit",
-            "pushed_at": "2024-02-05T15:55:00Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js",
                 "typescript"
@@ -89,7 +89,7 @@
             "github-owner": "alpinejs",
             "github-repo": "alpine",
             "license": "mit",
-            "pushed_at": "2024-02-05T14:45:09Z",
+            "last_pushed_year": "2024",
             "archived": false,
             "versions": {
                 "3.13.5": [],
@@ -198,7 +198,7 @@
             "github-owner": "amcharts",
             "github-repo": "amcharts4",
             "license": null,
-            "pushed_at": "2023-08-21T12:17:58Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js",
                 "svg",
@@ -312,7 +312,7 @@
             "github-owner": "angular",
             "github-repo": "angular",
             "license": "mit",
-            "pushed_at": "2024-02-05T19:05:24Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js",
                 "pwa",
@@ -320,6 +320,7 @@
             ],
             "archived": false,
             "versions": {
+                "17.1.3": [],
                 "17.1.2": [],
                 "17.1.1": [],
                 "17.1.0": [],
@@ -363,7 +364,7 @@
             "github-owner": "angular",
             "github-repo": "angular.js",
             "license": "mit",
-            "pushed_at": "2022-04-12T15:57:22Z",
+            "last_pushed_year": "2022",
             "tech": [
                 "js"
             ],
@@ -6454,13 +6455,14 @@
             "github-repo": "ApplicationInsights-JS",
             "github-source": "releases",
             "license": "mit",
-            "pushed_at": "2024-02-05T18:57:34Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js",
                 "typescript"
             ],
             "archived": false,
             "versions": {
+                "3.0.8": [],
                 "3.0.7": [],
                 "3.0.6": [],
                 "3.0.5": [],
@@ -6469,6 +6471,7 @@
                 "3.0.2": [],
                 "3.0.1": [],
                 "3.0.0": [],
+                "2.8.17": [],
                 "2.8.16": [],
                 "2.8.15": [],
                 "2.8.14": [],
@@ -6549,21 +6552,20 @@
                 "0.23.0": [],
                 "0.22.19": [],
                 "0.22.17": [],
-                "0.22.14": [],
-                "0.22.9": [],
-                "0.22.8": []
+                "0.22.14": []
             }
         },
         "autocomplete": {
             "github-owner": "algolia",
             "github-repo": "autocomplete",
             "license": "mit",
-            "pushed_at": "2024-01-31T13:30:50Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "typescript"
             ],
             "archived": false,
             "versions": {
+                "1.16.0": [],
                 "1.15.1": [],
                 "1.15.0": [],
                 "1.14.0": [],
@@ -6641,21 +6643,20 @@
                 "0.21.4": [],
                 "0.21.3": [],
                 "0.21.2": [],
-                "0.21.1": [],
-                "0.21.0": []
+                "0.21.1": []
             }
         },
         "autonumeric": {
             "github-owner": "BobKnothe",
             "github-repo": "autoNumeric",
             "license": null,
-            "pushed_at": null
+            "last_pushed_year": null
         },
         "awesomplete": {
             "github-owner": "leaverou",
             "github-repo": "awesomplete",
             "license": "mit",
-            "pushed_at": "2022-04-17T20:19:31Z",
+            "last_pushed_year": "2022",
             "tech": [
                 "js"
             ],
@@ -6675,7 +6676,7 @@
             "github-owner": "axios",
             "github-repo": "axios",
             "license": "mit",
-            "pushed_at": "2024-02-05T15:48:31Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -7058,7 +7059,7 @@
             "github-owner": "danielberndt",
             "github-repo": "babel-plugin-utf-8-regex",
             "license": "isc",
-            "pushed_at": "2018-03-22T17:56:10Z",
+            "last_pushed_year": "2018",
             "tech": [
                 "js"
             ],
@@ -7072,12 +7073,13 @@
             "github-owner": "jashkenas",
             "github-repo": "backbone",
             "license": "mit",
-            "pushed_at": "2024-01-23T23:44:38Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
             "archived": false,
             "versions": {
+                "1.6.0": [],
                 "1.5.0": [],
                 "1.4.1": [],
                 "1.4.0": [],
@@ -7132,7 +7134,7 @@
             "github-owner": "marionettejs",
             "github-repo": "backbone.marionette",
             "license": null,
-            "pushed_at": "2023-11-28T03:41:04Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -7217,7 +7219,7 @@
             "github-owner": "davidchambers",
             "github-repo": "Base64.js",
             "license": null,
-            "pushed_at": "2023-09-18T21:37:31Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -7242,7 +7244,7 @@
             "github-owner": "beatgammit",
             "github-repo": "base64-js",
             "license": "mit",
-            "pushed_at": "2022-05-27T12:26:00Z",
+            "last_pushed_year": "2022",
             "tech": [
                 "js"
             ],
@@ -7273,7 +7275,7 @@
             "github-owner": "rdallasgray",
             "github-repo": "bez",
             "license": "bsd-2-clause",
-            "pushed_at": "2021-04-29T19:06:47Z",
+            "last_pushed_year": "2021",
             "tech": [
                 "js"
             ],
@@ -7287,7 +7289,7 @@
             "github-owner": "twbs",
             "github-repo": "bootstrap",
             "license": "mit",
-            "pushed_at": "2024-02-02T07:56:43Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js",
                 "sass",
@@ -7667,7 +7669,7 @@
             "github-owner": "paypal",
             "github-repo": "bootstrap-accessibility-plugin",
             "license": "bsd-3-clause",
-            "pushed_at": "2023-11-23T19:55:57Z",
+            "last_pushed_year": "2023",
             "archived": false,
             "versions": {
                 "1.0.7": [],
@@ -7681,14 +7683,14 @@
             "github-owner": "Wruczek",
             "github-repo": "Bootstrap-Cookie-Alert",
             "license": "mit",
-            "pushed_at": "2023-06-21T15:02:39Z",
+            "last_pushed_year": "2023",
             "archived": false
         },
         "bootstrap-datepicker": {
             "github-owner": "uxsolutions",
             "github-repo": "bootstrap-datepicker",
             "license": "apache-2.0",
-            "pushed_at": "2023-09-22T14:19:31Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -7724,7 +7726,7 @@
             "github-owner": "snapappointments",
             "github-repo": "bootstrap-select",
             "license": "mit",
-            "pushed_at": "2023-12-12T16:10:42Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -7957,13 +7959,13 @@
             "github-owner": "lancedikson",
             "github-repo": "bowser",
             "license": null,
-            "pushed_at": null
+            "last_pushed_year": null
         },
         "buffer": {
             "github-owner": "feross",
             "github-repo": "buffer",
             "license": "mit",
-            "pushed_at": "2024-02-05T12:53:20Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -8075,7 +8077,7 @@
             "github-owner": "kkapsner",
             "github-repo": "CanvasBlocker",
             "license": "mpl-2.0",
-            "pushed_at": "2023-07-18T23:23:05Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -8111,7 +8113,7 @@
             "github-owner": "chartjs",
             "github-repo": "Chart.js",
             "license": "mit",
-            "pushed_at": "2024-02-05T02:05:29Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -8245,7 +8247,7 @@
             "github-owner": "chartjs",
             "github-repo": "chartjs-plugin-datalabels",
             "license": "mit",
-            "pushed_at": "2024-01-17T17:15:22Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -8268,7 +8270,7 @@
             "github-owner": "chartjs",
             "github-repo": "chartjs-plugin-deferred",
             "license": "mit",
-            "pushed_at": "2023-05-31T20:07:25Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -8287,7 +8289,7 @@
             "github-owner": "Choices-js",
             "github-repo": "choices",
             "license": "mit",
-            "pushed_at": "2023-11-24T21:39:08Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js",
                 "typescript"
@@ -8366,7 +8368,7 @@
             "github-owner": "microsoft",
             "github-repo": "clarity",
             "license": "mit",
-            "pushed_at": "2024-01-29T15:29:08Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "typescript"
             ],
@@ -8390,7 +8392,7 @@
             "github-owner": "jedwatson",
             "github-repo": "classnames",
             "license": "mit",
-            "pushed_at": "2024-01-24T11:31:38Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -8428,7 +8430,7 @@
             "github-owner": "react-native-community",
             "github-repo": "cli",
             "license": "mit",
-            "pushed_at": "2024-02-05T15:01:31Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js",
                 "typescript"
@@ -8510,7 +8512,7 @@
             "github-owner": "mrwweb",
             "github-repo": "clicky-menus",
             "license": "mit",
-            "pushed_at": "2023-10-19T16:38:26Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -8523,7 +8525,7 @@
             "github-owner": "onsi",
             "github-repo": "cocktail",
             "license": null,
-            "pushed_at": "2022-02-09T02:59:45Z",
+            "last_pushed_year": "2022",
             "tech": [
                 "js"
             ],
@@ -8552,7 +8554,7 @@
             "github-owner": "kurkle",
             "github-repo": "color",
             "license": "mit",
-            "pushed_at": "2024-01-19T02:57:50Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -8579,7 +8581,7 @@
             "github-owner": "adamwulf",
             "github-repo": "Columnizer-jQuery-Plugin",
             "license": null,
-            "pushed_at": "2021-04-11T05:41:16Z",
+            "last_pushed_year": "2021",
             "tech": [
                 "js"
             ],
@@ -8596,7 +8598,7 @@
             "github-owner": "talyssonoc",
             "github-repo": "CommonRegexJS",
             "license": "mit",
-            "pushed_at": "2016-05-17T02:42:16Z",
+            "last_pushed_year": "2016",
             "tech": [
                 "js"
             ],
@@ -8606,7 +8608,7 @@
             "github-owner": "jaywcjlove",
             "github-repo": "cookie.js",
             "license": null,
-            "pushed_at": "2023-11-27T02:22:28Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -8643,7 +8645,7 @@
             "github-owner": "ScottHamper",
             "github-repo": "Cookies",
             "license": "unlicense",
-            "pushed_at": "2020-05-16T21:49:46Z",
+            "last_pushed_year": "2020",
             "tech": [
                 "js"
             ],
@@ -8675,7 +8677,7 @@
             "github-owner": "zloirock",
             "github-repo": "core-js",
             "license": "mit",
-            "pushed_at": "2024-02-05T05:25:17Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "es6",
                 "js"
@@ -8788,7 +8790,7 @@
             "github-owner": "browserify",
             "github-repo": "crypto-browserify",
             "license": "mit",
-            "pushed_at": "2023-11-27T19:57:47Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -8831,7 +8833,7 @@
             "github-owner": "marcj",
             "github-repo": "css-element-queries",
             "license": "mit",
-            "pushed_at": "2023-09-28T02:03:39Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -8864,7 +8866,7 @@
             "github-owner": "jhildenbiddle",
             "github-repo": "css-vars-ponyfill",
             "license": "mit",
-            "pushed_at": "2022-10-12T20:02:05Z",
+            "last_pushed_year": "2022",
             "tech": [
                 "js"
             ],
@@ -8935,14 +8937,14 @@
             "github-owner": "jensimmons",
             "github-repo": "cssremedy",
             "license": "mpl-2.0",
-            "pushed_at": "2022-07-07T22:11:37Z",
+            "last_pushed_year": "2022",
             "archived": false
         },
         "cycle": {
             "github-owner": "malsup",
             "github-repo": "cycle",
             "license": null,
-            "pushed_at": "2016-06-07T21:37:57Z",
+            "last_pushed_year": "2016",
             "tech": [
                 "js"
             ],
@@ -8955,7 +8957,7 @@
             "github-owner": "date-fns",
             "github-repo": "date-fns",
             "license": "mit",
-            "pushed_at": "2024-02-03T00:47:49Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js",
                 "typescript"
@@ -9027,7 +9029,7 @@
             "github-owner": "GoogleChrome",
             "github-repo": "dialog-polyfill",
             "license": "bsd-3-clause",
-            "pushed_at": "2023-08-09T22:07:03Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -9059,7 +9061,7 @@
             "github-owner": "kobizz",
             "github-repo": "dialogs-manager",
             "license": "mit",
-            "pushed_at": "2023-12-28T15:35:53Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -9128,7 +9130,7 @@
             "github-owner": "torarvid",
             "github-repo": "docdash",
             "license": null,
-            "pushed_at": "2018-08-14T21:34:39Z",
+            "last_pushed_year": "2018",
             "tech": [
                 "js"
             ],
@@ -9141,7 +9143,7 @@
             "github-owner": "ded",
             "github-repo": "domready",
             "license": "mit",
-            "pushed_at": "2023-04-14T18:11:17Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -9163,7 +9165,7 @@
             "github-owner": "Mikhus",
             "github-repo": "domurl",
             "license": "mit",
-            "pushed_at": "2020-11-05T11:23:14Z",
+            "last_pushed_year": "2020",
             "tech": [
                 "js"
             ],
@@ -9199,7 +9201,7 @@
             "github-owner": "olado",
             "github-repo": "doT",
             "license": null,
-            "pushed_at": "2023-11-02T13:32:48Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -9236,7 +9238,7 @@
             "github-owner": "mapbox",
             "github-repo": "earcut",
             "license": "isc",
-            "pushed_at": "2023-08-03T19:49:45Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -9284,7 +9286,7 @@
             "github-owner": "ushelp",
             "github-repo": "EasyQRCodeJS",
             "license": "mit",
-            "pushed_at": "2024-02-05T16:32:04Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js",
                 "qrcode"
@@ -9342,7 +9344,7 @@
             "github-owner": "ushelp",
             "github-repo": "EasyQRCodeJS-NodeJS",
             "license": "mit",
-            "pushed_at": "2024-02-05T16:32:56Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js",
                 "qrcode"
@@ -9391,7 +9393,7 @@
             "github-owner": "indutny",
             "github-repo": "elliptic",
             "license": null,
-            "pushed_at": "2023-03-15T05:40:38Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -9739,7 +9741,7 @@
             "github-owner": "WickyNilliams",
             "github-repo": "enquire.js",
             "license": "mit",
-            "pushed_at": "2022-02-22T13:24:26Z",
+            "last_pushed_year": "2022",
             "tech": [
                 "js"
             ],
@@ -9889,7 +9891,7 @@
             "github-owner": "eslint",
             "github-repo": "eslint",
             "license": "mit",
-            "pushed_at": "2024-02-05T18:44:06Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -9994,7 +9996,7 @@
             "github-owner": "mrdoob",
             "github-repo": "eventdispatcher.js",
             "license": "mit",
-            "pushed_at": "2022-06-08T02:05:36Z",
+            "last_pushed_year": "2022",
             "tech": [
                 "js"
             ],
@@ -10008,7 +10010,7 @@
             "github-owner": "fancyapps",
             "github-repo": "fancybox",
             "license": null,
-            "pushed_at": "2023-05-23T16:22:54Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -10055,13 +10057,13 @@
             "github-owner": "github",
             "github-repo": "fetch",
             "license": null,
-            "pushed_at": null
+            "last_pushed_year": null
         },
         "flow": {
             "github-owner": "facebook",
             "github-repo": "flow",
             "license": "mit",
-            "pushed_at": "2024-02-05T15:08:40Z",
+            "last_pushed_year": "2024",
             "archived": false,
             "versions": {
                 "0.228.0": [],
@@ -10170,7 +10172,7 @@
             "github-owner": "toddmotto",
             "github-repo": "fluidvids",
             "license": null,
-            "pushed_at": "2022-08-11T23:13:32Z",
+            "last_pushed_year": "2022",
             "tech": [
                 "js"
             ],
@@ -10191,12 +10193,13 @@
             "github-owner": "theKashey",
             "github-repo": "focus-lock",
             "license": "mit",
-            "pushed_at": "2023-11-15T17:39:07Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "typescript"
             ],
             "archived": false,
             "versions": {
+                "1.0.1": [],
                 "1.0.0": [],
                 "0.11.6": [],
                 "0.11.5": [],
@@ -10241,7 +10244,7 @@
             "github-owner": "focus-trap",
             "github-repo": "focus-trap",
             "license": "mit",
-            "pushed_at": "2024-01-31T16:21:23Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -10326,7 +10329,7 @@
             "github-owner": "focus-trap",
             "github-repo": "focus-trap-react",
             "license": "mit",
-            "pushed_at": "2024-01-31T16:21:25Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -10404,7 +10407,7 @@
             "github-owner": "WICG",
             "github-repo": "focus-visible",
             "license": null,
-            "pushed_at": "2022-12-21T18:27:48Z",
+            "last_pushed_year": "2022",
             "tech": [
                 "js"
             ],
@@ -10437,7 +10440,7 @@
             "github-owner": "FortAwesome",
             "github-repo": "Font-Awesome",
             "license": null,
-            "pushed_at": "2024-01-14T14:41:15Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "font",
                 "js"
@@ -10527,7 +10530,7 @@
             "github-owner": "jquery-form",
             "github-repo": "form",
             "license": "lgpl-2.1",
-            "pushed_at": "2024-01-10T03:38:00Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -10554,7 +10557,7 @@
             "github-owner": "foundation",
             "github-repo": "foundation-sites",
             "license": "mit",
-            "pushed_at": "2023-12-01T21:59:09Z",
+            "last_pushed_year": "2023",
             "archived": false,
             "versions": {
                 "6.8.1": [],
@@ -10641,7 +10644,7 @@
             "github-owner": "alvarotrigo",
             "github-repo": "fullPage.js",
             "license": "gpl-3.0",
-            "pushed_at": "2024-01-31T12:41:56Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -10980,7 +10983,7 @@
             "github-owner": "gatsbyjs",
             "github-repo": "gatsby",
             "license": "mit",
-            "pushed_at": "2024-02-05T01:30:41Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "graphql",
                 "js"
@@ -11086,26 +11089,27 @@
             "github-owner": "mozilla",
             "github-repo": "gecko-dev",
             "license": null,
-            "pushed_at": "2024-02-05T18:39:23Z",
+            "last_pushed_year": "2024",
             "archived": false
         },
         "geotiff": {
             "github-owner": "geotiffjs",
             "github-repo": "geotiff",
             "license": null,
-            "pushed_at": null
+            "last_pushed_year": null
         },
         "get-css-data": {
             "github-owner": "jhildenbiddle",
             "github-repo": "get-css-data",
             "license": "mit",
-            "pushed_at": "2022-10-12T20:23:48Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "es6",
                 "js"
             ],
             "archived": false,
             "versions": {
+                "2.1.1": [],
                 "2.1.0": [],
                 "2.0.2": [],
                 "2.0.1": [],
@@ -11140,7 +11144,7 @@
             "github-owner": "toji",
             "github-repo": "gl-matrix",
             "license": "mit",
-            "pushed_at": "2023-10-18T10:41:18Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -11172,12 +11176,16 @@
             "github-repo": "gutenberg",
             "github-source": "releases",
             "license": null,
-            "pushed_at": "2024-02-05T19:09:21Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
             "archived": false,
             "versions": {
+                "17.6.5": [],
+                "17.6.4": [],
+                "17.6.3": [],
+                "17.6.2": [],
                 "17.6.1": [],
                 "17.6.0": [],
                 "17.5.3": [],
@@ -11233,18 +11241,14 @@
                 "15.5.0": [],
                 "15.4.0": [],
                 "15.3.1": [],
-                "15.3.0": [],
-                "15.2.4": [],
-                "15.2.3": [],
-                "15.2.2": [],
-                "15.2.1": []
+                "15.3.0": []
             }
         },
         "hammer": {
             "github-owner": "hammerjs",
             "github-repo": "hammer.js",
             "license": "mit",
-            "pushed_at": "2023-02-15T09:48:48Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -11281,7 +11285,7 @@
             "github-owner": "browserstate",
             "github-repo": "history.js",
             "license": null,
-            "pushed_at": "2022-02-12T07:34:30Z",
+            "last_pushed_year": "2022",
             "tech": [
                 "js"
             ],
@@ -11295,7 +11299,7 @@
             "github-owner": "mnater",
             "github-repo": "Hyphenopoly",
             "license": "mit",
-            "pushed_at": "2024-01-28T20:38:07Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js",
                 "typescript"
@@ -11352,7 +11356,7 @@
             "github-owner": "twbs",
             "github-repo": "icons",
             "license": "mit",
-            "pushed_at": "2024-02-03T08:29:57Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "font",
                 "js",
@@ -11398,7 +11402,7 @@
             "github-owner": "feross",
             "github-repo": "ieee754",
             "license": "bsd-3-clause",
-            "pushed_at": "2021-08-12T13:35:05Z",
+            "last_pushed_year": "2021",
             "tech": [
                 "js"
             ],
@@ -11426,7 +11430,7 @@
             "github-owner": "davidjbradshaw",
             "github-repo": "iframe-resizer",
             "license": "mit",
-            "pushed_at": "2024-02-04T18:44:45Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -11559,7 +11563,7 @@
             "github-owner": "JimBobSquarePants",
             "github-repo": "ImageProcessor",
             "license": "apache-2.0",
-            "pushed_at": "2023-09-06T04:52:51Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "gif",
                 "jpeg",
@@ -11589,7 +11593,7 @@
             "github-owner": "desandro",
             "github-repo": "imagesloaded",
             "license": "mit",
-            "pushed_at": "2022-02-22T00:04:14Z",
+            "last_pushed_year": "2022",
             "tech": [
                 "js"
             ],
@@ -11639,7 +11643,7 @@
             "github-owner": "karacas",
             "github-repo": "imgLiquid",
             "license": "mit",
-            "pushed_at": "2018-07-06T14:19:33Z",
+            "last_pushed_year": "2018",
             "archived": false,
             "versions": {
                 "0.9.944": [],
@@ -11677,7 +11681,7 @@
             "github-owner": "isaacs",
             "github-repo": "inherits",
             "license": "isc",
-            "pushed_at": "2023-10-17T12:35:10Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -11695,7 +11699,7 @@
             "github-owner": "jonschlinkert",
             "github-repo": "is-extendable",
             "license": "mit",
-            "pushed_at": "2021-08-20T19:50:29Z",
+            "last_pushed_year": "2021",
             "tech": [
                 "js"
             ],
@@ -11711,7 +11715,7 @@
             "github-owner": "jonschlinkert",
             "github-repo": "is-plain-object",
             "license": "mit",
-            "pushed_at": "2022-06-12T07:46:41Z",
+            "last_pushed_year": "2022",
             "tech": [
                 "js"
             ],
@@ -11735,7 +11739,7 @@
             "github-owner": "cubiq",
             "github-repo": "iscroll",
             "license": "mit",
-            "pushed_at": "2018-12-13T19:06:24Z",
+            "last_pushed_year": "2018",
             "tech": [
                 "js"
             ],
@@ -11765,7 +11769,7 @@
             "github-owner": "jonschlinkert",
             "github-repo": "isobject",
             "license": "mit",
-            "pushed_at": "2021-10-17T17:59:07Z",
+            "last_pushed_year": "2021",
             "tech": [
                 "js"
             ],
@@ -11785,7 +11789,7 @@
             "github-owner": "nk-o",
             "github-repo": "jarallax",
             "license": "mit",
-            "pushed_at": "2024-01-27T20:15:42Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js",
                 "video"
@@ -11853,7 +11857,7 @@
             "github-owner": "Pixabay",
             "github-repo": "JavaScript-autoComplete",
             "license": null,
-            "pushed_at": "2023-10-06T20:31:18Z",
+            "last_pushed_year": "2023",
             "archived": false,
             "versions": {
                 "1.0.4": []
@@ -11863,7 +11867,7 @@
             "github-owner": "messageformat",
             "github-repo": "Jed",
             "license": "mit",
-            "pushed_at": "2017-09-13T10:25:37Z",
+            "last_pushed_year": "2017",
             "tech": [
                 "js"
             ],
@@ -11886,7 +11890,7 @@
             "github-owner": "zaach",
             "github-repo": "jison",
             "license": null,
-            "pushed_at": "2022-10-14T08:26:50Z",
+            "last_pushed_year": "2022",
             "tech": [
                 "js"
             ],
@@ -12060,7 +12064,7 @@
             "github-owner": "jquery",
             "github-repo": "jquery",
             "license": "mit",
-            "pushed_at": "2024-02-05T18:25:31Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -12508,7 +12512,7 @@
             "github-owner": "devbridge",
             "github-repo": "jQuery-Autocomplete",
             "license": null,
-            "pushed_at": "2023-10-11T00:51:21Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -12559,7 +12563,7 @@
             "github-owner": "kottenator",
             "github-repo": "jquery-circle-progress",
             "license": "mit",
-            "pushed_at": "2018-07-11T05:08:31Z",
+            "last_pushed_year": "2018",
             "tech": [
                 "js"
             ],
@@ -12585,7 +12589,7 @@
             "github-owner": "jquery",
             "github-repo": "jquery-color",
             "license": null,
-            "pushed_at": "2022-10-11T22:19:03Z",
+            "last_pushed_year": "2022",
             "tech": [
                 "js"
             ],
@@ -12602,7 +12606,7 @@
             "github-owner": "carhartl",
             "github-repo": "jquery-cookie",
             "license": "mit",
-            "pushed_at": "2017-06-19T08:44:42Z",
+            "last_pushed_year": "2017",
             "tech": [
                 "js"
             ],
@@ -12621,7 +12625,7 @@
             "github-owner": "carhartl",
             "github-repo": "jquery-cookie",
             "license": "mit",
-            "pushed_at": "2017-06-19T08:44:42Z",
+            "last_pushed_year": "2017",
             "tech": [
                 "js"
             ],
@@ -12640,7 +12644,7 @@
             "github-owner": "jonom",
             "github-repo": "jquery-focuspoint",
             "license": null,
-            "pushed_at": "2020-04-01T22:48:30Z",
+            "last_pushed_year": "2020",
             "tech": [
                 "js"
             ],
@@ -12660,7 +12664,7 @@
             "github-owner": "briancherne",
             "github-repo": "jquery-hoverIntent",
             "license": null,
-            "pushed_at": "2021-12-13T15:28:05Z",
+            "last_pushed_year": "2021",
             "archived": false,
             "versions": {
                 "1.10.2": [],
@@ -12677,7 +12681,7 @@
             "github-owner": "Krinkle",
             "github-repo": "jquery-json",
             "license": "mit",
-            "pushed_at": "2017-07-02T02:07:59Z",
+            "last_pushed_year": "2017",
             "tech": [
                 "js"
             ],
@@ -12693,7 +12697,7 @@
             "github-owner": "Krinkle",
             "github-repo": "jquery-json",
             "license": "mit",
-            "pushed_at": "2017-07-02T02:07:59Z",
+            "last_pushed_year": "2017",
             "tech": [
                 "js"
             ],
@@ -12709,7 +12713,7 @@
             "github-owner": "jquery",
             "github-repo": "jquery-migrate",
             "license": null,
-            "pushed_at": "2024-02-05T17:36:19Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -12738,7 +12742,7 @@
             "github-owner": "stowball",
             "github-repo": "jQuery-rwdImageMaps",
             "license": "mit",
-            "pushed_at": "2021-12-04T00:53:30Z",
+            "last_pushed_year": "2021",
             "tech": [
                 "js"
             ],
@@ -12751,7 +12755,7 @@
             "github-owner": "trentrichardson",
             "github-repo": "jQuery-Timepicker-Addon",
             "license": "mit",
-            "pushed_at": "2022-11-14T16:14:02Z",
+            "last_pushed_year": "2022",
             "tech": [
                 "js"
             ],
@@ -12804,7 +12808,7 @@
             "github-owner": "cowboy",
             "github-repo": "jquery-tiny-pubsub",
             "license": "mit",
-            "pushed_at": "2017-06-11T22:58:15Z",
+            "last_pushed_year": "2017",
             "tech": [
                 "js"
             ],
@@ -12817,7 +12821,7 @@
             "github-owner": "jquery",
             "github-repo": "jquery-ui",
             "license": null,
-            "pushed_at": "2024-02-03T00:47:28Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -13206,7 +13210,7 @@
             "github-owner": "jquery-validation",
             "github-repo": "jquery-validation",
             "license": "mit",
-            "pushed_at": "2023-12-17T05:13:45Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -13327,7 +13331,7 @@
             "github-owner": "imakewebthings",
             "github-repo": "jquery-waypoints",
             "license": null,
-            "pushed_at": "2015-09-01T08:31:45Z",
+            "last_pushed_year": "2015",
             "archived": false,
             "versions": {
                 "2.0.5": []
@@ -13337,7 +13341,7 @@
             "github-owner": "js-cookie",
             "github-repo": "js-cookie",
             "license": "mit",
-            "pushed_at": "2024-01-08T15:29:37Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -13374,7 +13378,7 @@
             "github-owner": "bestiejs",
             "github-repo": "json3",
             "license": null,
-            "pushed_at": "2019-05-27T23:09:36Z",
+            "last_pushed_year": "2019",
             "tech": [
                 "js"
             ],
@@ -13403,7 +13407,7 @@
             "github-owner": "parallax",
             "github-repo": "jsPDF",
             "license": "mit",
-            "pushed_at": "2024-01-16T16:35:04Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -13554,7 +13558,7 @@
             "github-owner": "stuk",
             "github-repo": "jszip",
             "license": null,
-            "pushed_at": "2023-12-14T21:46:08Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -13689,12 +13693,13 @@
             "github-owner": "google",
             "github-repo": "libphonenumber",
             "license": "apache-2.0",
-            "pushed_at": "2024-01-25T05:52:49Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "c++"
             ],
             "archived": false,
             "versions": {
+                "8.13.30": [],
                 "8.13.29": [],
                 "8.13.28": [],
                 "8.13.27": [],
@@ -13793,15 +13798,14 @@
                 "8.10.22": [],
                 "8.10.21": [],
                 "8.10.20": [],
-                "8.10.19": [],
-                "8.10.18": []
+                "8.10.19": []
             }
         },
         "libphonenumber-js": {
             "github-owner": "catamphetamine",
             "github-repo": "libphonenumber-js",
             "license": "mit",
-            "pushed_at": "2023-12-27T10:55:37Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -13913,7 +13917,7 @@
             "github-owner": "sass",
             "github-repo": "libsass",
             "license": null,
-            "pushed_at": "2024-01-27T02:03:02Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "c++"
             ],
@@ -13967,7 +13971,7 @@
             "github-owner": "twada",
             "github-repo": "licensify",
             "license": null,
-            "pushed_at": "2017-04-21T14:52:38Z",
+            "last_pushed_year": "2017",
             "tech": [
                 "js"
             ],
@@ -13997,7 +14001,7 @@
             "github-owner": "lokesh",
             "github-repo": "lightbox2",
             "license": "mit",
-            "pushed_at": "2023-12-19T14:06:40Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -14026,7 +14030,7 @@
             "github-owner": "sachinchoolur",
             "github-repo": "lightGallery",
             "license": null,
-            "pushed_at": "2024-02-05T07:41:41Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "typescript",
                 "video"
@@ -14103,7 +14107,7 @@
             "github-owner": "lodash",
             "github-repo": "lodash",
             "license": null,
-            "pushed_at": "2024-02-04T22:25:23Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -14305,7 +14309,7 @@
             "github-owner": "ApoorvSaxena",
             "github-repo": "lozad.js",
             "license": "mit",
-            "pushed_at": "2023-10-13T07:58:21Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -14336,7 +14340,7 @@
             "github-owner": "dimsemenov",
             "github-repo": "Magnific-Popup",
             "license": "mit",
-            "pushed_at": "2024-01-28T14:54:49Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -14369,7 +14373,7 @@
             "github-owner": "mapbox",
             "github-repo": "mapbox-gl-js",
             "license": null,
-            "pushed_at": "2024-02-05T11:07:43Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js",
                 "webgl"
@@ -14431,7 +14435,7 @@
             "github-owner": "markedjs",
             "github-repo": "marked",
             "license": null,
-            "pushed_at": "2024-02-05T17:32:23Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js",
                 "markdown"
@@ -14665,19 +14669,21 @@
             "github-owner": "benschwarz",
             "github-repo": "matchMedia",
             "license": null,
-            "pushed_at": null
+            "last_pushed_year": null
         },
         "material-ui": {
             "github-owner": "mui",
             "github-repo": "material-ui",
             "license": "mit",
-            "pushed_at": "2024-02-05T18:31:13Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js",
                 "typescript"
             ],
             "archived": false,
             "versions": {
+                "5.15.9": [],
+                "5.15.8": [],
                 "5.15.7": [],
                 "5.15.6": [],
                 "5.15.5": [],
@@ -14775,9 +14781,7 @@
                 "5.5.3": [],
                 "5.5.2": [],
                 "5.5.1": [],
-                "5.5.0": [],
-                "5.4.4": [],
-                "5.4.3": []
+                "5.5.0": []
             }
         },
         "matomo": {
@@ -14785,7 +14789,7 @@
             "github-repo": "matomo",
             "github-security-label": "c: Security",
             "license": "gpl-3.0",
-            "pushed_at": "2024-02-05T17:21:47Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "mysql",
                 "php"
@@ -14832,7 +14836,7 @@
             "github-owner": "Modernizr",
             "github-repo": "Modernizr",
             "license": "mit",
-            "pushed_at": "2023-12-20T07:22:21Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -14888,7 +14892,7 @@
             "github-owner": "moment",
             "github-repo": "moment",
             "license": "mit",
-            "pushed_at": "2024-01-10T12:08:03Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -15358,12 +15362,13 @@
             "github-owner": "mswjs",
             "github-repo": "msw",
             "license": "mit",
-            "pushed_at": "2024-02-05T18:51:26Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "typescript"
             ],
             "archived": false,
             "versions": {
+                "2.1.7": [],
                 "2.1.6": [],
                 "2.1.5": [],
                 "2.1.4": [],
@@ -15461,15 +15466,14 @@
                 "0.29.0": [],
                 "0.28.2": [],
                 "0.28.1": [],
-                "0.28.0": [],
-                "0.27.2": []
+                "0.28.0": []
             }
         },
         "next.js": {
             "github-owner": "vercel",
             "github-repo": "next.js",
             "license": "mit",
-            "pushed_at": "2024-02-05T19:09:12Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -15482,7 +15486,7 @@
             "github-owner": "nginx",
             "github-repo": "nginx",
             "license": null,
-            "pushed_at": "2024-01-30T15:23:07Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "c"
             ],
@@ -16267,7 +16271,7 @@
             "github-owner": "fregante",
             "github-repo": "object-fit-images",
             "license": "mit",
-            "pushed_at": "2019-07-24T10:13:21Z",
+            "last_pushed_year": "2019",
             "tech": [
                 "js"
             ],
@@ -16306,7 +16310,7 @@
             "github-owner": "sitevision",
             "github-repo": "OwlCarousel2",
             "license": "mit",
-            "pushed_at": "2015-09-30T14:03:26Z",
+            "last_pushed_year": "2015",
             "tech": [
                 "js"
             ],
@@ -16316,7 +16320,7 @@
             "github-owner": "superRaytin",
             "github-repo": "paginationjs",
             "license": "mit",
-            "pushed_at": "2023-03-17T02:46:52Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -16350,7 +16354,7 @@
             "github-owner": "nodeca",
             "github-repo": "pako",
             "license": "mit",
-            "pushed_at": "2023-03-31T22:21:27Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -16392,7 +16396,7 @@
             "github-owner": "timmywil",
             "github-repo": "panzoom",
             "license": "mit",
-            "pushed_at": "2023-11-12T15:57:44Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "svg",
                 "typescript"
@@ -16505,7 +16509,7 @@
             "github-owner": "kesla",
             "github-repo": "parse-headers",
             "license": null,
-            "pushed_at": "2022-03-14T13:32:27Z",
+            "last_pushed_year": "2022",
             "tech": [
                 "js"
             ],
@@ -16527,7 +16531,7 @@
             "github-owner": "mozilla",
             "github-repo": "pdf.js",
             "license": "apache-2.0",
-            "pushed_at": "2024-02-04T18:56:17Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -16615,7 +16619,7 @@
             "github-owner": "foliojs",
             "github-repo": "pdfkit",
             "license": "mit",
-            "pushed_at": "2024-01-23T16:36:55Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -16648,7 +16652,7 @@
             "github-owner": "pipwerks",
             "github-repo": "PDFObject",
             "license": null,
-            "pushed_at": "2023-06-23T22:54:08Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -16663,7 +16667,7 @@
             "github-owner": "jquery",
             "github-repo": "PEP",
             "license": null,
-            "pushed_at": null
+            "last_pushed_year": null
         },
         "php": {
             "custom": true,
@@ -16899,106 +16903,106 @@
                     "END_OF_LIFE (1 year, 2 months ago)"
                 ],
                 "7.3.33": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.32": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.31": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.30": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.29": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.28": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.27": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.26": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.25": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.24": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.23": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.22": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.21": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.20": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.19": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.18": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.17": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.16": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.15": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.14": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.13": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.12": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.11": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.10": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.9": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.8": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.7": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.6": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.5": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.4": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.3": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.2": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.1": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.3.0": [
-                    "END_OF_LIFE (2 years, 1 month ago)"
+                    "END_OF_LIFE (2 years, 2 months ago)"
                 ],
                 "7.2.34": [
                     "END_OF_LIFE (3 years, 2 months ago)"
@@ -17778,55 +17782,55 @@
                     "END_OF_LIFE (9 years, 5 months ago)"
                 ],
                 "5.2.17": [
-                    "END_OF_LIFE (13 years ago)"
+                    "END_OF_LIFE (13 years, 1 month ago)"
                 ],
                 "5.2.16": [
-                    "END_OF_LIFE (13 years ago)"
+                    "END_OF_LIFE (13 years, 1 month ago)"
                 ],
                 "5.2.15": [
-                    "END_OF_LIFE (13 years ago)"
+                    "END_OF_LIFE (13 years, 1 month ago)"
                 ],
                 "5.2.14": [
-                    "END_OF_LIFE (13 years ago)"
+                    "END_OF_LIFE (13 years, 1 month ago)"
                 ],
                 "5.2.13": [
-                    "END_OF_LIFE (13 years ago)"
+                    "END_OF_LIFE (13 years, 1 month ago)"
                 ],
                 "5.2.12": [
-                    "END_OF_LIFE (13 years ago)"
+                    "END_OF_LIFE (13 years, 1 month ago)"
                 ],
                 "5.2.11": [
-                    "END_OF_LIFE (13 years ago)"
+                    "END_OF_LIFE (13 years, 1 month ago)"
                 ],
                 "5.2.10": [
-                    "END_OF_LIFE (13 years ago)"
+                    "END_OF_LIFE (13 years, 1 month ago)"
                 ],
                 "5.2.9": [
-                    "END_OF_LIFE (13 years ago)"
+                    "END_OF_LIFE (13 years, 1 month ago)"
                 ],
                 "5.2.8": [
-                    "END_OF_LIFE (13 years ago)"
+                    "END_OF_LIFE (13 years, 1 month ago)"
                 ],
                 "5.2.6": [
-                    "END_OF_LIFE (13 years ago)"
+                    "END_OF_LIFE (13 years, 1 month ago)"
                 ],
                 "5.2.5": [
-                    "END_OF_LIFE (13 years ago)"
+                    "END_OF_LIFE (13 years, 1 month ago)"
                 ],
                 "5.2.4": [
-                    "END_OF_LIFE (13 years ago)"
+                    "END_OF_LIFE (13 years, 1 month ago)"
                 ],
                 "5.2.3": [
-                    "END_OF_LIFE (13 years ago)"
+                    "END_OF_LIFE (13 years, 1 month ago)"
                 ],
                 "5.2.2": [
-                    "END_OF_LIFE (13 years ago)"
+                    "END_OF_LIFE (13 years, 1 month ago)"
                 ],
                 "5.2.1": [
-                    "END_OF_LIFE (13 years ago)"
+                    "END_OF_LIFE (13 years, 1 month ago)"
                 ],
                 "5.2.0": [
-                    "END_OF_LIFE (13 years ago)"
+                    "END_OF_LIFE (13 years, 1 month ago)"
                 ],
                 "5.1.6": [
                     "END_OF_LIFE (17 years, 5 months ago)"
@@ -17868,34 +17872,34 @@
                     "END_OF_LIFE (18 years, 5 months ago)"
                 ],
                 "4.4.9": [
-                    "END_OF_LIFE (15 years, 5 months ago)"
+                    "END_OF_LIFE (15 years, 6 months ago)"
                 ],
                 "4.4.8": [
-                    "END_OF_LIFE (15 years, 5 months ago)"
+                    "END_OF_LIFE (15 years, 6 months ago)"
                 ],
                 "4.4.7": [
-                    "END_OF_LIFE (15 years, 5 months ago)"
+                    "END_OF_LIFE (15 years, 6 months ago)"
                 ],
                 "4.4.6": [
-                    "END_OF_LIFE (15 years, 5 months ago)"
+                    "END_OF_LIFE (15 years, 6 months ago)"
                 ],
                 "4.4.5": [
-                    "END_OF_LIFE (15 years, 5 months ago)"
+                    "END_OF_LIFE (15 years, 6 months ago)"
                 ],
                 "4.4.4": [
-                    "END_OF_LIFE (15 years, 5 months ago)"
+                    "END_OF_LIFE (15 years, 6 months ago)"
                 ],
                 "4.4.3": [
-                    "END_OF_LIFE (15 years, 5 months ago)"
+                    "END_OF_LIFE (15 years, 6 months ago)"
                 ],
                 "4.4.2": [
-                    "END_OF_LIFE (15 years, 5 months ago)"
+                    "END_OF_LIFE (15 years, 6 months ago)"
                 ],
                 "4.4.1": [
-                    "END_OF_LIFE (15 years, 5 months ago)"
+                    "END_OF_LIFE (15 years, 6 months ago)"
                 ],
                 "4.4.0": [
-                    "END_OF_LIFE (15 years, 5 months ago)"
+                    "END_OF_LIFE (15 years, 6 months ago)"
                 ],
                 "4.3.11": [
                     "END_OF_LIFE (18 years, 10 months ago)"
@@ -17934,16 +17938,16 @@
                     "END_OF_LIFE (18 years, 10 months ago)"
                 ],
                 "4.2.3": [
-                    "END_OF_LIFE (21 years, 4 months ago)"
+                    "END_OF_LIFE (21 years, 5 months ago)"
                 ],
                 "4.2.2": [
-                    "END_OF_LIFE (21 years, 4 months ago)"
+                    "END_OF_LIFE (21 years, 5 months ago)"
                 ],
                 "4.2.1": [
-                    "END_OF_LIFE (21 years, 4 months ago)"
+                    "END_OF_LIFE (21 years, 5 months ago)"
                 ],
                 "4.2.0": [
-                    "END_OF_LIFE (21 years, 4 months ago)"
+                    "END_OF_LIFE (21 years, 5 months ago)"
                 ],
                 "4.1.2": [
                     "END_OF_LIFE (21 years, 10 months ago)"
@@ -17981,7 +17985,7 @@
             "github-owner": "scottjehl",
             "github-repo": "picturefill",
             "license": "mit",
-            "pushed_at": "2022-09-06T15:00:20Z",
+            "last_pushed_year": "2022",
             "tech": [
                 "js"
             ],
@@ -18007,7 +18011,7 @@
             "github-owner": "Pikaday",
             "github-repo": "Pikaday",
             "license": null,
-            "pushed_at": "2023-06-20T02:49:01Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -18035,7 +18039,7 @@
             "github-repo": "analytics",
             "github-source": "releases",
             "license": "agpl-3.0",
-            "pushed_at": "2024-02-05T17:36:18Z",
+            "last_pushed_year": "2024",
             "archived": false,
             "versions": {
                 "2.0.0": [],
@@ -18056,7 +18060,7 @@
             "github-owner": "vimeo",
             "github-repo": "player.js",
             "license": "mit",
-            "pushed_at": "2024-01-02T19:35:57Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js",
                 "video"
@@ -18126,7 +18130,7 @@
             "github-owner": "styled-components",
             "github-repo": "polished",
             "license": "mit",
-            "pushed_at": "2024-02-05T00:13:37Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -18218,7 +18222,7 @@
             "github-owner": "floating-ui",
             "github-repo": "floating-ui",
             "license": "mit",
-            "pushed_at": "2024-02-03T03:09:53Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "typescript"
             ],
@@ -18309,7 +18313,7 @@
             "github-owner": "krux",
             "github-repo": "postscribe",
             "license": "mit",
-            "pushed_at": "2022-03-30T06:58:30Z",
+            "last_pushed_year": "2022",
             "tech": [
                 "js"
             ],
@@ -18319,12 +18323,14 @@
             "github-owner": "prebid",
             "github-repo": "Prebid.js",
             "license": "apache-2.0",
-            "pushed_at": "2024-02-05T17:58:36Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
             "archived": false,
             "versions": {
+                "8.36.0": [],
+                "8.35.0": [],
                 "8.34.0": [],
                 "8.33.0": [],
                 "8.32.0": [],
@@ -18422,16 +18428,14 @@
                 "7.1.0": [],
                 "7.0.0": [],
                 "6.29.3": [],
-                "6.29.2": [],
-                "6.29.1": [],
-                "6.29.0": []
+                "6.29.2": []
             }
         },
         "privacy-manager": {
             "github-owner": "klaro-org",
             "github-repo": "privacy-manager",
             "license": null,
-            "pushed_at": "2024-01-31T06:40:48Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -18543,7 +18547,7 @@
             "github-owner": "taylorhakes",
             "github-repo": "promise-polyfill",
             "license": "mit",
-            "pushed_at": "2024-01-09T19:16:30Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -18589,7 +18593,7 @@
             "github-owner": "mroderick",
             "github-repo": "PubSubJS",
             "license": "mit",
-            "pushed_at": "2023-04-26T12:05:21Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -18642,7 +18646,7 @@
             "github-owner": "pusher",
             "github-repo": "pusher-js",
             "license": "mit",
-            "pushed_at": "2024-02-05T05:11:39Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -18747,7 +18751,7 @@
             "github-owner": "sindresorhus",
             "github-repo": "query-string",
             "license": "mit",
-            "pushed_at": "2024-02-03T10:13:49Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -18839,7 +18843,7 @@
             "github-owner": "facebook",
             "github-repo": "react",
             "license": "mit",
-            "pushed_at": "2024-02-05T18:59:37Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -18932,7 +18936,7 @@
             "github-owner": "moroshko",
             "github-repo": "react-autosuggest",
             "license": "mit",
-            "pushed_at": "2023-11-10T08:52:00Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -19034,7 +19038,7 @@
             "github-owner": "gpbl",
             "github-repo": "react-day-picker",
             "license": "mit",
-            "pushed_at": "2024-02-02T19:14:53Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "typescript"
             ],
@@ -19082,7 +19086,7 @@
             "github-owner": "tomchentw",
             "github-repo": "react-google-maps",
             "license": "mit",
-            "pushed_at": "2022-11-07T13:24:13Z",
+            "last_pushed_year": "2022",
             "tech": [
                 "js"
             ],
@@ -19194,7 +19198,7 @@
             "github-owner": "remarkjs",
             "github-repo": "react-markdown",
             "license": "mit",
-            "pushed_at": "2024-01-30T08:40:29Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js",
                 "markdown"
@@ -19281,7 +19285,7 @@
             "github-owner": "reduxjs",
             "github-repo": "react-redux",
             "license": "mit",
-            "pushed_at": "2024-01-28T17:59:40Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "typescript"
             ],
@@ -19357,7 +19361,7 @@
             "github-owner": "ron0115",
             "github-repo": "react-smooth-scroll-hook",
             "license": "mit",
-            "pushed_at": "2021-06-24T14:28:54Z",
+            "last_pushed_year": "2021",
             "tech": [
                 "typescript"
             ],
@@ -19378,7 +19382,7 @@
             "github-owner": "facebook",
             "github-repo": "regenerator",
             "license": "mit",
-            "pushed_at": "2024-01-26T10:46:31Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -19490,7 +19494,7 @@
             "github-owner": "requirejs",
             "github-repo": "requirejs",
             "license": null,
-            "pushed_at": "2024-01-15T06:45:21Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -19571,7 +19575,7 @@
             "github-owner": "ResponsiveBP",
             "github-repo": "Responsive",
             "license": "mit",
-            "pushed_at": "2023-07-19T00:48:21Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js",
                 "sass"
@@ -19637,7 +19641,7 @@
             "github-owner": "studiopress",
             "github-repo": "responsive-menus",
             "license": null,
-            "pushed_at": "2020-01-19T22:48:37Z",
+            "last_pushed_year": "2020",
             "tech": [
                 "js"
             ],
@@ -19647,7 +19651,7 @@
             "github-owner": "mozilla",
             "github-repo": "rhino",
             "license": null,
-            "pushed_at": "2024-01-30T19:11:48Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -19657,7 +19661,7 @@
             "github-owner": "rollup",
             "github-repo": "rollup-plugin-node-resolve",
             "license": "mit",
-            "pushed_at": "2019-12-02T23:28:06Z",
+            "last_pushed_year": "2019",
             "tech": [
                 "js"
             ],
@@ -19709,7 +19713,7 @@
             "github-owner": "vuejs",
             "github-repo": "rollup-plugin-vue",
             "license": "mit",
-            "pushed_at": "2022-01-18T14:38:11Z",
+            "last_pushed_year": "2022",
             "tech": [
                 "typescript"
             ],
@@ -19791,7 +19795,7 @@
             "github-owner": "rnmp",
             "github-repo": "salvattore",
             "license": "mit",
-            "pushed_at": "2018-03-02T16:40:52Z",
+            "last_pushed_year": "2018",
             "tech": [
                 "js"
             ],
@@ -19813,7 +19817,7 @@
             "github-owner": "apostrophecms",
             "github-repo": "sanitize-html",
             "license": "mit",
-            "pushed_at": "2024-02-04T13:28:23Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -19971,7 +19975,7 @@
             "github-owner": "ded",
             "github-repo": "script.js",
             "license": "mit",
-            "pushed_at": "2020-04-14T20:48:38Z",
+            "last_pushed_year": "2020",
             "tech": [
                 "js"
             ],
@@ -19992,13 +19996,13 @@
             "github-owner": "ryanburnette",
             "github-repo": "scrollToBySpeed",
             "license": null,
-            "pushed_at": null
+            "last_pushed_year": null
         },
         "secure-filters": {
             "github-owner": "salesforce",
             "github-repo": "secure-filters",
             "license": "bsd-3-clause",
-            "pushed_at": "2022-02-12T14:32:19Z",
+            "last_pushed_year": "2022",
             "tech": [
                 "js"
             ],
@@ -20020,7 +20024,7 @@
             "github-owner": "select2",
             "github-repo": "select2",
             "license": "mit",
-            "pushed_at": "2024-01-24T21:37:51Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -20124,13 +20128,15 @@
             "github-owner": "getsentry",
             "github-repo": "sentry-javascript",
             "license": "mit",
-            "pushed_at": "2024-02-05T18:42:46Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js",
                 "typescript"
             ],
             "archived": false,
             "versions": {
+                "7.100.1": [],
+                "7.100.0": [],
                 "7.99.0": [],
                 "7.98.0": [],
                 "7.97.0": [],
@@ -20190,8 +20196,6 @@
                 "7.55.0": [],
                 "7.54.0": [],
                 "7.53.1": [],
-                "7.53.0": [],
-                "7.52.1": [],
                 "3.27.2": [],
                 "3.27.1": [],
                 "2.0.2": [],
@@ -20210,7 +20214,7 @@
             "github-owner": "jonschlinkert",
             "github-repo": "shallow-clone",
             "license": "mit",
-            "pushed_at": "2020-05-27T15:32:47Z",
+            "last_pushed_year": "2020",
             "tech": [
                 "js"
             ],
@@ -20228,7 +20232,7 @@
             "github-owner": "heiseonline",
             "github-repo": "shariff",
             "license": "mit",
-            "pushed_at": "2023-10-26T21:07:02Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -20328,7 +20332,7 @@
             "github-owner": "yowainwright",
             "github-repo": "shave",
             "license": "mit",
-            "pushed_at": "2024-02-05T13:56:47Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "typescript"
             ],
@@ -20475,13 +20479,13 @@
             "github-owner": "simple-sidebar",
             "github-repo": "simpler-sidebar",
             "license": null,
-            "pushed_at": null
+            "last_pushed_year": null
         },
         "sizzle": {
             "github-owner": "jquery",
             "github-repo": "sizzle",
             "license": null,
-            "pushed_at": "2023-09-07T14:52:31Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -20551,7 +20555,7 @@
             "github-owner": "kenwheeler",
             "github-repo": "slick",
             "license": "mit",
-            "pushed_at": "2023-11-20T02:32:56Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -20614,7 +20618,7 @@
             "github-owner": "snabbdom",
             "github-repo": "snabbdom",
             "license": "mit",
-            "pushed_at": "2024-02-01T08:12:26Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "typescript"
             ],
@@ -20677,7 +20681,7 @@
             "github-owner": "nolimits4web",
             "github-repo": "ssr-window",
             "license": "mit",
-            "pushed_at": "2023-01-07T23:19:36Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -20696,7 +20700,7 @@
             "github-owner": "webpack-contrib",
             "github-repo": "style-loader",
             "license": "mit",
-            "pushed_at": "2024-02-05T13:10:53Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -20762,7 +20766,7 @@
             "github-owner": "styled-components",
             "github-repo": "styled-components",
             "license": "mit",
-            "pushed_at": "2024-01-16T15:34:27Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "typescript"
             ],
@@ -20826,7 +20830,7 @@
             "github-owner": "Keyamoon",
             "github-repo": "svgxuse",
             "license": "mit",
-            "pushed_at": "2022-08-28T18:35:39Z",
+            "last_pushed_year": "2022",
             "tech": [
                 "js"
             ],
@@ -20872,7 +20876,7 @@
             "github-owner": "systemjs",
             "github-repo": "systemjs",
             "license": "mit",
-            "pushed_at": "2024-01-07T16:41:55Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -20982,7 +20986,7 @@
             "github-owner": "focus-trap",
             "github-repo": "tabbable",
             "license": "mit",
-            "pushed_at": "2024-01-31T16:11:05Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -21036,7 +21040,7 @@
             "github-owner": "filamentgroup",
             "github-repo": "tablesaw",
             "license": "mit",
-            "pushed_at": "2022-10-20T20:31:49Z",
+            "last_pushed_year": "2022",
             "tech": [
                 "js"
             ],
@@ -21080,7 +21084,7 @@
             "github-owner": "matomo-org",
             "github-repo": "tag-manager",
             "license": "gpl-3.0",
-            "pushed_at": "2024-02-05T01:25:34Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "php"
             ],
@@ -21090,7 +21094,7 @@
             "github-owner": "tailwindlabs",
             "github-repo": "tailwindcss",
             "license": "mit",
-            "pushed_at": "2024-02-04T14:40:58Z",
+            "last_pushed_year": "2024",
             "archived": false,
             "versions": {
                 "3.4.1": [],
@@ -21182,7 +21186,7 @@
             "github-owner": "WeCodePixels",
             "github-repo": "theia-sticky-sidebar",
             "license": "mit",
-            "pushed_at": "2022-09-12T13:53:30Z",
+            "last_pushed_year": "2022",
             "tech": [
                 "js"
             ],
@@ -21208,7 +21212,7 @@
             "github-owner": "CodeSeven",
             "github-repo": "toastr",
             "license": "mit",
-            "pushed_at": "2023-02-27T15:44:28Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -21234,7 +21238,7 @@
             "github-owner": "mattbryson",
             "github-repo": "TouchSwipe-Jquery-Plugin",
             "license": null,
-            "pushed_at": "2022-08-25T10:44:07Z",
+            "last_pushed_year": "2022",
             "tech": [
                 "js"
             ],
@@ -21266,7 +21270,7 @@
             "github-owner": "josecebe",
             "github-repo": "twbs-pagination",
             "license": null,
-            "pushed_at": "2018-10-04T12:51:46Z",
+            "last_pushed_year": "2018",
             "tech": [
                 "js"
             ],
@@ -21293,7 +21297,7 @@
             "github-owner": "dchest",
             "github-repo": "tweetnacl-util-js",
             "license": "unlicense",
-            "pushed_at": "2023-04-07T10:19:54Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -21311,7 +21315,7 @@
             "github-owner": "schmittjoh",
             "github-repo": "twig.js",
             "license": "apache-2.0",
-            "pushed_at": "2019-02-01T20:15:24Z",
+            "last_pushed_year": "2019",
             "tech": [
                 "php"
             ],
@@ -21327,7 +21331,7 @@
             "github-owner": "mattboldt",
             "github-repo": "typed.js",
             "license": "mit",
-            "pushed_at": "2024-01-25T19:24:52Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -21369,7 +21373,7 @@
             "github-owner": "Microsoft",
             "github-repo": "TypeScript-wiki",
             "license": "cc-by-4.0",
-            "pushed_at": "2024-02-05T18:00:55Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -21379,7 +21383,7 @@
             "github-owner": "ForbesLindesay",
             "github-repo": "umd",
             "license": "mit",
-            "pushed_at": "2022-10-28T15:32:07Z",
+            "last_pushed_year": "2022",
             "tech": [
                 "js"
             ],
@@ -21401,7 +21405,7 @@
             "github-owner": "jashkenas",
             "github-repo": "underscore",
             "license": "mit",
-            "pushed_at": "2023-11-27T20:25:12Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -21632,7 +21636,7 @@
             "github-owner": "understrap",
             "github-repo": "understrap",
             "license": "gpl-3.0",
-            "pushed_at": "2024-02-01T05:45:47Z",
+            "last_pushed_year": "2024",
             "archived": false,
             "versions": {
                 "1.2.2": [],
@@ -21705,7 +21709,7 @@
             "github-owner": "medialize",
             "github-repo": "URI.js",
             "license": "mit",
-            "pushed_at": "2023-08-27T10:51:22Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -21790,7 +21794,7 @@
             "github-owner": "uuidjs",
             "github-repo": "uuid",
             "license": "mit",
-            "pushed_at": "2023-10-12T00:00:04Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -21841,7 +21845,7 @@
             "github-owner": "ryanve",
             "github-repo": "verge",
             "license": "mit",
-            "pushed_at": "2022-03-02T02:13:54Z",
+            "last_pushed_year": "2022",
             "tech": [
                 "js"
             ],
@@ -21872,7 +21876,7 @@
             "github-owner": "videojs",
             "github-repo": "video.js",
             "license": null,
-            "pushed_at": "2024-02-04T16:32:11Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js",
                 "video"
@@ -22073,13 +22077,14 @@
             "github-owner": "videojs",
             "github-repo": "videojs-contrib-ads",
             "license": null,
-            "pushed_at": "2024-02-01T15:09:29Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js",
                 "video"
             ],
             "archived": false,
             "versions": {
+                "7.3.4": [],
                 "7.3.3": [],
                 "7.3.2": [],
                 "7.3.1": [],
@@ -22177,20 +22182,21 @@
                 "0.5.0": [],
                 "0.4.0": [],
                 "0.3.0": [],
-                "0.2.1": [],
-                "0.2.0": []
+                "0.2.1": []
             }
         },
         "vite": {
             "github-owner": "vitejs",
             "github-repo": "vite",
             "license": "mit",
-            "pushed_at": "2024-02-05T17:01:41Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "typescript"
             ],
             "archived": false,
             "versions": {
+                "5.1.1": [],
+                "5.1.0": [],
                 "5.0.12": [],
                 "5.0.11": [
                     "CVE-2024-23331"
@@ -22395,21 +22401,6 @@
                     "CVE-2024-23331",
                     "CVE-2023-49293",
                     "CVE-2023-34092"
-                ],
-                "4.0.5": [
-                    "CVE-2024-23331",
-                    "CVE-2023-49293",
-                    "CVE-2023-34092"
-                ],
-                "4.0.4": [
-                    "CVE-2024-23331",
-                    "CVE-2023-49293",
-                    "CVE-2023-34092"
-                ],
-                "4.0.3": [
-                    "CVE-2024-23331",
-                    "CVE-2023-49293",
-                    "CVE-2023-34092"
                 ]
             }
         },
@@ -22417,7 +22408,7 @@
             "github-owner": "maxwellito",
             "github-repo": "vivus",
             "license": "mit",
-            "pushed_at": "2022-07-06T22:16:59Z",
+            "last_pushed_year": "2022",
             "tech": [
                 "js"
             ],
@@ -22444,7 +22435,7 @@
             "github-owner": "mozilla",
             "github-repo": "vtt.js",
             "license": "apache-2.0",
-            "pushed_at": "2023-04-10T13:01:10Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -22498,7 +22489,7 @@
             "github-owner": "vuejs",
             "github-repo": "vue",
             "license": "mit",
-            "pushed_at": "2024-02-02T11:32:28Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js",
                 "typescript"
@@ -22583,7 +22574,7 @@
             "github-owner": "vuejs",
             "github-repo": "devtools",
             "license": "mit",
-            "pushed_at": "2024-02-05T16:58:55Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "typescript"
             ],
@@ -22652,7 +22643,7 @@
             "github-owner": "vuejs",
             "github-repo": "vue-router",
             "license": "mit",
-            "pushed_at": "2024-01-09T20:09:37Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -22748,7 +22739,7 @@
             "github-owner": "dzwillia",
             "github-repo": "vue-simple-spinner",
             "license": "mit",
-            "pushed_at": "2022-12-06T23:14:52Z",
+            "last_pushed_year": "2022",
             "archived": false,
             "versions": {
                 "1.2.10": [],
@@ -22780,7 +22771,7 @@
             "github-owner": "KazanExpress",
             "github-repo": "vue-simple-suggest",
             "license": "mit",
-            "pushed_at": "2024-02-03T16:15:51Z",
+            "last_pushed_year": "2024",
             "archived": false,
             "versions": {
                 "1.11.2": [],
@@ -22805,7 +22796,7 @@
             "github-owner": "vuejs",
             "github-repo": "vuex",
             "license": "mit",
-            "pushed_at": "2024-01-17T07:19:28Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -22863,7 +22854,7 @@
             "github-owner": "imakewebthings",
             "github-repo": "waypoints",
             "license": null,
-            "pushed_at": "2022-11-18T05:01:47Z",
+            "last_pushed_year": "2022",
             "tech": [
                 "js"
             ],
@@ -22898,7 +22889,7 @@
             "github-owner": "webhintio",
             "github-repo": "hint",
             "license": "apache-2.0",
-            "pushed_at": "2024-01-31T21:22:33Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "pwa",
                 "typescript"
@@ -22909,7 +22900,7 @@
             "github-owner": "wet-boew",
             "github-repo": "wet-boew",
             "license": null,
-            "pushed_at": "2024-01-22T15:45:04Z",
+            "last_pushed_year": "2024",
             "archived": false,
             "versions": {
                 "4.0.76": [],
@@ -23017,7 +23008,7 @@
             "github-owner": "ten1seven",
             "github-repo": "what-input",
             "license": "mit",
-            "pushed_at": "2023-10-10T09:34:47Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -23087,7 +23078,7 @@
             "github-owner": "cujojs",
             "github-repo": "when",
             "license": null,
-            "pushed_at": "2022-04-10T19:35:16Z",
+            "last_pushed_year": "2022",
             "tech": [
                 "js"
             ],
@@ -23203,7 +23194,7 @@
             "github-owner": "WordPress",
             "github-repo": "WordPress",
             "license": null,
-            "pushed_at": "2024-02-05T09:44:05Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "php"
             ],
@@ -23315,7 +23306,7 @@
             "github-owner": "websockets",
             "github-repo": "ws",
             "license": "mit",
-            "pushed_at": "2024-02-05T06:26:39Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js"
             ],
@@ -23728,7 +23719,7 @@
             "github-owner": "statelyai",
             "github-repo": "xstate",
             "license": "mit",
-            "pushed_at": "2024-02-05T15:38:29Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "js",
                 "typescript"
@@ -23739,14 +23730,14 @@
             "github-owner": "erlyaws",
             "github-repo": "yaws",
             "license": "bsd-3-clause",
-            "pushed_at": "2024-01-26T10:07:39Z",
+            "last_pushed_year": "2024",
             "archived": false
         },
         "zenscroll": {
             "github-owner": "zengabor",
             "github-repo": "zenscroll",
             "license": "unlicense",
-            "pushed_at": "2023-01-15T14:40:07Z",
+            "last_pushed_year": "2023",
             "tech": [
                 "js"
             ],
@@ -23773,7 +23764,7 @@
             "github-owner": "madler",
             "github-repo": "zlib",
             "license": null,
-            "pushed_at": "2024-02-05T03:15:14Z",
+            "last_pushed_year": "2024",
             "tech": [
                 "c"
             ],
@@ -23855,5 +23846,5 @@
             }
         }
     },
-    "updated": "2024-02-05 19:17:24"
+    "updated": "2024-02-09 13:17:29"
 }

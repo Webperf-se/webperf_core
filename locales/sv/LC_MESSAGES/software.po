@@ -141,6 +141,9 @@ msgstr "##### Det ser ut som att du använder senaste versionen på all mjukvara
 msgid "TEXT_DETAILED_REVIEW_NO_ARCHIVES"
 msgstr "##### Mjukvara är ej markerad som arkiverad"
 
+msgid "TEXT_DETAILED_REVIEW_NO_UNMAINTAINED"
+msgstr "##### Mjukvara ser ut att underhållas"
+
 msgid "TEXT_DETAILED_REVIEW_NO_END_OF_LIFE"
 msgstr "##### Mjukvara som används ser ej ut att ha nått sitt bäst före datum"
 

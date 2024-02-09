@@ -138,6 +138,9 @@ msgstr "##### You seem to be up to date for all software we can identify"
 msgid "TEXT_DETAILED_REVIEW_NO_ARCHIVES"
 msgstr "##### Opensource software used seem to be active"
 
+msgid "TEXT_DETAILED_REVIEW_NO_UNMAINTAINED"
+msgstr "##### Opensource software used seem to be maintained"
+
 msgid "TEXT_DETAILED_REVIEW_NO_END_OF_LIFE"
 msgstr "##### You don't seem to be using 'END OF LIFE' software"
 

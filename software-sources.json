@@ -25,7 +25,8 @@
         "next": "next.js",
         "piwik": "matomo",
         "query-ui-widget": "jquery-ui",
-        "sizzle-css-selector-engine": "sizzle"
+        "sizzle-css-selector-engine": "sizzle",
+        "geotiff": "geotiff.js"        
     },
     "softwares": {
         "accordion": {
@@ -73,7 +74,7 @@
             "github-repo": "autocomplete"
         },
         "autonumeric": {
-            "github-owner": "BobKnothe",
+            "github-owner": "autoNumeric",
             "github-repo": "autoNumeric"
         },
         "awesomplete": {
@@ -133,7 +134,7 @@
             "github-repo": "bootstrap-validator"
         },
         "bowser": {
-            "github-owner": "lancedikson",
+            "github-owner": "bowser-js",
             "github-repo": "bowser"
         },
         "buffer": {
@@ -312,7 +313,7 @@
             "github-repo": "fastclick"
         },
         "fetch": {
-            "github-owner": "github",
+            "github-owner": "JakeChampion",
             "github-repo": "fetch"
         },
         "flow": {
@@ -363,9 +364,9 @@
             "github-owner": "mozilla",
             "github-repo": "gecko-dev"
         },
-        "geotiff": {
+        "geotiff.js": {
             "github-owner": "geotiffjs",
-            "github-repo": "geotiff"
+            "github-repo": "geotiff.js"
         },
         "get-css-data": {
             "github-owner": "jhildenbiddle",
@@ -627,10 +628,6 @@
             "github-owner": "markedjs",
             "github-repo": "marked"
         },
-        "matchmedia": {
-            "github-owner": "benschwarz",
-            "github-repo": "matchMedia"
-        },
         "material-ui": {
             "github-owner": "mui",
             "github-repo": "material-ui"
@@ -713,7 +710,7 @@
             "github-repo": "PDFObject"
         },
         "pep": {
-            "github-owner": "jquery",
+            "github-owner": "jquery-archive",
             "github-repo": "PEP"
         },
         "php": {
@@ -878,7 +875,7 @@
         },
         "scrolltobyspeed": {
             "github-owner": "ryanburnette",
-            "github-repo": "scrollToBySpeed"
+            "github-repo": "scroll-to-by-speed"
         },
         "secure-filters": {
             "github-owner": "salesforce",
@@ -905,8 +902,8 @@
             "github-repo": "shave"
         },
         "simpler-sidebar": {
-            "github-owner": "simple-sidebar",
-            "github-repo": "simpler-sidebar"
+            "github-owner": "ctrlmaniac",
+            "github-repo": "sidebar"
         },
         "sizzle": {
             "github-owner": "jquery",

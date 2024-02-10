@@ -722,7 +722,7 @@ def enrich_versions(item):
             else:
                 last_pushed_year = int(software_info['last_pushed_year'])
                 current_year = datetime.datetime.now().year
-                for year in range(10, 4, -1):
+                for year in range(10, 2, -1):
                     if last_pushed_year < (current_year - year):
                         match['issues'].append('UNMAINTAINED_SOURCE_{0}_YEARS'.format(year))
 

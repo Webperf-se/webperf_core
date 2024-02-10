@@ -28,7 +28,7 @@ jobs:
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
     - name: Setup node (ONLY used for Yellow Lab Tools AND lighthouse)
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
     - name: Setup lighthouse npm package (ONLY used for lighthouse)
       run: npm install lighthouse
     - if: ${{ matrix.os == 'ubuntu-latest' }}

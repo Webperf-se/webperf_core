@@ -1129,6 +1129,62 @@
         "zxcvbn": {
             "github-owner": "dropbox",
             "github-repo": "zxcvbn"
+        },
+        "string.prototype.at": {
+            "github-owner": "mathiasbynens",
+            "github-repo": "String.prototype.at"
+        },
+        "moment-isoduration": {
+            "github-owner": "dordille",
+            "github-repo": "moment-isoduration"
+        },
+        "jquery.countdown": {
+            "github-owner": "hilios",
+            "github-repo": "jQuery.countdown"
+        },
+        "waves": {
+            "github-owner": "fians",
+            "github-repo": "Waves"
+        },
+        "scrollbarwidth": {
+            "github-owner": "felixexter",
+            "github-repo": "scrollbarWidth"
+        },
+        "lozad.js": {
+            "github-owner": "ApoorvSaxena",
+            "github-repo": "lozad.js"
+        },
+        "base64.js": {
+            "github-owner": "davidchambers",
+            "github-repo": "Base64.js"
+        },
+        "video.js": {
+            "github-owner": "videojs",
+            "github-repo": "video.js"
+        },
+        "eventdispatcher.js": {
+            "github-owner": "mrdoob",
+            "github-repo": "eventdispatcher.js"
+        },
+        "handlebars.js": {
+            "github-owner": "handlebars-lang",
+            "github-repo": "handlebars.js"
+        },
+        "player.js": {
+            "github-owner": "vimeo",
+            "github-repo": "player.js"
+        },
+        "string-dedent": {
+            "github-owner": "jridgewell",
+            "github-repo": "string-dedent"
+        },
+        "node": {
+            "github-owner": "nodejs",
+            "github-repo": "node"
+        },
+        "deno": {
+            "github-owner": "denoland",
+            "github-repo": "deno"
         }
     },
     "updated": "2024-02-10 17:31:33"

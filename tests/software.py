@@ -570,7 +570,7 @@ def get_softwares():
 
 def add_github_software_source(name, github_ower, github_repo, url):
     # ignore this owner as there is no release and nothing to use
-    if github_ower == 'tc39':
+    if github_ower == 'tc39' or github_ower == 'whatwg' or github_ower == 'w3c':
         return
 
     dir = Path(os.path.dirname(

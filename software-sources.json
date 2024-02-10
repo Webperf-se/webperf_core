@@ -5,6 +5,7 @@
         "chart": "chart.js",
         "cookie": "cookiejs",
         "datepicker-for-bootstrap": "bootstrap-datepicker",
+        "geotiff": "geotiff.js",
         "international-telephone-input": "intl-tel-input",
         "javascript cookie": "js-cookie",
         "javascript-cookie": "js-cookie",
@@ -26,7 +27,6 @@
         "piwik": "matomo",
         "query-ui-widget": "jquery-ui",
         "sizzle-css-selector-engine": "sizzle",
-        "geotiff": "geotiff.js",
         "typed": "typed.js",
         "vtt": "vtt.js"
     },
@@ -1131,5 +1131,5 @@
             "github-repo": "zxcvbn"
         }
     },
-    "updated": "2024-02-09 21:32:49"
+    "updated": "2024-02-10 17:31:33"
 }

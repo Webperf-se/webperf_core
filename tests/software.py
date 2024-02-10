@@ -1189,7 +1189,11 @@ def lookup_response_content(item, response_mimetype, response_content, rules):
                 match_github_repo = groups['repo']
                 # fix for repo url ending with .git
                 if match_github_repo.endswith('.git'):
+                    name_is_equal = match_github_repo == match_name
                     match_github_repo = match_github_repo[:-4]
+                    if name_is_equal:
+                        match_name = match_github_repo
+
 
             if '?P<repo>' in rule['match'] and match_github_repo == None:
                 continue

@@ -26,9 +26,9 @@ jobs:
                     version: 23
     steps:
     - name: Check out repository code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: Setup python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
         architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
@@ -78,10 +78,10 @@ jobs:
       name: Download Services database (disconnect) - Windows
       run: |
         Invoke-WebRequest -Uri https://raw.githubusercontent.com/disconnectme/disconnect-tracking-protection/master/services.json -OutFile data\disconnect-services.json
-    - name: Setup Node.js (v3 version 18.x)
-      uses: actions/setup-node@v3
+    - name: Setup Node.js (v4 version 20.x)
+      uses: actions/setup-node@v4
       with:
-        node-version: '18.x'
+        node-version: '20.x'
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       shell: bash
       name: Setup Google Chrome browser (ONLY used for Sitespeed)

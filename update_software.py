@@ -84,6 +84,8 @@ def update_software_info():
             versions = extend_versions_for_php(versions)
         elif key == 'epifind':
             versions = get_epifind_versions()
+        elif key == 'datatables':
+            versions = get_datatables_versions()
         versions = extend_versions_from_github_advisory_database(key, versions)
 
         # print(key, len(versions))
@@ -799,6 +801,31 @@ def get_windows_versions():
         "2003": ['END_OF_LIFE']
     }
 
+    return versions_dict
+
+def get_datatables_versions():
+    # newer_versions = []
+    content = httpRequestGetContent(
+        'https://cdn.datatables.net/releases.html')
+    regex = r">(?P<version>[0-9\.]+)<\/a>"
+    matches = re.finditer(regex, content, re.MULTILINE)
+
+    versions = list()
+    versions_dict = {}
+
+    for matchNum, match in enumerate(matches, start=1):
+        name = match.group('version')
+        try:
+            name_version = packaging.version.parse(name)
+            # Ignore dev and pre releases, for example Matomo 5.0.0-rc3
+            if not name_version.is_prerelease:
+                versions.append(name)
+        except:
+            print('ERROR: Unable to parse version for datatables for version value ', name)
+
+    versions = sorted(versions, key=packaging.version.Version, reverse=True)
+    for version in versions:
+        versions_dict[version] = []
     return versions_dict
 
 def get_epifind_versions():

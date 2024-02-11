@@ -29,10 +29,25 @@
         "query-ui-widget": "jquery-ui",
         "sizzle-css-selector-engine": "sizzle",
         "typed": "typed.js",
-        "vtt": "vtt.js"
+        "vtt": "vtt.js",
+        "jquery-validation-plugin": "jquery-validation",
+        "the-final-countdown-for-jquery": "jquery.countdown",
+        "jquery-color-animations": "jquery-color",
+        "jquery-mmenu": "mmenu-js"
     },
     "softwares": {
         "?": {
+            "custom": true
+        },
+        "mmenu-js": {
+            "github-owner": "FrDH",
+            "github-repo": "mmenu-js"
+        },
+        "imagesloaded": {
+            "github-owner": "desandro",
+            "github-repo": "imagesloaded"
+        },
+        "datatables": {
             "custom": true
         },
         "accordion": {

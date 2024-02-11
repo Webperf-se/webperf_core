@@ -2,8 +2,8 @@
     "loaded": true,
     "aliases": {
         "algoliasearch-client-js": "algoliasearch-client-javascript",
-        "clamp": "clamp.js",
         "chart": "chart.js",
+        "clamp": "clamp.js",
         "cookie": "cookiejs",
         "datepicker-for-bootstrap": "bootstrap-datepicker",
         "geotiff": "geotiff.js",
@@ -32,6 +32,9 @@
         "vtt": "vtt.js"
     },
     "softwares": {
+        "?": {
+            "custom": true
+        },
         "accordion": {
             "github-owner": "michu2k",
             "github-repo": "Accordion"
@@ -168,13 +171,13 @@
             "github-owner": "Choices-js",
             "github-repo": "choices"
         },
-        "clarity": {
-            "github-owner": "microsoft",
-            "github-repo": "clarity"
-        },
         "clamp.js": {
             "github-owner": "josephschmitt",
             "github-repo": "Clamp.js"
+        },
+        "clarity": {
+            "github-owner": "microsoft",
+            "github-repo": "clarity"
         },
         "classnames": {
             "github-owner": "jedwatson",
@@ -716,6 +719,10 @@
             "github-owner": "deanm",
             "github-repo": "omggif"
         },
+        "owl": {
+            "github-owner": "odoo",
+            "github-repo": "owl"
+        },
         "owlcarousel2": {
             "github-owner": "sitevision",
             "github-repo": "OwlCarousel2"
@@ -1198,14 +1205,7 @@
         "zxcvbn": {
             "github-owner": "dropbox",
             "github-repo": "zxcvbn"
-        },
-        "owl": {
-            "github-owner": "odoo",
-            "github-repo": "owl"
-        },
-        "?": {
-            "custom": true
         }
     },
-    "updated": "2024-02-11 19:37:04"
+    "updated": "2024-02-11 20:41:15"
 }

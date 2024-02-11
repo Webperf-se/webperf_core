@@ -908,7 +908,7 @@
             "github-repo": "script.js"
         },
         "scrollbarwidth": {
-            "github-owner": "felixexter",
+            "github-owner": "unmaintain",
             "github-repo": "scrollbarWidth"
         },
         "scrolldir": {
@@ -1185,6 +1185,14 @@
         "zxcvbn": {
             "github-owner": "dropbox",
             "github-repo": "zxcvbn"
+        },
+        "simplebar": {
+            "github-owner": "grsmto",
+            "github-repo": "simplebar"
+        },
+        "ios-orientationchange-fix": {
+            "github-owner": "scottjehl",
+            "github-repo": "iOS-Orientationchange-Fix"
         }
     },
     "updated": "2024-02-10 20:46:19"

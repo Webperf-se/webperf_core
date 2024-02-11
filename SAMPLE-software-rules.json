@@ -343,7 +343,7 @@
             "use": true,
             "type": "x-aspnet-version",
             "description": "Matching asp.net",
-            "match": "(?P<debug>^(?P<ignoreclrversion>4\\.0\\.30319))",
+            "match": "(?P<debug>^(?P<ignoreclrversion>[0-9\\.]+))",
             "results": [
                 {
                     "name": "asp.net",
@@ -357,7 +357,7 @@
             "use": true,
             "type": "x-aspnetmvc-version",
             "description": "Matching asp.net",
-            "match": "(?P<debug>^(?P<ignoremvcversion>[0-9.]+))",
+            "match": "(?P<debug>^(?P<ignoremvcversion>[0-9\\.]+))",
             "results": [
                 {
                     "name": "asp.net",
@@ -370,7 +370,7 @@
             "use": true,
             "type": "x-generator",
             "description": "This matches verified CMS",
-            "match": "(?P<debug>^(?P<name>(drupal)) {0,1}(?P<version>[0-9.]+))",
+            "match": "(?P<debug>^(?P<name>(drupal)) {0,1}(?P<version>[0-9\\.]+))",
             "results": [
                 {
                     "category": "cms",

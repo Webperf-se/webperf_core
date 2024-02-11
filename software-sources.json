@@ -458,6 +458,10 @@
             "github-owner": "jackocnr",
             "github-repo": "intl-tel-input"
         },
+        "ios-orientationchange-fix": {
+            "github-owner": "scottjehl",
+            "github-repo": "iOS-Orientationchange-Fix"
+        },
         "is-extendable": {
             "github-owner": "jonschlinkert",
             "github-repo": "is-extendable"
@@ -943,6 +947,10 @@
             "github-owner": "yowainwright",
             "github-repo": "shave"
         },
+        "simplebar": {
+            "github-owner": "grsmto",
+            "github-repo": "simplebar"
+        },
         "simpler-sidebar": {
             "github-owner": "ctrlmaniac",
             "github-repo": "sidebar"
@@ -1185,15 +1193,7 @@
         "zxcvbn": {
             "github-owner": "dropbox",
             "github-repo": "zxcvbn"
-        },
-        "simplebar": {
-            "github-owner": "grsmto",
-            "github-repo": "simplebar"
-        },
-        "ios-orientationchange-fix": {
-            "github-owner": "scottjehl",
-            "github-repo": "iOS-Orientationchange-Fix"
         }
     },
-    "updated": "2024-02-10 20:46:19"
+    "updated": "2024-02-11 19:37:04"
 }

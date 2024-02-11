@@ -12,12 +12,15 @@
         "javascript-cookie": "js-cookie",
         "javascript.cookie": "js-cookie",
         "jquery migrate": "jquery-migrate",
+        "jquery-color-animations": "jquery-color",
         "jquery-javascript-library": "jquery",
+        "jquery-mmenu": "mmenu-js",
         "jquery-ui-*": "jquery-ui",
         "jquery-ui-autocomplete": "jquery-ui",
         "jquery-ui-core": "jquery-ui",
         "jquery-ui-menu": "jquery-ui",
         "jquery-ui-position": "jquery-ui",
+        "jquery-validation-plugin": "jquery-validation",
         "jquery.inputmask": "inputmask",
         "jquery.migrate'": "jquery-migrate",
         "jsurl": "domurl",
@@ -28,26 +31,12 @@
         "piwik": "matomo",
         "query-ui-widget": "jquery-ui",
         "sizzle-css-selector-engine": "sizzle",
-        "typed": "typed.js",
-        "vtt": "vtt.js",
-        "jquery-validation-plugin": "jquery-validation",
         "the-final-countdown-for-jquery": "jquery.countdown",
-        "jquery-color-animations": "jquery-color",
-        "jquery-mmenu": "mmenu-js"
+        "typed": "typed.js",
+        "vtt": "vtt.js"
     },
     "softwares": {
         "?": {
-            "custom": true
-        },
-        "mmenu-js": {
-            "github-owner": "FrDH",
-            "github-repo": "mmenu-js"
-        },
-        "imagesloaded": {
-            "github-owner": "desandro",
-            "github-repo": "imagesloaded"
-        },
-        "datatables": {
             "custom": true
         },
         "accordion": {
@@ -262,6 +251,9 @@
             "github-owner": "malsup",
             "github-repo": "cycle"
         },
+        "datatables": {
+            "custom": true
+        },
         "date-fns": {
             "github-owner": "date-fns",
             "github-repo": "date-fns"
@@ -460,6 +452,10 @@
         "imageprocessor": {
             "github-owner": "JimBobSquarePants",
             "github-repo": "ImageProcessor"
+        },
+        "imagesloaded": {
+            "github-owner": "desandro",
+            "github-repo": "imagesloaded"
         },
         "imagesloaded-packaged": {
             "github-owner": "desandro",
@@ -689,6 +685,10 @@
             "github-owner": "matomo-org",
             "github-repo": "matomo",
             "github-security-label": "c: Security"
+        },
+        "mmenu-js": {
+            "github-owner": "FrDH",
+            "github-repo": "mmenu-js"
         },
         "modernizr": {
             "github-owner": "Modernizr",
@@ -1222,5 +1222,5 @@
             "github-repo": "zxcvbn"
         }
     },
-    "updated": "2024-02-11 20:41:15"
+    "updated": "2024-02-11 21:20:52"
 }

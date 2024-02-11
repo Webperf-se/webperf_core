@@ -10880,6 +10880,7 @@
             ],
             "archived": false,
             "versions": {
+                "1.1.0": [],
                 "1.0.1": [],
                 "1.0.0": [],
                 "0.11.6": [],
@@ -13048,6 +13049,16 @@
                 "14.0.6": [],
                 "14.0.5": []
             }
+        },
+        "ios-orientationchange-fix": {
+            "github-owner": "scottjehl",
+            "github-repo": "iOS-Orientationchange-Fix",
+            "license": null,
+            "last_pushed_year": "2018",
+            "tech": [
+                "js"
+            ],
+            "archived": false
         },
         "is-extendable": {
             "github-owner": "jonschlinkert",
@@ -22562,10 +22573,21 @@
             }
         },
         "scrollbarwidth": {
-            "github-owner": "felixexter",
+            "github-owner": "unmaintain",
             "github-repo": "scrollbarWidth",
             "license": null,
-            "last_pushed_year": null
+            "last_pushed_year": "2021",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "0.1.4": [],
+                "0.1.3": [],
+                "0.1.2": [],
+                "0.1.1": [],
+                "0.1.0": []
+            }
         },
         "scrolldir": {
             "github-owner": "yowainwright",
@@ -23103,6 +23125,53 @@
                 "0.0.1": [
                     "CVE-2019-12313"
                 ]
+            }
+        },
+        "simplebar": {
+            "github-owner": "grsmto",
+            "github-repo": "simplebar",
+            "license": "mit",
+            "last_pushed_year": "2023",
+            "tech": [
+                "typescript"
+            ],
+            "archived": false,
+            "versions": {
+                "5.0.7": [],
+                "4.2.0": [],
+                "2.6.1": [],
+                "2.6.0": [],
+                "2.5.1": [],
+                "2.5.0": [],
+                "2.4.4": [],
+                "2.4.3": [],
+                "2.4.2": [],
+                "2.4.1": [],
+                "2.4.0": [],
+                "2.3.2": [],
+                "2.3.1": [],
+                "2.3.0": [],
+                "2.2.2": [],
+                "2.2.1": [],
+                "2.2.0": [],
+                "2.1.0": [],
+                "2.0.3": [],
+                "2.0.2": [],
+                "2.0.1": [],
+                "2.0.0": [],
+                "1.1.9": [],
+                "1.1.7": [],
+                "1.1.6": [],
+                "1.1.5": [],
+                "1.1.4": [],
+                "1.1.3": [],
+                "1.1.2": [],
+                "1.1.1": [],
+                "1.1": [],
+                "1.0.8": [],
+                "1.0.7": [],
+                "1.0.6": [],
+                "1.0": []
             }
         },
         "simpler-sidebar": {
@@ -27209,5 +27278,5 @@
             }
         }
     },
-    "updated": "2024-02-10 20:58:14"
+    "updated": "2024-02-11 19:49:56"
 }

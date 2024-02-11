@@ -2,6 +2,7 @@
     "loaded": true,
     "aliases": {
         "algoliasearch-client-js": "algoliasearch-client-javascript",
+        "clamp": "clamp.js",
         "chart": "chart.js",
         "cookie": "cookiejs",
         "datepicker-for-bootstrap": "bootstrap-datepicker",
@@ -170,6 +171,10 @@
         "clarity": {
             "github-owner": "microsoft",
             "github-repo": "clarity"
+        },
+        "clamp.js": {
+            "github-owner": "josephschmitt",
+            "github-repo": "Clamp.js"
         },
         "classnames": {
             "github-owner": "jedwatson",
@@ -1193,6 +1198,13 @@
         "zxcvbn": {
             "github-owner": "dropbox",
             "github-repo": "zxcvbn"
+        },
+        "owl": {
+            "github-owner": "odoo",
+            "github-repo": "owl"
+        },
+        "?": {
+            "custom": true
         }
     },
     "updated": "2024-02-11 19:37:04"

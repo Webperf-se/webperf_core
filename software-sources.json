@@ -11,6 +11,8 @@
         "javascript cookie": "js-cookie",
         "javascript-cookie": "js-cookie",
         "javascript.cookie": "js-cookie",
+        "jquery-cookie": "js-cookie",
+        "jquery-cookie-plugin": "js-cookie",
         "jquery migrate": "jquery-migrate",
         "jquery-color-animations": "jquery-color",
         "jquery-javascript-library": "jquery",
@@ -33,7 +35,15 @@
         "sizzle-css-selector-engine": "sizzle",
         "the-final-countdown-for-jquery": "jquery.countdown",
         "typed": "typed.js",
-        "vtt": "vtt.js"
+        "vtt": "vtt.js",
+        "base64": "base64.js",
+        "eventdispatcher": "eventdispatcher.js",
+        "font-awesome-pro": "font-awesome-free",
+        "imagesloaded-packaged": "imagesloaded",
+        "jquery-json-plugin": "jquery-json",
+        "script": "script.js",
+        "uri": "uri.js",
+        "video": "video.js"
     },
     "softwares": {
         "?": {
@@ -106,10 +116,6 @@
         "backbone.marionette": {
             "github-owner": "marionettejs",
             "github-repo": "backbone.marionette"
-        },
-        "base64": {
-            "github-owner": "davidchambers",
-            "github-repo": "Base64.js"
         },
         "base64-js": {
             "github-owner": "beatgammit",
@@ -320,11 +326,7 @@
         "eslint": {
             "github-owner": "eslint",
             "github-repo": "eslint"
-        },
-        "eventdispatcher": {
-            "github-owner": "mrdoob",
-            "github-repo": "eventdispatcher.js"
-        },
+        },        
         "eventdispatcher.js": {
             "github-owner": "mrdoob",
             "github-repo": "eventdispatcher.js"
@@ -457,10 +459,6 @@
             "github-owner": "desandro",
             "github-repo": "imagesloaded"
         },
-        "imagesloaded-packaged": {
-            "github-owner": "desandro",
-            "github-repo": "imagesloaded"
-        },
         "imgliquid": {
             "github-owner": "karacas",
             "github-repo": "imgLiquid"
@@ -529,14 +527,6 @@
             "github-owner": "jquery",
             "github-repo": "jquery-color"
         },
-        "jquery-cookie": {
-            "github-owner": "carhartl",
-            "github-repo": "jquery-cookie"
-        },
-        "jquery-cookie-plugin": {
-            "github-owner": "carhartl",
-            "github-repo": "jquery-cookie"
-        },
         "jquery-deserialize": {
             "github-owner": "kflorence",
             "github-repo": "jquery-deserialize"
@@ -550,10 +540,6 @@
             "github-repo": "jquery-hoverIntent"
         },
         "jquery-json": {
-            "github-owner": "Krinkle",
-            "github-repo": "jquery-json"
-        },
-        "jquery-json-plugin": {
             "github-owner": "Krinkle",
             "github-repo": "jquery-json"
         },
@@ -930,10 +916,6 @@
             "github-owner": "apostrophecms",
             "github-repo": "sanitize-html"
         },
-        "script": {
-            "github-owner": "ded",
-            "github-repo": "script.js"
-        },
         "script.js": {
             "github-owner": "ded",
             "github-repo": "script.js"
@@ -1094,10 +1076,6 @@
             "github-owner": "understrap",
             "github-repo": "understrap"
         },
-        "uri": {
-            "github-owner": "medialize",
-            "github-repo": "URI.js"
-        },
         "uri.js": {
             "github-owner": "medialize",
             "github-repo": "URI.js"
@@ -1109,10 +1087,6 @@
         "verge": {
             "github-owner": "ryanve",
             "github-repo": "verge"
-        },
-        "video": {
-            "github-owner": "videojs",
-            "github-repo": "video.js"
         },
         "video-js-swf": {
             "github-owner": "videojs",

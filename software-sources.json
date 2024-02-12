@@ -36,11 +36,13 @@
         "jquery.migrate'": "jquery-migrate",
         "jsurl": "domurl",
         "klaro": "privacy-manager",
+        "leaderline": "leader-line",
         "lightbox": "lightbox2",
         "magnific-popups": "magnific-popup",
         "next": "next.js",
         "piwik": "matomo",
         "query-ui-widget": "jquery-ui",
+        "respond": "respond.js",
         "script": "script.js",
         "simplebar": "simplebar.js",
         "sizzle-css-selector-engine": "sizzle",
@@ -49,9 +51,7 @@
         "uri": "uri.js",
         "video": "video.js",
         "vtt": "vtt.js",
-        "vue.js": "vue",
-        "respond": "respond.js",
-        "leaderline": "leader-line"
+        "vue.js": "vue"
     },
     "softwares": {
         "?": {
@@ -60,6 +60,10 @@
         "accordion": {
             "github-owner": "michu2k",
             "github-repo": "Accordion"
+        },
+        "adapt-chart-to-legend": {
+            "github-owner": "highcharts",
+            "github-repo": "adapt-chart-to-legend"
         },
         "algoliasearch-client-javascript": {
             "github-owner": "algolia",
@@ -137,6 +141,14 @@
             "github-owner": "rdallasgray",
             "github-repo": "bez"
         },
+        "bezier-easing": {
+            "github-owner": "gre",
+            "github-repo": "bezier-easing"
+        },
+        "blazy": {
+            "github-owner": "dinbror",
+            "github-repo": "blazy"
+        },
         "bootstrap": {
             "github-owner": "twbs",
             "github-repo": "bootstrap"
@@ -169,9 +181,17 @@
             "github-owner": "feross",
             "github-repo": "buffer"
         },
+        "bugsnag-js": {
+            "github-owner": "bugsnag",
+            "github-repo": "bugsnag-js"
+        },
         "canvasblocker": {
             "github-owner": "kkapsner",
             "github-repo": "CanvasBlocker"
+        },
+        "canvg": {
+            "github-owner": "canvg",
+            "github-repo": "canvg"
         },
         "chart.js": {
             "github-owner": "chartjs",
@@ -330,6 +350,10 @@
         },
         "epifind": {
             "custom": true
+        },
+        "es5-shim": {
+            "github-owner": "es-shims",
+            "github-repo": "es5-shim"
         },
         "eslint": {
             "github-owner": "eslint",
@@ -511,6 +535,10 @@
             "github-owner": "Pixabay",
             "github-repo": "JavaScript-autoComplete"
         },
+        "jdate": {
+            "github-owner": "tahajahangir",
+            "github-repo": "jdate"
+        },
         "jed": {
             "github-owner": "messageformat",
             "github-repo": "Jed"
@@ -619,6 +647,10 @@
             "github-owner": "callmecavs",
             "github-repo": "jump.js"
         },
+        "leader-line": {
+            "github-owner": "anseki",
+            "github-repo": "leader-line"
+        },
         "libphonenumber": {
             "github-owner": "google",
             "github-repo": "libphonenumber"
@@ -687,6 +719,10 @@
             "github-owner": "matomo-org",
             "github-repo": "matomo",
             "github-security-label": "c: Security"
+        },
+        "meanmenu": {
+            "github-owner": "meanthemes",
+            "github-repo": "meanMenu"
         },
         "mmenu-js": {
             "github-owner": "FrDH",
@@ -883,6 +919,10 @@
             "github-owner": "ankeetmaini",
             "github-repo": "react-infinite-scroll-component"
         },
+        "react-intl-universal": {
+            "github-owner": "alibaba",
+            "github-repo": "react-intl-universal"
+        },
         "react-markdown": {
             "github-owner": "remarkjs",
             "github-repo": "react-markdown"
@@ -1035,6 +1075,10 @@
             "github-owner": "styled-components",
             "github-repo": "styled-components"
         },
+        "superjson": {
+            "github-owner": "blitz-js",
+            "github-repo": "superjson"
+        },
         "svg4everybody": {
             "github-owner": "jonathantneal",
             "github-repo": "svg4everybody"
@@ -1078,6 +1122,10 @@
         "touchswipe-jquery-plugin": {
             "github-owner": "mattbryson",
             "github-repo": "TouchSwipe-Jquery-Plugin"
+        },
+        "trpc": {
+            "github-owner": "trpc",
+            "github-repo": "trpc"
         },
         "twbs-pagination": {
             "github-owner": "josecebe",
@@ -1233,55 +1281,7 @@
         "zxcvbn": {
             "github-owner": "dropbox",
             "github-repo": "zxcvbn"
-        },
-        "es5-shim": {
-            "github-owner": "es-shims",
-            "github-repo": "es5-shim"
-        },
-        "meanmenu": {
-            "github-owner": "meanthemes",
-            "github-repo": "meanMenu"
-        },
-        "canvg": {
-            "github-owner": "canvg",
-            "github-repo": "canvg"
-        },
-        "jdate": {
-            "github-owner": "tahajahangir",
-            "github-repo": "jdate"
-        },
-        "adapt-chart-to-legend": {
-            "github-owner": "highcharts",
-            "github-repo": "adapt-chart-to-legend"
-        },
-        "leader-line": {
-            "github-owner": "anseki",
-            "github-repo": "leader-line"
-        },
-        "bugsnag-js": {
-            "github-owner": "bugsnag",
-            "github-repo": "bugsnag-js"
-        },
-        "blazy": {
-            "github-owner": "dinbror",
-            "github-repo": "blazy"
-        },
-        "bezier-easing": {
-            "github-owner": "gre",
-            "github-repo": "bezier-easing"
-        },
-        "react-intl-universal": {
-            "github-owner": "alibaba",
-            "github-repo": "react-intl-universal"
-        },
-        "trpc": {
-            "github-owner": "trpc",
-            "github-repo": "trpc"
-        },
-        "superjson": {
-            "github-owner": "blitz-js",
-            "github-repo": "superjson"
         }
     },
-    "updated": "2024-02-12 12:27:16"
+    "updated": "2024-02-12 21:17:41"
 }

@@ -2,20 +2,25 @@
     "loaded": true,
     "aliases": {
         "algoliasearch-client-js": "algoliasearch-client-javascript",
+        "base64": "base64.js",
         "chart": "chart.js",
         "clamp": "clamp.js",
         "cookie": "cookiejs",
         "datepicker-for-bootstrap": "bootstrap-datepicker",
+        "eventdispatcher": "eventdispatcher.js",
+        "font-awesome-pro": "font-awesome-free",
         "geotiff": "geotiff.js",
+        "imagesloaded-packaged": "imagesloaded",
         "international-telephone-input": "intl-tel-input",
         "javascript cookie": "js-cookie",
         "javascript-cookie": "js-cookie",
         "javascript.cookie": "js-cookie",
-        "jquery-cookie": "js-cookie",
-        "jquery-cookie-plugin": "js-cookie",
         "jquery migrate": "jquery-migrate",
         "jquery-color-animations": "jquery-color",
+        "jquery-cookie": "js-cookie",
+        "jquery-cookie-plugin": "js-cookie",
         "jquery-javascript-library": "jquery",
+        "jquery-json-plugin": "jquery-json",
         "jquery-mmenu": "mmenu-js",
         "jquery-ui-*": "jquery-ui",
         "jquery-ui-autocomplete": "jquery-ui",
@@ -32,18 +37,13 @@
         "next": "next.js",
         "piwik": "matomo",
         "query-ui-widget": "jquery-ui",
+        "script": "script.js",
         "sizzle-css-selector-engine": "sizzle",
         "the-final-countdown-for-jquery": "jquery.countdown",
         "typed": "typed.js",
-        "vtt": "vtt.js",
-        "base64": "base64.js",
-        "eventdispatcher": "eventdispatcher.js",
-        "font-awesome-pro": "font-awesome-free",
-        "imagesloaded-packaged": "imagesloaded",
-        "jquery-json-plugin": "jquery-json",
-        "script": "script.js",
         "uri": "uri.js",
-        "video": "video.js"
+        "video": "video.js",
+        "vtt": "vtt.js"
     },
     "softwares": {
         "?": {
@@ -326,7 +326,7 @@
         "eslint": {
             "github-owner": "eslint",
             "github-repo": "eslint"
-        },        
+        },
         "eventdispatcher.js": {
             "github-owner": "mrdoob",
             "github-repo": "eventdispatcher.js"
@@ -1196,5 +1196,5 @@
             "github-repo": "zxcvbn"
         }
     },
-    "updated": "2024-02-11 21:20:52"
+    "updated": "2024-02-12 10:27:02"
 }

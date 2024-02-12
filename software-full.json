@@ -2,14 +2,18 @@
     "loaded": true,
     "aliases": {
         "algoliasearch-client-js": "algoliasearch-client-javascript",
+        "asp.net-signalr-javascript-library": "signalr",
         "base64": "base64.js",
         "chart": "chart.js",
         "clamp": "clamp.js",
         "cookie": "cookiejs",
         "datepicker-for-bootstrap": "bootstrap-datepicker",
+        "enquire": "enquire.js",
         "eventdispatcher": "eventdispatcher.js",
         "font-awesome-pro": "font-awesome-free",
         "geotiff": "geotiff.js",
+        "hammer": "hammer.js",
+        "handlebars": "handlebars.js",
         "imagesloaded-packaged": "imagesloaded",
         "international-telephone-input": "intl-tel-input",
         "javascript cookie": "js-cookie",
@@ -38,12 +42,14 @@
         "piwik": "matomo",
         "query-ui-widget": "jquery-ui",
         "script": "script.js",
+        "simplebar": "simplebar.js",
         "sizzle-css-selector-engine": "sizzle",
         "the-final-countdown-for-jquery": "jquery.countdown",
         "typed": "typed.js",
         "uri": "uri.js",
         "video": "video.js",
-        "vtt": "vtt.js"
+        "vtt": "vtt.js",
+        "vue.js": "vue"
     },
     "softwares": {
         "?": {
@@ -10532,7 +10538,7 @@
                 ]
             }
         },
-        "enquire": {
+        "enquire.js": {
             "github-owner": "WickyNilliams",
             "github-repo": "enquire.js",
             "license": "mit",
@@ -12217,7 +12223,7 @@
                 "15.3.0": []
             }
         },
-        "hammer": {
+        "hammer.js": {
             "github-owner": "hammerjs",
             "github-repo": "hammer.js",
             "license": "mit",
@@ -14212,6 +14218,33 @@
                 "1.1.1": [],
                 "1.1": [],
                 "1.0": []
+            }
+        },
+        "jquery-flexslider": {
+            "github-owner": "woocommerce",
+            "github-repo": "FlexSlider",
+            "license": "gpl-2.0",
+            "last_pushed_year": "2022",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "2.7.2": [],
+                "2.7.1": [],
+                "2.7.0": [],
+                "2.6.4": [],
+                "2.6.3": [],
+                "2.6.2": [],
+                "2.6.1": [],
+                "2.6.0": [],
+                "2.5.0": [],
+                "2.4.0": [],
+                "2.3.0": [],
+                "2.2.2": [],
+                "2.2.1": [],
+                "2.2": [],
+                "2.1": []
             }
         },
         "jquery-focuspoint": {
@@ -16232,6 +16265,78 @@
                 "1.8.0": []
             }
         },
+        "mark.js": {
+            "github-owner": "julkue",
+            "github-repo": "mark.js",
+            "license": "mit",
+            "last_pushed_year": "2023",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "8.11.1": [],
+                "8.11.0": [],
+                "8.10.1": [],
+                "8.10.0": [],
+                "8.9.1": [],
+                "8.9.0": [],
+                "8.8.3": [],
+                "8.8.2": [],
+                "8.8.1": [],
+                "8.8.0": [],
+                "8.7.0": [],
+                "8.6.1": [],
+                "8.6.0": [],
+                "8.5.0": [],
+                "8.4.3": [],
+                "8.4.2": [],
+                "8.4.1": [],
+                "8.4.0": [],
+                "8.3.0": [],
+                "8.2.0": [],
+                "8.1.1": [],
+                "8.1.0": [],
+                "8.0.1": [],
+                "8.0.0": [],
+                "7.0.2": [],
+                "7.0.1": [],
+                "7.0.0": [],
+                "6.4.0": [],
+                "6.3.0": [],
+                "6.2.0": [],
+                "6.1.0": [],
+                "6.0.1": [],
+                "6.0.0": [],
+                "5.2.3": [],
+                "5.2.2": [],
+                "5.2.1": [],
+                "5.2.0": [],
+                "5.1.0": [],
+                "5.0.0": [],
+                "4.0.2": [],
+                "4.0.1": [],
+                "4.0.0": [],
+                "3.1.3": [],
+                "3.1.2": [],
+                "3.1.1": [],
+                "3.1.0": [],
+                "3.0.0": [],
+                "2.4.0": [],
+                "2.3.3": [],
+                "2.3.2": [],
+                "2.3.1": [],
+                "2.3.0": [],
+                "2.2.2": [],
+                "2.2.1": [],
+                "2.2.0": [],
+                "2.1.1": [],
+                "2.1.0": [],
+                "2.0.1": [],
+                "2.0.0": [],
+                "1.0.0": []
+            }
+        },
         "marked": {
             "github-owner": "markedjs",
             "github-repo": "marked",
@@ -17285,6 +17390,7 @@
             ],
             "archived": false,
             "versions": {
+                "2.2.0": [],
                 "2.1.7": [],
                 "2.1.6": [],
                 "2.1.5": [],
@@ -17382,8 +17488,7 @@
                 "0.30.0": [],
                 "0.29.0": [],
                 "0.28.2": [],
-                "0.28.1": [],
-                "0.28.0": []
+                "0.28.1": []
             }
         },
         "nanopop": {
@@ -18413,6 +18518,18 @@
             "last_pushed_year": "2019",
             "tech": [
                 "js"
+            ],
+            "archived": false
+        },
+        "openssl": {
+            "github-owner": "openssl",
+            "github-repo": "openssl",
+            "github-source": "releases",
+            "github-prefix": "OpenSSL ",
+            "license": "apache-2.0",
+            "last_pushed_year": "2024",
+            "tech": [
+                "c"
             ],
             "archived": false
         },
@@ -20899,6 +21016,115 @@
                 "1.0.1": []
             }
         },
+        "polyfill-service": {
+            "github-owner": "JakeChampion",
+            "github-repo": "polyfill-service",
+            "license": "mit",
+            "last_pushed_year": "2024",
+            "archived": false,
+            "versions": {
+                "4.57.0": [],
+                "4.56.1": [],
+                "4.56.0": [],
+                "4.55.0": [],
+                "4.54.0": [],
+                "4.53.0": [],
+                "4.52.0": [],
+                "4.51.0": [],
+                "4.50.6": [],
+                "4.50.5": [],
+                "4.50.4": [],
+                "4.50.3": [],
+                "4.50.2": [],
+                "4.50.1": [],
+                "4.50.0": [],
+                "4.49.5": [],
+                "4.49.4": [],
+                "4.49.3": [],
+                "4.49.2": [],
+                "4.49.1": [],
+                "4.49.0": [],
+                "4.48.0": [],
+                "4.47.0": [],
+                "4.46.1": [],
+                "4.46.0": [],
+                "4.45.1": [],
+                "4.45.0": [],
+                "4.44.0": [],
+                "4.43.1": [],
+                "4.43.0": [],
+                "4.42.0": [],
+                "4.41.0": [],
+                "4.40.0": [],
+                "4.39.1": [],
+                "4.39.0": [],
+                "4.38.0": [],
+                "4.37.0": [],
+                "4.36.0": [],
+                "4.35.0": [],
+                "4.34.0": [],
+                "4.33.1": [],
+                "4.33.0": [],
+                "4.32.2": [],
+                "4.32.1": [],
+                "4.32.0": [],
+                "4.31.0": [],
+                "4.30.1": [],
+                "4.30.0": [],
+                "4.29.0": [],
+                "4.28.3": [],
+                "4.28.1": [],
+                "4.28.0": [],
+                "4.27.0": [],
+                "4.26.0": [],
+                "4.25.0": [],
+                "4.24.0": [],
+                "4.23.1": [],
+                "4.23.0": [],
+                "4.22.0": [],
+                "4.21.0": [],
+                "4.20.0": [],
+                "4.19.0": [],
+                "4.18.0": [],
+                "4.17.1": [],
+                "4.17.0": [],
+                "4.16.1": [],
+                "4.16.0": [],
+                "4.15.2": [],
+                "4.15.1": [],
+                "4.15.0": [],
+                "4.14.1": [],
+                "4.14.0": [],
+                "4.13.1": [],
+                "4.13.0": [],
+                "4.12.0": [],
+                "4.11.0": [],
+                "4.10.0": [],
+                "4.9.0": [],
+                "4.8.1": [],
+                "4.8.0": [],
+                "4.7.2": [],
+                "4.7.1": [],
+                "4.7.0": [],
+                "4.6.0": [],
+                "4.5.2": [],
+                "4.5.1": [],
+                "4.5.0": [],
+                "4.4.1": [],
+                "4.4.0": [],
+                "4.3.4": [],
+                "4.3.3": [],
+                "4.3.2": [],
+                "4.3.1": [],
+                "4.3.0": [],
+                "4.2.5": [],
+                "4.2.4": [],
+                "4.2.3": [],
+                "4.2.2": [],
+                "4.2.1": [],
+                "4.2.0": []
+            }
+        },
         "popper-core": {
             "github-owner": "floating-ui",
             "github-repo": "floating-ui",
@@ -23109,6 +23335,20 @@
                 ]
             }
         },
+        "selectivizr": {
+            "github-owner": "keithclark",
+            "github-repo": "selectivizr",
+            "license": null,
+            "last_pushed_year": "2017",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "1.0.2": [],
+                "1.0.1": []
+            }
+        },
         "sentry-javascript": {
             "github-owner": "getsentry",
             "github-repo": "sentry-javascript",
@@ -23460,7 +23700,48 @@
                 ]
             }
         },
-        "simplebar": {
+        "signalr": {
+            "github-owner": "SignalR",
+            "github-repo": "SignalR",
+            "license": null,
+            "last_pushed_year": "2023",
+            "archived": false,
+            "versions": {
+                "2.4.3": [],
+                "2.4.2": [],
+                "2.4.1": [],
+                "2.4.0": [],
+                "2.3.0": [],
+                "2.2.2": [],
+                "2.2.1": [],
+                "2.2.0": [],
+                "2.1.2": [],
+                "2.1.1": [],
+                "2.1.0": [],
+                "2.0.3": [],
+                "2.0.2": [],
+                "2.0.1": [],
+                "2.0.0": [],
+                "1.2.2": [],
+                "1.2.1": [],
+                "1.2.0": [],
+                "1.1.4": [],
+                "1.1.3": [],
+                "1.1.2": [],
+                "1.1.1": [],
+                "1.1.0": [],
+                "1.0.1": [],
+                "1.0.0": [],
+                "0.5.3": [],
+                "0.5.2": [],
+                "0.5.1": [],
+                "0.5.0": [],
+                "0.5": [],
+                "0.4": [],
+                "0.3.5": []
+            }
+        },
+        "simplebar.js": {
             "github-owner": "grsmto",
             "github-repo": "simplebar",
             "license": "mit",
@@ -24000,6 +24281,30 @@
                 "4.0.2": [],
                 "4.0.1": [],
                 "4.0.0": []
+            }
+        },
+        "svg4everybody": {
+            "github-owner": "jonathantneal",
+            "github-repo": "svg4everybody",
+            "license": null,
+            "last_pushed_year": "2024",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "2.1.9": [],
+                "2.1.8": [],
+                "2.1.7": [],
+                "2.1.4": [],
+                "2.1.3": [],
+                "2.1.2": [],
+                "2.1.1": [],
+                "2.1.0": [],
+                "2.0.3": [],
+                "2.0.2": [],
+                "2.0.0": [],
+                "1.0.0": []
             }
         },
         "svgxuse": {
@@ -27325,5 +27630,5 @@
             }
         }
     },
-    "updated": "2024-02-12 10:38:51"
+    "updated": "2024-02-12 12:40:29"
 }

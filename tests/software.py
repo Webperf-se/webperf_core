@@ -573,6 +573,10 @@ def add_github_software_source(name, github_ower, github_repo, url):
     if github_ower == 'tc39' or github_ower == 'whatwg' or github_ower == 'w3c':
         return
 
+    # ignore this repo as there is no release and nothing to use
+    if github_repo.startswith('tc39-') or github_repo.startswith('proposal-'):
+        return
+
     dir = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent
 
@@ -736,7 +740,10 @@ def enrich_versions(item):
 
         try:
             # ensure version field uses valid format
-            version = packaging.version.Version(match['version'])
+            if match['name'] == 'openssl':
+                version = ''.join(["+" + str(c) if c.isalpha() else c for c in match['version']])
+            else:
+                version = packaging.version.Version(match['version'])
         except:
             # TODO: handle matomo like software rules where version = '>=4.x'.
             # TODO: handle matomo like software rules where version = '>4.x'.
@@ -751,7 +758,10 @@ def enrich_versions(item):
         for current_version in software_info['versions'].keys():
             tmp_version = None
             try:
-                tmp_version = packaging.version.Version(current_version)
+                if match['name'] == 'openssl':
+                    tmp_version = packaging.version.Version(''.join(["+" + str(c) if c.isalpha() else c for c in current_version]))
+                else:
+                    tmp_version = packaging.version.Version(current_version)
             except:
                 # print('DEBUG B', current_version)
                 continue

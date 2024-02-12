@@ -50,6 +50,7 @@ def update_software_info():
         github_security = None
         github_release_source = 'tags'
         github_version_prefix = None
+        github_version_key = None
 
         if 'github-owner' in collection['softwares'][key]:
             github_ower = collection['softwares'][key]['github-owner']
@@ -62,6 +63,8 @@ def update_software_info():
             github_release_source = collection['softwares'][key]['github-security']
         if 'github-prefix' in collection['softwares'][key]:
             github_version_prefix = collection['softwares'][key]['github-prefix']
+        if 'github-key' in collection['softwares'][key]:
+            github_version_key = collection['softwares'][key]['github-key']
 
         if 'note' in collection['softwares'][key]:
             print('ERROR! You are not allowed to add "software-sources.json" when it still includes "note" field.')
@@ -71,7 +74,7 @@ def update_software_info():
         if github_ower != None:
             set_github_repository_info(item, github_ower, github_repo)
             # TODO: Git Archived status for repo and warn for it if it is.
-            versions = get_github_versions(github_ower, github_repo, github_release_source, github_security, github_version_prefix)
+            versions = get_github_versions(github_ower, github_repo, github_release_source, github_security, github_version_prefix, github_version_key)
         if key == 'iis':
             versions = get_iis_versions()
             versions = extend_versions_for_iis(versions)
@@ -89,6 +92,8 @@ def update_software_info():
             versions = get_epifind_versions()
         elif key == 'datatables':
             versions = get_datatables_versions()
+        elif key == 'openssl':
+            versions = extend_versions_for_openssl(versions)
         versions = extend_versions_from_github_advisory_database(key, versions)
 
         # print(key, len(versions))
@@ -260,6 +265,80 @@ def extend_versions_for_iis(versions):
 
             if is_match:
                 versions[version].append(cve)
+                versions[version] = sorted(versions[version], reverse=True)
+
+    return versions
+
+def extend_versions_for_openssl(versions):
+    versions = extend_versions_for_openssl_end_of_life(versions)
+    versions = extend_versions_for_openssl_vulnerabilities(versions)
+
+    return versions
+
+def extend_versions_for_openssl_vulnerabilities(versions):
+    raw_data = httpRequestGetContent(
+        'https://www.openssl.org/news/vulnerabilities.html')
+    
+    ver = sorted(versions.keys(), reverse=False)
+
+    section_regex = r'name="CVE[0-9\-]+">(?P<CVE>CVE[0-9\-]+)<\/a>.*?<dd>(?P<content>.*?)<dt><a'
+    section_regex_matches = re.finditer(
+        section_regex, raw_data, re.MULTILINE | re.S)
+
+    for section_matchNum, section_match in enumerate(section_regex_matches, start=1):
+        cve = section_match.group('CVE')
+        content = section_match.group('content')
+
+        regex = r'Fixed in OpenSSL (?P<fixed>[0-9\.a-z]+).*?\(Affected since (?P<start>[0-9\.a-z]+)'
+        matches = re.finditer(
+            regex, content, re.MULTILINE | re.S)
+
+        try:
+            for matchNum, match in enumerate(matches, start=1):
+                first_found_in_version = packaging.version.Version(''.join(["+" + str(c) if c.isalpha() else c for c in match.group('start')]))
+                fixed_in_version = packaging.version.Version(''.join(["+" + str(c) if c.isalpha() else c for c in match.group('fixed')]))
+
+                for v in ver:
+                        current_version = packaging.version.Version(v)
+                        if current_version >= first_found_in_version and current_version < fixed_in_version:
+                            versions[v].append(cve)
+        except Exception as ex:
+            a = 1
+
+    return versions
+
+
+def extend_versions_for_openssl_end_of_life(versions):
+    raw_data = httpRequestGetContent(
+        'https://www.openssl.org/policies/releasestrat.html')
+    
+    end_of_life_branches = {}
+
+    end_of_life_regex = r'(?P<content>[^>]+) no longer supported'
+    end_of_life_matches = re.finditer(
+        end_of_life_regex, raw_data, re.MULTILINE)
+    for end_of_life_matchNum, end_of_life_match in enumerate(end_of_life_matches, start=1):
+        content = end_of_life_match.group('content')
+
+        regex = r'(?P<version>[0-9\.]+)'
+        matches = re.finditer(
+            regex, content, re.MULTILINE)
+
+        for matchNum, match in enumerate(matches, start=1):
+            is_match = False
+            end_of_life_branch = None
+            end_of_life_version = match.group('version')
+
+            if len(end_of_life_version) > 3:
+                end_of_life_branch = end_of_life_version[:3]
+                # print('end_of_life_branch', end_of_life_branch)
+                end_of_life_branches[end_of_life_branch] = 'END_OF_LIFE'
+
+    for version in versions.keys():
+        if len(version) > 3:
+            version_branch = version[:3]
+            if version_branch in end_of_life_branches:
+                versions[version].append(end_of_life_branches[version_branch])
                 versions[version] = sorted(versions[version], reverse=True)
 
     return versions
@@ -680,7 +759,7 @@ def set_github_repository_info(item, owner, repo):
 
     return
 
-def get_github_versions(owner, repo, source, security_label, version_prefix):
+def get_github_versions(owner, repo, source, security_label, version_prefix, name_key):
     versions_content = httpRequestGetContent(
         'https://api.github.com/repos/{0}/{1}/{2}?state=closed&per_page=100'.format(owner, repo, source))
 
@@ -691,16 +770,19 @@ def get_github_versions(owner, repo, source, security_label, version_prefix):
     for version in version_info:
         if source == 'milestones':
             id_key = 'number'
-            name_key = 'title'
+            if name_key == None:
+                name_key = 'title'
             date_key = 'closed_at'
         elif source == 'tags':
             id_key = None
-            name_key = 'name'
+            if name_key == None:
+                name_key = 'name'
             date_key = None
         else:
             id_key = 'id'
             # we uses tag_name instead of name as bootstrap is missing "name" for some releases
-            name_key = 'tag_name'
+            if name_key == None:
+                name_key = 'tag_name'
             date_key = 'published_at'
 
         if name_key not in version:
@@ -733,6 +815,8 @@ def get_github_versions(owner, repo, source, security_label, version_prefix):
 
         try:
             name = name.strip('.')
+            if owner == 'openssl':
+                name = ''.join(["+" + str(c) if c.isalpha() else c for c in name])
             name_version = packaging.version.parse(name)
             # Ignore dev and pre releases, for example Matomo 5.0.0-rc3
             if not name_version.is_prerelease:

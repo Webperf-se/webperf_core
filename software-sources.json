@@ -738,7 +738,8 @@
             "github-owner": "openssl",
             "github-repo": "openssl",
             "github-source": "releases",
-            "github-prefix": "OpenSSL "
+            "github-prefix": "OpenSSL ",
+            "github-key": "name"
         },
         "owl": {
             "github-owner": "odoo",

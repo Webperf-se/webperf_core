@@ -49,6 +49,7 @@ def update_software_info():
         github_repo = None
         github_security = None
         github_release_source = 'tags'
+        github_version_prefix = None
 
         if 'github-owner' in collection['softwares'][key]:
             github_ower = collection['softwares'][key]['github-owner']
@@ -59,6 +60,8 @@ def update_software_info():
 
         if 'github-security' in collection['softwares'][key]:
             github_release_source = collection['softwares'][key]['github-security']
+        if 'github-prefix' in collection['softwares'][key]:
+            github_version_prefix = collection['softwares'][key]['github-prefix']
 
         if 'note' in collection['softwares'][key]:
             print('ERROR! You are not allowed to add "software-sources.json" when it still includes "note" field.')
@@ -68,7 +71,7 @@ def update_software_info():
         if github_ower != None:
             set_github_repository_info(item, github_ower, github_repo)
             # TODO: Git Archived status for repo and warn for it if it is.
-            versions = get_github_versions(github_ower, github_repo, github_release_source, github_security)
+            versions = get_github_versions(github_ower, github_repo, github_release_source, github_security, github_version_prefix)
         if key == 'iis':
             versions = get_iis_versions()
             versions = extend_versions_for_iis(versions)
@@ -677,7 +680,7 @@ def set_github_repository_info(item, owner, repo):
 
     return
 
-def get_github_versions(owner, repo, source, security_label):
+def get_github_versions(owner, repo, source, security_label, version_prefix):
     versions_content = httpRequestGetContent(
         'https://api.github.com/repos/{0}/{1}/{2}?state=closed&per_page=100'.format(owner, repo, source))
 
@@ -714,9 +717,13 @@ def get_github_versions(owner, repo, source, security_label):
         if date_key in version:
             date = version[date_key]
 
+        key = version[name_key]
+        if key != None and version_prefix != None:
+            key = key.removeprefix(version_prefix)
+
         # NOTE: We do this to handle jquery dual release format "1.12.4/2.2.4"
         regex = r"^([v]|release\-){0,1}(?P<name>[0-9\.\-a-zA-Z]+)([\/](?P<name2>[0-9\.\-a-zA-Z]+)){0,1}"
-        matches = re.finditer(regex, version[name_key])
+        matches = re.finditer(regex, key)
         for matchNum, match in enumerate(matches, start=1):
             name = match.group('name')
             name2 = match.group('name2')

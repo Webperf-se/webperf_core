@@ -43,7 +43,13 @@
         "typed": "typed.js",
         "uri": "uri.js",
         "video": "video.js",
-        "vtt": "vtt.js"
+        "vtt": "vtt.js",
+        "vue.js": "vue",
+        "hammer": "hammer.js",
+        "enquire": "enquire.js",
+        "asp.net-signalr-javascript-library": "signalr",
+        "simplebar": "simplebar.js",
+        "handlebars": "handlebars.js"
     },
     "softwares": {
         "?": {
@@ -316,7 +322,7 @@
             "github-owner": "indutny",
             "github-repo": "elliptic"
         },
-        "enquire": {
+        "enquire.js": {
             "github-owner": "WickyNilliams",
             "github-repo": "enquire.js"
         },
@@ -416,7 +422,7 @@
             "github-repo": "gutenberg",
             "github-source": "releases"
         },
-        "hammer": {
+        "hammer.js": {
             "github-owner": "hammerjs",
             "github-repo": "hammer.js"
         },
@@ -658,6 +664,10 @@
         "mapbox-gl-js": {
             "github-owner": "mapbox",
             "github-repo": "mapbox-gl-js"
+        },
+        "mark.js": {
+            "github-owner": "julkue",
+            "github-repo": "mark.js"
         },
         "marked": {
             "github-owner": "markedjs",
@@ -956,7 +966,7 @@
             "github-owner": "yowainwright",
             "github-repo": "shave"
         },
-        "simplebar": {
+        "simplebar.js": {
             "github-owner": "grsmto",
             "github-repo": "simplebar"
         },
@@ -1194,6 +1204,32 @@
         "zxcvbn": {
             "github-owner": "dropbox",
             "github-repo": "zxcvbn"
+        },
+        "selectivizr": {
+            "github-owner": "keithclark",
+            "github-repo": "selectivizr"
+        },
+        "jquery-flexslider": {
+            "github-owner": "woocommerce",
+            "github-repo": "FlexSlider"
+        },
+        "svg4everybody": {
+            "github-owner": "jonathantneal",
+            "github-repo": "svg4everybody"
+        },
+        "signalr": {
+            "github-owner": "SignalR",
+            "github-repo": "SignalR"
+        },
+        "polyfill-service": {
+            "github-owner": "JakeChampion",
+            "github-repo": "polyfill-service"
+        },
+        "openssl": {
+            "github-owner": "openssl",
+            "github-repo": "openssl",
+            "github-source": "releases",
+            "github-prefix": "OpenSSL "
         }
     },
     "updated": "2024-02-12 10:27:02"

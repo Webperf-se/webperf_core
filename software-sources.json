@@ -49,7 +49,9 @@
         "uri": "uri.js",
         "video": "video.js",
         "vtt": "vtt.js",
-        "vue.js": "vue"
+        "vue.js": "vue",
+        "respond": "respond.js",
+        "leaderline": "leader-line"
     },
     "softwares": {
         "?": {
@@ -905,7 +907,7 @@
             "github-owner": "requirejs",
             "github-repo": "requirejs"
         },
-        "respond": {
+        "respond.js": {
             "github-owner": "scottjehl",
             "github-repo": "Respond"
         },
@@ -1231,6 +1233,54 @@
         "zxcvbn": {
             "github-owner": "dropbox",
             "github-repo": "zxcvbn"
+        },
+        "es5-shim": {
+            "github-owner": "es-shims",
+            "github-repo": "es5-shim"
+        },
+        "meanmenu": {
+            "github-owner": "meanthemes",
+            "github-repo": "meanMenu"
+        },
+        "canvg": {
+            "github-owner": "canvg",
+            "github-repo": "canvg"
+        },
+        "jdate": {
+            "github-owner": "tahajahangir",
+            "github-repo": "jdate"
+        },
+        "adapt-chart-to-legend": {
+            "github-owner": "highcharts",
+            "github-repo": "adapt-chart-to-legend"
+        },
+        "leader-line": {
+            "github-owner": "anseki",
+            "github-repo": "leader-line"
+        },
+        "bugsnag-js": {
+            "github-owner": "bugsnag",
+            "github-repo": "bugsnag-js"
+        },
+        "blazy": {
+            "github-owner": "dinbror",
+            "github-repo": "blazy"
+        },
+        "bezier-easing": {
+            "github-owner": "gre",
+            "github-repo": "bezier-easing"
+        },
+        "react-intl-universal": {
+            "github-owner": "alibaba",
+            "github-repo": "react-intl-universal"
+        },
+        "trpc": {
+            "github-owner": "trpc",
+            "github-repo": "trpc"
+        },
+        "superjson": {
+            "github-owner": "blitz-js",
+            "github-repo": "superjson"
         }
     },
     "updated": "2024-02-12 12:27:16"

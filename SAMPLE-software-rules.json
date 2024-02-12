@@ -1288,6 +1288,19 @@
         {
             "use": true,
             "type": "javascript",
+            "description": "Bugsnag JavaScript",
+            "match": "(?P<debug>Bugsnag JavaScript[\"'],[\t\n\r ]*[a-z]+=[\"'](?P<version>[0-9\\.]+)[\"'])",
+            "results": [
+                {
+                    "name": "bugsnag-js",
+                    "category": "js",
+                    "precision": 0.7
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
             "description": "find unknown",
             "match": "[\\'\"](?P<debug>(?P<version>[0-9]{1,4}\\.[0-9]{1,3}\\.[0-9]{1,3}(\\.[0-9]{1,3}){0,1}))[\\'\"]",
             "results": [

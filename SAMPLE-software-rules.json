@@ -1310,6 +1310,19 @@
                     "precision": 0.5
                 }
             ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "find unknown package",
+            "match2": "(?P<debug>require\\(['\"]{1}(?P<name>[^\\)]+)['\"]{1}\\))",
+            "match": "(?P<debug>require\\(['\"]{1}(?P<name>[a-zA-Z\\:\\-\\_\\:]+)['\"]{1}\\))",
+            "results": [
+                {
+                    "category": "js",
+                    "precision": 0.5
+                }
+            ]
         }
     ],
     "cookies": [

@@ -367,6 +367,10 @@
             "github-owner": "WICG",
             "github-repo": "EventListenerOptions"
         },
+        "express": {
+            "github-owner": "expressjs",
+            "github-repo": "express"
+        },
         "fancybox": {
             "github-owner": "fancyapps",
             "github-repo": "fancybox"
@@ -1281,6 +1285,17 @@
         "zxcvbn": {
             "github-owner": "dropbox",
             "github-repo": "zxcvbn"
+        },
+        "react-intl": {
+            "github-owner": "formatjs",
+            "github-repo": "react-intl",
+            "github-source": "releases",
+            "github-prefix": "react-intl@",
+            "github-key": "name"
+        },
+        "jquery.scrollbar": {
+            "github-owner": "gromo",
+            "github-repo": "jquery.scrollbar"
         }
     },
     "updated": "2024-02-12 21:17:41"

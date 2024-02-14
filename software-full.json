@@ -6708,6 +6708,7 @@
             ],
             "archived": false,
             "versions": {
+                "1.17.0": [],
                 "1.16.0": [],
                 "1.15.1": [],
                 "1.15.0": [],
@@ -6785,8 +6786,7 @@
                 "0.21.5": [],
                 "0.21.4": [],
                 "0.21.3": [],
-                "0.21.2": [],
-                "0.21.1": []
+                "0.21.2": []
             }
         },
         "autonumeric": {
@@ -9192,6 +9192,7 @@
             ],
             "archived": false,
             "versions": {
+                "3.4.19": [],
                 "3.4.18": [],
                 "3.4.17": [],
                 "3.4.16": [],
@@ -9260,8 +9261,7 @@
                 "3.2.15": [],
                 "3.2.14": [],
                 "3.2.13": [],
-                "3.2.12": [],
-                "3.2.11": []
+                "3.2.12": []
             }
         },
         "core-js": {
@@ -9275,6 +9275,7 @@
             ],
             "archived": false,
             "versions": {
+                "3.36.0": [],
                 "3.35.1": [],
                 "3.35.0": [],
                 "3.34.0": [],
@@ -9372,9 +9373,7 @@
                 "3.6.2": [],
                 "3.6.1": [],
                 "3.6.0": [],
-                "3.5.0": [],
-                "3.4.8": [],
-                "3.4.7": []
+                "3.5.0": []
             }
         },
         "crypto-browserify": {
@@ -11105,6 +11104,141 @@
             ],
             "archived": true
         },
+        "express": {
+            "github-owner": "expressjs",
+            "github-repo": "express",
+            "license": "mit",
+            "last_pushed_year": "2024",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "4.18.2": [],
+                "4.18.1": [],
+                "4.18.0": [],
+                "4.17.3": [],
+                "4.17.2": [],
+                "4.17.1": [],
+                "4.17.0": [],
+                "4.16.4": [],
+                "4.16.3": [],
+                "4.16.2": [],
+                "4.16.1": [],
+                "4.16.0": [],
+                "4.15.5": [],
+                "4.15.4": [],
+                "4.15.3": [],
+                "4.15.2": [],
+                "4.15.1": [],
+                "4.15.0": [],
+                "4.14.1": [],
+                "4.14.0": [],
+                "4.13.4": [],
+                "4.13.3": [],
+                "4.13.2": [],
+                "4.13.1": [],
+                "4.13.0": [],
+                "4.12.4": [],
+                "4.12.3": [],
+                "4.12.2": [],
+                "4.12.1": [],
+                "4.12.0": [],
+                "4.11.2": [],
+                "4.11.1": [],
+                "4.11.0": [],
+                "4.10.8": [],
+                "4.10.7": [],
+                "4.10.6": [],
+                "4.10.5": [],
+                "4.10.4": [],
+                "4.10.3": [],
+                "4.10.2": [],
+                "4.10.1": [],
+                "4.10.0": [],
+                "4.9.8": [],
+                "4.9.7": [],
+                "4.9.6": [],
+                "4.9.5": [],
+                "4.9.4": [],
+                "4.9.3": [],
+                "4.9.2": [],
+                "4.9.1": [],
+                "4.9.0": [],
+                "4.8.8": [],
+                "4.8.7": [],
+                "4.8.6": [],
+                "4.8.5": [],
+                "4.8.4": [],
+                "4.8.3": [],
+                "4.8.2": [],
+                "4.8.1": [],
+                "4.8.0": [],
+                "4.7.4": [],
+                "4.7.3": [],
+                "4.7.2": [],
+                "4.7.1": [],
+                "4.7.0": [],
+                "4.6.1": [],
+                "4.6.0": [],
+                "4.5.1": [],
+                "4.5.0": [],
+                "4.4.5": [
+                    "CVE-2014-6393"
+                ],
+                "4.4.4": [
+                    "CVE-2014-6393"
+                ],
+                "4.4.3": [
+                    "CVE-2014-6393"
+                ],
+                "4.4.2": [
+                    "CVE-2014-6393"
+                ],
+                "4.4.1": [
+                    "CVE-2014-6393"
+                ],
+                "4.4.0": [
+                    "CVE-2014-6393"
+                ],
+                "4.3.2": [
+                    "CVE-2014-6393"
+                ],
+                "4.3.1": [
+                    "CVE-2014-6393"
+                ],
+                "4.3.0": [
+                    "CVE-2014-6393"
+                ],
+                "4.2.0": [
+                    "CVE-2014-6393"
+                ],
+                "4.1.2": [
+                    "CVE-2014-6393"
+                ],
+                "4.1.1": [
+                    "CVE-2014-6393"
+                ],
+                "4.1.0": [
+                    "CVE-2014-6393"
+                ],
+                "4.0.0": [
+                    "CVE-2014-6393"
+                ],
+                "3.21.2": [
+                    "CVE-2014-6393"
+                ],
+                "3.21.1": [
+                    "CVE-2014-6393"
+                ],
+                "3.21.0": [
+                    "CVE-2014-6393"
+                ],
+                "3.20.3": [
+                    "CVE-2014-6393"
+                ]
+            }
+        },
         "fancybox": {
             "github-owner": "fancyapps",
             "github-repo": "fancybox",
@@ -12450,6 +12584,7 @@
             ],
             "archived": false,
             "versions": {
+                "17.6.6": [],
                 "17.6.5": [],
                 "17.6.4": [],
                 "17.6.3": [],
@@ -15304,6 +15439,33 @@
                 "0.2.1": [],
                 "0.2.0": [],
                 "0.1.0": []
+            }
+        },
+        "jquery.scrollbar": {
+            "github-owner": "gromo",
+            "github-repo": "jquery.scrollbar",
+            "license": "gpl-2.0",
+            "last_pushed_year": "2017",
+            "archived": true,
+            "versions": {
+                "0.2.11": [],
+                "0.2.10": [],
+                "0.2.9": [],
+                "0.2.8": [],
+                "0.2.7": [],
+                "0.2.6": [],
+                "0.2.5": [],
+                "0.2.4": [],
+                "0.2.3": [],
+                "0.2.2": [],
+                "0.2.1": [],
+                "0.2.0": [],
+                "0.1.9": [],
+                "0.1.8": [],
+                "0.1.7": [],
+                "0.1.6": [],
+                "0.1.4": [],
+                "0.1.3": []
             }
         },
         "jquery.sumoselect": {
@@ -20829,94 +20991,94 @@
                     "END_OF_LIFE (8 years, 5 months ago)"
                 ],
                 "5.3.29": [
-                    "END_OF_LIFE (9 years, 5 months ago)"
+                    "END_OF_LIFE (9 years, 6 months ago)"
                 ],
                 "5.3.28": [
-                    "END_OF_LIFE (9 years, 5 months ago)"
+                    "END_OF_LIFE (9 years, 6 months ago)"
                 ],
                 "5.3.27": [
-                    "END_OF_LIFE (9 years, 5 months ago)"
+                    "END_OF_LIFE (9 years, 6 months ago)"
                 ],
                 "5.3.26": [
-                    "END_OF_LIFE (9 years, 5 months ago)"
+                    "END_OF_LIFE (9 years, 6 months ago)"
                 ],
                 "5.3.25": [
-                    "END_OF_LIFE (9 years, 5 months ago)"
+                    "END_OF_LIFE (9 years, 6 months ago)"
                 ],
                 "5.3.24": [
-                    "END_OF_LIFE (9 years, 5 months ago)"
+                    "END_OF_LIFE (9 years, 6 months ago)"
                 ],
                 "5.3.23": [
-                    "END_OF_LIFE (9 years, 5 months ago)"
+                    "END_OF_LIFE (9 years, 6 months ago)"
                 ],
                 "5.3.22": [
-                    "END_OF_LIFE (9 years, 5 months ago)"
+                    "END_OF_LIFE (9 years, 6 months ago)"
                 ],
                 "5.3.21": [
-                    "END_OF_LIFE (9 years, 5 months ago)"
+                    "END_OF_LIFE (9 years, 6 months ago)"
                 ],
                 "5.3.20": [
-                    "END_OF_LIFE (9 years, 5 months ago)"
+                    "END_OF_LIFE (9 years, 6 months ago)"
                 ],
                 "5.3.19": [
-                    "END_OF_LIFE (9 years, 5 months ago)"
+                    "END_OF_LIFE (9 years, 6 months ago)"
                 ],
                 "5.3.18": [
-                    "END_OF_LIFE (9 years, 5 months ago)"
+                    "END_OF_LIFE (9 years, 6 months ago)"
                 ],
                 "5.3.17": [
-                    "END_OF_LIFE (9 years, 5 months ago)"
+                    "END_OF_LIFE (9 years, 6 months ago)"
                 ],
                 "5.3.16": [
-                    "END_OF_LIFE (9 years, 5 months ago)"
+                    "END_OF_LIFE (9 years, 6 months ago)"
                 ],
                 "5.3.15": [
-                    "END_OF_LIFE (9 years, 5 months ago)"
+                    "END_OF_LIFE (9 years, 6 months ago)"
                 ],
                 "5.3.14": [
-                    "END_OF_LIFE (9 years, 5 months ago)"
+                    "END_OF_LIFE (9 years, 6 months ago)"
                 ],
                 "5.3.13": [
-                    "END_OF_LIFE (9 years, 5 months ago)"
+                    "END_OF_LIFE (9 years, 6 months ago)"
                 ],
                 "5.3.12": [
-                    "END_OF_LIFE (9 years, 5 months ago)"
+                    "END_OF_LIFE (9 years, 6 months ago)"
                 ],
                 "5.3.11": [
-                    "END_OF_LIFE (9 years, 5 months ago)"
+                    "END_OF_LIFE (9 years, 6 months ago)"
                 ],
                 "5.3.10": [
-                    "END_OF_LIFE (9 years, 5 months ago)"
+                    "END_OF_LIFE (9 years, 6 months ago)"
                 ],
                 "5.3.9": [
-                    "END_OF_LIFE (9 years, 5 months ago)"
+                    "END_OF_LIFE (9 years, 6 months ago)"
                 ],
                 "5.3.8": [
-                    "END_OF_LIFE (9 years, 5 months ago)"
+                    "END_OF_LIFE (9 years, 6 months ago)"
                 ],
                 "5.3.7": [
-                    "END_OF_LIFE (9 years, 5 months ago)"
+                    "END_OF_LIFE (9 years, 6 months ago)"
                 ],
                 "5.3.6": [
-                    "END_OF_LIFE (9 years, 5 months ago)"
+                    "END_OF_LIFE (9 years, 6 months ago)"
                 ],
                 "5.3.5": [
-                    "END_OF_LIFE (9 years, 5 months ago)"
+                    "END_OF_LIFE (9 years, 6 months ago)"
                 ],
                 "5.3.4": [
-                    "END_OF_LIFE (9 years, 5 months ago)"
+                    "END_OF_LIFE (9 years, 6 months ago)"
                 ],
                 "5.3.3": [
-                    "END_OF_LIFE (9 years, 5 months ago)"
+                    "END_OF_LIFE (9 years, 6 months ago)"
                 ],
                 "5.3.2": [
-                    "END_OF_LIFE (9 years, 5 months ago)"
+                    "END_OF_LIFE (9 years, 6 months ago)"
                 ],
                 "5.3.1": [
-                    "END_OF_LIFE (9 years, 5 months ago)"
+                    "END_OF_LIFE (9 years, 6 months ago)"
                 ],
                 "5.3.0": [
-                    "END_OF_LIFE (9 years, 5 months ago)"
+                    "END_OF_LIFE (9 years, 6 months ago)"
                 ],
                 "5.2.17": [
                     "END_OF_LIFE (13 years, 1 month ago)"
@@ -22714,6 +22876,15 @@
                 "1.0.1": []
             }
         },
+        "react-intl": {
+            "github-owner": "formatjs",
+            "github-repo": "react-intl",
+            "github-source": "releases",
+            "github-prefix": "react-intl@",
+            "github-key": "name",
+            "license": null,
+            "last_pushed_year": null
+        },
         "react-intl-universal": {
             "github-owner": "alibaba",
             "github-repo": "react-intl-universal",
@@ -23901,6 +24072,7 @@
             ],
             "archived": false,
             "versions": {
+                "7.101.0": [],
                 "7.100.1": [],
                 "7.100.0": [],
                 "7.99.0": [],
@@ -23961,7 +24133,6 @@
                 "7.55.1": [],
                 "7.55.0": [],
                 "7.54.0": [],
-                "7.53.1": [],
                 "3.27.2": [],
                 "3.27.1": [],
                 "2.0.2": [],
@@ -26320,6 +26491,7 @@
             ],
             "archived": false,
             "versions": {
+                "8.11.2": [],
                 "8.11.1": [],
                 "8.11.0": [],
                 "8.10.0": [],
@@ -26503,9 +26675,6 @@
                     "CVE-2021-23414"
                 ],
                 "7.7.3": [
-                    "CVE-2021-23414"
-                ],
-                "7.7.2": [
                     "CVE-2021-23414"
                 ]
             }
@@ -28390,5 +28559,5 @@
             }
         }
     },
-    "updated": "2024-02-12 21:32:03"
+    "updated": "2024-02-14 10:20:01"
 }

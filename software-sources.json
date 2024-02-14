@@ -879,6 +879,10 @@
             "github-owner": "prebid",
             "github-repo": "Prebid.js"
         },
+        "prebid.js": {
+            "github-owner": "prebid",
+            "github-repo": "Prebid.js"
+        },
         "privacy-manager": {
             "github-owner": "klaro-org",
             "github-repo": "privacy-manager"
@@ -1293,18 +1297,14 @@
             "github-owner": "madler",
             "github-repo": "zlib"
         },
-        "zxcvbn": {
-            "github-owner": "dropbox",
-            "github-repo": "zxcvbn"
-        },
-        "prebid.js": {
-            "github-owner": "prebid",
-            "github-repo": "Prebid.js"
-        },
         "zustand": {
             "github-owner": "pmndrs",
             "github-repo": "zustand"
+        },
+        "zxcvbn": {
+            "github-owner": "dropbox",
+            "github-repo": "zxcvbn"
         }
     },
-    "updated": "2024-02-14 10:06:53"
+    "updated": "2024-02-14 15:15:04"
 }

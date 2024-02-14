@@ -1296,6 +1296,14 @@
         "zxcvbn": {
             "github-owner": "dropbox",
             "github-repo": "zxcvbn"
+        },
+        "prebid.js": {
+            "github-owner": "prebid",
+            "github-repo": "Prebid.js"
+        },
+        "zustand": {
+            "github-owner": "pmndrs",
+            "github-repo": "zustand"
         }
     },
     "updated": "2024-02-14 10:06:53"

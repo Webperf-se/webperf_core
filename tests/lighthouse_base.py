@@ -4,6 +4,13 @@ import sys
 import json
 from tests.utils import *
 
+try:
+    use_cache = config.cache_when_possible
+    cache_time_delta = config.cache_time_delta
+except:
+    # If cache_when_possible variable is not set in config.py this will be the default
+    use_cache = False
+    cache_time_delta = timedelta(hours=1)
 
 def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category, review_show_improvements_only, lighthouse_use_api):
     """
@@ -158,23 +165,56 @@ def get_json_result(langCode, url, googlePageSpeedApiKey, strategy, category, li
 
         try:
             get_content = httpRequestGetContent(pagespeed_api_request)
+            json_content = str_to_json(get_content, check_url)
+            return json_content
         except:  # breaking and hoping for more luck with the next URL
             print(
                 'Error! Unfortunately the request for URL "{0}" failed, message:\n{1}'.format(
                     check_url, sys.exc_info()[0]))
-            pass
-    else:
-        import subprocess
+            return
+    elif use_cache:
+        dir = Path(os.path.dirname(
+            os.path.realpath(__file__)) + os.path.sep).parent
+        try:
+            folder = 'cache'
 
+            o = urlparse(url)
+            hostname = o.hostname
+
+            cache_path = os.path.join(dir, folder, hostname, 'lighthouse')
+            if not os.path.exists(cache_path):
+                os.makedirs(cache_path)
+
+            result_file = os.path.join(cache_path, 'result.json')
+            bashCommand = "node node_modules{2}lighthouse{2}cli{2}index.js --output json --output-path {3} --locale {1} --form-factor {0} --chrome-flags=\"--headless\" --quiet".format(
+                strategy, langCode, os.path.sep, result_file)
+            artifacts_file = os.path.join(cache_path, 'artifacts.json')
+            if os.path.exists(result_file) and not is_file_older_than(result_file, cache_time_delta):
+                with open(result_file, 'r', encoding='utf-8', newline='') as file:
+                    return str_to_json('\n'.join(file.readlines()), check_url)
+            elif os.path.exists(artifacts_file) and not is_file_older_than(artifacts_file, cache_time_delta):
+                bashCommand += " -A={0}".format(cache_path)
+            else:
+                bashCommand += " -GA={0} {1}".format(cache_path, check_url)
+
+            import subprocess
+
+            process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+            output, error = process.communicate()
+            with open(result_file, 'r', encoding='utf-8', newline='') as file:
+                return str_to_json('\n'.join(file.readlines()), check_url)
+        except:
+            return
+    else:
         bashCommand = "node node_modules{4}lighthouse{4}cli{4}index.js {1} --output json --output-path stdout --locale {3} --only-categories {0} --form-factor {2} --chrome-flags=\"--headless\" --quiet".format(
             category, check_url, strategy, langCode, os.path.sep)
-        # bashCommand = "node node_modules{3}lighthouse{3}cli{3}index.js {1} --output json --output-path stdout --locale {2} --only-categories {0}".format(
-        #     category, check_url, langCode, os.path.sep)
+
+        import subprocess
 
         process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
         output, error = process.communicate()
 
         get_content = output
 
-    json_content = str_to_json(get_content, check_url)
-    return json_content
+        json_content = str_to_json(get_content, check_url)
+        return json_content

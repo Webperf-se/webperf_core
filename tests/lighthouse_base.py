@@ -4,6 +4,7 @@ import sys
 import json
 from tests.utils import *
 
+request_timeout = config.http_request_timeout
 try:
     use_cache = config.cache_when_possible
     cache_time_delta = config.cache_time_delta
@@ -190,9 +191,17 @@ def get_json_result(langCode, url, googlePageSpeedApiKey, strategy, category, li
                 strategy, langCode, os.path.sep, result_file)
             artifacts_file = os.path.join(cache_path, 'artifacts.json')
             if os.path.exists(result_file) and not is_file_older_than(result_file, cache_time_delta):
+                file_created_timestamp = os.path.getctime(result_file)
+                file_created_date = time.ctime(file_created_timestamp)
+                print('Cached entry found from {0}, using it instead of calling website again.'.format(
+                    file_created_date))
                 with open(result_file, 'r', encoding='utf-8', newline='') as file:
                     return str_to_json('\n'.join(file.readlines()), check_url)
             elif os.path.exists(artifacts_file) and not is_file_older_than(artifacts_file, cache_time_delta):
+                file_created_timestamp = os.path.getctime(artifacts_file)
+                file_created_date = time.ctime(file_created_timestamp)
+                print('Cached entry found from {0}, using it instead of calling website again.'.format(
+                    file_created_date))
                 bashCommand += " -A={0}".format(cache_path)
             else:
                 bashCommand += " -GA={0} {1}".format(cache_path, check_url)
@@ -200,7 +209,7 @@ def get_json_result(langCode, url, googlePageSpeedApiKey, strategy, category, li
             import subprocess
 
             process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-            output, error = process.communicate()
+            output, error = process.communicate(timeout=request_timeout * 10)
             with open(result_file, 'r', encoding='utf-8', newline='') as file:
                 return str_to_json('\n'.join(file.readlines()), check_url)
         except:
@@ -212,7 +221,7 @@ def get_json_result(langCode, url, googlePageSpeedApiKey, strategy, category, li
         import subprocess
 
         process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-        output, error = process.communicate()
+        output, error = process.communicate(timeout=request_timeout * 10)
 
         get_content = output
 

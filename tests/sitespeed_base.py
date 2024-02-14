@@ -5,8 +5,8 @@ from urllib.parse import urlparse
 import config
 from tests.utils import *
 
+request_timeout = config.http_request_timeout
 sitespeed_use_docker = config.sitespeed_use_docker
-
 
 def get_result(url, sitespeed_use_docker, sitespeed_arg):
     folder = 'tmp'
@@ -97,21 +97,21 @@ def cleanup_results_dir(browsertime_path, path):
 
 def get_result_using_no_cache(sitespeed_use_docker, arg):
 
-    print('DEBUG get_result_using_no_cache(arg)', arg)
+    # print('DEBUG get_result_using_no_cache(arg)', arg)
     result = ''
     if sitespeed_use_docker:
         dir = Path(os.path.dirname(
             os.path.realpath(__file__)) + os.path.sep).parent
         data_dir = dir.resolve()
 
-        print('DEBUG get_result_using_no_cache(data_dir)', data_dir)
+        # print('DEBUG get_result_using_no_cache(data_dir)', data_dir)
 
         bashCommand = "docker run --rm -v {1}:/sitespeed.io sitespeedio/sitespeed.io:latest {0}".format(
             arg, data_dir)
 
         import subprocess
         process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-        output, error = process.communicate(timeout=request_timeout * 2)
+        output, error = process.communicate(timeout=request_timeout * 10)
 
         if error != None:
             print('DEBUG get_result_using_no_cache(error)', error)
@@ -121,7 +121,7 @@ def get_result_using_no_cache(sitespeed_use_docker, arg):
         if 'Could not locate Firefox on the current system' in result:
             print('ERROR! Could not locate Firefox on the current system.')
         #else:
-        print('DEBUG get_result_using_no_cache(result)', '\n\t', result.replace('\\n', '\n\t'))
+        # print('DEBUG get_result_using_no_cache(result)', '\n\t', result.replace('\\n', '\n\t'))
     else:
         import subprocess
 
@@ -131,7 +131,7 @@ def get_result_using_no_cache(sitespeed_use_docker, arg):
         process = subprocess.Popen(
             bashCommand.split(), stdout=subprocess.PIPE)
 
-        output, error = process.communicate(timeout=request_timeout * 2)
+        output, error = process.communicate(timeout=request_timeout * 10)
         
         if error != None:
             print('DEBUG get_result_using_no_cache(error)', error)
@@ -141,7 +141,7 @@ def get_result_using_no_cache(sitespeed_use_docker, arg):
         if 'Could not locate Firefox on the current system' in result:
             print('ERROR! Could not locate Firefox on the current system.')
         #else:
-        print('DEBUG get_result_using_no_cache(result)', '\n\t', result.replace('\\n', '\n\t'))
+        # print('DEBUG get_result_using_no_cache(result)', '\n\t', result.replace('\\n', '\n\t'))
 
     return result
 def get_sanitized_browsertime(input_filename):

@@ -9,6 +9,7 @@ import gettext
 _local = gettext.gettext
 
 # DEFAULTS
+request_timeout = config.http_request_timeout
 review_show_improvements_only = config.review_show_improvements_only
 time_sleep = config.webbkoll_sleep
 if time_sleep < 5:
@@ -73,7 +74,7 @@ def run_test(_, langCode, url, device='phone'):
         bashCommand = "node node_modules{1}yellowlabtools{1}bin{1}cli.js {0}".format(
             url, os.path.sep)
         process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-        output, error = process.communicate()
+        output, error = process.communicate(timeout=request_timeout * 10)
 
         result_json = output
 

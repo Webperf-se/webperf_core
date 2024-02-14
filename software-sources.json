@@ -627,6 +627,10 @@
             "github-owner": "private-face",
             "github-repo": "jquery.fullscreen"
         },
+        "jquery.scrollbar": {
+            "github-owner": "gromo",
+            "github-repo": "jquery.scrollbar"
+        },
         "jquery.sumoselect": {
             "github-owner": "hemantnegi",
             "github-repo": "jquery.sumoselect"
@@ -922,6 +926,13 @@
         "react-infinite-scroll-component": {
             "github-owner": "ankeetmaini",
             "github-repo": "react-infinite-scroll-component"
+        },
+        "react-intl": {
+            "github-owner": "formatjs",
+            "github-repo": "react-intl",
+            "github-source": "releases",
+            "github-prefix": "react-intl@",
+            "github-key": "name"
         },
         "react-intl-universal": {
             "github-owner": "alibaba",
@@ -1285,18 +1296,7 @@
         "zxcvbn": {
             "github-owner": "dropbox",
             "github-repo": "zxcvbn"
-        },
-        "react-intl": {
-            "github-owner": "formatjs",
-            "github-repo": "react-intl",
-            "github-source": "releases",
-            "github-prefix": "react-intl@",
-            "github-key": "name"
-        },
-        "jquery.scrollbar": {
-            "github-owner": "gromo",
-            "github-repo": "jquery.scrollbar"
         }
     },
-    "updated": "2024-02-12 21:17:41"
+    "updated": "2024-02-14 10:06:53"
 }

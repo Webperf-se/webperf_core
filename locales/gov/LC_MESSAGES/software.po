@@ -135,11 +135,32 @@ msgstr "##### NO Common Vulnerabilities and Exposures found"
 msgid "TEXT_DETAILED_REVIEW_NO_BEHIND"
 msgstr "##### You seem to be up to date for all software we can identify"
 
-msgid "TEXT_DETAILED_REVIEW_NO_ARCHIVES"
-msgstr "##### Opensource software used seem to be active"
-
 msgid "TEXT_DETAILED_REVIEW_NO_UNMAINTAINED"
 msgstr "##### Opensource software used seem to be maintained"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_10_YEARS"
+msgstr "##### Opensource software has been stale for more than 10 years"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_9_YEARS"
+msgstr "##### Opensource software has been stale for more than 9 years"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_8_YEARS"
+msgstr "##### Opensource software has been stale for more than 8 years"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_7_YEARS"
+msgstr "##### Opensource software has been stale for more than 7 years"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_6_YEARS"
+msgstr "##### Opensource software has been stale for more than 6 years"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_5_YEARS"
+msgstr "##### Opensource software has been stale for more than 5 years"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_4_YEARS"
+msgstr "##### Opensource software has been stale for more than 4 years"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_3_YEARS"
+msgstr "##### Opensource software has been stale for more than 3 years"
 
 msgid "TEXT_DETAILED_REVIEW_NO_END_OF_LIFE"
 msgstr "##### You don't seem to be using 'END OF LIFE' software"

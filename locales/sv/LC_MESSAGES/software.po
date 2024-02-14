@@ -138,11 +138,32 @@ msgstr "##### Inga vanliga sårbarheter och exponeringar hittade"
 msgid "TEXT_DETAILED_REVIEW_NO_BEHIND"
 msgstr "##### Det ser ut som att du använder senaste versionen på all mjukvara vi hittar"
 
-msgid "TEXT_DETAILED_REVIEW_NO_ARCHIVES"
-msgstr "##### Mjukvara är ej markerad som arkiverad"
-
 msgid "TEXT_DETAILED_REVIEW_NO_UNMAINTAINED"
 msgstr "##### Mjukvara ser ut att underhållas"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_10_YEARS"
+msgstr "##### Mjukvara saknar buggrättnningar eller andra ändringar de senaste 10 åren"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_9_YEARS"
+msgstr "##### Mjukvara saknar buggrättnningar eller andra ändringar de senaste 9 åren"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_8_YEARS"
+msgstr "##### Mjukvara saknar buggrättnningar eller andra ändringar de senaste 8 åren"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_7_YEARS"
+msgstr "##### Mjukvara saknar buggrättnningar eller andra ändringar de senaste 7 åren"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_6_YEARS"
+msgstr "##### Mjukvara saknar buggrättnningar eller andra ändringar de senaste 6 åren"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_5_YEARS"
+msgstr "##### Mjukvara saknar buggrättnningar eller andra ändringar de senaste 5 åren"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_4_YEARS"
+msgstr "##### Mjukvara saknar buggrättnningar eller andra ändringar de senaste 4 åren"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_3_YEARS"
+msgstr "##### Mjukvara saknar buggrättnningar eller andra ändringar de senaste 3 åren"
 
 msgid "TEXT_DETAILED_REVIEW_NO_END_OF_LIFE"
 msgstr "##### Mjukvara som används ser ej ut att ha nått sitt bäst före datum"

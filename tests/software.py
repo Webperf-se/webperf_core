@@ -210,8 +210,7 @@ def rate_software_security_result(_local, _, result, url):
 
     has_cve_issues = False
     has_behind_issues = False
-    has_archived_source_issues = False
-    has_unmaintained_source_issues = False
+    has_source_issues = False
     # has_multiple_versions_issues = False
     has_end_of_life_issues = False
 
@@ -282,7 +281,7 @@ def rate_software_security_result(_local, _, result, url):
 
             rating += sub_rating
         elif issue_type.startswith('ARCHIVED_SOURCE'):
-            has_archived_source_issues = True
+            has_source_issues = True
             points = 1.75
             sub_rating = Rating(_, review_show_improvements_only)
             sub_rating.set_overall(points)
@@ -303,8 +302,25 @@ def rate_software_security_result(_local, _, result, url):
                 sub_rating.integrity_and_security_review = text
             rating += sub_rating
         elif issue_type.startswith('UNMAINTAINED_SOURCE'):
-            has_unmaintained_source_issues = True
+            has_source_issues = True
             points = 3.0
+            if issue_type.endswith('3_YEARS'):
+                points = 4.0
+            elif issue_type.endswith('4_YEARS'):
+                points = 3.5
+            elif issue_type.endswith('5_YEARS'):
+                points = 3.0
+            elif issue_type.endswith('6_YEARS'):
+                points = 2.5
+            elif issue_type.endswith('7_YEARS'):
+                points = 2.0
+            elif issue_type.endswith('8_YEARS'):
+                points = 1.5
+            elif issue_type.endswith('9_YEARS'):
+                points = 1.0
+            elif issue_type.endswith('10_YEARS'):
+                points = 1.0
+                
             sub_rating = Rating(_, review_show_improvements_only)
             sub_rating.set_overall(points)
             sub_rating.set_integrity_and_security(points)
@@ -370,17 +386,7 @@ def rate_software_security_result(_local, _, result, url):
             sub_rating.set_integrity_and_security(points)
         rating += sub_rating
 
-    if not has_archived_source_issues:
-        points = 5.0
-        sub_rating = Rating(_, review_show_improvements_only)
-        sub_rating.set_overall(points)
-        if use_detailed_report:
-            sub_rating.set_integrity_and_security(points, _local('TEXT_DETAILED_REVIEW_NO_ARCHIVES'))
-        else:
-            sub_rating.set_integrity_and_security(points)
-        rating += sub_rating
-
-    if not has_unmaintained_source_issues:
+    if not has_source_issues:
         points = 5.0
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(points)
@@ -729,6 +735,7 @@ def enrich_versions(item):
                 for year in range(10, 2, -1):
                     if last_pushed_year < (current_year - year):
                         match['issues'].append('UNMAINTAINED_SOURCE_{0}_YEARS'.format(year))
+                        break
 
         if 'tech' in software_info:
             match['tech'] = software_info['tech']

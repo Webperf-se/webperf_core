@@ -34,11 +34,12 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg):
         for site in sites:
             if url == site[1] or url2 == site[1]:
                 filename = site[0]
-                result_folder_name = filename[:filename.rfind(os.path.sep)]
 
                 if is_file_older_than(filename, cache_time_delta):
                     filename = ''
                     continue
+
+                result_folder_name = filename[:filename.rfind(os.path.sep)]
 
                 file_created_timestamp = os.path.getctime(filename)
                 file_created_date = time.ctime(file_created_timestamp)

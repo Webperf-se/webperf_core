@@ -197,6 +197,16 @@ def sort_issues(item1, item2):
     elif item2.startswith('CVE-') and not item1.startswith('CVE-'):
         return -1
     
+    if item1.startswith('UNMAINTAINED') and not item2.startswith('UNMAINTAINED'):
+        return -1
+    elif item2.startswith('UNMAINTAINED') and not item1.startswith('UNMAINTAINED'):
+        return 1
+
+    if item1.startswith('ARCHIVED_SOURCE') and not item2.startswith('ARCHIVED_SOURCE'):
+        return -1
+    elif item2.startswith('ARCHIVED_SOURCE') and not item1.startswith('ARCHIVED_SOURCE'):
+        return 1
+
     if item1 < item2:
         return -1
     elif item1 < item2:
@@ -774,6 +784,7 @@ def enrich_versions(item):
                 continue
 
             if tmp_version == version:
+                match['issues'].extend(software_info['versions'][current_version])
                 break
             elif tmp_version > version:
                 # handle versions that doesn't match but we know is less or greater then versions we know.

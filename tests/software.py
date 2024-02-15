@@ -748,7 +748,7 @@ def enrich_versions(item):
         try:
             # ensure version field uses valid format
             if match['name'] == 'openssl':
-                version = ''.join(["+" + str(c) if c.isalpha() else c for c in match['version']])
+                version = packaging.version.Version(''.join(["+" + str(c) if c.isalpha() else c for c in match['version']]))
             else:
                 version = packaging.version.Version(match['version'])
         except:

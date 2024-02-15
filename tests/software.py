@@ -774,7 +774,6 @@ def enrich_versions(item):
                 continue
 
             if tmp_version == version:
-                match['issues'].extend(software_info['versions'][match['version']])
                 break
             elif tmp_version > version:
                 # handle versions that doesn't match but we know is less or greater then versions we know.
@@ -1071,7 +1070,7 @@ def identify_software(filename, origin_domain, rules):
                 if 'mimeType' in res['content']:
                     response_mimetype = res['content']['mimeType']
                 else:
-                    print('ERROR! No mimeType', res['content'])
+                    print('Warning, no mimeType', res['content'])
 
                 lookup_response_content(
                     item, response_mimetype, response_content, rules)
@@ -1156,6 +1155,9 @@ def lookup_response_mimetype(item, response_mimetype):
 
 def lookup_response_content(item, response_mimetype, response_content, rules):
     if 'contents' not in rules:
+        return
+
+    if response_mimetype == None:
         return
 
     req_url = item['url'].lower()

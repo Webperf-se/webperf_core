@@ -420,7 +420,7 @@ def sum_overall_software_used(_local, _, result):
     for category in categories:
         if category in result:
             texts.append(_local('TEXT_USED_{0}'.format(
-                category.upper())).format(', '.join(result[category].keys())))
+                category.upper())).format(', '.join(sorted(result[category].keys()))))
 
     return texts
 

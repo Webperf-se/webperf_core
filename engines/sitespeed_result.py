@@ -20,7 +20,7 @@ def get_url_from_file_content(input_filename):
         # we are doing this for performance
         with open(input_filename, 'r', encoding='utf-8') as file:
             data = file.read(1024)
-            regex = r"\"_url\":[ ]{0,1}\"(?P<url>[^\"]+)\""
+            regex = r"\"[_]{0,1}url\":[ ]{0,1}\"(?P<url>[^\"]+)\""
             matches = re.finditer(regex, data, re.MULTILINE)
             for matchNum, match in enumerate(matches, start=1):
                 return match.group('url')

@@ -5,8 +5,8 @@ from urllib.parse import urlparse
 import config
 from tests.utils import *
 
+request_timeout = config.http_request_timeout
 sitespeed_use_docker = config.sitespeed_use_docker
-
 
 def get_result(url, sitespeed_use_docker, sitespeed_arg):
     folder = 'tmp'
@@ -21,21 +21,25 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg):
     # result_folder_name = os.path.join('data', 'results')
 
     sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs --outputFolder {0} {1}'.format(result_folder_name, url)
-    # sitespeed_arg += ' --postScript chrome-cookies.cjs --outputFolder {0} {1} chrome-versions.cjs --multi'.format(result_folder_name, url)
+    # sitespeed_arg += ' --outputFolder {0} {1}'.format(result_folder_name, url)
 
     filename = ''
     # Should we use cache when available?
     if use_cache:
+        # added for firefox support
+        url2 = '{0}/'.format(url)
+
         import engines.sitespeed_result as input
         sites = input.read_sites(hostname, -1, -1)
         for site in sites:
-            if url == site[1]:
+            if url == site[1] or url2 == site[1]:
                 filename = site[0]
-                result_folder_name = filename[:filename.rfind(os.path.sep)]
 
                 if is_file_older_than(filename, cache_time_delta):
                     filename = ''
                     continue
+
+                result_folder_name = filename[:filename.rfind(os.path.sep)]
 
                 file_created_timestamp = os.path.getctime(filename)
                 file_created_date = time.ctime(file_created_timestamp)
@@ -48,14 +52,14 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg):
         test = test.replace('\\n', '\r\n').replace('\\\\', '\\')
 
         regex = r"COOKIES:START: {\"cookies\":(?P<COOKIES>.+)} COOKIES:END"
-        cookies = '[]'
+        cookies = '{}'
         matches = re.finditer(
             regex, test, re.MULTILINE)
         for matchNum, match in enumerate(matches, start=1):
             cookies = match.group('COOKIES')
 
         regex = r"VERSIONS:START: (?P<VERSIONS>[^V]+) VERSIONS:END"
-        versions = '[]'
+        versions = '{}'
         matches = re.finditer(
             regex, test, re.MULTILINE)
         for matchNum, match in enumerate(matches, start=1):
@@ -94,19 +98,31 @@ def cleanup_results_dir(browsertime_path, path):
 
 def get_result_using_no_cache(sitespeed_use_docker, arg):
 
+    # print('DEBUG get_result_using_no_cache(arg)', arg)
     result = ''
     if sitespeed_use_docker:
         dir = Path(os.path.dirname(
             os.path.realpath(__file__)) + os.path.sep).parent
         data_dir = dir.resolve()
 
+        # print('DEBUG get_result_using_no_cache(data_dir)', data_dir)
+
         bashCommand = "docker run --rm -v {1}:/sitespeed.io sitespeedio/sitespeed.io:latest {0}".format(
             arg, data_dir)
 
         import subprocess
         process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-        output, error = process.communicate()
+        output, error = process.communicate(timeout=request_timeout * 10)
+
+        if error != None:
+            print('DEBUG get_result_using_no_cache(error)', error)
+
         result = str(output)
+
+        if 'Could not locate Firefox on the current system' in result:
+            print('ERROR! Could not locate Firefox on the current system.')
+        #else:
+        # print('DEBUG get_result_using_no_cache(result)', '\n\t', result.replace('\\n', '\n\t'))
     else:
         import subprocess
 
@@ -116,8 +132,17 @@ def get_result_using_no_cache(sitespeed_use_docker, arg):
         process = subprocess.Popen(
             bashCommand.split(), stdout=subprocess.PIPE)
 
-        output, error = process.communicate()
+        output, error = process.communicate(timeout=request_timeout * 10)
+        
+        if error != None:
+            print('DEBUG get_result_using_no_cache(error)', error)
+
         result = str(output)
+
+        if 'Could not locate Firefox on the current system' in result:
+            print('ERROR! Could not locate Firefox on the current system.')
+        #else:
+        # print('DEBUG get_result_using_no_cache(result)', '\n\t', result.replace('\\n', '\n\t'))
 
     return result
 def get_sanitized_browsertime(input_filename):

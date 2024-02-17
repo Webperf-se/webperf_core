@@ -2,6 +2,7 @@
     "loaded": true,
     "aliases": {
         "algoliasearch-client-js": "algoliasearch-client-javascript",
+        "angularjs": "angular.js",
         "asp.net-signalr-javascript-library": "signalr",
         "base64": "base64.js",
         "chart": "chart.js",
@@ -11,6 +12,7 @@
         "enquire": "enquire.js",
         "eventdispatcher": "eventdispatcher.js",
         "font-awesome-pro": "font-awesome-free",
+        "fullpage": "fullpage.js",
         "geotiff": "geotiff.js",
         "hammer": "hammer.js",
         "handlebars": "handlebars.js",
@@ -36,6 +38,7 @@
         "jquery.migrate'": "jquery-migrate",
         "jsurl": "domurl",
         "klaro": "privacy-manager",
+        "lazyload.js": "vanilla-lazyload",
         "leaderline": "leader-line",
         "lightbox": "lightbox2",
         "magnific-popups": "magnific-popup",
@@ -47,32 +50,76 @@
         "simplebar": "simplebar.js",
         "sizzle-css-selector-engine": "sizzle",
         "the-final-countdown-for-jquery": "jquery.countdown",
+        "tippy.js-react": "tippyjs-react",
         "typed": "typed.js",
         "uri": "uri.js",
         "video": "video.js",
         "vtt": "vtt.js",
         "vue.js": "vue",
-        "woocommerce-gutenberg-products-block": "woocommerce-blocks",
-        "lazyload.js": "vanilla-lazyload",
-        "tippy.js-react": "tippyjs-react",
-        "angularjs": "angular.js",
-        "fullpage": "fullpage.js"
+        "woocommerce-gutenberg-products-block": "woocommerce-blocks"
     },
     "softwares": {
         "?": {
             "custom": true
         },
+        "ac-gutenberg": {
+            "type": "wordpress-plugin"
+        },
+        "accessible-slick": {
+            "github-owner": "accessible360",
+            "github-repo": "accessible-slick"
+        },
         "accordion": {
             "github-owner": "michu2k",
             "github-repo": "Accordion"
+        },
+        "accordion-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "accounting.js": {
+            "github-owner": "openexchangerates",
+            "github-repo": "accounting.js"
         },
         "adapt-chart-to-legend": {
             "github-owner": "highcharts",
             "github-repo": "adapt-chart-to-legend"
         },
+        "add-search-to-menu": {
+            "type": "wordpress-plugin"
+        },
+        "add-to-any": {
+            "type": "wordpress-plugin"
+        },
+        "add-to-calendar-button": {
+            "type": "wordpress-plugin"
+        },
+        "advanced-backgrounds": {
+            "type": "wordpress-plugin"
+        },
+        "advanced-custom-fields-pro": {
+            "type": "wordpress-plugin"
+        },
+        "advanced-post-block": {
+            "type": "wordpress-plugin"
+        },
+        "advanced-responsive-video-embedder": {
+            "type": "wordpress-plugin"
+        },
+        "ajax-load-more-anything": {
+            "type": "wordpress-plugin"
+        },
+        "ajax-search-lite": {
+            "type": "wordpress-plugin"
+        },
+        "akismet": {
+            "type": "wordpress-plugin"
+        },
         "algoliasearch-client-javascript": {
             "github-owner": "algolia",
             "github-repo": "algoliasearch-client-javascript"
+        },
+        "all-in-one-event-calendar": {
+            "type": "wordpress-plugin"
         },
         "alpinejs": {
             "github-owner": "alpinejs",
@@ -90,6 +137,14 @@
             "github-owner": "a8m",
             "github-repo": "angular-filter"
         },
+        "angular-loading-bar": {
+            "github-owner": "chieffancypants",
+            "github-repo": "angular-loading-bar"
+        },
+        "angular-recaptcha": {
+            "github-owner": "vividcortex",
+            "github-repo": "angular-recaptcha"
+        },
         "angular.js": {
             "github-owner": "angular",
             "github-repo": "angular.js"
@@ -98,13 +153,35 @@
             "github-owner": "animate-css",
             "github-repo": "animate.css"
         },
+        "animated-typing-effect": {
+            "type": "wordpress-plugin"
+        },
+        "animsition": {
+            "github-owner": "blivesta",
+            "github-repo": "animsition"
+        },
+        "anti-spam": {
+            "type": "wordpress-plugin"
+        },
         "apache": {
             "custom": true
+        },
+        "api-event-manager-integration": {
+            "type": "wordpress-plugin"
+        },
+        "api-volunteer-manager-integration": {
+            "type": "wordpress-plugin"
         },
         "applicationinsights-js": {
             "github-owner": "Microsoft",
             "github-repo": "ApplicationInsights-JS",
             "github-source": "releases"
+        },
+        "arscode-ninja-popups": {
+            "type": "wordpress-plugin"
+        },
+        "astra-sites": {
+            "type": "wordpress-plugin"
         },
         "autocomplete": {
             "github-owner": "algolia",
@@ -114,13 +191,38 @@
             "github-owner": "autoNumeric",
             "github-repo": "autoNumeric"
         },
+        "autoptimize": {
+            "type": "wordpress-plugin"
+        },
+        "auxin-elements": {
+            "type": "wordpress-plugin"
+        },
+        "auxin-portfolio": {
+            "type": "wordpress-plugin"
+        },
+        "auxin-pro-tools": {
+            "type": "wordpress-plugin"
+        },
         "awesomplete": {
             "github-owner": "leaverou",
             "github-repo": "awesomplete"
         },
+        "awsm-team-pro": {
+            "type": "wordpress-plugin"
+        },
         "axios": {
             "github-owner": "axios",
             "github-repo": "axios"
+        },
+        "az-blobstorage-dynamic-imagesizes-support": {
+            "type": "wordpress-plugin"
+        },
+        "azure_app_service_migration": {
+            "type": "wordpress-plugin"
+        },
+        "babel": {
+            "github-owner": "babel",
+            "github-repo": "babel"
         },
         "babel-plugin-utf-8-regex": {
             "github-owner": "danielberndt",
@@ -130,9 +232,17 @@
             "github-owner": "jashkenas",
             "github-repo": "backbone"
         },
+        "backbone.babysitter": {
+            "github-owner": "marionettejs",
+            "github-repo": "backbone.babysitter"
+        },
         "backbone.marionette": {
             "github-owner": "marionettejs",
             "github-repo": "backbone.marionette"
+        },
+        "backbone.wreqr": {
+            "github-owner": "marionettejs",
+            "github-repo": "backbone.wreqr"
         },
         "base64-js": {
             "github-owner": "beatgammit",
@@ -141,6 +251,27 @@
         "base64.js": {
             "github-owner": "davidchambers",
             "github-repo": "Base64.js"
+        },
+        "bb-header-footer": {
+            "type": "wordpress-plugin"
+        },
+        "bb-plugin": {
+            "type": "wordpress-plugin"
+        },
+        "bb-ultimate-addon": {
+            "type": "wordpress-plugin"
+        },
+        "bdthemes-element-pack-lite": {
+            "type": "wordpress-plugin"
+        },
+        "beautiful-and-responsive-cookie-consent": {
+            "type": "wordpress-plugin"
+        },
+        "bellows-pro": {
+            "type": "wordpress-plugin"
+        },
+        "better-file-download": {
+            "type": "wordpress-plugin"
         },
         "bez": {
             "github-owner": "rdallasgray",
@@ -153,6 +284,25 @@
         "blazy": {
             "github-owner": "dinbror",
             "github-repo": "blazy"
+        },
+        "block-options": {
+            "type": "wordpress-plugin"
+        },
+        "blocks-animation": {
+            "type": "wordpress-plugin"
+        },
+        "bloggposter-filter": {
+            "type": "wordpress-plugin"
+        },
+        "bold-page-builder": {
+            "type": "wordpress-plugin"
+        },
+        "bold-timeline-lite": {
+            "type": "wordpress-plugin"
+        },
+        "bonzo": {
+            "github-owner": "ded",
+            "github-repo": "bonzo"
         },
         "bootstrap": {
             "github-owner": "twbs",
@@ -170,6 +320,10 @@
             "github-owner": "uxsolutions",
             "github-repo": "bootstrap-datepicker"
         },
+        "bootstrap-multiselect": {
+            "github-owner": "davidstutz",
+            "github-repo": "bootstrap-multiselect"
+        },
         "bootstrap-select": {
             "github-owner": "snapappointments",
             "github-repo": "bootstrap-select"
@@ -178,9 +332,18 @@
             "github-owner": "1000hz",
             "github-repo": "bootstrap-validator"
         },
+        "borgholm-core": {
+            "type": "wordpress-plugin"
+        },
         "bowser": {
             "github-owner": "bowser-js",
             "github-repo": "bowser"
+        },
+        "breakdance": {
+            "type": "wordpress-plugin"
+        },
+        "bt_cost_calculator": {
+            "type": "wordpress-plugin"
         },
         "buffer": {
             "github-owner": "feross",
@@ -190,6 +353,9 @@
             "github-owner": "bugsnag",
             "github-repo": "bugsnag-js"
         },
+        "business-reviews-bundle": {
+            "type": "wordpress-plugin"
+        },
         "canvasblocker": {
             "github-owner": "kkapsner",
             "github-repo": "CanvasBlocker"
@@ -197,6 +363,24 @@
         "canvg": {
             "github-owner": "canvg",
             "github-repo": "canvg"
+        },
+        "captcha-bws": {
+            "type": "wordpress-plugin"
+        },
+        "category-ajax-filter-pro": {
+            "type": "wordpress-plugin"
+        },
+        "cc-events-manager-addon": {
+            "type": "wordpress-plugin"
+        },
+        "cf7-conditional-fields": {
+            "type": "wordpress-plugin"
+        },
+        "cf7-google-analytics": {
+            "type": "wordpress-plugin"
+        },
+        "cff-extensions": {
+            "type": "wordpress-plugin"
         },
         "chart.js": {
             "github-owner": "chartjs",
@@ -210,9 +394,17 @@
             "github-owner": "chartjs",
             "github-repo": "chartjs-plugin-deferred"
         },
+        "chartjs-plugin-labels": {
+            "github-owner": "emn178",
+            "github-repo": "chartjs-plugin-labels"
+        },
         "choices": {
             "github-owner": "Choices-js",
             "github-repo": "choices"
+        },
+        "chosen": {
+            "github-owner": "harvesthq",
+            "github-repo": "chosen"
         },
         "clamp.js": {
             "github-owner": "josephschmitt",
@@ -226,6 +418,12 @@
             "github-owner": "jedwatson",
             "github-repo": "classnames"
         },
+        "cleantalk-spam-protect": {
+            "type": "wordpress-plugin"
+        },
+        "clever-mega-menu-for-elementor": {
+            "type": "wordpress-plugin"
+        },
         "cli": {
             "github-owner": "react-native-community",
             "github-repo": "cli"
@@ -237,6 +435,9 @@
         "cocktail": {
             "github-owner": "onsi",
             "github-repo": "cocktail"
+        },
+        "code-prettify": {
+            "type": "wordpress-plugin"
         },
         "color": {
             "github-owner": "kurkle",
@@ -250,6 +451,30 @@
             "github-owner": "talyssonoc",
             "github-repo": "CommonRegexJS"
         },
+        "complianz-gdpr": {
+            "type": "wordpress-plugin"
+        },
+        "connect-polylang-elementor": {
+            "type": "wordpress-plugin"
+        },
+        "contact-form-7": {
+            "type": "wordpress-plugin"
+        },
+        "contact-form-7-image-captcha": {
+            "type": "wordpress-plugin"
+        },
+        "contact-form-plugin": {
+            "type": "wordpress-plugin"
+        },
+        "content-views-query-and-display-post-page": {
+            "type": "wordpress-plugin"
+        },
+        "cookie-law-info": {
+            "type": "wordpress-plugin"
+        },
+        "cookie-notice": {
+            "type": "wordpress-plugin"
+        },
         "cookiejs": {
             "github-owner": "jaywcjlove",
             "github-repo": "cookie.js"
@@ -257,6 +482,9 @@
         "cookies": {
             "github-owner": "ScottHamper",
             "github-repo": "Cookies"
+        },
+        "cookies-and-content-security-policy": {
+            "type": "wordpress-plugin"
         },
         "cookies.js": {
             "github-owner": "madmurphy",
@@ -270,6 +498,9 @@
             "github-owner": "zloirock",
             "github-repo": "core-js"
         },
+        "cornerstone": {
+            "type": "wordpress-plugin"
+        },
         "crypto-browserify": {
             "github-owner": "browserify",
             "github-repo": "crypto-browserify"
@@ -282,9 +513,37 @@
             "github-owner": "jhildenbiddle",
             "github-repo": "css-vars-ponyfill"
         },
+        "css.escape": {
+            "github-owner": "mathiasbynens",
+            "github-repo": "CSS.escape"
+        },
         "cssremedy": {
             "github-owner": "jensimmons",
             "github-repo": "cssremedy"
+        },
+        "ct-ultimate-gdpr": {
+            "type": "wordpress-plugin"
+        },
+        "custom-cookie-message": {
+            "type": "wordpress-plugin"
+        },
+        "custom-facebook-feed": {
+            "type": "wordpress-plugin"
+        },
+        "custom-facebook-feed-pro": {
+            "type": "wordpress-plugin"
+        },
+        "custom-related-posts": {
+            "type": "wordpress-plugin"
+        },
+        "custom-twitter-feeds": {
+            "type": "wordpress-plugin"
+        },
+        "custom-twitter-feeds-pro": {
+            "type": "wordpress-plugin"
+        },
+        "customer-feedback": {
+            "type": "wordpress-plugin"
         },
         "cycle": {
             "github-owner": "malsup",
@@ -305,9 +564,15 @@
             "github-owner": "denoland",
             "github-repo": "deno"
         },
+        "destination-fun": {
+            "type": "wordpress-plugin"
+        },
         "detect-passive-events": {
             "github-owner": "rafgraph",
             "github-repo": "detect-passive-events"
+        },
+        "devvn-image-hotspot": {
+            "type": "wordpress-plugin"
         },
         "dialog-polyfill": {
             "github-owner": "GoogleChrome",
@@ -317,9 +582,24 @@
             "github-owner": "kobizz",
             "github-repo": "dialogs-manager"
         },
+        "digitalboard": {
+            "type": "wordpress-plugin"
+        },
+        "divi-breadcrumbs-module": {
+            "type": "wordpress-plugin"
+        },
+        "divi-pixel": {
+            "type": "wordpress-plugin"
+        },
+        "divi_module_acf": {
+            "type": "wordpress-plugin"
+        },
         "docdash": {
             "github-owner": "torarvid",
             "github-repo": "docdash"
+        },
+        "document-gallery": {
+            "type": "wordpress-plugin"
         },
         "domready": {
             "github-owner": "ded",
@@ -333,9 +613,39 @@
             "github-owner": "olado",
             "github-repo": "doT"
         },
+        "download-after-email": {
+            "type": "wordpress-plugin"
+        },
+        "download-manager": {
+            "type": "wordpress-plugin"
+        },
+        "duracelltomi-google-tag-manager": {
+            "type": "wordpress-plugin"
+        },
+        "dynamic-content-for-elementor": {
+            "type": "wordpress-plugin"
+        },
+        "dynamicconditions": {
+            "type": "wordpress-plugin"
+        },
         "earcut": {
             "github-owner": "mapbox",
             "github-repo": "earcut"
+        },
+        "easy-fancybox": {
+            "type": "wordpress-plugin"
+        },
+        "easy-sidebar-menu-widget": {
+            "type": "wordpress-plugin"
+        },
+        "easy-table": {
+            "type": "wordpress-plugin"
+        },
+        "easy-twitter-feed-widget": {
+            "type": "wordpress-plugin"
+        },
+        "easy-wp-page-navigation": {
+            "type": "wordpress-plugin"
         },
         "easyqrcodejs": {
             "github-owner": "ushelp",
@@ -345,9 +655,47 @@
             "github-owner": "ushelp",
             "github-repo": "EasyQRCodeJS-NodeJS"
         },
+        "easyscrolldots": {
+            "github-owner": "Superhands89",
+            "github-repo": "EasyScrollDots"
+        },
+        "ee-simple-file-list-pro": {
+            "type": "wordpress-plugin"
+        },
+        "elasticpress": {
+            "type": "wordpress-plugin"
+        },
+        "ele-custom-skin": {
+            "type": "wordpress-plugin"
+        },
+        "elementor": {
+            "type": "wordpress-plugin"
+        },
+        "elementor-pro": {
+            "type": "wordpress-plugin"
+        },
+        "ellibot_forms_2_0": {
+            "type": "wordpress-plugin"
+        },
         "elliptic": {
             "github-owner": "indutny",
             "github-repo": "elliptic"
+        },
+        "email-encoder-bundle": {
+            "type": "wordpress-plugin"
+        },
+        "email-subscribers-premium": {
+            "type": "wordpress-plugin"
+        },
+        "embed-lottie-player": {
+            "type": "wordpress-plugin"
+        },
+        "enhanced-tooltipglossary": {
+            "type": "wordpress-plugin"
+        },
+        "enllax.js": {
+            "github-owner": "mmkjony",
+            "github-repo": "enllax.js"
         },
         "enquire.js": {
             "github-owner": "WickyNilliams",
@@ -360,9 +708,34 @@
             "github-owner": "es-shims",
             "github-repo": "es5-shim"
         },
+        "es6-promise": {
+            "github-owner": "stefanpenner",
+            "github-repo": "es6-promise"
+        },
+        "esatto-image-styles-fix": {
+            "type": "wordpress-plugin"
+        },
+        "esatto-rss-feeds-articles": {
+            "type": "wordpress-plugin"
+        },
         "eslint": {
             "github-owner": "eslint",
             "github-repo": "eslint"
+        },
+        "essential-addons-for-elementor-lite": {
+            "type": "wordpress-plugin"
+        },
+        "essential-grid": {
+            "type": "wordpress-plugin"
+        },
+        "eu-cookie-consent": {
+            "type": "wordpress-plugin"
+        },
+        "event-organiser": {
+            "type": "wordpress-plugin"
+        },
+        "event-tickets": {
+            "type": "wordpress-plugin"
         },
         "eventdispatcher.js": {
             "github-owner": "mrdoob",
@@ -372,21 +745,67 @@
             "github-owner": "WICG",
             "github-repo": "EventListenerOptions"
         },
+        "events-calendar-pro": {
+            "type": "wordpress-plugin"
+        },
+        "events-manager": {
+            "type": "wordpress-plugin"
+        },
+        "events-manager-pro": {
+            "type": "wordpress-plugin"
+        },
+        "events-widgets-for-elementor-and-the-events-calendar": {
+            "type": "wordpress-plugin"
+        },
+        "eventsource": {
+            "github-owner": "Yaffle",
+            "github-repo": "EventSource"
+        },
+        "everest-forms": {
+            "type": "wordpress-plugin"
+        },
         "express": {
             "github-owner": "expressjs",
             "github-repo": "express"
+        },
+        "extensive-vc-addon": {
+            "type": "wordpress-plugin"
         },
         "fancybox": {
             "github-owner": "fancyapps",
             "github-repo": "fancybox"
         },
+        "faq-schema-for-pages-and-posts": {
+            "type": "wordpress-plugin"
+        },
         "fastclick": {
             "github-owner": "ftlabs",
             "github-repo": "fastclick"
         },
+        "featherlight": {
+            "github-owner": "noelboss",
+            "github-repo": "featherlight"
+        },
+        "featured-video-plus": {
+            "type": "wordpress-plugin"
+        },
+        "feedzy-rss-feeds": {
+            "type": "wordpress-plugin"
+        },
         "fetch": {
             "github-owner": "JakeChampion",
             "github-repo": "fetch"
+        },
+        "flatpickr": {
+            "github-owner": "flatpickr",
+            "github-repo": "flatpickr"
+        },
+        "flexibility": {
+            "github-owner": "jonathantneal",
+            "github-repo": "flexibility"
+        },
+        "flickr-justified-gallery": {
+            "type": "wordpress-plugin"
         },
         "flow": {
             "github-owner": "facebook",
@@ -412,6 +831,9 @@
             "github-owner": "WICG",
             "github-repo": "focus-visible"
         },
+        "font-awesome": {
+            "type": "wordpress-plugin"
+        },
         "font-awesome-free": {
             "github-owner": "FortAwesome",
             "github-repo": "Font-Awesome"
@@ -419,6 +841,15 @@
         "form": {
             "github-owner": "jquery-form",
             "github-repo": "form"
+        },
+        "form-maker": {
+            "type": "wordpress-plugin"
+        },
+        "formidable": {
+            "type": "wordpress-plugin"
+        },
+        "forminator": {
+            "type": "wordpress-plugin"
         },
         "foundation-sites": {
             "github-owner": "foundation",
@@ -428,13 +859,46 @@
             "github-owner": "alvarotrigo",
             "github-repo": "fullPage.js"
         },
+        "fusion-builder": {
+            "type": "wordpress-plugin"
+        },
+        "fusion-core": {
+            "type": "wordpress-plugin"
+        },
         "gatsby": {
             "github-owner": "gatsbyjs",
             "github-repo": "gatsby"
         },
+        "gdpr": {
+            "type": "wordpress-plugin"
+        },
+        "gdpr-cookie-compliance": {
+            "type": "wordpress-plugin"
+        },
+        "gdpr-cookie-consent": {
+            "type": "wordpress-plugin"
+        },
         "gecko-dev": {
             "github-owner": "mozilla",
             "github-repo": "gecko-dev"
+        },
+        "gen-cookie-notice": {
+            "type": "wordpress-plugin"
+        },
+        "gen-pagespeed-integration": {
+            "type": "wordpress-plugin"
+        },
+        "genesis-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "genesis-favicon-uploader": {
+            "type": "wordpress-plugin"
+        },
+        "genesis-featured-page-advanced": {
+            "type": "wordpress-plugin"
+        },
+        "genesis-responsive-slider": {
+            "type": "wordpress-plugin"
         },
         "geotiff.js": {
             "github-owner": "geotiffjs",
@@ -448,9 +912,49 @@
             "github-owner": "es-shims",
             "github-repo": "get-own-property-symbols"
         },
+        "gk-events": {
+            "type": "wordpress-plugin"
+        },
+        "gk-post-edit": {
+            "type": "wordpress-plugin"
+        },
         "gl-matrix": {
             "github-owner": "toji",
             "github-repo": "gl-matrix"
+        },
+        "google-analytics-for-wordpress": {
+            "type": "wordpress-plugin"
+        },
+        "granim.js": {
+            "github-owner": "sarcadass",
+            "github-repo": "granim.js"
+        },
+        "gravity-forms-placeholder-support-add-on": {
+            "type": "wordpress-plugin"
+        },
+        "gravityforms": {
+            "type": "wordpress-plugin"
+        },
+        "gspeech": {
+            "type": "wordpress-plugin"
+        },
+        "gt-color-switcher": {
+            "type": "wordpress-plugin"
+        },
+        "gt-contacts": {
+            "type": "wordpress-plugin"
+        },
+        "gt-faq": {
+            "type": "wordpress-plugin"
+        },
+        "gt-products": {
+            "type": "wordpress-plugin"
+        },
+        "gt-recaptcha": {
+            "type": "wordpress-plugin"
+        },
+        "gtranslate": {
+            "type": "wordpress-plugin"
         },
         "gutenberg": {
             "github-owner": "WordPress",
@@ -465,13 +969,52 @@
             "github-owner": "handlebars-lang",
             "github-repo": "handlebars.js"
         },
+        "happy-elementor-addons": {
+            "type": "wordpress-plugin"
+        },
+        "happy-elementor-addons-pro": {
+            "type": "wordpress-plugin"
+        },
+        "header-footer-elementor": {
+            "type": "wordpress-plugin"
+        },
+        "helpie-faq": {
+            "type": "wordpress-plugin"
+        },
+        "hide-widgets": {
+            "type": "wordpress-plugin"
+        },
         "highcharts": {
             "github-owner": "highcharts",
             "github-repo": "highcharts"
         },
+        "highlight.js": {
+            "github-owner": "highlightjs",
+            "github-repo": "highlight.js"
+        },
         "history": {
             "github-owner": "browserstate",
             "github-repo": "history.js"
+        },
+        "hls.js": {
+            "github-owner": "video-dev",
+            "github-repo": "hls.js"
+        },
+        "honeypot": {
+            "type": "wordpress-plugin"
+        },
+        "hotkeys": {
+            "github-owner": "jaywcjlove",
+            "github-repo": "hotkeys"
+        },
+        "ht-slider-for-elementor": {
+            "type": "wordpress-plugin"
+        },
+        "html5-responsive-faq": {
+            "type": "wordpress-plugin"
+        },
+        "hw-cookie-drops": {
+            "type": "wordpress-plugin"
         },
         "hyphenopoly": {
             "github-owner": "mnater",
@@ -481,9 +1024,18 @@
             "github-owner": "twbs",
             "github-repo": "icons"
         },
+        "ics-calendar": {
+            "type": "wordpress-plugin"
+        },
+        "ics-calendar-pro": {
+            "type": "wordpress-plugin"
+        },
         "ieee754": {
             "github-owner": "feross",
             "github-repo": "ieee754"
+        },
+        "if-menu": {
+            "type": "wordpress-plugin"
         },
         "iframe-resizer": {
             "github-owner": "davidjbradshaw",
@@ -504,6 +1056,10 @@
             "github-owner": "karacas",
             "github-repo": "imgLiquid"
         },
+        "infinite-scroll": {
+            "github-owner": "metafizzy",
+            "github-repo": "infinite-scroll"
+        },
         "inherits": {
             "github-owner": "isaacs",
             "github-repo": "inherits"
@@ -512,13 +1068,31 @@
             "github-owner": "RobinHerbots",
             "github-repo": "Inputmask"
         },
+        "instafeed.js": {
+            "github-owner": "stevenschobert",
+            "github-repo": "instafeed.js"
+        },
+        "instagram-feed": {
+            "type": "wordpress-plugin"
+        },
+        "instagram-feed-pro": {
+            "type": "wordpress-plugin"
+        },
         "intl-tel-input": {
             "github-owner": "jackocnr",
             "github-repo": "intl-tel-input"
         },
+        "ion.rangeslider": {
+            "github-owner": "IonDen",
+            "github-repo": "ion.rangeSlider"
+        },
         "ios-orientationchange-fix": {
             "github-owner": "scottjehl",
             "github-repo": "iOS-Orientationchange-Fix"
+        },
+        "iris": {
+            "github-owner": "Automattic",
+            "github-repo": "Iris"
         },
         "is-extendable": {
             "github-owner": "jonschlinkert",
@@ -536,6 +1110,13 @@
             "github-owner": "jonschlinkert",
             "github-repo": "isobject"
         },
+        "isotope": {
+            "github-owner": "metafizzy",
+            "github-repo": "isotope"
+        },
+        "itc-paris": {
+            "type": "wordpress-plugin"
+        },
         "jarallax": {
             "github-owner": "nk-o",
             "github-repo": "jarallax"
@@ -552,9 +1133,39 @@
             "github-owner": "messageformat",
             "github-repo": "Jed"
         },
+        "jeg-elementor-kit": {
+            "type": "wordpress-plugin"
+        },
+        "jet-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "jet-elements": {
+            "type": "wordpress-plugin"
+        },
+        "jet-engine": {
+            "type": "wordpress-plugin"
+        },
+        "jet-menu": {
+            "type": "wordpress-plugin"
+        },
+        "jet-search": {
+            "type": "wordpress-plugin"
+        },
+        "jet-tabs": {
+            "type": "wordpress-plugin"
+        },
+        "jet-tricks": {
+            "type": "wordpress-plugin"
+        },
+        "jetpack": {
+            "type": "wordpress-plugin"
+        },
         "jison": {
             "github-owner": "zaach",
             "github-repo": "jison"
+        },
+        "job-listings": {
+            "type": "wordpress-plugin"
         },
         "jquery": {
             "github-owner": "jquery",
@@ -572,6 +1183,14 @@
             "github-owner": "jquery",
             "github-repo": "jquery-color"
         },
+        "jquery-confirm": {
+            "github-owner": "craftpip",
+            "github-repo": "jquery-confirm"
+        },
+        "jquery-countto": {
+            "github-owner": "mhuggins",
+            "github-repo": "jquery-countTo"
+        },
         "jquery-deserialize": {
             "github-owner": "kflorence",
             "github-repo": "jquery-deserialize"
@@ -588,9 +1207,16 @@
             "github-owner": "briancherne",
             "github-repo": "jquery-hoverIntent"
         },
+        "jquery-idletimer": {
+            "github-owner": "thorst",
+            "github-repo": "jquery-idletimer"
+        },
         "jquery-json": {
             "github-owner": "Krinkle",
             "github-repo": "jquery-json"
+        },
+        "jquery-manager": {
+            "type": "wordpress-plugin"
         },
         "jquery-migrate": {
             "github-owner": "jquery",
@@ -600,9 +1226,21 @@
             "github-owner": "jquery",
             "github-repo": "jquery-mousewheel"
         },
+        "jquery-nice-select": {
+            "github-owner": "hernansartorio",
+            "github-repo": "jquery-nice-select"
+        },
+        "jquery-powertip": {
+            "github-owner": "stevenbenner",
+            "github-repo": "jquery-powertip"
+        },
         "jquery-rwdimagemaps": {
             "github-owner": "stowball",
             "github-repo": "jQuery-rwdImageMaps"
+        },
+        "jquery-simulate": {
+            "github-owner": "jquery",
+            "github-repo": "jquery-simulate"
         },
         "jquery-timepicker-addon": {
             "github-owner": "trentrichardson",
@@ -628,6 +1266,10 @@
             "github-owner": "hilios",
             "github-repo": "jQuery.countdown"
         },
+        "jquery.easing": {
+            "github-owner": "gdsmith",
+            "github-repo": "jquery.easing"
+        },
         "jquery.fullscreen": {
             "github-owner": "private-face",
             "github-repo": "jquery.fullscreen"
@@ -644,6 +1286,19 @@
             "github-owner": "js-cookie",
             "github-repo": "js-cookie"
         },
+        "js-sha1": {
+            "github-owner": "emn178",
+            "github-repo": "js-sha1"
+        },
+        "js_composer": {
+            "type": "wordpress-plugin"
+        },
+        "js_composer_salient": {
+            "type": "wordpress-plugin"
+        },
+        "js_composer_theme": {
+            "type": "wordpress-plugin"
+        },
         "json3": {
             "github-owner": "bestiejs",
             "github-repo": "json3"
@@ -651,6 +1306,14 @@
         "jspdf": {
             "github-owner": "parallax",
             "github-repo": "jsPDF"
+        },
+        "jsrsasign": {
+            "github-owner": "kjur",
+            "github-repo": "jsrsasign"
+        },
+        "jss": {
+            "github-owner": "cssinjs",
+            "github-repo": "jss"
         },
         "jszip": {
             "github-owner": "stuk",
@@ -660,9 +1323,52 @@
             "github-owner": "callmecavs",
             "github-repo": "jump.js"
         },
+        "justified-gallery": {
+            "github-owner": "miromannino",
+            "github-repo": "Justified-Gallery"
+        },
+        "kadence-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "kadence-blocks-pro": {
+            "type": "wordpress-plugin"
+        },
+        "kia-graph-stats": {
+            "type": "wordpress-plugin"
+        },
+        "kpm": {
+            "type": "wordpress-plugin"
+        },
+        "latest-post-shortcode": {
+            "type": "wordpress-plugin"
+        },
+        "layerslider": {
+            "type": "wordpress-plugin"
+        },
+        "lazyframe": {
+            "github-owner": "vb",
+            "github-repo": "lazyframe"
+        },
+        "lazysizes": {
+            "github-owner": "afarkas",
+            "github-repo": "lazysizes"
+        },
+        "lazyyt": {
+            "github-owner": "Daugilas",
+            "github-repo": "lazyYT"
+        },
         "leader-line": {
             "github-owner": "anseki",
             "github-repo": "leader-line"
+        },
+        "lets-info-up": {
+            "type": "wordpress-plugin"
+        },
+        "lets-live-blog": {
+            "type": "wordpress-plugin"
+        },
+        "lets-review": {
+            "type": "wordpress-plugin"
         },
         "libphonenumber": {
             "github-owner": "google",
@@ -680,6 +1386,9 @@
             "github-owner": "twada",
             "github-repo": "licensify"
         },
+        "lightbox-photoswipe": {
+            "type": "wordpress-plugin"
+        },
         "lightbox2": {
             "github-owner": "lokesh",
             "github-repo": "lightbox2"
@@ -692,9 +1401,39 @@
             "github-owner": "sachinchoolur",
             "github-repo": "lightslider"
         },
+        "lightweight-grid-columns": {
+            "type": "wordpress-plugin"
+        },
+        "link-library": {
+            "type": "wordpress-plugin"
+        },
+        "link-tracker": {
+            "type": "wordpress-plugin"
+        },
+        "lite-youtube-embed": {
+            "github-owner": "paulirish",
+            "github-repo": "lite-youtube-embed"
+        },
+        "litespeed-cache": {
+            "type": "wordpress-plugin"
+        },
         "lodash": {
             "github-owner": "lodash",
             "github-repo": "lodash"
+        },
+        "login-with-ajax": {
+            "type": "wordpress-plugin"
+        },
+        "logo-carousel-free": {
+            "type": "wordpress-plugin"
+        },
+        "loose-envify": {
+            "github-owner": "zertosh",
+            "github-repo": "loose-envify"
+        },
+        "lory": {
+            "github-owner": "loryjs",
+            "github-repo": "lory"
         },
         "lozad": {
             "github-owner": "ApoorvSaxena",
@@ -704,9 +1443,33 @@
             "github-owner": "ApoorvSaxena",
             "github-repo": "lozad.js"
         },
+        "lyyti-dfs": {
+            "type": "wordpress-plugin"
+        },
         "magnific-popup": {
             "github-owner": "dimsemenov",
             "github-repo": "Magnific-Popup"
+        },
+        "mai-engine": {
+            "type": "wordpress-plugin"
+        },
+        "mailchimp": {
+            "type": "wordpress-plugin"
+        },
+        "mailchimp-for-woocommerce": {
+            "type": "wordpress-plugin"
+        },
+        "mailchimp-for-wp": {
+            "type": "wordpress-plugin"
+        },
+        "mailin": {
+            "type": "wordpress-plugin"
+        },
+        "mailjet-for-wordpress": {
+            "type": "wordpress-plugin"
+        },
+        "make-column-clickable-elementor": {
+            "type": "wordpress-plugin"
         },
         "map-set.prototype.tojson": {
             "github-owner": "DavidBruant",
@@ -733,17 +1496,83 @@
             "github-repo": "matomo",
             "github-security-label": "c: Security"
         },
+        "matter-wrap": {
+            "github-owner": "liabru",
+            "github-repo": "matter-wrap"
+        },
+        "mbhk-gplaces": {
+            "type": "wordpress-plugin"
+        },
         "meanmenu": {
             "github-owner": "meanthemes",
             "github-repo": "meanMenu"
+        },
+        "media-list": {
+            "type": "wordpress-plugin"
+        },
+        "megamenu": {
+            "type": "wordpress-plugin"
+        },
+        "megamenu-pro": {
+            "type": "wordpress-plugin"
+        },
+        "memberpress": {
+            "type": "wordpress-plugin"
+        },
+        "menu-icons": {
+            "type": "wordpress-plugin"
+        },
+        "mesmerize-companion": {
+            "type": "wordpress-plugin"
+        },
+        "midnight.js": {
+            "github-owner": "aerolab",
+            "github-repo": "midnight.js"
+        },
+        "mimetypes-link-icons": {
+            "type": "wordpress-plugin"
         },
         "mmenu-js": {
             "github-owner": "FrDH",
             "github-repo": "mmenu-js"
         },
+        "mobile-menu-premium": {
+            "type": "wordpress-plugin"
+        },
+        "mod-my-pages": {
+            "type": "wordpress-plugin"
+        },
         "modernizr": {
             "github-owner": "Modernizr",
             "github-repo": "Modernizr"
+        },
+        "modestmaps-js": {
+            "github-owner": "modestmaps",
+            "github-repo": "modestmaps-js"
+        },
+        "modularity": {
+            "type": "wordpress-plugin"
+        },
+        "modularity-contact-banner": {
+            "type": "wordpress-plugin"
+        },
+        "modularity-form-builder": {
+            "type": "wordpress-plugin"
+        },
+        "modularity-guides": {
+            "type": "wordpress-plugin"
+        },
+        "modularity-interactive-img-map": {
+            "type": "wordpress-plugin"
+        },
+        "modularity-json-render": {
+            "type": "wordpress-plugin"
+        },
+        "modularity-open-street-map": {
+            "type": "wordpress-plugin"
+        },
+        "modularity-recommend": {
+            "type": "wordpress-plugin"
         },
         "moment": {
             "github-owner": "moment",
@@ -753,25 +1582,54 @@
             "github-owner": "dordille",
             "github-repo": "moment-isoduration"
         },
+        "monarch": {
+            "type": "wordpress-plugin"
+        },
         "msw": {
             "github-owner": "mswjs",
             "github-repo": "msw"
+        },
+        "municipio-elasticsearch": {
+            "type": "wordpress-plugin"
+        },
+        "myfontswebfontskit": {
+            "type": "wordpress-plugin"
         },
         "nanopop": {
             "github-owner": "Simonwep",
             "github-repo": "nanopop"
         },
+        "newsletter": {
+            "type": "wordpress-plugin"
+        },
         "next.js": {
             "github-owner": "vercel",
             "github-repo": "next.js"
+        },
+        "nextend-smart-slider3-pro": {
+            "type": "wordpress-plugin"
+        },
+        "nextjs-google-analytics": {
+            "github-owner": "MauricioRobayo",
+            "github-repo": "nextjs-google-analytics"
         },
         "nginx": {
             "github-owner": "nginx",
             "github-repo": "nginx"
         },
+        "ninja-forms": {
+            "type": "wordpress-plugin"
+        },
+        "ninja-forms-uploads": {
+            "type": "wordpress-plugin"
+        },
         "node": {
             "github-owner": "nodejs",
             "github-repo": "node"
+        },
+        "nuxt-graphql-request": {
+            "github-owner": "Gomah",
+            "github-repo": "nuxt-graphql-request"
         },
         "object-fit-images": {
             "github-owner": "fregante",
@@ -781,9 +1639,15 @@
             "github-owner": "ljharb",
             "github-repo": "object.assign"
         },
+        "ocean-extra": {
+            "type": "wordpress-plugin"
+        },
         "omggif": {
             "github-owner": "deanm",
             "github-repo": "omggif"
+        },
+        "opal-widgets-for-elementor": {
+            "type": "wordpress-plugin"
         },
         "openssl": {
             "github-owner": "openssl",
@@ -791,6 +1655,24 @@
             "github-source": "releases",
             "github-prefix": "OpenSSL ",
             "github-key": "name"
+        },
+        "orderforms-2021": {
+            "type": "wordpress-plugin"
+        },
+        "oshine-modules": {
+            "type": "wordpress-plugin"
+        },
+        "ova-dep": {
+            "type": "wordpress-plugin"
+        },
+        "ova-doc": {
+            "type": "wordpress-plugin"
+        },
+        "ova-framework": {
+            "type": "wordpress-plugin"
+        },
+        "ova-team": {
+            "type": "wordpress-plugin"
         },
         "owl": {
             "github-owner": "odoo",
@@ -800,6 +1682,18 @@
             "github-owner": "sitevision",
             "github-repo": "OwlCarousel2"
         },
+        "oxygen": {
+            "type": "wordpress-plugin"
+        },
+        "page-links-to": {
+            "type": "wordpress-plugin"
+        },
+        "page-list": {
+            "type": "wordpress-plugin"
+        },
+        "page-scroll-to-id": {
+            "type": "wordpress-plugin"
+        },
         "paginationjs": {
             "github-owner": "superRaytin",
             "github-repo": "paginationjs"
@@ -808,6 +1702,9 @@
             "github-owner": "nodeca",
             "github-repo": "pako"
         },
+        "panang-cookie-bar": {
+            "type": "wordpress-plugin"
+        },
         "panzoom": {
             "github-owner": "timmywil",
             "github-repo": "panzoom"
@@ -815,6 +1712,13 @@
         "papaparse": {
             "github-owner": "mholt",
             "github-repo": "PapaParse"
+        },
+        "papercite": {
+            "type": "wordpress-plugin"
+        },
+        "parallax.js": {
+            "github-owner": "pixelcog",
+            "github-repo": "parallax.js"
         },
         "parse-headers": {
             "github-owner": "kesla",
@@ -836,6 +1740,15 @@
             "github-owner": "jquery-archive",
             "github-repo": "PEP"
         },
+        "perfect-pullquotes": {
+            "type": "wordpress-plugin"
+        },
+        "perfmatters": {
+            "type": "wordpress-plugin"
+        },
+        "photo-gallery": {
+            "type": "wordpress-plugin"
+        },
         "php": {
             "custom": true
         },
@@ -851,6 +1764,9 @@
             "github-owner": "Pikaday",
             "github-repo": "Pikaday"
         },
+        "pixelyoursite": {
+            "type": "wordpress-plugin"
+        },
         "plausible-analytics": {
             "github-owner": "plausible",
             "github-repo": "analytics",
@@ -864,6 +1780,15 @@
             "github-owner": "vimeo",
             "github-repo": "player.js"
         },
+        "pointofviews": {
+            "type": "wordpress-plugin"
+        },
+        "pojo-accessibility": {
+            "type": "wordpress-plugin"
+        },
+        "pojo-accessibility-ibab": {
+            "type": "wordpress-plugin"
+        },
         "polished": {
             "github-owner": "styled-components",
             "github-repo": "polished"
@@ -876,9 +1801,18 @@
             "github-owner": "floating-ui",
             "github-repo": "floating-ui"
         },
+        "popup-maker": {
+            "type": "wordpress-plugin"
+        },
+        "post-grid": {
+            "type": "wordpress-plugin"
+        },
         "postscribe": {
             "github-owner": "krux",
             "github-repo": "postscribe"
+        },
+        "powerpack-addon-for-beaver-builder": {
+            "type": "wordpress-plugin"
         },
         "prebid": {
             "github-owner": "prebid",
@@ -888,9 +1822,21 @@
             "github-owner": "prebid",
             "github-repo": "Prebid.js"
         },
+        "premium-addons-for-elementor": {
+            "type": "wordpress-plugin"
+        },
+        "premium-blocks-for-gutenberg": {
+            "type": "wordpress-plugin"
+        },
+        "presto-player": {
+            "type": "wordpress-plugin"
+        },
         "privacy-manager": {
             "github-owner": "klaro-org",
             "github-repo": "privacy-manager"
+        },
+        "profet-e-learning-modules": {
+            "type": "wordpress-plugin"
         },
         "promise-polyfill": {
             "github-owner": "taylorhakes",
@@ -899,6 +1845,9 @@
         "promises-spec": {
             "github-owner": "promises-aplus",
             "github-repo": "promises-spec"
+        },
+        "pt-content-views-pro": {
+            "type": "wordpress-plugin"
         },
         "pubsubjs": {
             "github-owner": "mroderick",
@@ -912,9 +1861,23 @@
             "github-owner": "pusher",
             "github-repo": "pusher-js"
         },
+        "qala-multimarket": {
+            "type": "wordpress-plugin"
+        },
+        "qtip2": {
+            "github-owner": "Craga89",
+            "github-repo": "qTip2"
+        },
+        "qtranslate": {
+            "type": "wordpress-plugin"
+        },
         "query-string": {
             "github-owner": "sindresorhus",
             "github-repo": "query-string"
+        },
+        "querystring": {
+            "github-owner": "clearbit",
+            "github-repo": "querystring"
         },
         "react": {
             "github-owner": "facebook",
@@ -927,6 +1890,10 @@
         "react-day-picker": {
             "github-owner": "gpbl",
             "github-repo": "react-day-picker"
+        },
+        "react-dnd": {
+            "github-owner": "react-dnd",
+            "github-repo": "react-dnd"
         },
         "react-google-maps": {
             "github-owner": "tomchentw",
@@ -951,6 +1918,10 @@
             "github-owner": "remarkjs",
             "github-repo": "react-markdown"
         },
+        "react-player": {
+            "github-owner": "CookPete",
+            "github-repo": "react-player"
+        },
         "react-redux": {
             "github-owner": "reduxjs",
             "github-repo": "react-redux"
@@ -959,9 +1930,31 @@
             "github-owner": "ron0115",
             "github-repo": "react-smooth-scroll-hook"
         },
+        "react-stripe-elements": {
+            "github-owner": "stripe-archive",
+            "github-repo": "react-stripe-elements"
+        },
         "react-transition-group": {
             "github-owner": "reactjs",
             "github-repo": "react-transition-group"
+        },
+        "react-use-measure": {
+            "github-owner": "pmndrs",
+            "github-repo": "react-use-measure"
+        },
+        "readmore.js": {
+            "github-owner": "jedfoster",
+            "github-repo": "Readmore.js"
+        },
+        "real3d-flipbook": {
+            "type": "wordpress-plugin"
+        },
+        "recent-posts-widget-with-thumbnails": {
+            "type": "wordpress-plugin"
+        },
+        "refluxjs": {
+            "github-owner": "reflux",
+            "github-repo": "refluxjs"
         },
         "regenerator": {
             "github-owner": "facebook",
@@ -979,13 +1972,28 @@
             "github-owner": "ryanve",
             "github-repo": "response.js"
         },
+        "responsify-wp": {
+            "type": "wordpress-plugin"
+        },
         "responsive": {
             "github-owner": "ResponsiveBP",
             "github-repo": "Responsive"
         },
+        "responsive-menu": {
+            "type": "wordpress-plugin"
+        },
+        "responsive-menu-pro": {
+            "type": "wordpress-plugin"
+        },
         "responsive-menus": {
             "github-owner": "studiopress",
             "github-repo": "responsive-menus"
+        },
+        "responsivevoice-text-to-speech": {
+            "type": "wordpress-plugin"
+        },
+        "revslider": {
+            "type": "wordpress-plugin"
         },
         "rhino": {
             "github-owner": "mozilla",
@@ -999,6 +2007,18 @@
             "github-owner": "vuejs",
             "github-repo": "rollup-plugin-vue"
         },
+        "royal-elementor-addons": {
+            "type": "wordpress-plugin"
+        },
+        "salient-core": {
+            "type": "wordpress-plugin"
+        },
+        "salient-portfolio": {
+            "type": "wordpress-plugin"
+        },
+        "salient-social": {
+            "type": "wordpress-plugin"
+        },
         "salvattore": {
             "github-owner": "rnmp",
             "github-repo": "salvattore"
@@ -1006,6 +2026,18 @@
         "sanitize-html": {
             "github-owner": "apostrophecms",
             "github-repo": "sanitize-html"
+        },
+        "sater-modularity": {
+            "type": "wordpress-plugin"
+        },
+        "sater-visit": {
+            "type": "wordpress-plugin"
+        },
+        "sbc-calendar": {
+            "type": "wordpress-plugin"
+        },
+        "sbc-spots": {
+            "type": "wordpress-plugin"
         },
         "script.js": {
             "github-owner": "ded",
@@ -1019,9 +2051,36 @@
             "github-owner": "yowainwright",
             "github-repo": "scrolldir"
         },
+        "scrollify": {
+            "github-owner": "lukehaas",
+            "github-repo": "Scrollify"
+        },
+        "scrollmagic": {
+            "github-owner": "janpaepke",
+            "github-repo": "ScrollMagic"
+        },
+        "scrollmonitor": {
+            "github-owner": "stutrek",
+            "github-repo": "scrollMonitor"
+        },
         "scrolltobyspeed": {
             "github-owner": "ryanburnette",
             "github-repo": "scroll-to-by-speed"
+        },
+        "search-filter": {
+            "type": "wordpress-plugin"
+        },
+        "search-filter-pro": {
+            "type": "wordpress-plugin"
+        },
+        "searchwp": {
+            "type": "wordpress-plugin"
+        },
+        "searchwp-live-ajax-search": {
+            "type": "wordpress-plugin"
+        },
+        "searchwp-modal-search-form": {
+            "type": "wordpress-plugin"
         },
         "secure-filters": {
             "github-owner": "salesforce",
@@ -1034,6 +2093,14 @@
         "selectivizr": {
             "github-owner": "keithclark",
             "github-repo": "selectivizr"
+        },
+        "selectize.js": {
+            "github-owner": "selectize",
+            "github-repo": "selectize.js"
+        },
+        "semantic-ui": {
+            "github-owner": "Semantic-Org",
+            "github-repo": "Semantic-UI"
         },
         "sentry-javascript": {
             "github-owner": "getsentry",
@@ -1051,9 +2118,43 @@
             "github-owner": "yowainwright",
             "github-repo": "shave"
         },
+        "shuffle": {
+            "github-owner": "vestride",
+            "github-repo": "Shuffle"
+        },
+        "sidr": {
+            "github-owner": "artberri",
+            "github-repo": "sidr"
+        },
         "signalr": {
             "github-owner": "SignalR",
             "github-repo": "SignalR"
+        },
+        "simple-download-monitor": {
+            "type": "wordpress-plugin"
+        },
+        "simple-embed-code": {
+            "type": "wordpress-plugin"
+        },
+        "simple-keyboard": {
+            "github-owner": "hodgef",
+            "github-repo": "simple-keyboard"
+        },
+        "simple-keyboard-layouts": {
+            "github-owner": "hodgef",
+            "github-repo": "simple-keyboard-layouts"
+        },
+        "simple-share-buttons-adder": {
+            "type": "wordpress-plugin"
+        },
+        "simple-sitemap": {
+            "type": "wordpress-plugin"
+        },
+        "simple-social-icons": {
+            "type": "wordpress-plugin"
+        },
+        "simple-tooltips": {
+            "type": "wordpress-plugin"
         },
         "simplebar.js": {
             "github-owner": "grsmto",
@@ -1063,21 +2164,90 @@
             "github-owner": "ctrlmaniac",
             "github-repo": "sidebar"
         },
+        "sister": {
+            "github-owner": "gajus",
+            "github-repo": "sister"
+        },
+        "sitemap": {
+            "type": "wordpress-plugin"
+        },
+        "siteorigin-panels": {
+            "type": "wordpress-plugin"
+        },
+        "sitepress-multilingual-cms": {
+            "type": "wordpress-plugin"
+        },
         "sizzle": {
             "github-owner": "jquery",
             "github-repo": "sizzle"
+        },
+        "skrollr": {
+            "github-owner": "Prinzhorn",
+            "github-repo": "skrollr"
         },
         "slick": {
             "github-owner": "kenwheeler",
             "github-repo": "slick"
         },
+        "slick-popup-pro": {
+            "type": "wordpress-plugin"
+        },
+        "sly": {
+            "github-owner": "darsain",
+            "github-repo": "sly"
+        },
         "snabbdom": {
             "github-owner": "snabbdom",
             "github-repo": "snabbdom"
         },
+        "snazzy-maps": {
+            "type": "wordpress-plugin"
+        },
+        "social-media-feather": {
+            "type": "wordpress-plugin"
+        },
+        "social-media-icons-widget": {
+            "type": "wordpress-plugin"
+        },
+        "socialsnap-plus": {
+            "type": "wordpress-plugin"
+        },
+        "spajder-analytics": {
+            "type": "wordpress-plugin"
+        },
+        "speed-booster-pack": {
+            "type": "wordpress-plugin"
+        },
         "ssr-window": {
             "github-owner": "nolimits4web",
             "github-repo": "ssr-window"
+        },
+        "stacktable.js": {
+            "github-owner": "johnpolacek",
+            "github-repo": "stacktable.js"
+        },
+        "startklar-elmentor-forms-extwidgets": {
+            "type": "wordpress-plugin"
+        },
+        "stereotype": {
+            "type": "wordpress-plugin"
+        },
+        "sticky-header-effects-for-elementor": {
+            "type": "wordpress-plugin"
+        },
+        "sticky-menu-or-anything-on-scroll": {
+            "type": "wordpress-plugin"
+        },
+        "sticky-sidebar": {
+            "github-owner": "abouolia",
+            "github-repo": "sticky-sidebar"
+        },
+        "stickyfill": {
+            "github-owner": "wilddeer",
+            "github-repo": "stickyfill"
+        },
+        "stop-user-enumeration": {
+            "type": "wordpress-plugin"
         },
         "storyblok-js": {
             "github-owner": "storyblok",
@@ -1103,6 +2273,12 @@
             "github-owner": "blitz-js",
             "github-repo": "superjson"
         },
+        "supreme-modules-for-divi": {
+            "type": "wordpress-plugin"
+        },
+        "svg-support": {
+            "type": "wordpress-plugin"
+        },
         "svg4everybody": {
             "github-owner": "jonathantneal",
             "github-repo": "svg4everybody"
@@ -1111,9 +2287,15 @@
             "github-owner": "Keyamoon",
             "github-repo": "svgxuse"
         },
+        "sweeq-custom-plugin": {
+            "type": "wordpress-plugin"
+        },
         "sweetalert2": {
             "github-owner": "sweetalert2",
             "github-repo": "sweetalert2"
+        },
+        "symple-shortcodes": {
+            "type": "wordpress-plugin"
         },
         "systemjs": {
             "github-owner": "systemjs",
@@ -1122,6 +2304,15 @@
         "tabbable": {
             "github-owner": "focus-trap",
             "github-repo": "tabbable"
+        },
+        "table-of-contents-plus": {
+            "type": "wordpress-plugin"
+        },
+        "tablepress": {
+            "type": "wordpress-plugin"
+        },
+        "tablepress-responsive-tables": {
+            "type": "wordpress-plugin"
         },
         "tablesaw": {
             "github-owner": "filamentgroup",
@@ -1135,17 +2326,76 @@
             "github-owner": "tailwindlabs",
             "github-repo": "tailwindcss"
         },
+        "tatsu": {
+            "type": "wordpress-plugin"
+        },
+        "teachpress": {
+            "type": "wordpress-plugin"
+        },
+        "team-members": {
+            "type": "wordpress-plugin"
+        },
+        "tebab-wppb-addons": {
+            "type": "wordpress-plugin"
+        },
+        "the-events-calendar": {
+            "type": "wordpress-plugin"
+        },
+        "the-events-calendar-filterbar-customizations": {
+            "type": "wordpress-plugin"
+        },
+        "the-grid": {
+            "type": "wordpress-plugin"
+        },
+        "the-post-grid-pro": {
+            "type": "wordpress-plugin"
+        },
         "theia-sticky-sidebar": {
             "github-owner": "WeCodePixels",
             "github-repo": "theia-sticky-sidebar"
+        },
+        "themeisle-companion": {
+            "type": "wordpress-plugin"
+        },
+        "thrive-quiz-builder": {
+            "type": "wordpress-plugin"
+        },
+        "tilt.js": {
+            "github-owner": "gijsroge",
+            "github-repo": "tilt.js"
+        },
+        "timezones-ical-library": {
+            "github-owner": "add2cal",
+            "github-repo": "timezones-ical-library"
+        },
+        "tippyjs": {
+            "github-owner": "atomiks",
+            "github-repo": "tippyjs"
+        },
+        "tippyjs-react": {
+            "github-owner": "atomiks",
+            "github-repo": "tippyjs-react"
         },
         "toastr": {
             "github-owner": "CodeSeven",
             "github-repo": "toastr"
         },
+        "toolset-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "top-10": {
+            "type": "wordpress-plugin"
+        },
         "touchswipe-jquery-plugin": {
             "github-owner": "mattbryson",
             "github-repo": "TouchSwipe-Jquery-Plugin"
+        },
+        "tram": {
+            "github-owner": "bkwld",
+            "github-repo": "tram"
+        },
+        "translatepress-multilingual": {
+            "type": "wordpress-plugin"
         },
         "trpc": {
             "github-owner": "trpc",
@@ -1159,9 +2409,17 @@
             "github-owner": "dchest",
             "github-repo": "tweetnacl-util-js"
         },
+        "twemoji": {
+            "github-owner": "twitter",
+            "github-repo": "twemoji"
+        },
         "twig": {
             "github-owner": "schmittjoh",
             "github-repo": "twig.js"
+        },
+        "twitter-post-fetcher": {
+            "github-owner": "jasonmayes",
+            "github-repo": "Twitter-Post-Fetcher"
         },
         "typeahead.js": {
             "github-owner": "corejavascript",
@@ -1174,6 +2432,12 @@
         "typescript-wiki": {
             "github-owner": "Microsoft",
             "github-repo": "TypeScript-wiki"
+        },
+        "ultimate-addons-for-gutenberg": {
+            "type": "wordpress-plugin"
+        },
+        "ultimate_vc_addons": {
+            "type": "wordpress-plugin"
         },
         "umd": {
             "github-owner": "ForbesLindesay",
@@ -1191,9 +2455,25 @@
             "github-owner": "medialize",
             "github-repo": "URI.js"
         },
+        "url-shortify": {
+            "type": "wordpress-plugin"
+        },
+        "userway-accessibility-widget": {
+            "type": "wordpress-plugin"
+        },
         "uuid": {
             "github-owner": "uuidjs",
             "github-repo": "uuid"
+        },
+        "vanilla-lazyload": {
+            "github-owner": "verlok",
+            "github-repo": "vanilla-lazyload"
+        },
+        "vastsverige-event-calendar": {
+            "type": "wordpress-plugin"
+        },
+        "venomaps": {
+            "type": "wordpress-plugin"
         },
         "verge": {
             "github-owner": "ryanve",
@@ -1203,6 +2483,10 @@
             "github-owner": "videojs",
             "github-repo": "video-js-swf"
         },
+        "video-worker": {
+            "github-owner": "nk-o",
+            "github-repo": "video-worker"
+        },
         "video.js": {
             "github-owner": "videojs",
             "github-repo": "video.js"
@@ -1211,6 +2495,12 @@
             "github-owner": "videojs",
             "github-repo": "videojs-contrib-ads"
         },
+        "visitors-traffic-real-time-statistics": {
+            "type": "wordpress-plugin"
+        },
+        "visual-link-preview": {
+            "type": "wordpress-plugin"
+        },
         "vite": {
             "github-owner": "vitejs",
             "github-repo": "vite"
@@ -1218,6 +2508,9 @@
         "vivus": {
             "github-owner": "maxwellito",
             "github-repo": "vivus"
+        },
+        "vizzit-analytics-for-wordpress": {
+            "type": "wordpress-plugin"
         },
         "vtt.js": {
             "github-owner": "mozilla",
@@ -1247,6 +2540,12 @@
             "github-owner": "vuejs",
             "github-repo": "vuex"
         },
+        "w3-total-cache": {
+            "type": "wordpress-plugin"
+        },
+        "was-this-helpful-pro": {
+            "type": "wordpress-plugin"
+        },
         "waves": {
             "github-owner": "fians",
             "github-repo": "Waves"
@@ -1255,9 +2554,28 @@
             "github-owner": "imakewebthings",
             "github-repo": "waypoints"
         },
+        "weakmap-polyfill": {
+            "github-owner": "polygonplanet",
+            "github-repo": "weakmap-polyfill"
+        },
         "webhint": {
             "github-owner": "webhintio",
             "github-repo": "hint"
+        },
+        "webien-images": {
+            "type": "wordpress-plugin"
+        },
+        "webien-plugin": {
+            "type": "wordpress-plugin"
+        },
+        "webien-site-widgets": {
+            "type": "wordpress-plugin"
+        },
+        "webtoffee-gdpr-cookie-consent": {
+            "type": "wordpress-plugin"
+        },
+        "weglot": {
+            "type": "wordpress-plugin"
         },
         "wet-boew": {
             "github-owner": "wet-boew",
@@ -1271,16 +2589,167 @@
             "github-owner": "cujojs",
             "github-repo": "when"
         },
+        "whitespace-cookie-consent": {
+            "type": "wordpress-plugin"
+        },
+        "widget-google-reviews": {
+            "type": "wordpress-plugin"
+        },
         "windows-server": {
             "custom": true
+        },
+        "wonderplugin-gridgallery": {
+            "type": "wordpress-plugin"
+        },
+        "woo-phone-validator": {
+            "type": "wordpress-plugin"
+        },
+        "woo-swish-e-commerce": {
+            "type": "wordpress-plugin"
+        },
+        "woocommerce": {
+            "type": "wordpress-plugin"
+        },
+        "woocommerce-blocks": {
+            "github-owner": "woocommerce",
+            "github-repo": "woocommerce-blocks"
+        },
+        "woocommerce-gateway-stripe": {
+            "type": "wordpress-plugin"
+        },
+        "wooslider": {
+            "type": "wordpress-plugin"
         },
         "wordpress": {
             "github-owner": "WordPress",
             "github-repo": "WordPress"
         },
+        "wordpress-creation-kit-pro": {
+            "type": "wordpress-plugin"
+        },
+        "wordpress-social-login": {
+            "type": "wordpress-plugin"
+        },
+        "wp-accessibility": {
+            "type": "wordpress-plugin"
+        },
+        "wp-accessibility-helper": {
+            "type": "wordpress-plugin"
+        },
+        "wp-compress-image-optimizer": {
+            "type": "wordpress-plugin"
+        },
+        "wp-event-manager": {
+            "type": "wordpress-plugin"
+        },
+        "wp-foundation-shortcodes": {
+            "type": "wordpress-plugin"
+        },
+        "wp-gdpr-compliance": {
+            "type": "wordpress-plugin"
+        },
+        "wp-google-maps": {
+            "type": "wordpress-plugin"
+        },
+        "wp-job-openings": {
+            "type": "wordpress-plugin"
+        },
+        "wp-libre-form": {
+            "type": "wordpress-plugin"
+        },
+        "wp-logo-showcase": {
+            "type": "wordpress-plugin"
+        },
+        "wp-pagenavi": {
+            "type": "wordpress-plugin"
+        },
+        "wp-photo-album-plus": {
+            "type": "wordpress-plugin"
+        },
+        "wp-popups-lite": {
+            "type": "wordpress-plugin"
+        },
+        "wp-retina-2x": {
+            "type": "wordpress-plugin"
+        },
+        "wp-rocket": {
+            "type": "wordpress-plugin"
+        },
+        "wp-rss-multi-importer": {
+            "type": "wordpress-plugin"
+        },
+        "wp-show-posts": {
+            "type": "wordpress-plugin"
+        },
+        "wp-smush-pro": {
+            "type": "wordpress-plugin"
+        },
+        "wp-smushit": {
+            "type": "wordpress-plugin"
+        },
+        "wp-snow-effect": {
+            "type": "wordpress-plugin"
+        },
+        "wp-statistics": {
+            "type": "wordpress-plugin"
+        },
+        "wp-store-locator": {
+            "type": "wordpress-plugin"
+        },
+        "wp-ulike": {
+            "type": "wordpress-plugin"
+        },
+        "wp-user-avatar": {
+            "type": "wordpress-plugin"
+        },
+        "wp-views": {
+            "type": "wordpress-plugin"
+        },
+        "wpcf7-redirect": {
+            "type": "wordpress-plugin"
+        },
+        "wpconnect-gf-sendinblue": {
+            "type": "wordpress-plugin"
+        },
+        "wpd-bb-additions": {
+            "type": "wordpress-plugin"
+        },
+        "wpforms": {
+            "type": "wordpress-plugin"
+        },
+        "wpforms-lite": {
+            "type": "wordpress-plugin"
+        },
+        "wpforms-user-journey": {
+            "type": "wordpress-plugin"
+        },
+        "wpforo": {
+            "type": "wordpress-plugin"
+        },
+        "wpfront-scroll-top": {
+            "type": "wordpress-plugin"
+        },
+        "wpml-cms-nav": {
+            "type": "wordpress-plugin"
+        },
+        "wpo365-login": {
+            "type": "wordpress-plugin"
+        },
+        "wpsolr-pro": {
+            "type": "wordpress-plugin"
+        },
+        "wpvr": {
+            "type": "wordpress-plugin"
+        },
+        "wpzoom-addons-for-beaver-builder": {
+            "type": "wordpress-plugin"
+        },
         "ws": {
             "github-owner": "websockets",
             "github-repo": "ws"
+        },
+        "ws-elasticpress-search": {
+            "type": "wordpress-plugin"
         },
         "x-editable": {
             "github-owner": "vitalets",
@@ -1293,6 +2762,15 @@
         "yaws": {
             "github-owner": "erlyaws",
             "github-repo": "yaws"
+        },
+        "youtube-embed-plus": {
+            "type": "wordpress-plugin"
+        },
+        "youtube-embed-plus-pro": {
+            "type": "wordpress-plugin"
+        },
+        "zeno-font-resizer": {
+            "type": "wordpress-plugin"
         },
         "zenscroll": {
             "github-owner": "zengabor",
@@ -1309,1485 +2787,7 @@
         "zxcvbn": {
             "github-owner": "dropbox",
             "github-repo": "zxcvbn"
-        },
-        "panang-cookie-bar": {
-            "type": "wordpress-plugin"
-        },
-        "venomaps": {
-            "type": "wordpress-plugin"
-        },
-        "simple-embed-code": {
-            "type": "wordpress-plugin"
-        },
-        "vastsverige-event-calendar": {
-            "type": "wordpress-plugin"
-        },
-        "tablepress": {
-            "type": "wordpress-plugin"
-        },
-        "litespeed-cache": {
-            "type": "wordpress-plugin"
-        },
-        "ellibot_forms_2_0": {
-            "type": "wordpress-plugin"
-        },
-        "elasticpress": {
-            "type": "wordpress-plugin"
-        },
-        "modularity-form-builder": {
-            "type": "wordpress-plugin"
-        },
-        "ws-elasticpress-search": {
-            "type": "wordpress-plugin"
-        },
-        "menu-icons": {
-            "type": "wordpress-plugin"
-        },
-        "contact-form-7": {
-            "type": "wordpress-plugin"
-        },
-        "page-list": {
-            "type": "wordpress-plugin"
-        },
-        "stop-user-enumeration": {
-            "type": "wordpress-plugin"
-        },
-        "modularity": {
-            "type": "wordpress-plugin"
-        },
-        "job-listings": {
-            "type": "wordpress-plugin"
-        },
-        "api-event-manager-integration": {
-            "type": "wordpress-plugin"
-        },
-        "whitespace-cookie-consent": {
-            "type": "wordpress-plugin"
-        },
-        "municipio-elasticsearch": {
-            "type": "wordpress-plugin"
-        },
-        "customer-feedback": {
-            "type": "wordpress-plugin"
-        },
-        "gk-events": {
-            "type": "wordpress-plugin"
-        },
-        "gk-post-edit": {
-            "type": "wordpress-plugin"
-        },
-        "wordpress-social-login": {
-            "type": "wordpress-plugin"
-        },
-        "cookies-and-content-security-policy": {
-            "type": "wordpress-plugin"
-        },
-        "sater-visit": {
-            "type": "wordpress-plugin"
-        },
-        "sater-modularity": {
-            "type": "wordpress-plugin"
-        },
-        "vizzit-analytics-for-wordpress": {
-            "type": "wordpress-plugin"
-        },
-        "az-blobstorage-dynamic-imagesizes-support": {
-            "type": "wordpress-plugin"
-        },
-        "event-organiser": {
-            "type": "wordpress-plugin"
-        },
-        "html5-responsive-faq": {
-            "type": "wordpress-plugin"
-        },
-        "modularity-open-street-map": {
-            "type": "wordpress-plugin"
-        },
-        "modularity-interactive-img-map": {
-            "type": "wordpress-plugin"
-        },
-        "ninja-forms-uploads": {
-            "type": "wordpress-plugin"
-        },
-        "gdpr-cookie-compliance": {
-            "type": "wordpress-plugin"
-        },
-        "wp-rocket": {
-            "type": "wordpress-plugin"
-        },
-        "mbhk-gplaces": {
-            "type": "wordpress-plugin"
-        },
-        "wpo365-login": {
-            "type": "wordpress-plugin"
-        },
-        "was-this-helpful-pro": {
-            "type": "wordpress-plugin"
-        },
-        "wpvr": {
-            "type": "wordpress-plugin"
-        },
-        "easy-fancybox": {
-            "type": "wordpress-plugin"
-        },
-        "wpsolr-pro": {
-            "type": "wordpress-plugin"
-        },
-        "instagram-feed-pro": {
-            "type": "wordpress-plugin"
-        },
-        "cff-extensions": {
-            "type": "wordpress-plugin"
-        },
-        "kpm": {
-            "type": "wordpress-plugin"
-        },
-        "custom-facebook-feed-pro": {
-            "type": "wordpress-plugin"
-        },
-        "mailjet-for-wordpress": {
-            "type": "wordpress-plugin"
-        },
-        "events-calendar-pro": {
-            "type": "wordpress-plugin"
-        },
-        "cookie-law-info": {
-            "type": "wordpress-plugin"
-        },
-        "searchwp-live-ajax-search": {
-            "type": "wordpress-plugin"
-        },
-        "searchwp": {
-            "type": "wordpress-plugin"
-        },
-        "the-events-calendar": {
-            "type": "wordpress-plugin"
-        },
-        "gtranslate": {
-            "type": "wordpress-plugin"
-        },
-        "responsive-menu-pro": {
-            "type": "wordpress-plugin"
-        },
-        "wp-event-manager": {
-            "type": "wordpress-plugin"
-        },
-        "wp-statistics": {
-            "type": "wordpress-plugin"
-        },
-        "pojo-accessibility-ibab": {
-            "type": "wordpress-plugin"
-        },
-        "google-analytics-for-wordpress": {
-            "type": "wordpress-plugin"
-        },
-        "wp-popups-lite": {
-            "type": "wordpress-plugin"
-        },
-        "newsletter": {
-            "type": "wordpress-plugin"
-        },
-        "gravityforms": {
-            "type": "wordpress-plugin"
-        },
-        "email-subscribers-premium": {
-            "type": "wordpress-plugin"
-        },
-        "complianz-gdpr": {
-            "type": "wordpress-plugin"
-        },
-        "jquery-manager": {
-            "type": "wordpress-plugin"
-        },
-        "searchwp-modal-search-form": {
-            "type": "wordpress-plugin"
-        },
-        "azure_app_service_migration": {
-            "type": "wordpress-plugin"
-        },
-        "ee-simple-file-list-pro": {
-            "type": "wordpress-plugin"
-        },
-        "search-filter": {
-            "type": "wordpress-plugin"
-        },
-        "mod-my-pages": {
-            "type": "wordpress-plugin"
-        },
-        "modularity-json-render": {
-            "type": "wordpress-plugin"
-        },
-        "modularity-contact-banner": {
-            "type": "wordpress-plugin"
-        },
-        "modularity-guides": {
-            "type": "wordpress-plugin"
-        },
-        "modularity-recommend": {
-            "type": "wordpress-plugin"
-        },
-        "api-volunteer-manager-integration": {
-            "type": "wordpress-plugin"
-        },
-        "webtoffee-gdpr-cookie-consent": {
-            "type": "wordpress-plugin"
-        },
-        "digitalboard": {
-            "type": "wordpress-plugin"
-        },
-        "events-manager": {
-            "type": "wordpress-plugin"
-        },
-        "wp-pagenavi": {
-            "type": "wordpress-plugin"
-        },
-        "pointofviews": {
-            "type": "wordpress-plugin"
-        },
-        "cc-events-manager-addon": {
-            "type": "wordpress-plugin"
-        },
-        "mimetypes-link-icons": {
-            "type": "wordpress-plugin"
-        },
-        "easy-table": {
-            "type": "wordpress-plugin"
-        },
-        "social-media-icons-widget": {
-            "type": "wordpress-plugin"
-        },
-        "cookie-notice": {
-            "type": "wordpress-plugin"
-        },
-        "add-to-any": {
-            "type": "wordpress-plugin"
-        },
-        "instagram-feed": {
-            "type": "wordpress-plugin"
-        },
-        "custom-facebook-feed": {
-            "type": "wordpress-plugin"
-        },
-        "document-gallery": {
-            "type": "wordpress-plugin"
-        },
-        "gspeech": {
-            "type": "wordpress-plugin"
-        },
-        "hide-widgets": {
-            "type": "wordpress-plugin"
-        },
-        "the-post-grid-pro": {
-            "type": "wordpress-plugin"
-        },
-        "wp-photo-album-plus": {
-            "type": "wordpress-plugin"
-        },
-        "if-menu": {
-            "type": "wordpress-plugin"
-        },
-        "megamenu-pro": {
-            "type": "wordpress-plugin"
-        },
-        "divi-breadcrumbs-module": {
-            "type": "wordpress-plugin"
-        },
-        "cf7-conditional-fields": {
-            "type": "wordpress-plugin"
-        },
-        "bellows-pro": {
-            "type": "wordpress-plugin"
-        },
-        "post-grid": {
-            "type": "wordpress-plugin"
-        },
-        "social-media-feather": {
-            "type": "wordpress-plugin"
-        },
-        "megamenu": {
-            "type": "wordpress-plugin"
-        },
-        "accordion-blocks": {
-            "type": "wordpress-plugin"
-        },
-        "link-tracker": {
-            "type": "wordpress-plugin"
-        },
-        "beautiful-and-responsive-cookie-consent": {
-            "type": "wordpress-plugin"
-        },
-        "sitepress-multilingual-cms": {
-            "type": "wordpress-plugin"
-        },
-        "itc-paris": {
-            "type": "wordpress-plugin"
-        },
-        "lets-info-up": {
-            "type": "wordpress-plugin"
-        },
-        "everest-forms": {
-            "type": "wordpress-plugin"
-        },
-        "lets-review": {
-            "type": "wordpress-plugin"
-        },
-        "wp-accessibility": {
-            "type": "wordpress-plugin"
-        },
-        "lets-live-blog": {
-            "type": "wordpress-plugin"
-        },
-        "ultimate-addons-for-gutenberg": {
-            "type": "wordpress-plugin"
-        },
-        "login-with-ajax": {
-            "type": "wordpress-plugin"
-        },
-        "mobile-menu-premium": {
-            "type": "wordpress-plugin"
-        },
-        "sbc-spots": {
-            "type": "wordpress-plugin"
-        },
-        "sbc-calendar": {
-            "type": "wordpress-plugin"
-        },
-        "page-links-to": {
-            "type": "wordpress-plugin"
-        },
-        "simple-social-icons": {
-            "type": "wordpress-plugin"
-        },
-        "genesis-responsive-slider": {
-            "type": "wordpress-plugin"
-        },
-        "genesis-favicon-uploader": {
-            "type": "wordpress-plugin"
-        },
-        "form-maker": {
-            "type": "wordpress-plugin"
-        },
-        "event-tickets": {
-            "type": "wordpress-plugin"
-        },
-        "media-list": {
-            "type": "wordpress-plugin"
-        },
-        "premium-blocks-for-gutenberg": {
-            "type": "wordpress-plugin"
-        },
-        "better-file-download": {
-            "type": "wordpress-plugin"
-        },
-        "perfect-pullquotes": {
-            "type": "wordpress-plugin"
-        },
-        "add-search-to-menu": {
-            "type": "wordpress-plugin"
-        },
-        "lightweight-grid-columns": {
-            "type": "wordpress-plugin"
-        },
-        "simple-download-monitor": {
-            "type": "wordpress-plugin"
-        },
-        "salient-social": {
-            "type": "wordpress-plugin"
-        },
-        "js_composer_salient": {
-            "type": "wordpress-plugin"
-        },
-        "nextend-smart-slider3-pro": {
-            "type": "wordpress-plugin"
-        },
-        "salient-portfolio": {
-            "type": "wordpress-plugin"
-        },
-        "salient-core": {
-            "type": "wordpress-plugin"
-        },
-        "awsm-team-pro": {
-            "type": "wordpress-plugin"
-        },
-        "wp-logo-showcase": {
-            "type": "wordpress-plugin"
-        },
-        "custom-twitter-feeds": {
-            "type": "wordpress-plugin"
-        },
-        "sweeq-custom-plugin": {
-            "type": "wordpress-plugin"
-        },
-        "mailchimp-for-wp": {
-            "type": "wordpress-plugin"
-        },
-        "papercite": {
-            "type": "wordpress-plugin"
-        },
-        "simple-sitemap": {
-            "type": "wordpress-plugin"
-        },
-        "photo-gallery": {
-            "type": "wordpress-plugin"
-        },
-        "responsivevoice-text-to-speech": {
-            "type": "wordpress-plugin"
-        },
-        "themeisle-companion": {
-            "type": "wordpress-plugin"
-        },
-        "wp-accessibility-helper": {
-            "type": "wordpress-plugin"
-        },
-        "elementor": {
-            "type": "wordpress-plugin"
-        },
-        "team-members": {
-            "type": "wordpress-plugin"
-        },
-        "teachpress": {
-            "type": "wordpress-plugin"
-        },
-        "bb-plugin": {
-            "type": "wordpress-plugin"
-        },
-        "wpd-bb-additions": {
-            "type": "wordpress-plugin"
-        },
-        "bb-ultimate-addon": {
-            "type": "wordpress-plugin"
-        },
-        "thrive-quiz-builder": {
-            "type": "wordpress-plugin"
-        },
-        "ova-dep": {
-            "type": "wordpress-plugin"
-        },
-        "ova-doc": {
-            "type": "wordpress-plugin"
-        },
-        "ova-team": {
-            "type": "wordpress-plugin"
-        },
-        "ova-framework": {
-            "type": "wordpress-plugin"
-        },
-        "connect-polylang-elementor": {
-            "type": "wordpress-plugin"
-        },
-        "premium-addons-for-elementor": {
-            "type": "wordpress-plugin"
-        },
-        "elementor-pro": {
-            "type": "wordpress-plugin"
-        },
-        "visitors-traffic-real-time-statistics": {
-            "type": "wordpress-plugin"
-        },
-        "zeno-font-resizer": {
-            "type": "wordpress-plugin"
-        },
-        "easy-wp-page-navigation": {
-            "type": "wordpress-plugin"
-        },
-        "sitemap": {
-            "type": "wordpress-plugin"
-        },
-        "symple-shortcodes": {
-            "type": "wordpress-plugin"
-        },
-        "featured-video-plus": {
-            "type": "wordpress-plugin"
-        },
-        "js_composer": {
-            "type": "wordpress-plugin"
-        },
-        "youtube-embed-plus": {
-            "type": "wordpress-plugin"
-        },
-        "revslider": {
-            "type": "wordpress-plugin"
-        },
-        "easy-twitter-feed-widget": {
-            "type": "wordpress-plugin"
-        },
-        "wpforms": {
-            "type": "wordpress-plugin"
-        },
-        "custom-twitter-feeds-pro": {
-            "type": "wordpress-plugin"
-        },
-        "url-shortify": {
-            "type": "wordpress-plugin"
-        },
-        "ht-slider-for-elementor": {
-            "type": "wordpress-plugin"
-        },
-        "wpforms-lite": {
-            "type": "wordpress-plugin"
-        },
-        "essential-addons-for-elementor-lite": {
-            "type": "wordpress-plugin"
-        },
-        "weglot": {
-            "type": "wordpress-plugin"
-        },
-        "royal-elementor-addons": {
-            "type": "wordpress-plugin"
-        },
-        "events-widgets-for-elementor-and-the-events-calendar": {
-            "type": "wordpress-plugin"
-        },
-        "wp-smush-pro": {
-            "type": "wordpress-plugin"
-        },
-        "memberpress": {
-            "type": "wordpress-plugin"
-        },
-        "svg-support": {
-            "type": "wordpress-plugin"
-        },
-        "wooslider": {
-            "type": "wordpress-plugin"
-        },
-        "wp-google-maps": {
-            "type": "wordpress-plugin"
-        },
-        "ultimate_vc_addons": {
-            "type": "wordpress-plugin"
-        },
-        "socialsnap-plus": {
-            "type": "wordpress-plugin"
-        },
-        "woocommerce": {
-            "type": "wordpress-plugin"
-        },
-        "wpconnect-gf-sendinblue": {
-            "type": "wordpress-plugin"
-        },
-        "layerslider": {
-            "type": "wordpress-plugin"
-        },
-        "woo-phone-validator": {
-            "type": "wordpress-plugin"
-        },
-        "mailin": {
-            "type": "wordpress-plugin"
-        },
-        "woocommerce-blocks": {
-            "github-owner": "woocommerce",
-            "github-repo": "woocommerce-blocks"
-        },
-        "woocommerce-gateway-stripe": {
-            "type": "wordpress-plugin"
-        },
-        "wp-foundation-shortcodes": {
-            "type": "wordpress-plugin"
-        },
-        "simple-tooltips": {
-            "type": "wordpress-plugin"
-        },
-        "slick-popup-pro": {
-            "type": "wordpress-plugin"
-        },
-        "wpforo": {
-            "type": "wordpress-plugin"
-        },
-        "visual-link-preview": {
-            "type": "wordpress-plugin"
-        },
-        "chartjs-plugin-labels": {
-            "github-owner": "emn178",
-            "github-repo": "chartjs-plugin-labels"
-        },
-        "breakdance": {
-            "type": "wordpress-plugin"
-        },
-        "lite-youtube-embed": {
-            "github-owner": "paulirish",
-            "github-repo": "lite-youtube-embed"
-        },
-        "lazyyt": {
-            "github-owner": "Daugilas",
-            "github-repo": "lazyYT"
-        },
-        "lazyframe": {
-            "github-owner": "vb",
-            "github-repo": "lazyframe"
-        },
-        "jquery-confirm": {
-            "github-owner": "craftpip",
-            "github-repo": "jquery-confirm"
-        },
-        "semantic-ui": {
-            "github-owner": "Semantic-Org",
-            "github-repo": "Semantic-UI"
-        },
-        "content-views-query-and-display-post-page": {
-            "type": "wordpress-plugin"
-        },
-        "pojo-accessibility": {
-            "type": "wordpress-plugin"
-        },
-        "feedzy-rss-feeds": {
-            "type": "wordpress-plugin"
-        },
-        "block-options": {
-            "type": "wordpress-plugin"
-        },
-        "helpie-faq": {
-            "type": "wordpress-plugin"
-        },
-        "link-library": {
-            "type": "wordpress-plugin"
-        },
-        "wp-show-posts": {
-            "type": "wordpress-plugin"
-        },
-        "lightbox-photoswipe": {
-            "type": "wordpress-plugin"
-        },
-        "wp-rss-multi-importer": {
-            "type": "wordpress-plugin"
-        },
-        "monarch": {
-            "type": "wordpress-plugin"
-        },
-        "tebab-wppb-addons": {
-            "type": "wordpress-plugin"
-        },
-        "wp-retina-2x": {
-            "type": "wordpress-plugin"
-        },
-        "jquery-idletimer": {
-            "github-owner": "thorst",
-            "github-repo": "jquery-idletimer"
-        },
-        "mailchimp": {
-            "type": "wordpress-plugin"
-        },
-        "woo-swish-e-commerce": {
-            "type": "wordpress-plugin"
-        },
-        "advanced-post-block": {
-            "type": "wordpress-plugin"
-        },
-        "jetpack": {
-            "type": "wordpress-plugin"
-        },
-        "w3-total-cache": {
-            "type": "wordpress-plugin"
-        },
-        "dynamic-content-for-elementor": {
-            "type": "wordpress-plugin"
-        },
-        "jet-engine": {
-            "type": "wordpress-plugin"
-        },
-        "search-filter-pro": {
-            "type": "wordpress-plugin"
-        },
-        "jet-search": {
-            "type": "wordpress-plugin"
-        },
-        "ele-custom-skin": {
-            "type": "wordpress-plugin"
-        },
-        "chosen": {
-            "github-owner": "harvesthq",
-            "github-repo": "chosen"
-        },
-        "userway-accessibility-widget": {
-            "type": "wordpress-plugin"
-        },
-        "dynamicconditions": {
-            "type": "wordpress-plugin"
-        },
-        "wp-smushit": {
-            "type": "wordpress-plugin"
-        },
-        "add-to-calendar-button": {
-            "type": "wordpress-plugin"
-        },
-        "timezones-ical-library": {
-            "github-owner": "add2cal",
-            "github-repo": "timezones-ical-library"
-        },
-        "formidable": {
-            "type": "wordpress-plugin"
-        },
-        "embed-lottie-player": {
-            "type": "wordpress-plugin"
-        },
-        "advanced-backgrounds": {
-            "type": "wordpress-plugin"
-        },
-        "blocks-animation": {
-            "type": "wordpress-plugin"
-        },
-        "video-worker": {
-            "github-owner": "nk-o",
-            "github-repo": "video-worker"
-        },
-        "simple-share-buttons-adder": {
-            "type": "wordpress-plugin"
-        },
-        "lory": {
-            "github-owner": "loryjs",
-            "github-repo": "lory"
-        },
-        "wpforms-user-journey": {
-            "type": "wordpress-plugin"
-        },
-        "accounting.js": {
-            "github-owner": "openexchangerates",
-            "github-repo": "accounting.js"
-        },
-        "tippyjs": {
-            "github-owner": "atomiks",
-            "github-repo": "tippyjs"
-        },
-        "selectize.js": {
-            "github-owner": "selectize",
-            "github-repo": "selectize.js"
-        },
-        "captcha-bws": {
-            "type": "wordpress-plugin"
-        },
-        "contact-form-plugin": {
-            "type": "wordpress-plugin"
-        },
-        "qtranslate": {
-            "type": "wordpress-plugin"
-        },
-        "advanced-responsive-video-embedder": {
-            "type": "wordpress-plugin"
-        },
-        "featherlight": {
-            "github-owner": "noelboss",
-            "github-repo": "featherlight"
-        },
-        "sister": {
-            "github-owner": "gajus",
-            "github-repo": "sister"
-        },
-        "babel": {
-            "github-owner": "babel",
-            "github-repo": "babel"
-        },
-        "sly": {
-            "github-owner": "darsain",
-            "github-repo": "sly"
-        },
-        "wp-libre-form": {
-            "type": "wordpress-plugin"
-        },
-        "divi-pixel": {
-            "type": "wordpress-plugin"
-        },
-        "essential-grid": {
-            "type": "wordpress-plugin"
-        },
-        "wp-ulike": {
-            "type": "wordpress-plugin"
-        },
-        "divi_module_acf": {
-            "type": "wordpress-plugin"
-        },
-        "esatto-image-styles-fix": {
-            "type": "wordpress-plugin"
-        },
-        "esatto-rss-feeds-articles": {
-            "type": "wordpress-plugin"
-        },
-        "profet-e-learning-modules": {
-            "type": "wordpress-plugin"
-        },
-        "twitter-post-fetcher": {
-            "github-owner": "jasonmayes",
-            "github-repo": "Twitter-Post-Fetcher"
-        },
-        "gravity-forms-placeholder-support-add-on": {
-            "type": "wordpress-plugin"
-        },
-        "stereotype": {
-            "type": "wordpress-plugin"
-        },
-        "eu-cookie-consent": {
-            "type": "wordpress-plugin"
-        },
-        "toolset-blocks": {
-            "type": "wordpress-plugin"
-        },
-        "devvn-image-hotspot": {
-            "type": "wordpress-plugin"
-        },
-        "sticky-menu-or-anything-on-scroll": {
-            "type": "wordpress-plugin"
-        },
-        "real3d-flipbook": {
-            "type": "wordpress-plugin"
-        },
-        "gdpr-cookie-consent": {
-            "type": "wordpress-plugin"
-        },
-        "jquery-powertip": {
-            "github-owner": "stevenbenner",
-            "github-repo": "jquery-powertip"
-        },
-        "enllax.js": {
-            "github-owner": "mmkjony",
-            "github-repo": "enllax.js"
-        },
-        "sticky-sidebar": {
-            "github-owner": "abouolia",
-            "github-repo": "sticky-sidebar"
-        },
-        "download-manager": {
-            "type": "wordpress-plugin"
-        },
-        "oshine-modules": {
-            "type": "wordpress-plugin"
-        },
-        "tatsu": {
-            "type": "wordpress-plugin"
-        },
-        "tilt.js": {
-            "github-owner": "gijsroge",
-            "github-repo": "tilt.js"
-        },
-        "react-dnd": {
-            "github-owner": "react-dnd",
-            "github-repo": "react-dnd"
-        },
-        "kia-graph-stats": {
-            "type": "wordpress-plugin"
-        },
-        "pt-content-views-pro": {
-            "type": "wordpress-plugin"
-        },
-        "ics-calendar": {
-            "type": "wordpress-plugin"
-        },
-        "ics-calendar-pro": {
-            "type": "wordpress-plugin"
-        },
-        "shuffle": {
-            "github-owner": "vestride",
-            "github-repo": "Shuffle"
-        },
-        "ion.rangeslider": {
-            "github-owner": "IonDen",
-            "github-repo": "ion.rangeSlider"
-        },
-        "responsive-menu": {
-            "type": "wordpress-plugin"
-        },
-        "skrollr": {
-            "github-owner": "Prinzhorn",
-            "github-repo": "skrollr"
-        },
-        "animsition": {
-            "github-owner": "blivesta",
-            "github-repo": "animsition"
-        },
-        "jquery-countto": {
-            "github-owner": "mhuggins",
-            "github-repo": "jquery-countTo"
-        },
-        "infinite-scroll": {
-            "github-owner": "metafizzy",
-            "github-repo": "infinite-scroll"
-        },
-        "angular-loading-bar": {
-            "github-owner": "chieffancypants",
-            "github-repo": "angular-loading-bar"
-        },
-        "jsrsasign": {
-            "github-owner": "kjur",
-            "github-repo": "jsrsasign"
-        },
-        "download-after-email": {
-            "type": "wordpress-plugin"
-        },
-        "jet-menu": {
-            "type": "wordpress-plugin"
-        },
-        "startklar-elmentor-forms-extwidgets": {
-            "type": "wordpress-plugin"
-        },
-        "clever-mega-menu-for-elementor": {
-            "type": "wordpress-plugin"
-        },
-        "bdthemes-element-pack-lite": {
-            "type": "wordpress-plugin"
-        },
-        "granim.js": {
-            "github-owner": "sarcadass",
-            "github-repo": "granim.js"
-        },
-        "make-column-clickable-elementor": {
-            "type": "wordpress-plugin"
-        },
-        "jet-elements": {
-            "type": "wordpress-plugin"
-        },
-        "logo-carousel-free": {
-            "type": "wordpress-plugin"
-        },
-        "jet-tabs": {
-            "type": "wordpress-plugin"
-        },
-        "wordpress-creation-kit-pro": {
-            "type": "wordpress-plugin"
-        },
-        "wpcf7-redirect": {
-            "type": "wordpress-plugin"
-        },
-        "siteorigin-panels": {
-            "type": "wordpress-plugin"
-        },
-        "genesis-featured-page-advanced": {
-            "type": "wordpress-plugin"
-        },
-        "lyyti-dfs": {
-            "type": "wordpress-plugin"
-        },
-        "iris": {
-            "github-owner": "Automattic",
-            "github-repo": "Iris"
-        },
-        "page-scroll-to-id": {
-            "type": "wordpress-plugin"
-        },
-        "ct-ultimate-gdpr": {
-            "type": "wordpress-plugin"
-        },
-        "react-use-measure": {
-            "github-owner": "pmndrs",
-            "github-repo": "react-use-measure"
-        },
-        "midnight.js": {
-            "github-owner": "aerolab",
-            "github-repo": "midnight.js"
-        },
-        "gen-cookie-notice": {
-            "type": "wordpress-plugin"
-        },
-        "gen-pagespeed-integration": {
-            "type": "wordpress-plugin"
-        },
-        "gt-color-switcher": {
-            "type": "wordpress-plugin"
-        },
-        "gt-contacts": {
-            "type": "wordpress-plugin"
-        },
-        "gt-faq": {
-            "type": "wordpress-plugin"
-        },
-        "gt-products": {
-            "type": "wordpress-plugin"
-        },
-        "gt-recaptcha": {
-            "type": "wordpress-plugin"
-        },
-        "extensive-vc-addon": {
-            "type": "wordpress-plugin"
-        },
-        "ninja-forms": {
-            "type": "wordpress-plugin"
-        },
-        "speed-booster-pack": {
-            "type": "wordpress-plugin"
-        },
-        "vanilla-lazyload": {
-            "github-owner": "verlok",
-            "github-repo": "vanilla-lazyload"
-        },
-        "backbone.babysitter": {
-            "github-owner": "marionettejs",
-            "github-repo": "backbone.babysitter"
-        },
-        "backbone.wreqr": {
-            "github-owner": "marionettejs",
-            "github-repo": "backbone.wreqr"
-        },
-        "contact-form-7-image-captcha": {
-            "type": "wordpress-plugin"
-        },
-        "category-ajax-filter-pro": {
-            "type": "wordpress-plugin"
-        },
-        "duracelltomi-google-tag-manager": {
-            "type": "wordpress-plugin"
-        },
-        "spajder-analytics": {
-            "type": "wordpress-plugin"
-        },
-        "top-10": {
-            "type": "wordpress-plugin"
-        },
-        "mai-engine": {
-            "type": "wordpress-plugin"
-        },
-        "ajax-search-lite": {
-            "type": "wordpress-plugin"
-        },
-        "tablepress-responsive-tables": {
-            "type": "wordpress-plugin"
-        },
-        "kadence-blocks": {
-            "type": "wordpress-plugin"
-        },
-        "kadence-blocks-pro": {
-            "type": "wordpress-plugin"
-        },
-        "enhanced-tooltipglossary": {
-            "type": "wordpress-plugin"
-        },
-        "flexibility": {
-            "github-owner": "jonathantneal",
-            "github-repo": "flexibility"
-        },
-        "perfmatters": {
-            "type": "wordpress-plugin"
-        },
-        "hotkeys": {
-            "github-owner": "jaywcjlove",
-            "github-repo": "hotkeys"
-        },
-        "simple-keyboard": {
-            "github-owner": "hodgef",
-            "github-repo": "simple-keyboard"
-        },
-        "simple-keyboard-layouts": {
-            "github-owner": "hodgef",
-            "github-repo": "simple-keyboard-layouts"
-        },
-        "css.escape": {
-            "github-owner": "mathiasbynens",
-            "github-repo": "CSS.escape"
-        },
-        "email-encoder-bundle": {
-            "type": "wordpress-plugin"
-        },
-        "orderforms-2021": {
-            "type": "wordpress-plugin"
-        },
-        "cf7-google-analytics": {
-            "type": "wordpress-plugin"
-        },
-        "instafeed.js": {
-            "github-owner": "stevenschobert",
-            "github-repo": "instafeed.js"
-        },
-        "ajax-load-more-anything": {
-            "type": "wordpress-plugin"
-        },
-        "jquery.easing": {
-            "github-owner": "gdsmith",
-            "github-repo": "jquery.easing"
-        },
-        "eventsource": {
-            "github-owner": "Yaffle",
-            "github-repo": "EventSource"
-        },
-        "modestmaps-js": {
-            "github-owner": "modestmaps",
-            "github-repo": "modestmaps-js"
-        },
-        "pixelyoursite": {
-            "type": "wordpress-plugin"
-        },
-        "react-player": {
-            "github-owner": "CookPete",
-            "github-repo": "react-player"
-        },
-        "scrollmagic": {
-            "github-owner": "janpaepke",
-            "github-repo": "ScrollMagic"
-        },
-        "hw-cookie-drops": {
-            "type": "wordpress-plugin"
-        },
-        "wp-store-locator": {
-            "type": "wordpress-plugin"
-        },
-        "wp-user-avatar": {
-            "type": "wordpress-plugin"
-        },
-        "advanced-custom-fields-pro": {
-            "type": "wordpress-plugin"
-        },
-        "destination-fun": {
-            "type": "wordpress-plugin"
-        },
-        "business-reviews-bundle": {
-            "type": "wordpress-plugin"
-        },
-        "parallax.js": {
-            "github-owner": "pixelcog",
-            "github-repo": "parallax.js"
-        },
-        "auxin-elements": {
-            "type": "wordpress-plugin"
-        },
-        "auxin-pro-tools": {
-            "type": "wordpress-plugin"
-        },
-        "auxin-portfolio": {
-            "type": "wordpress-plugin"
-        },
-        "loose-envify": {
-            "github-owner": "zertosh",
-            "github-repo": "loose-envify"
-        },
-        "tram": {
-            "github-owner": "bkwld",
-            "github-repo": "tram"
-        },
-        "ac-gutenberg": {
-            "type": "wordpress-plugin"
-        },
-        "events-manager-pro": {
-            "type": "wordpress-plugin"
-        },
-        "qala-multimarket": {
-            "type": "wordpress-plugin"
-        },
-        "custom-cookie-message": {
-            "type": "wordpress-plugin"
-        },
-        "cleantalk-spam-protect": {
-            "type": "wordpress-plugin"
-        },
-        "custom-related-posts": {
-            "type": "wordpress-plugin"
-        },
-        "supreme-modules-for-divi": {
-            "type": "wordpress-plugin"
-        },
-        "table-of-contents-plus": {
-            "type": "wordpress-plugin"
-        },
-        "the-events-calendar-filterbar-customizations": {
-            "type": "wordpress-plugin"
-        },
-        "bloggposter-filter": {
-            "type": "wordpress-plugin"
-        },
-        "qtip2": {
-            "github-owner": "Craga89",
-            "github-repo": "qTip2"
-        },
-        "opal-widgets-for-elementor": {
-            "type": "wordpress-plugin"
-        },
-        "header-footer-elementor": {
-            "type": "wordpress-plugin"
-        },
-        "sticky-header-effects-for-elementor": {
-            "type": "wordpress-plugin"
-        },
-        "ocean-extra": {
-            "type": "wordpress-plugin"
-        },
-        "twemoji": {
-            "github-owner": "twitter",
-            "github-repo": "twemoji"
-        },
-        "font-awesome": {
-            "type": "wordpress-plugin"
-        },
-        "jet-tricks": {
-            "type": "wordpress-plugin"
-        },
-        "forminator": {
-            "type": "wordpress-plugin"
-        },
-        "jet-blocks": {
-            "type": "wordpress-plugin"
-        },
-        "tippyjs-react": {
-            "github-owner": "atomiks",
-            "github-repo": "tippyjs-react"
-        },
-        "autoptimize": {
-            "type": "wordpress-plugin"
-        },
-        "querystring": {
-            "github-owner": "clearbit",
-            "github-repo": "querystring"
-        },
-        "nuxt-graphql-request": {
-            "github-owner": "Gomah",
-            "github-repo": "nuxt-graphql-request"
-        },
-        "anti-spam": {
-            "type": "wordpress-plugin"
-        },
-        "wp-gdpr-compliance": {
-            "type": "wordpress-plugin"
-        },
-        "bonzo": {
-            "github-owner": "ded",
-            "github-repo": "bonzo"
-        },
-        "sidr": {
-            "github-owner": "artberri",
-            "github-repo": "sidr"
-        },
-        "webien-site-widgets": {
-            "type": "wordpress-plugin"
-        },
-        "webien-images": {
-            "type": "wordpress-plugin"
-        },
-        "webien-plugin": {
-            "type": "wordpress-plugin"
-        },
-        "myfontswebfontskit": {
-            "type": "wordpress-plugin"
-        },
-        "code-prettify": {
-            "type": "wordpress-plugin"
-        },
-        "all-in-one-event-calendar": {
-            "type": "wordpress-plugin"
-        },
-        "easy-sidebar-menu-widget": {
-            "type": "wordpress-plugin"
-        },
-        "flickr-justified-gallery": {
-            "type": "wordpress-plugin"
-        },
-        "recent-posts-widget-with-thumbnails": {
-            "type": "wordpress-plugin"
-        },
-        "youtube-embed-plus-pro": {
-            "type": "wordpress-plugin"
-        },
-        "justified-gallery": {
-            "github-owner": "miromannino",
-            "github-repo": "Justified-Gallery"
-        },
-        "mesmerize-companion": {
-            "type": "wordpress-plugin"
-        },
-        "matter-wrap": {
-            "github-owner": "liabru",
-            "github-repo": "matter-wrap"
-        },
-        "bootstrap-multiselect": {
-            "github-owner": "davidstutz",
-            "github-repo": "bootstrap-multiselect"
-        },
-        "jquery-nice-select": {
-            "github-owner": "hernansartorio",
-            "github-repo": "jquery-nice-select"
-        },
-        "mailchimp-for-woocommerce": {
-            "type": "wordpress-plugin"
-        },
-        "oxygen": {
-            "type": "wordpress-plugin"
-        },
-        "genesis-blocks": {
-            "type": "wordpress-plugin"
-        },
-        "bold-page-builder": {
-            "type": "wordpress-plugin"
-        },
-        "bold-timeline-lite": {
-            "type": "wordpress-plugin"
-        },
-        "bt_cost_calculator": {
-            "type": "wordpress-plugin"
-        },
-        "weakmap-polyfill": {
-            "github-owner": "polygonplanet",
-            "github-repo": "weakmap-polyfill"
-        },
-        "scrollify": {
-            "github-owner": "lukehaas",
-            "github-repo": "Scrollify"
-        },
-        "readmore.js": {
-            "github-owner": "jedfoster",
-            "github-repo": "Readmore.js"
-        },
-        "es6-promise": {
-            "github-owner": "stefanpenner",
-            "github-repo": "es6-promise"
-        },
-        "borgholm-core": {
-            "type": "wordpress-plugin"
-        },
-        "the-grid": {
-            "type": "wordpress-plugin"
-        },
-        "wp-compress-image-optimizer": {
-            "type": "wordpress-plugin"
-        },
-        "stickyfill": {
-            "github-owner": "wilddeer",
-            "github-repo": "stickyfill"
-        },
-        "js-sha1": {
-            "github-owner": "emn178",
-            "github-repo": "js-sha1"
-        },
-        "animated-typing-effect": {
-            "type": "wordpress-plugin"
-        },
-        "latest-post-shortcode": {
-            "type": "wordpress-plugin"
-        },
-        "cornerstone": {
-            "type": "wordpress-plugin"
-        },
-        "faq-schema-for-pages-and-posts": {
-            "type": "wordpress-plugin"
-        },
-        "react-stripe-elements": {
-            "github-owner": "stripe-archive",
-            "github-repo": "react-stripe-elements"
-        },
-        "arscode-ninja-popups": {
-            "type": "wordpress-plugin"
-        },
-        "js_composer_theme": {
-            "type": "wordpress-plugin"
-        },
-        "lazysizes": {
-            "github-owner": "afarkas",
-            "github-repo": "lazysizes"
-        },
-        "jeg-elementor-kit": {
-            "type": "wordpress-plugin"
-        },
-        "honeypot": {
-            "type": "wordpress-plugin"
-        },
-        "wp-job-openings": {
-            "type": "wordpress-plugin"
-        },
-        "wpml-cms-nav": {
-            "type": "wordpress-plugin"
-        },
-        "presto-player": {
-            "type": "wordpress-plugin"
-        },
-        "highlight.js": {
-            "github-owner": "highlightjs",
-            "github-repo": "highlight.js"
-        },
-        "nextjs-google-analytics": {
-            "github-owner": "MauricioRobayo",
-            "github-repo": "nextjs-google-analytics"
-        },
-        "isotope": {
-            "github-owner": "metafizzy",
-            "github-repo": "isotope"
-        },
-        "scrollmonitor": {
-            "github-owner": "stutrek",
-            "github-repo": "scrollMonitor"
-        },
-        "flatpickr": {
-            "github-owner": "flatpickr",
-            "github-repo": "flatpickr"
-        },
-        "gdpr": {
-            "type": "wordpress-plugin"
-        },
-        "wonderplugin-gridgallery": {
-            "type": "wordpress-plugin"
-        },
-        "popup-maker": {
-            "type": "wordpress-plugin"
-        },
-        "responsify-wp": {
-            "type": "wordpress-plugin"
-        },
-        "accessible-slick": {
-            "github-owner": "accessible360",
-            "github-repo": "accessible-slick"
-        },
-        "stacktable.js": {
-            "github-owner": "johnpolacek",
-            "github-repo": "stacktable.js"
-        },
-        "translatepress-multilingual": {
-            "type": "wordpress-plugin"
-        },
-        "jquery-simulate": {
-            "github-owner": "jquery",
-            "github-repo": "jquery-simulate"
-        },
-        "jss": {
-            "github-owner": "cssinjs",
-            "github-repo": "jss"
-        },
-        "hls.js": {
-            "github-owner": "video-dev",
-            "github-repo": "hls.js"
-        },
-        "easyscrolldots": {
-            "github-owner": "Superhands89",
-            "github-repo": "EasyScrollDots"
-        },
-        "refluxjs": {
-            "github-owner": "reflux",
-            "github-repo": "refluxjs"
-        },
-        "wp-snow-effect": {
-            "type": "wordpress-plugin"
-        },
-        "happy-elementor-addons": {
-            "type": "wordpress-plugin"
-        },
-        "astra-sites": {
-            "type": "wordpress-plugin"
-        },
-        "happy-elementor-addons-pro": {
-            "type": "wordpress-plugin"
-        },
-        "wpfront-scroll-top": {
-            "type": "wordpress-plugin"
-        },
-        "bb-header-footer": {
-            "type": "wordpress-plugin"
-        },
-        "powerpack-addon-for-beaver-builder": {
-            "type": "wordpress-plugin"
-        },
-        "wpzoom-addons-for-beaver-builder": {
-            "type": "wordpress-plugin"
-        },
-        "widget-google-reviews": {
-            "type": "wordpress-plugin"
-        },
-        "angular-recaptcha": {
-            "github-owner": "vividcortex",
-            "github-repo": "angular-recaptcha"
-        },
-        "wp-views": {
-            "type": "wordpress-plugin"
-        },
-        "fusion-builder": {
-            "type": "wordpress-plugin"
-        },
-        "snazzy-maps": {
-            "type": "wordpress-plugin"
-        },
-        "akismet": {
-            "type": "wordpress-plugin"
-        },
-        "fusion-core": {
-            "type": "wordpress-plugin"
         }
     },
-    "updated": "2024-02-14 15:15:04"
+    "updated": "2024-02-17 21:35:32"
 }

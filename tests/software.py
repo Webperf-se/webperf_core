@@ -584,15 +584,7 @@ def get_softwares():
     return softwares
 
 
-def add_github_software_source(name, github_ower, github_repo, url):
-    # ignore this owner as there is no release and nothing to use
-    if github_ower == 'tc39' or github_ower == 'whatwg' or github_ower == 'w3c':
-        return
-
-    # ignore this repo as there is no release and nothing to use
-    if github_repo.startswith('tc39-') or github_repo.startswith('proposal-'):
-        return
-
+def add_known_software_source(name, source_type, match, url):
     dir = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent
 
@@ -603,9 +595,7 @@ def add_github_software_source(name, github_ower, github_repo, url):
         print("ERROR: No software-sources.json file found!")
         return
 
-    print('add_github_software_source', file_path)
-
-    collection = None
+    collection = {}
     with open(file_path) as json_file:
         collection = json.load(json_file)
 
@@ -613,16 +603,67 @@ def add_github_software_source(name, github_ower, github_repo, url):
         collection['softwares'] = {}
 
     if name not in collection['softwares']:
-        collection['softwares'][name] = {
-            'note': 'BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/{0}/{1}/tags'.format(github_ower, github_repo),
-            'github-owner': github_ower,
-            'github-repo': github_repo,
-            'url': url
-        }
+        print('add_known_software_source', file_path)
+        if source_type == 'github':
+            # ignore this owner as there is no release and nothing to use
+            if match['github-owner'] == 'tc39' or match['github-owner'] == 'whatwg' or match['github-owner'] == 'w3c':
+                return
+
+            # ignore this repo as there is no release and nothing to use
+            if match['github-repo'].startswith('tc39-') or match['github-repo'].startswith('proposal-'):
+                return
+
+            collection['softwares'][name] = {
+                'note': 'BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/{0}/{1}/tags'.format(match['github-owner'], match['github-repo']),
+                'github-owner': match['github-owner'],
+                'github-repo': match['github-repo'],
+                'url': url
+            }
+        elif source_type == 'wordpress':
+            # Note: We will just automatically check wordpress plugin names, no need for manual validation for now.
+            collection['softwares'][name] = {
+                'type': 'wordpress-plugin'
+                # 'note': 'BEFORE COMMIT, VERIFY THAT PAGE EXIST. Remove this note if following url is OK: https://wordpress.org/plugins/{0}/advanced/'.format(name),
+                # 'urls': []
+            }
 
     data = json.dumps(collection, indent=4)
     with open(file_path, 'w', encoding='utf-8', newline='') as file:
         file.write(data)
+
+def add_wordpressplugin_software_source(name, version, url):
+    dir = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep).parent
+
+    file_path = '{0}{1}data{1}software-wordpressplugin-sources.json'.format(dir, os.path.sep)
+    if not os.path.isfile(file_path):
+        file_path = '{0}{1}software-wordpressplugin-sources.json'.format(dir, os.path.sep)
+    if not os.path.isfile(file_path):
+        print("Info: No software-wordpressplugin-sources.json file found!")
+
+    collection = {}
+    try:
+        with open(file_path) as json_file:
+            collection = json.load(json_file)
+    except:
+        print('INFO: There was no ', file_path, 'file.')
+
+    if 'softwares' not in collection:
+        collection['softwares'] = {}
+
+    if name not in collection['softwares']:
+        collection['softwares'][name] = {
+            # 'note': 'BEFORE COMMIT, VERIFY THAT PAGE EXIST. Remove this note if following url is OK: https://wordpress.org/plugins/{0}/advanced/'.format(name),
+            # 'urls': []
+        }
+
+    # if len(collection['softwares'][name]['urls']) < 20:
+    #     collection['softwares'][name]['urls'].append(url)
+
+    data = json.dumps(collection, indent=4)
+    with open(file_path, 'w', encoding='utf-8', newline='') as file:
+        file.write(data)
+
 
 def add_unknown_software_source(name, version, url):
     dir = Path(os.path.dirname(
@@ -669,7 +710,7 @@ def enrich_versions(item):
         return
 
     for match in item['matches']:
-        if match['category'] != 'tech' and match['category'] != 'js' and match['category'] != 'cms' and match['category'] != 'os' and match['category'] != 'webserver':
+        if match['category'] != 'tech' and match['category'] != 'js' and match['category'] != 'cms' and match['category'] != 'os' and match['category'] != 'webserver' and match['category'] != 'wordpress-plugin':
             continue
 
         newer_versions = []
@@ -719,7 +760,9 @@ def enrich_versions(item):
                 if not has_match:
                     # If not in aliases, add to software-sources.json
                     if 'github-owner' in match and 'github-repo' in match:
-                        add_github_software_source(match['name'], match['github-owner'], match['github-repo'], item['url'])
+                        add_known_software_source(match['name'], 'github', match, item['url'])
+                    elif 'wordpress-plugin' in match['category']:
+                        add_known_software_source(match['name'], 'wordpress', match, item['url'])
                     else:
                         add_unknown_software_source(match['name'], match['version'], item['url'])
                     continue

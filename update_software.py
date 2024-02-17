@@ -26,9 +26,8 @@ def main(argv):
     update_licenses()
     update_software_info()
 
-
 def update_software_info():
-    collection = get_software_sources()
+    collection = get_software_sources('software-sources.json')
     # print('software', collection)
 
     for key in collection['aliases'].keys():
@@ -37,72 +36,88 @@ def update_software_info():
         # else:
         #     print('alias', key, "=", collection['aliases'][key])
 
-
-    index = 0
+    plugins_to_remove = []
     for key in collection['softwares'].keys():
         # if index > 15:
         #     break
         # print('software', key)
         item = collection['softwares'][key]
 
-        github_ower = None
-        github_repo = None
-        github_security = None
-        github_release_source = 'tags'
-        github_version_prefix = None
-        github_version_key = None
-
-        if 'github-owner' in collection['softwares'][key]:
-            github_ower = collection['softwares'][key]['github-owner']
-        if 'github-repo' in collection['softwares'][key]:
-            github_repo = collection['softwares'][key]['github-repo']
-        if 'github-source' in collection['softwares'][key]:
-            github_release_source = collection['softwares'][key]['github-source']
-
-        if 'github-security' in collection['softwares'][key]:
-            github_release_source = collection['softwares'][key]['github-security']
-        if 'github-prefix' in collection['softwares'][key]:
-            github_version_prefix = collection['softwares'][key]['github-prefix']
-        if 'github-key' in collection['softwares'][key]:
-            github_version_key = collection['softwares'][key]['github-key']
-
         if 'note' in collection['softwares'][key]:
             print('ERROR! You are not allowed to add "software-sources.json" when it still includes "note" field.')
             raise ValueError('ERROR! You are not allowed to add "software-sources.json" when it still includes "note" field.')
+        if 'url' in collection['softwares'][key]:
+            print('ERROR! You are not allowed to add "software-sources.json" when it still includes "url" field.')
+            raise ValueError('ERROR! You are not allowed to add "software-sources.json" when it still includes "url" field.')
+        if 'urls' in collection['softwares'][key]:
+            print('ERROR! You are not allowed to add "software-sources.json" when it still includes "urls" field.')
+            raise ValueError('ERROR! You are not allowed to add "software-sources.json" when it still includes "urls" field.')
 
         versions = []
-        if github_ower != None:
-            set_github_repository_info(item, github_ower, github_repo)
-            # TODO: Git Archived status for repo and warn for it if it is.
-            versions = get_github_versions(github_ower, github_repo, github_release_source, github_security, github_version_prefix, github_version_key)
+        is_source_github = 'github-owner' in collection['softwares'][key] and 'github-repo' in collection['softwares'][key]
+        is_source_wordpress = 'type' in collection['softwares'][key] and 'wordpress-plugin' in collection['softwares'][key]
+        if is_source_github:
+            github_ower = None
+            github_repo = None
+            github_security = None
+            github_release_source = 'tags'
+            github_version_prefix = None
+            github_version_key = None
+
+            if 'github-owner' in collection['softwares'][key]:
+                github_ower = collection['softwares'][key]['github-owner']
+            if 'github-repo' in collection['softwares'][key]:
+                github_repo = collection['softwares'][key]['github-repo']
+            if 'github-source' in collection['softwares'][key]:
+                github_release_source = collection['softwares'][key]['github-source']
+
+            if 'github-security' in collection['softwares'][key]:
+                github_release_source = collection['softwares'][key]['github-security']
+            if 'github-prefix' in collection['softwares'][key]:
+                github_version_prefix = collection['softwares'][key]['github-prefix']
+            if 'github-key' in collection['softwares'][key]:
+                github_version_key = collection['softwares'][key]['github-key']
+
+            if github_ower != None:
+                set_github_repository_info(item, github_ower, github_repo)
+                versions = get_github_versions(github_ower, github_repo, github_release_source, github_security, github_version_prefix, github_version_key)
+        elif is_source_wordpress:
+            set_wordpress_plugin_repository_info(item, key)
+
+        # Add custom information like end of life and cve
         if key == 'iis':
             versions = get_iis_versions()
             versions = extend_versions_for_iis(versions)
-        elif key == 'windows-server':
-            versions = get_windows_versions()
         elif key == 'apache':
             versions = get_apache_httpd_versions()
             versions = extend_versions_for_apache_httpd(versions)
-        elif key == 'nginx':
-            versions = extend_versions_for_nginx(versions)
+        elif key == 'datatables':
+            versions = get_datatables_versions()
+        elif key == 'epifind':
+            versions = get_epifind_versions()
         elif key == 'php':
             versions = get_php_versions()
             versions = extend_versions_for_php(versions)
-        elif key == 'epifind':
-            versions = get_epifind_versions()
-        elif key == 'datatables':
-            versions = get_datatables_versions()
+        elif key == 'windows-server':
+                versions = get_windows_versions()
+        elif key == 'nginx':
+            versions = extend_versions_for_nginx(versions)
         elif key == 'openssl':
             versions = extend_versions_for_openssl(versions)
+
         versions = extend_versions_from_github_advisory_database(key, versions)
 
-        # print(key, len(versions))
-        if len(versions) > 0:
+        if 'error' in item:
+            plugins_to_remove.append(key)
+        elif len(versions) > 0:
             collection['softwares'][key]['versions'] = versions
 
-        set_softwares(collection)
-        index += 1
+    print('Following wordpress plugins could not be found:')
+    for key in plugins_to_remove:
+        print('\t- {0}'.format(key))
+        del collection['softwares'][key]
 
+    set_softwares('software-full.json', collection)
 
 def update_licenses():
     print('updates licesences used in SAMPLE-software-rules.json')
@@ -592,15 +607,15 @@ def extend_versions_from_github_advisory_database(software_name, versions):
 
         return versions
 
-def set_software_sources(collection):
+def set_softwares(filename, collection):
     dir = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep)
     
-    file_path = '{0}{1}data{1}software-sources.json'.format(dir, os.path.sep)
+    file_path = '{0}{1}data{1}{2}'.format(dir, os.path.sep, filename)
     if not os.path.isfile(file_path):
-        file_path = '{0}{1}software-sources.json'.format(dir, os.path.sep)
+        file_path = '{0}{1}{2}'.format(dir, os.path.sep, filename)
     if not os.path.isfile(file_path):
-        print("ERROR: No software-sources.json file found!")
+        print("ERROR: No {0} file found!".format(filename))
 
     print('set_software_sources', file_path)
 
@@ -611,36 +626,15 @@ def set_software_sources(collection):
     with open(file_path, 'w', encoding='utf-8', newline='') as file:
         file.write(data)
 
-def set_softwares(collection):
-    dir = Path(os.path.dirname(
-        os.path.realpath(__file__)) + os.path.sep)
-    
-    file_path = '{0}{1}data{1}software-sources.json'.format(dir, os.path.sep)
-    if not os.path.isfile(file_path):
-        file_path = '{0}{1}software-sources.json'.format(dir, os.path.sep)
-    if not os.path.isfile(file_path):
-        print("ERROR: No software-sources.json file found!")
-
-    file_path = file_path.replace('-sources.json', '-full.json')
-    print('set_softwares', file_path)
-
-    collection["loaded"] = True
-    collection["updated"] = '{0}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-
-    data = json.dumps(collection, indent=4)
-    with open(file_path, 'w', encoding='utf-8', newline='') as file:
-        file.write(data)
-   
-
-def get_software_sources():
+def get_software_sources(filename):
     dir = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep)
 
-    file_path = '{0}{1}data{1}software-sources.json'.format(dir, os.path.sep)
+    file_path = '{0}{1}data{1}{2}'.format(dir, os.path.sep, filename)
     if not os.path.isfile(file_path):
-        file_path = '{0}{1}software-sources.json'.format(dir, os.path.sep)
+        file_path = '{0}{1}{2}'.format(dir, os.path.sep, filename)
     if not os.path.isfile(file_path):
-        print("ERROR: No software-sources.json file found!")
+        print("ERROR: No {0} file found!".format(filename))
         return {
             'loaded': False
         }
@@ -667,7 +661,7 @@ def get_software_sources():
 
         collection['aliases'] = tmp
         if issue_aliases_keys != issue_aliases_keys_sorted:
-            set_software_sources(collection)
+            set_softwares(filename, collection)
 
     # sort on software names
     if len(collection['softwares'].keys())> 0:
@@ -680,7 +674,7 @@ def get_software_sources():
 
         collection['softwares'] = tmp
         if issue_keys != issue_keys_sorted:
-            set_software_sources(collection)
+            set_softwares(filename, collection)
 
     return collection
 
@@ -700,6 +694,73 @@ def add_tech_if_interesting(techs, imgs, topic):
         techs.append(tech)
     # else:
     #     print('# TOPIC', tech)
+
+def set_wordpress_plugin_repository_info(item, name):
+    print('Looking up wordpress plugin: {0}'.format(name))
+
+    content = httpRequestGetContent(
+        'https://wordpress.org/plugins/{0}/advanced/'.format(name))
+
+    time.sleep(2.5)
+
+    if 'note' in item:
+        del item['note']
+    if 'urls' in item:
+        del item['urls']
+
+    if 'https://wordpress.org/plugins/{0}'.format(name) not in content:
+        item['error'] = 'no plugin found'
+        return
+
+    # Lets get an indication if the project is worked on or not
+    regex_last_updated = r'<li>[\r\n\t ]*Last updated: <strong><span>(?P<years>[0-9]+) year[s]{0,1}<\/span> ago<\/strong>[\r\n\t ]*<\/li>'
+    item['last_pushed_year'] = '2024'
+    matches = re.finditer(regex_last_updated, content, re.MULTILINE)
+    for matchNum, match in enumerate(matches, start=1):
+        years = int(match.group('years'))
+        year = datetime.now().year - years
+        item['last_pushed_year'] = '{0}'.format(year)
+
+    # Latest version:
+    regex_rawversion = r'<li>[\r\n\t]+Version:(?P<rawversion>.*?)<\/li>'
+    regex_version = r'(?P<version>[0-9\\.]+)'
+    item['versions'] = []
+    matches = re.finditer(regex_rawversion, content, re.MULTILINE)
+    for matchNum, match in enumerate(matches, start=1):
+        latest_version = match.group('rawversion')
+        matches = re.finditer(regex_version, latest_version, re.MULTILINE)
+        for matchNum, match in enumerate(matches, start=1):
+            latest_version = match.group('version')
+            item['versions'].append(latest_version)
+
+    # versions
+    regex_versions = r'>(?P<version>[0-9\\.]+)<\/option>'
+    matches = re.finditer(regex_versions, content, re.MULTILINE)
+    for matchNum, match in enumerate(matches, start=1):
+        version = match.group('version')
+        item['versions'].append(version)
+
+    # notice
+    regex_notice = r'<div class=\"plugin\-notice notice notice\-(?P<type>error|warning) notice\-alt\">(?P<text>.*?)<\/div>'
+    matches = re.finditer(regex_notice, content, re.MULTILINE)
+    item['archived'] = False
+    for matchNum, match in enumerate(matches, start=1):
+        notice_type = match.group('type')
+        if 'error' in notice_type:
+            notice_type = 'Critical'
+        else:
+            notice_type = 'Warning'
+
+        notice_text = match.group('text')
+        notice_text = re.sub('<[/]{0,1}[^>]+>', '', notice_text).replace('&#146;', '\'')
+
+        item['notice'] = '{0}! {1}'.format(notice_type, notice_text)
+
+        if 'This plugin has been closed' in notice_text:
+            item['archived'] = True
+
+    return
+
 
 def set_github_repository_info(item, owner, repo):
     repo_content = httpRequestGetContent(

@@ -311,6 +311,17 @@
                     "precision": 0.4
                 }
             ]
+        },
+        {
+            "use": true,
+            "description": "https://wordpress.org/plugins/<name>/advanced/",
+            "match": "(?P<debug>\/wp-content\/plugins\/(?P<name>[^\/]+)\/)",
+            "results": [
+                {
+                    "category": "wordpress-plugin",
+                    "precision": 0.6
+                }
+            ]
         }
     ],
     "headers": [

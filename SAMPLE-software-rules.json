@@ -251,7 +251,7 @@
         },
         {
             "use": true,
-            "match": "(?P<debug>\\.(?P<name>php))",
+            "match": "(?P<debug>\\.(?P<name>php)([\\?\\#].+){0,1}$)",
             "results": [
                 {
                     "category": "tech",
@@ -261,7 +261,7 @@
         },
         {
             "use": true,
-            "match": "(?P<debug>\\.(?P<name>webm|mp4))",
+            "match": "(?P<debug>\\.(?P<name>webm|mp4)([\\?\\#].+){0,1}$)",
             "results": [
                 {
                     "category": "tech",
@@ -271,7 +271,7 @@
         },
         {
             "use": true,
-            "match": "(?P<debug>\\.(?P<name>webp|svg|bmp|png|jpg|jpeg|ico|gif))",
+            "match": "(?P<debug>\\.(?P<name>webp|svg|bmp|png|jpg|jpeg|ico|gif)([\\?\\#].+){0,1}$)",
             "results": [
                 {
                     "category": "img",

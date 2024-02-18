@@ -8,16 +8,22 @@
         "chart": "chart.js",
         "clamp": "clamp.js",
         "cookie": "cookiejs",
+        "cssplugin": "gsap",
         "datepicker-for-bootstrap": "bootstrap-datepicker",
+        "elementor-pro": "elementor",
         "enquire": "enquire.js",
         "eventdispatcher": "eventdispatcher.js",
+        "flickity-packaged": "flickity",
         "font-awesome-pro": "font-awesome-free",
         "fullpage": "fullpage.js",
         "geotiff": "geotiff.js",
         "hammer": "hammer.js",
         "handlebars": "handlebars.js",
+        "highcharts-js": "highcharts",
+        "hoverintent": "jquery-hoverintent",
         "imagesloaded-packaged": "imagesloaded",
         "international-telephone-input": "intl-tel-input",
+        "isotope-packaged": "isotope",
         "javascript cookie": "js-cookie",
         "javascript-cookie": "js-cookie",
         "javascript.cookie": "js-cookie",
@@ -42,11 +48,14 @@
         "leaderline": "leader-line",
         "lightbox": "lightbox2",
         "magnific-popups": "magnific-popup",
+        "masonry-packaged": "masonry",
         "next": "next.js",
+        "owl-carousel": "owlcarousel2",
         "piwik": "matomo",
         "query-ui-widget": "jquery-ui",
         "respond": "respond.js",
         "script": "script.js",
+        "scrolltrigger": "gsap",
         "simplebar": "simplebar.js",
         "sizzle-css-selector-engine": "sizzle",
         "the-final-countdown-for-jquery": "jquery.countdown",
@@ -56,15 +65,6 @@
         "video": "video.js",
         "vtt": "vtt.js",
         "vue.js": "vue",
-        "cssplugin": "gsap",
-        "scrolltrigger": "gsap",
-        "elementor-pro": "elementor",
-        "flickity-packaged": "flickity",
-        "highcharts-js": "highcharts",
-        "hoverintent": "jquery-hoverintent",
-        "isotope-packaged": "isotope",
-        "masonry-packaged": "masonry",
-        "owl-carousel": "owlcarousel2",
         "woocommerce-gutenberg-products-block": "woocommerce-blocks"
     },
     "softwares": {
@@ -73,50 +73,6 @@
         },
         "ac-gutenberg": {
             "type": "wordpress-plugin"
-        },
-        "unidragger": {
-            "github-owner": "metafizzy",
-            "github-repo": "unidragger"
-        },
-        "smartmenus-jquery-plugin": {
-            "github-owner": "vadikom",
-            "github-repo": "smartmenus"
-        },
-        "photoswipe": {
-            "github-owner": "dimsemenov",
-            "github-repo": "photoswipe"
-        },
-        "masonry": {
-            "github-owner": "desandro",
-            "github-repo": "masonry"
-        },
-        "jquery-timepicker": {
-            "github-owner": "jonthornton",
-            "github-repo": "jquery-timepicker"
-        },
-        "jquery-mobile": {
-            "github-owner": "jquery-archive",
-            "github-repo": "jquery-mobile"
-        },
-        "instant.page": {
-            "github-owner": "instantpage",
-            "github-repo": "instant.page"
-        },
-        "headroom.js": {
-            "github-owner": "WickyNilliams",
-            "github-repo": "headroom.js"
-        },
-        "flickity": {
-            "github-owner": "metafizzy",
-            "github-repo": "flickity"
-        },
-        "gsap": {
-            "github-owner": "greensock",
-            "github-repo": "GSAP"
-        },
-        "cookieconsent": {
-            "github-owner": "orestbida",
-            "github-repo": "cookieconsent"
         },
         "accessible-slick": {
             "github-owner": "accessible360",
@@ -528,6 +484,10 @@
         "cookie-notice": {
             "type": "wordpress-plugin"
         },
+        "cookieconsent": {
+            "github-owner": "orestbida",
+            "github-repo": "cookieconsent"
+        },
         "cookiejs": {
             "github-owner": "jaywcjlove",
             "github-repo": "cookie.js"
@@ -854,6 +814,10 @@
             "github-owner": "jonathantneal",
             "github-repo": "flexibility"
         },
+        "flickity": {
+            "github-owner": "metafizzy",
+            "github-repo": "flickity"
+        },
         "flickr-justified-gallery": {
             "type": "wordpress-plugin"
         },
@@ -985,6 +949,10 @@
         "gravityforms": {
             "type": "wordpress-plugin"
         },
+        "gsap": {
+            "github-owner": "greensock",
+            "github-repo": "GSAP"
+        },
         "gspeech": {
             "type": "wordpress-plugin"
         },
@@ -1027,6 +995,10 @@
         },
         "header-footer-elementor": {
             "type": "wordpress-plugin"
+        },
+        "headroom.js": {
+            "github-owner": "WickyNilliams",
+            "github-repo": "headroom.js"
         },
         "helpie-faq": {
             "type": "wordpress-plugin"
@@ -1127,6 +1099,10 @@
         },
         "instagram-feed-pro": {
             "type": "wordpress-plugin"
+        },
+        "instant.page": {
+            "github-owner": "instantpage",
+            "github-repo": "instant.page"
         },
         "intl-tel-input": {
             "github-owner": "jackocnr",
@@ -1272,6 +1248,10 @@
             "github-owner": "jquery",
             "github-repo": "jquery-migrate"
         },
+        "jquery-mobile": {
+            "github-owner": "jquery-archive",
+            "github-repo": "jquery-mobile"
+        },
         "jquery-mousewheel": {
             "github-owner": "jquery",
             "github-repo": "jquery-mousewheel"
@@ -1291,6 +1271,10 @@
         "jquery-simulate": {
             "github-owner": "jquery",
             "github-repo": "jquery-simulate"
+        },
+        "jquery-timepicker": {
+            "github-owner": "jonthornton",
+            "github-repo": "jquery-timepicker"
         },
         "jquery-timepicker-addon": {
             "github-owner": "trentrichardson",
@@ -1536,6 +1520,10 @@
         "marked": {
             "github-owner": "markedjs",
             "github-repo": "marked"
+        },
+        "masonry": {
+            "github-owner": "desandro",
+            "github-repo": "masonry"
         },
         "material-ui": {
             "github-owner": "mui",
@@ -1798,6 +1786,10 @@
         },
         "photo-gallery": {
             "type": "wordpress-plugin"
+        },
+        "photoswipe": {
+            "github-owner": "dimsemenov",
+            "github-repo": "photoswipe"
         },
         "php": {
             "custom": true
@@ -2246,6 +2238,10 @@
             "github-owner": "darsain",
             "github-repo": "sly"
         },
+        "smartmenus-jquery-plugin": {
+            "github-owner": "vadikom",
+            "github-repo": "smartmenus"
+        },
         "snabbdom": {
             "github-owner": "snabbdom",
             "github-repo": "snabbdom"
@@ -2500,6 +2496,10 @@
         "understrap": {
             "github-owner": "understrap",
             "github-repo": "understrap"
+        },
+        "unidragger": {
+            "github-owner": "metafizzy",
+            "github-repo": "unidragger"
         },
         "uri.js": {
             "github-owner": "medialize",
@@ -2839,5 +2839,5 @@
             "github-repo": "zxcvbn"
         }
     },
-    "updated": "2024-02-17 21:35:32"
+    "updated": "2024-02-18 10:20:13"
 }

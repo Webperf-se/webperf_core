@@ -5,6 +5,11 @@
         "angularjs": "angular.js",
         "asp.net-signalr-javascript-library": "signalr",
         "base64": "base64.js",
+        "bootstrap-alert.js": "bootstrap",
+        "bootstrap-modal.js": "bootstrap",
+        "bootstrap-popover.js": "bootstrap",
+        "bootstrap-tooltip.js": "bootstrap",
+        "bootstrap-util.js": "bootstrap",
         "chart": "chart.js",
         "clamp": "clamp.js",
         "cookie": "cookiejs",
@@ -17,6 +22,7 @@
         "font-awesome-pro": "font-awesome-free",
         "fullpage": "fullpage.js",
         "geotiff": "geotiff.js",
+        "glide": "glide.js",
         "hammer": "hammer.js",
         "handlebars": "handlebars.js",
         "highcharts-js": "highcharts",
@@ -29,9 +35,9 @@
         "javascript.cookie": "js-cookie",
         "jquery migrate": "jquery-migrate",
         "jquery-color-animations": "jquery-color",
-        "jquery.cookie": "js-cookie",
         "jquery-cookie": "js-cookie",
         "jquery-cookie-plugin": "js-cookie",
+        "jquery-easing": "jquery.easing",
         "jquery-javascript-library": "jquery",
         "jquery-json-plugin": "jquery-json",
         "jquery-mmenu": "mmenu-js",
@@ -41,10 +47,12 @@
         "jquery-ui-menu": "jquery-ui",
         "jquery-ui-position": "jquery-ui",
         "jquery-validation-plugin": "jquery-validation",
+        "jquery.cookie": "js-cookie",
         "jquery.inputmask": "inputmask",
         "jquery.migrate'": "jquery-migrate",
         "jsurl": "domurl",
         "klaro": "privacy-manager",
+        "knockout-javascript-library": "knockout",
         "lazyload.js": "vanilla-lazyload",
         "leaderline": "leader-line",
         "lightbox": "lightbox2",
@@ -52,6 +60,7 @@
         "masonry-packaged": "masonry",
         "next": "next.js",
         "owl-carousel": "owlcarousel2",
+        "packery-layout-mode-packaged": "packery",
         "piwik": "matomo",
         "query-ui-widget": "jquery-ui",
         "respond": "respond.js",
@@ -60,22 +69,13 @@
         "simplebar": "simplebar.js",
         "sizzle-css-selector-engine": "sizzle",
         "the-final-countdown-for-jquery": "jquery.countdown",
+        "tippy.js": "tippyjs",
         "tippy.js-react": "tippyjs-react",
         "typed": "typed.js",
         "uri": "uri.js",
         "video": "video.js",
         "vtt": "vtt.js",
         "vue.js": "vue",
-        "tippy.js": "tippyjs",
-        "bootstrap-alert.js": "bootstrap",
-        "bootstrap-modal.js": "bootstrap",
-        "bootstrap-popover.js": "bootstrap",
-        "bootstrap-tooltip.js": "bootstrap",
-        "bootstrap-util.js": "bootstrap",
-        "knockout-javascript-library": "knockout",
-        "packery-layout-mode-packaged": "packery",
-        "glide": "glide.js",
-        "jquery-easing": "jquery.easing",
         "woocommerce-gutenberg-products-block": "woocommerce-blocks"
     },
     "softwares": {
@@ -88,38 +88,6 @@
         "accessible-slick": {
             "github-owner": "accessible360",
             "github-repo": "accessible-slick"
-        },
-        "bxslider": {
-            "github-owner": "stevenwanderski",
-            "github-repo": "bxslider-4"
-        },
-        "fittext.js": {
-            "github-owner": "davatron5000",
-            "github-repo": "FitText.js"
-        },
-        "fitvids": {
-            "github-owner": "davatron5000",
-            "github-repo": "FitVids.js"
-        },
-        "getsize": {
-            "github-owner": "desandro",
-            "github-repo": "get-size"
-        },
-        "autosize": {
-            "github-owner": "jackmoore",
-            "github-repo": "autosize"
-        },
-        "knockout": {
-            "github-owner": "knockout",
-            "github-repo": "knockout"
-        },
-        "glide.js": {
-            "github-owner": "glidejs",
-            "github-repo": "glide"
-        },
-        "lazy-load": {
-            "github-owner": "tuupola",
-            "github-repo": "lazyload"
         },
         "accordion": {
             "github-owner": "michu2k",
@@ -245,6 +213,10 @@
         },
         "autoptimize": {
             "type": "wordpress-plugin"
+        },
+        "autosize": {
+            "github-owner": "jackmoore",
+            "github-repo": "autosize"
         },
         "auxin-elements": {
             "type": "wordpress-plugin"
@@ -407,6 +379,10 @@
         },
         "business-reviews-bundle": {
             "type": "wordpress-plugin"
+        },
+        "bxslider": {
+            "github-owner": "stevenwanderski",
+            "github-repo": "bxslider-4"
         },
         "canvasblocker": {
             "github-owner": "kkapsner",
@@ -675,6 +651,9 @@
         "download-manager": {
             "type": "wordpress-plugin"
         },
+        "drupal": {
+            "custom": true
+        },
         "duracelltomi-google-tag-manager": {
             "type": "wordpress-plugin"
         },
@@ -849,6 +828,14 @@
             "github-owner": "JakeChampion",
             "github-repo": "fetch"
         },
+        "fittext.js": {
+            "github-owner": "davatron5000",
+            "github-repo": "FitText.js"
+        },
+        "fitvids": {
+            "github-owner": "davatron5000",
+            "github-repo": "FitVids.js"
+        },
         "flatpickr": {
             "github-owner": "flatpickr",
             "github-repo": "flatpickr"
@@ -969,6 +956,10 @@
             "github-owner": "es-shims",
             "github-repo": "get-own-property-symbols"
         },
+        "getsize": {
+            "github-owner": "desandro",
+            "github-repo": "get-size"
+        },
         "gk-events": {
             "type": "wordpress-plugin"
         },
@@ -978,6 +969,10 @@
         "gl-matrix": {
             "github-owner": "toji",
             "github-repo": "gl-matrix"
+        },
+        "glide.js": {
+            "github-owner": "glidejs",
+            "github-repo": "glide"
         },
         "google-analytics-for-wordpress": {
             "type": "wordpress-plugin"
@@ -1107,9 +1102,6 @@
             "github-repo": "iframe-resizer"
         },
         "iis": {
-            "custom": true
-        },
-        "drupal": {
             "custom": true
         },
         "imageprocessor": {
@@ -1416,6 +1408,10 @@
         "kia-graph-stats": {
             "type": "wordpress-plugin"
         },
+        "knockout": {
+            "github-owner": "knockout",
+            "github-repo": "knockout"
+        },
         "kpm": {
             "type": "wordpress-plugin"
         },
@@ -1424,6 +1420,10 @@
         },
         "layerslider": {
             "type": "wordpress-plugin"
+        },
+        "lazy-load": {
+            "github-owner": "tuupola",
+            "github-repo": "lazyload"
         },
         "lazyframe": {
             "github-owner": "vb",
@@ -1768,6 +1768,10 @@
         },
         "oxygen": {
             "type": "wordpress-plugin"
+        },
+        "packery": {
+            "github-owner": "metafizzy",
+            "github-repo": "packery"
         },
         "page-links-to": {
             "type": "wordpress-plugin"
@@ -2551,10 +2555,6 @@
             "github-owner": "metafizzy",
             "github-repo": "unipointer"
         },
-        "packery": {
-            "github-owner": "metafizzy",
-            "github-repo": "packery"
-        },
         "uri.js": {
             "github-owner": "medialize",
             "github-repo": "URI.js"
@@ -2893,5 +2893,5 @@
             "github-repo": "zxcvbn"
         }
     },
-    "updated": "2024-02-18 10:20:13"
+    "updated": "2024-02-18 20:36:34"
 }

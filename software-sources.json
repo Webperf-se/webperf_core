@@ -29,6 +29,7 @@
         "javascript.cookie": "js-cookie",
         "jquery migrate": "jquery-migrate",
         "jquery-color-animations": "jquery-color",
+        "jquery.cookie": "js-cookie",
         "jquery-cookie": "js-cookie",
         "jquery-cookie-plugin": "js-cookie",
         "jquery-javascript-library": "jquery",
@@ -65,6 +66,16 @@
         "video": "video.js",
         "vtt": "vtt.js",
         "vue.js": "vue",
+        "tippy.js": "tippyjs",
+        "bootstrap-alert.js": "bootstrap",
+        "bootstrap-modal.js": "bootstrap",
+        "bootstrap-popover.js": "bootstrap",
+        "bootstrap-tooltip.js": "bootstrap",
+        "bootstrap-util.js": "bootstrap",
+        "knockout-javascript-library": "knockout",
+        "packery-layout-mode-packaged": "packery",
+        "glide": "glide.js",
+        "jquery-easing": "jquery.easing",
         "woocommerce-gutenberg-products-block": "woocommerce-blocks"
     },
     "softwares": {
@@ -77,6 +88,38 @@
         "accessible-slick": {
             "github-owner": "accessible360",
             "github-repo": "accessible-slick"
+        },
+        "bxslider": {
+            "github-owner": "stevenwanderski",
+            "github-repo": "bxslider-4"
+        },
+        "fittext.js": {
+            "github-owner": "davatron5000",
+            "github-repo": "FitText.js"
+        },
+        "fitvids": {
+            "github-owner": "davatron5000",
+            "github-repo": "FitVids.js"
+        },
+        "getsize": {
+            "github-owner": "desandro",
+            "github-repo": "get-size"
+        },
+        "autosize": {
+            "github-owner": "jackmoore",
+            "github-repo": "autosize"
+        },
+        "knockout": {
+            "github-owner": "knockout",
+            "github-repo": "knockout"
+        },
+        "glide.js": {
+            "github-owner": "glidejs",
+            "github-repo": "glide"
+        },
+        "lazy-load": {
+            "github-owner": "tuupola",
+            "github-repo": "lazyload"
         },
         "accordion": {
             "github-owner": "michu2k",
@@ -1064,6 +1107,9 @@
             "github-repo": "iframe-resizer"
         },
         "iis": {
+            "custom": true
+        },
+        "drupal": {
             "custom": true
         },
         "imageprocessor": {
@@ -2500,6 +2546,14 @@
         "unidragger": {
             "github-owner": "metafizzy",
             "github-repo": "unidragger"
+        },
+        "unipointer": {
+            "github-owner": "metafizzy",
+            "github-repo": "unipointer"
+        },
+        "packery": {
+            "github-owner": "metafizzy",
+            "github-repo": "packery"
         },
         "uri.js": {
             "github-owner": "medialize",

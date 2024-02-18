@@ -104,6 +104,8 @@ def update_software_info():
             versions = extend_versions_for_nginx(versions)
         elif key == 'openssl':
             versions = extend_versions_for_openssl(versions)
+        elif key == 'drupal':
+            versions = get_drupal_versions()
 
         versions = extend_versions_from_github_advisory_database(key, versions)
 
@@ -912,6 +914,20 @@ def get_github_versions(owner, repo, source, security_label, version_prefix, nam
 
             if fixes_security:
                 versions_dict[version] = ['fixes security issues']
+
+    return versions_dict
+def get_drupal_versions():
+    # https://www.drupal.org/about/core/policies/core-release-cycles/schedule
+    # https://www.drupal.org/forum/general/news-and-announcements/2015-11-09/drupal-6-end-of-life-announcement
+
+    versions_dict = {
+        "10": [],
+        "9": ['END_OF_LIFE'],
+        "8": ['END_OF_LIFE'],
+        "7": [],
+        "6": ['END_OF_LIFE'],
+        "5": ['END_OF_LIFE']
+    }
 
     return versions_dict
 

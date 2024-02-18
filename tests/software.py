@@ -5,7 +5,7 @@ from PIL import Image
 import hashlib
 from pathlib import Path
 import shutil
-from models import Rating
+from models import Rating, DefaultInfo
 import os
 import json
 import config
@@ -104,6 +104,7 @@ def get_rating_from_sitespeed(url, _local, _):
     (result_folder_name, filename) = get_result(
         url, sitespeed_use_docker, sitespeed_arg)
 
+   
     o = urlparse(url)
     origin_domain = o.hostname
 
@@ -160,6 +161,7 @@ def get_rating_from_sitespeed(url, _local, _):
         os.remove(filename)
 
     return (rating, result)
+
 
 def cleanup_domain_data(data):
     # result = {
@@ -547,9 +549,11 @@ def enrich_data(data, orginal_domain, result_folder_name, rules):
 
     tmp_list = list()
 
-    for item in data:
-        enrich_versions(item)
+    softwares = get_softwares()
 
+    for item in data:
+        enrich_versions(softwares, item)
+        
         enrich_data_from_javascript(tmp_list, item, rules)
         enrich_data_from_videos(tmp_list, item, result_folder_name)
         enrich_data_from_images(tmp_list, item, result_folder_name)
@@ -701,8 +705,7 @@ def add_unknown_software_source(name, version, url):
         file.write(data)
 
 
-def enrich_versions(item):
-    collection = get_softwares()
+def enrich_versions(collection, item):
     if 'softwares' not in collection:
         return
         
@@ -1140,6 +1143,8 @@ def identify_software(filename, origin_domain, rules):
             #   "name": "php",
             #   "version": null
             # }
+                
+            cleanup_duplicates(item)
 
             cleanup_used_global_software(global_software, item)
             data.append(item)
@@ -1166,6 +1171,8 @@ def identify_software(filename, origin_domain, rules):
 
     return data
 
+def cleanup_duplicates(item):
+    item['matches'] = list(set(item['matches']))
 
 def cleanup_used_global_software(global_software, item):
     for match in item['matches']:
@@ -1316,6 +1323,7 @@ def lookup_response_content(item, response_mimetype, response_content, rules):
                     raw_data['contents'][match.group('debug')] = hostname
 
 
+    
 def get_default_info(url, method, precision, key, name, version, domain=None):
     result = {}
 
@@ -1332,14 +1340,7 @@ def get_default_info(url, method, precision, key, name, version, domain=None):
     if version != None:
         version = version.lower().strip('.').strip('-').strip()
 
-    result['method'] = method
-    result['precision'] = precision
-    result['category'] = key
-    result['name'] = name
-    result['version'] = version
-    result['issues'] = []
-
-    return result
+    return DefaultInfo(result['domain'], method, precision, key, name, version, [])
 
 
 def lookup_request_url(item, rules, origin_domain):
@@ -1597,7 +1598,6 @@ def get_rules():
     with open(file_path) as json_rules_file:
         rules = json.load(json_rules_file)
     return rules
-
 
 def run_test(_, langCode, url):
     """

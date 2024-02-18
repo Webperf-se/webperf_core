@@ -724,21 +724,21 @@ def set_wordpress_plugin_repository_info(item, name):
     # Latest version:
     regex_rawversion = r'<li>[\r\n\t]+Version:(?P<rawversion>.*?)<\/li>'
     regex_version = r'(?P<version>[0-9\\.]+)'
-    item['versions'] = []
+    item['versions'] = {}
     matches = re.finditer(regex_rawversion, content, re.MULTILINE)
     for matchNum, match in enumerate(matches, start=1):
         latest_version = match.group('rawversion')
         matches = re.finditer(regex_version, latest_version, re.MULTILINE)
         for matchNum, match in enumerate(matches, start=1):
             latest_version = match.group('version')
-            item['versions'].append(latest_version)
+            item['versions'][latest_version] = []
 
     # versions
     regex_versions = r'>(?P<version>[0-9\\.]+)<\/option>'
     matches = re.finditer(regex_versions, content, re.MULTILINE)
     for matchNum, match in enumerate(matches, start=1):
         version = match.group('version')
-        item['versions'].append(version)
+        item['versions'][version] = []
 
     # notice
     regex_notice = r'<div class=\"plugin\-notice notice notice\-(?P<type>error|warning) notice\-alt\">(?P<text>.*?)<\/div>'

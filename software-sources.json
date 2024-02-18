@@ -56,6 +56,15 @@
         "video": "video.js",
         "vtt": "vtt.js",
         "vue.js": "vue",
+        "cssplugin": "gsap",
+        "scrolltrigger": "gsap",
+        "elementor-pro": "elementor",
+        "flickity-packaged": "flickity",
+        "highcharts-js": "highcharts",
+        "hoverintent": "jquery-hoverintent",
+        "isotope-packaged": "isotope",
+        "masonry-packaged": "masonry",
+        "owl-carousel": "owlcarousel2",
         "woocommerce-gutenberg-products-block": "woocommerce-blocks"
     },
     "softwares": {
@@ -64,6 +73,50 @@
         },
         "ac-gutenberg": {
             "type": "wordpress-plugin"
+        },
+        "unidragger": {
+            "github-owner": "metafizzy",
+            "github-repo": "unidragger"
+        },
+        "smartmenus-jquery-plugin": {
+            "github-owner": "vadikom",
+            "github-repo": "smartmenus"
+        },
+        "photoswipe": {
+            "github-owner": "dimsemenov",
+            "github-repo": "photoswipe"
+        },
+        "masonry": {
+            "github-owner": "desandro",
+            "github-repo": "masonry"
+        },
+        "jquery-timepicker": {
+            "github-owner": "jonthornton",
+            "github-repo": "jquery-timepicker"
+        },
+        "jquery-mobile": {
+            "github-owner": "jquery-archive",
+            "github-repo": "jquery-mobile"
+        },
+        "instant.page": {
+            "github-owner": "instantpage",
+            "github-repo": "instant.page"
+        },
+        "headroom.js": {
+            "github-owner": "WickyNilliams",
+            "github-repo": "headroom.js"
+        },
+        "flickity": {
+            "github-owner": "metafizzy",
+            "github-repo": "flickity"
+        },
+        "gsap": {
+            "github-owner": "greensock",
+            "github-repo": "GSAP"
+        },
+        "cookieconsent": {
+            "github-owner": "orestbida",
+            "github-repo": "cookieconsent"
         },
         "accessible-slick": {
             "github-owner": "accessible360",
@@ -669,9 +722,6 @@
             "type": "wordpress-plugin"
         },
         "elementor": {
-            "type": "wordpress-plugin"
-        },
-        "elementor-pro": {
             "type": "wordpress-plugin"
         },
         "ellibot_forms_2_0": {
@@ -1679,7 +1729,7 @@
             "github-repo": "owl"
         },
         "owlcarousel2": {
-            "github-owner": "sitevision",
+            "github-owner": "OwlCarousel2",
             "github-repo": "OwlCarousel2"
         },
         "oxygen": {

@@ -54,8 +54,8 @@ def update_software_info():
             raise ValueError('ERROR! You are not allowed to add "software-sources.json" when it still includes "urls" field.')
 
         versions = []
-        is_source_github = 'github-owner' in collection['softwares'][key] and 'github-repo' in collection['softwares'][key]
-        is_source_wordpress = 'type' in collection['softwares'][key] and 'wordpress-plugin' in collection['softwares'][key]
+        is_source_github = 'github-owner' in item and 'github-repo' in item
+        is_source_wordpress = 'type' in item and 'wordpress-plugin' in item['type']
         if is_source_github:
             github_ower = None
             github_repo = None
@@ -64,19 +64,19 @@ def update_software_info():
             github_version_prefix = None
             github_version_key = None
 
-            if 'github-owner' in collection['softwares'][key]:
-                github_ower = collection['softwares'][key]['github-owner']
-            if 'github-repo' in collection['softwares'][key]:
-                github_repo = collection['softwares'][key]['github-repo']
-            if 'github-source' in collection['softwares'][key]:
-                github_release_source = collection['softwares'][key]['github-source']
+            if 'github-owner' in item:
+                github_ower = item['github-owner']
+            if 'github-repo' in item:
+                github_repo = item['github-repo']
+            if 'github-source' in item:
+                github_release_source = item['github-source']
 
-            if 'github-security' in collection['softwares'][key]:
-                github_release_source = collection['softwares'][key]['github-security']
-            if 'github-prefix' in collection['softwares'][key]:
-                github_version_prefix = collection['softwares'][key]['github-prefix']
-            if 'github-key' in collection['softwares'][key]:
-                github_version_key = collection['softwares'][key]['github-key']
+            if 'github-security' in item:
+                github_release_source = item['github-security']
+            if 'github-prefix' in item:
+                github_version_prefix = item['github-prefix']
+            if 'github-key' in item:
+                github_version_key = item['github-key']
 
             if github_ower != None:
                 set_github_repository_info(item, github_ower, github_repo)

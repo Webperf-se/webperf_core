@@ -251,7 +251,7 @@
         },
         {
             "use": true,
-            "match": "(?P<debug>\\.(?P<name>php))",
+            "match": "(?P<debug>\\.(?P<name>php)([\\?\\#].+){0,1}$)",
             "results": [
                 {
                     "category": "tech",
@@ -261,7 +261,7 @@
         },
         {
             "use": true,
-            "match": "(?P<debug>\\.(?P<name>webm|mp4))",
+            "match": "(?P<debug>\\.(?P<name>webm|mp4)([\\?\\#].+){0,1}$)",
             "results": [
                 {
                     "category": "tech",
@@ -271,7 +271,7 @@
         },
         {
             "use": true,
-            "match": "(?P<debug>\\.(?P<name>webp|svg|bmp|png|jpg|jpeg|ico|gif))",
+            "match": "(?P<debug>\\.(?P<name>webp|svg|bmp|png|jpg|jpeg|ico|gif)([\\?\\#].+){0,1}$)",
             "results": [
                 {
                     "category": "img",
@@ -309,6 +309,17 @@
                     "name": "next.js",
                     "category": "js",
                     "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "description": "https://wordpress.org/plugins/<name>/advanced/",
+            "match": "(?P<debug>/wp-content/plugins/(?P<name>[^/]+)/)",
+            "results": [
+                {
+                    "category": "wordpress-plugin",
+                    "precision": 0.6
                 }
             ]
         }

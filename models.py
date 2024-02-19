@@ -1,6 +1,35 @@
 # -*- coding: utf-8 -*-
 import datetime
 
+class DefaultInfo:
+    def __init__(self, domain, method, precision, category, name, version, issues):
+        self.info = {}
+        self.info['domain'] = domain
+        self.info['method'] = method
+        self.info['precision'] = precision
+        self.info['category'] = category
+        self.info['name'] = name
+        self.info['version'] = version
+        self.info['issues'] = issues
+
+    def __str__(self) -> str:
+        return f'DefaultInfo(name={self.info['name']}, version={self.info['version']})'
+    
+    def __setitem__(self, key, value):
+        self.info[key] = value
+
+    def __getitem__(self, key):
+        return self.info[key]
+    
+    def __contains__(self, key):
+        return key in self.info
+    
+    def __eq__(self, other):
+        if isinstance(other, DefaultInfo):
+            return self.info['domain'] == other.info['domain'] and self.info['method'] == other.info['method'] and self.info['precision'] == other.info['precision'] and self.info['category'] == other.info['category'] and self.info['name'] == other.info['name'] and self.info['version'] == other.info['version']
+
+    def __hash__(self):
+        return hash((self.info['domain'], self.info['method'], self.info['precision'], self.info['category'], self.info['version']))
 
 class Sites(object):
     __tablename__ = 'sites'

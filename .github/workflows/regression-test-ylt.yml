@@ -18,16 +18,16 @@ jobs:
                 version: [17]
     steps:
     - name: Check out repository code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: Setup python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
         architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
     - name: Setup node (ONLY used for Yellow Lab Tools)
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
     - name: Setup node dependencies (ONLY used for Yellow Lab Tools)
       run: npm install -g node-gyp
     - if: matrix.os == 'ubuntu-latest'

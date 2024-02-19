@@ -36,6 +36,40 @@
                 {
                     "name": "episerver",
                     "category": "cms",
+                    "version": "",
+                    "domain": "referrer",
+                    "precision": 0.4
+                },
+                {
+                    "category": "tech",
+                    "name": "asp.net",
+                    "version": "",
+                    "domain": "referrer",
+                    "precision": 0.1
+                },
+                {
+                    "category": "tech",
+                    "name": "csharp",
+                    "version": "",
+                    "domain": "referrer",
+                    "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "description": "EpiServer CMS",
+            "match": "(?P<debug>\\/epi\\-util\\/find\\.js)",
+            "results": [
+                {
+                    "name": "epifind",
+                    "category": "js",
+                    "domain": "referrer",
+                    "precision": 0.8
+                },
+                {
+                    "name": "episerver",
+                    "category": "cms",
                     "domain": "referrer",
                     "precision": 0.4
                 },
@@ -217,7 +251,7 @@
         },
         {
             "use": true,
-            "match": "(?P<debug>\\.(?P<name>php))",
+            "match": "(?P<debug>\\.(?P<name>php)([\\?\\#].+){0,1}$)",
             "results": [
                 {
                     "category": "tech",
@@ -227,7 +261,7 @@
         },
         {
             "use": true,
-            "match": "(?P<debug>\\.(?P<name>webm|mp4))",
+            "match": "(?P<debug>\\.(?P<name>webm|mp4)([\\?\\#].+){0,1}$)",
             "results": [
                 {
                     "category": "tech",
@@ -237,7 +271,7 @@
         },
         {
             "use": true,
-            "match": "(?P<debug>\\.(?P<name>webp|svg|bmp|png|jpg|jpeg|ico|gif))",
+            "match": "(?P<debug>\\.(?P<name>webp|svg|bmp|png|jpg|jpeg|ico|gif)([\\?\\#].+){0,1}$)",
             "results": [
                 {
                     "category": "img",
@@ -264,6 +298,28 @@
                 {
                     "category": "js",
                     "precision": 0.1
+                }
+            ]
+        },
+        {
+            "use": true,
+            "match": "(?P<debug>/_next/)",
+            "results": [
+                {
+                    "name": "next.js",
+                    "category": "js",
+                    "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "description": "https://wordpress.org/plugins/<name>/advanced/",
+            "match": "(?P<debug>/wp-content/plugins/(?P<name>[^/]+)/)",
+            "results": [
+                {
+                    "category": "wordpress-plugin",
+                    "precision": 0.6
                 }
             ]
         }
@@ -298,7 +354,7 @@
             "use": true,
             "type": "x-aspnet-version",
             "description": "Matching asp.net",
-            "match": "(?P<debug>^(?P<ignoreclrversion>4\\.0\\.30319))",
+            "match": "(?P<debug>^(?P<ignoreclrversion>[0-9\\.]+))",
             "results": [
                 {
                     "name": "asp.net",
@@ -312,7 +368,7 @@
             "use": true,
             "type": "x-aspnetmvc-version",
             "description": "Matching asp.net",
-            "match": "(?P<debug>^(?P<ignoremvcversion>[0-9.]+))",
+            "match": "(?P<debug>^(?P<ignoremvcversion>[0-9\\.]+))",
             "results": [
                 {
                     "name": "asp.net",
@@ -325,7 +381,7 @@
             "use": true,
             "type": "x-generator",
             "description": "This matches verified CMS",
-            "match": "(?P<debug>^(?P<name>(drupal)) {0,1}(?P<version>[0-9.]+))",
+            "match": "(?P<debug>^(?P<name>(drupal)) {0,1}(?P<version>[0-9\\.]+))",
             "results": [
                 {
                     "category": "cms",
@@ -381,24 +437,6 @@
                 {
                     "category": "tech",
                     "precision": 0.8
-                }
-            ]
-        },
-        {
-            "use": true,
-            "type": "x-powered-by",
-            "description": "This matches verified ExpressJS & asp.net",
-            "test": "(?P<debug>^(?P<name>([a-z]+]))/(?P<version>[0-9.]+))",
-            "match": "(?P<debug>^(?P<name>(php|express|asp\\.net)))",
-            "results": [
-                {
-                    "category": "tech",
-                    "precision": 0.4
-                },
-                {
-                    "name": "nodejs",
-                    "category": "tech",
-                    "precision": 0.4
                 }
             ]
         },
@@ -688,7 +726,7 @@
             "use": true,
             "type": "html",
             "description": "This matches verified CMS when tag start with name attribute",
-            "match": "(?P<debug><meta name=['|\\\"]{0,1}generator['|\\\"]{0,1} content=['|\\\"]{0,1}(?P<name>((?P<verfied>WordPress|Joomla|Wix|TYPO3|Contao|concrete5|concrete|EPiServer|Drupal|Sitecore|Orchard|Umbraco|Webflow|One\\.com Web Editor)[ ]{0,1}))( {0,1}(?P<version>[0-9.]*)){0,1}['|\\\"]{0,1}[^>]+>)",
+            "match": "(?P<debug><meta name=['|\"]{0,1}generator['|\"]{0,1} content=['|\"]{0,1}(?P<name>((?P<verfied>WordPress|Joomla|Wix|TYPO3|Contao|concrete5|concrete|EPiServer|Drupal|Sitecore|Orchard|Umbraco|Webflow|One\\.com Web Editor)[ ]{0,1}))( {0,1}(?P<version>[0-9.]*)){0,1}['|\"]{0,1}[^>]+[\\/]{0,1}>)",
             "results": [
                 {
                     "category": "cms",
@@ -700,7 +738,7 @@
             "use": true,
             "type": "html",
             "description": "This matches verified CMS when tag end with name attribute",
-            "match": "(?P<debug><meta content=['|\\\"]{0,1}(?P<name>((?P<verfied>WordPress|Joomla|Wix|TYPO3|Contao|concrete5|concrete|EPiServer|Drupal|Sitecore|Orchard|Umbraco|Webflow|One\\.com Web Editor)[ ]{0,1}))( {0,1}(?P<version>[0-9.]*)){0,1}['|\\\"]{0,1} name=['|\\\"]{0,1}generator['|\\\"]{0,1}[^>]+>)",
+            "match": "(?P<debug><meta content=['|\"]{0,1}(?P<name>((?P<verfied>WordPress|Joomla|Wix|TYPO3|Contao|concrete5|concrete|EPiServer|Drupal|Sitecore|Orchard|Umbraco|Webflow|One\\.com Web Editor)[ ]{0,1}))( {0,1}(?P<version>[0-9.]*)){0,1}['|\"]{0,1} name=['|\"]{0,1}generator['|\"]{0,1}[^>]+[\\/]{0,1}>)",
             "results": [
                 {
                     "category": "cms",
@@ -712,7 +750,7 @@
             "use": true,
             "type": "html",
             "description": "This matches verified CMS but when plugin uses CMS names when tag start with name attribute",
-            "match": "(?P<debug><meta name=['\\\"]{0,1}generator['\\\"]{0,1} content=['\\\"]{0,1}[^\"']+(?P<name>WordPress|Joomla|CustomPublish)[^\"']+['\\\"]{0,1}[^>]+>)",
+            "match": "(?P<debug><meta name=['\"]{0,1}generator['\"]{0,1} content=['\"]{0,1}[^\"']+(?P<name>WordPress|Joomla|CustomPublish)[^\"']+['\"]{0,1}[^>]+[\\/]{0,1}>)",
             "results": [
                 {
                     "category": "cms",
@@ -724,7 +762,7 @@
             "use": true,
             "type": "html",
             "description": "This matches verified CMS but when plugin uses CMS names when tag end with name attribute",
-            "match": "(?P<debug><meta content=['\\\"]{0,1}[^\"']+(?P<name>WordPress|Joomla|CustomPublish)[^\"']+['\\\"]{0,1} name=['\\\"]{0,1}generator['\\\"]{0,1}[^>]+>)",
+            "match": "(?P<debug><meta content=['\"]{0,1}[^\"']+(?P<name>WordPress|Joomla|CustomPublish)[^\"']+['\"]{0,1} name=['\"]{0,1}generator['\"]{0,1}[^>]+[\\/]{0,1}>)",
             "results": [
                 {
                     "category": "cms",
@@ -736,7 +774,7 @@
             "use": true,
             "type": "html",
             "description": "This matches WordPress CMS but from plugin names when tag start with name attribute",
-            "match": "(?P<debug><meta name=['\\\"]{0,1}generator['\\\"]{0,1} content=['\\\"]{0,1}(?P<plugin>(Give v|WooCommerce|WPML ver|Divi |WooFramework|All in One SEO))[^\"']+['\\\"]{0,1}[^>]+>)",
+            "match": "(?P<debug><meta name=['\"]{0,1}generator['\"]{0,1} content=['\"]{0,1}(?P<plugin>(Give v|WooCommerce|WPML ver|Divi |WooFramework|All in One SEO))[^\"']+['\"]{0,1}[^>]+[\\/]{0,1}>)",
             "results": [
                 {
                     "name": "wordpress",
@@ -754,7 +792,7 @@
             "use": true,
             "type": "html",
             "description": "This matches WordPress CMS but from plugin names when tag end with name attribute",
-            "match": "(?P<debug><meta content=['\\\"]{0,1}(?P<plugin>(Give v|WooCommerce|WPML ver|Divi |WooFramework|All in One SEO))[^\"']+['\\\"]{0,1} name=['\\\"]{0,1}generator['\\\"]{0,1}[^>]+>)",
+            "match": "(?P<debug><meta content=['\"]{0,1}(?P<plugin>(Give v|WooCommerce|WPML ver|Divi |WooFramework|All in One SEO))[^\"']+['\"]{0,1} name=['\"]{0,1}generator['\"]{0,1}[^>]+[\\/]{0,1}>)",
             "results": [
                 {
                     "name": "wordpress",
@@ -772,7 +810,7 @@
             "use": true,
             "type": "html",
             "description": "This matches acos CMS when tag begins with",
-            "match": "(?P<debug><meta name=['\\\"]{0,1}(?P<name>acos)-cmscontext['\\\"]{0,1})",
+            "match": "(?P<debug><meta name=['\"]{0,1}(?P<name>acos)-cmscontext['\"]{0,1})",
             "results": [
                 {
                     "category": "cms",
@@ -784,7 +822,7 @@
             "use": true,
             "type": "html",
             "description": "This matches tech names when tag start with name attribute",
-            "match": "(?P<debug><meta name=['\\\"]{0,1}generator['\\\"]{0,1} content=['\\\"]{0,1}(?P<name>Gatsby)[^\"']+['\\\"]{0,1}[^>]+>)",
+            "match": "(?P<debug><meta name=['\"]{0,1}generator['\"]{0,1} content=['\"]{0,1}(?P<name>Gatsby)[^\"']+['\"]{0,1}[^>]+>)",
             "results": [
                 {
                     "category": "tech",
@@ -796,7 +834,7 @@
             "use": true,
             "type": "html",
             "description": "This matches tech names when tag end with name attribute",
-            "match": "(?P<debug><meta content=['\\\"]{0,1}(?P<name>Gatsby)[^\"']+['\\\"]{0,1} name=['\\\"]{0,1}generator['\\\"]{0,1}[^>]+>)",
+            "match": "(?P<debug><meta content=['\"]{0,1}(?P<name>Gatsby)[^\"']+['\\\"]{0,1} name=['\"]{0,1}generator['\"]{0,1}[^>]+>)",
             "results": [
                 {
                     "category": "tech",
@@ -808,7 +846,7 @@
             "use": true,
             "type": "html",
             "description": "Dublin Core",
-            "match": "(?P<debug><meta name=['\\\"](?P<ignore>(DC.Subject|DC.Creator|DC.Date|DC.Date.Created|DC.Date.Modified|DC.Description|DC.Title|DC.Publisher|DC.Type|DC.Format|DC.Identifier|DC.Language))['\\\"])",
+            "match": "(?P<debug><meta name=['\"](?P<ignore>(DC.Subject|DC.Creator|DC.Date|DC.Date.Created|DC.Date.Modified|DC.Description|DC.Title|DC.Publisher|DC.Type|DC.Format|DC.Identifier|DC.Language))['\"])",
             "results": [
                 {
                     "name": "dublin-core",
@@ -902,7 +940,7 @@
             "type": "javascript",
             "description": "javascript framework or javascript libraries",
             "test": "^[\\/!*\\n\\r \\t]+(?P<name>[a-zA-Z\\.\\- ]+) ([ \\-]+){0,1}v(?P<version>[0-9\\-\\.]+)",
-            "match": "^(?P<debug>[\\/!*\\n\\r \\t]+(?:created by){0,1}(?P<name>[a-zA-Z0-9\\- ]+)(?:\\.js){0,1} ([ \\-]+){0,1}v(?P<version>[0-9\\-\\.]+))",
+            "match": "^(?P<debug>[\\/!*\\n\\r \\t]+(?:created by){0,1}(?P<name>[a-zA-Z0-9\\- \\.]+)(?:\\.js){0,1} ([ \\-]+){0,1}v(?P<version>[0-9\\-\\.]+))",
             "results": [
                 {
                     "category": "js",
@@ -915,7 +953,7 @@
             "type": "javascript",
             "description": "javascript framework or javascript libraries",
             "test": "^[\\/!*\\n\\r \\t]+(?P<name>[a-zA-Z\\.\\- ]+) ([ \\-]+){0,1}v(?P<version>[0-9\\-\\.]+)",
-            "match": "^(?P<debug>[\\/!*\\n\\r \\t]+(?:created by){0,1}(?P<name>[a-zA-Z0-9\\- ]+)(?:\\.js){0,1} ([ \\-]+){0,1}v(?P<version>[0-9\\-\\.]+))[\\r\\n *]+https:\\/\\/github\\.com\\/(?P<owner>[a-zA-Z0-9\\-]+)\\/(?P<repo>[a-zA-Z0-9\\-]+)",
+            "match": "^(?P<debug>[\\/!*\\n\\r \\t]+(?:created by){0,1}(?P<name>[a-zA-Z0-9\\- \\.]+)(?:\\.js){0,1} ([ \\-]+){0,1}v(?P<version>[0-9\\-\\.]+))[\\r\\n *]+https:\\/\\/github\\.com\\/(?P<owner>[a-zA-Z0-9\\.\\-]+)\\/(?P<repo>[a-zA-Z0-9\\.\\-]+)",
             "results": [
                 {
                     "category": "js",
@@ -928,7 +966,7 @@
             "type": "javascript",
             "description": "javascript framwork or javascript libraries",
             "test": "http://bestiejs.github.io/json3",
-            "match": "(?P<debug>http[s]{0,1}:\\/\\/(?P<owner>[a-zA-Z0-9\\-]+)\\.github\\.io\\/(?P<name>(?P<repo>[a-zA-Z0-9\\-]+)))",
+            "match": "(?P<debug>http[s]{0,1}:\\/\\/(?P<owner>[a-zA-Z0-9\\.\\-]+)\\.github\\.io\\/(?P<name>(?P<repo>[a-zA-Z0-9\\.\\-]+)))",
             "results": [
                 {
                     "category": "js",
@@ -940,7 +978,7 @@
             "use": true,
             "type": "javascript",
             "description": "javascript framework or javascript libraries",
-            "match": "(?P<debug>\\/\\*![\\*\\n\\r \\t]+(?:created by){0,1}(?P<name>[a-zA-Z0-9\\- ]+)(?:\\.js){0,1} (?:[ \\-v]+){0,1}(?P<version>[0-9]+\\.[0-9]+(?:\\.[0-9]+){0,1}))",
+            "match": "(?P<debug>\\/\\*![\\*\\n\\r \\t]+(?:created by){0,1}(?P<name>[a-zA-Z0-9\\- \\.]+)(?:\\.js){0,1} (?:[ \\-v]+){0,1}(?P<version>[0-9]+\\.[0-9]+(?:\\.[0-9]+){0,1}))",
             "results": [
                 {
                     "category": "js",
@@ -952,7 +990,7 @@
             "use": true,
             "type": "javascript",
             "description": "javascript framework or javascript libraries",
-            "match": "(?P<debug>\\/\\*\\* @license (?P<name>[a-zA-Z0-9\\- ]+) (?:[ \\-v]+){0,1}(?P<version>[0-9]+\\.[0-9]+(?:\\.[0-9]+){0,1}))",
+            "match": "(?P<debug>\\/\\*\\* @license (?P<name>[a-zA-Z0-9\\- \\.]+) (?:[ \\-v]+){0,1}(?P<version>[0-9]+\\.[0-9]+(?:\\.[0-9]+){0,1}))",
             "results": [
                 {
                     "category": "js",
@@ -965,7 +1003,7 @@
             "type": "javascript",
             "description": "javascript framework or javascript libraries",
             "test": "(?P<debug>\\@source https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>[a-z\\-]+))",
-            "match": "(?P<debug>\\@source https:\\/\\/github\\.com\\/(?P<owner>[a-zA-Z0-9\\-]+)\\/(?P<repo>(?P<name>[a-zA-Z0-9\\-]+)))",
+            "match": "(?P<debug>\\@source https:\\/\\/github\\.com\\/(?P<owner>[a-zA-Z0-9\\.\\-]+)\\/(?P<repo>(?P<name>[a-zA-Z0-9\\.\\-]+)))",
             "results": [
                 {
                     "category": "js",
@@ -978,7 +1016,7 @@
             "type": "javascript",
             "description": "javascript framework or javascript libraries",
             "test": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>[a-z\\-]+))",
-            "match": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-zA-Z0-9\\-]+)\\/(?P<repo>(?P<name>[a-zA-Z0-9\\-]+)))",
+            "match": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-zA-Z0-9\\.\\-]+)\\/(?P<repo>(?P<name>[a-zA-Z0-9\\.\\-]+)))",
             "results": [
                 {
                     "category": "js",
@@ -991,7 +1029,7 @@
             "type": "javascript",
             "description": "javascript framework or javascript libraries",
             "test": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>[a-z\\-]+))",
-            "match": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-zA-Z0-9\\-]+)\\/(?P<repo>(?P<name>[a-zA-Z0-9\\-]+))\\/blob\\/[v]{0,1}(?P<version>[0-9\\.]+)/)",
+            "match": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-zA-Z0-9\\.\\-]+)\\/(?P<repo>(?P<name>[a-zA-Z0-9\\.\\-]+))\\/blob\\/[v]{0,1}(?P<version>[0-9\\.]+)/)",
             "results": [
                 {
                     "category": "js",
@@ -1042,7 +1080,7 @@
             "type": "javascript",
             "description": "javascript framework or javascript libraries",
             "test": "(?P<debug>https:\\/\\/github\\.com\\/(?P<owner>[a-z\\-]+)\\/(?P<repo>[a-z\\-]+))",
-            "match": "(?P<debug>(?P<licensefile>[a-zA-Z0-9\\.\\-]+)(?P<licensetxt>\\.LICENSE\\.txt) \\*\\/)",
+            "match": "(?P<debug>(?P<licensefile>[a-zA-Z0-9\\.\\-]{3,50})(?P<licensetxt>\\.LICENSE\\.txt) \\*\\/)",
             "results": [
                 {
                     "name": "?",
@@ -1100,6 +1138,200 @@
                 {
                     "category": "tech",
                     "precision": 0.0
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "looking next.js version info",
+            "match": "(?P<debug>window\\.next[ \\n\\r\\t]*=[ \\n\\r\\t]*\\{[ \\n\\r\\t]*version:[ \\n\\r\\t]*\"(?P<version>[0-9\\.]+)\")",
+            "results": [
+                {
+                    "name": "next.js",
+                    "category": "js",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "looking jQuery Migrate version info",
+            "match": "(?P<debug>\\w\\.migrateVersion[ \\n\\r\\t]*=[ \\n\\r\\t]*\"(?P<version>[0-9\\.]+)\")",
+            "results": [
+                {
+                    "name": "jquery-migrate",
+                    "category": "js",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "looking Backbone version info",
+            "match": "(?P<debug>\\.Backbone[\\,\\.\\;\\w\\=\\+\\,\\(\\)\\[\\]]+push[\\,\\.\\;\\w\\=\\+\\,\\(\\)\\[\\]]+slice[\\,\\.\\;\\w\\=\\+\\,\\(\\)\\[\\]]+\\.VERSION=\"(?P<version>[0-9\\.]+)\")",
+            "results": [
+                {
+                    "name": "backbone",
+                    "category": "js",
+                    "precision": 0.6
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "html",
+            "description": "EpiServer CMS",
+            "match": "(?P<debug>(\\/|%2F)contentassets(\\/|%2F)|(\\/|%2F)siteassets(\\/|%2F)|(\\/|%2F)globalassets(\\/|%2F))",
+            "results": [
+                {
+                    "category": "tech",
+                    "name": "asp.net",
+                    "precision": 0.1
+                },
+                {
+                    "category": "tech",
+                    "name": "csharp",
+                    "precision": 0.4
+                },
+                {
+                    "category": "cms",
+                    "name": "episerver",
+                    "precision": 0.4
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "Plausible Analytics",
+            "match": "(?P<debug>plausible_ignore([ ]{0,1}==[=]{0,1}[ ]{0,1}[\"|']{0,1}true[\"|']{0,1}){0,1})",
+            "results": [
+                {
+                    "name": "plausible-analytics",
+                    "category": "js",
+                    "precision": 0.6
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "Plausible Analytics",
+            "match": "(?P<debug>window\\.localStorage\\.plausible_ignore[ ]{0,1}==[=]{0,1}[ ]{0,1}[\"|']{0,1}true[\"|']{0,1}\\)[ ]{0,1}[\\{]{0,1}[ \t\r\n]*return onIgnoredEvent\\('localStorage flag\\')",
+            "results": [
+                {
+                    "name": "plausible-analytics",
+                    "version": "2.0.0",
+                    "category": "js",
+                    "precision": 0.6
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "Plausible Analytics",
+            "match": "(?P<debug>window\\.localStorage\\.plausible_ignore[ ]{0,1}==[=]{0,1}[ ]{0,1}[\"|']{0,1}true[\"|']{0,1}\\)[ ]{0,1}[\\{]{0,1}[ \t\r\n]*return warn\\('localStorage flag\\')",
+            "results": [
+                {
+                    "name": "plausible-analytics",
+                    "version": "1.5.0",
+                    "category": "js",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "Plausible Analytics",
+            "match": "(?P<debug>\\(plausible_ignore[ ]{0,1}==[ ]{0,1}[\"|']{0,1}true[\"|']{0,1}\\)[ ]{0,1}[\\{]{0,1}[ \t\r\n]*return warn\\('localStorage flag\\'\\))",
+            "results": [
+                {
+                    "name": "plausible-analytics",
+                    "version": "1.4.4",
+                    "category": "js",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "axios",
+            "match": "(?P<debug>{\"name\":\"(?P<name>axios)\",\"version\":\"(?P<version>[0-9\\.]+)\")",
+            "results": [
+                {
+                    "category": "js",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "Application Insights SDK JS",
+            "match": "(?P<debug>Application Insights JavaScript SDK \\- Web, (?P<version>[0-9\\.]+))",
+            "results": [
+                {
+                    "name": "applicationinsights-js",
+                    "category": "js",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "React",
+            "match": "(?P<debug>React[^;]+;[^;]+;[^;]+version:\"(?P<version>[0-9\\.]+)\")",
+            "results": [
+                {
+                    "name": "react",
+                    "category": "js",
+                    "precision": 0.8
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "Bugsnag JavaScript",
+            "match": "(?P<debug>Bugsnag JavaScript[\"'],[\t\n\r ]*[a-z]+=[\"'](?P<version>[0-9\\.]+)[\"'])",
+            "results": [
+                {
+                    "name": "bugsnag-js",
+                    "category": "js",
+                    "precision": 0.7
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "find unknown",
+            "match": "[\\'\"](?P<debug>(?P<version>[0-9]{1,4}\\.[0-9]{1,3}\\.[0-9]{1,3}(\\.[0-9]{1,3}){0,1}))[\\'\"]",
+            "results": [
+                {
+                    "name": "?",
+                    "category": "js",
+                    "precision": 0.5
+                }
+            ]
+        },
+        {
+            "use": true,
+            "type": "javascript",
+            "description": "find unknown package",
+            "match2": "(?P<debug>require\\(['\"]{1}(?P<name>[^\\)]+)['\"]{1}\\))",
+            "match": "(?P<debug>require\\(['\"]{1}(?P<name>[a-zA-Z\\:\\-\\_\\:]+)['\"]{1}\\))",
+            "results": [
+                {
+                    "category": "js",
+                    "precision": 0.5
                 }
             ]
         }

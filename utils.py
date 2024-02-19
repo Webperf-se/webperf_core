@@ -3,6 +3,7 @@ import json
 import sys
 import getopt
 import datetime
+import traceback
 from models import Sites, SiteTests
 import config
 import gettext
@@ -93,6 +94,43 @@ def test(_, langCode, site, test_type=None, show_reviews=False,):
         print(_('TEXT_TEST_END').format(
             datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
         print(_('TEXT_EXCEPTION'), website, '\n', e)
+        
+        # write error to failure.log file
+        with open('failures.log', 'a') as outfile:
+            
+            outfile.writelines(['###############################################',
+                                '\n# Information:',
+                                '\nDateTime: {0}' .format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')),
+                                '\nUrl: {0}'.format(website),
+                                '\nLanguage Code: {0}'.format(langCode),
+                                '\nTest Type(s): {0}'.format(test_type),
+                                '\nShow Reviews: {0}'.format(show_reviews),
+                                 '\n###############################################'
+                                '\n# Configuration (from config.py):',
+                                '\nuseragent: {0}'.format(config.useragent),
+                                '\nhttp_request_timeout: {0}'.format(config.http_request_timeout),
+                                '\nwebbkoll_sleep: {0}'.format(config.webbkoll_sleep),
+                                '\ncss_review_group_errors: {0}'.format(config.css_review_group_errors),
+                                '\nreview_show_improvements_only: {0}'.format(config.review_show_improvements_only),
+                                '\nylt_use_api: {0}'.format(config.ylt_use_api),
+                                '\nlighthouse_use_api: {0}'.format(config.lighthouse_use_api),
+                                '\nsitespeed_use_docker: {0}'.format(config.sitespeed_use_docker),
+                                '\nsitespeed_iterations: {0}'.format(config.sitespeed_iterations),
+                                '\nlocales: {0}'.format(config.locales),
+                                '\ncache_when_possible: {0}'.format(config.cache_when_possible),
+                                '\ncache_time_delta: {0}'.format(config.cache_time_delta),
+                                '\nsoftware_use_stealth: {0}'.format(config.software_use_stealth),
+                                '\nsoftware_use_detailed_report: {0}'.format(config.software_use_detailed_report),
+                                '\nsoftware_browser: {0}'.format(config.software_browser),
+                                 '\n###############################################\n'
+                                 ])
+            
+            
+            outfile.writelines(traceback.format_exception(e,e, e.__traceback__))
+
+            outfile.writelines(['###############################################\n\n'])
+
+
         pass
 
     return list()

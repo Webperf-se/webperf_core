@@ -52,7 +52,7 @@ def get_errors(test_type, params):
 
     bashCommand = "java -jar vnu.jar {0}".format(arg)
     process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-    output, error = process.communicate()
+    output, error = process.communicate(timeout=request_timeout * 10)
 
     json_result = json.loads(output)
     if 'messages' in json_result:

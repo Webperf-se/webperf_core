@@ -26,9 +26,8 @@ def main(argv):
     update_licenses()
     update_software_info()
 
-
 def update_software_info():
-    collection = get_software_sources()
+    collection = get_software_sources('software-sources.json')
     # print('software', collection)
 
     for key in collection['aliases'].keys():
@@ -37,60 +36,90 @@ def update_software_info():
         # else:
         #     print('alias', key, "=", collection['aliases'][key])
 
-
-    index = 0
+    plugins_to_remove = []
     for key in collection['softwares'].keys():
         # if index > 15:
         #     break
         # print('software', key)
         item = collection['softwares'][key]
 
-        github_ower = None
-        github_repo = None
-        github_security = None
-        github_release_source = 'tags'
-
-        if 'github-owner' in collection['softwares'][key]:
-            github_ower = collection['softwares'][key]['github-owner']
-        if 'github-repo' in collection['softwares'][key]:
-            github_repo = collection['softwares'][key]['github-repo']
-        if 'github-source' in collection['softwares'][key]:
-            github_release_source = collection['softwares'][key]['github-source']
-
-        if 'github-security' in collection['softwares'][key]:
-            github_release_source = collection['softwares'][key]['github-security']
-
         if 'note' in collection['softwares'][key]:
             print('ERROR! You are not allowed to add "software-sources.json" when it still includes "note" field.')
             raise ValueError('ERROR! You are not allowed to add "software-sources.json" when it still includes "note" field.')
+        if 'url' in collection['softwares'][key]:
+            print('ERROR! You are not allowed to add "software-sources.json" when it still includes "url" field.')
+            raise ValueError('ERROR! You are not allowed to add "software-sources.json" when it still includes "url" field.')
+        if 'urls' in collection['softwares'][key]:
+            print('ERROR! You are not allowed to add "software-sources.json" when it still includes "urls" field.')
+            raise ValueError('ERROR! You are not allowed to add "software-sources.json" when it still includes "urls" field.')
 
         versions = []
-        if github_ower != None:
-            set_github_repository_info(item, github_ower, github_repo)
-            # TODO: Git Archived status for repo and warn for it if it is.
-            versions = get_github_versions(github_ower, github_repo, github_release_source, github_security)
+        is_source_github = 'github-owner' in item and 'github-repo' in item
+        is_source_wordpress = 'type' in item and 'wordpress-plugin' in item['type']
+        if is_source_github:
+            github_ower = None
+            github_repo = None
+            github_security = None
+            github_release_source = 'tags'
+            github_version_prefix = None
+            github_version_key = None
+
+            if 'github-owner' in item:
+                github_ower = item['github-owner']
+            if 'github-repo' in item:
+                github_repo = item['github-repo']
+            if 'github-source' in item:
+                github_release_source = item['github-source']
+
+            if 'github-security' in item:
+                github_release_source = item['github-security']
+            if 'github-prefix' in item:
+                github_version_prefix = item['github-prefix']
+            if 'github-key' in item:
+                github_version_key = item['github-key']
+
+            if github_ower != None:
+                set_github_repository_info(item, github_ower, github_repo)
+                versions = get_github_versions(github_ower, github_repo, github_release_source, github_security, github_version_prefix, github_version_key)
+        elif is_source_wordpress:
+            set_wordpress_plugin_repository_info(item, key)
+
+        # Add custom information like end of life and cve
         if key == 'iis':
             versions = get_iis_versions()
             versions = extend_versions_for_iis(versions)
-        elif key == 'windows-server':
-            versions = get_windows_versions()
         elif key == 'apache':
             versions = get_apache_httpd_versions()
             versions = extend_versions_for_apache_httpd(versions)
-        elif key == 'nginx':
-            versions = extend_versions_for_nginx(versions)
+        elif key == 'datatables':
+            versions = get_datatables_versions()
+        elif key == 'epifind':
+            versions = get_epifind_versions()
         elif key == 'php':
             versions = get_php_versions()
             versions = extend_versions_for_php(versions)
+        elif key == 'windows-server':
+                versions = get_windows_versions()
+        elif key == 'nginx':
+            versions = extend_versions_for_nginx(versions)
+        elif key == 'openssl':
+            versions = extend_versions_for_openssl(versions)
+        elif key == 'drupal':
+            versions = get_drupal_versions()
+
         versions = extend_versions_from_github_advisory_database(key, versions)
 
-        # print(key, len(versions))
-        if len(versions) > 0:
+        if 'error' in item:
+            plugins_to_remove.append(key)
+        elif len(versions) > 0:
             collection['softwares'][key]['versions'] = versions
 
-        set_softwares(collection)
-        index += 1
+    print('Following wordpress plugins could not be found:')
+    for key in plugins_to_remove:
+        print('\t- {0}'.format(key))
+        del collection['softwares'][key]
 
+    set_softwares('software-full.json', collection)
 
 def update_licenses():
     print('updates licesences used in SAMPLE-software-rules.json')
@@ -253,6 +282,80 @@ def extend_versions_for_iis(versions):
 
             if is_match:
                 versions[version].append(cve)
+                versions[version] = sorted(versions[version], reverse=True)
+
+    return versions
+
+def extend_versions_for_openssl(versions):
+    versions = extend_versions_for_openssl_end_of_life(versions)
+    versions = extend_versions_for_openssl_vulnerabilities(versions)
+
+    return versions
+
+def extend_versions_for_openssl_vulnerabilities(versions):
+    raw_data = httpRequestGetContent(
+        'https://www.openssl.org/news/vulnerabilities.html')
+    
+    ver = sorted(versions.keys(), reverse=False)
+
+    section_regex = r'name="CVE[0-9\-]+">(?P<CVE>CVE[0-9\-]+)<\/a>.*?<dd>(?P<content>.*?)<dt><a'
+    section_regex_matches = re.finditer(
+        section_regex, raw_data, re.MULTILINE | re.S)
+
+    for section_matchNum, section_match in enumerate(section_regex_matches, start=1):
+        cve = section_match.group('CVE')
+        content = section_match.group('content')
+
+        regex = r'Fixed in OpenSSL (?P<fixed>[0-9\.a-z]+).*?\(Affected since (?P<start>[0-9\.a-z]+)'
+        matches = re.finditer(
+            regex, content, re.MULTILINE | re.S)
+
+        try:
+            for matchNum, match in enumerate(matches, start=1):
+                first_found_in_version = packaging.version.Version(''.join(["+" + str(c) if c.isalpha() else c for c in match.group('start')]))
+                fixed_in_version = packaging.version.Version(''.join(["+" + str(c) if c.isalpha() else c for c in match.group('fixed')]))
+
+                for v in ver:
+                        current_version = packaging.version.Version(v)
+                        if current_version >= first_found_in_version and current_version < fixed_in_version:
+                            versions[v].append(cve)
+        except Exception as ex:
+            a = 1
+
+    return versions
+
+
+def extend_versions_for_openssl_end_of_life(versions):
+    raw_data = httpRequestGetContent(
+        'https://www.openssl.org/policies/releasestrat.html')
+    
+    end_of_life_branches = {}
+
+    end_of_life_regex = r'(?P<content>[^>]+) no longer supported'
+    end_of_life_matches = re.finditer(
+        end_of_life_regex, raw_data, re.MULTILINE)
+    for end_of_life_matchNum, end_of_life_match in enumerate(end_of_life_matches, start=1):
+        content = end_of_life_match.group('content')
+
+        regex = r'(?P<version>[0-9\.]+)'
+        matches = re.finditer(
+            regex, content, re.MULTILINE)
+
+        for matchNum, match in enumerate(matches, start=1):
+            is_match = False
+            end_of_life_branch = None
+            end_of_life_version = match.group('version')
+
+            if len(end_of_life_version) > 3:
+                end_of_life_branch = end_of_life_version[:3]
+                # print('end_of_life_branch', end_of_life_branch)
+                end_of_life_branches[end_of_life_branch] = 'END_OF_LIFE'
+
+    for version in versions.keys():
+        if len(version) > 3:
+            version_branch = version[:3]
+            if version_branch in end_of_life_branches:
+                versions[version].append(end_of_life_branches[version_branch])
                 versions[version] = sorted(versions[version], reverse=True)
 
     return versions
@@ -506,15 +609,15 @@ def extend_versions_from_github_advisory_database(software_name, versions):
 
         return versions
 
-def set_software_sources(collection):
+def set_softwares(filename, collection):
     dir = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep)
     
-    file_path = '{0}{1}data{1}software-sources.json'.format(dir, os.path.sep)
+    file_path = '{0}{1}data{1}{2}'.format(dir, os.path.sep, filename)
     if not os.path.isfile(file_path):
-        file_path = '{0}{1}software-sources.json'.format(dir, os.path.sep)
+        file_path = '{0}{1}{2}'.format(dir, os.path.sep, filename)
     if not os.path.isfile(file_path):
-        print("ERROR: No software-sources.json file found!")
+        print("ERROR: No {0} file found!".format(filename))
 
     print('set_software_sources', file_path)
 
@@ -525,36 +628,15 @@ def set_software_sources(collection):
     with open(file_path, 'w', encoding='utf-8', newline='') as file:
         file.write(data)
 
-def set_softwares(collection):
-    dir = Path(os.path.dirname(
-        os.path.realpath(__file__)) + os.path.sep)
-    
-    file_path = '{0}{1}data{1}software-sources.json'.format(dir, os.path.sep)
-    if not os.path.isfile(file_path):
-        file_path = '{0}{1}software-sources.json'.format(dir, os.path.sep)
-    if not os.path.isfile(file_path):
-        print("ERROR: No software-sources.json file found!")
-
-    file_path = file_path.replace('-sources.json', '-full.json')
-    print('set_softwares', file_path)
-
-    collection["loaded"] = True
-    collection["updated"] = '{0}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-
-    data = json.dumps(collection, indent=4)
-    with open(file_path, 'w', encoding='utf-8', newline='') as file:
-        file.write(data)
-   
-
-def get_software_sources():
+def get_software_sources(filename):
     dir = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep)
 
-    file_path = '{0}{1}data{1}software-sources.json'.format(dir, os.path.sep)
+    file_path = '{0}{1}data{1}{2}'.format(dir, os.path.sep, filename)
     if not os.path.isfile(file_path):
-        file_path = '{0}{1}software-sources.json'.format(dir, os.path.sep)
+        file_path = '{0}{1}{2}'.format(dir, os.path.sep, filename)
     if not os.path.isfile(file_path):
-        print("ERROR: No software-sources.json file found!")
+        print("ERROR: No {0} file found!".format(filename))
         return {
             'loaded': False
         }
@@ -581,7 +663,7 @@ def get_software_sources():
 
         collection['aliases'] = tmp
         if issue_aliases_keys != issue_aliases_keys_sorted:
-            set_software_sources(collection)
+            set_softwares(filename, collection)
 
     # sort on software names
     if len(collection['softwares'].keys())> 0:
@@ -594,7 +676,7 @@ def get_software_sources():
 
         collection['softwares'] = tmp
         if issue_keys != issue_keys_sorted:
-            set_software_sources(collection)
+            set_softwares(filename, collection)
 
     return collection
 
@@ -615,6 +697,73 @@ def add_tech_if_interesting(techs, imgs, topic):
     # else:
     #     print('# TOPIC', tech)
 
+def set_wordpress_plugin_repository_info(item, name):
+    print('Looking up wordpress plugin: {0}'.format(name))
+
+    content = httpRequestGetContent(
+        'https://wordpress.org/plugins/{0}/advanced/'.format(name))
+
+    time.sleep(2.5)
+
+    if 'note' in item:
+        del item['note']
+    if 'urls' in item:
+        del item['urls']
+
+    if 'https://wordpress.org/plugins/{0}'.format(name) not in content:
+        item['error'] = 'no plugin found'
+        return
+
+    # Lets get an indication if the project is worked on or not
+    regex_last_updated = r'<li>[\r\n\t ]*Last updated: <strong><span>(?P<years>[0-9]+) year[s]{0,1}<\/span> ago<\/strong>[\r\n\t ]*<\/li>'
+    item['last_pushed_year'] = '2024'
+    matches = re.finditer(regex_last_updated, content, re.MULTILINE)
+    for matchNum, match in enumerate(matches, start=1):
+        years = int(match.group('years'))
+        year = datetime.now().year - years
+        item['last_pushed_year'] = '{0}'.format(year)
+
+    # Latest version:
+    regex_rawversion = r'<li>[\r\n\t]+Version:(?P<rawversion>.*?)<\/li>'
+    regex_version = r'(?P<version>[0-9\\.]+)'
+    item['versions'] = {}
+    matches = re.finditer(regex_rawversion, content, re.MULTILINE)
+    for matchNum, match in enumerate(matches, start=1):
+        latest_version = match.group('rawversion')
+        matches = re.finditer(regex_version, latest_version, re.MULTILINE)
+        for matchNum, match in enumerate(matches, start=1):
+            latest_version = match.group('version')
+            item['versions'][latest_version] = []
+
+    # versions
+    regex_versions = r'>(?P<version>[0-9\\.]+)<\/option>'
+    matches = re.finditer(regex_versions, content, re.MULTILINE)
+    for matchNum, match in enumerate(matches, start=1):
+        version = match.group('version')
+        item['versions'][version] = []
+
+    # notice
+    regex_notice = r'<div class=\"plugin\-notice notice notice\-(?P<type>error|warning) notice\-alt\">(?P<text>.*?)<\/div>'
+    matches = re.finditer(regex_notice, content, re.MULTILINE)
+    item['archived'] = False
+    for matchNum, match in enumerate(matches, start=1):
+        notice_type = match.group('type')
+        if 'error' in notice_type:
+            notice_type = 'Critical'
+        else:
+            notice_type = 'Warning'
+
+        notice_text = match.group('text')
+        notice_text = re.sub('<[/]{0,1}[^>]+>', '', notice_text).replace('&#146;', '\'')
+
+        item['notice'] = '{0}! {1}'.format(notice_type, notice_text)
+
+        if 'This plugin has been closed' in notice_text:
+            item['archived'] = True
+
+    return
+
+
 def set_github_repository_info(item, owner, repo):
     repo_content = httpRequestGetContent(
         'https://api.github.com/repos/{0}/{1}'.format(owner, repo))
@@ -628,6 +777,18 @@ def set_github_repository_info(item, owner, repo):
         license = github_info['license']['spdx_id'].lower()
         if 'noassertion' != license:
             item['license'] = license
+
+    # Lets get an indication if the project is worked on or not
+    item['last_pushed_year'] = None
+    if 'pushed_at' in github_info and github_info['pushed_at'] != None:
+        pushed_at = github_info['pushed_at']
+
+        # we only use year today, but who knows...
+        regex = r"^(?P<date>(?P<year>[0-9]{4})\-(?P<month>[0-9]{2})\-(?P<day>[0-9]{2}))"
+        match = re.match(regex, pushed_at)
+        if match:
+            pushed_at = match.group('year')
+            item['last_pushed_year'] = pushed_at
 
     techs = list()
     imgs = list()
@@ -661,7 +822,7 @@ def set_github_repository_info(item, owner, repo):
 
     return
 
-def get_github_versions(owner, repo, source, security_label):
+def get_github_versions(owner, repo, source, security_label, version_prefix, name_key):
     versions_content = httpRequestGetContent(
         'https://api.github.com/repos/{0}/{1}/{2}?state=closed&per_page=100'.format(owner, repo, source))
 
@@ -672,16 +833,19 @@ def get_github_versions(owner, repo, source, security_label):
     for version in version_info:
         if source == 'milestones':
             id_key = 'number'
-            name_key = 'title'
+            if name_key == None:
+                name_key = 'title'
             date_key = 'closed_at'
         elif source == 'tags':
             id_key = None
-            name_key = 'name'
+            if name_key == None:
+                name_key = 'name'
             date_key = None
         else:
             id_key = 'id'
             # we uses tag_name instead of name as bootstrap is missing "name" for some releases
-            name_key = 'tag_name'
+            if name_key == None:
+                name_key = 'tag_name'
             date_key = 'published_at'
 
         if name_key not in version:
@@ -698,9 +862,13 @@ def get_github_versions(owner, repo, source, security_label):
         if date_key in version:
             date = version[date_key]
 
+        key = version[name_key]
+        if key != None and version_prefix != None:
+            key = key.removeprefix(version_prefix)
+
         # NOTE: We do this to handle jquery dual release format "1.12.4/2.2.4"
         regex = r"^([v]|release\-){0,1}(?P<name>[0-9\.\-a-zA-Z]+)([\/](?P<name2>[0-9\.\-a-zA-Z]+)){0,1}"
-        matches = re.finditer(regex, version[name_key])
+        matches = re.finditer(regex, key)
         for matchNum, match in enumerate(matches, start=1):
             name = match.group('name')
             name2 = match.group('name2')
@@ -710,6 +878,8 @@ def get_github_versions(owner, repo, source, security_label):
 
         try:
             name = name.strip('.')
+            if owner == 'openssl':
+                name = ''.join(["+" + str(c) if c.isalpha() else c for c in name])
             name_version = packaging.version.parse(name)
             # Ignore dev and pre releases, for example Matomo 5.0.0-rc3
             if not name_version.is_prerelease:
@@ -746,6 +916,20 @@ def get_github_versions(owner, repo, source, security_label):
                 versions_dict[version] = ['fixes security issues']
 
     return versions_dict
+def get_drupal_versions():
+    # https://www.drupal.org/about/core/policies/core-release-cycles/schedule
+    # https://www.drupal.org/forum/general/news-and-announcements/2015-11-09/drupal-6-end-of-life-announcement
+
+    versions_dict = {
+        "10": [],
+        "9": ['END_OF_LIFE'],
+        "8": ['END_OF_LIFE'],
+        "7": [],
+        "6": ['END_OF_LIFE'],
+        "5": ['END_OF_LIFE']
+    }
+
+    return versions_dict
 
 def get_iis_versions():
     # https://learn.microsoft.com/en-us/lifecycle/products/internet-information-services-iis
@@ -766,7 +950,7 @@ def get_iis_versions():
 
     versions = sorted(versions, key=packaging.version.Version, reverse=True)
     for version in versions:
-        if packaging.version.Version(version) < packaging.version.Version('8.5'):
+        if packaging.version.Version(version) < packaging.version.Version('10'):
             versions_dict[version] = ['END_OF_LIFE']
         else:
             versions_dict[version] = []
@@ -778,13 +962,63 @@ def get_windows_versions():
 
     versions_dict = {
         "2016/2019/2022": [],
-        "2012 r2": [],
+        "2012 r2": ['END_OF_LIFE'],
         "2012": ['END_OF_LIFE'],
         "2008 r2": ['END_OF_LIFE'],
         "2008": ['END_OF_LIFE'],
         "2003": ['END_OF_LIFE']
     }
 
+    return versions_dict
+
+def get_datatables_versions():
+    # newer_versions = []
+    content = httpRequestGetContent(
+        'https://cdn.datatables.net/releases.html')
+    regex = r">(?P<version>[0-9\.]+)<\/a>"
+    matches = re.finditer(regex, content, re.MULTILINE)
+
+    versions = list()
+    versions_dict = {}
+
+    for matchNum, match in enumerate(matches, start=1):
+        name = match.group('version')
+        try:
+            name_version = packaging.version.parse(name)
+            # Ignore dev and pre releases, for example Matomo 5.0.0-rc3
+            if not name_version.is_prerelease:
+                versions.append(name)
+        except:
+            print('ERROR: Unable to parse version for datatables for version value ', name)
+
+    versions = sorted(versions, key=packaging.version.Version, reverse=True)
+    for version in versions:
+        versions_dict[version] = []
+    return versions_dict
+
+def get_epifind_versions():
+    # newer_versions = []
+    content = httpRequestGetContent(
+        'https://nuget.optimizely.com/package/?id=EPiServer.Find')
+    regex = r">(?P<version>[0-9\.]+)<\/a>"
+    matches = re.finditer(regex, content, re.MULTILINE)
+
+    versions = list()
+    versions_dict = {}
+
+    for matchNum, match in enumerate(matches, start=1):
+        name = match.group('version')
+        try:
+            name_version = packaging.version.parse(name)
+            # Ignore dev and pre releases, for example Matomo 5.0.0-rc3
+            if not name_version.is_prerelease:
+                versions.append(name)
+        except:
+            print('ERROR: Unable to parse version for epifind for version value ', name)
+
+    versions = sorted(versions, key=packaging.version.Version, reverse=True)
+    for version in versions:
+        versions_dict[version] = []
     return versions_dict
 
 def get_php_versions():

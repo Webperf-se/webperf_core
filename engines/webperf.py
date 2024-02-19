@@ -17,6 +17,10 @@ def read_sites(input_url, input_skip, input_take):
         input_url = 'https://webperf.se/category/regioner/'
     elif 'toplist' in input_url:
         input_url = 'https://webperf.se/toplist/'
+    elif 'digitalt' in input_url:
+        input_url = 'https://webperf.se/category/digitalt-sverige/'
+    elif 'webbyraer' in input_url:
+        input_url = 'https://webperf.se/category/webbyraer/'
     else:
         raise NotImplementedError('input is incorrect')
 

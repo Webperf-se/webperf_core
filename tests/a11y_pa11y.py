@@ -9,6 +9,7 @@ import gettext
 _ = gettext.gettext
 
 review_show_improvements_only = config.review_show_improvements_only
+request_timeout = config.http_request_timeout
 
 
 def run_test(_, langCode, url):
@@ -117,7 +118,7 @@ def get_pa11y_errors(url, use_axe):
         url, os.path.sep, additional_args)
 
     process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-    output, error = process.communicate()
+    output, error = process.communicate(timeout=request_timeout * 10)
 
     json_result = json.loads(output)
     return json_result

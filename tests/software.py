@@ -5,7 +5,7 @@ from PIL import Image
 import hashlib
 from pathlib import Path
 import shutil
-from models import Rating
+from models import Rating, DefaultInfo
 import os
 import json
 import config
@@ -25,6 +25,11 @@ request_timeout = config.http_request_timeout
 useragent = config.useragent
 review_show_improvements_only = config.review_show_improvements_only
 sitespeed_use_docker = config.sitespeed_use_docker
+try:
+    software_browser = config.software_browser
+except:
+    # If browser is not set in config.py this will be the default
+    software_browser = 'chrome'
 try:
     use_cache = config.cache_when_possible
     cache_time_delta = config.cache_time_delta
@@ -80,14 +85,26 @@ raw_data = {
 def get_rating_from_sitespeed(url, _local, _):
     # We don't need extra iterations for what we are using it for
     sitespeed_iterations = 1
-    sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --chrome.cdp.performance false --browsertime.chrome.timeline false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --browsertime.chrome.includeResponseBodies all --utc true --browsertime.chrome.args ignore-certificate-errors -n {0}'.format(
+    sitespeed_arg = '--plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --utc true -n {0}'.format(
         sitespeed_iterations)
+
+    if 'firefox' in software_browser:
+        sitespeed_arg = '-b firefox --firefox.includeResponseBodies all --firefox.preference privacy.trackingprotection.enabled:false --firefox.preference privacy.donottrackheader.enabled:false --firefox.preference browser.safebrowsing.malware.enabled:false --firefox.preference browser.safebrowsing.phishing.enabled:false {0}'.format(
+            sitespeed_arg)
+    else:
+        sitespeed_arg = '-b chrome --chrome.cdp.performance false --browsertime.chrome.timeline false --browsertime.chrome.includeResponseBodies all --browsertime.chrome.args ignore-certificate-errors {0}'.format(
+            sitespeed_arg)
+
+    sitespeed_arg = '--shm-size=1g {0}'.format(
+        sitespeed_arg)
+
     if 'nt' not in os.name:
         sitespeed_arg += ' --xvfb'
 
     (result_folder_name, filename) = get_result(
         url, sitespeed_use_docker, sitespeed_arg)
 
+   
     o = urlparse(url)
     origin_domain = o.hostname
 
@@ -145,6 +162,7 @@ def get_rating_from_sitespeed(url, _local, _):
 
     return (rating, result)
 
+
 def cleanup_domain_data(data):
     # result = {
     #   "<category-name>": {
@@ -181,6 +199,16 @@ def sort_issues(item1, item2):
     elif item2.startswith('CVE-') and not item1.startswith('CVE-'):
         return -1
     
+    if item1.startswith('UNMAINTAINED') and not item2.startswith('UNMAINTAINED'):
+        return -1
+    elif item2.startswith('UNMAINTAINED') and not item1.startswith('UNMAINTAINED'):
+        return 1
+
+    if item1.startswith('ARCHIVED_SOURCE') and not item2.startswith('ARCHIVED_SOURCE'):
+        return -1
+    elif item2.startswith('ARCHIVED_SOURCE') and not item1.startswith('ARCHIVED_SOURCE'):
+        return 1
+
     if item1 < item2:
         return -1
     elif item1 < item2:
@@ -194,7 +222,7 @@ def rate_software_security_result(_local, _, result, url):
 
     has_cve_issues = False
     has_behind_issues = False
-    has_archived_source_issues = False
+    has_source_issues = False
     # has_multiple_versions_issues = False
     has_end_of_life_issues = False
 
@@ -265,8 +293,46 @@ def rate_software_security_result(_local, _, result, url):
 
             rating += sub_rating
         elif issue_type.startswith('ARCHIVED_SOURCE'):
-            has_archived_source_issues = True
+            has_source_issues = True
             points = 1.75
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(points)
+            sub_rating.set_integrity_and_security(points)
+            if use_detailed_report:
+                text = _local('TEXT_DETAILED_REVIEW_{0}'.format(issue_type)).replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
+                text += '\r\n'
+                text += _local('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
+                text += '\r\n'
+                for software in result['issues'][issue_type]['softwares']:
+                    text += '- {0}\r\n'.format(software)
+
+                text += '\r\n'
+                text += _local('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
+                text += '\r\n'
+                for resource in result['issues'][issue_type]['resources']:
+                    text += '- {0}\r\n'.format(resource)
+                sub_rating.integrity_and_security_review = text
+            rating += sub_rating
+        elif issue_type.startswith('UNMAINTAINED_SOURCE'):
+            has_source_issues = True
+            points = 3.0
+            if issue_type.endswith('3_YEARS'):
+                points = 4.0
+            elif issue_type.endswith('4_YEARS'):
+                points = 3.5
+            elif issue_type.endswith('5_YEARS'):
+                points = 3.0
+            elif issue_type.endswith('6_YEARS'):
+                points = 2.5
+            elif issue_type.endswith('7_YEARS'):
+                points = 2.0
+            elif issue_type.endswith('8_YEARS'):
+                points = 1.5
+            elif issue_type.endswith('9_YEARS'):
+                points = 1.0
+            elif issue_type.endswith('10_YEARS'):
+                points = 1.0
+                
             sub_rating = Rating(_, review_show_improvements_only)
             sub_rating.set_overall(points)
             sub_rating.set_integrity_and_security(points)
@@ -332,12 +398,12 @@ def rate_software_security_result(_local, _, result, url):
             sub_rating.set_integrity_and_security(points)
         rating += sub_rating
 
-    if not has_archived_source_issues:
+    if not has_source_issues:
         points = 5.0
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(points)
         if use_detailed_report:
-            sub_rating.set_integrity_and_security(points, _local('TEXT_DETAILED_REVIEW_NO_ARCHIVES'))
+            sub_rating.set_integrity_and_security(points, _local('TEXT_DETAILED_REVIEW_NO_UNMAINTAINED'))
         else:
             sub_rating.set_integrity_and_security(points)
         rating += sub_rating
@@ -366,7 +432,7 @@ def sum_overall_software_used(_local, _, result):
     for category in categories:
         if category in result:
             texts.append(_local('TEXT_USED_{0}'.format(
-                category.upper())).format(', '.join(result[category].keys())))
+                category.upper())).format(', '.join(sorted(result[category].keys()))))
 
     return texts
 
@@ -483,9 +549,11 @@ def enrich_data(data, orginal_domain, result_folder_name, rules):
 
     tmp_list = list()
 
-    for item in data:
-        enrich_versions(item)
+    softwares = get_softwares()
 
+    for item in data:
+        enrich_versions(softwares, item)
+        
         enrich_data_from_javascript(tmp_list, item, rules)
         enrich_data_from_videos(tmp_list, item, result_folder_name)
         enrich_data_from_images(tmp_list, item, result_folder_name)
@@ -520,7 +588,7 @@ def get_softwares():
     return softwares
 
 
-def add_github_software_source(name, github_ower, github_repo):
+def add_known_software_source(name, source_type, match, url):
     dir = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent
 
@@ -531,9 +599,7 @@ def add_github_software_source(name, github_ower, github_repo):
         print("ERROR: No software-sources.json file found!")
         return
 
-    print('add_github_software_source', file_path)
-
-    collection = None
+    collection = {}
     with open(file_path) as json_file:
         collection = json.load(json_file)
 
@@ -541,15 +607,67 @@ def add_github_software_source(name, github_ower, github_repo):
         collection['softwares'] = {}
 
     if name not in collection['softwares']:
-        collection['softwares'][name] = {
-            'note': 'BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if all is OK.',
-            'github-owner': github_ower,
-            'github-repo': github_repo
-        }
+        print('add_known_software_source', file_path)
+        if source_type == 'github':
+            # ignore this owner as there is no release and nothing to use
+            if match['github-owner'] == 'tc39' or match['github-owner'] == 'whatwg' or match['github-owner'] == 'w3c':
+                return
+
+            # ignore this repo as there is no release and nothing to use
+            if match['github-repo'].startswith('tc39-') or match['github-repo'].startswith('proposal-'):
+                return
+
+            collection['softwares'][name] = {
+                'note': 'BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/{0}/{1}/tags'.format(match['github-owner'], match['github-repo']),
+                'github-owner': match['github-owner'],
+                'github-repo': match['github-repo'],
+                'url': url
+            }
+        elif source_type == 'wordpress':
+            # Note: We will just automatically check wordpress plugin names, no need for manual validation for now.
+            collection['softwares'][name] = {
+                'type': 'wordpress-plugin'
+                # 'note': 'BEFORE COMMIT, VERIFY THAT PAGE EXIST. Remove this note if following url is OK: https://wordpress.org/plugins/{0}/advanced/'.format(name),
+                # 'urls': []
+            }
 
     data = json.dumps(collection, indent=4)
     with open(file_path, 'w', encoding='utf-8', newline='') as file:
         file.write(data)
+
+def add_wordpressplugin_software_source(name, version, url):
+    dir = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep).parent
+
+    file_path = '{0}{1}data{1}software-wordpressplugin-sources.json'.format(dir, os.path.sep)
+    if not os.path.isfile(file_path):
+        file_path = '{0}{1}software-wordpressplugin-sources.json'.format(dir, os.path.sep)
+    if not os.path.isfile(file_path):
+        print("Info: No software-wordpressplugin-sources.json file found!")
+
+    collection = {}
+    try:
+        with open(file_path) as json_file:
+            collection = json.load(json_file)
+    except:
+        print('INFO: There was no ', file_path, 'file.')
+
+    if 'softwares' not in collection:
+        collection['softwares'] = {}
+
+    if name not in collection['softwares']:
+        collection['softwares'][name] = {
+            # 'note': 'BEFORE COMMIT, VERIFY THAT PAGE EXIST. Remove this note if following url is OK: https://wordpress.org/plugins/{0}/advanced/'.format(name),
+            # 'urls': []
+        }
+
+    # if len(collection['softwares'][name]['urls']) < 20:
+    #     collection['softwares'][name]['urls'].append(url)
+
+    data = json.dumps(collection, indent=4)
+    with open(file_path, 'w', encoding='utf-8', newline='') as file:
+        file.write(data)
+
 
 def add_unknown_software_source(name, version, url):
     dir = Path(os.path.dirname(
@@ -587,8 +705,7 @@ def add_unknown_software_source(name, version, url):
         file.write(data)
 
 
-def enrich_versions(item):
-    collection = get_softwares()
+def enrich_versions(collection, item):
     if 'softwares' not in collection:
         return
         
@@ -596,7 +713,7 @@ def enrich_versions(item):
         return
 
     for match in item['matches']:
-        if match['category'] != 'tech' and match['category'] != 'js' and match['category'] != 'cms' and match['category'] != 'os' and match['category'] != 'webserver':
+        if match['category'] != 'tech' and match['category'] != 'js' and match['category'] != 'cms' and match['category'] != 'os' and match['category'] != 'webserver' and match['category'] != 'wordpress-plugin':
             continue
 
         newer_versions = []
@@ -646,7 +763,9 @@ def enrich_versions(item):
                 if not has_match:
                     # If not in aliases, add to software-sources.json
                     if 'github-owner' in match and 'github-repo' in match:
-                        add_github_software_source(match['name'], match['github-owner'], match['github-repo'])
+                        add_known_software_source(match['name'], 'github', match, item['url'])
+                    elif 'wordpress-plugin' in match['category']:
+                        add_known_software_source(match['name'], 'wordpress', match, item['url'])
                     else:
                         add_unknown_software_source(match['name'], match['version'], item['url'])
                     continue
@@ -662,6 +781,18 @@ def enrich_versions(item):
             # if 'issues' not in item:
             #     match['issues'] = []
             match['issues'].append('ARCHIVED_SOURCE')
+        if 'last_pushed_year' in software_info:
+            if software_info['last_pushed_year'] == None:
+                # match['issues'].append('UNMAINTAINED_SOURCE_TOO_OLD')
+                print('DEBUG (last_pushed_year == None)', software_info)
+            else:
+                last_pushed_year = int(software_info['last_pushed_year'])
+                current_year = datetime.datetime.now().year
+                for year in range(10, 2, -1):
+                    if last_pushed_year < (current_year - year):
+                        match['issues'].append('UNMAINTAINED_SOURCE_{0}_YEARS'.format(year))
+                        break
+
         if 'tech' in software_info:
             match['tech'] = software_info['tech']
 
@@ -672,7 +803,10 @@ def enrich_versions(item):
 
         try:
             # ensure version field uses valid format
-            version = packaging.version.Version(match['version'])
+            if match['name'] == 'openssl':
+                version = packaging.version.Version(''.join(["+" + str(c) if c.isalpha() else c for c in match['version']]))
+            else:
+                version = packaging.version.Version(match['version'])
         except:
             # TODO: handle matomo like software rules where version = '>=4.x'.
             # TODO: handle matomo like software rules where version = '>4.x'.
@@ -687,13 +821,16 @@ def enrich_versions(item):
         for current_version in software_info['versions'].keys():
             tmp_version = None
             try:
-                tmp_version = packaging.version.Version(current_version)
+                if match['name'] == 'openssl':
+                    tmp_version = packaging.version.Version(''.join(["+" + str(c) if c.isalpha() else c for c in current_version]))
+                else:
+                    tmp_version = packaging.version.Version(current_version)
             except:
                 # print('DEBUG B', current_version)
                 continue
 
             if tmp_version == version:
-                match['issues'].extend(software_info['versions'][match['version']])
+                match['issues'].extend(software_info['versions'][current_version])
                 break
             elif tmp_version > version:
                 # handle versions that doesn't match but we know is less or greater then versions we know.
@@ -985,10 +1122,16 @@ def identify_software(filename, origin_domain, rules):
 
             if 'content' in res and 'text' in res['content']:
                 response_content = res['content']['text']
-                response_mimetype = res['content']['mimeType']
+
+                response_mimetype = None
+                if 'mimeType' in res['content']:
+                    response_mimetype = res['content']['mimeType']
+                else:
+                    print('Warning, no mimeType', res['content'])
+
                 lookup_response_content(
                     item, response_mimetype, response_content, rules)
-            else:
+            elif 'mimeType' in res['content']:
                 response_mimetype = res['content']['mimeType']
                 lookup_response_mimetype(
                     item, response_mimetype)
@@ -1000,6 +1143,8 @@ def identify_software(filename, origin_domain, rules):
             #   "name": "php",
             #   "version": null
             # }
+                
+            cleanup_duplicates(item)
 
             cleanup_used_global_software(global_software, item)
             data.append(item)
@@ -1021,12 +1166,13 @@ def identify_software(filename, origin_domain, rules):
             info = get_default_info(
                 data[0]['url'], 'js-objects', 0.8, 'js', software_name, version)
             data[0]['matches'].append(info)
-
     # nice_raw = json.dumps(global_software, indent=2)
     # print('DEBUG - Global Software, UNRESOLVED', nice_raw)
 
     return data
 
+def cleanup_duplicates(item):
+    item['matches'] = list(set(item['matches']))
 
 def cleanup_used_global_software(global_software, item):
     for match in item['matches']:
@@ -1072,6 +1218,13 @@ def lookup_response_content(item, response_mimetype, response_content, rules):
     if 'contents' not in rules:
         return
 
+    if response_mimetype == None:
+        return
+
+    req_url = item['url'].lower()
+    o = urlparse(req_url)
+    hostname = o.hostname
+
     is_found = False
     for rule in rules['contents']:
         if 'use' not in rule:
@@ -1088,10 +1241,6 @@ def lookup_response_content(item, response_mimetype, response_content, rules):
         if rule['type'] not in response_mimetype:
             continue
 
-        req_url = item['url'].lower()
-
-        o = urlparse(req_url)
-        hostname = o.hostname
 
         regex = r"{0}".format(rule['match'])
         matches = re.finditer(regex, response_content, re.IGNORECASE)
@@ -1118,6 +1267,14 @@ def lookup_response_content(item, response_mimetype, response_content, rules):
                 continue
             if 'repo' in groups:
                 match_github_repo = groups['repo']
+                # fix for repo url ending with .git
+                if match_github_repo.endswith('.git'):
+                    name_is_equal = match_github_repo == match_name
+                    match_github_repo = match_github_repo[:-4]
+                    if name_is_equal:
+                        match_name = match_github_repo
+
+
             if '?P<repo>' in rule['match'] and match_github_repo == None:
                 continue
 
@@ -1166,6 +1323,7 @@ def lookup_response_content(item, response_mimetype, response_content, rules):
                     raw_data['contents'][match.group('debug')] = hostname
 
 
+    
 def get_default_info(url, method, precision, key, name, version, domain=None):
     result = {}
 
@@ -1182,14 +1340,7 @@ def get_default_info(url, method, precision, key, name, version, domain=None):
     if version != None:
         version = version.lower().strip('.').strip('-').strip()
 
-    result['method'] = method
-    result['precision'] = precision
-    result['category'] = key
-    result['name'] = name
-    result['version'] = version
-    result['issues'] = []
-
-    return result
+    return DefaultInfo(result['domain'], method, precision, key, name, version, [])
 
 
 def lookup_request_url(item, rules, origin_domain):
@@ -1447,7 +1598,6 @@ def get_rules():
     with open(file_path) as json_rules_file:
         rules = json.load(json_rules_file)
     return rules
-
 
 def run_test(_, langCode, url):
     """

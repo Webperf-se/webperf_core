@@ -33,13 +33,13 @@ lighthouse_use_api = True
 # Tells sitespeed if we should use it as a docker image or a npm package
 sitespeed_use_docker = True
 
+# how many iterations of Sitespeed.io requests would you like? Has to be at least 2 not to fail
+sitespeed_iterations = 2
+
 # TO BE IMPLEMENTED:
 # locales - where are the lang files located?
 # at services like PythonAnywhere.com you might have to state a path like '/home/your-username/your-webperf-core-folder/locales'
 locales = 'locales'
-
-# how many iterations of Sitespeed.io requests would you like? Has to be at least 2 not to fail
-sitespeed_iterations = 2
 
 # Changing this will make webperf-core use local cache where available
 cache_when_possible = False
@@ -60,3 +60,6 @@ software_use_detailed_report = False
 # Tell software test the path to where you have repo of: https://github.com/github/advisory-database
 # Used to find CVE:s for npm packages
 software_github_adadvisory_database_path = None
+
+# Tells software test what browser to use (chrome/firefox), default = chrome
+software_browser = "chrome"

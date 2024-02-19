@@ -2,7 +2,7 @@
  * USED FOR SITESPEED TEST (TO collect software and javascript used)!!!
  */
 module.exports = async function (context, commands) {
-    cdpClient = commands.cdp.engineDelegate.getCDPClient()
+    // cdpClient = commands.cdp.engineDelegate.getCDPClient()
     // https://chromedevtools.github.io/devtools-protocol/tot/Storage/#method-getCookies
     // bodyResult = await cdpClient.send('Runtime.evaluate', {
     //     'expression': 'document.location.href'
@@ -13,7 +13,13 @@ module.exports = async function (context, commands) {
     //     'allowUnsafeEvalBlockedByCSP': true,
     //     'expression': '"jQuery" in window && "fn" in window.jQuery && "jquery" in window.jQuery.fn ? window.jQuery.fn.jquery : ""'
     // });
-    commands.wait.byPageToComplete();
+    // commands.wait.byCondition(commands.wait.byPageToComplete, 5000);
+    try {
+        // Fix for exception thrown on some pages where this function doesn't trigger until timeout: https://github.com/sitespeedio/browsertime/blob/main/lib/core/engine/command/wait.js#L126
+        await commands.wait.byPageToComplete();
+    } catch (error) {
+        
+    }
 
     core_js_versions = [];
     try {
@@ -31,6 +37,20 @@ module.exports = async function (context, commands) {
     modernizr_versions = []
     try {
         modernizr_versions = await commands.js.run('return "Modernizr" in window && "_version" in window.Modernizr ? [window.Modernizr._version] : []');
+    } catch (error) {
+        console.error(error);
+    }
+
+    alpine_versions = []
+    try {
+        alpine_versions = await commands.js.run('return "Alpine" in window && "version" in window.Alpine ? [window.Alpine.version] : []');
+    } catch (error) {
+        console.error(error);
+    }
+
+    next_versions = []
+    try {
+        next_versions = await commands.js.run('return "next" in window && "version" in window.next ? [window.next.version] : []');
     } catch (error) {
         console.error(error);
     }
@@ -70,7 +90,9 @@ module.exports = async function (context, commands) {
     versions = {
         'jquery': jquery_versions,
         'modernizr': modernizr_versions,
-        'core-js': core_js_versions
+        'core-js': core_js_versions,
+        'next.js': next_versions,
+        'alpinejs': alpine_versions
     }
 
 

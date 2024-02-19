@@ -8,6 +8,7 @@ from tests.utils import *
 import gettext
 _local = gettext.gettext
 
+request_timeout = config.http_request_timeout
 sitespeed_use_docker = config.sitespeed_use_docker
 
 
@@ -24,7 +25,7 @@ def get_result(sitespeed_use_docker, arg):
 
         import subprocess
         process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-        output, error = process.communicate()
+        output, error = process.communicate(timeout=request_timeout * 10)
         result = str(output)
     else:
         import subprocess
@@ -35,7 +36,7 @@ def get_result(sitespeed_use_docker, arg):
         process = subprocess.Popen(
             bashCommand.split(), stdout=subprocess.PIPE)
 
-        output, error = process.communicate()
+        output, error = process.communicate(timeout=request_timeout * 10)
         result = str(output)
 
     return result

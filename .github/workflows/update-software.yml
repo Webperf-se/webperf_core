@@ -4,13 +4,13 @@ on:
   #  https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#onschedule
   #  * is a special character in YAML so you have to quote this string
     - cron: '30 8 14,28 * *'
-  push:
-    paths:
-      - 'software-sources.json'
-      - '**update-software.yml'
-      - '**verify_result.py'
-      - 'update_software.py'
-      - 'SAMPLE-software-rules.json'
+  # push:
+  #   paths:
+  #     - 'software-sources.json'
+  #     - '**update-software.yml'
+  #     - '**verify_result.py'
+  #     - 'update_software.py'
+  #     - 'SAMPLE-software-rules.json'
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -28,13 +28,7 @@ jobs:
         architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
-    - if: ${{ matrix.os == 'ubuntu-latest'  }}
-      name: Setup config (using SAMPLE-config.py as config.py) - LINUX
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: python .github/workflows/verify_result.py -c ${{ matrix.config }},github_api_key=${{ secrets.GITHUB_TOKEN }}
-    - if: ${{ matrix.os == 'windows-latest' }}
-      name: Setup config (using SAMPLE-config.py as config.py) - WINDOWS
+    - name: Setup config (using SAMPLE-config.py as config.py)
       run: python .github\workflows\verify_result.py -c ${{ matrix.config }},github_api_key=${{ secrets.GITHUB_TOKEN }}
     - name: Checkout advisory-database repo
       uses: actions/checkout@v4
@@ -45,33 +39,24 @@ jobs:
           advisory_database
         sparse-checkout: |
           advisories
-    - if: ${{ matrix.os == 'ubuntu-latest' }}
-      name: Verifing Software(s) - LINUX
+    - name: Verifing Software(s)
       run: python update_software.py
-    - if: ${{ matrix.os == 'windows-latest' }}
-      name: Verifing Software(s) - WINDOWS
-      run: python update_software.py
-    - if: ${{ matrix.os == 'windows-latest' }}
-      name: Git Fix sort order to Software sources(s) - WINDOWS
-      run: |
-        git config --global user.name 'GitHub Action'
-        git config --global user.email '7h3Rabbit@users.noreply.github.com'
-        git add software-sources.json
-        git commit -m "Added changed software"
-        git push
-    - if: ${{ matrix.os == 'windows-latest' }}
-      name: Git Add any changes to Software(s) - WINDOWS
-      run: |
-        git config --global user.name 'GitHub Action'
-        git config --global user.email '7h3Rabbit@users.noreply.github.com'
-        git add software-full.json
-        git commit -m "Added changed software"
-        git push
-    - if: ${{ matrix.os == 'windows-latest' }}
-      name: Git Add any changes to License(s) - WINDOWS
-      run: |
-        git config --global user.name 'GitHub Action'
-        git config --global user.email '7h3Rabbit@users.noreply.github.com'
-        git add SAMPLE-software-rules.json
-        git commit -m "Added changed licenses"
-        git push        
+    - name: Create pull request
+      uses: peter-evans/create-pull-request@v6
+      with:
+        commit-message: Update software and license definitions
+        branch: software-definition-updates
+        title: Scheduled Software Definition Update
+        body: |
+          This pull request is used to make it easier to keep the software definitions up to date.
+          
+          Following files may be touched:
+            - software-sources.json
+            - software-full.json
+            - SAMPLE-software-rules.json
+        assignees: 7h3Rabbit
+        reviewers: 7h3Rabbit
+        add-paths: |
+          software-sources.json
+          software-full.json
+          SAMPLE-software-rules.json

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 import http3
 import datetime
 import h2
@@ -20,20 +21,37 @@ from requests.packages.urllib3.poolmanager import PoolManager
 from requests.packages.urllib3.util import ssl_
 # https://docs.python.org/3/library/urllib.parse.html
 import urllib
-from urllib.parse import urlparse
+from urllib.parse import ParseResult, urlparse, urlunparse
 import uuid
 import re
 from bs4 import BeautifulSoup
 import config
 from models import Rating
 from tests.utils import dns_lookup, httpRequestGetContent, has_redirect
+from tests.utils import *
+from tests.sitespeed_base import get_result
+import datetime
 import gettext
 _local = gettext.gettext
+
 
 # DEFAULTS
 request_timeout = config.http_request_timeout
 useragent = config.useragent
 review_show_improvements_only = config.review_show_improvements_only
+sitespeed_use_docker = config.sitespeed_use_docker
+try:
+    software_browser = config.software_browser
+except:
+    # If browser is not set in config.py this will be the default
+    software_browser = 'chrome'
+try:
+    use_cache = config.cache_when_possible
+    cache_time_delta = config.cache_time_delta
+except:
+    # If cache_when_possible variable is not set in config.py this will be the default
+    use_cache = False
+    cache_time_delta = timedelta(hours=1)
 
 
 def run_test(_, langCode, url):
@@ -70,9 +88,10 @@ def run_test(_, langCode, url):
     while check_url and nof_checks < 10:
         checked_url_rating = validate_url(url, _, _local)
 
-        redirect_result = has_redirect(url)
-        check_url = redirect_result[0]
-        url = redirect_result[1]
+        # redirect_result = has_redirect(url)
+        # redirect_result = has_redirect(url)
+        # check_url = redirect_result[0]
+        # url = redirect_result[1]
         nof_checks += 1
 
         rating += checked_url_rating
@@ -101,16 +120,21 @@ def validate_url(url, _, _local):
 
     rating += http_to_https_score(url, _, _local)
 
-    rating += tls_version_score(url, _, _local)
+    # rating += tls_version_score(url, _, _local)
 
-    rating += ip_version_score(hostname, _, _local)
+    # rating += ip_version_score(hostname, _, _local)
 
     rating += http_version_score(hostname, url, _, _local)
 
     return rating
 
-
 def http_to_https_score(url, _, _local):
+
+
+    # Firefox
+    # dom.security.https_only_mode
+
+
     rating = Rating(_, review_show_improvements_only)
     http_url = ''
 
@@ -120,6 +144,13 @@ def http_to_https_score(url, _, _local):
         http_url = url.replace('https://', 'http://')
     else:
         http_url = url
+
+    url2 = change_url_to_test_url(http_url, 'http2https')
+
+    (rating, result_dict) = get_rating_from_sitespeed(url2, _local, _)
+
+    if sasdf:
+        asa = 1
 
     redirect_result = has_redirect(http_url)
 
@@ -163,6 +194,9 @@ def ip_version_score(hostname, _, _local):
 
     nof_ip6 = len(ip6_result)
     nof_ip4 = len(ip4_result)
+
+    # network.dns.ipv4OnlyDomains
+    # network.dns.disableIPv6
 
     ip6_rating = Rating(_, review_show_improvements_only)
     if nof_ip6 > 0:
@@ -314,6 +348,17 @@ def protocol_version_score(url, protocol_version, _, _local):
 
 
 def tls_version_score(orginal_url, _, _local):
+
+    # Firefox:
+    # security.tls.version.min
+    # security.tls.version.max
+
+    # 1 = TLS 1.0
+    # 2 = TLS 1.1
+    # 3 = TLS 1.2
+    # 4 = TLS 1.3
+
+
     rating = Rating(_, review_show_improvements_only)
     url = orginal_url.replace('http://', 'https://')
 
@@ -362,19 +407,110 @@ def tls_version_score(orginal_url, _, _local):
 
     return rating
 
+def get_rating_from_sitespeed(url, _local, _):
+    # software_browser = 'firefox'
+
+
+    # We don't need extra iterations for what we are using it for
+    sitespeed_iterations = 1
+    sitespeed_arg = '--plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --utc true -n {0}'.format(
+        sitespeed_iterations)
+
+    if 'firefox' in software_browser:
+        # http_setting = ' --firefox.preference network.http.http2.enabled:false'
+        # http_setting = ' --firefox.preference network.http.http3.enable:false'
+        # http_setting = ' --firefox.preference network.http.http2.enabled:false --firefox.preference network.http.http3.enable:false'
+        http_setting = ' --requestheader "Host:webperf.se" --firefox.preference network.http.http2.enabled:false --firefox.preference network.http.http3.enable:true --firefox.preference network.http.version:3.0'
+        # http_setting = ' --firefox.preference network.http.version:3.0'
+
+
+        sitespeed_arg = '-b firefox --firefox.includeResponseBodies all --firefox.preference privacy.trackingprotection.enabled:false --firefox.preference privacy.donottrackheader.enabled:false --firefox.preference browser.safebrowsing.malware.enabled:false --firefox.preference browser.safebrowsing.phishing.enabled:false{1} {0}'.format(
+            sitespeed_arg, http_setting)
+        
+        # --firefox.preference network.http.http2.enabled:false
+        # --firefox.preference network.http.http3.enable:false
+    else:
+        sitespeed_arg = '-b chrome --chrome.cdp.performance false --browsertime.chrome.timeline false --browsertime.chrome.includeResponseBodies all --browsertime.chrome.args ignore-certificate-errors {0}'.format(
+            sitespeed_arg)
+
+    sitespeed_arg = '--shm-size=1g {0}'.format(
+        sitespeed_arg)
+
+    if 'nt' not in os.name:
+        sitespeed_arg += ' --xvfb'
+
+    (result_folder_name, filename) = get_result(
+        url, sitespeed_use_docker, sitespeed_arg)
+    
+    rating = Rating(_, review_show_improvements_only)
+    result = {}
+
+    return (rating, result)
+
 
 def http_version_score(hostname, url, _, _local):
+
+    # SiteSpeed (firefox):
+    # "httpVersion": "HTTP/1.1"
+    # "httpVersion": "HTTP/3"
+
+    # SiteSpeed (chrome):
+    # "httpVersion": "http/1.1"
+    # "httpVersion": "h2"
+    # "httpVersion": "h3"
+
+    # Chrome:
+
+    # https://www.chromium.org/for-testers/providing-network-details/
+
+
+    # Firefox:
+
+    # about:networking
+    # network.http.http2.enabled
+    # network.http.http3.enable
+    # network.http.version
+
+    # network.http.version and their effects1:
+    # - 0.9
+    # - 1.0
+    # - 1.1 (Default)
+    # - 2.0
+    # - 3.02
+
+    # Response Header: alt-svc
+    # h3=\":443\"; ma=2592000, h3-29=\":443\"; ma=2592000, h3-Q050=\":443\"; ma=2592000, h3-Q046=\":443\"; ma=2592000, h3-Q043=\":443\"; ma=2592000, quic=\":443\"; ma=2592000; v=\"43,46\"
+    # h3=":443";
+    # ma=2592000, h3-29=":443";
+    # ma=2592000, h3-Q050=":443";
+    # ma=2592000, h3-Q046=":443";
+    # ma=2592000, h3-Q043=":443";
+    # ma=2592000, quic=":443";
+    # ma=2592000; v="43,46"
+
+    # https://www.http3check.net/?host=https%3A%2F%2Fwebperf.se
+    # 0-RTT
+    # H3
+    # H3-29
+    # H3-Q050
+    # H3-Q046
+    # H3-Q043
+    # Q043
+    # Q046
+
+    get_rating_from_sitespeed(url, _local, _)
+
     rating = Rating(_, review_show_improvements_only)
 
-    rating += check_http11(hostname, _, _local)
+    # rating += check_http11(hostname, _, _local)
 
-    rating += check_http2(hostname, _, _local)
+    # rating += check_http2(hostname, _, _local)
 
-    # If we still have 1.0 points something must have gone wrong, try fallback
-    if rating.get_overall() == 1.0:
-        rating = check_http_fallback(url, _, _local)
+    # # If we still have 1.0 points something must have gone wrong, try fallback
+    # if rating.get_overall() == 1.0:
+    #     rating = check_http_fallback(url, _, _local)
 
-    rating += check_http3(hostname, _, _local)
+    # rating += check_http3(hostname, _, _local)
 
     return rating
 

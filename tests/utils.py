@@ -17,7 +17,7 @@ import dns.resolver
 import config
 import IP2Location
 import os
-from urllib.parse import urlparse
+from urllib.parse import ParseResult, urlparse, urlunparse
 
 
 ip2location_db = False
@@ -47,6 +47,16 @@ try:
 except:
     gitHubApiKey=None
 
+def change_url_to_test_url(url, test_name):
+
+    o = urllib.parse.urlparse(url)
+    if '' == o.query:
+        new_query = 'webperf-core={0}'.format(test_name)
+    else:
+        new_query = 'webperf-core={0}&'.format(test_name) + o.query
+    o2 = ParseResult(scheme=o.scheme, netloc=o.netloc, path=o.path, params=o.params, query=new_query, fragment=o.fragment)
+    url2 = urlunparse(o2)
+    return url2
 
 
 def is_file_older_than(file, delta):

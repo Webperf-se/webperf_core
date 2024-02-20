@@ -201,7 +201,7 @@ def modify_browsertime_content(input_filename, cookies, versions):
         for entry in json_result['log']['entries']:
             keys_to_remove = list()
             for key in entry.keys():
-                if key != 'request' and key != 'response' and key != 'serverIPAddress':
+                if key != 'request' and key != 'response' and key != 'serverIPAddress' and key != 'httpVersion':
                     keys_to_remove.append(key)
             for key in keys_to_remove:
                 del entry[key]
@@ -217,7 +217,7 @@ def modify_browsertime_content(input_filename, cookies, versions):
 
             keys_to_remove = list()
             for key in entry['response'].keys():
-                if key != 'content' and key != 'headers':
+                if key != 'content' and key != 'headers' and key != 'httpVersion':
                     keys_to_remove.append(key)
             for key in keys_to_remove:
                 del entry['response'][key]

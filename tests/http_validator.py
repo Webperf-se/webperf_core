@@ -76,32 +76,30 @@ def run_test(_, langCode, url):
 
     # We must take in consideration "www." subdomains...
 
+    orginal_url = url
     o = urllib.parse.urlparse(url)
     hostname = o.hostname
 
     if hostname.startswith('www.'):
         url = url.replace(hostname, hostname[4:])
 
-    nof_checks = 0
-    check_url = True
+    # TODO: Do HttpsOnly Test www. domain also if orginal domain included it (or the resulting url contains it)
+    # TODO: Do HttpsOnly Test on domain without www. if orginal domain included it (or the resulting url contains it)
 
-    while check_url and nof_checks < 10:
-        checked_url_rating = validate_url(url, _, _local)
+    o = urllib.parse.urlparse(url)
+    hostname = o.hostname
 
-        # redirect_result = has_redirect(url)
-        # redirect_result = has_redirect(url)
-        # check_url = redirect_result[0]
-        # url = redirect_result[1]
-        nof_checks += 1
+    result_dict = http_to_https_score(url)
 
-        rating += checked_url_rating
+    # rating += tls_version_score(url, _, _local)
 
-    if nof_checks > 1:
-        rating.overall_review += _local('TEXT_REVIEW_SCORE_IS_DIVIDED').format(
-            nof_checks)
+    result_dict = ip_version_score(result_dict)
 
-    # if len(review) == 0:
-    #    review = _('TEXT_REVIEW_NO_REMARKS')
+    result_dict = http_version_score(url, result_dict)
+
+
+    nice_result = json.dumps(result_dict, indent=3)
+    print('DEBUG TOTAL', nice_result)
 
     print(_('TEXT_TEST_END').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
@@ -109,24 +107,20 @@ def run_test(_, langCode, url):
     return (rating, result_dict)
 
 
-def validate_url(url, _, _local):
-    rating = Rating(_, review_show_improvements_only)
+def merge_dicts(dict1, dict2):
+    if dict1 == None:
+        return dict2
+    if dict2 == None:
+        return dict1
 
-    # points = 0.0
-    # review = ''
-
-    o = urllib.parse.urlparse(url)
-    hostname = o.hostname
-
-    rating += http_to_https_score(url, _, _local)
-
-    # rating += tls_version_score(url, _, _local)
-
-    # rating += ip_version_score(hostname, _, _local)
-
-    rating += http_version_score(hostname, url, _, _local)
-
-    return rating
+    for key, value in dict2.items():
+        if key in dict1:
+            for subkey, subvalue in value.items():
+                dict1[key][subkey].extend(subvalue)
+                dict1[key][subkey] = sorted(list(set(dict1[key][subkey])))
+        else:
+            dict1[key] = value
+    return dict1
 
 def rate_url(filename, origin_domain):
 
@@ -151,18 +145,18 @@ def rate_url(filename, origin_domain):
                 result[req_domain] = {
                     'protocols': [],
                     'schemes': [],
-                    'ip-version': [],
-                    'urls': []
+                    'ip-version': [] #,
+                    #'urls': []
                 }
 
-            result[req_domain]['schemes'].append(o.scheme)
-            result[req_domain]['urls'].append(req_url)
+            result[req_domain]['schemes'].append(o.scheme.upper())
+            # result[req_domain]['urls'].append(req_url)
 
-            if 'httpVersion' in req:
-                result[req_domain]['protocols'].append(req['httpVersion'])
+            if 'httpVersion' in req and req['httpVersion'] != '':
+                result[req_domain]['protocols'].append(req['httpVersion'].replace('h2', 'HTTP/2').replace('h3', 'HTTP/3').upper())
 
-            if 'httpVersion' in res:
-                result[req_domain]['protocols'].append(res['httpVersion'])
+            if 'httpVersion' in res and res['httpVersion'] != '':
+                result[req_domain]['protocols'].append(res['httpVersion'].replace('h2', 'HTTP/2').replace('h3', 'HTTP/3').upper())
 
             if 'serverIPAddress' in entry:
                 if ':' in entry['serverIPAddress']:
@@ -178,101 +172,59 @@ def rate_url(filename, origin_domain):
     return result           
 
 
-def http_to_https_score(url, _, _local):
-
-
+def http_to_https_score(url):
     # Firefox
     # dom.security.https_only_mode
 
-
-    rating = Rating(_, review_show_improvements_only)
     http_url = ''
 
     o = urllib.parse.urlparse(url)
-    origin_domain = o.hostname
+    o_domain = o.hostname
 
     if (o.scheme == 'https'):
         http_url = url.replace('https://', 'http://')
     else:
         http_url = url
 
-    # url2 = change_url_to_test_url(http_url, 'http2https')
+    browser = 'firefox'
+    configuration = ''
+    print('HTTP2HTTPS')
+    result_dict = get_website_support_from_sitespeed(http_url, configuration, browser)
 
-    (rating, result_dict) = get_rating_from_sitespeed(http_url, _local, _)
+    # If website redirects to www. domain without first redirecting to HTTPS, make sure we test it.
+    if o_domain in result_dict and 'HTTPS' not in result_dict[o_domain]['schemes']:
+        https_url = url.replace('http://', 'https://')
+        result_dict = merge_dicts(get_website_support_from_sitespeed(https_url, configuration, browser), result_dict)
 
-    if sasdf:
-        asa = 1
+    # If we have www. domain, ensure we validate HTTP2HTTPS on that as well
+    www_domain_key = 'www.{0}'.format(o_domain)
+    if www_domain_key in result_dict and 'HTTP' not in result_dict[www_domain_key]['schemes']:
+        www_http_url = http_url.replace(o_domain, www_domain_key)
+        result_dict = merge_dicts(get_website_support_from_sitespeed(www_http_url, configuration, browser), result_dict)
 
-    redirect_result = has_redirect(http_url)
-
-    result_url = ''
-    if (redirect_result[0]):
-        result_url = redirect_result[1]
-    else:
-        result_url = http_url
-
-    if result_url == None:
-        rating.set_overall(1.0)
-        rating.set_integrity_and_security(
-            1.0, _local('TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_UNABLE_TO_VERIFY'))
-        rating.set_standards(1.0, _local(
-            'TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_UNABLE_TO_VERIFY'))
-        return rating
-
-    result_url_o = urllib.parse.urlparse(result_url)
-
-    if (result_url_o.scheme == 'http'):
-        rating.set_overall(1.0)
-        rating.set_integrity_and_security(
-            1.0, _local('TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_NO_REDIRECT'))
-        rating.set_standards(1.0, _local(
-            'TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_NO_REDIRECT'))
-        return rating
-    else:
-        rating.set_overall(5.0)
-        rating.set_integrity_and_security(
-            5.0, _local('TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_REDIRECTED'))
-        rating.set_standards(5.0, _local(
-            'TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_REDIRECTED'))
-        return rating
+    return result_dict
 
 
-def ip_version_score(hostname, _, _local):
-    rating = Rating(_, review_show_improvements_only)
-    ip4_result = dns_lookup(hostname, "A")
-
-    ip6_result = dns_lookup(hostname, "AAAA")
-
-    nof_ip6 = len(ip6_result)
-    nof_ip4 = len(ip4_result)
-
+def ip_version_score(result_dict):
     # network.dns.ipv4OnlyDomains
     # network.dns.disableIPv6
 
-    ip6_rating = Rating(_, review_show_improvements_only)
-    if nof_ip6 > 0:
-        ip6_rating.set_overall(5.0)
-        ip6_rating.set_standards(
-            5.0, _local('TEXT_REVIEW_IP_VERSION_IPV6_SUPPORT'))
-    else:
-        ip6_rating.set_overall(1.0)
-        ip6_rating.set_standards(
-            1.0, _local('TEXT_REVIEW_IP_VERSION_IPV6_NO_SUPPORT'))
+    if not contains_value_for_all(result_dict, 'ip-version', 'IPv4'):
+        for domain in result_dict.keys():
+            if 'IPv4' not in result_dict[domain]['ip-version']:
+                ip4_result = dns_lookup(domain, "A")
+                if len(ip4_result) > 0:
+                    result_dict[domain]['ip-version'].append('IPv4*')
 
-    rating += ip6_rating
+    if not contains_value_for_all(result_dict, 'ip-version', 'IPv6'):
+        for domain in result_dict.keys():
+            if 'IPv6' not in result_dict[domain]['ip-version']:
+                ip4_result = dns_lookup(domain, "AAAA")
+                if len(ip4_result) > 0:
+                    result_dict[domain]['ip-version'].append('IPv6*')
 
-    ip4_rating = Rating(_, review_show_improvements_only)
-    if nof_ip4 > 0:
-        ip4_rating.set_overall(5.0)
-        ip4_rating.set_standards(
-            5.0, _local('TEXT_REVIEW_IP_VERSION_IPV4_SUPPORT'))
-    else:
-        ip4_rating.set_overall(1.0)
-        ip4_rating.set_standards(
-            1.0, _local('TEXT_REVIEW_IP_VERSION_IPV4_NO_SUPPORT'))
-    rating += ip4_rating
 
-    return rating
+    return result_dict
 
 
 def protocol_version_score(url, protocol_version, _, _local):
@@ -458,28 +410,15 @@ def tls_version_score(orginal_url, _, _local):
 
     return rating
 
-def get_rating_from_sitespeed(url, _local, _):
-    # software_browser = 'firefox'
-
-
+def get_website_support_from_sitespeed(url, configuration, browser):
     # We don't need extra iterations for what we are using it for
     sitespeed_iterations = 1
     sitespeed_arg = '--plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --utc true -n {0}'.format(
         sitespeed_iterations)
 
-    if 'firefox' in software_browser:
-        # http_setting = ' --firefox.preference network.http.http2.enabled:false'
-        # http_setting = ' --firefox.preference network.http.http3.enable:false'
-        # http_setting = ' --firefox.preference network.http.http2.enabled:false --firefox.preference network.http.http3.enable:false'
-        http_setting = ' --requestheader "Host:webperf.se" --firefox.preference network.http.http2.enabled:false --firefox.preference network.http.http3.enable:true --firefox.preference network.http.version:3.0'
-        # http_setting = ' --firefox.preference network.http.version:3.0'
-
-
+    if 'firefox' in browser:
         sitespeed_arg = '-b firefox --firefox.includeResponseBodies all --firefox.preference privacy.trackingprotection.enabled:false --firefox.preference privacy.donottrackheader.enabled:false --firefox.preference browser.safebrowsing.malware.enabled:false --firefox.preference browser.safebrowsing.phishing.enabled:false{1} {0}'.format(
-            sitespeed_arg, http_setting)
-        
-        # --firefox.preference network.http.http2.enabled:false
-        # --firefox.preference network.http.http3.enable:false
+            sitespeed_arg, configuration)
     else:
         sitespeed_arg = '-b chrome --chrome.cdp.performance false --browsertime.chrome.timeline false --browsertime.chrome.includeResponseBodies all --browsertime.chrome.args ignore-certificate-errors {0}'.format(
             sitespeed_arg)
@@ -493,9 +432,6 @@ def get_rating_from_sitespeed(url, _local, _):
     (result_folder_name, filename) = get_result(
         url, sitespeed_use_docker, sitespeed_arg)
     
-    rating = Rating(_, review_show_improvements_only)
-    # result = {}
-
     o = urllib.parse.urlparse(url)
     origin_domain = o.hostname
     result = rate_url(filename, origin_domain)
@@ -503,13 +439,24 @@ def get_rating_from_sitespeed(url, _local, _):
     nice_result = json.dumps(result, indent=3)
     print('DEBUG', nice_result)
 
-    return (rating, result)
+    return result
 
+def contains_value_for_all(result_dict, key, value):
+    if result_dict == None:
+        return False
 
-def http_version_score(hostname, url, _, _local):
+    has_value = True    
+    for domain in result_dict.keys():
+        if key not in result_dict[domain] or value not in result_dict[domain][key]:
+            has_value = False
+    return has_value
+
+def http_version_score(url, result_dict):
 
     # SiteSpeed (firefox):
+    # "httpVersion": "HTTP/1"
     # "httpVersion": "HTTP/1.1"
+    # "httpVersion": "HTTP/2"
     # "httpVersion": "HTTP/3"
 
     # SiteSpeed (chrome):
@@ -518,12 +465,10 @@ def http_version_score(hostname, url, _, _local):
     # "httpVersion": "h3"
 
     # Chrome:
-
     # https://www.chromium.org/for-testers/providing-network-details/
 
 
     # Firefox:
-
     # about:networking
     # network.http.http2.enabled
     # network.http.http3.enable
@@ -556,218 +501,29 @@ def http_version_score(hostname, url, _, _local):
     # Q043
     # Q046
 
-    get_rating_from_sitespeed(url, _local, _)
+    if not contains_value_for_all(result_dict, 'protocols', 'HTTP/1.1'):
+        browser = 'firefox'
+        # configuration = ' --firefox.preference network.http.http2.enabled:false --firefox.preference network.http.http3.enable:false --firefox.preference network.http.version:1.1'
+        configuration = ' --firefox.preference network.http.http2.enabled:false --firefox.preference network.http.http3.enable:false'
+        url2 = change_url_to_test_url(url, 'HTTPv1')
+        print('HTTP/1.1')
+        result_dict = merge_dicts(get_website_support_from_sitespeed(url2, configuration, browser), result_dict)
 
-    rating = Rating(_, review_show_improvements_only)
+    if not contains_value_for_all(result_dict, 'protocols', 'HTTP/2'):
+        browser = 'firefox'
+        configuration = ' --firefox.preference network.http.http2.enabled:true --firefox.preference network.http.http3.enable:false --firefox.preference network.http.version:3.0'
+        url2 = change_url_to_test_url(url, 'HTTPv2')
+        print('HTTP/2')
+        result_dict = merge_dicts(get_website_support_from_sitespeed(url2, configuration, browser), result_dict)
 
-    # rating += check_http11(hostname, _, _local)
+    if not contains_value_for_all(result_dict, 'protocols', 'HTTP/3'):
+        browser = 'firefox'
+        configuration = ' --firefox.preference network.http.http2.enabled:false --firefox.preference network.http.http3.enable:true --firefox.preference network.http.version:3.0'
+        url2 = change_url_to_test_url(url, 'HTTPv3')
+        print('HTTP/3')
+        result_dict = merge_dicts(get_website_support_from_sitespeed(url2, configuration, browser), result_dict)
 
-    # rating += check_http2(hostname, _, _local)
-
-    # # If we still have 1.0 points something must have gone wrong, try fallback
-    # if rating.get_overall() == 1.0:
-    #     rating = check_http_fallback(url, _, _local)
-
-    # rating += check_http3(hostname, _, _local)
-
-    return rating
-
-
-def check_http11(hostname, _, _local):
-    rating = Rating(_, review_show_improvements_only)
-    try:
-        socket.setdefaulttimeout(10)
-        conn = ssl.create_default_context()
-        conn.set_alpn_protocols(['http/1.1'])
-        try:
-            conn.set_npn_protocols(["http/1.1"])
-        except NotImplementedError:
-            pass
-
-        ssock = conn.wrap_socket(
-            socket.socket(socket.AF_INET, socket.SOCK_STREAM), server_hostname=hostname)
-        ssock.connect((hostname, 443))
-
-        negotiated_protocol = ssock.selected_alpn_protocol()
-        if negotiated_protocol is None:
-            negotiated_protocol = ssock.selected_npn_protocol()
-
-        if negotiated_protocol == "http/1.1":
-            rating.set_overall(5.0)
-            rating.set_standards(
-                5.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_SUPPORT'))
-        else:
-            rating.set_overall(1.0)
-            rating.set_standards(
-                1.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_NO_SUPPORT'))
-    except Exception:
-        # rating.set_overall(1.0)
-        return rating
-    return rating
-
-
-def check_http2(hostname, _, _local):
-    rating = Rating(_, review_show_improvements_only)
-    try:
-        socket.setdefaulttimeout(10)
-        conn = ssl.create_default_context()
-        conn.set_alpn_protocols(['h2'])
-        try:
-            conn.set_npn_protocols(["h2"])
-        except NotImplementedError:
-            pass
-        ssock = conn.wrap_socket(
-            socket.socket(socket.AF_INET, socket.SOCK_STREAM), server_hostname=hostname)
-        ssock.connect((hostname, 443))
-
-        negotiated_protocol = ssock.selected_alpn_protocol()
-        if negotiated_protocol is None:
-            negotiated_protocol = ssock.selected_npn_protocol()
-
-        if negotiated_protocol == "h2":
-            rating.set_overall(5.0)
-            rating.set_standards(
-                5.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_2_SUPPORT'))
-            rating.set_performance(
-                5.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_2_SUPPORT'))
-        else:
-            rating.set_overall(1.0)
-            rating.set_standards(
-                1.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_2_NO_SUPPORT'))
-            rating.set_performance(
-                1.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_2_NO_SUPPORT'))
-    except Exception:
-        return rating
-
-    return rating
-
-
-def check_http3(host, _, _local):
-    rating = Rating(_, review_show_improvements_only)
-
-    has_quic_support = False
-    has_http3_support = False
-
-    try:
-        url = 'https://http3check.net/?host={0}'.format(host)
-        headers = {'user-agent': useragent}
-        request = requests.get(url, allow_redirects=True,
-                               headers=headers, timeout=request_timeout)
-
-        # We use variable to validate it once
-        requestText = ''
-        hasRequestText = False
-
-        if request.text:
-            requestText = request.text
-            hasRequestText = True
-
-        if hasRequestText:
-            try:
-                soup = BeautifulSoup(requestText, 'lxml')
-                elements_success = soup.find_all(
-                    class_="uk-text-success")
-                for result in elements_success:
-                    supportText = result.text.lower()
-                    has_quic_support = has_quic_support or 'quic' in supportText
-                    has_http3_support = has_quic_support or 'http/3' in supportText
-
-            except:
-                print(
-                    'Error getting HTTP/3 or QUIC support!\nMessage:\n{0}'.format(sys.exc_info()[0]))
-
-    except Exception as ex:
-        print(
-            'General Error getting HTTP/3 or QUIC support!\nMessage:\n{0}'.format(sys.exc_info()[0]))
-
-    http3_rating = Rating(_, review_show_improvements_only)
-    if (has_http3_support):
-        http3_rating.set_overall(5.0)
-        http3_rating.set_standards(
-            5.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_3_SUPPORT'))
-        http3_rating.set_performance(
-            5.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_3_SUPPORT'))
-    else:
-        http3_rating.set_overall(1.0)
-        http3_rating.set_performance(
-            2.5, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_3_NO_SUPPORT'))
-        http3_rating.set_standards(1.0, _local(
-            'TEXT_REVIEW_HTTP_VERSION_HTTP_3_NO_SUPPORT'))
-    rating += http3_rating
-
-    quic_rating = Rating(_, review_show_improvements_only)
-    if (has_quic_support):
-        quic_rating.set_overall(5.0)
-        quic_rating.set_performance(
-            5.0, _local('TEXT_REVIEW_HTTP_VERSION_QUIC_SUPPORT'))
-        quic_rating.set_standards(
-            5.0, _local('TEXT_REVIEW_HTTP_VERSION_QUIC_SUPPORT'))
-    else:
-        quic_rating.set_overall(1.0)
-        quic_rating.set_performance(
-            2.5, _local('TEXT_REVIEW_HTTP_VERSION_QUIC_NO_SUPPORT'))
-        quic_rating.set_standards(1.0, _local(
-            'TEXT_REVIEW_HTTP_VERSION_QUIC_NO_SUPPORT'))
-    rating += quic_rating
-
-    return rating
-
-
-def check_http_fallback(url, _, _local):
-    rating = Rating(_, review_show_improvements_only)
-    has_http2 = False
-    has_http11 = False
-    try:
-        r = http3.get(url, allow_redirects=True)
-
-        has_http2 = r.protocol == "HTTP/2"
-        has_http11 = r.protocol == "HTTP1.1"
-    except ssl.CertificateError as error:
-        print('ERR1', error)
-        pass
-    except Exception as e:
-        print('ERR2', e)
-        pass
-
-    try:
-        if not has_http11:
-            # This call only supports HTTP/1.1
-            content = httpRequestGetContent(url, True)
-            if '</html>' in content:
-                has_http11 = True
-    except Exception as e:
-        # Probably a CERT validation error, ignore
-        print('ERR3', e)
-        pass
-
-    http11_rating = Rating(_, review_show_improvements_only)
-    if has_http11:
-        http11_rating.set_overall(5.0)
-        http11_rating.set_standards(5.0, _local(
-            'TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_SUPPORT'))
-    else:
-        http11_rating.set_overall(1.0)
-        http11_rating.set_standards(
-            1.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_NO_SUPPORT'))
-    rating += http11_rating
-
-    http2_rating = Rating(_, review_show_improvements_only)
-    if has_http2:
-        http2_rating.set_overall(5.0)
-        http2_rating.set_standards(5.0, _local(
-            'TEXT_REVIEW_HTTP_VERSION_HTTP_2_SUPPORT'))
-        http2_rating.set_performance(
-            5.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_2_SUPPORT'))
-    else:
-        http2_rating.set_overall(1.0)
-        http2_rating.set_standards(
-            1.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_2_NO_SUPPORT'))
-        http2_rating.set_performance(
-            1.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_2_NO_SUPPORT'))
-    rating += http2_rating
-
-    return rating
-
+    return result_dict
 
 # Read post at: https://hussainaliakbar.github.io/restricting-tls-version-and-cipher-suites-in-python-requests-and-testing-wireshark/
 WEAK_CIPHERS = (

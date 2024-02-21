@@ -8,6 +8,17 @@ from tests.utils import *
 request_timeout = config.http_request_timeout
 sitespeed_use_docker = config.sitespeed_use_docker
 
+def to_firefox_url_format(url):
+
+    o = urllib.parse.urlparse(url)
+    path = o.path
+    if '' == o.path:
+        path = '/'
+    
+    o2 = ParseResult(scheme=o.scheme, netloc=o.netloc, path=path, params=o.params, query=o.query, fragment=o.fragment)
+    url2 = urlunparse(o2)
+    return url2
+
 def get_result(url, sitespeed_use_docker, sitespeed_arg):
     folder = 'tmp'
     if use_cache:
@@ -27,7 +38,7 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg):
     # Should we use cache when available?
     if use_cache:
         # added for firefox support
-        url2 = '{0}/'.format(url)
+        url2 = to_firefox_url_format(url)
 
         import engines.sitespeed_result as input
         sites = input.read_sites(hostname, -1, -1)

@@ -128,6 +128,56 @@ def validate_url(url, _, _local):
 
     return rating
 
+def rate_url(filename, origin_domain):
+
+    result = {}
+    
+    # Fix for content having unallowed chars
+    with open(filename) as json_input_file:
+        har_data = json.load(json_input_file)
+
+        if 'log' in har_data:
+            har_data = har_data['log']
+
+        for entry in har_data["entries"]:
+            req = entry['request']
+            res = entry['response']
+            req_url = req['url']
+
+            o = urllib.parse.urlparse(req_url)
+            req_domain = o.hostname
+
+            if req_domain not in result:
+                result[req_domain] = {
+                    'protocols': [],
+                    'schemes': [],
+                    'ip-version': [],
+                    'urls': []
+                }
+
+            result[req_domain]['schemes'].append(o.scheme)
+            result[req_domain]['urls'].append(req_url)
+
+            if 'httpVersion' in req:
+                result[req_domain]['protocols'].append(req['httpVersion'])
+
+            if 'httpVersion' in res:
+                result[req_domain]['protocols'].append(res['httpVersion'])
+
+            if 'serverIPAddress' in entry:
+                if ':' in entry['serverIPAddress']:
+                    result[req_domain]['ip-version'].append('IPv6')
+                else:
+                    result[req_domain]['ip-version'].append('IPv4')
+
+
+            result[req_domain]['protocols'] = list(set(result[req_domain]['protocols']))
+            result[req_domain]['schemes'] = list(set(result[req_domain]['schemes']))
+            result[req_domain]['ip-version'] = list(set(result[req_domain]['ip-version']))
+
+    return result           
+
+
 def http_to_https_score(url, _, _local):
 
 
@@ -139,15 +189,16 @@ def http_to_https_score(url, _, _local):
     http_url = ''
 
     o = urllib.parse.urlparse(url)
+    origin_domain = o.hostname
 
     if (o.scheme == 'https'):
         http_url = url.replace('https://', 'http://')
     else:
         http_url = url
 
-    url2 = change_url_to_test_url(http_url, 'http2https')
+    # url2 = change_url_to_test_url(http_url, 'http2https')
 
-    (rating, result_dict) = get_rating_from_sitespeed(url2, _local, _)
+    (rating, result_dict) = get_rating_from_sitespeed(http_url, _local, _)
 
     if sasdf:
         asa = 1
@@ -443,7 +494,14 @@ def get_rating_from_sitespeed(url, _local, _):
         url, sitespeed_use_docker, sitespeed_arg)
     
     rating = Rating(_, review_show_improvements_only)
-    result = {}
+    # result = {}
+
+    o = urllib.parse.urlparse(url)
+    origin_domain = o.hostname
+    result = rate_url(filename, origin_domain)
+
+    nice_result = json.dumps(result, indent=3)
+    print('DEBUG', nice_result)
 
     return (rating, result)
 

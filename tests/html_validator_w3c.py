@@ -52,6 +52,8 @@ def run_test(_, langCode, url):
     if 'nt' not in os.name:
         sitespeed_arg += ' --xvfb'
 
+    sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'
+
     (result_folder_name, filename) = get_result(
         url, sitespeed_use_docker, sitespeed_arg)
 

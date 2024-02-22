@@ -11,3 +11,4 @@ docker>=7.0.0
 Pillow>=10.2.0
 OpenCV-Python>=4.9.0.80
 Numpy>=1.26.3
+cryptography>=42.0.4

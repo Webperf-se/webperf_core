@@ -1,18 +1,9 @@
 # -*- coding: utf-8 -*-
 import os
-import http3
 import datetime
-import h2
-import h11
 import urllib.parse
-import textwrap
-import ipaddress
-import hashlib
 import datetime
-import binascii
-import base64
 import sys
-import socket
 import ssl
 import json
 import requests
@@ -21,15 +12,17 @@ from requests.packages.urllib3.poolmanager import PoolManager
 from requests.packages.urllib3.util import ssl_
 # https://docs.python.org/3/library/urllib.parse.html
 import urllib
-from urllib.parse import ParseResult, urlparse, urlunparse
-import uuid
-import re
-from bs4 import BeautifulSoup
 import config
 from models import Rating
-from tests.utils import dns_lookup, httpRequestGetContent, has_redirect
+from tests.utils import dns_lookup
 from tests.utils import *
 from tests.sitespeed_base import get_result
+import dns.name
+import dns.query
+import dns.dnssec
+import dns.message
+import dns.resolver
+import dns.rdatatype
 import datetime
 import gettext
 _local = gettext.gettext
@@ -83,20 +76,20 @@ def run_test(_, langCode, url):
     if hostname.startswith('www.'):
         url = url.replace(hostname, hostname[4:])
 
-    # TODO: Do HttpsOnly Test www. domain also if orginal domain included it (or the resulting url contains it)
-    # TODO: Do HttpsOnly Test on domain without www. if orginal domain included it (or the resulting url contains it)
-
     o = urllib.parse.urlparse(url)
     hostname = o.hostname
 
-    result_dict = http_to_https_score(url)
+    result_dict = check_http_to_https(url)
 
-    # rating += tls_version_score(url, _, _local)
+    result_dict = check_tls_version(result_dict)
 
-    result_dict = ip_version_score(result_dict)
+    result_dict = check_ip_version(result_dict)
 
-    result_dict = http_version_score(url, result_dict)
+    result_dict = check_http_version(url, result_dict)
 
+    # result_dict = check_dnssec(result_dict)
+
+    result_dict = cleanup(result_dict)
 
     nice_result = json.dumps(result_dict, indent=3)
     print('DEBUG TOTAL', nice_result)
@@ -106,6 +99,11 @@ def run_test(_, langCode, url):
 
     return (rating, result_dict)
 
+
+def cleanup(result_dict):
+    for domain in result_dict.keys():
+        del result_dict[domain]['urls']
+    return result_dict
 
 def merge_dicts(dict1, dict2):
     if dict1 == None:
@@ -125,6 +123,9 @@ def merge_dicts(dict1, dict2):
 def rate_url(filename, origin_domain):
 
     result = {}
+
+    if filename == '':
+        return result
     
     # Fix for content having unallowed chars
     with open(filename) as json_input_file:
@@ -145,12 +146,13 @@ def rate_url(filename, origin_domain):
                 result[req_domain] = {
                     'protocols': [],
                     'schemes': [],
-                    'ip-version': [] #,
-                    #'urls': []
+                    'ip-versions': [],
+                    'transport-layers': [],
+                    'urls': []
                 }
 
             result[req_domain]['schemes'].append(o.scheme.upper())
-            # result[req_domain]['urls'].append(req_url)
+            result[req_domain]['urls'].append(req_url)
 
             if 'httpVersion' in req and req['httpVersion'] != '':
                 result[req_domain]['protocols'].append(req['httpVersion'].replace('h2', 'HTTP/2').replace('h3', 'HTTP/3').upper())
@@ -160,19 +162,149 @@ def rate_url(filename, origin_domain):
 
             if 'serverIPAddress' in entry:
                 if ':' in entry['serverIPAddress']:
-                    result[req_domain]['ip-version'].append('IPv6')
+                    result[req_domain]['ip-versions'].append('IPv6')
                 else:
-                    result[req_domain]['ip-version'].append('IPv4')
+                    result[req_domain]['ip-versions'].append('IPv4')
 
 
             result[req_domain]['protocols'] = list(set(result[req_domain]['protocols']))
             result[req_domain]['schemes'] = list(set(result[req_domain]['schemes']))
-            result[req_domain]['ip-version'] = list(set(result[req_domain]['ip-version']))
+            result[req_domain]['ip-versions'] = list(set(result[req_domain]['ip-versions']))
 
-    return result           
+    return result
+
+def check_dnssec(result_dict):
+    # To facilitate signature validation, DNSSEC adds a few new DNS record types4:
+
+    # RRSIG - Contains a cryptographic signature
+    # DNSKEY - Contains a public signing key
+    # DS - Contains the hash of a DNSKEY record
+    # NSEC and NSEC3 - For explicit denial-of-existence of a DNS record
+    # CDNSKEY and CDS - For a child zone requesting updates to DS record(s) in the parent zone
+    # get nameservers for target domain
+
+    for domain in result_dict.keys():
+        try:
+            response = dns.resolver.query('{0}.'.format(domain), dns.rdatatype.NS)
+
+            # we'll use the first nameserver in this example
+            nsname = response.rrset[0].to_text()  # name
+            #nsname = response.rrset[1].to_text()  # name
+
+            # get DNSKEY for zone
+            request = dns.message.make_query('{0}.'.format(domain), dns.rdatatype.DNSKEY, want_dnssec=True)
+            name = dns.name.from_text('{0}.'.format(domain))
+
+            if 'IPv4' in result_dict[domain]['ip-versions'] or 'IPv4*' in result_dict[domain]['ip-versions']:
+                response = dns.resolver.query(nsname, dns.rdatatype.A)
+                nsaddr = response.rrset[0].to_text()  # IPv4
+
+                # send the query
+                response = dns.query.udp(request, nsaddr)
+
+                if response.rcode() != 0:
+                    # HANDLE QUERY FAILED (SERVER ERROR OR NO DNSKEY RECORD)
+                    a = 1
+                    # print('D.1', response.rcode())
+                    continue
+                else:
+                    a = 2
+                    # print('D.2', response.rcode())
+
+                # answer should contain two RRSET: DNSKEY and RRSIG (DNSKEY)
+                answer = response.answer
+                # print('E', answer)
+                if len(answer) != 2:
+                    # SOMETHING WENT WRONG
+                    # print('E.1', answer, response)
+                    continue
+                else:
+                    # print('E.2', answer)
+                    a = 1
+
+                # the DNSKEY should be self-signed, validate it
+                try:
+                    # print('F')
+                    dns.dnssec.validate(answer[0], answer[1], {name: answer[0]})
+                except dns.dnssec.ValidationFailure:
+                    # BE SUSPICIOUS
+                    a = False
+                    # print('G VALIDATION FAIL')
+                else:
+                    # WE'RE GOOD, THERE'S A VALID DNSSEC SELF-SIGNED KEY FOR example.com
+                    # print('G VALIDATION SUCCESS')
+                    result_dict[domain]['protocols'].append('DNSSEC')
+                    # a = True
+
+            # if 'IPv6' in result_dict[domain]['ip-versions'] or 'IPv6*' in result_dict[domain]['ip-versions']:
+            #     b = 1
+            #     print('B IPv6')
+        except Exception:
+            c = 1
+                
+    return result_dict
+
+def check_dnssec_for_domain(domain, result_dict):
+    # To facilitate signature validation, DNSSEC adds a few new DNS record types4:
+
+    # RRSIG - Contains a cryptographic signature
+    # DNSKEY - Contains a public signing key
+    # DS - Contains the hash of a DNSKEY record
+    # NSEC and NSEC3 - For explicit denial-of-existence of a DNS record
+    # CDNSKEY and CDS - For a child zone requesting updates to DS record(s) in the parent zone
+    # get nameservers for target domain
+
+    for domain in result_dict.keys():
+        response = dns.resolver.query('{0}.'.format(domain), dns.rdatatype.NS)
+
+        # we'll use the first nameserver in this example
+        nsname = response.rrset[0].to_text()  # name
+        print('A', nsname)
+
+        # get DNSKEY for zone
+        request = dns.message.make_query('{0}.'.format(domain), dns.rdatatype.DNSKEY, want_dnssec=True)
+        name = dns.name.from_text('{0}.'.format(domain))
+
+        if 'IPv4' in result_dict[domain]['ip-versions'] or 'IPv4*' in result_dict[domain]['ip-versions']:
+            print('B IPv4')
+            response = dns.resolver.query(nsname, dns.rdatatype.A)
+            nsaddr = response.rrset[0].to_text()  # IPv4
+
+            print('C', nsaddr)
+            # send the query
+            response = dns.query.udp(request, nsaddr)
+
+            if response.rcode() != 0:
+                # HANDLE QUERY FAILED (SERVER ERROR OR NO DNSKEY RECORD)
+                print('D.1', response.rcode())
+            else:
+                print('D.2', response.rcode())
+
+            # answer should contain two RRSET: DNSKEY and RRSIG (DNSKEY)
+            answer = response.answer
+            print('E', answer)
+            if len(answer) != 2:
+                # SOMETHING WENT WRONG
+                print('E.1', answer, response)
+            else:
+                print('E.2', answer)
+
+            # the DNSKEY should be self-signed, validate it
+            try:
+                print('F')
+                dns.dnssec.validate(answer[0], answer[1], {name: answer[0]})
+            except dns.dnssec.ValidationFailure:
+                # BE SUSPICIOUS
+                a = False
+                print('G VALIDATION FAIL')
+            else:
+                # WE'RE GOOD, THERE'S A VALID DNSSEC SELF-SIGNED KEY FOR example.com
+                print('G VALIDATION SUCCESS')
+                a = True
 
 
-def http_to_https_score(url):
+
+def check_http_to_https(url):
     # Firefox
     # dom.security.https_only_mode
 
@@ -189,153 +321,98 @@ def http_to_https_score(url):
     browser = 'firefox'
     configuration = ''
     print('HTTP2HTTPS')
-    result_dict = get_website_support_from_sitespeed(http_url, configuration, browser)
+    result_dict = get_website_support_from_sitespeed(http_url, configuration, browser, request_timeout)
 
     # If website redirects to www. domain without first redirecting to HTTPS, make sure we test it.
-    if o_domain in result_dict and 'HTTPS' not in result_dict[o_domain]['schemes']:
-        https_url = url.replace('http://', 'https://')
-        result_dict = merge_dicts(get_website_support_from_sitespeed(https_url, configuration, browser), result_dict)
+    if o_domain in result_dict:
+        if 'HTTPS' not in result_dict[o_domain]['schemes']:
+            result_dict[o_domain]['schemes'].append('HTTP-REDIRECT')
+            https_url = url.replace('http://', 'https://')
+            result_dict = merge_dicts(get_website_support_from_sitespeed(https_url, configuration, browser, request_timeout), result_dict)
+        else:
+            result_dict[o_domain]['schemes'].append('HTTPS-REDIRECT')
+
+        # TODO: Should we add check for HSTS and if website is in preload list (example: start.stockholm)
+        # being in preload list means http:// requests will be converted to https:// request before leaving browser.
+        # preload list source can be collected here: https://source.chromium.org/chromium/chromium/src/+/main:net/http/transport_security_state_static.json
+        # or is below good enough?
+        if 'HTTP' not in result_dict[o_domain]['schemes']:
+            result_dict[o_domain]['schemes'].append('HSTS-PRELOAD*')
 
     # If we have www. domain, ensure we validate HTTP2HTTPS on that as well
     www_domain_key = 'www.{0}'.format(o_domain)
-    if www_domain_key in result_dict and 'HTTP' not in result_dict[www_domain_key]['schemes']:
-        www_http_url = http_url.replace(o_domain, www_domain_key)
-        result_dict = merge_dicts(get_website_support_from_sitespeed(www_http_url, configuration, browser), result_dict)
+    if www_domain_key in result_dict:
+        if 'HTTP' not in result_dict[www_domain_key]['schemes']:
+            result_dict[www_domain_key]['schemes'].append('HTTPS-REDIRECT')
+            www_http_url = http_url.replace(o_domain, www_domain_key)
+            result_dict = merge_dicts(get_website_support_from_sitespeed(www_http_url, configuration, browser, request_timeout), result_dict)
+        else:
+            result_dict[www_domain_key]['schemes'].append('HTTP-REDIRECT')
 
     return result_dict
 
 
-def ip_version_score(result_dict):
+def check_ip_version(result_dict):
     # network.dns.ipv4OnlyDomains
     # network.dns.disableIPv6
 
-    if not contains_value_for_all(result_dict, 'ip-version', 'IPv4'):
+    if not contains_value_for_all(result_dict, 'ip-versions', 'IPv4'):
         for domain in result_dict.keys():
-            if 'IPv4' not in result_dict[domain]['ip-version']:
+            if 'IPv4' not in result_dict[domain]['ip-versions']:
                 ip4_result = dns_lookup(domain, "A")
                 if len(ip4_result) > 0:
-                    result_dict[domain]['ip-version'].append('IPv4*')
+                    result_dict[domain]['ip-versions'].append('IPv4*')
 
-    if not contains_value_for_all(result_dict, 'ip-version', 'IPv6'):
+    if not contains_value_for_all(result_dict, 'ip-versions', 'IPv6'):
         for domain in result_dict.keys():
-            if 'IPv6' not in result_dict[domain]['ip-version']:
+            if 'IPv6' not in result_dict[domain]['ip-versions']:
                 ip4_result = dns_lookup(domain, "AAAA")
                 if len(ip4_result) > 0:
-                    result_dict[domain]['ip-version'].append('IPv6*')
-
+                    result_dict[domain]['ip-versions'].append('IPv6*')
 
     return result_dict
 
 
-def protocol_version_score(url, protocol_version, _, _local):
-    rating = Rating(_, review_show_improvements_only)
-    # points = 0.0
-    # review = ''
+def protocol_version_score(url, domain, protocol_version, result_dict):
     result_not_validated = (False, '')
     result_validated = (False, '')
 
     protocol_rule = False
     protocol_name = ''
-    protocol_translate_name = ''
-    protocol_is_secure = False
 
     try:
         if protocol_version == ssl.PROTOCOL_TLS:
             protocol_name = 'TLSv1.3'
-            protocol_translate_name = 'TLS1_3'
             assert ssl.HAS_TLSv1_3
             protocol_rule = ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2
-            protocol_is_secure = True
         elif protocol_version == ssl.PROTOCOL_TLSv1_2:
             protocol_name = 'TLSv1.2'
-            protocol_translate_name = 'TLS1_2'
             assert ssl.HAS_TLSv1_2
             protocol_rule = ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_3
-            protocol_is_secure = True
         elif protocol_version == ssl.PROTOCOL_TLSv1_1:
             protocol_name = 'TLSv1.1'
-            protocol_translate_name = 'TLS1_1'
             assert ssl.HAS_TLSv1_1
             protocol_rule = ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3
-            protocol_is_secure = False
         elif protocol_version == ssl.PROTOCOL_TLSv1:
             protocol_name = 'TLSv1.0'
-            protocol_translate_name = 'TLS1_0'
             assert ssl.HAS_TLSv1
             protocol_rule = ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3
-            protocol_is_secure = False
         elif protocol_version == ssl.PROTOCOL_SSLv3:
             protocol_name = 'SSLv3'
-            protocol_translate_name = 'SSL3_0'
             assert ssl.HAS_SSLv3
             protocol_rule = ssl.OP_NO_SSLv2 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3
-            protocol_is_secure = False
         elif protocol_version == ssl.PROTOCOL_SSLv2:
             protocol_name = 'SSLv2'
-            protocol_translate_name = 'SSL2_0'
             protocol_rule = ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3
             assert ssl.HAS_SSLv2
-            protocol_is_secure = False
 
-        result_not_validated = has_protocol_version(
-            url, False, protocol_rule)
+        if has_protocol_version(
+            url, True, protocol_rule)[0]:
+            result_dict[domain]['transport-layers'].append(protocol_name)
+        elif has_protocol_version(
+            url, False, protocol_rule)[0]:
+            result_dict[domain]['transport-layers'].append('{0}-'.format(protocol_name))
 
-        result_validated = has_protocol_version(
-            url, True, protocol_rule)
-
-        has_full_support = result_not_validated[0] and result_validated[0]
-        has_wrong_cert = result_not_validated[0]
-
-        if has_full_support:
-            if protocol_is_secure:
-                rating.set_integrity_and_security(
-                    5.0, _local('TEXT_REVIEW_' + protocol_translate_name + '_SUPPORT'))
-                rating.set_overall(5.0)
-            else:
-                rating.set_integrity_and_security(
-                    1.0, _local('TEXT_REVIEW_' + protocol_translate_name + '_SUPPORT'))
-                rating.set_overall(2.5)
-            rating.set_standards(5.0, _local(
-                'TEXT_REVIEW_' + protocol_translate_name + '_SUPPORT'))
-        elif has_wrong_cert:
-            rating.set_integrity_and_security(
-                1.0, _local('TEXT_REVIEW_' + protocol_translate_name + '_SUPPORT_WRONG_CERT'))
-            rating.set_standards(
-                2.5, _local('TEXT_REVIEW_' + protocol_translate_name + '_SUPPORT_WRONG_CERT'))
-            rating.set_overall(2.5)
-        else:
-            if not protocol_is_secure:
-                rating.set_integrity_and_security(
-                    5.0, _local('TEXT_REVIEW_' + protocol_translate_name + '_NO_SUPPORT'))
-                rating.set_overall(5.0)
-            else:
-                rating.set_standards(
-                    1.0, _local('TEXT_REVIEW_' + protocol_translate_name + '_NO_SUPPORT'))
-                rating.set_integrity_and_security(
-                    1.0, _local('TEXT_REVIEW_' + protocol_translate_name + '_NO_SUPPORT'))
-                rating.set_overall(1.0)
-
-        result_insecure_cipher = (False, 'unset')
-        try:
-            result_insecure_cipher = has_insecure_cipher(
-                url, protocol_rule)
-        except ssl.SSLError as sslex:
-            print('error insecure_cipher', sslex)
-            pass
-        # if result_insecure_cipher[0]:
-        #    review += _('TEXT_REVIEW_' +
-        #                protocol_translate_name + '_INSECURE_CIPHERS')
-
-        result_weak_cipher = (False, 'unset')
-        try:
-            result_weak_cipher = has_weak_cipher(
-                url, protocol_rule)
-        except ssl.SSLError as sslex:
-            print('error weak_cipher', sslex)
-            pass
-        # if result_weak_cipher[0]:
-        #    review += _('TEXT_REVIEW_' +
-        #                protocol_translate_name + '_WEAK_CIPHERS')
     except ssl.SSLError as sslex:
         print('error 0.0s', sslex)
         pass
@@ -347,10 +424,17 @@ def protocol_version_score(url, protocol_version, _, _local):
         print('error protocol_version_score: {0}'.format(sys.exc_info()[0]))
         pass
 
-    return rating
+    return result_dict
 
 
-def tls_version_score(orginal_url, _, _local):
+def check_tls_version(result_dict):
+    for domain in result_dict.keys():
+        # TODO: Make sure to find https:// based url instead of creating one.
+        https_url = result_dict[domain]['urls'][0].replace('http://', 'https://')
+        result_dict = protocol_version_score(https_url, domain, ssl.PROTOCOL_TLS, result_dict)
+        result_dict = protocol_version_score(https_url, domain, ssl.PROTOCOL_TLSv1_2, result_dict)
+        result_dict = protocol_version_score(https_url, domain, ssl.PROTOCOL_TLSv1_1, result_dict)
+        result_dict = protocol_version_score(https_url, domain, ssl.PROTOCOL_TLSv1, result_dict)
 
     # Firefox:
     # security.tls.version.min
@@ -361,60 +445,51 @@ def tls_version_score(orginal_url, _, _local):
     # 3 = TLS 1.2
     # 4 = TLS 1.3
 
+    # o = urllib.parse.urlparse(url)
+    # domain = o.hostname
 
-    rating = Rating(_, review_show_improvements_only)
-    url = orginal_url.replace('http://', 'https://')
+    # url = url.replace('http://', 'https://')
+
+    # browser = 'firefox'
+    # # configuration = ' --firefox.preference network.http.http2.enabled:false --firefox.preference network.http.http3.enable:false --firefox.preference network.http.version:1.1'
+    # configuration = ' --firefox.preference security.tls.version.min:4 --firefox.preference security.tls.version.max:4'
+    # url2 = change_url_to_test_url(url, 'TLS1_3')
+    # print('TLS/1.3')
+    # tls1_3_result = get_website_support_from_sitespeed(url2, configuration, browser, 2 * 60)
+    # for domain in tls1_3_result.keys():
+    #     result_dict[domain]['transport-layers'].append('TLSv1.3')
+
+    # configuration = ' --firefox.preference security.tls.version.min:3 --firefox.preference security.tls.version.max:3'
+    # url2 = change_url_to_test_url(url, 'TLS1_2')
+    # print('TLS/1.2')
+    # tls1_2_result = get_website_support_from_sitespeed(url2, configuration, browser, 2 * 60)
+    # for domain in tls1_2_result.keys():
+    #     result_dict[domain]['transport-layers'].append('TLSv1.2')
+
+    # configuration = ' --firefox.preference security.tls.version.min:2 --firefox.preference security.tls.version.max:2'
+    # url2 = change_url_to_test_url(url, 'TLS1_1')
+    # print('TLS/1.1')
+    # tls1_1_result = get_website_support_from_sitespeed(url2, configuration, browser, 2 * 60)
+    # for domain in tls1_1_result.keys():
+    #     result_dict[domain]['transport-layers'].append('TLSv1.1')
+
+    # configuration = ' --firefox.preference security.tls.version.min:1 --firefox.preference security.tls.version.max:1'
+    # url2 = change_url_to_test_url(url, 'TLS1_0')
+    # print('TLS/1.0')
+    # tls1_0_result = get_website_support_from_sitespeed(url2, configuration, browser, 2 * 60)
+    # for domain in tls1_0_result.keys():
+    #     result_dict[domain]['transport-layers'].append('TLSv1.0')
 
     # TODO: check cipher security
     # TODO: re add support for identify wrong certificate
 
-    try:
-        tls1_3_rating = protocol_version_score(
-            url, ssl.PROTOCOL_TLS, _, _local)
-        if tls1_3_rating.get_overall() == 5.0:
-            tls1_3_rating.set_performance(
-                5.0, _local('TEXT_REVIEW_TLS1_3_SUPPORT'))
-        else:
-            tls1_3_rating.set_performance(
-                4.0, _local('TEXT_REVIEW_TLS1_3_NO_SUPPORT'))
-        rating += tls1_3_rating
-    except:
-        pass
+    return result_dict
 
-    try:
-        rating += protocol_version_score(url, ssl.PROTOCOL_TLSv1_2, _, _local)
-    except:
-        pass
-
-    try:
-        rating += protocol_version_score(url, ssl.PROTOCOL_TLSv1_1, _, _local)
-    except:
-        pass
-
-    try:
-        rating += protocol_version_score(url, ssl.PROTOCOL_TLSv1, _, _local)
-    except:
-        pass
-
-    try:
-        # HOW TO ENABLE SSLv3, https://askubuntu.com/questions/893155/simple-way-of-enabling-sslv2-and-sslv3-in-openssl
-        rating += protocol_version_score(url, ssl.PROTOCOL_SSLv3, _, _local)
-    except:
-        pass
-
-    try:
-        # HOW TO ENABLE SSLv2, https://askubuntu.com/questions/893155/simple-way-of-enabling-sslv2-and-sslv3-in-openssl
-        rating += protocol_version_score(url, ssl.PROTOCOL_SSLv2, _, _local)
-    except:
-        pass
-
-    return rating
-
-def get_website_support_from_sitespeed(url, configuration, browser):
+def get_website_support_from_sitespeed(url, configuration, browser, timeout):
     # We don't need extra iterations for what we are using it for
     sitespeed_iterations = 1
     sitespeed_arg = '--plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --utc true -n {0}'.format(
-        sitespeed_iterations)
+        1)
 
     if 'firefox' in browser:
         sitespeed_arg = '-b firefox --firefox.includeResponseBodies all --firefox.preference privacy.trackingprotection.enabled:false --firefox.preference privacy.donottrackheader.enabled:false --firefox.preference browser.safebrowsing.malware.enabled:false --firefox.preference browser.safebrowsing.phishing.enabled:false{1} {0}'.format(
@@ -430,7 +505,7 @@ def get_website_support_from_sitespeed(url, configuration, browser):
         sitespeed_arg += ' --xvfb'
 
     (result_folder_name, filename) = get_result(
-        url, sitespeed_use_docker, sitespeed_arg)
+        url, sitespeed_use_docker, sitespeed_arg, timeout)
     
     o = urllib.parse.urlparse(url)
     origin_domain = o.hostname
@@ -451,7 +526,7 @@ def contains_value_for_all(result_dict, key, value):
             has_value = False
     return has_value
 
-def http_version_score(url, result_dict):
+def check_http_version(url, result_dict):
 
     # SiteSpeed (firefox):
     # "httpVersion": "HTTP/1"
@@ -507,21 +582,21 @@ def http_version_score(url, result_dict):
         configuration = ' --firefox.preference network.http.http2.enabled:false --firefox.preference network.http.http3.enable:false'
         url2 = change_url_to_test_url(url, 'HTTPv1')
         print('HTTP/1.1')
-        result_dict = merge_dicts(get_website_support_from_sitespeed(url2, configuration, browser), result_dict)
+        result_dict = merge_dicts(get_website_support_from_sitespeed(url2, configuration, browser, request_timeout), result_dict)
 
     if not contains_value_for_all(result_dict, 'protocols', 'HTTP/2'):
         browser = 'firefox'
         configuration = ' --firefox.preference network.http.http2.enabled:true --firefox.preference network.http.http3.enable:false --firefox.preference network.http.version:3.0'
         url2 = change_url_to_test_url(url, 'HTTPv2')
         print('HTTP/2')
-        result_dict = merge_dicts(get_website_support_from_sitespeed(url2, configuration, browser), result_dict)
+        result_dict = merge_dicts(get_website_support_from_sitespeed(url2, configuration, browser, request_timeout), result_dict)
 
     if not contains_value_for_all(result_dict, 'protocols', 'HTTP/3'):
         browser = 'firefox'
         configuration = ' --firefox.preference network.http.http2.enabled:false --firefox.preference network.http.http3.enable:true --firefox.preference network.http.version:3.0'
         url2 = change_url_to_test_url(url, 'HTTPv3')
         print('HTTP/3')
-        result_dict = merge_dicts(get_website_support_from_sitespeed(url2, configuration, browser), result_dict)
+        result_dict = merge_dicts(get_website_support_from_sitespeed(url2, configuration, browser, request_timeout), result_dict)
 
     return result_dict
 
@@ -758,18 +833,11 @@ def has_protocol_version(url, validate_hostname, protocol_version):
         allow_redirects = False
 
         headers = {'user-agent': useragent}
-        a = session.get(url, verify=validate_hostname, allow_redirects=allow_redirects,
+        session.get(url, verify=validate_hostname, allow_redirects=allow_redirects,
                         headers=headers, timeout=request_timeout)
 
-        if a.status_code == 200 or a.status_code == 301 or a.status_code == 302:
-            return (True, 'is ok')
+        return (True, 'is ok')
 
-        if not validate_hostname and a.status_code == 404:
-            return (True, 'is ok')
-
-        resulted_in_html = '<html' in a.text
-
-        return (resulted_in_html, 'has <html tag in result')
     except ssl.SSLCertVerificationError as sslcertex:
         # print('protocol version SSLCertVerificationError', sslcertex)
         if validate_hostname:

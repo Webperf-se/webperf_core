@@ -37,7 +37,6 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
     # sitespeed_arg += ' --outputFolder {0} {1}'.format(result_folder_name, url)
 
     filename = ''
-    print('D', use_cache)
     # Should we use cache when available?
     if use_cache:
         # added for firefox support

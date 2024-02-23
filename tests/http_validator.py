@@ -54,7 +54,6 @@ def run_test(_, langCode, url):
 
     # TODO: Check if we can use sitespeed instead (to make it more accurate), https://addons.mozilla.org/en-US/firefox/addon/http2-indicator/
 
-    rating = Rating(_, review_show_improvements_only)
     result_dict = {}
 
     language = gettext.translation(
@@ -91,6 +90,8 @@ def run_test(_, langCode, url):
 
     result_dict = cleanup(result_dict)
 
+    rating = rate(result_dict, _)
+
     nice_result = json.dumps(result_dict, indent=3)
     print('DEBUG TOTAL', nice_result)
 
@@ -99,6 +100,155 @@ def run_test(_, langCode, url):
 
     return (rating, result_dict)
 
+def rate(result_dict, _):
+    rating = Rating(_, review_show_improvements_only)
+
+    # result_dict = {
+    #     'protocols': ['HTTP/1', 'HTTP/1.1', 'HTTP/2', 'HTTP/3', 'DNSSEC'],
+    #     'schemes': ['HTTPS', 'HTTP', 'HTTP-REDIRECT', 'HTTPS-REDIRECT', 'HSTS-PRELOAD*'],
+    #     'ip-versions': ['IPv6', 'IPv4', 'IPv4*', 'IPv6*'],
+    #     'transport-layers': ['TLSv1.3', 'TLSv1.2','TLSv1.1', 'TLSv1.0', 'SSLv3', 'SSLv2']
+    # }
+
+    for domain in result_dict.keys():
+        if 'HTTP/1.1' in result_dict[domain]['protocols']:
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(5.0)
+            sub_rating.set_standards(5.0)
+            rating += sub_rating
+        else:
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(1.0)
+            sub_rating.set_standards(1.0, '- {0}, No HTTP/1.1 support'.format(domain))
+            rating += sub_rating
+
+        if 'HTTP/2' in result_dict[domain]['protocols']:
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(5.0)
+            sub_rating.set_standards(5.0)
+            rating += sub_rating
+        else:
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(1.0)
+            sub_rating.set_standards(1.0, '- {0}, No HTTP/2 support'.format(domain))
+            rating += sub_rating
+
+        if 'HTTP/3' in result_dict[domain]['protocols']:
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(5.0)
+            sub_rating.set_standards(5.0)
+            rating += sub_rating
+        else:
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(1.0)
+            sub_rating.set_standards(1.0, '- {0}, No HTTP/3 support'.format(domain))
+            rating += sub_rating
+
+        if 'DNSSEC' in result_dict[domain]['protocols']:
+            a = 4
+
+        if 'HTTPS' in result_dict[domain]['schemes']:
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(5.0)
+            sub_rating.set_integrity_and_security(5.0)
+            sub_rating.set_standards(5.0)
+            rating += sub_rating
+        else:
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(1.0)
+            sub_rating.set_integrity_and_security(1.0, '- {0}, No HTTPS support'.format(domain))
+            sub_rating.set_standards(1.0, '- {0}, No HTTPS support'.format(domain))
+            rating += sub_rating
+
+        if 'HTTP-REDIRECT' in result_dict[domain]['schemes']:
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(1.0)
+            sub_rating.set_integrity_and_security(1.0)
+            rating += sub_rating
+
+        if 'HTTPS-REDIRECT' in result_dict[domain]['schemes']:
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(5.0)
+            sub_rating.set_integrity_and_security(5.0)
+            rating += sub_rating
+
+        if 'HSTS-PRELOAD' in result_dict[domain]['schemes'] or 'HSTS-PRELOAD*' in result_dict[domain]['schemes']:
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(5.0)
+            sub_rating.set_integrity_and_security(5.0)
+            rating += sub_rating
+
+        if 'IPv4' in result_dict[domain]['ip-versions'] or 'IPv4*' in result_dict[domain]['ip-versions']:
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(5.0)
+            sub_rating.set_standards(5.0)
+            rating += sub_rating
+        else:
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(1.0)
+            sub_rating.set_standards(1.0, '- {0}, No IPv4 support'.format(domain))
+            rating += sub_rating
+
+        if 'IPv6' in result_dict[domain]['ip-versions'] or 'IPv6*' in result_dict[domain]['ip-versions']:
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(5.0)
+            sub_rating.set_standards(5.0)
+            rating += sub_rating
+        else:
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(1.0)
+            sub_rating.set_standards(1.0, '- {0}, No IPv6 support'.format(domain))
+            rating += sub_rating
+
+        if 'TLSv1.3' in result_dict[domain]['transport-layers']:
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(5.0)
+            sub_rating.set_standards(5.0)
+            sub_rating.set_integrity_and_security(5.0)
+            rating += sub_rating
+        else:
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(1.0)
+            sub_rating.set_standards(1.0, '- {0}, Support transport layer: TLSv1.3'.format(domain))
+            sub_rating.set_integrity_and_security(1.0)
+            rating += sub_rating
+
+        if 'TLSv1.2' in result_dict[domain]['transport-layers']:
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(5.0)
+            sub_rating.set_standards(5.0)
+            sub_rating.set_integrity_and_security(5.0)
+            rating += sub_rating
+        else:
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(1.0)
+            sub_rating.set_standards(1.0, '- {0}, Support transport layer: TLSv1.2'.format(domain))
+            sub_rating.set_integrity_and_security(1.0)
+            rating += sub_rating
+
+        if 'TLSv1.1' in result_dict[domain]['transport-layers']:
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(1.0)
+            sub_rating.set_integrity_and_security(1.0, '- {0}, Support insecure transport layer: TLSv1.1'.format(domain))
+            rating += sub_rating
+        else:
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(5.0)
+            sub_rating.set_integrity_and_security(5.0)
+            rating += sub_rating
+
+        if 'TLSv1.0' in result_dict[domain]['transport-layers']:
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(1.0)
+            sub_rating.set_integrity_and_security(1.0, '- {0}, Support insecure transport layer: TLSv1.0'.format(domain))
+            rating += sub_rating
+        else:
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(5.0)
+            sub_rating.set_integrity_and_security(5.0)
+            rating += sub_rating
+
+    return rating
 
 def cleanup(result_dict):
     for domain in result_dict.keys():
@@ -120,7 +270,7 @@ def merge_dicts(dict1, dict2):
             dict1[key] = value
     return dict1
 
-def rate_url(filename, origin_domain):
+def rate_url(filename):
 
     result = {}
 
@@ -374,9 +524,6 @@ def check_ip_version(result_dict):
 
 
 def protocol_version_score(url, domain, protocol_version, result_dict):
-    result_not_validated = (False, '')
-    result_validated = (False, '')
-
     protocol_rule = False
     protocol_name = ''
 
@@ -489,7 +636,7 @@ def get_website_support_from_sitespeed(url, configuration, browser, timeout):
     # We don't need extra iterations for what we are using it for
     sitespeed_iterations = 1
     sitespeed_arg = '--plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --utc true -n {0}'.format(
-        1)
+        sitespeed_iterations)
 
     if 'firefox' in browser:
         sitespeed_arg = '-b firefox --firefox.includeResponseBodies all --firefox.preference privacy.trackingprotection.enabled:false --firefox.preference privacy.donottrackheader.enabled:false --firefox.preference browser.safebrowsing.malware.enabled:false --firefox.preference browser.safebrowsing.phishing.enabled:false{1} {0}'.format(
@@ -507,9 +654,7 @@ def get_website_support_from_sitespeed(url, configuration, browser, timeout):
     (result_folder_name, filename) = get_result(
         url, sitespeed_use_docker, sitespeed_arg, timeout)
     
-    o = urllib.parse.urlparse(url)
-    origin_domain = o.hostname
-    result = rate_url(filename, origin_domain)
+    result = rate_url(filename)
 
     nice_result = json.dumps(result, indent=3)
     print('DEBUG', nice_result)

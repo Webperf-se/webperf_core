@@ -310,17 +310,23 @@ def dns_lookup(hostname, record_type):
     try:
         dns_records = dns.resolver.resolve(hostname, record_type)
     except dns.resolver.NXDOMAIN:
-        # print("dns lookup error: No record found")
+        print("dns lookup info: No record found")
         # sleep so we don't get banned for to many queries on DNS servers
         time.sleep(1)
+        nice_raw = json.dumps(names, indent=2)
+        set_cache_file(cache_key, nice_raw, True)
         return names
     except (dns.resolver.NoAnswer, dns.resolver.NoNameservers) as error:
-        # print("dns lookup error: ", error)
+        print("dns lookup info: ", error)
         # sleep so we don't get banned for to many queries on DNS servers
         time.sleep(5)
+        nice_raw = json.dumps(names, indent=2)
+        set_cache_file(cache_key, nice_raw, True)
         return names
     except Exception as ex:
         time.sleep(10)
+        nice_raw = json.dumps(names, indent=2)
+        set_cache_file(cache_key, nice_raw, True)
         return names
 
     for dns_record in dns_records:

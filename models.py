@@ -13,7 +13,7 @@ class DefaultInfo:
         self.info['issues'] = issues
 
     def __str__(self) -> str:
-        return f'DefaultInfo(name={self.info['name']}, version={self.info['version']})'
+        return f"DefaultInfo(name={self.info['name']}, version={self.info['version']})"
     
     def __setitem__(self, key, value):
         self.info[key] = value

@@ -100,7 +100,6 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
         versions_json = json.loads(versions)
 
         if (os.path.exists(filename_old)):
-            print('A')
             modify_browsertime_content(filename_old, cookies_json, versions_json)
             cleanup_results_dir(filename_old, result_folder_name)
             return (result_folder_name, filename)

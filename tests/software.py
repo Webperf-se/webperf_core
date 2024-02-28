@@ -31,6 +31,11 @@ except:
     # If browser is not set in config.py this will be the default
     software_browser = 'chrome'
 try:
+    sitespeed_timeout = config.sitespeed_timeout
+except:
+    # If sitespeed timeout is not set in config.py this will be the default
+    sitespeed_timeout = 600
+try:
     use_cache = config.cache_when_possible
     cache_time_delta = config.cache_time_delta
 except:
@@ -104,7 +109,7 @@ def get_rating_from_sitespeed(url, _local, _):
     sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'
 
     (result_folder_name, filename) = get_result(
-        url, sitespeed_use_docker, sitespeed_arg, request_timeout * 5)
+        url, sitespeed_use_docker, sitespeed_arg, sitespeed_timeout)
 
    
     o = urlparse(url)

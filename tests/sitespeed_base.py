@@ -127,7 +127,7 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
             # print('DEBUG get_result_using_no_cache(data_dir)', data_dir)
 
             ms_timeout = timeout * 999
-            bashCommand = "docker run --rm -v {1}:/sitespeed.io sitespeedio/sitespeed.io:latest --maxLoadTime {1} {0}".format(
+            bashCommand = "docker run --rm -v {1}:/sitespeed.io sitespeedio/sitespeed.io:latest --maxLoadTime {2} {0}".format(
                 arg, data_dir, ms_timeout)
 
             import subprocess

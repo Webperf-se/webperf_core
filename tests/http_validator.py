@@ -151,6 +151,12 @@ def rate(result_dict, _):
             sub_rating.set_integrity_and_security(5.0)
             sub_rating.set_standards(5.0)
             rating += sub_rating
+        elif 'DNSSEC-IGNORE' in result_dict[domain]['features']:
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(5.0)
+            sub_rating.set_integrity_and_security(5.0)
+            sub_rating.set_standards(5.0)
+            rating += sub_rating
         else:
             sub_rating = Rating(_, review_show_improvements_only)
             sub_rating.set_overall(1.0)
@@ -387,21 +393,25 @@ def check_dnssec(hostname, result_dict):
             domain = domainA
             domain_entry = result_dict[domain]
 
+            if hostname != domain:
+                domain_entry['features'].append('DNSSEC-IGNORE')
+                continue
+
             # validate_dnssec(domain)
             print('# {0}'.format(domain))
 
-            if 'svanalytics.piwik.pro' == domainA:
-                domain = 'piwik.pro'
-                domain_entry = {
-                    'name': domain,
-                    'protocols': [],
-                    'schemes': [],
-                    'ip-versions': [],
-                    'transport-layers': [],
-                    'features': [],
-                    'urls': []
-                }
-                new_entries.append(domain_entry)
+            # if 'svanalytics.piwik.pro' == domainA:
+            #     domain = 'piwik.pro'
+            #     domain_entry = {
+            #         'name': domain,
+            #         'protocols': [],
+            #         'schemes': [],
+            #         'ip-versions': [],
+            #         'transport-layers': [],
+            #         'features': [],
+            #         'urls': []
+            #     }
+            #     new_entries.append(domain_entry)
             # domain_entry = result_dict[domain]
 
             dnskey = dns_lookup(domain, dns.rdatatype.DNSKEY)

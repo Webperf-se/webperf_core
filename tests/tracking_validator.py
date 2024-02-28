@@ -785,7 +785,7 @@ def get_rating_from_sitespeed(url, _local, _):
     sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'
 
     (result_folder_name, filename) = get_result(
-        url, sitespeed_use_docker, sitespeed_arg)
+        url, sitespeed_use_docker, sitespeed_arg, request_timeout * 2)
 
     http_archive_content = get_file_content(filename)
 

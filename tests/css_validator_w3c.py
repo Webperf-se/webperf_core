@@ -63,7 +63,7 @@ def run_test(_, langCode, url):
     sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'
 
     (result_folder_name, filename) = get_result(
-        url, sitespeed_use_docker, sitespeed_arg)
+        url, sitespeed_use_docker, sitespeed_arg, request_timeout * 2)
 
     # 1. Visit page like a normal user
     data = identify_files(filename)

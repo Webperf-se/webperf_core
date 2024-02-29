@@ -177,19 +177,19 @@ def rate(result_dict, _):
             sub_rating.set_standards(1.0, '- {0}, No HTTPS support'.format(domain))
             rating += sub_rating
 
-        if 'HTTP-REDIRECT' in result_dict[domain]['schemes']:
+        if 'HTTP-REDIRECT' in result_dict[domain]['schemes'] or 'HTTP-REDIRECT*' in result_dict[domain]['schemes']:
             sub_rating = Rating(_, review_show_improvements_only)
             sub_rating.set_overall(1.0)
             sub_rating.set_integrity_and_security(1.0, '- {0}, Uses none encrypted redirect'.format(domain))
             rating += sub_rating
 
-        if 'HTTPS-REDIRECT' in result_dict[domain]['schemes']:
+        if 'HTTPS-REDIRECT' in result_dict[domain]['schemes'] or 'HTTPS-REDIRECT*' in result_dict[domain]['schemes']:
             sub_rating = Rating(_, review_show_improvements_only)
             sub_rating.set_overall(5.0)
             sub_rating.set_integrity_and_security(5.0)
             rating += sub_rating
 
-        if 'HSTS-HEADER-FOUND' in result_dict[domain]['features']:
+        if 'HSTS' in result_dict[domain]['features'] and 'INVALIDATE-HSTS' not in result_dict[domain]['features']:
             sub_rating = Rating(_, review_show_improvements_only)
             sub_rating.set_overall(5.0)
             sub_rating.set_standards(5.0)
@@ -199,9 +199,19 @@ def rate(result_dict, _):
             elif 'HSTS-HEADER-MAXAGE-1YEAR' in result_dict[domain]['features']:
                 sub_rating.set_integrity_and_security(4.99, '- {0}, You might want to use "preload" in HSTS'.format(domain))
             elif 'HSTS-HEADER-MAXAGE-TOO-LOW' in result_dict[domain]['features']:
-                sub_rating.set_integrity_and_security(2.0, '- {0}, max-age used in HSTS is less than 1 year'.format(domain))
+                sub_rating.set_integrity_and_security(4.0, '- {0}, max-age used in HSTS is less than 1 year'.format(domain))
+            elif 'HSTS-HEADER-MAXAGE-6MONTHS' in result_dict[domain]['features']:
+                sub_rating.set_integrity_and_security(3.0, '- {0}, max-age used in HSTS is less than 6 months'.format(domain))
+            elif 'HSTS-HEADER-MAXAGE-1MONTH' in result_dict[domain]['features']:
+                sub_rating.set_integrity_and_security(2.0, '- {0}, max-age used in HSTS is less than 1 month'.format(domain))
             else:
                 sub_rating.set_integrity_and_security(1.0, '- {0}, max-age is missing in HSTS'.format(domain))
+            rating += sub_rating
+        elif 'HSTS-HEADER-ON-PARENTDOMAIN-FOUND' in result_dict[domain]['features']:
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(5.0)
+            sub_rating.set_standards(4.99, '- {0}, Only parent HSTS used, child should also use HSTS'.format(domain))
+            sub_rating.set_integrity_and_security(4.99, '- {0}, Only parent HSTS used, child should also use HSTS'.format(domain))
             rating += sub_rating
         else:
             sub_rating = Rating(_, review_show_improvements_only)
@@ -349,19 +359,17 @@ def rate_url(filename):
                 else:
                     result[req_domain]['ip-versions'].append('IPv4')
 
-            if 'HSTS' not in result[req_domain]['features'] and 'headers' in res:
-                for header in res['headers']:
-                    if 'name' not in header:
-                        continue
-                    if 'Strict-Transport-Security' not in header['name']:
-                        continue
+            for header in res['headers']:
+                if 'name' not in header:
+                    continue
 
-                    if 'value' not in header:
-                        continue
+                if 'value' not in header:
+                    continue
 
-                    result[req_domain]['features'].append('HSTS-HEADER-FOUND')
-                    # result[req_domain]['features'].append('HSTS-HEADER={0}'.format(header['value']))
+                name = header['name'].lower()
+                value = header['value'].strip()
 
+                if 'HSTS' not in result[req_domain]['features'] and 'strict-transport-security' in name:
                     sections = header['value'].split(';')
                     for section in sections:
                         section = section.strip()
@@ -377,24 +385,40 @@ def rate_url(filename):
                             result[req_domain]['features'].append('HSTS-HEADER-MAXAGE-FOUND')
                             try:
                                 maxage = int(value)
+                                # 1 month =   2628000
+                                # 6 month =  15768000
                                 # check if maxage is more then 1 year
                                 if maxage >= 31536000:
                                     result[req_domain]['features'].append('HSTS-HEADER-MAXAGE-1YEAR')
+                                elif maxage < 2628000:
+                                    result[req_domain]['features'].append('HSTS-HEADER-MAXAGE-1MONTH')
+                                elif maxage < 15768000:
+                                    result[req_domain]['features'].append('HSTS-HEADER-MAXAGE-6MONTHS')
                                 else:
                                     result[req_domain]['features'].append('HSTS-HEADER-MAXAGE-TOO-LOW')
 
+                                result[req_domain]['features'].append('HSTS')
                             except:
                                 a = 1
                         elif 'includeSubDomains' == name:
                             result[req_domain]['features'].append('HSTS-HEADER-SUBDOMAINS-FOUND')
                         elif 'preload' == name:
                             result[req_domain]['features'].append('HSTS-HEADER-PRELOAD-FOUND')
+                elif 'location' in name:
+                    if value.startswith('https://{0}'.format(req_domain)):
+                        result[req_domain]['schemes'].append('HTTPS-REDIRECT')
+                    elif value.startswith('https://'):
+                        result[req_domain]['schemes'].append('HTTPS-REDIRECT-OTHERDOMAIN')
+                        result[req_domain]['schemes'].append('INVALIDATE-HSTS')
+                    elif value.startswith('http://{0}'.format(req_domain)):
+                        result[req_domain]['schemes'].append('HTTP-REDIRECT')
+                        result[req_domain]['schemes'].append('INVALIDATE-HSTS')
+                    elif value.startswith('http://'):
+                        result[req_domain]['schemes'].append('HTTP-REDIRECT-OTHERDOMAIN')
+                        result[req_domain]['schemes'].append('INVALIDATE-HSTS')
 
-                        # max-age=31536000;
-                        # includeSubDomains;
-                        # preload
+                    # result[req_domain]['features'].append('LOCATION:{0}'.format(value))
 
-                    # TODO: Add HSTS validation
 
 
             result[req_domain]['protocols'] = list(set(result[req_domain]['protocols']))
@@ -668,11 +692,11 @@ def check_http_to_https(url):
     # If website redirects to www. domain without first redirecting to HTTPS, make sure we test it.
     if o_domain in result_dict:
         if 'HTTPS' not in result_dict[o_domain]['schemes']:
-            result_dict[o_domain]['schemes'].append('HTTP-REDIRECT')
+            result_dict[o_domain]['schemes'].append('HTTP-REDIRECT*')
             https_url = url.replace('http://', 'https://')
             result_dict = merge_dicts(get_website_support_from_sitespeed(https_url, configuration, browser, request_timeout), result_dict)
         else:
-            result_dict[o_domain]['schemes'].append('HTTPS-REDIRECT')
+            result_dict[o_domain]['schemes'].append('HTTPS-REDIRECT*')
 
         # TODO: Should we add check for HSTS and if website is in preload list (example: start.stockholm)
         # being in preload list means http:// requests will be converted to https:// request before leaving browser.
@@ -685,11 +709,30 @@ def check_http_to_https(url):
     www_domain_key = 'www.{0}'.format(o_domain)
     if www_domain_key in result_dict:
         if 'HTTP' not in result_dict[www_domain_key]['schemes']:
-            result_dict[www_domain_key]['schemes'].append('HTTPS-REDIRECT')
+            result_dict[www_domain_key]['schemes'].append('HTTPS-REDIRECT*')
             www_http_url = http_url.replace(o_domain, www_domain_key)
             result_dict = merge_dicts(get_website_support_from_sitespeed(www_http_url, configuration, browser, request_timeout), result_dict)
         else:
-            result_dict[www_domain_key]['schemes'].append('HTTP-REDIRECT')
+            result_dict[www_domain_key]['schemes'].append('HTTP-REDIRECT*')
+
+
+    domains = list(result_dict.keys())
+    hsts_domains = list()
+    for domain in domains:
+        if 'HSTS-HEADER-SUBDOMAINS-FOUND' in result_dict[domain]['features'] and 'HSTS' in result_dict[domain]['features']:
+            hsts_domains.append(domain)
+
+    for hsts_domain in hsts_domains:
+        for domain in domains:
+            if domain.endswith('.{0}'.format(hsts_domain)):
+                result_dict[domain]['features'].append('HSTS-HEADER-ON-PARENTDOMAIN-FOUND')
+            
+
+        #     webperf.se
+        # cdn.webperf.se
+            
+
+
 
     return result_dict
 

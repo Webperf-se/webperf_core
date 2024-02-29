@@ -189,10 +189,25 @@ def rate(result_dict, _):
             sub_rating.set_integrity_and_security(5.0)
             rating += sub_rating
 
-        if 'HSTS-PRELOAD' in result_dict[domain]['schemes'] or 'HSTS-PRELOAD*' in result_dict[domain]['schemes']:
+        if 'HSTS-HEADER-FOUND' in result_dict[domain]['features']:
             sub_rating = Rating(_, review_show_improvements_only)
             sub_rating.set_overall(5.0)
-            sub_rating.set_integrity_and_security(5.0)
+            sub_rating.set_standards(5.0)
+
+            if 'HSTS-HEADER-PRELOAD-FOUND' in result_dict[domain]['features'] and ('HSTS-PRELOAD' in result_dict[domain]['features'] or 'HSTS-PRELOAD*' in result_dict[domain]['features']):
+                sub_rating.set_integrity_and_security(5.0)
+            elif 'HSTS-HEADER-MAXAGE-1YEAR' in result_dict[domain]['features']:
+                sub_rating.set_integrity_and_security(4.99, '- {0}, You might want to use "preload" in HSTS'.format(domain))
+            elif 'HSTS-HEADER-MAXAGE-TOO-LOW' in result_dict[domain]['features']:
+                sub_rating.set_integrity_and_security(2.0, '- {0}, max-age used in HSTS is less than 1 year'.format(domain))
+            else:
+                sub_rating.set_integrity_and_security(1.0, '- {0}, max-age is missing in HSTS'.format(domain))
+            rating += sub_rating
+        else:
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(1.0)
+            sub_rating.set_standards(1.0, '- {0}, Is NOT using HSTS'.format(domain))
+            sub_rating.set_integrity_and_security(1.0, '- {0}, Is NOT using HSTS'.format(domain))
             rating += sub_rating
 
         if 'IPv4' in result_dict[domain]['ip-versions'] or 'IPv4*' in result_dict[domain]['ip-versions']:
@@ -333,6 +348,53 @@ def rate_url(filename):
                     result[req_domain]['ip-versions'].append('IPv6')
                 else:
                     result[req_domain]['ip-versions'].append('IPv4')
+
+            if 'HSTS' not in result[req_domain]['features'] and 'headers' in res:
+                for header in res['headers']:
+                    if 'name' not in header:
+                        continue
+                    if 'Strict-Transport-Security' not in header['name']:
+                        continue
+
+                    if 'value' not in header:
+                        continue
+
+                    result[req_domain]['features'].append('HSTS-HEADER-FOUND')
+                    # result[req_domain]['features'].append('HSTS-HEADER={0}'.format(header['value']))
+
+                    sections = header['value'].split(';')
+                    for section in sections:
+                        section = section.strip()
+
+                        pair = section.split('=')
+
+                        name = pair[0]
+                        value = None
+                        if len(pair) == 2:
+                            value = pair[1]
+
+                        if 'max-age' == name:
+                            result[req_domain]['features'].append('HSTS-HEADER-MAXAGE-FOUND')
+                            try:
+                                maxage = int(value)
+                                # check if maxage is more then 1 year
+                                if maxage >= 31536000:
+                                    result[req_domain]['features'].append('HSTS-HEADER-MAXAGE-1YEAR')
+                                else:
+                                    result[req_domain]['features'].append('HSTS-HEADER-MAXAGE-TOO-LOW')
+
+                            except:
+                                a = 1
+                        elif 'includeSubDomains' == name:
+                            result[req_domain]['features'].append('HSTS-HEADER-SUBDOMAINS-FOUND')
+                        elif 'preload' == name:
+                            result[req_domain]['features'].append('HSTS-HEADER-PRELOAD-FOUND')
+
+                        # max-age=31536000;
+                        # includeSubDomains;
+                        # preload
+
+                    # TODO: Add HSTS validation
 
 
             result[req_domain]['protocols'] = list(set(result[req_domain]['protocols']))
@@ -617,7 +679,7 @@ def check_http_to_https(url):
         # preload list source can be collected here: https://source.chromium.org/chromium/chromium/src/+/main:net/http/transport_security_state_static.json
         # or is below good enough?
         if 'HTTP' not in result_dict[o_domain]['schemes']:
-            result_dict[o_domain]['schemes'].append('HSTS-PRELOAD*')
+            result_dict[o_domain]['features'].append('HSTS-PRELOAD*')
 
     # If we have www. domain, ensure we validate HTTP2HTTPS on that as well
     www_domain_key = 'www.{0}'.format(o_domain)

@@ -189,25 +189,37 @@ def rate(result_dict, _):
             sub_rating.set_integrity_and_security(5.0)
             rating += sub_rating
 
-        if 'HSTS' in result_dict[domain]['features'] and 'INVALIDATE-HSTS' not in result_dict[domain]['features']:
             sub_rating = Rating(_, review_show_improvements_only)
             sub_rating.set_overall(5.0)
             sub_rating.set_standards(5.0)
 
-            if 'HSTS-HEADER-PRELOAD-FOUND' in result_dict[domain]['features'] and ('HSTS-PRELOAD' in result_dict[domain]['features'] or 'HSTS-PRELOAD*' in result_dict[domain]['features']):
+        if 'HSTS' in result_dict[domain]['features']:
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(5.0)
+            sub_rating.set_standards(5.0)
+
+            if 'INVALIDATE-HSTS' in result_dict[domain]['features']:
+                sub_rating.set_overall(1.5)
+                sub_rating.set_integrity_and_security(1.5, '- {0}, Is NOT using HSTS because of redirect'.format(domain))
+                sub_rating.set_standards(1.5, '- {0}, Is NOT using HSTS because of redirect'.format(domain))
+            elif 'HSTS-HEADER-PRELOAD-FOUND' in result_dict[domain]['features'] and ('HSTS-PRELOAD' in result_dict[domain]['features'] or 'HSTS-PRELOAD*' in result_dict[domain]['features']):
                 sub_rating.set_integrity_and_security(5.0)
             elif 'HSTS-HEADER-MAXAGE-1YEAR' in result_dict[domain]['features']:
                 sub_rating.set_integrity_and_security(4.99, '- {0}, You might want to use "preload" in HSTS'.format(domain))
             elif 'HSTS-HEADER-MAXAGE-TOO-LOW' in result_dict[domain]['features']:
+                sub_rating.set_overall(4.5)
                 sub_rating.set_integrity_and_security(4.0, '- {0}, max-age used in HSTS is less than 1 year'.format(domain))
             elif 'HSTS-HEADER-MAXAGE-6MONTHS' in result_dict[domain]['features']:
+                sub_rating.set_overall(4.0)
                 sub_rating.set_integrity_and_security(3.0, '- {0}, max-age used in HSTS is less than 6 months'.format(domain))
             elif 'HSTS-HEADER-MAXAGE-1MONTH' in result_dict[domain]['features']:
+                sub_rating.set_overall(3.5)
                 sub_rating.set_integrity_and_security(2.0, '- {0}, max-age used in HSTS is less than 1 month'.format(domain))
             else:
+                sub_rating.set_overall(3.0)
                 sub_rating.set_integrity_and_security(1.0, '- {0}, max-age is missing in HSTS'.format(domain))
             rating += sub_rating
-        elif 'HSTS-HEADER-ON-PARENTDOMAIN-FOUND' in result_dict[domain]['features']:
+        elif 'HSTS-HEADER-ON-PARENTDOMAIN-FOUND' in result_dict[domain]['features'] and 'INVALIDATE-HSTS' not in result_dict[domain]['features']:
             sub_rating = Rating(_, review_show_improvements_only)
             sub_rating.set_overall(5.0)
             sub_rating.set_standards(4.99, '- {0}, Only parent HSTS used, child should also use HSTS'.format(domain))
@@ -409,13 +421,13 @@ def rate_url(filename):
                         result[req_domain]['schemes'].append('HTTPS-REDIRECT')
                     elif value.startswith('https://'):
                         result[req_domain]['schemes'].append('HTTPS-REDIRECT-OTHERDOMAIN')
-                        result[req_domain]['schemes'].append('INVALIDATE-HSTS')
+                        result[req_domain]['features'].append('INVALIDATE-HSTS')
                     elif value.startswith('http://{0}'.format(req_domain)):
                         result[req_domain]['schemes'].append('HTTP-REDIRECT')
-                        result[req_domain]['schemes'].append('INVALIDATE-HSTS')
+                        result[req_domain]['features'].append('INVALIDATE-HSTS')
                     elif value.startswith('http://'):
                         result[req_domain]['schemes'].append('HTTP-REDIRECT-OTHERDOMAIN')
-                        result[req_domain]['schemes'].append('INVALIDATE-HSTS')
+                        result[req_domain]['features'].append('INVALIDATE-HSTS')
 
                     # result[req_domain]['features'].append('LOCATION:{0}'.format(value))
 
@@ -565,7 +577,7 @@ def check_dnssec(hostname, result_dict):
 
                     # answer should contain two RRSET: DNSKEY and RRSIG (DNSKEY)
                     # answer = response.answer
-                    answer = None
+                    dnskey = None
                     rrsig = None
 
                     # print('E', answer)
@@ -591,9 +603,15 @@ def check_dnssec(hostname, result_dict):
                         continue
                     else:
                         print('\t\tE.2', len(response.answer))
-                        a = 1
-                        answer = response.answer[0]
-                        rrsig = response.answer[1]
+
+                        # find DNSKEY and RRSIG in answer
+                        dnskey = None
+                        rrsig = None
+                        for rrset in response.answer:
+                            if rrset.rdtype == dns.rdatatype.DNSKEY:
+                                dnskey = rrset
+                            elif rrset.rdtype == dns.rdatatype.RRSIG:
+                                rrsig = rrset
                         domain_entry['features'].append('DNSSEC-ANSWER:{0}'.format(nsname))
 
                         # # validate the answer
@@ -604,12 +622,12 @@ def check_dnssec(hostname, result_dict):
                         # print('F')
                         # dns.dnssec.validate(answer[0], answer[1], {name: answer[0]})
 
-                        print('\t\tF.1', answer)
+                        print('\t\tF.1', dnskey)
                         print('\t\tF.2', rrsig)
 
 
                         # dns.dnssec.validate(answer, rrsig)
-                        dns.dnssec.validate(answer, rrsig, {name: answer})
+                        dns.dnssec.validate(dnskey, rrsig, {name: dnskey})
                         print('\t\tG.1\r\n')
                     except dns.dnssec.ValidationFailure as vf:
                         # BE SUSPICIOUS

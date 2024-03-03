@@ -332,6 +332,9 @@ def validate_email_domain(hostname, result_dict, _, _local):
         # 1.9 - Check SPF policy
         rating = Validate_SPF_Policies(
             _, rating, result_dict, _local, hostname)
+        # 2.0 - Check DMARK
+        rating = Validate_DMARC_Policies(
+            _, rating, result_dict, _local, hostname)
 
     return rating, result_dict
 
@@ -463,6 +466,122 @@ def Validate_MTA_STS_Policy(_, rating, _local, hostname):
         has_mta_sts_txt_rating.set_standards(
             1.0, _local('TEXT_REVIEW_MTA_STS_TXT_NO_SUPPORT'))
     rating += has_mta_sts_txt_rating
+    return rating
+
+
+def Validate_DMARC_Policies(_, rating, result_dict, _local, hostname):
+    dmarc_result_dict = Validate_DMARC_Policy(_, _local, hostname, result_dict)
+    result_dict.update(dmarc_result_dict)
+
+    rating = Rate_has_DMARC_Policies(_, rating, result_dict, _local)
+    # rating = Rate_Invalid_format_DMARC_Policies(_, rating, result_dict, _local)
+
+    return rating
+
+
+def Validate_DMARC_Policy(_, _local, hostname, result_dict):
+    # https://proton.me/support/anti-spoofing-custom-domain
+
+    dmarc_results = dns_lookup("_dmarc.{0}".format(hostname), "TXT")
+    has_records = len(dmarc_results) > 0
+
+    print('TEST A', dmarc_results)
+
+    dmarc_content = ''
+
+    for result in dmarc_results:
+        if 'v=DMARC1' in result:
+            result_dict['dmarc-has-policy'] = True
+            dmarc_content = result
+            # print('content:', spf_content.replace(
+            #     '\r\n', '\\r\\n\r\n').replace(' ', '#'))
+
+    if 'dmarc-has-policy' in result_dict:
+        try:
+            # https://www.rfc-editor.org/rfc/rfc7489.txt
+            # https://www.rfc-editor.org/rfc/rfc7489#section-6.1
+            dmarc_sections = dmarc_content.split(';')
+
+            for section in dmarc_sections:
+                section = section.strip()
+                if section == '':
+                    continue
+
+                print('TEST B', section)
+                # print('section:', section)
+                # if section.startswith('v='):
+                #     data = section[2:]
+                #     if 'spf-ipv4' not in result_dict:
+                #         result_dict['spf-ipv4'] = list()
+                #     result_dict['spf-ipv4'].append(data)
+                # elif section.startswith('p='):
+                #     data = section[2:]
+                #     # none
+                #     # quarantine
+                #     # reject
+                #     result_dict['dmarc-action'] = data
+                # elif section.startswith('include:') or section.startswith('+include:'):
+                #     spf_domain = section[8:]
+                #     subresult_dict = Validate_SPF_Policy(
+                #         _, _local, spf_domain, result_dict)
+                #     result_dict.update(subresult_dict)
+                # elif section.startswith('?all'):
+                #     # What do this do and should we rate on it?
+                #     result_dict['spf-uses-neutralfail'] = True
+                # elif section.startswith('~all'):
+                #     # add support for SoftFail
+                #     result_dict['spf-uses-softfail'] = True
+                # elif section.startswith('-all'):
+                #     # add support for HardFail
+                #     result_dict['spf-uses-hardfail'] = True
+                # elif section.startswith('+all') or section.startswith('all'):
+                #     # basicly whitelist everything... Big fail
+                #     result_dict['spf-uses-ignorefail'] = True
+                # elif section.startswith('v=spf1'):
+                #     c = 1
+                # elif section.startswith('mx') or section.startswith('+mx'):
+                #     # TODO: What do this do and should we rate on it?
+                #     c = 1
+                # elif section.startswith('a') or section.startswith('+a'):
+                #     # TODO: What do this do and should we rate on it?
+                #     c = 1
+                # elif section.startswith('ptr') or section.startswith('+ptr'):
+                #     # What do this do and should we rate on it?
+                #     result_dict['spf-uses-ptr'] = True
+                # elif section.startswith('exists:'):
+                #     # TODO: What do this do and should we rate on it?
+                #     c = 1
+                # elif section.startswith('redirect='):
+                #     # TODO: What do this do and should we rate on it?
+                #     c = 1
+                # elif section.startswith('exp='):
+                #     # TODO: What do this do and should we rate on it?
+                #     c = 1
+                # else:
+                #     result_dict['spf-uses-none-standard'] = True
+        except Exception as ex:
+            print('ex C:', ex)
+
+    return result_dict
+
+
+
+
+def Rate_has_DMARC_Policies(_, rating, result_dict, _local):
+    no_dmarc_record_rating = Rating(_, review_show_improvements_only)
+    if 'dmarc-has-policy' in result_dict:
+        no_dmarc_record_rating.set_overall(5.0)
+        no_dmarc_record_rating.set_integrity_and_security(
+            5.0, _local('TEXT_REVIEW_DMARC_SUPPORT'))
+        no_dmarc_record_rating.set_standards(
+            5.0, _local('TEXT_REVIEW_DMARC_SUPPORT'))
+    else:
+        no_dmarc_record_rating.set_overall(1.0)
+        no_dmarc_record_rating.set_integrity_and_security(
+            1.0, _local('TEXT_REVIEW_DMARC_NO_SUPPORT'))
+        no_dmarc_record_rating.set_standards(
+            1.0, _local('TEXT_REVIEW_DMARC_NO_SUPPORT'))
+    rating += no_dmarc_record_rating
     return rating
 
 

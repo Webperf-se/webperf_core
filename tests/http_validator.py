@@ -47,6 +47,8 @@ except:
     use_cache = False
     cache_time_delta = timedelta(hours=1)
 
+dns.resolver.Cache.flush()
+
 
 def run_test(_, langCode, url):
     """
@@ -180,7 +182,7 @@ def rate(result_dict, _):
         if 'HTTP-REDIRECT' in result_dict[domain]['schemes'] or 'HTTP-REDIRECT*' in result_dict[domain]['schemes']:
             sub_rating = Rating(_, review_show_improvements_only)
             sub_rating.set_overall(1.0)
-            sub_rating.set_integrity_and_security(1.0, '- {0}, Uses none encrypted redirect'.format(domain))
+            sub_rating.set_integrity_and_security(1.0, '- {0}, Uses HTTP redirect'.format(domain))
             rating += sub_rating
 
         if 'HTTPS-REDIRECT' in result_dict[domain]['schemes'] or 'HTTPS-REDIRECT*' in result_dict[domain]['schemes']:
@@ -423,8 +425,11 @@ def rate_url(filename):
                         result[req_domain]['schemes'].append('HTTPS-REDIRECT-OTHERDOMAIN')
                         result[req_domain]['features'].append('INVALIDATE-HSTS')
                     elif value.startswith('http://{0}'.format(req_domain)):
-                        result[req_domain]['schemes'].append('HTTP-REDIRECT')
-                        result[req_domain]['features'].append('INVALIDATE-HSTS')
+                        if req_url.startswith('https://'):
+                            result[req_domain]['schemes'].append('HTTP-REDIRECT')
+                        else:
+                            result[req_domain]['schemes'].append('HTTP-REDIRECT')
+                            result[req_domain]['features'].append('INVALIDATE-HSTS')
                     elif value.startswith('http://'):
                         result[req_domain]['schemes'].append('HTTP-REDIRECT-OTHERDOMAIN')
                         result[req_domain]['features'].append('INVALIDATE-HSTS')
@@ -440,30 +445,293 @@ def rate_url(filename):
     return result
 
 
-def validate_dnssec(domain):
-    subdomain = 'static.internetstiftelsen.se'
-    domain = 'internetstiftelsen.se'
-    print('validate_dnssec', domain)
+def validate_dnssec(domain, domain_entry):
+    # subdomain = 'static.internetstiftelsen.se'
+    # domain = 'internetstiftelsen.se'
+    print('  ', domain)
+
+    # Get the name object for 'www.example.com'
+    name = dns.name.from_text(domain)
+
+    # response_dnskey_ns = testdns(name, dns.rdatatype.NS, True)
+    # response_dnskey_dnssec = testdns(name, dns.rdatatype.DNSKEY, True)
+    # response_dnskey_dnssec = testdns(name, dns.rdatatype.DNSKEY, False)
+    # response_dnskey_cname = testdns(name, dns.rdatatype.CNAME, True)
+    # response_dnskey_a = testdns(name, dns.rdatatype.A, True)
+    # response_dnskey_aaaa = testdns(name, dns.rdatatype.AAAA, True)
+    # response_dnskey_soa = testdns(name, dns.rdatatype.SOA, True)
+    # response_dnskey_txt = testdns(name, dns.rdatatype.TXT, True)
+    # response_dnskey_mx = testdns(name, dns.rdatatype.MX, True)
+    # response_dnskey_ds = testdns(name, dns.rdatatype.DS, True)
+
+
     # Get the DNSKEY for the domain
-    dnskey_answer = dns.resolver.resolve(domain, dns.rdatatype.DNSKEY)
+    # dnskeys = list()
+    # if dnskeys_response.rcode() != 0:
+    #     # HANDLE QUERY FAILED (SERVER ERROR OR NO DNSKEY RECORD)
+    #     print('\t\tA.1', dnskeys_response.rcode())
+    #     domain_entry['features'].append('DNSSEC-NO-DNSKEY(S):{0}'.format(nsname))
+    #     return domain_entry
+    #     # continue
+    # else:
+    #     print('\t\tA.2', dnskeys_response.rcode())
+    #     domain_entry['features'].append('DNSSEC-DNSKEYS:{0}'.format(nsname))
+    #     dnskeys = dnskeys_response.answer
     
-    print('\t1')
+    # # Get the DS for the domain
+    # ds_answer = dns.resolver.resolve(subdomain, dns.rdatatype.DS)
 
-    # Get the DS for the domain
-    ds_answer = dns.resolver.resolve(subdomain, dns.rdatatype.DS)
+    # request = dns.message.make_query(domain, dns.rdatatype.A, want_dnssec=True)
+    # request = dns.message.make_query(domain, dns.rdatatype.DNSKEY, want_dnssec=True)
 
-    print('\t2')
+    domain_name = dns.name.from_text(domain)
+    request = dns.message.make_query(domain_name, dns.rdatatype.DNSKEY, want_dnssec=True)
+    # request = dns.message.make_query(domain_name, dns.rdatatype.A, want_dnssec=True)
+    #request = dns.message.make_query(domain_name, dns.rdatatype.A, want_dnssec=True)
+    response = dns.query.udp(request, '8.8.8.8')
+
+    nsname = '8.8.8.8'
+
+    if response.rcode() != 0:
+        # HANDLE QUERY FAILED (SERVER ERROR OR NO DNSKEY RECORD)
+        print('\tERROR, RCODE is INVALID:', response.rcode())
+        domain_entry['features'].append('DNSSEC-NO-RCODE:{0}'.format(nsname))
+        return domain_entry
+        # continue
+    else:
+        print('\tVALID RCODE')
+        domain_entry['features'].append('DNSSEC-RCODE:{0}'.format(nsname))
+
+    dnskey = None
+    rrsig = None
+
+    # print('E', answer)
+    if len(response.answer) < 2:
+        # SOMETHING WENT WRONG
+        print('\tWARNING, to few answers:', len(response.answer))
+
+        # find the associated RRSIG RRset
+        rrsig = None
+
+        print('\t\tQ.answer', response.answer)
+        print('\t\tQ.authority', response.authority)
+        print('\t\tQ.additional', response.additional)
+
+
+        print('\tRRSET(s):')
+        for rrset in response.answer + response.authority + response.additional:
+            print('\t\tRRSET:', rrset)
+            if rrset.rdtype == dns.rdatatype.RRSIG:
+                rrsig = rrset
+                print('\t\t\tRRSIG found')
+                domain_entry['features'].append('DNSSEC-RRSIG-FOUND')
+            if rrset.rdtype == dns.rdatatype.DNSKEY:
+                dnskey = rrset
+                print('\t\tDNSKEY found')
+                domain_entry['features'].append('DNSSEC-DNSKEY-FOUND')
+
+        domain_entry['features'].append('DNSSEC-NO-ANSWER:{0}'.format(nsname))
+        return domain_entry
+        # continue
+    else:
+        print('\tParsing Answers, nof answers:', len(response.answer))
+
+        # find DNSKEY and RRSIG in answer
+        # dnskey = None
+        # rrsig = None
+        for rrset in response.answer:
+            print('\tRRSET', rrset)
+            if dnskey == None and rrset.rdtype == dns.rdatatype.DNSKEY:
+                dnskey = rrset
+                print('\t\tDNSKEY found')
+                domain_entry['features'].append('DNSSEC-DNSKEY-FOUND')
+            elif rrsig == None and rrset.rdtype == dns.rdatatype.RRSIG:
+                rrsig = rrset
+                print('\t\tRRSIG found')
+                domain_entry['features'].append('DNSSEC-RRSIG-FOUND')
+
+        domain_entry['features'].append('DNSSEC-ANSWER:{0}'.format(nsname))
+
+        # # validate the answer
+        # if rrsig is not None:                       
+
+    # if dnskey == None and len(dnskeys) > 0:
+    #     print('\tNO DNS KEY')
+    #     dnskey = dnskeys[0]
+    print('\n\n')
+    print('\t# {0} - DNSKEY ='.format(domain), dnskey)
+    print('\t# {0} - RRSIG = '.format(domain), rrsig)
+
+    # import dns.zone
 
     # Validate the DNSKEY with the DS
-    try:
-        dns.dnssec.validate(dnskey_answer, ds_answer)
-        print("DNSSEC validation passed")
-    except dns.dnssec.ValidationFailure:
-        print("DNSSEC validation failed")
+    if dnskey == None:
+        print('\tRETRY DNSKEY')
+        validate_rrsig_no_dnskey(domain, rrsig, domain_entry)
+    else:
+        validate_dnskey_and_rrsig(domain, dnskey, rrsig, domain_entry)
+    # try:
+    #     dns.dnssec.validate(dnskey, rrsig, dnskey)
+    #     # dns.dnssec.validate(dnskey, rrsig, {name: dnskey})
+    #     # dns.dnssec.validate(dnskey, rrsig)
+    #     print("DNSSEC validation passed")
+    # except dns.dnssec.ValidationFailure as vf:
+    #     print('DNSSEC VALIDATION FAIL', vf)
+    #     domain_entry['features'].append('DNSSEC-FALIED-VALIDATION:{0}'.format(nsname))
+    # else:
+    #     domain_entry['features'].append('DNSSEC')
+    #     print('\t\tG.3 - VALIDATION SUCCESS\r\n')
 
-    print('\t3')
+    # print('\t3')
+
+def testdns(key, datatype, use_dnssec):
+    try:
+        query = None
+
+        print('     testdns', key, datatype, use_dnssec)
+
+        # Create a query for the 'www.example.com' domain
+        if use_dnssec:
+            query = dns.message.make_query(key, datatype, want_dnssec=True)
+        else:
+            query = dns.message.make_query(key, datatype, want_dnssec=False)
+
+        # Send the query and get the response
+        response = dns.query.udp(query, '8.8.8.8')
+
+        if response.rcode() != 0:
+            # HANDLE QUERY FAILED (SERVER ERROR OR NO DNSKEY RECORD)
+            print('\tERROR, RCODE is INVALID:', response.rcode())
+            return None
+            # continue
+
+        # Get the answer section from the response
+        # answer_section = response.answer
+
+        print('\tanswer')
+        print('\t\tanswer.length', len(response.answer))
+        for answer in response.answer:
+            print('\t\t\tanswer', answer)
+
+        return response.answer
+
+    except dns.dnssec.ValidationFailure as vf:
+        print('\t\t\tDNS FAIL', vf)
+    except Exception as ex:
+        print('\t\t\tDNS GENERAL FAIL', ex)
+
+    return None
+
+
+def validate_rrsig_no_dnskey(domain, rrsig, domain_entry):
+    nsname = '8.8.8.8'
+    try:
+        #dns.dnssec.validate(dnskey, rrsig, dnskey)
+        import dns.message
+        # Create a query for the 'www.example.com' domain
+        query = dns.message.make_query(domain, dns.rdatatype.A, want_dnssec=True)
+
+        # Send the query and get the response
+        response = dns.query.udp(query, '8.8.8.8')
+
+        # Get the answer section from the response
+        answer_section = response.answer
+
+        # Get the name object for 'www.example.com'
+        name = dns.name.from_text(domain)
+
+        # Get the RRset from the answer section
+        rrset = response.get_rrset(answer_section, name, dns.rdataclass.IN, dns.rdatatype.DNSKEY)        
+
+        # name = dns.name.from_text(domain)
+        # Assuming 'answers' is an dns.resolver.Answer object containing the DNSKEY records
+        # rrset = answers.get_rrset(dnskeys, name, dns.rdataclass.IN, dns.rdatatype.DNSKEY)
+        dns.dnssec.validate(rrset, rrsig, {name: rrset})        
+        # name = dns.name.from_text(domain)
+        # dns.dnssec.validate(dnskey, rrsig, {name, dnskey})
+        # dns.dnssec.validate(dnskey, rrsig)
+        print("\t\t\tDNSSEC validation passed")
+    except dns.dnssec.ValidationFailure as vf:
+        print('\t\t\tDNSSEC VALIDATION FAIL', vf)
+        domain_entry['features'].append('DNSSEC-FALIED-VALIDATION:{0}'.format(nsname))
+    except Exception as ex:
+        print('\t\t\tDNSSEC GENERAL FAIL', ex)
+        domain_entry['features'].append('DNSSEC-FALIED-VALIDATION:{0}'.format(nsname))
+    else:
+        domain_entry['features'].append('DNSSEC')
+        print('\t\tG.3 - VALIDATION SUCCESS\r\n')
+
+
+def validate_dnskey_and_rrsig(domain, dnskey, rrsig, domain_entry):
+    nsname = '8.8.8.8'
+    try:
+        #dns.dnssec.validate(dnskey, rrsig, dnskey)
+        name = dns.name.from_text(domain)
+        dns.dnssec.validate(dnskey, rrsig, {name: dnskey})
+        # dns.dnssec.validate(dnskey, rrsig)
+        print("\t\t\tDNSSEC validation passed")
+    except dns.dnssec.ValidationFailure as vf:
+        print('\t\t\tDNSSEC VALIDATION FAIL', vf)
+        domain_entry['features'].append('DNSSEC-FALIED-VALIDATION:{0}'.format(nsname))
+    else:
+        domain_entry['features'].append('DNSSEC')
+        print('\t\tG.3 - VALIDATION SUCCESS\r\n')
 
 def check_dnssec(hostname, result_dict):
+    print('DNSSEC')
+    new_entries = list()
+    for domainA in result_dict.keys():
+        try:
+            domain = domainA
+            domain_entry = result_dict[domain]
+
+            if hostname != domain:
+                domain_entry['features'].append('DNSSEC-IGNORE')
+                continue
+            # print('# {0}'.format(domain))
+            validate_dnssec(domain, domain_entry)
+
+        except Exception as e:
+            print('DNSSEC EXCEPTION', e)
+            with open('failures.log', 'a') as outfile:
+                
+                outfile.writelines(['###############################################',
+                                    '\n# Information:',
+                                    '\nDateTime: {0}' .format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')),
+                                    '\n###############################################'
+                                    '\n# Configuration (from config.py):',
+                                    '\nuseragent: {0}'.format(config.useragent),
+                                    '\nhttp_request_timeout: {0}'.format(config.http_request_timeout),
+                                    '\nwebbkoll_sleep: {0}'.format(config.webbkoll_sleep),
+                                    '\ncss_review_group_errors: {0}'.format(config.css_review_group_errors),
+                                    '\nreview_show_improvements_only: {0}'.format(config.review_show_improvements_only),
+                                    '\nylt_use_api: {0}'.format(config.ylt_use_api),
+                                    '\nlighthouse_use_api: {0}'.format(config.lighthouse_use_api),
+                                    '\nsitespeed_use_docker: {0}'.format(config.sitespeed_use_docker),
+                                    '\nsitespeed_iterations: {0}'.format(config.sitespeed_iterations),
+                                    '\nlocales: {0}'.format(config.locales),
+                                    '\ncache_when_possible: {0}'.format(config.cache_when_possible),
+                                    '\ncache_time_delta: {0}'.format(config.cache_time_delta),
+                                    '\nsoftware_use_stealth: {0}'.format(config.software_use_stealth),
+                                    '\nsoftware_use_detailed_report: {0}'.format(config.software_use_detailed_report),
+                                    '\nsoftware_browser: {0}'.format(config.software_browser),
+                                    '\n###############################################\n'
+                                    ])
+                
+                
+                outfile.writelines(traceback.format_exception(e,e, e.__traceback__))
+
+                outfile.writelines(['###############################################\n\n'])
+            c = 1
+    for entry in new_entries:
+        name = entry['name']
+        del entry['name']
+        result_dict[name] = entry
+        
+    return result_dict
+
+
+def check_dnssec2(hostname, result_dict):
     print('DNSSEC')
 
     # NOTE: https://www.cloudflare.com/dns/dnssec/how-dnssec-works/
@@ -480,6 +748,51 @@ def check_dnssec(hostname, result_dict):
     # CDNSKEY and CDS - For a child zone requesting updates to DS record(s) in the parent zone
     # get nameservers for target domain
 
+
+
+
+    # IMPROVE DNSSEC QUERIES:
+    # Analyzing polisen.se
+    # Querying polisen.se/NS (referral)...
+    # Querying polisen.se/NS (auth, detecting cookies)...
+    # Querying polisen.se/A...
+    # Preparing 0x20 query PoLISEN.SE/SOA...
+    # Preparing DNS cookie diagnostic query polisen.se/SOA...
+    # Preparing query polisen.se/NSEC3PARAM...
+    # Preparing query hfsp0za3wj.polisen.se/A (NXDOMAIN)...
+    # Preparing query polisen.se/CNAME (NODATA)...
+    # Preparing query polisen.se/MX...
+    # Preparing query polisen.se/TXT...
+    # Preparing query polisen.se/SOA...
+    # Preparing query polisen.se/DNSKEY...
+    # Preparing query polisen.se/DS...
+    # Preparing query polisen.se/AAAA...
+    # Executing queries...
+    # Analysis Complete
+    
+
+    # Analyzing eskilstuna.se
+    # Querying eskilstuna.se/NS (referral)...
+    # Querying eskilstuna.se/NS (auth, detecting cookies)...
+    # Querying eskilstuna.se/A...
+    # Preparing 0x20 query EsKILStUNa.sE/SOA...
+    # Preparing DNS cookie diagnostic query eskilstuna.se/SOA...
+    # Preparing query eskilstuna.se/NSEC3PARAM...
+    # Preparing query 5gweac9poq.eskilstuna.se/A (NXDOMAIN)...
+    # Preparing query eskilstuna.se/CNAME (NODATA)...
+    # Preparing query eskilstuna.se/MX...
+    # Preparing query eskilstuna.se/TXT...
+    # Preparing query eskilstuna.se/SOA...
+    # Preparing query eskilstuna.se/DNSKEY...
+    # Preparing query eskilstuna.se/DS...
+    # Preparing query eskilstuna.se/AAAA...
+    # Executing queries...
+    # Analyzing www.eskilstuna.se
+    # Querying www.eskilstuna.se/NS (referral)...
+    # Preparing query www.eskilstuna.se/A...
+    # Preparing query www.eskilstuna.se/AAAA...
+    # Executing queries...
+    # Analysis Complete    
 
 
 
@@ -512,15 +825,20 @@ def check_dnssec(hostname, result_dict):
             #     new_entries.append(domain_entry)
             # domain_entry = result_dict[domain]
 
-            dnskey = dns_lookup(domain, dns.rdatatype.DNSKEY)
+            dnskeys = dns_lookup(domain, dns.rdatatype.DNSKEY)
             # print('\t\tDNSKEY', dnskey)
-            print('\tDNSKEY(S):', len(dnskey))
-            if len(dnskey) == 0:
+            print('\tDNSKEY(S):', len(dnskeys))
+            if len(dnskeys) == 0:
                 domain_entry['features'].append('DNSSEC-NO-DNSKEY')
             else:
                 domain_entry['features'].append('DNSSEC-DNSKEY')
 
-            response = dns.resolver.query('{0}.'.format(domain), dns.rdatatype.NS)
+            import dns.resolver
+
+            resolver = dns.resolver.Resolver()
+            # resolver.nameservers = [ '8.8.8.8' ]
+
+            response = resolver.query('{0}.'.format(domain), dns.rdatatype.NS)
             nsnames = dns_lookup('{0}.'.format(domain), dns.rdatatype.NS)
             print('\tNAMESERVER(S):', len(nsnames))
 
@@ -540,8 +858,13 @@ def check_dnssec(hostname, result_dict):
 
 
                 # get DNSKEY for zone
-                #request = dns.message.make_query('{0}.'.format(domain), dns.rdatatype.DNSKEY, want_dnssec=True)
+                # ADDITIONAL_RDCLASS = 4096
+                # request = dns.message.make_query('{0}.'.format(domain), dns.rdatatype.A, want_dnssec=True)
+                # request.flags |= dns.flags.AD
+                # request.find_rrset(request.additional, dns.name.root, ADDITIONAL_RDCLASS,
+                #                 dns.rdatatype.OPT, create=True, force_unique=True)                
                 request = dns.message.make_query(domain, dns.rdatatype.DNSKEY, want_dnssec=True)
+                # request = dns.message.make_query(domain, dns.rdatatype.A, want_dnssec=True)
                 # request = dns.message.make_query(domain, dns.rdatatype.DNSKEY)
                 # name = dns.name.from_text('{0}.'.format(domain))
                 name = dns.name.from_text(domain)
@@ -551,7 +874,7 @@ def check_dnssec(hostname, result_dict):
 
                 if 'IPv4' in domain_entry['ip-versions'] or 'IPv4*' in domain_entry['ip-versions']:
                     # print('\t\tA.2')
-                    response = dns.resolver.query(nsname, dns.rdatatype.A)
+                    response = resolver.query(nsname, dns.rdatatype.A)
                     print('\t\tA.3', response)
                     nsaddr = response.rrset[0].to_text()  # IPv4
 
@@ -566,12 +889,10 @@ def check_dnssec(hostname, result_dict):
 
                     if response.rcode() != 0:
                         # HANDLE QUERY FAILED (SERVER ERROR OR NO DNSKEY RECORD)
-                        a = 1
                         print('\t\tD.1', response.rcode())
                         domain_entry['features'].append('DNSSEC-NO-RCODE:{0}'.format(nsname))
                         continue
                     else:
-                        a = 2
                         print('\t\tD.2', response.rcode())
                         domain_entry['features'].append('DNSSEC-RCODE:{0}'.format(nsname))
 
@@ -615,7 +936,10 @@ def check_dnssec(hostname, result_dict):
                         domain_entry['features'].append('DNSSEC-ANSWER:{0}'.format(nsname))
 
                         # # validate the answer
-                        # if rrsig is not None:                        
+                        # if rrsig is not None:                       
+
+                    if dnskey == None and len(dnskeys) > 0:
+                        dnskey = dnskeys[0]
 
                     # the DNSKEY should be self-signed, validate it
                     try:

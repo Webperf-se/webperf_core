@@ -300,11 +300,19 @@ def is_sitemap(content):
 def dns_lookup(hostname, record_type):
     names = list()
 
+    import dns.rdataclass
+    import dns.rdatatype
+    import dns.rrset
+
     cache_key = 'dnslookup://{0}#{1}'.format(hostname, record_type)
     content = get_cache_file(
         cache_key, True, cache_time_delta)
-    if content != None:
-        names = json.loads(content)
+
+    # TODO: make this cachable again
+    if False and content != None:
+        tmps = json.loads(content)
+        for tmp in tmps:
+            names.append(dns.rdataclass.from_text(tmp))
         return names
 
     try:
@@ -329,12 +337,15 @@ def dns_lookup(hostname, record_type):
         set_cache_file(cache_key, nice_raw, True)
         return names
 
+    data = list()
     for dns_record in dns_records:
         if record_type == 'TXT':
             names.append(''.join(s.decode()
                                  for s in dns_record.strings))
         else:
-            names.append(str(dns_record))
+            names.append(dns_record.to_text())
+            data.append(dns_record)
+            # names.append(str(dns_record))
 
         # sleep so we don't get banned for to many queries on DNS servers
     time.sleep(1)
@@ -342,7 +353,7 @@ def dns_lookup(hostname, record_type):
     nice_raw = json.dumps(names, indent=2)
     set_cache_file(cache_key, nice_raw, True)
 
-    return names
+    return data
 
 
 def get_eu_countries():

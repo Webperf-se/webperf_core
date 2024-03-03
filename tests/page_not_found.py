@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from urllib.parse import ParseResult, urlunparse
 from models import Rating
 import datetime
 import sys
@@ -14,6 +15,22 @@ _ = gettext.gettext
 request_timeout = config.http_request_timeout
 useragent = config.useragent
 review_show_improvements_only = config.review_show_improvements_only
+
+
+def change_url_to_404_url(url):
+
+    o = urllib.parse.urlparse(url)
+
+    path = '{0}/finns-det-en-sida/pa-den-har-adressen/testanrop/'.format(get_guid(5))
+    if len(o.path) + len(path) < 200:
+        if o.path.endswith('/'):
+            path = '{0}{1}'.format(o.path, path)
+        else:
+            path = '{0}/{1}'.format(o.path, path)
+
+    o2 = ParseResult(scheme=o.scheme, netloc=o.netloc, path=path, params=o.params, query=o.query, fragment=o.fragment)
+    url2 = urlunparse(o2)
+    return url2
 
 
 def run_test(_, langCode, org_url):
@@ -34,14 +51,13 @@ def run_test(_, langCode, org_url):
     print(_('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    # kollar koden
-    o = urllib.parse.urlparse(org_url)
-    url = '{0}://{1}/{3}/{2}'.format(o.scheme, o.netloc,
-                                     'finns-det-en-sida/pa-den-har-adressen/testanrop/', get_guid(5))
+    url = change_url_to_404_url(org_url)
+
     headers = {'user-agent': useragent,
                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8'}
     code = 'unknown'
     request = False
+    # checks http status code
     try:
         request = requests.get(url, allow_redirects=True,
                                headers=headers, timeout=request_timeout)

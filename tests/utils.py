@@ -309,11 +309,12 @@ def dns_lookup(hostname, record_type):
         cache_key, True, cache_time_delta)
 
     # TODO: make this cachable again
-    if False and content != None:
+    if content != None:
         tmps = json.loads(content)
-        for tmp in tmps:
-            names.append(dns.rdataclass.from_text(tmp))
-        return names
+        # for tmp in tmps:
+        #     # names.append(dns.rdataclass.from_text(tmp))
+        #     names.append(dns.rdataclass.from_text(tmp))
+        return tmps
 
     try:
         dns_records = dns.resolver.resolve(hostname, record_type)
@@ -337,15 +338,15 @@ def dns_lookup(hostname, record_type):
         set_cache_file(cache_key, nice_raw, True)
         return names
 
-    data = list()
+    # data = list()
     for dns_record in dns_records:
         if record_type == 'TXT':
             names.append(''.join(s.decode()
                                  for s in dns_record.strings))
         else:
-            names.append(dns_record.to_text())
-            data.append(dns_record)
-            # names.append(str(dns_record))
+            # names.append(dns_record.to_text())
+            # data.append(dns_record)
+            names.append(str(dns_record))
 
         # sleep so we don't get banned for to many queries on DNS servers
     time.sleep(1)
@@ -353,7 +354,7 @@ def dns_lookup(hostname, record_type):
     nice_raw = json.dumps(names, indent=2)
     set_cache_file(cache_key, nice_raw, True)
 
-    return data
+    return names
 
 
 def get_eu_countries():

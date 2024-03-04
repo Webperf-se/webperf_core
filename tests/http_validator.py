@@ -47,8 +47,6 @@ except:
     use_cache = False
     cache_time_delta = timedelta(hours=1)
 
-dns.resolver.Cache.flush()
-
 
 def run_test(_, langCode, url):
     """
@@ -89,11 +87,11 @@ def run_test(_, langCode, url):
 
     result_dict = check_http_version(url, result_dict)
 
-    result_dict = check_dnssec(hostname, result_dict)
+    # result_dict = check_dnssec(hostname, result_dict)
 
     result_dict = cleanup(result_dict)
 
-    rating = rate(result_dict, _)
+    rating = rate(hostname, result_dict, _)
 
     nice_result = json.dumps(result_dict, indent=3)
     print('DEBUG TOTAL', nice_result)
@@ -103,8 +101,10 @@ def run_test(_, langCode, url):
 
     return (rating, result_dict)
 
-def rate(result_dict, _):
+def rate(org_domain, result_dict, _):
     rating = Rating(_, review_show_improvements_only)
+
+    org_www_domain = 'www.{0}'.format(org_domain)
 
     # result_dict = {
     #     'protocols': ['HTTP/1', 'HTTP/1.1', 'HTTP/2', 'HTTP/3', 'DNSSEC'],
@@ -114,201 +114,268 @@ def rate(result_dict, _):
     # }
 
     for domain in result_dict.keys():
-        if 'HTTP/1.1' in result_dict[domain]['protocols']:
-            sub_rating = Rating(_, review_show_improvements_only)
-            sub_rating.set_overall(5.0)
-            sub_rating.set_standards(5.0)
-            rating += sub_rating
-        else:
-            sub_rating = Rating(_, review_show_improvements_only)
-            sub_rating.set_overall(1.0)
-            sub_rating.set_standards(1.0, '- {0}, No HTTP/1.1 support'.format(domain))
-            rating += sub_rating
+        rating += rate_protocols(result_dict, _, domain)
+        # rating += rate_dnssec(result_dict, _, domain)
+        rating += rate_schemas(result_dict, _, domain)
+        rating += rate_hsts(result_dict, _, domain)
+        rating += rate_csp(org_domain, result_dict, _, org_www_domain, domain)
+        rating += rate_ip_versions(result_dict, _, domain)
+        rating += rate_transfer_layers(result_dict, _, domain)
 
-        if 'HTTP/2' in result_dict[domain]['protocols']:
-            sub_rating = Rating(_, review_show_improvements_only)
-            sub_rating.set_overall(5.0)
-            sub_rating.set_standards(5.0)
-            rating += sub_rating
-        else:
-            sub_rating = Rating(_, review_show_improvements_only)
-            sub_rating.set_overall(1.0)
-            sub_rating.set_standards(1.0, '- {0}, No HTTP/2 support'.format(domain))
-            rating += sub_rating
+    return rating
 
-        if 'HTTP/3' in result_dict[domain]['protocols']:
-            sub_rating = Rating(_, review_show_improvements_only)
-            sub_rating.set_overall(5.0)
-            sub_rating.set_standards(5.0)
-            rating += sub_rating
-        else:
-            sub_rating = Rating(_, review_show_improvements_only)
-            sub_rating.set_overall(1.0)
-            sub_rating.set_standards(1.0, '- {0}, No HTTP/3 support'.format(domain))
-            rating += sub_rating
+def rate_transfer_layers(result_dict, _, domain):
+    rating = Rating(_, review_show_improvements_only)
+    if 'TLSv1.3' in result_dict[domain]['transport-layers']:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(5.0)
+        sub_rating.set_standards(5.0)
+        sub_rating.set_integrity_and_security(5.0)
+        rating += sub_rating
+    else:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(1.0)
+        sub_rating.set_standards(1.0, '- {0}, No support for transport layer: TLSv1.3'.format(domain))
+        sub_rating.set_integrity_and_security(1.0, '- {0}, No support for transport layer: TLSv1.3'.format(domain))
+        rating += sub_rating
 
-        if 'DNSSEC' in result_dict[domain]['features']:
-            sub_rating = Rating(_, review_show_improvements_only)
-            sub_rating.set_overall(5.0)
+    if 'TLSv1.2' in result_dict[domain]['transport-layers']:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(5.0)
+        sub_rating.set_standards(5.0)
+        sub_rating.set_integrity_and_security(5.0)
+        rating += sub_rating
+    else:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(1.0)
+        sub_rating.set_standards(1.0, '- {0}, No support for transport layer: TLSv1.2'.format(domain))
+        sub_rating.set_integrity_and_security(1.0, '- {0}, No support for transport layer: TLSv1.2'.format(domain))
+        rating += sub_rating
+
+    if 'TLSv1.1' in result_dict[domain]['transport-layers']:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(1.0)
+        sub_rating.set_integrity_and_security(1.0, '- {0}, Support insecure transport layer: TLSv1.1'.format(domain))
+        rating += sub_rating
+    else:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(5.0)
+        sub_rating.set_integrity_and_security(5.0)
+        rating += sub_rating
+
+    if 'TLSv1.0' in result_dict[domain]['transport-layers']:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(1.0)
+        sub_rating.set_integrity_and_security(1.0, '- {0}, Support insecure transport layer: TLSv1.0'.format(domain))
+        rating += sub_rating
+    else:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(5.0)
+        sub_rating.set_integrity_and_security(5.0)
+        rating += sub_rating
+    return rating
+
+def rate_ip_versions(result_dict, _, domain):
+    rating = Rating(_, review_show_improvements_only)
+    if 'IPv4' in result_dict[domain]['ip-versions'] or 'IPv4*' in result_dict[domain]['ip-versions']:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(5.0)
+        sub_rating.set_standards(5.0)
+        rating += sub_rating
+    else:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(1.0)
+        sub_rating.set_standards(1.0, '- {0}, No IPv4 support'.format(domain))
+        rating += sub_rating
+
+    if 'IPv6' in result_dict[domain]['ip-versions'] or 'IPv6*' in result_dict[domain]['ip-versions']:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(5.0)
+        sub_rating.set_standards(5.0)
+        rating += sub_rating
+    else:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(1.0)
+        sub_rating.set_standards(1.0, '- {0}, No IPv6 support'.format(domain))
+        rating += sub_rating
+    return rating
+
+def rate_csp(org_domain, result_dict, _, org_www_domain, domain):
+    rating = Rating(_, review_show_improvements_only)
+    if 'CSP-HEADER-FOUND' in result_dict[domain]['features'] or 'CSP-META-FOUND' in result_dict[domain]['features']:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(5.0)
+        sub_rating.set_standards(5.0)
+        sub_rating.set_integrity_and_security(5.0)
+
+        if 'CSP-DEPRECATED' in result_dict[domain]['features']:
+            sub_rating.set_overall(2.0)
+            sub_rating.set_standards(2.0, '- {0}, Uses deprecated CSP implementation'.format(domain))
+            sub_rating.set_integrity_and_security(2.0, '- {0}, Uses deprecated CSP implementation'.format(domain))
+        elif 'CSP-USE-UNSAFE' in result_dict[domain]['features']:
+            sub_rating.set_overall(1.67)
+            sub_rating.set_standards(5.0)
+            sub_rating.set_integrity_and_security(1.5, '- {0}, Uses unsafe CSP policy'.format(domain))
+        elif 'CSP-POLICY-DEFAULT-SRC-FOUND' not in result_dict[domain]['features']:
+            sub_rating.set_overall(3.0)
+            sub_rating.set_integrity_and_security(2.5, '- {0}, Is NOT using default-src CSP policy'.format(domain))
+        elif 'CSP-POLICY-BASE-URI-FOUND' not in result_dict[domain]['features']:
+            sub_rating.set_overall(3.0)
+            sub_rating.set_integrity_and_security(2.5, '- {0}, Is NOT using base-uri CSP policy'.format(domain))
+        elif 'CSP-POLICY-BLOCK-ALL-MIXED-CONTENT-FOUND' not in result_dict[domain]['features'] and 'CSP-POLICY-UPGRADE-INSECURE-REQUESTS-FOUND' not in result_dict[domain]['features'] and 'HTTP' in result_dict[domain]['schemes'] and ('HSTS' not in result_dict[domain]['features'] or 'INVALIDATE-HSTS' in result_dict[domain]['features']):
+            sub_rating.set_overall(4.0)
+            sub_rating.set_integrity_and_security(4.0, '- {0}, Is NOT prohibit HTTP request in CSP policy'.format(domain))
+        elif 'CSP-POLICY-FORM-ACTION-FOUND' not in result_dict[domain]['features']:
+            sub_rating.set_overall(4.9)
+            sub_rating.set_integrity_and_security(4.9, '- {0}, Is NOT using form-action CSP policy, if you use form you should use this'.format(domain))
+
+        rating += sub_rating
+    elif 'HTML-FOUND' in result_dict[domain]['features'] and (domain == org_domain or domain == org_www_domain):
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(1.0)
+        sub_rating.set_standards(1.0, '- {0}, Is NOT using CSP'.format(domain))
+        sub_rating.set_integrity_and_security(1.0, '- {0}, Is NOT using CSP'.format(domain))
+        rating += sub_rating
+    return rating
+
+def rate_hsts(result_dict, _, domain):
+    rating = Rating(_, review_show_improvements_only)
+    if 'HSTS' in result_dict[domain]['features']:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(5.0)
+        sub_rating.set_standards(5.0)
+
+        if 'INVALIDATE-HSTS' in result_dict[domain]['features']:
+            sub_rating.set_overall(1.5)
+            sub_rating.set_integrity_and_security(1.5, '- {0}, Is NOT using HSTS because of redirect'.format(domain))
+            sub_rating.set_standards(1.5, '- {0}, Is NOT using HSTS because of redirect'.format(domain))
+        elif 'HSTS-HEADER-PRELOAD-FOUND' in result_dict[domain]['features'] and ('HSTS-PRELOAD' in result_dict[domain]['features'] or 'HSTS-PRELOAD*' in result_dict[domain]['features']):
             sub_rating.set_integrity_and_security(5.0)
-            sub_rating.set_standards(5.0)
-            rating += sub_rating
-        elif 'DNSSEC-IGNORE' in result_dict[domain]['features']:
-            sub_rating = Rating(_, review_show_improvements_only)
-            sub_rating.set_overall(5.0)
-            sub_rating.set_integrity_and_security(5.0)
-            sub_rating.set_standards(5.0)
-            rating += sub_rating
+        elif 'HSTS-HEADER-MAXAGE-1YEAR' in result_dict[domain]['features']:
+            sub_rating.set_integrity_and_security(4.99, '- {0}, You might want to use "preload" in HSTS'.format(domain))
+        elif 'HSTS-HEADER-MAXAGE-TOO-LOW' in result_dict[domain]['features']:
+            sub_rating.set_overall(4.5)
+            sub_rating.set_integrity_and_security(4.0, '- {0}, max-age used in HSTS is less than 1 year'.format(domain))
+        elif 'HSTS-HEADER-MAXAGE-6MONTHS' in result_dict[domain]['features']:
+            sub_rating.set_overall(4.0)
+            sub_rating.set_integrity_and_security(3.0, '- {0}, max-age used in HSTS is less than 6 months'.format(domain))
+        elif 'HSTS-HEADER-MAXAGE-1MONTH' in result_dict[domain]['features']:
+            sub_rating.set_overall(3.5)
+            sub_rating.set_integrity_and_security(2.0, '- {0}, max-age used in HSTS is less than 1 month'.format(domain))
         else:
-            sub_rating = Rating(_, review_show_improvements_only)
-            sub_rating.set_overall(1.0)
-            sub_rating.set_integrity_and_security(1.0, '- {0}, No DNSSEC support'.format(domain))
-            sub_rating.set_standards(1.0, '- {0}, No DNSSEC support'.format(domain))
-            rating += sub_rating
+            sub_rating.set_overall(3.0)
+            sub_rating.set_integrity_and_security(1.0, '- {0}, max-age is missing in HSTS'.format(domain))
+        rating += sub_rating
+    elif 'HSTS-HEADER-ON-PARENTDOMAIN-FOUND' in result_dict[domain]['features'] and 'INVALIDATE-HSTS' not in result_dict[domain]['features']:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(5.0)
+        sub_rating.set_standards(4.99, '- {0}, Only parent HSTS used, child should also use HSTS'.format(domain))
+        sub_rating.set_integrity_and_security(4.99, '- {0}, Only parent HSTS used, child should also use HSTS'.format(domain))
+        rating += sub_rating
+    else:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(1.0)
+        sub_rating.set_standards(1.0, '- {0}, Is NOT using HSTS'.format(domain))
+        sub_rating.set_integrity_and_security(1.0, '- {0}, Is NOT using HSTS'.format(domain))
+        rating += sub_rating
+    return rating
 
-        if 'HTTPS' in result_dict[domain]['schemes']:
-            sub_rating = Rating(_, review_show_improvements_only)
-            sub_rating.set_overall(5.0)
-            sub_rating.set_integrity_and_security(5.0)
-            sub_rating.set_standards(5.0)
-            rating += sub_rating
-        else:
-            sub_rating = Rating(_, review_show_improvements_only)
-            sub_rating.set_overall(1.0)
-            sub_rating.set_integrity_and_security(1.0, '- {0}, No HTTPS support'.format(domain))
-            sub_rating.set_standards(1.0, '- {0}, No HTTPS support'.format(domain))
-            rating += sub_rating
+def rate_schemas(result_dict, _, domain):
+    rating = Rating(_, review_show_improvements_only)
+    if 'HTTPS' in result_dict[domain]['schemes']:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(5.0)
+        sub_rating.set_integrity_and_security(5.0)
+        sub_rating.set_standards(5.0)
+        rating += sub_rating
+    else:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(1.0)
+        sub_rating.set_integrity_and_security(1.0, '- {0}, No HTTPS support'.format(domain))
+        sub_rating.set_standards(1.0, '- {0}, No HTTPS support'.format(domain))
+        rating += sub_rating
 
-        if 'HTTP-REDIRECT' in result_dict[domain]['schemes'] or 'HTTP-REDIRECT*' in result_dict[domain]['schemes']:
-            sub_rating = Rating(_, review_show_improvements_only)
-            sub_rating.set_overall(1.0)
-            sub_rating.set_integrity_and_security(1.0, '- {0}, Uses HTTP redirect'.format(domain))
-            rating += sub_rating
+    if 'HTTP-REDIRECT' in result_dict[domain]['schemes'] or 'HTTP-REDIRECT*' in result_dict[domain]['schemes']:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(1.0)
+        sub_rating.set_integrity_and_security(1.0, '- {0}, Uses HTTP redirect'.format(domain))
+        rating += sub_rating
 
-        if 'HTTPS-REDIRECT' in result_dict[domain]['schemes'] or 'HTTPS-REDIRECT*' in result_dict[domain]['schemes']:
-            sub_rating = Rating(_, review_show_improvements_only)
-            sub_rating.set_overall(5.0)
-            sub_rating.set_integrity_and_security(5.0)
-            rating += sub_rating
+    if 'HTTPS-REDIRECT' in result_dict[domain]['schemes'] or 'HTTPS-REDIRECT*' in result_dict[domain]['schemes']:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(5.0)
+        sub_rating.set_integrity_and_security(5.0)
+        rating += sub_rating
 
-            sub_rating = Rating(_, review_show_improvements_only)
-            sub_rating.set_overall(5.0)
-            sub_rating.set_standards(5.0)
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(5.0)
+        sub_rating.set_standards(5.0)
+    return rating
 
-        if 'HSTS' in result_dict[domain]['features']:
-            sub_rating = Rating(_, review_show_improvements_only)
-            sub_rating.set_overall(5.0)
-            sub_rating.set_standards(5.0)
+def rate_dnssec(result_dict, _, domain):
+    rating = Rating(_, review_show_improvements_only)
+    if 'DNSSEC' in result_dict[domain]['features']:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(5.0)
+        sub_rating.set_integrity_and_security(5.0)
+        sub_rating.set_standards(5.0)
+        rating += sub_rating
+    elif 'DNSSEC-IGNORE' in result_dict[domain]['features']:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(5.0)
+        sub_rating.set_integrity_and_security(5.0)
+        sub_rating.set_standards(5.0)
+        rating += sub_rating
+    else:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(1.0)
+        sub_rating.set_integrity_and_security(1.0, '- {0}, No DNSSEC support'.format(domain))
+        sub_rating.set_standards(1.0, '- {0}, No DNSSEC support'.format(domain))
+        rating += sub_rating
+    return rating
 
-            if 'INVALIDATE-HSTS' in result_dict[domain]['features']:
-                sub_rating.set_overall(1.5)
-                sub_rating.set_integrity_and_security(1.5, '- {0}, Is NOT using HSTS because of redirect'.format(domain))
-                sub_rating.set_standards(1.5, '- {0}, Is NOT using HSTS because of redirect'.format(domain))
-            elif 'HSTS-HEADER-PRELOAD-FOUND' in result_dict[domain]['features'] and ('HSTS-PRELOAD' in result_dict[domain]['features'] or 'HSTS-PRELOAD*' in result_dict[domain]['features']):
-                sub_rating.set_integrity_and_security(5.0)
-            elif 'HSTS-HEADER-MAXAGE-1YEAR' in result_dict[domain]['features']:
-                sub_rating.set_integrity_and_security(4.99, '- {0}, You might want to use "preload" in HSTS'.format(domain))
-            elif 'HSTS-HEADER-MAXAGE-TOO-LOW' in result_dict[domain]['features']:
-                sub_rating.set_overall(4.5)
-                sub_rating.set_integrity_and_security(4.0, '- {0}, max-age used in HSTS is less than 1 year'.format(domain))
-            elif 'HSTS-HEADER-MAXAGE-6MONTHS' in result_dict[domain]['features']:
-                sub_rating.set_overall(4.0)
-                sub_rating.set_integrity_and_security(3.0, '- {0}, max-age used in HSTS is less than 6 months'.format(domain))
-            elif 'HSTS-HEADER-MAXAGE-1MONTH' in result_dict[domain]['features']:
-                sub_rating.set_overall(3.5)
-                sub_rating.set_integrity_and_security(2.0, '- {0}, max-age used in HSTS is less than 1 month'.format(domain))
-            else:
-                sub_rating.set_overall(3.0)
-                sub_rating.set_integrity_and_security(1.0, '- {0}, max-age is missing in HSTS'.format(domain))
-            rating += sub_rating
-        elif 'HSTS-HEADER-ON-PARENTDOMAIN-FOUND' in result_dict[domain]['features'] and 'INVALIDATE-HSTS' not in result_dict[domain]['features']:
-            sub_rating = Rating(_, review_show_improvements_only)
-            sub_rating.set_overall(5.0)
-            sub_rating.set_standards(4.99, '- {0}, Only parent HSTS used, child should also use HSTS'.format(domain))
-            sub_rating.set_integrity_and_security(4.99, '- {0}, Only parent HSTS used, child should also use HSTS'.format(domain))
-            rating += sub_rating
-        else:
-            sub_rating = Rating(_, review_show_improvements_only)
-            sub_rating.set_overall(1.0)
-            sub_rating.set_standards(1.0, '- {0}, Is NOT using HSTS'.format(domain))
-            sub_rating.set_integrity_and_security(1.0, '- {0}, Is NOT using HSTS'.format(domain))
-            rating += sub_rating
+def rate_protocols(result_dict, _, domain):
+    rating = Rating(_, review_show_improvements_only)
+    if 'HTTP/1.1' in result_dict[domain]['protocols']:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(5.0)
+        sub_rating.set_standards(5.0)
+        rating += sub_rating
+    else:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(1.0)
+        sub_rating.set_standards(1.0, '- {0}, No HTTP/1.1 support'.format(domain))
+        rating += sub_rating
 
-        if 'IPv4' in result_dict[domain]['ip-versions'] or 'IPv4*' in result_dict[domain]['ip-versions']:
-            sub_rating = Rating(_, review_show_improvements_only)
-            sub_rating.set_overall(5.0)
-            sub_rating.set_standards(5.0)
-            rating += sub_rating
-        else:
-            sub_rating = Rating(_, review_show_improvements_only)
-            sub_rating.set_overall(1.0)
-            sub_rating.set_standards(1.0, '- {0}, No IPv4 support'.format(domain))
-            rating += sub_rating
+    if 'HTTP/2' in result_dict[domain]['protocols']:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(5.0)
+        sub_rating.set_standards(5.0)
+        rating += sub_rating
+    else:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(1.0)
+        sub_rating.set_standards(1.0, '- {0}, No HTTP/2 support'.format(domain))
+        rating += sub_rating
 
-        if 'IPv6' in result_dict[domain]['ip-versions'] or 'IPv6*' in result_dict[domain]['ip-versions']:
-            sub_rating = Rating(_, review_show_improvements_only)
-            sub_rating.set_overall(5.0)
-            sub_rating.set_standards(5.0)
-            rating += sub_rating
-        else:
-            sub_rating = Rating(_, review_show_improvements_only)
-            sub_rating.set_overall(1.0)
-            sub_rating.set_standards(1.0, '- {0}, No IPv6 support'.format(domain))
-            rating += sub_rating
-
-        if 'TLSv1.3' in result_dict[domain]['transport-layers']:
-            sub_rating = Rating(_, review_show_improvements_only)
-            sub_rating.set_overall(5.0)
-            sub_rating.set_standards(5.0)
-            sub_rating.set_integrity_and_security(5.0)
-            rating += sub_rating
-        else:
-            sub_rating = Rating(_, review_show_improvements_only)
-            sub_rating.set_overall(1.0)
-            sub_rating.set_standards(1.0, '- {0}, No support for transport layer: TLSv1.3'.format(domain))
-            sub_rating.set_integrity_and_security(1.0, '- {0}, No support for transport layer: TLSv1.3'.format(domain))
-            rating += sub_rating
-
-        if 'TLSv1.2' in result_dict[domain]['transport-layers']:
-            sub_rating = Rating(_, review_show_improvements_only)
-            sub_rating.set_overall(5.0)
-            sub_rating.set_standards(5.0)
-            sub_rating.set_integrity_and_security(5.0)
-            rating += sub_rating
-        else:
-            sub_rating = Rating(_, review_show_improvements_only)
-            sub_rating.set_overall(1.0)
-            sub_rating.set_standards(1.0, '- {0}, No support for transport layer: TLSv1.2'.format(domain))
-            sub_rating.set_integrity_and_security(1.0, '- {0}, No support for transport layer: TLSv1.2'.format(domain))
-            rating += sub_rating
-
-        if 'TLSv1.1' in result_dict[domain]['transport-layers']:
-            sub_rating = Rating(_, review_show_improvements_only)
-            sub_rating.set_overall(1.0)
-            sub_rating.set_integrity_and_security(1.0, '- {0}, Support insecure transport layer: TLSv1.1'.format(domain))
-            rating += sub_rating
-        else:
-            sub_rating = Rating(_, review_show_improvements_only)
-            sub_rating.set_overall(5.0)
-            sub_rating.set_integrity_and_security(5.0)
-            rating += sub_rating
-
-        if 'TLSv1.0' in result_dict[domain]['transport-layers']:
-            sub_rating = Rating(_, review_show_improvements_only)
-            sub_rating.set_overall(1.0)
-            sub_rating.set_integrity_and_security(1.0, '- {0}, Support insecure transport layer: TLSv1.0'.format(domain))
-            rating += sub_rating
-        else:
-            sub_rating = Rating(_, review_show_improvements_only)
-            sub_rating.set_overall(5.0)
-            sub_rating.set_integrity_and_security(5.0)
-            rating += sub_rating
-
+    if 'HTTP/3' in result_dict[domain]['protocols']:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(5.0)
+        sub_rating.set_standards(5.0)
+        rating += sub_rating
+    else:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(1.0)
+        sub_rating.set_standards(1.0, '- {0}, No HTTP/3 support'.format(domain))
+        rating += sub_rating
     return rating
 
 def cleanup(result_dict):
     for domain in result_dict.keys():
         del result_dict[domain]['urls']
+        for subkey, subvalue in result_dict[domain].items():
+            result_dict[domain][subkey].extend(subvalue)
+            result_dict[domain][subkey] = sorted(list(set(result_dict[domain][subkey])))
     return result_dict
 
 def merge_dicts(dict1, dict2):
@@ -347,6 +414,7 @@ def rate_url(filename):
 
             o = urllib.parse.urlparse(req_url)
             req_domain = o.hostname
+            req_scheme = o.scheme.lower()
 
             if req_domain not in result:
                 result[req_domain] = {
@@ -421,7 +489,7 @@ def rate_url(filename):
                 elif 'location' in name:
                     if value.startswith('https://{0}'.format(req_domain)):
                         result[req_domain]['schemes'].append('HTTPS-REDIRECT')
-                    elif value.startswith('https://'):
+                    elif value.startswith('https://') and req_scheme == 'http':
                         result[req_domain]['schemes'].append('HTTPS-REDIRECT-OTHERDOMAIN')
                         result[req_domain]['features'].append('INVALIDATE-HSTS')
                     elif value.startswith('http://{0}'.format(req_domain)):
@@ -435,7 +503,32 @@ def rate_url(filename):
                         result[req_domain]['features'].append('INVALIDATE-HSTS')
 
                     # result[req_domain]['features'].append('LOCATION:{0}'.format(value))
+                elif 'content-security-policy' in name:
+                    result[req_domain]['features'].append('CSP-HEADER-FOUND')
+                    result = check_csp(value, req_domain, result)
+                elif 'x-content-security-policy' in name or 'x-webkit-csp' in name:
+                    result[req_domain]['features'].append('CSP-HEADER-FOUND')
+                    result[req_domain]['features'].append('CSP-DEPRECATED')
+                    result = check_csp(value, req_domain, result)
+                # TODO: Add CSP Metatag support
 
+            if 'content' in res and 'text' in res['content']:
+                if 'mimeType' in res['content'] and 'text/html' in res['content']['mimeType']:
+                    result[req_domain]['features'].append('HTML-FOUND')
+                    content = res['content']['text']
+                    regex = r'<meta http-equiv=\"(?P<name>Content-Security-Policy)\" content=\"(?P<value>[^\"]{5,1000})\"'
+                    matches = re.finditer(regex, content, re.MULTILINE)
+                    for matchNum, match in enumerate(matches, start=1):
+                        name2 = match.group('name').lower()
+                        value2 = match.group('value').replace('&#39;', '\'')
+
+                        if 'content-security-policy' in name2:
+                            result[req_domain]['features'].append('CSP-META-FOUND')
+                            result = check_csp(value2, req_domain, result)
+                        elif 'x-content-security-policy' in name2:
+                            result[req_domain]['features'].append('CSP-META-FOUND')
+                            result[req_domain]['features'].append('CSP-DEPRECATED')
+                            result = check_csp(value2, req_domain, result)
 
 
             result[req_domain]['protocols'] = list(set(result[req_domain]['protocols']))
@@ -1247,6 +1340,58 @@ def contains_value_for_all(result_dict, key, value):
         if key not in result_dict[domain] or value not in result_dict[domain][key]:
             has_value = False
     return has_value
+
+def check_csp(content, domain, result_dict):
+    print('CSP', domain, content)
+    # https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
+
+    # TODO: Handle invalid formated CSP, example: https://www.imy.se/ (uses "&#39;" for "'" in some places)?
+
+    regex = r'(?P<name>(default-src|script-src|style-src|font-src|connect-src|frame-src|img-src|media-src|frame-ancestors|base-uri|form-action|block-all-mixed-content|child-src|connect-src|fenced-frame-src|font-src|img-src|manifest-src|media-src|object-src|plugin-types|prefetch-src|referrer|report-sample|report-to|report-uri|require-trusted-types-for|sandbox|script-src-attr|script-src-elem|strict-dynamic|style-src-attr|style-src-elem|trusted-types|unsafe-hashes|upgrade-insecure-requests|worker-src)) (?P<value>[^;]{5,1000})[;]{0,1}'
+    matches = re.finditer(regex, content, re.MULTILINE | re.IGNORECASE)
+    for matchNum, match in enumerate(matches, start=1):
+        name = match.group('name')
+        value = match.group('value')
+        result_dict[domain]['features'].append('CSP-POLICY-{0}-FOUND'.format(name.upper()))
+
+        # Deprecated policies (According to https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
+        if name == 'plugin-types' or name == 'prefetch-src' or name == 'referrer' or name == 'report-uri':
+            result_dict[domain]['features'].append('CSP-DEPRECATED')
+            result_dict[domain]['features'].append('CSP-DEPRECATED-{0}'.format(name.upper()))
+
+        # tmp_name = name.replace('-src', '').replace('-uri', '').upper()
+        tmp_name = name.upper()
+
+        if "'none'" in value:
+            result_dict[domain]['features'].append('CSP-USE-NONE')
+            result_dict[domain]['features'].append('CSP-USE-NONE-{0}'.format(tmp_name))
+        if "'self'" in value:
+            result_dict[domain]['features'].append('CSP-USE-SELF')
+            result_dict[domain]['features'].append('CSP-USE-SELF-{0}'.format(tmp_name))
+        if "'nonce-" in value:
+            result_dict[domain]['features'].append('CSP-USE-NONCE')
+            result_dict[domain]['features'].append('CSP-USE-NONCE-{0}'.format(tmp_name))
+        if "sha256-" in value or "sha384-" in value or "sha512-" in value:
+            result_dict[domain]['features'].append('CSP-USE-SHA')
+            result_dict[domain]['features'].append('CSP-USE-SHA-{0}'.format(tmp_name))
+        if "'unsafe-eval'" in value or "'wasm-unsafe-eval'" in value or "'unsafe-hashes'" in value or "'unsafe-inline'" in value:
+            result_dict[domain]['features'].append('CSP-USE-UNSAFE')
+            result_dict[domain]['features'].append('CSP-USE-UNSAFE-{0}'.format(tmp_name))
+        if 'http://' in value or 'http:' in value:
+            result_dict[domain]['features'].append('CSP-USE-UNSAFE-HTTP')
+            result_dict[domain]['features'].append('CSP-USE-UNSAFE-HTTP-{0}'.format(tmp_name))
+        if 'ws://' in value or 'ws:' in value:
+            result_dict[domain]['features'].append('CSP-USE-UNSAFE-WS')
+            result_dict[domain]['features'].append('CSP-USE-UNSAFE-WS-{0}'.format(tmp_name))
+        if 'ftp://' in value or 'ftp:' in value:
+            result_dict[domain]['features'].append('CSP-USE-UNSAFE-FTP')
+            result_dict[domain]['features'].append('CSP-USE-UNSAFE-FTP-{0}'.format(tmp_name))
+        if 'https://' in value:
+            result_dict[domain]['features'].append('CSP-USE-HTTPS')
+            result_dict[domain]['features'].append('CSP-USE-HTTPS-{0}'.format(tmp_name))
+            # TODO: check urls: against domains (remember they can use *)?
+
+    return result_dict
 
 def check_http_version(url, result_dict):
 

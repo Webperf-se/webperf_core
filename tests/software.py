@@ -48,9 +48,9 @@ except:
     # If software_use_stealth variable is not set in config.py this will be the default
     use_stealth = True
 try:
-    use_detailed_report = config.software_use_detailed_report
+    use_detailed_report = config.use_detailed_report
 except:
-    # If software_use_detailed_report variable is not set in config.py this will be the default
+    # If use_detailed_report variable is not set in config.py this will be the default
     use_detailed_report = False
 
 # Debug flags for every category here, this so we can print out raw values (so we can add more allowed once)

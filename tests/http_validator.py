@@ -34,6 +34,7 @@ request_timeout = config.http_request_timeout
 useragent = config.useragent
 review_show_improvements_only = config.review_show_improvements_only
 sitespeed_use_docker = config.sitespeed_use_docker
+
 try:
     software_browser = config.software_browser
 except:
@@ -46,6 +47,11 @@ except:
     # If cache_when_possible variable is not set in config.py this will be the default
     use_cache = False
     cache_time_delta = timedelta(hours=1)
+try:
+    use_detailed_report = config.use_detailed_report
+except:
+    # If use_detailed_report variable is not set in config.py this will be the default
+    use_detailed_report = False
 
 
 def run_test(_, langCode, url):
@@ -118,7 +124,7 @@ def rate(org_domain, result_dict, _):
         # rating += rate_dnssec(result_dict, _, domain)
         rating += rate_schemas(result_dict, _, domain)
         rating += rate_hsts(result_dict, _, domain)
-        rating += rate_csp(org_domain, result_dict, _, org_www_domain, domain)
+        rating += rate_csp(result_dict, _, org_domain, org_www_domain, domain)
         rating += rate_ip_versions(result_dict, _, domain)
         rating += rate_transfer_layers(result_dict, _, domain)
 
@@ -200,7 +206,170 @@ def rate_ip_versions(result_dict, _, domain):
         rating += sub_rating
     return rating
 
-def rate_csp(org_domain, result_dict, _, org_www_domain, domain):
+def rate_csp(result_dict, _, org_domain, org_www_domain, domain):
+    rating = Rating(_, review_show_improvements_only)
+
+    if domain != org_domain and domain != org_www_domain:
+        return rating
+
+    # TODO: We should check if X-Frame-Options is used and adjust rating for setting 'frame-ancestors' directive to 'none' is similar to X-Frame-Options: deny (which is also supported in older browsers).
+    if 'CSP-HEADER-FOUND' in result_dict[domain]['features'] or 'CSP-META-FOUND' in result_dict[domain]['features']:
+        if 'CSP-UNSUPPORTED-IN-META' in result_dict[domain]['features']:
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(1.0)
+            sub_rating.set_standards(1.0, '- {0}, Using a CSP policy in meta-element that are not allowed'.format(domain))
+            rating += sub_rating
+
+        # default-src|script-src|style-src|font-src|connect-src|frame-src|img-src|media-src|frame-ancestors|base-uri|form-action|block-all-mixed-content|child-src|connect-src|fenced-frame-src|font-src|img-src|manifest-src|media-src|object-src|plugin-types|prefetch-src|referrer|report-to|report-uri|require-trusted-types-for|sandbox|script-src-attr|script-src-elem|strict-dynamic|style-src-attr|style-src-elem|trusted-types|unsafe-hashes|upgrade-insecure-requests|worker-src
+        supported_src_policies = ['default-src','script-src','style-src','font-src','connect-src','frame-src','img-src','media-src','frame-ancestors','base-uri','form-action','child-src','connect-src','font-src','img-src','manifest-src','media-src','object-src','script-src-attr','script-src-elem','style-src-attr','style-src-elem','worker-src']
+        other_supported_polices = ['report-to','sandbox','upgrade-insecure-requests']
+        experimental_policies = ['fenced-frame-src', 'require-trusted-types-for','inline-speculation-rules', 'trusted-types']
+        deprecated_policies = ['block-all-mixed-content','plugin-types','prefetch-src', 'referrer', 'report-uri']
+        for policy_name in deprecated_policies:
+            if policy_name in result_dict[domain]['csp-policies']:
+                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating.set_overall(1.0)
+                sub_rating.set_standards(1.0, '- {1}, Using deprecated CSP policy "{0}"'.format(policy_name, domain))
+                rating += sub_rating
+
+        for policy_name in supported_src_policies:
+            items = []
+            if policy_name in result_dict[domain]['csp-policies']:
+                items = result_dict[domain]['csp-policies'][policy_name]
+
+            # Handle general logic
+            hash_found = False
+            nonce_found = False
+            any_found = False
+            for value in items:
+                if "sha256-" in value or "sha384-" in value or "sha512-" in value:
+                    # TODO: Validate correct format ( '<hash-algorithm>-<base64-value>' )
+                    hash_found = True
+                    any_found = True
+                elif "'nonce-" in value:
+                    nonce_found = True
+                    any_found = True
+
+            if "'none'" in items:
+                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating.set_overall(5.0)
+                sub_rating.set_standards(5.0, '- {2}, CSP policy "{0}" is using "{1}"'.format(policy_name, "'none'", domain))
+                sub_rating.set_integrity_and_security(5.0, '- {2}, CSP policy "{0}" is using "{1}"'.format(policy_name, "'none'", domain))
+                rating += sub_rating
+                any_found = True
+
+            if hash_found:
+                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating.set_overall(5.0)
+                sub_rating.set_standards(5.0, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "sha[256/384/512]", domain))
+                sub_rating.set_integrity_and_security(5.0, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "sha[256/384/512]", domain))
+                rating += sub_rating
+
+            if nonce_found:
+                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating.set_overall(4.99)
+                sub_rating.set_standards(5.0, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "nonce", domain))
+                sub_rating.set_integrity_and_security(4.99, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "nonce", domain))
+                rating += sub_rating
+
+            if "'self'" in items:
+                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating.set_overall(3.0)
+                sub_rating.set_standards(5.0, '- {2}, CSP policy "{0}" is using "{1}"'.format(policy_name, "'self'", domain))
+                sub_rating.set_integrity_and_security(3.0, '- {2}, CSP policy "{0}" is using "{1}"'.format(policy_name, "'self'", domain))                
+                rating += sub_rating
+                any_found = True
+
+            if not any_found:
+                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating.set_overall(1.0)
+                sub_rating.set_integrity_and_security(1.0, '- {2}, CSP policy "{0}" is NOT using "{1}"'.format(policy_name, "'none', 'self' nonce or sha[256/384/512]", domain))
+                rating += sub_rating
+
+            # Handles unsafe sources
+            if "'unsafe-eval'" in items:
+                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating.set_overall(3.0)
+                sub_rating.set_integrity_and_security(1.0, '- {2}, CSP policy "{0}" is using "{1}"'.format(policy_name, "'unsafe-eval'", domain))                
+                rating += sub_rating
+
+            if "'wasm-unsafe-eval'" in items:
+                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating.set_overall(3.0)
+                sub_rating.set_integrity_and_security(1.0, '- {2}, CSP policy "{0}" is using "{1}"'.format(policy_name, "'wasm-unsafe-eval'", domain))                
+                rating += sub_rating
+
+            if "'unsafe-hashes'" in items:
+                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating.set_overall(3.0)
+                sub_rating.set_integrity_and_security(1.0, '- {2}, CSP policy "{0}" is using "{1}"'.format(policy_name, "'unsafe-hashes'", domain))                
+                rating += sub_rating
+
+            if "'unsafe-inline'" in items:
+                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating.set_overall(3.0)
+                sub_rating.set_integrity_and_security(1.0, '- {2}, CSP policy "{0}" is using "{1}"'.format(policy_name, "'unsafe-inline'", domain))                
+                rating += sub_rating
+
+            # Handle policy specific logic
+            if policy_name == 'base-uri':
+                if len(items) == 0:
+                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating.set_overall(5.0)
+                    sub_rating.set_standards(5.0)
+                    sub_rating.set_integrity_and_security(5.0)
+
+
+
+
+        # if 'CSP-DEPRECATED' in result_dict[domain]['features']:
+        #     sub_rating.set_overall(2.0)
+        #     sub_rating.set_standards(2.0, '- {0}, Uses deprecated CSP implementation'.format(domain))
+        #     sub_rating.set_integrity_and_security(2.0, '- {0}, Uses deprecated CSP implementation'.format(domain))
+        # elif 'CSP-USE-UNSAFE' in result_dict[domain]['features']:
+        #     sub_rating.set_overall(1.67)
+        #     sub_rating.set_standards(5.0)
+        #     sub_rating.set_integrity_and_security(1.5, '- {0}, Uses unsafe CSP policy'.format(domain))
+        # elif 'CSP-POLICY-DEFAULT-SRC-FOUND' not in result_dict[domain]['features']:
+        #     sub_rating.set_overall(3.0)
+        #     sub_rating.set_integrity_and_security(2.5, '- {0}, Is NOT using default-src CSP policy'.format(domain))
+        # elif 'CSP-POLICY-BASE-URI-FOUND' not in result_dict[domain]['features']:
+        #     sub_rating.set_overall(3.0)
+        #     sub_rating.set_integrity_and_security(2.5, '- {0}, Is NOT using base-uri CSP policy'.format(domain))
+        # elif 'CSP-POLICY-BLOCK-ALL-MIXED-CONTENT-FOUND' not in result_dict[domain]['features'] and 'CSP-POLICY-UPGRADE-INSECURE-REQUESTS-FOUND' not in result_dict[domain]['features'] and 'HTTP' in result_dict[domain]['schemes'] and ('HSTS' not in result_dict[domain]['features'] or 'INVALIDATE-HSTS' in result_dict[domain]['features']):
+        #     sub_rating.set_overall(4.0)
+        #     sub_rating.set_integrity_and_security(4.0, '- {0}, Is NOT prohibit HTTP request in CSP policy'.format(domain))
+        # elif 'CSP-POLICY-FORM-ACTION-FOUND' not in result_dict[domain]['features']:
+        #     sub_rating.set_overall(4.9)
+        #     sub_rating.set_integrity_and_security(4.9, '- {0}, Is NOT using form-action CSP policy, if you use form you should use this'.format(domain))
+
+        rating += sub_rating
+    elif 'HTML-FOUND' in result_dict[domain]['features'] and (domain == org_domain or domain == org_www_domain):
+        rating = Rating(_, review_show_improvements_only)
+        rating.set_overall(1.0)
+        rating.set_standards(1.0, '- {0}, Is NOT using CSP'.format(domain))
+        rating.set_integrity_and_security(1.0, '- {0}, Is NOT using CSP'.format(domain))
+
+    # return rating
+
+    final_rating = Rating(_, review_show_improvements_only)
+    if rating.is_set:
+        if use_detailed_report:
+            final_rating.set_overall(rating.get_overall())
+            final_rating.overall_review = rating.overall_review
+            final_rating.set_standards(rating.get_standards())
+            final_rating.standards_review = rating.standards_review
+            final_rating.set_integrity_and_security(rating.get_integrity_and_security())
+            final_rating.integrity_and_security_review = rating.integrity_and_security_review
+        else:
+            final_rating.set_overall(rating.get_overall())
+            final_rating.set_standards(rating.get_standards(), '- {0}, Content Security Policy (CSP)'.format(domain))
+            final_rating.set_integrity_and_security(rating.get_integrity_and_security(), '- {0}, Content Security Policy (CSP)'.format(domain))
+
+    return final_rating
+
+
+def rate_csp2(org_domain, result_dict, _, org_www_domain, domain):
     rating = Rating(_, review_show_improvements_only)
     if 'CSP-HEADER-FOUND' in result_dict[domain]['features'] or 'CSP-META-FOUND' in result_dict[domain]['features']:
         sub_rating = Rating(_, review_show_improvements_only)
@@ -240,6 +409,7 @@ def rate_csp(org_domain, result_dict, _, org_www_domain, domain):
 
 def rate_hsts(result_dict, _, domain):
     rating = Rating(_, review_show_improvements_only)
+    # https://scotthelme.co.uk/hsts-cheat-sheet/
     if 'HSTS' in result_dict[domain]['features']:
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(5.0)
@@ -374,8 +544,9 @@ def cleanup(result_dict):
     for domain in result_dict.keys():
         del result_dict[domain]['urls']
         for subkey, subvalue in result_dict[domain].items():
-            result_dict[domain][subkey].extend(subvalue)
-            result_dict[domain][subkey] = sorted(list(set(result_dict[domain][subkey])))
+            if subkey != 'csp-policies':
+                result_dict[domain][subkey].extend(subvalue)
+                result_dict[domain][subkey] = sorted(list(set(result_dict[domain][subkey])))
     return result_dict
 
 def merge_dicts(dict1, dict2):
@@ -387,8 +558,9 @@ def merge_dicts(dict1, dict2):
     for key, value in dict2.items():
         if key in dict1:
             for subkey, subvalue in value.items():
-                dict1[key][subkey].extend(subvalue)
-                dict1[key][subkey] = sorted(list(set(dict1[key][subkey])))
+                if subkey != 'csp-policies':
+                    dict1[key][subkey].extend(subvalue)
+                    dict1[key][subkey] = sorted(list(set(dict1[key][subkey])))
         else:
             dict1[key] = value
     return dict1
@@ -505,11 +677,11 @@ def rate_url(filename):
                     # result[req_domain]['features'].append('LOCATION:{0}'.format(value))
                 elif 'content-security-policy' in name:
                     result[req_domain]['features'].append('CSP-HEADER-FOUND')
-                    result = check_csp(value, req_domain, result)
+                    result = check_csp(value, req_domain, result, True)
                 elif 'x-content-security-policy' in name or 'x-webkit-csp' in name:
                     result[req_domain]['features'].append('CSP-HEADER-FOUND')
                     result[req_domain]['features'].append('CSP-DEPRECATED')
-                    result = check_csp(value, req_domain, result)
+                    result = check_csp(value, req_domain, result, True)
                 # TODO: Add CSP Metatag support
 
             if 'content' in res and 'text' in res['content']:
@@ -524,11 +696,11 @@ def rate_url(filename):
 
                         if 'content-security-policy' in name2:
                             result[req_domain]['features'].append('CSP-META-FOUND')
-                            result = check_csp(value2, req_domain, result)
+                            result = check_csp(value2, req_domain, result, False)
                         elif 'x-content-security-policy' in name2:
                             result[req_domain]['features'].append('CSP-META-FOUND')
                             result[req_domain]['features'].append('CSP-DEPRECATED')
-                            result = check_csp(value2, req_domain, result)
+                            result = check_csp(value2, req_domain, result, False)
 
 
             result[req_domain]['protocols'] = list(set(result[req_domain]['protocols']))
@@ -806,7 +978,7 @@ def check_dnssec(hostname, result_dict):
                                     '\ncache_when_possible: {0}'.format(config.cache_when_possible),
                                     '\ncache_time_delta: {0}'.format(config.cache_time_delta),
                                     '\nsoftware_use_stealth: {0}'.format(config.software_use_stealth),
-                                    '\nsoftware_use_detailed_report: {0}'.format(config.software_use_detailed_report),
+                                    '\nuse_detailed_report: {0}'.format(config.use_detailed_report),
                                     '\nsoftware_browser: {0}'.format(config.software_browser),
                                     '\n###############################################\n'
                                     ])
@@ -1087,7 +1259,7 @@ def check_dnssec2(hostname, result_dict):
                                     '\ncache_when_possible: {0}'.format(config.cache_when_possible),
                                     '\ncache_time_delta: {0}'.format(config.cache_time_delta),
                                     '\nsoftware_use_stealth: {0}'.format(config.software_use_stealth),
-                                    '\nsoftware_use_detailed_report: {0}'.format(config.software_use_detailed_report),
+                                    '\nuse_detailed_report: {0}'.format(config.use_detailed_report),
                                     '\nsoftware_browser: {0}'.format(config.software_browser),
                                     '\n###############################################\n'
                                     ])
@@ -1341,26 +1513,54 @@ def contains_value_for_all(result_dict, key, value):
             has_value = False
     return has_value
 
-def check_csp(content, domain, result_dict):
-    print('CSP', domain, content)
+def check_csp(content, domain, result_dict, is_from_response_header):
+    print('CSP', domain)
+    # print('CSP', domain, content)
     # https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
+    # https://scotthelme.co.uk/csp-cheat-sheet/
+    # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-ancestors
 
     # TODO: Handle invalid formated CSP, example: https://www.imy.se/ (uses "&#39;" for "'" in some places)?
 
-    regex = r'(?P<name>(default-src|script-src|style-src|font-src|connect-src|frame-src|img-src|media-src|frame-ancestors|base-uri|form-action|block-all-mixed-content|child-src|connect-src|fenced-frame-src|font-src|img-src|manifest-src|media-src|object-src|plugin-types|prefetch-src|referrer|report-sample|report-to|report-uri|require-trusted-types-for|sandbox|script-src-attr|script-src-elem|strict-dynamic|style-src-attr|style-src-elem|trusted-types|unsafe-hashes|upgrade-insecure-requests|worker-src)) (?P<value>[^;]{5,1000})[;]{0,1}'
+    if 'csp-policies' not in result_dict[domain]:
+        result_dict[domain]['csp-policies'] = {}
+
+    regex = r'(?P<name>(default-src|script-src|style-src|font-src|connect-src|frame-src|img-src|media-src|frame-ancestors|base-uri|form-action|block-all-mixed-content|child-src|connect-src|fenced-frame-src|font-src|img-src|manifest-src|media-src|object-src|plugin-types|prefetch-src|referrer|report-to|report-uri|require-trusted-types-for|sandbox|script-src-attr|script-src-elem|strict-dynamic|style-src-attr|style-src-elem|trusted-types|upgrade-insecure-requests|worker-src)) (?P<value>[^;]{5,1000})[;]{0,1}'
     matches = re.finditer(regex, content, re.MULTILINE | re.IGNORECASE)
     for matchNum, match in enumerate(matches, start=1):
         name = match.group('name')
         value = match.group('value')
         result_dict[domain]['features'].append('CSP-POLICY-{0}-FOUND'.format(name.upper()))
 
-        # Deprecated policies (According to https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
-        if name == 'plugin-types' or name == 'prefetch-src' or name == 'referrer' or name == 'report-uri':
-            result_dict[domain]['features'].append('CSP-DEPRECATED')
-            result_dict[domain]['features'].append('CSP-DEPRECATED-{0}'.format(name.upper()))
-
         # tmp_name = name.replace('-src', '').replace('-uri', '').upper()
         tmp_name = name.upper()
+        policy_name = name.lower()
+
+        # print('\t', tmp_name, '=', value)
+
+        if policy_name not in result_dict[domain]['csp-policies']:
+            result_dict[domain]['csp-policies'][policy_name] = list()
+
+        # Deprecated policies (According to https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
+        if policy_name == 'plugin-types' or policy_name == 'prefetch-src' or policy_name == 'referrer' or policy_name == 'report-uri':
+            result_dict[domain]['features'].append('CSP-DEPRECATED')
+            result_dict[domain]['features'].append('CSP-DEPRECATED-{0}'.format(tmp_name))
+
+        if not is_from_response_header and (policy_name == 'frame-ancestors' or policy_name == 'report-uri' or policy_name == 'sandbox'):
+            result_dict[domain]['features'].append('CSP-UNSUPPORTED-IN-META')
+            result_dict[domain]['features'].append('CSP-UNSUPPORTED-IN-META-{0}'.format(tmp_name))
+
+        values = value.split(' ')
+
+        # Add some sanity checks
+        for val in values:
+            if val.endswith('*'):
+                result_dict[domain]['csp-policies'][policy_name].append(val[:-1])
+            if val.startswith('*'):
+                result_dict[domain]['csp-policies'][policy_name].append(val[1:])
+
+        result_dict[domain]['csp-policies'][policy_name].extend(values)
+        result_dict[domain]['csp-policies'][policy_name] = sorted(list(set(result_dict[domain]['csp-policies'][policy_name])))
 
         if "'none'" in value:
             result_dict[domain]['features'].append('CSP-USE-NONE')
@@ -1391,7 +1591,55 @@ def check_csp(content, domain, result_dict):
             result_dict[domain]['features'].append('CSP-USE-HTTPS-{0}'.format(tmp_name))
             # TODO: check urls: against domains (remember they can use *)?
 
+
+    # Add default-src policies to all who uses it as fallback
+    if 'default-src' in result_dict[domain]['csp-policies']:
+        default_items = result_dict[domain]['csp-policies']['default-src']
+
+        append_csp_policy('child-src', default_items, domain, result_dict)
+        append_csp_policy('connect-src', default_items, domain, result_dict)
+        append_csp_policy('font-src', default_items, domain, result_dict)
+        append_csp_policy('frame-src', default_items, domain, result_dict)
+        append_csp_policy('img-src', default_items, domain, result_dict)
+        append_csp_policy('manifest-src', default_items, domain, result_dict)
+        append_csp_policy('media-src', default_items, domain, result_dict)
+        append_csp_policy('object-src', default_items, domain, result_dict)
+        # comment out as it it deprecated
+        # append_csp_policy('prefetch-src', default_items, domain, result_dict)
+        append_csp_policy('script-src', default_items, domain, result_dict)
+        append_csp_policy('script-src-elem', default_items, domain, result_dict)
+        append_csp_policy('script-src-attr', default_items, domain, result_dict)
+        append_csp_policy('style-src', default_items, domain, result_dict)
+        append_csp_policy('style-src-elem', default_items, domain, result_dict)
+        append_csp_policy('style-src-attr', default_items, domain, result_dict)
+        append_csp_policy('worker-src', default_items, domain, result_dict)
+
+    # Add child-src policies to all who uses it as fallback
+    if 'child-src' in result_dict[domain]['csp-policies']:
+        child_items = result_dict[domain]['csp-policies']['child-src']
+        append_csp_policy('frame-src', child_items, domain, result_dict)
+        append_csp_policy('worker-src', child_items, domain, result_dict)
+
+    # Add script-src policies to all who uses it as fallback
+    if 'script-src' in result_dict[domain]['csp-policies']:
+        script_items = result_dict[domain]['csp-policies']['script-src']
+        append_csp_policy('script-src-attr', script_items, domain, result_dict)
+        append_csp_policy('script-src-elem', script_items, domain, result_dict)
+        append_csp_policy('worker-src', script_items, domain, result_dict)
+
+    # Add style-src policies to all who uses it as fallback
+    if 'style-src' in result_dict[domain]['csp-policies']:
+        style_items = result_dict[domain]['csp-policies']['style-src']
+        append_csp_policy('style-src-attr', style_items, domain, result_dict)
+        append_csp_policy('style-src-elem', style_items, domain, result_dict)
+
     return result_dict
+
+def append_csp_policy(policy_name, items, domain, result_dict):
+    if policy_name not in result_dict[domain]['csp-policies']:
+        result_dict[domain]['csp-policies'][policy_name] = list()
+    result_dict[domain]['csp-policies'][policy_name].extend(items)
+    result_dict[domain]['csp-policies'][policy_name] = sorted(list(set(result_dict[domain]['csp-policies'][policy_name])))
 
 def check_http_version(url, result_dict):
 

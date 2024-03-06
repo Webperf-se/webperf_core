@@ -31,6 +31,7 @@ _local = gettext.gettext
 
 # DEFAULTS
 request_timeout = config.http_request_timeout
+sitespeed_timeout = config.sitespeed_timeout
 useragent = config.useragent
 review_show_improvements_only = config.review_show_improvements_only
 sitespeed_use_docker = config.sitespeed_use_docker
@@ -240,9 +241,9 @@ def rate_csp(result_dict, _, org_domain, org_www_domain, domain):
 
             # Handle general logic
             hash_found = False
-            nonce_found = False
+            nonce_items = []
             any_found = False
-            star_items = []
+            wildcard_items = []
             domain_items = []
             scheme_items = []
             for value in items:
@@ -251,11 +252,12 @@ def rate_csp(result_dict, _, org_domain, org_www_domain, domain):
                     hash_found = True
                     any_found = True
                 elif "'nonce-" in value:
-                    nonce_found = True
+                    # TODO: we should check nonce length as it should not be guessable.
+                    nonce_items.append(value)
                     any_found = True
                 else:
                     if '*' in value:
-                        star_items.append(value)
+                        wildcard_items.append(value)
                     if '.' in value:
                         domain_items.append(value)
                     scheme = re.match(r'^(?P<scheme>[a-z]+)\:', value)
@@ -277,11 +279,22 @@ def rate_csp(result_dict, _, org_domain, org_www_domain, domain):
                 sub_rating.set_integrity_and_security(5.0, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "sha[256/384/512]", domain))
                 rating += sub_rating
 
-            if nonce_found:
+            nof_nonces = len(nonce_items)
+            if nof_nonces > 0:
                 sub_rating = Rating(_, review_show_improvements_only)
-                sub_rating.set_overall(4.99)
-                sub_rating.set_standards(5.0, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "nonce", domain))
-                sub_rating.set_integrity_and_security(4.99, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "nonce", domain))
+                total_number_of_sitespeedruns = 6
+                if nof_nonces == 1:
+                    sub_rating.set_overall(1.0)
+                    sub_rating.set_standards(1.0, '- {2}, CSP policy "{0}" is reusing same {1}'.format(policy_name, "'nonce'", domain))
+                    sub_rating.set_integrity_and_security(1.0, '- {2}, CSP policy "{0}" is reusing same {1}'.format(policy_name, "'nonce'", domain))
+                elif nof_nonces > total_number_of_sitespeedruns:
+                    sub_rating.set_overall(4.99, '- {2}, CSP policy "{0}" is using multiple {1}'.format(policy_name, "'nonce's", domain))
+                    sub_rating.set_standards(5.0, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "nonce", domain))
+                    sub_rating.set_integrity_and_security(4.99, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "nonce", domain))
+                else:
+                    sub_rating.set_overall(4.99)
+                    sub_rating.set_standards(5.0, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "nonce", domain))
+                    sub_rating.set_integrity_and_security(4.99, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "nonce", domain))
                 rating += sub_rating
 
             if "'self'" in items:
@@ -299,16 +312,16 @@ def rate_csp(result_dict, _, org_domain, org_www_domain, domain):
                     rating += sub_rating
                 any_found = True
 
-            if 'star-items' not in result_dict[domain]['csp-policies']:
-                result_dict[domain]['csp-policies']['star-items'] = list()
-            star_items = list(set(star_items))
-            result_dict[domain]['csp-policies']['star-items'].extend(star_items)
-            result_dict[domain]['csp-policies']['star-items'] = sorted(list(set(result_dict[domain]['csp-policies']['star-items'])))
-            # print('star_items', domain, star_items)
-            if len(star_items) > 0:
+            if 'wildcard-items' not in result_dict[domain]['csp-policies']:
+                result_dict[domain]['csp-policies']['wildcard-items'] = list()
+            wildcard_items = list(set(wildcard_items))
+            result_dict[domain]['csp-policies']['wildcard-items'].extend(wildcard_items)
+            result_dict[domain]['csp-policies']['wildcard-items'] = sorted(list(set(result_dict[domain]['csp-policies']['wildcard-items'])))
+            # print('wildcard_items', domain, wildcard_items)
+            if len(wildcard_items) > 0:
                 sub_rating = Rating(_, review_show_improvements_only)
                 sub_rating.set_overall(2.0)
-                sub_rating.set_integrity_and_security(2.0, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "*-matching", domain))
+                sub_rating.set_integrity_and_security(2.0, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "wildcard(s)", domain))
                 rating += sub_rating
                 any_found = True
 
@@ -621,7 +634,10 @@ def cleanup(result_dict):
     for domain in result_dict.keys():
         del result_dict[domain]['urls']
         for subkey, subvalue in result_dict[domain].items():
-            if subkey != 'csp-policies':
+            if type(subvalue) == dict:
+                #if subkey == 'csp-policies':
+                a = 1
+            elif type(subvalue) == list:
                 result_dict[domain][subkey].extend(subvalue)
                 result_dict[domain][subkey] = sorted(list(set(result_dict[domain][subkey])))
     return result_dict
@@ -632,14 +648,20 @@ def merge_dicts(dict1, dict2):
     if dict2 == None:
         return dict1
 
-    for key, value in dict2.items():
-        if key in dict1:
-            for subkey, subvalue in value.items():
-                if subkey != 'csp-policies':
-                    dict1[key][subkey].extend(subvalue)
-                    dict1[key][subkey] = sorted(list(set(dict1[key][subkey])))
+    for domain, value in dict2.items():
+        if domain in dict1:
+            if type(value) == dict:
+                for subkey, subvalue in value.items():
+                    if type(subvalue) == dict:
+                        merge_dicts(dict1[domain][subkey], dict2[domain][subkey])
+                    elif type(subvalue) == list:
+                        dict1[domain][subkey].extend(subvalue)
+                        dict1[domain][subkey] = sorted(list(set(dict1[domain][subkey])))
+            elif type(value) == list:
+                dict1[domain].extend(value)
+                dict1[domain] = sorted(list(set(dict1[domain])))
         else:
-            dict1[key] = value
+            dict1[domain] = value
     return dict1
 
 def rate_url(filename):
@@ -1371,14 +1393,14 @@ def check_http_to_https(url):
     browser = 'firefox'
     configuration = ''
     print('HTTP2HTTPS')
-    result_dict = get_website_support_from_sitespeed(http_url, configuration, browser, request_timeout)
+    result_dict = get_website_support_from_sitespeed(http_url, configuration, browser, sitespeed_timeout)
 
     # If website redirects to www. domain without first redirecting to HTTPS, make sure we test it.
     if o_domain in result_dict:
         if 'HTTPS' not in result_dict[o_domain]['schemes']:
             result_dict[o_domain]['schemes'].append('HTTP-REDIRECT*')
             https_url = url.replace('http://', 'https://')
-            result_dict = merge_dicts(get_website_support_from_sitespeed(https_url, configuration, browser, request_timeout), result_dict)
+            result_dict = merge_dicts(get_website_support_from_sitespeed(https_url, configuration, browser, sitespeed_timeout), result_dict)
         else:
             result_dict[o_domain]['schemes'].append('HTTPS-REDIRECT*')
 
@@ -1395,7 +1417,7 @@ def check_http_to_https(url):
         if 'HTTP' not in result_dict[www_domain_key]['schemes']:
             result_dict[www_domain_key]['schemes'].append('HTTPS-REDIRECT*')
             www_http_url = http_url.replace(o_domain, www_domain_key)
-            result_dict = merge_dicts(get_website_support_from_sitespeed(www_http_url, configuration, browser, request_timeout), result_dict)
+            result_dict = merge_dicts(get_website_support_from_sitespeed(www_http_url, configuration, browser, sitespeed_timeout), result_dict)
         else:
             result_dict[www_domain_key]['schemes'].append('HTTP-REDIRECT*')
 
@@ -1774,21 +1796,21 @@ def check_http_version(url, result_dict):
         configuration = ' --firefox.preference network.http.http2.enabled:false --firefox.preference network.http.http3.enable:false'
         url2 = change_url_to_test_url(url, 'HTTPv1')
         print('HTTP/1.1')
-        result_dict = merge_dicts(get_website_support_from_sitespeed(url2, configuration, browser, request_timeout), result_dict)
+        result_dict = merge_dicts(get_website_support_from_sitespeed(url2, configuration, browser, sitespeed_timeout), result_dict)
 
     if not contains_value_for_all(result_dict, 'protocols', 'HTTP/2'):
         browser = 'firefox'
         configuration = ' --firefox.preference network.http.http2.enabled:true --firefox.preference network.http.http3.enable:false --firefox.preference network.http.version:3.0'
         url2 = change_url_to_test_url(url, 'HTTPv2')
         print('HTTP/2')
-        result_dict = merge_dicts(get_website_support_from_sitespeed(url2, configuration, browser, request_timeout), result_dict)
+        result_dict = merge_dicts(get_website_support_from_sitespeed(url2, configuration, browser, sitespeed_timeout), result_dict)
 
     if not contains_value_for_all(result_dict, 'protocols', 'HTTP/3'):
         browser = 'firefox'
         configuration = ' --firefox.preference network.http.http2.enabled:false --firefox.preference network.http.http3.enable:true --firefox.preference network.http.version:3.0'
         url2 = change_url_to_test_url(url, 'HTTPv3')
         print('HTTP/3')
-        result_dict = merge_dicts(get_website_support_from_sitespeed(url2, configuration, browser, request_timeout), result_dict)
+        result_dict = merge_dicts(get_website_support_from_sitespeed(url2, configuration, browser, sitespeed_timeout), result_dict)
 
     return result_dict
 

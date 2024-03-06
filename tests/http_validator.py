@@ -221,7 +221,8 @@ def rate_csp(result_dict, _, org_domain, org_www_domain, domain):
             rating += sub_rating
 
         # default-src|script-src|style-src|font-src|connect-src|frame-src|img-src|media-src|frame-ancestors|base-uri|form-action|block-all-mixed-content|child-src|connect-src|fenced-frame-src|font-src|img-src|manifest-src|media-src|object-src|plugin-types|prefetch-src|referrer|report-to|report-uri|require-trusted-types-for|sandbox|script-src-attr|script-src-elem|strict-dynamic|style-src-attr|style-src-elem|trusted-types|unsafe-hashes|upgrade-insecure-requests|worker-src
-        supported_src_policies = ['default-src','script-src','style-src','font-src','connect-src','frame-src','img-src','media-src','frame-ancestors','base-uri','form-action','child-src','connect-src','font-src','img-src','manifest-src','media-src','object-src','script-src-attr','script-src-elem','style-src-attr','style-src-elem','worker-src']
+        supported_src_policies = ['default-src','script-src','style-src','font-src','connect-src','frame-src','img-src','media-src','frame-ancestors','base-uri','form-action','child-src','manifest-src','object-src','script-src-attr','script-src-elem','style-src-attr','style-src-elem','worker-src']
+        self_allowed_policies = ['font-src','connect-src','frame-src','img-src','media-src','frame-ancestors','base-uri','form-action','child-src','manifest-src']
         other_supported_polices = ['report-to','sandbox','upgrade-insecure-requests']
         experimental_policies = ['fenced-frame-src', 'require-trusted-types-for','inline-speculation-rules', 'trusted-types']
         deprecated_policies = ['block-all-mixed-content','plugin-types','prefetch-src', 'referrer', 'report-uri']
@@ -241,6 +242,9 @@ def rate_csp(result_dict, _, org_domain, org_www_domain, domain):
             hash_found = False
             nonce_found = False
             any_found = False
+            star_items = []
+            domain_items = []
+            scheme_items = []
             for value in items:
                 if "sha256-" in value or "sha384-" in value or "sha512-" in value:
                     # TODO: Validate correct format ( '<hash-algorithm>-<base64-value>' )
@@ -249,6 +253,14 @@ def rate_csp(result_dict, _, org_domain, org_www_domain, domain):
                 elif "'nonce-" in value:
                     nonce_found = True
                     any_found = True
+                else:
+                    if '*' in value:
+                        star_items.append(value)
+                    if '.' in value:
+                        domain_items.append(value)
+                    scheme = re.match(r'^(?P<scheme>[a-z]+)\:', value)
+                    if scheme != None:
+                        scheme_items.append(scheme.group('scheme'))
 
             if "'none'" in items:
                 sub_rating = Rating(_, review_show_improvements_only)
@@ -273,41 +285,106 @@ def rate_csp(result_dict, _, org_domain, org_www_domain, domain):
                 rating += sub_rating
 
             if "'self'" in items:
+                if policy_name in self_allowed_policies:
+                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating.set_overall(5.0)
+                    sub_rating.set_standards(5.0, '- {2}, CSP policy "{0}" is using "{1}"'.format(policy_name, "'self'", domain))
+                    sub_rating.set_integrity_and_security(5.0, '- {2}, CSP policy "{0}" is using "{1}"'.format(policy_name, "'self'", domain))                
+                    rating += sub_rating
+                else:
+                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating.set_overall(3.0)
+                    sub_rating.set_standards(5.0, '- {2}, CSP policy "{0}" is using "{1}"'.format(policy_name, "'self'", domain))
+                    sub_rating.set_integrity_and_security(3.0, '- {2}, CSP policy "{0}" is using "{1}"'.format(policy_name, "'self'", domain))                
+                    rating += sub_rating
+                any_found = True
+
+            if 'star-items' not in result_dict[domain]['csp-policies']:
+                result_dict[domain]['csp-policies']['star-items'] = list()
+            star_items = list(set(star_items))
+            result_dict[domain]['csp-policies']['star-items'].extend(star_items)
+            result_dict[domain]['csp-policies']['star-items'] = sorted(list(set(result_dict[domain]['csp-policies']['star-items'])))
+            # print('star_items', domain, star_items)
+            if len(star_items) > 0:
                 sub_rating = Rating(_, review_show_improvements_only)
-                sub_rating.set_overall(3.0)
-                sub_rating.set_standards(5.0, '- {2}, CSP policy "{0}" is using "{1}"'.format(policy_name, "'self'", domain))
-                sub_rating.set_integrity_and_security(3.0, '- {2}, CSP policy "{0}" is using "{1}"'.format(policy_name, "'self'", domain))                
+                sub_rating.set_overall(2.0)
+                sub_rating.set_integrity_and_security(2.0, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "*-matching", domain))
                 rating += sub_rating
+                any_found = True
+
+            if 'domain-items' not in result_dict[domain]['csp-policies']:
+                result_dict[domain]['csp-policies']['domain-items'] = list()
+            domain_items = list(set(domain_items))
+            result_dict[domain]['csp-policies']['domain-items'].extend(domain_items)
+            result_dict[domain]['csp-policies']['domain-items'] = sorted(list(set(result_dict[domain]['csp-policies']['domain-items'])))
+            # print('domain_items', domain, domain_items)
+            nof_domains = len(domain_items)
+            if nof_domains > 0:
+                # TODO: rate subdomains of org_domain the same as self.
+                if nof_domains > 15:
+                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating.set_overall(1.5)
+                    sub_rating.set_integrity_and_security(1.5, '- {2}, CSP policy "{0}" is using {1} with over 15 domains '.format(policy_name, "domain matching", domain))
+                    rating += sub_rating
+                    
+                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating.set_overall(2.5)
+                sub_rating.set_integrity_and_security(2.5, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "domain matching", domain))
+                rating += sub_rating
+                any_found = True
+
+            if 'scheme-items' not in result_dict[domain]['csp-policies']:
+                result_dict[domain]['csp-policies']['scheme-items'] = list()
+            scheme_items = list(set(scheme_items))
+            result_dict[domain]['csp-policies']['scheme-items'].extend(scheme_items)
+            result_dict[domain]['csp-policies']['scheme-items'] = sorted(list(set(result_dict[domain]['csp-policies']['scheme-items'])))
+            # print('scheme_items', domain, scheme_items)
+            if len(scheme_items) > 0:
+                if 'ws' in scheme_items:
+                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating.set_overall(1.0)
+                    sub_rating.set_integrity_and_security(1.0, '- {2}, CSP policy "{0}" is using unsafe scheme "{1}"'.format(policy_name, "ws", domain))
+                    rating += sub_rating
+                if 'http' in scheme_items:
+                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating.set_overall(1.0)
+                    sub_rating.set_integrity_and_security(1.0, '- {2}, CSP policy "{0}" is using unsafe scheme "{1}"'.format(policy_name, "http", domain))
+                    rating += sub_rating
+                if 'ftp' in scheme_items:
+                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating.set_overall(1.0)
+                    sub_rating.set_integrity_and_security(1.0, '- {2}, CSP policy "{0}" is using unsafe scheme "{1}"'.format(policy_name, "ftp", domain))
+                    rating += sub_rating
                 any_found = True
 
             if not any_found:
                 sub_rating = Rating(_, review_show_improvements_only)
                 sub_rating.set_overall(1.0)
-                sub_rating.set_integrity_and_security(1.0, '- {2}, CSP policy "{0}" is NOT using "{1}"'.format(policy_name, "'none', 'self' nonce or sha[256/384/512]", domain))
+                sub_rating.set_integrity_and_security(1.0, '- {2}, CSP policy "{0}" is NOT using "{1}"'.format(policy_name, "'none', 'self' nonce, sha[256/384/512], domain or scheme", domain))
                 rating += sub_rating
 
             # Handles unsafe sources
             if "'unsafe-eval'" in items:
                 sub_rating = Rating(_, review_show_improvements_only)
-                sub_rating.set_overall(3.0)
+                sub_rating.set_overall(1.0)
                 sub_rating.set_integrity_and_security(1.0, '- {2}, CSP policy "{0}" is using "{1}"'.format(policy_name, "'unsafe-eval'", domain))                
                 rating += sub_rating
 
             if "'wasm-unsafe-eval'" in items:
                 sub_rating = Rating(_, review_show_improvements_only)
-                sub_rating.set_overall(3.0)
+                sub_rating.set_overall(1.0)
                 sub_rating.set_integrity_and_security(1.0, '- {2}, CSP policy "{0}" is using "{1}"'.format(policy_name, "'wasm-unsafe-eval'", domain))                
                 rating += sub_rating
 
             if "'unsafe-hashes'" in items:
                 sub_rating = Rating(_, review_show_improvements_only)
-                sub_rating.set_overall(3.0)
+                sub_rating.set_overall(1.0)
                 sub_rating.set_integrity_and_security(1.0, '- {2}, CSP policy "{0}" is using "{1}"'.format(policy_name, "'unsafe-hashes'", domain))                
                 rating += sub_rating
 
             if "'unsafe-inline'" in items:
                 sub_rating = Rating(_, review_show_improvements_only)
-                sub_rating.set_overall(3.0)
+                sub_rating.set_overall(1.0)
                 sub_rating.set_integrity_and_security(1.0, '- {2}, CSP policy "{0}" is using "{1}"'.format(policy_name, "'unsafe-inline'", domain))                
                 rating += sub_rating
 
@@ -439,7 +516,6 @@ def rate_hsts(result_dict, _, domain):
     elif 'HSTS-HEADER-ON-PARENTDOMAIN-FOUND' in result_dict[domain]['features'] and 'INVALIDATE-HSTS' not in result_dict[domain]['features']:
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(5.0)
-        sub_rating.set_standards(4.99, '- {0}, Only parent HSTS used, child should also use HSTS'.format(domain))
         sub_rating.set_integrity_and_security(4.99, '- {0}, Only parent HSTS used, child should also use HSTS'.format(domain))
         rating += sub_rating
     else:

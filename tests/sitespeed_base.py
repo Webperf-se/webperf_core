@@ -118,6 +118,8 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
 
     # print('DEBUG get_result_using_no_cache(arg)', arg)
     result = ''
+    process = None
+    process_failsafe_timeout = timeout * 10
     try:
         if sitespeed_use_docker:
             dir = Path(os.path.dirname(
@@ -126,13 +128,12 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
 
             # print('DEBUG get_result_using_no_cache(data_dir)', data_dir)
 
-            ms_timeout = timeout * 999
             bashCommand = "docker run --rm -v {1}:/sitespeed.io sitespeedio/sitespeed.io:latest --maxLoadTime {2} {0}".format(
-                arg, data_dir, ms_timeout)
+                arg, data_dir, timeout)
 
             import subprocess
             process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-            output, error = process.communicate(timeout=timeout)
+            output, error = process.communicate(timeout=process_failsafe_timeout)
 
             if error != None:
                 print('DEBUG get_result_using_no_cache(error)', error)
@@ -146,14 +147,13 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
         else:
             import subprocess
 
-            ms_timeout = timeout * 900
             bashCommand = "node node_modules{1}sitespeed.io{1}bin{1}sitespeed.js --maxLoadTime {2} {0}".format(
-                arg, os.path.sep, ms_timeout)
+                arg, os.path.sep, timeout)
 
             process = subprocess.Popen(
                 bashCommand.split(), stdout=subprocess.PIPE)
 
-            output, error = process.communicate(timeout=timeout)
+            output, error = process.communicate(timeout=process_failsafe_timeout)
             
             if error != None:
                 print('DEBUG get_result_using_no_cache(error)', error)
@@ -165,6 +165,9 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
             #else:
             # print('DEBUG get_result_using_no_cache(result)', '\n\t', result.replace('\\n', '\n\t'))
     except TimeoutExpired:
+        if process != None:
+            process.terminate()
+            process.kill()
         print('TIMEOUT!')
         return result
     return result

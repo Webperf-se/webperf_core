@@ -34,7 +34,7 @@ lighthouse_use_api = True
 sitespeed_use_docker = True
 
 # Tells sitespeed max timeout for website calls
-sitespeed_timeout = 300
+sitespeed_timeout = 120
 
 # how many iterations of Sitespeed.io requests would you like? Has to be at least 2 not to fail
 sitespeed_iterations = 2

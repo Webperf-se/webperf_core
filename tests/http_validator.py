@@ -694,7 +694,8 @@ def rate_url(filename):
                     'ip-versions': [],
                     'transport-layers': [],
                     'features': [],
-                    'urls': []
+                    'urls': [],
+                    'csp-policies': {}
                 }
 
             result[req_domain]['schemes'].append(o.scheme.upper())
@@ -1392,7 +1393,7 @@ def check_http_to_https(url):
 
     browser = 'firefox'
     configuration = ''
-    print('HTTP2HTTPS')
+    print('HTTP', o_domain)
     result_dict = get_website_support_from_sitespeed(http_url, configuration, browser, sitespeed_timeout)
 
     # If website redirects to www. domain without first redirecting to HTTPS, make sure we test it.
@@ -1400,6 +1401,7 @@ def check_http_to_https(url):
         if 'HTTPS' not in result_dict[o_domain]['schemes']:
             result_dict[o_domain]['schemes'].append('HTTP-REDIRECT*')
             https_url = url.replace('http://', 'https://')
+            print('HTTPS', o_domain)
             result_dict = merge_dicts(get_website_support_from_sitespeed(https_url, configuration, browser, sitespeed_timeout), result_dict)
         else:
             result_dict[o_domain]['schemes'].append('HTTPS-REDIRECT*')
@@ -1417,6 +1419,7 @@ def check_http_to_https(url):
         if 'HTTP' not in result_dict[www_domain_key]['schemes']:
             result_dict[www_domain_key]['schemes'].append('HTTPS-REDIRECT*')
             www_http_url = http_url.replace(o_domain, www_domain_key)
+            print('HTTP', www_domain_key)
             result_dict = merge_dicts(get_website_support_from_sitespeed(www_http_url, configuration, browser, sitespeed_timeout), result_dict)
         else:
             result_dict[www_domain_key]['schemes'].append('HTTP-REDIRECT*')
@@ -1620,9 +1623,6 @@ def check_csp(content, domain, result_dict, is_from_response_header):
     # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-ancestors
 
     # TODO: Handle invalid formated CSP, example: https://www.imy.se/ (uses "&#39;" for "'" in some places)?
-
-    if 'csp-policies' not in result_dict[domain]:
-        result_dict[domain]['csp-policies'] = {}
 
     regex = r'(?P<name>(default-src|script-src|style-src|font-src|connect-src|frame-src|img-src|media-src|frame-ancestors|base-uri|form-action|block-all-mixed-content|child-src|connect-src|fenced-frame-src|font-src|img-src|manifest-src|media-src|object-src|plugin-types|prefetch-src|referrer|report-to|report-uri|require-trusted-types-for|sandbox|script-src-attr|script-src-elem|strict-dynamic|style-src-attr|style-src-elem|trusted-types|upgrade-insecure-requests|worker-src)) (?P<value>[^;]{5,1000})[;]{0,1}'
     matches = re.finditer(regex, content, re.MULTILINE | re.IGNORECASE)

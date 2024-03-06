@@ -123,7 +123,7 @@ def rate(org_domain, result_dict, _):
         rating += rate_protocols(result_dict, _, domain)
         # rating += rate_dnssec(result_dict, _, domain)
         rating += rate_schemas(result_dict, _, domain)
-        rating += rate_hsts(result_dict, _, domain)
+        rating += rate_hsts(result_dict, _, org_domain, domain)
         rating += rate_csp(result_dict, _, org_domain, org_www_domain, domain)
         rating += rate_ip_versions(result_dict, _, domain)
         rating += rate_transfer_layers(result_dict, _, domain)
@@ -484,7 +484,7 @@ def rate_csp2(org_domain, result_dict, _, org_www_domain, domain):
         rating += sub_rating
     return rating
 
-def rate_hsts(result_dict, _, domain):
+def rate_hsts(result_dict, _, org_domain, domain):
     rating = Rating(_, review_show_improvements_only)
     # https://scotthelme.co.uk/hsts-cheat-sheet/
     if 'HSTS' in result_dict[domain]['features']:
@@ -499,7 +499,8 @@ def rate_hsts(result_dict, _, domain):
         elif 'HSTS-HEADER-PRELOAD-FOUND' in result_dict[domain]['features'] and ('HSTS-PRELOAD' in result_dict[domain]['features'] or 'HSTS-PRELOAD*' in result_dict[domain]['features']):
             sub_rating.set_integrity_and_security(5.0)
         elif 'HSTS-HEADER-MAXAGE-1YEAR' in result_dict[domain]['features']:
-            sub_rating.set_integrity_and_security(4.99, '- {0}, You might want to use "preload" in HSTS'.format(domain))
+            if domain == org_domain:
+                sub_rating.set_integrity_and_security(4.99, '- {0}, You might want to use "preload" in HSTS'.format(domain))
         elif 'HSTS-HEADER-MAXAGE-TOO-LOW' in result_dict[domain]['features']:
             sub_rating.set_overall(4.5)
             sub_rating.set_integrity_and_security(4.0, '- {0}, max-age used in HSTS is less than 1 year'.format(domain))

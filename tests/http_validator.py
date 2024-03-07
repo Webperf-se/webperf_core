@@ -358,7 +358,6 @@ def rate_csp(result_dict, _, org_domain, org_www_domain, domain):
             wildcard_org_domain = 'webperf-core-wildcard.{0}'.format(org_domain)
             subdomain_org_domain = '.{0}'.format(org_domain)
             if nof_domains > 0:
-                print('nOf domains', nof_domains)
                 # TODO: rate subdomains of org_domain the same as self.
                 for domain_item in domain_items:
                     # org_domain
@@ -385,10 +384,16 @@ def rate_csp(result_dict, _, org_domain, org_www_domain, domain):
                     result_dict[domain]['csp-policies']['wildcard-subdomain-items'].extend(wildcardsub_domain_items)
                     result_dict[domain]['csp-policies']['wildcard-subdomain-items'] = sorted(list(set(result_dict[domain]['csp-policies']['wildcard-subdomain-items'])))
 
-                    sub_rating = Rating(_, review_show_improvements_only)
-                    sub_rating.set_overall(2.7)
-                    sub_rating.set_integrity_and_security(2.7, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "wildcard subdomain of orgin", domain))
-                    rating += sub_rating
+                    if policy_name in self_allowed_policies:
+                        sub_rating = Rating(_, review_show_improvements_only)
+                        sub_rating.set_overall(5.0)
+                        sub_rating.set_integrity_and_security(5.0, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "wildcard subdomain of orgin", domain))
+                        rating += sub_rating
+                    else:
+                        sub_rating = Rating(_, review_show_improvements_only)
+                        sub_rating.set_overall(2.7)
+                        sub_rating.set_integrity_and_security(2.7, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "wildcard subdomain of orgin", domain))
+                        rating += sub_rating
 
                 if len(sub_domain_items) > 0:
                     for sub_domain in sub_domain_items:
@@ -401,10 +406,16 @@ def rate_csp(result_dict, _, org_domain, org_www_domain, domain):
                     result_dict[domain]['csp-policies']['subdomain-items'].extend(sub_domain_items)
                     result_dict[domain]['csp-policies']['subdomain-items'] = sorted(list(set(result_dict[domain]['csp-policies']['subdomain-items'])))
 
-                    sub_rating = Rating(_, review_show_improvements_only)
-                    sub_rating.set_overall(3.0)
-                    sub_rating.set_integrity_and_security(3.0, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "subdomain of orgin", domain))
-                    rating += sub_rating
+                    if policy_name in self_allowed_policies:
+                        sub_rating = Rating(_, review_show_improvements_only)
+                        sub_rating.set_overall(5.0)
+                        sub_rating.set_integrity_and_security(5.0, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "subdomain of orgin", domain))
+                        rating += sub_rating
+                    else:
+                        sub_rating = Rating(_, review_show_improvements_only)
+                        sub_rating.set_overall(3.0)
+                        sub_rating.set_integrity_and_security(3.0, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "subdomain of orgin", domain))
+                        rating += sub_rating
 
             if nof_domains > 0:
                 if nof_domains > 15:

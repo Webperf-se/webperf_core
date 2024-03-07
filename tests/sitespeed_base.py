@@ -104,7 +104,6 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
             cleanup_results_dir(filename_old, result_folder_name)
             return (result_folder_name, filename)
         else:
-            print('B')
             shutil.rmtree(result_folder_name)
             return (result_folder_name, '')
 
@@ -129,7 +128,7 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
             # print('DEBUG get_result_using_no_cache(data_dir)', data_dir)
 
             bashCommand = "docker run --rm -v {1}:/sitespeed.io sitespeedio/sitespeed.io:latest --maxLoadTime {2} {0}".format(
-                arg, data_dir, timeout)
+                arg, data_dir, timeout * 1000)
 
             import subprocess
             process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
@@ -148,7 +147,7 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
             import subprocess
 
             bashCommand = "node node_modules{1}sitespeed.io{1}bin{1}sitespeed.js --maxLoadTime {2} {0}".format(
-                arg, os.path.sep, timeout)
+                arg, os.path.sep, timeout * 1000)
 
             process = subprocess.Popen(
                 bashCommand.split(), stdout=subprocess.PIPE)

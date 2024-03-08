@@ -55,7 +55,7 @@ cache_time_delta = timedelta(hours=1)
 github_api_key = None
 
 # Tell tests to use detailed report (when available) for review and rating
-use_detailed_report = True
+use_detailed_report = False
 
 # Tell software test to use stealth mode or not, default is 'True'
 software_use_stealth = True

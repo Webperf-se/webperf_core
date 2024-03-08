@@ -1746,14 +1746,11 @@ def append_csp_policy(policy_name, items, domain, result_dict):
     if policy_name not in result_dict[domain]['csp-policies']:
         result_dict[domain]['csp-policies'][policy_name] = list()
 
-    # if 'none' is inherited but we already have settings, remove 'none'
-    if "'none'" in items and len(result_dict[domain]['csp-policies'][policy_name]) > 0:
-        tmp_items = list(items)
-        tmp_items.remove("'none'")
-        result_dict[domain]['csp-policies'][policy_name].extend(tmp_items)
-    else:
+    if len(items) == 0:
+        return
+    
+    if len(result_dict[domain]['csp-policies'][policy_name]) == 0:
         result_dict[domain]['csp-policies'][policy_name].extend(items)
-    result_dict[domain]['csp-policies'][policy_name] = sorted(list(set(result_dict[domain]['csp-policies'][policy_name])))
 
 def check_http_version(url, result_dict):
 

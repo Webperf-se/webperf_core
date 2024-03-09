@@ -87,7 +87,7 @@ msgstr "- {0}, Uses HTTPS redirect"
 msgid "TEXT_REVIEW_HSTS_INVALIDATE"
 msgstr "- {0}, Is NOT using HSTS because of redirect"
 
-msgid "TEXT_REVIEW_HSTS_PRELOAD"
+msgid "TEXT_REVIEW_HSTS_PRELOAD_FOUND"
 msgstr "- {0}, Is using 'preload' in HSTS and max-age of 1 year or more"
 
 msgid "TEXT_REVIEW_HSTS_PRELOAD_FOUND_AND_MAXAGE_1YEAR"

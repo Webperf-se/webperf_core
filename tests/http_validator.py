@@ -96,7 +96,7 @@ def run_test(_, langCode, url):
 
     result_dict = cleanup(result_dict)
 
-    rating = rate(hostname, result_dict, _)
+    rating = rate(hostname, result_dict, _, _local)
 
     nice_result = json.dumps(result_dict, indent=3)
     print('DEBUG TOTAL', nice_result)
@@ -106,7 +106,7 @@ def run_test(_, langCode, url):
 
     return (rating, result_dict)
 
-def rate(org_domain, result_dict, _):
+def rate(org_domain, result_dict, _, _local):
     rating = Rating(_, review_show_improvements_only)
 
     org_www_domain = 'www.{0}'.format(org_domain)
@@ -115,17 +115,17 @@ def rate(org_domain, result_dict, _):
         if type(result_dict[domain]) != dict:
             continue
 
-        rating += rate_protocols(result_dict, _, domain)
-        # rating += rate_dnssec(result_dict, _, domain)
-        rating += rate_schemas(result_dict, _, domain)
-        rating += rate_hsts(result_dict, _, org_domain, domain)
-        rating += rate_csp(result_dict, _, org_domain, org_www_domain, domain)
-        rating += rate_ip_versions(result_dict, _, domain)
-        rating += rate_transfer_layers(result_dict, _, domain)
+        rating += rate_protocols(result_dict, _, _local ,domain)
+        # rating += rate_dnssec(result_dict, _, _local, domain)
+        rating += rate_schemas(result_dict, _, _local, domain)
+        rating += rate_hsts(result_dict, _, _local, org_domain, domain)
+        rating += rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain)
+        rating += rate_ip_versions(result_dict, _, _local, domain)
+        rating += rate_transfer_layers(result_dict, _, _local, domain)
 
     return rating
 
-def rate_transfer_layers(result_dict, _, domain):
+def rate_transfer_layers(result_dict, _, _local, domain):
     rating = Rating(_, review_show_improvements_only)
     if type(result_dict[domain]) != dict:
         return rating
@@ -133,53 +133,53 @@ def rate_transfer_layers(result_dict, _, domain):
     if 'TLSv1.3' in result_dict[domain]['transport-layers']:
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(5.0)
-        sub_rating.set_standards(5.0, _('TEXT_REVIEW_TLS1_3_SUPPORT').format(domain))
-        sub_rating.set_integrity_and_security(5.0, _('TEXT_REVIEW_TLS1_3_SUPPORT').format(domain))
+        sub_rating.set_standards(5.0, _local('TEXT_REVIEW_TLS1_3_SUPPORT').format(domain))
+        sub_rating.set_integrity_and_security(5.0, _local('TEXT_REVIEW_TLS1_3_SUPPORT').format(domain))
         rating += sub_rating
     else:
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(1.0)
-        sub_rating.set_standards(1.0, _('TEXT_REVIEW_TLS1_3_NO_SUPPORT').format(domain))
-        sub_rating.set_integrity_and_security(1.0, _('TEXT_REVIEW_TLS1_3_NO_SUPPORT').format(domain))
+        sub_rating.set_standards(1.0, _local('TEXT_REVIEW_TLS1_3_NO_SUPPORT').format(domain))
+        sub_rating.set_integrity_and_security(1.0, _local('TEXT_REVIEW_TLS1_3_NO_SUPPORT').format(domain))
         rating += sub_rating
 
     if 'TLSv1.2' in result_dict[domain]['transport-layers']:
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(5.0)
-        sub_rating.set_standards(5.0, _('TEXT_REVIEW_TLS1_2_SUPPORT').format(domain))
-        sub_rating.set_integrity_and_security(5.0, _('TEXT_REVIEW_TLS1_2_SUPPORT').format(domain))
+        sub_rating.set_standards(5.0, _local('TEXT_REVIEW_TLS1_2_SUPPORT').format(domain))
+        sub_rating.set_integrity_and_security(5.0, _local('TEXT_REVIEW_TLS1_2_SUPPORT').format(domain))
         rating += sub_rating
     else:
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(1.0)
-        sub_rating.set_standards(1.0, _('TEXT_REVIEW_TLS1_2_NO_SUPPORT').format(domain))
-        sub_rating.set_integrity_and_security(1.0, _('TEXT_REVIEW_TLS1_2_NO_SUPPORT').format(domain))
+        sub_rating.set_standards(1.0, _local('TEXT_REVIEW_TLS1_2_NO_SUPPORT').format(domain))
+        sub_rating.set_integrity_and_security(1.0, _local('TEXT_REVIEW_TLS1_2_NO_SUPPORT').format(domain))
         rating += sub_rating
 
     if 'TLSv1.1' in result_dict[domain]['transport-layers']:
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(1.0)
-        sub_rating.set_integrity_and_security(1.0, _('TEXT_REVIEW_TLS1_1_SUPPORT').format(domain))
+        sub_rating.set_integrity_and_security(1.0, _local('TEXT_REVIEW_TLS1_1_SUPPORT').format(domain))
         rating += sub_rating
     else:
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(5.0)
-        sub_rating.set_integrity_and_security(5.0, _('TEXT_REVIEW_TLS1_1_NO_SUPPORT').format(domain))
+        sub_rating.set_integrity_and_security(5.0, _local('TEXT_REVIEW_TLS1_1_NO_SUPPORT').format(domain))
         rating += sub_rating
 
     if 'TLSv1.0' in result_dict[domain]['transport-layers']:
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(1.0)
-        sub_rating.set_integrity_and_security(1.0, _('TEXT_REVIEW_TLS1_0_SUPPORT').format(domain))
+        sub_rating.set_integrity_and_security(1.0, _local('TEXT_REVIEW_TLS1_0_SUPPORT').format(domain))
         rating += sub_rating
     else:
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(5.0)
-        sub_rating.set_integrity_and_security(5.0, _('TEXT_REVIEW_TLS1_0_NO_SUPPORT'))
+        sub_rating.set_integrity_and_security(5.0, _local('TEXT_REVIEW_TLS1_0_NO_SUPPORT').format(domain))
         rating += sub_rating
     return rating
 
-def rate_ip_versions(result_dict, _, domain):
+def rate_ip_versions(result_dict, _, _local, domain):
     rating = Rating(_, review_show_improvements_only)
     if type(result_dict[domain]) != dict:
         return rating
@@ -187,27 +187,27 @@ def rate_ip_versions(result_dict, _, domain):
     if 'IPv4' in result_dict[domain]['ip-versions'] or 'IPv4*' in result_dict[domain]['ip-versions']:
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(5.0)
-        sub_rating.set_standards(5.0, _('TEXT_REVIEW_IP_VERSION_IPV4_SUPPORT').format(domain))
+        sub_rating.set_standards(5.0, _local('TEXT_REVIEW_IP_VERSION_IPV4_SUPPORT').format(domain))
         rating += sub_rating
     else:
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(1.0)
-        sub_rating.set_standards(1.0, _('TEXT_REVIEW_IP_VERSION_IPV4_NO_SUPPORT').format(domain))
+        sub_rating.set_standards(1.0, _local('TEXT_REVIEW_IP_VERSION_IPV4_NO_SUPPORT').format(domain))
         rating += sub_rating
 
     if 'IPv6' in result_dict[domain]['ip-versions'] or 'IPv6*' in result_dict[domain]['ip-versions']:
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(5.0)
-        sub_rating.set_standards(5.0, _('TEXT_REVIEW_IP_VERSION_IPV6_SUPPORT').format(domain))
+        sub_rating.set_standards(5.0, _local('TEXT_REVIEW_IP_VERSION_IPV6_SUPPORT').format(domain))
         rating += sub_rating
     else:
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(1.0)
-        sub_rating.set_standards(1.0, _('TEXT_REVIEW_IP_VERSION_IPV6_NO_SUPPORT').format(domain))
+        sub_rating.set_standards(1.0, _local('TEXT_REVIEW_IP_VERSION_IPV6_NO_SUPPORT').format(domain))
         rating += sub_rating
     return rating
 
-def rate_csp(result_dict, _, org_domain, org_www_domain, domain):
+def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain):
     rating = Rating(_, review_show_improvements_only)
     if type(result_dict[domain]) != dict:
         return rating
@@ -264,6 +264,7 @@ def rate_csp(result_dict, _, org_domain, org_www_domain, domain):
                 any_found = True
 
             if len(policy_object['hashes']) > 0:
+                # TODO: Validate correct format ( '<hash-algorithm>-<base64-value>' )
                 sub_rating = Rating(_, review_show_improvements_only)
                 sub_rating.set_overall(5.0)
                 sub_rating.set_standards(5.0, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "sha[256/384/512]", domain))
@@ -271,9 +272,9 @@ def rate_csp(result_dict, _, org_domain, org_www_domain, domain):
                 rating += sub_rating
                 any_found = True
 
-
             nof_nonces = len(policy_object['nounces'])
             if nof_nonces > 0:
+                # TODO: we should check nonce length as it should not be guessable.
                 sub_rating = Rating(_, review_show_improvements_only)
                 if nof_nonces == 1 and total_number_of_sitespeedruns != nof_nonces:
                     sub_rating.set_overall(1.0)
@@ -440,7 +441,7 @@ def rate_csp(result_dict, _, org_domain, org_www_domain, domain):
     return final_rating
 
 
-def rate_hsts(result_dict, _, org_domain, domain):
+def rate_hsts(result_dict, _, _local, org_domain, domain):
     rating = Rating(_, review_show_improvements_only)
     if type(result_dict[domain]) != dict:
         return rating
@@ -485,7 +486,7 @@ def rate_hsts(result_dict, _, org_domain, domain):
         rating += sub_rating
     return rating
 
-def rate_schemas(result_dict, _, domain):
+def rate_schemas(result_dict, _, _local, domain):
     rating = Rating(_, review_show_improvements_only)
     if type(result_dict[domain]) != dict:
         return rating
@@ -520,7 +521,7 @@ def rate_schemas(result_dict, _, domain):
         sub_rating.set_standards(5.0)
     return rating
 
-def rate_dnssec(result_dict, _, domain):
+def rate_dnssec(result_dict, _, _local, domain):
     rating = Rating(_, review_show_improvements_only)
     if 'DNSSEC' in result_dict[domain]['features']:
         sub_rating = Rating(_, review_show_improvements_only)
@@ -542,7 +543,7 @@ def rate_dnssec(result_dict, _, domain):
         rating += sub_rating
     return rating
 
-def rate_protocols(result_dict, _, domain):
+def rate_protocols(result_dict, _, _local, domain):
     rating = Rating(_, review_show_improvements_only)
     if type(result_dict[domain]) != dict:
         return rating
@@ -550,34 +551,34 @@ def rate_protocols(result_dict, _, domain):
     if 'HTTP/1.1' in result_dict[domain]['protocols']:
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(5.0)
-        sub_rating.set_standards(5.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_SUPPORT').format(domain))
+        sub_rating.set_standards(5.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_SUPPORT').format(domain))
         rating += sub_rating
     else:
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(1.0)
-        sub_rating.set_standards(1.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_NO_SUPPORT').format(domain))
+        sub_rating.set_standards(1.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_NO_SUPPORT').format(domain))
         rating += sub_rating
 
     if 'HTTP/2' in result_dict[domain]['protocols']:
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(5.0)
-        sub_rating.set_standards(5.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_2_SUPPORT').format(domain))
+        sub_rating.set_standards(5.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_2_SUPPORT').format(domain))
         rating += sub_rating
     else:
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(1.0)
-        sub_rating.set_standards(1.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_2_NO_SUPPORT').format(domain))
+        sub_rating.set_standards(1.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_2_NO_SUPPORT').format(domain))
         rating += sub_rating
 
     if 'HTTP/3' in result_dict[domain]['protocols']:
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(5.0)
-        sub_rating.set_standards(5.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_3_SUPPORT').format(domain))
+        sub_rating.set_standards(5.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_3_SUPPORT').format(domain))
         rating += sub_rating
     else:
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(1.0)
-        sub_rating.set_standards(1.0, _('TEXT_REVIEW_HTTP_VERSION_HTTP_3_NO_SUPPORT').format(domain))
+        sub_rating.set_standards(1.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_3_NO_SUPPORT').format(domain))
         rating += sub_rating
     return rating
 
@@ -635,7 +636,7 @@ def host_source_2_url(host_source):
     return result
 
 
-def rate_url(filename, org_domain):
+def sitespeed_result_2_test_result(filename, org_domain):
 
     result = {
         'visits': 0
@@ -1574,10 +1575,7 @@ def get_website_support_from_sitespeed(url, org_domain, configuration, browser, 
     (result_folder_name, filename) = get_result(
         url, sitespeed_use_docker, sitespeed_arg, timeout)
     
-    result = rate_url(filename, org_domain)
-
-    # nice_result = json.dumps(result, indent=3)
-    # print('DEBUG', nice_result)
+    result = sitespeed_result_2_test_result(filename, org_domain)
 
     return result
 
@@ -1618,15 +1616,12 @@ def handle_csp_data(content, domain, result_dict, is_from_response_header, org_d
     # Add style-src policies to all who uses it as fallback
     ensure_csp_policy_fallbacks(domain, result_dict)
 
-    # nonce_items = []
-    # malformed_items = []
-    # wildcard_items = []
-    # domain_items = []
-    # sub_domain_items = []
-    # wildcardsub_domain_items = []
-    # scheme_items = []
-
     # convert polices to objects
+    convert_csp_policies_2_csp_objects(domain, result_dict, org_domain)
+
+    return result_dict
+
+def convert_csp_policies_2_csp_objects(domain, result_dict, org_domain):
     wildcard_org_domain = 'webperf-core-wildcard.{0}'.format(org_domain)
     subdomain_org_domain = '.{0}'.format(org_domain)
 
@@ -1635,13 +1630,11 @@ def handle_csp_data(content, domain, result_dict, is_from_response_header, org_d
         for value in items:
             policy_object['all'].append(value)
             if value == '' or (value.startswith("'") and not value.endswith("'")) or (value.endswith("'") and not value.startswith("'")):
-                # Malformed value, probably missing space or have one.
+                # Malformed value, probably missing space or have two.
                 policy_object['malformed'].append(value)
             elif value.startswith("'sha256-") or value.startswith("'sha384-") or value.startswith("'sha512-"):
-                # TODO: Validate correct format ( '<hash-algorithm>-<base64-value>' )
                 policy_object['hashes'].append(value)
             elif "'nonce-" in value:
-                # TODO: we should check nonce length as it should not be guessable.
                 policy_object['nounces'].append(value)
             else:
                 if '*' in value:
@@ -1670,10 +1663,6 @@ def handle_csp_data(content, domain, result_dict, is_from_response_header, org_d
             result_dict[domain]['csp-objects'][policy_name] = policy_object
         else:
             result_dict[domain]['csp-objects'][policy_name].update(policy_object)
-        # nice = json.dumps(policy_object, indent=3)
-        # print(policy_name, nice)
-
-    return result_dict
 
 def ensure_csp_policy_fallbacks(domain, result_dict):
     if 'style-src' in result_dict[domain]['csp-policies']:

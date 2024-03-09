@@ -449,40 +449,51 @@ def rate_hsts(result_dict, _, _local, org_domain, domain):
     if 'HSTS' in result_dict[domain]['features']:
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(5.0)
-        sub_rating.set_standards(5.0)
 
         if 'INVALIDATE-HSTS' in result_dict[domain]['features']:
             sub_rating.set_overall(1.5)
-            sub_rating.set_integrity_and_security(1.5, '- {0}, Is NOT using HSTS because of redirect'.format(domain))
-            sub_rating.set_standards(1.5, '- {0}, Is NOT using HSTS because of redirect'.format(domain))
+            sub_rating.set_integrity_and_security(1.5, _local('TEXT_REVIEW_HSTS_INVALIDATE').format(domain))
+            sub_rating.set_standards(1.5, _local('TEXT_REVIEW_HSTS_INVALIDATE').format(domain))
         elif 'HSTS-HEADER-PRELOAD-FOUND' in result_dict[domain]['features'] and ('HSTS-PRELOAD' in result_dict[domain]['features'] or 'HSTS-PRELOAD*' in result_dict[domain]['features']):
-            sub_rating.set_integrity_and_security(5.0)
+            sub_rating.set_standards(5.0)
+            sub_rating.set_integrity_and_security(5.0, _local('TEXT_REVIEW_HSTS_PRELOAD_FOUND').format(domain))
         elif 'HSTS-HEADER-MAXAGE-1YEAR' in result_dict[domain]['features']:
-            if domain == org_domain:
-                sub_rating.set_integrity_and_security(4.99, '- {0}, You might want to use "preload" in HSTS'.format(domain))
+            if 'HSTS-HEADER-PRELOAD-FOUND' in result_dict[domain]['features']:
+                sub_rating.set_standards(5.0)
+                sub_rating.set_integrity_and_security(5.0, _local('TEXT_REVIEW_HSTS_PRELOAD_FOUND_AND_MAXAGE_1YEAR').format(domain))
+            elif domain == org_domain:
+                sub_rating.set_standards(5.0)
+                sub_rating.set_integrity_and_security(4.95, _local('TEXT_REVIEW_HSTS_MAXAGE_1YEAR').format(domain))
+            else:
+                sub_rating.set_standards(5.0)
+                sub_rating.set_integrity_and_security(5.0, _local('TEXT_REVIEW_HSTS_MAXAGE_1YEAR').format(domain))
         elif 'HSTS-HEADER-MAXAGE-TOO-LOW' in result_dict[domain]['features']:
             sub_rating.set_overall(4.5)
-            sub_rating.set_integrity_and_security(4.0, '- {0}, max-age used in HSTS is less than 1 year'.format(domain))
+            sub_rating.set_standards(5.0)
+            sub_rating.set_integrity_and_security(4.0, _local('TEXT_REVIEW_HSTS_MAXAGE_TOO_LOW').format(domain))
         elif 'HSTS-HEADER-MAXAGE-6MONTHS' in result_dict[domain]['features']:
             sub_rating.set_overall(4.0)
-            sub_rating.set_integrity_and_security(3.0, '- {0}, max-age used in HSTS is less than 6 months'.format(domain))
+            sub_rating.set_standards(5.0)
+            sub_rating.set_integrity_and_security(3.0, _local('TEXT_REVIEW_HSTS_MAXAGE_6MONTHS').format(domain))
         elif 'HSTS-HEADER-MAXAGE-1MONTH' in result_dict[domain]['features']:
             sub_rating.set_overall(3.5)
-            sub_rating.set_integrity_and_security(2.0, '- {0}, max-age used in HSTS is less than 1 month'.format(domain))
+            sub_rating.set_standards(5.0)
+            sub_rating.set_integrity_and_security(2.0, _local('TEXT_REVIEW_HSTS_MAXAGE_1MONTH').format(domain))
         else:
             sub_rating.set_overall(3.0)
-            sub_rating.set_integrity_and_security(1.0, '- {0}, max-age is missing in HSTS'.format(domain))
+            sub_rating.set_standards(1.0, _local('TEXT_REVIEW_HSTS_MAXAGE_NOT_FOUND').format(domain))
+            sub_rating.set_integrity_and_security(1.0, _local('TEXT_REVIEW_HSTS_MAXAGE_NOT_FOUND').format(domain))
         rating += sub_rating
     elif 'HSTS-HEADER-ON-PARENTDOMAIN-FOUND' in result_dict[domain]['features'] and 'INVALIDATE-HSTS' not in result_dict[domain]['features']:
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(5.0)
-        sub_rating.set_integrity_and_security(4.99, '- {0}, Only parent HSTS used, child should also use HSTS'.format(domain))
+        sub_rating.set_integrity_and_security(4.99, _local('TEXT_REVIEW_HSTS_USE_PARENTDOMAIN').format(domain))
         rating += sub_rating
     else:
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(1.0)
-        sub_rating.set_standards(1.0, '- {0}, Is NOT using HSTS'.format(domain))
-        sub_rating.set_integrity_and_security(1.0, '- {0}, Is NOT using HSTS'.format(domain))
+        sub_rating.set_integrity_and_security(1.0, _local('TEXT_REVIEW_HSTS_NOT_FOUND').format(domain))
+        sub_rating.set_standards(1.0, _local('TEXT_REVIEW_HSTS_NOT_FOUND').format(domain))
         rating += sub_rating
     return rating
 

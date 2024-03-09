@@ -494,31 +494,27 @@ def rate_schemas(result_dict, _, _local, domain):
     if 'HTTPS' in result_dict[domain]['schemes']:
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(5.0)
-        sub_rating.set_integrity_and_security(5.0)
-        sub_rating.set_standards(5.0)
+        sub_rating.set_integrity_and_security(5.0, _local('TEXT_REVIEW_HTTPS_SUPPORT').format(domain))
+        sub_rating.set_standards(5.0, _local('TEXT_REVIEW_HTTPS_NO_SUPPORT').format(domain))
         rating += sub_rating
     else:
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(1.0)
-        sub_rating.set_integrity_and_security(1.0, '- {0}, No HTTPS support'.format(domain))
-        sub_rating.set_standards(1.0, '- {0}, No HTTPS support'.format(domain))
+        sub_rating.set_integrity_and_security(1.0, _local('TEXT_REVIEW_HTTPS_NO_SUPPORT').format(domain))
+        sub_rating.set_standards(1.0, _local('TEXT_REVIEW_HTTPS_NO_SUPPORT').format(domain))
         rating += sub_rating
 
     if 'HTTP-REDIRECT' in result_dict[domain]['schemes'] or 'HTTP-REDIRECT*' in result_dict[domain]['schemes']:
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(1.0)
-        sub_rating.set_integrity_and_security(1.0, '- {0}, Uses HTTP redirect'.format(domain))
+        sub_rating.set_integrity_and_security(1.0, _local('TEXT_REVIEW_HTTP_REDIRECT').format(domain))
         rating += sub_rating
 
     if 'HTTPS-REDIRECT' in result_dict[domain]['schemes'] or 'HTTPS-REDIRECT*' in result_dict[domain]['schemes']:
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(5.0)
-        sub_rating.set_integrity_and_security(5.0)
+        sub_rating.set_integrity_and_security(5.0, _local('TEXT_REVIEW_HTTPS_REDIRECT').format(domain))
         rating += sub_rating
-
-        sub_rating = Rating(_, review_show_improvements_only)
-        sub_rating.set_overall(5.0)
-        sub_rating.set_standards(5.0)
     return rating
 
 def rate_dnssec(result_dict, _, _local, domain):
@@ -634,7 +630,6 @@ def host_source_2_url(host_source):
         result = 'https://{0}'.format(result)
 
     return result
-
 
 def sitespeed_result_2_test_result(filename, org_domain):
 
@@ -783,7 +778,6 @@ def sitespeed_result_2_test_result(filename, org_domain):
     result['visits'] = 1
 
     return result
-
 
 def validate_dnssec(domain, domain_entry):
     # subdomain = 'static.internetstiftelsen.se'
@@ -962,7 +956,6 @@ def testdns(key, datatype, use_dnssec):
 
     return None
 
-
 def validate_rrsig_no_dnskey(domain, rrsig, domain_entry):
     nsname = '8.8.8.8'
     try:
@@ -1000,7 +993,6 @@ def validate_rrsig_no_dnskey(domain, rrsig, domain_entry):
     else:
         domain_entry['features'].append('DNSSEC')
         print('\t\tG.3 - VALIDATION SUCCESS\r\n')
-
 
 def validate_dnskey_and_rrsig(domain, dnskey, rrsig, domain_entry):
     nsname = '8.8.8.8'
@@ -1069,7 +1061,6 @@ def check_dnssec(hostname, result_dict):
         result_dict[name] = entry
         
     return result_dict
-
 
 def check_dnssec2(hostname, result_dict):
     print('DNSSEC')
@@ -1415,7 +1406,6 @@ def check_http_to_https(url):
                 result_dict[domain]['features'].append('HSTS-HEADER-ON-PARENTDOMAIN-FOUND')
 
     return result_dict
-
 
 def check_ip_version(result_dict):
     # network.dns.ipv4OnlyDomains

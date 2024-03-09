@@ -72,14 +72,17 @@ msgstr "- {0}, HTTPv3 support"
 msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_3_NO_SUPPORT"
 msgstr "- {0}, No HTTPv3 support"
 
-msgid "TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_UNABLE_TO_VERIFY"
-msgstr "- Unable to verify HTTP-to-HTTPS redirect"
+msgid "TEXT_REVIEW_HTTPS_SUPPORT"
+msgstr "- {0}, HTTPS support"
 
-msgid "TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_NO_REDIRECT"
-msgstr "- No HTTP-to-HTTPS redirect"
+msgid "TEXT_REVIEW_HTTPS_NO_SUPPORT"
+msgstr "- {0}, No HTTPS support"
 
-msgid "TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_REDIRECTED"
-msgstr "- HTTP-to-HTTPS redirect"
+msgid "TEXT_REVIEW_HTTP_REDIRECT"
+msgstr "- {0}, Uses HTTP redirect"
+
+msgid "TEXT_REVIEW_HTTPS_REDIRECT"
+msgstr "- {0}, Uses HTTPS redirect"
 
 msgid "TEXT_REVIEW_NO_REMARKS"
 msgstr "- No remarks"

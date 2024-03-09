@@ -114,5 +114,8 @@ msgstr "- {0}, max-age used in HSTS is less than 1 year"
 msgid "TEXT_REVIEW_HSTS_USE_PARENTDOMAIN"
 msgstr "- {0}, Only parent HSTS used, child should also use HSTS"
 
+msgid "TEXT_REVIEW_HSTS_NOT_FOUND"
+msgstr "- {0}, Is NOT using HSTS"
+
 msgid "TEXT_REVIEW_NO_REMARKS"
 msgstr "- No remarks"

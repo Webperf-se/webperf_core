@@ -84,5 +84,35 @@ msgstr "- {0}, Uses HTTP redirect"
 msgid "TEXT_REVIEW_HTTPS_REDIRECT"
 msgstr "- {0}, Uses HTTPS redirect"
 
+msgid "TEXT_REVIEW_HSTS_INVALIDATE"
+msgstr "- {0}, Is NOT using HSTS because of redirect"
+
+msgid "TEXT_REVIEW_HSTS_PRELOAD"
+msgstr "- {0}, Is using 'preload' in HSTS and max-age of 1 year or more"
+
+msgid "TEXT_REVIEW_HSTS_PRELOAD_FOUND_AND_MAXAGE_1YEAR"
+msgstr "- {0}, Is using 'preload' in HSTS and max-age of 1 year or more"
+
+msgid "TEXT_REVIEW_HSTS_MAXAGE_1YEAR_MAY_USE_PRELOAD"
+msgstr "- {0}, Is using max-age of 1 year or more, you may want to use HSTS"
+
+msgid "TEXT_REVIEW_HSTS_MAXAGE_1YEAR"
+msgstr "- {0}, Is using max-age of 1 year or more for HSTS"
+
+msgid "TEXT_REVIEW_HSTS_MAXAGE_6MONTHS"
+msgstr "- {0}, max-age used in HSTS is less than 6 months"
+
+msgid "TEXT_REVIEW_HSTS_MAXAGE_1MONTH"
+msgstr "- {0}, max-age used in HSTS is less than 1 month"
+
+msgid "TEXT_REVIEW_HSTS_MAXAGE_NOT_FOUND"
+msgstr "- {0}, max-age is missing in HSTS"
+
+msgid "TEXT_REVIEW_HSTS_MAXAGE_TOO_LOW"
+msgstr "- {0}, max-age used in HSTS is less than 1 year"
+
+msgid "TEXT_REVIEW_HSTS_USE_PARENTDOMAIN"
+msgstr "- {0}, Only parent HSTS used, child should also use HSTS"
+
 msgid "TEXT_REVIEW_NO_REMARKS"
 msgstr "- No remarks"

@@ -1434,6 +1434,8 @@ def check_ip_version(result_dict):
 
     if not contains_value_for_all(result_dict, 'ip-versions', 'IPv4'):
         for domain in result_dict.keys():
+            if type(result_dict[domain]) != dict:
+                continue
             if 'IPv4' not in result_dict[domain]['ip-versions']:
                 ip4_result = dns_lookup(domain, "A")
                 if len(ip4_result) > 0:

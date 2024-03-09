@@ -597,7 +597,10 @@ def cleanup(result_dict):
     for domain in result_dict.keys():
         if type(result_dict[domain]) != dict:
             continue
+
         del result_dict[domain]['urls']
+        del result_dict[domain]['csp-policies']
+
         for subkey, subvalue in result_dict[domain].items():
             if type(subvalue) == dict:
                 a = 1
@@ -617,11 +620,14 @@ def merge_dicts(dict1, dict2):
             type_of_value = type(value)
             if type_of_value == dict:
                 for subkey, subvalue in value.items():
-                    if type(subvalue) == dict:
-                        merge_dicts(dict1[domain][subkey], dict2[domain][subkey])
-                    elif type(subvalue) == list:
-                        dict1[domain][subkey].extend(subvalue)
-                        dict1[domain][subkey] = sorted(list(set(dict1[domain][subkey])))
+                    if subkey in dict1[domain]:
+                        if type(subvalue) == dict:
+                            merge_dicts(dict1[domain][subkey], dict2[domain][subkey])
+                        elif type(subvalue) == list:
+                            dict1[domain][subkey].extend(subvalue)
+                            dict1[domain][subkey] = sorted(list(set(dict1[domain][subkey])))
+                    else:
+                        dict1[domain][subkey] = dict2[domain][subkey]
             elif type_of_value == list:
                 dict1[domain].extend(value)
                 dict1[domain] = sorted(list(set(dict1[domain])))

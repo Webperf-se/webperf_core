@@ -86,7 +86,7 @@ def run_test(_, langCode, url):
 
     result_dict = check_http_to_https(url)
 
-    result_dict = check_tls_version(result_dict)
+    result_dict = check_tls_versions(result_dict)
 
     result_dict = check_ip_version(result_dict)
 
@@ -1441,8 +1441,7 @@ def check_ip_version(result_dict):
 
     return result_dict
 
-
-def protocol_version_score(url, domain, protocol_version, result_dict):
+def check_tls_version(url, domain, protocol_version, result_dict):
     protocol_rule = False
     protocol_name = ''
 
@@ -1472,10 +1471,10 @@ def protocol_version_score(url, domain, protocol_version, result_dict):
             protocol_rule = ssl.OP_NO_SSLv3 | ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2 | ssl.OP_NO_TLSv1_3
             assert ssl.HAS_SSLv2
 
-        if has_protocol_version(
+        if has_tls_version(
             url, True, protocol_rule)[0]:
             result_dict[domain]['transport-layers'].append(protocol_name)
-        elif has_protocol_version(
+        elif has_tls_version(
             url, False, protocol_rule)[0]:
             result_dict[domain]['transport-layers'].append('{0}-'.format(protocol_name))
 
@@ -1492,17 +1491,16 @@ def protocol_version_score(url, domain, protocol_version, result_dict):
 
     return result_dict
 
-
-def check_tls_version(result_dict):
+def check_tls_versions(result_dict):
     for domain in result_dict.keys():
         if type(result_dict[domain]) != dict:
             continue
         # TODO: Make sure to find https:// based url instead of creating one.
         https_url = result_dict[domain]['urls'][0].replace('http://', 'https://')
-        result_dict = protocol_version_score(https_url, domain, ssl.PROTOCOL_TLS, result_dict)
-        result_dict = protocol_version_score(https_url, domain, ssl.PROTOCOL_TLSv1_2, result_dict)
-        result_dict = protocol_version_score(https_url, domain, ssl.PROTOCOL_TLSv1_1, result_dict)
-        result_dict = protocol_version_score(https_url, domain, ssl.PROTOCOL_TLSv1, result_dict)
+        result_dict = check_tls_version(https_url, domain, ssl.PROTOCOL_TLS, result_dict)
+        result_dict = check_tls_version(https_url, domain, ssl.PROTOCOL_TLSv1_2, result_dict)
+        result_dict = check_tls_version(https_url, domain, ssl.PROTOCOL_TLSv1_1, result_dict)
+        result_dict = check_tls_version(https_url, domain, ssl.PROTOCOL_TLSv1, result_dict)
 
     # Firefox:
     # security.tls.version.min
@@ -2035,7 +2033,7 @@ class TlsAdapterNoCert(HTTPAdapter):
                                        **pool_kwargs)
 
 
-def has_protocol_version(url, validate_hostname, protocol_version):
+def has_tls_version(url, validate_hostname, protocol_version):
     session = requests.session()
     if validate_hostname:
         adapter = TlsAdapterCertRequired(protocol_version)

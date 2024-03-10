@@ -98,8 +98,8 @@ def run_test(_, langCode, url):
 
     rating = rate(hostname, result_dict, _, _local)
 
-    nice_result = json.dumps(result_dict, indent=3)
-    print('DEBUG TOTAL', nice_result)
+    # nice_result = json.dumps(result_dict, indent=3)
+    # print('DEBUG TOTAL', nice_result)
 
     print(_('TEXT_TEST_END').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
@@ -291,7 +291,7 @@ def create_csp(csp_findings, org_domain):
 
     # TODO: 
     object_src.append('\'none\'')
-    frame_ancestors.append('\'self\'')
+    frame_ancestors.append('\'none\'')
 
 
     default_src = ' '.join(sorted(list(set(default_src))))
@@ -613,22 +613,8 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
                                 'Read more: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy\r\n',
                                 '\r\n']
 
-                text_current = ['##### Want to improve your Content-Security-Policy game?\r\n',
-                                'Why not try the following Content-Security-Policy response header to get started using Content Security Policy?\r\n',
-                                '\r\n',
-                                'Content-Security-Policy policies:\r\n',
-                                '{SUGGESTION}',
-                                '\r\n',
-                                '{RATING}',
-                                '\r\n',
-                                'Read more: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy\r\n',
-                                '\r\n']
-
-
                 if csp_recommendation_rating.get_overall() > final_rating.get_overall():
                     final_rating.overall_review = ''.join(text_recommendation).replace('{SUGGESTION}', csp_recommendation).replace('{RATING}', csp_recommendation_rating_summary) + final_rating.overall_review
-                else:
-                    final_rating.overall_review = ''.join(text_current).replace('{SUGGESTION}', csp_recommendation).replace('{RATING}', csp_recommendation_rating_summary) + final_rating.overall_review
 
     return final_rating
 
@@ -984,9 +970,7 @@ def sitespeed_result_2_test_result(filename, org_domain):
                             result[req_domain]['features'].append('CSP-DEPRECATED')
                             result = handle_csp_data(value2, req_domain, result, False, org_domain)
                     
-                    # TODO
-                    # regex = r'(?P<raw><(?P<type>style|link|script|img|iframe|form|base|frame)[^>]*((?P<attribute>src|nonce|action|href)="(?P<value>[^"]+)"[^>]*>))'
-                    regex = r'(?P<raw><(?P<type>img)[^>]*((?P<attribute>src|nonce|action|href)="(?P<value>[^"]+)"[^>]*>))'
+                    regex = r'(?P<raw><(?P<type>style|link|script|img|iframe|form|base|frame)[^>]*((?P<attribute>src|nonce|action|href)="(?P<value>[^"]+)"[^>]*>))'
                     matches = re.finditer(regex, content, re.MULTILINE)
                     for matchNum, match in enumerate(matches, start=1):
                         element_name = match.group('type').lower()
@@ -998,8 +982,6 @@ def sitespeed_result_2_test_result(filename, org_domain):
                             key = '\'nonce-<your-nonce>\'|{0}'.format(element_name)
                             if key not in result[org_domain]['csp-findings']['quotes']:
                                 result[org_domain]['csp-findings']['quotes'].append(key)
-                            if '\'nonce-<your-nonce>\'' not in result[org_domain]['csp-findings']['quotes']:
-                                result[org_domain]['csp-findings']['quotes'].append('\'nonce-<your-nonce>\'')
                         elif attribute_name == 'src':
                             element_url = url_2_host_source(attribute_value, req_domain)
                             o = urllib.parse.urlparse(element_url)
@@ -1009,14 +991,10 @@ def sitespeed_result_2_test_result(filename, org_domain):
                                     key = '{0}|{1}'.format('data:', element_name)
                                     if key not in result[org_domain]['csp-findings']['host-sources']:
                                         result[org_domain]['csp-findings']['host-sources'].append(key)
-                                    if element_domain not in result[org_domain]['csp-findings']['host-sources']:
-                                        result[org_domain]['csp-findings']['host-sources'].append('data:')
                             else:
                                 key = '{0}|{1}'.format(element_domain, element_name)
                                 if key not in result[org_domain]['csp-findings']['host-sources']:
                                     result[org_domain]['csp-findings']['host-sources'].append(key)
-                                if element_domain not in result[org_domain]['csp-findings']['host-sources']:
-                                    result[org_domain]['csp-findings']['host-sources'].append(element_domain)
                         elif attribute_name == 'href':
                             element_url = url_2_host_source(attribute_value, req_domain)
                             o = urllib.parse.urlparse(element_url)
@@ -1030,8 +1008,6 @@ def sitespeed_result_2_test_result(filename, org_domain):
                             key = '{0}|{1}'.format(element_domain, element_name)
                             if key not in result[org_domain]['csp-findings']['host-sources']:
                                 result[org_domain]['csp-findings']['host-sources'].append(key)
-                            if element_domain not in result[org_domain]['csp-findings']['host-sources']:
-                                result[org_domain]['csp-findings']['host-sources'].append(element_domain)
                         elif attribute_name == 'action' and element_name == 'form':
                             element_url = url_2_host_source(attribute_value, req_domain)
                             o = urllib.parse.urlparse(element_url)
@@ -1961,7 +1937,7 @@ def default_csp_result_object(is_org_domain):
     return obj
 
 def handle_csp_data(content, domain, result_dict, is_from_response_header, org_domain):
-    print('CSP', domain)
+    # print('CSP', domain)
     # print('CSP', domain, content)
     # https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
     # https://scotthelme.co.uk/csp-cheat-sheet/

@@ -119,7 +119,7 @@ def rate(org_domain, result_dict, _, _local):
         # rating += rate_dnssec(result_dict, _, _local, domain)
         rating += rate_schemas(result_dict, _, _local, domain)
         rating += rate_hsts(result_dict, _, _local, org_domain, domain)
-        rating += rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain)
+        rating += rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, True)
         rating += rate_ip_versions(result_dict, _, _local, domain)
         rating += rate_transfer_layers(result_dict, _, _local, domain)
 
@@ -207,7 +207,152 @@ def rate_ip_versions(result_dict, _, _local, domain):
         rating += sub_rating
     return rating
 
-def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain):
+def create_csp(csp_findings, org_domain):
+    default_src = list()
+    img_src = list()
+    script_src = list()
+    form_action = list()
+    base_uri = list()
+    style_src = list()
+    child_src = list()
+    font_src = list()
+
+    object_src = list()
+    connect_src = list()
+    frame_ancestors = list()
+
+    csp_findings['quotes'] = list(set(csp_findings['quotes']))
+    csp_findings['host-sources'] = list(set(csp_findings['host-sources']))
+    csp_findings['scheme-sources'] = list(set(csp_findings['scheme-sources']))
+
+    for source in csp_findings['quotes']:
+        if '|' in source:
+            pair = source.split('|')
+            host_source = pair[0]
+            element_name = pair[1]
+            if host_source == org_domain:
+                host_source = '\'self\''
+
+            if element_name == 'img':
+                img_src.append(host_source)
+            elif element_name == 'script':
+                script_src.append(host_source)
+            elif element_name == 'form-action':
+                form_action.append(host_source)
+            elif element_name == 'style':
+                style_src.append(host_source)
+            elif element_name == 'font':
+                font_src.append(host_source)
+            elif element_name == 'link':
+                child_src.append(host_source)
+                default_src.append(host_source)
+            else:
+                default_src.append(host_source)
+
+    for source in csp_findings['host-sources']:
+        if '|' in source:
+            pair = source.split('|')
+            host_source = pair[0]
+            element_name = pair[1]
+            if host_source == org_domain:
+                host_source = '\'self\''
+            if element_name == 'img':
+                img_src.append(host_source)
+            elif element_name == 'script':
+                script_src.append(host_source)
+            elif element_name == 'form-action':
+                form_action.append(host_source)
+            elif element_name == 'style':
+                style_src.append(host_source)
+            elif element_name == 'font':
+                font_src.append(host_source)
+            elif element_name == 'link':
+                # child_src.append(host_source)
+                default_src.append(host_source)
+            else:
+                default_src.append(host_source)
+        else:
+            if source == org_domain:
+                default_src.append('\'self\'')
+            else:
+                default_src.append(source)
+
+    for source in csp_findings['scheme-sources']:
+        if '|' in source:
+            pair = source.split('|')
+            host_source = pair[0]
+            element_name = pair[1]
+            if element_name == 'img':
+                img_src.append(host_source)
+
+
+    # TODO: we should check in HTML if base uri is used and used that instead
+    base_uri.append('\'self\'')
+
+    # TODO: 
+    object_src.append('\'none\'')
+    frame_ancestors.append('\'self\'')
+
+
+    default_src = ' '.join(sorted(list(set(default_src))))
+    img_src = ' '.join(sorted(list(set(img_src))))
+    script_src = ' '.join(sorted(list(set(script_src))))
+    form_action = ' '.join(sorted(list(set(form_action))))
+    style_src = ' '.join(sorted(list(set(style_src))))
+    child_src = ' '.join(sorted(list(set(child_src))))
+    font_src = ' '.join(sorted(list(set(font_src))))
+
+    base_uri = ' '.join(sorted(list(set(base_uri))))
+    object_src = ' '.join(sorted(list(set(object_src))))
+    frame_ancestors = ' '.join(sorted(list(set(frame_ancestors))))
+    connect_src = ' '.join(sorted(list(set(connect_src))))
+
+    # TODO: Remove policies that is covered by a fallback
+
+
+
+    default_src = default_src.strip()
+    img_src = img_src.strip()
+    script_src = script_src.strip()
+    form_action = form_action.strip()
+    style_src = style_src.strip()
+    child_src = child_src.strip()
+    font_src = font_src.strip()
+
+    base_uri = base_uri.strip()
+    object_src = object_src.strip()
+    frame_ancestors = frame_ancestors.strip()
+    connect_src = connect_src.strip()
+
+    csp_recommendation = ''
+    # csp_recommendation = 'Content-Security-Policy-Report-Only=\r\n'
+    if len(default_src) > 0:
+        csp_recommendation += '- default-src {0};\r\n'.format(default_src)
+    if len(base_uri) > 0:
+        csp_recommendation += '- base-uri {0};\r\n'.format(base_uri)
+    if len(img_src) > 0:
+        csp_recommendation += '- img-src {0};\r\n'.format(img_src)
+    if len(script_src) > 0:
+        csp_recommendation += '- script-src {0};\r\n'.format(script_src)
+    if len(form_action) > 0:
+        csp_recommendation += '- form-action {0};\r\n'.format(form_action)
+    if len(style_src) > 0:
+        csp_recommendation += '- style-src {0};\r\n'.format(style_src)
+    if len(child_src) > 0:
+        csp_recommendation += '- child-src {0};\r\n'.format(child_src)
+
+    if len(object_src) > 0:
+        csp_recommendation += '- object-src {0};\r\n'.format(object_src)
+    if len(frame_ancestors) > 0:
+        csp_recommendation += '- frame-ancestors {0};\r\n'.format(frame_ancestors)
+    if len(connect_src) > 0:
+        csp_recommendation += '- connect-src {0};\r\n'.format(connect_src)
+    if len(font_src) > 0:
+        csp_recommendation += '- font-src {0};\r\n'.format(font_src)
+
+    return csp_recommendation
+
+def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_recommendation):
     rating = Rating(_, review_show_improvements_only)
     if type(result_dict[domain]) != dict:
         return rating
@@ -281,8 +426,7 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain):
                     sub_rating.set_standards(1.0, '- {2}, CSP policy "{0}" is reusing same {1} between visits'.format(policy_name, "'nonce'", domain))
                     sub_rating.set_integrity_and_security(1.0, '- {2}, CSP policy "{0}" is reusing same {1} between visits'.format(policy_name, "'nonce'", domain))
                 elif nof_nonces > total_number_of_sitespeedruns:
-                    sub_rating.set_overall(4.99, '- {2}, CSP policy "{0}" is using multiple {1}'.format(policy_name, "'nonce's", domain))
-                    sub_rating.set_standards(5.0, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "nonce", domain))
+                    sub_rating.set_standards(4.99, '- {2}, CSP policy "{0}" is using multiple {1}'.format(policy_name, "'nonce's", domain))
                     sub_rating.set_integrity_and_security(4.99, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "nonce", domain))
                 else:
                     sub_rating.set_overall(4.99)
@@ -437,6 +581,54 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain):
             final_rating.set_overall(rating.get_overall())
             final_rating.set_standards(rating.get_standards(), '- {0}, Content Security Policy (CSP)'.format(domain))
             final_rating.set_integrity_and_security(rating.get_integrity_and_security(), '- {0}, Content Security Policy (CSP)'.format(domain))
+
+
+        if create_recommendation:
+            csp_recommendation = ''
+            csp_recommendation_result = False
+            if 'csp-findings' in result_dict[domain]:
+                csp_recommendation_result = {
+                    'visits': 1,
+                    domain: default_csp_result_object(True)
+                }
+                csp_recommendation = create_csp(result_dict[domain]['csp-findings'], domain)
+
+                raw_csp_recommendation = csp_recommendation.replace('- ','').replace('\r\n','')
+
+                csp_recommendation_result = handle_csp_data(raw_csp_recommendation, domain, csp_recommendation_result, True, domain)
+
+                csp_recommendation_result[domain]['features'].append('CSP-HEADER-FOUND')
+                csp_recommendation_rating = rate_csp(csp_recommendation_result, _, _local, org_domain, org_www_domain, domain, False)
+
+                csp_recommendation_rating_summary = 'Recommended CSP Rating:{0}'.format(csp_recommendation_rating)
+
+                text_recommendation = ['##### Want to improve your Content-Security-Policy game?\r\n',
+                                'Why not try the following Content-Security-Policy response header to get started using Content Security Policy?\r\n',
+                                '\r\n',
+                                'Recommended Content-Security-Policy policies:\r\n',
+                                '{SUGGESTION}',
+                                '\r\n',
+                                '{RATING}',
+                                '\r\n',
+                                'Read more: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy\r\n',
+                                '\r\n']
+
+                text_current = ['##### Want to improve your Content-Security-Policy game?\r\n',
+                                'Why not try the following Content-Security-Policy response header to get started using Content Security Policy?\r\n',
+                                '\r\n',
+                                'Content-Security-Policy policies:\r\n',
+                                '{SUGGESTION}',
+                                '\r\n',
+                                '{RATING}',
+                                '\r\n',
+                                'Read more: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy\r\n',
+                                '\r\n']
+
+
+                if csp_recommendation_rating.get_overall() > final_rating.get_overall():
+                    final_rating.overall_review = ''.join(text_recommendation).replace('{SUGGESTION}', csp_recommendation).replace('{RATING}', csp_recommendation_rating_summary) + final_rating.overall_review
+                else:
+                    final_rating.overall_review = ''.join(text_current).replace('{SUGGESTION}', csp_recommendation).replace('{RATING}', csp_recommendation_rating_summary) + final_rating.overall_review
 
     return final_rating
 
@@ -642,10 +834,23 @@ def host_source_2_url(host_source):
 
     return result
 
+def url_2_host_source(url, domain):
+    if url.startswith('//'):
+        return url.replace('//', 'https://')
+    elif 'https://' in url:
+        return url
+    if '://' in url:
+        return url
+    elif ':' in url:
+        return url
+    else:
+        return 'https://{0}/{1}'.format(domain, url)
+
 def sitespeed_result_2_test_result(filename, org_domain):
 
     result = {
-        'visits': 0
+        'visits': 0,
+        org_domain: default_csp_result_object(True)
     }
 
     if filename == '':
@@ -668,15 +873,7 @@ def sitespeed_result_2_test_result(filename, org_domain):
             req_scheme = o.scheme.lower()
 
             if req_domain not in result:
-                result[req_domain] = {
-                    'protocols': [],
-                    'schemes': [],
-                    'ip-versions': [],
-                    'transport-layers': [],
-                    'features': [],
-                    'urls': [],
-                    'csp-policies': {}
-                }
+                result[req_domain] = default_csp_result_object(False)
 
             result[req_domain]['schemes'].append(o.scheme.upper())
             result[req_domain]['urls'].append(req_url)
@@ -692,6 +889,13 @@ def sitespeed_result_2_test_result(filename, org_domain):
                     result[req_domain]['ip-versions'].append('IPv6')
                 else:
                     result[req_domain]['ip-versions'].append('IPv4')
+
+            if req_domain not in result[org_domain]['csp-findings']['host-sources']:
+                result[org_domain]['csp-findings']['host-sources'].append(req_domain)
+
+            scheme = '{0}:'.format(o.scheme.lower())
+            if scheme not in result[org_domain]['csp-findings']['scheme-sources'] and scheme != 'http:':
+                result[org_domain]['csp-findings']['scheme-sources'].append(scheme)
 
             for header in res['headers']:
                 if 'name' not in header:
@@ -762,7 +966,6 @@ def sitespeed_result_2_test_result(filename, org_domain):
                     result[req_domain]['features'].append('CSP-HEADER-FOUND')
                     result[req_domain]['features'].append('CSP-DEPRECATED')
                     result = handle_csp_data(value, req_domain, result, True, org_domain)
-
             if 'content' in res and 'text' in res['content']:
                 if 'mimeType' in res['content'] and 'text/html' in res['content']['mimeType']:
                     result[req_domain]['features'].append('HTML-FOUND')
@@ -780,6 +983,142 @@ def sitespeed_result_2_test_result(filename, org_domain):
                             result[req_domain]['features'].append('CSP-META-FOUND')
                             result[req_domain]['features'].append('CSP-DEPRECATED')
                             result = handle_csp_data(value2, req_domain, result, False, org_domain)
+                    
+                    # TODO
+                    # regex = r'(?P<raw><(?P<type>style|link|script|img|iframe|form|base|frame)[^>]*((?P<attribute>src|nonce|action|href)="(?P<value>[^"]+)"[^>]*>))'
+                    regex = r'(?P<raw><(?P<type>img)[^>]*((?P<attribute>src|nonce|action|href)="(?P<value>[^"]+)"[^>]*>))'
+                    matches = re.finditer(regex, content, re.MULTILINE)
+                    for matchNum, match in enumerate(matches, start=1):
+                        element_name = match.group('type').lower()
+                        attribute_name = match.group('attribute').lower()
+                        attribute_value = match.group('value').lower()
+                        element_raw = match.group('raw').lower()
+
+                        if attribute_name == 'nonce':
+                            key = '\'nonce-<your-nonce>\'|{0}'.format(element_name)
+                            if key not in result[org_domain]['csp-findings']['quotes']:
+                                result[org_domain]['csp-findings']['quotes'].append(key)
+                            if '\'nonce-<your-nonce>\'' not in result[org_domain]['csp-findings']['quotes']:
+                                result[org_domain]['csp-findings']['quotes'].append('\'nonce-<your-nonce>\'')
+                        elif attribute_name == 'src':
+                            element_url = url_2_host_source(attribute_value, req_domain)
+                            o = urllib.parse.urlparse(element_url)
+                            element_domain = o.hostname
+                            if element_domain == None:
+                                if element_url.startswith('data:'):
+                                    key = '{0}|{1}'.format('data:', element_name)
+                                    if key not in result[org_domain]['csp-findings']['host-sources']:
+                                        result[org_domain]['csp-findings']['host-sources'].append(key)
+                                    if element_domain not in result[org_domain]['csp-findings']['host-sources']:
+                                        result[org_domain]['csp-findings']['host-sources'].append('data:')
+                            else:
+                                key = '{0}|{1}'.format(element_domain, element_name)
+                                if key not in result[org_domain]['csp-findings']['host-sources']:
+                                    result[org_domain]['csp-findings']['host-sources'].append(key)
+                                if element_domain not in result[org_domain]['csp-findings']['host-sources']:
+                                    result[org_domain]['csp-findings']['host-sources'].append(element_domain)
+                        elif attribute_name == 'href':
+                            element_url = url_2_host_source(attribute_value, req_domain)
+                            o = urllib.parse.urlparse(element_url)
+                            element_domain = o.hostname
+                            if 'link' == element_name:
+                                if 'rel="stylesheet"' in element_raw:
+                                    element_name = 'style'
+                                elif 'as="script"' in element_raw:
+                                    element_name = 'script'
+
+                            key = '{0}|{1}'.format(element_domain, element_name)
+                            if key not in result[org_domain]['csp-findings']['host-sources']:
+                                result[org_domain]['csp-findings']['host-sources'].append(key)
+                            if element_domain not in result[org_domain]['csp-findings']['host-sources']:
+                                result[org_domain]['csp-findings']['host-sources'].append(element_domain)
+                        elif attribute_name == 'action' and element_name == 'form':
+                            element_url = url_2_host_source(attribute_value, req_domain)
+                            o = urllib.parse.urlparse(element_url)
+                            element_domain = o.hostname
+                            key = '{0}|form-action'.format(element_domain)
+                            if key not in result[org_domain]['csp-findings']['host-sources']:
+                                result[org_domain]['csp-findings']['host-sources'].append(key)
+
+                    regex = r'<(?P<type>style|script|form)>'
+                    matches = re.finditer(regex, content, re.MULTILINE)
+                    for matchNum, match in enumerate(matches, start=1):
+                        element_name = match.group('type').lower()
+                        if element_name == 'style' or element_name == 'script':
+                            key = '\'unsafe-inline\'|{0}'.format(element_name)
+                            if key not in result[org_domain]['csp-findings']['quotes']:
+                                result[org_domain]['csp-findings']['quotes'].append(key)
+                        elif attribute_name == 'action' and element_name == 'form':
+                            element_url = url_2_host_source(req_url, req_domain)
+                            o = urllib.parse.urlparse(element_url)
+                            element_domain = o.hostname
+                            if element_domain == org_domain:
+                                key = '\'self\'|{0}'.format(element_name)
+                                if key not in result[org_domain]['csp-findings']['quotes']:
+                                    result[org_domain]['csp-findings']['quotes'].append(key)
+                            else:
+                                key = '{0}|{1}'.format(element_domain, element_name)
+                                if key not in result[org_domain]['csp-findings']['host-sources']:
+                                    result[org_domain]['csp-findings']['host-sources'].append(key)
+
+                elif 'mimeType' in res['content'] and 'text/css' in res['content']['mimeType']:
+                    content = res['content']['text']
+                    if 'data:image' in content:
+                        key = 'data:|img'
+                        if key not in result[org_domain]['csp-findings']['scheme-sources']:
+                            result[org_domain]['csp-findings']['scheme-sources'].append(key)
+                    element_name = 'style'
+                    if element_domain == org_domain:
+                        key = '\'self\'|{0}'.format(element_name)
+                        if key not in result[org_domain]['csp-findings']['quotes']:
+                            result[org_domain]['csp-findings']['quotes'].append(key)
+                    else:
+                        key = '{0}|{1}'.format(element_domain, element_name)
+                        if key not in result[org_domain]['csp-findings']['host-sources']:
+                            result[org_domain]['csp-findings']['host-sources'].append(key)
+                elif 'mimeType' in res['content'] and ('text/javascript' in res['content']['mimeType'] or 'application/javascript' in res['content']['mimeType']):
+                    content = res['content']['text']
+                    if 'eval(' in content:
+                        key = '\'unsafe-eval\'|script'
+                        if key not in result[org_domain]['csp-findings']['quotes']:
+                            result[org_domain]['csp-findings']['quotes'].append(key)
+
+                    element_domain = req_domain
+                    element_name = 'script'
+                    if element_domain == org_domain:
+                        key = '\'self\'|{0}'.format(element_name)
+                        if key not in result[org_domain]['csp-findings']['quotes']:
+                            result[org_domain]['csp-findings']['quotes'].append(key)
+                    else:
+                        key = '{0}|{1}'.format(element_domain, element_name)
+                        if key not in result[org_domain]['csp-findings']['host-sources']:
+                            result[org_domain]['csp-findings']['host-sources'].append(key)
+            if 'mimeType' in res['content'] and 'image/' in res['content']['mimeType']:
+                element_domain = req_domain
+                element_name = 'img'
+                if element_domain == org_domain:
+                    key = '\'self\'|{0}'.format(element_name)
+                    if key not in result[org_domain]['csp-findings']['quotes']:
+                        result[org_domain]['csp-findings']['quotes'].append(key)
+                else:
+                    key = '{0}|{1}'.format(element_domain, element_name)
+                    if key not in result[org_domain]['csp-findings']['host-sources']:
+                        result[org_domain]['csp-findings']['host-sources'].append(key)
+            elif ('mimeType' in res['content'] and 'font/' in res['content']['mimeType']) or req_url.endswith('.otf') or req_url.endswith('.woff') or req_url.endswith('.woff2'):
+                element_domain = req_domain
+                element_name = 'font'
+                if element_domain == org_domain:
+                    key = '\'self\'|{0}'.format(element_name)
+                    if key not in result[org_domain]['csp-findings']['quotes']:
+                        result[org_domain]['csp-findings']['quotes'].append(key)
+                else:
+                    key = '{0}|{1}'.format(element_domain, element_name)
+                    if key not in result[org_domain]['csp-findings']['host-sources']:
+                        result[org_domain]['csp-findings']['host-sources'].append(key)
+                        
+
+
+
 
 
             result[req_domain]['protocols'] = list(set(result[req_domain]['protocols']))
@@ -1397,7 +1736,7 @@ def check_http_to_https(url):
             result_dict[www_domain_key]['schemes'].append('HTTPS-REDIRECT*')
             www_http_url = http_url.replace(o_domain, www_domain_key)
             print('HTTP', www_domain_key)
-            result_dict = merge_dicts(get_website_support_from_sitespeed(www_http_url, o_domain, configuration, browser, sitespeed_timeout), result_dict)
+            result_dict = merge_dicts(get_website_support_from_sitespeed(www_http_url, www_domain_key, configuration, browser, sitespeed_timeout), result_dict)
         else:
             result_dict[www_domain_key]['schemes'].append('HTTP-REDIRECT*')
 
@@ -1602,6 +1941,24 @@ def default_csp_policy_object():
             'subdomains': [],
             'wildcard-subdomains': [],
         }
+
+def default_csp_result_object(is_org_domain):
+    obj = {
+                    'protocols': [],
+                    'schemes': [],
+                    'ip-versions': [],
+                    'transport-layers': [],
+                    'features': [],
+                    'urls': [],
+                    'csp-policies': {}
+                }
+    if is_org_domain:
+        obj['csp-findings'] = {
+                            'quotes': [],
+                            'host-sources': [],
+                            'scheme-sources': []
+                        }
+    return obj
 
 def handle_csp_data(content, domain, result_dict, is_from_response_header, org_domain):
     print('CSP', domain)

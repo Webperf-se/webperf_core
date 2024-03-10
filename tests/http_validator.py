@@ -603,7 +603,9 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
                 csp_recommendation_rating_summary = 'Recommended CSP Rating:{0}'.format(csp_recommendation_rating)
 
                 text_recommendation = ['##### Want to improve your Content-Security-Policy game?\r\n',
-                                'Why not try the following Content-Security-Policy response header to get started using Content Security Policy?\r\n',
+                                'Why not try the below Content-Security-Policy response header to get started using Content Security Policy?\r\n',
+                                'Remember, below recommendation is only based on a sample (read: 1 page) of all pages on your website\r\n',
+                                'and based without clicking on anything.\r\n',
                                 '\r\n',
                                 'Recommended Content-Security-Policy policies:\r\n',
                                 '{SUGGESTION}',
@@ -612,8 +614,10 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
                                 '\r\n',
                                 'Read more: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy\r\n',
                                 '\r\n']
-
-                if csp_recommendation_rating.get_overall() > final_rating.get_overall():
+                
+                sub = 0.5
+                score = csp_recommendation_rating.get_overall() - sub
+                if score > final_rating.get_overall():
                     final_rating.overall_review = ''.join(text_recommendation).replace('{SUGGESTION}', csp_recommendation).replace('{RATING}', csp_recommendation_rating_summary) + final_rating.overall_review
 
     return final_rating

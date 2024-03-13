@@ -398,7 +398,8 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
             if policy_name in result_dict[domain]['csp-objects']:
                 policy_object = result_dict[domain]['csp-objects'][policy_name]
             else:
-                policy_object = default_csp_policy_object()
+                # policy_object = default_csp_policy_object()
+                continue
 
             any_found = False
 
@@ -1007,27 +1008,24 @@ def sitespeed_result_2_test_result(filename, org_domain):
                         attribute_value = match.group('value').lower()
                         element_raw = match.group('raw').lower()
 
+                        element_url = url_2_host_source(attribute_value, req_domain)
+                        o = urllib.parse.urlparse(element_url)
+                        element_domain = o.hostname
+                        if element_domain == None and element_url.startswith('data:'):
+                            element_domain = 'data:'
+                        elif element_domain == org_domain:
+                            element_domain = '\'self\''
+
                         if attribute_name == 'nonce':
                             key = '\'nonce-<your-nonce>\'|{0}'.format(element_name)
                             if key not in result[org_domain]['csp-findings']['quotes']:
                                 result[org_domain]['csp-findings']['quotes'].append(key)
                         elif attribute_name == 'src':
-                            element_url = url_2_host_source(attribute_value, req_domain)
-                            o = urllib.parse.urlparse(element_url)
-                            element_domain = o.hostname
-                            if element_domain == None:
-                                if element_url.startswith('data:'):
-                                    key = '{0}|{1}'.format('data:', element_name)
-                                    if key not in result[org_domain]['csp-findings']['host-sources']:
-                                        result[org_domain]['csp-findings']['host-sources'].append(key)
-                            else:
+                            if element_domain != None:
                                 key = '{0}|{1}'.format(element_domain, element_name)
                                 if key not in result[org_domain]['csp-findings']['host-sources']:
                                     result[org_domain]['csp-findings']['host-sources'].append(key)
                         elif attribute_name == 'href':
-                            element_url = url_2_host_source(attribute_value, req_domain)
-                            o = urllib.parse.urlparse(element_url)
-                            element_domain = o.hostname
                             if 'link' == element_name:
                                 if 'rel="stylesheet"' in element_raw or 'as="style"' in element_raw:
                                     element_name = 'style'
@@ -1041,15 +1039,11 @@ def sitespeed_result_2_test_result(filename, org_domain):
                                     element_name = 'script'
                                 else:
                                     continue
-                                
 
                             key = '{0}|{1}'.format(element_domain, element_name)
                             if key not in result[org_domain]['csp-findings']['host-sources']:
                                 result[org_domain]['csp-findings']['host-sources'].append(key)
                         elif attribute_name == 'action' and element_name == 'form':
-                            element_url = url_2_host_source(attribute_value, req_domain)
-                            o = urllib.parse.urlparse(element_url)
-                            element_domain = o.hostname
                             key = '{0}|form-action'.format(element_domain)
                             if key not in result[org_domain]['csp-findings']['host-sources']:
                                 result[org_domain]['csp-findings']['host-sources'].append(key)

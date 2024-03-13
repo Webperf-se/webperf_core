@@ -289,7 +289,7 @@ def create_csp(csp_findings, org_domain):
     # TODO: we should check in HTML if base-uri is used
                 
 
-    # TODO: Remove policies that is covered by a fallback
+    # Ensure policies that is NOT covered by a fallback
     if len(base_uri) == 0:
         base_uri.append('\'self\'')
 
@@ -382,6 +382,7 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
         supported_src_policies = ['default-src','script-src','style-src','font-src','connect-src','frame-src','img-src','media-src','frame-ancestors','base-uri','form-action','child-src','manifest-src','object-src','script-src-attr','script-src-elem','style-src-attr','style-src-elem','worker-src']
         self_allowed_policies = ['font-src','connect-src','frame-src','img-src','media-src','frame-ancestors','base-uri','form-action','child-src','manifest-src']
         other_supported_polices = ['report-to','sandbox','upgrade-insecure-requests']
+        fallback_src_policies = ['base-uri', 'object-src', 'frame-ancestors', 'form-action', 'default-src']
         experimental_policies = ['fenced-frame-src', 'require-trusted-types-for','inline-speculation-rules', 'trusted-types']
         # Deprecated policies (According to https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
         deprecated_policies = ['block-all-mixed-content','plugin-types','prefetch-src', 'referrer', 'report-uri']
@@ -569,7 +570,21 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
             #         sub_rating.set_overall(5.0)
             #         sub_rating.set_standards(5.0)
             #         sub_rating.set_integrity_and_security(5.0)
-        rating += sub_rating
+
+        for policy_name in fallback_src_policies:
+            if policy_name in result_dict[domain]['csp-objects']:
+                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating.set_overall(5.0)
+                sub_rating.set_integrity_and_security(5.0, '- {1}, CSP policy "{0}" found'.format(policy_name, domain))
+                sub_rating.set_standards(5.0, '- {1}, CSP policy "{0}" found'.format(policy_name, domain))
+                rating += sub_rating
+            else:
+                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating.set_overall(1.0)
+                sub_rating.set_integrity_and_security(1.0, '- {1}, CSP policy "{0}" is missing'.format(policy_name, domain))
+                sub_rating.set_standards(1.0, '- {1}, CSP policy "{0}" is missing'.format(policy_name, domain))
+                rating += sub_rating
+
     elif 'HTML-FOUND' in result_dict[domain]['features'] and (domain == org_domain or domain == org_www_domain):
         rating = Rating(_, review_show_improvements_only)
         rating.set_overall(1.0)
@@ -626,6 +641,8 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
                 sub = 0.5
                 score = csp_recommendation_rating.get_overall() - sub
                 if score > final_rating.get_overall():
+                    final_rating.overall_review = ''.join(text_recommendation).replace('{SUGGESTION}', csp_recommendation).replace('{RATING}', csp_recommendation_rating_summary) + final_rating.overall_review
+                else:
                     final_rating.overall_review = ''.join(text_recommendation).replace('{SUGGESTION}', csp_recommendation).replace('{RATING}', csp_recommendation_rating_summary) + final_rating.overall_review
 
     return final_rating

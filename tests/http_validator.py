@@ -286,13 +286,24 @@ def create_csp(csp_findings, org_domain):
                 img_src.append(host_source)
 
 
-    # TODO: we should check in HTML if base uri is used and used that instead
-    base_uri.append('\'self\'')
+    # TODO: we should check in HTML if base-uri is used
+                
 
-    # TODO: 
-    object_src.append('\'none\'')
-    frame_ancestors.append('\'none\'')
+    # TODO: Remove policies that is covered by a fallback
+    if len(base_uri) == 0:
+        base_uri.append('\'self\'')
 
+    if len(object_src) == 0:
+        object_src.append('\'none\'')
+
+    if len(frame_ancestors) == 0:
+        frame_ancestors.append('\'none\'')
+
+    if len(default_src) == 0:
+        default_src.append('\'none\'')
+
+    if len(form_action) == 0:
+        form_action.append('\'none\'')
 
     default_src = ' '.join(sorted(list(set(default_src))))
     img_src = ' '.join(sorted(list(set(img_src))))
@@ -306,9 +317,6 @@ def create_csp(csp_findings, org_domain):
     object_src = ' '.join(sorted(list(set(object_src))))
     frame_ancestors = ' '.join(sorted(list(set(frame_ancestors))))
     connect_src = ' '.join(sorted(list(set(connect_src))))
-
-    # TODO: Remove policies that is covered by a fallback
-
 
 
     default_src = default_src.strip()
@@ -880,8 +888,8 @@ def sitespeed_result_2_test_result(filename, org_domain):
                 else:
                     result[req_domain]['ip-versions'].append('IPv4')
 
-            if req_domain not in result[org_domain]['csp-findings']['host-sources']:
-                result[org_domain]['csp-findings']['host-sources'].append(req_domain)
+            # if req_domain not in result[org_domain]['csp-findings']['host-sources']:
+            #     result[org_domain]['csp-findings']['host-sources'].append(req_domain)
 
             scheme = '{0}:'.format(o.scheme.lower())
             if scheme not in result[org_domain]['csp-findings']['scheme-sources'] and scheme != 'http:':
@@ -1004,10 +1012,19 @@ def sitespeed_result_2_test_result(filename, org_domain):
                             o = urllib.parse.urlparse(element_url)
                             element_domain = o.hostname
                             if 'link' == element_name:
-                                if 'rel="stylesheet"' in element_raw:
+                                if 'rel="stylesheet"' in element_raw or 'as="style"' in element_raw:
                                     element_name = 'style'
+                                elif 'rel="icon"' in element_raw or 'as="image"' in element_raw or 'type="image/' in element_raw:
+                                    element_name = 'img'
                                 elif 'as="script"' in element_raw:
                                     element_name = 'script'
+                                elif 'as="font"' in element_raw or 'type="font' in element_raw:
+                                    element_name = 'font'
+                                elif 'rel="stylesheet"="script"' in element_raw:
+                                    element_name = 'script'
+                                else:
+                                    continue
+                                
 
                             key = '{0}|{1}'.format(element_domain, element_name)
                             if key not in result[org_domain]['csp-findings']['host-sources']:

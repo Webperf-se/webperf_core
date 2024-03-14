@@ -386,12 +386,20 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
         experimental_policies = ['fenced-frame-src', 'require-trusted-types-for','inline-speculation-rules', 'trusted-types']
         # Deprecated policies (According to https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
         deprecated_policies = ['block-all-mixed-content','plugin-types','prefetch-src', 'referrer', 'report-uri']
+        is_using_deprecated_policy = False
         for policy_name in deprecated_policies:
             if policy_name in result_dict[domain]['csp-objects']:
+                is_using_deprecated_policy = True
                 sub_rating = Rating(_, review_show_improvements_only)
                 sub_rating.set_overall(1.0)
-                sub_rating.set_standards(1.0, '- {1}, Using deprecated CSP policy "{0}"'.format(policy_name, domain))
+                sub_rating.set_standards(1.0, '- {1}, Is using deprecated CSP policy "{0}"'.format(policy_name, domain))
                 rating += sub_rating
+
+        if not is_using_deprecated_policy:
+            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating.set_overall(5.0)
+            sub_rating.set_standards(5.0, '- {1}, Is NOT using deprecated CSP policy "{0}"'.format(policy_name, domain))
+            rating += sub_rating
 
         for policy_name in supported_src_policies:
             policy_object = None
@@ -403,26 +411,66 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
 
             any_found = False
 
+            is_using_wildcard_in_policy = False
             for wildcard in policy_object['wildcards']:
+                is_using_wildcard_in_policy = True
+                any_found = True
                 if wildcard.endswith('*'):
                     sub_rating = Rating(_, review_show_improvements_only)
                     sub_rating.set_overall(1.0)
                     sub_rating.set_standards(1.0, '- {1}, CSP policy "{0}" is using wildcard at end of host-source'.format(policy_name, domain))
                     rating += sub_rating
+                else:
+                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating.set_overall(2.0)
+                    sub_rating.set_integrity_and_security(2.0, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "wildcard(s)", domain))
+                    rating += sub_rating
 
-            if "'none'" in policy_object['all']:
+            nof_wildcard_subdomains = len(policy_object['wildcard-subdomains'])
+            if nof_wildcard_subdomains > 0:
+                if policy_name in self_allowed_policies:
+                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating.set_overall(5.0)
+                    sub_rating.set_integrity_and_security(5.0, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "wildcard subdomain of orgin", domain))
+                    rating += sub_rating
+                else:
+                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating.set_overall(2.7)
+                    sub_rating.set_integrity_and_security(2.7, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "wildcard subdomain of orgin", domain))
+                    rating += sub_rating
+
+            if not is_using_wildcard_in_policy:
                 sub_rating = Rating(_, review_show_improvements_only)
                 sub_rating.set_overall(5.0)
-                sub_rating.set_standards(5.0, '- {2}, CSP policy "{0}" is using "{1}"'.format(policy_name, "'none'", domain))
-                sub_rating.set_integrity_and_security(5.0, '- {2}, CSP policy "{0}" is using "{1}"'.format(policy_name, "'none'", domain))
+                sub_rating.set_standards(5.0, '- {1}, Is NOT using wildcard in CSP policy "{0}"'.format(policy_name, domain))
                 rating += sub_rating
+
+            if "'none'" in policy_object['all']:
+                if len(policy_object['all']) > 1:
+                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating.set_overall(5.0)
+                    sub_rating.set_standards(1.5, '- {2}, CSP policy "{0}" is NOT using "{1}" alone'.format(policy_name, "'none'", domain))
+                    sub_rating.set_integrity_and_security(1.5, '- {2}, CSP policy "{0}" is NOT using "{1}" alone'.format(policy_name, "'none'", domain))
+                    rating += sub_rating
+                else:
+                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating.set_overall(1.5)
+                    sub_rating.set_standards(5.0, '- {2}, CSP policy "{0}" is using "{1}"'.format(policy_name, "'none'", domain))
+                    sub_rating.set_integrity_and_security(5.0, '- {2}, CSP policy "{0}" is using "{1}"'.format(policy_name, "'none'", domain))
+                    rating += sub_rating
                 any_found = True
+            else:
+                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating.set_overall(1.0)
+                sub_rating.set_standards(5.0, '- {2}, CSP policy "{0}" is NOT using {1}'.format(policy_name, "'none'", domain))
+                sub_rating.set_integrity_and_security(1.0, '- {2}, CSP policy "{0}" is NOT using {1}'.format(policy_name, "'none'", domain))
+                rating += sub_rating
 
             if len(policy_object['hashes']) > 0:
                 # TODO: Validate correct format ( '<hash-algorithm>-<base64-value>' )
                 sub_rating = Rating(_, review_show_improvements_only)
                 sub_rating.set_overall(5.0)
-                sub_rating.set_standards(5.0, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "sha[256/384/512]", domain))
+                sub_rating.set_standards(5.0, '- {2}, Is NOT using CSP policy "{0}" is using {1}'.format(policy_name, "sha[256/384/512]", domain))
                 sub_rating.set_integrity_and_security(5.0, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "sha[256/384/512]", domain))
                 rating += sub_rating
                 any_found = True
@@ -436,12 +484,13 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
                     sub_rating.set_standards(1.0, '- {2}, CSP policy "{0}" is reusing same {1} between visits'.format(policy_name, "'nonce'", domain))
                     sub_rating.set_integrity_and_security(1.0, '- {2}, CSP policy "{0}" is reusing same {1} between visits'.format(policy_name, "'nonce'", domain))
                 elif nof_nonces > total_number_of_sitespeedruns:
+                    sub_rating.set_overall(4.75)
                     sub_rating.set_standards(4.99, '- {2}, CSP policy "{0}" is using multiple {1}'.format(policy_name, "'nonce's", domain))
-                    sub_rating.set_integrity_and_security(4.99, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "nonce", domain))
+                    sub_rating.set_integrity_and_security(4.5, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "nonce", domain))
                 else:
-                    sub_rating.set_overall(4.99)
-                    sub_rating.set_standards(5.0, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "nonce", domain))
-                    sub_rating.set_integrity_and_security(4.99, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "nonce", domain))
+                    sub_rating.set_overall(1.0)
+                    sub_rating.set_standards(1.0, '- {2}, CSP policy "{0}" is NOT using "{1}"'.format(policy_name, "'self'", domain))
+                    sub_rating.set_integrity_and_security(1.0, '- {2}, CSP policy "{0}" is NOT using "{1}"'.format(policy_name, "'self'", domain))
                 rating += sub_rating
                 any_found = True
 
@@ -459,26 +508,13 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
                     sub_rating.set_integrity_and_security(3.0, '- {2}, CSP policy "{0}" is using "{1}"'.format(policy_name, "'self'", domain))                
                     rating += sub_rating
                 any_found = True
-
-            if len(policy_object['wildcards']) > 0:
+            else:
                 sub_rating = Rating(_, review_show_improvements_only)
-                sub_rating.set_overall(2.0)
-                sub_rating.set_integrity_and_security(2.0, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "wildcard(s)", domain))
+                sub_rating.set_overall(5.0)
+                sub_rating.set_standards(5.0, '- {2}, CSP policy "{0}" is NOT using "{1}"'.format(policy_name, "'self'", domain))
+                sub_rating.set_integrity_and_security(5.0, '- {2}, CSP policy "{0}" is NOT using "{1}"'.format(policy_name, "'self'", domain))                
                 rating += sub_rating
-                any_found = True
 
-            nof_wildcard_subdomains = len(policy_object['wildcard-subdomains'])
-            if nof_wildcard_subdomains > 0:
-                if policy_name in self_allowed_policies:
-                    sub_rating = Rating(_, review_show_improvements_only)
-                    sub_rating.set_overall(5.0)
-                    sub_rating.set_integrity_and_security(5.0, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "wildcard subdomain of orgin", domain))
-                    rating += sub_rating
-                else:
-                    sub_rating = Rating(_, review_show_improvements_only)
-                    sub_rating.set_overall(2.7)
-                    sub_rating.set_integrity_and_security(2.7, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "wildcard subdomain of orgin", domain))
-                    rating += sub_rating
 
             nof_subdomains = len(policy_object['subdomains'])
             if nof_subdomains > 0:
@@ -492,6 +528,12 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
                     sub_rating.set_overall(3.0)
                     sub_rating.set_integrity_and_security(3.0, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "subdomain of orgin", domain))
                     rating += sub_rating
+            else:
+                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating.set_overall(5.0)
+                sub_rating.set_standards(5.0, '- {2}, CSP policy "{0}" is NOT using "{1}"'.format(policy_name, "subdomain of orgin", domain))
+                sub_rating.set_integrity_and_security(5.0, '- {2}, CSP policy "{0}" is NOT using "{1}"'.format(policy_name, "subdomain of orgin", domain))                
+                rating += sub_rating
 
             nof_domains = len(policy_object['domains'])
             if nof_domains > 0:
@@ -506,6 +548,12 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
                 sub_rating.set_integrity_and_security(2.5, '- {2}, CSP policy "{0}" is using {1}'.format(policy_name, "domain", domain))
                 rating += sub_rating
                 any_found = True
+            else:
+                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating.set_overall(5.0)
+                sub_rating.set_standards(5.0, '- {2}, CSP policy "{0}" is NOT using "{1}"'.format(policy_name, "domain", domain))
+                sub_rating.set_integrity_and_security(5.0, '- {2}, CSP policy "{0}" is NOT using "{1}"'.format(policy_name, "domain", domain))                
+                rating += sub_rating
 
             nof_schemes = len(policy_object['schemes'])
             if nof_schemes > 0:
@@ -540,29 +588,41 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
                 rating += sub_rating
 
             # Handles unsafe sources
+            is_using_unsafe = False
             if "'unsafe-eval'" in policy_object['all']:
+                is_using_unsafe = True
                 sub_rating = Rating(_, review_show_improvements_only)
                 sub_rating.set_overall(1.0)
                 sub_rating.set_integrity_and_security(1.0, '- {2}, CSP policy "{0}" is using "{1}"'.format(policy_name, "'unsafe-eval'", domain))                
                 rating += sub_rating
 
             if "'wasm-unsafe-eval'" in policy_object['all']:
+                is_using_unsafe = True
                 sub_rating = Rating(_, review_show_improvements_only)
                 sub_rating.set_overall(1.0)
                 sub_rating.set_integrity_and_security(1.0, '- {2}, CSP policy "{0}" is using "{1}"'.format(policy_name, "'wasm-unsafe-eval'", domain))                
                 rating += sub_rating
 
             if "'unsafe-hashes'" in policy_object['all']:
+                is_using_unsafe = True
                 sub_rating = Rating(_, review_show_improvements_only)
                 sub_rating.set_overall(1.0)
                 sub_rating.set_integrity_and_security(1.0, '- {2}, CSP policy "{0}" is using "{1}"'.format(policy_name, "'unsafe-hashes'", domain))                
                 rating += sub_rating
 
             if "'unsafe-inline'" in policy_object['all']:
+                is_using_unsafe = True
                 sub_rating = Rating(_, review_show_improvements_only)
                 sub_rating.set_overall(1.0)
                 sub_rating.set_integrity_and_security(1.0, '- {2}, CSP policy "{0}" is using "{1}"'.format(policy_name, "'unsafe-inline'", domain))                
                 rating += sub_rating
+
+            if not is_using_unsafe:
+                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating.set_overall(5.0)
+                sub_rating.set_integrity_and_security(5.0, '- {2}, CSP policy "{0}" is NOT using "{1}"'.format(policy_name, "'unsafe-*'", domain))
+                rating += sub_rating
+
 
             # Handle policy specific logic
             # if policy_name == 'base-uri':

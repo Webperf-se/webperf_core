@@ -149,6 +149,8 @@ def main(argv):
                 from engines.csv import read_sites, add_site, delete_site
             elif (file_ending == ".xml"):  # https://example.com/sitemap.xml
                 from engines.sitemap import read_sites, add_site, delete_site
+            elif (file_long_ending == ".xml.gz"):  # https://example.com/sitemap.xml.gz
+                from engines.sitemap import read_sites, add_site, delete_site
             elif file_long_ending == ".result":
                 from engines.sitespeed_result import read_sites, add_site, delete_site
             elif file_long_ending == ".webprf":

@@ -9,4 +9,10 @@ Let us know by [adding a GitHub issue](https://github.com/Webperf-se/webperf_cor
 Reads Webperf Core SQLite data onto a dashboard-like .NET 5.0 Blazor web page.
 
 * Author: [Johan Kronberg](https://github.com/krompaco/)
-* Github Repo: [webperf-leaderboard](https://github.com/krompaco/webperf-leaderboard)
+* Github repo: [webperf-leaderboard](https://github.com/krompaco/webperf-leaderboard)
+
+### Webperf Core Windows Sandbox
+> This repo will help you setup and use Windows Sandbox when working with webperf_core. Main goal is to make it safer, easier and faster to use webperf_core.
+
+* Author: [cockroacher](https://github.com/cockroacher)
+* Github repo: [webperf_core-windows-sandbox](https://github.com/cockroacher/webperf_core-windows-sandbox)

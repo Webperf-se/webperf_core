@@ -219,6 +219,47 @@ def httpRequestGetContent(url, allow_redirects=False, use_text_instead_of_conten
         pass
     return ''
 
+def get_content_type(url, cache_time_delta):
+    headers = get_url_headers(url, cache_time_delta)
+
+    has_content_type_header = 'Content-Type' in headers
+    if has_content_type_header:
+        return headers['Content-Type']
+    return None
+
+def get_url_headers(url, cache_time_delta):
+    """Trying to fetch the response content
+    Attributes: url, as for the URL to fetch
+    """
+
+    try:
+        key = url.replace('https://', 'heads://').replace('http://', 'head://')
+
+        content = get_cache_file(
+            key, True, cache_time_delta)
+        if content != None:
+            headers = json.loads(content)
+            return headers
+        
+        headers = {'user-agent': useragent}
+        a = requests.head(url, allow_redirects=True,
+                         headers=headers, timeout=request_timeout*2)
+
+        time.sleep(5)
+
+        headers = dict(a.headers)
+        nice_headers = json.dumps(headers, indent=3)
+        set_cache_file(key, nice_headers, True)
+        return headers
+    except ssl.CertificateError as error:
+        print('Info: Certificate error. {0}'.format(error.reason))
+        return dict()
+    except requests.exceptions.SSLError:
+        return dict()
+    except requests.exceptions.ConnectionError:
+        return dict()
+    except Exception as ex:
+        return dict()
 
 def has_redirect(url):
     """Trying to fetch the response content

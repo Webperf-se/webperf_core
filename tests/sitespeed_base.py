@@ -81,20 +81,8 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
 
         # print('DEBUG VERSIONS:', versions)
 
-        website_folder_name = get_foldername_from_url(url)
+        filename_old = get_browsertime_har_path(os.path.join(result_folder_name, 'pages'))
 
-        filename_old = os.path.join(result_folder_name, 'pages',
-                                    website_folder_name, 'data', 'browsertime.har')
-
-        if (not os.path.exists(filename_old)):
-            filename_tmp =os.path.join(result_folder_name, 'pages',
-                                        website_folder_name)
-            if os.path.exists(filename_tmp):
-                sub_dirs = os.listdir(filename_tmp)
-                for sub_dir in sub_dirs:
-                    filename_old = os.path.join(result_folder_name, 'pages',
-                                            website_folder_name, sub_dir, 'data', 'browsertime.har')
-                    break
         filename = '{0}{1}'.format(result_folder_name, '.har')
         cookies_json = json.loads(cookies)
         versions_json = json.loads(versions)
@@ -115,7 +103,6 @@ def cleanup_results_dir(browsertime_path, path):
 
 def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
 
-    # print('DEBUG get_result_using_no_cache(arg)', arg)
     result = ''
     process = None
     process_failsafe_timeout = timeout * 10
@@ -259,23 +246,17 @@ def write_json(filename, data):
     with open(filename, 'w', encoding='utf-8') as outfile:
         json.dump(data, outfile)
 
+def get_browsertime_har_path(parent_path):
+    if not os.path.exists(parent_path):
+        return None
 
-def get_foldername_from_url(url):
-    o = urlparse(url)
-    hostname = o.hostname
-    relative_path = o.path
-
-    test_str = '{0}{1}'.format(hostname, relative_path)
-
-    regex = r"[^a-zA-Z0-9\-\/]"
-    subst = "_"
-
-    # You can manually specify the number of replacements by changing the 4th argument
-    folder_result = re.sub(regex, subst, test_str, 0, re.MULTILINE)
-
-    # NOTE: hopefully temporary fix for "index.html" and Gullspangs-kommun.html
-    folder_result = folder_result.replace('_html', '.html')
-
-    folder_result = folder_result.replace('/', os.sep)
-
-    return folder_result
+    sub_dirs = os.listdir(parent_path)
+    if 'browsertime.har' in sub_dirs:
+        return os.path.join(parent_path, 'browsertime.har')
+    
+    for sub_dir in sub_dirs:
+        tmp = get_browsertime_har_path(os.path.join(parent_path, sub_dir))
+        if tmp:
+            return tmp
+    
+    return None

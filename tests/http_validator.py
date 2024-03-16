@@ -24,6 +24,8 @@ import dns.dnssec
 import dns.message
 import dns.resolver
 import dns.rdatatype
+import hashlib
+import base64
 import datetime
 import gettext
 _local = gettext.gettext
@@ -476,14 +478,7 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
                     sub_rating.set_integrity_and_security(5.0, _local('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "'none'", domain))
                     rating += sub_rating
                 any_found = True
-            else:
-                sub_rating = Rating(_, review_show_improvements_only)
-                sub_rating.set_overall(1.0)
-                sub_rating.set_standards(5.0, _local('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, "'none'", domain))
-                sub_rating.set_integrity_and_security(1.0, _local('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, "'none'", domain))
-                rating += sub_rating
-
-            if len(policy_object['hashes']) > 0:
+            elif len(policy_object['hashes']) > 0:
                 # TODO: Validate correct format ( '<hash-algorithm>-<base64-value>' )
                 sub_rating = Rating(_, review_show_improvements_only)
                 sub_rating.set_overall(5.0)
@@ -491,6 +486,13 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
                 sub_rating.set_integrity_and_security(5.0, _local('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "sha[256/384/512]", domain))
                 rating += sub_rating
                 any_found = True
+            else:
+                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating.set_overall(1.0)
+                sub_rating.set_standards(5.0, _local('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, "'none'", domain))
+                sub_rating.set_integrity_and_security(1.0, _local('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, "'none'", domain))
+                rating += sub_rating
+
 
             nof_nonces = len(policy_object['nounces'])
             if nof_nonces > 0:
@@ -709,9 +711,8 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
 
                 text_recommendation = _local('TEXT_REVIEW_CSP_RECOMMENDED_TEXT').format(nof_pages, csp_recommendation, csp_recommendation_rating_summary)
                 
-                sub = 0.5
-                score = csp_recommendation_rating.get_overall() - sub
-                if score > final_rating.get_overall():
+                score = csp_recommendation_rating.get_integrity_and_security()
+                if score > final_rating.get_integrity_and_security():
                     final_rating.overall_review = text_recommendation + final_rating.overall_review
 
     return final_rating
@@ -976,9 +977,6 @@ def sitespeed_result_2_test_result(filename, org_domain):
                 else:
                     result[req_domain]['ip-versions'].append('IPv4')
 
-            # if req_domain not in result[org_domain]['csp-findings']['host-sources']:
-            #     result[org_domain]['csp-findings']['host-sources'].append(req_domain)
-
             scheme = '{0}:'.format(o.scheme.lower())
             if scheme not in result[org_domain]['csp-findings']['scheme-sources'] and scheme != 'http:':
                 result[org_domain]['csp-findings']['scheme-sources'].append(scheme)
@@ -1095,24 +1093,25 @@ def sitespeed_result_2_test_result(filename, org_domain):
                                 key = '{0}|{1}'.format(element_domain, element_name)
                                 if key not in result[org_domain]['csp-findings']['host-sources']:
                                     result[org_domain]['csp-findings']['host-sources'].append(key)
-                        elif attribute_name == 'href':
-                            if 'link' == element_name:
-                                if 'rel="stylesheet"' in element_raw or 'as="style"' in element_raw:
-                                    element_name = 'style'
-                                elif 'rel="icon"' in element_raw or 'as="image"' in element_raw or 'type="image/' in element_raw:
-                                    element_name = 'img'
-                                elif 'as="script"' in element_raw:
-                                    element_name = 'script'
-                                elif 'as="font"' in element_raw or 'type="font' in element_raw:
-                                    element_name = 'font'
-                                elif 'rel="stylesheet"="script"' in element_raw:
-                                    element_name = 'script'
-                                else:
-                                    continue
+                        # Commenting out this part as it got too many false positives (meaning, got 'self' but matched 'sha-<hash>' for example)
+                        # elif attribute_name == 'href':
+                        #     if 'link' == element_name:
+                        #         if 'rel="stylesheet"' in element_raw or 'as="style"' in element_raw:
+                        #             element_name = 'style'
+                        #         elif 'rel="icon"' in element_raw or 'as="image"' in element_raw or 'type="image/' in element_raw:
+                        #             element_name = 'img'
+                        #         elif 'as="script"' in element_raw:
+                        #             element_name = 'script'
+                        #         # elif 'as="font"' in element_raw or 'type="font' in element_raw:
+                        #         #     element_name = 'font'
+                        #         elif 'rel="stylesheet"="script"' in element_raw:
+                        #             element_name = 'script'
+                        #         else:
+                        #             continue
 
-                            key = '{0}|{1}'.format(element_domain, element_name)
-                            if key not in result[org_domain]['csp-findings']['host-sources']:
-                                result[org_domain]['csp-findings']['host-sources'].append(key)
+                        #     key = '{0}|{1}'.format(element_domain, element_name)
+                        #     if key not in result[org_domain]['csp-findings']['host-sources']:
+                        #         result[org_domain]['csp-findings']['host-sources'].append(key)
                         elif attribute_name == 'action' and element_name == 'form':
                             key = '{0}|form-action'.format(element_domain)
                             if key not in result[org_domain]['csp-findings']['host-sources']:
@@ -1185,15 +1184,35 @@ def sitespeed_result_2_test_result(filename, org_domain):
             elif ('mimeType' in res['content'] and 'font/' in res['content']['mimeType']) or req_url.endswith('.otf') or req_url.endswith('.woff') or req_url.endswith('.woff2'):
                 element_domain = req_domain
                 element_name = 'font'
-                if element_domain == org_domain:
-                    key = '\'self\'|{0}'.format(element_name)
-                    if key not in result[org_domain]['csp-findings']['quotes']:
-                        result[org_domain]['csp-findings']['quotes'].append(key)
-                else:
-                    key = '{0}|{1}'.format(element_domain, element_name)
-                    if key not in result[org_domain]['csp-findings']['host-sources']:
-                        result[org_domain]['csp-findings']['host-sources'].append(key)
-                        
+                # woff and woff2 support is in all browser, add hash to our csp-findings
+                has_font_hash = False
+                if req_url.endswith('.woff') or req_url.endswith('.woff2') or 'font-woff' in res['content']['mimeType'] or 'font/woff' in res['content']['mimeType']:
+                    key = '{0}|{1}'.format(req_url, element_name)
+                    if key not in result[org_domain]['csp-findings']['font-sources']:
+                        font_content = None
+                        font_hash = None
+                        if 'text' in res['content'] and 'encoding' in res['content'] and res['content']['encoding'] == 'base64':
+                            # we have base64 encoded content, decode it, calcuclate sha256 and add it.
+                            font_content = base64.decodebytes(res['content']['text'].encode('utf-8'))
+                            font_hash = create_sha256_hash(font_content)
+                            key2 = '{0}|{1}'.format("'sha256-{0}'".format(font_hash), element_name)
+                            if key not in result[org_domain]['csp-findings']['quotes']:
+                                result[org_domain]['csp-findings']['quotes'].append(key2)
+                                result[org_domain]['csp-findings']['font-sources'].append(key)
+                            has_font_hash = True
+                    else:
+                        has_font_hash = True
+                if not has_font_hash:
+                    if element_domain == org_domain:
+                        key = '\'self\'|{0}'.format(element_name)
+                        if key not in result[org_domain]['csp-findings']['quotes']:
+                            result[org_domain]['csp-findings']['quotes'].append(key)
+                    else:
+                        key = '{0}|{1}'.format(element_domain, element_name)
+                        if key not in result[org_domain]['csp-findings']['host-sources']:
+                            result[org_domain]['csp-findings']['host-sources'].append(key)
+
+
 
 
 
@@ -1206,6 +1225,11 @@ def sitespeed_result_2_test_result(filename, org_domain):
     result['visits'] = 1
 
     return result
+
+def create_sha256_hash(data):
+    sha_signature = hashlib.sha256(data).digest()
+    base64_encoded_sha_signature = base64.b64encode(sha_signature).decode()
+    return base64_encoded_sha_signature
 
 def validate_dnssec(domain, domain_entry):
     # subdomain = 'static.internetstiftelsen.se'
@@ -2049,7 +2073,8 @@ def default_csp_result_object(is_org_domain):
         obj['csp-findings'] = {
                             'quotes': [],
                             'host-sources': [],
-                            'scheme-sources': []
+                            'scheme-sources': [],
+                            'font-sources': []
                         }
     return obj
 

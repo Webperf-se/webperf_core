@@ -18,6 +18,9 @@ msgstr ""
 msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 21 - HTTP\n"
 
+msgid "TEXT_RUNNING_TEST_CSP_ONLY"
+msgstr "## Test: 21 - Content Security Policy (Only)\n"
+
 msgid "TEXT_REVIEW_TLS1_3_SUPPORT"
 msgstr "- {0}, TLSv1.3 support"
 

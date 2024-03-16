@@ -54,11 +54,21 @@ except:
     # If use_detailed_report variable is not set in config.py this will be the default
     use_detailed_report = False
 
+try:
+    csp_only = config.csp_only
+    csp_only_global_result_dict = {}
+except:
+    # If use_detailed_report variable is not set in config.py this will be the default
+    csp_only = False
+    csp_only_global_result_dict = {}
+
 
 def run_test(_, langCode, url):
     """
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
+
+    global csp_only_global_result_dict
 
     # TODO: Check if we can use sitespeed instead (to make it more accurate), https://addons.mozilla.org/en-US/firefox/addon/http2-indicator/
 
@@ -69,7 +79,10 @@ def run_test(_, langCode, url):
     language.install()
     _local = language.gettext
 
-    print(_local('TEXT_RUNNING_TEST'))
+    if csp_only:
+        print(_local('TEXT_RUNNING_TEST_CSP_ONLY'))
+    else:
+        print(_local('TEXT_RUNNING_TEST'))
 
     print(_('TEXT_TEST_START').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
@@ -78,21 +91,30 @@ def run_test(_, langCode, url):
     o = urllib.parse.urlparse(url)
     hostname = o.hostname
 
-    if hostname.startswith('www.'):
-        url = url.replace(hostname, hostname[4:])
+    if csp_only:
+        result_dict = merge_dicts(check_csp(url), csp_only_global_result_dict)
+        if 'nof_pages' not in result_dict:
+            result_dict['nof_pages'] = 1
+        else:
+            result_dict['nof_pages'] += 1
 
-    o = urllib.parse.urlparse(url)
-    hostname = o.hostname
+        csp_only_global_result_dict = result_dict
+    else:
+        if hostname.startswith('www.'):
+            url = url.replace(hostname, hostname[4:])
 
-    result_dict = check_http_to_https(url)
+        o = urllib.parse.urlparse(url)
+        hostname = o.hostname
 
-    result_dict = check_tls_versions(result_dict)
+        result_dict = check_http_to_https(url)
 
-    result_dict = check_ip_version(result_dict)
+        result_dict = check_tls_versions(result_dict)
 
-    result_dict = check_http_version(url, result_dict)
+        result_dict = check_ip_version(result_dict)
 
-    # result_dict = check_dnssec(hostname, result_dict)
+        result_dict = check_http_version(url, result_dict)
+
+        # result_dict = check_dnssec(hostname, result_dict)
 
     result_dict = cleanup(result_dict)
 
@@ -115,13 +137,14 @@ def rate(org_domain, result_dict, _, _local):
         if type(result_dict[domain]) != dict:
             continue
 
-        rating += rate_protocols(result_dict, _, _local ,domain)
-        # rating += rate_dnssec(result_dict, _, _local, domain)
-        rating += rate_schemas(result_dict, _, _local, domain)
-        rating += rate_hsts(result_dict, _, _local, org_domain, domain)
+        if not csp_only:
+            rating += rate_protocols(result_dict, _, _local ,domain)
+            # rating += rate_dnssec(result_dict, _, _local, domain)
+            rating += rate_schemas(result_dict, _, _local, domain)
+            rating += rate_hsts(result_dict, _, _local, org_domain, domain)
+            rating += rate_ip_versions(result_dict, _, _local, domain)
+            rating += rate_transfer_layers(result_dict, _, _local, domain)
         rating += rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, True)
-        rating += rate_ip_versions(result_dict, _, _local, domain)
-        rating += rate_transfer_layers(result_dict, _, _local, domain)
 
     return rating
 
@@ -686,9 +709,13 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
 
                 csp_recommendation_rating_summary = 'Recommended CSP Rating:{0}'.format(csp_recommendation_rating)
 
+                nof_pages = 1
+                if 'nof_pages' in result_dict:
+                    nof_pages = result_dict['nof_pages']
+
                 text_recommendation = ['##### Want to improve your Content-Security-Policy game?\r\n',
                                 'Why not try the below Content-Security-Policy response header to get started using Content Security Policy?\r\n',
-                                'Remember, below recommendation is only based on a sample (read: 1 page) of all pages on your website\r\n',
+                                'Remember, below recommendation is only based on a sample (read: {0} page) of all pages on your website\r\n'.format(nof_pages),
                                 'and based without clicking on anything.\r\n',
                                 '\r\n',
                                 'Recommended Content-Security-Policy policies:\r\n',
@@ -862,8 +889,10 @@ def cleanup(result_dict):
         if type(result_dict[domain]) != dict:
             continue
 
-        del result_dict[domain]['urls']
-        del result_dict[domain]['csp-policies']
+        if 'urls' in result_dict[domain]:
+            del result_dict[domain]['urls']
+        if 'csp-policies' in result_dict[domain]:
+            del result_dict[domain]['csp-policies']
 
         for subkey, subvalue in result_dict[domain].items():
             if type(subvalue) == dict:
@@ -1760,6 +1789,21 @@ def check_dnssec2(hostname, result_dict):
         result_dict[name] = entry
         
     return result_dict
+
+def check_csp(url):
+    # Firefox
+    # dom.security.https_only_mode
+
+    o = urllib.parse.urlparse(url)
+    o_domain = o.hostname
+
+    browser = 'firefox'
+    configuration = ''
+    print('CSP ONLY', o_domain)
+    result_dict = get_website_support_from_sitespeed(url, o_domain, configuration, browser, sitespeed_timeout)
+
+    return result_dict
+
 
 def check_http_to_https(url):
     # Firefox

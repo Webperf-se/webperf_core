@@ -17,9 +17,26 @@ Welcome to our open-source project! We appreciate your interest in contributing.
 - Familiarize yourself with the project structure and coding conventions.
 
 ## Submitting Issues
-- **Bug Reports:** If you encounter a bug, please create an issue with a clear description of the problem, steps to reproduce it, and relevant environment details.
-- **Feature Requests:** If you have an idea for a new feature or enhancement, open an issue to discuss it.
-- **Questions and Discussions:** Feel free to ask questions or start discussions related to the project. We also have a [Slack channel](https://webperf.se/articles/webperf-pa-slack/)
+
+### Bug Reports:
+If you encounter a bug, please follow these steps to create an informative bug report:
+
+1) **Check Existing Issues:** Before opening a new issue, search the existing issues to see if someone else has already reported the same problem.
+2) **Describe the Issue:** Create a new issue with a clear description of the problem. Include the following details:
+- **Summary:** A concise summary of the issue.
+- **Steps to Reproduce:** Detailed steps to reproduce the bug.
+- **Expected Behavior:** What you expected to happen.
+- **Actual Behavior:** What actually happened (including any error messages or exceptions).
+- **Environment Details:** Information about your operating system, browser, and any relevant software versions.
+3) **Include** `failures.log`: If the bug is related to an error or exception, attach the `failures.log` file (if available). This log can provide valuable insights for debugging.
+
+Remember that clear and detailed bug reports help maintainers understand and address the issue more effectively. Thank you for contributing to our project! 🙌
+
+### Feature Requests:
+If you have an idea for a new feature or enhancement, open an issue to discuss it.
+
+### Questions and Discussions:
+Feel free to ask questions or start discussions related to the project. We also have a [Slack channel](https://webperf.se/articles/webperf-pa-slack/)
 
 ## Creating Pull Requests
 - **Branches:** Create a new branch for your work (e.g., feature/my-new-feature).

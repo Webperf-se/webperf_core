@@ -70,8 +70,6 @@ def run_test(_, langCode, url):
 
     global csp_only_global_result_dict
 
-    # TODO: Check if we can use sitespeed instead (to make it more accurate), https://addons.mozilla.org/en-US/firefox/addon/http2-indicator/
-
     result_dict = {}
 
     language = gettext.translation(
@@ -307,10 +305,6 @@ def create_csp(csp_findings, org_domain):
             element_name = pair[1]
             if element_name == 'img':
                 img_src.append(host_source)
-
-
-    # TODO: we should check in HTML if base-uri is used
-                
 
     # Ensure policies that is NOT covered by a fallback
     if len(base_uri) == 0:

@@ -10,8 +10,9 @@ Add small description of what this test is.
 
 Checks if HTTP requests are redirected to HTTPS.
 A common misstake is to forget to force this redirect for root domain if www. subdomain is used.
+Also checks for HSTS support.
 
-### TLS and SSL support
+### TLS support
 
 Checks for Secure encryption support
 * Checks for TLS 1.3 support
@@ -32,6 +33,11 @@ Checks for Insecure encryption support
 
 * Checks for IPv4 support
 * Checks for IPv6 support
+
+### Content Security Policy (CSP) support
+
+* Checks for CSP support
+* Gives CSP recommendation if it could improve 0.75 or more in rating
 
 ## How are rating being calculated?
 
@@ -79,5 +85,11 @@ Read more on the [general page for github actions](../getting-started-github-act
 
 ## FAQ
 
-No frequently asked questions yet :)
+### How to get CSP recommendation for website
+Did you know you can get a CSP recommendation for all/part of your website?
+Do the following and webperf_core will give a CSP recommendation for more than 1 page.
+* Set `csp_only = True` in your `config.py`
+* Point webperf_core to your sitemap or your own list pages you want to test.
 
+Example, below will take first 25 items from sitemap:
+`python default.py -r -t 21 --input-take=25 -i https://nimbleinitiatives.com/sitemap.xml`

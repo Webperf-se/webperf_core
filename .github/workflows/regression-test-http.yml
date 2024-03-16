@@ -14,7 +14,7 @@ jobs:
     strategy:
             matrix:
                 os: [ubuntu-latest, windows-latest]
-                config: ['review_show_improvements_only=True,sitespeed_use_docker=False']
+                config: ['review_show_improvements_only=True,sitespeed_use_docker=False,csp_only=False', 'review_show_improvements_only=True,sitespeed_use_docker=False,csp_only=True']
                 version: [21]
                 include:
                   - os: ubuntu-latest

@@ -32,8 +32,8 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
     result_folder_name = os.path.join(folder, hostname, '{0}'.format(str(uuid.uuid4())))
     # result_folder_name = os.path.join('data', 'results')
 
-    sitespeed_arg += ' --outputFolder {0} {1}'.format(result_folder_name, url)
-    # sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs --outputFolder {0} {1}'.format(result_folder_name, url)
+    #sitespeed_arg += ' --outputFolder {0} {1}'.format(result_folder_name, url)
+    sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs --outputFolder {0} {1}'.format(result_folder_name, url)
     # sitespeed_arg += ' --outputFolder {0} {1}'.format(result_folder_name, url)
 
     filename = ''

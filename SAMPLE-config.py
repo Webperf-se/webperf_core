@@ -57,6 +57,9 @@ github_api_key = None
 # Tell tests to use detailed report (when available) for review and rating
 use_detailed_report = False
 
+# Tells HTTP test to ignore everything except the CSP part (great if you run it against sitemap to get CSP recommendation)
+csp_only = False
+
 # Tell software test to use stealth mode or not, default is 'True'
 software_use_stealth = True
 

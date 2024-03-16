@@ -122,3 +122,75 @@ msgstr "- {0}, Is NOT using HSTS"
 
 msgid "TEXT_REVIEW_NO_REMARKS"
 msgstr "- No remarks"
+
+msgid "TEXT_REVIEW_CSP_NOT_FOUND"
+msgstr "- {0}, Is NOT using CSP"
+
+msgid "TEXT_REVIEW_CSP"
+msgstr "- {0}, Content Security Policy (CSP)"
+
+msgid "TEXT_REVIEW_CSP_UNSUPPORTED_IN_META"
+msgstr "- {0}, Using a CSP policy in meta-element that are not allowed"
+
+msgid "TEXT_REVIEW_CSP_POLICY_DEPRECATED"
+msgstr "- {1}, Is using deprecated CSP policy '{0}'"
+
+msgid "TEXT_REVIEW_CSP_MALFORMED"
+msgstr "- {1}, CSP policy '{0}' is malformed"
+
+msgid "TEXT_REVIEW_CSP_POLICY_FOUND"
+msgstr "- {1}, CSP policy '{0}' found"
+
+msgid "TEXT_REVIEW_CSP_POLICY_NOT_FOUND"
+msgstr "- {1}, CSP policy '{0}' is missing"
+
+msgid "TEXT_REVIEW_CSP_POLICY_NOT_DEPRECATED"
+msgstr "- {1}, Is NOT using deprecated CSP policy '{0}'"
+
+msgid "TEXT_REVIEW_CSP_POLICY_USE_WILDCARD"
+msgstr "- {1}, CSP policy '{0}' is using wildcard at end of host-source"
+
+msgid "TEXT_REVIEW_CSP_POLICY_NOT_USE_WILDCARD"
+msgstr "- {1}, Is NOT using wildcard in CSP policy '{0}'"
+
+msgid "TEXT_REVIEW_CSP_POLICY_USE_UNSAFE_SCHEME"
+msgstr "- {2}, CSP policy '{0}' is using unsafe scheme {1}"
+
+msgid "TEXT_REVIEW_CSP_POLICY_USE_UNSAFE_SCHEME"
+msgstr "- {2}, CSP policy '{0}' is using unsafe scheme {1}"
+
+msgid "TEXT_REVIEW_CSP_POLICY_REUSE_NONCE"
+msgstr "- {1}, CSP policy '{0}' is reusing same 'nonce' between visits"
+
+msgid "TEXT_REVIEW_CSP_POLICY_MULTIUSE_NONCE"
+msgstr "- {2}, CSP policy '{0}' is using multiple {1}"
+
+msgid "TEXT_REVIEW_CSP_POLICY_NONE_NOT_ALONE"
+msgstr "- {1}, CSP policy '{0}' is NOT using 'none' alone"
+
+msgid "TEXT_REVIEW_CSP_POLICY_USE_15_OR_MORE_DOMAINS"
+msgstr "- {2}, CSP policy '{0}' is using {1} with over 15 domains"
+
+msgid "TEXT_REVIEW_CSP_POLICY_IS_USING"
+msgstr "- {2}, CSP policy '{0}' is using {1}"
+
+msgid "TEXT_REVIEW_CSP_POLICY_IS_NOT_USING"
+msgstr "- {2}, CSP policy '{0}' is NOT using {1}"
+
+msgid "TEXT_REVIEW_CSP_WILDCARDS"
+msgstr "wildcard(s)"
+
+msgid "TEXT_REVIEW_CSP_WILDCARD_SUBDOMAIN"
+msgstr "wildcard subdomain of orgin"
+
+msgid "TEXT_REVIEW_CSP_SUBDOMAIN"
+msgstr "subdomain of orgin"
+
+msgid "TEXT_REVIEW_CSP_DOMAIN"
+msgstr "domain"
+
+msgid "TEXT_REVIEW_CSP_RECOMMENDED_RATING"
+msgstr "Recommended CSP Rating:{0}"
+
+msgid "TEXT_REVIEW_CSP_RECOMMENDED_TEXT"
+msgstr "##### Want to improve your Content-Security-Policy game?\r\nWhy not try the below Content-Security-Policy response header to get started using Content Security Policy?\r\nRemember, below recommendation is only based on a sample (read: {0} page(s)) of all pages on your website\r\nand based without clicking on anything.\r\n\r\nRecommended Content-Security-Policy policies:\r\n{1}\r\n{2}\r\nRead more: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy\r\n\r\n"

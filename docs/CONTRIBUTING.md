@@ -2,12 +2,13 @@
 Welcome to our open-source project! We appreciate your interest in contributing. Before you get started, please take a moment to read through these guidelines to ensure a smooth and productive collaboration.
 
 ## Table of Contents
-- Getting Started
-- Submitting Issues
-- Creating Pull Requests
-- Code of Conduct
-- License
-- Contact
+- [Getting Started](#getting-started)
+- [Translations](#translations)
+- [Submitting Issues](#submitting-issues)
+- [Creating Pull Requests](#creating-pull-requests)
+- [Code of Conduct](#code-of-conduct)
+- [License](#license)
+- [Contact](#contact)
 
 
 
@@ -15,6 +16,39 @@ Welcome to our open-source project! We appreciate your interest in contributing.
 - Fork this repository and clone it to your local machine.
 - Install any necessary dependencies, you can read more about it in the [Getting Started on Local machine.](getting-started-local.md)
 - Familiarize yourself with the project structure and coding conventions.
+
+## Translations
+### Want to add another language? 
+
+The multiple language support is built on `gettext` in Python.
+
+#### How to support new language
+You could either follow the more technical suggestions below, or you perhaps would like an application such as [Poedit](https://poedit.net) (available on Macos, Linux and Windows).
+
+To create a new language source file:  
+```python3 <your path to pygettext.py > -d webperf-core -o locales/webperf-core.pot default.py checks.py```
+(or copy an existing one)
+
+Copy the file to your locale, for Swedish it would be:  
+```locales/sv/LC_MESSAGES/webperf-core.pot```
+
+Rename the file extension from `.pot` to `.po`
+
+After you have translated everything you should check it in, GitHub will take your change and generate .mo files when needed.
+You now have support for a new language, please send it to the official repository using a pull request :)
+
+#### How to find pygettext.py
+
+Locate your pygettext.py file:  
+```locate pygettext.py```
+
+It might be as follows:  
+```/Library/Frameworks/Python.framework/Versions/3.8/share/doc/python3.8/examples/Tools/i18n/pygettext.py```
+
+### References
+
+- https://phrase.com/blog/posts/translate-python-gnu-gettext/
+- https://docs.python.org/3/library/gettext.html
 
 ## Submitting Issues
 
@@ -56,42 +90,3 @@ The license used is the [MIT license](https://en.wikipedia.org/wiki/MIT_License)
 **Let's Connect on Slack! 🚀**
 
 Hey there! 👋 Got a question or just wanna chat about the project? Jump into our [Slack channel](https://webperf.se/articles/webperf-pa-slack/)! We've got a super chill community over at [Webperf on Slack](https://webperf.se/articles/webperf-pa-slack/), and we're all about helping each other out. Don't be shy, come say hi! 🎉
-
-
-
-
-
-## Translations
-
-### Want to add another language? 
-
-The multiple language support is built on `gettext` in Python.
-
-#### How to support new language
-You could either follow the more technical suggestions below, or you perhaps would like an application such as [Poedit](https://poedit.net) (available on Macos, Linux and Windows).
-
-To create a new language source file:  
-```python3 <your path to pygettext.py > -d webperf-core -o locales/webperf-core.pot default.py checks.py```
-(or copy an existing one)
-
-Copy the file to your locale, for Swedish it would be:  
-```locales/sv/LC_MESSAGES/webperf-core.pot```
-
-Rename the file extension from `.pot` to `.po`
-
-After you have translated everything you should check it in, GitHub will take your change and generate .mo files when needed.
-You now have support for a new language, please send it to the official repository using a pull request :)
-
-#### How to find pygettext.py
-
-Locate your pygettext.py file:  
-```locate pygettext.py```
-
-It might be as follows:  
-```/Library/Frameworks/Python.framework/Versions/3.8/share/doc/python3.8/examples/Tools/i18n/pygettext.py```
-
-### References
-
-- https://phrase.com/blog/posts/translate-python-gnu-gettext/
-- https://docs.python.org/3/library/gettext.html
-

@@ -1,30 +1,44 @@
-# How to Contribute
+# Contributing Guidelines
+Welcome to our open-source project! We appreciate your interest in contributing. Before you get started, please take a moment to read through these guidelines to ensure a smooth and productive collaboration.
 
-Do you want to contribute?
-You can contribute here at Github. By checking the code, trying the documentation, suggesting new tests, among other things.
-
-* [Feature requests](#feature-requests)
-* [Bug reports](#bug-reports)
-* [Pull Requests](#pull-requests)
-* [License](#license)
-* [Translations](#translations)
-
-
-## Feature requests
-add ingress here
+## Table of Contents
+- Getting Started
+- Submitting Issues
+- Creating Pull Requests
+- Code of Conduct
+- License
+- Contact
 
 
-## Bug reports
-add ingress here
 
+## Getting Started
+- Fork this repository and clone it to your local machine.
+- Install any necessary dependencies, you can read more about it in the [Getting Started on Local machine.](getting-started-local.md)
+- Familiarize yourself with the project structure and coding conventions.
 
-## Pull Requests
-add ingress here
+## Submitting Issues
+- **Bug Reports:** If you encounter a bug, please create an issue with a clear description of the problem, steps to reproduce it, and relevant environment details.
+- **Feature Requests:** If you have an idea for a new feature or enhancement, open an issue to discuss it.
+- **Questions and Discussions:** Feel free to ask questions or start discussions related to the project. We also have a [Slack channel](https://webperf.se/articles/webperf-pa-slack/)
 
+## Creating Pull Requests
+- **Branches:** Create a new branch for your work (e.g., feature/my-new-feature).
+- **Commits:** Make concise, well-documented commits. Use descriptive commit messages.
+- **Tests:** Ensure that your changes are covered by tests.
+- **Documentation:** Update relevant documentation if needed.
+- **Review Process:** Your pull request will be reviewed by maintainers. Be responsive to feedback.
+
+## Code of Conduct
+We expect all contributors to follow our Code of Conduct. Treat others with respect and kindness.
 
 ## License
 What you are allowed to do with this code / repo.
 The license used is the [MIT license](https://en.wikipedia.org/wiki/MIT_License). This means that you can do whatever you want with the source code, including using it in commercial software and contexts. However, there is no guarantee or liability for the code.
+
+## Contact
+[Slack channel](https://webperf.se/articles/webperf-pa-slack/)
+
+
 
 
 ## Translations

@@ -715,7 +715,7 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
 
                 text_recommendation = ['##### Want to improve your Content-Security-Policy game?\r\n',
                                 'Why not try the below Content-Security-Policy response header to get started using Content Security Policy?\r\n',
-                                'Remember, below recommendation is only based on a sample (read: {0} page) of all pages on your website\r\n'.format(nof_pages),
+                                'Remember, below recommendation is only based on a sample (read: {0} page(s)) of all pages on your website\r\n'.format(nof_pages),
                                 'and based without clicking on anything.\r\n',
                                 '\r\n',
                                 'Recommended Content-Security-Policy policies:\r\n',

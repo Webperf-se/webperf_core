@@ -232,9 +232,11 @@ def httpRequestGetContent(url, allow_redirects=False, use_text_instead_of_conten
 def get_content_type(url, cache_time_delta):
     headers = get_url_headers(url, cache_time_delta)
 
-    has_content_type_header = 'Content-Type' in headers
-    if has_content_type_header:
+    if 'Content-Type' in headers:
         return headers['Content-Type']
+    if 'content-type' in headers:
+        return headers['content-type']
+    
     return None
 
 def get_url_headers(url, cache_time_delta):

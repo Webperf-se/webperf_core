@@ -18,7 +18,8 @@ import config
 import IP2Location
 import os
 from urllib.parse import ParseResult, urlparse, urlunparse
-
+import dns
+import dns.dnssec
 
 ip2location_db = False
 try:
@@ -368,7 +369,7 @@ def dns_lookup(key, datatype):
         if response.rcode() != 0:
             # HANDLE QUERY FAILED (SERVER ERROR OR NO DNSKEY RECORD)
             print('\t\tERROR, RCODE is INVALID:', response.rcode())
-            return None
+            return list()
 
         text_response = response.to_text()
         set_cache_file(cache_key, text_response, True)
@@ -382,7 +383,7 @@ def dns_lookup(key, datatype):
     except Exception as ex:
         print('\t\tDNS GENERAL FAIL', ex)
 
-    return None
+    return list()
 
 def dns_response_to_list(dns_response):
     names = list()
@@ -392,7 +393,7 @@ def dns_response_to_list(dns_response):
                 names.append(''.join(s.decode()
                                     for s in rr.strings))
             else:
-                names.append(str(rr.address))
+                names.append(str(rr))
 
     return names
 

@@ -697,6 +697,7 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
                 csp_recommendation = create_csp(result_dict[domain]['csp-findings'], domain)
 
                 raw_csp_recommendation = csp_recommendation.replace('- ','').replace('\r\n','')
+                result_dict[domain]['csp-recommendation'] = [raw_csp_recommendation]
 
                 csp_recommendation_result = handle_csp_data(raw_csp_recommendation, domain, csp_recommendation_result, True, domain)
 

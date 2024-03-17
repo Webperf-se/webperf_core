@@ -1883,7 +1883,7 @@ def check_ip_version(result_dict):
             if type(result_dict[domain]) != dict:
                 continue
             if 'IPv4' not in result_dict[domain]['ip-versions']:
-                ip4_result = dns_lookup(domain, "A")
+                ip4_result = dns_lookup(domain, dns.rdatatype.A)
                 if len(ip4_result) > 0:
                     result_dict[domain]['ip-versions'].append('IPv4*')
 
@@ -1892,7 +1892,7 @@ def check_ip_version(result_dict):
             if type(result_dict[domain]) != dict:
                 continue
             if 'IPv6' not in result_dict[domain]['ip-versions']:
-                ip4_result = dns_lookup(domain, "AAAA")
+                ip4_result = dns_lookup(domain, dns.rdatatype.AAAA)
                 if len(ip4_result) > 0:
                     result_dict[domain]['ip-versions'].append('IPv6*')
 

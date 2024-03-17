@@ -60,6 +60,9 @@ use_detailed_report = False
 # Tells HTTP test to ignore everything except the CSP part (great if you run it against sitemap to get CSP recommendation)
 csp_only = False
 
+# Tells webperf_core to use following DNS Server for dns lookups
+dns_server = '8.8.8.8'
+
 # Tell software test to use stealth mode or not, default is 'True'
 software_use_stealth = True
 

@@ -33,6 +33,9 @@ lighthouse_use_api = True
 # Tells sitespeed if we should use it as a docker image or a npm package
 sitespeed_use_docker = True
 
+# Tells sitespeed max timeout for website calls
+sitespeed_timeout = 300
+
 # how many iterations of Sitespeed.io requests would you like? Has to be at least 2 not to fail
 sitespeed_iterations = 2
 
@@ -51,11 +54,17 @@ cache_time_delta = timedelta(hours=1)
 # GITHUB API Token, used for calls to github API (to remove call limit)
 github_api_key = None
 
+# Tell tests to use detailed report (when available) for review and rating
+use_detailed_report = False
+
+# Tells HTTP test to ignore everything except the CSP part (great if you run it against sitemap to get CSP recommendation)
+csp_only = False
+
+# Tells webperf_core to use following DNS Server for dns lookups
+dns_server = '8.8.8.8'
+
 # Tell software test to use stealth mode or not, default is 'True'
 software_use_stealth = True
-
-# Tell software test to use detailed report for review and rating
-software_use_detailed_report = False
 
 # Tell software test the path to where you have repo of: https://github.com/github/advisory-database
 # Used to find CVE:s for npm packages

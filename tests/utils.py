@@ -17,8 +17,9 @@ import dns.resolver
 import config
 import IP2Location
 import os
-from urllib.parse import urlparse
-
+from urllib.parse import ParseResult, urlparse, urlunparse
+import dns
+import dns.dnssec
 
 ip2location_db = False
 try:
@@ -43,10 +44,27 @@ except:
     cache_time_delta = timedelta(hours=1)
 
 try:
+    dns_server = config.dns_server
+except:
+    # If cache_when_possible variable is not set in config.py this will be the default
+    dns_server = '8.8.8.8'
+
+
+try:
     gitHubApiKey=config.github_api_key
 except:
     gitHubApiKey=None
 
+def change_url_to_test_url(url, test_name):
+
+    o = urllib.parse.urlparse(url)
+    if '' == o.query:
+        new_query = 'webperf-core={0}'.format(test_name)
+    else:
+        new_query = 'webperf-core={0}&'.format(test_name) + o.query
+    o2 = ParseResult(scheme=o.scheme, netloc=o.netloc, path=o.path, params=o.params, query=new_query, fragment=o.fragment)
+    url2 = urlunparse(o2)
+    return url2
 
 
 def is_file_older_than(file, delta):
@@ -222,9 +240,11 @@ def httpRequestGetContent(url, allow_redirects=False, use_text_instead_of_conten
 def get_content_type(url, cache_time_delta):
     headers = get_url_headers(url, cache_time_delta)
 
-    has_content_type_header = 'Content-Type' in headers
-    if has_content_type_header:
+    if 'Content-Type' in headers:
         return headers['Content-Type']
+    if 'content-type' in headers:
+        return headers['content-type']
+    
     return None
 
 def get_url_headers(url, cache_time_delta):
@@ -327,37 +347,55 @@ def is_sitemap(content):
 
     return False
 
-
-def dns_lookup(hostname, record_type):
-    names = list()
+def dns_lookup(key, datatype):
+    use_dnssec = False
+    cache_key = 'dnslookup://{0}#{1}#{2}'.format(key, datatype, use_dnssec)
+    if has_cache_file(cache_key, True, cache_time_delta):
+        cache_path = get_cache_path(cache_key, True)
+        response = dns.message.from_file(cache_path)
+        return dns_response_to_list(response)
 
     try:
-        dns_records = dns.resolver.resolve(hostname, record_type)
-    except dns.resolver.NXDOMAIN:
-        # print("dns lookup error: No record found")
-        # sleep so we don't get banned for to many queries on DNS servers
-        time.sleep(1)
-        return names
-    except (dns.resolver.NoAnswer, dns.resolver.NoNameservers) as error:
-        # print("dns lookup error: ", error)
-        # sleep so we don't get banned for to many queries on DNS servers
-        time.sleep(5)
-        return names
-    except Exception as ex:
-        time.sleep(10)
-        return names
-
-    for dns_record in dns_records:
-        if record_type == 'TXT':
-            names.append(''.join(s.decode()
-                                 for s in dns_record.strings))
+        query = None
+        # Create a query for the 'www.example.com' domain
+        if use_dnssec:
+            query = dns.message.make_query(key, datatype, want_dnssec=True)
         else:
-            names.append(str(dns_record))
+            query = dns.message.make_query(key, datatype, want_dnssec=False)
 
-        # sleep so we don't get banned for to many queries on DNS servers
-    time.sleep(1)
+        # Send the query and get the response
+        response = dns.query.udp(query, dns_server)
+
+        if response.rcode() != 0:
+            # HANDLE QUERY FAILED (SERVER ERROR OR NO DNSKEY RECORD)
+            print('\t\tERROR, RCODE is INVALID:', response.rcode())
+            return list()
+
+        text_response = response.to_text()
+        set_cache_file(cache_key, text_response, True)
+
+        time.sleep(5)
+
+        return dns_response_to_list(response)
+
+    except dns.dnssec.ValidationFailure as vf:
+        print('\t\tDNS FAIL', vf)
+    except Exception as ex:
+        print('\t\tDNS GENERAL FAIL', ex)
+
+    return list()
+
+def dns_response_to_list(dns_response):
+    names = list()
+    for rrset in dns_response.answer:
+        for rr in rrset:
+            if rr.rdtype == dns.rdatatype.TXT:
+                names.append(''.join(s.decode()
+                                    for s in rr.strings))
+            else:
+                names.append(str(rr))
+
     return names
-
 
 def get_eu_countries():
     eu_countrycodes = {

@@ -120,7 +120,7 @@ def test(_, langCode, site, test_type=None, show_reviews=False,):
                                 '\ncache_when_possible: {0}'.format(config.cache_when_possible),
                                 '\ncache_time_delta: {0}'.format(config.cache_time_delta),
                                 '\nsoftware_use_stealth: {0}'.format(config.software_use_stealth),
-                                '\nsoftware_use_detailed_report: {0}'.format(config.software_use_detailed_report),
+                                '\nuse_detailed_report: {0}'.format(config.use_detailed_report),
                                 '\nsoftware_browser: {0}'.format(config.software_browser),
                                  '\n###############################################\n'
                                  ])

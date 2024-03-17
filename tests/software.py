@@ -31,6 +31,11 @@ except:
     # If browser is not set in config.py this will be the default
     software_browser = 'chrome'
 try:
+    sitespeed_timeout = config.sitespeed_timeout
+except:
+    # If sitespeed timeout is not set in config.py this will be the default
+    sitespeed_timeout = 600
+try:
     use_cache = config.cache_when_possible
     cache_time_delta = config.cache_time_delta
 except:
@@ -43,9 +48,9 @@ except:
     # If software_use_stealth variable is not set in config.py this will be the default
     use_stealth = True
 try:
-    use_detailed_report = config.software_use_detailed_report
+    use_detailed_report = config.use_detailed_report
 except:
-    # If software_use_detailed_report variable is not set in config.py this will be the default
+    # If use_detailed_report variable is not set in config.py this will be the default
     use_detailed_report = False
 
 # Debug flags for every category here, this so we can print out raw values (so we can add more allowed once)
@@ -101,8 +106,10 @@ def get_rating_from_sitespeed(url, _local, _):
     if 'nt' not in os.name:
         sitespeed_arg += ' --xvfb'
 
+    sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'
+
     (result_folder_name, filename) = get_result(
-        url, sitespeed_use_docker, sitespeed_arg)
+        url, sitespeed_use_docker, sitespeed_arg, sitespeed_timeout)
 
    
     o = urlparse(url)

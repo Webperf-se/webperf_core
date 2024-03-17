@@ -11,6 +11,8 @@ import datetime
 import time
 # https://docs.python.org/3/library/urllib.parse.html
 import urllib
+
+import dns
 import config
 from models import Rating
 from tests.utils import dns_lookup, get_best_country_code, httpRequestGetContent, is_country_code_in_eu_or_on_exception_list
@@ -339,7 +341,7 @@ def validate_email_domain(hostname, result_dict, _, _local):
 def Validate_MTA_STS_Policy(_, rating, _local, hostname):
     has_mta_sts_policy = False
     # https://www.rfc-editor.org/rfc/rfc8461#section-3.1
-    mta_sts_results = dns_lookup('_mta-sts.' + hostname, 'TXT')
+    mta_sts_results = dns_lookup('_mta-sts.' + hostname, dns.rdatatype.TXT)
     for result in mta_sts_results:
         if 'v=STSv1;' in result:
             has_mta_sts_policy = True
@@ -656,7 +658,7 @@ def Validate_SPF_Policy(_, _local, hostname, result_dict):
     else:
         result_dict['spf-dns-lookup-count'] = result_dict['spf-dns-lookup-count'] + 1
 
-    spf_results = dns_lookup(hostname, 'TXT')
+    spf_results = dns_lookup(hostname, dns.rdatatype.TXT)
     spf_content = ''
 
     for result in spf_results:
@@ -843,7 +845,7 @@ def Validate_IPv4_Operation_Status(_, rating, _local, ipv4_servers):
 
 
 def Validate_MX_Records(_, rating, result_dict, _local, hostname):
-    email_results = dns_lookup(hostname, "MX")
+    email_results = dns_lookup(hostname, dns.rdatatype.MX)
     has_mx_records_rating = Rating(_, review_show_improvements_only)
 
     email_servers = list()
@@ -861,8 +863,8 @@ def Validate_MX_Records(_, rating, result_dict, _local, hostname):
         server_address = email_result.split(' ')[1]
 
         email_entries.append(server_address)
-        ipv_4 = dns_lookup(server_address, "A")
-        ipv_6 = dns_lookup(server_address, "AAAA")
+        ipv_4 = dns_lookup(server_address, dns.rdatatype.A)
+        ipv_6 = dns_lookup(server_address, dns.rdatatype.AAAA)
 
         ipv4_servers.extend(ipv_4)
         ipv6_servers.extend(ipv_6)

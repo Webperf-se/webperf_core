@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 import config
 from tests.utils import *
 import gettext
+from engines.sitemap import read_sitemap
 _local = gettext.gettext
 
 # DEFAULTS
@@ -100,18 +101,55 @@ def validate_sitemap(_, _local, robots_content, has_robots_txt):
     else:
         return_dict['sitemap'] = 'ok'
 
-        smap_pos = robots_content.lower().find('sitemap')
-        smaps = robots_content[smap_pos:].split('\n')
+        regex = r"sitemap\:(?P<url>[^\n]+)"
         found_smaps = []
-        for line in smaps:
-            if 'sitemap:' in line.lower():
-                found_smaps.append(
-                    line.lower().replace('sitemap:', '').strip())
+        matches = re.finditer(regex, robots_content, re.MULTILINE | re.IGNORECASE)
+        for matchNum, match in enumerate(matches, start=1):
+            sitemap_url = match.group('url').strip()
+            found_smaps.append(sitemap_url)
 
         return_dict["num_sitemaps"] = len(found_smaps)
 
+        # NOTE: https://internetverkstan.se/ has styled sitemap
+        # TODO: https://internetverkstan.se/ has _1_ entry
+
         if len(found_smaps) > 0:
             return_dict["sitemaps"] = found_smaps
+
+            print('found sitemaps = ', found_smaps)
+
+            sitemap_items = read_sitemap(found_smaps[0], -1, -1, False)
+
+            print(found_smaps[0])
+            # print('\tTotal of Items = ', len(sitemap_items))
+
+            item_types = {}
+            type_spread = {}
+            for item in sitemap_items:
+                item_type = 'webpage'
+                item_url = item[1]
+                # TODO: validate url encoding ( Example: https://www.gotene.se/webdav/files/Centrumhuset/Kultur, turism & fritid/Biblioteket/hemsidefilm/loss_teckensprak.html )
+                parsed_item_url = urlparse(item_url)
+                tmp = os.path.splitext(parsed_item_url.path)[1].strip('.').lower()
+                ext_len = len(tmp)
+                # print('ext', tmp)
+                if ext_len <= 11 and ext_len >= 2:
+                    item_type = tmp
+                elif parsed_item_url.path.startswith('/download/'):
+                    item_type = 'unknown-in-download'
+                    
+
+                if item_type not in item_types:
+                    item_types[item_type] = list()
+                item_types[item_type].append(item_url)
+
+            item_type_keys = sorted(list(item_types.keys()))
+            type_spread['total'] = len(sitemap_items)
+            for key in item_type_keys:
+                type_spread[key] = len(item_types[key])
+
+            nice_items = json.dumps(type_spread, indent=14)
+            print('\tsitemap[distribution of types]', nice_items)
 
             smap_content = httpRequestGetContent(found_smaps[0], True)
 

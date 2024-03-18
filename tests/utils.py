@@ -238,7 +238,13 @@ def httpRequestGetContent(url, allow_redirects=False, use_text_instead_of_conten
     return ''
 
 def get_content_type(url, cache_time_delta):
+    print(url)
     headers = get_url_headers(url, cache_time_delta)
+
+    if headers['status-code'] == 401:
+        return 401
+
+    print('\t- headers =', headers)
 
     if 'Content-Type' in headers:
         return headers['Content-Type']
@@ -264,10 +270,18 @@ def get_url_headers(url, cache_time_delta):
         headers = {'user-agent': useragent}
         a = requests.head(url, allow_redirects=True,
                          headers=headers, timeout=request_timeout*2)
+        
+        print('\t- status =', a.status_code)
+
+        if a.status_code == 401:
+            return {
+                'status-code': a.status_code
+            }
 
         time.sleep(5)
 
         headers = dict(a.headers)
+        headers['status-code'] = a.status_code
         nice_headers = json.dumps(headers, indent=3)
         set_cache_file(key, nice_headers, True)
         return headers

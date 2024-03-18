@@ -48,7 +48,7 @@ def run_test(_, langCode, url):
 
     # sitemap.xml
     has_robots_txt = return_dict['robots.txt'] == 'ok'
-    sitemap_result = validate_sitemap(
+    sitemap_result = validate_sitemaps(
         _, _local, robots_content, has_robots_txt)
     rating += sitemap_result[0]
     return_dict.update(sitemap_result[1])
@@ -76,12 +76,12 @@ def validate_robots(_, _local, parsed_url):
     robots_content = httpRequestGetContent(parsed_url + 'robots.txt', True)
 
     if robots_content == None or '</html>' in robots_content.lower() or ('user-agent' not in robots_content.lower() and 'disallow' not in robots_content.lower() and 'allow' not in robots_content.lower()):
-        rating.set_overall(1.0, _local("TEXT_ROBOTS_MISSING"))
+        rating.set_overall(1.0)
         rating.set_standards(1.0, _local("TEXT_ROBOTS_MISSING"))
         return_dict['robots.txt'] = 'missing content'
         robots_content = ''
     else:
-        rating.set_overall(5.0, _local("TEXT_ROBOTS_OK"))
+        rating.set_overall(5.0)
         rating.set_standards(5.0, _local("TEXT_ROBOTS_OK"))
 
         return_dict['robots.txt'] = 'ok'
@@ -89,13 +89,13 @@ def validate_robots(_, _local, parsed_url):
     return (rating, return_dict, robots_content)
 
 
-def validate_sitemap(_, _local, robots_content, has_robots_txt):
+def validate_sitemaps(_, _local, robots_content, has_robots_txt):
     rating = Rating(_, review_show_improvements_only)
     return_dict = dict()
     return_dict["num_sitemaps"] = 0
 
     if robots_content == None or not has_robots_txt or 'sitemap:' not in robots_content.lower():
-        rating.set_overall(1.0, _local("TEXT_SITEMAP_MISSING"))
+        rating.set_overall(1.0)
         rating.set_standards(1.0, _local("TEXT_SITEMAP_MISSING"))
         return_dict['sitemap'] = 'not in robots.txt'
     else:
@@ -118,60 +118,98 @@ def validate_sitemap(_, _local, robots_content, has_robots_txt):
 
             print('found sitemaps = ', found_smaps)
 
-            sitemap_items = read_sitemap(found_smaps[0], -1, -1, False)
-
-            print(found_smaps[0])
-            # print('\tTotal of Items = ', len(sitemap_items))
-
-            item_types = {}
-            type_spread = {}
-            for item in sitemap_items:
-                item_type = 'webpage'
-                item_url = item[1]
-                # TODO: validate url encoding ( Example: https://www.gotene.se/webdav/files/Centrumhuset/Kultur, turism & fritid/Biblioteket/hemsidefilm/loss_teckensprak.html )
-                parsed_item_url = urlparse(item_url)
-                tmp = os.path.splitext(parsed_item_url.path)[1].strip('.').lower()
-                ext_len = len(tmp)
-                # print('ext', tmp)
-                if ext_len <= 11 and ext_len >= 2:
-                    item_type = tmp
-                elif parsed_item_url.path.startswith('/download/'):
-                    item_type = 'unknown-in-download'
-                    
-
-                if item_type not in item_types:
-                    item_types[item_type] = list()
-                item_types[item_type].append(item_url)
-
-            item_type_keys = sorted(list(item_types.keys()))
-            type_spread['total'] = len(sitemap_items)
-            for key in item_type_keys:
-                type_spread[key] = len(item_types[key])
-
-            nice_items = json.dumps(type_spread, indent=14)
-            print('\tsitemap[distribution of types]', nice_items)
-
-            smap_content = httpRequestGetContent(found_smaps[0], True)
-
-            if not is_sitemap(smap_content):
-                rating.set_overall(
-                    3.0, _local("TEXT_SITEMAP_FOUND") + _local("TEXT_SITEMAP_BROKEN"))
-                rating.set_standards(
-                    3.0, _local("TEXT_SITEMAP_FOUND") + _local("TEXT_SITEMAP_BROKEN"))
-                return_dict['sitemap_check'] = '\'{0}\' seem to be broken'.format(
-                    found_smaps[0])
-            else:
-                rating.set_overall(
-                    5.0, _local("TEXT_SITEMAP_OK"))
-                rating.set_standards(
-                    5.0, _local("TEXT_SITEMAP_OK"))
-                return_dict['sitemap_check'] = '\'{0}\' seem ok'.format(
-                    found_smaps[0])
+            sitemaps_rating = Rating(_, review_show_improvements_only)
+            for sitemap_url in found_smaps:
+                sitemaps_rating += validate_sitemap(sitemap_url, return_dict, _, _local)
+            rating += sitemaps_rating
         else:
-            rating.set_overall(2.0, _local("TEXT_SITEMAP_FOUND"))
+            rating.set_overall(2.0)
             rating.set_standards(2.0, _local("TEXT_SITEMAP_FOUND"))
 
     return (rating, return_dict)
+
+def validate_sitemap(sitemap_url, return_dict, _, _local):
+    # TODO: Validation Rules: https://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd
+    # TODO: https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap#general-guidelines
+    # TODO: https://developers.google.com/search/docs/crawling-indexing/sitemaps/image-sitemaps
+
+    rating = Rating(_, review_show_improvements_only)
+
+
+    sitemap_items = read_sitemap(sitemap_url, -1, -1, False)
+
+    print(sitemap_url)
+            # print('\tTotal of Items = ', len(sitemap_items))
+
+    item_types = {}
+    type_spread = {}
+    for item in sitemap_items:
+        item_type = 'webpage'
+        item_url = item[1]
+                # TODO: validate url encoding ( Example: https://www.gotene.se/webdav/files/Centrumhuset/Kultur, turism & fritid/Biblioteket/hemsidefilm/loss_teckensprak.html )
+        parsed_item_url = urlparse(item_url)
+        tmp = os.path.splitext(parsed_item_url.path)[1].strip('.').lower()
+        ext_len = len(tmp)
+                # print('ext', tmp)
+        if ext_len <= 4 and ext_len >= 2:
+            item_type = tmp
+        elif parsed_item_url.path.startswith('/download/'):
+            item_type = 'unknown-in-download'
+                    
+
+        if item_type not in item_types:
+            item_types[item_type] = list()
+        item_types[item_type].append(item_url)
+
+    # TODO: as long as we handle <image:image>, make sure to give bad rating for everything that is not a webpage
+    # NOTE: We should problably give recommendation to use <image:loc> if they feel a need to make it easier to find images (if they are not doing so).
+
+    item_type_keys = sorted(list(item_types.keys()))
+    type_spread['total'] = len(sitemap_items)
+    if type_spread['total'] > 50_000:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(
+                    3.0)
+        sub_rating.set_standards(
+                    3.0, _local("TEXT_SITEMAP_FOUND") + _local("TEXT_SITEMAP_TOO_LARGE"))
+        rating += sub_rating
+    else:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(
+                    5.0)
+        sub_rating.set_standards(
+                    5.0, _local("TEXT_SITEMAP_NOT_TOO_LARGE"))
+        rating += sub_rating
+
+    for key in item_type_keys:
+        type_spread[key] = len(item_types[key])
+
+    nice_items = json.dumps(type_spread, indent=14)
+    print('\tsitemap[distribution of types]', nice_items)
+
+    smap_content = httpRequestGetContent(sitemap_url, True)
+
+    if not is_sitemap(smap_content):
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(
+                    3.0)
+        sub_rating.set_standards(
+                    3.0, _local("TEXT_SITEMAP_FOUND") + _local("TEXT_SITEMAP_BROKEN"))
+        rating += sub_rating
+
+        return_dict['sitemap_check'] = '\'{0}\' seem to be broken'.format(
+                    sitemap_url)
+    else:
+        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating.set_overall(
+                    5.0)
+        sub_rating.set_standards(
+                    5.0, _local("TEXT_SITEMAP_OK"))
+        rating += sub_rating
+
+        return_dict['sitemap_check'] = '\'{0}\' seem ok'.format(
+                    sitemap_url)
+    return rating
 
 
 def is_feed(tag):
@@ -260,7 +298,7 @@ def validate_security_txt(_, _local, parsed_url):
     if not security_wellknown_request and not security_root_request:
         # Can't find security.txt (not giving us 200 as status code)
         rating = Rating(_, review_show_improvements_only)
-        rating.set_overall(1.0, _local("TEXT_SECURITY_MISSING"))
+        rating.set_overall(1.0)
         rating.set_standards(1.0, _local("TEXT_SECURITY_MISSING"))
         rating.set_integrity_and_security(1.0, _local("TEXT_SECURITY_MISSING"))
 
@@ -292,22 +330,21 @@ def rate_securitytxt_content(content, _, _local):
     return_dict = dict()
     if content == None or ('<html' in content.lower()):
         # Html (404 page?) content instead of expected content
-        rating.set_overall(1.0, _local("TEXT_SECURITY_WRONG_CONTENT"))
+        rating.set_overall(1.0)
         rating.set_standards(1.0, _local("TEXT_SECURITY_WRONG_CONTENT"))
         rating.set_integrity_and_security(
             1.0, _local("TEXT_SECURITY_WRONG_CONTENT"))
         return_dict['security.txt'] = 'wrong content'
     elif ('contact:' in content.lower() and 'expires:' in content.lower()):
         # Everything seems ok
-        rating.set_overall(5.0, _local("TEXT_SECURITY_OK_CONTENT"))
+        rating.set_overall(5.0)
         rating.set_standards(5.0, _local("TEXT_SECURITY_OK_CONTENT"))
         rating.set_integrity_and_security(
             5.0, _local("TEXT_SECURITY_OK_CONTENT"))
         return_dict['security.txt'] = 'ok'
     elif not ('contact:' in content.lower()):
         # Missing required Contact
-        rating.set_overall(2.5, _local(
-            "TEXT_SECURITY_REQUIRED_CONTACT_MISSING"))
+        rating.set_overall(2.5)
         rating.set_standards(2.5, _local(
             "TEXT_SECURITY_REQUIRED_CONTACT_MISSING"))
         rating.set_integrity_and_security(
@@ -315,8 +352,7 @@ def rate_securitytxt_content(content, _, _local):
         return_dict['security.txt'] = 'required contact missing'
     elif not ('expires:' in content.lower()):
         # Missing required Expires (added in version 10 of draft)
-        rating.set_overall(2.5, _local(
-            "TEXT_SECURITY_REQUIRED_EXPIRES_MISSING"))
+        rating.set_overall(2.5)
         rating.set_standards(2.5, _local(
             "TEXT_SECURITY_REQUIRED_EXPIRES_MISSING"))
         rating.set_integrity_and_security(

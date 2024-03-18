@@ -35,6 +35,7 @@ def read_sitemap(input_sitemap_url, input_skip, input_take, ignore_none_html):
             return read_sitemap_xml(sitemap_content, input_skip, input_take, ignore_none_html)
     else:
         sitemap_content = httpRequestGetContent(input_sitemap_url, True, True)
+        # TODO: read sitemap as XML, to avoid parsing problems.
         return read_sitemap_xml(sitemap_content, input_skip, input_take, ignore_none_html)
 
 def read_sitemap_xml(sitemap_content, input_skip, input_take, ignore_none_html):

@@ -238,13 +238,15 @@ def validate_po_file(locales_dir, locale_name, language_sub_directory, file, msg
             language_sub_directory, file.replace('.po', '.mo'))
         if not os.path.exists(file_mo):
             print(
-                f'  Expected compiled translation file not found, file: "{file.replace('.po', '.mo')}"')
+                (f'  Expected compiled translation file not found, '
+                  f'file: "{file.replace('.po', '.mo')}"'))
             return False
         else:
             # for every .mo file found, try to load it to verify it works
             n_of_errors = 0
             try:
-                # NOTE: gettext is internally caching all mo files, we need to clear this variable to readd the newly generated .mo file.
+                # NOTE: gettext is internally caching all mo files,
+                #       we need to clear this variable to readd the newly generated .mo file.
                 gettext._translations = {} # pylint: disable=protected-access
 
                 language = gettext.translation(
@@ -354,6 +356,27 @@ def validate_translations():
 
 
 def validate_python_files(folder, msg_ids):
+    """
+    Validates all Python files in a given directory and its subdirectories.
+
+    This function recursively traverses through the given directory and its subdirectories,
+    and validates each Python file it encounters using the `validate_python_file` function.
+    A Python file is considered valid if it passes all the checks in
+    the `validate_python_file` function.
+
+    Parameters:
+    folder (str): The path to the directory that contains the Python files to be validated.
+    msg_ids (list): A list of message IDs to be used for validation.
+
+    Returns:
+    bool: True if all Python files in the directory and its subdirectories are valid,
+    False otherwise.
+
+    Raises:
+    OSError: If the given directory cannot be read. The function will return True in this case, 
+             as it assumes that there are no Python files in an unreadable directory.
+    """
+
     files_are_valid = True
     listing = False
     try:
@@ -365,7 +388,6 @@ def validate_python_files(folder, msg_ids):
         if '.' in item:
             if len(item) < 3 or not item.endswith('.py'):
                 continue
-            #print('python file:', item)
             current_file = os.path.join(
                 folder, item)
 
@@ -376,12 +398,34 @@ def validate_python_files(folder, msg_ids):
                 folder, item) + os.path.sep
             dir_is_valid = validate_python_files(current_dir, msg_ids)
             files_are_valid = files_are_valid and dir_is_valid
-            # print('dir:', current_dir)
 
     return files_are_valid
 
 
 def validate_python_file(current_file, msg_ids):
+    """
+    Validates a Python file by checking for missing message IDs.
+
+    This function reads the content of the given Python file and
+    searches for message IDs using a regular expression.
+    It then checks if each found message ID is present in the provided list of message IDs.
+    If a message ID is not found in the list, it's considered a validation error.
+    The function stops checking after encountering 5 errors.
+
+    Parameters:
+    current_file (str): The path to the Python file to be validated.
+    msg_ids (list): A list of valid message IDs.
+
+    Returns:
+    bool: True if the Python file is valid
+      (i.e., all found message IDs are in the list of valid IDs),
+      False otherwise.
+
+    Note:
+    The function prints the name of the file being validated,
+    and any missing message IDs it encounters. If the file is valid, it prints 'OK'.
+    """
+
     file_name = current_file[current_file.rindex(os.sep) + 1:]
     print('  #', file_name)
     file_is_valid = True
@@ -409,6 +453,30 @@ def validate_python_file(current_file, msg_ids):
 
 
 def validate_locales(base_directory, msg_ids):
+    """
+    Validates all locale directories in a given base directory.
+
+    This function traverses through the given base directory and
+    validates each locale directory it encounters using the `validate_po_file` function.
+    A locale directory is considered valid if all its .po files pass the validation checks in
+    the `validate_po_file` function.
+
+    Parameters:
+    base_directory (str):
+      The path to the base directory that contains the locale directories to be validated.
+    msg_ids (list): A list of valid message IDs.
+
+    Returns:
+    bool: True if all locale directories in the base directory are valid
+      (i.e., all .po files in each directory are valid), False otherwise.
+
+    Note:
+    The function prints the name of each locale directory being validated,
+    and any validation errors it encounters. 
+    If a .po file fails validation, the function tries to generate a new .mo file and
+    validate it again. If all locale directories are valid, it prints the available languages.
+    """
+
     is_valid = True
 
     available_languages = list()
@@ -441,7 +509,8 @@ def validate_locales(base_directory, msg_ids):
                         print(
                             '  - Trying to generate .mo file so it matches .po file')
                         bash_command = (f"python {msgfmt_path} -o "
-                                        f"{os.path.join(lang_sub_directory, file.replace('.po', '.mo'))} "
+                                        f"{os.path.join(lang_sub_directory,
+                                                        file.replace('.po', '.mo'))} "
                                         f"{os.path.join(lang_sub_directory, file)}")
 
                         process = subprocess.Popen(

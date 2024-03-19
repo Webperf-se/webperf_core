@@ -9,12 +9,32 @@ import json
 import shutil
 import re
 import gettext
-import requests
 import subprocess
-
+import requests
 
 def prepare_config_file(sample_filename, filename, arguments):
-    print('A', arguments)
+    """
+    Prepares a configuration file based on a sample file and a set of arguments.
+
+    This function performs the following steps:
+    1. Checks if the sample file exists. If not, it returns False.
+    2. If the target file already exists, it removes it.
+    3. Copies the sample file to the target file location.
+    4. Opens the new file and reads its contents.
+    5. Iterates over each line in the file and each argument in the arguments list.
+    6. For each argument, it finds the name and value and constructs a new line with these values.
+    7. Writes the modified lines back to the file.
+    8. Prints the contents of the new file for debugging purposes.
+
+    Args:
+        sample_filename (str): The path to the sample configuration file.
+        filename (str): The path where the new configuration file should be created.
+        arguments (list): A list of strings where each string is
+          an argument in the format 'name=value'.
+
+    Returns:
+        bool: True if the operation was successful, False otherwise.
+    """
 
     if not os.path.exists(sample_filename):
         print('no sample file exist')
@@ -61,6 +81,22 @@ def prepare_config_file(sample_filename, filename, arguments):
 
 
 def make_test_comparable(input_filename):
+    """
+    Modifies a JSON test file to make it comparable by removing date information.
+
+    This function performs the following steps:
+    1. Opens the input file and loads the JSON data.
+    2. Iterates over each test in the data. If a test contains a "date" field,
+      it replaces the date with the string "removed for comparison".
+    3. Writes the modified data back to the input file.
+
+    Args:
+        input_filename (str): The path to the JSON file to be modified.
+
+    Note: This function modifies the input file in-place.
+      Make sure to create a backup if you need to preserve the original data.
+    """
+
     with open(input_filename, encoding="utf-8") as json_input_file:
         data = json.load(json_input_file)
         for test in data["tests"]:
@@ -72,6 +108,22 @@ def make_test_comparable(input_filename):
 
 
 def print_file_content(input_filename):
+    """
+    Prints the content of a file line by line.
+
+    This function performs the following steps:
+    1. Prints the name of the input file.
+    2. Opens the input file in read mode.
+    3. Reads the file line by line.
+    4. Prints each line.
+
+    Args:
+        input_filename (str): The path to the file to be read.
+
+    Note: This function assumes that the file exists and can be opened.
+      If the file does not exist or cannot be opened, an error will occur.
+    """
+
     print('input_filename=' + input_filename)
     with open(input_filename, 'r', encoding="utf-8") as file:
         data = file.readlines()
@@ -80,6 +132,24 @@ def print_file_content(input_filename):
 
 
 def get_file_content(input_filename):
+    """
+    Reads the content of a file and returns it as a string.
+
+    This function performs the following steps:
+    1. Opens the input file in read mode.
+    2. Reads the file line by line and stores each line in a list.
+    3. Joins the list of lines into a single string with newline characters between each line.
+
+    Args:
+        input_filename (str): The path to the file to be read.
+
+    Returns:
+        str: The content of the file as a string.
+
+    Note: This function assumes that the file exists and can be opened.
+      If the file does not exist or cannot be opened, an error will occur.
+    """
+
     with open(input_filename, 'r', encoding='utf-8') as file:
         lines = list()
         data = file.readlines()
@@ -89,6 +159,23 @@ def get_file_content(input_filename):
 
 
 def validate_testresult(arg):
+    """
+    Validates the test result by checking the existence and content of a specific JSON file.
+
+    This function checks if a JSON file named 'testresult-{test_id}.json' exists
+      in the same directory as this script.
+    If the file exists, it checks if the file contains '{"tests": []}',
+      which indicates an empty test result.
+    The function prints the content of the file and 
+      returns a boolean value indicating the validity of the test result.
+
+    Parameters:
+    arg (str): The test_id used to identify the test result file.
+
+    Returns:
+    bool: True if the test result file exists and contains valid test results, False otherwise.
+    """
+
     base_directory = os.path.dirname(os.path.realpath(__file__)) + os.path.sep
     test_id = arg
     filename = f'testresult-{test_id}.json'
@@ -109,6 +196,27 @@ def validate_testresult(arg):
 
 
 def validate_po_file(locales_dir, locale_name, language_sub_directory, file, msg_ids):
+    """
+    Validates the .po and .mo files in a given directory for a specific locale.
+
+    This function checks the existence and content of .po and .mo files in a given directory.
+    It validates the .po file by checking if the corresponding .mo file exists and
+      if it can be loaded.
+    It also checks if the text in the .po file is present and equal in the .mo file.
+    The function prints the content of the file and returns a boolean value
+      indicating the validity of the file.
+
+    Parameters:
+    locales_dir (str): The directory where the locale files are located.
+    locale_name (str): The name of the locale to validate.
+    language_sub_directory (str): The subdirectory where the language files are located.
+    file (str): The name of the file to validate.
+    msg_ids (dict): A dictionary to store the message IDs and their corresponding texts.
+
+    Returns:
+    bool: True if the file is valid, False otherwise.
+    """
+
     file_is_valid = True
     if file.endswith('.pot'):
         print('')
@@ -137,7 +245,7 @@ def validate_po_file(locales_dir, locale_name, language_sub_directory, file, msg
             n_of_errors = 0
             try:
                 # NOTE: gettext is internally caching all mo files, we need to clear this variable to readd the newly generated .mo file.
-                gettext._translations = {}
+                gettext._translations = {} # pylint: disable=protected-access
 
                 language = gettext.translation(
                     file.replace('.po', ''), localedir=locales_dir, languages=[locale_name])
@@ -211,6 +319,20 @@ def validate_po_file(locales_dir, locale_name, language_sub_directory, file, msg
 
 
 def validate_translations():
+    """
+    Validates the translation files and usage in the project.
+
+    This function performs two main validation steps:
+    1. Validates the existence and correctness of .po and .mo files in the project.
+    2. Validates the usage of _() and _local() in .py files in the project.
+
+    The function uses the `validate_locales` function to validate .po and .mo files,
+    and the `validate_python_files` function to validate _() and _local() usage.
+
+    Returns:
+        bool: True if all validations pass, False otherwise.
+    """
+
     msg_ids = {}
     # loop all available languages and verify language exist
     base_directory = Path(os.path.dirname(
@@ -357,7 +479,7 @@ def validate_locales(base_directory, msg_ids):
         print('  No languages found')
     return is_valid
 
-def httpRequestGetContent(url, allow_redirects=False, use_text_instead_of_content=True):
+def get_content(url, allow_redirects=False, use_text_instead_of_content=True):
     """Trying to fetch the response content
     Attributes: url, as for the URL to fetch
     """
@@ -384,13 +506,13 @@ def httpRequestGetContent(url, allow_redirects=False, use_text_instead_of_conten
     except requests.exceptions.SSLError as error:
         if 'http://' in url:  # trying the same URL over SSL/TLS
             print('Info: Trying SSL before giving up.')
-            return httpRequestGetContent(url.replace('http://', 'https://'))
+            return get_content(url.replace('http://', 'https://'))
         print(f'Info: SSLError. {error}')
         return ''
     except requests.exceptions.ConnectionError as error:
         if 'http://' in url:  # trying the same URL over SSL/TLS
             print('Connection error! Info: Trying SSL before giving up.')
-            return httpRequestGetContent(url.replace('http://', 'https://'))
+            return get_content(url.replace('http://', 'https://'))
         print(
             f'Connection error! Unfortunately the request for URL "{url}" failed.'
             f'\nMessage:\n{sys.exc_info()[0]}')
@@ -460,7 +582,7 @@ def ensure_msgfmt_py():
         file_path = os.path.join(data_dir,filename)
 
         if not os.path.exists(file_path):
-            content = httpRequestGetContent(
+            content = get_content(
                 'https://raw.githubusercontent.com/python/cpython/main/Tools/i18n/msgfmt.py',
                  True,
                  True)

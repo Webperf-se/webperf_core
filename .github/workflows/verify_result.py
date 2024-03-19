@@ -30,7 +30,7 @@ def prepare_config_file(sample_filename, filename, arguments):
         print('no file exist')
         return False
 
-    with open(filename, 'r') as file:
+    with open(filename, 'r', encoding="utf-8") as file:
         data = file.readlines()
         output = list('')
         for line in data:
@@ -51,7 +51,7 @@ def prepare_config_file(sample_filename, filename, arguments):
                              tmp, 0, re.MULTILINE)
             output.append(tmp)
 
-    with open(filename, 'w') as outfile:
+    with open(filename, 'w', encoding="utf-8") as outfile:
         outfile.writelines(output)
 
     # show resulting config in output for debug reasons
@@ -61,19 +61,19 @@ def prepare_config_file(sample_filename, filename, arguments):
 
 
 def make_test_comparable(input_filename):
-    with open(input_filename) as json_input_file:
+    with open(input_filename, encoding="utf-8") as json_input_file:
         data = json.load(json_input_file)
         for test in data["tests"]:
             if "date" in test:
                 test["date"] = "removed for comparison"
 
-    with open(input_filename, 'w') as outfile:
+    with open(input_filename, 'w', encoding="utf-8") as outfile:
         json.dump(data, outfile)
 
 
 def print_file_content(input_filename):
     print('input_filename=' + input_filename)
-    with open(input_filename, 'r') as file:
+    with open(input_filename, 'r', encoding="utf-8") as file:
         data = file.readlines()
         for line in data:
             print(line)

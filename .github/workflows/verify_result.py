@@ -297,7 +297,7 @@ def validate_po_file(locales_dir, locale_name, language_sub_directory, file, msg
                         continue
                 if n_of_errors > 0:
                     file_is_valid = False
-            except Exception:
+            except IOError:
                 print(
                     f'  - Unable to load "{file_mo}" as a valid translation')
                 return False
@@ -358,7 +358,7 @@ def validate_python_files(folder, msg_ids):
     listing = False
     try:
         listing = os.listdir(folder)
-    except Exception:
+    except OSError:
         # Ignore: is not a directory or has some read problem..
         return files_are_valid
     for item in listing:
@@ -440,8 +440,9 @@ def validate_locales(base_directory, msg_ids):
                     if msgfmt_path is not None:
                         print(
                             '  - Trying to generate .mo file so it matches .po file')
-                        bash_command = f"python {msgfmt_path} -o {os.path.join(lang_sub_directory, file.replace(
-                                '.po', '.mo'))} {os.path.join(lang_sub_directory, file)}"
+                        bash_command = (f"python {msgfmt_path} -o "
+                                        f"{os.path.join(lang_sub_directory, file.replace('.po', '.mo'))} "
+                                        f"{os.path.join(lang_sub_directory, file)}")
 
                         process = subprocess.Popen(
                             bash_command.split(),
@@ -517,11 +518,15 @@ def get_content(url, allow_redirects=False, use_text_instead_of_content=True):
             f'Connection error! Unfortunately the request for URL "{url}" failed.'
             f'\nMessage:\n{sys.exc_info()[0]}')
         return ''
-    except Exception:
+    except requests.exceptions.Timeout:
         print(
-            f'Error! Unfortunately the request for URL "{url}" either timed out or '
-            f'failed for other reason(s). The timeout is set to {120} seconds.\n'
+            f'Timeout error! Unfortunately the request for URL "{url}" timed out. '
+            f'The timeout is set to {120} seconds.\n'
             f'Message:\n{sys.exc_info()[0]}')
+    except requests.exceptions.RequestException as error:
+        print(
+            f'Error! Unfortunately the request for URL "{url}" failed for other reason(s).\n'
+            f'Message:\n{error}')
     return ''
 
 def set_file(file_path, content, use_text_instead_of_content):

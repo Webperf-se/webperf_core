@@ -8,11 +8,9 @@ import getopt
 import json
 import shutil
 import re
-import sys
-import getopt
 import gettext
-
 import requests
+import subprocess
 
 
 def prepare_config_file(sample_filename, filename, arguments):
@@ -39,15 +37,14 @@ def prepare_config_file(sample_filename, filename, arguments):
             tmp = line
             for argument in arguments:
                 index = argument.find('=')
-                pair = argument.split('=')
                 name = argument[:index]
                 value = argument[(index + 1):]
 
-                regex_argument = r'^{0}.*'.format(name)
+                regex_argument = f'^{name}.*'
                 if value == 'True' or value == 'False' or value == 'None':
-                    result_argument = r'{0} = {1}'.format(name, value)
+                    result_argument = f'{name} = {value}'
                 else:
-                    result_argument = r"{0} = '{1}'".format(name, value)
+                    result_argument = f"{name} = '{value}'"
 
 
                 tmp = re.sub(regex_argument, result_argument,
@@ -83,21 +80,19 @@ def print_file_content(input_filename):
 
 
 def get_file_content(input_filename):
-    # print('input_filename=' + input_filename)
     with open(input_filename, 'r', encoding='utf-8') as file:
         lines = list()
         data = file.readlines()
         for line in data:
             lines.append(line)
-            # print(line)
     return '\n'.join(lines)
 
 
 def validate_testresult(arg):
-    dir = os.path.dirname(os.path.realpath(__file__)) + os.path.sep
+    base_directory = os.path.dirname(os.path.realpath(__file__)) + os.path.sep
     test_id = arg
-    filename = 'testresult-' + test_id + '.json'
-    filename = dir + filename
+    filename = f'testresult-{test_id}.json'
+    filename = os.path.join(base_directory, filename)
     if not os.path.exists(filename):
         print('test result doesn\'t exists')
         return False
@@ -107,34 +102,35 @@ def validate_testresult(arg):
         print('Test failed, empty test results only')
         print_file_content(filename)
         return False
-    else:
-        print('test result exists')
-        print_file_content(filename)
-        return True
+
+    print('test result exists')
+    print_file_content(filename)
+    return True
 
 
-def validate_po_file(locales_dir, localeName, languageSubDirectory, file, msg_ids):
+def validate_po_file(locales_dir, locale_name, language_sub_directory, file, msg_ids):
     file_is_valid = True
     if file.endswith('.pot'):
         print('')
         print('')
-        print('# {0} [{1}]'.format(file, localeName))
+        print(f'# {0} [{1}]'.format(file, locale_name))
         print(
             '  Unexpected .pot file found, this should probably be renamed to .po.')
         return False
-    elif file.endswith('.mo'):
+
+    if file.endswith('.mo'):
         # ignore this file format
         return True
-    elif file.endswith('.po'):
-        # print('po file found: {0}'.format(file))
+
+    if file.endswith('.po'):
         # for every .po file found, check if we have a .mo file
-        print('  # {0} [{1}]'.format(file, localeName))
+        print(f'  # {file} [{locale_name}]')
 
         file_mo = os.path.join(
-            languageSubDirectory, file.replace('.po', '.mo'))
+            language_sub_directory, file.replace('.po', '.mo'))
         if not os.path.exists(file_mo):
             print(
-                '  Expected compiled translation file not found, file: "{0}"'.format(file.replace('.po', '.mo')))
+                f'  Expected compiled translation file not found, file: "{file.replace('.po', '.mo')}"')
             return False
         else:
             # for every .mo file found, try to load it to verify it works
@@ -144,17 +140,17 @@ def validate_po_file(locales_dir, localeName, languageSubDirectory, file, msg_id
                 gettext._translations = {}
 
                 language = gettext.translation(
-                    file.replace('.po', ''), localedir=locales_dir, languages=[localeName])
+                    file.replace('.po', ''), localedir=locales_dir, languages=[locale_name])
                 language.install()
 
                 # Make sure every text in .po file is present (and equal) in .mo file
                 file_po_content = get_file_content(os.path.join(
-                    languageSubDirectory, file))
+                    language_sub_directory, file))
 
                 regex = r"msgid \"(?P<id>[^\"]+)\"[^m]+msgstr \"(?P<text>[^\"]+)\""
                 matches = re.finditer(
                     regex, file_po_content, re.MULTILINE)
-                for matchNum, match in enumerate(matches, start=1):
+                for _, match in enumerate(matches, start=1):
                     if n_of_errors >= 5:
                         print(
                             '  More then 5 errors, ignoring rest of errors')
@@ -169,33 +165,33 @@ def validate_po_file(locales_dir, localeName, languageSubDirectory, file, msg_id
 
                     if lang_txt == msg_id:
                         print(
-                            '  - Could not find text for msgid "{1}" in file: {0}'.format(file_mo, msg_id))
+                            f'  - Could not find text for msgid "{msg_id}" in file: {file_mo}')
                         n_of_errors += 1
                         continue
                     if lang_txt != msg_txt:
                         print(
                             '  ## Text missmatch:')
-                        print('  - msgid: {0}'.format(msg_id))
+                        print(f'  - msgid: {msg_id}')
                         if len(msg_txt) > 15:
                             print(
-                                '    - expected text: "{0}[...]"'.format(msg_txt[0: 15]))
+                                f'    - expected text: "{msg_txt[0: 15]}[...]"')
                         else:
                             print(
-                                '    - expected text: "{0}"'.format(msg_txt))
+                                f'    - expected text: "{msg_txt}"')
 
                         if len(lang_txt) > 15:
                             print(
-                                '    - recived text:  "{0}[...]"'.format(lang_txt[0:15]))
+                                f'    - recived text:  "{lang_txt[0:15]}[...]"')
                         else:
                             print(
-                                '    - recived text:  "{0}"'.format(lang_txt))
+                                f'    - recived text:  "{lang_txt}"')
                         n_of_errors += 1
                         continue
                 if n_of_errors > 0:
                     file_is_valid = False
-            except Exception as ex:
+            except Exception:
                 print(
-                    '  - Unable to load "{0}" as a valid translation'.format(file_mo))
+                    f'  - Unable to load "{file_mo}" as a valid translation')
                 return False
 
             if n_of_errors > 0:
@@ -207,7 +203,7 @@ def validate_po_file(locales_dir, localeName, languageSubDirectory, file, msg_id
     else:
         print('')
         print('')
-        print('  # {0} [{1}]'.format(file, localeName))
+        print(f'  # {file} [{locale_name}]')
         print(
             '  Unexpected file extension found. Expected .po and .mo.')
         return False
@@ -217,13 +213,13 @@ def validate_po_file(locales_dir, localeName, languageSubDirectory, file, msg_id
 def validate_translations():
     msg_ids = {}
     # loop all available languages and verify language exist
-    dir = Path(os.path.dirname(
+    base_directory = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent.parent
 
     print('Validate .po and .mo files')
-    is_valid = validate_locales(dir, msg_ids)
+    is_valid = validate_locales(base_directory, msg_ids)
 
-    root_folder = dir.resolve()
+    root_folder = base_directory.resolve()
 
     print('')
     print('')
@@ -240,7 +236,7 @@ def validate_python_files(folder, msg_ids):
     listing = False
     try:
         listing = os.listdir(folder)
-    except:
+    except Exception:
         # Ignore: is not a directory or has some read problem..
         return files_are_valid
     for item in listing:
@@ -274,7 +270,7 @@ def validate_python_file(current_file, msg_ids):
     regex = r"[^_]_(local){0,1}\(['\"](?P<msgid>[^\"']+)[\"']\)"
     matches = re.finditer(
         regex, file_py_content, re.MULTILINE)
-    for matchNum, match in enumerate(matches, start=1):
+    for _, match in enumerate(matches, start=1):
         if n_of_errors >= 5:
             print(
                 '    - More then 5 errors, ignoring rest of errors')
@@ -284,63 +280,64 @@ def validate_python_file(current_file, msg_ids):
         if msg_id not in msg_ids:
             file_is_valid = False
             print('    - Missing msg_id:', msg_id)
-        # else:
-        #     print('  - msg_id', msg_id, 'OK')
 
     if file_is_valid:
         print('    - OK')
-    # else:
-    #     print('  - FAIL')
     return file_is_valid
 
 
-def validate_locales(dir, msg_ids):
+def validate_locales(base_directory, msg_ids):
     is_valid = True
 
-    availableLanguages = list()
-    locales_dir = os.path.join(dir.resolve(), 'locales') + os.sep
-    localeDirs = os.listdir(locales_dir)
+    available_languages = list()
+    locales_dir = os.path.join(base_directory.resolve(), 'locales') + os.sep
+    locale_directories = os.listdir(locales_dir)
 
     number_of_valid_translations = 0
 
-    for localeName in localeDirs:
+    for locale_name in locale_directories:
         current_number_of_valid_translations = 0
 
-        if (localeName[0:1] == '.'):
+        if locale_name[0:1] == '.':
             continue
 
-        languageSubDirectory = os.path.join(
-            locales_dir, localeName, "LC_MESSAGES")
+        lang_sub_directory = os.path.join(
+            locales_dir, locale_name, "LC_MESSAGES")
 
-        if (os.path.exists(languageSubDirectory)):
-            availableLanguages.append(localeName)
+        if os.path.exists(lang_sub_directory):
+            available_languages.append(locale_name)
 
-            files = os.listdir(languageSubDirectory)
+            files = os.listdir(lang_sub_directory)
             for file in files:
                 # for every .po file found, check if we have a .mo file
-                if validate_po_file(locales_dir, localeName, languageSubDirectory, file, msg_ids):
+                if validate_po_file(locales_dir, locale_name, lang_sub_directory, file, msg_ids):
                     current_number_of_valid_translations += 1
                 elif file.endswith('.po'):
                     # po file had errors, try generate new mo file and try again.
                     msgfmt_path = ensure_msgfmt_py()
-                    if msgfmt_path != None:
+                    if msgfmt_path is not None:
                         print(
                             '  - Trying to generate .mo file so it matches .po file')
-                        bashCommand = "python {0} -o {1} {2}".format(
-                            msgfmt_path, os.path.join(languageSubDirectory, file.replace(
-                                '.po', '.mo')), os.path.join(languageSubDirectory, file))
-                        import subprocess
+                        bash_command = f"python {msgfmt_path} -o {os.path.join(lang_sub_directory, file.replace(
+                                '.po', '.mo'))} {os.path.join(lang_sub_directory, file)}"
+
                         process = subprocess.Popen(
-                            bashCommand.split(), stdout=subprocess.PIPE)
-                        output, error = process.communicate()
-                        result = str(output)
-                        if validate_po_file(locales_dir, localeName, languageSubDirectory, file, msg_ids):
+                            bash_command.split(),
+                            stdout=subprocess.PIPE)
+                        process.communicate()
+
+                        if validate_po_file(locales_dir,
+                                            locale_name,
+                                            lang_sub_directory,
+                                            file,
+                                            msg_ids):
                             current_number_of_valid_translations += 1
                         else:
                             is_valid = False
                     else:
                         print(
-                            '  - Unable to generate .mo file because we could not find msgfmt.py in python installation')
+                            '  - Unable to generate .mo file because'
+                             'we could not find msgfmt.py in python installation')
                 else:
                     is_valid = False
 
@@ -349,13 +346,13 @@ def validate_locales(dir, msg_ids):
 
             if number_of_valid_translations != current_number_of_valid_translations:
                 print(
-                    '  Different number of translation files for languages. One or more language is missing a translation')
+                    '  Different number of translation files for languages.'
+                     'One or more language is missing a translation')
                 is_valid = False
                 continue
-    if len(availableLanguages) > 0:
+    if len(available_languages) > 0:
         print('')
-        print('  Available Languages: {0}'.format(
-            ', '.join(availableLanguages)))
+        print(f'  Available Languages: {', '.join(available_languages)}')
     else:
         print('  No languages found')
     return is_valid
@@ -366,7 +363,14 @@ def httpRequestGetContent(url, allow_redirects=False, use_text_instead_of_conten
     """
 
     try:
-        headers = {'user-agent': 'Mozilla/5.0 (compatible; Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36 Edg/88.0.705.56'}
+        headers = {
+            'user-agent': (
+                'Mozilla/5.0 (compatible; Windows NT 10.0; Win64; x64) '
+                'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 '
+                'Safari/537.36 Edg/88.0.705.56'
+            )
+        }
+
         a = requests.get(url, allow_redirects=allow_redirects,
                          headers=headers, timeout=120)
 
@@ -376,32 +380,46 @@ def httpRequestGetContent(url, allow_redirects=False, use_text_instead_of_conten
             content = a.content
         return content
     except ssl.CertificateError as error:
-        print('Info: Certificate error. {0}'.format(error.reason))
-        pass
+        print(f'Info: Certificate error. {error.reason}')
     except requests.exceptions.SSLError as error:
         if 'http://' in url:  # trying the same URL over SSL/TLS
             print('Info: Trying SSL before giving up.')
             return httpRequestGetContent(url.replace('http://', 'https://'))
-        else:
-            print('Info: SSLError. {0}'.format(error))
-            return ''
-        pass
+        print(f'Info: SSLError. {error}')
+        return ''
     except requests.exceptions.ConnectionError as error:
         if 'http://' in url:  # trying the same URL over SSL/TLS
             print('Connection error! Info: Trying SSL before giving up.')
             return httpRequestGetContent(url.replace('http://', 'https://'))
-        else:
-            print(
-                'Connection error! Unfortunately the request for URL "{0}" failed.\nMessage:\n{1}'.format(url, sys.exc_info()[0]))
-            return ''
-        pass
-    except:
         print(
-            'Error! Unfortunately the request for URL "{0}" either timed out or failed for other reason(s). The timeout is set to {1} seconds.\nMessage:\n{2}'.format(url, 120, sys.exc_info()[0]))
-        pass
+            f'Connection error! Unfortunately the request for URL "{url}" failed.'
+            f'\nMessage:\n{sys.exc_info()[0]}')
+        return ''
+    except Exception:
+        print(
+            f'Error! Unfortunately the request for URL "{url}" either timed out or '
+            f'failed for other reason(s). The timeout is set to {120} seconds.\n'
+            f'Message:\n{sys.exc_info()[0]}')
     return ''
 
 def set_file(file_path, content, use_text_instead_of_content):
+    """
+    Writes the provided content to a file at the specified path.
+
+    If 'use_text_instead_of_content' is True,
+        the function opens the file in text mode and writes the content as a string.
+    If 'use_text_instead_of_content' is False,
+        the function opens the file in binary mode and writes the content as bytes.
+
+    Args:
+        file_path (str): The path to the file where the content will be written.
+        content (str or bytes): The content to be written to the file.
+        use_text_instead_of_content (bool): 
+            Determines whether the file is opened in text or binary mode.
+
+    Returns:
+        None
+    """
     if use_text_instead_of_content:
         with open(file_path, 'w', encoding='utf-8', newline='') as file:
             file.write(content)
@@ -410,7 +428,20 @@ def set_file(file_path, content, use_text_instead_of_content):
             file.write(content)
 
 def ensure_msgfmt_py():
-    import sys
+    """
+    This function ensures the availability of the 'msgfmt.py' file in the system path.
+
+    The function iterates over the system path, ignoring zip files.
+    If 'msgfmt.py' is found in a directory, the path to 'msgfmt.py' is returned.
+    If not found, the function checks a specific 'data' directory
+    in the base directory of the script.
+    If 'msgfmt.py' does not exist in the 'data' directory, the file is
+    downloaded from the Python repository and saved in the 'data' directory.
+
+    Returns:
+        str: The path to 'msgfmt.py' if it exists in 
+          the system path or the 'data' directory, else None.
+    """
     for python_path in sys.path:
         a = python_path
 
@@ -419,39 +450,69 @@ def ensure_msgfmt_py():
             continue
 
         msgfmt_path = has_dir_msgfmt_py(a, 0)
-        if msgfmt_path != None:
+        if msgfmt_path is not None:
             return msgfmt_path
-        else:
-            dir = Path(os.path.dirname(
-                os.path.realpath(__file__)) + os.path.sep).parent.parent
-            data_dir = os.path.join(dir.resolve(), 'data') + os.sep
-            filename = 'msgfmt.py'
-            file_path = os.path.join(data_dir,filename)
 
-            if not os.path.exists(file_path):
-                content = httpRequestGetContent('https://raw.githubusercontent.com/python/cpython/main/Tools/i18n/msgfmt.py', True, True)
-                set_file(file_path, content, True)
-            return file_path
+        base_directory = Path(os.path.dirname(
+            os.path.realpath(__file__)) + os.path.sep).parent.parent
+        data_dir = os.path.join(base_directory.resolve(), 'data') + os.sep
+        filename = 'msgfmt.py'
+        file_path = os.path.join(data_dir,filename)
+
+        if not os.path.exists(file_path):
+            content = httpRequestGetContent(
+                'https://raw.githubusercontent.com/python/cpython/main/Tools/i18n/msgfmt.py',
+                 True,
+                 True)
+            set_file(file_path, content, True)
+        return file_path
     return None
 
 
-def has_dir_msgfmt_py(dir, depth):
+def has_dir_msgfmt_py(base_directory, depth):
+    """
+    Searches for the 'msgfmt.py' file within the specified directory and its subdirectories.
+
+    Args:
+        base_directory (str): The starting directory to search.
+        depth (int): Current recursion depth (used for tracking).
+
+    Returns:
+        str or None: The path to 'msgfmt.py' if found, else None.
+
+    Raises:
+        FileNotFoundError: If the specified directory does not exist.
+        PermissionError: If access to the directory is denied.
+        NotADirectoryError: If the provided path is not a directory.
+        RecursionError: If maximum recursion depth is exceeded.
+    """
+
     try:
-        files = os.listdir(dir)
+        files = os.listdir(base_directory)
 
         if 'msgfmt.py' in files:
-            return os.path.join(dir, 'msgfmt.py')
+            return os.path.join(base_directory, 'msgfmt.py')
         elif 'i18n' in files:
-            return os.path.join(dir, 'i18n' 'msgfmt.py')
+            return os.path.join(base_directory, 'i18n', 'msgfmt.py')
         elif 'Tools' in files:
-            return os.path.join(dir, 'Tools', 'i18n', 'msgfmt.py')
-        elif 'io.py' in files or 'base64.py' in files or 'calendar.py' in files or 'site-packages' in files:
+            return os.path.join(base_directory, 'Tools', 'i18n', 'msgfmt.py')
+        elif 'io.py' in files or \
+            'base64.py' in files or \
+            'calendar.py' in files or \
+            'site-packages' in files:
             parent_dir = Path(os.path.dirname(
-                os.path.realpath(dir)) + os.path.sep).parent
+                os.path.realpath(base_directory)) + os.path.sep).parent
             return has_dir_msgfmt_py(parent_dir, depth + 1)
 
-    except Exception as ex:
-        print('\t   Exception', ex)
+    except FileNotFoundError as ex:
+        print('\t   Exception: Directory not found', ex)
+    except PermissionError as ex:
+        print('\t   Exception: Permission denied', ex)
+    except NotADirectoryError as ex:
+        print('\t   Exception: Not a directory', ex)
+    except RecursionError as ex:
+        print('\t   Exception: Maximum recursion depth exceeded', ex)
+
     return None
 
 
@@ -465,22 +526,24 @@ def main(argv):
     Options and arguments:
     -h/--help\t\t\t: Verify Help command
     -l/--language\t\t: Verify languages
-    -c/--prep-config <activate feature, True or False>\t\t: Uses SAMPLE-config.py to creat config.py
+    -c/--prep-config <activate feature, True or False>\t\t:
+      Uses SAMPLE-config.py to creat config.py
     -t/--test <test number>\t: Verify result of specific test
 
     NOTE:
-    If you get this in step "Setup config [...]" you forgot to add repository secret for your repository.
+    If you get this in step "Setup config [...]" you forgot to
+    add repository secret for your repository.
     More info can be found here: https://github.com/Webperf-se/webperf_core/issues/81
     """
 
     try:
-        opts, args = getopt.getopt(argv, "hlc:t:", [
+        opts, _ = getopt.getopt(argv, "hlc:t:", [
                                    "help", "test=", "prep-config=", "language"])
     except getopt.GetoptError:
         print(main.__doc__)
         sys.exit(2)
 
-    if (opts.__len__() == 0):
+    if len(opts) == 0:
         print(main.__doc__)
         sys.exit(2)
 
@@ -488,37 +551,45 @@ def main(argv):
         if opt in ('-h', '--help'):  # help
             print(main.__doc__)
             sys.exit(0)
-            break
         elif opt in ("-c", "--prep-config"):
-            if 'true' == arg.lower() or 'false' == arg.lower() or '1' == arg or '0' == arg:
-                raise ValueError(
-                    'c/prep-config argument has changed format, it doesn\'t support previous format')
-            arguments = arg.split(',')
-
-            if prepare_config_file('SAMPLE-config.py', 'config.py', arguments):
-                sys.exit(0)
-            else:
-                sys.exit(2)
-            break
+            handle_pre_config(arg)
         elif opt in ("-l", "--language"):
-            if validate_translations():
-                sys.exit(0)
-            else:
-                sys.exit(2)
-            break
+            handle_language()
         elif opt in ("-t", "--test"):  # test id
-            if validate_testresult(arg):
-                sys.exit(0)
-            else:
-                sys.exit(2)
-            break
+            handle_test_result(arg)
 
     # No match for command so return error code to fail verification
     sys.exit(2)
 
+def handle_test_result(arg):
+    """ Terminate the programme with an error if our test contains unexpected content  """
+    if validate_testresult(arg):
+        sys.exit(0)
+    else:
+        sys.exit(2)
 
-"""
-If file is executed on itself then call a definition, mostly for testing purposes
-"""
+def handle_language():
+    """ Terminate the programme with an error if we're unable to
+      generate translations for all the modified language files """
+    if validate_translations():
+        sys.exit(0)
+    else:
+        sys.exit(2)
+
+def handle_pre_config(arg):
+    """ Terminate the programme with an error if we're unable to
+      generate a config.py file from SAMPLE-config with a few alterations """
+    if 'true' == arg.lower() or 'false' == arg.lower() or '1' == arg or '0' == arg:
+        raise ValueError(
+                    'c/prep-config argument has changed format,'
+                    ' it doesn\'t support previous format')
+    arguments = arg.split(',')
+
+    if prepare_config_file('SAMPLE-config.py', 'config.py', arguments):
+        sys.exit(0)
+    else:
+        sys.exit(2)
+
+
 if __name__ == '__main__':
     main(sys.argv[1:])

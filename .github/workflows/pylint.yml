@@ -19,6 +19,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install pylint
+    - if: ${{ matrix.os == 'ubuntu-latest' }}
+      name: Setup config (using SAMPLE-config.py as config.py) - LINUX
+      run: python .github/workflows/verify_result.py -c ${{ matrix.config }}
     - name: Analysing the code with pylint
       run: |
-        pylint $(git ls-files '*.py') -E
+        pylint $(git ls-files '*.py')

@@ -61,7 +61,7 @@ def prepare_config_file(sample_filename, filename, arguments):
                 value = argument[(index + 1):]
 
                 regex_argument = f'^{name}.*'
-                if value == 'True' or value == 'False' or value == 'None':
+                if value in ('True', 'False', 'None'):
                     result_argument = f'{name} = {value}'
                 else:
                     result_argument = f"{name} = '{value}'"
@@ -151,7 +151,7 @@ def get_file_content(input_filename):
     """
 
     with open(input_filename, 'r', encoding='utf-8') as file:
-        lines = list()
+        lines = []
         data = file.readlines()
         for line in data:
             lines.append(line)

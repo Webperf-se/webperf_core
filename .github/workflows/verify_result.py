@@ -241,74 +241,13 @@ def validate_po_file(locales_dir, locale_name, language_sub_directory, file, msg
                 (f'  Expected compiled translation file not found, '
                   f'file: "{file.replace('.po', '.mo')}"'))
             return False
-        else:
-            # for every .mo file found, try to load it to verify it works
-            n_of_errors = 0
-            try:
-                # NOTE: gettext is internally caching all mo files,
-                #       we need to clear this variable to readd the newly generated .mo file.
-                gettext._translations = {} # pylint: disable=protected-access
-
-                language = gettext.translation(
-                    file.replace('.po', ''), localedir=locales_dir, languages=[locale_name])
-                language.install()
-
-                # Make sure every text in .po file is present (and equal) in .mo file
-                file_po_content = get_file_content(os.path.join(
-                    language_sub_directory, file))
-
-                regex = r"msgid \"(?P<id>[^\"]+)\"[^m]+msgstr \"(?P<text>[^\"]+)\""
-                matches = re.finditer(
-                    regex, file_po_content, re.MULTILINE)
-                for _, match in enumerate(matches, start=1):
-                    if n_of_errors >= 5:
-                        print(
-                            '  More then 5 errors, ignoring rest of errors')
-                        return False
-
-                    msg_id = match.group('id')
-                    msg_txt = match.group('text')
-                    lang_txt = language.gettext(msg_id).replace(
-                        '\n', '\\n').replace(
-                        '\r', '\\r').replace('\t', '\\t')
-                    msg_ids[msg_id] = msg_txt
-
-                    if lang_txt == msg_id:
-                        print(
-                            f'  - Could not find text for msgid "{msg_id}" in file: {file_mo}')
-                        n_of_errors += 1
-                        continue
-                    if lang_txt != msg_txt:
-                        print(
-                            '  ## Text missmatch:')
-                        print(f'  - msgid: {msg_id}')
-                        if len(msg_txt) > 15:
-                            print(
-                                f'    - expected text: "{msg_txt[0: 15]}[...]"')
-                        else:
-                            print(
-                                f'    - expected text: "{msg_txt}"')
-
-                        if len(lang_txt) > 15:
-                            print(
-                                f'    - recived text:  "{lang_txt[0:15]}[...]"')
-                        else:
-                            print(
-                                f'    - recived text:  "{lang_txt}"')
-                        n_of_errors += 1
-                        continue
-                if n_of_errors > 0:
-                    file_is_valid = False
-            except IOError:
-                print(
-                    f'  - Unable to load "{file_mo}" as a valid translation')
-                return False
-
-            if n_of_errors > 0:
-                print('')
-                print('')
-            else:
-                print('    - OK')
+        file_is_valid = diff_mo_and_po_file(
+            locales_dir,
+            locale_name,
+            language_sub_directory,
+            file,
+            file_mo,
+            msg_ids)
 
     else:
         print('')
@@ -317,6 +256,79 @@ def validate_po_file(locales_dir, locale_name, language_sub_directory, file, msg
         print(
             '  Unexpected file extension found. Expected .po and .mo.')
         return False
+    return file_is_valid
+
+def diff_mo_and_po_file(locales_dir, locale_name, language_sub_directory, file, file_mo, msg_ids):
+
+    file_is_valid = True
+    # for every .mo file found, try to load it to verify it works
+    n_of_errors = 0
+    try:
+        # NOTE: gettext is internally caching all mo files,
+        #       we need to clear this variable to readd the newly generated .mo file.
+        gettext._translations = {} # pylint: disable=protected-access
+
+        language = gettext.translation(
+            file.replace('.po', ''), localedir=locales_dir, languages=[locale_name])
+        language.install()
+
+        # Make sure every text in .po file is present (and equal) in .mo file
+        file_po_content = get_file_content(os.path.join(
+            language_sub_directory, file))
+
+        regex = r"msgid \"(?P<id>[^\"]+)\"[^m]+msgstr \"(?P<text>[^\"]+)\""
+        matches = re.finditer(
+            regex, file_po_content, re.MULTILINE)
+        for _, match in enumerate(matches, start=1):
+            if n_of_errors >= 5:
+                print(
+                    '  More then 5 errors, ignoring rest of errors')
+                return False
+
+            msg_id = match.group('id')
+            msg_txt = match.group('text')
+            lang_txt = language.gettext(msg_id).replace(
+                '\n', '\\n').replace(
+                '\r', '\\r').replace('\t', '\\t')
+            msg_ids[msg_id] = msg_txt
+
+            if lang_txt == msg_id:
+                print(
+                    f'  - Could not find text for msgid "{msg_id}" in file: {file_mo}')
+                n_of_errors += 1
+                continue
+            if lang_txt != msg_txt:
+                print(
+                    '  ## Text missmatch:')
+                print(f'  - msgid: {msg_id}')
+                if len(msg_txt) > 15:
+                    print(
+                        f'    - expected text: "{msg_txt[0: 15]}[...]"')
+                else:
+                    print(
+                        f'    - expected text: "{msg_txt}"')
+
+                if len(lang_txt) > 15:
+                    print(
+                        f'    - recived text:  "{lang_txt[0:15]}[...]"')
+                else:
+                    print(
+                        f'    - recived text:  "{lang_txt}"')
+                n_of_errors += 1
+                continue
+        if n_of_errors > 0:
+            file_is_valid = False
+    except IOError:
+        print(
+            f'  - Unable to load "{file_mo}" as a valid translation')
+        return False
+
+    if n_of_errors > 0:
+        print('')
+        print('')
+    else:
+        print('    - OK')
+
     return file_is_valid
 
 
@@ -520,7 +532,10 @@ def validate_locales(base_directory, msg_ids):
         print('  No languages found')
     return is_valid
 
-def validate_locale(msg_ids, locales_dir, locale_name, current_number_of_valid_translations, lang_sub_directory):
+def validate_locale(msg_ids, locales_dir,
+                    locale_name,
+                    current_number_of_valid_translations,
+                    lang_sub_directory):
     is_valid = True
     files = os.listdir(lang_sub_directory)
     for file in files:

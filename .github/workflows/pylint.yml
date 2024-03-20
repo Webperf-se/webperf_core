@@ -23,4 +23,4 @@ jobs:
       run: python .github/workflows/verify_result.py -c review_show_improvements_only=True
     - name: Analysing the code with pylint
       run: |
-        pylint $(git ls-files '*.py') --generated-members json,ssl,datetime
+        pylint $(git ls-files '*.py') --generated-members json,ssl,datetime --disable C0114

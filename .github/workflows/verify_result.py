@@ -479,7 +479,7 @@ def validate_locales(base_directory, msg_ids):
 
     is_valid = True
 
-    available_languages = list()
+    available_languages = []
     locales_dir = os.path.join(base_directory.resolve(), 'locales') + os.sep
     locale_directories = os.listdir(locales_dir)
 
@@ -497,41 +497,12 @@ def validate_locales(base_directory, msg_ids):
         if os.path.exists(lang_sub_directory):
             available_languages.append(locale_name)
 
-            files = os.listdir(lang_sub_directory)
-            for file in files:
-                # for every .po file found, check if we have a .mo file
-                if validate_po_file(locales_dir, locale_name, lang_sub_directory, file, msg_ids):
-                    current_number_of_valid_translations += 1
-                elif file.endswith('.po'):
-                    # po file had errors, try generate new mo file and try again.
-                    msgfmt_path = ensure_msgfmt_py()
-                    if msgfmt_path is not None:
-                        print(
-                            '  - Trying to generate .mo file so it matches .po file')
-                        bash_command = (f"python {msgfmt_path} -o "
-                                        f"{os.path.join(lang_sub_directory,
-                                                        file.replace('.po', '.mo'))} "
-                                        f"{os.path.join(lang_sub_directory, file)}")
-
-                        process = subprocess.Popen(
-                            bash_command.split(),
-                            stdout=subprocess.PIPE)
-                        process.communicate()
-
-                        if validate_po_file(locales_dir,
-                                            locale_name,
-                                            lang_sub_directory,
-                                            file,
-                                            msg_ids):
-                            current_number_of_valid_translations += 1
-                        else:
-                            is_valid = False
-                    else:
-                        print(
-                            '  - Unable to generate .mo file because'
-                             'we could not find msgfmt.py in python installation')
-                else:
-                    is_valid = False
+            if not validate_locale(msg_ids,
+                                   locales_dir,
+                                   locale_name,
+                                   current_number_of_valid_translations,
+                                   lang_sub_directory):
+                is_valid = False
 
             if number_of_valid_translations == 0:
                 number_of_valid_translations = current_number_of_valid_translations
@@ -547,6 +518,45 @@ def validate_locales(base_directory, msg_ids):
         print(f'  Available Languages: {', '.join(available_languages)}')
     else:
         print('  No languages found')
+    return is_valid
+
+def validate_locale(msg_ids, locales_dir, locale_name, current_number_of_valid_translations, lang_sub_directory):
+    is_valid = True
+    files = os.listdir(lang_sub_directory)
+    for file in files:
+        # for every .po file found, check if we have a .mo file
+        if validate_po_file(locales_dir, locale_name, lang_sub_directory, file, msg_ids):
+            current_number_of_valid_translations += 1
+        elif file.endswith('.po'):
+                    # po file had errors, try generate new mo file and try again.
+            msgfmt_path = ensure_msgfmt_py()
+            if msgfmt_path is not None:
+                print(
+                            '  - Trying to generate .mo file so it matches .po file')
+                bash_command = (f"python {msgfmt_path} -o "
+                                        f"{os.path.join(lang_sub_directory,
+                                                        file.replace('.po', '.mo'))} "
+                                        f"{os.path.join(lang_sub_directory, file)}")
+
+                with subprocess.Popen(
+                            bash_command.split(),
+                            stdout=subprocess.PIPE) as process:
+                    process.communicate()
+
+                if validate_po_file(locales_dir,
+                                            locale_name,
+                                            lang_sub_directory,
+                                            file,
+                                            msg_ids):
+                    current_number_of_valid_translations += 1
+                else:
+                    is_valid = False
+            else:
+                print(
+                            '  - Unable to generate .mo file because'
+                             'we could not find msgfmt.py in python installation')
+        else:
+            is_valid = False
     return is_valid
 
 def get_content(url, allow_redirects=False, use_text_instead_of_content=True):
@@ -688,11 +698,11 @@ def has_dir_msgfmt_py(base_directory, depth):
 
         if 'msgfmt.py' in files:
             return os.path.join(base_directory, 'msgfmt.py')
-        elif 'i18n' in files:
+        if 'i18n' in files:
             return os.path.join(base_directory, 'i18n', 'msgfmt.py')
-        elif 'Tools' in files:
+        if 'Tools' in files:
             return os.path.join(base_directory, 'Tools', 'i18n', 'msgfmt.py')
-        elif 'io.py' in files or \
+        if 'io.py' in files or \
             'base64.py' in files or \
             'calendar.py' in files or \
             'site-packages' in files:

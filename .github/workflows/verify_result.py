@@ -61,7 +61,7 @@ def prepare_config_file(sample_filename, filename, arguments):
                 value = argument[(index + 1):]
 
                 regex_argument = f'^{name}.*'
-                if value == 'True' or value == 'False' or value == 'None':
+                if value in ('True', 'False', 'None'):
                     result_argument = f'{name} = {value}'
                 else:
                     result_argument = f"{name} = '{value}'"
@@ -151,7 +151,7 @@ def get_file_content(input_filename):
     """
 
     with open(input_filename, 'r', encoding='utf-8') as file:
-        lines = list()
+        lines = []
         data = file.readlines()
         for line in data:
             lines.append(line)
@@ -241,74 +241,17 @@ def validate_po_file(locales_dir, locale_name, language_sub_directory, file, msg
                 (f'  Expected compiled translation file not found, '
                   f'file: "{file.replace('.po', '.mo')}"'))
             return False
-        else:
-            # for every .mo file found, try to load it to verify it works
-            n_of_errors = 0
-            try:
-                # NOTE: gettext is internally caching all mo files,
-                #       we need to clear this variable to readd the newly generated .mo file.
-                gettext._translations = {} # pylint: disable=protected-access
 
-                language = gettext.translation(
-                    file.replace('.po', ''), localedir=locales_dir, languages=[locale_name])
-                language.install()
+        clear_cache = True
+        language_module = file.replace('.po', '')
+        language = get_language(locales_dir, locale_name, language_module, clear_cache)
 
-                # Make sure every text in .po file is present (and equal) in .mo file
-                file_po_content = get_file_content(os.path.join(
-                    language_sub_directory, file))
-
-                regex = r"msgid \"(?P<id>[^\"]+)\"[^m]+msgstr \"(?P<text>[^\"]+)\""
-                matches = re.finditer(
-                    regex, file_po_content, re.MULTILINE)
-                for _, match in enumerate(matches, start=1):
-                    if n_of_errors >= 5:
-                        print(
-                            '  More then 5 errors, ignoring rest of errors')
-                        return False
-
-                    msg_id = match.group('id')
-                    msg_txt = match.group('text')
-                    lang_txt = language.gettext(msg_id).replace(
-                        '\n', '\\n').replace(
-                        '\r', '\\r').replace('\t', '\\t')
-                    msg_ids[msg_id] = msg_txt
-
-                    if lang_txt == msg_id:
-                        print(
-                            f'  - Could not find text for msgid "{msg_id}" in file: {file_mo}')
-                        n_of_errors += 1
-                        continue
-                    if lang_txt != msg_txt:
-                        print(
-                            '  ## Text missmatch:')
-                        print(f'  - msgid: {msg_id}')
-                        if len(msg_txt) > 15:
-                            print(
-                                f'    - expected text: "{msg_txt[0: 15]}[...]"')
-                        else:
-                            print(
-                                f'    - expected text: "{msg_txt}"')
-
-                        if len(lang_txt) > 15:
-                            print(
-                                f'    - recived text:  "{lang_txt[0:15]}[...]"')
-                        else:
-                            print(
-                                f'    - recived text:  "{lang_txt}"')
-                        n_of_errors += 1
-                        continue
-                if n_of_errors > 0:
-                    file_is_valid = False
-            except IOError:
-                print(
-                    f'  - Unable to load "{file_mo}" as a valid translation')
-                return False
-
-            if n_of_errors > 0:
-                print('')
-                print('')
-            else:
-                print('    - OK')
+        file_is_valid = diff_mo_and_po_file(
+            language,
+            language_sub_directory,
+            file,
+            file_mo,
+            msg_ids)
 
     else:
         print('')
@@ -317,6 +260,120 @@ def validate_po_file(locales_dir, locale_name, language_sub_directory, file, msg
         print(
             '  Unexpected file extension found. Expected .po and .mo.')
         return False
+    return file_is_valid
+
+def get_language(locales_dir, locale_name, language_module, clear_cache):
+    """
+    This function retrieves the specified language translation module.
+
+    Parameters:
+    locales_dir (str): The directory path where locale files are stored.
+    locale_name (str): The name of the locale for which the translation is needed.
+    language_module (str): The name of the language module to be used for translation.
+    clear_cache (bool): If set to True, the internal cache of gettext is cleared.
+
+    Returns:
+    gettext.GNUTranslations: A translation object for the specified language.
+
+    Note:
+    The gettext module internally caches all .mo files. If clear_cache is set to True,
+    this function clears the cache to ensure that the newly generated .mo file is read.
+    """
+
+    if clear_cache:
+        # NOTE: gettext is internally caching all mo files,
+        #       we need to clear this variable to readd the newly generated .mo file.
+        gettext._translations = {} # pylint: disable=protected-access
+
+    language = gettext.translation(
+        language_module, localedir=locales_dir, languages=[locale_name])
+    language.install()
+
+    return language
+
+def diff_mo_and_po_file(language, language_sub_directory, file, file_mo, msg_ids):
+    """
+    This function compares the content of .mo and .po files to ensure they match.
+
+    Parameters:
+    language (gettext.GNUTranslations): The gettext translation object for the specified language.
+    language_sub_directory (str): The directory path where the language files are stored.
+    file (str): The name of the .po file.
+    file_mo (str): The name of the .mo file.
+    msg_ids (dict): A dictionary to store the msgid and corresponding text from the .po file.
+
+    Returns:
+    bool: True if the .mo and .po files match, False otherwise.
+
+    Note:
+    The function iterates through the .po file and
+      checks if each text is present and equal in the .mo file.
+    If there are more than 5 mismatches, it stops checking and returns False.
+    If an IOError occurs (e.g., the .mo file cannot be loaded), it also returns False.
+    """
+
+    file_is_valid = True
+    # for every .mo file found, try to load it to verify it works
+    n_of_errors = 0
+    try:
+
+        # Make sure every text in .po file is present (and equal) in .mo file
+        file_po_content = get_file_content(os.path.join(
+            language_sub_directory, file))
+
+        regex = r"msgid \"(?P<id>[^\"]+)\"[^m]+msgstr \"(?P<text>[^\"]+)\""
+        matches = re.finditer(
+            regex, file_po_content, re.MULTILINE)
+        for _, match in enumerate(matches, start=1):
+            if n_of_errors >= 5:
+                print(
+                    '  More then 5 errors, ignoring rest of errors')
+                return False
+
+            msg_id = match.group('id')
+            msg_txt = match.group('text')
+            lang_txt = language.gettext(msg_id).replace(
+                '\n', '\\n').replace(
+                '\r', '\\r').replace('\t', '\\t')
+            msg_ids[msg_id] = msg_txt
+
+            if lang_txt == msg_id:
+                print(
+                    f'  - Could not find text for msgid "{msg_id}" in file: {file_mo}')
+                n_of_errors += 1
+                continue
+            if lang_txt != msg_txt:
+                print(
+                    '  ## Text missmatch:')
+                print(f'  - msgid: {msg_id}')
+                if len(msg_txt) > 15:
+                    print(
+                        f'    - expected text: "{msg_txt[0: 15]}[...]"')
+                else:
+                    print(
+                        f'    - expected text: "{msg_txt}"')
+
+                if len(lang_txt) > 15:
+                    print(
+                        f'    - recived text:  "{lang_txt[0:15]}[...]"')
+                else:
+                    print(
+                        f'    - recived text:  "{lang_txt}"')
+                n_of_errors += 1
+                continue
+        if n_of_errors > 0:
+            file_is_valid = False
+    except IOError:
+        print(
+            f'  - Unable to load "{file_mo}" as a valid translation')
+        return False
+
+    if n_of_errors > 0:
+        print('')
+        print('')
+    else:
+        print('    - OK')
+
     return file_is_valid
 
 
@@ -479,7 +536,7 @@ def validate_locales(base_directory, msg_ids):
 
     is_valid = True
 
-    available_languages = list()
+    available_languages = []
     locales_dir = os.path.join(base_directory.resolve(), 'locales') + os.sep
     locale_directories = os.listdir(locales_dir)
 
@@ -497,41 +554,12 @@ def validate_locales(base_directory, msg_ids):
         if os.path.exists(lang_sub_directory):
             available_languages.append(locale_name)
 
-            files = os.listdir(lang_sub_directory)
-            for file in files:
-                # for every .po file found, check if we have a .mo file
-                if validate_po_file(locales_dir, locale_name, lang_sub_directory, file, msg_ids):
-                    current_number_of_valid_translations += 1
-                elif file.endswith('.po'):
-                    # po file had errors, try generate new mo file and try again.
-                    msgfmt_path = ensure_msgfmt_py()
-                    if msgfmt_path is not None:
-                        print(
-                            '  - Trying to generate .mo file so it matches .po file')
-                        bash_command = (f"python {msgfmt_path} -o "
-                                        f"{os.path.join(lang_sub_directory,
-                                                        file.replace('.po', '.mo'))} "
-                                        f"{os.path.join(lang_sub_directory, file)}")
-
-                        process = subprocess.Popen(
-                            bash_command.split(),
-                            stdout=subprocess.PIPE)
-                        process.communicate()
-
-                        if validate_po_file(locales_dir,
-                                            locale_name,
-                                            lang_sub_directory,
-                                            file,
-                                            msg_ids):
-                            current_number_of_valid_translations += 1
-                        else:
-                            is_valid = False
-                    else:
-                        print(
-                            '  - Unable to generate .mo file because'
-                             'we could not find msgfmt.py in python installation')
-                else:
-                    is_valid = False
+            if not validate_locale(msg_ids,
+                                   locales_dir,
+                                   locale_name,
+                                   current_number_of_valid_translations,
+                                   lang_sub_directory):
+                is_valid = False
 
             if number_of_valid_translations == 0:
                 number_of_valid_translations = current_number_of_valid_translations
@@ -547,6 +575,70 @@ def validate_locales(base_directory, msg_ids):
         print(f'  Available Languages: {', '.join(available_languages)}')
     else:
         print('  No languages found')
+    return is_valid
+
+def validate_locale(msg_ids, locales_dir,
+                    locale_name,
+                    current_number_of_valid_translations,
+                    lang_sub_directory):
+    """
+    This function validates the locale by comparing the .po and .mo files
+      in the given language sub-directory.
+
+    Parameters:
+    msg_ids (dict): A dictionary to store the msgid and corresponding text from the .po file.
+    locales_dir (str): The directory path where locale files are stored.
+    locale_name (str): The name of the locale for which the validation is needed.
+    current_number_of_valid_translations (int): The current number of valid translations.
+    lang_sub_directory (str): The directory path where the
+      language files for the specific locale are stored.
+
+    Returns:
+    bool: True if the locale is valid, False otherwise.
+
+    Note:
+    The function iterates through all the files in the language sub-directory.
+      For each .po file, it checks if a corresponding .mo file exists and validates it.
+      If the .po file has errors, it tries to generate a new .mo file and validates it again.
+      If the .mo file cannot be generated or if the validation fails, the function returns False.
+    """
+
+    is_valid = True
+    files = os.listdir(lang_sub_directory)
+    for file in files:
+        # for every .po file found, check if we have a .mo file
+        if validate_po_file(locales_dir, locale_name, lang_sub_directory, file, msg_ids):
+            current_number_of_valid_translations += 1
+        elif file.endswith('.po'):
+                    # po file had errors, try generate new mo file and try again.
+            msgfmt_path = ensure_msgfmt_py()
+            if msgfmt_path is not None:
+                print(
+                            '  - Trying to generate .mo file so it matches .po file')
+                bash_command = (f"python {msgfmt_path} -o "
+                                        f"{os.path.join(lang_sub_directory,
+                                                        file.replace('.po', '.mo'))} "
+                                        f"{os.path.join(lang_sub_directory, file)}")
+
+                with subprocess.Popen(
+                            bash_command.split(),
+                            stdout=subprocess.PIPE) as process:
+                    process.communicate()
+
+                if validate_po_file(locales_dir,
+                                            locale_name,
+                                            lang_sub_directory,
+                                            file,
+                                            msg_ids):
+                    current_number_of_valid_translations += 1
+                else:
+                    is_valid = False
+            else:
+                print(
+                            '  - Unable to generate .mo file because'
+                             'we could not find msgfmt.py in python installation')
+        else:
+            is_valid = False
     return is_valid
 
 def get_content(url, allow_redirects=False, use_text_instead_of_content=True):
@@ -688,11 +780,11 @@ def has_dir_msgfmt_py(base_directory, depth):
 
         if 'msgfmt.py' in files:
             return os.path.join(base_directory, 'msgfmt.py')
-        elif 'i18n' in files:
+        if 'i18n' in files:
             return os.path.join(base_directory, 'i18n', 'msgfmt.py')
-        elif 'Tools' in files:
+        if 'Tools' in files:
             return os.path.join(base_directory, 'Tools', 'i18n', 'msgfmt.py')
-        elif 'io.py' in files or \
+        if 'io.py' in files or \
             'base64.py' in files or \
             'calendar.py' in files or \
             'site-packages' in files:

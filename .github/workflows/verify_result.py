@@ -241,9 +241,13 @@ def validate_po_file(locales_dir, locale_name, language_sub_directory, file, msg
                 (f'  Expected compiled translation file not found, '
                   f'file: "{file.replace('.po', '.mo')}"'))
             return False
+
+        clear_cache = True
+        language_module = file.replace('.po', '')
+        language = get_language(locales_dir, locale_name, language_module, clear_cache)
+
         file_is_valid = diff_mo_and_po_file(
-            locales_dir,
-            locale_name,
+            language,
             language_sub_directory,
             file,
             file_mo,
@@ -258,19 +262,60 @@ def validate_po_file(locales_dir, locale_name, language_sub_directory, file, msg
         return False
     return file_is_valid
 
-def diff_mo_and_po_file(locales_dir, locale_name, language_sub_directory, file, file_mo, msg_ids):
+def get_language(locales_dir, locale_name, language_module, clear_cache):
+    """
+    This function retrieves the specified language translation module.
+
+    Parameters:
+    locales_dir (str): The directory path where locale files are stored.
+    locale_name (str): The name of the locale for which the translation is needed.
+    language_module (str): The name of the language module to be used for translation.
+    clear_cache (bool): If set to True, the internal cache of gettext is cleared.
+
+    Returns:
+    gettext.GNUTranslations: A translation object for the specified language.
+
+    Note:
+    The gettext module internally caches all .mo files. If clear_cache is set to True,
+    this function clears the cache to ensure that the newly generated .mo file is read.
+    """
+
+    if clear_cache:
+        # NOTE: gettext is internally caching all mo files,
+        #       we need to clear this variable to readd the newly generated .mo file.
+        gettext._translations = {} # pylint: disable=protected-access
+
+    language = gettext.translation(
+        language_module, localedir=locales_dir, languages=[locale_name])
+    language.install()
+
+    return language
+
+def diff_mo_and_po_file(language, language_sub_directory, file, file_mo, msg_ids):
+    """
+    This function compares the content of .mo and .po files to ensure they match.
+
+    Parameters:
+    language (gettext.GNUTranslations): The gettext translation object for the specified language.
+    language_sub_directory (str): The directory path where the language files are stored.
+    file (str): The name of the .po file.
+    file_mo (str): The name of the .mo file.
+    msg_ids (dict): A dictionary to store the msgid and corresponding text from the .po file.
+
+    Returns:
+    bool: True if the .mo and .po files match, False otherwise.
+
+    Note:
+    The function iterates through the .po file and
+      checks if each text is present and equal in the .mo file.
+    If there are more than 5 mismatches, it stops checking and returns False.
+    If an IOError occurs (e.g., the .mo file cannot be loaded), it also returns False.
+    """
 
     file_is_valid = True
     # for every .mo file found, try to load it to verify it works
     n_of_errors = 0
     try:
-        # NOTE: gettext is internally caching all mo files,
-        #       we need to clear this variable to readd the newly generated .mo file.
-        gettext._translations = {} # pylint: disable=protected-access
-
-        language = gettext.translation(
-            file.replace('.po', ''), localedir=locales_dir, languages=[locale_name])
-        language.install()
 
         # Make sure every text in .po file is present (and equal) in .mo file
         file_po_content = get_file_content(os.path.join(
@@ -536,6 +581,28 @@ def validate_locale(msg_ids, locales_dir,
                     locale_name,
                     current_number_of_valid_translations,
                     lang_sub_directory):
+    """
+    This function validates the locale by comparing the .po and .mo files
+      in the given language sub-directory.
+
+    Parameters:
+    msg_ids (dict): A dictionary to store the msgid and corresponding text from the .po file.
+    locales_dir (str): The directory path where locale files are stored.
+    locale_name (str): The name of the locale for which the validation is needed.
+    current_number_of_valid_translations (int): The current number of valid translations.
+    lang_sub_directory (str): The directory path where the
+      language files for the specific locale are stored.
+
+    Returns:
+    bool: True if the locale is valid, False otherwise.
+
+    Note:
+    The function iterates through all the files in the language sub-directory.
+      For each .po file, it checks if a corresponding .mo file exists and validates it.
+      If the .po file has errors, it tries to generate a new .mo file and validates it again.
+      If the .mo file cannot be generated or if the validation fails, the function returns False.
+    """
+
     is_valid = True
     files = os.listdir(lang_sub_directory)
     for file in files:

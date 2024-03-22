@@ -17,6 +17,7 @@ import config
 from models import Rating
 from tests.utils import dns_lookup
 from tests.utils import *
+from utils import merge_dicts
 from tests.sitespeed_base import get_result
 import dns.name
 import dns.query
@@ -92,7 +93,7 @@ def run_test(_, langCode, url):
     hostname = o.hostname
 
     if csp_only:
-        result_dict = merge_dicts(check_csp(url), csp_only_global_result_dict)
+        result_dict = merge_dicts(check_csp(url), csp_only_global_result_dict, True, True)
         if 'nof_pages' not in result_dict:
             result_dict['nof_pages'] = 1
         else:
@@ -884,34 +885,6 @@ def cleanup(result_dict):
                 result_dict[domain][subkey].extend(subvalue)
                 result_dict[domain][subkey] = sorted(list(set(result_dict[domain][subkey])))
     return result_dict
-
-def merge_dicts(dict1, dict2):
-    if dict1 == None:
-        return dict2
-    if dict2 == None:
-        return dict1
-
-    for domain, value in dict2.items():
-        if domain in dict1:
-            type_of_value = type(value)
-            if type_of_value == dict:
-                for subkey, subvalue in value.items():
-                    if subkey in dict1[domain]:
-                        if type(subvalue) == dict:
-                            merge_dicts(dict1[domain][subkey], dict2[domain][subkey])
-                        elif type(subvalue) == list:
-                            dict1[domain][subkey].extend(subvalue)
-                            dict1[domain][subkey] = sorted(list(set(dict1[domain][subkey])))
-                    else:
-                        dict1[domain][subkey] = dict2[domain][subkey]
-            elif type_of_value == list:
-                dict1[domain].extend(value)
-                dict1[domain] = sorted(list(set(dict1[domain])))
-            elif type_of_value == int:
-                dict1[domain] = dict1[domain] + value
-        else:
-            dict1[domain] = value
-    return dict1
 
 def host_source_2_url(host_source):
     result = host_source
@@ -1836,7 +1809,7 @@ def check_http_to_https(url):
             result_dict[o_domain]['schemes'].append('HTTP-REDIRECT*')
             https_url = url.replace('http://', 'https://')
             print('HTTPS', o_domain)
-            result_dict = merge_dicts(get_website_support_from_sitespeed(https_url, o_domain, configuration, browser, sitespeed_timeout), result_dict)
+            result_dict = merge_dicts(get_website_support_from_sitespeed(https_url, o_domain, configuration, browser, sitespeed_timeout), result_dict, True, True)
         else:
             result_dict[o_domain]['schemes'].append('HTTPS-REDIRECT*')
 
@@ -1854,7 +1827,7 @@ def check_http_to_https(url):
             result_dict[www_domain_key]['schemes'].append('HTTPS-REDIRECT*')
             www_http_url = http_url.replace(o_domain, www_domain_key)
             print('HTTP', www_domain_key)
-            result_dict = merge_dicts(get_website_support_from_sitespeed(www_http_url, www_domain_key, configuration, browser, sitespeed_timeout), result_dict)
+            result_dict = merge_dicts(get_website_support_from_sitespeed(www_http_url, www_domain_key, configuration, browser, sitespeed_timeout), result_dict, True, True)
         else:
             result_dict[www_domain_key]['schemes'].append('HTTP-REDIRECT*')
 
@@ -2272,21 +2245,21 @@ def check_http_version(url, result_dict):
         configuration = ' --firefox.preference network.http.http2.enabled:false --firefox.preference network.http.http3.enable:false'
         url2 = change_url_to_test_url(url, 'HTTPv1')
         print('HTTP/1.1')
-        result_dict = merge_dicts(get_website_support_from_sitespeed(url2, o_domain, configuration, browser, sitespeed_timeout), result_dict)
+        result_dict = merge_dicts(get_website_support_from_sitespeed(url2, o_domain, configuration, browser, sitespeed_timeout), result_dict, True, True)
 
     if not contains_value_for_all(result_dict, 'protocols', 'HTTP/2'):
         browser = 'firefox'
         configuration = ' --firefox.preference network.http.http2.enabled:true --firefox.preference network.http.http3.enable:false --firefox.preference network.http.version:3.0'
         url2 = change_url_to_test_url(url, 'HTTPv2')
         print('HTTP/2')
-        result_dict = merge_dicts(get_website_support_from_sitespeed(url2, o_domain, configuration, browser, sitespeed_timeout), result_dict)
+        result_dict = merge_dicts(get_website_support_from_sitespeed(url2, o_domain, configuration, browser, sitespeed_timeout), result_dict, True, True)
 
     if not contains_value_for_all(result_dict, 'protocols', 'HTTP/3'):
         browser = 'firefox'
         configuration = ' --firefox.preference network.http.http2.enabled:false --firefox.preference network.http.http3.enable:true --firefox.preference network.http.version:3.0'
         url2 = change_url_to_test_url(url, 'HTTPv3')
         print('HTTP/3')
-        result_dict = merge_dicts(get_website_support_from_sitespeed(url2, o_domain, configuration, browser, sitespeed_timeout), result_dict)
+        result_dict = merge_dicts(get_website_support_from_sitespeed(url2, o_domain, configuration, browser, sitespeed_timeout), result_dict, True, True)
 
     return result_dict
 

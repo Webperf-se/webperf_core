@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 import json
-import sys
-import getopt
 import datetime
 import traceback
-from models import Sites, SiteTests
+from models import SiteTests
 import config
-import gettext
 
 # TEST_ALL = -1
 
@@ -94,10 +91,10 @@ def test(_, langCode, site, test_type=None, show_reviews=False,):
         print(_('TEXT_TEST_END').format(
             datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
         print(_('TEXT_EXCEPTION'), website, '\n', e)
-        
+
         # write error to failure.log file
-        with open('failures.log', 'a') as outfile:
-            
+        with open('failures.log', 'a', encoding='utf-8') as outfile:
+
             outfile.writelines(['###############################################',
                                 '\n# Information:',
                                 '\nDateTime: {0}' .format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')),
@@ -124,8 +121,8 @@ def test(_, langCode, site, test_type=None, show_reviews=False,):
                                 '\nsoftware_browser: {0}'.format(config.software_browser),
                                  '\n###############################################\n'
                                  ])
-            
-            
+
+
             outfile.writelines(traceback.format_exception(e,e, e.__traceback__))
 
             outfile.writelines(['###############################################\n\n'])
@@ -136,7 +133,7 @@ def test(_, langCode, site, test_type=None, show_reviews=False,):
     return list()
 
 
-def test_site(_, langCode, site, test_types=TEST_ALL, show_reviews=False):
+def test_site(_, lang_code, site, test_types=TEST_ALL, show_reviews=False):
     # print(_('TEXT_TESTING_START_HEADER').format(
     #    datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
@@ -144,75 +141,75 @@ def test_site(_, langCode, site, test_types=TEST_ALL, show_reviews=False):
     ##############
     if TEST_GOOGLE_LIGHTHOUSE in test_types:
         tests.extend(test(_,
-                          langCode, site, test_type=TEST_GOOGLE_LIGHTHOUSE, show_reviews=show_reviews))
+                          lang_code, site, test_type=TEST_GOOGLE_LIGHTHOUSE, show_reviews=show_reviews))
     if TEST_PAGE_NOT_FOUND in test_types:
-        tests.extend(test(_, langCode, site,
+        tests.extend(test(_, lang_code, site,
                           test_type=TEST_PAGE_NOT_FOUND, show_reviews=show_reviews))
     if TEST_GOOGLE_LIGHTHOUSE_SEO in test_types:
         tests.extend(test(_,
-                          langCode, site, test_type=TEST_GOOGLE_LIGHTHOUSE_SEO, show_reviews=show_reviews))
+                          lang_code, site, test_type=TEST_GOOGLE_LIGHTHOUSE_SEO, show_reviews=show_reviews))
     if TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE in test_types:
         tests.extend(test(_,
-                          langCode, site, test_type=TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE, show_reviews=show_reviews))
+                          lang_code, site, test_type=TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE, show_reviews=show_reviews))
     if TEST_HTML in test_types:
-        tests.extend(test(_, langCode, site,
+        tests.extend(test(_, lang_code, site,
                           test_type=TEST_HTML, show_reviews=show_reviews))
     if TEST_CSS in test_types:
-        tests.extend(test(_, langCode, site,
+        tests.extend(test(_, lang_code, site,
                           test_type=TEST_CSS, show_reviews=show_reviews))
     if TEST_GOOGLE_LIGHTHOUSE_PWA in test_types:
         tests.extend(test(_,
-                          langCode, site, test_type=TEST_GOOGLE_LIGHTHOUSE_PWA, show_reviews=show_reviews))
+                          lang_code, site, test_type=TEST_GOOGLE_LIGHTHOUSE_PWA, show_reviews=show_reviews))
     if TEST_STANDARD_FILES in test_types:
-        tests.extend(test(_, langCode, site,
+        tests.extend(test(_, lang_code, site,
                           test_type=TEST_STANDARD_FILES, show_reviews=show_reviews))
     if TEST_GOOGLE_LIGHTHOUSE_A11Y in test_types:
         tests.extend(test(_,
-                          langCode, site, test_type=TEST_GOOGLE_LIGHTHOUSE_A11Y, show_reviews=show_reviews))
+                          lang_code, site, test_type=TEST_GOOGLE_LIGHTHOUSE_A11Y, show_reviews=show_reviews))
     if TEST_SITESPEED in test_types:
-        tests.extend(test(_, langCode, site,
+        tests.extend(test(_, lang_code, site,
                           test_type=TEST_SITESPEED, show_reviews=show_reviews))
     if TEST_YELLOW_LAB_TOOLS in test_types:
         tests.extend(test(_,
-                          langCode, site, test_type=TEST_YELLOW_LAB_TOOLS, show_reviews=show_reviews))
+                          lang_code, site, test_type=TEST_YELLOW_LAB_TOOLS, show_reviews=show_reviews))
     if TEST_PA11Y in test_types:
         tests.extend(test(_,
-                          langCode, site, test_type=TEST_PA11Y, show_reviews=show_reviews))
+                          lang_code, site, test_type=TEST_PA11Y, show_reviews=show_reviews))
     if TEST_WEBBKOLL in test_types:
-        tests.extend(test(_, langCode, site,
+        tests.extend(test(_, lang_code, site,
                           test_type=TEST_WEBBKOLL, show_reviews=show_reviews))
     if TEST_HTTP in test_types:
-        tests.extend(test(_, langCode, site,
+        tests.extend(test(_, lang_code, site,
                           test_type=TEST_HTTP, show_reviews=show_reviews))
     if TEST_ENERGY_EFFICIENCY in test_types:
-        tests.extend(test(_, langCode, site,
+        tests.extend(test(_, lang_code, site,
                           test_type=TEST_ENERGY_EFFICIENCY, show_reviews=show_reviews))
     if TEST_TRACKING in test_types:
-        tests.extend(test(_, langCode, site,
+        tests.extend(test(_, lang_code, site,
                           test_type=TEST_TRACKING, show_reviews=show_reviews))
     if TEST_EMAIL in test_types:
-        tests.extend(test(_, langCode, site,
+        tests.extend(test(_, lang_code, site,
                           test_type=TEST_EMAIL, show_reviews=show_reviews))
     if TEST_SOFTWARE in test_types:
-        tests.extend(test(_, langCode, site,
+        tests.extend(test(_, lang_code, site,
                           test_type=TEST_SOFTWARE, show_reviews=show_reviews))
     if TEST_A11Y_STATEMENT in test_types:
-        tests.extend(test(_, langCode, site,
+        tests.extend(test(_, lang_code, site,
                           test_type=TEST_A11Y_STATEMENT, show_reviews=show_reviews))
 
     return tests
 
 
-def test_sites(_, langCode, sites, test_types=TEST_ALL, show_reviews=False):
+def test_sites(_, lang_code, sites, test_types=TEST_ALL, show_reviews=False):
     results = list()
 
     print(_('TEXT_TEST_START_HEADER'))
 
-    nOfSites = len(sites)
-    has_more_then_one_site = nOfSites > 1
+    nof_sites = len(sites)
+    has_more_then_one_site = nof_sites > 1
 
     if has_more_then_one_site:
-        print(_('TEXT_TESTING_NUMBER_OF_SITES').format(nOfSites))
+        print(_('TEXT_TESTING_NUMBER_OF_SITES').format(nof_sites))
 
     site_index = 0
     for site in sites:
@@ -221,10 +218,48 @@ def test_sites(_, langCode, sites, test_types=TEST_ALL, show_reviews=False):
         website = site[1]
         print(_('TEXT_TESTING_SITE').format(website))
         if has_more_then_one_site:
-            print(_('TEXT_WEBSITE_X_OF_Y').format(site_index + 1, nOfSites))
-        results.extend(test_site(_, langCode, site,
+            print(_('TEXT_WEBSITE_X_OF_Y').format(site_index + 1, nof_sites))
+        results.extend(test_site(_, lang_code, site,
                                  test_types, show_reviews))
 
         site_index += 1
 
     return results
+
+def merge_dicts(dict1, dict2, sort, make_distinct):
+    if dict1 is None:
+        return dict2
+    if dict2 is None:
+        return dict1
+
+    for domain, value in dict2.items():
+        if domain in dict1:
+            type_of_value = type(value)
+            if type_of_value is dict:
+                for subkey, subvalue in value.items():
+                    if subkey in dict1[domain]:
+                        if isinstance(subvalue, dict):
+                            merge_dicts(
+                                dict1[domain][subkey],
+                                dict2[domain][subkey],
+                                sort,
+                                make_distinct)
+                        elif isinstance(subvalue, list):
+                            dict1[domain][subkey].extend(subvalue)
+                            if make_distinct:
+                                dict1[domain][subkey] = list(set(dict1[domain][subkey]))
+                            if sort:
+                                dict1[domain][subkey] = sorted(dict1[domain][subkey])
+                    else:
+                        dict1[domain][subkey] = dict2[domain][subkey]
+            elif type_of_value == list:
+                dict1[domain].extend(value)
+                if make_distinct:
+                    dict1[domain] = list(set(dict1[domain]))
+                if sort:
+                    dict1[domain] = sorted(dict1[domain])
+            elif type_of_value == int:
+                dict1[domain] = dict1[domain] + value
+        else:
+            dict1[domain] = value
+    return dict1

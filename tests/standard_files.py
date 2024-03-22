@@ -150,15 +150,15 @@ def validate_sitemaps(_, _local, robots_url, robots_content, has_robots_txt):
                     review = ''
                     points = sitemaps_rating.get_standards()
                     if points >= 5.0:
-                        review = _local('TEXT_REVIEW_SITEMAP_VERY_GOOD')
+                        review = _local('TEXT_SITEMAP_VERY_GOOD')
                     elif points >= 4.0:
-                        review = _local('TEXT_REVIEW_SITEMAP_IS_GOOD')
+                        review = _local('TEXT_SITEMAP_IS_GOOD')
                     elif points >= 3.0:
-                        review = _local('TEXT_REVIEW_SITEMAP_IS_OK')
+                        review = _local('TEXT_SITEMAP_IS_OK')
                     elif points > 1.0:
-                        review = _local('TEXT_REVIEW_SITEMAP_IS_BAD')
+                        review = _local('TEXT_SITEMAP_IS_BAD')
                     elif points <= 1.0:
-                        review = _local('TEXT_REVIEW_SITEMAP_IS_VERY_BAD')
+                        review = _local('TEXT_SITEMAP_IS_VERY_BAD')
 
 
 

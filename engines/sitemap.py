@@ -27,16 +27,21 @@ def read_sitemap(input_sitemap_url, input_skip, input_take, ignore_none_html):
     if input_sitemap_url.endswith('.xml.gz'):
         # unpack gzip:ed sitemap
         sitemap_content = httpRequestGetContent(input_sitemap_url, True, False)
-        gzip_io = io.BytesIO(sitemap_content)
-        with gzip.GzipFile(fileobj=gzip_io, mode='rb') as gzip_file:
-            gzip_content = gzip_file.read()
-            sitemap_content = gzip_content.decode('utf-8', 'ignore')
-            result = merge_dicts(read_sitemap_xml(
-                input_sitemap_url,
-                sitemap_content,
-                input_skip,
-                input_take,
-                ignore_none_html), result, True, False)
+        try:
+            if isinstance(sitemap_content, str):
+                return result
+            gzip_io = io.BytesIO(sitemap_content)
+            with gzip.GzipFile(fileobj=gzip_io, mode='rb') as gzip_file:
+                gzip_content = gzip_file.read()
+                sitemap_content = gzip_content.decode('utf-8', 'ignore')
+                result = merge_dicts(read_sitemap_xml(
+                    input_sitemap_url,
+                    sitemap_content,
+                    input_skip,
+                    input_take,
+                    ignore_none_html), result, True, False)
+        except gzip.BadGzipFile:
+            return result
     else:
         sitemap_content = httpRequestGetContent(input_sitemap_url, True, True)
         result = merge_dicts(read_sitemap_xml(input_sitemap_url,

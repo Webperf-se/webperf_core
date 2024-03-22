@@ -33,8 +33,20 @@ msgstr "- Sitemap is mentioned in robots.txt"
 msgid "TEXT_SITEMAP_BROKEN"
 msgstr "- Sitemap seems to be broken."
 
-msgid "TEXT_SITEMAP_OK"
-msgstr "- Sitemap seems to work."
+msgid "TEXT_SITEMAP_VERY_GOOD"
+msgstr "- The Sitemap is very good.\n"
+
+msgid "TEXT_SITEMAP_IS_GOOD"
+msgstr "- The Sitemap is good.\n"
+
+msgid "TEXT_SITEMAP_IS_OK"
+msgstr "- The Sitemap is neither good or bad.\n"
+
+msgid "TEXT_SITEMAP_IS_BAD"
+msgstr "- The Sitemap is bad.\n"
+
+msgid "TEXT_SITEMAP_IS_VERY_BAD"
+msgstr "- The Sitemap is very bad.\n"
 
 msgid "TEXT_RSS_FEED_MISSING"
 msgstr "- RSS subscription is missing in the HTML's metadata."

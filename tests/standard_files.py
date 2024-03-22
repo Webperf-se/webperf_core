@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
-from models import Rating
-import datetime
-import requests
+import os
+from urllib.parse import urlparse
+from datetime import datetime
+import re
 import urllib  # https://docs.python.org/3/library/urllib.parse.html
+import gettext
+import requests
 from bs4 import BeautifulSoup
 import config
-from tests.utils import *
-import gettext
+from models import Rating
+from tests.utils import has_redirect, httpRequestGetContent
 from engines.sitemap import read_sitemap
 _local = gettext.gettext
 
@@ -17,12 +20,12 @@ review_show_improvements_only = config.review_show_improvements_only
 
 try:
     use_detailed_report = config.use_detailed_report
-except:
+except AttributeError:
     # If use_detailed_report variable is not set in config.py this will be the default
     use_detailed_report = False
 
 
-def run_test(_, langCode, url):
+def run_test(_, lang_code, url):
     """
     Looking for:
     * robots.txt
@@ -31,7 +34,7 @@ def run_test(_, langCode, url):
     """
 
     language = gettext.translation(
-        'standard_files', localedir='locales', languages=[langCode])
+        'standard_files', localedir='locales', languages=[lang_code])
     language.install()
     _local = language.gettext
 
@@ -41,10 +44,10 @@ def run_test(_, langCode, url):
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     o = urllib.parse.urlparse(url)
-    parsed_url = '{0}://{1}/'.format(o.scheme, o.netloc)
+    parsed_url = f'{o.scheme}://{o.netloc}/'
 
     rating = Rating(_, review_show_improvements_only)
-    return_dict = dict()
+    return_dict = {}
 
     # robots.txt
     robots_result = validate_robots(_, _local, parsed_url)
@@ -87,7 +90,10 @@ def validate_robots(_, _local, parsed_url):
 
     robots_content = httpRequestGetContent(parsed_url + 'robots.txt', True)
 
-    if robots_content == None or '</html>' in robots_content.lower() or ('user-agent' not in robots_content.lower() and 'disallow' not in robots_content.lower() and 'allow' not in robots_content.lower()):
+    if robots_content is None or '</html>' in robots_content.lower() or \
+          ('user-agent' not in robots_content.lower() \
+           and 'disallow' not in robots_content.lower() \
+           and 'allow' not in robots_content.lower()):
         rating.set_overall(1.0)
         rating.set_standards(1.0, _local("TEXT_ROBOTS_MISSING"))
         return_dict['robots.txt'] = 'missing content'
@@ -123,7 +129,6 @@ def validate_sitemaps(_, _local, robots_url, robots_content, has_robots_txt):
         return_dict["num_sitemaps"] = len(found_smaps)
 
         # NOTE: https://internetverkstan.se/ has styled sitemap
-        # TODO: https://internetverkstan.se/ has _1_ entry
 
         if len(found_smaps) > 0:
             return_dict["sitemaps"] = found_smaps
@@ -141,12 +146,26 @@ def validate_sitemaps(_, _local, robots_url, robots_content, has_robots_txt):
                     final_rating.overall_review = sitemaps_rating.overall_review
                     final_rating.set_standards(sitemaps_rating.get_standards())
                     final_rating.standards_review = sitemaps_rating.standards_review
-                    # final_rating.set_integrity_and_security(rating.get_integrity_and_security())
-                    # final_rating.integrity_and_security_review = rating.integrity_and_security_review
                 else:
+                    review = ''
+                    points = sitemaps_rating.get_standards()
+                    if points >= 5.0:
+                        review = _local('TEXT_REVIEW_SITEMAP_VERY_GOOD')
+                    elif points >= 4.0:
+                        review = _local('TEXT_REVIEW_SITEMAP_IS_GOOD')
+                    elif points >= 3.0:
+                        review = _local('TEXT_REVIEW_SITEMAP_IS_OK')
+                    elif points > 1.0:
+                        review = _local('TEXT_REVIEW_SITEMAP_IS_BAD')
+                    elif points <= 1.0:
+                        review = _local('TEXT_REVIEW_SITEMAP_IS_VERY_BAD')
+
+
+
                     final_rating.set_overall(sitemaps_rating.get_overall())
-                    final_rating.set_standards(sitemaps_rating.get_standards(), _local("TEXT_SITEMAP_OK"))
-                    # final_rating.set_integrity_and_security(rating.get_integrity_and_security(), _local('TEXT_REVIEW_CSP').format(domain))
+                    final_rating.set_standards(
+                        points,
+                        review)
             rating += final_rating
         else:
             rating.set_overall(2.0)
@@ -155,10 +174,6 @@ def validate_sitemaps(_, _local, robots_url, robots_content, has_robots_txt):
     return (rating, return_dict)
 
 def validate_sitemap(sitemap_url, robots_url, return_dict, _, _local):
-    # TODO: Validation Rules: https://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd
-    # TODO: https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap#general-guidelines
-    # TODO: https://developers.google.com/search/docs/crawling-indexing/sitemaps/image-sitemaps
-
     rating = Rating(_, review_show_improvements_only)
 
     parsed_robots_url = urllib.parse.urlparse(robots_url)
@@ -186,7 +201,6 @@ def validate_sitemap(sitemap_url, robots_url, return_dict, _, _local):
         ext_len = len(tmp)
                 # print('ext', tmp)
         if ext_len <= 4 and ext_len >= 2:
-            # TODO: should we do some checking for html and htm pages? (gotene.se seems to use it for flash (only?)...)
             if tmp not in ('html','htm'):
                 # TODO: ensure known file extention
                 item_type = tmp
@@ -197,9 +211,9 @@ def validate_sitemap(sitemap_url, robots_url, return_dict, _, _local):
             item_types[item_type] = []
         item_types[item_type].append(item_url)
 
-    # TODO: validate url encoding ( Example: https://www.gotene.se/webdav/files/Centrumhuset/Kultur, turism & fritid/Biblioteket/hemsidefilm/loss_teckensprak.html )
-    # TODO: as long as we handle <image:image>, make sure to give bad rating for everything that is not a webpage
-    # NOTE: We should problably give recommendation to use <image:loc> if they feel a need to make it easier to find images (if they are not doing so).
+    # TODO: validate url encoding
+    # ( Example: https://www.gotene.se/webdav/files/Centrumhuset/Kultur,
+    #     turism & fritid/Biblioteket/hemsidefilm/loss_teckensprak.html )
 
     item_type_keys = sorted(list(item_types.keys()))
     total_nof_items = len(sitemap_items)
@@ -323,7 +337,7 @@ def validate_sitemap(sitemap_url, robots_url, return_dict, _, _local):
         sub_rating.set_overall(
                     5.0)
         sub_rating.set_standards(
-                    5.0, _local("TEXT_SITEMAP_OK"))
+                    5.0, _local("TEXT_SITEMAP_IS_OK"))
         rating += sub_rating
 
         return_dict['sitemap_check'] = f"'{sitemap_url}' seem ok"
@@ -347,10 +361,8 @@ def is_feed(tag):
 
 
 def validate_feed(_, _local, url):
-    # TODO: validate first feed
-
-    return_dict = dict()
-    feed = list()
+    return_dict = {}
+    feed = []
     rating = Rating(_, review_show_improvements_only)
 
     headers = {'user-agent': config.useragent}
@@ -400,7 +412,8 @@ def validate_security_txt(_, _local, parsed_url):
     security_wellknown_content = httpRequestGetContent(
         security_wellknown_url, True)
 
-    # security.txt can also be placed in root if for example technical reasons prohibit use of /.well-known/
+    # Note: security.txt can also be placed in root if
+    # for example technical reasons prohibit use of /.well-known/
     security_root_url = parsed_url + 'security.txt'
     try:
         security_root_request = requests.get(security_root_url, allow_redirects=True,
@@ -434,19 +447,19 @@ def validate_security_txt(_, _local, parsed_url):
         security_wellknown_rating = security_wellknown_result[0]
         security_root_rating = security_root_result[0]
 
-        if (security_wellknown_rating.get_overall() != security_root_rating.get_overall()):
-            if security_wellknown_rating.get_overall() > security_root_rating.get_overall():
-                return security_wellknown_result
-            else:
-                return security_root_result
-        else:
+        if security_wellknown_rating.get_overall() == security_root_rating.get_overall():
             return security_wellknown_result
+
+        if security_wellknown_rating.get_overall() > security_root_rating.get_overall():
+            return security_wellknown_result
+        else:
+            return security_root_result
 
 
 def rate_securitytxt_content(content, _, _local):
     rating = Rating(_, review_show_improvements_only)
-    return_dict = dict()
-    if content == None or ('<html' in content.lower()):
+    return_dict = {}
+    if content is None or ('<html' in content.lower()):
         # Html (404 page?) content instead of expected content
         rating.set_overall(1.0)
         rating.set_standards(1.0, _local("TEXT_SECURITY_WRONG_CONTENT"))
@@ -460,7 +473,7 @@ def rate_securitytxt_content(content, _, _local):
         rating.set_integrity_and_security(
             5.0, _local("TEXT_SECURITY_OK_CONTENT"))
         return_dict['security.txt'] = 'ok'
-    elif not ('contact:' in content.lower()):
+    elif not 'contact:' in content.lower():
         # Missing required Contact
         rating.set_overall(2.5)
         rating.set_standards(2.5, _local(
@@ -468,7 +481,7 @@ def rate_securitytxt_content(content, _, _local):
         rating.set_integrity_and_security(
             2.5, _local("TEXT_SECURITY_REQUIRED_CONTACT_MISSING"))
         return_dict['security.txt'] = 'required contact missing'
-    elif not ('expires:' in content.lower()):
+    elif not 'expires:' in content.lower():
         # Missing required Expires (added in version 10 of draft)
         rating.set_overall(2.5)
         rating.set_standards(2.5, _local(

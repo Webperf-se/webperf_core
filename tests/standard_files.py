@@ -119,7 +119,7 @@ def validate_sitemaps(_, _local, robots_url, robots_content, has_robots_txt):
     else:
         return_dict['sitemap'] = 'ok'
 
-        regex = r"sitemap\:(?P<url>[^\n]+)"
+        regex = r"^sitemap\:(?P<url>[^\n]+)"
         found_smaps = []
         matches = re.finditer(regex, robots_content, re.MULTILINE | re.IGNORECASE)
         for matchNum, match in enumerate(matches, start=1):

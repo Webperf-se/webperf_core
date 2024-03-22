@@ -133,8 +133,6 @@ def validate_sitemaps(_, _local, robots_url, robots_content, has_robots_txt):
         if len(found_smaps) > 0:
             return_dict["sitemaps"] = found_smaps
 
-            # print('found sitemaps = ', found_smaps)
-
             sitemaps_rating = Rating(_, review_show_improvements_only)
             for sitemap_url in found_smaps:
                 sitemaps_rating += validate_sitemap(sitemap_url, robots_url, return_dict, _, _local)
@@ -176,10 +174,14 @@ def validate_sitemaps(_, _local, robots_url, robots_content, has_robots_txt):
 def validate_sitemap(sitemap_url, robots_url, return_dict, _, _local):
     rating = Rating(_, review_show_improvements_only)
 
+    known_extensions = ['bmp', 'css', 'doc', 'docx', 'dot', 'eot', 'exe', 'git',
+                        'ico', 'ics', 'jpeg', 'jpg', 'js','json', 'md', 'mov', 'mp3',
+                        'mp4', 'pdf', 'png', 'ppt', 'pptx', 'pub', 'svg', 'tif',
+                        'txt', 'unknown-in-download', 'webp', 'wmv', 'xls', 'xlsx', 'xml', 'zip']
+
     parsed_robots_url = urllib.parse.urlparse(robots_url)
     robots_domain = parsed_robots_url.hostname
 
-    # print(sitemap_url)
     sitemaps = read_sitemap(sitemap_url, -1, -1, False)
     sitemap_items = sitemaps['all']
 
@@ -199,10 +201,8 @@ def validate_sitemap(sitemap_url, robots_url, return_dict, _, _local):
 
         tmp = os.path.splitext(parsed_item_url.path)[1].strip('.').lower()
         ext_len = len(tmp)
-                # print('ext', tmp)
         if ext_len <= 4 and ext_len >= 2:
-            if tmp not in ('html','htm'):
-                # TODO: ensure known file extention
+            if tmp in known_extensions:
                 item_type = tmp
         elif parsed_item_url.path.startswith('/download/'):
             item_type = 'unknown-in-download'
@@ -211,17 +211,10 @@ def validate_sitemap(sitemap_url, robots_url, return_dict, _, _local):
             item_types[item_type] = []
         item_types[item_type].append(item_url)
 
-    # TODO: validate url encoding
-    # ( Example: https://www.gotene.se/webdav/files/Centrumhuset/Kultur,
-    #     turism & fritid/Biblioteket/hemsidefilm/loss_teckensprak.html )
-
     item_type_keys = sorted(list(item_types.keys()))
     total_nof_items = len(sitemap_items)
     sitemap_items = list(set(sitemap_items))
     total_nof_items_no_duplicates = len(sitemap_items)
-
-    # print('total_nof_items =', total_nof_items)
-    # print('total_nof_items_no_duplicates =', total_nof_items_no_duplicates)
 
     if not always_starts_with_https_scheme:
         sub_rating = Rating(_, review_show_improvements_only)
@@ -252,7 +245,6 @@ def validate_sitemap(sitemap_url, robots_url, return_dict, _, _local):
         sub_rating.set_standards(
                     5.0, _local("TEXT_SITEMAP_SAME_DOMAIN_AS_ROBOTS_TXT"))
         rating += sub_rating
-
 
     if total_nof_items !=  total_nof_items_no_duplicates:
         ratio = total_nof_items_no_duplicates / total_nof_items
@@ -314,14 +306,10 @@ def validate_sitemap(sitemap_url, robots_url, return_dict, _, _local):
                         5.0, _local("TEXT_SITEMAP_NOT_TOO_LARGE"))
             rating += sub_rating
 
-
     for key in item_type_keys:
         # remove duplicates
         item_types[key] = list(set(item_types[key]))
         type_spread[key] = len(item_types[key])
-
-    # nice_items = json.dumps(type_spread, indent=14)
-    # print('\tsitemap[distribution of types]', nice_items)
 
     if total_nof_items == 0:
         sub_rating = Rating(_, review_show_improvements_only)
@@ -372,17 +360,14 @@ def validate_feed(_, _local, url):
         soup = BeautifulSoup(request.text, 'lxml')
         feed = soup.find_all(is_feed)
     except:
-        #print('Exception looking for feed, probably connection problems')
         pass
 
     if len(feed) == 0:
         rating.set_overall(4.5, _local("TEXT_RSS_FEED_MISSING"))
-        #rating.set_standards(1.0, _("TEXT_RSS_FEED_MISSING"))
         return_dict['feed'] = 'not in meta'
         return_dict['num_feeds'] = len(feed)
     elif len(feed) > 0:
         rating.set_overall(5.0, _local("TEXT_RSS_FEED_FOUND"))
-        #rating.set_standards(5.0, _("TEXT_RSS_FEED_FOUND"))
         return_dict['feed'] = 'found in meta'
         return_dict['num_feeds'] = len(feed)
         tmp_feed = []
@@ -406,7 +391,6 @@ def validate_security_txt(_, _local, parsed_url):
         security_wellknown_request = requests.get(security_wellknown_url, allow_redirects=True,
                                                   headers=headers, timeout=request_timeout)
     except:
-        #print('Exception looking for security.txt, probably connection problems')
         pass
 
     security_wellknown_content = httpRequestGetContent(
@@ -419,12 +403,8 @@ def validate_security_txt(_, _local, parsed_url):
         security_root_request = requests.get(security_root_url, allow_redirects=True,
                                              headers=headers, timeout=request_timeout)
     except:
-        #print('Exception looking for security.txt, probably connection problems')
         pass
     security_root_content = httpRequestGetContent(security_root_url, True)
-
-    #print('security_wellknown_content:', security_wellknown_content)
-    #print('security_root_content:', security_root_content)
 
     if not security_wellknown_request and not security_root_request:
         # Can't find security.txt (not giving us 200 as status code)
@@ -442,8 +422,6 @@ def validate_security_txt(_, _local, parsed_url):
         security_root_result = rate_securitytxt_content(
             security_root_content, _, _local)
 
-        #print('result1:', security_wellknown_result)
-        #print('result2:', security_root_result)
         security_wellknown_rating = security_wellknown_result[0]
         security_root_rating = security_root_result[0]
 
@@ -489,10 +467,6 @@ def rate_securitytxt_content(content, _, _local):
         rating.set_integrity_and_security(
             4.0, _local("TEXT_SECURITY_REQUIRED_EXPIRES_MISSING"))
         return_dict['security.txt'] = 'required expires missing'
-        # print('* security.txt required content is missing')
-
-        # print(security_wellknown_content)
-        # print('* security.txt seems ok')
     else:
         rating.set_overall(1.0, _local("TEXT_SECURITY_WRONG_CONTENT"))
 

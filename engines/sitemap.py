@@ -44,7 +44,7 @@ def read_sitemap(input_sitemap_url, input_skip, input_take, ignore_none_html):
             input_skip,
             input_take,
             ignore_none_html), result, True, False)
-        
+
     return result
 
 def read_sitemap_xml(key, sitemap_content, input_skip, input_take, ignore_none_html):
@@ -76,10 +76,6 @@ def read_sitemap_xml(key, sitemap_content, input_skip, input_take, ignore_none_h
     children = [child for child in root_element.children \
                 if child.name == 'url' or child.name == 'sitemap']
 
-    # nof_children = len(children)
-    # print('\tnof_children =', nof_children)
-
-    # https://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd
     current_index = 0
     for child in children:
         loc_children = [child for child in child.children \
@@ -94,8 +90,6 @@ def read_sitemap_xml(key, sitemap_content, input_skip, input_take, ignore_none_h
             continue
 
         if is_sitemap_index:
-            # print('\tsitemap =', item_url)
-
             result = merge_dicts(read_sitemap(
                 item_url,
                 input_skip,
@@ -120,7 +114,8 @@ def read_sitemap_xml(key, sitemap_content, input_skip, input_take, ignore_none_h
                 if item_content_type == 401:
                     print(f'- skipping because it is of status-code: {item_content_type}')
                     continue
-                elif item_content_type is not None and 'html' not in item_content_type:
+
+                if item_content_type is not None and 'html' not in item_content_type:
                     print(f'- skipping because it is of content-type: {item_content_type}')
                     continue
             result['all'].append(item_url)

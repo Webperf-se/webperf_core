@@ -228,3 +228,41 @@ def test_sites(_, langCode, sites, test_types=TEST_ALL, show_reviews=False):
         site_index += 1
 
     return results
+
+def merge_dicts(dict1, dict2, sort, make_distinct):
+    if dict1 is None:
+        return dict2
+    if dict2 is None:
+        return dict1
+
+    for domain, value in dict2.items():
+        if domain in dict1:
+            type_of_value = type(value)
+            if type_of_value is dict:
+                for subkey, subvalue in value.items():
+                    if subkey in dict1[domain]:
+                        if isinstance(subvalue, dict):
+                            merge_dicts(
+                                dict1[domain][subkey],
+                                dict2[domain][subkey],
+                                sort,
+                                make_distinct)
+                        elif isinstance(subvalue, list):
+                            dict1[domain][subkey].extend(subvalue)
+                            if make_distinct:
+                                dict1[domain][subkey] = list(set(dict1[domain][subkey]))
+                            if sort:
+                                dict1[domain][subkey] = sorted(dict1[domain][subkey])
+                    else:
+                        dict1[domain][subkey] = dict2[domain][subkey]
+            elif type_of_value == list:
+                dict1[domain].extend(value)
+                if make_distinct:
+                    dict1[domain] = list(set(dict1[domain]))
+                if sort:
+                    dict1[domain] = sorted(dict1[domain])
+            elif type_of_value == int:
+                dict1[domain] = dict1[domain] + value
+        else:
+            dict1[domain] = value
+    return dict1

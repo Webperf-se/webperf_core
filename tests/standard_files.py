@@ -15,6 +15,12 @@ request_timeout = config.http_request_timeout
 useragent = config.useragent
 review_show_improvements_only = config.review_show_improvements_only
 
+try:
+    use_detailed_report = config.use_detailed_report
+except:
+    # If use_detailed_report variable is not set in config.py this will be the default
+    use_detailed_report = False
+
 
 def run_test(_, langCode, url):
     """
@@ -122,18 +128,29 @@ def validate_sitemaps(_, _local, robots_url, robots_content, has_robots_txt):
         if len(found_smaps) > 0:
             return_dict["sitemaps"] = found_smaps
 
-            print('found sitemaps = ', found_smaps)
+            # print('found sitemaps = ', found_smaps)
 
             sitemaps_rating = Rating(_, review_show_improvements_only)
             for sitemap_url in found_smaps:
                 sitemaps_rating += validate_sitemap(sitemap_url, robots_url, return_dict, _, _local)
-            rating += sitemaps_rating
+
+            final_rating = Rating(_, review_show_improvements_only)
+            if sitemaps_rating.is_set:
+                if use_detailed_report:
+                    final_rating.set_overall(sitemaps_rating.get_overall())
+                    final_rating.overall_review = sitemaps_rating.overall_review
+                    final_rating.set_standards(sitemaps_rating.get_standards())
+                    final_rating.standards_review = sitemaps_rating.standards_review
+                    # final_rating.set_integrity_and_security(rating.get_integrity_and_security())
+                    # final_rating.integrity_and_security_review = rating.integrity_and_security_review
+                else:
+                    final_rating.set_overall(sitemaps_rating.get_overall())
+                    final_rating.set_standards(sitemaps_rating.get_standards(), _local("TEXT_SITEMAP_OK"))
+                    # final_rating.set_integrity_and_security(rating.get_integrity_and_security(), _local('TEXT_REVIEW_CSP').format(domain))
+            rating += final_rating
         else:
             rating.set_overall(2.0)
             rating.set_standards(2.0, _local("TEXT_SITEMAP_FOUND"))
-
-
-    
 
     return (rating, return_dict)
 
@@ -147,7 +164,7 @@ def validate_sitemap(sitemap_url, robots_url, return_dict, _, _local):
     parsed_robots_url = urllib.parse.urlparse(robots_url)
     robots_domain = parsed_robots_url.hostname
 
-    print(sitemap_url)
+    # print(sitemap_url)
     sitemaps = read_sitemap(sitemap_url, -1, -1, False)
     sitemap_items = sitemaps['all']
 
@@ -165,18 +182,16 @@ def validate_sitemap(sitemap_url, robots_url, return_dict, _, _local):
         if robots_domain != parsed_item_url.hostname:
             always_uses_same_domain = False
 
-        if '&' in item_url:
-            print('\t-', item_url)
-
-        # TODO: validate url encoding ( Example: https://www.gotene.se/webdav/files/Centrumhuset/Kultur, turism & fritid/Biblioteket/hemsidefilm/loss_teckensprak.html )
         tmp = os.path.splitext(parsed_item_url.path)[1].strip('.').lower()
         ext_len = len(tmp)
                 # print('ext', tmp)
         if ext_len <= 4 and ext_len >= 2:
-            item_type = tmp
+            # TODO: should we do some checking for html and htm pages? (gotene.se seems to use it for flash (only?)...)
+            if tmp not in ('html','htm'):
+                # TODO: ensure known file extention
+                item_type = tmp
         elif parsed_item_url.path.startswith('/download/'):
             item_type = 'unknown-in-download'
-
 
         if item_type not in item_types:
             item_types[item_type] = []
@@ -191,8 +206,8 @@ def validate_sitemap(sitemap_url, robots_url, return_dict, _, _local):
     sitemap_items = list(set(sitemap_items))
     total_nof_items_no_duplicates = len(sitemap_items)
 
-    print('total_nof_items =', total_nof_items)
-    print('total_nof_items_no_duplicates =', total_nof_items_no_duplicates)
+    # print('total_nof_items =', total_nof_items)
+    # print('total_nof_items_no_duplicates =', total_nof_items_no_duplicates)
 
     if not always_starts_with_https_scheme:
         sub_rating = Rating(_, review_show_improvements_only)
@@ -226,11 +241,13 @@ def validate_sitemap(sitemap_url, robots_url, return_dict, _, _local):
 
 
     if total_nof_items !=  total_nof_items_no_duplicates:
+        ratio = total_nof_items_no_duplicates / total_nof_items
+        duplicates_points = 3.0 * ratio
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(
-                    4.0)
+                    duplicates_points)
         sub_rating.set_standards(
-                    4.0, _local("TEXT_SITEMAP_INCLUDE_DUPLICATES"))
+                    duplicates_points, _local("TEXT_SITEMAP_INCLUDE_DUPLICATES"))
         rating += sub_rating
     else:
         sub_rating = Rating(_, review_show_improvements_only)
@@ -241,11 +258,17 @@ def validate_sitemap(sitemap_url, robots_url, return_dict, _, _local):
         rating += sub_rating
 
     if len(item_type_keys) > 1:
+        webpages_points = 1.0
+        if 'webpage' in item_type_keys:
+            nof_webpages = len(item_types['webpage'])
+            ratio = nof_webpages / total_nof_items
+            webpages_points = 5.0 * ratio
+
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(
-                    1.0)
+                    webpages_points)
         sub_rating.set_standards(
-                    1.0,  _local("TEXT_SITEMAP_NOT_ONLY_WEBPAGES"))
+                    webpages_points,  _local("TEXT_SITEMAP_NOT_ONLY_WEBPAGES"))
         rating += sub_rating
     else:
         sub_rating = Rating(_, review_show_improvements_only)
@@ -265,9 +288,9 @@ def validate_sitemap(sitemap_url, robots_url, return_dict, _, _local):
         if nof_items > 50_000:
             sub_rating = Rating(_, review_show_improvements_only)
             sub_rating.set_overall(
-                        3.0)
+                        1.0)
             sub_rating.set_standards(
-                        3.0,  _local("TEXT_SITEMAP_TOO_LARGE"))
+                        1.0,  _local("TEXT_SITEMAP_TOO_LARGE"))
             rating += sub_rating
         else:
             sub_rating = Rating(_, review_show_improvements_only)
@@ -283,15 +306,15 @@ def validate_sitemap(sitemap_url, robots_url, return_dict, _, _local):
         item_types[key] = list(set(item_types[key]))
         type_spread[key] = len(item_types[key])
 
-    nice_items = json.dumps(type_spread, indent=14)
-    print('\tsitemap[distribution of types]', nice_items)
+    # nice_items = json.dumps(type_spread, indent=14)
+    # print('\tsitemap[distribution of types]', nice_items)
 
     if total_nof_items == 0:
         sub_rating = Rating(_, review_show_improvements_only)
         sub_rating.set_overall(
-                    3.0)
+                    1.0)
         sub_rating.set_standards(
-                    3.0, _local("TEXT_SITEMAP_BROKEN"))
+                    1.0, _local("TEXT_SITEMAP_BROKEN"))
         rating += sub_rating
 
         return_dict['sitemap_check'] = f"'{sitemap_url}' seem to be broken"

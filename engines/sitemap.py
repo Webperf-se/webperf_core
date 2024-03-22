@@ -76,9 +76,8 @@ def read_sitemap_xml(key, sitemap_content, input_skip, input_take, ignore_none_h
     children = [child for child in root_element.children \
                 if child.name == 'url' or child.name == 'sitemap']
 
-
-    nof_children = len(children)
-    print('\tnof_children =', nof_children)
+    # nof_children = len(children)
+    # print('\tnof_children =', nof_children)
 
     # https://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd
     current_index = 0
@@ -95,7 +94,7 @@ def read_sitemap_xml(key, sitemap_content, input_skip, input_take, ignore_none_h
             continue
 
         if is_sitemap_index:
-            print('\tsitemap =', item_url)
+            # print('\tsitemap =', item_url)
 
             result = merge_dicts(read_sitemap(
                 item_url,

@@ -1,15 +1,9 @@
 # -*- coding: utf-8 -*-
 import sys
-import config
-from datetime import datetime
 from pathlib import Path
 import sys
 import json
-import re
-import config
 import os
-from tests.utils import *
-import packaging.version
 
 def main(argv):
     """

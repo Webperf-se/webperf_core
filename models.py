@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import datetime
+from datetime import datetime
 
 class DefaultInfo:
     def __init__(self, domain, method, precision, category, name, version, issues):
@@ -14,16 +14,16 @@ class DefaultInfo:
 
     def __str__(self) -> str:
         return f"DefaultInfo(name={self.info['name']}, version={self.info['version']})"
-    
+
     def __setitem__(self, key, value):
         self.info[key] = value
 
     def __getitem__(self, key):
         return self.info[key]
-    
+
     def __contains__(self, key):
         return key in self.info
-    
+
     def __eq__(self, other):
         if isinstance(other, DefaultInfo):
             return self.info['domain'] == other.info['domain'] and self.info['method'] == other.info['method'] and self.info['precision'] == other.info['precision'] and self.info['category'] == other.info['category'] and self.info['name'] == other.info['name'] and self.info['version'] == other.info['version']
@@ -77,13 +77,13 @@ class Rating(object):
     a11y_review = ''
     review_show_improvements_only = False
 
-    _ = False
+    translation = False
     is_set = False
 
-    def __init__(self, _=None, review_show_improvements_only=False):
+    def __init__(self, translation=None, review_show_improvements_only=False):
         # don't know anything we want todo yet
         self.overall = -1
-        self._ = _
+        self.translation = translation
         self.review_show_improvements_only = review_show_improvements_only
 
     def set_overall(self, points, review=''):
@@ -95,7 +95,7 @@ class Rating(object):
             points = 5.0
         self.overall = points
         if review != '' and (not self.review_show_improvements_only or points < 5.0):
-            self.overall_review = self._('TEXT_TEST_REVIEW_RATING_ITEM').format(
+            self.overall_review = self.translation('TEXT_TEST_REVIEW_RATING_ITEM').format(
                 review, points)
         self.is_set = True
 
@@ -111,7 +111,7 @@ class Rating(object):
             points = 5.0
         self.integrity_and_security = points
         if review != '' and (not self.review_show_improvements_only or points < 5.0):
-            self.integrity_and_security_review = self._('TEXT_TEST_REVIEW_RATING_ITEM').format(
+            self.integrity_and_security_review = self.translation('TEXT_TEST_REVIEW_RATING_ITEM').format(
                 review, points)
         self.is_set = True
 
@@ -127,7 +127,7 @@ class Rating(object):
             points = 5.0
         self.performance = points
         if review != '' and (not self.review_show_improvements_only or points < 5.0):
-            self.performance_review = self._('TEXT_TEST_REVIEW_RATING_ITEM').format(
+            self.performance_review = self.translation('TEXT_TEST_REVIEW_RATING_ITEM').format(
                 review, points)
         self.is_set = True
 
@@ -143,7 +143,7 @@ class Rating(object):
             points = 5.0
         self.standards = points
         if review != '' and (not self.review_show_improvements_only or points < 5.0):
-            self.standards_review = self._('TEXT_TEST_REVIEW_RATING_ITEM').format(
+            self.standards_review = self.translation('TEXT_TEST_REVIEW_RATING_ITEM').format(
                 review, points)
         self.is_set = True
 
@@ -159,7 +159,7 @@ class Rating(object):
             points = 5.0
         self.a11y = points
         if review != '' and (not self.review_show_improvements_only or points < 5.0):
-            self.a11y_review = self._('TEXT_TEST_REVIEW_RATING_ITEM').format(
+            self.a11y_review = self.translation('TEXT_TEST_REVIEW_RATING_ITEM').format(
                 review, points)
         self.is_set = True
 
@@ -173,17 +173,17 @@ class Rating(object):
         return float("{0:.2f}".format(value))
 
     def get_reviews(self):
-        text = self._('TEXT_TEST_REVIEW_OVERVIEW').format(self.overall_review)
+        text = self.translation('TEXT_TEST_REVIEW_OVERVIEW').format(self.overall_review)
         if (self.get_integrity_and_security() != -1 and self.integrity_and_security_review != ''):
-            text += self._('TEXT_TEST_REVIEW_INTEGRITY_SECURITY').format(
+            text += self.translation('TEXT_TEST_REVIEW_INTEGRITY_SECURITY').format(
                 self.integrity_and_security_review)
         if (self.get_performance() != -1 and self.performance_review != ''):
-            text += self._('TEXT_TEST_REVIEW_PERFORMANCE').format(
+            text += self.translation('TEXT_TEST_REVIEW_PERFORMANCE').format(
                 self.performance_review)
         if (self.get_a11y() != -1 and self.a11y_review != ''):
-            text += self._('TEXT_TEST_REVIEW_ALLY').format(self.a11y_review)
+            text += self.translation('TEXT_TEST_REVIEW_ALLY').format(self.a11y_review)
         if (self.get_standards() != -1 and self.standards_review != ''):
-            text += self._('TEXT_TEST_REVIEW_STANDARDS').format(
+            text += self.translation('TEXT_TEST_REVIEW_STANDARDS').format(
                 self.standards_review)
 
         return text.replace('GOV-IGNORE', '')
@@ -208,10 +208,10 @@ class Rating(object):
         if (not isinstance(other, Rating)):
             raise TypeError
         else:
-            if self._ != None:
-                tmp = Rating(self._, self.review_show_improvements_only)
+            if self.translation != None:
+                tmp = Rating(self.translation, self.review_show_improvements_only)
             else:
-                tmp = Rating(other._, other.review_show_improvements_only)
+                tmp = Rating(other.translation, other.review_show_improvements_only)
 
             tmp_value = tmp.get_combined_value(
                 self.overall, self.overall_count, other.overall, other.overall_count)
@@ -269,16 +269,16 @@ class Rating(object):
             return (val2, val2_count)
 
     def __repr__(self):
-        text = self._('TEXT_TEST_RATING_OVERVIEW').format(self.get_overall())
+        text = self.translation('TEXT_TEST_RATING_OVERVIEW').format(self.get_overall())
         if (self.get_integrity_and_security() != -1):
-            text += self._('TEXT_TEST_RATING_INTEGRITY_SECURITY').format(
+            text += self.translation('TEXT_TEST_RATING_INTEGRITY_SECURITY').format(
                 self.get_integrity_and_security())
         if (self.get_performance() != -1):
-            text += self._('TEXT_TEST_RATING_PERFORMANCE').format(self.get_performance())
+            text += self.translation('TEXT_TEST_RATING_PERFORMANCE').format(self.get_performance())
         if (self.get_a11y() != -1):
-            text += self._('TEXT_TEST_RATING_ALLY').format(self.get_a11y())
+            text += self.translation('TEXT_TEST_RATING_ALLY').format(self.get_a11y())
         if (self.get_standards() != -1):
-            text += self._('TEXT_TEST_RATING_STANDARDS').format(
+            text += self.translation('TEXT_TEST_RATING_STANDARDS').format(
                 self.get_standards())
 
         return text
@@ -289,7 +289,7 @@ class SiteTests(object):
 
     site_id = 0
     id = 0
-    test_date = datetime.datetime.now()
+    test_date = datetime.now()
     type_of_test = 0
     check_report = ""
     check_report_sec = ""

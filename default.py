@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
 import getopt
-import datetime
-from models import Sites, SiteTests
-import config
 import gettext
 from tests.utils import clean_cache_files
 import utils
@@ -11,7 +8,7 @@ import utils
 
 def validate_test_type(test_types):
     if utils.TEST_HTML in test_types and utils.TEST_PAGE_NOT_FOUND in test_types and utils.TEST_CSS in test_types and utils.TEST_WEBBKOLL in test_types and utils.TEST_GOOGLE_LIGHTHOUSE in test_types and utils.TEST_GOOGLE_LIGHTHOUSE_PWA in test_types and utils.TEST_GOOGLE_LIGHTHOUSE_A11Y in test_types and utils.TEST_GOOGLE_LIGHTHOUSE_SEO in test_types and utils.TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE in test_types and utils.TEST_STANDARD_FILES in test_types and utils.TEST_YELLOW_LAB_TOOLS in test_types and utils.TEST_PA11Y in test_types and utils.TEST_HTTP in test_types and utils.TEST_ENERGY_EFFICIENCY in test_types and utils.TEST_TRACKING in test_types and utils.TEST_SITESPEED in test_types and utils.TEST_EMAIL in test_types and utils.TEST_SOFTWARE in test_types and utils.TEST_A11Y_STATEMENT in test_types:
-        return list()
+        return []
     else:
         return test_types
 
@@ -36,7 +33,7 @@ def main(argv):
     """
 
     test_types = list(utils.TEST_ALL)
-    sites = list()
+    sites = []
     output_filename = ''
     input_filename = ''
     input_skip = 0
@@ -76,7 +73,7 @@ def main(argv):
         elif opt in ("-L", "--language"):  # language code
             # loop all available languages and verify language exist
             import os
-            availableLanguages = list()
+            availableLanguages = []
             localeDirs = os.listdir('locales')
             foundLang = False
 
@@ -109,29 +106,29 @@ def main(argv):
                 tmp_test_types = list(map(int, arg.split(',')))
                 test_types = validate_test_type(tmp_test_types)
             except Exception:
-                test_types = list()
+                test_types = []
 
             if len(test_types) == 0:
-                print(_('TEXT_TEST_VALID_ARGUMENTS'))
-                print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE'))
-                print(_('TEXT_TEST_VALID_ARGUMENTS_PAGE_NOT_FOUND'))
-                print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_SEO'))
-                print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_BEST_PRACTICE'))
-                print(_('TEXT_TEST_VALID_ARGUMENTS_HTML'))
-                print(_('TEXT_TEST_VALID_ARGUMENTS_CSS'))
-                print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_PWA'))
-                print(_('TEXT_TEST_VALID_ARGUMENTS_STANDARD_FILES'))
-                print(_('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_A11Y'))
-                print(_('TEXT_TEST_VALID_ARGUMENTS_SITESPEED'))
-                print(_('TEXT_TEST_VALID_ARGUMENTS_YELLOW_LAB_TOOLS'))
-                print(_('TEXT_TEST_VALID_ARGUMENTS_PA11Y'))
-                print(_('TEXT_TEST_VALID_ARGUMENTS_WEBBKOLL'))
-                print(_('TEXT_TEST_VALID_ARGUMENTS_HTTP'))
-                print(_('TEXT_TEST_VALID_ARGUMENTS_ENERGY_EFFICIENCY'))
-                print(_('TEXT_TEST_VALID_ARGUMENTS_TRACKING'))
-                print(_('TEXT_TEST_VALID_ARGUMENTS_EMAIL'))
-                print(_('TEXT_TEST_VALID_ARGUMENTS_SOFTWARE'))
-                print(_('TEXT_TEST_VALID_ARGUMENTS_A11Y_STATEMENT'))
+                print(global_translation('TEXT_TEST_VALID_ARGUMENTS'))
+                print(global_translation('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE'))
+                print(global_translation('TEXT_TEST_VALID_ARGUMENTS_PAGE_NOT_FOUND'))
+                print(global_translation('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_SEO'))
+                print(global_translation('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_BEST_PRACTICE'))
+                print(global_translation('TEXT_TEST_VALID_ARGUMENTS_HTML'))
+                print(global_translation('TEXT_TEST_VALID_ARGUMENTS_CSS'))
+                print(global_translation('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_PWA'))
+                print(global_translation('TEXT_TEST_VALID_ARGUMENTS_STANDARD_FILES'))
+                print(global_translation('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_A11Y'))
+                print(global_translation('TEXT_TEST_VALID_ARGUMENTS_SITESPEED'))
+                print(global_translation('TEXT_TEST_VALID_ARGUMENTS_YELLOW_LAB_TOOLS'))
+                print(global_translation('TEXT_TEST_VALID_ARGUMENTS_PA11Y'))
+                print(global_translation('TEXT_TEST_VALID_ARGUMENTS_WEBBKOLL'))
+                print(global_translation('TEXT_TEST_VALID_ARGUMENTS_HTTP'))
+                print(global_translation('TEXT_TEST_VALID_ARGUMENTS_ENERGY_EFFICIENCY'))
+                print(global_translation('TEXT_TEST_VALID_ARGUMENTS_TRACKING'))
+                print(global_translation('TEXT_TEST_VALID_ARGUMENTS_EMAIL'))
+                print(global_translation('TEXT_TEST_VALID_ARGUMENTS_SOFTWARE'))
+                print(global_translation('TEXT_TEST_VALID_ARGUMENTS_A11Y_STATEMENT'))
                 sys.exit()
         elif opt in ("-i", "--input"):  # input file path
             input_filename = arg
@@ -162,14 +159,14 @@ def main(argv):
             try:
                 input_skip = int(arg)
             except Exception:
-                print(_('TEXT_COMMAND_USAGE'))
+                print(global_translation('TEXT_COMMAND_USAGE'))
                 sys.exit(2)
             pass
         elif opt in ("--input-take"):  # specifies number of items to take
             try:
                 input_take = int(arg)
             except Exception:
-                print(_('TEXT_COMMAND_USAGE'))
+                print(global_translation('TEXT_COMMAND_USAGE'))
                 sys.exit(2)
             pass
         elif opt in ("-o", "--output"):  # output file path
@@ -180,7 +177,7 @@ def main(argv):
             pass
 
     if (show_help):
-        print(_('TEXT_COMMAND_USAGE'))
+        print(global_translation('TEXT_COMMAND_USAGE'))
         sys.exit()
 
     if (input_filename != ''):
@@ -220,7 +217,7 @@ def main(argv):
             # Cleanup exipred cache
         clean_cache_files()
     else:
-        print(_('TEXT_COMMAND_USAGE'))
+        print(global_translation('TEXT_COMMAND_USAGE'))
 
 
 """

@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 import json
-import datetime
+from datetime import datetime
 import traceback
 from models import SiteTests
-import config
 from tests.page_not_found import run_test as run_test_page_not_found
 from tests.html_validator_w3c import run_test as run_test_html_validator_w3c
 from tests.css_validator_w3c import run_test as run_test_css_validator_w3c
@@ -62,6 +61,47 @@ TEST_FUNCS = {
     }
 
 
+def get_config(name):
+    """
+    Retrieves the configuration value for a given name from the configuration file.
+    If the name does not exist in the configuration file,
+    it attempts to retrieve it from the SAMPLE-config.py file.
+    
+    Parameters:
+    name (str): The name of the configuration value to retrieve.
+
+    Returns:
+    The configuration value associated with the given name.
+
+    Raises:
+    ValueError: If the name does not exist in both the configuration file and
+    the SAMPLE-config.py file.
+
+    Notes:
+    - If the name exists in the SAMPLE-config.py file but not in the configuration file,
+      a warning message is printed.
+    - If the name does not exist in both files,
+      a fatal error message is printed and a ValueError is raised.
+    """
+    # Try get config from our configuration file
+    import config # pylint: disable=import-outside-toplevel
+    if hasattr(config, name):
+        return getattr(config, name)
+
+    name = name.upper()
+    if hasattr(config, name):
+        return getattr(config, name)
+
+    # do we have fallback value we can use in our SAMPLE-config.py file?
+    from importlib import import_module # pylint: disable=import-outside-toplevel
+    SAMPLE_config = import_module('SAMPLE-config') # pylint: disable=invalid-name
+    if hasattr(SAMPLE_config, name):
+        print(f'Warning: "{name}" is missing in your config.py file,'
+              'using value from SAMPLE-config.py')
+        return getattr(SAMPLE_config, name)
+
+    return None
+
 def test(global_translation, lang_code, site, test_type=None, show_reviews=False):
     """
     This function runs a specific test on a website and returns the test results.
@@ -119,13 +159,13 @@ def test(global_translation, lang_code, site, test_type=None, show_reviews=False
 
             site_test = SiteTests(site_id=site[0], type_of_test=test_type,
                                   rating=rating,
-                                  test_date=datetime.datetime.now(),
+                                  test_date=datetime.now(),
                                   json_check_data=jsondata).todata()
 
             return site_test
     except Exception as e: # pylint: disable=broad-exception-caught
         print(global_translation('TEXT_TEST_END').format(
-            datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+            datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
         print(global_translation('TEXT_EXCEPTION'), site[1], '\n', e)
 
         # write error to failure.log file
@@ -133,7 +173,7 @@ def test(global_translation, lang_code, site, test_type=None, show_reviews=False
             outfile.writelines(['###############################################',
                                 '\n# Information:',
                                 f'\nDateTime: {
-                                    datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                                    datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                                     }',
                                 f'\nUrl: {site[1]}',
                                 f'\nLanguage Code: {lang_code}',
@@ -141,24 +181,24 @@ def test(global_translation, lang_code, site, test_type=None, show_reviews=False
                                 f'\nShow Reviews: {show_reviews}',
                                  '\n###############################################'
                                 '\n# Configuration (from config.py):',
-                                f'\nuseragent: {config.useragent}',
-                                f'\nhttp_request_timeout: {config.http_request_timeout}',
-                                f'\nwebbkoll_sleep: {config.webbkoll_sleep}',
-                                f'\ncss_review_group_errors: {config.css_review_group_errors}',
-                                f'\nreview_show_improvements_only: {
-                                    config.review_show_improvements_only}',
-                                f'\nylt_use_api: {config.ylt_use_api}',
-                                f'\nlighthouse_use_api: {config.lighthouse_use_api}',
-                                f'\nsitespeed_use_docker: {config.sitespeed_use_docker}',
-                                f'\nsitespeed_iterations: {config.sitespeed_iterations}',
-                                f'\nlocales: {config.locales}',
-                                f'\ncache_when_possible: {config.cache_when_possible}',
-                                f'\ncache_time_delta: {config.cache_time_delta}',
-                                f'\nsoftware_use_stealth: {config.software_use_stealth}',
-                                f'\nuse_detailed_report: {config.use_detailed_report}',
-                                f'\ncsp_only: {config.csp_only}',
-                                f'\ndns_server: {config.dns_server}',
-                                f'\nsoftware_browser: {config.software_browser}',
+                                f"\nuseragent: {get_config('USERAGENT')}",
+                                f"\nhttp_request_timeout: {get_config('HTTP_REQUEST_TIMEOUT')}",
+                                f"\nwebbkoll_sleep: {get_config('WEBBKOLL_SLEEP')}",
+                                f"\ncss_review_group_errors: {
+                                    get_config('CSS_REVIEW_GROUP_ERRORS')}",
+                                f"\nreview_show_improvements_only: {
+                                    get_config('REVIEW_SHOW_IMPROVEMENTS_ONLY')}",
+                                f"\nylt_use_api: {get_config('YLT_USE_API')}",
+                                f"\nlighthouse_use_api: {get_config('LIGHTHOUSE_USE_API')}",
+                                f"\nsitespeed_use_docker: {get_config('SITESPEED_USE_DOCKER')}",
+                                f"\nsitespeed_iterations: {get_config('SITESPEED_ITERATIONS')}",
+                                f"\ncache_when_possible: {get_config('CACHE_WHEN_POSSIBLE')}",
+                                f"\ncache_time_delta: {get_config('CACHE_TIME_DELTA')}",
+                                f"\nsoftware_use_stealth: {get_config('SOFTWARE_USE_STEALTH')}",
+                                f"\nuse_detailed_report: {get_config('USE_DETAILED_REPORT')}",
+                                f"\ncsp_only: {get_config('CSP_ONLY')}",
+                                f"\ndns_server: {get_config('DNS_SERVER')}",
+                                f"\nsoftware_browser: {get_config('SOFTWARE_BROWSER')}",
                                  '\n###############################################\n'
                                  ])
 

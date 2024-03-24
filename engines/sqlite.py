@@ -27,7 +27,7 @@ def add_site(input_filename, url, input_skip, input_take):
 
     conn.close()
 
-    print(_('TEXT_WEBSITE_URL_ADDED').format(url))
+    print(global_translation('TEXT_WEBSITE_URL_ADDED').format(url))
 
     return read_sites(input_filename, input_skip, input_take)
 
@@ -43,13 +43,13 @@ def delete_site(input_filename, url, input_skip, input_take):
 
     conn.close()
 
-    print(_('TEXT_WEBSITE_URL_DELETED').format(url))
+    print(global_translation('TEXT_WEBSITE_URL_DELETED').format(url))
 
     return read_sites(input_filename, input_skip, input_take)
 
 
 def read_sites(input_filename, input_skip, input_take):
-    sites = list()
+    sites = []
     order_by = 'title ASC'
 
     conn = sqlite3.connect(input_filename)

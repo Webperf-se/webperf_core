@@ -1,13 +1,20 @@
 # -*- coding: utf-8 -*-
+import time
+import json
 from pathlib import Path
 import os
+import re
+import shutil
 from subprocess import TimeoutExpired
-from urllib.parse import urlparse
-import config
-from tests.utils import *
+import urllib
+from urllib.parse import ParseResult, urlparse, urlunparse
+import uuid
+from tests.utils import get_config_or_default, is_file_older_than
 
-request_timeout = config.http_request_timeout
-sitespeed_use_docker = config.sitespeed_use_docker
+REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
+sitespeed_use_docker = get_config_or_default('sitespeed_use_docker')
+USE_CACHE = get_config_or_default('CACHE_WHEN_POSSIBLE')
+CACHE_TIME_DELTA = get_config_or_default('CACHE_TIME_DELTA')
 
 def to_firefox_url_format(url):
 
@@ -15,14 +22,14 @@ def to_firefox_url_format(url):
     path = o.path
     if '' == o.path:
         path = '/'
-    
+
     o2 = ParseResult(scheme=o.scheme, netloc=o.netloc, path=path, params=o.params, query=o.query, fragment=o.fragment)
     url2 = urlunparse(o2)
     return url2
 
 def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
     folder = 'tmp'
-    if use_cache:
+    if USE_CACHE:
         folder = 'cache'
 
     o = urlparse(url)
@@ -38,7 +45,7 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
 
     filename = ''
     # Should we use cache when available?
-    if use_cache:
+    if USE_CACHE:
         # added for firefox support
         url2 = to_firefox_url_format(url)
 
@@ -48,7 +55,7 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
             if url == site[1] or url2 == site[1]:
                 filename = site[0]
 
-                if is_file_older_than(filename, cache_time_delta):
+                if is_file_older_than(filename, CACHE_TIME_DELTA):
                     filename = ''
                     continue
 
@@ -69,14 +76,14 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
         cookies = '{}'
         matches = re.finditer(
             regex, test, re.MULTILINE)
-        for matchNum, match in enumerate(matches, start=1):
+        for _, match in enumerate(matches, start=1):
             cookies = match.group('COOKIES')
 
         regex = r"VERSIONS:START: (?P<VERSIONS>[^V]+) VERSIONS:END"
         versions = '{}'
         matches = re.finditer(
             regex, test, re.MULTILINE)
-        for matchNum, match in enumerate(matches, start=1):
+        for _, match in enumerate(matches, start=1):
             versions = match.group('VERSIONS')
 
         # print('DEBUG VERSIONS:', versions)
@@ -108,17 +115,17 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
     process_failsafe_timeout = timeout * 10
     try:
         if sitespeed_use_docker:
-            dir = Path(os.path.dirname(
+            base_directory = Path(os.path.dirname(
                 os.path.realpath(__file__)) + os.path.sep).parent
-            data_dir = dir.resolve()
+            data_dir = base_directory.resolve()
 
             # print('DEBUG get_result_using_no_cache(data_dir)', data_dir)
 
-            bashCommand = "docker run --rm -v {1}:/sitespeed.io sitespeedio/sitespeed.io:latest --maxLoadTime {2} {0}".format(
+            command = "docker run --rm -v {1}:/sitespeed.io sitespeedio/sitespeed.io:latest --maxLoadTime {2} {0}".format(
                 arg, data_dir, timeout * 1000)
 
             import subprocess
-            process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+            process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
             output, error = process.communicate(timeout=process_failsafe_timeout)
 
             if error != None:
@@ -133,15 +140,15 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
         else:
             import subprocess
 
-            bashCommand = "node node_modules{1}sitespeed.io{1}bin{1}sitespeed.js --maxLoadTime {2} {0}".format(
+            command = "node node_modules{1}sitespeed.io{1}bin{1}sitespeed.js --maxLoadTime {2} {0}".format(
                 arg, os.path.sep, timeout * 1000)
 
             process = subprocess.Popen(
-                bashCommand.split(), stdout=subprocess.PIPE)
+                command.split(), stdout=subprocess.PIPE)
 
             output, error = process.communicate(timeout=process_failsafe_timeout)
             
-            if error != None:
+            if error is not None:
                 print('DEBUG get_result_using_no_cache(error)', error)
 
             result = str(output)
@@ -151,7 +158,7 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
             #else:
             # print('DEBUG get_result_using_no_cache(result)', '\n\t', result.replace('\\n', '\n\t'))
     except TimeoutExpired:
-        if process != None:
+        if process is not None:
             process.terminate()
             process.kill()
         print('TIMEOUT!')
@@ -159,7 +166,7 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
     return result
 
 def get_sanitized_browsertime(input_filename):
-    lines = list()
+    lines = []
     try:
         with open(input_filename, 'r', encoding='utf-8') as file:
             data = file.readlines()
@@ -202,7 +209,7 @@ def modify_browsertime_content(input_filename, cookies, versions):
     if 'pages' in json_result['log']:
         has_minified = False
         for page in json_result['log']['pages']:
-            keys_to_remove = list()
+            keys_to_remove = []
             for key in page.keys():
                 if key != '_url':
                     keys_to_remove.append(key)
@@ -212,7 +219,7 @@ def modify_browsertime_content(input_filename, cookies, versions):
     if 'entries' in json_result['log']:
         has_minified = False
         for entry in json_result['log']['entries']:
-            keys_to_remove = list()
+            keys_to_remove = []
             for key in entry.keys():
                 if key != 'request' and key != 'response' and key != 'serverIPAddress' and key != 'httpVersion':
                     keys_to_remove.append(key)
@@ -220,7 +227,7 @@ def modify_browsertime_content(input_filename, cookies, versions):
                 del entry[key]
                 has_minified = True
 
-            keys_to_remove = list()
+            keys_to_remove = []
             for key in entry['request'].keys():
                 if key != 'url':
                     keys_to_remove.append(key)
@@ -228,7 +235,7 @@ def modify_browsertime_content(input_filename, cookies, versions):
                 del entry['request'][key]
                 has_minified = True
 
-            keys_to_remove = list()
+            keys_to_remove = []
             for key in entry['response'].keys():
                 if key != 'content' and key != 'headers' and key != 'httpVersion':
                     keys_to_remove.append(key)
@@ -253,10 +260,10 @@ def get_browsertime_har_path(parent_path):
     sub_dirs = os.listdir(parent_path)
     if 'browsertime.har' in sub_dirs:
         return os.path.join(parent_path, 'browsertime.har')
-    
+
     for sub_dir in sub_dirs:
         tmp = get_browsertime_har_path(os.path.join(parent_path, sub_dir))
         if tmp:
             return tmp
-    
+
     return None

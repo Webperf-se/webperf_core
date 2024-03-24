@@ -7,7 +7,7 @@ import re
 
 
 def read_sites(input_url, input_skip, input_take):
-    sites = list()
+    sites = []
 
     if 'offentlig-sektor' in input_url:
         input_url = 'https://webperf.se/category/ovrig-offentlig-sektor/'
@@ -24,13 +24,13 @@ def read_sites(input_url, input_skip, input_take):
     else:
         raise NotImplementedError('input is incorrect')
 
-    category_content = httpRequestGetContent(input_url)
+    category_content = get_http_content(input_url)
 
     category_regex = r"<a href=\"(?P<detail_url>\/site\/[^\"]+)\""
     category_matches = re.finditer(
         category_regex, category_content, re.MULTILINE)
 
-    detailed_urls = list()
+    detailed_urls = []
     current_index = 0
     for matchNum, match in enumerate(category_matches, start=1):
         detail_url = match.group('detail_url')
@@ -43,7 +43,7 @@ def read_sites(input_url, input_skip, input_take):
     detail_regex = r"Webbplats:<\/th>[ \r\n\t]+<td><a href=\"(?P<item_url>[^\"]+)\""
     current_index = 0
     for detail_url in detailed_urls:
-        detail_content = httpRequestGetContent(detail_url)
+        detail_content = get_http_content(detail_url)
         detail_match = re.search(detail_regex, detail_content, re.MULTILINE)
         item_url = detail_match.group('item_url')
 

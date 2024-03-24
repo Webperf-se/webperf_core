@@ -1,57 +1,35 @@
 # -*- coding: utf-8 -*-
 from functools import cmp_to_key
-from PIL.ExifTags import TAGS, GPSTAGS
-from PIL import Image
+from urllib.parse import urlparse
+from datetime import datetime
 import hashlib
 from pathlib import Path
-import shutil
-from models import Rating, DefaultInfo
 import os
 import json
-import config
 import re
-# https://docs.python.org/3/library/urllib.parse.html
-from urllib.parse import urlparse
-from tests.utils import *
-from tests.sitespeed_base import get_result
-import datetime
-import packaging.version
 import gettext
+from PIL.ExifTags import TAGS
+from PIL import Image
+# https://docs.python.org/3/library/urllib.parse.html
+import packaging.version
+from tests.sitespeed_base import get_result
+from models import Rating, DefaultInfo
+from tests.utils import get_config_or_default, get_http_content, is_file_older_than
 
 _ = gettext.gettext
 
 # DEFAULTS
-request_timeout = config.http_request_timeout
-useragent = config.useragent
-review_show_improvements_only = config.review_show_improvements_only
-sitespeed_use_docker = config.sitespeed_use_docker
-try:
-    software_browser = config.software_browser
-except:
-    # If browser is not set in config.py this will be the default
-    software_browser = 'chrome'
-try:
-    sitespeed_timeout = config.sitespeed_timeout
-except:
-    # If sitespeed timeout is not set in config.py this will be the default
-    sitespeed_timeout = 600
-try:
-    use_cache = config.cache_when_possible
-    cache_time_delta = config.cache_time_delta
-except:
-    # If cache_when_possible variable is not set in config.py this will be the default
-    use_cache = False
-    cache_time_delta = timedelta(hours=1)
-try:
-    use_stealth = config.software_use_stealth
-except:
-    # If software_use_stealth variable is not set in config.py this will be the default
-    use_stealth = True
-try:
-    use_detailed_report = config.use_detailed_report
-except:
-    # If use_detailed_report variable is not set in config.py this will be the default
-    use_detailed_report = False
+REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
+USERAGENT = get_config_or_default('useragent')
+REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
+SOFTWARE_BROWSER = get_config_or_default('SOFTWARE_BROWSER')
+SITESPEED_USE_DOCKER = get_config_or_default('sitespeed_use_docker')
+SITESPEED_TIMEOUT = get_config_or_default('sitespeed_timeout')
+USE_CACHE = get_config_or_default('CACHE_WHEN_POSSIBLE')
+CACHE_TIME_DELTA = get_config_or_default('CACHE_TIME_DELTA')
+
+USE_STEALTH = get_config_or_default('SOFTWARE_USE_STEALTH')
+USE_DETAILED_REPORT = get_config_or_default('USE_DETAILED_REPORT')
 
 # Debug flags for every category here, this so we can print out raw values (so we can add more allowed once)
 raw_data = {
@@ -87,13 +65,13 @@ raw_data = {
 }
 
 
-def get_rating_from_sitespeed(url, _local, _):
+def get_rating_from_sitespeed(url, local_translation, global_translation):
     # We don't need extra iterations for what we are using it for
     sitespeed_iterations = 1
     sitespeed_arg = '--plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --utc true -n {0}'.format(
         sitespeed_iterations)
 
-    if 'firefox' in software_browser:
+    if 'firefox' in SOFTWARE_BROWSER:
         sitespeed_arg = '-b firefox --firefox.includeResponseBodies all --firefox.preference privacy.trackingprotection.enabled:false --firefox.preference privacy.donottrackheader.enabled:false --firefox.preference browser.safebrowsing.malware.enabled:false --firefox.preference browser.safebrowsing.phishing.enabled:false {0}'.format(
             sitespeed_arg)
     else:
@@ -109,7 +87,7 @@ def get_rating_from_sitespeed(url, _local, _):
     sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'
 
     (result_folder_name, filename) = get_result(
-        url, sitespeed_use_docker, sitespeed_arg, sitespeed_timeout)
+        url, SITESPEED_USE_DOCKER, sitespeed_arg, SITESPEED_TIMEOUT)
 
    
     o = urlparse(url)
@@ -135,7 +113,7 @@ def get_rating_from_sitespeed(url, _local, _):
     # nice_raw = json.dumps(data, indent=2)
     # print('DEBUG 2', nice_raw)
 
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     result = convert_item_to_domain_data(data)
 
     # if 'issues' in result:
@@ -155,16 +133,16 @@ def get_rating_from_sitespeed(url, _local, _):
     #   }
     # }
     texts = ''
-    texts = sum_overall_software_used(_local, _, result)
+    texts = sum_overall_software_used(local_translation, global_translation, result)
 
-    rating += rate_software_security_result(_local, _, result, url)
+    rating += rate_software_security_result(local_translation, global_translation, result, url)
 
     rating.overall_review = '{0}\r\n'.format('\r\n'.join(texts))
     if len(rating.overall_review.strip('\r\n\t ')) == 0:
         rating.overall_review = ''
     rating.integrity_and_security_review = rating.integrity_and_security_review.replace('GOV-IGNORE', '').strip('\r\n\t ')
 
-    if not use_cache:
+    if not USE_CACHE:
         os.remove(filename)
 
     return (rating, result)
@@ -224,8 +202,8 @@ def sort_issues(item1, item2):
         return 0
 
 
-def rate_software_security_result(_local, _, result, url):
-    rating = Rating(_, review_show_improvements_only)
+def rate_software_security_result(local_translation, global_translation, result, url):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     has_cve_issues = False
     has_behind_issues = False
@@ -238,26 +216,26 @@ def rate_software_security_result(_local, _, result, url):
         if issue_type.startswith('CVE'):
             has_cve_issues = True
             points = 1.0
-            cve_ratings = Rating(_, review_show_improvements_only)
+            cve_ratings = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
             for sub_issue in result['issues'][issue_type]['sub-issues']:
-                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(points)
                 sub_rating.set_integrity_and_security(points)
                 cve_ratings += sub_rating
-            if use_detailed_report:
-                text = _local('TEXT_DETAILED_REVIEW_CVE').replace('#POINTS#', str(cve_ratings.get_integrity_and_security()))
+            if USE_DETAILED_REPORT:
+                text = local_translation('TEXT_DETAILED_REVIEW_CVE').replace('#POINTS#', str(cve_ratings.get_integrity_and_security()))
 
-                text += _local('TEXT_DETAILED_REVIEW_CVES')
+                text += local_translation('TEXT_DETAILED_REVIEW_CVES')
                 text += '\r\n'
                 for cve in result['issues'][issue_type]['sub-issues']:
                     text += '- {0}\r\n'.format(cve)
                 text += '\r\n'
-                text += _local('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
+                text += local_translation('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
                 text += '\r\n'
                 for software in result['issues'][issue_type]['softwares']:
                     text += '- {0}\r\n'.format(software)
                 text += '\r\n'
-                text += _local('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
+                text += local_translation('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
                 text += '\r\n'
                 for resource in result['issues'][issue_type]['resources']:
                     text += '- {0}\r\n'.format(resource)
@@ -279,20 +257,20 @@ def rate_software_security_result(_local, _, result, url):
                 points = 3.0
             elif issue_type == 'BEHIND001':
                 points = 4.9
-            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
             sub_rating.set_overall(points)
             sub_rating.set_integrity_and_security(points)
 
-            if use_detailed_report:
-                text = _local('TEXT_DETAILED_REVIEW_{0}'.format(issue_type)).replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
+            if USE_DETAILED_REPORT:
+                text = local_translation('TEXT_DETAILED_REVIEW_{0}'.format(issue_type)).replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
                 text += '\r\n'
-                text += _local('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
+                text += local_translation('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
                 text += '\r\n'
                 for software in result['issues'][issue_type]['softwares']:
                     text += '- {0}\r\n'.format(software)
 
                 text += '\r\n'
-                text += _local('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
+                text += local_translation('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
                 text += '\r\n'
                 for resource in result['issues'][issue_type]['resources']:
                     text += '- {0}\r\n'.format(resource)
@@ -302,19 +280,19 @@ def rate_software_security_result(_local, _, result, url):
         elif issue_type.startswith('ARCHIVED_SOURCE'):
             has_source_issues = True
             points = 1.75
-            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
             sub_rating.set_overall(points)
             sub_rating.set_integrity_and_security(points)
-            if use_detailed_report:
-                text = _local('TEXT_DETAILED_REVIEW_{0}'.format(issue_type)).replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
+            if USE_DETAILED_REPORT:
+                text = local_translation('TEXT_DETAILED_REVIEW_{0}'.format(issue_type)).replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
                 text += '\r\n'
-                text += _local('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
+                text += local_translation('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
                 text += '\r\n'
                 for software in result['issues'][issue_type]['softwares']:
                     text += '- {0}\r\n'.format(software)
 
                 text += '\r\n'
-                text += _local('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
+                text += local_translation('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
                 text += '\r\n'
                 for resource in result['issues'][issue_type]['resources']:
                     text += '- {0}\r\n'.format(resource)
@@ -340,19 +318,19 @@ def rate_software_security_result(_local, _, result, url):
             elif issue_type.endswith('10_YEARS'):
                 points = 1.0
                 
-            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
             sub_rating.set_overall(points)
             sub_rating.set_integrity_and_security(points)
-            if use_detailed_report:
-                text = _local('TEXT_DETAILED_REVIEW_{0}'.format(issue_type)).replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
+            if USE_DETAILED_REPORT:
+                text = local_translation('TEXT_DETAILED_REVIEW_{0}'.format(issue_type)).replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
                 text += '\r\n'
-                text += _local('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
+                text += local_translation('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
                 text += '\r\n'
                 for software in result['issues'][issue_type]['softwares']:
                     text += '- {0}\r\n'.format(software)
 
                 text += '\r\n'
-                text += _local('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
+                text += local_translation('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
                 text += '\r\n'
                 for resource in result['issues'][issue_type]['resources']:
                     text += '- {0}\r\n'.format(resource)
@@ -362,20 +340,20 @@ def rate_software_security_result(_local, _, result, url):
         elif issue_type.startswith('END_OF_LIFE'):
             has_end_of_life_issues = True
             points = 1.75
-            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
             sub_rating.set_overall(points)
             sub_rating.set_integrity_and_security(points)
 
-            if use_detailed_report:
-                text = _local('TEXT_DETAILED_REVIEW_{0}'.format(issue_type)).replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
+            if USE_DETAILED_REPORT:
+                text = local_translation('TEXT_DETAILED_REVIEW_{0}'.format(issue_type)).replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
                 text += '\r\n'
-                text += _local('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
+                text += local_translation('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
                 text += '\r\n'
                 for software in result['issues'][issue_type]['softwares']:
                     text += '- {0}\r\n'.format(software)
 
                 text += '\r\n'
-                text += _local('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
+                text += local_translation('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
                 text += '\r\n'
                 for resource in result['issues'][issue_type]['resources']:
                     text += '- {0}\r\n'.format(resource)
@@ -387,40 +365,40 @@ def rate_software_security_result(_local, _, result, url):
 
     if not has_cve_issues:
         points = 5.0
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(points)
-        if use_detailed_report:
-            sub_rating.set_integrity_and_security(points, _local('TEXT_DETAILED_REVIEW_NO_CVE'))
+        if USE_DETAILED_REPORT:
+            sub_rating.set_integrity_and_security(points, local_translation('TEXT_DETAILED_REVIEW_NO_CVE'))
         else:
             sub_rating.set_integrity_and_security(points)
         rating += sub_rating
 
     if not has_behind_issues:
         points = 5.0
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(points)
-        if use_detailed_report:
-            sub_rating.set_integrity_and_security(points, _local('TEXT_DETAILED_REVIEW_NO_BEHIND'))
+        if USE_DETAILED_REPORT:
+            sub_rating.set_integrity_and_security(points, local_translation('TEXT_DETAILED_REVIEW_NO_BEHIND'))
         else:
             sub_rating.set_integrity_and_security(points)
         rating += sub_rating
 
     if not has_source_issues:
         points = 5.0
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(points)
-        if use_detailed_report:
-            sub_rating.set_integrity_and_security(points, _local('TEXT_DETAILED_REVIEW_NO_UNMAINTAINED'))
+        if USE_DETAILED_REPORT:
+            sub_rating.set_integrity_and_security(points, local_translation('TEXT_DETAILED_REVIEW_NO_UNMAINTAINED'))
         else:
             sub_rating.set_integrity_and_security(points)
         rating += sub_rating
 
     if not has_end_of_life_issues:
         points = 5.0
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(points)
-        if use_detailed_report:
-            sub_rating.set_integrity_and_security(points, _local('TEXT_DETAILED_REVIEW_NO_END_OF_LIFE'))
+        if USE_DETAILED_REPORT:
+            sub_rating.set_integrity_and_security(points, local_translation('TEXT_DETAILED_REVIEW_NO_END_OF_LIFE'))
         else:
             sub_rating.set_integrity_and_security(points)
         rating += sub_rating
@@ -428,8 +406,8 @@ def rate_software_security_result(_local, _, result, url):
     return rating
 
 
-def sum_overall_software_used(_local, _, result):
-    texts = list()
+def sum_overall_software_used(local_translation, global_translation, result):
+    texts = []
 
     categories = ['cms', 'webserver', 'os',
                   'analytics', 'tech', 'license', 'meta',
@@ -438,7 +416,7 @@ def sum_overall_software_used(_local, _, result):
 
     for category in categories:
         if category in result:
-            texts.append(_local('TEXT_USED_{0}'.format(
+            texts.append(local_translation('TEXT_USED_{0}'.format(
                 category.upper())).format(', '.join(sorted(result[category].keys()))))
 
     return texts
@@ -554,7 +532,7 @@ def enrich_data(data, orginal_domain, result_folder_name, rules):
     # matomo = None
     testing = {}
 
-    tmp_list = list()
+    tmp_list = []
 
     softwares = get_softwares()
 
@@ -578,12 +556,12 @@ def enrich_data(data, orginal_domain, result_folder_name, rules):
     return data
 
 def get_softwares():
-    dir = Path(os.path.dirname(
+    base_directory = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent
 
-    file_path = '{0}{1}data{1}software-full.json'.format(dir, os.path.sep)
+    file_path = '{0}{1}data{1}software-full.json'.format(base_directory, os.path.sep)
     if not os.path.isfile(file_path):
-        file_path = '{0}{1}software-full.json'.format(dir, os.path.sep)
+        file_path = '{0}{1}software-full.json'.format(base_directory, os.path.sep)
     if not os.path.isfile(file_path):
         print("ERROR: No software-full.json file found!")
         return {
@@ -596,12 +574,12 @@ def get_softwares():
 
 
 def add_known_software_source(name, source_type, match, url):
-    dir = Path(os.path.dirname(
+    base_directory = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent
 
-    file_path = '{0}{1}data{1}software-sources.json'.format(dir, os.path.sep)
+    file_path = '{0}{1}data{1}software-sources.json'.format(base_directory, os.path.sep)
     if not os.path.isfile(file_path):
-        file_path = '{0}{1}software-sources.json'.format(dir, os.path.sep)
+        file_path = '{0}{1}software-sources.json'.format(base_directory, os.path.sep)
     if not os.path.isfile(file_path):
         print("ERROR: No software-sources.json file found!")
         return
@@ -643,12 +621,12 @@ def add_known_software_source(name, source_type, match, url):
         file.write(data)
 
 def add_wordpressplugin_software_source(name, version, url):
-    dir = Path(os.path.dirname(
+    base_directory = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent
 
-    file_path = '{0}{1}data{1}software-wordpressplugin-sources.json'.format(dir, os.path.sep)
+    file_path = '{0}{1}data{1}software-wordpressplugin-sources.json'.format(base_directory, os.path.sep)
     if not os.path.isfile(file_path):
-        file_path = '{0}{1}software-wordpressplugin-sources.json'.format(dir, os.path.sep)
+        file_path = '{0}{1}software-wordpressplugin-sources.json'.format(base_directory, os.path.sep)
     if not os.path.isfile(file_path):
         print("Info: No software-wordpressplugin-sources.json file found!")
 
@@ -677,12 +655,12 @@ def add_wordpressplugin_software_source(name, version, url):
 
 
 def add_unknown_software_source(name, version, url):
-    dir = Path(os.path.dirname(
+    base_directory = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent
 
-    file_path = '{0}{1}data{1}software-unknown-sources.json'.format(dir, os.path.sep)
+    file_path = '{0}{1}data{1}software-unknown-sources.json'.format(base_directory, os.path.sep)
     if not os.path.isfile(file_path):
-        file_path = '{0}{1}software-unknown-sources.json'.format(dir, os.path.sep)
+        file_path = '{0}{1}software-unknown-sources.json'.format(base_directory, os.path.sep)
     if not os.path.isfile(file_path):
         print("Info: No software-unknown-sources.json file found!")
 
@@ -794,7 +772,7 @@ def enrich_versions(collection, item):
                 print('DEBUG (last_pushed_year == None)', software_info)
             else:
                 last_pushed_year = int(software_info['last_pushed_year'])
-                current_year = datetime.datetime.now().year
+                current_year = datetime.now().year
                 for year in range(10, 2, -1):
                     if last_pushed_year < (current_year - year):
                         match['issues'].append('UNMAINTAINED_SOURCE_{0}_YEARS'.format(year))
@@ -871,24 +849,23 @@ def enrich_versions(collection, item):
     # print('DEBUG', nice_raw)
 
 def enrich_data_from_javascript(tmp_list, item, rules):
-    if use_stealth:
+    if USE_STEALTH:
         return
     for match in item['matches']:
         if match['category'] != 'js':
             return
         if 'license-txt' in item:
-            content = httpRequestGetContent(
+            content = get_http_content(
                 match['license-txt'].lower(), allow_redirects=True)
-            tmp = lookup_response_content(
+            lookup_response_content(
                 match['license-txt'].lower(), match['mime-type'], content, rules)
-            tmp_list.extend(tmp)
         if match['version'] == None:
             return
     # TODO: We should look at wordpress plugins specifically as they are widely used and we know they are often used in attacks
 
 
 def enrich_data_from_videos(tmp_list, item, result_folder_name, nof_tries=0):
-    if use_stealth:
+    if USE_STEALTH:
         return
     for match in item['matches']:
         if match['category'] != 'video':
@@ -901,13 +878,13 @@ def enrich_data_from_videos(tmp_list, item, result_folder_name, nof_tries=0):
 
 
 def enrich_data_from_documents(tmp_list, item, result_folder_name, nof_tries=0):
-    if use_stealth:
+    if USE_STEALTH:
         return
     # TODO: Handle: pdf, excel, word, powerpoints (and more?)
 
 
 def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
-    if use_stealth:
+    if USE_STEALTH:
         return
     for match in item['matches']:
         if match['category'] != 'img':
@@ -915,7 +892,7 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
 
         if match['name'] == 'svg':
             # NOTE: We don't get content for svg files currently, it would be better if we didn't need to request it once more
-            svg_content = httpRequestGetContent(item['url'])
+            svg_content = get_http_content(item['url'])
 
             # <!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
             svg_regex = r"<!-- Generator: (?P<name>[a-zA-Z ]+)[ ]{0,1}(?P<version>[0-9.]*)"
@@ -947,10 +924,10 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
 
             image_data = None
             try:
-                if use_cache and os.path.exists(cache_path) and is_file_older_than(cache_path, cache_time_delta):
+                if USE_CACHE and os.path.exists(cache_path) and is_file_older_than(cache_path, CACHE_TIME_DELTA):
                     image_data = Image.open(cache_path)
                 else:
-                    data = httpRequestGetContent(
+                    data = get_http_content(
                         item['url'], use_text_instead_of_content=False)
                     with open(cache_path, 'wb') as file:
                         file.write(data)
@@ -1089,7 +1066,7 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
 
 
 def identify_software(filename, origin_domain, rules):
-    data = list()
+    data = []
 
     global_software = None
     global_cookies = None
@@ -1606,28 +1583,28 @@ def get_rules():
         rules = json.load(json_rules_file)
     return rules
 
-def run_test(_, langCode, url):
+def run_test(global_translation, lang_code, url):
     """
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
 
     result_dict = {}
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     language = gettext.translation(
-        'software', localedir='locales', languages=[langCode])
+        'software', localedir='locales', languages=[lang_code])
     language.install()
-    _local = language.gettext
+    local_translation = language.gettext
 
-    print(_local('TEXT_RUNNING_TEST'))
+    print(local_translation('TEXT_RUNNING_TEST'))
 
-    print(_('TEXT_TEST_START').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+    print(global_translation('TEXT_TEST_START').format(
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    (rating, result_dict) = get_rating_from_sitespeed(url, _local, _)
+    (rating, result_dict) = get_rating_from_sitespeed(url, local_translation, global_translation)
 
-    print(_('TEXT_TEST_END').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+    print(global_translation('TEXT_TEST_END').format(
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     raw_is_used = False
     for key in raw_data.keys():

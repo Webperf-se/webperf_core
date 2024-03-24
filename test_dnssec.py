@@ -1,17 +1,9 @@
 # -*- coding: utf-8 -*-
 import getopt
 import sys
-import traceback
-import config
-from datetime import datetime
-from pathlib import Path
 import sys
-import json
-import re
 import config
-import os
 from tests.utils import *
-import packaging.version
 import dns.message
 
 def main(argv):
@@ -121,7 +113,7 @@ def validate_dnssec(domain, domain_entry):
 
 
     # Get the DNSKEY for the domain
-    # dnskeys = list()
+    # dnskeys = []
     # if dnskeys_response.rcode() != 0:
     #     # HANDLE QUERY FAILED (SERVER ERROR OR NO DNSKEY RECORD)
     #     print('\t\tA.1', dnskeys_response.rcode())
@@ -243,7 +235,7 @@ def validate_dnssec(domain, domain_entry):
 def testdns(key, datatype, use_dnssec):
     print('\ttestdns', key, datatype, use_dnssec)
     cache_key = 'dnslookup://{0}#{1}#{2}'.format(key, datatype, use_dnssec)
-    if has_cache_file(cache_key, True, cache_time_delta):
+    if has_cache_file(cache_key, True, CACHE_TIME_DELTA):
         cache_path = get_cache_path(cache_key, True)
         print('\t- Using dnslookup cache')
         response = dns.message.from_file(cache_path)
@@ -338,7 +330,7 @@ def validate_dnskey_and_rrsig(domain, dnskey, rrsig, domain_entry):
 
 def check_dnssec(hostname, result_dict):
     print('DNSSEC')
-    new_entries = list()
+    new_entries = []
     for domainA in result_dict.keys():
         try:
             domain = domainA
@@ -352,36 +344,6 @@ def check_dnssec(hostname, result_dict):
 
         except Exception as e:
             print('DNSSEC EXCEPTION', e)
-            with open('failures.log', 'a') as outfile:
-                
-                outfile.writelines(['###############################################',
-                                    '\n# Information:',
-                                    '\nDateTime: {0}' .format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')),
-                                    '\n###############################################'
-                                    '\n# Configuration (from config.py):',
-                                    '\nuseragent: {0}'.format(config.useragent),
-                                    '\nhttp_request_timeout: {0}'.format(config.http_request_timeout),
-                                    '\nwebbkoll_sleep: {0}'.format(config.webbkoll_sleep),
-                                    '\ncss_review_group_errors: {0}'.format(config.css_review_group_errors),
-                                    '\nreview_show_improvements_only: {0}'.format(config.review_show_improvements_only),
-                                    '\nylt_use_api: {0}'.format(config.ylt_use_api),
-                                    '\nlighthouse_use_api: {0}'.format(config.lighthouse_use_api),
-                                    '\nsitespeed_use_docker: {0}'.format(config.sitespeed_use_docker),
-                                    '\nsitespeed_iterations: {0}'.format(config.sitespeed_iterations),
-                                    '\nlocales: {0}'.format(config.locales),
-                                    '\ncache_when_possible: {0}'.format(config.cache_when_possible),
-                                    '\ncache_time_delta: {0}'.format(config.cache_time_delta),
-                                    '\nsoftware_use_stealth: {0}'.format(config.software_use_stealth),
-                                    '\nuse_detailed_report: {0}'.format(config.use_detailed_report),
-                                    '\nsoftware_browser: {0}'.format(config.software_browser),
-                                    '\n###############################################\n'
-                                    ])
-                
-                
-                outfile.writelines(traceback.format_exception(e,e, e.__traceback__))
-
-                outfile.writelines(['###############################################\n\n'])
-            c = 1
     for entry in new_entries:
         name = entry['name']
         del entry['name']
@@ -456,7 +418,7 @@ def check_dnssec2(hostname, result_dict):
 
     import dns.zone
 
-    new_entries = list()
+    new_entries = []
     for domainA in result_dict.keys():
         try:
             domain = domainA
@@ -502,7 +464,7 @@ def check_dnssec2(hostname, result_dict):
 
             # we'll use the first nameserver in this example
             # nof_nsnames = len(response.rrset)
-            #nsnames = list()
+            #nsnames = []
             for nsname in nsnames:
                 #nsnames.append(entry.to_text())
 
@@ -632,36 +594,6 @@ def check_dnssec2(hostname, result_dict):
             #     print('B IPv6')
         except Exception as e:
             print('DNSSEC EXCEPTION', e)
-            with open('failures.log', 'a') as outfile:
-                
-                outfile.writelines(['###############################################',
-                                    '\n# Information:',
-                                    '\nDateTime: {0}' .format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')),
-                                    '\n###############################################'
-                                    '\n# Configuration (from config.py):',
-                                    '\nuseragent: {0}'.format(config.useragent),
-                                    '\nhttp_request_timeout: {0}'.format(config.http_request_timeout),
-                                    '\nwebbkoll_sleep: {0}'.format(config.webbkoll_sleep),
-                                    '\ncss_review_group_errors: {0}'.format(config.css_review_group_errors),
-                                    '\nreview_show_improvements_only: {0}'.format(config.review_show_improvements_only),
-                                    '\nylt_use_api: {0}'.format(config.ylt_use_api),
-                                    '\nlighthouse_use_api: {0}'.format(config.lighthouse_use_api),
-                                    '\nsitespeed_use_docker: {0}'.format(config.sitespeed_use_docker),
-                                    '\nsitespeed_iterations: {0}'.format(config.sitespeed_iterations),
-                                    '\nlocales: {0}'.format(config.locales),
-                                    '\ncache_when_possible: {0}'.format(config.cache_when_possible),
-                                    '\ncache_time_delta: {0}'.format(config.cache_time_delta),
-                                    '\nsoftware_use_stealth: {0}'.format(config.software_use_stealth),
-                                    '\nuse_detailed_report: {0}'.format(config.use_detailed_report),
-                                    '\nsoftware_browser: {0}'.format(config.software_browser),
-                                    '\n###############################################\n'
-                                    ])
-                
-                
-                outfile.writelines(traceback.format_exception(e,e, e.__traceback__))
-
-                outfile.writelines(['###############################################\n\n'])
-            c = 1
 
     for entry in new_entries:
         name = entry['name']

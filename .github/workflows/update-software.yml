@@ -17,7 +17,7 @@ jobs:
     strategy:
             matrix:
                 os: [windows-latest]
-                config: ["software_github_adadvisory_database_path=advisory_database"]
+                config: ["SOFTWARE_GITHUB_ADADVISORY_DATABASE_PATH=advisory_database"]
     steps:
     - name: Check out repository code
       uses: actions/checkout@v4
@@ -29,7 +29,7 @@ jobs:
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
     - name: Setup config (using SAMPLE-config.py as config.py)
-      run: python .github\workflows\verify_result.py -c ${{ matrix.config }},github_api_key=${{ secrets.GITHUB_TOKEN }}
+      run: python .github\workflows\verify_result.py -c ${{ matrix.config }},GITHUB_API_KEY=${{ secrets.GITHUB_TOKEN }}
     - name: Checkout advisory-database repo
       uses: actions/checkout@v4
       with:

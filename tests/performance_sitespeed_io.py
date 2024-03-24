@@ -1,48 +1,48 @@
 # -*- coding: utf-8 -*-
+import json
 from pathlib import Path
 import os
-from models import Rating
-import datetime
-import config
-from tests.utils import *
+import re
+from datetime import datetime
 import gettext
+from models import Rating
+from tests.utils import get_config_or_default
 _local = gettext.gettext
 
-request_timeout = config.http_request_timeout
-sitespeed_use_docker = config.sitespeed_use_docker
-
+REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
+SITESPEED_USE_DOCKER = get_config_or_default('sitespeed_use_docker')
 
 def get_result(sitespeed_use_docker, arg):
 
     result = ''
     if sitespeed_use_docker:
-        dir = Path(os.path.dirname(
+        base_directory = Path(os.path.dirname(
             os.path.realpath(__file__)) + os.path.sep).parent
-        data_dir = dir.resolve()
+        data_dir = base_directory.resolve()
 
-        bashCommand = "docker run --rm -v {1}:/sitespeed.io sitespeedio/sitespeed.io:latest {0}".format(
+        command = "docker run --rm -v {1}:/sitespeed.io sitespeedio/sitespeed.io:latest {0}".format(
             arg, data_dir)
 
         import subprocess
-        process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-        output, error = process.communicate(timeout=request_timeout * 10)
+        process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
+        output, _ = process.communicate(timeout=REQUEST_TIMEOUT * 10)
         result = str(output)
     else:
         import subprocess
 
-        bashCommand = "node node_modules{1}sitespeed.io{1}bin{1}sitespeed.js {0}".format(
+        command = "node node_modules{1}sitespeed.io{1}bin{1}sitespeed.js {0}".format(
             arg, os.path.sep)
 
         process = subprocess.Popen(
-            bashCommand.split(), stdout=subprocess.PIPE)
+            command.split(), stdout=subprocess.PIPE)
 
-        output, error = process.communicate(timeout=request_timeout * 10)
+        output, _ = process.communicate(timeout=REQUEST_TIMEOUT * 10)
         result = str(output)
 
     return result
 
 
-def run_test(_, langCode, url):
+def run_test(global_translation, lang_code, url):
     """
     Checking an URL against Sitespeed.io (Docker version). 
     For installation, check out:
@@ -50,16 +50,16 @@ def run_test(_, langCode, url):
     - https://www.sitespeed.io
     """
     language = gettext.translation(
-        'performance_sitespeed_io', localedir='locales', languages=[langCode])
+        'performance_sitespeed_io', localedir='locales', languages=[lang_code])
     language.install()
-    _local = language.gettext
+    local_translation = language.gettext
 
-    print(_local('TEXT_RUNNING_TEST'))
+    print(local_translation('TEXT_RUNNING_TEST'))
 
-    print(_('TEXT_TEST_START').format(
+    print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    rating = Rating(_)
+    rating = Rating(global_translation)
     result_dict = {}
 
     validator_result_dicts = []
@@ -79,13 +79,13 @@ def run_test(_, langCode, url):
     mobile_result_dict = validate_on_mobile(url)
 
     desktop_rating = rate_result_dict(desktop_result_dict, None,
-                                      'desktop', _, _local)
+                                      'desktop', global_translation, local_translation)
 
     rating += desktop_rating
     result_dict.update(desktop_result_dict)
 
     mobile_rating = rate_result_dict(mobile_result_dict, None,
-                                     'mobile', _, _local)
+                                     'mobile', global_translation, local_translation)
 
     rating += mobile_rating
     result_dict.update(mobile_result_dict)
@@ -107,7 +107,7 @@ def run_test(_, langCode, url):
                 reference_result_dict = desktop_result_dict
 
         validator_rating = rate_result_dict(validator_result_dict, reference_result_dict,
-                                            validator_name, _, _local)
+                                            validator_name, global_translation, local_translation)
         rating += validator_rating
         result_dict.update(validator_result_dict)
 
@@ -117,17 +117,17 @@ def run_test(_, langCode, url):
                 rating.overall_review += '- [{2}] Advice: Rating may improve from {0} to {1} with {3} changes\r\n'.format(
                     reference_rating, validator_rating_overall, reference_name, validator_name)
 
-    print(_('TEXT_TEST_END').format(
+    print(global_translation('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, result_dict)
 
 
 def get_validators():
-    dir = Path(os.path.dirname(
+    base_directory = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent
     config_file = os.path.join(
-        dir.resolve(), 'sitespeed-rules.json')
+        base_directory.resolve(), 'sitespeed-rules.json')
     if not os.path.exists(config_file):
         return []
     with open(config_file) as json_config_file:
@@ -152,13 +152,13 @@ def validate_on_mobile_using_validator(url, validator_config):
             index += 1
 
     arg = '--shm-size=1g -b chrome --mobile true --chrome.CPUThrottlingRate 3 --connectivity.profile 3gfast --visualMetrics true --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} --preScript chrome-custom.cjs {1}{2}'.format(
-        config.sitespeed_iterations, url, browertime_plugin_options)
+        get_config_or_default('SITESPEED_ITERATIONS'), url, browertime_plugin_options)
     if 'nt' in os.name:
         arg = '--shm-size=1g -b chrome --mobile true --chrome.CPUThrottlingRate 3 --connectivity.profile 3gfast --visualMetrics true --plugins.remove screenshot --speedIndex true --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} --preScript chrome-custom.cjs {1}{2}'.format(
-            config.sitespeed_iterations, url, browertime_plugin_options)
+            get_config_or_default('SITESPEED_ITERATIONS'), url, browertime_plugin_options)
 
     result_dict = get_result_dict(get_result(
-        sitespeed_use_docker, arg), validator_config['name'])
+        SITESPEED_USE_DOCKER, arg), validator_config['name'])
     result_dict['name'] = validator_config['name']
     result_dict['use_reference'] = validator_config['use_reference']
 
@@ -182,13 +182,13 @@ def validate_on_desktop_using_validator(url, validator_config):
             index += 1
 
     arg = '--shm-size=1g -b chrome --connectivity.profile native --visualMetrics true --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} --preScript chrome-custom.cjs {1}{2}'.format(
-        config.sitespeed_iterations, url, browertime_plugin_options)
+        get_config_or_default('SITESPEED_ITERATIONS'), url, browertime_plugin_options)
     if 'nt' in os.name:
         arg = '--shm-size=1g -b chrome --connectivity.profile native --visualMetrics true --plugins.remove screenshot --speedIndex true --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} --preScript chrome-custom.cjs {1}{2}'.format(
-            config.sitespeed_iterations, url, browertime_plugin_options)
+            get_config_or_default('SITESPEED_ITERATIONS'), url, browertime_plugin_options)
 
     result_dict = get_result_dict(get_result(
-        sitespeed_use_docker, arg), validator_config['name'])
+        SITESPEED_USE_DOCKER, arg), validator_config['name'])
     result_dict['name'] = validator_config['name']
     result_dict['use_reference'] = validator_config['use_reference']
 
@@ -197,26 +197,26 @@ def validate_on_desktop_using_validator(url, validator_config):
 
 def validate_on_desktop(url):
     arg = '--shm-size=1g -b chrome --connectivity.profile native --visualMetrics true --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-        config.sitespeed_iterations, url)
+        get_config_or_default('SITESPEED_ITERATIONS'), url)
     if 'nt' in os.name:
         arg = '--shm-size=1g -b chrome --connectivity.profile native --visualMetrics true --plugins.remove screenshot --speedIndex true --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-            config.sitespeed_iterations, url)
+            get_config_or_default('SITESPEED_ITERATIONS'), url)
 
     result_dict = get_result_dict(get_result(
-        sitespeed_use_docker, arg), 'desktop')
+        SITESPEED_USE_DOCKER, arg), 'desktop')
 
     return result_dict
 
 
 def validate_on_mobile(url):
     arg = '--shm-size=1g -b chrome --mobile true --connectivity.profile 3gfast --visualMetrics true --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-        config.sitespeed_iterations, url)
+        get_config_or_default('SITESPEED_ITERATIONS'), url)
     if 'nt' in os.name:
         arg = '--shm-size=1g -b chrome --mobile true --connectivity.profile 3gfast --visualMetrics true --plugins.remove screenshot --speedIndex true --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-            config.sitespeed_iterations, url)
+            get_config_or_default('SITESPEED_ITERATIONS'), url)
 
     result_dict = get_result_dict(get_result(
-        sitespeed_use_docker, arg), 'mobile')
+        SITESPEED_USE_DOCKER, arg), 'mobile')
 
     return result_dict
 
@@ -234,7 +234,7 @@ def rate_result_dict(result_dict, reference_result_dict, mode, _, _local):
             reference_name = 'mobile'
         if result_dict['name'].startswith('desktop'):
             reference_name = 'desktop'
-        external_to_remove = list()
+        external_to_remove = []
         for pair in reference_result_dict.items():
             key = pair[0]
             mobile_obj = pair[1]
@@ -269,7 +269,7 @@ def rate_result_dict(result_dict, reference_result_dict, mode, _, _local):
                 value_diff = mobile_obj['range'] - noxternal_obj['range']
 
                 txt = '- [{2}] Advice: {0} could be ±{1:.2f}ms less "bumpy" with {3} changes\r\n'.format(
-                    key, value_diff, reference_name)
+                    key, value_diff, reference_name, mode)
 
                 overview_review += txt
                 key_matching = True
@@ -312,12 +312,12 @@ def get_result_dict(data, mode):
     regex = r"(?P<name>TTFB|DOMContentLoaded|firstPaint|FCP|LCP|Load|TBT|CLS|FirstVisualChange|SpeedIndex|VisualComplete85|LastVisualChange)\:[ ]{0,1}(?P<value>[0-9\.ms]+)"
     matches = re.finditer(regex, data, re.MULTILINE)
 
-    for matchNum, match in enumerate(matches, start=1):
+    for _, match in enumerate(matches, start=1):
         name = match.group('name')
         value = match.group('value')
 
         if name not in tmp_dict:
-            tmp_dict[name] = list()
+            tmp_dict[name] = []
         tmp_dict[name].append(value)
 
     for pair in tmp_dict.items():

@@ -383,10 +383,10 @@ def validate_translations():
 
     This function performs two main validation steps:
     1. Validates the existence and correctness of .po and .mo files in the project.
-    2. Validates the usage of _() and _local() in .py files in the project.
+    2. Validates the usage of global_translation() and local_translation() in .py files in the project.
 
     The function uses the `validate_locales` function to validate .po and .mo files,
-    and the `validate_python_files` function to validate _() and _local() usage.
+    and the `validate_python_files` function to validate global_translation() and local_translation() usage.
 
     Returns:
         bool: True if all validations pass, False otherwise.
@@ -404,7 +404,7 @@ def validate_translations():
 
     print('')
     print('')
-    print('Validate _() and _local() uses in .py files')
+    print('Validate global_translation() and local_translation() uses in .py files')
     file_is_valid = validate_python_files(root_folder, msg_ids)
 
     is_valid = is_valid and file_is_valid
@@ -490,7 +490,7 @@ def validate_python_file(current_file, msg_ids):
     n_of_errors = 0
 
     file_py_content = get_file_content(current_file)
-    regex = r"[^_]_(local){0,1}\(['\"](?P<msgid>[^\"']+)[\"']\)"
+    regex = r"(global|local)_translation\(['\"](?P<msgid>[^\"']+)[\"']\)"
     matches = re.finditer(
         regex, file_py_content, re.MULTILINE)
     for _, match in enumerate(matches, start=1):

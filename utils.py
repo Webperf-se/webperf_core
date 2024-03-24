@@ -89,15 +89,12 @@ def test(global_translation, lang_code, site, test_type=None, show_reviews=False
         If an exception occurs during the test, it will be caught and logged.
     """
 
-    site_id = site[0]
-    website = site[1]
-
     try:
         if test_type not in TEST_FUNCS:
             return []
 
         run_test = TEST_FUNCS[test_type]
-        the_test_result = run_test(global_translation, lang_code, website)
+        the_test_result = run_test(global_translation, lang_code, site[1])
 
         if the_test_result is not None:
             rating = the_test_result[0]
@@ -120,7 +117,7 @@ def test(global_translation, lang_code, site, test_type=None, show_reviews=False
 
             jsondata = str(json_data).encode('utf-8')  # --//--
 
-            site_test = SiteTests(site_id=site_id, type_of_test=test_type,
+            site_test = SiteTests(site_id=site[0], type_of_test=test_type,
                                   rating=rating,
                                   test_date=datetime.datetime.now(),
                                   json_check_data=jsondata).todata()
@@ -129,16 +126,16 @@ def test(global_translation, lang_code, site, test_type=None, show_reviews=False
     except Exception as e: # pylint: disable=broad-exception-caught
         print(global_translation('TEXT_TEST_END').format(
             datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
-        print(global_translation('TEXT_EXCEPTION'), website, '\n', e)
-
-        date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        print(global_translation('TEXT_EXCEPTION'), site[1], '\n', e)
 
         # write error to failure.log file
         with open('failures.log', 'a', encoding='utf-8') as outfile:
             outfile.writelines(['###############################################',
                                 '\n# Information:',
-                                f'\nDateTime: {date}',
-                                f'\nUrl: {website}',
+                                f'\nDateTime: {
+                                    datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                                    }',
+                                f'\nUrl: {site[1]}',
                                 f'\nLanguage Code: {lang_code}',
                                 f'\nTest Type(s): {test_type}',
                                 f'\nShow Reviews: {show_reviews}',
@@ -208,7 +205,8 @@ def test_site(global_translation, lang_code, site, test_types=TEST_ALL, show_rev
 
 def test_sites(global_translation, lang_code, sites, test_types=TEST_ALL, show_reviews=False):
     """
-    This function runs a series of tests on multiple websites and returns a list of all the test results.
+    This function runs a series of tests on multiple websites and
+    returns a list of all the test results.
 
     Parameters:
     global_translation : GNUTranslations

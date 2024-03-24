@@ -12,8 +12,8 @@ import gettext
 _ = gettext.gettext
 
 # DEFAULTS
-request_timeout = config.http_request_timeout
-useragent = config.useragent
+REQUEST_TIMEOUT = config.http_request_timeout
+USERAGENT = config.useragent
 review_show_improvements_only = config.review_show_improvements_only
 
 
@@ -53,14 +53,14 @@ def run_test(_, langCode, org_url):
 
     url = change_url_to_404_url(org_url)
 
-    headers = {'user-agent': useragent,
+    headers = {'user-agent': USERAGENT,
                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8'}
     code = 'unknown'
     request = False
     # checks http status code
     try:
         request = requests.get(url, allow_redirects=True,
-                               headers=headers, timeout=request_timeout)
+                               headers=headers, timeout=REQUEST_TIMEOUT)
         code = request.status_code
     except Exception:
         code = 'unknown'
@@ -88,7 +88,7 @@ def run_test(_, langCode, org_url):
         page_lang = get_supported_lang_code_or_default(soup)
         if page_lang != 'sv':
             try:
-                content_rootpage = httpRequestGetContent(
+                content_rootpage = get_http_content(
                     org_url, allow_redirects=True)
                 soup_rootpage = BeautifulSoup(content_rootpage, 'lxml')
                 rootpage_lang = get_supported_lang_code_or_default(

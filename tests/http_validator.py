@@ -32,9 +32,9 @@ _local = gettext.gettext
 
 
 # DEFAULTS
-request_timeout = config.http_request_timeout
+REQUEST_TIMEOUT = config.http_request_timeout
 sitespeed_timeout = config.sitespeed_timeout
-useragent = config.useragent
+USERAGENT = config.useragent
 review_show_improvements_only = config.review_show_improvements_only
 sitespeed_use_docker = config.sitespeed_use_docker
 
@@ -44,12 +44,12 @@ except:
     # If browser is not set in config.py this will be the default
     software_browser = 'chrome'
 try:
-    use_cache = config.cache_when_possible
-    cache_time_delta = config.cache_time_delta
+    USE_CACHE = config.cache_when_possible
+    CACHE_TIME_DELTA = config.cache_time_delta
 except:
     # If cache_when_possible variable is not set in config.py this will be the default
-    use_cache = False
-    cache_time_delta = timedelta(hours=1)
+    USE_CACHE = False
+    CACHE_TIME_DELTA = timedelta(hours=1)
 try:
     use_detailed_report = config.use_detailed_report
 except:
@@ -2363,9 +2363,9 @@ def has_weak_cipher(url, protocol_version):
     try:
         allow_redirects = False
 
-        headers = {'user-agent': useragent}
+        headers = {'user-agent': USERAGENT}
         a = session.get(url, verify=False, allow_redirects=allow_redirects,
-                        headers=headers, timeout=request_timeout)
+                        headers=headers, timeout=REQUEST_TIMEOUT)
 
         if a.status_code == 200 or a.status_code == 301 or a.status_code == 302 or a.status_code == 404:
             # print('is ok')
@@ -2451,9 +2451,9 @@ def has_insecure_cipher(url, protocol_version):
     try:
         allow_redirects = False
 
-        headers = {'user-agent': useragent}
+        headers = {'user-agent': USERAGENT}
         a = session.get(url, verify=False, allow_redirects=allow_redirects,
-                        headers=headers, timeout=request_timeout)
+                        headers=headers, timeout=REQUEST_TIMEOUT)
 
         if a.status_code == 200 or a.status_code == 301 or a.status_code == 302 or a.status_code == 404:
             # print('is ok')
@@ -2529,9 +2529,9 @@ def has_tls_version(url, validate_hostname, protocol_version):
     try:
         allow_redirects = False
 
-        headers = {'user-agent': useragent}
+        headers = {'user-agent': USERAGENT}
         session.get(url, verify=validate_hostname, allow_redirects=allow_redirects,
-                        headers=headers, timeout=request_timeout)
+                        headers=headers, timeout=REQUEST_TIMEOUT)
 
         return (True, 'is ok')
 

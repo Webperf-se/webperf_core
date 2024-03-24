@@ -5,7 +5,7 @@ import gzip
 import io
 from bs4 import BeautifulSoup
 from engines.utils import use_item
-from tests.utils import get_content_type, httpRequestGetContent, merge_dicts, cache_time_delta
+from tests.utils import get_content_type, get_http_content, merge_dicts, CACHE_TIME_DELTA
 
 def read_sites(input_sitemap_url, input_skip, input_take):
     ignore_none_html = True
@@ -25,7 +25,7 @@ def read_sitemap(input_sitemap_url, input_skip, input_take, ignore_none_html):
 
     if input_sitemap_url.endswith('.xml.gz'):
         # unpack gzip:ed sitemap
-        sitemap_content = httpRequestGetContent(input_sitemap_url, True, False)
+        sitemap_content = get_http_content(input_sitemap_url, True, False)
         try:
             if isinstance(sitemap_content, str):
                 return result
@@ -42,7 +42,7 @@ def read_sitemap(input_sitemap_url, input_skip, input_take, ignore_none_html):
         except gzip.BadGzipFile:
             return result
     else:
-        sitemap_content = httpRequestGetContent(input_sitemap_url, True, True)
+        sitemap_content = get_http_content(input_sitemap_url, True, True)
         result = merge_dicts(read_sitemap_xml(input_sitemap_url,
             sitemap_content,
             input_skip,
@@ -113,7 +113,7 @@ def read_sitemap_xml(key, sitemap_content, input_skip, input_take, ignore_none_h
                     print(f'- skipping because it is of type: {item_type}')
                     continue
 
-                item_content_type = get_content_type(item_url, cache_time_delta)
+                item_content_type = get_content_type(item_url, CACHE_TIME_DELTA)
                 print('content-type', item_content_type)
                 if item_content_type == 401:
                     print(f'- skipping because it is of status-code: {item_content_type}')

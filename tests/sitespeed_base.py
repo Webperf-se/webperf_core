@@ -6,7 +6,7 @@ from urllib.parse import urlparse
 import config
 from tests.utils import *
 
-request_timeout = config.http_request_timeout
+REQUEST_TIMEOUT = config.http_request_timeout
 sitespeed_use_docker = config.sitespeed_use_docker
 
 def to_firefox_url_format(url):
@@ -22,7 +22,7 @@ def to_firefox_url_format(url):
 
 def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
     folder = 'tmp'
-    if use_cache:
+    if USE_CACHE:
         folder = 'cache'
 
     o = urlparse(url)
@@ -38,7 +38,7 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
 
     filename = ''
     # Should we use cache when available?
-    if use_cache:
+    if USE_CACHE:
         # added for firefox support
         url2 = to_firefox_url_format(url)
 
@@ -48,7 +48,7 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
             if url == site[1] or url2 == site[1]:
                 filename = site[0]
 
-                if is_file_older_than(filename, cache_time_delta):
+                if is_file_older_than(filename, CACHE_TIME_DELTA):
                     filename = ''
                     continue
 

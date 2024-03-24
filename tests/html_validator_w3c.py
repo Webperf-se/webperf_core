@@ -10,8 +10,8 @@ import gettext
 _local = gettext.gettext
 
 # DEFAULTS
-request_timeout = config.http_request_timeout
-useragent = config.useragent
+REQUEST_TIMEOUT = config.http_request_timeout
+USERAGENT = config.useragent
 review_show_improvements_only = config.review_show_improvements_only
 sitespeed_use_docker = config.sitespeed_use_docker
 try:
@@ -20,12 +20,12 @@ except:
     # If sitespeed timeout is not set in config.py this will be the default
     sitespeed_timeout = 600
 try:
-    use_cache = config.cache_when_possible
-    cache_time_delta = config.cache_time_delta
+    USE_CACHE = config.cache_when_possible
+    CACHE_TIME_DELTA = config.cache_time_delta
 except:
     # If cache_when_possible variable is not set in config.py this will be the default
-    use_cache = False
-    cache_time_delta = timedelta(hours=1)
+    USE_CACHE = False
+    CACHE_TIME_DELTA = timedelta(hours=1)
 
 
 def run_test(_, langCode, url):

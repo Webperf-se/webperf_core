@@ -9,7 +9,7 @@ import requests
 from bs4 import BeautifulSoup
 import config
 from models import Rating
-from tests.utils import has_redirect, httpRequestGetContent
+from tests.utils import has_redirect, get_http_content
 from engines.sitemap import read_sitemap
 _local = gettext.gettext
 
@@ -88,7 +88,7 @@ def validate_robots(_, _local, parsed_url):
     return_dict = dict()
     rating = Rating(_, review_show_improvements_only)
 
-    robots_content = httpRequestGetContent(parsed_url + 'robots.txt', True)
+    robots_content = get_http_content(parsed_url + 'robots.txt', True)
 
     if robots_content is None or '</html>' in robots_content.lower() or \
           ('user-agent' not in robots_content.lower() \
@@ -393,7 +393,7 @@ def validate_security_txt(_, _local, parsed_url):
     except:
         pass
 
-    security_wellknown_content = httpRequestGetContent(
+    security_wellknown_content = get_http_content(
         security_wellknown_url, True)
 
     # Note: security.txt can also be placed in root if
@@ -404,7 +404,7 @@ def validate_security_txt(_, _local, parsed_url):
                                              headers=headers, timeout=request_timeout)
     except:
         pass
-    security_root_content = httpRequestGetContent(security_root_url, True)
+    security_root_content = get_http_content(security_root_url, True)
 
     if not security_wellknown_request and not security_root_request:
         # Can't find security.txt (not giving us 200 as status code)

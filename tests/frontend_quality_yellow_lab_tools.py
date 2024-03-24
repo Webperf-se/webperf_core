@@ -9,7 +9,7 @@ import gettext
 _local = gettext.gettext
 
 # DEFAULTS
-request_timeout = config.http_request_timeout
+REQUEST_TIMEOUT = config.http_request_timeout
 review_show_improvements_only = config.review_show_improvements_only
 time_sleep = config.webbkoll_sleep
 if time_sleep < 5:
@@ -58,7 +58,7 @@ def run_test(_, langCode, url, device='phone'):
 
         running_status = 'running'
         while running_status == 'running':
-            running_json = httpRequestGetContent(
+            running_json = get_http_content(
                 '{0}/api/runs/{1}'.format(ylt_server_address, test_id))
             running_info = json.loads(running_json)
             running_status = running_info['status']['statusCode']
@@ -66,7 +66,7 @@ def run_test(_, langCode, url, device='phone'):
 
         result_url = '{0}/api/results/{1}?exclude=toolsResults'.format(
             ylt_server_address, test_id)
-        result_json = httpRequestGetContent(result_url)
+        result_json = get_http_content(result_url)
     else:
         import subprocess
 
@@ -74,7 +74,7 @@ def run_test(_, langCode, url, device='phone'):
         bashCommand = "node node_modules{1}yellowlabtools{1}bin{1}cli.js {0}".format(
             url, os.path.sep)
         process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-        output, error = process.communicate(timeout=request_timeout * 10)
+        output, error = process.communicate(timeout=REQUEST_TIMEOUT * 10)
 
         result_json = output
 

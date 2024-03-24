@@ -16,8 +16,8 @@ from tests.sitespeed_base import get_result
 _local = gettext.gettext
 
 # DEFAULTS
-request_timeout = config.http_request_timeout
-useragent = config.useragent
+REQUEST_TIMEOUT = config.http_request_timeout
+USERAGENT = config.useragent
 css_review_group_errors = config.css_review_group_errors
 review_show_improvements_only = config.review_show_improvements_only
 sitespeed_use_docker = config.sitespeed_use_docker
@@ -27,12 +27,12 @@ except:
     # If sitespeed timeout is not set in config.py this will be the default
     sitespeed_timeout = 600
 try:
-    use_cache = config.cache_when_possible
-    cache_time_delta = config.cache_time_delta
+    USE_CACHE = config.cache_when_possible
+    CACHE_TIME_DELTA = config.cache_time_delta
 except:
     # If cache_when_possible variable is not set in config.py this will be the default
-    use_cache = False
-    cache_time_delta = timedelta(hours=1)
+    USE_CACHE = False
+    CACHE_TIME_DELTA = timedelta(hours=1)
 
 global css_features
 global css_properties_doesnt_exist
@@ -306,7 +306,7 @@ def get_mdn_web_docs_css_features():
     css_features = {}
     css_functions = {}
 
-    html = httpRequestGetContent(
+    html = get_http_content(
         'https://developer.mozilla.org/en-US/docs/Web/CSS/Reference')
 
     soup = BeautifulSoup(html, 'lxml')

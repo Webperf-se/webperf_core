@@ -8,7 +8,7 @@ import config
 from bs4 import BeautifulSoup
 import gettext
 
-from tests.utils import httpRequestGetContent
+from tests.utils import get_http_content
 _ = gettext.gettext
 
 review_show_improvements_only = config.review_show_improvements_only
@@ -64,7 +64,7 @@ def run_test(_, langCode, url):
 
 
 def get_digg_report_canonical():
-    content = httpRequestGetContent(digg_url)
+    content = get_http_content(digg_url)
     content_match = re.search(
         r'<link rel="canonical" href="(?P<url>[^"]+)', content)
     if content_match:
@@ -83,7 +83,7 @@ def check_item(item, root_item, org_url_start, _):
     statements = list()
     content = None
     if item['url'] not in checked_urls:
-        content = httpRequestGetContent(item['url'], True)
+        content = get_http_content(item['url'], True)
         time.sleep(1)
         checked_urls[item['url']] = content
     else:

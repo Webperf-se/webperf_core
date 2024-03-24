@@ -125,7 +125,7 @@ def update_licenses():
     print('updates licesences used in SAMPLE-software-rules.json')
 
     # https://spdx.org/licenses/
-    raw_data = httpRequestGetContent(
+    raw_data = get_http_content(
         'https://spdx.org/licenses/')
 
     regex = r'<code property="spdx:licenseId">(?P<licenseId>[^<]+)<\/code'
@@ -195,7 +195,7 @@ def extend_versions_for_nginx(versions):
             return result
 
         # https://nginx.org/en/security_advisories.html
-        raw_data = httpRequestGetContent(
+        raw_data = get_http_content(
             'https://nginx.org/en/security_advisories.html')
 
         regex_vulnerables = r'((?P<advisory>[^"]+)">Advisory<\/a><br>){0,1}<a href="(?P<more_info>[^"]+)">(?P<cve>CVE-[0-9]{4}\-[0-9]+)<\/a><br>Not vulnerable:(?P<safe>[ 0-9\.+,]+)<br>Vulnerable:(?P<unsafe>[ 0-9\.\-+,]+)'
@@ -259,7 +259,7 @@ def extend_versions_for_iis(versions):
     for version in versions.keys():
         print('extend_versions', 'iis', version)
         # https://www.cvedetails.com/vulnerability-list.php?vendor_id=26&product_id=3427&page=1
-        raw_data = httpRequestGetContent(
+        raw_data = get_http_content(
             'https://www.cvedetails.com/vulnerability-list.php?vendor_id=26&product_id=3427&page=1')
 
         regex_vulnerables = r'href="(?P<url>[^"]+)"[^>]+>(?P<cve>CVE-[0-9]{4}\-[0-9]+)'
@@ -271,7 +271,7 @@ def extend_versions_for_iis(versions):
             cve = match_vulnerable.group('cve')
             url = 'https://www.cvedetails.com{0}'.format(
                 match_vulnerable.group('url'))
-            raw_cve_data = httpRequestGetContent(url)
+            raw_cve_data = get_http_content(url)
             regex_version = r'<td>[ \t\r\n]*(?P<version>[0-9]+\.[0-9]+)[ \t\r\n]*<\/td>'
             matches_version = re.finditer(
                 regex_version, raw_cve_data, re.MULTILINE)
@@ -293,7 +293,7 @@ def extend_versions_for_openssl(versions):
     return versions
 
 def extend_versions_for_openssl_vulnerabilities(versions):
-    raw_data = httpRequestGetContent(
+    raw_data = get_http_content(
         'https://www.openssl.org/news/vulnerabilities.html')
     
     ver = sorted(versions.keys(), reverse=False)
@@ -326,7 +326,7 @@ def extend_versions_for_openssl_vulnerabilities(versions):
 
 
 def extend_versions_for_openssl_end_of_life(versions):
-    raw_data = httpRequestGetContent(
+    raw_data = get_http_content(
         'https://www.openssl.org/policies/releasestrat.html')
     
     end_of_life_branches = {}
@@ -361,7 +361,7 @@ def extend_versions_for_openssl_end_of_life(versions):
     return versions
 
 def extend_versions_for_php(versions):
-    raw_data = httpRequestGetContent(
+    raw_data = get_http_content(
         'https://www.php.net/eol.php')
     regex = r'(?P<date>\([a-zA-Z0-9 ,]+\))<\/em>[\r\n\t]*<\/td>[\r\n\t]*<td>[\r\n\t]*<a [^>]+>[\r\n\t]*(?P<version>[0-9\.]+)'
     matches = re.finditer(
@@ -391,7 +391,7 @@ def extend_versions_for_php(versions):
 def extend_versions_for_apache_httpd(versions):
     for version in versions.keys():
         print('extend_versions', 'apache', version)
-        raw_data = httpRequestGetContent(
+        raw_data = get_http_content(
             'https://httpd.apache.org/security/vulnerabilities_24.html')
 
         regex_version = r"<h1 id=\"(?P<version>[0-9\.]+)\">"
@@ -700,7 +700,7 @@ def add_tech_if_interesting(techs, imgs, topic):
 def set_wordpress_plugin_repository_info(item, name):
     print('Looking up wordpress plugin: {0}'.format(name))
 
-    content = httpRequestGetContent(
+    content = get_http_content(
         'https://wordpress.org/plugins/{0}/advanced/'.format(name))
 
     time.sleep(2.5)
@@ -765,7 +765,7 @@ def set_wordpress_plugin_repository_info(item, name):
 
 
 def set_github_repository_info(item, owner, repo):
-    repo_content = httpRequestGetContent(
+    repo_content = get_http_content(
         'https://api.github.com/repos/{0}/{1}'.format(owner, repo))
 
     github_info = json.loads(repo_content)
@@ -823,7 +823,7 @@ def set_github_repository_info(item, owner, repo):
     return
 
 def get_github_versions(owner, repo, source, security_label, version_prefix, name_key):
-    versions_content = httpRequestGetContent(
+    versions_content = get_http_content(
         'https://api.github.com/repos/{0}/{1}/{2}?state=closed&per_page=100'.format(owner, repo, source))
 
     versions = list()
@@ -903,7 +903,7 @@ def get_github_versions(owner, repo, source, security_label, version_prefix, nam
         versions_dict[version] = []
         if security_label != None:
             # https://api.github.com/repos/matomo-org/matomo/milestones/163/labels
-            version_label_data = httpRequestGetContent(
+            version_label_data = get_http_content(
                 'https://api.github.com/repos/{0}/{1}/{2}/{3}/labels'.format(owner, repo, source, versions_dict[version]['id']))
             labels = json.loads(version_label_data)
 
@@ -933,7 +933,7 @@ def get_drupal_versions():
 
 def get_iis_versions():
     # https://learn.microsoft.com/en-us/lifecycle/products/internet-information-services-iis
-    content = httpRequestGetContent(
+    content = get_http_content(
         'https://learn.microsoft.com/en-us/lifecycle/products/internet-information-services-iis')
     regex = r"<td>IIS (?P<version>[0-9\.]+)"
     matches = re.finditer(regex, content, re.MULTILINE)
@@ -973,7 +973,7 @@ def get_windows_versions():
 
 def get_datatables_versions():
     # newer_versions = []
-    content = httpRequestGetContent(
+    content = get_http_content(
         'https://cdn.datatables.net/releases.html')
     regex = r">(?P<version>[0-9\.]+)<\/a>"
     matches = re.finditer(regex, content, re.MULTILINE)
@@ -998,7 +998,7 @@ def get_datatables_versions():
 
 def get_epifind_versions():
     # newer_versions = []
-    content = httpRequestGetContent(
+    content = get_http_content(
         'https://nuget.optimizely.com/package/?id=EPiServer.Find')
     regex = r">(?P<version>[0-9\.]+)<\/a>"
     matches = re.finditer(regex, content, re.MULTILINE)
@@ -1023,7 +1023,7 @@ def get_epifind_versions():
 
 def get_php_versions():
     # newer_versions = []
-    content = httpRequestGetContent(
+    content = get_http_content(
         'https://www.php.net/releases/')
     regex = r"<h2>(?P<version>[0-9\.]+)<\/h2>"
     matches = re.finditer(regex, content, re.MULTILINE)
@@ -1048,7 +1048,7 @@ def get_php_versions():
 
 def get_apache_httpd_versions():
     # newer_versions = []
-    content = httpRequestGetContent(
+    content = get_http_content(
         'https://svn.apache.org/viewvc/httpd/httpd/tags/')
     regex = r"<a name=\"(?P<version>[0-9\.]+(\-[0-9\.\-a-zA-Z]+){0,1})\""
     matches = re.finditer(regex, content, re.MULTILINE)

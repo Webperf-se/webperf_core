@@ -19,8 +19,8 @@ _ = gettext.gettext
 
 # DEFAULTS
 regex_allowed_chars = r"[^\u00E5\u00E4\u00F6\u00C5\u00C4\u00D6a-zA-Zå-öÅ-Ö 0-9\-:\/]+"
-request_timeout = config.http_request_timeout
-useragent = config.useragent
+REQUEST_TIMEOUT = config.http_request_timeout
+USERAGENT = config.useragent
 time_sleep = config.webbkoll_sleep
 if time_sleep < 5:
     time_sleep = 5
@@ -56,7 +56,7 @@ def run_test(_, langCode, url):
     while has_refresh_statement:
         has_refresh_statement = False
         request = session.get(url, allow_redirects=True,
-                              headers=headers, timeout=request_timeout)
+                              headers=headers, timeout=REQUEST_TIMEOUT)
 
         if 'type="search" value="{0}">'.format(orginal_url) in request.text:
             # headers[''] = ''
@@ -73,7 +73,7 @@ def run_test(_, langCode, url):
             service_url = 'https://webbkoll.dataskydd.net/{0}/check'.format(
                 langCode)
             request = session.post(service_url, allow_redirects=True,
-                                   headers=headers, timeout=request_timeout, data=data)
+                                   headers=headers, timeout=REQUEST_TIMEOUT, data=data)
 
         if '<meta http-equiv="refresh"' in request.text:
             has_refresh_statement = True

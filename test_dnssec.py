@@ -243,7 +243,7 @@ def validate_dnssec(domain, domain_entry):
 def testdns(key, datatype, use_dnssec):
     print('\ttestdns', key, datatype, use_dnssec)
     cache_key = 'dnslookup://{0}#{1}#{2}'.format(key, datatype, use_dnssec)
-    if has_cache_file(cache_key, True, cache_time_delta):
+    if has_cache_file(cache_key, True, CACHE_TIME_DELTA):
         cache_path = get_cache_path(cache_key, True)
         print('\t- Using dnslookup cache')
         response = dns.message.from_file(cache_path)

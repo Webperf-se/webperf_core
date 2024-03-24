@@ -35,7 +35,7 @@ def run_test(_, langCode, url):
     print(_('TEXT_TEST_START').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    result_json = httpRequestGetContent(
+    result_json = get_http_content(
         'https://api.websitecarbon.com/site?url={0}'.format(url))
     result_dict = json.loads(result_json)
 

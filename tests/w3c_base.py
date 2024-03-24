@@ -6,17 +6,17 @@ import config
 from tests.utils import *
 
 # DEFAULTS
-request_timeout = config.http_request_timeout
-useragent = config.useragent
+REQUEST_TIMEOUT = config.http_request_timeout
+USERAGENT = config.useragent
 css_review_group_errors = config.css_review_group_errors
 review_show_improvements_only = config.review_show_improvements_only
 try:
-    use_cache = config.cache_when_possible
-    cache_time_delta = config.cache_time_delta
+    USE_CACHE = config.cache_when_possible
+    CACHE_TIME_DELTA = config.cache_time_delta
 except:
     # If cache_when_possible variable is not set in config.py this will be the default
-    use_cache = False
-    cache_time_delta = timedelta(hours=1)
+    USE_CACHE = False
+    CACHE_TIME_DELTA = timedelta(hours=1)
 
 
 def get_errors(test_type, params):
@@ -43,7 +43,7 @@ def get_errors(test_type, params):
         file_path = get_cache_path(url, True)
         if is_html:
             html_file_ending_fix = file_path.replace('.cache', '.cache.html')
-            if has_cache_file(url, True, cache_time_delta) and not os.path.exists(html_file_ending_fix):
+            if has_cache_file(url, True, CACHE_TIME_DELTA) and not os.path.exists(html_file_ending_fix):
                 os.rename(file_path, html_file_ending_fix)
             file_path = html_file_ending_fix
 
@@ -52,7 +52,7 @@ def get_errors(test_type, params):
 
     bashCommand = "java -jar vnu.jar {0}".format(arg)
     process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-    output, error = process.communicate(timeout=request_timeout * 10)
+    output, error = process.communicate(timeout=REQUEST_TIMEOUT * 10)
 
     json_result = json.loads(output)
     if 'messages' in json_result:
@@ -90,7 +90,7 @@ def identify_files(filename):
                 continue
 
             if 'html' in res['content']['mimeType']:
-                if not has_cache_file(req_url, True, cache_time_delta):
+                if not has_cache_file(req_url, True, CACHE_TIME_DELTA):
                     set_cache_file(req_url, res['content']['text'], True)
                 data['htmls'].append({
                     'url': req_url,
@@ -98,7 +98,7 @@ def identify_files(filename):
                     'index': req_index
                     })
             elif 'css' in res['content']['mimeType']:
-                if not has_cache_file(req_url, True, cache_time_delta):
+                if not has_cache_file(req_url, True, CACHE_TIME_DELTA):
                     set_cache_file(req_url, res['content']['text'], True)
                 data['resources'].append({
                     'url': req_url,

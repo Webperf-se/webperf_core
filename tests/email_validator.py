@@ -15,7 +15,7 @@ import urllib
 import dns
 import config
 from models import Rating
-from tests.utils import dns_lookup, get_best_country_code, httpRequestGetContent, is_country_code_in_eu_or_on_exception_list
+from tests.utils import dns_lookup, get_best_country_code, get_http_content, is_country_code_in_eu_or_on_exception_list
 import gettext
 _local = gettext.gettext
 
@@ -152,13 +152,13 @@ def run_test(_, langCode, url):
         hostname, result_dict, _, _local)
     if rating.get_overall() == -1.0:
         # NO MX record found for domain, look for e-mail on website for alternative e-mail domain.
-        content = httpRequestGetContent(url, True)
+        content = get_http_content(url, True)
         time.sleep(1)
         result = search_for_email_domain(content)
         if result == None:
             interesting_urls = get_interesting_urls(content, url, 0)
             for interesting_url in interesting_urls:
-                content = httpRequestGetContent(interesting_url, True)
+                content = get_http_content(interesting_url, True)
                 result = search_for_email_domain(content)
                 if result != None:
                     break
@@ -362,7 +362,7 @@ def Validate_MTA_STS_Policy(_, rating, _local, hostname):
     rating += has_mta_sts_records_rating
 
     # https://mta-sts.example.com/.well-known/mta-sts.txt
-    content = httpRequestGetContent(
+    content = get_http_content(
         "https://mta-sts.{0}/.well-known/mta-sts.txt".format(hostname))
 
     has_mta_sts_txt_rating = Rating(_, review_show_improvements_only)

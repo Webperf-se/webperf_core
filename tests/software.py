@@ -21,8 +21,8 @@ import gettext
 _ = gettext.gettext
 
 # DEFAULTS
-request_timeout = config.http_request_timeout
-useragent = config.useragent
+REQUEST_TIMEOUT = config.http_request_timeout
+USERAGENT = config.useragent
 review_show_improvements_only = config.review_show_improvements_only
 sitespeed_use_docker = config.sitespeed_use_docker
 try:
@@ -36,12 +36,12 @@ except:
     # If sitespeed timeout is not set in config.py this will be the default
     sitespeed_timeout = 600
 try:
-    use_cache = config.cache_when_possible
-    cache_time_delta = config.cache_time_delta
+    USE_CACHE = config.cache_when_possible
+    CACHE_TIME_DELTA = config.cache_time_delta
 except:
     # If cache_when_possible variable is not set in config.py this will be the default
-    use_cache = False
-    cache_time_delta = timedelta(hours=1)
+    USE_CACHE = False
+    CACHE_TIME_DELTA = timedelta(hours=1)
 try:
     use_stealth = config.software_use_stealth
 except:
@@ -164,7 +164,7 @@ def get_rating_from_sitespeed(url, _local, _):
         rating.overall_review = ''
     rating.integrity_and_security_review = rating.integrity_and_security_review.replace('GOV-IGNORE', '').strip('\r\n\t ')
 
-    if not use_cache:
+    if not USE_CACHE:
         os.remove(filename)
 
     return (rating, result)
@@ -877,7 +877,7 @@ def enrich_data_from_javascript(tmp_list, item, rules):
         if match['category'] != 'js':
             return
         if 'license-txt' in item:
-            content = httpRequestGetContent(
+            content = get_http_content(
                 match['license-txt'].lower(), allow_redirects=True)
             tmp = lookup_response_content(
                 match['license-txt'].lower(), match['mime-type'], content, rules)
@@ -915,7 +915,7 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
 
         if match['name'] == 'svg':
             # NOTE: We don't get content for svg files currently, it would be better if we didn't need to request it once more
-            svg_content = httpRequestGetContent(item['url'])
+            svg_content = get_http_content(item['url'])
 
             # <!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
             svg_regex = r"<!-- Generator: (?P<name>[a-zA-Z ]+)[ ]{0,1}(?P<version>[0-9.]*)"
@@ -947,10 +947,10 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
 
             image_data = None
             try:
-                if use_cache and os.path.exists(cache_path) and is_file_older_than(cache_path, cache_time_delta):
+                if USE_CACHE and os.path.exists(cache_path) and is_file_older_than(cache_path, CACHE_TIME_DELTA):
                     image_data = Image.open(cache_path)
                 else:
-                    data = httpRequestGetContent(
+                    data = get_http_content(
                         item['url'], use_text_instead_of_content=False)
                     with open(cache_path, 'wb') as file:
                         file.write(data)

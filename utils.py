@@ -184,7 +184,8 @@ def test(global_translation, lang_code, site, test_type=None, show_reviews=False
                                 f"\nuseragent: {get_config('USERAGENT')}",
                                 f"\nhttp_request_timeout: {get_config('HTTP_REQUEST_TIMEOUT')}",
                                 f"\nwebbkoll_sleep: {get_config('WEBBKOLL_SLEEP')}",
-                                f"\ncss_review_group_errors: {get_config('CSS_REVIEW_GROUP_ERRORS')}",
+                                f"\ncss_review_group_errors: {
+                                    get_config('CSS_REVIEW_GROUP_ERRORS')}",
                                 f"\nreview_show_improvements_only: {
                                     get_config('REVIEW_SHOW_IMPROVEMENTS_ONLY')}",
                                 f"\nylt_use_api: {get_config('YLT_USE_API')}",

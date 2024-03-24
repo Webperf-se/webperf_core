@@ -15,9 +15,8 @@ from requests.packages.urllib3.util import ssl_
 import urllib
 import config
 from models import Rating
-from tests.utils import dns_lookup
+from tests.utils import dns_lookup, merge_dicts
 from tests.utils import *
-from utils import merge_dicts
 from tests.sitespeed_base import get_result
 import dns.name
 import dns.query

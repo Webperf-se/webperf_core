@@ -39,6 +39,28 @@ TEST_ALL = (TEST_UNKNOWN_01,
             TEST_WEBBKOLL, TEST_HTTP, TEST_ENERGY_EFFICIENCY, TEST_TRACKING,
             TEST_EMAIL, TEST_SOFTWARE, TEST_A11Y_STATEMENT) = range(27)
 
+TEST_FUNCS = {
+        TEST_PAGE_NOT_FOUND: run_test_page_not_found,
+        TEST_HTML: run_test_html_validator_w3c,
+        TEST_CSS: run_test_css_validator_w3c,
+        TEST_WEBBKOLL: run_test_privacy_webbkollen,
+        TEST_GOOGLE_LIGHTHOUSE: run_test_performance_lighthouse,
+        TEST_GOOGLE_LIGHTHOUSE_SEO: run_test_seo_lighthouse,
+        TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE: run_test_best_practice_lighthouse,
+        TEST_GOOGLE_LIGHTHOUSE_PWA: run_test_pwa_lighthouse,
+        TEST_STANDARD_FILES:run_test_standard_files,
+        TEST_GOOGLE_LIGHTHOUSE_A11Y: run_test_a11y_lighthouse,
+        TEST_SITESPEED: run_test_performance_sitespeed_io,
+        TEST_YELLOW_LAB_TOOLS: run_test_frontend_quality_yellow_lab_tools,
+        TEST_PA11Y: run_test_a11y_pa11y,
+        TEST_HTTP: run_test_http_validator,
+        TEST_ENERGY_EFFICIENCY: run_test_energy_efficiency,
+        TEST_TRACKING: run_test_tracking_validator,
+        TEST_EMAIL: run_test_email_validator,
+        TEST_SOFTWARE: run_test_software,
+        TEST_A11Y_STATEMENT: run_test_a11y_statement
+    }
+
 
 def test(_, lang_code, site, test_type=None, show_reviews=False):
     """
@@ -51,45 +73,11 @@ def test(_, lang_code, site, test_type=None, show_reviews=False):
     website = site[1]
 
     try:
-        the_test_result = None
-        if test_type == TEST_PAGE_NOT_FOUND:
-            the_test_result = run_test_page_not_found(_, lang_code, website)
-        elif test_type == TEST_HTML:
-            the_test_result = run_test_html_validator_w3c(_, lang_code, website)
-        elif test_type == TEST_CSS:
-            the_test_result = run_test_css_validator_w3c(_, lang_code, website)
-        elif test_type == TEST_WEBBKOLL:
-            the_test_result = run_test_privacy_webbkollen(_, lang_code, website)
-        elif test_type == TEST_GOOGLE_LIGHTHOUSE:
-            the_test_result = run_test_performance_lighthouse(_, lang_code, website)
-        elif test_type == TEST_GOOGLE_LIGHTHOUSE_SEO:
-            the_test_result = run_test_seo_lighthouse(_, lang_code, website)
-        elif test_type == TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE:
-            the_test_result = run_test_best_practice_lighthouse(_, lang_code, website)
-        elif test_type == TEST_GOOGLE_LIGHTHOUSE_PWA:
-            the_test_result = run_test_pwa_lighthouse(_, lang_code, website)
-        elif test_type == TEST_STANDARD_FILES:
-            the_test_result = run_test_standard_files(_, lang_code, website)
-        elif test_type == TEST_GOOGLE_LIGHTHOUSE_A11Y:
-            the_test_result = run_test_a11y_lighthouse(_, lang_code, website)
-        elif test_type == TEST_SITESPEED:
-            the_test_result = run_test_performance_sitespeed_io(_, lang_code, website)
-        elif test_type == TEST_YELLOW_LAB_TOOLS:
-            the_test_result = run_test_frontend_quality_yellow_lab_tools(_, lang_code, website)
-        elif test_type == TEST_PA11Y:
-            the_test_result = run_test_a11y_pa11y(_, lang_code, website)
-        elif test_type == TEST_HTTP:
-            the_test_result = run_test_http_validator(_, lang_code, website)
-        elif test_type == TEST_ENERGY_EFFICIENCY:
-            the_test_result = run_test_energy_efficiency(_, lang_code, website)
-        elif test_type == TEST_TRACKING:
-            the_test_result = run_test_tracking_validator(_, lang_code, website)
-        elif test_type == TEST_EMAIL:
-            the_test_result = run_test_email_validator(_, lang_code, website)
-        elif test_type == TEST_SOFTWARE:
-            the_test_result = run_test_software(_, lang_code, website)
-        elif test_type == TEST_A11Y_STATEMENT:
-            the_test_result = run_test_a11y_statement(_, lang_code, website)
+        if test_type not in TEST_FUNCS:
+            return []
+
+        run_test = TEST_FUNCS[test_type]
+        the_test_result = run_test(_, lang_code, website)
 
         if the_test_result is not None:
             rating = the_test_result[0]
@@ -103,7 +91,11 @@ def test(_, lang_code, site, test_type=None, show_reviews=False):
             try:
                 json_data = the_test_result[1]
                 json_data = json.dumps(json_data)
-            except:
+            except json.decoder.JSONDecodeError:
+                json_data = ''
+            except TypeError:
+                json_data = ''
+            except RecursionError:
                 json_data = ''
 
             jsondata = str(json_data).encode('utf-8')  # --//--
@@ -114,7 +106,7 @@ def test(_, lang_code, site, test_type=None, show_reviews=False):
                                   json_check_data=jsondata).todata()
 
             return site_test
-    except Exception as e:
+    except Exception as e: # pylint: disable=broad-exception-caught
         print(_('TEXT_TEST_END').format(
             datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
         print(_('TEXT_EXCEPTION'), website, '\n', e)
@@ -147,6 +139,8 @@ def test(_, lang_code, site, test_type=None, show_reviews=False):
                                 f'\ncache_time_delta: {config.cache_time_delta}',
                                 f'\nsoftware_use_stealth: {config.software_use_stealth}',
                                 f'\nuse_detailed_report: {config.use_detailed_report}',
+                                f'\ncsp_only: {config.csp_only}',
+                                f'\ndns_server: {config.dns_server}',
                                 f'\nsoftware_browser: {config.software_browser}',
                                  '\n###############################################\n'
                                  ])
@@ -161,96 +155,14 @@ def test(_, lang_code, site, test_type=None, show_reviews=False):
 
 def test_site(_, lang_code, site, test_types=TEST_ALL, show_reviews=False):
     tests = []
-    ##############
-    if TEST_GOOGLE_LIGHTHOUSE in test_types:
-        tests.extend(test(_,
-                          lang_code,
-                          site,
-                          test_type=TEST_GOOGLE_LIGHTHOUSE,
-                          show_reviews=show_reviews))
-    if TEST_PAGE_NOT_FOUND in test_types:
-        tests.extend(test(_, lang_code, site,
-                          test_type=TEST_PAGE_NOT_FOUND,
-                          show_reviews=show_reviews))
-    if TEST_GOOGLE_LIGHTHOUSE_SEO in test_types:
-        tests.extend(test(_,
-                          lang_code,
-                          site,
-                          test_type=TEST_GOOGLE_LIGHTHOUSE_SEO,
-                          show_reviews=show_reviews))
-    if TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE in test_types:
-        tests.extend(test(_,
-                          lang_code,
-                          site,
-                          test_type=TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE,
-                          show_reviews=show_reviews))
-    if TEST_HTML in test_types:
-        tests.extend(test(_, lang_code, site,
-                          test_type=TEST_HTML,
-                          show_reviews=show_reviews))
-    if TEST_CSS in test_types:
-        tests.extend(test(_, lang_code, site,
-                          test_type=TEST_CSS,
-                          show_reviews=show_reviews))
-    if TEST_GOOGLE_LIGHTHOUSE_PWA in test_types:
-        tests.extend(test(_,
-                          lang_code,
-                          site,
-                          test_type=TEST_GOOGLE_LIGHTHOUSE_PWA,
-                          show_reviews=show_reviews))
-    if TEST_STANDARD_FILES in test_types:
-        tests.extend(test(_, lang_code, site,
-                          test_type=TEST_STANDARD_FILES,
-                          show_reviews=show_reviews))
-    if TEST_GOOGLE_LIGHTHOUSE_A11Y in test_types:
-        tests.extend(test(_,
-                          lang_code,
-                          site,
-                          test_type=TEST_GOOGLE_LIGHTHOUSE_A11Y,
-                          show_reviews=show_reviews))
-    if TEST_SITESPEED in test_types:
-        tests.extend(test(_, lang_code, site,
-                          test_type=TEST_SITESPEED,
-                          show_reviews=show_reviews))
-    if TEST_YELLOW_LAB_TOOLS in test_types:
-        tests.extend(test(_,
-                          lang_code,
-                          site,
-                          test_type=TEST_YELLOW_LAB_TOOLS,
-                          show_reviews=show_reviews))
-    if TEST_PA11Y in test_types:
-        tests.extend(test(_,
-                          lang_code,
-                          site,
-                          test_type=TEST_PA11Y,
-                          show_reviews=show_reviews))
-    if TEST_WEBBKOLL in test_types:
-        tests.extend(test(_, lang_code, site,
-                          test_type=TEST_WEBBKOLL,
-                          show_reviews=show_reviews))
-    if TEST_HTTP in test_types:
-        tests.extend(test(_, lang_code, site,
-                          test_type=TEST_HTTP,
-                          show_reviews=show_reviews))
-    if TEST_ENERGY_EFFICIENCY in test_types:
-        tests.extend(test(_, lang_code, site,
-                          test_type=TEST_ENERGY_EFFICIENCY,
-                          show_reviews=show_reviews))
-    if TEST_TRACKING in test_types:
-        tests.extend(test(_, lang_code, site,
-                          test_type=TEST_TRACKING,
-                          show_reviews=show_reviews))
-    if TEST_EMAIL in test_types:
-        tests.extend(test(_, lang_code, site,
-                          test_type=TEST_EMAIL, show_reviews=show_reviews))
-    if TEST_SOFTWARE in test_types:
-        tests.extend(test(_, lang_code, site,
-                          test_type=TEST_SOFTWARE,
-                          show_reviews=show_reviews))
-    if TEST_A11Y_STATEMENT in test_types:
-        tests.extend(test(_, lang_code, site,
-                          test_type=TEST_A11Y_STATEMENT,
-                          show_reviews=show_reviews))
+
+    for test_id in TEST_ALL:
+        if test_id in test_types:
+            tests.extend(test(_,
+                            lang_code,
+                            site,
+                            test_type=test_id,
+                            show_reviews=show_reviews))
 
     return tests
 
@@ -280,41 +192,3 @@ def test_sites(_, lang_code, sites, test_types=TEST_ALL, show_reviews=False):
         site_index += 1
 
     return results
-
-def merge_dicts(dict1, dict2, sort, make_distinct):
-    if dict1 is None:
-        return dict2
-    if dict2 is None:
-        return dict1
-
-    for domain, value in dict2.items():
-        if domain in dict1:
-            type_of_value = type(value)
-            if type_of_value is dict:
-                for subkey, subvalue in value.items():
-                    if subkey in dict1[domain]:
-                        if isinstance(subvalue, dict):
-                            merge_dicts(
-                                dict1[domain][subkey],
-                                dict2[domain][subkey],
-                                sort,
-                                make_distinct)
-                        elif isinstance(subvalue, list):
-                            dict1[domain][subkey].extend(subvalue)
-                            if make_distinct:
-                                dict1[domain][subkey] = list(set(dict1[domain][subkey]))
-                            if sort:
-                                dict1[domain][subkey] = sorted(dict1[domain][subkey])
-                    else:
-                        dict1[domain][subkey] = dict2[domain][subkey]
-            elif type_of_value == list:
-                dict1[domain].extend(value)
-                if make_distinct:
-                    dict1[domain] = list(set(dict1[domain]))
-                if sort:
-                    dict1[domain] = sorted(dict1[domain])
-            elif type_of_value == int:
-                dict1[domain] = dict1[domain] + value
-        else:
-            dict1[domain] = value
-    return dict1

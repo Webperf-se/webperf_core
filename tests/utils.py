@@ -137,6 +137,8 @@ def get_cache_path(url, use_text_instead_of_content):
     """
     o = urlparse(url)
     hostname = o.hostname
+    if hostname is None:
+        hostname = 'None'
 
     file_ending = '.tmp'
     folder = 'tmp'
@@ -463,10 +465,6 @@ def get_url_headers(url, cache_time_delta):
     return {}
 
 def has_redirect(url):
-    """Trying to fetch the response content
-    Attributes: url, as for the URL to fetch
-    """
-
     error_msg = None
     try:
         headers = {'user-agent': USERAGENT}

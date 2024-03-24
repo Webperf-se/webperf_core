@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
-from models import Rating
+from pathlib import Path
 import os
 import json
 import re
 # https://docs.python.org/3/library/urllib.parse.html
 from urllib.parse import urlparse
-from tests.utils import get_config_or_default, get_friendly_url_name
-from datetime import datetime
-from tests.sitespeed_base import get_result
+from datetime import datetime, timedelta, date
 import gettext
+from models import Rating
+from tests.utils import get_best_country_code, get_config_or_default, get_friendly_url_name, is_country_code_in_eu_or_on_exception_list
+from tests.sitespeed_base import get_result
 _ = gettext.gettext
 
 # DEFAULTS
@@ -151,7 +152,7 @@ def get_file_content(input_filename):
     return '\n'.join(lines)
 
 
-def rate_cookies(content, url, local_translation, _):
+def rate_cookies(content, url, local_translation, global_translation):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     o = urlparse(url)
@@ -190,14 +191,14 @@ def rate_cookies(content, url, local_translation, _):
     # I know it differs around the year but lets get websites the benefit for it..
     days_in_month = 31
 
-    year1_from_now = (datetime.datetime.now() +
-                      datetime.timedelta(days=365)).date()
-    months9_from_now = (datetime.datetime.now() +
-                        datetime.timedelta(days=9 * days_in_month)).date()
-    months6_from_now = (datetime.datetime.now() +
-                        datetime.timedelta(days=6 * days_in_month)).date()
-    months3_from_now = (datetime.datetime.now() +
-                        datetime.timedelta(days=3 * days_in_month)).date()
+    year1_from_now = (datetime.now() +
+                      timedelta(days=365)).date()
+    months9_from_now = (datetime.now() +
+                        timedelta(days=9 * days_in_month)).date()
+    months6_from_now = (datetime.now() +
+                        timedelta(days=6 * days_in_month)).date()
+    months3_from_now = (datetime.now() +
+                        timedelta(days=3 * days_in_month)).date()
 
     if number_of_potential_cookies > 0:
         while cookies_index < number_of_potential_cookies:
@@ -237,7 +238,7 @@ def rate_cookies(content, url, local_translation, _):
                     # sanity check
                     if cookie_expires_timestamp > 25340230080:
                         cookie_expires_timestamp = 25340230080
-                    cookie_expires_date = datetime.date.fromtimestamp(
+                    cookie_expires_date = date.fromtimestamp(
                         cookie_expires_timestamp)
 
                     if year1_from_now < cookie_expires_date:
@@ -394,7 +395,7 @@ def rate_cookies(content, url, local_translation, _):
     return result_rating
 
 
-def rate_gdpr_and_schrems(content, local_translation, _):
+def rate_gdpr_and_schrems(content, local_translation, global_translation):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     points = 5.0
@@ -504,12 +505,12 @@ def rate_gdpr_and_schrems(content, local_translation, _):
         return rating
 
 def get_analytics_rules():
-    dir = Path(os.path.dirname(
+    base_directory = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent
 
-    file_path = '{0}{1}data{1}analytics-rules.json'.format(dir, os.path.sep)
+    file_path = '{0}{1}data{1}analytics-rules.json'.format(base_directory, os.path.sep)
     if not os.path.isfile(file_path):
-        file_path = '{0}{1}SAMPLE-analytics-rules.json'.format(dir, os.path.sep)
+        file_path = '{0}{1}SAMPLE-analytics-rules.json'.format(base_directory, os.path.sep)
     if not os.path.isfile(file_path):
         print("ERROR: No analytics-rules.json file found!")
 
@@ -518,7 +519,7 @@ def get_analytics_rules():
     return rules
 
 
-def rate_tracking(website_urls, local_translation, _):
+def rate_tracking(website_urls, local_translation, global_translation):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     allowed_nof_trackers = 2
@@ -620,7 +621,7 @@ def rate_tracking(website_urls, local_translation, _):
     return result_rating
 
 
-def rate_fingerprint(website_urls, local_translation, _):
+def rate_fingerprint(website_urls, local_translation, global_translation):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     max_nof_fingerprints_showed = 5
@@ -691,7 +692,7 @@ def rate_fingerprint(website_urls, local_translation, _):
     return result_rating
 
 
-def rate_ads(website_urls, local_translation, _):
+def rate_ads(website_urls, local_translation, global_translation):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     allowed_nof_ads = 2
@@ -765,7 +766,7 @@ def rate_ads(website_urls, local_translation, _):
     return result_rating
 
 
-def get_rating_from_sitespeed(url, local_translation, _):
+def get_rating_from_sitespeed(url, local_translation, global_translation):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     # We don't need extra iterations for what we are using it for
@@ -827,12 +828,12 @@ def run_test(global_translation, lang_code, url):
     print(local_translation('TEXT_RUNNING_TEST'))
 
     print(global_translation('TEXT_TEST_START').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     rating += get_rating_from_sitespeed(url, local_translation, global_translation)
 
     print(global_translation('TEXT_TEST_END').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, result_dict)
 

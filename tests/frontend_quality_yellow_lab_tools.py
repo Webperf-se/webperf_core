@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
-from models import Rating
+import os
+import time
 from datetime import datetime
 import json
-import requests
-from tests.utils import *
 import gettext
+import requests
+from tests.utils import get_config_or_default, get_http_content
+from models import Rating
 _local = gettext.gettext
 
 # DEFAULTS
@@ -23,7 +25,6 @@ def run_test(global_translation, lang_code, url, device='phone'):
     Devices might be; phone, tablet, desktop
     """
 
-    import time
     language = gettext.translation(
         'frontend_quality_yellow_lab_tools', localedir='locales', languages=[lang_code])
     language.install()
@@ -59,11 +60,10 @@ def run_test(global_translation, lang_code, url, device='phone'):
     else:
         import subprocess
 
-        # bashCommand = "yellowlabtools {0}".format(url)
-        bashCommand = "node node_modules{1}yellowlabtools{1}bin{1}cli.js {0}".format(
+        command = "node node_modules{1}yellowlabtools{1}bin{1}cli.js {0}".format(
             url, os.path.sep)
-        process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-        output, error = process.communicate(timeout=REQUEST_TIMEOUT * 10)
+        process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
+        output, _ = process.communicate(timeout=REQUEST_TIMEOUT * 10)
 
         result_json = output
 

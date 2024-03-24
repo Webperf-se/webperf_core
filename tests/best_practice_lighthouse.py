@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
+import gettext
 from tests.lighthouse_base import run_test as lighthouse_base_run_test
 from tests.utils import get_config_or_default
-import gettext
 _local = gettext.gettext
 
 # DEFAULTS
@@ -23,7 +23,14 @@ def run_test(global_translation, lang_code, url, strategy='mobile', category='be
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     test_result = lighthouse_base_run_test(
-        global_translation, lang_code, url, googlePageSpeedApiKey, strategy, category, review_show_improvements_only, lighthouse_use_api)
+                        global_translation,
+                        lang_code,
+                        url,
+                        googlePageSpeedApiKey,
+                        strategy,
+                        category,
+                        review_show_improvements_only,
+                        lighthouse_use_api)
     rating = test_result[0]
     test_return_dict = test_result[1]
 

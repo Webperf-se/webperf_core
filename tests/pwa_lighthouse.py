@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
+import gettext
 from tests.lighthouse_base import run_test as lighthouse_base_run_test
 from tests.utils import get_config_or_default
-import gettext
 _ = gettext.gettext
 
 # DEFAULTS

@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
-from models import Rating
 from datetime import datetime
-import requests
+import time
 import urllib  # https://docs.python.org/3/library/urllib.parse.html
 import re
-from bs4 import BeautifulSoup
-from tests.utils import get_config_or_default
 import gettext
+import requests
+from bs4 import BeautifulSoup
+from models import Rating
+from tests.utils import get_config_or_default
 _ = gettext.gettext
 
 
@@ -20,7 +21,6 @@ if time_sleep < 5:
 REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
 
 def run_test(global_translation, lang_code, url):
-    import time
     points = 5.0
     review = ''
     return_dict = {}
@@ -55,7 +55,7 @@ def run_test(global_translation, lang_code, url):
             regex = r"_csrf_token[^>]*value=\"(?P<csrf>[^\"]+)\""
             matches = re.finditer(regex, request.text, re.MULTILINE)
             csrf_value = ''
-            for matchNum, match in enumerate(matches, start=1):
+            for _, match in enumerate(matches, start=1):
                 csrf_value = match.group('csrf')
 
             data = {

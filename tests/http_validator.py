@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 from datetime import datetime
+import re
 import urllib.parse
 import sys
 import ssl
@@ -12,7 +13,7 @@ from requests.packages.urllib3.util import ssl_
 # https://docs.python.org/3/library/urllib.parse.html
 import urllib
 from models import Rating
-from tests.utils import dns_lookup, merge_dicts, get_config_or_default
+from tests.utils import change_url_to_test_url, dns_lookup, merge_dicts, get_config_or_default
 from tests.sitespeed_base import get_result
 import dns.name
 import dns.query
@@ -60,7 +61,7 @@ def run_test(global_translation, lang_code, url):
         print(local_translation('TEXT_RUNNING_TEST'))
 
     print(global_translation('TEXT_TEST_START').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     # We must take in consideration "www." subdomains...
     o = urllib.parse.urlparse(url)
@@ -99,11 +100,11 @@ def run_test(global_translation, lang_code, url):
     # print('DEBUG TOTAL', nice_result)
 
     print(global_translation('TEXT_TEST_END').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, result_dict)
 
-def rate(org_domain, result_dict, global_translation, _local):
+def rate(org_domain, result_dict, global_translation, local_translation):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     org_www_domain = 'www.{0}'.format(org_domain)
@@ -113,7 +114,7 @@ def rate(org_domain, result_dict, global_translation, _local):
             continue
 
         if not USE_CSP_ONLY:
-            rating += rate_protocols(result_dict, global_translation, _local ,domain)
+            rating += rate_protocols(result_dict, global_translation, local_translation ,domain)
             # rating += rate_dnssec(result_dict, global_translation, local_translation, domain)
             rating += rate_schemas(result_dict, global_translation, local_translation, domain)
             rating += rate_hsts(result_dict, global_translation, local_translation, org_domain, domain)
@@ -1010,7 +1011,7 @@ def sitespeed_result_2_test_result(filename, org_domain):
                     content = res['content']['text']
                     regex = r'<meta http-equiv=\"(?P<name>Content-Security-Policy)\" content=\"(?P<value>[^\"]{5,1000})\"'
                     matches = re.finditer(regex, content, re.MULTILINE)
-                    for matchNum, match in enumerate(matches, start=1):
+                    for _, match in enumerate(matches, start=1):
                         name2 = match.group('name').lower()
                         value2 = match.group('value').replace('&#39;', '\'')
 
@@ -1024,11 +1025,11 @@ def sitespeed_result_2_test_result(filename, org_domain):
                     
                     regex = r'(?P<raw><(?P<type>style|link|script|img|iframe|form|base|frame)[^>]*((?P<attribute>src|nonce|action|href)="(?P<value>[^"]+)"[^>]*>))'
                     matches = re.finditer(regex, content, re.MULTILINE)
-                    for matchNum, match in enumerate(matches, start=1):
+                    for _, match in enumerate(matches, start=1):
                         element_name = match.group('type').lower()
                         attribute_name = match.group('attribute').lower()
                         attribute_value = match.group('value').lower()
-                        element_raw = match.group('raw').lower()
+                        # element_raw = match.group('raw').lower()
 
                         element_url = url_2_host_source(attribute_value, req_domain)
                         o = urllib.parse.urlparse(element_url)
@@ -1220,7 +1221,7 @@ def validate_dnssec(domain, domain_entry):
     print('  ', domain)
 
     # Get the name object for 'www.example.com'
-    name = dns.name.from_text(domain)
+    # name = dns.name.from_text(domain)
 
     # response_dnskey_ns = testdns(name, dns.rdatatype.NS, True)
     # response_dnskey_dnssec = testdns(name, dns.rdatatype.DNSKEY, True)

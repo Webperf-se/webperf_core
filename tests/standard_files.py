@@ -116,7 +116,7 @@ def validate_sitemaps(global_translation, local_translation, robots_url, robots_
         regex = r"^sitemap\:(?P<url>[^\n]+)"
         found_smaps = []
         matches = re.finditer(regex, robots_content, re.MULTILINE | re.IGNORECASE)
-        for matchNum, match in enumerate(matches, start=1):
+        for _, match in enumerate(matches, start=1):
             sitemap_url = match.group('url').strip()
             found_smaps.append(sitemap_url)
 
@@ -165,7 +165,7 @@ def validate_sitemaps(global_translation, local_translation, robots_url, robots_
 
     return (rating, return_dict)
 
-def validate_sitemap(sitemap_url, robots_url, return_dict, global_translation, _local):
+def validate_sitemap(sitemap_url, robots_url, return_dict, global_translation, local_translation):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     known_extensions = ['bmp', 'css', 'doc', 'docx', 'dot', 'eot', 'exe', 'git',
@@ -412,9 +412,9 @@ def validate_security_txt(global_translation, local_translation, parsed_url):
         return (rating, return_dict)
     else:
         security_wellknown_result = rate_securitytxt_content(
-            security_wellknown_content, global_translation, _local)
+            security_wellknown_content, global_translation, local_translation)
         security_root_result = rate_securitytxt_content(
-            security_root_content, global_translation, _local)
+            security_root_content, global_translation, local_translation)
 
         security_wellknown_rating = security_wellknown_result[0]
         security_root_rating = security_root_result[0]
@@ -428,7 +428,7 @@ def validate_security_txt(global_translation, local_translation, parsed_url):
             return security_root_result
 
 
-def rate_securitytxt_content(content, global_translation, _local):
+def rate_securitytxt_content(content, global_translation, local_translation):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     return_dict = {}
     if content is None or ('<html' in content.lower()):

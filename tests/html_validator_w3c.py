@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 import os
-from models import Rating
 from datetime import datetime
 import re
+import gettext
+from models import Rating
 from tests.utils import get_config_or_default, get_friendly_url_name, set_cache_file
 from tests.w3c_base import get_errors, identify_files
 from tests.sitespeed_base import get_result
-import gettext
 _local = gettext.gettext
 
 # DEFAULTS
@@ -39,7 +39,6 @@ def run_test(global_translation, lang_code, url):
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     errors = []
-    error_message_dict = {}
 
     # We don't need extra iterations for what we are using it for
     sitespeed_iterations = 1
@@ -50,7 +49,7 @@ def run_test(global_translation, lang_code, url):
 
     sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'
 
-    (result_folder_name, filename) = get_result(
+    (_, filename) = get_result(
         url, sitespeed_use_docker, sitespeed_arg, sitespeed_timeout)
 
     # 1. Visit page like a normal user
@@ -90,7 +89,7 @@ def run_test(global_translation, lang_code, url):
                     if 'Element “head” is missing a required instance of child element “title”.' in error_message:
                         number_of_errors -= 1
                         continue
-                    
+
                 error_message = re.sub(
                     regex, "X", error_message, 0, re.MULTILINE)
 

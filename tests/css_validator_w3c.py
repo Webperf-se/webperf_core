@@ -48,7 +48,6 @@ def run_test(global_translation, lang_code, url):
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     errors = []
-    error_message_dict = {}
 
     # We don't need extra iterations for what we are using it for
     sitespeed_iterations = 1
@@ -59,7 +58,7 @@ def run_test(global_translation, lang_code, url):
 
     sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'
 
-    (result_folder_name, filename) = get_result(
+    (_, filename) = get_result(
         url, SITESPEED_USE_DOCKER, sitespeed_arg, SITESPEED_TIMEOUT)
 
     # 1. Visit page like a normal user
@@ -76,13 +75,13 @@ def run_test(global_translation, lang_code, url):
         req_url = entry['url']
         name = get_friendly_url_name(global_translation, req_url, entry['index'])
         html = entry['content']
-        (elements, errors) = get_errors_for_style_tags(req_url, html, local_translation)
+        (elements, errors) = get_errors_for_style_tags(req_url, html)
         if len(elements) > 0:
             has_style_elements = True
             rating += create_review_and_rating(errors, global_translation, local_translation, '- `<style>` in: {0}'.format(name))
 
         # 2.2 FIND ALL style=""
-        (elements, errors) = get_errors_for_style_attributes(req_url, html, local_translation)
+        (elements, errors) = get_errors_for_style_attributes(req_url, html)
         if len(elements) > 0:
             has_style_attributes = True
             rating += create_review_and_rating(errors, global_translation, local_translation, '- `style=""` in: {0}'.format(name))
@@ -90,7 +89,7 @@ def run_test(global_translation, lang_code, url):
         # 2.3 GET ERRORS FROM SERVICE
         # 2.4 CALCULATE SCORE
         # 3 FIND ALL <LINK> (rel=\"stylesheet\")
-        (link_resources, errors) = get_errors_for_link_tags(html, url, local_translation)
+        (link_resources, errors) = get_errors_for_link_tags(html, url)
         if len(link_resources) > 0:
             all_link_resources.extend(link_resources)
             has_css_files = True
@@ -187,7 +186,7 @@ def run_test(global_translation, lang_code, url):
 
     return (rating, errors)
 
-def get_errors_for_link_tags(html, url, global_translation):
+def get_errors_for_link_tags(html, url):
     results = []
 
     soup = BeautifulSoup(html, 'lxml')
@@ -239,7 +238,7 @@ def get_errors_for_link_tags(html, url, global_translation):
     return (matching_elements, results)
 
 
-def get_errors_for_style_attributes(url, html, global_translation):
+def get_errors_for_style_attributes(url, html):
     soup = BeautifulSoup(html, 'lxml')
     elements = soup.find_all(attrs={"style": True})
 
@@ -259,7 +258,7 @@ def get_errors_for_style_attributes(url, html, global_translation):
     return (elements, results)
 
 
-def get_errors_for_style_tags(url, html, global_translation):
+def get_errors_for_style_tags(url, html):
     soup = BeautifulSoup(html, 'lxml')
     elements = soup.find_all('style')
 
@@ -324,7 +323,6 @@ def get_mdn_web_docs_css_features():
     except:
         print(
             'Error! "{0}" '.format(sys.exc_info()[0]))
-        pass
     return (css_features, css_functions)
 
 
@@ -333,7 +331,7 @@ css_features = css_spec[0]
 css_functions = css_spec[1]
 
 
-def get_properties_doesnt_exist_[]:
+def get_properties_doesnt_exist_list():
     result = []
     css_features_keys = css_features.keys()
     for item in css_features_keys:
@@ -345,7 +343,7 @@ def get_properties_doesnt_exist_[]:
     return result
 
 
-def get_function_is_not_a_value_[]:
+def get_function_is_not_a_value_list():
     result = []
     css_functions_keys = css_functions.keys()
     for item in css_functions_keys:
@@ -357,8 +355,8 @@ def get_function_is_not_a_value_[]:
     return result
 
 
-css_properties_doesnt_exist = get_properties_doesnt_exist_[]
-css_functions_no_support = get_function_is_not_a_value_[]
+css_properties_doesnt_exist = get_properties_doesnt_exist_list()
+css_functions_no_support = get_function_is_not_a_value_list()
 
 
 def create_review_and_rating(errors, global_translation, local_translation, review_header):

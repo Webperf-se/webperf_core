@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from datetime import time
+import time
 import json
 from pathlib import Path
 import os
@@ -22,7 +22,7 @@ def to_firefox_url_format(url):
     path = o.path
     if '' == o.path:
         path = '/'
-    
+
     o2 = ParseResult(scheme=o.scheme, netloc=o.netloc, path=path, params=o.params, query=o.query, fragment=o.fragment)
     url2 = urlunparse(o2)
     return url2
@@ -76,14 +76,14 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
         cookies = '{}'
         matches = re.finditer(
             regex, test, re.MULTILINE)
-        for matchNum, match in enumerate(matches, start=1):
+        for _, match in enumerate(matches, start=1):
             cookies = match.group('COOKIES')
 
         regex = r"VERSIONS:START: (?P<VERSIONS>[^V]+) VERSIONS:END"
         versions = '{}'
         matches = re.finditer(
             regex, test, re.MULTILINE)
-        for matchNum, match in enumerate(matches, start=1):
+        for _, match in enumerate(matches, start=1):
             versions = match.group('VERSIONS')
 
         # print('DEBUG VERSIONS:', versions)
@@ -115,17 +115,17 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
     process_failsafe_timeout = timeout * 10
     try:
         if sitespeed_use_docker:
-            dir = Path(os.path.dirname(
+            base_directory = Path(os.path.dirname(
                 os.path.realpath(__file__)) + os.path.sep).parent
-            data_dir = dir.resolve()
+            data_dir = base_directory.resolve()
 
             # print('DEBUG get_result_using_no_cache(data_dir)', data_dir)
 
-            bashCommand = "docker run --rm -v {1}:/sitespeed.io sitespeedio/sitespeed.io:latest --maxLoadTime {2} {0}".format(
+            command = "docker run --rm -v {1}:/sitespeed.io sitespeedio/sitespeed.io:latest --maxLoadTime {2} {0}".format(
                 arg, data_dir, timeout * 1000)
 
             import subprocess
-            process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+            process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
             output, error = process.communicate(timeout=process_failsafe_timeout)
 
             if error != None:
@@ -140,15 +140,15 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
         else:
             import subprocess
 
-            bashCommand = "node node_modules{1}sitespeed.io{1}bin{1}sitespeed.js --maxLoadTime {2} {0}".format(
+            command = "node node_modules{1}sitespeed.io{1}bin{1}sitespeed.js --maxLoadTime {2} {0}".format(
                 arg, os.path.sep, timeout * 1000)
 
             process = subprocess.Popen(
-                bashCommand.split(), stdout=subprocess.PIPE)
+                command.split(), stdout=subprocess.PIPE)
 
             output, error = process.communicate(timeout=process_failsafe_timeout)
             
-            if error != None:
+            if error is not None:
                 print('DEBUG get_result_using_no_cache(error)', error)
 
             result = str(output)
@@ -158,7 +158,7 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
             #else:
             # print('DEBUG get_result_using_no_cache(result)', '\n\t', result.replace('\\n', '\n\t'))
     except TimeoutExpired:
-        if process != None:
+        if process is not None:
             process.terminate()
             process.kill()
         print('TIMEOUT!')
@@ -260,10 +260,10 @@ def get_browsertime_har_path(parent_path):
     sub_dirs = os.listdir(parent_path)
     if 'browsertime.har' in sub_dirs:
         return os.path.join(parent_path, 'browsertime.har')
-    
+
     for sub_dir in sub_dirs:
         tmp = get_browsertime_har_path(os.path.join(parent_path, sub_dir))
         if tmp:
             return tmp
-    
+
     return None

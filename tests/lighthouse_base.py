@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
+from datetime import time
+import os
+from pathlib import Path
 import sys
 import json
+from urllib.parse import urlparse
 from models import Rating
-from tests.utils import *
+from tests.utils import get_config_or_default, get_http_content, is_file_older_than
 
 REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
 USE_CACHE = get_config_or_default('cache_when_possible')
@@ -169,7 +173,7 @@ def get_json_result(langCode, url, googlePageSpeedApiKey, strategy, category, li
                     check_url, sys.exc_info()[0]))
             return
     elif USE_CACHE:
-        dir = Path(os.path.dirname(
+        base_directory = Path(os.path.dirname(
             os.path.realpath(__file__)) + os.path.sep).parent
         try:
             folder = 'cache'
@@ -177,12 +181,12 @@ def get_json_result(langCode, url, googlePageSpeedApiKey, strategy, category, li
             o = urlparse(url)
             hostname = o.hostname
 
-            cache_path = os.path.join(dir, folder, hostname, 'lighthouse')
+            cache_path = os.path.join(base_directory, folder, hostname, 'lighthouse')
             if not os.path.exists(cache_path):
                 os.makedirs(cache_path)
 
             result_file = os.path.join(cache_path, 'result.json')
-            bashCommand = "node node_modules{2}lighthouse{2}cli{2}index.js --output json --output-path {3} --locale {1} --form-factor {0} --chrome-flags=\"--headless\" --quiet".format(
+            command = "node node_modules{2}lighthouse{2}cli{2}index.js --output json --output-path {3} --locale {1} --form-factor {0} --chrome-flags=\"--headless\" --quiet".format(
                 strategy, langCode, os.path.sep, result_file)
             artifacts_file = os.path.join(cache_path, 'artifacts.json')
             if os.path.exists(result_file) and not is_file_older_than(result_file, CACHE_TIME_DELTA):
@@ -197,25 +201,25 @@ def get_json_result(langCode, url, googlePageSpeedApiKey, strategy, category, li
                 file_created_date = time.ctime(file_created_timestamp)
                 print('Cached entry found from {0}, using it instead of calling website again.'.format(
                     file_created_date))
-                bashCommand += " -A={0}".format(cache_path)
+                command += " -A={0}".format(cache_path)
             else:
-                bashCommand += " -GA={0} {1}".format(cache_path, check_url)
+                command += " -GA={0} {1}".format(cache_path, check_url)
 
             import subprocess
 
-            process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+            process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
             output, error = process.communicate(timeout=REQUEST_TIMEOUT * 10)
             with open(result_file, 'r', encoding='utf-8', newline='') as file:
                 return str_to_json('\n'.join(file.readlines()), check_url)
         except:
             return
     else:
-        bashCommand = "node node_modules{4}lighthouse{4}cli{4}index.js {1} --output json --output-path stdout --locale {3} --only-categories {0} --form-factor {2} --chrome-flags=\"--headless\" --quiet".format(
+        command = "node node_modules{4}lighthouse{4}cli{4}index.js {1} --output json --output-path stdout --locale {3} --only-categories {0} --form-factor {2} --chrome-flags=\"--headless\" --quiet".format(
             category, check_url, strategy, langCode, os.path.sep)
 
         import subprocess
 
-        process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+        process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
         output, error = process.communicate(timeout=REQUEST_TIMEOUT * 10)
 
         get_content = output

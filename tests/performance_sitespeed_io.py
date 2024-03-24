@@ -2,10 +2,11 @@
 import json
 from pathlib import Path
 import os
-from models import Rating
+import re
 from datetime import datetime
-from tests.utils import get_config_or_default
 import gettext
+from models import Rating
+from tests.utils import get_config_or_default
 _local = gettext.gettext
 
 REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
@@ -15,27 +16,27 @@ def get_result(sitespeed_use_docker, arg):
 
     result = ''
     if sitespeed_use_docker:
-        dir = Path(os.path.dirname(
+        base_directory = Path(os.path.dirname(
             os.path.realpath(__file__)) + os.path.sep).parent
-        data_dir = dir.resolve()
+        data_dir = base_directory.resolve()
 
-        bashCommand = "docker run --rm -v {1}:/sitespeed.io sitespeedio/sitespeed.io:latest {0}".format(
+        command = "docker run --rm -v {1}:/sitespeed.io sitespeedio/sitespeed.io:latest {0}".format(
             arg, data_dir)
 
         import subprocess
-        process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-        output, error = process.communicate(timeout=REQUEST_TIMEOUT * 10)
+        process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
+        output, _ = process.communicate(timeout=REQUEST_TIMEOUT * 10)
         result = str(output)
     else:
         import subprocess
 
-        bashCommand = "node node_modules{1}sitespeed.io{1}bin{1}sitespeed.js {0}".format(
+        command = "node node_modules{1}sitespeed.io{1}bin{1}sitespeed.js {0}".format(
             arg, os.path.sep)
 
         process = subprocess.Popen(
-            bashCommand.split(), stdout=subprocess.PIPE)
+            command.split(), stdout=subprocess.PIPE)
 
-        output, error = process.communicate(timeout=REQUEST_TIMEOUT * 10)
+        output, _ = process.communicate(timeout=REQUEST_TIMEOUT * 10)
         result = str(output)
 
     return result
@@ -123,10 +124,10 @@ def run_test(global_translation, lang_code, url):
 
 
 def get_validators():
-    dir = Path(os.path.dirname(
+    base_directory = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent
     config_file = os.path.join(
-        dir.resolve(), 'sitespeed-rules.json')
+        base_directory.resolve(), 'sitespeed-rules.json')
     if not os.path.exists(config_file):
         return []
     with open(config_file) as json_config_file:
@@ -268,7 +269,7 @@ def rate_result_dict(result_dict, reference_result_dict, mode, _, _local):
                 value_diff = mobile_obj['range'] - noxternal_obj['range']
 
                 txt = '- [{2}] Advice: {0} could be ±{1:.2f}ms less "bumpy" with {3} changes\r\n'.format(
-                    key, value_diff, reference_name)
+                    key, value_diff, reference_name, mode)
 
                 overview_review += txt
                 key_matching = True
@@ -311,7 +312,7 @@ def get_result_dict(data, mode):
     regex = r"(?P<name>TTFB|DOMContentLoaded|firstPaint|FCP|LCP|Load|TBT|CLS|FirstVisualChange|SpeedIndex|VisualComplete85|LastVisualChange)\:[ ]{0,1}(?P<value>[0-9\.ms]+)"
     matches = re.finditer(regex, data, re.MULTILINE)
 
-    for matchNum, match in enumerate(matches, start=1):
+    for _, match in enumerate(matches, start=1):
         name = match.group('name')
         value = match.group('value')
 

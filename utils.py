@@ -100,7 +100,7 @@ def get_config(name):
               'using value from SAMPLE-config.py')
         return getattr(SAMPLE_config, name)
 
-    raise None
+    return None
 
 def test(global_translation, lang_code, site, test_type=None, show_reviews=False):
     """
@@ -159,13 +159,13 @@ def test(global_translation, lang_code, site, test_type=None, show_reviews=False
 
             site_test = SiteTests(site_id=site[0], type_of_test=test_type,
                                   rating=rating,
-                                  test_date=datetime.datetime.now(),
+                                  test_date=datetime.now(),
                                   json_check_data=jsondata).todata()
 
             return site_test
     except Exception as e: # pylint: disable=broad-exception-caught
         print(global_translation('TEXT_TEST_END').format(
-            datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+            datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
         print(global_translation('TEXT_EXCEPTION'), site[1], '\n', e)
 
         # write error to failure.log file
@@ -173,7 +173,7 @@ def test(global_translation, lang_code, site, test_type=None, show_reviews=False
             outfile.writelines(['###############################################',
                                 '\n# Information:',
                                 f'\nDateTime: {
-                                    datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                                    datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                                     }',
                                 f'\nUrl: {site[1]}',
                                 f'\nLanguage Code: {lang_code}',

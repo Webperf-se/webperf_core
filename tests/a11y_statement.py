@@ -112,7 +112,7 @@ def check_item(item, root_item, org_url_start, global_translation, local_transla
             if len(statements) > 0 and child['precision'] < 0.5:
                 continue
             tmp = check_item(child, root_item, org_url_start, global_translation, local_translation)
-            if tmp != None:
+            if tmp is not None:
                 statements.extend(tmp)
 
     if len(statements) > 0:
@@ -131,7 +131,7 @@ def has_statement(item, global_translation, local_translation):
 def get_default_info(url, text, method, precision, depth):
     result = {}
 
-    if text != None:
+    if text is not None:
         text = text.lower().strip('.').strip('-').strip()
 
     result['url'] = url
@@ -155,34 +155,50 @@ def rate_statement(statement, global_translation, local_translation):
         statement_content = statement['content']
         soup = BeautifulSoup(statement_content, 'lxml')
 
-        # STATEMENTS MUST INCLUDE (ACCORDING TO https://www.digg.se/kunskap-och-stod/digital-tillganglighet/skapa-en-tillganglighetsredogorelse ):
+        # STATEMENTS MUST INCLUDE (ACCORDING TO
+        # https://www.digg.se/kunskap-och-stod/digital-tillganglighet/ \
+        # skapa-en-tillganglighetsredogorelse ):
         # - Namnet på den offentliga aktören.
-        # - Namnet på den digitala servicen (till exempel webbplatsens, e-tjänstens eller appens namn).
-        # - Följsamhet till lagkraven med formuleringen: helt förenlig, delvis förenlig eller inte förenlig.
+        # - Namnet på den digitala servicen (till exempel webbplatsens,
+        #   e-tjänstens eller appens namn).
+        # - Följsamhet till lagkraven med formuleringen:
+        #       helt förenlig,
+        #       delvis förenlig eller
+        #       inte förenlig.
         rating += rate_compatible_text(global_translation, local_translation, soup)
-        # - Detaljerad, fullständig och tydlig förteckning av innehåll som inte är tillgängligt och skälen till varför det inte är tillgängligt.
+        # - Detaljerad, fullständig och tydlig förteckning av innehåll som inte är tillgängligt och
+        #   skälen till varför det inte är tillgängligt.
         # - Datum för bedömning av följsamhet till lagkraven.
         # - Datum för senaste uppdatering.
         # - Meddelandefunktion eller länk till sådan.
         # - Länk till DIGG:s anmälningsfunktion (https://www.digg.se/tdosanmalan).
         rating += rate_notification_function_url(global_translation, local_translation, soup)
-        # - Redogörelse av innehåll som undantagits på grund av oskäligt betungande anpassning (12 §) med tydlig motivering.
-        rating += rate_unreasonably_burdensome_accommodation(global_translation, local_translation, soup)
+        # - Redogörelse av innehåll som undantagits på grund av
+        #   oskäligt betungande anpassning (12 §) med tydlig motivering.
+        rating += rate_unreasonably_burdensome_accommodation(
+            global_translation,
+            local_translation,
+            soup)
         # - Redogörelse av innehåll som inte omfattas av lagkraven (9 §).
 
         if rating.get_overall() > 1 or looks_like_statement(statement, soup):
             # - Redogörelsen ska vara lätt att hitta
-            #   - Tillgänglighetsredogörelsen ska vara publicerad i ett tillgängligt format (det bör vara en webbsida).
-            #   - För en webbplats ska en länk till tillgänglighetsredogörelsen finnas tydligt presenterad på webbplatsens startsida, alternativt finnas åtkomlig från alla sidor exempelvis i en sidfot.
+            #   - Tillgänglighetsredogörelsen ska vara publicerad i ett
+            #     tillgängligt format (det bör vara en webbsida).
+            #   - För en webbplats ska en länk till tillgänglighetsredogörelsen finnas tydligt
+            #     presenterad på webbplatsens startsida, alternativt finnas åtkomlig
+            #     från alla sidor exempelvis i en sidfot.
             rating += rate_found_depth(global_translation, local_translation, statement)
             # - Utvärderingsmetod (till exempel självskattning, granskning av extern part).
             rating += rate_evaluation_method(global_translation, local_translation, soup)
-            # För en webbplats som är (mer eller mindre) statisk, ska tillgänglighetsredogörelsen ses över åtminstone en gång per år.
+            # För en webbplats som är (mer eller mindre) statisk,
+            # ska tillgänglighetsredogörelsen ses över åtminstone en gång per år.
             rating += rate_updated_date(global_translation, local_translation, soup)
 
         tmp = rating.overall_review.replace('GOV-IGNORE', '').strip('\r\n\t ')
         if len(tmp) > 0:
-            rating.overall_review = local_translation('TEXT_REVIEW_ACCESSIBILITY_STATEMENT_URL').format(
+            rating.overall_review = local_translation(
+                'TEXT_REVIEW_ACCESSIBILITY_STATEMENT_URL').format(
                 statement['url'], rating.overall_review)
     else:
         tmp = rating.overall_review.replace('GOV-IGNORE', '').strip('\r\n\t ')
@@ -200,7 +216,7 @@ def rate_updated_date(global_translation, local_translation, soup):
     dates = []
 
     element = soup.find('body')
-    if element == None:
+    if element is None:
         return rating
 
     element_text = element.get_text()
@@ -297,14 +313,14 @@ def rate_updated_date(global_translation, local_translation, soup):
 def get_doc_date_from_match(match):
     weight = 0.3
     type = match.group('typ')
-    if type != None:
+    if type is not None:
         type = type.strip().lower()
     day = match.group('day')
     month = match.group('month')
     year = match.group('year')
-    if year != None:
+    if year is not None:
         year = int(year.strip().strip('-'))
-    if month != None:
+    if month is not None:
         month = month.strip().strip('-').lower()
         if 'jan' in month:
             month = 1
@@ -333,7 +349,7 @@ def get_doc_date_from_match(match):
         else:
             month = int(month)
 
-    if day != None and day != '':
+    if day is not None and day != '':
         day = int(day.strip().strip('-'))
     else:
         day = 1
@@ -502,16 +518,16 @@ def get_interesting_urls(content, org_url_start, depth):
                 r"(om [a-z]+|(tillg(.{1,6}|ä|&auml;|&#228;)nglighet(sredog(.{1,6}|ö|&ouml;|&#246;)relse){0,1}))", flags=re.MULTILINE | re.IGNORECASE)):
             continue
 
-        url = '{0}'.format(link.get('href'))
+        url = f"{link.get('href')}"
 
-        if url == None:
+        if url is None:
             continue
         elif url.endswith('.pdf'):
             continue
         elif url.startswith('//'):
             continue
         elif url.startswith('/'):
-            url = '{0}{1}'.format(org_url_start, url)
+            url = f'{org_url_start}{url}'
         elif url.startswith('#'):
             continue
 
@@ -521,21 +537,21 @@ def get_interesting_urls(content, org_url_start, depth):
         text = link.get_text().strip()
 
         precision = 0.0
-        if re.match(r'^[ \t\r\n]*tillg(.{1,6}|ä|&auml;|&#228;)nglighetsredog(.{1,6}|ö|&ouml;|&#246;)relse$', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+        if re.match(r'^[ \t\r\n]*tillg(.{1,6}|ä|&auml;|&#228;)nglighetsredog(.{1,6}|ö|&ouml;|&#246;)relse$', text, flags=re.MULTILINE | re.IGNORECASE) is not None:
             precision = 0.55
-        elif re.match(r'^[ \t\r\n]*tillg(.{1,6}|ä|&auml;|&#228;)nglighetsredog(.{1,6}|ö|&ouml;|&#246;)relse', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+        elif re.match(r'^[ \t\r\n]*tillg(.{1,6}|ä|&auml;|&#228;)nglighetsredog(.{1,6}|ö|&ouml;|&#246;)relse', text, flags=re.MULTILINE | re.IGNORECASE) is not None:
             precision = 0.5
-        elif re.match(r'^[ \t\r\n]*tillg(.{1,6}|ä|&auml;|&#228;)nglighet$', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+        elif re.match(r'^[ \t\r\n]*tillg(.{1,6}|ä|&auml;|&#228;)nglighet$', text, flags=re.MULTILINE | re.IGNORECASE) is not None:
             precision = 0.4
-        elif re.match(r'^[ \t\r\n]*tillg(.{1,6}|ä|&auml;|&#228;)nglighet', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+        elif re.match(r'^[ \t\r\n]*tillg(.{1,6}|ä|&auml;|&#228;)nglighet', text, flags=re.MULTILINE | re.IGNORECASE) is not None:
             precision = 0.35
-        elif re.match(r'tillg(.{1,6}|ä|&auml;|&#228;)nglighet', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+        elif re.match(r'tillg(.{1,6}|ä|&auml;|&#228;)nglighet', text, flags=re.MULTILINE | re.IGNORECASE) is not None:
             precision = 0.3
-        elif re.search(r'om webbplats', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+        elif re.search(r'om webbplats', text, flags=re.MULTILINE | re.IGNORECASE) is not None:
             precision = 0.29
-        elif re.match(r'^[ \t\r\n]*om [a-z]+$', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+        elif re.match(r'^[ \t\r\n]*om [a-z]+$', text, flags=re.MULTILINE | re.IGNORECASE) is not None:
             precision = 0.25
-        elif re.match(r'^[ \t\r\n]*om [a-z]+', text, flags=re.MULTILINE | re.IGNORECASE) != None:
+        elif re.match(r'^[ \t\r\n]*om [a-z]+', text, flags=re.MULTILINE | re.IGNORECASE) is not None:
             precision = 0.2
         else:
             precision = 0.1

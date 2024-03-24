@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 from urllib.parse import ParseResult, urlunparse
-from models import Rating
-from datetime import datetime
 import sys
-import requests
+from datetime import datetime
 import urllib  # https://docs.python.org/3/library/urllib.parse.html
-from bs4 import BeautifulSoup
-from tests.utils import get_config_or_default, get_guid, get_http_content
 import gettext
+import requests
+from bs4 import BeautifulSoup
+from models import Rating
+from tests.utils import get_config_or_default, get_guid, get_http_content
 _ = gettext.gettext
 
 # DEFAULTS

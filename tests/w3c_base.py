@@ -33,7 +33,7 @@ def get_errors(test_type, params):
         if 'https://' not in url and 'http://' not in url:
             raise Exception(
                 'Tested url must start with \'https://\' or \'http://\': {0}'.format(url))
-        
+
         file_path = get_cache_path(url, True)
         if is_html:
             html_file_ending_fix = file_path.replace('.cache', '.cache.html')
@@ -44,9 +44,9 @@ def get_errors(test_type, params):
         arg = '--exit-zero-always{1} --stdout --format json --errors-only {0}'.format(
             file_path, test_arg)
 
-    bashCommand = "java -jar vnu.jar {0}".format(arg)
-    process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-    output, error = process.communicate(timeout=REQUEST_TIMEOUT * 10)
+    command = "java -jar vnu.jar {0}".format(arg)
+    process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
+    output, _ = process.communicate(timeout=REQUEST_TIMEOUT * 10)
 
     json_result = json.loads(output)
     if 'messages' in json_result:

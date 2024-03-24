@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-from tests.performance_lighthouse import run_test as lighthouse_perf_run_test
-from models import Rating
 from datetime import datetime
+import gettext
 import tests.energy_efficiency_carbon_percentiles as energy_efficiency_carbon_percentiles
 import tests.energy_efficiency_carbon_percentiles2021 as energy_efficiency_carbon_percentiles_2021
-from tests.utils import *
-import gettext
+from tests.performance_lighthouse import run_test as lighthouse_perf_run_test
+from models import Rating
 _local = gettext.gettext
 
 # Code below is built from: https://gitlab.com/wholegrain/carbon-api-2-0

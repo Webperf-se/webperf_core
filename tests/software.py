@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
 from functools import cmp_to_key
-from PIL.ExifTags import TAGS
-from PIL import Image
+from urllib.parse import urlparse
+from datetime import datetime
 import hashlib
 from pathlib import Path
-from models import Rating, DefaultInfo
 import os
 import json
 import re
-# https://docs.python.org/3/library/urllib.parse.html
-from urllib.parse import urlparse
-from tests.utils import *
-from tests.sitespeed_base import get_result
-from datetime import datetime
-import packaging.version
 import gettext
+from PIL.ExifTags import TAGS
+from PIL import Image
+# https://docs.python.org/3/library/urllib.parse.html
+import packaging.version
+from tests.sitespeed_base import get_result
+from models import Rating, DefaultInfo
+from tests.utils import get_config_or_default, get_http_content, is_file_older_than
 
 _ = gettext.gettext
 
@@ -87,7 +87,7 @@ def get_rating_from_sitespeed(url, local_translation, global_translation):
     sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'
 
     (result_folder_name, filename) = get_result(
-        url, SITESPEED_USE_DOCKER, sitespeed_arg, sitespeed_timeout)
+        url, SITESPEED_USE_DOCKER, sitespeed_arg, SITESPEED_TIMEOUT)
 
    
     o = urlparse(url)
@@ -556,12 +556,12 @@ def enrich_data(data, orginal_domain, result_folder_name, rules):
     return data
 
 def get_softwares():
-    dir = Path(os.path.dirname(
+    base_directory = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent
 
-    file_path = '{0}{1}data{1}software-full.json'.format(dir, os.path.sep)
+    file_path = '{0}{1}data{1}software-full.json'.format(base_directory, os.path.sep)
     if not os.path.isfile(file_path):
-        file_path = '{0}{1}software-full.json'.format(dir, os.path.sep)
+        file_path = '{0}{1}software-full.json'.format(base_directory, os.path.sep)
     if not os.path.isfile(file_path):
         print("ERROR: No software-full.json file found!")
         return {
@@ -574,12 +574,12 @@ def get_softwares():
 
 
 def add_known_software_source(name, source_type, match, url):
-    dir = Path(os.path.dirname(
+    base_directory = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent
 
-    file_path = '{0}{1}data{1}software-sources.json'.format(dir, os.path.sep)
+    file_path = '{0}{1}data{1}software-sources.json'.format(base_directory, os.path.sep)
     if not os.path.isfile(file_path):
-        file_path = '{0}{1}software-sources.json'.format(dir, os.path.sep)
+        file_path = '{0}{1}software-sources.json'.format(base_directory, os.path.sep)
     if not os.path.isfile(file_path):
         print("ERROR: No software-sources.json file found!")
         return
@@ -621,12 +621,12 @@ def add_known_software_source(name, source_type, match, url):
         file.write(data)
 
 def add_wordpressplugin_software_source(name, version, url):
-    dir = Path(os.path.dirname(
+    base_directory = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent
 
-    file_path = '{0}{1}data{1}software-wordpressplugin-sources.json'.format(dir, os.path.sep)
+    file_path = '{0}{1}data{1}software-wordpressplugin-sources.json'.format(base_directory, os.path.sep)
     if not os.path.isfile(file_path):
-        file_path = '{0}{1}software-wordpressplugin-sources.json'.format(dir, os.path.sep)
+        file_path = '{0}{1}software-wordpressplugin-sources.json'.format(base_directory, os.path.sep)
     if not os.path.isfile(file_path):
         print("Info: No software-wordpressplugin-sources.json file found!")
 
@@ -655,12 +655,12 @@ def add_wordpressplugin_software_source(name, version, url):
 
 
 def add_unknown_software_source(name, version, url):
-    dir = Path(os.path.dirname(
+    base_directory = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent
 
-    file_path = '{0}{1}data{1}software-unknown-sources.json'.format(dir, os.path.sep)
+    file_path = '{0}{1}data{1}software-unknown-sources.json'.format(base_directory, os.path.sep)
     if not os.path.isfile(file_path):
-        file_path = '{0}{1}software-unknown-sources.json'.format(dir, os.path.sep)
+        file_path = '{0}{1}software-unknown-sources.json'.format(base_directory, os.path.sep)
     if not os.path.isfile(file_path):
         print("Info: No software-unknown-sources.json file found!")
 
@@ -772,7 +772,7 @@ def enrich_versions(collection, item):
                 print('DEBUG (last_pushed_year == None)', software_info)
             else:
                 last_pushed_year = int(software_info['last_pushed_year'])
-                current_year = datetime.datetime.now().year
+                current_year = datetime.now().year
                 for year in range(10, 2, -1):
                     if last_pushed_year < (current_year - year):
                         match['issues'].append('UNMAINTAINED_SOURCE_{0}_YEARS'.format(year))
@@ -857,9 +857,8 @@ def enrich_data_from_javascript(tmp_list, item, rules):
         if 'license-txt' in item:
             content = get_http_content(
                 match['license-txt'].lower(), allow_redirects=True)
-            tmp = lookup_response_content(
+            lookup_response_content(
                 match['license-txt'].lower(), match['mime-type'], content, rules)
-            tmp_list.extend(tmp)
         if match['version'] == None:
             return
     # TODO: We should look at wordpress plugins specifically as they are widely used and we know they are often used in attacks
@@ -1600,12 +1599,12 @@ def run_test(global_translation, lang_code, url):
     print(local_translation('TEXT_RUNNING_TEST'))
 
     print(global_translation('TEXT_TEST_START').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     (rating, result_dict) = get_rating_from_sitespeed(url, local_translation, global_translation)
 
     print(global_translation('TEXT_TEST_END').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     raw_is_used = False
     for key in raw_data.keys():

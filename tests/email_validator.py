@@ -1,20 +1,21 @@
 # -*- coding: utf-8 -*-
 import re
-from bs4 import BeautifulSoup
+import gettext
 import smtplib
 from datetime import datetime
 import socket
 import ipaddress
 import sys
+import urllib
 import urllib.parse
 import time
+from bs4 import BeautifulSoup
 # https://docs.python.org/3/library/urllib.parse.html
-import urllib
 
 import dns
 from models import Rating
-from tests.utils import dns_lookup, get_best_country_code, get_http_content, is_country_code_in_eu_or_on_exception_list, get_config_or_default
-import gettext
+from tests.utils import dns_lookup, get_best_country_code, \
+    get_http_content, is_country_code_in_eu_or_on_exception_list, get_config_or_default
 _local = gettext.gettext
 
 # DEFAULTS
@@ -121,7 +122,6 @@ class SMTP_WEBPERF(smtplib.SMTP):
             except socket.gaierror as e:
                 if self.debuglevel > 0:
                     print>>sys.stderr, "Error while resolving hostname: ", e.string()
-                pass
         return (code, msg)
 
 
@@ -141,7 +141,7 @@ def run_test(global_translation, lang_code, url):
     print(local_translation('TEXT_RUNNING_TEST'))
 
     print(global_translation('TEXT_TEST_START').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     o = urllib.parse.urlparse(url)
     hostname = o.hostname
@@ -169,7 +169,7 @@ def run_test(global_translation, lang_code, url):
                 result, rating.overall_review)
 
     print(global_translation('TEXT_TEST_END').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, result_dict)
 
@@ -560,7 +560,7 @@ def Rate_Invalid_format_SPF_Policies(global_translation, rating, result_dict, lo
     return rating
 
 
-def Rate_has_SPF_Policies(global_translation, rating, result_dict, _local):
+def Rate_has_SPF_Policies(global_translation, rating, result_dict, local_translation):
     has_spf_records_rating = Rating(global_translation, review_show_improvements_only)
     if 'spf-has-policy' in result_dict:
         txt = local_translation('TEXT_REVIEW_SPF_DNS_RECORD_SUPPORT')
@@ -580,7 +580,7 @@ def Rate_has_SPF_Policies(global_translation, rating, result_dict, _local):
     return rating
 
 
-def Rate_Too_many_DNS_lookup_for_SPF_Policies(global_translation, rating, result_dict, _local):
+def Rate_Too_many_DNS_lookup_for_SPF_Policies(global_translation, rating, result_dict, local_translation):
     if 'spf-error-to-many-dns-lookups' in result_dict:
         to_many_spf_dns_lookups_rating = Rating(
             global_translation, review_show_improvements_only)
@@ -593,7 +593,7 @@ def Rate_Too_many_DNS_lookup_for_SPF_Policies(global_translation, rating, result
     return rating
 
 
-def Rate_GDPR_for_SPF_Policies(global_translation, rating, result_dict, _local):
+def Rate_GDPR_for_SPF_Policies(global_translation, rating, result_dict, local_translation):
     spf_addresses = []
     if 'spf-ipv4' not in result_dict:
         result_dict['spf-ipv4'] = []

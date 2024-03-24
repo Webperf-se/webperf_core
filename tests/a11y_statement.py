@@ -3,10 +3,9 @@ import re
 from datetime import datetime, timedelta
 import time
 import urllib.parse
-from models import Rating
-from bs4 import BeautifulSoup
 import gettext
-
+from bs4 import BeautifulSoup
+from models import Rating
 from tests.utils import get_http_content, get_config_or_default
 _ = gettext.gettext
 
@@ -67,18 +66,17 @@ def get_digg_report_canonical():
         r'<link rel="canonical" href="(?P<url>[^"]+)', content)
     if content_match:
         o = urllib.parse.urlparse(digg_url)
-        org_url_start = '{0}://{1}'.format(o.scheme,
-                                           o.hostname)
+        org_url_start = f'{o.scheme}://{o.hostname}'
         url = content_match.group('url')
         if url.startswith('/'):
-            url = '{0}{1}'.format(org_url_start, url)
+            url = f'{org_url_start}{url}'
         return url
     else:
         return digg_url
 
 
 def check_item(item, root_item, org_url_start, global_translation, local_translation):
-    statements = list()
+    statements = []
     content = None
     if item['url'] not in checked_urls:
         content = get_http_content(item['url'], True)
@@ -89,8 +87,8 @@ def check_item(item, root_item, org_url_start, global_translation, local_transla
         # return statements
 
     item['root'] = root_item
-    if root_item == None:
-        item['items'] = list()
+    if root_item is None:
+        item['items'] = []
     else:
         item['items'] = item['root']['items']
 
@@ -199,7 +197,7 @@ def rate_statement(statement, global_translation, local_translation):
 
 def rate_updated_date(global_translation, local_translation, soup):
     rating = Rating(global_translation, review_show_improvements_only)
-    dates = list()
+    dates = []
 
     element = soup.find('body')
     if element == None:
@@ -211,42 +209,42 @@ def rate_updated_date(global_translation, local_translation, soup):
 
     regex = r"(?P<typ>bedömning|redogörelse|uppdater|gransk)(?P<text>[^>.]*) (?P<day>[0-9]{1,2} )(?P<month>(?:jan(?:uari)*|feb(?:ruari)*|mar(?:s)*|apr(?:il)*|maj|jun(?:i)*|jul(?:i)*|aug(?:usti)*|sep(?:tember)*|okt(?:ober)*|nov(?:ember)*|dec(?:ember)*) )(?P<year>20[0-9]{2})"
     matches = re.finditer(regex, element_text, re.IGNORECASE)
-    for matchNum, match in enumerate(matches, start=1):
+    for _, match in enumerate(matches, start=1):
         dates.append(get_doc_date_from_match(match))
 
     regex = r" (?P<day>[0-9]{1,2} )(?P<month>(?:jan(?:uari)*|feb(?:ruari)*|mar(?:s)*|apr(?:il)*|maj|jun(?:i)*|jul(?:i)*|aug(?:usti)*|sep(?:tember)*|okt(?:ober)*|nov(?:ember)*|dec(?:ember)*) )(?P<year>20[0-9]{2})(?P<text>[^>.]*)(?P<typ>bedömning|redogörelse|uppdater|gransk)"
     matches = re.finditer(regex, element_text, re.IGNORECASE)
-    for matchNum, match in enumerate(matches, start=1):
+    for _, match in enumerate(matches, start=1):
         dates.append(get_doc_date_from_match(match))
 
     regex = r"(?P<typ>bedömning|redogörelse|uppdater|gransk)(?P<text>[^>.]*) (?P<day>)(?P<month>(?:jan(?:uari)*|feb(?:ruari)*|mar(?:s)*|apr(?:il)*|maj|jun(?:i)*|jul(?:i)*|aug(?:usti)*|sep(?:tember)*|okt(?:ober)*|nov(?:ember)*|dec(?:ember)*) )(?P<year>20[0-9]{2})"
     matches = re.finditer(regex, element_text, re.IGNORECASE)
-    for matchNum, match in enumerate(matches, start=1):
+    for _, match in enumerate(matches, start=1):
         dates.append(get_doc_date_from_match(match))
 
     regex = r" (?P<day>)(?P<month>(?:jan(?:uari)*|feb(?:ruari)*|mar(?:s)*|apr(?:il)*|maj|jun(?:i)*|jul(?:i)*|aug(?:usti)*|sep(?:tember)*|okt(?:ober)*|nov(?:ember)*|dec(?:ember)*) )(?P<year>20[0-9]{2})(?P<text>[^>.]*)(?P<typ>bedömning|redogörelse|uppdater|gransk)"
     matches = re.finditer(regex, element_text, re.IGNORECASE)
-    for matchNum, match in enumerate(matches, start=1):
+    for _, match in enumerate(matches, start=1):
         dates.append(get_doc_date_from_match(match))
 
     regex = r"(?P<typ>bedömning|redogörelse|uppdater|gransk)(?P<text>[^>.]*) (?P<year>20[0-9]{2}-)(?P<month>[0-9]{2}-)(?P<day>[0-9]{2})"
     matches = re.finditer(regex, element_text, re.IGNORECASE)
-    for matchNum, match in enumerate(matches, start=1):
+    for _, match in enumerate(matches, start=1):
         dates.append(get_doc_date_from_match(match))
 
     regex = r" (?P<year>20[0-9]{2}-)(?P<month>[0-9]{2}-)(?P<day>[0-9]{2})(?P<text>[^>.]*)(?P<typ>bedömning|redogörelse|uppdater|gransk)"
     matches = re.finditer(regex, element_text, re.IGNORECASE)
-    for matchNum, match in enumerate(matches, start=1):
+    for _, match in enumerate(matches, start=1):
         dates.append(get_doc_date_from_match(match))
 
     regex = r"(?P<typ>bedömning|redogörelse|uppdater|gransk)(?P<text>[^>.]*) (?P<day>[0-9]{1,2} )*(?P<month>(?:jan(?:uari)*|feb(?:ruari)*|mar(?:s)*|apr(?:il)*|maj|jun(?:i)*|jul(?:i)*|aug(?:usti)*|sep(?:tember)*|okt(?:ober)*|nov(?:ember)*|dec(?:ember)*) )(?P<year>20[0-9]{2})"
     matches = re.finditer(regex, element_text, re.IGNORECASE)
-    for matchNum, match in enumerate(matches, start=1):
+    for _, match in enumerate(matches, start=1):
         dates.append(get_doc_date_from_match(match))
 
     regex = r" (?P<day>[0-9]{1,2} )*(?P<month>(?:jan(?:uari)*|feb(?:ruari)*|mar(?:s)*|apr(?:il)*|maj|jun(?:i)*|jul(?:i)*|aug(?:usti)*|sep(?:tember)*|okt(?:ober)*|nov(?:ember)*|dec(?:ember)*) )(?P<year>20[0-9]{2})(?P<text>[^>.]*)(?P<typ>bedömning|redogörelse|uppdater|gransk)"
     matches = re.finditer(regex, element_text, re.IGNORECASE)
-    for matchNum, match in enumerate(matches, start=1):
+    for _, match in enumerate(matches, start=1):
         dates.append(get_doc_date_from_match(match))
 
     if len(dates) == 0:

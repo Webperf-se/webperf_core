@@ -594,11 +594,11 @@ def Rate_Too_many_DNS_lookup_for_SPF_Policies(global_translation, rating, result
 
 
 def Rate_GDPR_for_SPF_Policies(global_translation, rating, result_dict, _local):
-    spf_addresses = list()
+    spf_addresses = []
     if 'spf-ipv4' not in result_dict:
-        result_dict['spf-ipv4'] = list()
+        result_dict['spf-ipv4'] = []
     if 'spf-ipv6' not in result_dict:
-        result_dict['spf-ipv6'] = list()
+        result_dict['spf-ipv6'] = []
     spf_addresses.extend(result_dict['spf-ipv4'])
     spf_addresses.extend(result_dict['spf-ipv6'])
 
@@ -681,12 +681,12 @@ def Validate_SPF_Policy(global_translation, local_translation, hostname, result_
                 if section.startswith('ip4:'):
                     data = section[4:]
                     if 'spf-ipv4' not in result_dict:
-                        result_dict['spf-ipv4'] = list()
+                        result_dict['spf-ipv4'] = []
                     result_dict['spf-ipv4'].append(data)
                 elif section.startswith('ip6:'):
                     data = section[4:]
                     if 'spf-ipv6' not in result_dict:
-                        result_dict['spf-ipv6'] = list()
+                        result_dict['spf-ipv6'] = []
                     result_dict['spf-ipv6'].append(data)
                 elif section.startswith('include:') or section.startswith('+include:'):
                     spf_domain = section[8:]
@@ -734,7 +734,7 @@ def Validate_SPF_Policy(global_translation, local_translation, hostname, result_
 
 
 def replace_network_with_first_and_last_ipaddress(spf_addresses):
-    networs_to_remove = list()
+    networs_to_remove = []
     for ip_address in spf_addresses:
         # support for network mask
         if '/' in ip_address:
@@ -759,9 +759,9 @@ def replace_network_with_first_and_last_ipaddress(spf_addresses):
 
 
 def Validate_IPv6_Operation_Status(global_translation, rating, local_translation, ipv6_servers):
-    ipv6_servers_operational = list()
+    ipv6_servers_operational = []
     # 1.3 - Check Start TLS
-    ipv6_servers_operational_starttls = list()
+    ipv6_servers_operational_starttls = []
     for ip_address in ipv6_servers:
         try:
             # print('SMTP CONNECT:', ip_address)
@@ -801,9 +801,9 @@ def Validate_IPv6_Operation_Status(global_translation, rating, local_translation
 
 
 def Validate_IPv4_Operation_Status(global_translation, rating, local_translation, ipv4_servers):
-    ipv4_servers_operational = list()
+    ipv4_servers_operational = []
     # 1.3 - Check Start TLS
-    ipv4_servers_operational_starttls = list()
+    ipv4_servers_operational_starttls = []
     for ip_address in ipv4_servers:
         try:
             # print('SMTP CONNECT:', ip_address)
@@ -846,11 +846,11 @@ def Validate_MX_Records(global_translation, rating, result_dict, local_translati
     email_results = dns_lookup(hostname, dns.rdatatype.MX)
     has_mx_records_rating = Rating(global_translation, review_show_improvements_only)
 
-    email_servers = list()
+    email_servers = []
     # 1.1 - Check IPv4 and IPv6 support
-    ipv4_servers = list()
-    ipv6_servers = list()
-    email_entries = list()
+    ipv4_servers = []
+    ipv6_servers = []
+    email_entries = []
 
     has_mx_records = len(email_results) > 0
     if not has_mx_records:

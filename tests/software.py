@@ -407,7 +407,7 @@ def rate_software_security_result(local_translation, global_translation, result,
 
 
 def sum_overall_software_used(local_translation, global_translation, result):
-    texts = list()
+    texts = []
 
     categories = ['cms', 'webserver', 'os',
                   'analytics', 'tech', 'license', 'meta',
@@ -532,7 +532,7 @@ def enrich_data(data, orginal_domain, result_folder_name, rules):
     # matomo = None
     testing = {}
 
-    tmp_list = list()
+    tmp_list = []
 
     softwares = get_softwares()
 
@@ -1067,7 +1067,7 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
 
 
 def identify_software(filename, origin_domain, rules):
-    data = list()
+    data = []
 
     global_software = None
     global_cookies = None

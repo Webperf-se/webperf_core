@@ -113,7 +113,7 @@ def validate_dnssec(domain, domain_entry):
 
 
     # Get the DNSKEY for the domain
-    # dnskeys = list()
+    # dnskeys = []
     # if dnskeys_response.rcode() != 0:
     #     # HANDLE QUERY FAILED (SERVER ERROR OR NO DNSKEY RECORD)
     #     print('\t\tA.1', dnskeys_response.rcode())
@@ -330,7 +330,7 @@ def validate_dnskey_and_rrsig(domain, dnskey, rrsig, domain_entry):
 
 def check_dnssec(hostname, result_dict):
     print('DNSSEC')
-    new_entries = list()
+    new_entries = []
     for domainA in result_dict.keys():
         try:
             domain = domainA
@@ -418,7 +418,7 @@ def check_dnssec2(hostname, result_dict):
 
     import dns.zone
 
-    new_entries = list()
+    new_entries = []
     for domainA in result_dict.keys():
         try:
             domain = domainA
@@ -464,7 +464,7 @@ def check_dnssec2(hostname, result_dict):
 
             # we'll use the first nameserver in this example
             # nof_nsnames = len(response.rrset)
-            #nsnames = list()
+            #nsnames = []
             for nsname in nsnames:
                 #nsnames.append(entry.to_text())
 

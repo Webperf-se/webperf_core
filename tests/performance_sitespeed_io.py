@@ -233,7 +233,7 @@ def rate_result_dict(result_dict, reference_result_dict, mode, _, _local):
             reference_name = 'mobile'
         if result_dict['name'].startswith('desktop'):
             reference_name = 'desktop'
-        external_to_remove = list()
+        external_to_remove = []
         for pair in reference_result_dict.items():
             key = pair[0]
             mobile_obj = pair[1]
@@ -316,7 +316,7 @@ def get_result_dict(data, mode):
         value = match.group('value')
 
         if name not in tmp_dict:
-            tmp_dict[name] = list()
+            tmp_dict[name] = []
         tmp_dict[name].append(value)
 
     for pair in tmp_dict.items():

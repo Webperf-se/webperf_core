@@ -130,7 +130,7 @@ def update_licenses():
     matches = re.finditer(
         regex, raw_data, re.MULTILINE)
 
-    licenses = list()
+    licenses = []
     for matchNum, match_vulnerable in enumerate(matches, start=1):
         license_id = match_vulnerable.group('licenseId')
         licenses.append(license_id.replace('.', '\\.').replace('-', '\\-').replace('+', '\\+'))
@@ -187,7 +187,7 @@ def save_software_rules(rules):
 def extend_versions_for_nginx(versions):
     for version in versions.keys():
         print('extend_versions', 'nginx', version)
-        result = list()
+        result = []
 
         if version == None:
             return result
@@ -409,7 +409,7 @@ def extend_versions_for_apache_httpd(versions):
                             if current_cve != None:
                                 is_match = False
                                 has_rules = False
-                                ranges = list()
+                                ranges = []
                                 regex_ranges = r'Affects<\/td><td class="cve-value">(?P<range>[0-9\., &glt;=!]+)'
                                 matches_range = re.finditer(
                                     regex_ranges, cve_section, re.MULTILINE)
@@ -584,7 +584,7 @@ def extend_versions_from_github_advisory_database(software_name, versions):
                                         # elif lversion >= lstart_version:
                                         #     is_matching = True
 
-                                    references = list()
+                                    references = []
                                     if 'references' in json_data:
                                         for reference in json_data['references']:
                                             if 'ADVISORY' in reference['type']:
@@ -788,8 +788,8 @@ def set_github_repository_info(item, owner, repo):
             pushed_at = match.group('year')
             item['last_pushed_year'] = pushed_at
 
-    techs = list()
-    imgs = list()
+    techs = []
+    imgs = []
     # Get tech from github repo ("language") info: https://api.github.com/repos/matomo-org/matomo
     # for example: php, JavaScript (js), C
     if 'language' in github_info and github_info['language'] != None:
@@ -824,7 +824,7 @@ def get_github_versions(owner, repo, source, security_label, version_prefix, nam
     versions_content = get_http_content(
         'https://api.github.com/repos/{0}/{1}/{2}?state=closed&per_page=100'.format(owner, repo, source))
 
-    versions = list()
+    versions = []
     versions_dict = {}
 
     version_info = json.loads(versions_content)
@@ -936,7 +936,7 @@ def get_iis_versions():
     regex = r"<td>IIS (?P<version>[0-9\.]+)"
     matches = re.finditer(regex, content, re.MULTILINE)
 
-    versions = list()
+    versions = []
     versions_dict = {}
 
     for matchNum, match in enumerate(matches, start=1):
@@ -976,7 +976,7 @@ def get_datatables_versions():
     regex = r">(?P<version>[0-9\.]+)<\/a>"
     matches = re.finditer(regex, content, re.MULTILINE)
 
-    versions = list()
+    versions = []
     versions_dict = {}
 
     for matchNum, match in enumerate(matches, start=1):
@@ -1001,7 +1001,7 @@ def get_epifind_versions():
     regex = r">(?P<version>[0-9\.]+)<\/a>"
     matches = re.finditer(regex, content, re.MULTILINE)
 
-    versions = list()
+    versions = []
     versions_dict = {}
 
     for matchNum, match in enumerate(matches, start=1):
@@ -1026,7 +1026,7 @@ def get_php_versions():
     regex = r"<h2>(?P<version>[0-9\.]+)<\/h2>"
     matches = re.finditer(regex, content, re.MULTILINE)
 
-    versions = list()
+    versions = []
     versions_dict = {}
 
     for matchNum, match in enumerate(matches, start=1):
@@ -1051,7 +1051,7 @@ def get_apache_httpd_versions():
     regex = r"<a name=\"(?P<version>[0-9\.]+(\-[0-9\.\-a-zA-Z]+){0,1})\""
     matches = re.finditer(regex, content, re.MULTILINE)
 
-    versions = list()
+    versions = []
     versions_dict = {}
 
     for matchNum, match in enumerate(matches, start=1):

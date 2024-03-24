@@ -98,7 +98,7 @@ def main(argv):
 
     tests = read_tests(input_filename, 0, -1)
     generated_date = False
-    co2s = list()
+    co2s = []
 
     for test in tests:
         if not generated_date:
@@ -124,7 +124,7 @@ def main(argv):
 
     co2s_sorted = sorted(co2s)
 
-    intervals = list()
+    intervals = []
 
     index = 1
     while (index <= 100):

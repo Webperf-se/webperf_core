@@ -7,7 +7,7 @@ import re
 
 
 def read_sites(input_url, input_skip, input_take):
-    sites = list()
+    sites = []
 
     if 'offentlig-sektor' in input_url:
         input_url = 'https://webperf.se/category/ovrig-offentlig-sektor/'
@@ -30,7 +30,7 @@ def read_sites(input_url, input_skip, input_take):
     category_matches = re.finditer(
         category_regex, category_content, re.MULTILINE)
 
-    detailed_urls = list()
+    detailed_urls = []
     current_index = 0
     for matchNum, match in enumerate(category_matches, start=1):
         detail_url = match.group('detail_url')

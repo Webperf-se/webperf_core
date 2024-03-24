@@ -23,7 +23,7 @@ def run_test(global_translation, lang_code, url):
     import time
     points = 5.0
     review = ''
-    return_dict = dict()
+    return_dict = {}
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     language = gettext.translation(

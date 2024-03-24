@@ -8,7 +8,7 @@ import utils
 
 def validate_test_type(test_types):
     if utils.TEST_HTML in test_types and utils.TEST_PAGE_NOT_FOUND in test_types and utils.TEST_CSS in test_types and utils.TEST_WEBBKOLL in test_types and utils.TEST_GOOGLE_LIGHTHOUSE in test_types and utils.TEST_GOOGLE_LIGHTHOUSE_PWA in test_types and utils.TEST_GOOGLE_LIGHTHOUSE_A11Y in test_types and utils.TEST_GOOGLE_LIGHTHOUSE_SEO in test_types and utils.TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE in test_types and utils.TEST_STANDARD_FILES in test_types and utils.TEST_YELLOW_LAB_TOOLS in test_types and utils.TEST_PA11Y in test_types and utils.TEST_HTTP in test_types and utils.TEST_ENERGY_EFFICIENCY in test_types and utils.TEST_TRACKING in test_types and utils.TEST_SITESPEED in test_types and utils.TEST_EMAIL in test_types and utils.TEST_SOFTWARE in test_types and utils.TEST_A11Y_STATEMENT in test_types:
-        return list()
+        return []
     else:
         return test_types
 
@@ -33,7 +33,7 @@ def main(argv):
     """
 
     test_types = list(utils.TEST_ALL)
-    sites = list()
+    sites = []
     output_filename = ''
     input_filename = ''
     input_skip = 0
@@ -73,7 +73,7 @@ def main(argv):
         elif opt in ("-L", "--language"):  # language code
             # loop all available languages and verify language exist
             import os
-            availableLanguages = list()
+            availableLanguages = []
             localeDirs = os.listdir('locales')
             foundLang = False
 
@@ -106,7 +106,7 @@ def main(argv):
                 tmp_test_types = list(map(int, arg.split(',')))
                 test_types = validate_test_type(tmp_test_types)
             except Exception:
-                test_types = list()
+                test_types = []
 
             if len(test_types) == 0:
                 print(global_translation('TEXT_TEST_VALID_ARGUMENTS'))

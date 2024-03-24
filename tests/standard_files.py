@@ -79,7 +79,7 @@ def run_test(global_translation, lang_code, url):
 
 
 def validate_robots(global_translation, local_translation, parsed_url):
-    return_dict = dict()
+    return_dict = {}
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     robots_content = get_http_content(parsed_url + 'robots.txt', True)
@@ -103,7 +103,7 @@ def validate_robots(global_translation, local_translation, parsed_url):
 
 def validate_sitemaps(global_translation, local_translation, robots_url, robots_content, has_robots_txt):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-    return_dict = dict()
+    return_dict = {}
     return_dict["num_sitemaps"] = 0
 
     if robots_content is None or not has_robots_txt or 'sitemap:' not in robots_content.lower():
@@ -407,7 +407,7 @@ def validate_security_txt(global_translation, local_translation, parsed_url):
         rating.set_standards(1.0, local_translation("TEXT_SECURITY_MISSING"))
         rating.set_integrity_and_security(1.0, local_translation("TEXT_SECURITY_MISSING"))
 
-        return_dict = dict()
+        return_dict = {}
         return_dict['security.txt'] = 'missing'
         return (rating, return_dict)
     else:

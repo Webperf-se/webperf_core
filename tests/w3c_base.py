@@ -18,7 +18,7 @@ def get_errors(test_type, params):
     url = ''
     arg = ''
     test_arg = ''
-    errors = list()
+    errors = []
     is_html = False
 
     if 'css' in params or test_type == 'css':

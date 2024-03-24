@@ -26,7 +26,7 @@ def add_site(input_filename, url, input_skip, input_take):
 
 def delete_site(input_filename, url, input_skip, input_take):
     sites = read_sites(input_filename, input_skip, input_take)
-    tmpSites = list()
+    tmpSites = []
     for site in sites:
         site_id = site[0]
         site_url = site[1]
@@ -41,7 +41,7 @@ def delete_site(input_filename, url, input_skip, input_take):
 
 
 def read_sites(input_filename, input_skip, input_take):
-    sites = list()
+    sites = []
 
     with open(input_filename, newline='') as csvfile:
         dialect = csv.Sniffer().sniff(csvfile.read(1024))
@@ -68,7 +68,7 @@ def read_sites(input_filename, input_skip, input_take):
 
 
 def write_sites(output_filename, sites):
-    sites_output = list()
+    sites_output = []
     for site in sites:
         site_id = site[0]
         site_url = site[1]

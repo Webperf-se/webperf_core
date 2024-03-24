@@ -17,7 +17,7 @@ def add_site(input_filename, url, input_skip, input_take):
 
 def delete_site(input_filename, url, input_skip, input_take):
     sites = read_sites(input_filename, input_skip, input_take)
-    tmpSites = list()
+    tmpSites = []
     for site in sites:
         site_id = site[0]
         site_url = site[1]
@@ -32,7 +32,7 @@ def delete_site(input_filename, url, input_skip, input_take):
 
 
 def read_sites(input_filename, input_skip, input_take):
-    sites = list()
+    sites = []
     with open(input_filename) as json_input_file:
         data = json.load(json_input_file)
         current_index = 0
@@ -46,7 +46,7 @@ def read_sites(input_filename, input_skip, input_take):
 def write_sites(output_filename, sites):
     with open(output_filename, 'w') as outfile:
         # json require us to have an object as root element
-        jsonSites = list()
+        jsonSites = []
         current_siteid = 0
         for site in sites:
             jsonSites.append({
@@ -62,7 +62,7 @@ def write_sites(output_filename, sites):
 
 
 def read_tests(input_filename, input_skip, input_take):
-    result = list()
+    result = []
     with open(input_filename) as json_input_file:
         data = json.load(json_input_file)
         current_index = 0

@@ -166,7 +166,7 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
     return result
 
 def get_sanitized_browsertime(input_filename):
-    lines = list()
+    lines = []
     try:
         with open(input_filename, 'r', encoding='utf-8') as file:
             data = file.readlines()
@@ -209,7 +209,7 @@ def modify_browsertime_content(input_filename, cookies, versions):
     if 'pages' in json_result['log']:
         has_minified = False
         for page in json_result['log']['pages']:
-            keys_to_remove = list()
+            keys_to_remove = []
             for key in page.keys():
                 if key != '_url':
                     keys_to_remove.append(key)
@@ -219,7 +219,7 @@ def modify_browsertime_content(input_filename, cookies, versions):
     if 'entries' in json_result['log']:
         has_minified = False
         for entry in json_result['log']['entries']:
-            keys_to_remove = list()
+            keys_to_remove = []
             for key in entry.keys():
                 if key != 'request' and key != 'response' and key != 'serverIPAddress' and key != 'httpVersion':
                     keys_to_remove.append(key)
@@ -227,7 +227,7 @@ def modify_browsertime_content(input_filename, cookies, versions):
                 del entry[key]
                 has_minified = True
 
-            keys_to_remove = list()
+            keys_to_remove = []
             for key in entry['request'].keys():
                 if key != 'url':
                     keys_to_remove.append(key)
@@ -235,7 +235,7 @@ def modify_browsertime_content(input_filename, cookies, versions):
                 del entry['request'][key]
                 has_minified = True
 
-            keys_to_remove = list()
+            keys_to_remove = []
             for key in entry['response'].keys():
                 if key != 'content' and key != 'headers' and key != 'httpVersion':
                     keys_to_remove.append(key)

@@ -47,7 +47,7 @@ def run_test(global_translation, lang_code, url):
     print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    errors = list()
+    errors = []
     error_message_dict = {}
 
     # We don't need extra iterations for what we are using it for
@@ -70,7 +70,7 @@ def run_test(global_translation, lang_code, url):
     has_style_attributes = False
     has_css_files = False
     has_css_contenttypes = False
-    all_link_resources = list()
+    all_link_resources = []
 
     for entry in data['htmls']:
         req_url = entry['url']
@@ -108,7 +108,7 @@ def run_test(global_translation, lang_code, url):
         if data_resource_info_to_remove != None:
             data['resources'].remove(data_resource_info_to_remove)
         
-    errors = list()
+    errors = []
     for data_resource_info in data['resources']:
         has_css_contenttypes = True
         errors += get_errors_for_url(
@@ -188,7 +188,7 @@ def run_test(global_translation, lang_code, url):
     return (rating, errors)
 
 def get_errors_for_link_tags(html, url, global_translation):
-    results = list()
+    results = []
 
     soup = BeautifulSoup(html, 'lxml')
     elements = soup.find_all('link')
@@ -197,7 +197,7 @@ def get_errors_for_link_tags(html, url, global_translation):
     parsed_url = '{0}://{1}'.format(o.scheme, o.netloc)
     parsed_url_scheme = o.scheme
 
-    matching_elements = list()
+    matching_elements = []
     
     resource_index = 1
     for element in elements:
@@ -243,7 +243,7 @@ def get_errors_for_style_attributes(url, html, global_translation):
     soup = BeautifulSoup(html, 'lxml')
     elements = soup.find_all(attrs={"style": True})
 
-    results = list()
+    results = []
     temp_attribute_css = ''
 
     for element in elements:
@@ -263,7 +263,7 @@ def get_errors_for_style_tags(url, html, global_translation):
     soup = BeautifulSoup(html, 'lxml')
     elements = soup.find_all('style')
 
-    results = list()
+    results = []
     temp_inline_css = ''
     for element in elements:
         temp_inline_css += '' + element.text
@@ -333,8 +333,8 @@ css_features = css_spec[0]
 css_functions = css_spec[1]
 
 
-def get_properties_doesnt_exist_list():
-    result = list()
+def get_properties_doesnt_exist_[]:
+    result = []
     css_features_keys = css_features.keys()
     for item in css_features_keys:
         result.append('Property “{0}” doesn\'t exist'.format(item))
@@ -345,8 +345,8 @@ def get_properties_doesnt_exist_list():
     return result
 
 
-def get_function_is_not_a_value_list():
-    result = list()
+def get_function_is_not_a_value_[]:
+    result = []
     css_functions_keys = css_functions.keys()
     for item in css_functions_keys:
         result.append('{0}('.format(item))
@@ -357,8 +357,8 @@ def get_function_is_not_a_value_list():
     return result
 
 
-css_properties_doesnt_exist = get_properties_doesnt_exist_list()
-css_functions_no_support = get_function_is_not_a_value_list()
+css_properties_doesnt_exist = get_properties_doesnt_exist_[]
+css_functions_no_support = get_function_is_not_a_value_[]
 
 
 def create_review_and_rating(errors, global_translation, local_translation, review_header):

@@ -6,7 +6,7 @@ import csv
 
 def write_tests(output_filename, siteTests, sites):
 
-    tmp_fieldnames = list()
+    tmp_fieldnames = []
     standard_fieldnames = SiteTests.fieldnames()
     for fieldname in standard_fieldnames:
         if 'site_id' == fieldname:

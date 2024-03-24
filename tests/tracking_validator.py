@@ -38,10 +38,10 @@ def get_domains_from_url(url):
 
 
 def get_urls_from_har(content):
-    urls = dict()
+    urls = {}
 
-    entries = list()
-    json_content = list()
+    entries = []
+    json_content = []
     try:
         json_content = json.loads(content)
 
@@ -137,7 +137,7 @@ def get_foldername_from_url(url):
 
 def get_file_content(input_filename):
     # print('input_filename=' + input_filename)
-    lines = list()
+    lines = []
     try:
         with open(input_filename, 'r', encoding='utf-8') as file:
             data = file.readlines()
@@ -441,12 +441,12 @@ def rate_gdpr_and_schrems(content, local_translation, _):
             if entry_country_code == '' or entry_country_code == '-':
                 entry_country_code = 'unknown'
             if entry_country_code not in countries:
-                countries[entry_country_code] = list()
+                countries[entry_country_code] = []
             countries[entry_country_code].append(request_friendly_name)
 
             if not is_country_code_in_eu_or_on_exception_list(entry_country_code):
                 if entry_country_code not in countries_outside_eu_or_exception_list:
-                    countries_outside_eu_or_exception_list[entry_country_code] = list()
+                    countries_outside_eu_or_exception_list[entry_country_code] = []
                 countries_outside_eu_or_exception_list[entry_country_code].append(request_friendly_name)
 
             entries_index += 1
@@ -526,7 +526,7 @@ def rate_tracking(website_urls, local_translation, _):
 
     limit_message_index = max_nof_trackers_showed + 1
     number_of_tracking = 0
-    analytics_used = dict()
+    analytics_used = {}
 
     tracking_domains = get_domains_from_blocklistproject_file(
         os.path.join('data', 'blocklistproject-tracking-nl.txt'))
@@ -543,7 +543,7 @@ def rate_tracking(website_urls, local_translation, _):
                 number_of_tracking += 1
                 break
 
-        resource_analytics_used = dict()
+        resource_analytics_used = {}
         resource_analytics_used.update(
             get_analytics(global_translation, local_translation, website_url, website_url_content, request_index, analytics_rules))
 

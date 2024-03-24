@@ -206,18 +206,18 @@ def rate_ip_versions(result_dict, global_translation, local_translation, domain)
     return rating
 
 def create_csp(csp_findings, org_domain):
-    default_src = list()
-    img_src = list()
-    script_src = list()
-    form_action = list()
-    base_uri = list()
-    style_src = list()
-    child_src = list()
-    font_src = list()
+    default_src = []
+    img_src = []
+    script_src = []
+    form_action = []
+    base_uri = []
+    style_src = []
+    child_src = []
+    font_src = []
 
-    object_src = list()
-    connect_src = list()
-    frame_ancestors = list()
+    object_src = []
+    connect_src = []
+    frame_ancestors = []
 
     csp_findings['quotes'] = list(set(csp_findings['quotes']))
     csp_findings['host-sources'] = list(set(csp_findings['host-sources']))
@@ -1235,7 +1235,7 @@ def validate_dnssec(domain, domain_entry):
 
 
     # Get the DNSKEY for the domain
-    # dnskeys = list()
+    # dnskeys = []
     # if dnskeys_response.rcode() != 0:
     #     # HANDLE QUERY FAILED (SERVER ERROR OR NO DNSKEY RECORD)
     #     print('\t\tA.1', dnskeys_response.rcode())
@@ -1446,7 +1446,7 @@ def validate_dnskey_and_rrsig(domain, dnskey, rrsig, domain_entry):
 
 def check_dnssec(hostname, result_dict):
     print('DNSSEC')
-    new_entries = list()
+    new_entries = []
     for domainA in result_dict.keys():
         try:
             domain = domainA
@@ -1534,7 +1534,7 @@ def check_dnssec2(hostname, result_dict):
 
     import dns.zone
 
-    new_entries = list()
+    new_entries = []
     for domainA in result_dict.keys():
         try:
             domain = domainA
@@ -1580,7 +1580,7 @@ def check_dnssec2(hostname, result_dict):
 
             # we'll use the first nameserver in this example
             # nof_nsnames = len(response.rrset)
-            #nsnames = list()
+            #nsnames = []
             for nsname in nsnames:
                 #nsnames.append(entry.to_text())
 
@@ -1782,7 +1782,7 @@ def check_http_to_https(url):
 
 
     domains = list(result_dict.keys())
-    hsts_domains = list()
+    hsts_domains = []
     for domain in domains:
         if type(result_dict[domain]) != dict:
             continue
@@ -2113,7 +2113,7 @@ def parse_csp(content, domain, result_dict, is_from_response_header):
         policy_name = name.lower()
 
         if policy_name not in result_dict[domain]['csp-policies']:
-            result_dict[domain]['csp-policies'][policy_name] = list()
+            result_dict[domain]['csp-policies'][policy_name] = []
 
         if not is_from_response_header and (policy_name == 'frame-ancestors' or policy_name == 'report-uri' or policy_name == 'sandbox'):
             result_dict[domain]['features'].append('CSP-UNSUPPORTED-IN-META')
@@ -2126,7 +2126,7 @@ def parse_csp(content, domain, result_dict, is_from_response_header):
 
 def append_csp_policy(policy_name, items, domain, result_dict):
     if policy_name not in result_dict[domain]['csp-policies']:
-        result_dict[domain]['csp-policies'][policy_name] = list()
+        result_dict[domain]['csp-policies'][policy_name] = []
 
     if len(items) == 0:
         return

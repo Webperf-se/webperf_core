@@ -38,7 +38,7 @@ def run_test(global_translation, lang_code, url):
     print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    errors = list()
+    errors = []
     error_message_dict = {}
 
     # We don't need extra iterations for what we are using it for

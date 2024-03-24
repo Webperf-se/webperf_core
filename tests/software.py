@@ -12,7 +12,7 @@ import re
 from urllib.parse import urlparse
 from tests.utils import *
 from tests.sitespeed_base import get_result
-import datetime
+from datetime import datetime
 import packaging.version
 import gettext
 
@@ -65,7 +65,7 @@ raw_data = {
 }
 
 
-def get_rating_from_sitespeed(url, _local, _):
+def get_rating_from_sitespeed(url, local_translation, global_translation):
     # We don't need extra iterations for what we are using it for
     sitespeed_iterations = 1
     sitespeed_arg = '--plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --utc true -n {0}'.format(
@@ -113,7 +113,7 @@ def get_rating_from_sitespeed(url, _local, _):
     # nice_raw = json.dumps(data, indent=2)
     # print('DEBUG 2', nice_raw)
 
-    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     result = convert_item_to_domain_data(data)
 
     # if 'issues' in result:
@@ -133,9 +133,9 @@ def get_rating_from_sitespeed(url, _local, _):
     #   }
     # }
     texts = ''
-    texts = sum_overall_software_used(_local, _, result)
+    texts = sum_overall_software_used(local_translation, global_translation, result)
 
-    rating += rate_software_security_result(_local, _, result, url)
+    rating += rate_software_security_result(local_translation, global_translation, result, url)
 
     rating.overall_review = '{0}\r\n'.format('\r\n'.join(texts))
     if len(rating.overall_review.strip('\r\n\t ')) == 0:
@@ -202,8 +202,8 @@ def sort_issues(item1, item2):
         return 0
 
 
-def rate_software_security_result(_local, _, result, url):
-    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+def rate_software_security_result(local_translation, global_translation, result, url):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     has_cve_issues = False
     has_behind_issues = False
@@ -216,26 +216,26 @@ def rate_software_security_result(_local, _, result, url):
         if issue_type.startswith('CVE'):
             has_cve_issues = True
             points = 1.0
-            cve_ratings = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            cve_ratings = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
             for sub_issue in result['issues'][issue_type]['sub-issues']:
-                sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+                sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(points)
                 sub_rating.set_integrity_and_security(points)
                 cve_ratings += sub_rating
             if USE_DETAILED_REPORT:
-                text = _local('TEXT_DETAILED_REVIEW_CVE').replace('#POINTS#', str(cve_ratings.get_integrity_and_security()))
+                text = local_translation('TEXT_DETAILED_REVIEW_CVE').replace('#POINTS#', str(cve_ratings.get_integrity_and_security()))
 
-                text += _local('TEXT_DETAILED_REVIEW_CVES')
+                text += local_translation('TEXT_DETAILED_REVIEW_CVES')
                 text += '\r\n'
                 for cve in result['issues'][issue_type]['sub-issues']:
                     text += '- {0}\r\n'.format(cve)
                 text += '\r\n'
-                text += _local('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
+                text += local_translation('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
                 text += '\r\n'
                 for software in result['issues'][issue_type]['softwares']:
                     text += '- {0}\r\n'.format(software)
                 text += '\r\n'
-                text += _local('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
+                text += local_translation('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
                 text += '\r\n'
                 for resource in result['issues'][issue_type]['resources']:
                     text += '- {0}\r\n'.format(resource)
@@ -257,20 +257,20 @@ def rate_software_security_result(_local, _, result, url):
                 points = 3.0
             elif issue_type == 'BEHIND001':
                 points = 4.9
-            sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
             sub_rating.set_overall(points)
             sub_rating.set_integrity_and_security(points)
 
             if USE_DETAILED_REPORT:
-                text = _local('TEXT_DETAILED_REVIEW_{0}'.format(issue_type)).replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
+                text = local_translation('TEXT_DETAILED_REVIEW_{0}'.format(issue_type)).replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
                 text += '\r\n'
-                text += _local('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
+                text += local_translation('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
                 text += '\r\n'
                 for software in result['issues'][issue_type]['softwares']:
                     text += '- {0}\r\n'.format(software)
 
                 text += '\r\n'
-                text += _local('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
+                text += local_translation('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
                 text += '\r\n'
                 for resource in result['issues'][issue_type]['resources']:
                     text += '- {0}\r\n'.format(resource)
@@ -280,19 +280,19 @@ def rate_software_security_result(_local, _, result, url):
         elif issue_type.startswith('ARCHIVED_SOURCE'):
             has_source_issues = True
             points = 1.75
-            sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
             sub_rating.set_overall(points)
             sub_rating.set_integrity_and_security(points)
             if USE_DETAILED_REPORT:
-                text = _local('TEXT_DETAILED_REVIEW_{0}'.format(issue_type)).replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
+                text = local_translation('TEXT_DETAILED_REVIEW_{0}'.format(issue_type)).replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
                 text += '\r\n'
-                text += _local('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
+                text += local_translation('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
                 text += '\r\n'
                 for software in result['issues'][issue_type]['softwares']:
                     text += '- {0}\r\n'.format(software)
 
                 text += '\r\n'
-                text += _local('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
+                text += local_translation('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
                 text += '\r\n'
                 for resource in result['issues'][issue_type]['resources']:
                     text += '- {0}\r\n'.format(resource)
@@ -318,19 +318,19 @@ def rate_software_security_result(_local, _, result, url):
             elif issue_type.endswith('10_YEARS'):
                 points = 1.0
                 
-            sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
             sub_rating.set_overall(points)
             sub_rating.set_integrity_and_security(points)
             if USE_DETAILED_REPORT:
-                text = _local('TEXT_DETAILED_REVIEW_{0}'.format(issue_type)).replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
+                text = local_translation('TEXT_DETAILED_REVIEW_{0}'.format(issue_type)).replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
                 text += '\r\n'
-                text += _local('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
+                text += local_translation('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
                 text += '\r\n'
                 for software in result['issues'][issue_type]['softwares']:
                     text += '- {0}\r\n'.format(software)
 
                 text += '\r\n'
-                text += _local('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
+                text += local_translation('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
                 text += '\r\n'
                 for resource in result['issues'][issue_type]['resources']:
                     text += '- {0}\r\n'.format(resource)
@@ -340,20 +340,20 @@ def rate_software_security_result(_local, _, result, url):
         elif issue_type.startswith('END_OF_LIFE'):
             has_end_of_life_issues = True
             points = 1.75
-            sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
             sub_rating.set_overall(points)
             sub_rating.set_integrity_and_security(points)
 
             if USE_DETAILED_REPORT:
-                text = _local('TEXT_DETAILED_REVIEW_{0}'.format(issue_type)).replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
+                text = local_translation('TEXT_DETAILED_REVIEW_{0}'.format(issue_type)).replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
                 text += '\r\n'
-                text += _local('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
+                text += local_translation('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
                 text += '\r\n'
                 for software in result['issues'][issue_type]['softwares']:
                     text += '- {0}\r\n'.format(software)
 
                 text += '\r\n'
-                text += _local('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
+                text += local_translation('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
                 text += '\r\n'
                 for resource in result['issues'][issue_type]['resources']:
                     text += '- {0}\r\n'.format(resource)
@@ -365,40 +365,40 @@ def rate_software_security_result(_local, _, result, url):
 
     if not has_cve_issues:
         points = 5.0
-        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(points)
         if USE_DETAILED_REPORT:
-            sub_rating.set_integrity_and_security(points, _local('TEXT_DETAILED_REVIEW_NO_CVE'))
+            sub_rating.set_integrity_and_security(points, local_translation('TEXT_DETAILED_REVIEW_NO_CVE'))
         else:
             sub_rating.set_integrity_and_security(points)
         rating += sub_rating
 
     if not has_behind_issues:
         points = 5.0
-        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(points)
         if USE_DETAILED_REPORT:
-            sub_rating.set_integrity_and_security(points, _local('TEXT_DETAILED_REVIEW_NO_BEHIND'))
+            sub_rating.set_integrity_and_security(points, local_translation('TEXT_DETAILED_REVIEW_NO_BEHIND'))
         else:
             sub_rating.set_integrity_and_security(points)
         rating += sub_rating
 
     if not has_source_issues:
         points = 5.0
-        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(points)
         if USE_DETAILED_REPORT:
-            sub_rating.set_integrity_and_security(points, _local('TEXT_DETAILED_REVIEW_NO_UNMAINTAINED'))
+            sub_rating.set_integrity_and_security(points, local_translation('TEXT_DETAILED_REVIEW_NO_UNMAINTAINED'))
         else:
             sub_rating.set_integrity_and_security(points)
         rating += sub_rating
 
     if not has_end_of_life_issues:
         points = 5.0
-        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(points)
         if USE_DETAILED_REPORT:
-            sub_rating.set_integrity_and_security(points, _local('TEXT_DETAILED_REVIEW_NO_END_OF_LIFE'))
+            sub_rating.set_integrity_and_security(points, local_translation('TEXT_DETAILED_REVIEW_NO_END_OF_LIFE'))
         else:
             sub_rating.set_integrity_and_security(points)
         rating += sub_rating
@@ -406,7 +406,7 @@ def rate_software_security_result(_local, _, result, url):
     return rating
 
 
-def sum_overall_software_used(_local, _, result):
+def sum_overall_software_used(local_translation, global_translation, result):
     texts = list()
 
     categories = ['cms', 'webserver', 'os',
@@ -416,7 +416,7 @@ def sum_overall_software_used(_local, _, result):
 
     for category in categories:
         if category in result:
-            texts.append(_local('TEXT_USED_{0}'.format(
+            texts.append(local_translation('TEXT_USED_{0}'.format(
                 category.upper())).format(', '.join(sorted(result[category].keys()))))
 
     return texts
@@ -1584,27 +1584,27 @@ def get_rules():
         rules = json.load(json_rules_file)
     return rules
 
-def run_test(_, langCode, url):
+def run_test(global_translation, lang_code, url):
     """
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
 
     result_dict = {}
-    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     language = gettext.translation(
-        'software', localedir='locales', languages=[langCode])
+        'software', localedir='locales', languages=[lang_code])
     language.install()
-    _local = language.gettext
+    local_translation = language.gettext
 
-    print(_local('TEXT_RUNNING_TEST'))
+    print(local_translation('TEXT_RUNNING_TEST'))
 
-    print(_('TEXT_TEST_START').format(
+    print(global_translation('TEXT_TEST_START').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    (rating, result_dict) = get_rating_from_sitespeed(url, _local, _)
+    (rating, result_dict) = get_rating_from_sitespeed(url, local_translation, global_translation)
 
-    print(_('TEXT_TEST_END').format(
+    print(global_translation('TEXT_TEST_END').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     raw_is_used = False

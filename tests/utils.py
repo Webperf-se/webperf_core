@@ -795,7 +795,7 @@ def get_best_country_code(ip_address, default_country_code):
 
     return country_code
 
-def get_friendly_url_name(_, url, request_index):
+def get_friendly_url_name(global_translation, url, request_index):
     """
     Generates a friendly name for a given URL and request index.
     This function generates a friendly name for a given URL and request index.
@@ -817,10 +817,10 @@ def get_friendly_url_name(_, url, request_index):
     if request_index is None:
         request_index = '?'
 
-    request_friendly_name = _(
+    request_friendly_name = global_translation(
         'TEXT_REQUEST_UNKNOWN').format(request_index)
     if request_index == 1:
-        request_friendly_name = _(
+        request_friendly_name = global_translation(
             'TEXT_REQUEST_WEBPAGE').format(request_index)
 
     try:

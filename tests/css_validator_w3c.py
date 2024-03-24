@@ -187,7 +187,7 @@ def run_test(global_translation, lang_code, url):
 
     return (rating, errors)
 
-def get_errors_for_link_tags(html, url, _):
+def get_errors_for_link_tags(html, url, global_translation):
     results = list()
 
     soup = BeautifulSoup(html, 'lxml')
@@ -239,7 +239,7 @@ def get_errors_for_link_tags(html, url, _):
     return (matching_elements, results)
 
 
-def get_errors_for_style_attributes(url, html, _):
+def get_errors_for_style_attributes(url, html, global_translation):
     soup = BeautifulSoup(html, 'lxml')
     elements = soup.find_all(attrs={"style": True})
 
@@ -259,7 +259,7 @@ def get_errors_for_style_attributes(url, html, _):
     return (elements, results)
 
 
-def get_errors_for_style_tags(url, html, _):
+def get_errors_for_style_tags(url, html, global_translation):
     soup = BeautifulSoup(html, 'lxml')
     elements = soup.find_all('style')
 
@@ -361,7 +361,7 @@ css_properties_doesnt_exist = get_properties_doesnt_exist_list()
 css_functions_no_support = get_function_is_not_a_value_list()
 
 
-def create_review_and_rating(errors, _, _local, review_header):
+def create_review_and_rating(errors, global_translation, local_translation, review_header):
     review = ''
     whitelisted_words = css_properties_doesnt_exist
 
@@ -412,23 +412,23 @@ def create_review_and_rating(errors, _, _local, review_header):
                 item_value = item[1]
                 item_text = item[0]
 
-                review += _local('TEXT_REVIEW_ERRORS_ITEM').format(item_text, item_value)
+                review += local_translation('TEXT_REVIEW_ERRORS_ITEM').format(item_text, item_value)
 
-    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     number_of_error_types = len(error_message_grouped_for_rating_dict)
 
     result = calculate_rating(number_of_error_types, number_of_errors)
 
-    errors_type_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    errors_type_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     errors_type_rating.set_overall(result[0])
-    errors_type_rating.set_standards(result[0], review_header + _local('TEXT_REVIEW_RATING_GROUPED').format(
+    errors_type_rating.set_standards(result[0], review_header + local_translation('TEXT_REVIEW_RATING_GROUPED').format(
         number_of_error_types, 0.0))
     rating += errors_type_rating
 
-    errors_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    errors_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     errors_rating.set_overall(result[1])
-    errors_rating.set_standards(result[1], review_header + _local('TEXT_REVIEW_RATING_ITEMS').format(number_of_errors,
+    errors_rating.set_standards(result[1], review_header + local_translation('TEXT_REVIEW_RATING_ITEMS').format(number_of_errors,
                                                                                                      0.0))
     rating += errors_rating
 

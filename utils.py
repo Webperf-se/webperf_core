@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
-import datetime
+from datetime import datetime
 import traceback
 from models import SiteTests
 from tests.page_not_found import run_test as run_test_page_not_found

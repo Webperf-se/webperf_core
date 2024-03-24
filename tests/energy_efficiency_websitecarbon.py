@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from models import Rating
-import datetime
+from datetime import datetime
 import json
 from decimal import Decimal
 
@@ -9,7 +9,7 @@ import gettext
 _local = gettext.gettext
 
 
-def run_test(_, langCode, url):
+def run_test(global_translation, langCode, url):
     """
     Analyzes URL with Website Carbon Calculator API.
     API documentation: https://api.websitecarbon.com
@@ -21,9 +21,9 @@ def run_test(_, langCode, url):
     language.install()
     _local = language.gettext
 
-    print(_local("TEXT_RUNNING_TEST"))
+    print(local_translation("TEXT_RUNNING_TEST"))
 
-    print(_('TEXT_TEST_START').format(
+    print(global_translation('TEXT_TEST_START').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     result_json = get_http_content(
@@ -51,27 +51,27 @@ def run_test(_, langCode, url):
     # print(points)
 
     if points <= 5:
-        review = _local("TEXT_WEBSITE_IS_VERY_GOOD")
+        review = local_translation("TEXT_WEBSITE_IS_VERY_GOOD")
     elif points >= 4:
-        review = _local("TEXT_WEBSITE_IS_GOOD")
+        review = local_translation("TEXT_WEBSITE_IS_GOOD")
     elif points >= 3:
-        review = _local("TEXT_WEBSITE_IS_OK")
+        review = local_translation("TEXT_WEBSITE_IS_OK")
     elif points >= 2:
-        review = _local("TEXT_WEBSITE_IS_BAD")
+        review = local_translation("TEXT_WEBSITE_IS_BAD")
     elif points <= 1:
-        review = _local("TEXT_WEBSITE_IS_VERY_BAD")
+        review = local_translation("TEXT_WEBSITE_IS_VERY_BAD")
 
-    review += _local("TEXT_GRAMS_OF_CO2").format(round(co2, 2))
-    review += _local("TEXT_BETTER_THAN").format(cleaner_than)
+    review += local_translation("TEXT_GRAMS_OF_CO2").format(round(co2, 2))
+    review += local_translation("TEXT_BETTER_THAN").format(cleaner_than)
     if 'false' in green.lower():
-        review += _local("TEXT_GREEN_ENERGY_FALSE")
+        review += local_translation("TEXT_GREEN_ENERGY_FALSE")
     elif 'true' in green.lower():
-        review += _local("TEXT_GREEN_ENERGY_TRUE")
+        review += local_translation("TEXT_GREEN_ENERGY_TRUE")
 
     rating = Rating(_)
     rating.set_overall(points, review)
 
-    print(_('TEXT_TEST_END').format(
+    print(global_translation('TEXT_TEST_END').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, result_dict)

@@ -5,8 +5,8 @@ import json
 import re
 # https://docs.python.org/3/library/urllib.parse.html
 from urllib.parse import urlparse
-from tests.utils import get_config_or_default
-import datetime
+from tests.utils import get_config_or_default, get_friendly_url_name
+from datetime import datetime
 from tests.sitespeed_base import get_result
 import gettext
 _ = gettext.gettext
@@ -151,8 +151,8 @@ def get_file_content(input_filename):
     return '\n'.join(lines)
 
 
-def rate_cookies(content, url, _local, _):
-    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+def rate_cookies(content, url, local_translation, _):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     o = urlparse(url)
     hostname = o.hostname
@@ -257,14 +257,14 @@ def rate_cookies(content, url, _local, _):
         if nof_points < 1.0:
             nof_points = 1.0
 
-        nof_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        nof_rating.set_integrity_and_security(nof_points, _local('TEXT_COOKIES_HAS_THIRDPARTY').format(
+        nof_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        nof_rating.set_integrity_and_security(nof_points, local_translation('TEXT_COOKIES_HAS_THIRDPARTY').format(
             cookies_number_of_thirdparties))
         nof_rating.set_overall(nof_points)
         rating += nof_rating
     else:
-        nof_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        nof_rating.set_integrity_and_security(5.0, _local('TEXT_COOKIES_HAS_THIRDPARTY').format(
+        nof_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        nof_rating.set_integrity_and_security(5.0, local_translation('TEXT_COOKIES_HAS_THIRDPARTY').format(
             cookies_number_of_thirdparties))
         nof_rating.set_overall(5.0)
         rating += nof_rating
@@ -275,8 +275,8 @@ def rate_cookies(content, url, _local, _):
         if valid_1year_points < 1.0:
             valid_1year_points = 1.0
 
-        valid_1year_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        valid_1year_rating.set_integrity_and_security(valid_1year_points, _local('TEXT_COOKIE_HAS_OVER_1YEAR').format(
+        valid_1year_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        valid_1year_rating.set_integrity_and_security(valid_1year_points, local_translation('TEXT_COOKIE_HAS_OVER_1YEAR').format(
             cookies_number_of_valid_over_1year))
         valid_1year_rating.set_overall(valid_1year_points)
 
@@ -287,8 +287,8 @@ def rate_cookies(content, url, _local, _):
         if valid_9months_points < 1.0:
             valid_9months_points = 1.0
 
-        valid_9months_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        valid_9months_rating.set_integrity_and_security(valid_9months_points, _local('TEXT_COOKIE_HAS_OVER_9MONTH').format(
+        valid_9months_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        valid_9months_rating.set_integrity_and_security(valid_9months_points, local_translation('TEXT_COOKIE_HAS_OVER_9MONTH').format(
             cookies_number_of_valid_over_9months))
         valid_9months_rating.set_overall(valid_9months_points)
 
@@ -299,8 +299,8 @@ def rate_cookies(content, url, _local, _):
         if valid_6months_points < 1.0:
             valid_6months_points = 1.0
 
-        valid_6months_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        valid_6months_rating.set_integrity_and_security(valid_6months_points, _local('TEXT_COOKIE_HAS_OVER_6MONTH').format(
+        valid_6months_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        valid_6months_rating.set_integrity_and_security(valid_6months_points, local_translation('TEXT_COOKIE_HAS_OVER_6MONTH').format(
             cookies_number_of_valid_over_6months))
         valid_6months_rating.set_overall(valid_6months_points)
 
@@ -311,15 +311,15 @@ def rate_cookies(content, url, _local, _):
         if valid_3months_points < 1.0:
             valid_3months_points = 1.0
 
-        valid_3months_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        valid_3months_rating.set_integrity_and_security(valid_3months_points, _local('TEXT_COOKIE_HAS_OVER_3MONTH').format(
+        valid_3months_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        valid_3months_rating.set_integrity_and_security(valid_3months_points, local_translation('TEXT_COOKIE_HAS_OVER_3MONTH').format(
             cookies_number_of_valid_over_3months))
         valid_3months_rating.set_overall(valid_3months_points)
 
         rating += valid_3months_rating
     else:
-        valid_3months_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        valid_3months_rating.set_integrity_and_security(5.0, _local('TEXT_COOKIE_LESS_THEN_3MONTH').format(
+        valid_3months_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        valid_3months_rating.set_integrity_and_security(5.0, local_translation('TEXT_COOKIE_LESS_THEN_3MONTH').format(
             number_of_cookies))
         valid_3months_rating.set_overall(5.0)
 
@@ -331,15 +331,15 @@ def rate_cookies(content, url, _local, _):
         if secure_points < 1.0:
             secure_points = 1.0
 
-        secure_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        secure_rating.set_integrity_and_security(secure_points, _local('TEXT_COOKIE_NOT_SECURE').format(
+        secure_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        secure_rating.set_integrity_and_security(secure_points, local_translation('TEXT_COOKIE_NOT_SECURE').format(
             cookies_number_of_secure))
         secure_rating.set_overall(secure_points)
 
         rating += secure_rating
     else:
-        secure_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        secure_rating.set_integrity_and_security(5.0, _local('TEXT_COOKIE_SECURE').format(
+        secure_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        secure_rating.set_integrity_and_security(5.0, local_translation('TEXT_COOKIE_SECURE').format(
             number_of_cookies))
         secure_rating.set_overall(5.0)
 
@@ -351,15 +351,15 @@ def rate_cookies(content, url, _local, _):
         if analytics_points < 1.0:
             analytics_points = 1.0
 
-        analytics_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        analytics_rating.set_integrity_and_security(analytics_points, _local('TEXT_COOKIE_HAS_ANALYTICS_COOKIE').format(
+        analytics_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        analytics_rating.set_integrity_and_security(analytics_points, local_translation('TEXT_COOKIE_HAS_ANALYTICS_COOKIE').format(
             cookies_number_of_analytics))
         analytics_rating.set_overall(analytics_points)
 
         rating += analytics_rating
     else:
-        analytics_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        analytics_rating.set_integrity_and_security(5.0, _local('TEXT_COOKIE_NO_ANALYTICS_COOKIE').format(
+        analytics_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        analytics_rating.set_integrity_and_security(5.0, local_translation('TEXT_COOKIE_NO_ANALYTICS_COOKIE').format(
             cookies_number_of_analytics))
         analytics_rating.set_overall(5.0)
 
@@ -368,23 +368,23 @@ def rate_cookies(content, url, _local, _):
 
     integrity_and_security_review = rating.integrity_and_security_review
 
-    result_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    result_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     points = rating.get_overall()
 
     if number_of_cookies > 0 and rating.isused():
         if points <= 1.0:
             points = 1.0
             result_rating.set_integrity_and_security(
-                points, _local('TEXT_COOKIE'))
+                points, local_translation('TEXT_COOKIE'))
             result_rating.set_overall(points)
         else:
             result_rating.set_integrity_and_security(
-                points, _local('TEXT_COOKIE'))
+                points, local_translation('TEXT_COOKIE'))
             result_rating.set_overall(points)
     else:
         no_cookie_points = 5.0
         result_rating.set_integrity_and_security(
-            no_cookie_points, _local('TEXT_COOKIE'))
+            no_cookie_points, local_translation('TEXT_COOKIE'))
 
         result_rating.set_overall(no_cookie_points)
 
@@ -394,8 +394,8 @@ def rate_cookies(content, url, _local, _):
     return result_rating
 
 
-def rate_gdpr_and_schrems(content, _local, _):
-    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+def rate_gdpr_and_schrems(content, local_translation, _):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     points = 5.0
     review = ''
@@ -429,7 +429,7 @@ def rate_gdpr_and_schrems(content, _local, _):
                 request = entries[entries_index]['request']
                 if 'url' in request:
                     url = request['url']
-                    request_friendly_name = get_friendly_url_name(_,
+                    request_friendly_name = get_friendly_url_name(global_translation,
                         url, entries_index + 1)
 
             entry_country_code = ''
@@ -454,7 +454,7 @@ def rate_gdpr_and_schrems(content, _local, _):
         number_of_countries = len(countries)
 
         # '-- Number of countries: {0}\r\n'
-        review += _local('TEXT_GDPR_COUNTRIES').format(
+        review += local_translation('TEXT_GDPR_COUNTRIES').format(
             number_of_countries)
         # for country_code in countries:
         #    review += '    - {0} (number of requests: {1})\r\n'.format(country_code,
@@ -462,18 +462,18 @@ def rate_gdpr_and_schrems(content, _local, _):
 
         page_is_hosted_in_sweden = page_countrycode == 'SE'
         # '-- Page hosted in Sweden: {0}\r\n'
-        review += _local('TEXT_GDPR_PAGE_IN_SWEDEN').format(
-            _local('TEXT_GDPR_{0}'.format(page_is_hosted_in_sweden)))
+        review += local_translation('TEXT_GDPR_PAGE_IN_SWEDEN').format(
+            local_translation('TEXT_GDPR_{0}'.format(page_is_hosted_in_sweden)))
 
         number_of_countries_outside_eu = len(
             countries_outside_eu_or_exception_list)
         if number_of_countries_outside_eu > 0:
             # '-- Countries outside EU: {0}\r\n'
             # '-- Countries without adequate level of data protection: {0}\r\n'
-            review += _local('TEXT_GDPR_NONE_COMPLIANT_COUNTRIES').format(
+            review += local_translation('TEXT_GDPR_NONE_COMPLIANT_COUNTRIES').format(
                 number_of_countries_outside_eu)
             for country_code in countries_outside_eu_or_exception_list:
-                review += _local('TEXT_GDPR_NONE_COMPLIANT_COUNTRIES_REQUESTS').format(country_code,
+                review += local_translation('TEXT_GDPR_NONE_COMPLIANT_COUNTRIES_REQUESTS').format(country_code,
                                                                                        len(countries[country_code]))
                 
                 request_index = 1
@@ -481,17 +481,17 @@ def rate_gdpr_and_schrems(content, _local, _):
                     if request_index <= max_nof_requests_showed:
                         review += '  - {0}\r\n'.format(req_url)
                     elif request_index == limit_message_index:
-                        review += _local('TEXT_GDPR_MAX_SHOWED').format(max_nof_requests_showed)
+                        review += local_translation('TEXT_GDPR_MAX_SHOWED').format(max_nof_requests_showed)
                     request_index += 1
 
             points = 1.0
 
         if points > 0.0:
-            rating.set_integrity_and_security(points, _local('TEXT_GDPR_HAS_POINTS').format(
+            rating.set_integrity_and_security(points, local_translation('TEXT_GDPR_HAS_POINTS').format(
                 0.0, ''))
             rating.set_overall(points)
         else:
-            rating.set_integrity_and_security(points, _local('TEXT_GDPR_NO_POINTS').format(
+            rating.set_integrity_and_security(points, local_translation('TEXT_GDPR_NO_POINTS').format(
                 0.0, ''))
             rating.set_overall(points)
 
@@ -518,8 +518,8 @@ def get_analytics_rules():
     return rules
 
 
-def rate_tracking(website_urls, _local, _):
-    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+def rate_tracking(website_urls, local_translation, _):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     allowed_nof_trackers = 2
     max_nof_trackers_showed = 5
@@ -545,7 +545,7 @@ def rate_tracking(website_urls, _local, _):
 
         resource_analytics_used = dict()
         resource_analytics_used.update(
-            get_analytics(_, _local, website_url, website_url_content, request_index, analytics_rules))
+            get_analytics(global_translation, local_translation, website_url, website_url_content, request_index, analytics_rules))
 
         if len(resource_analytics_used):
             if not url_is_tracker:
@@ -554,22 +554,22 @@ def rate_tracking(website_urls, _local, _):
 
         analytics_used.update(resource_analytics_used)
 
-        url_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        url_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         if url_is_tracker:
-            request_friendly_name = get_friendly_url_name(_,
+            request_friendly_name = get_friendly_url_name(global_translation,
                                                           website_url, request_index)
 
             if number_of_tracking <= allowed_nof_trackers:
                 url_rating.set_integrity_and_security(
-                    5.0, _local('TEXT_TRACKING_FOUND_ALLOWED').format(request_friendly_name, allowed_nof_trackers))
+                    5.0, local_translation('TEXT_TRACKING_FOUND_ALLOWED').format(request_friendly_name, allowed_nof_trackers))
                 url_rating.set_overall(5.0)
             elif number_of_tracking <= max_nof_trackers_showed:
                 url_rating.set_integrity_and_security(
-                    1.0, _local('TEXT_TRACKING_FOUND').format(request_friendly_name))
+                    1.0, local_translation('TEXT_TRACKING_FOUND').format(request_friendly_name))
                 url_rating.set_overall(1.0)
             elif number_of_tracking == limit_message_index:
                 url_rating.set_integrity_and_security(
-                    1.0, _local('TEXT_TRACKING_MAX_SHOWED').format(max_nof_trackers_showed))
+                    1.0, local_translation('TEXT_TRACKING_MAX_SHOWED').format(max_nof_trackers_showed))
                 url_rating.set_overall(1.0)
             else:
                 url_rating.set_integrity_and_security(1.0)
@@ -586,7 +586,7 @@ def rate_tracking(website_urls, _local, _):
     number_of_analytics_used = len(analytics_used)
     if number_of_analytics_used > 0:
         # '-- Visitor analytics used:\r\n'
-        review_analytics += _local('TEXT_VISITOR_ANALYTICS_USED')
+        review_analytics += local_translation('TEXT_VISITOR_ANALYTICS_USED')
         analytics_used_items = analytics_used.items()
         for analytics_name, analytics_should_count in analytics_used_items:
             review_analytics += '  - {0}\r\n'.format(analytics_name)
@@ -594,24 +594,24 @@ def rate_tracking(website_urls, _local, _):
     integrity_and_security_review = rating.integrity_and_security_review
 
     if number_of_tracking >= 6:
-        integrity_and_security_review += _local('TEXT_TRACKING_TOTAL_FOUND').format(
+        integrity_and_security_review += local_translation('TEXT_TRACKING_TOTAL_FOUND').format(
             number_of_tracking)
 
     integrity_and_security_review += review_analytics
 
-    result_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    result_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     points = rating.get_overall()
     if points <= 1.0:
         points = 1.0
         # '* Tracking ({0} points)\r\n'
         result_rating.set_integrity_and_security(
-            points, _local('TEXT_TRACKING'))
+            points, local_translation('TEXT_TRACKING'))
         result_rating.set_overall(points)
     else:
         # '* Tracking (+{0} points)\r\n'
         result_rating.set_integrity_and_security(
-            points, _local('TEXT_TRACKING'))
+            points, local_translation('TEXT_TRACKING'))
         result_rating.set_overall(points)
 
     result_rating.integrity_and_security_review = result_rating.integrity_and_security_review + \
@@ -620,8 +620,8 @@ def rate_tracking(website_urls, _local, _):
     return result_rating
 
 
-def rate_fingerprint(website_urls, _local, _):
-    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+def rate_fingerprint(website_urls, local_translation, _):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     max_nof_fingerprints_showed = 5
 
@@ -642,17 +642,17 @@ def rate_fingerprint(website_urls, _local, _):
                 fingerprint_requests += 1
                 break
 
-        url_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        url_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         if url_is_adserver_requests:
             if fingerprint_requests <= max_nof_fingerprints_showed:
-                request_friendly_name = get_friendly_url_name(_,
+                request_friendly_name = get_friendly_url_name(global_translation,
                                                               website_url, request_index)
                 url_rating.set_integrity_and_security(
-                    1.0, _local('TEXT_FINGERPRINTING_FOUND').format(request_friendly_name))
+                    1.0, local_translation('TEXT_FINGERPRINTING_FOUND').format(request_friendly_name))
                 url_rating.set_overall(1.0)
             elif fingerprint_requests == limit_message_index:
                 url_rating.set_integrity_and_security(
-                    1.0, _local('TEXT_FINGERPRINTING_MAX_SHOWED').format(max_nof_fingerprints_showed))
+                    1.0, local_translation('TEXT_FINGERPRINTING_MAX_SHOWED').format(max_nof_fingerprints_showed))
                 url_rating.set_overall(1.0)
             else:
                 url_rating.set_integrity_and_security(1.0)
@@ -664,25 +664,25 @@ def rate_fingerprint(website_urls, _local, _):
     integrity_and_security_review = rating.integrity_and_security_review
 
     if fingerprint_requests >= 6:
-        integrity_and_security_review += _local('TEXT_FINGERPRINTING_TOTAL_FOUND').format(
+        integrity_and_security_review += local_translation('TEXT_FINGERPRINTING_TOTAL_FOUND').format(
             fingerprint_requests)
 
     if fingerprint_requests == 0:
         rating.set_integrity_and_security(5.0)
         rating.set_overall(5.0)
 
-    result_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    result_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     points = rating.get_overall()
     if points <= 1.0:
         points = 1.0
         # '* Tracking ({0} points)\r\n'
         result_rating.set_integrity_and_security(
-            points, _local('TEXT_FINGERPRINTING'))
+            points, local_translation('TEXT_FINGERPRINTING'))
         result_rating.set_overall(points)
     else:
         # '* Tracking (+{0} points)\r\n'
         result_rating.set_integrity_and_security(
-            points, _local('TEXT_FINGERPRINTING'))
+            points, local_translation('TEXT_FINGERPRINTING'))
         result_rating.set_overall(points)
 
     result_rating.integrity_and_security_review = result_rating.integrity_and_security_review + \
@@ -691,8 +691,8 @@ def rate_fingerprint(website_urls, _local, _):
     return result_rating
 
 
-def rate_ads(website_urls, _local, _):
-    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+def rate_ads(website_urls, local_translation, _):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     allowed_nof_ads = 2
     max_nof_ads_showed = 5
@@ -713,21 +713,21 @@ def rate_ads(website_urls, _local, _):
                 adserver_requests += 1
                 break
 
-        url_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        url_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         if url_is_adserver_requests:
-            request_friendly_name = get_friendly_url_name(_,
+            request_friendly_name = get_friendly_url_name(global_translation,
                                                           website_url, request_index)
             if adserver_requests <= allowed_nof_ads:
                 url_rating.set_integrity_and_security(
-                    5.0, _local('TEXT_ADS_FOUND_ALLOWED').format(request_friendly_name, allowed_nof_ads))
+                    5.0, local_translation('TEXT_ADS_FOUND_ALLOWED').format(request_friendly_name, allowed_nof_ads))
                 url_rating.set_overall(5.0)
             elif adserver_requests <= max_nof_ads_showed:
                 url_rating.set_integrity_and_security(
-                    1.0, _local('TEXT_ADS_FOUND').format(request_friendly_name))
+                    1.0, local_translation('TEXT_ADS_FOUND').format(request_friendly_name))
                 url_rating.set_overall(1.0)
             elif adserver_requests == limit_message_index:
                 url_rating.set_integrity_and_security(
-                    1.0, _local('TEXT_ADS_MAX_SHOWED').format(max_nof_ads_showed))
+                    1.0, local_translation('TEXT_ADS_MAX_SHOWED').format(max_nof_ads_showed))
                 url_rating.set_overall(1.0)
             else:
                 url_rating.set_integrity_and_security(1.0)
@@ -742,21 +742,21 @@ def rate_ads(website_urls, _local, _):
     integrity_and_security_review = rating.integrity_and_security_review
 
     if adserver_requests >= 6:
-        integrity_and_security_review += _local('TEXT_ADS_TOTAL_FOUND').format(
+        integrity_and_security_review += local_translation('TEXT_ADS_TOTAL_FOUND').format(
             adserver_requests)
 
-    result_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    result_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     points = rating.get_overall()
     if points <= 1.0:
         points = 1.0
         # '* Ads ({0} points)\r\n'
         result_rating.set_integrity_and_security(
-            points, _local('TEXT_ADS'))
+            points, local_translation('TEXT_ADS'))
         result_rating.set_overall(points)
     else:
         # '* Ads (+{0} points)\r\n'
         result_rating.set_integrity_and_security(
-            points, _local('TEXT_ADS'))
+            points, local_translation('TEXT_ADS'))
         result_rating.set_overall(points)
 
     result_rating.integrity_and_security_review = result_rating.integrity_and_security_review + \
@@ -765,8 +765,8 @@ def rate_ads(website_urls, _local, _):
     return result_rating
 
 
-def get_rating_from_sitespeed(url, _local, _):
-    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+def get_rating_from_sitespeed(url, local_translation, _):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     # We don't need extra iterations for what we are using it for
     sitespeed_iterations = 1
@@ -786,64 +786,64 @@ def get_rating_from_sitespeed(url, _local, _):
     # TODO: Read sitespeed manual on how to return localStorage
 
     # - Cookies ( 5.00 rating )
-    rating += rate_cookies(http_archive_content, url, _local, _)
+    rating += rate_cookies(http_archive_content, url, local_translation, _)
 
     # - GDPR and Schrems ( 5.00 rating )
-    rating += rate_gdpr_and_schrems(http_archive_content, _local, _)
+    rating += rate_gdpr_and_schrems(http_archive_content, local_translation, _)
 
     website_urls = get_urls_from_har(http_archive_content)
 
     # - Tracking ( 5.00 rating )
     try:
-        rating += rate_tracking(website_urls, _local, _)
+        rating += rate_tracking(website_urls, local_translation, _)
     except Exception as ex:
         print('tracking exception', ex)
     # - Fingerprinting/Identifying technique ( 5.00 rating )
     try:
-        rating += rate_fingerprint(website_urls, _local, _)
+        rating += rate_fingerprint(website_urls, local_translation, _)
     except Exception as ex:
         print('fingerprint exception', ex)
     # - Ads ( 5.00 rating )
     try:
-        rating += rate_ads(website_urls, _local, _)
+        rating += rate_ads(website_urls, local_translation, _)
     except Exception as ex:
         print('ads exception', ex)
 
     return rating
 
-def run_test(_, langCode, url):
+def run_test(global_translation, lang_code, url):
     """
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
 
     result_dict = {}
-    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     language = gettext.translation(
-        'tracking_validator', localedir='locales', languages=[langCode])
+        'tracking_validator', localedir='locales', languages=[lang_code])
     language.install()
-    _local = language.gettext
+    local_translation = language.gettext
 
-    print(_local('TEXT_RUNNING_TEST'))
+    print(local_translation('TEXT_RUNNING_TEST'))
 
-    print(_('TEXT_TEST_START').format(
+    print(global_translation('TEXT_TEST_START').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    rating += get_rating_from_sitespeed(url, _local, _)
+    rating += get_rating_from_sitespeed(url, local_translation, global_translation)
 
-    print(_('TEXT_TEST_END').format(
+    print(global_translation('TEXT_TEST_END').format(
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, result_dict)
 
 
-def get_analytics(_, _local, url, content, request_index, analytics_rules):
+def get_analytics(global_translation, local_translation, url, content, request_index, analytics_rules):
     analytics = {}
 
-    request_friendly_name = get_friendly_url_name(_,
+    request_friendly_name = get_friendly_url_name(global_translation,
                                                   url, request_index)
 
-    text = _local('TEXT_TRACKING_REFERENCE')
+    text = local_translation('TEXT_TRACKING_REFERENCE')
 
     url_and_content = url + content
 

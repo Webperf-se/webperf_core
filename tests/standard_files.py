@@ -78,9 +78,9 @@ def run_test(global_translation, lang_code, url):
     return (rating, return_dict)
 
 
-def validate_robots(_, _local, parsed_url):
+def validate_robots(global_translation, local_translation, parsed_url):
     return_dict = dict()
-    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     robots_content = get_http_content(parsed_url + 'robots.txt', True)
 
@@ -89,26 +89,26 @@ def validate_robots(_, _local, parsed_url):
            and 'disallow' not in robots_content.lower() \
            and 'allow' not in robots_content.lower()):
         rating.set_overall(1.0)
-        rating.set_standards(1.0, _local("TEXT_ROBOTS_MISSING"))
+        rating.set_standards(1.0, local_translation("TEXT_ROBOTS_MISSING"))
         return_dict['robots.txt'] = 'missing content'
         robots_content = ''
     else:
         rating.set_overall(5.0)
-        rating.set_standards(5.0, _local("TEXT_ROBOTS_OK"))
+        rating.set_standards(5.0, local_translation("TEXT_ROBOTS_OK"))
 
         return_dict['robots.txt'] = 'ok'
 
     return (rating, return_dict, robots_content)
 
 
-def validate_sitemaps(_, _local, robots_url, robots_content, has_robots_txt):
-    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+def validate_sitemaps(global_translation, local_translation, robots_url, robots_content, has_robots_txt):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     return_dict = dict()
     return_dict["num_sitemaps"] = 0
 
     if robots_content is None or not has_robots_txt or 'sitemap:' not in robots_content.lower():
         rating.set_overall(1.0)
-        rating.set_standards(1.0, _local("TEXT_SITEMAP_MISSING"))
+        rating.set_standards(1.0, local_translation("TEXT_SITEMAP_MISSING"))
         return_dict['sitemap'] = 'not in robots.txt'
     else:
         return_dict['sitemap'] = 'ok'
@@ -127,11 +127,11 @@ def validate_sitemaps(_, _local, robots_url, robots_content, has_robots_txt):
         if len(found_smaps) > 0:
             return_dict["sitemaps"] = found_smaps
 
-            sitemaps_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            sitemaps_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
             for sitemap_url in found_smaps:
-                sitemaps_rating += validate_sitemap(sitemap_url, robots_url, return_dict, _, _local)
+                sitemaps_rating += validate_sitemap(sitemap_url, robots_url, return_dict, global_translation, _local)
 
-            final_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            final_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
             if sitemaps_rating.is_set:
                 if USE_DETAILED_REPORT:
                     final_rating.set_overall(sitemaps_rating.get_overall())
@@ -142,15 +142,15 @@ def validate_sitemaps(_, _local, robots_url, robots_content, has_robots_txt):
                     review = ''
                     points = sitemaps_rating.get_standards()
                     if points >= 5.0:
-                        review = _local('TEXT_SITEMAP_VERY_GOOD')
+                        review = local_translation('TEXT_SITEMAP_VERY_GOOD')
                     elif points >= 4.0:
-                        review = _local('TEXT_SITEMAP_IS_GOOD')
+                        review = local_translation('TEXT_SITEMAP_IS_GOOD')
                     elif points >= 3.0:
-                        review = _local('TEXT_SITEMAP_IS_OK')
+                        review = local_translation('TEXT_SITEMAP_IS_OK')
                     elif points > 1.0:
-                        review = _local('TEXT_SITEMAP_IS_BAD')
+                        review = local_translation('TEXT_SITEMAP_IS_BAD')
                     elif points <= 1.0:
-                        review = _local('TEXT_SITEMAP_IS_VERY_BAD')
+                        review = local_translation('TEXT_SITEMAP_IS_VERY_BAD')
 
 
 
@@ -161,12 +161,12 @@ def validate_sitemaps(_, _local, robots_url, robots_content, has_robots_txt):
             rating += final_rating
         else:
             rating.set_overall(2.0)
-            rating.set_standards(2.0, _local("TEXT_SITEMAP_FOUND"))
+            rating.set_standards(2.0, local_translation("TEXT_SITEMAP_FOUND"))
 
     return (rating, return_dict)
 
-def validate_sitemap(sitemap_url, robots_url, return_dict, _, _local):
-    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+def validate_sitemap(sitemap_url, robots_url, return_dict, global_translation, _local):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     known_extensions = ['bmp', 'css', 'doc', 'docx', 'dot', 'eot', 'exe', 'git',
                         'ico', 'ics', 'jpeg', 'jpg', 'js','json', 'md', 'mov', 'mp3',
@@ -211,50 +211,50 @@ def validate_sitemap(sitemap_url, robots_url, return_dict, _, _local):
     total_nof_items_no_duplicates = len(sitemap_items)
 
     if not always_starts_with_https_scheme:
-        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(
                     1.0)
         sub_rating.set_standards(
-                    1.0, _local("TEXT_SITEMAP_NOT_STARTING_WITH_HTTPS_SCHEME"))
+                    1.0, local_translation("TEXT_SITEMAP_NOT_STARTING_WITH_HTTPS_SCHEME"))
         rating += sub_rating
     else:
-        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(
                     5.0)
         sub_rating.set_standards(
-                    5.0, _local("TEXT_SITEMAP_STARTING_WITH_HTTPS_SCHEME"))
+                    5.0, local_translation("TEXT_SITEMAP_STARTING_WITH_HTTPS_SCHEME"))
         rating += sub_rating
 
     if not always_uses_same_domain:
-        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(
                     1.0)
         sub_rating.set_standards(
-                    1.0, _local("TEXT_SITEMAP_NOT_SAME_DOMAIN_AS_ROBOTS_TXT"))
+                    1.0, local_translation("TEXT_SITEMAP_NOT_SAME_DOMAIN_AS_ROBOTS_TXT"))
         rating += sub_rating
     else:
-        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(
                     5.0)
         sub_rating.set_standards(
-                    5.0, _local("TEXT_SITEMAP_SAME_DOMAIN_AS_ROBOTS_TXT"))
+                    5.0, local_translation("TEXT_SITEMAP_SAME_DOMAIN_AS_ROBOTS_TXT"))
         rating += sub_rating
 
     if total_nof_items !=  total_nof_items_no_duplicates:
         ratio = total_nof_items_no_duplicates / total_nof_items
         duplicates_points = 3.0 * ratio
-        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(
                     duplicates_points)
         sub_rating.set_standards(
-                    duplicates_points, _local("TEXT_SITEMAP_INCLUDE_DUPLICATES"))
+                    duplicates_points, local_translation("TEXT_SITEMAP_INCLUDE_DUPLICATES"))
         rating += sub_rating
     else:
-        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(
                     5.0)
         sub_rating.set_standards(
-                    5.0, _local("TEXT_SITEMAP_NO_DUPLICATES"))
+                    5.0, local_translation("TEXT_SITEMAP_NO_DUPLICATES"))
         rating += sub_rating
 
     if len(item_type_keys) > 1:
@@ -264,18 +264,18 @@ def validate_sitemap(sitemap_url, robots_url, return_dict, _, _local):
             ratio = nof_webpages / total_nof_items
             webpages_points = 5.0 * ratio
 
-        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(
                     webpages_points)
         sub_rating.set_standards(
-                    webpages_points,  _local("TEXT_SITEMAP_NOT_ONLY_WEBPAGES"))
+                    webpages_points,  local_translation("TEXT_SITEMAP_NOT_ONLY_WEBPAGES"))
         rating += sub_rating
     else:
-        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(
                     5.0)
         sub_rating.set_standards(
-                    5.0, _local("TEXT_SITEMAP_ONLY_WEBPAGES"))
+                    5.0, local_translation("TEXT_SITEMAP_ONLY_WEBPAGES"))
         rating += sub_rating
 
     # loop sitemaps and see if any single sitemap exsits amount
@@ -286,18 +286,18 @@ def validate_sitemap(sitemap_url, robots_url, return_dict, _, _local):
         nof_items = len(sitemaps[key])
 
         if nof_items > 50_000:
-            sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
             sub_rating.set_overall(
                         1.0)
             sub_rating.set_standards(
-                        1.0,  _local("TEXT_SITEMAP_TOO_LARGE"))
+                        1.0,  local_translation("TEXT_SITEMAP_TOO_LARGE"))
             rating += sub_rating
         else:
-            sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
             sub_rating.set_overall(
                         5.0)
             sub_rating.set_standards(
-                        5.0, _local("TEXT_SITEMAP_NOT_TOO_LARGE"))
+                        5.0, local_translation("TEXT_SITEMAP_NOT_TOO_LARGE"))
             rating += sub_rating
 
     for key in item_type_keys:
@@ -306,20 +306,20 @@ def validate_sitemap(sitemap_url, robots_url, return_dict, _, _local):
         type_spread[key] = len(item_types[key])
 
     if total_nof_items == 0:
-        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(
                     1.0)
         sub_rating.set_standards(
-                    1.0, _local("TEXT_SITEMAP_BROKEN"))
+                    1.0, local_translation("TEXT_SITEMAP_BROKEN"))
         rating += sub_rating
 
         return_dict['sitemap_check'] = f"'{sitemap_url}' seem to be broken"
     else:
-        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(
                     5.0)
         sub_rating.set_standards(
-                    5.0, _local("TEXT_SITEMAP_IS_OK"))
+                    5.0, local_translation("TEXT_SITEMAP_IS_OK"))
         rating += sub_rating
 
         return_dict['sitemap_check'] = f"'{sitemap_url}' seem ok"
@@ -342,10 +342,10 @@ def is_feed(tag):
     return False
 
 
-def validate_feed(_, _local, url):
+def validate_feed(global_translation, local_translation, url):
     return_dict = {}
     feed = []
-    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     headers = {'user-agent': USERAGENT}
     try:
@@ -357,11 +357,11 @@ def validate_feed(_, _local, url):
         pass
 
     if len(feed) == 0:
-        rating.set_overall(4.5, _local("TEXT_RSS_FEED_MISSING"))
+        rating.set_overall(4.5, local_translation("TEXT_RSS_FEED_MISSING"))
         return_dict['feed'] = 'not in meta'
         return_dict['num_feeds'] = len(feed)
     elif len(feed) > 0:
-        rating.set_overall(5.0, _local("TEXT_RSS_FEED_FOUND"))
+        rating.set_overall(5.0, local_translation("TEXT_RSS_FEED_FOUND"))
         return_dict['feed'] = 'found in meta'
         return_dict['num_feeds'] = len(feed)
         tmp_feed = []
@@ -373,7 +373,7 @@ def validate_feed(_, _local, url):
     return (rating, return_dict)
 
 
-def validate_security_txt(_, _local, parsed_url):
+def validate_security_txt(global_translation, local_translation, parsed_url):
     security_wellknown_request = False
     security_root_request = False
 
@@ -402,19 +402,19 @@ def validate_security_txt(_, _local, parsed_url):
 
     if not security_wellknown_request and not security_root_request:
         # Can't find security.txt (not giving us 200 as status code)
-        rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         rating.set_overall(1.0)
-        rating.set_standards(1.0, _local("TEXT_SECURITY_MISSING"))
-        rating.set_integrity_and_security(1.0, _local("TEXT_SECURITY_MISSING"))
+        rating.set_standards(1.0, local_translation("TEXT_SECURITY_MISSING"))
+        rating.set_integrity_and_security(1.0, local_translation("TEXT_SECURITY_MISSING"))
 
         return_dict = dict()
         return_dict['security.txt'] = 'missing'
         return (rating, return_dict)
     else:
         security_wellknown_result = rate_securitytxt_content(
-            security_wellknown_content, _, _local)
+            security_wellknown_content, global_translation, _local)
         security_root_result = rate_securitytxt_content(
-            security_root_content, _, _local)
+            security_root_content, global_translation, _local)
 
         security_wellknown_rating = security_wellknown_result[0]
         security_root_rating = security_root_result[0]
@@ -428,40 +428,40 @@ def validate_security_txt(_, _local, parsed_url):
             return security_root_result
 
 
-def rate_securitytxt_content(content, _, _local):
-    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+def rate_securitytxt_content(content, global_translation, _local):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     return_dict = {}
     if content is None or ('<html' in content.lower()):
         # Html (404 page?) content instead of expected content
         rating.set_overall(1.0)
-        rating.set_standards(1.0, _local("TEXT_SECURITY_WRONG_CONTENT"))
+        rating.set_standards(1.0, local_translation("TEXT_SECURITY_WRONG_CONTENT"))
         rating.set_integrity_and_security(
-            1.0, _local("TEXT_SECURITY_WRONG_CONTENT"))
+            1.0, local_translation("TEXT_SECURITY_WRONG_CONTENT"))
         return_dict['security.txt'] = 'wrong content'
     elif ('contact:' in content.lower() and 'expires:' in content.lower()):
         # Everything seems ok
         rating.set_overall(5.0)
-        rating.set_standards(5.0, _local("TEXT_SECURITY_OK_CONTENT"))
+        rating.set_standards(5.0, local_translation("TEXT_SECURITY_OK_CONTENT"))
         rating.set_integrity_and_security(
-            5.0, _local("TEXT_SECURITY_OK_CONTENT"))
+            5.0, local_translation("TEXT_SECURITY_OK_CONTENT"))
         return_dict['security.txt'] = 'ok'
     elif not 'contact:' in content.lower():
         # Missing required Contact
         rating.set_overall(2.5)
-        rating.set_standards(2.5, _local(
+        rating.set_standards(2.5, local_translation(
             "TEXT_SECURITY_REQUIRED_CONTACT_MISSING"))
         rating.set_integrity_and_security(
-            2.5, _local("TEXT_SECURITY_REQUIRED_CONTACT_MISSING"))
+            2.5, local_translation("TEXT_SECURITY_REQUIRED_CONTACT_MISSING"))
         return_dict['security.txt'] = 'required contact missing'
     elif not 'expires:' in content.lower():
         # Missing required Expires (added in version 10 of draft)
         rating.set_overall(2.5)
-        rating.set_standards(2.5, _local(
+        rating.set_standards(2.5, local_translation(
             "TEXT_SECURITY_REQUIRED_EXPIRES_MISSING"))
         rating.set_integrity_and_security(
-            4.0, _local("TEXT_SECURITY_REQUIRED_EXPIRES_MISSING"))
+            4.0, local_translation("TEXT_SECURITY_REQUIRED_EXPIRES_MISSING"))
         return_dict['security.txt'] = 'required expires missing'
     else:
-        rating.set_overall(1.0, _local("TEXT_SECURITY_WRONG_CONTENT"))
+        rating.set_overall(1.0, local_translation("TEXT_SECURITY_WRONG_CONTENT"))
 
     return (rating, return_dict)

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 from models import Rating
-import datetime
+from datetime import datetime
 import re
 from tests.utils import get_config_or_default, get_friendly_url_name, set_cache_file
 from tests.w3c_base import get_errors, identify_files
@@ -19,23 +19,23 @@ sitespeed_timeout = get_config_or_default('sitespeed_timeout')
 USE_CACHE = get_config_or_default('cache_when_possible')
 CACHE_TIME_DELTA = get_config_or_default('cache_time_delta')
 
-def run_test(_, langCode, url):
+def run_test(global_translation, lang_code, url):
     """
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
 
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(global_translation, review_show_improvements_only)
     points = 0.0
     review = ''
 
     language = gettext.translation(
-        'html_validator_w3c', localedir='locales', languages=[langCode])
+        'html_validator_w3c', localedir='locales', languages=[lang_code])
     language.install()
-    _local = language.gettext
+    local_translation = language.gettext
 
-    print(_local('TEXT_RUNNING_TEST'))
+    print(local_translation('TEXT_RUNNING_TEST'))
 
-    print(_('TEXT_TEST_START').format(
+    print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     errors = list()
@@ -59,7 +59,7 @@ def run_test(_, langCode, url):
 
     for entry in data['htmls']:
         req_url = entry['url']
-        name = get_friendly_url_name(_, req_url, entry['index'])
+        name = get_friendly_url_name(global_translation, req_url, entry['index'])
         review_header = '- {0} '.format(name)
         html = entry['content']
         set_cache_file(req_url, html, True)
@@ -108,21 +108,21 @@ def run_test(_, langCode, url):
                     item_value = item[1]
                     item_text = item[0]
 
-                    review += _local('TEXT_REVIEW_ERRORS_ITEM').format(item_text, item_value)
+                    review += local_translation('TEXT_REVIEW_ERRORS_ITEM').format(item_text, item_value)
 
         number_of_error_types = len(error_message_grouped_dict)
 
         result = calculate_rating(number_of_error_types, number_of_errors)
 
         # if number_of_error_types > 0:
-        error_types_rating = Rating(_, review_show_improvements_only)
-        error_types_rating.set_overall(result[0], review_header + _local('TEXT_REVIEW_RATING_GROUPED').format(
+        error_types_rating = Rating(global_translation, review_show_improvements_only)
+        error_types_rating.set_overall(result[0], review_header + local_translation('TEXT_REVIEW_RATING_GROUPED').format(
             number_of_error_types, 0.0))
         rating += error_types_rating
 
         # if number_of_errors > 0:
-        error_rating = Rating(_, review_show_improvements_only)
-        error_rating.set_overall(result[1], review_header + _local(
+        error_rating = Rating(global_translation, review_show_improvements_only)
+        error_rating.set_overall(result[1], review_header + local_translation(
             'TEXT_REVIEW_RATING_ITEMS').format(number_of_errors, 0.0))
         rating += error_rating
 
@@ -133,25 +133,25 @@ def run_test(_, langCode, url):
 
     review = ''
     if points == 5.0:
-        review = _local('TEXT_REVIEW_HTML_VERY_GOOD')
+        review = local_translation('TEXT_REVIEW_HTML_VERY_GOOD')
     elif points >= 4.0:
-        review = _local('TEXT_REVIEW_HTML_IS_GOOD').format(
+        review = local_translation('TEXT_REVIEW_HTML_IS_GOOD').format(
             number_of_errors)
     elif points >= 3.0:
-        review = _local('TEXT_REVIEW_HTML_IS_OK').format(
+        review = local_translation('TEXT_REVIEW_HTML_IS_OK').format(
             number_of_errors)
     elif points > 1.0:
-        review = _local('TEXT_REVIEW_HTML_IS_BAD').format(
+        review = local_translation('TEXT_REVIEW_HTML_IS_BAD').format(
             number_of_errors)
     elif points <= 1.0:
-        review = _local('TEXT_REVIEW_HTML_IS_VERY_BAD').format(
+        review = local_translation('TEXT_REVIEW_HTML_IS_VERY_BAD').format(
             number_of_errors)
 
     # rating.set_overall(points)
     rating.standards_review = rating.overall_review + rating.standards_review
     rating.overall_review = review
 
-    print(_('TEXT_TEST_END').format(
+    print(global_translation('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, errors)

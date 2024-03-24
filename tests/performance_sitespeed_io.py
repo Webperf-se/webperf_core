@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 import os
 from models import Rating
-import datetime
+from datetime import datetime
 from tests.utils import get_config_or_default
 import gettext
 _local = gettext.gettext
@@ -41,7 +41,7 @@ def get_result(sitespeed_use_docker, arg):
     return result
 
 
-def run_test(_, langCode, url):
+def run_test(global_translation, lang_code, url):
     """
     Checking an URL against Sitespeed.io (Docker version). 
     For installation, check out:
@@ -49,16 +49,16 @@ def run_test(_, langCode, url):
     - https://www.sitespeed.io
     """
     language = gettext.translation(
-        'performance_sitespeed_io', localedir='locales', languages=[langCode])
+        'performance_sitespeed_io', localedir='locales', languages=[lang_code])
     language.install()
-    _local = language.gettext
+    local_translation = language.gettext
 
-    print(_local('TEXT_RUNNING_TEST'))
+    print(local_translation('TEXT_RUNNING_TEST'))
 
-    print(_('TEXT_TEST_START').format(
+    print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    rating = Rating(_)
+    rating = Rating(global_translation)
     result_dict = {}
 
     validator_result_dicts = []
@@ -78,13 +78,13 @@ def run_test(_, langCode, url):
     mobile_result_dict = validate_on_mobile(url)
 
     desktop_rating = rate_result_dict(desktop_result_dict, None,
-                                      'desktop', _, _local)
+                                      'desktop', global_translation, local_translation)
 
     rating += desktop_rating
     result_dict.update(desktop_result_dict)
 
     mobile_rating = rate_result_dict(mobile_result_dict, None,
-                                     'mobile', _, _local)
+                                     'mobile', global_translation, local_translation)
 
     rating += mobile_rating
     result_dict.update(mobile_result_dict)
@@ -106,7 +106,7 @@ def run_test(_, langCode, url):
                 reference_result_dict = desktop_result_dict
 
         validator_rating = rate_result_dict(validator_result_dict, reference_result_dict,
-                                            validator_name, _, _local)
+                                            validator_name, global_translation, local_translation)
         rating += validator_rating
         result_dict.update(validator_result_dict)
 
@@ -116,7 +116,7 @@ def run_test(_, langCode, url):
                 rating.overall_review += '- [{2}] Advice: Rating may improve from {0} to {1} with {3} changes\r\n'.format(
                     reference_rating, validator_rating_overall, reference_name, validator_name)
 
-    print(_('TEXT_TEST_END').format(
+    print(global_translation('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, result_dict)

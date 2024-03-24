@@ -8,7 +8,7 @@ REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
 USE_CACHE = get_config_or_default('cache_when_possible')
 CACHE_TIME_DELTA = get_config_or_default('cache_time_delta')
 
-def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category, review_show_improvements_only, lighthouse_use_api):
+def run_test(global_translation, lang_code, url, googlePageSpeedApiKey, strategy, category, review_show_improvements_only, lighthouse_use_api):
     """
     perf = https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category=performance&strategy=mobile&url=YOUR-SITE&key=YOUR-KEY
     a11y = https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category=accessibility&strategy=mobile&url=YOUR-SITE&key=YOUR-KEY
@@ -18,7 +18,7 @@ def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category, review
     """
 
     json_content = get_json_result(
-        langCode, url, googlePageSpeedApiKey, strategy, category, lighthouse_use_api)
+        lang_code, url, googlePageSpeedApiKey, strategy, category, lighthouse_use_api)
 
     # look for words indicating item is insecure
     insecure_strings = ['security', 'säkerhet',
@@ -30,7 +30,7 @@ def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category, review
 
     return_dict = {}
     weight_dict = {}
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(global_translation, review_show_improvements_only)
 
     # Service score (0-100)
     score = json_content['categories'][category]['score']
@@ -70,13 +70,13 @@ def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category, review
                 displayValue = json_content['audits'][item]['displayValue']
             if local_score == 0:
                 item_review = "- {0}".format(
-                    _(item_title))
+                    global_translation(item_title))
             elif local_points == 5.0:
                 item_review = "- {0}".format(
-                    _(item_title))
+                    global_translation(item_title))
             else:
                 item_review = "- {0}: {1}".format(
-                    _(item_title), displayValue)
+                    global_translation(item_title), displayValue)
 
             reviews.append([local_points - weight_dict[item],
                             item_review, local_points])
@@ -84,7 +84,7 @@ def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category, review
             for insecure_str in insecure_strings:
                 if insecure_str in item_review or insecure_str in item_description:
 
-                    local_rating = Rating(_, review_show_improvements_only)
+                    local_rating = Rating(global_translation, review_show_improvements_only)
                     if local_score == 1:
                         local_rating.set_integrity_and_security(
                             5.0, '- {0}'.format(item_title))
@@ -95,7 +95,7 @@ def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category, review
                     break
             for standard_str in standard_strings:
                 if standard_str in item_review or standard_str in item_description:
-                    local_rating = Rating(_, review_show_improvements_only)
+                    local_rating = Rating(global_translation, review_show_improvements_only)
                     if local_score == 1:
                         local_rating.set_standards(
                             5.0, '- {0}'.format(item_title))
@@ -112,7 +112,7 @@ def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category, review
 
     reviews.sort()
     for review_item in reviews:
-        review_rating = Rating(_, review_show_improvements_only)
+        review_rating = Rating(global_translation, review_show_improvements_only)
         review_rating.set_overall(review_item[2], review_item[1])
         rating += review_rating
     review = rating.overall_review

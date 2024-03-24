@@ -19,7 +19,7 @@ def add_site(input_filename, url, input_skip, input_take):
     sites.append([id, url])
     write_sites(input_filename, sites)
 
-    print(_('TEXT_WEBSITE_URL_ADDED').format(url))
+    print(global_translation('TEXT_WEBSITE_URL_ADDED').format(url))
 
     return sites
 
@@ -35,7 +35,7 @@ def delete_site(input_filename, url, input_skip, input_take):
 
     write_sites(input_filename, tmpSites)
 
-    print(_('TEXT_WEBSITE_URL_DELETED').format(site_url))
+    print(global_translation('TEXT_WEBSITE_URL_DELETED').format(site_url))
 
     return tmpSites
 

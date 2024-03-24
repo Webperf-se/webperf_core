@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
+import gettext
 from tests.lighthouse_base import run_test as lighthouse_base_run_test
 from tests.utils import get_config_or_default
-import gettext
 
 # DEFAULTS
 GOOGLEPAGESPEEDAPIKEY = get_config_or_default('googlePageSpeedApiKey')
@@ -22,7 +22,14 @@ def run_test(global_translation, lang_code, url, strategy='mobile', category='ac
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     test_result = lighthouse_base_run_test(
-        global_translation, lang_code, url, GOOGLEPAGESPEEDAPIKEY, strategy, category, REVIEW_SHOW_IMPROVEMENTS_ONLY, LIGHTHOUSE_USE_API)
+                        global_translation,
+                        lang_code,
+                        url,
+                        GOOGLEPAGESPEEDAPIKEY,
+                        strategy,
+                        category,
+                        REVIEW_SHOW_IMPROVEMENTS_ONLY,
+                        LIGHTHOUSE_USE_API)
     rating = test_result[0]
     test_return_dict = test_result[1]
 

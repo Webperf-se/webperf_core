@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 import sys
 import getopt
-import datetime
 import gettext
 import math
-import datetime
 import json
 import gettext
 from datetime import datetime

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from models import Rating
-import datetime
+from datetime import datetime
 import json
 import requests
 from tests.utils import *
@@ -136,7 +136,7 @@ def run_test(global_translation, lang_code, url, device='phone'):
                 rating += rule_rating
 
             # if not matching_one_category_or_more:
-            #     rule_rating = Rating(_, review_show_improvements_only)
+            #     rule_rating = Rating(global_translation, review_show_improvements_only)
             #     rule_rating.over(
             #                 rule_score, rule_label)
             #     rating += rule_rating

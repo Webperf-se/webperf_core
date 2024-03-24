@@ -5,13 +5,21 @@ import traceback
 from models import SiteTests
 import config
 
-# TEST_ALL = -1
+TEST_ALL = (TEST_UNKNOWN_01,
+            TEST_GOOGLE_LIGHTHOUSE, TEST_PAGE_NOT_FOUND,
+            TEST_UNKNOWN_03,
+            TEST_GOOGLE_LIGHTHOUSE_SEO, TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE, TEST_HTML, TEST_CSS,
+            TEST_GOOGLE_LIGHTHOUSE_PWA, TEST_STANDARD_FILES, TEST_GOOGLE_LIGHTHOUSE_A11Y,
+            TEST_UNKNOWN_11, TEST_UNKNOWN_12, TEST_UNKNOWN_13, TEST_UNKNOWN_14,
+            TEST_SITESPEED,
+            TEST_UNKNOWN_16,
+            TEST_YELLOW_LAB_TOOLS, TEST_PA11Y,
+            TEST_UNKNOWN_19,
+            TEST_WEBBKOLL, TEST_HTTP, TEST_ENERGY_EFFICIENCY, TEST_TRACKING,
+            TEST_EMAIL, TEST_SOFTWARE, TEST_A11Y_STATEMENT) = range(27)
 
-TEST_ALL = (TEST_UNKNOWN_01, TEST_GOOGLE_LIGHTHOUSE, TEST_PAGE_NOT_FOUND, TEST_UNKNOWN_03, TEST_GOOGLE_LIGHTHOUSE_SEO, TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE, TEST_HTML, TEST_CSS, TEST_GOOGLE_LIGHTHOUSE_PWA, TEST_STANDARD_FILES,
-            TEST_GOOGLE_LIGHTHOUSE_A11Y, TEST_UNKNOWN_11, TEST_UNKNOWN_12, TEST_UNKNOWN_13, TEST_UNKNOWN_14, TEST_SITESPEED, TEST_UNKNOWN_16, TEST_YELLOW_LAB_TOOLS, TEST_PA11Y, TEST_UNKNOWN_19, TEST_WEBBKOLL, TEST_HTTP, TEST_ENERGY_EFFICIENCY, TEST_TRACKING, TEST_EMAIL, TEST_SOFTWARE, TEST_A11Y_STATEMENT) = range(27)
 
-
-def test(_, langCode, site, test_type=None, show_reviews=False,):
+def test(_, lang_code, site, test_type=None, show_reviews=False):
     """
     Executing the actual tests.
     Attributes:
@@ -62,7 +70,7 @@ def test(_, langCode, site, test_type=None, show_reviews=False,):
         elif test_type == TEST_A11Y_STATEMENT:
             from tests.a11y_statement import run_test
 
-        the_test_result = run_test(_, langCode, website)
+        the_test_result = run_test(_, lang_code, website)
 
         if the_test_result != None:
             rating = the_test_result[0]
@@ -97,28 +105,28 @@ def test(_, langCode, site, test_type=None, show_reviews=False,):
 
             outfile.writelines(['###############################################',
                                 '\n# Information:',
-                                '\nDateTime: {0}' .format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')),
-                                '\nUrl: {0}'.format(website),
-                                '\nLanguage Code: {0}'.format(langCode),
-                                '\nTest Type(s): {0}'.format(test_type),
-                                '\nShow Reviews: {0}'.format(show_reviews),
+                                f'\nDateTime: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}' ,
+                                f'\nUrl: {website}',
+                                f'\nLanguage Code: {lang_code}',
+                                f'\nTest Type(s): {test_type}',
+                                f'\nShow Reviews: {show_reviews}',
                                  '\n###############################################'
                                 '\n# Configuration (from config.py):',
-                                '\nuseragent: {0}'.format(config.useragent),
-                                '\nhttp_request_timeout: {0}'.format(config.http_request_timeout),
-                                '\nwebbkoll_sleep: {0}'.format(config.webbkoll_sleep),
-                                '\ncss_review_group_errors: {0}'.format(config.css_review_group_errors),
-                                '\nreview_show_improvements_only: {0}'.format(config.review_show_improvements_only),
-                                '\nylt_use_api: {0}'.format(config.ylt_use_api),
-                                '\nlighthouse_use_api: {0}'.format(config.lighthouse_use_api),
-                                '\nsitespeed_use_docker: {0}'.format(config.sitespeed_use_docker),
-                                '\nsitespeed_iterations: {0}'.format(config.sitespeed_iterations),
-                                '\nlocales: {0}'.format(config.locales),
-                                '\ncache_when_possible: {0}'.format(config.cache_when_possible),
-                                '\ncache_time_delta: {0}'.format(config.cache_time_delta),
-                                '\nsoftware_use_stealth: {0}'.format(config.software_use_stealth),
-                                '\nuse_detailed_report: {0}'.format(config.use_detailed_report),
-                                '\nsoftware_browser: {0}'.format(config.software_browser),
+                                f'\nuseragent: {config.useragent}',
+                                f'\nhttp_request_timeout: {config.http_request_timeout}',
+                                f'\nwebbkoll_sleep: {config.webbkoll_sleep}',
+                                f'\ncss_review_group_errors: {config.css_review_group_errors}',
+                                f'\nreview_show_improvements_only: {config.review_show_improvements_only}',
+                                f'\nylt_use_api: {config.ylt_use_api}',
+                                f'\nlighthouse_use_api: {config.lighthouse_use_api}',
+                                f'\nsitespeed_use_docker: {config.sitespeed_use_docker}',
+                                f'\nsitespeed_iterations: {config.sitespeed_iterations}',
+                                f'\nlocales: {config.locales}',
+                                f'\ncache_when_possible: {config.cache_when_possible}',
+                                f'\ncache_time_delta: {config.cache_time_delta}',
+                                f'\nsoftware_use_stealth: {config.software_use_stealth}',
+                                f'\nuse_detailed_report: {config.use_detailed_report}',
+                                f'\nsoftware_browser: {config.software_browser}',
                                  '\n###############################################\n'
                                  ])
 

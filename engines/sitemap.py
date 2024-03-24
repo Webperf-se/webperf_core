@@ -5,8 +5,7 @@ import gzip
 import io
 from bs4 import BeautifulSoup
 from engines.utils import use_item
-from tests.utils import get_content_type, httpRequestGetContent, cache_time_delta
-from utils import merge_dicts
+from tests.utils import get_content_type, httpRequestGetContent, merge_dicts, cache_time_delta
 
 def read_sites(input_sitemap_url, input_skip, input_take):
     ignore_none_html = True

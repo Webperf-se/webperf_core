@@ -15,8 +15,10 @@ from urllib.parse import ParseResult, urlparse, urlunparse
 import requests
 import IP2Location
 import dns
+import dns.query
 import dns.resolver
 import dns.dnssec
+import dns.exception
 
 def get_config_or_default(name):
     """
@@ -104,7 +106,8 @@ def is_file_older_than(file, delta):
     delta (datetime.timedelta): The time delta to compare the file's modification time against.
 
     Returns:
-    bool: True if the file's modification time is older than the current time minus the given delta, False otherwise.
+    bool: True if the file's modification time is older than the current time minus the given delta,
+          False otherwise.
 
     Notes:
     - The function uses the file's modification time (mtime) for the comparison.
@@ -118,6 +121,20 @@ def is_file_older_than(file, delta):
 
 
 def get_cache_path(url, use_text_instead_of_content):
+    """
+    Generates a cache path for a given URL. The cache path is based on the hostname of the URL and
+    a hash of the URL itself.
+    The function also ensures that the necessary directories for storing the cache file exist.
+
+    Parameters:
+    url (str): The URL for which to generate a cache path.
+    use_text_instead_of_content (bool): Determines the format of the cache file. 
+        If True, the cache file is in '.txt.utf-8' format. 
+        If False, the cache file is in '.bytes' format.
+
+    Returns:
+    str: The generated cache path.
+    """
     o = urlparse(url)
     hostname = o.hostname
 
@@ -147,6 +164,27 @@ def get_cache_path(url, use_text_instead_of_content):
 
 
 def get_cache_file(url, use_text_instead_of_content, time_delta):
+    """
+    Retrieves the content of a cache file for a given URL if it exists and
+    is not older than a given time delta.
+
+    Parameters:
+    url (str): The URL for which to retrieve the cache file.
+    use_text_instead_of_content (bool): Determines the format of the cache file.
+        If True, the cache file is read as text.
+        If False, the cache file is read as bytes.
+    time_delta (datetime.timedelta): The maximum age of the cache file.
+        If the cache file is older than this, None is returned.
+
+    Returns:
+    str or bytes or None: The content of the cache file if it exists and
+    is not older than the given time delta.
+    If the cache file does not exist or is too old, None is returned.
+
+    Notes:
+    - The function uses the get_cache_path function to determine the path of the cache file.
+    - If USE_CACHE is False, the function always returns None.
+    """
     cache_path = get_cache_path(url, use_text_instead_of_content)
 
     if not os.path.exists(cache_path):
@@ -163,6 +201,20 @@ def get_cache_file(url, use_text_instead_of_content, time_delta):
             return file.read()
 
 def has_cache_file(url, use_text_instead_of_content, time_delta):
+    """
+    Checks if a cache file exists for a given URL and if it's not older than a specified time delta.
+
+    Parameters:
+    url (str): The URL for which to check the cache file.
+    use_text_instead_of_content (bool): Determines the type of content to be cached.
+      If True, text is cached; otherwise, content is cached.
+    time_delta (datetime.timedelta): The maximum age of the cache file.
+      If the file is older than this, it's considered as not existing.
+
+    Returns:
+    bool: True if the cache file exists and is not older than the specified time delta,
+          False otherwise.
+    """
     cache_path = get_cache_path(url, use_text_instead_of_content)
 
     if not os.path.exists(cache_path):
@@ -175,6 +227,26 @@ def has_cache_file(url, use_text_instead_of_content, time_delta):
 
 
 def clean_cache_files():
+    """
+    Cleans up cache files from the 'cache' directory and
+    removes the 'tmp' directory if caching is not used.
+
+    This function performs the following operations:
+    1. If caching is not used (USE_CACHE is False), it removes the 'tmp' directory and returns.
+    2. If caching is used, it goes through each file in each subdirectory of the 'cache' directory.
+    3. For each file, if the file ends with '.cache',
+       it checks if the file is older than CACHE_TIME_DELTA.
+    4. If the file is older than CACHE_TIME_DELTA, it removes the file.
+
+    The function also prints out the following information:
+    - The number of files and folders in the 'cache' folder before cleanup.
+    - The number of '.cache' files found.
+    - The number of 'result' folders found.
+    - The number of '.cache' files removed.
+    - The number of 'result' folders removed.
+
+    Note: The function uses the USE_CACHE and CACHE_TIME_DELTA global variables.
+    """
     if not USE_CACHE:
         # If we don't want to cache stuff, why complicate stuff, just empy tmp folder when done
         folder = 'tmp'
@@ -220,6 +292,19 @@ def clean_cache_files():
 
 
 def set_cache_file(url, content, use_text_instead_of_content):
+    """
+    Writes the given content to a cache file.
+
+    The cache file path is determined by the given URL and the flag 
+    `use_text_instead_of_content`. If the flag is True, the content is 
+    written as text. Otherwise, it's written as binary.
+
+    Args:
+        url (str): The URL to determine the cache file path.
+        content (str or bytes): The content to write to the cache file.
+        use_text_instead_of_content (bool): Flag to determine how to write 
+                                             the content.
+    """
     cache_path = get_cache_path(url, use_text_instead_of_content)
     if use_text_instead_of_content:
         with open(cache_path, 'w', encoding='utf-8', newline='') as file:
@@ -229,10 +314,30 @@ def set_cache_file(url, content, use_text_instead_of_content):
             file.write(content)
 
 def get_http_content(url, allow_redirects=False, use_text_instead_of_content=True):
-    """Trying to fetch the response content
-    Attributes: url, as for the URL to fetch
     """
+    Retrieves the content of the specified URL and caches it.
 
+    This function first checks if the content is already cached. If it is, 
+    the cached content is returned. If not, a GET request is sent to the 
+    URL. The content of the response is then cached and returned.
+
+    In case of SSL or connection errors, the function retries the request 
+    using HTTPS if the original URL used HTTP. If the request times out, 
+    an error message is printed.
+
+    Args:
+        url (str): The URL to retrieve the content from.
+        allow_redirects (bool, optional): Whether to follow redirects. 
+                                           Defaults to False.
+        use_text_instead_of_content (bool, optional): Whether to retrieve 
+                                                      the response content 
+                                                      as text (True) or 
+                                                      binary (False). 
+                                                      Defaults to True.
+
+    Returns:
+        str or bytes: The content of the URL.
+    """
     try:
         content = get_cache_file(
             url, use_text_instead_of_content, CACHE_TIME_DELTA)
@@ -266,14 +371,29 @@ def get_http_content(url, allow_redirects=False, use_text_instead_of_content=Tru
         print(
             'Connection error! Unfortunately the request for URL'
             f'"{url}" failed.\nMessage:\n{sys.exc_info()[0]}')
-    except:
+    except TimeoutError:
         print(
             'Error! Unfortunately the request for URL'
-            f'"{url}" either timed out or failed for other reason(s).'
+            f'"{url}" timed out.'
             f'The timeout is set to {REQUEST_TIMEOUT} seconds.\nMessage:\n{sys.exc_info()[0]}')
     return ''
 
 def get_content_type(url, cache_time_delta):
+    """
+    Retrieves the content type of the specified URL.
+
+    This function sends a GET request to the URL and retrieves the headers. 
+    If the status code is 401, it returns 401. Otherwise, it checks the 
+    headers for the 'Content-Type' field (case-insensitive) and returns its 
+    value. If the 'Content-Type' field is not found, it returns None.
+
+    Args:
+        url (str): The URL to retrieve the content type from.
+        cache_time_delta (int): The cache time delta.
+
+    Returns:
+        str or None: The content type of the URL, or None if not found.
+    """
     headers = get_url_headers(url, cache_time_delta)
 
     if headers['status-code'] == 401:
@@ -289,10 +409,24 @@ def get_content_type(url, cache_time_delta):
     return None
 
 def get_url_headers(url, cache_time_delta):
-    """Trying to fetch the response content
-    Attributes: url, as for the URL to fetch
     """
+    Retrieves the headers of the specified URL.
 
+    This function first checks if the headers are already cached. If they are, 
+    the cached headers are returned. If not, a HEAD request is sent to the URL. 
+    The headers of the response are then cached and returned.
+
+    In case of SSL or connection errors, the function prints an error message 
+    and returns an empty dictionary. If the status code is 401, it returns a 
+    dictionary with 'status-code' set to 401.
+
+    Args:
+        url (str): The URL to retrieve the headers from.
+        cache_time_delta (int): The cache time delta.
+
+    Returns:
+        dict: The headers of the URL.
+    """
     try:
         key = url.replace('https://', 'heads://').replace('http://', 'head://')
 
@@ -326,8 +460,6 @@ def get_url_headers(url, cache_time_delta):
         print('get_url_headers, Info using: SSL error occured')
     except requests.exceptions.ConnectionError:
         print('get_url_headers, Info using: connection error occured')
-    except Exception:
-        print('get_url_headers, Info using: unknown connection error occured')
     return {}
 
 def has_redirect(url):
@@ -356,8 +488,6 @@ def has_redirect(url):
         error_msg = 'Unable to verify: SSL error occured'
     except requests.exceptions.ConnectionError:
         error_msg = 'Unable to verify: connection error occured'
-    except:
-        error_msg = 'Unable to verify: unknown connection error occured'
     return (False, None, error_msg)
 
 
@@ -408,11 +538,18 @@ def dns_lookup(key, datatype):
         time.sleep(5)
 
         return dns_response_to_list(response)
-
+    except dns.query.BadResponse as br:
+        print('\t\tDNS Bad response', br)
+    except dns.exception.Timeout:
+        print('\t\tDNS Timeout')
+    except dns.resolver.NoAnswer:
+        # this is expected when for example no 'AAAA' record.
+        return []
+    except dns.resolver.NXDOMAIN:
+        # this is expected when for example no MTA domain.
+        return []
     except dns.dnssec.ValidationFailure as vf:
         print('\t\tDNS FAIL', vf)
-    except Exception as ex2:
-        print('\t\tDNS GENERAL FAIL', ex2)
 
     return []
 
@@ -515,13 +652,12 @@ def get_country_code_from_ip2location(ip_address):
     rec = False
     try:
         rec = IP2_LOCATION_DB.get_all(ip_address)
-    except Exception:
+    except Exception: # pylint: disable=broad-exception-caught
         return ''
-    try:
+    if hasattr(rec, 'country_short'):
         countrycode = rec.country_short
         return countrycode
-    except Exception:
-        return ''
+    return ''
 
 
 def get_best_country_code(ip_address, default_country_code):
@@ -560,7 +696,7 @@ def get_friendly_url_name(_, url, request_index):
             request_friendly_name = f'#{request_index}: {tmp[:15]}'
         elif length > 1:
             request_friendly_name = f'#{request_index}: {tmp}'
-    except:
+    except ValueError:
         return request_friendly_name
     return request_friendly_name
 
@@ -571,36 +707,37 @@ def merge_dicts(dict1, dict2, sort, make_distinct):
         return dict1
 
     for domain, value in dict2.items():
-        if domain in dict1:
-            type_of_value = type(value)
-            if type_of_value is dict:
-                for subkey, subvalue in value.items():
-                    if subkey in dict1[domain]:
-                        if isinstance(subvalue, dict):
-                            merge_dicts(
-                                dict1[domain][subkey],
-                                dict2[domain][subkey],
-                                sort,
-                                make_distinct)
-                        elif isinstance(subvalue, list):
-                            dict1[domain][subkey].extend(subvalue)
-                            if make_distinct:
-                                dict1[domain][subkey] = list(set(dict1[domain][subkey]))
-                            if sort:
-                                dict1[domain][subkey] = sorted(dict1[domain][subkey])
-                    else:
-                        dict1[domain][subkey] = dict2[domain][subkey]
-            elif type_of_value == list:
-                dict1[domain].extend(value)
-                if make_distinct:
-                    dict1[domain] = list(set(dict1[domain]))
-                if sort:
-                    dict1[domain] = sorted(dict1[domain])
-            elif type_of_value == int:
-                dict1[domain] = dict1[domain] + value
-        else:
+        if domain not in dict1:
             dict1[domain] = value
+            continue
+
+        if isinstance(value, dict):
+            merge_dict_values(dict1, dict2, domain, sort, make_distinct)
+        elif isinstance(value, list):
+            merge_list_values(dict1, dict2, domain, sort, make_distinct)
+        elif isinstance(value, int):
+            dict1[domain] += value
+
     return dict1
+
+def merge_dict_values(dict1, dict2, domain, sort, make_distinct):
+    for subkey, subvalue in dict2[domain].items():
+        if subkey not in dict1[domain]:
+            dict1[domain][subkey] = subvalue
+            continue
+
+        if isinstance(subvalue, dict):
+            merge_dicts(dict1[domain][subkey], dict2[domain][subkey], sort, make_distinct)
+        elif isinstance(subvalue, list):
+            merge_list_values(dict1[domain], dict2[domain], subkey, sort, make_distinct)
+
+def merge_list_values(dict1, dict2, key, sort, make_distinct):
+    dict1[key].extend(dict2[key])
+    if make_distinct:
+        dict1[key] = list(set(dict1[key]))
+    if sort:
+        dict1[key] = sorted(dict1[key])
+
 
 IP2_LOCATION_DB = False
 try:

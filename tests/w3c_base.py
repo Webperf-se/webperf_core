@@ -1,23 +1,16 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
+import os
 import subprocess
 import json
-import json
-import config
-from tests.utils import *
+from tests.utils import get_cache_path, get_config_or_default, has_cache_file, set_cache_file
 
 # DEFAULTS
-REQUEST_TIMEOUT = config.http_request_timeout
-USERAGENT = config.useragent
-css_review_group_errors = config.css_review_group_errors
-review_show_improvements_only = config.review_show_improvements_only
-try:
-    USE_CACHE = config.cache_when_possible
-    CACHE_TIME_DELTA = config.cache_time_delta
-except:
-    # If cache_when_possible variable is not set in config.py this will be the default
-    USE_CACHE = False
-    CACHE_TIME_DELTA = timedelta(hours=1)
+REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
+USERAGENT = get_config_or_default('useragent')
+CSS_REVIEW_GROUP_ERRORS = get_config_or_default('css_review_group_errors')
+REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
+USE_CACHE = get_config_or_default('cache_when_possible')
+CACHE_TIME_DELTA = get_config_or_default('cache_time_delta')
 
 
 def get_errors(test_type, params):

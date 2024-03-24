@@ -1,17 +1,9 @@
 # -*- coding: utf-8 -*-
 import getopt
 import sys
-import traceback
-import config
-from datetime import datetime
-from pathlib import Path
 import sys
-import json
-import re
 import config
-import os
 from tests.utils import *
-import packaging.version
 import dns.message
 
 def main(argv):
@@ -352,36 +344,6 @@ def check_dnssec(hostname, result_dict):
 
         except Exception as e:
             print('DNSSEC EXCEPTION', e)
-            with open('failures.log', 'a') as outfile:
-                
-                outfile.writelines(['###############################################',
-                                    '\n# Information:',
-                                    '\nDateTime: {0}' .format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')),
-                                    '\n###############################################'
-                                    '\n# Configuration (from config.py):',
-                                    '\nuseragent: {0}'.format(config.useragent),
-                                    '\nhttp_request_timeout: {0}'.format(config.http_request_timeout),
-                                    '\nwebbkoll_sleep: {0}'.format(config.webbkoll_sleep),
-                                    '\ncss_review_group_errors: {0}'.format(config.css_review_group_errors),
-                                    '\nreview_show_improvements_only: {0}'.format(config.review_show_improvements_only),
-                                    '\nylt_use_api: {0}'.format(config.ylt_use_api),
-                                    '\nlighthouse_use_api: {0}'.format(config.lighthouse_use_api),
-                                    '\nsitespeed_use_docker: {0}'.format(config.sitespeed_use_docker),
-                                    '\nsitespeed_iterations: {0}'.format(config.sitespeed_iterations),
-                                    '\nlocales: {0}'.format(config.locales),
-                                    '\ncache_when_possible: {0}'.format(config.cache_when_possible),
-                                    '\ncache_time_delta: {0}'.format(config.cache_time_delta),
-                                    '\nsoftware_use_stealth: {0}'.format(config.software_use_stealth),
-                                    '\nuse_detailed_report: {0}'.format(config.use_detailed_report),
-                                    '\nsoftware_browser: {0}'.format(config.software_browser),
-                                    '\n###############################################\n'
-                                    ])
-                
-                
-                outfile.writelines(traceback.format_exception(e,e, e.__traceback__))
-
-                outfile.writelines(['###############################################\n\n'])
-            c = 1
     for entry in new_entries:
         name = entry['name']
         del entry['name']
@@ -632,36 +594,6 @@ def check_dnssec2(hostname, result_dict):
             #     print('B IPv6')
         except Exception as e:
             print('DNSSEC EXCEPTION', e)
-            with open('failures.log', 'a') as outfile:
-                
-                outfile.writelines(['###############################################',
-                                    '\n# Information:',
-                                    '\nDateTime: {0}' .format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')),
-                                    '\n###############################################'
-                                    '\n# Configuration (from config.py):',
-                                    '\nuseragent: {0}'.format(config.useragent),
-                                    '\nhttp_request_timeout: {0}'.format(config.http_request_timeout),
-                                    '\nwebbkoll_sleep: {0}'.format(config.webbkoll_sleep),
-                                    '\ncss_review_group_errors: {0}'.format(config.css_review_group_errors),
-                                    '\nreview_show_improvements_only: {0}'.format(config.review_show_improvements_only),
-                                    '\nylt_use_api: {0}'.format(config.ylt_use_api),
-                                    '\nlighthouse_use_api: {0}'.format(config.lighthouse_use_api),
-                                    '\nsitespeed_use_docker: {0}'.format(config.sitespeed_use_docker),
-                                    '\nsitespeed_iterations: {0}'.format(config.sitespeed_iterations),
-                                    '\nlocales: {0}'.format(config.locales),
-                                    '\ncache_when_possible: {0}'.format(config.cache_when_possible),
-                                    '\ncache_time_delta: {0}'.format(config.cache_time_delta),
-                                    '\nsoftware_use_stealth: {0}'.format(config.software_use_stealth),
-                                    '\nuse_detailed_report: {0}'.format(config.use_detailed_report),
-                                    '\nsoftware_browser: {0}'.format(config.software_browser),
-                                    '\n###############################################\n'
-                                    ])
-                
-                
-                outfile.writelines(traceback.format_exception(e,e, e.__traceback__))
-
-                outfile.writelines(['###############################################\n\n'])
-            c = 1
 
     for entry in new_entries:
         name = entry['name']

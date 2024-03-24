@@ -1,32 +1,23 @@
 # -*- coding: utf-8 -*-
+import os
 from models import Rating
 import datetime
 import re
-import config
-from tests.utils import *
+from tests.utils import get_config_or_default, get_friendly_url_name, set_cache_file
 from tests.w3c_base import get_errors, identify_files
 from tests.sitespeed_base import get_result
 import gettext
 _local = gettext.gettext
 
 # DEFAULTS
-REQUEST_TIMEOUT = config.http_request_timeout
-USERAGENT = config.useragent
-review_show_improvements_only = config.review_show_improvements_only
-sitespeed_use_docker = config.sitespeed_use_docker
-try:
-    sitespeed_timeout = config.sitespeed_timeout
-except:
-    # If sitespeed timeout is not set in config.py this will be the default
-    sitespeed_timeout = 600
-try:
-    USE_CACHE = config.cache_when_possible
-    CACHE_TIME_DELTA = config.cache_time_delta
-except:
-    # If cache_when_possible variable is not set in config.py this will be the default
-    USE_CACHE = False
-    CACHE_TIME_DELTA = timedelta(hours=1)
+REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
+USERAGENT = get_config_or_default('useragent')
+review_show_improvements_only = get_config_or_default('review_show_improvements_only')
+sitespeed_use_docker = get_config_or_default('sitespeed_use_docker')
 
+sitespeed_timeout = get_config_or_default('sitespeed_timeout')
+USE_CACHE = get_config_or_default('cache_when_possible')
+CACHE_TIME_DELTA = get_config_or_default('cache_time_delta')
 
 def run_test(_, langCode, url):
     """

@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
 import datetime
-import config
 from tests.lighthouse_base import run_test as lighthouse_base_run_test
-from tests.utils import *
+from tests.utils import get_config_or_default
 import gettext
 _local = gettext.gettext
 
 # DEFAULTS
-googlePageSpeedApiKey = config.googlePageSpeedApiKey
-review_show_improvements_only = config.review_show_improvements_only
-lighthouse_use_api = config.lighthouse_use_api
+googlePageSpeedApiKey = get_config_or_default('googlePageSpeedApiKey')
+review_show_improvements_only = get_config_or_default('review_show_improvements_only')
+lighthouse_use_api = get_config_or_default('lighthouse_use_api')
 strategy = 'mobile'
 category = 'performance'
 

@@ -1,13 +1,20 @@
 # -*- coding: utf-8 -*-
+from datetime import time
+import json
 from pathlib import Path
 import os
+import re
+import shutil
 from subprocess import TimeoutExpired
-from urllib.parse import urlparse
-import config
-from tests.utils import *
+import urllib
+from urllib.parse import ParseResult, urlparse, urlunparse
+import uuid
+from tests.utils import get_config_or_default, is_file_older_than
 
-REQUEST_TIMEOUT = config.http_request_timeout
-sitespeed_use_docker = config.sitespeed_use_docker
+REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
+sitespeed_use_docker = get_config_or_default('sitespeed_use_docker')
+USE_CACHE = get_config_or_default('CACHE_WHEN_POSSIBLE')
+CACHE_TIME_DELTA = get_config_or_default('CACHE_TIME_DELTA')
 
 def to_firefox_url_format(url):
 

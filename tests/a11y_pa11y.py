@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
 import os
 import subprocess
-import datetime
+from datetime import datetime
 import json
+from tests.utils import get_config_or_default
 from models import Rating
-import config
 import gettext
 _ = gettext.gettext
 
-review_show_improvements_only = config.review_show_improvements_only
-request_timeout = config.http_request_timeout
-
+review_show_improvements_only = get_config_or_default('review_show_improvements_only')
+request_timeout = get_config_or_default('http_request_timeout')
 
 def run_test(_, langCode, url):
     """
@@ -25,7 +24,7 @@ def run_test(_, langCode, url):
     print(_local('TEXT_RUNNING_TEST'))
 
     print(_('TEXT_TEST_START').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     use_axe = False
     json_result = get_pa11y_errors(url, use_axe)

@@ -13,16 +13,15 @@ import time
 import urllib
 
 import dns
-import config
 from models import Rating
-from tests.utils import dns_lookup, get_best_country_code, get_http_content, is_country_code_in_eu_or_on_exception_list
+from tests.utils import dns_lookup, get_best_country_code, get_http_content, is_country_code_in_eu_or_on_exception_list, get_config_or_default
 import gettext
 _local = gettext.gettext
 
 # DEFAULTS
-request_timeout = config.http_request_timeout
-useragent = config.useragent
-review_show_improvements_only = config.review_show_improvements_only
+request_timeout = get_config_or_default('http_request_timeout')
+useragent = get_config_or_default('useragent')
+review_show_improvements_only = get_config_or_default('review_show_improvements_only')
 
 checked_urls = {}
 

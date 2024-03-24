@@ -2,34 +2,23 @@
 from models import Rating
 import os
 import json
-import config
 import re
 # https://docs.python.org/3/library/urllib.parse.html
 from urllib.parse import urlparse
-from tests.utils import *
+from tests.utils import get_config_or_default
 import datetime
 from tests.sitespeed_base import get_result
 import gettext
 _ = gettext.gettext
 
 # DEFAULTS
-REQUEST_TIMEOUT = config.http_request_timeout
-USERAGENT = config.useragent
-review_show_improvements_only = config.review_show_improvements_only
-sitespeed_use_docker = config.sitespeed_use_docker
-try:
-    sitespeed_timeout = config.sitespeed_timeout
-except:
-    # If sitespeed timeout is not set in config.py this will be the default
-    sitespeed_timeout = 600
-try:
-    USE_CACHE = config.cache_when_possible
-    CACHE_TIME_DELTA = config.cache_time_delta
-except:
-    # If cache_when_possible variable is not set in config.py this will be the default
-    USE_CACHE = False
-    CACHE_TIME_DELTA = timedelta(hours=1)
-
+REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
+USERAGENT = get_config_or_default('useragent')
+REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
+SITESPEED_USE_DOCKER = get_config_or_default('sitespeed_use_docker')
+SITESPEED_TIMEOUT = get_config_or_default('sitespeed_timeout')
+USE_CACHE = get_config_or_default('CACHE_WHEN_POSSIBLE')
+CACHE_TIME_DELTA = get_config_or_default('CACHE_TIME_DELTA')
 
 def get_domains_from_url(url):
     domains = set()
@@ -163,7 +152,7 @@ def get_file_content(input_filename):
 
 
 def rate_cookies(content, url, _local, _):
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     o = urlparse(url)
     hostname = o.hostname
@@ -268,13 +257,13 @@ def rate_cookies(content, url, _local, _):
         if nof_points < 1.0:
             nof_points = 1.0
 
-        nof_rating = Rating(_, review_show_improvements_only)
+        nof_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         nof_rating.set_integrity_and_security(nof_points, _local('TEXT_COOKIES_HAS_THIRDPARTY').format(
             cookies_number_of_thirdparties))
         nof_rating.set_overall(nof_points)
         rating += nof_rating
     else:
-        nof_rating = Rating(_, review_show_improvements_only)
+        nof_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         nof_rating.set_integrity_and_security(5.0, _local('TEXT_COOKIES_HAS_THIRDPARTY').format(
             cookies_number_of_thirdparties))
         nof_rating.set_overall(5.0)
@@ -286,7 +275,7 @@ def rate_cookies(content, url, _local, _):
         if valid_1year_points < 1.0:
             valid_1year_points = 1.0
 
-        valid_1year_rating = Rating(_, review_show_improvements_only)
+        valid_1year_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         valid_1year_rating.set_integrity_and_security(valid_1year_points, _local('TEXT_COOKIE_HAS_OVER_1YEAR').format(
             cookies_number_of_valid_over_1year))
         valid_1year_rating.set_overall(valid_1year_points)
@@ -298,7 +287,7 @@ def rate_cookies(content, url, _local, _):
         if valid_9months_points < 1.0:
             valid_9months_points = 1.0
 
-        valid_9months_rating = Rating(_, review_show_improvements_only)
+        valid_9months_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         valid_9months_rating.set_integrity_and_security(valid_9months_points, _local('TEXT_COOKIE_HAS_OVER_9MONTH').format(
             cookies_number_of_valid_over_9months))
         valid_9months_rating.set_overall(valid_9months_points)
@@ -310,7 +299,7 @@ def rate_cookies(content, url, _local, _):
         if valid_6months_points < 1.0:
             valid_6months_points = 1.0
 
-        valid_6months_rating = Rating(_, review_show_improvements_only)
+        valid_6months_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         valid_6months_rating.set_integrity_and_security(valid_6months_points, _local('TEXT_COOKIE_HAS_OVER_6MONTH').format(
             cookies_number_of_valid_over_6months))
         valid_6months_rating.set_overall(valid_6months_points)
@@ -322,14 +311,14 @@ def rate_cookies(content, url, _local, _):
         if valid_3months_points < 1.0:
             valid_3months_points = 1.0
 
-        valid_3months_rating = Rating(_, review_show_improvements_only)
+        valid_3months_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         valid_3months_rating.set_integrity_and_security(valid_3months_points, _local('TEXT_COOKIE_HAS_OVER_3MONTH').format(
             cookies_number_of_valid_over_3months))
         valid_3months_rating.set_overall(valid_3months_points)
 
         rating += valid_3months_rating
     else:
-        valid_3months_rating = Rating(_, review_show_improvements_only)
+        valid_3months_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         valid_3months_rating.set_integrity_and_security(5.0, _local('TEXT_COOKIE_LESS_THEN_3MONTH').format(
             number_of_cookies))
         valid_3months_rating.set_overall(5.0)
@@ -342,14 +331,14 @@ def rate_cookies(content, url, _local, _):
         if secure_points < 1.0:
             secure_points = 1.0
 
-        secure_rating = Rating(_, review_show_improvements_only)
+        secure_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         secure_rating.set_integrity_and_security(secure_points, _local('TEXT_COOKIE_NOT_SECURE').format(
             cookies_number_of_secure))
         secure_rating.set_overall(secure_points)
 
         rating += secure_rating
     else:
-        secure_rating = Rating(_, review_show_improvements_only)
+        secure_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         secure_rating.set_integrity_and_security(5.0, _local('TEXT_COOKIE_SECURE').format(
             number_of_cookies))
         secure_rating.set_overall(5.0)
@@ -362,14 +351,14 @@ def rate_cookies(content, url, _local, _):
         if analytics_points < 1.0:
             analytics_points = 1.0
 
-        analytics_rating = Rating(_, review_show_improvements_only)
+        analytics_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         analytics_rating.set_integrity_and_security(analytics_points, _local('TEXT_COOKIE_HAS_ANALYTICS_COOKIE').format(
             cookies_number_of_analytics))
         analytics_rating.set_overall(analytics_points)
 
         rating += analytics_rating
     else:
-        analytics_rating = Rating(_, review_show_improvements_only)
+        analytics_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         analytics_rating.set_integrity_and_security(5.0, _local('TEXT_COOKIE_NO_ANALYTICS_COOKIE').format(
             cookies_number_of_analytics))
         analytics_rating.set_overall(5.0)
@@ -379,7 +368,7 @@ def rate_cookies(content, url, _local, _):
 
     integrity_and_security_review = rating.integrity_and_security_review
 
-    result_rating = Rating(_, review_show_improvements_only)
+    result_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     points = rating.get_overall()
 
     if number_of_cookies > 0 and rating.isused():
@@ -406,7 +395,7 @@ def rate_cookies(content, url, _local, _):
 
 
 def rate_gdpr_and_schrems(content, _local, _):
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     points = 5.0
     review = ''
@@ -530,7 +519,7 @@ def get_analytics_rules():
 
 
 def rate_tracking(website_urls, _local, _):
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     allowed_nof_trackers = 2
     max_nof_trackers_showed = 5
@@ -565,7 +554,7 @@ def rate_tracking(website_urls, _local, _):
 
         analytics_used.update(resource_analytics_used)
 
-        url_rating = Rating(_, review_show_improvements_only)
+        url_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         if url_is_tracker:
             request_friendly_name = get_friendly_url_name(_,
                                                           website_url, request_index)
@@ -610,7 +599,7 @@ def rate_tracking(website_urls, _local, _):
 
     integrity_and_security_review += review_analytics
 
-    result_rating = Rating(_, review_show_improvements_only)
+    result_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     points = rating.get_overall()
     if points <= 1.0:
@@ -632,7 +621,7 @@ def rate_tracking(website_urls, _local, _):
 
 
 def rate_fingerprint(website_urls, _local, _):
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     max_nof_fingerprints_showed = 5
 
@@ -653,7 +642,7 @@ def rate_fingerprint(website_urls, _local, _):
                 fingerprint_requests += 1
                 break
 
-        url_rating = Rating(_, review_show_improvements_only)
+        url_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         if url_is_adserver_requests:
             if fingerprint_requests <= max_nof_fingerprints_showed:
                 request_friendly_name = get_friendly_url_name(_,
@@ -682,7 +671,7 @@ def rate_fingerprint(website_urls, _local, _):
         rating.set_integrity_and_security(5.0)
         rating.set_overall(5.0)
 
-    result_rating = Rating(_, review_show_improvements_only)
+    result_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     points = rating.get_overall()
     if points <= 1.0:
         points = 1.0
@@ -703,7 +692,7 @@ def rate_fingerprint(website_urls, _local, _):
 
 
 def rate_ads(website_urls, _local, _):
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     allowed_nof_ads = 2
     max_nof_ads_showed = 5
@@ -724,7 +713,7 @@ def rate_ads(website_urls, _local, _):
                 adserver_requests += 1
                 break
 
-        url_rating = Rating(_, review_show_improvements_only)
+        url_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         if url_is_adserver_requests:
             request_friendly_name = get_friendly_url_name(_,
                                                           website_url, request_index)
@@ -756,7 +745,7 @@ def rate_ads(website_urls, _local, _):
         integrity_and_security_review += _local('TEXT_ADS_TOTAL_FOUND').format(
             adserver_requests)
 
-    result_rating = Rating(_, review_show_improvements_only)
+    result_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     points = rating.get_overall()
     if points <= 1.0:
         points = 1.0
@@ -777,7 +766,7 @@ def rate_ads(website_urls, _local, _):
 
 
 def get_rating_from_sitespeed(url, _local, _):
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     # We don't need extra iterations for what we are using it for
     sitespeed_iterations = 1
@@ -790,7 +779,7 @@ def get_rating_from_sitespeed(url, _local, _):
     sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'
 
     (result_folder_name, filename) = get_result(
-        url, sitespeed_use_docker, sitespeed_arg, sitespeed_timeout)
+        url, SITESPEED_USE_DOCKER, sitespeed_arg, SITESPEED_TIMEOUT)
 
     http_archive_content = get_file_content(filename)
 
@@ -828,7 +817,7 @@ def run_test(_, langCode, url):
     """
 
     result_dict = {}
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     language = gettext.translation(
         'tracking_validator', localedir='locales', languages=[langCode])

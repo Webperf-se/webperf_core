@@ -1,38 +1,30 @@
 # -*- coding: utf-8 -*-
 from models import Rating
 from datetime import datetime
-import sys
-import socket
-import ssl
-import json
 import requests
 import urllib  # https://docs.python.org/3/library/urllib.parse.html
-from urllib.parse import urlparse
-import uuid
 import re
 from bs4 import BeautifulSoup
-import config
-from tests.utils import *
+from tests.utils import get_config_or_default
 import gettext
 _ = gettext.gettext
 
 
 # DEFAULTS
 regex_allowed_chars = r"[^\u00E5\u00E4\u00F6\u00C5\u00C4\u00D6a-zA-Zå-öÅ-Ö 0-9\-:\/]+"
-REQUEST_TIMEOUT = config.http_request_timeout
-USERAGENT = config.useragent
-time_sleep = config.webbkoll_sleep
+REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
+USERAGENT = get_config_or_default('useragent')
+time_sleep = get_config_or_default('WEBBKOLL_SLEEP')
 if time_sleep < 5:
     time_sleep = 5
-review_show_improvements_only = config.review_show_improvements_only
-
+REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
 
 def run_test(_, langCode, url):
     import time
     points = 5.0
     review = ''
     return_dict = dict()
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     language = gettext.translation(
         'privacy_webbkollen', localedir='locales', languages=[langCode])
@@ -107,7 +99,7 @@ def run_test(_, langCode, url):
         if header_id == 'what' or header_id == 'raw-headers' or header_id == 'server-location' or header_id == 'localstorage' or header_id == 'requests':
             continue
 
-        heading_rating = Rating(_, review_show_improvements_only)
+        heading_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
         number_of_success = len(header.find_all("span", class_="success"))
 

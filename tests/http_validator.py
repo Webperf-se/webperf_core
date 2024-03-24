@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
 import datetime
-import traceback
 import urllib.parse
 import datetime
 import sys
@@ -13,10 +12,8 @@ from requests.packages.urllib3.poolmanager import PoolManager
 from requests.packages.urllib3.util import ssl_
 # https://docs.python.org/3/library/urllib.parse.html
 import urllib
-import config
 from models import Rating
-from tests.utils import dns_lookup, merge_dicts
-from tests.utils import *
+from tests.utils import dns_lookup, merge_dicts, get_config_or_default
 from tests.sitespeed_base import get_result
 import dns.name
 import dns.query
@@ -32,38 +29,18 @@ _local = gettext.gettext
 
 
 # DEFAULTS
-REQUEST_TIMEOUT = config.http_request_timeout
-sitespeed_timeout = config.sitespeed_timeout
-USERAGENT = config.useragent
-review_show_improvements_only = config.review_show_improvements_only
-sitespeed_use_docker = config.sitespeed_use_docker
+REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
+SITESPEED_TIMEOUT = get_config_or_default('sitespeed_timeout')
+USERAGENT = get_config_or_default('useragent')
+REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
+SITESPEED_USE_DOCKER = get_config_or_default('sitespeed_use_docker')
+SOFTWARE_BROWSER = get_config_or_default('SOFTWARE_BROWSER')
+USE_CACHE = get_config_or_default('cache_when_possible')
+CACHE_TIME_DELTA = get_config_or_default('cache_time_delta')
 
-try:
-    software_browser = config.software_browser
-except:
-    # If browser is not set in config.py this will be the default
-    software_browser = 'chrome'
-try:
-    USE_CACHE = config.cache_when_possible
-    CACHE_TIME_DELTA = config.cache_time_delta
-except:
-    # If cache_when_possible variable is not set in config.py this will be the default
-    USE_CACHE = False
-    CACHE_TIME_DELTA = timedelta(hours=1)
-try:
-    use_detailed_report = config.use_detailed_report
-except:
-    # If use_detailed_report variable is not set in config.py this will be the default
-    use_detailed_report = False
-
-try:
-    csp_only = config.csp_only
-    csp_only_global_result_dict = {}
-except:
-    # If use_detailed_report variable is not set in config.py this will be the default
-    csp_only = False
-    csp_only_global_result_dict = {}
-
+USE_DETAILED_REPORT = get_config_or_default('USE_DETAILED_REPORT')
+USE_CSP_ONLY = get_config_or_default('CSP_ONLY')
+csp_only_global_result_dict = {}
 
 def run_test(_, langCode, url):
     """
@@ -79,7 +56,7 @@ def run_test(_, langCode, url):
     language.install()
     _local = language.gettext
 
-    if csp_only:
+    if USE_CSP_ONLY:
         print(_local('TEXT_RUNNING_TEST_CSP_ONLY'))
     else:
         print(_local('TEXT_RUNNING_TEST'))
@@ -91,7 +68,7 @@ def run_test(_, langCode, url):
     o = urllib.parse.urlparse(url)
     hostname = o.hostname
 
-    if csp_only:
+    if USE_CSP_ONLY:
         result_dict = merge_dicts(check_csp(url), csp_only_global_result_dict, True, True)
         if 'nof_pages' not in result_dict:
             result_dict['nof_pages'] = 1
@@ -129,7 +106,7 @@ def run_test(_, langCode, url):
     return (rating, result_dict)
 
 def rate(org_domain, result_dict, _, _local):
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     org_www_domain = 'www.{0}'.format(org_domain)
 
@@ -137,7 +114,7 @@ def rate(org_domain, result_dict, _, _local):
         if type(result_dict[domain]) != dict:
             continue
 
-        if not csp_only:
+        if not USE_CSP_ONLY:
             rating += rate_protocols(result_dict, _, _local ,domain)
             # rating += rate_dnssec(result_dict, _, _local, domain)
             rating += rate_schemas(result_dict, _, _local, domain)
@@ -149,82 +126,82 @@ def rate(org_domain, result_dict, _, _local):
     return rating
 
 def rate_transfer_layers(result_dict, _, _local, domain):
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if type(result_dict[domain]) != dict:
         return rating
     
     if 'TLSv1.3' in result_dict[domain]['transport-layers']:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(5.0)
         sub_rating.set_standards(5.0, _local('TEXT_REVIEW_TLS1_3_SUPPORT').format(domain))
         sub_rating.set_integrity_and_security(5.0, _local('TEXT_REVIEW_TLS1_3_SUPPORT').format(domain))
         rating += sub_rating
     else:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(1.0)
         sub_rating.set_standards(1.0, _local('TEXT_REVIEW_TLS1_3_NO_SUPPORT').format(domain))
         sub_rating.set_integrity_and_security(1.0, _local('TEXT_REVIEW_TLS1_3_NO_SUPPORT').format(domain))
         rating += sub_rating
 
     if 'TLSv1.2' in result_dict[domain]['transport-layers']:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(5.0)
         sub_rating.set_standards(5.0, _local('TEXT_REVIEW_TLS1_2_SUPPORT').format(domain))
         sub_rating.set_integrity_and_security(5.0, _local('TEXT_REVIEW_TLS1_2_SUPPORT').format(domain))
         rating += sub_rating
     else:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(1.0)
         sub_rating.set_standards(1.0, _local('TEXT_REVIEW_TLS1_2_NO_SUPPORT').format(domain))
         sub_rating.set_integrity_and_security(1.0, _local('TEXT_REVIEW_TLS1_2_NO_SUPPORT').format(domain))
         rating += sub_rating
 
     if 'TLSv1.1' in result_dict[domain]['transport-layers']:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(1.0)
         sub_rating.set_integrity_and_security(1.0, _local('TEXT_REVIEW_TLS1_1_SUPPORT').format(domain))
         rating += sub_rating
     else:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(5.0)
         sub_rating.set_integrity_and_security(5.0, _local('TEXT_REVIEW_TLS1_1_NO_SUPPORT').format(domain))
         rating += sub_rating
 
     if 'TLSv1.0' in result_dict[domain]['transport-layers']:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(1.0)
         sub_rating.set_integrity_and_security(1.0, _local('TEXT_REVIEW_TLS1_0_SUPPORT').format(domain))
         rating += sub_rating
     else:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(5.0)
         sub_rating.set_integrity_and_security(5.0, _local('TEXT_REVIEW_TLS1_0_NO_SUPPORT').format(domain))
         rating += sub_rating
     return rating
 
 def rate_ip_versions(result_dict, _, _local, domain):
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if type(result_dict[domain]) != dict:
         return rating
     
     if 'IPv4' in result_dict[domain]['ip-versions'] or 'IPv4*' in result_dict[domain]['ip-versions']:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(5.0)
         sub_rating.set_standards(5.0, _local('TEXT_REVIEW_IP_VERSION_IPV4_SUPPORT').format(domain))
         rating += sub_rating
     else:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(1.0)
         sub_rating.set_standards(1.0, _local('TEXT_REVIEW_IP_VERSION_IPV4_NO_SUPPORT').format(domain))
         rating += sub_rating
 
     if 'IPv6' in result_dict[domain]['ip-versions'] or 'IPv6*' in result_dict[domain]['ip-versions']:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(5.0)
         sub_rating.set_standards(5.0, _local('TEXT_REVIEW_IP_VERSION_IPV6_SUPPORT').format(domain))
         rating += sub_rating
     else:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(1.0)
         sub_rating.set_standards(1.0, _local('TEXT_REVIEW_IP_VERSION_IPV6_NO_SUPPORT').format(domain))
         rating += sub_rating
@@ -384,7 +361,7 @@ def create_csp(csp_findings, org_domain):
     return csp_recommendation
 
 def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_recommendation):
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if type(result_dict[domain]) != dict:
         return rating
 
@@ -396,7 +373,7 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
         total_number_of_sitespeedruns = result_dict['visits']
 
         if 'CSP-UNSUPPORTED-IN-META' in result_dict[domain]['features']:
-            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
             sub_rating.set_overall(1.0)
             sub_rating.set_standards(1.0, _local('TEXT_REVIEW_CSP_UNSUPPORTED_IN_META').format(domain))
             rating += sub_rating
@@ -413,13 +390,13 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
         for policy_name in deprecated_policies:
             if policy_name in result_dict[domain]['csp-objects']:
                 is_using_deprecated_policy = True
-                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(1.0)
                 sub_rating.set_standards(1.0, _local('TEXT_REVIEW_CSP_POLICY_DEPRECATED').format(policy_name, domain))
                 rating += sub_rating
 
         if not is_using_deprecated_policy:
-            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
             sub_rating.set_overall(5.0)
             sub_rating.set_standards(5.0, _local('TEXT_REVIEW_CSP_POLICY_NOT_DEPRECATED').format(policy_name, domain))
             rating += sub_rating
@@ -439,12 +416,12 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
                 is_using_wildcard_in_policy = True
                 any_found = True
                 if wildcard.endswith('*'):
-                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     sub_rating.set_overall(1.0)
                     sub_rating.set_standards(1.0, _local('TEXT_REVIEW_CSP_POLICY_USE_WILDCARD').format(policy_name, domain))
                     rating += sub_rating
                 else:
-                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     sub_rating.set_overall(2.0)
                     sub_rating.set_integrity_and_security(2.0, _local('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, _local('TEXT_REVIEW_CSP_WILDCARDS'), domain))
                     rating += sub_rating
@@ -452,31 +429,31 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
             nof_wildcard_subdomains = len(policy_object['wildcard-subdomains'])
             if nof_wildcard_subdomains > 0:
                 if policy_name in self_allowed_policies:
-                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     sub_rating.set_overall(5.0)
                     sub_rating.set_integrity_and_security(5.0, _local('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, _local('TEXT_REVIEW_CSP_WILDCARD_SUBDOMAIN'), domain))
                     rating += sub_rating
                 else:
-                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     sub_rating.set_overall(2.7)
                     sub_rating.set_integrity_and_security(2.7, _local('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, _local('TEXT_REVIEW_CSP_WILDCARD_SUBDOMAIN'), domain))
                     rating += sub_rating
 
             if not is_using_wildcard_in_policy:
-                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(5.0)
                 sub_rating.set_standards(5.0, _local('TEXT_REVIEW_CSP_POLICY_NOT_USE_WILDCARD').format(policy_name, domain))
                 rating += sub_rating
 
             if "'none'" in policy_object['all']:
                 if len(policy_object['all']) > 1:
-                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     sub_rating.set_overall(5.0)
                     sub_rating.set_standards(1.5, _local('TEXT_REVIEW_CSP_POLICY_NONE_NOT_ALONE').format(policy_name, "'none'", domain))
                     sub_rating.set_integrity_and_security(1.5, _local('TEXT_REVIEW_CSP_POLICY_NONE_NOT_ALONE').format(policy_name, "'none'", domain))
                     rating += sub_rating
                 else:
-                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     sub_rating.set_overall(1.5)
                     sub_rating.set_standards(5.0, _local('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "'none'", domain))
                     sub_rating.set_integrity_and_security(5.0, _local('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "'none'", domain))
@@ -484,14 +461,14 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
                 any_found = True
             elif len(policy_object['hashes']) > 0:
                 # TODO: Validate correct format ( '<hash-algorithm>-<base64-value>' )
-                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(5.0)
                 sub_rating.set_standards(5.0, _local('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "sha[256/384/512]", domain))
                 sub_rating.set_integrity_and_security(5.0, _local('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "sha[256/384/512]", domain))
                 rating += sub_rating
                 any_found = True
             else:
-                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(1.0)
                 sub_rating.set_standards(5.0, _local('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, "'none'", domain))
                 sub_rating.set_integrity_and_security(1.0, _local('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, "'none'", domain))
@@ -501,7 +478,7 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
             nof_nonces = len(policy_object['nounces'])
             if nof_nonces > 0:
                 # TODO: we should check nonce length as it should not be guessable.
-                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 if nof_nonces == 1 and total_number_of_sitespeedruns != nof_nonces:
                     sub_rating.set_overall(1.0)
                     sub_rating.set_standards(1.0, _local('TEXT_REVIEW_CSP_POLICY_REUSE_NONCE').format(policy_name, domain))
@@ -519,20 +496,20 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
 
             if "'self'" in policy_object['all']:
                 if policy_name in self_allowed_policies:
-                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     sub_rating.set_overall(5.0)
                     sub_rating.set_standards(5.0, _local('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "'self'", domain))
                     sub_rating.set_integrity_and_security(5.0, _local('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "'self'", domain))                
                     rating += sub_rating
                 else:
-                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     sub_rating.set_overall(3.0)
                     sub_rating.set_standards(5.0, _local('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "'self'", domain))
                     sub_rating.set_integrity_and_security(3.0, _local('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "'self'", domain))                
                     rating += sub_rating
                 any_found = True
             else:
-                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(5.0)
                 sub_rating.set_standards(5.0, _local('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, "'self'", domain))
                 sub_rating.set_integrity_and_security(5.0, _local('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, "'self'", domain))                
@@ -542,17 +519,17 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
             nof_subdomains = len(policy_object['subdomains'])
             if nof_subdomains > 0:
                 if policy_name in self_allowed_policies:
-                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     sub_rating.set_overall(5.0)
                     sub_rating.set_integrity_and_security(5.0, _local('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, _local('TEXT_REVIEW_CSP_SUBDOMAIN'), domain))
                     rating += sub_rating
                 else:
-                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     sub_rating.set_overall(3.0)
                     sub_rating.set_integrity_and_security(3.0, _local('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, _local('TEXT_REVIEW_CSP_SUBDOMAIN'), domain))
                     rating += sub_rating
             else:
-                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(5.0)
                 sub_rating.set_standards(5.0, _local('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, _local('TEXT_REVIEW_CSP_SUBDOMAIN'), domain))
                 sub_rating.set_integrity_and_security(5.0, _local('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, _local('TEXT_REVIEW_CSP_SUBDOMAIN'), domain))                
@@ -561,18 +538,18 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
             nof_domains = len(policy_object['domains'])
             if nof_domains > 0:
                 if nof_domains > 15:
-                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     sub_rating.set_overall(1.5)
                     sub_rating.set_integrity_and_security(1.5, _local('TEXT_REVIEW_CSP_POLICY_USE_15_OR_MORE_DOMAINS').format(policy_name, _local('TEXT_REVIEW_CSP_DOMAIN'), domain))
                     rating += sub_rating
 
-                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(2.5)
                 sub_rating.set_integrity_and_security(2.5, _local('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, _local('TEXT_REVIEW_CSP_DOMAIN'), domain))
                 rating += sub_rating
                 any_found = True
             else:
-                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(5.0)
                 sub_rating.set_standards(5.0, _local('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, _local('TEXT_REVIEW_CSP_DOMAIN'), domain))
                 sub_rating.set_integrity_and_security(5.0, _local('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, _local('TEXT_REVIEW_CSP_DOMAIN'), domain))                
@@ -581,17 +558,17 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
             nof_schemes = len(policy_object['schemes'])
             if nof_schemes > 0:
                 if 'ws' in policy_object['schemes']:
-                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     sub_rating.set_overall(1.0)
                     sub_rating.set_integrity_and_security(1.0, _local('TEXT_REVIEW_CSP_POLICY_USE_UNSAFE_SCHEME').format(policy_name, "'ws'", domain))
                     rating += sub_rating
                 if 'http' in policy_object['schemes']:
-                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     sub_rating.set_overall(1.0)
                     sub_rating.set_integrity_and_security(1.0, _local('TEXT_REVIEW_CSP_POLICY_USE_UNSAFE_SCHEME').format(policy_name, "'http'", domain))
                     rating += sub_rating
                 if 'ftp' in policy_object['schemes']:
-                    sub_rating = Rating(_, review_show_improvements_only)
+                    sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     sub_rating.set_overall(1.0)
                     sub_rating.set_integrity_and_security(1.0, _local('TEXT_REVIEW_CSP_POLICY_USE_UNSAFE_SCHEME').format(policy_name, "'ftp'", domain))
                     rating += sub_rating
@@ -599,13 +576,13 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
 
             nof_malformed = len(policy_object['malformed'])
             if nof_malformed > 0:
-                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(1.0)
                 sub_rating.set_standards(1.0, _local('TEXT_REVIEW_CSP_MALFORMED').format(policy_name, domain))
                 rating += sub_rating
 
             if not any_found:
-                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(1.0)
                 sub_rating.set_integrity_and_security(1.0, _local('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, "'none', 'self' nonce, sha[256/384/512], domain or scheme", domain))
                 rating += sub_rating
@@ -614,34 +591,34 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
             is_using_unsafe = False
             if "'unsafe-eval'" in policy_object['all']:
                 is_using_unsafe = True
-                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(1.0)
                 sub_rating.set_integrity_and_security(1.0, _local('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "'unsafe-eval'", domain))                
                 rating += sub_rating
 
             if "'wasm-unsafe-eval'" in policy_object['all']:
                 is_using_unsafe = True
-                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(1.0)
                 sub_rating.set_integrity_and_security(1.0, _local('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "'wasm-unsafe-eval'", domain))                
                 rating += sub_rating
 
             if "'unsafe-hashes'" in policy_object['all']:
                 is_using_unsafe = True
-                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(1.0)
                 sub_rating.set_integrity_and_security(1.0, _local('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "'unsafe-hashes'", domain))                
                 rating += sub_rating
 
             if "'unsafe-inline'" in policy_object['all']:
                 is_using_unsafe = True
-                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(1.0)
                 sub_rating.set_integrity_and_security(1.0, _local('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "'unsafe-inline'", domain))                
                 rating += sub_rating
 
             if not is_using_unsafe:
-                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(5.0)
                 sub_rating.set_integrity_and_security(5.0, _local('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, "'unsafe-*'", domain))
                 rating += sub_rating
@@ -657,27 +634,27 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
 
         for policy_name in fallback_src_policies:
             if policy_name in result_dict[domain]['csp-objects']:
-                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(5.0)
                 sub_rating.set_integrity_and_security(5.0, _local('TEXT_REVIEW_CSP_POLICY_FOUND').format(policy_name, domain))
                 sub_rating.set_standards(5.0, _local('TEXT_REVIEW_CSP_POLICY_FOUND').format(policy_name, domain))
                 rating += sub_rating
             else:
-                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(1.0)
                 sub_rating.set_integrity_and_security(1.0, _local('TEXT_REVIEW_CSP_POLICY_NOT_FOUND').format(policy_name, domain))
                 sub_rating.set_standards(1.0, _local('TEXT_REVIEW_CSP_POLICY_NOT_FOUND').format(policy_name, domain))
                 rating += sub_rating
 
     elif 'HTML-FOUND' in result_dict[domain]['features'] and (domain == org_domain or domain == org_www_domain):
-        rating = Rating(_, review_show_improvements_only)
+        rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         rating.set_overall(1.0)
         rating.set_standards(1.0, _local('TEXT_REVIEW_CSP_NOT_FOUND').format(domain))
         rating.set_integrity_and_security(1.0, _local('TEXT_REVIEW_CSP_NOT_FOUND').format(domain))
 
-    final_rating = Rating(_, review_show_improvements_only)
+    final_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if rating.is_set:
-        if use_detailed_report:
+        if USE_DETAILED_REPORT:
             final_rating.set_overall(rating.get_overall())
             final_rating.overall_review = rating.overall_review
             final_rating.set_standards(rating.get_standards())
@@ -723,12 +700,12 @@ def rate_csp(result_dict, _, _local, org_domain, org_www_domain, domain, create_
 
 
 def rate_hsts(result_dict, _, _local, org_domain, domain):
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if type(result_dict[domain]) != dict:
         return rating
     # https://scotthelme.co.uk/hsts-cheat-sheet/
     if 'HSTS' in result_dict[domain]['features']:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(5.0)
 
         if 'INVALIDATE-HSTS' in result_dict[domain]['features']:
@@ -766,12 +743,12 @@ def rate_hsts(result_dict, _, _local, org_domain, domain):
             sub_rating.set_integrity_and_security(1.0, _local('TEXT_REVIEW_HSTS_MAXAGE_NOT_FOUND').format(domain))
         rating += sub_rating
     elif 'HSTS-HEADER-ON-PARENTDOMAIN-FOUND' in result_dict[domain]['features'] and 'INVALIDATE-HSTS' not in result_dict[domain]['features']:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(5.0)
         sub_rating.set_integrity_and_security(4.99, _local('TEXT_REVIEW_HSTS_USE_PARENTDOMAIN').format(domain))
         rating += sub_rating
     else:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(1.0)
         sub_rating.set_integrity_and_security(1.0, _local('TEXT_REVIEW_HSTS_NOT_FOUND').format(domain))
         sub_rating.set_standards(1.0, _local('TEXT_REVIEW_HSTS_NOT_FOUND').format(domain))
@@ -779,52 +756,52 @@ def rate_hsts(result_dict, _, _local, org_domain, domain):
     return rating
 
 def rate_schemas(result_dict, _, _local, domain):
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if type(result_dict[domain]) != dict:
         return rating
     
     if 'HTTPS' in result_dict[domain]['schemes']:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(5.0)
         sub_rating.set_integrity_and_security(5.0, _local('TEXT_REVIEW_HTTPS_SUPPORT').format(domain))
         sub_rating.set_standards(5.0, _local('TEXT_REVIEW_HTTPS_NO_SUPPORT').format(domain))
         rating += sub_rating
     else:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(1.0)
         sub_rating.set_integrity_and_security(1.0, _local('TEXT_REVIEW_HTTPS_NO_SUPPORT').format(domain))
         sub_rating.set_standards(1.0, _local('TEXT_REVIEW_HTTPS_NO_SUPPORT').format(domain))
         rating += sub_rating
 
     if 'HTTP-REDIRECT' in result_dict[domain]['schemes'] or 'HTTP-REDIRECT*' in result_dict[domain]['schemes']:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(1.0)
         sub_rating.set_integrity_and_security(1.0, _local('TEXT_REVIEW_HTTP_REDIRECT').format(domain))
         rating += sub_rating
 
     if 'HTTPS-REDIRECT' in result_dict[domain]['schemes'] or 'HTTPS-REDIRECT*' in result_dict[domain]['schemes']:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(5.0)
         sub_rating.set_integrity_and_security(5.0, _local('TEXT_REVIEW_HTTPS_REDIRECT').format(domain))
         rating += sub_rating
     return rating
 
 def rate_dnssec(result_dict, _, _local, domain):
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if 'DNSSEC' in result_dict[domain]['features']:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(5.0)
         sub_rating.set_integrity_and_security(5.0)
         sub_rating.set_standards(5.0)
         rating += sub_rating
     elif 'DNSSEC-IGNORE' in result_dict[domain]['features']:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(5.0)
         sub_rating.set_integrity_and_security(5.0)
         sub_rating.set_standards(5.0)
         rating += sub_rating
     else:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(1.0)
         sub_rating.set_integrity_and_security(1.0, '- {0}, No DNSSEC support'.format(domain))
         sub_rating.set_standards(1.0, '- {0}, No DNSSEC support'.format(domain))
@@ -832,39 +809,39 @@ def rate_dnssec(result_dict, _, _local, domain):
     return rating
 
 def rate_protocols(result_dict, _, _local, domain):
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if type(result_dict[domain]) != dict:
         return rating
     
     if 'HTTP/1.1' in result_dict[domain]['protocols']:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(5.0)
         sub_rating.set_standards(5.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_SUPPORT').format(domain))
         rating += sub_rating
     else:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(1.0)
         sub_rating.set_standards(1.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_NO_SUPPORT').format(domain))
         rating += sub_rating
 
     if 'HTTP/2' in result_dict[domain]['protocols']:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(5.0)
         sub_rating.set_standards(5.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_2_SUPPORT').format(domain))
         rating += sub_rating
     else:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(1.0)
         sub_rating.set_standards(1.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_2_NO_SUPPORT').format(domain))
         rating += sub_rating
 
     if 'HTTP/3' in result_dict[domain]['protocols']:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(5.0)
         sub_rating.set_standards(5.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_3_SUPPORT').format(domain))
         rating += sub_rating
     else:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(1.0)
         sub_rating.set_standards(1.0, _local('TEXT_REVIEW_HTTP_VERSION_HTTP_3_NO_SUPPORT').format(domain))
         rating += sub_rating
@@ -1485,36 +1462,6 @@ def check_dnssec(hostname, result_dict):
 
         except Exception as e:
             print('DNSSEC EXCEPTION', e)
-            with open('failures.log', 'a') as outfile:
-                
-                outfile.writelines(['###############################################',
-                                    '\n# Information:',
-                                    '\nDateTime: {0}' .format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')),
-                                    '\n###############################################'
-                                    '\n# Configuration (from config.py):',
-                                    '\nuseragent: {0}'.format(config.useragent),
-                                    '\nhttp_request_timeout: {0}'.format(config.http_request_timeout),
-                                    '\nwebbkoll_sleep: {0}'.format(config.webbkoll_sleep),
-                                    '\ncss_review_group_errors: {0}'.format(config.css_review_group_errors),
-                                    '\nreview_show_improvements_only: {0}'.format(config.review_show_improvements_only),
-                                    '\nylt_use_api: {0}'.format(config.ylt_use_api),
-                                    '\nlighthouse_use_api: {0}'.format(config.lighthouse_use_api),
-                                    '\nsitespeed_use_docker: {0}'.format(config.sitespeed_use_docker),
-                                    '\nsitespeed_iterations: {0}'.format(config.sitespeed_iterations),
-                                    '\nlocales: {0}'.format(config.locales),
-                                    '\ncache_when_possible: {0}'.format(config.cache_when_possible),
-                                    '\ncache_time_delta: {0}'.format(config.cache_time_delta),
-                                    '\nsoftware_use_stealth: {0}'.format(config.software_use_stealth),
-                                    '\nuse_detailed_report: {0}'.format(config.use_detailed_report),
-                                    '\nsoftware_browser: {0}'.format(config.software_browser),
-                                    '\n###############################################\n'
-                                    ])
-                
-                
-                outfile.writelines(traceback.format_exception(e,e, e.__traceback__))
-
-                outfile.writelines(['###############################################\n\n'])
-            c = 1
     for entry in new_entries:
         name = entry['name']
         del entry['name']
@@ -1765,36 +1712,6 @@ def check_dnssec2(hostname, result_dict):
             #     print('B IPv6')
         except Exception as e:
             print('DNSSEC EXCEPTION', e)
-            with open('failures.log', 'a') as outfile:
-                
-                outfile.writelines(['###############################################',
-                                    '\n# Information:',
-                                    '\nDateTime: {0}' .format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')),
-                                    '\n###############################################'
-                                    '\n# Configuration (from config.py):',
-                                    '\nuseragent: {0}'.format(config.useragent),
-                                    '\nhttp_request_timeout: {0}'.format(config.http_request_timeout),
-                                    '\nwebbkoll_sleep: {0}'.format(config.webbkoll_sleep),
-                                    '\ncss_review_group_errors: {0}'.format(config.css_review_group_errors),
-                                    '\nreview_show_improvements_only: {0}'.format(config.review_show_improvements_only),
-                                    '\nylt_use_api: {0}'.format(config.ylt_use_api),
-                                    '\nlighthouse_use_api: {0}'.format(config.lighthouse_use_api),
-                                    '\nsitespeed_use_docker: {0}'.format(config.sitespeed_use_docker),
-                                    '\nsitespeed_iterations: {0}'.format(config.sitespeed_iterations),
-                                    '\nlocales: {0}'.format(config.locales),
-                                    '\ncache_when_possible: {0}'.format(config.cache_when_possible),
-                                    '\ncache_time_delta: {0}'.format(config.cache_time_delta),
-                                    '\nsoftware_use_stealth: {0}'.format(config.software_use_stealth),
-                                    '\nuse_detailed_report: {0}'.format(config.use_detailed_report),
-                                    '\nsoftware_browser: {0}'.format(config.software_browser),
-                                    '\n###############################################\n'
-                                    ])
-                
-                
-                outfile.writelines(traceback.format_exception(e,e, e.__traceback__))
-
-                outfile.writelines(['###############################################\n\n'])
-            c = 1
 
     for entry in new_entries:
         name = entry['name']
@@ -1813,7 +1730,7 @@ def check_csp(url):
     browser = 'firefox'
     configuration = ''
     print('CSP ONLY', o_domain)
-    result_dict = get_website_support_from_sitespeed(url, o_domain, configuration, browser, sitespeed_timeout)
+    result_dict = get_website_support_from_sitespeed(url, o_domain, configuration, browser, SITESPEED_TIMEOUT)
 
     return result_dict
 
@@ -1835,7 +1752,7 @@ def check_http_to_https(url):
     browser = 'firefox'
     configuration = ''
     print('HTTP', o_domain)
-    result_dict = get_website_support_from_sitespeed(http_url, o_domain, configuration, browser, sitespeed_timeout)
+    result_dict = get_website_support_from_sitespeed(http_url, o_domain, configuration, browser, SITESPEED_TIMEOUT)
 
     # If website redirects to www. domain without first redirecting to HTTPS, make sure we test it.
     if o_domain in result_dict:
@@ -1843,7 +1760,7 @@ def check_http_to_https(url):
             result_dict[o_domain]['schemes'].append('HTTP-REDIRECT*')
             https_url = url.replace('http://', 'https://')
             print('HTTPS', o_domain)
-            result_dict = merge_dicts(get_website_support_from_sitespeed(https_url, o_domain, configuration, browser, sitespeed_timeout), result_dict, True, True)
+            result_dict = merge_dicts(get_website_support_from_sitespeed(https_url, o_domain, configuration, browser, SITESPEED_TIMEOUT), result_dict, True, True)
         else:
             result_dict[o_domain]['schemes'].append('HTTPS-REDIRECT*')
 
@@ -1861,7 +1778,7 @@ def check_http_to_https(url):
             result_dict[www_domain_key]['schemes'].append('HTTPS-REDIRECT*')
             www_http_url = http_url.replace(o_domain, www_domain_key)
             print('HTTP', www_domain_key)
-            result_dict = merge_dicts(get_website_support_from_sitespeed(www_http_url, www_domain_key, configuration, browser, sitespeed_timeout), result_dict, True, True)
+            result_dict = merge_dicts(get_website_support_from_sitespeed(www_http_url, www_domain_key, configuration, browser, SITESPEED_TIMEOUT), result_dict, True, True)
         else:
             result_dict[www_domain_key]['schemes'].append('HTTP-REDIRECT*')
 
@@ -2036,7 +1953,7 @@ def get_website_support_from_sitespeed(url, org_domain, configuration, browser, 
         sitespeed_arg += ' --xvfb'
 
     (result_folder_name, filename) = get_result(
-        url, sitespeed_use_docker, sitespeed_arg, timeout)
+        url, SITESPEED_USE_DOCKER, sitespeed_arg, timeout)
     
     result = sitespeed_result_2_test_result(filename, org_domain)
 
@@ -2279,21 +2196,21 @@ def check_http_version(url, result_dict):
         configuration = ' --firefox.preference network.http.http2.enabled:false --firefox.preference network.http.http3.enable:false'
         url2 = change_url_to_test_url(url, 'HTTPv1')
         print('HTTP/1.1')
-        result_dict = merge_dicts(get_website_support_from_sitespeed(url2, o_domain, configuration, browser, sitespeed_timeout), result_dict, True, True)
+        result_dict = merge_dicts(get_website_support_from_sitespeed(url2, o_domain, configuration, browser, SITESPEED_TIMEOUT), result_dict, True, True)
 
     if not contains_value_for_all(result_dict, 'protocols', 'HTTP/2'):
         browser = 'firefox'
         configuration = ' --firefox.preference network.http.http2.enabled:true --firefox.preference network.http.http3.enable:false --firefox.preference network.http.version:3.0'
         url2 = change_url_to_test_url(url, 'HTTPv2')
         print('HTTP/2')
-        result_dict = merge_dicts(get_website_support_from_sitespeed(url2, o_domain, configuration, browser, sitespeed_timeout), result_dict, True, True)
+        result_dict = merge_dicts(get_website_support_from_sitespeed(url2, o_domain, configuration, browser, SITESPEED_TIMEOUT), result_dict, True, True)
 
     if not contains_value_for_all(result_dict, 'protocols', 'HTTP/3'):
         browser = 'firefox'
         configuration = ' --firefox.preference network.http.http2.enabled:false --firefox.preference network.http.http3.enable:true --firefox.preference network.http.version:3.0'
         url2 = change_url_to_test_url(url, 'HTTPv3')
         print('HTTP/3')
-        result_dict = merge_dicts(get_website_support_from_sitespeed(url2, o_domain, configuration, browser, sitespeed_timeout), result_dict, True, True)
+        result_dict = merge_dicts(get_website_support_from_sitespeed(url2, o_domain, configuration, browser, SITESPEED_TIMEOUT), result_dict, True, True)
 
     return result_dict
 

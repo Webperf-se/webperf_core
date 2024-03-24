@@ -8,67 +8,65 @@ from datetime import timedelta
 # NOTE: Rename this file to 'config.py' and fill in the missing info below
 
 # useragent for HTTP requests
-useragent = 'Mozilla/5.0 (compatible; Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36 Edg/88.0.705.56'
+USERAGENT = 'Mozilla/5.0 (compatible; Windows NT 10.0; Win64; x64) ' \
+     'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36 Edg/88.0.705.56'
 
 # enter your API key for Google Pagespeed API
-googlePageSpeedApiKey = ""
+GOOGLEPAGESPEEDAPIKEY = ""
 
-http_request_timeout = 60
+HTTP_REQUEST_TIMEOUT = 60
 
 # timeout between calls to website
-webbkoll_sleep = 20
+WEBBKOLL_SLEEP = 20
 
 # if you want a more detailed review for the CSS test (Test #7), set this to False
-css_review_group_errors = True
+CSS_REVIEW_GROUP_ERRORS = True
 
 # Only show reviews that you can improve, set this value to True
-review_show_improvements_only = False
+REVIEW_SHOW_IMPROVEMENTS_ONLY = False
 
 # Tells Yellow Lab Tools Test to use API version or command line version
-ylt_use_api = True
+YLT_USE_API = True
+YLT_SERVER_ADDRESS = 'https://yellowlab.tools'
 
 # Tells Lighthouse based Test(s) to use API version or command line version
-lighthouse_use_api = True
+LIGHTHOUSE_USE_API = True
 
 # Tells sitespeed if we should use it as a docker image or a npm package
-sitespeed_use_docker = True
+SITESPEED_USE_DOCKER = True
 
 # Tells sitespeed max timeout for website calls
-sitespeed_timeout = 300
+SITESPEED_TIMEOUT = 300
 
 # how many iterations of Sitespeed.io requests would you like? Has to be at least 2 not to fail
-sitespeed_iterations = 2
-
-# TO BE IMPLEMENTED:
-# locales - where are the lang files located?
-# at services like PythonAnywhere.com you might have to state a path like '/home/your-username/your-webperf-core-folder/locales'
-locales = 'locales'
+SITESPEED_ITERATIONS = 2
 
 # Changing this will make webperf-core use local cache where available
-cache_when_possible = False
+CACHE_WHEN_POSSIBLE = False
 
 # This tells webperf-core how long to use cached resources
 # See https://docs.python.org/3/library/datetime.html#timedelta-objects for possible values
-cache_time_delta = timedelta(hours=1)
+CACHE_TIME_DELTA = timedelta(hours=1)
 
 # GITHUB API Token, used for calls to github API (to remove call limit)
-github_api_key = None
+GITHUB_API_KEY = None
 
 # Tell tests to use detailed report (when available) for review and rating
-use_detailed_report = False
+USE_DETAILED_REPORT = False
 
-# Tells HTTP test to ignore everything except the CSP part (great if you run it against sitemap to get CSP recommendation)
-csp_only = False
+# Tells HTTP test to ignore everything except the CSP part
+# (great if you run it against sitemap to get CSP recommendation)
+CSP_ONLY = False
 
 # Tells webperf_core to use following DNS Server for dns lookups
-dns_server = '8.8.8.8'
+DNS_SERVER = '8.8.8.8'
 
 # Tell software test to use stealth mode or not, default is 'True'
-software_use_stealth = True
+SOFTWARE_USE_STEALTH = True
 
 # Tell software test the path to where you have repo of: https://github.com/github/advisory-database
 # Used to find CVE:s for npm packages
-software_github_adadvisory_database_path = None
+SOFTWARE_GITHUB_ADADVISORY_DATABASE_PATH = None
 
 # Tells software test what browser to use (chrome/firefox), default = chrome
-software_browser = "chrome"
+SOFTWARE_BROWSER = "chrome"

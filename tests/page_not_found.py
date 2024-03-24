@@ -6,16 +6,14 @@ import sys
 import requests
 import urllib  # https://docs.python.org/3/library/urllib.parse.html
 from bs4 import BeautifulSoup
-import config
-from tests.utils import *
+from tests.utils import get_config_or_default, get_guid, get_http_content
 import gettext
 _ = gettext.gettext
 
 # DEFAULTS
-REQUEST_TIMEOUT = config.http_request_timeout
-USERAGENT = config.useragent
-review_show_improvements_only = config.review_show_improvements_only
-
+REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
+USERAGENT = get_config_or_default('useragent')
+review_show_improvements_only = get_config_or_default('review_show_improvements_only')
 
 def change_url_to_404_url(url):
 

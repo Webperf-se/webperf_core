@@ -7,25 +7,19 @@ import urllib  # https://docs.python.org/3/library/urllib.parse.html
 import gettext
 import requests
 from bs4 import BeautifulSoup
-import config
 from models import Rating
-from tests.utils import has_redirect, get_http_content
+from tests.utils import get_config_or_default, has_redirect, get_http_content
 from engines.sitemap import read_sitemap
 _local = gettext.gettext
 
 # DEFAULTS
-request_timeout = config.http_request_timeout
-useragent = config.useragent
-review_show_improvements_only = config.review_show_improvements_only
-
-try:
-    use_detailed_report = config.use_detailed_report
-except AttributeError:
-    # If use_detailed_report variable is not set in config.py this will be the default
-    use_detailed_report = False
+REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
+USERAGENT = get_config_or_default('useragent')
+REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
+USE_DETAILED_REPORT = get_config_or_default('USE_DETAILED_REPORT')
 
 
-def run_test(_, lang_code, url):
+def run_test(global_translation, lang_code, url):
     """
     Looking for:
     * robots.txt
@@ -36,21 +30,21 @@ def run_test(_, lang_code, url):
     language = gettext.translation(
         'standard_files', localedir='locales', languages=[lang_code])
     language.install()
-    _local = language.gettext
+    local_translation = language.gettext
 
-    print(_local('TEXT_RUNNING_TEST'))
+    print(local_translation('TEXT_RUNNING_TEST'))
 
-    print(_('TEXT_TEST_START').format(
+    print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     o = urllib.parse.urlparse(url)
     parsed_url = f'{o.scheme}://{o.netloc}/'
 
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     return_dict = {}
 
     # robots.txt
-    robots_result = validate_robots(_, _local, parsed_url)
+    robots_result = validate_robots(global_translation, local_translation, parsed_url)
     rating += robots_result[0]
     return_dict.update(robots_result[1])
     robots_content = robots_result[2]
@@ -64,21 +58,21 @@ def run_test(_, lang_code, url):
         robots_txt_url = test[1]
 
     sitemap_result = validate_sitemaps(
-        _, _local, robots_txt_url, robots_content, has_robots_txt)
+        global_translation, local_translation, robots_txt_url, robots_content, has_robots_txt)
     rating += sitemap_result[0]
     return_dict.update(sitemap_result[1])
 
     # rss feed
-    feed_result = validate_feed(_, _local, url)
+    feed_result = validate_feed(global_translation, local_translation, url)
     rating += feed_result[0]
     return_dict.update(feed_result[1])
 
     # security.txt
-    security_txt_result = validate_security_txt(_, _local, parsed_url)
+    security_txt_result = validate_security_txt(global_translation, local_translation, parsed_url)
     rating += security_txt_result[0]
     return_dict.update(security_txt_result[1])
 
-    print(_('TEXT_TEST_END').format(
+    print(global_translation('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, return_dict)
@@ -86,7 +80,7 @@ def run_test(_, lang_code, url):
 
 def validate_robots(_, _local, parsed_url):
     return_dict = dict()
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     robots_content = get_http_content(parsed_url + 'robots.txt', True)
 
@@ -108,7 +102,7 @@ def validate_robots(_, _local, parsed_url):
 
 
 def validate_sitemaps(_, _local, robots_url, robots_content, has_robots_txt):
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     return_dict = dict()
     return_dict["num_sitemaps"] = 0
 
@@ -133,13 +127,13 @@ def validate_sitemaps(_, _local, robots_url, robots_content, has_robots_txt):
         if len(found_smaps) > 0:
             return_dict["sitemaps"] = found_smaps
 
-            sitemaps_rating = Rating(_, review_show_improvements_only)
+            sitemaps_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
             for sitemap_url in found_smaps:
                 sitemaps_rating += validate_sitemap(sitemap_url, robots_url, return_dict, _, _local)
 
-            final_rating = Rating(_, review_show_improvements_only)
+            final_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
             if sitemaps_rating.is_set:
-                if use_detailed_report:
+                if USE_DETAILED_REPORT:
                     final_rating.set_overall(sitemaps_rating.get_overall())
                     final_rating.overall_review = sitemaps_rating.overall_review
                     final_rating.set_standards(sitemaps_rating.get_standards())
@@ -172,7 +166,7 @@ def validate_sitemaps(_, _local, robots_url, robots_content, has_robots_txt):
     return (rating, return_dict)
 
 def validate_sitemap(sitemap_url, robots_url, return_dict, _, _local):
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     known_extensions = ['bmp', 'css', 'doc', 'docx', 'dot', 'eot', 'exe', 'git',
                         'ico', 'ics', 'jpeg', 'jpg', 'js','json', 'md', 'mov', 'mp3',
@@ -217,14 +211,14 @@ def validate_sitemap(sitemap_url, robots_url, return_dict, _, _local):
     total_nof_items_no_duplicates = len(sitemap_items)
 
     if not always_starts_with_https_scheme:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(
                     1.0)
         sub_rating.set_standards(
                     1.0, _local("TEXT_SITEMAP_NOT_STARTING_WITH_HTTPS_SCHEME"))
         rating += sub_rating
     else:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(
                     5.0)
         sub_rating.set_standards(
@@ -232,14 +226,14 @@ def validate_sitemap(sitemap_url, robots_url, return_dict, _, _local):
         rating += sub_rating
 
     if not always_uses_same_domain:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(
                     1.0)
         sub_rating.set_standards(
                     1.0, _local("TEXT_SITEMAP_NOT_SAME_DOMAIN_AS_ROBOTS_TXT"))
         rating += sub_rating
     else:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(
                     5.0)
         sub_rating.set_standards(
@@ -249,14 +243,14 @@ def validate_sitemap(sitemap_url, robots_url, return_dict, _, _local):
     if total_nof_items !=  total_nof_items_no_duplicates:
         ratio = total_nof_items_no_duplicates / total_nof_items
         duplicates_points = 3.0 * ratio
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(
                     duplicates_points)
         sub_rating.set_standards(
                     duplicates_points, _local("TEXT_SITEMAP_INCLUDE_DUPLICATES"))
         rating += sub_rating
     else:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(
                     5.0)
         sub_rating.set_standards(
@@ -270,14 +264,14 @@ def validate_sitemap(sitemap_url, robots_url, return_dict, _, _local):
             ratio = nof_webpages / total_nof_items
             webpages_points = 5.0 * ratio
 
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(
                     webpages_points)
         sub_rating.set_standards(
                     webpages_points,  _local("TEXT_SITEMAP_NOT_ONLY_WEBPAGES"))
         rating += sub_rating
     else:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(
                     5.0)
         sub_rating.set_standards(
@@ -292,14 +286,14 @@ def validate_sitemap(sitemap_url, robots_url, return_dict, _, _local):
         nof_items = len(sitemaps[key])
 
         if nof_items > 50_000:
-            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
             sub_rating.set_overall(
                         1.0)
             sub_rating.set_standards(
                         1.0,  _local("TEXT_SITEMAP_TOO_LARGE"))
             rating += sub_rating
         else:
-            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
             sub_rating.set_overall(
                         5.0)
             sub_rating.set_standards(
@@ -312,7 +306,7 @@ def validate_sitemap(sitemap_url, robots_url, return_dict, _, _local):
         type_spread[key] = len(item_types[key])
 
     if total_nof_items == 0:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(
                     1.0)
         sub_rating.set_standards(
@@ -321,7 +315,7 @@ def validate_sitemap(sitemap_url, robots_url, return_dict, _, _local):
 
         return_dict['sitemap_check'] = f"'{sitemap_url}' seem to be broken"
     else:
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(
                     5.0)
         sub_rating.set_standards(
@@ -351,12 +345,12 @@ def is_feed(tag):
 def validate_feed(_, _local, url):
     return_dict = {}
     feed = []
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
-    headers = {'user-agent': config.useragent}
+    headers = {'user-agent': USERAGENT}
     try:
         request = requests.get(url, allow_redirects=True,
-                               headers=headers, timeout=request_timeout)
+                               headers=headers, timeout=REQUEST_TIMEOUT)
         soup = BeautifulSoup(request.text, 'lxml')
         feed = soup.find_all(is_feed)
     except:
@@ -384,12 +378,12 @@ def validate_security_txt(_, _local, parsed_url):
     security_root_request = False
 
     headers = {
-        'user-agent': useragent}
+        'user-agent': USERAGENT}
     # normal location for security.txt
     security_wellknown_url = parsed_url + '.well-known/security.txt'
     try:
         security_wellknown_request = requests.get(security_wellknown_url, allow_redirects=True,
-                                                  headers=headers, timeout=request_timeout)
+                                                  headers=headers, timeout=REQUEST_TIMEOUT)
     except:
         pass
 
@@ -401,14 +395,14 @@ def validate_security_txt(_, _local, parsed_url):
     security_root_url = parsed_url + 'security.txt'
     try:
         security_root_request = requests.get(security_root_url, allow_redirects=True,
-                                             headers=headers, timeout=request_timeout)
+                                             headers=headers, timeout=REQUEST_TIMEOUT)
     except:
         pass
     security_root_content = get_http_content(security_root_url, True)
 
     if not security_wellknown_request and not security_root_request:
         # Can't find security.txt (not giving us 200 as status code)
-        rating = Rating(_, review_show_improvements_only)
+        rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         rating.set_overall(1.0)
         rating.set_standards(1.0, _local("TEXT_SECURITY_MISSING"))
         rating.set_integrity_and_security(1.0, _local("TEXT_SECURITY_MISSING"))
@@ -435,7 +429,7 @@ def validate_security_txt(_, _local, parsed_url):
 
 
 def rate_securitytxt_content(content, _, _local):
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     return_dict = {}
     if content is None or ('<html' in content.lower()):
         # Html (404 page?) content instead of expected content

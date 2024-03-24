@@ -1,59 +1,50 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime, timedelta
+from datetime import datetime
 import gettext
 import os
 import re
 import sys
 import urllib  # https://docs.python.org/3/library/urllib.parse.html
 
-import config
 from bs4 import BeautifulSoup
 from models import Rating
 
-from tests.utils import get_friendly_url_name, get_http_content, set_cache_file
+from tests.utils import get_friendly_url_name, get_http_content, set_cache_file, get_config_or_default
 from tests.w3c_base import get_errors, identify_files
 from tests.sitespeed_base import get_result
 
 _local = gettext.gettext
 
 # DEFAULTS
-REQUEST_TIMEOUT = config.http_request_timeout
-USERAGENT = config.useragent
-css_review_group_errors = config.css_review_group_errors
-review_show_improvements_only = config.review_show_improvements_only
-sitespeed_use_docker = config.sitespeed_use_docker
-try:
-    sitespeed_timeout = config.sitespeed_timeout
-except:
-    # If sitespeed timeout is not set in config.py this will be the default
-    sitespeed_timeout = 600
-try:
-    USE_CACHE = config.cache_when_possible
-    CACHE_TIME_DELTA = config.cache_time_delta
-except:
-    # If cache_when_possible variable is not set in config.py this will be the default
-    USE_CACHE = False
-    CACHE_TIME_DELTA = timedelta(hours=1)
+REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
+USERAGENT = get_config_or_default('useragent')
+USE_CACHE = get_config_or_default('cache_when_possible')
+CACHE_TIME_DELTA = get_config_or_default('cache_time_delta')
+
+CSS_REVIEW_GROUP_ERRORS = get_config_or_default('css_review_group_errors')
+REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
+SITESPEED_USE_DOCKER = get_config_or_default('sitespeed_use_docker')
+SITESPEED_TIMEOUT = get_config_or_default('sitespeed_timeout')
 
 global css_features
 global css_properties_doesnt_exist
 
 
-def run_test(_, langCode, url):
+def run_test(global_translation, lang_code, url):
     """
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
 
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     language = gettext.translation(
-        'css_validator_w3c', localedir='locales', languages=[langCode])
+        'css_validator_w3c', localedir='locales', languages=[lang_code])
     language.install()
-    _local = language.gettext
+    local_translation = language.gettext
 
-    print(_local('TEXT_RUNNING_TEST'))
+    print(local_translation('TEXT_RUNNING_TEST'))
 
-    print(_('TEXT_TEST_START').format(
+    print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     errors = list()
@@ -69,7 +60,7 @@ def run_test(_, langCode, url):
     sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'
 
     (result_folder_name, filename) = get_result(
-        url, sitespeed_use_docker, sitespeed_arg, sitespeed_timeout)
+        url, SITESPEED_USE_DOCKER, sitespeed_arg, SITESPEED_TIMEOUT)
 
     # 1. Visit page like a normal user
     data = identify_files(filename)
@@ -83,28 +74,28 @@ def run_test(_, langCode, url):
 
     for entry in data['htmls']:
         req_url = entry['url']
-        name = get_friendly_url_name(_, req_url, entry['index'])
+        name = get_friendly_url_name(global_translation, req_url, entry['index'])
         html = entry['content']
-        (elements, errors) = get_errors_for_style_tags(req_url, html, _local)
+        (elements, errors) = get_errors_for_style_tags(req_url, html, local_translation)
         if len(elements) > 0:
             has_style_elements = True
-            rating += create_review_and_rating(errors, _, _local, '- `<style>` in: {0}'.format(name))
+            rating += create_review_and_rating(errors, global_translation, local_translation, '- `<style>` in: {0}'.format(name))
 
         # 2.2 FIND ALL style=""
-        (elements, errors) = get_errors_for_style_attributes(req_url, html, _local)
+        (elements, errors) = get_errors_for_style_attributes(req_url, html, local_translation)
         if len(elements) > 0:
             has_style_attributes = True
-            rating += create_review_and_rating(errors, _, _local, '- `style=""` in: {0}'.format(name))
+            rating += create_review_and_rating(errors, global_translation, local_translation, '- `style=""` in: {0}'.format(name))
 
         # 2.3 GET ERRORS FROM SERVICE
         # 2.4 CALCULATE SCORE
         # 3 FIND ALL <LINK> (rel=\"stylesheet\")
-        (link_resources, errors) = get_errors_for_link_tags(html, url, _local)
+        (link_resources, errors) = get_errors_for_link_tags(html, url, local_translation)
         if len(link_resources) > 0:
             all_link_resources.extend(link_resources)
             has_css_files = True
             rating += create_review_and_rating(errors,
-                                            _,  _local, '- `<link rel=\"stylesheet\">` in: {0}'.format(name))
+                                            global_translation,  local_translation, '- `<link rel=\"stylesheet\">` in: {0}'.format(name))
             
 
     # 4 Check if website inlcuded css files in other ways
@@ -123,55 +114,55 @@ def run_test(_, langCode, url):
         errors += get_errors_for_url(
             data_resource_info['url'])
         request_index = data_resource_info['index']
-        name = get_friendly_url_name(_, data_resource_info['url'], request_index)
+        name = get_friendly_url_name(global_translation, data_resource_info['url'], request_index)
         rating += create_review_and_rating(errors,
-            _,  _local, '- `content-type=\".*css.*\"` in: {0}'.format(name))
+            global_translation,  local_translation, '- `content-type=\".*css.*\"` in: {0}'.format(name))
 
     # Give full points if nothing was found
     if not has_style_elements:
-        errors_type_rating = Rating(_, review_show_improvements_only)
+        errors_type_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         errors_type_rating.set_overall(5.0)
-        errors_type_rating.set_standards(5.0, '- `<style>`' + _local('TEXT_REVIEW_RATING_GROUPED').format(
+        errors_type_rating.set_standards(5.0, '- `<style>`' + local_translation('TEXT_REVIEW_RATING_GROUPED').format(
             0, 0.0))
         rating += errors_type_rating
 
-        errors_rating = Rating(_, review_show_improvements_only)
+        errors_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         errors_rating.set_overall(5.0)
-        errors_rating.set_standards(5.0, '- `<style>`' + _local('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0)),
+        errors_rating.set_standards(5.0, '- `<style>`' + local_translation('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0)),
         rating += errors_rating
     if not has_style_attributes:
-        errors_type_rating = Rating(_, review_show_improvements_only)
+        errors_type_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         errors_type_rating.set_overall(5.0)
-        errors_type_rating.set_standards(5.0, '- `style=""`'+ _local('TEXT_REVIEW_RATING_GROUPED').format(
+        errors_type_rating.set_standards(5.0, '- `style=""`'+ local_translation('TEXT_REVIEW_RATING_GROUPED').format(
             0, 0.0))
         rating += errors_type_rating
 
-        errors_rating = Rating(_, review_show_improvements_only)
+        errors_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         errors_rating.set_overall(5.0)
-        errors_rating.set_standards(5.0, '- `style=""`' + _local('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0)),
+        errors_rating.set_standards(5.0, '- `style=""`' + local_translation('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0)),
         rating += errors_rating
     if not has_css_files:
-        errors_type_rating = Rating(_, review_show_improvements_only)
+        errors_type_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         errors_type_rating.set_overall(5.0)
-        errors_type_rating.set_standards(5.0, '- `<link rel=\"stylesheet\">`' + _local('TEXT_REVIEW_RATING_GROUPED').format(
+        errors_type_rating.set_standards(5.0, '- `<link rel=\"stylesheet\">`' + local_translation('TEXT_REVIEW_RATING_GROUPED').format(
             0, 0.0))
         rating += errors_type_rating
 
-        errors_rating = Rating(_, review_show_improvements_only)
+        errors_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         errors_rating.set_overall(5.0)
-        errors_rating.set_standards(5.0, '- `<link rel=\"stylesheet\">`' + _local('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0)),
+        errors_rating.set_standards(5.0, '- `<link rel=\"stylesheet\">`' + local_translation('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0)),
         rating += errors_rating
 
     if not has_css_contenttypes:
-        errors_type_rating = Rating(_, review_show_improvements_only)
+        errors_type_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         errors_type_rating.set_overall(5.0)
-        errors_type_rating.set_standards(5.0, '- `content-type=\".*css.*\"`' + _local('TEXT_REVIEW_RATING_GROUPED').format(
+        errors_type_rating.set_standards(5.0, '- `content-type=\".*css.*\"`' + local_translation('TEXT_REVIEW_RATING_GROUPED').format(
             0, 0.0))
         rating += errors_type_rating
 
-        errors_rating = Rating(_, review_show_improvements_only)
+        errors_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         errors_rating.set_overall(5.0)
-        errors_rating.set_standards(5.0, '- `content-type=\".*css.*\"`' + _local('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0)),
+        errors_rating.set_standards(5.0, '- `content-type=\".*css.*\"`' + local_translation('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0)),
         rating += errors_rating
 
 
@@ -179,19 +170,19 @@ def run_test(_, langCode, url):
 
     review = ''
     if points >= 5.0:
-        review = _local('TEXT_REVIEW_CSS_VERY_GOOD')
+        review = local_translation('TEXT_REVIEW_CSS_VERY_GOOD')
     elif points >= 4.0:
-        review = _local('TEXT_REVIEW_CSS_IS_GOOD')
+        review = local_translation('TEXT_REVIEW_CSS_IS_GOOD')
     elif points >= 3.0:
-        review = _local('TEXT_REVIEW_CSS_IS_OK')
+        review = local_translation('TEXT_REVIEW_CSS_IS_OK')
     elif points > 1.0:
-        review = _local('TEXT_REVIEW_CSS_IS_BAD')
+        review = local_translation('TEXT_REVIEW_CSS_IS_BAD')
     elif points <= 1.0:
-        review = _local('TEXT_REVIEW_CSS_IS_VERY_BAD')
+        review = local_translation('TEXT_REVIEW_CSS_IS_VERY_BAD')
 
     rating.overall_review = review
 
-    print(_('TEXT_TEST_END').format(
+    print(global_translation('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, errors)
@@ -398,7 +389,7 @@ def create_review_and_rating(errors, _, _local, review_header):
 
                 tmp = re.sub(
                     regex, "X", error_message, 0, re.MULTILINE)
-                if css_review_group_errors:
+                if CSS_REVIEW_GROUP_ERRORS:
                     error_message = tmp
 
                 if error_message_grouped_dict.get(error_message, False):
@@ -423,19 +414,19 @@ def create_review_and_rating(errors, _, _local, review_header):
 
                 review += _local('TEXT_REVIEW_ERRORS_ITEM').format(item_text, item_value)
 
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     number_of_error_types = len(error_message_grouped_for_rating_dict)
 
     result = calculate_rating(number_of_error_types, number_of_errors)
 
-    errors_type_rating = Rating(_, review_show_improvements_only)
+    errors_type_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     errors_type_rating.set_overall(result[0])
     errors_type_rating.set_standards(result[0], review_header + _local('TEXT_REVIEW_RATING_GROUPED').format(
         number_of_error_types, 0.0))
     rating += errors_type_rating
 
-    errors_rating = Rating(_, review_show_improvements_only)
+    errors_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     errors_rating.set_overall(result[1])
     errors_rating.set_standards(result[1], review_header + _local('TEXT_REVIEW_RATING_ITEMS').format(number_of_errors,
                                                                                                      0.0))

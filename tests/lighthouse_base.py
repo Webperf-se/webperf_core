@@ -1,19 +1,12 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
 import sys
 import json
 from models import Rating
 from tests.utils import *
-import config
 
-REQUEST_TIMEOUT = config.http_request_timeout
-try:
-    USE_CACHE = config.cache_when_possible
-    CACHE_TIME_DELTA = config.cache_time_delta
-except:
-    # If cache_when_possible variable is not set in config.py this will be the default
-    USE_CACHE = False
-    CACHE_TIME_DELTA = timedelta(hours=1)
+REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
+USE_CACHE = get_config_or_default('cache_when_possible')
+CACHE_TIME_DELTA = get_config_or_default('cache_time_delta')
 
 def run_test(_, langCode, url, googlePageSpeedApiKey, strategy, category, review_show_improvements_only, lighthouse_use_api):
     """

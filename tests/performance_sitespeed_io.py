@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
+import json
 from pathlib import Path
 import os
 from models import Rating
 import datetime
-import config
-from tests.utils import *
+from tests.utils import get_config_or_default
 import gettext
 _local = gettext.gettext
 
-REQUEST_TIMEOUT = config.http_request_timeout
-sitespeed_use_docker = config.sitespeed_use_docker
-
+REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
+SITESPEED_USE_DOCKER = get_config_or_default('sitespeed_use_docker')
 
 def get_result(sitespeed_use_docker, arg):
 
@@ -152,13 +151,13 @@ def validate_on_mobile_using_validator(url, validator_config):
             index += 1
 
     arg = '--shm-size=1g -b chrome --mobile true --chrome.CPUThrottlingRate 3 --connectivity.profile 3gfast --visualMetrics true --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} --preScript chrome-custom.cjs {1}{2}'.format(
-        config.sitespeed_iterations, url, browertime_plugin_options)
+        get_config_or_default('SITESPEED_ITERATIONS'), url, browertime_plugin_options)
     if 'nt' in os.name:
         arg = '--shm-size=1g -b chrome --mobile true --chrome.CPUThrottlingRate 3 --connectivity.profile 3gfast --visualMetrics true --plugins.remove screenshot --speedIndex true --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} --preScript chrome-custom.cjs {1}{2}'.format(
-            config.sitespeed_iterations, url, browertime_plugin_options)
+            get_config_or_default('SITESPEED_ITERATIONS'), url, browertime_plugin_options)
 
     result_dict = get_result_dict(get_result(
-        sitespeed_use_docker, arg), validator_config['name'])
+        SITESPEED_USE_DOCKER, arg), validator_config['name'])
     result_dict['name'] = validator_config['name']
     result_dict['use_reference'] = validator_config['use_reference']
 
@@ -182,13 +181,13 @@ def validate_on_desktop_using_validator(url, validator_config):
             index += 1
 
     arg = '--shm-size=1g -b chrome --connectivity.profile native --visualMetrics true --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} --preScript chrome-custom.cjs {1}{2}'.format(
-        config.sitespeed_iterations, url, browertime_plugin_options)
+        get_config_or_default('SITESPEED_ITERATIONS'), url, browertime_plugin_options)
     if 'nt' in os.name:
         arg = '--shm-size=1g -b chrome --connectivity.profile native --visualMetrics true --plugins.remove screenshot --speedIndex true --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} --preScript chrome-custom.cjs {1}{2}'.format(
-            config.sitespeed_iterations, url, browertime_plugin_options)
+            get_config_or_default('SITESPEED_ITERATIONS'), url, browertime_plugin_options)
 
     result_dict = get_result_dict(get_result(
-        sitespeed_use_docker, arg), validator_config['name'])
+        SITESPEED_USE_DOCKER, arg), validator_config['name'])
     result_dict['name'] = validator_config['name']
     result_dict['use_reference'] = validator_config['use_reference']
 
@@ -197,26 +196,26 @@ def validate_on_desktop_using_validator(url, validator_config):
 
 def validate_on_desktop(url):
     arg = '--shm-size=1g -b chrome --connectivity.profile native --visualMetrics true --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-        config.sitespeed_iterations, url)
+        get_config_or_default('SITESPEED_ITERATIONS'), url)
     if 'nt' in os.name:
         arg = '--shm-size=1g -b chrome --connectivity.profile native --visualMetrics true --plugins.remove screenshot --speedIndex true --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-            config.sitespeed_iterations, url)
+            get_config_or_default('SITESPEED_ITERATIONS'), url)
 
     result_dict = get_result_dict(get_result(
-        sitespeed_use_docker, arg), 'desktop')
+        SITESPEED_USE_DOCKER, arg), 'desktop')
 
     return result_dict
 
 
 def validate_on_mobile(url):
     arg = '--shm-size=1g -b chrome --mobile true --connectivity.profile 3gfast --visualMetrics true --plugins.remove screenshot --speedIndex true --xvfb --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-        config.sitespeed_iterations, url)
+        get_config_or_default('SITESPEED_ITERATIONS'), url)
     if 'nt' in os.name:
         arg = '--shm-size=1g -b chrome --mobile true --connectivity.profile 3gfast --visualMetrics true --plugins.remove screenshot --speedIndex true --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
-            config.sitespeed_iterations, url)
+            get_config_or_default('SITESPEED_ITERATIONS'), url)
 
     result_dict = get_result_dict(get_result(
-        sitespeed_use_docker, arg), 'mobile')
+        SITESPEED_USE_DOCKER, arg), 'mobile')
 
     return result_dict
 

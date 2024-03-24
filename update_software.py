@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
 import sys
-import config
 from datetime import datetime
 from pathlib import Path
 import sys
 import json
 import re
-import config
 import os
 from tests.utils import *
 import packaging.version
 
 try:
-    github_adadvisory_database_path = config.software_github_adadvisory_database_path
+    github_adadvisory_database_path = get_config_or_default('SOFTWARE_GITHUB_ADADVISORY_DATABASE_PATH')
 except:
     # If software_github_adadvisory_database_path variable is not set in config.py this will be the default
     github_adadvisory_database_path = None

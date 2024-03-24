@@ -4,14 +4,13 @@ from datetime import datetime, timedelta
 import time
 import urllib.parse
 from models import Rating
-import config
 from bs4 import BeautifulSoup
 import gettext
 
-from tests.utils import get_http_content
+from tests.utils import get_http_content, get_config_or_default
 _ = gettext.gettext
 
-review_show_improvements_only = config.review_show_improvements_only
+review_show_improvements_only = get_config_or_default('review_show_improvements_only')
 checked_urls = {}
 digg_url = 'https://www.digg.se/tdosanmalan'
 canonical = 'https://www.digg.se/tdosanmalan'

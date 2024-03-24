@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 from functools import cmp_to_key
-from PIL.ExifTags import TAGS, GPSTAGS
+from PIL.ExifTags import TAGS
 from PIL import Image
 import hashlib
 from pathlib import Path
-import shutil
 from models import Rating, DefaultInfo
 import os
 import json
-import config
 import re
 # https://docs.python.org/3/library/urllib.parse.html
 from urllib.parse import urlparse
@@ -21,37 +19,17 @@ import gettext
 _ = gettext.gettext
 
 # DEFAULTS
-REQUEST_TIMEOUT = config.http_request_timeout
-USERAGENT = config.useragent
-review_show_improvements_only = config.review_show_improvements_only
-sitespeed_use_docker = config.sitespeed_use_docker
-try:
-    software_browser = config.software_browser
-except:
-    # If browser is not set in config.py this will be the default
-    software_browser = 'chrome'
-try:
-    sitespeed_timeout = config.sitespeed_timeout
-except:
-    # If sitespeed timeout is not set in config.py this will be the default
-    sitespeed_timeout = 600
-try:
-    USE_CACHE = config.cache_when_possible
-    CACHE_TIME_DELTA = config.cache_time_delta
-except:
-    # If cache_when_possible variable is not set in config.py this will be the default
-    USE_CACHE = False
-    CACHE_TIME_DELTA = timedelta(hours=1)
-try:
-    use_stealth = config.software_use_stealth
-except:
-    # If software_use_stealth variable is not set in config.py this will be the default
-    use_stealth = True
-try:
-    use_detailed_report = config.use_detailed_report
-except:
-    # If use_detailed_report variable is not set in config.py this will be the default
-    use_detailed_report = False
+REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
+USERAGENT = get_config_or_default('useragent')
+REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
+SOFTWARE_BROWSER = get_config_or_default('SOFTWARE_BROWSER')
+SITESPEED_USE_DOCKER = get_config_or_default('sitespeed_use_docker')
+SITESPEED_TIMEOUT = get_config_or_default('sitespeed_timeout')
+USE_CACHE = get_config_or_default('CACHE_WHEN_POSSIBLE')
+CACHE_TIME_DELTA = get_config_or_default('CACHE_TIME_DELTA')
+
+USE_STEALTH = get_config_or_default('SOFTWARE_USE_STEALTH')
+USE_DETAILED_REPORT = get_config_or_default('USE_DETAILED_REPORT')
 
 # Debug flags for every category here, this so we can print out raw values (so we can add more allowed once)
 raw_data = {
@@ -93,7 +71,7 @@ def get_rating_from_sitespeed(url, _local, _):
     sitespeed_arg = '--plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --utc true -n {0}'.format(
         sitespeed_iterations)
 
-    if 'firefox' in software_browser:
+    if 'firefox' in SOFTWARE_BROWSER:
         sitespeed_arg = '-b firefox --firefox.includeResponseBodies all --firefox.preference privacy.trackingprotection.enabled:false --firefox.preference privacy.donottrackheader.enabled:false --firefox.preference browser.safebrowsing.malware.enabled:false --firefox.preference browser.safebrowsing.phishing.enabled:false {0}'.format(
             sitespeed_arg)
     else:
@@ -109,7 +87,7 @@ def get_rating_from_sitespeed(url, _local, _):
     sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'
 
     (result_folder_name, filename) = get_result(
-        url, sitespeed_use_docker, sitespeed_arg, sitespeed_timeout)
+        url, SITESPEED_USE_DOCKER, sitespeed_arg, sitespeed_timeout)
 
    
     o = urlparse(url)
@@ -135,7 +113,7 @@ def get_rating_from_sitespeed(url, _local, _):
     # nice_raw = json.dumps(data, indent=2)
     # print('DEBUG 2', nice_raw)
 
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     result = convert_item_to_domain_data(data)
 
     # if 'issues' in result:
@@ -225,7 +203,7 @@ def sort_issues(item1, item2):
 
 
 def rate_software_security_result(_local, _, result, url):
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     has_cve_issues = False
     has_behind_issues = False
@@ -238,13 +216,13 @@ def rate_software_security_result(_local, _, result, url):
         if issue_type.startswith('CVE'):
             has_cve_issues = True
             points = 1.0
-            cve_ratings = Rating(_, review_show_improvements_only)
+            cve_ratings = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
             for sub_issue in result['issues'][issue_type]['sub-issues']:
-                sub_rating = Rating(_, review_show_improvements_only)
+                sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(points)
                 sub_rating.set_integrity_and_security(points)
                 cve_ratings += sub_rating
-            if use_detailed_report:
+            if USE_DETAILED_REPORT:
                 text = _local('TEXT_DETAILED_REVIEW_CVE').replace('#POINTS#', str(cve_ratings.get_integrity_and_security()))
 
                 text += _local('TEXT_DETAILED_REVIEW_CVES')
@@ -279,11 +257,11 @@ def rate_software_security_result(_local, _, result, url):
                 points = 3.0
             elif issue_type == 'BEHIND001':
                 points = 4.9
-            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
             sub_rating.set_overall(points)
             sub_rating.set_integrity_and_security(points)
 
-            if use_detailed_report:
+            if USE_DETAILED_REPORT:
                 text = _local('TEXT_DETAILED_REVIEW_{0}'.format(issue_type)).replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
                 text += '\r\n'
                 text += _local('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
@@ -302,10 +280,10 @@ def rate_software_security_result(_local, _, result, url):
         elif issue_type.startswith('ARCHIVED_SOURCE'):
             has_source_issues = True
             points = 1.75
-            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
             sub_rating.set_overall(points)
             sub_rating.set_integrity_and_security(points)
-            if use_detailed_report:
+            if USE_DETAILED_REPORT:
                 text = _local('TEXT_DETAILED_REVIEW_{0}'.format(issue_type)).replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
                 text += '\r\n'
                 text += _local('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
@@ -340,10 +318,10 @@ def rate_software_security_result(_local, _, result, url):
             elif issue_type.endswith('10_YEARS'):
                 points = 1.0
                 
-            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
             sub_rating.set_overall(points)
             sub_rating.set_integrity_and_security(points)
-            if use_detailed_report:
+            if USE_DETAILED_REPORT:
                 text = _local('TEXT_DETAILED_REVIEW_{0}'.format(issue_type)).replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
                 text += '\r\n'
                 text += _local('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
@@ -362,11 +340,11 @@ def rate_software_security_result(_local, _, result, url):
         elif issue_type.startswith('END_OF_LIFE'):
             has_end_of_life_issues = True
             points = 1.75
-            sub_rating = Rating(_, review_show_improvements_only)
+            sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
             sub_rating.set_overall(points)
             sub_rating.set_integrity_and_security(points)
 
-            if use_detailed_report:
+            if USE_DETAILED_REPORT:
                 text = _local('TEXT_DETAILED_REVIEW_{0}'.format(issue_type)).replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
                 text += '\r\n'
                 text += _local('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
@@ -387,9 +365,9 @@ def rate_software_security_result(_local, _, result, url):
 
     if not has_cve_issues:
         points = 5.0
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(points)
-        if use_detailed_report:
+        if USE_DETAILED_REPORT:
             sub_rating.set_integrity_and_security(points, _local('TEXT_DETAILED_REVIEW_NO_CVE'))
         else:
             sub_rating.set_integrity_and_security(points)
@@ -397,9 +375,9 @@ def rate_software_security_result(_local, _, result, url):
 
     if not has_behind_issues:
         points = 5.0
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(points)
-        if use_detailed_report:
+        if USE_DETAILED_REPORT:
             sub_rating.set_integrity_and_security(points, _local('TEXT_DETAILED_REVIEW_NO_BEHIND'))
         else:
             sub_rating.set_integrity_and_security(points)
@@ -407,9 +385,9 @@ def rate_software_security_result(_local, _, result, url):
 
     if not has_source_issues:
         points = 5.0
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(points)
-        if use_detailed_report:
+        if USE_DETAILED_REPORT:
             sub_rating.set_integrity_and_security(points, _local('TEXT_DETAILED_REVIEW_NO_UNMAINTAINED'))
         else:
             sub_rating.set_integrity_and_security(points)
@@ -417,9 +395,9 @@ def rate_software_security_result(_local, _, result, url):
 
     if not has_end_of_life_issues:
         points = 5.0
-        sub_rating = Rating(_, review_show_improvements_only)
+        sub_rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(points)
-        if use_detailed_report:
+        if USE_DETAILED_REPORT:
             sub_rating.set_integrity_and_security(points, _local('TEXT_DETAILED_REVIEW_NO_END_OF_LIFE'))
         else:
             sub_rating.set_integrity_and_security(points)
@@ -871,7 +849,7 @@ def enrich_versions(collection, item):
     # print('DEBUG', nice_raw)
 
 def enrich_data_from_javascript(tmp_list, item, rules):
-    if use_stealth:
+    if USE_STEALTH:
         return
     for match in item['matches']:
         if match['category'] != 'js':
@@ -888,7 +866,7 @@ def enrich_data_from_javascript(tmp_list, item, rules):
 
 
 def enrich_data_from_videos(tmp_list, item, result_folder_name, nof_tries=0):
-    if use_stealth:
+    if USE_STEALTH:
         return
     for match in item['matches']:
         if match['category'] != 'video':
@@ -901,13 +879,13 @@ def enrich_data_from_videos(tmp_list, item, result_folder_name, nof_tries=0):
 
 
 def enrich_data_from_documents(tmp_list, item, result_folder_name, nof_tries=0):
-    if use_stealth:
+    if USE_STEALTH:
         return
     # TODO: Handle: pdf, excel, word, powerpoints (and more?)
 
 
 def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
-    if use_stealth:
+    if USE_STEALTH:
         return
     for match in item['matches']:
         if match['category'] != 'img':
@@ -1612,7 +1590,7 @@ def run_test(_, langCode, url):
     """
 
     result_dict = {}
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(_, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     language = gettext.translation(
         'software', localedir='locales', languages=[langCode])

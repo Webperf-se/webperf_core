@@ -62,11 +62,31 @@ TEST_FUNCS = {
     }
 
 
-def test(_, lang_code, site, test_type=None, show_reviews=False):
+def test(global_translation, lang_code, site, test_type=None, show_reviews=False):
     """
-    Executing the actual tests.
-    Attributes:
-    * test_type=num|None to execute all available tests
+    This function runs a specific test on a website and returns the test results.
+
+    Parameters:
+    global_translation : GNUTranslations
+        An object that handles the translation of text in the context of internationalization.
+    lang_code : str
+        The language code for the website to be tested.
+    site : tuple
+        A tuple containing the site ID and the website URL.
+    test_type : str, optional
+        The type of test to be run. If the test type is not in the predefined test functions,
+        the function will return an empty list.
+    show_reviews : bool, optional
+        A flag indicating whether to print the reviews of the website. The default is False.
+
+    Returns:
+    list
+        A list containing the test results. If an exception occurs during the test,
+        the function will log the exception and return None.
+
+    Raises:
+    Exception
+        If an exception occurs during the test, it will be caught and logged.
     """
 
     site_id = site[0]
@@ -77,14 +97,14 @@ def test(_, lang_code, site, test_type=None, show_reviews=False):
             return []
 
         run_test = TEST_FUNCS[test_type]
-        the_test_result = run_test(_, lang_code, website)
+        the_test_result = run_test(global_translation, lang_code, website)
 
         if the_test_result is not None:
             rating = the_test_result[0]
             reviews = rating.get_reviews()
-            print(_('TEXT_SITE_RATING'), rating)
+            print(global_translation('TEXT_SITE_RATING'), rating)
             if show_reviews:
-                print(_('TEXT_SITE_REVIEW'),
+                print(global_translation('TEXT_SITE_REVIEW'),
                       reviews)
 
             json_data = ''
@@ -107,9 +127,9 @@ def test(_, lang_code, site, test_type=None, show_reviews=False):
 
             return site_test
     except Exception as e: # pylint: disable=broad-exception-caught
-        print(_('TEXT_TEST_END').format(
+        print(global_translation('TEXT_TEST_END').format(
             datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
-        print(_('TEXT_EXCEPTION'), website, '\n', e)
+        print(global_translation('TEXT_EXCEPTION'), website, '\n', e)
 
         date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
@@ -153,12 +173,31 @@ def test(_, lang_code, site, test_type=None, show_reviews=False):
     return []
 
 
-def test_site(_, lang_code, site, test_types=TEST_ALL, show_reviews=False):
+def test_site(global_translation, lang_code, site, test_types=TEST_ALL, show_reviews=False):
+    """
+    This function runs a series of tests on a website and returns a list of all the test results.
+
+    Parameters:
+    global_translation : GNUTranslations
+        An object that handles the translation of text in the context of internationalization.
+    lang_code : str
+        The language code for the website to be tested.
+    site : tuple
+        A tuple containing the site ID and the website URL.
+    test_types : list, optional
+        A list of test types to be run. If not provided, all tests will be run.
+    show_reviews : bool, optional
+        A flag indicating whether to print the reviews of the website. The default is False.
+
+    Returns:
+    list
+        A list containing the results of all the tests run on the website.
+    """
     tests = []
 
     for test_id in TEST_ALL:
         if test_id in test_types:
-            tests.extend(test(_,
+            tests.extend(test(global_translation,
                             lang_code,
                             site,
                             test_type=test_id,
@@ -167,26 +206,45 @@ def test_site(_, lang_code, site, test_types=TEST_ALL, show_reviews=False):
     return tests
 
 
-def test_sites(_, lang_code, sites, test_types=TEST_ALL, show_reviews=False):
+def test_sites(global_translation, lang_code, sites, test_types=TEST_ALL, show_reviews=False):
+    """
+    This function runs a series of tests on multiple websites and returns a list of all the test results.
+
+    Parameters:
+    global_translation : GNUTranslations
+        An object that handles the translation of text in the context of internationalization.
+    lang_code : str
+        The language code for the websites to be tested.
+    sites : list
+        A list of tuples, each containing the site ID and the website URL.
+    test_types : list, optional
+        A list of test types to be run. If not provided, all tests will be run.
+    show_reviews : bool, optional
+        A flag indicating whether to print the reviews of the websites. The default is False.
+
+    Returns:
+    list
+        A list containing the results of all the tests run on the websites.
+    """
     results = []
 
-    print(_('TEXT_TEST_START_HEADER'))
+    print(global_translation('TEXT_TEST_START_HEADER'))
 
     nof_sites = len(sites)
     has_more_then_one_site = nof_sites > 1
 
     if has_more_then_one_site:
-        print(_('TEXT_TESTING_NUMBER_OF_SITES').format(nof_sites))
+        print(global_translation('TEXT_TESTING_NUMBER_OF_SITES').format(nof_sites))
 
     site_index = 0
     for site in sites:
         if site_index > 0:
-            print(_('TEXT_TEST_START_HEADER'))
+            print(global_translation('TEXT_TEST_START_HEADER'))
         website = site[1]
-        print(_('TEXT_TESTING_SITE').format(website))
+        print(global_translation('TEXT_TESTING_SITE').format(website))
         if has_more_then_one_site:
-            print(_('TEXT_WEBSITE_X_OF_Y').format(site_index + 1, nof_sites))
-        results.extend(test_site(_, lang_code, site,
+            print(global_translation('TEXT_WEBSITE_X_OF_Y').format(site_index + 1, nof_sites))
+        results.extend(test_site(global_translation, lang_code, site,
                                  test_types, show_reviews))
 
         site_index += 1

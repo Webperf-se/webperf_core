@@ -465,6 +465,18 @@ def get_url_headers(url, cache_time_delta):
     return {}
 
 def has_redirect(url):
+    """
+    Checks if a URL has a redirect.
+
+    Args:
+        url (str): The URL to check.
+
+    Returns:
+        tuple: A tuple containing:
+            - bool: True if the URL has a redirect, False otherwise.
+            - str or None: The redirected URL if available, None otherwise.
+            - str: Error message if any (empty string if no error).
+    """
     error_msg = None
     try:
         headers = {'user-agent': USERAGENT}
@@ -491,7 +503,13 @@ def has_redirect(url):
 
 def get_guid(length):
     """
-    Generates a unique string in specified length
+    Generates a unique string of specified length.
+
+    Args:
+        length (int): The desired length of the generated string.
+
+    Returns:
+        str: A unique string of the specified length.
     """
     return str(uuid.uuid4())[0:length]
 
@@ -499,7 +517,15 @@ def get_guid(length):
 def convert_to_seconds(millis, return_with_seconds=True):
     """
     Converts milliseconds to seconds.
-    Arg: 'return_with_seconds' defaults to True and returns string ' sekunder' after the seconds
+
+    Args:
+        millis (int): The input time in milliseconds.
+        return_with_seconds (bool, optional): 
+            If True, returns the result with the word "sekunder" (seconds).
+            Otherwise, returns the numeric value only. Defaults to True.
+
+    Returns:
+        str or float: The converted time in seconds (with "sekunder" if specified).
     """
     if return_with_seconds:
         return (millis/1000) % 60 + " sekunder"
@@ -507,6 +533,16 @@ def convert_to_seconds(millis, return_with_seconds=True):
 
 
 def dns_lookup(key, datatype):
+    """
+    Performs a DNS lookup for the specified key and data type.
+
+    Args:
+        key (str): The domain or hostname to look up.
+        datatype (int): The DNS record type (e.g., A, AAAA, MX, CNAME).
+
+    Returns:
+        list: A list containing the DNS records found for the given key.
+    """
     use_dnssec = False
     cache_key = f'dnslookup://{key}#{datatype}#{use_dnssec}'
     if has_cache_file(cache_key, True, CACHE_TIME_DELTA):
@@ -552,6 +588,15 @@ def dns_lookup(key, datatype):
     return []
 
 def dns_response_to_list(dns_response):
+    """
+    Converts a DNS response to a list of names.
+
+    Args:
+        dns_response (dns.message.Message): The DNS response object.
+
+    Returns:
+        list: A list of names extracted from the DNS response.
+    """
     names = []
     for rrset in dns_response.answer:
         for rr in rrset:
@@ -564,6 +609,13 @@ def dns_response_to_list(dns_response):
     return names
 
 def get_eu_countries():
+    """
+    Returns a dictionary of European Union (EU) country codes and their corresponding full names.
+
+    Returns:
+        dict: A dictionary where keys are two-letter country codes (e.g., 'BE' for Belgium)
+              and values are the full country names (e.g., 'Belgium').
+    """
     eu_countrycodes = {
         'BE': 'Belgium',
         'BG': 'Bulgaria',
@@ -597,6 +649,17 @@ def get_eu_countries():
 
 
 def get_exception_countries():
+    """
+    Returns a dictionary of non-European Union (EU) countries that have been granted
+    data protection adequacy decisions by the European Commission.
+
+    The country codes and their corresponding full names are sourced from official documents and
+    Wikipedia.
+
+    Returns:
+        dict: A dictionary where keys are two-letter country codes (e.g., 'NO' for Norway)
+              and values are the full country names (e.g., 'Norway').
+    """
     # Countries in below list comes from this page:
     # https://ec.europa.eu/info/law/law-topic/data-protection/international-dimension-data-protection/adequacy-decisions_en
     # Country codes for every country comes from Wikipedia when searching on country name,
@@ -627,6 +690,15 @@ def get_exception_countries():
 
 
 def is_country_code_in_eu(country_code):
+    """
+    Checks if a given two-letter country code corresponds to a European Union (EU) member country.
+
+    Args:
+        country_code (str): A two-letter country code (e.g., 'SE' for Sweden).
+
+    Returns:
+        bool: True if the country code corresponds to an EU member country, False otherwise.
+    """
     country_codes = get_eu_countries()
     if country_code in country_codes:
         return True
@@ -635,6 +707,17 @@ def is_country_code_in_eu(country_code):
 
 
 def is_country_code_in_exception_list(country_code):
+    """
+    Checks if a given country code is in the exception list.
+    This function retrieves the list of exception countries and
+    checks if the provided country code is in that list.
+
+    Args:
+        country_code (str): The country code to check.
+
+    Returns:
+        bool: True if the country code is in the exception list, False otherwise.
+    """
     country_codes = get_exception_countries()
     if country_code in country_codes:
         return True
@@ -643,10 +726,36 @@ def is_country_code_in_exception_list(country_code):
 
 
 def is_country_code_in_eu_or_on_exception_list(country_code):
+    """
+    Checks if a given country code is in the EU or the exception list.
+    This function checks if the provided country code is either in the list of EU countries or
+    in the exception list.
+
+    Args:
+        country_code (str): The country code to check.
+
+    Returns:
+        bool: True if the country code is in the EU or the exception list, False otherwise.
+    """
     return is_country_code_in_eu(country_code) or is_country_code_in_exception_list(country_code)
 
 
 def get_country_code_from_ip2location(ip_address):
+    """
+    Retrieves the country code associated with an IP address using the IP2Location database.
+    This function attempts to retrieve the record associated with the given IP address from
+    the IP2Location database.
+    If the record exists and has a 'country_short' attribute, the function returns the country code.
+    If the record does not exist or an exception occurs during retrieval,
+    the function returns an empty string.
+
+    Args:
+        ip_address (str): The IP address to look up.
+
+    Returns:
+        str: The country code associated with the IP address,
+        or an empty string if the country code could not be retrieved.
+    """
     rec = False
     try:
         rec = IP2_LOCATION_DB.get_all(ip_address)
@@ -659,6 +768,24 @@ def get_country_code_from_ip2location(ip_address):
 
 
 def get_best_country_code(ip_address, default_country_code):
+    """
+    Determines the best country code based on an IP address and a default country code.
+    This function first checks if the default country code is in the EU or
+    the exception list. If it is, the function returns the default country code.
+    If not, the function attempts to retrieve the country code associated with
+    the given IP address from the IP2Location database.
+    If the country code could not be retrieved,
+    the function returns the default country code.
+
+    Args:
+        ip_address (str): The IP address to look up.
+        default_country_code (str):
+            The default country code to use if the IP address is not
+            associated with a country code in the EU or the exception list.
+
+    Returns:
+        str: The best country code, either from the IP address or the default.
+    """
     if is_country_code_in_eu_or_on_exception_list(default_country_code):
         return default_country_code
 
@@ -669,6 +796,23 @@ def get_best_country_code(ip_address, default_country_code):
     return country_code
 
 def get_friendly_url_name(_, url, request_index):
+    """
+    Generates a friendly name for a given URL and request index.
+    This function generates a friendly name for a given URL and request index.
+    If the request index is None, it is replaced with a '?'.
+    The function then attempts to parse the URL and extract the last part of the path,
+    replacing any non-alphanumeric characters with '-'.
+    If the length of this part is greater than 15, only the first 15 characters are used.
+    If an exception occurs during this process, the function returns a default friendly name.
+
+    Args:
+        _ (function): A function for localization. This argument is not used in the function.
+        url (str): The URL to generate a friendly name for.
+        request_index (int or None): The index of the request.
+
+    Returns:
+        str: The friendly name for the URL.
+    """
 
     if request_index is None:
         request_index = '?'
@@ -699,6 +843,19 @@ def get_friendly_url_name(_, url, request_index):
     return request_friendly_name
 
 def merge_dicts(dict1, dict2, sort, make_distinct):
+    """
+    Merges two dictionaries into one. If the same key exists in both dictionaries, 
+    the function handles the merging based on the type of the value.
+
+    Parameters:
+    dict1 (dict): The first dictionary to merge.
+    dict2 (dict): The second dictionary to merge.
+    sort (bool): If True, the function will sort the values if they are of type list.
+    make_distinct (bool): If True, the function will remove duplicate values from lists.
+
+    Returns:
+    dict: The merged dictionary.
+    """
     if dict1 is None:
         return dict2
     if dict2 is None:
@@ -719,6 +876,24 @@ def merge_dicts(dict1, dict2, sort, make_distinct):
     return dict1
 
 def merge_dict_values(dict1, dict2, domain, sort, make_distinct):
+    """
+    Merges the values of two dictionaries based on a common domain.
+
+    Parameters:
+    dict1 (dict): The first dictionary.
+    dict2 (dict): The second dictionary.
+    domain (str): The common domain in both dictionaries.
+    sort (bool): If True, the merged list will be sorted.
+    make_distinct (bool):
+        If True, the merged list will only contain distinct values.
+
+    Returns:
+    None: The function modifies dict1 in-place, adding the values from dict2.
+
+    Note:
+    This function recursively merges the dictionaries and
+    lists within the dictionaries.
+    """
     for subkey, subvalue in dict2[domain].items():
         if subkey not in dict1[domain]:
             dict1[domain][subkey] = subvalue
@@ -730,6 +905,20 @@ def merge_dict_values(dict1, dict2, domain, sort, make_distinct):
             merge_list_values(dict1[domain], dict2[domain], subkey, sort, make_distinct)
 
 def merge_list_values(dict1, dict2, key, sort, make_distinct):
+    """
+    Merges the values of two dictionaries based on a common key.
+
+    Parameters:
+    dict1 (dict): The first dictionary.
+    dict2 (dict): The second dictionary.
+    key (str): The common key in both dictionaries.
+    sort (bool): If True, the merged list will be sorted.
+    make_distinct (bool): 
+        If True, the merged list will only contain distinct values.
+
+    Returns:
+    None: The function modifies dict1 in-place, adding the values from dict2.
+    """
     dict1[key].extend(dict2[key])
     if make_distinct:
         dict1[key] = list(set(dict1[key]))

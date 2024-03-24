@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-import datetime
+from datetime import datetime, timedelta
 import gettext
+import os
 import re
 import sys
 import urllib  # https://docs.python.org/3/library/urllib.parse.html
@@ -9,7 +10,7 @@ import config
 from bs4 import BeautifulSoup
 from models import Rating
 
-from tests.utils import *
+from tests.utils import get_friendly_url_name, get_http_content, set_cache_file
 from tests.w3c_base import get_errors, identify_files
 from tests.sitespeed_base import get_result
 

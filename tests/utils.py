@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime, timedelta
+from datetime import datetime
 import hashlib
 from pathlib import Path
 import shutil
@@ -17,46 +17,68 @@ import IP2Location
 import dns
 import dns.resolver
 import dns.dnssec
-import config
 
-IP2_LOCATION_DB = False
-try:
-    IP2_LOCATION_DB = IP2Location.IP2Location(
-        os.path.join("data", "IP2LOCATION-LITE-DB1.IPV6.BIN"))
-except ValueError as ex:
-    print('Unable to load IP2Location Database from "data/IP2LOCATION-LITE-DB1.IPV6.BIN"', ex)
+def get_config_or_default(name):
+    """
+    Retrieves the configuration value for a given name from the configuration file.
+    If the name does not exist in the configuration file,
+    it attempts to retrieve it from the SAMPLE-config.py file.
+    
+    Parameters:
+    name (str): The name of the configuration value to retrieve.
 
+    Returns:
+    The configuration value associated with the given name.
 
-# DEFAULTS
-REQUEST_TIMEOUT = config.http_request_timeout
-USERAGENT = config.useragent
+    Raises:
+    ValueError: If the name does not exist in both the configuration file and
+    the SAMPLE-config.py file.
 
-USE_CACHE = False
-CACHE_TIME_DELTA = timedelta(hours=1)
-try:
-    USE_CACHE = config.cache_when_possible
-    CACHE_TIME_DELTA = config.cache_time_delta
-except:
-    # If cache_when_possible variable is not set in config.py this will be the default
-    USE_CACHE = False
-    CACHE_TIME_DELTA = timedelta(hours=1)
+    Notes:
+    - If the name exists in the SAMPLE-config.py file but not in the configuration file,
+      a warning message is printed.
+    - If the name does not exist in both files,
+      a fatal error message is printed and a ValueError is raised.
+    """
+    # Try get config from our configuration file
+    import config # pylint: disable=import-outside-toplevel
+    if hasattr(config, name):
+        return getattr(config, name)
 
-DNS_SERVER = '8.8.8.8'
-try:
-    DNS_SERVER = config.dns_server
-except:
-    # If cache_when_possible variable is not set in config.py this will be the default
-    DNS_SERVER = '8.8.8.8'
+    name = name.upper()
+    if hasattr(config, name):
+        return getattr(config, name)
 
+    # do we have fallback value we can use in our SAMPLE-config.py file?
+    from importlib import import_module # pylint: disable=import-outside-toplevel
+    SAMPLE_config = import_module('SAMPLE-config') # pylint: disable=invalid-name
+    if hasattr(SAMPLE_config, name):
+        print(f'Warning: "{name}" is missing in your config.py file,'
+              'using value from SAMPLE-config.py')
+        return getattr(SAMPLE_config, name)
 
-GITHUB_APIKEY = None
-try:
-    GITHUB_APIKEY=config.github_api_key
-except:
-    GITHUB_APIKEY=None
+    print(f'FATAL: "{name}" is missing in your config.py and SAMPLE-config.py files')
+    raise ValueError(f'FATAL: "{name}" is missing in your config.py and SAMPLE-config.py files')
+
 
 def change_url_to_test_url(url, test_name):
+    """
+    Modifies the given URL by adding or updating the 'webperf-core' query
+    parameter with the provided test name.
+    
+    Parameters:
+    url (str): The original URL to be modified.
+    test_name (str): The test name to be set as the value of the 'webperf-core' query parameter.
 
+    Returns:
+    str: The modified URL with the 'webperf-core' query parameter set to the provided test name.
+
+    Notes:
+    - If the original URL does not have any query parameters,
+      the 'webperf-core' query parameter is added.
+    - If the original URL already has one or more query parameters,
+      the 'webperf-core' query parameter is added at the beginning.
+    """
     o = urllib.parse.urlparse(url)
     if '' == o.query:
         new_query = f'webperf-core={test_name}'
@@ -74,6 +96,20 @@ def change_url_to_test_url(url, test_name):
 
 
 def is_file_older_than(file, delta):
+    """
+    Checks if a file is older than a given time delta.
+
+    Parameters:
+    file (str): The path to the file to check.
+    delta (datetime.timedelta): The time delta to compare the file's modification time against.
+
+    Returns:
+    bool: True if the file's modification time is older than the current time minus the given delta, False otherwise.
+
+    Notes:
+    - The function uses the file's modification time (mtime) for the comparison.
+    - The current time is determined using datetime.utcnow().
+    """
     cutoff = datetime.utcnow() - delta
     mtime = datetime.utcfromtimestamp(os.path.getmtime(file))
     if mtime < cutoff:
@@ -565,3 +601,18 @@ def merge_dicts(dict1, dict2, sort, make_distinct):
         else:
             dict1[domain] = value
     return dict1
+
+IP2_LOCATION_DB = False
+try:
+    IP2_LOCATION_DB = IP2Location.IP2Location(
+        os.path.join("data", "IP2LOCATION-LITE-DB1.IPV6.BIN"))
+except ValueError as ex:
+    print('Unable to load IP2Location Database from "data/IP2LOCATION-LITE-DB1.IPV6.BIN"', ex)
+
+# DEFAULTS
+REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
+USERAGENT = get_config_or_default('useragent')
+USE_CACHE = get_config_or_default('cache_when_possible')
+CACHE_TIME_DELTA = get_config_or_default('cache_time_delta')
+DNS_SERVER = get_config_or_default('dns_server')
+GITHUB_APIKEY = get_config_or_default('github_api_key')

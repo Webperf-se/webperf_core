@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
-from models import Rating
+from datetime import timedelta
 import sys
 import json
+from models import Rating
 from tests.utils import *
+import config
 
 REQUEST_TIMEOUT = config.http_request_timeout
 try:

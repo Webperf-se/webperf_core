@@ -1076,7 +1076,7 @@ def sitespeed_result_2_test_result(filename, org_domain):
                             csp_findings_match = True
 
                     regex = r'<(?P<type>style|script|form)>'
-                    matches = re.finditer(regex, content, re.MULTILINE)
+                    matches = re.finditer(regex, content, re.DOTALL | re.IGNORECASE | re.MULTILINE)
                     for matchNum, match in enumerate(matches, start=1):
                         element_name = match.group('type').lower()
                         if element_name == 'style' or element_name == 'script':

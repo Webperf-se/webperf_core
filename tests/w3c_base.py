@@ -64,12 +64,12 @@ def get_errors(test_type, params):
         arg = f'--exit-zero-always{test_arg} --stdout --format json --errors-only {file_path}'
 
     command = f'java -jar vnu.jar {arg}'
-    process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
-    output, _ = process.communicate(timeout=REQUEST_TIMEOUT * 10)
+    with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
+        output, _ = process.communicate(timeout=REQUEST_TIMEOUT * 10)
 
-    json_result = json.loads(output)
-    if 'messages' in json_result:
-        errors = json_result['messages']
+        json_result = json.loads(output)
+        if 'messages' in json_result:
+            errors = json_result['messages']
 
     return errors
 

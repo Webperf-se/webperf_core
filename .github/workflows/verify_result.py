@@ -383,10 +383,12 @@ def validate_translations():
 
     This function performs two main validation steps:
     1. Validates the existence and correctness of .po and .mo files in the project.
-    2. Validates the usage of global_translation() and local_translation() in .py files in the project.
+    2. Validates the usage of global_translation() and
+       local_translation() in .py files in the project.
 
     The function uses the `validate_locales` function to validate .po and .mo files,
-    and the `validate_python_files` function to validate global_translation() and local_translation() usage.
+    and the `validate_python_files` function to validate global_translation() and
+       local_translation() usage.
 
     Returns:
         bool: True if all validations pass, False otherwise.

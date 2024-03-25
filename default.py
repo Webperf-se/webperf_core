@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
+import os
 import getopt
 import gettext
 from tests.utils import clean_cache_files
@@ -7,10 +8,27 @@ import utils
 
 
 def validate_test_type(test_types):
-    if utils.TEST_HTML in test_types and utils.TEST_PAGE_NOT_FOUND in test_types and utils.TEST_CSS in test_types and utils.TEST_WEBBKOLL in test_types and utils.TEST_GOOGLE_LIGHTHOUSE in test_types and utils.TEST_GOOGLE_LIGHTHOUSE_PWA in test_types and utils.TEST_GOOGLE_LIGHTHOUSE_A11Y in test_types and utils.TEST_GOOGLE_LIGHTHOUSE_SEO in test_types and utils.TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE in test_types and utils.TEST_STANDARD_FILES in test_types and utils.TEST_YELLOW_LAB_TOOLS in test_types and utils.TEST_PA11Y in test_types and utils.TEST_HTTP in test_types and utils.TEST_ENERGY_EFFICIENCY in test_types and utils.TEST_TRACKING in test_types and utils.TEST_SITESPEED in test_types and utils.TEST_EMAIL in test_types and utils.TEST_SOFTWARE in test_types and utils.TEST_A11Y_STATEMENT in test_types:
+    if utils.TEST_HTML in test_types and \
+          utils.TEST_PAGE_NOT_FOUND in test_types and \
+          utils.TEST_CSS in test_types and \
+          utils.TEST_WEBBKOLL in test_types and \
+          utils.TEST_GOOGLE_LIGHTHOUSE in test_types and \
+          utils.TEST_GOOGLE_LIGHTHOUSE_PWA in test_types and \
+          utils.TEST_GOOGLE_LIGHTHOUSE_A11Y in test_types and \
+          utils.TEST_GOOGLE_LIGHTHOUSE_SEO in test_types and \
+          utils.TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE in test_types and \
+          utils.TEST_STANDARD_FILES in test_types and \
+          utils.TEST_YELLOW_LAB_TOOLS in test_types and \
+          utils.TEST_PA11Y in test_types and \
+          utils.TEST_HTTP in test_types and \
+          utils.TEST_ENERGY_EFFICIENCY in test_types and \
+          utils.TEST_TRACKING in test_types and \
+          utils.TEST_SITESPEED in test_types and \
+          utils.TEST_EMAIL in test_types and \
+          utils.TEST_SOFTWARE in test_types and \
+          utils.TEST_A11Y_STATEMENT in test_types:
         return []
-    else:
-        return test_types
+    return test_types
 
 
 def main(argv):
@@ -42,23 +60,25 @@ def main(argv):
     show_help = False
     add_url = ''
     delete_url = ''
-    langCode = 'en'
+    lang_code = 'en'
     language = False
 
     # add support for default (en) language
     language = gettext.translation(
-        'webperf-core', localedir='locales', languages=[langCode])
+        'webperf-core', localedir='locales', languages=[lang_code])
     language.install()
-    _ = language.gettext
+    global_translation = language.gettext
 
     try:
-        opts, args = getopt.getopt(argv, "hu:t:i:o:rA:D:L:", [
-                                   "help", "url=", "test=", "input=", "output=", "review", "report", "addUrl=", "deleteUrl=", "language=", "input-skip=", "input-take="])
+        opts, _ = getopt.getopt(argv, "hu:t:i:o:rA:D:L:", [
+                                   "help", "url=", "test=", "input=", "output=",
+                                   "review", "report", "addUrl=", "deleteUrl=",
+                                   "language=", "input-skip=", "input-take="])
     except getopt.GetoptError:
         print(main.__doc__)
         sys.exit(2)
 
-    if (opts.__len__() == 0):
+    if len(opts) == 0:
         show_help = True
 
     for opt, arg in opts:
@@ -72,40 +92,40 @@ def main(argv):
             delete_url = arg
         elif opt in ("-L", "--language"):  # language code
             # loop all available languages and verify language exist
-            import os
-            availableLanguages = []
-            localeDirs = os.listdir('locales')
-            foundLang = False
+            available_languages = []
+            locale_dirs = os.listdir('locales')
+            found_lang = False
 
-            for localeName in localeDirs:
-                if (localeName[0:1] == '.'):
+            for locale_name in locale_dirs:
+                if locale_name[0:1] == '.':
                     continue
 
-                languageSubDirectory = os.path.join(
-                    'locales', localeName, "LC_MESSAGES")
+                language_sub_directory = os.path.join(
+                    'locales', locale_name, "LC_MESSAGES")
 
-                if (os.path.exists(languageSubDirectory)):
-                    availableLanguages.append(localeName)
+                if os.path.exists(language_sub_directory):
+                    available_languages.append(locale_name)
 
-                    if (localeName == arg):
-                        langCode = arg
-                        foundLang = True
+                    if locale_name == arg:
+                        lang_code = arg
+                        found_lang = True
 
                         language = gettext.translation(
-                            'webperf-core', localedir='locales', languages=[langCode])
+                            'webperf-core', localedir='locales', languages=[lang_code])
                         language.install()
                         _ = language.gettext
 
-            if (not foundLang):
+            if not found_lang:
                 # Not translateable
                 print(
-                    'Language not found, only the following languages are available:', availableLanguages)
+                    'Language not found, only the following languages are available:',
+                    available_languages)
                 sys.exit(2)
         elif opt in ("-t", "--test"):  # test type
             try:
                 tmp_test_types = list(map(int, arg.split(',')))
                 test_types = validate_test_type(tmp_test_types)
-            except Exception:
+            except (TypeError, ValueError):
                 test_types = []
 
             if len(test_types) == 0:
@@ -113,7 +133,8 @@ def main(argv):
                 print(global_translation('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE'))
                 print(global_translation('TEXT_TEST_VALID_ARGUMENTS_PAGE_NOT_FOUND'))
                 print(global_translation('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_SEO'))
-                print(global_translation('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_BEST_PRACTICE'))
+                print(global_translation(
+                    'TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_BEST_PRACTICE'))
                 print(global_translation('TEXT_TEST_VALID_ARGUMENTS_HTML'))
                 print(global_translation('TEXT_TEST_VALID_ARGUMENTS_CSS'))
                 print(global_translation('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_PWA'))
@@ -135,18 +156,18 @@ def main(argv):
 
             file_ending = ""
             file_long_ending = ""
-            if (len(input_filename) > 4):
+            if len(input_filename) > 4:
                 file_ending = input_filename[-4:].lower()
-            if (len(input_filename) > 7):
+            if len(input_filename) > 7:
                 file_long_ending = input_filename[-7:].lower()
 
             if file_long_ending == ".sqlite":
                 from engines.sqlite import read_sites, add_site, delete_site
-            elif (file_ending == ".csv"):
+            elif file_ending == ".csv":
                 from engines.csv import read_sites, add_site, delete_site
-            elif (file_ending == ".xml"):  # https://example.com/sitemap.xml
+            elif file_ending == ".xml":  # https://example.com/sitemap.xml
                 from engines.sitemap import read_sites, add_site, delete_site
-            elif (file_long_ending == ".xml.gz"):  # https://example.com/sitemap.xml.gz
+            elif file_long_ending == ".xml.gz":  # https://example.com/sitemap.xml.gz
                 from engines.sitemap import read_sites, add_site, delete_site
             elif file_long_ending == ".result":
                 from engines.sitespeed_result import read_sites, add_site, delete_site
@@ -154,54 +175,52 @@ def main(argv):
                 from engines.webperf import read_sites, add_site, delete_site
             else:
                 from engines.json import read_sites, add_site, delete_site
-            pass
         elif opt in ("--input-skip"):  # specifies number of items to skip in the begining
             try:
                 input_skip = int(arg)
-            except Exception:
+            except TypeError:
                 print(global_translation('TEXT_COMMAND_USAGE'))
                 sys.exit(2)
-            pass
         elif opt in ("--input-take"):  # specifies number of items to take
             try:
                 input_take = int(arg)
-            except Exception:
+            except TypeError:
                 print(global_translation('TEXT_COMMAND_USAGE'))
                 sys.exit(2)
-            pass
         elif opt in ("-o", "--output"):  # output file path
             output_filename = arg
-            pass
         elif opt in ("-r", "--review", "--report"):  # writes reviews directly in terminal
             show_reviews = True
-            pass
 
-    if (show_help):
+    if show_help:
         print(global_translation('TEXT_COMMAND_USAGE'))
         sys.exit()
 
-    if (input_filename != ''):
+    if input_filename != '':
         sites = read_sites(input_filename, input_skip, input_take)
 
-    if (add_url != ''):
+    if add_url != '':
         # check if website url should be added
         sites = add_site(input_filename, add_url, input_skip, input_take)
-    elif (delete_url != ''):
+    elif delete_url != '':
         # check if website url should be deleted
         sites = delete_site(input_filename, delete_url, input_skip, input_take)
-    elif (len(sites)):
+    elif len(sites) > 0:
         # run test(s) for every website
-        test_results = utils.test_sites(_,
-                                        langCode, sites, test_types=test_types, show_reviews=show_reviews)
-        
-        if (len(output_filename) > 0):
+        test_results = utils.test_sites(global_translation,
+                                        lang_code,
+                                        sites,
+                                        test_types=test_types,
+                                        show_reviews=show_reviews)
+
+        if len(output_filename) > 0:
             file_ending = ""
             file_long_ending = ""
-            if (len(output_filename) > 4):
+            if len(output_filename) > 4:
                 file_ending = output_filename[-4:].lower()
-            if (len(output_filename) > 7):
+            if len(output_filename) > 7:
                 file_long_ending = output_filename[-7:].lower()
-            if (file_ending == ".csv"):
+            if file_ending == ".csv":
                 from engines.csv import write_tests
             elif file_ending == ".gov":
                 from engines.gov import write_tests
@@ -220,8 +239,5 @@ def main(argv):
         print(global_translation('TEXT_COMMAND_USAGE'))
 
 
-"""
-If file is executed on itself then call a definition, mostly for testing purposes
-"""
 if __name__ == '__main__':
     main(sys.argv[1:])

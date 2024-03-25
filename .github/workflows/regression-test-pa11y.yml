@@ -16,7 +16,7 @@ jobs:
                 # os: [ubuntu-latest, windows-latest]
                 os: [ubuntu-20.04, windows-latest]
                 version: [18]
-                config: ['review_show_improvements_only=True']
+                config: ['REVIEW_SHOW_IMPROVEMENTS_ONLY=True']
     steps:
     - name: Check out repository code
       uses: actions/checkout@v4

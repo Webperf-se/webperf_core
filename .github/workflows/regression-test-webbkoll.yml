@@ -14,7 +14,7 @@ jobs:
     strategy:
             matrix:
                 os: [ubuntu-latest, windows-latest]
-                config: ['review_show_improvements_only=True']
+                config: ['REVIEW_SHOW_IMPROVEMENTS_ONLY=True']
                 version: [20]
     steps:
     - name: Check out repository code

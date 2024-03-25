@@ -347,7 +347,10 @@ def get_http_content(url, allow_redirects=False, use_text_instead_of_content=Tru
             return content
 
         headers = {'user-agent': USERAGENT}
-        if url.startswith('https://api.github.com') and GITHUB_APIKEY is not None:
+
+        hostname = urlparse(url).hostname
+
+        if hostname == 'api.github.com' and GITHUB_APIKEY is not None:
             headers['authorization'] = f'Bearer {GITHUB_APIKEY}'
         a = requests.get(url, allow_redirects=allow_redirects,
                          headers=headers, timeout=REQUEST_TIMEOUT*2)

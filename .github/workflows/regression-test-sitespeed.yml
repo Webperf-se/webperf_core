@@ -14,7 +14,7 @@ jobs:
     strategy:
             matrix:
                 os: [ubuntu-latest]
-                config: ['review_show_improvements_only=True,sitespeed_use_docker=False', 'review_show_improvements_only=True,sitespeed_use_docker=True']
+                config: ['REVIEW_SHOW_IMPROVEMENTS_ONLY=True,SITESPEED_USE_DOCKER=False', 'REVIEW_SHOW_IMPROVEMENTS_ONLY=True,SITESPEED_USE_DOCKER=True']
                 version: [15]
     steps:
     - name: Check out repository code

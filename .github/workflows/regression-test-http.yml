@@ -9,7 +9,7 @@ jobs:
     strategy:
             matrix:
                 os: [windows-latest]
-                config: ['REVIEW_SHOW_IMPROVEMENTS_ONLY=False,SITESPEED_USE_DOCKER=False,CSP_ONLY=True,USE_DETAILED_REPORT=True']
+                config: ['REVIEW_SHOW_IMPROVEMENTS_ONLY=False,SITESPEED_USE_DOCKER=False,CSP_ONLY=True,USE_DETAILED_REPORT=False']
                 version: [21]
     steps:
     - name: Check out repository code

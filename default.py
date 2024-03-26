@@ -31,6 +31,24 @@ import utils
 
 
 def validate_test_type(tmp_test_types):
+    """
+    Validates the given test types against a list of valid tests.
+
+    This function iterates over the input list of test types,
+    checks each test type against a list of valid tests,
+    and appends the valid ones to a new list.
+    The new list of valid test types is then returned.
+
+    Parameters:
+    tmp_test_types (list): A list of test types to be validated.
+
+    Returns:
+    list: A list of valid test types.
+
+    Example:
+    >>> validate_test_type([6, 11, 21])
+    [6, 21]
+    """
     test_types = []
 
     valid_tests = utils.TEST_FUNCS.keys()
@@ -41,6 +59,22 @@ def validate_test_type(tmp_test_types):
     return test_types
 
 def write_test_results(sites, output_filename, test_results):
+    """
+    Writes the test results to a file.
+
+    This function takes in a list of sites, an output filename,
+    and a list of test results. It determines the file type
+    based on the file extension of the output filename and writes the test results to
+    the file in the appropriate format.
+
+    Parameters:
+    sites (list): A list of sites for which the tests were run.
+    output_filename (str): The name of the output file.
+    test_results (list): A list of test results.
+
+    Returns:
+    None
+    """
     if len(output_filename) > 0:
         file_ending = ""
         file_long_ending = ""
@@ -63,6 +97,26 @@ def write_test_results(sites, output_filename, test_results):
         write_tests(output_filename, test_results, sites)
 
 def show_test_help(global_translation):
+    """
+    Prints out help text for various test arguments.
+
+    This function uses the provided global translation function to
+    print out help text for a variety of test arguments.
+    The help text includes information about valid arguments for
+    different types of tests such as Google Lighthouse, HTML, CSS,
+    Sitespeed, Yellow Lab Tools, Pa11y, Webbkoll, HTTP, Energy Efficiency,
+    Tracking, Email, Software, and A11Y Statement.
+
+    Args:
+        global_translation (function): A function that takes a string identifier and
+        returns the corresponding translated string.
+
+    Returns:
+        None
+
+    Raises:
+        SystemExit: This function always ends the program after printing the help text.
+    """
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS'))
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE'))
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_PAGE_NOT_FOUND'))
@@ -87,7 +141,7 @@ def show_test_help(global_translation):
     sys.exit()
 
 
-class CommandLineOptions: # pylint: disable=too-many-instance-attributes
+class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing-class-docstring
     test_types = list(utils.TEST_ALL)
     sites = []
     output_filename = ''
@@ -108,10 +162,25 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes
         self.lang_code = 'en'
 
     def show_help(self, _):
+        """
+        Prints out the command usage help text and exits the program.
+
+        This function uses the provided language function to print out help text for command usage.
+        After printing the help text, it ends the program.
+        """
         print(self.language('TEXT_COMMAND_USAGE'))
         sys.exit()
 
     def load_language(self, lang_code):
+        """
+        Load the specified language for translation.
+
+        Parameters:
+        lang_code (str): The language code for the desired language.
+
+        Returns:
+        function: The translation function for the specified language.
+        """
         trans = gettext.translation(
             'webperf-core', localedir='locales', languages=[lang_code])
         trans.install()
@@ -119,15 +188,40 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes
         return self.language
 
     def use_url(self, arg):
+        """
+        Uses supplied url in test(s)
+        """
         self.sites.append([0, arg])
 
     def add_site_url(self, arg):
+        """
+        Adds the url to stored sites
+        """
         self.add_url = arg
 
     def delete_site_url(self, arg):
+        """
+        Deletes the url from stored sites
+        """
         self.delete_url = arg
 
     def set_input_skip(self, arg):
+        """
+        Sets the input skip for the instance.
+        This function attempts to parse the provided argument as an integer and
+        assigns it as the input skip for the instance.
+        If the argument cannot be parsed into an integer,
+        the function prints a usage message and exits the program.
+
+        Args:
+            arg (str): The desired input skip as a string.
+
+        Raises:
+            TypeError: If the argument cannot be parsed into an integer.
+
+        Returns:
+            None
+        """
         try:
             self.input_skip = int(arg)
         except TypeError:
@@ -135,6 +229,22 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes
             sys.exit(2)
 
     def set_input_take(self, arg):
+        """
+        Sets the input take for the instance.
+        This function attempts to parse the provided argument as an integer and
+        assigns it as the input take for the instance.
+        If the argument cannot be parsed into an integer,
+        the function prints a usage message and exits the program.
+
+        Args:
+            arg (str): The desired input take as a string.
+
+        Raises:
+            TypeError: If the argument cannot be parsed into an integer.
+
+        Returns:
+            None
+        """
         try:
             self.input_take = int(arg)
         except TypeError:
@@ -142,9 +252,33 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes
             sys.exit(2)
 
     def set_output_filename(self, arg):
+        """
+        Sets the output filename for the instance.
+        This function assigns the provided argument as the output filename for the instance.
+
+        Args:
+            arg (str): The desired output filename.
+
+        Returns:
+            None
+        """
         self.output_filename = arg
 
     def set_test_types(self, arg):
+        """
+        Sets the test types for the instance based on the provided argument.
+
+        The function attempts to parse the argument as a comma-separated string of integers. 
+        These integers are then validated as test types. If the parsing or validation fails, 
+        the test types for the instance are set to an empty list. If no valid test types are 
+        provided, the function displays a help message for tests.
+
+        Args:
+            arg (str): A comma-separated string of integers representing test types.
+
+        Returns:
+            None
+        """
         try:
             tmp_test_types = list(map(int, arg.split(',')))
             self.test_types = validate_test_type(tmp_test_types)
@@ -156,9 +290,34 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes
             return
 
     def enable_reviews(self, _):
+        """
+        Enables the display of reviews for the instance.
+        This function sets the `show_reviews` attribute of the instance to True,
+        enabling the display of reviews.
+
+        Args:
+            _ (Any): This argument is not used in the function.
+
+        Returns:
+            None
+        """
         self.show_reviews = True
 
     def set_input_handlers(self, input_filename):
+        """
+        Sets the appropriate input handlers based on the file type of the input file.
+
+        This function checks the file extension of the input file and
+        sets the appropriate functions to read sites, add a site, and delete a site.
+        The supported file types are SQLite, CSV, XML, Result, Webprf, and JSON.
+        If the file type is not recognized, it defaults to JSON.
+
+        Args:
+            input_filename (str): The name of the input file.
+
+        Returns:
+            None
+        """
         file_ending = ""
         file_long_ending = ""
         if len(input_filename) > 4:
@@ -198,6 +357,23 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes
 
 
     def try_load_language(self, arg):
+        """
+        Attempts to load the specified language for translation.
+
+        This function checks if the specified language is available in the 'locales' directory.
+        If it is, it sets the language code and loads the language.
+        If the specified language is not available,
+        it prints out a message listing the available languages and exits the program.
+
+        Args:
+            arg (str): The language code for the desired language.
+
+        Returns:
+            None
+
+        Raises:
+            SystemExit: This function ends the program if the specified language is not available.
+        """
         lang_code = 'en'
         available_languages = []
         locale_dirs = os.listdir('locales')
@@ -227,6 +403,20 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes
             sys.exit(2)
 
     def handle_option(self, opt, arg):
+        """
+        Handles the provided option by calling the appropriate handler function.
+
+        This function uses a dictionary to map options to their corresponding handler functions.
+        It checks if the provided option matches any of the keys in the dictionary.
+        If a match is found, it calls the corresponding handler function with the provided argument.
+
+        Args:
+            opt (str): The option to handle.
+            arg (str): The argument to pass to the handler function.
+
+        Returns:
+            None
+        """
         option_handlers = {
             ("-h", "--help"): self.show_help,
             ("-u", "--url"): self.use_url,

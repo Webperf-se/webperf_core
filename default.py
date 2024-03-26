@@ -30,32 +30,15 @@ from tests.utils import clean_cache_files
 import utils
 
 
-def validate_test_type(test_types):
-    if utils.TEST_HTML in test_types and \
-          utils.TEST_PAGE_NOT_FOUND in test_types and \
-          utils.TEST_CSS in test_types and \
-          utils.TEST_WEBBKOLL in test_types and \
-          utils.TEST_GOOGLE_LIGHTHOUSE in test_types and \
-          utils.TEST_GOOGLE_LIGHTHOUSE_PWA in test_types and \
-          utils.TEST_GOOGLE_LIGHTHOUSE_A11Y in test_types and \
-          utils.TEST_GOOGLE_LIGHTHOUSE_SEO in test_types and \
-          utils.TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE in test_types and \
-          utils.TEST_STANDARD_FILES in test_types and \
-          utils.TEST_YELLOW_LAB_TOOLS in test_types and \
-          utils.TEST_PA11Y in test_types and \
-          utils.TEST_HTTP in test_types and \
-          utils.TEST_ENERGY_EFFICIENCY in test_types and \
-          utils.TEST_TRACKING in test_types and \
-          utils.TEST_SITESPEED in test_types and \
-          utils.TEST_EMAIL in test_types and \
-          utils.TEST_SOFTWARE in test_types and \
-          utils.TEST_A11Y_STATEMENT in test_types:
-        return []
-    return test_types
+def validate_test_type(tmp_test_types):
+    test_types = []
 
-def show_help(global_translation):
-    print(global_translation('TEXT_COMMAND_USAGE'))
-    sys.exit()
+    valid_tests = utils.TEST_FUNCS.keys()
+    for test_type in tmp_test_types:
+        if test_type in valid_tests:
+            test_types.append(test_type)
+
+    return test_types
 
 def write_test_results(sites, output_filename, test_results):
     if len(output_filename) > 0:
@@ -103,76 +86,165 @@ def show_test_help(global_translation):
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_A11Y_STATEMENT'))
     sys.exit()
 
-def try_load_language(arg):
+
+class CommandLineOptions: # pylint: disable=too-many-instance-attributes
+    test_types = list(utils.TEST_ALL)
+    sites = []
+    output_filename = ''
+    input_filename = ''
+    input_skip = 0
+    input_take = -1
+    show_reviews = False
+    add_url = ''
+    delete_url = ''
     lang_code = 'en'
-    available_languages = []
-    locale_dirs = os.listdir('locales')
-    found_lang = False
+    language = False
 
-    for locale_name in locale_dirs:
-        if locale_name[0:1] == '.':
-            continue
+    read_sites = None
+    add_site = None
+    delete_site = None
 
-        language_sub_directory = os.path.join(
-                    'locales', locale_name, "LC_MESSAGES")
+    def __init__(self):
+        self.lang_code = 'en'
 
-        if os.path.exists(language_sub_directory):
-            available_languages.append(locale_name)
+    def show_help(self, _):
+        print(self.language('TEXT_COMMAND_USAGE'))
+        sys.exit()
 
-            if locale_name == arg:
-                lang_code = arg
-                found_lang = True
+    def load_language(self, lang_code):
+        trans = gettext.translation(
+            'webperf-core', localedir='locales', languages=[lang_code])
+        trans.install()
+        self.language = trans.gettext
+        return self.language
 
-                language = gettext.translation(
-                            'webperf-core', localedir='locales', languages=[lang_code])
-                language.install()
-                _ = language.gettext
+    def use_url(self, arg):
+        self.sites.append([0, arg])
 
-    if not found_lang:
-                # Not translateable
-        print(
-                    'Language not found, only the following languages are available:',
-                    available_languages)
-        sys.exit(2)
-    return lang_code
+    def add_site_url(self, arg):
+        self.add_url = arg
+
+    def delete_site_url(self, arg):
+        self.delete_url = arg
+
+    def set_input_skip(self, arg):
+        try:
+            self.input_skip = int(arg)
+        except TypeError:
+            print(self.language('TEXT_COMMAND_USAGE'))
+            sys.exit(2)
+
+    def set_input_take(self, arg):
+        try:
+            self.input_take = int(arg)
+        except TypeError:
+            print(self.language('TEXT_COMMAND_USAGE'))
+            sys.exit(2)
+
+    def set_output_filename(self, arg):
+        self.output_filename = arg
+
+    def set_test_types(self, arg):
+        try:
+            tmp_test_types = list(map(int, arg.split(',')))
+            self.test_types = validate_test_type(tmp_test_types)
+        except (TypeError, ValueError):
+            self.test_types = []
+
+        if len(self.test_types) == 0:
+            show_test_help(self.language)
+            return
+
+    def enable_reviews(self, _):
+        self.show_reviews = True
+
+    def set_input_handlers(self, input_filename):
+        file_ending = ""
+        file_long_ending = ""
+        if len(input_filename) > 4:
+            file_ending = input_filename[-4:].lower()
+        if len(input_filename) > 7:
+            file_long_ending = input_filename[-7:].lower()
+
+        if file_long_ending == ".sqlite":
+            read_sites = sqlite_read_sites
+            add_site = sqlite_add_site
+            delete_site = sqlite_delete_site
+        elif file_ending == ".csv":
+            read_sites = csv_read_sites
+            add_site = csv_add_site
+            delete_site = csv_delete_site
+        elif file_ending == ".xml" or file_long_ending == ".xml.gz":
+                    # https://example.com/sitemap.xml
+                    # https://example.com/sitemap.xml.gz
+            read_sites = sitemap_read_sites
+            add_site = sitemap_add_site
+            delete_site = sitemap_delete_site
+        elif file_long_ending == ".result":
+            read_sites = sitespeed_read_sites
+            add_site = sitespeed_add_site
+            delete_site = sitespeed_delete_site
+        elif file_long_ending == ".webprf":
+            read_sites = webperf_read_sites
+            add_site = webperf_add_site
+            delete_site = webperf_delete_site
+        else:
+            read_sites = json_read_sites
+            add_site = json_add_site
+            delete_site = json_delete_site
+        self.read_sites = read_sites
+        self.add_site = add_site
+        self.delete_site = delete_site
 
 
-def get_site_input_handlers(input_filename):
-    file_ending = ""
-    file_long_ending = ""
-    if len(input_filename) > 4:
-        file_ending = input_filename[-4:].lower()
-    if len(input_filename) > 7:
-        file_long_ending = input_filename[-7:].lower()
+    def try_load_language(self, arg):
+        lang_code = 'en'
+        available_languages = []
+        locale_dirs = os.listdir('locales')
+        found_lang = False
 
-    if file_long_ending == ".sqlite":
-        read_sites = sqlite_read_sites
-        add_site = sqlite_add_site
-        delete_site = sqlite_delete_site
-    elif file_ending == ".csv":
-        read_sites = csv_read_sites
-        add_site = csv_add_site
-        delete_site = csv_delete_site
-    elif file_ending == ".xml" or file_long_ending == ".xml.gz":
-                # https://example.com/sitemap.xml
-                # https://example.com/sitemap.xml.gz
-        read_sites = sitemap_read_sites
-        add_site = sitemap_add_site
-        delete_site = sitemap_delete_site
-    elif file_long_ending == ".result":
-        read_sites = sitespeed_read_sites
-        add_site = sitespeed_add_site
-        delete_site = sitespeed_delete_site
-    elif file_long_ending == ".webprf":
-        read_sites = webperf_read_sites
-        add_site = webperf_add_site
-        delete_site = webperf_delete_site
-    else:
-        read_sites = json_read_sites
-        add_site = json_add_site
-        delete_site = json_delete_site
-    return read_sites,add_site,delete_site
+        for locale_name in locale_dirs:
+            if locale_name[0:1] == '.':
+                continue
 
+            language_sub_directory = os.path.join(
+                        'locales', locale_name, "LC_MESSAGES")
+
+            if os.path.exists(language_sub_directory):
+                available_languages.append(locale_name)
+
+                if locale_name == arg:
+                    self.lang_code = arg
+                    found_lang = True
+
+                    self.load_language(lang_code)
+
+        if not found_lang:
+                    # Not translateable
+            print(
+                        'Language not found, only the following languages are available:',
+                        available_languages)
+            sys.exit(2)
+
+    def handle_option(self, opt, arg):
+        option_handlers = {
+            ("-h", "--help"): self.show_help,
+            ("-u", "--url"): self.use_url,
+            ("-A", "--addUrl"): self.add_site_url,
+            ("-D", "--deleteUrl"): self.delete_site_url,
+            ("-L", "--language"): self.try_load_language,
+            ("-t", "--test"): self.set_test_types,
+            ("-i", "--input"): self.set_input_handlers,
+            ("--input-skip"): self.set_input_skip,
+            ("--input-take"): self.set_input_take,
+            ("-o", "--output"): self.set_output_filename,
+            ("-r", "--review", "--report"): self.enable_reviews,
+        }
+
+        for option, handler in option_handlers.items():
+            if opt in option:
+                handler(arg)
+                return
 
 
 def main(argv):
@@ -194,23 +266,8 @@ def main(argv):
     -L/--language <lang code>\t: language used for output(en = default/sv)
     """
 
-    test_types = list(utils.TEST_ALL)
-    sites = []
-    output_filename = ''
-    input_filename = ''
-    input_skip = 0
-    input_take = -1
-    show_reviews = False
-    add_url = ''
-    delete_url = ''
-    lang_code = 'en'
-    language = False
-
-    # add support for default (en) language
-    language = gettext.translation(
-        'webperf-core', localedir='locales', languages=[lang_code])
-    language.install()
-    global_translation = language.gettext
+    options = CommandLineOptions()
+    options.load_language(options.lang_code)
 
     try:
         opts, _ = getopt.getopt(argv, "hu:t:i:o:rA:D:L:", [
@@ -222,75 +279,45 @@ def main(argv):
         sys.exit(2)
 
     if len(opts) == 0:
-        show_help(global_translation)
+        options.show_help(_)
         return
 
     for opt, arg in opts:
-        if opt in ('-h', '--help'):  # help
-            show_help(global_translation)
-            return
-        if opt in ("-u", "--url"):  # site url
-            sites.append([0, arg])
-        elif opt in ("-A", "--addUrl"):  # site url
-            add_url = arg
-        elif opt in ("-D", "--deleteUrl"):  # site url
-            delete_url = arg
-        elif opt in ("-L", "--language"):  # language code
-            # loop all available languages and verify language exist
-            lang_code = try_load_language(arg)
-        elif opt in ("-t", "--test"):  # test type
-            try:
-                tmp_test_types = list(map(int, arg.split(',')))
-                test_types = validate_test_type(tmp_test_types)
-            except (TypeError, ValueError):
-                test_types = []
+        options.handle_option(opt, arg)
 
-            if len(test_types) == 0:
-                show_test_help(global_translation)
-                return
-        elif opt in ("-i", "--input"):  # input file path
-            input_filename = arg
+    if options.input_filename != '':
+        options.sites = options.read_sites(
+            options.input_filename,
+            options.input_skip,
+            options.input_take)
 
-            read_sites, add_site, delete_site = get_site_input_handlers(input_filename)
-        elif opt in ("--input-skip"):  # specifies number of items to skip in the begining
-            try:
-                input_skip = int(arg)
-            except TypeError:
-                print(global_translation('TEXT_COMMAND_USAGE'))
-                sys.exit(2)
-        elif opt in ("--input-take"):  # specifies number of items to take
-            try:
-                input_take = int(arg)
-            except TypeError:
-                print(global_translation('TEXT_COMMAND_USAGE'))
-                sys.exit(2)
-        elif opt in ("-o", "--output"):  # output file path
-            output_filename = arg
-        elif opt in ("-r", "--review", "--report"):  # writes reviews directly in terminal
-            show_reviews = True
-
-    if input_filename != '':
-        sites = read_sites(input_filename, input_skip, input_take)
-
-    if add_url != '':
+    if options.add_url != '':
         # check if website url should be added
-        sites = add_site(input_filename, add_url, input_skip, input_take)
-    elif delete_url != '':
+        options.sites = options.add_site(
+            options.input_filename,
+            options.add_url,
+            options.input_skip,
+            options.input_take)
+    elif options.delete_url != '':
         # check if website url should be deleted
-        sites = delete_site(input_filename, delete_url, input_skip, input_take)
-    elif len(sites) > 0:
+        options.sites = options.delete_site(
+            options.input_filename,
+            options.delete_url,
+            options.input_skip,
+            options.input_take)
+    elif len(options.sites) > 0:
         # run test(s) for every website
-        test_results = utils.test_sites(global_translation,
-                                        lang_code,
-                                        sites,
-                                        test_types=test_types,
-                                        show_reviews=show_reviews)
+        test_results = utils.test_sites(options.language,
+                                        options.lang_code,
+                                        options.sites,
+                                        test_types=options.test_types,
+                                        show_reviews=options.show_reviews)
 
-        write_test_results(sites, output_filename, test_results)
+        write_test_results(options.sites, options.output_filename, test_results)
             # Cleanup exipred cache
         clean_cache_files()
     else:
-        print(global_translation('TEXT_COMMAND_USAGE'))
+        print(options.language('TEXT_COMMAND_USAGE'))
 
 
 

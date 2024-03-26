@@ -172,9 +172,9 @@ def test(global_translation, lang_code, site, test_type=None, show_reviews=False
         with open('failures.log', 'a', encoding='utf-8') as outfile:
             outfile.writelines(['###############################################',
                                 '\n# Information:',
-                                f'\nDateTime: {
-                                    datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                                    }',
+                                f"\nDateTime: { \
+                                    datetime.now().strftime('%Y-%m-%d %H:%M:%S') \
+                                    }",
                                 f'\nUrl: {site[1]}',
                                 f'\nLanguage Code: {lang_code}',
                                 f'\nTest Type(s): {test_type}',
@@ -184,9 +184,9 @@ def test(global_translation, lang_code, site, test_type=None, show_reviews=False
                                 f"\nuseragent: {get_config('USERAGENT')}",
                                 f"\nhttp_request_timeout: {get_config('HTTP_REQUEST_TIMEOUT')}",
                                 f"\nwebbkoll_sleep: {get_config('WEBBKOLL_SLEEP')}",
-                                f"\ncss_review_group_errors: {
+                                f"\ncss_review_group_errors: { \
                                     get_config('CSS_REVIEW_GROUP_ERRORS')}",
-                                f"\nreview_show_improvements_only: {
+                                f"\nreview_show_improvements_only: { \
                                     get_config('REVIEW_SHOW_IMPROVEMENTS_ONLY')}",
                                 f"\nylt_use_api: {get_config('YLT_USE_API')}",
                                 f"\nlighthouse_use_api: {get_config('LIGHTHOUSE_USE_API')}",

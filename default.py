@@ -27,7 +27,7 @@ from engines.json import read_sites as json_read_sites,\
 from engines.gov import write_tests as gov_write_tests
 from engines.sql import write_tests as sql_write_tests
 from tests.utils import clean_cache_files
-import utils
+from utils import TEST_FUNCS, TEST_ALL, test_sites
 
 
 def validate_test_type(tmp_test_types):
@@ -51,7 +51,7 @@ def validate_test_type(tmp_test_types):
     """
     test_types = []
 
-    valid_tests = utils.TEST_FUNCS.keys()
+    valid_tests = TEST_FUNCS.keys()
     for test_type in tmp_test_types:
         if test_type in valid_tests:
             test_types.append(test_type)
@@ -142,7 +142,7 @@ def show_test_help(global_translation):
 
 
 class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing-class-docstring
-    test_types = list(utils.TEST_ALL)
+    test_types = list(TEST_ALL)
     sites = []
     output_filename = ''
     input_filename = ''
@@ -497,7 +497,7 @@ def main(argv):
             options.input_take)
     elif len(options.sites) > 0:
         # run test(s) for every website
-        test_results = utils.test_sites(options.language,
+        test_results = test_sites(options.language,
                                         options.lang_code,
                                         options.sites,
                                         test_types=options.test_types,

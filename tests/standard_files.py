@@ -4,13 +4,11 @@ from urllib.parse import urlparse
 from datetime import datetime
 import re
 import urllib  # https://docs.python.org/3/library/urllib.parse.html
-import gettext
 import requests
 from bs4 import BeautifulSoup
 from models import Rating
-from tests.utils import get_config_or_default, has_redirect, get_http_content
+from tests.utils import get_config_or_default, get_translation, has_redirect, get_http_content
 from engines.sitemap import read_sitemap
-_local = gettext.gettext
 
 # DEFAULTS
 REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
@@ -27,18 +25,14 @@ def run_test(global_translation, lang_code, url):
     * a RSS feed mentioned in the page's meta
     """
 
-    language = gettext.translation(
-        'standard_files', localedir='locales', languages=[lang_code])
-    language.install()
-    local_translation = language.gettext
+    local_translation = get_translation('standard_files', lang_code)
 
     print(local_translation('TEXT_RUNNING_TEST'))
 
     print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    o = urllib.parse.urlparse(url)
-    parsed_url = f'{o.scheme}://{o.netloc}/'
+    parsed_url = get_root_url(url)
 
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     return_dict = {}
@@ -50,15 +44,17 @@ def run_test(global_translation, lang_code, url):
     robots_content = robots_result[2]
 
     # sitemap.xml
-    has_robots_txt = return_dict['robots.txt'] == 'ok'
-
     robots_txt_url = parsed_url + 'robots.txt'
     test = has_redirect(robots_txt_url)
     if test[1] is not None:
         robots_txt_url = test[1]
 
     sitemap_result = validate_sitemaps(
-        global_translation, local_translation, robots_txt_url, robots_content, has_robots_txt)
+        global_translation,
+        local_translation,
+        robots_txt_url,
+        robots_content,
+        return_dict['robots.txt'] == 'ok')
     rating += sitemap_result[0]
     return_dict.update(sitemap_result[1])
 
@@ -77,6 +73,10 @@ def run_test(global_translation, lang_code, url):
 
     return (rating, return_dict)
 
+def get_root_url(url):
+    o = urllib.parse.urlparse(url)
+    parsed_url = f'{o.scheme}://{o.netloc}/'
+    return parsed_url
 
 def validate_robots(global_translation, local_translation, parsed_url):
     return_dict = {}
@@ -101,7 +101,11 @@ def validate_robots(global_translation, local_translation, parsed_url):
     return (rating, return_dict, robots_content)
 
 
-def validate_sitemaps(global_translation, local_translation, robots_url, robots_content, has_robots_txt):
+def validate_sitemaps(global_translation,
+                      local_translation,
+                      robots_url,
+                      robots_content,
+                      has_robots_txt):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     return_dict = {}
     return_dict["num_sitemaps"] = 0
@@ -129,7 +133,11 @@ def validate_sitemaps(global_translation, local_translation, robots_url, robots_
 
             sitemaps_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
             for sitemap_url in found_smaps:
-                sitemaps_rating += validate_sitemap(sitemap_url, robots_url, return_dict, global_translation, _local)
+                sitemaps_rating += validate_sitemap(sitemap_url,
+                                                    robots_url,
+                                                    return_dict,
+                                                    global_translation,
+                                                    local_translation)
 
             final_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
             if sitemaps_rating.is_set:

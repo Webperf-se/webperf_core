@@ -3,11 +3,9 @@ import re
 from datetime import datetime, timedelta
 import time
 import urllib.parse
-import gettext
 from bs4 import BeautifulSoup
 from models import Rating
-from tests.utils import get_http_content, get_config_or_default
-_ = gettext.gettext
+from tests.utils import get_http_content, get_config_or_default, get_translation
 
 review_show_improvements_only = get_config_or_default('review_show_improvements_only')
 checked_urls = {}
@@ -20,10 +18,7 @@ def run_test(global_translation, lang_code, url):
 
     """
 
-    language = gettext.translation(
-        'a11y_statement', localedir='locales', languages=[lang_code])
-    language.install()
-    local_translation = language.gettext
+    local_translation = get_translation('a11y_statement', lang_code)
 
     print(local_translation('TEXT_RUNNING_TEST'))
 

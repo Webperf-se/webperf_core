@@ -2,12 +2,10 @@
 import os
 from datetime import datetime
 import re
-import gettext
 from models import Rating
-from tests.utils import get_config_or_default, get_friendly_url_name, set_cache_file
+from tests.utils import get_config_or_default, get_friendly_url_name, get_translation, set_cache_file
 from tests.w3c_base import get_errors, identify_files
 from tests.sitespeed_base import get_result
-_local = gettext.gettext
 
 # DEFAULTS
 REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
@@ -28,10 +26,7 @@ def run_test(global_translation, lang_code, url):
     points = 0.0
     review = ''
 
-    language = gettext.translation(
-        'html_validator_w3c', localedir='locales', languages=[lang_code])
-    language.install()
-    local_translation = language.gettext
+    local_translation = get_translation('html_validator_w3c', lang_code)
 
     print(local_translation('TEXT_RUNNING_TEST'))
 

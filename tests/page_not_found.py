@@ -3,12 +3,10 @@ from urllib.parse import ParseResult, urlunparse
 import sys
 from datetime import datetime
 import urllib  # https://docs.python.org/3/library/urllib.parse.html
-import gettext
 import requests
 from bs4 import BeautifulSoup
 from models import Rating
-from tests.utils import get_config_or_default, get_guid, get_http_content
-_ = gettext.gettext
+from tests.utils import get_config_or_default, get_guid, get_http_content, get_translation
 
 # DEFAULTS
 REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
@@ -39,10 +37,7 @@ def run_test(global_translation, lang_code, org_url):
     rating = Rating(global_translation)
     result_dict = {}
 
-    language = gettext.translation(
-        'page_not_found', localedir='locales', languages=[lang_code])
-    language.install()
-    local_translation = language.gettext
+    local_translation = get_translation('page_not_found', lang_code)
 
     print(local_translation('TEXT_RUNNING_TEST'))
 

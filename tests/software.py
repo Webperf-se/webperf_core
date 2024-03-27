@@ -7,16 +7,13 @@ from pathlib import Path
 import os
 import json
 import re
-import gettext
 from PIL.ExifTags import TAGS
 from PIL import Image
 # https://docs.python.org/3/library/urllib.parse.html
 import packaging.version
 from tests.sitespeed_base import get_result
 from models import Rating, DefaultInfo
-from tests.utils import get_config_or_default, get_http_content, is_file_older_than
-
-_ = gettext.gettext
+from tests.utils import get_config_or_default, get_http_content, get_translation, is_file_older_than
 
 # DEFAULTS
 REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
@@ -1591,10 +1588,7 @@ def run_test(global_translation, lang_code, url):
     result_dict = {}
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
-    language = gettext.translation(
-        'software', localedir='locales', languages=[lang_code])
-    language.install()
-    local_translation = language.gettext
+    local_translation = get_translation('software', lang_code)
 
     print(local_translation('TEXT_RUNNING_TEST'))
 

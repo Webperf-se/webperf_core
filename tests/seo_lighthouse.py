@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
-import gettext
 from tests.lighthouse_base import run_test as lighthouse_base_run_test
-from tests.utils import get_config_or_default
-_ = gettext.gettext
+from tests.utils import get_config_or_default, get_translation
 
 # DEFAULTS
 googlePageSpeedApiKey = get_config_or_default('googlePageSpeedApiKey')
@@ -13,10 +11,7 @@ lighthouse_use_api = get_config_or_default('lighthouse_use_api')
 
 def run_test(global_translation, lang_code, url, strategy='mobile', category='seo'):
 
-    language = gettext.translation(
-        'seo_lighthouse', localedir='locales', languages=[lang_code])
-    language.install()
-    local_translation = language.gettext
+    local_translation = get_translation('seo_lighthouse', lang_code)
 
     print(local_translation('TEXT_RUNNING_TEST'))
 
@@ -24,7 +19,14 @@ def run_test(global_translation, lang_code, url, strategy='mobile', category='se
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     test_result = lighthouse_base_run_test(
-        global_translation, lang_code, url, googlePageSpeedApiKey, strategy, category, review_show_improvements_only, lighthouse_use_api)
+        global_translation,
+        lang_code,
+        url,
+        googlePageSpeedApiKey,
+        strategy,
+        category,
+        review_show_improvements_only,
+        lighthouse_use_api)
     rating = test_result[0]
     test_return_dict = test_result[1]
 

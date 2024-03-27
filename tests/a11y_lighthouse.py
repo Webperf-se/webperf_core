@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
-import gettext
 from tests.lighthouse_base import run_test as lighthouse_base_run_test
-from tests.utils import get_config_or_default
+from tests.utils import get_config_or_default, get_translation
 
 # DEFAULTS
 GOOGLEPAGESPEEDAPIKEY = get_config_or_default('googlePageSpeedApiKey')
@@ -11,10 +10,7 @@ LIGHTHOUSE_USE_API = get_config_or_default('lighthouse_use_api')
 
 def run_test(global_translation, lang_code, url, strategy='mobile', category='accessibility'):
 
-    language = gettext.translation(
-        'a11y_lighthouse', localedir='locales', languages=[lang_code])
-    language.install()
-    local_translation = language.gettext
+    local_translation = get_translation('a11y_lighthouse', lang_code)
 
     print(local_translation('TEXT_RUNNING_TEST'))
 

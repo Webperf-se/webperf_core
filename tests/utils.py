@@ -19,6 +19,7 @@ import dns.query
 import dns.resolver
 import dns.dnssec
 import dns.exception
+import gettext
 
 def get_config_or_default(name):
     """
@@ -61,6 +62,27 @@ def get_config_or_default(name):
 
     print(f'FATAL: "{name}" is missing in your config.py and SAMPLE-config.py files')
     raise ValueError(f'FATAL: "{name}" is missing in your config.py and SAMPLE-config.py files')
+
+
+def get_translation(module_name, lang_code):
+    """
+    Retrieves the gettext translation object for a specific language.
+
+    This function loads the appropriate language translation for
+    a given module from the 'locales' directory.
+
+    Parameters:
+    module_name (str): The name of the module for which the translation is needed.
+    lang_code (str): The ISO 639-1 language code (e.g., 'en' for English, 'fr' for French).
+
+    Returns:
+    function: The gettext() function for the specified language.
+    """
+    language = gettext.translation(
+        module_name,
+        localedir='locales',
+        languages=[lang_code])
+    return language.gettext
 
 
 def change_url_to_test_url(url, test_name):

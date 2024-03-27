@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 
-class DefaultInfo:
-    def __init__(self, domain, method, precision, category, name, version, issues):
+class DefaultInfo: # pylint: disable=missing-class-docstring
+    def __init__(self, domain, method, precision, category, name, version): # pylint: disable=too-many-arguments
         self.info = {}
         self.info['domain'] = domain
         self.info['method'] = method
@@ -10,7 +10,7 @@ class DefaultInfo:
         self.info['category'] = category
         self.info['name'] = name
         self.info['version'] = version
-        self.info['issues'] = issues
+        self.info['issues'] = []
 
     def __str__(self) -> str:
         return f"DefaultInfo(name={self.info['name']}, version={self.info['version']})"
@@ -26,12 +26,22 @@ class DefaultInfo:
 
     def __eq__(self, other):
         if isinstance(other, DefaultInfo):
-            return self.info['domain'] == other.info['domain'] and self.info['method'] == other.info['method'] and self.info['precision'] == other.info['precision'] and self.info['category'] == other.info['category'] and self.info['name'] == other.info['name'] and self.info['version'] == other.info['version']
+            return self.info['domain'] == other.info['domain'] and \
+                self.info['method'] == other.info['method'] and \
+                self.info['precision'] == other.info['precision'] and \
+                self.info['category'] == other.info['category'] and \
+                self.info['name'] == other.info['name'] and \
+                self.info['version'] == other.info['version']
+        return self.__eq__(other)
 
     def __hash__(self):
-        return hash((self.info['domain'], self.info['method'], self.info['precision'], self.info['category'], self.info['version']))
+        return hash((self.info['domain'],
+                      self.info['method'],
+                      self.info['precision'],
+                      self.info['category'],
+                      self.info['version']))
 
-class Sites(object):
+class Sites: # pylint: disable=missing-class-docstring
     __tablename__ = 'sites'
 
     id = 0
@@ -39,8 +49,8 @@ class Sites(object):
     website = ""
     active = 1
 
-    def __init__(self, id, website):
-        self.id = id
+    def __init__(self, site_id, website):
+        self.id = site_id
         self.website = website
 
     def todata(self):
@@ -56,10 +66,10 @@ class Sites(object):
         return result
 
     def __repr__(self):
-        return '<Site %r>' % self.title
+        return f'<Site {self.title}>'
 
 
-class Rating(object):
+class Rating: # pylint: disable=too-many-instance-attributes,missing-class-docstring
     overall = -1
     overall_count = 1
     overall_review = ''
@@ -86,18 +96,29 @@ class Rating(object):
         self.translation = translation
         self.review_show_improvements_only = review_show_improvements_only
 
+    def ensure_correct_points_range(self, points):
+        if points < 1.0:
+            points = 1.0
+        elif points > 5.0:
+            points = 5.0
+        return points
+
     def set_overall(self, points, review=''):
         review = review.replace('GOV-IGNORE', '')
 
-        if(points < 1.0):
-            points = 1.0
-        elif(points > 5.0):
-            points = 5.0
-        self.overall = points
-        if review != '' and (not self.review_show_improvements_only or points < 5.0):
-            self.overall_review = self.translation('TEXT_TEST_REVIEW_RATING_ITEM').format(
-                review, points)
+        self.overall = self.ensure_correct_points_range(points)
         self.is_set = True
+
+        if review == '':
+            return
+
+        if self.review_show_improvements_only and points == 5.0:
+            return
+
+        trans_str = 'TEXT_TEST_REVIEW_RATING_ITEM'
+        self.overall_review = self.translation(trans_str).format(
+                review, points)
+
 
     def get_overall(self):
         return self.transform_value(self.overall / self.overall_count)
@@ -105,15 +126,18 @@ class Rating(object):
     def set_integrity_and_security(self, points, review=''):
         review = review.replace('GOV-IGNORE', '')
 
-        if(points < 1.0):
-            points = 1.0
-        elif(points > 5.0):
-            points = 5.0
-        self.integrity_and_security = points
-        if review != '' and (not self.review_show_improvements_only or points < 5.0):
-            self.integrity_and_security_review = self.translation('TEXT_TEST_REVIEW_RATING_ITEM').format(
-                review, points)
+        self.integrity_and_security = self.ensure_correct_points_range(points)
         self.is_set = True
+
+        if review == '':
+            return
+
+        if self.review_show_improvements_only and points == 5.0:
+            return
+
+        trans_str = 'TEXT_TEST_REVIEW_RATING_ITEM'
+        self.integrity_and_security_review = self.translation(trans_str).format(
+                review, points)
 
     def get_integrity_and_security(self):
         return self.transform_value(self.integrity_and_security / self.integrity_and_security_count)
@@ -121,15 +145,19 @@ class Rating(object):
     def set_performance(self, points, review=''):
         review = review.replace('GOV-IGNORE', '')
 
-        if(points < 1.0):
-            points = 1.0
-        elif(points > 5.0):
-            points = 5.0
-        self.performance = points
-        if review != '' and (not self.review_show_improvements_only or points < 5.0):
-            self.performance_review = self.translation('TEXT_TEST_REVIEW_RATING_ITEM').format(
-                review, points)
+        self.performance = self.ensure_correct_points_range(points)
         self.is_set = True
+
+        if review == '':
+            return
+
+        if self.review_show_improvements_only and points == 5.0:
+            return
+
+        trans_str = 'TEXT_TEST_REVIEW_RATING_ITEM'
+        self.performance_review = self.translation(trans_str).format(
+                review, points)
+
 
     def get_performance(self):
         return self.transform_value(self.performance / self.performance_count)
@@ -137,15 +165,20 @@ class Rating(object):
     def set_standards(self, points, review=''):
         review = review.replace('GOV-IGNORE', '')
 
-        if(points < 1.0):
-            points = 1.0
-        elif(points > 5.0):
-            points = 5.0
-        self.standards = points
-        if review != '' and (not self.review_show_improvements_only or points < 5.0):
-            self.standards_review = self.translation('TEXT_TEST_REVIEW_RATING_ITEM').format(
-                review, points)
+        self.standards = self.ensure_correct_points_range(points)
         self.is_set = True
+
+        if review == '':
+            return
+
+        if self.review_show_improvements_only and points == 5.0:
+            return
+
+        trans_str = 'TEXT_TEST_REVIEW_RATING_ITEM'
+        self.standards_review = self.translation(trans_str).format(
+                review, points)
+
+
 
     def get_standards(self):
         return self.transform_value(self.standards / self.standards_count)
@@ -153,15 +186,20 @@ class Rating(object):
     def set_a11y(self, points, review=''):
         review = review.replace('GOV-IGNORE', '')
 
-        if(points < 1.0):
-            points = 1.0
-        elif(points > 5.0):
-            points = 5.0
-        self.a11y = points
-        if review != '' and (not self.review_show_improvements_only or points < 5.0):
-            self.a11y_review = self.translation('TEXT_TEST_REVIEW_RATING_ITEM').format(
-                review, points)
+        self.a11y = self.ensure_correct_points_range(points)
         self.is_set = True
+
+        if review == '':
+            return
+
+        if self.review_show_improvements_only and points == 5.0:
+            return
+
+        trans_str = 'TEXT_TEST_REVIEW_RATING_ITEM'
+        self.a11y_review = self.translation(trans_str).format(
+                review, points)
+
+
 
     def get_a11y(self):
         return self.transform_value(self.a11y / self.a11y_count)
@@ -170,7 +208,7 @@ class Rating(object):
         return self.is_set
 
     def transform_value(self, value):
-        return float("{0:.2f}".format(value))
+        return float(f"{value:.2f}")
 
     def get_reviews(self):
         text = self.translation('TEXT_TEST_REVIEW_OVERVIEW').format(self.overall_review)
@@ -205,86 +243,98 @@ class Rating(object):
         return result
 
     def __add__(self, other):
-        if (not isinstance(other, Rating)):
+        if not isinstance(other, Rating):
             raise TypeError
+
+        if self.translation is not None:
+            tmp = Rating(self.translation, self.review_show_improvements_only)
         else:
-            if self.translation != None:
-                tmp = Rating(self.translation, self.review_show_improvements_only)
-            else:
-                tmp = Rating(other.translation, other.review_show_improvements_only)
+            tmp = Rating(other.translation, other.review_show_improvements_only)
 
-            tmp_value = tmp.get_combined_value(
-                self.overall, self.overall_count, other.overall, other.overall_count)
-            if (tmp_value[0] != -1):
-                tmp.is_set = True
-                tmp.overall = tmp_value[0]
-                tmp.overall_count = tmp_value[1]
-            tmp.overall_review = self.overall_review + \
-                other.overall_review
+        tmp_value = tmp.get_combined_value(
+            self.overall, self.overall_count, other.overall, other.overall_count)
+        if tmp_value[0] != -1:
+            tmp.is_set = True
+            tmp.overall = tmp_value[0]
+            tmp.overall_count = tmp_value[1]
+        tmp.overall_review = self.overall_review + \
+            other.overall_review
 
-            tmp_value = tmp.get_combined_value(
-                self.integrity_and_security, self.integrity_and_security_count, other.integrity_and_security, other.integrity_and_security_count)
-            if (tmp_value[0] != -1):
-                tmp.is_set = True
-                tmp.integrity_and_security = tmp_value[0]
-                tmp.integrity_and_security_count = tmp_value[1]
-            tmp.integrity_and_security_review = self.integrity_and_security_review + \
-                other.integrity_and_security_review
+        tmp_value = tmp.get_combined_value(
+            self.integrity_and_security,
+            self.integrity_and_security_count,
+            other.integrity_and_security,
+            other.integrity_and_security_count)
 
-            tmp_value = tmp.get_combined_value(
-                self.performance, self.performance_count, other.performance, other.performance_count)
-            if (tmp_value[0] != -1):
-                tmp.is_set = True
-                tmp.performance = tmp_value[0]
-                tmp.performance_count = tmp_value[1]
-            tmp.performance_review = self.performance_review + other.performance_review
+        if tmp_value[0] != -1:
+            tmp.is_set = True
+            tmp.integrity_and_security = tmp_value[0]
+            tmp.integrity_and_security_count = tmp_value[1]
+        tmp.integrity_and_security_review = self.integrity_and_security_review + \
+            other.integrity_and_security_review
 
-            tmp_value = tmp.get_combined_value(
-                self.standards, self.standards_count, other.standards, other.standards_count)
-            if (tmp_value[0] != -1):
-                tmp.is_set = True
-                tmp.standards = tmp_value[0]
-                tmp.standards_count = tmp_value[1]
-            tmp.standards_review = self.standards_review + other.standards_review
+        tmp_value = tmp.get_combined_value(
+            self.performance,
+            self.performance_count,
+            other.performance,
+            other.performance_count)
 
-            tmp_value = tmp.get_combined_value(
-                self.a11y, self.a11y_count, other.a11y, other.a11y_count)
-            if (tmp_value[0] != -1):
-                tmp.is_set = True
-                tmp.a11y = tmp_value[0]
-                tmp.a11y_count = tmp_value[1]
-            tmp.a11y_review = self.a11y_review + other.a11y_review
-            return tmp
+        if tmp_value[0] != -1:
+            tmp.is_set = True
+            tmp.performance = tmp_value[0]
+            tmp.performance_count = tmp_value[1]
+        tmp.performance_review = self.performance_review + other.performance_review
+
+        tmp_value = tmp.get_combined_value(
+            self.standards, self.standards_count, other.standards, other.standards_count)
+
+        if tmp_value[0] != -1:
+            tmp.is_set = True
+            tmp.standards = tmp_value[0]
+            tmp.standards_count = tmp_value[1]
+        tmp.standards_review = self.standards_review + other.standards_review
+
+        tmp_value = tmp.get_combined_value(
+            self.a11y, self.a11y_count, other.a11y, other.a11y_count)
+
+        if tmp_value[0] != -1:
+            tmp.is_set = True
+            tmp.a11y = tmp_value[0]
+            tmp.a11y_count = tmp_value[1]
+        tmp.a11y_review = self.a11y_review + other.a11y_review
+        return tmp
 
     def get_combined_value(self, val1, val1_count, val2, val2_count):
         val1_has_value = val1 != -1
         val2_has_value = val2 != -1
-        if (val1_has_value and val2_has_value):
+
+        if val1_has_value and val2_has_value:
             return (val1 + val2, val1_count + val2_count)
-        elif (not val1_has_value and not val2_has_value):
+
+        if not val1_has_value and not val2_has_value:
             return (-1, 1)
-        elif(val1_has_value):
+
+        if val1_has_value:
             return (val1, val1_count)
-        else:
-            return (val2, val2_count)
+        return (val2, val2_count)
 
     def __repr__(self):
         text = self.translation('TEXT_TEST_RATING_OVERVIEW').format(self.get_overall())
-        if (self.get_integrity_and_security() != -1):
+        if self.get_integrity_and_security() != -1:
             text += self.translation('TEXT_TEST_RATING_INTEGRITY_SECURITY').format(
                 self.get_integrity_and_security())
-        if (self.get_performance() != -1):
+        if self.get_performance() != -1:
             text += self.translation('TEXT_TEST_RATING_PERFORMANCE').format(self.get_performance())
-        if (self.get_a11y() != -1):
+        if self.get_a11y() != -1:
             text += self.translation('TEXT_TEST_RATING_ALLY').format(self.get_a11y())
-        if (self.get_standards() != -1):
+        if self.get_standards() != -1:
             text += self.translation('TEXT_TEST_RATING_STANDARDS').format(
                 self.get_standards())
 
         return text
 
 
-class SiteTests(object):
+class SiteTests: # pylint: disable=too-many-instance-attributes,missing-class-docstring
     __tablename__ = 'sitetests'
 
     site_id = 0
@@ -304,7 +354,7 @@ class SiteTests(object):
     rating_a11y = -1  # rating from 1-5 on how good the results were
     rating_stand = -1  # rating from 1-5 on how good the results were
 
-    def __init__(self, site_id, type_of_test, rating, test_date, json_check_data):
+    def __init__(self, site_id, type_of_test, rating, test_date, json_check_data): # pylint: disable=too-many-arguments
         self.site_id = site_id
         self.type_of_test = type_of_test
         self.check_report = self.encode_review(rating.overall_review)
@@ -350,8 +400,10 @@ class SiteTests(object):
         result = ['site_id', 'type_of_test',
                   'rating', 'rating_sec', 'rating_perf',
                   'rating_a11y', 'rating_stand',
-                  'date', 'report', 'report_sec', 'report_perf', 'report_a11y', 'report_stand', 'data']
+                  'date', 'report', 'report_sec',
+                  'report_perf', 'report_a11y', 'report_stand',
+                  'data']
         return result
 
     def __repr__(self):
-        return '<SiteTest %r>' % self.test_date
+        return f'<SiteTest {self.test_date}>'

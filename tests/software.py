@@ -1311,20 +1311,20 @@ def lookup_response_content(item, response_mimetype, response_content, rules):
 def get_default_info(url, method, precision, key, name, version, domain=None):
     result = {}
 
-    if domain != None:
+    if domain is not None:
         result['domain'] = domain
     else:
         o = urlparse(url)
         hostname = o.hostname
         result['domain'] = hostname
 
-    if name != None:
+    if name is not None:
         name = name.lower().strip('.').strip('-').strip().replace(' ', '-')
 
-    if version != None:
+    if version is not None:
         version = version.lower().strip('.').strip('-').strip()
 
-    return DefaultInfo(result['domain'], method, precision, key, name, version, [])
+    return DefaultInfo(result['domain'], method, precision, key, name, version)
 
 
 def lookup_request_url(item, rules, origin_domain):

@@ -505,17 +505,10 @@ def has_redirect(url):
     error_msg = None
     try:
         headers = {'user-agent': USERAGENT}
-        a = requests.get(url, allow_redirects=False,
+        response = requests.get(url, allow_redirects=True,
                          headers=headers, timeout=REQUEST_TIMEOUT*2)
 
-        has_location_header = 'Location' in a.headers
-
-        if has_location_header:
-            location_header = a.headers['Location']
-            if len(location_header) > 1 and location_header[0:1] == '/':
-                return (True, url + a.headers['Location'], '')
-            return (True, a.headers['Location'], '')
-        return (False, url, '')
+        return (url != response.url, response.url, '')
     except ssl.CertificateError as error:
         print(f'Info: Certificate error. {error.reason}')
         error_msg = f'Info: Certificate error. {error.reason}'

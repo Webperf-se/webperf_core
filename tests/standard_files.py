@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import json
 import os
 from urllib.parse import urlparse
 from datetime import datetime
@@ -35,115 +36,126 @@ def run_test(global_translation, lang_code, url):
     print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    parsed_url = get_root_url(url)
-
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-    return_dict = {}
+    result_dict = {
+        'url': url,
+        'root_url': get_root_url(url)
+    }
 
     # robots.txt
-    robots_result = validate_robots(global_translation, local_translation, parsed_url)
-    rating += robots_result[0]
-    return_dict.update(robots_result[1])
-    robots_content = robots_result[2]
+    rating += validate_robots(result_dict, global_translation, local_translation)
 
     # sitemap.xml
-    sitemap_result = validate_sitemaps(
+    rating += validate_sitemaps(
+        result_dict,
         global_translation,
-        local_translation,
-        robots_content,
-        return_dict)
-    rating += sitemap_result[0]
-    return_dict.update(sitemap_result[1])
+        local_translation)
 
     # rss feed
-    feed_result = validate_feed(global_translation, local_translation, url)
-    rating += feed_result[0]
-    return_dict.update(feed_result[1])
+    rating += validate_feed(result_dict, global_translation, local_translation)
+
+    nice = json.dumps(result_dict, indent=3)
+    print('#', nice)
 
     # security.txt
-    security_txt_result = validate_security_txt(global_translation, local_translation, parsed_url)
-    rating += security_txt_result[0]
-    return_dict.update(security_txt_result[1])
+    rating += validate_security_txt(result_dict, global_translation, local_translation)
 
     print(global_translation('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    return (rating, return_dict)
+    return (rating, result_dict)
 
 def get_root_url(url):
     o = urllib.parse.urlparse(url)
     parsed_url = f'{o.scheme}://{o.netloc}/'
     return parsed_url
 
-def validate_robots(global_translation, local_translation, parsed_url):
-    return_dict = {}
+def validate_robots(result_dict, global_translation, local_translation):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
-    return_dict['robots.txt-location'] = parsed_url + 'robots.txt'
 
-    (is_redirected, url_destination, _) = has_redirect(return_dict['robots.txt-location'])
+    robots_dict = {
+        'url': result_dict['root_url'] + 'robots.txt'
+    }
+
+    (is_redirected, url_destination, _) = has_redirect(robots_dict['url'])
     if is_redirected:
-        return_dict['robots.txt-location'] = url_destination
+        robots_dict['url'] = url_destination
 
-    robots_content = get_http_content(return_dict['robots.txt-location'], True)
+    robots_dict['content'] = get_http_content(robots_dict['url'], True)
 
-    if robots_content is None or '</html>' in robots_content.lower() or \
-          ('user-agent' not in robots_content.lower() \
-           and 'disallow' not in robots_content.lower() \
-           and 'allow' not in robots_content.lower()):
+    if robots_dict['content'] is None or '</html>' in robots_dict['content'].lower() or \
+          ('user-agent' not in robots_dict['content'].lower() \
+           and 'disallow' not in robots_dict['content'].lower() \
+           and 'allow' not in robots_dict['content'].lower()):
         rating.set_overall(1.0)
         rating.set_standards(1.0, local_translation("TEXT_ROBOTS_MISSING"))
-        return_dict['robots.txt'] = 'missing content'
-        robots_content = None
+        robots_dict['status'] = 'missing content'
+        robots_dict['content'] = None
     else:
         rating.set_overall(5.0)
         rating.set_standards(5.0, local_translation("TEXT_ROBOTS_OK"))
 
-        return_dict['robots.txt'] = 'ok'
+        robots_dict['status'] = 'ok'
 
-    return (rating, return_dict, robots_content)
+    result_dict['robots'] = robots_dict
+
+    return rating
 
 
-def validate_sitemaps(global_translation,
-                      local_translation,
-                      robots_content,
-                      result_dict):
+def validate_sitemaps(result_dict,
+                      global_translation,
+                      local_translation):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-    result_dict["num_sitemaps"] = 0
-    result_dict["robots_txt_sitemaps"] = []
+    sitemaps_dict = {
+        'nof_sitemaps': 0,
+        'sitemap_urls_in_robots': [],
+        'sitemaps': {},
+        'use_https_only': True,
+        'use_same_domain': True,
+        'known_types': {},
+        'has_duplicates': False,
+        'nof_items': 0,
+        'nof_items_no_duplicates': 0
+    }
 
-    if not result_dict['robots.txt'] != 'ok' or 'sitemap:' not in robots_content.lower():
+    if result_dict['robots']['status'] != 'ok' or\
+            'sitemap:' not in result_dict['robots']['content'].lower():
         rating.set_overall(1.0)
         rating.set_standards(1.0, local_translation("TEXT_SITEMAP_MISSING"))
-        result_dict['sitemap'] = 'not in robots.txt'
-        return (rating, result_dict)
+        sitemaps_dict['status'] = 'not in robots.txt'
+        result_dict['sitemap'] = sitemaps_dict
+        return rating
 
     regex = r"^sitemap\:(?P<url>[^\n]+)"
-    matches = re.finditer(regex, robots_content, re.MULTILINE | re.IGNORECASE)
+    matches = re.finditer(regex, result_dict['robots']['content'], re.MULTILINE | re.IGNORECASE)
     for _, match in enumerate(matches, start=1):
         sitemap_url = match.group('url').strip()
-        result_dict["robots_txt_sitemaps"].append(sitemap_url)
+        sitemaps_dict["sitemap_urls_in_robots"].append(sitemap_url)
 
-    result_dict["num_sitemaps"] = len(result_dict["robots_txt_sitemaps"])
+    sitemaps_dict["nof_sitemaps"] = len(sitemaps_dict["sitemap_urls_in_robots"])
 
     # NOTE: https://internetverkstan.se/ has styled sitemap
 
-    if result_dict["num_sitemaps"] == 0:
+    # TODO: How can this ever happen?
+    if sitemaps_dict["nof_sitemaps"] == 0:
         rating.set_overall(2.0)
         rating.set_standards(2.0, local_translation("TEXT_SITEMAP_FOUND"))
-        return (rating, result_dict)
+        result_dict['sitemap'] = sitemaps_dict
+        return rating
 
-    result_dict["sitemaps"] = []
-
+    robots_domain = get_domain(result_dict['robots']['url'])
     sitemaps_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-    for sitemap_url in result_dict["robots_txt_sitemaps"]:
+    for sitemap_url in sitemaps_dict["sitemap_urls_in_robots"]:
         sitemaps_rating += validate_sitemap(sitemap_url,
-                                            result_dict,
+                                            sitemaps_dict,
+                                            robots_domain,
                                             global_translation,
                                             local_translation)
 
     if not sitemaps_rating.is_set:
-        return (rating, result_dict)
+        result_dict['sitemap'] = sitemaps_dict
+        return rating
 
     final_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if USE_DETAILED_REPORT:
@@ -171,103 +183,46 @@ def validate_sitemaps(global_translation,
             review)
     rating += final_rating
 
-    return (rating, result_dict)
+    result_dict['sitemap'] = sitemaps_dict
+    return rating
 
 def get_domain(url):
     parsed_url = urlparse(url)
     return parsed_url.hostname
 
-def validate_sitemap(sitemap_url, result_dict, global_translation, local_translation):
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-
+def validate_sitemap(sitemap_url, sitemaps_dict, robots_domain, global_translation, local_translation):
     sitemaps = read_sitemap(sitemap_url, -1, -1, False)
 
-    for key in sitemaps.keys():
+    for key, items in sitemaps.items():
         if key == 'all':
             continue
 
-        if key not in result_dict["sitemaps"]:
-            result_dict["sitemaps"].append(key)
+        if key not in sitemaps_dict["sitemaps"]:
+            sitemap_dict = create_sitemap_dict(items, robots_domain)
+            sitemaps_dict["sitemaps"][key] = sitemap_dict
 
+            if not sitemap_dict['use_https_only']:
+                sitemaps_dict['use_https_only'] = False
+            if not sitemap_dict['use_same_domain']:
+                sitemaps_dict['use_same_domain'] = False
+            if sitemap_dict['has_duplicates']:
+                sitemaps_dict['has_duplicates'] = True
+            sitemaps_dict['known_types'].update(sitemap_dict['known_types'])
+            sitemaps_dict['nof_items'] += sitemap_dict['nof_items']
+            sitemaps_dict['nof_items_no_duplicates'] += sitemap_dict['nof_items_no_duplicates']
+
+    rating = rate_sitemap(sitemaps_dict, global_translation, local_translation, sitemaps)
+    return rating
+
+def rate_sitemap(sitemaps_dict, global_translation, local_translation, sitemaps):
     sitemap_items = sitemaps['all']
 
-    append_sitemap_data_to_result_dict(sitemap_items, result_dict)
-
-    # {
-    #     "feed": {
-    #         "status": "ok",
-    #         "feeds": {
-    #             "https://www.eskilstuna.se/4.47f1872e1784b0a89d021732/12.47f1872e1784b0a89d021743.portlet?state=rss&sv.contenttype=text/xml;charset=UTF-8": {
-    #                 "status": "ok",
-    #                 "nof-items": 1337
-
-    #             }
-    #         }
-
-    #     },
-    #     "robots": {
-    #         "status": "ok",
-    #         "sitemaps": []
-    #     },
-    #     "sitemap": {
-    #         "status": "ok",
-    #         "sitemaps": {
-    #             "https://www.eskilstuna.se/sitemapindex.xml": {
-    #                 "status": "ok",
-    #                 "same-domain": true,
-    #                 "https-only": true,
-    #                 "has-duplicates": false,
-    #                 "types": ["webpages"],
-    #                 "nof-items": 1337
-    #             },
-    #             "https://www.eskilstuna.se/sitemap1.xml.gz": {
-    #                 "status": "ok",
-    #                 "same-domain": true,
-    #                 "https-only": true,
-    #                 "has-duplicates": false,
-    #                 "types": ["webpages"],
-    #                 "nof-items": 1337
-    #             }
-    #         }
-    #     },
-    #     "security": {
-    #         "status": "ok"
-
-    #     }
-    # }
-
-
-    # item_types = {}
-    # always_starts_with_https_scheme = True
-    # always_uses_same_domain = True
-    # for item_url in sitemap_items:
-    #     item_type = 'webpage'
-
-    #     if not item_url.lower().startswith('https://'):
-    #         always_starts_with_https_scheme = False
-
-    #     parsed_item_url = urlparse(item_url)
-    #     if robots_domain != parsed_item_url.hostname:
-    #         always_uses_same_domain = False
-
-    #     tmp = os.path.splitext(parsed_item_url.path)[1].strip('.').lower()
-    #     ext_len = len(tmp)
-    #     if 2 <= ext_len >= 4:
-    #         if tmp in KNOWN_EXTENSIONS:
-    #             item_type = tmp
-    #     elif parsed_item_url.path.startswith('/download/'):
-    #         item_type = 'unknown-in-download'
-
-    #     if item_type not in item_types:
-    #         item_types[item_type] = []
-    #     item_types[item_type].append(item_url)
-
-    # item_type_keys = sorted(list(item_types.keys()))
     total_nof_items = len(sitemap_items)
     sitemap_items = list(set(sitemap_items))
     total_nof_items_no_duplicates = len(sitemap_items)
 
-    if not result_dict['sitemap_use_https_only']:
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    if not sitemaps_dict['use_https_only']:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(
                     1.0)
@@ -282,7 +237,7 @@ def validate_sitemap(sitemap_url, result_dict, global_translation, local_transla
                     5.0, local_translation("TEXT_SITEMAP_STARTING_WITH_HTTPS_SCHEME"))
         rating += sub_rating
 
-    if not result_dict['sitemap_use_same_domain']:
+    if not sitemaps_dict['use_same_domain']:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(
                     1.0)
@@ -314,11 +269,11 @@ def validate_sitemap(sitemap_url, result_dict, global_translation, local_transla
                     5.0, local_translation("TEXT_SITEMAP_NO_DUPLICATES"))
         rating += sub_rating
 
-    type_keys = result_dict['sitemap_types'].keys()
+    type_keys = sitemaps_dict['known_types'].keys()
     if len(type_keys) > 1:
         webpages_points = 1.0
         if 'webpage' in type_keys:
-            nof_webpages = result_dict['sitemap_types']['webpage']
+            nof_webpages = sitemaps_dict['known_types']['webpage']
             ratio = nof_webpages / total_nof_items
             webpages_points = 5.0 * ratio
 
@@ -366,7 +321,7 @@ def validate_sitemap(sitemap_url, result_dict, global_translation, local_transla
                     1.0, local_translation("TEXT_SITEMAP_BROKEN"))
         rating += sub_rating
 
-        result_dict['sitemap_check'] = f"'{sitemap_url}' seem to be broken"
+        sitemaps_dict['status'] = f"sitemap(s) seem to be broken"
     else:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(
@@ -375,33 +330,34 @@ def validate_sitemap(sitemap_url, result_dict, global_translation, local_transla
                     5.0, local_translation("TEXT_SITEMAP_IS_OK"))
         rating += sub_rating
 
-        result_dict['sitemap_check'] = f"'{sitemap_url}' seem ok"
+        sitemaps_dict['status'] = f"sitemap(s) seem ok"
     return rating
 
-def append_sitemap_data_to_result_dict(sitemap_items, result_dict):
+def create_sitemap_dict(sitemap_items, robots_domain):
+
+    nof_items = len(sitemap_items)
+    nof_no_duplicates = len(list(set(sitemap_items)))
+
+    sitemap_dict = {
+        'use_https_only': True,
+        'use_same_domain': True,
+        'known_types': {},
+        'has_duplicates': nof_items > nof_no_duplicates,
+        'nof_items': nof_items,
+        'nof_items_no_duplicates': nof_no_duplicates
+    }
+
     item_types = {}
-
-    if 'sitemap_use_https_only' not in result_dict:
-        result_dict['sitemap_use_https_only'] = True
-
-    if 'sitemap_use_same_domain' not in result_dict:
-        result_dict['sitemap_use_same_domain'] = True
-
-    if 'sitemap_types' not in result_dict:
-        result_dict['sitemap_types'] = {}
-
-
-    robots_domain = get_domain(result_dict['robots.txt-location'])
 
     for item_url in sitemap_items:
         item_type = 'webpage'
 
         if not item_url.lower().startswith('https://'):
-            result_dict['sitemap_use_https_only'] = False
+            sitemap_dict['use_https_only'] = False
 
         parsed_item_url = urlparse(item_url)
         if robots_domain != parsed_item_url.hostname:
-            result_dict['sitemap_use_same_domain'] = False
+            sitemap_dict['use_same_domain'] = False
 
         tmp = os.path.splitext(parsed_item_url.path)[1].strip('.').lower()
         ext_len = len(tmp)
@@ -418,7 +374,9 @@ def append_sitemap_data_to_result_dict(sitemap_items, result_dict):
     keys = sorted(list(item_types.keys()))
 
     for key in keys:
-        result_dict['sitemap_types'][key] = len(item_types[key])
+        sitemap_dict['known_types'][key] = len(item_types[key])
+
+    return sitemap_dict
 
 
 def is_feed(tag):
@@ -437,41 +395,46 @@ def is_feed(tag):
     return False
 
 
-def validate_feed(global_translation, local_translation, url):
-    return_dict = {}
-    feed = []
+def validate_feed(result_dict, global_translation, local_translation):
+    feed_dict = {
+        'nof_feeds': 0,
+        'feeds': []
+    }
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
-    content = get_http_content(url, True, True)
+    content = get_http_content(result_dict['url'], True, True)
     soup = BeautifulSoup(content, 'lxml')
-    feed = soup.find_all(is_feed)
+    feeds = soup.find_all(is_feed)
 
-    if len(feed) == 0:
+    feed_dict['nof_feeds'] = len(feeds)
+    if feed_dict['nof_feeds'] == 0:
         rating.set_overall(4.5, local_translation("TEXT_RSS_FEED_MISSING"))
-        return_dict['feed'] = 'not in meta'
-        return_dict['num_feeds'] = len(feed)
-    elif len(feed) > 0:
+        feed_dict['status'] = 'not in meta'
+    elif feed_dict['nof_feeds'] > 0:
         rating.set_overall(5.0, local_translation("TEXT_RSS_FEED_FOUND"))
-        return_dict['feed'] = 'found in meta'
-        return_dict['num_feeds'] = len(feed)
-        tmp_feed = []
-        for single_feed in feed:
-            tmp_feed.append(single_feed.get('href'))
+        feed_dict['status'] = 'found in meta'
+        for single_feed in feeds:
+            feed_dict['feeds'].append(single_feed.get('href'))
 
-        return_dict['feeds'] = tmp_feed
+    result_dict['feeds'] = feed_dict
 
-    return (rating, return_dict)
+    return rating
 
 
-def validate_security_txt(global_translation, local_translation, parsed_url):
+def validate_security_txt(result_dict, global_translation, local_translation):
+    root_url = result_dict['root_url']
+    security_dict = {
+        'txts': []
+    }
+
     # normal location for security.txt
-    security_wellknown_url = parsed_url + '.well-known/security.txt'
+    security_wellknown_url = root_url + '.well-known/security.txt'
     security_wellknown_content = get_http_content(
         security_wellknown_url, True)
 
     # Note: security.txt can also be placed in root if
     # for example technical reasons prohibit use of /.well-known/
-    security_root_url = parsed_url + 'security.txt'
+    security_root_url = root_url + 'security.txt'
     security_root_content = get_http_content(security_root_url, True)
 
     if security_wellknown_content == '' and security_root_content == '':
@@ -481,14 +444,20 @@ def validate_security_txt(global_translation, local_translation, parsed_url):
         rating.set_standards(1.0, local_translation("TEXT_SECURITY_MISSING"))
         rating.set_integrity_and_security(1.0, local_translation("TEXT_SECURITY_MISSING"))
 
-        return_dict = {}
-        return_dict['security.txt'] = 'missing'
-        return (rating, return_dict)
+        security_dict['status'] = 'missing'
+        result_dict['security'] = security_dict
+        return rating
 
-    security_wellknown_result = rate_securitytxt_content(
-        security_wellknown_content, global_translation, local_translation)
-    security_root_result = rate_securitytxt_content(
-        security_root_content, global_translation, local_translation)
+    security_wellknown_result = validate_securitytxt_content(
+        result_dict,
+        security_wellknown_content,
+        global_translation,
+        local_translation)
+    security_root_result = validate_securitytxt_content(
+        result_dict,
+        security_root_content,
+        global_translation,
+        local_translation)
 
     security_wellknown_rating = security_wellknown_result[0]
     security_root_rating = security_root_result[0]
@@ -501,23 +470,23 @@ def validate_security_txt(global_translation, local_translation, parsed_url):
     return security_root_result
 
 
-def rate_securitytxt_content(content, global_translation, local_translation):
+def validate_securitytxt_content(result_dict, content, global_translation, local_translation):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-    return_dict = {}
+    security_dict = {}
     if content is None or ('<html' in content.lower()):
         # Html (404 page?) content instead of expected content
         rating.set_overall(1.0)
         rating.set_standards(1.0, local_translation("TEXT_SECURITY_WRONG_CONTENT"))
         rating.set_integrity_and_security(
             1.0, local_translation("TEXT_SECURITY_WRONG_CONTENT"))
-        return_dict['security.txt'] = 'wrong content'
+        security_dict['status'] = 'wrong content'
     elif ('contact:' in content.lower() and 'expires:' in content.lower()):
         # Everything seems ok
         rating.set_overall(5.0)
         rating.set_standards(5.0, local_translation("TEXT_SECURITY_OK_CONTENT"))
         rating.set_integrity_and_security(
             5.0, local_translation("TEXT_SECURITY_OK_CONTENT"))
-        return_dict['security.txt'] = 'ok'
+        security_dict['status'] = 'ok'
     elif not 'contact:' in content.lower():
         # Missing required Contact
         rating.set_overall(2.5)
@@ -525,7 +494,7 @@ def rate_securitytxt_content(content, global_translation, local_translation):
             "TEXT_SECURITY_REQUIRED_CONTACT_MISSING"))
         rating.set_integrity_and_security(
             2.5, local_translation("TEXT_SECURITY_REQUIRED_CONTACT_MISSING"))
-        return_dict['security.txt'] = 'required contact missing'
+        security_dict['status'] = 'required contact missing'
     elif not 'expires:' in content.lower():
         # Missing required Expires (added in version 10 of draft)
         rating.set_overall(2.5)
@@ -533,8 +502,9 @@ def rate_securitytxt_content(content, global_translation, local_translation):
             "TEXT_SECURITY_REQUIRED_EXPIRES_MISSING"))
         rating.set_integrity_and_security(
             4.0, local_translation("TEXT_SECURITY_REQUIRED_EXPIRES_MISSING"))
-        return_dict['security.txt'] = 'required expires missing'
+        security_dict['status'] = 'required expires missing'
     else:
         rating.set_overall(1.0, local_translation("TEXT_SECURITY_WRONG_CONTENT"))
+    result_dict['security'] = security_dict
 
-    return (rating, return_dict)
+    return rating

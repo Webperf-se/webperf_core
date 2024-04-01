@@ -54,9 +54,6 @@ def run_test(global_translation, lang_code, url):
     # rss feed
     rating += validate_feed(result_dict, global_translation, local_translation)
 
-    nice = json.dumps(result_dict, indent=3)
-    print('#', nice)
-
     # security.txt
     rating += validate_security_txt(result_dict, global_translation, local_translation)
 
@@ -137,7 +134,6 @@ def validate_sitemaps(result_dict,
 
     # NOTE: https://internetverkstan.se/ has styled sitemap
 
-    # TODO: How can this ever happen?
     if sitemaps_dict["nof_sitemaps"] == 0:
         rating.set_overall(2.0)
         rating.set_standards(2.0, local_translation("TEXT_SITEMAP_FOUND"))
@@ -190,7 +186,11 @@ def get_domain(url):
     parsed_url = urlparse(url)
     return parsed_url.hostname
 
-def validate_sitemap(sitemap_url, sitemaps_dict, robots_domain, global_translation, local_translation):
+def validate_sitemap(sitemap_url,
+                     sitemaps_dict,
+                     robots_domain,
+                     global_translation,
+                     local_translation):
     sitemaps = read_sitemap(sitemap_url, -1, -1, False)
 
     for key, items in sitemaps.items():
@@ -222,74 +222,19 @@ def rate_sitemap(sitemaps_dict, global_translation, local_translation, sitemaps)
     total_nof_items_no_duplicates = len(sitemap_items)
 
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-    if not sitemaps_dict['use_https_only']:
-        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        sub_rating.set_overall(
-                    1.0)
-        sub_rating.set_standards(
-                    1.0, local_translation("TEXT_SITEMAP_NOT_STARTING_WITH_HTTPS_SCHEME"))
-        rating += sub_rating
-    else:
-        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        sub_rating.set_overall(
-                    5.0)
-        sub_rating.set_standards(
-                    5.0, local_translation("TEXT_SITEMAP_STARTING_WITH_HTTPS_SCHEME"))
-        rating += sub_rating
+    rate_sitemap_use_https_only(sitemaps_dict, global_translation, local_translation, rating)
+    rate_sitemap_use_same_domain(sitemaps_dict, global_translation, local_translation, rating)
+    rate_sitemap_use_of_duplicates(global_translation,
+                                   local_translation,
+                                   total_nof_items,
+                                   total_nof_items_no_duplicates,
+                                   rating)
 
-    if not sitemaps_dict['use_same_domain']:
-        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        sub_rating.set_overall(
-                    1.0)
-        sub_rating.set_standards(
-                    1.0, local_translation("TEXT_SITEMAP_NOT_SAME_DOMAIN_AS_ROBOTS_TXT"))
-        rating += sub_rating
-    else:
-        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        sub_rating.set_overall(
-                    5.0)
-        sub_rating.set_standards(
-                    5.0, local_translation("TEXT_SITEMAP_SAME_DOMAIN_AS_ROBOTS_TXT"))
-        rating += sub_rating
-
-    if total_nof_items !=  total_nof_items_no_duplicates:
-        ratio = total_nof_items_no_duplicates / total_nof_items
-        duplicates_points = 3.0 * ratio
-        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        sub_rating.set_overall(
-                    duplicates_points)
-        sub_rating.set_standards(
-                    duplicates_points, local_translation("TEXT_SITEMAP_INCLUDE_DUPLICATES"))
-        rating += sub_rating
-    else:
-        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        sub_rating.set_overall(
-                    5.0)
-        sub_rating.set_standards(
-                    5.0, local_translation("TEXT_SITEMAP_NO_DUPLICATES"))
-        rating += sub_rating
-
-    type_keys = sitemaps_dict['known_types'].keys()
-    if len(type_keys) > 1:
-        webpages_points = 1.0
-        if 'webpage' in type_keys:
-            nof_webpages = sitemaps_dict['known_types']['webpage']
-            ratio = nof_webpages / total_nof_items
-            webpages_points = 5.0 * ratio
-
-        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        sub_rating.set_overall(
-                    webpages_points)
-        sub_rating.set_standards(
-                    webpages_points,  local_translation("TEXT_SITEMAP_NOT_ONLY_WEBPAGES"))
-        rating += sub_rating
-    else:
-        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        sub_rating.set_overall(
-                    5.0)
-        sub_rating.set_standards(
-                    5.0, local_translation("TEXT_SITEMAP_ONLY_WEBPAGES"))
-        rating += sub_rating
+    rate_sitemap_use_known_types(sitemaps_dict,
+                                 global_translation,
+                                 local_translation,
+                                 total_nof_items,
+                                 rating)
 
     # loop sitemaps and see if any single sitemap exsits amount
     for key in sitemaps.keys():
@@ -313,6 +258,18 @@ def rate_sitemap(sitemaps_dict, global_translation, local_translation, sitemaps)
                         5.0, local_translation("TEXT_SITEMAP_NOT_TOO_LARGE"))
             rating += sub_rating
 
+    rate_sitemap_any_items(sitemaps_dict,
+                           global_translation,
+                           local_translation,
+                           total_nof_items,
+                           rating)
+    return rating
+
+def rate_sitemap_any_items(sitemaps_dict,
+                           global_translation,
+                           local_translation,
+                           total_nof_items,
+                           rating):
     if total_nof_items == 0:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(
@@ -321,7 +278,7 @@ def rate_sitemap(sitemaps_dict, global_translation, local_translation, sitemaps)
                     1.0, local_translation("TEXT_SITEMAP_BROKEN"))
         rating += sub_rating
 
-        sitemaps_dict['status'] = f"sitemap(s) seem to be broken"
+        sitemaps_dict['status'] = "sitemap(s) seem to be broken"
     else:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(
@@ -330,8 +287,88 @@ def rate_sitemap(sitemaps_dict, global_translation, local_translation, sitemaps)
                     5.0, local_translation("TEXT_SITEMAP_IS_OK"))
         rating += sub_rating
 
-        sitemaps_dict['status'] = f"sitemap(s) seem ok"
-    return rating
+        sitemaps_dict['status'] = "sitemap(s) seem ok"
+
+def rate_sitemap_use_known_types(sitemaps_dict,
+                                 global_translation,
+                                 local_translation,
+                                 total_nof_items,
+                                 rating):
+    type_keys = sitemaps_dict['known_types'].keys()
+    if len(type_keys) > 1:
+        webpages_points = 1.0
+        if 'webpage' in type_keys:
+            nof_webpages = sitemaps_dict['known_types']['webpage']
+            ratio = nof_webpages / total_nof_items
+            webpages_points = 5.0 * ratio
+
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating.set_overall(
+                    webpages_points)
+        sub_rating.set_standards(
+                    webpages_points,  local_translation("TEXT_SITEMAP_NOT_ONLY_WEBPAGES"))
+        rating += sub_rating
+    else:
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating.set_overall(
+                    5.0)
+        sub_rating.set_standards(
+                    5.0, local_translation("TEXT_SITEMAP_ONLY_WEBPAGES"))
+        rating += sub_rating
+
+def rate_sitemap_use_of_duplicates(global_translation,
+                                   local_translation,
+                                   total_nof_items,
+                                   total_nof_items_no_duplicates,
+                                   rating):
+    if total_nof_items !=  total_nof_items_no_duplicates:
+        ratio = total_nof_items_no_duplicates / total_nof_items
+        duplicates_points = 3.0 * ratio
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating.set_overall(
+                    duplicates_points)
+        sub_rating.set_standards(
+                    duplicates_points, local_translation("TEXT_SITEMAP_INCLUDE_DUPLICATES"))
+        rating += sub_rating
+    else:
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating.set_overall(
+                    5.0)
+        sub_rating.set_standards(
+                    5.0, local_translation("TEXT_SITEMAP_NO_DUPLICATES"))
+        rating += sub_rating
+
+def rate_sitemap_use_same_domain(sitemaps_dict, global_translation, local_translation, rating):
+    if not sitemaps_dict['use_same_domain']:
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating.set_overall(
+                    1.0)
+        sub_rating.set_standards(
+                    1.0, local_translation("TEXT_SITEMAP_NOT_SAME_DOMAIN_AS_ROBOTS_TXT"))
+        rating += sub_rating
+    else:
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating.set_overall(
+                    5.0)
+        sub_rating.set_standards(
+                    5.0, local_translation("TEXT_SITEMAP_SAME_DOMAIN_AS_ROBOTS_TXT"))
+        rating += sub_rating
+
+def rate_sitemap_use_https_only(sitemaps_dict, global_translation, local_translation, rating):
+    if not sitemaps_dict['use_https_only']:
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating.set_overall(
+                    1.0)
+        sub_rating.set_standards(
+                    1.0, local_translation("TEXT_SITEMAP_NOT_STARTING_WITH_HTTPS_SCHEME"))
+        rating += sub_rating
+    else:
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating.set_overall(
+                    5.0)
+        sub_rating.set_standards(
+                    5.0, local_translation("TEXT_SITEMAP_STARTING_WITH_HTTPS_SCHEME"))
+        rating += sub_rating
 
 def create_sitemap_dict(sitemap_items, robots_domain):
 
@@ -424,7 +461,9 @@ def validate_feed(result_dict, global_translation, local_translation):
 def validate_security_txt(result_dict, global_translation, local_translation):
     root_url = result_dict['root_url']
     security_dict = {
-        'txts': []
+        'txts': {
+
+        }
     }
 
     # normal location for security.txt
@@ -445,16 +484,21 @@ def validate_security_txt(result_dict, global_translation, local_translation):
         rating.set_integrity_and_security(1.0, local_translation("TEXT_SECURITY_MISSING"))
 
         security_dict['status'] = 'missing'
+        security_dict['txts'][security_wellknown_url] = {
+            'status': 'missing'
+        }
+        security_dict['txts'][security_root_url] = {
+            'status': 'missing'
+        }
+
         result_dict['security'] = security_dict
         return rating
 
     security_wellknown_result = validate_securitytxt_content(
-        result_dict,
         security_wellknown_content,
         global_translation,
         local_translation)
     security_root_result = validate_securitytxt_content(
-        result_dict,
         security_root_content,
         global_translation,
         local_translation)
@@ -462,15 +506,23 @@ def validate_security_txt(result_dict, global_translation, local_translation):
     security_wellknown_rating = security_wellknown_result[0]
     security_root_rating = security_root_result[0]
 
+    security_dict['txts'][security_wellknown_url] = security_wellknown_result[1]
+    security_dict['txts'][security_root_url] = security_root_result[1]
+    result_dict['security'] = security_dict
+
     if security_wellknown_rating.get_overall() == security_root_rating.get_overall():
-        return security_wellknown_result
+        result_dict['security']['status'] = security_dict['txts'][security_wellknown_url]['status']
+        return security_wellknown_rating
 
     if security_wellknown_rating.get_overall() > security_root_rating.get_overall():
-        return security_wellknown_result
-    return security_root_result
+        result_dict['security']['status'] = security_dict['txts'][security_wellknown_url]['status']
+        return security_wellknown_rating
+
+    result_dict['security']['status'] = security_dict['txts'][security_root_url]['status']
+    return security_root_rating
 
 
-def validate_securitytxt_content(result_dict, content, global_translation, local_translation):
+def validate_securitytxt_content(content, global_translation, local_translation):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     security_dict = {}
     if content is None or ('<html' in content.lower()):
@@ -505,6 +557,6 @@ def validate_securitytxt_content(result_dict, content, global_translation, local
         security_dict['status'] = 'required expires missing'
     else:
         rating.set_overall(1.0, local_translation("TEXT_SECURITY_WRONG_CONTENT"))
-    result_dict['security'] = security_dict
+        security_dict['status'] = 'wrong content, no contact or expires'
 
-    return rating
+    return (rating, security_dict)

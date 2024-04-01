@@ -2,7 +2,7 @@
 import os
 import subprocess
 import json
-from tests.utils import get_cache_path, get_config_or_default, has_cache_file, set_cache_file
+from tests.utils import get_cache_path_for_file, get_config_or_default, has_cache_file, set_cache_file
 
 # DEFAULTS
 REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
@@ -53,7 +53,7 @@ def get_errors(test_type, params):
             raise ValueError(
                 f'Tested url must start with \'https://\' or \'http://\': {url}')
 
-        file_path = get_cache_path(url, True)
+        file_path = get_cache_path_for_file(url, True)
         if is_html:
             html_file_ending_fix = file_path.replace('.cache', '.cache.html')
             if has_cache_file(url, True, CACHE_TIME_DELTA) \

@@ -11,7 +11,7 @@ it is also best/fastest when wanting to contribute with new tests, translations 
 - Navigate to where you downloaded (and unpacked) the source code. If you don’t know how to navigate in Terminal/CMD, read the [Windows guide](https://www.digitalcitizen.life/command-prompt-how-use-basic-commands) or [under Step 5 for Mac / Linux](https://computers.tutsplus.com/tutorials/navigating-the-terminal-a-gentle-introduction--mac-3855).
 - Update Python Package manager by typing following and hit Enter: `python -m pip install --upgrade pip`
 - Install required Python packages by typing following and hit Enter: `pip install -r requirements.txt`
-- Validate that core functionality is working by typing following and hit Enter `python default -h`
+- Validate that core functionality is working by typing following and hit Enter `python default.py -h`
 - If the output looks something like example in [options and arguments](getting-started.md#options-and-arguments) you have successfully setup the general parts of webperf-core.
 - Please look at/return to the [specific test](tests/README.md) you want to run to make sure it doesn't require more steps.
 

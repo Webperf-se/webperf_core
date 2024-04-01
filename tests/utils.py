@@ -141,8 +141,62 @@ def is_file_older_than(file, delta):
         return True
     return False
 
+def get_cache_path_for_rule(url, cache_key_rule):
+    """
+    Generates a cache path for a given URL. The cache path is based on the hostname of the URL and
+    a hash of the URL itself.
+    The function also ensures that the necessary directories for storing the cache file exist.
 
-def get_cache_path(url, use_text_instead_of_content):
+    Parameters:
+    url (str): The URL for which to generate a cache path.
+    cache_key_rule (str): Determines the format of the cache file/folder name.
+        {0} in rule will be replaced by a sha512 hexdigest for supplied url.
+
+    Returns:
+    str: The generated cache path.
+    """
+    o = urlparse(url)
+    hostname = o.hostname
+    if hostname is None:
+        hostname = 'None'
+
+    folder = 'tmp'
+    if USE_CACHE:
+        folder = 'cache'
+
+    folder_path = os.path.join(folder)
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+
+    hostname_path = os.path.join(folder, hostname)
+    if not os.path.exists(hostname_path):
+        os.makedirs(hostname_path)
+
+    cache_key = cache_key_rule.format(
+        hashlib.sha512(url.encode()).hexdigest())
+    cache_path = os.path.join(folder, hostname, cache_key)
+
+    return cache_path
+
+def get_cache_path_for_folder(url):
+    """
+    Generates a cache path for a given URL. The cache path is based on the hostname of the URL and
+    a hash of the URL itself.
+    The function also ensures that the necessary directories for storing the cache file exist.
+
+    Parameters:
+    url (str): The URL for which to generate a cache path.
+
+    Returns:
+    str: The generated cache path.
+    """
+
+    cache_key_rule = '{0}'
+
+    return get_cache_path_for_rule(url, cache_key_rule)
+
+
+def get_cache_path_for_file(url, use_text_instead_of_content):
     """
     Generates a cache path for a given URL. The cache path is based on the hostname of the URL and
     a hash of the URL itself.
@@ -157,34 +211,16 @@ def get_cache_path(url, use_text_instead_of_content):
     Returns:
     str: The generated cache path.
     """
-    o = urlparse(url)
-    hostname = o.hostname
-    if hostname is None:
-        hostname = 'None'
 
     file_ending = '.tmp'
-    folder = 'tmp'
     if USE_CACHE:
         file_ending = '.cache'
-        folder = 'cache'
 
-    folder_path = os.path.join(folder)
-    if not os.path.exists(folder_path):
-        os.makedirs(folder_path)
-
-    hostname_path = os.path.join(folder, hostname)
-    if not os.path.exists(hostname_path):
-        os.makedirs(hostname_path)
-
-    cache_key_rule = '{0}.txt.utf-8{1}'
+    cache_key_rule = '{0}.txt.utf-8' + file_ending
     if not use_text_instead_of_content:
-        cache_key_rule = '{0}.bytes{1}'
+        cache_key_rule = '{0}.bytes' + file_ending
 
-    cache_key = cache_key_rule.format(
-        hashlib.sha512(url.encode()).hexdigest(), file_ending)
-    cache_path = os.path.join(folder, hostname, cache_key)
-
-    return cache_path
+    return get_cache_path_for_rule(url, cache_key_rule)
 
 
 def get_cache_file(url, use_text_instead_of_content, time_delta):
@@ -206,10 +242,10 @@ def get_cache_file(url, use_text_instead_of_content, time_delta):
     If the cache file does not exist or is too old, None is returned.
 
     Notes:
-    - The function uses the get_cache_path function to determine the path of the cache file.
+    - The function uses the get_cache_path_for_file function to determine the path of the cache file.
     - If USE_CACHE is False, the function always returns None.
     """
-    cache_path = get_cache_path(url, use_text_instead_of_content)
+    cache_path = get_cache_path_for_file(url, use_text_instead_of_content)
 
     if not os.path.exists(cache_path):
         return None
@@ -239,7 +275,7 @@ def has_cache_file(url, use_text_instead_of_content, time_delta):
     bool: True if the cache file exists and is not older than the specified time delta,
           False otherwise.
     """
-    cache_path = get_cache_path(url, use_text_instead_of_content)
+    cache_path = get_cache_path_for_file(url, use_text_instead_of_content)
 
     if not os.path.exists(cache_path):
         return False
@@ -329,7 +365,7 @@ def set_cache_file(url, content, use_text_instead_of_content):
         use_text_instead_of_content (bool): Flag to determine how to write 
                                              the content.
     """
-    cache_path = get_cache_path(url, use_text_instead_of_content)
+    cache_path = get_cache_path_for_file(url, use_text_instead_of_content)
     if use_text_instead_of_content:
         with open(cache_path, 'w', encoding='utf-8', newline='') as file:
             file.write(content)
@@ -564,7 +600,7 @@ def dns_lookup(key, datatype):
     use_dnssec = False
     cache_key = f'dnslookup://{key}#{datatype}#{use_dnssec}'
     if has_cache_file(cache_key, True, CACHE_TIME_DELTA):
-        cache_path = get_cache_path(cache_key, True)
+        cache_path = get_cache_path_for_file(cache_key, True)
         response = dns.message.from_file(cache_path)
         return dns_response_to_list(response)
 

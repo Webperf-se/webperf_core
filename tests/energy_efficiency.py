@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 import tests.energy_efficiency_carbon_percentiles as energy_efficiency_carbon_percentiles
-import tests.energy_efficiency_carbon_percentiles2021 as energy_efficiency_carbon_percentiles_2021
+import tests.energy_efficiency_carbon_percentiles2022 as energy_efficiency_carbon_percentiles_2022
 from tests.performance_lighthouse import run_test as lighthouse_perf_run_test
 from models import Rating
 from tests.utils import get_translation
@@ -50,8 +50,8 @@ def cleaner_than(co2, year='current'):
     # from the database once a month, that is then loaded in this file.
 
     percentiles = False
-    if year == '2021':
-        percentiles = energy_efficiency_carbon_percentiles_2021.get_percentiles()
+    if year == '2022':
+        percentiles = energy_efficiency_carbon_percentiles_2022.get_percentiles()
     else:
         percentiles = energy_efficiency_carbon_percentiles.get_percentiles()
     position = 0
@@ -99,7 +99,7 @@ def run_test(global_translation, lang_code, url):
     result_dict['co2'] = co2
 
     cleaner = cleaner_than(co2) * 100
-    cleaner_2021 = cleaner_than(co2, '2021') * 100
+    cleaner_2022 = cleaner_than(co2, '2022') * 100
     result_dict['cleaner_than'] = cleaner
 
     review = ''
@@ -124,8 +124,8 @@ def run_test(global_translation, lang_code, url):
     review += local_translation("TEXT_GRAMS_OF_CO2").format(round(co2, 2))
     review += local_translation("TEXT_BETTER_THAN").format(int(cleaner),
                                                 energy_efficiency_carbon_percentiles.get_generated_date())
-    review += local_translation("TEXT_BETTER_THAN").format(int(cleaner_2021),
-                                                energy_efficiency_carbon_percentiles_2021.get_generated_date())
+    review += local_translation("TEXT_BETTER_THAN").format(int(cleaner_2022),
+                                                energy_efficiency_carbon_percentiles_2022.get_generated_date())
 
     transfer_info = format_bytes(transfer_bytes)
     review += local_translation("TEXT_TRANSFER_SIZE").format(transfer_info[0], transfer_info[1]

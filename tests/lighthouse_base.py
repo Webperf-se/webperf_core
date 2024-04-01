@@ -6,7 +6,7 @@ import json
 import time
 from urllib.parse import urlparse
 from models import Rating
-from tests.utils import get_config_or_default, get_http_content, is_file_older_than
+from tests.utils import get_config_or_default, get_http_content, is_file_older_than, get_cache_path_for_folder, get_cache_path_for_rule
 
 REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
 USE_CACHE = get_config_or_default('cache_when_possible')
@@ -173,15 +173,10 @@ def get_json_result(langCode, url, googlePageSpeedApiKey, strategy, category, li
                     check_url, sys.exc_info()[0]))
             return  {}
     elif USE_CACHE:
-        base_directory = Path(os.path.dirname(
-            os.path.realpath(__file__)) + os.path.sep).parent
         try:
-            folder = 'cache'
+            cache_key_rule = 'lighthouse-{0}'
+            cache_path = get_cache_path_for_rule(url, cache_key_rule)
 
-            o = urlparse(url)
-            hostname = o.hostname
-
-            cache_path = os.path.join(base_directory, folder, hostname, 'lighthouse')
             if not os.path.exists(cache_path):
                 os.makedirs(cache_path)
 
@@ -211,7 +206,7 @@ def get_json_result(langCode, url, googlePageSpeedApiKey, strategy, category, li
             output, error = process.communicate(timeout=REQUEST_TIMEOUT * 10)
             with open(result_file, 'r', encoding='utf-8', newline='') as file:
                 return str_to_json('\n'.join(file.readlines()), check_url)
-        except TabError:
+        except:
             print(
                 'Error! Unfortunately the request for URL "{0}" failed, message:\n{1}'.format(
                     check_url, sys.exc_info()[0]))

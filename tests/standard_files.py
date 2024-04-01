@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import json
 import os
 from urllib.parse import urlparse
 from datetime import datetime
@@ -63,11 +62,47 @@ def run_test(global_translation, lang_code, url):
     return (rating, result_dict)
 
 def get_root_url(url):
+    """
+    Extracts the root URL from a given URL.
+
+    This function uses Python's urllib.parse.urlparse method to parse the URL and
+    extract the scheme and network location (netloc). 
+    It then constructs the root URL from these components.
+
+    Args:
+        url (str): The URL to extract the root from.
+
+    Returns:
+        str: The root URL, which includes the scheme and netloc, followed by a forward slash.
+
+    Example:
+        >>> get_root_url('https://www.example.com/path/to/page?query=arg')
+        'https://www.example.com/'
+    """
     o = urllib.parse.urlparse(url)
     parsed_url = f'{o.scheme}://{o.netloc}/'
     return parsed_url
 
 def validate_robots(result_dict, global_translation, local_translation):
+    """
+    Validates the robots.txt file of a website.
+
+    This function checks the robots.txt file of a website and rates it based on its content. 
+    It first checks if the robots.txt file is redirected, and if so, updates the URL. 
+    It then retrieves the content of the robots.txt file.
+    If the content is missing or does not contain 'user-agent', 'disallow', or 'allow',
+    it sets the rating to 1.0 and the status to 'missing content'. 
+    Otherwise, it sets the rating to 5.0 and the status to 'ok'.
+
+    Args:
+        result_dict (dict): A dictionary containing the results of the validation.
+        global_translation (function): A function to translate text to a global language.
+        local_translation (function): A function to translate text to a local language.
+
+    Returns:
+        Rating: A Rating object containing the overall rating and
+        standards rating of the robots.txt file.
+    """
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
 
@@ -103,6 +138,23 @@ def validate_robots(result_dict, global_translation, local_translation):
 def validate_sitemaps(result_dict,
                       global_translation,
                       local_translation):
+    """
+    Validates the sitemaps of a website.
+
+    This function checks the sitemaps of a website and rates them based on their content. 
+    It first checks if the sitemaps are mentioned in the robots.txt file of the website. 
+    If not, it sets the rating to 1.0 and the status to 'not in robots.txt'. 
+    If the sitemaps are mentioned, it validates each sitemap URL and calculates a rating for each. 
+    The final rating is the average of all the sitemap ratings.
+
+    Args:
+        result_dict (dict): A dictionary containing the results of the validation.
+        global_translation (function): A function to translate text to a global language.
+        local_translation (function): A function to translate text to a local language.
+
+    Returns:
+        Rating: A Rating object containing the overall rating and standards rating of the sitemaps.
+    """
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     sitemaps_dict = {
         'nof_sitemaps': 0,
@@ -183,6 +235,9 @@ def validate_sitemaps(result_dict,
     return rating
 
 def get_domain(url):
+    """
+    Extracts the domain name from a given URL.
+    """
     parsed_url = urlparse(url)
     return parsed_url.hostname
 
@@ -191,6 +246,24 @@ def validate_sitemap(sitemap_url,
                      robots_domain,
                      global_translation,
                      local_translation):
+    """
+    Validates a sitemap of a website.
+
+    This function reads the sitemap from the provided URL and validates it.
+    It checks if the sitemap uses HTTPS only, if it uses the same domain as the robots.txt file,
+    and if it contains any duplicate entries. It then updates the 
+    sitemaps dictionary with the results of the validation and calculates a rating for the sitemap.
+
+    Args:
+        sitemap_url (str): The URL of the sitemap to validate.
+        sitemaps_dict (dict): A dictionary containing the results of the sitemap validation.
+        robots_domain (str): The domain of the robots.txt file.
+        global_translation (function): A function to translate text to a global language.
+        local_translation (function): A function to translate text to a local language.
+
+    Returns:
+        Rating: A Rating object containing the overall rating and standards rating of the sitemap.
+    """
     sitemaps = read_sitemap(sitemap_url, -1, -1, False)
 
     for key, items in sitemaps.items():
@@ -215,6 +288,19 @@ def validate_sitemap(sitemap_url,
     return rating
 
 def rate_sitemap(sitemaps_dict, global_translation, local_translation, sitemaps):
+    """
+    Rates the sitemaps based on various criteria such as use of HTTPS, domain consistency,
+    duplicate handling, known types, and size. 
+
+    Parameters:
+    sitemaps_dict (dict): Dictionary containing sitemap data.
+    global_translation (function): Function for global translation.
+    local_translation (function): Function for local translation.
+    sitemaps (dict): Dictionary containing all sitemaps.
+
+    Returns:
+    Rating: A rating object representing the overall rating of the sitemaps.
+    """
     sitemap_items = sitemaps['all']
 
     total_nof_items = len(sitemap_items)

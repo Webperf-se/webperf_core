@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
-from datetime import time
 import os
-from pathlib import Path
 import sys
 import json
-from urllib.parse import urlparse
+import time
 from models import Rating
-from tests.utils import get_config_or_default, get_http_content, is_file_older_than
+from tests.utils import get_config_or_default, get_http_content, is_file_older_than, get_cache_path_for_rule
 
 REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
 USE_CACHE = get_config_or_default('cache_when_possible')
@@ -171,17 +169,12 @@ def get_json_result(langCode, url, googlePageSpeedApiKey, strategy, category, li
             print(
                 'Error! Unfortunately the request for URL "{0}" failed, message:\n{1}'.format(
                     check_url, sys.exc_info()[0]))
-            return
+            return  {}
     elif USE_CACHE:
-        base_directory = Path(os.path.dirname(
-            os.path.realpath(__file__)) + os.path.sep).parent
         try:
-            folder = 'cache'
+            cache_key_rule = 'lighthouse-{0}'
+            cache_path = get_cache_path_for_rule(url, cache_key_rule)
 
-            o = urlparse(url)
-            hostname = o.hostname
-
-            cache_path = os.path.join(base_directory, folder, hostname, 'lighthouse')
             if not os.path.exists(cache_path):
                 os.makedirs(cache_path)
 
@@ -212,7 +205,10 @@ def get_json_result(langCode, url, googlePageSpeedApiKey, strategy, category, li
             with open(result_file, 'r', encoding='utf-8', newline='') as file:
                 return str_to_json('\n'.join(file.readlines()), check_url)
         except:
-            return
+            print(
+                'Error! Unfortunately the request for URL "{0}" failed, message:\n{1}'.format(
+                    check_url, sys.exc_info()[0]))
+            return {}
     else:
         command = "node node_modules{4}lighthouse{4}cli{4}index.js {1} --output json --output-path stdout --locale {3} --only-categories {0} --form-factor {2} --chrome-flags=\"--headless\" --quiet".format(
             category, check_url, strategy, langCode, os.path.sep)

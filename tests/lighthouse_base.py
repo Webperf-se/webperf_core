@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 import os
-from pathlib import Path
 import sys
 import json
 import time
-from urllib.parse import urlparse
 from models import Rating
-from tests.utils import get_config_or_default, get_http_content, is_file_older_than, get_cache_path_for_folder, get_cache_path_for_rule
+from tests.utils import get_config_or_default, get_http_content, is_file_older_than, get_cache_path_for_rule
 
 REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
 USE_CACHE = get_config_or_default('cache_when_possible')

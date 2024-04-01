@@ -318,6 +318,8 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
         Returns:
             None
         """
+
+        self.input_filename = input_filename
         file_ending = ""
         file_long_ending = ""
         if len(input_filename) > 4:

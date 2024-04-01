@@ -376,7 +376,6 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
         Raises:
             SystemExit: This function ends the program if the specified language is not available.
         """
-        lang_code = 'en'
         available_languages = []
         locale_dirs = os.listdir('locales')
         found_lang = False
@@ -395,7 +394,7 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
                     self.lang_code = arg
                     found_lang = True
 
-                    self.load_language(lang_code)
+                    self.load_language(self.lang_code)
 
         if not found_lang:
                     # Not translateable

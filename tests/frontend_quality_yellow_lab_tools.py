@@ -3,11 +3,9 @@ import os
 import time
 from datetime import datetime
 import json
-import gettext
 import requests
-from tests.utils import get_config_or_default, get_http_content
+from tests.utils import get_config_or_default, get_http_content, get_translation
 from models import Rating
-_local = gettext.gettext
 
 # DEFAULTS
 REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
@@ -25,10 +23,7 @@ def run_test(global_translation, lang_code, url, device='phone'):
     Devices might be; phone, tablet, desktop
     """
 
-    language = gettext.translation(
-        'frontend_quality_yellow_lab_tools', localedir='locales', languages=[lang_code])
-    language.install()
-    local_translation = language.gettext
+    local_translation = get_translation('frontend_quality_yellow_lab_tools', lang_code)
 
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 

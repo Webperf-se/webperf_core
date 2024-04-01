@@ -3,10 +3,8 @@ import os
 import subprocess
 from datetime import datetime
 import json
-import gettext
-from tests.utils import get_config_or_default
+from tests.utils import get_config_or_default, get_translation
 from models import Rating
-_ = gettext.gettext
 
 review_show_improvements_only = get_config_or_default('review_show_improvements_only')
 request_timeout = get_config_or_default('http_request_timeout')
@@ -16,10 +14,7 @@ def run_test(global_translation, lang_code, url):
 
     """
 
-    language = gettext.translation(
-        'a11y_pa11y', localedir='locales', languages=[lang_code])
-    language.install()
-    local_translation = language.gettext
+    local_translation = get_translation('a11y_pa11y', lang_code)
 
     print(local_translation('TEXT_RUNNING_TEST'))
 

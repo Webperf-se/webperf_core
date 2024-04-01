@@ -6,11 +6,9 @@ import re
 # https://docs.python.org/3/library/urllib.parse.html
 from urllib.parse import urlparse
 from datetime import datetime, timedelta, date
-import gettext
 from models import Rating
-from tests.utils import get_best_country_code, get_config_or_default, get_friendly_url_name, is_country_code_in_eu_or_on_exception_list
+from tests.utils import get_best_country_code, get_config_or_default, get_friendly_url_name, get_translation, is_country_code_in_eu_or_on_exception_list
 from tests.sitespeed_base import get_result
-_ = gettext.gettext
 
 # DEFAULTS
 REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
@@ -820,10 +818,7 @@ def run_test(global_translation, lang_code, url):
     result_dict = {}
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
-    language = gettext.translation(
-        'tracking_validator', localedir='locales', languages=[lang_code])
-    language.install()
-    local_translation = language.gettext
+    local_translation = get_translation('tracking_validator', lang_code)
 
     print(local_translation('TEXT_RUNNING_TEST'))
 

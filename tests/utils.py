@@ -19,6 +19,7 @@ import dns.query
 import dns.resolver
 import dns.dnssec
 import dns.exception
+import gettext
 
 def get_config_or_default(name):
     """
@@ -61,6 +62,27 @@ def get_config_or_default(name):
 
     print(f'FATAL: "{name}" is missing in your config.py and SAMPLE-config.py files')
     raise ValueError(f'FATAL: "{name}" is missing in your config.py and SAMPLE-config.py files')
+
+
+def get_translation(module_name, lang_code):
+    """
+    Retrieves the gettext translation object for a specific language.
+
+    This function loads the appropriate language translation for
+    a given module from the 'locales' directory.
+
+    Parameters:
+    module_name (str): The name of the module for which the translation is needed.
+    lang_code (str): The ISO 639-1 language code (e.g., 'en' for English, 'fr' for French).
+
+    Returns:
+    function: The gettext() function for the specified language.
+    """
+    language = gettext.translation(
+        module_name,
+        localedir='locales',
+        languages=[lang_code])
+    return language.gettext
 
 
 def change_url_to_test_url(url, test_name):
@@ -519,17 +541,10 @@ def has_redirect(url):
     error_msg = None
     try:
         headers = {'user-agent': USERAGENT}
-        a = requests.get(url, allow_redirects=False,
+        response = requests.get(url, allow_redirects=True,
                          headers=headers, timeout=REQUEST_TIMEOUT*2)
 
-        has_location_header = 'Location' in a.headers
-
-        if has_location_header:
-            location_header = a.headers['Location']
-            if len(location_header) > 1 and location_header[0:1] == '/':
-                return (True, url + a.headers['Location'], '')
-            return (True, a.headers['Location'], '')
-        return (False, url, '')
+        return (url != response.url, response.url, '')
     except ssl.CertificateError as error:
         print(f'Info: Certificate error. {error.reason}')
         error_msg = f'Info: Certificate error. {error.reason}'

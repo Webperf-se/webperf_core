@@ -4,10 +4,8 @@ from pathlib import Path
 import os
 import re
 from datetime import datetime
-import gettext
 from models import Rating
-from tests.utils import get_config_or_default
-_local = gettext.gettext
+from tests.utils import get_config_or_default, get_translation
 
 REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
 SITESPEED_USE_DOCKER = get_config_or_default('sitespeed_use_docker')
@@ -49,10 +47,8 @@ def run_test(global_translation, lang_code, url):
     - https://hub.docker.com/r/sitespeedio/sitespeed.io/
     - https://www.sitespeed.io
     """
-    language = gettext.translation(
-        'performance_sitespeed_io', localedir='locales', languages=[lang_code])
-    language.install()
-    local_translation = language.gettext
+
+    local_translation = get_translation('performance_sitespeed_io', lang_code)
 
     print(local_translation('TEXT_RUNNING_TEST'))
 
@@ -221,7 +217,7 @@ def validate_on_mobile(url):
     return result_dict
 
 
-def rate_result_dict(result_dict, reference_result_dict, mode, _, _local):
+def rate_result_dict(result_dict, reference_result_dict, mode, global_translation, local_translation):
     limit = 500
 
     rating = Rating(_)

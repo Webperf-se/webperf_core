@@ -13,7 +13,7 @@ from requests.packages.urllib3.util import ssl_
 # https://docs.python.org/3/library/urllib.parse.html
 import urllib
 from models import Rating
-from tests.utils import change_url_to_test_url, dns_lookup, merge_dicts, get_config_or_default
+from tests.utils import change_url_to_test_url, dns_lookup, get_translation, merge_dicts, get_config_or_default
 from tests.sitespeed_base import get_result
 import dns.name
 import dns.query
@@ -23,8 +23,6 @@ import dns.resolver
 import dns.rdatatype
 import hashlib
 import base64
-import gettext
-_local = gettext.gettext
 
 
 # DEFAULTS
@@ -50,10 +48,7 @@ def run_test(global_translation, lang_code, url):
 
     result_dict = {}
 
-    language = gettext.translation(
-        'http_validator', localedir='locales', languages=[lang_code])
-    language.install()
-    local_translation = language.gettext
+    local_translation = get_translation('http_validator', lang_code)
 
     if USE_CSP_ONLY:
         print(local_translation('TEXT_RUNNING_TEST_CSP_ONLY'))

@@ -3,12 +3,10 @@ from datetime import datetime
 import time
 import urllib  # https://docs.python.org/3/library/urllib.parse.html
 import re
-import gettext
 import requests
 from bs4 import BeautifulSoup
 from models import Rating
-from tests.utils import get_config_or_default
-_ = gettext.gettext
+from tests.utils import get_config_or_default, get_translation
 
 
 # DEFAULTS
@@ -26,10 +24,7 @@ def run_test(global_translation, lang_code, url):
     return_dict = {}
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
-    language = gettext.translation(
-        'privacy_webbkollen', localedir='locales', languages=[lang_code])
-    language.install()
-    local_translation = language.gettext
+    local_translation = get_translation('privacy_webbkollen', lang_code)
 
     print(local_translation('TEXT_RUNNING_TEST'))
 

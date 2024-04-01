@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
-import gettext
 import tests.energy_efficiency_carbon_percentiles as energy_efficiency_carbon_percentiles
 import tests.energy_efficiency_carbon_percentiles2022 as energy_efficiency_carbon_percentiles_2022
 from tests.performance_lighthouse import run_test as lighthouse_perf_run_test
 from models import Rating
-_local = gettext.gettext
+from tests.utils import get_translation
 
 # Code below is built from: https://gitlab.com/wholegrain/carbon-api-2-0
 
@@ -82,10 +81,7 @@ def run_test(global_translation, lang_code, url):
     https://gitlab.com/wholegrain/carbon-api-2-0
     """
 
-    language = gettext.translation(
-        'energy_efficiency_websitecarbon', localedir='locales', languages=[lang_code])
-    language.install()
-    local_translation = language.gettext
+    local_translation = get_translation('energy_efficiency_websitecarbon', lang_code)
 
     print(local_translation("TEXT_RUNNING_TEST"))
 

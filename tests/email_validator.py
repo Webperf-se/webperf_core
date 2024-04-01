@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import re
-import gettext
 import smtplib
 from datetime import datetime
 import socket
@@ -15,8 +14,8 @@ from bs4 import BeautifulSoup
 import dns
 from models import Rating
 from tests.utils import dns_lookup, get_best_country_code, \
-    get_http_content, is_country_code_in_eu_or_on_exception_list, get_config_or_default
-_local = gettext.gettext
+    get_http_content, get_translation, \
+    is_country_code_in_eu_or_on_exception_list, get_config_or_default
 
 # DEFAULTS
 request_timeout = get_config_or_default('http_request_timeout')
@@ -133,10 +132,7 @@ def run_test(global_translation, lang_code, url):
     # rating = Rating(global_translation, review_show_improvements_only)
     result_dict = {}
 
-    language = gettext.translation(
-        'email_validator', localedir='locales', languages=[lang_code])
-    language.install()
-    local_translation = language.gettext
+    local_translation = get_translation('email_validator', lang_code)
 
     print(local_translation('TEXT_RUNNING_TEST'))
 

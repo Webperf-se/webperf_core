@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
-import gettext
 import os
 import re
 import sys
@@ -9,11 +8,9 @@ import urllib  # https://docs.python.org/3/library/urllib.parse.html
 from bs4 import BeautifulSoup
 from models import Rating
 
-from tests.utils import get_friendly_url_name, get_http_content, set_cache_file, get_config_or_default
+from tests.utils import get_friendly_url_name, get_http_content, get_translation, set_cache_file, get_config_or_default
 from tests.w3c_base import get_errors, identify_files
 from tests.sitespeed_base import get_result
-
-_local = gettext.gettext
 
 # DEFAULTS
 REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
@@ -37,10 +34,7 @@ def run_test(global_translation, lang_code, url):
 
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
-    language = gettext.translation(
-        'css_validator_w3c', localedir='locales', languages=[lang_code])
-    language.install()
-    local_translation = language.gettext
+    local_translation = get_translation('css_validator_w3c', lang_code)
 
     print(local_translation('TEXT_RUNNING_TEST'))
 

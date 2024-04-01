@@ -78,21 +78,17 @@ def run_test(lang_code, url, strategy, category, silance, global_translation, lo
                 local_points = 5.0
 
             item_review = ''
-            item_title = '{0}'.format(
-                json_content['audits'][item]['title'])
+            item_title = f'{json_content['audits'][item]['title']}'
             displayValue = ''
             item_description = json_content['audits'][item]['description']
             if 'displayValue' in json_content['audits'][item]:
                 displayValue = json_content['audits'][item]['displayValue']
             if local_score == 0:
-                item_review = "- {0}".format(
-                    global_translation(item_title))
+                item_review = f"- {global_translation(item_title)}"
             elif local_points == 5.0:
-                item_review = "- {0}".format(
-                    global_translation(item_title))
+                item_review = f"- {global_translation(item_title)}"
             else:
-                item_review = "- {0}: {1}".format(
-                    global_translation(item_title), displayValue)
+                item_review = f"- {global_translation(item_title)}: {displayValue}"
 
             reviews.append([local_points - weight_dict[item],
                             item_review, local_points])
@@ -103,10 +99,10 @@ def run_test(lang_code, url, strategy, category, silance, global_translation, lo
                     local_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     if local_score == 1:
                         local_rating.set_integrity_and_security(
-                            5.0, '- {0}'.format(item_title))
+                            5.0, f'- {item_title}')
                     else:
                         local_rating.set_integrity_and_security(
-                            1.0, '- {0}'.format(item_title))
+                            1.0, f'- {item_title}')
                     rating += local_rating
                     break
             for standard_str in standard_strings:
@@ -114,10 +110,10 @@ def run_test(lang_code, url, strategy, category, silance, global_translation, lo
                     local_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     if local_score == 1:
                         local_rating.set_standards(
-                            5.0, '- {0}'.format(item_title))
+                            5.0, '- {item_title}')
                     else:
                         local_rating.set_standards(
-                            1.0, '- {0}'.format(item_title))
+                            1.0, '- {item_title}')
                     rating += local_rating
                     break
 
@@ -177,22 +173,22 @@ def str_to_json(content, url):
             json_content = json_content['lighthouseResult']
 
     except:  # might crash if checked resource is not a webpage
-        print('Error! JSON failed parsing for the URL "{0}"\nMessage:\n{1}'.format(
-            url, sys.exc_info()[0]))
+        print((f'Error! JSON failed parsing for the URL "{url}"\n'
+               f'Message:\n{sys.exc_info()[0]}'))
         pass
 
     return json_content
 
 
-def get_json_result(langCode, url, strategy, category, google_pagespeed_apikey):
+def get_json_result(lang_code, url, strategy, category, google_pagespeed_apikey):
     check_url = url.strip()
 
-    lighthouse_use_api = google_pagespeed_apikey != None and google_pagespeed_apikey != ''
+    lighthouse_use_api = google_pagespeed_apikey is not None and google_pagespeed_apikey != ''
 
     if lighthouse_use_api:
         pagespeed_api_request = (
             'https://www.googleapis.com/pagespeedonline/v5/runPagespeed'
-            f'?locale={langCode}'
+            f'?locale={lang_code}'
             f'&category={category}'
             f'&url={check_url}'
             f'&key={google_pagespeed_apikey}')
@@ -218,22 +214,27 @@ def get_json_result(langCode, url, strategy, category, google_pagespeed_apikey):
             result_file = os.path.join(cache_path, 'result.json')
             command = (
                 f"node node_modules{os.path.sep}lighthouse{os.path.sep}cli{os.path.sep}index.js"
-                f" --output json --output-path {result_file} --locale {langCode}"
+                f" --output json --output-path {result_file} --locale {lang_code}"
                 f" --form-factor {strategy} --chrome-flags=\"--headless\" --quiet")
 
             artifacts_file = os.path.join(cache_path, 'artifacts.json')
-            if os.path.exists(result_file) and not is_file_older_than(result_file, CACHE_TIME_DELTA):
+            if os.path.exists(result_file) and \
+                not is_file_older_than(result_file, CACHE_TIME_DELTA):
+
                 file_created_timestamp = os.path.getctime(result_file)
                 file_created_date = time.ctime(file_created_timestamp)
                 print((f'Cached entry found from {file_created_date},'
                        ' using it instead of calling website again.'))
                 with open(result_file, 'r', encoding='utf-8', newline='') as file:
                     return str_to_json('\n'.join(file.readlines()), check_url)
-            elif os.path.exists(artifacts_file) and not is_file_older_than(artifacts_file, CACHE_TIME_DELTA):
+            elif os.path.exists(artifacts_file) and \
+                not is_file_older_than(artifacts_file, CACHE_TIME_DELTA):
+
                 file_created_timestamp = os.path.getctime(artifacts_file)
                 file_created_date = time.ctime(file_created_timestamp)
-                print('Cached entry found from {0}, using it instead of calling website again.'.format(
-                    file_created_date))
+                print((
+                    f'Cached entry found from {file_created_date},'
+                    ' using it instead of calling website again.'))
                 command += " -A={0}".format(cache_path)
             else:
                 command += " -GA={0} {1}".format(cache_path, check_url)
@@ -241,7 +242,7 @@ def get_json_result(langCode, url, strategy, category, google_pagespeed_apikey):
             import subprocess
 
             process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
-            output, error = process.communicate(timeout=REQUEST_TIMEOUT * 10)
+            output, _ = process.communicate(timeout=REQUEST_TIMEOUT * 10)
             with open(result_file, 'r', encoding='utf-8', newline='') as file:
                 return str_to_json('\n'.join(file.readlines()), check_url)
         except:
@@ -250,13 +251,16 @@ def get_json_result(langCode, url, strategy, category, google_pagespeed_apikey):
                     check_url, sys.exc_info()[0]))
             return {}
     else:
-        command = "node node_modules{4}lighthouse{4}cli{4}index.js {1} --output json --output-path stdout --locale {3} --only-categories {0} --form-factor {2} --chrome-flags=\"--headless\" --quiet".format(
-            category, check_url, strategy, langCode, os.path.sep)
+        command = (
+            f"node node_modules{os.path.sep}lighthouse{os.path.sep}cli{os.path.sep}index.js"
+            f" {check_url} --output json --output-path stdout --locale {lang_code}"
+            f" --only-categories {category} --form-factor {strategy}"
+            " --chrome-flags=\"--headless\" --quiet")
 
         import subprocess
 
         process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
-        output, error = process.communicate(timeout=REQUEST_TIMEOUT * 10)
+        output, _ = process.communicate(timeout=REQUEST_TIMEOUT * 10)
 
         get_content = output
 

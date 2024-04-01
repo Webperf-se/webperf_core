@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-from datetime import time
 import os
 from pathlib import Path
 import sys
 import json
+import time
 from urllib.parse import urlparse
 from models import Rating
 from tests.utils import get_config_or_default, get_http_content, is_file_older_than
@@ -171,7 +171,7 @@ def get_json_result(langCode, url, googlePageSpeedApiKey, strategy, category, li
             print(
                 'Error! Unfortunately the request for URL "{0}" failed, message:\n{1}'.format(
                     check_url, sys.exc_info()[0]))
-            return
+            return  {}
     elif USE_CACHE:
         base_directory = Path(os.path.dirname(
             os.path.realpath(__file__)) + os.path.sep).parent
@@ -211,8 +211,11 @@ def get_json_result(langCode, url, googlePageSpeedApiKey, strategy, category, li
             output, error = process.communicate(timeout=REQUEST_TIMEOUT * 10)
             with open(result_file, 'r', encoding='utf-8', newline='') as file:
                 return str_to_json('\n'.join(file.readlines()), check_url)
-        except:
-            return
+        except TabError:
+            print(
+                'Error! Unfortunately the request for URL "{0}" failed, message:\n{1}'.format(
+                    check_url, sys.exc_info()[0]))
+            return {}
     else:
         command = "node node_modules{4}lighthouse{4}cli{4}index.js {1} --output json --output-path stdout --locale {3} --only-categories {0} --form-factor {2} --chrome-flags=\"--headless\" --quiet".format(
             category, check_url, strategy, langCode, os.path.sep)

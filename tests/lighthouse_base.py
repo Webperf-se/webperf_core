@@ -3,28 +3,45 @@ import os
 import sys
 import json
 import time
+from datetime import datetime
 from models import Rating
-from tests.utils import get_config_or_default, get_http_content, is_file_older_than, get_cache_path_for_rule
+from tests.utils import get_config_or_default,\
+                        get_http_content,\
+                        is_file_older_than,\
+                        get_cache_path_for_rule
 
+# DEFAULTS
+GOOGLEPAGESPEEDAPIKEY = get_config_or_default('googlePageSpeedApiKey')
+REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
+LIGHTHOUSE_USE_API = get_config_or_default('lighthouse_use_api')
 REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
 USE_CACHE = get_config_or_default('cache_when_possible')
 CACHE_TIME_DELTA = get_config_or_default('cache_time_delta')
 
-def run_test(global_translation, lang_code, url, googlePageSpeedApiKey, strategy, category, review_show_improvements_only, lighthouse_use_api):
+def run_test(lang_code, url, strategy, category, silance, global_translation, local_translation):
     """
-    perf = https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category=performance&strategy=mobile&url=YOUR-SITE&key=YOUR-KEY
-    a11y = https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category=accessibility&strategy=mobile&url=YOUR-SITE&key=YOUR-KEY
-    practise = https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category=best-practices&strategy=mobile&url=YOUR-SITE&key=YOUR-KEY
-    pwa = https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category=pwa&strategy=mobile&url=YOUR-SITE&key=YOUR-KEY
-    seo = https://www.googleapis.com/pagespeedonline/v5/runPagespeed?category=seo&strategy=mobile&url=YOUR-SITE&key=YOUR-KEY
+    https://www.googleapis.com/pagespeedonline/v5/runPagespeed?
+        category=(performance/accessibility/best-practices/pwa/seo)
+        &strategy=mobile
+        &url=YOUR-SITE&
+        key=YOUR-KEY
     """
 
+    if not silance:
+        print(local_translation('TEXT_RUNNING_TEST'))
+
+        print(global_translation('TEXT_TEST_START').format(
+            datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+
     json_content = get_json_result(
-        lang_code, url, googlePageSpeedApiKey, strategy, category, lighthouse_use_api)
+        lang_code, url, strategy, category, GOOGLEPAGESPEEDAPIKEY)
 
     # look for words indicating item is insecure
     insecure_strings = ['security', 'säkerhet',
-                        'insecure', 'osäkra', 'unsafe', 'insufficient security', 'otillräckliga säkerhetskontroller', 'HTTPS']
+                        'insecure', 'osäkra', 'unsafe',
+                        'insufficient security', 'otillräckliga säkerhetskontroller',
+                        'HTTPS']
 
     # look for words indicating items is related to standard
     standard_strings = ['gzip, deflate',
@@ -32,7 +49,7 @@ def run_test(global_translation, lang_code, url, googlePageSpeedApiKey, strategy
 
     return_dict = {}
     weight_dict = {}
-    rating = Rating(global_translation, review_show_improvements_only)
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     # Service score (0-100)
     score = json_content['categories'][category]['score']
@@ -42,9 +59,6 @@ def run_test(global_translation, lang_code, url, googlePageSpeedApiKey, strategy
         total_weight += item['weight']
         weight_dict[item['id']] = item['weight']
 
-    # print('score', score)
-    # nice = json.dumps(json_content, indent=4)
-    # print('A', nice)
     # change it to % and convert it to a 1-5 grading
     points = 5.0 * float(score)
     reviews = []
@@ -86,7 +100,7 @@ def run_test(global_translation, lang_code, url, googlePageSpeedApiKey, strategy
             for insecure_str in insecure_strings:
                 if insecure_str in item_review or insecure_str in item_description:
 
-                    local_rating = Rating(global_translation, review_show_improvements_only)
+                    local_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     if local_score == 1:
                         local_rating.set_integrity_and_security(
                             5.0, '- {0}'.format(item_title))
@@ -97,7 +111,7 @@ def run_test(global_translation, lang_code, url, googlePageSpeedApiKey, strategy
                     break
             for standard_str in standard_strings:
                 if standard_str in item_review or standard_str in item_description:
-                    local_rating = Rating(global_translation, review_show_improvements_only)
+                    local_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     if local_score == 1:
                         local_rating.set_standards(
                             5.0, '- {0}'.format(item_title))
@@ -114,7 +128,7 @@ def run_test(global_translation, lang_code, url, googlePageSpeedApiKey, strategy
 
     reviews.sort()
     for review_item in reviews:
-        review_rating = Rating(global_translation, review_show_improvements_only)
+        review_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         review_rating.set_overall(review_item[2], review_item[1])
         rating += review_rating
     review = rating.overall_review
@@ -131,6 +145,25 @@ def run_test(global_translation, lang_code, url, googlePageSpeedApiKey, strategy
         rating.set_overall(points)
         rating.overall_review = review
     rating.overall_count = 1
+
+    review = rating.overall_review
+    points = rating.get_overall()
+    if points >= 5.0:
+        review = local_translation("TEXT_REVIEW_VERY_GOOD")
+    elif points >= 4.0:
+        review = local_translation("TEXT_REVIEW_IS_GOOD")
+    elif points >= 3.0:
+        review = local_translation("TEXT_REVIEW_IS_OK")
+    elif points > 1.0:
+        review = local_translation("TEXT_REVIEW_IS_BAD")
+    elif points <= 1.0:
+        review = local_translation("TEXT_REVIEW_IS_VERY_BAD")
+    rating.overall_review = review
+
+
+    if not silance:
+        print(global_translation('TEXT_TEST_END').format(
+            datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, return_dict)
 
@@ -151,15 +184,19 @@ def str_to_json(content, url):
     return json_content
 
 
-def get_json_result(langCode, url, googlePageSpeedApiKey, strategy, category, lighthouse_use_api):
+def get_json_result(langCode, url, strategy, category, google_pagespeed_apikey):
     check_url = url.strip()
 
-    if lighthouse_use_api:
-        pagespeed_api_request = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed?locale={2}&category={0}&url={1}&key={3}'.format(
-            category, check_url, langCode, googlePageSpeedApiKey)
-        get_content = ''
+    lighthouse_use_api = google_pagespeed_apikey != None and google_pagespeed_apikey != ''
 
-        # print('pagespeed_api_request: {0}'.format(pagespeed_api_request))
+    if lighthouse_use_api:
+        pagespeed_api_request = (
+            'https://www.googleapis.com/pagespeedonline/v5/runPagespeed'
+            f'?locale={langCode}'
+            f'&category={category}'
+            f'&url={check_url}'
+            f'&key={google_pagespeed_apikey}')
+        get_content = ''
 
         try:
             get_content = get_http_content(pagespeed_api_request)
@@ -179,14 +216,17 @@ def get_json_result(langCode, url, googlePageSpeedApiKey, strategy, category, li
                 os.makedirs(cache_path)
 
             result_file = os.path.join(cache_path, 'result.json')
-            command = "node node_modules{2}lighthouse{2}cli{2}index.js --output json --output-path {3} --locale {1} --form-factor {0} --chrome-flags=\"--headless\" --quiet".format(
-                strategy, langCode, os.path.sep, result_file)
+            command = (
+                f"node node_modules{os.path.sep}lighthouse{os.path.sep}cli{os.path.sep}index.js"
+                f" --output json --output-path {result_file} --locale {langCode}"
+                f" --form-factor {strategy} --chrome-flags=\"--headless\" --quiet")
+
             artifacts_file = os.path.join(cache_path, 'artifacts.json')
             if os.path.exists(result_file) and not is_file_older_than(result_file, CACHE_TIME_DELTA):
                 file_created_timestamp = os.path.getctime(result_file)
                 file_created_date = time.ctime(file_created_timestamp)
-                print('Cached entry found from {0}, using it instead of calling website again.'.format(
-                    file_created_date))
+                print((f'Cached entry found from {file_created_date},'
+                       ' using it instead of calling website again.'))
                 with open(result_file, 'r', encoding='utf-8', newline='') as file:
                     return str_to_json('\n'.join(file.readlines()), check_url)
             elif os.path.exists(artifacts_file) and not is_file_older_than(artifacts_file, CACHE_TIME_DELTA):

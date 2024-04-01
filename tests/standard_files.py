@@ -356,6 +356,19 @@ def rate_sitemap_any_items(sitemaps_dict,
                            local_translation,
                            total_nof_items,
                            rating):
+    """
+    Rates the sitemaps based on the presence of any items. Updates the status in the sitemaps_dict.
+
+    Parameters:
+    sitemaps_dict (dict): Dictionary containing sitemap data.
+    global_translation (function): Function for global translation.
+    local_translation (function): Function for local translation.
+    total_nof_items (int): Total number of items in the sitemaps.
+    rating (Rating): The rating object to be updated.
+
+    Returns:
+    None: The function updates the rating and sitemaps_dict in-place.
+    """
     if total_nof_items == 0:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(
@@ -380,6 +393,20 @@ def rate_sitemap_use_known_types(sitemaps_dict,
                                  local_translation,
                                  total_nof_items,
                                  rating):
+    """
+    Rates the sitemaps based on the use of known types.
+    Updates the rating based on the proportion of webpages.
+
+    Parameters:
+    sitemaps_dict (dict): Dictionary containing sitemap data.
+    global_translation (function): Function for global translation.
+    local_translation (function): Function for local translation.
+    total_nof_items (int): Total number of items in the sitemaps.
+    rating (Rating): The rating object to be updated.
+
+    Returns:
+    None: The function updates the rating in-place.
+    """
     type_keys = sitemaps_dict['known_types'].keys()
     if len(type_keys) > 1:
         webpages_points = 1.0
@@ -407,6 +434,20 @@ def rate_sitemap_use_of_duplicates(global_translation,
                                    total_nof_items,
                                    total_nof_items_no_duplicates,
                                    rating):
+    """
+    Rates the sitemaps based on the presence of duplicate items.
+    Updates the rating based on the ratio of unique items.
+
+    Parameters:
+    global_translation (function): Function for global translation.
+    local_translation (function): Function for local translation.
+    total_nof_items (int): Total number of items in the sitemaps.
+    total_nof_items_no_duplicates (int): Total number of unique items in the sitemaps.
+    rating (Rating): The rating object to be updated.
+
+    Returns:
+    None: The function updates the rating in-place.
+    """
     if total_nof_items !=  total_nof_items_no_duplicates:
         ratio = total_nof_items_no_duplicates / total_nof_items
         duplicates_points = 3.0 * ratio
@@ -425,6 +466,23 @@ def rate_sitemap_use_of_duplicates(global_translation,
         rating += sub_rating
 
 def rate_sitemap_use_same_domain(sitemaps_dict, global_translation, local_translation, rating):
+    """
+    This function rates the use of the same domain for sitemaps and robots.txt.
+
+    Parameters:
+    sitemaps_dict (dict): A dictionary containing information about the sitemaps.
+    global_translation (function): A function for translating text globally.
+    local_translation (function): A function for translating text locally.
+    rating (Rating): An instance of the Rating class.
+
+    The function checks if the sitemaps use the same domain as specified in the robots.txt file.
+    If they do, it sets the overall and standards ratings to 5.0 and adds a positive message.
+    If they don't, it sets the overall and standards ratings to 1.0 and
+    adds a message for improvement. The function modifies the rating in-place.
+
+    Returns:
+    None
+    """
     if not sitemaps_dict['use_same_domain']:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(
@@ -441,6 +499,23 @@ def rate_sitemap_use_same_domain(sitemaps_dict, global_translation, local_transl
         rating += sub_rating
 
 def rate_sitemap_use_https_only(sitemaps_dict, global_translation, local_translation, rating):
+    """
+    This function rates the use of HTTPS only for sitemaps.
+
+    Parameters:
+    sitemaps_dict (dict): A dictionary containing information about the sitemaps.
+    global_translation (function): A function for translating text globally.
+    local_translation (function): A function for translating text locally.
+    rating (Rating): An instance of the Rating class.
+
+    The function checks if the sitemaps use HTTPS only.
+    If they do, it sets the overall and standards ratings to 5.0 and adds a positive message.
+    If they don't, it sets the overall and standards ratings to 1.0 and
+    adds a message for improvement. The function modifies the rating in-place.
+
+    Returns:
+    None
+    """
     if not sitemaps_dict['use_https_only']:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(
@@ -457,7 +532,21 @@ def rate_sitemap_use_https_only(sitemaps_dict, global_translation, local_transla
         rating += sub_rating
 
 def create_sitemap_dict(sitemap_items, robots_domain):
+    """
+    This function creates a dictionary with information about the sitemaps.
 
+    Parameters:
+    sitemap_items (list): A list of URLs in the sitemap.
+    robots_domain (str): The domain specified in the robots.txt file.
+
+    The function iterates over the sitemap items and checks if they use HTTPS only and
+    if they are on the same domain as specified in the robots.txt file.
+    It also checks for known extensions and counts the number of each type of item.
+    The function creates a dictionary with this information and returns it.
+
+    Returns:
+    sitemap_dict (dict): A dictionary with information about the sitemaps.
+    """
     nof_items = len(sitemap_items)
     nof_no_duplicates = len(list(set(sitemap_items)))
 
@@ -503,6 +592,19 @@ def create_sitemap_dict(sitemap_items, robots_domain):
 
 
 def is_feed(tag):
+    """
+    This function checks if a given tag is a feed.
+
+    Parameters:
+    tag (bs4.element.Tag): A BeautifulSoup tag object.
+
+    The function checks if the tag is a 'link' and if it has a 'type' attribute.
+    If it does, it checks if the 'type' attribute is one of the known feed types.
+    If it is, the function returns True. Otherwise, it returns False.
+
+    Returns:
+    bool: True if the tag is a feed, False otherwise.
+    """
 
     if tag.name != 'link':
         return False
@@ -519,6 +621,23 @@ def is_feed(tag):
 
 
 def validate_feed(result_dict, global_translation, local_translation):
+    """
+    This function validates the presence of feeds in a webpage.
+
+    Parameters:
+    result_dict (dict): A dictionary containing the URL of the webpage to be validated.
+    global_translation (function): A function for translating text globally.
+    local_translation (function): A function for translating text locally.
+
+    The function retrieves the content of the webpage and parses it using BeautifulSoup.
+    It then finds all the feed tags in the parsed content.
+    If no feeds are found, it sets the overall rating to 4.5 and adds a message for improvement.
+    If feeds are found, it sets the overall rating to 5.0 and adds a positive message.
+    It also stores the URLs of the feeds in the result dictionary.
+
+    Returns:
+    rating (Rating): An instance of the Rating class with the overall rating and message.
+    """
     feed_dict = {
         'nof_feeds': 0,
         'feeds': []
@@ -545,6 +664,17 @@ def validate_feed(result_dict, global_translation, local_translation):
 
 
 def validate_security_txt(result_dict, global_translation, local_translation):
+    """
+    Validates the security.txt file at both the root and .well-known locations of a website.
+
+    Parameters:
+    result_dict (dict): A dictionary containing the root URL of the website.
+    global_translation (function): Function to translate text globally.
+    local_translation (function): Function to translate text locally.
+
+    Returns:
+    Rating: A rating object representing the overall, standards, and integrity/security ratings.
+    """
     root_url = result_dict['root_url']
     security_dict = {
         'txts': {
@@ -609,6 +739,17 @@ def validate_security_txt(result_dict, global_translation, local_translation):
 
 
 def validate_securitytxt_content(content, global_translation, local_translation):
+    """
+    Validates the content of a security.txt file.
+
+    Parameters:
+    content (str): The content of the security.txt file.
+    global_translation (function): Function to translate text globally.
+    local_translation (function): Function to translate text locally.
+
+    Returns:
+    dict: A dictionary containing the status of the security.txt content validation.
+    """
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     security_dict = {}
     if content is None or ('<html' in content.lower()):

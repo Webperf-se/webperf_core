@@ -17,20 +17,17 @@ msgstr ""
 msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 10 - Tillgänglighet (Google Lighthouse)\n"
 
-msgid "TEXT_REVIEW_A11Y_VERY_GOOD"
+msgid "TEXT_REVIEW_VERY_GOOD"
 msgstr "- Webbplatsen har inga uppenbara fel inom tillgänglighet! Bra, men gör manuella undersökningar för säkerhets skull!\n"
 
-msgid "TEXT_REVIEW_A11Y_IS_GOOD"
+msgid "TEXT_REVIEW_IS_GOOD"
 msgstr "- Webbplatsen kan bli mer tillgänglig, men är ganska ok.\n"
 
-msgid "TEXT_REVIEW_A11Y_IS_OK"
+msgid "TEXT_REVIEW_IS_OK"
 msgstr "- Genomsnittlig tillgänglighet men kan bli bättre gentemot automatiska tester.\n"
 
-msgid "TEXT_REVIEW_A11Y_IS_BAD"
+msgid "TEXT_REVIEW_IS_BAD"
 msgstr "- Webbplatsen är dålig på tillgänglighet för funktions&shy;varierade personer.\n"
 
-msgid "TEXT_REVIEW_A11Y_IS_VERY_BAD"
+msgid "TEXT_REVIEW_IS_VERY_BAD"
 msgstr "- Väldigt dålig tillgänglighet!\n"
-
-msgid "TEXT_REVIEW_A11Y_NUMBER_OF_PROBLEMS"
-msgstr "- Antal problem med tillgänglighet: {} st\n"

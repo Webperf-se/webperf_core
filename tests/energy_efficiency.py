@@ -76,9 +76,7 @@ def format_bytes(size):
 
 def run_test(global_translation, lang_code, url):
     """
-    Analyzes URL with Website Carbon Calculator API.
-    API documentation: https://api.websitecarbon.com
-    https://gitlab.com/wholegrain/carbon-api-2-0
+    Analyzes URL with Lighthouse and uses weight to calculate co2 and rate compared to other sites.
     """
 
     local_translation = get_translation('energy_efficiency_websitecarbon', lang_code)
@@ -93,7 +91,6 @@ def run_test(global_translation, lang_code, url):
 
     transfer_bytes = lighthouse_perf_result[1]['total-byte-weight']
     result_dict['total-byte-weight'] = transfer_bytes
-    #print('transfer bytes: {0}'.format(transfer_bytes))
 
     co2 = convert_2_co2(transfer_bytes)
     result_dict['co2'] = co2
@@ -128,12 +125,7 @@ def run_test(global_translation, lang_code, url):
                                                 energy_efficiency_carbon_percentiles_2022.get_generated_date())
 
     transfer_info = format_bytes(transfer_bytes)
-    review += local_translation("TEXT_TRANSFER_SIZE").format(transfer_info[0], transfer_info[1]
-                                                  )
-    # if 'false' in green.lower():
-    # review += local_translation("TEXT_GREEN_ENERGY_FALSE")
-    # elif 'true' in green.lower():
-    # review += local_translation("TEXT_GREEN_ENERGY_TRUE")
+    review += local_translation("TEXT_TRANSFER_SIZE").format(transfer_info[0], transfer_info[1])
 
     rating = Rating(global_translation)
     rating.set_overall(points, review)

@@ -604,14 +604,6 @@ def dns_lookup(key, datatype):
         response = dns.message.from_file(cache_path)
         return dns_response_to_list(response)
 
-    cache_key = 'dnslookup://{0}#{1}'.format(hostname, record_type)
-
-    content = get_cache_file(
-        cache_key, True, cache_time_delta)
-    if content != None:
-        names = json.loads(content)
-        return names
-
     try:
         query = None
         # Create a query for the 'www.example.com' domain

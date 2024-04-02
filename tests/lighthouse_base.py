@@ -19,6 +19,17 @@ REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
 USE_CACHE = get_config_or_default('cache_when_possible')
 CACHE_TIME_DELTA = get_config_or_default('cache_time_delta')
 
+# look for words indicating item is insecure
+INSECURE_STRINGS = ['security', 'säkerhet',
+    'insecure', 'osäkra', 'unsafe',
+    'insufficient security', 'otillräckliga säkerhetskontroller',
+    'HTTPS']
+
+# look for words indicating items is related to standard
+STANDARD_STRINGS = ['gzip, deflate',
+    'Deprecated', 'Utfasade ', 'quirks-mode', 'http/2']
+
+
 def get_lighthouse_translations(module_name, lang_code, global_translation):
     local_translation = get_translation(module_name, lang_code)
 
@@ -51,97 +62,146 @@ def run_test(url, strategy, category, silance, lighthouse_translations):
     json_content = get_json_result(
         lang_code, url, strategy, category, GOOGLEPAGESPEEDAPIKEY)
 
-    # look for words indicating item is insecure
-    insecure_strings = ['security', 'säkerhet',
-                        'insecure', 'osäkra', 'unsafe',
-                        'insufficient security', 'otillräckliga säkerhetskontroller',
-                        'HTTPS']
-
-    # look for words indicating items is related to standard
-    standard_strings = ['gzip, deflate',
-                        'Deprecated', 'Utfasade ', 'quirks-mode']
-
     return_dict = {}
-    weight_dict = {}
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating += create_rating_from_audits(category, global_translation, json_content, return_dict)
+    review = rating.overall_review
 
     # Service score (0-100)
     score = json_content['categories'][category]['score']
+    set_overall_rating_and_review(category, local_translation, score, rating, review)
 
-    total_weight = 0
-    for item in json_content['categories'][category]['auditRefs']:
-        total_weight += item['weight']
-        weight_dict[item['id']] = item['weight']
+    if not silance:
+        print(global_translation('TEXT_TEST_END').format(
+            datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
+    return (rating, return_dict)
+
+def create_rating_from_audit(item, global_translation, weight):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    item_review = ''
+    item_title = ''
+    display_value = ''
+    item_description = ''
+
+    if 'score' not in item or item['score'] is None:
+        return None
+
+    local_score = float(
+        item['score'])
+
+    local_points = 5.0 * local_score
+    if local_points < 1.0:
+        local_points = 1
+    if local_points >= 4.95:
+        local_points = 5.0
+
+    if 'title' in item:
+        item_title = f'{item['title']}'
+
+    if 'description' in item:
+        item_description = item['description']
+
+    if 'displayValue' in item:
+        display_value = item['displayValue']
+
+    if local_score == 0:
+        item_review = f"- {global_translation(item_title)}"
+    elif local_points == 5.0:
+        item_review = f"- {global_translation(item_title)}"
+    else:
+        item_review = f"- {global_translation(item_title)}: {display_value}"
+
+    rating.set_overall(local_points, item_review)
+
+    item_review = item_review.lower()
+    item_description = item_description.lower()
+
+    has_insecure_string = contains_insecure_string(item_review, item_description)
+    if has_insecure_string:
+        rating += rate_containing_insecure_string(global_translation, local_score, item_title)
+
+    has_standard_string = contains_standard_string(item_review, item_description)
+    if has_standard_string:
+        rating += rate_containing_standard_string(global_translation, local_score, item_title)
+
+    return {
+            'key': local_points - weight,
+            'value': rating
+        }
+
+
+def create_rating_from_audits(category, global_translation, json_content, return_dict):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    weight_dict = create_weight_dict(category, json_content)
+    reviews = []
+    for audit_key, item in json_content['audits'].items():
+        if 'numericValue' in item:
+            return_dict[audit_key] = item['numericValue']
+
+        if audit_key not in weight_dict:
+            continue
+
+        weight = weight_dict[audit_key]
+        review_item = create_rating_from_audit(item, global_translation, weight)
+        if review_item is None:
+            continue
+        reviews.append(review_item)
+
+    sorted_reviews = sorted(reviews,
+                            key=lambda x: x['key'])
+    for review_item in sorted_reviews:
+        rating += review_item['value']
+
+    return rating
+
+def rate_containing_standard_string(global_translation, local_score, item_title):
+    local_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    if local_score == 1:
+        local_rating.set_overall(
+                        5.0)
+        local_rating.set_standards(
+                        5.0, f'- {item_title}')
+    else:
+        local_rating.set_overall(
+                        1.0)
+        local_rating.set_standards(
+                        1.0, f'- {item_title}')
+    return local_rating
+
+def rate_containing_insecure_string(global_translation, local_score, item_title):
+    local_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    if local_score == 1:
+        local_rating.set_overall(
+                        5.0)
+        local_rating.set_integrity_and_security(
+                        5.0, f'- {item_title}')
+    else:
+        local_rating.set_overall(
+                        1.0)
+        local_rating.set_integrity_and_security(
+                        1.0, f'- {item_title}')
+    return local_rating
+
+def contains_standard_string(item_review, item_description):
+    has_standard_string = False
+    for standard_str in STANDARD_STRINGS:
+        if standard_str in item_review or standard_str in item_description:
+            has_standard_string = True
+            break
+    return has_standard_string
+
+def contains_insecure_string(item_review, item_description):
+    has_insecure_string = False
+    for insecure_str in INSECURE_STRINGS:
+        if insecure_str in item_review or insecure_str in item_description:
+            has_insecure_string = True
+            break
+    return has_insecure_string
+
+def set_overall_rating_and_review(category, local_translation, score, rating, review):
     # change it to % and convert it to a 1-5 grading
     points = 5.0 * float(score)
-    reviews = []
-
-    for item in json_content['audits'].keys():
-        try:
-            if 'numericValue' in json_content['audits'][item]:
-                return_dict[item] = json_content['audits'][item]['numericValue']
-
-            local_score = float(
-                json_content['audits'][item]['score'])
-
-            local_points = 5.0 * local_score
-            if local_points < 1.0:
-                local_points = 1
-            if local_points >= 4.95:
-                local_points = 5.0
-
-            item_review = ''
-            item_title = f'{json_content['audits'][item]['title']}'
-            display_value = ''
-            item_description = json_content['audits'][item]['description']
-            if 'displayValue' in json_content['audits'][item]:
-                display_value = json_content['audits'][item]['displayValue']
-            if local_score == 0:
-                item_review = f"- {global_translation(item_title)}"
-            elif local_points == 5.0:
-                item_review = f"- {global_translation(item_title)}"
-            else:
-                item_review = f"- {global_translation(item_title)}: {display_value}"
-
-            reviews.append([local_points - weight_dict[item],
-                            item_review, local_points])
-
-            for insecure_str in insecure_strings:
-                if insecure_str in item_review or insecure_str in item_description:
-
-                    local_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                    if local_score == 1:
-                        local_rating.set_integrity_and_security(
-                            5.0, f'- {item_title}')
-                    else:
-                        local_rating.set_integrity_and_security(
-                            1.0, f'- {item_title}')
-                    rating += local_rating
-                    break
-            for standard_str in standard_strings:
-                if standard_str in item_review or standard_str in item_description:
-                    local_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                    if local_score == 1:
-                        local_rating.set_standards(
-                            5.0, '- {item_title}')
-                    else:
-                        local_rating.set_standards(
-                            1.0, '- {item_title}')
-                    rating += local_rating
-                    break
-
-        except:
-            # has no 'numericValue'
-            #print(item, 'har inget värde')
-            pass
-
-    reviews.sort()
-    for review_item in reviews:
-        review_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        review_rating.set_overall(review_item[2], review_item[1])
-        rating += review_rating
-    review = rating.overall_review
 
     if category == 'performance':
         rating.set_overall(points)
@@ -170,12 +230,11 @@ def run_test(url, strategy, category, silance, lighthouse_translations):
         review = local_translation("TEXT_REVIEW_IS_VERY_BAD")
     rating.overall_review = review
 
-
-    if not silance:
-        print(global_translation('TEXT_TEST_END').format(
-            datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
-
-    return (rating, return_dict)
+def create_weight_dict(category, json_content):
+    weight_dict = {}
+    for item in json_content['categories'][category]['auditRefs']:
+        weight_dict[item['id']] = item['weight']
+    return weight_dict
 
 
 def str_to_json(content, url):

@@ -19,6 +19,7 @@ import dns.query
 import dns.resolver
 import dns.dnssec
 import dns.exception
+import dns.name
 import gettext
 
 def get_config_or_default(name):
@@ -525,6 +526,29 @@ def get_url_headers(url, cache_time_delta):
         print('get_url_headers, Info using: connection error occured')
     return {}
 
+def get_root_url(url):
+    """
+    Extracts the root URL from a given URL.
+
+    This function uses Python's urllib.parse.urlparse method to parse the URL and
+    extract the scheme and network location (netloc). 
+    It then constructs the root URL from these components.
+
+    Args:
+        url (str): The URL to extract the root from.
+
+    Returns:
+        str: The root URL, which includes the scheme and netloc, followed by a forward slash.
+
+    Example:
+        >>> get_root_url('https://www.example.com/path/to/page?query=arg')
+        'https://www.example.com/'
+    """
+    o = urllib.parse.urlparse(url)
+    parsed_url = f'{o.scheme}://{o.netloc}/'
+    return parsed_url
+
+
 def has_redirect(url):
     """
     Checks if a URL has a redirect.
@@ -638,6 +662,8 @@ def dns_lookup(key, datatype):
         return []
     except dns.dnssec.ValidationFailure as vf:
         print('\t\tDNS FAIL', vf)
+    except dns.name.BadEscape as be:
+        print('\t\tDNS BAD Escape for:', key, be)
 
     return []
 

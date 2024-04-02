@@ -3,10 +3,10 @@ import os
 from urllib.parse import urlparse
 from datetime import datetime
 import re
-import urllib  # https://docs.python.org/3/library/urllib.parse.html
 from bs4 import BeautifulSoup
 from models import Rating
-from tests.utils import get_config_or_default, get_translation, has_redirect, get_http_content
+from tests.utils import get_config_or_default, get_root_url,\
+    get_translation, has_redirect, get_http_content
 from engines.sitemap import read_sitemap
 
 # DEFAULTS
@@ -60,28 +60,6 @@ def run_test(global_translation, lang_code, url):
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, result_dict)
-
-def get_root_url(url):
-    """
-    Extracts the root URL from a given URL.
-
-    This function uses Python's urllib.parse.urlparse method to parse the URL and
-    extract the scheme and network location (netloc). 
-    It then constructs the root URL from these components.
-
-    Args:
-        url (str): The URL to extract the root from.
-
-    Returns:
-        str: The root URL, which includes the scheme and netloc, followed by a forward slash.
-
-    Example:
-        >>> get_root_url('https://www.example.com/path/to/page?query=arg')
-        'https://www.example.com/'
-    """
-    o = urllib.parse.urlparse(url)
-    parsed_url = f'{o.scheme}://{o.netloc}/'
-    return parsed_url
 
 def validate_robots(result_dict, global_translation, local_translation):
     """

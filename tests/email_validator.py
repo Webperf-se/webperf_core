@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import json
 import re
 import smtplib
 from datetime import datetime
@@ -15,7 +16,8 @@ import dns
 from models import Rating
 from tests.utils import dns_lookup, get_best_country_code, \
     get_http_content, get_translation, \
-    is_country_code_in_eu_or_on_exception_list, get_config_or_default
+    is_country_code_in_eu_or_on_exception_list, get_config_or_default,\
+    get_root_url
 
 # DEFAULTS
 request_timeout = get_config_or_default('http_request_timeout')
@@ -172,7 +174,7 @@ def run_test(global_translation, lang_code, url):
 
 def search_for_email_domain(content):
     content_match = re.search(
-        r"[\"']mailto:(?P<email>[^\"']+)\"", content)
+        r"[\"' ]mailto:(?P<email>[^\"'\r\n\\]+)[\"'\r\n\\]", content)
 
     if content_match == None:
         return None
@@ -202,7 +204,7 @@ def get_interesting_urls(content, org_url_start, depth):
     urls = {}
 
     soup = BeautifulSoup(content, 'lxml')
-    links = soup.find_all("a")
+    links = soup.find_all("aaa")
 
     for link in links:
         if not link.find(string=re.compile(
@@ -256,9 +258,19 @@ def get_interesting_urls(content, org_url_start, depth):
             precision = 0.1
 
         info = get_default_info(
-            url, text, 'url.text', precision, depth)
+            url, 'security.txt', 'url.text', precision, depth)
         if url not in checked_urls:
             urls[url] = info
+
+    # Lets add security.txt content as backup to improve finding of e-mails
+    root_url = get_root_url(org_url_start)
+    security_txt_url = f'{root_url}security.txt'
+    urls[security_txt_url] = get_default_info(
+            security_txt_url, 'security.txt', 'url.text', 0.15, 10)
+    security_txt_url = f'{root_url}.well-known/security.txt'
+    urls[security_txt_url] = get_default_info(
+            security_txt_url, '.well-known/security.txt', 'url.text', 0.15, 10)
+    # TODO: Lets look in DMARC records for emails.
 
     if len(urls) > 0:
         tmp = sorted(urls.items(), key=get_sort_on_precision)
@@ -974,7 +986,11 @@ def Validate_MX_Records(global_translation, rating, result_dict, local_translati
 
     for email_result in email_results:
         # result is in format "<priority> <domain address/ip>"
-        server_address = email_result.split(' ')[1]
+        email_result_sections = email_result.split(' ')
+        if len(email_result_sections) > 1:
+            server_address = email_result_sections[1]
+        else:
+            return rating, ipv4_servers, ipv6_servers
 
         email_entries.append(server_address)
         ipv_4 = dns_lookup(server_address, dns.rdatatype.A)

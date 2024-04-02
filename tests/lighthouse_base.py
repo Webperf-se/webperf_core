@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 import os
-import sys
 import json
 import time
 from datetime import datetime
+import subprocess
 from models import Rating
 from tests.utils import get_config_or_default,\
                         get_http_content,\
                         is_file_older_than,\
-                        get_cache_path_for_rule
+                        get_cache_path_for_rule,\
+                        get_translation
 
 # DEFAULTS
 GOOGLEPAGESPEEDAPIKEY = get_config_or_default('googlePageSpeedApiKey')
@@ -18,7 +19,16 @@ REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
 USE_CACHE = get_config_or_default('cache_when_possible')
 CACHE_TIME_DELTA = get_config_or_default('cache_time_delta')
 
-def run_test(lang_code, url, strategy, category, silance, global_translation, local_translation):
+def get_lighthouse_translations(module_name, lang_code, global_translation):
+    local_translation = get_translation(module_name, lang_code)
+
+    return {
+        'code': lang_code,
+        'module': local_translation,
+        'global': global_translation
+    }
+
+def run_test(url, strategy, category, silance, lighthouse_translations):
     """
     https://www.googleapis.com/pagespeedonline/v5/runPagespeed?
         category=(performance/accessibility/best-practices/pwa/seo)
@@ -26,6 +36,10 @@ def run_test(lang_code, url, strategy, category, silance, global_translation, lo
         &url=YOUR-SITE&
         key=YOUR-KEY
     """
+
+    global_translation = lighthouse_translations['global']
+    local_translation = lighthouse_translations['module']
+    lang_code = lighthouse_translations['code']
 
     if not silance:
         print(local_translation('TEXT_RUNNING_TEST'))
@@ -79,16 +93,16 @@ def run_test(lang_code, url, strategy, category, silance, global_translation, lo
 
             item_review = ''
             item_title = f'{json_content['audits'][item]['title']}'
-            displayValue = ''
+            display_value = ''
             item_description = json_content['audits'][item]['description']
             if 'displayValue' in json_content['audits'][item]:
-                displayValue = json_content['audits'][item]['displayValue']
+                display_value = json_content['audits'][item]['displayValue']
             if local_score == 0:
                 item_review = f"- {global_translation(item_title)}"
             elif local_points == 5.0:
                 item_review = f"- {global_translation(item_title)}"
             else:
-                item_review = f"- {global_translation(item_title)}: {displayValue}"
+                item_review = f"- {global_translation(item_title)}: {display_value}"
 
             reviews.append([local_points - weight_dict[item],
                             item_review, local_points])
@@ -165,104 +179,101 @@ def run_test(lang_code, url, strategy, category, silance, global_translation, lo
 
 
 def str_to_json(content, url):
-    json_content = ''
+    json_content = {}
 
     try:
         json_content = json.loads(content)
         if 'lighthouseResult' in json_content:
             json_content = json_content['lighthouseResult']
 
-    except:  # might crash if checked resource is not a webpage
-        print((f'Error! JSON failed parsing for the URL "{url}"\n'
-               f'Message:\n{sys.exc_info()[0]}'))
-        pass
+    except json.JSONDecodeError:
+        # might crash if checked resource is not a webpage
+        print(
+            (
+                "Error! Failed to decode JSON for: content:\r\n"
+                f"\turl: {url}\r\n"
+                f"\tcontent: {content}\r\n"
+                )
+            )
 
     return json_content
 
+def get_json_result_from_api(lang_code, url, category, google_pagespeed_apikey):
+    pagespeed_api_request = (
+        'https://www.googleapis.com/pagespeedonline/v5/runPagespeed'
+        f'?locale={lang_code}'
+        f'&category={category}'
+        f'&url={url}'
+        f'&key={google_pagespeed_apikey}')
+    get_content = ''
+
+    get_content = get_http_content(pagespeed_api_request)
+    json_content = str_to_json(get_content, url)
+    return json_content
+
+def get_json_result_using_caching(lang_code, url, strategy):
+    cache_key_rule = 'lighthouse-{0}'
+    cache_path = get_cache_path_for_rule(url, cache_key_rule)
+
+    if not os.path.exists(cache_path):
+        os.makedirs(cache_path)
+
+    result_file = os.path.join(cache_path, 'result.json')
+    command = (
+        f"node node_modules{os.path.sep}lighthouse{os.path.sep}cli{os.path.sep}index.js"
+        f" --output json --output-path {result_file} --locale {lang_code}"
+        f" --form-factor {strategy} --chrome-flags=\"--headless\" --quiet")
+
+    artifacts_file = os.path.join(cache_path, 'artifacts.json')
+    if os.path.exists(result_file) and \
+        not is_file_older_than(result_file, CACHE_TIME_DELTA):
+
+        file_created_timestamp = os.path.getctime(result_file)
+        file_created_date = time.ctime(file_created_timestamp)
+        print((f'Cached entry found from {file_created_date},'
+            ' using it instead of calling website again.'))
+        with open(result_file, 'r', encoding='utf-8', newline='') as file:
+            return str_to_json('\n'.join(file.readlines()), url)
+    elif os.path.exists(artifacts_file) and \
+        not is_file_older_than(artifacts_file, CACHE_TIME_DELTA):
+
+        file_created_timestamp = os.path.getctime(artifacts_file)
+        file_created_date = time.ctime(file_created_timestamp)
+        print((
+            f'Cached entry found from {file_created_date},'
+            ' using it instead of calling website again.'))
+        command += f" -A={cache_path}"
+    else:
+        command += f" -GA={cache_path} {url}"
+
+    with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
+        _, _ = process.communicate(timeout=REQUEST_TIMEOUT * 10)
+        with open(result_file, 'r', encoding='utf-8', newline='') as file:
+            return str_to_json('\n'.join(file.readlines()), url)
+
+
 
 def get_json_result(lang_code, url, strategy, category, google_pagespeed_apikey):
+    json_content = {}
     check_url = url.strip()
 
     lighthouse_use_api = google_pagespeed_apikey is not None and google_pagespeed_apikey != ''
 
     if lighthouse_use_api:
-        pagespeed_api_request = (
-            'https://www.googleapis.com/pagespeedonline/v5/runPagespeed'
-            f'?locale={lang_code}'
-            f'&category={category}'
-            f'&url={check_url}'
-            f'&key={google_pagespeed_apikey}')
-        get_content = ''
+        return get_json_result_from_api(lang_code, check_url, category, google_pagespeed_apikey)
 
-        try:
-            get_content = get_http_content(pagespeed_api_request)
-            json_content = str_to_json(get_content, check_url)
-            return json_content
-        except:  # breaking and hoping for more luck with the next URL
-            print(
-                'Error! Unfortunately the request for URL "{0}" failed, message:\n{1}'.format(
-                    check_url, sys.exc_info()[0]))
-            return  {}
-    elif USE_CACHE:
-        try:
-            cache_key_rule = 'lighthouse-{0}'
-            cache_path = get_cache_path_for_rule(url, cache_key_rule)
+    if USE_CACHE:
+        return get_json_result_using_caching(lang_code, check_url, strategy)
 
-            if not os.path.exists(cache_path):
-                os.makedirs(cache_path)
+    command = (
+        f"node node_modules{os.path.sep}lighthouse{os.path.sep}cli{os.path.sep}index.js"
+        f" {check_url} --output json --output-path stdout --locale {lang_code}"
+        f" --only-categories {category} --form-factor {strategy}"
+        " --chrome-flags=\"--headless\" --quiet")
 
-            result_file = os.path.join(cache_path, 'result.json')
-            command = (
-                f"node node_modules{os.path.sep}lighthouse{os.path.sep}cli{os.path.sep}index.js"
-                f" --output json --output-path {result_file} --locale {lang_code}"
-                f" --form-factor {strategy} --chrome-flags=\"--headless\" --quiet")
-
-            artifacts_file = os.path.join(cache_path, 'artifacts.json')
-            if os.path.exists(result_file) and \
-                not is_file_older_than(result_file, CACHE_TIME_DELTA):
-
-                file_created_timestamp = os.path.getctime(result_file)
-                file_created_date = time.ctime(file_created_timestamp)
-                print((f'Cached entry found from {file_created_date},'
-                       ' using it instead of calling website again.'))
-                with open(result_file, 'r', encoding='utf-8', newline='') as file:
-                    return str_to_json('\n'.join(file.readlines()), check_url)
-            elif os.path.exists(artifacts_file) and \
-                not is_file_older_than(artifacts_file, CACHE_TIME_DELTA):
-
-                file_created_timestamp = os.path.getctime(artifacts_file)
-                file_created_date = time.ctime(file_created_timestamp)
-                print((
-                    f'Cached entry found from {file_created_date},'
-                    ' using it instead of calling website again.'))
-                command += " -A={0}".format(cache_path)
-            else:
-                command += " -GA={0} {1}".format(cache_path, check_url)
-
-            import subprocess
-
-            process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
-            output, _ = process.communicate(timeout=REQUEST_TIMEOUT * 10)
-            with open(result_file, 'r', encoding='utf-8', newline='') as file:
-                return str_to_json('\n'.join(file.readlines()), check_url)
-        except:
-            print(
-                'Error! Unfortunately the request for URL "{0}" failed, message:\n{1}'.format(
-                    check_url, sys.exc_info()[0]))
-            return {}
-    else:
-        command = (
-            f"node node_modules{os.path.sep}lighthouse{os.path.sep}cli{os.path.sep}index.js"
-            f" {check_url} --output json --output-path stdout --locale {lang_code}"
-            f" --only-categories {category} --form-factor {strategy}"
-            " --chrome-flags=\"--headless\" --quiet")
-
-        import subprocess
-
-        process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
+    with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
         output, _ = process.communicate(timeout=REQUEST_TIMEOUT * 10)
-
         get_content = output
-
         json_content = str_to_json(get_content, check_url)
-        return json_content
+
+    return json_content

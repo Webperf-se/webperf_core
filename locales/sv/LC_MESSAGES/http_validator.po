@@ -18,6 +18,9 @@ msgstr ""
 msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 21 - HTTP\n"
 
+msgid "TEXT_RUNNING_TEST_CSP_ONLY"
+msgstr "## Test: 21 - Content Security Policy (Endast)\n"
+
 msgid "TEXT_REVIEW_RESULT_FOR"
 msgstr "##### Resultat för: {0}\r\n"
 
@@ -128,3 +131,75 @@ msgstr "- Har HTTP- till HTTPS-omdirigering"
 
 msgid "TEXT_REVIEW_NO_REMARKS"
 msgstr "- Ingen anmärkning"
+
+msgid "TEXT_REVIEW_CSP_NOT_FOUND" 
+msgstr "- {0}, använder INTE CSP"
+
+msgid "TEXT_REVIEW_CSP" 
+msgstr "- {0}, Innehållssäkerhetspolicy (CSP)"
+
+msgid "TEXT_REVIEW_CSP_UNSUPPORTED_IN_META" 
+msgstr "- {0}, Använder en CSP-policy i meta-element som inte är tillåtna"
+
+msgid "TEXT_REVIEW_CSP_POLICY_DEPRECATED" 
+msgstr "- {1}, Använder föråldrad CSP-policy '{0}'"
+
+msgid "TEXT_REVIEW_CSP_MALFORMED" 
+msgstr "- {1}, CSP-policy '{0}' är felaktigt formaterad"
+
+msgid "TEXT_REVIEW_CSP_POLICY_FOUND" 
+msgstr "- {1}, CSP-policy '{0}' hittades"
+
+msgid "TEXT_REVIEW_CSP_POLICY_NOT_FOUND" 
+msgstr "- {1}, CSP-policy '{0}' saknas"
+
+msgid "TEXT_REVIEW_CSP_POLICY_NOT_DEPRECATED" 
+msgstr "- {1}, Använder INTE föråldrad CSP-policy '{0}'"
+
+msgid "TEXT_REVIEW_CSP_POLICY_USE_WILDCARD" 
+msgstr "- {1}, CSP-policy '{0}' använder wildcard i slutet av värdkällan"
+
+msgid "TEXT_REVIEW_CSP_POLICY_NOT_USE_WILDCARD" 
+msgstr "- {1}, Använder INTE wildcard i CSP-policy '{0}'"
+
+msgid "TEXT_REVIEW_CSP_POLICY_USE_UNSAFE_SCHEME" 
+msgstr "- {2}, CSP-policy '{0}' använder osäkert schema {1}"
+
+msgid "TEXT_REVIEW_CSP_POLICY_USE_UNSAFE_SCHEME" 
+msgstr "- {2}, CSP-policy '{0}' använder osäkert schema {1}"
+
+msgid "TEXT_REVIEW_CSP_POLICY_REUSE_NONCE" 
+msgstr "- {1}, CSP-policy '{0}' återanvänder samma 'nonce' mellan besök"
+
+msgid "TEXT_REVIEW_CSP_POLICY_MULTIUSE_NONCE" 
+msgstr "- {2}, CSP-policy '{0}' använder flera {1}"
+
+msgid "TEXT_REVIEW_CSP_POLICY_NONE_NOT_ALONE" 
+msgstr "- {1}, CSP-policy '{0}' använder INTE 'none' ensamt"
+
+msgid "TEXT_REVIEW_CSP_POLICY_USE_15_OR_MORE_DOMAINS" 
+msgstr "- {2}, CSP-policy '{0}' använder {1} med över 15 domäner"
+
+msgid "TEXT_REVIEW_CSP_POLICY_IS_USING" 
+msgstr "- {2}, CSP-policy '{0}' använder {1}"
+
+msgid "TEXT_REVIEW_CSP_POLICY_IS_NOT_USING" 
+msgstr "- {2}, CSP-policy '{0}' använder INTE {1}"
+
+msgid "TEXT_REVIEW_CSP_WILDCARDS" 
+msgstr "wildcard(s)"
+
+msgid "TEXT_REVIEW_CSP_WILDCARD_SUBDOMAIN" 
+msgstr "wildcard underdomän från ursprung"
+
+msgid "TEXT_REVIEW_CSP_SUBDOMAIN" 
+msgstr "underdomän från ursprung"
+
+msgid "TEXT_REVIEW_CSP_DOMAIN" 
+msgstr "domän"
+
+msgid "TEXT_REVIEW_CSP_RECOMMENDED_RATING" 
+msgstr "Rekommenderat CSP-betyg:{0}"
+
+msgid "TEXT_REVIEW_CSP_RECOMMENDED_TEXT"
+msgstr "##### Vill du förbättra ditt Content-Security-Policy-spel?\r\nVarför inte prova följande Content-Security-Policy-svarshuvud för att komma igång med Content Security Policy?\r\nKom ihåg, nedanstående rekommendation är endast baserad på ett urval (läs: {0} sida(or)) av alla sidor på din webbplats och baseras utan att klicka på något.\r\n\r\nRekommenderade Content-Security-Policy-policyer:\r\n{1}\r\n{2}\r\nLäs mer: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy\r\n\r\n"

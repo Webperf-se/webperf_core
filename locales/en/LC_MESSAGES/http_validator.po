@@ -18,113 +18,179 @@ msgstr ""
 msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 21 - HTTP\n"
 
-msgid "TEXT_REVIEW_RESULT_FOR"
-msgstr "##### Result for: {0}\r\n"
-
-msgid "TEXT_REVIEW_SCORE_IS_DIVIDED"
-msgstr "- Score is divided by {0} (number of urls tested with redirects)\r\n"
+msgid "TEXT_RUNNING_TEST_CSP_ONLY"
+msgstr "## Test: 21 - Content Security Policy (Only)\n"
 
 msgid "TEXT_REVIEW_TLS1_3_SUPPORT"
-msgstr "- TLSv1.3 support"
-
-msgid "TEXT_REVIEW_TLS1_3_SUPPORT_WRONG_CERT"
-msgstr "- TLSv1.3 support but faulty certificate"
+msgstr "- {0}, TLSv1.3 support"
 
 msgid "TEXT_REVIEW_TLS1_3_NO_SUPPORT"
-msgstr "- No TLSv1.3 support"
+msgstr "- {0}, No support for transport layer: TLSv1.3"
 
 msgid "TEXT_REVIEW_TLS1_2_SUPPORT"
-msgstr "- TLSv1.2 support"
-
-msgid "TEXT_REVIEW_TLS1_2_SUPPORT_WRONG_CERT"
-msgstr "- TLSv1.2 support but faulty certificate"
+msgstr "- {0}, TLSv1.2 support"
 
 msgid "TEXT_REVIEW_TLS1_2_NO_SUPPORT"
-msgstr "- No TLSv1.2 support"
+msgstr "- {0}, No support for transport layer: TLSv1.2"
 
 msgid "TEXT_REVIEW_TLS1_1_SUPPORT"
-msgstr "- TLSv1.1 support, but is insecure"
-
-msgid "TEXT_REVIEW_TLS1_1_SUPPORT_WRONG_CERT"
-msgstr "- TLSv1.1 support but faulty certificate and is insecure"
+msgstr "- {0}, Support insecure transport layer: TLSv1.1"
 
 msgid "TEXT_REVIEW_TLS1_1_NO_SUPPORT"
-msgstr "- No TLSv1.1 support"
+msgstr "- {0}, No support for transport layer: TLSv1.1"
 
 msgid "TEXT_REVIEW_TLS1_0_SUPPORT"
-msgstr "- TLSv1.0 support, and insecure"
-
-msgid "TEXT_REVIEW_TLS1_0_SUPPORT_WRONG_CERT"
-msgstr "- TLSv1.0 support but faulty certificate and is insecure"
+msgstr "- {0}, Support insecure transport layer: TLSv1.0"
 
 msgid "TEXT_REVIEW_TLS1_0_NO_SUPPORT"
-msgstr "- No TLSv1.0 support"
-
-msgid "TEXT_REVIEW_SSL3_0_SUPPORT"
-msgstr "- SSLv3.0 support, and is insecure"
-
-msgid "TEXT_REVIEW_SSL3_0_SUPPORT_WRONG_CERT"
-msgstr "- SSLv3.0 support but faulty certificate and is insecure"
-
-msgid "TEXT_REVIEW_SSL3_0_NO_SUPPORT"
-msgstr "- No SSLv3.0 support"
-
-msgid "TEXT_REVIEW_SSL2_0_SUPPORT"
-msgstr "- SSLv2.0 support, and is insecure"
-
-msgid "TEXT_REVIEW_SSL2_0_SUPPORT_WRONG_CERT"
-msgstr "- SSLv2.0 support but faulty certificate and is insecure"
-
-msgid "TEXT_REVIEW_SSL2_0_NO_SUPPORT"
-msgstr "- No SSLv2.0 support"
+msgstr "- {0}, No support for transport layer: TLSv1.0"
 
 msgid "TEXT_REVIEW_IP_VERSION_IPV6_SUPPORT"
-msgstr "- IPv6 support"
+msgstr "- {0}, IPv6 support"
 
 msgid "TEXT_REVIEW_IP_VERSION_IPV6_NO_SUPPORT"
-msgstr "- No IPv6 support"
+msgstr "- {0}, No IPv6 support"
 
 msgid "TEXT_REVIEW_IP_VERSION_IPV4_SUPPORT"
-msgstr "- IPv4 support"
+msgstr "- {0}, IPv4 support"
 
 msgid "TEXT_REVIEW_IP_VERSION_IPV4_NO_SUPPORT"
-msgstr "- No IPv4 support"
-
-msgid "TEXT_REVIEW_IP_VERSION_UNABLE_TO_VERIFY"
-msgstr "- Unable to fetch IP version info"
+msgstr "- {0}, No IPv4 support"
 
 msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_SUPPORT"
-msgstr "- HTTPv1.1 support"
+msgstr "- {0}, HTTPv1.1 support"
 
 msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_NO_SUPPORT"
-msgstr "- No HTTPv1.1 support"
+msgstr "- {0}, No HTTPv1.1 support"
 
 msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_2_SUPPORT"
-msgstr "- HTTPv2 support"
+msgstr "- {0}, HTTPv2 support"
 
 msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_2_NO_SUPPORT"
-msgstr "- No HTTPv2 support"
+msgstr "- {0}, No HTTPv2 support"
 
 msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_3_SUPPORT"
-msgstr "- HTTPv3 support"
+msgstr "- {0}, HTTPv3 support"
 
 msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_3_NO_SUPPORT"
-msgstr "- No HTTPv3 support"
+msgstr "- {0}, No HTTPv3 support"
 
-msgid "TEXT_REVIEW_HTTP_VERSION_QUIC_SUPPORT"
-msgstr "- QUIC support"
+msgid "TEXT_REVIEW_HTTPS_SUPPORT"
+msgstr "- {0}, HTTPS support"
 
-msgid "TEXT_REVIEW_HTTP_VERSION_QUIC_NO_SUPPORT"
-msgstr "- No QUIC support"
+msgid "TEXT_REVIEW_HTTPS_NO_SUPPORT"
+msgstr "- {0}, No HTTPS support"
 
-msgid "TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_UNABLE_TO_VERIFY"
-msgstr "- Unable to verify HTTP-to-HTTPS redirect"
+msgid "TEXT_REVIEW_HTTP_REDIRECT"
+msgstr "- {0}, Uses HTTP redirect"
 
-msgid "TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_NO_REDIRECT"
-msgstr "- No HTTP-to-HTTPS redirect"
+msgid "TEXT_REVIEW_HTTPS_REDIRECT"
+msgstr "- {0}, Uses HTTPS redirect"
 
-msgid "TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_REDIRECTED"
-msgstr "- HTTP-to-HTTPS redirect"
+msgid "TEXT_REVIEW_HSTS_INVALIDATE"
+msgstr "- {0}, Is NOT using HSTS because of redirect"
+
+msgid "TEXT_REVIEW_HSTS_PRELOAD_FOUND"
+msgstr "- {0}, Is using 'preload' in HSTS and max-age of 1 year or more"
+
+msgid "TEXT_REVIEW_HSTS_PRELOAD_FOUND_AND_MAXAGE_1YEAR"
+msgstr "- {0}, Is using 'preload' in HSTS and max-age of 1 year or more"
+
+msgid "TEXT_REVIEW_HSTS_MAXAGE_1YEAR_MAY_USE_PRELOAD"
+msgstr "- {0}, Is using max-age of 1 year or more, you may want to use HSTS"
+
+msgid "TEXT_REVIEW_HSTS_MAXAGE_1YEAR"
+msgstr "- {0}, Is using max-age of 1 year or more for HSTS"
+
+msgid "TEXT_REVIEW_HSTS_MAXAGE_6MONTHS"
+msgstr "- {0}, max-age used in HSTS is less than 6 months"
+
+msgid "TEXT_REVIEW_HSTS_MAXAGE_1MONTH"
+msgstr "- {0}, max-age used in HSTS is less than 1 month"
+
+msgid "TEXT_REVIEW_HSTS_MAXAGE_NOT_FOUND"
+msgstr "- {0}, max-age is missing in HSTS"
+
+msgid "TEXT_REVIEW_HSTS_MAXAGE_TOO_LOW"
+msgstr "- {0}, max-age used in HSTS is less than 1 year"
+
+msgid "TEXT_REVIEW_HSTS_USE_PARENTDOMAIN"
+msgstr "- {0}, Only parent HSTS used, child should also use HSTS"
+
+msgid "TEXT_REVIEW_HSTS_NOT_FOUND"
+msgstr "- {0}, Is NOT using HSTS"
 
 msgid "TEXT_REVIEW_NO_REMARKS"
 msgstr "- No remarks"
+
+msgid "TEXT_REVIEW_CSP_NOT_FOUND"
+msgstr "- {0}, Is NOT using CSP"
+
+msgid "TEXT_REVIEW_CSP"
+msgstr "- {0}, Content Security Policy (CSP)"
+
+msgid "TEXT_REVIEW_CSP_UNSUPPORTED_IN_META"
+msgstr "- {0}, Using a CSP policy in meta-element that are not allowed"
+
+msgid "TEXT_REVIEW_CSP_POLICY_DEPRECATED"
+msgstr "- {1}, Is using deprecated CSP policy '{0}'"
+
+msgid "TEXT_REVIEW_CSP_MALFORMED"
+msgstr "- {1}, CSP policy '{0}' is malformed"
+
+msgid "TEXT_REVIEW_CSP_POLICY_FOUND"
+msgstr "- {1}, CSP policy '{0}' found"
+
+msgid "TEXT_REVIEW_CSP_POLICY_NOT_FOUND"
+msgstr "- {1}, CSP policy '{0}' is missing"
+
+msgid "TEXT_REVIEW_CSP_POLICY_NOT_DEPRECATED"
+msgstr "- {1}, Is NOT using deprecated CSP policy '{0}'"
+
+msgid "TEXT_REVIEW_CSP_POLICY_USE_WILDCARD"
+msgstr "- {1}, CSP policy '{0}' is using wildcard at end of host-source"
+
+msgid "TEXT_REVIEW_CSP_POLICY_NOT_USE_WILDCARD"
+msgstr "- {1}, Is NOT using wildcard in CSP policy '{0}'"
+
+msgid "TEXT_REVIEW_CSP_POLICY_USE_UNSAFE_SCHEME"
+msgstr "- {2}, CSP policy '{0}' is using unsafe scheme {1}"
+
+msgid "TEXT_REVIEW_CSP_POLICY_USE_UNSAFE_SCHEME"
+msgstr "- {2}, CSP policy '{0}' is using unsafe scheme {1}"
+
+msgid "TEXT_REVIEW_CSP_POLICY_REUSE_NONCE"
+msgstr "- {1}, CSP policy '{0}' is reusing same 'nonce' between visits"
+
+msgid "TEXT_REVIEW_CSP_POLICY_MULTIUSE_NONCE"
+msgstr "- {2}, CSP policy '{0}' is using multiple {1}"
+
+msgid "TEXT_REVIEW_CSP_POLICY_NONE_NOT_ALONE"
+msgstr "- {1}, CSP policy '{0}' is NOT using 'none' alone"
+
+msgid "TEXT_REVIEW_CSP_POLICY_USE_15_OR_MORE_DOMAINS"
+msgstr "- {2}, CSP policy '{0}' is using {1} with over 15 domains"
+
+msgid "TEXT_REVIEW_CSP_POLICY_IS_USING"
+msgstr "- {2}, CSP policy '{0}' is using {1}"
+
+msgid "TEXT_REVIEW_CSP_POLICY_IS_NOT_USING"
+msgstr "- {2}, CSP policy '{0}' is NOT using {1}"
+
+msgid "TEXT_REVIEW_CSP_WILDCARDS"
+msgstr "wildcard(s)"
+
+msgid "TEXT_REVIEW_CSP_WILDCARD_SUBDOMAIN"
+msgstr "wildcard subdomain of orgin"
+
+msgid "TEXT_REVIEW_CSP_SUBDOMAIN"
+msgstr "subdomain of orgin"
+
+msgid "TEXT_REVIEW_CSP_DOMAIN"
+msgstr "domain"
+
+msgid "TEXT_REVIEW_CSP_RECOMMENDED_RATING"
+msgstr "Recommended CSP Rating:{0}"
+
+msgid "TEXT_REVIEW_CSP_RECOMMENDED_TEXT"
+msgstr "##### Want to improve your Content-Security-Policy game?\r\nWhy not try the below Content-Security-Policy response header to get started using Content Security Policy?\r\nRemember, below recommendation is only based on a sample (read: {0} page(s)) of all pages on your website\r\nand based without clicking on anything.\r\n\r\nRecommended Content-Security-Policy policies:\r\n{1}\r\n{2}\r\nRead more: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy\r\n\r\n"

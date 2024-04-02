@@ -33,8 +33,50 @@ msgstr "- Sitemap finns omnämnd i robots.txt"
 msgid "TEXT_SITEMAP_BROKEN"
 msgstr "- Sitemap verkar vara trasig."
 
-msgid "TEXT_SITEMAP_OK"
-msgstr "- Sitemap verkar fungera."
+msgid "TEXT_SITEMAP_VERY_GOOD"
+msgstr "- Sitemap är välbyggd."
+
+msgid "TEXT_SITEMAP_IS_GOOD"
+msgstr "- Sitemap är bra."
+
+msgid "TEXT_SITEMAP_IS_OK"
+msgstr "- Sitemap är ok."
+
+msgid "TEXT_SITEMAP_IS_BAD"
+msgstr "- Sitemap är dålig."
+
+msgid "TEXT_SITEMAP_IS_VERY_BAD"
+msgstr "- Sitemap är väldigt dålig."
+
+msgid "TEXT_SITEMAP_NOT_STARTING_WITH_HTTPS_SCHEME"
+msgstr "- Sitemap, en eller fler adresser i <loc> börjar EJ på https://"
+
+msgid "TEXT_SITEMAP_STARTING_WITH_HTTPS_SCHEME"
+msgstr "- Sitemap, alla adresserna börjar på https://"
+
+msgid "TEXT_SITEMAP_NOT_SAME_DOMAIN_AS_ROBOTS_TXT"
+msgstr "- Sitemap, en eller fler adresser använder en annan domän än robots.txt"
+
+msgid "TEXT_SITEMAP_SAME_DOMAIN_AS_ROBOTS_TXT"
+msgstr "- Sitemap, alla adresser har samma domän som robots.txt"
+
+msgid "TEXT_SITEMAP_INCLUDE_DUPLICATES"
+msgstr "- Sitemap, en eller fler adresser finns flera gånger i <loc>"
+
+msgid "TEXT_SITEMAP_NO_DUPLICATES"
+msgstr "- Sitemap, bara unika adresser används i <loc>"
+
+msgid "TEXT_SITEMAP_NOT_ONLY_WEBPAGES"
+msgstr "- Sitemap, listar andra saker än webbsidor"
+
+msgid "TEXT_SITEMAP_ONLY_WEBPAGES"
+msgstr "- Sitemap, listar bara webbsidor"
+
+msgid "TEXT_SITEMAP_TOO_LARGE"
+msgstr "- Sitemap, överskrider 50 000 adresser"
+
+msgid "TEXT_SITEMAP_NOT_TOO_LARGE"
+msgstr "- Sitemap, har under 50 000 adresser"
 
 msgid "TEXT_RSS_FEED_MISSING"
 msgstr "- RSS-prenumeration saknas i HTML-kodens metadata."

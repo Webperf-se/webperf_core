@@ -33,8 +33,50 @@ msgstr "- Sitemap is mentioned in robots.txt"
 msgid "TEXT_SITEMAP_BROKEN"
 msgstr "- Sitemap seems to be broken."
 
-msgid "TEXT_SITEMAP_OK"
-msgstr "- Sitemap seems to work."
+msgid "TEXT_SITEMAP_VERY_GOOD"
+msgstr "- The Sitemap is very good."
+
+msgid "TEXT_SITEMAP_IS_GOOD"
+msgstr "- The Sitemap is good."
+
+msgid "TEXT_SITEMAP_IS_OK"
+msgstr "- The Sitemap is neither good or bad."
+
+msgid "TEXT_SITEMAP_IS_BAD"
+msgstr "- The Sitemap is bad."
+
+msgid "TEXT_SITEMAP_IS_VERY_BAD"
+msgstr "- The Sitemap is very bad."
+
+msgid "TEXT_SITEMAP_NOT_STARTING_WITH_HTTPS_SCHEME"
+msgstr "- Sitemap, Url in <loc> has to start with https://"
+
+msgid "TEXT_SITEMAP_STARTING_WITH_HTTPS_SCHEME"
+msgstr "- Sitemap, Url in <loc> is starting with https://"
+
+msgid "TEXT_SITEMAP_NOT_SAME_DOMAIN_AS_ROBOTS_TXT"
+msgstr "- Sitemap, Url in <loc> must use same domain as robots.txt"
+
+msgid "TEXT_SITEMAP_SAME_DOMAIN_AS_ROBOTS_TXT"
+msgstr "- Sitemap, Url in <loc> is using same domain as robots.txt"
+
+msgid "TEXT_SITEMAP_INCLUDE_DUPLICATES"
+msgstr "- Sitemap, One or more Url in <loc> is the same"
+
+msgid "TEXT_SITEMAP_NO_DUPLICATES"
+msgstr "- Sitemap, No duplicate Urls in <loc>"
+
+msgid "TEXT_SITEMAP_NOT_ONLY_WEBPAGES"
+msgstr "- Sitemap, lists other stuff then webpages"
+
+msgid "TEXT_SITEMAP_ONLY_WEBPAGES"
+msgstr "- Sitemap, is only listing webpages"
+
+msgid "TEXT_SITEMAP_TOO_LARGE"
+msgstr "- Sitemap, is exceeding 50 000 items"
+
+msgid "TEXT_SITEMAP_NOT_TOO_LARGE"
+msgstr "- Sitemap, is under 50 000 items"
 
 msgid "TEXT_RSS_FEED_MISSING"
 msgstr "- RSS subscription is missing in the HTML's metadata."

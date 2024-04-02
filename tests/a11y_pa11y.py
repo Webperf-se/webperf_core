@@ -1,31 +1,25 @@
 # -*- coding: utf-8 -*-
 import os
 import subprocess
-import datetime
+from datetime import datetime
 import json
+from tests.utils import get_config_or_default, get_translation
 from models import Rating
-import config
-import gettext
-_ = gettext.gettext
 
-review_show_improvements_only = config.review_show_improvements_only
-request_timeout = config.http_request_timeout
+review_show_improvements_only = get_config_or_default('review_show_improvements_only')
+request_timeout = get_config_or_default('http_request_timeout')
 
-
-def run_test(_, langCode, url):
+def run_test(global_translation, lang_code, url):
     """
 
     """
 
-    language = gettext.translation(
-        'a11y_pa11y', localedir='locales', languages=[langCode])
-    language.install()
-    _local = language.gettext
+    local_translation = get_translation('a11y_pa11y', lang_code)
 
-    print(_local('TEXT_RUNNING_TEST'))
+    print(local_translation('TEXT_RUNNING_TEST'))
 
-    print(_('TEXT_TEST_START').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+    print(global_translation('TEXT_TEST_START').format(
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     use_axe = False
     json_result = get_pa11y_errors(url, use_axe)
@@ -44,7 +38,7 @@ def run_test(_, langCode, url):
     for error in errors:
         if 'message' in error:
             err_mess = error['message'].replace('This', 'A')
-            error_review = '- {0}\n'.format(err_mess)
+            error_review = f'- {err_mess}\n'
             unique_errors.add(error_review)
 
     num_unique_errors = len(unique_errors)
@@ -52,44 +46,46 @@ def run_test(_, langCode, url):
     points_tuples = calculate_rating(num_unique_errors, num_errors)
     review = ''
 
-    rating = Rating(_, review_show_improvements_only)
-    errors_type_rating = Rating(_, review_show_improvements_only)
+    rating = Rating(global_translation, review_show_improvements_only)
+    errors_type_rating = Rating(global_translation, review_show_improvements_only)
     errors_type_rating.set_overall(points_tuples[0])
-    errors_type_rating.set_a11y(points_tuples[0], _local('TEXT_REVIEW_RATING_GROUPED').format(
-        num_unique_errors, 0.0))
+    errors_type_rating.set_a11y(points_tuples[0],
+                                local_translation('TEXT_REVIEW_RATING_GROUPED').format(
+                                    num_unique_errors,
+                                    0.0))
     rating += errors_type_rating
 
-    errors_rating = Rating(_, review_show_improvements_only)
+    errors_rating = Rating(global_translation, review_show_improvements_only)
     errors_rating.set_overall(points_tuples[1])
-    errors_rating.set_a11y(points_tuples[1], _local(
+    errors_rating.set_a11y(points_tuples[1], local_translation(
         'TEXT_REVIEW_RATING_ITEMS').format(num_errors, 0.0))
     rating += errors_rating
 
     i = 1
     if len(unique_errors) > 0:
-        review += _local('TEXT_REVIEW_A11Y_PROBLEMS')
+        review += local_translation('TEXT_REVIEW_A11Y_PROBLEMS')
     for error in unique_errors:
         review += error
         i += 1
         if i > 10:
-            review += _local('TEXT_REVIEW_A11Y_TOO_MANY_PROBLEMS')
+            review += local_translation('TEXT_REVIEW_A11Y_TOO_MANY_PROBLEMS')
             break
 
     rating.a11y_review = rating.a11y_review + review
     overall = rating.get_overall()
     if overall == 5:
-        rating.overall_review = _local('TEXT_REVIEW_A11Y_VERY_GOOD')
+        rating.overall_review = local_translation('TEXT_REVIEW_A11Y_VERY_GOOD')
     elif overall >= 4:
-        rating.overall_review = _local('TEXT_REVIEW_A11Y_IS_GOOD')
+        rating.overall_review = local_translation('TEXT_REVIEW_A11Y_IS_GOOD')
     elif overall > 2:
-        rating.overall_review = _local('TEXT_REVIEW_A11Y_IS_VERY_BAD')
+        rating.overall_review = local_translation('TEXT_REVIEW_A11Y_IS_VERY_BAD')
     elif overall > 3:
-        rating.overall_review = _local('TEXT_REVIEW_A11Y_IS_BAD')
+        rating.overall_review = local_translation('TEXT_REVIEW_A11Y_IS_BAD')
     elif overall > 4:
-        rating.overall_review = _local('TEXT_REVIEW_A11Y_IS_OK')
+        rating.overall_review = local_translation('TEXT_REVIEW_A11Y_IS_OK')
 
-    print(_('TEXT_TEST_END').format(
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+    print(global_translation('TEXT_TEST_END').format(
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, return_dict)
 
@@ -114,18 +110,10 @@ def get_pa11y_errors(url, use_axe):
         additional_args = '--runner axe '
 
     # NOTE: "--ignore color-contrast" was added to temporarly solve issue #204
-    bashCommand = "node node_modules{1}pa11y{1}bin{1}pa11y.js --ignore color-contrast --reporter json {2}{0}".format(
-        url, os.path.sep, additional_args)
-
-    process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-    output, error = process.communicate(timeout=request_timeout * 10)
+    command = (f"node node_modules{os.path.sep}pa11y{os.path.sep}bin{os.path.sep}pa11y.js "
+                   f"--ignore color-contrast --reporter json {additional_args}{url}")
+    process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
+    output, _ = process.communicate(timeout=request_timeout * 10)
 
     json_result = json.loads(output)
     return json_result
-
-
-"""
-If file is executed on itself then call a definition, mostly for testing purposes
-"""
-if __name__ == '__main__':
-    print(run_test('sv', 'https://webperf.se'))

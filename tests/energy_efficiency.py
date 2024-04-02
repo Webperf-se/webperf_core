@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
-from os import truncate
+from datetime import datetime
+import tests.energy_efficiency_carbon_percentiles as energy_efficiency_carbon_percentiles
+import tests.energy_efficiency_carbon_percentiles2022 as energy_efficiency_carbon_percentiles_2022
 from tests.performance_lighthouse import run_test as lighthouse_perf_run_test
 from models import Rating
-import datetime
-import tests.energy_efficiency_carbon_percentiles as energy_efficiency_carbon_percentiles
-import tests.energy_efficiency_carbon_percentiles2021 as energy_efficiency_carbon_percentiles_2021
-from tests.utils import *
-import gettext
-_local = gettext.gettext
+from tests.utils import get_translation
 
 # Code below is built from: https://gitlab.com/wholegrain/carbon-api-2-0
 
@@ -53,8 +50,8 @@ def cleaner_than(co2, year='current'):
     # from the database once a month, that is then loaded in this file.
 
     percentiles = False
-    if year == '2021':
-        percentiles = energy_efficiency_carbon_percentiles_2021.get_percentiles()
+    if year == '2022':
+        percentiles = energy_efficiency_carbon_percentiles_2022.get_percentiles()
     else:
         percentiles = energy_efficiency_carbon_percentiles.get_percentiles()
     position = 0
@@ -77,35 +74,29 @@ def format_bytes(size):
     return size, power_labels[n]+'b'
 
 
-def run_test(_, langCode, url):
+def run_test(global_translation, lang_code, url):
     """
-    Analyzes URL with Website Carbon Calculator API.
-    API documentation: https://api.websitecarbon.com
-    https://gitlab.com/wholegrain/carbon-api-2-0
+    Analyzes URL with Lighthouse and uses weight to calculate co2 and rate compared to other sites.
     """
 
-    language = gettext.translation(
-        'energy_efficiency_websitecarbon', localedir='locales', languages=[langCode])
-    language.install()
-    _local = language.gettext
+    local_translation = get_translation('energy_efficiency_websitecarbon', lang_code)
 
-    print(_local("TEXT_RUNNING_TEST"))
+    print(local_translation("TEXT_RUNNING_TEST"))
 
-    print(_('TEXT_TEST_START').format(
+    print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     result_dict = {}
-    lighthouse_perf_result = lighthouse_perf_run_test(_, langCode, url, True)
+    lighthouse_perf_result = lighthouse_perf_run_test(global_translation, lang_code, url, True)
 
     transfer_bytes = lighthouse_perf_result[1]['total-byte-weight']
     result_dict['total-byte-weight'] = transfer_bytes
-    #print('transfer bytes: {0}'.format(transfer_bytes))
 
     co2 = convert_2_co2(transfer_bytes)
     result_dict['co2'] = co2
 
     cleaner = cleaner_than(co2) * 100
-    cleaner_2021 = cleaner_than(co2, '2021') * 100
+    cleaner_2022 = cleaner_than(co2, '2022') * 100
     result_dict['cleaner_than'] = cleaner
 
     review = ''
@@ -117,36 +108,31 @@ def run_test(_, langCode, url):
         points = 5.0
 
     if cleaner >= 90:
-        review = _local("TEXT_WEBSITE_IS_VERY_GOOD")
+        review = local_translation("TEXT_WEBSITE_IS_VERY_GOOD")
     elif cleaner >= 70:
-        review = _local("TEXT_WEBSITE_IS_GOOD")
+        review = local_translation("TEXT_WEBSITE_IS_GOOD")
     elif cleaner >= 50:
-        review = _local("TEXT_WEBSITE_IS_OK")
+        review = local_translation("TEXT_WEBSITE_IS_OK")
     elif cleaner >= 30:
-        review = _local("TEXT_WEBSITE_IS_BAD")
+        review = local_translation("TEXT_WEBSITE_IS_BAD")
     elif cleaner < 30:
-        review = _local("TEXT_WEBSITE_IS_VERY_BAD")
+        review = local_translation("TEXT_WEBSITE_IS_VERY_BAD")
 
-    review += _local("TEXT_GRAMS_OF_CO2").format(round(co2, 2))
-    review += _local("TEXT_BETTER_THAN").format(int(cleaner),
+    review += local_translation("TEXT_GRAMS_OF_CO2").format(round(co2, 2))
+    review += local_translation("TEXT_BETTER_THAN").format(int(cleaner),
                                                 energy_efficiency_carbon_percentiles.get_generated_date())
-    review += _local("TEXT_BETTER_THAN").format(int(cleaner_2021),
-                                                energy_efficiency_carbon_percentiles_2021.get_generated_date())
+    review += local_translation("TEXT_BETTER_THAN").format(int(cleaner_2022),
+                                                energy_efficiency_carbon_percentiles_2022.get_generated_date())
 
     transfer_info = format_bytes(transfer_bytes)
-    review += _local("TEXT_TRANSFER_SIZE").format(transfer_info[0], transfer_info[1]
-                                                  )
-    # if 'false' in green.lower():
-    # review += _local("TEXT_GREEN_ENERGY_FALSE")
-    # elif 'true' in green.lower():
-    # review += _local("TEXT_GREEN_ENERGY_TRUE")
+    review += local_translation("TEXT_TRANSFER_SIZE").format(transfer_info[0], transfer_info[1])
 
-    rating = Rating(_)
+    rating = Rating(global_translation)
     rating.set_overall(points, review)
     # we use this line to recalibrate percentiles (See carbon-rating.py), comment out line above also
     #rating.set_overall(points, '{0}'.format(co2))
 
-    print(_('TEXT_TEST_END').format(
+    print(global_translation('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, result_dict)

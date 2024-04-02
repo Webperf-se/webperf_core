@@ -17,20 +17,17 @@ msgstr ""
 msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 4 - Sökmotoroptimering (Google Lighthouse)\n"
 
-msgid "TEXT_REVIEW_SEO_VERY_GOOD"
+msgid "TEXT_REVIEW_VERY_GOOD"
 msgstr "- Webbsidan följer god SEO-praxis fullt ut!\n"
 
-msgid "TEXT_REVIEW_SEO_IS_GOOD"
+msgid "TEXT_REVIEW_IS_GOOD"
 msgstr "- Webbsidan kan ändå förbättras inom SEO.\n"
 
-msgid "TEXT_REVIEW_SEO_IS_OK"
+msgid "TEXT_REVIEW_IS_OK"
 msgstr "- Genomsnittlig efterlevnad till SEO-praxis.\n"
 
-msgid "TEXT_REVIEW_SEO_IS_BAD"
+msgid "TEXT_REVIEW_IS_BAD"
 msgstr "- Webbsidan är ganska dålig på sökmotoroptimering.\n"
 
-msgid "TEXT_REVIEW_SEO_IS_VERY_BAD"
+msgid "TEXT_REVIEW_IS_VERY_BAD"
 msgstr "- Webbsidan är inte alls bra på sökmotoroptimering!\n"
-
-msgid "TEXT_REVIEW_SEO_NUMBER_OF_PROBLEMS"
-msgstr "- Antal problem med sökmotoroptimering (SEO): {} st\n"

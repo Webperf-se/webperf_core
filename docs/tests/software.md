@@ -133,7 +133,7 @@ TODO: Add links to blogs and articles showing how to remove info regarding what 
 * We recommend you to make use `software_use_stealth` is set to `True`, change this to `False` at your own risk.
 * It is highly recommended to set `cache_when_possible` to `True` and to set `cache_time_delta` to
 * It is highly recommended to set `cache_time_delta` to at least 12 hours (Fail to do so may result in banning of service like github).
-* If you want to get more detailed information, please set `software_use_detailed_report` to `True`.
+* If you want to get more detailed information, please set `use_detailed_report` to `True`.
 * Depending on your preference, follow below NPM package or Docker image steps below.
 
 #### Using NPM package

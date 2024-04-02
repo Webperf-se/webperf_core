@@ -1,54 +1,39 @@
 # -*- coding: utf-8 -*-
-from models import Rating
-import datetime
+import os
+import time
+from datetime import datetime
 import json
 import requests
-import config
-from tests.utils import *
-import gettext
-_local = gettext.gettext
+from tests.utils import get_config_or_default, get_http_content, get_translation
+from models import Rating
 
 # DEFAULTS
-request_timeout = config.http_request_timeout
-review_show_improvements_only = config.review_show_improvements_only
-time_sleep = config.webbkoll_sleep
+REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
+REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
+time_sleep = get_config_or_default('WEBBKOLL_SLEEP')
 if time_sleep < 5:
     time_sleep = 5
 
-try:
-    ylt_server_address = config.ylt_server_address
-except:
-    # If YLT URL is not set in config.py this will be the default
-    ylt_server_address = 'https://yellowlab.tools'
+YLT_SERVER_ADDRESS = get_config_or_default('YLT_SERVER_ADDRESS')
+YLT_USE_API = get_config_or_default('YLT_USE_API')
 
-try:
-    ylt_use_api = config.ylt_use_api
-except:
-    # If YLT use api variable is not set in config.py this will be the default
-    ylt_use_api = True
-
-
-def run_test(_, langCode, url, device='phone'):
+def run_test(global_translation, lang_code, url, device='phone'):
     """
     Analyzes URL with Yellow Lab Tools docker image.
     Devices might be; phone, tablet, desktop
     """
 
-    import time
-    language = gettext.translation(
-        'frontend_quality_yellow_lab_tools', localedir='locales', languages=[langCode])
-    language.install()
-    _local = language.gettext
+    local_translation = get_translation('frontend_quality_yellow_lab_tools', lang_code)
 
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
-    print(_local("TEXT_RUNNING_TEST"))
+    print(local_translation("TEXT_RUNNING_TEST"))
 
-    print(_('TEXT_TEST_START').format(
+    print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    if ylt_use_api:
-        r = requests.post('{0}/api/runs'.format(ylt_server_address),
+    if YLT_USE_API:
+        r = requests.post('{0}/api/runs'.format(YLT_SERVER_ADDRESS),
                           data={'url': url, "waitForResponse": 'true', 'device': device})
 
         result_url = r.url
@@ -58,23 +43,22 @@ def run_test(_, langCode, url, device='phone'):
 
         running_status = 'running'
         while running_status == 'running':
-            running_json = httpRequestGetContent(
-                '{0}/api/runs/{1}'.format(ylt_server_address, test_id))
+            running_json = get_http_content(
+                '{0}/api/runs/{1}'.format(YLT_SERVER_ADDRESS, test_id))
             running_info = json.loads(running_json)
             running_status = running_info['status']['statusCode']
             time.sleep(time_sleep)
 
         result_url = '{0}/api/results/{1}?exclude=toolsResults'.format(
-            ylt_server_address, test_id)
-        result_json = httpRequestGetContent(result_url)
+            YLT_SERVER_ADDRESS, test_id)
+        result_json = get_http_content(result_url)
     else:
         import subprocess
 
-        # bashCommand = "yellowlabtools {0}".format(url)
-        bashCommand = "node node_modules{1}yellowlabtools{1}bin{1}cli.js {0}".format(
+        command = "node node_modules{1}yellowlabtools{1}bin{1}cli.js {0}".format(
             url, os.path.sep)
-        process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-        output, error = process.communicate(timeout=request_timeout * 10)
+        process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
+        output, _ = process.communicate(timeout=REQUEST_TIMEOUT * 10)
 
         result_json = output
 
@@ -94,7 +78,7 @@ def run_test(_, langCode, url, device='phone'):
     review = ''
     for key in result_dict['scoreProfiles']['generic']['categories'].keys():
 
-        review += '- ' + _('TEXT_TEST_REVIEW_RATING_ITEM').format(_local(result_dict['scoreProfiles']['generic']['categories'][key]['label']), to_points(
+        review += '- ' + global_translation('TEXT_TEST_REVIEW_RATING_ITEM').format(local_translation(result_dict['scoreProfiles']['generic']['categories'][key]['label']), to_points(
             result_dict['scoreProfiles']['generic']['categories'][key]['categoryScore']))
 
     points = to_points(yellow_lab)
@@ -121,33 +105,33 @@ def run_test(_, langCode, url, device='phone'):
             #rule_is_abnormal = rule['abnormal']
 
             rule_label = '- {0}'.format(
-                _local(rule['policy']['label']))
+                local_translation(rule['policy']['label']))
 
             matching_one_category_or_more = False
             # only do stuff for rules we know how to place in category
             if rule_key in performance_keys:
                 matching_one_category_or_more = True
-                rule_rating = Rating(_, review_show_improvements_only)
+                rule_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 rule_rating.set_performance(
                     rule_score, rule_label)
                 rating += rule_rating
 
             if rule_key in security_keys:
                 matching_one_category_or_more = True
-                rule_rating = Rating(_, review_show_improvements_only)
+                rule_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 rule_rating.set_integrity_and_security(
                     rule_score, rule_label)
                 rating += rule_rating
 
             if rule_key in standards_keys:
                 matching_one_category_or_more = True
-                rule_rating = Rating(_, review_show_improvements_only)
+                rule_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 rule_rating.set_standards(
                     rule_score, rule_label)
                 rating += rule_rating
 
             # if not matching_one_category_or_more:
-            #     rule_rating = Rating(_, review_show_improvements_only)
+            #     rule_rating = Rating(global_translation, review_show_improvements_only)
             #     rule_rating.over(
             #                 rule_score, rule_label)
             #     rating += rule_rating
@@ -159,21 +143,21 @@ def run_test(_, langCode, url, device='phone'):
 
     review_overall = ''
     if points >= 5:
-        review_overall = _local("TEXT_WEBSITE_IS_VERY_GOOD")
+        review_overall = local_translation("TEXT_WEBSITE_IS_VERY_GOOD")
     elif points >= 4:
-        review_overall = _local("TEXT_WEBSITE_IS_GOOD")
+        review_overall = local_translation("TEXT_WEBSITE_IS_GOOD")
     elif points >= 3:
-        review_overall = _local("TEXT_WEBSITE_IS_OK")
+        review_overall = local_translation("TEXT_WEBSITE_IS_OK")
     elif points >= 2:
-        review_overall = _local("TEXT_WEBSITE_IS_BAD")
+        review_overall = local_translation("TEXT_WEBSITE_IS_BAD")
     elif points <= 1:
-        review_overall = _local("TEXT_WEBSITE_IS_VERY_BAD")
+        review_overall = local_translation("TEXT_WEBSITE_IS_VERY_BAD")
 
     rating.set_overall(points, review_overall)
 
     rating.overall_review = rating.overall_review + review
 
-    print(_('TEXT_TEST_END').format(
+    print(global_translation('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, return_dict)

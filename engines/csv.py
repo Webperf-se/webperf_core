@@ -19,14 +19,14 @@ def add_site(input_filename, url, input_skip, input_take):
     sites.append([id, url])
     write_sites(input_filename, sites)
 
-    print(_('TEXT_WEBSITE_URL_ADDED').format(url))
+    print(global_translation('TEXT_WEBSITE_URL_ADDED').format(url))
 
     return sites
 
 
 def delete_site(input_filename, url, input_skip, input_take):
     sites = read_sites(input_filename, input_skip, input_take)
-    tmpSites = list()
+    tmpSites = []
     for site in sites:
         site_id = site[0]
         site_url = site[1]
@@ -35,13 +35,13 @@ def delete_site(input_filename, url, input_skip, input_take):
 
     write_sites(input_filename, tmpSites)
 
-    print(_('TEXT_WEBSITE_URL_DELETED').format(site_url))
+    print(global_translation('TEXT_WEBSITE_URL_DELETED').format(site_url))
 
     return tmpSites
 
 
 def read_sites(input_filename, input_skip, input_take):
-    sites = list()
+    sites = []
 
     with open(input_filename, newline='') as csvfile:
         dialect = csv.Sniffer().sniff(csvfile.read(1024))
@@ -68,7 +68,7 @@ def read_sites(input_filename, input_skip, input_take):
 
 
 def write_sites(output_filename, sites):
-    sites_output = list()
+    sites_output = []
     for site in sites:
         site_id = site[0]
         site_url = site[1]

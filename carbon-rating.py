@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 import sys
 import getopt
-import datetime
 import gettext
 import math
-import datetime
 import json
 import gettext
 from datetime import datetime
@@ -100,7 +98,7 @@ def main(argv):
 
     tests = read_tests(input_filename, 0, -1)
     generated_date = False
-    co2s = list()
+    co2s = []
 
     for test in tests:
         if not generated_date:
@@ -126,7 +124,7 @@ def main(argv):
 
     co2s_sorted = sorted(co2s)
 
-    intervals = list()
+    intervals = []
 
     index = 1
     while (index <= 100):

@@ -1,21 +1,17 @@
 # -*- coding: utf-8 -*-
 from urllib.parse import ParseResult, urlunparse
-from models import Rating
-import datetime
 import sys
-import requests
+from datetime import datetime
 import urllib  # https://docs.python.org/3/library/urllib.parse.html
+import requests
 from bs4 import BeautifulSoup
-import config
-from tests.utils import *
-import gettext
-_ = gettext.gettext
+from models import Rating
+from tests.utils import get_config_or_default, get_guid, get_http_content, get_translation
 
 # DEFAULTS
-request_timeout = config.http_request_timeout
-useragent = config.useragent
-review_show_improvements_only = config.review_show_improvements_only
-
+REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
+USERAGENT = get_config_or_default('useragent')
+review_show_improvements_only = get_config_or_default('review_show_improvements_only')
 
 def change_url_to_404_url(url):
 
@@ -33,38 +29,35 @@ def change_url_to_404_url(url):
     return url2
 
 
-def run_test(_, langCode, org_url):
+def run_test(global_translation, lang_code, org_url):
     """
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
 
-    rating = Rating(_)
+    rating = Rating(global_translation)
     result_dict = {}
 
-    language = gettext.translation(
-        'page_not_found', localedir='locales', languages=[langCode])
-    language.install()
-    _local = language.gettext
+    local_translation = get_translation('page_not_found', lang_code)
 
-    print(_local('TEXT_RUNNING_TEST'))
+    print(local_translation('TEXT_RUNNING_TEST'))
 
-    print(_('TEXT_TEST_START').format(
+    print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     url = change_url_to_404_url(org_url)
 
-    headers = {'user-agent': useragent,
+    headers = {'user-agent': USERAGENT,
                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8'}
     code = 'unknown'
     request = False
     # checks http status code
     try:
         request = requests.get(url, allow_redirects=True,
-                               headers=headers, timeout=request_timeout)
+                               headers=headers, timeout=REQUEST_TIMEOUT)
         code = request.status_code
     except Exception:
         code = 'unknown'
-    rating += rate_response_status_code(_, _local, code)
+    rating += rate_response_status_code(global_translation, local_translation, code)
 
     result_dict['status_code'] = code
 
@@ -80,15 +73,15 @@ def run_test(_, langCode, org_url):
 
     if hasRequestText:
         soup = BeautifulSoup(requestText, 'lxml')
-        rating += rate_response_title(_, result_dict, _local, soup)
+        rating += rate_response_title(global_translation, result_dict, local_translation, soup)
 
-        rating += rate_response_header1(_, result_dict, _local, soup)
+        rating += rate_response_header1(global_translation, result_dict, local_translation, soup)
 
         # kollar innehållet
         page_lang = get_supported_lang_code_or_default(soup)
         if page_lang != 'sv':
             try:
-                content_rootpage = httpRequestGetContent(
+                content_rootpage = get_http_content(
                     org_url, allow_redirects=True)
                 soup_rootpage = BeautifulSoup(content_rootpage, 'lxml')
                 rootpage_lang = get_supported_lang_code_or_default(
@@ -113,95 +106,95 @@ def run_test(_, langCode, org_url):
                 found_match = True
                 break
 
-    rating_swedish_text = Rating(_, review_show_improvements_only)
+    rating_swedish_text = Rating(global_translation, review_show_improvements_only)
     if found_match:
         rating_swedish_text.set_overall(
-            5.0, _local('TEXT_REVIEW_NO_SWEDISH_ERROR_MSG'))
-        rating_swedish_text.set_a11y(5.0, _local(
+            5.0, local_translation('TEXT_REVIEW_NO_SWEDISH_ERROR_MSG'))
+        rating_swedish_text.set_a11y(5.0, local_translation(
             'TEXT_REVIEW_NO_SWEDISH_ERROR_MSG'))
     else:
         rating_swedish_text.set_overall(
-            1.0, _local('TEXT_REVIEW_NO_SWEDISH_ERROR_MSG'))
+            1.0, local_translation('TEXT_REVIEW_NO_SWEDISH_ERROR_MSG'))
         rating_swedish_text.set_a11y(
-            1.0, _local('TEXT_REVIEW_NO_SWEDISH_ERROR_MSG'))
+            1.0, local_translation('TEXT_REVIEW_NO_SWEDISH_ERROR_MSG'))
     rating += rating_swedish_text
 
     # hur långt är inehållet
-    rating_text_is_150_or_more = Rating(_, review_show_improvements_only)
+    rating_text_is_150_or_more = Rating(global_translation, review_show_improvements_only)
     soup = BeautifulSoup(requestText, 'html.parser')
     if len(soup.get_text()) > 150:
         rating_text_is_150_or_more.set_overall(
-            5.0, _local('TEXT_REVIEW_ERROR_MSG_UNDER_150'))
+            5.0, local_translation('TEXT_REVIEW_ERROR_MSG_UNDER_150'))
         rating_text_is_150_or_more.set_a11y(
-            5.0, _local('TEXT_REVIEW_ERROR_MSG_UNDER_150'))
+            5.0, local_translation('TEXT_REVIEW_ERROR_MSG_UNDER_150'))
     else:
         # '* Information är under 150 tecken, vilket tyder på att användaren inte vägleds vidare.\n'
         rating_text_is_150_or_more.set_overall(
-            1.0, _local('TEXT_REVIEW_ERROR_MSG_UNDER_150'))
+            1.0, local_translation('TEXT_REVIEW_ERROR_MSG_UNDER_150'))
         rating_text_is_150_or_more.set_a11y(
-            1.0, _local('TEXT_REVIEW_ERROR_MSG_UNDER_150'))
+            1.0, local_translation('TEXT_REVIEW_ERROR_MSG_UNDER_150'))
     rating += rating_text_is_150_or_more
 
-    print(_('TEXT_TEST_END').format(
+    print(global_translation('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, result_dict)
 
 
-def rate_response_header1(_, result_dict, _local, soup):
-    rating_h1 = Rating(_, review_show_improvements_only)
+def rate_response_header1(global_translation, result_dict, local_translation, soup):
+    rating_h1 = Rating(global_translation, review_show_improvements_only)
     try:
         h1 = soup.find('h1')
         if h1:
             result_dict['h1'] = h1.string
-            rating_h1.set_overall(5.0, _local('TEXT_REVIEW_MAIN_HEADER'))
-            rating_h1.set_standards(5.0, _local('TEXT_REVIEW_MAIN_HEADER'))
-            rating_h1.set_a11y(5.0, _local('TEXT_REVIEW_MAIN_HEADER'))
+            rating_h1.set_overall(5.0, local_translation('TEXT_REVIEW_MAIN_HEADER'))
+            rating_h1.set_standards(5.0, local_translation('TEXT_REVIEW_MAIN_HEADER'))
+            rating_h1.set_a11y(5.0, local_translation('TEXT_REVIEW_MAIN_HEADER'))
         else:
-            rating_h1.set_overall(1.0, _local('TEXT_REVIEW_MAIN_HEADER'))
-            rating_h1.set_standards(1.0, _local('TEXT_REVIEW_MAIN_HEADER'))
-            rating_h1.set_a11y(1.0, _local('TEXT_REVIEW_MAIN_HEADER'))
+            rating_h1.set_overall(1.0, local_translation('TEXT_REVIEW_MAIN_HEADER'))
+            rating_h1.set_standards(1.0, local_translation('TEXT_REVIEW_MAIN_HEADER'))
+            rating_h1.set_a11y(1.0, local_translation('TEXT_REVIEW_MAIN_HEADER'))
 
     except:
         print('Error getting H1!\nMessage:\n{0}'.format(sys.exc_info()[0]))
     return rating_h1
 
 
-def rate_response_title(_, result_dict, _local, soup):
-    rating_title = Rating(_, review_show_improvements_only)
+def rate_response_title(global_translation, result_dict, local_translation, soup):
+    rating_title = Rating(global_translation, review_show_improvements_only)
     try:
         title = soup.find('title')
         if title:
             result_dict['page_title'] = title.string
-            rating_title.set_overall(5.0, _local('TEXT_REVIEW_NO_TITLE'))
-            rating_title.set_standards(5.0, _local('TEXT_REVIEW_NO_TITLE'))
-            rating_title.set_a11y(5.0, _local('TEXT_REVIEW_NO_TITLE'))
+            rating_title.set_overall(5.0, local_translation('TEXT_REVIEW_NO_TITLE'))
+            rating_title.set_standards(5.0, local_translation('TEXT_REVIEW_NO_TITLE'))
+            rating_title.set_a11y(5.0, local_translation('TEXT_REVIEW_NO_TITLE'))
         else:
-            rating_title.set_overall(1.0, _local('TEXT_REVIEW_NO_TITLE'))
-            rating_title.set_standards(1.0, _local('TEXT_REVIEW_NO_TITLE'))
-            rating_title.set_a11y(1.0, _local('TEXT_REVIEW_NO_TITLE'))
+            rating_title.set_overall(1.0, local_translation('TEXT_REVIEW_NO_TITLE'))
+            rating_title.set_standards(1.0, local_translation('TEXT_REVIEW_NO_TITLE'))
+            rating_title.set_a11y(1.0, local_translation('TEXT_REVIEW_NO_TITLE'))
 
     except:
         print('Error getting page title!\nMessage:\n{0}'.format(
             sys.exc_info()[0]))
-        rating_title.set_overall(1.0, _local('TEXT_REVIEW_NO_TITLE'))
-        rating_title.set_standards(1.0, _local('TEXT_REVIEW_NO_TITLE'))
-        rating_title.set_a11y(1.0, _local('TEXT_REVIEW_NO_TITLE'))
+        rating_title.set_overall(1.0, local_translation('TEXT_REVIEW_NO_TITLE'))
+        rating_title.set_standards(1.0, local_translation('TEXT_REVIEW_NO_TITLE'))
+        rating_title.set_a11y(1.0, local_translation('TEXT_REVIEW_NO_TITLE'))
     return rating_title
 
 
-def rate_response_status_code(_, _local, code):
-    rating_404 = Rating(_, review_show_improvements_only)
+def rate_response_status_code(global_translation, local_translation, code):
+    rating_404 = Rating(global_translation, review_show_improvements_only)
     if code == 404:
-        rating_404.set_overall(5.0, _local(
+        rating_404.set_overall(5.0, local_translation(
             'TEXT_REVIEW_WRONG_STATUS_CODE').format(code))
-        rating_404.set_standards(5.0, _local(
+        rating_404.set_standards(5.0, local_translation(
             'TEXT_REVIEW_WRONG_STATUS_CODE').format(code))
     else:
         rating_404.set_overall(
-            1.0, _local('TEXT_REVIEW_WRONG_STATUS_CODE').format(code))
+            1.0, local_translation('TEXT_REVIEW_WRONG_STATUS_CODE').format(code))
         rating_404.set_standards(
-            1.0, _local('TEXT_REVIEW_WRONG_STATUS_CODE').format(code))
+            1.0, local_translation('TEXT_REVIEW_WRONG_STATUS_CODE').format(code))
 
     return rating_404
 

@@ -1,49 +1,39 @@
 # -*- coding: utf-8 -*-
-from models import Rating
-import datetime
+import os
+from datetime import datetime
 import re
-import config
-from tests.utils import *
+from models import Rating
+from tests.utils import get_config_or_default, get_friendly_url_name, get_translation, set_cache_file
 from tests.w3c_base import get_errors, identify_files
 from tests.sitespeed_base import get_result
-import gettext
-_local = gettext.gettext
 
 # DEFAULTS
-request_timeout = config.http_request_timeout
-useragent = config.useragent
-review_show_improvements_only = config.review_show_improvements_only
-sitespeed_use_docker = config.sitespeed_use_docker
-try:
-    use_cache = config.cache_when_possible
-    cache_time_delta = config.cache_time_delta
-except:
-    # If cache_when_possible variable is not set in config.py this will be the default
-    use_cache = False
-    cache_time_delta = timedelta(hours=1)
+REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
+USERAGENT = get_config_or_default('useragent')
+review_show_improvements_only = get_config_or_default('review_show_improvements_only')
+sitespeed_use_docker = get_config_or_default('sitespeed_use_docker')
 
+sitespeed_timeout = get_config_or_default('sitespeed_timeout')
+USE_CACHE = get_config_or_default('cache_when_possible')
+CACHE_TIME_DELTA = get_config_or_default('cache_time_delta')
 
-def run_test(_, langCode, url):
+def run_test(global_translation, lang_code, url):
     """
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
 
-    rating = Rating(_, review_show_improvements_only)
+    rating = Rating(global_translation, review_show_improvements_only)
     points = 0.0
     review = ''
 
-    language = gettext.translation(
-        'html_validator_w3c', localedir='locales', languages=[langCode])
-    language.install()
-    _local = language.gettext
+    local_translation = get_translation('html_validator_w3c', lang_code)
 
-    print(_local('TEXT_RUNNING_TEST'))
+    print(local_translation('TEXT_RUNNING_TEST'))
 
-    print(_('TEXT_TEST_START').format(
+    print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    errors = list()
-    error_message_dict = {}
+    errors = []
 
     # We don't need extra iterations for what we are using it for
     sitespeed_iterations = 1
@@ -52,8 +42,10 @@ def run_test(_, langCode, url):
     if 'nt' not in os.name:
         sitespeed_arg += ' --xvfb'
 
-    (result_folder_name, filename) = get_result(
-        url, sitespeed_use_docker, sitespeed_arg)
+    sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'
+
+    (_, filename) = get_result(
+        url, sitespeed_use_docker, sitespeed_arg, sitespeed_timeout)
 
     # 1. Visit page like a normal user
     data = identify_files(filename)
@@ -61,7 +53,7 @@ def run_test(_, langCode, url):
 
     for entry in data['htmls']:
         req_url = entry['url']
-        name = get_friendly_url_name(_, req_url, entry['index'])
+        name = get_friendly_url_name(global_translation, req_url, entry['index'])
         review_header = '- {0} '.format(name)
         html = entry['content']
         set_cache_file(req_url, html, True)
@@ -92,7 +84,7 @@ def run_test(_, langCode, url):
                     if 'Element “head” is missing a required instance of child element “title”.' in error_message:
                         number_of_errors -= 1
                         continue
-                    
+
                 error_message = re.sub(
                     regex, "X", error_message, 0, re.MULTILINE)
 
@@ -110,21 +102,21 @@ def run_test(_, langCode, url):
                     item_value = item[1]
                     item_text = item[0]
 
-                    review += _local('TEXT_REVIEW_ERRORS_ITEM').format(item_text, item_value)
+                    review += local_translation('TEXT_REVIEW_ERRORS_ITEM').format(item_text, item_value)
 
         number_of_error_types = len(error_message_grouped_dict)
 
         result = calculate_rating(number_of_error_types, number_of_errors)
 
         # if number_of_error_types > 0:
-        error_types_rating = Rating(_, review_show_improvements_only)
-        error_types_rating.set_overall(result[0], review_header + _local('TEXT_REVIEW_RATING_GROUPED').format(
+        error_types_rating = Rating(global_translation, review_show_improvements_only)
+        error_types_rating.set_overall(result[0], review_header + local_translation('TEXT_REVIEW_RATING_GROUPED').format(
             number_of_error_types, 0.0))
         rating += error_types_rating
 
         # if number_of_errors > 0:
-        error_rating = Rating(_, review_show_improvements_only)
-        error_rating.set_overall(result[1], review_header + _local(
+        error_rating = Rating(global_translation, review_show_improvements_only)
+        error_rating.set_overall(result[1], review_header + local_translation(
             'TEXT_REVIEW_RATING_ITEMS').format(number_of_errors, 0.0))
         rating += error_rating
 
@@ -135,25 +127,25 @@ def run_test(_, langCode, url):
 
     review = ''
     if points == 5.0:
-        review = _local('TEXT_REVIEW_HTML_VERY_GOOD')
+        review = local_translation('TEXT_REVIEW_HTML_VERY_GOOD')
     elif points >= 4.0:
-        review = _local('TEXT_REVIEW_HTML_IS_GOOD').format(
+        review = local_translation('TEXT_REVIEW_HTML_IS_GOOD').format(
             number_of_errors)
     elif points >= 3.0:
-        review = _local('TEXT_REVIEW_HTML_IS_OK').format(
+        review = local_translation('TEXT_REVIEW_HTML_IS_OK').format(
             number_of_errors)
     elif points > 1.0:
-        review = _local('TEXT_REVIEW_HTML_IS_BAD').format(
+        review = local_translation('TEXT_REVIEW_HTML_IS_BAD').format(
             number_of_errors)
     elif points <= 1.0:
-        review = _local('TEXT_REVIEW_HTML_IS_VERY_BAD').format(
+        review = local_translation('TEXT_REVIEW_HTML_IS_VERY_BAD').format(
             number_of_errors)
 
     # rating.set_overall(points)
     rating.standards_review = rating.overall_review + rating.standards_review
     rating.overall_review = review
 
-    print(_('TEXT_TEST_END').format(
+    print(global_translation('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, errors)

@@ -507,9 +507,11 @@ def Validate_DMARC_Policy(global_translation, local_translation, hostname, resul
 
     if 'dmarc-has-policy' in result_dict:
         result_dict['dmarc-errors'] = []
-        result_dict['dmarc-percentage'] = 100
-        result_dict['dmarc-failure-reporting-options'] = []
-        result_dict['dmarc-receiver-url-failure'] = []
+        result_dict['dmarc-pct'] = 100
+        result_dict['dmarc-ri'] = 86400
+        result_dict['dmarc-fo'] = []
+        result_dict['dmarc-ruf'] = []
+        result_dict['dmarc-rua'] = []
 
         try:
             # https://www.rfc-editor.org/rfc/rfc7489.txt
@@ -537,41 +539,93 @@ def Validate_DMARC_Policy(global_translation, local_translation, hostname, resul
                 # print('section:', section)
                 if key == 'p':
                     if data == 'none' or data == 'quarantine' or data == 'reject':
-                        result_dict['dmarc-action'] = data
+                        result_dict['dmarc-p'] = data
                     else:
                         result_dict['dmarc-errors'].append(
                             local_translation(
-                                'TEXT_REVIEW_DMARC_ACTION_INVALID'))
+                                'TEXT_REVIEW_DMARC_POLICY_INVALID'))
+                elif key == 'sp':
+                    if data == 'none' or data == 'quarantine' or data == 'reject':
+                        result_dict['dmarc-sp'] = data
+                    else:
+                        result_dict['dmarc-errors'].append(
+                            local_translation(
+                                'TEXT_REVIEW_DMARC_SUBPOLICY_INVALID'))
+                elif key == 'adkim':
+                    if data == 'r':
+                        result_dict['dmarc-errors'].append(
+                            local_translation(
+                                'TEXT_REVIEW_DMARC_ADKIM_USES_DEFAULT'))
+                    elif data == 's':
+                        result_dict['dmarc-adkim'] = data
+                    else:
+                        result_dict['dmarc-errors'].append(
+                            local_translation(
+                                'TEXT_REVIEW_DMARC_ADKIM_INVALID'))
+                elif key == 'aspf':
+                    if data == 'r':
+                        result_dict['dmarc-errors'].append(
+                            local_translation(
+                                'TEXT_REVIEW_DMARC_ASPF_USES_DEFAULT'))
+                    elif data == 's':
+                        result_dict['dmarc-aspf'] = data
+                    else:
+                        result_dict['dmarc-errors'].append(
+                            local_translation(
+                                'TEXT_REVIEW_DMARC_ASPF_INVALID'))
                 elif key == 'fo':
-                    result_dict['dmarc-failure-reporting-options'] = []
+                    result_dict['dmarc-fo'] = []
                     fields = data.split(',')
                     for field in fields:
                         if field == '0':
-                            result_dict['dmarc-failure-reporting-options'].append(field)
+                            result_dict['dmarc-fo'].append(field)
                             result_dict['dmarc-errors'].append(
                                 local_translation(
-                                    'TEXT_REVIEW_DMARC_FAILURE_REPORTING_OPTIONS_USE_DEFAULT'))
+                                    'TEXT_REVIEW_DMARC_FO_USES_DEFAULT'))
                         elif field == '1' or field == 'd' or field == 's':
-                            result_dict['dmarc-failure-reporting-options'].append(field)
+                            result_dict['dmarc-fo'].append(field)
                         else:
                             result_dict['dmarc-errors'].append(
                                 local_translation(
-                                    'TEXT_REVIEW_DMARC_FAILURE_REPORTING_OPTIONS_INVALID'))
+                                    'TEXT_REVIEW_DMARC_FO_INVALID'))
+                elif key == 'rua':
+                    fields = data.split(',')
+                    for field in fields:
+                        result_dict['dmarc-rua'].append(field)
                 elif key == 'ruf':
                     fields = data.split(',')
                     for field in fields:
-                        result_dict['dmarc-receiver-url-failure'].append(field)
+                        result_dict['dmarc-ruf'].append(field)
+                elif key == 'rf':
+                    if data == 'afrf':
+                        result_dict['dmarc-errors'].append(local_translation(
+                            'TEXT_REVIEW_DMARC_RF_USE_DEFAULT'))
+                    for field in fields:
+                        result_dict['dmarc-report-failure'].append(data)
                 elif key == 'pct':
                     try:
-                        result_dict['dmarc-percentage'] = int(data)
-                        if 100 < result_dict['dmarc-percentage'] < 0:
+                        result_dict['dmarc-pct'] = int(data)
+                        if result_dict['dmarc-pct'] == 100:
                             result_dict['dmarc-errors'].append(
-                                local_translation('TEXT_REVIEW_DMARC_PERCENTAGE_INVALID'))
-                            result_dict['dmarc-percentage'] = None
+                                local_translation('TEXT_REVIEW_DMARC_PCT_USE_DEFAULT'))
+                        elif 100 < result_dict['dmarc-pct'] < 0:
+                            result_dict['dmarc-errors'].append(
+                                local_translation('TEXT_REVIEW_DMARC_PCT_INVALID'))
+                            result_dict['dmarc-pct'] = None
                     except TypeError:
                         result_dict['dmarc-errors'].append(
-                            local_translation('TEXT_REVIEW_DMARC_PERCENTAGE_INVALID'))
-                        result_dict['dmarc-percentage'] = None
+                            local_translation('TEXT_REVIEW_DMARC_PCT_INVALID'))
+                        result_dict['dmarc-pct'] = None
+                elif key == 'ri':
+                    try:
+                        result_dict['dmarc-ri'] = int(data)
+                        if result_dict['dmarc-ri'] == 86400:
+                            result_dict['dmarc-errors'].append(
+                                local_translation('TEXT_REVIEW_DMARC_RI_USE_DEFAULT'))
+                    except TypeError:
+                        result_dict['dmarc-errors'].append(
+                            local_translation('TEXT_REVIEW_DMARC_RI_INVALID'))
+                        result_dict['dmarc-ri'] = None
 
 
         except Exception as ex:
@@ -592,52 +646,89 @@ def Rate_has_DMARC_Policies(global_translation, rating, result_dict, local_trans
             5.0, local_translation('TEXT_REVIEW_DMARC_SUPPORT'))
         rating += no_dmarc_record_rating
 
-        dmarc_action_rating = Rating(global_translation, review_show_improvements_only)
-        if 'dmarc-action' in result_dict:
-            if 'reject' == result_dict['dmarc-action']:
-                dmarc_action_rating.set_overall(5.0)
-                dmarc_action_rating.set_integrity_and_security(
+        dmarc_policy_rating = Rating(global_translation, review_show_improvements_only)
+        if 'dmarc-p' in result_dict:
+            if 'reject' == result_dict['dmarc-p']:
+                dmarc_policy_rating.set_overall(5.0)
+                dmarc_policy_rating.set_integrity_and_security(
                     5.0, local_translation('TEXT_REVIEW_DMARC_POLICY_REJECT'))
-                dmarc_action_rating.set_standards(
+                dmarc_policy_rating.set_standards(
                     5.0, local_translation('TEXT_REVIEW_DMARC_POLICY_REJECT'))
-            elif 'quarantine' == result_dict['dmarc-action']:
-                dmarc_action_rating.set_overall(4.0)
-                dmarc_action_rating.set_integrity_and_security(
+            elif 'quarantine' == result_dict['dmarc-p']:
+                dmarc_policy_rating.set_overall(4.0)
+                dmarc_policy_rating.set_integrity_and_security(
                     2.0, local_translation('TEXT_REVIEW_DMARC_POLICY_REJECT'))
-                dmarc_action_rating.set_standards(
+                dmarc_policy_rating.set_standards(
                     5.0, local_translation('TEXT_REVIEW_DMARC_POLICY_REJECT'))
-            elif 'none' == result_dict['dmarc-action']:
-                dmarc_action_rating.set_overall(3.0)
-                dmarc_action_rating.set_integrity_and_security(
+            elif 'none' == result_dict['dmarc-p']:
+                dmarc_policy_rating.set_overall(3.0)
+                dmarc_policy_rating.set_integrity_and_security(
                     1.0, local_translation('TEXT_REVIEW_DMARC_POLICY_NONE'))
-                dmarc_action_rating.set_standards(
+                dmarc_policy_rating.set_standards(
                     5.0, local_translation('TEXT_REVIEW_DMARC_POLICY_NONE'))
-        if not dmarc_action_rating.is_set:
-            dmarc_action_rating.set_overall(1.0)
-            dmarc_action_rating.set_integrity_and_security(
+        if not dmarc_policy_rating.is_set:
+            dmarc_policy_rating.set_overall(1.0)
+            dmarc_policy_rating.set_integrity_and_security(
                 1.0, local_translation('TEXT_REVIEW_DMARC_NO_POLICY'))
-            dmarc_action_rating.set_standards(
+            dmarc_policy_rating.set_standards(
                 1.0, local_translation('TEXT_REVIEW_DMARC_NO_POLICY'))
-        rating += dmarc_action_rating
+        rating += dmarc_policy_rating
 
-        if result_dict['dmarc-percentage'] is not None:
+        dmarc_policy_rating = Rating(global_translation, review_show_improvements_only)
+        if 'dmarc-sp' in result_dict and\
+                'dmarc-p' in result_dict and\
+                result_dict['dmarc-p'] == result_dict['dmarc-sp']:
+            dmarc_policy_rating.set_overall(1.0)
+            dmarc_policy_rating.set_standards(
+                1.0, local_translation('TEXT_REVIEW_DMARC_SUBPOLICY_REDUNDANT'))
+        elif 'dmarc-sp' in result_dict:
+            if 'reject' == result_dict['dmarc-sp']:
+                dmarc_policy_rating.set_overall(5.0)
+                dmarc_policy_rating.set_integrity_and_security(
+                    5.0, local_translation('TEXT_REVIEW_DMARC_POLICY_REJECT'))
+                dmarc_policy_rating.set_standards(
+                    5.0, local_translation('TEXT_REVIEW_DMARC_POLICY_REJECT'))
+            elif 'quarantine' == result_dict['dmarc-sp']:
+                dmarc_policy_rating.set_overall(4.0)
+                dmarc_policy_rating.set_integrity_and_security(
+                    2.0, local_translation('TEXT_REVIEW_DMARC_POLICY_REJECT'))
+                dmarc_policy_rating.set_standards(
+                    5.0, local_translation('TEXT_REVIEW_DMARC_POLICY_REJECT'))
+            elif 'none' == result_dict['dmarc-sp']:
+                dmarc_policy_rating.set_overall(3.0)
+                dmarc_policy_rating.set_integrity_and_security(
+                    1.0, local_translation('TEXT_REVIEW_DMARC_POLICY_NONE'))
+                dmarc_policy_rating.set_standards(
+                    5.0, local_translation('TEXT_REVIEW_DMARC_POLICY_NONE'))
+        if not dmarc_policy_rating.is_set:
+            dmarc_policy_rating.set_overall(1.0)
+            dmarc_policy_rating.set_integrity_and_security(
+                1.0, local_translation('TEXT_REVIEW_DMARC_NO_POLICY'))
+            dmarc_policy_rating.set_standards(
+                1.0, local_translation('TEXT_REVIEW_DMARC_NO_POLICY'))
+        rating += dmarc_policy_rating
+
+
+        if result_dict['dmarc-pct'] is not None:
             percentage_rating = Rating(global_translation, review_show_improvements_only)
-            if result_dict['dmarc-percentage'] < 100:
+            if result_dict['dmarc-pct'] < 100:
                 percentage_rating.set_overall(3.0)
                 percentage_rating.set_integrity_and_security(
-                    1.0, local_translation('TEXT_REVIEW_DMARC_PERCENTAGE_NOT_ALL'))
+                    1.0, local_translation('TEXT_REVIEW_DMARC_PCT_NOT_100'))
                 percentage_rating.set_standards(
-                    5.0, local_translation('TEXT_REVIEW_DMARC_PERCENTAGE'))
+                    5.0, local_translation('TEXT_REVIEW_DMARC_PCT'))
             else:
                 percentage_rating.set_overall(5.0)
                 percentage_rating.set_integrity_and_security(
-                    5.0, local_translation('TEXT_REVIEW_DMARC_PERCENTAGE'))
+                    5.0, local_translation('TEXT_REVIEW_DMARC_PCT'))
                 percentage_rating.set_standards(
-                    5.0, local_translation('TEXT_REVIEW_DMARC_PERCENTAGE'))
+                    5.0, local_translation('TEXT_REVIEW_DMARC_PCT'))
             rating += percentage_rating
 
-        if len(result_dict['dmarc-failure-reporting-options']) != 0 and len(result_dict['dmarc-receiver-url-failure']) == 0:
-            result_dict['dmarc-errors'].append(local_translation('TEXT_REVIEW_DMARC_USES_FO_BUT_NO_RUF'))
+        if len(result_dict['dmarc-fo']) != 0 and\
+              len(result_dict['dmarc-ruf']) == 0:
+            result_dict['dmarc-errors'].append(
+                local_translation('TEXT_REVIEW_DMARC_USES_FO_BUT_NO_RUF'))
 
         if len(result_dict['dmarc-errors']) != 0:
             for error in result_dict['dmarc-errors']:

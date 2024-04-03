@@ -311,7 +311,8 @@ def validate_email_domain(hostname, result_dict, global_translation, local_trans
     # 0.0 - Preflight (Will probably resolve 98% of questions from people trying this test themself)
     # 0.1 - Check for allowed connection over port 25 (most consumer ISP don't allow this)
     support_port25 = False
-    # 0.2 - Check for allowed IPv6 support (GitHub Actions doesn't support it on network lever on the time of writing this)
+    # 0.2 - Check for allowed IPv6 support
+    # (GitHub Actions doesn't support it on network lever on the time of writing this)
     support_IPv6 = False
 
     # 1 - Get Email servers
@@ -516,58 +517,65 @@ def Validate_DMARC_Policy(_, _local, hostname, result_dict):
                 if section == '':
                     continue
 
+                pair = section.split('=')
+                if len(pair) != 2:
+                    # TODO: flag for standard
+                    continue
+
+                key = pair[0]
+                data = pair[1]
+
+
                 print('TEST B', section)
                 # print('section:', section)
-                # if section.startswith('v='):
-                #     data = section[2:]
-                #     if 'spf-ipv4' not in result_dict:
-                #         result_dict['spf-ipv4'] = list()
-                #     result_dict['spf-ipv4'].append(data)
-                # elif section.startswith('p='):
-                #     data = section[2:]
-                #     # none
-                #     # quarantine
-                #     # reject
-                #     result_dict['dmarc-action'] = data
-                # elif section.startswith('include:') or section.startswith('+include:'):
-                #     spf_domain = section[8:]
-                #     subresult_dict = Validate_SPF_Policy(
-                #         _, _local, spf_domain, result_dict)
-                #     result_dict.update(subresult_dict)
-                # elif section.startswith('?all'):
-                #     # What do this do and should we rate on it?
-                #     result_dict['spf-uses-neutralfail'] = True
-                # elif section.startswith('~all'):
-                #     # add support for SoftFail
-                #     result_dict['spf-uses-softfail'] = True
-                # elif section.startswith('-all'):
-                #     # add support for HardFail
-                #     result_dict['spf-uses-hardfail'] = True
-                # elif section.startswith('+all') or section.startswith('all'):
-                #     # basicly whitelist everything... Big fail
-                #     result_dict['spf-uses-ignorefail'] = True
-                # elif section.startswith('v=spf1'):
-                #     c = 1
-                # elif section.startswith('mx') or section.startswith('+mx'):
-                #     # TODO: What do this do and should we rate on it?
-                #     c = 1
-                # elif section.startswith('a') or section.startswith('+a'):
-                #     # TODO: What do this do and should we rate on it?
-                #     c = 1
-                # elif section.startswith('ptr') or section.startswith('+ptr'):
-                #     # What do this do and should we rate on it?
-                #     result_dict['spf-uses-ptr'] = True
-                # elif section.startswith('exists:'):
-                #     # TODO: What do this do and should we rate on it?
-                #     c = 1
-                # elif section.startswith('redirect='):
-                #     # TODO: What do this do and should we rate on it?
-                #     c = 1
-                # elif section.startswith('exp='):
-                #     # TODO: What do this do and should we rate on it?
-                #     c = 1
-                # else:
-                #     result_dict['spf-uses-none-standard'] = True
+                if key == 'v':
+                    if 'spf-ipv4' not in result_dict:
+                        result_dict['spf-ipv4'] = list()
+                    result_dict['spf-ipv4'].append(data)
+                elif key == 'p':
+                    # none
+                    # quarantine
+                    # reject
+                    result_dict['dmarc-action'] = data
+                elif section.startswith('include:') or section.startswith('+include:'):
+                    spf_domain = section[8:]
+                    subresult_dict = Validate_SPF_Policy(
+                        _, _local, spf_domain, result_dict)
+                    result_dict.update(subresult_dict)
+                elif section.startswith('?all'):
+                    # What do this do and should we rate on it?
+                    result_dict['spf-uses-neutralfail'] = True
+                elif section.startswith('~all'):
+                    # add support for SoftFail
+                    result_dict['spf-uses-softfail'] = True
+                elif section.startswith('-all'):
+                    # add support for HardFail
+                    result_dict['spf-uses-hardfail'] = True
+                elif section.startswith('+all') or section.startswith('all'):
+                    # basicly whitelist everything... Big fail
+                    result_dict['spf-uses-ignorefail'] = True
+                elif section.startswith('v=spf1'):
+                    c = 1
+                elif section.startswith('mx') or section.startswith('+mx'):
+                    # TODO: What do this do and should we rate on it?
+                    c = 1
+                elif section.startswith('a') or section.startswith('+a'):
+                    # TODO: What do this do and should we rate on it?
+                    c = 1
+                elif section.startswith('ptr') or section.startswith('+ptr'):
+                    # What do this do and should we rate on it?
+                    result_dict['spf-uses-ptr'] = True
+                elif section.startswith('exists:'):
+                    # TODO: What do this do and should we rate on it?
+                    c = 1
+                elif section.startswith('redirect='):
+                    # TODO: What do this do and should we rate on it?
+                    c = 1
+                elif section.startswith('exp='):
+                    # TODO: What do this do and should we rate on it?
+                    c = 1
+                else:
+                    result_dict['spf-uses-none-standard'] = True
         except Exception as ex:
             print('ex C:', ex)
 
@@ -577,20 +585,50 @@ def Validate_DMARC_Policy(_, _local, hostname, result_dict):
 
 
 def Rate_has_DMARC_Policies(_, rating, result_dict, _local):
-    no_dmarc_record_rating = Rating(_, review_show_improvements_only)
     if 'dmarc-has-policy' in result_dict:
+        no_dmarc_record_rating = Rating(_, review_show_improvements_only)
         no_dmarc_record_rating.set_overall(5.0)
         no_dmarc_record_rating.set_integrity_and_security(
             5.0, _local('TEXT_REVIEW_DMARC_SUPPORT'))
         no_dmarc_record_rating.set_standards(
             5.0, _local('TEXT_REVIEW_DMARC_SUPPORT'))
+        rating += no_dmarc_record_rating
+
+        dmarc_action_rating = Rating(_, review_show_improvements_only)
+        if 'dmarc-action' in result_dict:
+            if 'reject' == result_dict['dmarc-action']:
+                dmarc_action_rating.set_overall(5.0)
+                dmarc_action_rating.set_integrity_and_security(
+                    5.0, _local('TEXT_REVIEW_DMARC_ACTION_REJECT'))
+                dmarc_action_rating.set_standards(
+                    5.0, _local('TEXT_REVIEW_DMARC_ACTION_REJECT'))
+            elif 'quarantine' == result_dict['dmarc-action']:
+                dmarc_action_rating.set_overall(4.0)
+                dmarc_action_rating.set_integrity_and_security(
+                    3.0, _local('TEXT_REVIEW_DMARC_ACTION_REJECT'))
+                dmarc_action_rating.set_standards(
+                    5.0, _local('TEXT_REVIEW_DMARC_ACTION_REJECT'))
+            elif 'none' == result_dict['dmarc-action']:
+                dmarc_action_rating.set_overall(3.0)
+                dmarc_action_rating.set_integrity_and_security(
+                    2.0, _local('TEXT_REVIEW_DMARC_ACTION_NONE'))
+                dmarc_action_rating.set_standards(
+                    5.0, _local('TEXT_REVIEW_DMARC_ACTION_NONE'))
+        if not dmarc_action_rating.is_set:
+            dmarc_action_rating.set_overall(1.0)
+            dmarc_action_rating.set_integrity_and_security(
+                1.0, _local('TEXT_REVIEW_DMARC_NO_ACTION'))
+            dmarc_action_rating.set_standards(
+                1.0, _local('TEXT_REVIEW_DMARC_NO_ACTION'))
+        rating += dmarc_action_rating
     else:
+        no_dmarc_record_rating = Rating(_, review_show_improvements_only)
         no_dmarc_record_rating.set_overall(1.0)
         no_dmarc_record_rating.set_integrity_and_security(
             1.0, _local('TEXT_REVIEW_DMARC_NO_SUPPORT'))
         no_dmarc_record_rating.set_standards(
             1.0, _local('TEXT_REVIEW_DMARC_NO_SUPPORT'))
-    rating += no_dmarc_record_rating
+        rating += no_dmarc_record_rating
     return rating
 
    

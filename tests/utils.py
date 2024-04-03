@@ -641,7 +641,7 @@ def dns_lookup(key, datatype):
 
         if response.rcode() != 0:
             # HANDLE QUERY FAILED (SERVER ERROR OR NO DNSKEY RECORD)
-            print('\t\tERROR, RCODE is INVALID:', response.rcode())
+            # print('\t\tERROR, RCODE is INVALID:', response.rcode())
             return []
 
         text_response = response.to_text()

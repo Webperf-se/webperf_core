@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2022-12-09 17:04+0200\n"
-"PO-Revision-Date: 2022-12-09 17:04+0200\n"
+"PO-Revision-Date: 2024-04-03 21:30+0200\n"
 "Last-Translator: mattias <mattias@webperf.se>\n"
 "Language-Team: Swedish <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
@@ -140,3 +140,66 @@ msgstr "SPF-servrar i länder med adekvat nivå av dataskydd: {0}"
 
 msgid "TEXT_REVIEW_SPF_NONE_GDPR"
 msgstr "SPF-servrar i länder utan adekvat nivå av dataskydd: {0}"
+
+msgid "TEXT_REVIEW_DMARC_SUPPORT"
+msgstr "DMARC DNS-post hittades"
+
+msgid "TEXT_REVIEW_DMARC_NO_SUPPORT"
+msgstr "DMARC DNS-post hittades inte"
+
+msgid "TEXT_REVIEW_DMARC_EMPTY_SECTION_WHILE_PARSE"
+msgstr "DMARC DNS-post är felaktigt formaterad"
+
+msgid "TEXT_REVIEW_DMARC_PAIR_INVALID"
+msgstr "DMARC DNS-post har en felaktig sektion"
+
+msgid "TEXT_REVIEW_DMARC_PCT_INVALID"
+msgstr "DMARC DNS-post har ett ogiltigt PCT-värde"
+
+msgid "TEXT_REVIEW_DMARC_RI_INVALID"
+msgstr "DMARC DNS-post har ett ogiltigt RI-värde"
+
+msgid "TEXT_REVIEW_DMARC_USES_FO_BUT_NO_RUF"
+msgstr "DMARC DNS-post använder FO men saknar RUF"
+
+msgid "TEXT_REVIEW_DMARC_NO_PARSE_ERRORS"
+msgstr "DMARC DNS-post verkar vara korrekt formaterad"
+
+msgid "TEXT_REVIEW_DMARC_PCT_USES_DEFAULT"
+msgstr "DMARC DNS-post använde standardvärdet för PCT, det är överflödigt"
+
+msgid "TEXT_REVIEW_DMARC_RI_USES_DEFAULT"
+msgstr "DMARC DNS-post använde standardvärdet för RI, det är överflödigt"
+
+msgid "TEXT_REVIEW_DMARC_POLICY_REJECT"
+msgstr "DMARC DNS-post använder 'rejected' för policy"
+
+msgid "TEXT_REVIEW_DMARC_POLICY_QUARANTINE"
+msgstr "DMARC DNS-post använder 'quarantine' för policy"
+
+msgid "TEXT_REVIEW_DMARC_POLICY_NONE"
+msgstr "DMARC DNS-post använder 'none' för policy"
+
+msgid "TEXT_REVIEW_DMARC_NO_POLICY"
+msgstr "DMARC DNS-post saknar policy"
+
+msgid "TEXT_REVIEW_DMARC_SUBPOLICY_REDUNDANT"
+msgstr "DMARC DNS-postens underpolicy motsvarar policy, underpolicy är överflödig"
+
+msgid "TEXT_REVIEW_DMARC_SUBPOLICY_QUARANTINE"
+msgstr "DMARC DNS-post använder 'quarantine' för underpolicy"
+
+msgid "TEXT_REVIEW_DMARC_SUBPOLICY_REJECT"
+msgstr "DMARC DNS-post använder 'rejected' för underpolicy"
+
+msgid "TEXT_REVIEW_DMARC_SUBPOLICY_NONE"
+msgstr "DMARC DNS-post använder 'none' för underpolicy"
+
+msgid "TEXT_REVIEW_DMARC_PCT_NOT_100"
+msgstr "DMARC DNS-post använder PCT mindre än 100"
+
+msgid "TEXT_REVIEW_DMARC_PCT"
+msgstr "DMARC DNS-post använder PCT"
+
+msgid "TEXT_REVIEW_DMARC_NO_WARNINGS"
+msgstr "DMARC DNS-post har inga varningar"

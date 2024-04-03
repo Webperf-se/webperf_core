@@ -508,11 +508,13 @@ def Validate_DMARC_Policy(global_translation, local_translation, hostname, resul
     if 'dmarc-has-policy' in result_dict:
         result_dict['dmarc-errors'] = []
         result_dict['dmarc-percentage'] = 100
-        result_dict['dmarc-failure-reporting-options'] = 0
+        result_dict['dmarc-failure-reporting-options'] = []
+        result_dict['dmarc-receiver-url-failure'] = []
 
         try:
             # https://www.rfc-editor.org/rfc/rfc7489.txt
             # https://www.rfc-editor.org/rfc/rfc7489#section-6.1
+            dmarc_content = dmarc_content.rstrip(';')
             dmarc_sections = dmarc_content.split(';')
 
             for section in dmarc_sections:
@@ -533,11 +535,7 @@ def Validate_DMARC_Policy(global_translation, local_translation, hostname, resul
 
                 print('TEST B', section)
                 # print('section:', section)
-                if key == 'v':
-                    if 'spf-ipv4' not in result_dict:
-                        result_dict['spf-ipv4'] = list()
-                    result_dict['spf-ipv4'].append(data)
-                elif key == 'p':
+                if key == 'p':
                     if data == 'none' or data == 'quarantine' or data == 'reject':
                         result_dict['dmarc-action'] = data
                     else:
@@ -559,6 +557,10 @@ def Validate_DMARC_Policy(global_translation, local_translation, hostname, resul
                             result_dict['dmarc-errors'].append(
                                 local_translation(
                                     'TEXT_REVIEW_DMARC_FAILURE_REPORTING_OPTIONS_INVALID'))
+                elif key == 'ruf':
+                    fields = data.split(',')
+                    for field in fields:
+                        result_dict['dmarc-receiver-url-failure'].append(field)
                 elif key == 'pct':
                     try:
                         result_dict['dmarc-percentage'] = int(data)
@@ -633,6 +635,9 @@ def Rate_has_DMARC_Policies(global_translation, rating, result_dict, local_trans
                 percentage_rating.set_standards(
                     5.0, local_translation('TEXT_REVIEW_DMARC_PERCENTAGE'))
             rating += percentage_rating
+
+        if len(result_dict['dmarc-failure-reporting-options']) != 0 and len(result_dict['dmarc-receiver-url-failure']) == 0:
+            result_dict['dmarc-errors'].append(local_translation('TEXT_REVIEW_DMARC_USES_FO_BUT_NO_RUF'))
 
         if len(result_dict['dmarc-errors']) != 0:
             for error in result_dict['dmarc-errors']:

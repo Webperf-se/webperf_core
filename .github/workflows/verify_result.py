@@ -157,6 +157,23 @@ def get_file_content(input_filename):
             lines.append(line)
     return '\n'.join(lines)
 
+def validate_failures():
+    """
+    Verifies if a unhandled exception occured or not.
+    If True, we print content of failures.log
+    If False, we do nothing
+    """
+    base_directory = Path(os.path.dirname(
+            os.path.realpath(__file__)) + os.path.sep).parent.parent
+    filename = 'failures.log'
+    filename = os.path.join(base_directory.resolve(), filename)
+    if not os.path.exists(filename):
+        print(f'no {filename} exists')
+        return True
+
+    print('failures happend while running test')
+    print_file_content(filename)
+    return True
 
 def validate_testresult(arg):
     """
@@ -853,6 +870,9 @@ def main(argv):
 
 def handle_test_result(arg):
     """ Terminate the programme with an error if our test contains unexpected content  """
+    if not validate_failures():
+        sys.exit(2)
+
     if validate_testresult(arg):
         sys.exit(0)
     else:

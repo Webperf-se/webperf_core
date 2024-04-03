@@ -37,5 +37,5 @@ jobs:
         git config --global user.name 'GitHub Action'
         git config --global user.email '7h3Rabbit@users.noreply.github.com'
         git add locales/
-        git commit -m "Add changed Translation(s) if any"
+        git commit -m "Added changed Translation(s)"
         git push

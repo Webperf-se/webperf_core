@@ -5,7 +5,7 @@ If you want to test/verify private websites you should probably look at one of t
 
 ## How to setup
 - [Fork webperf-core repository](https://github.com/Webperf-se/webperf_core/fork?fragment=1)
-- Remove tests you don't want from your `./github/workflows/` folder (You probably only want `codeql-analysis.yml` and `regression-test-translations.yml` if you are contributing).
+- Remove tests you don't need from your `./github/workflows/` folder (You only need: `close-inactive-issues.yml`, `codeql-analysis.yml`, `pylint.yml`, `regression-test-translations.yml` and `update-software.yml` if you are contributing and are working on a Pull Request).
 - Rest of the steps depend on how you want to run/trigger the test, see below
 
 ### Triggeron Push or Pull request
@@ -14,7 +14,8 @@ Choose this option if you want to [contribute](CONTRIBUTING.md) or have your own
 
 #### How to setup:
 
-- Change `https://webperf.se/` in all `.yml` files to the url you want to test with.
+- Change `https://webperf.se/` in `sites.json` file to the url you want to test with.
+  (If you want to test more then one, add them)
 - Now every time you push new changes or create a pull request all `.yml` tests will run.
 
 ### Trigger on a Schedule

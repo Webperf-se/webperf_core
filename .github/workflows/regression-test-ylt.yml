@@ -45,11 +45,11 @@ jobs:
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: RUNNING TEST - LINUX
       run: |
-         python default.py -t ${{ matrix.version }} -r -u https://webperf.se/ -o .github/workflows/testresult-${{ matrix.version }}.json
+         python default.py -t ${{ matrix.version }} -r -i sites.json -o .github/workflows/testresult-${{ matrix.version }}.json
          python .github/workflows/verify_result.py -t ${{ matrix.version }}
     - if: ${{ matrix.os == 'windows-latest' }}
       name: RUNNING TEST - WINDOWS
       run: |
-         python default.py -t ${{ matrix.version }} -r -u https://webperf.se/ -o .github\workflows\testresult-${{ matrix.version }}.json
+         python default.py -t ${{ matrix.version }} -r -i sites.json -o .github\workflows\testresult-${{ matrix.version }}.json
          python .github\workflows\verify_result.py -t ${{ matrix.version }}
       

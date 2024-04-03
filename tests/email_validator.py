@@ -491,19 +491,13 @@ def Validate_DMARC_Policies(global_translation, rating, result_dict, local_trans
 def Validate_DMARC_Policy(global_translation, local_translation, hostname, result_dict):
     # https://proton.me/support/anti-spoofing-custom-domain
 
-    dmarc_results = dns_lookup("_dmarc.{0}".format(hostname), "TXT")
-    has_records = len(dmarc_results) > 0
-
-    print('TEST A', dmarc_results)
-
+    dmarc_results = dns_lookup(f"_dmarc.{hostname}", "TXT")
     dmarc_content = ''
 
     for result in dmarc_results:
         if result.startswith('v=DMARC1'):
             result_dict['dmarc-has-policy'] = True
             dmarc_content = result
-            # print('content:', spf_content.replace(
-            #     '\r\n', '\\r\\n\r\n').replace(' ', '#'))
 
     if 'dmarc-has-policy' in result_dict:
         result_dict['dmarc-errors'] = []
@@ -536,8 +530,6 @@ def Validate_DMARC_Policy(global_translation, local_translation, hostname, resul
                 key = pair[0]
                 data = pair[1]
 
-                print('TEST B', section)
-                # print('section:', section)
                 if key == 'p':
                     if data == 'none' or data == 'quarantine' or data == 'reject':
                         result_dict['dmarc-p'] = data
@@ -601,8 +593,7 @@ def Validate_DMARC_Policy(global_translation, local_translation, hostname, resul
                     if data == 'afrf':
                         result_dict['dmarc-warnings'].append(local_translation(
                             'TEXT_REVIEW_DMARC_RF_USES_DEFAULT'))
-                    for field in fields:
-                        result_dict['dmarc-report-failure'].append(data)
+                    result_dict['dmarc-rf'] = data
                 elif key == 'pct':
                     try:
                         result_dict['dmarc-pct'] = int(data)
@@ -658,9 +649,9 @@ def Rate_has_DMARC_Policies(global_translation, rating, result_dict, local_trans
             elif 'quarantine' == result_dict['dmarc-p']:
                 dmarc_policy_rating.set_overall(4.0)
                 dmarc_policy_rating.set_integrity_and_security(
-                    2.0, local_translation('TEXT_REVIEW_DMARC_POLICY_REJECT'))
+                    4.0, local_translation('TEXT_REVIEW_DMARC_POLICY_QUARANTINE'))
                 dmarc_policy_rating.set_standards(
-                    5.0, local_translation('TEXT_REVIEW_DMARC_POLICY_REJECT'))
+                    5.0, local_translation('TEXT_REVIEW_DMARC_POLICY_QUARANTINE'))
             elif 'none' == result_dict['dmarc-p']:
                 dmarc_policy_rating.set_overall(3.0)
                 dmarc_policy_rating.set_integrity_and_security(
@@ -686,21 +677,21 @@ def Rate_has_DMARC_Policies(global_translation, rating, result_dict, local_trans
             if 'reject' == result_dict['dmarc-sp']:
                 dmarc_subpolicy_rating.set_overall(5.0)
                 dmarc_subpolicy_rating.set_integrity_and_security(
-                    5.0, local_translation('TEXT_REVIEW_DMARC_POLICY_REJECT'))
+                    5.0, local_translation('TEXT_REVIEW_DMARC_SUBPOLICY_QUARANTINE'))
                 dmarc_subpolicy_rating.set_standards(
-                    5.0, local_translation('TEXT_REVIEW_DMARC_POLICY_REJECT'))
+                    5.0, local_translation('TEXT_REVIEW_DMARC_SUBPOLICY_QUARANTINE'))
             elif 'quarantine' == result_dict['dmarc-sp']:
                 dmarc_subpolicy_rating.set_overall(4.0)
                 dmarc_subpolicy_rating.set_integrity_and_security(
-                    2.0, local_translation('TEXT_REVIEW_DMARC_POLICY_REJECT'))
+                    4.0, local_translation('TEXT_REVIEW_DMARC_SUBPOLICY_REJECT'))
                 dmarc_subpolicy_rating.set_standards(
-                    5.0, local_translation('TEXT_REVIEW_DMARC_POLICY_REJECT'))
+                    5.0, local_translation('TEXT_REVIEW_DMARC_SUBPOLICY_REJECT'))
             elif 'none' == result_dict['dmarc-sp']:
                 dmarc_subpolicy_rating.set_overall(3.0)
                 dmarc_subpolicy_rating.set_integrity_and_security(
-                    1.0, local_translation('TEXT_REVIEW_DMARC_POLICY_NONE'))
+                    1.0, local_translation('TEXT_REVIEW_DMARC_SUBPOLICY_NONE'))
                 dmarc_subpolicy_rating.set_standards(
-                    5.0, local_translation('TEXT_REVIEW_DMARC_POLICY_NONE'))
+                    5.0, local_translation('TEXT_REVIEW_DMARC_SUBPOLICY_NONE'))
         rating += dmarc_subpolicy_rating
 
 

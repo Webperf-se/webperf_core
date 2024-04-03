@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2022-12-09 17:04+0200\n"
-"PO-Revision-Date: 2022-12-09 17:04+0200\n"
+"PO-Revision-Date: 2024-04-03 21:30+0200\n"
 "Last-Translator: mattias <mattias@webperf.se>\n"
 "Language-Team: English <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
@@ -140,3 +140,66 @@ msgstr "SPF servers in countries that are GDPR compliant: {0}"
 
 msgid "TEXT_REVIEW_SPF_NONE_GDPR"
 msgstr "SPF servers in countries that are not GDPR compliant: {0}"
+
+msgid "TEXT_REVIEW_DMARC_SUPPORT"
+msgstr "DMARC DNS record found"
+
+msgid "TEXT_REVIEW_DMARC_NO_SUPPORT"
+msgstr "DMARC DNS record not found"
+
+msgid "TEXT_REVIEW_DMARC_EMPTY_SECTION_WHILE_PARSE"
+msgstr "DMARC DNS record is malformed"
+
+msgid "TEXT_REVIEW_DMARC_PAIR_INVALID"
+msgstr "DMARC DNS record has a malformed section"
+
+msgid "TEXT_REVIEW_DMARC_PCT_INVALID"
+msgstr "DMARC DNS record has a invalid PCT value"
+
+msgid "TEXT_REVIEW_DMARC_RI_INVALID"
+msgstr "DMARC DNS record has a invalid RI value"
+
+msgid "TEXT_REVIEW_DMARC_USES_FO_BUT_NO_RUF"
+msgstr "DMARC DNS record uses FO but is missing RUF"
+
+msgid "TEXT_REVIEW_DMARC_NO_PARSE_ERRORS"
+msgstr "DMARC DNS record seems to be properly formated"
+
+msgid "TEXT_REVIEW_DMARC_PCT_USES_DEFAULT"
+msgstr "DMARC DNS record used default value for PCT, it is redundant"
+
+msgid "TEXT_REVIEW_DMARC_RI_USES_DEFAULT"
+msgstr "DMARC DNS record used default value for RI, it is redundant"
+
+msgid "TEXT_REVIEW_DMARC_POLICY_REJECT"
+msgstr "DMARC DNS record is using 'rejected' for policy"
+
+msgid "TEXT_REVIEW_DMARC_POLICY_QUARANTINE"
+msgstr "DMARC DNS record is using 'quarantine' for policy"
+
+msgid "TEXT_REVIEW_DMARC_POLICY_NONE"
+msgstr "DMARC DNS record is using 'none' for policy"
+
+msgid "TEXT_REVIEW_DMARC_NO_POLICY"
+msgstr "DMARC DNS record is missing policy"
+
+msgid "TEXT_REVIEW_DMARC_SUBPOLICY_REDUNDANT"
+msgstr "DMARC DNS record subpolicy equals policy, subpolicy is redundant"
+
+msgid "TEXT_REVIEW_DMARC_SUBPOLICY_QUARANTINE"
+msgstr "DMARC DNS record is using 'quarantine' for subpolicy"
+
+msgid "TEXT_REVIEW_DMARC_SUBPOLICY_REJECT"
+msgstr "DMARC DNS record is using 'rejected' for subpolicy"
+
+msgid "TEXT_REVIEW_DMARC_SUBPOLICY_NONE"
+msgstr "DMARC DNS record is using 'none' for subpolicy"
+
+msgid "TEXT_REVIEW_DMARC_PCT_NOT_100"
+msgstr "DMARC DNS record is using PCT of less than 100"
+
+msgid "TEXT_REVIEW_DMARC_PCT"
+msgstr "DMARC DNS record is using PCT"
+
+msgid "TEXT_REVIEW_DMARC_NO_WARNINGS"
+msgstr "DMARC DNS record has no warnings"

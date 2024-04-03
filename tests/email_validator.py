@@ -204,7 +204,7 @@ def get_interesting_urls(content, org_url_start, depth):
     urls = {}
 
     soup = BeautifulSoup(content, 'lxml')
-    links = soup.find_all("aaa")
+    links = soup.find_all("a")
 
     for link in links:
         if not link.find(string=re.compile(

@@ -150,16 +150,16 @@ def run_test(global_translation, lang_code, url):
         content = get_http_content(url, True)
         time.sleep(1)
         result = search_for_email_domain(content)
-        if result == None:
+        if result is None:
             interesting_urls = get_interesting_urls(content, url, 0)
             for interesting_url in interesting_urls:
                 content = get_http_content(interesting_url, True)
                 result = search_for_email_domain(content)
-                if result != None:
+                if result is not None:
                     break
                 time.sleep(1)
 
-        if result != None:
+        if result is not None:
             rating, result_dict = validate_email_domain(
                 result, result_dict, global_translation, local_translation)
             rating.overall_review = local_translation('TEXT_REVIEW_MX_ALTERATIVE').format(
@@ -175,16 +175,16 @@ def search_for_email_domain(content):
     content_match = re.search(
         r"[\"' ]mailto:(?P<email>[^\"'\r\n\\]+)[\"'\r\n\\]", content)
 
-    if content_match == None:
+    if content_match is None:
         return None
 
     email = content_match.group('email')
     domain_match = re.search(r'@(?P<domain>.*)', email)
-    if domain_match == None:
+    if domain_match is None:
         return None
 
     domain = domain_match.group('domain')
-    if domain == None:
+    if domain is None:
         return None
 
     domain = domain.lower().strip()
@@ -210,16 +210,16 @@ def get_interesting_urls(content, org_url_start, depth):
                 r"(kontakt(a [a-z]+){0,1}|om [a-z]+|personuppgifter|(tillg(.{1,6}|ä|&auml;|&#228;)nglighet(sredog(.{1,6}|ö|&ouml;|&#246;)relse){0,1}))", flags=re.MULTILINE | re.IGNORECASE)):
             continue
 
-        url = '{0}'.format(link.get('href'))
+        url = f'{link.get('href')}'
 
-        if url == None:
+        if url is None:
             continue
         elif url.endswith('.pdf'):
             continue
         elif url.startswith('//'):
             continue
         elif url.startswith('/'):
-            url = '{0}{1}'.format(org_url_start, url)
+            url = f'{org_url_start}{url}'
         elif url.startswith('#'):
             continue
 
@@ -288,7 +288,7 @@ def get_sort_on_precision(item):
 def get_default_info(url, text, method, precision, depth):
     result = {}
 
-    if text != None:
+    if text is not None:
         text = text.lower().strip('.').strip('-').strip()
 
     result['url'] = url
@@ -312,7 +312,7 @@ def validate_email_domain(hostname, result_dict, global_translation, local_trans
     support_port25 = False
     # 0.2 - Check for allowed IPv6 support
     # (GitHub Actions doesn't support it on network lever on the time of writing this)
-    support_IPv6 = False
+    support_ipv6 = False
 
     # 1 - Get Email servers
     # dns_lookup
@@ -327,7 +327,7 @@ def validate_email_domain(hostname, result_dict, global_translation, local_trans
                 global_translation, rating, local_translation, ipv4_servers)
 
         # 1.2 - Check operational
-        if support_port25 and support_IPv6 and len(ipv6_servers) > 0:
+        if support_port25 and support_ipv6 and len(ipv6_servers) > 0:
             rating = Validate_IPv6_Operation_Status(
                 global_translation, rating, local_translation, ipv6_servers)
 
@@ -499,13 +499,17 @@ def Validate_DMARC_Policy(global_translation, local_translation, hostname, resul
     dmarc_content = ''
 
     for result in dmarc_results:
-        if 'v=DMARC1' in result:
+        if result.startswith('v=DMARC1'):
             result_dict['dmarc-has-policy'] = True
             dmarc_content = result
             # print('content:', spf_content.replace(
             #     '\r\n', '\\r\\n\r\n').replace(' ', '#'))
 
     if 'dmarc-has-policy' in result_dict:
+        result_dict['dmarc-errors'] = []
+        result_dict['dmarc-percentage'] = 100
+        result_dict['dmarc-failure-reporting-options'] = 0
+
         try:
             # https://www.rfc-editor.org/rfc/rfc7489.txt
             # https://www.rfc-editor.org/rfc/rfc7489#section-6.1
@@ -514,16 +518,18 @@ def Validate_DMARC_Policy(global_translation, local_translation, hostname, resul
             for section in dmarc_sections:
                 section = section.strip()
                 if section == '':
+                    result_dict['dmarc-errors'].append(
+                        local_translation('TEXT_REVIEW_DMARC_EMPTY_SECTION_WHILE_PARSE'))
                     continue
 
                 pair = section.split('=')
                 if len(pair) != 2:
-                    # TODO: flag for standard
+                    result_dict['dmarc-errors'].append(
+                        local_translation('TEXT_REVIEW_DMARC_PAIR_INVALID'))
                     continue
 
                 key = pair[0]
                 data = pair[1]
-
 
                 print('TEST B', section)
                 # print('section:', section)
@@ -532,49 +538,40 @@ def Validate_DMARC_Policy(global_translation, local_translation, hostname, resul
                         result_dict['spf-ipv4'] = list()
                     result_dict['spf-ipv4'].append(data)
                 elif key == 'p':
-                    # none
-                    # quarantine
-                    # reject
-                    result_dict['dmarc-action'] = data
-                elif section.startswith('include:') or section.startswith('+include:'):
-                    spf_domain = section[8:]
-                    subresult_dict = Validate_SPF_Policy(
-                        global_translation, local_translation, spf_domain, result_dict)
-                    result_dict.update(subresult_dict)
-                elif section.startswith('?all'):
-                    # What do this do and should we rate on it?
-                    result_dict['spf-uses-neutralfail'] = True
-                elif section.startswith('~all'):
-                    # add support for SoftFail
-                    result_dict['spf-uses-softfail'] = True
-                elif section.startswith('-all'):
-                    # add support for HardFail
-                    result_dict['spf-uses-hardfail'] = True
-                elif section.startswith('+all') or section.startswith('all'):
-                    # basicly whitelist everything... Big fail
-                    result_dict['spf-uses-ignorefail'] = True
-                elif section.startswith('v=spf1'):
-                    c = 1
-                elif section.startswith('mx') or section.startswith('+mx'):
-                    # TODO: What do this do and should we rate on it?
-                    c = 1
-                elif section.startswith('a') or section.startswith('+a'):
-                    # TODO: What do this do and should we rate on it?
-                    c = 1
-                elif section.startswith('ptr') or section.startswith('+ptr'):
-                    # What do this do and should we rate on it?
-                    result_dict['spf-uses-ptr'] = True
-                elif section.startswith('exists:'):
-                    # TODO: What do this do and should we rate on it?
-                    c = 1
-                elif section.startswith('redirect='):
-                    # TODO: What do this do and should we rate on it?
-                    c = 1
-                elif section.startswith('exp='):
-                    # TODO: What do this do and should we rate on it?
-                    c = 1
-                else:
-                    result_dict['spf-uses-none-standard'] = True
+                    if data == 'none' or data == 'quarantine' or data == 'reject':
+                        result_dict['dmarc-action'] = data
+                    else:
+                        result_dict['dmarc-errors'].append(
+                            local_translation(
+                                'TEXT_REVIEW_DMARC_ACTION_INVALID'))
+                elif key == 'fo':
+                    result_dict['dmarc-failure-reporting-options'] = []
+                    fields = data.split(',')
+                    for field in fields:
+                        if field == '0':
+                            result_dict['dmarc-failure-reporting-options'].append(field)
+                            result_dict['dmarc-errors'].append(
+                                local_translation(
+                                    'TEXT_REVIEW_DMARC_FAILURE_REPORTING_OPTIONS_USE_DEFAULT'))
+                        elif field == '1' or field == 'd' or field == 's':
+                            result_dict['dmarc-failure-reporting-options'].append(field)
+                        else:
+                            result_dict['dmarc-errors'].append(
+                                local_translation(
+                                    'TEXT_REVIEW_DMARC_FAILURE_REPORTING_OPTIONS_INVALID'))
+                elif key == 'pct':
+                    try:
+                        result_dict['dmarc-percentage'] = int(data)
+                        if 100 < result_dict['dmarc-percentage'] < 0:
+                            result_dict['dmarc-errors'].append(
+                                local_translation('TEXT_REVIEW_DMARC_PERCENTAGE_INVALID'))
+                            result_dict['dmarc-percentage'] = None
+                    except TypeError:
+                        result_dict['dmarc-errors'].append(
+                            local_translation('TEXT_REVIEW_DMARC_PERCENTAGE_INVALID'))
+                        result_dict['dmarc-percentage'] = None
+
+
         except Exception as ex:
             print('ex C:', ex)
 
@@ -598,28 +595,60 @@ def Rate_has_DMARC_Policies(global_translation, rating, result_dict, local_trans
             if 'reject' == result_dict['dmarc-action']:
                 dmarc_action_rating.set_overall(5.0)
                 dmarc_action_rating.set_integrity_and_security(
-                    5.0, local_translation('TEXT_REVIEW_DMARC_ACTION_REJECT'))
+                    5.0, local_translation('TEXT_REVIEW_DMARC_POLICY_REJECT'))
                 dmarc_action_rating.set_standards(
-                    5.0, local_translation('TEXT_REVIEW_DMARC_ACTION_REJECT'))
+                    5.0, local_translation('TEXT_REVIEW_DMARC_POLICY_REJECT'))
             elif 'quarantine' == result_dict['dmarc-action']:
                 dmarc_action_rating.set_overall(4.0)
                 dmarc_action_rating.set_integrity_and_security(
-                    3.0, local_translation('TEXT_REVIEW_DMARC_ACTION_REJECT'))
+                    2.0, local_translation('TEXT_REVIEW_DMARC_POLICY_REJECT'))
                 dmarc_action_rating.set_standards(
-                    5.0, local_translation('TEXT_REVIEW_DMARC_ACTION_REJECT'))
+                    5.0, local_translation('TEXT_REVIEW_DMARC_POLICY_REJECT'))
             elif 'none' == result_dict['dmarc-action']:
                 dmarc_action_rating.set_overall(3.0)
                 dmarc_action_rating.set_integrity_and_security(
-                    2.0, local_translation('TEXT_REVIEW_DMARC_ACTION_NONE'))
+                    1.0, local_translation('TEXT_REVIEW_DMARC_POLICY_NONE'))
                 dmarc_action_rating.set_standards(
-                    5.0, local_translation('TEXT_REVIEW_DMARC_ACTION_NONE'))
+                    5.0, local_translation('TEXT_REVIEW_DMARC_POLICY_NONE'))
         if not dmarc_action_rating.is_set:
             dmarc_action_rating.set_overall(1.0)
             dmarc_action_rating.set_integrity_and_security(
-                1.0, local_translation('TEXT_REVIEW_DMARC_NO_ACTION'))
+                1.0, local_translation('TEXT_REVIEW_DMARC_NO_POLICY'))
             dmarc_action_rating.set_standards(
-                1.0, local_translation('TEXT_REVIEW_DMARC_NO_ACTION'))
+                1.0, local_translation('TEXT_REVIEW_DMARC_NO_POLICY'))
         rating += dmarc_action_rating
+
+        if result_dict['dmarc-percentage'] is not None:
+            percentage_rating = Rating(global_translation, review_show_improvements_only)
+            if result_dict['dmarc-percentage'] < 100:
+                percentage_rating.set_overall(3.0)
+                percentage_rating.set_integrity_and_security(
+                    1.0, local_translation('TEXT_REVIEW_DMARC_PERCENTAGE_NOT_ALL'))
+                percentage_rating.set_standards(
+                    5.0, local_translation('TEXT_REVIEW_DMARC_PERCENTAGE'))
+            else:
+                percentage_rating.set_overall(5.0)
+                percentage_rating.set_integrity_and_security(
+                    5.0, local_translation('TEXT_REVIEW_DMARC_PERCENTAGE'))
+                percentage_rating.set_standards(
+                    5.0, local_translation('TEXT_REVIEW_DMARC_PERCENTAGE'))
+            rating += percentage_rating
+
+        if len(result_dict['dmarc-errors']) != 0:
+            for error in result_dict['dmarc-errors']:
+                error_rating = Rating(global_translation, review_show_improvements_only)
+                error_rating.set_overall(1.0)
+                error_rating.set_standards(
+                    1.0, error)
+                rating += error_rating
+        else:
+            no_errors_rating = Rating(global_translation, review_show_improvements_only)
+            no_errors_rating.set_overall(5.0)
+            no_errors_rating.set_integrity_and_security(
+                5.0, local_translation('TEXT_REVIEW_DMARC_NO_PARSE_ERRORS'))
+            no_errors_rating.set_standards(
+                5.0, local_translation('TEXT_REVIEW_DMARC_NO_PARSE_ERRORS'))
+            rating += no_errors_rating
     else:
         no_dmarc_record_rating = Rating(global_translation, review_show_improvements_only)
         no_dmarc_record_rating.set_overall(1.0)

@@ -153,11 +153,29 @@ msgstr "DMARC DNS-post är felaktigt formaterad"
 msgid "TEXT_REVIEW_DMARC_PAIR_INVALID"
 msgstr "DMARC DNS-post har en felaktig sektion"
 
+msgid "TEXT_REVIEW_DMARC_POLICY_INVALID"
+msgstr "DMARC DNS-post har ett ogiltigt Policy-värde"
+
+msgid "TEXT_REVIEW_DMARC_SUBPOLICY_INVALID"
+msgstr "DMARC DNS-post har ett ogiltigt underpolicy-värde"
+
 msgid "TEXT_REVIEW_DMARC_PCT_INVALID"
 msgstr "DMARC DNS-post har ett ogiltigt PCT-värde"
 
+msgid "TEXT_REVIEW_DMARC_ADKIM_INVALID"
+msgstr "DMARC DNS-post har ett ogiltigt ADKIM-värde"
+
+msgid "TEXT_REVIEW_DMARC_ASPF_INVALID"
+msgstr "DMARC DNS-post har ett ogiltigt ASPF-värde"
+
 msgid "TEXT_REVIEW_DMARC_RI_INVALID"
 msgstr "DMARC DNS-post har ett ogiltigt RI-värde"
+
+msgid "TEXT_REVIEW_DMARC_FO_INVALID"
+msgstr "DMARC DNS-post har ett ogiltigt FO-värde"
+
+msgid "TEXT_REVIEW_DMARC_RF_INVALID"
+msgstr "DMARC DNS-post har ett ogiltigt RF-värde"
 
 msgid "TEXT_REVIEW_DMARC_USES_FO_BUT_NO_RUF"
 msgstr "DMARC DNS-post använder FO men saknar RUF"
@@ -168,8 +186,20 @@ msgstr "DMARC DNS-post verkar vara korrekt formaterad"
 msgid "TEXT_REVIEW_DMARC_PCT_USES_DEFAULT"
 msgstr "DMARC DNS-post använde standardvärdet för PCT, det är överflödigt"
 
+msgid "TEXT_REVIEW_DMARC_ADKIM_USES_DEFAULT"
+msgstr "DMARC DNS-post använde standardvärdet för ADKIM, det är överflödigt"
+
+msgid "TEXT_REVIEW_DMARC_ASPF_USES_DEFAULT"
+msgstr "DMARC DNS-post använde standardvärdet för ASPF, det är överflödigt"
+
 msgid "TEXT_REVIEW_DMARC_RI_USES_DEFAULT"
 msgstr "DMARC DNS-post använde standardvärdet för RI, det är överflödigt"
+
+msgid "TEXT_REVIEW_DMARC_FO_USES_DEFAULT"
+msgstr "DMARC DNS-post använde standardvärdet för FO, det är överflödigt"
+
+msgid "TEXT_REVIEW_DMARC_RF_USES_DEFAULT"
+msgstr "DMARC DNS-post använde standardvärdet för RF, det är överflödigt"
 
 msgid "TEXT_REVIEW_DMARC_POLICY_REJECT"
 msgstr "DMARC DNS-post använder 'rejected' för policy"

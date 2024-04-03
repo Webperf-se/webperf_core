@@ -153,11 +153,29 @@ msgstr "DMARC DNS record is malformed"
 msgid "TEXT_REVIEW_DMARC_PAIR_INVALID"
 msgstr "DMARC DNS record has a malformed section"
 
+msgid "TEXT_REVIEW_DMARC_POLICY_INVALID"
+msgstr "DMARC DNS record has a invalid POLICY value"
+
+msgid "TEXT_REVIEW_DMARC_SUBPOLICY_INVALID"
+msgstr "DMARC DNS record has a invalid SUBPOLICY value"
+
 msgid "TEXT_REVIEW_DMARC_PCT_INVALID"
 msgstr "DMARC DNS record has a invalid PCT value"
 
+msgid "TEXT_REVIEW_DMARC_ADKIM_INVALID"
+msgstr "DMARC DNS record has a invalid ADKIM value"
+
+msgid "TEXT_REVIEW_DMARC_ASPF_INVALID"
+msgstr "DMARC DNS record has a invalid ASPF value"
+
 msgid "TEXT_REVIEW_DMARC_RI_INVALID"
 msgstr "DMARC DNS record has a invalid RI value"
+
+msgid "TEXT_REVIEW_DMARC_FO_INVALID"
+msgstr "DMARC DNS record has a invalid FO value"
+
+msgid "TEXT_REVIEW_DMARC_RF_INVALID"
+msgstr "DMARC DNS record has a invalid RF value"
 
 msgid "TEXT_REVIEW_DMARC_USES_FO_BUT_NO_RUF"
 msgstr "DMARC DNS record uses FO but is missing RUF"
@@ -168,8 +186,20 @@ msgstr "DMARC DNS record seems to be properly formated"
 msgid "TEXT_REVIEW_DMARC_PCT_USES_DEFAULT"
 msgstr "DMARC DNS record used default value for PCT, it is redundant"
 
+msgid "TEXT_REVIEW_DMARC_ADKIM_USES_DEFAULT"
+msgstr "DMARC DNS record used default value for ADKIM, it is redundant"
+
+msgid "TEXT_REVIEW_DMARC_ASPF_USES_DEFAULT"
+msgstr "DMARC DNS record used default value for ASPF, it is redundant"
+
 msgid "TEXT_REVIEW_DMARC_RI_USES_DEFAULT"
 msgstr "DMARC DNS record used default value for RI, it is redundant"
+
+msgid "TEXT_REVIEW_DMARC_FO_USES_DEFAULT"
+msgstr "DMARC DNS record used default value for FO, it is redundant"
+
+msgid "TEXT_REVIEW_DMARC_RF_USES_DEFAULT"
+msgstr "DMARC DNS record used default value for RF, it is redundant"
 
 msgid "TEXT_REVIEW_DMARC_POLICY_REJECT"
 msgstr "DMARC DNS record is using 'rejected' for policy"

@@ -1,30 +1,46 @@
 # -*- coding: utf-8 -*-
-from models import Sites, SiteTests
-from engines.utils import use_item
 import csv
+from models import SiteTests
 
+def write_tests(output_filename, site_tests, sites):
+    """
+    Writes site test results to a CSV formated file from a given list of site tests.
+    Compared to csv engine it is optimized for goverment reports and is missing some fields
 
-def write_tests(output_filename, siteTests, sites):
+    Args:
+        output_filename (str): The name of the output file.
+        site_tests (list): A list of site tests.
+        input_skip (int): The number of tests to skip before starting to take.
+        input_take (int): The number of tests to take after skipping.
+        _ : Unused parameter.
+
+    Returns:
+        None
+    """
 
     tmp_fieldnames = []
+    lst = ['type_of_test', 'data', 'rating', 'date'
+            'perf', 'sec', 'a11y', 'stand', 'perf']
+
     standard_fieldnames = SiteTests.fieldnames()
     for fieldname in standard_fieldnames:
         if 'site_id' == fieldname:
             tmp_fieldnames.append('url')
-        elif 'type_of_test' != fieldname and 'data' not in fieldname and 'rating' not in fieldname and 'date' not in fieldname and 'perf' not in fieldname and 'sec' not in fieldname and 'a11y' not in fieldname and 'stand' not in fieldname and 'perf' not in fieldname:
+        elif not any(fieldname in x for x in lst):
             tmp_fieldnames.append(fieldname)
-
     tmp_sites = dict(sites)
 
-    with open(output_filename.replace('.gov', '.csv'), 'w', newline='') as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=tmp_fieldnames)
+    with open(output_filename.replace('.gov', '.csv'),
+              'w', newline='',
+              encoding='utf-8') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=tmp_fieldnames) # pylint: disable=no-member
 
 
         writer.writeheader()
-        for siteTest in siteTests:
-            site_url = tmp_sites.get(siteTest['site_id'])
-            
+        for site_test in site_tests:
+            site_url = tmp_sites.get(site_test['site_id'])
+
             writer.writerow({
                 'url': site_url,
-                'report': (siteTest['report'] + siteTest['report_sec'])
+                'report': (site_test['report'] + site_test['report_sec'])
             })

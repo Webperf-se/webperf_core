@@ -33,7 +33,7 @@ def write_tests(output_filename, site_tests, sites):
     with open(output_filename.replace('.gov', '.csv'),
               'w', newline='',
               encoding='utf-8') as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=tmp_fieldnames)
+        writer = csv.DictWriter(csvfile, fieldnames=tmp_fieldnames) # pylint: disable=no-member
 
 
         writer.writeheader()

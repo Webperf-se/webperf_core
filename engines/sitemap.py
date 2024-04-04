@@ -5,9 +5,20 @@ import gzip
 import io
 from bs4 import BeautifulSoup
 from engines.utils import use_item
-from tests.utils import get_content_type, get_http_content, merge_dicts, CACHE_TIME_DELTA
+from tests.utils import get_http_content, merge_dicts
 
 def read_sites(input_sitemap_url, input_skip, input_take):
+    """
+    This function reads site data from a specific sitemap.
+    
+    Parameters:
+    input_url (str): Absolute url to sitemap, .xml and .xml.bz fileendings are supported.
+    input_skip (int): The number of lines to skip in the input file.
+    input_take (int): The number of lines to take from the input file after skipping.
+    
+    Returns:
+    list: The list of sites read from the specified sitemap.
+    """
     ignore_none_html = True
     sitemaps = read_sitemap(input_sitemap_url, input_skip, input_take, ignore_none_html)
 
@@ -18,6 +29,21 @@ def read_sites(input_sitemap_url, input_skip, input_take):
     return sites
 
 def read_sitemap(input_sitemap_url, input_skip, input_take, ignore_none_html):
+    """
+    This function reads a sitemap from a given URL,
+    which can be in XML or gzipped XML format.
+    It then parses the sitemap content, filters the URLs based on certain conditions,
+    and returns a dictionary of URLs.
+    
+    Parameters:
+    input_sitemap_url (str): The URL of the sitemap.
+    input_skip (int): The number of URLs to skip.
+    input_take (int): The number of URLs to take after skipping.
+    ignore_none_html (bool): If True, non-HTML URLs are ignored.
+    
+    Returns:
+    dict: A dictionary containing all URLs and filtered URLs from the sitemap.
+    """
     result = {
         'all': [],
         input_sitemap_url: []
@@ -51,34 +77,33 @@ def read_sitemap(input_sitemap_url, input_skip, input_take, ignore_none_html):
 
     return result
 
-def read_sitemap_xml(key, sitemap_content, input_skip, input_take, ignore_none_html):
+def read_sitemap_xml(input_url, sitemap_content, input_skip, input_take, ignore_none_html):
+    """
+    This function parses the XML content of a sitemap,
+    filters the URLs based on certain conditions, and returns a dictionary of URLs.
+    
+    Parameters:
+    input_url (str): The url to be used in the result dictionary for storing filtered URLs.
+    sitemap_content (str): The XML content of the sitemap.
+    input_skip (int): The number of URLs to skip.
+    input_take (int): The number of URLs to take after skipping.
+    ignore_none_html (bool): If True, non-HTML URLs are ignored.
+    
+    Returns:
+    dict: A dictionary containing all URLs and filtered URLs.
+    """
     result = {
         'all': [],
-        key: []
+        input_url: []
     }
 
-    soup = BeautifulSoup(sitemap_content, 'xml')
-
-    root_element = None
-    is_sitemap_index = False
-    for element in soup.contents:
-        if element.name is None:
-            continue
-        low_name = element.name.lower()
-        if 'sitemapindex' == low_name:
-            root_element = element
-            is_sitemap_index = True
-            break
-        elif 'urlset' == low_name:
-            root_element = element
-            break
-
+    root_element = get_root_element(sitemap_content)
     if root_element is None:
         return result
 
     # Get the direct children of the root element
     children = [child for child in root_element.children \
-                if child.name == 'url' or child.name == 'sitemap']
+                if child.name in ('url', 'sitemap')]
 
     current_index = 0
     for child in children:
@@ -93,7 +118,7 @@ def read_sitemap_xml(key, sitemap_content, input_skip, input_take, ignore_none_h
             current_index += 1
             continue
 
-        if is_sitemap_index:
+        if root_element.name.lower() == 'sitemapindex':
             result = merge_dicts(read_sitemap(
                 item_url,
                 input_skip,
@@ -103,44 +128,82 @@ def read_sitemap_xml(key, sitemap_content, input_skip, input_take, ignore_none_h
         else:
             if ignore_none_html:
                 item_type = 'html'
-                parsed_item_url = urlparse(item_url)
-                tmp = os.path.splitext(parsed_item_url.path)[1].strip('.').lower()
+                tmp = os.path.splitext(urlparse(item_url).path)[1].strip('.').lower()
                 ext_len = len(tmp)
-                if ext_len <= 11 and ext_len >= 2:
+                if 2 <= ext_len <= 11:
                     item_type = tmp
 
-                if 'html' != item_type and 'htm' != item_type:
+                if item_type not in ('html', 'htm'):
                     print(f'- skipping because it is of type: {item_type}')
                     continue
-
-                item_content_type = get_content_type(item_url, CACHE_TIME_DELTA)
-                print('content-type', item_content_type)
-                if item_content_type == 401:
-                    print(f'- skipping because it is of status-code: {item_content_type}')
-                    continue
-
-                if item_content_type is not None and 'html' not in item_content_type:
-                    print(f'- skipping because it is of content-type: {item_content_type}')
-                    continue
             result['all'].append(item_url)
-            result[key].append(item_url)
+            result[input_url].append(item_url)
         current_index += 1
     return result
 
+def get_root_element(sitemap_content):
+    """
+    This function parses the XML content of a sitemap and returns the root element.
+    
+    Parameters:
+    sitemap_content (str): The XML content of the sitemap.
+    
+    Returns:
+    bs4.element.Tag: The root element of the sitemap. It could be either 'sitemapindex' or 'urlset'.
+    """
+    xml = BeautifulSoup(sitemap_content, 'xml')
+    root_element = None
+    for element in xml.contents:
+        if element.name is None:
+            continue
+        low_name = element.name.lower()
+        if 'sitemapindex' == low_name:
+            root_element = element
+            break
+        if 'urlset' == low_name:
+            root_element = element
+            break
+    return root_element
 
-def add_site(input_filename, _, input_skip, input_take):
+
+def add_site(input_url, _, input_skip, input_take):
+    """
+    This function reads site data from a specific sitemap,
+    prints a warning message (because it is read only),
+    
+    Parameters:
+    input_url (str): Absolute url to sitemap, .xml and .xml.bz fileendings are supported.
+    input_skip (int): The number of lines to skip in the input file.
+    input_take (int): The number of lines to take from the input file after skipping.
+    
+    Returns:
+    list: The list of sites read from the specified sitemap.
+    """
+
     print("WARNING: sitemap engine is a read only method for testing all pages in a sitemap.xml,"
           ,"NO changes will be made")
 
-    sites = read_sites(input_filename, input_skip, input_take)
+    sites = read_sites(input_url, input_skip, input_take)
 
     return sites
 
 
-def delete_site(input_filename, _, input_skip, input_take):
+def delete_site(input_url, _, input_skip, input_take):
+    """
+    This function reads site data from a specific sitemap,
+    prints a warning message (because it is read only),
+    
+    Parameters:
+    input_url (str): Absolute url to sitemap, .xml and .xml.bz fileendings are supported.
+    input_skip (int): The number of lines to skip in the input file.
+    input_take (int): The number of lines to take from the input file after skipping.
+    
+    Returns:
+    list: The list of sites read from the specified sitemap.
+    """
     print("WARNING: sitemap engine is a read only method for testing all pages in a sitemap.xml,"
           ,"NO changes will be made")
 
-    sites = read_sites(input_filename, input_skip, input_take)
+    sites = read_sites(input_url, input_skip, input_take)
 
     return sites

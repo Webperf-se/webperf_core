@@ -19,217 +19,217 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 24 - E-post (Beta)\n"
 
 msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_SUPPORT"
-msgstr "MTA-STS DNS-post hittades"
+msgstr "- MTA-STS DNS-post hittades"
 
 msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_NO_SUPPORT"
-msgstr "MTA-STS DNS-post hittades inte"
+msgstr "- MTA-STS DNS-post hittades inte"
 
 msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_WRONG_LINEBREAK"
-msgstr "MTA-STS TXT använder inte CRLF för radbryt"
+msgstr "- MTA-STS TXT använder inte CRLF för radbryt"
 
 msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_NOT_ENFORCED"
-msgstr "MTA-STS TXT är inte i ett tvingande läge"
+msgstr "- MTA-STS TXT är inte i ett tvingande läge"
 
 msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_VALID_MODE"
-msgstr "MTA-STS TXT mode-värdet är korrekt"
+msgstr "- MTA-STS TXT mode-värdet är korrekt"
 
 msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_INVALID_MODE"
-msgstr "MTA-STS TXT mode-värdet är felaktigt"
+msgstr "- MTA-STS TXT mode-värdet är felaktigt"
 
 msgid "TEXT_REVIEW_MTA_STS_TXT_SUPPORT"
-msgstr "MTA-STS TXT ser bra ut"
+msgstr "- MTA-STS TXT ser bra ut"
 
 msgid "TEXT_REVIEW_MTA_STS_TXT_INVALID_FORMAT"
-msgstr "MTA-STS TXT har ett felaktigt format"
+msgstr "- MTA-STS TXT har ett felaktigt format"
 
 msgid "TEXT_REVIEW_MTA_STS_TXT_NO_SUPPORT"
-msgstr "MTA-STS TXT hittades inte"
+msgstr "- MTA-STS TXT hittades inte"
 
 msgid "TEXT_REVIEW_SPF_TO_MANY_DNS_LOOKUPS"
-msgstr "SPF DNS-post orsakar för många DNS-uppslag"
+msgstr "- SPF DNS-post orsakar för många DNS-uppslag"
 
 msgid "TEXT_REVIEW_SPF_DNS_RECORD_SUPPORT"
-msgstr "SPF DNS-post hittades"
+msgstr "- SPF DNS-post hittades"
 
 msgid "TEXT_REVIEW_SPF_DNS_RECORD_NO_SUPPORT"
-msgstr "SPF DNS-post hittades inte"
+msgstr "- SPF DNS-post hittades inte"
 
 msgid "TEXT_REVIEW_SPF_DNS_DOUBLE_SPACE_RECORD"
-msgstr "SPF DNS-post använder två mellanslag istället för ett"
+msgstr "- SPF DNS-post använder två mellanslag istället för ett"
 
 msgid "TEXT_REVIEW_SPF_DNS_NEUTRALFAIL_RECORD"
-msgstr "SPF DNS-post använder neutralt misslyckande"
+msgstr "- SPF DNS-post använder neutralt misslyckande"
 
 msgid "TEXT_REVIEW_SPF_DNS_SOFTFAIL_RECORD"
-msgstr "SPF DNS-post använder mjukt misslyckande"
+msgstr "- SPF DNS-post använder mjukt misslyckande"
 
 msgid "TEXT_REVIEW_SPF_DNS_HARDFAIL_RECORD"
-msgstr "SPF DNS-post använder hårt misslyckande"
+msgstr "- SPF DNS-post använder hårt misslyckande"
 
 msgid "TEXT_REVIEW_SPF_DNS_IGNORE_RECORD_NO_SUPPORT"
-msgstr "SPF DNS-post är konfigurerad att bli ignorerad"
+msgstr "- SPF DNS-post är konfigurerad att bli ignorerad"
 
 msgid "TEXT_REVIEW_SPF_DNS_RECORD_PTR_USED"
-msgstr "SPF DNS-post använder felaktigt PTR"
+msgstr "- SPF DNS-post använder felaktigt PTR"
 
 msgid "TEXT_REVIEW_SPF_UNKNOWN_SECTION"
-msgstr "SPF DNS-post har otillåtet innehåll"
+msgstr "- SPF DNS-post har otillåtet innehåll"
 
 msgid "TEXT_REVIEW_IPV6_OPERATION_SUPPORT"
-msgstr "IPV6_OPERATION_SUPPORT"
+msgstr "- IPV6_OPERATION_SUPPORT"
 
 msgid "TEXT_REVIEW_IPV6_OPERATION_NO_SUPPORT"
-msgstr "IPV6_OPERATION_NO_SUPPORT"
+msgstr "- IPV6_OPERATION_NO_SUPPORT"
 
 msgid "TEXT_REVIEW_IPV6_OPERATION_STARTTLS_SUPPORT"
-msgstr "IPV6_OPERATION_STARTTLS_SUPPORT"
+msgstr "- IPV6_OPERATION_STARTTLS_SUPPORT"
 
 msgid "TEXT_REVIEW_IPV6_OPERATION_STARTTLS_NO_SUPPORT"
-msgstr "IPV6_OPERATION_STARTTLS_NO_SUPPORT"
+msgstr "- IPV6_OPERATION_STARTTLS_NO_SUPPORT"
 
 msgid "TEXT_REVIEW_IPV4_OPERATION_SUPPORT"
-msgstr "IPV4_OPERATION_SUPPORT"
+msgstr "- IPV4_OPERATION_SUPPORT"
 
 msgid "TEXT_REVIEW_IPV4_OPERATION_NO_SUPPORT"
-msgstr "IPV4_OPERATION_NO_SUPPORT"
+msgstr "- IPV4_OPERATION_NO_SUPPORT"
 
 msgid "TEXT_REVIEW_IPV4_OPERATION_STARTTLS_SUPPORT"
-msgstr "IPV4_OPERATION_STARTTLS_SUPPORT"
+msgstr "- IPV4_OPERATION_STARTTLS_SUPPORT"
 
 msgid "TEXT_REVIEW_IPV4_OPERATION_STARTTLS_NO_SUPPORT"
-msgstr "IPV4_OPERATION_STARTTLS_NO_SUPPORT"
+msgstr "- IPV4_OPERATION_STARTTLS_NO_SUPPORT"
 
 msgid "TEXT_REVIEW_MX_NO_SUPPORT"
-msgstr "MX DNS-post hittades inte"
+msgstr "- MX DNS-post hittades inte"
 
 msgid "TEXT_REVIEW_MX_ALTERATIVE"
-msgstr "Använder alternativ e-postdomän: {0}\r\n{1}"
+msgstr "- Använder alternativ e-postdomän: {0}\r\n{1}"
 
 msgid "TEXT_REVIEW_IPV4_REDUNDANCE"
-msgstr "MX DNS IPv4-post är överflödig"
+msgstr "- MX DNS IPv4-post är överflödig"
 
 msgid "TEXT_REVIEW_IPV4_SUPPORT"
-msgstr "MX DNS IPv4-post hittades"
+msgstr "- MX DNS IPv4-post hittades"
 
 msgid "TEXT_REVIEW_IPV4_NO_REDUNDANCE"
-msgstr "MX DNS IPv4-post saknar redundans"
+msgstr "- MX DNS IPv4-post saknar redundans"
 
 msgid "TEXT_REVIEW_IPV4_NO_SUPPORT"
-msgstr "MX DNS IPv4-post hittades inte"
+msgstr "- MX DNS IPv4-post hittades inte"
 
 msgid "TEXT_REVIEW_IPV6_REDUNDANCE"
-msgstr "MX DNS IPv6-post har redundans"
+msgstr "- MX DNS IPv6-post har redundans"
 
 msgid "TEXT_REVIEW_IPV6_SUPPORT"
-msgstr "MX DNS IPv6-post hittades"
+msgstr "- MX DNS IPv6-post hittades"
 
 msgid "TEXT_REVIEW_IPV6_NO_REDUNDANCE"
-msgstr "MX DNS IPv6-post saknar redundans"
+msgstr "- MX DNS IPv6-post saknar redundans"
 
 msgid "TEXT_REVIEW_IPV6_NO_SUPPORT"
-msgstr "MX DNS IPv6-post hittades inte"
+msgstr "- MX DNS IPv6-post hittades inte"
 
 msgid "TEXT_REVIEW_MX_GDPR"
-msgstr "MX DNS-servrar i GDPR-säkert land: {0}"
+msgstr "- MX DNS-servrar i GDPR-säkert land: {0}"
 
 msgid "TEXT_REVIEW_MX_NONE_GDPR"
-msgstr "MX DNS-servrar i länder utan adekvat nivå av dataskydd: {0}"
+msgstr "- MX DNS-servrar i länder utan adekvat nivå av dataskydd: {0}"
 
 msgid "TEXT_REVIEW_SPF_GDPR"
-msgstr "SPF-servrar i länder med adekvat nivå av dataskydd: {0}"
+msgstr "- SPF-servrar i länder med adekvat nivå av dataskydd: {0}"
 
 msgid "TEXT_REVIEW_SPF_NONE_GDPR"
-msgstr "SPF-servrar i länder utan adekvat nivå av dataskydd: {0}"
+msgstr "- SPF-servrar i länder utan adekvat nivå av dataskydd: {0}"
 
 msgid "TEXT_REVIEW_DMARC_SUPPORT"
-msgstr "DMARC DNS-post hittades"
+msgstr "- DMARC DNS-post hittades"
 
 msgid "TEXT_REVIEW_DMARC_NO_SUPPORT"
-msgstr "DMARC DNS-post hittades inte"
+msgstr "- DMARC DNS-post hittades inte"
 
 msgid "TEXT_REVIEW_DMARC_EMPTY_SECTION_WHILE_PARSE"
-msgstr "DMARC DNS-post är felaktigt formaterad"
+msgstr "- DMARC DNS-post är felaktigt formaterad"
 
 msgid "TEXT_REVIEW_DMARC_PAIR_INVALID"
-msgstr "DMARC DNS-post har en felaktig sektion"
+msgstr "- DMARC DNS-post har en felaktig sektion"
 
 msgid "TEXT_REVIEW_DMARC_POLICY_INVALID"
-msgstr "DMARC DNS-post har ett ogiltigt Policy-värde"
+msgstr "- DMARC DNS-post har ett ogiltigt Policy-värde"
 
 msgid "TEXT_REVIEW_DMARC_SUBPOLICY_INVALID"
-msgstr "DMARC DNS-post har ett ogiltigt underpolicy-värde"
+msgstr "- DMARC DNS-post har ett ogiltigt underpolicy-värde"
 
 msgid "TEXT_REVIEW_DMARC_PCT_INVALID"
-msgstr "DMARC DNS-post har ett ogiltigt PCT-värde"
+msgstr "- DMARC DNS-post har ett ogiltigt PCT-värde"
 
 msgid "TEXT_REVIEW_DMARC_ADKIM_INVALID"
-msgstr "DMARC DNS-post har ett ogiltigt ADKIM-värde"
+msgstr "- DMARC DNS-post har ett ogiltigt ADKIM-värde"
 
 msgid "TEXT_REVIEW_DMARC_ASPF_INVALID"
-msgstr "DMARC DNS-post har ett ogiltigt ASPF-värde"
+msgstr "- DMARC DNS-post har ett ogiltigt ASPF-värde"
 
 msgid "TEXT_REVIEW_DMARC_RI_INVALID"
-msgstr "DMARC DNS-post har ett ogiltigt RI-värde"
+msgstr "- DMARC DNS-post har ett ogiltigt RI-värde"
 
 msgid "TEXT_REVIEW_DMARC_FO_INVALID"
-msgstr "DMARC DNS-post har ett ogiltigt FO-värde"
+msgstr "- DMARC DNS-post har ett ogiltigt FO-värde"
 
 msgid "TEXT_REVIEW_DMARC_RF_INVALID"
-msgstr "DMARC DNS-post har ett ogiltigt RF-värde"
+msgstr "- DMARC DNS-post har ett ogiltigt RF-värde"
 
 msgid "TEXT_REVIEW_DMARC_USES_FO_BUT_NO_RUF"
-msgstr "DMARC DNS-post använder FO men saknar RUF"
+msgstr "- DMARC DNS-post använder FO men saknar RUF"
 
 msgid "TEXT_REVIEW_DMARC_NO_PARSE_ERRORS"
-msgstr "DMARC DNS-post verkar vara korrekt formaterad"
+msgstr "- DMARC DNS-post verkar vara korrekt formaterad"
 
 msgid "TEXT_REVIEW_DMARC_PCT_USES_DEFAULT"
-msgstr "DMARC DNS-post använde standardvärdet för PCT, det är överflödigt"
+msgstr "- DMARC DNS-post använde standardvärdet för PCT, det är överflödigt"
 
 msgid "TEXT_REVIEW_DMARC_ADKIM_USES_DEFAULT"
-msgstr "DMARC DNS-post använde standardvärdet för ADKIM, det är överflödigt"
+msgstr "- DMARC DNS-post använde standardvärdet för ADKIM, det är överflödigt"
 
 msgid "TEXT_REVIEW_DMARC_ASPF_USES_DEFAULT"
-msgstr "DMARC DNS-post använde standardvärdet för ASPF, det är överflödigt"
+msgstr "- DMARC DNS-post använde standardvärdet för ASPF, det är överflödigt"
 
 msgid "TEXT_REVIEW_DMARC_RI_USES_DEFAULT"
-msgstr "DMARC DNS-post använde standardvärdet för RI, det är överflödigt"
+msgstr "- DMARC DNS-post använde standardvärdet för RI, det är överflödigt"
 
 msgid "TEXT_REVIEW_DMARC_FO_USES_DEFAULT"
-msgstr "DMARC DNS-post använde standardvärdet för FO, det är överflödigt"
+msgstr "- DMARC DNS-post använde standardvärdet för FO, det är överflödigt"
 
 msgid "TEXT_REVIEW_DMARC_RF_USES_DEFAULT"
-msgstr "DMARC DNS-post använde standardvärdet för RF, det är överflödigt"
+msgstr "- DMARC DNS-post använde standardvärdet för RF, det är överflödigt"
 
 msgid "TEXT_REVIEW_DMARC_POLICY_REJECT"
-msgstr "DMARC DNS-post använder 'rejected' för policy"
+msgstr "- DMARC DNS-post använder 'rejected' för policy"
 
 msgid "TEXT_REVIEW_DMARC_POLICY_QUARANTINE"
-msgstr "DMARC DNS-post använder 'quarantine' för policy"
+msgstr "- DMARC DNS-post använder 'quarantine' för policy"
 
 msgid "TEXT_REVIEW_DMARC_POLICY_NONE"
-msgstr "DMARC DNS-post använder 'none' för policy"
+msgstr "- DMARC DNS-post använder 'none' för policy"
 
 msgid "TEXT_REVIEW_DMARC_NO_POLICY"
-msgstr "DMARC DNS-post saknar policy"
+msgstr "- DMARC DNS-post saknar policy"
 
 msgid "TEXT_REVIEW_DMARC_SUBPOLICY_REDUNDANT"
-msgstr "DMARC DNS-postens underpolicy motsvarar policy, underpolicy är överflödig"
+msgstr "- DMARC DNS-postens underpolicy motsvarar policy, underpolicy är överflödig"
 
 msgid "TEXT_REVIEW_DMARC_SUBPOLICY_QUARANTINE"
-msgstr "DMARC DNS-post använder 'quarantine' för underpolicy"
+msgstr "- DMARC DNS-post använder 'quarantine' för underpolicy"
 
 msgid "TEXT_REVIEW_DMARC_SUBPOLICY_REJECT"
-msgstr "DMARC DNS-post använder 'rejected' för underpolicy"
+msgstr "- DMARC DNS-post använder 'rejected' för underpolicy"
 
 msgid "TEXT_REVIEW_DMARC_SUBPOLICY_NONE"
-msgstr "DMARC DNS-post använder 'none' för underpolicy"
+msgstr "- DMARC DNS-post använder 'none' för underpolicy"
 
 msgid "TEXT_REVIEW_DMARC_PCT_NOT_100"
-msgstr "DMARC DNS-post använder PCT mindre än 100"
+msgstr "- DMARC DNS-post använder PCT mindre än 100"
 
 msgid "TEXT_REVIEW_DMARC_PCT"
-msgstr "DMARC DNS-post använder PCT"
+msgstr "- DMARC DNS-post använder PCT"
 
 msgid "TEXT_REVIEW_DMARC_NO_WARNINGS"
-msgstr "DMARC DNS-post har inga varningar"
+msgstr "- DMARC DNS-post har inga varningar"

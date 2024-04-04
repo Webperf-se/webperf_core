@@ -19,217 +19,217 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 24 - Email (Beta)\n"
 
 msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_SUPPORT"
-msgstr "MTA-STS DNS record found"
+msgstr "- MTA-STS DNS record found"
 
 msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_NO_SUPPORT"
-msgstr "MTA-STS DNS record not found"
+msgstr "- MTA-STS DNS record not found"
 
 msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_WRONG_LINEBREAK"
-msgstr "MTA-STS TXT doesn't use CRLF for linebreak"
+msgstr "- MTA-STS TXT doesn't use CRLF for linebreak"
 
 msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_NOT_ENFORCED"
-msgstr "MTA-STS TXT is not enforced using mode"
+msgstr "- MTA-STS TXT is not enforced using mode"
 
 msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_VALID_MODE"
-msgstr "MTA-STS TXT mode value is valid"
+msgstr "- MTA-STS TXT mode value is valid"
 
 msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_INVALID_MODE"
-msgstr "MTA-STS TXT mode value is invalid"
+msgstr "- MTA-STS TXT mode value is invalid"
 
 msgid "TEXT_REVIEW_MTA_STS_TXT_SUPPORT"
-msgstr "MTA-STS TXT looks good"
+msgstr "- MTA-STS TXT looks good"
 
 msgid "TEXT_REVIEW_MTA_STS_TXT_INVALID_FORMAT"
-msgstr "MTA-STS TXT has invalid format"
+msgstr "- MTA-STS TXT has invalid format"
 
 msgid "TEXT_REVIEW_MTA_STS_TXT_NO_SUPPORT"
-msgstr "MTA-STS TXT not found"
+msgstr "- MTA-STS TXT not found"
 
 msgid "TEXT_REVIEW_SPF_TO_MANY_DNS_LOOKUPS"
-msgstr "SPF DNS record causes to many DNS lookups"
+msgstr "- SPF DNS record causes to many DNS lookups"
 
 msgid "TEXT_REVIEW_SPF_DNS_RECORD_SUPPORT"
-msgstr "SPF DNS record found"
+msgstr "- SPF DNS record found"
 
 msgid "TEXT_REVIEW_SPF_DNS_RECORD_NO_SUPPORT"
-msgstr "SPF DNS record not found"
+msgstr "- SPF DNS record not found"
 
 msgid "TEXT_REVIEW_SPF_DNS_DOUBLE_SPACE_RECORD"
-msgstr "SPF DNS record use two spaces instead of one"
+msgstr "- SPF DNS record use two spaces instead of one"
 
 msgid "TEXT_REVIEW_SPF_DNS_NEUTRALFAIL_RECORD"
-msgstr "SPF DNS record uses neutral fail"
+msgstr "- SPF DNS record uses neutral fail"
 
 msgid "TEXT_REVIEW_SPF_DNS_SOFTFAIL_RECORD"
-msgstr "SPF DNS record uses soft fail"
+msgstr "- SPF DNS record uses soft fail"
 
 msgid "TEXT_REVIEW_SPF_DNS_HARDFAIL_RECORD"
-msgstr "SPF DNS record uses hard fail"
+msgstr "- SPF DNS record uses hard fail"
 
 msgid "TEXT_REVIEW_SPF_DNS_IGNORE_RECORD_NO_SUPPORT"
-msgstr "SPF DNS record is configured to be ignored"
+msgstr "- SPF DNS record is configured to be ignored"
 
 msgid "TEXT_REVIEW_SPF_DNS_RECORD_PTR_USED"
-msgstr "SPF DNS record is erroneously using PTR"
+msgstr "- SPF DNS record is erroneously using PTR"
 
 msgid "TEXT_REVIEW_SPF_UNKNOWN_SECTION"
-msgstr "SPF DNS record has unallowed content"
+msgstr "- SPF DNS record has unallowed content"
 
 msgid "TEXT_REVIEW_IPV6_OPERATION_SUPPORT"
-msgstr "IPV6_OPERATION_SUPPORT"
+msgstr "- IPV6_OPERATION_SUPPORT"
 
 msgid "TEXT_REVIEW_IPV6_OPERATION_NO_SUPPORT"
-msgstr "IPV6_OPERATION_NO_SUPPORT"
+msgstr "- IPV6_OPERATION_NO_SUPPORT"
 
 msgid "TEXT_REVIEW_IPV6_OPERATION_STARTTLS_SUPPORT"
-msgstr "IPV6_OPERATION_STARTTLS_SUPPORT"
+msgstr "- IPV6_OPERATION_STARTTLS_SUPPORT"
 
 msgid "TEXT_REVIEW_IPV6_OPERATION_STARTTLS_NO_SUPPORT"
-msgstr "IPV6_OPERATION_STARTTLS_NO_SUPPORT"
+msgstr "- IPV6_OPERATION_STARTTLS_NO_SUPPORT"
 
 msgid "TEXT_REVIEW_IPV4_OPERATION_SUPPORT"
-msgstr "IPV4_OPERATION_SUPPORT"
+msgstr "- IPV4_OPERATION_SUPPORT"
 
 msgid "TEXT_REVIEW_IPV4_OPERATION_NO_SUPPORT"
-msgstr "IPV4_OPERATION_NO_SUPPORT"
+msgstr "- IPV4_OPERATION_NO_SUPPORT"
 
 msgid "TEXT_REVIEW_IPV4_OPERATION_STARTTLS_SUPPORT"
-msgstr "IPV4_OPERATION_STARTTLS_SUPPORT"
+msgstr "- IPV4_OPERATION_STARTTLS_SUPPORT"
 
 msgid "TEXT_REVIEW_IPV4_OPERATION_STARTTLS_NO_SUPPORT"
-msgstr "IPV4_OPERATION_STARTTLS_NO_SUPPORT"
+msgstr "- IPV4_OPERATION_STARTTLS_NO_SUPPORT"
 
 msgid "TEXT_REVIEW_MX_NO_SUPPORT"
-msgstr "MX DNS record not found"
+msgstr "- MX DNS record not found"
 
 msgid "TEXT_REVIEW_MX_ALTERATIVE"
-msgstr "Using alternative email domain: {0}\r\n{1}"
+msgstr "- Using alternative email domain: {0}\r\n{1}"
 
 msgid "TEXT_REVIEW_IPV4_REDUNDANCE"
-msgstr "MX DNS IPv4 record redundance"
+msgstr "- MX DNS IPv4 record redundance"
 
 msgid "TEXT_REVIEW_IPV4_SUPPORT"
-msgstr "MX DNS IPv4 record found"
+msgstr "- MX DNS IPv4 record found"
 
 msgid "TEXT_REVIEW_IPV4_NO_REDUNDANCE"
-msgstr "MX DNS IPv4 record has no redundance"
+msgstr "- MX DNS IPv4 record has no redundance"
 
 msgid "TEXT_REVIEW_IPV4_NO_SUPPORT"
-msgstr "MX DNS IPv4 record not found"
+msgstr "- MX DNS IPv4 record not found"
 
 msgid "TEXT_REVIEW_IPV6_REDUNDANCE"
-msgstr "MX DNS IPv6 record redundance"
+msgstr "- MX DNS IPv6 record redundance"
 
 msgid "TEXT_REVIEW_IPV6_SUPPORT"
-msgstr "MX DNS IPv6 record found"
+msgstr "- MX DNS IPv6 record found"
 
 msgid "TEXT_REVIEW_IPV6_NO_REDUNDANCE"
-msgstr "MX DNS IPv6 record has no redundance"
+msgstr "- MX DNS IPv6 record has no redundance"
 
 msgid "TEXT_REVIEW_IPV6_NO_SUPPORT"
-msgstr "MX DNS IPv6 record not found"
+msgstr "- MX DNS IPv6 record not found"
 
 msgid "TEXT_REVIEW_MX_GDPR"
-msgstr "MX DNS servers in countries that are GDPR compliant: {0}"
+msgstr "- MX DNS servers in countries that are GDPR compliant: {0}"
 
 msgid "TEXT_REVIEW_MX_NONE_GDPR"
-msgstr "MX DNS servers in countries that are not GDPR compliant: {0}"
+msgstr "- MX DNS servers in countries that are not GDPR compliant: {0}"
 
 msgid "TEXT_REVIEW_SPF_GDPR"
-msgstr "SPF servers in countries that are GDPR compliant: {0}"
+msgstr "- SPF servers in countries that are GDPR compliant: {0}"
 
 msgid "TEXT_REVIEW_SPF_NONE_GDPR"
-msgstr "SPF servers in countries that are not GDPR compliant: {0}"
+msgstr "- SPF servers in countries that are not GDPR compliant: {0}"
 
 msgid "TEXT_REVIEW_DMARC_SUPPORT"
-msgstr "DMARC DNS record found"
+msgstr "- DMARC DNS record found"
 
 msgid "TEXT_REVIEW_DMARC_NO_SUPPORT"
-msgstr "DMARC DNS record not found"
+msgstr "- DMARC DNS record not found"
 
 msgid "TEXT_REVIEW_DMARC_EMPTY_SECTION_WHILE_PARSE"
-msgstr "DMARC DNS record is malformed"
+msgstr "- DMARC DNS record is malformed"
 
 msgid "TEXT_REVIEW_DMARC_PAIR_INVALID"
-msgstr "DMARC DNS record has a malformed section"
+msgstr "- DMARC DNS record has a malformed section"
 
 msgid "TEXT_REVIEW_DMARC_POLICY_INVALID"
-msgstr "DMARC DNS record has a invalid POLICY value"
+msgstr "- DMARC DNS record has a invalid POLICY value"
 
 msgid "TEXT_REVIEW_DMARC_SUBPOLICY_INVALID"
-msgstr "DMARC DNS record has a invalid SUBPOLICY value"
+msgstr "- DMARC DNS record has a invalid SUBPOLICY value"
 
 msgid "TEXT_REVIEW_DMARC_PCT_INVALID"
-msgstr "DMARC DNS record has a invalid PCT value"
+msgstr "- DMARC DNS record has a invalid PCT value"
 
 msgid "TEXT_REVIEW_DMARC_ADKIM_INVALID"
-msgstr "DMARC DNS record has a invalid ADKIM value"
+msgstr "- DMARC DNS record has a invalid ADKIM value"
 
 msgid "TEXT_REVIEW_DMARC_ASPF_INVALID"
-msgstr "DMARC DNS record has a invalid ASPF value"
+msgstr "- DMARC DNS record has a invalid ASPF value"
 
 msgid "TEXT_REVIEW_DMARC_RI_INVALID"
-msgstr "DMARC DNS record has a invalid RI value"
+msgstr "- DMARC DNS record has a invalid RI value"
 
 msgid "TEXT_REVIEW_DMARC_FO_INVALID"
-msgstr "DMARC DNS record has a invalid FO value"
+msgstr "- DMARC DNS record has a invalid FO value"
 
 msgid "TEXT_REVIEW_DMARC_RF_INVALID"
-msgstr "DMARC DNS record has a invalid RF value"
+msgstr "- DMARC DNS record has a invalid RF value"
 
 msgid "TEXT_REVIEW_DMARC_USES_FO_BUT_NO_RUF"
-msgstr "DMARC DNS record uses FO but is missing RUF"
+msgstr "- DMARC DNS record uses FO but is missing RUF"
 
 msgid "TEXT_REVIEW_DMARC_NO_PARSE_ERRORS"
-msgstr "DMARC DNS record seems to be properly formated"
+msgstr "- DMARC DNS record seems to be properly formated"
 
 msgid "TEXT_REVIEW_DMARC_PCT_USES_DEFAULT"
-msgstr "DMARC DNS record used default value for PCT, it is redundant"
+msgstr "- DMARC DNS record used default value for PCT, it is redundant"
 
 msgid "TEXT_REVIEW_DMARC_ADKIM_USES_DEFAULT"
-msgstr "DMARC DNS record used default value for ADKIM, it is redundant"
+msgstr "- DMARC DNS record used default value for ADKIM, it is redundant"
 
 msgid "TEXT_REVIEW_DMARC_ASPF_USES_DEFAULT"
-msgstr "DMARC DNS record used default value for ASPF, it is redundant"
+msgstr "- DMARC DNS record used default value for ASPF, it is redundant"
 
 msgid "TEXT_REVIEW_DMARC_RI_USES_DEFAULT"
-msgstr "DMARC DNS record used default value for RI, it is redundant"
+msgstr "- DMARC DNS record used default value for RI, it is redundant"
 
 msgid "TEXT_REVIEW_DMARC_FO_USES_DEFAULT"
-msgstr "DMARC DNS record used default value for FO, it is redundant"
+msgstr "- DMARC DNS record used default value for FO, it is redundant"
 
 msgid "TEXT_REVIEW_DMARC_RF_USES_DEFAULT"
-msgstr "DMARC DNS record used default value for RF, it is redundant"
+msgstr "- DMARC DNS record used default value for RF, it is redundant"
 
 msgid "TEXT_REVIEW_DMARC_POLICY_REJECT"
-msgstr "DMARC DNS record is using 'rejected' for policy"
+msgstr "- DMARC DNS record is using 'rejected' for policy"
 
 msgid "TEXT_REVIEW_DMARC_POLICY_QUARANTINE"
-msgstr "DMARC DNS record is using 'quarantine' for policy"
+msgstr "- DMARC DNS record is using 'quarantine' for policy"
 
 msgid "TEXT_REVIEW_DMARC_POLICY_NONE"
-msgstr "DMARC DNS record is using 'none' for policy"
+msgstr "- DMARC DNS record is using 'none' for policy"
 
 msgid "TEXT_REVIEW_DMARC_NO_POLICY"
-msgstr "DMARC DNS record is missing policy"
+msgstr "- DMARC DNS record is missing policy"
 
 msgid "TEXT_REVIEW_DMARC_SUBPOLICY_REDUNDANT"
-msgstr "DMARC DNS record subpolicy equals policy, subpolicy is redundant"
+msgstr "- DMARC DNS record subpolicy equals policy, subpolicy is redundant"
 
 msgid "TEXT_REVIEW_DMARC_SUBPOLICY_QUARANTINE"
-msgstr "DMARC DNS record is using 'quarantine' for subpolicy"
+msgstr "- DMARC DNS record is using 'quarantine' for subpolicy"
 
 msgid "TEXT_REVIEW_DMARC_SUBPOLICY_REJECT"
-msgstr "DMARC DNS record is using 'rejected' for subpolicy"
+msgstr "- DMARC DNS record is using 'rejected' for subpolicy"
 
 msgid "TEXT_REVIEW_DMARC_SUBPOLICY_NONE"
-msgstr "DMARC DNS record is using 'none' for subpolicy"
+msgstr "- DMARC DNS record is using 'none' for subpolicy"
 
 msgid "TEXT_REVIEW_DMARC_PCT_NOT_100"
-msgstr "DMARC DNS record is using PCT of less than 100"
+msgstr "- DMARC DNS record is using PCT of less than 100"
 
 msgid "TEXT_REVIEW_DMARC_PCT"
-msgstr "DMARC DNS record is using PCT"
+msgstr "- DMARC DNS record is using PCT"
 
 msgid "TEXT_REVIEW_DMARC_NO_WARNINGS"
-msgstr "DMARC DNS record has no warnings"
+msgstr "- DMARC DNS record has no warnings"

@@ -15,5 +15,5 @@
     "sitespeed.io": "33.5.0",
     "yellowlabtools": "3.0.1"
   },
-  "engines": { "node": "20.12.1"}
+  "engines": { "node": "20.x"}
 }

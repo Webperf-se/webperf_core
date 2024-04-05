@@ -9,6 +9,7 @@ from tests.utils import get_config_or_default, get_translation
 
 REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
 SITESPEED_USE_DOCKER = get_config_or_default('sitespeed_use_docker')
+WEBPERF_RUNNER = os.environ.get('WEBPERF_RUNNER', 'not-docker')
 
 def get_result(sitespeed_use_docker, arg):
 
@@ -152,6 +153,9 @@ def validate_on_mobile_using_validator(url, validator_config):
     if 'nt' in os.name:
         arg = '--shm-size=1g -b chrome --mobile true --chrome.CPUThrottlingRate 3 --connectivity.profile 3gfast --visualMetrics true --plugins.remove screenshot --speedIndex true --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} --preScript chrome-custom.cjs {1}{2}'.format(
             get_config_or_default('SITESPEED_ITERATIONS'), url, browertime_plugin_options)
+    if 'docker' == WEBPERF_RUNNER:
+        arg = '--shm-size=1g -b chrome --mobile true --chrome.CPUThrottlingRate 3 --connectivity.profile 3gfast --visualMetrics false --plugins.remove screenshot --speedIndex false --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} --preScript chrome-custom.cjs {1}{2}'.format(
+            get_config_or_default('SITESPEED_ITERATIONS'), url, browertime_plugin_options)
 
     result_dict = get_result_dict(get_result(
         SITESPEED_USE_DOCKER, arg), validator_config['name'])
@@ -182,6 +186,9 @@ def validate_on_desktop_using_validator(url, validator_config):
     if 'nt' in os.name:
         arg = '--shm-size=1g -b chrome --connectivity.profile native --visualMetrics true --plugins.remove screenshot --speedIndex true --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} --preScript chrome-custom.cjs {1}{2}'.format(
             get_config_or_default('SITESPEED_ITERATIONS'), url, browertime_plugin_options)
+    if 'docker' == WEBPERF_RUNNER:
+        arg = '--shm-size=1g -b chrome --connectivity.profile native --visualMetrics false --plugins.remove screenshot --speedIndex false --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} --preScript chrome-custom.cjs {1}{2}'.format(
+            get_config_or_default('SITESPEED_ITERATIONS'), url, browertime_plugin_options)
 
     result_dict = get_result_dict(get_result(
         SITESPEED_USE_DOCKER, arg), validator_config['name'])
@@ -197,6 +204,9 @@ def validate_on_desktop(url):
     if 'nt' in os.name:
         arg = '--shm-size=1g -b chrome --connectivity.profile native --visualMetrics true --plugins.remove screenshot --speedIndex true --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
             get_config_or_default('SITESPEED_ITERATIONS'), url)
+    if 'docker' == WEBPERF_RUNNER:
+        arg = '--shm-size=1g -b chrome --connectivity.profile native --visualMetrics false --plugins.remove screenshot --speedIndex false --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+            get_config_or_default('SITESPEED_ITERATIONS'), url)
 
     result_dict = get_result_dict(get_result(
         SITESPEED_USE_DOCKER, arg), 'desktop')
@@ -209,6 +219,9 @@ def validate_on_mobile(url):
         get_config_or_default('SITESPEED_ITERATIONS'), url)
     if 'nt' in os.name:
         arg = '--shm-size=1g -b chrome --mobile true --connectivity.profile 3gfast --visualMetrics true --plugins.remove screenshot --speedIndex true --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
+            get_config_or_default('SITESPEED_ITERATIONS'), url)
+    if 'docker' == WEBPERF_RUNNER:
+        arg = '--shm-size=1g -b chrome --mobile true --connectivity.profile 3gfast --visualMetrics false --plugins.remove screenshot --speedIndex false --browsertime.videoParams.createFilmstrip false --browsertime.chrome.args ignore-certificate-errors -n {0} {1}'.format(
             get_config_or_default('SITESPEED_ITERATIONS'), url)
 
     result_dict = get_result_dict(get_result(

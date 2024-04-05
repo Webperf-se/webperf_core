@@ -1,0 +1,8 @@
+.git
+.gitignore
+docs
+failures.log
+*.ps1
+README.md
+LICENSE
+Dockerfile

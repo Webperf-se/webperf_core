@@ -1,0 +1,19 @@
+name: "Regression Test - Docker Image"
+on:
+  push:
+    paths-ignore:
+      - '**.md'
+      - 'software-full.json'
+      - 'software-sources.json'
+      - '**update-software.yml'
+      - 'update_software.py'
+      - 'SAMPLE-software-rules.json'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build -t "webperf-runner:0.0.2" .
+    - name: Run it
+      run: docker run -it --cap-add=SYS_ADMIN --rm webperf-runner:0.0.2 python default.py -r -i sites.json     

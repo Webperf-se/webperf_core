@@ -83,6 +83,20 @@ def run_test(global_translation, lang_code, url):
     return (rating, errors)
 
 def get_data_for_url(url):
+    """
+    This function retrieves data for a given URL using the Sitespeed.io tool.
+
+    The function configures Sitespeed.io to run with specific parameters,
+    including running in headless mode, ignoring certificate errors,
+    and capturing all response bodies.
+
+    Parameters:
+    url (str): The URL for which to retrieve data.
+
+    Returns:
+    data (dict): A dictionary containing the data retrieved from the URL.
+    """
+
     # We don't need extra iterations for what we are using it for
     sitespeed_iterations = 1
     sitespeed_arg = (
@@ -109,6 +123,22 @@ def get_data_for_url(url):
     return data
 
 def rate_entry(entry, global_translation, local_translation):
+    """
+    Rates an entry based on the number and types of HTML errors.
+
+    This function takes an entry, global translations, and local translations as input.
+    It calculates a rating for the entry based on the number and
+    types of HTML errors present in the content of the entry.
+    The function also groups the error messages and calculates an overall rating.
+
+    Parameters:
+    entry (dict): A dictionary containing the details of the entry including the URL and content.
+    global_translation (function): A function for translating text globally.
+    local_translation (function): A function for translating text locally.
+
+    Returns:
+    tuple: A tuple containing the overall rating (Rating object) and the errors (list).
+    """
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     req_url = entry['url']
@@ -151,6 +181,23 @@ def rate_entry(entry, global_translation, local_translation):
     return (rating, errors)
 
 def get_grouped_error_messages(entry, local_translation, errors, number_of_errors):
+    """
+    Groups HTML error messages and counts their occurrences.
+
+    This function takes an entry, local translations, a list of errors,
+    and the total number of errors as input.
+    It filters out irrelevant errors and groups the remaining ones by their messages.
+    The function also counts the occurrences of each error message.
+
+    Parameters:
+    entry (dict): A dictionary containing the details of the entry including the URL and content.
+    local_translation (function): A function for translating text locally.
+    errors (list): A list of error messages.
+    number_of_errors (int): The total number of errors.
+
+    Returns:
+    dict: A dictionary where the keys are the error messages and the values are their counts.
+    """
     error_message_grouped_dict = {}
     regex = r"(“[^”]+”)"
     for item in errors:
@@ -198,7 +245,23 @@ def get_grouped_error_messages(entry, local_translation, errors, number_of_error
 
 
 def calculate_rating(number_of_error_types, number_of_errors):
+    """
+    Calculates ratings based on the number of error types and errors.
 
+    This function takes the number of error types and the total number of errors as input.
+    It calculates two ratings: one based on the number of error types and
+    the other based on the total number of errors.
+    The ratings are calculated such that a higher number of errors or
+    error types will result in a lower rating. The minimum rating is 1.0.
+
+    Parameters:
+    number_of_error_types (int): The number of different types of errors.
+    number_of_errors (int): The total number of errors.
+
+    Returns:
+    tuple: A tuple containing the rating based on the number of error types and
+    the rating based on the total number of errors.
+    """
     rating_number_of_error_types = 5.0 - (number_of_error_types / 5.0)
 
     rating_number_of_errors = 5.0 - ((number_of_errors / 2.0) / 5.0)

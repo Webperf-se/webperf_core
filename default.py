@@ -7,7 +7,7 @@ from engines.sqlite import read_sites as sqlite_read_sites,\
     add_site as sqlite_add_site,\
     delete_site as sqlite_delete_site,\
     write_tests as sqlite_write_tests
-from engines.csv import read_sites as csv_read_sites,\
+from engines.csv_engine import read_sites as csv_read_sites,\
     add_site as csv_add_site,\
     delete_site as csv_delete_site,\
     write_tests as csv_write_tests

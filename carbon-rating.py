@@ -86,7 +86,7 @@ def main(argv):
             if file_long_ending == ".sqlite":
                 from engines.sqlite import read_sites, add_site, delete_site
             elif (file_ending == ".csv"):
-                from engines.csv_simple import read_sites, add_site, delete_site
+                from engines.csv_engine import read_sites, add_site, delete_site
             elif (file_ending == ".xml"):  # https://example.com/sitemap.xml
                 from engines.sitemap import read_sites, add_site, delete_site
             else:

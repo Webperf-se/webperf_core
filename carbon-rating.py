@@ -75,23 +75,7 @@ def main(argv):
             sys.exit(2)
         elif opt in ("-i", "--input"):  # input file path
             input_filename = arg
-
-            file_ending = ""
-            file_long_ending = ""
-            if (len(input_filename) > 4):
-                file_ending = input_filename[-4:].lower()
-            if (len(input_filename) > 7):
-                file_long_ending = input_filename[-7:].lower()
-
-            if file_long_ending == ".sqlite":
-                from engines.sqlite import read_sites, add_site, delete_site
-            elif (file_ending == ".csv"):
-                from engines.csv_engine import read_sites, add_site, delete_site
-            elif (file_ending == ".xml"):  # https://example.com/sitemap.xml
-                from engines.sitemap import read_sites, add_site, delete_site
-            else:
-                from engines.json_engine import read_tests, read_sites, add_site, delete_site
-            pass
+            from engines.json_engine import read_tests
         elif opt in ("-o", "--output"):  # output file path
             output_filename = arg
             pass

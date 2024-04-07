@@ -11,12 +11,8 @@ from engines.csv_engine import read_sites as csv_read_sites,\
     add_site as csv_add_site,\
     delete_site as csv_delete_site,\
     write_tests as csv_write_tests
-from engines.sitemap import read_sites as sitemap_read_sites,\
-    add_site as sitemap_add_site,\
-    delete_site as sitemap_delete_site
-from engines.sitespeed_result import read_sites as sitespeed_read_sites,\
-    add_site as sitespeed_add_site,\
-    delete_site as sitespeed_delete_site
+from engines.sitemap import read_sites as sitemap_read_sites
+from engines.sitespeed_result import read_sites as sitespeed_read_sites
 from engines.webperf import read_sites as webperf_read_sites,\
     add_site as webperf_add_site,\
     delete_site as webperf_delete_site
@@ -336,15 +332,11 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             add_site = csv_add_site
             delete_site = csv_delete_site
         elif file_ending == ".xml" or file_long_ending == ".xml.gz":
-                    # https://example.com/sitemap.xml
-                    # https://example.com/sitemap.xml.gz
+            # https://example.com/sitemap.xml
+            # https://example.com/sitemap.xml.gz
             read_sites = sitemap_read_sites
-            add_site = sitemap_add_site
-            delete_site = sitemap_delete_site
         elif file_long_ending == ".result":
             read_sites = sitespeed_read_sites
-            add_site = sitespeed_add_site
-            delete_site = sitespeed_delete_site
         elif file_long_ending == ".webprf":
             read_sites = webperf_read_sites
             add_site = webperf_add_site
@@ -482,14 +474,14 @@ def main(argv):
             options.input_skip,
             options.input_take)
 
-    if options.add_url != '':
+    if options.add_url != '' and options.add_site is not None:
         # check if website url should be added
         options.sites = options.add_site(
             options.input_filename,
             options.add_url,
             options.input_skip,
             options.input_take)
-    elif options.delete_url != '':
+    elif options.delete_url != '' and options.delete_site is not None:
         # check if website url should be deleted
         options.sites = options.delete_site(
             options.input_filename,

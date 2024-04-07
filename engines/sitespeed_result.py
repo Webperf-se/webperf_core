@@ -3,18 +3,23 @@ import os
 from pathlib import Path
 from urllib.parse import urlparse
 import re
-
-def add_site(input_filename, url, input_skip, input_take):
-    sites = []
-    return sites
-
-
-def delete_site(input_filename, url, input_skip, input_take):
-    tmpSites = []
-    return tmpSites
-
+from engines.utils import use_item
 
 def get_url_from_file_content(input_filename):
+    """
+    Extracts the URL from the content of a HAR file.
+
+    The function opens the file and reads the first 1024 bytes.
+    It then uses a regular expression to find the URL in the read data.
+    If the file does not exist, it prints an error message and returns None.
+
+    Parameters:
+    input_filename (str): The path of the HAR file from which to extract the URL.
+
+    Returns:
+    str: The extracted URL. Returns None if the file does not exist or no URL is found.
+
+    """
     try:
         # No need to read all content, just read the first 1024 bytes as our url will be there
         # we are doing this for performance
@@ -22,35 +27,43 @@ def get_url_from_file_content(input_filename):
             data = file.read(1024)
             regex = r"\"[_]{0,1}url\":[ ]{0,1}\"(?P<url>[^\"]+)\""
             matches = re.finditer(regex, data, re.MULTILINE)
-            for matchNum, match in enumerate(matches, start=1):
+            for _, match in enumerate(matches, start=1):
                 return match.group('url')
-    except:
-        print('error in get_local_file_content. No such file or directory: {0}'.format(
-            input_filename))
+    except OSError:
+        print(f'Error. No such file or directory: {input_filename}')
         return None
 
     return None
 
 
 def read_sites(hostname_or_argument, input_skip, input_take):
+    """
+    Reads the sites from the cache directory based on the hostname or
+    the argument that ends with '.result'.
+
+    Parameters:
+    hostname_or_argument (str): The hostname or the argument that ends with '.result'.
+    input_skip (int): The number of items to skip from the start.
+    input_take (int): The number of items to take after skipping. If -1, takes all items.
+
+    Returns:
+    list: A list of sites where each site is represented as a
+          list containing the path to the HAR file and the URL.
+    """
     sites = []
     hostname = hostname_or_argument
     if hostname_or_argument.endswith('.result'):
-        tmp = hostname_or_argument[:hostname_or_argument.rfind('.result')]
-        o = urlparse(tmp)
-        hostname = o.hostname
+        tmp_url = hostname_or_argument[:hostname_or_argument.rfind('.result')]
+        hostname = urlparse(tmp_url).hostname
 
-    if len(sites) > 0:
-        return sites
-
-    dir = Path(os.path.dirname(
+    base_directory = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent
 
-    data_dir = os.path.join(dir, 'cache', hostname) + os.path.sep
-    if not os.path.exists(data_dir):
+    cache_dir = os.path.join(base_directory, 'cache', hostname) + os.path.sep
+    if not os.path.exists(cache_dir):
         return sites
 
-    dirs = os.listdir(data_dir)
+    dirs = os.listdir(cache_dir)
 
     urls = {}
 
@@ -62,14 +75,15 @@ def read_sites(hostname_or_argument, input_skip, input_take):
             continue
 
         full_path = os.path.join(
-            data_dir, file_name)
+            cache_dir, file_name)
 
         url = get_url_from_file_content(full_path)
         urls[url] = full_path
 
     current_index = 0
-    for tmp_url in urls.keys():
-        sites.append([urls[tmp_url], tmp_url])
+    for url, har_path in urls.items():
+        if use_item(current_index, input_skip, input_take):
+            sites.append([har_path, url])
         current_index += 1
 
     return sites

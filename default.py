@@ -20,7 +20,7 @@ from engines.sitespeed_result import read_sites as sitespeed_read_sites,\
 from engines.webperf import read_sites as webperf_read_sites,\
     add_site as webperf_add_site,\
     delete_site as webperf_delete_site
-from engines.json import read_sites as json_read_sites,\
+from engines.json_engine import read_sites as json_read_sites,\
     add_site as json_add_site,\
     delete_site as json_delete_site,\
     write_tests as json_write_tests

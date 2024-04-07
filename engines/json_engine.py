@@ -1,39 +1,33 @@
 # -*- coding: utf-8 -*-
-from engines.utils import use_item
 import json
-
+from engines.utils import use_item
 
 def add_site(input_filename, url, input_skip, input_take):
     sites = read_sites(input_filename, input_skip, input_take)
-    # print(sites)
-    id = len(sites)
-    sites.append([id, url])
+    site_id = len(sites)
+    sites.append([site_id, url])
     write_sites(input_filename, sites)
-
-    print(global_translation('TEXT_WEBSITE_URL_ADDED').format(url))
 
     return sites
 
 
 def delete_site(input_filename, url, input_skip, input_take):
     sites = read_sites(input_filename, input_skip, input_take)
-    tmpSites = []
+    tmp_sites = []
     for site in sites:
         site_id = site[0]
         site_url = site[1]
-        if (url != site_url):
-            tmpSites.append([site_id, site_url])
+        if url != site_url:
+            tmp_sites.append([site_id, site_url])
 
-    write_sites(input_filename, tmpSites)
+    write_sites(input_filename, tmp_sites)
 
-    print(global_translation('TEXT_WEBSITE_URL_DELETED').format(site_url))
-
-    return tmpSites
+    return tmp_sites
 
 
 def read_sites(input_filename, input_skip, input_take):
     sites = []
-    with open(input_filename) as json_input_file:
+    with open(input_filename, encoding='utf-8') as json_input_file:
         data = json.load(json_input_file)
         current_index = 0
         for site in data["sites"]:
@@ -44,26 +38,26 @@ def read_sites(input_filename, input_skip, input_take):
 
 
 def write_sites(output_filename, sites):
-    with open(output_filename, 'w') as outfile:
+    with open(output_filename, 'w', encoding='utf-8') as outfile:
         # json require us to have an object as root element
-        jsonSites = []
+        json_sites = []
         current_siteid = 0
         for site in sites:
-            jsonSites.append({
+            json_sites.append({
                 'id': site[0],
                 'url': site[1]
             })
             current_siteid += 1
 
-        sitesContainerObject = {
-            "sites": jsonSites
+        container_object = {
+            "sites": json_sites
         }
-        json.dump(sitesContainerObject, outfile)
+        json.dump(container_object, outfile)
 
 
 def read_tests(input_filename, input_skip, input_take):
     result = []
-    with open(input_filename) as json_input_file:
+    with open(input_filename, encoding='utf-8') as json_input_file:
         data = json.load(json_input_file)
         current_index = 0
         for test_result in data["tests"]:
@@ -77,10 +71,10 @@ def read_tests(input_filename, input_skip, input_take):
     return result
 
 
-def write_tests(output_filename, siteTests, sites):
-    with open(output_filename, 'w') as outfile:
+def write_tests(output_filename, site_tests, _):
+    with open(output_filename, 'w', encoding='utf-8') as outfile:
         # json require us to have an object as root element
-        testsContainerObject = {
-            "tests": siteTests
+        container_object = {
+            "tests": site_tests
         }
-        json.dump(testsContainerObject, outfile)
+        json.dump(container_object, outfile)

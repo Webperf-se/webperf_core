@@ -2,7 +2,10 @@
 import os
 import subprocess
 import json
-from tests.utils import get_cache_path_for_file, get_config_or_default, has_cache_file, set_cache_file
+from tests.utils import get_cache_path_for_file,\
+                        get_config_or_default,\
+                        has_cache_file,\
+                        set_cache_file
 
 # DEFAULTS
 REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')

@@ -12,6 +12,7 @@ import uuid
 import re
 import os
 from urllib.parse import ParseResult, urlparse, urlunparse
+import gettext
 import requests
 import IP2Location
 import dns
@@ -20,7 +21,6 @@ import dns.resolver
 import dns.dnssec
 import dns.exception
 import dns.name
-import gettext
 
 def get_config_or_default(name):
     """
@@ -79,10 +79,8 @@ def get_translation(module_name, lang_code):
     Returns:
     function: The gettext() function for the specified language.
     """
-    language = gettext.translation(
-        module_name,
-        localedir='locales',
-        languages=[lang_code])
+    language = gettext.translation(module_name,
+        localedir='locales', languages=[lang_code])
     return language.gettext
 
 
@@ -110,14 +108,9 @@ def change_url_to_test_url(url, test_name):
     else:
         new_query = f'webperf-core={test_name}&' + o.query
     o2 = ParseResult(
-        scheme=o.scheme,
-        netloc=o.netloc,
-        path=o.path,
-        params=o.params,
-        query=new_query,
-        fragment=o.fragment)
-    url2 = urlunparse(o2)
-    return url2
+        scheme=o.scheme, netloc=o.netloc, path=o.path,
+        params=o.params, query=new_query, fragment=o.fragment)
+    return urlunparse(o2)
 
 
 def is_file_older_than(file, delta):
@@ -173,8 +166,7 @@ def get_cache_path_for_rule(url, cache_key_rule):
     if not os.path.exists(hostname_path):
         os.makedirs(hostname_path)
 
-    cache_key = cache_key_rule.format(
-        hashlib.sha512(url.encode()).hexdigest())
+    cache_key = cache_key_rule.format(hashlib.sha512(url.encode()).hexdigest())
     cache_path = os.path.join(folder, hostname, cache_key)
 
     return cache_path
@@ -191,9 +183,7 @@ def get_cache_path_for_folder(url):
     Returns:
     str: The generated cache path.
     """
-
     cache_key_rule = '{0}'
-
     return get_cache_path_for_rule(url, cache_key_rule)
 
 
@@ -212,15 +202,12 @@ def get_cache_path_for_file(url, use_text_instead_of_content):
     Returns:
     str: The generated cache path.
     """
-
     file_ending = '.tmp'
     if USE_CACHE:
         file_ending = '.cache'
-
     cache_key_rule = '{0}.txt.utf-8' + file_ending
     if not use_text_instead_of_content:
         cache_key_rule = '{0}.bytes' + file_ending
-
     return get_cache_path_for_rule(url, cache_key_rule)
 
 
@@ -243,17 +230,15 @@ def get_cache_file(url, use_text_instead_of_content, time_delta):
     If the cache file does not exist or is too old, None is returned.
 
     Notes:
-    - The function uses the get_cache_path_for_file function to determine the path of the cache file.
+    - The function uses the get_cache_path_for_file function
+      to determine the path of the cache file.
     - If USE_CACHE is False, the function always returns None.
     """
     cache_path = get_cache_path_for_file(url, use_text_instead_of_content)
-
     if not os.path.exists(cache_path):
         return None
-
     if USE_CACHE and is_file_older_than(cache_path, time_delta):
         return None
-
     if use_text_instead_of_content:
         with open(cache_path, 'r', encoding='utf-8', newline='') as file:
             return '\n'.join(file.readlines())
@@ -277,13 +262,10 @@ def has_cache_file(url, use_text_instead_of_content, time_delta):
           False otherwise.
     """
     cache_path = get_cache_path_for_file(url, use_text_instead_of_content)
-
     if not os.path.exists(cache_path):
         return False
-
     if USE_CACHE and is_file_older_than(cache_path, time_delta):
         return False
-
     return True
 
 
@@ -316,10 +298,8 @@ def clean_cache_files():
         if os.path.exists(base_directory):
             shutil.rmtree(base_directory)
         return
-
     file_ending = '.cache'
     folder = 'cache'
-
     base_directory = os.path.join(Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent, folder)
 
@@ -327,7 +307,6 @@ def clean_cache_files():
         return
 
     print(f'Cleaning {file_ending[1:]} files...')
-
     subdirs = os.listdir(base_directory)
     print(len(subdirs), f'file and folders in {folder} folder.')
     cache_files = 0
@@ -406,9 +385,7 @@ def get_http_content(url, allow_redirects=False, use_text_instead_of_content=Tru
             return content
 
         headers = {'user-agent': USERAGENT}
-
         hostname = urlparse(url).hostname
-
         if hostname == 'api.github.com' and GITHUB_APIKEY is not None:
             headers['authorization'] = f'Bearer {GITHUB_APIKEY}'
         a = requests.get(url, allow_redirects=allow_redirects,
@@ -842,8 +819,7 @@ def get_country_code_from_ip2location(ip_address):
     except Exception: # pylint: disable=broad-exception-caught
         return ''
     if hasattr(rec, 'country_short'):
-        countrycode = rec.country_short
-        return countrycode
+        return rec.country_short
     return ''
 
 

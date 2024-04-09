@@ -125,7 +125,7 @@ def main(argv):
     * run webperf-core test on all websites you want to
       use for your percentiles (with json as output file)
     * run this file against your output file, for example like this:
-      carbon-rating.py
+      carbon_rating.py
         -i data\\carbon-references-2022.json
         -o tests\\energy_efficiency_carbon_percentiles.py
 

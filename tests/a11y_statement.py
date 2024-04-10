@@ -14,6 +14,21 @@ checked_urls = {}
 canonical = 'https://www.digg.se/tdosanmalan' # pylint: disable=invalid-name
 
 def run_test(global_translation, lang_code, url):
+    """
+    Runs a test on a given URL and returns the rating and a dictionary.
+
+    This function uses both global and local translations to print status updates.
+    It parses the URL, gets the default information, checks the item,
+    rates the statement, and finally returns the rating and a dictionary.
+
+    Parameters:
+    global_translation (function): A function that provides global translation.
+    lang_code (str): The language code to be used for local translation.
+    url (str): The URL to be tested.
+
+    Returns:
+    tuple: A tuple containing the rating (an instance of the Rating class) and a dictionary.
+    """
     local_translation = get_translation('a11y_statement', lang_code)
 
     print(local_translation('TEXT_RUNNING_TEST'))
@@ -166,6 +181,24 @@ def has_statement(item, global_translation, local_translation):
 
 
 def get_default_info(url, text, method, precision, depth):
+    """
+    Constructs a dictionary with default information.
+
+    This function takes in several parameters,
+    processes the 'text' parameter, and stores all parameters in a dictionary.
+
+    Parameters:
+    url (str): The URL to be stored in the dictionary.
+    text (str): The text to be processed and stored in the dictionary.
+    If provided,
+    it is converted to lowercase and stripped of leading/trailing periods and hyphens.
+    method (str): The method to be stored in the dictionary.
+    precision (int/float): The precision value to be stored in the dictionary.
+    depth (int): The depth value to be stored in the dictionary.
+
+    Returns:
+    dict: A dictionary containing the processed parameters.
+    """
     result = {}
 
     if text is not None:

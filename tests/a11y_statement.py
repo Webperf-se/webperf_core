@@ -525,8 +525,9 @@ def rate_evaluation_method(global_translation, local_translation, soup):
     """
     This function rates the evaluation method used in a given context.
 
-    It searches for specific strings related to various evaluation methods in the provided 'soup' object 
-    and assigns ratings based on the findings. The function returns a 'Rating' object with the overall 
+    It searches for specific strings related to various evaluation methods in
+    the provided 'soup' object and assigns ratings based on the findings.
+    The function returns a 'Rating' object with the overall 
     rating set.
 
     Parameters:
@@ -555,9 +556,11 @@ def rate_unreasonably_burdensome_accommodation(global_translation, local_transla
     """
     This function rates whether an accommodation is unreasonably burdensome.
 
-    It searches for specific strings in the provided 'soup' object and assigns ratings based on the findings.
-    The ratings are based on the presence or absence of the terms "Oskäligt betungande anpassning" or 
-    "12 § lagen". The function returns a 'Rating' object with the overall and accessibility ratings set.
+    It searches for specific strings in the provided 'soup' object and
+    assigns ratings based on the findings. The ratings are based on the presence or
+    absence of the terms "Oskäligt betungande anpassning" or 
+    "12 § lagen". The function returns a 'Rating' object with the overall and
+    accessibility ratings set.
 
     Parameters:
     global_translation (function): A function to translate text to a global language.
@@ -639,9 +642,11 @@ def rate_compatible_text(global_translation, local_translation, soup):
     """
     Rates the compatibility of a text based on its content.
 
-    This function searches for specific patterns in the text and assigns a rating based on the match.
-    The rating is determined by the 'compatibility' of the text, which is defined by specific keywords
-    found in the text. The function uses regex for pattern matching and BeautifulSoup for HTML parsing.
+    This function searches for specific patterns in the text and
+    assigns a rating based on the match.
+    The rating is determined by the 'compatibility' of the text,
+    which is defined by specific keywords found in the text.
+    The function uses regex for pattern matching and BeautifulSoup for HTML parsing.
 
     Parameters:
     global_translation (function): A function to translate global text.
@@ -819,8 +824,9 @@ def get_interesting_urls(content, org_url_start, depth):
     """
     Extracts and returns interesting URLs from the given HTML content.
 
-    This function parses the HTML content, finds all anchor tags, and filters out URLs based on certain
-    criteria. The URLs are then sorted based on the precision of the text associated with each URL.
+    This function parses the HTML content, finds all anchor tags,
+    and filters out URLs based on certain criteria.
+    The URLs are then sorted based on the precision of the text associated with each URL.
 
     Parameters:
     content (str): The HTML content to parse.

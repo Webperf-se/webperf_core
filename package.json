@@ -1,6 +1,6 @@
 {
   "name": "webperf_core",
-  "version": "1.0.0",
+  "version": "4.0.0",
   "description": "Då vill du nog [läsa dokumentationen på github](https://github.com/Webperf-se/webperf_core/).",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

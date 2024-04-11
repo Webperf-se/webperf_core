@@ -145,7 +145,7 @@ This section has not been written yet.
 * Download Geckodriver and place it in the root folder of this repo, [Geckodriver Download](https://github.com/mozilla/geckodriver/releases/):
   * [Linux x64](https://github.com/mozilla/geckodriver/releases/download/v0.32.0/geckodriver-v0.32.0-linux64.tar.gz)
   * [Windows x64](https://github.com/mozilla/geckodriver/releases/download/v0.32.0/geckodriver-v0.32.0-win64.zip)
-* Install SiteSpeed NPM package ( `npm install sitespeed.io` )
+* Install NPM packages ( `npm install` )
 * Set `sitespeed_use_docker = False` in your `config.py`
 
 ##### Windows Specific

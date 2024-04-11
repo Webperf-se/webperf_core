@@ -1,0 +1,19 @@
+{
+  "name": "webperf_core",
+  "version": "4.0.0",
+  "description": "Då vill du nog [läsa dokumentationen på github](https://github.com/Webperf-se/webperf_core/).",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "homepage": "https://github.com/Webperf-se/webperf_core/",
+  "dependencies": {
+    "lighthouse": "11.7.0",
+    "pa11y": "8.0.0",
+    "sitespeed.io": "33.5.0",
+    "yellowlabtools": "3.0.1"
+  },
+  "engines": { "node": "20.x"}
+}

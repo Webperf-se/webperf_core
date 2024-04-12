@@ -48,6 +48,21 @@ def main(_):
 
 
 def set_softwares(filename, collection):
+    """
+    Writes a collection of software data to a JSON file.
+
+    This function attempts to write a collection of
+    software data to a JSON file in the 'data' directory or the base directory. 
+    If the file is found, it writes the data to the file.
+    If the file is not found, it prints an error message.
+
+    Args:
+        filename (str): The name of the JSON file to write to.
+        collection (dict): The collection of software data to write.
+
+    Returns:
+        None
+    """
     base_directory = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep)
 
@@ -64,6 +79,20 @@ def set_softwares(filename, collection):
         file.write(data)
 
 def get_software_sources(filename):
+    """
+    Loads and sorts software data from a JSON file.
+
+    This function attempts to load a JSON file from a 'data' directory or the base directory. 
+    If the file is found, it loads the JSON data into a dictionary, sorts it by software names, 
+    and returns the sorted dictionary. If the file is not found, it returns an empty dictionary.
+
+    Args:
+        filename (str): The name of the JSON file to load.
+
+    Returns:
+        dict: A dictionary containing the sorted software data,
+        or an empty dictionary if the file was not found.
+    """
     base_directory = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep)
 
@@ -94,8 +123,5 @@ def get_software_sources(filename):
     return collection
 
 
-"""
-If file is executed on itself then call a definition, mostly for testing purposes
-"""
 if __name__ == '__main__':
     main(sys.argv[1:])

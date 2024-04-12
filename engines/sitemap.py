@@ -46,6 +46,7 @@ def read_sitemap(input_sitemap_url, input_skip, input_take, ignore_none_html):
     """
     result = {
         'all': [],
+        'sitemapindex': [],
         input_sitemap_url: []
     }
 
@@ -94,7 +95,7 @@ def read_sitemap_xml(input_url, sitemap_content, input_skip, input_take, ignore_
     """
     result = {
         'all': [],
-        input_url: []
+        'sitemapindex': []
     }
 
     root_element = get_root_element(sitemap_content)
@@ -119,6 +120,7 @@ def read_sitemap_xml(input_url, sitemap_content, input_skip, input_take, ignore_
             continue
 
         if root_element.name.lower() == 'sitemapindex':
+            result['sitemapindex'].append(input_url)
             result = merge_dicts(read_sitemap(
                 item_url,
                 input_skip,
@@ -126,6 +128,8 @@ def read_sitemap_xml(input_url, sitemap_content, input_skip, input_take, ignore_
                 ignore_none_html), result, True, False)
             current_index += len(result['all'])
         else:
+            if input_url not in result:
+                result[input_url] = []
             if ignore_none_html:
                 item_type = 'html'
                 tmp = os.path.splitext(urlparse(item_url).path)[1].strip('.').lower()

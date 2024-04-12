@@ -202,13 +202,13 @@ msgid "TEXT_REVIEW_DMARC_RF_USES_DEFAULT"
 msgstr "- DMARC DNS-post använde standardvärdet för RF, det är överflödigt"
 
 msgid "TEXT_REVIEW_DMARC_POLICY_REJECT"
-msgstr "- DMARC DNS-post använder 'rejected' för policy"
+msgstr "- DMARC DNS-post använder &apos;rejected&apos; för policy"
 
 msgid "TEXT_REVIEW_DMARC_POLICY_QUARANTINE"
-msgstr "- DMARC DNS-post använder 'quarantine' för policy"
+msgstr "- DMARC DNS-post använder &apos;quarantine&apos; för policy"
 
 msgid "TEXT_REVIEW_DMARC_POLICY_NONE"
-msgstr "- DMARC DNS-post använder 'none' för policy"
+msgstr "- DMARC DNS-post använder &apos;none&apos; för policy"
 
 msgid "TEXT_REVIEW_DMARC_NO_POLICY"
 msgstr "- DMARC DNS-post saknar policy"
@@ -217,13 +217,13 @@ msgid "TEXT_REVIEW_DMARC_SUBPOLICY_REDUNDANT"
 msgstr "- DMARC DNS-postens underpolicy motsvarar policy, underpolicy är överflödig"
 
 msgid "TEXT_REVIEW_DMARC_SUBPOLICY_QUARANTINE"
-msgstr "- DMARC DNS-post använder 'quarantine' för underpolicy"
+msgstr "- DMARC DNS-post använder &apos;quarantine&apos; för underpolicy"
 
 msgid "TEXT_REVIEW_DMARC_SUBPOLICY_REJECT"
-msgstr "- DMARC DNS-post använder 'rejected' för underpolicy"
+msgstr "- DMARC DNS-post använder &apos;rejected&apos; för underpolicy"
 
 msgid "TEXT_REVIEW_DMARC_SUBPOLICY_NONE"
-msgstr "- DMARC DNS-post använder 'none' för underpolicy"
+msgstr "- DMARC DNS-post använder &apos;none&apos; för underpolicy"
 
 msgid "TEXT_REVIEW_DMARC_PCT_NOT_100"
 msgstr "- DMARC DNS-post använder PCT mindre än 100"

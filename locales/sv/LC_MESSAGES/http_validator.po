@@ -142,49 +142,49 @@ msgid "TEXT_REVIEW_CSP_UNSUPPORTED_IN_META"
 msgstr "- {0}, Använder en CSP-policy i meta-element som inte är tillåtna"
 
 msgid "TEXT_REVIEW_CSP_POLICY_DEPRECATED" 
-msgstr "- {1}, Använder föråldrad CSP-policy '{0}'"
+msgstr "- {1}, Använder föråldrad CSP-policy &apos;{0}&apos;"
 
 msgid "TEXT_REVIEW_CSP_MALFORMED" 
-msgstr "- {1}, CSP-policy '{0}' är felaktigt formaterad"
+msgstr "- {1}, CSP-policy &apos;{0}&apos; är felaktigt formaterad"
 
 msgid "TEXT_REVIEW_CSP_POLICY_FOUND" 
-msgstr "- {1}, CSP-policy '{0}' hittades"
+msgstr "- {1}, CSP-policy &apos;{0}&apos; hittades"
 
 msgid "TEXT_REVIEW_CSP_POLICY_NOT_FOUND" 
-msgstr "- {1}, CSP-policy '{0}' saknas"
+msgstr "- {1}, CSP-policy &apos;{0}&apos; saknas"
 
 msgid "TEXT_REVIEW_CSP_POLICY_NOT_DEPRECATED" 
-msgstr "- {1}, Använder INTE föråldrad CSP-policy '{0}'"
+msgstr "- {1}, Använder INTE föråldrad CSP-policy &apos;{0}&apos;"
 
 msgid "TEXT_REVIEW_CSP_POLICY_USE_WILDCARD" 
-msgstr "- {1}, CSP-policy '{0}' använder wildcard i slutet av värdkällan"
+msgstr "- {1}, CSP-policy &apos;{0}&apos; använder wildcard i slutet av värdkällan"
 
 msgid "TEXT_REVIEW_CSP_POLICY_NOT_USE_WILDCARD" 
-msgstr "- {1}, Använder INTE wildcard i CSP-policy '{0}'"
+msgstr "- {1}, Använder INTE wildcard i CSP-policy &apos;{0}&apos;"
 
 msgid "TEXT_REVIEW_CSP_POLICY_USE_UNSAFE_SCHEME" 
-msgstr "- {2}, CSP-policy '{0}' använder osäkert schema {1}"
+msgstr "- {2}, CSP-policy &apos;{0}&apos; använder osäkert schema {1}"
 
 msgid "TEXT_REVIEW_CSP_POLICY_USE_UNSAFE_SCHEME" 
-msgstr "- {2}, CSP-policy '{0}' använder osäkert schema {1}"
+msgstr "- {2}, CSP-policy &apos;{0}&apos; använder osäkert schema {1}"
 
 msgid "TEXT_REVIEW_CSP_POLICY_REUSE_NONCE" 
-msgstr "- {1}, CSP-policy '{0}' återanvänder samma 'nonce' mellan besök"
+msgstr "- {1}, CSP-policy &apos;{0}&apos; återanvänder samma &apos;nonce&apos; mellan besök"
 
 msgid "TEXT_REVIEW_CSP_POLICY_MULTIUSE_NONCE" 
-msgstr "- {2}, CSP-policy '{0}' använder flera {1}"
+msgstr "- {2}, CSP-policy &apos;{0}&apos; använder flera {1}"
 
 msgid "TEXT_REVIEW_CSP_POLICY_NONE_NOT_ALONE" 
-msgstr "- {1}, CSP-policy '{0}' använder INTE 'none' ensamt"
+msgstr "- {1}, CSP-policy &apos;{0}&apos; använder INTE &apos;none&apos; ensamt"
 
 msgid "TEXT_REVIEW_CSP_POLICY_USE_15_OR_MORE_DOMAINS" 
-msgstr "- {2}, CSP-policy '{0}' använder {1} med över 15 domäner"
+msgstr "- {2}, CSP-policy &apos;{0}&apos; använder {1} med över 15 domäner"
 
 msgid "TEXT_REVIEW_CSP_POLICY_IS_USING" 
-msgstr "- {2}, CSP-policy '{0}' använder {1}"
+msgstr "- {2}, CSP-policy &apos;{0}&apos; använder {1}"
 
 msgid "TEXT_REVIEW_CSP_POLICY_IS_NOT_USING" 
-msgstr "- {2}, CSP-policy '{0}' använder INTE {1}"
+msgstr "- {2}, CSP-policy &apos;{0}&apos; använder INTE {1}"
 
 msgid "TEXT_REVIEW_CSP_WILDCARDS" 
 msgstr "wildcard(s)"

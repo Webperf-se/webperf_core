@@ -66,6 +66,12 @@ msgstr "- Sitemap, en eller fler adresser finns flera gånger i <loc>"
 msgid "TEXT_SITEMAP_NO_DUPLICATES"
 msgstr "- Sitemap, bara unika adresser används i <loc>"
 
+msgid "TEXT_SITEMAP_IS_DUPLICATED"
+msgstr "- Sitemap, anges flera gånger"
+
+msgid "TEXT_SITEMAP_NOT_DUPLICATED"
+msgstr "- Sitemap, anges bara 1 gång"
+
 msgid "TEXT_SITEMAP_NOT_ONLY_WEBPAGES"
 msgstr "- Sitemap, listar andra saker än webbsidor"
 

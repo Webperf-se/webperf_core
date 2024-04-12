@@ -66,6 +66,12 @@ msgstr "- Sitemap, One or more Url in <loc> is the same"
 msgid "TEXT_SITEMAP_NO_DUPLICATES"
 msgstr "- Sitemap, No duplicate Urls in <loc>"
 
+msgid "TEXT_SITEMAP_IS_DUPLICATED"
+msgstr "- Sitemap(s) is specified more than once"
+
+msgid "TEXT_SITEMAP_NOT_DUPLICATED"
+msgstr "- Sitemap(s) are only specified once"
+
 msgid "TEXT_SITEMAP_NOT_ONLY_WEBPAGES"
 msgstr "- Sitemap, lists other stuff then webpages"
 

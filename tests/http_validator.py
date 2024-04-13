@@ -1009,7 +1009,7 @@ def sitespeed_result_2_test_result(filename, org_domain):
                 if 'mimeType' in res['content'] and 'text/html' in res['content']['mimeType']:
                     result[req_domain]['features'].append('HTML-FOUND')
                     content = res['content']['text']
-                    regex = r'<meta http-equiv=\"(?P<name>Content-Security-Policy)\" content=\"(?P<value>[^\"]{5,1000})\"'
+                    regex = r'<meta http-equiv=\"(?P<name>Content-Security-Policy)\" content=\"(?P<value>[^\"]{5,10000})\"'
                     matches = re.finditer(regex, content, re.MULTILINE)
                     for _, match in enumerate(matches, start=1):
                         name2 = match.group('name').lower()
@@ -2104,7 +2104,7 @@ def ensure_csp_policy_fallbacks(domain, result_dict):
         append_csp_policy('worker-src', default_items, domain, result_dict)
 
 def parse_csp(content, domain, result_dict, is_from_response_header):
-    regex = r'(?P<name>(default-src|script-src|style-src|font-src|connect-src|frame-src|img-src|media-src|frame-ancestors|base-uri|form-action|block-all-mixed-content|child-src|connect-src|fenced-frame-src|font-src|img-src|manifest-src|media-src|object-src|plugin-types|prefetch-src|referrer|report-to|report-uri|require-trusted-types-for|sandbox|script-src-attr|script-src-elem|strict-dynamic|style-src-attr|style-src-elem|trusted-types|upgrade-insecure-requests|worker-src)) (?P<value>[^;]{5,1000})[;]{0,1}'
+    regex = r'(?P<name>(default-src|script-src|style-src|font-src|connect-src|frame-src|img-src|media-src|frame-ancestors|base-uri|form-action|block-all-mixed-content|child-src|connect-src|fenced-frame-src|font-src|img-src|manifest-src|media-src|object-src|plugin-types|prefetch-src|referrer|report-to|report-uri|require-trusted-types-for|sandbox|script-src-attr|script-src-elem|strict-dynamic|style-src-attr|style-src-elem|trusted-types|upgrade-insecure-requests|worker-src)) (?P<value>[^;]{5,10000})[;]{0,1}'
     matches = re.finditer(regex, content, re.MULTILINE | re.IGNORECASE)
     for matchNum, match in enumerate(matches, start=1):
         name = match.group('name')

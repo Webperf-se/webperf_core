@@ -210,7 +210,7 @@ def get_interesting_urls(content, org_url_start, depth):
                 r"(kontakt(a [a-z]+){0,1}|om [a-z]+|personuppgifter|(tillg(.{1,6}|ä|&auml;|&#228;)nglighet(sredog(.{1,6}|ö|&ouml;|&#246;)relse){0,1}))", flags=re.MULTILINE | re.IGNORECASE)):
             continue
 
-        url = f'{link.get('href')}'
+        url = f"{link.get('href')}"
 
         if url is None:
             continue

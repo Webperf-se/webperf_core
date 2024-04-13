@@ -133,7 +133,7 @@ def create_rating_from_audit(item, global_translation, weight):
         local_points = 5.0
 
     if 'title' in item:
-        item_title = f'{item['title']}'
+        item_title = f"{item['title']}"
 
     if 'description' in item:
         item_description = item['description']

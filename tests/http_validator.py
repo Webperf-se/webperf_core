@@ -2021,7 +2021,7 @@ def handle_csp_data(content, domain, result_dict, is_from_response_header, org_d
 
 def convert_csp_policies_2_csp_objects(domain, result_dict, org_domain):
     wildcard_org_domain = 'webperf-core-wildcard.{0}'.format(org_domain)
-    subdomain_org_domain = '.{0}'.format(org_domain)
+    subdomain_org_domain = f'.{org_domain}'
 
     for policy_name, items in result_dict[domain]['csp-policies'].items():
         policy_object = default_csp_policy_object()

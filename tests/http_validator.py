@@ -543,8 +543,8 @@ def rate_csp(result_dict, global_translation, local_translation, org_domain, org
                     rating += sub_rating
 
                 sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                sub_rating.set_overall(2.5)
-                sub_rating.set_integrity_and_security(2.5, local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, local_translation('TEXT_REVIEW_CSP_DOMAIN'), domain))
+                sub_rating.set_overall(2.0)
+                sub_rating.set_integrity_and_security(2.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, local_translation('TEXT_REVIEW_CSP_DOMAIN'), domain))
                 rating += sub_rating
                 any_found = True
             else:

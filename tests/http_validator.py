@@ -447,13 +447,13 @@ def rate_csp(result_dict, global_translation, local_translation, org_domain, org
             if "'none'" in policy_object['all']:
                 if len(policy_object['all']) > 1:
                     sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                    sub_rating.set_overall(5.0)
+                    sub_rating.set_overall(1.5)
                     sub_rating.set_standards(1.5, local_translation('TEXT_REVIEW_CSP_POLICY_NONE_NOT_ALONE').format(policy_name, "'none'", domain))
                     sub_rating.set_integrity_and_security(1.5, local_translation('TEXT_REVIEW_CSP_POLICY_NONE_NOT_ALONE').format(policy_name, "'none'", domain))
                     rating += sub_rating
                 else:
                     sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                    sub_rating.set_overall(1.5)
+                    sub_rating.set_overall(5.0)
                     sub_rating.set_standards(5.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "'none'", domain))
                     sub_rating.set_integrity_and_security(5.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "'none'", domain))
                     rating += sub_rating
@@ -466,7 +466,7 @@ def rate_csp(result_dict, global_translation, local_translation, org_domain, org
                 sub_rating.set_integrity_and_security(5.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "sha[256/384/512]", domain))
                 rating += sub_rating
                 any_found = True
-            else:
+            elif policy_name not in self_allowed_policies:
                 sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(1.0)
                 sub_rating.set_standards(5.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, "'none'", domain))
@@ -487,9 +487,9 @@ def rate_csp(result_dict, global_translation, local_translation, org_domain, org
                     sub_rating.set_standards(4.99, local_translation('TEXT_REVIEW_CSP_POLICY_MULTIUSE_NONCE').format(policy_name, "'nonce's", domain))
                     sub_rating.set_integrity_and_security(4.5, local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "nonce", domain))
                 else:
-                    sub_rating.set_overall(1.0)
-                    sub_rating.set_standards(1.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, "'self'", domain))
-                    sub_rating.set_integrity_and_security(1.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, "'self'", domain))
+                    sub_rating.set_overall(4.5)
+                    sub_rating.set_standards(5.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "'nonce'", domain))
+                    sub_rating.set_integrity_and_security(4.5, local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "'nonce'", domain))
                 rating += sub_rating
                 any_found = True
 

@@ -469,8 +469,8 @@ def rate_csp(result_dict, global_translation, local_translation, org_domain, org
             elif policy_name not in self_allowed_policies:
                 sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(1.0)
-                sub_rating.set_standards(5.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, "'none'", domain))
-                sub_rating.set_integrity_and_security(1.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, "'none'", domain))
+                sub_rating.set_standards(5.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, "none/sha[256/384/512]", domain))
+                sub_rating.set_integrity_and_security(1.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, "none/sha[256/384/512]", domain))
                 rating += sub_rating
 
 

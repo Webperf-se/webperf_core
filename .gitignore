@@ -118,7 +118,7 @@ node_modules
 data
 sitespeed-result
 package-lock.json
-package.json
+# package.json
 sitespeed-rules.json
 vnu.jar
 software-unknown-sources.json

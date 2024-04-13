@@ -163,52 +163,71 @@ def test(global_translation, lang_code, site, test_type=None, show_reviews=False
                                   json_check_data=jsondata).todata()
 
             return site_test
-    except Exception as e: # pylint: disable=broad-exception-caught
+    except Exception as ex: # pylint: disable=broad-exception-caught
         print(global_translation('TEXT_TEST_END').format(
             datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
-        print(global_translation('TEXT_EXCEPTION'), site[1], '\n', e)
+        info = get_error_info(site[1], lang_code, test_type, show_reviews, ex)
+        print('\n'.join(info).replace('\n\n','\n'))
 
         # write error to failure.log file
         with open('failures.log', 'a', encoding='utf-8') as outfile:
-            outfile.writelines(['###############################################',
-                                '\n# Information:',
-                                f"\nDateTime: { \
-                                    datetime.now().strftime('%Y-%m-%d %H:%M:%S') \
-                                    }",
-                                f'\nUrl: {site[1]}',
-                                f'\nLanguage Code: {lang_code}',
-                                f'\nTest Type(s): {test_type}',
-                                f'\nShow Reviews: {show_reviews}',
-                                 '\n###############################################'
-                                '\n# Configuration (from config.py):',
-                                f"\nuseragent: {get_config('USERAGENT')}",
-                                f"\nhttp_request_timeout: {get_config('HTTP_REQUEST_TIMEOUT')}",
-                                f"\nwebbkoll_sleep: {get_config('WEBBKOLL_SLEEP')}",
-                                f"\ncss_review_group_errors: { \
-                                    get_config('CSS_REVIEW_GROUP_ERRORS')}",
-                                f"\nreview_show_improvements_only: { \
-                                    get_config('REVIEW_SHOW_IMPROVEMENTS_ONLY')}",
-                                f"\nylt_use_api: {get_config('YLT_USE_API')}",
-                                f"\nlighthouse_use_api: {get_config('LIGHTHOUSE_USE_API')}",
-                                f"\nsitespeed_use_docker: {get_config('SITESPEED_USE_DOCKER')}",
-                                f"\nsitespeed_iterations: {get_config('SITESPEED_ITERATIONS')}",
-                                f"\ncache_when_possible: {get_config('CACHE_WHEN_POSSIBLE')}",
-                                f"\ncache_time_delta: {get_config('CACHE_TIME_DELTA')}",
-                                f"\nsoftware_use_stealth: {get_config('SOFTWARE_USE_STEALTH')}",
-                                f"\nuse_detailed_report: {get_config('USE_DETAILED_REPORT')}",
-                                f"\ncsp_only: {get_config('CSP_ONLY')}",
-                                f"\ndns_server: {get_config('DNS_SERVER')}",
-                                f"\nsoftware_browser: {get_config('SOFTWARE_BROWSER')}",
-                                 '\n###############################################\n'
-                                 ])
-
-
-            outfile.writelines(traceback.format_exception(e,e, e.__traceback__))
-
-            outfile.writelines(['###############################################\n\n'])
+            outfile.writelines(info)
 
     return []
 
+def get_error_info(url, lang_code, test_type, show_reviews, ex):
+    result = []
+    result.append('###############################################')
+    result.extend(get_versions())
+    result.extend(['###############################################',
+        '\n# Information:',
+        f"\nDateTime: { \
+            datetime.now().strftime('%Y-%m-%d %H:%M:%S') \
+        }",
+        f'\nUrl: {url}',
+        f'\nLanguage Code: {lang_code}',
+        f'\nTest Type(s): {test_type}',
+        f'\nShow Reviews: {show_reviews}',
+        '\n###############################################'
+        '\n# Configuration (from config.py):',
+        f"\nuseragent: {get_config('USERAGENT')}",
+        f"\nhttp_request_timeout: {get_config('HTTP_REQUEST_TIMEOUT')}",
+        f"\nwebbkoll_sleep: {get_config('WEBBKOLL_SLEEP')}",
+        f"\ncss_review_group_errors: { \
+            get_config('CSS_REVIEW_GROUP_ERRORS')}",
+        f"\nreview_show_improvements_only: { \
+            get_config('REVIEW_SHOW_IMPROVEMENTS_ONLY')}",
+        f"\nylt_use_api: {get_config('YLT_USE_API')}",
+        f"\nlighthouse_use_api: {get_config('LIGHTHOUSE_USE_API')}",
+        f"\nsitespeed_use_docker: {get_config('SITESPEED_USE_DOCKER')}",
+        f"\nsitespeed_iterations: {get_config('SITESPEED_ITERATIONS')}",
+        f"\ncache_when_possible: {get_config('CACHE_WHEN_POSSIBLE')}",
+        f"\ncache_time_delta: {get_config('CACHE_TIME_DELTA')}",
+        f"\nsoftware_use_stealth: {get_config('SOFTWARE_USE_STEALTH')}",
+        f"\nuse_detailed_report: {get_config('USE_DETAILED_REPORT')}",
+        f"\ncsp_only: {get_config('CSP_ONLY')}",
+        f"\ndns_server: {get_config('DNS_SERVER')}",
+        f"\nsoftware_browser: {get_config('SOFTWARE_BROWSER')}",
+        '\n###############################################\n',
+    ])
+    result.extend(traceback.format_exception(ex, ex, ex.__traceback__))
+    result.append('###############################################\n\n')
+    return result
+
+def get_versions():
+    result = ['\n# Version information (from packages.json)']
+    with open('package.json', encoding='utf-8') as json_input_file:
+        package_info = json.load(json_input_file)
+
+        if 'version' in package_info:
+            result.append(f"\nVersion: {package_info['version']}")
+
+        if 'dependencies' in package_info:
+            result.append("\nDependencies:")
+            for dependency_name, dependency_version in package_info['dependencies'].items():
+                result.append(f"\n- {dependency_name} v{dependency_version}")
+            result.append("\n")
+    return result
 
 def test_site(global_translation, lang_code, site, test_types=TEST_ALL, show_reviews=False):
     """

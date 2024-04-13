@@ -95,8 +95,8 @@ jobs:
       shell: bash
       name: Setup GeckoDriver (Used for Selenium)
       run: wget -q -O - https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz | tar -xvzf -
-    - name: Setup Sitespeed.io npm package (ONLY used for Sitespeed)
-      run: npm install sitespeed.io
+    - name: Setup npm packages
+      run: npm install
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: Setup config (using SAMPLE-config.py as config.py) - LINUX
       run: python .github/workflows/verify_result.py -c ${{ matrix.config }}

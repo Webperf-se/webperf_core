@@ -26,16 +26,18 @@ jobs:
         architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
-    - name: Setup node (ONLY used for Yellow Lab Tools)
+    - name: Setup Node.js (v4 version 20.x)
       uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
     - name: Setup node dependencies (ONLY used for Yellow Lab Tools)
       run: npm install -g node-gyp
     - if: matrix.os == 'ubuntu-latest'
       name: Setup libjpeg and fontconfig (ONLY used for Yellow Lab Tools) - LINUX
       run: sudo apt-get install libjpeg-dev libfontconfig
       shell: bash
-    - name: Setup yellowlabtools npm package (ONLY used for Yellow Lab Tools)
-      run: npm install yellowlabtools
+    - name: Setup npm packages
+      run: npm install
     - if: ${{ matrix.os == 'ubuntu-latest'  }}
       name: Setup config (using SAMPLE-config.py as config.py) - LINUX
       run: python .github/workflows/verify_result.py -c ${{ matrix.config }}

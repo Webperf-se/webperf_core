@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# pylint: disable=too-many-lines
 from datetime import datetime
 import hashlib
 from pathlib import Path
@@ -410,11 +411,19 @@ def get_http_content(url, allow_redirects=False, use_text_instead_of_content=Tru
             print('Connection error! Info: Trying SSL before giving up.')
             return get_http_content(url.replace('http://', 'https://'))
         print(
-            'Connection error! Unfortunately the request for URL'
+            'Connection error! Unfortunately the request for URL '
             f'"{url}" failed.\nMessage:\n{sys.exc_info()[0]}')
+    except requests.exceptions.MissingSchema as error:
+        print(
+            'Connection error! Missing Schema for '
+            f'"{url}"')
+    except requests.exceptions.TooManyRedirects as error:
+        print(
+            'Connection error! Too many redirects for '
+            f'"{url}"')
     except TimeoutError:
         print(
-            'Error! Unfortunately the request for URL'
+            'Error! Unfortunately the request for URL '
             f'"{url}" timed out.'
             f'The timeout is set to {REQUEST_TIMEOUT} seconds.\nMessage:\n{sys.exc_info()[0]}')
     return ''
@@ -553,6 +562,8 @@ def has_redirect(url):
         error_msg = 'Unable to verify: SSL error occured'
     except requests.exceptions.ConnectionError:
         error_msg = 'Unable to verify: connection error occured'
+    except requests.exceptions.TooManyRedirects:
+        error_msg = 'Unable to verify: Too many redirects'
     return (False, None, error_msg)
 
 

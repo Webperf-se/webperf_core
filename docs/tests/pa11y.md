@@ -42,9 +42,9 @@ Read more on the [general page for github actions](../getting-started-github-act
 ### Setup Locally
 
 * Follow [general local setup steps for this repository](../getting-started-local.md)
-* Download and install Node.js
+* Download and install Node.js (version 20.x)
 * Download and install Google Chrome browser
-* Install Pa11y CI npm package ( `npm install pa11y` )
+* Install NPM packages ( `npm install` )
 
 ## FAQ
 

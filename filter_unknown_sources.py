@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 import sys
 from pathlib import Path
-import sys
 import json
 import os
 
-def main(argv):
+def main(_):
     """
     WebPerf Core - Software update
     """
@@ -41,7 +40,7 @@ def main(argv):
             continue
 
     for key in names_to_remove:
-        print('\t- {0}'.format(key))
+        print(f'\t- {key}')
         if key in collection:
             del collection[key]
 
@@ -49,14 +48,29 @@ def main(argv):
 
 
 def set_softwares(filename, collection):
-    dir = Path(os.path.dirname(
+    """
+    Writes a collection of software data to a JSON file.
+
+    This function attempts to write a collection of
+    software data to a JSON file in the 'data' directory or the base directory. 
+    If the file is found, it writes the data to the file.
+    If the file is not found, it prints an error message.
+
+    Args:
+        filename (str): The name of the JSON file to write to.
+        collection (dict): The collection of software data to write.
+
+    Returns:
+        None
+    """
+    base_directory = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep)
-    
-    file_path = '{0}{1}data{1}{2}'.format(dir, os.path.sep, filename)
+
+    file_path = f'{base_directory}{os.path.sep}data{os.path.sep}{filename}'
     if not os.path.isfile(file_path):
-        file_path = '{0}{1}{2}'.format(dir, os.path.sep, filename)
+        file_path = f'{base_directory}{os.path.sep}{filename}'
     if not os.path.isfile(file_path):
-        print("ERROR: No {0} file found!".format(filename))
+        print(f"ERROR: No {filename} file found!")
 
     print('set_software_sources', file_path)
 
@@ -65,20 +79,34 @@ def set_softwares(filename, collection):
         file.write(data)
 
 def get_software_sources(filename):
-    dir = Path(os.path.dirname(
+    """
+    Loads and sorts software data from a JSON file.
+
+    This function attempts to load a JSON file from a 'data' directory or the base directory. 
+    If the file is found, it loads the JSON data into a dictionary, sorts it by software names, 
+    and returns the sorted dictionary. If the file is not found, it returns an empty dictionary.
+
+    Args:
+        filename (str): The name of the JSON file to load.
+
+    Returns:
+        dict: A dictionary containing the sorted software data,
+        or an empty dictionary if the file was not found.
+    """
+    base_directory = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep)
 
-    file_path = '{0}{1}data{1}{2}'.format(dir, os.path.sep, filename)
+    file_path = f'{base_directory}{os.path.sep}data{os.path.sep}{filename}'
     if not os.path.isfile(file_path):
-        file_path = '{0}{1}{2}'.format(dir, os.path.sep, filename)
+        file_path = f'{base_directory}{os.path.sep}{filename}'
     if not os.path.isfile(file_path):
-        print("ERROR: No {0} file found!".format(filename))
+        print(f"ERROR: No {filename} file found!")
         return {
         }
 
     print('get_software_sources', file_path)
     collection = {}
-    with open(file_path) as json_file:
+    with open(file_path, encoding='utf-8') as json_file:
         collection = json.load(json_file)
 
     # sort on software names
@@ -95,8 +123,5 @@ def get_software_sources(filename):
     return collection
 
 
-"""
-If file is executed on itself then call a definition, mostly for testing purposes
-"""
 if __name__ == '__main__':
     main(sys.argv[1:])

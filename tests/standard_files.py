@@ -141,7 +141,8 @@ def validate_sitemaps(result_dict,
         'use_https_only': True,
         'use_same_domain': True,
         'known_types': {},
-        'has_duplicates': False,
+        'has_duplicates_items': False,
+        'is_duplicate': False,
         'nof_items': 0,
         'nof_items_no_duplicates': 0
     }
@@ -171,13 +172,13 @@ def validate_sitemaps(result_dict,
         return rating
 
     robots_domain = get_domain(result_dict['robots']['url'])
-    sitemaps_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     for sitemap_url in sitemaps_dict["sitemap_urls_in_robots"]:
-        sitemaps_rating += validate_sitemap(sitemap_url,
-                                            sitemaps_dict,
-                                            robots_domain,
-                                            global_translation,
-                                            local_translation)
+        validate_sitemap(
+            sitemap_url,
+            sitemaps_dict,
+            robots_domain)
+    sitemaps_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    sitemaps_rating += rate_sitemap(sitemaps_dict, global_translation, local_translation)
 
     if not sitemaps_rating.is_set:
         result_dict['sitemap'] = sitemaps_dict
@@ -221,31 +222,34 @@ def get_domain(url):
 
 def validate_sitemap(sitemap_url,
                      sitemaps_dict,
-                     robots_domain,
-                     global_translation,
-                     local_translation):
+                     robots_domain):
     """
     Validates a sitemap of a website.
 
     This function reads the sitemap from the provided URL and validates it.
     It checks if the sitemap uses HTTPS only, if it uses the same domain as the robots.txt file,
     and if it contains any duplicate entries. It then updates the 
-    sitemaps dictionary with the results of the validation and calculates a rating for the sitemap.
+    sitemaps dictionary with the results of the validation.
 
     Args:
         sitemap_url (str): The URL of the sitemap to validate.
         sitemaps_dict (dict): A dictionary containing the results of the sitemap validation.
         robots_domain (str): The domain of the robots.txt file.
-        global_translation (function): A function to translate text to a global language.
-        local_translation (function): A function to translate text to a local language.
 
     Returns:
-        Rating: A Rating object containing the overall rating and standards rating of the sitemap.
+        None: A Rating object containing the overall rating and standards rating of the sitemap.
     """
     sitemaps = read_sitemap(sitemap_url, -1, -1, False)
 
     for key, items in sitemaps.items():
         if key == 'all':
+            continue
+        if key == 'sitemapindex':
+            if "sitemapindexes" not in sitemaps_dict:
+                sitemaps_dict["sitemapindexes"] = []
+            if key not in sitemaps_dict["sitemapindexes"]:
+                sitemaps_dict["sitemapindexes"].extend(items)
+
             continue
 
         if key not in sitemaps_dict["sitemaps"]:
@@ -256,16 +260,40 @@ def validate_sitemap(sitemap_url,
                 sitemaps_dict['use_https_only'] = False
             if not sitemap_dict['use_same_domain']:
                 sitemaps_dict['use_same_domain'] = False
-            if sitemap_dict['has_duplicates']:
-                sitemaps_dict['has_duplicates'] = True
+            if sitemap_dict['has_duplicates_items']:
+                sitemaps_dict['has_duplicates_items'] = True
+            if sitemap_dict['is_duplicate']:
+                sitemaps_dict['is_duplicate'] = True
             sitemaps_dict['known_types'].update(sitemap_dict['known_types'])
             sitemaps_dict['nof_items'] += sitemap_dict['nof_items']
             sitemaps_dict['nof_items_no_duplicates'] += sitemap_dict['nof_items_no_duplicates']
+        else:
+            sitemaps_dict["sitemaps"][key]['is_duplicate'] = True
+            sitemaps_dict['is_duplicate'] = True
 
-    rating = rate_sitemap(sitemaps_dict, global_translation, local_translation, sitemaps)
-    return rating
+    cleanup_sites_dict(sitemaps_dict)
 
-def rate_sitemap(sitemaps_dict, global_translation, local_translation, sitemaps):
+def cleanup_sites_dict(sitemaps_dict):
+    """
+    Cleans up the sitemaps dictionary by removing duplicate sitemap indexes and
+    deleting any sitemaps that are also in the sitemap indexes.
+
+    Args:
+        sitemaps_dict (dict): A dictionary containing two keys
+         - 'sitemapindexes'
+         - 'sitemaps'
+        'sitemapindexes' is a list of sitemap indexes and 'sitemaps' is a list of sitemaps.
+
+    Returns:
+        None. The function modifies the input dictionary in-place.
+    """
+    sitemaps_dict["sitemapindexes"] = list(set(sitemaps_dict["sitemapindexes"]))
+    for sitemapindex in sitemaps_dict["sitemapindexes"]:
+        if sitemapindex in sitemaps_dict["sitemaps"]:
+            del sitemaps_dict["sitemaps"][sitemapindex]
+
+
+def rate_sitemap(sitemaps_dict, global_translation, local_translation):
     """
     Rates the sitemaps based on various criteria such as use of HTTPS, domain consistency,
     duplicate handling, known types, and size. 
@@ -274,38 +302,44 @@ def rate_sitemap(sitemaps_dict, global_translation, local_translation, sitemaps)
     sitemaps_dict (dict): Dictionary containing sitemap data.
     global_translation (function): Function for global translation.
     local_translation (function): Function for local translation.
-    sitemaps (dict): Dictionary containing all sitemaps.
 
     Returns:
     Rating: A rating object representing the overall rating of the sitemaps.
     """
-    sitemap_items = sitemaps['all']
-
-    total_nof_items = len(sitemap_items)
-    sitemap_items = list(set(sitemap_items))
-    total_nof_items_no_duplicates = len(sitemap_items)
+    total_nof_items = sitemaps_dict['nof_items']
+    total_nof_items_no_duplicates = sitemaps_dict['nof_items_no_duplicates']
+    sitemaps = sitemaps_dict['sitemaps']
 
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-    rate_sitemap_use_https_only(sitemaps_dict, global_translation, local_translation, rating)
-    rate_sitemap_use_same_domain(sitemaps_dict, global_translation, local_translation, rating)
-    rate_sitemap_use_of_duplicates(global_translation,
-                                   local_translation,
-                                   total_nof_items,
-                                   total_nof_items_no_duplicates,
-                                   rating)
+    if total_nof_items > 0:
+        rating += rate_sitemap_use_https_only(sitemaps_dict, global_translation, local_translation)
+        rating += rate_sitemap_use_same_domain(sitemaps_dict, global_translation, local_translation)
+        rating += rate_sitemap_use_of_duplicates(global_translation,
+                                    local_translation,
+                                    total_nof_items,
+                                    total_nof_items_no_duplicates)
+        rating += rate_sitemap_use_known_types(sitemaps_dict,
+                                    global_translation,
+                                    local_translation,
+                                    total_nof_items)
 
-    rate_sitemap_use_known_types(sitemaps_dict,
-                                 global_translation,
-                                 local_translation,
-                                 total_nof_items,
-                                 rating)
+        sitemaps_is_duplicated = sitemaps_dict['is_duplicate']
+        if sitemaps_is_duplicated:
+            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            sub_rating.set_overall(1.0)
+            sub_rating.set_standards(
+                        1.0,  local_translation("TEXT_SITEMAP_IS_DUPLICATED"))
+            rating += sub_rating
+        else:
+            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            sub_rating.set_overall(5.0)
+            sub_rating.set_standards(
+                        5.0,  local_translation("TEXT_SITEMAP_NOT_DUPLICATED"))
+            rating += sub_rating
 
     # loop sitemaps and see if any single sitemap exsits amount
-    for key in sitemaps.keys():
-        if key == 'all':
-            continue
-
-        nof_items = len(sitemaps[key])
+    for _, sitemap_info in sitemaps.items():
+        nof_items = sitemap_info['nof_items']
 
         if nof_items > 50_000:
             sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
@@ -313,6 +347,13 @@ def rate_sitemap(sitemaps_dict, global_translation, local_translation, sitemaps)
                         1.0)
             sub_rating.set_standards(
                         1.0,  local_translation("TEXT_SITEMAP_TOO_LARGE"))
+            rating += sub_rating
+        elif nof_items == 0:
+            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            sub_rating.set_overall(
+                        1.0)
+            sub_rating.set_standards(
+                        1.0,  local_translation("TEXT_SITEMAP_BROKEN"))
             rating += sub_rating
         else:
             sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
@@ -322,18 +363,16 @@ def rate_sitemap(sitemaps_dict, global_translation, local_translation, sitemaps)
                         5.0, local_translation("TEXT_SITEMAP_NOT_TOO_LARGE"))
             rating += sub_rating
 
-    rate_sitemap_any_items(sitemaps_dict,
+    rating += rate_sitemap_any_items(sitemaps_dict,
                            global_translation,
                            local_translation,
-                           total_nof_items,
-                           rating)
+                           total_nof_items)
     return rating
 
 def rate_sitemap_any_items(sitemaps_dict,
                            global_translation,
                            local_translation,
-                           total_nof_items,
-                           rating):
+                           total_nof_items):
     """
     Rates the sitemaps based on the presence of any items. Updates the status in the sitemaps_dict.
 
@@ -342,35 +381,31 @@ def rate_sitemap_any_items(sitemaps_dict,
     global_translation (function): Function for global translation.
     local_translation (function): Function for local translation.
     total_nof_items (int): Total number of items in the sitemaps.
-    rating (Rating): The rating object to be updated.
 
     Returns:
-    None: The function updates the rating and sitemaps_dict in-place.
+    Rating: The function returns the rating and updates sitemaps_dict in-place.
     """
     if total_nof_items == 0:
+        sitemaps_dict['status'] = "sitemap(s) seem to be broken"
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(
                     1.0)
         sub_rating.set_standards(
                     1.0, local_translation("TEXT_SITEMAP_BROKEN"))
-        rating += sub_rating
+        return sub_rating
 
-        sitemaps_dict['status'] = "sitemap(s) seem to be broken"
-    else:
-        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        sub_rating.set_overall(
-                    5.0)
-        sub_rating.set_standards(
-                    5.0, local_translation("TEXT_SITEMAP_IS_OK"))
-        rating += sub_rating
-
-        sitemaps_dict['status'] = "sitemap(s) seem ok"
+    sitemaps_dict['status'] = "sitemap(s) seem ok"
+    sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    sub_rating.set_overall(
+                5.0)
+    sub_rating.set_standards(
+                5.0, local_translation("TEXT_SITEMAP_IS_OK"))
+    return sub_rating
 
 def rate_sitemap_use_known_types(sitemaps_dict,
                                  global_translation,
                                  local_translation,
-                                 total_nof_items,
-                                 rating):
+                                 total_nof_items):
     """
     Rates the sitemaps based on the use of known types.
     Updates the rating based on the proportion of webpages.
@@ -380,11 +415,14 @@ def rate_sitemap_use_known_types(sitemaps_dict,
     global_translation (function): Function for global translation.
     local_translation (function): Function for local translation.
     total_nof_items (int): Total number of items in the sitemaps.
-    rating (Rating): The rating object to be updated.
 
     Returns:
-    None: The function updates the rating in-place.
+    Rating: The function returns rating.
     """
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    if total_nof_items == 0:
+        return rating
+
     type_keys = sitemaps_dict['known_types'].keys()
     if len(type_keys) > 1:
         webpages_points = 1.0
@@ -393,25 +431,21 @@ def rate_sitemap_use_known_types(sitemaps_dict,
             ratio = nof_webpages / total_nof_items
             webpages_points = 5.0 * ratio
 
-        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        sub_rating.set_overall(
+        rating.set_overall(
                     webpages_points)
-        sub_rating.set_standards(
+        rating.set_standards(
                     webpages_points,  local_translation("TEXT_SITEMAP_NOT_ONLY_WEBPAGES"))
-        rating += sub_rating
     else:
-        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        sub_rating.set_overall(
+        rating.set_overall(
                     5.0)
-        sub_rating.set_standards(
+        rating.set_standards(
                     5.0, local_translation("TEXT_SITEMAP_ONLY_WEBPAGES"))
-        rating += sub_rating
+    return rating
 
 def rate_sitemap_use_of_duplicates(global_translation,
                                    local_translation,
                                    total_nof_items,
-                                   total_nof_items_no_duplicates,
-                                   rating):
+                                   total_nof_items_no_duplicates):
     """
     Rates the sitemaps based on the presence of duplicate items.
     Updates the rating based on the ratio of unique items.
@@ -421,29 +455,26 @@ def rate_sitemap_use_of_duplicates(global_translation,
     local_translation (function): Function for local translation.
     total_nof_items (int): Total number of items in the sitemaps.
     total_nof_items_no_duplicates (int): Total number of unique items in the sitemaps.
-    rating (Rating): The rating object to be updated.
 
     Returns:
-    None: The function updates the rating in-place.
+    Rating: The function returns rating.
     """
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if total_nof_items !=  total_nof_items_no_duplicates:
         ratio = total_nof_items_no_duplicates / total_nof_items
         duplicates_points = 3.0 * ratio
-        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        sub_rating.set_overall(
+        rating.set_overall(
                     duplicates_points)
-        sub_rating.set_standards(
+        rating.set_standards(
                     duplicates_points, local_translation("TEXT_SITEMAP_INCLUDE_DUPLICATES"))
-        rating += sub_rating
     else:
-        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        sub_rating.set_overall(
+        rating.set_overall(
                     5.0)
-        sub_rating.set_standards(
+        rating.set_standards(
                     5.0, local_translation("TEXT_SITEMAP_NO_DUPLICATES"))
-        rating += sub_rating
+    return rating
 
-def rate_sitemap_use_same_domain(sitemaps_dict, global_translation, local_translation, rating):
+def rate_sitemap_use_same_domain(sitemaps_dict, global_translation, local_translation):
     """
     This function rates the use of the same domain for sitemaps and robots.txt.
 
@@ -451,32 +482,29 @@ def rate_sitemap_use_same_domain(sitemaps_dict, global_translation, local_transl
     sitemaps_dict (dict): A dictionary containing information about the sitemaps.
     global_translation (function): A function for translating text globally.
     local_translation (function): A function for translating text locally.
-    rating (Rating): An instance of the Rating class.
 
     The function checks if the sitemaps use the same domain as specified in the robots.txt file.
     If they do, it sets the overall and standards ratings to 5.0 and adds a positive message.
     If they don't, it sets the overall and standards ratings to 1.0 and
-    adds a message for improvement. The function modifies the rating in-place.
+    adds a message for improvement. The function returns rating.
 
     Returns:
-    None
+    Rating: The function returns rating.
     """
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if not sitemaps_dict['use_same_domain']:
-        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        sub_rating.set_overall(
+        rating.set_overall(
                     1.0)
-        sub_rating.set_standards(
+        rating.set_standards(
                     1.0, local_translation("TEXT_SITEMAP_NOT_SAME_DOMAIN_AS_ROBOTS_TXT"))
-        rating += sub_rating
     else:
-        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        sub_rating.set_overall(
+        rating.set_overall(
                     5.0)
-        sub_rating.set_standards(
+        rating.set_standards(
                     5.0, local_translation("TEXT_SITEMAP_SAME_DOMAIN_AS_ROBOTS_TXT"))
-        rating += sub_rating
+    return rating
 
-def rate_sitemap_use_https_only(sitemaps_dict, global_translation, local_translation, rating):
+def rate_sitemap_use_https_only(sitemaps_dict, global_translation, local_translation):
     """
     This function rates the use of HTTPS only for sitemaps.
 
@@ -484,30 +512,27 @@ def rate_sitemap_use_https_only(sitemaps_dict, global_translation, local_transla
     sitemaps_dict (dict): A dictionary containing information about the sitemaps.
     global_translation (function): A function for translating text globally.
     local_translation (function): A function for translating text locally.
-    rating (Rating): An instance of the Rating class.
 
     The function checks if the sitemaps use HTTPS only.
     If they do, it sets the overall and standards ratings to 5.0 and adds a positive message.
     If they don't, it sets the overall and standards ratings to 1.0 and
-    adds a message for improvement. The function modifies the rating in-place.
+    adds a message for improvement.
 
     Returns:
-    None
+    Rating: The function returns the rating.
     """
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if not sitemaps_dict['use_https_only']:
-        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        sub_rating.set_overall(
+        rating.set_overall(
                     1.0)
-        sub_rating.set_standards(
+        rating.set_standards(
                     1.0, local_translation("TEXT_SITEMAP_NOT_STARTING_WITH_HTTPS_SCHEME"))
-        rating += sub_rating
     else:
-        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        sub_rating.set_overall(
+        rating.set_overall(
                     5.0)
-        sub_rating.set_standards(
+        rating.set_standards(
                     5.0, local_translation("TEXT_SITEMAP_STARTING_WITH_HTTPS_SCHEME"))
-        rating += sub_rating
+    return rating
 
 def create_sitemap_dict(sitemap_items, robots_domain):
     """
@@ -532,7 +557,8 @@ def create_sitemap_dict(sitemap_items, robots_domain):
         'use_https_only': True,
         'use_same_domain': True,
         'known_types': {},
-        'has_duplicates': nof_items > nof_no_duplicates,
+        'has_duplicates_items': nof_items > nof_no_duplicates,
+        'is_duplicate': False,
         'nof_items': nof_items,
         'nof_items_no_duplicates': nof_no_duplicates
     }

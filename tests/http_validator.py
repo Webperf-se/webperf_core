@@ -327,30 +327,29 @@ def create_csp(csp_findings, org_domain):
     connect_src = connect_src.strip()
 
     csp_recommendation = ''
-    # csp_recommendation = 'Content-Security-Policy-Report-Only=\r\n'
     if len(default_src) > 0:
-        csp_recommendation += '- default-src {0};\r\n'.format(default_src)
+        csp_recommendation += f'- default-src {default_src};\r\n'
     if len(base_uri) > 0:
-        csp_recommendation += '- base-uri {0};\r\n'.format(base_uri)
+        csp_recommendation += f'- base-uri {base_uri};\r\n'
     if len(img_src) > 0:
-        csp_recommendation += '- img-src {0};\r\n'.format(img_src)
+        csp_recommendation += f'- img-src {img_src};\r\n'
     if len(script_src) > 0:
-        csp_recommendation += '- script-src {0};\r\n'.format(script_src)
+        csp_recommendation += f'- script-src {script_src};\r\n'
     if len(form_action) > 0:
-        csp_recommendation += '- form-action {0};\r\n'.format(form_action)
+        csp_recommendation += f'- form-action {form_action};\r\n'
     if len(style_src) > 0:
-        csp_recommendation += '- style-src {0};\r\n'.format(style_src)
+        csp_recommendation += f'- style-src {style_src};\r\n'
     if len(child_src) > 0:
-        csp_recommendation += '- child-src {0};\r\n'.format(child_src)
+        csp_recommendation += f'- child-src {child_src};\r\n'
 
     if len(object_src) > 0:
-        csp_recommendation += '- object-src {0};\r\n'.format(object_src)
+        csp_recommendation += f'- object-src {object_src};\r\n'
     if len(frame_ancestors) > 0:
-        csp_recommendation += '- frame-ancestors {0};\r\n'.format(frame_ancestors)
+        csp_recommendation += f'- frame-ancestors {frame_ancestors};\r\n'
     if len(connect_src) > 0:
-        csp_recommendation += '- connect-src {0};\r\n'.format(connect_src)
+        csp_recommendation += f'- connect-src {connect_src};\r\n'
     if len(font_src) > 0:
-        csp_recommendation += '- font-src {0};\r\n'.format(font_src)
+        csp_recommendation += f'- font-src {font_src};\r\n'
 
     return csp_recommendation
 
@@ -362,14 +361,20 @@ def rate_csp(result_dict, global_translation, local_translation, org_domain, org
     if domain != org_domain and domain != org_www_domain:
         return rating
 
-    # TODO: We should check if X-Frame-Options is used and adjust rating for setting 'frame-ancestors' directive to 'none' is similar to X-Frame-Options: deny (which is also supported in older browsers).
-    if 'CSP-HEADER-FOUND' in result_dict[domain]['features'] or 'CSP-META-FOUND' in result_dict[domain]['features']:
+    # TODO: We should check if X-Frame-Options is used and
+    # adjust rating for setting 'frame-ancestors' directive to 'none' is similar to
+    # X-Frame-Options: deny (which is also supported in older browsers).
+    if 'CSP-HEADER-FOUND' in result_dict[domain]['features'] or\
+            'CSP-META-FOUND' in result_dict[domain]['features']:
         total_number_of_sitespeedruns = result_dict['visits']
 
         if 'CSP-UNSUPPORTED-IN-META' in result_dict[domain]['features']:
             sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
             sub_rating.set_overall(1.0)
-            sub_rating.set_standards(1.0, local_translation('TEXT_REVIEW_CSP_UNSUPPORTED_IN_META').format(domain))
+            sub_rating.set_standards(1.0,
+                                     local_translation(
+                                         'TEXT_REVIEW_CSP_UNSUPPORTED_IN_META'
+                                         ).format(domain))
             rating += sub_rating
 
         # default-src|script-src|style-src|font-src|connect-src|frame-src|img-src|media-src|frame-ancestors|base-uri|form-action|block-all-mixed-content|child-src|connect-src|fenced-frame-src|font-src|img-src|manifest-src|media-src|object-src|plugin-types|prefetch-src|referrer|report-to|report-uri|require-trusted-types-for|sandbox|script-src-attr|script-src-elem|strict-dynamic|style-src-attr|style-src-elem|trusted-types|unsafe-hashes|upgrade-insecure-requests|worker-src

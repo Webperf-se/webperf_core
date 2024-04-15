@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
+import subprocess
 import time
 import json
 from pathlib import Path
 import os
 import re
 import shutil
-from subprocess import TimeoutExpired
 import urllib
 from urllib.parse import ParseResult, urlparse, urlunparse
 import uuid
 from tests.utils import get_config_or_default, is_file_older_than
+import engines.sitespeed_result as sitespeed_cache
 
 REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
-sitespeed_use_docker = get_config_or_default('sitespeed_use_docker')
 USE_CACHE = get_config_or_default('CACHE_WHEN_POSSIBLE')
 CACHE_TIME_DELTA = get_config_or_default('CACHE_TIME_DELTA')
 
@@ -23,7 +23,12 @@ def to_firefox_url_format(url):
     if '' == o.path:
         path = '/'
 
-    o2 = ParseResult(scheme=o.scheme, netloc=o.netloc, path=path, params=o.params, query=o.query, fragment=o.fragment)
+    o2 = ParseResult(scheme=o.scheme,
+                     netloc=o.netloc,
+                     path=path,
+                     params=o.params,
+                     query=o.query,
+                     fragment=o.fragment)
     url2 = urlunparse(o2)
     return url2
 
@@ -36,12 +41,10 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
     hostname = o.hostname
 
     # TODO: CHANGE THIS IF YOU WANT TO DEBUG
-    result_folder_name = os.path.join(folder, hostname, '{0}'.format(str(uuid.uuid4())))
-    # result_folder_name = os.path.join('data', 'results')
+    result_folder_name = os.path.join(folder, hostname, f'{str(uuid.uuid4())}')
 
-    #sitespeed_arg += ' --outputFolder {0} {1}'.format(result_folder_name, url)
-    sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs --outputFolder {0} {1}'.format(result_folder_name, url)
-    # sitespeed_arg += ' --outputFolder {0} {1}'.format(result_folder_name, url)
+    sitespeed_arg += (' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs '
+                      f'--outputFolder {result_folder_name} {url}')
 
     filename = ''
     # Should we use cache when available?
@@ -49,8 +52,7 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
         # added for firefox support
         url2 = to_firefox_url_format(url)
 
-        import engines.sitespeed_result as input
-        sites = input.read_sites(hostname, -1, -1)
+        sites = sitespeed_cache.read_sites(hostname, -1, -1)
         for site in sites:
             if url == site[1] or url2 == site[1]:
                 filename = site[0]
@@ -63,8 +65,8 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
 
                 file_created_timestamp = os.path.getctime(filename)
                 file_created_date = time.ctime(file_created_timestamp)
-                print('Cached entry found from {0}, using it instead of calling website again.'.format(
-                    file_created_date))
+                print((f'Cached entry found from {file_created_date},'
+                       ' using it instead of calling website again.'))
                 break
     if filename != '':
         return (result_folder_name, filename)
@@ -86,15 +88,13 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
         for _, match in enumerate(matches, start=1):
             versions = match.group('VERSIONS')
 
-        # print('DEBUG VERSIONS:', versions)
-
         filename_old = get_browsertime_har_path(os.path.join(result_folder_name, 'pages'))
 
-        filename = '{0}{1}'.format(result_folder_name, '.har')
+        filename = f'{result_folder_name}.har'
         cookies_json = json.loads(cookies)
         versions_json = json.loads(versions)
 
-        if (os.path.exists(filename_old)):
+        if os.path.exists(filename_old):
             modify_browsertime_content(filename_old, cookies_json, versions_json)
             cleanup_results_dir(filename_old, result_folder_name)
             return (result_folder_name, filename)
@@ -104,7 +104,7 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
 
 
 def cleanup_results_dir(browsertime_path, path):
-    correct_path = '{0}{1}'.format(path, '.har')
+    correct_path = f'{path}.har'
     os.rename(browsertime_path, correct_path)
     shutil.rmtree(path)
 
@@ -119,12 +119,9 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
                 os.path.realpath(__file__)) + os.path.sep).parent
             data_dir = base_directory.resolve()
 
-            # print('DEBUG get_result_using_no_cache(data_dir)', data_dir)
-
             command = "docker run --rm -v {1}:/sitespeed.io sitespeedio/sitespeed.io:latest --maxLoadTime {2} {0}".format(
                 arg, data_dir, timeout * 1000)
 
-            import subprocess
             process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
             output, error = process.communicate(timeout=process_failsafe_timeout)
 
@@ -135,19 +132,15 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
 
             if 'Could not locate Firefox on the current system' in result:
                 print('ERROR! Could not locate Firefox on the current system.')
-            #else:
-            # print('DEBUG get_result_using_no_cache(result)', '\n\t', result.replace('\\n', '\n\t'))
         else:
-            import subprocess
-
-            command = "node node_modules{1}sitespeed.io{1}bin{1}sitespeed.js --maxLoadTime {2} {0}".format(
-                arg, os.path.sep, timeout * 1000)
+            command = (f"node node_modules{os.path.sep}sitespeed.io{os.path.sep}"
+                       f"bin{os.path.sep}sitespeed.js --maxLoadTime {(timeout * 1000)} {arg}")
 
             process = subprocess.Popen(
                 command.split(), stdout=subprocess.PIPE)
 
             output, error = process.communicate(timeout=process_failsafe_timeout)
-            
+
             if error is not None:
                 print('DEBUG get_result_using_no_cache(error)', error)
 
@@ -155,9 +148,7 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
 
             if 'Could not locate Firefox on the current system' in result:
                 print('ERROR! Could not locate Firefox on the current system.')
-            #else:
-            # print('DEBUG get_result_using_no_cache(result)', '\n\t', result.replace('\\n', '\n\t'))
-    except TimeoutExpired:
+    except subprocess.TimeoutExpired:
         if process is not None:
             process.terminate()
             process.kill()
@@ -173,8 +164,7 @@ def get_sanitized_browsertime(input_filename):
             for line in data:
                 lines.append(line)
     except:
-        print('error in get_local_file_content. No such file or directory: {0}'.format(
-            input_filename))
+        print(f'error in get_local_file_content. No such file or directory: {input_filename}')
         return '\n'.join(lines)
 
     test_str = '\n'.join(lines)
@@ -221,7 +211,7 @@ def modify_browsertime_content(input_filename, cookies, versions):
         for entry in json_result['log']['entries']:
             keys_to_remove = []
             for key in entry.keys():
-                if key != 'request' and key != 'response' and key != 'serverIPAddress' and key != 'httpVersion':
+                if key not in ('request', 'response', 'serverIPAddress','httpVersion'):
                     keys_to_remove.append(key)
             for key in keys_to_remove:
                 del entry[key]
@@ -237,7 +227,7 @@ def modify_browsertime_content(input_filename, cookies, versions):
 
             keys_to_remove = []
             for key in entry['response'].keys():
-                if key != 'content' and key != 'headers' and key != 'httpVersion':
+                if key not in ('content', 'headers', 'httpVersion'):
                     keys_to_remove.append(key)
             for key in keys_to_remove:
                 del entry['response'][key]

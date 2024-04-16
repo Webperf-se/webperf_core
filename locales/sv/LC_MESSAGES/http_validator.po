@@ -31,13 +31,13 @@ msgid "TEXT_REVIEW_TLS1_2_SUPPORT"
 msgstr "- TLSv1.2 stöd"
 
 msgid "TEXT_REVIEW_TLS1_2_NO_SUPPORT"
-msgstr "- {0}, No support for transport layer: TLSv1.2"
+msgstr "- {0}, inget stöd för transportlagret: TLSv1.2"
 
 msgid "TEXT_REVIEW_TLS1_1_SUPPORT"
-msgstr "- {0}, Support insecure transport layer: TLSv1.1"
+msgstr "- {0}, stödjer osäkert transportlager: TLSv1.1"
 
 msgid "TEXT_REVIEW_TLS1_1_NO_SUPPORT"
-msgstr "- {0}, No support for transport layer: TLSv1.1"
+msgstr "- {0}, inget stöd för transportlagret: TLSv1.1"
 
 msgid "TEXT_REVIEW_TLS1_0_SUPPORT"
 msgstr "- TLSv1.0 stöd, vilket är osäkert"
@@ -67,73 +67,73 @@ msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_2_SUPPORT"
 msgstr "- HTTPv2 stöd"
 
 msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_2_NO_SUPPORT"
-msgstr "- Inget HTTPv2 stöd"
+msgstr "- Inget stöd för HTTPv2"
 
 msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_3_SUPPORT"
-msgstr "- HTTPv3 stöd"
+msgstr "- Stödjer HTTPv3"
 
 msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_3_NO_SUPPORT"
-msgstr "- Inget HTTPv3 stöd"
+msgstr "- Inget stöd för HTTPv3"
 
 msgid "TEXT_REVIEW_HTTPS_SUPPORT"
-msgstr "- {0}, HTTPS support"
+msgstr "- {0}, stödjer HTTPS"
 
 msgid "TEXT_REVIEW_HTTPS_NO_SUPPORT"
-msgstr "- {0}, No HTTPS support"
+msgstr "- {0}, inget HTTPS-stöd"
 
 msgid "TEXT_REVIEW_HTTP_REDIRECT"
-msgstr "- {0}, Uses HTTP redirect"
+msgstr "- {0}, omdirigerar med HTTP"
 
 msgid "TEXT_REVIEW_HTTPS_REDIRECT"
-msgstr "- {0}, Uses HTTPS redirect"
+msgstr "- {0}, omdirigerar med HTTPS"
 
 msgid "TEXT_REVIEW_HSTS_INVALIDATE"
-msgstr "- {0}, Is NOT using HSTS because of redirect"
+msgstr "- {0}, använder inte HSTS på grund av omdirigering"
 
 msgid "TEXT_REVIEW_HSTS_PRELOAD_FOUND"
-msgstr "- {0}, Is using 'preload' in HSTS and max-age of 1 year or more"
+msgstr "- {0}, använder 'preload' i HSTS och 'max-age' med 1 år eller mer"
 
 msgid "TEXT_REVIEW_HSTS_PRELOAD_FOUND_AND_MAXAGE_1YEAR"
-msgstr "- {0}, Is using 'preload' in HSTS and max-age of 1 year or more"
+msgstr "- {0}, använder 'preload' i HSTS och 'max-age' med 1 år eller mer"
 
 msgid "TEXT_REVIEW_HSTS_MAXAGE_1YEAR_MAY_USE_PRELOAD"
-msgstr "- {0}, Is using max-age of 1 year or more, you may want to use HSTS"
+msgstr "- {0}, använder 'max-age' på 1 år eller mer, du vill nog använda HSTS"
 
 msgid "TEXT_REVIEW_HSTS_MAXAGE_1YEAR"
-msgstr "- {0}, Is using max-age of 1 year or more for HSTS"
+msgstr "- {0}, använder 'max-age' på 1 år eller mer för HSTS"
 
 msgid "TEXT_REVIEW_HSTS_MAXAGE_6MONTHS"
-msgstr "- {0}, max-age used in HSTS is less than 6 months"
+msgstr "- {0}, 'max-age' i HSTS är mindre än 6 månader"
 
 msgid "TEXT_REVIEW_HSTS_MAXAGE_1MONTH"
-msgstr "- {0}, max-age used in HSTS is less than 1 month"
+msgstr "- {0}, 'max-age' i HSTS är mindre än 1 månad"
 
 msgid "TEXT_REVIEW_HSTS_MAXAGE_NOT_FOUND"
-msgstr "- {0}, max-age is missing in HSTS"
+msgstr "- {0}, 'max-age' saknas i HSTS"
 
 msgid "TEXT_REVIEW_HSTS_MAXAGE_TOO_LOW"
-msgstr "- {0}, max-age used in HSTS is less than 1 year"
+msgstr "- {0}, 'max-age' i HSTS är mindre än 1 år"
 
 msgid "TEXT_REVIEW_HSTS_USE_PARENTDOMAIN"
-msgstr "- {0}, Only parent HSTS used, child should also use HSTS"
+msgstr "- {0}, endast föräldern använder HSTS, även barnet borde använda HSTS"
 
 msgid "TEXT_REVIEW_HSTS_NOT_FOUND"
-msgstr "- {0}, Is NOT using HSTS"
+msgstr "- {0}, använder inte HSTS"
 
 msgid "TEXT_REVIEW_NO_REMARKS"
 msgstr "- Ingen anmärkning"
 
 msgid "TEXT_REVIEW_CSP_NOT_FOUND" 
-msgstr "- {0}, använder INTE CSP"
+msgstr "- {0}, använder inte CSP"
 
 msgid "TEXT_REVIEW_CSP" 
-msgstr "- {0}, Innehållssäkerhetspolicy (CSP)"
+msgstr "- {0}, innehållssäkerhetspolicy (CSP)"
 
 msgid "TEXT_REVIEW_CSP_UNSUPPORTED_IN_META" 
-msgstr "- {0}, Använder en CSP-policy i meta-element som inte är tillåtna"
+msgstr "- {0}, använder en CSP-policy i meta-element som inte är tillåtna"
 
 msgid "TEXT_REVIEW_CSP_POLICY_DEPRECATED" 
-msgstr "- {1}, Använder föråldrad CSP-policy '{0}'"
+msgstr "- {1}, använder föråldrad CSP-policy '{0}'"
 
 msgid "TEXT_REVIEW_CSP_MALFORMED" 
 msgstr "- {1}, CSP-policy '{0}' är felaktigt formaterad"
@@ -145,13 +145,13 @@ msgid "TEXT_REVIEW_CSP_POLICY_NOT_FOUND"
 msgstr "- {1}, CSP-policy '{0}' saknas"
 
 msgid "TEXT_REVIEW_CSP_POLICY_NOT_DEPRECATED" 
-msgstr "- {1}, Använder INTE föråldrad CSP-policy '{0}'"
+msgstr "- {1}, använder inte föråldrad CSP-policy '{0}'"
 
 msgid "TEXT_REVIEW_CSP_POLICY_USE_WILDCARD" 
 msgstr "- {1}, CSP-policy '{0}' använder wildcard i slutet av värdkällan"
 
 msgid "TEXT_REVIEW_CSP_POLICY_NOT_USE_WILDCARD" 
-msgstr "- {1}, Använder INTE wildcard i CSP-policy '{0}'"
+msgstr "- {1}, använder inte wildcard i CSP-policy '{0}'"
 
 msgid "TEXT_REVIEW_CSP_POLICY_USE_UNSAFE_SCHEME" 
 msgstr "- {2}, CSP-policy '{0}' använder osäkert schema {1}"
@@ -166,7 +166,7 @@ msgid "TEXT_REVIEW_CSP_POLICY_MULTIUSE_NONCE"
 msgstr "- {2}, CSP-policy '{0}' använder flera {1}"
 
 msgid "TEXT_REVIEW_CSP_POLICY_NONE_NOT_ALONE" 
-msgstr "- {1}, CSP-policy '{0}' använder INTE 'none' ensamt"
+msgstr "- {1}, CSP-policy '{0}' använder inte 'none' ensamt"
 
 msgid "TEXT_REVIEW_CSP_POLICY_USE_15_OR_MORE_DOMAINS" 
 msgstr "- {2}, CSP-policy '{0}' använder {1} med över 15 domäner"
@@ -175,7 +175,7 @@ msgid "TEXT_REVIEW_CSP_POLICY_IS_USING"
 msgstr "- {2}, CSP-policy '{0}' använder {1}"
 
 msgid "TEXT_REVIEW_CSP_POLICY_IS_NOT_USING" 
-msgstr "- {2}, CSP-policy '{0}' använder INTE {1}"
+msgstr "- {2}, CSP-policy '{0}' använder inte {1}"
 
 msgid "TEXT_REVIEW_CSP_WILDCARDS" 
 msgstr "wildcard(s)"
@@ -193,4 +193,4 @@ msgid "TEXT_REVIEW_CSP_RECOMMENDED_RATING"
 msgstr "Rekommenderat CSP-betyg:{0}"
 
 msgid "TEXT_REVIEW_CSP_RECOMMENDED_TEXT"
-msgstr "##### Vill du förbättra ditt Content-Security-Policy-spel?\r\nVarför inte prova följande Content-Security-Policy-svarshuvud för att komma igång med Content Security Policy?\r\nKom ihåg, nedanstående rekommendation är endast baserad på ett urval (läs: {0} sida(or)) av alla sidor på din webbplats och baseras utan att klicka på något.\r\n\r\nRekommenderade Content-Security-Policy-policyer:\r\n{1}\r\n{2}\r\nLäs mer: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy\r\n\r\n"
+msgstr "##### Vill du förbättra din Content Security Policy (CSP)?\r\nVarför inte prova följande CSP-svarshuvud för att komma igång med CSP?\r\nKom ihåg, nedanstående rekommendation är endast baserad på ett urval (läs: {0} sida(or)) av alla sidor på din webbplats och baseras utan att klicka på något.\r\n\r\nRekommenderade policyer:\r\n{1}\r\n{2}\r\nLäs mer: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy\r\n\r\n"

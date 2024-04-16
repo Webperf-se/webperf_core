@@ -175,16 +175,13 @@ def validate_failures():
     print_file_content(filename)
     return True
 
-def validate_testresult(arg):
+def validate_testresult(arg): # pylint: disable=too-many-return-statements,too-many-branches,too-many-statements
     """
     Validates the test result by checking the existence and content of a specific JSON file.
 
     This function checks if a JSON file named 'testresult-{test_id}.json' exists
       in the same directory as this script.
-    If the file exists, it checks if the file contains '{"tests": []}',
-      which indicates an empty test result.
-    The function prints the content of the file and 
-      returns a boolean value indicating the validity of the test result.
+    If the file exists, it checks if it has a valid test content.
 
     Parameters:
     arg (str): The test_id used to identify the test result file.
@@ -201,9 +198,103 @@ def validate_testresult(arg):
         print('test result doesn\'t exists')
         return False
 
+    content = get_file_content(filename)
     # for all other test it is enough that we have a file in place for now
-    if '{"tests": []}' in get_file_content(filename):
+    if '{"tests": []}' in content:
         print('Test failed, empty test results only')
+        print_file_content(filename)
+        return False
+
+    data = json.loads(content)
+    if not isinstance(data, dict):
+        print('Test failed, test results are not a dict')
+        print_file_content(filename)
+        return False
+
+    if 'tests' not in data:
+        print('Test failed, test results doesn\'t have a root element \'tests\'')
+        print_file_content(filename)
+        return False
+
+    if not isinstance(data['tests'], list):
+        print('Test failed, test results are not in a list under the \'tests\' element')
+        print_file_content(filename)
+        return False
+
+    if len(data['tests']) == 0:
+        print('Test failed, has less than 1 test results')
+        print_file_content(filename)
+        return False
+
+    first_test_result = data['tests'][0]
+    if 'site_id' not in first_test_result:
+        print('Test failed, missing \'site_id\' field in first test result')
+        print_file_content(filename)
+        return False
+
+    if 'type_of_test' not in first_test_result:
+        print('Test failed, missing \'type_of_test\' field in first test result')
+        print_file_content(filename)
+        return False
+
+    if 'report' not in first_test_result:
+        print('Test failed, missing \'report\' field in first test result')
+        print_file_content(filename)
+        return False
+
+    if 'report_sec' not in first_test_result:
+        print('Test failed, missing \'report_sec\' field in first test result')
+        print_file_content(filename)
+        return False
+
+    if 'report_perf' not in first_test_result:
+        print('Test failed, missing \'report_perf\' field in first test result')
+        print_file_content(filename)
+        return False
+
+    if 'report_a11y' not in first_test_result:
+        print('Test failed, missing \'report_a11y\' field in first test result')
+        print_file_content(filename)
+        return False
+
+    if 'report_stand' not in first_test_result:
+        print('Test failed, missing \'report_stand\' field in first test result')
+        print_file_content(filename)
+        return False
+
+    if 'date' not in first_test_result:
+        print('Test failed, missing \'date\' field in first test result')
+        print_file_content(filename)
+        return False
+
+    if 'data' not in first_test_result:
+        print('Test failed, missing \'data\' field in first test result')
+        print_file_content(filename)
+        return False
+
+    if int(test_id) != first_test_result['type_of_test']:
+        print('Test failed, \'type_of_test\' field is using wrong test id')
+        print_file_content(filename)
+        return False
+
+    if 'rating' not in first_test_result or\
+            'rating_sec' not in first_test_result or\
+            'rating_perf' not in first_test_result or\
+            'rating_a11y' not in first_test_result or\
+            'rating_stand' not in first_test_result:
+        print('Test failed, missing one or more rating field(s) in first test result')
+        print_file_content(filename)
+        return False
+
+    highest_rating = -1.0
+    highest_rating = max(first_test_result['rating'], highest_rating)
+    highest_rating = max(first_test_result['rating_sec'], highest_rating)
+    highest_rating = max(first_test_result['rating_perf'], highest_rating)
+    highest_rating = max(first_test_result['rating_a11y'], highest_rating)
+    highest_rating = max(first_test_result['rating_stand'], highest_rating)
+
+    if highest_rating == -1.0:
+        print('Test failed, no rating was set during the test')
         print_file_content(filename)
         return False
 

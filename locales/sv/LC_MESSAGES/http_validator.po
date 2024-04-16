@@ -21,17 +21,8 @@ msgstr "## Test: 21 - HTTP\n"
 msgid "TEXT_RUNNING_TEST_CSP_ONLY"
 msgstr "## Test: 21 - Content Security Policy (Endast)\n"
 
-msgid "TEXT_REVIEW_RESULT_FOR"
-msgstr "##### Resultat för: {0}\r\n"
-
-msgid "TEXT_REVIEW_SCORE_IS_DIVIDED"
-msgstr "- Poäng är dividerat med {0} (antal webbadresser testad med omdirigeringar)\r\n"
-
 msgid "TEXT_REVIEW_TLS1_3_SUPPORT"
 msgstr "- TLSv1.3 stöd"
-
-msgid "TEXT_REVIEW_TLS1_3_SUPPORT_WRONG_CERT"
-msgstr "- TLSv1.3 stöd men med fel certifikat"
 
 msgid "TEXT_REVIEW_TLS1_3_NO_SUPPORT"
 msgstr "- Inget TLSv1.3 stöd"
@@ -39,47 +30,20 @@ msgstr "- Inget TLSv1.3 stöd"
 msgid "TEXT_REVIEW_TLS1_2_SUPPORT"
 msgstr "- TLSv1.2 stöd"
 
-msgid "TEXT_REVIEW_TLS1_2_SUPPORT_WRONG_CERT"
-msgstr "- TLSv1.2 stöd men med fel certifikat"
-
 msgid "TEXT_REVIEW_TLS1_2_NO_SUPPORT"
-msgstr "- Inget TLSv1.2 stöd"
+msgstr "- {0}, No support for transport layer: TLSv1.2"
 
 msgid "TEXT_REVIEW_TLS1_1_SUPPORT"
-msgstr "- TLSv1.1 stöd, vilket är osäkert"
-
-msgid "TEXT_REVIEW_TLS1_1_SUPPORT_WRONG_CERT"
-msgstr "- TLSv1.1 stöd, vilket är osäkert, använder även fel certifikat"
+msgstr "- {0}, Support insecure transport layer: TLSv1.1"
 
 msgid "TEXT_REVIEW_TLS1_1_NO_SUPPORT"
-msgstr "- Inget TLSv1.1 stöd"
+msgstr "- {0}, No support for transport layer: TLSv1.1"
 
 msgid "TEXT_REVIEW_TLS1_0_SUPPORT"
 msgstr "- TLSv1.0 stöd, vilket är osäkert"
 
-msgid "TEXT_REVIEW_TLS1_0_SUPPORT_WRONG_CERT"
-msgstr "- TLSv1.0 stöd, vilket är osäkert, använder även fel certifikat"
-
 msgid "TEXT_REVIEW_TLS1_0_NO_SUPPORT"
 msgstr "- Inget TLSv1.0 stöd"
-
-msgid "TEXT_REVIEW_SSL3_0_SUPPORT"
-msgstr "- SSLv3.0 stöd, vilket är osäkert"
-
-msgid "TEXT_REVIEW_SSL3_0_SUPPORT_WRONG_CERT"
-msgstr "- SSLv3.0 stöd, vilket är osäkert, använder även fel certifikat"
-
-msgid "TEXT_REVIEW_SSL3_0_NO_SUPPORT"
-msgstr "- Inget SSLv3.0 stöd"
-
-msgid "TEXT_REVIEW_SSL2_0_SUPPORT"
-msgstr "- SSLv2.0 stöd, vilket är osäkert"
-
-msgid "TEXT_REVIEW_SSL2_0_SUPPORT_WRONG_CERT"
-msgstr "- SSLv2.0 stöd, vilket är osäkert, använder även fel certifikat"
-
-msgid "TEXT_REVIEW_SSL2_0_NO_SUPPORT"
-msgstr "- Inget SSLv2.0 stöd"
 
 msgid "TEXT_REVIEW_IP_VERSION_IPV6_SUPPORT"
 msgstr "- IPv6 stöd"
@@ -92,9 +56,6 @@ msgstr "- IPv4 stöd"
 
 msgid "TEXT_REVIEW_IP_VERSION_IPV4_NO_SUPPORT"
 msgstr "- Inget IPv4 stöd"
-
-msgid "TEXT_REVIEW_IP_VERSION_UNABLE_TO_VERIFY"
-msgstr "- Kunde ej få tag på information om IP-versioner"
 
 msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_SUPPORT"
 msgstr "- HTTPv1.1 stöd"
@@ -114,20 +75,50 @@ msgstr "- HTTPv3 stöd"
 msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_3_NO_SUPPORT"
 msgstr "- Inget HTTPv3 stöd"
 
-msgid "TEXT_REVIEW_HTTP_VERSION_QUIC_SUPPORT"
-msgstr "- QUIC-stöd"
+msgid "TEXT_REVIEW_HTTPS_SUPPORT"
+msgstr "- {0}, HTTPS support"
 
-msgid "TEXT_REVIEW_HTTP_VERSION_QUIC_NO_SUPPORT"
-msgstr "- Inget QUIC-stöd"
+msgid "TEXT_REVIEW_HTTPS_NO_SUPPORT"
+msgstr "- {0}, No HTTPS support"
 
-msgid "TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_UNABLE_TO_VERIFY"
-msgstr "- Kunde ej verifiera omdirigering från HTTP till HTTPS"
+msgid "TEXT_REVIEW_HTTP_REDIRECT"
+msgstr "- {0}, Uses HTTP redirect"
 
-msgid "TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_NO_REDIRECT"
-msgstr "- Ingen HTTP- till HTTPS-omdirigering"
+msgid "TEXT_REVIEW_HTTPS_REDIRECT"
+msgstr "- {0}, Uses HTTPS redirect"
 
-msgid "TEXT_REVIEW_HTTP_TO_HTTP_REDIRECT_REDIRECTED"
-msgstr "- Har HTTP- till HTTPS-omdirigering"
+msgid "TEXT_REVIEW_HSTS_INVALIDATE"
+msgstr "- {0}, Is NOT using HSTS because of redirect"
+
+msgid "TEXT_REVIEW_HSTS_PRELOAD_FOUND"
+msgstr "- {0}, Is using 'preload' in HSTS and max-age of 1 year or more"
+
+msgid "TEXT_REVIEW_HSTS_PRELOAD_FOUND_AND_MAXAGE_1YEAR"
+msgstr "- {0}, Is using 'preload' in HSTS and max-age of 1 year or more"
+
+msgid "TEXT_REVIEW_HSTS_MAXAGE_1YEAR_MAY_USE_PRELOAD"
+msgstr "- {0}, Is using max-age of 1 year or more, you may want to use HSTS"
+
+msgid "TEXT_REVIEW_HSTS_MAXAGE_1YEAR"
+msgstr "- {0}, Is using max-age of 1 year or more for HSTS"
+
+msgid "TEXT_REVIEW_HSTS_MAXAGE_6MONTHS"
+msgstr "- {0}, max-age used in HSTS is less than 6 months"
+
+msgid "TEXT_REVIEW_HSTS_MAXAGE_1MONTH"
+msgstr "- {0}, max-age used in HSTS is less than 1 month"
+
+msgid "TEXT_REVIEW_HSTS_MAXAGE_NOT_FOUND"
+msgstr "- {0}, max-age is missing in HSTS"
+
+msgid "TEXT_REVIEW_HSTS_MAXAGE_TOO_LOW"
+msgstr "- {0}, max-age used in HSTS is less than 1 year"
+
+msgid "TEXT_REVIEW_HSTS_USE_PARENTDOMAIN"
+msgstr "- {0}, Only parent HSTS used, child should also use HSTS"
+
+msgid "TEXT_REVIEW_HSTS_NOT_FOUND"
+msgstr "- {0}, Is NOT using HSTS"
 
 msgid "TEXT_REVIEW_NO_REMARKS"
 msgstr "- Ingen anmärkning"

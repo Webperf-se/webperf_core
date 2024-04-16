@@ -2,15 +2,19 @@
 
 You can build an image and put in your local registry that has everything installed and good to go.
 
-By default, `Dockerfile-config.py`, gets copied into the image and used as `config-py`. It should have sensible defaults that work well inside container.
+By default, `SAMPLE-config.py`, gets copied into the image and used as `config-py`. It should have sensible defaults that work well inside container.
+
+If you add your own `config-py` it will take precedence when building the image.
+
+You might also want to acquire your own copy of `data/IP2LOCATION-LITE-DB1.IPV6.BIN` before building the image.
 
 ## How to setup
 
 - Install Docker Desktop or other software that let's you run `docker` commands.
 - [Set "Use Rosetta"](https://www.sitespeed.io/documentation/sitespeed.io/docker/#running-on-mac-m1-arm) if on Mac with ARM.
-- Build the image using command in [_build.ps1](../_build.ps1) or by running the ps1-script in PowerShell.
-- _Option 1:_ Start container using command in [_run.ps1](../_run.ps1) or by running the ps1-script in PowerShell.
-- _Option 2:_ Build the image using command in [_run-with-mounted-folder.ps1](../__run-with-mounted-folder.ps1) or by running the ps1-script in PowerShell - this allows for writing report files to folder on host machine.
+- Build the image using command in [docker/build.ps1](../_build.ps1) or by running the ps1-script in PowerShell. This takes a while.
+- _Option 1:_ Start container using command in [docker/run.ps1](../_run.ps1) or by running the ps1-script in PowerShell.
+- _Option 2:_ Build the image using command in [docker/run-with-mounted-folder.ps1](../__run-with-mounted-folder.ps1) or by running the ps1-script in PowerShell - this allows for writing report files to folder on host machine.
 - When container is running and you are at bash you can run `python default.py -h` and start tests according to the documentation - all dependencies are already set up in the image.
 
 ## Regression test

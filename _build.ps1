@@ -1,1 +1,0 @@
-docker build -t "webperf-runner:0.0.2" .

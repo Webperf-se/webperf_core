@@ -2,7 +2,13 @@
 .gitignore
 docs
 failures.log
-*.ps1
+docker
+Dockerfile
 README.md
 LICENSE
-Dockerfile
+tmp
+cache
+node_modules
+geckodriver.log
+software-unknown-sources.json
+vnu.jar

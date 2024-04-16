@@ -26,14 +26,14 @@ CSS_REVIEW_GROUP_ERRORS = True
 REVIEW_SHOW_IMPROVEMENTS_ONLY = False
 
 # Tells Yellow Lab Tools Test to use API version or command line version
-YLT_USE_API = True
+YLT_USE_API = False
 YLT_SERVER_ADDRESS = 'https://yellowlab.tools'
 
 # Tells Lighthouse based Test(s) to use API version or command line version
-LIGHTHOUSE_USE_API = True
+LIGHTHOUSE_USE_API = False
 
 # Tells sitespeed if we should use it as a docker image or a npm package
-SITESPEED_USE_DOCKER = True
+SITESPEED_USE_DOCKER = False
 
 # Tells sitespeed max timeout for website calls
 SITESPEED_TIMEOUT = 300

@@ -4,6 +4,11 @@ on:
   push:
     paths:
       - '**regression-test-docker-image.yml'
+      - 'software-full.json'
+      - 'software-sources.json'
+      - 'package.json'
+      - 'update_software.py'
+      - 'SAMPLE-software-rules.json'
 jobs:
   build:
     runs-on: ubuntu-latest

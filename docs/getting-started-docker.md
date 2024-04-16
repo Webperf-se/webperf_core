@@ -2,6 +2,8 @@
 
 You can build an image and put in your local registry that has everything installed and good to go.
 
+It's based on the [webbrowsers image set up by Sitespeed.io](https://github.com/sitespeedio/docker-browsers). Great work, thanks!
+
 By default, `SAMPLE-config.py`, gets copied into the image and used as `config-py`. It should have sensible defaults that work well inside container.
 
 If you add your own `config-py` it will take precedence when building the image.

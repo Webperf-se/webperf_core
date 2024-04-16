@@ -221,12 +221,7 @@ def validate_testresult(arg):
         print_file_content(filename)
         return False
 
-    if not isinstance(data['tests'], list):
-        print('Test failed, test results are not in a list under the \'tests\' element')
-        print_file_content(filename)
-        return False
-
-    if len(data['tests']) > 0:
+    if len(data['tests']) == 0:
         print('Test failed, has less than 1 test results')
         print_file_content(filename)
         return False
@@ -239,6 +234,41 @@ def validate_testresult(arg):
 
     if 'type_of_test' not in first_test_result:
         print('Test failed, missing \'type_of_test\' field in first test result')
+        print_file_content(filename)
+        return False
+
+    if 'report' not in first_test_result:
+        print('Test failed, missing \'report\' field in first test result')
+        print_file_content(filename)
+        return False
+
+    if 'report_sec' not in first_test_result:
+        print('Test failed, missing \'report_sec\' field in first test result')
+        print_file_content(filename)
+        return False
+
+    if 'report_perf' not in first_test_result:
+        print('Test failed, missing \'report_perf\' field in first test result')
+        print_file_content(filename)
+        return False
+
+    if 'report_a11y' not in first_test_result:
+        print('Test failed, missing \'report_a11y\' field in first test result')
+        print_file_content(filename)
+        return False
+
+    if 'report_stand' not in first_test_result:
+        print('Test failed, missing \'report_stand\' field in first test result')
+        print_file_content(filename)
+        return False
+
+    if 'date' not in first_test_result:
+        print('Test failed, missing \'date\' field in first test result')
+        print_file_content(filename)
+        return False
+
+    if 'data' not in first_test_result:
+        print('Test failed, missing \'data\' field in first test result')
         print_file_content(filename)
         return False
 

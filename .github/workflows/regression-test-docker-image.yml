@@ -10,4 +10,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build -t "webperf-runner:0.0.2" .
+      run: docker build -t "webperf-runner:latest" .

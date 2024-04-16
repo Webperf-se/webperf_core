@@ -175,7 +175,7 @@ def validate_failures():
     print_file_content(filename)
     return True
 
-def validate_testresult(arg):
+def validate_testresult(arg): # pylint: disable=too-many-return-statements,too-many-branches,too-many-statements
     """
     Validates the test result by checking the existence and content of a specific JSON file.
 

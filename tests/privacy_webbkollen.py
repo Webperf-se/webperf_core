@@ -30,7 +30,7 @@ def run_test(global_translation, lang_code, url):
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     orginal_url = url
-    url = f'https://webbkoll.dataskydd.net/{urllib.parse.quote(url)}/check?url={lang_code}'
+    url = f'https://webbkoll.dataskydd.net/{lang_code}/check?url={urllib.parse.quote(url)}'
     headers = {
         'user-agent': 'Mozilla/5.0 (compatible; Webperf; +https://webperf.se)'}
 

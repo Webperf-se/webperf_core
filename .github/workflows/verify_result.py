@@ -714,6 +714,8 @@ def validate_locales(base_directory, msg_ids):
 
     if len(msg_ids_with_missing_language) > 0:
         is_valid = False
+    else:
+        print('  - OK')
 
     return is_valid
 

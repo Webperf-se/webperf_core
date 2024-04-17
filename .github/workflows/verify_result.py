@@ -686,24 +686,6 @@ def validate_locales(base_directory, msg_ids):
                 is_valid = False
                 continue
 
-    msg_ids_with_missing_language = {}
-    nof_languages = len(available_languages)
-    for msg_id, msg_list in msg_ids.items():
-        if len(msg_list) != nof_languages:
-            msg_ids_with_missing_language[msg_id] = msg_list
-
-    print('Validate that translations has the same msg_id:s')
-    for msg_id, msg_list in msg_ids_with_missing_language.items():
-        msg_langs = []
-        for msg in msg_list:
-            msg_langs.append(msg['locale_name'])
-        nof_langs = len(msg_langs)
-        if nof_langs < nof_languages:
-            print(f"  # {msg_id} only in \"{'\",\"'.join(msg_langs)}\"")
-
-    if len(msg_ids_with_missing_language) > 0:
-        is_valid = False
-
     print('available_languages', available_languages)
 
     if len(available_languages) > 0:
@@ -711,6 +693,28 @@ def validate_locales(base_directory, msg_ids):
         print(f'  Available Languages: {', '.join(available_languages)}')
     else:
         print('  No languages found')
+
+
+    msg_ids_with_missing_language = {}
+    nof_languages = len(available_languages)
+    for msg_id, msg_list in msg_ids.items():
+        if len(msg_list) != nof_languages:
+            msg_ids_with_missing_language[msg_id] = msg_list
+
+    print('')
+    print('')
+    print('Validate that translations has the same msg_id:s')
+    for msg_id, msg_list in msg_ids_with_missing_language.items():
+        msg_langs = []
+        for msg in msg_list:
+            msg_langs.append(msg['locale_name'])
+        nof_langs = len(msg_langs)
+        if nof_langs < nof_languages:
+            print(f"  # msgid \"{msg_id}\" only in \"{'\",\"'.join(msg_langs)}\"")
+
+    if len(msg_ids_with_missing_language) > 0:
+        is_valid = False
+
     return is_valid
 
 def validate_locale(msg_ids, locales_dir,

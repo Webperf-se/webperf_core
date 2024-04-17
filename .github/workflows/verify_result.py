@@ -355,9 +355,8 @@ def validate_po_file(locales_dir, locale_name, language_sub_directory, file, msg
         language = get_language(locales_dir, locale_name, language_module, clear_cache)
 
         file_is_valid = diff_mo_and_po_file(
+            locale_name,
             language,
-            language_sub_directory,
-            file,
             file_mo,
             msg_ids)
 
@@ -399,14 +398,13 @@ def get_language(locales_dir, locale_name, language_module, clear_cache):
 
     return language
 
-def diff_mo_and_po_file(language, language_sub_directory, file, file_mo, msg_ids):
+def diff_mo_and_po_file(locale_name, language, file_mo, msg_ids):
     """
     This function compares the content of .mo and .po files to ensure they match.
 
     Parameters:
+    locale_name (str): The name of the specified language.
     language (gettext.GNUTranslations): The gettext translation object for the specified language.
-    language_sub_directory (str): The directory path where the language files are stored.
-    file (str): The name of the .po file.
     file_mo (str): The name of the .mo file.
     msg_ids (dict): A dictionary to store the msgid and corresponding text from the .po file.
 
@@ -423,11 +421,11 @@ def diff_mo_and_po_file(language, language_sub_directory, file, file_mo, msg_ids
     file_is_valid = True
     # for every .mo file found, try to load it to verify it works
     n_of_errors = 0
+    file_po = file_mo.replace('.mo', '.po')
     try:
 
         # Make sure every text in .po file is present (and equal) in .mo file
-        file_po_content = get_file_content(os.path.join(
-            language_sub_directory, file))
+        file_po_content = get_file_content(file_po)
 
         regex = r"msgid \"(?P<id>[^\"]+)\"[^m]+msgstr \"(?P<text>[^\"]+)\""
         matches = re.finditer(
@@ -443,7 +441,14 @@ def diff_mo_and_po_file(language, language_sub_directory, file, file_mo, msg_ids
             lang_txt = language.gettext(msg_id).replace(
                 '\n', '\\n').replace(
                 '\r', '\\r').replace('\t', '\\t')
-            msg_ids[msg_id] = msg_txt
+            if msg_id not in msg_ids:
+                msg_ids[msg_id] = []
+
+            msg_ids[msg_id].append({
+                    'text': msg_txt,
+                    'locale_name': locale_name,
+                    'location': file_po
+                })
 
             if lang_txt == msg_id:
                 print(
@@ -680,6 +685,27 @@ def validate_locales(base_directory, msg_ids):
                      'One or more language is missing a translation')
                 is_valid = False
                 continue
+
+    msg_ids_with_missing_language = {}
+    nof_languages = len(available_languages)
+    for msg_id, msg_list in msg_ids.items():
+        if len(msg_list) != nof_languages:
+            msg_ids_with_missing_language[msg_id] = msg_list
+
+    print('Validate that translations has the same msg_id:s')
+    for msg_id, msg_list in msg_ids_with_missing_language.items():
+        msg_langs = []
+        for msg in msg_list:
+            msg_langs.append(msg['locale_name'])
+        nof_langs = len(msg_langs)
+        if nof_langs < nof_languages:
+            print(f"  # {msg_id} only in \"{'\",\"'.join(msg_langs)}\"")
+
+    if len(msg_ids_with_missing_language) > 0:
+        is_valid = False
+
+    print('available_languages', available_languages)
+
     if len(available_languages) > 0:
         print('')
         print(f'  Available Languages: {', '.join(available_languages)}')

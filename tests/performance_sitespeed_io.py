@@ -12,6 +12,21 @@ REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
 SITESPEED_USE_DOCKER = get_config_or_default('sitespeed_use_docker')
 
 def get_result(sitespeed_use_docker, arg):
+    """
+    Executes a Sitespeed command and returns the result.
+
+    This function runs a Sitespeed command either in a Docker container or directly via Node.js,
+    depending on the value of `sitespeed_use_docker`.
+    The command's output is captured and returned as a string.
+
+    Args:
+        sitespeed_use_docker (bool): If True, Sitespeed is run in a Docker container.
+            Otherwise, it's run via Node.js.
+        arg (str): The arguments to pass to the Sitespeed command.
+
+    Returns:
+        str: The output of the Sitespeed command.
+    """
     result = ''
     if sitespeed_use_docker:
         base_directory = Path(os.path.dirname(
@@ -96,6 +111,18 @@ def rate_custom_result_dict( # pylint: disable=too-many-arguments,too-many-local
         global_translation, result_dict, validator_result_dicts,
         desktop_result_dict, mobile_result_dict,
         desktop_rating, mobile_rating):
+    """
+    Rates a custom result dictionary based on validator results and reference ratings.
+
+    This function iterates over validator results,
+    rates each one, and updates the overall rating.
+    If a validator uses a reference (mobile or desktop),
+    it compares the validator rating with the reference rating and
+    adds advice to the overall review if the validator rating is higher.
+
+    Returns:
+        Rating: The overall rating after considering all validators.
+    """
     rating = Rating(global_translation)
     for validator_result_dict in validator_result_dicts:
         validator_name = validator_result_dict['name']
@@ -130,6 +157,12 @@ def rate_custom_result_dict( # pylint: disable=too-many-arguments,too-many-local
 
 
 def get_validators():
+    """
+    Loads and returns data from the 'sitespeed-rules.json' file if it exists.
+
+    Returns:
+        list or dict: Data from the JSON file, or an empty list if the file doesn't exist.
+    """
     base_directory = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent
     config_file = os.path.join(
@@ -142,6 +175,16 @@ def get_validators():
 
 
 def validate_on_mobile_using_validator(url, validator_config):
+    """
+    Function to validate a URL on mobile using custom validators.
+
+    Parameters:
+    url (str): The URL to be validated.
+    validator_config (dict): The validator config using HTML and/or Response headers.
+
+    Returns:
+    dict: The result dictionary containing the validation results.
+    """
     browertime_plugin_options = get_browsertime_plugin_options(validator_config)
     arg = (
         '--shm-size=1g '
@@ -170,6 +213,24 @@ def validate_on_mobile_using_validator(url, validator_config):
     return result_dict
 
 def get_browsertime_plugin_options(validator_config):
+    """
+    Generates a string of plugin options for Browsertime based on
+    the given validator configuration.
+
+    The function iterates over 'headers' and 'htmls' in the validator_config.
+    For each header, it appends a formatted string to the plugin options.
+    The string contains the header name and value, with spaces and equals signs URL-encoded.
+    Similarly for each html,
+    it appends a formatted string with the 'replace' and 'replaceWith' values URL-encoded.
+
+    Args:
+        validator_config (dict): A dictionary containing 'headers' and/or 'htmls'.
+        Each 'header' is a dictionary with 'name' and'value' keys.
+        Each 'html' is a dictionary with 'replace' and 'replaceWith' keys.
+
+    Returns:
+        str: A string of Browsertime plugin options.
+    """
     browertime_plugin_options = ''
     if 'headers' in validator_config:
         index = 1
@@ -191,6 +252,16 @@ def get_browsertime_plugin_options(validator_config):
 
 
 def validate_on_desktop_using_validator(url, validator_config):
+    """
+    Function to validate a URL on desktop using custom validators.
+
+    Parameters:
+    url (str): The URL to be validated.
+    validator_config (dict): The validator config using HTML and/or Response headers.
+
+    Returns:
+    dict: The result dictionary containing the validation results.
+    """
     browertime_plugin_options = get_browsertime_plugin_options(validator_config)
 
     arg = (
@@ -219,6 +290,15 @@ def validate_on_desktop_using_validator(url, validator_config):
 
 
 def validate_on_desktop(url):
+    """
+    Function to validate a URL on desktop.
+
+    Parameters:
+    url (str): The URL to be validated.
+
+    Returns:
+    dict: The result dictionary containing the validation results.
+    """
     arg = (
         '--shm-size=1g '
         '-b chrome '
@@ -242,6 +322,15 @@ def validate_on_desktop(url):
 
 
 def validate_on_mobile(url):
+    """
+    Function to validate a URL on mobile, simulating fast 3g.
+
+    Parameters:
+    url (str): The URL to be validated.
+
+    Returns:
+    dict: The result dictionary containing the validation results.
+    """
     arg = (
         '--shm-size=1g '
         '-b chrome '
@@ -268,6 +357,19 @@ def validate_on_mobile(url):
 def rate_result_dict( # pylint: disable=too-many-branches,too-many-locals
         result_dict, reference_result_dict,
         mode, global_translation):
+    """
+    Function to rate a result dictionary based on a reference result dictionary and
+    generate review texts.
+
+    Parameters:
+    result_dict (dict): The result dictionary to be rated.
+    reference_result_dict (dict): The reference result dictionary for comparison.
+    mode (str): The mode of changes.
+    global_translation (str): The global translation used for rating.
+
+    Returns:
+    Rating: A Rating object with the overall and performance reviews.
+    """
     limit = 500
 
     rating = Rating(global_translation)
@@ -332,6 +434,30 @@ def rate_result_dict( # pylint: disable=too-many-branches,too-many-locals
     return rating
 
 def get_bumpy_advice_text(mode, limit, reference_name, key, mobile_obj, noxternal_obj): # pylint: disable=too-many-arguments
+    """
+    Function to generate advice text on how to make
+    a certain key less "bumpy" based on the comparison of range values.
+
+    The function compares the range value of 'mobile_obj' with the sum of 'limit' and
+    the range value of 'noxternal_obj'.
+    If the range value of 'mobile_obj' is greater,
+    it calculates the difference between the two range values and generates advice text.
+    If not, it returns None.
+
+    Parameters:
+    mode (str): The mode of changes.
+    limit (float): The limit value for comparison.
+    reference_name (str): The reference name.
+    key (str): The key that could be made less "bumpy".
+    mobile_obj (dict): A dictionary containing a 'range' key,
+        the value of which is used for comparison.
+    noxternal_obj (dict): A dictionary containing a 'range' key,
+        the value of which is used for comparison.
+
+    Returns:
+    str or None: The advice text on how to make the key less "bumpy" with mode changes,
+        or None if the condition is not met.
+    """
     if mobile_obj['range'] > (limit + noxternal_obj['range']):
         value_diff = mobile_obj['range'] - noxternal_obj['range']
         txt = (
@@ -342,6 +468,30 @@ def get_bumpy_advice_text(mode, limit, reference_name, key, mobile_obj, noxterna
     return None
 
 def get_improve_advice_text(mode, limit, reference_name, key, mobile_obj, noxternal_obj): # pylint: disable=too-many-arguments
+    """
+    Function to generate advice text on how to improve a
+    certain key based on the comparison of median values.
+
+    The function compares the median value of 'mobile_obj' with the sum of 'limit' and
+    the median value of 'noxternal_obj'.
+    If the median value of 'mobile_obj' is greater,
+    it calculates the difference between the two median values and generates advice text.
+    If not, it returns None.
+
+    Parameters:
+    mode (str): The mode of changes.
+    limit (float): The limit value for comparison.
+    reference_name (str): The reference name.
+    key (str): The key that may be improved.
+    mobile_obj (dict): A dictionary containing a 'median' key,
+        the value of which is used for comparison.
+    noxternal_obj (dict): A dictionary containing a 'median' key,
+        the value of which is used for comparison.
+
+    Returns:
+    str or None: The advice text on how to improve the key with mode changes,
+        or None if the condition is not met.
+    """
     if mobile_obj['median'] > (limit + noxternal_obj['median']):
         value_diff = mobile_obj['median'] - noxternal_obj['median']
         txt = (
@@ -352,6 +502,21 @@ def get_improve_advice_text(mode, limit, reference_name, key, mobile_obj, noxter
 
 
 def get_reference_name(result_dict):
+    """
+    Function to determine the reference name based on the 'name' key in the input dictionary.
+
+    The function checks the start of the string value of the 'name' key in the input dictionary.
+    If it starts with 'mobile', the reference name is set to 'mobile'.
+    If it starts with 'desktop', the reference name is set to 'desktop'.
+    If neither condition is met, the reference name defaults to 'UNKNOWN'.
+
+    Parameters:
+    result_dict (dict): A dictionary containing a 'name' key,
+    the value of which is used to determine the reference name.
+
+    Returns:
+    str: The reference name, which can be 'mobile', 'desktop', or 'UNKNOWN'.
+    """
     reference_name = 'UNKNOWN'
     if result_dict['name'].startswith('mobile'):
         reference_name = 'mobile'
@@ -360,6 +525,15 @@ def get_reference_name(result_dict):
     return reference_name
 
 def cleanup_result_dict(result_dict):
+    """
+    Remove specific keys from the result dictionary.
+
+    Parameters:
+    result_dict (dict): The result dictionary to be cleaned up.
+
+    Returns:
+    None: The function modifies the dictionary in-place and does not return anything.
+    """
     if 'Points' in result_dict:
         del result_dict['Points']
     if 'name' in result_dict:
@@ -460,6 +634,15 @@ def get_data_for_entry(mode, key, values):
     return tmp
 
 def get_fullname(key):
+    """
+    Converts a performance metric abbreviation to its full name.
+
+    Args:
+        key (str): The abbreviation of a web performance metric.
+
+    Returns:
+        str: The full name of the web performance metric, or the original key if no match is found.
+    """
     fullname = key
     if 'TTFB' in key:
                 # https://web.dev/ttfb/

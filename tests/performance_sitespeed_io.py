@@ -89,11 +89,11 @@ def run_test(global_translation, lang_code, url):
         reference_result_dict = None
         use_reference = validator_result_dict['use_reference']
         if use_reference:
-            if validator['name'].startswith('mobile'):
+            if validator_name.startswith('mobile'):
                 reference_name = 'mobile'
                 reference_rating = mobile_rating.get_overall()
                 reference_result_dict = mobile_result_dict
-            if validator['name'].startswith('desktop'):
+            if validator_name.startswith('desktop'):
                 reference_name = 'desktop'
                 reference_rating = desktop_rating.get_overall()
                 reference_result_dict = desktop_result_dict
@@ -345,7 +345,7 @@ def rate_result_dict(result_dict, reference_result_dict,
 def get_result_dict(data, mode):
     result_dict = {}
     tmp_dict = {}
-    regex = r"(?P<name>TTFB|DOMContentLoaded|firstPaint|FCP|LCP|Load|TBT|CLS|FirstVisualChange|SpeedIndex|VisualComplete85|LastVisualChange)\:[ ]{0,1}(?P<value>[0-9\.ms]+)"
+    regex = r"(?P<name>TTFB|DOMContentLoaded|firstPaint|FCP|LCP|Load|TBT|CLS|FirstVisualChange|SpeedIndex|VisualComplete85|LastVisualChange)\:[ ]{0,1}(?P<value>[0-9\.ms]+)" # pylint: disable=line-too-long
     matches = re.finditer(regex, data, re.MULTILINE)
 
     for _, match in enumerate(matches, start=1):

@@ -369,6 +369,22 @@ def cleanup_result_dict(result_dict):
 
 
 def get_result_dict(data, mode):
+    """
+    Extract performance metrics from the data and calculate the results for each metric.
+
+    This function uses a regular expression to extract performance metrics and
+    their values from the data.
+    It then calculates the results for each metric using the `get_data_for_entry` function and
+    stores them in a dictionary.
+
+    Parameters:
+    data (str): The data containing the performance metrics and their values.
+    mode (str): The mode of the device ('desktop' or 'mobile').
+
+    Returns:
+    dict: A dictionary where the keys are the performance metrics and
+    the values are dictionaries containing the results for each metric.
+    """
     result_dict = {}
     tmp_dict = {}
     regex = r"(?P<name>TTFB|DOMContentLoaded|firstPaint|FCP|LCP|Load|TBT|CLS|FirstVisualChange|SpeedIndex|VisualComplete85|LastVisualChange)\:[ ]{0,1}(?P<value>[0-9\.ms]+)" # pylint: disable=line-too-long
@@ -391,6 +407,22 @@ def get_result_dict(data, mode):
     return result_dict
 
 def get_data_for_entry(mode, key, values):
+    """
+    Calculate the performance data for a given entry.
+
+    This function calculates the median, range, points, and message for a given performance metric.
+    It processes the values, which are in milliseconds or seconds,
+    and calculates the total, biggest, median, and range.
+    It also gets the full name of the metric and calculates the points.
+
+    Parameters:
+    mode (str): The mode of the device ('desktop' or 'mobile').
+    key (str): The performance metric key.
+    values (list): The list of values for the performance metric.
+
+    Returns:
+    dict: A dictionary containing the median, range, mode, points, message, and values.
+    """
     biggest = 0
     total = 0
     value_range = 0
@@ -448,6 +480,26 @@ def get_fullname(key):
     return fullname
 
 def get_points(mode, key, result, median):
+    """
+    Calculate the performance points based on the mode, key, result, and median.
+
+    This function assigns points based on different performance metrics such as:
+    TTFB, TBT, FCP, LCP, CLS, SpeedIndex, FirstVisualChange, VisualComplete85, and Load.
+    The points are calculated differently for each metric and
+    can also vary based on the mode ('desktop' or 'mobile').
+
+    Parameters:
+    mode (str): The mode of the device ('desktop' or 'mobile').
+    key (str): The performance metric key.
+    result (float): The result value for the SpeedIndex related metrics.
+    median (float): The median value for the TTFB, TBT, FCP, LCP, and CLS metrics.
+
+    Returns:
+    float: The calculated performance points.
+
+    Note:
+    For more information on SpeedIndex, refer to: https://docs.webpagetest.org/metrics/speedindex/
+    """
     points = -1
     if 'TTFB' in key:
         points = get_ttfb_points(mode, median)
@@ -479,6 +531,16 @@ def get_points(mode, key, result, median):
     return points
 
 def get_cls_points(median):
+    """
+    Calculate the Cumulative Layout Shift (CLS) points based on the mode and median.
+
+    Parameters:
+    mode (str): The mode of the device ('desktop' or 'mobile').
+    median (float): The median CLS in milliseconds.
+
+    Returns:
+    float: The calculated CLS points.
+    """
     points = 5.0
     if median <= 0.1:
         points = 5.0
@@ -489,6 +551,16 @@ def get_cls_points(median):
     return points
 
 def get_fcp_points(median):
+    """
+    Calculate the First Contentful Paint (FCP) points based on the mode and median.
+
+    Parameters:
+    mode (str): The mode of the device ('desktop' or 'mobile').
+    median (float): The median FCP in milliseconds.
+
+    Returns:
+    float: The calculated FCP points.
+    """
     points = 5.0
     if median <= 1800:
         points = 5.0
@@ -499,6 +571,16 @@ def get_fcp_points(median):
     return points
 
 def get_tbt_points(median):
+    """
+    Calculate the Total Blocking Time (TBT) points based on the mode and median.
+
+    Parameters:
+    mode (str): The mode of the device ('desktop' or 'mobile').
+    median (float): The median TBT in milliseconds.
+
+    Returns:
+    float: The calculated TBT points.
+    """
     points = 5.0
     if median <= 200:
         points = 5.0
@@ -509,6 +591,16 @@ def get_tbt_points(median):
     return points
 
 def get_lcp_points(mode, median):
+    """
+    Calculate the Largest Contentful Paint (LCP) points based on the mode and median.
+
+    Parameters:
+    mode (str): The mode of the device ('desktop' or 'mobile').
+    median (float): The median LCP in milliseconds.
+
+    Returns:
+    float: The calculated LCP points.
+    """
     points = 5.0
     if 'desktop' in mode:
         if median <= 500:
@@ -527,6 +619,16 @@ def get_lcp_points(mode, median):
     return points
 
 def get_ttfb_points(mode, median):
+    """
+    Calculate the Time to First Byte (TTFB) points based on the mode and median.
+
+    Parameters:
+    mode (str): The mode of the device ('desktop' or 'mobile').
+    median (float): The median TTFB in milliseconds.
+
+    Returns:
+    float: The calculated TTFB points.
+    """
     points = 5.0
     if 'desktop' in mode:
         if median <= 250:

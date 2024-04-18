@@ -71,13 +71,13 @@ def run_test(global_translation, lang_code, url):
     mobile_result_dict = validate_on_mobile(url)
 
     desktop_rating = rate_result_dict(desktop_result_dict, None,
-                                      'desktop', global_translation, local_translation)
+                                      'desktop', global_translation)
 
     rating += desktop_rating
     result_dict.update(desktop_result_dict)
 
     mobile_rating = rate_result_dict(mobile_result_dict, None,
-                                     'mobile', global_translation, local_translation)
+                                     'mobile', global_translation)
 
     rating += mobile_rating
     result_dict.update(mobile_result_dict)
@@ -99,7 +99,7 @@ def run_test(global_translation, lang_code, url):
                 reference_result_dict = desktop_result_dict
 
         validator_rating = rate_result_dict(validator_result_dict, reference_result_dict,
-                                            validator_name, global_translation, local_translation)
+                                            validator_name, global_translation)
         rating += validator_rating
         result_dict.update(validator_result_dict)
 
@@ -255,7 +255,7 @@ def validate_on_mobile(url):
 
 
 def rate_result_dict(result_dict, reference_result_dict,
-                     mode, global_translation, local_translation):
+                     mode, global_translation):
     limit = 500
 
     rating = Rating(global_translation)
@@ -263,16 +263,11 @@ def rate_result_dict(result_dict, reference_result_dict,
     overview_review = ''
 
     if reference_result_dict is not None:
-        reference_name = 'UNKNOWN'
-        if result_dict['name'].startswith('mobile'):
-            reference_name = 'mobile'
-        if result_dict['name'].startswith('desktop'):
-            reference_name = 'desktop'
+        reference_name = get_reference_name(result_dict)
         external_to_remove = []
         for pair in reference_result_dict.items():
             key = pair[0]
             mobile_obj = pair[1]
-            key_matching = False
 
             if key not in result_dict:
                 continue
@@ -284,14 +279,10 @@ def rate_result_dict(result_dict, reference_result_dict,
             if 'median' not in noxternal_obj:
                 continue
 
-            value_diff = 0
-            if mobile_obj['median'] > (limit + noxternal_obj['median']):
-                value_diff = mobile_obj['median'] - noxternal_obj['median']
-
-                txt = (
-                    f'- [{reference_name}] Advice: {key} may improve by '
-                    f'{value_diff:.2f}ms with {mode} changes\r\n')
-
+            key_matching = False
+            txt = get_improve_advice_text(mode, limit, reference_name,
+                                          key, mobile_obj, noxternal_obj)
+            if txt is not None:
                 overview_review += txt
                 key_matching = True
 
@@ -299,16 +290,8 @@ def rate_result_dict(result_dict, reference_result_dict,
                 continue
             if 'range' not in noxternal_obj:
                 continue
-            value_diff = 0
-            if mobile_obj['range'] > (limit + noxternal_obj['range']):
-                value_diff = mobile_obj['range'] - noxternal_obj['range']
-
-                txt = (
-                    f'- [{reference_name}] Advice: {key} could be ±{value_diff:.2f}ms '
-                    f'less "bumpy" with {mode} changes\r\n')
-
-                overview_review += txt
-                key_matching = True
+            key_matching = get_bumpy_advice_text(mode, limit, reference_name,
+                                                 key, mobile_obj, noxternal_obj)
 
             if not key_matching:
                 external_to_remove.append(key)
@@ -316,12 +299,7 @@ def rate_result_dict(result_dict, reference_result_dict,
         for key in external_to_remove:
             del result_dict[key]
 
-    if 'Points' in result_dict:
-        del result_dict['Points']
-    if 'name' in result_dict:
-        del result_dict['name']
-    if 'use_reference' in result_dict:
-        del result_dict['use_reference']
+    cleanup_result_dict(result_dict)
 
     for pair in result_dict.items():
         value = pair[1]
@@ -341,6 +319,42 @@ def rate_result_dict(result_dict, reference_result_dict,
     rating.performance_review = rating.performance_review + performance_review
     return rating
 
+def get_bumpy_advice_text(mode, limit, reference_name, key, mobile_obj, noxternal_obj): # pylint: disable=too-many-arguments
+    if mobile_obj['range'] > (limit + noxternal_obj['range']):
+        value_diff = mobile_obj['range'] - noxternal_obj['range']
+        txt = (
+                    f'- [{reference_name}] Advice: {key} could be ±{value_diff:.2f}ms '
+                    f'less "bumpy" with {mode} changes\r\n')
+
+        return txt
+    return None
+
+def get_improve_advice_text(mode, limit, reference_name, key, mobile_obj, noxternal_obj): # pylint: disable=too-many-arguments
+    if mobile_obj['median'] > (limit + noxternal_obj['median']):
+        value_diff = mobile_obj['median'] - noxternal_obj['median']
+        txt = (
+                    f'- [{reference_name}] Advice: {key} may improve by '
+                    f'{value_diff:.2f}ms with {mode} changes\r\n')
+        return txt
+    return None
+
+
+def get_reference_name(result_dict):
+    reference_name = 'UNKNOWN'
+    if result_dict['name'].startswith('mobile'):
+        reference_name = 'mobile'
+    if result_dict['name'].startswith('desktop'):
+        reference_name = 'desktop'
+    return reference_name
+
+def cleanup_result_dict(result_dict):
+    if 'Points' in result_dict:
+        del result_dict['Points']
+    if 'name' in result_dict:
+        del result_dict['name']
+    if 'use_reference' in result_dict:
+        del result_dict['use_reference']
+
 
 def get_result_dict(data, mode):
     result_dict = {}
@@ -359,112 +373,39 @@ def get_result_dict(data, mode):
     for pair in tmp_dict.items():
         key = pair[0]
         values = pair[1]
-        biggest = 0
-        total = 0
-        value_range = 0
-        result = 0
-        median = 0
-        for value in values:
-            number = 0
-            if 'ms' in value:
-                number = float(value.replace('ms', ''))
-            elif 's' in value:
-                number = float(
+        tmp = get_data_for_entry(mode, key, values)
+
+        result_dict[key] = tmp
+    return result_dict
+
+def get_data_for_entry(mode, key, values):
+    biggest = 0
+    total = 0
+    value_range = 0
+    result = 0
+    median = 0
+    for value in values:
+        number = 0
+        if 'ms' in value:
+            number = float(value.replace('ms', ''))
+        elif 's' in value:
+            number = float(
                     value.replace('s', '')) * 1000
-            total += number
-            biggest = max(biggest, number)
-        value_count = len(values)
-        if value_count < 2:
-            value_range = 0
-            result = total
-        else:
-            median = total / value_count
-            value_range = biggest - median
-            result = median
+        total += number
+        biggest = max(biggest, number)
+    value_count = len(values)
+    if value_count < 2:
+        value_range = 0
+        result = total
+    else:
+        median = total / value_count
+        value_range = biggest - median
+        result = median
 
-        fullname = key
-        points = -1
-        if 'TTFB' in key:
-            # https://web.dev/ttfb/
-            fullname = 'TTFB (Time to First Byte)'
-            if 'desktop' in mode:
-                if median <= 250:
-                    points = 5.0
-                elif median <= 450:
-                    points = 3.0
-                else:
-                    points = 1.0
-            elif 'mobile' in mode:
-                if median <= 800:
-                    points = 5.0
-                elif median <= 1800:
-                    points = 3.0
-                else:
-                    points = 1.0
-        elif 'TBT' in key:
-            # https://web.dev/tbt/
-            # https://developer.chrome.com/docs/lighthouse/performance/lighthouse-total-blocking-time/#how-lighthouse-determines-your-tbt-score
-            fullname = 'TBT (Total Blocking Time)'
-            if median <= 200:
-                points = 5.0
-            elif median <= 600:
-                points = 3.0
-            else:
-                points = 1.0
-        elif 'FCP' in key:
-            # https://web.dev/fcp/
-            fullname = 'FCP (First Contentful Paint)'
-            if median <= 1800:
-                points = 5.0
-            elif median <= 3000:
-                points = 3.0
-            else:
-                points = 1.0
-        elif 'LCP' in key:
-            # https://web.dev/lcp/
-            fullname = 'LCP (Largest Contentful Paint)'
-            if 'desktop' in mode:
-                if median <= 500:
-                    points = 5.0
-                elif median <= 1000:
-                    points = 3.0
-                else:
-                    points = 1.0
-            elif 'mobile' in mode:
-                if median <= 1500:
-                    points = 5.0
-                elif median <= 2500:
-                    points = 3.0
-                else:
-                    points = 1.0
-        elif 'CLS' in key:
-            # https://web.dev/cls/
-            fullname = 'CLS (Cumulative Layout Shift)'
-            if median <= 0.1:
-                points = 5.0
-            elif median <= 0.25:
-                points = 3.0
-            else:
-                points = 1.0
+    fullname = get_fullname(key)
+    points = get_points(mode, key, result, median)
 
-        elif 'SpeedIndex' in key or\
-              'FirstVisualChange' in key or\
-              'VisualComplete85' in key or 'Load' in key:
-            # https://docs.webpagetest.org/metrics/speedindex/
-            adjustment = 500
-            if 'mobile' in mode:
-                adjustment = 1500
-
-            limit = 500
-            # give 0.5 seconds in credit
-            speedindex_adjusted = result - adjustment
-            if speedindex_adjusted <= 0:
-                # speed index is 500 or below, give highest score
-                points = 5.0
-            else:
-                points = 5.0 - ((speedindex_adjusted / limit) * 1.0)
-
-        tmp = {
+    tmp = {
             'median': median,
             'range': value_range,
             'mode': mode,
@@ -472,6 +413,121 @@ def get_result_dict(data, mode):
             'msg': f'- [{mode}] {fullname}: {result:.2f}ms, ±{value_range:.2f}ms',
             'values': values
         }
+    return tmp
 
-        result_dict[key] = tmp
-    return result_dict
+def get_fullname(key):
+    fullname = key
+    if 'TTFB' in key:
+                # https://web.dev/ttfb/
+        fullname = 'TTFB (Time to First Byte)'
+    elif 'TBT' in key:
+                # https://web.dev/tbt/
+                # https://developer.chrome.com/docs/lighthouse/performance/lighthouse-total-blocking-time/#how-lighthouse-determines-your-tbt-score
+        fullname = 'TBT (Total Blocking Time)'
+    elif 'FCP' in key:
+                # https://web.dev/fcp/
+        fullname = 'FCP (First Contentful Paint)'
+    elif 'LCP' in key:
+                # https://web.dev/lcp/
+        fullname = 'LCP (Largest Contentful Paint)'
+    elif 'CLS' in key:
+                # https://web.dev/cls/
+        fullname = 'CLS (Cumulative Layout Shift)'
+    return fullname
+
+def get_points(mode, key, result, median):
+    points = -1
+    if 'TTFB' in key:
+        points = get_ttfb_points(mode, median)
+    elif 'TBT' in key:
+        points = get_tbt_points(median)
+    elif 'FCP' in key:
+        points = get_fcp_points(median)
+    elif 'LCP' in key:
+        points = get_lcp_points(mode, median)
+    elif 'CLS' in key:
+        points = get_cls_points(median)
+
+    elif 'SpeedIndex' in key or\
+              'FirstVisualChange' in key or\
+              'VisualComplete85' in key or 'Load' in key:
+            # https://docs.webpagetest.org/metrics/speedindex/
+        adjustment = 500
+        if 'mobile' in mode:
+            adjustment = 1500
+
+        limit = 500
+            # give 0.5 seconds in credit
+        speedindex_adjusted = result - adjustment
+        if speedindex_adjusted <= 0:
+                # speed index is 500 or below, give highest score
+            points = 5.0
+        else:
+            points = 5.0 - ((speedindex_adjusted / limit) * 1.0)
+    return points
+
+def get_cls_points(median):
+    points = 5.0
+    if median <= 0.1:
+        points = 5.0
+    elif median <= 0.25:
+        points = 3.0
+    else:
+        points = 1.0
+    return points
+
+def get_fcp_points(median):
+    points = 5.0
+    if median <= 1800:
+        points = 5.0
+    elif median <= 3000:
+        points = 3.0
+    else:
+        points = 1.0
+    return points
+
+def get_tbt_points(median):
+    points = 5.0
+    if median <= 200:
+        points = 5.0
+    elif median <= 600:
+        points = 3.0
+    else:
+        points = 1.0
+    return points
+
+def get_lcp_points(mode, median):
+    points = 5.0
+    if 'desktop' in mode:
+        if median <= 500:
+            points = 5.0
+        elif median <= 1000:
+            points = 3.0
+        else:
+            points = 1.0
+    elif 'mobile' in mode:
+        if median <= 1500:
+            points = 5.0
+        elif median <= 2500:
+            points = 3.0
+        else:
+            points = 1.0
+    return points
+
+def get_ttfb_points(mode, median):
+    points = 5.0
+    if 'desktop' in mode:
+        if median <= 250:
+            points = 5.0
+        elif median <= 450:
+            points = 3.0
+        else:
+            points = 1.0
+    elif 'mobile' in mode:
+        if median <= 800:
+            points = 5.0
+        elif median <= 1800:
+            points = 3.0
+        else:
+            points = 1.0
+    return points

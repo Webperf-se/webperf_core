@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 import os
 import re
+import subprocess
 from datetime import datetime
 from models import Rating
 from tests.utils import get_config_or_default, get_translation
@@ -11,31 +12,26 @@ REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
 SITESPEED_USE_DOCKER = get_config_or_default('sitespeed_use_docker')
 
 def get_result(sitespeed_use_docker, arg):
-
     result = ''
     if sitespeed_use_docker:
         base_directory = Path(os.path.dirname(
             os.path.realpath(__file__)) + os.path.sep).parent
         data_dir = base_directory.resolve()
 
-        command = "docker run --rm -v {1}:/sitespeed.io sitespeedio/sitespeed.io:latest {0}".format(
-            arg, data_dir)
+        command = (f"docker run --rm -v {data_dir}:/sitespeed.io "
+                   f"sitespeedio/sitespeed.io:latest {arg}")
 
-        import subprocess
-        process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
-        output, _ = process.communicate(timeout=REQUEST_TIMEOUT * 10)
-        result = str(output)
+        with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
+            output, _ = process.communicate(timeout=REQUEST_TIMEOUT * 10)
+            result = str(output)
     else:
-        import subprocess
+        command = (f"node node_modules{os.path.sep}sitespeed.io{os.path.sep}bin{os.path.sep}"
+                   f"sitespeed.js {arg}")
 
-        command = "node node_modules{1}sitespeed.io{1}bin{1}sitespeed.js {0}".format(
-            arg, os.path.sep)
-
-        process = subprocess.Popen(
-            command.split(), stdout=subprocess.PIPE)
-
-        output, _ = process.communicate(timeout=REQUEST_TIMEOUT * 10)
-        result = str(output)
+        with subprocess.Popen(
+            command.split(), stdout=subprocess.PIPE) as process:
+            output, _ = process.communicate(timeout=REQUEST_TIMEOUT * 10)
+            result = str(output)
 
     return result
 
@@ -107,13 +103,14 @@ def run_test(global_translation, lang_code, url):
         rating += validator_rating
         result_dict.update(validator_result_dict)
 
-        if use_reference and reference_rating != None:
+        if use_reference and reference_rating is not None:
             validator_rating_overall = validator_rating.get_overall()
             if reference_rating < validator_rating_overall and\
                   validator_rating_overall != -1 and\
                   validator_rating_overall != -1:
-                rating.overall_review += '- [{2}] Advice: Rating may improve from {0} to {1} with {3} changes\r\n'.format(
-                    reference_rating, validator_rating_overall, reference_name, validator_name)
+                rating.overall_review += (
+                    f'- [{reference_name}] Advice: Rating may improve from {reference_rating} to '
+                    f'{validator_rating_overall} with {validator_name} changes\r\n')
 
     print(global_translation('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
@@ -257,14 +254,15 @@ def validate_on_mobile(url):
     return result_dict
 
 
-def rate_result_dict(result_dict, reference_result_dict, mode, global_translation, local_translation):
+def rate_result_dict(result_dict, reference_result_dict,
+                     mode, global_translation, local_translation):
     limit = 500
 
     rating = Rating(global_translation)
     performance_review = ''
     overview_review = ''
 
-    if reference_result_dict != None:
+    if reference_result_dict is not None:
         reference_name = 'UNKNOWN'
         if result_dict['name'].startswith('mobile'):
             reference_name = 'mobile'
@@ -290,8 +288,9 @@ def rate_result_dict(result_dict, reference_result_dict, mode, global_translatio
             if mobile_obj['median'] > (limit + noxternal_obj['median']):
                 value_diff = mobile_obj['median'] - noxternal_obj['median']
 
-                txt = '- [{2}] Advice: {0} may improve by {1:.2f}ms with {3} changes\r\n'.format(
-                    key, value_diff, reference_name, mode)
+                txt = (
+                    f'- [{reference_name}] Advice: {key} may improve by '
+                    f'{value_diff:.2f}ms with {mode} changes\r\n')
 
                 overview_review += txt
                 key_matching = True
@@ -304,8 +303,9 @@ def rate_result_dict(result_dict, reference_result_dict, mode, global_translatio
             if mobile_obj['range'] > (limit + noxternal_obj['range']):
                 value_diff = mobile_obj['range'] - noxternal_obj['range']
 
-                txt = '- [{2}] Advice: {0} could be ±{1:.2f}ms less "bumpy" with {3} changes\r\n'.format(
-                    key, value_diff, reference_name, mode)
+                txt = (
+                    f'- [{reference_name}] Advice: {key} could be ±{value_diff:.2f}ms '
+                    f'less "bumpy" with {mode} changes\r\n')
 
                 overview_review += txt
                 key_matching = True
@@ -329,13 +329,13 @@ def rate_result_dict(result_dict, reference_result_dict, mode, global_translatio
             continue
         if 'points' in value and value['points'] != -1:
             points = value['points']
-            entry_rating = Rating(_)
+            entry_rating = Rating(global_translation)
             entry_rating.set_overall(points)
             entry_rating.set_performance(
                 points, value['msg'])
             rating += entry_rating
         else:
-            performance_review += '{0}\r\n'.format(value['msg'])
+            performance_review += f"{value['msg']}\r\n"
 
     rating.overall_review = rating.overall_review + overview_review
     rating.performance_review = rating.performance_review + performance_review
@@ -372,9 +372,7 @@ def get_result_dict(data, mode):
                 number = float(
                     value.replace('s', '')) * 1000
             total += number
-            if number > biggest:
-                biggest = number
-            # print('  ', number, total)
+            biggest = max(biggest, number)
         value_count = len(values)
         if value_count < 2:
             value_range = 0
@@ -449,7 +447,9 @@ def get_result_dict(data, mode):
             else:
                 points = 1.0
 
-        elif 'SpeedIndex' in key or 'FirstVisualChange' in key or 'VisualComplete85' in key or 'Load' in key:
+        elif 'SpeedIndex' in key or\
+              'FirstVisualChange' in key or\
+              'VisualComplete85' in key or 'Load' in key:
             # https://docs.webpagetest.org/metrics/speedindex/
             adjustment = 500
             if 'mobile' in mode:
@@ -469,7 +469,7 @@ def get_result_dict(data, mode):
             'range': value_range,
             'mode': mode,
             'points': points,
-            'msg': '- [{2}] {3}: {0:.2f}ms, ±{1:.2f}ms'.format(result, value_range, mode, fullname),
+            'msg': f'- [{mode}] {fullname}: {result:.2f}ms, ±{value_range:.2f}ms',
             'values': values
         }
 

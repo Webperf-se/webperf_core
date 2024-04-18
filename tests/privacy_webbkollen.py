@@ -17,6 +17,25 @@ TIME_SLEEP = max(get_config_or_default('WEBBKOLL_SLEEP'), 5)
 REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
 
 def run_test(global_translation, lang_code, url):
+    """
+    This function runs a webbkollen (privacy) test on a given URL and
+    returns a rating and a dictionary.
+
+    The test involves fetching the HTML content of the URL, parsing it,
+    and rating the results based on certain criteria.
+    The rating and review are determined by the integrity and
+    security points obtained from the test results.
+
+    Parameters:
+    global_translation (function): A function to translate text to a global language.
+    lang_code (str): The language code for the local translation.
+    url (str): The URL to be tested.
+
+    Returns:
+    tuple: A tuple containing the rating object and a dictionary.
+    The rating object contains the overall rating, review, and integrity and security points.
+    The dictionary is currently empty but can be used to return additional data if needed.
+    """
     review = ''
     return_dict = {}
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
@@ -70,6 +89,17 @@ def run_test(global_translation, lang_code, url):
     return (rating, return_dict)
 
 def extend_review_with_date_for_last_run(review, local_translation, result_title):
+    """
+    Extends the review with the date of the last run.
+
+    Args:
+        review (str): The review to be extended.
+        local_translation (function): A function that translates text to the local language.
+        result_title (bs4.element.Tag): The title of the result.
+
+    Returns:
+        str: The extended review.
+    """
     result_title_beta = result_title.find_all('div', class_="beta")
     if len(result_title_beta) > 0:
         for header_info in result_title_beta[0].strings:
@@ -79,6 +109,18 @@ def extend_review_with_date_for_last_run(review, local_translation, result_title
                 review += local_translation('TEXT_REVIEW_GENERATED').format(info)
 
 def get_html_content(orginal_url, lang_code, local_translation):
+    """
+    Retrieves test result as HTML content from webbkollen website by dataskydd.
+
+    Args:
+        orginal_url (str): The URL of the webpage to be retrieved.
+        lang_code (str): The language code for the webpage.
+        local_translation (function): A function that translates text to the local language.
+
+    Returns:
+        str: Test result as HTML content.
+
+    """
     html_content = ''
     headers = {
         'user-agent': 'Mozilla/5.0 (compatible; Webperf; +https://webperf.se)'}
@@ -123,7 +165,25 @@ def get_html_content(orginal_url, lang_code, local_translation):
         time.sleep(TIME_SLEEP)
     return html_content
 
-def rate_result(result, global_translation, local_translation):
+def rate_result(result, global_translation, local_translation):# pylint: disable=too-many-locals
+    """
+    Rates is calculated by the number of:
+    successes, alerts, warnings, sub-alerts, and sub-warnings in the result.
+    Based on these numbers, it calculates the points to remove from the current result.
+    It also gathers more information from the result.
+    Finally, it creates a review using the `create_review` function and
+    sets the integrity and security of the `heading_rating` using the calculated points and
+    the created review.
+
+    Args:
+        result (bs4.element.Tag): The result to be rated.
+        global_translation (function): A function that translates text to a global language.
+        local_translation (function): A function that translates text to the local language.
+
+    Returns:
+        Rating: The rating of the result.
+
+    """
     heading_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     points_to_remove_for_current_result = 0.0
@@ -195,6 +255,25 @@ def rate_result(result, global_translation, local_translation):
 def create_review(local_translation, header, # pylint: disable=too-many-arguments
                   number_of_success, number_of_alerts, number_of_warnings,
                   number_of_sub_alerts, number_of_sub_warnings, more_info):
+    """
+    Creates a review.
+    The review is created based on the number of:
+    successes, alerts, warnings, sub-alerts, and sub-warnings.
+    The review text is translated to the local language using the `local_translation` function.
+
+    Args:
+        local_translation (function): A function that translates text to the local language.
+        header (str): The header text of the review.
+        number_of_success (int): The number of successful operations.
+        number_of_alerts (int): The number of alerts generated.
+        number_of_warnings (int): The number of warnings generated.
+        number_of_sub_alerts (int): The number of sub-alerts generated.
+        number_of_sub_warnings (int): The number of sub-warnings generated.
+        more_info (str): Additional information to be added to the review.
+
+    Returns:
+        str: The review text.
+    """
     review = '- ' + re.sub(REGEX_ALLOWED_CHARS, '',
                                     header.text, 0, re.MULTILINE).strip()
 

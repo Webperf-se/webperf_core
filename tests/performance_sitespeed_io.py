@@ -82,6 +82,21 @@ def run_test(global_translation, lang_code, url):
     rating += mobile_rating
     result_dict.update(mobile_result_dict)
 
+    rating += rate_custom_result_dict(
+        global_translation, result_dict, validator_result_dicts,
+        desktop_result_dict, mobile_result_dict,
+        desktop_rating, mobile_rating)
+
+    print(global_translation('TEXT_TEST_END').format(
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+    return (rating, result_dict)
+
+def rate_custom_result_dict( # pylint: disable=too-many-arguments,too-many-locals
+        global_translation, result_dict, validator_result_dicts,
+        desktop_result_dict, mobile_result_dict,
+        desktop_rating, mobile_rating):
+    rating = Rating(global_translation)
     for validator_result_dict in validator_result_dicts:
         validator_name = validator_result_dict['name']
         reference_name = None
@@ -111,11 +126,7 @@ def run_test(global_translation, lang_code, url):
                 rating.overall_review += (
                     f'- [{reference_name}] Advice: Rating may improve from {reference_rating} to '
                     f'{validator_rating_overall} with {validator_name} changes\r\n')
-
-    print(global_translation('TEXT_TEST_END').format(
-        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
-
-    return (rating, result_dict)
+    return rating
 
 
 def get_validators():
@@ -254,8 +265,9 @@ def validate_on_mobile(url):
     return result_dict
 
 
-def rate_result_dict(result_dict, reference_result_dict,
-                     mode, global_translation):
+def rate_result_dict( # pylint: disable=too-many-branches,too-many-locals
+        result_dict, reference_result_dict,
+        mode, global_translation):
     limit = 500
 
     rating = Rating(global_translation)

@@ -177,13 +177,15 @@ def diff_mo_and_po_file(locale_name, language, file_mo, msg_ids):
             if msg_id not in msg_ids:
                 msg_ids[msg_id] = []
 
+            tmp = file_po.split('\\')
+
             msg_ids[msg_id].append({
                     'text': msg_txt,
                     'locale_name': locale_name,
-                    'location': file_po
+                    'location': tmp[len(tmp) - 1]
                 })
 
-            if lang_txt == msg_id:
+            if lang_txt == msg_id and msg_id != msg_txt:
                 print(
                     f'  - Could not find text for msgid "{msg_id}" in file: {file_mo}')
                 n_of_errors += 1
@@ -282,8 +284,17 @@ def validate_msg_ids(available_languages, msg_ids):
     msg_ids_with_missing_language = {}
     nof_languages = len(available_languages)
     for msg_id, msg_list in msg_ids.items():
-        if len(msg_list) != nof_languages:
-            msg_ids_with_missing_language[msg_id] = msg_list
+        grouped_by_file = {}
+        for obj in msg_list:
+            location = obj['location']
+            if location not in grouped_by_file:
+                grouped_by_file[location] = []
+            grouped_by_file[location].append(obj)
+
+        for location, obj_list in grouped_by_file.items():
+            if len(obj_list) != nof_languages:
+                msg_ids_with_missing_language[msg_id] = msg_list
+                break
 
     print('')
     print('')
@@ -295,6 +306,8 @@ def validate_msg_ids(available_languages, msg_ids):
         nof_langs = len(msg_langs)
         if nof_langs < nof_languages:
             print(f"  # msgid \"{msg_id}\" only in \"{'\",\"'.join(msg_langs)}\"")
+        else:
+            print(f"  # msgid \"{msg_id}\" occur multiple times \"{'\",\"'.join(msg_langs)}\"")
 
     if len(msg_ids_with_missing_language) > 0:
         is_valid = False

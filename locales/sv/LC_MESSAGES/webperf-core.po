@@ -42,9 +42,6 @@ msgstr "### Omdöme:\n"
 msgid "TEXT_EXCEPTION"
 msgstr "Fel, någon behöver ta en titt på detta."
 
-msgid "TEXT_TESTING_START_HEADER"
-msgstr "### {0} ###"
-
 msgid "TEXT_TEST_START"
 msgstr "Startad: {0}"
 

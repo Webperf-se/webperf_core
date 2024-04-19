@@ -29,5 +29,5 @@ msgstr "- About average on following best practice\n"
 msgid "TEXT_REVIEW_IS_BAD"
 msgstr "- The website is pretty bad on what is considered best practice, according to Google Lighthouse.\n"
 
-msgid "TEXT_REVIEW_VERY_BAD"
+msgid "TEXT_REVIEW_IS_VERY_BAD"
 msgstr "- The website is really bad on adhering to best practice for the web, according to Google Lighthouse!\n"

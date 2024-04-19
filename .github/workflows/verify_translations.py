@@ -183,7 +183,7 @@ def diff_mo_and_po_file(locale_name, language, file_mo, msg_ids):
                     'location': file_po
                 })
 
-            if lang_txt == msg_id:
+            if lang_txt == msg_id and msg_id != msg_txt:
                 print(
                     f'  - Could not find text for msgid "{msg_id}" in file: {file_mo}')
                 n_of_errors += 1

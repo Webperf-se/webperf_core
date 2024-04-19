@@ -383,7 +383,6 @@ def main(argv):
 
     Options and arguments:
     -h/--help\t\t\t: Verify Help command
-    -l/--language\t\t: Verify languages
     -c/--prep-config <activate feature, True or False>\t\t:
       Uses SAMPLE-config.py to creat config.py
     -t/--test <test number>\t: Verify result of specific test

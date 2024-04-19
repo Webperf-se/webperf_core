@@ -40,7 +40,6 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
     o = urlparse(url)
     hostname = o.hostname
 
-    # TODO: CHANGE THIS IF YOU WANT TO DEBUG
     result_folder_name = os.path.join(folder, hostname, f'{str(uuid.uuid4())}')
 
     sitespeed_arg += (' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs '
@@ -49,58 +48,69 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
     filename = ''
     # Should we use cache when available?
     if USE_CACHE:
-        # added for firefox support
-        url2 = to_firefox_url_format(url)
-
-        sites = sitespeed_cache.read_sites(hostname, -1, -1)
-        for site in sites:
-            if url == site[1] or url2 == site[1]:
-                filename = site[0]
-
-                if is_file_older_than(filename, CACHE_TIME_DELTA):
-                    filename = ''
-                    continue
-
-                result_folder_name = filename[:filename.rfind(os.path.sep)]
-
-                file_created_timestamp = os.path.getctime(filename)
-                file_created_date = time.ctime(file_created_timestamp)
-                print((f'Cached entry found from {file_created_date},'
-                       ' using it instead of calling website again.'))
-                break
+        result_folder_name, filename = get_cached_result(url, hostname)
     if filename != '':
         return (result_folder_name, filename)
-    else:
-        test = get_result_using_no_cache(sitespeed_use_docker, sitespeed_arg, timeout)
-        test = test.replace('\\n', '\r\n').replace('\\\\', '\\')
 
-        regex = r"COOKIES:START: {\"cookies\":(?P<COOKIES>.+)} COOKIES:END"
-        cookies = '{}'
-        matches = re.finditer(
-            regex, test, re.MULTILINE)
-        for _, match in enumerate(matches, start=1):
-            cookies = match.group('COOKIES')
+    test = get_result_using_no_cache(sitespeed_use_docker, sitespeed_arg, timeout)
+    test = test.replace('\\n', '\r\n').replace('\\\\', '\\')
 
-        regex = r"VERSIONS:START: (?P<VERSIONS>[^V]+) VERSIONS:END"
-        versions = '{}'
-        matches = re.finditer(
-            regex, test, re.MULTILINE)
-        for _, match in enumerate(matches, start=1):
-            versions = match.group('VERSIONS')
+    cookies_json = get_cookies(test)
+    versions_json = get_versions(test)
 
-        filename_old = get_browsertime_har_path(os.path.join(result_folder_name, 'pages'))
+    filename_old = get_browsertime_har_path(os.path.join(result_folder_name, 'pages'))
 
-        filename = f'{result_folder_name}.har'
-        cookies_json = json.loads(cookies)
-        versions_json = json.loads(versions)
+    filename = f'{result_folder_name}.har'
 
-        if os.path.exists(filename_old):
-            modify_browsertime_content(filename_old, cookies_json, versions_json)
-            cleanup_results_dir(filename_old, result_folder_name)
-            return (result_folder_name, filename)
-        else:
-            shutil.rmtree(result_folder_name)
-            return (result_folder_name, '')
+    if os.path.exists(filename_old):
+        modify_browsertime_content(filename_old, cookies_json, versions_json)
+        cleanup_results_dir(filename_old, result_folder_name)
+        return (result_folder_name, filename)
+
+    shutil.rmtree(result_folder_name)
+    return (result_folder_name, '')
+
+def get_cached_result(url, hostname):
+    # added for firefox support
+    url2 = to_firefox_url_format(url)
+
+    sites = sitespeed_cache.read_sites(hostname, -1, -1)
+    for site in sites:
+        if url == site[1] or url2 == site[1]:
+            filename = site[0]
+
+            if is_file_older_than(filename, CACHE_TIME_DELTA):
+                filename = ''
+                continue
+
+            result_folder_name = filename[:filename.rfind(os.path.sep)]
+
+            file_created_timestamp = os.path.getctime(filename)
+            file_created_date = time.ctime(file_created_timestamp)
+            print((f'Cached entry found from {file_created_date},'
+                       ' using it instead of calling website again.'))
+            break
+    return result_folder_name,filename
+
+def get_versions(test):
+    regex = r"VERSIONS:START: (?P<VERSIONS>[^V]+) VERSIONS:END"
+    versions = '{}'
+    matches = re.finditer(
+        regex, test, re.MULTILINE)
+    for _, match in enumerate(matches, start=1):
+        versions = match.group('VERSIONS')
+    versions_json = json.loads(versions)
+    return versions_json
+
+def get_cookies(test):
+    regex = r"COOKIES:START: {\"cookies\":(?P<COOKIES>.+)} COOKIES:END"
+    cookies = '{}'
+    matches = re.finditer(
+        regex, test, re.MULTILINE)
+    for _, match in enumerate(matches, start=1):
+        cookies = match.group('COOKIES')
+    cookies_json = json.loads(cookies)
+    return cookies_json
 
 
 def cleanup_results_dir(browsertime_path, path):
@@ -119,16 +129,19 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
                 os.path.realpath(__file__)) + os.path.sep).parent
             data_dir = base_directory.resolve()
 
-            command = "docker run --rm -v {1}:/sitespeed.io sitespeedio/sitespeed.io:latest --maxLoadTime {2} {0}".format(
-                arg, data_dir, timeout * 1000)
+            command = (
+                f"docker run --rm -v {data_dir}:/sitespeed.io "
+                f"sitespeedio/sitespeed.io:latest "
+                f"--maxLoadTime {(timeout * 1000)} {arg}"
+                )
 
-            process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
-            output, error = process.communicate(timeout=process_failsafe_timeout)
+            with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
+                output, error = process.communicate(timeout=process_failsafe_timeout)
 
-            if error != None:
-                print('DEBUG get_result_using_no_cache(error)', error)
+                if error is not None:
+                    print('DEBUG get_result_using_no_cache(error)', error)
 
-            result = str(output)
+                result = str(output)
 
             if 'Could not locate Firefox on the current system' in result:
                 print('ERROR! Could not locate Firefox on the current system.')
@@ -136,15 +149,14 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
             command = (f"node node_modules{os.path.sep}sitespeed.io{os.path.sep}"
                        f"bin{os.path.sep}sitespeed.js --maxLoadTime {(timeout * 1000)} {arg}")
 
-            process = subprocess.Popen(
-                command.split(), stdout=subprocess.PIPE)
+            with subprocess.Popen(
+                command.split(), stdout=subprocess.PIPE) as process:
+                output, error = process.communicate(timeout=process_failsafe_timeout)
 
-            output, error = process.communicate(timeout=process_failsafe_timeout)
+                if error is not None:
+                    print('DEBUG get_result_using_no_cache(error)', error)
 
-            if error is not None:
-                print('DEBUG get_result_using_no_cache(error)', error)
-
-            result = str(output)
+                result = str(output)
 
             if 'Could not locate Firefox on the current system' in result:
                 print('ERROR! Could not locate Firefox on the current system.')
@@ -163,7 +175,7 @@ def get_sanitized_browsertime(input_filename):
             data = file.readlines()
             for line in data:
                 lines.append(line)
-    except:
+    except: # pylint: disable=bare-except
         print(f'error in get_local_file_content. No such file or directory: {input_filename}')
         return '\n'.join(lines)
 
@@ -209,34 +221,38 @@ def modify_browsertime_content(input_filename, cookies, versions):
     if 'entries' in json_result['log']:
         has_minified = False
         for entry in json_result['log']['entries']:
-            keys_to_remove = []
-            for key in entry.keys():
-                if key not in ('request', 'response', 'serverIPAddress','httpVersion'):
-                    keys_to_remove.append(key)
-            for key in keys_to_remove:
-                del entry[key]
-                has_minified = True
-
-            keys_to_remove = []
-            for key in entry['request'].keys():
-                if key != 'url':
-                    keys_to_remove.append(key)
-            for key in keys_to_remove:
-                del entry['request'][key]
-                has_minified = True
-
-            keys_to_remove = []
-            for key in entry['response'].keys():
-                if key not in ('content', 'headers', 'httpVersion'):
-                    keys_to_remove.append(key)
-            for key in keys_to_remove:
-                del entry['response'][key]
-                has_minified = True
+            has_minified = modify_browertime_content_entity(entry)
 
     if has_minified:
         write_json(input_filename, json_result)
 
     return result
+
+def modify_browertime_content_entity(entry):
+    keys_to_remove = []
+    for key in entry.keys():
+        if key not in ('request', 'response', 'serverIPAddress','httpVersion'):
+            keys_to_remove.append(key)
+    for key in keys_to_remove:
+        del entry[key]
+        has_minified = True
+
+    keys_to_remove = []
+    for key in entry['request'].keys():
+        if key != 'url':
+            keys_to_remove.append(key)
+    for key in keys_to_remove:
+        del entry['request'][key]
+        has_minified = True
+
+    keys_to_remove = []
+    for key in entry['response'].keys():
+        if key not in ('content', 'headers', 'httpVersion'):
+            keys_to_remove.append(key)
+    for key in keys_to_remove:
+        del entry['response'][key]
+        has_minified = True
+    return has_minified
 
 
 def write_json(filename, data):

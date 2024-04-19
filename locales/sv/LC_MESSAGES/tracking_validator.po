@@ -18,9 +18,6 @@ msgstr ""
 msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 23 - Spårning och Integritet (Beta)\r\n"
 
-msgid "TEXT_REQUEST_UNKNOWN"
-msgstr "#{0}: "
-
 msgid "TEXT_VISITOR_ANALYTICS_USED"
 msgstr "  Besökaranalys används:\r\n"
 

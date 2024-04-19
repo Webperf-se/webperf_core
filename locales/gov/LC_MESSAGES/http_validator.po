@@ -156,9 +156,6 @@ msgstr "- {1}, Is NOT using wildcard in CSP policy '{0}'"
 msgid "TEXT_REVIEW_CSP_POLICY_USE_UNSAFE_SCHEME"
 msgstr "- {2}, CSP policy '{0}' is using unsafe scheme {1}"
 
-msgid "TEXT_REVIEW_CSP_POLICY_USE_UNSAFE_SCHEME"
-msgstr "- {2}, CSP policy '{0}' is using unsafe scheme {1}"
-
 msgid "TEXT_REVIEW_CSP_POLICY_REUSE_NONCE"
 msgstr "- {1}, CSP policy '{0}' is reusing same 'nonce' between visits"
 

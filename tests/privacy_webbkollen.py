@@ -17,7 +17,25 @@ TIME_SLEEP = max(get_config_or_default('WEBBKOLL_SLEEP'), 5)
 REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
 
 def run_test(global_translation, lang_code, url):
-    points = 5.0
+    """
+    This function runs a webbkollen (privacy) test on a given URL and
+    returns a rating and a dictionary.
+
+    The test involves fetching the HTML content of the URL, parsing it,
+    and rating the results based on certain criteria.
+    The rating and review are determined by the integrity and
+    security points obtained from the test results.
+
+    Parameters:
+    global_translation (function): A function to translate text to a global language.
+    lang_code (str): The language code for the local translation.
+    url (str): The URL to be tested.
+
+    Returns:
+    tuple: A tuple containing the rating object and a dictionary.
+    The rating object contains the overall rating, review, and integrity and security points.
+    The dictionary is currently empty but can be used to return additional data if needed.
+    """
     review = ''
     return_dict = {}
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
@@ -29,57 +47,17 @@ def run_test(global_translation, lang_code, url):
     print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    orginal_url = url
-    url = f'https://webbkoll.dataskydd.net/{lang_code}/check?url={urllib.parse.quote(url)}'
-    headers = {
-        'user-agent': 'Mozilla/5.0 (compatible; Webperf; +https://webperf.se)'}
-
-    has_refresh_statement = True
-    had_refresh_statement = False
-    session = requests.Session()
-    while has_refresh_statement:
-        has_refresh_statement = False
-        request = session.get(url, allow_redirects=True,
-                              headers=headers, timeout=REQUEST_TIMEOUT)
-
-        if f'type="search" value="{orginal_url}">' in request.text:
-            # headers[''] = ''
-            regex = r"_csrf_token[^>]*value=\"(?P<csrf>[^\"]+)\""
-            matches = re.finditer(regex, request.text, re.MULTILINE)
-            csrf_value = ''
-            for _, match in enumerate(matches, start=1):
-                csrf_value = match.group('csrf')
-
-            data = {
-                '_csrf_token': csrf_value,
-                'url': orginal_url,
-                'submit': ''}
-            service_url = f'https://webbkoll.dataskydd.net/{lang_code}/check'
-            request = session.post(service_url, allow_redirects=True,
-                                   headers=headers, timeout=REQUEST_TIMEOUT, data=data)
-
-        if '<meta http-equiv="refresh"' in request.text:
-            has_refresh_statement = True
-            had_refresh_statement = True
-            print(local_translation('TEXT_RESULT_NOT_READY').format(
-                TIME_SLEEP))
-            time.sleep(TIME_SLEEP)
-
-    if not had_refresh_statement:
-        time.sleep(TIME_SLEEP)
-
-    # hämta det faktiska resultatet
-    soup2 = BeautifulSoup(request.text, 'html.parser')
+    # Get result from webbkollen website
+    html_content = get_html_content(url, lang_code, local_translation)
+    soup2 = BeautifulSoup(html_content, 'html.parser')
 
     results = soup2.find_all(class_="result")
     result_title = soup2.find(id="results-title")
     if not result_title:
         print(
             'Error! Unfortunately the request for URL "{0}" failed, message:\nUnexpected result')
-        print('request.text:' + request.text)
+        print('request.text:' + html_content)
         return (rating, return_dict)
-
-    #review_messages = ''
 
     for result in results:
         rating += rate_result(result, global_translation, local_translation)
@@ -100,15 +78,7 @@ def run_test(global_translation, lang_code, url):
         points = 1.0
 
     # give us result date (for when dataskydd.net generated report)
-    result_title_beta = result_title.find_all('div', class_="beta")
-    if len(result_title_beta) > 0:
-        for header_info in result_title_beta[0].strings:
-            info = re.sub(REGEX_ALLOWED_CHARS, '',
-                          header_info, 0, re.MULTILINE).strip()
-            if info.startswith('20'):
-                review += local_translation('TEXT_REVIEW_GENERATED').format(info)
-
-    # review += review_messages
+    extend_review_with_date_for_last_run(review, local_translation, result_title)
 
     rating.set_overall(points)
     rating.overall_review = review
@@ -118,17 +88,109 @@ def run_test(global_translation, lang_code, url):
 
     return (rating, return_dict)
 
-def rate_result(result, global_translation, local_translation):
+def extend_review_with_date_for_last_run(review, local_translation, result_title):
+    """
+    Extends the review with the date of the last run.
+
+    Args:
+        review (str): The review to be extended.
+        local_translation (function): A function that translates text to the local language.
+        result_title (bs4.element.Tag): The title of the result.
+
+    Returns:
+        str: The extended review.
+    """
+    result_title_beta = result_title.find_all('div', class_="beta")
+    if len(result_title_beta) > 0:
+        for header_info in result_title_beta[0].strings:
+            info = re.sub(REGEX_ALLOWED_CHARS, '',
+                          header_info, 0, re.MULTILINE).strip()
+            if info.startswith('20'):
+                review += local_translation('TEXT_REVIEW_GENERATED').format(info)
+
+def get_html_content(orginal_url, lang_code, local_translation):
+    """
+    Retrieves test result as HTML content from webbkollen website by dataskydd.
+
+    Args:
+        orginal_url (str): The URL of the webpage to be retrieved.
+        lang_code (str): The language code for the webpage.
+        local_translation (function): A function that translates text to the local language.
+
+    Returns:
+        str: Test result as HTML content.
+
+    """
+    html_content = ''
+    headers = {
+        'user-agent': 'Mozilla/5.0 (compatible; Webperf; +https://webperf.se)'}
+
+    has_refresh_statement = True
+    had_refresh_statement = False
+    session = requests.Session()
+    while has_refresh_statement:
+        has_refresh_statement = False
+        request = session.get(
+            (f'https://webbkoll.dataskydd.net/{lang_code}'
+             f'/check?url={urllib.parse.quote(orginal_url)}'),
+            allow_redirects=True,
+            headers=headers,
+            timeout=REQUEST_TIMEOUT)
+
+        if f'type="search" value="{orginal_url}">' in request.text:
+            # headers[''] = ''
+            regex = r"_csrf_token[^>]*value=\"(?P<csrf>[^\"]+)\""
+            matches = re.finditer(regex, request.text, re.MULTILINE)
+            csrf_value = ''
+            for _, match in enumerate(matches, start=1):
+                csrf_value = match.group('csrf')
+
+            data = {
+                '_csrf_token': csrf_value,
+                'url': orginal_url,
+                'submit': ''}
+            service_url = f'https://webbkoll.dataskydd.net/{lang_code}/check'
+            request = session.post(service_url, allow_redirects=True,
+                                   headers=headers, timeout=REQUEST_TIMEOUT, data=data)
+            html_content = request.text
+
+        if '<meta http-equiv="refresh"' in html_content:
+            has_refresh_statement = True
+            had_refresh_statement = True
+            print(local_translation('TEXT_RESULT_NOT_READY').format(
+                TIME_SLEEP))
+            time.sleep(TIME_SLEEP)
+
+    if not had_refresh_statement:
+        time.sleep(TIME_SLEEP)
+    return html_content
+
+def rate_result(result, global_translation, local_translation):# pylint: disable=too-many-locals
+    """
+    Rates is calculated by the number of:
+    successes, alerts, warnings, sub-alerts, and sub-warnings in the result.
+    Based on these numbers, it calculates the points to remove from the current result.
+    It also gathers more information from the result.
+    Finally, it creates a review using the `create_review` function and
+    sets the integrity and security of the `heading_rating` using the calculated points and
+    the created review.
+
+    Args:
+        result (bs4.element.Tag): The result to be rated.
+        global_translation (function): A function that translates text to a global language.
+        local_translation (function): A function that translates text to the local language.
+
+    Returns:
+        Rating: The rating of the result.
+
+    """
     heading_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
-    points = 5.0
-    review_messages = ''
     points_to_remove_for_current_result = 0.0
 
     header = result.find("h3")
-    header_id = header.get('id')
 
-    if header_id in ('what', 'raw-headers', 'server-location', 'localstorage', 'requests'):
+    if header.get('id') in ('what', 'raw-headers', 'server-location', 'localstorage', 'requests'):
         return heading_rating
 
     number_of_success = len(header.find_all("span", class_="success"))
@@ -173,36 +235,67 @@ def rate_result(result, global_translation, local_translation):
     # only try to remove points if we have more then one
     if points_to_remove_for_current_result > 0.0:
         points_for_current_result -= points_to_remove_for_current_result
-        points -= points_to_remove_for_current_result
 
     points_for_current_result = max(points_for_current_result, 1.0)
 
     # add review info
-    review_messages += '- ' + re.sub(REGEX_ALLOWED_CHARS, '',
+    review = create_review(local_translation,
+                                    header,
+                                    number_of_success,
+                                    number_of_alerts,
+                                    number_of_warnings,
+                                    number_of_sub_alerts,
+                                    number_of_sub_warnings,
+                                    more_info)
+
+    heading_rating.set_integrity_and_security(
+        points_for_current_result, review)
+    return heading_rating
+
+def create_review(local_translation, header, # pylint: disable=too-many-arguments
+                  number_of_success, number_of_alerts, number_of_warnings,
+                  number_of_sub_alerts, number_of_sub_warnings, more_info):
+    """
+    Creates a review.
+    The review is created based on the number of:
+    successes, alerts, warnings, sub-alerts, and sub-warnings.
+    The review text is translated to the local language using the `local_translation` function.
+
+    Args:
+        local_translation (function): A function that translates text to the local language.
+        header (str): The header text of the review.
+        number_of_success (int): The number of successful operations.
+        number_of_alerts (int): The number of alerts generated.
+        number_of_warnings (int): The number of warnings generated.
+        number_of_sub_alerts (int): The number of sub-alerts generated.
+        number_of_sub_warnings (int): The number of sub-warnings generated.
+        more_info (str): Additional information to be added to the review.
+
+    Returns:
+        str: The review text.
+    """
+    review = '- ' + re.sub(REGEX_ALLOWED_CHARS, '',
                                     header.text, 0, re.MULTILINE).strip()
 
     if number_of_success > 0 and number_of_sub_alerts == 0 and number_of_sub_warnings == 0:
-        review_messages += local_translation('TEXT_REVIEW_CATEGORY_VERY_GOOD')
+        review += local_translation('TEXT_REVIEW_CATEGORY_VERY_GOOD')
     elif number_of_alerts > 0:
-        review_messages += local_translation('TEXT_REVIEW_CATEGORY_IS_VERY_BAD').format(
+        review += local_translation('TEXT_REVIEW_CATEGORY_IS_VERY_BAD').format(
             0)
     elif number_of_warnings > 0:
-        review_messages += local_translation('TEXT_REVIEW_CATEGORY_IS_BAD').format(
+        review += local_translation('TEXT_REVIEW_CATEGORY_IS_BAD').format(
             0)
     elif number_of_sub_alerts > 0 and number_of_sub_warnings > 0:
-        review_messages += local_translation('TEXT_REVIEW_CATEGORY_IS_OK').format(
+        review += local_translation('TEXT_REVIEW_CATEGORY_IS_OK').format(
             number_of_sub_alerts, number_of_sub_warnings, 0)
     elif number_of_sub_alerts > 0:
-        review_messages += local_translation('TEXT_REVIEW_CATEGORY_IS_OK').format(
+        review += local_translation('TEXT_REVIEW_CATEGORY_IS_OK').format(
             number_of_sub_alerts, number_of_sub_warnings, 0)
     elif number_of_sub_warnings > 0:
-        review_messages += local_translation('TEXT_REVIEW_CATEGORY_IS_GOOD').format(
+        review += local_translation('TEXT_REVIEW_CATEGORY_IS_GOOD').format(
             number_of_sub_warnings, 0)
-    elif header_id in ('headers', 'cookies'):
-        review_messages += local_translation('TEXT_REVIEW_CATEGORY_VERY_GOOD')
+    elif header.get('id') in ('headers', 'cookies'):
+        review += local_translation('TEXT_REVIEW_CATEGORY_VERY_GOOD')
     else:
-        review_messages += ": " + more_info
-
-    heading_rating.set_integrity_and_security(
-        points_for_current_result, review_messages)
-    return heading_rating
+        review += ": " + more_info
+    return review

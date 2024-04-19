@@ -8,6 +8,7 @@ You can read more about every method on the links below.
 
 - [Using GitHub Actions](getting-started-github-actions.md)
 - [Using Local Machine / Virtual Machine](getting-started-local.md)
+- [Using Docker](getting-started-docker-md)
 - [Other hosting](getting-started-others.md)
 
 After you have choosen then method to get started and followed the method specific instructions 

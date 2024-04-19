@@ -1,0 +1,14 @@
+.git
+.gitignore
+docs
+failures.log
+docker
+Dockerfile
+README.md
+LICENSE
+tmp
+cache
+node_modules
+geckodriver.log
+software-unknown-sources.json
+vnu.jar

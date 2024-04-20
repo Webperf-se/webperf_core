@@ -13,6 +13,16 @@ USERAGENT = get_config_or_default('useragent')
 REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
 
 def change_url_to_404_url(url):
+    """
+    This function modifies the given URL to simulate a 404 error page by appending a unique path.
+    It ensures that the total length of the new path does not exceed 200 characters.
+
+    Parameters:
+    url (str): The original URL to be modified.
+
+    Returns:
+    url2 (str): The modified URL simulating a 404 error page.
+    """
     o = urllib.parse.urlparse(url)
 
     path = f'{get_guid(5)}/finns-det-en-sida/pa-den-har-adressen/testanrop/'
@@ -97,6 +107,24 @@ def run_test(global_translation, lang_code, org_url):
     return (rating, result_dict)
 
 def rate_correct_language_text(soup, request_text, org_url, global_translation, local_translation):
+    """
+    This function checks if the language of the text on a webpage matches the
+    expected language ('sv' for Swedish).
+    It rates the text based on whether it matches certain strings associated with a 404 error
+    in the expected language.
+    The function returns a Rating object with overall and accessibility scores set based on
+    the language match.
+
+    Parameters:
+    soup (BeautifulSoup object): Parsed webpage content.
+    request_text (str): Text from the webpage.
+    org_url (str): Original URL of the webpage.
+    global_translation (function): Function to translate text globally.
+    local_translation (function): Function to translate text locally.
+
+    Returns:
+    rating_swedish_text (Rating object): Rating object with overall and accessibility scores.
+    """
     found_match = False
     # kollar innehållet
     page_lang = get_supported_lang_code_or_default(soup)
@@ -132,6 +160,10 @@ def rate_correct_language_text(soup, request_text, org_url, global_translation, 
     return rating_swedish_text
 
 def rate_response_header1(global_translation, result_dict, local_translation, soup):
+    """
+    Rates the response header (h1). If an h1 is found in the HTML soup,
+    it sets the overall, standards, and a11y ratings to 5.0. Otherwise, it sets them to 1.0.
+    """
     rating_h1 = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     h1 = soup.find('h1')
     if h1:
@@ -147,6 +179,10 @@ def rate_response_header1(global_translation, result_dict, local_translation, so
 
 
 def rate_response_title(global_translation, result_dict, local_translation, soup):
+    """
+    Rates the response title. If a title is found in the HTML soup,
+    it sets the overall, standards, and a11y ratings to 5.0. Otherwise, it sets them to 1.0.
+    """
     rating_title = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     title = soup.find('title')
     if title:
@@ -162,6 +198,10 @@ def rate_response_title(global_translation, result_dict, local_translation, soup
 
 
 def rate_response_status_code(global_translation, local_translation, code):
+    """
+    Rates the response status code. If the code is 404,
+    it sets the overall and standards rating to 5.0. Otherwise, it sets them to 1.0.
+    """
     rating_404 = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if code == 404:
         rating_404.set_overall(5.0, local_translation(
@@ -178,6 +218,10 @@ def rate_response_status_code(global_translation, local_translation, code):
 
 
 def get_supported_lang_code_or_default(soup):
+    """
+    Returns the language code ('sv' or 'en') from the HTML soup if present,
+    otherwise defaults to 'sv'.
+    """
     html = soup.find('html')
     if html and html.has_attr('lang'):
         lang_code = html.get('lang')
@@ -189,12 +233,18 @@ def get_supported_lang_code_or_default(soup):
 
 
 def get_404_texts(lang_code):
+    """
+    Returns a list of Swedish or English phrases commonly used in 404 error messages.
+    """
     if 'en' in lang_code:
         return get_404_texts_in_english()
     return get_404_texts_in_swedish()
 
 
 def get_404_texts_in_english():
+    """
+    Returns a list of English phrases commonly used in 404 error messages.
+    """
     four_o_four_strings = [
         # Saknas
         'missing',
@@ -329,6 +379,9 @@ def get_404_texts_in_english():
 
 
 def get_404_texts_in_swedish():
+    """
+    Returns a list of Swedish phrases commonly used in 404 error messages.
+    """
     four_o_four_strings = [
         'saknas',
         'finns inte',

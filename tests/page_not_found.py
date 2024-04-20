@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
-import ssl
-import sys
 from urllib.parse import ParseResult, urlunparse
 from datetime import datetime
 import urllib  # https://docs.python.org/3/library/urllib.parse.html
-import requests
 from bs4 import BeautifulSoup
 from models import Rating
-from tests.utils import get_config_or_default, get_guid, get_http_content, get_translation
+from tests.utils import get_config_or_default, get_guid,\
+    get_http_content,get_http_content_with_status, get_translation
 
 # DEFAULTS
 REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
@@ -15,7 +13,6 @@ USERAGENT = get_config_or_default('useragent')
 REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
 
 def change_url_to_404_url(url):
-
     o = urllib.parse.urlparse(url)
 
     path = f'{get_guid(5)}/finns-det-en-sida/pa-den-har-adressen/testanrop/'
@@ -53,64 +50,21 @@ def run_test(global_translation, lang_code, org_url):
 
     url = change_url_to_404_url(org_url)
 
-    headers = {
-        'user-agent': USERAGENT,
-        'Accept': ('text/html,'
-                   'application/xhtml+xml,'
-                   'application/xml;q=0.9,'
-                   'image/avif,'
-                   'image/webp,'
-                   '*/*;'
-                   'q=0.8')
-        }
-    code = 'unknown'
-    response = False
-    # checks http status code
-    try:
-        response = requests.get(url, allow_redirects=True,
-                               headers=headers, timeout=REQUEST_TIMEOUT)
-        code = response.status_code
-    except ssl.CertificateError as error:
-        print(f'Info: Certificate error. {error.reason}')
-    except requests.exceptions.SSLError as error:
-        if 'http://' in url:  # trying the same URL over SSL/TLS
-            print('Info: Trying SSL before giving up.')
-            return get_http_content(url.replace('http://', 'https://'))
-        print(f'Info: SSLError. {error}')
-    except requests.exceptions.ConnectionError as error:
-        if 'http://' in url:  # trying the same URL over SSL/TLS
-            print('Connection error! Info: Trying SSL before giving up.')
-            return get_http_content(url.replace('http://', 'https://'))
-        print(
-            'Connection error! Unfortunately the request for URL '
-            f'"{url}" failed.\nMessage:\n{sys.exc_info()[0]}')
-    except requests.exceptions.MissingSchema as error:
-        print(
-            'Connection error! Missing Schema for '
-            f'"{url}"')
-    except requests.exceptions.TooManyRedirects as error:
-        print(
-            'Connection error! Too many redirects for '
-            f'"{url}"')
-    except TimeoutError:
-        print(
-            'Error! Unfortunately the request for URL '
-            f'"{url}" timed out.'
-            f'The timeout is set to {REQUEST_TIMEOUT} seconds.\nMessage:\n{sys.exc_info()[0]}')
+    # checks http status code and content for url
+    request_text, code = get_http_content_with_status(url, allow_redirects=True,
+                                                      use_text_instead_of_content=True)
+    if code is None:
         code = 'unknown'
+
     rating += rate_response_status_code(global_translation, local_translation, code)
 
     result_dict['status_code'] = code
 
     # We use variable to validate it once
-    request_text = ''
     has_request_text = False
-    found_match = False
 
-    if response is not False:
-        if response.text:
-            request_text = response.text
-            has_request_text = True
+    if request_text != '':
+        has_request_text = True
 
     if has_request_text:
         soup = BeautifulSoup(request_text, 'lxml')
@@ -118,42 +72,8 @@ def run_test(global_translation, lang_code, org_url):
 
         rating += rate_response_header1(global_translation, result_dict, local_translation, soup)
 
-        # kollar innehållet
-        page_lang = get_supported_lang_code_or_default(soup)
-        if page_lang != 'sv':
-            content_rootpage = get_http_content(
-                org_url, allow_redirects=True)
-            soup_rootpage = BeautifulSoup(content_rootpage, 'lxml')
-            rootpage_lang = get_supported_lang_code_or_default(
-                soup_rootpage)
-            if rootpage_lang != page_lang:
-                page_lang = 'sv'
-
-        four_o_four_strings = get_404_texts(page_lang)
-
-        # print(four_o_four_strings)
-        text_from_page = request_text.lower()
-
-        # print(text_from_page)
-
-        for item in four_o_four_strings:
-            if item in text_from_page:
-                #points += 1.5
-                found_match = True
-                break
-
-    rating_swedish_text = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-    if found_match:
-        rating_swedish_text.set_overall(
-            5.0, local_translation('TEXT_REVIEW_NO_SWEDISH_ERROR_MSG'))
-        rating_swedish_text.set_a11y(5.0, local_translation(
-            'TEXT_REVIEW_NO_SWEDISH_ERROR_MSG'))
-    else:
-        rating_swedish_text.set_overall(
-            1.0, local_translation('TEXT_REVIEW_NO_SWEDISH_ERROR_MSG'))
-        rating_swedish_text.set_a11y(
-            1.0, local_translation('TEXT_REVIEW_NO_SWEDISH_ERROR_MSG'))
-    rating += rating_swedish_text
+        rating += rate_correct_language_text(soup, request_text, org_url,
+                                    global_translation, local_translation)
 
     # hur långt är inehållet
     rating_text_is_150_or_more = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
@@ -176,6 +96,40 @@ def run_test(global_translation, lang_code, org_url):
 
     return (rating, result_dict)
 
+def rate_correct_language_text(soup, request_text, org_url, global_translation, local_translation):
+    found_match = False
+    # kollar innehållet
+    page_lang = get_supported_lang_code_or_default(soup)
+    if page_lang != 'sv':
+        content_rootpage = get_http_content(
+            org_url, allow_redirects=True)
+        soup_rootpage = BeautifulSoup(content_rootpage, 'lxml')
+        rootpage_lang = get_supported_lang_code_or_default(
+            soup_rootpage)
+        if rootpage_lang != page_lang:
+            page_lang = 'sv'
+
+    four_o_four_strings = get_404_texts(page_lang)
+
+    text_from_page = request_text.lower()
+
+    for item in four_o_four_strings:
+        if item in text_from_page:
+            found_match = True
+            break
+
+    rating_swedish_text = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    if found_match:
+        rating_swedish_text.set_overall(
+            5.0, local_translation('TEXT_REVIEW_NO_SWEDISH_ERROR_MSG'))
+        rating_swedish_text.set_a11y(5.0, local_translation(
+            'TEXT_REVIEW_NO_SWEDISH_ERROR_MSG'))
+    else:
+        rating_swedish_text.set_overall(
+            1.0, local_translation('TEXT_REVIEW_NO_SWEDISH_ERROR_MSG'))
+        rating_swedish_text.set_a11y(
+            1.0, local_translation('TEXT_REVIEW_NO_SWEDISH_ERROR_MSG'))
+    return rating_swedish_text
 
 def rate_response_header1(global_translation, result_dict, local_translation, soup):
     rating_h1 = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)

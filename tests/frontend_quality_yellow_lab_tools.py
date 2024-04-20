@@ -3,6 +3,7 @@ import os
 import time
 from datetime import datetime
 import json
+import subprocess
 import requests
 from tests.utils import get_config_or_default, get_http_content, get_translation
 from models import Rating
@@ -10,9 +11,7 @@ from models import Rating
 # DEFAULTS
 REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
 REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
-time_sleep = get_config_or_default('WEBBKOLL_SLEEP')
-if time_sleep < 5:
-    time_sleep = 5
+TIME_SLEEP = max(get_config_or_default('WEBBKOLL_SLEEP'), 5)
 
 YLT_SERVER_ADDRESS = get_config_or_default('YLT_SERVER_ADDRESS')
 YLT_USE_API = get_config_or_default('YLT_USE_API')
@@ -32,41 +31,7 @@ def run_test(global_translation, lang_code, url, device='phone'):
     print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    if YLT_USE_API:
-        r = requests.post('{0}/api/runs'.format(YLT_SERVER_ADDRESS),
-                          data={'url': url, "waitForResponse": 'true', 'device': device})
-
-        result_url = r.url
-
-        running_info = json.loads(r.text)
-        test_id = running_info['runId']
-
-        running_status = 'running'
-        while running_status == 'running':
-            running_json = get_http_content(
-                '{0}/api/runs/{1}'.format(YLT_SERVER_ADDRESS, test_id))
-            running_info = json.loads(running_json)
-            running_status = running_info['status']['statusCode']
-            time.sleep(time_sleep)
-
-        result_url = '{0}/api/results/{1}?exclude=toolsResults'.format(
-            YLT_SERVER_ADDRESS, test_id)
-        result_json = get_http_content(result_url)
-    else:
-        import subprocess
-
-        command = "node node_modules{1}yellowlabtools{1}bin{1}cli.js {0}".format(
-            url, os.path.sep)
-        process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
-        output, _ = process.communicate(timeout=REQUEST_TIMEOUT * 10)
-
-        result_json = output
-
-    #print('result_url', result_url)
-
-    result_dict = json.loads(result_json)
-
-    #print('result_json', result_json)
+    result_dict = get_ylt_result(url, device)
 
     return_dict = {}
     yellow_lab = 0
@@ -78,68 +43,16 @@ def run_test(global_translation, lang_code, url, device='phone'):
     review = ''
     for key in result_dict['scoreProfiles']['generic']['categories'].keys():
 
-        review += '- ' + global_translation('TEXT_TEST_REVIEW_RATING_ITEM').format(local_translation(result_dict['scoreProfiles']['generic']['categories'][key]['label']), to_points(
-            result_dict['scoreProfiles']['generic']['categories'][key]['categoryScore']))
+        review += '- ' + global_translation('TEXT_TEST_REVIEW_RATING_ITEM').format(
+            local_translation(
+                result_dict['scoreProfiles']['generic']['categories'][key]['label']
+                ), to_points(
+            result_dict['scoreProfiles']['generic']['categories'][key]['categoryScore'])
+            )
 
     points = to_points(yellow_lab)
 
-    performance_keys = ['totalWeight', 'imageOptimization',
-                        'imagesTooLarge', 'compression', 'fileMinification',
-                        'totalRequests', 'domains', 'notFound', 'identicalFiles',
-                        'lazyLoadableImagesBelowTheFold', 'iframesCount', 'scriptDuration',
-                        'DOMaccesses', 'eventsScrollBound', 'documentWriteCalls',
-                        'synchronousXHR', 'cssRules', 'fontsCount',
-                        'heavyFonts', 'nonWoff2Fonts', 'oldHttpProtocol',
-                        'oldTlsProtocol', 'closedConnections', 'cachingNotSpecified',
-                        'cachingDisabled', 'cachingTooShort']
-    security_keys = ['jQueryVersion', 'oldTlsProtocol']
-    standards_keys = ['compression', 'notFound', 'DOMidDuplicated',
-                      'cssParsingErrors', 'oldTlsProtocol']
-
-    try:
-        for rule_key in result_dict['rules'].keys():
-            rule = result_dict['rules'][rule_key]
-            rule_score = to_points(rule['score'])
-            #rule_value = rule['value']
-            #rule_is_bad = rule['bad']
-            #rule_is_abnormal = rule['abnormal']
-
-            rule_label = '- {0}'.format(
-                local_translation(rule['policy']['label']))
-
-            matching_one_category_or_more = False
-            # only do stuff for rules we know how to place in category
-            if rule_key in performance_keys:
-                matching_one_category_or_more = True
-                rule_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                rule_rating.set_performance(
-                    rule_score, rule_label)
-                rating += rule_rating
-
-            if rule_key in security_keys:
-                matching_one_category_or_more = True
-                rule_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                rule_rating.set_integrity_and_security(
-                    rule_score, rule_label)
-                rating += rule_rating
-
-            if rule_key in standards_keys:
-                matching_one_category_or_more = True
-                rule_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                rule_rating.set_standards(
-                    rule_score, rule_label)
-                rating += rule_rating
-
-            # if not matching_one_category_or_more:
-            #     rule_rating = Rating(global_translation, review_show_improvements_only)
-            #     rule_rating.over(
-            #                 rule_score, rule_label)
-            #     rating += rule_rating
-            #     print('unmtached rule: {0}: {1}'.format(
-            #        key, rule_score))
-
-    except:
-        do = None
+    rating += add_category_ratings(global_translation, local_translation, result_dict)
 
     review_overall = ''
     if points >= 5:
@@ -162,12 +75,120 @@ def run_test(global_translation, lang_code, url, device='phone'):
 
     return (rating, return_dict)
 
+def get_ylt_result(url, device):
+    """
+    This function retrieves the Yellow Lab Tools (YLT) analysis result for a given URL and device.
+    
+    Parameters:
+    url (str): The URL of the webpage to analyze.
+    device (str): The type of device to simulate for the analysis.
+
+    Returns:
+    dict: The result of the YLT analysis in dictionary format.
+    """
+    result_json = None
+    if YLT_USE_API:
+        response = requests.post(
+            f'{YLT_SERVER_ADDRESS}/api/runs',
+            data={'url': url, "waitForResponse": 'true', 'device': device}, timeout=REQUEST_TIMEOUT)
+
+        result_url = response.url
+
+        running_info = json.loads(response.text)
+        test_id = running_info['runId']
+
+        running_status = 'running'
+        while running_status == 'running':
+            running_json = get_http_content(f'{YLT_SERVER_ADDRESS}/api/runs/{test_id}')
+            running_info = json.loads(running_json)
+            running_status = running_info['status']['statusCode']
+            time.sleep(TIME_SLEEP)
+
+        result_url = f'{YLT_SERVER_ADDRESS}/api/results/{test_id}?exclude=toolsResults'
+        result_json = get_http_content(result_url)
+    else:
+        command = (
+            f"node node_modules{os.path.sep}yellowlabtools{os.path.sep}bin"
+            f"{os.path.sep}cli.js {url}")
+        with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
+            output, _ = process.communicate(timeout=REQUEST_TIMEOUT * 10)
+            result_json = output
+
+    result_dict = json.loads(result_json)
+    return result_dict
+
+def add_category_ratings(global_translation, local_translation, result_dict):
+    """
+    This function adds category ratings to the Yellow Lab Tools (YLT) analysis result.
+    
+    Parameters:
+    global_translation (function): Function to translate global terms.
+    local_translation (function): Function to translate local terms.
+    result_dict (dict): The YLT analysis result in dictionary format.
+
+    Returns:
+    Rating: The rating object with performance, integrity and security, and standards ratings.
+    """
+    performance_keys = ['totalWeight', 'imageOptimization',
+                        'imagesTooLarge', 'compression', 'fileMinification',
+                        'totalRequests', 'domains', 'notFound', 'identicalFiles',
+                        'lazyLoadableImagesBelowTheFold', 'iframesCount', 'scriptDuration',
+                        'DOMaccesses', 'eventsScrollBound', 'documentWriteCalls',
+                        'synchronousXHR', 'cssRules', 'fontsCount',
+                        'heavyFonts', 'nonWoff2Fonts', 'oldHttpProtocol',
+                        'oldTlsProtocol', 'closedConnections', 'cachingNotSpecified',
+                        'cachingDisabled', 'cachingTooShort']
+    security_keys = ['jQueryVersion', 'oldTlsProtocol']
+    standards_keys = ['compression', 'notFound', 'DOMidDuplicated',
+                      'cssParsingErrors', 'oldTlsProtocol']
+
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    for rule_key, rule in result_dict['rules'].items():
+        if 'score' not in rule:
+            continue
+        rule_score = to_points(rule['score'])
+
+        if 'policy' not in rule:
+            continue
+
+        if 'label' not in rule['policy']:
+            continue
+
+        rule_label = f'- {local_translation(rule['policy']['label'])}'
+
+        # only do stuff for rules we know how to place in category
+        if rule_key in performance_keys:
+            rule_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            rule_rating.set_performance(
+                rule_score, rule_label)
+            rating += rule_rating
+
+        if rule_key in security_keys:
+            rule_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            rule_rating.set_integrity_and_security(
+                rule_score, rule_label)
+            rating += rule_rating
+
+        if rule_key in standards_keys:
+            rule_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            rule_rating.set_standards(
+                rule_score, rule_label)
+            rating += rule_rating
+    return rating
+
 
 def to_points(value):
+    """
+    This function converts a value to a point scale between 1.0 and 5.0.
+    
+    Parameters:
+    value (int): The value to be converted to points.
+
+    Returns:
+    float: The value converted to points, rounded to two decimal places.
+    """
     points = 5.0 * (int(value) / 100)
-    if points > 5.0:
-        points = 5.0
-    if points < 1.0:
-        points = 1.0
-    points = float("{0:.2f}".format(points))
+    points = min(points, 5.0)
+    points = max(points, 1.0)
+    points = float(f"{points:.2f}")
     return points

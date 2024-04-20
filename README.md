@@ -1,8 +1,3 @@
-# Fick du ett mejl av MSB?
-Då vill du nog [läsa dokumentationen om vårt mjukvarutest](https://github.com/Webperf-se/webperf_core/blob/main/docs/tests/software.md).
-
----
-
 The project goal is to help identify and improve the web over time, one improvment at a time.
 It tries to do this by giving you a weighted list of improvment you can (and probably should do) to your website.
 

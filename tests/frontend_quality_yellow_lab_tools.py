@@ -76,6 +76,16 @@ def run_test(global_translation, lang_code, url, device='phone'):
     return (rating, return_dict)
 
 def get_ylt_result(url, device):
+    """
+    This function retrieves the Yellow Lab Tools (YLT) analysis result for a given URL and device.
+    
+    Parameters:
+    url (str): The URL of the webpage to analyze.
+    device (str): The type of device to simulate for the analysis.
+
+    Returns:
+    dict: The result of the YLT analysis in dictionary format.
+    """
     result_json = None
     if YLT_USE_API:
         response = requests.post(
@@ -84,7 +94,6 @@ def get_ylt_result(url, device):
 
         result_url = response.url
 
-        print('A', response.text)
         running_info = json.loads(response.text)
         test_id = running_info['runId']
 
@@ -109,6 +118,17 @@ def get_ylt_result(url, device):
     return result_dict
 
 def add_category_ratings(global_translation, local_translation, result_dict):
+    """
+    This function adds category ratings to the Yellow Lab Tools (YLT) analysis result.
+    
+    Parameters:
+    global_translation (function): Function to translate global terms.
+    local_translation (function): Function to translate local terms.
+    result_dict (dict): The YLT analysis result in dictionary format.
+
+    Returns:
+    Rating: The rating object with performance, integrity and security, and standards ratings.
+    """
     performance_keys = ['totalWeight', 'imageOptimization',
                         'imagesTooLarge', 'compression', 'fileMinification',
                         'totalRequests', 'domains', 'notFound', 'identicalFiles',
@@ -158,6 +178,15 @@ def add_category_ratings(global_translation, local_translation, result_dict):
 
 
 def to_points(value):
+    """
+    This function converts a value to a point scale between 1.0 and 5.0.
+    
+    Parameters:
+    value (int): The value to be converted to points.
+
+    Returns:
+    float: The value converted to points, rounded to two decimal places.
+    """
     points = 5.0 * (int(value) / 100)
     points = min(points, 5.0)
     points = max(points, 1.0)

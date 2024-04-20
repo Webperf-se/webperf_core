@@ -354,6 +354,79 @@ def set_cache_file(url, content, use_text_instead_of_content):
         with open(cache_path, 'wb') as file:
             file.write(content)
 
+def get_http_content_with_status(url, allow_redirects=False, use_text_instead_of_content=True):
+    """
+    Retrieves the content of the specified URL and caches it.
+    NOTE: This function is NOT retrieving content from cache.
+
+    A GET request is sent to the URL.
+    The content of the response is then cached and returned with corresponding status code.
+
+    In case of SSL or connection errors, the function retries the request 
+    using HTTPS if the original URL used HTTP. If the request times out, 
+    an error message is printed.
+
+    Args:
+        url (str): The URL to retrieve the content from.
+        allow_redirects (bool, optional): Whether to follow redirects. 
+                                           Defaults to False.
+        use_text_instead_of_content (bool, optional): Whether to retrieve 
+                                                      the response content 
+                                                      as text (True) or 
+                                                      binary (False). 
+                                                      Defaults to True.
+
+    Returns:
+        str or bytes: The content of the URL.
+    """
+    try:
+        headers = {'user-agent': USERAGENT}
+        hostname = urlparse(url).hostname
+        if hostname == 'api.github.com' and GITHUB_APIKEY is not None:
+            headers['authorization'] = f'Bearer {GITHUB_APIKEY}'
+        response = requests.get(url, allow_redirects=allow_redirects,
+                         headers=headers, timeout=REQUEST_TIMEOUT*2)
+
+        if use_text_instead_of_content:
+            content = response.text
+        else:
+            content = response.content
+
+        set_cache_file(url, content, use_text_instead_of_content)
+        return content, response.status_code
+    except ssl.CertificateError as error:
+        print(f'Info: Certificate error. {error.reason}')
+    except requests.exceptions.SSLError as error:
+        if 'http://' in url:  # trying the same URL over SSL/TLS
+            print('Info: Trying SSL before giving up.')
+            return get_http_content(url.replace('http://', 'https://'))
+        print(f'Info: SSLError. {error}')
+    except requests.exceptions.ConnectionError as error:
+        if 'http://' in url:  # trying the same URL over SSL/TLS
+            print('Connection error! Info: Trying SSL before giving up.')
+            return get_http_content(url.replace('http://', 'https://'))
+        print(
+            'Connection error! Unfortunately the request for URL '
+            f'"{url}" failed.\nMessage:\n{sys.exc_info()[0]}')
+    except requests.exceptions.MissingSchema as error:
+        print(
+            'Connection error! Missing Schema for '
+            f'"{url}"')
+    except requests.exceptions.TooManyRedirects as error:
+        print(
+            'Connection error! Too many redirects for '
+            f'"{url}"')
+    except requests.exceptions.InvalidURL:
+        print(
+            'Connection error! Invalid url '
+            f'"{url}"')
+    except TimeoutError:
+        print(
+            'Error! Unfortunately the request for URL '
+            f'"{url}" timed out.'
+            f'The timeout is set to {REQUEST_TIMEOUT} seconds.\nMessage:\n{sys.exc_info()[0]}')
+    return '', None
+
 def get_http_content(url, allow_redirects=False, use_text_instead_of_content=True):
     """
     Retrieves the content of the specified URL and caches it.
@@ -389,13 +462,13 @@ def get_http_content(url, allow_redirects=False, use_text_instead_of_content=Tru
         hostname = urlparse(url).hostname
         if hostname == 'api.github.com' and GITHUB_APIKEY is not None:
             headers['authorization'] = f'Bearer {GITHUB_APIKEY}'
-        a = requests.get(url, allow_redirects=allow_redirects,
+        response = requests.get(url, allow_redirects=allow_redirects,
                          headers=headers, timeout=REQUEST_TIMEOUT*2)
 
         if use_text_instead_of_content:
-            content = a.text
+            content = response.text
         else:
-            content = a.content
+            content = response.content
 
         set_cache_file(url, content, use_text_instead_of_content)
         return content
@@ -420,6 +493,10 @@ def get_http_content(url, allow_redirects=False, use_text_instead_of_content=Tru
     except requests.exceptions.TooManyRedirects as error:
         print(
             'Connection error! Too many redirects for '
+            f'"{url}"')
+    except requests.exceptions.InvalidURL:
+        print(
+            'Connection error! Invalid url '
             f'"{url}"')
     except TimeoutError:
         print(

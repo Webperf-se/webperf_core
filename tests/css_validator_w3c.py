@@ -39,15 +39,23 @@ def run_test(global_translation, lang_code, url):
     print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
+    result_dict = {
+        'has_style_elements': False,
+        'has_style_attributes': False,
+        'has_css_files': False,
+        'errors': {
+            'all': [],
+            'style_element': [],
+            'style_attribute': [],
+            'style_files': []
+        }
+    }
     errors = []
 
     # We don't need extra iterations for what we are using it for
     data = get_result(url)
     # 2. FIND ALL INLE CSS (AND CALCULTE)
     # 2.1 FINS ALL <STYLE>
-    has_style_elements = False
-    has_style_attributes = False
-    has_css_files = False
     all_link_resources = []
 
     for entry in data['htmls']:
@@ -56,7 +64,9 @@ def run_test(global_translation, lang_code, url):
         html = entry['content']
         (elements, errors) = get_errors_for_style_tags(req_url, html)
         if len(elements) > 0:
-            has_style_elements = True
+            result_dict['has_style_elements'] = True
+            result_dict['errors']['all'].extend(errors)
+            result_dict['errors']['style_element'].extend(errors)
             rating += create_review_and_rating(
                 errors,
                 global_translation,
@@ -66,7 +76,9 @@ def run_test(global_translation, lang_code, url):
         # 2.2 FIND ALL style=""
         (elements, errors) = get_errors_for_style_attributes(req_url, html)
         if len(elements) > 0:
-            has_style_attributes = True
+            result_dict['has_style_attributes'] = True
+            result_dict['errors']['all'].extend(errors)
+            result_dict['errors']['style_attribute'].extend(errors)
             rating += create_review_and_rating(
                 errors,
                 global_translation,
@@ -79,7 +91,9 @@ def run_test(global_translation, lang_code, url):
         (link_resources, errors) = get_errors_for_link_tags(html, url)
         if len(link_resources) > 0:
             all_link_resources.extend(link_resources)
-            has_css_files = True
+            result_dict['has_css_files'] = True
+            result_dict['errors']['all'].extend(errors)
+            result_dict['errors']['style_files'].extend(errors)
             rating += create_review_and_rating(
                 errors,
                 global_translation,
@@ -96,15 +110,19 @@ def run_test(global_translation, lang_code, url):
         if data_resource_info_to_remove is not None:
             data['resources'].remove(data_resource_info_to_remove)
 
-    errors, tmp_rating = rate_css(global_translation, local_translation, data, has_style_elements, has_style_attributes, has_css_files)
+    errors, tmp_rating = rate_css(
+        global_translation,
+        local_translation,
+        data,
+        result_dict)
     rating += tmp_rating
 
     print(global_translation('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    return (rating, errors)
+    return (rating, result_dict)
 
-def rate_css(global_translation, local_translation, data, has_style_elements, has_style_attributes, has_css_files):
+def rate_css(global_translation, local_translation, data, result_dict):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     has_css_contenttypes = False
     errors = []
@@ -121,7 +139,7 @@ def rate_css(global_translation, local_translation, data, has_style_elements, ha
             f'- `content-type=\".*css.*\"` in: {name}')
 
     # Give full points if nothing was found
-    if not has_style_elements:
+    if not result_dict['has_style_elements']:
         errors_type_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         errors_type_rating.set_overall(5.0)
         errors_type_rating.set_standards(5.0,
@@ -134,7 +152,7 @@ def rate_css(global_translation, local_translation, data, has_style_elements, ha
         errors_rating.set_standards(5.0,
             '- `<style>`' + local_translation('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0))
         rating += errors_rating
-    if not has_style_attributes:
+    if not result_dict['has_style_attributes']:
         errors_type_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         errors_type_rating.set_overall(5.0)
         errors_type_rating.set_standards(5.0,
@@ -147,7 +165,7 @@ def rate_css(global_translation, local_translation, data, has_style_elements, ha
         errors_rating.set_standards(5.0,
             '- `style=""`' + local_translation('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0))
         rating += errors_rating
-    if not has_css_files:
+    if not result_dict['has_css_files']:
         errors_type_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         errors_type_rating.set_overall(5.0)
         txt = '- `<link rel=\"stylesheet\">`' +\

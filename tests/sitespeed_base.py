@@ -68,9 +68,9 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
     filename = ''
     # Should we use cache when available?
     if USE_CACHE:
-        result_folder_name, filename = get_cached_result(url, hostname)
-    if filename != '':
-        return (result_folder_name, filename)
+        tmp_result_folder_name, filename = get_cached_result(url, hostname)
+        if filename != '':
+            return (tmp_result_folder_name, filename)
 
     test = get_result_using_no_cache(sitespeed_use_docker, sitespeed_arg, timeout)
     test = test.replace('\\n', '\r\n').replace('\\\\', '\\')
@@ -104,6 +104,8 @@ def get_cached_result(url, hostname):
     # added for firefox support
     url2 = to_firefox_url_format(url)
 
+    filename = ''
+    result_folder_name = ''
     sites = sitespeed_cache.read_sites(hostname, -1, -1)
     for site in sites:
         if url == site[1] or url2 == site[1]:
@@ -406,7 +408,7 @@ def get_browsertime_har_path(parent_path):
         str: The path of the 'browsertime.har' file if found, else None.
     """
     if not os.path.exists(parent_path):
-        return None
+        return ''
 
     sub_dirs = os.listdir(parent_path)
     if 'browsertime.har' in sub_dirs:
@@ -417,4 +419,4 @@ def get_browsertime_har_path(parent_path):
         if tmp:
             return tmp
 
-    return None
+    return ''

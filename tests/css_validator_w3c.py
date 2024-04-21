@@ -24,9 +24,6 @@ REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_
 SITESPEED_USE_DOCKER = get_config_or_default('sitespeed_use_docker')
 SITESPEED_TIMEOUT = get_config_or_default('sitespeed_timeout')
 
-global css_features
-global css_properties_doesnt_exist
-
 
 def run_test(global_translation, lang_code, url):
     """
@@ -326,8 +323,8 @@ def get_errors_for_url(url):
     return get_errors('css', params)
 
 def get_mdn_web_docs_css_features():
-    css_features = {}
-    css_functions = {}
+    features = {}
+    functions = {}
 
     html = get_http_content(
         'https://developer.mozilla.org/en-US/docs/Web/CSS/Reference')
@@ -345,14 +342,14 @@ def get_mdn_web_docs_css_features():
                     property_name = matches.group('name')
                     is_function = matches.group('func') in '()'
                     if is_function:
-                        css_functions[f"{property_name}"] = link.get('href')
+                        functions[f"{property_name}"] = link.get('href')
                     else:
-                        css_features[f"{property_name}"] = link.get('href')
+                        features[f"{property_name}"] = link.get('href')
         else:
             print('no index element found')
     except:
         print(f'Error! "{sys.exc_info()[0]}"')
-    return (css_features, css_functions)
+    return (features, functions)
 
 
 css_spec = get_mdn_web_docs_css_features()
@@ -367,14 +364,12 @@ def get_properties_doesnt_exist_list():
         result.append(f'Property “{item}” doesn\'t exist')
     return result
 
-
 def get_function_is_not_a_value_list():
     result = []
     css_functions_keys = css_functions.keys()
     for item in css_functions_keys:
         result.append(f'{item}(')
     return result
-
 
 css_properties_doesnt_exist = get_properties_doesnt_exist_list()
 css_functions_no_support = get_function_is_not_a_value_list()

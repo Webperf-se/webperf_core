@@ -11,7 +11,7 @@ from models import Rating
 from tests.utils import get_friendly_url_name, get_http_content,\
      get_translation, set_cache_file, get_config_or_default
 from tests.w3c_base import get_errors, identify_files
-from tests.sitespeed_base import get_result
+from tests.sitespeed_base import get_result as get_sitespeed_result
 
 # DEFAULTS
 REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
@@ -42,43 +42,12 @@ def run_test(global_translation, lang_code, url):
     errors = []
 
     # We don't need extra iterations for what we are using it for
-    sitespeed_iterations = 1
-    sitespeed_arg = (
-        '--shm-size=1g '
-        '-b chrome '
-        '--plugins.remove screenshot '
-        '--plugins.remove html '
-        '--plugins.remove metrics '
-        '--browsertime.screenshot false '
-        '--screenshot false '
-        '--screenshotLCP false '
-        '--browsertime.screenshotLCP false '
-        '--chrome.cdp.performance false '
-        '--browsertime.chrome.timeline false '
-        '--videoParams.createFilmstrip false '
-        '--visualMetrics false '
-        '--visualMetricsPerceptual false '
-        '--visualMetricsContentful false '
-        '--browsertime.headless true '
-        '--browsertime.chrome.includeResponseBodies all '
-        '--utc true '
-        f'--browsertime.chrome.args ignore-certificate-errors -n {sitespeed_iterations}')
-    if 'nt' not in os.name:
-        sitespeed_arg += ' --xvfb'
-
-    sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'
-
-    (_, filename) = get_result(
-        url, SITESPEED_USE_DOCKER, sitespeed_arg, SITESPEED_TIMEOUT)
-
-    # 1. Visit page like a normal user
-    data = identify_files(filename)
+    data = get_result(url)
     # 2. FIND ALL INLE CSS (AND CALCULTE)
     # 2.1 FINS ALL <STYLE>
     has_style_elements = False
     has_style_attributes = False
     has_css_files = False
-    has_css_contenttypes = False
     all_link_resources = []
 
     for entry in data['htmls']:
@@ -127,6 +96,17 @@ def run_test(global_translation, lang_code, url):
         if data_resource_info_to_remove is not None:
             data['resources'].remove(data_resource_info_to_remove)
 
+    errors, tmp_rating = rate_css(global_translation, local_translation, data, has_style_elements, has_style_attributes, has_css_files)
+    rating += tmp_rating
+
+    print(global_translation('TEXT_TEST_END').format(
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+    return (rating, errors)
+
+def rate_css(global_translation, local_translation, data, has_style_elements, has_style_attributes, has_css_files):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    has_css_contenttypes = False
     errors = []
     for data_resource_info in data['resources']:
         has_css_contenttypes = True
@@ -213,10 +193,41 @@ def run_test(global_translation, lang_code, url):
 
     rating.overall_review = review
 
-    print(global_translation('TEXT_TEST_END').format(
-        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+    return errors,rating
 
-    return (rating, errors)
+def get_result(url):
+    sitespeed_iterations = 1
+    sitespeed_arg = (
+        '--shm-size=1g '
+        '-b chrome '
+        '--plugins.remove screenshot '
+        '--plugins.remove html '
+        '--plugins.remove metrics '
+        '--browsertime.screenshot false '
+        '--screenshot false '
+        '--screenshotLCP false '
+        '--browsertime.screenshotLCP false '
+        '--chrome.cdp.performance false '
+        '--browsertime.chrome.timeline false '
+        '--videoParams.createFilmstrip false '
+        '--visualMetrics false '
+        '--visualMetricsPerceptual false '
+        '--visualMetricsContentful false '
+        '--browsertime.headless true '
+        '--browsertime.chrome.includeResponseBodies all '
+        '--utc true '
+        f'--browsertime.chrome.args ignore-certificate-errors -n {sitespeed_iterations}')
+    if 'nt' not in os.name:
+        sitespeed_arg += ' --xvfb'
+
+    sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'
+
+    (_, filename) = get_sitespeed_result(
+        url, SITESPEED_USE_DOCKER, sitespeed_arg, SITESPEED_TIMEOUT)
+
+    # 1. Visit page like a normal user
+    data = identify_files(filename)
+    return data
 
 def get_errors_for_link_tags(html, url):
     results = []

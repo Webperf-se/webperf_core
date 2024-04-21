@@ -50,7 +50,6 @@ def run_test(global_translation, lang_code, url):
             'style_files': []
         }
     }
-    errors = []
 
     # We don't need extra iterations for what we are using it for
     data = get_result(url)
@@ -59,46 +58,14 @@ def run_test(global_translation, lang_code, url):
     all_link_resources = []
 
     for entry in data['htmls']:
-        req_url = entry['url']
-        name = get_friendly_url_name(global_translation, req_url, entry['index'])
-        html = entry['content']
-        (elements, errors) = get_errors_for_style_tags(req_url, html)
-        if len(elements) > 0:
-            result_dict['has_style_elements'] = True
-            result_dict['errors']['all'].extend(errors)
-            result_dict['errors']['style_element'].extend(errors)
-            rating += create_review_and_rating(
-                errors,
-                global_translation,
-                local_translation,
-                f'- `<style>` in: {name}')
-
-        # 2.2 FIND ALL style=""
-        (elements, errors) = get_errors_for_style_attributes(req_url, html)
-        if len(elements) > 0:
-            result_dict['has_style_attributes'] = True
-            result_dict['errors']['all'].extend(errors)
-            result_dict['errors']['style_attribute'].extend(errors)
-            rating += create_review_and_rating(
-                errors,
-                global_translation,
-                local_translation,
-                f'- `style=""` in: {name}')
-
-        # 2.3 GET ERRORS FROM SERVICE
-        # 2.4 CALCULATE SCORE
-        # 3 FIND ALL <LINK> (rel=\"stylesheet\")
-        (link_resources, errors) = get_errors_for_link_tags(html, url)
-        if len(link_resources) > 0:
-            all_link_resources.extend(link_resources)
-            result_dict['has_css_files'] = True
-            result_dict['errors']['all'].extend(errors)
-            result_dict['errors']['style_files'].extend(errors)
-            rating += create_review_and_rating(
-                errors,
-                global_translation,
-                local_translation,
-                f'- `<link rel=\"stylesheet\">` in: {name}')
+        tmp_all_link_resources, tmp_rating = handle_entry(
+            entry,
+            global_translation,
+            url,
+            local_translation,
+            result_dict)
+        rating += tmp_rating
+        all_link_resources.extend(tmp_all_link_resources)
 
     # 4 Check if website inlcuded css files in other ways
     for link_resource in all_link_resources:
@@ -110,7 +77,7 @@ def run_test(global_translation, lang_code, url):
         if data_resource_info_to_remove is not None:
             data['resources'].remove(data_resource_info_to_remove)
 
-    errors, tmp_rating = rate_css(
+    tmp_rating = rate_css(
         global_translation,
         local_translation,
         data,
@@ -121,6 +88,51 @@ def run_test(global_translation, lang_code, url):
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, result_dict)
+
+def handle_entry(entry, global_translation, url, local_translation, result_dict):
+    all_link_resources = []
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    req_url = entry['url']
+    name = get_friendly_url_name(global_translation, req_url, entry['index'])
+    html = entry['content']
+    (elements, errors) = get_errors_for_style_tags(req_url, html)
+    if len(elements) > 0:
+        result_dict['has_style_elements'] = True
+        result_dict['errors']['all'].extend(errors)
+        result_dict['errors']['style_element'].extend(errors)
+        rating += create_review_and_rating(
+                errors,
+                global_translation,
+                local_translation,
+                f'- `<style>` in: {name}')
+
+        # 2.2 FIND ALL style=""
+    (elements, errors) = get_errors_for_style_attributes(req_url, html)
+    if len(elements) > 0:
+        result_dict['has_style_attributes'] = True
+        result_dict['errors']['all'].extend(errors)
+        result_dict['errors']['style_attribute'].extend(errors)
+        rating += create_review_and_rating(
+                errors,
+                global_translation,
+                local_translation,
+                f'- `style=""` in: {name}')
+
+        # 2.3 GET ERRORS FROM SERVICE
+        # 2.4 CALCULATE SCORE
+        # 3 FIND ALL <LINK> (rel=\"stylesheet\")
+    (link_resources, errors) = get_errors_for_link_tags(html, url)
+    if len(link_resources) > 0:
+        all_link_resources.extend(link_resources)
+        result_dict['has_css_files'] = True
+        result_dict['errors']['all'].extend(errors)
+        result_dict['errors']['style_files'].extend(errors)
+        rating += create_review_and_rating(
+                errors,
+                global_translation,
+                local_translation,
+                f'- `<link rel=\"stylesheet\">` in: {name}')
+    return all_link_resources, rating
 
 def rate_css(global_translation, local_translation, data, result_dict):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
@@ -140,60 +152,16 @@ def rate_css(global_translation, local_translation, data, result_dict):
 
     # Give full points if nothing was found
     if not result_dict['has_style_elements']:
-        errors_type_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        errors_type_rating.set_overall(5.0)
-        errors_type_rating.set_standards(5.0,
-            '- `<style>`' + local_translation('TEXT_REVIEW_RATING_GROUPED').format(
-            0, 0.0))
-        rating += errors_type_rating
+        rating += rate_style_elements(global_translation, local_translation)
 
-        errors_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        errors_rating.set_overall(5.0)
-        errors_rating.set_standards(5.0,
-            '- `<style>`' + local_translation('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0))
-        rating += errors_rating
     if not result_dict['has_style_attributes']:
-        errors_type_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        errors_type_rating.set_overall(5.0)
-        errors_type_rating.set_standards(5.0,
-            '- `style=""`'+ local_translation('TEXT_REVIEW_RATING_GROUPED').format(
-            0, 0.0))
-        rating += errors_type_rating
+        rating += rate_style_attributes(global_translation, local_translation)
 
-        errors_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        errors_rating.set_overall(5.0)
-        errors_rating.set_standards(5.0,
-            '- `style=""`' + local_translation('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0))
-        rating += errors_rating
     if not result_dict['has_css_files']:
-        errors_type_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        errors_type_rating.set_overall(5.0)
-        txt = '- `<link rel=\"stylesheet\">`' +\
-               local_translation('TEXT_REVIEW_RATING_GROUPED').format(0, 0.0)
-        errors_type_rating.set_standards(5.0, txt)
-        rating += errors_type_rating
-
-        errors_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        errors_rating.set_overall(5.0)
-        errors_rating.set_standards(5.0,
-            '- `<link rel=\"stylesheet\">`' +\
-            local_translation('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0))
-        rating += errors_rating
+        rating += rate_css_files(global_translation, local_translation)
 
     if not has_css_contenttypes:
-        errors_type_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        errors_type_rating.set_overall(5.0)
-        errors_type_rating.set_standards(5.0,
-            '- `content-type=\".*css.*\"`' + local_translation('TEXT_REVIEW_RATING_GROUPED').format(
-            0, 0.0))
-        rating += errors_type_rating
-
-        errors_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        errors_rating.set_overall(5.0)
-        errors_rating.set_standards(5.0,
-            '- `content-type=\".*css.*\"`' +\
-            local_translation('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0))
-        rating += errors_rating
+        rating += rate_css_contenttypes(global_translation, local_translation)
 
     points = rating.get_overall()
 
@@ -211,7 +179,73 @@ def rate_css(global_translation, local_translation, data, result_dict):
 
     rating.overall_review = review
 
-    return errors,rating
+    return rating
+
+def rate_css_contenttypes(global_translation, local_translation):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    errors_type_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    errors_type_rating.set_overall(5.0)
+    errors_type_rating.set_standards(5.0,
+            '- `content-type=\".*css.*\"`' + local_translation('TEXT_REVIEW_RATING_GROUPED').format(
+            0, 0.0))
+    rating += errors_type_rating
+
+    errors_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    errors_rating.set_overall(5.0)
+    errors_rating.set_standards(5.0,
+            '- `content-type=\".*css.*\"`' +\
+            local_translation('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0))
+    rating += errors_rating
+    return rating
+
+def rate_css_files(global_translation, local_translation):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    errors_type_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    errors_type_rating.set_overall(5.0)
+    txt = '- `<link rel=\"stylesheet\">`' +\
+               local_translation('TEXT_REVIEW_RATING_GROUPED').format(0, 0.0)
+    errors_type_rating.set_standards(5.0, txt)
+    rating += errors_type_rating
+
+    errors_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    errors_rating.set_overall(5.0)
+    errors_rating.set_standards(5.0,
+            '- `<link rel=\"stylesheet\">`' +\
+            local_translation('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0))
+    rating += errors_rating
+    return rating
+
+def rate_style_attributes(global_translation, local_translation):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    errors_type_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    errors_type_rating.set_overall(5.0)
+    errors_type_rating.set_standards(5.0,
+            '- `style=""`'+ local_translation('TEXT_REVIEW_RATING_GROUPED').format(
+            0, 0.0))
+    rating += errors_type_rating
+
+    errors_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    errors_rating.set_overall(5.0)
+    errors_rating.set_standards(5.0,
+            '- `style=""`' + local_translation('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0))
+    rating += errors_rating
+    return rating
+
+def rate_style_elements(global_translation, local_translation):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    errors_type_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    errors_type_rating.set_overall(5.0)
+    errors_type_rating.set_standards(5.0,
+            '- `<style>`' + local_translation('TEXT_REVIEW_RATING_GROUPED').format(
+            0, 0.0))
+    rating += errors_type_rating
+
+    errors_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    errors_rating.set_overall(5.0)
+    errors_rating.set_standards(5.0,
+            '- `<style>`' + local_translation('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0))
+    rating += errors_rating
+    return rating
 
 def get_result(url):
     sitespeed_iterations = 1

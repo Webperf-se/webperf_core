@@ -549,8 +549,8 @@ def handle_update_docker(arg):
     our_from_os = get_base_os_from_dockerfile(our_docker_content)
     sitespeed_from_os = get_base_os_from_dockerfile(sitespeed_docker_content)
 
-    print('our_from_os', our_from_os)
-    print('sitespeed_from_os', sitespeed_from_os)
+    print('Our Dockerfile:', our_from_os)
+    print(f'Sitespeed.io Dockerfile v{version}:', sitespeed_from_os)
 
     if our_from_os != sitespeed_from_os:
         our_docker_content = our_docker_content.replace(our_from_os, sitespeed_from_os)

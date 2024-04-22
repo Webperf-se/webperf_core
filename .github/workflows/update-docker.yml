@@ -1,4 +1,4 @@
-name: "Software - Update Docker with latest version(s)"
+name: "Docker - Update to latest version(s)"
 on:
   workflow_dispatch:
   push:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
             matrix:
-                os: [windows-latest]
+                os: [ubuntu-latest]
                 config: ["SOFTWARE_GITHUB_ADADVISORY_DATABASE_PATH=advisory_database"]
     steps:
     - name: Check out repository code
@@ -23,9 +23,9 @@ jobs:
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
     - name: Setup config (using SAMPLE-config.py as config.py)
-      run: python .github\workflows\verify_result.py -c ${{ matrix.config }},GITHUB_API_KEY=${{ secrets.GITHUB_TOKEN }}
+      run: python .github/workflows/verify_result.py -c ${{ matrix.config }},GITHUB_API_KEY=${{ secrets.GITHUB_TOKEN }}
     - name: Ensure up to date Dockerfile
-      run: python .github\workflows\verify_result.py -d ${{ matrix.config }},GITHUB_API_KEY=${{ secrets.GITHUB_TOKEN }}
+      run: python .github/workflows/verify_result.py -d ${{ matrix.config }},GITHUB_API_KEY=${{ secrets.GITHUB_TOKEN }}
     - name: Create pull request
       uses: peter-evans/create-pull-request@v6
       with:

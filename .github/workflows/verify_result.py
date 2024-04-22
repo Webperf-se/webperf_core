@@ -204,7 +204,6 @@ def print_file_content(input_filename):
         for line in data:
             print(line)
 
-
 def get_file_content(input_filename):
     """
     Reads the content of a file and returns it as a string.
@@ -224,12 +223,9 @@ def get_file_content(input_filename):
       If the file does not exist or cannot be opened, an error will occur.
     """
 
-    with open(input_filename, 'r', encoding='utf-8') as file:
-        lines = []
-        data = file.readlines()
-        for line in data:
-            lines.append(line)
-    return '\n'.join(lines)
+    with open(input_filename, 'r', encoding='utf-8', newline='') as file:
+        data = file.read()
+        return data
 
 def validate_failures():
     """
@@ -505,7 +501,7 @@ def get_sitespeed_version_from_package(package_json_filepath):
 
 def get_base_os_from_dockerfile(docker_content):
     docker_from = None
-    regex = r'^(?P<from>FROM sitespeedio\/webbrowsers:[^\n]+)'
+    regex = r'^(?P<from>FROM sitespeedio\/webbrowsers:[^\n\r]+)'
     matches = re.finditer(
         regex, docker_content, re.MULTILINE)
     for matchNum, match_range in enumerate(matches, start=1):
@@ -518,7 +514,7 @@ def set_file_content(file_path, content):
         print(f"ERROR: No {file_path} file found!")
         return
 
-    with open(file_path, 'w', encoding='utf-8', newline='\n') as file:
+    with open(file_path, 'w', encoding='utf-8', newline='') as file:
         file.write(content)
 
 
@@ -533,8 +529,6 @@ def handle_update_docker(arg):
         return False
 
     version = get_sitespeed_version_from_package(package_json_filepath)
-    # TODO: remove this line
-    version = '33.6.0'
     print('sitespeed.io version in package.json:', version)
 
     our_docker_filepath = os.path.join(base_directory, 'Dockerfile')

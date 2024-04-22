@@ -1,5 +1,6 @@
 name: "Regression Test - Email (Beta) Test"
-on: 
+on:
+  workflow_dispatch:
   push:
     paths-ignore:
       - '**.md'

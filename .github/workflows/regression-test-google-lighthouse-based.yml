@@ -1,5 +1,6 @@
 name: "Regression Test - Google Lighthouse Based Test(s)"
 on:
+  workflow_dispatch:
   push:
     paths-ignore:
       - '**.md'

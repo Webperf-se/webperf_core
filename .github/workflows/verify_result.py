@@ -8,7 +8,6 @@ import getopt
 import json
 import shutil
 import re
-from urllib.parse import urlparse
 import requests
 
 # DEFAULTS
@@ -485,12 +484,26 @@ def main(argv):
         elif opt in ("-t", "--test"):  # test id
             handle_test_result(arg)
         elif opt in ("-d", "--docker"):  # docker
-            handle_update_docker(arg)
+            handle_update_docker()
 
     # No match for command so return error code to fail verification
     sys.exit(2)
 
 def get_sitespeed_version_from_package(package_json_filepath):
+    """
+    Retrieves the version of 'sitespeed.io' from a package.json file.
+
+    This function opens and reads a package.json file. It then checks if 'dependencies' 
+    and 'sitespeed.io' are present in the package information. If they are, it returns 
+    the version of 'sitespeed.io'. If either 'dependencies' or 'sitespeed.io' is not 
+    present, it returns None.
+
+    Args:
+        package_json_filepath (str): The path to the package.json file.
+
+    Returns:
+        str: The version of 'sitespeed.io' if found, else None.
+    """
     with open(package_json_filepath, encoding='utf-8') as json_input_file:
         package_info = json.load(json_input_file)
         if 'dependencies' not in package_info:
@@ -500,16 +513,46 @@ def get_sitespeed_version_from_package(package_json_filepath):
         return package_info['dependencies']['sitespeed.io']
 
 def get_base_os_from_dockerfile(docker_content):
+    """
+    Extracts the base operating system from a Dockerfile content.
+
+    This function uses a regular expression to find the first
+    'FROM' instruction in the Dockerfile content. 
+    It specifically looks for 'FROM' instructions that
+    use 'sitespeedio/webbrowsers' as the base image. 
+    If such an instruction is found, it is returned as a string. If not, None is returned.
+
+    Args:
+        docker_content (str): The content of the Dockerfile.
+
+    Returns:
+        str: The 'FROM' instruction string if found, else None.
+    """
     docker_from = None
     regex = r'^(?P<from>FROM sitespeedio\/webbrowsers:[^\n\r]+)'
     matches = re.finditer(
         regex, docker_content, re.MULTILINE)
-    for matchNum, match_range in enumerate(matches, start=1):
+    for _, match_range in enumerate(matches, start=1):
         docker_from = match_range.group('from')
         break
     return docker_from
 
 def set_file_content(file_path, content):
+    """
+    Writes the given content to a file at the specified path.
+
+    This function checks if the file exists at the given path.
+    If the file does not exist, it prints an error message and returns.
+    If the file does exist, it opens the file in write mode with UTF-8 encoding and
+    writes the provided content to the file.
+
+    Args:
+        file_path (str): The path to the file.
+        content (str): The content to be written to the file.
+
+    Returns:
+        None
+    """
     if not os.path.isfile(file_path):
         print(f"ERROR: No {file_path} file found!")
         return
@@ -518,7 +561,7 @@ def set_file_content(file_path, content):
         file.write(content)
 
 
-def handle_update_docker(arg):
+def handle_update_docker():
     """ Terminate the programme with an error if updating docker contains unexpected content  """
     base_directory = Path(os.path.dirname(
             os.path.realpath(__file__)) + os.path.sep).parent.parent

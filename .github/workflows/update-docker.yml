@@ -1,0 +1,43 @@
+name: "Software - Update Docker with latest version(s)"
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '**update-docker.yml'
+      - 'package.json'
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+            matrix:
+                os: [windows-latest]
+                config: ["SOFTWARE_GITHUB_ADADVISORY_DATABASE_PATH=advisory_database"]
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v4
+    - name: Setup python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+        architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+    - name: Setup dependencies using pip
+      run: pip install -r requirements.txt
+    - name: Setup config (using SAMPLE-config.py as config.py)
+      run: python .github\workflows\verify_result.py -c ${{ matrix.config }},GITHUB_API_KEY=${{ secrets.GITHUB_TOKEN }}
+    - name: Ensure up to date Dockerfile
+      run: python .github\workflows\verify_result.py -d ${{ matrix.config }},GITHUB_API_KEY=${{ secrets.GITHUB_TOKEN }}
+    - name: Create pull request
+      uses: peter-evans/create-pull-request@v6
+      with:
+        commit-message: Updating Dockerfile with latest browsers
+        branch: dockerfile-latest-browsers
+        title: Updating Dockerfile to latest browsers
+        body: |
+          This pull request is used to make it easier to keep the Dockerfile up to date.
+          
+          Following files may be touched:
+            - Dockerfile
+        assignees: 7h3Rabbit
+        reviewers: 7h3Rabbit
+        add-paths: |
+          Dockerfile

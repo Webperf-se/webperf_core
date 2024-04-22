@@ -2,7 +2,6 @@
 from datetime import datetime
 import os
 import re
-import sys
 import urllib  # https://docs.python.org/3/library/urllib.parse.html
 
 from bs4 import BeautifulSoup
@@ -23,6 +22,7 @@ CSS_REVIEW_GROUP_ERRORS = get_config_or_default('css_review_group_errors')
 REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
 SITESPEED_USE_DOCKER = get_config_or_default('sitespeed_use_docker')
 SITESPEED_TIMEOUT = get_config_or_default('sitespeed_timeout')
+GROUP_ERROR_MSG_REGEX = r"(“[^”]+”)"
 
 
 def run_test(global_translation, lang_code, url):
@@ -314,9 +314,7 @@ def get_errors_for_link_tags(html, url):
             elif resource_url.startswith('/'):
                 # relative url, complement with dns
                 resource_url = parsed_url + resource_url
-            elif resource_url.startswith('http://') or resource_url.startswith('https://'):
-                resource_url = resource_url
-            else:
+            elif not resource_url.startswith('http://') and not resource_url.startswith('https://'):
                 # relative url, but without starting /
                 resource_url = parsed_url + '/' + resource_url
 
@@ -394,24 +392,21 @@ def get_mdn_web_docs_css_features():
 
     soup = BeautifulSoup(html, 'lxml')
 
-    try:
-        index_element = soup.find('div', class_='index')
-        if index_element:
-            links = index_element.find_all('a')
-            for link in links:
-                regex = r'(?P<name>[a-z\-0-9]+)(?P<func>[()]{0,2})[ ]*'
-                matches = re.search(regex, link.string)
-                if matches:
-                    property_name = matches.group('name')
-                    is_function = matches.group('func') in '()'
-                    if is_function:
-                        functions[f"{property_name}"] = link.get('href')
-                    else:
-                        features[f"{property_name}"] = link.get('href')
-        else:
-            print('no index element found')
-    except:
-        print(f'Error! "{sys.exc_info()[0]}"')
+    index_element = soup.find('div', class_='index')
+    if index_element:
+        links = index_element.find_all('a')
+        for link in links:
+            regex = r'(?P<name>[a-z\-0-9]+)(?P<func>[()]{0,2})[ ]*'
+            matches = re.search(regex, link.string)
+            if matches:
+                property_name = matches.group('name')
+                is_function = matches.group('func') in '()'
+                if is_function:
+                    functions[f"{property_name}"] = link.get('href')
+                else:
+                    features[f"{property_name}"] = link.get('href')
+    else:
+        print('no index element found')
     return (features, functions)
 
 
@@ -439,7 +434,6 @@ css_functions_no_support = get_function_is_not_a_value_list()
 
 
 def create_review_and_rating(errors, global_translation, local_translation, review_header):
-    review = ''
     whitelisted_words = css_properties_doesnt_exist
 
     whitelisted_words.append('“100%” is not a “font-stretch” value')
@@ -451,21 +445,17 @@ def create_review_and_rating(errors, global_translation, local_translation, revi
     msg_grouped_dict = {}
     msg_grouped_for_rating_dict = {}
     if number_of_errors > 0:
-        regex = r"(“[^”]+”)"
         for item in errors:
             error_message = item['message']
-            is_whitelisted = False
-            for whitelisted_word in whitelisted_words:
-                if whitelisted_word in error_message:
-                    is_whitelisted = True
-                    number_of_errors -= 1
-                    break
+            is_whitelisted = error_has_whitelisted_wording(error_message, whitelisted_words)
 
-            if not is_whitelisted:
+            if is_whitelisted:
+                number_of_errors -= 1
+            else:
                 error_message_dict[error_message] = "1"
 
                 tmp = re.sub(
-                    regex, "X", error_message, 0, re.MULTILINE)
+                    GROUP_ERROR_MSG_REGEX, "X", error_message, 0, re.MULTILINE)
                 if CSS_REVIEW_GROUP_ERRORS:
                     error_message = tmp
 
@@ -480,38 +470,64 @@ def create_review_and_rating(errors, global_translation, local_translation, revi
                     msg_grouped_for_rating_dict[tmp] = 1
 
 
-        if len(msg_grouped_dict) > 0:
-            error_message_grouped_sorted = sorted(
-                msg_grouped_dict.items(), key=lambda x: x[1], reverse=True)
-
-            for item in error_message_grouped_sorted:
-
-                item_value = item[1]
-                item_text = item[0]
-
-                review += local_translation('TEXT_REVIEW_ERRORS_ITEM').format(item_text, item_value)
-
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     number_of_error_types = len(msg_grouped_for_rating_dict)
 
-    result = calculate_rating(number_of_error_types, number_of_errors)
+    rating += get_rating(
+        global_translation,
+        get_error_types_review(review_header, number_of_error_types, local_translation),
+        get_error_review(review_header, number_of_errors, local_translation),
+        calculate_rating(number_of_error_types, number_of_errors))
 
+    rating.standards_review = rating.standards_review +\
+        get_reviews_from_errors(msg_grouped_dict, local_translation)
+
+    return rating
+def get_error_review(review_header, number_of_errors, local_translation):
+    return review_header + local_translation('TEXT_REVIEW_RATING_ITEMS').format(
+            number_of_errors, 0.0)
+
+def get_error_types_review(review_header, number_of_error_types, local_translation):
+    return review_header + local_translation('TEXT_REVIEW_RATING_GROUPED').format(
+        number_of_error_types, 0.0)
+
+def get_reviews_from_errors(msg_grouped_dict, local_translation):
+    review = ''
+    if len(msg_grouped_dict) > 0:
+        error_message_grouped_sorted = sorted(
+            msg_grouped_dict.items(), key=lambda x: x[1], reverse=True)
+
+        for item in error_message_grouped_sorted:
+            item_value = item[1]
+            item_text = item[0]
+
+            review += local_translation('TEXT_REVIEW_ERRORS_ITEM').format(item_text, item_value)
+    return review
+
+
+def error_has_whitelisted_wording(error_message, whitelisted_words):
+    in_whitelisted = False
+    for whitelisted_word in whitelisted_words:
+        if whitelisted_word in error_message:
+            in_whitelisted = True
+            break
+    return in_whitelisted
+
+def get_rating(global_translation,
+               error_types_review,
+               error_review,
+               result):
+
+
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     errors_type_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     errors_type_rating.set_overall(result[0])
-    errors_type_rating.set_standards(
-        result[0], review_header + local_translation('TEXT_REVIEW_RATING_GROUPED').format(
-        number_of_error_types, 0.0))
+    errors_type_rating.set_standards(result[0], error_types_review)
     rating += errors_type_rating
 
     errors_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     errors_rating.set_overall(result[1])
-    errors_rating.set_standards(
-        result[1],
-        review_header + local_translation('TEXT_REVIEW_RATING_ITEMS').format(
-            number_of_errors, 0.0))
+    errors_rating.set_standards(result[1], error_review)
     rating += errors_rating
-
-    rating.standards_review = rating.standards_review + review
-
     return rating

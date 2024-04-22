@@ -10,6 +10,81 @@ import shutil
 import re
 import requests
 
+# DEFAULTS
+REQUEST_TIMEOUT = 60
+USERAGENT = 'Mozilla/5.0 (compatible; Windows NT 10.0; Win64; x64) ' \
+     'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36 Edg/88.0.705.56'
+
+def get_http_content(url, allow_redirects=False, use_text_instead_of_content=True):
+    """
+    Retrieves the content of the specified URL and caches it.
+
+    This function first checks if the content is already cached. If it is, 
+    the cached content is returned. If not, a GET request is sent to the 
+    URL. The content of the response is then cached and returned.
+
+    In case of SSL or connection errors, the function retries the request 
+    using HTTPS if the original URL used HTTP. If the request times out, 
+    an error message is printed.
+
+    Args:
+        url (str): The URL to retrieve the content from.
+        allow_redirects (bool, optional): Whether to follow redirects. 
+                                           Defaults to False.
+        use_text_instead_of_content (bool, optional): Whether to retrieve 
+                                                      the response content 
+                                                      as text (True) or 
+                                                      binary (False). 
+                                                      Defaults to True.
+
+    Returns:
+        str or bytes: The content of the URL.
+    """
+    try:
+        headers = {'user-agent': USERAGENT}
+        response = requests.get(url, allow_redirects=allow_redirects,
+                         headers=headers, timeout=REQUEST_TIMEOUT*2)
+
+        if use_text_instead_of_content:
+            content = response.text
+        else:
+            content = response.content
+
+        return content
+    except ssl.CertificateError as error:
+        print(f'Info: Certificate error. {error.reason}')
+    except requests.exceptions.SSLError as error:
+        if 'http://' in url:  # trying the same URL over SSL/TLS
+            print('Info: Trying SSL before giving up.')
+            return get_http_content(url.replace('http://', 'https://'))
+        print(f'Info: SSLError. {error}')
+    except requests.exceptions.ConnectionError as error:
+        if 'http://' in url:  # trying the same URL over SSL/TLS
+            print('Connection error! Info: Trying SSL before giving up.')
+            return get_http_content(url.replace('http://', 'https://'))
+        print(
+            'Connection error! Unfortunately the request for URL '
+            f'"{url}" failed.\nMessage:\n{sys.exc_info()[0]}')
+    except requests.exceptions.MissingSchema as error:
+        print(
+            'Connection error! Missing Schema for '
+            f'"{url}"')
+    except requests.exceptions.TooManyRedirects as error:
+        print(
+            'Connection error! Too many redirects for '
+            f'"{url}"')
+    except requests.exceptions.InvalidURL:
+        print(
+            'Connection error! Invalid url '
+            f'"{url}"')
+    except TimeoutError:
+        print(
+            'Error! Unfortunately the request for URL '
+            f'"{url}" timed out.'
+            f'The timeout is set to {REQUEST_TIMEOUT} seconds.\nMessage:\n{sys.exc_info()[0]}')
+    return ''
+
+
 def prepare_config_file(sample_filename, filename, arguments):
     """
     Prepares a configuration file based on a sample file and a set of arguments.
@@ -128,7 +203,6 @@ def print_file_content(input_filename):
         for line in data:
             print(line)
 
-
 def get_file_content(input_filename):
     """
     Reads the content of a file and returns it as a string.
@@ -148,12 +222,9 @@ def get_file_content(input_filename):
       If the file does not exist or cannot be opened, an error will occur.
     """
 
-    with open(input_filename, 'r', encoding='utf-8') as file:
-        lines = []
-        data = file.readlines()
-        for line in data:
-            lines.append(line)
-    return '\n'.join(lines)
+    with open(input_filename, 'r', encoding='utf-8', newline='') as file:
+        data = file.read()
+        return data
 
 def validate_failures():
     """
@@ -394,8 +465,8 @@ def main(argv):
     """
 
     try:
-        opts, _ = getopt.getopt(argv, "hlc:t:", [
-                                   "help", "test=", "prep-config=", "language"])
+        opts, _ = getopt.getopt(argv, "hlc:t:d:", [
+                                   "help", "test=", "prep-config=", "language", "docker="])
     except getopt.GetoptError:
         print(main.__doc__)
         sys.exit(2)
@@ -412,9 +483,121 @@ def main(argv):
             handle_pre_config(arg)
         elif opt in ("-t", "--test"):  # test id
             handle_test_result(arg)
+        elif opt in ("-d", "--docker"):  # docker
+            handle_update_docker()
 
     # No match for command so return error code to fail verification
     sys.exit(2)
+
+def get_sitespeed_version_from_package(package_json_filepath):
+    """
+    Retrieves the version of 'sitespeed.io' from a package.json file.
+
+    This function opens and reads a package.json file. It then checks if 'dependencies' 
+    and 'sitespeed.io' are present in the package information. If they are, it returns 
+    the version of 'sitespeed.io'. If either 'dependencies' or 'sitespeed.io' is not 
+    present, it returns None.
+
+    Args:
+        package_json_filepath (str): The path to the package.json file.
+
+    Returns:
+        str: The version of 'sitespeed.io' if found, else None.
+    """
+    with open(package_json_filepath, encoding='utf-8') as json_input_file:
+        package_info = json.load(json_input_file)
+        if 'dependencies' not in package_info:
+            return None
+        if 'sitespeed.io' not in package_info['dependencies']:
+            return None
+        return package_info['dependencies']['sitespeed.io']
+
+def get_base_os_from_dockerfile(docker_content):
+    """
+    Extracts the base operating system from a Dockerfile content.
+
+    This function uses a regular expression to find the first
+    'FROM' instruction in the Dockerfile content. 
+    It specifically looks for 'FROM' instructions that
+    use 'sitespeedio/webbrowsers' as the base image. 
+    If such an instruction is found, it is returned as a string. If not, None is returned.
+
+    Args:
+        docker_content (str): The content of the Dockerfile.
+
+    Returns:
+        str: The 'FROM' instruction string if found, else None.
+    """
+    docker_from = None
+    regex = r'^(?P<from>FROM sitespeedio\/webbrowsers:[^\n\r]+)'
+    matches = re.finditer(
+        regex, docker_content, re.MULTILINE)
+    for _, match_range in enumerate(matches, start=1):
+        docker_from = match_range.group('from')
+        break
+    return docker_from
+
+def set_file_content(file_path, content):
+    """
+    Writes the given content to a file at the specified path.
+
+    This function checks if the file exists at the given path.
+    If the file does not exist, it prints an error message and returns.
+    If the file does exist, it opens the file in write mode with UTF-8 encoding and
+    writes the provided content to the file.
+
+    Args:
+        file_path (str): The path to the file.
+        content (str): The content to be written to the file.
+
+    Returns:
+        None
+    """
+    if not os.path.isfile(file_path):
+        print(f"ERROR: No {file_path} file found!")
+        return
+
+    with open(file_path, 'w', encoding='utf-8', newline='') as file:
+        file.write(content)
+
+
+def handle_update_docker():
+    """ Terminate the programme with an error if updating docker contains unexpected content  """
+    base_directory = Path(os.path.dirname(
+            os.path.realpath(__file__)) + os.path.sep).parent.parent
+
+    package_json_filepath = os.path.join(base_directory, 'package.json')
+    if not os.path.exists(package_json_filepath):
+        print(f'package.json doesn\'t exists at: {package_json_filepath}')
+        return False
+
+    version = get_sitespeed_version_from_package(package_json_filepath)
+    print('sitespeed.io version in package.json:', version)
+
+    our_docker_filepath = os.path.join(base_directory, 'Dockerfile')
+    if not os.path.exists(our_docker_filepath):
+        print(f'Dockerfile doesn\'t exists at: {our_docker_filepath}')
+        return False
+
+    our_docker_content = get_file_content(our_docker_filepath)
+    sitespeed_docker_content = get_http_content(
+        f'https://raw.githubusercontent.com/sitespeedio/sitespeed.io/v{version}/Dockerfile')
+
+    our_from_os = get_base_os_from_dockerfile(our_docker_content)
+    sitespeed_from_os = get_base_os_from_dockerfile(sitespeed_docker_content)
+
+    print('Our Dockerfile:', our_from_os)
+    print(f'Sitespeed.io Dockerfile v{version}:', sitespeed_from_os)
+
+    if our_from_os != sitespeed_from_os:
+        our_docker_content = our_docker_content.replace(our_from_os, sitespeed_from_os)
+        print('Dockerfile requires update')
+        set_file_content(our_docker_filepath, our_docker_content)
+        print('Dockerfile was updated')
+    else:
+        print('Dockerfile is up to date')
+
+    sys.exit(0)
 
 def handle_test_result(arg):
     """ Terminate the programme with an error if our test contains unexpected content  """

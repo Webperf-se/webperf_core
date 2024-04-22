@@ -1,5 +1,6 @@
 name: "Regression Test - Standard files Test"
 on:
+  workflow_dispatch:
   push:
     paths-ignore:
       - '**.md'

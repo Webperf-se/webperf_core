@@ -1,5 +1,6 @@
 name: "Regression Test - Performance (Sitespeed.io) Test"
 on:
+  workflow_dispatch:
   push:
     paths-ignore:
       - '**.md'

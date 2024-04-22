@@ -1,5 +1,6 @@
 name: "Regression Test - Quality on frontend (Yellow Lab Tools) Test"
 on:
+  workflow_dispatch:
   push:
     paths-ignore:
       - '**.md'

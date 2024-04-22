@@ -1,5 +1,6 @@
 name: "Regression Test - Accessibility Statement Test"
 on:
+  workflow_dispatch:
   push:
     paths-ignore:
       - '**.md'

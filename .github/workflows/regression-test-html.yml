@@ -1,5 +1,6 @@
 name: "Regression Test - HTML Validation Test"
 on:
+  workflow_dispatch:
   push:
     paths-ignore:
       - '**.md'

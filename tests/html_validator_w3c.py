@@ -1,25 +1,19 @@
 # -*- coding: utf-8 -*-
-import os
 from datetime import datetime
 import re
 from models import Rating
 from tests.utils import get_config_or_default,\
-                        get_friendly_url_name,\
-                        get_translation,\
-                        set_cache_file
-from tests.w3c_base import get_errors, identify_files
-from tests.sitespeed_base import get_result
+    get_friendly_url_name,\
+    get_translation,\
+    set_cache_file
+from tests.w3c_base import calculate_rating, get_data_for_url,\
+    get_error_review, get_error_types_review,\
+    get_errors_for_url, get_rating, get_reviews_from_errors
 
 # DEFAULTS
-REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
-USERAGENT = get_config_or_default('useragent')
 REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
-SITESPEED_USE_DOCKER = get_config_or_default('sitespeed_use_docker')
-SITESPEED_TIMEOUT = get_config_or_default('sitespeed_timeout')
-USE_CACHE = get_config_or_default('cache_when_possible')
-CACHE_TIME_DELTA = get_config_or_default('cache_time_delta')
-
-HTML_STRINGS = [
+HTML_REVIEW_GROUP_ERRORS = True
+HTML_START_STRINGS = [
         'Start tag seen without seeing a doctype first. Expected “<!DOCTYPE html>”',
         'Element “head” is missing a required instance of child element “title”.'
     ]
@@ -37,25 +31,27 @@ def run_test(global_translation, lang_code, url):
     print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    errors = []
+    result_dict = {
+        'errors': {
+            'all': [],
+            'html_files': []
+        }
+    }
 
     data = get_data_for_url(url)
 
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-    points = 0.0
-    review = ''
 
-    number_of_errors = 0
-    for entry in data['htmls']:
-        tmp_rating, tmp__errors = rate_entry(entry, global_translation, local_translation)
+    for html_entry in data['htmls']:
+        tmp_rating = handle_html_markup_entry(
+            html_entry,
+            global_translation,
+            local_translation,
+            result_dict)
         rating += tmp_rating
-        errors.extend(tmp__errors)
 
-    number_of_errors = len(errors)
-
+    number_of_errors = len(result_dict['errors']['html_files'])
     points = rating.get_overall()
-    rating.set_standards(points)
-    rating.standards_review = review
 
     review = ''
     if points == 5.0:
@@ -73,200 +69,146 @@ def run_test(global_translation, lang_code, url):
         review = local_translation('TEXT_REVIEW_HTML_IS_VERY_BAD').format(
             number_of_errors)
 
-    # rating.set_overall(points)
     rating.standards_review = rating.overall_review + rating.standards_review
     rating.overall_review = review
 
     print(global_translation('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    return (rating, errors)
+    return (rating, result_dict)
 
-def get_data_for_url(url):
+def handle_html_markup_entry(entry, global_translation, local_translation, result_dict):
     """
-    This function retrieves data for a given URL using the Sitespeed.io tool.
-
-    The function configures Sitespeed.io to run with specific parameters,
-    including running in headless mode, ignoring certificate errors,
-    and capturing all response bodies.
+    Handles an entry in the webpage data, checks for HTML related errors and rates them.
 
     Parameters:
-    url (str): The URL for which to retrieve data.
+    entry (dict): The entry in the webpage data to handle.
+    global_translation (function): Function to translate text globally.
+    url (str): The URL of the webpage.
+    local_translation (function): Function to translate text locally.
+    result_dict (dict): Dictionary containing results of previous checks.
 
     Returns:
-    data (dict): A dictionary containing the data retrieved from the URL.
-    """
-
-    # We don't need extra iterations for what we are using it for
-    sitespeed_iterations = 1
-    sitespeed_arg = (
-            '--shm-size=1g -b chrome '
-            '--plugins.remove screenshot --plugins.remove html --plugins.remove metrics '
-            '--browsertime.screenshot false --screenshot false --screenshotLCP false '
-            '--browsertime.screenshotLCP false --chrome.cdp.performance false '
-            '--browsertime.chrome.timeline false --videoParams.createFilmstrip false '
-            '--visualMetrics false --visualMetricsPerceptual false '
-            '--visualMetricsContentful false --browsertime.headless true '
-            '--browsertime.chrome.includeResponseBodies all --utc true '
-            '--browsertime.chrome.args ignore-certificate-errors '
-            f'-n {sitespeed_iterations}')
-    if 'nt' not in os.name:
-        sitespeed_arg += ' --xvfb'
-
-    sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'
-
-    (_, filename) = get_result(
-        url, SITESPEED_USE_DOCKER, sitespeed_arg, SITESPEED_TIMEOUT)
-
-    # 1. Visit page like a normal user
-    data = identify_files(filename)
-    return data
-
-def rate_entry(entry, global_translation, local_translation):
-    """
-    Rates an entry based on the number and types of HTML errors.
-
-    This function takes an entry, global translations, and local translations as input.
-    It calculates a rating for the entry based on the number and
-    types of HTML errors present in the content of the entry.
-    The function also groups the error messages and calculates an overall rating.
-
-    Parameters:
-    entry (dict): A dictionary containing the details of the entry including the URL and content.
-    global_translation (function): A function for translating text globally.
-    local_translation (function): A function for translating text locally.
-
-    Returns:
-    tuple: A tuple containing the overall rating (Rating object) and the errors (list).
+    list: All link resources found in the entry.
+    Rating: The rating after evaluating the HTML related errors in the entry.
     """
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-
     req_url = entry['url']
     name = get_friendly_url_name(global_translation, req_url, entry['index'])
-    review_header = f'- {name} '
+    html = entry['content']
+    errors = get_errors_for_html(req_url, html)
+    result_dict['errors']['all'].extend(errors)
+    result_dict['errors']['html_files'].extend(errors)
+    is_first_entry = entry['index'] <= 1
+    rating += create_review_and_rating(
+        is_first_entry,
+        errors,
+        global_translation,
+        local_translation,
+        f'- {name}')
 
-    set_cache_file(req_url, entry['content'], True)
+    return rating
 
-    errors = get_errors('html',
-                        {
-                            'doc': req_url,
-                            'out': 'json',
-                            'level': 'error'
-                        })
+def create_review_and_rating(
+        is_first_entry,
+        errors,
+        global_translation,
+        local_translation,
+        review_header):
+    """
+    Creates a review and rating based on the provided errors and translations.
+
+    Parameters:
+    is_first_entry (bool): Specify if this is the first entry
+    errors (list): The list of errors to be reviewed.
+    global_translation (function): The function to translate the global text.
+    local_translation (function): The function to translate the local text.
+    review_header (str): The header of the review.
+
+    Returns:
+    Rating: The overall rating calculated based on the errors and translations.
+    """
+
     number_of_errors = len(errors)
 
-    error_message_grouped_dict = {}
+    error_message_dict = {}
+    msg_grouped_dict = {}
+    msg_grouped_for_rating_dict = {}
     if number_of_errors > 0:
-        error_message_grouped_dict = get_grouped_error_messages(
-                                        entry,
-                                        local_translation,
-                                        errors,
-                                        number_of_errors)
-
-    number_of_error_types = len(error_message_grouped_dict)
-    result = calculate_rating(number_of_error_types, number_of_errors)
-
-    error_types_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-    error_types_rating.set_overall(
-            result[0],
-            review_header + local_translation('TEXT_REVIEW_RATING_GROUPED').format(
-                number_of_error_types,
-                0.0))
-    rating += error_types_rating
-
-    error_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-    error_rating.set_overall(result[1], review_header + local_translation(
-        'TEXT_REVIEW_RATING_ITEMS').format(number_of_errors, 0.0))
-    rating += error_rating
-    return (rating, errors)
-
-def get_grouped_error_messages(entry, local_translation, errors, number_of_errors):
-    """
-    Groups HTML error messages and counts their occurrences.
-
-    This function takes an entry, local translations, a list of errors,
-    and the total number of errors as input.
-    It filters out irrelevant errors and groups the remaining ones by their messages.
-    The function also counts the occurrences of each error message.
-
-    Parameters:
-    entry (dict): A dictionary containing the details of the entry including the URL and content.
-    local_translation (function): A function for translating text locally.
-    errors (list): A list of error messages.
-    number_of_errors (int): The total number of errors.
-
-    Returns:
-    dict: A dictionary where the keys are the error messages and the values are their counts.
-    """
-    error_message_grouped_dict = {}
-    regex = r"(“[^”]+”)"
-    for item in errors:
-        error_message = item['message']
+        for item in errors:
+            error_message = item['message']
 
             # Filter out CSS: entries that should not be here
-        if error_message.startswith('CSS: '):
-            number_of_errors -= 1
-            continue
-
-            # Filter out start html document stuff if not start webpage
-        if entry['index'] > 1:
-            is_html = False
-            for html_str in HTML_STRINGS:
-                if html_str in error_message:
-                    number_of_errors -= 1
-                    is_html = True
-                    break
-
-            if is_html:
+            if error_message.startswith('CSS: '):
+                number_of_errors -= 1
                 continue
 
-        error_message = re.sub(
-                regex, "X", error_message, 0, re.MULTILINE)
+            # Filter out start html document stuff if not start webpage
+            if not is_first_entry and is_start_html_error(error_message):
+                number_of_errors -= 1
+                continue
 
-        if error_message_grouped_dict.get(error_message, False):
-            error_message_grouped_dict[error_message] = \
-                    error_message_grouped_dict[error_message] + 1
-        else:
-            error_message_grouped_dict[error_message] = 1
+            error_message_dict[error_message] = "1"
 
-    if len(error_message_grouped_dict) > 0:
-        error_message_grouped_sorted = sorted(
-                error_message_grouped_dict.items(), key=lambda x: x[1], reverse=True)
+            tmp = re.sub(
+                r"(“[^”]+”)", "X", error_message, 0, re.MULTILINE)
+            if HTML_REVIEW_GROUP_ERRORS:
+                error_message = tmp
 
-        for item in error_message_grouped_sorted:
-            item_value = item[1]
-            item_text = item[0]
+            if msg_grouped_dict.get(error_message, False):
+                msg_grouped_dict[error_message] = msg_grouped_dict[error_message] + 1
+            else:
+                msg_grouped_dict[error_message] = 1
 
-            review += local_translation(
-                    'TEXT_REVIEW_ERRORS_ITEM'
-                    ).format(item_text, item_value)
-
-    return error_message_grouped_dict
+            if msg_grouped_for_rating_dict.get(tmp, False):
+                msg_grouped_for_rating_dict[tmp] = msg_grouped_for_rating_dict[tmp] + 1
+            else:
+                msg_grouped_for_rating_dict[tmp] = 1
 
 
-def calculate_rating(number_of_error_types, number_of_errors):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+
+    number_of_error_types = len(msg_grouped_for_rating_dict)
+
+    rating += get_rating(
+        global_translation,
+        get_error_types_review(review_header, number_of_error_types, local_translation),
+        get_error_review(review_header, number_of_errors, local_translation),
+        calculate_rating(number_of_error_types, number_of_errors))
+
+    rating.standards_review = rating.standards_review +\
+        get_reviews_from_errors(msg_grouped_dict, local_translation)
+
+    return rating
+
+def is_start_html_error(error_message):
     """
-    Calculates ratings based on the number of error types and errors.
+    Checks if any string in HTML_START_STRINGS is present in the error_message.
 
-    This function takes the number of error types and the total number of errors as input.
-    It calculates two ratings: one based on the number of error types and
-    the other based on the total number of errors.
-    The ratings are calculated such that a higher number of errors or
-    error types will result in a lower rating. The minimum rating is 1.0.
-
-    Parameters:
-    number_of_error_types (int): The number of different types of errors.
-    number_of_errors (int): The total number of errors.
+    Args:
+        error_message (str): The error message to check.
 
     Returns:
-    tuple: A tuple containing the rating based on the number of error types and
-    the rating based on the total number of errors.
+        bool: True if a HTML start string is found in error_message, False otherwise.
     """
-    rating_number_of_error_types = 5.0 - (number_of_error_types / 5.0)
+    for html_str in HTML_START_STRINGS:
+        if html_str in error_message:
+            return True
+    return False
 
-    rating_number_of_errors = 5.0 - ((number_of_errors / 2.0) / 5.0)
+def get_errors_for_html(url, html):
+    """
+    Caches the HTML content of a URL and retrieves the errors associated with it.
 
-    rating_number_of_error_types = max(rating_number_of_error_types, 1.0)
-    rating_number_of_errors = max(rating_number_of_errors, 1.0)
+    Args:
+        url (str): The URL to check for errors.
+        html (str): The HTML content of the URL.
 
-    return (rating_number_of_error_types, rating_number_of_errors)
+    Returns:
+        list: A list of errors associated with the URL.
+    """
+    set_cache_file(url, html, True)
+    results = get_errors_for_url(
+        'html',
+        url)
+    return results

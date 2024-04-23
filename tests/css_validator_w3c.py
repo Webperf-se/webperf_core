@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
-import os
 import re
 import urllib  # https://docs.python.org/3/library/urllib.parse.html
 
@@ -8,20 +7,14 @@ from bs4 import BeautifulSoup
 from models import Rating
 
 from tests.utils import get_friendly_url_name, get_http_content,\
-     get_translation, set_cache_file, get_config_or_default
-from tests.w3c_base import get_errors, identify_files
-from tests.sitespeed_base import get_result as get_sitespeed_result
+    get_translation, set_cache_file, get_config_or_default
+from tests.w3c_base import calculate_rating, get_data_for_url,\
+    get_error_review, get_error_types_review,\
+    get_errors_for_url, get_rating, get_reviews_from_errors
 
 # DEFAULTS
-REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
-USERAGENT = get_config_or_default('useragent')
-USE_CACHE = get_config_or_default('cache_when_possible')
-CACHE_TIME_DELTA = get_config_or_default('cache_time_delta')
-
-CSS_REVIEW_GROUP_ERRORS = get_config_or_default('css_review_group_errors')
 REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
-SITESPEED_USE_DOCKER = get_config_or_default('sitespeed_use_docker')
-SITESPEED_TIMEOUT = get_config_or_default('sitespeed_timeout')
+CSS_REVIEW_GROUP_ERRORS = get_config_or_default('css_review_group_errors')
 GROUP_ERROR_MSG_REGEX = r"(“[^”]+”)"
 
 
@@ -29,8 +22,6 @@ def run_test(global_translation, lang_code, url):
     """
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
-
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     local_translation = get_translation('css_validator_w3c', lang_code)
 
@@ -52,14 +43,16 @@ def run_test(global_translation, lang_code, url):
     }
 
     # We don't need extra iterations for what we are using it for
-    data = get_result(url)
+    data = get_data_for_url(url)
     # 2. FIND ALL INLE CSS (AND CALCULTE)
     # 2.1 FINS ALL <STYLE>
     all_link_resources = []
 
-    for entry in data['htmls']:
-        tmp_all_link_resources, tmp_rating = handle_entry(
-            entry,
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+
+    for html_entry in data['htmls']:
+        tmp_all_link_resources, tmp_rating = handle_html_markup_entry(
+            html_entry,
             global_translation,
             url,
             local_translation,
@@ -77,19 +70,18 @@ def run_test(global_translation, lang_code, url):
         if data_resource_info_to_remove is not None:
             data['resources'].remove(data_resource_info_to_remove)
 
-    tmp_rating = rate_css(
+    rating += rate_css(
         global_translation,
         local_translation,
         data,
         result_dict)
-    rating += tmp_rating
 
     print(global_translation('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, result_dict)
 
-def handle_entry(entry, global_translation, url, local_translation, result_dict):
+def handle_html_markup_entry(entry, global_translation, url, local_translation, result_dict):
     """
     Handles an entry in the webpage data, checks for CSS related errors and rates them.
 
@@ -167,6 +159,7 @@ def rate_css(global_translation, local_translation, data, result_dict):
     for data_resource_info in data['resources']:
         has_css_contenttypes = True
         errors += get_errors_for_url(
+            'css',
             data_resource_info['url'])
         request_index = data_resource_info['index']
         name = get_friendly_url_name(global_translation, data_resource_info['url'], request_index)
@@ -321,65 +314,6 @@ def rate_style_elements(global_translation, local_translation):
     rating += errors_rating
     return rating
 
-def get_result(url):
-    """
-    This function performs a performance analysis of a given URL using the Sitespeed.io tool.
-
-    The function constructs a string of command-line arguments for the Sitespeed.io tool,
-    specifying various settings such as the browser to use (Chrome), the plugins to remove,
-    the screenshot settings, the visual metrics settings, 
-    the headless mode, the response bodies to include, the time zone, and the number of iterations.
-
-    If the operating system is not Windows, the function also enables the Xvfb setting.
-    The function then appends two postScript arguments to the command-line arguments string.
-
-    The function calls the get_sitespeed_result function to run the Sitespeed.io tool with
-    the constructed command-line arguments and get the result.
-    The result is a filename of a file that contains the performance analysis result.
-
-    Finally,
-    the function calls the identify_files function to process the performance analysis result and
-    returns the processed data.
-
-    Parameters:
-    url (str): The URL of the web page to analyze.
-
-    Returns:
-    dict: A dictionary that contains the processed performance analysis result.
-    """
-    sitespeed_iterations = 1
-    sitespeed_arg = (
-        '--shm-size=1g '
-        '-b chrome '
-        '--plugins.remove screenshot '
-        '--plugins.remove html '
-        '--plugins.remove metrics '
-        '--browsertime.screenshot false '
-        '--screenshot false '
-        '--screenshotLCP false '
-        '--browsertime.screenshotLCP false '
-        '--chrome.cdp.performance false '
-        '--browsertime.chrome.timeline false '
-        '--videoParams.createFilmstrip false '
-        '--visualMetrics false '
-        '--visualMetricsPerceptual false '
-        '--visualMetricsContentful false '
-        '--browsertime.headless true '
-        '--browsertime.chrome.includeResponseBodies all '
-        '--utc true '
-        f'--browsertime.chrome.args ignore-certificate-errors -n {sitespeed_iterations}')
-    if 'nt' not in os.name:
-        sitespeed_arg += ' --xvfb'
-
-    sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'
-
-    (_, filename) = get_sitespeed_result(
-        url, SITESPEED_USE_DOCKER, sitespeed_arg, SITESPEED_TIMEOUT)
-
-    # 1. Visit page like a normal user
-    data = identify_files(filename)
-    return data
-
 def get_errors_for_link_tags(html, url):
     """
     This function extracts all link elements from the given HTML content,
@@ -445,6 +379,7 @@ def get_errors_for_link_tags(html, url):
 
             # 3.1 GET ERRORS FROM SERVICE (FOR EVERY <LINK>) AND CALCULATE SCORE
             results += get_errors_for_url(
+                'css',
                 resource_url)
             resource_index += 1
             matching_elements.append(resource_url)
@@ -490,7 +425,9 @@ def get_errors_for_style_attributes(url, html):
     if temp_attribute_css != '':
         tmp_url = f'{url}#styles-attributes'
         set_cache_file(tmp_url, temp_attribute_css, True)
-        results = get_errors_for_url(tmp_url)
+        results = get_errors_for_url(
+            'css',
+            tmp_url)
         temp_attribute_css = ''
 
     return (elements, results)
@@ -524,47 +461,12 @@ def get_errors_for_style_tags(url, html):
     if temp_inline_css != '':
         tmp_url = f'{url}#style-elements'
         set_cache_file(tmp_url, temp_inline_css, True)
-        results = get_errors_for_url(tmp_url)
+        results = get_errors_for_url(
+            'css',
+            tmp_url)
         temp_inline_css = ''
 
     return (elements, results)
-
-
-def calculate_rating(number_of_error_types, number_of_errors):
-    """
-    Calculates and returns the ratings based on the number of error types and
-    total number of errors.
-
-    The rating for number of error types is calculated
-    as 5.0 minus the number of error types divided by 5.0.
-    The rating for number of errors is calculated
-    as 5.0 minus half of the number of errors divided by 5.0.
-    Both ratings are ensured to be at least 1.0.
-
-    Parameters:
-    number_of_error_types (int): The number of different types of errors.
-    number_of_errors (int): The total number of errors.
-
-    Returns:
-    tuple: A tuple containing the rating for number of error types and
-    the rating for number of errors.
-    """
-
-    rating_number_of_error_types = 5.0 - (number_of_error_types / 5.0)
-
-    rating_number_of_errors = 5.0 - ((number_of_errors / 2.0) / 5.0)
-
-    rating_number_of_error_types = max(rating_number_of_error_types, 1.0)
-    rating_number_of_errors = max(rating_number_of_errors, 1.0)
-
-    return (rating_number_of_error_types, rating_number_of_errors)
-
-def get_errors_for_url(url):
-    """
-    Returns CSS errors for a given URL in JSON format.
-    """
-    params = {'doc': url, 'out': 'json', 'level': 'error'}
-    return get_errors('css', params)
 
 def get_mdn_web_docs_css_features():
     """
@@ -690,60 +592,6 @@ def create_review_and_rating(errors, global_translation, local_translation, revi
 
     return rating
 
-def get_error_review(review_header, number_of_errors, local_translation):
-    """
-    Generates a review string for the errors.
-
-    Parameters:
-    review_header (str): The header of the review.
-    number_of_errors (int): The number of error.
-    local_translation (function): The function to translate the review text.
-
-    Returns:
-    str: The review string for the errors.
-    """
-    return review_header + local_translation('TEXT_REVIEW_RATING_ITEMS').format(
-            number_of_errors, 0.0)
-
-def get_error_types_review(review_header, number_of_error_types, local_translation):
-    """
-    Generates a review string for the error types.
-
-    Parameters:
-    review_header (str): The header of the review.
-    number_of_error_types (int): The number of error types.
-    local_translation (function): The function to translate the review text.
-
-    Returns:
-    str: The review string for the error types.
-    """
-    return review_header + local_translation('TEXT_REVIEW_RATING_GROUPED').format(
-        number_of_error_types, 0.0)
-
-def get_reviews_from_errors(msg_grouped_dict, local_translation):
-    """
-    Generates a review string from the grouped error messages.
-
-    Parameters:
-    msg_grouped_dict (dict): The dictionary of grouped error messages.
-    local_translation (function): The function to translate the review text.
-
-    Returns:
-    str: The review string generated from the error messages.
-    """
-    review = ''
-    if len(msg_grouped_dict) > 0:
-        error_message_grouped_sorted = sorted(
-            msg_grouped_dict.items(), key=lambda x: x[1], reverse=True)
-
-        for item in error_message_grouped_sorted:
-            item_value = item[1]
-            item_text = item[0]
-
-            review += local_translation('TEXT_REVIEW_ERRORS_ITEM').format(item_text, item_value)
-    return review
-
-
 def error_has_whitelisted_wording(error_message, whitelisted_words):
     """
     Checks if the error message contains any of the whitelisted words.
@@ -761,31 +609,3 @@ def error_has_whitelisted_wording(error_message, whitelisted_words):
             in_whitelisted = True
             break
     return in_whitelisted
-
-def get_rating(global_translation,
-               error_types_review,
-               error_review,
-               result):
-    """
-    Calculates and returns the overall rating based on the given parameters.
-
-    Parameters:
-    global_translation (function): A function to translate text to a global language.
-    error_types_review (str): The review of error types.
-    error_review (str): The review of errors.
-    result (tuple): The result object containing overall and standards ratings.
-
-    Returns:
-    Rating: The overall rating calculated based on error types and errors.
-    """
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-    errors_type_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-    errors_type_rating.set_overall(result[0])
-    errors_type_rating.set_standards(result[0], error_types_review)
-    rating += errors_type_rating
-
-    errors_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-    errors_rating.set_overall(result[1])
-    errors_rating.set_standards(result[1], error_review)
-    rating += errors_rating
-    return rating

@@ -1,7 +1,7 @@
 {
   "name": "webperf_core",
-  "version": "2024.4.0",
-  "description": "Då vill du nog [läsa dokumentationen på github](https://github.com/Webperf-se/webperf_core/).",
+  "version": "2024.4.1",
+  "description": "D\u00e5 vill du nog [l\u00e4sa dokumentationen p\u00e5 github](https://github.com/Webperf-se/webperf_core/).",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,5 +15,7 @@
     "sitespeed.io": "33.6.0",
     "yellowlabtools": "3.0.1"
   },
-  "engines": { "node": "20.x"}
+  "engines": {
+    "node": "20.x"
+  }
 }

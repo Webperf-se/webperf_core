@@ -1,0 +1,38 @@
+# https://github.com/softprops/action-gh-release
+name: Create Release
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "package.json"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # [!] we need to checkout with tags and commit history
+      - name: Setup python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x" # Version range or exact version of a Python version to use, using SemVer's version range syntax
+          architecture: "x64" # optional x64 or x86. Defaults to x64 if not specified
+      - name: Setup dependencies using pip
+        run: pip install -r requirements.txt
+      - name: 📋 Get Commits since last Release
+        id: changes
+        uses: simbo/changes-since-last-release-action@v1.0.1
+        with:
+          line-prefix: "* "
+          include-hashes: false
+      - name: Generate new release version
+        id: newversion
+        run: python release.py -l "${{ steps.changes.outputs.last-tag }}"
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "${{ env.NEW_VERSION }}"
+          make_latest: "true"
+          generate_release_notes: true

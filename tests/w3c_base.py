@@ -2,6 +2,8 @@
 import os
 import subprocess
 import json
+from models import Rating
+from tests.sitespeed_base import get_result
 from tests.utils import get_cache_path_for_file,\
                         get_config_or_default,\
                         has_cache_file,\
@@ -14,7 +16,16 @@ CSS_REVIEW_GROUP_ERRORS = get_config_or_default('css_review_group_errors')
 REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
 USE_CACHE = get_config_or_default('cache_when_possible')
 CACHE_TIME_DELTA = get_config_or_default('cache_time_delta')
+SITESPEED_USE_DOCKER = get_config_or_default('sitespeed_use_docker')
+SITESPEED_TIMEOUT = get_config_or_default('sitespeed_timeout')
 
+
+def get_errors_for_url(test_type, url):
+    """
+    Returns CSS errors for a given URL in JSON format.
+    """
+    params = {'doc': url, 'out': 'json', 'level': 'error'}
+    return get_errors(test_type, params)
 
 def get_errors(test_type, params):
     """
@@ -75,6 +86,47 @@ def get_errors(test_type, params):
             errors = json_result['messages']
 
     return errors
+
+def get_data_for_url(url):
+    """
+    This function retrieves data for a given URL using the Sitespeed.io tool.
+
+    The function configures Sitespeed.io to run with specific parameters,
+    including running in headless mode, ignoring certificate errors,
+    and capturing all response bodies.
+
+    Parameters:
+    url (str): The URL for which to retrieve data.
+
+    Returns:
+    data (dict): A dictionary containing the data retrieved from the URL.
+    """
+
+    # We don't need extra iterations for what we are using it for
+    sitespeed_iterations = 1
+    sitespeed_arg = (
+            '--shm-size=1g -b chrome '
+            '--plugins.remove screenshot --plugins.remove html --plugins.remove metrics '
+            '--browsertime.screenshot false --screenshot false --screenshotLCP false '
+            '--browsertime.screenshotLCP false --chrome.cdp.performance false '
+            '--browsertime.chrome.timeline false --videoParams.createFilmstrip false '
+            '--visualMetrics false --visualMetricsPerceptual false '
+            '--visualMetricsContentful false --browsertime.headless true '
+            '--browsertime.chrome.includeResponseBodies all --utc true '
+            '--browsertime.chrome.args ignore-certificate-errors '
+            f'-n {sitespeed_iterations}')
+    if 'nt' not in os.name:
+        sitespeed_arg += ' --xvfb'
+
+    sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'
+
+    (_, filename) = get_result(
+        url, SITESPEED_USE_DOCKER, sitespeed_arg, SITESPEED_TIMEOUT)
+
+    # 1. Visit page like a normal user
+    data = identify_files(filename)
+    return data
+
 
 def identify_files(filename):
     """
@@ -144,3 +196,113 @@ def identify_files(filename):
             req_index += 1
 
     return data
+
+def get_rating(global_translation,
+               error_types_review,
+               error_review,
+               result):
+    """
+    Calculates and returns the overall rating based on the given parameters.
+
+    Parameters:
+    global_translation (function): A function to translate text to a global language.
+    error_types_review (str): The review of error types.
+    error_review (str): The review of errors.
+    result (tuple): The result object containing overall and standards ratings.
+
+    Returns:
+    Rating: The overall rating calculated based on error types and errors.
+    """
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    errors_type_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    errors_type_rating.set_overall(result[0])
+    errors_type_rating.set_standards(result[0], error_types_review)
+    rating += errors_type_rating
+
+    errors_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    errors_rating.set_overall(result[1])
+    errors_rating.set_standards(result[1], error_review)
+    rating += errors_rating
+    return rating
+
+def get_error_review(review_header, number_of_errors, local_translation):
+    """
+    Generates a review string for the errors.
+
+    Parameters:
+    review_header (str): The header of the review.
+    number_of_errors (int): The number of error.
+    local_translation (function): The function to translate the review text.
+
+    Returns:
+    str: The review string for the errors.
+    """
+    return review_header + local_translation('TEXT_REVIEW_RATING_ITEMS').format(
+            number_of_errors, 0.0)
+
+def get_error_types_review(review_header, number_of_error_types, local_translation):
+    """
+    Generates a review string for the error types.
+
+    Parameters:
+    review_header (str): The header of the review.
+    number_of_error_types (int): The number of error types.
+    local_translation (function): The function to translate the review text.
+
+    Returns:
+    str: The review string for the error types.
+    """
+    return review_header + local_translation('TEXT_REVIEW_RATING_GROUPED').format(
+        number_of_error_types, 0.0)
+
+def get_reviews_from_errors(msg_grouped_dict, local_translation):
+    """
+    Generates a review string from the grouped error messages.
+
+    Parameters:
+    msg_grouped_dict (dict): The dictionary of grouped error messages.
+    local_translation (function): The function to translate the review text.
+
+    Returns:
+    str: The review string generated from the error messages.
+    """
+    review = ''
+    if len(msg_grouped_dict) > 0:
+        error_message_grouped_sorted = sorted(
+            msg_grouped_dict.items(), key=lambda x: x[1], reverse=True)
+
+        for item in error_message_grouped_sorted:
+            item_value = item[1]
+            item_text = item[0]
+
+            review += local_translation('TEXT_REVIEW_ERRORS_ITEM').format(item_text, item_value)
+    return review
+
+def calculate_rating(number_of_error_types, number_of_errors):
+    """
+    Calculates and returns the ratings based on the number of error types and
+    total number of errors.
+
+    The rating for number of error types is calculated
+    as 5.0 minus the number of error types divided by 5.0.
+    The rating for number of errors is calculated
+    as 5.0 minus half of the number of errors divided by 5.0.
+    Both ratings are ensured to be at least 1.0.
+
+    Parameters:
+    number_of_error_types (int): The number of different types of errors.
+    number_of_errors (int): The total number of errors.
+
+    Returns:
+    tuple: A tuple containing the rating for number of error types and
+    the rating for number of errors.
+    """
+
+    rating_number_of_error_types = 5.0 - (number_of_error_types / 5.0)
+
+    rating_number_of_errors = 5.0 - ((number_of_errors / 2.0) / 5.0)
+
+    rating_number_of_error_types = max(rating_number_of_error_types, 1.0)
+    rating_number_of_errors = max(rating_number_of_errors, 1.0)
+
+    return (rating_number_of_error_types, rating_number_of_errors)

@@ -2,10 +2,6 @@
     "sites": [
         {
             "id": 0,
-            "url": "https://www.vitalmtb.com/"
-        },
-        {
-            "id": 1,
             "url": "https://htmx.org/"
         }
     ]

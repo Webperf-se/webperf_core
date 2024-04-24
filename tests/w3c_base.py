@@ -69,7 +69,7 @@ def get_errors(test_type, params):
 
         file_path = get_cache_path_for_file(url, True)
         if is_html:
-            html_file_ending_fix = file_path.replace('.cache', '.cache.html')
+            html_file_ending_fix = file_path.replace('.cache', '.cache.html').replace('.tmp', '.tmp.html')
             if has_cache_file(url, True, CACHE_TIME_DELTA) \
                     and not os.path.exists(html_file_ending_fix):
                 os.rename(file_path, html_file_ending_fix)

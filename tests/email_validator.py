@@ -366,19 +366,19 @@ def validate_email_domain(hostname, result_dict, global_translation, local_trans
 
     # 1 - Get Email servers
     # dns_lookup
-    rating, ipv4_servers, ipv6_servers = Validate_MX_Records(
+    rating, ipv4_servers, ipv6_servers = validate_mx_records(
         global_translation, rating, result_dict, local_translation, hostname)
 
     # If we have -1.0 in rating, we have no MX records, ignore test.
     if rating.get_overall() != -1.0:
         # 1.2 - Check operational
         if support_port25 and len(ipv4_servers) > 0:
-            rating = Validate_IPv4_Operation_Status(
+            rating = validate_ip4_operation_status(
                 global_translation, rating, local_translation, ipv4_servers)
 
         # 1.2 - Check operational
         if support_port25 and support_ipv6 and len(ipv6_servers) > 0:
-            rating = Validate_IPv6_Operation_Status(
+            rating = validate_ip6_operation_status(
                 global_translation, rating, local_translation, ipv6_servers)
 
         # 1.4 - Check TLS
@@ -386,19 +386,19 @@ def validate_email_domain(hostname, result_dict, global_translation, local_trans
         # 1.6 - Check DNSSEC
         # 1.7 - Check DANE
         # 1.8 - Check MTA-STS policy
-        rating = Validate_MTA_STS_Policy(global_translation, rating, local_translation, hostname)
+        rating = validate_mta_sts_policy(global_translation, rating, local_translation, hostname)
         # 1.9 - Check SPF policy
-        rating = Validate_SPF_Policies(
+        rating = validate_spf_policies(
             global_translation, rating, result_dict, local_translation, hostname)
         # 2.0 - Check DMARK
-        rating = Validate_DMARC_Policies(
+        rating = validate_dmarc_policies(
             global_translation, rating, result_dict, local_translation, hostname)
 
 
     return rating, result_dict
 
 
-def Validate_MTA_STS_Policy(global_translation, rating, local_translation, hostname):
+def validate_mta_sts_policy(global_translation, rating, local_translation, hostname):
     has_mta_sts_policy = False
     # https://www.rfc-editor.org/rfc/rfc8461#section-3.1
     mta_sts_results = dns_lookup('_mta-sts.' + hostname, dns.rdatatype.TXT)
@@ -471,8 +471,8 @@ def Validate_MTA_STS_Policy(global_translation, rating, local_translation, hostn
                 has_version = True
             elif 'mode' in key:
                 if value == 'enforce':
-                    a = 1
-                elif value == 'testing' or value == 'none':
+                    _ = 1
+                elif value in ('testing', 'none'):
                     mta_sts_records_not_enforced_rating = Rating(
                         global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     mta_sts_records_not_enforced_rating.set_overall(3.0)
@@ -525,11 +525,11 @@ def Validate_MTA_STS_Policy(global_translation, rating, local_translation, hostn
     return rating
 
 
-def Validate_DMARC_Policies(global_translation, rating, result_dict, local_translation, hostname):
-    dmarc_result_dict = Validate_DMARC_Policy(local_translation, hostname, result_dict)
+def validate_dmarc_policies(global_translation, rating, result_dict, local_translation, hostname):
+    dmarc_result_dict = validate_dmarc_policy(local_translation, hostname, result_dict)
     result_dict.update(dmarc_result_dict)
 
-    rating = Rate_has_DMARC_Policies(global_translation, rating, result_dict, local_translation)
+    rating = rate_has_dmarc_policies(global_translation, rating, result_dict, local_translation)
     # rating = Rate_Invalid_format_DMARC_Policies(
     #     global_translation,
     #     rating,
@@ -539,7 +539,7 @@ def Validate_DMARC_Policies(global_translation, rating, result_dict, local_trans
     return rating
 
 
-def Validate_DMARC_Policy(local_translation, hostname, result_dict):
+def validate_dmarc_policy(local_translation, hostname, result_dict):
     # https://proton.me/support/anti-spoofing-custom-domain
 
     dmarc_results = dns_lookup(f"_dmarc.{hostname}", "TXT")
@@ -626,7 +626,7 @@ def Validate_DMARC_Policy(local_translation, hostname, result_dict):
                             result_dict['dmarc-warnings'].append(
                                 local_translation(
                                     'TEXT_REVIEW_DMARC_FO_USES_DEFAULT'))
-                        elif field == '1' or field == 'd' or field == 's':
+                        elif field in ('1', 'd', 's'):
                             result_dict['dmarc-fo'].append(field)
                         else:
                             result_dict['dmarc-errors'].append(
@@ -677,9 +677,7 @@ def Validate_DMARC_Policy(local_translation, hostname, result_dict):
     return result_dict
 
 
-
-
-def Rate_has_DMARC_Policies(global_translation, rating, result_dict, local_translation):
+def rate_has_dmarc_policies(global_translation, rating, result_dict, local_translation):
     if 'dmarc-has-policy' in result_dict:
         no_dmarc_record_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         no_dmarc_record_rating.set_overall(5.0)
@@ -805,37 +803,37 @@ def Rate_has_DMARC_Policies(global_translation, rating, result_dict, local_trans
     return rating
 
 
-def Validate_SPF_Policies(global_translation, rating, result_dict, local_translation, hostname):
-    spf_result_dict = Validate_SPF_Policy(
+def validate_spf_policies(global_translation, rating, result_dict, local_translation, hostname):
+    spf_result_dict = validate_spf_policy(
         global_translation,
         local_translation,
         hostname,
         result_dict)
     result_dict.update(spf_result_dict)
 
-    rating = Rate_has_SPF_Policies(global_translation, rating, result_dict, local_translation)
-    rating = Rate_Invalid_format_SPF_Policies(
+    rating = rate_has_spf_policies(global_translation, rating, result_dict, local_translation)
+    rating = rate_invalid_format_spf_policies(
         global_translation,
         rating,
         result_dict,
         local_translation)
-    rating = Rate_Too_many_DNS_lookup_for_SPF_Policies(
+    rating = rate_too_many_dns_lookup_for_spf_policies(
         global_translation, rating, result_dict, local_translation)
-    rating = Rate_Use_of_PTR_for_SPF_Policies(
+    rating = rate_use_of_ptr_for_spf_policies(
         global_translation,
         rating,
         result_dict,
         local_translation)
 
-    rating = Rate_Fail_Configuration_for_SPF_Policies(
+    rating = rate_fail_configuration_for_spf_policies(
         global_translation, rating, result_dict, local_translation)
 
-    rating = Rate_GDPR_for_SPF_Policies(global_translation, rating, result_dict, local_translation)
+    rating = rate_gdpr_for_spf_policies(global_translation, rating, result_dict, local_translation)
 
     return rating
 
 
-def Rate_Use_of_PTR_for_SPF_Policies(global_translation, rating, result_dict, local_translation):
+def rate_use_of_ptr_for_spf_policies(global_translation, rating, result_dict, local_translation):
     if 'spf-uses-ptr' in result_dict:
         has_spf_record_ptr_being_used_rating = Rating(
             global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
@@ -847,7 +845,7 @@ def Rate_Use_of_PTR_for_SPF_Policies(global_translation, rating, result_dict, lo
     return rating
 
 
-def Rate_Fail_Configuration_for_SPF_Policies(
+def rate_fail_configuration_for_spf_policies(
         global_translation,
         rating,
         result_dict,
@@ -895,7 +893,7 @@ def Rate_Fail_Configuration_for_SPF_Policies(
     return rating
 
 
-def Rate_Invalid_format_SPF_Policies(global_translation, rating, result_dict, local_translation):
+def rate_invalid_format_spf_policies(global_translation, rating, result_dict, local_translation):
     if 'spf-uses-none-standard' in result_dict:
         has_spf_unknown_section_rating = Rating(
             global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
@@ -915,7 +913,7 @@ def Rate_Invalid_format_SPF_Policies(global_translation, rating, result_dict, lo
     return rating
 
 
-def Rate_has_SPF_Policies(global_translation, rating, result_dict, local_translation):
+def rate_has_spf_policies(global_translation, rating, result_dict, local_translation):
     has_spf_records_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if 'spf-has-policy' in result_dict:
         txt = local_translation('TEXT_REVIEW_SPF_DNS_RECORD_SUPPORT')
@@ -935,7 +933,7 @@ def Rate_has_SPF_Policies(global_translation, rating, result_dict, local_transla
     return rating
 
 
-def Rate_Too_many_DNS_lookup_for_SPF_Policies(
+def rate_too_many_dns_lookup_for_spf_policies(
         global_translation,
         rating,
         result_dict,
@@ -952,7 +950,7 @@ def Rate_Too_many_DNS_lookup_for_SPF_Policies(
     return rating
 
 
-def Rate_GDPR_for_SPF_Policies(global_translation, rating, result_dict, local_translation):
+def rate_gdpr_for_spf_policies(global_translation, rating, result_dict, local_translation):
     spf_addresses = []
     if 'spf-ipv4' not in result_dict:
         result_dict['spf-ipv4'] = []
@@ -971,7 +969,7 @@ def Rate_GDPR_for_SPF_Policies(global_translation, rating, result_dict, local_tr
         country_code = ''
         country_code = get_best_country_code(
             ip_address, country_code)
-        if country_code == '' or country_code == '-':
+        if country_code in ('', '-'):
             country_code = 'unknown'
 
         if is_country_code_in_eu_or_on_exception_list(country_code):
@@ -1005,7 +1003,7 @@ def Rate_GDPR_for_SPF_Policies(global_translation, rating, result_dict, local_tr
     return rating
 
 
-def Validate_SPF_Policy(global_translation, local_translation, hostname, result_dict):
+def validate_spf_policy(global_translation, local_translation, hostname, result_dict):
     # https://proton.me/support/anti-spoofing-custom-domain
 
     if 'spf-dns-lookup-count' in result_dict and result_dict['spf-dns-lookup-count'] >= 10:
@@ -1048,7 +1046,7 @@ def Validate_SPF_Policy(global_translation, local_translation, hostname, result_
                     result_dict['spf-ipv6'].append(data)
                 elif section.startswith('include:') or section.startswith('+include:'):
                     spf_domain = section[8:]
-                    subresult_dict = Validate_SPF_Policy(
+                    subresult_dict = validate_spf_policy(
                         global_translation, local_translation, spf_domain, result_dict)
                     result_dict.update(subresult_dict)
                 elif section.startswith('?all'):
@@ -1111,7 +1109,7 @@ def replace_network_with_first_and_last_ipaddress(spf_addresses):
         spf_addresses.remove(ip_address)
 
 
-def Validate_IPv6_Operation_Status(global_translation, rating, local_translation, ipv6_servers):
+def validate_ip6_operation_status(global_translation, rating, local_translation, ipv6_servers):
     ipv6_servers_operational = []
     # 1.3 - Check Start TLS
     ipv6_servers_operational_starttls = []
@@ -1161,7 +1159,7 @@ def Validate_IPv6_Operation_Status(global_translation, rating, local_translation
     return rating
 
 
-def Validate_IPv4_Operation_Status(global_translation, rating, local_translation, ipv4_servers):
+def validate_ip4_operation_status(global_translation, rating, local_translation, ipv4_servers):
     ipv4_servers_operational = []
     # 1.3 - Check Start TLS
     ipv4_servers_operational_starttls = []
@@ -1209,7 +1207,7 @@ def Validate_IPv4_Operation_Status(global_translation, rating, local_translation
     return rating
 
 
-def Validate_MX_Records(global_translation, rating, result_dict, local_translation, hostname):
+def validate_mx_records(global_translation, rating, result_dict, local_translation, hostname):
     email_results = dns_lookup(hostname, dns.rdatatype.MX)
     email_servers = []
     # 1.1 - Check IPv4 and IPv6 support
@@ -1289,7 +1287,7 @@ def Validate_MX_Records(global_translation, rating, result_dict, local_translati
         country_code = ''
         country_code = get_best_country_code(
             ip_address, country_code)
-        if country_code == '' or country_code == '-':
+        if country_code in ('', '-'):
             country_code = 'unknown'
 
         if is_country_code_in_eu_or_on_exception_list(country_code):

@@ -79,10 +79,7 @@ class SmtpWebperf(smtplib.SMTP): # pylint: disable=too-many-instance-attributes
             i = host.rfind(':')
             if i >= 0:
                 host, port = host[:i], host[i + 1:]
-                try:
-                    port = int(port)
-                except ValueError:
-                    raise OSError("nonnumeric port")
+                port = int(port)
         if not port:
             port = self.default_port
         sys.audit("smtplib.connect", self, host, port)
@@ -111,15 +108,15 @@ class SmtpWebperf(smtplib.SMTP): # pylint: disable=too-many-instance-attributes
             try:
                 name = socket.getnameinfo(self.sock.getsockname(), 0)
                 if self.sock.family == socket.AF_INET:
-                    self.local_hostname = '[%s]' % name[0]
-                elif self.sock_family == socket.AF_INET6:
-                    self.local_hostname = '[IPv6:%s]' % name[0]
+                    self.local_hostname = f'[{name[0]}]'
+                elif self.sock.family == socket.AF_INET6:
+                    self.local_hostname = f'[IPv6:{name[0]}]'
                 else:
                     if self.debuglevel > 0:
-                        print>>sys.stderr, "Unknown address family in SMTP socket"
+                        print("Unknown address family in SMTP socket")
             except socket.gaierror as e:
                 if self.debuglevel > 0:
-                    print>>sys.stderr, "Error while resolving hostname: ", e.string()
+                    print("Error while resolving hostname: ", e.string())
         return (code, msg)
 
 
@@ -1086,10 +1083,9 @@ def replace_network_with_first_and_last_ipaddress(spf_addresses):
 
             num_addresses = network.num_addresses
             if num_addresses > 0:
-                spf_addresses.append(network.__getitem__(0).__format__('s'))
+                spf_addresses.append(str(network[0]))
             if num_addresses > 1:
-                spf_addresses.append(network.__getitem__(
-                    network.num_addresses - 1).__format__('s'))
+                spf_addresses.append(str(network[network.num_addresses - 1]))
 
             networs_to_remove.append(ip_address)
 

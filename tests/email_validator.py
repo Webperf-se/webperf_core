@@ -1206,18 +1206,12 @@ def validate_ip4_operation_status(global_translation, rating, local_translation,
     rating += ipv4_operational_rating
     return rating
 
-
-def validate_mx_records(global_translation, rating, result_dict, local_translation, hostname):
-    email_results = dns_lookup(hostname, dns.rdatatype.MX)
-    email_servers = []
-    # 1.1 - Check IPv4 and IPv6 support
-    ipv4_servers = []
-    ipv6_servers = []
+def get_email_entries(hostname):
     email_entries = []
-
+    email_results = dns_lookup(hostname, dns.rdatatype.MX)
     has_mx_records = len(email_results) > 0
     if not has_mx_records:
-        return rating, ipv4_servers, ipv6_servers
+        return email_entries
 
     for email_result in email_results:
         # result is in format "<priority> <domain address/ip>"
@@ -1225,60 +1219,32 @@ def validate_mx_records(global_translation, rating, result_dict, local_translati
         if len(email_result_sections) > 1:
             server_address = email_result_sections[1]
         else:
-            return rating, ipv4_servers, ipv6_servers
+            return email_entries
 
         email_entries.append(server_address)
-        ipv_4 = dns_lookup(server_address, dns.rdatatype.A)
-        ipv_6 = dns_lookup(server_address, dns.rdatatype.AAAA)
 
+    return email_entries
+
+def get_addresses_for_dnstype(email_entries, rdatatype):
+    ipv4_servers = []
+    for email_entry in email_entries:
+        ipv_4 = dns_lookup(email_entry, rdatatype)
         ipv4_servers.extend(ipv_4)
-        ipv6_servers.extend(ipv_6)
+    return ipv4_servers
 
+def validate_mx_records(global_translation, rating, result_dict, local_translation, hostname):
+    # 1.1 - Check IPv4 and IPv6 support
+    email_entries = get_email_entries(hostname)
+
+    ipv4_servers = get_addresses_for_dnstype(email_entries, dns.rdatatype.A)
+    ipv6_servers = get_addresses_for_dnstype(email_entries, dns.rdatatype.AAAA)
+
+    email_servers = []
     email_servers.extend(ipv4_servers)
     email_servers.extend(ipv6_servers)
 
-    nof_ipv4_servers = len(ipv4_servers)
-    nof_ipv4_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-    if nof_ipv4_servers >= 2:
-        nof_ipv4_rating.set_overall(5.0)
-        nof_ipv4_rating.set_integrity_and_security(
-            5.0, local_translation('TEXT_REVIEW_IPV4_REDUNDANCE'))
-        nof_ipv4_rating.set_standards(
-            5.0, local_translation('TEXT_REVIEW_IPV4_SUPPORT'))
-    elif nof_ipv4_servers == 1:
-        # example: feber.se (do dns lookup also before)
-        nof_ipv4_rating.set_overall(2.5)
-        nof_ipv4_rating.set_integrity_and_security(
-            1.0, local_translation('TEXT_REVIEW_IPV4_NO_REDUNDANCE'))
-        nof_ipv4_rating.set_standards(
-            5.0, local_translation('TEXT_REVIEW_IPV4_SUPPORT'))
-    else:
-        nof_ipv4_rating.set_overall(1.0)
-        nof_ipv4_rating.set_standards(
-            1.0, local_translation('TEXT_REVIEW_IPV4_NO_SUPPORT'))
-    rating += nof_ipv4_rating
-
-    nof_ipv6_servers = len(ipv6_servers)
-    nof_ipv6_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-    if nof_ipv6_servers >= 2:
-        nof_ipv6_rating.set_overall(5.0)
-        nof_ipv6_rating.set_integrity_and_security(
-            5.0, local_translation('TEXT_REVIEW_IPV6_REDUNDANCE'))
-        nof_ipv6_rating.set_standards(
-            5.0, local_translation('TEXT_REVIEW_IPV6_SUPPORT'))
-    elif nof_ipv6_servers == 1:
-        # example: feber.se (do dns lookup also before)
-        nof_ipv6_rating.set_overall(2.5)
-        nof_ipv6_rating.set_integrity_and_security(
-            1.0, local_translation('TEXT_REVIEW_IPV6_NO_REDUNDANCE'))
-        nof_ipv6_rating.set_standards(
-            5.0, local_translation('TEXT_REVIEW_IPV6_SUPPORT'))
-    else:
-        # example: huddinge.se
-        nof_ipv6_rating.set_overall(1.0)
-        nof_ipv6_rating.set_standards(
-            1.0, local_translation('TEXT_REVIEW_IPV6_NO_SUPPORT'))
-    rating += nof_ipv6_rating
+    rating += rate_mx_ip4_usage(global_translation, local_translation, ipv4_servers)
+    rating += rate_mx_ip6_usage(global_translation, local_translation, ipv6_servers)
 
     # 2.0 - Check GDPR for all IP-adresses
     countries_others = {}
@@ -1302,6 +1268,27 @@ def validate_mx_records(global_translation, rating, result_dict, local_translati
             else:
                 countries_others[country_code] = 1
 
+    rating += rate_mx_gdpr(
+        global_translation,
+        local_translation,
+        countries_others,
+        countries_eu_or_exception_list)
+
+    # add data to result of test
+    result_dict["mx-addresses"] = email_entries
+    result_dict["mx-ipv4-servers"] = ipv4_servers
+    result_dict["mx-ipv6-servers"] = ipv6_servers
+    result_dict["mx-gdpr-countries"] = countries_eu_or_exception_list
+    result_dict["mx-none-gdpr-countries"] = countries_others
+
+    return rating, ipv4_servers, ipv6_servers
+
+def rate_mx_gdpr(
+        global_translation,
+        local_translation,
+        countries_others,
+        countries_eu_or_exception_list):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     nof_gdpr_countries = len(countries_eu_or_exception_list)
     nof_none_gdpr_countries = len(countries_others)
     if nof_gdpr_countries > 0:
@@ -1318,12 +1305,50 @@ def validate_mx_records(global_translation, rating, result_dict, local_translati
             1.0, local_translation('TEXT_REVIEW_MX_NONE_GDPR').format(
                 ', '.join(countries_others.keys())))
         rating += none_gdpr_rating
+    return rating
 
-    # add data to result of test
-    result_dict["mx-addresses"] = email_entries
-    result_dict["mx-ipv4-servers"] = ipv4_servers
-    result_dict["mx-ipv6-servers"] = ipv6_servers
-    result_dict["mx-gdpr-countries"] = countries_eu_or_exception_list
-    result_dict["mx-none-gdpr-countries"] = countries_others
+def rate_mx_ip6_usage(global_translation, local_translation, ipv6_servers):
+    nof_ipv6_servers = len(ipv6_servers)
+    nof_ipv6_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    if nof_ipv6_servers >= 2:
+        nof_ipv6_rating.set_overall(5.0)
+        nof_ipv6_rating.set_integrity_and_security(
+            5.0, local_translation('TEXT_REVIEW_IPV6_REDUNDANCE'))
+        nof_ipv6_rating.set_standards(
+            5.0, local_translation('TEXT_REVIEW_IPV6_SUPPORT'))
+    elif nof_ipv6_servers == 1:
+        # example: feber.se (do dns lookup also before)
+        nof_ipv6_rating.set_overall(2.5)
+        nof_ipv6_rating.set_integrity_and_security(
+            1.0, local_translation('TEXT_REVIEW_IPV6_NO_REDUNDANCE'))
+        nof_ipv6_rating.set_standards(
+            5.0, local_translation('TEXT_REVIEW_IPV6_SUPPORT'))
+    else:
+        # example: huddinge.se
+        nof_ipv6_rating.set_overall(1.0)
+        nof_ipv6_rating.set_standards(
+            1.0, local_translation('TEXT_REVIEW_IPV6_NO_SUPPORT'))
 
-    return rating, ipv4_servers, ipv6_servers
+    return nof_ipv6_rating
+
+def rate_mx_ip4_usage(global_translation, local_translation, ipv4_servers):
+    nof_ipv4_servers = len(ipv4_servers)
+    nof_ipv4_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    if nof_ipv4_servers >= 2:
+        nof_ipv4_rating.set_overall(5.0)
+        nof_ipv4_rating.set_integrity_and_security(
+            5.0, local_translation('TEXT_REVIEW_IPV4_REDUNDANCE'))
+        nof_ipv4_rating.set_standards(
+            5.0, local_translation('TEXT_REVIEW_IPV4_SUPPORT'))
+    elif nof_ipv4_servers == 1:
+        # example: feber.se (do dns lookup also before)
+        nof_ipv4_rating.set_overall(2.5)
+        nof_ipv4_rating.set_integrity_and_security(
+            1.0, local_translation('TEXT_REVIEW_IPV4_NO_REDUNDANCE'))
+        nof_ipv4_rating.set_standards(
+            5.0, local_translation('TEXT_REVIEW_IPV4_SUPPORT'))
+    else:
+        nof_ipv4_rating.set_overall(1.0)
+        nof_ipv4_rating.set_standards(
+            1.0, local_translation('TEXT_REVIEW_IPV4_NO_SUPPORT'))
+    return nof_ipv4_rating

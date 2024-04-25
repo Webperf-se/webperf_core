@@ -400,20 +400,7 @@ def validate_mta_sts_policy(global_translation, rating, local_translation, hostn
         if 'v=STSv1;' in result:
             has_mta_sts_policy = True
 
-    has_mta_sts_records_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-    if has_mta_sts_policy:
-        has_mta_sts_records_rating.set_overall(5.0)
-        has_mta_sts_records_rating.set_integrity_and_security(
-            5.0, local_translation('TEXT_REVIEW_MTA_STS_DNS_RECORD_SUPPORT'))
-        has_mta_sts_records_rating.set_standards(
-            5.0, local_translation('TEXT_REVIEW_MTA_STS_DNS_RECORD_SUPPORT'))
-    else:
-        has_mta_sts_records_rating.set_overall(1.0)
-        has_mta_sts_records_rating.set_integrity_and_security(
-            1.0, local_translation('TEXT_REVIEW_MTA_STS_DNS_RECORD_NO_SUPPORT'))
-        has_mta_sts_records_rating.set_standards(
-            1.0, local_translation('TEXT_REVIEW_MTA_STS_DNS_RECORD_NO_SUPPORT'))
-    rating += has_mta_sts_records_rating
+    rating += rate_mts_sts_records(global_translation, local_translation, has_mta_sts_policy)
 
     # https://mta-sts.example.com/.well-known/mta-sts.txt
     content = get_http_content(
@@ -518,6 +505,23 @@ def validate_mta_sts_policy(global_translation, rating, local_translation, hostn
     rating += has_mta_sts_txt_rating
     return rating
 
+def rate_mts_sts_records(global_translation, local_translation, has_mta_sts_policy):
+    has_mta_sts_records_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    if has_mta_sts_policy:
+        has_mta_sts_records_rating.set_overall(5.0)
+        has_mta_sts_records_rating.set_integrity_and_security(
+            5.0, local_translation('TEXT_REVIEW_MTA_STS_DNS_RECORD_SUPPORT'))
+        has_mta_sts_records_rating.set_standards(
+            5.0, local_translation('TEXT_REVIEW_MTA_STS_DNS_RECORD_SUPPORT'))
+    else:
+        has_mta_sts_records_rating.set_overall(1.0)
+        has_mta_sts_records_rating.set_integrity_and_security(
+            1.0, local_translation('TEXT_REVIEW_MTA_STS_DNS_RECORD_NO_SUPPORT'))
+        has_mta_sts_records_rating.set_standards(
+            1.0, local_translation('TEXT_REVIEW_MTA_STS_DNS_RECORD_NO_SUPPORT'))
+            
+    return has_mta_sts_records_rating
+
 
 def validate_dmarc_policies(global_translation, rating, result_dict, local_translation, hostname):
     dmarc_result_dict = validate_dmarc_policy(local_translation, hostname, result_dict)
@@ -574,94 +578,7 @@ def validate_dmarc_policy(local_translation, hostname, result_dict):
             key = pair[0]
             data = pair[1]
 
-            if key == 'p':
-                if data in ('none', 'quarantine', 'reject'):
-                    result_dict['dmarc-p'] = data
-                else:
-                    result_dict['dmarc-errors'].append(
-                        local_translation(
-                            'TEXT_REVIEW_DMARC_POLICY_INVALID'))
-            elif key == 'sp':
-                if data in ('none', 'quarantine', 'reject'):
-                    result_dict['dmarc-sp'] = data
-                else:
-                    result_dict['dmarc-errors'].append(
-                        local_translation(
-                            'TEXT_REVIEW_DMARC_SUBPOLICY_INVALID'))
-            elif key == 'adkim':
-                if data == 'r':
-                    result_dict['dmarc-warnings'].append(
-                        local_translation(
-                            'TEXT_REVIEW_DMARC_ADKIM_USES_DEFAULT'))
-                elif data == 's':
-                    result_dict['dmarc-adkim'] = data
-                else:
-                    result_dict['dmarc-errors'].append(
-                        local_translation(
-                            'TEXT_REVIEW_DMARC_ADKIM_INVALID'))
-            elif key == 'aspf':
-                if data == 'r':
-                    result_dict['dmarc-warnings'].append(
-                        local_translation(
-                            'TEXT_REVIEW_DMARC_ASPF_USES_DEFAULT'))
-                elif data == 's':
-                    result_dict['dmarc-aspf'] = data
-                else:
-                    result_dict['dmarc-errors'].append(
-                        local_translation(
-                            'TEXT_REVIEW_DMARC_ASPF_INVALID'))
-            elif key == 'fo':
-                result_dict['dmarc-fo'] = []
-                fields = data.split(',')
-                for field in fields:
-                    if field == '0':
-                        result_dict['dmarc-fo'].append(field)
-                        result_dict['dmarc-warnings'].append(
-                            local_translation(
-                                'TEXT_REVIEW_DMARC_FO_USES_DEFAULT'))
-                    elif field in ('1', 'd', 's'):
-                        result_dict['dmarc-fo'].append(field)
-                    else:
-                        result_dict['dmarc-errors'].append(
-                            local_translation(
-                                'TEXT_REVIEW_DMARC_FO_INVALID'))
-            elif key == 'rua':
-                fields = data.split(',')
-                for field in fields:
-                    result_dict['dmarc-rua'].append(field)
-            elif key == 'ruf':
-                fields = data.split(',')
-                for field in fields:
-                    result_dict['dmarc-ruf'].append(field)
-            elif key == 'rf':
-                if data == 'afrf':
-                    result_dict['dmarc-warnings'].append(local_translation(
-                        'TEXT_REVIEW_DMARC_RF_USES_DEFAULT'))
-                result_dict['dmarc-rf'] = data
-            elif key == 'pct':
-                try:
-                    result_dict['dmarc-pct'] = int(data)
-                    if result_dict['dmarc-pct'] == 100:
-                        result_dict['dmarc-warnings'].append(
-                            local_translation('TEXT_REVIEW_DMARC_PCT_USES_DEFAULT'))
-                    elif 100 < result_dict['dmarc-pct'] < 0:
-                        result_dict['dmarc-errors'].append(
-                            local_translation('TEXT_REVIEW_DMARC_PCT_INVALID'))
-                        result_dict['dmarc-pct'] = None
-                except TypeError:
-                    result_dict['dmarc-errors'].append(
-                        local_translation('TEXT_REVIEW_DMARC_PCT_INVALID'))
-                    result_dict['dmarc-pct'] = None
-            elif key == 'ri':
-                try:
-                    result_dict['dmarc-ri'] = int(data)
-                    if result_dict['dmarc-ri'] == 86400:
-                        result_dict['dmarc-warnings'].append(
-                            local_translation('TEXT_REVIEW_DMARC_RI_USES_DEFAULT'))
-                except TypeError:
-                    result_dict['dmarc-errors'].append(
-                        local_translation('TEXT_REVIEW_DMARC_RI_INVALID'))
-                    result_dict['dmarc-ri'] = None
+            handle_dmarc_section(key, data, result_dict, local_translation)
 
     return result_dict
 
@@ -676,78 +593,11 @@ def rate_has_dmarc_policies(global_translation, rating, result_dict, local_trans
             5.0, local_translation('TEXT_REVIEW_DMARC_SUPPORT'))
         rating += no_dmarc_record_rating
 
-        dmarc_policy_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        if 'dmarc-p' in result_dict:
-            if 'reject' == result_dict['dmarc-p']:
-                dmarc_policy_rating.set_overall(5.0)
-                dmarc_policy_rating.set_integrity_and_security(
-                    5.0, local_translation('TEXT_REVIEW_DMARC_POLICY_REJECT'))
-                dmarc_policy_rating.set_standards(
-                    5.0, local_translation('TEXT_REVIEW_DMARC_POLICY_REJECT'))
-            elif 'quarantine' == result_dict['dmarc-p']:
-                dmarc_policy_rating.set_overall(4.0)
-                dmarc_policy_rating.set_integrity_and_security(
-                    4.0, local_translation('TEXT_REVIEW_DMARC_POLICY_QUARANTINE'))
-                dmarc_policy_rating.set_standards(
-                    5.0, local_translation('TEXT_REVIEW_DMARC_POLICY_QUARANTINE'))
-            elif 'none' == result_dict['dmarc-p']:
-                dmarc_policy_rating.set_overall(3.0)
-                dmarc_policy_rating.set_integrity_and_security(
-                    1.0, local_translation('TEXT_REVIEW_DMARC_POLICY_NONE'))
-                dmarc_policy_rating.set_standards(
-                    5.0, local_translation('TEXT_REVIEW_DMARC_POLICY_NONE'))
-        if not dmarc_policy_rating.is_set:
-            dmarc_policy_rating.set_overall(1.0)
-            dmarc_policy_rating.set_integrity_and_security(
-                1.0, local_translation('TEXT_REVIEW_DMARC_NO_POLICY'))
-            dmarc_policy_rating.set_standards(
-                1.0, local_translation('TEXT_REVIEW_DMARC_NO_POLICY'))
-        rating += dmarc_policy_rating
-
-        dmarc_subpolicy_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        if 'dmarc-sp' in result_dict and\
-                'dmarc-p' in result_dict and\
-                result_dict['dmarc-p'] == result_dict['dmarc-sp']:
-            dmarc_subpolicy_rating.set_overall(3.0)
-            dmarc_subpolicy_rating.set_standards(
-                3.0, local_translation('TEXT_REVIEW_DMARC_SUBPOLICY_REDUNDANT'))
-        elif 'dmarc-sp' in result_dict:
-            if 'reject' == result_dict['dmarc-sp']:
-                dmarc_subpolicy_rating.set_overall(5.0)
-                dmarc_subpolicy_rating.set_integrity_and_security(
-                    5.0, local_translation('TEXT_REVIEW_DMARC_SUBPOLICY_QUARANTINE'))
-                dmarc_subpolicy_rating.set_standards(
-                    5.0, local_translation('TEXT_REVIEW_DMARC_SUBPOLICY_QUARANTINE'))
-            elif 'quarantine' == result_dict['dmarc-sp']:
-                dmarc_subpolicy_rating.set_overall(4.0)
-                dmarc_subpolicy_rating.set_integrity_and_security(
-                    4.0, local_translation('TEXT_REVIEW_DMARC_SUBPOLICY_REJECT'))
-                dmarc_subpolicy_rating.set_standards(
-                    5.0, local_translation('TEXT_REVIEW_DMARC_SUBPOLICY_REJECT'))
-            elif 'none' == result_dict['dmarc-sp']:
-                dmarc_subpolicy_rating.set_overall(3.0)
-                dmarc_subpolicy_rating.set_integrity_and_security(
-                    1.0, local_translation('TEXT_REVIEW_DMARC_SUBPOLICY_NONE'))
-                dmarc_subpolicy_rating.set_standards(
-                    5.0, local_translation('TEXT_REVIEW_DMARC_SUBPOLICY_NONE'))
-        rating += dmarc_subpolicy_rating
-
+        rating += rate_dmarc_policy(global_translation, result_dict, local_translation)
+        rating += rate_dmarc_subpolicy(global_translation, result_dict, local_translation)
 
         if result_dict['dmarc-pct'] is not None:
-            percentage_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-            if result_dict['dmarc-pct'] < 100:
-                percentage_rating.set_overall(3.0)
-                percentage_rating.set_integrity_and_security(
-                    1.0, local_translation('TEXT_REVIEW_DMARC_PCT_NOT_100'))
-                percentage_rating.set_standards(
-                    5.0, local_translation('TEXT_REVIEW_DMARC_PCT'))
-            else:
-                percentage_rating.set_overall(5.0)
-                percentage_rating.set_integrity_and_security(
-                    5.0, local_translation('TEXT_REVIEW_DMARC_PCT'))
-                percentage_rating.set_standards(
-                    5.0, local_translation('TEXT_REVIEW_DMARC_PCT'))
-            rating += percentage_rating
+            rating += rate_dmarc_pct(global_translation, result_dict, local_translation)
 
         if len(result_dict['dmarc-fo']) != 0 and\
               len(result_dict['dmarc-ruf']) == 0:
@@ -790,6 +640,82 @@ def rate_has_dmarc_policies(global_translation, rating, result_dict, local_trans
             1.0, local_translation('TEXT_REVIEW_DMARC_NO_SUPPORT'))
         rating += no_dmarc_record_rating
     return rating
+
+def rate_dmarc_pct(global_translation, result_dict, local_translation):
+    percentage_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    if result_dict['dmarc-pct'] < 100:
+        percentage_rating.set_overall(3.0)
+        percentage_rating.set_integrity_and_security(
+                    1.0, local_translation('TEXT_REVIEW_DMARC_PCT_NOT_100'))
+        percentage_rating.set_standards(
+                    5.0, local_translation('TEXT_REVIEW_DMARC_PCT'))
+    else:
+        percentage_rating.set_overall(5.0)
+        percentage_rating.set_integrity_and_security(
+                    5.0, local_translation('TEXT_REVIEW_DMARC_PCT'))
+        percentage_rating.set_standards(
+                    5.0, local_translation('TEXT_REVIEW_DMARC_PCT'))
+    return percentage_rating
+
+def rate_dmarc_subpolicy(global_translation, result_dict, local_translation):
+    dmarc_subpolicy_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    if 'dmarc-sp' in result_dict and\
+                'dmarc-p' in result_dict and\
+                result_dict['dmarc-p'] == result_dict['dmarc-sp']:
+        dmarc_subpolicy_rating.set_overall(3.0)
+        dmarc_subpolicy_rating.set_standards(
+                3.0, local_translation('TEXT_REVIEW_DMARC_SUBPOLICY_REDUNDANT'))
+    elif 'dmarc-sp' in result_dict:
+        if 'reject' == result_dict['dmarc-sp']:
+            dmarc_subpolicy_rating.set_overall(5.0)
+            dmarc_subpolicy_rating.set_integrity_and_security(
+                    5.0, local_translation('TEXT_REVIEW_DMARC_SUBPOLICY_QUARANTINE'))
+            dmarc_subpolicy_rating.set_standards(
+                    5.0, local_translation('TEXT_REVIEW_DMARC_SUBPOLICY_QUARANTINE'))
+        elif 'quarantine' == result_dict['dmarc-sp']:
+            dmarc_subpolicy_rating.set_overall(4.0)
+            dmarc_subpolicy_rating.set_integrity_and_security(
+                    4.0, local_translation('TEXT_REVIEW_DMARC_SUBPOLICY_REJECT'))
+            dmarc_subpolicy_rating.set_standards(
+                    5.0, local_translation('TEXT_REVIEW_DMARC_SUBPOLICY_REJECT'))
+        elif 'none' == result_dict['dmarc-sp']:
+            dmarc_subpolicy_rating.set_overall(3.0)
+            dmarc_subpolicy_rating.set_integrity_and_security(
+                    1.0, local_translation('TEXT_REVIEW_DMARC_SUBPOLICY_NONE'))
+            dmarc_subpolicy_rating.set_standards(
+                    5.0, local_translation('TEXT_REVIEW_DMARC_SUBPOLICY_NONE'))
+                
+    return dmarc_subpolicy_rating
+
+def rate_dmarc_policy(global_translation, result_dict, local_translation):
+    dmarc_policy_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    if 'dmarc-p' in result_dict:
+        if 'reject' == result_dict['dmarc-p']:
+            dmarc_policy_rating.set_overall(5.0)
+            dmarc_policy_rating.set_integrity_and_security(
+                    5.0, local_translation('TEXT_REVIEW_DMARC_POLICY_REJECT'))
+            dmarc_policy_rating.set_standards(
+                    5.0, local_translation('TEXT_REVIEW_DMARC_POLICY_REJECT'))
+        elif 'quarantine' == result_dict['dmarc-p']:
+            dmarc_policy_rating.set_overall(4.0)
+            dmarc_policy_rating.set_integrity_and_security(
+                    4.0, local_translation('TEXT_REVIEW_DMARC_POLICY_QUARANTINE'))
+            dmarc_policy_rating.set_standards(
+                    5.0, local_translation('TEXT_REVIEW_DMARC_POLICY_QUARANTINE'))
+        elif 'none' == result_dict['dmarc-p']:
+            dmarc_policy_rating.set_overall(3.0)
+            dmarc_policy_rating.set_integrity_and_security(
+                    1.0, local_translation('TEXT_REVIEW_DMARC_POLICY_NONE'))
+            dmarc_policy_rating.set_standards(
+                    5.0, local_translation('TEXT_REVIEW_DMARC_POLICY_NONE'))
+    if not dmarc_policy_rating.is_set:
+        dmarc_policy_rating.set_overall(1.0)
+        dmarc_policy_rating.set_integrity_and_security(
+                1.0, local_translation('TEXT_REVIEW_DMARC_NO_POLICY'))
+        dmarc_policy_rating.set_standards(
+                1.0, local_translation('TEXT_REVIEW_DMARC_NO_POLICY'))
+            
+    return dmarc_policy_rating
 
 
 def validate_spf_policies(global_translation, rating, result_dict, local_translation, hostname):
@@ -991,6 +917,191 @@ def rate_gdpr_for_spf_policies(global_translation, rating, result_dict, local_tr
         rating += none_gdpr_rating
     return rating
 
+def handle_spf_ip4(section, result_dict, _, _2):
+    data = section[4:]
+    if 'spf-ipv4' not in result_dict:
+        result_dict['spf-ipv4'] = []
+    result_dict['spf-ipv4'].append(data)
+
+def handle_spf_ip6(section, result_dict, _, _2):
+    data = section[4:]
+    if 'spf-ipv6' not in result_dict:
+        result_dict['spf-ipv6'] = []
+    result_dict['spf-ipv6'].append(data)
+
+def handle_spf_include(section, result_dict, global_translation, local_translation):
+    spf_domain = section[8:]
+    subresult_dict = validate_spf_policy(
+        global_translation, local_translation, spf_domain, result_dict)
+    result_dict.update(subresult_dict)
+
+def handle_spf_neutral_all_question(_, result_dict, _2, _3):
+    # What do this do and should we rate on it?
+    result_dict['spf-uses-neutralfail'] = True
+
+def handle_spf_soft_all_question(_, result_dict, _2, _3):
+    # add support for SoftFail
+    result_dict['spf-uses-softfail'] = True
+
+def handle_spf_hard_all_question(_, result_dict, _2, _3):
+    # add support for HardFail
+    result_dict['spf-uses-hardfail'] = True
+
+def handle_spf_ignore_all_question(_, result_dict, _2, _3):
+    # basicly whitelist everything... Big fail
+    result_dict['spf-uses-ignorefail'] = True
+
+def handle_spf_noop(_, _2, _3, _4):
+    return
+
+def handle_spf_ptr(_, result_dict, _2, _3):
+    # What do this do and should we rate on it?
+    result_dict['spf-uses-ptr'] = True
+
+
+def handle_spf_section(section, result_dict, global_translation, local_translation):
+    spf_section_handlers = {
+        "ip4:": handle_spf_ip4,
+        "ip6:": handle_spf_ip6,
+        "include:": handle_spf_include,
+        "+include:": handle_spf_include,
+        "?all:": handle_spf_neutral_all_question,
+        "~all:": handle_spf_soft_all_question,
+        "-all:": handle_spf_hard_all_question,
+        "+all:": handle_spf_ignore_all_question,
+        "v=spf1": handle_spf_noop,
+        "mx": handle_spf_noop,
+        "+mx": handle_spf_noop,
+        "a": handle_spf_noop,
+        "+a": handle_spf_noop,
+        "ptr": handle_spf_ptr,
+        "+ptr": handle_spf_ptr,
+        "exists:": handle_spf_noop,
+        "redirect=": handle_spf_noop,
+        "exp=": handle_spf_noop,
+    }
+
+    for option, handler in spf_section_handlers.items():
+        if section.startswith(option):
+            handler(section, result_dict, global_translation, local_translation)
+        else:
+            result_dict['spf-uses-none-standard'] = True
+
+def handle_dmarc_p(data, result_dict, local_translation):
+    if data in ('none', 'quarantine', 'reject'):
+        result_dict['dmarc-p'] = data
+    else:
+        result_dict['dmarc-errors'].append(
+            local_translation(
+                'TEXT_REVIEW_DMARC_POLICY_INVALID'))
+
+def handle_dmarc_sp(data, result_dict, local_translation):
+    if data in ('none', 'quarantine', 'reject'):
+        result_dict['dmarc-sp'] = data
+    else:
+        result_dict['dmarc-errors'].append(
+            local_translation(
+                'TEXT_REVIEW_DMARC_SUBPOLICY_INVALID'))
+        
+def handle_dmarc_adkim(data, result_dict, local_translation):
+    if data == 'r':
+        result_dict['dmarc-warnings'].append(
+            local_translation(
+                'TEXT_REVIEW_DMARC_ADKIM_USES_DEFAULT'))
+    elif data == 's':
+        result_dict['dmarc-adkim'] = data
+    else:
+        result_dict['dmarc-errors'].append(
+            local_translation(
+                'TEXT_REVIEW_DMARC_ADKIM_INVALID'))
+
+def handle_dmarc_aspf(data, result_dict, local_translation):
+    if data == 'r':
+        result_dict['dmarc-warnings'].append(
+            local_translation(
+                'TEXT_REVIEW_DMARC_ASPF_USES_DEFAULT'))
+    elif data == 's':
+        result_dict['dmarc-aspf'] = data
+    else:
+        result_dict['dmarc-errors'].append(
+            local_translation(
+                'TEXT_REVIEW_DMARC_ASPF_INVALID'))
+
+def handle_dmarc_fo(data, result_dict, local_translation):
+    result_dict['dmarc-fo'] = []
+    fields = data.split(',')
+    for field in fields:
+        if field == '0':
+            result_dict['dmarc-fo'].append(field)
+            result_dict['dmarc-warnings'].append(
+                local_translation(
+                    'TEXT_REVIEW_DMARC_FO_USES_DEFAULT'))
+        elif field in ('1', 'd', 's'):
+            result_dict['dmarc-fo'].append(field)
+        else:
+            result_dict['dmarc-errors'].append(
+                local_translation(
+                    'TEXT_REVIEW_DMARC_FO_INVALID'))
+
+def handle_dmarc_rua(data, result_dict, _):
+    fields = data.split(',')
+    for field in fields:
+        result_dict['dmarc-rua'].append(field)
+
+def handle_dmarc_ruf(data, result_dict, _):
+    fields = data.split(',')
+    for field in fields:
+        result_dict['dmarc-ruf'].append(field)
+
+def handle_dmarc_rf(data, result_dict, local_translation):
+    if data == 'afrf':
+        result_dict['dmarc-warnings'].append(local_translation(
+            'TEXT_REVIEW_DMARC_RF_USES_DEFAULT'))
+    result_dict['dmarc-rf'] = data
+
+def handle_dmarc_pct(data, result_dict, local_translation):
+    try:
+        result_dict['dmarc-pct'] = int(data)
+        if result_dict['dmarc-pct'] == 100:
+            result_dict['dmarc-warnings'].append(
+                local_translation('TEXT_REVIEW_DMARC_PCT_USES_DEFAULT'))
+        elif 100 < result_dict['dmarc-pct'] < 0:
+            result_dict['dmarc-errors'].append(
+                local_translation('TEXT_REVIEW_DMARC_PCT_INVALID'))
+            result_dict['dmarc-pct'] = None
+    except (TypeError, ValueError):
+        result_dict['dmarc-errors'].append(
+            local_translation('TEXT_REVIEW_DMARC_PCT_INVALID'))
+        result_dict['dmarc-pct'] = None
+
+def handle_dmarc_ri(data, result_dict, local_translation):
+    try:
+        result_dict['dmarc-ri'] = int(data)
+        if result_dict['dmarc-ri'] == 86400:
+            result_dict['dmarc-warnings'].append(
+                local_translation('TEXT_REVIEW_DMARC_RI_USES_DEFAULT'))
+    except (TypeError, ValueError):
+        result_dict['dmarc-errors'].append(
+            local_translation('TEXT_REVIEW_DMARC_RI_INVALID'))
+        result_dict['dmarc-ri'] = None
+
+def handle_dmarc_section(key, data, result_dict, local_translation):
+    dmarc_section_handlers = {
+        "p": handle_dmarc_p,
+        "sp": handle_dmarc_sp,
+        "adkim:": handle_dmarc_adkim,
+        "aspf": handle_dmarc_aspf,
+        "fo": handle_dmarc_fo,
+        "rua": handle_dmarc_rua,
+        "ruf": handle_dmarc_ruf,
+        "rf": handle_dmarc_rf,
+        "pct": handle_dmarc_pct,
+        "ri": handle_dmarc_ri,
+    }
+
+    for option, handler in dmarc_section_handlers.items():
+        if key == option:
+            handler(data, result_dict, local_translation)
 
 def validate_spf_policy(global_translation, local_translation, hostname, result_dict):
     # https://proton.me/support/anti-spoofing-custom-domain
@@ -1021,51 +1132,7 @@ def validate_spf_policy(global_translation, local_translation, hostname, result_
             if section == '':
                 result_dict['spf-error-double-space'] = True
                 continue
-
-            if section.startswith('ip4:'):
-                data = section[4:]
-                if 'spf-ipv4' not in result_dict:
-                    result_dict['spf-ipv4'] = []
-                result_dict['spf-ipv4'].append(data)
-            elif section.startswith('ip6:'):
-                data = section[4:]
-                if 'spf-ipv6' not in result_dict:
-                    result_dict['spf-ipv6'] = []
-                result_dict['spf-ipv6'].append(data)
-            elif section.startswith('include:') or section.startswith('+include:'):
-                spf_domain = section[8:]
-                subresult_dict = validate_spf_policy(
-                    global_translation, local_translation, spf_domain, result_dict)
-                result_dict.update(subresult_dict)
-            elif section.startswith('?all'):
-                # What do this do and should we rate on it?
-                result_dict['spf-uses-neutralfail'] = True
-            elif section.startswith('~all'):
-                # add support for SoftFail
-                result_dict['spf-uses-softfail'] = True
-            elif section.startswith('-all'):
-                # add support for HardFail
-                result_dict['spf-uses-hardfail'] = True
-            elif section.startswith('+all') or section.startswith('all'):
-                # basicly whitelist everything... Big fail
-                result_dict['spf-uses-ignorefail'] = True
-            elif section.startswith('v=spf1'):
-                _ = 1
-            elif section.startswith('mx') or section.startswith('+mx'):
-                _ = 1
-            elif section.startswith('a') or section.startswith('+a'):
-                _ = 1
-            elif section.startswith('ptr') or section.startswith('+ptr'):
-                # What do this do and should we rate on it?
-                result_dict['spf-uses-ptr'] = True
-            elif section.startswith('exists:'):
-                _ = 1
-            elif section.startswith('redirect='):
-                _ = 1
-            elif section.startswith('exp='):
-                _ = 1
-            else:
-                result_dict['spf-uses-none-standard'] = True
+            handle_spf_section(section, result_dict, global_translation, local_translation)
 
     return result_dict
 

@@ -991,6 +991,76 @@ def rate_gdpr_for_spf_policies(global_translation, rating, result_dict, local_tr
         rating += none_gdpr_rating
     return rating
 
+def handle_spf_ip4(section, result_dict, _, _2):
+    data = section[4:]
+    if 'spf-ipv4' not in result_dict:
+        result_dict['spf-ipv4'] = []
+    result_dict['spf-ipv4'].append(data)
+
+def handle_spf_ip6(section, result_dict, _, _2):
+    data = section[4:]
+    if 'spf-ipv6' not in result_dict:
+        result_dict['spf-ipv6'] = []
+    result_dict['spf-ipv6'].append(data)
+
+def handle_spf_include(section, result_dict, global_translation, local_translation):
+    spf_domain = section[8:]
+    subresult_dict = validate_spf_policy(
+        global_translation, local_translation, spf_domain, result_dict)
+    result_dict.update(subresult_dict)
+
+def handle_spf_neutral_all_question(_, result_dict, _2, _3):
+    # What do this do and should we rate on it?
+    result_dict['spf-uses-neutralfail'] = True
+
+def handle_spf_soft_all_question(_, result_dict, _2, _3):
+    # add support for SoftFail
+    result_dict['spf-uses-softfail'] = True
+
+def handle_spf_hard_all_question(_, result_dict, _2, _3):
+    # add support for HardFail
+    result_dict['spf-uses-hardfail'] = True
+
+def handle_spf_ignore_all_question(_, result_dict, _2, _3):
+    # basicly whitelist everything... Big fail
+    result_dict['spf-uses-ignorefail'] = True
+
+def handle_spf_noop(_, _2, _3, _4):
+    return
+
+def handle_spf_ptr(_, result_dict, _2, _3):
+    # What do this do and should we rate on it?
+    result_dict['spf-uses-ptr'] = True
+
+
+def handle_spf_section(section, result_dict, global_translation, local_translation):
+    spf_section_handlers = {
+        "ip4:": handle_spf_ip4,
+        "ip6:": handle_spf_ip6,
+        "include:": handle_spf_include,
+        "+include:": handle_spf_include,
+        "?all:": handle_spf_neutral_all_question,
+        "~all:": handle_spf_soft_all_question,
+        "-all:": handle_spf_hard_all_question,
+        "+all:": handle_spf_ignore_all_question,
+        "v=spf1": handle_spf_noop,
+        "mx": handle_spf_noop,
+        "+mx": handle_spf_noop,
+        "a": handle_spf_noop,
+        "+a": handle_spf_noop,
+        "ptr": handle_spf_ptr,
+        "+ptr": handle_spf_ptr,
+        "exists:": handle_spf_noop,
+        "redirect=": handle_spf_noop,
+        "exp=": handle_spf_noop,
+    }
+
+    for option, handler in spf_section_handlers.items():
+        if section.startswith(option):
+            handler(section, result_dict, global_translation, local_translation)
+        else:
+            result_dict['spf-uses-none-standard'] = True
+
 
 def validate_spf_policy(global_translation, local_translation, hostname, result_dict):
     # https://proton.me/support/anti-spoofing-custom-domain
@@ -1021,51 +1091,7 @@ def validate_spf_policy(global_translation, local_translation, hostname, result_
             if section == '':
                 result_dict['spf-error-double-space'] = True
                 continue
-
-            if section.startswith('ip4:'):
-                data = section[4:]
-                if 'spf-ipv4' not in result_dict:
-                    result_dict['spf-ipv4'] = []
-                result_dict['spf-ipv4'].append(data)
-            elif section.startswith('ip6:'):
-                data = section[4:]
-                if 'spf-ipv6' not in result_dict:
-                    result_dict['spf-ipv6'] = []
-                result_dict['spf-ipv6'].append(data)
-            elif section.startswith('include:') or section.startswith('+include:'):
-                spf_domain = section[8:]
-                subresult_dict = validate_spf_policy(
-                    global_translation, local_translation, spf_domain, result_dict)
-                result_dict.update(subresult_dict)
-            elif section.startswith('?all'):
-                # What do this do and should we rate on it?
-                result_dict['spf-uses-neutralfail'] = True
-            elif section.startswith('~all'):
-                # add support for SoftFail
-                result_dict['spf-uses-softfail'] = True
-            elif section.startswith('-all'):
-                # add support for HardFail
-                result_dict['spf-uses-hardfail'] = True
-            elif section.startswith('+all') or section.startswith('all'):
-                # basicly whitelist everything... Big fail
-                result_dict['spf-uses-ignorefail'] = True
-            elif section.startswith('v=spf1'):
-                _ = 1
-            elif section.startswith('mx') or section.startswith('+mx'):
-                _ = 1
-            elif section.startswith('a') or section.startswith('+a'):
-                _ = 1
-            elif section.startswith('ptr') or section.startswith('+ptr'):
-                # What do this do and should we rate on it?
-                result_dict['spf-uses-ptr'] = True
-            elif section.startswith('exists:'):
-                _ = 1
-            elif section.startswith('redirect='):
-                _ = 1
-            elif section.startswith('exp='):
-                _ = 1
-            else:
-                result_dict['spf-uses-none-standard'] = True
+            handle_spf_section(section, result_dict, global_translation, local_translation)
 
     return result_dict
 

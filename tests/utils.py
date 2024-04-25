@@ -62,8 +62,6 @@ def get_config_or_default(name):
     if value is not None:
         if name not in CONFIG_WARNINGS:
             CONFIG_WARNINGS[name] = True
-            print(f'Info: "{name}" is missing in your config.py file, '
-                'using default value from SAMPLE-config.py')
         return value
 
     return None

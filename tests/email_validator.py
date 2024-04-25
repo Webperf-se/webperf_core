@@ -20,12 +20,14 @@ from tests.utils import dns_lookup, get_best_country_code, \
 REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
 REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
 USERAGENT = get_config_or_default('useragent')
+EMAIL_NETWORK_SUPPORT_PORT25_TRAFFIC = get_config_or_default('EMAIL_NETWORK_SUPPORT_PORT25_TRAFFIC')
+EMAIL_NETWORK_SUPPORT_IPV6_TRAFFIC = get_config_or_default('EMAIL_NETWORK_SUPPORT_IPV6_TRAFFIC')
 
 checked_urls = {}
 
 # We are doing this to support IPv6
-class SmtpWebperf(smtplib.SMTP):
-    def __init__(self, host='', port=0, local_hostname=None,
+class SmtpWebperf(smtplib.SMTP): # pylint: disable=too-many-instance-attributes
+    def __init__(self, host='', port=0, local_hostname=None, # pylint: disable=too-many-arguments
                  timeout=socket._GLOBAL_DEFAULT_TIMEOUT,
                  source_address=None):
         """Initialize a new instance.
@@ -357,13 +359,6 @@ def validate_email_domain(hostname, result_dict, global_translation, local_trans
     if hostname.startswith('www.'):
         hostname = hostname[4:]
 
-    # 0.0 - Preflight (Will probably resolve 98% of questions from people trying this test themself)
-    # 0.1 - Check for allowed connection over port 25 (most consumer ISP don't allow this)
-    support_port25 = False
-    # 0.2 - Check for allowed IPv6 support
-    # (GitHub Actions doesn't support it on network lever on the time of writing this)
-    support_ipv6 = False
-
     # 1 - Get Email servers
     # dns_lookup
     rating, ipv4_servers, ipv6_servers = validate_mx_records(
@@ -372,12 +367,14 @@ def validate_email_domain(hostname, result_dict, global_translation, local_trans
     # If we have -1.0 in rating, we have no MX records, ignore test.
     if rating.get_overall() != -1.0:
         # 1.2 - Check operational
-        if support_port25 and len(ipv4_servers) > 0:
+        if EMAIL_NETWORK_SUPPORT_PORT25_TRAFFIC and len(ipv4_servers) > 0:
             rating = validate_ip4_operation_status(
                 global_translation, rating, local_translation, ipv4_servers)
 
         # 1.2 - Check operational
-        if support_port25 and support_ipv6 and len(ipv6_servers) > 0:
+        if EMAIL_NETWORK_SUPPORT_PORT25_TRAFFIC and\
+              EMAIL_NETWORK_SUPPORT_IPV6_TRAFFIC and\
+              len(ipv6_servers) > 0:
             rating = validate_ip6_operation_status(
                 global_translation, rating, local_translation, ipv6_servers)
 

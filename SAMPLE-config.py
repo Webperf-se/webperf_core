@@ -70,3 +70,9 @@ SOFTWARE_GITHUB_ADADVISORY_DATABASE_PATH = None
 
 # Tells software test what browser to use (chrome/firefox), default = chrome
 SOFTWARE_BROWSER = "chrome"
+
+# Tells email test if it should do a operation email test (most consumer ISP don't allow this)
+EMAIL_NETWORK_SUPPORT_PORT25_TRAFFIC = False
+
+# Tells email test if it should do a operation test (GitHub Actions doesn't support it)
+EMAIL_NETWORK_SUPPORT_IPV6_TRAFFIC = False

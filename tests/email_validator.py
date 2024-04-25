@@ -320,7 +320,6 @@ def get_interesting_urls(content, org_url_start, depth):
     security_txt_url = f'{root_url}.well-known/security.txt'
     urls[security_txt_url] = get_default_info(
             security_txt_url, '.well-known/security.txt', 'url.text', 0.15, 10)
-    # TODO: Lets look in DMARC records for emails.
 
     if len(urls) > 0:
         tmp = sorted(urls.items(), key=get_sort_on_precision)
@@ -848,7 +847,11 @@ def Rate_Use_of_PTR_for_SPF_Policies(global_translation, rating, result_dict, lo
     return rating
 
 
-def Rate_Fail_Configuration_for_SPF_Policies(global_translation, rating, result_dict, local_translation):
+def Rate_Fail_Configuration_for_SPF_Policies(
+        global_translation,
+        rating,
+        result_dict,
+        local_translation):
     if 'spf-uses-ignorefail' in result_dict:
         has_spf_ignore_records_rating = Rating(
             global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
@@ -932,7 +935,11 @@ def Rate_has_SPF_Policies(global_translation, rating, result_dict, local_transla
     return rating
 
 
-def Rate_Too_many_DNS_lookup_for_SPF_Policies(global_translation, rating, result_dict, local_translation):
+def Rate_Too_many_DNS_lookup_for_SPF_Policies(
+        global_translation,
+        rating,
+        result_dict,
+        local_translation):
     if 'spf-error-to-many-dns-lookups' in result_dict:
         to_many_spf_dns_lookups_rating = Rating(
             global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
@@ -1059,22 +1066,17 @@ def Validate_SPF_Policy(global_translation, local_translation, hostname, result_
                 elif section.startswith('v=spf1'):
                     c = 1
                 elif section.startswith('mx') or section.startswith('+mx'):
-                    # TODO: What do this do and should we rate on it?
                     c = 1
                 elif section.startswith('a') or section.startswith('+a'):
-                    # TODO: What do this do and should we rate on it?
                     c = 1
                 elif section.startswith('ptr') or section.startswith('+ptr'):
                     # What do this do and should we rate on it?
                     result_dict['spf-uses-ptr'] = True
                 elif section.startswith('exists:'):
-                    # TODO: What do this do and should we rate on it?
                     c = 1
                 elif section.startswith('redirect='):
-                    # TODO: What do this do and should we rate on it?
                     c = 1
                 elif section.startswith('exp='):
-                    # TODO: What do this do and should we rate on it?
                     c = 1
                 else:
                     result_dict['spf-uses-none-standard'] = True

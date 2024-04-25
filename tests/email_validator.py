@@ -1024,62 +1024,59 @@ def validate_spf_policy(global_translation, local_translation, hostname, result_
             spf_content = result
 
     if 'spf-has-policy' in result_dict:
-        try:
-            # https://www.rfc-editor.org/rfc/rfc7208#section-9.1
-            spf_sections = spf_content.split(' ')
+        # https://www.rfc-editor.org/rfc/rfc7208#section-9.1
+        spf_sections = spf_content.split(' ')
 
-            # http://www.open-spf.org/SPF_Record_Syntax/
-            for section in spf_sections:
-                if section == '':
-                    result_dict['spf-error-double-space'] = True
-                    continue
+        # http://www.open-spf.org/SPF_Record_Syntax/
+        for section in spf_sections:
+            if section == '':
+                result_dict['spf-error-double-space'] = True
+                continue
 
-                if section.startswith('ip4:'):
-                    data = section[4:]
-                    if 'spf-ipv4' not in result_dict:
-                        result_dict['spf-ipv4'] = []
-                    result_dict['spf-ipv4'].append(data)
-                elif section.startswith('ip6:'):
-                    data = section[4:]
-                    if 'spf-ipv6' not in result_dict:
-                        result_dict['spf-ipv6'] = []
-                    result_dict['spf-ipv6'].append(data)
-                elif section.startswith('include:') or section.startswith('+include:'):
-                    spf_domain = section[8:]
-                    subresult_dict = validate_spf_policy(
-                        global_translation, local_translation, spf_domain, result_dict)
-                    result_dict.update(subresult_dict)
-                elif section.startswith('?all'):
-                    # What do this do and should we rate on it?
-                    result_dict['spf-uses-neutralfail'] = True
-                elif section.startswith('~all'):
-                    # add support for SoftFail
-                    result_dict['spf-uses-softfail'] = True
-                elif section.startswith('-all'):
-                    # add support for HardFail
-                    result_dict['spf-uses-hardfail'] = True
-                elif section.startswith('+all') or section.startswith('all'):
-                    # basicly whitelist everything... Big fail
-                    result_dict['spf-uses-ignorefail'] = True
-                elif section.startswith('v=spf1'):
-                    c = 1
-                elif section.startswith('mx') or section.startswith('+mx'):
-                    c = 1
-                elif section.startswith('a') or section.startswith('+a'):
-                    c = 1
-                elif section.startswith('ptr') or section.startswith('+ptr'):
-                    # What do this do and should we rate on it?
-                    result_dict['spf-uses-ptr'] = True
-                elif section.startswith('exists:'):
-                    c = 1
-                elif section.startswith('redirect='):
-                    c = 1
-                elif section.startswith('exp='):
-                    c = 1
-                else:
-                    result_dict['spf-uses-none-standard'] = True
-        except Exception as ex:
-            print('ex C:', ex)
+            if section.startswith('ip4:'):
+                data = section[4:]
+                if 'spf-ipv4' not in result_dict:
+                    result_dict['spf-ipv4'] = []
+                result_dict['spf-ipv4'].append(data)
+            elif section.startswith('ip6:'):
+                data = section[4:]
+                if 'spf-ipv6' not in result_dict:
+                    result_dict['spf-ipv6'] = []
+                result_dict['spf-ipv6'].append(data)
+            elif section.startswith('include:') or section.startswith('+include:'):
+                spf_domain = section[8:]
+                subresult_dict = validate_spf_policy(
+                    global_translation, local_translation, spf_domain, result_dict)
+                result_dict.update(subresult_dict)
+            elif section.startswith('?all'):
+                # What do this do and should we rate on it?
+                result_dict['spf-uses-neutralfail'] = True
+            elif section.startswith('~all'):
+                # add support for SoftFail
+                result_dict['spf-uses-softfail'] = True
+            elif section.startswith('-all'):
+                # add support for HardFail
+                result_dict['spf-uses-hardfail'] = True
+            elif section.startswith('+all') or section.startswith('all'):
+                # basicly whitelist everything... Big fail
+                result_dict['spf-uses-ignorefail'] = True
+            elif section.startswith('v=spf1'):
+                _ = 1
+            elif section.startswith('mx') or section.startswith('+mx'):
+                _ = 1
+            elif section.startswith('a') or section.startswith('+a'):
+                _ = 1
+            elif section.startswith('ptr') or section.startswith('+ptr'):
+                # What do this do and should we rate on it?
+                result_dict['spf-uses-ptr'] = True
+            elif section.startswith('exists:'):
+                _ = 1
+            elif section.startswith('redirect='):
+                _ = 1
+            elif section.startswith('exp='):
+                _ = 1
+            else:
+                result_dict['spf-uses-none-standard'] = True
 
     return result_dict
 
@@ -1127,10 +1124,6 @@ def validate_ip6_operation_status(global_translation, rating, local_translation,
                 # print('SMTP SUCCESS')
         except smtplib.SMTPConnectError as smtp_error:
             print('SMTP ERROR: ', smtp_error)
-        except Exception as error:
-            # If you get this error on all sites you test against,
-            # please verfiy that your provider is not blocking port 25.
-            print('GENERAL ERROR: ', error)
 
     ipv6_operational_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if len(ipv6_servers_operational) > 0 and len(ipv6_servers) == len(ipv6_servers_operational):
@@ -1177,10 +1170,6 @@ def validate_ip4_operation_status(global_translation, rating, local_translation,
                 # print('SMTP SUCCESS')
         except smtplib.SMTPConnectError as smtp_error:
             print('SMTP ERROR: ', smtp_error)
-        except Exception as error:
-            # If you get this error on all sites you test against,
-            # please verfiy that your provider is not blocking port 25.
-            print('GENERAL ERROR: ', error)
 
     ipv4_operational_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if len(ipv4_servers_operational) > 0 and len(ipv4_servers) == len(ipv4_servers_operational):

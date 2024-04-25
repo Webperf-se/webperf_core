@@ -559,120 +559,115 @@ def validate_dmarc_policy(local_translation, hostname, result_dict):
         result_dict['dmarc-ruf'] = []
         result_dict['dmarc-rua'] = []
 
-        try:
-            # https://www.rfc-editor.org/rfc/rfc7489.txt
-            # https://www.rfc-editor.org/rfc/rfc7489#section-6.1
-            dmarc_content = dmarc_content.rstrip(';')
-            dmarc_sections = dmarc_content.split(';')
+        # https://www.rfc-editor.org/rfc/rfc7489.txt
+        # https://www.rfc-editor.org/rfc/rfc7489#section-6.1
+        dmarc_content = dmarc_content.rstrip(';')
+        dmarc_sections = dmarc_content.split(';')
 
-            for section in dmarc_sections:
-                section = section.strip()
-                if section == '':
+        for section in dmarc_sections:
+            section = section.strip()
+            if section == '':
+                result_dict['dmarc-errors'].append(
+                    local_translation('TEXT_REVIEW_DMARC_EMPTY_SECTION_WHILE_PARSE'))
+                continue
+
+            pair = section.split('=')
+            if len(pair) != 2:
+                result_dict['dmarc-errors'].append(
+                    local_translation('TEXT_REVIEW_DMARC_PAIR_INVALID'))
+                continue
+
+            key = pair[0]
+            data = pair[1]
+
+            if key == 'p':
+                if data in ('none', 'quarantine', 'reject'):
+                    result_dict['dmarc-p'] = data
+                else:
                     result_dict['dmarc-errors'].append(
-                        local_translation('TEXT_REVIEW_DMARC_EMPTY_SECTION_WHILE_PARSE'))
-                    continue
-
-                pair = section.split('=')
-                if len(pair) != 2:
+                        local_translation(
+                            'TEXT_REVIEW_DMARC_POLICY_INVALID'))
+            elif key == 'sp':
+                if data in ('none', 'quarantine', 'reject'):
+                    result_dict['dmarc-sp'] = data
+                else:
                     result_dict['dmarc-errors'].append(
-                        local_translation('TEXT_REVIEW_DMARC_PAIR_INVALID'))
-                    continue
-
-                key = pair[0]
-                data = pair[1]
-
-                if key == 'p':
-                    if data in ('none', 'quarantine', 'reject'):
-                        result_dict['dmarc-p'] = data
-                    else:
-                        result_dict['dmarc-errors'].append(
-                            local_translation(
-                                'TEXT_REVIEW_DMARC_POLICY_INVALID'))
-                elif key == 'sp':
-                    if data in ('none', 'quarantine', 'reject'):
-                        result_dict['dmarc-sp'] = data
-                    else:
-                        result_dict['dmarc-errors'].append(
-                            local_translation(
-                                'TEXT_REVIEW_DMARC_SUBPOLICY_INVALID'))
-                elif key == 'adkim':
-                    if data == 'r':
+                        local_translation(
+                            'TEXT_REVIEW_DMARC_SUBPOLICY_INVALID'))
+            elif key == 'adkim':
+                if data == 'r':
+                    result_dict['dmarc-warnings'].append(
+                        local_translation(
+                            'TEXT_REVIEW_DMARC_ADKIM_USES_DEFAULT'))
+                elif data == 's':
+                    result_dict['dmarc-adkim'] = data
+                else:
+                    result_dict['dmarc-errors'].append(
+                        local_translation(
+                            'TEXT_REVIEW_DMARC_ADKIM_INVALID'))
+            elif key == 'aspf':
+                if data == 'r':
+                    result_dict['dmarc-warnings'].append(
+                        local_translation(
+                            'TEXT_REVIEW_DMARC_ASPF_USES_DEFAULT'))
+                elif data == 's':
+                    result_dict['dmarc-aspf'] = data
+                else:
+                    result_dict['dmarc-errors'].append(
+                        local_translation(
+                            'TEXT_REVIEW_DMARC_ASPF_INVALID'))
+            elif key == 'fo':
+                result_dict['dmarc-fo'] = []
+                fields = data.split(',')
+                for field in fields:
+                    if field == '0':
+                        result_dict['dmarc-fo'].append(field)
                         result_dict['dmarc-warnings'].append(
                             local_translation(
-                                'TEXT_REVIEW_DMARC_ADKIM_USES_DEFAULT'))
-                    elif data == 's':
-                        result_dict['dmarc-adkim'] = data
+                                'TEXT_REVIEW_DMARC_FO_USES_DEFAULT'))
+                    elif field in ('1', 'd', 's'):
+                        result_dict['dmarc-fo'].append(field)
                     else:
                         result_dict['dmarc-errors'].append(
                             local_translation(
-                                'TEXT_REVIEW_DMARC_ADKIM_INVALID'))
-                elif key == 'aspf':
-                    if data == 'r':
+                                'TEXT_REVIEW_DMARC_FO_INVALID'))
+            elif key == 'rua':
+                fields = data.split(',')
+                for field in fields:
+                    result_dict['dmarc-rua'].append(field)
+            elif key == 'ruf':
+                fields = data.split(',')
+                for field in fields:
+                    result_dict['dmarc-ruf'].append(field)
+            elif key == 'rf':
+                if data == 'afrf':
+                    result_dict['dmarc-warnings'].append(local_translation(
+                        'TEXT_REVIEW_DMARC_RF_USES_DEFAULT'))
+                result_dict['dmarc-rf'] = data
+            elif key == 'pct':
+                try:
+                    result_dict['dmarc-pct'] = int(data)
+                    if result_dict['dmarc-pct'] == 100:
                         result_dict['dmarc-warnings'].append(
-                            local_translation(
-                                'TEXT_REVIEW_DMARC_ASPF_USES_DEFAULT'))
-                    elif data == 's':
-                        result_dict['dmarc-aspf'] = data
-                    else:
-                        result_dict['dmarc-errors'].append(
-                            local_translation(
-                                'TEXT_REVIEW_DMARC_ASPF_INVALID'))
-                elif key == 'fo':
-                    result_dict['dmarc-fo'] = []
-                    fields = data.split(',')
-                    for field in fields:
-                        if field == '0':
-                            result_dict['dmarc-fo'].append(field)
-                            result_dict['dmarc-warnings'].append(
-                                local_translation(
-                                    'TEXT_REVIEW_DMARC_FO_USES_DEFAULT'))
-                        elif field in ('1', 'd', 's'):
-                            result_dict['dmarc-fo'].append(field)
-                        else:
-                            result_dict['dmarc-errors'].append(
-                                local_translation(
-                                    'TEXT_REVIEW_DMARC_FO_INVALID'))
-                elif key == 'rua':
-                    fields = data.split(',')
-                    for field in fields:
-                        result_dict['dmarc-rua'].append(field)
-                elif key == 'ruf':
-                    fields = data.split(',')
-                    for field in fields:
-                        result_dict['dmarc-ruf'].append(field)
-                elif key == 'rf':
-                    if data == 'afrf':
-                        result_dict['dmarc-warnings'].append(local_translation(
-                            'TEXT_REVIEW_DMARC_RF_USES_DEFAULT'))
-                    result_dict['dmarc-rf'] = data
-                elif key == 'pct':
-                    try:
-                        result_dict['dmarc-pct'] = int(data)
-                        if result_dict['dmarc-pct'] == 100:
-                            result_dict['dmarc-warnings'].append(
-                                local_translation('TEXT_REVIEW_DMARC_PCT_USES_DEFAULT'))
-                        elif 100 < result_dict['dmarc-pct'] < 0:
-                            result_dict['dmarc-errors'].append(
-                                local_translation('TEXT_REVIEW_DMARC_PCT_INVALID'))
-                            result_dict['dmarc-pct'] = None
-                    except TypeError:
+                            local_translation('TEXT_REVIEW_DMARC_PCT_USES_DEFAULT'))
+                    elif 100 < result_dict['dmarc-pct'] < 0:
                         result_dict['dmarc-errors'].append(
                             local_translation('TEXT_REVIEW_DMARC_PCT_INVALID'))
                         result_dict['dmarc-pct'] = None
-                elif key == 'ri':
-                    try:
-                        result_dict['dmarc-ri'] = int(data)
-                        if result_dict['dmarc-ri'] == 86400:
-                            result_dict['dmarc-warnings'].append(
-                                local_translation('TEXT_REVIEW_DMARC_RI_USES_DEFAULT'))
-                    except TypeError:
-                        result_dict['dmarc-errors'].append(
-                            local_translation('TEXT_REVIEW_DMARC_RI_INVALID'))
-                        result_dict['dmarc-ri'] = None
-
-
-        except Exception as ex:
-            print('ex C:', ex)
+                except TypeError:
+                    result_dict['dmarc-errors'].append(
+                        local_translation('TEXT_REVIEW_DMARC_PCT_INVALID'))
+                    result_dict['dmarc-pct'] = None
+            elif key == 'ri':
+                try:
+                    result_dict['dmarc-ri'] = int(data)
+                    if result_dict['dmarc-ri'] == 86400:
+                        result_dict['dmarc-warnings'].append(
+                            local_translation('TEXT_REVIEW_DMARC_RI_USES_DEFAULT'))
+                except TypeError:
+                    result_dict['dmarc-errors'].append(
+                        local_translation('TEXT_REVIEW_DMARC_RI_INVALID'))
+                    result_dict['dmarc-ri'] = None
 
     return result_dict
 

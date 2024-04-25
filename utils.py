@@ -60,6 +60,8 @@ TEST_FUNCS = {
         TEST_A11Y_STATEMENT: run_test_a11y_statement
     }
 
+CONFIG_WARNINGS = {}
+
 
 def get_config(name):
     """
@@ -84,21 +86,45 @@ def get_config(name):
       a fatal error message is printed and a ValueError is raised.
     """
     # Try get config from our configuration file
-    import config # pylint: disable=import-outside-toplevel
-    if hasattr(config, name):
-        return getattr(config, name)
+    value = get_config_from_module(name, 'config')
+    if value is not None:
+        return value
 
     name = name.upper()
-    if hasattr(config, name):
-        return getattr(config, name)
+    value = get_config_from_module(name, 'config')
+    if value is not None:
+        return value
 
     # do we have fallback value we can use in our SAMPLE-config.py file?
-    from importlib import import_module # pylint: disable=import-outside-toplevel
-    SAMPLE_config = import_module('SAMPLE-config') # pylint: disable=invalid-name
-    if hasattr(SAMPLE_config, name):
-        print(f'Warning: "{name}" is missing in your config.py file,'
-              'using value from SAMPLE-config.py')
-        return getattr(SAMPLE_config, name)
+    value = get_config_from_module(name, 'SAMPLE-config')
+    if value is not None:
+        if name not in CONFIG_WARNINGS:
+            CONFIG_WARNINGS[name] = True
+            print(f'Warning: "{name}" is missing in your config.py file, '
+                'using default value from SAMPLE-config.py')
+        return value
+
+    return None
+
+def get_config_from_module(config_name, module_name):
+    """
+    Retrieves the configuration value for a given name from the specified module file.
+    
+    Parameters:
+    config_name (str): The name of the configuration value to retrieve.
+    module_name (str): The name of the module the values should be retrieved from.
+
+    Returns:
+    The configuration value associated with the given config_name and module_name.
+    """
+    # do we have fallback value we can use in our SAMPLE-config.py file?
+    try:
+        from importlib import import_module # pylint: disable=import-outside-toplevel
+        tmp_config = import_module(module_name) # pylint: disable=invalid-name
+        if hasattr(tmp_config, config_name):
+            return getattr(tmp_config, config_name)
+    except ModuleNotFoundError:
+        _ = 1
 
     return None
 

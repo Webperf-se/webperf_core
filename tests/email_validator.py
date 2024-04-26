@@ -952,45 +952,133 @@ def handle_spf_ip6(section, result_dict, _, _2):
     result_dict['spf-ipv6'].append(data)
 
 def handle_spf_include(section, result_dict, global_translation, local_translation):
+    """
+    Handles the 'include' mechanism in an SPF (Sender Policy Framework) record.
+
+    Parameters:
+        section (str): The SPF section to be handled.
+        result_dict (dict): Stores the results.
+        global_translation (function): Translates text messages globally.
+        local_translation (function): Translates text messages locally.
+
+    The function extracts the domain from the 'include' section,
+    validates the SPF policy of the domain,
+    and updates the result dictionary with the validation results.
+    """
     spf_domain = section[8:]
     subresult_dict = validate_spf_policy(
         global_translation, local_translation, spf_domain, result_dict)
     result_dict.update(subresult_dict)
 
-def handle_spf_neutral_all_question(_, result_dict, _2, _3):
+def handle_spf_neutral_all(_, result_dict, _2, _3):
     # What do this do and should we rate on it?
     result_dict['spf-uses-neutralfail'] = True
 
-def handle_spf_soft_all_question(_, result_dict, _2, _3):
+def handle_spf_soft_all(_, result_dict, _2, _3):
+    """
+    Handles the '~all' mechanism in an SPF (Sender Policy Framework) record.
+
+    Parameters:
+        _ (_): Ignored parameter.
+        result_dict (dict): Stores the results.
+        _2, _3: Ignored parameters.
+
+    The function marks the SPF record as using the '~all' mechanism, which indicates a SoftFail.
+    This means that any IP not authorized by the SPF record should
+    be treated as a potential spam source, but not definitively so.
+    """
     # add support for SoftFail
     result_dict['spf-uses-softfail'] = True
 
-def handle_spf_hard_all_question(_, result_dict, _2, _3):
+def handle_spf_hard_all(_, result_dict, _2, _3):
+    """
+    Handles the '-all' mechanism in an SPF (Sender Policy Framework) record.
+
+    Parameters:
+        _ (_): Ignored parameter.
+        result_dict (dict): Stores the results.
+        _2, _3: Ignored parameters.
+
+    The function marks the SPF record as using the '-all' mechanism,
+    which indicates a HardFail.
+    This means that any IP not authorized by the SPF record should
+    be treated as a definitive spam source.
+    """
     # add support for HardFail
     result_dict['spf-uses-hardfail'] = True
 
-def handle_spf_ignore_all_question(_, result_dict, _2, _3):
+def handle_spf_ignore_all(_, result_dict, _2, _3):
+    """
+    Handles the '+all' mechanism in an SPF (Sender Policy Framework) record.
+
+    Parameters:
+        _ (str): Ignored parameter.
+        result_dict (dict): Stores the results.
+        _2, _3: Ignored parameters.
+
+    The function marks the SPF record as using the '+all' mechanism,
+    which essentially whitelists all sending hosts.
+    This is generally considered a poor practice in SPF policy.
+    """
     # basicly whitelist everything... Big fail
     result_dict['spf-uses-ignorefail'] = True
 
 def handle_spf_noop(_, _2, _3, _4):
+    """
+    A no-operation (noop) function for handling certain SPF (Sender Policy Framework) mechanisms.
+
+    Parameters:
+        _ (_): Ignored parameter.
+        _2 (_): Ignored parameter.
+        _3 (_): Ignored parameter.
+        _4 (_): Ignored parameter.
+
+    This function does nothing and
+    is used as a placeholder for SPF mechanisms that require no specific handling.
+    """
     return
 
 def handle_spf_ptr(_, result_dict, _2, _3):
+    """
+    Handles the 'ptr' mechanism in an SPF (Sender Policy Framework) record.
+
+    Parameters:
+        _ (_): Ignored parameter.
+        result_dict (dict): Stores the results.
+        _2, _3: Ignored parameters.
+
+    The function marks the SPF record as using the 'ptr' mechanism.
+    The 'ptr' mechanism is generally not recommended due to potential performance and
+    security issues.
+    """
     # What do this do and should we rate on it?
     result_dict['spf-uses-ptr'] = True
 
 
 def handle_spf_section(section, result_dict, global_translation, local_translation):
+    """
+    Handles SPF (Sender Policy Framework) sections.
+
+    Parameters:
+        section (str): The SPF section to be handled.
+        result_dict (dict): Stores the results.
+        global_translation (function): Translates text messages globally.
+        local_translation (function): Translates text messages locally.
+
+    The function maps SPF sections to their respective handlers.
+    If a section starts with a specific option, the corresponding handler is invoked.
+    If the section doesn't start with any of the specified options,
+    it's marked as non-standard in the result dictionary.
+    """
     spf_section_handlers = {
         "ip4:": handle_spf_ip4,
         "ip6:": handle_spf_ip6,
         "include:": handle_spf_include,
         "+include:": handle_spf_include,
-        "?all:": handle_spf_neutral_all_question,
-        "~all:": handle_spf_soft_all_question,
-        "-all:": handle_spf_hard_all_question,
-        "+all:": handle_spf_ignore_all_question,
+        "?all:": handle_spf_neutral_all,
+        "~all:": handle_spf_soft_all,
+        "-all:": handle_spf_hard_all,
+        "+all:": handle_spf_ignore_all,
         "v=spf1": handle_spf_noop,
         "mx": handle_spf_noop,
         "+mx": handle_spf_noop,
@@ -1010,6 +1098,14 @@ def handle_spf_section(section, result_dict, global_translation, local_translati
             result_dict['spf-uses-none-standard'] = True
 
 def handle_dmarc_p(data, result_dict, local_translation):
+    """
+    Handles the DMARC 'p' tag.
+
+    Parameters:
+        data (str): The 'p' value.
+        result_dict (dict): Stores the results, including warnings.
+        local_translation (function): Translates text messages.
+    """
     if data in ('none', 'quarantine', 'reject'):
         result_dict['dmarc-p'] = data
     else:
@@ -1018,6 +1114,14 @@ def handle_dmarc_p(data, result_dict, local_translation):
                 'TEXT_REVIEW_DMARC_POLICY_INVALID'))
 
 def handle_dmarc_sp(data, result_dict, local_translation):
+    """
+    Handles the DMARC 'sp' tag.
+
+    Parameters:
+        data (str): The 'sp' value.
+        result_dict (dict): Stores the results, including warnings.
+        local_translation (function): Translates text messages.
+    """
     if data in ('none', 'quarantine', 'reject'):
         result_dict['dmarc-sp'] = data
     else:
@@ -1026,6 +1130,14 @@ def handle_dmarc_sp(data, result_dict, local_translation):
                 'TEXT_REVIEW_DMARC_SUBPOLICY_INVALID'))
 
 def handle_dmarc_adkim(data, result_dict, local_translation):
+    """
+    Handles the DMARC 'adkim' tag.
+
+    Parameters:
+        data (str): The 'adkim' value.
+        result_dict (dict): Stores the results, including warnings.
+        local_translation (function): Translates text messages.
+    """
     if data == 'r':
         result_dict['dmarc-warnings'].append(
             local_translation(
@@ -1038,6 +1150,14 @@ def handle_dmarc_adkim(data, result_dict, local_translation):
                 'TEXT_REVIEW_DMARC_ADKIM_INVALID'))
 
 def handle_dmarc_aspf(data, result_dict, local_translation):
+    """
+    Handles the DMARC 'aspf' tag.
+
+    Parameters:
+        data (str): The 'aspf' value.
+        result_dict (dict): Stores the results, including warnings.
+        local_translation (function): Translates text messages.
+    """
     if data == 'r':
         result_dict['dmarc-warnings'].append(
             local_translation(
@@ -1050,6 +1170,14 @@ def handle_dmarc_aspf(data, result_dict, local_translation):
                 'TEXT_REVIEW_DMARC_ASPF_INVALID'))
 
 def handle_dmarc_fo(data, result_dict, local_translation):
+    """
+    Handles the DMARC 'fo' tag.
+
+    Parameters:
+        data (str): The 'fo' value.
+        result_dict (dict): Stores the results, including warnings.
+        local_translation (function): Translates text messages.
+    """
     result_dict['dmarc-fo'] = []
     fields = data.split(',')
     for field in fields:
@@ -1066,22 +1194,55 @@ def handle_dmarc_fo(data, result_dict, local_translation):
                     'TEXT_REVIEW_DMARC_FO_INVALID'))
 
 def handle_dmarc_rua(data, result_dict, _):
+    """
+    Handles the DMARC 'rua' tag.
+
+    Parameters:
+        data (str): The 'rua' value.
+        result_dict (dict): Stores the results, including warnings.
+        local_translation (function): Translates text messages.
+    """
     fields = data.split(',')
     for field in fields:
         result_dict['dmarc-rua'].append(field)
 
 def handle_dmarc_ruf(data, result_dict, _):
+    """
+    Handles the DMARC 'ruf' tag.
+
+    Parameters:
+        data (str): The 'ruf' value.
+        result_dict (dict): Stores the results, including warnings.
+        local_translation (function): Translates text messages.
+    """
     fields = data.split(',')
     for field in fields:
         result_dict['dmarc-ruf'].append(field)
 
 def handle_dmarc_rf(data, result_dict, local_translation):
+    """
+    Handles the DMARC 'rf' tag.
+
+    Parameters:
+        data (str): The 'rf' value.
+        result_dict (dict): Stores the results, including warnings.
+        local_translation (function): Translates text messages.
+    """
     if data == 'afrf':
         result_dict['dmarc-warnings'].append(local_translation(
             'TEXT_REVIEW_DMARC_RF_USES_DEFAULT'))
     result_dict['dmarc-rf'] = data
 
 def handle_dmarc_pct(data, result_dict, local_translation):
+    """
+    This function handles the DMARC percentage (pct) tag in a DMARC DNS record.
+
+    Parameters:
+        data (str): The DMARC pct value to be processed.
+        result_dict (dict): A dictionary to store the results of the DMARC pct processing.
+                            This includes any warnings or errors encountered during processing.
+        local_translation (function): A function to translate text messages into the local language.
+    """
     try:
         result_dict['dmarc-pct'] = int(data)
         if result_dict['dmarc-pct'] == 100:
@@ -1097,6 +1258,14 @@ def handle_dmarc_pct(data, result_dict, local_translation):
         result_dict['dmarc-pct'] = None
 
 def handle_dmarc_ri(data, result_dict, local_translation):
+    """
+    Handles the DMARC Reporting Interval (RI) by validating and processing the input data.
+
+    Args:
+        data (str): The DMARC RI data to be processed.
+        result_dict (dict): The dictionary to store the results of the processing.
+        local_translation (function): The function to translate text messages.
+    """
     try:
         result_dict['dmarc-ri'] = int(data)
         if result_dict['dmarc-ri'] == 86400:

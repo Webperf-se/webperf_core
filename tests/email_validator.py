@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# pylint: disable=too-many-lines
 import re
 import smtplib
 from datetime import datetime
@@ -26,7 +27,7 @@ EMAIL_NETWORK_SUPPORT_IPV6_TRAFFIC = get_config_or_default('EMAIL_NETWORK_SUPPOR
 checked_urls = {}
 
 # We are doing this to support IPv6
-class SmtpWebperf(smtplib.SMTP): # pylint: disable=too-many-instance-attributes
+class SmtpWebperf(smtplib.SMTP): # pylint: disable=too-many-instance-attributes,missing-class-docstring
     def __init__(self, host='', port=0, local_hostname=None, # pylint: disable=too-many-arguments, super-init-not-called
                  timeout=socket._GLOBAL_DEFAULT_TIMEOUT,
                  source_address=None):
@@ -165,6 +166,15 @@ def run_test(global_translation, lang_code, url):
 
 
 def search_for_email_domain(content):
+    """
+    Extracts the domain from an email address found in the given content.
+
+    Parameters:
+    content (str): The content to search for an email address.
+
+    Returns:
+    str: The domain of the found email address, or None if no valid email domain is found.
+    """
     content_match = re.search(
         r"[\"' ]mailto:(?P<email>[^\"'\r\n\\]+)[\"'\r\n\\]", content)
 
@@ -272,6 +282,18 @@ def get_text_precision(text):
 
 
 def get_interesting_urls(content, org_url_start, depth):
+    """
+    Extracts and processes URLs from the given HTML content.
+
+    Parameters:
+    content (str): The HTML content to extract URLs from.
+    org_url_start (str): The original URL to be used as a base for relative URLs.
+    depth (int): The depth value to be included in the result.
+
+    Returns:
+    dict: A dictionary where keys are URLs and
+          values are dictionaries containing information about each URL.
+    """
     urls = {}
 
     soup = BeautifulSoup(content, 'lxml')
@@ -331,10 +353,32 @@ def get_interesting_urls(content, org_url_start, depth):
 
 
 def get_sort_on_precision(item):
+    """
+    Extracts the 'precision' value from a given item.
+
+    Parameters:
+    item (tuple): A tuple where the second element is a dictionary containing a 'precision' key.
+
+    Returns:
+    int/float: The value of 'precision' from the dictionary.
+    """
     return item[1]["precision"]
 
 
 def get_default_info(url, text, method, precision, depth):
+    """
+    Constructs a dictionary with default information.
+
+    Parameters:
+    url (str): The URL to be included in the result.
+    text (str): The text to be processed and included in the result.
+    method (str): The method to be included in the result.
+    precision (int/float): The precision value to be included in the result.
+    depth (int): The depth value to be included in the result.
+
+    Returns:
+    dict: A dictionary containing the processed input parameters.
+    """
     result = {}
 
     if text is not None:

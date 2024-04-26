@@ -1160,6 +1160,12 @@ def validate_spf_policy(global_translation, local_translation, hostname, result_
 
 
 def replace_network_with_first_and_last_ipaddress(spf_addresses):
+    """
+    Replaces network addresses with their first and last IP addresses.
+
+    Args:
+        spf_addresses (list): List of SPF addresses.
+    """
     networs_to_remove = []
     for ip_address in spf_addresses:
         # support for network mask
@@ -1184,6 +1190,18 @@ def replace_network_with_first_and_last_ipaddress(spf_addresses):
 
 
 def validate_ip6_operation_status(global_translation, rating, local_translation, ipv6_servers):
+    """
+    Validates IPv6 server operation status and rates it.
+
+    Args:
+        global_translation (function): Global text translator.
+        local_translation (function): Local text translator.
+        rating (Rating): Initial Rating object.
+        ipv6_servers (list): List of IPv6 servers.
+
+    Returns:
+        rating (Rating): Updated Rating object.
+    """
     ipv6_servers_operational = []
     # 1.3 - Check Start TLS
     ipv6_servers_operational_starttls = []
@@ -1230,12 +1248,23 @@ def validate_ip6_operation_status(global_translation, rating, local_translation,
 
 
 def validate_ip4_operation_status(global_translation, rating, local_translation, ipv4_servers):
+    """
+    Validates IPv4 server operation status and rates it.
+
+    Args:
+        global_translation (function): Global text translator.
+        local_translation (function): Local text translator.
+        rating (Rating): Initial Rating object.
+        ipv4_servers (list): List of IPv4 servers.
+
+    Returns:
+        rating (Rating): Updated Rating object.
+    """
     ipv4_servers_operational = []
     # 1.3 - Check Start TLS
     ipv4_servers_operational_starttls = []
     for ip_address in ipv4_servers:
         try:
-            # print('SMTP CONNECT:', ip_address)
             with SmtpWebperf(
                     ip_address,
                     port=25,
@@ -1244,7 +1273,6 @@ def validate_ip4_operation_status(global_translation, rating, local_translation,
                 ipv4_servers_operational.append(ip_address)
                 smtp.starttls()
                 ipv4_servers_operational_starttls.append(ip_address)
-                # print('SMTP SUCCESS')
         except smtplib.SMTPConnectError as smtp_error:
             print('SMTP ERROR: ', smtp_error)
 
@@ -1273,6 +1301,15 @@ def validate_ip4_operation_status(global_translation, rating, local_translation,
     return rating
 
 def get_email_entries(hostname):
+    """
+    Retrieves email entries for a given hostname.
+
+    Args:
+        hostname (str): The hostname to retrieve email entries for.
+
+    Returns:
+        email_entries (list): List of email entries for the hostname.
+    """
     email_entries = []
     email_results = dns_lookup(hostname, dns.rdatatype.MX)
     has_mx_records = len(email_results) > 0
@@ -1292,6 +1329,16 @@ def get_email_entries(hostname):
     return email_entries
 
 def get_addresses_for_dnstype(email_entries, rdatatype):
+    """
+    Retrieves addresses for a specific DNS type from email entries.
+
+    Args:
+        email_entries (list): List of email entries.
+        rdatatype (int): DNS record type.
+
+    Returns:
+        ipv4_servers (list): List of servers of the specified DNS type.
+    """
     ipv4_servers = []
     for email_entry in email_entries:
         ipv_4 = dns_lookup(email_entry, rdatatype)
@@ -1299,6 +1346,21 @@ def get_addresses_for_dnstype(email_entries, rdatatype):
     return ipv4_servers
 
 def validate_mx_records(global_translation, rating, result_dict, local_translation, hostname):
+    """
+    Validates mail exchange records and rates them based on IPv4/IPv6 usage and GDPR compliance.
+
+    Args:
+        global_translation (function): Global text translator.
+        local_translation (function): Local text translator.
+        rating (Rating): Initial Rating object.
+        result_dict (dict): Dictionary to store results.
+        hostname (str): The hostname to validate.
+
+    Returns:
+        rating (Rating): Updated Rating object.
+        ipv4_servers (list): List of IPv4 servers.
+        ipv6_servers (list): List of IPv6 servers.
+    """
     # 1.1 - Check IPv4 and IPv6 support
     email_entries = get_email_entries(hostname)
 
@@ -1354,6 +1416,18 @@ def rate_mx_gdpr(
         local_translation,
         countries_others,
         countries_eu_or_exception_list):
+    """
+    Rates the GDPR compliance of mail exchange servers.
+
+    Args:
+        global_translation (function): Global text translator.
+        local_translation (function): Local text translator.
+        countries_others (dict): Non-GDPR compliant countries.
+        countries_eu_or_exception_list (dict): GDPR compliant countries.
+
+    Returns:
+        rating (Rating): Rating of GDPR compliance based on country lists.
+    """
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     nof_gdpr_countries = len(countries_eu_or_exception_list)
     nof_none_gdpr_countries = len(countries_others)
@@ -1374,6 +1448,17 @@ def rate_mx_gdpr(
     return rating
 
 def rate_mx_ip6_usage(global_translation, local_translation, ipv6_servers):
+    """
+    Rates the usage of IPv6 servers.
+
+    Args:
+        global_translation (function): Global text translator.
+        local_translation (function): Local text translator.
+        ipv6_servers (list): List of IPv6 servers.
+
+    Returns:
+        nof_ipv6_rating (Rating): Rating of IPv6 usage based on server count.
+    """
     nof_ipv6_servers = len(ipv6_servers)
     nof_ipv6_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if nof_ipv6_servers >= 2:
@@ -1398,6 +1483,17 @@ def rate_mx_ip6_usage(global_translation, local_translation, ipv6_servers):
     return nof_ipv6_rating
 
 def rate_mx_ip4_usage(global_translation, local_translation, ipv4_servers):
+    """
+    This function rates the usage of IPv4 servers based on their number.
+
+    Args:
+        global_translation (function): A function to translate text globally.
+        local_translation (function): A function to translate text locally.
+        ipv4_servers (list): A list of IPv4 servers.
+
+    Returns:
+        nof_ipv4_rating (Rating): A Rating object that represents the rating of IPv4 usage.
+    """
     nof_ipv4_servers = len(ipv4_servers)
     nof_ipv4_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if nof_ipv4_servers >= 2:

@@ -350,6 +350,20 @@ def get_default_info(url, text, method, precision, depth):
 
 
 def validate_email_domain(hostname, result_dict, global_translation, local_translation):
+    """
+    Validates the email domain of a given hostname and
+    updates the rating based on the validation results.
+
+    Parameters:
+    - hostname (str): The hostname to validate the email domain for.
+    - result_dict (dict): The results dictionary.
+    - global_translation (function): A function to translate text globally.
+    - local_translation (function): A function to translate text locally.
+
+    Returns:
+    - rating (Rating): The updated Rating object.
+    - result_dict (dict): The updated results dictionary.
+    """
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     result_dict = {}
     # We must take in consideration "www." subdomains...
@@ -393,11 +407,24 @@ def validate_email_domain(hostname, result_dict, global_translation, local_trans
         rating = validate_dmarc_policies(
             global_translation, rating, result_dict, local_translation, hostname)
 
-
     return rating, result_dict
 
 
 def validate_mta_sts_policy(global_translation, rating, result_dict, local_translation, hostname):
+    """
+    Validates the MTA STS policy of a given hostname and
+    updates the rating based on the validation results.
+
+    Parameters:
+    - global_translation (function): A function to translate text globally.
+    - rating (Rating): The initial Rating object.
+    - result_dict (dict): The results dictionary.
+    - local_translation (function): A function to translate text locally.
+    - hostname (str): The hostname to validate the MTA STS policy for.
+
+    Returns:
+    - rating (Rating): The updated Rating object.
+    """
     rating += rate_mts_sts_records(
         global_translation,
         local_translation,
@@ -482,6 +509,18 @@ def validate_mta_sts_policy(global_translation, rating, result_dict, local_trans
     return rating
 
 def handle_mta_sts_txt_row(key_value_pair, result_dict, global_translation, local_translation):
+    """
+    Handles a row of MTA STS TXT record and updates the rating and result dictionary.
+
+    Parameters:
+    - key_value_pair (tuple): The key-value pair from the MTA STS TXT record.
+    - result_dict (dict): The results dictionary.
+    - global_translation (function): A function to translate text globally.
+    - local_translation (function): A function to translate text locally.
+
+    Returns:
+    - rating (Rating): The updated Rating object.
+    """
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     key = key_value_pair[0].strip(' ')
     value = key_value_pair[1].strip(' ')
@@ -521,6 +560,15 @@ def handle_mta_sts_txt_row(key_value_pair, result_dict, global_translation, loca
     return rating
 
 def has_dns_mta_sts_policy(hostname):
+    """
+    Checks if the given hostname has a DNS MTA STS policy.
+
+    Parameters:
+    - hostname (str): The hostname to check.
+
+    Returns:
+    - bool: True if a MTA STS policy exists, False otherwise.
+    """
     has_mta_sts_policy = False
     # https://www.rfc-editor.org/rfc/rfc8461#section-3.1
     mta_sts_results = dns_lookup('_mta-sts.' + hostname, dns.rdatatype.TXT)
@@ -530,6 +578,19 @@ def has_dns_mta_sts_policy(hostname):
     return has_mta_sts_policy
 
 def rate_mts_sts_records(global_translation, local_translation, has_mta_sts_policy):
+    """
+    This function rates the MTS STS records based on whether a MTA STS policy exists.
+
+    Parameters:
+    - global_translation (function): A function to translate text globally.
+    - local_translation (function): A function to translate text locally.
+    - has_mta_sts_policy (bool): A boolean indicating whether a MTA STS policy exists.
+
+    Returns:
+    - has_mta_sts_records_rating (Rating): A Rating object with the overall rating,
+                                           integrity and security, and
+                                           standards set based on the existence of MTA STS records.
+    """
     has_mta_sts_records_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if has_mta_sts_policy:
         has_mta_sts_records_rating.set_overall(5.0)
@@ -547,20 +608,41 @@ def rate_mts_sts_records(global_translation, local_translation, has_mta_sts_poli
 
 
 def validate_dmarc_policies(global_translation, rating, result_dict, local_translation, hostname):
+    """
+    This function validates the DMARC policies of a given hostname and
+    updates the rating based on the validation results.
+
+    Parameters:
+    - global_translation (function): A function to translate text globally.
+    - rating (Rating): The initial Rating object.
+    - result_dict (dict): A dictionary containing the results of the DMARC policy checks.
+    - local_translation (function): A function to translate text locally.
+    - hostname (str): The hostname to validate the DMARC policies for.
+
+    Returns:
+    - rating (Rating): The updated Rating object with the rating results of the DMARC policies.
+    """
     dmarc_result_dict = validate_dmarc_policy(local_translation, hostname, result_dict)
     result_dict.update(dmarc_result_dict)
 
     rating = rate_has_dmarc_policies(global_translation, rating, result_dict, local_translation)
-    # rating = Rate_Invalid_format_DMARC_Policies(
-    #     global_translation,
-    #     rating,
-    #     result_dict,
-    #     local_translation)
 
     return rating
 
 
 def validate_dmarc_policy(local_translation, hostname, result_dict):
+    """
+    This function validates the DMARC policy of a given hostname.
+
+    Parameters:
+    - local_translation (function): A function to translate text locally.
+    - hostname (str): The hostname to validate the DMARC policy for.
+    - result_dict (dict): A dictionary containing the results of the DMARC policy checks.
+
+    Returns:
+    - result_dict (dict): The updated results dictionary with the
+                          validation results of the DMARC policy.
+    """
     # https://proton.me/support/anti-spoofing-custom-domain
 
     dmarc_results = dns_lookup(f"_dmarc.{hostname}", "TXT")
@@ -607,6 +689,19 @@ def validate_dmarc_policy(local_translation, hostname, result_dict):
 
 
 def rate_has_dmarc_policies(global_translation, rating, result_dict, local_translation):
+    """
+    This function rates the DMARC policies based on the provided results dictionary.
+
+    Parameters:
+    - global_translation (function): A function to translate text globally.
+    - rating (Rating): The initial Rating object.
+    - result_dict (dict): A dictionary containing the results of the DMARC policy checks.
+    - local_translation (function): A function to translate text locally.
+
+    Returns:
+    - rating (Rating): A Rating object with the overall rating, integrity and security,
+    and standards set based on the DMARC policies.
+    """
     if 'dmarc-has-policy' in result_dict:
         no_dmarc_record_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         no_dmarc_record_rating.set_overall(5.0)
@@ -665,6 +760,18 @@ def rate_has_dmarc_policies(global_translation, rating, result_dict, local_trans
     return rating
 
 def rate_dmarc_pct(global_translation, result_dict, local_translation):
+    """
+    This function rates the DMARC percentage (pct) based on the provided results dictionary.
+
+    Parameters:
+    - global_translation (function): A function to translate text globally.
+    - result_dict (dict): A dictionary containing the results of the DMARC policy checks.
+    - local_translation (function): A function to translate text locally.
+
+    Returns:
+    - percentage_rating (Rating): A Rating object with the overall rating, integrity and security,
+                                  and standards set based on the DMARC percentage.
+    """
     percentage_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if result_dict['dmarc-pct'] < 100:
         percentage_rating.set_overall(3.0)
@@ -681,6 +788,21 @@ def rate_dmarc_pct(global_translation, result_dict, local_translation):
     return percentage_rating
 
 def rate_dmarc_subpolicy(global_translation, result_dict, local_translation):
+    """
+    This function rates the DMARC subpolicy based on the provided results dictionary.
+
+    Parameters:
+    - global_translation (function): A function to translate text globally.
+    - result_dict (dict): A dictionary containing the results of the DMARC policy checks.
+    - local_translation (function): A function to translate text locally.
+
+    The function checks the 'dmarc-sp' and 'dmarc-p' fields in the results dictionary. 
+    It sets the overall rating and standards based on the values of these fields.
+
+    Returns:
+    - dmarc_subpolicy_rating (Rating): A Rating object with the overall rating and
+                                       standards set based on the DMARC subpolicy.
+    """
     dmarc_subpolicy_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if 'dmarc-sp' in result_dict and\
                 'dmarc-p' in result_dict and\
@@ -710,6 +832,16 @@ def rate_dmarc_subpolicy(global_translation, result_dict, local_translation):
     return dmarc_subpolicy_rating
 
 def rate_dmarc_policy(global_translation, result_dict, local_translation):
+    """
+    Rates DMARC policy based on its configuration.
+
+    Parameters:
+    global_translation, local_translation (function): Translation functions.
+    result_dict (dict): Stores DMARC results.
+
+    Returns:
+    dmarc_policy_rating (Rating): Rating object after DMARC policy rating.
+    """
     dmarc_policy_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if 'dmarc-p' in result_dict:
         if 'reject' == result_dict['dmarc-p']:
@@ -741,6 +873,18 @@ def rate_dmarc_policy(global_translation, result_dict, local_translation):
 
 
 def validate_spf_policies(global_translation, rating, result_dict, local_translation, hostname):
+    """
+    Validates SPF policies and rates them based on various criteria.
+
+    Parameters:
+    global_translation, local_translation (function): Translation functions.
+    hostname (str): The hostname to validate SPF policies for.
+    rating (Rating): The current rating object.
+    result_dict (dict): Stores SPF results.
+
+    Returns:
+    rating (Rating): Updated rating object after SPF policy validation and rating.
+    """
     spf_result_dict = validate_spf_policy(
         global_translation,
         local_translation,
@@ -771,6 +915,17 @@ def validate_spf_policies(global_translation, rating, result_dict, local_transla
 
 
 def rate_use_of_ptr_for_spf_policies(global_translation, rating, result_dict, local_translation):
+    """
+    Rates SPF policies based on their use of PTR records.
+
+    Parameters:
+    global_translation, local_translation (function): Translation functions.
+    rating (Rating): The current rating object.
+    result_dict (dict): Stores SPF results.
+
+    Returns:
+    rating (Rating): Updated rating object after SPF PTR records usage check.
+    """
     if 'spf-uses-ptr' in result_dict:
         has_spf_record_ptr_being_used_rating = Rating(
             global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
@@ -787,6 +942,17 @@ def rate_fail_configuration_for_spf_policies(
         rating,
         result_dict,
         local_translation):
+    """
+    Rates SPF policies based on their fail configuration.
+
+    Parameters:
+    global_translation, local_translation (function): Translation functions.
+    rating (Rating): The current rating object.
+    result_dict (dict): Stores SPF results.
+
+    Returns:
+    rating (Rating): Updated rating object after SPF fail configuration check.
+    """
     if 'spf-uses-ignorefail' in result_dict:
         has_spf_ignore_records_rating = Rating(
             global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
@@ -831,6 +997,17 @@ def rate_fail_configuration_for_spf_policies(
 
 
 def rate_invalid_format_spf_policies(global_translation, rating, result_dict, local_translation):
+    """
+    Rates SPF policies based on their format validity.
+
+    Parameters:
+    global_translation, local_translation (function): Translation functions.
+    rating (Rating): The current rating object.
+    result_dict (dict): Stores SPF results.
+
+    Returns:
+    rating (Rating): Updated rating object after SPF format validity check.
+    """
     if 'spf-uses-none-standard' in result_dict:
         has_spf_unknown_section_rating = Rating(
             global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
@@ -851,6 +1028,17 @@ def rate_invalid_format_spf_policies(global_translation, rating, result_dict, lo
 
 
 def rate_has_spf_policies(global_translation, rating, result_dict, local_translation):
+    """
+    Rates the presence of SPF policies in DNS records.
+
+    Parameters:
+    global_translation, local_translation (function): Translation functions.
+    rating (Rating): The current rating object.
+    result_dict (dict): Stores SPF results.
+
+    Returns:
+    rating (Rating): Updated rating object after SPF policy presence check.
+    """
     has_spf_records_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if 'spf-has-policy' in result_dict:
         txt = local_translation('TEXT_REVIEW_SPF_DNS_RECORD_SUPPORT')
@@ -875,6 +1063,17 @@ def rate_too_many_dns_lookup_for_spf_policies(
         rating,
         result_dict,
         local_translation):
+    """
+    Rates SPF policies based on DNS lookups count.
+
+    Parameters:
+    global_translation, local_translation (function): Translation functions.
+    rating (Rating): The current rating object.
+    result_dict (dict): Stores SPF results.
+
+    Returns:
+    rating (Rating): Updated rating object after DNS lookups count check.
+    """
     if 'spf-error-to-many-dns-lookups' in result_dict:
         to_many_spf_dns_lookups_rating = Rating(
             global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
@@ -888,6 +1087,17 @@ def rate_too_many_dns_lookup_for_spf_policies(
 
 
 def rate_gdpr_for_spf_policies(global_translation, rating, result_dict, local_translation):
+    """
+    Rates GDPR compliance for SPF policies based on IP addresses.
+
+    Parameters:
+    global_translation, local_translation (function): Translation functions.
+    rating (Rating): The current rating object.
+    result_dict (dict): Stores SPF results.
+
+    Returns:
+    rating (Rating): Updated rating object after GDPR compliance check.
+    """
     spf_addresses = []
     if 'spf-ipv4' not in result_dict:
         result_dict['spf-ipv4'] = []
@@ -940,12 +1150,32 @@ def rate_gdpr_for_spf_policies(global_translation, rating, result_dict, local_tr
     return rating
 
 def handle_spf_ip4(section, result_dict, _, _2):
+    """
+    Updates 'result_dict' with SPF IPv4 data from 'section'.
+
+    Parameters:
+    section (list): Contains SPF data.
+    result_dict (dict): Stores SPF results.
+
+    Returns:
+    None. Updates 'result_dict' in place.
+    """
     data = section[4:]
     if 'spf-ipv4' not in result_dict:
         result_dict['spf-ipv4'] = []
     result_dict['spf-ipv4'].append(data)
 
 def handle_spf_ip6(section, result_dict, _, _2):
+    """
+    Updates 'result_dict' with SPF IPv6 data from 'section'.
+
+    Parameters:
+    section (list): Contains SPF data.
+    result_dict (dict): Stores SPF results.
+
+    Returns:
+    None. Updates 'result_dict' in place.
+    """
     data = section[4:]
     if 'spf-ipv6' not in result_dict:
         result_dict['spf-ipv6'] = []
@@ -971,6 +1201,16 @@ def handle_spf_include(section, result_dict, global_translation, local_translati
     result_dict.update(subresult_dict)
 
 def handle_spf_neutral_all(_, result_dict, _2, _3):
+    """
+    Handles the '?all' mechanism in an SPF (Sender Policy Framework) record.
+
+    Parameters:
+        _ (_): Ignored parameter.
+        result_dict (dict): Stores the results.
+        _2, _3: Ignored parameters.
+
+    The function marks the SPF record as using the '?all' mechanism, which indicates a NeutralFail.
+    """
     # What do this do and should we rate on it?
     result_dict['spf-uses-neutralfail'] = True
 

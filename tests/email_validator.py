@@ -1108,6 +1108,15 @@ def handle_dmarc_ri(data, result_dict, local_translation):
         result_dict['dmarc-ri'] = None
 
 def handle_dmarc_section(key, data, result_dict, local_translation):
+    """
+    Handles a DMARC section based on its key.
+
+    Args:
+        key (str): The key of the DMARC section.
+        data (str): The data of the DMARC section.
+        result_dict (dict): Dictionary to store results.
+        local_translation (function): Local text translator.
+    """
     dmarc_section_handlers = {
         "p": handle_dmarc_p,
         "sp": handle_dmarc_sp,
@@ -1126,6 +1135,18 @@ def handle_dmarc_section(key, data, result_dict, local_translation):
             handler(data, result_dict, local_translation)
 
 def validate_spf_policy(global_translation, local_translation, hostname, result_dict):
+    """
+    Validates the SPF policy of a hostname.
+
+    Args:
+        global_translation (function): Global text translator.
+        local_translation (function): Local text translator.
+        hostname (str): The hostname to validate.
+        result_dict (dict): Dictionary to store results.
+
+    Returns:
+        result_dict (dict): Updated dictionary with SPF validation results.
+    """
     # https://proton.me/support/anti-spoofing-custom-domain
 
     if 'spf-dns-lookup-count' in result_dict and result_dict['spf-dns-lookup-count'] >= 10:

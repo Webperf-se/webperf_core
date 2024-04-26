@@ -27,7 +27,7 @@ checked_urls = {}
 
 # We are doing this to support IPv6
 class SmtpWebperf(smtplib.SMTP): # pylint: disable=too-many-instance-attributes
-    def __init__(self, host='', port=0, local_hostname=None, # pylint: disable=too-many-arguments
+    def __init__(self, host='', port=0, local_hostname=None, # pylint: disable=too-many-arguments, super-init-not-called
                  timeout=socket._GLOBAL_DEFAULT_TIMEOUT,
                  source_address=None):
         """Initialize a new instance.
@@ -380,7 +380,12 @@ def validate_email_domain(hostname, result_dict, global_translation, local_trans
         # 1.6 - Check DNSSEC
         # 1.7 - Check DANE
         # 1.8 - Check MTA-STS policy
-        rating = validate_mta_sts_policy(global_translation, rating, local_translation, hostname)
+        rating = validate_mta_sts_policy(
+            global_translation,
+            rating,
+            result_dict,
+            local_translation,
+            hostname)
         # 1.9 - Check SPF policy
         rating = validate_spf_policies(
             global_translation, rating, result_dict, local_translation, hostname)
@@ -392,15 +397,11 @@ def validate_email_domain(hostname, result_dict, global_translation, local_trans
     return rating, result_dict
 
 
-def validate_mta_sts_policy(global_translation, rating, local_translation, hostname):
-    has_mta_sts_policy = False
-    # https://www.rfc-editor.org/rfc/rfc8461#section-3.1
-    mta_sts_results = dns_lookup('_mta-sts.' + hostname, dns.rdatatype.TXT)
-    for result in mta_sts_results:
-        if 'v=STSv1;' in result:
-            has_mta_sts_policy = True
-
-    rating += rate_mts_sts_records(global_translation, local_translation, has_mta_sts_policy)
+def validate_mta_sts_policy(global_translation, rating, result_dict, local_translation, hostname):
+    rating += rate_mts_sts_records(
+        global_translation,
+        local_translation,
+        has_dns_mta_sts_policy(hostname))
 
     # https://mta-sts.example.com/.well-known/mta-sts.txt
     content = get_http_content(
@@ -415,12 +416,13 @@ def validate_mta_sts_policy(global_translation, rating, local_translation, hostn
         # mx: mail1.polisen.se
         # mx: mail2.polisen.se
         # max_age: 604800
-
-        is_valid = True
-        has_version = False
-        has_mode = False
-        has_mx = False
-        has_max_age = False
+        result_dict['mta-sts.txt'] = {
+            'valid': True,
+            'has_version': False,
+            'has_mode': False,
+            'has_mx': False,
+            'has_max_age': False
+        }
 
         rows = content.split('\r\n')
         if len(rows) == 1:
@@ -442,48 +444,22 @@ def validate_mta_sts_policy(global_translation, rating, local_translation, hostn
             key_value_pair = row.split(':')
             if len(key_value_pair) != 2:
                 print('invalid pair:', key_value_pair)
-                is_valid = False
+                result_dict['mta-sts.txt']['valid'] = False
                 continue
 
-            key = key_value_pair[0].strip(' ')
-            value = key_value_pair[1].strip(' ')
+            rating += handle_mta_sts_txt_row(
+                key_value_pair,
+                result_dict,
+                global_translation,
+                local_translation)
 
-            if 'version' in key:
-                has_version = True
-            elif 'mode' in key:
-                if value == 'enforce':
-                    _ = 1
-                elif value in ('testing', 'none'):
-                    mta_sts_records_not_enforced_rating = Rating(
-                        global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                    mta_sts_records_not_enforced_rating.set_overall(3.0)
-                    mta_sts_records_not_enforced_rating.set_integrity_and_security(
-                        1.0, local_translation('TEXT_REVIEW_MTA_STS_DNS_RECORD_NOT_ENFORCED'))
-                    mta_sts_records_not_enforced_rating.set_standards(
-                        5.0, local_translation('TEXT_REVIEW_MTA_STS_DNS_RECORD_VALID_MODE'))
-                    rating += mta_sts_records_not_enforced_rating
-                else:
-                    mta_sts_records_invalid_mode_rating = Rating(
-                        global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                    mta_sts_records_invalid_mode_rating.set_overall(1.0)
-                    mta_sts_records_invalid_mode_rating.set_integrity_and_security(
-                        1.0, local_translation('TEXT_REVIEW_MTA_STS_DNS_RECORD_INVALID_MODE'))
-                    mta_sts_records_invalid_mode_rating.set_standards(
-                        1.0, local_translation('TEXT_REVIEW_MTA_STS_DNS_RECORD_INVALID_MODE'))
-                    rating += mta_sts_records_invalid_mode_rating
+        result_dict['mta-sts.txt']['valid'] = result_dict['mta-sts.txt']['valid'] and\
+            result_dict['mta-sts.txt']['has_version'] and\
+            result_dict['mta-sts.txt']['has_mode'] and\
+            result_dict['mta-sts.txt']['has_mx'] and\
+            result_dict['mta-sts.txt']['has_max_age']
 
-                has_mode = True
-            elif 'mx' in key:
-                has_mx = True
-            elif 'max_age' in key:
-                has_max_age = True
-            else:
-                print('invalid key:', key)
-                is_valid = False
-
-        is_valid = is_valid and has_version and has_mode and has_mx and has_max_age
-
-        if is_valid:
+        if result_dict['mta-sts.txt']['valid']:
             has_mta_sts_txt_rating.set_overall(5.0)
             has_mta_sts_txt_rating.set_integrity_and_security(
                 5.0, local_translation('TEXT_REVIEW_MTA_STS_TXT_SUPPORT'))
@@ -505,6 +481,54 @@ def validate_mta_sts_policy(global_translation, rating, local_translation, hostn
     rating += has_mta_sts_txt_rating
     return rating
 
+def handle_mta_sts_txt_row(key_value_pair, result_dict, global_translation, local_translation):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    key = key_value_pair[0].strip(' ')
+    value = key_value_pair[1].strip(' ')
+
+    if 'version' in key:
+        result_dict['mta-sts.txt']['has_version'] = True
+    elif 'mode' in key:
+        if value == 'enforce':
+            _ = 1
+        elif value in ('testing', 'none'):
+            mta_sts_records_not_enforced_rating = Rating(
+                        global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            mta_sts_records_not_enforced_rating.set_overall(3.0)
+            mta_sts_records_not_enforced_rating.set_integrity_and_security(
+                        1.0, local_translation('TEXT_REVIEW_MTA_STS_DNS_RECORD_NOT_ENFORCED'))
+            mta_sts_records_not_enforced_rating.set_standards(
+                        5.0, local_translation('TEXT_REVIEW_MTA_STS_DNS_RECORD_VALID_MODE'))
+            rating += mta_sts_records_not_enforced_rating
+        else:
+            mta_sts_records_invalid_mode_rating = Rating(
+                        global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            mta_sts_records_invalid_mode_rating.set_overall(1.0)
+            mta_sts_records_invalid_mode_rating.set_integrity_and_security(
+                        1.0, local_translation('TEXT_REVIEW_MTA_STS_DNS_RECORD_INVALID_MODE'))
+            mta_sts_records_invalid_mode_rating.set_standards(
+                        1.0, local_translation('TEXT_REVIEW_MTA_STS_DNS_RECORD_INVALID_MODE'))
+            rating += mta_sts_records_invalid_mode_rating
+
+        result_dict['mta-sts.txt']['has_mode'] = True
+    elif 'mx' in key:
+        result_dict['mta-sts.txt']['has_mx'] = True
+    elif 'max_age' in key:
+        result_dict['mta-sts.txt']['has_max_age'] = True
+    else:
+        print('invalid key:', key)
+        result_dict['mta-sts.txt']['valid'] = False
+    return rating
+
+def has_dns_mta_sts_policy(hostname):
+    has_mta_sts_policy = False
+    # https://www.rfc-editor.org/rfc/rfc8461#section-3.1
+    mta_sts_results = dns_lookup('_mta-sts.' + hostname, dns.rdatatype.TXT)
+    for result in mta_sts_results:
+        if 'v=STSv1;' in result:
+            has_mta_sts_policy = True
+    return has_mta_sts_policy
+
 def rate_mts_sts_records(global_translation, local_translation, has_mta_sts_policy):
     has_mta_sts_records_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if has_mta_sts_policy:
@@ -519,7 +543,6 @@ def rate_mts_sts_records(global_translation, local_translation, has_mta_sts_poli
             1.0, local_translation('TEXT_REVIEW_MTA_STS_DNS_RECORD_NO_SUPPORT'))
         has_mta_sts_records_rating.set_standards(
             1.0, local_translation('TEXT_REVIEW_MTA_STS_DNS_RECORD_NO_SUPPORT'))
-            
     return has_mta_sts_records_rating
 
 
@@ -684,7 +707,6 @@ def rate_dmarc_subpolicy(global_translation, result_dict, local_translation):
                     1.0, local_translation('TEXT_REVIEW_DMARC_SUBPOLICY_NONE'))
             dmarc_subpolicy_rating.set_standards(
                     5.0, local_translation('TEXT_REVIEW_DMARC_SUBPOLICY_NONE'))
-                
     return dmarc_subpolicy_rating
 
 def rate_dmarc_policy(global_translation, result_dict, local_translation):
@@ -714,7 +736,7 @@ def rate_dmarc_policy(global_translation, result_dict, local_translation):
                 1.0, local_translation('TEXT_REVIEW_DMARC_NO_POLICY'))
         dmarc_policy_rating.set_standards(
                 1.0, local_translation('TEXT_REVIEW_DMARC_NO_POLICY'))
-            
+
     return dmarc_policy_rating
 
 
@@ -1002,7 +1024,7 @@ def handle_dmarc_sp(data, result_dict, local_translation):
         result_dict['dmarc-errors'].append(
             local_translation(
                 'TEXT_REVIEW_DMARC_SUBPOLICY_INVALID'))
-        
+
 def handle_dmarc_adkim(data, result_dict, local_translation):
     if data == 'r':
         result_dict['dmarc-warnings'].append(

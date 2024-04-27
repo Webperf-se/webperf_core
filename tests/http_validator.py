@@ -1711,7 +1711,7 @@ def handle_csp_data(content, domain, result_dict, is_from_response_header, org_d
     return result_dict
 
 def convert_csp_policies_2_csp_objects(domain, result_dict, org_domain):
-    wildcard_org_domain = 'webperf-core-wildcard.{0}'.format(org_domain)
+    wildcard_org_domain = f'webperf-core-wildcard.{org_domain}'
     subdomain_org_domain = f'.{org_domain}'
 
     for policy_name, items in result_dict[domain]['csp-policies'].items():
@@ -1822,9 +1822,7 @@ def parse_csp(content, domain, result_dict, is_from_response_header):
             result_dict[domain]['csp-policies'][policy_name] = []
 
         if not is_from_response_header and\
-                (policy_name == 'frame-ancestors' or\
-                policy_name == 'report-uri' or\
-                policy_name == 'sandbox'):
+                policy_name in ('frame-ancestors', 'report-uri', 'sandbox'):
             result_dict[domain]['features'].append('CSP-UNSUPPORTED-IN-META')
             result_dict[domain]['features'].append(f'CSP-UNSUPPORTED-IN-META-{tmp_name}')
 

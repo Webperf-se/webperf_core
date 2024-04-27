@@ -13,7 +13,8 @@ from requests.packages.urllib3.util import ssl_
 # https://docs.python.org/3/library/urllib.parse.html
 import urllib
 from models import Rating
-from tests.utils import change_url_to_test_url, dns_lookup, get_translation, merge_dicts, get_config_or_default
+from tests.utils import change_url_to_test_url, dns_lookup,\
+    get_translation, merge_dicts, get_config_or_default
 from tests.sitespeed_base import get_result
 import dns.name
 import dns.query
@@ -102,102 +103,152 @@ def run_test(global_translation, lang_code, url):
 def rate(org_domain, result_dict, global_translation, local_translation):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
-    org_www_domain = 'www.{0}'.format(org_domain)
+    org_www_domain = f'www.{org_domain}'
 
     for domain in result_dict.keys():
-        if type(result_dict[domain]) != dict:
+        if not isinstance(result_dict[domain], dict):
             continue
 
         if not USE_CSP_ONLY:
-            rating += rate_protocols(result_dict, global_translation, local_translation ,domain)
-            # rating += rate_dnssec(result_dict, global_translation, local_translation, domain)
-            rating += rate_schemas(result_dict, global_translation, local_translation, domain)
-            rating += rate_hsts(result_dict, global_translation, local_translation, org_domain, domain)
-            rating += rate_ip_versions(result_dict, global_translation, local_translation, domain)
-            rating += rate_transfer_layers(result_dict, global_translation, local_translation, domain)
-        rating += rate_csp(result_dict, global_translation, local_translation, org_domain, org_www_domain, domain, True)
+            rating += rate_protocols(
+                result_dict,
+                global_translation,
+                local_translation,
+                domain)
+            # rating += rate_dnssec(
+            #     result_dict,
+            #     global_translation,
+            #     local_translation,
+            #     domain)
+            rating += rate_schemas(
+                result_dict,
+                global_translation,
+                local_translation,
+                domain)
+            rating += rate_hsts(
+                result_dict,
+                global_translation,
+                local_translation,
+                org_domain,
+                domain)
+            rating += rate_ip_versions(
+                result_dict,
+                global_translation,
+                local_translation,
+                domain)
+            rating += rate_transfer_layers(
+                result_dict,
+                global_translation,
+                local_translation,
+                domain)
+        rating += rate_csp(
+            result_dict,
+            global_translation,
+            local_translation,
+            org_domain,
+            org_www_domain,
+            domain,
+            True)
 
     return rating
 
 def rate_transfer_layers(result_dict, global_translation, local_translation, domain):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-    if type(result_dict[domain]) != dict:
+    if not isinstance(result_dict[domain], dict):
         return rating
-    
+
     if 'TLSv1.3' in result_dict[domain]['transport-layers']:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(5.0)
-        sub_rating.set_standards(5.0, local_translation('TEXT_REVIEW_TLS1_3_SUPPORT').format(domain))
-        sub_rating.set_integrity_and_security(5.0, local_translation('TEXT_REVIEW_TLS1_3_SUPPORT').format(domain))
+        sub_rating.set_standards(5.0,
+                                local_translation('TEXT_REVIEW_TLS1_3_SUPPORT').format(domain))
+        sub_rating.set_integrity_and_security(5.0,
+                                local_translation('TEXT_REVIEW_TLS1_3_SUPPORT').format(domain))
         rating += sub_rating
     else:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(1.0)
-        sub_rating.set_standards(1.0, local_translation('TEXT_REVIEW_TLS1_3_NO_SUPPORT').format(domain))
-        sub_rating.set_integrity_and_security(1.0, local_translation('TEXT_REVIEW_TLS1_3_NO_SUPPORT').format(domain))
+        sub_rating.set_standards(1.0,
+                                local_translation('TEXT_REVIEW_TLS1_3_NO_SUPPORT').format(domain))
+        sub_rating.set_integrity_and_security(1.0,
+                                local_translation('TEXT_REVIEW_TLS1_3_NO_SUPPORT').format(domain))
         rating += sub_rating
 
     if 'TLSv1.2' in result_dict[domain]['transport-layers']:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(5.0)
-        sub_rating.set_standards(5.0, local_translation('TEXT_REVIEW_TLS1_2_SUPPORT').format(domain))
-        sub_rating.set_integrity_and_security(5.0, local_translation('TEXT_REVIEW_TLS1_2_SUPPORT').format(domain))
+        sub_rating.set_standards(5.0,
+                                local_translation('TEXT_REVIEW_TLS1_2_SUPPORT').format(domain))
+        sub_rating.set_integrity_and_security(5.0,
+                                local_translation('TEXT_REVIEW_TLS1_2_SUPPORT').format(domain))
         rating += sub_rating
     else:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(1.0)
-        sub_rating.set_standards(1.0, local_translation('TEXT_REVIEW_TLS1_2_NO_SUPPORT').format(domain))
-        sub_rating.set_integrity_and_security(1.0, local_translation('TEXT_REVIEW_TLS1_2_NO_SUPPORT').format(domain))
+        sub_rating.set_standards(1.0,
+                                local_translation('TEXT_REVIEW_TLS1_2_NO_SUPPORT').format(domain))
+        sub_rating.set_integrity_and_security(1.0,
+                                local_translation('TEXT_REVIEW_TLS1_2_NO_SUPPORT').format(domain))
         rating += sub_rating
 
     if 'TLSv1.1' in result_dict[domain]['transport-layers']:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(1.0)
-        sub_rating.set_integrity_and_security(1.0, local_translation('TEXT_REVIEW_TLS1_1_SUPPORT').format(domain))
+        sub_rating.set_integrity_and_security(1.0,
+                                local_translation('TEXT_REVIEW_TLS1_1_SUPPORT').format(domain))
         rating += sub_rating
     else:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(5.0)
-        sub_rating.set_integrity_and_security(5.0, local_translation('TEXT_REVIEW_TLS1_1_NO_SUPPORT').format(domain))
+        sub_rating.set_integrity_and_security(5.0,
+                                local_translation('TEXT_REVIEW_TLS1_1_NO_SUPPORT').format(domain))
         rating += sub_rating
 
     if 'TLSv1.0' in result_dict[domain]['transport-layers']:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(1.0)
-        sub_rating.set_integrity_and_security(1.0, local_translation('TEXT_REVIEW_TLS1_0_SUPPORT').format(domain))
+        sub_rating.set_integrity_and_security(1.0,
+                                local_translation('TEXT_REVIEW_TLS1_0_SUPPORT').format(domain))
         rating += sub_rating
     else:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(5.0)
-        sub_rating.set_integrity_and_security(5.0, local_translation('TEXT_REVIEW_TLS1_0_NO_SUPPORT').format(domain))
+        sub_rating.set_integrity_and_security(5.0,
+                                local_translation('TEXT_REVIEW_TLS1_0_NO_SUPPORT').format(domain))
         rating += sub_rating
     return rating
 
 def rate_ip_versions(result_dict, global_translation, local_translation, domain):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-    if type(result_dict[domain]) != dict:
+    if not isinstance(result_dict[domain], dict):
         return rating
-    
-    if 'IPv4' in result_dict[domain]['ip-versions'] or 'IPv4*' in result_dict[domain]['ip-versions']:
+
+    if 'IPv4' in result_dict[domain]['ip-versions'] or\
+            'IPv4*' in result_dict[domain]['ip-versions']:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(5.0)
-        sub_rating.set_standards(5.0, local_translation('TEXT_REVIEW_IP_VERSION_IPV4_SUPPORT').format(domain))
+        sub_rating.set_standards(5.0,
+                local_translation('TEXT_REVIEW_IP_VERSION_IPV4_SUPPORT').format(domain))
         rating += sub_rating
     else:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(1.0)
-        sub_rating.set_standards(1.0, local_translation('TEXT_REVIEW_IP_VERSION_IPV4_NO_SUPPORT').format(domain))
+        sub_rating.set_standards(1.0,
+                local_translation('TEXT_REVIEW_IP_VERSION_IPV4_NO_SUPPORT').format(domain))
         rating += sub_rating
 
-    if 'IPv6' in result_dict[domain]['ip-versions'] or 'IPv6*' in result_dict[domain]['ip-versions']:
+    if 'IPv6' in result_dict[domain]['ip-versions'] or\
+            'IPv6*' in result_dict[domain]['ip-versions']:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(5.0)
-        sub_rating.set_standards(5.0, local_translation('TEXT_REVIEW_IP_VERSION_IPV6_SUPPORT').format(domain))
+        sub_rating.set_standards(5.0,
+                local_translation('TEXT_REVIEW_IP_VERSION_IPV6_SUPPORT').format(domain))
         rating += sub_rating
     else:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(1.0)
-        sub_rating.set_standards(1.0, local_translation('TEXT_REVIEW_IP_VERSION_IPV6_NO_SUPPORT').format(domain))
+        sub_rating.set_standards(1.0,
+                local_translation('TEXT_REVIEW_IP_VERSION_IPV6_NO_SUPPORT').format(domain))
         rating += sub_rating
     return rating
 
@@ -265,7 +316,6 @@ def create_csp(csp_findings, org_domain):
             elif element_name == 'connect':
                 connect_src.append(host_source)
             elif element_name == 'link':
-                # child_src.append(host_source)
                 default_src.append(host_source)
             else:
                 default_src.append(host_source)
@@ -353,9 +403,10 @@ def create_csp(csp_findings, org_domain):
 
     return csp_recommendation
 
-def rate_csp(result_dict, global_translation, local_translation, org_domain, org_www_domain, domain, create_recommendation):
+def rate_csp(result_dict, global_translation, local_translation,
+             org_domain, org_www_domain, domain, create_recommendation):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-    if type(result_dict[domain]) != dict:
+    if not isinstance(result_dict[domain], dict):
         return rating
 
     if domain != org_domain and domain != org_www_domain:
@@ -377,27 +428,56 @@ def rate_csp(result_dict, global_translation, local_translation, org_domain, org
                                          ).format(domain))
             rating += sub_rating
 
-        # default-src|script-src|style-src|font-src|connect-src|frame-src|img-src|media-src|frame-ancestors|base-uri|form-action|block-all-mixed-content|child-src|connect-src|fenced-frame-src|font-src|img-src|manifest-src|media-src|object-src|plugin-types|prefetch-src|referrer|report-to|report-uri|require-trusted-types-for|sandbox|script-src-attr|script-src-elem|strict-dynamic|style-src-attr|style-src-elem|trusted-types|unsafe-hashes|upgrade-insecure-requests|worker-src
-        supported_src_policies = ['default-src','script-src','style-src','font-src','connect-src','frame-src','img-src','media-src','frame-ancestors','base-uri','form-action','child-src','manifest-src','object-src','script-src-attr','script-src-elem','style-src-attr','style-src-elem','worker-src']
-        self_allowed_policies = ['font-src','connect-src','frame-src','img-src','media-src','frame-ancestors','base-uri','form-action','child-src','manifest-src']
+        # default-src|script-src|style-src|font-src|connect-src|
+        # frame-src|img-src|media-src|frame-ancestors|base-uri|
+        # form-action|block-all-mixed-content|child-src|connect-src|
+        # fenced-frame-src|font-src|img-src|manifest-src|media-src|
+        # object-src|plugin-types|prefetch-src|referrer|report-to|
+        # report-uri|require-trusted-types-for|sandbox|script-src-attr|
+        # script-src-elem|strict-dynamic|style-src-attr|style-src-elem|
+        # trusted-types|unsafe-hashes|upgrade-insecure-requests|worker-src
+        supported_src_policies = [
+            'default-src','script-src','style-src','font-src',
+            'connect-src','frame-src','img-src','media-src',
+            'frame-ancestors','base-uri','form-action','child-src',
+            'manifest-src','object-src','script-src-attr',
+            'script-src-elem','style-src-attr','style-src-elem','worker-src']
+        self_allowed_policies = [
+            'font-src','connect-src','frame-src','img-src','media-src',
+            'frame-ancestors','base-uri','form-action','child-src','manifest-src']
         other_supported_polices = ['report-to','sandbox','upgrade-insecure-requests']
-        fallback_src_policies = ['base-uri', 'object-src', 'frame-ancestors', 'form-action', 'default-src']
-        experimental_policies = ['fenced-frame-src', 'require-trusted-types-for','inline-speculation-rules', 'trusted-types']
+        fallback_src_policies = [
+            'base-uri', 'object-src', 'frame-ancestors',
+            'form-action', 'default-src']
+        experimental_policies = [
+            'fenced-frame-src',
+            'require-trusted-types-for',
+            'inline-speculation-rules',
+            'trusted-types']
         # Deprecated policies (According to https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
-        deprecated_policies = ['block-all-mixed-content','plugin-types','prefetch-src', 'referrer', 'report-uri']
+        deprecated_policies = [
+            'block-all-mixed-content',
+            'plugin-types',
+            'prefetch-src',
+            'referrer',
+            'report-uri']
         is_using_deprecated_policy = False
         for policy_name in deprecated_policies:
             if policy_name in result_dict[domain]['csp-objects']:
                 is_using_deprecated_policy = True
                 sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(1.0)
-                sub_rating.set_standards(1.0, local_translation('TEXT_REVIEW_CSP_POLICY_DEPRECATED').format(policy_name, domain))
+                sub_rating.set_standards(1.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_DEPRECATED').format(
+                        policy_name, domain))
                 rating += sub_rating
 
         if not is_using_deprecated_policy:
             sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
             sub_rating.set_overall(5.0)
-            sub_rating.set_standards(5.0, local_translation('TEXT_REVIEW_CSP_POLICY_NOT_DEPRECATED').format(policy_name, domain))
+            sub_rating.set_standards(5.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_NOT_DEPRECATED').format(
+                        policy_name, domain))
             rating += sub_rating
 
         for policy_name in supported_src_policies:
@@ -417,12 +497,16 @@ def rate_csp(result_dict, global_translation, local_translation, org_domain, org
                 if wildcard.endswith('*'):
                     sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     sub_rating.set_overall(1.0)
-                    sub_rating.set_standards(1.0, local_translation('TEXT_REVIEW_CSP_POLICY_USE_WILDCARD').format(policy_name, domain))
+                    sub_rating.set_standards(1.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_USE_WILDCARD').format(
+                            policy_name, domain))
                     rating += sub_rating
                 else:
                     sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     sub_rating.set_overall(2.0)
-                    sub_rating.set_integrity_and_security(2.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, local_translation('TEXT_REVIEW_CSP_WILDCARDS'), domain))
+                    sub_rating.set_integrity_and_security(2.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                            policy_name, local_translation('TEXT_REVIEW_CSP_WILDCARDS'), domain))
                     rating += sub_rating
 
             nof_wildcard_subdomains = len(policy_object['wildcard-subdomains'])
@@ -430,47 +514,71 @@ def rate_csp(result_dict, global_translation, local_translation, org_domain, org
                 if policy_name in self_allowed_policies:
                     sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     sub_rating.set_overall(5.0)
-                    sub_rating.set_integrity_and_security(5.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, local_translation('TEXT_REVIEW_CSP_WILDCARD_SUBDOMAIN'), domain))
+                    sub_rating.set_integrity_and_security(5.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                            policy_name,
+                            local_translation('TEXT_REVIEW_CSP_WILDCARD_SUBDOMAIN'), domain))
                     rating += sub_rating
                 else:
                     sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     sub_rating.set_overall(2.7)
-                    sub_rating.set_integrity_and_security(2.7, local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, local_translation('TEXT_REVIEW_CSP_WILDCARD_SUBDOMAIN'), domain))
+                    sub_rating.set_integrity_and_security(2.7,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                            policy_name,
+                            local_translation('TEXT_REVIEW_CSP_WILDCARD_SUBDOMAIN'), domain))
                     rating += sub_rating
 
             if not is_using_wildcard_in_policy:
                 sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(5.0)
-                sub_rating.set_standards(5.0, local_translation('TEXT_REVIEW_CSP_POLICY_NOT_USE_WILDCARD').format(policy_name, domain))
+                sub_rating.set_standards(5.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_NOT_USE_WILDCARD').format(
+                            policy_name, domain))
                 rating += sub_rating
 
             if "'none'" in policy_object['all']:
                 if len(policy_object['all']) > 1:
                     sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     sub_rating.set_overall(1.5)
-                    sub_rating.set_standards(1.5, local_translation('TEXT_REVIEW_CSP_POLICY_NONE_NOT_ALONE').format(policy_name, "'none'", domain))
-                    sub_rating.set_integrity_and_security(1.5, local_translation('TEXT_REVIEW_CSP_POLICY_NONE_NOT_ALONE').format(policy_name, "'none'", domain))
+                    sub_rating.set_standards(1.5,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_NONE_NOT_ALONE').format(
+                            policy_name, "'none'", domain))
+                    sub_rating.set_integrity_and_security(1.5,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_NONE_NOT_ALONE').format(
+                            policy_name, "'none'", domain))
                     rating += sub_rating
                 else:
                     sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     sub_rating.set_overall(5.0)
-                    sub_rating.set_standards(5.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "'none'", domain))
-                    sub_rating.set_integrity_and_security(5.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "'none'", domain))
+                    sub_rating.set_standards(5.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                            policy_name, "'none'", domain))
+                    sub_rating.set_integrity_and_security(5.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                            policy_name, "'none'", domain))
                     rating += sub_rating
                 any_found = True
             elif len(policy_object['hashes']) > 0:
                 # TODO: Validate correct format ( '<hash-algorithm>-<base64-value>' )
                 sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(5.0)
-                sub_rating.set_standards(5.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "sha[256/384/512]", domain))
-                sub_rating.set_integrity_and_security(5.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "sha[256/384/512]", domain))
+                sub_rating.set_standards(5.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                        policy_name, "sha[256/384/512]", domain))
+                sub_rating.set_integrity_and_security(5.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                            policy_name, "sha[256/384/512]", domain))
                 rating += sub_rating
                 any_found = True
             elif policy_name not in self_allowed_policies:
                 sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(1.0)
-                sub_rating.set_standards(5.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, "none/sha[256/384/512]", domain))
-                sub_rating.set_integrity_and_security(1.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, "none/sha[256/384/512]", domain))
+                sub_rating.set_standards(5.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
+                        policy_name, "none/sha[256/384/512]", domain))
+                sub_rating.set_integrity_and_security(1.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
+                            policy_name, "none/sha[256/384/512]", domain))
                 rating += sub_rating
 
 
@@ -480,16 +588,28 @@ def rate_csp(result_dict, global_translation, local_translation, org_domain, org
                 sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 if nof_nonces == 1 and total_number_of_sitespeedruns != nof_nonces:
                     sub_rating.set_overall(1.0)
-                    sub_rating.set_standards(1.0, local_translation('TEXT_REVIEW_CSP_POLICY_REUSE_NONCE').format(policy_name, domain))
-                    sub_rating.set_integrity_and_security(1.0, local_translation('TEXT_REVIEW_CSP_POLICY_REUSE_NONCE').format(policy_name, domain))
+                    sub_rating.set_standards(1.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_REUSE_NONCE').format(
+                            policy_name, domain))
+                    sub_rating.set_integrity_and_security(1.0,
+                            local_translation('TEXT_REVIEW_CSP_POLICY_REUSE_NONCE').format(
+                                policy_name, domain))
                 elif nof_nonces > total_number_of_sitespeedruns:
                     sub_rating.set_overall(4.75)
-                    sub_rating.set_standards(4.99, local_translation('TEXT_REVIEW_CSP_POLICY_MULTIUSE_NONCE').format(policy_name, "'nonce's", domain))
-                    sub_rating.set_integrity_and_security(4.5, local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "nonce", domain))
+                    sub_rating.set_standards(4.99,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_MULTIUSE_NONCE').format(
+                            policy_name, "'nonce's", domain))
+                    sub_rating.set_integrity_and_security(4.5,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                            policy_name, "nonce", domain))
                 else:
                     sub_rating.set_overall(4.5)
-                    sub_rating.set_standards(5.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "'nonce'", domain))
-                    sub_rating.set_integrity_and_security(4.5, local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "'nonce'", domain))
+                    sub_rating.set_standards(5.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                            policy_name, "'nonce'", domain))
+                    sub_rating.set_integrity_and_security(4.5,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                            policy_name, "'nonce'", domain))
                 rating += sub_rating
                 any_found = True
 
@@ -497,21 +617,33 @@ def rate_csp(result_dict, global_translation, local_translation, org_domain, org
                 if policy_name in self_allowed_policies:
                     sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     sub_rating.set_overall(5.0)
-                    sub_rating.set_standards(5.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "'self'", domain))
-                    sub_rating.set_integrity_and_security(5.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "'self'", domain))                
+                    sub_rating.set_standards(5.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                            policy_name, "'self'", domain))
+                    sub_rating.set_integrity_and_security(5.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                            policy_name, "'self'", domain))                
                     rating += sub_rating
                 else:
                     sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     sub_rating.set_overall(3.0)
-                    sub_rating.set_standards(5.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "'self'", domain))
-                    sub_rating.set_integrity_and_security(3.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "'self'", domain))                
+                    sub_rating.set_standards(5.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                            policy_name, "'self'", domain))
+                    sub_rating.set_integrity_and_security(3.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                            policy_name, "'self'", domain))                
                     rating += sub_rating
                 any_found = True
             else:
                 sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(5.0)
-                sub_rating.set_standards(5.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, "'self'", domain))
-                sub_rating.set_integrity_and_security(5.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, "'self'", domain))                
+                sub_rating.set_standards(5.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
+                        policy_name, "'self'", domain))
+                sub_rating.set_integrity_and_security(5.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
+                        policy_name, "'self'", domain))                
                 rating += sub_rating
 
 
@@ -520,18 +652,26 @@ def rate_csp(result_dict, global_translation, local_translation, org_domain, org
                 if policy_name in self_allowed_policies:
                     sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     sub_rating.set_overall(5.0)
-                    sub_rating.set_integrity_and_security(5.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, local_translation('TEXT_REVIEW_CSP_SUBDOMAIN'), domain))
+                    sub_rating.set_integrity_and_security(5.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                            policy_name, local_translation('TEXT_REVIEW_CSP_SUBDOMAIN'), domain))
                     rating += sub_rating
                 else:
                     sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     sub_rating.set_overall(3.0)
-                    sub_rating.set_integrity_and_security(3.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, local_translation('TEXT_REVIEW_CSP_SUBDOMAIN'), domain))
+                    sub_rating.set_integrity_and_security(3.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                            policy_name, local_translation('TEXT_REVIEW_CSP_SUBDOMAIN'), domain))
                     rating += sub_rating
             else:
                 sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(5.0)
-                sub_rating.set_standards(5.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, local_translation('TEXT_REVIEW_CSP_SUBDOMAIN'), domain))
-                sub_rating.set_integrity_and_security(5.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, local_translation('TEXT_REVIEW_CSP_SUBDOMAIN'), domain))                
+                sub_rating.set_standards(5.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
+                        policy_name, local_translation('TEXT_REVIEW_CSP_SUBDOMAIN'), domain))
+                sub_rating.set_integrity_and_security(5.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
+                        policy_name, local_translation('TEXT_REVIEW_CSP_SUBDOMAIN'), domain))                
                 rating += sub_rating
 
             nof_domains = len(policy_object['domains'])
@@ -539,19 +679,27 @@ def rate_csp(result_dict, global_translation, local_translation, org_domain, org
                 if nof_domains > 15:
                     sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     sub_rating.set_overall(1.5)
-                    sub_rating.set_integrity_and_security(1.5, local_translation('TEXT_REVIEW_CSP_POLICY_USE_15_OR_MORE_DOMAINS').format(policy_name, local_translation('TEXT_REVIEW_CSP_DOMAIN'), domain))
+                    sub_rating.set_integrity_and_security(1.5,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_USE_15_OR_MORE_DOMAINS').format(
+                            policy_name, local_translation('TEXT_REVIEW_CSP_DOMAIN'), domain))
                     rating += sub_rating
 
                 sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(2.0)
-                sub_rating.set_integrity_and_security(2.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, local_translation('TEXT_REVIEW_CSP_DOMAIN'), domain))
+                sub_rating.set_integrity_and_security(2.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                        policy_name, local_translation('TEXT_REVIEW_CSP_DOMAIN'), domain))
                 rating += sub_rating
                 any_found = True
             else:
                 sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(5.0)
-                sub_rating.set_standards(5.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, local_translation('TEXT_REVIEW_CSP_DOMAIN'), domain))
-                sub_rating.set_integrity_and_security(5.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, local_translation('TEXT_REVIEW_CSP_DOMAIN'), domain))                
+                sub_rating.set_standards(5.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
+                        policy_name, local_translation('TEXT_REVIEW_CSP_DOMAIN'), domain))
+                sub_rating.set_integrity_and_security(5.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
+                        policy_name, local_translation('TEXT_REVIEW_CSP_DOMAIN'), domain))                
                 rating += sub_rating
 
             nof_schemes = len(policy_object['schemes'])
@@ -559,17 +707,23 @@ def rate_csp(result_dict, global_translation, local_translation, org_domain, org
                 if 'ws' in policy_object['schemes']:
                     sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     sub_rating.set_overall(1.0)
-                    sub_rating.set_integrity_and_security(1.0, local_translation('TEXT_REVIEW_CSP_POLICY_USE_UNSAFE_SCHEME').format(policy_name, "'ws'", domain))
+                    sub_rating.set_integrity_and_security(1.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_USE_UNSAFE_SCHEME').format(
+                            policy_name, "'ws'", domain))
                     rating += sub_rating
                 if 'http' in policy_object['schemes']:
                     sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     sub_rating.set_overall(1.0)
-                    sub_rating.set_integrity_and_security(1.0, local_translation('TEXT_REVIEW_CSP_POLICY_USE_UNSAFE_SCHEME').format(policy_name, "'http'", domain))
+                    sub_rating.set_integrity_and_security(1.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_USE_UNSAFE_SCHEME').format(
+                            policy_name, "'http'", domain))
                     rating += sub_rating
                 if 'ftp' in policy_object['schemes']:
                     sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     sub_rating.set_overall(1.0)
-                    sub_rating.set_integrity_and_security(1.0, local_translation('TEXT_REVIEW_CSP_POLICY_USE_UNSAFE_SCHEME').format(policy_name, "'ftp'", domain))
+                    sub_rating.set_integrity_and_security(1.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_USE_UNSAFE_SCHEME').format(
+                            policy_name, "'ftp'", domain))
                     rating += sub_rating
                 any_found = True
 
@@ -577,13 +731,17 @@ def rate_csp(result_dict, global_translation, local_translation, org_domain, org
             if nof_malformed > 0:
                 sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(1.0)
-                sub_rating.set_standards(1.0, local_translation('TEXT_REVIEW_CSP_MALFORMED').format(policy_name, domain))
+                sub_rating.set_standards(1.0,
+                    local_translation('TEXT_REVIEW_CSP_MALFORMED').format(
+                        policy_name, domain))
                 rating += sub_rating
 
             if not any_found:
                 sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(1.0)
-                sub_rating.set_integrity_and_security(1.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, "'none', 'self' nonce, sha[256/384/512], domain or scheme", domain))
+                sub_rating.set_integrity_and_security(1.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
+                        policy_name, "'none', 'self' nonce, sha[256/384/512], domain or scheme", domain))
                 rating += sub_rating
 
             # Handles unsafe sources
@@ -592,34 +750,44 @@ def rate_csp(result_dict, global_translation, local_translation, org_domain, org
                 is_using_unsafe = True
                 sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(1.0)
-                sub_rating.set_integrity_and_security(1.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "'unsafe-eval'", domain))                
+                sub_rating.set_integrity_and_security(1.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                        policy_name, "'unsafe-eval'", domain))                
                 rating += sub_rating
 
             if "'wasm-unsafe-eval'" in policy_object['all']:
                 is_using_unsafe = True
                 sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(1.0)
-                sub_rating.set_integrity_and_security(1.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "'wasm-unsafe-eval'", domain))                
+                sub_rating.set_integrity_and_security(1.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                        policy_name, "'wasm-unsafe-eval'", domain))                
                 rating += sub_rating
 
             if "'unsafe-hashes'" in policy_object['all']:
                 is_using_unsafe = True
                 sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(1.0)
-                sub_rating.set_integrity_and_security(1.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "'unsafe-hashes'", domain))                
+                sub_rating.set_integrity_and_security(1.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                        policy_name, "'unsafe-hashes'", domain))                
                 rating += sub_rating
 
             if "'unsafe-inline'" in policy_object['all']:
                 is_using_unsafe = True
                 sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(1.0)
-                sub_rating.set_integrity_and_security(1.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(policy_name, "'unsafe-inline'", domain))                
+                sub_rating.set_integrity_and_security(1.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                        policy_name, "'unsafe-inline'", domain))                
                 rating += sub_rating
 
             if not is_using_unsafe:
                 sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(5.0)
-                sub_rating.set_integrity_and_security(5.0, local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(policy_name, "'unsafe-*'", domain))
+                sub_rating.set_integrity_and_security(5.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
+                        policy_name, "'unsafe-*'", domain))
                 rating += sub_rating
 
 
@@ -635,21 +803,32 @@ def rate_csp(result_dict, global_translation, local_translation, org_domain, org
             if policy_name in result_dict[domain]['csp-objects']:
                 sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(5.0)
-                sub_rating.set_integrity_and_security(5.0, local_translation('TEXT_REVIEW_CSP_POLICY_FOUND').format(policy_name, domain))
-                sub_rating.set_standards(5.0, local_translation('TEXT_REVIEW_CSP_POLICY_FOUND').format(policy_name, domain))
+                sub_rating.set_integrity_and_security(5.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_FOUND').format(
+                        policy_name, domain))
+                sub_rating.set_standards(5.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_FOUND').format(
+                        policy_name, domain))
                 rating += sub_rating
             else:
                 sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(1.0)
-                sub_rating.set_integrity_and_security(1.0, local_translation('TEXT_REVIEW_CSP_POLICY_NOT_FOUND').format(policy_name, domain))
-                sub_rating.set_standards(1.0, local_translation('TEXT_REVIEW_CSP_POLICY_NOT_FOUND').format(policy_name, domain))
+                sub_rating.set_integrity_and_security(1.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_NOT_FOUND').format(
+                        policy_name, domain))
+                sub_rating.set_standards(1.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_NOT_FOUND').format(
+                        policy_name, domain))
                 rating += sub_rating
 
-    elif 'HTML-FOUND' in result_dict[domain]['features'] and (domain == org_domain or domain == org_www_domain):
+    elif 'HTML-FOUND' in result_dict[domain]['features'] and\
+            (domain == org_domain or domain == org_www_domain):
         rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         rating.set_overall(1.0)
-        rating.set_standards(1.0, local_translation('TEXT_REVIEW_CSP_NOT_FOUND').format(domain))
-        rating.set_integrity_and_security(1.0, local_translation('TEXT_REVIEW_CSP_NOT_FOUND').format(domain))
+        rating.set_standards(1.0,
+            local_translation('TEXT_REVIEW_CSP_NOT_FOUND').format(domain))
+        rating.set_integrity_and_security(1.0,
+            local_translation('TEXT_REVIEW_CSP_NOT_FOUND').format(domain))
 
     final_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if rating.is_set:
@@ -662,8 +841,11 @@ def rate_csp(result_dict, global_translation, local_translation, org_domain, org
             final_rating.integrity_and_security_review = rating.integrity_and_security_review
         else:
             final_rating.set_overall(rating.get_overall())
-            final_rating.set_standards(rating.get_standards(), local_translation('TEXT_REVIEW_CSP').format(domain))
-            final_rating.set_integrity_and_security(rating.get_integrity_and_security(), local_translation('TEXT_REVIEW_CSP').format(domain))
+            final_rating.set_standards(rating.get_standards(),
+                local_translation('TEXT_REVIEW_CSP').format(domain))
+            final_rating.set_integrity_and_security(
+                rating.get_integrity_and_security(),
+                local_translation('TEXT_REVIEW_CSP').format(domain))
 
 
     if create_recommendation:
@@ -679,18 +861,32 @@ def rate_csp(result_dict, global_translation, local_translation, org_domain, org
             raw_csp_recommendation = csp_recommendation.replace('- ','').replace('\r\n','')
             result_dict[domain]['csp-recommendation'] = [raw_csp_recommendation]
 
-            csp_recommendation_result = handle_csp_data(raw_csp_recommendation, domain, csp_recommendation_result, True, domain)
+            csp_recommendation_result = handle_csp_data(
+                raw_csp_recommendation,
+                domain,
+                csp_recommendation_result,
+                True,
+                domain)
 
             csp_recommendation_result[domain]['features'].append('CSP-HEADER-FOUND')
-            csp_recommendation_rating = rate_csp(csp_recommendation_result, global_translation, local_translation, org_domain, org_www_domain, domain, False)
+            csp_recommendation_rating = rate_csp(
+                csp_recommendation_result,
+                global_translation,
+                local_translation,
+                org_domain,
+                org_www_domain,
+                domain,
+                False)
 
-            csp_recommendation_rating_summary = local_translation('TEXT_REVIEW_CSP_RECOMMENDED_RATING').format(csp_recommendation_rating)
+            csp_recommendation_rating_summary = local_translation(
+                'TEXT_REVIEW_CSP_RECOMMENDED_RATING').format(csp_recommendation_rating)
 
             nof_pages = 1
             if 'nof_pages' in result_dict:
                 nof_pages = result_dict['nof_pages']
 
-            text_recommendation = local_translation('TEXT_REVIEW_CSP_RECOMMENDED_TEXT').format(nof_pages, csp_recommendation, csp_recommendation_rating_summary)
+            text_recommendation = local_translation('TEXT_REVIEW_CSP_RECOMMENDED_TEXT').format(
+                nof_pages, csp_recommendation, csp_recommendation_rating_summary)
             score = csp_recommendation_rating.get_integrity_and_security()
             if score > final_rating.get_integrity_and_security():
                 final_rating.overall_review = text_recommendation + final_rating.overall_review
@@ -709,48 +905,66 @@ def rate_hsts(result_dict, global_translation, local_translation, org_domain, do
 
         if 'INVALIDATE-HSTS' in result_dict[domain]['features']:
             sub_rating.set_overall(1.5)
-            sub_rating.set_integrity_and_security(1.5, local_translation('TEXT_REVIEW_HSTS_INVALIDATE').format(domain))
-            sub_rating.set_standards(1.5, local_translation('TEXT_REVIEW_HSTS_INVALIDATE').format(domain))
-        elif 'HSTS-HEADER-PRELOAD-FOUND' in result_dict[domain]['features'] and ('HSTS-PRELOAD' in result_dict[domain]['features'] or 'HSTS-PRELOAD*' in result_dict[domain]['features']):
+            sub_rating.set_integrity_and_security(1.5,
+                local_translation('TEXT_REVIEW_HSTS_INVALIDATE').format(domain))
+            sub_rating.set_standards(1.5,
+                local_translation('TEXT_REVIEW_HSTS_INVALIDATE').format(domain))
+        elif 'HSTS-HEADER-PRELOAD-FOUND' in result_dict[domain]['features'] and\
+                ('HSTS-PRELOAD' in result_dict[domain]['features'] or\
+                 'HSTS-PRELOAD*' in result_dict[domain]['features']):
             sub_rating.set_standards(5.0)
-            sub_rating.set_integrity_and_security(5.0, local_translation('TEXT_REVIEW_HSTS_PRELOAD_FOUND').format(domain))
+            sub_rating.set_integrity_and_security(5.0,
+                local_translation('TEXT_REVIEW_HSTS_PRELOAD_FOUND').format(domain))
         elif 'HSTS-HEADER-MAXAGE-1YEAR' in result_dict[domain]['features']:
             if 'HSTS-HEADER-PRELOAD-FOUND' in result_dict[domain]['features']:
                 sub_rating.set_standards(5.0)
-                sub_rating.set_integrity_and_security(5.0, local_translation('TEXT_REVIEW_HSTS_PRELOAD_FOUND_AND_MAXAGE_1YEAR').format(domain))
+                sub_rating.set_integrity_and_security(5.0,
+                    local_translation('TEXT_REVIEW_HSTS_PRELOAD_FOUND_AND_MAXAGE_1YEAR').format(
+                        domain))
             elif domain == org_domain:
                 sub_rating.set_standards(5.0)
-                sub_rating.set_integrity_and_security(4.95, local_translation('TEXT_REVIEW_HSTS_MAXAGE_1YEAR').format(domain))
+                sub_rating.set_integrity_and_security(4.95,
+                    local_translation('TEXT_REVIEW_HSTS_MAXAGE_1YEAR').format(domain))
             else:
                 sub_rating.set_standards(5.0)
-                sub_rating.set_integrity_and_security(5.0, local_translation('TEXT_REVIEW_HSTS_MAXAGE_1YEAR').format(domain))
+                sub_rating.set_integrity_and_security(5.0,
+                    local_translation('TEXT_REVIEW_HSTS_MAXAGE_1YEAR').format(domain))
         elif 'HSTS-HEADER-MAXAGE-TOO-LOW' in result_dict[domain]['features']:
             sub_rating.set_overall(4.5)
             sub_rating.set_standards(5.0)
-            sub_rating.set_integrity_and_security(4.0, local_translation('TEXT_REVIEW_HSTS_MAXAGE_TOO_LOW').format(domain))
+            sub_rating.set_integrity_and_security(4.0,
+                local_translation('TEXT_REVIEW_HSTS_MAXAGE_TOO_LOW').format(domain))
         elif 'HSTS-HEADER-MAXAGE-6MONTHS' in result_dict[domain]['features']:
             sub_rating.set_overall(4.0)
             sub_rating.set_standards(5.0)
-            sub_rating.set_integrity_and_security(3.0, local_translation('TEXT_REVIEW_HSTS_MAXAGE_6MONTHS').format(domain))
+            sub_rating.set_integrity_and_security(3.0,
+                local_translation('TEXT_REVIEW_HSTS_MAXAGE_6MONTHS').format(domain))
         elif 'HSTS-HEADER-MAXAGE-1MONTH' in result_dict[domain]['features']:
             sub_rating.set_overall(3.5)
             sub_rating.set_standards(5.0)
-            sub_rating.set_integrity_and_security(2.0, local_translation('TEXT_REVIEW_HSTS_MAXAGE_1MONTH').format(domain))
+            sub_rating.set_integrity_and_security(2.0,
+                local_translation('TEXT_REVIEW_HSTS_MAXAGE_1MONTH').format(domain))
         else:
             sub_rating.set_overall(3.0)
-            sub_rating.set_standards(1.0, local_translation('TEXT_REVIEW_HSTS_MAXAGE_NOT_FOUND').format(domain))
-            sub_rating.set_integrity_and_security(1.0, local_translation('TEXT_REVIEW_HSTS_MAXAGE_NOT_FOUND').format(domain))
+            sub_rating.set_standards(1.0,
+                local_translation('TEXT_REVIEW_HSTS_MAXAGE_NOT_FOUND').format(domain))
+            sub_rating.set_integrity_and_security(1.0,
+                local_translation('TEXT_REVIEW_HSTS_MAXAGE_NOT_FOUND').format(domain))
         rating += sub_rating
-    elif 'HSTS-HEADER-ON-PARENTDOMAIN-FOUND' in result_dict[domain]['features'] and 'INVALIDATE-HSTS' not in result_dict[domain]['features']:
+    elif 'HSTS-HEADER-ON-PARENTDOMAIN-FOUND' in result_dict[domain]['features'] and\
+            'INVALIDATE-HSTS' not in result_dict[domain]['features']:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(5.0)
-        sub_rating.set_integrity_and_security(4.99, local_translation('TEXT_REVIEW_HSTS_USE_PARENTDOMAIN').format(domain))
+        sub_rating.set_integrity_and_security(4.99,
+            local_translation('TEXT_REVIEW_HSTS_USE_PARENTDOMAIN').format(domain))
         rating += sub_rating
     else:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(1.0)
-        sub_rating.set_integrity_and_security(1.0, local_translation('TEXT_REVIEW_HSTS_NOT_FOUND').format(domain))
-        sub_rating.set_standards(1.0, local_translation('TEXT_REVIEW_HSTS_NOT_FOUND').format(domain))
+        sub_rating.set_integrity_and_security(1.0,
+            local_translation('TEXT_REVIEW_HSTS_NOT_FOUND').format(domain))
+        sub_rating.set_standards(1.0,
+            local_translation('TEXT_REVIEW_HSTS_NOT_FOUND').format(domain))
         rating += sub_rating
     return rating
 
@@ -758,52 +972,38 @@ def rate_schemas(result_dict, global_translation, local_translation, domain):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if type(result_dict[domain]) != dict:
         return rating
-    
+
     if 'HTTPS' in result_dict[domain]['schemes']:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(5.0)
-        sub_rating.set_integrity_and_security(5.0, local_translation('TEXT_REVIEW_HTTPS_SUPPORT').format(domain))
-        sub_rating.set_standards(5.0, local_translation('TEXT_REVIEW_HTTPS_NO_SUPPORT').format(domain))
+        sub_rating.set_integrity_and_security(5.0,
+            local_translation('TEXT_REVIEW_HTTPS_SUPPORT').format(domain))
+        sub_rating.set_standards(5.0,
+            local_translation('TEXT_REVIEW_HTTPS_NO_SUPPORT').format(domain))
         rating += sub_rating
     else:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(1.0)
-        sub_rating.set_integrity_and_security(1.0, local_translation('TEXT_REVIEW_HTTPS_NO_SUPPORT').format(domain))
-        sub_rating.set_standards(1.0, local_translation('TEXT_REVIEW_HTTPS_NO_SUPPORT').format(domain))
+        sub_rating.set_integrity_and_security(1.0,
+            local_translation('TEXT_REVIEW_HTTPS_NO_SUPPORT').format(domain))
+        sub_rating.set_standards(1.0,
+            local_translation('TEXT_REVIEW_HTTPS_NO_SUPPORT').format(domain))
         rating += sub_rating
 
-    if 'HTTP-REDIRECT' in result_dict[domain]['schemes'] or 'HTTP-REDIRECT*' in result_dict[domain]['schemes']:
+    if 'HTTP-REDIRECT' in result_dict[domain]['schemes'] or\
+            'HTTP-REDIRECT*' in result_dict[domain]['schemes']:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(1.0)
-        sub_rating.set_integrity_and_security(1.0, local_translation('TEXT_REVIEW_HTTP_REDIRECT').format(domain))
+        sub_rating.set_integrity_and_security(1.0,
+            local_translation('TEXT_REVIEW_HTTP_REDIRECT').format(domain))
         rating += sub_rating
 
-    if 'HTTPS-REDIRECT' in result_dict[domain]['schemes'] or 'HTTPS-REDIRECT*' in result_dict[domain]['schemes']:
+    if 'HTTPS-REDIRECT' in result_dict[domain]['schemes'] or\
+            'HTTPS-REDIRECT*' in result_dict[domain]['schemes']:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(5.0)
-        sub_rating.set_integrity_and_security(5.0, local_translation('TEXT_REVIEW_HTTPS_REDIRECT').format(domain))
-        rating += sub_rating
-    return rating
-
-def rate_dnssec(result_dict, global_translation, local_translation, domain):
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-    if 'DNSSEC' in result_dict[domain]['features']:
-        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        sub_rating.set_overall(5.0)
-        sub_rating.set_integrity_and_security(5.0)
-        sub_rating.set_standards(5.0)
-        rating += sub_rating
-    elif 'DNSSEC-IGNORE' in result_dict[domain]['features']:
-        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        sub_rating.set_overall(5.0)
-        sub_rating.set_integrity_and_security(5.0)
-        sub_rating.set_standards(5.0)
-        rating += sub_rating
-    else:
-        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        sub_rating.set_overall(1.0)
-        sub_rating.set_integrity_and_security(1.0, '- {0}, No DNSSEC support'.format(domain))
-        sub_rating.set_standards(1.0, '- {0}, No DNSSEC support'.format(domain))
+        sub_rating.set_integrity_and_security(5.0,
+            local_translation('TEXT_REVIEW_HTTPS_REDIRECT').format(domain))
         rating += sub_rating
     return rating
 
@@ -811,44 +1011,51 @@ def rate_protocols(result_dict, global_translation, local_translation, domain):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if type(result_dict[domain]) != dict:
         return rating
-    
+
     if 'HTTP/1.1' in result_dict[domain]['protocols']:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(5.0)
-        sub_rating.set_standards(5.0, local_translation('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_SUPPORT').format(domain))
+        sub_rating.set_standards(5.0,
+            local_translation('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_SUPPORT').format(domain))
         rating += sub_rating
     else:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(1.0)
-        sub_rating.set_standards(1.0, local_translation('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_NO_SUPPORT').format(domain))
+        sub_rating.set_standards(1.0,
+            local_translation('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_NO_SUPPORT').format(domain))
         rating += sub_rating
 
     if 'HTTP/2' in result_dict[domain]['protocols']:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(5.0)
-        sub_rating.set_standards(5.0, local_translation('TEXT_REVIEW_HTTP_VERSION_HTTP_2_SUPPORT').format(domain))
+        sub_rating.set_standards(5.0,
+            local_translation('TEXT_REVIEW_HTTP_VERSION_HTTP_2_SUPPORT').format(domain))
         rating += sub_rating
     else:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(1.0)
-        sub_rating.set_standards(1.0, local_translation('TEXT_REVIEW_HTTP_VERSION_HTTP_2_NO_SUPPORT').format(domain))
+        sub_rating.set_standards(1.0,
+            local_translation('TEXT_REVIEW_HTTP_VERSION_HTTP_2_NO_SUPPORT').format(domain))
         rating += sub_rating
 
     if 'HTTP/3' in result_dict[domain]['protocols']:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(5.0)
-        sub_rating.set_standards(5.0, local_translation('TEXT_REVIEW_HTTP_VERSION_HTTP_3_SUPPORT').format(domain))
+        sub_rating.set_standards(5.0,
+            local_translation('TEXT_REVIEW_HTTP_VERSION_HTTP_3_SUPPORT').format(domain))
         rating += sub_rating
     else:
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(1.0)
-        sub_rating.set_standards(1.0, local_translation('TEXT_REVIEW_HTTP_VERSION_HTTP_3_NO_SUPPORT').format(domain))
+        sub_rating.set_standards(1.0,
+            local_translation('TEXT_REVIEW_HTTP_VERSION_HTTP_3_NO_SUPPORT').format(domain))
         rating += sub_rating
     return rating
 
 def cleanup(result_dict):
+
     for domain in result_dict.keys():
-        if type(result_dict[domain]) != dict:
+        if not isinstance(result_dict[domain], dict):
             continue
 
         if 'urls' in result_dict[domain]:
@@ -857,9 +1064,9 @@ def cleanup(result_dict):
             del result_dict[domain]['csp-policies']
 
         for subkey, subvalue in result_dict[domain].items():
-            if type(subvalue) == dict:
+            if isinstance(subvalue, dict):
                 a = 1
-            elif type(subvalue) == list:
+            elif isinstance(subvalue, list):
                 result_dict[domain][subkey].extend(subvalue)
                 result_dict[domain][subkey] = sorted(list(set(result_dict[domain][subkey])))
     return result_dict
@@ -869,24 +1076,23 @@ def host_source_2_url(host_source):
     if '*' in result:
         result = result.replace('*', 'webperf-core-wildcard')
     if '://' not in result:
-        result = 'https://{0}'.format(result)
+        result = f'https://{result}'
 
     return result
 
 def url_2_host_source(url, domain):
     if url.startswith('//'):
         return url.replace('//', 'https://')
-    elif 'https://' in url:
+    if 'https://' in url:
         return url
     if '://' in url:
         return url
     elif ':' in url:
         return url
     else:
-        return 'https://{0}/{1}'.format(domain, url)
+        return f'https://{domain}/{url}'
 
 def sitespeed_result_2_test_result(filename, org_domain):
-
     result = {
         'visits': 0,
         org_domain: default_csp_result_object(True)
@@ -894,9 +1100,9 @@ def sitespeed_result_2_test_result(filename, org_domain):
 
     if filename == '':
         return result
-    
+
     # Fix for content having unallowed chars
-    with open(filename) as json_input_file:
+    with open(filename, encoding='utf-8') as json_input_file:
         har_data = json.load(json_input_file)
 
         if 'log' in har_data:
@@ -920,10 +1126,12 @@ def sitespeed_result_2_test_result(filename, org_domain):
             result[req_domain]['urls'].append(req_url)
 
             if 'httpVersion' in req and req['httpVersion'] != '':
-                result[req_domain]['protocols'].append(req['httpVersion'].replace('h2', 'HTTP/2').replace('h3', 'HTTP/3').upper())
+                result[req_domain]['protocols'].append(
+                    req['httpVersion'].replace('h2', 'HTTP/2').replace('h3', 'HTTP/3').upper())
 
             if 'httpVersion' in res and res['httpVersion'] != '':
-                result[req_domain]['protocols'].append(res['httpVersion'].replace('h2', 'HTTP/2').replace('h3', 'HTTP/3').upper())
+                result[req_domain]['protocols'].append(
+                    res['httpVersion'].replace('h2', 'HTTP/2').replace('h3', 'HTTP/3').upper())
 
             if 'serverIPAddress' in entry:
                 if ':' in entry['serverIPAddress']:
@@ -932,7 +1140,8 @@ def sitespeed_result_2_test_result(filename, org_domain):
                     result[req_domain]['ip-versions'].append('IPv4')
 
             scheme = f'{o.scheme.lower()}:'
-            if scheme not in result[org_domain]['csp-findings']['scheme-sources'] and scheme != 'http:':
+            if scheme not in result[org_domain]['csp-findings']['scheme-sources'] and\
+                    scheme != 'http:':
                 result[org_domain]['csp-findings']['scheme-sources'].append(scheme)
                 csp_findings_match = True
 
@@ -946,7 +1155,8 @@ def sitespeed_result_2_test_result(filename, org_domain):
                 name = header['name'].lower()
                 value = header['value'].strip()
 
-                if 'HSTS' not in result[req_domain]['features'] and 'strict-transport-security' in name:
+                if 'HSTS' not in result[req_domain]['features'] and\
+                        'strict-transport-security' in name:
                     sections = header['value'].split(';')
                     for section in sections:
                         section = section.strip()
@@ -966,21 +1176,27 @@ def sitespeed_result_2_test_result(filename, org_domain):
                                 # 6 month =  15768000
                                 # check if maxage is more then 1 year
                                 if maxage >= 31536000:
-                                    result[req_domain]['features'].append('HSTS-HEADER-MAXAGE-1YEAR')
+                                    result[req_domain]['features'].append(
+                                        'HSTS-HEADER-MAXAGE-1YEAR')
                                 elif maxage < 2628000:
-                                    result[req_domain]['features'].append('HSTS-HEADER-MAXAGE-1MONTH')
+                                    result[req_domain]['features'].append(
+                                        'HSTS-HEADER-MAXAGE-1MONTH')
                                 elif maxage < 15768000:
-                                    result[req_domain]['features'].append('HSTS-HEADER-MAXAGE-6MONTHS')
+                                    result[req_domain]['features'].append(
+                                        'HSTS-HEADER-MAXAGE-6MONTHS')
                                 else:
-                                    result[req_domain]['features'].append('HSTS-HEADER-MAXAGE-TOO-LOW')
+                                    result[req_domain]['features'].append(
+                                        'HSTS-HEADER-MAXAGE-TOO-LOW')
 
                                 result[req_domain]['features'].append('HSTS')
                             except:
                                 a = 1
                         elif 'includeSubDomains' == name:
-                            result[req_domain]['features'].append('HSTS-HEADER-SUBDOMAINS-FOUND')
+                            result[req_domain]['features'].append(
+                                'HSTS-HEADER-SUBDOMAINS-FOUND')
                         elif 'preload' == name:
-                            result[req_domain]['features'].append('HSTS-HEADER-PRELOAD-FOUND')
+                            result[req_domain]['features'].append(
+                                'HSTS-HEADER-PRELOAD-FOUND')
                 elif 'location' in name:
                     if value.startswith('https://{0}'.format(req_domain)):
                         result[req_domain]['schemes'].append('HTTPS-REDIRECT')

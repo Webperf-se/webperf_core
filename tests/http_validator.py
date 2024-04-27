@@ -2,28 +2,28 @@
 import os
 from datetime import datetime
 import re
+import urllib
 import urllib.parse
-import sys
 import ssl
 import json
+import hashlib
+import base64
 import requests
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.poolmanager import PoolManager
 from requests.packages.urllib3.util import ssl_
 # https://docs.python.org/3/library/urllib.parse.html
-import urllib
-from models import Rating
-from tests.utils import change_url_to_test_url, dns_lookup,\
-    get_translation, merge_dicts, get_config_or_default
-from tests.sitespeed_base import get_result
 import dns.name
 import dns.query
 import dns.dnssec
 import dns.message
 import dns.resolver
 import dns.rdatatype
-import hashlib
-import base64
+from models import Rating
+from tests.utils import change_url_to_test_url, dns_lookup,\
+    get_translation, merge_dicts, get_config_or_default
+from tests.sitespeed_base import get_result
+
 
 
 # DEFAULTS
@@ -661,7 +661,7 @@ def rate_csp(result_dict, global_translation, local_translation,
                         policy_name, local_translation('TEXT_REVIEW_CSP_SUBDOMAIN'), domain))
                 sub_rating.set_integrity_and_security(5.0,
                     local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
-                        policy_name, local_translation('TEXT_REVIEW_CSP_SUBDOMAIN'), domain))                
+                        policy_name, local_translation('TEXT_REVIEW_CSP_SUBDOMAIN'), domain))
                 rating += sub_rating
 
             nof_domains = len(policy_object['domains'])
@@ -689,7 +689,7 @@ def rate_csp(result_dict, global_translation, local_translation,
                         policy_name, local_translation('TEXT_REVIEW_CSP_DOMAIN'), domain))
                 sub_rating.set_integrity_and_security(5.0,
                     local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
-                        policy_name, local_translation('TEXT_REVIEW_CSP_DOMAIN'), domain))                
+                        policy_name, local_translation('TEXT_REVIEW_CSP_DOMAIN'), domain))
                 rating += sub_rating
 
             nof_schemes = len(policy_object['schemes'])
@@ -781,15 +781,6 @@ def rate_csp(result_dict, global_translation, local_translation,
                     local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
                         policy_name, "'unsafe-*'", domain))
                 rating += sub_rating
-
-
-            # Handle policy specific logic
-            # if policy_name == 'base-uri':
-            #     if len(policy_object['all']) == 0:
-            #         sub_rating = Rating(global_translation, review_show_improvements_only)
-            #         sub_rating.set_overall(5.0)
-            #         sub_rating.set_standards(5.0)
-            #         sub_rating.set_integrity_and_security(5.0)
 
         for policy_name in fallback_src_policies:
             if policy_name in result_dict[domain]['csp-objects']:
@@ -1612,15 +1603,39 @@ def check_tls_versions(result_dict):
 def get_website_support_from_sitespeed(url, org_domain, configuration, browser, timeout):
     # We don't need extra iterations for what we are using it for
     sitespeed_iterations = 1
-    sitespeed_arg = '--plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --utc true -n {0}'.format(
-        sitespeed_iterations)
+    sitespeed_arg = (
+        '--plugins.remove screenshot '
+        '--plugins.remove html '
+        '--plugins.remove metrics '
+        '--browsertime.screenshot false '
+        '--screenshot false '
+        '--screenshotLCP false '
+        '--browsertime.screenshotLCP false '
+        '--videoParams.createFilmstrip false '
+        '--visualMetrics false '
+        '--visualMetricsPerceptual false '
+        '--visualMetricsContentful false '
+        '--browsertime.headless true '
+        f'--utc true -n {sitespeed_iterations}')
 
     if 'firefox' in browser:
-        sitespeed_arg = '-b firefox --firefox.includeResponseBodies all --firefox.preference privacy.trackingprotection.enabled:false --firefox.preference privacy.donottrackheader.enabled:false --firefox.preference browser.safebrowsing.malware.enabled:false --firefox.preference browser.safebrowsing.phishing.enabled:false{1} {0}'.format(
-            sitespeed_arg, configuration)
+        sitespeed_arg = (
+            '-b firefox '
+            '--firefox.includeResponseBodies all '
+            '--firefox.preference privacy.trackingprotection.enabled:false '
+            '--firefox.preference privacy.donottrackheader.enabled:false '
+            '--firefox.preference browser.safebrowsing.malware.enabled:false '
+            '--firefox.preference browser.safebrowsing.phishing.enabled:false'
+            f'{configuration} '
+            f'{sitespeed_arg}')
     else:
-        sitespeed_arg = '-b chrome --chrome.cdp.performance false --browsertime.chrome.timeline false --browsertime.chrome.includeResponseBodies all --browsertime.chrome.args ignore-certificate-errors {0}'.format(
-            sitespeed_arg)
+        sitespeed_arg = (
+            '-b chrome '
+            '--chrome.cdp.performance false '
+            '--browsertime.chrome.timeline false '
+            '--browsertime.chrome.includeResponseBodies all '
+            '--browsertime.chrome.args ignore-certificate-errors '
+            f'{sitespeed_arg}')
 
     sitespeed_arg = '--shm-size=1g {0}'.format(
         sitespeed_arg)
@@ -1628,20 +1643,19 @@ def get_website_support_from_sitespeed(url, org_domain, configuration, browser, 
     if 'nt' not in os.name:
         sitespeed_arg += ' --xvfb'
 
-    (result_folder_name, filename) = get_result(
+    (_, filename) = get_result(
         url, SITESPEED_USE_DOCKER, sitespeed_arg, timeout)
-    
-    result = sitespeed_result_2_test_result(filename, org_domain)
 
+    result = sitespeed_result_2_test_result(filename, org_domain)
     return result
 
 def contains_value_for_all(result_dict, key, value):
-    if result_dict == None:
+    if result_dict is None:
         return False
 
-    has_value = True    
+    has_value = True
     for domain in result_dict.keys():
-        if type(result_dict[domain]) != dict:
+        if not isinstance(result_dict[domain], dict):
             continue
         if key not in result_dict[domain] or value not in result_dict[domain][key]:
             has_value = False
@@ -1704,10 +1718,20 @@ def convert_csp_policies_2_csp_objects(domain, result_dict, org_domain):
         policy_object = default_csp_policy_object()
         for value in items:
             policy_object['all'].append(value)
-            if value == '' or (value.startswith("'") and not value.endswith("'")) or (value.endswith("'") and not value.startswith("'")):
+            if value == '' or\
+                (
+                    value.startswith("'") and\
+                    not value.endswith("'")
+                ) or\
+                (
+                    value.endswith("'") and\
+                    not value.startswith("'")
+                ):
                 # Malformed value, probably missing space or have two.
                 policy_object['malformed'].append(value)
-            elif value.startswith("'sha256-") or value.startswith("'sha384-") or value.startswith("'sha512-"):
+            elif value.startswith("'sha256-") or\
+                    value.startswith("'sha384-") or\
+                    value.startswith("'sha512-"):
                 policy_object['hashes'].append(value)
             elif "'nonce-" in value:
                 policy_object['nounces'].append(value)
@@ -1715,23 +1739,20 @@ def convert_csp_policies_2_csp_objects(domain, result_dict, org_domain):
                 if '*' in value:
                     policy_object['wildcards'].append(value)
                 if '.' in value:
-                    try:
-                        host_source_url = host_source_2_url(value)
-                        host_source_o = urllib.parse.urlparse(host_source_url)
-                        host_source_hostname = host_source_o.hostname
-                        if host_source_hostname.endswith(wildcard_org_domain):
-                            policy_object['wildcard-subdomains'].append(value)
-                        elif host_source_hostname.endswith(subdomain_org_domain):
-                            policy_object['subdomains'].append(value)
-                        else:
-                            policy_object['domains'].append(value)
-                    except:
+                    host_source_url = host_source_2_url(value)
+                    host_source_o = urllib.parse.urlparse(host_source_url)
+                    host_source_hostname = host_source_o.hostname
+                    if host_source_hostname.endswith(wildcard_org_domain):
+                        policy_object['wildcard-subdomains'].append(value)
+                    elif host_source_hostname.endswith(subdomain_org_domain):
+                        policy_object['subdomains'].append(value)
+                    else:
                         policy_object['domains'].append(value)
-                    
+
                 scheme = re.match(r'^(?P<scheme>[a-z]+)\:', value)
-                if scheme != None:
+                if scheme is not None:
                     policy_object['schemes'].append(value)
-        
+
         if 'csp-objects' not in result_dict[domain]:
             result_dict[domain]['csp-objects'] = {}
         if policy_name not in result_dict[domain]['csp-objects']:
@@ -1781,9 +1802,16 @@ def ensure_csp_policy_fallbacks(domain, result_dict):
         append_csp_policy('worker-src', default_items, domain, result_dict)
 
 def parse_csp(content, domain, result_dict, is_from_response_header):
-    regex = r'(?P<name>(default-src|script-src|style-src|font-src|connect-src|frame-src|img-src|media-src|frame-ancestors|base-uri|form-action|block-all-mixed-content|child-src|connect-src|fenced-frame-src|font-src|img-src|manifest-src|media-src|object-src|plugin-types|prefetch-src|referrer|report-to|report-uri|require-trusted-types-for|sandbox|script-src-attr|script-src-elem|strict-dynamic|style-src-attr|style-src-elem|trusted-types|upgrade-insecure-requests|worker-src)) (?P<value>[^;]{5,10000})[;]{0,1}'
+    regex = (r'(?P<name>(default-src|script-src|style-src|font-src|connect-src|'
+             r'frame-src|img-src|media-src|frame-ancestors|base-uri|form-action|'
+             r'block-all-mixed-content|child-src|connect-src|fenced-frame-src|font-src|'
+             r'img-src|manifest-src|media-src|object-src|plugin-types|prefetch-src|referrer|'
+             r'report-to|report-uri|require-trusted-types-for|sandbox|script-src-attr|'
+             r'script-src-elem|strict-dynamic|style-src-attr|style-src-elem|'
+             r'trusted-types|upgrade-insecure-requests|worker-src)) '
+             r'(?P<value>[^;]{5,10000})[;]{0,1}')
     matches = re.finditer(regex, content, re.MULTILINE | re.IGNORECASE)
-    for matchNum, match in enumerate(matches, start=1):
+    for _, match in enumerate(matches, start=1):
         name = match.group('name')
         value = match.group('value')
 
@@ -1793,14 +1821,18 @@ def parse_csp(content, domain, result_dict, is_from_response_header):
         if policy_name not in result_dict[domain]['csp-policies']:
             result_dict[domain]['csp-policies'][policy_name] = []
 
-        if not is_from_response_header and (policy_name == 'frame-ancestors' or policy_name == 'report-uri' or policy_name == 'sandbox'):
+        if not is_from_response_header and\
+                (policy_name == 'frame-ancestors' or\
+                policy_name == 'report-uri' or\
+                policy_name == 'sandbox'):
             result_dict[domain]['features'].append('CSP-UNSUPPORTED-IN-META')
-            result_dict[domain]['features'].append('CSP-UNSUPPORTED-IN-META-{0}'.format(tmp_name))
+            result_dict[domain]['features'].append(f'CSP-UNSUPPORTED-IN-META-{tmp_name}')
 
         values = value.split(' ')
 
         result_dict[domain]['csp-policies'][policy_name].extend(values)
-        result_dict[domain]['csp-policies'][policy_name] = sorted(list(set(result_dict[domain]['csp-policies'][policy_name])))
+        result_dict[domain]['csp-policies'][policy_name] = sorted(list(set(
+            result_dict[domain]['csp-policies'][policy_name])))
 
 def append_csp_policy(policy_name, items, domain, result_dict):
     if policy_name not in result_dict[domain]['csp-policies']:
@@ -1808,7 +1840,7 @@ def append_csp_policy(policy_name, items, domain, result_dict):
 
     if len(items) == 0:
         return
-    
+
     if len(result_dict[domain]['csp-policies'][policy_name]) == 0:
         result_dict[domain]['csp-policies'][policy_name].extend(items)
 
@@ -1842,154 +1874,61 @@ def check_http_version(url, result_dict):
     # - 2.0
     # - 3.02
 
-    # Response Header: alt-svc
-    # h3=\":443\"; ma=2592000, h3-29=\":443\"; ma=2592000, h3-Q050=\":443\"; ma=2592000, h3-Q046=\":443\"; ma=2592000, h3-Q043=\":443\"; ma=2592000, quic=\":443\"; ma=2592000; v=\"43,46\"
-    # h3=":443";
-    # ma=2592000, h3-29=":443";
-    # ma=2592000, h3-Q050=":443";
-    # ma=2592000, h3-Q046=":443";
-    # ma=2592000, h3-Q043=":443";
-    # ma=2592000, quic=":443";
-    # ma=2592000; v="43,46"
-
-    # https://www.http3check.net/?host=https%3A%2F%2Fwebperf.se
-    # 0-RTT
-    # H3
-    # H3-29
-    # H3-Q050
-    # H3-Q046
-    # H3-Q043
-    # Q043
-    # Q046
-
     o = urllib.parse.urlparse(url)
     o_domain = o.hostname
 
 
     if not contains_value_for_all(result_dict, 'protocols', 'HTTP/1.1'):
         browser = 'firefox'
-        # configuration = ' --firefox.preference network.http.http2.enabled:false --firefox.preference network.http.http3.enable:false --firefox.preference network.http.version:1.1'
-        configuration = ' --firefox.preference network.http.http2.enabled:false --firefox.preference network.http.http3.enable:false'
+        configuration = (
+            ' --firefox.preference network.http.http2.enabled:false'
+            ' --firefox.preference network.http.http3.enable:false')
         url2 = change_url_to_test_url(url, 'HTTPv1')
         print('HTTP/1.1')
-        result_dict = merge_dicts(get_website_support_from_sitespeed(url2, o_domain, configuration, browser, SITESPEED_TIMEOUT), result_dict, True, True)
+        result_dict = merge_dicts(
+            get_website_support_from_sitespeed(
+                url2,
+                o_domain,
+                configuration,
+                browser,
+                SITESPEED_TIMEOUT),
+            result_dict, True, True)
 
     if not contains_value_for_all(result_dict, 'protocols', 'HTTP/2'):
         browser = 'firefox'
-        configuration = ' --firefox.preference network.http.http2.enabled:true --firefox.preference network.http.http3.enable:false --firefox.preference network.http.version:3.0'
+        configuration = (
+            ' --firefox.preference network.http.http2.enabled:true'
+            ' --firefox.preference network.http.http3.enable:false'
+            ' --firefox.preference network.http.version:3.0')
         url2 = change_url_to_test_url(url, 'HTTPv2')
         print('HTTP/2')
-        result_dict = merge_dicts(get_website_support_from_sitespeed(url2, o_domain, configuration, browser, SITESPEED_TIMEOUT), result_dict, True, True)
+        result_dict = merge_dicts(
+            get_website_support_from_sitespeed(
+                url2,
+                o_domain,
+                configuration,
+                browser,
+                SITESPEED_TIMEOUT),
+            result_dict, True, True)
 
     if not contains_value_for_all(result_dict, 'protocols', 'HTTP/3'):
         browser = 'firefox'
-        configuration = ' --firefox.preference network.http.http2.enabled:false --firefox.preference network.http.http3.enable:true --firefox.preference network.http.version:3.0'
+        configuration = (
+            ' --firefox.preference network.http.http2.enabled:false'
+            ' --firefox.preference network.http.http3.enable:true'
+            ' --firefox.preference network.http.version:3.0')
         url2 = change_url_to_test_url(url, 'HTTPv3')
         print('HTTP/3')
-        result_dict = merge_dicts(get_website_support_from_sitespeed(url2, o_domain, configuration, browser, SITESPEED_TIMEOUT), result_dict, True, True)
+        result_dict = merge_dicts(
+            get_website_support_from_sitespeed(
+                url2,
+                o_domain,
+                configuration,
+                browser,
+                SITESPEED_TIMEOUT),
+            result_dict, True, True)
 
     return result_dict
-
-# Read post at: https://hussainaliakbar.github.io/restricting-tls-version-and-cipher-suites-in-python-requests-and-testing-wireshark/
-WEAK_CIPHERS = (
-    'ECDHE+AES128+CBC+SHA:'
-    'ECDHE+AES256+CBC+SHA:'
-    'ECDHE+RSA+3DES+EDE+CBC+SHA:'
-    'ECDHE+RSA+AES256+GCM+SHA383:'
-    'RSA+AES128+CBC+SHA:'
-    'RSA+AES256+CBC+SHA:'
-    'RSA+AES128+GCM+SHA256:'
-    'RSA+AES256+GCM+SHA:'
-    'RSA+AES256+GCM+SHA383:'
-    'RSA+CAMELLIA128+CBC+SHA:'
-    'RSA+CAMELLIA256+CBC+SHA:'
-    'RSA+IDEA+CBC+SHA:'
-    'RSA+AES256+GCM+SHA:'
-    'RSA+3DES+EDE+CBC+SHA:'
-    'RSA+SEED+CBC+SHA:'
-    'DHE+RSA+3DES+EDE+CBC+SHA:'
-    'DHE+RSA+AES128+CBC+SHA:'
-    'DHE+RSA+AES256+CBC+SHA:'
-    'DHE+RSA+CAMELLIA128+CBC+SHA:'
-    'DHE+RSA+CAMELLIA256+CBC+SHA:'
-    'DHE+RSA+SEED+CBC+SHA:'
-)
-
-
-class TlsAdapterWeakCiphers(HTTPAdapter):
-
-    def __init__(self, ssl_options=0, **kwargs):
-        self.ssl_options = ssl_options
-        super(TlsAdapterWeakCiphers, self).__init__(**kwargs)
-
-    def init_poolmanager(self, *pool_args, **pool_kwargs):
-        ctx = ssl_.create_urllib3_context(
-            ciphers=WEAK_CIPHERS,
-            cert_reqs=ssl.CERT_REQUIRED, options=self.ssl_options)
-
-        self.poolmanager = PoolManager(*pool_args,
-                                       ssl_context=ctx,
-                                       **pool_kwargs)
-
-    def proxy_manager_for(self, *args, **kwargs):
-        context = ssl_.create_urllib3_context(ciphers=WEAK_CIPHERS)
-        kwargs['ssl_context'] = context
-        return super(TlsAdapterWeakCiphers, self).proxy_manager_for(*args, **kwargs)
-
-
-def has_weak_cipher(url, protocol_version):
-    session = False
-
-    try:
-        # print('ssl._DEFAULT_CIPHERS', ssl._DEFAULT_CIPHERS)
-
-        session = requests.session()
-        adapter = TlsAdapterWeakCiphers(protocol_version)
-
-        session.mount(url, adapter)
-
-    except ssl.SSLError as sslex:
-        # print('### No weak cipher support on your machine, unable to test: {0} ###'.format(
-        #    WEAK_CIPHERS))
-        return (False, 'weak_cipher SSLError {0}'.format(sslex))
-
-    try:
-        allow_redirects = False
-
-        headers = {'user-agent': USERAGENT}
-        a = session.get(url, verify=False, allow_redirects=allow_redirects,
-                        headers=headers, timeout=REQUEST_TIMEOUT)
-
-        if a.status_code == 200 or a.status_code == 301 or a.status_code == 302 or a.status_code == 404:
-            # print('is ok')
-            return (True, 'is ok')
-
-        resulted_in_html = '<html' in a.text
-
-        # if resulted_in_html:
-        #    print('has html')
-        # else:
-        #    print('no html')
-        return (resulted_in_html, 'has <html tag in result')
-    except ssl.SSLCertVerificationError as sslcertex:
-        # print('weak_cipher SSLCertVerificationError', sslcertex)
-        return (True, 'weak_cipher SSLCertVerificationError: {0}'.format(sslcertex))
-    except ssl.SSLError as sslex:
-        # print('error has_weak_cipher SSLError1', sslex)
-        return (False, 'weak_cipher SSLError {0}'.format(sslex))
-    except ConnectionResetError as resetex:
-        # print('error ConnectionResetError', resetex)
-        return (False, 'weak_cipher ConnectionResetError {0}'.format(resetex))
-    except requests.exceptions.SSLError as sslerror:
-        # print('error weak_cipher SSLError2', sslerror)
-        return (False, 'Unable to verify: SSL error occured')
-    except requests.exceptions.ConnectionError as conex:
-        # print('error weak_cipher ConnectionError', conex)
-        return (False, 'Unable to verify: connection error occured')
-    except Exception as exception:
-        # print('weak_cipher test', exception)
-        return (False, 'weak_cipher Exception {0}'.format(exception))
-
 
 # Read post at: https://hussainaliakbar.github.io/restricting-tls-version-and-cipher-suites-in-python-requests-and-testing-wireshark/
 INSECURE_CIPHERS = (
@@ -2023,60 +1962,6 @@ class TlsAdapterInsecureCiphers(HTTPAdapter):
         context = ssl_.create_urllib3_context(ciphers=INSECURE_CIPHERS)
         kwargs['ssl_context'] = context
         return super(TlsAdapterInsecureCiphers, self).proxy_manager_for(*args, **kwargs)
-
-
-def has_insecure_cipher(url, protocol_version):
-    session = False
-
-    try:
-        # print('ssl._DEFAULT_CIPHERS', ssl._DEFAULT_CIPHERS)
-
-        session = requests.session()
-        adapter = TlsAdapterInsecureCiphers(protocol_version)
-
-        session.mount(url, adapter)
-
-    except ssl.SSLError as sslex:
-        # print('### No weak cipher support on your machine, unable to test: {0} ###'.format(
-        #    WEAK_CIPHERS))
-        return (False, 'insecure_cipher SSLError {0}'.format(sslex))
-
-    try:
-        allow_redirects = False
-
-        headers = {'user-agent': USERAGENT}
-        a = session.get(url, verify=False, allow_redirects=allow_redirects,
-                        headers=headers, timeout=REQUEST_TIMEOUT)
-
-        if a.status_code == 200 or a.status_code == 301 or a.status_code == 302 or a.status_code == 404:
-            # print('is ok')
-            return (True, 'is ok')
-
-        resulted_in_html = '<html' in a.text
-
-        # if resulted_in_html:
-        #    print('has html')
-        # else:
-        #    print('no html')
-        return (resulted_in_html, 'has <html tag in result')
-    except ssl.SSLCertVerificationError as sslcertex:
-        # print('weak_cipher SSLCertVerificationError', sslcertex)
-        return (True, 'insecure_cipher SSLCertVerificationError: {0}'.format(sslcertex))
-    except ssl.SSLError as sslex:
-        # print('error has_weak_cipher SSLError1', sslex)
-        return (False, 'insecure_cipher SSLError {0}'.format(sslex))
-    except ConnectionResetError as resetex:
-        # print('error ConnectionResetError', resetex)
-        return (False, 'insecure_cipher ConnectionResetError {0}'.format(resetex))
-    except requests.exceptions.SSLError as sslerror:
-        # print('error weak_cipher SSLError2', sslerror)
-        return (False, 'Unable to verify: SSL error occured')
-    except requests.exceptions.ConnectionError as conex:
-        # print('error weak_cipher ConnectionError', conex)
-        return (False, 'Unable to verify: connection error occured')
-    except Exception as exception:
-        # print('weak_cipher test', exception)
-        return (False, 'insecure_cipher Exception {0}'.format(exception))
 
 
 class TlsAdapterCertRequired(HTTPAdapter):
@@ -2131,27 +2016,21 @@ def has_tls_version(url, validate_hostname, protocol_version):
     except ssl.SSLCertVerificationError as sslcertex:
         # print('protocol version SSLCertVerificationError', sslcertex)
         if validate_hostname:
-            return (True, 'protocol version SSLCertVerificationError: {0}'.format(sslcertex))
+            return (True, f'protocol version SSLCertVerificationError: {sslcertex}')
         else:
-            return (False, 'protocol version SSLCertVerificationError: {0}'.format(sslcertex))
-    except ssl.SSLError as sslex:
-        # print('protocol version SSLError', sslex)
-        return (False, 'protocol version SSLError: {0}'.format(sslex))
-    except ssl.SSLCertVerificationError as sslcertex:
-        # print('protocol version SSLCertVerificationError', sslcertex)
-        return (True, 'protocol version SSLCertVerificationError: {0}'.format(sslcertex))
+            return (False, f'protocol version SSLCertVerificationError: {sslcertex}')
     except ssl.SSLError as sslex:
         # print('error protocol version ', sslex)
-        return (False, 'protocol version SSLError {0}'.format(sslex))
+        return (False, f'protocol version SSLError {sslex}')
     except ConnectionResetError as resetex:
         # print('error protocol version  ConnectionResetError', resetex)
-        return (False, 'protocol version  ConnectionResetError {0}'.format(resetex))
-    except requests.exceptions.SSLError as sslerror:
+        return (False, f'protocol version  ConnectionResetError {resetex}')
+    except requests.exceptions.SSLError:
         # print('error protocol version  SSLError', sslerror)
         return (False, 'Unable to verify: SSL error occured')
-    except requests.exceptions.ConnectionError as conex:
+    except requests.exceptions.ConnectionError:
         # print('error protocol version  ConnectionError', conex)
         return (False, 'Unable to verify: connection error occured')
     except Exception as exception:
         # print('protocol version  test', exception)
-        return (False, 'protocol version  Exception {0}'.format(exception))
+        return (False, f'protocol version  Exception {exception}')

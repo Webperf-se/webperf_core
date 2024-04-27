@@ -622,7 +622,7 @@ def rate_csp(result_dict, global_translation, local_translation,
                             policy_name, "'self'", domain))
                     sub_rating.set_integrity_and_security(5.0,
                         local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
-                            policy_name, "'self'", domain))                
+                            policy_name, "'self'", domain))
                     rating += sub_rating
                 else:
                     sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
@@ -632,7 +632,7 @@ def rate_csp(result_dict, global_translation, local_translation,
                             policy_name, "'self'", domain))
                     sub_rating.set_integrity_and_security(3.0,
                         local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
-                            policy_name, "'self'", domain))                
+                            policy_name, "'self'", domain))
                     rating += sub_rating
                 any_found = True
             else:
@@ -643,7 +643,7 @@ def rate_csp(result_dict, global_translation, local_translation,
                         policy_name, "'self'", domain))
                 sub_rating.set_integrity_and_security(5.0,
                     local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
-                        policy_name, "'self'", domain))                
+                        policy_name, "'self'", domain))
                 rating += sub_rating
 
 
@@ -741,7 +741,9 @@ def rate_csp(result_dict, global_translation, local_translation,
                 sub_rating.set_overall(1.0)
                 sub_rating.set_integrity_and_security(1.0,
                     local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
-                        policy_name, "'none', 'self' nonce, sha[256/384/512], domain or scheme", domain))
+                        policy_name,
+                        "'none', 'self' nonce, sha[256/384/512], domain or scheme",
+                        domain))
                 rating += sub_rating
 
             # Handles unsafe sources
@@ -752,7 +754,7 @@ def rate_csp(result_dict, global_translation, local_translation,
                 sub_rating.set_overall(1.0)
                 sub_rating.set_integrity_and_security(1.0,
                     local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
-                        policy_name, "'unsafe-eval'", domain))                
+                        policy_name, "'unsafe-eval'", domain))
                 rating += sub_rating
 
             if "'wasm-unsafe-eval'" in policy_object['all']:
@@ -761,7 +763,7 @@ def rate_csp(result_dict, global_translation, local_translation,
                 sub_rating.set_overall(1.0)
                 sub_rating.set_integrity_and_security(1.0,
                     local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
-                        policy_name, "'wasm-unsafe-eval'", domain))                
+                        policy_name, "'wasm-unsafe-eval'", domain))
                 rating += sub_rating
 
             if "'unsafe-hashes'" in policy_object['all']:
@@ -770,7 +772,7 @@ def rate_csp(result_dict, global_translation, local_translation,
                 sub_rating.set_overall(1.0)
                 sub_rating.set_integrity_and_security(1.0,
                     local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
-                        policy_name, "'unsafe-hashes'", domain))                
+                        policy_name, "'unsafe-hashes'", domain))
                 rating += sub_rating
 
             if "'unsafe-inline'" in policy_object['all']:
@@ -779,7 +781,7 @@ def rate_csp(result_dict, global_translation, local_translation,
                 sub_rating.set_overall(1.0)
                 sub_rating.set_integrity_and_security(1.0,
                     local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
-                        policy_name, "'unsafe-inline'", domain))                
+                        policy_name, "'unsafe-inline'", domain))
                 rating += sub_rating
 
             if not is_using_unsafe:
@@ -896,7 +898,7 @@ def rate_csp(result_dict, global_translation, local_translation,
 
 def rate_hsts(result_dict, global_translation, local_translation, org_domain, domain):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-    if type(result_dict[domain]) != dict:
+    if not isinstance(result_dict[domain], dict):
         return rating
     # https://scotthelme.co.uk/hsts-cheat-sheet/
     if 'HSTS' in result_dict[domain]['features']:
@@ -970,7 +972,7 @@ def rate_hsts(result_dict, global_translation, local_translation, org_domain, do
 
 def rate_schemas(result_dict, global_translation, local_translation, domain):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-    if type(result_dict[domain]) != dict:
+    if not isinstance(result_dict[domain], dict):
         return rating
 
     if 'HTTPS' in result_dict[domain]['schemes']:
@@ -1009,7 +1011,7 @@ def rate_schemas(result_dict, global_translation, local_translation, domain):
 
 def rate_protocols(result_dict, global_translation, local_translation, domain):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-    if type(result_dict[domain]) != dict:
+    if not isinstance(result_dict[domain], dict):
         return rating
 
     if 'HTTP/1.1' in result_dict[domain]['protocols']:
@@ -1053,7 +1055,6 @@ def rate_protocols(result_dict, global_translation, local_translation, domain):
     return rating
 
 def cleanup(result_dict):
-
     for domain in result_dict.keys():
         if not isinstance(result_dict[domain], dict):
             continue
@@ -1087,10 +1088,9 @@ def url_2_host_source(url, domain):
         return url
     if '://' in url:
         return url
-    elif ':' in url:
+    if ':' in url:
         return url
-    else:
-        return f'https://{domain}/{url}'
+    return f'https://{domain}/{url}'
 
 def sitespeed_result_2_test_result(filename, org_domain):
     result = {
@@ -1189,8 +1189,8 @@ def sitespeed_result_2_test_result(filename, org_domain):
                                         'HSTS-HEADER-MAXAGE-TOO-LOW')
 
                                 result[req_domain]['features'].append('HSTS')
-                            except:
-                                a = 1
+                            except (TypeError, ValueError):
+                                _ = 1
                         elif 'includeSubDomains' == name:
                             result[req_domain]['features'].append(
                                 'HSTS-HEADER-SUBDOMAINS-FOUND')
@@ -1198,12 +1198,12 @@ def sitespeed_result_2_test_result(filename, org_domain):
                             result[req_domain]['features'].append(
                                 'HSTS-HEADER-PRELOAD-FOUND')
                 elif 'location' in name:
-                    if value.startswith('https://{0}'.format(req_domain)):
+                    if value.startswith(f'https://{req_domain}'):
                         result[req_domain]['schemes'].append('HTTPS-REDIRECT')
                     elif value.startswith('https://') and req_scheme == 'http':
                         result[req_domain]['schemes'].append('HTTPS-REDIRECT-OTHERDOMAIN')
                         result[req_domain]['features'].append('INVALIDATE-HSTS')
-                    elif value.startswith('http://{0}'.format(req_domain)):
+                    elif value.startswith(f'http://{req_domain}'):
                         if req_url.startswith('https://'):
                             result[req_domain]['schemes'].append('HTTP-REDIRECT')
                         else:
@@ -1225,7 +1225,10 @@ def sitespeed_result_2_test_result(filename, org_domain):
                 if 'mimeType' in res['content'] and 'text/html' in res['content']['mimeType']:
                     result[req_domain]['features'].append('HTML-FOUND')
                     content = res['content']['text']
-                    regex = r'<meta http-equiv=\"(?P<name>Content-Security-Policy)\" content=\"(?P<value>[^\"]{5,10000})\"'
+                    regex = (
+                                r'<meta http-equiv=\"(?P<name>Content-Security-Policy)\" '
+                                r'content=\"(?P<value>[^\"]{5,10000})\"'
+                            )
                     matches = re.finditer(regex, content, re.MULTILINE)
                     for _, match in enumerate(matches, start=1):
                         name2 = match.group('name').lower()
@@ -1238,65 +1241,48 @@ def sitespeed_result_2_test_result(filename, org_domain):
                             result[req_domain]['features'].append('CSP-META-FOUND')
                             result[req_domain]['features'].append('CSP-DEPRECATED')
                             result = handle_csp_data(value2, req_domain, result, False, org_domain)
-                    
-                    regex = r'(?P<raw><(?P<type>style|link|script|img|iframe|form|base|frame)[^>]*((?P<attribute>src|nonce|action|href)="(?P<value>[^"]+)"[^>]*>))'
+
+                    regex = (
+                            r'(?P<raw><(?P<type>style|link|script|img|iframe|form|base|frame)[^>]'
+                            r'*((?P<attribute>src|nonce|action|href)="(?P<value>[^"]+)"[^>]*>))'
+                        )
                     matches = re.finditer(regex, content, re.MULTILINE)
                     for _, match in enumerate(matches, start=1):
                         element_name = match.group('type').lower()
                         attribute_name = match.group('attribute').lower()
                         attribute_value = match.group('value').lower()
-                        # element_raw = match.group('raw').lower()
 
                         element_url = url_2_host_source(attribute_value, req_domain)
                         o = urllib.parse.urlparse(element_url)
                         element_domain = o.hostname
-                        if element_domain == None and element_url.startswith('data:'):
+                        if element_domain is None and element_url.startswith('data:'):
                             element_domain = 'data:'
                         elif element_domain == org_domain:
                             element_domain = '\'self\''
 
                         if attribute_name == 'nonce':
-                            key = '\'nonce-<your-nonce>\'|{0}'.format(element_name)
+                            key = f'\'nonce-<your-nonce>\'|{element_name}'
                             if key not in result[org_domain]['csp-findings']['quotes']:
                                 result[org_domain]['csp-findings']['quotes'].append(key)
                             csp_findings_match = True
                         elif attribute_name == 'src':
-                            if element_domain != None:
-                                key = '{0}|{1}'.format(element_domain, element_name)
+                            if element_domain is not None:
+                                key = f'{element_domain}|{element_name}'
                                 if key not in result[org_domain]['csp-findings']['host-sources']:
                                     result[org_domain]['csp-findings']['host-sources'].append(key)
                                 csp_findings_match = True
-                        # Commenting out this part as it got too many false positives (meaning, got 'self' but matched 'sha-<hash>' for example)
-                        # elif attribute_name == 'href':
-                        #     if 'link' == element_name:
-                        #         if 'rel="stylesheet"' in element_raw or 'as="style"' in element_raw:
-                        #             element_name = 'style'
-                        #         elif 'rel="icon"' in element_raw or 'as="image"' in element_raw or 'type="image/' in element_raw:
-                        #             element_name = 'img'
-                        #         elif 'as="script"' in element_raw:
-                        #             element_name = 'script'
-                        #         # elif 'as="font"' in element_raw or 'type="font' in element_raw:
-                        #         #     element_name = 'font'
-                        #         elif 'rel="stylesheet"="script"' in element_raw:
-                        #             element_name = 'script'
-                        #         else:
-                        #             continue
-
-                        #     key = '{0}|{1}'.format(element_domain, element_name)
-                        #     if key not in result[org_domain]['csp-findings']['host-sources']:
-                        #         result[org_domain]['csp-findings']['host-sources'].append(key)
                         elif attribute_name == 'action' and element_name == 'form':
-                            key = '{0}|form-action'.format(element_domain)
+                            key = f'{element_domain}|form-action'
                             if key not in result[org_domain]['csp-findings']['host-sources']:
                                 result[org_domain]['csp-findings']['host-sources'].append(key)
                             csp_findings_match = True
 
                     regex = r'<(?P<type>style|script|form)>'
                     matches = re.finditer(regex, content, re.DOTALL | re.IGNORECASE | re.MULTILINE)
-                    for matchNum, match in enumerate(matches, start=1):
+                    for _, match in enumerate(matches, start=1):
                         element_name = match.group('type').lower()
                         if element_name == 'style' or element_name == 'script':
-                            key = '\'unsafe-inline\'|{0}'.format(element_name)
+                            key = f'\'unsafe-inline\'|{element_name}'
                             if key not in result[org_domain]['csp-findings']['quotes']:
                                 result[org_domain]['csp-findings']['quotes'].append(key)
                             csp_findings_match = True
@@ -1305,12 +1291,12 @@ def sitespeed_result_2_test_result(filename, org_domain):
                             o = urllib.parse.urlparse(element_url)
                             element_domain = o.hostname
                             if element_domain == org_domain:
-                                key = '\'self\'|{0}'.format(element_name)
+                                key = f'\'self\'|{element_name}'
                                 if key not in result[org_domain]['csp-findings']['quotes']:
                                     result[org_domain]['csp-findings']['quotes'].append(key)
                                 csp_findings_match = True
                             else:
-                                key = '{0}|{1}'.format(element_domain, element_name)
+                                key = f'{element_domain}|{element_name}'
                                 if key not in result[org_domain]['csp-findings']['host-sources']:
                                     result[org_domain]['csp-findings']['host-sources'].append(key)
                                 csp_findings_match = True
@@ -1324,16 +1310,18 @@ def sitespeed_result_2_test_result(filename, org_domain):
                         csp_findings_match = True
                     element_name = 'style'
                     if element_domain == org_domain:
-                        key = '\'self\'|{0}'.format(element_name)
+                        key = f'\'self\'|{element_name}'
                         if key not in result[org_domain]['csp-findings']['quotes']:
                             result[org_domain]['csp-findings']['quotes'].append(key)
                         csp_findings_match = True
                     else:
-                        key = '{0}|{1}'.format(element_domain, element_name)
+                        key = f'{element_domain}|{element_name}'
                         if key not in result[org_domain]['csp-findings']['host-sources']:
                             result[org_domain]['csp-findings']['host-sources'].append(key)
                         csp_findings_match = True
-                elif 'mimeType' in res['content'] and ('text/javascript' in res['content']['mimeType'] or 'application/javascript' in res['content']['mimeType']):
+                elif 'mimeType' in res['content'] and\
+                        ('text/javascript' in res['content']['mimeType'] or\
+                         'application/javascript' in res['content']['mimeType']):
                     content = res['content']['text']
                     if 'eval(' in content:
                         key = '\'unsafe-eval\'|script'
@@ -1344,7 +1332,7 @@ def sitespeed_result_2_test_result(filename, org_domain):
                     element_domain = req_domain
                     element_name = 'script'
                     if element_domain == org_domain:
-                        key = '\'self\'|{0}'.format(element_name)
+                        key = f'\'self\'|{element_name}'
                         if key not in result[org_domain]['csp-findings']['quotes']:
                             result[org_domain]['csp-findings']['quotes'].append(key)
                         csp_findings_match = True
@@ -1357,16 +1345,19 @@ def sitespeed_result_2_test_result(filename, org_domain):
                 element_domain = req_domain
                 element_name = 'img'
                 if element_domain == org_domain:
-                    key = '\'self\'|{0}'.format(element_name)
+                    key = f'\'self\'|{element_name}'
                     if key not in result[org_domain]['csp-findings']['quotes']:
                         result[org_domain]['csp-findings']['quotes'].append(key)
                     csp_findings_match = True
                 else:
-                    key = '{0}|{1}'.format(element_domain, element_name)
+                    key = f'{element_domain}|{element_name}'
                     if key not in result[org_domain]['csp-findings']['host-sources']:
                         result[org_domain]['csp-findings']['host-sources'].append(key)
                     csp_findings_match = True
-            elif ('mimeType' in res['content'] and 'font/' in res['content']['mimeType']) or req_url.endswith('.otf') or req_url.endswith('.woff') or req_url.endswith('.woff2'):
+            elif ('mimeType' in res['content'] and 'font/' in res['content']['mimeType']) or\
+                    req_url.endswith('.otf') or\
+                    req_url.endswith('.woff') or\
+                    req_url.endswith('.woff2'):
                 element_domain = req_domain
                 element_name = 'font'
                 # woff and woff2 support is in all browser, add hash to our csp-findings

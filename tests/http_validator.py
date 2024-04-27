@@ -1930,7 +1930,9 @@ def check_http_version(url, result_dict):
 
     return result_dict
 
-# Read post at: https://hussainaliakbar.github.io/restricting-tls-version-and-cipher-suites-in-python-requests-and-testing-wireshark/
+# Read post at: https://hussainaliakbar.github.io/
+# restricting-tls-version-and-cipher-suites-in-python-requests-and-testing-wireshark/
+
 INSECURE_CIPHERS = (
     'RSA+RC4+MD5:'
     'RSA+RC4128+MD5:'
@@ -2017,8 +2019,7 @@ def has_tls_version(url, validate_hostname, protocol_version):
         # print('protocol version SSLCertVerificationError', sslcertex)
         if validate_hostname:
             return (True, f'protocol version SSLCertVerificationError: {sslcertex}')
-        else:
-            return (False, f'protocol version SSLCertVerificationError: {sslcertex}')
+        return (False, f'protocol version SSLCertVerificationError: {sslcertex}')
     except ssl.SSLError as sslex:
         # print('error protocol version ', sslex)
         return (False, f'protocol version SSLError {sslex}')
@@ -2031,6 +2032,24 @@ def has_tls_version(url, validate_hostname, protocol_version):
     except requests.exceptions.ConnectionError:
         # print('error protocol version  ConnectionError', conex)
         return (False, 'Unable to verify: connection error occured')
-    except Exception as exception:
-        # print('protocol version  test', exception)
-        return (False, f'protocol version  Exception {exception}')
+    except requests.exceptions.MissingSchema:
+        print(
+            'Connection error! Missing Schema for '
+            f'"{url}"')
+        return (False, 'Unable to verify: Missing Schema')
+    except requests.exceptions.TooManyRedirects:
+        print(
+            'Connection error! Too many redirects for '
+            f'"{url}"')
+        return (False, 'Unable to verify: Too many redirects')
+    except requests.exceptions.InvalidURL:
+        print(
+            'Connection error! Invalid url '
+            f'"{url}"')
+        return (False, 'Unable to verify: Invalid url')
+    except TimeoutError:
+        print(
+            'Error! Unfortunately the request for URL '
+            f'"{url}" timed out.'
+            f'The timeout is set to {REQUEST_TIMEOUT} seconds.')
+        return (False, 'Unable to verify: Timed out')

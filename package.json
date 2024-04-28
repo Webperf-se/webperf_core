@@ -1,6 +1,6 @@
 {
   "name": "webperf_core",
-  "version": "2024.4.1",
+  "version": "2024.4.2",
   "description": "D\u00e5 vill du nog [l\u00e4sa dokumentationen p\u00e5 github](https://github.com/Webperf-se/webperf_core/).",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

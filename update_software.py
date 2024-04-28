@@ -51,7 +51,7 @@ def update_software_info():
             print('ERROR! You are not allowed to add "software-sources.json" when it still includes "urls" field.')
             raise ValueError('ERROR! You are not allowed to add "software-sources.json" when it still includes "urls" field.')
 
-        versions = []
+        versions = {}
         is_source_github = 'github-owner' in item and 'github-repo' in item
         is_source_wordpress = 'type' in item and 'wordpress-plugin' in item['type']
         if is_source_github:

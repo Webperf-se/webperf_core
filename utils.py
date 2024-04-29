@@ -10,7 +10,6 @@ from tests.privacy_webbkollen import run_test as run_test_privacy_webbkollen
 from tests.performance_lighthouse import run_test as run_test_performance_lighthouse
 from tests.seo_lighthouse import run_test as run_test_seo_lighthouse
 from tests.best_practice_lighthouse import run_test as run_test_best_practice_lighthouse
-from tests.pwa_lighthouse import run_test as run_test_pwa_lighthouse
 from tests.standard_files import run_test as run_test_standard_files
 from tests.a11y_lighthouse import run_test as run_test_a11y_lighthouse
 from tests.performance_sitespeed_io import run_test as run_test_performance_sitespeed_io
@@ -29,7 +28,7 @@ TEST_ALL = (TEST_UNKNOWN_01,
             TEST_GOOGLE_LIGHTHOUSE, TEST_PAGE_NOT_FOUND,
             TEST_UNKNOWN_03,
             TEST_GOOGLE_LIGHTHOUSE_SEO, TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE, TEST_HTML, TEST_CSS,
-            TEST_GOOGLE_LIGHTHOUSE_PWA, TEST_STANDARD_FILES, TEST_GOOGLE_LIGHTHOUSE_A11Y,
+            TEST_DEPRECATED, TEST_STANDARD_FILES, TEST_GOOGLE_LIGHTHOUSE_A11Y,
             TEST_UNKNOWN_11, TEST_UNKNOWN_12, TEST_UNKNOWN_13, TEST_UNKNOWN_14,
             TEST_SITESPEED,
             TEST_UNKNOWN_16,
@@ -46,7 +45,6 @@ TEST_FUNCS = {
         TEST_GOOGLE_LIGHTHOUSE: run_test_performance_lighthouse,
         TEST_GOOGLE_LIGHTHOUSE_SEO: run_test_seo_lighthouse,
         TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE: run_test_best_practice_lighthouse,
-        TEST_GOOGLE_LIGHTHOUSE_PWA: run_test_pwa_lighthouse,
         TEST_STANDARD_FILES:run_test_standard_files,
         TEST_GOOGLE_LIGHTHOUSE_A11Y: run_test_a11y_lighthouse,
         TEST_SITESPEED: run_test_performance_sitespeed_io,

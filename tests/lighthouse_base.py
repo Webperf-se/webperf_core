@@ -54,7 +54,7 @@ def get_lighthouse_translations(module_name, lang_code, global_translation):
 def run_test(url, strategy, category, silance, lighthouse_translations):
     """
     https://www.googleapis.com/pagespeedonline/v5/runPagespeed?
-        category=(performance/accessibility/best-practices/pwa/seo)
+        category=(performance/accessibility/best-practices/seo)
         &strategy=mobile
         &url=YOUR-SITE&
         key=YOUR-KEY

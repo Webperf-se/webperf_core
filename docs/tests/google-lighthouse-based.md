@@ -7,7 +7,6 @@ Following tests are using Google Lighthouse in the background:
 * [Google Lighthouse accessibility with Axe](google-lighthouse-a11y.md)
 * [Google Lighthouse performance](google-lighthouse-performance.md)
 * [Google Lighthouse best practice](google-lighthouse-best-practice.md)
-* [Google Lighthouse progressive web apps](google-lighthouse-pwa.md)
 * [Google Lighthouse SEO](google-lighthouse-seo.md)
 * [Energy efficiency](energy-efficiency.md)
 

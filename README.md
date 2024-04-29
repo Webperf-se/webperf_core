@@ -43,7 +43,6 @@ Add a interesting ingress here.
 * [Website performance (SiteSpeed)](./docs/tests/sitespeed.md)
 * [Website performance (Lighthouse)](./docs/tests/google-lighthouse-performance.md)
 * [Best practice on Web (Lighthouse)](./docs/tests/google-lighthouse-best-practice.md)
-* [Progressive web apps (Lighthouse)](./docs/tests/google-lighthouse-pwa.md)
 * [SEO best practise (Lighthouse)](./docs/tests/google-lighthouse-seo.md)
 * [Validate 404 page (by default checks for Swedish text, though)](./docs/tests/page-not-found.md)
 * [Validate HTML (W3C)](./docs/tests/html.md)

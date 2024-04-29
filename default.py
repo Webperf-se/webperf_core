@@ -121,7 +121,6 @@ def show_test_help(global_translation):
                 'TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_BEST_PRACTICE'))
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_HTML'))
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_CSS'))
-    print(global_translation('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_PWA'))
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_STANDARD_FILES'))
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_A11Y'))
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_SITESPEED'))

@@ -9,6 +9,7 @@ on:
       - '**update-software.yml'
       - 'update_software.py'
       - 'SAMPLE-software-rules.json'
+      - 'Dockerfile'
 jobs:
   build:
     runs-on: ${{ matrix.os }}

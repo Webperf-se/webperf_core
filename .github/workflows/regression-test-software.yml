@@ -6,6 +6,7 @@ on:
       - '**.md'
       - 'software-sources.json'
       - '**update-software.yml'
+      - 'Dockerfile'
 jobs:
   build:
     runs-on: ${{ matrix.os }}

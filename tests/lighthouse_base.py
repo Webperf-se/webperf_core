@@ -27,7 +27,7 @@ INSECURE_STRINGS = ['security', 'säkerhet',
 
 # look for words indicating items is related to standard
 STANDARD_STRINGS = ['gzip, deflate',
-    'Deprecated', 'Utfasade ', 'quirks-mode', 'http/2']
+    'Deprecated', 'Utfasade ', 'quirks-mode', 'http/2', 'robots.txt']
 
 
 def get_lighthouse_translations(module_name, lang_code, global_translation):
@@ -148,18 +148,20 @@ def create_rating_from_audit(item, global_translation, weight):
     else:
         item_review = f"- {global_translation(item_title)}: {display_value}"
 
-    rating.set_overall(local_points, item_review)
-
-    item_review = item_review.lower()
+    lover_item_review = item_review.lower()
     item_description = item_description.lower()
 
-    has_insecure_string = contains_insecure_string(item_review, item_description)
+    has_insecure_string = contains_insecure_string(lover_item_review, item_description)
+    has_standard_string = contains_standard_string(lover_item_review, item_description)
     if has_insecure_string:
+        rating.set_overall(local_points)
         rating += rate_containing_insecure_string(global_translation, local_score, item_title)
-
-    has_standard_string = contains_standard_string(item_review, item_description)
-    if has_standard_string:
+    elif has_standard_string:
+        rating.set_overall(local_points)
         rating += rate_containing_standard_string(global_translation, local_score, item_title)
+    else:
+        rating.set_overall(local_points, item_review)
+
 
     return {
             'key': local_points - weight,
@@ -350,15 +352,15 @@ def set_overall_rating_and_review(category, local_translation, score, rating, re
     review = rating.overall_review
     points = rating.get_overall()
     if points >= 5.0:
-        review = local_translation("TEXT_REVIEW_VERY_GOOD")
+        review = local_translation("TEXT_REVIEW_VERY_GOOD") + review
     elif points >= 4.0:
-        review = local_translation("TEXT_REVIEW_IS_GOOD")
+        review = local_translation("TEXT_REVIEW_IS_GOOD") + review
     elif points >= 3.0:
-        review = local_translation("TEXT_REVIEW_IS_OK")
+        review = local_translation("TEXT_REVIEW_IS_OK") + review
     elif points > 1.0:
-        review = local_translation("TEXT_REVIEW_IS_BAD")
+        review = local_translation("TEXT_REVIEW_IS_BAD") + review
     elif points <= 1.0:
-        review = local_translation("TEXT_REVIEW_IS_VERY_BAD")
+        review = local_translation("TEXT_REVIEW_IS_VERY_BAD") + review
     rating.overall_review = review
 
 def create_weight_dict(category, json_content):

@@ -36,3 +36,19 @@ jobs:
           tag_name: "${{ env.NEW_VERSION }}"
           make_latest: "true"
           generate_release_notes: true
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          file: ./Dockerfile
+          push: true
+          provenance: false
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/webperf-core:v${{ env.NEW_VERSION }},${{ secrets.DOCKERHUB_USERNAME }}/webperf-core:latest

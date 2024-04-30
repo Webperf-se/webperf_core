@@ -55,12 +55,12 @@ USER pptruser
 
 RUN npm install
 
-RUN pip3 install -r requirements.txt --break-system-packages && \
-    python3 -m pip install --upgrade pip --break-system-packages && \
-    python3 -m pip install --upgrade setuptools --break-system-packages && \
-    python3 -m pip install pyssim Pillow image --break-system-packages
-
 RUN echo 'alias python=python3' >> ~/.bashrc && \
     echo 'alias pip=pip3' >> ~/.bashrc
 
-CMD ["python3", "default.py -h"]
+RUN pip install -r requirements.txt --break-system-packages && \
+    python -m pip install --upgrade pip --break-system-packages && \
+    python -m pip install --upgrade setuptools --break-system-packages && \
+    python -m pip install pyssim Pillow image --break-system-packages
+
+CMD ["python", "default.py -h"]

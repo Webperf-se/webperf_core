@@ -16,3 +16,5 @@ jobs:
     - uses: actions/checkout@v3
     - name: Build the Docker image
       run: docker build -t "webperf-runner:latest" .
+    - name: Test running Webperf_core Docker image
+      run: docker run --rm -v "$(pwd)":/webperf-runner:latest python default.py -h

@@ -9,6 +9,7 @@ on:
       - 'update_software.py'
       - 'SAMPLE-software-rules.json'
       - 'Dockerfile'
+      - '**regression-test-docker-image.yml'
 jobs:
   build:
     runs-on: ${{ matrix.os }}

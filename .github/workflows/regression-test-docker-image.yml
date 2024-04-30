@@ -18,4 +18,6 @@ jobs:
     - name: Build the Docker image
       run: docker build -t "webperf-runner:latest" .
     - name: Test running Webperf_core Docker image
-      run: docker run -v "$(pwd):/webperf-runner" webperf-runner:latest python default.py -h
+      run: docker run -v "$(pwd):/webperf-runner" webperf-runner:latest
+    - name: Test running Webperf_core Docker image
+      run: docker run -v "$(pwd):/webperf-runner" webperf-runner:latest python3 default.py -h

@@ -62,3 +62,8 @@ RUN pip3 install -r requirements.txt --break-system-packages && \
 
 RUN echo 'alias python=python3' >> ~/.bashrc && \
     echo 'alias pip=pip3' >> ~/.bashrc
+
+RUN echo "export python=python3" >> $BASH_ENV
+RUN echo "export pip=pip3" >> $BASH_ENV
+
+CMD ["python", "default.py -h"]

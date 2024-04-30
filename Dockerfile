@@ -63,5 +63,4 @@ RUN pip install -r requirements.txt --break-system-packages && \
     python -m pip install --upgrade setuptools --break-system-packages && \
     python -m pip install pyssim Pillow image --break-system-packages
 
-RUN python -v
-CMD ["python", "default.py -h"]
+CMD ["python", "--version"]

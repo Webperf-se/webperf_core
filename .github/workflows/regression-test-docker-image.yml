@@ -22,7 +22,13 @@ jobs:
       run: docker run -v "$(pwd):/webperf-runner" webperf-runner:latest python3 --version
     - name: Test running Webperf_core Docker image
       if: always()
+      run: docker run -v "$(pwd):/webperf-runner" webperf-runner:latest pip3 install -r requirements.txt --break-system-packages
+    - name: Test running Webperf_core Docker image
+      if: always()
       run: docker run -v "$(pwd):/webperf-runner" webperf-runner:latest python --version
+    - name: Test running Webperf_core Docker image
+      if: always()
+      run: docker run -v "$(pwd):/webperf-runner" webperf-runner:latest pip install -r requirements.txt --break-system-packages
     - name: Test running Webperf_core Docker image
       if: always()
       run: docker run -v "$(pwd):/webperf-runner" webperf-runner:latest

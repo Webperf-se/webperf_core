@@ -28,9 +28,10 @@ but you can run this project in many ways and what you choose depends on your ne
 
 [Read more about how to get started](./docs/getting-started.md)
 
-* [Locally](./docs/getting-started-local.md)
-* [GitHub Actions](./docs/getting-started-github-actions.md)
-* [PythonAnywhere.com](./docs/getting-started-others.md)
+- [Using GitHub Actions](./docs/getting-started-github-actions.md)
+- [Using Local Machine / Virtual Machine](./docs/getting-started-local.md)
+- [Using Docker](./docs/getting-started-docker.md)
+- [Other hosting](./docs/getting-started-others.md)
 
 
 # Tests

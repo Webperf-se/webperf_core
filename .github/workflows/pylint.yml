@@ -1,7 +1,7 @@
 name: Pylint
-
-on: [push]
-
+push:
+  paths:
+    - '**.py'
 jobs:
   build:
     runs-on: ubuntu-latest

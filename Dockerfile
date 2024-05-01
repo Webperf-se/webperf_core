@@ -67,8 +67,6 @@ RUN python3.12 get-pip.py
 # List all python packages installed
 RUN dpkg -l | grep python
 
-RUN dpkg -l | grep pip
-
 # Add user so we don't need --no-sandbox.
 RUN groupadd --system pptruser && \
     useradd --system --create-home --gid pptruser pptruser && \

@@ -30,6 +30,12 @@ RUN add-apt-repository ppa:deadsnakes/ppa
 
 RUN apt install -y python3.12
 
+RUN apt install -y curl
+
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+
+RUN python3.12 get-pip.py
+
 # List all python packages installed
 # RUN dpkg -l | grep python
 
@@ -61,6 +67,8 @@ RUN apt install -y python3.12
 # List all python packages installed
 RUN dpkg -l | grep python
 
+RUN dpkg -l | grep pip
+
 # Add user so we don't need --no-sandbox.
 RUN groupadd --system pptruser && \
     useradd --system --create-home --gid pptruser pptruser && \
@@ -74,9 +82,6 @@ RUN echo 'ALL ALL=NOPASSWD: /usr/sbin/tc, /usr/sbin/route, /usr/sbin/ip' > /etc/
 RUN npm install -g node-gyp puppeteer
 
 RUN wget -q -O vnu.jar https://github.com/validator/validator/releases/download/latest/vnu.jar
-
-# First add the SAMPLE file as real config
-COPY SAMPLE-config.py /usr/src/app/config.py
 
 # If own config.py exists it will overwrite the SAMPLE
 COPY . /usr/src/app

@@ -23,11 +23,23 @@ RUN apt-get update &&\
 
 # TODO: Check Python version used, there are no need to remove python if we have correct version
 
+# List all python packages installed
+RUN dpkg -l | grep python
+
+# Remove python packages
+RUN apt-get -y remove python.*
+RUN apt-get -y remove python3.*
+
+# Autoremove any dependencies left behind after the uninstall
+RUN apt-get autoremove
+
 # Remove old pip3 (Python), as it is too old
 # RUN apt-get purge --auto-remove python3-pip
 
 # Remove old Python, as it was 3.10 and not 3.12 that we needed
-RUN apt remove --auto-remove python3
+# RUN apt remove -y --auto-remove python3
+
+RUN ls /usr/bin/python*
 
 RUN mkdir /python && cd /python && \
     wget https://www.python.org/ftp/python/3.12.2/Python-3.12.2.tgz && \
@@ -37,6 +49,8 @@ RUN mkdir /python && cd /python && \
     ./configure --enable-optimizations && \
     make install && \
     rm -rf /python
+
+RUN ls /usr/bin/python*
 
 # Add user so we don't need --no-sandbox.
 RUN groupadd --system pptruser && \

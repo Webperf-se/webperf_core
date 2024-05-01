@@ -12,7 +12,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN ls /usr/bin/python*
+# RUN ls /usr/bin/python*
 
 RUN apt-get update &&\
     apt-get install -y --no-install-recommends curl gcc g++ gnupg unixodbc-dev openssl git default-jre default-jdk && \
@@ -39,7 +39,7 @@ RUN apt-get -y autoremove
 # Remove old Python, as it was 3.10 and not 3.12 that we needed
 # RUN apt remove -y --auto-remove python3
 
-RUN ls /usr/bin/python*
+# RUN ls /usr/bin/python*
 
 RUN mkdir /python && cd /python && \
     wget https://www.python.org/ftp/python/3.12.2/Python-3.12.2.tgz && \

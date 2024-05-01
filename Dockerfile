@@ -30,11 +30,11 @@ RUN add-apt-repository ppa:deadsnakes/ppa
 
 RUN apt install -y python3.12
 
-RUN apt install -y curl
+# RUN apt install -y curl
 
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+# RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 
-RUN python3.12 get-pip.py
+# RUN python3.12 get-pip.py
 
 # List all python packages installed
 # RUN dpkg -l | grep python
@@ -91,6 +91,7 @@ USER pptruser
 
 RUN npm install
 
+#RUN export PATH="/home/pptruser.local/bin:$PATH"
 # RUN echo 'alias python=python3.12' >> ~/.bashrc && \
 #     echo 'alias pip=pip3' >> ~/.bashrc
 
@@ -105,5 +106,11 @@ RUN npm install
 #     python -m pip install --upgrade pip --break-system-packages && \
 #     python -m pip install --upgrade setuptools --break-system-packages && \
 #     python -m pip install pyssim Pillow image --break-system-packages
+
+RUN python3.12 -m pip install -r requirements.txt --break-system-packages && \
+    python3.12 -m pip install --upgrade pip --break-system-packages && \
+    python3.12 -m pip install --upgrade setuptools --break-system-packages && \
+    python3.12 -m pip install pyssim Pillow image --break-system-packages
+
 
 CMD ["python3.12", "--version"]

@@ -39,7 +39,8 @@ RUN apt-get -y autoremove
 # Remove old Python, as it was 3.10 and not 3.12 that we needed
 # RUN apt remove -y --auto-remove python3
 
-# RUN ls /usr/bin/python*
+# List all python packages installed
+RUN dpkg -l | grep python
 
 RUN mkdir /python && cd /python && \
     wget https://www.python.org/ftp/python/3.12.2/Python-3.12.2.tgz && \
@@ -50,7 +51,8 @@ RUN mkdir /python && cd /python && \
     make install && \
     rm -rf /python
 
-RUN ls /usr/bin/python*
+# List all python packages installed
+RUN dpkg -l | grep python
 
 # Add user so we don't need --no-sandbox.
 RUN groupadd --system pptruser && \

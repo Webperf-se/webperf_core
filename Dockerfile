@@ -84,9 +84,9 @@ RUN npm install
 RUN echo 'alias python=python3' >> ~/.bashrc && \
     echo 'alias pip=pip3' >> ~/.bashrc
 
-RUN pip install -r requirements.txt --break-system-packages && \
-    python -m pip install --upgrade pip --break-system-packages && \
-    python -m pip install --upgrade setuptools --break-system-packages && \
-    python -m pip install pyssim Pillow image --break-system-packages
+# RUN pip install -r requirements.txt --break-system-packages && \
+#     python -m pip install --upgrade pip --break-system-packages && \
+#     python -m pip install --upgrade setuptools --break-system-packages && \
+#     python -m pip install pyssim Pillow image --break-system-packages
 
 CMD ["python", "--version"]

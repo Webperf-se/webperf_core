@@ -31,7 +31,7 @@ RUN apt-get -y remove python.*
 RUN apt-get -y remove python3.*
 
 # Autoremove any dependencies left behind after the uninstall
-RUN apt-get autoremove
+RUN apt-get -y autoremove
 
 # Remove old pip3 (Python), as it is too old
 # RUN apt-get purge --auto-remove python3-pip

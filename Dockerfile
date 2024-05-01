@@ -12,6 +12,8 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV DEBIAN_FRONTEND noninteractive
 
+RUN ls /usr/bin/python*
+
 RUN apt-get update &&\
     apt-get install -y --no-install-recommends curl gcc g++ gnupg unixodbc-dev openssl git default-jre default-jdk && \
     apt-get install -y software-properties-common ca-certificates && \
@@ -22,7 +24,7 @@ RUN apt-get update &&\
 # TODO: Check Python version used, there are no need to remove python if we have correct version
 
 # Remove old pip3 (Python), as it is too old
-RUN apt-get purge --auto-remove python3-pip
+# RUN apt-get purge --auto-remove python3-pip
 
 # Remove old Python, as it was 3.10 and not 3.12 that we needed
 RUN apt remove --auto-remove python3

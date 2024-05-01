@@ -47,7 +47,7 @@ RUN mkdir /python && cd /python && \
     tar -zxvf Python-3.12.2.tgz && \
     cd Python-3.12.2 && \
     ls -lhR && \
-    ./configure --enable-optimizations && \
+    ./configure --enable-optimizations --prefix=/usr/local/ && \
     make install && \
     rm -rf /python
 
@@ -81,12 +81,19 @@ USER pptruser
 
 RUN npm install
 
-RUN echo 'alias python=python3' >> ~/.bashrc && \
+RUN echo 'alias python=python3.12' >> ~/.bashrc && \
     echo 'alias pip=pip3' >> ~/.bashrc
+
+RUN source ~/.bashrc
+
+RUN echo "alias python='python3.12'" >> ~/.profile
+RUN echo "alias pip=pip3'" >> ~/.profile
+
+RUN source ~/.profile
 
 # RUN pip install -r requirements.txt --break-system-packages && \
 #     python -m pip install --upgrade pip --break-system-packages && \
 #     python -m pip install --upgrade setuptools --break-system-packages && \
 #     python -m pip install pyssim Pillow image --break-system-packages
 
-CMD ["python", "--version"]
+CMD ["/usr/local/python3.12", "--version"]

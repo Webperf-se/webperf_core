@@ -26,9 +26,26 @@ RUN apt-get update &&\
 # List all python packages installed
 RUN dpkg -l | grep python
 
-RUN add-apt-repository ppa:deadsnakes/ppa
+# https://tecadmin.net/how-to-install-python-3-12-on-ubuntu/
+RUN add-apt-repository ppa:deadsnakes/ppa -y
 
-RUN apt install -y python3.12
+RUN apt update
+
+RUN apt install -y python3.12 python3.12-venv
+
+RUN apt install -y python3.12-pip
+
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.12 311
+
+RUN update-alternatives --config python3
+
+RUN apt install python3.12-distutils
+
+RUN wget https://bootstrap.pypa.io/get-pip.py
+
+RUN python3.12 get-pip.py
+
+RUN apt autoremove
 
 # RUN apt install -y curl
 
@@ -77,9 +94,9 @@ WORKDIR /usr/src/app
 
 RUN echo 'ALL ALL=NOPASSWD: /usr/sbin/tc, /usr/sbin/route, /usr/sbin/ip' > /etc/sudoers.d/tc
 
-RUN npm install -g node-gyp puppeteer
+# RUN npm install -g node-gyp puppeteer
 
-RUN wget -q -O vnu.jar https://github.com/validator/validator/releases/download/latest/vnu.jar
+# RUN wget -q -O vnu.jar https://github.com/validator/validator/releases/download/latest/vnu.jar
 
 # If own config.py exists it will overwrite the SAMPLE
 COPY . /usr/src/app
@@ -89,7 +106,7 @@ RUN chown --recursive pptruser:pptruser /usr/src/app
 # Run everything after as non-privileged user.
 USER pptruser
 
-RUN npm install
+# RUN npm install
 
 #RUN export PATH="/home/pptruser.local/bin:$PATH"
 # RUN echo 'alias python=python3.12' >> ~/.bashrc && \

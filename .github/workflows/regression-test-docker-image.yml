@@ -26,7 +26,8 @@ jobs:
       run: docker run -v "$(pwd):/webperf-runner" webperf-runner:latest python --version
     - name: Check if webperf_core help command works
       run: docker run -v "$(pwd):/webperf-runner" webperf-runner:latest python default.py -h
-    - name: Check if webperf_core can run Standard files Regression Test
-      run: |
-        docker run -v "$(pwd):/webperf-runner" webperf-runner:latest python default.py -t ${{ matrix.version }} -r -i sites.json -o .github/workflows/testresult-${{ matrix.version }}.json
-        docker run -v "$(pwd):/webperf-runner" webperf-runner:latest python .github/workflows/verify_result.py -t ${{ matrix.version }}
+    - name: Check if webperf_core can run Standard files Test
+      run: docker run -v "$(pwd):/webperf-runner" webperf-runner:latest python default.py -t ${{ matrix.version }} -r -i sites.json -o .github/workflows/testresult-${{ matrix.version }}.json
+    - name: Check if webperf_core returned correct data output in Standard files Regression Test
+      run: docker run -v "$(pwd):/webperf-runner" webperf-runner:latest python .github/workflows/verify_result.py -t ${{ matrix.version }}
+  

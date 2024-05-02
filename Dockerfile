@@ -19,9 +19,6 @@ RUN apt-get update &&\
     update-ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
-# List all python packages installed
-RUN dpkg -l | grep python
-
 # NOTE: Python speed improvements from: https://tecadmin.net/how-to-install-python-3-12-on-ubuntu/
 RUN add-apt-repository ppa:deadsnakes/ppa -y
 

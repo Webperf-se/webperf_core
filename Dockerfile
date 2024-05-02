@@ -39,13 +39,13 @@ RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.12 3
 
 RUN update-alternatives --config python3
 
-RUN apt install python3.12-distutils
+RUN apt install -y python3.12-distutils
 
 RUN wget https://bootstrap.pypa.io/get-pip.py
 
 RUN python3.12 get-pip.py
 
-RUN apt autoremove
+RUN apt -y autoremove
 
 # RUN apt install -y curl
 

@@ -33,7 +33,7 @@ RUN apt update
 
 RUN apt install -y python3.12 python3.12-venv
 
-RUN apt install -y python3.12-pip
+RUN apt install -y python3-pip
 
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.12 311
 

@@ -19,14 +19,26 @@ RUN apt-get update &&\
     update-ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
-RUN mkdir /python && cd /python && \
-    wget https://www.python.org/ftp/python/3.12.2/Python-3.12.2.tgz && \
-    tar -zxvf Python-3.12.2.tgz && \
-    cd Python-3.12.2 && \
-    ls -lhR && \
-    ./configure --enable-optimizations && \
-    make install && \
-    rm -rf /python
+# NOTE: Python speed improvements from: https://tecadmin.net/how-to-install-python-3-12-on-ubuntu/
+RUN add-apt-repository ppa:deadsnakes/ppa -y
+
+RUN apt update
+
+RUN apt install -y python3.12 python3.12-venv
+
+RUN apt install -y python3-pip
+
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.12 311
+
+RUN update-alternatives --config python3
+
+RUN apt install -y python3.12-distutils
+
+RUN wget https://bootstrap.pypa.io/get-pip.py
+
+RUN python3.12 get-pip.py
+
+RUN apt -y autoremove
 
 # Add user so we don't need --no-sandbox.
 RUN groupadd --system pptruser && \
@@ -42,9 +54,6 @@ RUN npm install -g node-gyp puppeteer
 
 RUN wget -q -O vnu.jar https://github.com/validator/validator/releases/download/latest/vnu.jar
 
-# First add the SAMPLE file as real config
-COPY SAMPLE-config.py /usr/src/app/config.py
-
 # If own config.py exists it will overwrite the SAMPLE
 COPY . /usr/src/app
 
@@ -55,10 +64,10 @@ USER pptruser
 
 RUN npm install
 
-RUN pip3 install -r requirements.txt --break-system-packages && \
-    python3 -m pip install --upgrade pip --break-system-packages && \
-    python3 -m pip install --upgrade setuptools --break-system-packages && \
-    python3 -m pip install pyssim Pillow image --break-system-packages
+RUN python3.12 -m pip install -r requirements.txt --break-system-packages && \
+    python3.12 -m pip install --upgrade pip --break-system-packages && \
+    python3.12 -m pip install --upgrade setuptools --break-system-packages && \
+    python3.12 -m pip install pyssim Pillow image --break-system-packages
 
-RUN echo 'alias python=python3' >> ~/.bashrc && \
-    echo 'alias pip=pip3' >> ~/.bashrc
+
+CMD ["python3.12", "default.py -h"]

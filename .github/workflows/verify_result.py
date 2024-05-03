@@ -264,7 +264,7 @@ def validate_testresult(arg): # pylint: disable=too-many-return-statements,too-m
     filename = f'testresult-{test_id}.json'
     filename = os.path.join(base_directory, filename)
     if not os.path.exists(filename):
-        print('test result doesn\'t exists')
+        print(f"test result doesn\'t exists: {filename}")
         return False
 
     content = get_file_content(filename)

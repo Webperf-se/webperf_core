@@ -270,7 +270,7 @@ def validate_testresult(arg): # pylint: disable=too-many-return-statements,too-m
         else:
             print(f"base_directory exists: {base_directory}")
             print(f"base_directory files: {os.listdir(base_directory)}")
-        tmp = f'.github/workflows/{filename}'
+        tmp = f'/.github/workflows/testresult-{test_id}.json'
         if not os.path.exists(tmp):
             print(f"tmp doesn\'t exists: {tmp}")
         else:

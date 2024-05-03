@@ -38,7 +38,7 @@ jobs:
         fi
     - name: Check if webperf_core can run Standard files Test
       run: |
-        testresult=$(docker run -v "$(pwd):/webperf-core" webperf-core:latest python default.py -t ${{ matrix.version }} -r -i sites.json -o .github/workflows/testresult-${{ matrix.version }}.json)
+        testresult=$(docker run -v "$(pwd):/webperf-core" webperf-core:latest python default.py -t ${{ matrix.version }} -r -i sites.json -o /usr/src/app/.github/workflows/testresult-${{ matrix.version }}.json)
         echo "$testresult"
         if [[ "$testresult" != *"Integrity & Security:"* ]]; then
           echo "Error: WebPerf-core testresult is NOT returning expected review"

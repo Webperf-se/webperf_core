@@ -265,6 +265,8 @@ def validate_testresult(arg): # pylint: disable=too-many-return-statements,too-m
     filename = os.path.join(base_directory, filename)
     if not os.path.exists(filename):
         print(f"test result doesn\'t exists: {filename}")
+        if not os.path.exists(base_directory):
+            print(f"base_directory doesn\'t exists: {base_directory}")
         return False
 
     content = get_file_content(filename)

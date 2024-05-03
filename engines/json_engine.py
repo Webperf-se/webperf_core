@@ -184,9 +184,11 @@ def write_tests(output_filename, site_tests, _):
     Returns:
         None
     """
+    print('write_tests', output_filename)
     with open(output_filename, 'w', encoding='utf-8') as outfile:
         # json require us to have an object as root element
         container_object = {
             "tests": site_tests
         }
         json.dump(container_object, outfile)
+        print(' - testresults was written')

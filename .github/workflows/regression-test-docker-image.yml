@@ -21,13 +21,12 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build -t "webperf-runner:latest" .
+      run: docker build -t "webperf-core:latest" .
     - name: Check if we have correct python version
-      run: docker run -v "$(pwd):/webperf-runner" webperf-runner:latest python --version
+      run: docker run -v "$(pwd):/webperf-core" webperf-core:latest python --version
     - name: Check if webperf_core help command works
-      run: docker run -v "$(pwd):/webperf-runner" webperf-runner:latest python default.py -h
+      run: docker run -v "$(pwd):/webperf-core" webperf-core:latest python default.py -h
     - name: Check if webperf_core can run Standard files Test
-      run: docker run -v "$(pwd):/webperf-runner" webperf-runner:latest python default.py -t ${{ matrix.version }} -r -i sites.json -o .github/workflows/testresult-${{ matrix.version }}.json
+      run: docker run -v "$(pwd):/webperf-core" webperf-core:latest python default.py -t ${{ matrix.version }} -r -i sites.json -o .github/workflows/testresult-${{ matrix.version }}.json
     - name: Check if webperf_core returned correct data output in Standard files Regression Test
-      run: docker run -v "$(pwd):/webperf-runner" webperf-runner:latest python .github/workflows/verify_result.py -t ${{ matrix.version }}
-  
+      run: docker run -v "$(pwd):/webperf-core" webperf-core:latest python .github/workflows/verify_result.py -t ${{ matrix.version }}

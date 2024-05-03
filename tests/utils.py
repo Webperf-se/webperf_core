@@ -318,6 +318,7 @@ def clean_cache_files():
         folder = 'tmp'
         base_directory = os.path.join(Path(os.path.dirname(
             os.path.realpath(__file__)) + os.path.sep).parent, folder)
+        print('clean tmp folder:', base_directory)
         if os.path.exists(base_directory):
             shutil.rmtree(base_directory)
         return

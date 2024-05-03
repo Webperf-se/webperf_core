@@ -192,3 +192,9 @@ def write_tests(output_filename, site_tests, _):
         }
         json.dump(container_object, outfile)
         print(' - testresults was written')
+
+    with open(output_filename, encoding='utf-8') as json_input_file:
+        data = json.load(json_input_file)
+        nice = json.dumps(data, indent=3)
+        print(' - read tests')
+        print(nice)

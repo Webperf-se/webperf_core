@@ -33,7 +33,7 @@ jobs:
     - name: Check if webperf_core help command works
       run: |
         help=$(docker run -v "$(pwd):/webperf-core" webperf-core:latest python default.py -h)
-        echo "WebPerf-core Help:\r\n$help"
+        echo "$help"
         if [[ "$help" != *"-u/--url"* ]]; then
           echo "Error: WebPerf-core help command is NOT returning expected content"
           exit 1
@@ -41,7 +41,7 @@ jobs:
     - name: Check if webperf_core can run Standard files Test
       run: |
         testresult=$(docker run -v "$(pwd):/webperf-core" webperf-core:latest python default.py -t ${{ matrix.version }} -r -i sites.json -o .github/workflows/testresult-${{ matrix.version }}.json)
-        echo "WebPerf-core testresult:\r\n$testresult"
+        echo "$testresult"
         if [[ "$testresult" != *"Integrity & Security:"* ]]; then
           echo "Error: WebPerf-core testresult is NOT returning expected review"
           exit 1

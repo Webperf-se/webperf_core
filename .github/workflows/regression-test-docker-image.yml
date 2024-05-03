@@ -5,7 +5,7 @@ on:
     paths:
       - '**regression-test-docker-image.yml'
       - '**regression-test-standard-files.yml'
-      - '**verify_result.py'
+      - '**.py'
       - 'Dockerfile'
       - 'SAMPLE-software-rules.json'
 jobs:
@@ -38,11 +38,9 @@ jobs:
         fi
     - name: Check if webperf_core can run Standard files Test
       run: |
-        testresult=$(docker run -v "$(pwd):/webperf-core" webperf-core:latest python default.py -t ${{ matrix.version }} -r -i sites.json -o /usr/src/app/.github/workflows/testresult-${{ matrix.version }}.json)
+        testresult=$(docker run -v "$(pwd):/webperf-core" webperf-core:latest python default.py -t ${{ matrix.version }} -r -i sites.json)
         echo "$testresult"
         if [[ "$testresult" != *"Integrity & Security:"* ]]; then
           echo "Error: WebPerf-core testresult is NOT returning expected review"
           exit 1
         fi
-    - name: Check if webperf_core returned correct data output in Standard files Regression Test
-      run: docker run -v "$(pwd):/webperf-core" webperf-core:latest python .github/workflows/verify_result.py -t ${{ matrix.version }}

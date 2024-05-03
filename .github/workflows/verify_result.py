@@ -265,16 +265,6 @@ def validate_testresult(arg): # pylint: disable=too-many-return-statements,too-m
     filename = os.path.join(base_directory, filename)
     if not os.path.exists(filename):
         print(f"test result doesn\'t exists: {filename}")
-        if not os.path.exists(base_directory):
-            print(f"base_directory doesn\'t exists: {base_directory}")
-        else:
-            print(f"base_directory exists: {base_directory}")
-            print(f"base_directory files: {os.listdir(base_directory)}")
-        tmp = f'/.github/workflows/testresult-{test_id}.json'
-        if not os.path.exists(tmp):
-            print(f"tmp doesn\'t exists: {tmp}")
-        else:
-            print(f"tmp exists: {tmp}")
         return False
 
     content = get_file_content(filename)

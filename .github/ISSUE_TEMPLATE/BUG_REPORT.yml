@@ -43,14 +43,14 @@ body:
         - label: Yes, there are no other issues related to this in [Issues](https://github.com/Webperf-se/webperf_core/issues).
           required: true
   - type: textarea
-    id: whaw
+    id: ebehavior
     attributes:
       label: Expected Behavior
       description: A brief description of what you expected to happen
     validations:
       required: true
   - type: textarea
-    id: whaw
+    id: abehavior
     attributes:
       label: Actual Behavior.
       description: A brief description of what actually happened

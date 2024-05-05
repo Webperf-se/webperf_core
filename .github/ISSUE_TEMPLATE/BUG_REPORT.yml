@@ -1,0 +1,74 @@
+name: Bug Report
+description: File a bug report
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for reporting issues back to webperf_core!
+  - type: input
+    id: url
+    attributes:
+      label: URL
+      description: What URL did you run webperf_core on? If you can't share your URL please make a minimial repro to a public location (e.g. https://glitch.com/, http://jsbin.com/, etc)
+      placeholder: https://example.com
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Webperf_core version
+      description: What WebPerf_core version did you run webperf_core on?
+    validations:
+      required: true
+  - type: checkboxes
+    id: environment
+    attributes:
+      label: What environment are you running?
+      description: You can read more about them at [Getting started](https://github.com/Webperf-se/webperf_core/blob/main/docs/getting-started.md).
+      options:
+        - label: Using GitHub Actions
+          required: false
+        - label: Using Docker Image from Dock Hub
+          required: false
+        - label: Local machine
+          required: false
+        - label: Other, please describe your environment in How to reproduce.
+          required: false
+  - type: checkboxes
+    id: duplicate
+    attributes:
+      label: Has anyone else reported it already?
+      description: Please double check that this issue has not been reported already in [Issues](https://github.com/Webperf-se/webperf_core/issues).
+      options:
+        - label: Yes, there are no other issues related to this in [Issues](https://github.com/Webperf-se/webperf_core/issues).
+          required: true
+  - type: textarea
+    id: whaw
+    attributes:
+      label: Expected Behavior
+      description: A brief description of what you expected to happen
+    validations:
+      required: true
+  - type: textarea
+    id: whaw
+    attributes:
+      label: Actual Behavior.
+      description: A brief description of what actually happened
+    validations:
+      required: true
+  - type: textarea
+    id: how-to-reproduce
+    attributes:
+      label: How to reproduce
+      description: Please copy and paste how you run so we can reproduce. This will be automatically formatted into code, so no need for backticks.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Log output
+      description: Please copy and paste the full log output from your test (please DO NOT take a screenshot of the log output). This will be automatically formatted into code, so no need for backticks.
+      render: shell
+    validations:
+      required: false

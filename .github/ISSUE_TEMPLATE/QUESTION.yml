@@ -1,0 +1,15 @@
+name: Question
+description: Ask a question about webperf_core
+labels: [question]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ask a question about webperf_core
+  - type: textarea
+    id: your-question
+    attributes:
+      label: Your question
+      description: You can also discuss it in the [webperf_core Slack channel](https://webperf.se/articles/webperf-pa-slack/).
+    validations:
+      required: true

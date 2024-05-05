@@ -2,14 +2,13 @@
 
 Nice that you are here looking how to set webperf-core up :)
 There are three methods that we have test and know work when get started.
-The easiest to setup are GitHub Actions for public facing websites.
-If you want to test/verify private websites like acceptance test environments and more you are probably best to choose the local machine method.
+The easiest to setup are **GitHub Actions** for public facing websites.
+If you want to test/verify private websites like acceptance test environments and more you are probably best to choose **Docker** or **local machine**.
 You can read more about every method on the links below.
 
 - [Using GitHub Actions](getting-started-github-actions.md)
-- [Using Local Machine / Virtual Machine](getting-started-local.md)
 - [Using Docker](getting-started-docker.md)
-- [Other hosting](getting-started-others.md)
+- [Using Local Machine](getting-started-local.md)
 
 After you have choosen then method to get started and followed the method specific instructions 
 you can view more general information below.

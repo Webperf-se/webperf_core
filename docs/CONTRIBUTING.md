@@ -73,10 +73,15 @@ If you have an idea for a new feature or enhancement, open an issue to discuss i
 Feel free to ask questions or start discussions related to the project. We also have a [Slack channel](https://webperf.se/articles/webperf-pa-slack/)
 
 ## Creating Pull Requests
+- **big change or adding functionality**: Create Issue / Discuss in [Slack channel](https://webperf.se/articles/webperf-pa-slack/) before starting.
 - **Branches:** Create a new branch for your work (e.g., feature/my-new-feature).
 - **Commits:** Make concise, well-documented commits. Use descriptive commit messages.
 - **Tests:** Ensure that your changes are covered by tests.
 - **Documentation:** Update relevant documentation if needed.
+- **Labels:** Use labels for better release notes (if applicable)
+   - `breaking-change` - For breaking changes
+   - `enhancement` - For highlighted features
+   - `bug` - For highlighted features
 - **Review Process:** Your pull request will be reviewed by maintainers. Be responsive to feedback.
 
 ## Code of Conduct

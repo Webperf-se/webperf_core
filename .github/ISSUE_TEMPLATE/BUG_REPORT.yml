@@ -40,7 +40,7 @@ body:
       label: Has anyone else reported it already?
       description: Please double check that this issue has not been reported already in [Issues](https://github.com/Webperf-se/webperf_core/issues).
       options:
-        - label: Yes, there are no other issues related to this in [Issues](https://github.com/Webperf-se/webperf_core/issues).
+        - label: No, there are no other issues related to this in [Issues](https://github.com/Webperf-se/webperf_core/issues).
           required: true
   - type: textarea
     id: ebehavior

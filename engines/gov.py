@@ -10,9 +10,7 @@ def write_tests(output_filename, site_tests, sites):
     Args:
         output_filename (str): The name of the output file.
         site_tests (list): A list of site tests.
-        input_skip (int): The number of tests to skip before starting to take.
-        input_take (int): The number of tests to take after skipping.
-        _ : Unused parameter.
+        sites (list) : A list of sites.
 
     Returns:
         None

@@ -108,6 +108,11 @@ class Rating: # pylint: disable=too-many-instance-attributes,missing-class-docst
         self.translation = translation
         self.review_show_improvements_only = review_show_improvements_only
 
+    def get_translation_text(self, translation_text):
+        if self.translation in (None, False):
+            return translation_text
+        return self.translation(translation_text)
+
     def ensure_correct_points_range(self, points):
         """
         Ensure the points are within the correct range [1.0, 5.0].
@@ -144,9 +149,8 @@ class Rating: # pylint: disable=too-many-instance-attributes,missing-class-docst
             return
 
         trans_str = 'TEXT_TEST_REVIEW_RATING_ITEM'
-        self.overall_review = self.translation(trans_str).format(
+        self.overall_review = self.get_translation_text(trans_str).format(
                 review, points)
-
 
     def get_overall(self):
         """
@@ -177,7 +181,7 @@ class Rating: # pylint: disable=too-many-instance-attributes,missing-class-docst
             return
 
         trans_str = 'TEXT_TEST_REVIEW_RATING_ITEM'
-        self.integrity_and_security_review = self.translation(trans_str).format(
+        self.integrity_and_security_review = self.get_translation_text(trans_str).format(
                 review, points)
 
     def get_integrity_and_security(self):
@@ -209,7 +213,7 @@ class Rating: # pylint: disable=too-many-instance-attributes,missing-class-docst
             return
 
         trans_str = 'TEXT_TEST_REVIEW_RATING_ITEM'
-        self.performance_review = self.translation(trans_str).format(
+        self.performance_review = self.get_translation_text(trans_str).format(
                 review, points)
 
 
@@ -242,7 +246,7 @@ class Rating: # pylint: disable=too-many-instance-attributes,missing-class-docst
             return
 
         trans_str = 'TEXT_TEST_REVIEW_RATING_ITEM'
-        self.standards_review = self.translation(trans_str).format(
+        self.standards_review = self.get_translation_text(trans_str).format(
                 review, points)
 
 
@@ -276,7 +280,7 @@ class Rating: # pylint: disable=too-many-instance-attributes,missing-class-docst
             return
 
         trans_str = 'TEXT_TEST_REVIEW_RATING_ITEM'
-        self.a11y_review = self.translation(trans_str).format(
+        self.a11y_review = self.get_translation_text(trans_str).format(
                 review, points)
 
 
@@ -330,17 +334,17 @@ class Rating: # pylint: disable=too-many-instance-attributes,missing-class-docst
         Returns:
             str: The constructed review text.
         """
-        text = self.translation('TEXT_TEST_REVIEW_OVERVIEW').format(self.overall_review)
+        text = self.get_translation_text('TEXT_TEST_REVIEW_OVERVIEW').format(self.overall_review)
         if (self.get_integrity_and_security() != -1 and self.integrity_and_security_review != ''):
-            text += self.translation('TEXT_TEST_REVIEW_INTEGRITY_SECURITY').format(
+            text += self.get_translation_text('TEXT_TEST_REVIEW_INTEGRITY_SECURITY').format(
                 self.integrity_and_security_review)
         if (self.get_performance() != -1 and self.performance_review != ''):
-            text += self.translation('TEXT_TEST_REVIEW_PERFORMANCE').format(
+            text += self.get_translation_text('TEXT_TEST_REVIEW_PERFORMANCE').format(
                 self.performance_review)
         if (self.get_a11y() != -1 and self.a11y_review != ''):
-            text += self.translation('TEXT_TEST_REVIEW_ALLY').format(self.a11y_review)
+            text += self.get_translation_text('TEXT_TEST_REVIEW_ALLY').format(self.a11y_review)
         if (self.get_standards() != -1 and self.standards_review != ''):
-            text += self.translation('TEXT_TEST_REVIEW_STANDARDS').format(
+            text += self.get_translation_text('TEXT_TEST_REVIEW_STANDARDS').format(
                 self.standards_review)
 
         return text.replace('GOV-IGNORE', '')
@@ -480,16 +484,18 @@ class Rating: # pylint: disable=too-many-instance-attributes,missing-class-docst
         return (val2, val2_count)
 
     def __repr__(self):
-        text = self.translation('TEXT_TEST_RATING_OVERVIEW').format(self.get_overall())
+        text = self.get_translation_text('TEXT_TEST_RATING_OVERVIEW').format(self.get_overall())
         if self.get_integrity_and_security() != -1:
-            text += self.translation('TEXT_TEST_RATING_INTEGRITY_SECURITY').format(
+            text += self.get_translation_text('TEXT_TEST_RATING_INTEGRITY_SECURITY').format(
                 self.get_integrity_and_security())
         if self.get_performance() != -1:
-            text += self.translation('TEXT_TEST_RATING_PERFORMANCE').format(self.get_performance())
+            text += self.get_translation_text('TEXT_TEST_RATING_PERFORMANCE').format(
+                self.get_performance())
         if self.get_a11y() != -1:
-            text += self.translation('TEXT_TEST_RATING_ALLY').format(self.get_a11y())
+            text += self.get_translation_text('TEXT_TEST_RATING_ALLY').format(
+                self.get_a11y())
         if self.get_standards() != -1:
-            text += self.translation('TEXT_TEST_RATING_STANDARDS').format(
+            text += self.get_translation_text('TEXT_TEST_RATING_STANDARDS').format(
                 self.get_standards())
 
         return text

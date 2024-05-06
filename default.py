@@ -22,6 +22,7 @@ from engines.json_engine import read_sites as json_read_sites,\
     write_tests as json_write_tests
 from engines.gov import write_tests as gov_write_tests
 from engines.sql import write_tests as sql_write_tests
+from engines.markdown_engine import write_tests as markdown_write_tests
 from tests.utils import clean_cache_files
 from utils import TEST_FUNCS, TEST_ALL, test_sites
 
@@ -86,6 +87,8 @@ def write_test_results(sites, output_filename, test_results):
             write_tests = sql_write_tests
         elif file_long_ending == ".sqlite":
             write_tests = sqlite_write_tests
+        elif file_long_ending.endswith(".md"):
+            write_tests = markdown_write_tests
         else:
             write_tests = json_write_tests
 

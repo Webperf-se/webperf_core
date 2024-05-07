@@ -22,6 +22,7 @@ from engines.json_engine import read_sites as json_read_sites,\
     write_tests as json_write_tests
 from engines.gov import write_tests as gov_write_tests
 from engines.sql import write_tests as sql_write_tests
+from engines.markdown_engine import write_tests as markdown_write_tests
 from tests.utils import clean_cache_files
 from utils import TEST_FUNCS, TEST_ALL, test_sites
 
@@ -54,7 +55,7 @@ def validate_test_type(tmp_test_types):
 
     return test_types
 
-def write_test_results(sites, output_filename, test_results):
+def write_test_results(sites, output_filename, test_results, global_translation):
     """
     Writes the test results to a file.
 
@@ -67,6 +68,8 @@ def write_test_results(sites, output_filename, test_results):
     sites (list): A list of sites for which the tests were run.
     output_filename (str): The name of the output file.
     test_results (list): A list of test results.
+    global_translation : GNUTranslations
+        An object that handles the translation of text in the context of internationalization.
 
     Returns:
     None
@@ -86,11 +89,13 @@ def write_test_results(sites, output_filename, test_results):
             write_tests = sql_write_tests
         elif file_long_ending == ".sqlite":
             write_tests = sqlite_write_tests
+        elif file_long_ending.endswith(".md"):
+            write_tests = markdown_write_tests
         else:
             write_tests = json_write_tests
 
             # use loaded engine to write tests
-        write_tests(output_filename, test_results, sites)
+        write_tests(output_filename, test_results, sites, global_translation)
 
 def show_test_help(global_translation):
     """
@@ -442,7 +447,7 @@ def main(argv):
     -t/--test <test number>\t: run ONE test (use ? to list available tests)
     -r/--review\t\t\t: show reviews in terminal
     -i/--input <file path>\t: input file path (.json/.sqlite)
-    -o/--output <file path>\t: output file path (.json/.csv/.sql/.sqlite)
+    -o/--output <file path>\t: output file path (.json/.csv/.sql/.sqlite/.md)
     -A/--addUrl <site url>\t: website url (required in combination with -i/--input)
     -D/--deleteUrl <site url>\t: website url (required in combination with -i/--input)
     -L/--language <lang code>\t: language used for output(en = default/sv)
@@ -495,7 +500,7 @@ def main(argv):
                                         test_types=options.test_types,
                                         show_reviews=options.show_reviews)
 
-        write_test_results(options.sites, options.output_filename, test_results)
+        write_test_results(options.sites, options.output_filename, test_results, options.language)
             # Cleanup exipred cache
         clean_cache_files()
     else:

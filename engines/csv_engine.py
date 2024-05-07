@@ -3,7 +3,7 @@ import csv
 from models import Sites, SiteTests
 from engines.utils import use_item
 
-def write_tests(output_filename, site_tests, _):
+def write_tests(output_filename, site_tests, _, _2):
     """
     Writes site test results to a CSV formated file from a given list of site tests.
 
@@ -13,6 +13,7 @@ def write_tests(output_filename, site_tests, _):
         input_skip (int): The number of tests to skip before starting to take.
         input_take (int): The number of tests to take after skipping.
         _ : Unused parameter.
+        _2 : Unused parameter.
 
     Returns:
         None

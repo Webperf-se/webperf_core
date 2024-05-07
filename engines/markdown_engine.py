@@ -60,7 +60,7 @@ def write_tests(output_filename, testresults, sites, global_translation):
 
     markdown_list = []
     for _, site_data in data.items():
-        markdown_list.extend(create_markdown_for_url(site_data))
+        markdown_list.extend(create_markdown_for_url(site_data, global_translation))
 
     markdown = '\n'.join(markdown_list)
 
@@ -104,47 +104,57 @@ def to_rating(points, global_translation):
         rating.set_overall(points)
     return rating
 
-def create_markdown_for_url(site_data):
+def create_markdown_for_url(site_data, global_translation):
     markdown = [
-       "# WebPerf_core Result(s)",
-       f"Website: {site_data['url']}",
-       f"Date: {site_data['date']}",
+       global_translation("TEXT_TESTING_SITE"
+            ).replace("\r","").replace("\n","").format(site_data['url']),
+       global_translation("TEXT_TEST_START").format(site_data['date']),
        "",
-       "# Rating:"
+       global_translation("TEXT_SITE_RATING")
     ]
 
     if site_data['rating'].isused():
-        markdown.append(f"- Overall: {site_data['rating'].get_overall()}")
+        markdown.append(global_translation("TEXT_TEST_RATING_OVERVIEW").format(
+            site_data['rating'].get_overall()).replace("\r","").replace("\n",""))
     if site_data['rating_a11y'].isused():
-        markdown.append(f"- A11y: {site_data['rating_a11y'].get_overall()}")
+        markdown.append(global_translation("TEXT_TEST_RATING_ALLY").format(
+            site_data['rating_a11y'].get_overall()).replace("\r","").replace("\n",""))
     if site_data['rating_sec'].isused():
-        markdown.append(f"- Integrity & Security: {site_data['rating_sec'].get_overall()}")
+        markdown.append(global_translation("TEXT_TEST_RATING_INTEGRITY_SECURITY").format(
+            site_data['rating_sec'].get_overall()).replace("\r","").replace("\n",""))
     if site_data['rating_perf'].isused():
-        markdown.append(f"- Performance: {site_data['rating_perf'].get_overall()}")
+        markdown.append(global_translation("TEXT_TEST_RATING_PERFORMANCE").format(
+            site_data['rating_perf'].get_overall()).replace("\r","").replace("\n",""))
     if site_data['rating_stand'].isused():
-        markdown.append(f"- Standards: {site_data['rating_stand'].get_overall()}")
-
+        markdown.append(global_translation("TEXT_TEST_RATING_STANDARDS").format(
+            site_data['rating_stand'].get_overall()).replace("\r","").replace("\n",""))
 
     markdown.append("")
-    markdown.append("# Review")
+    markdown.append(global_translation("TEXT_SITE_REVIEW").replace("\r","").replace("\n",""))
     if site_data['report']:
-        markdown.append("## Overall:")
-        markdown.append(site_data['report'].replace('\r\n', '\n'))
+        markdown.append(
+            global_translation("TEXT_TEST_REVIEW_OVERVIEW"
+                ).replace("\r\n#","#").replace("\r\n{0}","\n{0}").format(
+            site_data['report'].replace('\r\n', '\n')))
 
     if site_data['report_a11y']:
-        markdown.append("## A11y:")
-        markdown.append(site_data['report_a11y'].replace('\r\n', '\n'))
+        markdown.append(global_translation("TEXT_TEST_REVIEW_ALLY"
+                ).replace("\r\n#","#").replace("\r\n{0}","\n{0}").format(
+            site_data['report_a11y'].replace('\r\n', '\n')))
 
     if site_data['report_sec']:
-        markdown.append("## Integrity & Security:")
-        markdown.append(site_data['report_sec'].replace('\r\n', '\n'))
+        markdown.append(global_translation("TEXT_TEST_REVIEW_INTEGRITY_SECURITY"
+                ).replace("\r\n#","#").replace("\r\n{0}","\n{0}").format(
+            site_data['report_sec'].replace('\r\n', '\n')))
 
     if site_data['report_perf']:
-        markdown.append("## Performance:")
-        markdown.append(site_data['report_perf'].replace('\r\n', '\n'))
+        markdown.append(global_translation("TEXT_TEST_REVIEW_PERFORMANCE"
+                ).replace("\r\n#","#").replace("\r\n{0}","\n{0}").format(
+            site_data['report_perf'].replace('\r\n', '\n')))
 
     if site_data['report_stand']:
-        markdown.append("## Standards:")
-        markdown.append(site_data['report_stand'].replace('\r\n', '\n'))
+        markdown.append(global_translation("TEXT_TEST_REVIEW_STANDARDS"
+                ).replace("\r\n#","#").replace("\r\n{0}","\n{0}").format(
+            site_data['report_stand'].replace('\r\n', '\n')))
 
     return markdown

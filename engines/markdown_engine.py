@@ -64,6 +64,7 @@ def write_tests(output_filename, testresults, sites, global_translation):
 
     markdown = '\n'.join(markdown_list)
 
+    # Fix malformated markdown html entities
     regex = r"[^`]\<"
     subst = "`<"
     markdown = re.sub(regex, subst, markdown, 0, re.MULTILINE)
@@ -71,9 +72,28 @@ def write_tests(output_filename, testresults, sites, global_translation):
     subst = ">`"
     markdown = re.sub(regex, subst, markdown, 0, re.MULTILINE)
 
+    # Fix GitHub Issues/PR references
     regex = r"([^`])(\#[0-9]+)([^`])"
     subst = r"\1`\2`\3"
     markdown = re.sub(regex, subst, markdown, 0, re.MULTILINE)
+
+    # Fix header level from terminal format to markdown
+    regex = r"^##### "
+    subst = "### "
+    markdown = re.sub(regex, subst, markdown, 0, re.MULTILINE)
+    regex = r"^###### "
+    subst = "#### "
+    markdown = re.sub(regex, subst, markdown, 0, re.MULTILINE)
+
+    # Make CSP Recommendation into code format
+    regex = (
+        r"(^- )"
+        r"(default-src|base-uri|img-src|script-src|form-action|"
+        r"style-src|child-src|object-src|frame-ancestors|connect-src|font-src)"
+        r"( .*)$")
+    subst = r"\1`\2\3`"
+    markdown = re.sub(regex, subst, markdown, 0, re.MULTILINE)
+
 
     with open(output_filename, 'w', encoding='utf-8') as outfile:
         outfile.write(markdown)

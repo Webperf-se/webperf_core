@@ -190,4 +190,4 @@ msgid "TEXT_REVIEW_CSP_RECOMMENDED_RATING"
 msgstr "###### Rekommenderat CSP-betyg:{0}"
 
 msgid "TEXT_REVIEW_CSP_RECOMMENDED_TEXT"
-msgstr "##### Vill du förbättra din Content Security Policy (CSP)?\r\nVarför inte prova följande CSP-svarshuvud för att komma igång med CSP?\r\nKom ihåg, nedanstående rekommendation är endast baserad på ett urval (läs: {0} sida(or)) av alla sidor på din webbplats och baseras utan att klicka på något.\r\n\r\n###### Rekommenderade policyer:\r\n{1}\r\n{2}\r\nLäs mer: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy\r\n\r\n"
+msgstr "\r\n##### Vill du förbättra din Content Security Policy (CSP)?\r\nVarför inte prova följande CSP-svarshuvud för att komma igång med CSP?\r\nKom ihåg, nedanstående rekommendation är endast baserad på ett urval (läs: {0} sida(or)) av alla sidor på din webbplats och baseras utan att klicka på något.\r\n\r\n###### Rekommenderade policyer:\r\n{1}\r\n{2}\r\nLäs mer: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy\r\n\r\n"

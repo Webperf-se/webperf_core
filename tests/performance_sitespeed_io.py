@@ -10,6 +10,7 @@ from tests.utils import get_config_or_default, get_translation
 
 REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
 SITESPEED_USE_DOCKER = get_config_or_default('sitespeed_use_docker')
+REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
 
 def get_result(sitespeed_use_docker, arg):
     """
@@ -66,7 +67,7 @@ def run_test(global_translation, lang_code, url):
     print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    rating = Rating(global_translation)
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     result_dict = {}
 
     validator_result_dicts = []
@@ -123,7 +124,7 @@ def rate_custom_result_dict( # pylint: disable=too-many-arguments,too-many-local
     Returns:
         Rating: The overall rating after considering all validators.
     """
-    rating = Rating(global_translation)
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     for validator_result_dict in validator_result_dicts:
         validator_name = validator_result_dict['name']
         reference_name = None
@@ -372,7 +373,7 @@ def rate_result_dict( # pylint: disable=too-many-branches,too-many-locals
     """
     limit = 500
 
-    rating = Rating(global_translation)
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     performance_review = ''
     overview_review = ''
 
@@ -421,7 +422,7 @@ def rate_result_dict( # pylint: disable=too-many-branches,too-many-locals
             continue
         if 'points' in value and value['points'] != -1:
             points = value['points']
-            entry_rating = Rating(global_translation)
+            entry_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
             entry_rating.set_overall(points)
             entry_rating.set_performance(
                 points, value['msg'])

@@ -170,7 +170,7 @@ def read_tests(input_filename, input_skip, input_take):
     return result
 
 
-def write_tests(output_filename, site_tests, _):
+def write_tests(output_filename, site_tests, _, _2):
     """
     Writes site test results to a JSON formated file from a given list of site tests.
 
@@ -180,6 +180,7 @@ def write_tests(output_filename, site_tests, _):
         input_skip (int): The number of tests to skip before starting to take.
         input_take (int): The number of tests to take after skipping.
         _ : Unused parameter.
+        _2 : Unused parameter.
 
     Returns:
         None

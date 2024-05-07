@@ -103,13 +103,15 @@ def read_sites(input_filename, input_skip, input_take):
     return sites
 
 
-def write_tests(output_filename, site_tests, _):
+def write_tests(output_filename, site_tests, _, _2):
     """
     This function writes site test results into a SQLite database.
 
     Parameters:
     output_filename (str): The name of the SQLite database file.
     site_tests (list): A list of dictionaries, each containing the results of a site test.
+    _ : Unused parameter.
+    _2 : Unused parameter.
 
     The function updates the 'sitetests' table in the database,
     setting the 'most_recent' field of previous tests to 0,

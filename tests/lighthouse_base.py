@@ -81,7 +81,7 @@ def run_test(url, strategy, category, silance, lighthouse_translations):
 
     # Service score (0-100)
     score = json_content['categories'][category]['score']
-    set_overall_rating_and_review(category, local_translation, score, rating, review)
+    set_overall_rating_and_review(local_translation, score, rating, review)
 
     if not silance:
         print(global_translation('TEXT_TEST_END').format(
@@ -89,7 +89,7 @@ def run_test(url, strategy, category, silance, lighthouse_translations):
 
     return (rating, return_dict)
 
-def create_rating_from_audit(item, global_translation, weight):
+def create_rating_from_audit(item, category, global_translation, weight):
     """
     Creates a rating from a single audit item.
 
@@ -159,6 +159,12 @@ def create_rating_from_audit(item, global_translation, weight):
     elif has_standard_string:
         rating.set_overall(local_points)
         rating += rate_containing_standard_string(global_translation, local_score, item_title)
+    if category == 'performance':
+        rating.set_overall(local_points)
+        rating.set_performance(local_points, item_review)
+    elif category == 'accessibility':
+        rating.set_overall(local_points)
+        rating.set_a11y(local_points, item_review)
     else:
         rating.set_overall(local_points, item_review)
 
@@ -200,7 +206,7 @@ def create_rating_from_audits(category, global_translation, json_content, return
             continue
 
         weight = weight_dict[audit_key]
-        review_item = create_rating_from_audit(item, global_translation, weight)
+        review_item = create_rating_from_audit(item, category, global_translation, weight)
         if review_item is None:
             continue
         reviews.append(review_item)
@@ -315,18 +321,17 @@ def contains_insecure_string(item_review, item_description):
             break
     return has_insecure_string
 
-def set_overall_rating_and_review(category, local_translation, score, rating, review):
+def set_overall_rating_and_review(local_translation, score, rating, review):
     """
-    Sets the overall rating and review based on the given category and score.
+    Sets the overall rating and review based on the given score.
 
-    The function first converts the score to a 1-5 grading system. Then, based on the category,
-    it sets the overall and specific category rating and review. The overall count is set to 1.
+    The function first converts the score to a 1-5 grading system. Then,
+    it sets the overall rating and review. The overall count is set to 1.
 
     The function then adjusts the overall review based on the overall points. The review is set
     using the local_translation function with different keys based on the points range.
 
     Args:
-        category (str): The category for the rating ('performance', 'accessibility', or other).
         local_translation (function): Function to get the localized text.
         score (float): The score to be converted to a 1-5 grading.
         rating (Rating): The Rating object to be updated.
@@ -335,18 +340,8 @@ def set_overall_rating_and_review(category, local_translation, score, rating, re
     """
     # change it to % and convert it to a 1-5 grading
     points = 5.0 * float(score)
-
-    if category == 'performance':
-        rating.set_overall(points)
-        rating.set_performance(points)
-        rating.performance_review = review
-    elif category == 'accessibility':
-        rating.set_overall(points)
-        rating.set_a11y(points)
-        rating.a11y_review = review
-    else:
-        rating.set_overall(points)
-        rating.overall_review = review
+    rating.set_overall(points)
+    rating.overall_review = review
     rating.overall_count = 1
 
     review = rating.overall_review

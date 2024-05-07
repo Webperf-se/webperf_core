@@ -55,7 +55,7 @@ def validate_test_type(tmp_test_types):
 
     return test_types
 
-def write_test_results(sites, output_filename, test_results):
+def write_test_results(sites, output_filename, test_results, global_translation):
     """
     Writes the test results to a file.
 
@@ -68,6 +68,8 @@ def write_test_results(sites, output_filename, test_results):
     sites (list): A list of sites for which the tests were run.
     output_filename (str): The name of the output file.
     test_results (list): A list of test results.
+    global_translation : GNUTranslations
+        An object that handles the translation of text in the context of internationalization.
 
     Returns:
     None
@@ -93,7 +95,7 @@ def write_test_results(sites, output_filename, test_results):
             write_tests = json_write_tests
 
             # use loaded engine to write tests
-        write_tests(output_filename, test_results, sites)
+        write_tests(output_filename, test_results, sites, global_translation)
 
 def show_test_help(global_translation):
     """
@@ -498,7 +500,7 @@ def main(argv):
                                         test_types=options.test_types,
                                         show_reviews=options.show_reviews)
 
-        write_test_results(options.sites, options.output_filename, test_results)
+        write_test_results(options.sites, options.output_filename, test_results, options.language)
             # Cleanup exipred cache
         clean_cache_files()
     else:

@@ -2,7 +2,7 @@
 import csv
 from models import SiteTests
 
-def write_tests(output_filename, site_tests, sites):
+def write_tests(output_filename, site_tests, sites, _):
     """
     Writes site test results to a CSV formated file from a given list of site tests.
     Compared to csv engine it is optimized for goverment reports and is missing some fields
@@ -11,6 +11,7 @@ def write_tests(output_filename, site_tests, sites):
         output_filename (str): The name of the output file.
         site_tests (list): A list of site tests.
         sites (list) : A list of sites.
+        _ : Unused parameter.
 
     Returns:
         None

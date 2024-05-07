@@ -47,11 +47,16 @@ def write_tests(output_filename, testresults, sites, global_translation):
             data[testresult["site_id"]]["report_perf"] += testresult["report_perf"]
             data[testresult["site_id"]]["report_a11y"] += testresult["report_a11y"]
             data[testresult["site_id"]]["report_stand"] += testresult["report_stand"]
-            data[testresult["site_id"]]["rating"] += to_rating(testresult["rating"], global_translation)
-            data[testresult["site_id"]]["rating_sec"] += to_rating(testresult["rating_sec"], global_translation)
-            data[testresult["site_id"]]["rating_perf"] += to_rating(testresult["rating_perf"], global_translation)
-            data[testresult["site_id"]]["rating_a11y"] += to_rating(testresult["rating_a11y"], global_translation)
-            data[testresult["site_id"]]["rating_stand"] += to_rating(testresult["rating_stand"], global_translation)
+            data[testresult["site_id"]]["rating"] += to_rating(
+                testresult["rating"], global_translation)
+            data[testresult["site_id"]]["rating_sec"] += to_rating(
+                testresult["rating_sec"], global_translation)
+            data[testresult["site_id"]]["rating_perf"] += to_rating(
+                testresult["rating_perf"], global_translation)
+            data[testresult["site_id"]]["rating_a11y"] += to_rating(
+                testresult["rating_a11y"], global_translation)
+            data[testresult["site_id"]]["rating_stand"] += to_rating(
+                testresult["rating_stand"], global_translation)
 
     markdown_list = []
     for _, site_data in data.items():
@@ -66,6 +71,9 @@ def write_tests(output_filename, testresults, sites, global_translation):
     subst = ">`"
     markdown = re.sub(regex, subst, markdown, 0, re.MULTILINE)
 
+    regex = r"([^`])(\#[0-9]+)([^`])"
+    subst = r"\1`\2`\3"
+    markdown = re.sub(regex, subst, markdown, 0, re.MULTILINE)
 
     with open(output_filename, 'w', encoding='utf-8') as outfile:
         outfile.write(markdown)

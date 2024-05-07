@@ -24,7 +24,7 @@ you can view more general information below.
 | -i/--input <file path> | input file path (.json/.sqlite/.csv/.xml) |
 | --input-skip <number> | number of items to skip |
 | --input-take <number> | number of items to take |
-| -o/--output <file path> | output file path (.json/.sqlite/.csv/.sql) |
+| -o/--output <file path> | output file path (.json/.sqlite/.csv/.sql/.md) |
 | -a/--addUrl <site url> | website url (required in compination with -i/--input) |
 | -d/--deleteUrl <site url> | website url (required in compination with -i/--input) |
 | -L/--language <lang code> | language used for output(en = default/sv) |

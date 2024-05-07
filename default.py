@@ -447,7 +447,7 @@ def main(argv):
     -t/--test <test number>\t: run ONE test (use ? to list available tests)
     -r/--review\t\t\t: show reviews in terminal
     -i/--input <file path>\t: input file path (.json/.sqlite)
-    -o/--output <file path>\t: output file path (.json/.csv/.sql/.sqlite)
+    -o/--output <file path>\t: output file path (.json/.csv/.sql/.sqlite/.md)
     -A/--addUrl <site url>\t: website url (required in combination with -i/--input)
     -D/--deleteUrl <site url>\t: website url (required in combination with -i/--input)
     -L/--language <lang code>\t: language used for output(en = default/sv)

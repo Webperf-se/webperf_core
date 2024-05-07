@@ -2,6 +2,7 @@
 
 import re
 from models import Rating
+from utils import get_version
 
 
 def write_tests(output_filename, testresults, sites, global_translation):
@@ -94,7 +95,6 @@ def write_tests(output_filename, testresults, sites, global_translation):
     subst = r"\1`\2\3`"
     markdown = re.sub(regex, subst, markdown, 0, re.MULTILINE)
 
-
     with open(output_filename, 'w', encoding='utf-8') as outfile:
         outfile.write(markdown)
 
@@ -108,6 +108,7 @@ def create_markdown_for_url(site_data, global_translation):
     markdown = [
        global_translation("TEXT_TESTING_SITE"
             ).replace("\r","").replace("\n","").format(site_data['url']),
+       f"WebPerf_core: v{get_version()}",
        global_translation("TEXT_TEST_START").format(site_data['date']),
        "",
        global_translation("TEXT_SITE_RATING")

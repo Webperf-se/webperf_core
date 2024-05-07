@@ -236,6 +236,14 @@ def get_error_info(url, lang_code, test_type, show_reviews, ex):
     result.append('###############################################\n\n')
     return result
 
+def get_version():
+    with open('package.json', encoding='utf-8') as json_input_file:
+        package_info = json.load(json_input_file)
+        if 'version' in package_info:
+            return package_info['version']
+    return '?'
+
+
 def get_versions():
     result = ['\n# Version information (from packages.json)']
     with open('package.json', encoding='utf-8') as json_input_file:

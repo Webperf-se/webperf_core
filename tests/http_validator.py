@@ -10,8 +10,8 @@ import hashlib
 import base64
 import requests
 from requests.adapters import HTTPAdapter
-from requests.packages.urllib3.poolmanager import PoolManager
-from requests.packages.urllib3.util import ssl_
+from requests.packages.urllib3.poolmanager import PoolManager # pylint: disable=import-error
+from requests.packages.urllib3.util import ssl_ # pylint: disable=import-error
 # https://docs.python.org/3/library/urllib.parse.html
 import dns.name
 import dns.query

@@ -1,0 +1,15 @@
+name: New feature or improvement
+description: Suggest a new feature or something that can be improved
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Suggest a new feature or something that can be improved
+  - type: textarea
+    id: your-idea
+    attributes:
+      label: Feature/improvement
+      description: You can also discuss new features/improvements in the [webperf_core Slack channel](https://webperf.se/articles/webperf-pa-slack/).
+    validations:
+      required: true

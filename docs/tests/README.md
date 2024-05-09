@@ -8,7 +8,6 @@ Add a small ingress here
 * [Website performance (SiteSpeed)](sitespeed.md)
 * [Website performance (Lighthouse)](google-lighthouse-performance.md)
 * [Best practice on Web (Lighthouse)](google-lighthouse-best-practice.md)
-* [Progressive web apps (Lighthouse)](google-lighthouse-pwa.md)
 * [SEO best practise (Lighthouse)](google-lighthouse-seo.md)
 * [Validate 404 page (by default checks for Swedish text, though)](page-not-found.md)
 * [Validate HTML (W3C)](html.md)

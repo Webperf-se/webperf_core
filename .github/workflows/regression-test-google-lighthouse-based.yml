@@ -9,6 +9,8 @@ on:
       - '**update-software.yml'
       - 'update_software.py'
       - 'SAMPLE-software-rules.json'
+      - 'Dockerfile'
+      - '**regression-test-docker-image.yml'
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -16,7 +18,7 @@ jobs:
             matrix:
                 os: [ubuntu-latest, windows-latest]
                 config: ['REVIEW_SHOW_IMPROVEMENTS_ONLY=True,LIGHTHOUSE_USE_API=False']
-                version: [1, 4, 5, 8, 10, 22]
+                version: [1, 4, 5, 10, 22]
     steps:
     - name: Check out repository code
       uses: actions/checkout@v4

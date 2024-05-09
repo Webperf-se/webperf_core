@@ -1,0 +1,11 @@
+# TODO: We should try to automat creation of this.
+# - Look for sponsor links for projects listed in package.json
+# - Add Dataskydds donate page: https://webbkoll.dataskydd.net/en/donate
+# - Add tools /libraries that are very helpfull
+
+custom: [
+    "https://github.com/sitespeedio/sitespeed.io",
+    "https://github.com/YellowLabTools/YellowLabTools",
+    "https://webbkoll.dataskydd.net/en/donate",
+    "https://github.com/Webperf-se/webperf_core/blob/main/docs/CONTRIBUTING.md#funding"
+  ]

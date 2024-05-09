@@ -73,10 +73,15 @@ If you have an idea for a new feature or enhancement, open an issue to discuss i
 Feel free to ask questions or start discussions related to the project. We also have a [Slack channel](https://webperf.se/articles/webperf-pa-slack/)
 
 ## Creating Pull Requests
+- **big change or adding functionality**: Create Issue / Discuss in [Slack channel](https://webperf.se/articles/webperf-pa-slack/) before starting.
 - **Branches:** Create a new branch for your work (e.g., feature/my-new-feature).
 - **Commits:** Make concise, well-documented commits. Use descriptive commit messages.
 - **Tests:** Ensure that your changes are covered by tests.
 - **Documentation:** Update relevant documentation if needed.
+- **Labels:** Use labels for better release notes (if applicable)
+   - `breaking-change` - For breaking changes
+   - `enhancement` - For highlighted features
+   - `bug` - For highlighted features
 - **Review Process:** Your pull request will be reviewed by maintainers. Be responsive to feedback.
 
 ## Code of Conduct
@@ -90,3 +95,15 @@ The license used is the [MIT license](https://en.wikipedia.org/wiki/MIT_License)
 **Let's Connect on Slack! 🚀**
 
 Hey there! 👋 Got a question or just wanna chat about the project? Jump into our [Slack channel](https://webperf.se/articles/webperf-pa-slack/)! We've got a super chill community over at [Webperf on Slack](https://webperf.se/articles/webperf-pa-slack/), and we're all about helping each other out. Don't be shy, come say hi! 🎉
+
+## Funding
+
+We use some great libraries and tools to make webperf_core happen,
+if you love it, please consider funding/supporting some of the projects we use either by
+using the Sponsor button or by manually visiting one of them:
+- [sitespeed.io](https://github.com/sitespeedio/sitespeed.io)
+- [Yellow Lab Tools](https://github.com/YellowLabTools/YellowLabTools)
+- [Webbkoll - Dataskydd](https://webbkoll.dataskydd.net/en/donate)
+
+If we use your tool, library and you have started a funding/sponsor/support, please let us
+know so we can add you :)

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from engines.utils import use_item
 
-def write_tests(output_filename, site_tests, input_skip, input_take, _):
+def write_tests(output_filename, site_tests, input_skip, input_take, _, _2):
     """
     Writes site test results to a file from a given list of site tests.
 
@@ -11,6 +11,7 @@ def write_tests(output_filename, site_tests, input_skip, input_take, _):
         input_skip (int): The number of tests to skip before starting to take.
         input_take (int): The number of tests to take after skipping.
         _ : Unused parameter.
+        _2 : Unused parameter.
 
     Returns:
         None

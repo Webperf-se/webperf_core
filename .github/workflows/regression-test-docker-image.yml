@@ -4,15 +4,43 @@ on:
   push:
     paths:
       - '**regression-test-docker-image.yml'
-      - 'software-full.json'
-      - 'software-sources.json'
-      - 'package.json'
-      - 'update_software.py'
+      - '**regression-test-standard-files.yml'
+      - '**.py'
+      - 'Dockerfile'
       - 'SAMPLE-software-rules.json'
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+          os: [ubuntu-latest]
+          config: ['REVIEW_SHOW_IMPROVEMENTS_ONLY=True']
+          version: [9]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build -t "webperf-runner:latest" .
+      run: docker build -t "webperf-core:latest" .
+    - name: Check if we have correct python version
+      run: |
+        version=$(docker run -v "$(pwd):/webperf-core" webperf-core:latest python --version)
+        echo "Python version: $version"
+        if [[ "$version" != "Python 3.12"* ]]; then
+          echo "Error: Default python version is not 3.12 based, was we unable to change default version?"
+          exit 1
+        fi
+    - name: Check if webperf_core help command works
+      run: |
+        help=$(docker run -v "$(pwd):/webperf-core" webperf-core:latest python default.py -h)
+        echo "$help"
+        if [[ "$help" != *"-u/--url"* ]]; then
+          echo "Error: WebPerf-core help command is NOT returning expected content"
+          exit 1
+        fi
+    - name: Check if webperf_core can run Standard files Test
+      run: |
+        testresult=$(docker run -v "$(pwd):/webperf-core" webperf-core:latest python default.py -t ${{ matrix.version }} -r -i sites.json)
+        echo "$testresult"
+        if [[ "$testresult" != *"Integrity & Security:"* ]]; then
+          echo "Error: WebPerf-core testresult is NOT returning expected review"
+          exit 1
+        fi

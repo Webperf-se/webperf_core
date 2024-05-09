@@ -28,9 +28,10 @@ but you can run this project in many ways and what you choose depends on your ne
 
 [Read more about how to get started](./docs/getting-started.md)
 
-* [Locally](./docs/getting-started-local.md)
-* [GitHub Actions](./docs/getting-started-github-actions.md)
-* [PythonAnywhere.com](./docs/getting-started-others.md)
+- [Using GitHub Actions](./docs/getting-started-github-actions.md)
+- [Using Local Machine / Virtual Machine](./docs/getting-started-local.md)
+- [Using Docker](./docs/getting-started-docker.md)
+- [Other hosting](./docs/getting-started-others.md)
 
 
 # Tests
@@ -43,7 +44,6 @@ Add a interesting ingress here.
 * [Website performance (SiteSpeed)](./docs/tests/sitespeed.md)
 * [Website performance (Lighthouse)](./docs/tests/google-lighthouse-performance.md)
 * [Best practice on Web (Lighthouse)](./docs/tests/google-lighthouse-best-practice.md)
-* [Progressive web apps (Lighthouse)](./docs/tests/google-lighthouse-pwa.md)
 * [SEO best practise (Lighthouse)](./docs/tests/google-lighthouse-seo.md)
 * [Validate 404 page (by default checks for Swedish text, though)](./docs/tests/page-not-found.md)
 * [Validate HTML (W3C)](./docs/tests/html.md)

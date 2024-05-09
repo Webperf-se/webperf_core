@@ -8,7 +8,7 @@ You can read more about every method on the links below.
 
 - [Using GitHub Actions](getting-started-github-actions.md)
 - [Using Local Machine / Virtual Machine](getting-started-local.md)
-- [Using Docker](getting-started-docker-md)
+- [Using Docker](getting-started-docker.md)
 - [Other hosting](getting-started-others.md)
 
 After you have choosen then method to get started and followed the method specific instructions 
@@ -24,7 +24,7 @@ you can view more general information below.
 | -i/--input <file path> | input file path (.json/.sqlite/.csv/.xml) |
 | --input-skip <number> | number of items to skip |
 | --input-take <number> | number of items to take |
-| -o/--output <file path> | output file path (.json/.sqlite/.csv/.sql) |
+| -o/--output <file path> | output file path (.json/.sqlite/.csv/.sql/.md) |
 | -a/--addUrl <site url> | website url (required in compination with -i/--input) |
 | -d/--deleteUrl <site url> | website url (required in compination with -i/--input) |
 | -L/--language <lang code> | language used for output(en = default/sv) |

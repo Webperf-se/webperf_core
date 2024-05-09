@@ -402,9 +402,6 @@ def rate_csp(result_dict, global_translation, local_translation,
     if domain != org_domain and domain != org_www_domain:
         return rating
 
-    # TODO: We should check if X-Frame-Options is used and
-    # adjust rating for setting 'frame-ancestors' directive to 'none' is similar to
-    # X-Frame-Options: deny (which is also supported in older browsers).
     if 'CSP-HEADER-FOUND' in result_dict[domain]['features'] or\
             'CSP-META-FOUND' in result_dict[domain]['features']:
         total_number_of_sitespeedruns = result_dict['visits']
@@ -549,7 +546,6 @@ def rate_csp(result_dict, global_translation, local_translation,
                     rating += sub_rating
                 any_found = True
             elif len(policy_object['hashes']) > 0:
-                # TODO: Validate correct format ( '<hash-algorithm>-<base64-value>' )
                 sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(5.0)
                 sub_rating.set_standards(5.0,
@@ -574,7 +570,6 @@ def rate_csp(result_dict, global_translation, local_translation,
 
             nof_nonces = len(policy_object['nounces'])
             if nof_nonces > 0:
-                # TODO: we should check nonce length as it should not be guessable.
                 sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 if nof_nonces == 1 and total_number_of_sitespeedruns != nof_nonces:
                     sub_rating.set_overall(1.0)
@@ -1594,9 +1589,6 @@ def check_tls_versions(result_dict):
     # Firefox:
     # security.tls.version.min
     # security.tls.version.max
-
-    # TODO: check cipher security
-    # TODO: re add support for identify wrong certificate
 
     return result_dict
 

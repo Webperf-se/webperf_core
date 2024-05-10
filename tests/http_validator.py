@@ -288,6 +288,12 @@ def rate_schemas(result_dict, global_translation, local_translation, domain):
     return rating
 
 def rate_protocols(result_dict, global_translation, local_translation, domain):
+    """
+    This function rates the protocols used by a given domain based on the result_dict.
+    It checks for the presence of HTTP/1.1, HTTP/2, and HTTP/3 protocols and
+    assigns ratings accordingly. The function returns a Rating object with the overall and
+    standards ratings for the domain.
+    """
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if not isinstance(result_dict[domain], dict):
         return rating

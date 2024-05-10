@@ -2,8 +2,6 @@
 import re
 import urllib
 import urllib.parse
-import hashlib
-import base64
 from models import Rating
 from tests.utils import get_config_or_default
 
@@ -662,11 +660,6 @@ def url_2_host_source(url, domain):
         return url
     return f'https://{domain}/{url}'
 
-def create_sha256_hash(data):
-    sha_signature = hashlib.sha256(data).digest()
-    base64_encoded_sha_signature = base64.b64encode(sha_signature).decode()
-    return base64_encoded_sha_signature
-
 def default_csp_policy_object():
     return {
             'all': [],
@@ -700,6 +693,9 @@ def default_csp_result_object(is_org_domain):
     return obj
 
 def handle_csp_data(content, domain, result_dict, is_from_response_header, org_domain):
+    # TODO: Add CSP logic here
+    return
+
     # print('CSP', domain)
     # print('CSP', domain, content)
     # https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
@@ -713,8 +709,6 @@ def handle_csp_data(content, domain, result_dict, is_from_response_header, org_d
 
     # convert polices to objects
     convert_csp_policies_2_csp_objects(domain, result_dict, org_domain)
-
-    return result_dict
 
 def convert_csp_policies_2_csp_objects(domain, result_dict, org_domain):
     wildcard_org_domain = f'webperf-core-wildcard.{org_domain}'

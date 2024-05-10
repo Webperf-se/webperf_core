@@ -5,6 +5,7 @@ from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.poolmanager import PoolManager # pylint: disable=import-error
 from requests.packages.urllib3.util import ssl_ # pylint: disable=import-error
 # https://docs.python.org/3/library/urllib.parse.html
+from helpers.data_helper import append_domain_entry, has_domain_entry
 from models import Rating
 from tests.utils import get_config_or_default
 
@@ -18,7 +19,7 @@ def rate_transfer_layers(result_dict, global_translation, local_translation, dom
     if not isinstance(result_dict[domain], dict):
         return rating
 
-    if 'TLSv1.3' in result_dict[domain]['transport-layers']:
+    if has_domain_entry(domain, 'transport-layers', 'TLSv1.3', result_dict):
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(5.0)
         sub_rating.set_standards(5.0,
@@ -35,7 +36,7 @@ def rate_transfer_layers(result_dict, global_translation, local_translation, dom
                                 local_translation('TEXT_REVIEW_TLS1_3_NO_SUPPORT').format(domain))
         rating += sub_rating
 
-    if 'TLSv1.2' in result_dict[domain]['transport-layers']:
+    if has_domain_entry(domain, 'transport-layers', 'TLSv1.2', result_dict):
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(5.0)
         sub_rating.set_standards(5.0,
@@ -52,7 +53,7 @@ def rate_transfer_layers(result_dict, global_translation, local_translation, dom
                                 local_translation('TEXT_REVIEW_TLS1_2_NO_SUPPORT').format(domain))
         rating += sub_rating
 
-    if 'TLSv1.1' in result_dict[domain]['transport-layers']:
+    if has_domain_entry(domain, 'transport-layers', 'TLSv1.1', result_dict):
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(1.0)
         sub_rating.set_integrity_and_security(1.0,
@@ -65,7 +66,7 @@ def rate_transfer_layers(result_dict, global_translation, local_translation, dom
                                 local_translation('TEXT_REVIEW_TLS1_1_NO_SUPPORT').format(domain))
         rating += sub_rating
 
-    if 'TLSv1.0' in result_dict[domain]['transport-layers']:
+    if has_domain_entry(domain, 'transport-layers', 'TLSv1.0', result_dict):
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         sub_rating.set_overall(1.0)
         sub_rating.set_integrity_and_security(1.0,
@@ -117,10 +118,10 @@ def check_tls_version(url, domain, protocol_version, result_dict):
 
         if has_tls_version(
             url, True, protocol_rule)[0]:
-            result_dict[domain]['transport-layers'].append(protocol_name)
+            append_domain_entry(domain, 'transport-layers', protocol_name, result_dict)
         elif has_tls_version(
             url, False, protocol_rule)[0]:
-            result_dict[domain]['transport-layers'].append(f'{protocol_name}-')
+            append_domain_entry(domain, 'transport-layers', f'{protocol_name}-', result_dict)
 
     except ssl.SSLError as sslex:
         print('error 0.0s', sslex)

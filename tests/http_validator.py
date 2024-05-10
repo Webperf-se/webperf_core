@@ -23,6 +23,7 @@ SITESPEED_TIMEOUT = get_config_or_default('sitespeed_timeout')
 REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
 SITESPEED_USE_DOCKER = get_config_or_default('sitespeed_use_docker')
 USE_CSP_ONLY = get_config_or_default('CSP_ONLY')
+
 csp_only_global_result_dict = {}
 
 def run_test(global_translation, lang_code, url):
@@ -30,7 +31,7 @@ def run_test(global_translation, lang_code, url):
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
 
-    global csp_only_global_result_dict
+    global csp_only_global_result_dict # pylint: disable=global-statement
 
     result_dict = {}
 
@@ -337,9 +338,6 @@ def cleanup(result_dict):
     return result_dict
 
 def check_csp(url):
-    # Firefox
-    # dom.security.https_only_mode
-
     o = urllib.parse.urlparse(url)
     o_domain = o.hostname
 
@@ -354,7 +352,6 @@ def check_csp(url):
         SITESPEED_TIMEOUT)
 
     return result_dict
-
 
 def check_http_to_https(url):
     """

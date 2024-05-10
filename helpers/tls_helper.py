@@ -196,7 +196,7 @@ INSECURE_CIPHERS = (
 )
 
 
-class TlsAdapterInsecureCiphers(HTTPAdapter):
+class TlsAdapterInsecureCiphers(HTTPAdapter): # pylint: disable=missing-class-docstring
 
     def __init__(self, ssl_options=0, **kwargs):
         self.ssl_options = ssl_options
@@ -217,7 +217,7 @@ class TlsAdapterInsecureCiphers(HTTPAdapter):
         return super(TlsAdapterInsecureCiphers, self).proxy_manager_for(*args, **kwargs) # pylint: disable=super-with-arguments
 
 
-class TlsAdapterCertRequired(HTTPAdapter):
+class TlsAdapterCertRequired(HTTPAdapter): # pylint: disable=missing-class-docstring
 
     def __init__(self, ssl_options=0, **kwargs):
         self.ssl_options = ssl_options
@@ -232,7 +232,7 @@ class TlsAdapterCertRequired(HTTPAdapter):
                                        **pool_kwargs)
 
 
-class TlsAdapterNoCert(HTTPAdapter):
+class TlsAdapterNoCert(HTTPAdapter): # pylint: disable=missing-class-docstring
 
     def __init__(self, ssl_options=0, **kwargs):
         self.ssl_options = ssl_options

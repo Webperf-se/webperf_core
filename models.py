@@ -109,6 +109,20 @@ class Rating: # pylint: disable=too-many-instance-attributes,missing-class-docst
         self.review_show_improvements_only = review_show_improvements_only
 
     def get_translation_text(self, translation_text):
+        """
+        Returns the translated text if a translation function is defined,
+        otherwise returns the original text.
+
+        This method checks if a translation function is defined for the instance.
+        If not, it returns the original text. If a translation function is defined,
+        it applies the function to the original text and returns the translated text.
+
+        Parameters:
+        translation_text (str): The text to be translated.
+
+        Returns:
+        str: The translated text if a translation function is defined, otherwise the original text.
+        """
         if self.translation in (None, False):
             return translation_text
         return self.translation(translation_text)

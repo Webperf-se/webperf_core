@@ -3,7 +3,7 @@
 import base64
 import urllib
 import urllib.parse
-from helpers.csp_helper import handle_csp_data
+from helpers.csp_helper import handle_csp
 from helpers.data_helper import append_domain_entry, has_domain_entry
 from helpers.hash_helper import create_sha256_hash
 

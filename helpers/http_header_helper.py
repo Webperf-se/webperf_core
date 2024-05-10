@@ -2,7 +2,7 @@
 
 import urllib
 import urllib.parse
-from helpers.csp_helper import handle_csp_data
+from helpers.csp_helper import handle_csp
 from helpers.data_helper import append_domain_entry, has_domain_entry
 
 def append_data_from_response_headers(response_headers, req_url, org_domain, req_domain, result):
@@ -22,13 +22,11 @@ def append_data_from_response_headers(response_headers, req_url, org_domain, req
             handle_header_location(value, req_url, req_domain, result)
         elif 'content-security-policy' in name:
             append_domain_entry(req_domain, 'features', 'CSP-HEADER-FOUND', result)
-            # TODO: Add CSP logic here
-            handle_csp_data(value, req_domain, result, True, org_domain)
+            handle_csp(value, req_domain, result, True, org_domain)
         elif 'x-content-security-policy' in name or 'x-webkit-csp' in name:
             append_domain_entry(req_domain, 'features', 'CSP-HEADER-FOUND', result)
             append_domain_entry(req_domain, 'features', 'CSP-DEPRECATED', result)
-            # TODO: Add CSP logic here
-            # handle_csp_data(value, req_domain, result, True, org_domain)
+            handle_csp(value, req_domain, result, True, org_domain)
 
 def handle_header_location(value, req_url, req_domain, result):
     """

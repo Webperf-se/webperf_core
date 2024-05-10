@@ -3,7 +3,9 @@ import json
 import urllib
 import urllib.parse
 
-from helpers.data_helper import append_domain_entry
+from helpers.csp_helper import append_csp_data, default_csp_result_object
+from helpers.data_helper import append_domain_entry,\
+    append_domain_entry_with_key, has_domain_entry_with_key
 from helpers.http_header_helper import append_data_from_response_headers
 from helpers.mime_type_helper import append_data_from_mimetypes
 
@@ -29,7 +31,8 @@ def get_data_from_sitespeed(filename, org_domain):
           1 to indicate that the function has been called once for the given HAR file.
     """
     result = {
-        'visits': 0
+        'visits': 0,
+        org_domain: default_csp_result_object(True)
     }
 
     if filename == '':
@@ -50,8 +53,25 @@ def get_data_from_sitespeed(filename, org_domain):
             o = urllib.parse.urlparse(req_url)
             req_domain = o.hostname
 
+            if req_domain not in result:
+                result[req_domain] = default_csp_result_object(False)
+
             append_domain_entry(req_domain, 'schemes', o.scheme.upper(), result)
             append_domain_entry(req_domain, 'urls', req_url, result)
+
+            scheme = f'{o.scheme.lower()}:'
+            if not has_domain_entry_with_key(
+                    org_domain,
+                    'csp-findings',
+                    'scheme-sources',
+                    scheme, result) and scheme != 'http:':
+                append_domain_entry_with_key(
+                    org_domain,
+                    'csp-findings',
+                    'scheme-sources',
+                    scheme,
+                    result)
+                csp_findings_match = True
 
             if 'httpVersion' in req and req['httpVersion'] != '':
                 http_version = req['httpVersion'].replace('h2', 'HTTP/2')
@@ -79,6 +99,7 @@ def get_data_from_sitespeed(filename, org_domain):
                 result)
 
             append_data_from_mimetypes(res, req_url, org_domain, req_domain, result)
+            append_csp_data(req_url, req_domain, res, org_domain, result)
 
     result['visits'] = 1
     return result

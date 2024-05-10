@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
+import base64
 import re
 import urllib
 import urllib.parse
+from helpers.data_helper import append_domain_entry, extend_domain_entry_with_key
+from helpers.hash_helper import create_sha256_hash
 from models import Rating
 from tests.utils import get_config_or_default
 
@@ -10,156 +13,190 @@ from tests.utils import get_config_or_default
 REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
 USE_DETAILED_REPORT = get_config_or_default('USE_DETAILED_REPORT')
 
-def create_csp(csp_findings, org_domain):
-    default_src = []
-    img_src = []
-    script_src = []
-    form_action = []
-    base_uri = []
-    style_src = []
-    child_src = []
-    font_src = []
+def handle_csp(content, domain, result_dict, is_from_response_header, org_domain):
+    # print('CSP', domain)
+    # print('CSP', domain, content)
+    # https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
+    # https://scotthelme.co.uk/csp-cheat-sheet/
+    # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-ancestors
 
-    object_src = []
-    connect_src = []
-    frame_ancestors = []
+    parse_csp(content, domain, result_dict, is_from_response_header)
 
-    csp_findings['quotes'] = list(set(csp_findings['quotes']))
-    csp_findings['host-sources'] = list(set(csp_findings['host-sources']))
-    csp_findings['scheme-sources'] = list(set(csp_findings['scheme-sources']))
+    # Add style-src policies to all who uses it as fallback
+    ensure_csp_policy_fallbacks(domain, result_dict)
 
-    for source in csp_findings['quotes']:
-        if '|' in source:
-            pair = source.split('|')
-            host_source = pair[0]
-            element_name = pair[1]
-            if host_source == org_domain:
-                host_source = '\'self\''
+    # convert polices to objects
+    convert_csp_policies_2_csp_objects(domain, result_dict, org_domain)
 
-            if element_name == 'img':
-                img_src.append(host_source)
-            elif element_name == 'script':
-                script_src.append(host_source)
-            elif element_name == 'form-action':
-                form_action.append(host_source)
-            elif element_name == 'style':
-                style_src.append(host_source)
-            elif element_name == 'font':
-                font_src.append(host_source)
-            elif element_name == 'connect':
-                connect_src.append(host_source)
-            elif element_name == 'link':
-                child_src.append(host_source)
-                default_src.append(host_source)
-            else:
-                default_src.append(host_source)
+def parse_csp(content, domain, result_dict, is_from_response_header):
+    regex = (r'(?P<name>(default-src|script-src|style-src|font-src|connect-src|'
+             r'frame-src|img-src|media-src|frame-ancestors|base-uri|form-action|'
+             r'block-all-mixed-content|child-src|connect-src|fenced-frame-src|font-src|'
+             r'img-src|manifest-src|media-src|object-src|plugin-types|prefetch-src|referrer|'
+             r'report-to|report-uri|require-trusted-types-for|sandbox|script-src-attr|'
+             r'script-src-elem|strict-dynamic|style-src-attr|style-src-elem|'
+             r'trusted-types|upgrade-insecure-requests|worker-src)) '
+             r'(?P<value>[^;]{5,10000})[;]{0,1}')
+    matches = re.finditer(regex, content, re.MULTILINE | re.IGNORECASE)
+    for _, match in enumerate(matches, start=1):
+        name = match.group('name')
+        value = match.group('value')
 
-    for source in csp_findings['host-sources']:
-        if '|' in source:
-            pair = source.split('|')
-            host_source = pair[0]
-            element_name = pair[1]
-            if host_source == org_domain:
-                host_source = '\'self\''
-            if element_name == 'img':
-                img_src.append(host_source)
-            elif element_name == 'script':
-                script_src.append(host_source)
-            elif element_name == 'form-action':
-                form_action.append(host_source)
-            elif element_name == 'style':
-                style_src.append(host_source)
-            elif element_name == 'font':
-                font_src.append(host_source)
-            elif element_name == 'connect':
-                connect_src.append(host_source)
-            elif element_name == 'link':
-                default_src.append(host_source)
-            else:
-                default_src.append(host_source)
+        tmp_name = name.upper()
+        policy_name = name.lower()
+
+        if not is_from_response_header and\
+                policy_name in ('frame-ancestors', 'report-uri', 'sandbox'):
+            append_domain_entry(
+                domain,
+                'features',
+                'CSP-UNSUPPORTED-IN-META',
+                result_dict)
+            append_domain_entry(
+                domain,
+                'features',
+                f'CSP-UNSUPPORTED-IN-META-{tmp_name}',
+                result_dict)
+
+        values = value.split(' ')
+        extend_domain_entry_with_key(domain, 'csp-policies', policy_name, values, result_dict)
+
+def ensure_csp_policy_fallbacks(domain, result_dict):
+    if 'style-src' in result_dict[domain]['csp-policies']:
+        style_items = result_dict[domain]['csp-policies']['style-src']
+        append_csp_policy('style-src-attr', style_items, domain, result_dict)
+        append_csp_policy('style-src-elem', style_items, domain, result_dict)
+
+    # Add script-src policies to all who uses it as fallback
+    if 'script-src' in result_dict[domain]['csp-policies']:
+        script_items = result_dict[domain]['csp-policies']['script-src']
+        append_csp_policy('script-src-attr', script_items, domain, result_dict)
+        append_csp_policy('script-src-elem', script_items, domain, result_dict)
+        append_csp_policy('worker-src', script_items, domain, result_dict)
+
+    # Add child-src policies to all who uses it as fallback
+    if 'child-src' in result_dict[domain]['csp-policies']:
+        child_items = result_dict[domain]['csp-policies']['child-src']
+        append_csp_policy('frame-src', child_items, domain, result_dict)
+        append_csp_policy('worker-src', child_items, domain, result_dict)
+
+    # Add default-src policies to all who uses it as fallback
+    if 'default-src' in result_dict[domain]['csp-policies']:
+        default_items = result_dict[domain]['csp-policies']['default-src']
+
+        append_csp_policy('child-src', default_items, domain, result_dict)
+        append_csp_policy('connect-src', default_items, domain, result_dict)
+        append_csp_policy('font-src', default_items, domain, result_dict)
+        append_csp_policy('frame-src', default_items, domain, result_dict)
+        append_csp_policy('img-src', default_items, domain, result_dict)
+        append_csp_policy('manifest-src', default_items, domain, result_dict)
+        append_csp_policy('media-src', default_items, domain, result_dict)
+        append_csp_policy('object-src', default_items, domain, result_dict)
+        # comment out as it it deprecated
+        # append_csp_policy('prefetch-src', default_items, domain, result_dict)
+        append_csp_policy('script-src', default_items, domain, result_dict)
+        append_csp_policy('script-src-elem', default_items, domain, result_dict)
+        append_csp_policy('script-src-attr', default_items, domain, result_dict)
+        append_csp_policy('style-src', default_items, domain, result_dict)
+        append_csp_policy('style-src-elem', default_items, domain, result_dict)
+        append_csp_policy('style-src-attr', default_items, domain, result_dict)
+        append_csp_policy('worker-src', default_items, domain, result_dict)
+
+def append_csp_policy(policy_name, items, domain, result_dict):
+    if domain not in result_dict:
+        result_dict[domain] = {}
+
+    if 'csp-policies' not in result_dict[domain]:
+        result_dict[domain]['csp-policies'] = {}
+
+    if policy_name not in result_dict[domain]['csp-policies']:
+        result_dict[domain]['csp-policies'][policy_name] = []
+
+    if len(items) == 0:
+        return
+
+    if len(result_dict[domain]['csp-policies'][policy_name]) == 0:
+        result_dict[domain]['csp-policies'][policy_name].extend(items)
+
+def convert_csp_policies_2_csp_objects(domain, result_dict, org_domain):
+    wildcard_org_domain = f'webperf-core-wildcard.{org_domain}'
+    subdomain_org_domain = f'.{org_domain}'
+
+    for policy_name, items in result_dict[domain]['csp-policies'].items():
+        policy_object = csp_policy_2_csp_object(
+            wildcard_org_domain,
+            subdomain_org_domain,
+            items)
+
+        if 'csp-objects' not in result_dict[domain]:
+            result_dict[domain]['csp-objects'] = {}
+        if policy_name not in result_dict[domain]['csp-objects']:
+            result_dict[domain]['csp-objects'][policy_name] = policy_object
         else:
-            if source == org_domain:
-                default_src.append('\'self\'')
-            else:
-                default_src.append(source)
+            result_dict[domain]['csp-objects'][policy_name].update(policy_object)
 
-    for source in csp_findings['scheme-sources']:
-        if '|' in source:
-            pair = source.split('|')
-            host_source = pair[0]
-            element_name = pair[1]
-            if element_name == 'img':
-                img_src.append(host_source)
+def csp_policy_2_csp_object(wildcard_org_domain, subdomain_org_domain, items):
+    policy_object = default_csp_policy_object()
+    for value in items:
+        policy_object['all'].append(value)
+        if value == '' or\
+                (
+                    value.startswith("'") and\
+                    not value.endswith("'")
+                ) or\
+                (
+                    value.endswith("'") and\
+                    not value.startswith("'")
+                ):
+                # Malformed value, probably missing space or have two.
+            policy_object['malformed'].append(value)
+        elif value.startswith("'sha256-") or\
+                    value.startswith("'sha384-") or\
+                    value.startswith("'sha512-"):
+            policy_object['hashes'].append(value)
+        elif "'nonce-" in value:
+            policy_object['nounces'].append(value)
+        else:
+            if '*' in value:
+                policy_object['wildcards'].append(value)
+            if '.' in value:
+                host_source_url = host_source_2_url(value)
+                host_source_o = urllib.parse.urlparse(host_source_url)
+                host_source_hostname = host_source_o.hostname
+                if host_source_hostname.endswith(wildcard_org_domain):
+                    policy_object['wildcard-subdomains'].append(value)
+                elif host_source_hostname.endswith(subdomain_org_domain):
+                    policy_object['subdomains'].append(value)
+                else:
+                    policy_object['domains'].append(value)
 
-    # Ensure policies that is NOT covered by a fallback
-    if len(base_uri) == 0:
-        base_uri.append('\'self\'')
+            scheme = re.match(r'^(?P<scheme>[a-z]+)\:', value)
+            if scheme is not None:
+                policy_object['schemes'].append(value)
 
-    if len(object_src) == 0:
-        object_src.append('\'none\'')
+    return policy_object
 
-    if len(frame_ancestors) == 0:
-        frame_ancestors.append('\'none\'')
+def default_csp_policy_object():
+    return {
+            'all': [],
+            'malformed': [],
+            'hashes': [],
+            'nounces': [],
+            'wildcards': [],
+            'domains': [],
+            'schemes': [],
+            'subdomains': [],
+            'wildcard-subdomains': [],
+        }
 
-    if len(default_src) == 0:
-        default_src.append('\'none\'')
+def host_source_2_url(host_source):
+    result = host_source
+    if '*' in result:
+        result = result.replace('*', 'webperf-core-wildcard')
+    if '://' not in result:
+        result = f'https://{result}'
 
-    if len(form_action) == 0:
-        form_action.append('\'none\'')
-
-    default_src = ' '.join(sorted(list(set(default_src))))
-    img_src = ' '.join(sorted(list(set(img_src))))
-    script_src = ' '.join(sorted(list(set(script_src))))
-    form_action = ' '.join(sorted(list(set(form_action))))
-    style_src = ' '.join(sorted(list(set(style_src))))
-    child_src = ' '.join(sorted(list(set(child_src))))
-    font_src = ' '.join(sorted(list(set(font_src))))
-
-    base_uri = ' '.join(sorted(list(set(base_uri))))
-    object_src = ' '.join(sorted(list(set(object_src))))
-    frame_ancestors = ' '.join(sorted(list(set(frame_ancestors))))
-    connect_src = ' '.join(sorted(list(set(connect_src))))
-
-
-    default_src = default_src.strip()
-    img_src = img_src.strip()
-    script_src = script_src.strip()
-    form_action = form_action.strip()
-    style_src = style_src.strip()
-    child_src = child_src.strip()
-    font_src = font_src.strip()
-
-    base_uri = base_uri.strip()
-    object_src = object_src.strip()
-    frame_ancestors = frame_ancestors.strip()
-    connect_src = connect_src.strip()
-
-    csp_recommendation = ''
-    if len(default_src) > 0:
-        csp_recommendation += f'- default-src {default_src};\r\n'
-    if len(base_uri) > 0:
-        csp_recommendation += f'- base-uri {base_uri};\r\n'
-    if len(img_src) > 0:
-        csp_recommendation += f'- img-src {img_src};\r\n'
-    if len(script_src) > 0:
-        csp_recommendation += f'- script-src {script_src};\r\n'
-    if len(form_action) > 0:
-        csp_recommendation += f'- form-action {form_action};\r\n'
-    if len(style_src) > 0:
-        csp_recommendation += f'- style-src {style_src};\r\n'
-    if len(child_src) > 0:
-        csp_recommendation += f'- child-src {child_src};\r\n'
-
-    if len(object_src) > 0:
-        csp_recommendation += f'- object-src {object_src};\r\n'
-    if len(frame_ancestors) > 0:
-        csp_recommendation += f'- frame-ancestors {frame_ancestors};\r\n'
-    if len(connect_src) > 0:
-        csp_recommendation += f'- connect-src {connect_src};\r\n'
-    if len(font_src) > 0:
-        csp_recommendation += f'- font-src {font_src};\r\n'
-
-    return csp_recommendation
+    return result
 
 def rate_csp(result_dict, global_translation, local_translation,
              org_domain, org_www_domain, domain, create_recommendation):
@@ -607,7 +644,7 @@ def rate_csp(result_dict, global_translation, local_translation,
             raw_csp_recommendation = csp_recommendation.replace('- ','').replace('\r\n','')
             result_dict[domain]['csp-recommendation'] = [raw_csp_recommendation]
 
-            csp_recommendation_result = handle_csp_data(
+            handle_csp(
                 raw_csp_recommendation,
                 domain,
                 csp_recommendation_result,
@@ -639,40 +676,6 @@ def rate_csp(result_dict, global_translation, local_translation,
 
     return final_rating
 
-
-def host_source_2_url(host_source):
-    result = host_source
-    if '*' in result:
-        result = result.replace('*', 'webperf-core-wildcard')
-    if '://' not in result:
-        result = f'https://{result}'
-
-    return result
-
-def url_2_host_source(url, domain):
-    if url.startswith('//'):
-        return url.replace('//', 'https://')
-    if 'https://' in url:
-        return url
-    if '://' in url:
-        return url
-    if ':' in url:
-        return url
-    return f'https://{domain}/{url}'
-
-def default_csp_policy_object():
-    return {
-            'all': [],
-            'malformed': [],
-            'hashes': [],
-            'nounces': [],
-            'wildcards': [],
-            'domains': [],
-            'schemes': [],
-            'subdomains': [],
-            'wildcard-subdomains': [],
-        }
-
 def default_csp_result_object(is_org_domain):
     obj = {
                     'protocols': [],
@@ -692,152 +695,360 @@ def default_csp_result_object(is_org_domain):
                         }
     return obj
 
-def handle_csp_data(content, domain, result_dict, is_from_response_header, org_domain):
-    # TODO: Add CSP logic here
-    return
 
-    # print('CSP', domain)
-    # print('CSP', domain, content)
-    # https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
-    # https://scotthelme.co.uk/csp-cheat-sheet/
-    # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-ancestors
+def create_csp(csp_findings, org_domain):
+    default_src = []
+    img_src = []
+    script_src = []
+    form_action = []
+    base_uri = []
+    style_src = []
+    child_src = []
+    font_src = []
 
-    parse_csp(content, domain, result_dict, is_from_response_header)
+    object_src = []
+    connect_src = []
+    frame_ancestors = []
 
-    # Add style-src policies to all who uses it as fallback
-    ensure_csp_policy_fallbacks(domain, result_dict)
+    csp_findings['quotes'] = list(set(csp_findings['quotes']))
+    csp_findings['host-sources'] = list(set(csp_findings['host-sources']))
+    csp_findings['scheme-sources'] = list(set(csp_findings['scheme-sources']))
 
-    # convert polices to objects
-    convert_csp_policies_2_csp_objects(domain, result_dict, org_domain)
+    for source in csp_findings['quotes']:
+        if '|' in source:
+            pair = source.split('|')
+            host_source = pair[0]
+            element_name = pair[1]
+            if host_source == org_domain:
+                host_source = '\'self\''
 
-def convert_csp_policies_2_csp_objects(domain, result_dict, org_domain):
-    wildcard_org_domain = f'webperf-core-wildcard.{org_domain}'
-    subdomain_org_domain = f'.{org_domain}'
-
-    for policy_name, items in result_dict[domain]['csp-policies'].items():
-        policy_object = default_csp_policy_object()
-        for value in items:
-            policy_object['all'].append(value)
-            if value == '' or\
-                (
-                    value.startswith("'") and\
-                    not value.endswith("'")
-                ) or\
-                (
-                    value.endswith("'") and\
-                    not value.startswith("'")
-                ):
-                # Malformed value, probably missing space or have two.
-                policy_object['malformed'].append(value)
-            elif value.startswith("'sha256-") or\
-                    value.startswith("'sha384-") or\
-                    value.startswith("'sha512-"):
-                policy_object['hashes'].append(value)
-            elif "'nonce-" in value:
-                policy_object['nounces'].append(value)
+            if element_name == 'img':
+                img_src.append(host_source)
+            elif element_name == 'script':
+                script_src.append(host_source)
+            elif element_name == 'form-action':
+                form_action.append(host_source)
+            elif element_name == 'style':
+                style_src.append(host_source)
+            elif element_name == 'font':
+                font_src.append(host_source)
+            elif element_name == 'connect':
+                connect_src.append(host_source)
+            elif element_name == 'link':
+                child_src.append(host_source)
+                default_src.append(host_source)
             else:
-                if '*' in value:
-                    policy_object['wildcards'].append(value)
-                if '.' in value:
-                    host_source_url = host_source_2_url(value)
-                    host_source_o = urllib.parse.urlparse(host_source_url)
-                    host_source_hostname = host_source_o.hostname
-                    if host_source_hostname.endswith(wildcard_org_domain):
-                        policy_object['wildcard-subdomains'].append(value)
-                    elif host_source_hostname.endswith(subdomain_org_domain):
-                        policy_object['subdomains'].append(value)
-                    else:
-                        policy_object['domains'].append(value)
+                default_src.append(host_source)
 
-                scheme = re.match(r'^(?P<scheme>[a-z]+)\:', value)
-                if scheme is not None:
-                    policy_object['schemes'].append(value)
-
-        if 'csp-objects' not in result_dict[domain]:
-            result_dict[domain]['csp-objects'] = {}
-        if policy_name not in result_dict[domain]['csp-objects']:
-            result_dict[domain]['csp-objects'][policy_name] = policy_object
+    for source in csp_findings['host-sources']:
+        if '|' in source:
+            pair = source.split('|')
+            host_source = pair[0]
+            element_name = pair[1]
+            if host_source == org_domain:
+                host_source = '\'self\''
+            if element_name == 'img':
+                img_src.append(host_source)
+            elif element_name == 'script':
+                script_src.append(host_source)
+            elif element_name == 'form-action':
+                form_action.append(host_source)
+            elif element_name == 'style':
+                style_src.append(host_source)
+            elif element_name == 'font':
+                font_src.append(host_source)
+            elif element_name == 'connect':
+                connect_src.append(host_source)
+            elif element_name == 'link':
+                default_src.append(host_source)
+            else:
+                default_src.append(host_source)
         else:
-            result_dict[domain]['csp-objects'][policy_name].update(policy_object)
+            if source == org_domain:
+                default_src.append('\'self\'')
+            else:
+                default_src.append(source)
 
-def ensure_csp_policy_fallbacks(domain, result_dict):
-    if 'style-src' in result_dict[domain]['csp-policies']:
-        style_items = result_dict[domain]['csp-policies']['style-src']
-        append_csp_policy('style-src-attr', style_items, domain, result_dict)
-        append_csp_policy('style-src-elem', style_items, domain, result_dict)
+    for source in csp_findings['scheme-sources']:
+        if '|' in source:
+            pair = source.split('|')
+            host_source = pair[0]
+            element_name = pair[1]
+            if element_name == 'img':
+                img_src.append(host_source)
 
-    # Add script-src policies to all who uses it as fallback
-    if 'script-src' in result_dict[domain]['csp-policies']:
-        script_items = result_dict[domain]['csp-policies']['script-src']
-        append_csp_policy('script-src-attr', script_items, domain, result_dict)
-        append_csp_policy('script-src-elem', script_items, domain, result_dict)
-        append_csp_policy('worker-src', script_items, domain, result_dict)
+    # Ensure policies that is NOT covered by a fallback
+    if len(base_uri) == 0:
+        base_uri.append('\'self\'')
 
-    # Add child-src policies to all who uses it as fallback
-    if 'child-src' in result_dict[domain]['csp-policies']:
-        child_items = result_dict[domain]['csp-policies']['child-src']
-        append_csp_policy('frame-src', child_items, domain, result_dict)
-        append_csp_policy('worker-src', child_items, domain, result_dict)
+    if len(object_src) == 0:
+        object_src.append('\'none\'')
 
-    # Add default-src policies to all who uses it as fallback
-    if 'default-src' in result_dict[domain]['csp-policies']:
-        default_items = result_dict[domain]['csp-policies']['default-src']
+    if len(frame_ancestors) == 0:
+        frame_ancestors.append('\'none\'')
 
-        append_csp_policy('child-src', default_items, domain, result_dict)
-        append_csp_policy('connect-src', default_items, domain, result_dict)
-        append_csp_policy('font-src', default_items, domain, result_dict)
-        append_csp_policy('frame-src', default_items, domain, result_dict)
-        append_csp_policy('img-src', default_items, domain, result_dict)
-        append_csp_policy('manifest-src', default_items, domain, result_dict)
-        append_csp_policy('media-src', default_items, domain, result_dict)
-        append_csp_policy('object-src', default_items, domain, result_dict)
-        # comment out as it it deprecated
-        # append_csp_policy('prefetch-src', default_items, domain, result_dict)
-        append_csp_policy('script-src', default_items, domain, result_dict)
-        append_csp_policy('script-src-elem', default_items, domain, result_dict)
-        append_csp_policy('script-src-attr', default_items, domain, result_dict)
-        append_csp_policy('style-src', default_items, domain, result_dict)
-        append_csp_policy('style-src-elem', default_items, domain, result_dict)
-        append_csp_policy('style-src-attr', default_items, domain, result_dict)
-        append_csp_policy('worker-src', default_items, domain, result_dict)
+    if len(default_src) == 0:
+        default_src.append('\'none\'')
 
-def parse_csp(content, domain, result_dict, is_from_response_header):
-    regex = (r'(?P<name>(default-src|script-src|style-src|font-src|connect-src|'
-             r'frame-src|img-src|media-src|frame-ancestors|base-uri|form-action|'
-             r'block-all-mixed-content|child-src|connect-src|fenced-frame-src|font-src|'
-             r'img-src|manifest-src|media-src|object-src|plugin-types|prefetch-src|referrer|'
-             r'report-to|report-uri|require-trusted-types-for|sandbox|script-src-attr|'
-             r'script-src-elem|strict-dynamic|style-src-attr|style-src-elem|'
-             r'trusted-types|upgrade-insecure-requests|worker-src)) '
-             r'(?P<value>[^;]{5,10000})[;]{0,1}')
-    matches = re.finditer(regex, content, re.MULTILINE | re.IGNORECASE)
-    for _, match in enumerate(matches, start=1):
-        name = match.group('name')
-        value = match.group('value')
+    if len(form_action) == 0:
+        form_action.append('\'none\'')
 
-        tmp_name = name.upper()
-        policy_name = name.lower()
+    default_src = ' '.join(sorted(list(set(default_src))))
+    img_src = ' '.join(sorted(list(set(img_src))))
+    script_src = ' '.join(sorted(list(set(script_src))))
+    form_action = ' '.join(sorted(list(set(form_action))))
+    style_src = ' '.join(sorted(list(set(style_src))))
+    child_src = ' '.join(sorted(list(set(child_src))))
+    font_src = ' '.join(sorted(list(set(font_src))))
 
-        if policy_name not in result_dict[domain]['csp-policies']:
-            result_dict[domain]['csp-policies'][policy_name] = []
+    base_uri = ' '.join(sorted(list(set(base_uri))))
+    object_src = ' '.join(sorted(list(set(object_src))))
+    frame_ancestors = ' '.join(sorted(list(set(frame_ancestors))))
+    connect_src = ' '.join(sorted(list(set(connect_src))))
 
-        if not is_from_response_header and\
-                policy_name in ('frame-ancestors', 'report-uri', 'sandbox'):
-            result_dict[domain]['features'].append('CSP-UNSUPPORTED-IN-META')
-            result_dict[domain]['features'].append(f'CSP-UNSUPPORTED-IN-META-{tmp_name}')
+    default_src = default_src.strip()
+    img_src = img_src.strip()
+    script_src = script_src.strip()
+    form_action = form_action.strip()
+    style_src = style_src.strip()
+    child_src = child_src.strip()
+    font_src = font_src.strip()
 
-        values = value.split(' ')
+    base_uri = base_uri.strip()
+    object_src = object_src.strip()
+    frame_ancestors = frame_ancestors.strip()
+    connect_src = connect_src.strip()
 
-        result_dict[domain]['csp-policies'][policy_name].extend(values)
-        result_dict[domain]['csp-policies'][policy_name] = sorted(list(set(
-            result_dict[domain]['csp-policies'][policy_name])))
+    csp_recommendation = ''
 
-def append_csp_policy(policy_name, items, domain, result_dict):
-    if policy_name not in result_dict[domain]['csp-policies']:
-        result_dict[domain]['csp-policies'][policy_name] = []
+    # append_if_not_empty(default_src, csp_recommendation)
+    if len(default_src) > 0:
+        csp_recommendation += f'- default-src {default_src};\r\n'
+    if len(base_uri) > 0:
+        csp_recommendation += f'- base-uri {base_uri};\r\n'
+    if len(img_src) > 0:
+        csp_recommendation += f'- img-src {img_src};\r\n'
+    if len(script_src) > 0:
+        csp_recommendation += f'- script-src {script_src};\r\n'
+    if len(form_action) > 0:
+        csp_recommendation += f'- form-action {form_action};\r\n'
+    if len(style_src) > 0:
+        csp_recommendation += f'- style-src {style_src};\r\n'
+    if len(child_src) > 0:
+        csp_recommendation += f'- child-src {child_src};\r\n'
 
-    if len(items) == 0:
-        return
+    if len(object_src) > 0:
+        csp_recommendation += f'- object-src {object_src};\r\n'
+    if len(frame_ancestors) > 0:
+        csp_recommendation += f'- frame-ancestors {frame_ancestors};\r\n'
+    if len(connect_src) > 0:
+        csp_recommendation += f'- connect-src {connect_src};\r\n'
+    if len(font_src) > 0:
+        csp_recommendation += f'- font-src {font_src};\r\n'
 
-    if len(result_dict[domain]['csp-policies'][policy_name]) == 0:
-        result_dict[domain]['csp-policies'][policy_name].extend(items)
+    return csp_recommendation
+
+def append_csp_data(req_url, req_domain, res, org_domain, result):
+    csp_findings_match = False
+    if 'content' in res and 'text' in res['content']:
+        if 'mimeType' in res['content'] and 'text/html' in res['content']['mimeType']:
+            result[req_domain]['features'].append('HTML-FOUND')
+            content = res['content']['text']
+            regex = (
+                        r'<meta http-equiv=\"(?P<name>Content-Security-Policy)\" '
+                        r'content=\"(?P<value>[^\"]{5,10000})\"'
+                    )
+            matches = re.finditer(regex, content, re.MULTILINE)
+            for _, match in enumerate(matches, start=1):
+                name2 = match.group('name').lower()
+                value2 = match.group('value').replace('&#39;', '\'')
+
+                if 'content-security-policy' in name2:
+                    result[req_domain]['features'].append('CSP-META-FOUND')
+                    handle_csp(value2, req_domain, result, False, org_domain)
+                elif 'x-content-security-policy' in name2:
+                    result[req_domain]['features'].append('CSP-META-FOUND')
+                    result[req_domain]['features'].append('CSP-DEPRECATED')
+                    handle_csp(value2, req_domain, result, False, org_domain)
+
+            regex = (
+                    r'(?P<raw><(?P<type>style|link|script|img|iframe|form|base|frame)[^>]'
+                    r'*((?P<attribute>src|nonce|action|href)="(?P<value>[^"]+)"[^>]*>))'
+                )
+
+            matches = re.finditer(regex, content, re.MULTILINE)
+            for _, match in enumerate(matches, start=1):
+                element_name = match.group('type').lower()
+                attribute_name = match.group('attribute').lower()
+                attribute_value = match.group('value').lower()
+
+                element_url = url_2_host_source(attribute_value, req_domain)
+                o = urllib.parse.urlparse(element_url)
+                element_domain = o.hostname
+                if element_domain is None and element_url.startswith('data:'):
+                    element_domain = 'data:'
+                elif element_domain == org_domain:
+                    element_domain = '\'self\''
+
+                if attribute_name == 'nonce':
+                    key = f'\'nonce-<your-nonce>\'|{element_name}'
+                    if key not in result[org_domain]['csp-findings']['quotes']:
+                        result[org_domain]['csp-findings']['quotes'].append(key)
+                    csp_findings_match = True
+                elif attribute_name == 'src':
+                    if element_domain is not None:
+                        key = f'{element_domain}|{element_name}'
+                        if key not in result[org_domain]['csp-findings']['host-sources']:
+                            result[org_domain]['csp-findings']['host-sources'].append(key)
+                        csp_findings_match = True
+                elif attribute_name == 'action' and element_name == 'form':
+                    key = f'{element_domain}|form-action'
+                    if key not in result[org_domain]['csp-findings']['host-sources']:
+                        result[org_domain]['csp-findings']['host-sources'].append(key)
+                    csp_findings_match = True
+
+            regex = r'<(?P<type>style|script|form)>'
+            matches = re.finditer(regex, content, re.DOTALL | re.IGNORECASE | re.MULTILINE)
+            for _, match in enumerate(matches, start=1):
+                element_name = match.group('type').lower()
+                if element_name == 'style' or element_name == 'script':
+                    key = f'\'unsafe-inline\'|{element_name}'
+                    if key not in result[org_domain]['csp-findings']['quotes']:
+                        result[org_domain]['csp-findings']['quotes'].append(key)
+                    csp_findings_match = True
+                elif attribute_name == 'action' and element_name == 'form':
+                    element_url = url_2_host_source(req_url, req_domain)
+                    o = urllib.parse.urlparse(element_url)
+                    element_domain = o.hostname
+                    if element_domain == org_domain:
+                        key = f'\'self\'|{element_name}'
+                        if key not in result[org_domain]['csp-findings']['quotes']:
+                            result[org_domain]['csp-findings']['quotes'].append(key)
+                        csp_findings_match = True
+                    else:
+                        key = f'{element_domain}|{element_name}'
+                        if key not in result[org_domain]['csp-findings']['host-sources']:
+                            result[org_domain]['csp-findings']['host-sources'].append(key)
+                        csp_findings_match = True
+
+        elif 'mimeType' in res['content'] and 'text/css' in res['content']['mimeType']:
+            content = res['content']['text']
+            if 'data:image' in content:
+                key = 'data:|img'
+                if key not in result[org_domain]['csp-findings']['scheme-sources']:
+                    result[org_domain]['csp-findings']['scheme-sources'].append(key)
+                csp_findings_match = True
+            element_domain = req_domain
+            element_name = 'style'
+            if element_domain == org_domain:
+                key = f'\'self\'|{element_name}'
+                if key not in result[org_domain]['csp-findings']['quotes']:
+                    result[org_domain]['csp-findings']['quotes'].append(key)
+                csp_findings_match = True
+            else:
+                key = f'{element_domain}|{element_name}'
+                if key not in result[org_domain]['csp-findings']['host-sources']:
+                    result[org_domain]['csp-findings']['host-sources'].append(key)
+                csp_findings_match = True
+        elif 'mimeType' in res['content'] and\
+                ('text/javascript' in res['content']['mimeType'] or\
+                    'application/javascript' in res['content']['mimeType']):
+            content = res['content']['text']
+            if 'eval(' in content:
+                key = '\'unsafe-eval\'|script'
+                if key not in result[org_domain]['csp-findings']['quotes']:
+                    result[org_domain]['csp-findings']['quotes'].append(key)
+                csp_findings_match = True
+
+            element_domain = req_domain
+            element_name = 'script'
+            if element_domain == org_domain:
+                key = f'\'self\'|{element_name}'
+                if key not in result[org_domain]['csp-findings']['quotes']:
+                    result[org_domain]['csp-findings']['quotes'].append(key)
+                csp_findings_match = True
+            else:
+                key = '{0}|{1}'.format(element_domain, element_name)
+                if key not in result[org_domain]['csp-findings']['host-sources']:
+                    result[org_domain]['csp-findings']['host-sources'].append(key)
+                csp_findings_match = True
+    if 'mimeType' in res['content'] and 'image/' in res['content']['mimeType']:
+        element_domain = req_domain
+        element_name = 'img'
+        if element_domain == org_domain:
+            key = f'\'self\'|{element_name}'
+            if key not in result[org_domain]['csp-findings']['quotes']:
+                result[org_domain]['csp-findings']['quotes'].append(key)
+            csp_findings_match = True
+        else:
+            key = f'{element_domain}|{element_name}'
+            if key not in result[org_domain]['csp-findings']['host-sources']:
+                result[org_domain]['csp-findings']['host-sources'].append(key)
+            csp_findings_match = True
+    elif ('mimeType' in res['content'] and 'font/' in res['content']['mimeType']) or\
+            req_url.endswith('.otf') or\
+            req_url.endswith('.woff') or\
+            req_url.endswith('.woff2'):
+        element_domain = req_domain
+        element_name = 'font'
+        # woff and woff2 support is in all browser, add hash to our csp-findings
+        has_font_hash = False
+        if req_url.endswith('.woff') or\
+                req_url.endswith('.woff2') or\
+                'font-woff' in res['content']['mimeType'] or\
+                'font/woff' in res['content']['mimeType']:
+            key = f'{req_url}|{element_name}'
+            if key not in result[org_domain]['csp-findings']['font-sources']:
+                font_content = None
+                font_hash = None
+                if 'text' in res['content'] and\
+                        'encoding' in res['content'] and\
+                        res['content']['encoding'] == 'base64':
+                    # we have base64 encoded content,
+                    # decode it, calcuclate sha256 and add it.
+                    font_content = base64.decodebytes(
+                        res['content']['text'].encode('utf-8'))
+                    font_hash = create_sha256_hash(font_content)
+                    key2 = f"{f'sha256-{font_hash}'}|{element_name}"
+                    if key not in result[org_domain]['csp-findings']['quotes']:
+                        result[org_domain]['csp-findings']['quotes'].append(key2)
+                        result[org_domain]['csp-findings']['font-sources'].append(key)
+                    has_font_hash = True
+            else:
+                has_font_hash = True
+            csp_findings_match = True
+        if not has_font_hash:
+            if element_domain == org_domain:
+                key = f'\'self\'|{element_name}'
+                if key not in result[org_domain]['csp-findings']['quotes']:
+                    result[org_domain]['csp-findings']['quotes'].append(key)
+                csp_findings_match = True
+            else:
+                key = f'{element_domain}|{element_name}'
+                if key not in result[org_domain]['csp-findings']['host-sources']:
+                    result[org_domain]['csp-findings']['host-sources'].append(key)
+                csp_findings_match = True
+
+    if not csp_findings_match:
+        element_name = 'connect'
+        if req_domain == org_domain:
+            key = f'\'self\'|{element_name}'
+            if key not in result[org_domain]['csp-findings']['quotes']:
+                result[org_domain]['csp-findings']['quotes'].append(key)
+            csp_findings_match = True
+        else:
+            key = f'{req_domain}|{element_name}'
+            if key not in result[org_domain]['csp-findings']['host-sources']:
+                result[org_domain]['csp-findings']['host-sources'].append(key)
+            csp_findings_match = True
+
+def url_2_host_source(url, domain):
+    if url.startswith('//'):
+        return url.replace('//', 'https://')
+    if 'https://' in url:
+        return url
+    if '://' in url:
+        return url
+    if ':' in url:
+        return url
+    return f'https://{domain}/{url}'

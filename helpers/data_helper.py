@@ -26,6 +26,33 @@ def append_domain_entry(domain, category, value, result):
     if value not in result[domain][category]:
         result[domain][category].append(value)
 
+def append_domain_entry_with_key(domain, category, key, value, result):
+    if domain not in result:
+        result[domain] = {}
+
+    if category not in result[domain]:
+        result[domain][category] = {}
+
+    if key not in result[domain][category]:
+        result[domain][category][key] = []
+
+    if value not in result[domain][category][key]:
+        result[domain][category][key].append(value)
+
+def extend_domain_entry_with_key(domain, category, key, values, result):
+    if domain not in result:
+        result[domain] = {}
+
+    if category not in result[domain]:
+        result[domain][category] = {}
+
+    if key not in result[domain][category]:
+        result[domain][category][key] = []
+
+    result[domain][category][key].extend(values)
+    result[domain][category][key] = sorted(list(set(result[domain][category][key])))
+
+
 def has_domain_entry(domain, category, value, result):
     """
     Checks if a specific value exists in a category within a domain in the given result dictionary.
@@ -51,6 +78,21 @@ def has_domain_entry(domain, category, value, result):
         return False
 
     if value not in result[domain][category]:
+        return False
+
+    return True
+
+def has_domain_entry_with_key(domain, category, key, value, result):
+    if domain not in result:
+        return False
+
+    if category not in result[domain]:
+        return False
+
+    if key not in result[domain][category]:
+        return False
+
+    if value not in result[domain][category][key]:
         return False
 
     return True

@@ -10,6 +10,7 @@ import dns.dnssec
 import dns.message
 import dns.resolver
 import dns.rdatatype
+from helpers.csp_helper import rate_csp
 from helpers.data_helper import append_domain_entry, has_domain_entry
 from helpers.sitespeed_helper import get_data_from_sitespeed
 from helpers.tls_helper import check_tls_versions, rate_transfer_layers
@@ -84,7 +85,7 @@ def run_test(global_translation, lang_code, url):
 def rate(org_domain, result_dict, global_translation, local_translation):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
-    # org_www_domain = f'www.{org_domain}'
+    org_www_domain = f'www.{org_domain}'
 
     for domain in result_dict.keys():
         if not isinstance(result_dict[domain], dict):
@@ -117,15 +118,14 @@ def rate(org_domain, result_dict, global_translation, local_translation):
                 global_translation,
                 local_translation,
                 domain)
-        # TODO: add CSP logic here
-        # rating += rate_csp(
-        #     result_dict,
-        #     global_translation,
-        #     local_translation,
-        #     org_domain,
-        #     org_www_domain,
-        #     domain,
-        #     True)
+        rating += rate_csp(
+            result_dict,
+            global_translation,
+            local_translation,
+            org_domain,
+            org_www_domain,
+            domain,
+            True)
 
     return rating
 

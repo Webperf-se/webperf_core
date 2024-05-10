@@ -71,7 +71,6 @@ def get_data_from_sitespeed(filename, org_domain):
                     'scheme-sources',
                     scheme,
                     result)
-                csp_findings_match = True
 
             if 'httpVersion' in req and req['httpVersion'] != '':
                 http_version = req['httpVersion'].replace('h2', 'HTTP/2')

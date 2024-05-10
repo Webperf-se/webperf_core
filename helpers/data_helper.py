@@ -27,6 +27,20 @@ def append_domain_entry(domain, category, value, result):
         result[domain][category].append(value)
 
 def append_domain_entry_with_key(domain, category, key, value, result):
+    """
+    Appends a value to a specific domain entry with a given key in the result.
+
+    Parameters:
+    domain (str): The domain to be updated.
+    category (str): The category within the domain to be updated.
+    key (str): The key within the category to be updated.
+    value (str): The value to be appended for the given key.
+    result (dict): The dictionary containing the domain entries.
+
+    The function updates the 'result' dictionary in-place, adding new domains,
+    categories, and keys as necessary. 
+    It also ensures that the values for each key are unique.
+    """
     if domain not in result:
         result[domain] = {}
 
@@ -40,6 +54,20 @@ def append_domain_entry_with_key(domain, category, key, value, result):
         result[domain][category][key].append(value)
 
 def extend_domain_entry_with_key(domain, category, key, values, result):
+    """
+    Extends a specific domain entry with a given key and values in the result.
+
+    Parameters:
+    domain (str): The domain to be extended.
+    category (str): The category within the domain to be extended.
+    key (str): The key within the category to be extended.
+    values (list): The list of values to be added for the given key.
+    result (dict): The dictionary containing the domain entries.
+
+    The function updates the 'result' dictionary in-place, adding new domains,
+    categories, and keys as necessary. 
+    It also ensures that the values for each key are unique and sorted.
+    """
     if domain not in result:
         result[domain] = {}
 
@@ -83,6 +111,19 @@ def has_domain_entry(domain, category, value, result):
     return True
 
 def has_domain_entry_with_key(domain, category, key, value, result):
+    """
+    Checks if a specific domain entry with a given key and value exists in the result.
+
+    Parameters:
+    domain (str): The domain to be checked.
+    category (str): The category within the domain to be checked.
+    key (str): The key within the category to be checked.
+    value (str): The value to be checked for the given key.
+    result (dict): The dictionary containing the domain entries.
+
+    Returns:
+    bool: True if the domain entry with the given key and value exists, False otherwise.
+    """
     if domain not in result:
         return False
 

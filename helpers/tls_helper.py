@@ -15,6 +15,19 @@ USERAGENT = get_config_or_default('useragent')
 REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
 
 def rate_transfer_layers(result_dict, global_translation, local_translation, domain):
+    """
+    Rates the transport layers of a given domain based on its TLS version support.
+
+    Args:
+        result_dict (dict): The result dictionary where each key is a domain name and
+                            the value is another dictionary with details about the domain.
+        global_translation (function): A function to translate text to a global language.
+        local_translation (function): A function to translate text to a local language.
+        domain (str): The domain to rate.
+
+    Returns:
+        Rating: A Rating object that represents the rating of the domain's transport layers.
+    """
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if not isinstance(result_dict[domain], dict):
         return rating
@@ -81,6 +94,18 @@ def rate_transfer_layers(result_dict, global_translation, local_translation, dom
     return rating
 
 def check_tls_version(url, domain, protocol_version, result_dict):
+    """
+    Checks the TLS version of a given URL and updates the result dictionary accordingly.
+
+    Args:
+        url (str): The URL to check.
+        domain (str): The domain associated with the URL.
+        protocol_version (int): The SSL/TLS protocol version to check.
+        result_dict (dict): The result dictionary to update.
+
+    Returns:
+        dict: The updated result dictionary with the TLS version information for the domain.
+    """
     protocol_rule = False
     protocol_name = ''
 
@@ -131,6 +156,16 @@ def check_tls_version(url, domain, protocol_version, result_dict):
     return result_dict
 
 def check_tls_versions(result_dict):
+    """
+    Checks the TLS versions for all domains in the result dictionary.
+
+    Args:
+        result_dict (dict): The result dictionary where each key is a domain name and
+                            the value is another dictionary with details about the domain.
+
+    Returns:
+        dict: The updated result dictionary with the TLS version information for each domain.
+    """
     for domain in result_dict.keys():
         if not isinstance(result_dict[domain], dict):
             continue
@@ -165,7 +200,7 @@ class TlsAdapterInsecureCiphers(HTTPAdapter):
 
     def __init__(self, ssl_options=0, **kwargs):
         self.ssl_options = ssl_options
-        super(TlsAdapterInsecureCiphers, self).__init__(**kwargs)
+        super(TlsAdapterInsecureCiphers, self).__init__(**kwargs) # pylint: disable=super-with-arguments
 
     def init_poolmanager(self, *pool_args, **pool_kwargs):
         ctx = ssl_.create_urllib3_context(
@@ -179,14 +214,14 @@ class TlsAdapterInsecureCiphers(HTTPAdapter):
     def proxy_manager_for(self, *args, **kwargs):
         context = ssl_.create_urllib3_context(ciphers=INSECURE_CIPHERS)
         kwargs['ssl_context'] = context
-        return super(TlsAdapterInsecureCiphers, self).proxy_manager_for(*args, **kwargs)
+        return super(TlsAdapterInsecureCiphers, self).proxy_manager_for(*args, **kwargs) # pylint: disable=super-with-arguments
 
 
 class TlsAdapterCertRequired(HTTPAdapter):
 
     def __init__(self, ssl_options=0, **kwargs):
         self.ssl_options = ssl_options
-        super(TlsAdapterCertRequired, self).__init__(**kwargs)
+        super(TlsAdapterCertRequired, self).__init__(**kwargs) # pylint: disable=super-with-arguments
 
     def init_poolmanager(self, *pool_args, **pool_kwargs):
         ctx = ssl_.create_urllib3_context(
@@ -201,7 +236,7 @@ class TlsAdapterNoCert(HTTPAdapter):
 
     def __init__(self, ssl_options=0, **kwargs):
         self.ssl_options = ssl_options
-        super(TlsAdapterNoCert, self).__init__(**kwargs)
+        super(TlsAdapterNoCert, self).__init__(**kwargs) # pylint: disable=super-with-arguments
 
     def init_poolmanager(self, *pool_args, **pool_kwargs):
         ctx = ssl_.create_urllib3_context(
@@ -214,6 +249,19 @@ class TlsAdapterNoCert(HTTPAdapter):
 
 
 def has_tls_version(url, validate_hostname, protocol_version):
+    """
+    Checks if a given URL supports a specific TLS version.
+
+    Args:
+        url (str): The URL to check.
+        validate_hostname (bool): Whether to validate the hostname in the SSL certificate.
+        protocol_version (int): The SSL/TLS protocol version to check.
+
+    Returns:
+        tuple: A tuple where the first element is a boolean indicating whether
+        the URL supports the given TLS version, and the second element is a message string
+        detailing any errors encountered during the check.
+    """
     session = requests.session()
     if validate_hostname:
         adapter = TlsAdapterCertRequired(protocol_version)
@@ -221,6 +269,7 @@ def has_tls_version(url, validate_hostname, protocol_version):
         adapter = TlsAdapterNoCert(protocol_version)
 
     session.mount("https://", adapter)
+    msg = ''
 
     try:
         allow_redirects = False
@@ -229,43 +278,44 @@ def has_tls_version(url, validate_hostname, protocol_version):
         session.get(url, verify=validate_hostname, allow_redirects=allow_redirects,
                         headers=headers, timeout=REQUEST_TIMEOUT)
 
-        return (True, 'is ok')
+        return (True, msg)
 
     except ssl.SSLCertVerificationError as sslcertex:
         # print('protocol version SSLCertVerificationError', sslcertex)
         if validate_hostname:
             return (True, f'protocol version SSLCertVerificationError: {sslcertex}')
-        return (False, f'protocol version SSLCertVerificationError: {sslcertex}')
+        msg = f'protocol version SSLCertVerificationError: {sslcertex}'
     except ssl.SSLError as sslex:
         # print('error protocol version ', sslex)
-        return (False, f'protocol version SSLError {sslex}')
+        msg = f'protocol version SSLError {sslex}'
     except ConnectionResetError as resetex:
         # print('error protocol version  ConnectionResetError', resetex)
-        return (False, f'protocol version  ConnectionResetError {resetex}')
+        msg = f'protocol version  ConnectionResetError {resetex}'
     except requests.exceptions.SSLError:
         # print('error protocol version  SSLError', sslerror)
-        return (False, 'Unable to verify: SSL error occured')
+        msg = 'Unable to verify: SSL error occured'
     except requests.exceptions.ConnectionError:
         # print('error protocol version  ConnectionError', conex)
-        return (False, 'Unable to verify: connection error occured')
+        msg = 'Unable to verify: connection error occured'
     except requests.exceptions.MissingSchema:
         print(
             'Connection error! Missing Schema for '
             f'"{url}"')
-        return (False, 'Unable to verify: Missing Schema')
+        msg = 'Unable to verify: Missing Schema'
     except requests.exceptions.TooManyRedirects:
         print(
             'Connection error! Too many redirects for '
             f'"{url}"')
-        return (False, 'Unable to verify: Too many redirects')
+        msg = 'Unable to verify: Too many redirects'
     except requests.exceptions.InvalidURL:
         print(
             'Connection error! Invalid url '
             f'"{url}"')
-        return (False, 'Unable to verify: Invalid url')
+        msg = 'Unable to verify: Invalid url'
     except TimeoutError:
         print(
             'Error! Unfortunately the request for URL '
             f'"{url}" timed out.'
             f'The timeout is set to {REQUEST_TIMEOUT} seconds.')
-        return (False, 'Unable to verify: Timed out')
+        msg = 'Unable to verify: Timed out'
+    return (False, msg)

@@ -357,9 +357,23 @@ def check_csp(url):
 
 
 def check_http_to_https(url):
-    # Firefox
-    # dom.security.https_only_mode
+    """
+    Checks and updates the scheme support (HTTP to HTTPS) for a given URL and
+    its associated domains. This function parses the given URL and
+    determines the scheme (HTTP or HTTPS).
+    It then performs a sitespeed test on the URL to get website support details.
+    If the website redirects to a 'www.' domain without first redirecting to HTTPS,
+    it tests the 'www.' domain as well.
+    The function also checks for HSTS (HTTP Strict Transport Security) support and
+    updates the result dictionary accordingly.
 
+    Args:
+        url (str): The URL to check for HTTP to HTTPS support.
+
+    Returns:
+        dict: The result dictionary with updated scheme support and
+              feature details for each domain associated with the URL.
+    """
     http_url = ''
     o = urllib.parse.urlparse(url)
     o_domain = o.hostname
@@ -441,9 +455,21 @@ def check_http_to_https(url):
     return result_dict
 
 def check_ip_version(result_dict):
-    # network.dns.ipv4OnlyDomains
-    # network.dns.disableIPv6
+    """
+    Checks and updates the IP versions (IPv4 and IPv6) for each domain in the result dictionary.
+    This function iterates over each domain in the result dictionary.
+    If a domain does not have an entry for a specific IP version (IPv4 or IPv6),
+    it performs a DNS lookup for that IP version.
+    If the lookup returns a result,
+    it appends an entry to the domain's 'ip-versions' list in the result dictionary.
 
+    Args:
+        result_dict (dict): A dictionary where each key is a domain name and
+                            the value is another dictionary with details about the domain.
+
+    Returns:
+        dict: The updated result dictionary with IP version information for each domain.
+    """
     if not contains_value_for_all(result_dict, 'ip-versions', 'IPv4'):
         for domain in result_dict.keys():
             if not isinstance(result_dict[domain], dict):
@@ -465,6 +491,26 @@ def check_ip_version(result_dict):
     return result_dict
 
 def get_website_support_from_sitespeed(url, org_domain, configuration, browser, timeout):
+    """
+    Checks the website support using SiteSpeed for a given URL and browser configuration,
+    and returns the results.
+
+    This function constructs the SiteSpeed command with the appropriate arguments based on
+    the browser and configuration.
+    It then runs the SiteSpeed command to generate a HAR (HTTP Archive) file.
+    The HAR file is parsed to extract the website support information,
+    which is returned as a dictionary.
+
+    Parameters:
+    url (str): The URL of the website to be checked.
+    org_domain (str): The original domain of the website.
+    configuration (str): The configuration settings for the browser.
+    browser (str): The browser to be used ('firefox' or 'chrome').
+    timeout (int): The maximum time to wait for the SiteSpeed command to complete.
+
+    Returns:
+    dict: A dictionary containing the website support information.
+    """
     # We don't need extra iterations for what we are using it for
     sitespeed_iterations = 1
     sitespeed_arg = (
@@ -513,6 +559,25 @@ def get_website_support_from_sitespeed(url, org_domain, configuration, browser, 
     return result
 
 def contains_value_for_all(result_dict, key, value):
+    """
+    Checks if a specific key-value pair exists in all dictionaries within
+    a given result dictionary.
+
+    This function iterates over the keys in the result dictionary.
+    For each key, it checks if the corresponding 
+    value is a dictionary and if the specified key-value pair exists in this dictionary.
+    If the key-value pair does not exist in any of the dictionaries, the function returns False.
+    If the key-value pair exists in all dictionaries, the function returns True.
+
+    Parameters:
+    result_dict (dict): The dictionary to be checked.
+    key (str): The key to be checked.
+    value (str): The value to be checked.
+
+    Returns:
+    bool: True if the key-value pair exists in all dictionaries within the result dictionary,
+          False otherwise.
+    """
     if result_dict is None:
         return False
 
@@ -525,38 +590,24 @@ def contains_value_for_all(result_dict, key, value):
     return has_value
 
 def check_http_version(url, result_dict):
+    """
+    Checks the HTTP version supported by a given URL and updates a result dictionary.
 
-    # SiteSpeed (firefox):
-    # "httpVersion": "HTTP/1"
-    # "httpVersion": "HTTP/1.1"
-    # "httpVersion": "HTTP/2"
-    # "httpVersion": "HTTP/3"
+    This function checks the support for different HTTP versions (HTTP/1.1, HTTP/2, HTTP/3)
+    by the server at the given URL.
+    It uses SiteSpeed to perform the checks with different browser configurations.
+    The results are then merged into the result dictionary.
 
-    # SiteSpeed (chrome):
-    # "httpVersion": "http/1.1"
-    # "httpVersion": "h2"
-    # "httpVersion": "h3"
+    Parameters:
+    url (str): The URL whose HTTP version support is to be checked.
+    result_dict (dict): The dictionary to which the results should be added.
 
-    # Chrome:
-    # https://www.chromium.org/for-testers/providing-network-details/
-
-
-    # Firefox:
-    # about:networking
-    # network.http.http2.enabled
-    # network.http.http3.enable
-    # network.http.version
-
-    # network.http.version and their effects1:
-    # - 0.9
-    # - 1.0
-    # - 1.1 (Default)
-    # - 2.0
-    # - 3.02
+    Returns:
+    dict: The result dictionary updated with the HTTP version support information.
+    """
 
     o = urllib.parse.urlparse(url)
     o_domain = o.hostname
-
 
     if not contains_value_for_all(result_dict, 'protocols', 'HTTP/1.1'):
         browser = 'firefox'

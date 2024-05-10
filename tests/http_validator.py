@@ -428,7 +428,11 @@ def check_http_to_https(url):
         else:
             append_domain_entry(www_domain_key, 'schemes', 'HTTPS-REDIRECT*', result_dict)
 
+    handle_hsts_subdomains(result_dict)
 
+    return result_dict
+
+def handle_hsts_subdomains(result_dict):
     domains = list(result_dict.keys())
     hsts_domains = []
     for domain in domains:
@@ -448,8 +452,6 @@ def check_http_to_https(url):
                     "features",
                     "HSTS-HEADER-ON-PARENTDOMAIN-FOUND",
                     result_dict)
-
-    return result_dict
 
 def check_ip_version(result_dict):
     """

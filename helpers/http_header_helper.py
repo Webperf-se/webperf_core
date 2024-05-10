@@ -6,6 +6,16 @@ from helpers.csp_helper import handle_csp
 from helpers.data_helper import append_domain_entry, has_domain_entry
 
 def append_data_from_response_headers(response_headers, req_url, org_domain, req_domain, result):
+    """
+    Processes the response headers and appends relevant data to the result.
+
+    Parameters:
+    response_headers (list): The list of response headers.
+    req_url (str): The URL of the request.
+    org_domain (str): The original domain of the request.
+    req_domain (str): The requested domain.
+    result (dict): The dictionary containing the domain entries.
+    """
     for header in response_headers:
         if 'name' not in header:
             continue

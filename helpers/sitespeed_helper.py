@@ -7,7 +7,6 @@ from helpers.csp_helper import append_csp_data, default_csp_result_object
 from helpers.data_helper import append_domain_entry,\
     append_domain_entry_with_key, has_domain_entry_with_key
 from helpers.http_header_helper import append_data_from_response_headers
-from helpers.mime_type_helper import append_data_from_mimetypes
 
 def get_data_from_sitespeed(filename, org_domain):
     """
@@ -97,7 +96,6 @@ def get_data_from_sitespeed(filename, org_domain):
                 req_domain,
                 result)
 
-            append_data_from_mimetypes(res, req_url, org_domain, req_domain, result)
             append_csp_data(req_url, req_domain, res, org_domain, result)
 
     result['visits'] = 1

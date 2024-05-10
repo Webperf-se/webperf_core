@@ -31,6 +31,26 @@ def append_data_from_response_headers(response_headers, req_url, org_domain, req
             # handle_csp_data(value, req_domain, result, True, org_domain)
 
 def handle_header_location(value, req_url, req_domain, result):
+    """
+    Handles the 'Location' header for a given domain and
+    updates the result dictionary based on the redirection scheme.
+
+    This function parses the 'Location' header value and
+    checks if it starts with 'https://' or 'http://'. Depending on 
+    the scheme and whether the redirection is to the same domain or
+    a different domain, it appends corresponding entries 
+    to the result dictionary.
+    It also checks if the redirection invalidates HSTS (HTTP Strict Transport Security).
+
+    Parameters:
+    value (str): The 'Location' header value to be parsed.
+    req_url (str): The URL of the request.
+    req_domain (str): The domain of the request.
+    result (dict): The dictionary to which the results should be added.
+
+    Returns:
+    None: This function doesn't return anything; it modifies the result dictionary in-place.
+    """
     o = urllib.parse.urlparse(req_url)
     req_domain = o.hostname
     req_scheme = o.scheme.lower()
@@ -52,6 +72,25 @@ def handle_header_location(value, req_url, req_domain, result):
 
 
 def handle_header_hsts(value, req_domain, result):
+    """
+    Handles the HSTS (HTTP Strict Transport Security) header for a given domain and
+    updates the result dictionary.
+
+    This function parses the HSTS header value and
+    checks for the presence of certain features such as 'max-age', 
+    'includeSubDomains', and 'preload'.
+    Depending on the features found and their values, it appends corresponding 
+    entries to the result dictionary.
+
+    Parameters:
+    value (str): The HSTS header value to be parsed.
+    req_domain (str): The domain for which the HSTS header is being checked.
+    result (dict): The dictionary to which the results should be added.
+
+    Returns:
+    None: This function doesn't return anything;
+          it modifies the result dictionary in-place.
+    """
     if has_domain_entry(req_domain, 'features', 'HSTS', result):
         return
 

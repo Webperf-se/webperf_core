@@ -163,63 +163,73 @@ def rate_ip_versions(result_dict, global_translation, local_translation, domain)
         rating += sub_rating
     return rating
 
+
+def check_hsts_features(domain, org_domain, result_dict, local_translation, global_translation):
+    sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    sub_rating.set_overall(5.0)
+
+    if has_domain_entry(domain, 'features', 'INVALIDATE-HSTS', result_dict):
+        sub_rating.set_overall(1.5)
+        sub_rating.set_integrity_and_security(1.5,
+            local_translation('TEXT_REVIEW_HSTS_INVALIDATE').format(domain))
+        sub_rating.set_standards(1.5,
+            local_translation('TEXT_REVIEW_HSTS_INVALIDATE').format(domain))
+    elif has_domain_entry(domain, 'features', 'HSTS-HEADER-PRELOAD-FOUND', result_dict) and\
+            (has_domain_entry(domain, 'features', 'HSTS-PRELOAD', result_dict) or\
+                has_domain_entry(domain, 'features', 'HSTS-PRELOAD*', result_dict)):
+        sub_rating.set_standards(5.0)
+        sub_rating.set_integrity_and_security(5.0,
+            local_translation('TEXT_REVIEW_HSTS_PRELOAD_FOUND').format(domain))
+    elif has_domain_entry(domain, 'features', 'HSTS-HEADER-MAXAGE-1YEAR', result_dict):
+        if has_domain_entry(domain, 'features', 'HSTS-HEADER-PRELOAD-FOUND', result_dict):
+            sub_rating.set_standards(5.0)
+            sub_rating.set_integrity_and_security(5.0,
+                local_translation('TEXT_REVIEW_HSTS_PRELOAD_FOUND_AND_MAXAGE_1YEAR').format(
+                    domain))
+        elif domain == org_domain:
+            sub_rating.set_standards(5.0)
+            sub_rating.set_integrity_and_security(4.95,
+                local_translation('TEXT_REVIEW_HSTS_MAXAGE_1YEAR').format(domain))
+        else:
+            sub_rating.set_standards(5.0)
+            sub_rating.set_integrity_and_security(5.0,
+                local_translation('TEXT_REVIEW_HSTS_MAXAGE_1YEAR').format(domain))
+    elif has_domain_entry(domain, 'features', 'HSTS-HEADER-MAXAGE-TOO-LOW', result_dict):
+        sub_rating.set_overall(4.5)
+        sub_rating.set_standards(5.0)
+        sub_rating.set_integrity_and_security(4.0,
+            local_translation('TEXT_REVIEW_HSTS_MAXAGE_TOO_LOW').format(domain))
+    elif has_domain_entry(domain, 'features', 'HSTS-HEADER-MAXAGE-6MONTHS', result_dict):
+        sub_rating.set_overall(4.0)
+        sub_rating.set_standards(5.0)
+        sub_rating.set_integrity_and_security(3.0,
+            local_translation('TEXT_REVIEW_HSTS_MAXAGE_6MONTHS').format(domain))
+    elif has_domain_entry(domain, 'features', 'HSTS-HEADER-MAXAGE-1MONTH', result_dict):
+        sub_rating.set_overall(3.5)
+        sub_rating.set_standards(5.0)
+        sub_rating.set_integrity_and_security(2.0,
+            local_translation('TEXT_REVIEW_HSTS_MAXAGE_1MONTH').format(domain))
+    else:
+        sub_rating.set_overall(3.0)
+        sub_rating.set_standards(1.0,
+            local_translation('TEXT_REVIEW_HSTS_MAXAGE_NOT_FOUND').format(domain))
+        sub_rating.set_integrity_and_security(1.0,
+            local_translation('TEXT_REVIEW_HSTS_MAXAGE_NOT_FOUND').format(domain))
+    return sub_rating
+
+
 def rate_hsts(result_dict, global_translation, local_translation, org_domain, domain):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if not isinstance(result_dict[domain], dict):
         return rating
-    # https://scotthelme.co.uk/hsts-cheat-sheet/
-    if has_domain_entry(domain, 'features', 'HSTS', result_dict):
-        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-        sub_rating.set_overall(5.0)
 
-        if has_domain_entry(domain, 'features', 'INVALIDATE-HSTS', result_dict):
-            sub_rating.set_overall(1.5)
-            sub_rating.set_integrity_and_security(1.5,
-                local_translation('TEXT_REVIEW_HSTS_INVALIDATE').format(domain))
-            sub_rating.set_standards(1.5,
-                local_translation('TEXT_REVIEW_HSTS_INVALIDATE').format(domain))
-        elif has_domain_entry(domain, 'features', 'HSTS-HEADER-PRELOAD-FOUND', result_dict) and\
-                (has_domain_entry(domain, 'features', 'HSTS-PRELOAD', result_dict) or\
-                 has_domain_entry(domain, 'features', 'HSTS-PRELOAD*', result_dict)):
-            sub_rating.set_standards(5.0)
-            sub_rating.set_integrity_and_security(5.0,
-                local_translation('TEXT_REVIEW_HSTS_PRELOAD_FOUND').format(domain))
-        elif has_domain_entry(domain, 'features', 'HSTS-HEADER-MAXAGE-1YEAR', result_dict):
-            if has_domain_entry(domain, 'features', 'HSTS-HEADER-PRELOAD-FOUND', result_dict):
-                sub_rating.set_standards(5.0)
-                sub_rating.set_integrity_and_security(5.0,
-                    local_translation('TEXT_REVIEW_HSTS_PRELOAD_FOUND_AND_MAXAGE_1YEAR').format(
-                        domain))
-            elif domain == org_domain:
-                sub_rating.set_standards(5.0)
-                sub_rating.set_integrity_and_security(4.95,
-                    local_translation('TEXT_REVIEW_HSTS_MAXAGE_1YEAR').format(domain))
-            else:
-                sub_rating.set_standards(5.0)
-                sub_rating.set_integrity_and_security(5.0,
-                    local_translation('TEXT_REVIEW_HSTS_MAXAGE_1YEAR').format(domain))
-        elif has_domain_entry(domain, 'features', 'HSTS-HEADER-MAXAGE-TOO-LOW', result_dict):
-            sub_rating.set_overall(4.5)
-            sub_rating.set_standards(5.0)
-            sub_rating.set_integrity_and_security(4.0,
-                local_translation('TEXT_REVIEW_HSTS_MAXAGE_TOO_LOW').format(domain))
-        elif has_domain_entry(domain, 'features', 'HSTS-HEADER-MAXAGE-6MONTHS', result_dict):
-            sub_rating.set_overall(4.0)
-            sub_rating.set_standards(5.0)
-            sub_rating.set_integrity_and_security(3.0,
-                local_translation('TEXT_REVIEW_HSTS_MAXAGE_6MONTHS').format(domain))
-        elif has_domain_entry(domain, 'features', 'HSTS-HEADER-MAXAGE-1MONTH', result_dict):
-            sub_rating.set_overall(3.5)
-            sub_rating.set_standards(5.0)
-            sub_rating.set_integrity_and_security(2.0,
-                local_translation('TEXT_REVIEW_HSTS_MAXAGE_1MONTH').format(domain))
-        else:
-            sub_rating.set_overall(3.0)
-            sub_rating.set_standards(1.0,
-                local_translation('TEXT_REVIEW_HSTS_MAXAGE_NOT_FOUND').format(domain))
-            sub_rating.set_integrity_and_security(1.0,
-                local_translation('TEXT_REVIEW_HSTS_MAXAGE_NOT_FOUND').format(domain))
-        rating += sub_rating
+    if has_domain_entry(domain, 'features', 'HSTS', result_dict):
+        rating += check_hsts_features(
+            domain,
+            org_domain,
+            result_dict,
+            local_translation,
+            global_translation)
     elif has_domain_entry(domain, 'features', 'HSTS-HEADER-ON-PARENTDOMAIN-FOUND', result_dict) and\
             not has_domain_entry(domain, 'features', 'INVALIDATE-HSTS', result_dict):
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
@@ -236,6 +246,7 @@ def rate_hsts(result_dict, global_translation, local_translation, org_domain, do
             local_translation('TEXT_REVIEW_HSTS_NOT_FOUND').format(domain))
         rating += sub_rating
     return rating
+
 
 def rate_schemas(result_dict, global_translation, local_translation, domain):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
@@ -322,6 +333,12 @@ def rate_protocols(result_dict, global_translation, local_translation, domain):
     return rating
 
 def cleanup(result_dict):
+    """
+    This function cleans up the result_dict by removing 'urls' and
+    'csp-policies' from each domain. It also ensures that each subvalue in
+    the domain dictionary is a sorted list with unique elements.
+    The function returns the cleaned-up dictionary.
+    """
     for domain in result_dict.keys():
         if not isinstance(result_dict[domain], dict):
             continue
@@ -338,6 +355,10 @@ def cleanup(result_dict):
     return result_dict
 
 def check_csp(url):
+    """
+    This function checks the Content Security Policy (CSP) of a given URL.
+    The function returns a dictionary with the result.
+    """
     o = urllib.parse.urlparse(url)
     o_domain = o.hostname
 
@@ -433,6 +454,11 @@ def check_http_to_https(url):
     return result_dict
 
 def handle_hsts_subdomains(result_dict):
+    """
+    This function checks for domains in the result_dict that have HSTS headers and
+    subdomains found. If such domains are found,
+    it appends a new entry "HSTS-HEADER-ON-PARENTDOMAIN-FOUND" to the features of all subdomains.
+    """
     domains = list(result_dict.keys())
     hsts_domains = []
     for domain in domains:

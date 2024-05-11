@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# pylint: disable=too-many-lines
 import base64
 import re
 import urllib
@@ -209,8 +210,9 @@ def host_source_2_url(host_source):
 
     return result
 
+# pylint: disable=too-many-arguments
 def rate_csp(result_dict, global_translation, local_translation,
-             org_domain, org_www_domain, domain, create_recommendation):
+             org_domain, org_www_domain, domain, should_create_recommendation):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if not isinstance(result_dict[domain], dict):
         return rating
@@ -240,78 +242,12 @@ def rate_csp(result_dict, global_translation, local_translation,
             else:
                 continue
 
-            any_found, wildcards_rating = rate_csp_wildcards(
-                domain,
-                policy_object,
-                local_translation,
-                global_translation)
-            rating += wildcards_rating
-
-            safe_any_found, safe_rating = rate_csp_safe(
-                domain,
-                policy_object,
-                local_translation,
-                global_translation)
-            any_found = any_found or safe_any_found
-            rating += safe_rating
-
-            nonce_any_found, nonce_rating = rate_csp_nonce(
+            rating += rate_csp_policy(
                 domain,
                 total_number_of_sitespeedruns,
                 policy_object,
                 local_translation,
                 global_translation)
-            any_found = any_found or nonce_any_found
-            rating += nonce_rating
-
-            self_any_found, self_rating = rate_csp_self(
-                domain,
-                policy_object,
-                local_translation,
-                global_translation)
-            any_found = any_found or self_any_found
-            rating += self_rating
-
-            rating += rate_csp_subdomains(
-                domain,
-                policy_object,
-                local_translation,
-                global_translation)
-
-            domains_any_found, domains_rating = rate_csp_domains(
-                domain,
-                policy_object,
-                local_translation,
-                global_translation)
-            any_found = any_found or domains_any_found
-            rating += domains_rating
-
-            schemes_any_found, schemes_rating = rate_csp_schemes(
-                domain,
-                policy_object,
-                local_translation,
-                global_translation)
-            any_found = any_found or schemes_any_found
-            rating += schemes_rating
-
-            rating += rate_csp_malformed(
-                domain,
-                policy_object,
-                local_translation,
-                global_translation)
-
-            if not any_found:
-                sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                sub_rating.set_overall(1.0)
-                sub_rating.set_integrity_and_security(1.0,
-                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
-                        policy_name,
-                        "'none', 'self' nonce, sha[256/384/512], domain or scheme",
-                        domain))
-                rating += sub_rating
-
-            # Handles unsafe sources
-            rating += rate_csp_unsafe(domain, policy_object, local_translation, global_translation)
 
         rating += rate_csp_fallbacks(domain, result_dict, local_translation, global_translation)
 
@@ -324,6 +260,22 @@ def rate_csp(result_dict, global_translation, local_translation,
         rating.set_integrity_and_security(1.0,
             local_translation('TEXT_REVIEW_CSP_NOT_FOUND').format(domain))
 
+    final_rating = create_final_csp_rating(global_translation, local_translation, domain, rating)
+
+    if should_create_recommendation and 'csp-findings' in result_dict[domain]:
+        rec_rating, text_recommendation = create_csp_recommendation(
+            domain,
+            result_dict,
+            org_domain,
+            org_www_domain,
+            local_translation,
+            global_translation)
+        if rec_rating.get_integrity_and_security() > final_rating.get_integrity_and_security():
+            final_rating.overall_review = text_recommendation + final_rating.overall_review
+
+    return final_rating
+
+def create_final_csp_rating(global_translation, local_translation, domain, rating):
     final_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if rating.is_set:
         if USE_DETAILED_REPORT:
@@ -340,30 +292,30 @@ def rate_csp(result_dict, global_translation, local_translation,
             final_rating.set_integrity_and_security(
                 rating.get_integrity_and_security(),
                 local_translation('TEXT_REVIEW_CSP').format(domain))
+                
+    return final_rating
 
-
-    if create_recommendation:
-        csp_recommendation = ''
-        csp_recommendation_result = False
-        if 'csp-findings' in result_dict[domain]:
-            csp_recommendation_result = {
+def create_csp_recommendation(domain, result_dict, org_domain, org_www_domain, local_translation, global_translation):
+    csp_recommendation_result = False
+    csp_recommendation = ''
+    csp_recommendation_result = {
                 'visits': 1,
                 domain: default_csp_result_object(True)
             }
-            csp_recommendation = create_csp(result_dict[domain]['csp-findings'], domain)
+    csp_recommendation = create_csp(result_dict[domain]['csp-findings'], domain)
 
-            raw_csp_recommendation = csp_recommendation.replace('- ','').replace('\r\n','')
-            result_dict[domain]['csp-recommendation'] = [raw_csp_recommendation]
+    raw_csp_recommendation = csp_recommendation.replace('- ','').replace('\r\n','')
+    result_dict[domain]['csp-recommendation'] = [raw_csp_recommendation]
 
-            handle_csp(
+    handle_csp(
                 raw_csp_recommendation,
                 domain,
                 csp_recommendation_result,
                 True,
                 domain)
 
-            csp_recommendation_result[domain]['features'].append('CSP-HEADER-FOUND')
-            csp_recommendation_rating = rate_csp(
+    csp_recommendation_result[domain]['features'].append('CSP-HEADER-FOUND')
+    csp_recommendation_rating = rate_csp(
                 csp_recommendation_result,
                 global_translation,
                 local_translation,
@@ -372,20 +324,100 @@ def rate_csp(result_dict, global_translation, local_translation,
                 domain,
                 False)
 
-            csp_recommendation_rating_summary = local_translation(
+    csp_recommendation_rating_summary = local_translation(
                 'TEXT_REVIEW_CSP_RECOMMENDED_RATING').format(csp_recommendation_rating)
 
-            nof_pages = 1
-            if 'nof_pages' in result_dict:
-                nof_pages = result_dict['nof_pages']
+    nof_pages = 1
+    if 'nof_pages' in result_dict:
+        nof_pages = result_dict['nof_pages']
 
-            text_recommendation = local_translation('TEXT_REVIEW_CSP_RECOMMENDED_TEXT').format(
+    text_recommendation = local_translation('TEXT_REVIEW_CSP_RECOMMENDED_TEXT').format(
                 nof_pages, csp_recommendation, csp_recommendation_rating_summary)
-            score = csp_recommendation_rating.get_integrity_and_security()
-            if score > final_rating.get_integrity_and_security():
-                final_rating.overall_review = text_recommendation + final_rating.overall_review
+    return csp_recommendation_rating, text_recommendation
 
-    return final_rating
+# pylint: disable=too-many-locals
+def rate_csp_policy(
+        domain,
+        total_number_of_sitespeedruns,
+        policy_object,
+        local_translation,
+        global_translation):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    policy_name = policy_object['name']
+
+    any_found, wildcards_rating = rate_csp_wildcards(
+                domain,
+                policy_object,
+                local_translation,
+                global_translation)
+    rating += wildcards_rating
+
+    safe_any_found, safe_rating = rate_csp_safe(
+                domain,
+                policy_object,
+                local_translation,
+                global_translation)
+    any_found = any_found or safe_any_found
+    rating += safe_rating
+
+    nonce_any_found, nonce_rating = rate_csp_nonce(
+                domain,
+                total_number_of_sitespeedruns,
+                policy_object,
+                local_translation,
+                global_translation)
+    any_found = any_found or nonce_any_found
+    rating += nonce_rating
+
+    self_any_found, self_rating = rate_csp_self(
+                domain,
+                policy_object,
+                local_translation,
+                global_translation)
+    any_found = any_found or self_any_found
+    rating += self_rating
+
+    rating += rate_csp_subdomains(
+                domain,
+                policy_object,
+                local_translation,
+                global_translation)
+
+    domains_any_found, domains_rating = rate_csp_domains(
+                domain,
+                policy_object,
+                local_translation,
+                global_translation)
+    any_found = any_found or domains_any_found
+    rating += domains_rating
+
+    schemes_any_found, schemes_rating = rate_csp_schemes(
+                domain,
+                policy_object,
+                local_translation,
+                global_translation)
+    any_found = any_found or schemes_any_found
+    rating += schemes_rating
+
+    rating += rate_csp_malformed(
+                domain,
+                policy_object,
+                local_translation,
+                global_translation)
+
+    if not any_found:
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating.set_overall(1.0)
+        sub_rating.set_integrity_and_security(1.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
+                        policy_name,
+                        "'none', 'self' nonce, sha[256/384/512], domain or scheme",
+                        domain))
+        rating += sub_rating
+
+    # Handles unsafe sources
+    rating += rate_csp_unsafe(domain, policy_object, local_translation, global_translation)
+    return rating
 
 def rate_csp_depricated(domain, result_dict, local_translation, global_translation):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import getopt
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -7,9 +8,15 @@ import json
 import re
 import os
 import time
+from urllib.parse import urlparse
+import uuid
 import packaging.version
+from tests.sitespeed_base import get_browsertime_har_path, get_result_using_no_cache, get_sanitized_browsertime
 from tests.utils import get_config_or_default, get_http_content
+from tools.verify_result import handle_sample_config
 
+USE_CACHE = get_config_or_default('CACHE_WHEN_POSSIBLE')
+CACHE_TIME_DELTA = get_config_or_default('CACHE_TIME_DELTA')
 CONFIG_WARNINGS = {}
 
 try:
@@ -25,8 +32,89 @@ def main(argv):
     WebPerf Core - Software update
     """
 
-    update_licenses()
-    update_software_info()
+    try:
+        opts, _ = getopt.getopt(argv, "b", [
+                                   "browser"])
+    except getopt.GetoptError:
+        print(main.__doc__)
+        sys.exit(2)
+
+    if len(opts) == 0:
+        update_licenses()
+        update_software_info()
+
+    for opt, arg in opts:
+        if opt in ('-b', '--browser'):  # get browser user-agent
+            update_user_agent()
+            sys.exit(0)
+
+def update_user_agent():
+    sitespeed_use_docker = False
+    software_browser = 'firefox'
+    timeout = 300
+
+    folder = 'tmp'
+    if USE_CACHE:
+        folder = 'cache'
+
+    url = "https://webperf.se/"
+    o = urlparse(url)
+    hostname = o.hostname
+
+    result_folder_name = os.path.join(folder, hostname, f'{str(uuid.uuid4())}')
+
+    sitespeed_iterations = 1
+    sitespeed_arg = '--plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --utc true -n {0}'.format(
+        sitespeed_iterations)
+
+    if 'firefox' in software_browser:
+        sitespeed_arg = '-b firefox --firefox.includeResponseBodies all --firefox.preference privacy.trackingprotection.enabled:false --firefox.preference privacy.donottrackheader.enabled:false --firefox.preference browser.safebrowsing.malware.enabled:false --firefox.preference browser.safebrowsing.phishing.enabled:false {0}'.format(
+            sitespeed_arg)
+    else:
+        sitespeed_arg = '-b chrome --chrome.cdp.performance false --browsertime.chrome.timeline false --browsertime.chrome.includeResponseBodies all --browsertime.chrome.args ignore-certificate-errors {0}'.format(
+            sitespeed_arg)
+
+    sitespeed_arg = '--shm-size=1g {0}'.format(
+        sitespeed_arg)
+
+    if 'nt' not in os.name:
+        sitespeed_arg += ' --xvfb'
+    sitespeed_arg += (f' --outputFolder {result_folder_name} {url}')
+
+    test = get_result_using_no_cache(sitespeed_use_docker, sitespeed_arg, timeout)
+    test = test.replace('\\n', '\r\n').replace('\\\\', '\\')
+
+    filename = get_browsertime_har_path(os.path.join(result_folder_name, 'pages'))
+    result = get_sanitized_browsertime(filename)
+    json_result = json.loads(result)
+
+    if 'log' not in json_result:
+        print('NO log element')
+        return
+
+    if 'entries' not in json_result['log']:
+        print('NO entries element')
+        return
+
+    for entry in json_result['log']['entries']:
+        if 'request' not in entry:
+            print('NO request element')
+            return
+
+        request = entry['request']
+        if 'headers' not in request:
+            print('NO headers element')
+            return
+
+        for header in request['headers']:
+            header_name = header['name'].lower()
+            header_value = header['value']
+            if 'user-agent' != header_name:
+                continue
+
+            print(header_value)
+            handle_sample_config(f"USERAGENT={header_value}")
+            return
 
 
 def update_software_info():

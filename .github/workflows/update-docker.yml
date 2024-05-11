@@ -26,6 +26,12 @@ jobs:
       run: python tools/verify_result.py -c ${{ matrix.config }},GITHUB_API_KEY=${{ secrets.GITHUB_TOKEN }}
     - name: Ensure up to date Dockerfile
       run: python tools/verify_result.py -d ${{ matrix.config }},GITHUB_API_KEY=${{ secrets.GITHUB_TOKEN }}
+    - name: Build the Docker image
+      run: docker build -t "webperf-core:latest" .
+    - name: Check if webperf_core help command works
+      run: |
+        help=$(docker run -v "$(pwd):/webperf-core" webperf-core:latest python update_software.py -b)
+        echo "$help"
     - name: Create pull request
       uses: peter-evans/create-pull-request@v6
       with:
@@ -37,7 +43,9 @@ jobs:
           
           Following files may be touched:
             - Dockerfile
+            - defaults/config.py
         assignees: 7h3Rabbit
         reviewers: 7h3Rabbit
         add-paths: |
           Dockerfile
+          defaults\config.py

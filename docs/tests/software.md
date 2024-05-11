@@ -170,4 +170,4 @@ Fork https://github.com/github/advisory-database and set `software_github_adadvi
 
 Make sure you add a valid GitHub API key in your `config.py`.
 
-run `update_software.py`
+run `tools/update_software.py`

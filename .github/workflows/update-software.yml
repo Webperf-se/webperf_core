@@ -10,7 +10,7 @@ on:
   #     - 'software-sources.json'
   #     - '**update-software.yml'
   #     - '**verify_result.py'
-  #     - 'update_software.py'
+  #     - '**update_software.py'
   #     - '**software-rules.json'
 jobs:
   build:
@@ -41,7 +41,7 @@ jobs:
         sparse-checkout: |
           advisories
     - name: Verifing Software(s)
-      run: python update_software.py
+      run: python tools\update_software.py
     - name: Create pull request
       uses: peter-evans/create-pull-request@v6
       with:
@@ -60,4 +60,4 @@ jobs:
         add-paths: |
           software-sources.json
           software-full.json
-          defaults/software-rules.json
+          defaults\software-rules.json

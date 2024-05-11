@@ -7,7 +7,7 @@ on:
       - 'software-full.json'
       - 'software-sources.json'
       - '**update-software.yml'
-      - 'update_software.py'
+      - '**update_software.py'
       - '**software-rules.json'
       - 'Dockerfile'
       - '**regression-test-docker-image.yml'

@@ -292,10 +292,15 @@ def create_final_csp_rating(global_translation, local_translation, domain, ratin
             final_rating.set_integrity_and_security(
                 rating.get_integrity_and_security(),
                 local_translation('TEXT_REVIEW_CSP').format(domain))
-                
     return final_rating
 
-def create_csp_recommendation(domain, result_dict, org_domain, org_www_domain, local_translation, global_translation):
+def create_csp_recommendation(
+        domain,
+        result_dict,
+        org_domain,
+        org_www_domain,
+        local_translation,
+        global_translation):
     csp_recommendation_result = False
     csp_recommendation = ''
     csp_recommendation_result = {
@@ -820,7 +825,7 @@ def default_csp_result_object(is_org_domain):
     return obj
 
 
-def create_csp(csp_findings, org_domain):
+def create_csp(csp_findings, org_domain): # pylint: disable=too-many-branches,too-many-statements
     default_src = []
     img_src = []
     script_src = []
@@ -893,13 +898,7 @@ def create_csp(csp_findings, org_domain):
             else:
                 default_src.append(source)
 
-    for source in csp_findings['scheme-sources']:
-        if '|' in source:
-            pair = source.split('|')
-            host_source = pair[0]
-            element_name = pair[1]
-            if element_name == 'img':
-                img_src.append(host_source)
+    append_schemes_to_img_srcs(csp_findings, img_src)
 
     # Ensure policies that is NOT covered by a fallback
     if len(base_uri) == 0:
@@ -917,59 +916,35 @@ def create_csp(csp_findings, org_domain):
     if len(form_action) == 0:
         form_action.append('\'none\'')
 
-    default_src = ' '.join(sorted(list(set(default_src))))
-    img_src = ' '.join(sorted(list(set(img_src))))
-    script_src = ' '.join(sorted(list(set(script_src))))
-    form_action = ' '.join(sorted(list(set(form_action))))
-    style_src = ' '.join(sorted(list(set(style_src))))
-    child_src = ' '.join(sorted(list(set(child_src))))
-    font_src = ' '.join(sorted(list(set(font_src))))
-
-    base_uri = ' '.join(sorted(list(set(base_uri))))
-    object_src = ' '.join(sorted(list(set(object_src))))
-    frame_ancestors = ' '.join(sorted(list(set(frame_ancestors))))
-    connect_src = ' '.join(sorted(list(set(connect_src))))
-
-    default_src = default_src.strip()
-    img_src = img_src.strip()
-    script_src = script_src.strip()
-    form_action = form_action.strip()
-    style_src = style_src.strip()
-    child_src = child_src.strip()
-    font_src = font_src.strip()
-
-    base_uri = base_uri.strip()
-    object_src = object_src.strip()
-    frame_ancestors = frame_ancestors.strip()
-    connect_src = connect_src.strip()
-
     csp_recommendation = ''
+    csp_recommendation = append_if_not_empty('default-src', default_src, csp_recommendation)
+    csp_recommendation = append_if_not_empty('base-uri', base_uri, csp_recommendation)
+    csp_recommendation = append_if_not_empty('img-src', img_src, csp_recommendation)
+    csp_recommendation = append_if_not_empty('script-src', script_src, csp_recommendation)
+    csp_recommendation = append_if_not_empty('form-action', form_action, csp_recommendation)
+    csp_recommendation = append_if_not_empty('style-src', style_src, csp_recommendation)
+    csp_recommendation = append_if_not_empty('child-src', child_src, csp_recommendation)
+    csp_recommendation = append_if_not_empty('object-src', object_src, csp_recommendation)
+    csp_recommendation = append_if_not_empty('frame-ancestors', frame_ancestors, csp_recommendation)
+    csp_recommendation = append_if_not_empty('connect-src', connect_src, csp_recommendation)
+    csp_recommendation = append_if_not_empty('font-src', font_src, csp_recommendation)
 
-    # append_if_not_empty(default_src, csp_recommendation)
-    if len(default_src) > 0:
-        csp_recommendation += f'- default-src {default_src};\r\n'
-    if len(base_uri) > 0:
-        csp_recommendation += f'- base-uri {base_uri};\r\n'
-    if len(img_src) > 0:
-        csp_recommendation += f'- img-src {img_src};\r\n'
-    if len(script_src) > 0:
-        csp_recommendation += f'- script-src {script_src};\r\n'
-    if len(form_action) > 0:
-        csp_recommendation += f'- form-action {form_action};\r\n'
-    if len(style_src) > 0:
-        csp_recommendation += f'- style-src {style_src};\r\n'
-    if len(child_src) > 0:
-        csp_recommendation += f'- child-src {child_src};\r\n'
+    return csp_recommendation
 
-    if len(object_src) > 0:
-        csp_recommendation += f'- object-src {object_src};\r\n'
-    if len(frame_ancestors) > 0:
-        csp_recommendation += f'- frame-ancestors {frame_ancestors};\r\n'
-    if len(connect_src) > 0:
-        csp_recommendation += f'- connect-src {connect_src};\r\n'
-    if len(font_src) > 0:
-        csp_recommendation += f'- font-src {font_src};\r\n'
+def append_schemes_to_img_srcs(csp_findings, img_src):
+    for source in csp_findings['scheme-sources']:
+        if '|' in source:
+            pair = source.split('|')
+            host_source = pair[0]
+            element_name = pair[1]
+            if element_name == 'img':
+                img_src.append(host_source)
 
+def append_if_not_empty(policy_name, policy_list, csp_recommendation):
+    policy_content = ' '.join(sorted(list(set(policy_list))))
+    policy_content = policy_content.strip()
+    if len(policy_content) > 0:
+        csp_recommendation += f'- {policy_name} {policy_content};\r\n'
     return csp_recommendation
 
 def append_csp_data(req_url, req_domain, res, org_domain, result):

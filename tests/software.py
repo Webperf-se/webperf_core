@@ -86,7 +86,6 @@ def get_rating_from_sitespeed(url, local_translation, global_translation):
     (result_folder_name, filename) = get_result(
         url, SITESPEED_USE_DOCKER, sitespeed_arg, SITESPEED_TIMEOUT)
 
-   
     o = urlparse(url)
     origin_domain = o.hostname
 
@@ -1067,7 +1066,7 @@ def identify_software(filename, origin_domain, rules):
 
     global_software = None
     global_cookies = None
-    
+
     # Fix for content having unallowed chars
     with open(filename) as json_input_file:
         har_data = json.load(json_input_file)

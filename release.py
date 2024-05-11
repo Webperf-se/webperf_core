@@ -6,6 +6,15 @@ from datetime import datetime
 import packaging.version
 
 def get_new_version(last_version):
+    """
+    Generates a new version number based on the current date and the last version number.
+
+    Args:
+        last_version (packaging.version.Version): The last version number.
+
+    Returns:
+        packaging.version.Version: The new version number.
+    """
     print('last_version', last_version)
     new_version = packaging.version.Version(f"{datetime.now().year}.{datetime.now().month}.0")
     if new_version <= last_version:
@@ -62,7 +71,7 @@ def main(argv):
                 return
 
             env_file = os.getenv('GITHUB_ENV')
-            with open(env_file, "a") as myfile:
+            with open(env_file, "a", encoding="utf-8") as myfile:
                 myfile.write(f"NEW_VERSION={new_version}")
 
         elif opt in ("-u", "--update"):
@@ -72,8 +81,7 @@ def main(argv):
             with open('package.json', encoding='utf-8') as json_input_file:
                 package_info = json.load(json_input_file)
                 package_version = packaging.version.Version(package_info['version'])
-                if package_version > last_version:
-                    last_version = package_version
+                last_version = max(last_version, package_version)
                 new_version= get_new_version(last_version)
                 package_info['version'] = f'{new_version}'
 
@@ -81,7 +89,7 @@ def main(argv):
                 json.dump(package_info, json_output_file, indent=2)
 
             env_file = os.getenv('GITHUB_ENV')
-            with open(env_file, "a") as myfile:
+            with open(env_file, "a", encoding="utf-8") as myfile:
                 myfile.write(f"NEW_VERSION={new_version}")
 
 

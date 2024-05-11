@@ -618,7 +618,12 @@ def handle_pre_config(arg):
                     ' it doesn\'t support previous format')
     arguments = arg.split(',')
 
-    if prepare_config_file(f'defaults{os.path.sep}config.py', 'config.py', arguments):
+    base_directory = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep).parent
+    if prepare_config_file(
+            f'{base_directory}{os.path.sep}defaults{os.path.sep}config.py',
+            'config.py',
+            arguments):
         sys.exit(0)
     else:
         sys.exit(2)

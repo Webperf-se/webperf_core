@@ -951,182 +951,41 @@ def append_csp_data(req_url, req_domain, res, org_domain, result):
     csp_findings_match = False
     if 'content' in res and 'text' in res['content']:
         if 'mimeType' in res['content'] and 'text/html' in res['content']['mimeType']:
-            result[req_domain]['features'].append('HTML-FOUND')
-            content = res['content']['text']
-            regex = (
-                        r'<meta http-equiv=\"(?P<name>Content-Security-Policy)\" '
-                        r'content=\"(?P<value>[^\"]{5,10000})\"'
-                    )
-            matches = re.finditer(regex, content, re.MULTILINE)
-            for _, match in enumerate(matches, start=1):
-                name2 = match.group('name').lower()
-                value2 = match.group('value').replace('&#39;', '\'')
-
-                if 'content-security-policy' in name2:
-                    result[req_domain]['features'].append('CSP-META-FOUND')
-                    handle_csp(value2, req_domain, result, False, org_domain)
-                elif 'x-content-security-policy' in name2:
-                    result[req_domain]['features'].append('CSP-META-FOUND')
-                    result[req_domain]['features'].append('CSP-DEPRECATED')
-                    handle_csp(value2, req_domain, result, False, org_domain)
-
-            regex = (
-                    r'(?P<raw><(?P<type>style|link|script|img|iframe|form|base|frame)[^>]'
-                    r'*((?P<attribute>src|nonce|action|href)="(?P<value>[^"]+)"[^>]*>))'
-                )
-
-            matches = re.finditer(regex, content, re.MULTILINE)
-            for _, match in enumerate(matches, start=1):
-                element_name = match.group('type').lower()
-                attribute_name = match.group('attribute').lower()
-                attribute_value = match.group('value').lower()
-
-                element_url = url_2_host_source(attribute_value, req_domain)
-                o = urllib.parse.urlparse(element_url)
-                element_domain = o.hostname
-                if element_domain is None and element_url.startswith('data:'):
-                    element_domain = 'data:'
-                elif element_domain == org_domain:
-                    element_domain = '\'self\''
-
-                if attribute_name == 'nonce':
-                    key = f'\'nonce-<your-nonce>\'|{element_name}'
-                    if key not in result[org_domain]['csp-findings']['quotes']:
-                        result[org_domain]['csp-findings']['quotes'].append(key)
-                    csp_findings_match = True
-                elif attribute_name == 'src':
-                    if element_domain is not None:
-                        key = f'{element_domain}|{element_name}'
-                        if key not in result[org_domain]['csp-findings']['host-sources']:
-                            result[org_domain]['csp-findings']['host-sources'].append(key)
-                        csp_findings_match = True
-                elif attribute_name == 'action' and element_name == 'form':
-                    key = f'{element_domain}|form-action'
-                    if key not in result[org_domain]['csp-findings']['host-sources']:
-                        result[org_domain]['csp-findings']['host-sources'].append(key)
-                    csp_findings_match = True
-
-            regex = r'<(?P<type>style|script|form)>'
-            matches = re.finditer(regex, content, re.DOTALL | re.IGNORECASE | re.MULTILINE)
-            for _, match in enumerate(matches, start=1):
-                element_name = match.group('type').lower()
-                if element_name in ('style', 'script'):
-                    key = f'\'unsafe-inline\'|{element_name}'
-                    if key not in result[org_domain]['csp-findings']['quotes']:
-                        result[org_domain]['csp-findings']['quotes'].append(key)
-                    csp_findings_match = True
-                elif attribute_name == 'action' and element_name == 'form':
-                    element_url = url_2_host_source(req_url, req_domain)
-                    o = urllib.parse.urlparse(element_url)
-                    element_domain = o.hostname
-                    if element_domain == org_domain:
-                        key = f'\'self\'|{element_name}'
-                        if key not in result[org_domain]['csp-findings']['quotes']:
-                            result[org_domain]['csp-findings']['quotes'].append(key)
-                        csp_findings_match = True
-                    else:
-                        key = f'{element_domain}|{element_name}'
-                        if key not in result[org_domain]['csp-findings']['host-sources']:
-                            result[org_domain]['csp-findings']['host-sources'].append(key)
-                        csp_findings_match = True
-
+            csp_findings_match = csp_findings_match or append_csp_data_for_html(
+                req_url,
+                req_domain,
+                res,
+                org_domain,
+                result)
         elif 'mimeType' in res['content'] and 'text/css' in res['content']['mimeType']:
-            content = res['content']['text']
-            if 'data:image' in content:
-                key = 'data:|img'
-                if key not in result[org_domain]['csp-findings']['scheme-sources']:
-                    result[org_domain]['csp-findings']['scheme-sources'].append(key)
-                csp_findings_match = True
-            element_domain = req_domain
-            element_name = 'style'
-            if element_domain == org_domain:
-                key = f'\'self\'|{element_name}'
-                if key not in result[org_domain]['csp-findings']['quotes']:
-                    result[org_domain]['csp-findings']['quotes'].append(key)
-                csp_findings_match = True
-            else:
-                key = f'{element_domain}|{element_name}'
-                if key not in result[org_domain]['csp-findings']['host-sources']:
-                    result[org_domain]['csp-findings']['host-sources'].append(key)
-                csp_findings_match = True
+            csp_findings_match = csp_findings_match or append_csp_data_for_css(
+                req_domain,
+                res,
+                org_domain,
+                result)
         elif 'mimeType' in res['content'] and\
                 ('text/javascript' in res['content']['mimeType'] or\
                     'application/javascript' in res['content']['mimeType']):
-            content = res['content']['text']
-            if 'eval(' in content:
-                key = '\'unsafe-eval\'|script'
-                if key not in result[org_domain]['csp-findings']['quotes']:
-                    result[org_domain]['csp-findings']['quotes'].append(key)
-                csp_findings_match = True
-
-            element_domain = req_domain
-            element_name = 'script'
-            if element_domain == org_domain:
-                key = f'\'self\'|{element_name}'
-                if key not in result[org_domain]['csp-findings']['quotes']:
-                    result[org_domain]['csp-findings']['quotes'].append(key)
-                csp_findings_match = True
-            else:
-                key = '{0}|{1}'.format(element_domain, element_name)
-                if key not in result[org_domain]['csp-findings']['host-sources']:
-                    result[org_domain]['csp-findings']['host-sources'].append(key)
-                csp_findings_match = True
+            csp_findings_match = csp_findings_match or append_csp_data_for_js(
+                req_domain,
+                res,
+                org_domain,
+                result)
     if 'mimeType' in res['content'] and 'image/' in res['content']['mimeType']:
-        element_domain = req_domain
-        element_name = 'img'
-        if element_domain == org_domain:
-            key = f'\'self\'|{element_name}'
-            if key not in result[org_domain]['csp-findings']['quotes']:
-                result[org_domain]['csp-findings']['quotes'].append(key)
-            csp_findings_match = True
-        else:
-            key = f'{element_domain}|{element_name}'
-            if key not in result[org_domain]['csp-findings']['host-sources']:
-                result[org_domain]['csp-findings']['host-sources'].append(key)
-            csp_findings_match = True
+        csp_findings_match = csp_findings_match or append_csp_data_for_images(
+            req_domain,
+            org_domain,
+            result)
     elif ('mimeType' in res['content'] and 'font/' in res['content']['mimeType']) or\
             req_url.endswith('.otf') or\
             req_url.endswith('.woff') or\
             req_url.endswith('.woff2'):
-        element_domain = req_domain
-        element_name = 'font'
-        # woff and woff2 support is in all browser, add hash to our csp-findings
-        has_font_hash = False
-        if req_url.endswith('.woff') or\
-                req_url.endswith('.woff2') or\
-                'font-woff' in res['content']['mimeType'] or\
-                'font/woff' in res['content']['mimeType']:
-            key = f'{req_url}|{element_name}'
-            if key not in result[org_domain]['csp-findings']['font-sources']:
-                font_content = None
-                font_hash = None
-                if 'text' in res['content'] and\
-                        'encoding' in res['content'] and\
-                        res['content']['encoding'] == 'base64':
-                    # we have base64 encoded content,
-                    # decode it, calcuclate sha256 and add it.
-                    font_content = base64.decodebytes(
-                        res['content']['text'].encode('utf-8'))
-                    font_hash = create_sha256_hash(font_content)
-                    key2 = f"{f'sha256-{font_hash}'}|{element_name}"
-                    if key not in result[org_domain]['csp-findings']['quotes']:
-                        result[org_domain]['csp-findings']['quotes'].append(key2)
-                        result[org_domain]['csp-findings']['font-sources'].append(key)
-                    has_font_hash = True
-            else:
-                has_font_hash = True
-            csp_findings_match = True
-        if not has_font_hash:
-            if element_domain == org_domain:
-                key = f'\'self\'|{element_name}'
-                if key not in result[org_domain]['csp-findings']['quotes']:
-                    result[org_domain]['csp-findings']['quotes'].append(key)
-                csp_findings_match = True
-            else:
-                key = f'{element_domain}|{element_name}'
-                if key not in result[org_domain]['csp-findings']['host-sources']:
-                    result[org_domain]['csp-findings']['host-sources'].append(key)
-                csp_findings_match = True
+        csp_findings_match = csp_findings_match or append_csp_data_for_fonts(
+            req_url,
+            req_domain,
+            res,
+            org_domain,
+            result)
 
     if not csp_findings_match:
         element_name = 'connect'
@@ -1141,7 +1000,212 @@ def append_csp_data(req_url, req_domain, res, org_domain, result):
                 result[org_domain]['csp-findings']['host-sources'].append(key)
             csp_findings_match = True
 
+def append_csp_data_for_fonts(req_url, req_domain, res, org_domain, result):
+    csp_findings_match = False
+    element_domain = req_domain
+    element_name = 'font'
+        # woff and woff2 support is in all browser, add hash to our csp-findings
+    has_font_hash = False
+    if req_url.endswith('.woff') or\
+                req_url.endswith('.woff2') or\
+                'font-woff' in res['content']['mimeType'] or\
+                'font/woff' in res['content']['mimeType']:
+        key = f'{req_url}|{element_name}'
+        if key not in result[org_domain]['csp-findings']['font-sources']:
+            font_content = None
+            font_hash = None
+            if 'text' in res['content'] and\
+                        'encoding' in res['content'] and\
+                        res['content']['encoding'] == 'base64':
+                    # we have base64 encoded content,
+                    # decode it, calcuclate sha256 and add it.
+                font_content = base64.decodebytes(
+                        res['content']['text'].encode('utf-8'))
+                font_hash = create_sha256_hash(font_content)
+                key2 = f"{f'sha256-{font_hash}'}|{element_name}"
+                if key not in result[org_domain]['csp-findings']['quotes']:
+                    result[org_domain]['csp-findings']['quotes'].append(key2)
+                    result[org_domain]['csp-findings']['font-sources'].append(key)
+                has_font_hash = True
+        else:
+            has_font_hash = True
+        csp_findings_match = True
+    if not has_font_hash:
+        if element_domain == org_domain:
+            key = f'\'self\'|{element_name}'
+            if key not in result[org_domain]['csp-findings']['quotes']:
+                result[org_domain]['csp-findings']['quotes'].append(key)
+            csp_findings_match = True
+        else:
+            key = f'{element_domain}|{element_name}'
+            if key not in result[org_domain]['csp-findings']['host-sources']:
+                result[org_domain]['csp-findings']['host-sources'].append(key)
+            csp_findings_match = True
+    return csp_findings_match
+
+def append_csp_data_for_images(req_domain, org_domain, result):
+    csp_findings_match = False
+    element_domain = req_domain
+    element_name = 'img'
+    if element_domain == org_domain:
+        key = f'\'self\'|{element_name}'
+        if key not in result[org_domain]['csp-findings']['quotes']:
+            result[org_domain]['csp-findings']['quotes'].append(key)
+        csp_findings_match = True
+    else:
+        key = f'{element_domain}|{element_name}'
+        if key not in result[org_domain]['csp-findings']['host-sources']:
+            result[org_domain]['csp-findings']['host-sources'].append(key)
+        csp_findings_match = True
+    return csp_findings_match
+
+def append_csp_data_for_js(req_domain, res, org_domain, result):
+    csp_findings_match = False
+    content = res['content']['text']
+    if 'eval(' in content:
+        key = '\'unsafe-eval\'|script'
+        if key not in result[org_domain]['csp-findings']['quotes']:
+            result[org_domain]['csp-findings']['quotes'].append(key)
+        csp_findings_match = True
+
+    element_domain = req_domain
+    element_name = 'script'
+    if element_domain == org_domain:
+        key = f'\'self\'|{element_name}'
+        if key not in result[org_domain]['csp-findings']['quotes']:
+            result[org_domain]['csp-findings']['quotes'].append(key)
+        csp_findings_match = True
+    else:
+        key = f'{element_domain}|{element_name}'
+        if key not in result[org_domain]['csp-findings']['host-sources']:
+            result[org_domain]['csp-findings']['host-sources'].append(key)
+        csp_findings_match = True
+    return csp_findings_match
+
+def append_csp_data_for_css(req_domain, res, org_domain, result):
+    csp_findings_match = False
+    content = res['content']['text']
+    if 'data:image' in content:
+        key = 'data:|img'
+        if key not in result[org_domain]['csp-findings']['scheme-sources']:
+            result[org_domain]['csp-findings']['scheme-sources'].append(key)
+        csp_findings_match = True
+    element_domain = req_domain
+    element_name = 'style'
+    if element_domain == org_domain:
+        key = f'\'self\'|{element_name}'
+        if key not in result[org_domain]['csp-findings']['quotes']:
+            result[org_domain]['csp-findings']['quotes'].append(key)
+        csp_findings_match = True
+    else:
+        key = f'{element_domain}|{element_name}'
+        if key not in result[org_domain]['csp-findings']['host-sources']:
+            result[org_domain]['csp-findings']['host-sources'].append(key)
+        csp_findings_match = True
+    return csp_findings_match
+
+def append_csp_data_for_html(req_url, req_domain, res, org_domain, result):
+    csp_findings_match = False
+    result[req_domain]['features'].append('HTML-FOUND')
+    content = res['content']['text']
+    regex = (
+                        r'<meta http-equiv=\"(?P<name>Content-Security-Policy)\" '
+                        r'content=\"(?P<value>[^\"]{5,10000})\"'
+                    )
+    matches = re.finditer(regex, content, re.MULTILINE)
+    for _, match in enumerate(matches, start=1):
+        name2 = match.group('name').lower()
+        value2 = match.group('value').replace('&#39;', '\'')
+
+        if 'content-security-policy' in name2:
+            result[req_domain]['features'].append('CSP-META-FOUND')
+            handle_csp(value2, req_domain, result, False, org_domain)
+        elif 'x-content-security-policy' in name2:
+            result[req_domain]['features'].append('CSP-META-FOUND')
+            result[req_domain]['features'].append('CSP-DEPRECATED')
+            handle_csp(value2, req_domain, result, False, org_domain)
+
+    csp_findings_match = csp_findings_match or append_csp_data_for_linked_resources(
+        req_domain,
+        org_domain,
+        result,
+        content)
+
+    regex = r'<(?P<type>style|script|form)>'
+    matches = re.finditer(regex, content, re.DOTALL | re.IGNORECASE | re.MULTILINE)
+    for _, match in enumerate(matches, start=1):
+        element_name = match.group('type').lower()
+        if element_name in ('style', 'script'):
+            key = f'\'unsafe-inline\'|{element_name}'
+            if key not in result[org_domain]['csp-findings']['quotes']:
+                result[org_domain]['csp-findings']['quotes'].append(key)
+            csp_findings_match = True
+        elif element_name == 'form':
+            element_url = url_2_host_source(req_url, req_domain)
+            o = urllib.parse.urlparse(element_url)
+            element_domain = o.hostname
+            if element_domain == org_domain:
+                key = f'\'self\'|{element_name}'
+                if key not in result[org_domain]['csp-findings']['quotes']:
+                    result[org_domain]['csp-findings']['quotes'].append(key)
+                csp_findings_match = True
+            else:
+                key = f'{element_domain}|{element_name}'
+                if key not in result[org_domain]['csp-findings']['host-sources']:
+                    result[org_domain]['csp-findings']['host-sources'].append(key)
+                csp_findings_match = True
+    return csp_findings_match
+
+def append_csp_data_for_linked_resources(req_domain, org_domain, result, content):
+    csp_findings_match = False
+    regex = (
+                    r'(?P<raw><(?P<type>style|link|script|img|iframe|form|base|frame)[^>]'
+                    r'*((?P<attribute>src|nonce|action|href)="(?P<value>[^"]+)"[^>]*>))'
+                )
+
+    matches = re.finditer(regex, content, re.MULTILINE)
+    for _, match in enumerate(matches, start=1):
+        element_name = match.group('type').lower()
+        attribute_name = match.group('attribute').lower()
+        attribute_value = match.group('value').lower()
+
+        element_url = url_2_host_source(attribute_value, req_domain)
+        o = urllib.parse.urlparse(element_url)
+        element_domain = o.hostname
+        if element_domain is None and element_url.startswith('data:'):
+            element_domain = 'data:'
+        elif element_domain == org_domain:
+            element_domain = '\'self\''
+
+        if attribute_name == 'nonce':
+            key = f'\'nonce-<your-nonce>\'|{element_name}'
+            if key not in result[org_domain]['csp-findings']['quotes']:
+                result[org_domain]['csp-findings']['quotes'].append(key)
+            csp_findings_match = True
+        elif attribute_name == 'src':
+            if element_domain is not None:
+                key = f'{element_domain}|{element_name}'
+                if key not in result[org_domain]['csp-findings']['host-sources']:
+                    result[org_domain]['csp-findings']['host-sources'].append(key)
+                csp_findings_match = True
+        elif attribute_name == 'action' and element_name == 'form':
+            key = f'{element_domain}|form-action'
+            if key not in result[org_domain]['csp-findings']['host-sources']:
+                result[org_domain]['csp-findings']['host-sources'].append(key)
+            csp_findings_match = True
+    return csp_findings_match
+
 def url_2_host_source(url, domain):
+    """
+    Converts a given URL to a secure (https) URL if it's not already.
+
+    Args:
+        url (str): The URL to be converted.
+        domain (str): The domain to be used if the URL doesn't contain a domain.
+
+    Returns:
+        str: The converted secure URL.
+    """
     if url.startswith('//'):
         return url.replace('//', 'https://')
     if 'https://' in url:

@@ -1571,7 +1571,7 @@ def get_rules():
 
     file_path = '{0}{1}data{1}software-rules.json'.format(dir, os.path.sep)
     if not os.path.isfile(file_path):
-        file_path = '{0}{1}SAMPLE-software-rules.json'.format(dir, os.path.sep)
+        file_path = '{0}{1}{2}{1}software-rules.json'.format(dir, os.path.sep, "defaults")
     if not os.path.isfile(file_path):
         print("ERROR: No software-rules.json file found!")
 

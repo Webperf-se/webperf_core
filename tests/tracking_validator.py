@@ -508,7 +508,7 @@ def get_analytics_rules():
 
     file_path = '{0}{1}data{1}analytics-rules.json'.format(base_directory, os.path.sep)
     if not os.path.isfile(file_path):
-        file_path = '{0}{1}SAMPLE-analytics-rules.json'.format(base_directory, os.path.sep)
+        file_path = '{0}{1}{2}{1}analytics-rules.json'.format(base_directory, os.path.sep, "defaults")
     if not os.path.isfile(file_path):
         print("ERROR: No analytics-rules.json file found!")
 

@@ -120,7 +120,7 @@ def update_software_info():
     set_softwares('software-full.json', collection)
 
 def update_licenses():
-    print('updates licesences used in SAMPLE-software-rules.json')
+    print('updates licesences used in defaults/software-rules.json')
 
     # https://spdx.org/licenses/
     raw_data = get_http_content(
@@ -138,7 +138,7 @@ def update_licenses():
     rules = get_software_rules()
     if 'contents' not in rules:
         return
-    
+
     for content_rule in rules['contents']:
         if 'match' not in content_rule:
             continue
@@ -157,23 +157,23 @@ def update_licenses():
     save_software_rules(rules)
 
 def get_software_rules():
-    dir = Path(os.path.dirname(
+    base_directory = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep)
 
-    file_path = '{0}{1}SAMPLE-software-rules.json'.format(dir, os.path.sep)
+    file_path = '{0}{1}{2}{1}software-rules.json'.format(base_directory, os.path.sep, "defaults")
     if not os.path.isfile(file_path):
-        print("ERROR: No SAMPLE-software-rules.json file found!")
+        print("ERROR: No defaults/software-rules.json file found!")
         return
 
     with open(file_path) as json_rules_file:
         rules = json.load(json_rules_file)
     return rules
-    
+
 def save_software_rules(rules):
-    dir = Path(os.path.dirname(
+    base_directory = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep)
 
-    file_path = '{0}{1}SAMPLE-software-rules.json'.format(dir, os.path.sep)
+    file_path = '{0}{1}{2}{1}software-rules.json'.format(base_directory, os.path.sep, "defaults")
     if not os.path.isfile(file_path):
         print("ERROR: No software-rules.json file found!")
         return
@@ -181,8 +181,6 @@ def save_software_rules(rules):
     with open(file_path, 'w') as outfile:
         json.dump(rules, outfile, indent=4)
     return rules
-    
-
 
 def extend_versions_for_nginx(versions):
     for version in versions.keys():
@@ -293,7 +291,7 @@ def extend_versions_for_openssl(versions):
 def extend_versions_for_openssl_vulnerabilities(versions):
     raw_data = get_http_content(
         'https://www.openssl.org/news/vulnerabilities.html')
-    
+
     ver = sorted(versions.keys(), reverse=False)
 
     section_regex = r'name="CVE[0-9\-]+">(?P<CVE>CVE[0-9\-]+)<\/a>.*?<dd>(?P<content>.*?)<dt><a'
@@ -326,7 +324,7 @@ def extend_versions_for_openssl_vulnerabilities(versions):
 def extend_versions_for_openssl_end_of_life(versions):
     raw_data = get_http_content(
         'https://www.openssl.org/policies/releasestrat.html')
-    
+
     end_of_life_branches = {}
 
     end_of_life_regex = r'(?P<content>[^>]+) no longer supported'
@@ -478,7 +476,7 @@ def extend_versions_for_apache_httpd(versions):
 
                     current_version = None
             else:
-                current_version = version_section        
+                current_version = version_section
     return versions
 
 def extend_versions_from_github_advisory_database(software_name, versions):

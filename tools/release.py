@@ -1,6 +1,7 @@
 import json
 import os
 import getopt
+from pathlib import Path
 import sys
 from datetime import datetime
 import packaging.version
@@ -57,7 +58,12 @@ def main(argv):
             new_version= get_new_version(last_version)
 
             current_version = None
-            with open('package.json', encoding='utf-8') as json_input_file:
+            base_directory = Path(os.path.dirname(
+                os.path.realpath(__file__)) + os.path.sep).parent
+            with open(
+                        f'{base_directory}{os.path.sep}package.json',
+                        encoding='utf-8'
+                    ) as json_input_file:
                 package_info = json.load(json_input_file)
                 if 'version' in package_info:
                     current_version = packaging.version.Version(package_info['version'])
@@ -78,14 +84,23 @@ def main(argv):
             last_version = packaging.version.Version(arg)
             package_info = None
 
-            with open('package.json', encoding='utf-8') as json_input_file:
+            base_directory = Path(os.path.dirname(
+                os.path.realpath(__file__)) + os.path.sep).parent
+            with open(
+                        f'{base_directory}{os.path.sep}package.json',
+                        encoding='utf-8'
+                    ) as json_input_file:
                 package_info = json.load(json_input_file)
                 package_version = packaging.version.Version(package_info['version'])
                 last_version = max(last_version, package_version)
                 new_version= get_new_version(last_version)
                 package_info['version'] = f'{new_version}'
 
-            with open('package.json', 'w', encoding='utf-8') as json_output_file:
+            with open(
+                        f'{base_directory}{os.path.sep}package.json',
+                        'w',
+                        encoding='utf-8'
+                    ) as json_output_file:
                 json.dump(package_info, json_output_file, indent=2)
 
             env_file = os.getenv('GITHUB_ENV')

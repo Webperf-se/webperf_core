@@ -455,7 +455,7 @@ def main(argv):
     Options and arguments:
     -h/--help\t\t\t: Verify Help command
     -c/--prep-config <activate feature, True or False>\t\t:
-      Uses SAMPLE-config.py to creat config.py
+      Uses defaults/config.py to create config.py
     -t/--test <test number>\t: Verify result of specific test
 
     NOTE:
@@ -618,7 +618,7 @@ def handle_pre_config(arg):
                     ' it doesn\'t support previous format')
     arguments = arg.split(',')
 
-    if prepare_config_file('SAMPLE-config.py', 'config.py', arguments):
+    if prepare_config_file(f'defaults{os.path.sep}config.py', 'config.py', arguments):
         sys.exit(0)
     else:
         sys.exit(2)

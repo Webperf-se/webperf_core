@@ -11,7 +11,7 @@ Here are some suggestions on how to get started with the tests on your own compu
 You download the code itself from [GitHub - webperf_core](https://github.com/Webperf-se/webperf_core) and place it in a good location on your computer.
 ### Adjust the source code
 There are two files that you need to adjust:
-* *SAMPLE-config.py* needs to be renamed to *config.py*
+* *defaults/config.py* needs to be renamed to *config.py*
 The reason for this is because if you download a new version of the code, your settings or data should not be overwritten by accident.
 
 ## Where to run?

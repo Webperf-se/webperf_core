@@ -7,7 +7,7 @@ on:
       - '**regression-test-standard-files.yml'
       - '**.py'
       - 'Dockerfile'
-      - 'SAMPLE-software-rules.json'
+      - '**software-rules.json'
 jobs:
   build:
     runs-on: ubuntu-latest

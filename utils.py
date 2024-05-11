@@ -65,7 +65,7 @@ def get_config(name):
     """
     Retrieves the configuration value for a given name from the configuration file.
     If the name does not exist in the configuration file,
-    it attempts to retrieve it from the SAMPLE-config.py file.
+    it attempts to retrieve it from the defaults/config.py file.
     
     Parameters:
     name (str): The name of the configuration value to retrieve.
@@ -75,10 +75,10 @@ def get_config(name):
 
     Raises:
     ValueError: If the name does not exist in both the configuration file and
-    the SAMPLE-config.py file.
+    the defaults/config.py file.
 
     Notes:
-    - If the name exists in the SAMPLE-config.py file but not in the configuration file,
+    - If the name exists in the defaults/config.py file but not in the configuration file,
       a warning message is printed.
     - If the name does not exist in both files,
       a fatal error message is printed and a ValueError is raised.
@@ -93,8 +93,8 @@ def get_config(name):
     if value is not None:
         return value
 
-    # do we have fallback value we can use in our SAMPLE-config.py file?
-    value = get_config_from_module(name, 'SAMPLE-config')
+    # do we have fallback value we can use in our defaults/config.py file?
+    value = get_config_from_module(name, 'defaults.config')
     if value is not None:
         if name not in CONFIG_WARNINGS:
             CONFIG_WARNINGS[name] = True
@@ -113,7 +113,7 @@ def get_config_from_module(config_name, module_name):
     Returns:
     The configuration value associated with the given config_name and module_name.
     """
-    # do we have fallback value we can use in our SAMPLE-config.py file?
+    # do we have fallback value we can use in our defaults/config.py file?
     try:
         from importlib import import_module # pylint: disable=import-outside-toplevel
         tmp_config = import_module(module_name) # pylint: disable=invalid-name

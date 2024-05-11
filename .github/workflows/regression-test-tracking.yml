@@ -12,7 +12,7 @@ on:
       - 'software-sources.json'
       - '**update-software.yml'
       - 'update_software.py'
-      - 'SAMPLE-software-rules.json'
+      - '**software-rules.json'
       - 'Dockerfile'
       - '**regression-test-docker-image.yml'
 jobs:
@@ -101,10 +101,10 @@ jobs:
     - name: Setup npm packages
       run: npm install
     - if: ${{ matrix.os == 'ubuntu-latest' }}
-      name: Setup config (using SAMPLE-config.py as config.py) - LINUX
+      name: Setup config - LINUX
       run: python .github/workflows/verify_result.py -c ${{ matrix.config }}
     - if: ${{ matrix.os == 'windows-latest' }}
-      name: Setup config (using SAMPLE-config.py as config.py) - WINDOWS
+      name: Setup config - WINDOWS
       run: python .github\workflows\verify_result.py -c ${{ matrix.config }}
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: RUNNING TEST - LINUX

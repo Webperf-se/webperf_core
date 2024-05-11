@@ -98,7 +98,7 @@ This test have the ability to look at:
 * SVG Markup (read: for example generator metadata)
 * Metadata in images (read: for example generator metadata)
 
-If you are not using your own `software-rules.json` file in `data` folder you will be using the `SAMPLE-software-rules.json` file
+If you are not using your own `software-rules.json` file in `data` folder you will be using the `defaults/software-rules.json` file
 provided with this test.
 With this file you can use regular expression to look at:
 * HTML markup

@@ -30,7 +30,7 @@ jobs:
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
     - name: Setup config
-      run: python .github\workflows\verify_result.py -c ${{ matrix.config }},GITHUB_API_KEY=${{ secrets.GITHUB_TOKEN }}
+      run: python tools\verify_result.py -c ${{ matrix.config }},GITHUB_API_KEY=${{ secrets.GITHUB_TOKEN }}
     - name: Checkout advisory-database repo
       uses: actions/checkout@v4
       with:

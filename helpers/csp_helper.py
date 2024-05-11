@@ -231,24 +231,7 @@ def rate_csp(result_dict, global_translation, local_translation,
                                          ).format(domain))
             rating += sub_rating
 
-        is_using_deprecated_policy = False
-        for policy_name in CSP_POLICIES_DEPRECATED:
-            if policy_name in result_dict[domain]['csp-objects']:
-                is_using_deprecated_policy = True
-                sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                sub_rating.set_overall(1.0)
-                sub_rating.set_standards(1.0,
-                    local_translation('TEXT_REVIEW_CSP_POLICY_DEPRECATED').format(
-                        policy_name, domain))
-                rating += sub_rating
-
-        if not is_using_deprecated_policy:
-            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-            sub_rating.set_overall(5.0)
-            sub_rating.set_standards(5.0,
-                    local_translation('TEXT_REVIEW_CSP_POLICY_NOT_DEPRECATED').format(
-                        policy_name, domain))
-            rating += sub_rating
+        rating += rate_csp_depricated(domain, result_dict, local_translation, global_translation)
 
         for policy_name in CSP_POLICIES_SUPPORTED_SRC:
             policy_object = None
@@ -264,50 +247,13 @@ def rate_csp(result_dict, global_translation, local_translation,
                 global_translation)
             rating += wildcards_rating
 
-            if "'none'" in policy_object['all']:
-                if len(policy_object['all']) > 1:
-                    sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                    sub_rating.set_overall(1.5)
-                    sub_rating.set_standards(1.5,
-                        local_translation('TEXT_REVIEW_CSP_POLICY_NONE_NOT_ALONE').format(
-                            policy_name, "'none'", domain))
-                    sub_rating.set_integrity_and_security(1.5,
-                        local_translation('TEXT_REVIEW_CSP_POLICY_NONE_NOT_ALONE').format(
-                            policy_name, "'none'", domain))
-                    rating += sub_rating
-                else:
-                    sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                    sub_rating.set_overall(5.0)
-                    sub_rating.set_standards(5.0,
-                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
-                            policy_name, "'none'", domain))
-                    sub_rating.set_integrity_and_security(5.0,
-                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
-                            policy_name, "'none'", domain))
-                    rating += sub_rating
-                any_found = True
-            elif len(policy_object['hashes']) > 0:
-                sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                sub_rating.set_overall(5.0)
-                sub_rating.set_standards(5.0,
-                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
-                        policy_name, "sha[256/384/512]", domain))
-                sub_rating.set_integrity_and_security(5.0,
-                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
-                            policy_name, "sha[256/384/512]", domain))
-                rating += sub_rating
-                any_found = True
-            elif policy_name not in CSP_POLICIES_SELF_ALLOWED:
-                sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                sub_rating.set_overall(1.0)
-                sub_rating.set_standards(5.0,
-                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
-                        policy_name, "none/sha[256/384/512]", domain))
-                sub_rating.set_integrity_and_security(1.0,
-                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
-                            policy_name, "none/sha[256/384/512]", domain))
-                rating += sub_rating
-
+            safe_any_found, safe_rating = rate_csp_safe(
+                domain,
+                policy_object,
+                local_translation,
+                global_translation)
+            any_found = any_found or safe_any_found
+            rating += safe_rating
 
             nonce_any_found, nonce_rating = rate_csp_nonce(
                 domain,
@@ -318,128 +264,41 @@ def rate_csp(result_dict, global_translation, local_translation,
             any_found = any_found or nonce_any_found
             rating += nonce_rating
 
-            if "'self'" in policy_object['all']:
-                if policy_name in CSP_POLICIES_SELF_ALLOWED:
-                    sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                    sub_rating.set_overall(5.0)
-                    sub_rating.set_standards(5.0,
-                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
-                            policy_name, "'self'", domain))
-                    sub_rating.set_integrity_and_security(5.0,
-                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
-                            policy_name, "'self'", domain))
-                    rating += sub_rating
-                else:
-                    sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                    sub_rating.set_overall(3.0)
-                    sub_rating.set_standards(5.0,
-                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
-                            policy_name, "'self'", domain))
-                    sub_rating.set_integrity_and_security(3.0,
-                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
-                            policy_name, "'self'", domain))
-                    rating += sub_rating
-                any_found = True
-            else:
-                sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                sub_rating.set_overall(5.0)
-                sub_rating.set_standards(5.0,
-                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
-                        policy_name, "'self'", domain))
-                sub_rating.set_integrity_and_security(5.0,
-                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
-                        policy_name, "'self'", domain))
-                rating += sub_rating
+            self_any_found, self_rating = rate_csp_self(
+                domain,
+                policy_object,
+                local_translation,
+                global_translation)
+            any_found = any_found or self_any_found
+            rating += self_rating
 
+            rating += rate_csp_subdomains(
+                domain,
+                policy_object,
+                local_translation,
+                global_translation)
 
-            nof_subdomains = len(policy_object['subdomains'])
-            if nof_subdomains > 0:
-                if policy_name in CSP_POLICIES_SELF_ALLOWED:
-                    sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                    sub_rating.set_overall(5.0)
-                    sub_rating.set_integrity_and_security(5.0,
-                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
-                            policy_name, local_translation('TEXT_REVIEW_CSP_SUBDOMAIN'), domain))
-                    rating += sub_rating
-                else:
-                    sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                    sub_rating.set_overall(3.0)
-                    sub_rating.set_integrity_and_security(3.0,
-                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
-                            policy_name, local_translation('TEXT_REVIEW_CSP_SUBDOMAIN'), domain))
-                    rating += sub_rating
-            else:
-                sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                sub_rating.set_overall(5.0)
-                sub_rating.set_standards(5.0,
-                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
-                        policy_name, local_translation('TEXT_REVIEW_CSP_SUBDOMAIN'), domain))
-                sub_rating.set_integrity_and_security(5.0,
-                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
-                        policy_name, local_translation('TEXT_REVIEW_CSP_SUBDOMAIN'), domain))
-                rating += sub_rating
+            domains_any_found, domains_rating = rate_csp_domains(
+                domain,
+                policy_object,
+                local_translation,
+                global_translation)
+            any_found = any_found or domains_any_found
+            rating += domains_rating
 
-            nof_domains = len(policy_object['domains'])
-            if nof_domains > 0:
-                if nof_domains > 15:
-                    sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                    sub_rating.set_overall(1.5)
-                    sub_rating.set_integrity_and_security(1.5,
-                        local_translation('TEXT_REVIEW_CSP_POLICY_USE_15_OR_MORE_DOMAINS').format(
-                            policy_name, local_translation('TEXT_REVIEW_CSP_DOMAIN'), domain))
-                    rating += sub_rating
+            schemes_any_found, schemes_rating = rate_csp_schemes(
+                domain,
+                policy_object,
+                local_translation,
+                global_translation)
+            any_found = any_found or schemes_any_found
+            rating += schemes_rating
 
-                sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                sub_rating.set_overall(2.0)
-                sub_rating.set_integrity_and_security(2.0,
-                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
-                        policy_name, local_translation('TEXT_REVIEW_CSP_DOMAIN'), domain))
-                rating += sub_rating
-                any_found = True
-            else:
-                sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                sub_rating.set_overall(5.0)
-                sub_rating.set_standards(5.0,
-                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
-                        policy_name, local_translation('TEXT_REVIEW_CSP_DOMAIN'), domain))
-                sub_rating.set_integrity_and_security(5.0,
-                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
-                        policy_name, local_translation('TEXT_REVIEW_CSP_DOMAIN'), domain))
-                rating += sub_rating
-
-            nof_schemes = len(policy_object['schemes'])
-            if nof_schemes > 0:
-                if 'ws' in policy_object['schemes']:
-                    sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                    sub_rating.set_overall(1.0)
-                    sub_rating.set_integrity_and_security(1.0,
-                        local_translation('TEXT_REVIEW_CSP_POLICY_USE_UNSAFE_SCHEME').format(
-                            policy_name, "'ws'", domain))
-                    rating += sub_rating
-                if 'http' in policy_object['schemes']:
-                    sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                    sub_rating.set_overall(1.0)
-                    sub_rating.set_integrity_and_security(1.0,
-                        local_translation('TEXT_REVIEW_CSP_POLICY_USE_UNSAFE_SCHEME').format(
-                            policy_name, "'http'", domain))
-                    rating += sub_rating
-                if 'ftp' in policy_object['schemes']:
-                    sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                    sub_rating.set_overall(1.0)
-                    sub_rating.set_integrity_and_security(1.0,
-                        local_translation('TEXT_REVIEW_CSP_POLICY_USE_UNSAFE_SCHEME').format(
-                            policy_name, "'ftp'", domain))
-                    rating += sub_rating
-                any_found = True
-
-            nof_malformed = len(policy_object['malformed'])
-            if nof_malformed > 0:
-                sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                sub_rating.set_overall(1.0)
-                sub_rating.set_standards(1.0,
-                    local_translation('TEXT_REVIEW_CSP_MALFORMED').format(
-                        policy_name, domain))
-                rating += sub_rating
+            rating += rate_csp_malformed(
+                domain,
+                policy_object,
+                local_translation,
+                global_translation)
 
             if not any_found:
                 sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
@@ -452,72 +311,9 @@ def rate_csp(result_dict, global_translation, local_translation,
                 rating += sub_rating
 
             # Handles unsafe sources
-            is_using_unsafe = False
-            if "'unsafe-eval'" in policy_object['all']:
-                is_using_unsafe = True
-                sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                sub_rating.set_overall(1.0)
-                sub_rating.set_integrity_and_security(1.0,
-                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
-                        policy_name, "'unsafe-eval'", domain))
-                rating += sub_rating
+            rating += rate_csp_unsafe(domain, policy_object, local_translation, global_translation)
 
-            if "'wasm-unsafe-eval'" in policy_object['all']:
-                is_using_unsafe = True
-                sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                sub_rating.set_overall(1.0)
-                sub_rating.set_integrity_and_security(1.0,
-                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
-                        policy_name, "'wasm-unsafe-eval'", domain))
-                rating += sub_rating
-
-            if "'unsafe-hashes'" in policy_object['all']:
-                is_using_unsafe = True
-                sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                sub_rating.set_overall(1.0)
-                sub_rating.set_integrity_and_security(1.0,
-                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
-                        policy_name, "'unsafe-hashes'", domain))
-                rating += sub_rating
-
-            if "'unsafe-inline'" in policy_object['all']:
-                is_using_unsafe = True
-                sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                sub_rating.set_overall(1.0)
-                sub_rating.set_integrity_and_security(1.0,
-                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
-                        policy_name, "'unsafe-inline'", domain))
-                rating += sub_rating
-
-            if not is_using_unsafe:
-                sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                sub_rating.set_overall(5.0)
-                sub_rating.set_integrity_and_security(5.0,
-                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
-                        policy_name, "'unsafe-*'", domain))
-                rating += sub_rating
-
-        for policy_name in CSP_POLICIES_FALLBACK_SRC:
-            if policy_name in result_dict[domain]['csp-objects']:
-                sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                sub_rating.set_overall(5.0)
-                sub_rating.set_integrity_and_security(5.0,
-                    local_translation('TEXT_REVIEW_CSP_POLICY_FOUND').format(
-                        policy_name, domain))
-                sub_rating.set_standards(5.0,
-                    local_translation('TEXT_REVIEW_CSP_POLICY_FOUND').format(
-                        policy_name, domain))
-                rating += sub_rating
-            else:
-                sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                sub_rating.set_overall(1.0)
-                sub_rating.set_integrity_and_security(1.0,
-                    local_translation('TEXT_REVIEW_CSP_POLICY_NOT_FOUND').format(
-                        policy_name, domain))
-                sub_rating.set_standards(1.0,
-                    local_translation('TEXT_REVIEW_CSP_POLICY_NOT_FOUND').format(
-                        policy_name, domain))
-                rating += sub_rating
+        rating += rate_csp_fallbacks(domain, result_dict, local_translation, global_translation)
 
     elif 'HTML-FOUND' in result_dict[domain]['features'] and\
             (domain in (org_domain, org_www_domain)):
@@ -590,6 +386,296 @@ def rate_csp(result_dict, global_translation, local_translation,
                 final_rating.overall_review = text_recommendation + final_rating.overall_review
 
     return final_rating
+
+def rate_csp_depricated(domain, result_dict, local_translation, global_translation):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    is_using_deprecated_policy = False
+    for policy_name in CSP_POLICIES_DEPRECATED:
+        if policy_name in result_dict[domain]['csp-objects']:
+            is_using_deprecated_policy = True
+            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            sub_rating.set_overall(1.0)
+            sub_rating.set_standards(1.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_DEPRECATED').format(
+                        policy_name, domain))
+            rating += sub_rating
+
+    if not is_using_deprecated_policy:
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating.set_overall(5.0)
+        sub_rating.set_standards(5.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_NOT_DEPRECATED').format(
+                        policy_name, domain))
+        rating += sub_rating
+    return rating
+
+def rate_csp_malformed(domain, policy_object, local_translation, global_translation):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    policy_name = policy_object['name']
+    nof_malformed = len(policy_object['malformed'])
+    if nof_malformed > 0:
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating.set_overall(1.0)
+        sub_rating.set_standards(1.0,
+                    local_translation('TEXT_REVIEW_CSP_MALFORMED').format(
+                        policy_name, domain))
+        rating += sub_rating
+    return rating
+
+def rate_csp_self(domain, policy_object, local_translation, global_translation):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    policy_name = policy_object['name']
+    any_found = False
+    if "'self'" in policy_object['all']:
+        if policy_name in CSP_POLICIES_SELF_ALLOWED:
+            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            sub_rating.set_overall(5.0)
+            sub_rating.set_standards(5.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                            policy_name, "'self'", domain))
+            sub_rating.set_integrity_and_security(5.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                            policy_name, "'self'", domain))
+            rating += sub_rating
+        else:
+            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            sub_rating.set_overall(3.0)
+            sub_rating.set_standards(5.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                            policy_name, "'self'", domain))
+            sub_rating.set_integrity_and_security(3.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                            policy_name, "'self'", domain))
+            rating += sub_rating
+        any_found = True
+    else:
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating.set_overall(5.0)
+        sub_rating.set_standards(5.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
+                        policy_name, "'self'", domain))
+        sub_rating.set_integrity_and_security(5.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
+                        policy_name, "'self'", domain))
+        rating += sub_rating
+    return any_found, rating
+
+def rate_csp_safe(domain, policy_object, local_translation, global_translation):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    policy_name = policy_object['name']
+    any_found = False
+    if "'none'" in policy_object['all']:
+        if len(policy_object['all']) > 1:
+            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            sub_rating.set_overall(1.5)
+            sub_rating.set_standards(1.5,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_NONE_NOT_ALONE').format(
+                            policy_name, "'none'", domain))
+            sub_rating.set_integrity_and_security(1.5,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_NONE_NOT_ALONE').format(
+                            policy_name, "'none'", domain))
+            rating += sub_rating
+        else:
+            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            sub_rating.set_overall(5.0)
+            sub_rating.set_standards(5.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                            policy_name, "'none'", domain))
+            sub_rating.set_integrity_and_security(5.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                            policy_name, "'none'", domain))
+            rating += sub_rating
+        any_found = True
+    elif len(policy_object['hashes']) > 0:
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating.set_overall(5.0)
+        sub_rating.set_standards(5.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                        policy_name, "sha[256/384/512]", domain))
+        sub_rating.set_integrity_and_security(5.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                            policy_name, "sha[256/384/512]", domain))
+        rating += sub_rating
+        any_found = True
+    elif policy_name not in CSP_POLICIES_SELF_ALLOWED:
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating.set_overall(1.0)
+        sub_rating.set_standards(5.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
+                        policy_name, "none/sha[256/384/512]", domain))
+        sub_rating.set_integrity_and_security(1.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
+                            policy_name, "none/sha[256/384/512]", domain))
+        rating += sub_rating
+    return any_found, rating
+
+def rate_csp_fallbacks(domain, result_dict, local_translation, global_translation):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    for policy_name in CSP_POLICIES_FALLBACK_SRC:
+        if policy_name in result_dict[domain]['csp-objects']:
+            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            sub_rating.set_overall(5.0)
+            sub_rating.set_integrity_and_security(5.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_FOUND').format(
+                        policy_name, domain))
+            sub_rating.set_standards(5.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_FOUND').format(
+                        policy_name, domain))
+            rating += sub_rating
+        else:
+            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            sub_rating.set_overall(1.0)
+            sub_rating.set_integrity_and_security(1.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_NOT_FOUND').format(
+                        policy_name, domain))
+            sub_rating.set_standards(1.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_NOT_FOUND').format(
+                        policy_name, domain))
+            rating += sub_rating
+    return rating
+
+def rate_csp_unsafe(domain, policy_object, local_translation, global_translation):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    policy_name = policy_object['name']
+    is_using_unsafe = False
+    if "'unsafe-eval'" in policy_object['all']:
+        is_using_unsafe = True
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating.set_overall(1.0)
+        sub_rating.set_integrity_and_security(1.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                        policy_name, "'unsafe-eval'", domain))
+        rating += sub_rating
+
+    if "'wasm-unsafe-eval'" in policy_object['all']:
+        is_using_unsafe = True
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating.set_overall(1.0)
+        sub_rating.set_integrity_and_security(1.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                        policy_name, "'wasm-unsafe-eval'", domain))
+        rating += sub_rating
+
+    if "'unsafe-hashes'" in policy_object['all']:
+        is_using_unsafe = True
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating.set_overall(1.0)
+        sub_rating.set_integrity_and_security(1.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                        policy_name, "'unsafe-hashes'", domain))
+        rating += sub_rating
+
+    if "'unsafe-inline'" in policy_object['all']:
+        is_using_unsafe = True
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating.set_overall(1.0)
+        sub_rating.set_integrity_and_security(1.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                        policy_name, "'unsafe-inline'", domain))
+        rating += sub_rating
+
+    if not is_using_unsafe:
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating.set_overall(5.0)
+        sub_rating.set_integrity_and_security(5.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
+                        policy_name, "'unsafe-*'", domain))
+        rating += sub_rating
+    return rating
+
+def rate_csp_schemes(domain, policy_object, local_translation, global_translation):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    policy_name = policy_object['name']
+    any_found = False
+    nof_schemes = len(policy_object['schemes'])
+    if nof_schemes > 0:
+        if 'ws' in policy_object['schemes']:
+            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            sub_rating.set_overall(1.0)
+            sub_rating.set_integrity_and_security(1.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_USE_UNSAFE_SCHEME').format(
+                            policy_name, "'ws'", domain))
+            rating += sub_rating
+        if 'http' in policy_object['schemes']:
+            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            sub_rating.set_overall(1.0)
+            sub_rating.set_integrity_and_security(1.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_USE_UNSAFE_SCHEME').format(
+                            policy_name, "'http'", domain))
+            rating += sub_rating
+        if 'ftp' in policy_object['schemes']:
+            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            sub_rating.set_overall(1.0)
+            sub_rating.set_integrity_and_security(1.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_USE_UNSAFE_SCHEME').format(
+                            policy_name, "'ftp'", domain))
+            rating += sub_rating
+        any_found = True
+    return any_found, rating
+
+def rate_csp_domains(domain, policy_object, local_translation, global_translation):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    any_found = False
+    policy_name = policy_object['name']
+    nof_domains = len(policy_object['domains'])
+    if nof_domains > 0:
+        if nof_domains > 15:
+            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            sub_rating.set_overall(1.5)
+            sub_rating.set_integrity_and_security(1.5,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_USE_15_OR_MORE_DOMAINS').format(
+                            policy_name, local_translation('TEXT_REVIEW_CSP_DOMAIN'), domain))
+            rating += sub_rating
+
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating.set_overall(2.0)
+        sub_rating.set_integrity_and_security(2.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                        policy_name, local_translation('TEXT_REVIEW_CSP_DOMAIN'), domain))
+        rating += sub_rating
+        any_found = True
+    else:
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating.set_overall(5.0)
+        sub_rating.set_standards(5.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
+                        policy_name, local_translation('TEXT_REVIEW_CSP_DOMAIN'), domain))
+        sub_rating.set_integrity_and_security(5.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
+                        policy_name, local_translation('TEXT_REVIEW_CSP_DOMAIN'), domain))
+        rating += sub_rating
+    return any_found, rating
+
+def rate_csp_subdomains(domain, policy_object, local_translation, global_translation):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    policy_name = policy_object['name']
+    nof_subdomains = len(policy_object['subdomains'])
+    if nof_subdomains > 0:
+        if policy_name in CSP_POLICIES_SELF_ALLOWED:
+            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            sub_rating.set_overall(5.0)
+            sub_rating.set_integrity_and_security(5.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                            policy_name, local_translation('TEXT_REVIEW_CSP_SUBDOMAIN'), domain))
+            rating += sub_rating
+        else:
+            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            sub_rating.set_overall(3.0)
+            sub_rating.set_integrity_and_security(3.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                            policy_name, local_translation('TEXT_REVIEW_CSP_SUBDOMAIN'), domain))
+            rating += sub_rating
+    else:
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating.set_overall(5.0)
+        sub_rating.set_standards(5.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
+                        policy_name, local_translation('TEXT_REVIEW_CSP_SUBDOMAIN'), domain))
+        sub_rating.set_integrity_and_security(5.0,
+                    local_translation('TEXT_REVIEW_CSP_POLICY_IS_NOT_USING').format(
+                        policy_name, local_translation('TEXT_REVIEW_CSP_SUBDOMAIN'), domain))
+        rating += sub_rating
+    return rating
 
 def rate_csp_nonce(
         domain,

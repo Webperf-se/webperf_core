@@ -14,14 +14,7 @@ REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_
 USE_DETAILED_REPORT = get_config_or_default('USE_DETAILED_REPORT')
 
 def handle_csp(content, domain, result_dict, is_from_response_header, org_domain):
-    # print('CSP', domain)
-    # print('CSP', domain, content)
-    # https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
-    # https://scotthelme.co.uk/csp-cheat-sheet/
-    # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-ancestors
-
     parse_csp(content, domain, result_dict, is_from_response_header)
-
     # Add style-src policies to all who uses it as fallback
     ensure_csp_policy_fallbacks(domain, result_dict)
 
@@ -92,8 +85,6 @@ def ensure_csp_policy_fallbacks(domain, result_dict):
         append_csp_policy('manifest-src', default_items, domain, result_dict)
         append_csp_policy('media-src', default_items, domain, result_dict)
         append_csp_policy('object-src', default_items, domain, result_dict)
-        # comment out as it it deprecated
-        # append_csp_policy('prefetch-src', default_items, domain, result_dict)
         append_csp_policy('script-src', default_items, domain, result_dict)
         append_csp_policy('script-src-elem', default_items, domain, result_dict)
         append_csp_policy('script-src-attr', default_items, domain, result_dict)
@@ -220,14 +211,6 @@ def rate_csp(result_dict, global_translation, local_translation,
                                          ).format(domain))
             rating += sub_rating
 
-        # default-src|script-src|style-src|font-src|connect-src|
-        # frame-src|img-src|media-src|frame-ancestors|base-uri|
-        # form-action|block-all-mixed-content|child-src|connect-src|
-        # fenced-frame-src|font-src|img-src|manifest-src|media-src|
-        # object-src|plugin-types|prefetch-src|referrer|report-to|
-        # report-uri|require-trusted-types-for|sandbox|script-src-attr|
-        # script-src-elem|strict-dynamic|style-src-attr|style-src-elem|
-        # trusted-types|unsafe-hashes|upgrade-insecure-requests|worker-src
         supported_src_policies = [
             'default-src','script-src','style-src','font-src',
             'connect-src','frame-src','img-src','media-src',
@@ -237,15 +220,9 @@ def rate_csp(result_dict, global_translation, local_translation,
         self_allowed_policies = [
             'font-src','connect-src','frame-src','img-src','media-src',
             'frame-ancestors','base-uri','form-action','child-src','manifest-src']
-        other_supported_polices = ['report-to','sandbox','upgrade-insecure-requests']
         fallback_src_policies = [
             'base-uri', 'object-src', 'frame-ancestors',
             'form-action', 'default-src']
-        experimental_policies = [
-            'fenced-frame-src',
-            'require-trusted-types-for',
-            'inline-speculation-rules',
-            'trusted-types']
         # Deprecated policies (According to https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
         deprecated_policies = [
             'block-all-mixed-content',
@@ -277,7 +254,6 @@ def rate_csp(result_dict, global_translation, local_translation,
             if policy_name in result_dict[domain]['csp-objects']:
                 policy_object = result_dict[domain]['csp-objects'][policy_name]
             else:
-                # policy_object = default_csp_policy_object()
                 continue
 
             any_found = False

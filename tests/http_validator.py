@@ -83,6 +83,17 @@ def run_test(global_translation, lang_code, url):
     return (rating, result_dict)
 
 def rate(org_domain, result_dict, global_translation, local_translation):
+    """
+    Rates the security features of a domain.
+
+    Parameters:
+    org_domain (str): Original domain.
+    result_dict (dict): Domain analysis results.
+    global_translation, local_translation (function): Translation functions.
+
+    Returns:
+    rating (Rating): Rating object with overall and standards ratings.
+    """
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     org_www_domain = f'www.{org_domain}'
@@ -130,6 +141,17 @@ def rate(org_domain, result_dict, global_translation, local_translation):
     return rating
 
 def rate_ip_versions(result_dict, global_translation, local_translation, domain):
+    """
+    Rates the IP versions (IPv4 and IPv6) supported by a domain.
+
+    Parameters:
+    result_dict (dict): Domain analysis results.
+    global_translation, local_translation (function): Translation functions.
+    domain (str): The domain to be rated.
+
+    Returns:
+    rating (Rating): Rating object with overall and standards ratings.
+    """
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if not isinstance(result_dict[domain], dict):
         return rating
@@ -165,6 +187,18 @@ def rate_ip_versions(result_dict, global_translation, local_translation, domain)
 
 
 def check_hsts_features(domain, org_domain, result_dict, local_translation, global_translation):
+    """
+    Checks and rates the HSTS features of a domain.
+
+    Parameters:
+    domain, org_domain (str): Actual and original domain.
+    result_dict (dict): Domain analysis results.
+    local_translation, global_translation (function): Translation functions.
+
+    Returns:
+    sub_rating (Rating): Sub-rating object with overall,
+    integrity, security, and standards ratings.
+    """
     sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     sub_rating.set_overall(5.0)
 
@@ -219,6 +253,17 @@ def check_hsts_features(domain, org_domain, result_dict, local_translation, glob
 
 
 def rate_hsts(result_dict, global_translation, local_translation, org_domain, domain):
+    """
+    Rates the HSTS features of a domain.
+
+    Parameters:
+    result_dict (dict): Domain analysis results.
+    global_translation, local_translation (function): Translation functions.
+    org_domain, domain (str): Original and actual domain.
+
+    Returns:
+    rating (Rating): Rating object with overall, integrity, security, and standards ratings.
+    """
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if not isinstance(result_dict[domain], dict):
         return rating
@@ -249,6 +294,19 @@ def rate_hsts(result_dict, global_translation, local_translation, org_domain, do
 
 
 def rate_schemas(result_dict, global_translation, local_translation, domain):
+    """
+    This function rates the security schemes of a given domain based on the result dictionary.
+
+    Parameters:
+    result_dict (dict): A dictionary containing the results of the domain analysis.
+    global_translation (function): A function to translate text globally.
+    local_translation (function): A function to translate text locally.
+    domain (str): The domain to be rated.
+
+    Returns:
+    rating (Rating): A Rating object that contains the overall rating,
+    integrity and security rating, and standards rating.
+    """
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if not isinstance(result_dict[domain], dict):
         return rating

@@ -8,7 +8,7 @@ on:
       - 'software-sources.json'
       - '**update-software.yml'
       - 'update_software.py'
-      - 'SAMPLE-software-rules.json'
+      - '**software-rules.json'
       - 'Dockerfile'
       - '**regression-test-docker-image.yml'
 jobs:
@@ -36,18 +36,18 @@ jobs:
     - name: Setup npm packages
       run: npm install
     - if: ${{ matrix.os == 'ubuntu-latest' }}
-      name: Setup config (using SAMPLE-config.py as config.py) - LINUX
-      run: python .github/workflows/verify_result.py -c ${{ matrix.config }}
+      name: Setup config - LINUX
+      run: python tools/verify_result.py -c ${{ matrix.config }}
     - if: ${{ matrix.os == 'windows-latest' }}
-      name: Setup config (using SAMPLE-config.py as config.py) - WINDOWS
-      run: python .github\workflows\verify_result.py -c ${{ matrix.config }}
+      name: Setup config - WINDOWS
+      run: python tools\verify_result.py -c ${{ matrix.config }}
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: RUNNING TEST - LINUX
       run: |
-         python default.py -t ${{ matrix.version }} -r -i sites.json -o .github/workflows/testresult-${{ matrix.version }}.json
-         python .github/workflows/verify_result.py -t ${{ matrix.version }}
+         python default.py -t ${{ matrix.version }} -r -i sites.json -o data/testresult-${{ matrix.version }}.json
+         python tools/verify_result.py -t ${{ matrix.version }}
     - if: ${{ matrix.os == 'windows-latest' }}
       name: RUNNING TEST - WINDOWS
       run: |
-         python default.py -t ${{ matrix.version }} -r -i sites.json -o .github\workflows\testresult-${{ matrix.version }}.json
-         python .github\workflows\verify_result.py -t ${{ matrix.version }}
+         python default.py -t ${{ matrix.version }} -r -i sites.json -o data\testresult-${{ matrix.version }}.json
+         python tools\verify_result.py -t ${{ matrix.version }}

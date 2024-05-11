@@ -142,9 +142,7 @@ This section has not been written yet.
 
 * Download and install Node.js (version 20.x)
 * Download and install Google Chrome browser
-* Download Geckodriver and place it in the root folder of this repo, [Geckodriver Download](https://github.com/mozilla/geckodriver/releases/):
-  * [Linux x64](https://github.com/mozilla/geckodriver/releases/download/v0.32.0/geckodriver-v0.32.0-linux64.tar.gz)
-  * [Windows x64](https://github.com/mozilla/geckodriver/releases/download/v0.32.0/geckodriver-v0.32.0-win64.zip)
+* Download and install Mozilla Firefox
 * Install NPM packages ( `npm install` )
 * Set `sitespeed_use_docker = False` in your `config.py`
 

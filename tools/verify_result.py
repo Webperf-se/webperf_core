@@ -110,7 +110,7 @@ def prepare_config_file(sample_filename, filename, arguments):
     """
 
     if not os.path.exists(sample_filename):
-        print('no sample file exist')
+        print('no sample file exist at:', sample_filename)
         return False
 
     if os.path.exists(filename):
@@ -259,10 +259,11 @@ def validate_testresult(arg): # pylint: disable=too-many-return-statements,too-m
     bool: True if the test result file exists and contains valid test results, False otherwise.
     """
 
-    base_directory = os.path.dirname(os.path.realpath(__file__)) + os.path.sep
+    base_directory = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep).parent
     test_id = arg
     filename = f'testresult-{test_id}.json'
-    filename = os.path.join(base_directory, filename)
+    filename = os.path.join(base_directory, "data", filename)
     if not os.path.exists(filename):
         print(f"test result doesn\'t exists: {filename}")
         return False
@@ -455,7 +456,7 @@ def main(argv):
     Options and arguments:
     -h/--help\t\t\t: Verify Help command
     -c/--prep-config <activate feature, True or False>\t\t:
-      Uses SAMPLE-config.py to creat config.py
+      Uses defaults/config.py to create config.py
     -t/--test <test number>\t: Verify result of specific test
 
     NOTE:
@@ -618,7 +619,12 @@ def handle_pre_config(arg):
                     ' it doesn\'t support previous format')
     arguments = arg.split(',')
 
-    if prepare_config_file('SAMPLE-config.py', 'config.py', arguments):
+    base_directory = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep).parent
+    if prepare_config_file(
+            f'{base_directory}{os.path.sep}defaults{os.path.sep}config.py',
+            'config.py',
+            arguments):
         sys.exit(0)
     else:
         sys.exit(2)

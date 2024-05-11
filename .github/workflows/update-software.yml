@@ -11,7 +11,7 @@ on:
   #     - '**update-software.yml'
   #     - '**verify_result.py'
   #     - 'update_software.py'
-  #     - 'SAMPLE-software-rules.json'
+  #     - '**software-rules.json'
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -29,8 +29,8 @@ jobs:
         architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
-    - name: Setup config (using SAMPLE-config.py as config.py)
-      run: python .github\workflows\verify_result.py -c ${{ matrix.config }},GITHUB_API_KEY=${{ secrets.GITHUB_TOKEN }}
+    - name: Setup config
+      run: python tools\verify_result.py -c ${{ matrix.config }},GITHUB_API_KEY=${{ secrets.GITHUB_TOKEN }}
     - name: Checkout advisory-database repo
       uses: actions/checkout@v4
       with:
@@ -54,10 +54,10 @@ jobs:
           Following files may be touched:
             - software-sources.json
             - software-full.json
-            - SAMPLE-software-rules.json
+            - defaults/software-rules.json
         assignees: 7h3Rabbit
         reviewers: 7h3Rabbit
         add-paths: |
           software-sources.json
           software-full.json
-          SAMPLE-software-rules.json
+          defaults\software-rules.json

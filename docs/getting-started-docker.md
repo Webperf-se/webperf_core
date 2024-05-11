@@ -4,11 +4,12 @@ You can build an image and put in your local registry that has everything instal
 
 It's based on the [webbrowsers image set up by Sitespeed.io](https://github.com/sitespeedio/docker-browsers). Great work, thanks!
 
-By default, `SAMPLE-config.py`, gets copied into the image and used as `config.py`. It should have sensible defaults that work well inside container.
+By default, `defaults/config.py`, gets copied used and should have sensible defaults that work well inside container.
 
 If you add your own `config.py` it will take precedence when building the image.
 
-You might also want to acquire your own copy of `data/IP2LOCATION-LITE-DB1.IPV6.BIN` before building the image.
+You might also want to acquire your own copy of `data/IP2LOCATION-LITE-DB1.IPV6.BIN` before building the image,
+it is required for GDPR related rating.
 
 ## How to setup
 

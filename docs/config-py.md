@@ -3,11 +3,14 @@
 Write more about this configuration file and what you control from it.
 
 
-## Why rename SAMPLE-config.py?
+## Why copy and rename defaults/config.py?
 
-The reason for this is because if you download a new version of the code, your settings or data should not be overwritten by accident.
+You *ONLY* need to copy defaults/config.py IF you want to change any settings.
+Most people can use the default settings.
+You should not change settings directly in defaults/config.py,
+the reason for this is because if you download a new version of the code, your settings or data should not be overwritten by accident.
 
-Because of this you need to copy `SAMPLE-config.py` and name the new version `config.py`.
+Because of this you need to copy `defaults/config.py` and name the new version `config.py` and place it in root folder.
 
 ## What do every configuration do?
 

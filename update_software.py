@@ -7,71 +7,9 @@ import json
 import re
 import os
 import packaging.version
+from tests.utils import get_config_or_default, get_http_content
 
 CONFIG_WARNINGS = {}
-
-def get_config_or_default(name):
-    """
-    Retrieves the configuration value for a given name from the configuration file.
-    If the name does not exist in the configuration file,
-    it attempts to retrieve it from the defaults.config.py file.
-    
-    Parameters:
-    name (str): The name of the configuration value to retrieve.
-
-    Returns:
-    The configuration value associated with the given name.
-
-    Raises:
-    ValueError: If the name does not exist in both the configuration file and
-    the defaults.config.py file.
-
-    Notes:
-    - If the name exists in the defaults.config.py file but not in the configuration file,
-      a warning message is printed.
-    - If the name does not exist in both files,
-      a fatal error message is printed and a ValueError is raised.
-    """
-    # Try get config from our configuration file
-    value = get_config_from_module(name, 'config')
-    if value is not None:
-        return value
-
-    name = name.upper()
-    value = get_config_from_module(name, 'config')
-    if value is not None:
-        return value
-
-    # do we have fallback value we can use in our defaults/config.py file?
-    value = get_config_from_module(name, 'defaults.config')
-    if value is not None:
-        if name not in CONFIG_WARNINGS:
-            CONFIG_WARNINGS[name] = True
-        return value
-
-    return None
-
-def get_config_from_module(config_name, module_name):
-    """
-    Retrieves the configuration value for a given name from the specified module file.
-    
-    Parameters:
-    config_name (str): The name of the configuration value to retrieve.
-    module_name (str): The name of the module the values should be retrieved from.
-
-    Returns:
-    The configuration value associated with the given config_name and module_name.
-    """
-    # do we have fallback value we can use in our defaults/config.py file?
-    try:
-        from importlib import import_module # pylint: disable=import-outside-toplevel
-        tmp_config = import_module(module_name) # pylint: disable=invalid-name
-        if hasattr(tmp_config, config_name):
-            return getattr(tmp_config, config_name)
-    except ModuleNotFoundError:
-        _ = 1
-
-    return None
 
 try:
     github_adadvisory_database_path = get_config_or_default(
@@ -306,9 +244,12 @@ def extend_versions_for_nginx(versions):
 
                     lversion_specificity = len(lversion.release)
 
-                    if lversion_specificity == 3 and lversion_specificity == len(lsafe_version.release):
+                    if lversion_specificity == 3 and\
+                            lversion_specificity == len(lsafe_version.release):
                         # is same branch and is equal or greater then safe (fixed) version?
-                        if lversion.release[0] == lsafe_version.release[0] and lversion.release[1] == lsafe_version.release[1] and lversion.release[2] >= lsafe_version.release[2]:
+                        if lversion.release[0] == lsafe_version.release[0] and\
+                                lversion.release[1] == lsafe_version.release[1] and\
+                                lversion.release[2] >= lsafe_version.release[2]:
                             is_match = False
 
             if is_match:

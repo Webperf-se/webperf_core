@@ -110,7 +110,7 @@ def prepare_config_file(sample_filename, filename, arguments):
     """
 
     if not os.path.exists(sample_filename):
-        print('no sample file exist')
+        print('no sample file exist at:', sample_filename)
         return False
 
     if os.path.exists(filename):

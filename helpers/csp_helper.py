@@ -301,6 +301,21 @@ def create_csp_recommendation(
         org_www_domain,
         local_translation,
         global_translation):
+    """
+    This function creates a Content Security Policy (CSP) recommendation for a given domain.
+
+    Parameters:
+    domain (str): The domain for which the CSP recommendation is being created.
+    result_dict (dict): A dictionary containing the CSP details for all domains.
+    org_domain (str): The original domain name.
+    org_www_domain (str): The original domain name with 'www.' prefix.
+    local_translation (function): A function to translate text to the local language.
+    global_translation (function): A function to translate text to a global language.
+
+    Returns:
+    tuple: A tuple containing a Rating object with the overall rating of the recommended CSP and
+           a string with the text recommendation.
+    """
     csp_recommendation_result = False
     csp_recommendation = ''
     csp_recommendation_result = {
@@ -347,6 +362,20 @@ def rate_csp_policy(
         policy_object,
         local_translation,
         global_translation):
+    """
+    This function rates the safety of a Content Security Policy (CSP) for a
+    given domain based on various aspects of the policy.
+
+    Parameters:
+    domain (str): The domain for which the CSP is being rated.
+    total_number_of_sitespeedruns (int): The total number of sitespeedruns.
+    policy_object (dict): A dictionary containing the CSP details.
+    local_translation (function): A function to translate text to the local language.
+    global_translation (function): A function to translate text to a global language.
+
+    Returns:
+    Rating: A Rating object with the overall rating based on various aspects of the CSP.
+    """
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     policy_name = policy_object['name']
 
@@ -425,6 +454,19 @@ def rate_csp_policy(
     return rating
 
 def rate_csp_depricated(domain, result_dict, local_translation, global_translation):
+    """
+    This function rates the safety of a Content Security Policy (CSP) for a
+    given domain based on the usage of deprecated policies.
+
+    Parameters:
+    domain (str): The domain for which the CSP is being rated.
+    result_dict (dict): A dictionary containing the CSP details for all domains.
+    local_translation (function): A function to translate text to the local language.
+    global_translation (function): A function to translate text to a global language.
+
+    Returns:
+    Rating: A Rating object with the overall rating based on the usage of deprecated policies.
+    """
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     is_using_deprecated_policy = False
     for policy_name in CSP_POLICIES_DEPRECATED:
@@ -447,6 +489,19 @@ def rate_csp_depricated(domain, result_dict, local_translation, global_translati
     return rating
 
 def rate_csp_malformed(domain, policy_object, local_translation, global_translation):
+    """
+    This function rates the safety of a Content Security Policy (CSP) for a
+    given domain based on the presence of malformed policies.
+
+    Parameters:
+    domain (str): The domain for which the CSP is being rated.
+    policy_object (dict): A dictionary containing the CSP details.
+    local_translation (function): A function to translate text to the local language.
+    global_translation (function): A function to translate text to a global language.
+
+    Returns:
+    Rating: A Rating object with the overall rating based on the presence of malformed policies.
+    """
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     policy_name = policy_object['name']
     nof_malformed = len(policy_object['malformed'])
@@ -460,6 +515,20 @@ def rate_csp_malformed(domain, policy_object, local_translation, global_translat
     return rating
 
 def rate_csp_self(domain, policy_object, local_translation, global_translation):
+    """
+    This function rates the safety of a Content Security Policy (CSP) for
+    a given domain based on the 'self' directive.
+
+    Parameters:
+    domain (str): The domain for which the CSP is being rated.
+    policy_object (dict): A dictionary containing the CSP details.
+    local_translation (function): A function to translate text to the local language.
+    global_translation (function): A function to translate text to a global language.
+
+    Returns:
+    tuple: A tuple containing a boolean indicating if any 'self' directive was found and
+           a Rating object with the overall rating.
+    """
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     policy_name = policy_object['name']
     any_found = False
@@ -498,6 +567,19 @@ def rate_csp_self(domain, policy_object, local_translation, global_translation):
     return any_found, rating
 
 def rate_csp_safe(domain, policy_object, local_translation, global_translation):
+    """
+    This function rates the safety of a Content Security Policy (CSP) for a given domain.
+
+    Parameters:
+    domain (str): The domain for which the CSP is being rated.
+    policy_object (dict): A dictionary containing the CSP details.
+    local_translation (function): A function to translate text to the local language.
+    global_translation (function): A function to translate text to a global language.
+
+    Returns:
+    tuple: A tuple containing a boolean indicating if any policy was found and
+           a Rating object with the overall rating.
+    """
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     policy_name = policy_object['name']
     any_found = False
@@ -547,6 +629,25 @@ def rate_csp_safe(domain, policy_object, local_translation, global_translation):
     return any_found, rating
 
 def rate_csp_fallbacks(domain, result_dict, local_translation, global_translation):
+    """
+    Rates the usage of fallbacks in a Content Security Policy (CSP).
+
+    This function creates a rating based on the presence of certain fallbacks in the result_dict. 
+    It checks if each fallback in CSP_POLICIES_FALLBACK_SRC is present in the 'csp-objects' of the
+    result_dict for the domain. Depending on the presence of these fallbacks, it sets the overall, 
+    standards, and integrity and security ratings differently.
+
+    Args:
+        domain (str): The domain for which the CSP is being rated.
+        result_dict (dict): A dictionary containing the result details. 
+                            It should have a key for the domain, which itself is a dictionary 
+                            containing a key 'csp-objects'.
+        local_translation (function): A function to translate text to the local language.
+        global_translation (function): A function to translate text to a global language.
+
+    Returns:
+        Rating: A Rating object representing the rating of the usage of fallbacks in the CSP.
+    """
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     for policy_name in CSP_POLICIES_FALLBACK_SRC:
         if policy_name in result_dict[domain]['csp-objects']:
@@ -572,6 +673,25 @@ def rate_csp_fallbacks(domain, result_dict, local_translation, global_translatio
     return rating
 
 def rate_csp_unsafe(domain, policy_object, local_translation, global_translation):
+    """
+    Rates the usage of unsafe directives in a Content Security Policy (CSP).
+
+    This function creates a rating based on the presence of certain unsafe directives 
+    ('unsafe-eval', 'wasm-unsafe-eval', 'unsafe-hashes', 'unsafe-inline') in the policy_object. 
+    Depending on the presence of these directives, it sets the overall and integrity and security 
+    ratings differently.
+
+    Args:
+        domain (str): The domain for which the CSP is being rated.
+        policy_object (dict): A dictionary containing the policy details. 
+                              It should have keys 'name' and 'all'.
+        local_translation (function): A function to translate text to the local language.
+        global_translation (function): A function to translate text to a global language.
+
+    Returns:
+        Rating: A Rating object representing the rating of
+                the usage of unsafe directives in the CSP.
+    """
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     policy_name = policy_object['name']
     is_using_unsafe = False
@@ -621,6 +741,24 @@ def rate_csp_unsafe(domain, policy_object, local_translation, global_translation
     return rating
 
 def rate_csp_schemes(domain, policy_object, local_translation, global_translation):
+    """
+    Rates the usage of schemes in a Content Security Policy (CSP).
+
+    This function creates a rating based on the number of schemes found in the policy_object. 
+    It checks if the schemes 'ws', 'http', or 'ftp' are present in the policy_object.
+    Depending on the case, it sets the overall and integrity and security ratings differently.
+
+    Args:
+        domain (str): The domain for which the CSP is being rated.
+        policy_object (dict): A dictionary containing the policy details. 
+                              It should have keys 'name' and 'schemes'.
+        local_translation (function): A function to translate text to the local language.
+        global_translation (function): A function to translate text to a global language.
+
+    Returns:
+        tuple: A tuple containing a boolean indicating whether any schemes were found, 
+               and a Rating object representing the rating.
+    """
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     policy_name = policy_object['name']
     any_found = False
@@ -651,6 +789,25 @@ def rate_csp_schemes(domain, policy_object, local_translation, global_translatio
     return any_found, rating
 
 def rate_csp_domains(domain, policy_object, local_translation, global_translation):
+    """
+    Rates the usage of domains in a Content Security Policy (CSP).
+
+    This function creates a rating based on the number of domains found in the policy_object. 
+    It checks if the number of domains is greater than 15, less than or equal to 15, or zero. 
+    Depending on the case, it sets the overall, standards, and
+    integrity and security ratings differently.
+
+    Args:
+        domain (str): The domain for which the CSP is being rated.
+        policy_object (dict): A dictionary containing the policy details. 
+                              It should have keys 'name' and 'domains'.
+        local_translation (function): A function to translate text to the local language.
+        global_translation (function): A function to translate text to a global language.
+
+    Returns:
+        tuple: A tuple containing a boolean indicating whether any domains were found, 
+               and a Rating object representing the rating.
+    """
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     any_found = False
     policy_name = policy_object['name']
@@ -684,6 +841,23 @@ def rate_csp_domains(domain, policy_object, local_translation, global_translatio
     return any_found, rating
 
 def rate_csp_subdomains(domain, policy_object, local_translation, global_translation):
+    """
+    Rates the usage of subdomains in a Content Security Policy (CSP).
+
+    This function creates a rating based on the number of subdomains found in the policy_object. 
+    It checks if the policy name is in the list of policies where 'self' is allowed. Depending on 
+    the case, it sets the overall, standards, and integrity and security ratings differently.
+
+    Args:
+        domain (str): The domain for which the CSP is being rated.
+        policy_object (dict): A dictionary containing the policy details. 
+                              It should have keys 'name' and 'subdomains'.
+        local_translation (function): A function to translate text to the local language.
+        global_translation (function): A function to translate text to a global language.
+
+    Returns:
+        Rating: A Rating object representing the rating of the usage of subdomains in the CSP.
+    """
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     policy_name = policy_object['name']
     nof_subdomains = len(policy_object['subdomains'])
@@ -720,6 +894,28 @@ def rate_csp_nonce(
         policy_object,
         local_translation,
         global_translation):
+    """
+    Rates the usage of nonces in a Content Security Policy (CSP).
+
+    This function creates a rating based on the number of nonces found in the policy_object. 
+    It checks if the number of nonces is equal to 1,
+    greater than the total number of site speedruns,
+    or falls into any other case. Depending on the case, it sets the overall, standards, and 
+    integrity and security ratings differently.
+
+    Args:
+        domain (str): The domain for which the CSP is being rated.
+        total_number_of_sitespeedruns (int): The total number of site speedruns.
+        policy_object (dict): A dictionary containing the policy details. 
+                              It should have keys 'name' and 'nounces'.
+        local_translation (function): A function to translate text to the local language.
+        global_translation (function): A function to translate text to a global language.
+
+    Returns:
+        tuple: A tuple containing a boolean indicating whether any nonces were found, 
+               and a Rating object representing the rating.
+    """
+
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     any_found = False
     policy_name = policy_object['name']
@@ -755,6 +951,25 @@ def rate_csp_nonce(
     return any_found, rating
 
 def rate_csp_wildcards(domain, policy_object, local_translation, global_translation):
+    """
+    Rates the usage of wildcards in a Content Security Policy (CSP).
+
+    This function iterates over the 'wildcards' in the policy_object. Each wildcard is checked 
+    for certain conditions and based on these conditions, a rating is calculated. The function 
+    also checks for the usage of wildcard subdomains in the policy and adjusts the rating 
+    accordingly. If no wildcard is used in the policy, a perfect rating is given.
+
+    Args:
+        domain (str): The domain for which the CSP is being rated.
+        policy_object (dict): A dictionary containing the policy details. 
+                              It should have keys 'name', 'wildcards', and 'wildcard-subdomains'.
+        local_translation (function): A function to translate text to the local language.
+        global_translation (function): A function to translate text to a global language.
+
+    Returns:
+        tuple: A tuple containing a boolean indicating whether any wildcard was found and 
+               a Rating object representing the calculated rating.
+    """
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     is_using_wildcard_in_policy = False
     any_found = False
@@ -806,6 +1021,21 @@ def rate_csp_wildcards(domain, policy_object, local_translation, global_translat
     return any_found, rating
 
 def default_csp_result_object(is_org_domain):
+    """
+    Creates a default Content Security Policy (CSP) result object.
+
+    This function creates a dictionary with keys for protocols, schemes, ip-versions, 
+    transport-layers, features, urls, and csp-policies, all of which are initialized 
+    with empty lists. If the domain is the original domain, an additional key 'csp-findings' 
+    is added to the dictionary, which itself is a dictionary with keys for quotes, 
+    host-sources, scheme-sources, and font-sources, all initialized with empty lists.
+
+    Args:
+        is_org_domain (bool): A boolean indicating whether the domain is the original domain.
+
+    Returns:
+        dict: A dictionary representing the default CSP result object.
+    """
     obj = {
                     'protocols': [],
                     'schemes': [],
@@ -826,6 +1056,17 @@ def default_csp_result_object(is_org_domain):
 
 
 def create_csp(csp_findings, org_domain): # pylint: disable=too-many-branches,too-many-statements
+    """
+    Creates a Content Security Policy (CSP) recommendation based on the findings.
+
+    Args:
+        csp_findings (dict): A dictionary containing CSP findings. 
+                             It should have keys 'quotes', 'host-sources', and 'scheme-sources'.
+        org_domain (str): The original domain for which the CSP is being created.
+
+    Returns:
+        str: A string containing the CSP recommendation.
+    """
     default_src = []
     img_src = []
     script_src = []
@@ -932,6 +1173,19 @@ def create_csp(csp_findings, org_domain): # pylint: disable=too-many-branches,to
     return csp_recommendation
 
 def append_schemes_to_img_srcs(csp_findings, img_src):
+    """
+    Appends host sources to the img_src list if the element name is 'img'.
+
+    This function iterates over the 'scheme-sources' in the csp_findings dictionary. 
+    Each source is split into a host source and an element name. If the element name 
+    is 'img', the host source is appended to the img_src list.
+
+    Args:
+        csp_findings (dict): A dictionary containing CSP findings. 
+                             It should have a key 'scheme-sources' which
+                             contains a list of sources.
+        img_src (list): A list to which host sources will be appended.
+    """
     for source in csp_findings['scheme-sources']:
         if '|' in source:
             pair = source.split('|')

@@ -158,7 +158,7 @@ def update_licenses():
 
 def get_software_rules():
     base_directory = Path(os.path.dirname(
-        os.path.realpath(__file__)) + os.path.sep)
+        os.path.realpath(__file__)) + os.path.sep).parent
 
     file_path = '{0}{1}{2}{1}software-rules.json'.format(base_directory, os.path.sep, "defaults")
     if not os.path.isfile(file_path):
@@ -171,7 +171,7 @@ def get_software_rules():
 
 def save_software_rules(rules):
     base_directory = Path(os.path.dirname(
-        os.path.realpath(__file__)) + os.path.sep)
+        os.path.realpath(__file__)) + os.path.sep).parent
 
     file_path = '{0}{1}{2}{1}software-rules.json'.format(base_directory, os.path.sep, "defaults")
     if not os.path.isfile(file_path):
@@ -606,12 +606,12 @@ def extend_versions_from_github_advisory_database(software_name, versions):
         return versions
 
 def set_softwares(filename, collection):
-    dir = Path(os.path.dirname(
-        os.path.realpath(__file__)) + os.path.sep)
-    
-    file_path = '{0}{1}data{1}{2}'.format(dir, os.path.sep, filename)
+    base_directory = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep).parent
+
+    file_path = '{0}{1}data{1}{2}'.format(base_directory, os.path.sep, filename)
     if not os.path.isfile(file_path):
-        file_path = '{0}{1}{2}'.format(dir, os.path.sep, filename)
+        file_path = '{0}{1}{2}'.format(base_directory, os.path.sep, filename)
     if not os.path.isfile(file_path):
         print("ERROR: No {0} file found!".format(filename))
 
@@ -625,12 +625,12 @@ def set_softwares(filename, collection):
         file.write(data)
 
 def get_software_sources(filename):
-    dir = Path(os.path.dirname(
-        os.path.realpath(__file__)) + os.path.sep)
+    base_directory = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep).parent
 
-    file_path = '{0}{1}data{1}{2}'.format(dir, os.path.sep, filename)
+    file_path = '{0}{1}data{1}{2}'.format(base_directory, os.path.sep, filename)
     if not os.path.isfile(file_path):
-        file_path = '{0}{1}{2}'.format(dir, os.path.sep, filename)
+        file_path = '{0}{1}{2}'.format(base_directory, os.path.sep, filename)
     if not os.path.isfile(file_path):
         print("ERROR: No {0} file found!".format(filename))
         return {

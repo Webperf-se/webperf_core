@@ -253,7 +253,7 @@ def validate_translations():
     msg_ids = {}
     # loop all available languages and verify language exist
     base_directory = Path(os.path.dirname(
-        os.path.realpath(__file__)) + os.path.sep).parent.parent
+        os.path.realpath(__file__)) + os.path.sep).parent
 
     print('Validate .po and .mo files')
     is_valid = validate_locales(base_directory, msg_ids)

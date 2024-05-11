@@ -568,7 +568,7 @@ def set_file_content(file_path, content):
 def handle_update_docker():
     """ Terminate the programme with an error if updating docker contains unexpected content  """
     base_directory = Path(os.path.dirname(
-            os.path.realpath(__file__)) + os.path.sep).parent.parent
+            os.path.realpath(__file__)) + os.path.sep).parent
 
     package_json_filepath = os.path.join(base_directory, 'package.json')
     if not os.path.exists(package_json_filepath):

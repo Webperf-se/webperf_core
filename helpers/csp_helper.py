@@ -33,6 +33,16 @@ CSP_POLICIES_DEPRECATED = [
             'report-uri']
 
 def handle_csp(content, domain, result_dict, is_from_response_header, org_domain):
+    """
+    Handles the Content Security Policy (CSP) from the content and updates the result dictionary.
+
+    Parameters:
+    content (str): The content containing the CSP.
+    domain (str): The domain to which the CSP applies.
+    result_dict (dict): The dictionary to be updated with the parsed CSP.
+    is_from_response_header (bool): Flag indicating if the content is from a response header.
+    org_domain (str): The original domain.
+    """
     parse_csp(content, domain, result_dict, is_from_response_header)
     # Add style-src policies to all who uses it as fallback
     ensure_csp_policy_fallbacks(domain, result_dict)
@@ -41,6 +51,15 @@ def handle_csp(content, domain, result_dict, is_from_response_header, org_domain
     convert_csp_policies_2_csp_objects(domain, result_dict, org_domain)
 
 def parse_csp(content, domain, result_dict, is_from_response_header):
+    """
+    Parses the Content Security Policy (CSP) from the content and updates the result dictionary.
+
+    Parameters:
+    content (str): The content containing the CSP.
+    domain (str): The domain to which the CSP applies.
+    result_dict (dict): The dictionary to be updated with the parsed CSP.
+    is_from_response_header (bool): Flag indicating if the content is from a response header.
+    """
     regex = (r'(?P<name>(default-src|script-src|style-src|font-src|connect-src|'
              r'frame-src|img-src|media-src|frame-ancestors|base-uri|form-action|'
              r'block-all-mixed-content|child-src|connect-src|fenced-frame-src|font-src|'
@@ -74,6 +93,13 @@ def parse_csp(content, domain, result_dict, is_from_response_header):
         extend_domain_entry_with_key(domain, 'csp-policies', policy_name, values, result_dict)
 
 def ensure_csp_policy_fallbacks(domain, result_dict):
+    """
+    This function ensures that fallbacks are set for certain CSP policies for a given domain.
+
+    Parameters:
+    domain (str): The domain for which the CSP policies are to be ensured.
+    result_dict (dict): A dictionary containing the results of the CSP checks.
+    """
     if 'style-src' in result_dict[domain]['csp-policies']:
         style_items = result_dict[domain]['csp-policies']['style-src']
         append_csp_policy('style-src-attr', style_items, domain, result_dict)
@@ -113,6 +139,15 @@ def ensure_csp_policy_fallbacks(domain, result_dict):
         append_csp_policy('worker-src', default_items, domain, result_dict)
 
 def append_csp_policy(policy_name, items, domain, result_dict):
+    """
+    This function appends a CSP policy to a given domain in the result dictionary.
+
+    Parameters:
+    policy_name (str): The name of the policy.
+    items (list): A list of items in the policy.
+    domain (str): The domain to which the policy is to be appended.
+    result_dict (dict): A dictionary containing the results of the CSP checks.
+    """
     if domain not in result_dict:
         result_dict[domain] = {}
 
@@ -129,6 +164,14 @@ def append_csp_policy(policy_name, items, domain, result_dict):
         result_dict[domain]['csp-policies'][policy_name].extend(items)
 
 def convert_csp_policies_2_csp_objects(domain, result_dict, org_domain):
+    """
+    This function converts CSP policies into CSP policy objects for a given domain.
+
+    Parameters:
+    domain (str): The domain for which the CSP policies are to be converted.
+    result_dict (dict): A dictionary containing the results of the CSP checks.
+    org_domain (str): The original domain.
+    """
     wildcard_org_domain = f'webperf-core-wildcard.{org_domain}'
     subdomain_org_domain = f'.{org_domain}'
 
@@ -147,6 +190,18 @@ def convert_csp_policies_2_csp_objects(domain, result_dict, org_domain):
             result_dict[domain]['csp-objects'][policy_name].update(policy_object)
 
 def csp_policy_2_csp_object(policy_name, wildcard_org_domain, subdomain_org_domain, items):
+    """
+    This function converts a CSP policy into a CSP policy object.
+
+    Parameters:
+    policy_name (str): The name of the policy.
+    wildcard_org_domain (str): The original domain with a wildcard.
+    subdomain_org_domain (str): The original domain with a subdomain.
+    items (list): A list of items in the policy.
+
+    Returns:
+    dict: A dictionary representing the CSP policy object.
+    """
     policy_object = default_csp_policy_object(policy_name)
     for value in items:
         policy_object['all'].append(value)
@@ -188,6 +243,15 @@ def csp_policy_2_csp_object(policy_name, wildcard_org_domain, subdomain_org_doma
     return policy_object
 
 def default_csp_policy_object(policy_name):
+    """
+    This function creates a default Content Security Policy (CSP) policy object.
+
+    Parameters:
+    policy_name (str): The name of the policy.
+
+    Returns:
+    dict: A dictionary representing the default CSP policy object.
+    """
     return {
             'name': policy_name,
             'all': [],
@@ -202,6 +266,15 @@ def default_csp_policy_object(policy_name):
         }
 
 def host_source_2_url(host_source):
+    """
+    This function converts a host source into a URL.
+
+    Parameters:
+    host_source (str): The host source to be converted.
+
+    Returns:
+    str: The converted URL.
+    """
     result = host_source
     if '*' in result:
         result = result.replace('*', 'webperf-core-wildcard')
@@ -213,6 +286,22 @@ def host_source_2_url(host_source):
 # pylint: disable=too-many-arguments
 def rate_csp(result_dict, global_translation, local_translation,
              org_domain, org_www_domain, domain, should_create_recommendation):
+    """
+    This function rates the Content Security Policy (CSP) of a given domain.
+
+    Parameters:
+    result_dict (dict): A dictionary containing the results of the CSP checks.
+    global_translation (function): A function to translate text to a global language.
+    local_translation (function): A function to translate text to a local language.
+    org_domain (str): The original domain.
+    org_www_domain (str): The original domain with 'www.' prefix.
+    domain (str): The domain to be rated.
+    should_create_recommendation (bool): A flag indicating whether to create a recommendation.
+
+    Returns:
+    Rating: A Rating object containing the overall rating,
+            standards rating, and integrity and security rating.
+    """
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if not isinstance(result_dict[domain], dict):
         return rating
@@ -276,6 +365,24 @@ def rate_csp(result_dict, global_translation, local_translation,
     return final_rating
 
 def create_final_csp_rating(global_translation, local_translation, domain, rating):
+    """
+    Creates a final rating for a CSP (Cloud Service Provider) based on the given parameters.
+
+    This function takes in global and local translations, domain, and a rating object.
+    It then creates a final rating object and sets its attributes based on the input rating and
+    whether a detailed report is to be used.
+
+    Parameters:
+    global_translation (function): A function for global translation.
+    local_translation (function): A function for local translation specific to the domain.
+    domain (str): The domain for which the rating is being created.
+    rating (Rating): The initial rating object which contains the overall rating,
+    standards rating, and integrity and security rating.
+
+    Returns:
+    final_rating (Rating): The final rating object with the overall,
+                           standards, and integrity and security ratings set.
+    """
     final_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if rating.is_set:
         if USE_DETAILED_REPORT:

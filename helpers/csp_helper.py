@@ -941,6 +941,21 @@ def append_schemes_to_img_srcs(csp_findings, img_src):
                 img_src.append(host_source)
 
 def append_if_not_empty(policy_name, policy_list, csp_recommendation):
+    """
+    Appends a policy to the CSP recommendation if the policy list is not empty.
+
+    This function checks if the policy list is not empty.
+    If it's not, it sorts the list, removes duplicates,
+    joins the elements into a string, and appends it to the CSP recommendation.
+
+    Args:
+        policy_name (str): The name of the policy.
+        policy_list (list): The list of policies.
+        csp_recommendation (str): The existing CSP recommendation.
+
+    Returns:
+        str: The updated CSP recommendation.
+    """
     policy_content = ' '.join(sorted(list(set(policy_list))))
     policy_content = policy_content.strip()
     if len(policy_content) > 0:
@@ -948,6 +963,24 @@ def append_if_not_empty(policy_name, policy_list, csp_recommendation):
     return csp_recommendation
 
 def append_csp_data(req_url, req_domain, res, org_domain, result):
+    """
+    Appends Content Security Policy (CSP) data for various types of content.
+
+    This function checks the type of content (HTML, CSS, JavaScript, image, font) and
+    calls the appropriate function to append the CSP data to the result dictionary. 
+    If no match is found, it checks if the requested domain is the same as the original domain and
+    appends the appropriate CSP data.
+
+    Args:
+        req_url (str): The requested URL.
+        req_domain (str): The requested domain.
+        res (dict): The response dictionary containing the content.
+        org_domain (str): The original domain.
+        result (dict): The result dictionary where the CSP data will be appended.
+
+    Returns:
+        bool: True if there is a match in the CSP findings, False otherwise.
+    """
     csp_findings_match = False
     if 'content' in res and 'text' in res['content']:
         if 'mimeType' in res['content'] and 'text/html' in res['content']['mimeType']:
@@ -1001,10 +1034,28 @@ def append_csp_data(req_url, req_domain, res, org_domain, result):
             csp_findings_match = True
 
 def append_csp_data_for_fonts(req_url, req_domain, res, org_domain, result):
+    """
+    Appends Content Security Policy (CSP) data for font content.
+
+    This function checks the font content for 'woff' and 'woff2' formats and
+    appends the CSP data to the result dictionary. 
+    It also checks if the requested domain is the same as the original domain and
+    appends the appropriate CSP data.
+
+    Args:
+        req_url (str): The requested URL.
+        req_domain (str): The requested domain.
+        res (dict): The response dictionary containing the font content.
+        org_domain (str): The original domain.
+        result (dict): The result dictionary where the CSP data will be appended.
+
+    Returns:
+        bool: True if there is a match in the CSP findings, False otherwise.
+    """
     csp_findings_match = False
     element_domain = req_domain
     element_name = 'font'
-        # woff and woff2 support is in all browser, add hash to our csp-findings
+    # woff and woff2 support is in all browser, add hash to our csp-findings
     has_font_hash = False
     if req_url.endswith('.woff') or\
                 req_url.endswith('.woff2') or\
@@ -1044,6 +1095,20 @@ def append_csp_data_for_fonts(req_url, req_domain, res, org_domain, result):
     return csp_findings_match
 
 def append_csp_data_for_images(req_domain, org_domain, result):
+    """
+    Appends Content Security Policy (CSP) data for image content.
+
+    This function checks if the requested domain is the same as the original domain and
+    appends the appropriate CSP data for images to the result dictionary.
+
+    Args:
+        req_domain (str): The requested domain.
+        org_domain (str): The original domain.
+        result (dict): The result dictionary where the CSP data will be appended.
+
+    Returns:
+        bool: True if there is a match in the CSP findings, False otherwise.
+    """
     csp_findings_match = False
     element_domain = req_domain
     element_name = 'img'
@@ -1060,6 +1125,23 @@ def append_csp_data_for_images(req_domain, org_domain, result):
     return csp_findings_match
 
 def append_csp_data_for_js(req_domain, res, org_domain, result):
+    """
+    Appends Content Security Policy (CSP) data for JavaScript content.
+
+    This function checks the JavaScript content for 'eval(' and
+    appends the CSP data to the result dictionary. 
+    It also checks if the requested domain is the same as the original domain and
+    appends the appropriate CSP data.
+
+    Args:
+        req_domain (str): The requested domain.
+        res (dict): The response dictionary containing the JavaScript content.
+        org_domain (str): The original domain.
+        result (dict): The result dictionary where the CSP data will be appended.
+
+    Returns:
+        bool: True if there is a match in the CSP findings, False otherwise.
+    """
     csp_findings_match = False
     content = res['content']['text']
     if 'eval(' in content:
@@ -1083,6 +1165,23 @@ def append_csp_data_for_js(req_domain, res, org_domain, result):
     return csp_findings_match
 
 def append_csp_data_for_css(req_domain, res, org_domain, result):
+    """
+    Appends Content Security Policy (CSP) data for CSS content.
+
+    This function checks the CSS content for 'data:image' and
+    appends the CSP data to the result dictionary. 
+    It also checks if the requested domain is the same as the original domain and
+    appends the appropriate CSP data.
+
+    Args:
+        req_domain (str): The requested domain.
+        res (dict): The response dictionary containing the CSS content.
+        org_domain (str): The original domain.
+        result (dict): The result dictionary where the CSP data will be appended.
+
+    Returns:
+        bool: True if there is a match in the CSP findings, False otherwise.
+    """
     csp_findings_match = False
     content = res['content']['text']
     if 'data:image' in content:
@@ -1105,6 +1204,23 @@ def append_csp_data_for_css(req_domain, res, org_domain, result):
     return csp_findings_match
 
 def append_csp_data_for_html(req_url, req_domain, res, org_domain, result):
+    """
+    Appends Content Security Policy (CSP) data for HTML content and linked resources.
+
+    This function parses the HTML content and identifies the CSP from meta tags.
+    It also identifies linked resources such as style, script, and form elements. 
+    It then appends the CSP data for these resources to the result dictionary.
+
+    Args:
+        req_url (str): The requested URL.
+        req_domain (str): The requested domain.
+        res (dict): The response dictionary containing the HTML content.
+        org_domain (str): The original domain.
+        result (dict): The result dictionary where the CSP data will be appended.
+
+    Returns:
+        bool: True if there is a match in the CSP findings, False otherwise.
+    """
     csp_findings_match = False
     result[req_domain]['features'].append('HTML-FOUND')
     content = res['content']['text']
@@ -1157,6 +1273,22 @@ def append_csp_data_for_html(req_url, req_domain, res, org_domain, result):
     return csp_findings_match
 
 def append_csp_data_for_linked_resources(req_domain, org_domain, result, content):
+    """
+    Appends Content Security Policy (CSP) data for linked resources in a given HTML content.
+
+    This function parses the HTML content and identifies linked resources such as
+    style, link, script, img, iframe, form, base, and frame elements. 
+    It then appends the CSP data for these resources to the result dictionary.
+
+    Args:
+        req_domain (str): The requested domain.
+        org_domain (str): The original domain.
+        result (dict): The result dictionary where the CSP data will be appended.
+        content (str): The HTML content to be parsed.
+
+    Returns:
+        bool: True if there is a match in the CSP findings, False otherwise.
+    """
     csp_findings_match = False
     regex = (
                     r'(?P<raw><(?P<type>style|link|script|img|iframe|form|base|frame)[^>]'

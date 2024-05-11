@@ -8,10 +8,28 @@ from helpers.hash_helper import create_sha256_hash
 from models import Rating
 from tests.utils import get_config_or_default
 
-
 # DEFAULTS
 REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
 USE_DETAILED_REPORT = get_config_or_default('USE_DETAILED_REPORT')
+CSP_POLICIES_SUPPORTED_SRC = [
+    'default-src','script-src','style-src','font-src',
+    'connect-src','frame-src','img-src','media-src',
+    'frame-ancestors','base-uri','form-action','child-src',
+    'manifest-src','object-src','script-src-attr',
+    'script-src-elem','style-src-attr','style-src-elem','worker-src']
+CSP_POLICIES_SELF_ALLOWED = [
+    'font-src','connect-src','frame-src','img-src','media-src',
+    'frame-ancestors','base-uri','form-action','child-src','manifest-src']
+CSP_POLICIES_FALLBACK_SRC = [
+    'base-uri', 'object-src', 'frame-ancestors',
+    'form-action', 'default-src']
+# Deprecated policies (According to https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
+CSP_POLICIES_DEPRECATED = [
+            'block-all-mixed-content',
+            'plugin-types',
+            'prefetch-src',
+            'referrer',
+            'report-uri']
 
 def handle_csp(content, domain, result_dict, is_from_response_header, org_domain):
     parse_csp(content, domain, result_dict, is_from_response_header)
@@ -115,6 +133,7 @@ def convert_csp_policies_2_csp_objects(domain, result_dict, org_domain):
 
     for policy_name, items in result_dict[domain]['csp-policies'].items():
         policy_object = csp_policy_2_csp_object(
+            policy_name,
             wildcard_org_domain,
             subdomain_org_domain,
             items)
@@ -126,8 +145,8 @@ def convert_csp_policies_2_csp_objects(domain, result_dict, org_domain):
         else:
             result_dict[domain]['csp-objects'][policy_name].update(policy_object)
 
-def csp_policy_2_csp_object(wildcard_org_domain, subdomain_org_domain, items):
-    policy_object = default_csp_policy_object()
+def csp_policy_2_csp_object(policy_name, wildcard_org_domain, subdomain_org_domain, items):
+    policy_object = default_csp_policy_object(policy_name)
     for value in items:
         policy_object['all'].append(value)
         if value == '' or\
@@ -167,8 +186,9 @@ def csp_policy_2_csp_object(wildcard_org_domain, subdomain_org_domain, items):
 
     return policy_object
 
-def default_csp_policy_object():
+def default_csp_policy_object(policy_name):
     return {
+            'name': policy_name,
             'all': [],
             'malformed': [],
             'hashes': [],
@@ -211,27 +231,8 @@ def rate_csp(result_dict, global_translation, local_translation,
                                          ).format(domain))
             rating += sub_rating
 
-        supported_src_policies = [
-            'default-src','script-src','style-src','font-src',
-            'connect-src','frame-src','img-src','media-src',
-            'frame-ancestors','base-uri','form-action','child-src',
-            'manifest-src','object-src','script-src-attr',
-            'script-src-elem','style-src-attr','style-src-elem','worker-src']
-        self_allowed_policies = [
-            'font-src','connect-src','frame-src','img-src','media-src',
-            'frame-ancestors','base-uri','form-action','child-src','manifest-src']
-        fallback_src_policies = [
-            'base-uri', 'object-src', 'frame-ancestors',
-            'form-action', 'default-src']
-        # Deprecated policies (According to https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
-        deprecated_policies = [
-            'block-all-mixed-content',
-            'plugin-types',
-            'prefetch-src',
-            'referrer',
-            'report-uri']
         is_using_deprecated_policy = False
-        for policy_name in deprecated_policies:
+        for policy_name in CSP_POLICIES_DEPRECATED:
             if policy_name in result_dict[domain]['csp-objects']:
                 is_using_deprecated_policy = True
                 sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
@@ -249,60 +250,19 @@ def rate_csp(result_dict, global_translation, local_translation,
                         policy_name, domain))
             rating += sub_rating
 
-        for policy_name in supported_src_policies:
+        for policy_name in CSP_POLICIES_SUPPORTED_SRC:
             policy_object = None
             if policy_name in result_dict[domain]['csp-objects']:
                 policy_object = result_dict[domain]['csp-objects'][policy_name]
             else:
                 continue
 
-            any_found = False
-
-            is_using_wildcard_in_policy = False
-            for wildcard in policy_object['wildcards']:
-                is_using_wildcard_in_policy = True
-                any_found = True
-                if wildcard.endswith('*'):
-                    sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                    sub_rating.set_overall(1.0)
-                    sub_rating.set_standards(1.0,
-                        local_translation('TEXT_REVIEW_CSP_POLICY_USE_WILDCARD').format(
-                            policy_name, domain))
-                    rating += sub_rating
-                else:
-                    sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                    sub_rating.set_overall(2.0)
-                    sub_rating.set_integrity_and_security(2.0,
-                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
-                            policy_name, local_translation('TEXT_REVIEW_CSP_WILDCARDS'), domain))
-                    rating += sub_rating
-
-            nof_wildcard_subdomains = len(policy_object['wildcard-subdomains'])
-            if nof_wildcard_subdomains > 0:
-                if policy_name in self_allowed_policies:
-                    sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                    sub_rating.set_overall(5.0)
-                    sub_rating.set_integrity_and_security(5.0,
-                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
-                            policy_name,
-                            local_translation('TEXT_REVIEW_CSP_WILDCARD_SUBDOMAIN'), domain))
-                    rating += sub_rating
-                else:
-                    sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                    sub_rating.set_overall(2.7)
-                    sub_rating.set_integrity_and_security(2.7,
-                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
-                            policy_name,
-                            local_translation('TEXT_REVIEW_CSP_WILDCARD_SUBDOMAIN'), domain))
-                    rating += sub_rating
-
-            if not is_using_wildcard_in_policy:
-                sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                sub_rating.set_overall(5.0)
-                sub_rating.set_standards(5.0,
-                        local_translation('TEXT_REVIEW_CSP_POLICY_NOT_USE_WILDCARD').format(
-                            policy_name, domain))
-                rating += sub_rating
+            any_found, wildcards_rating = rate_csp_wildcards(
+                domain,
+                policy_object,
+                local_translation,
+                global_translation)
+            rating += wildcards_rating
 
             if "'none'" in policy_object['all']:
                 if len(policy_object['all']) > 1:
@@ -337,7 +297,7 @@ def rate_csp(result_dict, global_translation, local_translation,
                             policy_name, "sha[256/384/512]", domain))
                 rating += sub_rating
                 any_found = True
-            elif policy_name not in self_allowed_policies:
+            elif policy_name not in CSP_POLICIES_SELF_ALLOWED:
                 sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(1.0)
                 sub_rating.set_standards(5.0,
@@ -349,38 +309,17 @@ def rate_csp(result_dict, global_translation, local_translation,
                 rating += sub_rating
 
 
-            nof_nonces = len(policy_object['nounces'])
-            if nof_nonces > 0:
-                sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                if nof_nonces == 1 and total_number_of_sitespeedruns != nof_nonces:
-                    sub_rating.set_overall(1.0)
-                    sub_rating.set_standards(1.0,
-                        local_translation('TEXT_REVIEW_CSP_POLICY_REUSE_NONCE').format(
-                            policy_name, domain))
-                    sub_rating.set_integrity_and_security(1.0,
-                            local_translation('TEXT_REVIEW_CSP_POLICY_REUSE_NONCE').format(
-                                policy_name, domain))
-                elif nof_nonces > total_number_of_sitespeedruns:
-                    sub_rating.set_overall(4.75)
-                    sub_rating.set_standards(4.99,
-                        local_translation('TEXT_REVIEW_CSP_POLICY_MULTIUSE_NONCE').format(
-                            policy_name, "'nonce's", domain))
-                    sub_rating.set_integrity_and_security(4.5,
-                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
-                            policy_name, "nonce", domain))
-                else:
-                    sub_rating.set_overall(4.5)
-                    sub_rating.set_standards(5.0,
-                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
-                            policy_name, "'nonce'", domain))
-                    sub_rating.set_integrity_and_security(4.5,
-                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
-                            policy_name, "'nonce'", domain))
-                rating += sub_rating
-                any_found = True
+            nonce_any_found, nonce_rating = rate_csp_nonce(
+                domain,
+                total_number_of_sitespeedruns,
+                policy_object,
+                local_translation,
+                global_translation)
+            any_found = any_found or nonce_any_found
+            rating += nonce_rating
 
             if "'self'" in policy_object['all']:
-                if policy_name in self_allowed_policies:
+                if policy_name in CSP_POLICIES_SELF_ALLOWED:
                     sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     sub_rating.set_overall(5.0)
                     sub_rating.set_standards(5.0,
@@ -415,7 +354,7 @@ def rate_csp(result_dict, global_translation, local_translation,
 
             nof_subdomains = len(policy_object['subdomains'])
             if nof_subdomains > 0:
-                if policy_name in self_allowed_policies:
+                if policy_name in CSP_POLICIES_SELF_ALLOWED:
                     sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                     sub_rating.set_overall(5.0)
                     sub_rating.set_integrity_and_security(5.0,
@@ -558,7 +497,7 @@ def rate_csp(result_dict, global_translation, local_translation,
                         policy_name, "'unsafe-*'", domain))
                 rating += sub_rating
 
-        for policy_name in fallback_src_policies:
+        for policy_name in CSP_POLICIES_FALLBACK_SRC:
             if policy_name in result_dict[domain]['csp-objects']:
                 sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
                 sub_rating.set_overall(5.0)
@@ -651,6 +590,97 @@ def rate_csp(result_dict, global_translation, local_translation,
                 final_rating.overall_review = text_recommendation + final_rating.overall_review
 
     return final_rating
+
+def rate_csp_nonce(
+        domain,
+        total_number_of_sitespeedruns,
+        policy_object,
+        local_translation,
+        global_translation):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    any_found = False
+    policy_name = policy_object['name']
+    nof_nonces = len(policy_object['nounces'])
+    if nof_nonces > 0:
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        if nof_nonces == 1 and total_number_of_sitespeedruns != nof_nonces:
+            sub_rating.set_overall(1.0)
+            sub_rating.set_standards(1.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_REUSE_NONCE').format(
+                            policy_name, domain))
+            sub_rating.set_integrity_and_security(1.0,
+                            local_translation('TEXT_REVIEW_CSP_POLICY_REUSE_NONCE').format(
+                                policy_name, domain))
+        elif nof_nonces > total_number_of_sitespeedruns:
+            sub_rating.set_overall(4.75)
+            sub_rating.set_standards(4.99,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_MULTIUSE_NONCE').format(
+                            policy_name, "'nonce's", domain))
+            sub_rating.set_integrity_and_security(4.5,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                            policy_name, "nonce", domain))
+        else:
+            sub_rating.set_overall(4.5)
+            sub_rating.set_standards(5.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                            policy_name, "'nonce'", domain))
+            sub_rating.set_integrity_and_security(4.5,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                            policy_name, "'nonce'", domain))
+        rating += sub_rating
+        any_found = True
+    return any_found, rating
+
+def rate_csp_wildcards(domain, policy_object, local_translation, global_translation):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    is_using_wildcard_in_policy = False
+    any_found = False
+    policy_name = policy_object['name']
+    for wildcard in policy_object['wildcards']:
+        is_using_wildcard_in_policy = True
+        any_found = True
+        if wildcard.endswith('*'):
+            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            sub_rating.set_overall(1.0)
+            sub_rating.set_standards(1.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_USE_WILDCARD').format(
+                            policy_name, domain))
+            rating += sub_rating
+        else:
+            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            sub_rating.set_overall(2.0)
+            sub_rating.set_integrity_and_security(2.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                            policy_name, local_translation('TEXT_REVIEW_CSP_WILDCARDS'), domain))
+            rating += sub_rating
+
+    nof_wildcard_subdomains = len(policy_object['wildcard-subdomains'])
+    if nof_wildcard_subdomains > 0:
+        if policy_name in CSP_POLICIES_SELF_ALLOWED:
+            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            sub_rating.set_overall(5.0)
+            sub_rating.set_integrity_and_security(5.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                            policy_name,
+                            local_translation('TEXT_REVIEW_CSP_WILDCARD_SUBDOMAIN'), domain))
+            rating += sub_rating
+        else:
+            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            sub_rating.set_overall(2.7)
+            sub_rating.set_integrity_and_security(2.7,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_IS_USING').format(
+                            policy_name,
+                            local_translation('TEXT_REVIEW_CSP_WILDCARD_SUBDOMAIN'), domain))
+            rating += sub_rating
+
+    if not is_using_wildcard_in_policy:
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating.set_overall(5.0)
+        sub_rating.set_standards(5.0,
+                        local_translation('TEXT_REVIEW_CSP_POLICY_NOT_USE_WILDCARD').format(
+                            policy_name, domain))
+        rating += sub_rating
+    return any_found, rating
 
 def default_csp_result_object(is_org_domain):
     obj = {
@@ -887,7 +917,7 @@ def append_csp_data(req_url, req_domain, res, org_domain, result):
             matches = re.finditer(regex, content, re.DOTALL | re.IGNORECASE | re.MULTILINE)
             for _, match in enumerate(matches, start=1):
                 element_name = match.group('type').lower()
-                if element_name == 'style' or element_name == 'script':
+                if element_name in ('style', 'script'):
                     key = f'\'unsafe-inline\'|{element_name}'
                     if key not in result[org_domain]['csp-findings']['quotes']:
                         result[org_domain]['csp-findings']['quotes'].append(key)

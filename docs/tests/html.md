@@ -38,7 +38,6 @@ Read more on the [general page for github actions](../getting-started-github-act
 * Depending on your preference, follow below NPM package or Docker image steps below.
 
 * Download and install Java (JDK 8 or above)
-* [Download latest vnu.jar](https://github.com/validator/validator/releases/download/latest/vnu.jar) and place it in your webperf-core directory
 
 #### Using NPM package
 

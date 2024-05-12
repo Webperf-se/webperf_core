@@ -52,8 +52,6 @@ RUN echo 'ALL ALL=NOPASSWD: /usr/sbin/tc, /usr/sbin/route, /usr/sbin/ip' > /etc/
 
 RUN npm install -g node-gyp puppeteer
 
-RUN wget -q -O vnu.jar https://github.com/validator/validator/releases/download/latest/vnu.jar
-
 # If own config.py exists it will overwrite the SAMPLE
 COPY . /usr/src/app
 

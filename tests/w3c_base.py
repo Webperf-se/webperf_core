@@ -77,7 +77,9 @@ def get_errors(test_type, params):
 
         arg = f'--exit-zero-always{test_arg} --stdout --format json --errors-only {file_path}'
 
-    command = f'java -jar vnu.jar {arg}'
+    command = (f'java -jar node_modules{os.path.sep}vnu-jar'
+               f'{os.path.sep}build{os.path.sep}dist{os.path.sep}'
+               f'vnu.jar {arg}')
     with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
         output, _ = process.communicate(timeout=REQUEST_TIMEOUT * 10)
 

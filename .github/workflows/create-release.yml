@@ -30,7 +30,7 @@ jobs:
           include-hashes: false
       - name: Generate new release version
         id: newversion
-        run: python release.py -l "${{ steps.changes.outputs.last-tag }}"
+        run: python tools/release.py -l "${{ steps.changes.outputs.last-tag }}"
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:

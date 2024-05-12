@@ -26,6 +26,8 @@ jobs:
       run: python tools/verify_result.py -c ${{ matrix.config }},GITHUB_API_KEY=${{ secrets.GITHUB_TOKEN }}
     - name: Ensure up to date Dockerfile
       run: python tools/verify_result.py -d ${{ matrix.config }},GITHUB_API_KEY=${{ secrets.GITHUB_TOKEN }}
+    - name: Build the Docker image
+      run: docker build -t "webperf-core:latest" .
     - name: Create pull request
       uses: peter-evans/create-pull-request@v6
       with:

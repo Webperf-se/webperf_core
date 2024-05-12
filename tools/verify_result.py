@@ -113,11 +113,12 @@ def prepare_config_file(sample_filename, filename, arguments):
         print('no sample file exist at:', sample_filename)
         return False
 
-    if os.path.exists(filename):
+    if sample_filename != filename and os.path.exists(filename):
         print(filename + ' file already exist, removing it')
         os.remove(filename)
 
-    shutil.copyfile(sample_filename, filename)
+    if sample_filename != filename:
+        shutil.copyfile(sample_filename, filename)
 
     if not os.path.exists(filename):
         print('no file exist')
@@ -457,6 +458,8 @@ def main(argv):
     -h/--help\t\t\t: Verify Help command
     -c/--prep-config <activate feature, True or False>\t\t:
       Uses defaults/config.py to create config.py
+    -d/--docker <activate feature, True or False>\t\t:
+      Updates DockerFile to use latest browsers
     -t/--test <test number>\t: Verify result of specific test
 
     NOTE:
@@ -466,8 +469,8 @@ def main(argv):
     """
 
     try:
-        opts, _ = getopt.getopt(argv, "hlc:t:d:", [
-                                   "help", "test=", "prep-config=", "language", "docker="])
+        opts, _ = getopt.getopt(argv, "hlc:t:d:s:", [
+                                   "help", "test=", "prep-config=", "sample-config=", "language", "docker="])
     except getopt.GetoptError:
         print(main.__doc__)
         sys.exit(2)
@@ -482,6 +485,8 @@ def main(argv):
             sys.exit(0)
         elif opt in ("-c", "--prep-config"):
             handle_pre_config(arg)
+        elif opt in ("-s", "--sample-config"):
+            handle_sample_config(arg)
         elif opt in ("-t", "--test"):  # test id
             handle_test_result(arg)
         elif opt in ("-d", "--docker"):  # docker
@@ -565,7 +570,7 @@ def set_file_content(file_path, content):
 def handle_update_docker():
     """ Terminate the programme with an error if updating docker contains unexpected content  """
     base_directory = Path(os.path.dirname(
-            os.path.realpath(__file__)) + os.path.sep).parent.parent
+            os.path.realpath(__file__)) + os.path.sep).parent
 
     package_json_filepath = os.path.join(base_directory, 'package.json')
     if not os.path.exists(package_json_filepath):
@@ -606,6 +611,25 @@ def handle_test_result(arg):
         sys.exit(2)
 
     if validate_testresult(arg):
+        sys.exit(0)
+    else:
+        sys.exit(2)
+
+def handle_sample_config(arg):
+    """ Terminate the programme with an error if we're unable to
+      generate a config.py file from SAMPLE-config with a few alterations """
+    if 'true' == arg.lower() or 'false' == arg.lower() or '1' == arg or '0' == arg:
+        raise ValueError(
+                    'c/prep-config argument has changed format,'
+                    ' it doesn\'t support previous format')
+    arguments = arg.split(',')
+
+    base_directory = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep).parent
+    if prepare_config_file(
+            f'{base_directory}{os.path.sep}defaults{os.path.sep}config.py',
+            f'{base_directory}{os.path.sep}defaults{os.path.sep}config.py',
+            arguments):
         sys.exit(0)
     else:
         sys.exit(2)

@@ -5,19 +5,12 @@ on:
   #  https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#onschedule
   #  * is a special character in YAML so you have to quote this string
     - cron: '30 8 14,28 * *'
-  # push:
-  #   paths:
-  #     - 'software-sources.json'
-  #     - '**update-software.yml'
-  #     - '**verify_result.py'
-  #     - 'update_software.py'
-  #     - '**software-rules.json'
 jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
             matrix:
-                os: [windows-latest]
+                os: [ubuntu-latest]
                 config: ["SOFTWARE_GITHUB_ADADVISORY_DATABASE_PATH=advisory_database"]
     steps:
     - name: Check out repository code
@@ -29,8 +22,31 @@ jobs:
         architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
+    - name: Setup Node.js (v4 version 20.x)
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+    - name: Setup SpeedIndex dependencies (ONLY used for Sitespeed) - Linux
+      run: |
+        sudo apt-get update -y
+        sudo apt-get install -y imagemagick libjpeg-dev xz-utils --no-install-recommends --force-yes
+        python -m pip install --upgrade pip
+        python -m pip install --upgrade setuptools
+        python -m pip install pyssim Pillow image
+        sudo apt install ffmpeg
+    - name: Setup Google Chrome browser (ONLY used for Sitespeed) - Linux
+      run: |
+        wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - 
+        sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+        sudo apt-get update
+        sudo apt-get --only-upgrade install google-chrome-stable
+        google-chrome --version
+    - name: Setup npm packages
+      run: npm install
     - name: Setup config
-      run: python tools\verify_result.py -c ${{ matrix.config }},GITHUB_API_KEY=${{ secrets.GITHUB_TOKEN }}
+      run: python tools/verify_result.py -c ${{ matrix.config }},GITHUB_API_KEY=${{ secrets.GITHUB_TOKEN }}
+    - name: Update USER_AGENT in our defaults/config.py
+      run: python update_software.py -b
     - name: Checkout advisory-database repo
       uses: actions/checkout@v4
       with:
@@ -55,9 +71,11 @@ jobs:
             - software-sources.json
             - software-full.json
             - defaults/software-rules.json
+            - defaults/config.py
         assignees: 7h3Rabbit
         reviewers: 7h3Rabbit
         add-paths: |
           software-sources.json
           software-full.json
-          defaults\software-rules.json
+          defaults/software-rules.json
+          defaults/config.py

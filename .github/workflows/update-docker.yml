@@ -30,7 +30,7 @@ jobs:
       run: docker build -t "webperf-core:latest" .
     - name: Check if webperf_core help command works
       run: |
-        help=$(docker run -v "$(pwd):/usr/src/app/defaults" webperf-core:latest python update_software.py -b)
+        help=$(docker run --mount src="$(pwd)",target=/usr/src/app/,type=bind webperf-core:latest python update_software.py -b)
         echo "$help"
     - name: Create pull request
       uses: peter-evans/create-pull-request@v6

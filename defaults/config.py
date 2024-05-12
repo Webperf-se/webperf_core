@@ -8,7 +8,7 @@ from datetime import timedelta
 # NOTE: Rename this file to 'config.py' and fill in the missing info below
 
 # useragent for HTTP requests
-USERAGENT = 'XYZ'
+USERAGENT = 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0'
 
 # enter your API key for Google Pagespeed API
 GOOGLEPAGESPEEDAPIKEY = ""

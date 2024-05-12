@@ -33,14 +33,8 @@ jobs:
         architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
-    - if: ${{ matrix.os == 'ubuntu-latest' }}
-      name: Download vnu.jar (The Nu Html Checker) - Linux
-      run: wget -q -O vnu.jar https://github.com/validator/validator/releases/download/latest/vnu.jar
-    - if: ${{ matrix.os == 'windows-latest' }}
-      shell: pwsh
-      name: Download vnu.jar (The Nu Html Checker) - Windows
-      run: |
-        Invoke-WebRequest -Uri https://github.com/validator/validator/releases/download/latest/vnu.jar -OutFile vnu.jar
+    - name: Java Version
+      run: java -version
     - name: Setup Node.js (v4 version 20.x)
       uses: actions/setup-node@v4
       with:

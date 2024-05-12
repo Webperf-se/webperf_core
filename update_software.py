@@ -860,7 +860,11 @@ def set_github_repository_info(item, owner, repo):
     repo_content = get_http_content(
         'https://api.github.com/repos/{0}/{1}'.format(owner, repo))
 
-    github_info = json.loads(repo_content)
+    github_info = None
+    try:
+        github_info = json.loads(repo_content)
+    except json.decoder.JSONDecodeError:
+        print(f'ERROR unable to read repository! owner: {owner}, repo: {repo}')
 
     # Get license from github repo ("license.spdx_id") info: https://api.github.com/repos/matomo-org/matomo
     # for example: MIT, GPL-3.0

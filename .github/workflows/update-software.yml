@@ -45,8 +45,6 @@ jobs:
       run: npm install
     - name: Setup config
       run: python tools/verify_result.py -c ${{ matrix.config }},GITHUB_API_KEY=${{ secrets.GITHUB_TOKEN }}
-    - name: Ensure up to date Dockerfile
-      run: python tools/verify_result.py -d ${{ matrix.config }},GITHUB_API_KEY=${{ secrets.GITHUB_TOKEN }}
     - name: Update USER_AGENT in our defaults/config.py
       run: python update_software.py -b
     - name: Checkout advisory-database repo

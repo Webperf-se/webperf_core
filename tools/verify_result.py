@@ -458,6 +458,8 @@ def main(argv):
     -h/--help\t\t\t: Verify Help command
     -c/--prep-config <activate feature, True or False>\t\t:
       Uses defaults/config.py to create config.py
+    -d/--docker <activate feature, True or False>\t\t:
+      Updates DockerFile to use latest browsers
     -t/--test <test number>\t: Verify result of specific test
 
     NOTE:

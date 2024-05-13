@@ -34,6 +34,12 @@ def run_test(global_translation, lang_code, url):
 
     use_axe = False
     json_result = get_pa11y_errors(url, use_axe)
+    # If we fail to connect to website the result_dict will be None and we should end test
+    if json_result is None:
+        error_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        error_rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
+        return (error_rating, {'failed': True })
+
     num_errors = len(json_result)
     if num_errors == 0:
         use_axe = True
@@ -183,5 +189,9 @@ def get_pa11y_errors(url, use_axe):
                    f"--ignore color-contrast --reporter json {additional_args}{url}")
     with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
         output, _ = process.communicate(timeout=REQUEST_TIMEOUT * 10)
+
+        # If we fail to connect to website the result_dict should be None and we should end test
+        if output is None or len(output) == 0:
+            return None
         json_result = json.loads(output)
         return json_result

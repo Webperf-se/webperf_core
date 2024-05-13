@@ -1,5 +1,5 @@
 beautifulsoup4==4.12.3
-lxml==5.2.1
+lxml==5.2.2
 requests==2.31.0
 urllib3==2.2.1
 dnspython==2.6.1
@@ -10,5 +10,5 @@ docker==7.0.0
 Pillow==10.3.0
 OpenCV-Python==4.9.0.80
 Numpy==1.26.4
-cryptography==42.0.6
+cryptography==42.0.7
 pylint==3.1.0

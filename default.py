@@ -24,7 +24,7 @@ from engines.gov import write_tests as gov_write_tests
 from engines.sql import write_tests as sql_write_tests
 from engines.markdown_engine import write_tests as markdown_write_tests
 from tests.utils import clean_cache_files
-from utils import TEST_FUNCS, TEST_ALL, test_sites
+from utils import TEST_FUNCS, TEST_ALL, restart_failures_log, test_sites
 
 
 def validate_test_type(tmp_test_types):
@@ -493,6 +493,7 @@ def main(argv):
             options.input_skip,
             options.input_take)
     elif len(options.sites) > 0:
+        restart_failures_log()
         # run test(s) for every website
         test_results = test_sites(options.language,
                                         options.lang_code,

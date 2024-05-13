@@ -81,7 +81,7 @@ def run_test(url, strategy, category, silance, lighthouse_translations):
     # If we fail to connect to website the score will be None and we should end test
     if score is None:
         rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
-        return (rating, return_dict)    
+        return (rating, {'failed': True })
 
     rating += create_rating_from_audits(category, global_translation, json_content, return_dict)
     review = rating.overall_review

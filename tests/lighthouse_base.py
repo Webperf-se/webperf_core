@@ -75,12 +75,18 @@ def run_test(url, strategy, category, silance, lighthouse_translations):
         lang_code, url, strategy, category, GOOGLEPAGESPEEDAPIKEY)
 
     return_dict = {}
+
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    score = json_content['categories'][category]['score']
+    # If we fail to connect to website the score will be None and we should end test
+    if score is None:
+        rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
+        return (rating, return_dict)    
+
     rating += create_rating_from_audits(category, global_translation, json_content, return_dict)
     review = rating.overall_review
 
     # Service score (0-100)
-    score = json_content['categories'][category]['score']
     set_overall_rating_and_review(local_translation, score, rating, review)
 
     if not silance:

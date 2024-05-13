@@ -54,10 +54,9 @@ def run_test(global_translation, lang_code, url):
     results = soup2.find_all(class_="result")
     result_title = soup2.find(id="results-title")
     if not result_title:
-        print(
-            'Error! Unfortunately the request for URL "{0}" failed, message:\nUnexpected result')
-        print('request.text:' + html_content)
-        return (rating, return_dict)
+        error_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        error_rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
+        return (error_rating, {'failed': True })
 
     for result in results:
         rating += rate_result(result, global_translation, local_translation)

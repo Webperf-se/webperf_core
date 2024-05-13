@@ -2,7 +2,7 @@
 
 You can build an image and put in your local registry that has everything installed and good to go.
 
-It's based on the [webbrowsers image set up by Sitespeed.io](https://github.com/sitespeedio/docker-browsers). Great work, thanks!
+It's based on the [image set up by Sitespeed.io](https://github.com/sitespeedio/sitespeed.io). Great work, thanks!
 
 By default, `defaults/config.py`, gets copied used and should have sensible defaults that work well inside container.
 
@@ -27,3 +27,37 @@ The first version of the test only checks if image can build.
 ## Known issues
 
 Lighthouse tests sometimes fail reporting NO_NAVSTART - retrying usually works. Seems to be a somewhat often reported issue with Chrome/Lighthouse and Docker.
+
+## Advanced setup
+
+You can base your own image on `webperfse/webperf-core` or your own local version of it. It can be convenient to have your repo or folder outside of the original repo.
+
+For example you can hold your own copies of `config.py` and `sites.json` in this separate folder.
+
+This can makes it easier to update and sync the original GitHub repository without having to re-apply your own changes.
+
+Put a `Dockerfile` in the new folder. Content example:
+
+```
+FROM webperfse/webperf-core:latest
+
+COPY config.py /usr/src/runner/config.py
+COPY sites.json /usr/src/runner/sites.json
+```
+
+Build it from your new folder:
+
+
+```
+docker build -t "my-own-webperf-runner:latest" .
+```
+
+Run it:
+
+```
+docker run -it --cap-add=SYS_ADMIN --cpus=".9" --shm-size=3g --rm my-own-webperf-runner:latest bash
+```
+
+Now you are at bash but with separate `config.py` and `sites.json` files _burnt into_ the image.
+
+If you have PowerShell I recommend you also copy the _*.ps1_-files from the _./docker_ folder and adjust them to fit the custom image.

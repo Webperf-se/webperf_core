@@ -60,6 +60,11 @@ def run_test(global_translation, lang_code, url):
         info = {'called_url': url}
         rating += rate_statement(info, global_translation, local_translation)
 
+    if not rating.isused():
+        rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
+        return (rating, {'failed': True })
+
+
     print(global_translation('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 

@@ -158,6 +158,9 @@ def identify_files(filename):
         'resources': []
     }
 
+    if not os.path.exists(filename):
+        return None
+
     with open(filename, encoding='utf-8') as json_input_file:
         har_data = json.load(json_input_file)
 

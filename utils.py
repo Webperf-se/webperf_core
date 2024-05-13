@@ -197,6 +197,14 @@ def test(global_translation, lang_code, site, test_type=None, show_reviews=False
 
     return []
 
+def restart_failures_log():
+    """
+    Restart failures log by removing all content in it,
+    this is so we always start fresh.
+    """
+    with open('failures.log', 'w', encoding='utf-8') as outfile:
+        outfile.writelines('')
+
 def get_error_info(url, lang_code, test_type, show_reviews, ex):
     result = []
     result.append('###############################################')

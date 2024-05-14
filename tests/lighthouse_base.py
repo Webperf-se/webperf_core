@@ -133,8 +133,7 @@ def create_rating_from_audit(item, category, global_translation, weight):
         item['score'])
 
     local_points = 5.0 * local_score
-    if local_points < 1.0:
-        local_points = 1
+    local_points = max(1.0, local_points)
     if local_points >= 4.95:
         local_points = 5.0
 
@@ -147,12 +146,12 @@ def create_rating_from_audit(item, category, global_translation, weight):
     if 'displayValue' in item:
         display_value = item['displayValue']
 
-    if local_score == 0:
-        item_review = f"- {global_translation(item_title)}"
-    elif local_points == 5.0:
-        item_review = f"- {global_translation(item_title)}"
-    else:
-        item_review = f"- {global_translation(item_title)}: {display_value}"
+    item_review = get_item_review(
+        item_title,
+        display_value,
+        local_score,
+        local_points,
+        global_translation)
 
     lover_item_review = item_review.lower()
     item_description = item_description.lower()
@@ -179,6 +178,28 @@ def create_rating_from_audit(item, category, global_translation, weight):
             'key': local_points - weight,
             'value': rating
         }
+
+def get_item_review(item_title, display_value, local_score, local_points, global_translation):
+    """
+    Generate a review string for an item based on local and global scores.
+
+    Parameters:
+    item_title (str): The title of the item.
+    display_value (str): The value to be displayed in the review.
+    local_score (float): The local score of the item.
+    local_points (float): The local points of the item.
+    global_translation (function): A function to translate the item title.
+
+    Returns:
+    str: The review of the item.
+    """
+    if local_score == 0:
+        item_review = f"- {global_translation(item_title)}"
+    elif local_points == 5.0:
+        item_review = f"- {global_translation(item_title)}"
+    else:
+        item_review = f"- {global_translation(item_title)}: {display_value}"
+    return item_review
 
 
 def create_rating_from_audits(category, global_translation, json_content, return_dict):

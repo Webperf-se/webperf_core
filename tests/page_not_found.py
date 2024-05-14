@@ -66,7 +66,8 @@ def run_test(global_translation, lang_code, org_url):
 
     # Error, was unable to load the page you requested.
     if code is None and request_text == '':
-        # very if we can connect to orginal url, if not there is a bigger problem, geo block for example
+        # very if we can connect to orginal url,
+        # if not there is a bigger problem, geo block for example
         request_text2, code2 = get_http_content_with_status(org_url, allow_redirects=True,
                                                         use_text_instead_of_content=True)
         if code2 is None and request_text2 == '':

@@ -48,16 +48,10 @@ def run_test(global_translation, lang_code, url):
 
     num_errors = len(json_result)
 
-    unique_errors = set()
     return_dict = json_result
     errors = json_result
 
-    for error in errors:
-        if 'message' in error:
-            err_mess = error['message'].replace('This', 'A')
-            error_review = f'- {err_mess}\n'
-            unique_errors.add(error_review)
-
+    unique_errors = get_unique_errors(errors)
     num_unique_errors = len(unique_errors)
 
     rating = rate_errors(global_translation,
@@ -67,6 +61,21 @@ def run_test(global_translation, lang_code, url):
                          num_unique_errors)
 
     return (rating, return_dict)
+
+def get_unique_errors(errors):
+    """
+    Gets unique errors from a list of many errors
+
+    Parameters:
+    errors (list): The list of errors.
+    """
+    unique_errors = set()
+    for error in errors:
+        if 'message' in error:
+            err_mess = error['message'].replace('This', 'A')
+            error_review = f'- {err_mess}\n'
+            unique_errors.add(error_review)
+    return unique_errors
 
 def rate_errors(
         global_translation,

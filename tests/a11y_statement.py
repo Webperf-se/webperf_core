@@ -61,9 +61,20 @@ def run_test(global_translation, lang_code, url):
         rating += rate_statement(info, global_translation, local_translation)
 
     if not rating.isused():
-        rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
-        return (rating, {'failed': True })
+        url_is_available = False
+        for _, url_content in checked_urls.items():
+            if url_content != '' and url_content is not None:
+                url_is_available = True
+                break
 
+        if not url_is_available:
+            rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
+            return (rating, {'failed': True })
+        else:
+            rating.set_overall(1.0, local_translation(
+                'TEXT_REVIEW_NO_ACCESSIBILITY_STATEMENT'))
+            rating.overall_review = local_translation('TEXT_REVIEW_CALLED_URL').format(
+                url, rating.overall_review)
 
     print(global_translation('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))

@@ -89,8 +89,13 @@ def get_rating_from_sitespeed(url, local_translation, global_translation):
     o = urlparse(url)
     origin_domain = o.hostname
 
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     rules = get_rules()
     data = identify_software(filename, origin_domain, rules)
+    if data is None:
+        rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
+        return (rating, {'failed': True })
+
     # [
         # {
         #     "domain": "<domain>",
@@ -109,7 +114,6 @@ def get_rating_from_sitespeed(url, local_translation, global_translation):
     # nice_raw = json.dumps(data, indent=2)
     # print('DEBUG 2', nice_raw)
 
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     result = convert_item_to_domain_data(data)
 
     # if 'issues' in result:
@@ -1066,6 +1070,9 @@ def identify_software(filename, origin_domain, rules):
 
     global_software = None
     global_cookies = None
+
+    if not os.path.exists(filename):
+        return None
 
     # Fix for content having unallowed chars
     with open(filename) as json_input_file:

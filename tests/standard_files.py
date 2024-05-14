@@ -56,6 +56,12 @@ def run_test(global_translation, lang_code, url):
     # security.txt
     rating += validate_security_txt(result_dict, global_translation, local_translation)
 
+    if 'failed' in result_dict:
+        error_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        error_rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
+        return (error_rating, {'failed': True })
+
+
     print(global_translation('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
@@ -649,6 +655,8 @@ def validate_feed(result_dict, global_translation, local_translation):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     content = get_http_content(result_dict['url'], True, True)
+    if content == '':
+        result_dict['failed'] = True
     soup = BeautifulSoup(content, 'lxml')
     feeds = soup.find_all(is_feed)
 

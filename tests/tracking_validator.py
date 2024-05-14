@@ -135,9 +135,11 @@ def get_foldername_from_url(url):
 
 
 def get_file_content(input_filename):
-    # print('input_filename=' + input_filename)
     lines = []
     try:
+        if not os.path.exists(input_filename):
+            return None
+
         with open(input_filename, 'r', encoding='utf-8') as file:
             data = file.readlines()
             for line in data:
@@ -781,6 +783,8 @@ def get_rating_from_sitespeed(url, local_translation, global_translation):
         url, SITESPEED_USE_DOCKER, sitespeed_arg, SITESPEED_TIMEOUT)
 
     http_archive_content = get_file_content(filename)
+    if http_archive_content is None:
+        return rating
 
     # TODO: Read sitespeed manual on how to return localStorage
 
@@ -829,6 +833,11 @@ def run_test(global_translation, lang_code, url):
 
     print(global_translation('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+    if not rating.isused():
+        error_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        error_rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
+        return (error_rating, {'failed': True })
 
     return (rating, result_dict)
 

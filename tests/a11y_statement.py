@@ -60,10 +60,45 @@ def run_test(global_translation, lang_code, url):
         info = {'called_url': url}
         rating += rate_statement(info, global_translation, local_translation)
 
+    if not rating.isused():
+        rating += get_rating_not_set_rating(url, return_dict, local_translation, global_translation)
+
     print(global_translation('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, return_dict)
+
+def get_rating_not_set_rating(url, return_dict, local_translation, global_translation):
+    """
+    This function checks the availability of a URL and sets the rating based on its availability.
+    
+    Args:
+        url (str): The URL to be checked.
+        return_dict (dict): A dictionary to store the failure status if the URL is not available.
+        local_translation (function): A function to translate text to local language.
+        global_translation (function): A function to translate text to global language.
+
+    Returns:
+        Rating: An instance of the Rating class with the
+                overall review set based on the URL's availability.
+    """
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    url_is_available = False
+    for _, url_content in checked_urls.items():
+        if url_content != '' and url_content is not None:
+            url_is_available = True
+            break
+
+    if not url_is_available:
+        rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
+        return_dict['failed'] = True
+        return rating
+
+    rating.set_overall(1.0, local_translation(
+        'TEXT_REVIEW_NO_ACCESSIBILITY_STATEMENT'))
+    rating.overall_review = local_translation('TEXT_REVIEW_CALLED_URL').format(
+        url, rating.overall_review)
+    return rating
 
 
 def get_digg_report_canonical():

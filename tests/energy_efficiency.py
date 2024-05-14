@@ -147,6 +147,11 @@ def run_test(global_translation, lang_code, url):
 
     result_dict = {}
     transfer_bytes = get_total_bytes_for_url(global_translation, lang_code, url)
+    if transfer_bytes is None:
+        rating = Rating(global_translation)
+        rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
+        return (rating, {'failed': True })
+
     result_dict['total-byte-weight'] = transfer_bytes
 
     co2 = convert_2_co2(transfer_bytes)
@@ -214,6 +219,9 @@ def get_total_bytes_for_url(global_translation, lang_code, url):
     int: The total byte weight of the webpage as determined by the Lighthouse performance test.
     """
     lighthouse_perf_result = lighthouse_perf_run_test(global_translation, lang_code, url, True)
+
+    if not lighthouse_perf_result[0].isused():
+        return None
 
     transfer_bytes = lighthouse_perf_result[1]['total-byte-weight']
     return transfer_bytes

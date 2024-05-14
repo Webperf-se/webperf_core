@@ -103,6 +103,10 @@ def run_test(global_translation, lang_code, url):
         desktop_result_dict, mobile_result_dict,
         desktop_rating, mobile_rating)
 
+    if not rating.isused():
+        rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
+        return (rating, {'failed': True })
+
     print(global_translation('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 

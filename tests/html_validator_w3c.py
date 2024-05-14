@@ -31,16 +31,18 @@ def run_test(global_translation, lang_code, url):
     print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    data = get_data_for_url(url)
+    if data is None:
+        rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
+        return (rating, {'failed': True })
+
     result_dict = {
         'errors': {
             'all': [],
             'html_files': []
         }
     }
-
-    data = get_data_for_url(url)
-
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     for html_entry in data['htmls']:
         tmp_rating = handle_html_markup_entry(

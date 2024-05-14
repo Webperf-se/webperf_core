@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
+import os
 import urllib
 import urllib.parse
 
@@ -35,6 +36,9 @@ def get_data_from_sitespeed(filename, org_domain):
     }
 
     if filename == '':
+        return result
+
+    if not os.path.exists(filename):
         return result
 
     # Fix for content having unallowed chars

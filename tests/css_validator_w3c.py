@@ -30,6 +30,17 @@ def run_test(global_translation, lang_code, url):
     print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    data = get_data_for_url(url)
+    if data is None:
+        rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
+        return (rating, {'failed': True })
+
+
+    # 2. FIND ALL INLE CSS (AND CALCULTE)
+    # 2.1 FINS ALL <STYLE>
+    all_link_resources = []
+
     result_dict = {
         'has_style_elements': False,
         'has_style_attributes': False,
@@ -41,14 +52,6 @@ def run_test(global_translation, lang_code, url):
             'style_files': []
         }
     }
-
-    # We don't need extra iterations for what we are using it for
-    data = get_data_for_url(url)
-    # 2. FIND ALL INLE CSS (AND CALCULTE)
-    # 2.1 FINS ALL <STYLE>
-    all_link_resources = []
-
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     for html_entry in data['htmls']:
         tmp_all_link_resources, tmp_rating = handle_html_markup_entry(

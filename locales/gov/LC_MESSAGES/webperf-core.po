@@ -48,6 +48,9 @@ msgstr "### Review:\n"
 msgid "TEXT_EXCEPTION"
 msgstr "Exception, someone should look at this!"
 
+msgid "TEXT_SITE_UNAVAILABLE"
+msgstr "Error, was unable to load the page you requested."
+
 msgid "TEXT_TEST_START"
 msgstr "Started: {0}"
 

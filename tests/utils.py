@@ -449,7 +449,7 @@ def get_http_content_with_status(url, allow_redirects=False, use_text_instead_of
             f'The timeout is set to {REQUEST_TIMEOUT} seconds.\nMessage:\n{sys.exc_info()[0]}')
     return '', None
 
-def get_http_content(url, allow_redirects=False, use_text_instead_of_content=True):
+def get_http_content(url, allow_redirects=False, use_text_instead_of_content=True): # pylint: disable=too-many-branches
     """
     Retrieves the content of the specified URL and caches it.
 

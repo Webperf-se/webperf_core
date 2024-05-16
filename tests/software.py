@@ -126,9 +126,9 @@ def get_rating_from_sitespeed(url, local_translation, global_translation):
     result = convert_item_to_domain_data(data)
 
     texts = ''
-    texts = sum_overall_software_used(local_translation, global_translation, result)
+    texts = sum_overall_software_used(local_translation, result)
 
-    rating += rate_software_security_result(local_translation, global_translation, result, url)
+    rating += rate_software_security_result(local_translation, global_translation, result)
 
     rating.overall_review = '{0}\r\n'.format('\r\n'.join(texts))
     if len(rating.overall_review.strip('\r\n\t ')) == 0:
@@ -163,29 +163,27 @@ def cleanup_domain_data(data):
         data['issues'] = tmp
 
 def sort_issues(item1, item2):
+    value = 0
     if item1.startswith('CVE-') and not item2.startswith('CVE-'):
-        return 1
-    if item2.startswith('CVE-') and not item1.startswith('CVE-'):
-        return -1
-
-    if item1.startswith('UNMAINTAINED') and not item2.startswith('UNMAINTAINED'):
-        return -1
-    if item2.startswith('UNMAINTAINED') and not item1.startswith('UNMAINTAINED'):
-        return 1
-
-    if item1.startswith('ARCHIVED_SOURCE') and not item2.startswith('ARCHIVED_SOURCE'):
-        return -1
-    if item2.startswith('ARCHIVED_SOURCE') and not item1.startswith('ARCHIVED_SOURCE'):
-        return 1
-
-    if item1 < item2:
-        return -1
-    if item1 > item2:
-        return 1
-    return 0
+        value = 1
+    elif item2.startswith('CVE-') and not item1.startswith('CVE-'):
+        value = -1
+    elif item1.startswith('UNMAINTAINED') and not item2.startswith('UNMAINTAINED'):
+        value = -1
+    elif item2.startswith('UNMAINTAINED') and not item1.startswith('UNMAINTAINED'):
+        value = 1
+    elif item1.startswith('ARCHIVED_SOURCE') and not item2.startswith('ARCHIVED_SOURCE'):
+        value = -1
+    elif item2.startswith('ARCHIVED_SOURCE') and not item1.startswith('ARCHIVED_SOURCE'):
+        value = 1
+    elif item1 < item2:
+        value = -1
+    elif item1 > item2:
+        value = 1
+    return value
 
 
-def rate_software_security_result(local_translation, global_translation, result, url):
+def rate_software_security_result(local_translation, global_translation, result):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     has_cve_issues = False
@@ -195,162 +193,54 @@ def rate_software_security_result(local_translation, global_translation, result,
     has_end_of_life_issues = False
 
     for issue_type in result['issues']:
-        text = ''
         if issue_type.startswith('CVE'):
             has_cve_issues = True
-            points = 1.0
-            cve_ratings = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-            for _ in result['issues'][issue_type]['sub-issues']:
-                sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-                sub_rating.set_overall(points)
-                sub_rating.set_integrity_and_security(points)
-                cve_ratings += sub_rating
-            if USE_DETAILED_REPORT:
-                text = local_translation('TEXT_DETAILED_REVIEW_CVE')\
-                    .replace('#POINTS#', str(cve_ratings.get_integrity_and_security()))
-
-                text += local_translation('TEXT_DETAILED_REVIEW_CVES')
-                text += '\r\n'
-                for cve in result['issues'][issue_type]['sub-issues']:
-                    text += f'- {cve}\r\n'
-                text += '\r\n'
-                text += local_translation('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
-                text += '\r\n'
-                for software in result['issues'][issue_type]['softwares']:
-                    text += f'- {software}\r\n'
-                text += '\r\n'
-                text += local_translation('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
-                text += '\r\n'
-                for resource in result['issues'][issue_type]['resources']:
-                    text += f'- {resource}\r\n'
-
-                cve_ratings.integrity_and_security_review = text
-            rating += cve_ratings
+            rating += rate_software_cve(issue_type, result, local_translation, global_translation)
         elif issue_type.startswith('BEHIND'):
             has_behind_issues = True
-            points = 5.0
-            if issue_type == 'BEHIND100':
-                points = 2.0
-            elif issue_type == 'BEHIND075':
-                points = 2.25
-            elif issue_type == 'BEHIND050':
-                points = 2.5
-            elif issue_type == 'BEHIND025':
-                points = 2.75
-            elif issue_type == 'BEHIND010':
-                points = 3.0
-            elif issue_type == 'BEHIND001':
-                points = 4.9
-            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-            sub_rating.set_overall(points)
-            sub_rating.set_integrity_and_security(points)
-
-            if USE_DETAILED_REPORT:
-                text = local_translation(f'TEXT_DETAILED_REVIEW_{issue_type}')\
-                    .replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
-                text += '\r\n'
-                text += local_translation('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
-                text += '\r\n'
-                for software in result['issues'][issue_type]['softwares']:
-                    text += f'- {software}\r\n'
-
-                text += '\r\n'
-                text += local_translation('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
-                text += '\r\n'
-                for resource in result['issues'][issue_type]['resources']:
-                    text += f'- {resource}\r\n'
-                sub_rating.integrity_and_security_review = text
-
-            rating += sub_rating
+            rating += rate_software_behind(
+                issue_type,
+                result,
+                local_translation,
+                global_translation)
         elif issue_type.startswith('ARCHIVED_SOURCE'):
             has_source_issues = True
-            points = 1.75
-            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-            sub_rating.set_overall(points)
-            sub_rating.set_integrity_and_security(points)
-            if USE_DETAILED_REPORT:
-                text = local_translation(f'TEXT_DETAILED_REVIEW_{issue_type}')\
-                    .replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
-                text += '\r\n'
-                text += local_translation('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
-                text += '\r\n'
-                for software in result['issues'][issue_type]['softwares']:
-                    text += f'- {software}\r\n'
-
-                text += '\r\n'
-                text += local_translation('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
-                text += '\r\n'
-                for resource in result['issues'][issue_type]['resources']:
-                    text += f'- {resource}\r\n'
-                sub_rating.integrity_and_security_review = text
-            rating += sub_rating
+            rating += rate_software_archived_source(
+                issue_type,
+                result,
+                local_translation,
+                global_translation)
         elif issue_type.startswith('UNMAINTAINED_SOURCE'):
             has_source_issues = True
-            points = 3.0
-            if issue_type.endswith('3_YEARS'):
-                points = 4.0
-            elif issue_type.endswith('4_YEARS'):
-                points = 3.5
-            elif issue_type.endswith('5_YEARS'):
-                points = 3.0
-            elif issue_type.endswith('6_YEARS'):
-                points = 2.5
-            elif issue_type.endswith('7_YEARS'):
-                points = 2.0
-            elif issue_type.endswith('8_YEARS'):
-                points = 1.5
-            elif issue_type.endswith('9_YEARS'):
-                points = 1.0
-            elif issue_type.endswith('10_YEARS'):
-                points = 1.0
-
-            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-            sub_rating.set_overall(points)
-            sub_rating.set_integrity_and_security(points)
-            if USE_DETAILED_REPORT:
-                text = local_translation(f'TEXT_DETAILED_REVIEW_{issue_type}')\
-                    .replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
-                text += '\r\n'
-                text += local_translation('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
-                text += '\r\n'
-                for software in result['issues'][issue_type]['softwares']:
-                    text += f'- {software}\r\n'
-
-                text += '\r\n'
-                text += local_translation('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
-                text += '\r\n'
-                for resource in result['issues'][issue_type]['resources']:
-                    text += f'- {resource}\r\n'
-                sub_rating.integrity_and_security_review = text
-            rating += sub_rating
+            rating += rate_software_unmaintained_source(
+                issue_type,
+                result,
+                local_translation,
+                global_translation)
 
         elif issue_type.startswith('END_OF_LIFE'):
             has_end_of_life_issues = True
-            points = 1.75
-            sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-            sub_rating.set_overall(points)
-            sub_rating.set_integrity_and_security(points)
-
-            if USE_DETAILED_REPORT:
-                text = local_translation(f'TEXT_DETAILED_REVIEW_{issue_type}')\
-                    .replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
-                text += '\r\n'
-                text += local_translation('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
-                text += '\r\n'
-                for software in result['issues'][issue_type]['softwares']:
-                    text += f'- {software}\r\n'
-
-                text += '\r\n'
-                text += local_translation('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
-                text += '\r\n'
-                for resource in result['issues'][issue_type]['resources']:
-                    text += f'- {resource}\r\n'
-                sub_rating.integrity_and_security_review = text
-            rating += sub_rating
-
+            rating += rate_software_end_of_life(
+                local_translation,
+                global_translation,
+                result,
+                issue_type)
         # elif issue_type.startswith('MULTIPLE-VERSIONS'):
         #     has_multiple_versions_issues = True
 
+    rating += rate_software_no_issues(
+        has_cve_issues,
+        has_behind_issues,
+        has_source_issues,
+        has_end_of_life_issues,
+        local_translation,
+        global_translation)
+
+    return rating
+
+def rate_software_no_issues(has_cve_issues, has_behind_issues, has_source_issues,
+                            has_end_of_life_issues, local_translation, global_translation):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
     if not has_cve_issues:
         points = 5.0
         sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
@@ -398,11 +288,160 @@ def rate_software_security_result(local_translation, global_translation, result,
         else:
             sub_rating.set_integrity_and_security(points)
         rating += sub_rating
-
     return rating
 
+def rate_software_end_of_life(local_translation, global_translation, result, issue_type):
+    points = 1.75
+    sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    sub_rating.set_overall(points)
+    sub_rating.set_integrity_and_security(points)
 
-def sum_overall_software_used(local_translation, global_translation, result):
+    if USE_DETAILED_REPORT:
+        text = local_translation(f'TEXT_DETAILED_REVIEW_{issue_type}')\
+                    .replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
+        text += '\r\n'
+        text += local_translation('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
+        text += '\r\n'
+        for software in result['issues'][issue_type]['softwares']:
+            text += f'- {software}\r\n'
+
+        text += '\r\n'
+        text += local_translation('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
+        text += '\r\n'
+        for resource in result['issues'][issue_type]['resources']:
+            text += f'- {resource}\r\n'
+        sub_rating.integrity_and_security_review = text
+    return sub_rating
+
+def rate_software_unmaintained_source(issue_type, result, local_translation, global_translation):
+    points = 3.0
+    if issue_type.endswith('3_YEARS'):
+        points = 4.0
+    elif issue_type.endswith('4_YEARS'):
+        points = 3.5
+    elif issue_type.endswith('5_YEARS'):
+        points = 3.0
+    elif issue_type.endswith('6_YEARS'):
+        points = 2.5
+    elif issue_type.endswith('7_YEARS'):
+        points = 2.0
+    elif issue_type.endswith('8_YEARS'):
+        points = 1.5
+    elif issue_type.endswith('9_YEARS'):
+        points = 1.0
+    elif issue_type.endswith('10_YEARS'):
+        points = 1.0
+
+    sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    sub_rating.set_overall(points)
+    sub_rating.set_integrity_and_security(points)
+    if USE_DETAILED_REPORT:
+        text = local_translation(f'TEXT_DETAILED_REVIEW_{issue_type}')\
+                    .replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
+        text += '\r\n'
+        text += local_translation('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
+        text += '\r\n'
+        for software in result['issues'][issue_type]['softwares']:
+            text += f'- {software}\r\n'
+
+        text += '\r\n'
+        text += local_translation('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
+        text += '\r\n'
+        for resource in result['issues'][issue_type]['resources']:
+            text += f'- {resource}\r\n'
+        sub_rating.integrity_and_security_review = text
+    return sub_rating
+
+def rate_software_archived_source(issue_type, result, local_translation, global_translation):
+    points = 1.75
+    sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    sub_rating.set_overall(points)
+    sub_rating.set_integrity_and_security(points)
+    if USE_DETAILED_REPORT:
+        text = local_translation(f'TEXT_DETAILED_REVIEW_{issue_type}')\
+                    .replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
+        text += '\r\n'
+        text += local_translation('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
+        text += '\r\n'
+        for software in result['issues'][issue_type]['softwares']:
+            text += f'- {software}\r\n'
+
+        text += '\r\n'
+        text += local_translation('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
+        text += '\r\n'
+        for resource in result['issues'][issue_type]['resources']:
+            text += f'- {resource}\r\n'
+        sub_rating.integrity_and_security_review = text
+    return sub_rating
+
+def rate_software_behind(issue_type, result, local_translation, global_translation):
+    points = 5.0
+    if issue_type == 'BEHIND100':
+        points = 2.0
+    elif issue_type == 'BEHIND075':
+        points = 2.25
+    elif issue_type == 'BEHIND050':
+        points = 2.5
+    elif issue_type == 'BEHIND025':
+        points = 2.75
+    elif issue_type == 'BEHIND010':
+        points = 3.0
+    elif issue_type == 'BEHIND001':
+        points = 4.9
+    sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    sub_rating.set_overall(points)
+    sub_rating.set_integrity_and_security(points)
+
+    if USE_DETAILED_REPORT:
+        text = local_translation(f'TEXT_DETAILED_REVIEW_{issue_type}')\
+                    .replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
+        text += '\r\n'
+        text += local_translation('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
+        text += '\r\n'
+        for software in result['issues'][issue_type]['softwares']:
+            text += f'- {software}\r\n'
+
+        text += '\r\n'
+        text += local_translation('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
+        text += '\r\n'
+        for resource in result['issues'][issue_type]['resources']:
+            text += f'- {resource}\r\n'
+        sub_rating.integrity_and_security_review = text
+    return sub_rating
+
+def rate_software_cve(issue_type, result, local_translation, global_translation):
+    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    points = 1.0
+    cve_ratings = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    for _ in result['issues'][issue_type]['sub-issues']:
+        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating.set_overall(points)
+        sub_rating.set_integrity_and_security(points)
+        cve_ratings += sub_rating
+    if USE_DETAILED_REPORT:
+        text = local_translation('TEXT_DETAILED_REVIEW_CVE')\
+                    .replace('#POINTS#', str(cve_ratings.get_integrity_and_security()))
+
+        text += local_translation('TEXT_DETAILED_REVIEW_CVES')
+        text += '\r\n'
+        for cve in result['issues'][issue_type]['sub-issues']:
+            text += f'- {cve}\r\n'
+        text += '\r\n'
+        text += local_translation('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
+        text += '\r\n'
+        for software in result['issues'][issue_type]['softwares']:
+            text += f'- {software}\r\n'
+        text += '\r\n'
+        text += local_translation('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
+        text += '\r\n'
+        for resource in result['issues'][issue_type]['resources']:
+            text += f'- {resource}\r\n'
+
+        cve_ratings.integrity_and_security_review = text
+    rating += cve_ratings
+    return rating
+
+def sum_overall_software_used(local_translation, result):
     texts = []
 
     categories = ['cms', 'webserver', 'os',
@@ -535,10 +574,8 @@ def enrich_data(data, orginal_domain, result_folder_name, rules):
     for item in data:
         enrich_versions(softwares, item)
 
-        enrich_data_from_javascript(tmp_list, item, rules)
-        enrich_data_from_videos(tmp_list, item, result_folder_name)
+        enrich_data_from_javascript(item, rules)
         enrich_data_from_images(tmp_list, item, result_folder_name)
-        enrich_data_from_documents(tmp_list, item, result_folder_name)
 
     if len(testing) > 0:
         raw_data['test'][orginal_domain] = {
@@ -624,36 +661,6 @@ def add_known_software_source(name, source_type, match, url):
     with open(file_path, 'w', encoding='utf-8', newline='') as file:
         file.write(data)
 
-def add_wordpressplugin_software_source(name, version, url):
-    base_directory = Path(os.path.dirname(
-        os.path.realpath(__file__)) + os.path.sep).parent
-
-    file_path = (
-        f'{base_directory}{os.path.sep}data{os.path.sep}'
-        'software-wordpressplugin-sources.json')
-    if not os.path.isfile(file_path):
-        file_path = f'{base_directory}{os.path.sep}software-wordpressplugin-sources.json'
-    if not os.path.isfile(file_path):
-        print("Info: No software-wordpressplugin-sources.json file found!")
-
-    collection = {}
-    try:
-        with open(file_path, encoding='utf-8') as json_file:
-            collection = json.load(json_file)
-    except:
-        print('INFO: There was no ', file_path, 'file.')
-
-    if 'softwares' not in collection:
-        collection['softwares'] = {}
-
-    if name not in collection['softwares']:
-        collection['softwares'][name] = {}
-
-    data = json.dumps(collection, indent=4)
-    with open(file_path, 'w', encoding='utf-8', newline='') as file:
-        file.write(data)
-
-
 def add_unknown_software_source(name, version, url):
     base_directory = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent
@@ -676,7 +683,7 @@ def add_unknown_software_source(name, version, url):
             'versions': {},
         }
 
-    if version == None or version == '':
+    if version in (None, ''):
         version = 'unknown'
 
     if version not in collection[name]['versions']:
@@ -750,13 +757,13 @@ def enrich_versions(collection, item):
                 current_year = datetime.now().year
                 for year in range(10, 2, -1):
                     if last_pushed_year < (current_year - year):
-                        match['issues'].append('UNMAINTAINED_SOURCE_{0}_YEARS'.format(year))
+                        match['issues'].append(f'UNMAINTAINED_SOURCE_{year}_YEARS')
                         break
 
         if 'tech' in software_info:
             match['tech'] = software_info['tech']
 
-        if match['version'] == None:
+        if match['version'] is None:
             continue
 
         version = None
@@ -788,7 +795,7 @@ def enrich_versions(collection, item):
             if tmp_version == version:
                 match['issues'].extend(software_info['versions'][current_version])
                 break
-            elif tmp_version > version:
+            if tmp_version > version:
                 # NOTE: handle versions that doesn't match but we know is less or
                 # greater then versions we know.
                 # For example if: software_info['versions'] = [4.0, 3.0, 2.0, 1.0].
@@ -819,7 +826,7 @@ def enrich_versions(collection, item):
             else:
                 match['issues'].append('BEHIND001')
 
-def enrich_data_from_javascript(tmp_list, item, rules):
+def enrich_data_from_javascript(item, rules):
     if USE_STEALTH:
         return
     for match in item['matches']:
@@ -833,21 +840,7 @@ def enrich_data_from_javascript(tmp_list, item, rules):
         if match['version'] is None:
             return
 
-def enrich_data_from_videos(tmp_list, item, result_folder_name, nof_tries=0):
-    if USE_STEALTH:
-        return
-    for match in item['matches']:
-        if match['category'] != 'video':
-            return
-
-        if match['name'] != 'mp4':
-            return
-
-def enrich_data_from_documents(tmp_list, item, result_folder_name, nof_tries=0):
-    if USE_STEALTH:
-        return
-
-def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
+def enrich_data_from_images(tmp_list, item, result_folder_name):
     if USE_STEALTH:
         return
     for match in item['matches']:
@@ -866,7 +859,7 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
 
             tech_name = ''
             tech_version = ''
-            for matchNum, match in enumerate(matches, start=1):
+            for _, match in enumerate(matches, start=1):
                 tech_name = match.group('name')
                 tech_version = match.group('version')
 
@@ -879,7 +872,7 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
                         'enrich',
                         match['precision'],
                         'security',
-                        'whisper.{0}.app'.format(match['category']), None))
+                        f"whisper.{match['category']}.app", None))
 
                 if tech_version is not None:
                     tech_version = tech_version.lower()
@@ -890,10 +883,9 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
                         'enrich',
                         0.8,
                         'security',
-                        'whisper.{0}.app'.format(match['category']), None))
+                        f"whisper.{match['category']}.app", None))
         else:
-            cache_key = '{0}.cache.{1}'.format(
-                hashlib.sha512(item['url'].encode()).hexdigest(), match['name'])
+            cache_key = f"{hashlib.sha512(item['url'].encode()).hexdigest()}.cache.{match['name']}"
             cache_path = os.path.join(result_folder_name, cache_key)
 
             image_data = None
@@ -922,8 +914,8 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
             for tag_id in exifdata:
                 # get the tag name, instead of human unreadable tag id
                 tag = TAGS.get(tag_id, None)
-                if tag == None:
-                    tag = 'unknown_{0}'.format(tag_id)
+                if tag is None:
+                    tag = f'unknown_{tag_id}'
 
                 tag_name = tag.lower()
                 tag_data = exifdata.get(tag_id)
@@ -940,11 +932,11 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
                         r"(?P<version>[0-9.]+){0,1}[ (]{0,2}(?P<osname>[a-zA-Z]+){0,1})[)]{0,1}")
                     matches = re.finditer(
                         regex, tag_data, re.MULTILINE)
-                    for matchNum, match in enumerate(matches, start=1):
+                    for _, match in enumerate(matches, start=1):
                         tech_name = match.group('name')
                         tech_version = match.group('version')
                         os_name = match.group('osname')
-                        if tech_name != None and tech_version == None:
+                        if tech_name is not None and tech_version is None:
                             tech_name = tech_name.lower().strip().replace(' ', '-')
                             tmp_list.append(get_default_info(
                                 item['url'], 'enrich', 0.5, 'img.software', tech_name, None))
@@ -953,9 +945,9 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
                                 'enrich',
                                 match['precision'],
                                 'security',
-                                'whisper.{0}.app'.format(match['category']), None))
+                                f"whisper.{match['category']}.app", None))
 
-                        if tech_version != None:
+                        if tech_version is not None:
                             tech_version = tech_version.lower()
                             tmp_list.append(get_default_info(
                                 item['url'],
@@ -969,7 +961,7 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
                                 'enrich',
                                 0.8,
                                 'security',
-                                'whisper.{0}.app'.format(match['category']), None))
+                                f"whisper.{match['category']}.app", None))
 
                         if os_name is not None:
                             os_name = os_name.lower()
@@ -980,14 +972,14 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
                                 'enrich',
                                 0.8,
                                 'security',
-                                'whisper.{0}.os'.format(match['category']), None))
+                                f"whisper.{match['category']}.os", None))
                 elif 'artist' == tag_name or 'xpauthor' == tag_name:
                     tmp_list.append(get_default_info(
                         item['url'],
                         'enrich',
                         0.8,
                         'security',
-                        'info.{0}.person'.format(match['category']), None))
+                        f"info.{match['category']}.person", None))
                 elif 'make' == tag_name:
                     device_name = tag_data.lower().strip()
                     if 'nikon corporation' in device_name:
@@ -999,11 +991,11 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
                         r"(?P<version>[0-9.]+){0,1}[ (]{0,2}(?P<osname>[a-zA-Z]+){0,1})[)]{0,1}")
                     matches = re.finditer(
                         regex, tag_data, re.MULTILINE)
-                    for matchNum, match in enumerate(matches, start=1):
+                    for _, match in enumerate(matches, start=1):
                         tech_name = match.group('name')
                         tech_version = match.group('version')
                         os_name = match.group('osname')
-                        if tech_name != None and tech_version == None:
+                        if tech_name is not None and tech_version is None:
                             tech_name = tech_name.lower().strip().replace(' ', '-')
                             device_name = tech_name
                             tmp_list.append(get_default_info(
@@ -1011,9 +1003,9 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
                                 'enrich',
                                 match['precision'],
                                 'security',
-                                'whisper.{0}.device'.format(match['category']), None))
+                                f"whisper.{match['category']}.device", None))
 
-                        if tech_version != None:
+                        if tech_version is not None:
                             tech_version = tech_version.lower()
                             device_version = tech_version
                             tmp_list.append(get_default_info(
@@ -1021,9 +1013,9 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
                                 'enrich',
                                 0.8,
                                 'security',
-                                'whisper.{0}.device'.format(match['category']), None))
+                                f"whisper.{match['category']}.device", None))
 
-                        if os_name != None:
+                        if os_name is not None:
                             os_name = os_name.lower().strip()
                             tmp_list.append(get_default_info(
                                 item['url'], 'content', 0.6, 'img.os', os_name, None))
@@ -1032,14 +1024,14 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
                                 'enrich',
                                 0.8,
                                 'security',
-                                'whisper.{0}.os'.format(match['category']), None))
+                                f"whisper.{match['category']}.os", None))
                 elif 'model' == tag_name:
                     tmp_list.append(get_default_info(
                         item['url'],
                         'enrich',
                         0.8,
                         'security',
-                        'info.{0}.model'.format(match['category']), None))
+                        f"info.{match['category']}.model", None))
                     device_version = tag_data.lower().strip()
                 elif 'gpsinfo' == tag_name:
                     tmp_list.append(get_default_info(
@@ -1047,7 +1039,7 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
                         'enrich',
                         0.8,
                         'security',
-                        'info.{0}.location'.format(match['category']), None))
+                        f"info.{match['category']}.location", None))
 
             if device_name is not None or device_version is not None:
                 if device_name is not None:
@@ -1060,7 +1052,7 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
                         'enrich',
                         match['precision'],
                         'security',
-                        'whisper.{0}.device'.format(match['category']), None))
+                        f"whisper.{match['category']}.device", None))
 
                 if device_name is not None and device_version is not None:
                     device_version = device_version.lower()
@@ -1073,7 +1065,7 @@ def enrich_data_from_images(tmp_list, item, result_folder_name, nof_tries=0):
                         'enrich',
                         0.8,
                         'security',
-                        'whisper.{0}.device'.format(match['category']), None))
+                        f"whisper.{match['category']}.device", None))
 
 
 def identify_software(filename, origin_domain, rules):
@@ -1226,7 +1218,7 @@ def lookup_response_content(item, response_mimetype, response_content, rules):
 
         regex = r"{0}".format(rule['match'])
         matches = re.finditer(regex, response_content, re.IGNORECASE)
-        for matchNum, match in enumerate(matches, start=1):
+        for _, match in enumerate(matches, start=1):
             match_name = None
             match_version = None
             match_github_owner = None
@@ -1340,7 +1332,7 @@ def lookup_request_url(item, rules, origin_domain):
 
         regex = r"{0}".format(rule['match'])
         matches = re.finditer(regex, req_url, re.MULTILINE)
-        for matchNum, match in enumerate(matches, start=1):
+        for _, match in enumerate(matches, start=1):
             match_name = None
             match_version = None
 
@@ -1427,7 +1419,7 @@ def lookup_cookie(item, cookie_name, cookie_value, rules, origin_domain):
 
         regex = r"{0}".format(rule['match'])
         matches = re.finditer(regex, value, re.MULTILINE)
-        for matchNum, match in enumerate(matches, start=1):
+        for _, match in enumerate(matches, start=1):
             match_name = None
             match_version = None
 
@@ -1513,7 +1505,7 @@ def lookup_response_header(item, header_name, header_value, rules, origin_domain
 
         regex = r"{0}".format(rule['match'])
         matches = re.finditer(regex, header_value, re.MULTILINE)
-        for matchNum, match in enumerate(matches, start=1):
+        for _, match in enumerate(matches, start=1):
             match_name = None
             match_version = None
 

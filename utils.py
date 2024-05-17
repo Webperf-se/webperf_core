@@ -2,6 +2,7 @@
 import json
 from datetime import datetime
 import traceback
+from helpers.setting_helper import get_config
 from models import SiteTests
 from tests.page_not_found import run_test as run_test_page_not_found
 from tests.html_validator_w3c import run_test as run_test_html_validator_w3c
@@ -59,70 +60,6 @@ TEST_FUNCS = {
     }
 
 CONFIG_WARNINGS = {}
-
-
-def get_config(name):
-    """
-    Retrieves the configuration value for a given name from the configuration file.
-    If the name does not exist in the configuration file,
-    it attempts to retrieve it from the defaults/config.py file.
-    
-    Parameters:
-    name (str): The name of the configuration value to retrieve.
-
-    Returns:
-    The configuration value associated with the given name.
-
-    Raises:
-    ValueError: If the name does not exist in both the configuration file and
-    the defaults/config.py file.
-
-    Notes:
-    - If the name exists in the defaults/config.py file but not in the configuration file,
-      a warning message is printed.
-    - If the name does not exist in both files,
-      a fatal error message is printed and a ValueError is raised.
-    """
-    # Try get config from our configuration file
-    value = get_config_from_module(name, 'config')
-    if value is not None:
-        return value
-
-    name = name.upper()
-    value = get_config_from_module(name, 'config')
-    if value is not None:
-        return value
-
-    # do we have fallback value we can use in our defaults/config.py file?
-    value = get_config_from_module(name, 'defaults.config')
-    if value is not None:
-        if name not in CONFIG_WARNINGS:
-            CONFIG_WARNINGS[name] = True
-        return value
-
-    return None
-
-def get_config_from_module(config_name, module_name):
-    """
-    Retrieves the configuration value for a given name from the specified module file.
-    
-    Parameters:
-    config_name (str): The name of the configuration value to retrieve.
-    module_name (str): The name of the module the values should be retrieved from.
-
-    Returns:
-    The configuration value associated with the given config_name and module_name.
-    """
-    # do we have fallback value we can use in our defaults/config.py file?
-    try:
-        from importlib import import_module # pylint: disable=import-outside-toplevel
-        tmp_config = import_module(module_name) # pylint: disable=invalid-name
-        if hasattr(tmp_config, config_name):
-            return getattr(tmp_config, config_name)
-    except ModuleNotFoundError:
-        _ = 1
-
-    return None
 
 def test(global_translation, lang_code, site, test_type=None, show_reviews=False):
     """

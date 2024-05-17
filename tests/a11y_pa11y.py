@@ -6,9 +6,6 @@ import json
 from tests.utils import get_config_or_default, get_translation
 from models import Rating
 
-REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
-REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
-
 def run_test(global_translation, lang_code, url):
     """
     Runs an accessibility test on a given URL and returns the results and ratings.
@@ -36,7 +33,7 @@ def run_test(global_translation, lang_code, url):
     json_result = get_pa11y_errors(url, use_axe)
     # If we fail to connect to website the result_dict will be None and we should end test
     if json_result is None:
-        error_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        error_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
         error_rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
         return (error_rating, {'failed': True })
 
@@ -103,8 +100,8 @@ def rate_errors(
     points_tuples = calculate_rating(num_unique_errors, num_errors)
     review = ''
 
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-    errors_type_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    errors_type_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
     errors_type_rating.set_overall(points_tuples[0])
     errors_type_rating.set_a11y(points_tuples[0],
                                 local_translation('TEXT_REVIEW_RATING_GROUPED').format(
@@ -112,7 +109,7 @@ def rate_errors(
                                     0.0))
     rating += errors_type_rating
 
-    errors_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    errors_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
     errors_rating.set_overall(points_tuples[1])
     errors_rating.set_a11y(points_tuples[1], local_translation(
         'TEXT_REVIEW_RATING_ITEMS').format(num_errors, 0.0))
@@ -197,7 +194,7 @@ def get_pa11y_errors(url, use_axe):
     command = (f"node node_modules{os.path.sep}pa11y{os.path.sep}bin{os.path.sep}pa11y.js "
                    f"--ignore color-contrast --reporter json {additional_args}{url}")
     with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
-        output, _ = process.communicate(timeout=REQUEST_TIMEOUT * 10)
+        output, _ = process.communicate(timeout=get_config_or_default('http_request_timeout') * 10)
 
         # If we fail to connect to website the result_dict should be None and we should end test
         if output is None or len(output) == 0:

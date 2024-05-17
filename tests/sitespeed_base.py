@@ -12,10 +12,6 @@ import uuid
 from tests.utils import get_config_or_default, is_file_older_than
 import engines.sitespeed_result as sitespeed_cache
 
-REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
-USE_CACHE = get_config_or_default('CACHE_WHEN_POSSIBLE')
-CACHE_TIME_DELTA = get_config_or_default('CACHE_TIME_DELTA')
-
 def to_firefox_url_format(url):
     """
     Converts a given URL to Firefox URL format.
@@ -54,7 +50,7 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
         tuple: The name of the result folder and the filename of the HAR file.
     """
     folder = 'tmp'
-    if USE_CACHE:
+    if get_config_or_default('CACHE_WHEN_POSSIBLE'):
         folder = 'cache'
 
     o = urlparse(url)
@@ -67,7 +63,7 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
 
     filename = ''
     # Should we use cache when available?
-    if USE_CACHE:
+    if get_config_or_default('CACHE_WHEN_POSSIBLE'):
         tmp_result_folder_name, filename = get_cached_result(url, hostname)
         if filename != '':
             return (tmp_result_folder_name, filename)
@@ -112,7 +108,7 @@ def get_cached_result(url, hostname):
         if url == site[1] or url2 == site[1]:
             filename = site[0]
 
-            if is_file_older_than(filename, CACHE_TIME_DELTA):
+            if is_file_older_than(filename, get_config_or_default('CACHE_TIME_DELTA')):
                 filename = ''
                 continue
 

@@ -16,19 +16,6 @@ from tests.sitespeed_base import get_result
 from tests.utils import get_config_or_default,\
     get_http_content, get_translation, is_file_older_than
 
-# DEFAULTS
-REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
-USERAGENT = get_config_or_default('useragent')
-REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
-SOFTWARE_BROWSER = get_config_or_default('SOFTWARE_BROWSER')
-SITESPEED_USE_DOCKER = get_config_or_default('sitespeed_use_docker')
-SITESPEED_TIMEOUT = get_config_or_default('sitespeed_timeout')
-USE_CACHE = get_config_or_default('CACHE_WHEN_POSSIBLE')
-CACHE_TIME_DELTA = get_config_or_default('CACHE_TIME_DELTA')
-
-USE_STEALTH = get_config_or_default('SOFTWARE_USE_STEALTH')
-USE_DETAILED_REPORT = get_config_or_default('USE_DETAILED_REPORT')
-
 # Debug flags for every category here,
 # this so we can print out raw values (so we can add more allowed once)
 raw_data = {
@@ -83,7 +70,7 @@ def get_rating_from_sitespeed(url, local_translation, global_translation):
         '--utc true '
         f'-n {sitespeed_iterations}')
 
-    if 'firefox' in SOFTWARE_BROWSER:
+    if 'firefox' in get_config_or_default('SOFTWARE_BROWSER'):
         sitespeed_arg = (
             '-b firefox '
             '--firefox.includeResponseBodies all '
@@ -109,12 +96,12 @@ def get_rating_from_sitespeed(url, local_translation, global_translation):
     sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'
 
     (result_folder_name, filename) = get_result(
-        url, SITESPEED_USE_DOCKER, sitespeed_arg, SITESPEED_TIMEOUT)
+        url, get_config_or_default('sitespeed_use_docker'), sitespeed_arg, get_config_or_default('sitespeed_timeout'))
 
     o = urlparse(url)
     origin_domain = o.hostname
 
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
     rules = get_rules()
     data = identify_software(filename, origin_domain, rules)
     if data is None:
@@ -136,7 +123,7 @@ def get_rating_from_sitespeed(url, local_translation, global_translation):
     rating.integrity_and_security_review = rating.integrity_and_security_review\
         .replace('GOV-IGNORE', '').strip('\r\n\t ')
 
-    if not USE_CACHE:
+    if not get_config_or_default('CACHE_WHEN_POSSIBLE'):
         os.remove(filename)
 
     return (rating, result)
@@ -184,7 +171,7 @@ def sort_issues(item1, item2):
 
 
 def rate_software_security_result(local_translation, global_translation, result):
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
 
     has_cve_issues = False
     has_behind_issues = False
@@ -240,12 +227,12 @@ def rate_software_security_result(local_translation, global_translation, result)
 
 def rate_software_no_issues(has_cve_issues, has_behind_issues, has_source_issues,
                             has_end_of_life_issues, local_translation, global_translation):
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
     if not has_cve_issues:
         points = 5.0
-        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
         sub_rating.set_overall(points)
-        if USE_DETAILED_REPORT:
+        if get_config_or_default('USE_DETAILED_REPORT'):
             sub_rating.set_integrity_and_security(
                 points,
                 local_translation('TEXT_DETAILED_REVIEW_NO_CVE'))
@@ -255,9 +242,9 @@ def rate_software_no_issues(has_cve_issues, has_behind_issues, has_source_issues
 
     if not has_behind_issues:
         points = 5.0
-        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
         sub_rating.set_overall(points)
-        if USE_DETAILED_REPORT:
+        if get_config_or_default('USE_DETAILED_REPORT'):
             sub_rating.set_integrity_and_security(
                 points,
                 local_translation('TEXT_DETAILED_REVIEW_NO_BEHIND'))
@@ -267,9 +254,9 @@ def rate_software_no_issues(has_cve_issues, has_behind_issues, has_source_issues
 
     if not has_source_issues:
         points = 5.0
-        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
         sub_rating.set_overall(points)
-        if USE_DETAILED_REPORT:
+        if get_config_or_default('USE_DETAILED_REPORT'):
             sub_rating.set_integrity_and_security(
                 points,
                 local_translation('TEXT_DETAILED_REVIEW_NO_UNMAINTAINED'))
@@ -279,9 +266,9 @@ def rate_software_no_issues(has_cve_issues, has_behind_issues, has_source_issues
 
     if not has_end_of_life_issues:
         points = 5.0
-        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
         sub_rating.set_overall(points)
-        if USE_DETAILED_REPORT:
+        if get_config_or_default('USE_DETAILED_REPORT'):
             sub_rating.set_integrity_and_security(
                 points,
                 local_translation('TEXT_DETAILED_REVIEW_NO_END_OF_LIFE'))
@@ -292,11 +279,11 @@ def rate_software_no_issues(has_cve_issues, has_behind_issues, has_source_issues
 
 def rate_software_end_of_life(local_translation, global_translation, result, issue_type):
     points = 1.75
-    sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
     sub_rating.set_overall(points)
     sub_rating.set_integrity_and_security(points)
 
-    if USE_DETAILED_REPORT:
+    if get_config_or_default('USE_DETAILED_REPORT'):
         text = local_translation(f'TEXT_DETAILED_REVIEW_{issue_type}')\
                     .replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
         text += '\r\n'
@@ -332,10 +319,10 @@ def rate_software_unmaintained_source(issue_type, result, local_translation, glo
     elif issue_type.endswith('10_YEARS'):
         points = 1.0
 
-    sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
     sub_rating.set_overall(points)
     sub_rating.set_integrity_and_security(points)
-    if USE_DETAILED_REPORT:
+    if get_config_or_default('USE_DETAILED_REPORT'):
         text = local_translation(f'TEXT_DETAILED_REVIEW_{issue_type}')\
                     .replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
         text += '\r\n'
@@ -354,10 +341,10 @@ def rate_software_unmaintained_source(issue_type, result, local_translation, glo
 
 def rate_software_archived_source(issue_type, result, local_translation, global_translation):
     points = 1.75
-    sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
     sub_rating.set_overall(points)
     sub_rating.set_integrity_and_security(points)
-    if USE_DETAILED_REPORT:
+    if get_config_or_default('USE_DETAILED_REPORT'):
         text = local_translation(f'TEXT_DETAILED_REVIEW_{issue_type}')\
                     .replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
         text += '\r\n'
@@ -388,11 +375,11 @@ def rate_software_behind(issue_type, result, local_translation, global_translati
         points = 3.0
     elif issue_type == 'BEHIND001':
         points = 4.9
-    sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
     sub_rating.set_overall(points)
     sub_rating.set_integrity_and_security(points)
 
-    if USE_DETAILED_REPORT:
+    if get_config_or_default('USE_DETAILED_REPORT'):
         text = local_translation(f'TEXT_DETAILED_REVIEW_{issue_type}')\
                     .replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
         text += '\r\n'
@@ -410,15 +397,15 @@ def rate_software_behind(issue_type, result, local_translation, global_translati
     return sub_rating
 
 def rate_software_cve(issue_type, result, local_translation, global_translation):
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
     points = 1.0
-    cve_ratings = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    cve_ratings = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
     for _ in result['issues'][issue_type]['sub-issues']:
-        sub_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
         sub_rating.set_overall(points)
         sub_rating.set_integrity_and_security(points)
         cve_ratings += sub_rating
-    if USE_DETAILED_REPORT:
+    if get_config_or_default('USE_DETAILED_REPORT'):
         text = local_translation('TEXT_DETAILED_REVIEW_CVE')\
                     .replace('#POINTS#', str(cve_ratings.get_integrity_and_security()))
 
@@ -835,7 +822,7 @@ def enrich_versions(collection, item):
                 match['issues'].append('BEHIND001')
 
 def enrich_data_from_javascript(item, rules):
-    if USE_STEALTH:
+    if get_config_or_default('SOFTWARE_USE_STEALTH'):
         return
     for match in item['matches']:
         if match['category'] != 'js':
@@ -849,7 +836,7 @@ def enrich_data_from_javascript(item, rules):
             return
 
 def enrich_data_from_images(tmp_list, item, result_folder_name):
-    if USE_STEALTH:
+    if get_config_or_default('SOFTWARE_USE_STEALTH'):
         return
     for match in item['matches']:
         if match['category'] != 'img':
@@ -898,9 +885,9 @@ def enrich_data_from_images(tmp_list, item, result_folder_name):
 
             image_data = None
             try:
-                if USE_CACHE and\
+                if get_config_or_default('CACHE_WHEN_POSSIBLE') and\
                         os.path.exists(cache_path) and\
-                        is_file_older_than(cache_path, CACHE_TIME_DELTA):
+                        is_file_older_than(cache_path, get_config_or_default('CACHE_TIME_DELTA')):
                     image_data = Image.open(cache_path)
                 else:
                     data = get_http_content(
@@ -1607,7 +1594,7 @@ def run_test(global_translation, lang_code, url):
     """
 
     result_dict = {}
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
 
     local_translation = get_translation('software', lang_code)
 

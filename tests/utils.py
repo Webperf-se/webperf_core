@@ -23,7 +23,13 @@ import dns.dnssec
 import dns.exception
 import dns.name
 
+from helpers.setting_helper import get_config
+
 CONFIG_WARNINGS = {}
+IP2_LOCATION_DB = {
+    'loaded': False,
+    'database': None
+}
 
 def get_config_or_default(name):
     """
@@ -47,46 +53,9 @@ def get_config_or_default(name):
     - If the name does not exist in both files,
       a fatal error message is printed and a ValueError is raised.
     """
-    # Try get config from our configuration file
-    value = get_config_from_module(name, 'config')
-    if value is not None:
-        return value
+    # TODO: replace this
+    return get_config(name)
 
-    name = name.upper()
-    value = get_config_from_module(name, 'config')
-    if value is not None:
-        return value
-
-    # do we have fallback value we can use in our defaults/config.py file?
-    value = get_config_from_module(name, 'defaults.config')
-    if value is not None:
-        if name not in CONFIG_WARNINGS:
-            CONFIG_WARNINGS[name] = True
-        return value
-
-    return None
-
-def get_config_from_module(config_name, module_name):
-    """
-    Retrieves the configuration value for a given name from the specified module file.
-    
-    Parameters:
-    config_name (str): The name of the configuration value to retrieve.
-    module_name (str): The name of the module the values should be retrieved from.
-
-    Returns:
-    The configuration value associated with the given config_name and module_name.
-    """
-    # do we have fallback value we can use in our defaults/config.py file?
-    try:
-        from importlib import import_module # pylint: disable=import-outside-toplevel
-        tmp_config = import_module(module_name) # pylint: disable=invalid-name
-        if hasattr(tmp_config, config_name):
-            return getattr(tmp_config, config_name)
-    except ModuleNotFoundError:
-        _ = 1
-
-    return None
 
 def get_translation(module_name, lang_code):
     """
@@ -178,7 +147,7 @@ def get_cache_path_for_rule(url, cache_key_rule):
         hostname = 'None'
 
     folder = 'tmp'
-    if USE_CACHE:
+    if get_config_or_default('cache_when_possible'):
         folder = 'cache'
 
     folder_path = os.path.join(folder)
@@ -226,7 +195,7 @@ def get_cache_path_for_file(url, use_text_instead_of_content):
     str: The generated cache path.
     """
     file_ending = '.tmp'
-    if USE_CACHE:
+    if get_config_or_default('cache_when_possible'):
         file_ending = '.cache'
     cache_key_rule = '{0}.txt.utf-8' + file_ending
     if not use_text_instead_of_content:
@@ -255,12 +224,12 @@ def get_cache_file(url, use_text_instead_of_content, time_delta):
     Notes:
     - The function uses the get_cache_path_for_file function
       to determine the path of the cache file.
-    - If USE_CACHE is False, the function always returns None.
+    - If get_config_or_default('cache_when_possible') is False, the function always returns None.
     """
     cache_path = get_cache_path_for_file(url, use_text_instead_of_content)
     if not os.path.exists(cache_path):
         return None
-    if USE_CACHE and is_file_older_than(cache_path, time_delta):
+    if get_config_or_default('cache_when_possible') and is_file_older_than(cache_path, time_delta):
         return None
     if use_text_instead_of_content:
         with open(cache_path, 'r', encoding='utf-8', newline='') as file:
@@ -287,7 +256,7 @@ def has_cache_file(url, use_text_instead_of_content, time_delta):
     cache_path = get_cache_path_for_file(url, use_text_instead_of_content)
     if not os.path.exists(cache_path):
         return False
-    if USE_CACHE and is_file_older_than(cache_path, time_delta):
+    if get_config_or_default('cache_when_possible') and is_file_older_than(cache_path, time_delta):
         return False
     return True
 
@@ -298,11 +267,12 @@ def clean_cache_files():
     removes the 'tmp' directory if caching is not used.
 
     This function performs the following operations:
-    1. If caching is not used (USE_CACHE is False), it removes the 'tmp' directory and returns.
+    1. If caching is not used (get_config_or_default('cache_when_possible') is False),
+       it removes the 'tmp' directory and returns.
     2. If caching is used, it goes through each file in each subdirectory of the 'cache' directory.
     3. For each file, if the file ends with '.cache',
-       it checks if the file is older than CACHE_TIME_DELTA.
-    4. If the file is older than CACHE_TIME_DELTA, it removes the file.
+       it checks if the file is older than get_config_or_default('cache_time_delta').
+    4. If the file is older than get_config_or_default('cache_time_delta'), it removes the file.
 
     The function also prints out the following information:
     - The number of files and folders in the 'cache' folder before cleanup.
@@ -311,9 +281,10 @@ def clean_cache_files():
     - The number of '.cache' files removed.
     - The number of 'result' folders removed.
 
-    Note: The function uses the USE_CACHE and CACHE_TIME_DELTA global variables.
+    Note: The function uses the get_config_or_default('cache_when_possible') and
+          get_config_or_default('cache_time_delta') global variables.
     """
-    if not USE_CACHE:
+    if not get_config_or_default('cache_when_possible'):
         # If we don't want to cache stuff, why complicate stuff, just empy tmp folder when done
         folder = 'tmp'
         base_directory = os.path.join(Path(os.path.dirname(
@@ -342,7 +313,8 @@ def clean_cache_files():
             if file_or_dir.endswith(file_ending):
                 cache_files += 1
                 path = os.path.join(base_directory, subdir, file_or_dir)
-                if not USE_CACHE or is_file_older_than(path, CACHE_TIME_DELTA):
+                if not get_config_or_default('cache_when_possible') or\
+                        is_file_older_than(path, get_config_or_default('cache_time_delta')):
                     os.remove(path)
                     cache_files_removed += 1
 
@@ -402,12 +374,12 @@ def get_http_content_with_status(url, allow_redirects=False, use_text_instead_of
         str or bytes: The content of the URL.
     """
     try:
-        headers = {'user-agent': USERAGENT}
+        headers = {'user-agent': get_config_or_default('useragent')}
         hostname = urlparse(url).hostname
-        if hostname == 'api.github.com' and GITHUB_APIKEY is not None:
-            headers['authorization'] = f'Bearer {GITHUB_APIKEY}'
+        if hostname == 'api.github.com' and get_config_or_default('GITHUB_API_KEY') is not None:
+            headers['authorization'] = f'Bearer {get_config_or_default('GITHUB_API_KEY')}'
         response = requests.get(url, allow_redirects=allow_redirects,
-                         headers=headers, timeout=REQUEST_TIMEOUT*2)
+                         headers=headers, timeout=get_config_or_default('http_request_timeout')*2)
 
         if use_text_instead_of_content:
             content = response.text
@@ -446,7 +418,7 @@ def get_http_content_with_status(url, allow_redirects=False, use_text_instead_of
         print(
             'Error! Unfortunately the request for URL '
             f'"{url}" timed out.'
-            f'The timeout is set to {REQUEST_TIMEOUT} seconds.\nMessage:\n{sys.exc_info()[0]}')
+            f'The timeout is set to {get_config_or_default('http_request_timeout')} seconds.\nMessage:\n{sys.exc_info()[0]}')
     return '', None
 
 def get_http_content(url, allow_redirects=False, use_text_instead_of_content=True): # pylint: disable=too-many-branches
@@ -476,16 +448,16 @@ def get_http_content(url, allow_redirects=False, use_text_instead_of_content=Tru
     """
     try:
         content = get_cache_file(
-            url, use_text_instead_of_content, CACHE_TIME_DELTA)
+            url, use_text_instead_of_content, get_config_or_default('cache_time_delta'))
         if content is not None:
             return content
 
-        headers = {'user-agent': USERAGENT}
+        headers = {'user-agent': get_config_or_default('useragent')}
         hostname = urlparse(url).hostname
-        if hostname == 'api.github.com' and GITHUB_APIKEY is not None:
-            headers['authorization'] = f'Bearer {GITHUB_APIKEY}'
+        if hostname == 'api.github.com' and get_config_or_default('GITHUB_API_KEY') is not None:
+            headers['authorization'] = f'Bearer {get_config_or_default('GITHUB_API_KEY')}'
         response = requests.get(url, allow_redirects=allow_redirects,
-                         headers=headers, timeout=REQUEST_TIMEOUT*2)
+                         headers=headers, timeout=get_config_or_default('http_request_timeout')*2)
 
         if use_text_instead_of_content:
             content = response.text
@@ -524,10 +496,10 @@ def get_http_content(url, allow_redirects=False, use_text_instead_of_content=Tru
         print(
             'Error! Unfortunately the request for URL '
             f'"{url}" timed out.'
-            f'The timeout is set to {REQUEST_TIMEOUT} seconds.\nMessage:\n{sys.exc_info()[0]}')
+            f'The timeout is set to {get_config_or_default('http_request_timeout')} seconds.\nMessage:\n{sys.exc_info()[0]}')
     return ''
 
-def get_content_type(url, cache_time_delta):
+def get_content_type(url):
     """
     Retrieves the content type of the specified URL.
 
@@ -538,12 +510,12 @@ def get_content_type(url, cache_time_delta):
 
     Args:
         url (str): The URL to retrieve the content type from.
-        cache_time_delta (int): The cache time delta.
+        get_config_or_default('cache_time_delta') (int): The cache time delta.
 
     Returns:
         str or None: The content type of the URL, or None if not found.
     """
-    headers = get_url_headers(url, cache_time_delta)
+    headers = get_url_headers(url, get_config_or_default('cache_time_delta'))
 
     if headers['status-code'] == 401:
         return 401
@@ -585,9 +557,9 @@ def get_url_headers(url, cache_time_delta):
             headers = json.loads(content)
             return headers
 
-        headers = {'user-agent': USERAGENT}
+        headers = {'user-agent': get_config_or_default('useragent')}
         a = requests.head(url, allow_redirects=True,
-                         headers=headers, timeout=REQUEST_TIMEOUT*2)
+                         headers=headers, timeout=get_config_or_default('http_request_timeout')*2)
 
         print('\t- status =', a.status_code)
 
@@ -649,9 +621,9 @@ def has_redirect(url):
     """
     error_msg = None
     try:
-        headers = {'user-agent': USERAGENT}
+        headers = {'user-agent': get_config_or_default('useragent')}
         response = requests.get(url, allow_redirects=True,
-                         headers=headers, timeout=REQUEST_TIMEOUT*2)
+                         headers=headers, timeout=get_config_or_default('http_request_timeout')*2)
 
         return (url != response.url, response.url, '')
     except ssl.CertificateError as error:
@@ -710,7 +682,7 @@ def dns_lookup(key, datatype):
     """
     use_dnssec = False
     cache_key = f'dnslookup://{key}#{datatype}#{use_dnssec}'
-    if has_cache_file(cache_key, True, CACHE_TIME_DELTA):
+    if has_cache_file(cache_key, True, get_config_or_default('cache_time_delta')):
         cache_path = get_cache_path_for_file(cache_key, True)
         response = dns.message.from_file(cache_path)
         return dns_response_to_list(response)
@@ -724,7 +696,7 @@ def dns_lookup(key, datatype):
             query = dns.message.make_query(key, datatype, want_dnssec=False)
 
         # Send the query and get the response
-        response = dns.query.udp(query, DNS_SERVER)
+        response = dns.query.udp(query, get_config_or_default('DNS_SERVER'))
 
         if response.rcode() != 0:
             # HANDLE QUERY FAILED (SERVER ERROR OR NO DNSKEY RECORD)
@@ -925,7 +897,8 @@ def get_country_code_from_ip2location(ip_address):
     """
     rec = False
     try:
-        rec = IP2_LOCATION_DB.get_all(ip_address)
+        ensure_ip2_location_db()
+        rec = IP2_LOCATION_DB['database'].get_all(ip_address)
     except Exception: # pylint: disable=broad-exception-caught
         return ''
     if hasattr(rec, 'country_short'):
@@ -1091,18 +1064,12 @@ def merge_list_values(dict1, dict2, key, sort, make_distinct):
     if sort:
         dict1[key] = sorted(dict1[key])
 
-
-IP2_LOCATION_DB = False
-try:
-    IP2_LOCATION_DB = IP2Location.IP2Location(
-        os.path.join("data", "IP2LOCATION-LITE-DB1.IPV6.BIN"))
-except ValueError as ex:
-    print('Unable to load IP2Location Database from "data/IP2LOCATION-LITE-DB1.IPV6.BIN"', ex)
-
-# DEFAULTS
-REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
-USERAGENT = get_config_or_default('useragent')
-USE_CACHE = get_config_or_default('cache_when_possible')
-CACHE_TIME_DELTA = get_config_or_default('cache_time_delta')
-DNS_SERVER = get_config_or_default('DNS_SERVER')
-GITHUB_APIKEY = get_config_or_default('GITHUB_API_KEY')
+def ensure_ip2_location_db():
+    if IP2_LOCATION_DB['loaded']:
+        return
+    try:
+        IP2_LOCATION_DB['database'] = IP2Location.IP2Location(
+            os.path.join("data", "IP2LOCATION-LITE-DB1.IPV6.BIN"))
+        IP2_LOCATION_DB['loaded'] = True
+    except ValueError as ex:
+        print('Unable to load IP2Location Database from "data/IP2LOCATION-LITE-DB1.IPV6.BIN"', ex)

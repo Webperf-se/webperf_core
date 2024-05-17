@@ -23,6 +23,7 @@ from engines.json_engine import read_sites as json_read_sites,\
 from engines.gov import write_tests as gov_write_tests
 from engines.sql import write_tests as sql_write_tests
 from engines.markdown_engine import write_tests as markdown_write_tests
+from helpers.setting_helper import set_config
 from tests.utils import clean_cache_files
 from utils import TEST_FUNCS, TEST_ALL, restart_failures_log, test_sites
 
@@ -158,6 +159,50 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
     add_site = None
     delete_site = None
 
+    config_mapping = {
+        ("useragent", "general.useragent", "agent", "ua"): "USERAGENT",
+        (
+            "details",
+            "general.details",
+            "detail",
+            "extended",
+            "use_detailed_report"): "USE_DETAILED_REPORT",
+        (
+            "improve-only",
+            "general.improve-only",
+            "review_show_improvements_only"): "REVIEW_SHOW_IMPROVEMENTS_ONLY",
+        (
+            "timeout",
+            "general.timeout",
+            "http-timeout",
+            "http_request_timeout"): "HTTP_REQUEST_TIMEOUT",
+        (
+            "tests.lighthouse.apikey",
+            "tests.google-apikey",
+            "tests.googleapikey",
+            "tests.googlepagespeedapikey",
+            "googlepagespeedapikey"): "GOOGLEPAGESPEEDAPIKEY",
+        (
+            "tests.lighthouse.use",
+            "tests.google-use-api",
+            "tests.googleuseapi",
+            "lighthouse_use_api"): "LIGHTHOUSE_USE_API",
+        ("tests.webkoll.sleep", "tests.webbkoll_sleep"): "WEBBKOLL_SLEEP",
+        ("tests.w3c.group", "tests.css.group"): "CSS_REVIEW_GROUP_ERRORS",
+        (
+            "tests.ylt.apikey",
+            "tests.yellowlabtools-apikey",
+            "tests.yellowlabtoolsapikey"): "YLT_USE_API",
+        (
+            "tests.ylt.address",
+            "tests.yellowlabtools-address",
+            "tests.yellowlabtoolsaddress",
+            "ylt_server_address"): "YLT_SERVER_ADDRESS",
+        # ("http-timeout", "http_request_timeout"): "HTTP_REQUEST_TIMEOUT",
+        # ("http-timeout", "http_request_timeout"): "HTTP_REQUEST_TIMEOUT",
+        # ("http-timeout", "http_request_timeout"): "HTTP_REQUEST_TIMEOUT",
+    }
+
     def __init__(self):
         self.lang_code = 'en'
 
@@ -250,6 +295,45 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
         except TypeError:
             print(self.language('TEXT_COMMAND_USAGE'))
             sys.exit(2)
+
+    def show_available_settings(self):
+        print('Valid settings arguments:')
+        for aliases in self.config_mapping:
+            print(f"--setting {aliases[0]}=<value>")
+
+    def set_setting(self, arg):
+        pair = arg.split('=')
+        if len(pair) != 2:
+            self.show_available_settings()
+            return
+        name = pair[0].lower()
+        value = pair[1]
+
+        config_name = None
+
+        for aliases, setting_name in self.config_mapping.items():
+            if name in aliases:
+                config_name = setting_name
+                break
+
+        if config_name is None:
+            print('no matching configuration name for', name)
+            self.show_available_settings()
+            return
+
+        config_value = None
+        if value in ('true', 'True', 'yes', 'Y', 'y'):
+            config_value = True
+        elif value in ('false', 'False', 'no', 'N', 'n'):
+            config_value = False
+        elif value in ('none', 'None', 'NONE'):
+            config_value = None
+        else:
+            print('no valid configuration value for:', config_name)
+            return
+
+        # print(config_name, '=', config_value)
+        set_config(config_name.lower(), config_value)
 
     def set_output_filename(self, arg):
         """
@@ -426,6 +510,7 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             ("--input-take"): self.set_input_take,
             ("-o", "--output"): self.set_output_filename,
             ("-r", "--review", "--report"): self.enable_reviews,
+            ("-s", "--setting"): self.set_setting
         }
 
         for option, handler in option_handlers.items():
@@ -451,6 +536,7 @@ def main(argv):
     -A/--addUrl <site url>\t: website url (required in combination with -i/--input)
     -D/--deleteUrl <site url>\t: website url (required in combination with -i/--input)
     -L/--language <lang code>\t: language used for output(en = default/sv)
+    -s/--setting <key>=<value>\t: override configuration for current run
     """
 
     options = CommandLineOptions()
@@ -460,7 +546,8 @@ def main(argv):
         opts, _ = getopt.getopt(argv, "hu:t:i:o:rA:D:L:", [
                                    "help", "url=", "test=", "input=", "output=",
                                    "review", "report", "addUrl=", "deleteUrl=",
-                                   "language=", "input-skip=", "input-take="])
+                                   "language=", "input-skip=", "input-take=",
+                                   "setting="])
     except getopt.GetoptError:
         print(main.__doc__)
         sys.exit(2)
@@ -504,10 +591,6 @@ def main(argv):
         write_test_results(options.sites, options.output_filename, test_results, options.language)
             # Cleanup exipred cache
         clean_cache_files()
-    else:
-        print(options.language('TEXT_COMMAND_USAGE'))
-
-
 
 if __name__ == '__main__':
     main(sys.argv[1:])

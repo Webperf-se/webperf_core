@@ -286,7 +286,7 @@ def has_tls_version(url, validate_hostname, protocol_version):
         allow_redirects = False
 
         headers = {'user-agent': get_config_or_default('useragent')}
-        session.get(url, 
+        session.get(url,
                     verify=validate_hostname,
                     allow_redirects=allow_redirects,
                     headers=headers,

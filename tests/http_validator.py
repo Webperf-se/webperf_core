@@ -99,8 +99,6 @@ def rate(org_domain, result_dict, global_translation, local_translation):
 
     org_www_domain = f'www.{org_domain}'
 
-    nice = json.dumps(result_dict, indent=3)
-    print('A', nice)
     if result_dict['visits'] == 0 and 'failed' in result_dict:
         error_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
         error_rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')

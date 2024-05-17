@@ -465,35 +465,7 @@ def convert_item_to_domain_data(data):
     for item in data:
         for match in item['matches']:
             if 'issues' in match:
-                for issue_name in match['issues']:
-                    issue_key = issue_name
-                    if issue_key.startswith('CVE-'):
-                        issue_key = 'CVE'
-                    elif issue_key.startswith('END_OF_LIFE'):
-                        issue_key = 'END_OF_LIFE'
-
-                    if issue_key not in result['issues']:
-                        result['issues'][issue_key] = {
-                            'softwares': [],
-                            'resources': [],
-                            'sub-issues': []
-                        }
-
-                    if issue_key != issue_name:
-                        if issue_name not in result['issues'][issue_key]['sub-issues']:
-                            result['issues'][issue_key]['sub-issues'].append(issue_name)
-
-                    if len(result['issues'][issue_key]['softwares']) < 15:
-                        tmp = ''
-                        if match['version'] is not None:
-                            tmp = f" {match['version']}"
-                        software_key = f"{match['name']}{tmp}"
-                        if software_key not in result['issues'][issue_key]['softwares']:
-                            result['issues'][issue_key]['softwares'].append(software_key)
-
-                    if len(result['issues'][issue_key]['resources']) < 15:
-                        if item['url'] not in result['issues'][issue_key]['resources']:
-                            result['issues'][issue_key]['resources'].append(item['url'])
+                append_item_issues_to_result(item['url'], match, result)
 
             category = match['category']
             name = match['name']
@@ -520,31 +492,8 @@ def convert_item_to_domain_data(data):
                 result[category][name]['latest-version'] = match['latest-version']
             if 'is-latest-version' in match:
                 result[category][name]['is-latest-version'] = match['is-latest-version']
-            if 'tech' in match:
-                # if software has info about tech, add it
-                if 'tech' not in result:
-                    result['tech'] = {}
-                for tech in match['tech']:
-                    if tech not in result['tech']:
-                        result['tech'][tech] = {
-                            "?": {
-                                "name": tech,
-                                "precision": 0.8
-                            }
-                        }
-
-            if 'img' in match:
-                # if software has info about tech, add it
-                if 'img' not in result:
-                    result['img'] = {}
-                for img in match['img']:
-                    if tech not in result['img']:
-                        result['img'][img] = {
-                            "?": {
-                                "name": img,
-                                "precision": 0.8
-                            }
-                        }
+            append_item_tech_to_result(result, match)
+            append_item_img_to_result(result, match)
 
             if result[category][name][version]['precision'] < precision:
                 obj = {}
@@ -559,6 +508,65 @@ def convert_item_to_domain_data(data):
     cleanup_domain_data(result)
 
     return result
+
+def append_item_img_to_result(result, match):
+    if 'img' in match:
+                # if software has info about tech, add it
+        if 'img' not in result:
+            result['img'] = {}
+        for img in match['img']:
+            if img not in result['img']:
+                result['img'][img] = {
+                            "?": {
+                                "name": img,
+                                "precision": 0.8
+                            }
+                        }
+
+def append_item_tech_to_result(result, match):
+    if 'tech' in match:
+                # if software has info about tech, add it
+        if 'tech' not in result:
+            result['tech'] = {}
+        for tech in match['tech']:
+            if tech not in result['tech']:
+                result['tech'][tech] = {
+                            "?": {
+                                "name": tech,
+                                "precision": 0.8
+                            }
+                        }
+
+def append_item_issues_to_result(item_url, item_match, result):
+    for issue_name in item_match['issues']:
+        issue_key = issue_name
+        if issue_key.startswith('CVE-'):
+            issue_key = 'CVE'
+        elif issue_key.startswith('END_OF_LIFE'):
+            issue_key = 'END_OF_LIFE'
+
+        if issue_key not in result['issues']:
+            result['issues'][issue_key] = {
+                            'softwares': [],
+                            'resources': [],
+                            'sub-issues': []
+                        }
+
+        if issue_key != issue_name:
+            if issue_name not in result['issues'][issue_key]['sub-issues']:
+                result['issues'][issue_key]['sub-issues'].append(issue_name)
+
+        if len(result['issues'][issue_key]['softwares']) < 15:
+            tmp = ''
+            if item_match['version'] is not None:
+                tmp = f" {item_match['version']}"
+            software_key = f"{item_match['name']}{tmp}"
+            if software_key not in result['issues'][issue_key]['softwares']:
+                result['issues'][issue_key]['softwares'].append(software_key)
+
+        if len(result['issues'][issue_key]['resources']) < 15:
+            if item_url not in result['issues'][issue_key]['resources']:
+                result['issues'][issue_key]['resources'].append(item_url)
 
 
 def enrich_data(data, orginal_domain, result_folder_name, rules):
@@ -973,7 +981,7 @@ def enrich_data_from_images(tmp_list, item, result_folder_name):
                                 0.8,
                                 'security',
                                 f"whisper.{match['category']}.os", None))
-                elif 'artist' == tag_name or 'xpauthor' == tag_name:
+                elif tag_name in ('artist', 'xpauthor'):
                     tmp_list.append(get_default_info(
                         item['url'],
                         'enrich',
@@ -1104,7 +1112,7 @@ def identify_software(filename, origin_domain, rules):
             if 'headers' in res:
                 headers = res['headers']
                 lookup_response_headers(
-                    item, headers, rules, origin_domain)
+                    item, headers, rules)
 
             if 'content' in res and 'text' in res['content']:
                 response_content = res['content']['text']
@@ -1129,7 +1137,7 @@ def identify_software(filename, origin_domain, rules):
 
     if global_cookies is not None:
         lookup_cookies(
-            data[0], global_cookies, rules, origin_domain)
+            data[0], global_cookies, rules)
 
     for software_name in global_software.keys():
         versions = global_software[software_name]
@@ -1379,15 +1387,15 @@ def lookup_request_url(item, rules, origin_domain):
                 if raw_data['urls']['use'] and not is_found:
                     raw_data['urls'][req_url] = is_found
 
-def lookup_cookies(item, cookies, rules, origin_domain):
+def lookup_cookies(item, cookies, rules):
     for cookie in cookies:
         cookie_name = cookie['name'].lower()
         cookie_value = cookie['value'].lower()
 
         lookup_cookie(
-            item, cookie_name, cookie_value, rules, origin_domain)
+            item, cookie_name, cookie_value, rules)
 
-def lookup_cookie(item, cookie_name, cookie_value, rules, origin_domain):
+def lookup_cookie(item, cookie_name, cookie_value, rules):
 
     if 'cookies' not in rules:
         return
@@ -1469,15 +1477,15 @@ def lookup_cookie(item, cookie_name, cookie_value, rules, origin_domain):
 
 
 
-def lookup_response_headers(item, headers, rules, origin_domain):
+def lookup_response_headers(item, headers, rules):
     for header in headers:
         header_name = header['name'].lower()
         header_value = header['value'].lower()
 
         lookup_response_header(
-            item, header_name, header_value, rules, origin_domain)
+            item, header_name, header_value, rules)
 
-def lookup_response_header(item, header_name, header_value, rules, origin_domain):
+def lookup_response_header(item, header_name, header_value, rules):
 
     if 'headers' not in rules:
         return
@@ -1503,55 +1511,79 @@ def lookup_response_header(item, header_name, header_value, rules, origin_domain
         o = urlparse(req_url)
         hostname = o.hostname
 
-        regex = r"{0}".format(rule['match'])
-        matches = re.finditer(regex, header_value, re.MULTILINE)
-        for _, match in enumerate(matches, start=1):
-            match_name = None
-            match_version = None
-
-            groups = match.groupdict()
-
-            if 'name' in groups:
-                match_name = groups['name']
-            if 'version' in groups:
-                match_version = groups['version']
-
-            if '?P<name>' in rule['match'] and match_name is None:
-                continue
-            if '?P<version>' in rule['match'] and match_version is None:
-                continue
-
-            for result in rule['results']:
-                name = None
-                version = None
-                if 'category' not in result:
-                    continue
-                if 'precision' not in result:
-                    continue
-
-                category = result['category']
-                precision = result['precision']
-
-                if 'name' in result:
-                    name = result['name']
-                else:
-                    name = match_name
-                if 'version' in result:
-                    version = result['version']
-                else:
-                    version = match_version
-
-                if precision > 0.0:
-                    item['matches'].append(get_default_info(
-                        req_url, 'header', precision, category, name, version))
-                    is_found = True
-                elif raw_data['headers']['use'] and not is_found:
-                    raw_data['headers'][match.group('debug')] = hostname
+        is_found = is_found or apply_rule_on_response_header(
+            item,
+            header_value,
+            rule,
+            req_url,
+            hostname)
 
     if raw_data['headers']['use'] and not is_found:
         if header_name not in raw_data['headers']:
             raw_data['headers'][header_name] = []
         raw_data['headers'][header_name].append(header_value)
+
+def apply_rule_on_response_header(item, header_value, rule, req_url, hostname):
+    is_found = False
+    regex = r"{0}".format(rule['match'])
+    matches = re.finditer(regex, header_value, re.MULTILINE)
+    for _, match in enumerate(matches, start=1):
+        match_name = None
+        match_version = None
+
+        groups = match.groupdict()
+
+        if 'name' in groups:
+            match_name = groups['name']
+        if 'version' in groups:
+            match_version = groups['version']
+
+        if '?P<name>' in rule['match'] and match_name is None:
+            continue
+        if '?P<version>' in rule['match'] and match_version is None:
+            continue
+
+        is_found = is_found or apply_rule_results_on_response_header(
+            item,
+            rule,
+            req_url,
+            hostname,
+            match,
+            match_name,
+            match_version)
+    return is_found
+
+def apply_rule_results_on_response_header(
+        item, rule, req_url,
+        hostname, match,
+        match_name, match_version):
+    for result in rule['results']:
+        name = None
+        version = None
+        if 'category' not in result:
+            continue
+        if 'precision' not in result:
+            continue
+
+        category = result['category']
+        precision = result['precision']
+
+        if 'name' in result:
+            name = result['name']
+        else:
+            name = match_name
+        if 'version' in result:
+            version = result['version']
+        else:
+            version = match_version
+
+        if precision > 0.0:
+            item['matches'].append(get_default_info(
+                        req_url, 'header', precision, category, name, version))
+            is_found = True
+        elif raw_data['headers']['use'] and not is_found:
+            raw_data['headers'][match.group('debug')] = hostname
+    return is_found
 
 
 
@@ -1590,8 +1622,8 @@ def run_test(global_translation, lang_code, url):
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     raw_is_used = False
-    for key in raw_data.keys():
-        raw_is_used = raw_is_used or raw_data[key]['use']
+    for _, obj in raw_data.items():
+        raw_is_used = raw_is_used or obj['use']
 
     if raw_is_used:
         nice_raw = json.dumps(raw_data, indent=2)

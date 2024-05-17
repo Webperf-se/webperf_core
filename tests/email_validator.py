@@ -471,7 +471,9 @@ def validate_mta_sts_policy(global_translation, rating, result_dict, local_trans
     content = get_http_content(
         f"https://mta-sts.{hostname}/.well-known/mta-sts.txt")
 
-    has_mta_sts_txt_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    has_mta_sts_txt_rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     # https://www.rfc-editor.org/rfc/rfc8461#section-3.2
     if 'STSv1' in content:
 
@@ -628,7 +630,9 @@ def rate_mts_sts_records(global_translation, local_translation, has_mta_sts_poli
                                            integrity and security, and
                                            standards set based on the existence of MTA STS records.
     """
-    has_mta_sts_records_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    has_mta_sts_records_rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     if has_mta_sts_policy:
         has_mta_sts_records_rating.set_overall(5.0)
         has_mta_sts_records_rating.set_integrity_and_security(
@@ -740,7 +744,9 @@ def rate_has_dmarc_policies(global_translation, rating, result_dict, local_trans
     and standards set based on the DMARC policies.
     """
     if 'dmarc-has-policy' in result_dict:
-        no_dmarc_record_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+        no_dmarc_record_rating = Rating(
+            global_translation,
+            get_config_or_default('review_show_improvements_only'))
         no_dmarc_record_rating.set_overall(5.0)
         no_dmarc_record_rating.set_integrity_and_security(
             5.0, local_translation('TEXT_REVIEW_DMARC_SUPPORT'))
@@ -761,13 +767,17 @@ def rate_has_dmarc_policies(global_translation, rating, result_dict, local_trans
 
         if len(result_dict['dmarc-errors']) != 0:
             for error in result_dict['dmarc-errors']:
-                error_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+                error_rating = Rating(
+                    global_translation,
+                    get_config_or_default('review_show_improvements_only'))
                 error_rating.set_overall(1.0)
                 error_rating.set_standards(
                     1.0, error)
                 rating += error_rating
         else:
-            no_errors_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+            no_errors_rating = Rating(
+                global_translation,
+                get_config_or_default('review_show_improvements_only'))
             no_errors_rating.set_overall(5.0)
             no_errors_rating.set_standards(
                 5.0, local_translation('TEXT_REVIEW_DMARC_NO_PARSE_ERRORS'))
@@ -775,19 +785,25 @@ def rate_has_dmarc_policies(global_translation, rating, result_dict, local_trans
 
         if len(result_dict['dmarc-warnings']) != 0:
             for warning in result_dict['dmarc-warnings']:
-                warning_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+                warning_rating = Rating(
+                    global_translation,
+                    get_config_or_default('review_show_improvements_only'))
                 warning_rating.set_overall(3.0)
                 warning_rating.set_standards(
                     3.0, warning)
                 rating += warning_rating
         else:
-            no_errors_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+            no_errors_rating = Rating(
+                global_translation,
+                get_config_or_default('review_show_improvements_only'))
             no_errors_rating.set_overall(5.0)
             no_errors_rating.set_standards(
                 5.0, local_translation('TEXT_REVIEW_DMARC_NO_WARNINGS'))
             rating += no_errors_rating
     else:
-        no_dmarc_record_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+        no_dmarc_record_rating = Rating(
+            global_translation,
+            get_config_or_default('review_show_improvements_only'))
         no_dmarc_record_rating.set_overall(1.0)
         no_dmarc_record_rating.set_integrity_and_security(
             1.0, local_translation('TEXT_REVIEW_DMARC_NO_SUPPORT'))
@@ -809,7 +825,9 @@ def rate_dmarc_pct(global_translation, result_dict, local_translation):
     - percentage_rating (Rating): A Rating object with the overall rating, integrity and security,
                                   and standards set based on the DMARC percentage.
     """
-    percentage_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    percentage_rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     if result_dict['dmarc-pct'] < 100:
         percentage_rating.set_overall(3.0)
         percentage_rating.set_integrity_and_security(
@@ -840,7 +858,9 @@ def rate_dmarc_subpolicy(global_translation, result_dict, local_translation):
     - dmarc_subpolicy_rating (Rating): A Rating object with the overall rating and
                                        standards set based on the DMARC subpolicy.
     """
-    dmarc_subpolicy_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    dmarc_subpolicy_rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     if 'dmarc-sp' in result_dict and\
                 'dmarc-p' in result_dict and\
                 result_dict['dmarc-p'] == result_dict['dmarc-sp']:
@@ -879,7 +899,9 @@ def rate_dmarc_policy(global_translation, result_dict, local_translation):
     Returns:
     dmarc_policy_rating (Rating): Rating object after DMARC policy rating.
     """
-    dmarc_policy_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    dmarc_policy_rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     if 'dmarc-p' in result_dict:
         if 'reject' == result_dict['dmarc-p']:
             dmarc_policy_rating.set_overall(5.0)
@@ -1076,7 +1098,9 @@ def rate_has_spf_policies(global_translation, rating, result_dict, local_transla
     Returns:
     rating (Rating): Updated rating object after SPF policy presence check.
     """
-    has_spf_records_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    has_spf_records_rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     if 'spf-has-policy' in result_dict:
         txt = local_translation('TEXT_REVIEW_SPF_DNS_RECORD_SUPPORT')
         has_spf_records_rating.set_overall(5.0)
@@ -1171,14 +1195,18 @@ def rate_gdpr_for_spf_policies(global_translation, rating, result_dict, local_tr
     nof_gdpr_countries = len(countries_eu_or_exception_list)
     nof_none_gdpr_countries = len(countries_others)
     if nof_gdpr_countries > 0:
-        gdpr_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+        gdpr_rating = Rating(
+            global_translation,
+            get_config_or_default('review_show_improvements_only'))
         gdpr_rating.set_overall(5.0)
         gdpr_rating.set_integrity_and_security(
             5.0, local_translation('TEXT_REVIEW_SPF_GDPR').format(
                 ', '.join(countries_eu_or_exception_list.keys())))
         rating += gdpr_rating
     if nof_none_gdpr_countries > 0:
-        none_gdpr_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+        none_gdpr_rating = Rating(
+            global_translation,
+            get_config_or_default('review_show_improvements_only'))
         none_gdpr_rating.set_overall(1.0)
         none_gdpr_rating.set_integrity_and_security(
             1.0, local_translation('TEXT_REVIEW_SPF_NONE_GDPR').format(
@@ -1687,7 +1715,9 @@ def validate_ip6_operation_status(global_translation, rating, local_translation,
         except smtplib.SMTPConnectError as smtp_error:
             print('SMTP ERROR: ', smtp_error)
 
-    ipv6_operational_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    ipv6_operational_rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     if len(ipv6_servers_operational) > 0 and len(ipv6_servers) == len(ipv6_servers_operational):
         ipv6_operational_rating.set_overall(5.0)
         ipv6_operational_rating.set_standards(
@@ -1743,7 +1773,9 @@ def validate_ip4_operation_status(global_translation, rating, local_translation,
         except smtplib.SMTPConnectError as smtp_error:
             print('SMTP ERROR: ', smtp_error)
 
-    ipv4_operational_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    ipv4_operational_rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     if len(ipv4_servers_operational) > 0 and len(ipv4_servers) == len(ipv4_servers_operational):
         ipv4_operational_rating.set_overall(5.0)
         ipv4_operational_rating.set_standards(
@@ -1754,7 +1786,9 @@ def validate_ip4_operation_status(global_translation, rating, local_translation,
             1.0, local_translation('TEXT_REVIEW_IPV4_OPERATION_NO_SUPPORT'))
     rating += ipv4_operational_rating
 
-    ipv4_operational_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    ipv4_operational_rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     if len(ipv4_servers_operational_starttls) > 0 and\
             len(ipv4_servers) == len(ipv4_servers_operational_starttls):
         ipv4_operational_rating.set_overall(5.0)
@@ -1899,14 +1933,18 @@ def rate_mx_gdpr(
     nof_gdpr_countries = len(countries_eu_or_exception_list)
     nof_none_gdpr_countries = len(countries_others)
     if nof_gdpr_countries > 0:
-        gdpr_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+        gdpr_rating = Rating(
+            global_translation,
+            get_config_or_default('review_show_improvements_only'))
         gdpr_rating.set_overall(5.0)
         gdpr_rating.set_integrity_and_security(
             5.0, local_translation('TEXT_REVIEW_MX_GDPR').format(
                 ', '.join(countries_eu_or_exception_list.keys())))
         rating += gdpr_rating
     if nof_none_gdpr_countries > 0:
-        none_gdpr_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+        none_gdpr_rating = Rating(
+            global_translation,
+            get_config_or_default('review_show_improvements_only'))
         none_gdpr_rating.set_overall(1.0)
         none_gdpr_rating.set_integrity_and_security(
             1.0, local_translation('TEXT_REVIEW_MX_NONE_GDPR').format(
@@ -1927,7 +1965,9 @@ def rate_mx_ip6_usage(global_translation, local_translation, ipv6_servers):
         nof_ipv6_rating (Rating): Rating of IPv6 usage based on server count.
     """
     nof_ipv6_servers = len(ipv6_servers)
-    nof_ipv6_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    nof_ipv6_rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     if nof_ipv6_servers >= 2:
         nof_ipv6_rating.set_overall(5.0)
         nof_ipv6_rating.set_integrity_and_security(
@@ -1962,7 +2002,9 @@ def rate_mx_ip4_usage(global_translation, local_translation, ipv4_servers):
         nof_ipv4_rating (Rating): A Rating object that represents the rating of IPv4 usage.
     """
     nof_ipv4_servers = len(ipv4_servers)
-    nof_ipv4_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    nof_ipv4_rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     if nof_ipv4_servers >= 2:
         nof_ipv4_rating.set_overall(5.0)
         nof_ipv4_rating.set_integrity_and_security(

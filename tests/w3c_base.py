@@ -212,12 +212,16 @@ def get_rating(global_translation,
     Rating: The overall rating calculated based on error types and errors.
     """
     rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
-    errors_type_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    errors_type_rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     errors_type_rating.set_overall(result[0])
     errors_type_rating.set_standards(result[0], error_types_review)
     rating += errors_type_rating
 
-    errors_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    errors_rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     errors_rating.set_overall(result[1])
     errors_rating.set_standards(result[1], error_review)
     rating += errors_rating

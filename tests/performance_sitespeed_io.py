@@ -17,8 +17,6 @@ def get_result(arg):
     The command's output is captured and returned as a string.
 
     Args:
-        get_config_or_default('sitespeed_use_docker') (bool): If True, Sitespeed is run in a Docker container.
-            Otherwise, it's run via Node.js.
         arg (str): The arguments to pass to the Sitespeed command.
 
     Returns:
@@ -420,7 +418,9 @@ def rate_result_dict( # pylint: disable=too-many-branches,too-many-locals
             continue
         if 'points' in value and value['points'] != -1:
             points = value['points']
-            entry_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+            entry_rating = Rating(
+                global_translation,
+                get_config_or_default('review_show_improvements_only'))
             entry_rating.set_overall(points)
             entry_rating.set_performance(
                 points, value['msg'])

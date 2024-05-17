@@ -28,7 +28,9 @@ def rate_transfer_layers(result_dict, global_translation, local_translation, dom
         return rating
 
     if has_domain_entry(domain, 'transport-layers', 'TLSv1.3', result_dict):
-        sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+        sub_rating = Rating(
+            global_translation,
+            get_config_or_default('review_show_improvements_only'))
         sub_rating.set_overall(5.0)
         sub_rating.set_standards(5.0,
                                 local_translation('TEXT_REVIEW_TLS1_3_SUPPORT').format(domain))
@@ -36,7 +38,9 @@ def rate_transfer_layers(result_dict, global_translation, local_translation, dom
                                 local_translation('TEXT_REVIEW_TLS1_3_SUPPORT').format(domain))
         rating += sub_rating
     else:
-        sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+        sub_rating = Rating(
+            global_translation,
+            get_config_or_default('review_show_improvements_only'))
         sub_rating.set_overall(1.0)
         sub_rating.set_standards(1.0,
                                 local_translation('TEXT_REVIEW_TLS1_3_NO_SUPPORT').format(domain))
@@ -45,7 +49,9 @@ def rate_transfer_layers(result_dict, global_translation, local_translation, dom
         rating += sub_rating
 
     if has_domain_entry(domain, 'transport-layers', 'TLSv1.2', result_dict):
-        sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+        sub_rating = Rating(
+            global_translation,
+            get_config_or_default('review_show_improvements_only'))
         sub_rating.set_overall(5.0)
         sub_rating.set_standards(5.0,
                                 local_translation('TEXT_REVIEW_TLS1_2_SUPPORT').format(domain))
@@ -53,7 +59,9 @@ def rate_transfer_layers(result_dict, global_translation, local_translation, dom
                                 local_translation('TEXT_REVIEW_TLS1_2_SUPPORT').format(domain))
         rating += sub_rating
     else:
-        sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+        sub_rating = Rating(
+            global_translation,
+            get_config_or_default('review_show_improvements_only'))
         sub_rating.set_overall(1.0)
         sub_rating.set_standards(1.0,
                                 local_translation('TEXT_REVIEW_TLS1_2_NO_SUPPORT').format(domain))
@@ -62,26 +70,34 @@ def rate_transfer_layers(result_dict, global_translation, local_translation, dom
         rating += sub_rating
 
     if has_domain_entry(domain, 'transport-layers', 'TLSv1.1', result_dict):
-        sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+        sub_rating = Rating(
+            global_translation,
+            get_config_or_default('review_show_improvements_only'))
         sub_rating.set_overall(1.0)
         sub_rating.set_integrity_and_security(1.0,
                                 local_translation('TEXT_REVIEW_TLS1_1_SUPPORT').format(domain))
         rating += sub_rating
     else:
-        sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+        sub_rating = Rating(
+            global_translation,
+            get_config_or_default('review_show_improvements_only'))
         sub_rating.set_overall(5.0)
         sub_rating.set_integrity_and_security(5.0,
                                 local_translation('TEXT_REVIEW_TLS1_1_NO_SUPPORT').format(domain))
         rating += sub_rating
 
     if has_domain_entry(domain, 'transport-layers', 'TLSv1.0', result_dict):
-        sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+        sub_rating = Rating(
+            global_translation,
+            get_config_or_default('review_show_improvements_only'))
         sub_rating.set_overall(1.0)
         sub_rating.set_integrity_and_security(1.0,
                                 local_translation('TEXT_REVIEW_TLS1_0_SUPPORT').format(domain))
         rating += sub_rating
     else:
-        sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+        sub_rating = Rating(
+            global_translation,
+            get_config_or_default('review_show_improvements_only'))
         sub_rating.set_overall(5.0)
         sub_rating.set_integrity_and_security(5.0,
                                 local_translation('TEXT_REVIEW_TLS1_0_NO_SUPPORT').format(domain))
@@ -270,8 +286,11 @@ def has_tls_version(url, validate_hostname, protocol_version):
         allow_redirects = False
 
         headers = {'user-agent': get_config_or_default('useragent')}
-        session.get(url, verify=validate_hostname, allow_redirects=allow_redirects,
-                        headers=headers, timeout=get_config_or_default('http_request_timeout'))
+        session.get(url, 
+                    verify=validate_hostname,
+                    allow_redirects=allow_redirects,
+                    headers=headers,
+                    timeout=get_config_or_default('http_request_timeout'))
 
         return (True, msg)
 

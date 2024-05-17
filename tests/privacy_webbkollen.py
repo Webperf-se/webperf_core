@@ -50,7 +50,9 @@ def run_test(global_translation, lang_code, url):
     results = soup2.find_all(class_="result")
     result_title = soup2.find(id="results-title")
     if not result_title:
-        error_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+        error_rating = Rating(
+            global_translation,
+            get_config_or_default('review_show_improvements_only'))
         error_rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
         return (error_rating, {'failed': True })
 
@@ -181,7 +183,9 @@ def rate_result(result, global_translation, local_translation):# pylint: disable
         Rating: The rating of the result.
 
     """
-    heading_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    heading_rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
 
     points_to_remove_for_current_result = 0.0
 

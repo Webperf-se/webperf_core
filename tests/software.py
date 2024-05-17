@@ -96,7 +96,10 @@ def get_rating_from_sitespeed(url, local_translation, global_translation):
     sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'
 
     (result_folder_name, filename) = get_result(
-        url, get_config_or_default('sitespeed_use_docker'), sitespeed_arg, get_config_or_default('sitespeed_timeout'))
+        url,
+        get_config_or_default('sitespeed_use_docker'),
+        sitespeed_arg,
+        get_config_or_default('sitespeed_timeout'))
 
     o = urlparse(url)
     origin_domain = o.hostname
@@ -230,7 +233,9 @@ def rate_software_no_issues(has_cve_issues, has_behind_issues, has_source_issues
     rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
     if not has_cve_issues:
         points = 5.0
-        sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+        sub_rating = Rating(
+            global_translation,
+            get_config_or_default('review_show_improvements_only'))
         sub_rating.set_overall(points)
         if get_config_or_default('USE_DETAILED_REPORT'):
             sub_rating.set_integrity_and_security(
@@ -242,7 +247,9 @@ def rate_software_no_issues(has_cve_issues, has_behind_issues, has_source_issues
 
     if not has_behind_issues:
         points = 5.0
-        sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+        sub_rating = Rating(
+            global_translation,
+            get_config_or_default('review_show_improvements_only'))
         sub_rating.set_overall(points)
         if get_config_or_default('USE_DETAILED_REPORT'):
             sub_rating.set_integrity_and_security(
@@ -254,7 +261,9 @@ def rate_software_no_issues(has_cve_issues, has_behind_issues, has_source_issues
 
     if not has_source_issues:
         points = 5.0
-        sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+        sub_rating = Rating(
+            global_translation,
+            get_config_or_default('review_show_improvements_only'))
         sub_rating.set_overall(points)
         if get_config_or_default('USE_DETAILED_REPORT'):
             sub_rating.set_integrity_and_security(
@@ -266,7 +275,9 @@ def rate_software_no_issues(has_cve_issues, has_behind_issues, has_source_issues
 
     if not has_end_of_life_issues:
         points = 5.0
-        sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+        sub_rating = Rating(
+            global_translation,
+            get_config_or_default('review_show_improvements_only'))
         sub_rating.set_overall(points)
         if get_config_or_default('USE_DETAILED_REPORT'):
             sub_rating.set_integrity_and_security(
@@ -279,7 +290,9 @@ def rate_software_no_issues(has_cve_issues, has_behind_issues, has_source_issues
 
 def rate_software_end_of_life(local_translation, global_translation, result, issue_type):
     points = 1.75
-    sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    sub_rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     sub_rating.set_overall(points)
     sub_rating.set_integrity_and_security(points)
 
@@ -319,7 +332,9 @@ def rate_software_unmaintained_source(issue_type, result, local_translation, glo
     elif issue_type.endswith('10_YEARS'):
         points = 1.0
 
-    sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    sub_rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     sub_rating.set_overall(points)
     sub_rating.set_integrity_and_security(points)
     if get_config_or_default('USE_DETAILED_REPORT'):
@@ -399,9 +414,13 @@ def rate_software_behind(issue_type, result, local_translation, global_translati
 def rate_software_cve(issue_type, result, local_translation, global_translation):
     rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
     points = 1.0
-    cve_ratings = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    cve_ratings = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     for _ in result['issues'][issue_type]['sub-issues']:
-        sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+        sub_rating = Rating(
+            global_translation,
+            get_config_or_default('review_show_improvements_only'))
         sub_rating.set_overall(points)
         sub_rating.set_integrity_and_security(points)
         cve_ratings += sub_rating
@@ -577,9 +596,6 @@ def enrich_data(data, orginal_domain, result_folder_name, rules):
             'cms': cms,
             'test': testing
         }
-
-    # nice_raw = json.dumps(tmp_list, indent=2)
-    # print('DEBUG 2', nice_raw)
 
     return data
 

@@ -418,7 +418,8 @@ def get_http_content_with_status(url, allow_redirects=False, use_text_instead_of
         print(
             'Error! Unfortunately the request for URL '
             f'"{url}" timed out.'
-            f'The timeout is set to {get_config_or_default('http_request_timeout')} seconds.\nMessage:\n{sys.exc_info()[0]}')
+            f"The timeout is set to {get_config_or_default('http_request_timeout')} seconds.\n"
+            f"Message:\n{sys.exc_info()[0]}")
     return '', None
 
 def get_http_content(url, allow_redirects=False, use_text_instead_of_content=True): # pylint: disable=too-many-branches
@@ -496,7 +497,8 @@ def get_http_content(url, allow_redirects=False, use_text_instead_of_content=Tru
         print(
             'Error! Unfortunately the request for URL '
             f'"{url}" timed out.'
-            f'The timeout is set to {get_config_or_default('http_request_timeout')} seconds.\nMessage:\n{sys.exc_info()[0]}')
+            f"The timeout is set to {get_config_or_default('http_request_timeout')} seconds."
+            f"\nMessage:\n{sys.exc_info()[0]}")
     return ''
 
 def get_content_type(url):

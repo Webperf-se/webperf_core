@@ -100,19 +100,23 @@ def get_ylt_result(url, device):
 
         running_status = 'running'
         while running_status == 'running':
-            running_json = get_http_content(f'{get_config_or_default('YLT_SERVER_ADDRESS')}/api/runs/{test_id}')
+            running_json = get_http_content(
+                f'{get_config_or_default('YLT_SERVER_ADDRESS')}/api/runs/{test_id}')
             running_info = json.loads(running_json)
             running_status = running_info['status']['statusCode']
             time.sleep(max(get_config_or_default('WEBBKOLL_SLEEP'), 5))
 
-        result_url = f'{get_config_or_default('YLT_SERVER_ADDRESS')}/api/results/{test_id}?exclude=toolsResults'
+        result_url = (
+            f"{get_config_or_default('YLT_SERVER_ADDRESS')}"
+            f"/api/results/{test_id}?exclude=toolsResults")
         result_json = get_http_content(result_url)
     else:
         command = (
             f"node node_modules{os.path.sep}yellowlabtools{os.path.sep}bin"
             f"{os.path.sep}cli.js {url}")
         with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
-            output, _ = process.communicate(timeout=get_config_or_default('http_request_timeout') * 10)
+            output, _ = process.communicate(
+                timeout=get_config_or_default('http_request_timeout') * 10)
             result_json = output
 
     # If we fail to connect to website the result_dict should be None and we should end test
@@ -163,19 +167,25 @@ def add_category_ratings(global_translation, local_translation, result_dict):
 
         # only do stuff for rules we know how to place in category
         if rule_key in performance_keys:
-            rule_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+            rule_rating = Rating(
+                global_translation,
+                get_config_or_default('review_show_improvements_only'))
             rule_rating.set_performance(
                 rule_score, rule_label)
             rating += rule_rating
 
         if rule_key in security_keys:
-            rule_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+            rule_rating = Rating(
+                global_translation,
+                get_config_or_default('review_show_improvements_only'))
             rule_rating.set_integrity_and_security(
                 rule_score, rule_label)
             rating += rule_rating
 
         if rule_key in standards_keys:
-            rule_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+            rule_rating = Rating(
+                global_translation,
+                get_config_or_default('review_show_improvements_only'))
             rule_rating.set_standards(
                 rule_score, rule_label)
             rating += rule_rating

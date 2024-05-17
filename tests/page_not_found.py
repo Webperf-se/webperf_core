@@ -92,7 +92,9 @@ def run_test(global_translation, lang_code, org_url):
                                     global_translation, local_translation)
 
     # hur långt är inehållet
-    rating_text_is_150_or_more = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    rating_text_is_150_or_more = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     soup = BeautifulSoup(request_text, 'html.parser')
     if len(soup.get_text()) > 150:
         rating_text_is_150_or_more.set_overall(
@@ -152,7 +154,9 @@ def rate_correct_language_text(soup, request_text, org_url, global_translation, 
             found_match = True
             break
 
-    rating_swedish_text = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    rating_swedish_text = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     if found_match:
         rating_swedish_text.set_overall(
             5.0, local_translation('TEXT_REVIEW_NO_SWEDISH_ERROR_MSG'))
@@ -170,7 +174,9 @@ def rate_response_header1(global_translation, result_dict, local_translation, so
     Rates the response header (h1). If an h1 is found in the HTML soup,
     it sets the overall, standards, and a11y ratings to 5.0. Otherwise, it sets them to 1.0.
     """
-    rating_h1 = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    rating_h1 = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     h1 = soup.find('h1')
     if h1:
         result_dict['h1'] = h1.string
@@ -189,7 +195,9 @@ def rate_response_title(global_translation, result_dict, local_translation, soup
     Rates the response title. If a title is found in the HTML soup,
     it sets the overall, standards, and a11y ratings to 5.0. Otherwise, it sets them to 1.0.
     """
-    rating_title = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    rating_title = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     title = soup.find('title')
     if title:
         result_dict['page_title'] = title.string
@@ -208,7 +216,9 @@ def rate_response_status_code(global_translation, local_translation, code):
     Rates the response status code. If the code is 404,
     it sets the overall and standards rating to 5.0. Otherwise, it sets them to 1.0.
     """
-    rating_404 = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    rating_404 = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     if code == 404:
         rating_404.set_overall(5.0, local_translation(
             'TEXT_REVIEW_WRONG_STATUS_CODE').format(code))

@@ -53,7 +53,9 @@ def run_test(global_translation, lang_code, url):
     rating += validate_security_txt(result_dict, global_translation, local_translation)
 
     if 'failed' in result_dict:
-        error_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+        error_rating = Rating(
+            global_translation,
+            get_config_or_default('review_show_improvements_only'))
         error_rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
         return (error_rating, {'failed': True })
 
@@ -135,7 +137,9 @@ def validate_sitemaps(result_dict,
     Returns:
         Rating: A Rating object containing the overall rating and standards rating of the sitemaps.
     """
-    rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     sitemaps_dict = {
         'nof_sitemaps': 0,
         'sitemap_urls_in_robots': [],
@@ -318,8 +322,14 @@ def rate_sitemap(sitemaps_dict, global_translation, local_translation):
 
     rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
     if total_nof_items > 0:
-        rating += rate_sitemap_use_https_only(sitemaps_dict, global_translation, local_translation)
-        rating += rate_sitemap_use_same_domain(sitemaps_dict, global_translation, local_translation)
+        rating += rate_sitemap_use_https_only(
+            sitemaps_dict,
+            global_translation,
+            local_translation)
+        rating += rate_sitemap_use_same_domain(
+            sitemaps_dict,
+            global_translation,
+            local_translation)
         rating += rate_sitemap_use_of_duplicates(global_translation,
                                     local_translation,
                                     total_nof_items,
@@ -331,13 +341,17 @@ def rate_sitemap(sitemaps_dict, global_translation, local_translation):
 
         sitemaps_is_duplicated = sitemaps_dict['is_duplicate']
         if sitemaps_is_duplicated:
-            sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+            sub_rating = Rating(
+                global_translation,
+                get_config_or_default('review_show_improvements_only'))
             sub_rating.set_overall(1.0)
             sub_rating.set_standards(
                         1.0,  local_translation("TEXT_SITEMAP_IS_DUPLICATED"))
             rating += sub_rating
         else:
-            sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+            sub_rating = Rating(
+                global_translation,
+                get_config_or_default('review_show_improvements_only'))
             sub_rating.set_overall(5.0)
             sub_rating.set_standards(
                         5.0,  local_translation("TEXT_SITEMAP_NOT_DUPLICATED"))
@@ -348,21 +362,27 @@ def rate_sitemap(sitemaps_dict, global_translation, local_translation):
         nof_items = sitemap_info['nof_items']
 
         if nof_items > 50_000:
-            sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+            sub_rating = Rating(
+                global_translation,
+                get_config_or_default('review_show_improvements_only'))
             sub_rating.set_overall(
                         1.0)
             sub_rating.set_standards(
                         1.0,  local_translation("TEXT_SITEMAP_TOO_LARGE"))
             rating += sub_rating
         elif nof_items == 0:
-            sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+            sub_rating = Rating(
+                global_translation,
+                get_config_or_default('review_show_improvements_only'))
             sub_rating.set_overall(
                         1.0)
             sub_rating.set_standards(
                         1.0,  local_translation("TEXT_SITEMAP_BROKEN"))
             rating += sub_rating
         else:
-            sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+            sub_rating = Rating(
+                global_translation,
+                get_config_or_default('review_show_improvements_only'))
             sub_rating.set_overall(
                         5.0)
             sub_rating.set_standards(
@@ -393,7 +413,9 @@ def rate_sitemap_any_items(sitemaps_dict,
     """
     if total_nof_items == 0:
         sitemaps_dict['status'] = "sitemap(s) seem to be broken"
-        sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+        sub_rating = Rating(
+            global_translation,
+            get_config_or_default('review_show_improvements_only'))
         sub_rating.set_overall(
                     1.0)
         sub_rating.set_standards(
@@ -401,7 +423,9 @@ def rate_sitemap_any_items(sitemaps_dict,
         return sub_rating
 
     sitemaps_dict['status'] = "sitemap(s) seem ok"
-    sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    sub_rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     sub_rating.set_overall(
                 5.0)
     sub_rating.set_standards(
@@ -425,7 +449,9 @@ def rate_sitemap_use_known_types(sitemaps_dict,
     Returns:
     Rating: The function returns rating.
     """
-    rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     if total_nof_items == 0:
         return rating
 
@@ -465,7 +491,9 @@ def rate_sitemap_use_of_duplicates(global_translation,
     Returns:
     Rating: The function returns rating.
     """
-    rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     if total_nof_items !=  total_nof_items_no_duplicates:
         ratio = total_nof_items_no_duplicates / total_nof_items
         duplicates_points = 3.0 * ratio
@@ -497,7 +525,9 @@ def rate_sitemap_use_same_domain(sitemaps_dict, global_translation, local_transl
     Returns:
     Rating: The function returns rating.
     """
-    rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     if not sitemaps_dict['use_same_domain']:
         rating.set_overall(
                     1.0)
@@ -527,7 +557,9 @@ def rate_sitemap_use_https_only(sitemaps_dict, global_translation, local_transla
     Returns:
     Rating: The function returns the rating.
     """
-    rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     if not sitemaps_dict['use_https_only']:
         rating.set_overall(
                     1.0)
@@ -652,7 +684,9 @@ def validate_feed(result_dict, global_translation, local_translation):
         'nof_feeds': 0,
         'feeds': []
     }
-    rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
 
     content = get_http_content(result_dict['url'], True, True)
     if content == '':
@@ -706,7 +740,9 @@ def validate_security_txt(result_dict, global_translation, local_translation):
 
     if security_wellknown_content == '' and security_root_content == '':
         # Can't find security.txt (not giving us 200 as status code)
-        rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+        rating = Rating(
+            global_translation,
+            get_config_or_default('review_show_improvements_only'))
         rating.set_overall(1.0)
         rating.set_standards(1.0, local_translation("TEXT_SECURITY_MISSING"))
         rating.set_integrity_and_security(1.0, local_translation("TEXT_SECURITY_MISSING"))

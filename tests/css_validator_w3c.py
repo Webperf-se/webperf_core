@@ -210,14 +210,20 @@ def rate_css_contenttypes(global_translation, local_translation):
     Rating: The final rating after evaluating the content types of the CSS files.
     """
     rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
-    errors_type_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    errors_type_rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     errors_type_rating.set_overall(5.0)
     errors_type_rating.set_standards(5.0,
-            '- `content-type=\".*css.*\"`' + local_translation('TEXT_REVIEW_RATING_GROUPED').format(
+            '- `content-type=\".*css.*\"`' + local_translation(
+                'TEXT_REVIEW_RATING_GROUPED'
+            ).format(
             0, 0.0))
     rating += errors_type_rating
 
-    errors_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    errors_rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     errors_rating.set_overall(5.0)
     errors_rating.set_standards(5.0,
             '- `content-type=\".*css.*\"`' +\
@@ -237,14 +243,18 @@ def rate_css_files(global_translation, local_translation):
     Rating: The final rating after evaluating the CSS files.
     """
     rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
-    errors_type_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    errors_type_rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     errors_type_rating.set_overall(5.0)
     txt = '- `<link rel=\"stylesheet\">`' +\
                local_translation('TEXT_REVIEW_RATING_GROUPED').format(0, 0.0)
     errors_type_rating.set_standards(5.0, txt)
     rating += errors_type_rating
 
-    errors_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    errors_rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     errors_rating.set_overall(5.0)
     errors_rating.set_standards(5.0,
             '- `<link rel=\"stylesheet\">`' +\
@@ -268,14 +278,18 @@ def rate_style_attributes(global_translation, local_translation):
     Rating: A cumulative rating of the style attributes.
     """
     rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
-    errors_type_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    errors_type_rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     errors_type_rating.set_overall(5.0)
     errors_type_rating.set_standards(5.0,
             '- `style=""`'+ local_translation('TEXT_REVIEW_RATING_GROUPED').format(
             0, 0.0))
     rating += errors_type_rating
 
-    errors_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    errors_rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     errors_rating.set_overall(5.0)
     errors_rating.set_standards(5.0,
             '- `style=""`' + local_translation('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0))
@@ -298,14 +312,18 @@ def rate_style_elements(global_translation, local_translation):
     Rating: A cumulative rating of the style elements.
     """
     rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
-    errors_type_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    errors_type_rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     errors_type_rating.set_overall(5.0)
     errors_type_rating.set_standards(5.0,
             '- `<style>`' + local_translation('TEXT_REVIEW_RATING_GROUPED').format(
             0, 0.0))
     rating += errors_type_rating
 
-    errors_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    errors_rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     errors_rating.set_overall(5.0)
     errors_rating.set_standards(5.0,
             '- `<style>`' + local_translation('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0))
@@ -371,7 +389,8 @@ def get_errors_for_link_tags(html, url):
             elif resource_url.startswith('/'):
                 # relative url, complement with dns
                 resource_url = parsed_url + resource_url
-            elif not resource_url.startswith('http://') and not resource_url.startswith('https://'):
+            elif not resource_url.startswith('http://') and\
+                    not resource_url.startswith('https://'):
                 # relative url, but without starting /
                 resource_url = parsed_url + '/' + resource_url
 

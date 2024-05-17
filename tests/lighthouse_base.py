@@ -258,7 +258,9 @@ def rate_containing_standard_string(global_translation, local_score, item_title)
     Returns:
         Rating: The Rating object with the set ratings and reviews.
     """
-    local_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    local_rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     if local_score == 1:
         local_rating.set_overall(
                         5.0)
@@ -288,7 +290,9 @@ def rate_containing_insecure_string(global_translation, local_score, item_title)
     Returns:
         Rating: The Rating object with the set ratings and reviews.
     """
-    local_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    local_rating = Rating(
+        global_translation,
+        get_config_or_default('review_show_improvements_only'))
     if local_score == 1:
         local_rating.set_overall(
                         5.0)

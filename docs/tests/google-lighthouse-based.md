@@ -36,22 +36,6 @@ Benefit of this option is that you can use it to test pre production urls like y
 
 * Download and install Node.js (version 20.x)
 * Install NPM packages ( `npm install` )
-* Set `lighthouse_use_api = False` in your `config.py`
-
-#### Using service?
-
-Using this option limits you to test urls that are publically available (Accessible from Internet).
-You will also need to ccreate a Google Account and request a API KEY.
-
-Get your API key by:
-1. Go to [Google Cloud Platform](https://console.cloud.google.com/apis).
-2. Search for *Pagespeed Insights API*.
-3. Click the button labelled *Manage*.
-4. Click on *Credentials* (you may need to create a project first, if you do not already have one).
-5. Click *+ Create Credentials*, then *API key*
-6. In the dialogue box the key now appears below *Your API key*, it can look like this *AIzaXyCjEXTvAq7zAU_RV_vA7slvDO9p1weRfgW*
-7. Set `googlePageSpeedApiKey = "<YOUR API KEY>"` in your `config.py`
-8. Set `lighthouse_use_api = True` in your `config.py`
 
 ## Read more
 

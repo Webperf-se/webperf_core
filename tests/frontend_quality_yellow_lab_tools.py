@@ -32,6 +32,10 @@ def run_test(global_translation, lang_code, url, device='phone'):
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     result_dict = get_ylt_result(url, device)
+    # If we fail to connect to website the result_dict will be None and we should end test
+    if result_dict is None:
+        rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
+        return (rating, {'failed': True })
 
     return_dict = {}
     yellow_lab = 0
@@ -113,6 +117,10 @@ def get_ylt_result(url, device):
         with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
             output, _ = process.communicate(timeout=REQUEST_TIMEOUT * 10)
             result_json = output
+
+    # If we fail to connect to website the result_dict should be None and we should end test
+    if result_json is None or len(result_json) == 0:
+        return None
 
     result_dict = json.loads(result_json)
     return result_dict

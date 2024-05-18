@@ -470,7 +470,8 @@ def main(argv):
 
     try:
         opts, _ = getopt.getopt(argv, "hlc:t:d:s:", [
-                                   "help", "test=", "prep-config=", "sample-config=", "language", "docker="])
+                                   "help", "test=", "prep-config=",
+                                   "sample-config=", "language", "docker="])
     except getopt.GetoptError:
         print(main.__doc__)
         sys.exit(2)

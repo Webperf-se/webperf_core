@@ -34,6 +34,12 @@ def run_test(global_translation, lang_code, url):
 
     use_axe = False
     json_result = get_pa11y_errors(url, use_axe)
+    # If we fail to connect to website the result_dict will be None and we should end test
+    if json_result is None:
+        error_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        error_rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
+        return (error_rating, {'failed': True })
+
     num_errors = len(json_result)
     if num_errors == 0:
         use_axe = True
@@ -42,16 +48,10 @@ def run_test(global_translation, lang_code, url):
 
     num_errors = len(json_result)
 
-    unique_errors = set()
     return_dict = json_result
     errors = json_result
 
-    for error in errors:
-        if 'message' in error:
-            err_mess = error['message'].replace('This', 'A')
-            error_review = f'- {err_mess}\n'
-            unique_errors.add(error_review)
-
+    unique_errors = get_unique_errors(errors)
     num_unique_errors = len(unique_errors)
 
     rating = rate_errors(global_translation,
@@ -61,6 +61,21 @@ def run_test(global_translation, lang_code, url):
                          num_unique_errors)
 
     return (rating, return_dict)
+
+def get_unique_errors(errors):
+    """
+    Gets unique errors from a list of many errors
+
+    Parameters:
+    errors (list): The list of errors.
+    """
+    unique_errors = set()
+    for error in errors:
+        if 'message' in error:
+            err_mess = error['message'].replace('This', 'A')
+            error_review = f'- {err_mess}\n'
+            unique_errors.add(error_review)
+    return unique_errors
 
 def rate_errors(
         global_translation,
@@ -183,5 +198,9 @@ def get_pa11y_errors(url, use_axe):
                    f"--ignore color-contrast --reporter json {additional_args}{url}")
     with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
         output, _ = process.communicate(timeout=REQUEST_TIMEOUT * 10)
+
+        # If we fail to connect to website the result_dict should be None and we should end test
+        if output is None or len(output) == 0:
+            return None
         json_result = json.loads(output)
         return json_result

@@ -87,7 +87,8 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
         cleanup_results_dir(filename_old, result_folder_name)
         return (result_folder_name, filename)
 
-    shutil.rmtree(result_folder_name)
+    if os.path.exists(result_folder_name):
+        shutil.rmtree(result_folder_name)
     return (result_folder_name, '')
 
 def get_cached_result(url, hostname):

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import json
 import os
 from datetime import datetime
 import urllib
@@ -97,6 +98,11 @@ def rate(org_domain, result_dict, global_translation, local_translation):
     rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
 
     org_www_domain = f'www.{org_domain}'
+
+    if result_dict['visits'] == 0 and 'failed' in result_dict:
+        error_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        error_rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
+        return error_rating
 
     for domain in result_dict.keys():
         if not isinstance(result_dict[domain], dict):

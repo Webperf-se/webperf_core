@@ -650,7 +650,7 @@ def ensure_msgfmt_py():
             return msgfmt_path
 
         base_directory = Path(os.path.dirname(
-            os.path.realpath(__file__)) + os.path.sep).parent.parent
+            os.path.realpath(__file__)) + os.path.sep).parent
         data_dir = os.path.join(base_directory.resolve(), 'data') + os.sep
         filename = 'msgfmt.py'
         file_path = os.path.join(data_dir,filename)

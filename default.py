@@ -588,13 +588,15 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             ("-L", "--language"): self.try_load_language,
             ("-t", "--test"): self.set_test_types,
             ("-i", "--input"): self.set_input_handlers,
+            ("--is", "--input-skip"): self.set_input_skip,
+            ("--it", "--input-take"): self.set_input_take,
             ("-o", "--output"): self.set_output_filename,
             ("-r", "--review", "--report"): self.enable_reviews,
-            ("--setting"): self.set_setting
+            ("-s", "--setting"): self.set_setting
         }
 
-        for option, handler in option_handlers.items():
-            if opt in option:
+        for options, handler in option_handlers.items():
+            if opt in options:
                 handler(arg)
                 return
 
@@ -624,11 +626,11 @@ def main(argv):
     options.load_language(options.lang_code)
 
     try:
-        opts, _ = getopt.getopt(argv, "hu:t:i:o:rA:D:L:", [
+        opts, _ = getopt.getopt(argv, "hu:t:i:o:rA:D:L:s:", [
                                    "help", "url=", "test=", "input=", "output=",
                                    "review", "report", "addUrl=", "deleteUrl=",
                                    "language=", "input-skip=", "input-take=",
-                                   "setting="])
+                                   "is=", "it=", "setting="])
     except getopt.GetoptError:
         print(main.__doc__)
         sys.exit(2)

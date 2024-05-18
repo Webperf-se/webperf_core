@@ -24,31 +24,26 @@ def get_config(name):
     """
     # Lets see if we have it from terminal or in cache
 
-    print('read config', name)
     name = name.lower()
     if name in config:
-        # print('read config1', name, config[name])
         return config[name]
 
     # Try get config from our configuration file
     value = get_config_from_module(name, 'config')
     if value is not None:
         config[name] = value
-        # print('read config2', name, config[name])
         return value
 
     name = name.upper()
     value = get_config_from_module(name, 'config')
     if value is not None:
         config[name] = value
-        # print('read config3', name, config[name])
         return value
 
     # do we have fallback value we can use in our defaults/config.py file?
     value = get_config_from_module(name, 'defaults.config')
     if value is not None:
         config[name] = value
-        # print('read config4', name, config[name])
         return value
 
     return None

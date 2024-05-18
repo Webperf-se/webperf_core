@@ -346,7 +346,7 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
 
     def show_available_settings(self):
         print()
-        print('Valid settings arguments:')
+        print('Valid settings:')
         for aliases in self.config_mapping:
             print(f"--setting {aliases[1]}=<value> ( alias: {aliases[0]} )")
         print()
@@ -560,7 +560,7 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             ("--input-take"): self.set_input_take,
             ("-o", "--output"): self.set_output_filename,
             ("-r", "--review", "--report"): self.enable_reviews,
-            ("-s", "--setting"): self.set_setting
+            ("--setting"): self.set_setting
         }
 
         for option, handler in option_handlers.items():
@@ -586,7 +586,8 @@ def main(argv):
     -A/--addUrl <site url>\t: website url (required in combination with -i/--input)
     -D/--deleteUrl <site url>\t: website url (required in combination with -i/--input)
     -L/--language <lang code>\t: language used for output(en = default/sv)
-    -s/--setting <key>=<value>\t: override configuration for current run
+    --setting <key>=<value>\t: override configuration for current run
+                                  (use ? to list available settings)
     """
 
     options = CommandLineOptions()
@@ -641,6 +642,8 @@ def main(argv):
         write_test_results(options.sites, options.output_filename, test_results, options.language)
             # Cleanup exipred cache
         clean_cache_files()
+    else:
+        options.show_help(_)
 
 if __name__ == '__main__':
     main(sys.argv[1:])

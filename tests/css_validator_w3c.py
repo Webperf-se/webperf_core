@@ -2,21 +2,17 @@
 from datetime import datetime
 import re
 import urllib  # https://docs.python.org/3/library/urllib.parse.html
-
 from bs4 import BeautifulSoup
 from models import Rating
-
 from tests.utils import get_friendly_url_name, get_http_content,\
-    get_translation, set_cache_file, get_config_or_default
+    get_translation, set_cache_file
 from tests.w3c_base import calculate_rating, get_data_for_url,\
     get_error_review, get_error_types_review,\
     get_errors_for_url, get_rating, get_reviews_from_errors
+from helpers.setting_helper import get_config
 
 # DEFAULTS
-REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
-CSS_REVIEW_GROUP_ERRORS = get_config_or_default('css_review_group_errors')
 GROUP_ERROR_MSG_REGEX = r"(“[^”]+”)"
-
 
 def run_test(global_translation, lang_code, url):
     """
@@ -30,7 +26,7 @@ def run_test(global_translation, lang_code, url):
     print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating = Rating(global_translation, get_config('review_show_improvements_only'))
     data = get_data_for_url(url)
     if data is None:
         rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
@@ -100,7 +96,7 @@ def handle_html_markup_entry(entry, global_translation, url, local_translation, 
     Rating: The rating after evaluating the CSS related errors in the entry.
     """
     all_link_resources = []
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating = Rating(global_translation, get_config('review_show_improvements_only'))
     req_url = entry['url']
     name = get_friendly_url_name(global_translation, req_url, entry['index'])
     html = entry['content']
@@ -156,7 +152,7 @@ def rate_css(global_translation, local_translation, data, result_dict):
     Returns:
     Rating: The final rating after evaluating the CSS of the webpage.
     """
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating = Rating(global_translation, get_config('review_show_improvements_only'))
     has_css_contenttypes = False
     errors = []
     for data_resource_info in data['resources']:
@@ -214,15 +210,21 @@ def rate_css_contenttypes(global_translation, local_translation):
     Returns:
     Rating: The final rating after evaluating the content types of the CSS files.
     """
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-    errors_type_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    errors_type_rating = Rating(
+        global_translation,
+        get_config('review_show_improvements_only'))
     errors_type_rating.set_overall(5.0)
     errors_type_rating.set_standards(5.0,
-            '- `content-type=\".*css.*\"`' + local_translation('TEXT_REVIEW_RATING_GROUPED').format(
+            '- `content-type=\".*css.*\"`' + local_translation(
+                'TEXT_REVIEW_RATING_GROUPED'
+            ).format(
             0, 0.0))
     rating += errors_type_rating
 
-    errors_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    errors_rating = Rating(
+        global_translation,
+        get_config('review_show_improvements_only'))
     errors_rating.set_overall(5.0)
     errors_rating.set_standards(5.0,
             '- `content-type=\".*css.*\"`' +\
@@ -241,15 +243,19 @@ def rate_css_files(global_translation, local_translation):
     Returns:
     Rating: The final rating after evaluating the CSS files.
     """
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-    errors_type_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    errors_type_rating = Rating(
+        global_translation,
+        get_config('review_show_improvements_only'))
     errors_type_rating.set_overall(5.0)
     txt = '- `<link rel=\"stylesheet\">`' +\
                local_translation('TEXT_REVIEW_RATING_GROUPED').format(0, 0.0)
     errors_type_rating.set_standards(5.0, txt)
     rating += errors_type_rating
 
-    errors_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    errors_rating = Rating(
+        global_translation,
+        get_config('review_show_improvements_only'))
     errors_rating.set_overall(5.0)
     errors_rating.set_standards(5.0,
             '- `<link rel=\"stylesheet\">`' +\
@@ -272,15 +278,19 @@ def rate_style_attributes(global_translation, local_translation):
     Returns:
     Rating: A cumulative rating of the style attributes.
     """
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-    errors_type_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    errors_type_rating = Rating(
+        global_translation,
+        get_config('review_show_improvements_only'))
     errors_type_rating.set_overall(5.0)
     errors_type_rating.set_standards(5.0,
             '- `style=""`'+ local_translation('TEXT_REVIEW_RATING_GROUPED').format(
             0, 0.0))
     rating += errors_type_rating
 
-    errors_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    errors_rating = Rating(
+        global_translation,
+        get_config('review_show_improvements_only'))
     errors_rating.set_overall(5.0)
     errors_rating.set_standards(5.0,
             '- `style=""`' + local_translation('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0))
@@ -302,15 +312,19 @@ def rate_style_elements(global_translation, local_translation):
     Returns:
     Rating: A cumulative rating of the style elements.
     """
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-    errors_type_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    errors_type_rating = Rating(
+        global_translation,
+        get_config('review_show_improvements_only'))
     errors_type_rating.set_overall(5.0)
     errors_type_rating.set_standards(5.0,
             '- `<style>`' + local_translation('TEXT_REVIEW_RATING_GROUPED').format(
             0, 0.0))
     rating += errors_type_rating
 
-    errors_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    errors_rating = Rating(
+        global_translation,
+        get_config('review_show_improvements_only'))
     errors_rating.set_overall(5.0)
     errors_rating.set_standards(5.0,
             '- `<style>`' + local_translation('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0))
@@ -376,7 +390,8 @@ def get_errors_for_link_tags(html, url):
             elif resource_url.startswith('/'):
                 # relative url, complement with dns
                 resource_url = parsed_url + resource_url
-            elif not resource_url.startswith('http://') and not resource_url.startswith('https://'):
+            elif not resource_url.startswith('http://') and\
+                    not resource_url.startswith('https://'):
                 # relative url, but without starting /
                 resource_url = parsed_url + '/' + resource_url
 
@@ -501,7 +516,7 @@ def get_mdn_web_docs_css_features():
         print('no index element found')
     return (features, functions)
 
-
+# TODO: change this to just in time, right now it is called every time webperf_core is being called.
 css_spec = get_mdn_web_docs_css_features()
 css_features = css_spec[0]
 css_functions = css_spec[1]
@@ -566,7 +581,7 @@ def create_review_and_rating(errors, global_translation, local_translation, revi
 
                 tmp = re.sub(
                     GROUP_ERROR_MSG_REGEX, "X", error_message, 0, re.MULTILINE)
-                if CSS_REVIEW_GROUP_ERRORS:
+                if get_config('css_review_group_errors'):
                     error_message = tmp
 
                 if msg_grouped_dict.get(error_message, False):
@@ -580,7 +595,7 @@ def create_review_and_rating(errors, global_translation, local_translation, revi
                     msg_grouped_for_rating_dict[tmp] = 1
 
 
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating = Rating(global_translation, get_config('review_show_improvements_only'))
 
     number_of_error_types = len(msg_grouped_for_rating_dict)
 

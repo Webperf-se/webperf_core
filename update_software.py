@@ -3,7 +3,6 @@ import getopt
 import sys
 from datetime import datetime
 from pathlib import Path
-import sys
 import json
 import re
 import os
@@ -11,16 +10,18 @@ import time
 from urllib.parse import urlparse
 import uuid
 import packaging.version
-from tests.sitespeed_base import get_browsertime_har_path, get_result_using_no_cache, get_sanitized_browsertime
-from tests.utils import get_config_or_default, get_http_content
+from tests.sitespeed_base import get_browsertime_har_path,\
+    get_result_using_no_cache, get_sanitized_browsertime
+from tests.utils import get_http_content
 from tools.verify_result import handle_sample_config
+from helpers.setting_helper import get_config
 
-USE_CACHE = get_config_or_default('CACHE_WHEN_POSSIBLE')
-CACHE_TIME_DELTA = get_config_or_default('CACHE_TIME_DELTA')
+USE_CACHE = get_config('CACHE_WHEN_POSSIBLE')
+CACHE_TIME_DELTA = get_config('CACHE_TIME_DELTA')
 CONFIG_WARNINGS = {}
 
 try:
-    github_adadvisory_database_path = get_config_or_default(
+    github_adadvisory_database_path = get_config(
         'SOFTWARE_GITHUB_ADADVISORY_DATABASE_PATH')
 except:
     # If software_github_adadvisory_database_path variable is not set in config.py this will be the default

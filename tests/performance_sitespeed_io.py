@@ -6,30 +6,25 @@ import re
 import subprocess
 from datetime import datetime
 from models import Rating
-from tests.utils import get_config_or_default, get_translation
+from tests.utils import get_translation
+from helpers.setting_helper import get_config
 
-REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
-SITESPEED_USE_DOCKER = get_config_or_default('sitespeed_use_docker')
-REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
-
-def get_result(sitespeed_use_docker, arg):
+def get_result(arg):
     """
     Executes a Sitespeed command and returns the result.
 
     This function runs a Sitespeed command either in a Docker container or directly via Node.js,
-    depending on the value of `sitespeed_use_docker`.
+    depending on the value of `get_config('sitespeed_use_docker')`.
     The command's output is captured and returned as a string.
 
     Args:
-        sitespeed_use_docker (bool): If True, Sitespeed is run in a Docker container.
-            Otherwise, it's run via Node.js.
         arg (str): The arguments to pass to the Sitespeed command.
 
     Returns:
         str: The output of the Sitespeed command.
     """
     result = ''
-    if sitespeed_use_docker:
+    if get_config('sitespeed_use_docker'):
         base_directory = Path(os.path.dirname(
             os.path.realpath(__file__)) + os.path.sep).parent
         data_dir = base_directory.resolve()
@@ -38,7 +33,8 @@ def get_result(sitespeed_use_docker, arg):
                    f"sitespeedio/sitespeed.io:latest {arg}")
 
         with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
-            output, _ = process.communicate(timeout=REQUEST_TIMEOUT * 10)
+            output, _ = process.communicate(
+                timeout=get_config('http_request_timeout') * 10)
             result = str(output)
     else:
         command = (f"node node_modules{os.path.sep}sitespeed.io{os.path.sep}bin{os.path.sep}"
@@ -46,7 +42,8 @@ def get_result(sitespeed_use_docker, arg):
 
         with subprocess.Popen(
             command.split(), stdout=subprocess.PIPE) as process:
-            output, _ = process.communicate(timeout=REQUEST_TIMEOUT * 10)
+            output, _ = process.communicate(
+                timeout=get_config('http_request_timeout') * 10)
             result = str(output)
 
     return result
@@ -67,7 +64,7 @@ def run_test(global_translation, lang_code, url):
     print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating = Rating(global_translation, get_config('review_show_improvements_only'))
     result_dict = {}
 
     validator_result_dicts = []
@@ -128,7 +125,7 @@ def rate_custom_result_dict( # pylint: disable=too-many-arguments,too-many-local
     Returns:
         Rating: The overall rating after considering all validators.
     """
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating = Rating(global_translation, get_config('review_show_improvements_only'))
     for validator_result_dict in validator_result_dicts:
         validator_name = validator_result_dict['name']
         reference_name = None
@@ -202,7 +199,7 @@ def validate_on_mobile_using_validator(url, validator_config):
         '--speedIndex true '
         '--browsertime.videoParams.createFilmstrip false '
         '--browsertime.chrome.args ignore-certificate-errors '
-        f'-n {get_config_or_default('SITESPEED_ITERATIONS')} '
+        f'-n {get_config('SITESPEED_ITERATIONS')} '
         '--preScript chrome-custom.cjs '
         f'{url}'
         f'{browertime_plugin_options}'
@@ -210,8 +207,7 @@ def validate_on_mobile_using_validator(url, validator_config):
     if 'nt' not in os.name:
         arg = '--xvfb ' + arg
 
-    result_dict = get_result_dict(get_result(
-        SITESPEED_USE_DOCKER, arg), validator_config['name'])
+    result_dict = get_result_dict(get_result(arg), validator_config['name'])
     result_dict['name'] = validator_config['name']
     result_dict['use_reference'] = validator_config['use_reference']
 
@@ -278,7 +274,7 @@ def validate_on_desktop_using_validator(url, validator_config):
         '--speedIndex true '
         '--browsertime.videoParams.createFilmstrip false '
         '--browsertime.chrome.args ignore-certificate-errors '
-        f'-n {get_config_or_default('SITESPEED_ITERATIONS')} '
+        f'-n {get_config('SITESPEED_ITERATIONS')} '
         '--preScript chrome-custom.cjs '
         f'{url}'
         f'{browertime_plugin_options}'
@@ -286,8 +282,7 @@ def validate_on_desktop_using_validator(url, validator_config):
     if 'nt' not in os.name:
         arg = '--xvfb ' + arg
 
-    result_dict = get_result_dict(get_result(
-        SITESPEED_USE_DOCKER, arg), validator_config['name'])
+    result_dict = get_result_dict(get_result(arg), validator_config['name'])
     result_dict['name'] = validator_config['name']
     result_dict['use_reference'] = validator_config['use_reference']
 
@@ -313,15 +308,14 @@ def validate_on_desktop(url):
         '--speedIndex true '
         '--browsertime.videoParams.createFilmstrip false '
         '--browsertime.chrome.args ignore-certificate-errors '
-        f'-n {get_config_or_default('SITESPEED_ITERATIONS')} '
+        f'-n {get_config('SITESPEED_ITERATIONS')} '
         '--preScript chrome-custom.cjs '
         f'{url}'
         )
     if 'nt' not in os.name:
         arg = '--xvfb ' + arg
 
-    result_dict = get_result_dict(get_result(
-        SITESPEED_USE_DOCKER, arg), 'desktop')
+    result_dict = get_result_dict(get_result(arg), 'desktop')
 
     return result_dict
 
@@ -346,15 +340,14 @@ def validate_on_mobile(url):
         '--speedIndex true '
         '--browsertime.videoParams.createFilmstrip false '
         '--browsertime.chrome.args ignore-certificate-errors '
-        f'-n {get_config_or_default('SITESPEED_ITERATIONS')} '
+        f'-n {get_config('SITESPEED_ITERATIONS')} '
         '--preScript chrome-custom.cjs '
         f'{url}'
         )
     if 'nt' not in os.name:
         arg = '--xvfb ' + arg
 
-    result_dict = get_result_dict(get_result(
-        SITESPEED_USE_DOCKER, arg), 'mobile')
+    result_dict = get_result_dict(get_result(arg), 'mobile')
 
     return result_dict
 
@@ -377,7 +370,7 @@ def rate_result_dict( # pylint: disable=too-many-branches,too-many-locals
     """
     limit = 500
 
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating = Rating(global_translation, get_config('review_show_improvements_only'))
     performance_review = ''
     overview_review = ''
 
@@ -426,7 +419,9 @@ def rate_result_dict( # pylint: disable=too-many-branches,too-many-locals
             continue
         if 'points' in value and value['points'] != -1:
             points = value['points']
-            entry_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            entry_rating = Rating(
+                global_translation,
+                get_config('review_show_improvements_only'))
             entry_rating.set_overall(points)
             entry_rating.set_performance(
                 points, value['msg'])

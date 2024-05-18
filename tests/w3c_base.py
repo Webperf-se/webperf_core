@@ -5,20 +5,9 @@ import json
 from models import Rating
 from tests.sitespeed_base import get_result
 from tests.utils import get_cache_path_for_file,\
-                        get_config_or_default,\
                         has_cache_file,\
                         set_cache_file
-
-# DEFAULTS
-REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
-USERAGENT = get_config_or_default('useragent')
-CSS_REVIEW_GROUP_ERRORS = get_config_or_default('css_review_group_errors')
-REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
-USE_CACHE = get_config_or_default('cache_when_possible')
-CACHE_TIME_DELTA = get_config_or_default('cache_time_delta')
-SITESPEED_USE_DOCKER = get_config_or_default('sitespeed_use_docker')
-SITESPEED_TIMEOUT = get_config_or_default('sitespeed_timeout')
-
+from helpers.setting_helper import get_config
 
 def get_errors_for_url(test_type, url):
     """
@@ -71,7 +60,7 @@ def get_errors(test_type, params):
         if is_html:
             html_file_ending_fix = file_path.replace('.cache', '.cache.html')
             html_file_ending_fix = html_file_ending_fix.replace('.tmp', '.tmp.html')
-            if has_cache_file(url, True, CACHE_TIME_DELTA) \
+            if has_cache_file(url, True, get_config('cache_time_delta')) \
                     and not os.path.exists(html_file_ending_fix):
                 os.rename(file_path, html_file_ending_fix)
             file_path = html_file_ending_fix
@@ -82,7 +71,7 @@ def get_errors(test_type, params):
                f'{os.path.sep}build{os.path.sep}dist{os.path.sep}'
                f'vnu.jar {arg}')
     with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
-        output, _ = process.communicate(timeout=REQUEST_TIMEOUT * 10)
+        output, _ = process.communicate(timeout=get_config('http_request_timeout') * 10)
 
         json_result = json.loads(output)
         if 'messages' in json_result:
@@ -124,7 +113,10 @@ def get_data_for_url(url):
     sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'
 
     (_, filename) = get_result(
-        url, SITESPEED_USE_DOCKER, sitespeed_arg, SITESPEED_TIMEOUT)
+        url,
+        get_config('sitespeed_use_docker'),
+        sitespeed_arg,
+        get_config('sitespeed_timeout'))
 
     # 1. Visit page like a normal user
     data = identify_files(filename)
@@ -184,7 +176,7 @@ def identify_files(filename):
                 continue
 
             if 'html' in res['content']['mimeType']:
-                if not has_cache_file(req_url, True, CACHE_TIME_DELTA):
+                if not has_cache_file(req_url, True, get_config('cache_time_delta')):
                     set_cache_file(req_url, res['content']['text'], True)
                 data['htmls'].append({
                     'url': req_url,
@@ -192,7 +184,7 @@ def identify_files(filename):
                     'index': req_index
                     })
             elif 'css' in res['content']['mimeType']:
-                if not has_cache_file(req_url, True, CACHE_TIME_DELTA):
+                if not has_cache_file(req_url, True, get_config('cache_time_delta')):
                     set_cache_file(req_url, res['content']['text'], True)
                 data['resources'].append({
                     'url': req_url,
@@ -219,13 +211,17 @@ def get_rating(global_translation,
     Returns:
     Rating: The overall rating calculated based on error types and errors.
     """
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
-    errors_type_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    errors_type_rating = Rating(
+        global_translation,
+        get_config('review_show_improvements_only'))
     errors_type_rating.set_overall(result[0])
     errors_type_rating.set_standards(result[0], error_types_review)
     rating += errors_type_rating
 
-    errors_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    errors_rating = Rating(
+        global_translation,
+        get_config('review_show_improvements_only'))
     errors_rating.set_overall(result[1])
     errors_rating.set_standards(result[1], error_review)
     rating += errors_rating

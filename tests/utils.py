@@ -1041,6 +1041,15 @@ def merge_list_values(dict1, dict2, key, sort, make_distinct):
         dict1[key] = sorted(dict1[key])
 
 def ensure_ip2_location_db():
+    """
+    Ensures that the IP2Location database is loaded.
+
+    If the database is already loaded, this function does nothing.
+    Otherwise, it attempts to load the IP2Location database from the specified file path.
+
+    Raises:
+        ValueError: If loading the database fails.
+    """
     if IP2_LOCATION_DB['loaded']:
         return
     try:

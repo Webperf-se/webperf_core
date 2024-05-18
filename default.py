@@ -675,7 +675,7 @@ def main(argv):
             # Cleanup exipred cache
         clean_cache_files()
     else:
-        options.show_help(_)
+        print(options.language('TEXT_COMMAND_USAGE'))
 
 if __name__ == '__main__':
     main(sys.argv[1:])

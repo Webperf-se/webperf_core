@@ -1,0 +1,70 @@
+{
+    "general": {
+        "dns": {
+            "address": "8.8.8.8"
+        },
+        "request": {
+            "timeout": 60
+        },
+        "review": {
+            "details": false,
+            "improve-only": true
+        },
+        "useragent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0",
+        "cahce": {
+            "use": false,
+            "representation": "hours",
+            "interval": 1
+        }
+    },
+    "github": {
+        "api": {
+            "key": ""
+        }
+    },
+    "tests": {
+        "css": {
+            "group": false
+        },
+        "email": {
+            "support": {
+                "port25": false,
+                "ipv6": false
+            }
+        },
+        "http": {
+            "csp-only": false
+        },
+        "lighthouse": {
+            "api": {
+                "use": false,
+                "key": ""
+            }
+        },
+        "sitespeed": {
+            "docker": {
+                "use": false
+            },
+            "timeout": 300,
+            "iterations": 2
+        },
+        "software": {
+            "advisory": {
+                "path": ""
+            },
+            "browser": "chrome",
+            "stealth": {
+                "use": true
+            }
+        },
+        "webbkoll": {
+            "sleep": 20
+        },
+        "ylt": {
+            "api": {
+                "use": false,
+                "address": "https://yellowlab.tools"
+            }
+        }
+    }
+}

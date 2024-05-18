@@ -17,11 +17,15 @@ config_mapping = {
     (
         "cache",
         "general.cache.use",
-        "cache_when_possible"): "bool|CACHE_WHEN_POSSIBLE",
+        "cache_when_possible"): "bool|general.cache.use",
     (
         "cachetime",
-        "general.cache.time",
-        "cache_time_delta"): "int|CACHE_TIME_DELTA",
+        "general.cache.interval"
+        ): "int|general.cache.interval",
+    (
+        "cacherep",
+        "general.cache.representation"
+        ): "string|general.cache.representation",
     (
         "dnsserver",
         "general.dns.address",

@@ -22,7 +22,7 @@ WEBBKOLL_SLEEP = 20
 CSS_REVIEW_GROUP_ERRORS = True
 
 # Only show reviews that you can improve, set this value to True
-REVIEW_SHOW_IMPROVEMENTS_ONLY = False
+REVIEW_SHOW_IMPROVEMENTS_ONLY = True
 
 # Tells Yellow Lab Tools Test to use API version or command line version
 YLT_USE_API = False

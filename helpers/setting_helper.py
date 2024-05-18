@@ -31,14 +31,6 @@ config_mapping = {
         "github.api.key",
         "github_api_key"): "string|GITHUB_API_KEY",
     (
-        "googleapikey",
-        "tests.lighthouse.api.key",
-        "googlepagespeedapikey"): "string|GOOGLEPAGESPEEDAPIKEY",
-    (
-        "googleuseapi",
-        "tests.lighthouse.api.use",
-        "lighthouse_use_api"): "bool|LIGHTHOUSE_USE_API",
-    (
         "webbkollsleep",
         "tests.webbkoll.sleep",
         "webbkoll_sleep"): "int|WEBBKOLL_SLEEP",
@@ -46,14 +38,6 @@ config_mapping = {
         "tests.w3c.group",
         "tests.css.group",
         "css_review_group_errors"): "bool|CSS_REVIEW_GROUP_ERRORS",
-    (
-        "yellowlabtoolskey",
-        "tests.ylt.api.key",
-        "ylt_use_api"): "bool|YLT_USE_API",
-    (
-        "yellowlabtoolsaddress",
-        "tests.ylt.api.address",
-        "ylt_server_address"): "string|YLT_SERVER_ADDRESS",
     (
         "sitespeeddocker",
         "tests.sitespeed.docker.use",

@@ -27,11 +27,6 @@ This variable is used as user agent in the following tests:
 - Google Lighthouse based test  (used against service when using test in that mode)
 
 
-### googlePageSpeedApiKey
-
-You can read more about this variable on the [Google Lighthouse Based test section](tests/google-lighthouse-based.md).
-This variable is only used when `lighthouse_use_api` variable is set to `True`.
-
 ### http_request_timeout
 
 This variable is used as request timeout in the following tests:
@@ -61,17 +56,6 @@ This is usefull if you want to get a first overview or if you have a lot of erro
 Setting this variable to true will result in only showing reviews that has a rating below 5.0.
 This is good if you only want to show reviews that you can improve.
 
-### ylt_use_api
-
-NOTE: This should probably be removed, it tells Frontend quality against Yellow Lab Tools
-to be using https://yellowlab.tools/ api:s instead of a local version.
-
-### lighthouse_use_api
-
-This variable tells Google Lighthouse based test(s)
-to be using Google API version instead of local version.
-Please note that if you set this to true, you need to supply `googlePageSpeedApiKey` also.
-
 ### sitespeed_use_docker
 
 This variable tells sitespeed based test(s) to use docker image version instead of NPM version.
@@ -81,10 +65,6 @@ Please read more about this on [SiteSpeed test section](tests/sitespeed.md).
 
 This variable tells sitespeed based test(s) how many iterations it should do against the url to get the best measurement.
 Please read more about this on [SiteSpeed test section](tests/sitespeed.md).
-
-### locales
-
-Who knows what this is for... :)
 
 ### cache_when_possible
 Changing this to `True` will make webperf-core use local cache where available.

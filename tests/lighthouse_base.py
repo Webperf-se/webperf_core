@@ -67,8 +67,7 @@ def run_test(url, strategy, category, silance, lighthouse_translations):
             lang_code,
             url,
             strategy,
-            category,
-            get_config('googlePageSpeedApiKey')
+            category
         )
 
     return_dict = {}
@@ -532,7 +531,7 @@ def get_json_result_using_caching(lang_code, url, strategy):
 
 
 
-def get_json_result(lang_code, url, strategy, category, google_pagespeed_apikey):
+def get_json_result(lang_code, url, strategy, category):
     """
     Retrieves the JSON result of a Lighthouse audit for a specific URL.
     This function uses either the Google Pagespeed API or
@@ -548,20 +547,12 @@ def get_json_result(lang_code, url, strategy, category, google_pagespeed_apikey)
         The form factor to use for the audit (e.g., 'mobile' or 'desktop').
     category (str):
         The category of audits to perform (e.g., 'performance' or 'accessibility').
-    google_pagespeed_apikey (str):
-        The API key for the Google Pagespeed API. If this is None or an empty string,
-        the function will use the local Lighthouse CLI to perform the audit.
 
     Returns:
     dict: The JSON result of the audit.
     """
     json_content = {}
     check_url = url.strip()
-
-    lighthouse_use_api = google_pagespeed_apikey is not None and google_pagespeed_apikey != ''
-
-    if lighthouse_use_api:
-        return get_json_result_from_api(lang_code, check_url, category, google_pagespeed_apikey)
 
     if get_config('cache_when_possible'):
         return get_json_result_using_caching(lang_code, check_url, strategy)

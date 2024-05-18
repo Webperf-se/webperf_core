@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 import os
-import time
 from datetime import datetime
 import json
 import subprocess
-import requests
-from tests.utils import get_http_content, get_translation
+from tests.utils import get_translation
 from helpers.setting_helper import get_config
 from models import Rating
 
-def run_test(global_translation, lang_code, url, device='phone'):
+def run_test(global_translation, lang_code, url):
     """
     Analyzes URL with Yellow Lab Tools docker image.
     Devices might be; phone, tablet, desktop
@@ -24,7 +22,7 @@ def run_test(global_translation, lang_code, url, device='phone'):
     print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    result_dict = get_ylt_result(url, device)
+    result_dict = get_ylt_result(url)
     # If we fail to connect to website the result_dict will be None and we should end test
     if result_dict is None:
         rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
@@ -72,53 +70,25 @@ def run_test(global_translation, lang_code, url, device='phone'):
 
     return (rating, return_dict)
 
-def get_ylt_result(url, device):
+def get_ylt_result(url):
     """
     This function retrieves the Yellow Lab Tools (YLT) analysis result for a given URL and device.
     
     Parameters:
     url (str): The URL of the webpage to analyze.
-    device (str): The type of device to simulate for the analysis.
 
     Returns:
     dict: The result of the YLT analysis in dictionary format.
     """
     result_json = None
-    if get_config('YLT_USE_API'):
-        response = requests.post(
-            f'{get_config('YLT_SERVER_ADDRESS')}/api/runs',
-            data={
-                'url': url,
-                "waitForResponse": 'true',
-                'device': device
-            },
-            timeout=get_config('http_request_timeout'))
 
-        result_url = response.url
-
-        running_info = json.loads(response.text)
-        test_id = running_info['runId']
-
-        running_status = 'running'
-        while running_status == 'running':
-            running_json = get_http_content(
-                f'{get_config('YLT_SERVER_ADDRESS')}/api/runs/{test_id}')
-            running_info = json.loads(running_json)
-            running_status = running_info['status']['statusCode']
-            time.sleep(max(get_config('WEBBKOLL_SLEEP'), 5))
-
-        result_url = (
-            f"{get_config('YLT_SERVER_ADDRESS')}"
-            f"/api/results/{test_id}?exclude=toolsResults")
-        result_json = get_http_content(result_url)
-    else:
-        command = (
-            f"node node_modules{os.path.sep}yellowlabtools{os.path.sep}bin"
-            f"{os.path.sep}cli.js {url}")
-        with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
-            output, _ = process.communicate(
-                timeout=get_config('http_request_timeout') * 10)
-            result_json = output
+    command = (
+        f"node node_modules{os.path.sep}yellowlabtools{os.path.sep}bin"
+        f"{os.path.sep}cli.js {url}")
+    with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
+        output, _ = process.communicate(
+            timeout=get_config('http_request_timeout') * 10)
+        result_json = output
 
     # If we fail to connect to website the result_dict should be None and we should end test
     if result_json is None or len(result_json) == 0:

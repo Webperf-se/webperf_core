@@ -372,7 +372,10 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             self.show_available_settings()
             return
         name = pair[0].lower()
-        value = pair[1]
+        value = 'true'
+
+        if nof_pair > 1:
+            value = pair[1]
 
         config_name = None
 

@@ -23,7 +23,7 @@ from engines.json_engine import read_sites as json_read_sites,\
 from engines.gov import write_tests as gov_write_tests
 from engines.sql import write_tests as sql_write_tests
 from engines.markdown_engine import write_tests as markdown_write_tests
-from helpers.setting_helper import set_config
+from helpers.setting_helper import config_mapping, set_config_from_cmd
 from tests.utils import clean_cache_files
 from utils import TEST_FUNCS, TEST_ALL, restart_failures_log, test_sites
 
@@ -159,98 +159,6 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
     add_site = None
     delete_site = None
 
-    config_mapping = {
-        ("useragent", "general.useragent", "agent", "ua"): "string|USERAGENT",
-        (
-            "details",
-            "general.review.details",
-            "use_detailed_report"): "bool|USE_DETAILED_REPORT",
-        (
-            "improve-only",
-            "general.review.improve-only",
-            "review_show_improvements_only"): "bool|REVIEW_SHOW_IMPROVEMENTS_ONLY",
-        (
-            "timeout",
-            "general.request.timeout",
-            "http_request_timeout"): "int|HTTP_REQUEST_TIMEOUT",
-        (
-            "cache",
-            "general.cache.use",
-            "cache_when_possible"): "bool|CACHE_WHEN_POSSIBLE",
-        (
-            "cachetime",
-            "general.cache.time",
-            "cache_time_delta"): "int|CACHE_TIME_DELTA",
-        (
-            "dnsserver",
-            "general.dns.address",
-            "dns_server"): "string|DNS_SERVER",
-        (
-            "githubkey",
-            "github.api.key",
-            "github_api_key"): "string|GITHUB_API_KEY",
-        (
-            "googleapikey",
-            "tests.lighthouse.api.key",
-            "googlepagespeedapikey"): "string|GOOGLEPAGESPEEDAPIKEY",
-        (
-            "googleuseapi",
-            "tests.lighthouse.api.use",
-            "lighthouse_use_api"): "bool|LIGHTHOUSE_USE_API",
-        (
-            "webbkollsleep",
-            "tests.webbkoll.sleep",
-            "webbkoll_sleep"): "int|WEBBKOLL_SLEEP",
-        (
-            "tests.w3c.group",
-            "tests.css.group",
-            "css_review_group_errors"): "bool|CSS_REVIEW_GROUP_ERRORS",
-        (
-            "yellowlabtoolskey",
-            "tests.ylt.api.key",
-            "ylt_use_api"): "bool|YLT_USE_API",
-        (
-            "yellowlabtoolsaddress",
-            "tests.ylt.api.address",
-            "ylt_server_address"): "string|YLT_SERVER_ADDRESS",
-        (
-            "sitespeeddocker",
-            "tests.sitespeed.docker.use",
-            "sitespeed_use_docker"): "bool|SITESPEED_USE_DOCKER",
-        (
-            "sitespeedtimeout",
-            "tests.sitespeed.timeout",
-            "sitespeed_timeout"): "int|SITESPEED_TIMEOUT",
-        (
-            "sitespeediterations",
-            "tests.sitespeed.iterations",
-            "sitespeed_iterations"): "int|SITESPEED_ITERATIONS",
-        (
-            "csponly",
-            "tests.http.csp-only",
-            "csp_only"): "bool|CSP_ONLY",
-        (
-            "stealth",
-            "tests.software.stealth.use",
-            "software_use_stealth"): "bool|SOFTWARE_USE_STEALTH",
-        (
-            "advisorydatabase",
-            "tests.software.advisory.path",
-            "software_github_adadvisory_database_path"): "string|SOFTWARE_GITHUB_ADADVISORY_DATABASE_PATH",
-        (
-            "browser",
-            "tests.software.browser",
-            "software_browser"): "string|SOFTWARE_BROWSER",
-        (
-            "mailport25",
-            "tests.email.support.port25",
-            "email_network_support_port25_traffic"): "bool|EMAIL_NETWORK_SUPPORT_PORT25_TRAFFIC",
-        (
-            "mailipv6",
-            "tests.email.support.ipv6",
-            "email_network_support_ipv6_traffic"): "bool|EMAIL_NETWORK_SUPPORT_IPV6_TRAFFIC"
-    }
-
     def __init__(self):
         self.lang_code = 'en'
 
@@ -351,7 +259,7 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
         """
         print()
         print('Valid settings:')
-        for aliases in self.config_mapping:
+        for aliases in config_mapping:
             print(f"--setting {aliases[1]}=<value> ( alias: {aliases[0]} )")
         print()
 
@@ -366,56 +274,8 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
         Args:
             arg (str): Input argument in the format "<setting_name>=<value>".
         """
-        pair = arg.split('=')
-        nof_pair = len(pair)
-        if nof_pair > 2:
+        if not set_config_from_cmd(arg):
             self.show_available_settings()
-            return
-        name = pair[0].lower()
-        value = 'true'
-
-        if nof_pair > 1:
-            value = pair[1]
-
-        config_name = None
-
-        for aliases, setting_name in self.config_mapping.items():
-            if name in aliases:
-                config_name = setting_name
-                break
-
-        if config_name is None:
-            print('no matching configuration name for', name)
-            self.show_available_settings()
-            return
-
-        config_name_pair = config_name.split('|')
-        config_name_type = config_name_pair[0]
-        config_name = config_name_pair[1]
-
-        config_value = None
-        if config_name_type == 'bool':
-            if value in ('true', 'True', 'yes', 'Y', 'y'):
-                config_value = True
-            elif value in ('false', 'False', 'no', 'N', 'n'):
-                config_value = False
-            else:
-                print(
-                    'Warning: Ignoring setting,'
-                    f'"{config_name}":s value has to be true or false.')
-                return
-        elif config_name_type == 'int':
-            try:
-                self.input_take = int(arg)
-            except TypeError:
-                print(f'Warning: Ignoring setting, "{config_name}":s value has to be a number.')
-                return
-        elif value in ('none', 'None', 'NONE', ''):
-            config_value = None
-        else:
-            config_value = value
-
-        set_config(config_name.lower(), config_value)
 
     def set_output_filename(self, arg):
         """

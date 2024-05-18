@@ -5,11 +5,11 @@ import time
 from datetime import datetime
 import subprocess
 from models import Rating
-from tests.utils import get_config_or_default,\
-                        get_http_content,\
+from tests.utils import get_http_content,\
                         is_file_older_than,\
                         get_cache_path_for_rule,\
                         get_translation
+from helpers.setting_helper import get_config
 
 # look for words indicating item is insecure
 INSECURE_STRINGS = ['security', 'säkerhet',
@@ -68,12 +68,12 @@ def run_test(url, strategy, category, silance, lighthouse_translations):
             url,
             strategy,
             category,
-            get_config_or_default('googlePageSpeedApiKey')
+            get_config('googlePageSpeedApiKey')
         )
 
     return_dict = {}
 
-    rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('review_show_improvements_only'))
     score = json_content['categories'][category]['score']
     # If we fail to connect to website the score will be None and we should end test
     if score is None:
@@ -117,7 +117,7 @@ def create_rating_from_audit(item, category, global_translation, weight):
         dict: A dictionary with the key as the local points minus the weight and the value as
               the rating.
     """
-    rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('review_show_improvements_only'))
     item_review = ''
     item_title = ''
     display_value = ''
@@ -219,7 +219,7 @@ def create_rating_from_audits(category, global_translation, json_content, return
     Returns:
         Rating: The Rating object with the set ratings and reviews.
     """
-    rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('review_show_improvements_only'))
     weight_dict = create_weight_dict(category, json_content)
     reviews = []
     for audit_key, item in json_content['audits'].items():
@@ -260,7 +260,7 @@ def rate_containing_standard_string(global_translation, local_score, item_title)
     """
     local_rating = Rating(
         global_translation,
-        get_config_or_default('review_show_improvements_only'))
+        get_config('review_show_improvements_only'))
     if local_score == 1:
         local_rating.set_overall(
                         5.0)
@@ -292,7 +292,7 @@ def rate_containing_insecure_string(global_translation, local_score, item_title)
     """
     local_rating = Rating(
         global_translation,
-        get_config_or_default('review_show_improvements_only'))
+        get_config('review_show_improvements_only'))
     if local_score == 1:
         local_rating.set_overall(
                         5.0)
@@ -505,7 +505,7 @@ def get_json_result_using_caching(lang_code, url, strategy):
 
     artifacts_file = os.path.join(cache_path, 'artifacts.json')
     if os.path.exists(result_file) and \
-        not is_file_older_than(result_file, get_config_or_default('cache_time_delta')):
+        not is_file_older_than(result_file, get_config('cache_time_delta')):
 
         file_created_timestamp = os.path.getctime(result_file)
         file_created_date = time.ctime(file_created_timestamp)
@@ -514,7 +514,7 @@ def get_json_result_using_caching(lang_code, url, strategy):
         with open(result_file, 'r', encoding='utf-8', newline='') as file:
             return str_to_json('\n'.join(file.readlines()), url)
     elif os.path.exists(artifacts_file) and \
-        not is_file_older_than(artifacts_file, get_config_or_default('cache_time_delta')):
+        not is_file_older_than(artifacts_file, get_config('cache_time_delta')):
 
         file_created_timestamp = os.path.getctime(artifacts_file)
         file_created_date = time.ctime(file_created_timestamp)
@@ -526,7 +526,7 @@ def get_json_result_using_caching(lang_code, url, strategy):
         command += f" -GA={cache_path} {url}"
 
     with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
-        _, _ = process.communicate(timeout=get_config_or_default('http_request_timeout') * 10)
+        _, _ = process.communicate(timeout=get_config('http_request_timeout') * 10)
         with open(result_file, 'r', encoding='utf-8', newline='') as file:
             return str_to_json('\n'.join(file.readlines()), url)
 
@@ -563,7 +563,7 @@ def get_json_result(lang_code, url, strategy, category, google_pagespeed_apikey)
     if lighthouse_use_api:
         return get_json_result_from_api(lang_code, check_url, category, google_pagespeed_apikey)
 
-    if get_config_or_default('cache_when_possible'):
+    if get_config('cache_when_possible'):
         return get_json_result_using_caching(lang_code, check_url, strategy)
 
     command = (
@@ -573,7 +573,7 @@ def get_json_result(lang_code, url, strategy, category, google_pagespeed_apikey)
         " --chrome-flags=\"--headless\" --quiet")
 
     with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
-        output, _ = process.communicate(timeout=get_config_or_default('http_request_timeout') * 10)
+        output, _ = process.communicate(timeout=get_config('http_request_timeout') * 10)
         get_content = output
         json_content = str_to_json(get_content, check_url)
 

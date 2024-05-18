@@ -31,32 +31,6 @@ IP2_LOCATION_DB = {
     'database': None
 }
 
-def get_config_or_default(name):
-    """
-    Retrieves the configuration value for a given name from the configuration file.
-    If the name does not exist in the configuration file,
-    it attempts to retrieve it from the defaults.config.py file.
-    
-    Parameters:
-    name (str): The name of the configuration value to retrieve.
-
-    Returns:
-    The configuration value associated with the given name.
-
-    Raises:
-    ValueError: If the name does not exist in both the configuration file and
-    the defaults.config.py file.
-
-    Notes:
-    - If the name exists in the defaults.config.py file but not in the configuration file,
-      a warning message is printed.
-    - If the name does not exist in both files,
-      a fatal error message is printed and a ValueError is raised.
-    """
-    # TODO: replace this
-    return get_config(name)
-
-
 def get_translation(module_name, lang_code):
     """
     Retrieves the gettext translation object for a specific language.
@@ -147,7 +121,7 @@ def get_cache_path_for_rule(url, cache_key_rule):
         hostname = 'None'
 
     folder = 'tmp'
-    if get_config_or_default('cache_when_possible'):
+    if get_config('cache_when_possible'):
         folder = 'cache'
 
     folder_path = os.path.join(folder)
@@ -195,7 +169,7 @@ def get_cache_path_for_file(url, use_text_instead_of_content):
     str: The generated cache path.
     """
     file_ending = '.tmp'
-    if get_config_or_default('cache_when_possible'):
+    if get_config('cache_when_possible'):
         file_ending = '.cache'
     cache_key_rule = '{0}.txt.utf-8' + file_ending
     if not use_text_instead_of_content:
@@ -224,12 +198,12 @@ def get_cache_file(url, use_text_instead_of_content, time_delta):
     Notes:
     - The function uses the get_cache_path_for_file function
       to determine the path of the cache file.
-    - If get_config_or_default('cache_when_possible') is False, the function always returns None.
+    - If get_config('cache_when_possible') is False, the function always returns None.
     """
     cache_path = get_cache_path_for_file(url, use_text_instead_of_content)
     if not os.path.exists(cache_path):
         return None
-    if get_config_or_default('cache_when_possible') and is_file_older_than(cache_path, time_delta):
+    if get_config('cache_when_possible') and is_file_older_than(cache_path, time_delta):
         return None
     if use_text_instead_of_content:
         with open(cache_path, 'r', encoding='utf-8', newline='') as file:
@@ -256,7 +230,7 @@ def has_cache_file(url, use_text_instead_of_content, time_delta):
     cache_path = get_cache_path_for_file(url, use_text_instead_of_content)
     if not os.path.exists(cache_path):
         return False
-    if get_config_or_default('cache_when_possible') and is_file_older_than(cache_path, time_delta):
+    if get_config('cache_when_possible') and is_file_older_than(cache_path, time_delta):
         return False
     return True
 
@@ -267,12 +241,12 @@ def clean_cache_files():
     removes the 'tmp' directory if caching is not used.
 
     This function performs the following operations:
-    1. If caching is not used (get_config_or_default('cache_when_possible') is False),
+    1. If caching is not used (get_config('cache_when_possible') is False),
        it removes the 'tmp' directory and returns.
     2. If caching is used, it goes through each file in each subdirectory of the 'cache' directory.
     3. For each file, if the file ends with '.cache',
-       it checks if the file is older than get_config_or_default('cache_time_delta').
-    4. If the file is older than get_config_or_default('cache_time_delta'), it removes the file.
+       it checks if the file is older than get_config('cache_time_delta').
+    4. If the file is older than get_config('cache_time_delta'), it removes the file.
 
     The function also prints out the following information:
     - The number of files and folders in the 'cache' folder before cleanup.
@@ -281,10 +255,10 @@ def clean_cache_files():
     - The number of '.cache' files removed.
     - The number of 'result' folders removed.
 
-    Note: The function uses the get_config_or_default('cache_when_possible') and
-          get_config_or_default('cache_time_delta') global variables.
+    Note: The function uses the get_config('cache_when_possible') and
+          get_config('cache_time_delta') global variables.
     """
-    if not get_config_or_default('cache_when_possible'):
+    if not get_config('cache_when_possible'):
         # If we don't want to cache stuff, why complicate stuff, just empy tmp folder when done
         folder = 'tmp'
         base_directory = os.path.join(Path(os.path.dirname(
@@ -313,8 +287,8 @@ def clean_cache_files():
             if file_or_dir.endswith(file_ending):
                 cache_files += 1
                 path = os.path.join(base_directory, subdir, file_or_dir)
-                if not get_config_or_default('cache_when_possible') or\
-                        is_file_older_than(path, get_config_or_default('cache_time_delta')):
+                if not get_config('cache_when_possible') or\
+                        is_file_older_than(path, get_config('cache_time_delta')):
                     os.remove(path)
                     cache_files_removed += 1
 
@@ -374,12 +348,12 @@ def get_http_content_with_status(url, allow_redirects=False, use_text_instead_of
         str or bytes: The content of the URL.
     """
     try:
-        headers = {'user-agent': get_config_or_default('useragent')}
+        headers = {'user-agent': get_config('useragent')}
         hostname = urlparse(url).hostname
-        if hostname == 'api.github.com' and get_config_or_default('GITHUB_API_KEY') is not None:
-            headers['authorization'] = f'Bearer {get_config_or_default('GITHUB_API_KEY')}'
+        if hostname == 'api.github.com' and get_config('GITHUB_API_KEY') is not None:
+            headers['authorization'] = f'Bearer {get_config('GITHUB_API_KEY')}'
         response = requests.get(url, allow_redirects=allow_redirects,
-                         headers=headers, timeout=get_config_or_default('http_request_timeout')*2)
+                         headers=headers, timeout=get_config('http_request_timeout')*2)
 
         if use_text_instead_of_content:
             content = response.text
@@ -418,7 +392,7 @@ def get_http_content_with_status(url, allow_redirects=False, use_text_instead_of
         print(
             'Error! Unfortunately the request for URL '
             f'"{url}" timed out.'
-            f"The timeout is set to {get_config_or_default('http_request_timeout')} seconds.\n"
+            f"The timeout is set to {get_config('http_request_timeout')} seconds.\n"
             f"Message:\n{sys.exc_info()[0]}")
     return '', None
 
@@ -449,16 +423,16 @@ def get_http_content(url, allow_redirects=False, use_text_instead_of_content=Tru
     """
     try:
         content = get_cache_file(
-            url, use_text_instead_of_content, get_config_or_default('cache_time_delta'))
+            url, use_text_instead_of_content, get_config('cache_time_delta'))
         if content is not None:
             return content
 
-        headers = {'user-agent': get_config_or_default('useragent')}
+        headers = {'user-agent': get_config('useragent')}
         hostname = urlparse(url).hostname
-        if hostname == 'api.github.com' and get_config_or_default('GITHUB_API_KEY') is not None:
-            headers['authorization'] = f'Bearer {get_config_or_default('GITHUB_API_KEY')}'
+        if hostname == 'api.github.com' and get_config('GITHUB_API_KEY') is not None:
+            headers['authorization'] = f'Bearer {get_config('GITHUB_API_KEY')}'
         response = requests.get(url, allow_redirects=allow_redirects,
-                         headers=headers, timeout=get_config_or_default('http_request_timeout')*2)
+                         headers=headers, timeout=get_config('http_request_timeout')*2)
 
         if use_text_instead_of_content:
             content = response.text
@@ -497,7 +471,7 @@ def get_http_content(url, allow_redirects=False, use_text_instead_of_content=Tru
         print(
             'Error! Unfortunately the request for URL '
             f'"{url}" timed out.'
-            f"The timeout is set to {get_config_or_default('http_request_timeout')} seconds."
+            f"The timeout is set to {get_config('http_request_timeout')} seconds."
             f"\nMessage:\n{sys.exc_info()[0]}")
     return ''
 
@@ -512,12 +486,12 @@ def get_content_type(url):
 
     Args:
         url (str): The URL to retrieve the content type from.
-        get_config_or_default('cache_time_delta') (int): The cache time delta.
+        get_config('cache_time_delta') (int): The cache time delta.
 
     Returns:
         str or None: The content type of the URL, or None if not found.
     """
-    headers = get_url_headers(url, get_config_or_default('cache_time_delta'))
+    headers = get_url_headers(url, get_config('cache_time_delta'))
 
     if headers['status-code'] == 401:
         return 401
@@ -559,9 +533,9 @@ def get_url_headers(url, cache_time_delta):
             headers = json.loads(content)
             return headers
 
-        headers = {'user-agent': get_config_or_default('useragent')}
+        headers = {'user-agent': get_config('useragent')}
         a = requests.head(url, allow_redirects=True,
-                         headers=headers, timeout=get_config_or_default('http_request_timeout')*2)
+                         headers=headers, timeout=get_config('http_request_timeout')*2)
 
         print('\t- status =', a.status_code)
 
@@ -623,9 +597,9 @@ def has_redirect(url):
     """
     error_msg = None
     try:
-        headers = {'user-agent': get_config_or_default('useragent')}
+        headers = {'user-agent': get_config('useragent')}
         response = requests.get(url, allow_redirects=True,
-                         headers=headers, timeout=get_config_or_default('http_request_timeout')*2)
+                         headers=headers, timeout=get_config('http_request_timeout')*2)
 
         return (url != response.url, response.url, '')
     except ssl.CertificateError as error:
@@ -684,7 +658,7 @@ def dns_lookup(key, datatype):
     """
     use_dnssec = False
     cache_key = f'dnslookup://{key}#{datatype}#{use_dnssec}'
-    if has_cache_file(cache_key, True, get_config_or_default('cache_time_delta')):
+    if has_cache_file(cache_key, True, get_config('cache_time_delta')):
         cache_path = get_cache_path_for_file(cache_key, True)
         response = dns.message.from_file(cache_path)
         return dns_response_to_list(response)
@@ -698,7 +672,7 @@ def dns_lookup(key, datatype):
             query = dns.message.make_query(key, datatype, want_dnssec=False)
 
         # Send the query and get the response
-        response = dns.query.udp(query, get_config_or_default('DNS_SERVER'))
+        response = dns.query.udp(query, get_config('DNS_SERVER'))
 
         if response.rcode() != 0:
             # HANDLE QUERY FAILED (SERVER ERROR OR NO DNSKEY RECORD)

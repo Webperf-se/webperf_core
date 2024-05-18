@@ -14,9 +14,10 @@ from helpers.csp_helper import rate_csp
 from helpers.data_helper import append_domain_entry, has_domain_entry
 from helpers.sitespeed_helper import get_data_from_sitespeed
 from helpers.tls_helper import check_tls_versions, rate_transfer_layers
+from helpers.setting_helper import get_config
 from models import Rating
 from tests.utils import change_url_to_test_url, dns_lookup,\
-    get_translation, merge_dicts, get_config_or_default
+    get_translation, merge_dicts
 from tests.sitespeed_base import get_result
 
 csp_only_global_result_dict = {}
@@ -32,7 +33,7 @@ def run_test(global_translation, lang_code, url):
 
     local_translation = get_translation('http_validator', lang_code)
 
-    if get_config_or_default('CSP_ONLY'):
+    if get_config('CSP_ONLY'):
         print(local_translation('TEXT_RUNNING_TEST_CSP_ONLY'))
     else:
         print(local_translation('TEXT_RUNNING_TEST'))
@@ -44,7 +45,7 @@ def run_test(global_translation, lang_code, url):
     o = urllib.parse.urlparse(url)
     hostname = o.hostname
 
-    if get_config_or_default('CSP_ONLY'):
+    if get_config('CSP_ONLY'):
         result_dict = merge_dicts(check_csp(url), csp_only_global_result_dict, True, True)
         if 'nof_pages' not in result_dict:
             result_dict['nof_pages'] = 1
@@ -88,14 +89,14 @@ def rate(org_domain, result_dict, global_translation, local_translation):
     Returns:
     rating (Rating): Rating object with overall and standards ratings.
     """
-    rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('review_show_improvements_only'))
 
     org_www_domain = f'www.{org_domain}'
 
     if result_dict['visits'] == 0 and 'failed' in result_dict:
         error_rating = Rating(
             global_translation,
-            get_config_or_default('review_show_improvements_only'))
+            get_config('review_show_improvements_only'))
         error_rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
         return error_rating
 
@@ -103,7 +104,7 @@ def rate(org_domain, result_dict, global_translation, local_translation):
         if not isinstance(result_dict[domain], dict):
             continue
 
-        if not get_config_or_default('CSP_ONLY'):
+        if not get_config('CSP_ONLY'):
             rating += rate_protocols(
                 result_dict,
                 global_translation,
@@ -153,7 +154,7 @@ def rate_ip_versions(result_dict, global_translation, local_translation, domain)
     Returns:
     rating (Rating): Rating object with overall and standards ratings.
     """
-    rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('review_show_improvements_only'))
     if not isinstance(result_dict[domain], dict):
         return rating
 
@@ -161,7 +162,7 @@ def rate_ip_versions(result_dict, global_translation, local_translation, domain)
             'IPv4*' in result_dict[domain]['ip-versions']:
         sub_rating = Rating(
             global_translation,
-            get_config_or_default('review_show_improvements_only'))
+            get_config('review_show_improvements_only'))
         sub_rating.set_overall(5.0)
         sub_rating.set_standards(5.0,
                 local_translation('TEXT_REVIEW_IP_VERSION_IPV4_SUPPORT').format(domain))
@@ -169,7 +170,7 @@ def rate_ip_versions(result_dict, global_translation, local_translation, domain)
     else:
         sub_rating = Rating(
             global_translation,
-            get_config_or_default('review_show_improvements_only'))
+            get_config('review_show_improvements_only'))
         sub_rating.set_overall(1.0)
         sub_rating.set_standards(1.0,
                 local_translation('TEXT_REVIEW_IP_VERSION_IPV4_NO_SUPPORT').format(domain))
@@ -179,7 +180,7 @@ def rate_ip_versions(result_dict, global_translation, local_translation, domain)
             'IPv6*' in result_dict[domain]['ip-versions']:
         sub_rating = Rating(
             global_translation,
-            get_config_or_default('review_show_improvements_only'))
+            get_config('review_show_improvements_only'))
         sub_rating.set_overall(5.0)
         sub_rating.set_standards(5.0,
                 local_translation('TEXT_REVIEW_IP_VERSION_IPV6_SUPPORT').format(domain))
@@ -187,7 +188,7 @@ def rate_ip_versions(result_dict, global_translation, local_translation, domain)
     else:
         sub_rating = Rating(
             global_translation,
-            get_config_or_default('review_show_improvements_only'))
+            get_config('review_show_improvements_only'))
         sub_rating.set_overall(1.0)
         sub_rating.set_standards(1.0,
                 local_translation('TEXT_REVIEW_IP_VERSION_IPV6_NO_SUPPORT').format(domain))
@@ -208,7 +209,7 @@ def check_hsts_features(domain, org_domain, result_dict, local_translation, glob
     sub_rating (Rating): Sub-rating object with overall,
     integrity, security, and standards ratings.
     """
-    sub_rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    sub_rating = Rating(global_translation, get_config('review_show_improvements_only'))
     sub_rating.set_overall(5.0)
 
     if has_domain_entry(domain, 'features', 'INVALIDATE-HSTS', result_dict):
@@ -273,7 +274,7 @@ def rate_hsts(result_dict, global_translation, local_translation, org_domain, do
     Returns:
     rating (Rating): Rating object with overall, integrity, security, and standards ratings.
     """
-    rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('review_show_improvements_only'))
     if not isinstance(result_dict[domain], dict):
         return rating
 
@@ -288,7 +289,7 @@ def rate_hsts(result_dict, global_translation, local_translation, org_domain, do
             not has_domain_entry(domain, 'features', 'INVALIDATE-HSTS', result_dict):
         sub_rating = Rating(
             global_translation,
-            get_config_or_default('review_show_improvements_only'))
+            get_config('review_show_improvements_only'))
         sub_rating.set_overall(5.0)
         sub_rating.set_integrity_and_security(4.99,
             local_translation('TEXT_REVIEW_HSTS_USE_PARENTDOMAIN').format(domain))
@@ -296,7 +297,7 @@ def rate_hsts(result_dict, global_translation, local_translation, org_domain, do
     else:
         sub_rating = Rating(
             global_translation,
-            get_config_or_default('review_show_improvements_only'))
+            get_config('review_show_improvements_only'))
         sub_rating.set_overall(1.0)
         sub_rating.set_integrity_and_security(1.0,
             local_translation('TEXT_REVIEW_HSTS_NOT_FOUND').format(domain))
@@ -320,14 +321,14 @@ def rate_schemas(result_dict, global_translation, local_translation, domain):
     rating (Rating): A Rating object that contains the overall rating,
     integrity and security rating, and standards rating.
     """
-    rating = Rating(global_translation, get_config_or_default('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('review_show_improvements_only'))
     if not isinstance(result_dict[domain], dict):
         return rating
 
     if has_domain_entry(domain, 'schemes', 'HTTPS', result_dict):
         sub_rating = Rating(
             global_translation,
-            get_config_or_default('review_show_improvements_only'))
+            get_config('review_show_improvements_only'))
         sub_rating.set_overall(5.0)
         sub_rating.set_integrity_and_security(5.0,
             local_translation('TEXT_REVIEW_HTTPS_SUPPORT').format(domain))
@@ -337,7 +338,7 @@ def rate_schemas(result_dict, global_translation, local_translation, domain):
     else:
         sub_rating = Rating(
             global_translation,
-            get_config_or_default('review_show_improvements_only'))
+            get_config('review_show_improvements_only'))
         sub_rating.set_overall(1.0)
         sub_rating.set_integrity_and_security(1.0,
             local_translation('TEXT_REVIEW_HTTPS_NO_SUPPORT').format(domain))
@@ -349,7 +350,7 @@ def rate_schemas(result_dict, global_translation, local_translation, domain):
             has_domain_entry(domain, 'schemes', 'HTTP-REDIRECT*', result_dict):
         sub_rating = Rating(
             global_translation,
-            get_config_or_default('review_show_improvements_only'))
+            get_config('review_show_improvements_only'))
         sub_rating.set_overall(1.0)
         sub_rating.set_integrity_and_security(1.0,
             local_translation('TEXT_REVIEW_HTTP_REDIRECT').format(domain))
@@ -359,7 +360,7 @@ def rate_schemas(result_dict, global_translation, local_translation, domain):
             has_domain_entry(domain, 'schemes', 'HTTPS-REDIRECT*', result_dict):
         sub_rating = Rating(
             global_translation,
-            get_config_or_default('review_show_improvements_only'))
+            get_config('review_show_improvements_only'))
         sub_rating.set_overall(5.0)
         sub_rating.set_integrity_and_security(5.0,
             local_translation('TEXT_REVIEW_HTTPS_REDIRECT').format(domain))
@@ -375,14 +376,14 @@ def rate_protocols(result_dict, global_translation, local_translation, domain):
     """
     rating = Rating(
         global_translation,
-        get_config_or_default('review_show_improvements_only'))
+        get_config('review_show_improvements_only'))
     if not isinstance(result_dict[domain], dict):
         return rating
 
     if has_domain_entry(domain, 'protocols', 'HTTP/1.1', result_dict):
         sub_rating = Rating(
             global_translation,
-            get_config_or_default('review_show_improvements_only'))
+            get_config('review_show_improvements_only'))
         sub_rating.set_overall(5.0)
         sub_rating.set_standards(5.0,
             local_translation('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_SUPPORT').format(domain))
@@ -390,7 +391,7 @@ def rate_protocols(result_dict, global_translation, local_translation, domain):
     else:
         sub_rating = Rating(
             global_translation,
-            get_config_or_default('review_show_improvements_only'))
+            get_config('review_show_improvements_only'))
         sub_rating.set_overall(1.0)
         sub_rating.set_standards(1.0,
             local_translation('TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_NO_SUPPORT').format(domain))
@@ -399,7 +400,7 @@ def rate_protocols(result_dict, global_translation, local_translation, domain):
     if has_domain_entry(domain, 'protocols', 'HTTP/2', result_dict):
         sub_rating = Rating(
             global_translation,
-            get_config_or_default('review_show_improvements_only'))
+            get_config('review_show_improvements_only'))
         sub_rating.set_overall(5.0)
         sub_rating.set_standards(5.0,
             local_translation('TEXT_REVIEW_HTTP_VERSION_HTTP_2_SUPPORT').format(domain))
@@ -407,7 +408,7 @@ def rate_protocols(result_dict, global_translation, local_translation, domain):
     else:
         sub_rating = Rating(
             global_translation,
-            get_config_or_default('review_show_improvements_only'))
+            get_config('review_show_improvements_only'))
         sub_rating.set_overall(1.0)
         sub_rating.set_standards(1.0,
             local_translation('TEXT_REVIEW_HTTP_VERSION_HTTP_2_NO_SUPPORT').format(domain))
@@ -416,7 +417,7 @@ def rate_protocols(result_dict, global_translation, local_translation, domain):
     if has_domain_entry(domain, 'protocols', 'HTTP/3', result_dict):
         sub_rating = Rating(
             global_translation,
-            get_config_or_default('review_show_improvements_only'))
+            get_config('review_show_improvements_only'))
         sub_rating.set_overall(5.0)
         sub_rating.set_standards(5.0,
             local_translation('TEXT_REVIEW_HTTP_VERSION_HTTP_3_SUPPORT').format(domain))
@@ -424,7 +425,7 @@ def rate_protocols(result_dict, global_translation, local_translation, domain):
     else:
         sub_rating = Rating(
             global_translation,
-            get_config_or_default('review_show_improvements_only'))
+            get_config('review_show_improvements_only'))
         sub_rating.set_overall(1.0)
         sub_rating.set_standards(1.0,
             local_translation('TEXT_REVIEW_HTTP_VERSION_HTTP_3_NO_SUPPORT').format(domain))
@@ -469,7 +470,7 @@ def check_csp(url):
         o_domain,
         configuration,
         browser,
-        get_config_or_default('sitespeed_timeout'))
+        get_config('sitespeed_timeout'))
 
     return result_dict
 
@@ -508,7 +509,7 @@ def check_http_to_https(url):
         o_domain,
         configuration,
         browser,
-        get_config_or_default('sitespeed_timeout'))
+        get_config('sitespeed_timeout'))
 
     # If website redirects to www. domain without first redirecting to HTTPS, make sure we test it.
     if o_domain in result_dict:
@@ -522,7 +523,7 @@ def check_http_to_https(url):
                     o_domain,
                     configuration,
                     browser,
-                    get_config_or_default('sitespeed_timeout')),
+                    get_config('sitespeed_timeout')),
                 result_dict, True, True)
         else:
             append_domain_entry(o_domain, 'schemes', 'HTTPS-REDIRECT*', result_dict)
@@ -543,7 +544,7 @@ def check_http_to_https(url):
                     www_domain_key,
                     configuration,
                     browser,
-                    get_config_or_default('sitespeed_timeout')),
+                    get_config('sitespeed_timeout')),
                 result_dict,True, True)
         else:
             append_domain_entry(www_domain_key, 'schemes', 'HTTPS-REDIRECT*', result_dict)
@@ -677,7 +678,7 @@ def get_website_support_from_sitespeed(url, org_domain, configuration, browser, 
         sitespeed_arg += ' --xvfb'
 
     (_, filename) = get_result(
-        url, get_config_or_default('sitespeed_use_docker'), sitespeed_arg, timeout)
+        url, get_config('sitespeed_use_docker'), sitespeed_arg, timeout)
 
     result = get_data_from_sitespeed(filename, org_domain)
     return result
@@ -746,7 +747,7 @@ def check_http_version(url, result_dict):
                 o_domain,
                 configuration,
                 browser,
-                get_config_or_default('sitespeed_timeout')),
+                get_config('sitespeed_timeout')),
             result_dict, True, True)
 
     if not contains_value_for_all(result_dict, 'protocols', 'HTTP/2'):
@@ -763,7 +764,7 @@ def check_http_version(url, result_dict):
                 o_domain,
                 configuration,
                 browser,
-                get_config_or_default('sitespeed_timeout')),
+                get_config('sitespeed_timeout')),
             result_dict, True, True)
 
     if not contains_value_for_all(result_dict, 'protocols', 'HTTP/3'):
@@ -780,7 +781,7 @@ def check_http_version(url, result_dict):
                 o_domain,
                 configuration,
                 browser,
-                get_config_or_default('sitespeed_timeout')),
+                get_config('sitespeed_timeout')),
             result_dict, True, True)
 
     return result_dict

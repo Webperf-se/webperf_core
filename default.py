@@ -345,6 +345,10 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             sys.exit(2)
 
     def show_available_settings(self):
+        """
+        Display valid settings and their aliases.
+        Prints the available settings along with their corresponding aliases.
+        """
         print()
         print('Valid settings:')
         for aliases in self.config_mapping:
@@ -352,6 +356,16 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
         print()
 
     def set_setting(self, arg):
+        """
+        Set configuration settings based on user input.
+
+        Parses the input argument to determine the setting name and value.
+        If the input is not in the correct format, it displays available settings.
+        Otherwise, it sets the specified configuration value.
+
+        Args:
+            arg (str): Input argument in the format "<setting_name>=<value>".
+        """
         pair = arg.split('=')
         if len(pair) != 2:
             self.show_available_settings()
@@ -382,7 +396,6 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             print('no valid configuration value for:', config_name)
             return
 
-        # print(config_name, '=', config_value)
         set_config(config_name.lower(), config_value)
 
     def set_output_filename(self, arg):

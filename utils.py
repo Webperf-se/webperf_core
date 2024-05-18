@@ -143,6 +143,23 @@ def restart_failures_log():
         outfile.writelines('')
 
 def get_error_info(url, lang_code, test_type, show_reviews, ex):
+    """
+    Generate error information for diagnostic purposes.
+
+    Constructs a detailed report containing relevant information such as
+    date and time, URL, language code, test type, configuration settings,
+    and traceback information.
+
+    Args:
+        url (str): The URL associated with the error.
+        lang_code (str): The language code.
+        test_type (str): The type of test being performed.
+        show_reviews (bool): Whether to display reviews.
+        ex (Exception): The exception object.
+
+    Returns:
+        list: A list of strings containing the error information.
+    """
     result = []
     result.append('###############################################')
     result.extend(get_versions())
@@ -182,6 +199,16 @@ def get_error_info(url, lang_code, test_type, show_reviews, ex):
     return result
 
 def get_version():
+    """
+    Retrieve the version information from the 'package.json' file.
+
+    Reads the 'package.json' file and extracts the version information.
+    If the version is found, it returns the version string; otherwise,
+    it returns a placeholder '?'.
+
+    Returns:
+        str: The version string or '?' if not found.
+    """
     with open('package.json', encoding='utf-8') as json_input_file:
         package_info = json.load(json_input_file)
         if 'version' in package_info:
@@ -190,6 +217,16 @@ def get_version():
 
 
 def get_versions():
+    """
+    Retrieve version information from the 'package.json' file.
+
+    Reads the 'package.json' file and extracts the package version and
+    dependency information. It constructs a list of strings containing
+    the version and dependency details.
+
+    Returns:
+        list: A list of strings with version and dependency information.
+    """
     result = ['\n# Version information (from packages.json)']
     with open('package.json', encoding='utf-8') as json_input_file:
         package_info = json.load(json_input_file)

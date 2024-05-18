@@ -2,28 +2,15 @@ config = {}
 
 def get_config(name):
     """
-    Retrieves the configuration value for a given name from the configuration file.
-    If the name does not exist in the configuration file,
-    it attempts to retrieve it from the defaults/config.py file.
-    
-    Parameters:
-    name (str): The name of the configuration value to retrieve.
+    Retrieve a configuration value based on the specified name.
+
+    Args:
+        name (str): The name of the configuration setting.
 
     Returns:
-    The configuration value associated with the given name.
-
-    Raises:
-    ValueError: If the name does not exist in both the configuration file and
-    the defaults/config.py file.
-
-    Notes:
-    - If the name exists in the defaults/config.py file but not in the configuration file,
-      a warning message is printed.
-    - If the name does not exist in both files,
-      a fatal error message is printed and a ValueError is raised.
+        The configuration value if found, otherwise None.
     """
     # Lets see if we have it from terminal or in cache
-
     name = name.lower()
     if name in config:
         return config[name]
@@ -49,8 +36,14 @@ def get_config(name):
     return None
 
 def set_config(name, value):
+    """
+    Set a configuration value.
+
+    Args:
+        name (str): The name of the configuration setting.
+        value: The value to set for the specified configuration.
+    """
     name = name.lower()
-    print('set config', name, '=', value)
     config[name] = value
 
 def get_config_from_module(config_name, module_name):

@@ -588,8 +588,6 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             ("-L", "--language"): self.try_load_language,
             ("-t", "--test"): self.set_test_types,
             ("-i", "--input"): self.set_input_handlers,
-            ("--input-skip"): self.set_input_skip,
-            ("--input-take"): self.set_input_take,
             ("-o", "--output"): self.set_output_filename,
             ("-r", "--review", "--report"): self.enable_reviews,
             ("--setting"): self.set_setting

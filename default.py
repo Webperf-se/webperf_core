@@ -163,44 +163,92 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
         ("useragent", "general.useragent", "agent", "ua"): "USERAGENT",
         (
             "details",
-            "general.details",
-            "detail",
-            "extended",
+            "general.review.details",
             "use_detailed_report"): "USE_DETAILED_REPORT",
         (
             "improve-only",
-            "general.improve-only",
+            "general.review.improve-only",
             "review_show_improvements_only"): "REVIEW_SHOW_IMPROVEMENTS_ONLY",
         (
             "timeout",
-            "general.timeout",
-            "http-timeout",
+            "general.request.timeout",
             "http_request_timeout"): "HTTP_REQUEST_TIMEOUT",
         (
-            "tests.lighthouse.apikey",
-            "tests.google-apikey",
-            "tests.googleapikey",
-            "tests.googlepagespeedapikey",
+            "cache",
+            "general.cache.use",
+            "cache_when_possible"): "CACHE_WHEN_POSSIBLE",
+        (
+            "cachetime",
+            "general.cache.time",
+            "cache_time_delta"): "CACHE_TIME_DELTA",
+        (
+            "dnsserver",
+            "general.dns.address",
+            "dns_server"): "DNS_SERVER",
+        (
+            "githubkey",
+            "github.api.key",
+            "github_api_key"): "GITHUB_API_KEY",
+        (
+            "googleapikey",
+            "tests.lighthouse.api.key",
             "googlepagespeedapikey"): "GOOGLEPAGESPEEDAPIKEY",
         (
-            "tests.lighthouse.use",
-            "tests.google-use-api",
-            "tests.googleuseapi",
+            "googleuseapi",
+            "tests.lighthouse.api.use",
             "lighthouse_use_api"): "LIGHTHOUSE_USE_API",
-        ("tests.webkoll.sleep", "tests.webbkoll_sleep"): "WEBBKOLL_SLEEP",
-        ("tests.w3c.group", "tests.css.group"): "CSS_REVIEW_GROUP_ERRORS",
         (
-            "tests.ylt.apikey",
-            "tests.yellowlabtools-apikey",
-            "tests.yellowlabtoolsapikey"): "YLT_USE_API",
+            "webbkollsleep",
+            "tests.webbkoll.sleep",
+            "webbkoll_sleep"): "WEBBKOLL_SLEEP",
         (
-            "tests.ylt.address",
-            "tests.yellowlabtools-address",
-            "tests.yellowlabtoolsaddress",
+            "tests.w3c.group",
+            "tests.css.group",
+            "css_review_group_errors"): "CSS_REVIEW_GROUP_ERRORS",
+        (
+            "yellowlabtoolskey",
+            "tests.ylt.api.key",
+            "ylt_use_api"): "YLT_USE_API",
+        (
+            "yellowlabtoolsaddress",
+            "tests.ylt.api.address",
             "ylt_server_address"): "YLT_SERVER_ADDRESS",
-        # ("http-timeout", "http_request_timeout"): "HTTP_REQUEST_TIMEOUT",
-        # ("http-timeout", "http_request_timeout"): "HTTP_REQUEST_TIMEOUT",
-        # ("http-timeout", "http_request_timeout"): "HTTP_REQUEST_TIMEOUT",
+        (
+            "sitespeeddocker",
+            "tests.sitespeed.docker.use",
+            "sitespeed_use_docker"): "SITESPEED_USE_DOCKER",
+        (
+            "sitespeedtimeout",
+            "tests.sitespeed.timeout",
+            "sitespeed_timeout"): "SITESPEED_TIMEOUT",
+        (
+            "sitespeediterations",
+            "tests.sitespeed.iterations",
+            "sitespeed_iterations"): "SITESPEED_ITERATIONS",
+        (
+            "csponly",
+            "tests.http.csp-only",
+            "csp_only"): "CSP_ONLY",
+        (
+            "stealth",
+            "tests.software.stealth.use",
+            "software_use_stealth"): "SOFTWARE_USE_STEALTH",
+        (
+            "advisorydatabase",
+            "tests.software.advisory.path",
+            "software_github_adadvisory_database_path"): "SOFTWARE_GITHUB_ADADVISORY_DATABASE_PATH",
+        (
+            "browser",
+            "tests.software.browser",
+            "software_browser"): "SOFTWARE_BROWSER",
+        (
+            "mailport25",
+            "tests.email.support.port25",
+            "email_network_support_port25_traffic"): "EMAIL_NETWORK_SUPPORT_PORT25_TRAFFIC",
+        (
+            "mailipv6",
+            "tests.email.support.ipv6",
+            "email_network_support_ipv6_traffic"): "EMAIL_NETWORK_SUPPORT_IPV6_TRAFFIC"
     }
 
     def __init__(self):
@@ -297,9 +345,11 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             sys.exit(2)
 
     def show_available_settings(self):
+        print()
         print('Valid settings arguments:')
         for aliases in self.config_mapping:
-            print(f"--setting {aliases[0]}=<value>")
+            print(f"--setting {aliases[1]}=<value> ( alias: {aliases[0]} )")
+        print()
 
     def set_setting(self, arg):
         pair = arg.split('=')

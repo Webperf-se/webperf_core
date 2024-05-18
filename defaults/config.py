@@ -10,9 +10,6 @@ from datetime import timedelta
 # useragent for HTTP requests
 USERAGENT = 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0'
 
-# enter your API key for Google Pagespeed API
-GOOGLEPAGESPEEDAPIKEY = ""
-
 HTTP_REQUEST_TIMEOUT = 60
 
 # timeout between calls to website
@@ -23,13 +20,6 @@ CSS_REVIEW_GROUP_ERRORS = True
 
 # Only show reviews that you can improve, set this value to True
 REVIEW_SHOW_IMPROVEMENTS_ONLY = True
-
-# Tells Yellow Lab Tools Test to use API version or command line version
-YLT_USE_API = False
-YLT_SERVER_ADDRESS = 'https://yellowlab.tools'
-
-# Tells Lighthouse based Test(s) to use API version or command line version
-LIGHTHOUSE_USE_API = False
 
 # Tells sitespeed if we should use it as a docker image or a npm package
 SITESPEED_USE_DOCKER = False

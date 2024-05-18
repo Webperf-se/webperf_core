@@ -181,8 +181,6 @@ def get_error_info(url, lang_code, test_type, show_reviews, ex):
             get_config('CSS_REVIEW_GROUP_ERRORS')}",
         f"\nreview_show_improvements_only: { \
             get_config('REVIEW_SHOW_IMPROVEMENTS_ONLY')}",
-        f"\nylt_use_api: {get_config('YLT_USE_API')}",
-        f"\nlighthouse_use_api: {get_config('LIGHTHOUSE_USE_API')}",
         f"\nsitespeed_use_docker: {get_config('SITESPEED_USE_DOCKER')}",
         f"\nsitespeed_iterations: {get_config('SITESPEED_ITERATIONS')}",
         f"\ncache_when_possible: {get_config('CACHE_WHEN_POSSIBLE')}",

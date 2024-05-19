@@ -42,18 +42,12 @@ jobs:
       name: Download IP2LOCATION DB (Using repository secret) - Windows
       run: Invoke-WebRequest -Uri ${env:IP2LOCATION_DOWNLOAD_URL} -OutFile data\IP2LOCATION-LITE-DB1.IPV6.BIN
     - if: ${{ matrix.os == 'ubuntu-latest' }}
-      name: Setup config - LINUX
-      run: python tools/verify_result.py -c ${{ matrix.config }}
-    - if: ${{ matrix.os == 'windows-latest' }}
-      name: Setup config - WINDOWS
-      run: python tools\verify_result.py -c ${{ matrix.config }}
-    - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: RUNNING TEST - LINUX
       run: |
-         python default.py -t ${{ matrix.version }} -r -i sites.json -o data/testresult-${{ matrix.version }}.json
+         python default.py -t ${{ matrix.version }} -r -i sites.json -o data/testresult-${{ matrix.version }}.json --setting ${{ matrix.config }}
          python tools/verify_result.py -t ${{ matrix.version }}
     - if: ${{ matrix.os == 'windows-latest' }}
       name: RUNNING TEST - WINDOWS
       run: |
-         python default.py -t ${{ matrix.version }} -r -i sites.json -o data\testresult-${{ matrix.version }}.json
+         python default.py -t ${{ matrix.version }} -r -i sites.json -o data\testresult-${{ matrix.version }}.json --setting ${{ matrix.config }}
          python tools\verify_result.py -t ${{ matrix.version }}

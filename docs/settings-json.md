@@ -28,6 +28,8 @@ If you for example want to permanently change to activate details your own `sett
 
 ## What do every configuration do?
 
+
+
 ### general
 This section indicate the settings affects many test.
 
@@ -77,3 +79,19 @@ See `general.cache.max-age` setting to determine how long.
 This tells webperf-core how long to use cached resources in minutes.
 This take no effect unless `general.cache.use` is set to `true`.
 
+
+
+
+### github
+
+Section for github specific settings.
+
+#### github.api.key `(Default = "")`
+
+Only required if you use GitHub Actions, it is required for workflows to be allowed to change content and create pull request.
+
+
+
+### tests
+
+Section for test specific settings.

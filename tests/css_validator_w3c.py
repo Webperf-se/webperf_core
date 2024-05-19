@@ -581,7 +581,7 @@ def create_review_and_rating(errors, global_translation, local_translation, revi
 
                 tmp = re.sub(
                     GROUP_ERROR_MSG_REGEX, "X", error_message, 0, re.MULTILINE)
-                if get_config('tests.css.group'):
+                if not get_config('general.review.details'):
                     error_message = tmp
 
                 if msg_grouped_dict.get(error_message, False):

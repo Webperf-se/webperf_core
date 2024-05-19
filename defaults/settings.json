@@ -22,9 +22,6 @@
         }
     },
     "tests": {
-        "css": {
-            "group": false
-        },
         "email": {
             "support": {
                 "port25": false,

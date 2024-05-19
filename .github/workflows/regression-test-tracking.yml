@@ -22,10 +22,10 @@ jobs:
             matrix:
                 os: [ubuntu-latest, windows-latest]
                 version: [23]
-                config: ['REVIEW_SHOW_IMPROVEMENTS_ONLY=True,SITESPEED_USE_DOCKER=False']
+                config: ['SITESPEED_USE_DOCKER=False']
                 include:
                   - os: ubuntu-latest
-                    config: 'REVIEW_SHOW_IMPROVEMENTS_ONLY=True,SITESPEED_USE_DOCKER=True'
+                    config: 'SITESPEED_USE_DOCKER=True'
                     version: 23
     steps:
     - name: Check out repository code
@@ -101,18 +101,12 @@ jobs:
     - name: Setup npm packages
       run: npm install
     - if: ${{ matrix.os == 'ubuntu-latest' }}
-      name: Setup config - LINUX
-      run: python tools/verify_result.py -c ${{ matrix.config }}
-    - if: ${{ matrix.os == 'windows-latest' }}
-      name: Setup config - WINDOWS
-      run: python tools\verify_result.py -c ${{ matrix.config }}
-    - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: RUNNING TEST - LINUX
       run: |
-         python default.py -t ${{ matrix.version }} -r -i sites.json -o data/testresult-${{ matrix.version }}.json
+         python default.py -t ${{ matrix.version }} -r -i sites.json -o data/testresult-${{ matrix.version }}.json --setting ${{ matrix.config }}
          python tools/verify_result.py -t ${{ matrix.version }}
     - if: ${{ matrix.os == 'windows-latest' }}
       name: RUNNING TEST - WINDOWS
       run: |
-         python default.py -t ${{ matrix.version }} -r -i sites.json -o data\testresult-${{ matrix.version }}.json
+         python default.py -t ${{ matrix.version }} -r -i sites.json -o data\testresult-${{ matrix.version }}.json --setting ${{ matrix.config }}
          python .\tools\verify_result.py -t ${{ matrix.version }}

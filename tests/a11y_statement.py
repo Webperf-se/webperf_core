@@ -37,7 +37,7 @@ def run_test(global_translation, lang_code, url):
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return_dict = {}
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
 
     o = urllib.parse.urlparse(url)
     org_url_start = f'{o.scheme}://{o.hostname}'
@@ -82,7 +82,7 @@ def get_rating_not_set_rating(url, return_dict, local_translation, global_transl
         Rating: An instance of the Rating class with the
                 overall review set based on the URL's availability.
     """
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
     url_is_available = False
     for _, url_content in checked_urls.items():
         if url_content != '' and url_content is not None:
@@ -266,7 +266,7 @@ def rate_statement(statement, global_translation, local_translation):
     Rating: The Rating object with the updated overall rating.
     """
     # https://www.digg.se/kunskap-och-stod/digital-tillganglighet/skapa-en-tillganglighetsredogorelse
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
 
     if 'called_url' not in statement:
         # rating.set_overall(
@@ -366,7 +366,7 @@ def rate_updated_date(global_translation, local_translation, soup):
     Returns:
     Rating: The Rating object with the updated overall rating.
     """
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
     dates = []
 
     element = soup.find('body')
@@ -575,7 +575,7 @@ def rate_found_depth(global_translation, local_translationl, statement):
     Returns:
     rating (Rating object): The 'Rating' object with the overall rating set.
     """
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
 
     depth = statement["depth"]
 
@@ -609,7 +609,7 @@ def rate_evaluation_method(global_translation, local_translation, soup):
     match = soup.find(string=re.compile(
         "(sj(.{1, 6}|ä|&auml;|&#228;)lvskattning|intern[a]{0,1} kontroller|intern[a]{0,1} test(ning|er){0,1}]|utvärderingsmetod|tillgänglighetsexpert(er){0,1}|funka|etu ab|siteimprove|oberoende granskning|oberoende tillgänglighetsgranskning(ar){0,1}|tillgänglighetskonsult(er){0,1}|med hjälp av|egna tester|oberoende experter|Hur vi testat webbplats(en){0,1}|vi testat webbplatsen|intervjuer|rutiner|checklistor|checklista|utbildningar|automatiserade|automatisk|maskinell|kontrollverktyg)", # pylint: disable=line-too-long
         flags=re.MULTILINE | re.IGNORECASE))
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
     if match:
         rating.set_overall(
             5.0, local_translation('TEXT_REVIEW_EVALUATION_METHOD_FOUND'))
@@ -640,7 +640,7 @@ def rate_unreasonably_burdensome_accommodation(global_translation, local_transla
     """
     match = soup.find(string=re.compile(
         "(Oskäligt betungande anpassning|12[ \t\r\n]§ lagen)", flags=re.MULTILINE | re.IGNORECASE))
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
     if match:
         rating.set_overall(
             5.0, local_translation('TEXT_REVIEW_ADAPTATION_FOUND'))
@@ -689,7 +689,7 @@ def rate_notification_function_url(global_translation, local_translation, soup):
         match_canonical_url = soup.find('main').find(
             href=canonical.replace('https://www.digg.se', ''))
 
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
     if match_correct_url:
         rating.set_overall(
             5.0, local_translation('TEXT_REVIEW_NOTIFICATION_FUNCTION_URL_FOUND'))
@@ -726,7 +726,7 @@ def rate_compatible_text(global_translation, local_translation, soup):
     """
     element = soup.find(string=re.compile(
         "(?P<test>helt|delvis|inte) förenlig", flags=re.MULTILINE | re.IGNORECASE))
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
     if element:
         text = element.get_text()
         regex = r'(?P<test>helt|delvis|inte) förenlig'

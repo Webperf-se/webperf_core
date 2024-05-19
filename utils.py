@@ -2,7 +2,7 @@
 import json
 from datetime import datetime
 import traceback
-from helpers.setting_helper import get_config
+from helpers.setting_helper import get_used_configuration
 from models import SiteTests
 from tests.page_not_found import run_test as run_test_page_not_found
 from tests.html_validator_w3c import run_test as run_test_html_validator_w3c
@@ -173,25 +173,13 @@ def get_error_info(url, lang_code, test_type, show_reviews, ex):
         f'\nTest Type(s): {test_type}',
         f'\nShow Reviews: {show_reviews}',
         '\n###############################################'
-        '\n# Configuration (from config.py):',
-        f"\nuseragent: {get_config('USERAGENT')}",
-        f"\nhttp_request_timeout: {get_config('HTTP_REQUEST_TIMEOUT')}",
-        f"\nwebbkoll_sleep: {get_config('WEBBKOLL_SLEEP')}",
-        f"\ncss_review_group_errors: { \
-            get_config('CSS_REVIEW_GROUP_ERRORS')}",
-        f"\nreview_show_improvements_only: { \
-            get_config('REVIEW_SHOW_IMPROVEMENTS_ONLY')}",
-        f"\nsitespeed_use_docker: {get_config('SITESPEED_USE_DOCKER')}",
-        f"\nsitespeed_iterations: {get_config('SITESPEED_ITERATIONS')}",
-        f"\ncache_when_possible: {get_config('CACHE_WHEN_POSSIBLE')}",
-        f"\ncache_time_delta: {get_config('CACHE_TIME_DELTA')}",
-        f"\nsoftware_use_stealth: {get_config('SOFTWARE_USE_STEALTH')}",
-        f"\nuse_detailed_report: {get_config('USE_DETAILED_REPORT')}",
-        f"\ncsp_only: {get_config('CSP_ONLY')}",
-        f"\ndns_server: {get_config('DNS_SERVER')}",
-        f"\nsoftware_browser: {get_config('SOFTWARE_BROWSER')}",
-        '\n###############################################\n',
+        '\n# Used Configuration:'
     ])
+    config = get_used_configuration()
+    for name, value in config.items():
+        result.append(f"\n{name}: {value}")
+
+    result.append('\n###############################################\n')
     result.extend(traceback.format_exception(ex, ex, ex.__traceback__))
     result.append('###############################################\n\n')
     return result

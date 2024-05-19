@@ -17,7 +17,6 @@ jobs:
     strategy:
             matrix:
                 os: [ubuntu-latest, windows-latest]
-                config: ['REVIEW_SHOW_IMPROVEMENTS_ONLY=True']
                 version: [1, 4, 5, 10, 22]
     steps:
     - name: Check out repository code
@@ -35,12 +34,6 @@ jobs:
         node-version: '20.x'
     - name: Setup npm packages
       run: npm install
-    - if: ${{ matrix.os == 'ubuntu-latest' }}
-      name: Setup config - LINUX
-      run: python tools/verify_result.py -c ${{ matrix.config }}
-    - if: ${{ matrix.os == 'windows-latest' }}
-      name: Setup config - WINDOWS
-      run: python tools\verify_result.py -c ${{ matrix.config }}
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: RUNNING TEST - LINUX
       run: |

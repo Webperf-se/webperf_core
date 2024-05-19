@@ -52,7 +52,7 @@ RUN echo 'ALL ALL=NOPASSWD: /usr/sbin/tc, /usr/sbin/route, /usr/sbin/ip' > /etc/
 
 RUN npm install -g node-gyp puppeteer
 
-# If own config.py exists it will overwrite the SAMPLE
+# If own settings.json exists it will overwrite the default
 COPY . /usr/src/app
 
 RUN chown --recursive pptruser:pptruser /usr/src/app

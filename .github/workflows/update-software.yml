@@ -43,9 +43,7 @@ jobs:
         google-chrome --version
     - name: Setup npm packages
       run: npm install
-    - name: Setup config
-      run: python tools/verify_result.py -c ${{ matrix.config }},GITHUB_API_KEY=${{ secrets.GITHUB_TOKEN }}
-    - name: Update USER_AGENT in our defaults/config.py
+    - name: Update USER_AGENT in our defaults/settings.json
       run: python update_software.py -b
     - name: Checkout advisory-database repo
       uses: actions/checkout@v4
@@ -71,11 +69,11 @@ jobs:
             - software-sources.json
             - software-full.json
             - defaults/software-rules.json
-            - defaults/config.py
+            - defaults/settings.json
         assignees: 7h3Rabbit
         reviewers: 7h3Rabbit
         add-paths: |
           software-sources.json
           software-full.json
           defaults/software-rules.json
-          defaults/config.py
+          defaults/settings.json

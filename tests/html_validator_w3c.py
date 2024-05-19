@@ -30,7 +30,7 @@ def run_test(global_translation, lang_code, url):
     print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
     data = get_data_for_url(url)
     if data is None:
         rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
@@ -93,7 +93,7 @@ def handle_html_markup_entry(entry, global_translation, local_translation, resul
     list: All link resources found in the entry.
     Rating: The rating after evaluating the HTML related errors in the entry.
     """
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
     req_url = entry['url']
     name = get_friendly_url_name(global_translation, req_url, entry['index'])
     html = entry['content']
@@ -167,7 +167,7 @@ def create_review_and_rating(
                 msg_grouped_for_rating_dict[tmp] = 1
 
 
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
 
     number_of_error_types = len(msg_grouped_for_rating_dict)
 

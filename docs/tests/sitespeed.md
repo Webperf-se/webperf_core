@@ -6,7 +6,7 @@ Add small description of what this test is.
 ## What is being tested?
 
 We will startup the URL specified with a normal browser for X iterations with different subtests.
-You specify the number of iterations to use in your [config.py file](../config-py.md), 3 iterations or more are recommended to get most stable rating.
+You specify the number of iterations to use in your [settings.json file](../settings-json.md), 3 iterations or more are recommended to get most stable rating.
 The subtests we use are:
 * Desktop (Configured as: Laptop size, full network speed of the system)
 * Mobile (Configured as: Mobile size, 3G Fast network speed)

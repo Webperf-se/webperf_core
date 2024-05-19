@@ -34,7 +34,7 @@ def run_test(global_translation, lang_code, url):
     """
     review = ''
     return_dict = {}
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
 
     local_translation = get_translation('privacy_webbkollen', lang_code)
 
@@ -52,7 +52,7 @@ def run_test(global_translation, lang_code, url):
     if not result_title:
         error_rating = Rating(
             global_translation,
-            get_config('review_show_improvements_only'))
+            get_config('general.review.improve-only'))
         error_rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
         return (error_rating, {'failed': True })
 
@@ -132,7 +132,7 @@ def get_html_content(orginal_url, lang_code, local_translation):
              f'/check?url={urllib.parse.quote(orginal_url)}'),
             allow_redirects=True,
             headers=headers,
-            timeout=get_config('http_request_timeout'))
+            timeout=get_config('general.request.timeout'))
 
         if f'type="search" value="{orginal_url}">' in request.text:
             # headers[''] = ''
@@ -149,7 +149,7 @@ def get_html_content(orginal_url, lang_code, local_translation):
             service_url = f'https://webbkoll.dataskydd.net/{lang_code}/check'
             request = session.post(service_url, allow_redirects=True,
                                    headers=headers,
-                                   timeout=get_config('http_request_timeout'),
+                                   timeout=get_config('general.request.timeout'),
                                    data=data)
             html_content = request.text
 
@@ -157,11 +157,11 @@ def get_html_content(orginal_url, lang_code, local_translation):
             has_refresh_statement = True
             had_refresh_statement = True
             print(local_translation('TEXT_RESULT_NOT_READY').format(
-                max(get_config('WEBBKOLL_SLEEP'), 5)))
-            time.sleep(max(get_config('WEBBKOLL_SLEEP'), 5))
+                max(get_config('tests.webbkoll.sleep'), 5)))
+            time.sleep(max(get_config('tests.webbkoll.sleep'), 5))
 
     if not had_refresh_statement:
-        time.sleep(max(get_config('WEBBKOLL_SLEEP'), 5))
+        time.sleep(max(get_config('tests.webbkoll.sleep'), 5))
     return html_content
 
 def rate_result(result, global_translation, local_translation):# pylint: disable=too-many-locals
@@ -185,7 +185,7 @@ def rate_result(result, global_translation, local_translation):# pylint: disable
     """
     heading_rating = Rating(
         global_translation,
-        get_config('review_show_improvements_only'))
+        get_config('general.review.improve-only'))
 
     points_to_remove_for_current_result = 0.0
 

@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - '**.py'
+      - '**pylint.yml'
 jobs:
   build:
     runs-on: ubuntu-latest

@@ -95,3 +95,57 @@ Only required if you use GitHub Actions, it is required for workflows to be allo
 ### tests
 
 Section for test specific settings.
+
+### tests.email.support.port25 `(Default = false)`
+
+Tells email test if it should do a operation email test (most consumer ISP don't allow this)
+
+### tests.email.support.ipv6 `(Default = false)`
+
+Tells email test if it should do a operation over ipv6 also in email test (GitHub Actions doesn't support it).
+
+### tests.http.csp-only `(Default = false)`
+
+Tells HTTP test to ignore everything except the CSP subtest in the HTTP test (great if you run it against sitemap to get CSP recommendation)
+
+### tests.sitespeed.docker.use `(Default = false)`
+
+This variable tells sitespeed based test(s) to use docker image version instead of NPM version.
+Please read more about this on [SiteSpeed test section](tests/sitespeed.md).
+
+### tests.sitespeed.timeout `(Default = 300 ms)`
+
+This variable tells sitespeed based test(s) how long it should wait for a url to load.
+Setting this to a lower value may improve overall test speed if many urls are being tested and
+it is not important if one or two tests fail.
+Please read more about this on [SiteSpeed test section](tests/sitespeed.md).
+
+### tests.sitespeed.iterations `(Default = 2)`
+
+This variable tells sitespeed based test(s) how many iterations it should do against the url to get the best measurement.
+Please read more about this on [SiteSpeed test section](tests/sitespeed.md).
+
+### test.software.advisory.path `(Default = "")`
+This variable is ONLY used to generate a CVE and security related info for software.
+Tell software update tool the path to where you have repo of: https://github.com/github/advisory-database
+
+### test.software.browser `(Default = "chrome")`
+For now this is more or less useless for none developers.
+In the future the goal is to make it possible to decide what browser to use when running tests.
+Valid values are:
+- chrome
+- firefox
+- edge
+
+### test.software.stealth.use `(Default = true)`
+Tell software test to use stealth mode or not.
+Do *NOT* set this to `false` on urls you do not own, doing so might get you into legal issues or blocked.
+The reason for this is that it might request resources not required for a visit
+that someone might think is a hacking attempt.
+
+
+
+### tests.webbkoll.sleep `(Default = 20 s)`
+
+This variable is used as sleep time between checking status against service following tests:
+- Users’ integrity test against Webbkoll (used against service).

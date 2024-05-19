@@ -20,8 +20,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install pylint
-    - name: Setup config - LINUX
-      run: python tools/verify_result.py -c review_show_improvements_only=True
     - name: Analysing the code with pylint
       run: |
         pylint $(git ls-files '*.py') --generated-members json,ssl,datetime --disable C0114

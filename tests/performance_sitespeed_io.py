@@ -14,7 +14,7 @@ def get_result(arg):
     Executes a Sitespeed command and returns the result.
 
     This function runs a Sitespeed command either in a Docker container or directly via Node.js,
-    depending on the value of `get_config('sitespeed_use_docker')`.
+    depending on the value of `get_config('tests.sitespeed.docker.use')`.
     The command's output is captured and returned as a string.
 
     Args:
@@ -24,7 +24,7 @@ def get_result(arg):
         str: The output of the Sitespeed command.
     """
     result = ''
-    if get_config('sitespeed_use_docker'):
+    if get_config('tests.sitespeed.docker.use'):
         base_directory = Path(os.path.dirname(
             os.path.realpath(__file__)) + os.path.sep).parent
         data_dir = base_directory.resolve()
@@ -34,7 +34,7 @@ def get_result(arg):
 
         with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
             output, _ = process.communicate(
-                timeout=get_config('http_request_timeout') * 10)
+                timeout=get_config('general.request.timeout') * 10)
             result = str(output)
     else:
         command = (f"node node_modules{os.path.sep}sitespeed.io{os.path.sep}bin{os.path.sep}"
@@ -43,7 +43,7 @@ def get_result(arg):
         with subprocess.Popen(
             command.split(), stdout=subprocess.PIPE) as process:
             output, _ = process.communicate(
-                timeout=get_config('http_request_timeout') * 10)
+                timeout=get_config('general.request.timeout') * 10)
             result = str(output)
 
     return result
@@ -64,7 +64,7 @@ def run_test(global_translation, lang_code, url):
     print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
     result_dict = {}
 
     validator_result_dicts = []
@@ -125,7 +125,7 @@ def rate_custom_result_dict( # pylint: disable=too-many-arguments,too-many-local
     Returns:
         Rating: The overall rating after considering all validators.
     """
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
     for validator_result_dict in validator_result_dicts:
         validator_name = validator_result_dict['name']
         reference_name = None
@@ -199,7 +199,7 @@ def validate_on_mobile_using_validator(url, validator_config):
         '--speedIndex true '
         '--browsertime.videoParams.createFilmstrip false '
         '--browsertime.chrome.args ignore-certificate-errors '
-        f'-n {get_config('SITESPEED_ITERATIONS')} '
+        f'-n {get_config('tests.sitespeed.iterations')} '
         '--preScript chrome-custom.cjs '
         f'{url}'
         f'{browertime_plugin_options}'
@@ -274,7 +274,7 @@ def validate_on_desktop_using_validator(url, validator_config):
         '--speedIndex true '
         '--browsertime.videoParams.createFilmstrip false '
         '--browsertime.chrome.args ignore-certificate-errors '
-        f'-n {get_config('SITESPEED_ITERATIONS')} '
+        f'-n {get_config('tests.sitespeed.iterations')} '
         '--preScript chrome-custom.cjs '
         f'{url}'
         f'{browertime_plugin_options}'
@@ -308,7 +308,7 @@ def validate_on_desktop(url):
         '--speedIndex true '
         '--browsertime.videoParams.createFilmstrip false '
         '--browsertime.chrome.args ignore-certificate-errors '
-        f'-n {get_config('SITESPEED_ITERATIONS')} '
+        f'-n {get_config('tests.sitespeed.iterations')} '
         '--preScript chrome-custom.cjs '
         f'{url}'
         )
@@ -340,7 +340,7 @@ def validate_on_mobile(url):
         '--speedIndex true '
         '--browsertime.videoParams.createFilmstrip false '
         '--browsertime.chrome.args ignore-certificate-errors '
-        f'-n {get_config('SITESPEED_ITERATIONS')} '
+        f'-n {get_config('tests.sitespeed.iterations')} '
         '--preScript chrome-custom.cjs '
         f'{url}'
         )
@@ -370,7 +370,7 @@ def rate_result_dict( # pylint: disable=too-many-branches,too-many-locals
     """
     limit = 500
 
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
     performance_review = ''
     overview_review = ''
 
@@ -421,7 +421,7 @@ def rate_result_dict( # pylint: disable=too-many-branches,too-many-locals
             points = value['points']
             entry_rating = Rating(
                 global_translation,
-                get_config('review_show_improvements_only'))
+                get_config('general.review.improve-only'))
             entry_rating.set_overall(points)
             entry_rating.set_performance(
                 points, value['msg'])

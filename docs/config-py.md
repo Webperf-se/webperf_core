@@ -51,7 +51,7 @@ This variable is used as sleep time between checking status against service foll
 Groups error messages in the CSS Validation review by removing variable names and replacing them with `X`.
 This is usefull if you want to get a first overview or if you have a lot of errors of the same type.
 
-### review_show_improvements_only
+### general.review.improve-only
 
 Setting this variable to true will result in only showing reviews that has a rating below 5.0.
 This is good if you only want to show reviews that you can improve.

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import getopt
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 import json
 import re
@@ -16,8 +16,8 @@ from tests.utils import get_http_content
 from tools.verify_result import handle_sample_config
 from helpers.setting_helper import get_config
 
-USE_CACHE = get_config('CACHE_WHEN_POSSIBLE')
-CACHE_TIME_DELTA = get_config('CACHE_TIME_DELTA')
+USE_CACHE = get_config('general.cache.use')
+CACHE_TIME_DELTA = timedelta(minutes=get_config('general.cache.max-age'))
 CONFIG_WARNINGS = {}
 
 github_adadvisory_database_path = get_config(

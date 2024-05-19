@@ -401,7 +401,7 @@ def validate_email_domain(hostname, result_dict, global_translation, local_trans
     - rating (Rating): The updated Rating object.
     - result_dict (dict): The updated results dictionary.
     """
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
     result_dict = {}
     # We must take in consideration "www." subdomains...
     if hostname.startswith('www.'):
@@ -415,13 +415,13 @@ def validate_email_domain(hostname, result_dict, global_translation, local_trans
     # If we have -1.0 in rating, we have no MX records, ignore test.
     if rating.get_overall() != -1.0:
         # 1.2 - Check operational
-        if get_config('EMAIL_NETWORK_SUPPORT_PORT25_TRAFFIC') and len(ipv4_servers) > 0:
+        if get_config('tests.email.support.port25') and len(ipv4_servers) > 0:
             rating = validate_ip4_operation_status(
                 global_translation, rating, local_translation, ipv4_servers)
 
         # 1.2 - Check operational
-        if get_config('EMAIL_NETWORK_SUPPORT_PORT25_TRAFFIC') and\
-              get_config('EMAIL_NETWORK_SUPPORT_IPV6_TRAFFIC') and\
+        if get_config('tests.email.support.port25') and\
+              get_config('tests.email.support.ipv6') and\
               len(ipv6_servers) > 0:
             rating = validate_ip6_operation_status(
                 global_translation, rating, local_translation, ipv6_servers)
@@ -473,7 +473,7 @@ def validate_mta_sts_policy(global_translation, rating, result_dict, local_trans
 
     has_mta_sts_txt_rating = Rating(
         global_translation,
-        get_config('review_show_improvements_only'))
+        get_config('general.review.improve-only'))
     # https://www.rfc-editor.org/rfc/rfc8461#section-3.2
     if 'STSv1' in content:
 
@@ -496,7 +496,7 @@ def validate_mta_sts_policy(global_translation, rating, result_dict, local_trans
             if len(rows) > 1:
                 # https://www.rfc-editor.org/rfc/rfc8461#section-3.2
                 mta_sts_records_wrong_linebreak_rating = Rating(
-                    global_translation, get_config('review_show_improvements_only'))
+                    global_translation, get_config('general.review.improve-only'))
                 mta_sts_records_wrong_linebreak_rating.set_overall(1.0)
                 mta_sts_records_wrong_linebreak_rating.set_integrity_and_security(
                     2.5, local_translation('TEXT_REVIEW_MTA_STS_DNS_RECORD_WRONG_LINEBREAK'))
@@ -560,7 +560,7 @@ def handle_mta_sts_txt_row(key_value_pair, result_dict, global_translation, loca
     Returns:
     - rating (Rating): The updated Rating object.
     """
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
     key = key_value_pair[0].strip(' ')
     value = key_value_pair[1].strip(' ')
 
@@ -571,7 +571,7 @@ def handle_mta_sts_txt_row(key_value_pair, result_dict, global_translation, loca
             _ = 1
         elif value in ('testing', 'none'):
             mta_sts_records_not_enforced_rating = Rating(
-                        global_translation, get_config('review_show_improvements_only'))
+                        global_translation, get_config('general.review.improve-only'))
             mta_sts_records_not_enforced_rating.set_overall(3.0)
             mta_sts_records_not_enforced_rating.set_integrity_and_security(
                         1.0, local_translation('TEXT_REVIEW_MTA_STS_DNS_RECORD_NOT_ENFORCED'))
@@ -580,7 +580,7 @@ def handle_mta_sts_txt_row(key_value_pair, result_dict, global_translation, loca
             rating += mta_sts_records_not_enforced_rating
         else:
             mta_sts_records_invalid_mode_rating = Rating(
-                        global_translation, get_config('review_show_improvements_only'))
+                        global_translation, get_config('general.review.improve-only'))
             mta_sts_records_invalid_mode_rating.set_overall(1.0)
             mta_sts_records_invalid_mode_rating.set_integrity_and_security(
                         1.0, local_translation('TEXT_REVIEW_MTA_STS_DNS_RECORD_INVALID_MODE'))
@@ -632,7 +632,7 @@ def rate_mts_sts_records(global_translation, local_translation, has_mta_sts_poli
     """
     has_mta_sts_records_rating = Rating(
         global_translation,
-        get_config('review_show_improvements_only'))
+        get_config('general.review.improve-only'))
     if has_mta_sts_policy:
         has_mta_sts_records_rating.set_overall(5.0)
         has_mta_sts_records_rating.set_integrity_and_security(
@@ -746,7 +746,7 @@ def rate_has_dmarc_policies(global_translation, rating, result_dict, local_trans
     if 'dmarc-has-policy' in result_dict:
         no_dmarc_record_rating = Rating(
             global_translation,
-            get_config('review_show_improvements_only'))
+            get_config('general.review.improve-only'))
         no_dmarc_record_rating.set_overall(5.0)
         no_dmarc_record_rating.set_integrity_and_security(
             5.0, local_translation('TEXT_REVIEW_DMARC_SUPPORT'))
@@ -769,7 +769,7 @@ def rate_has_dmarc_policies(global_translation, rating, result_dict, local_trans
             for error in result_dict['dmarc-errors']:
                 error_rating = Rating(
                     global_translation,
-                    get_config('review_show_improvements_only'))
+                    get_config('general.review.improve-only'))
                 error_rating.set_overall(1.0)
                 error_rating.set_standards(
                     1.0, error)
@@ -777,7 +777,7 @@ def rate_has_dmarc_policies(global_translation, rating, result_dict, local_trans
         else:
             no_errors_rating = Rating(
                 global_translation,
-                get_config('review_show_improvements_only'))
+                get_config('general.review.improve-only'))
             no_errors_rating.set_overall(5.0)
             no_errors_rating.set_standards(
                 5.0, local_translation('TEXT_REVIEW_DMARC_NO_PARSE_ERRORS'))
@@ -787,7 +787,7 @@ def rate_has_dmarc_policies(global_translation, rating, result_dict, local_trans
             for warning in result_dict['dmarc-warnings']:
                 warning_rating = Rating(
                     global_translation,
-                    get_config('review_show_improvements_only'))
+                    get_config('general.review.improve-only'))
                 warning_rating.set_overall(3.0)
                 warning_rating.set_standards(
                     3.0, warning)
@@ -795,7 +795,7 @@ def rate_has_dmarc_policies(global_translation, rating, result_dict, local_trans
         else:
             no_errors_rating = Rating(
                 global_translation,
-                get_config('review_show_improvements_only'))
+                get_config('general.review.improve-only'))
             no_errors_rating.set_overall(5.0)
             no_errors_rating.set_standards(
                 5.0, local_translation('TEXT_REVIEW_DMARC_NO_WARNINGS'))
@@ -803,7 +803,7 @@ def rate_has_dmarc_policies(global_translation, rating, result_dict, local_trans
     else:
         no_dmarc_record_rating = Rating(
             global_translation,
-            get_config('review_show_improvements_only'))
+            get_config('general.review.improve-only'))
         no_dmarc_record_rating.set_overall(1.0)
         no_dmarc_record_rating.set_integrity_and_security(
             1.0, local_translation('TEXT_REVIEW_DMARC_NO_SUPPORT'))
@@ -827,7 +827,7 @@ def rate_dmarc_pct(global_translation, result_dict, local_translation):
     """
     percentage_rating = Rating(
         global_translation,
-        get_config('review_show_improvements_only'))
+        get_config('general.review.improve-only'))
     if result_dict['dmarc-pct'] < 100:
         percentage_rating.set_overall(3.0)
         percentage_rating.set_integrity_and_security(
@@ -860,7 +860,7 @@ def rate_dmarc_subpolicy(global_translation, result_dict, local_translation):
     """
     dmarc_subpolicy_rating = Rating(
         global_translation,
-        get_config('review_show_improvements_only'))
+        get_config('general.review.improve-only'))
     if 'dmarc-sp' in result_dict and\
                 'dmarc-p' in result_dict and\
                 result_dict['dmarc-p'] == result_dict['dmarc-sp']:
@@ -901,7 +901,7 @@ def rate_dmarc_policy(global_translation, result_dict, local_translation):
     """
     dmarc_policy_rating = Rating(
         global_translation,
-        get_config('review_show_improvements_only'))
+        get_config('general.review.improve-only'))
     if 'dmarc-p' in result_dict:
         if 'reject' == result_dict['dmarc-p']:
             dmarc_policy_rating.set_overall(5.0)
@@ -987,7 +987,7 @@ def rate_use_of_ptr_for_spf_policies(global_translation, rating, result_dict, lo
     """
     if 'spf-uses-ptr' in result_dict:
         has_spf_record_ptr_being_used_rating = Rating(
-            global_translation, get_config('review_show_improvements_only'))
+            global_translation, get_config('general.review.improve-only'))
         has_spf_record_ptr_being_used_rating.set_overall(1.0)
         has_spf_record_ptr_being_used_rating.set_standards(
             1.0, local_translation('TEXT_REVIEW_SPF_DNS_RECORD_PTR_USED'))
@@ -1014,7 +1014,7 @@ def rate_fail_configuration_for_spf_policies(
     """
     if 'spf-uses-ignorefail' in result_dict:
         has_spf_ignore_records_rating = Rating(
-            global_translation, get_config('review_show_improvements_only'))
+            global_translation, get_config('general.review.improve-only'))
         has_spf_ignore_records_rating.set_overall(2.0)
         has_spf_ignore_records_rating.set_integrity_and_security(
             1.0, local_translation('TEXT_REVIEW_SPF_DNS_IGNORE_RECORD_NO_SUPPORT'))
@@ -1024,7 +1024,7 @@ def rate_fail_configuration_for_spf_policies(
 
     if 'spf-uses-neutralfail' in result_dict:
         has_spf_dns_record_neutralfail_records_rating = Rating(
-            global_translation, get_config('review_show_improvements_only'))
+            global_translation, get_config('general.review.improve-only'))
         has_spf_dns_record_neutralfail_records_rating.set_overall(
             3.0)
         has_spf_dns_record_neutralfail_records_rating.set_integrity_and_security(
@@ -1035,7 +1035,7 @@ def rate_fail_configuration_for_spf_policies(
 
     if 'spf-uses-softfail' in result_dict:
         has_spf_dns_record_softfail_records_rating = Rating(
-            global_translation, get_config('review_show_improvements_only'))
+            global_translation, get_config('general.review.improve-only'))
         has_spf_dns_record_softfail_records_rating.set_overall(5.0)
         has_spf_dns_record_softfail_records_rating.set_integrity_and_security(
             2.0, local_translation('TEXT_REVIEW_SPF_DNS_SOFTFAIL_RECORD'))
@@ -1045,7 +1045,7 @@ def rate_fail_configuration_for_spf_policies(
 
     if 'spf-uses-hardfail' in result_dict:
         has_spf_dns_record_hardfail_records_rating = Rating(
-            global_translation, get_config('review_show_improvements_only'))
+            global_translation, get_config('general.review.improve-only'))
         has_spf_dns_record_hardfail_records_rating.set_overall(5.0)
         has_spf_dns_record_hardfail_records_rating.set_integrity_and_security(
             5.0, local_translation('TEXT_REVIEW_SPF_DNS_HARDFAIL_RECORD'))
@@ -1069,7 +1069,7 @@ def rate_invalid_format_spf_policies(global_translation, rating, result_dict, lo
     """
     if 'spf-uses-none-standard' in result_dict:
         has_spf_unknown_section_rating = Rating(
-            global_translation, get_config('review_show_improvements_only'))
+            global_translation, get_config('general.review.improve-only'))
         has_spf_unknown_section_rating.set_overall(1.0)
         has_spf_unknown_section_rating.set_standards(
             1.0, local_translation('TEXT_REVIEW_SPF_UNKNOWN_SECTION'))
@@ -1077,7 +1077,7 @@ def rate_invalid_format_spf_policies(global_translation, rating, result_dict, lo
 
     if 'spf-error-double-space' in result_dict:
         has_spf_dns_record_double_space_rating = Rating(
-            global_translation, get_config('review_show_improvements_only'))
+            global_translation, get_config('general.review.improve-only'))
         has_spf_dns_record_double_space_rating.set_overall(
             1.5)
         has_spf_dns_record_double_space_rating.set_standards(
@@ -1100,7 +1100,7 @@ def rate_has_spf_policies(global_translation, rating, result_dict, local_transla
     """
     has_spf_records_rating = Rating(
         global_translation,
-        get_config('review_show_improvements_only'))
+        get_config('general.review.improve-only'))
     if 'spf-has-policy' in result_dict:
         txt = local_translation('TEXT_REVIEW_SPF_DNS_RECORD_SUPPORT')
         has_spf_records_rating.set_overall(5.0)
@@ -1137,7 +1137,7 @@ def rate_too_many_dns_lookup_for_spf_policies(
     """
     if 'spf-error-to-many-dns-lookups' in result_dict:
         to_many_spf_dns_lookups_rating = Rating(
-            global_translation, get_config('review_show_improvements_only'))
+            global_translation, get_config('general.review.improve-only'))
         to_many_spf_dns_lookups_rating.set_overall(1.0)
         to_many_spf_dns_lookups_rating.set_standards(
             1.0, local_translation('TEXT_REVIEW_SPF_TO_MANY_DNS_LOOKUPS'))
@@ -1197,7 +1197,7 @@ def rate_gdpr_for_spf_policies(global_translation, rating, result_dict, local_tr
     if nof_gdpr_countries > 0:
         gdpr_rating = Rating(
             global_translation,
-            get_config('review_show_improvements_only'))
+            get_config('general.review.improve-only'))
         gdpr_rating.set_overall(5.0)
         gdpr_rating.set_integrity_and_security(
             5.0, local_translation('TEXT_REVIEW_SPF_GDPR').format(
@@ -1206,7 +1206,7 @@ def rate_gdpr_for_spf_policies(global_translation, rating, result_dict, local_tr
     if nof_none_gdpr_countries > 0:
         none_gdpr_rating = Rating(
             global_translation,
-            get_config('review_show_improvements_only'))
+            get_config('general.review.improve-only'))
         none_gdpr_rating.set_overall(1.0)
         none_gdpr_rating.set_integrity_and_security(
             1.0, local_translation('TEXT_REVIEW_SPF_NONE_GDPR').format(
@@ -1707,7 +1707,7 @@ def validate_ip6_operation_status(global_translation, rating, local_translation,
                     ip_address,
                     port=25,
                     local_hostname=None,
-                    timeout=get_config('http_request_timeout')) as smtp:
+                    timeout=get_config('general.request.timeout')) as smtp:
                 ipv6_servers_operational.append(ip_address)
                 smtp.starttls()
                 ipv6_servers_operational_starttls.append(ip_address)
@@ -1717,7 +1717,7 @@ def validate_ip6_operation_status(global_translation, rating, local_translation,
 
     ipv6_operational_rating = Rating(
         global_translation,
-        get_config('review_show_improvements_only'))
+        get_config('general.review.improve-only'))
     if len(ipv6_servers_operational) > 0 and len(ipv6_servers) == len(ipv6_servers_operational):
         ipv6_operational_rating.set_overall(5.0)
         ipv6_operational_rating.set_standards(
@@ -1730,7 +1730,7 @@ def validate_ip6_operation_status(global_translation, rating, local_translation,
 
     ipv6_operational_rating = Rating(
         global_translation,
-        get_config('review_show_improvements_only'))
+        get_config('general.review.improve-only'))
     if len(ipv6_servers_operational_starttls) > 0 and\
           len(ipv6_servers) == len(ipv6_servers_operational_starttls):
         ipv6_operational_rating.set_overall(5.0)
@@ -1766,7 +1766,7 @@ def validate_ip4_operation_status(global_translation, rating, local_translation,
                     ip_address,
                     port=25,
                     local_hostname=None,
-                    timeout=get_config('http_request_timeout')) as smtp:
+                    timeout=get_config('general.request.timeout')) as smtp:
                 ipv4_servers_operational.append(ip_address)
                 smtp.starttls()
                 ipv4_servers_operational_starttls.append(ip_address)
@@ -1775,7 +1775,7 @@ def validate_ip4_operation_status(global_translation, rating, local_translation,
 
     ipv4_operational_rating = Rating(
         global_translation,
-        get_config('review_show_improvements_only'))
+        get_config('general.review.improve-only'))
     if len(ipv4_servers_operational) > 0 and len(ipv4_servers) == len(ipv4_servers_operational):
         ipv4_operational_rating.set_overall(5.0)
         ipv4_operational_rating.set_standards(
@@ -1788,7 +1788,7 @@ def validate_ip4_operation_status(global_translation, rating, local_translation,
 
     ipv4_operational_rating = Rating(
         global_translation,
-        get_config('review_show_improvements_only'))
+        get_config('general.review.improve-only'))
     if len(ipv4_servers_operational_starttls) > 0 and\
             len(ipv4_servers) == len(ipv4_servers_operational_starttls):
         ipv4_operational_rating.set_overall(5.0)
@@ -1929,13 +1929,13 @@ def rate_mx_gdpr(
     Returns:
         rating (Rating): Rating of GDPR compliance based on country lists.
     """
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
     nof_gdpr_countries = len(countries_eu_or_exception_list)
     nof_none_gdpr_countries = len(countries_others)
     if nof_gdpr_countries > 0:
         gdpr_rating = Rating(
             global_translation,
-            get_config('review_show_improvements_only'))
+            get_config('general.review.improve-only'))
         gdpr_rating.set_overall(5.0)
         gdpr_rating.set_integrity_and_security(
             5.0, local_translation('TEXT_REVIEW_MX_GDPR').format(
@@ -1944,7 +1944,7 @@ def rate_mx_gdpr(
     if nof_none_gdpr_countries > 0:
         none_gdpr_rating = Rating(
             global_translation,
-            get_config('review_show_improvements_only'))
+            get_config('general.review.improve-only'))
         none_gdpr_rating.set_overall(1.0)
         none_gdpr_rating.set_integrity_and_security(
             1.0, local_translation('TEXT_REVIEW_MX_NONE_GDPR').format(
@@ -1967,7 +1967,7 @@ def rate_mx_ip6_usage(global_translation, local_translation, ipv6_servers):
     nof_ipv6_servers = len(ipv6_servers)
     nof_ipv6_rating = Rating(
         global_translation,
-        get_config('review_show_improvements_only'))
+        get_config('general.review.improve-only'))
     if nof_ipv6_servers >= 2:
         nof_ipv6_rating.set_overall(5.0)
         nof_ipv6_rating.set_integrity_and_security(
@@ -2004,7 +2004,7 @@ def rate_mx_ip4_usage(global_translation, local_translation, ipv4_servers):
     nof_ipv4_servers = len(ipv4_servers)
     nof_ipv4_rating = Rating(
         global_translation,
-        get_config('review_show_improvements_only'))
+        get_config('general.review.improve-only'))
     if nof_ipv4_servers >= 2:
         nof_ipv4_rating.set_overall(5.0)
         nof_ipv4_rating.set_integrity_and_security(

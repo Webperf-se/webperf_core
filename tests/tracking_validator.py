@@ -146,7 +146,7 @@ def get_file_content(input_filename):
 
 
 def rate_cookies(content, url, local_translation, global_translation):
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
 
     o = urlparse(url)
     hostname = o.hostname
@@ -251,13 +251,13 @@ def rate_cookies(content, url, local_translation, global_translation):
         if nof_points < 1.0:
             nof_points = 1.0
 
-        nof_rating = Rating(global_translation, get_config('review_show_improvements_only'))
+        nof_rating = Rating(global_translation, get_config('general.review.improve-only'))
         nof_rating.set_integrity_and_security(nof_points, local_translation('TEXT_COOKIES_HAS_THIRDPARTY').format(
             cookies_number_of_thirdparties))
         nof_rating.set_overall(nof_points)
         rating += nof_rating
     else:
-        nof_rating = Rating(global_translation, get_config('review_show_improvements_only'))
+        nof_rating = Rating(global_translation, get_config('general.review.improve-only'))
         nof_rating.set_integrity_and_security(5.0, local_translation('TEXT_COOKIES_HAS_THIRDPARTY').format(
             cookies_number_of_thirdparties))
         nof_rating.set_overall(5.0)
@@ -269,7 +269,7 @@ def rate_cookies(content, url, local_translation, global_translation):
         if valid_1year_points < 1.0:
             valid_1year_points = 1.0
 
-        valid_1year_rating = Rating(global_translation, get_config('review_show_improvements_only'))
+        valid_1year_rating = Rating(global_translation, get_config('general.review.improve-only'))
         valid_1year_rating.set_integrity_and_security(valid_1year_points, local_translation('TEXT_COOKIE_HAS_OVER_1YEAR').format(
             cookies_number_of_valid_over_1year))
         valid_1year_rating.set_overall(valid_1year_points)
@@ -281,7 +281,7 @@ def rate_cookies(content, url, local_translation, global_translation):
         if valid_9months_points < 1.0:
             valid_9months_points = 1.0
 
-        valid_9months_rating = Rating(global_translation, get_config('review_show_improvements_only'))
+        valid_9months_rating = Rating(global_translation, get_config('general.review.improve-only'))
         valid_9months_rating.set_integrity_and_security(valid_9months_points, local_translation('TEXT_COOKIE_HAS_OVER_9MONTH').format(
             cookies_number_of_valid_over_9months))
         valid_9months_rating.set_overall(valid_9months_points)
@@ -293,7 +293,7 @@ def rate_cookies(content, url, local_translation, global_translation):
         if valid_6months_points < 1.0:
             valid_6months_points = 1.0
 
-        valid_6months_rating = Rating(global_translation, get_config('review_show_improvements_only'))
+        valid_6months_rating = Rating(global_translation, get_config('general.review.improve-only'))
         valid_6months_rating.set_integrity_and_security(valid_6months_points, local_translation('TEXT_COOKIE_HAS_OVER_6MONTH').format(
             cookies_number_of_valid_over_6months))
         valid_6months_rating.set_overall(valid_6months_points)
@@ -305,14 +305,14 @@ def rate_cookies(content, url, local_translation, global_translation):
         if valid_3months_points < 1.0:
             valid_3months_points = 1.0
 
-        valid_3months_rating = Rating(global_translation, get_config('review_show_improvements_only'))
+        valid_3months_rating = Rating(global_translation, get_config('general.review.improve-only'))
         valid_3months_rating.set_integrity_and_security(valid_3months_points, local_translation('TEXT_COOKIE_HAS_OVER_3MONTH').format(
             cookies_number_of_valid_over_3months))
         valid_3months_rating.set_overall(valid_3months_points)
 
         rating += valid_3months_rating
     else:
-        valid_3months_rating = Rating(global_translation, get_config('review_show_improvements_only'))
+        valid_3months_rating = Rating(global_translation, get_config('general.review.improve-only'))
         valid_3months_rating.set_integrity_and_security(5.0, local_translation('TEXT_COOKIE_LESS_THEN_3MONTH').format(
             number_of_cookies))
         valid_3months_rating.set_overall(5.0)
@@ -325,14 +325,14 @@ def rate_cookies(content, url, local_translation, global_translation):
         if secure_points < 1.0:
             secure_points = 1.0
 
-        secure_rating = Rating(global_translation, get_config('review_show_improvements_only'))
+        secure_rating = Rating(global_translation, get_config('general.review.improve-only'))
         secure_rating.set_integrity_and_security(secure_points, local_translation('TEXT_COOKIE_NOT_SECURE').format(
             cookies_number_of_secure))
         secure_rating.set_overall(secure_points)
 
         rating += secure_rating
     else:
-        secure_rating = Rating(global_translation, get_config('review_show_improvements_only'))
+        secure_rating = Rating(global_translation, get_config('general.review.improve-only'))
         secure_rating.set_integrity_and_security(5.0, local_translation('TEXT_COOKIE_SECURE').format(
             number_of_cookies))
         secure_rating.set_overall(5.0)
@@ -345,14 +345,14 @@ def rate_cookies(content, url, local_translation, global_translation):
         if analytics_points < 1.0:
             analytics_points = 1.0
 
-        analytics_rating = Rating(global_translation, get_config('review_show_improvements_only'))
+        analytics_rating = Rating(global_translation, get_config('general.review.improve-only'))
         analytics_rating.set_integrity_and_security(analytics_points, local_translation('TEXT_COOKIE_HAS_ANALYTICS_COOKIE').format(
             cookies_number_of_analytics))
         analytics_rating.set_overall(analytics_points)
 
         rating += analytics_rating
     else:
-        analytics_rating = Rating(global_translation, get_config('review_show_improvements_only'))
+        analytics_rating = Rating(global_translation, get_config('general.review.improve-only'))
         analytics_rating.set_integrity_and_security(5.0, local_translation('TEXT_COOKIE_NO_ANALYTICS_COOKIE').format(
             cookies_number_of_analytics))
         analytics_rating.set_overall(5.0)
@@ -362,7 +362,7 @@ def rate_cookies(content, url, local_translation, global_translation):
 
     integrity_and_security_review = rating.integrity_and_security_review
 
-    result_rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    result_rating = Rating(global_translation, get_config('general.review.improve-only'))
     points = rating.get_overall()
 
     if number_of_cookies > 0 and rating.isused():
@@ -389,7 +389,7 @@ def rate_cookies(content, url, local_translation, global_translation):
 
 
 def rate_gdpr_and_schrems(content, local_translation, global_translation):
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
 
     points = 5.0
     review = ''
@@ -513,7 +513,7 @@ def get_analytics_rules():
 
 
 def rate_tracking(website_urls, local_translation, global_translation):
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
 
     allowed_nof_trackers = 2
     max_nof_trackers_showed = 5
@@ -548,7 +548,7 @@ def rate_tracking(website_urls, local_translation, global_translation):
 
         analytics_used.update(resource_analytics_used)
 
-        url_rating = Rating(global_translation, get_config('review_show_improvements_only'))
+        url_rating = Rating(global_translation, get_config('general.review.improve-only'))
         if url_is_tracker:
             request_friendly_name = get_friendly_url_name(global_translation,
                                                           website_url, request_index)
@@ -593,7 +593,7 @@ def rate_tracking(website_urls, local_translation, global_translation):
 
     integrity_and_security_review += review_analytics
 
-    result_rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    result_rating = Rating(global_translation, get_config('general.review.improve-only'))
 
     points = rating.get_overall()
     if points <= 1.0:
@@ -615,7 +615,7 @@ def rate_tracking(website_urls, local_translation, global_translation):
 
 
 def rate_fingerprint(website_urls, local_translation, global_translation):
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
 
     max_nof_fingerprints_showed = 5
 
@@ -636,7 +636,7 @@ def rate_fingerprint(website_urls, local_translation, global_translation):
                 fingerprint_requests += 1
                 break
 
-        url_rating = Rating(global_translation, get_config('review_show_improvements_only'))
+        url_rating = Rating(global_translation, get_config('general.review.improve-only'))
         if url_is_adserver_requests:
             if fingerprint_requests <= max_nof_fingerprints_showed:
                 request_friendly_name = get_friendly_url_name(global_translation,
@@ -665,7 +665,7 @@ def rate_fingerprint(website_urls, local_translation, global_translation):
         rating.set_integrity_and_security(5.0)
         rating.set_overall(5.0)
 
-    result_rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    result_rating = Rating(global_translation, get_config('general.review.improve-only'))
     points = rating.get_overall()
     if points <= 1.0:
         points = 1.0
@@ -686,7 +686,7 @@ def rate_fingerprint(website_urls, local_translation, global_translation):
 
 
 def rate_ads(website_urls, local_translation, global_translation):
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
 
     allowed_nof_ads = 2
     max_nof_ads_showed = 5
@@ -707,7 +707,7 @@ def rate_ads(website_urls, local_translation, global_translation):
                 adserver_requests += 1
                 break
 
-        url_rating = Rating(global_translation, get_config('review_show_improvements_only'))
+        url_rating = Rating(global_translation, get_config('general.review.improve-only'))
         if url_is_adserver_requests:
             request_friendly_name = get_friendly_url_name(global_translation,
                                                           website_url, request_index)
@@ -739,7 +739,7 @@ def rate_ads(website_urls, local_translation, global_translation):
         integrity_and_security_review += local_translation('TEXT_ADS_TOTAL_FOUND').format(
             adserver_requests)
 
-    result_rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    result_rating = Rating(global_translation, get_config('general.review.improve-only'))
     points = rating.get_overall()
     if points <= 1.0:
         points = 1.0
@@ -760,7 +760,7 @@ def rate_ads(website_urls, local_translation, global_translation):
 
 
 def get_rating_from_sitespeed(url, local_translation, global_translation):
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
 
     # We don't need extra iterations for what we are using it for
     sitespeed_iterations = 1
@@ -774,9 +774,9 @@ def get_rating_from_sitespeed(url, local_translation, global_translation):
 
     (result_folder_name, filename) = get_result(
         url,
-        get_config('sitespeed_use_docker'),
+        get_config('tests.sitespeed.docker.use'),
         sitespeed_arg,
-        get_config('sitespeed_timeout'))
+        get_config('tests.sitespeed.timeout'))
 
     http_archive_content = get_file_content(filename)
     if http_archive_content is None:
@@ -816,7 +816,7 @@ def run_test(global_translation, lang_code, url):
     """
 
     result_dict = {}
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
 
     local_translation = get_translation('tracking_validator', lang_code)
 
@@ -831,7 +831,7 @@ def run_test(global_translation, lang_code, url):
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     if not rating.isused():
-        error_rating = Rating(global_translation, get_config('review_show_improvements_only'))
+        error_rating = Rating(global_translation, get_config('general.review.improve-only'))
         error_rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
         return (error_rating, {'failed': True })
 

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from datetime import timedelta
 import subprocess
 import time
 import json
@@ -51,7 +52,7 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
         tuple: The name of the result folder and the filename of the HAR file.
     """
     folder = 'tmp'
-    if get_config('CACHE_WHEN_POSSIBLE'):
+    if get_config('general.cache.use'):
         folder = 'cache'
 
     o = urlparse(url)
@@ -64,7 +65,7 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
 
     filename = ''
     # Should we use cache when available?
-    if get_config('CACHE_WHEN_POSSIBLE'):
+    if get_config('general.cache.use'):
         tmp_result_folder_name, filename = get_cached_result(url, hostname)
         if filename != '':
             return (tmp_result_folder_name, filename)
@@ -109,7 +110,7 @@ def get_cached_result(url, hostname):
         if url == site[1] or url2 == site[1]:
             filename = site[0]
 
-            if is_file_older_than(filename, get_config('CACHE_TIME_DELTA')):
+            if is_file_older_than(filename, timedelta(minutes=get_config('general.cache.max-age'))):
                 filename = ''
                 continue
 

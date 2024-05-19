@@ -15,7 +15,7 @@ def run_test(global_translation, lang_code, url):
 
     local_translation = get_translation('frontend_quality_yellow_lab_tools', lang_code)
 
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
 
     print(local_translation("TEXT_RUNNING_TEST"))
 
@@ -87,7 +87,7 @@ def get_ylt_result(url):
         f"{os.path.sep}cli.js {url}")
     with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
         output, _ = process.communicate(
-            timeout=get_config('http_request_timeout') * 10)
+            timeout=get_config('general.request.timeout') * 10)
         result_json = output
 
     # If we fail to connect to website the result_dict should be None and we should end test
@@ -122,7 +122,7 @@ def add_category_ratings(global_translation, local_translation, result_dict):
     standards_keys = ['compression', 'notFound', 'DOMidDuplicated',
                       'cssParsingErrors', 'oldTlsProtocol']
 
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
     for rule_key, rule in result_dict['rules'].items():
         if 'score' not in rule:
             continue
@@ -140,7 +140,7 @@ def add_category_ratings(global_translation, local_translation, result_dict):
         if rule_key in performance_keys:
             rule_rating = Rating(
                 global_translation,
-                get_config('review_show_improvements_only'))
+                get_config('general.review.improve-only'))
             rule_rating.set_performance(
                 rule_score, rule_label)
             rating += rule_rating
@@ -148,7 +148,7 @@ def add_category_ratings(global_translation, local_translation, result_dict):
         if rule_key in security_keys:
             rule_rating = Rating(
                 global_translation,
-                get_config('review_show_improvements_only'))
+                get_config('general.review.improve-only'))
             rule_rating.set_integrity_and_security(
                 rule_score, rule_label)
             rating += rule_rating
@@ -156,7 +156,7 @@ def add_category_ratings(global_translation, local_translation, result_dict):
         if rule_key in standards_keys:
             rule_rating = Rating(
                 global_translation,
-                get_config('review_show_improvements_only'))
+                get_config('general.review.improve-only'))
             rule_rating.set_standards(
                 rule_score, rule_label)
             rating += rule_rating

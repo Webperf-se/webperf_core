@@ -29,12 +29,9 @@ config_mapping = {
         "CACHE_WHEN_POSSIBLE"): "bool|general.cache.use",
     (
         "cachetime",
-        "general.cache.interval"
-        ): "int|general.cache.interval",
-    (
-        "cacherep",
-        "general.cache.representation"
-        ): "string|general.cache.representation",
+        "general.cache.max-age",
+        "CACHE_TIME_DELTA"
+        ): "int|general.cache.max-age",
     (
         "dnsserver",
         "general.dns.address",

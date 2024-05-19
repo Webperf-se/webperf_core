@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from functools import cmp_to_key
 from urllib.parse import urlparse
-from datetime import datetime
+from datetime import datetime, timedelta
 import hashlib
 from pathlib import Path
 import os
@@ -70,7 +70,7 @@ def get_rating_from_sitespeed(url, local_translation, global_translation):
         '--utc true '
         f'-n {sitespeed_iterations}')
 
-    if 'firefox' in get_config('SOFTWARE_BROWSER'):
+    if 'firefox' in get_config('tests.software.browser'):
         sitespeed_arg = (
             '-b firefox '
             '--firefox.includeResponseBodies all '
@@ -97,14 +97,14 @@ def get_rating_from_sitespeed(url, local_translation, global_translation):
 
     (result_folder_name, filename) = get_result(
         url,
-        get_config('sitespeed_use_docker'),
+        get_config('tests.sitespeed.docker.use'),
         sitespeed_arg,
-        get_config('sitespeed_timeout'))
+        get_config('tests.sitespeed.timeout'))
 
     o = urlparse(url)
     origin_domain = o.hostname
 
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
     rules = get_rules()
     data = identify_software(filename, origin_domain, rules)
     if data is None:
@@ -126,7 +126,7 @@ def get_rating_from_sitespeed(url, local_translation, global_translation):
     rating.integrity_and_security_review = rating.integrity_and_security_review\
         .replace('GOV-IGNORE', '').strip('\r\n\t ')
 
-    if not get_config('CACHE_WHEN_POSSIBLE'):
+    if not get_config('general.cache.use'):
         os.remove(filename)
 
     return (rating, result)
@@ -174,7 +174,7 @@ def sort_issues(item1, item2):
 
 
 def rate_software_security_result(local_translation, global_translation, result):
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
 
     has_cve_issues = False
     has_behind_issues = False
@@ -230,14 +230,14 @@ def rate_software_security_result(local_translation, global_translation, result)
 
 def rate_software_no_issues(has_cve_issues, has_behind_issues, has_source_issues,
                             has_end_of_life_issues, local_translation, global_translation):
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
     if not has_cve_issues:
         points = 5.0
         sub_rating = Rating(
             global_translation,
-            get_config('review_show_improvements_only'))
+            get_config('general.review.improve-only'))
         sub_rating.set_overall(points)
-        if get_config('USE_DETAILED_REPORT'):
+        if get_config('general.review.details'):
             sub_rating.set_integrity_and_security(
                 points,
                 local_translation('TEXT_DETAILED_REVIEW_NO_CVE'))
@@ -249,9 +249,9 @@ def rate_software_no_issues(has_cve_issues, has_behind_issues, has_source_issues
         points = 5.0
         sub_rating = Rating(
             global_translation,
-            get_config('review_show_improvements_only'))
+            get_config('general.review.improve-only'))
         sub_rating.set_overall(points)
-        if get_config('USE_DETAILED_REPORT'):
+        if get_config('general.review.details'):
             sub_rating.set_integrity_and_security(
                 points,
                 local_translation('TEXT_DETAILED_REVIEW_NO_BEHIND'))
@@ -263,9 +263,9 @@ def rate_software_no_issues(has_cve_issues, has_behind_issues, has_source_issues
         points = 5.0
         sub_rating = Rating(
             global_translation,
-            get_config('review_show_improvements_only'))
+            get_config('general.review.improve-only'))
         sub_rating.set_overall(points)
-        if get_config('USE_DETAILED_REPORT'):
+        if get_config('general.review.details'):
             sub_rating.set_integrity_and_security(
                 points,
                 local_translation('TEXT_DETAILED_REVIEW_NO_UNMAINTAINED'))
@@ -277,9 +277,9 @@ def rate_software_no_issues(has_cve_issues, has_behind_issues, has_source_issues
         points = 5.0
         sub_rating = Rating(
             global_translation,
-            get_config('review_show_improvements_only'))
+            get_config('general.review.improve-only'))
         sub_rating.set_overall(points)
-        if get_config('USE_DETAILED_REPORT'):
+        if get_config('general.review.details'):
             sub_rating.set_integrity_and_security(
                 points,
                 local_translation('TEXT_DETAILED_REVIEW_NO_END_OF_LIFE'))
@@ -292,11 +292,11 @@ def rate_software_end_of_life(local_translation, global_translation, result, iss
     points = 1.75
     sub_rating = Rating(
         global_translation,
-        get_config('review_show_improvements_only'))
+        get_config('general.review.improve-only'))
     sub_rating.set_overall(points)
     sub_rating.set_integrity_and_security(points)
 
-    if get_config('USE_DETAILED_REPORT'):
+    if get_config('general.review.details'):
         text = local_translation(f'TEXT_DETAILED_REVIEW_{issue_type}')\
                     .replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
         text += '\r\n'
@@ -334,10 +334,10 @@ def rate_software_unmaintained_source(issue_type, result, local_translation, glo
 
     sub_rating = Rating(
         global_translation,
-        get_config('review_show_improvements_only'))
+        get_config('general.review.improve-only'))
     sub_rating.set_overall(points)
     sub_rating.set_integrity_and_security(points)
-    if get_config('USE_DETAILED_REPORT'):
+    if get_config('general.review.details'):
         text = local_translation(f'TEXT_DETAILED_REVIEW_{issue_type}')\
                     .replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
         text += '\r\n'
@@ -356,10 +356,10 @@ def rate_software_unmaintained_source(issue_type, result, local_translation, glo
 
 def rate_software_archived_source(issue_type, result, local_translation, global_translation):
     points = 1.75
-    sub_rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    sub_rating = Rating(global_translation, get_config('general.review.improve-only'))
     sub_rating.set_overall(points)
     sub_rating.set_integrity_and_security(points)
-    if get_config('USE_DETAILED_REPORT'):
+    if get_config('general.review.details'):
         text = local_translation(f'TEXT_DETAILED_REVIEW_{issue_type}')\
                     .replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
         text += '\r\n'
@@ -390,11 +390,11 @@ def rate_software_behind(issue_type, result, local_translation, global_translati
         points = 3.0
     elif issue_type == 'BEHIND001':
         points = 4.9
-    sub_rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    sub_rating = Rating(global_translation, get_config('general.review.improve-only'))
     sub_rating.set_overall(points)
     sub_rating.set_integrity_and_security(points)
 
-    if get_config('USE_DETAILED_REPORT'):
+    if get_config('general.review.details'):
         text = local_translation(f'TEXT_DETAILED_REVIEW_{issue_type}')\
                     .replace('#POINTS#', str(sub_rating.get_integrity_and_security()))
         text += '\r\n'
@@ -412,19 +412,19 @@ def rate_software_behind(issue_type, result, local_translation, global_translati
     return sub_rating
 
 def rate_software_cve(issue_type, result, local_translation, global_translation):
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
     points = 1.0
     cve_ratings = Rating(
         global_translation,
-        get_config('review_show_improvements_only'))
+        get_config('general.review.improve-only'))
     for _ in result['issues'][issue_type]['sub-issues']:
         sub_rating = Rating(
             global_translation,
-            get_config('review_show_improvements_only'))
+            get_config('general.review.improve-only'))
         sub_rating.set_overall(points)
         sub_rating.set_integrity_and_security(points)
         cve_ratings += sub_rating
-    if get_config('USE_DETAILED_REPORT'):
+    if get_config('general.review.details'):
         text = local_translation('TEXT_DETAILED_REVIEW_CVE')\
                     .replace('#POINTS#', str(cve_ratings.get_integrity_and_security()))
 
@@ -838,7 +838,7 @@ def enrich_versions(collection, item):
                 match['issues'].append('BEHIND001')
 
 def enrich_data_from_javascript(item, rules):
-    if get_config('SOFTWARE_USE_STEALTH'):
+    if get_config('tests.software.stealth.use'):
         return
     for match in item['matches']:
         if match['category'] != 'js':
@@ -852,7 +852,7 @@ def enrich_data_from_javascript(item, rules):
             return
 
 def enrich_data_from_images(tmp_list, item, result_folder_name):
-    if get_config('SOFTWARE_USE_STEALTH'):
+    if get_config('tests.software.stealth.use'):
         return
     for match in item['matches']:
         if match['category'] != 'img':
@@ -901,9 +901,9 @@ def enrich_data_from_images(tmp_list, item, result_folder_name):
 
             image_data = None
             try:
-                if get_config('CACHE_WHEN_POSSIBLE') and\
+                if get_config('general.cache.use') and\
                         os.path.exists(cache_path) and\
-                        is_file_older_than(cache_path, get_config('CACHE_TIME_DELTA')):
+                        is_file_older_than(cache_path, timedelta(minutes=get_config('general.cache.max-age'))):
                     image_data = Image.open(cache_path)
                 else:
                     data = get_http_content(
@@ -1610,7 +1610,7 @@ def run_test(global_translation, lang_code, url):
     """
 
     result_dict = {}
-    rating = Rating(global_translation, get_config('review_show_improvements_only'))
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
 
     local_translation = get_translation('software', lang_code)
 

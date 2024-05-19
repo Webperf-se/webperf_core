@@ -141,7 +141,22 @@ def get_config(name):
 
     return None
 
-def set_config(name, value):
+def update_config(name, value, module_name):
+    if '.' not in name:
+        # Try translate old settings name to new
+        config_name = get_setting_name(name)
+        if config_name is None:
+            print(f'Warning: {name} uses old settings format and is not a known setting')
+            return
+
+        config_name_pair = config_name.split('|')
+        name = config_name_pair[1]
+
+    name = name.lower()
+    # Try set config for our configuration file
+    update_config_for_module(name, value, module_name)
+
+def set_runtime_config_only(name, value):
     """
     Set a configuration value.
 
@@ -151,6 +166,31 @@ def set_config(name, value):
     """
     name = name.lower()
     config[name] = value
+
+def update_config_for_module(config_name, config_value, module_name):
+    base_directory = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep).parent
+
+    file_path = f'{base_directory}{os.path.sep}{module_name}'
+    if not os.path.isfile(file_path):
+        return
+
+    module_config = {}
+    with open(file_path, encoding='utf-8') as json_file:
+        module_config = json.load(json_file)
+
+        config_path = config_name.split('.')
+        config_section = module_config
+        for section_name in config_path:
+            if section_name in config_section:
+                tmp_config_section = config_section[section_name]
+                if not isinstance(tmp_config_section, dict):
+                    config_section[section_name] = config_value
+                    break
+                config_section = tmp_config_section
+
+    with open(file_path, 'w', encoding='utf-8') as outfile:
+        json.dump(module_config, outfile)
 
 def get_config_from_module(config_name, module_name):
     """
@@ -222,7 +262,7 @@ def set_config_from_cmd(arg):
     for value_type, handler in value_type_handlers.items():
         if config_name_type in value_type:
             config_value = handler(config_name, value)
-            set_config(config_name.lower(), config_value)
+            set_runtime_config_only(config_name.lower(), config_value)
             return True
     return False
 

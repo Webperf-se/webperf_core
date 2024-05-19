@@ -20,11 +20,11 @@ USE_CACHE = get_config('CACHE_WHEN_POSSIBLE')
 CACHE_TIME_DELTA = get_config('CACHE_TIME_DELTA')
 CONFIG_WARNINGS = {}
 
-try:
-    github_adadvisory_database_path = get_config(
+github_adadvisory_database_path = get_config(
         'SOFTWARE_GITHUB_ADADVISORY_DATABASE_PATH')
-except:
-    # If software_github_adadvisory_database_path variable is not set in config.py this will be the default
+# If software_github_adadvisory_database_path variable is not
+# set in config.py this will be the default
+if github_adadvisory_database_path == '':
     github_adadvisory_database_path = None
 
 

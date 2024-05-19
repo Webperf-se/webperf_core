@@ -62,7 +62,6 @@ def run_test(url, strategy, category, silance, lighthouse_translations):
         print(global_translation('TEXT_TEST_START').format(
             datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-
     json_content = get_json_result(
             lang_code,
             url,

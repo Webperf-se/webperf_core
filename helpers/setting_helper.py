@@ -1,23 +1,32 @@
+# -*- coding: utf-8 -*-
+import json
+import os
+from pathlib import Path
+
 config = {}
 
 config_mapping = {
-    ("useragent", "general.useragent", "agent", "ua"): "string|USERAGENT",
+    ("useragent", "general.useragent", "USERAGENT"): "string|general.useragent",
     (
         "details",
         "general.review.details",
-        "use_detailed_report"): "bool|USE_DETAILED_REPORT",
+        "use_detailed_report",
+        "USE_DETAILED_REPORT"): "bool|general.review.details",
     (
         "improve-only",
         "general.review.improve-only",
-        "review_show_improvements_only"): "bool|REVIEW_SHOW_IMPROVEMENTS_ONLY",
+        "review_show_improvements_only",
+        "REVIEW_SHOW_IMPROVEMENTS_ONLY"): "bool|general.review.improve-only",
     (
         "timeout",
         "general.request.timeout",
-        "http_request_timeout"): "int|HTTP_REQUEST_TIMEOUT",
+        "http_request_timeout",
+        "HTTP_REQUEST_TIMEOUT"): "int|general.request.timeout",
     (
         "cache",
         "general.cache.use",
-        "cache_when_possible"): "bool|general.cache.use",
+        "cache_when_possible",
+        "CACHE_WHEN_POSSIBLE"): "bool|general.cache.use",
     (
         "cachetime",
         "general.cache.interval"
@@ -29,56 +38,69 @@ config_mapping = {
     (
         "dnsserver",
         "general.dns.address",
-        "dns_server"): "string|DNS_SERVER",
+        "dns_server",
+        "DNS_SERVER"): "string|general.dns.address",
     (
         "githubkey",
         "github.api.key",
-        "github_api_key"): "string|GITHUB_API_KEY",
+        "github_api_key",
+        "GITHUB_API_KEY"): "string|github.api.key",
     (
         "webbkollsleep",
         "tests.webbkoll.sleep",
-        "webbkoll_sleep"): "int|WEBBKOLL_SLEEP",
+        "webbkoll_sleep",
+        "WEBBKOLL_SLEEP"): "int|tests.webbkoll.sleep",
     (
         "tests.w3c.group",
         "tests.css.group",
-        "css_review_group_errors"): "bool|CSS_REVIEW_GROUP_ERRORS",
+        "css_review_group_errors",
+        "CSS_REVIEW_GROUP_ERRORS"): "bool|tests.css.group",
     (
         "sitespeeddocker",
         "tests.sitespeed.docker.use",
-        "sitespeed_use_docker"): "bool|SITESPEED_USE_DOCKER",
+        "sitespeed_use_docker",
+        "SITESPEED_USE_DOCKER"): "bool|tests.sitespeed.docker.use",
     (
         "sitespeedtimeout",
         "tests.sitespeed.timeout",
-        "sitespeed_timeout"): "int|SITESPEED_TIMEOUT",
+        "sitespeed_timeout",
+        "SITESPEED_TIMEOUT"): "int|tests.sitespeed.timeout",
     (
         "sitespeediterations",
         "tests.sitespeed.iterations",
-        "sitespeed_iterations"): "int|SITESPEED_ITERATIONS",
+        "sitespeed_iterations",
+        "SITESPEED_ITERATIONS"): "int|tests.sitespeed.iterations",
     (
         "csponly",
         "tests.http.csp-only",
-        "csp_only"): "bool|CSP_ONLY",
+        "csp_only",
+        "CSP_ONLY"): "bool|tests.http.csp-only",
     (
         "stealth",
         "tests.software.stealth.use",
-        "software_use_stealth"): "bool|SOFTWARE_USE_STEALTH",
+        "software_use_stealth",
+        "SOFTWARE_USE_STEALTH"): "bool|tests.software.stealth.use",
     (
         "advisorydatabase",
         "tests.software.advisory.path",
-        "software_github_adadvisory_database_path"
-    ): "string|SOFTWARE_GITHUB_ADADVISORY_DATABASE_PATH",
+        "software_github_adadvisory_database_path",
+        "SOFTWARE_GITHUB_ADADVISORY_DATABASE_PATH"
+    ): "string|tests.software.advisory.path",
     (
         "browser",
         "tests.software.browser",
-        "software_browser"): "string|SOFTWARE_BROWSER",
+        "software_browser",
+        "SOFTWARE_BROWSER"): "string|tests.software.browser",
     (
         "mailport25",
         "tests.email.support.port25",
-        "email_network_support_port25_traffic"): "bool|EMAIL_NETWORK_SUPPORT_PORT25_TRAFFIC",
+        "email_network_support_port25_traffic",
+        "EMAIL_NETWORK_SUPPORT_PORT25_TRAFFIC"): "bool|tests.email.support.port25",
     (
         "mailipv6",
         "tests.email.support.ipv6",
-        "email_network_support_ipv6_traffic"): "bool|EMAIL_NETWORK_SUPPORT_IPV6_TRAFFIC"
+        "email_network_support_ipv6_traffic",
+        "EMAIL_NETWORK_SUPPORT_IPV6_TRAFFIC"): "bool|tests.email.support.ipv6"
 }
 
 
@@ -92,25 +114,30 @@ def get_config(name):
     Returns:
         The configuration value if found, otherwise None.
     """
+
+    if '.' not in name:
+        # Try translate old settings name to new
+        config_name = get_setting_name(name)
+        if config_name is None:
+            print(f'Warning: {name} uses old settings format and is not a known setting')
+            return None
+
+        config_name_pair = config_name.split('|')
+        name = config_name_pair[1]
+
     # Lets see if we have it from terminal or in cache
     name = name.lower()
     if name in config:
         return config[name]
 
     # Try get config from our configuration file
-    value = get_config_from_module(name, 'config')
-    if value is not None:
-        config[name] = value
-        return value
-
-    name = name.upper()
-    value = get_config_from_module(name, 'config')
+    value = get_config_from_module(name, 'settings.json')
     if value is not None:
         config[name] = value
         return value
 
     # do we have fallback value we can use in our defaults/config.py file?
-    value = get_config_from_module(name, 'defaults.config')
+    value = get_config_from_module(name, f'defaults{os.path.sep}settings.json')
     if value is not None:
         config[name] = value
         return value
@@ -139,16 +166,26 @@ def get_config_from_module(config_name, module_name):
     Returns:
     The configuration value associated with the given config_name and module_name.
     """
-    # do we have fallback value we can use in our defaults/config.py file?
-    try:
-        from importlib import import_module # pylint: disable=import-outside-toplevel
-        tmp_config = import_module(module_name) # pylint: disable=invalid-name
-        if hasattr(tmp_config, config_name):
-            return getattr(tmp_config, config_name)
-    except ModuleNotFoundError:
-        _ = 1
 
+    base_directory = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep).parent
+
+    file_path = f'{base_directory}{os.path.sep}{module_name}'
+    if not os.path.isfile(file_path):
+        return None
+
+    with open(file_path, encoding='utf-8') as json_file:
+        module_config = json.load(json_file)
+
+        config_path = config_name.split('.')
+        config_section = module_config
+        for section_name in config_path:
+            if section_name in config_section:
+                config_section = config_section[section_name]
+                if not isinstance(config_section, dict):
+                    return config_section
     return None
+
 
 def set_config_from_cmd(arg):
     """
@@ -171,13 +208,7 @@ def set_config_from_cmd(arg):
     if nof_pair > 1:
         value = pair[1]
 
-    config_name = None
-
-    for aliases, setting_name in config_mapping.items():
-        if name in aliases:
-            config_name = setting_name
-            break
-
+    config_name = get_setting_name(name)
     if config_name is None:
         return False
 
@@ -197,6 +228,18 @@ def set_config_from_cmd(arg):
             set_config(config_name.lower(), config_value)
             return True
     return False
+
+def get_setting_name(name):
+    config_name = None
+
+    for aliases, setting_name in config_mapping.items():
+        if name in aliases:
+            config_name = setting_name
+            break
+
+    if config_name is None:
+        return None
+    return config_name
 
 
 def handle_cmd_bool_value(setting_name, value):
@@ -251,3 +294,17 @@ def handle_cmd_str_value(_, value):
         str: The original input string value.
     """
     return value
+
+def get_used_configuration():
+    """
+    Returns a copy of the currently used configuration.
+
+    This function retrieves the current configuration settings and returns a shallow copy
+    of the configuration dictionary. The returned dictionary contains the same key-value pairs
+    as the original configuration, allowing you to work with a snapshot of the configuration
+    without modifying the original data.
+
+    Returns:
+        dict: A shallow copy of the configuration dictionary.
+    """
+    return config.copy()

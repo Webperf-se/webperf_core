@@ -17,7 +17,6 @@ jobs:
     strategy:
             matrix:
                 os: [ubuntu-latest, windows-latest]
-                config: ['REVIEW_SHOW_IMPROVEMENTS_ONLY=True']
                 version: [26]
     steps:
     - name: Check out repository code
@@ -29,12 +28,6 @@ jobs:
         architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
-    - if: ${{ matrix.os == 'ubuntu-latest' }}
-      name: Setup config - LINUX
-      run: python tools/verify_result.py -c ${{ matrix.config }}
-    - if: ${{ matrix.os == 'windows-latest' }}
-      name: Setup config - WINDOWS
-      run: python tools\verify_result.py -c ${{ matrix.config }}
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: RUNNING TEST - LINUX
       run: |

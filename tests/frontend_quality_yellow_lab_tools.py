@@ -1,22 +1,13 @@
 # -*- coding: utf-8 -*-
 import os
-import time
 from datetime import datetime
 import json
 import subprocess
-import requests
-from tests.utils import get_config_or_default, get_http_content, get_translation
+from tests.utils import get_translation
+from helpers.setting_helper import get_config
 from models import Rating
 
-# DEFAULTS
-REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
-REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
-TIME_SLEEP = max(get_config_or_default('WEBBKOLL_SLEEP'), 5)
-
-YLT_SERVER_ADDRESS = get_config_or_default('YLT_SERVER_ADDRESS')
-YLT_USE_API = get_config_or_default('YLT_USE_API')
-
-def run_test(global_translation, lang_code, url, device='phone'):
+def run_test(global_translation, lang_code, url):
     """
     Analyzes URL with Yellow Lab Tools docker image.
     Devices might be; phone, tablet, desktop
@@ -24,14 +15,14 @@ def run_test(global_translation, lang_code, url, device='phone'):
 
     local_translation = get_translation('frontend_quality_yellow_lab_tools', lang_code)
 
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
 
     print(local_translation("TEXT_RUNNING_TEST"))
 
     print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    result_dict = get_ylt_result(url, device)
+    result_dict = get_ylt_result(url)
     # If we fail to connect to website the result_dict will be None and we should end test
     if result_dict is None:
         rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
@@ -79,44 +70,25 @@ def run_test(global_translation, lang_code, url, device='phone'):
 
     return (rating, return_dict)
 
-def get_ylt_result(url, device):
+def get_ylt_result(url):
     """
     This function retrieves the Yellow Lab Tools (YLT) analysis result for a given URL and device.
     
     Parameters:
     url (str): The URL of the webpage to analyze.
-    device (str): The type of device to simulate for the analysis.
 
     Returns:
     dict: The result of the YLT analysis in dictionary format.
     """
     result_json = None
-    if YLT_USE_API:
-        response = requests.post(
-            f'{YLT_SERVER_ADDRESS}/api/runs',
-            data={'url': url, "waitForResponse": 'true', 'device': device}, timeout=REQUEST_TIMEOUT)
 
-        result_url = response.url
-
-        running_info = json.loads(response.text)
-        test_id = running_info['runId']
-
-        running_status = 'running'
-        while running_status == 'running':
-            running_json = get_http_content(f'{YLT_SERVER_ADDRESS}/api/runs/{test_id}')
-            running_info = json.loads(running_json)
-            running_status = running_info['status']['statusCode']
-            time.sleep(TIME_SLEEP)
-
-        result_url = f'{YLT_SERVER_ADDRESS}/api/results/{test_id}?exclude=toolsResults'
-        result_json = get_http_content(result_url)
-    else:
-        command = (
-            f"node node_modules{os.path.sep}yellowlabtools{os.path.sep}bin"
-            f"{os.path.sep}cli.js {url}")
-        with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
-            output, _ = process.communicate(timeout=REQUEST_TIMEOUT * 10)
-            result_json = output
+    command = (
+        f"node node_modules{os.path.sep}yellowlabtools{os.path.sep}bin"
+        f"{os.path.sep}cli.js {url}")
+    with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
+        output, _ = process.communicate(
+            timeout=get_config('general.request.timeout') * 10)
+        result_json = output
 
     # If we fail to connect to website the result_dict should be None and we should end test
     if result_json is None or len(result_json) == 0:
@@ -150,7 +122,7 @@ def add_category_ratings(global_translation, local_translation, result_dict):
     standards_keys = ['compression', 'notFound', 'DOMidDuplicated',
                       'cssParsingErrors', 'oldTlsProtocol']
 
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
     for rule_key, rule in result_dict['rules'].items():
         if 'score' not in rule:
             continue
@@ -166,19 +138,25 @@ def add_category_ratings(global_translation, local_translation, result_dict):
 
         # only do stuff for rules we know how to place in category
         if rule_key in performance_keys:
-            rule_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            rule_rating = Rating(
+                global_translation,
+                get_config('general.review.improve-only'))
             rule_rating.set_performance(
                 rule_score, rule_label)
             rating += rule_rating
 
         if rule_key in security_keys:
-            rule_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            rule_rating = Rating(
+                global_translation,
+                get_config('general.review.improve-only'))
             rule_rating.set_integrity_and_security(
                 rule_score, rule_label)
             rating += rule_rating
 
         if rule_key in standards_keys:
-            rule_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+            rule_rating = Rating(
+                global_translation,
+                get_config('general.review.improve-only'))
             rule_rating.set_standards(
                 rule_score, rule_label)
             rating += rule_rating

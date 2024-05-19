@@ -456,8 +456,6 @@ def main(argv):
 
     Options and arguments:
     -h/--help\t\t\t: Verify Help command
-    -c/--prep-config <activate feature, True or False>\t\t:
-      Uses defaults/config.py to create config.py
     -d/--docker <activate feature, True or False>\t\t:
       Updates DockerFile to use latest browsers
     -t/--test <test number>\t: Verify result of specific test
@@ -469,9 +467,9 @@ def main(argv):
     """
 
     try:
-        opts, _ = getopt.getopt(argv, "hlc:t:d:s:", [
-                                   "help", "test=", "prep-config=",
-                                   "sample-config=", "language", "docker="])
+        opts, _ = getopt.getopt(argv, "hlt:d:s:", [
+                                   "help", "test=", "sample-config=",
+                                   "language", "docker="])
     except getopt.GetoptError:
         print(main.__doc__)
         sys.exit(2)
@@ -484,8 +482,6 @@ def main(argv):
         if opt in ('-h', '--help'):  # help
             print(main.__doc__)
             sys.exit(0)
-        elif opt in ("-c", "--prep-config"):
-            handle_pre_config(arg)
         elif opt in ("-s", "--sample-config"):
             handle_sample_config(arg)
         elif opt in ("-t", "--test"):  # test id

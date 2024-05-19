@@ -33,12 +33,10 @@ Read more on the [general page for github actions](../getting-started-github-act
 * Download and install node-gyp `npm install -g node-gyp`
 * Setup libjpeg and fontconfig `sudo apt-get install libjpeg-dev libfontconfig`
 * Install NPM packages ( `npm install` )
-* Set `ylt_use_api = False` in `config.py`
 
 ##### On Windows:
 * Download and install Node.js (version 20.x)
 * Install NPM packages ( `npm install` )
-* Set `ylt_use_api = False` in `config.py`
 
 ## FAQ
 

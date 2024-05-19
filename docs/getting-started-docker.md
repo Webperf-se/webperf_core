@@ -20,9 +20,12 @@ it is required for GDPR related rating.
 - _Option 2:_ Build the image using command in [docker/run-with-mounted-folder.ps1](../docker/run-with-mounted-folder.ps1) or by running the ps1-script in PowerShell - this allows for writing report files to folder on host machine.
 - When container is running and you are at bash you can run `python default.py -h` and start tests according to the documentation - all dependencies are already set up in the image.
 
-## Regression test
+## Change settings / configuration
+Easiest and fastest way is to use the `--setting` command that only change setting for current run.
+You can list all available settings by writing `--setting ?`.
 
-The first version of the test only checks if image can build.
+If you want to change your settings in a more permanent way you can do so by creating a settings.json file,
+read more about it at [settings.json](settings-json.md).
 
 ## Known issues
 

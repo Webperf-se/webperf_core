@@ -6,15 +6,11 @@ import re
 import requests
 from bs4 import BeautifulSoup
 from models import Rating
-from tests.utils import get_config_or_default, get_translation
-
+from tests.utils import get_translation
+from helpers.setting_helper import get_config
 
 # DEFAULTS
 REGEX_ALLOWED_CHARS = r"[^\u00E5\u00E4\u00F6\u00C5\u00C4\u00D6a-zA-Zå-öÅ-Ö 0-9\-:\/]+"
-REQUEST_TIMEOUT = get_config_or_default('http_request_timeout')
-USERAGENT = get_config_or_default('useragent')
-TIME_SLEEP = max(get_config_or_default('WEBBKOLL_SLEEP'), 5)
-REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
 
 def run_test(global_translation, lang_code, url):
     """
@@ -38,7 +34,7 @@ def run_test(global_translation, lang_code, url):
     """
     review = ''
     return_dict = {}
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
 
     local_translation = get_translation('privacy_webbkollen', lang_code)
 
@@ -54,7 +50,9 @@ def run_test(global_translation, lang_code, url):
     results = soup2.find_all(class_="result")
     result_title = soup2.find(id="results-title")
     if not result_title:
-        error_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+        error_rating = Rating(
+            global_translation,
+            get_config('general.review.improve-only'))
         error_rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
         return (error_rating, {'failed': True })
 
@@ -134,7 +132,7 @@ def get_html_content(orginal_url, lang_code, local_translation):
              f'/check?url={urllib.parse.quote(orginal_url)}'),
             allow_redirects=True,
             headers=headers,
-            timeout=REQUEST_TIMEOUT)
+            timeout=get_config('general.request.timeout'))
 
         if f'type="search" value="{orginal_url}">' in request.text:
             # headers[''] = ''
@@ -150,18 +148,20 @@ def get_html_content(orginal_url, lang_code, local_translation):
                 'submit': ''}
             service_url = f'https://webbkoll.dataskydd.net/{lang_code}/check'
             request = session.post(service_url, allow_redirects=True,
-                                   headers=headers, timeout=REQUEST_TIMEOUT, data=data)
+                                   headers=headers,
+                                   timeout=get_config('general.request.timeout'),
+                                   data=data)
             html_content = request.text
 
         if '<meta http-equiv="refresh"' in html_content:
             has_refresh_statement = True
             had_refresh_statement = True
             print(local_translation('TEXT_RESULT_NOT_READY').format(
-                TIME_SLEEP))
-            time.sleep(TIME_SLEEP)
+                max(get_config('tests.webbkoll.sleep'), 5)))
+            time.sleep(max(get_config('tests.webbkoll.sleep'), 5))
 
     if not had_refresh_statement:
-        time.sleep(TIME_SLEEP)
+        time.sleep(max(get_config('tests.webbkoll.sleep'), 5))
     return html_content
 
 def rate_result(result, global_translation, local_translation):# pylint: disable=too-many-locals
@@ -183,7 +183,9 @@ def rate_result(result, global_translation, local_translation):# pylint: disable
         Rating: The rating of the result.
 
     """
-    heading_rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    heading_rating = Rating(
+        global_translation,
+        get_config('general.review.improve-only'))
 
     points_to_remove_for_current_result = 0.0
 

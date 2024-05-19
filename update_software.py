@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 import getopt
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
-import sys
 import json
 import re
 import os
@@ -11,19 +10,20 @@ import time
 from urllib.parse import urlparse
 import uuid
 import packaging.version
-from tests.sitespeed_base import get_browsertime_har_path, get_result_using_no_cache, get_sanitized_browsertime
-from tests.utils import get_config_or_default, get_http_content
-from tools.verify_result import handle_sample_config
+from tests.sitespeed_base import get_browsertime_har_path,\
+    get_result_using_no_cache, get_sanitized_browsertime
+from tests.utils import get_http_content
+from helpers.setting_helper import get_config, update_config
 
-USE_CACHE = get_config_or_default('CACHE_WHEN_POSSIBLE')
-CACHE_TIME_DELTA = get_config_or_default('CACHE_TIME_DELTA')
+USE_CACHE = get_config('general.cache.use')
+CACHE_TIME_DELTA = timedelta(minutes=get_config('general.cache.max-age'))
 CONFIG_WARNINGS = {}
 
-try:
-    github_adadvisory_database_path = get_config_or_default(
+github_adadvisory_database_path = get_config(
         'SOFTWARE_GITHUB_ADADVISORY_DATABASE_PATH')
-except:
-    # If software_github_adadvisory_database_path variable is not set in config.py this will be the default
+# If software_github_adadvisory_database_path variable is not
+# set in config.py this will be the default
+if github_adadvisory_database_path == '':
     github_adadvisory_database_path = None
 
 
@@ -64,18 +64,41 @@ def update_user_agent():
     result_folder_name = os.path.join(folder, hostname, f'{str(uuid.uuid4())}')
 
     sitespeed_iterations = 1
-    sitespeed_arg = '--plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --utc true -n {0}'.format(
-        sitespeed_iterations)
+    sitespeed_arg = (
+        '--plugins.remove screenshot '
+        '--plugins.remove html '
+        '--plugins.remove metrics '
+        '--browsertime.screenshot false '
+        '--screenshot false '
+        '--screenshotLCP false '
+        '--browsertime.screenshotLCP false '
+        '--videoParams.createFilmstrip false '
+        '--visualMetrics false '
+        '--visualMetricsPerceptual false '
+        '--visualMetricsContentful false '
+        '--browsertime.headless true '
+        '--utc true '
+        f'-n {sitespeed_iterations}')
 
     if 'firefox' in software_browser:
-        sitespeed_arg = '-b firefox --firefox.includeResponseBodies all --firefox.preference privacy.trackingprotection.enabled:false --firefox.preference privacy.donottrackheader.enabled:false --firefox.preference browser.safebrowsing.malware.enabled:false --firefox.preference browser.safebrowsing.phishing.enabled:false {0}'.format(
-            sitespeed_arg)
+        sitespeed_arg = (
+            '-b firefox '
+            '--firefox.includeResponseBodies all '
+            '--firefox.preference privacy.trackingprotection.enabled:false '
+            '--firefox.preference privacy.donottrackheader.enabled:false '
+            '--firefox.preference browser.safebrowsing.malware.enabled:false '
+            '--firefox.preference browser.safebrowsing.phishing.enabled:false '
+            f'{sitespeed_arg}')
     else:
-        sitespeed_arg = '-b chrome --chrome.cdp.performance false --browsertime.chrome.timeline false --browsertime.chrome.includeResponseBodies all --browsertime.chrome.args ignore-certificate-errors {0}'.format(
-            sitespeed_arg)
+        sitespeed_arg = (
+            '-b chrome '
+            '--chrome.cdp.performance false '
+            '--browsertime.chrome.timeline false '
+            '--browsertime.chrome.includeResponseBodies all '
+            '--browsertime.chrome.args ignore-certificate-errors '
+            f'{sitespeed_arg}')
 
-    sitespeed_arg = '--shm-size=1g {0}'.format(
-        sitespeed_arg)
+    sitespeed_arg = f'--shm-size=1g {sitespeed_arg}'
 
     if 'nt' not in os.name:
         sitespeed_arg += ' --xvfb'
@@ -113,7 +136,7 @@ def update_user_agent():
                 continue
 
             print(header_value)
-            handle_sample_config(f"USERAGENT={header_value}")
+            update_config('general.useragent', header_value, f'defaults{os.path.sep}settings.json')
             return
 
 

@@ -23,6 +23,7 @@ from engines.json_engine import read_sites as json_read_sites,\
 from engines.gov import write_tests as gov_write_tests
 from engines.sql import write_tests as sql_write_tests
 from engines.markdown_engine import write_tests as markdown_write_tests
+from helpers.setting_helper import config_mapping, set_config_from_cmd
 from tests.utils import clean_cache_files
 from utils import TEST_FUNCS, TEST_ALL, restart_failures_log, test_sites
 
@@ -251,6 +252,31 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             print(self.language('TEXT_COMMAND_USAGE'))
             sys.exit(2)
 
+    def show_available_settings(self):
+        """
+        Display valid settings and their aliases.
+        Prints the available settings along with their corresponding aliases.
+        """
+        print()
+        print('Valid settings:')
+        for aliases in config_mapping:
+            print(f"--setting {aliases[1]}=<value> ( alias: {aliases[0]} )")
+        print()
+
+    def set_setting(self, arg):
+        """
+        Set configuration settings based on user input.
+
+        Parses the input argument to determine the setting name and value.
+        If the input is not in the correct format, it displays available settings.
+        Otherwise, it sets the specified configuration value.
+
+        Args:
+            arg (str): Input argument in the format "<setting_name>=<value>".
+        """
+        if not set_config_from_cmd(arg):
+            self.show_available_settings()
+
     def set_output_filename(self, arg):
         """
         Sets the output filename for the instance.
@@ -422,14 +448,15 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             ("-L", "--language"): self.try_load_language,
             ("-t", "--test"): self.set_test_types,
             ("-i", "--input"): self.set_input_handlers,
-            ("--input-skip"): self.set_input_skip,
-            ("--input-take"): self.set_input_take,
+            ("--is", "--input-skip"): self.set_input_skip,
+            ("--it", "--input-take"): self.set_input_take,
             ("-o", "--output"): self.set_output_filename,
             ("-r", "--review", "--report"): self.enable_reviews,
+            ("-s", "--setting"): self.set_setting
         }
 
-        for option, handler in option_handlers.items():
-            if opt in option:
+        for options, handler in option_handlers.items():
+            if opt in options:
                 handler(arg)
                 return
 
@@ -451,16 +478,19 @@ def main(argv):
     -A/--addUrl <site url>\t: website url (required in combination with -i/--input)
     -D/--deleteUrl <site url>\t: website url (required in combination with -i/--input)
     -L/--language <lang code>\t: language used for output(en = default/sv)
+    --setting <key>=<value>\t: override configuration for current run
+                                  (use ? to list available settings)
     """
 
     options = CommandLineOptions()
     options.load_language(options.lang_code)
 
     try:
-        opts, _ = getopt.getopt(argv, "hu:t:i:o:rA:D:L:", [
+        opts, _ = getopt.getopt(argv, "hu:t:i:o:rA:D:L:s:", [
                                    "help", "url=", "test=", "input=", "output=",
                                    "review", "report", "addUrl=", "deleteUrl=",
-                                   "language=", "input-skip=", "input-take="])
+                                   "language=", "input-skip=", "input-take=",
+                                   "is=", "it=", "setting="])
     except getopt.GetoptError:
         print(main.__doc__)
         sys.exit(2)
@@ -506,8 +536,6 @@ def main(argv):
         clean_cache_files()
     else:
         print(options.language('TEXT_COMMAND_USAGE'))
-
-
 
 if __name__ == '__main__':
     main(sys.argv[1:])

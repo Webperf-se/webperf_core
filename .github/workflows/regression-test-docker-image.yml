@@ -14,7 +14,6 @@ jobs:
     strategy:
       matrix:
           os: [ubuntu-latest]
-          config: ['REVIEW_SHOW_IMPROVEMENTS_ONLY=True']
           version: [9]
     steps:
     - uses: actions/checkout@v4

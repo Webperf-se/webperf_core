@@ -54,7 +54,7 @@ RUN echo 'ALL ALL=NOPASSWD: /usr/sbin/tc, /usr/sbin/route, /usr/sbin/ip' > /etc/
 
 RUN npm install -g node-gyp puppeteer
 
-# If own config.py exists it will overwrite the SAMPLE
+# If own settings.json exists it will overwrite the default
 COPY . /usr/src/runner
 
 RUN chown --recursive sitespeedio:sitespeedio /usr/src/runner

@@ -1,11 +1,15 @@
 # Gettings started with Github Actions
 
 The easiest method to setup webperf-core are by using GitHub Actions for public facing websites.
+
 If you want to test/verify private websites you should probably look at one of the other methonds.
 
 ## How to setup
-- [Fork webperf-core repository](https://github.com/Webperf-se/webperf_core/fork?fragment=1)
-- Remove tests you don't need from your `./github/workflows/` folder (You only need: `close-inactive-issues.yml`, `codeql-analysis.yml`, `pylint.yml`, `regression-test-translations.yml` and `update-software.yml` if you are contributing and are working on a Pull Request).
+[Fork webperf-core repository](https://github.com/Webperf-se/webperf_core/fork?fragment=1)
+- Change `https://webperf.se/` in `sites.json` file to the url you want to test with.
+  (If you want to test more then one, add them)
+- Remove tests you don't need from your `./github/workflows/` folder
+  (You only need: `close-inactive-issues.yml`, `codeql-analysis.yml`, `pylint.yml`, `regression-test-translations.yml` and `update-software.yml` if you are contributing and are working on a Pull Request).
 - Rest of the steps depend on how you want to run/trigger the test, see below
 
 ### Manually trigger new test
@@ -31,8 +35,6 @@ Choose this option if you want to [contribute](CONTRIBUTING.md) or have your own
 
 #### How to setup:
 
-- Change `https://webperf.se/` in `sites.json` file to the url you want to test with.
-  (If you want to test more then one, add them)
 - Now every time you push new changes or create a pull request all `.yml` tests will run.
 
 ### Trigger on a Schedule
@@ -48,9 +50,10 @@ Choose this option if you want to [contribute](CONTRIBUTING.md) or have your own
 ```yaml
 on:
   schedule:
-    - cron:  '0 0 * * *'```
+    - cron:  '0 0 * * *'
+```
 
-In this example, the cron syntax ‘0 0 * * *’ schedules the action to run at midnight every day. The cron syntax is quite flexible, allowing you to specify complex schedules.
+   In this example, the cron syntax ‘0 0 * * *’ schedules the action to run at midnight every day. The cron syntax is quite flexible, allowing you to specify complex schedules.
 
 5. **Commit your changes**: Once you’ve added your schedule, commit the changes to your workflow file. Make sure to write a clear commit message describing what you’ve changed.
 6. **Push your changes**: Push your commit to the GitHub repository. If you’re working on a branch, you may also need to create a pull request and merge it into the main branch.

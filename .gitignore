@@ -5,6 +5,7 @@ __pycache__/
 
 playground.py
 /config.py
+/settings.json
 dbase.sqlite
 
 # C extensions

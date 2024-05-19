@@ -2,16 +2,15 @@
 from datetime import datetime
 import re
 from models import Rating
-from tests.utils import get_config_or_default,\
-    get_friendly_url_name,\
+from tests.utils import get_friendly_url_name,\
     get_translation,\
     set_cache_file
 from tests.w3c_base import calculate_rating, get_data_for_url,\
     get_error_review, get_error_types_review,\
     get_errors_for_url, get_rating, get_reviews_from_errors
+from helpers.setting_helper import get_config
 
 # DEFAULTS
-REVIEW_SHOW_IMPROVEMENTS_ONLY = get_config_or_default('review_show_improvements_only')
 HTML_REVIEW_GROUP_ERRORS = True
 HTML_START_STRINGS = [
         'Start tag seen without seeing a doctype first. Expected “<!DOCTYPE html>”',
@@ -31,7 +30,7 @@ def run_test(global_translation, lang_code, url):
     print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
     data = get_data_for_url(url)
     if data is None:
         rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
@@ -94,7 +93,7 @@ def handle_html_markup_entry(entry, global_translation, local_translation, resul
     list: All link resources found in the entry.
     Rating: The rating after evaluating the HTML related errors in the entry.
     """
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
     req_url = entry['url']
     name = get_friendly_url_name(global_translation, req_url, entry['index'])
     html = entry['content']
@@ -168,7 +167,7 @@ def create_review_and_rating(
                 msg_grouped_for_rating_dict[tmp] = 1
 
 
-    rating = Rating(global_translation, REVIEW_SHOW_IMPROVEMENTS_ONLY)
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
 
     number_of_error_types = len(msg_grouped_for_rating_dict)
 

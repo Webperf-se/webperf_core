@@ -19,7 +19,6 @@ jobs:
                 # os: [ubuntu-latest, windows-latest]
                 os: [ubuntu-20.04, windows-latest]
                 version: [18]
-                config: ['general.review.improve-only=True']
     steps:
     - name: Check out repository code
       uses: actions/checkout@v4
@@ -40,10 +39,10 @@ jobs:
     - if: ${{ matrix.os == 'ubuntu-20.04' }}
       name: RUNNING TEST - LINUX
       run: |
-         python default.py -t ${{ matrix.version }} -r -i sites.json -o data/testresult-${{ matrix.version }}.json --setting ${{ matrix.config }}
+         python default.py -t ${{ matrix.version }} -r -i sites.json -o data/testresult-${{ matrix.version }}.json
          python tools/verify_result.py -t ${{ matrix.version }}
     - if: ${{ matrix.os == 'windows-latest' }}
       name: RUNNING TEST - WINDOWS
       run: |
-         python default.py -t ${{ matrix.version }} -r -i sites.json -o data\testresult-${{ matrix.version }}.json --setting ${{ matrix.config }}
+         python default.py -t ${{ matrix.version }} -r -i sites.json -o data\testresult-${{ matrix.version }}.json
          python tools\verify_result.py -t ${{ matrix.version }}

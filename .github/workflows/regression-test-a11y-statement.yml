@@ -17,7 +17,6 @@ jobs:
     strategy:
             matrix:
                 os: [ubuntu-latest, windows-latest]
-                config: ['general.review.improve-only=True']
                 version: [26]
     steps:
     - name: Check out repository code
@@ -32,10 +31,10 @@ jobs:
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: RUNNING TEST - LINUX
       run: |
-         python default.py -t ${{ matrix.version }} -r -i sites.json -o data/testresult-${{ matrix.version }}.json --setting ${{ matrix.config }}
+         python default.py -t ${{ matrix.version }} -r -i sites.json -o data/testresult-${{ matrix.version }}.json
          python tools/verify_result.py -t ${{ matrix.version }}
     - if: ${{ matrix.os == 'windows-latest' }}
       name: RUNNING TEST - WINDOWS
       run: |
-         python default.py -t ${{ matrix.version }} -r -i sites.json -o data\testresult-${{ matrix.version }}.json --setting ${{ matrix.config }}
+         python default.py -t ${{ matrix.version }} -r -i sites.json -o data\testresult-${{ matrix.version }}.json
          python tools\verify_result.py -t ${{ matrix.version }}

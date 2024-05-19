@@ -512,7 +512,9 @@ def get_json_result_using_caching(lang_code, url, strategy):
         with open(result_file, 'r', encoding='utf-8', newline='') as file:
             return str_to_json('\n'.join(file.readlines()), url)
     elif os.path.exists(artifacts_file) and \
-        not is_file_older_than(artifacts_file, timedelta(minutes=get_config('general.cache.max-age'))):
+        not is_file_older_than(
+            artifacts_file,
+            timedelta(minutes=get_config('general.cache.max-age'))):
 
         file_created_timestamp = os.path.getctime(artifacts_file)
         file_created_date = time.ctime(file_created_timestamp)

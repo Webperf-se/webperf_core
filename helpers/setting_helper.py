@@ -142,6 +142,20 @@ def get_config(name):
     return None
 
 def update_config(name, value, module_name):
+    """
+    Updates the configuration for a specific module.
+
+    This function takes a configuration name, its value, and the module name.
+    It translates the old settings name to the new format if necessary,
+    and updates the configuration for the specified module.
+
+    Parameters:
+    name (str): The name of the configuration setting.
+                If the name is in the old format (i.e., does not contain a '.'),
+                it will be translated to the new format.
+    value (str): The new value for the configuration setting.
+    module_name (str): The name of the module for which the configuration is being updated.
+    """
     if '.' not in name:
         # Try translate old settings name to new
         config_name = get_setting_name(name)
@@ -168,6 +182,20 @@ def set_runtime_config_only(name, value):
     config[name] = value
 
 def update_config_for_module(config_name, config_value, module_name):
+    """
+    Updates the configuration for a specific module in a JSON file.
+
+    This function takes a configuration name, its value, and the module name.
+    It reads the existing configuration from a JSON file,
+    updates the specified configuration setting,
+    and writes the updated configuration back to the file.
+
+    Parameters:
+    config_name (str): The name of the configuration setting.
+                       The name should be in the format 'section.subsection.setting'.
+    config_value (str): The new value for the configuration setting.
+    module_name (str): The name of the module for which the configuration is being updated.
+    """
     base_directory = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent
 
@@ -267,6 +295,15 @@ def set_config_from_cmd(arg):
     return False
 
 def get_setting_name(name):
+    """
+    Returns the setting name for a given alias.
+
+    Parameters:
+    name (str): The alias of the setting.
+
+    Returns:
+    str: The setting name if the alias is found, None otherwise.
+    """
     config_name = None
 
     for aliases, setting_name in config_mapping.items():

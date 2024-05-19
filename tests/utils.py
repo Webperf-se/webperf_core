@@ -288,7 +288,9 @@ def clean_cache_files():
                 cache_files += 1
                 path = os.path.join(base_directory, subdir, file_or_dir)
                 if not get_config('general.cache.use') or\
-                        is_file_older_than(path, timedelta(minutes=get_config('general.cache.max-age'))):
+                        is_file_older_than(
+                            path,
+                            timedelta(minutes=get_config('general.cache.max-age'))):
                     os.remove(path)
                     cache_files_removed += 1
 
@@ -423,7 +425,9 @@ def get_http_content(url, allow_redirects=False, use_text_instead_of_content=Tru
     """
     try:
         content = get_cache_file(
-            url, use_text_instead_of_content, timedelta(minutes=get_config('general.cache.max-age')))
+            url,
+            use_text_instead_of_content,
+            timedelta(minutes=get_config('general.cache.max-age')))
         if content is not None:
             return content
 

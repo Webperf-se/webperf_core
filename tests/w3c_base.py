@@ -177,7 +177,10 @@ def identify_files(filename):
                 continue
 
             if 'html' in res['content']['mimeType']:
-                if not has_cache_file(req_url, True, timedelta(minutes=get_config('general.cache.max-age'))):
+                if not has_cache_file(
+                        req_url,
+                        True,
+                        timedelta(minutes=get_config('general.cache.max-age'))):
                     set_cache_file(req_url, res['content']['text'], True)
                 data['htmls'].append({
                     'url': req_url,
@@ -185,7 +188,10 @@ def identify_files(filename):
                     'index': req_index
                     })
             elif 'css' in res['content']['mimeType']:
-                if not has_cache_file(req_url, True, timedelta(minutes=get_config('general.cache.max-age'))):
+                if not has_cache_file(
+                        req_url,
+                        True,
+                        timedelta(minutes=get_config('general.cache.max-age'))):
                     set_cache_file(req_url, res['content']['text'], True)
                 data['resources'].append({
                     'url': req_url,

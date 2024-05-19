@@ -1,4 +1,4 @@
-# Getting Started on Local machine / Virtual Machine
+# Getting Started on Local machine
 
 This method is best if you want to test/verify private websites like acceptance test environments,
 it is also best/fastest when wanting to contribute with new tests, translations or other stuff.

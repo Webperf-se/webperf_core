@@ -8,6 +8,8 @@ on:
       - '**.py'
       - 'Dockerfile'
       - '**software-rules.json'
+env:
+  TEST_TAG: webperfse/webperf-core:test
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,12 +24,14 @@ jobs:
       with:
         context: .
         platforms: linux/amd64,linux/arm64
+        load: true
+        tags: ${{ env.TEST_TAG }}
         push: false
     # - name: Build the Docker image
     #   run: docker build --platform linux/amd64,linux/arm64 .
     - name: Check if we have correct python version
       run: |
-        version=$(docker run -v "$(pwd):/webperf-core" webperf-core:latest python --version)
+        version=$(docker run -v "$(pwd):/webperf-core" ${{ env.TEST_TAG }} python --version)
         echo "Python version: $version"
         if [[ "$version" != "Python 3.12"* ]]; then
           echo "Error: Default python version is not 3.12 based, was we unable to change default version?"
@@ -35,7 +39,7 @@ jobs:
         fi
     - name: Check if webperf_core help command works
       run: |
-        help=$(docker run -v "$(pwd):/webperf-core" webperf-core:latest python default.py -h)
+        help=$(docker run -v "$(pwd):/webperf-core" ${{ env.TEST_TAG }} python default.py -h)
         echo "$help"
         if [[ "$help" != *"-u/--url"* ]]; then
           echo "Error: WebPerf-core help command is NOT returning expected content"
@@ -43,7 +47,7 @@ jobs:
         fi
     - name: Check if webperf_core can run Standard files Test
       run: |
-        testresult=$(docker run -v "$(pwd):/webperf-core" webperf-core:latest python default.py -t 9 -r -i sites.json)
+        testresult=$(docker run -v "$(pwd):/webperf-core" ${{ env.TEST_TAG }} python default.py -t 9 -r -i sites.json)
         echo "$testresult"
         if [[ "$testresult" != *"Integrity & Security:"* ]]; then
           echo "Error: WebPerf-core testresult is NOT returning expected review"

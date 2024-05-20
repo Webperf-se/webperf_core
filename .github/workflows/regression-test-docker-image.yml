@@ -17,14 +17,14 @@ jobs:
           version: [9]
     steps:
     - uses: actions/checkout@v4
-    - name: Build the Docker image
-      uses: docker/build-push-action@v5
-      with:
-        context: .
-        platforms: linux/amd64,linux/arm64
-        push: false
     # - name: Build the Docker image
-    #   run: docker build -t "webperf-core:latest" .
+    #   uses: docker/build-push-action@v5
+    #   with:
+    #     context: .
+    #     platforms: linux/amd64,linux/arm64
+    #     push: false
+    - name: Build the Docker image
+      run: docker build --platform linux/amd64,linux/arm64 .
     - name: Check if we have correct python version
       run: |
         version=$(docker run -v "$(pwd):/webperf-core" webperf-core:latest python --version)

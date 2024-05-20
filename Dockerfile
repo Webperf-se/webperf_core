@@ -69,11 +69,11 @@ USER sitespeedio
 
 RUN npm install
 
-# WORKDIR /usr/src/runner/node_modules/sitespeed.io/
+WORKDIR /usr/src/runner/node_modules/sitespeed.io/
 
-# RUN npm install
+RUN npm install
 
-# WORKDIR /usr/src/runner
+WORKDIR /usr/src/runner
 
 RUN python3.12 -m pip install -r requirements.txt --break-system-packages && \
     python3.12 -m pip install --upgrade pip --break-system-packages && \

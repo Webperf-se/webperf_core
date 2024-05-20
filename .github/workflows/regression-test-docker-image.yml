@@ -19,6 +19,11 @@ jobs:
       uses: docker/setup-qemu-action@v3
     - name: Setup Docker Buildx # used to allow multiplatform docker builds
       uses: docker/setup-buildx-action@v3
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Build the Docker image # used to allow multiplatform docker builds
       uses: docker/build-push-action@v5
       with:
@@ -26,12 +31,11 @@ jobs:
         platforms: linux/amd64,linux/arm64
         load: true
         tags: ${{ env.TEST_TAG }}
-        push: false
     # - name: Build the Docker image
     #   run: docker build --platform linux/amd64,linux/arm64 .
     - name: Check if we have correct python version
       run: |
-        version=$(docker run -v "$(pwd):/webperf-core" ${{ env.TEST_TAG }} python --version)
+        version=$(docker run ${{ env.TEST_TAG }} python --version)
         echo "Python version: $version"
         if [[ "$version" != "Python 3.12"* ]]; then
           echo "Error: Default python version is not 3.12 based, was we unable to change default version?"
@@ -39,7 +43,7 @@ jobs:
         fi
     - name: Check if webperf_core help command works
       run: |
-        help=$(docker run -v "$(pwd):/webperf-core" ${{ env.TEST_TAG }} python default.py -h)
+        help=$(docker run ${{ env.TEST_TAG }} python default.py -h)
         echo "$help"
         if [[ "$help" != *"-u/--url"* ]]; then
           echo "Error: WebPerf-core help command is NOT returning expected content"
@@ -47,7 +51,7 @@ jobs:
         fi
     - name: Check if webperf_core can run Standard files Test
       run: |
-        testresult=$(docker run -v "$(pwd):/webperf-core" ${{ env.TEST_TAG }} python default.py -t 9 -r -i sites.json)
+        testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 9 -r -i sites.json)
         echo "$testresult"
         if [[ "$testresult" != *"Integrity & Security:"* ]]; then
           echo "Error: WebPerf-core testresult is NOT returning expected review"

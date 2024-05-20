@@ -1,5 +1,7 @@
 FROM sitespeedio/sitespeed.io:33.6.0
 
+ARG TARGETPLATFORM
+
 USER root
 
 ENV WEBPERF_RUNNER docker
@@ -42,6 +44,9 @@ RUN python3.12 get-pip.py
 
 RUN apt -y autoremove
 
+RUN apt-get clean autoclean && \
+  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 # Add user so we don't need --no-sandbox.
 RUN groupadd --system sitespeedio && \
     useradd --system --create-home --gid sitespeedio sitespeedio && \
@@ -64,11 +69,11 @@ USER sitespeedio
 
 RUN npm install
 
-WORKDIR /usr/src/runner/node_modules/sitespeed.io/
+# WORKDIR /usr/src/runner/node_modules/sitespeed.io/
 
-RUN npm install
+# RUN npm install
 
-WORKDIR /usr/src/runner
+# WORKDIR /usr/src/runner
 
 RUN python3.12 -m pip install -r requirements.txt --break-system-packages && \
     python3.12 -m pip install --upgrade pip --break-system-packages && \

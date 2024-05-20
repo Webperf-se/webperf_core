@@ -67,11 +67,11 @@ RUN chown --recursive sitespeedio:sitespeedio /usr/src/runner
 # Run everything after as non-privileged user.
 USER sitespeedio
 
-RUN npm install
+#RUN npm install
 
-WORKDIR /usr/src/runner/node_modules/sitespeed.io/
+#WORKDIR /usr/src/runner/node_modules/sitespeed.io/
 
-RUN npm install
+#RUN npm install
 
 WORKDIR /usr/src/runner
 

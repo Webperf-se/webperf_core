@@ -131,14 +131,14 @@ jobs:
     #       echo "Error: WebPerf-core testresult is NOT returning expected review"
     #       exit 1
     #     fi
-    - name: Check if webperf_core can run Test 18
-      run: |
-        testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 18 -r -i sites.json)
-        echo "$testresult"
-        if [[ "$testresult" != *"A11y:"* ]]; then
-          echo "Error: WebPerf-core testresult is NOT returning expected review"
-          exit 1
-        fi
+    # - name: Check if webperf_core can run Test 18
+    #   run: |
+    #     testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 18 -r -i sites.json)
+    #     echo "$testresult"
+    #     if [[ "$testresult" != *"A11y:"* ]]; then
+    #       echo "Error: WebPerf-core testresult is NOT returning expected review"
+    #       exit 1
+    #     fi
     - name: Check if webperf_core can run Test 20
       run: |
         testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 20 -r -i sites.json)

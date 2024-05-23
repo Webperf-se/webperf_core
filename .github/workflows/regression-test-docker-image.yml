@@ -8,20 +8,32 @@ on:
       - '**.py'
       - 'Dockerfile'
       - '**software-rules.json'
+env:
+  TEST_TAG: webperfse/webperf-core:test
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-          os: [ubuntu-latest]
-          version: [9]
     steps:
     - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build -t "webperf-core:latest" .
+    - name: Setup QEMU # used to allow multiplatform docker builds
+      uses: docker/setup-qemu-action@v3
+    - name: Setup Docker Buildx # used to allow multiplatform docker builds
+      uses: docker/setup-buildx-action@v3
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Build the Docker image # used to allow multiplatform docker builds
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        platforms: linux/amd64
+        load: true
+        tags: ${{ env.TEST_TAG }}
     - name: Check if we have correct python version
       run: |
-        version=$(docker run -v "$(pwd):/webperf-core" webperf-core:latest python --version)
+        version=$(docker run ${{ env.TEST_TAG }} python --version)
         echo "Python version: $version"
         if [[ "$version" != "Python 3.12"* ]]; then
           echo "Error: Default python version is not 3.12 based, was we unable to change default version?"
@@ -29,17 +41,153 @@ jobs:
         fi
     - name: Check if webperf_core help command works
       run: |
-        help=$(docker run -v "$(pwd):/webperf-core" webperf-core:latest python default.py -h)
+        help=$(docker run ${{ env.TEST_TAG }} python default.py -h)
         echo "$help"
         if [[ "$help" != *"-u/--url"* ]]; then
           echo "Error: WebPerf-core help command is NOT returning expected content"
           exit 1
         fi
-    - name: Check if webperf_core can run Standard files Test
+    - name: Check if webperf_core can run Test 1
       run: |
-        testresult=$(docker run -v "$(pwd):/webperf-core" webperf-core:latest python default.py -t ${{ matrix.version }} -r -i sites.json)
+        testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 1 -r -i sites.json)
+        echo "$testresult"
+        if [[ "$testresult" != *"Performance:"* ]]; then
+          echo "Error: WebPerf-core testresult is NOT returning expected review"
+          exit 1
+        fi
+    - name: Check if webperf_core can run Test 2
+      run: |
+        testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 2 -r -i sites.json)
+        echo "$testresult"
+        if [[ "$testresult" != *"Standards:"* ]]; then
+          echo "Error: WebPerf-core testresult is NOT returning expected review"
+          exit 1
+        fi
+    - name: Check if webperf_core can run Test 4
+      run: |
+        testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 4 -r -i sites.json)
+        echo "$testresult"
+        if [[ "$testresult" != *"Standards:"* ]]; then
+          echo "Error: WebPerf-core testresult is NOT returning expected review"
+          exit 1
+        fi
+    - name: Check if webperf_core can run Test 5
+      run: |
+        testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 5 -r -i sites.json)
         echo "$testresult"
         if [[ "$testresult" != *"Integrity & Security:"* ]]; then
+          echo "Error: WebPerf-core testresult is NOT returning expected review"
+          exit 1
+        fi
+    - name: Check if webperf_core can run Test 6
+      run: |
+        testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 6 -r -i sites.json)
+        echo "$testresult"
+        if [[ "$testresult" != *"Standards:"* ]]; then
+          echo "Error: WebPerf-core testresult is NOT returning expected review"
+          exit 1
+        fi
+    - name: Check if webperf_core can run Test 7
+      run: |
+        testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 7 -r -i sites.json)
+        echo "$testresult"
+        if [[ "$testresult" != *"Standards:"* ]]; then
+          echo "Error: WebPerf-core testresult is NOT returning expected review"
+          exit 1
+        fi
+    - name: Check if webperf_core can run Test 9
+      run: |
+        testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 9 -r -i sites.json)
+        echo "$testresult"
+        if [[ "$testresult" != *"Integrity & Security:"* ]]; then
+          echo "Error: WebPerf-core testresult is NOT returning expected review"
+          exit 1
+        fi
+    - name: Check if webperf_core can run Test 10
+      run: |
+        testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 10 -r -i sites.json)
+        echo "$testresult"
+        if [[ "$testresult" != *"A11y:"* ]]; then
+          echo "Error: WebPerf-core testresult is NOT returning expected review"
+          exit 1
+        fi
+    - name: Check if webperf_core can run Test 15
+      run: |
+        testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 15 -r -i sites.json)
+        echo "$testresult"
+        if [[ "$testresult" != *"Performance:"* ]]; then
+          echo "Error: WebPerf-core testresult is NOT returning expected review"
+          exit 1
+        fi
+    - name: Check if webperf_core can run Test 17
+      run: |
+        testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 17 -r -i sites.json)
+        echo "$testresult"
+        if [[ "$testresult" != *"Integrity & Security:"* ]]; then
+          echo "Error: WebPerf-core testresult is NOT returning expected review"
+          exit 1
+        fi
+    - name: Check if webperf_core can run Test 18
+      run: |
+        testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 18 -r -i sites.json)
+        echo "$testresult"
+        if [[ "$testresult" != *"A11y:"* ]]; then
+          echo "Error: WebPerf-core testresult is NOT returning expected review"
+          exit 1
+        fi
+    - name: Check if webperf_core can run Test 20
+      run: |
+        testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 20 -r -i sites.json)
+        echo "$testresult"
+        if [[ "$testresult" != *"Integrity & Security:"* ]]; then
+          echo "Error: WebPerf-core testresult is NOT returning expected review"
+          exit 1
+        fi
+    - name: Check if webperf_core can run Test 21
+      run: |
+        testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 21 -r -i sites.json)
+        echo "$testresult"
+        if [[ "$testresult" != *"Integrity & Security:"* ]]; then
+          echo "Error: WebPerf-core testresult is NOT returning expected review"
+          exit 1
+        fi
+    - name: Check if webperf_core can run Test 22
+      run: |
+        testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 22 -r -i sites.json)
+        echo "$testresult"
+        if [[ "$testresult" != *"Overall:"* ]]; then
+          echo "Error: WebPerf-core testresult is NOT returning expected review"
+          exit 1
+        fi
+    - name: Check if webperf_core can run Test 23
+      run: |
+        testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 23 -r -i sites.json)
+        echo "$testresult"
+        if [[ "$testresult" != *"Integrity & Security:"* ]]; then
+          echo "Error: WebPerf-core testresult is NOT returning expected review"
+          exit 1
+        fi
+    - name: Check if webperf_core can run Test 24
+      run: |
+        testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 24 -r -i sites.json)
+        echo "$testresult"
+        if [[ "$testresult" != *"Integrity & Security:"* ]]; then
+          echo "Error: WebPerf-core testresult is NOT returning expected review"
+          exit 1
+        fi
+    - name: Check if webperf_core can run Test 25
+      run: |
+        testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 25 -r -i sites.json)
+        echo "$testresult"
+        if [[ "$testresult" != *"Integrity & Security:"* ]]; then
+          echo "Error: WebPerf-core testresult is NOT returning expected review"
+          exit 1
+        fi
+    - name: Check if webperf_core can run Test 26
+      run: |
+        testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 26 -r -i sites.json)
+        echo "$testresult"
+        if [[ "$testresult" != *"A11y:"* ]]; then
           echo "Error: WebPerf-core testresult is NOT returning expected review"
           exit 1
         fi

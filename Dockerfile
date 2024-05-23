@@ -45,8 +45,8 @@ RUN python3.12 get-pip.py
 RUN apt -y autoremove
 
 # Use this to make docker image smaller
-#RUN apt-get clean autoclean && \
-#  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get clean autoclean && \
+ rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Add user so we don't need --no-sandbox.
 RUN groupadd --system sitespeedio && \
@@ -69,7 +69,7 @@ RUN chown --recursive sitespeedio:sitespeedio /usr/src/runner
 USER sitespeedio
 
 # use this for make docker image smaller
-#RUN npm install --production && npm cache clean --force
+RUN npm install --production && npm cache clean --force
 #RUN npm install
 
 #WORKDIR /usr/src/runner/node_modules/sitespeed.io/

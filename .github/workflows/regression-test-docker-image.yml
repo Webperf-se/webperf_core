@@ -29,8 +29,8 @@ jobs:
       with:
         context: .
         # platforms: linux/amd64,linux/arm64
-        platforms: linux/arm64
-        # platforms: linux/amd64
+        # platforms: linux/arm64
+        platforms: linux/amd64
         load: true
         tags: ${{ env.TEST_TAG }}
     # - name: Build the Docker image

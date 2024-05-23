@@ -72,7 +72,9 @@ def run_test(url, strategy, category, silance, lighthouse_translations):
     return_dict = {}
 
     rating = Rating(global_translation, get_config('general.review.improve-only'))
-    score = json_content['categories'][category]['score']
+    score = None
+    if 'categories' in json_content:
+        score = json_content['categories'][category]['score']
     # If we fail to connect to website the score will be None and we should end test
     if score is None:
         rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')

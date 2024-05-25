@@ -325,7 +325,6 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
 
         if len(self.test_types) == 0:
             show_test_help(self.language)
-            return
 
     def enable_reviews(self, _):
         """

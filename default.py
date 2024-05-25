@@ -49,10 +49,22 @@ def validate_test_type(tmp_test_types):
     """
     test_types = []
 
+    remove_tests = []
     valid_tests = TEST_FUNCS.keys()
     for test_type in tmp_test_types:
         if test_type in valid_tests:
             test_types.append(test_type)
+            continue
+        if test_type < 0:
+            test_type = abs(test_type)
+            remove_tests.append(test_type)
+
+    if len(test_types) == 0:
+        test_types = list(valid_tests)
+
+    for test_type in remove_tests:
+        if test_type in valid_tests:
+            test_types.remove(test_type)
 
     return test_types
 

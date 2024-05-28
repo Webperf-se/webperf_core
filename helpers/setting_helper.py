@@ -218,7 +218,7 @@ def update_config_for_module(config_name, config_value, module_name):
                 config_section = tmp_config_section
 
     with open(file_path, 'w', encoding='utf-8') as outfile:
-        json.dump(module_config, outfile)
+        json.dump(module_config, outfile, indent=4)
 
 def get_config_from_module(config_name, module_name):
     """

@@ -13,7 +13,7 @@ import packaging.version
 from tests.sitespeed_base import get_browsertime_har_path,\
     get_result_using_no_cache, get_sanitized_browsertime
 from tests.utils import get_http_content
-from helpers.setting_helper import get_config, update_config
+from helpers.setting_helper import get_config, set_runtime_config_only, update_config
 
 USE_CACHE = get_config('general.cache.use')
 CACHE_TIME_DELTA = timedelta(minutes=get_config('general.cache.max-age'))
@@ -39,14 +39,14 @@ def main(argv):
         print(main.__doc__)
         sys.exit(2)
 
-    if len(opts) == 0:
-        update_licenses()
-        update_software_info()
-
     for opt, arg in opts:
         if opt in ('-b', '--browser'):  # get browser user-agent
             update_user_agent()
             sys.exit(0)
+        if opt in ('-d', '--definitions'):
+            set_runtime_config_only("github.api.key", arg)
+            update_licenses()
+            update_software_info()
 
 def update_user_agent():
     sitespeed_use_docker = False
@@ -268,7 +268,9 @@ def update_licenses():
             regex, content, re.MULTILINE)
         for matchNum, match_vulnerable in enumerate(matches, start=1):
             match_content = match_vulnerable.group('licenses')
-            content_rule['match'] = content_rule['match'].replace(match_content, '?P<license>({0})'.format('|'.join(licenses)))
+            content_rule['match'] = content_rule['match'].replace(
+                match_content,
+                '?P<license>({0})'.format('|'.join(licenses)))
 
     save_software_rules(rules)
 

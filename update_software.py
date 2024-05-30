@@ -33,9 +33,9 @@ def main(argv):
     """
 
     try:
-        opts, _ = getopt.getopt(argv, "b", [
-                                   "browser"])
+        opts, _ = getopt.getopt(argv, "bd:", ["browser", "definitions="])
     except getopt.GetoptError:
+        print('Error in getopt.')
         print(main.__doc__)
         sys.exit(2)
 

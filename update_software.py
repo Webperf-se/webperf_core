@@ -201,8 +201,6 @@ def update_software_info():
             if 'github-key' in item:
                 github_version_key = item['github-key']
 
-        elif is_source_wordpress:
-            set_wordpress_plugin_repository_info(item, key)
             if github_ower is not None:
                 set_github_repository_info(
                     item,
@@ -215,6 +213,9 @@ def update_software_info():
                     github_security,
                     github_version_prefix,
                     github_version_key)
+
+        elif is_source_wordpress:
+            set_wordpress_plugin_repository_info(item, key)
 
         # Add custom information like end of life and cve
         if key == 'iis':

@@ -50,7 +50,7 @@ jobs:
     - name: Check if webperf_core can run Test 1
       if: always()
       run: |
-        testresult=$(docker run --cpus="1.9" pids-limit 2500 --shm-size=10g --rm ${{ env.TEST_TAG }} python default.py -t 1 -r -i sites.json)
+        testresult=$(docker run --cpus="1.9" --pids-limit 2500 --shm-size=10g --rm ${{ env.TEST_TAG }} python default.py -t 1 -r -i sites.json)
         echo "$testresult"
         if [[ "$testresult" == *"Unable to connect to Chrome"* ]]; then
           sleep 5

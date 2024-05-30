@@ -1,7 +1,5 @@
 FROM sitespeedio/sitespeed.io:33.6.0
 
-ARG TARGETPLATFORM
-
 USER root
 
 ENV WEBPERF_RUNNER docker
@@ -69,12 +67,12 @@ RUN chown --recursive sitespeedio:sitespeedio /usr/src/runner
 USER sitespeedio
 
 # use this for make docker image smaller
-RUN npm install --production && npm cache clean --force
-#RUN npm install
+# RUN npm install --production && npm cache clean --force
+RUN npm install
 
-#WORKDIR /usr/src/runner/node_modules/sitespeed.io/
+WORKDIR /usr/src/runner/node_modules/sitespeed.io/
 
-#RUN npm install
+RUN npm install
 
 WORKDIR /usr/src/runner
 

@@ -25,7 +25,7 @@ github_adadvisory_database_path = get_config(
 # If software_github_adadvisory_database_path variable is not
 # set in config.py this will be the default
 if github_adadvisory_database_path == '':
-    github_adadvisory_database_path = None
+    github_adadvisory_database_path = 'advisory_database'
 
 
 def main(argv):

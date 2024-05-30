@@ -43,8 +43,8 @@ RUN python3.12 get-pip.py
 RUN apt -y autoremove
 
 # Use this to make docker image smaller
-RUN apt-get clean autoclean && \
- rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# RUN apt-get clean autoclean && \
+#  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Add user so we don't need --no-sandbox.
 RUN groupadd --system sitespeedio && \

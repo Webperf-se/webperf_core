@@ -116,3 +116,66 @@ Finished: 2024-05-19 15:00:48
 - The Sitemap is good. ( 4.75 rating )
 - security.txt seems to work. ( 5.00 rating )
 ```
+
+
+Run ALL test except tests `17` and `20` with review, show all reviews against one specific url ([https://webperf.se/](https://webperf.se/)):
+`python default.py -r -t -17,-20 -u https://webperf.se/`
+
+```shell
+###############################################
+# Testing website https://webperf.se/
+
+## Test: 1 - Performance (Google Lighthouse)
+
+Started: 2024-05-25 22:18:52
+Finished: 2024-05-25 22:19:25
+
+### Rating:
+- Overall: 3.5
+- Performance: 4.24
+- Standards: 5.0
+
+### Review:
+
+#### Overall:
+- About average speed.
+#### Performance:
+- Total Blocking Time: 510 ms ( 2.85 rating )
+- Cumulative Layout Shift: 0.244 ( 2.55 rating )
+- Largest Contentful Paint: 2.6 s ( 4.40 rating )
+- First Contentful Paint: 2.0 s ( 4.20 rating )
+- Minimize main-thread work ( 1.00 rating )
+- Largest Contentful Paint element ( 1.00 rating )
+- Avoid large layout shifts ( 1.00 rating )
+- Eliminate render-blocking resources ( 1.00 rating )
+- Avoid an excessive DOM size ( 1.00 rating )
+- Max Potential First Input Delay: 260 ms ( 2.30 rating )
+- Ensure text remains visible during webfont load:  ( 2.50 rating )
+- Image elements do not have explicit `width` and `height`:  ( 2.50 rating )
+- Serve static assets with an efficient cache policy: 1 resource found ( 2.50 rating )
+- Defer offscreen images: Potential savings of 23 KiB ( 2.50 rating )
+- Time to Interactive: 3.4 s ( 4.65 rating )
+- First Meaningful Paint: 2.0 s ( 4.75 rating )
+
+...
+
+## Test: 26 - Accessibility Statement
+
+Started: 2024-05-25 22:26:23
+Finished: 2024-05-25 22:26:52
+
+### Rating:
+- Overall: 3.0
+- A11y: 3.0
+
+### Review:
+
+#### Overall:
+- Accessibility statement: https://webperf.se/webbanalys/kap3/#om-statistik-och-vanliga-misstag
+- Missing or has an incorrect link to DIGG's report function ( 1.00 rating )
+- Link to the accessibility statement was found on a deeper link level than it should ( 3.00 rating )
+- Unable to find when the accessibility statement was updated ( 1.00 rating )
+#### A11y:
+- Self-indicates that website is not compliant with legal requirements ( 1.00 rating )
+
+```

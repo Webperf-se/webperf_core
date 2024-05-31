@@ -47,6 +47,16 @@ jobs:
           echo "Error: WebPerf-core help command is NOT returning expected content"
           exit 1
         fi
+    - name: Check if sitespeed lighthouse plugin
+      if: always()
+      run: |
+        help=$(docker run ${{ env.TEST_TAG }} node node_modules\sitespeed.io\bin\sitespeed.js --plugins.add ../../../@sitespeed.io/plugin-lighthouse/index.js https://webperf.se/ -n 1)
+        echo "$help"
+    - name: Check if sitespeed lighthouse plugin
+      if: always()
+      run: |
+        help=$(docker run ${{ env.TEST_TAG }} node node_modules/sitespeed.io/bin/sitespeed.js --plugins.add ../../../@sitespeed.io/plugin-lighthouse/index.js https://webperf.se/ -n 1)
+        echo "$help"
     - name: Check if webperf_core can run Test 1
       if: always()
       run: |

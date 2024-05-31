@@ -4,8 +4,8 @@ USER root
 
 ENV WEBPERF_RUNNER docker
 
-ENV PUPPETEER_SKIP_DOWNLOAD=true
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome
+#ENV PUPPETEER_SKIP_DOWNLOAD=true
+#ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome
 
 ENV PATH="/usr/local/bin:${PATH}"
 

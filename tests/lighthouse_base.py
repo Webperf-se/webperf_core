@@ -564,7 +564,11 @@ def get_json_result(lang_code, url, strategy, category):
         f"node node_modules{os.path.sep}lighthouse{os.path.sep}cli{os.path.sep}index.js"
         f" {check_url} --output json --output-path stdout --locale {lang_code}"
         f" --only-categories {category} --form-factor {strategy}"
-        " --chrome-flags=\"--headless\" --quiet")
+        " --chrome-flags=\"--headless=new\""
+        " --chrome-flags=\"--no-sandbox\""
+        " --chrome-flags=\"--ignore-certificate-errors\""
+        " --chrome-flags=\"--disable-dev-shm-usage\""
+        " --quiet")
 
     with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
         output, _ = process.communicate(timeout=get_config('general.request.timeout') * 10)

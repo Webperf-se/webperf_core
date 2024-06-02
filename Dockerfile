@@ -4,8 +4,8 @@ USER root
 
 ENV WEBPERF_RUNNER docker
 
-#ENV PUPPETEER_SKIP_DOWNLOAD=true
-#ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome
+ENV PUPPETEER_SKIP_DOWNLOAD=true
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/local/bin/google-chrome
 
 ENV PATH="/usr/local/bin:${PATH}"
 
@@ -13,6 +13,12 @@ ENV PATH="/usr/local/bin:${PATH}"
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV DEBIAN_FRONTEND noninteractive
+
+# Tell Puppeteer to skip installing Chrome. We'll be using the installed binary
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+# Tell phantomas where Chromium binary is and that we're in docker
+ENV PHANTOMAS_CHROMIUM_EXECUTABLE /usr/local/bin/google-chrome
+ENV DOCKERIZED yes
 
 RUN apt-get update &&\
     apt-get install -y --no-install-recommends curl gcc g++ gnupg unixodbc-dev openssl git default-jre default-jdk && \

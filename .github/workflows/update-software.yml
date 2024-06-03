@@ -55,7 +55,7 @@ jobs:
         sparse-checkout: |
           advisories
     - name: Verifing Software(s)
-      run: python update_software.py
+      run: python update_software.py -d ${{ secrets.GITHUB_TOKEN }}
     - name: Create pull request
       uses: peter-evans/create-pull-request@v6
       with:

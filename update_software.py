@@ -13,18 +13,19 @@ import packaging.version
 from tests.sitespeed_base import get_browsertime_har_path,\
     get_result_using_no_cache, get_sanitized_browsertime
 from tests.utils import get_http_content
-from helpers.setting_helper import get_config, update_config
+from helpers.setting_helper import get_config, set_runtime_config_only, update_config
+from utils import get_error_info
 
 USE_CACHE = get_config('general.cache.use')
 CACHE_TIME_DELTA = timedelta(minutes=get_config('general.cache.max-age'))
 CONFIG_WARNINGS = {}
 
 github_adadvisory_database_path = get_config(
-        'SOFTWARE_GITHUB_ADADVISORY_DATABASE_PATH')
+        'tests.software.advisory.path')
 # If software_github_adadvisory_database_path variable is not
 # set in config.py this will be the default
 if github_adadvisory_database_path == '':
-    github_adadvisory_database_path = None
+    github_adadvisory_database_path = 'advisory_database'
 
 
 def main(argv):
@@ -33,20 +34,28 @@ def main(argv):
     """
 
     try:
-        opts, _ = getopt.getopt(argv, "b", [
-                                   "browser"])
+        opts, _ = getopt.getopt(argv, "bd:", ["browser", "definitions="])
     except getopt.GetoptError:
+        print('Error in getopt.')
         print(main.__doc__)
         sys.exit(2)
 
-    if len(opts) == 0:
-        update_licenses()
-        update_software_info()
+    try:
+        for opt, arg in opts:
+            if opt in ('-b', '--browser'):  # get browser user-agent
+                update_user_agent()
+                sys.exit(0)
+            if opt in ('-d', '--definitions'):
+                set_runtime_config_only("github.api.key", arg)
+                update_licenses()
+                update_software_info()
+    except Exception as ex: # pylint: disable=broad-exception-caught
+        info = get_error_info('', 'en', -1, False, ex)
+        print('\n'.join(info).replace('\n\n','\n'))
 
-    for opt, arg in opts:
-        if opt in ('-b', '--browser'):  # get browser user-agent
-            update_user_agent()
-            sys.exit(0)
+        # write error to failure.log file
+        with open('failures.log', 'a', encoding='utf-8') as outfile:
+            outfile.writelines(info)
 
 def update_user_agent():
     sitespeed_use_docker = False
@@ -192,9 +201,19 @@ def update_software_info():
             if 'github-key' in item:
                 github_version_key = item['github-key']
 
-            if github_ower != None:
-                set_github_repository_info(item, github_ower, github_repo)
-                versions = get_github_versions(github_ower, github_repo, github_release_source, github_security, github_version_prefix, github_version_key)
+            if github_ower is not None:
+                set_github_repository_info(
+                    item,
+                    github_ower,
+                    github_repo)
+                versions = get_github_versions(
+                    github_ower,
+                    github_repo,
+                    github_release_source,
+                    github_security,
+                    github_version_prefix,
+                    github_version_key)
+
         elif is_source_wordpress:
             set_wordpress_plugin_repository_info(item, key)
 
@@ -213,7 +232,7 @@ def update_software_info():
             versions = get_php_versions()
             versions = extend_versions_for_php(versions)
         elif key == 'windows-server':
-                versions = get_windows_versions()
+            versions = get_windows_versions()
         elif key == 'nginx':
             versions = extend_versions_for_nginx(versions)
         elif key == 'openssl':
@@ -230,7 +249,7 @@ def update_software_info():
 
     print('Following wordpress plugins could not be found:')
     for key in plugins_to_remove:
-        print('\t- {0}'.format(key))
+        print(f'\t- {key}')
         del collection['softwares'][key]
 
     set_softwares('software-full.json', collection)
@@ -268,7 +287,9 @@ def update_licenses():
             regex, content, re.MULTILINE)
         for matchNum, match_vulnerable in enumerate(matches, start=1):
             match_content = match_vulnerable.group('licenses')
-            content_rule['match'] = content_rule['match'].replace(match_content, '?P<license>({0})'.format('|'.join(licenses)))
+            content_rule['match'] = content_rule['match'].replace(
+                match_content,
+                '?P<license>({0})'.format('|'.join(licenses)))
 
     save_software_rules(rules)
 
@@ -602,7 +623,12 @@ def extend_versions_from_github_advisory_database(software_name, versions):
         print('extend_versions[github]', software_name, 'checking for matching CVE')
         # https://github.com/github/advisory-database
 
-        if github_adadvisory_database_path == None:
+        if len(versions) == 0:
+            print('input versions:', versions)
+            return versions
+
+        if github_adadvisory_database_path is None:
+            print('github_adadvisory_database_path is None')
             return versions
 
         root_path = os.path.join(
@@ -616,24 +642,25 @@ def extend_versions_from_github_advisory_database(software_name, versions):
                 keys = os.listdir(month_path)
                 for key in keys:
                     key_path = os.path.join(
-                        year_path, month, key, '{0}.json'.format(key))
+                        year_path, month, key, f'{key}.json')
                     json_data = None
                     # Sanity check to make sure file exists
                     if not os.path.exists(key_path):
+                        print(f'\t\t\t- {key_path} not found')
                         continue
 
                     with open(key_path, 'r', encoding='utf-8') as file:
                         json_data = json.load(file)
-                    if json_data == None:
+                    if json_data is None:
                         continue
 
                     if 'schema_version' not in json_data:
                         print('ERROR: NO schema version!')
-                        continue
+                        return versions
                     elif json_data['schema_version'] != '1.4.0' and json_data['schema_version'] != '1.3.0':
                         print('ERROR: Unsupported schema version! Assumed 1.3.0 or 1.4.0 but got {0}'.format(
                             json_data['schema_version']))
-                        continue
+                        return versions
 
                     if 'affected' not in json_data:
                         continue
@@ -649,7 +676,7 @@ def extend_versions_from_github_advisory_database(software_name, versions):
                         if 'npm' == ecosystem:
                             is_matching = False
                             has_cve_name = False
-                            if software_name == affected['package']['name'] or '{0}.js'.format(software_name) == affected['package']['name']:
+                            if software_name == affected['package']['name'] or f'{software_name}.js' == affected['package']['name']:
                                 cve_info = {}
 
                                 nof_aliases = len(json_data['aliases'])
@@ -659,8 +686,7 @@ def extend_versions_from_github_advisory_database(software_name, versions):
                                     if nof_aliases > 1:
                                         cve_info['aliases'] = json_data['aliases']
                                 else:
-                                    cve_info['name'] = '{0} vulnerability'.format(
-                                        affected['package']['name'])
+                                    cve_info['name'] = f"{affected['package']['name']} vulnerability"
 
                                 start_version = None
                                 end_version = None
@@ -683,15 +709,15 @@ def extend_versions_from_github_advisory_database(software_name, versions):
                                 for version in versions.keys():
                                     print('extend_versions[github]', software_name, version)
                                     # TODO: We should handle exception better here if version(s) is not valid format
-                                    if start_version != None and version != None:
+                                    if start_version is not None and version is not None:
                                         lversion = packaging.version.Version(version)
                                         lstart_version = packaging.version.Version(
                                             start_version)
-                                        if end_version != None and end_version != '':
+                                        if end_version is not None and end_version != '':
                                             lend_version = packaging.version.Version(end_version)
                                             if lversion >= lstart_version and lversion < lend_version:
                                                 is_matching = True
-                                        elif last_affected_version != None and last_affected_version != '':
+                                        elif last_affected_version is not None and last_affected_version != '':
                                             l_last_affected_version = packaging.version.Version(
                                                 last_affected_version)
                                             if lversion >= lstart_version and lversion <= l_last_affected_version:
@@ -952,18 +978,18 @@ def get_github_versions(owner, repo, source, security_label, version_prefix, nam
     for version in version_info:
         if source == 'milestones':
             id_key = 'number'
-            if name_key == None:
+            if name_key is None:
                 name_key = 'title'
             date_key = 'closed_at'
         elif source == 'tags':
             id_key = None
-            if name_key == None:
+            if name_key is None:
                 name_key = 'name'
             date_key = None
         else:
             id_key = 'id'
             # we uses tag_name instead of name as bootstrap is missing "name" for some releases
-            if name_key == None:
+            if name_key is None:
                 name_key = 'tag_name'
             date_key = 'published_at'
 

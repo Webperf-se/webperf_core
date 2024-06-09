@@ -304,6 +304,14 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
         self.output_filename = arg
 
     def save_setting(self, arg):
+        """
+        Specifies what filename to use when saving currently used settings to file.
+        Args:
+            arg (str): The setting filename to be used when saving settings.
+
+        Returns:
+            None
+        """
         self.setting_filename = arg
 
     def set_test_types(self, arg):
@@ -368,6 +376,8 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
         if len(input_filename) > 7:
             file_long_ending = input_filename[-7:].lower()
 
+        add_site = None
+        delete_site = None
         if file_long_ending == ".sqlite":
             read_sites = sqlite_read_sites
             add_site = sqlite_add_site

@@ -5,8 +5,7 @@ import time
 from datetime import datetime, timedelta
 import subprocess
 from models import Rating
-from tests.utils import get_http_content,\
-                        is_file_older_than,\
+from tests.utils import is_file_older_than,\
                         get_cache_path_for_rule,\
                         get_translation
 from helpers.setting_helper import get_config

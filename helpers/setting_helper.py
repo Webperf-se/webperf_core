@@ -53,6 +53,9 @@ config_mapping = {
         "css_review_group_errors",
         "CSS_REVIEW_GROUP_ERRORS"): "bool|tests.css.group",
     (
+        "disable-sandbox",
+        "tests.lighthouse.disable-sandbox"): "bool|tests.lighthouse.disable-sandbox",
+    (
         "sitespeeddocker",
         "tests.sitespeed.docker.use",
         "sitespeed_use_docker",
@@ -181,6 +184,40 @@ def set_runtime_config_only(name, value):
     name = name.lower()
     config[name] = value
 
+def set_config(module_name):
+    base_directory = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep).parent
+
+    file_path = f'{base_directory}{os.path.sep}{module_name}'
+
+    module_config = {}
+    for config_name, config_value in config.items():
+        config_path = config_name.split('.')
+        config_path_length = len(config_path) - 1
+
+        config_section = module_config
+        config_section_index = 0
+        for section_name in config_path:
+            if section_name in config_section:
+                tmp_config_section = config_section[section_name]
+                if config_section_index == config_path_length:
+                    config_section[section_name] = config_value
+                    # break
+                config_section = tmp_config_section
+            else:
+                if config_section_index == config_path_length:
+                    tmp_config_section = config_section[section_name] = config_value
+                else:
+                    tmp_config_section = config_section[section_name] = {}
+                    # break
+                config_section = tmp_config_section
+            config_section_index += 1
+
+
+    with open(file_path, 'w', encoding='utf-8') as outfile:
+        json.dump(module_config, outfile, indent=4)
+
+
 def update_config_for_module(config_name, config_value, module_name):
     """
     Updates the configuration for a specific module in a JSON file.
@@ -285,7 +322,7 @@ def set_config_from_cmd(arg):
     value_type_handlers = {
         "bool": handle_cmd_bool_value,
         "int": handle_cmd_int_value,
-        "str": handle_cmd_str_value,
+        "string": handle_cmd_str_value,
     }
     for value_type, handler in value_type_handlers.items():
         if config_name_type in value_type:

@@ -23,7 +23,7 @@ from engines.json_engine import read_sites as json_read_sites,\
 from engines.gov import write_tests as gov_write_tests
 from engines.sql import write_tests as sql_write_tests
 from engines.markdown_engine import write_tests as markdown_write_tests
-from helpers.setting_helper import config_mapping, set_config_from_cmd
+from helpers.setting_helper import config_mapping, set_config, set_config_from_cmd
 from tests.utils import clean_cache_files
 from utils import TEST_FUNCS, TEST_ALL, restart_failures_log, test_sites
 
@@ -159,6 +159,7 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
     sites = []
     output_filename = ''
     input_filename = ''
+    setting_filename = ''
     input_skip = 0
     input_take = -1
     show_reviews = False
@@ -301,6 +302,9 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             None
         """
         self.output_filename = arg
+
+    def save_setting(self, arg):
+        self.setting_filename = arg
 
     def set_test_types(self, arg):
         """
@@ -463,7 +467,8 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             ("--it", "--input-take"): self.set_input_take,
             ("-o", "--output"): self.set_output_filename,
             ("-r", "--review", "--report"): self.enable_reviews,
-            ("-s", "--setting"): self.set_setting
+            ("-s", "--setting"): self.set_setting,
+            ("-ss", "--save-setting"): self.save_setting
         }
 
         for options, handler in option_handlers.items():
@@ -491,6 +496,7 @@ def main(argv):
     -L/--language <lang code>\t: language used for output(en = default/sv)
     --setting <key>=<value>\t: override configuration for current run
                                   (use ? to list available settings)
+    --save-setting <file path>\t: file path to configuration
     """
 
     options = CommandLineOptions()
@@ -501,7 +507,7 @@ def main(argv):
                                    "help", "url=", "test=", "input=", "output=",
                                    "review", "report", "addUrl=", "deleteUrl=",
                                    "language=", "input-skip=", "input-take=",
-                                   "is=", "it=", "setting="])
+                                   "is=", "it=", "setting=", "save-setting="])
     except getopt.GetoptError:
         print(main.__doc__)
         sys.exit(2)
@@ -518,6 +524,9 @@ def main(argv):
             options.input_filename,
             options.input_skip,
             options.input_take)
+
+    if options.setting_filename != '':
+        set_config(options.setting_filename)
 
     if options.add_url != '' and options.add_site is not None:
         # check if website url should be added

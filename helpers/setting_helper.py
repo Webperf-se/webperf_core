@@ -185,6 +185,19 @@ def set_runtime_config_only(name, value):
     config[name] = value
 
 def set_config(module_name):
+    """
+    Sets the configuration for a given module.
+
+    This function reads the global config variable, and writes a JSON file with the configuration
+    specific to the provided module. The configuration is written to a file named after the module,
+    located in the parent directory of this script.
+
+    Args:
+        module_name (str): The name of the module for which the configuration is to be set.
+
+    Returns:
+        None
+    """
     base_directory = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent
 

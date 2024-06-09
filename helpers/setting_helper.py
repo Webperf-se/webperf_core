@@ -202,17 +202,14 @@ def set_config(module_name):
                 tmp_config_section = config_section[section_name]
                 if config_section_index == config_path_length:
                     config_section[section_name] = config_value
-                    # break
                 config_section = tmp_config_section
             else:
                 if config_section_index == config_path_length:
                     tmp_config_section = config_section[section_name] = config_value
                 else:
                     tmp_config_section = config_section[section_name] = {}
-                    # break
                 config_section = tmp_config_section
             config_section_index += 1
-
 
     with open(file_path, 'w', encoding='utf-8') as outfile:
         json.dump(module_config, outfile, indent=4)

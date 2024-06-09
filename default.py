@@ -519,14 +519,17 @@ def main(argv):
     for opt, arg in opts:
         options.handle_option(opt, arg)
 
+    show_help = True
     if options.input_filename != '':
         options.sites = options.read_sites(
             options.input_filename,
             options.input_skip,
             options.input_take)
+        show_help = False
 
     if options.setting_filename != '':
         set_config(options.setting_filename)
+        show_help = False
 
     if options.add_url != '' and options.add_site is not None:
         # check if website url should be added
@@ -554,7 +557,7 @@ def main(argv):
         write_test_results(options.sites, options.output_filename, test_results, options.language)
             # Cleanup exipred cache
         clean_cache_files()
-    else:
+    elif show_help:
         print(options.language('TEXT_COMMAND_USAGE'))
 
 if __name__ == '__main__':

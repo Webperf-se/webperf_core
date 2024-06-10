@@ -8,7 +8,7 @@ selenium==4.21.0
 IP2Location==8.10.2
 docker==7.0.0
 Pillow==10.3.0
-OpenCV-Python==4.9.0.80
+OpenCV-Python==4.10.0.82
 Numpy==1.26.4
 cryptography==42.0.8
 pylint==3.2.3

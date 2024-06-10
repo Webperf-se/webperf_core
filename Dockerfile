@@ -75,6 +75,8 @@ RUN python3.12 -m pip install -r requirements.txt --break-system-packages && \
     python3.12 -m pip install --upgrade setuptools --break-system-packages && \
     python3.12 -m pip install pyssim Pillow image --break-system-packages
 
+RUN python3.12 default.py --setting tests.lighthouse.disable-sandbox=true --save-setting settings.json
+
 ENTRYPOINT []
 
 CMD ["python3.12", "default.py -h"]

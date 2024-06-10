@@ -23,7 +23,7 @@ from engines.json_engine import read_sites as json_read_sites,\
 from engines.gov import write_tests as gov_write_tests
 from engines.sql import write_tests as sql_write_tests
 from engines.markdown_engine import write_tests as markdown_write_tests
-from helpers.setting_helper import config_mapping, set_config_from_cmd
+from helpers.setting_helper import config_mapping, set_config, set_config_from_cmd
 from tests.utils import clean_cache_files
 from utils import TEST_FUNCS, TEST_ALL, restart_failures_log, test_sites
 
@@ -49,10 +49,22 @@ def validate_test_type(tmp_test_types):
     """
     test_types = []
 
+    remove_tests = []
     valid_tests = TEST_FUNCS.keys()
     for test_type in tmp_test_types:
         if test_type in valid_tests:
             test_types.append(test_type)
+            continue
+        if test_type < 0:
+            test_type = abs(test_type)
+            remove_tests.append(test_type)
+
+    if len(test_types) == 0:
+        test_types = list(valid_tests)
+
+    for test_type in remove_tests:
+        if test_type in valid_tests:
+            test_types.remove(test_type)
 
     return test_types
 
@@ -147,6 +159,7 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
     sites = []
     output_filename = ''
     input_filename = ''
+    setting_filename = ''
     input_skip = 0
     input_take = -1
     show_reviews = False
@@ -290,6 +303,17 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
         """
         self.output_filename = arg
 
+    def save_setting(self, arg):
+        """
+        Specifies what filename to use when saving currently used settings to file.
+        Args:
+            arg (str): The setting filename to be used when saving settings.
+
+        Returns:
+            None
+        """
+        self.setting_filename = arg
+
     def set_test_types(self, arg):
         """
         Sets the test types for the instance based on the provided argument.
@@ -313,7 +337,6 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
 
         if len(self.test_types) == 0:
             show_test_help(self.language)
-            return
 
     def enable_reviews(self, _):
         """
@@ -353,6 +376,8 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
         if len(input_filename) > 7:
             file_long_ending = input_filename[-7:].lower()
 
+        add_site = None
+        delete_site = None
         if file_long_ending == ".sqlite":
             read_sites = sqlite_read_sites
             add_site = sqlite_add_site
@@ -452,7 +477,8 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             ("--it", "--input-take"): self.set_input_take,
             ("-o", "--output"): self.set_output_filename,
             ("-r", "--review", "--report"): self.enable_reviews,
-            ("-s", "--setting"): self.set_setting
+            ("-s", "--setting"): self.set_setting,
+            ("-ss", "--save-setting"): self.save_setting
         }
 
         for options, handler in option_handlers.items():
@@ -480,6 +506,7 @@ def main(argv):
     -L/--language <lang code>\t: language used for output(en = default/sv)
     --setting <key>=<value>\t: override configuration for current run
                                   (use ? to list available settings)
+    --save-setting <file path>\t: file path to configuration
     """
 
     options = CommandLineOptions()
@@ -490,7 +517,7 @@ def main(argv):
                                    "help", "url=", "test=", "input=", "output=",
                                    "review", "report", "addUrl=", "deleteUrl=",
                                    "language=", "input-skip=", "input-take=",
-                                   "is=", "it=", "setting="])
+                                   "is=", "it=", "setting=", "save-setting="])
     except getopt.GetoptError:
         print(main.__doc__)
         sys.exit(2)
@@ -502,11 +529,17 @@ def main(argv):
     for opt, arg in opts:
         options.handle_option(opt, arg)
 
+    show_help = True
     if options.input_filename != '':
         options.sites = options.read_sites(
             options.input_filename,
             options.input_skip,
             options.input_take)
+        show_help = False
+
+    if options.setting_filename != '':
+        set_config(options.setting_filename)
+        show_help = False
 
     if options.add_url != '' and options.add_site is not None:
         # check if website url should be added
@@ -534,7 +567,7 @@ def main(argv):
         write_test_results(options.sites, options.output_filename, test_results, options.language)
             # Cleanup exipred cache
         clean_cache_files()
-    else:
+    elif show_help:
         print(options.language('TEXT_COMMAND_USAGE'))
 
 if __name__ == '__main__':

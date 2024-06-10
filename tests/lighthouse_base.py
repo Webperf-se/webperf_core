@@ -5,8 +5,7 @@ import time
 from datetime import datetime, timedelta
 import subprocess
 from models import Rating
-from tests.utils import get_http_content,\
-                        is_file_older_than,\
+from tests.utils import is_file_older_than,\
                         get_cache_path_for_rule,\
                         get_translation
 from helpers.setting_helper import get_config
@@ -445,36 +444,6 @@ def str_to_json(content, url):
 
     return json_content
 
-def get_json_result_from_api(lang_code, url, category, google_pagespeed_apikey):
-    """
-    Retrieves the JSON result of a Lighthouse audit for
-    a specific URL using the Google Pagespeed API.
-
-    This function sends a request to the Google Pagespeed API to
-    perform the audit and returns the JSON result.
-
-    Parameters:
-    lang_code (str): The locale to use for the audit.
-    url (str): The URL to audit.
-    category (str): The category of audits to perform
-        (e.g., 'performance' or 'accessibility').
-    google_pagespeed_apikey (str): The API key for the Google Pagespeed API.
-
-    Returns:
-    dict: The JSON result of the audit.
-    """
-    pagespeed_api_request = (
-        'https://www.googleapis.com/pagespeedonline/v5/runPagespeed'
-        f'?locale={lang_code}'
-        f'&category={category}'
-        f'&url={url}'
-        f'&key={google_pagespeed_apikey}')
-    get_content = ''
-
-    get_content = get_http_content(pagespeed_api_request)
-    json_content = str_to_json(get_content, url)
-    return json_content
-
 def get_json_result_using_caching(lang_code, url, strategy):
     """
     Retrieves the JSON result of a Lighthouse audit for a URL using caching.
@@ -565,6 +534,12 @@ def get_json_result(lang_code, url, strategy, category):
         f" {check_url} --output json --output-path stdout --locale {lang_code}"
         f" --only-categories {category} --form-factor {strategy}"
         " --chrome-flags=\"--headless\" --quiet")
+
+    if get_config('tests.lighthouse.disable-sandbox'):
+        command += (
+            " --chrome-flags=\"--no-sandbox\""
+            )
+
 
     with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
         output, _ = process.communicate(timeout=get_config('general.request.timeout') * 10)

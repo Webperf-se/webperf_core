@@ -108,6 +108,11 @@ Tells email test if it should do a operation over ipv6 also in email test (GitHu
 
 Tells HTTP test to ignore everything except the CSP subtest in the HTTP test (great if you run it against sitemap to get CSP recommendation)
 
+### tests.lighthouse.disable-sandbox `(Default = false)`
+
+This variable tells lighthouse based test(s) to disable chrome sandbox or not.
+This is needed when using it in our docker image (IF not used in interactive mode).
+
 ### tests.sitespeed.docker.use `(Default = false)`
 
 This variable tells sitespeed based test(s) to use docker image version instead of NPM version.

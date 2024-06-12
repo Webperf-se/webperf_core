@@ -38,6 +38,10 @@ This section indicate the settings affects many test.
 Address to nameserver used for DNS lookups.
 Good if you for example have your own nameserver internally.
 
+### general.language `(Default = en)`
+
+This variable is used to specify what language to use both in terminal and reviews.
+
 ### general.request.timeout `(Default = 60)`
 
 This variable is used as request timeout where a single request is only needed and not a full browser simulation.

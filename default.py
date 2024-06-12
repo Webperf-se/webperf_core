@@ -23,7 +23,7 @@ from engines.json_engine import read_sites as json_read_sites,\
 from engines.gov import write_tests as gov_write_tests
 from engines.sql import write_tests as sql_write_tests
 from engines.markdown_engine import write_tests as markdown_write_tests
-from helpers.setting_helper import config_mapping, set_config, set_config_from_cmd
+from helpers.setting_helper import config_mapping, get_config, set_config, set_config_from_cmd
 from tests.utils import clean_cache_files
 from utils import TEST_FUNCS, TEST_ALL, restart_failures_log, test_sites
 
@@ -164,7 +164,6 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
     input_take = -1
     add_url = ''
     delete_url = ''
-    lang_code = 'en'
     language = False
 
     read_sites = None
@@ -172,7 +171,7 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
     delete_site = None
 
     def __init__(self):
-        self.lang_code = 'en'
+        self.language = False
 
     def show_help(self, _):
         """
@@ -288,6 +287,8 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
         """
         if not set_config_from_cmd(arg):
             self.show_available_settings()
+        else:
+            self.load_language(get_config('general.language'))
 
     def set_output_filename(self, arg):
         """
@@ -437,10 +438,10 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
                 available_languages.append(locale_name)
 
                 if locale_name == arg:
-                    self.lang_code = arg
+                    set_config_from_cmd(f"general.language={arg}")
                     found_lang = True
 
-                    self.load_language(self.lang_code)
+                    self.load_language(arg)
 
         if not found_lang:
                     # Not translateable
@@ -509,7 +510,7 @@ def main(argv):
     """
 
     options = CommandLineOptions()
-    options.load_language(options.lang_code)
+    options.load_language(get_config('general.language'))
 
     try:
         opts, _ = getopt.getopt(argv, "hu:t:i:o:rA:D:L:s:", [
@@ -558,7 +559,6 @@ def main(argv):
         restart_failures_log()
         # run test(s) for every website
         test_results = test_sites(options.language,
-                                        options.lang_code,
                                         options.sites,
                                         test_types=options.test_types)
 

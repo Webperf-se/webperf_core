@@ -13,7 +13,7 @@ DIGG_URL = 'https://www.digg.se/tdosanmalan'
 checked_urls = {}
 canonical = 'https://www.digg.se/tdosanmalan' # pylint: disable=invalid-name
 
-def run_test(global_translation, lang_code, url):
+def run_test(global_translation, url):
     """
     Runs a test on a given URL and returns the rating and a dictionary.
 
@@ -23,13 +23,15 @@ def run_test(global_translation, lang_code, url):
 
     Parameters:
     global_translation (function): A function that provides global translation.
-    lang_code (str): The language code to be used for local translation.
     url (str): The URL to be tested.
 
     Returns:
     tuple: A tuple containing the rating (an instance of the Rating class) and a dictionary.
     """
-    local_translation = get_translation('a11y_statement', lang_code)
+    local_translation = get_translation(
+            'a11y_statement',
+            get_config('general.language')
+        )
 
     print(local_translation('TEXT_RUNNING_TEST'))
 

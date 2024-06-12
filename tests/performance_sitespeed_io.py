@@ -50,7 +50,7 @@ def get_result(arg):
     return result
 
 
-def run_test(global_translation, lang_code, url):
+def run_test(global_translation, url):
     """
     Checking an URL against Sitespeed.io (Docker version). 
     For installation, check out:
@@ -58,7 +58,10 @@ def run_test(global_translation, lang_code, url):
     - https://www.sitespeed.io
     """
 
-    local_translation = get_translation('performance_sitespeed_io', lang_code)
+    local_translation = get_translation(
+            'performance_sitespeed_io',
+            get_config('general.language')
+        )
 
     print(local_translation('TEXT_RUNNING_TEST'))
 

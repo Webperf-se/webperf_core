@@ -17,7 +17,7 @@ KNOWN_EXTENSIONS = ['bmp', 'css', 'doc', 'docx', 'dot', 'eot', 'exe', 'git',
                     'txt', 'unknown-in-download', 'webp', 'wmv', 'xls', 'xlsx', 'xml', 'zip']
 
 
-def run_test(global_translation, lang_code, url):
+def run_test(global_translation, url):
     """
     Looking for:
     * robots.txt
@@ -25,7 +25,7 @@ def run_test(global_translation, lang_code, url):
     * a RSS feed mentioned in the page's meta
     """
 
-    local_translation = get_translation('standard_files', lang_code)
+    local_translation = get_translation('standard_files', get_config('general.language'))
 
     print(local_translation('TEXT_RUNNING_TEST'))
 

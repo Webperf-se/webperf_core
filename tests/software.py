@@ -1604,7 +1604,7 @@ def get_rules():
         rules = json.load(json_rules_file)
     return rules
 
-def run_test(global_translation, lang_code, url):
+def run_test(global_translation, url):
     """
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
@@ -1612,7 +1612,10 @@ def run_test(global_translation, lang_code, url):
     result_dict = {}
     rating = Rating(global_translation, get_config('general.review.improve-only'))
 
-    local_translation = get_translation('software', lang_code)
+    local_translation = get_translation(
+            'software',
+            get_config('general.language')
+        )
 
     print(local_translation('TEXT_RUNNING_TEST'))
 

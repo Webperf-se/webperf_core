@@ -6,6 +6,7 @@ from pathlib import Path
 config = {}
 
 config_mapping = {
+    ("language", "general.language"): "string|general.language",
     ("useragent", "general.useragent", "USERAGENT"): "string|general.useragent",
     (
         "review",

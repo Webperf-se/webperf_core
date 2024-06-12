@@ -532,7 +532,7 @@ def get_base_os_from_dockerfile(docker_content):
         str: The 'FROM' instruction string if found, else None.
     """
     docker_from = None
-    regex = r'^(?P<from>FROM sitespeedio\/webbrowsers:[^\n\r]+)'
+    regex = r'^(?P<from>FROM sitespeedio\/sitespeed\.io:[^\n\r]+)'
     matches = re.finditer(
         regex, docker_content, re.MULTILINE)
     for _, match_range in enumerate(matches, start=1):
@@ -583,11 +583,9 @@ def handle_update_docker():
         return False
 
     our_docker_content = get_file_content(our_docker_filepath)
-    sitespeed_docker_content = get_http_content(
-        f'https://raw.githubusercontent.com/sitespeedio/sitespeed.io/v{version}/Dockerfile')
 
     our_from_os = get_base_os_from_dockerfile(our_docker_content)
-    sitespeed_from_os = get_base_os_from_dockerfile(sitespeed_docker_content)
+    sitespeed_from_os = f'FROM sitespeedio/sitespeed.io:{version}'
 
     print('Our Dockerfile:', our_from_os)
     print(f'Sitespeed.io Dockerfile v{version}:', sitespeed_from_os)

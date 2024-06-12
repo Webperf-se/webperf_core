@@ -1,9 +1,11 @@
-FROM sitespeedio/webbrowsers:chrome-125.0-firefox-126.0-edge-124.0
+FROM sitespeedio/sitespeed.io:34.1.1
+
+USER root
 
 ENV WEBPERF_RUNNER docker
 
 ENV PUPPETEER_SKIP_DOWNLOAD=true
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome
 
 ENV PATH="/usr/local/bin:${PATH}"
 
@@ -41,26 +43,32 @@ RUN python3.12 get-pip.py
 RUN apt -y autoremove
 
 # Add user so we don't need --no-sandbox.
-RUN groupadd --system pptruser && \
-    useradd --system --create-home --gid pptruser pptruser && \
-    mkdir --parents /usr/src/app
-RUN chown --recursive pptruser:pptruser /usr/src/app
+RUN groupadd --system sitespeedio && \
+    useradd --system --create-home --gid sitespeedio sitespeedio && \
+    mkdir --parents /usr/src/runner
+RUN chown --recursive sitespeedio:sitespeedio /usr/src/runner
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src/runner
 
 RUN echo 'ALL ALL=NOPASSWD: /usr/sbin/tc, /usr/sbin/route, /usr/sbin/ip' > /etc/sudoers.d/tc
 
 RUN npm install -g node-gyp puppeteer
 
 # If own settings.json exists it will overwrite the default
-COPY . /usr/src/app
+COPY . /usr/src/runner
 
-RUN chown --recursive pptruser:pptruser /usr/src/app
+RUN chown --recursive sitespeedio:sitespeedio /usr/src/runner
 
 # Run everything after as non-privileged user.
-USER pptruser
+USER sitespeedio
 
 RUN npm install
+
+WORKDIR /usr/src/runner/node_modules/sitespeed.io/
+
+RUN npm install
+
+WORKDIR /usr/src/runner
 
 RUN python3.12 -m pip install -r requirements.txt --break-system-packages && \
     python3.12 -m pip install --upgrade pip --break-system-packages && \
@@ -68,5 +76,7 @@ RUN python3.12 -m pip install -r requirements.txt --break-system-packages && \
     python3.12 -m pip install pyssim Pillow image --break-system-packages
 
 RUN python3.12 default.py --setting tests.lighthouse.disable-sandbox=true --save-setting settings.json
+
+ENTRYPOINT []
 
 CMD ["python3.12", "default.py -h"]

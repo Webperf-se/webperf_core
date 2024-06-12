@@ -201,7 +201,6 @@ def get_version():
             return package_info['version']
     return '?'
 
-
 def get_versions():
     """
     Retrieve version information from the 'package.json' file.

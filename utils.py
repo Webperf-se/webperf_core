@@ -201,28 +201,6 @@ def get_version():
             return package_info['version']
     return '?'
 
-def get_dependency_version(dependency_name):
-    """
-    Retrieves the version of a specified dependency from the 'package.json' file.
-
-    Args:
-        dependency_name (str): The name of the dependency.
-
-    Returns:
-        str: The version of the specified dependency, or 'latest' if not found.
-    """
-    with open('package.json', encoding='utf-8') as json_input_file:
-        package_info = json.load(json_input_file)
-
-        if 'dependencies' not in package_info:
-            return 'latest'
-
-        if dependency_name not in package_info['dependencies']:
-            return 'latest'
-
-        return package_info['dependencies'][dependency_name]
-
-
 def get_versions():
     """
     Retrieve version information from the 'package.json' file.

@@ -10,10 +10,9 @@ import shutil
 import urllib
 from urllib.parse import ParseResult, urlparse, urlunparse
 import uuid
-from tests.utils import is_file_older_than
+from tests.utils import get_dependency_version, is_file_older_than
 import engines.sitespeed_result as sitespeed_cache
 from helpers.setting_helper import get_config
-from utils import get_dependency_version
 
 def to_firefox_url_format(url):
     """

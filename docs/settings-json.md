@@ -48,6 +48,11 @@ Example in the following tests:
 - Standard Files (used against your website)
 - HTTP Test (used against your website)
 
+### general.review.show `(Default = false)`
+
+Setting this variable to true will result in showing review(s) in terminal.
+It is for example good when you want to run a fast test without using output file.
+
 ### general.review.details `(Default = false)`
 
 Setting this variable to true will result showing a more detailed review when available.

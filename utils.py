@@ -2,7 +2,7 @@
 import json
 from datetime import datetime
 import traceback
-from helpers.setting_helper import get_used_configuration
+from helpers.setting_helper import get_config, get_used_configuration
 from models import SiteTests
 from tests.page_not_found import run_test as run_test_page_not_found
 from tests.html_validator_w3c import run_test as run_test_html_validator_w3c
@@ -61,7 +61,7 @@ TEST_FUNCS = {
 
 CONFIG_WARNINGS = {}
 
-def test(global_translation, lang_code, site, test_type=None, show_reviews=False):
+def test(global_translation, lang_code, site, test_type=None):
     """
     This function runs a specific test on a website and returns the test results.
 
@@ -75,8 +75,6 @@ def test(global_translation, lang_code, site, test_type=None, show_reviews=False
     test_type : str, optional
         The type of test to be run. If the test type is not in the predefined test functions,
         the function will return an empty list.
-    show_reviews : bool, optional
-        A flag indicating whether to print the reviews of the website. The default is False.
 
     Returns:
     list
@@ -99,7 +97,7 @@ def test(global_translation, lang_code, site, test_type=None, show_reviews=False
             rating = the_test_result[0]
             reviews = rating.get_reviews()
             print(global_translation('TEXT_SITE_RATING'), rating)
-            if show_reviews:
+            if get_config('general.review.show'):
                 print(global_translation('TEXT_SITE_REVIEW'),
                       reviews)
 
@@ -125,7 +123,7 @@ def test(global_translation, lang_code, site, test_type=None, show_reviews=False
     except Exception as ex: # pylint: disable=broad-exception-caught
         print(global_translation('TEXT_TEST_END').format(
             datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
-        info = get_error_info(site[1], lang_code, test_type, show_reviews, ex)
+        info = get_error_info(site[1], lang_code, test_type, ex)
         print('\n'.join(info).replace('\n\n','\n'))
 
         # write error to failure.log file
@@ -142,7 +140,7 @@ def restart_failures_log():
     with open('failures.log', 'w', encoding='utf-8') as outfile:
         outfile.writelines('')
 
-def get_error_info(url, lang_code, test_type, show_reviews, ex):
+def get_error_info(url, lang_code, test_type, ex):
     """
     Generate error information for diagnostic purposes.
 
@@ -154,7 +152,6 @@ def get_error_info(url, lang_code, test_type, show_reviews, ex):
         url (str): The URL associated with the error.
         lang_code (str): The language code.
         test_type (str): The type of test being performed.
-        show_reviews (bool): Whether to display reviews.
         ex (Exception): The exception object.
 
     Returns:
@@ -171,7 +168,6 @@ def get_error_info(url, lang_code, test_type, show_reviews, ex):
         f'\nUrl: {url}',
         f'\nLanguage Code: {lang_code}',
         f'\nTest Type(s): {test_type}',
-        f'\nShow Reviews: {show_reviews}',
         '\n###############################################'
         '\n# Used Configuration:'
     ])
@@ -226,7 +222,7 @@ def get_versions():
             result.append("\n")
     return result
 
-def test_site(global_translation, lang_code, site, test_types=TEST_ALL, show_reviews=False):
+def test_site(global_translation, lang_code, site, test_types=TEST_ALL):
     """
     This function runs a series of tests on a website and returns a list of all the test results.
 
@@ -239,8 +235,6 @@ def test_site(global_translation, lang_code, site, test_types=TEST_ALL, show_rev
         A tuple containing the site ID and the website URL.
     test_types : list, optional
         A list of test types to be run. If not provided, all tests will be run.
-    show_reviews : bool, optional
-        A flag indicating whether to print the reviews of the website. The default is False.
 
     Returns:
     list
@@ -253,13 +247,12 @@ def test_site(global_translation, lang_code, site, test_types=TEST_ALL, show_rev
             tests.extend(test(global_translation,
                             lang_code,
                             site,
-                            test_type=test_id,
-                            show_reviews=show_reviews))
+                            test_type=test_id))
 
     return tests
 
 
-def test_sites(global_translation, lang_code, sites, test_types=TEST_ALL, show_reviews=False):
+def test_sites(global_translation, lang_code, sites, test_types=TEST_ALL):
     """
     This function runs a series of tests on multiple websites and
     returns a list of all the test results.
@@ -273,8 +266,6 @@ def test_sites(global_translation, lang_code, sites, test_types=TEST_ALL, show_r
         A list of tuples, each containing the site ID and the website URL.
     test_types : list, optional
         A list of test types to be run. If not provided, all tests will be run.
-    show_reviews : bool, optional
-        A flag indicating whether to print the reviews of the websites. The default is False.
 
     Returns:
     list
@@ -299,7 +290,7 @@ def test_sites(global_translation, lang_code, sites, test_types=TEST_ALL, show_r
         if has_more_then_one_site:
             print(global_translation('TEXT_WEBSITE_X_OF_Y').format(site_index + 1, nof_sites))
         results.extend(test_site(global_translation, lang_code, site,
-                                 test_types, show_reviews))
+                                 test_types))
 
         site_index += 1
 

@@ -7,7 +7,7 @@ from tests.utils import get_translation
 from helpers.setting_helper import get_config
 from models import Rating
 
-def run_test(global_translation, lang_code, url):
+def run_test(global_translation, url):
     """
     Runs an accessibility test on a given URL and returns the results and ratings.
 
@@ -17,13 +17,15 @@ def run_test(global_translation, lang_code, url):
 
     Parameters:
     global_translation (function): Function to translate text to a global language.
-    lang_code (str): The language code for the local translation.
     url (str): The URL to run the accessibility test on.
 
     Returns:
     tuple: A tuple containing the rating object and the results of the accessibility test.
     """
-    local_translation = get_translation('a11y_pa11y', lang_code)
+    local_translation = get_translation(
+            'a11y_pa11y',
+            get_config('general.language')
+        )
 
     print(local_translation('TEXT_RUNNING_TEST'))
 

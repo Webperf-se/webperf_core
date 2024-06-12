@@ -12,7 +12,7 @@ from helpers.setting_helper import get_config
 # DEFAULTS
 REGEX_ALLOWED_CHARS = r"[^\u00E5\u00E4\u00F6\u00C5\u00C4\u00D6a-zA-Zå-öÅ-Ö 0-9\-:\/]+"
 
-def run_test(global_translation, lang_code, url):
+def run_test(global_translation, url):
     """
     This function runs a webbkollen (privacy) test on a given URL and
     returns a rating and a dictionary.
@@ -24,7 +24,6 @@ def run_test(global_translation, lang_code, url):
 
     Parameters:
     global_translation (function): A function to translate text to a global language.
-    lang_code (str): The language code for the local translation.
     url (str): The URL to be tested.
 
     Returns:
@@ -36,7 +35,7 @@ def run_test(global_translation, lang_code, url):
     return_dict = {}
     rating = Rating(global_translation, get_config('general.review.improve-only'))
 
-    local_translation = get_translation('privacy_webbkollen', lang_code)
+    local_translation = get_translation('privacy_webbkollen', get_config('general.language'))
 
     print(local_translation('TEXT_RUNNING_TEST'))
 
@@ -44,7 +43,7 @@ def run_test(global_translation, lang_code, url):
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     # Get result from webbkollen website
-    html_content = get_html_content(url, lang_code, local_translation)
+    html_content = get_html_content(url, get_config('general.language'), local_translation)
     soup2 = BeautifulSoup(html_content, 'html.parser')
 
     results = soup2.find_all(class_="result")

@@ -39,7 +39,7 @@ def change_url_to_404_url(url):
     return url2
 
 
-def run_test(global_translation, lang_code, org_url):
+def run_test(global_translation, org_url):
     """
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
@@ -47,7 +47,7 @@ def run_test(global_translation, lang_code, org_url):
     rating = Rating(global_translation)
     result_dict = {}
 
-    local_translation = get_translation('page_not_found', lang_code)
+    local_translation = get_translation('page_not_found', get_config('general.language'))
 
     print(local_translation('TEXT_RUNNING_TEST'))
 

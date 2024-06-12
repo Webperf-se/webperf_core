@@ -7,13 +7,16 @@ from tests.utils import get_translation
 from helpers.setting_helper import get_config
 from models import Rating
 
-def run_test(global_translation, lang_code, url):
+def run_test(global_translation, url):
     """
     Analyzes URL with Yellow Lab Tools docker image.
     Devices might be; phone, tablet, desktop
     """
 
-    local_translation = get_translation('frontend_quality_yellow_lab_tools', lang_code)
+    local_translation = get_translation(
+            'frontend_quality_yellow_lab_tools',
+            get_config('general.language')
+        )
 
     rating = Rating(global_translation, get_config('general.review.improve-only'))
 

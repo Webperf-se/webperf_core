@@ -114,12 +114,15 @@ class SmtpWebperf(smtplib.SMTP): # pylint: disable=too-many-instance-attributes,
         return (code, msg)
 
 
-def run_test(global_translation, lang_code, url):
+def run_test(global_translation, url):
     """
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
 
-    local_translation = get_translation('email_validator', lang_code)
+    local_translation = get_translation(
+            'email_validator',
+            get_config('general.language')
+        )
 
     print(local_translation('TEXT_RUNNING_TEST'))
 

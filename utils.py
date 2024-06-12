@@ -61,15 +61,13 @@ TEST_FUNCS = {
 
 CONFIG_WARNINGS = {}
 
-def test(global_translation, lang_code, site, test_type=None):
+def test(global_translation, site, test_type=None):
     """
     This function runs a specific test on a website and returns the test results.
 
     Parameters:
     global_translation : GNUTranslations
         An object that handles the translation of text in the context of internationalization.
-    lang_code : str
-        The language code for the website to be tested.
     site : tuple
         A tuple containing the site ID and the website URL.
     test_type : str, optional
@@ -91,7 +89,7 @@ def test(global_translation, lang_code, site, test_type=None):
             return []
 
         run_test = TEST_FUNCS[test_type]
-        the_test_result = run_test(global_translation, lang_code, site[1])
+        the_test_result = run_test(global_translation, site[1])
 
         if the_test_result is not None:
             rating = the_test_result[0]
@@ -123,7 +121,7 @@ def test(global_translation, lang_code, site, test_type=None):
     except Exception as ex: # pylint: disable=broad-exception-caught
         print(global_translation('TEXT_TEST_END').format(
             datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
-        info = get_error_info(site[1], lang_code, test_type, ex)
+        info = get_error_info(site[1], test_type, ex)
         print('\n'.join(info).replace('\n\n','\n'))
 
         # write error to failure.log file
@@ -140,7 +138,7 @@ def restart_failures_log():
     with open('failures.log', 'w', encoding='utf-8') as outfile:
         outfile.writelines('')
 
-def get_error_info(url, lang_code, test_type, ex):
+def get_error_info(url, test_type, ex):
     """
     Generate error information for diagnostic purposes.
 
@@ -150,7 +148,6 @@ def get_error_info(url, lang_code, test_type, ex):
 
     Args:
         url (str): The URL associated with the error.
-        lang_code (str): The language code.
         test_type (str): The type of test being performed.
         ex (Exception): The exception object.
 
@@ -166,7 +163,6 @@ def get_error_info(url, lang_code, test_type, ex):
             datetime.now().strftime('%Y-%m-%d %H:%M:%S') \
         }",
         f'\nUrl: {url}',
-        f'\nLanguage Code: {lang_code}',
         f'\nTest Type(s): {test_type}',
         '\n###############################################'
         '\n# Used Configuration:'
@@ -222,15 +218,13 @@ def get_versions():
             result.append("\n")
     return result
 
-def test_site(global_translation, lang_code, site, test_types=TEST_ALL):
+def test_site(global_translation, site, test_types=TEST_ALL):
     """
     This function runs a series of tests on a website and returns a list of all the test results.
 
     Parameters:
     global_translation : GNUTranslations
         An object that handles the translation of text in the context of internationalization.
-    lang_code : str
-        The language code for the website to be tested.
     site : tuple
         A tuple containing the site ID and the website URL.
     test_types : list, optional
@@ -245,14 +239,13 @@ def test_site(global_translation, lang_code, site, test_types=TEST_ALL):
     for test_id in TEST_ALL:
         if test_id in test_types:
             tests.extend(test(global_translation,
-                            lang_code,
                             site,
                             test_type=test_id))
 
     return tests
 
 
-def test_sites(global_translation, lang_code, sites, test_types=TEST_ALL):
+def test_sites(global_translation, sites, test_types=TEST_ALL):
     """
     This function runs a series of tests on multiple websites and
     returns a list of all the test results.
@@ -260,8 +253,6 @@ def test_sites(global_translation, lang_code, sites, test_types=TEST_ALL):
     Parameters:
     global_translation : GNUTranslations
         An object that handles the translation of text in the context of internationalization.
-    lang_code : str
-        The language code for the websites to be tested.
     sites : list
         A list of tuples, each containing the site ID and the website URL.
     test_types : list, optional
@@ -289,7 +280,7 @@ def test_sites(global_translation, lang_code, sites, test_types=TEST_ALL):
         print(global_translation('TEXT_TESTING_SITE').format(website))
         if has_more_then_one_site:
             print(global_translation('TEXT_WEBSITE_X_OF_Y').format(site_index + 1, nof_sites))
-        results.extend(test_site(global_translation, lang_code, site,
+        results.extend(test_site(global_translation, site,
                                  test_types))
 
         site_index += 1

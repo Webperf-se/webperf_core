@@ -3,6 +3,7 @@
         "dns": {
             "address": "8.8.8.8"
         },
+        "language": "en",
         "request": {
             "timeout": 60
         },

@@ -22,7 +22,7 @@ from tests.sitespeed_base import get_result
 
 csp_only_global_result_dict = {}
 
-def run_test(global_translation, lang_code, url):
+def run_test(global_translation, url):
     """
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
@@ -31,7 +31,10 @@ def run_test(global_translation, lang_code, url):
 
     result_dict = {}
 
-    local_translation = get_translation('http_validator', lang_code)
+    local_translation = get_translation(
+            'http_validator',
+            get_config('general.language')
+        )
 
     if get_config('tests.http.csp-only'):
         print(local_translation('TEXT_RUNNING_TEST_CSP_ONLY'))

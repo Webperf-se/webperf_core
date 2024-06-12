@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
+from helpers.setting_helper import get_config
 from models import Rating
 from tests import energy_efficiency_carbon_percentiles
 import tests.energy_efficiency_carbon_percentiles2022 as energy_efficiency_carbon_percentiles_2022
@@ -133,12 +134,15 @@ def format_bytes(size):
     return size, power_labels[n]+'b'
 
 
-def run_test(global_translation, lang_code, url):
+def run_test(global_translation, url):
     """
     Analyzes URL with Lighthouse and uses weight to calculate co2 and rate compared to other sites.
     """
 
-    local_translation = get_translation('energy_efficiency_websitecarbon', lang_code)
+    local_translation = get_translation(
+            'energy_efficiency_websitecarbon',
+            get_config('general.language')
+        )
 
     print(local_translation("TEXT_RUNNING_TEST"))
 
@@ -146,7 +150,9 @@ def run_test(global_translation, lang_code, url):
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     result_dict = {}
-    transfer_bytes = get_total_bytes_for_url(global_translation, lang_code, url)
+    transfer_bytes = get_total_bytes_for_url(
+        global_translation,
+        url)
     if transfer_bytes is None:
         rating = Rating(global_translation)
         rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
@@ -202,23 +208,22 @@ def run_test(global_translation, lang_code, url):
 
     return (rating, result_dict)
 
-def get_total_bytes_for_url(global_translation, lang_code, url):
+def get_total_bytes_for_url(global_translation, url):
     """
     Runs a Lighthouse performance test on a given URL and returns the total byte weight of the page.
 
     This function is specifically designed to work with multilingual websites.
     It uses the 'global_translation'
-    and 'lang_code' parameters to handle the language-specific aspects of the website.
+    to handle the language-specific aspects of the website.
 
     Parameters:
     global_translation (dict): A dictionary containing language-specific translations.
-    lang_code (str): The language code for the specific language version of the website to test.
     url (str): The URL of the webpage to run the Lighthouse performance test on.
 
     Returns:
     int: The total byte weight of the webpage as determined by the Lighthouse performance test.
     """
-    lighthouse_perf_result = lighthouse_perf_run_test(global_translation, lang_code, url, True)
+    lighthouse_perf_result = lighthouse_perf_run_test(global_translation, url, True)
 
     if not lighthouse_perf_result[0].isused():
         return None

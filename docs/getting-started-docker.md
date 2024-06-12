@@ -4,9 +4,9 @@ You can build an image and put in your local registry that has everything instal
 
 It's based on the [image set up by Sitespeed.io](https://github.com/sitespeedio/sitespeed.io). Great work, thanks!
 
-By default, `defaults/config.py`, gets copied used and should have sensible defaults that work well inside container.
+By default, [defaults/settings.json](settings-json.md), gets copied used and should have sensible defaults that work well inside container.
 
-If you add your own `config.py` it will take precedence when building the image.
+If you add your own [settings.json](settings-json.md) it will take precedence when building the image.
 
 You might also want to acquire your own copy of `data/IP2LOCATION-LITE-DB1.IPV6.BIN` before building the image,
 it is required for GDPR related rating.
@@ -35,7 +35,7 @@ Lighthouse tests sometimes fail reporting NO_NAVSTART - retrying usually works. 
 
 You can base your own image on `webperfse/webperf-core` or your own local version of it. It can be convenient to have your repo or folder outside of the original repo.
 
-For example you can hold your own copies of `config.py` and `sites.json` in this separate folder.
+For example you can hold your own copies of [settings.json](settings-json.md) and `sites.json` in this separate folder.
 
 This can makes it easier to update and sync the original GitHub repository without having to re-apply your own changes.
 
@@ -44,7 +44,7 @@ Put a `Dockerfile` in the new folder. Content example:
 ```
 FROM webperfse/webperf-core:latest
 
-COPY config.py /usr/src/runner/config.py
+COPY settings.json /usr/src/runner/settings.json
 COPY sites.json /usr/src/runner/sites.json
 ```
 
@@ -61,6 +61,6 @@ Run it:
 docker run -it --cap-add=SYS_ADMIN --cpus=".9" --shm-size=3g --rm my-own-webperf-runner:latest bash
 ```
 
-Now you are at bash but with separate `config.py` and `sites.json` files _burnt into_ the image.
+Now you are at bash but with separate [settings.json](settings-json.md) and `sites.json` files _burnt into_ the image.
 
 If you have PowerShell I recommend you also copy the _*.ps1_-files from the _./docker_ folder and adjust them to fit the custom image.

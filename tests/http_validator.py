@@ -100,6 +100,7 @@ def rate(org_domain, result_dict, global_translation, local_translation):
         error_rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
         return error_rating
 
+    should_create_recommendation = get_config('general.review.details')
     for domain in result_dict.keys():
         if not isinstance(result_dict[domain], dict):
             continue
@@ -138,7 +139,7 @@ def rate(org_domain, result_dict, global_translation, local_translation):
             org_domain,
             org_www_domain,
             domain,
-            True)
+            should_create_recommendation)
 
     return rating
 

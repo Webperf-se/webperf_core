@@ -8,6 +8,7 @@ from datetime import datetime
 from models import Rating
 from tests.utils import get_translation
 from helpers.setting_helper import get_config
+from utils import get_dependency_version
 
 def get_result(arg):
     """
@@ -29,8 +30,9 @@ def get_result(arg):
             os.path.realpath(__file__)) + os.path.sep).parent
         data_dir = base_directory.resolve()
 
+        sitespeedio_version = get_dependency_version('sitespeed.io')
         command = (f"docker run --rm -v {data_dir}:/sitespeed.io "
-                   f"sitespeedio/sitespeed.io:latest {arg}")
+                   f"sitespeedio/sitespeed.io:{sitespeedio_version} {arg}")
 
         with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
             output, _ = process.communicate(

@@ -13,6 +13,7 @@ import uuid
 from tests.utils import is_file_older_than
 import engines.sitespeed_result as sitespeed_cache
 from helpers.setting_helper import get_config
+from utils import get_dependency_version
 
 def to_firefox_url_format(url):
     """
@@ -203,9 +204,10 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
                 os.path.realpath(__file__)) + os.path.sep).parent
             data_dir = base_directory.resolve()
 
+            sitespeedio_version = get_dependency_version('sitespeed.io')
             command = (
                 f"docker run --rm -v {data_dir}:/sitespeed.io "
-                f"sitespeedio/sitespeed.io:latest "
+                f"sitespeedio/sitespeed.io:{sitespeedio_version} "
                 f"--maxLoadTime {(timeout * 1000)} {arg}"
                 )
 

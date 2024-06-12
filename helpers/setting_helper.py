@@ -8,6 +8,9 @@ config = {}
 config_mapping = {
     ("useragent", "general.useragent", "USERAGENT"): "string|general.useragent",
     (
+        "review",
+        "general.review.show"): "bool|general.review.show",
+    (
         "details",
         "general.review.details",
         "use_detailed_report",

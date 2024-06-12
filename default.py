@@ -162,7 +162,6 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
     setting_filename = ''
     input_skip = 0
     input_take = -1
-    show_reviews = False
     add_url = ''
     delete_url = ''
     lang_code = 'en'
@@ -341,7 +340,7 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
     def enable_reviews(self, _):
         """
         Enables the display of reviews for the instance.
-        This function sets the `show_reviews` attribute of the instance to True,
+        This function sets the `general.review.show` to true,
         enabling the display of reviews.
 
         Args:
@@ -350,7 +349,7 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
         Returns:
             None
         """
-        self.show_reviews = True
+        self.set_setting('general.review.show=true')
 
     def set_input_handlers(self, input_filename):
         """
@@ -561,8 +560,7 @@ def main(argv):
         test_results = test_sites(options.language,
                                         options.lang_code,
                                         options.sites,
-                                        test_types=options.test_types,
-                                        show_reviews=options.show_reviews)
+                                        test_types=options.test_types)
 
         write_test_results(options.sites, options.output_filename, test_results, options.language)
             # Cleanup exipred cache

@@ -270,8 +270,16 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
         """
         print()
         print('Valid settings:')
-        for aliases in config_mapping:
-            print(f"--setting {aliases[1]}=<value> ( alias: {aliases[0]} )")
+        for aliases, value in config_mapping.items():
+            value_type = value.split('|', maxsplit=1)[0]
+            value_desc = 'value'
+            if 'bool' in value_type:
+                value_desc = 'true/false'
+            elif 'int' in value_type:
+                value_desc = 'number'
+            elif 'string' in value_type:
+                value_desc = 'string value'
+            print(f"--setting {aliases[1]}=<{value_desc}> ( alias: {aliases[0]} )")
         print()
 
     def set_setting(self, arg):

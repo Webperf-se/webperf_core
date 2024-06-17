@@ -1,7 +1,7 @@
 beautifulsoup4==4.12.3
 lxml==5.2.2
 requests==2.32.3
-urllib3==2.2.1
+urllib3==2.2.2
 dnspython==2.6.1
 certifi==2024.6.2
 selenium==4.21.0

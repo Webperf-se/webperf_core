@@ -12,7 +12,7 @@
   "dependencies": {
     "lighthouse": "12.0.0",
     "pa11y": "8.0.0",
-    "sitespeed.io": "34.1.1",
+    "sitespeed.io": "34.2.1",
     "vnu-jar": "23.4.11",
     "yellowlabtools": "3.0.1"
   },

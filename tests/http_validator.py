@@ -13,7 +13,7 @@ import dns.rdatatype
 from helpers.csp_helper import rate_csp
 from helpers.data_helper import append_domain_entry, has_domain_entry
 from helpers.sitespeed_helper import get_data_from_sitespeed
-from helpers.tls_helper import check_tls_versions, rate_transfer_layers
+from helpers.tls_helper import rate_transfer_layers
 from helpers.setting_helper import get_config
 from models import Rating
 from tests.utils import change_url_to_test_url, dns_lookup,\
@@ -65,7 +65,7 @@ def run_test(global_translation, url):
 
         result_dict = check_http_to_https(url)
 
-        result_dict = check_tls_versions(result_dict)
+        result_dict = check_tls_versions(url, result_dict)
 
         result_dict = check_ip_version(result_dict)
 
@@ -79,6 +79,118 @@ def run_test(global_translation, url):
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, result_dict)
+
+def check_tls_versions(url, result_dict):
+    """
+    Checks the TLS versions for all domains in the result dictionary.
+
+    Args:
+        url (str): The URL whose HTTP version support is to be checked.
+        result_dict (dict): The result dictionary where each key is a domain name and
+                            the value is another dictionary with details about the domain.
+
+    Returns:
+        dict: The updated result dictionary with the TLS version information for each domain.
+    """
+
+    o = urllib.parse.urlparse(url)
+    o_domain = o.hostname
+
+    if not contains_value_for_all(result_dict, 'transport-layers', 'TLSv1.3'):
+        browser = 'firefox'
+        configuration = (
+            ' --firefox.preference security.tls.version.min:4'
+            ' --firefox.preference security.tls.version.max:4')
+        url2 = change_url_to_test_url(url, 'TLSv1.3')
+        print('TLSv1.3')
+        tmp_result = get_website_support_from_sitespeed(
+                url2,
+                o_domain,
+                configuration,
+                browser,
+                get_config('tests.sitespeed.timeout'))
+        if 'visits' in tmp_result and tmp_result['visits'] > 0:
+            for domain, domain_categories in tmp_result.items():
+                if not isinstance(domain_categories, dict):
+                    continue
+                append_domain_entry(domain, 'transport-layers', 'TLSv1.3', tmp_result)
+        result_dict = merge_dicts(
+            tmp_result,
+            result_dict, True, True)
+
+    if not contains_value_for_all(result_dict, 'transport-layers', 'TLSv1.2'):
+        browser = 'firefox'
+        configuration = (
+            ' --firefox.preference security.tls.version.min:3'
+            ' --firefox.preference security.tls.version.max:3')
+        url2 = change_url_to_test_url(url, 'TLSv1.2')
+        print('TLSv1.2')
+        tmp_result = get_website_support_from_sitespeed(
+                url2,
+                o_domain,
+                configuration,
+                browser,
+                get_config('tests.sitespeed.timeout'))
+        if 'visits' in tmp_result and tmp_result['visits'] > 0:
+            for domain, domain_categories in tmp_result.items():
+                if not isinstance(domain_categories, dict):
+                    continue
+                append_domain_entry(domain, 'transport-layers', 'TLSv1.2', tmp_result)
+        result_dict = merge_dicts(
+            tmp_result,
+            result_dict, True, True)
+
+    if not contains_value_for_all(result_dict, 'transport-layers', 'TLSv1.1'):
+        browser = 'firefox'
+        configuration = (
+            ' --firefox.preference security.tls.version.min:2'
+            ' --firefox.preference security.tls.version.max:2')
+        url2 = change_url_to_test_url(url, 'TLSv1.1')
+        print('TLSv1.1')
+        tmp_result = get_website_support_from_sitespeed(
+                url2,
+                o_domain,
+                configuration,
+                browser,
+                get_config('tests.sitespeed.timeout'))
+        if 'visits' in tmp_result and tmp_result['visits'] > 0:
+            for domain, domain_categories in tmp_result.items():
+                if not isinstance(domain_categories, dict):
+                    continue
+                append_domain_entry(domain, 'transport-layers', 'TLSv1.1', tmp_result)
+        result_dict = merge_dicts(
+            tmp_result,
+            result_dict, True, True)
+
+    if not contains_value_for_all(result_dict, 'transport-layers', 'TLSv1.0'):
+        browser = 'firefox'
+        configuration = (
+            ' --firefox.preference security.tls.version.min:1'
+            ' --firefox.preference security.tls.version.max:1')
+        url2 = change_url_to_test_url(url, 'TLSv1.0')
+        print('TLSv1.0')
+        tmp_result = get_website_support_from_sitespeed(
+                url2,
+                o_domain,
+                configuration,
+                browser,
+                get_config('tests.sitespeed.timeout'))
+        if 'visits' in tmp_result and tmp_result['visits'] > 0:
+            for domain, domain_categories in tmp_result.items():
+                if not isinstance(domain_categories, dict):
+                    continue
+                append_domain_entry(domain, 'transport-layers', 'TLSv1.0', tmp_result)
+        result_dict = merge_dicts(
+            tmp_result,
+            result_dict, True, True)
+
+
+
+    # Firefox:
+    # security.tls.version.min
+    # security.tls.version.max
+
+    return result_dict
 
 def rate(org_domain, result_dict, global_translation, local_translation):
     """

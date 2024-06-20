@@ -108,6 +108,17 @@ def check_tls_versions(url, result_dict):
     return result_dict
 
 def check_tls_version_1_0(url, result_dict, o_domain):
+    """
+    Checks if the given URL supports TLSv1.0 and updates the result dictionary.
+
+    Args:
+        url (str): The URL to test.
+        result_dict (dict): A dictionary containing test results.
+        o_domain (str): The original domain associated with the URL.
+
+    Returns:
+        dict: Updated result dictionary with TLSv1.0 information.
+    """
     if not contains_value_for_all(result_dict, 'transport-layers', 'TLSv1.0'):
         browser = 'firefox'
         configuration = (
@@ -129,10 +140,20 @@ def check_tls_version_1_0(url, result_dict, o_domain):
         result_dict = merge_dicts(
             tmp_result,
             result_dict, True, True)
-            
     return result_dict
 
 def check_tls_version_1_1(url, result_dict, o_domain):
+    """
+    Checks if the given URL supports TLSv1.1 and updates the result dictionary.
+
+    Args:
+        url (str): The URL to test.
+        result_dict (dict): A dictionary containing test results.
+        o_domain (str): The original domain associated with the URL.
+
+    Returns:
+        dict: Updated result dictionary with TLSv1.1 information.
+    """
     if not contains_value_for_all(result_dict, 'transport-layers', 'TLSv1.1'):
         browser = 'firefox'
         configuration = (
@@ -154,10 +175,20 @@ def check_tls_version_1_1(url, result_dict, o_domain):
         result_dict = merge_dicts(
             tmp_result,
             result_dict, True, True)
-            
     return result_dict
 
 def check_tls_version_1_2(url, result_dict, o_domain):
+    """
+    Checks if the given URL supports TLSv1.2 and updates the result dictionary.
+
+    Args:
+        url (str): The URL to test.
+        result_dict (dict): A dictionary containing test results.
+        o_domain (str): The original domain associated with the URL.
+
+    Returns:
+        dict: Updated result dictionary with TLSv1.2 information.
+    """
     if not contains_value_for_all(result_dict, 'transport-layers', 'TLSv1.2'):
         browser = 'firefox'
         configuration = (
@@ -179,10 +210,20 @@ def check_tls_version_1_2(url, result_dict, o_domain):
         result_dict = merge_dicts(
             tmp_result,
             result_dict, True, True)
-            
     return result_dict
 
 def check_tls_version_1_3(url, result_dict, o_domain):
+    """
+    Checks if the given URL supports TLSv1.3 and updates the result dictionary.
+
+    Args:
+        url (str): The URL to test.
+        result_dict (dict): A dictionary containing test results.
+        o_domain (str): The original domain associated with the URL.
+
+    Returns:
+        dict: Updated result dictionary with TLSv1.3 information.
+    """
     if not contains_value_for_all(result_dict, 'transport-layers', 'TLSv1.3'):
         browser = 'firefox'
         configuration = (
@@ -204,7 +245,6 @@ def check_tls_version_1_3(url, result_dict, o_domain):
         result_dict = merge_dicts(
             tmp_result,
             result_dict, True, True)
-            
     return result_dict
 
 def rate(org_domain, result_dict, global_translation, local_translation):

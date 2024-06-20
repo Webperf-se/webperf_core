@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 # https://docs.python.org/3/library/urllib.parse.html
-import json
 from helpers.data_helper import has_domain_entry
 from helpers.setting_helper import get_config
 from models import Rating

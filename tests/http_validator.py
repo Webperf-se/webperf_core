@@ -46,10 +46,17 @@ def run_test(global_translation, url):
 
     # We must take in consideration "www." subdomains...
     o = urllib.parse.urlparse(url)
-    hostname = o.hostname
+    org_hostname = o.hostname
+    org_url = url
+
+    hostname = org_hostname
+    if hostname.startswith('www.'):
+        url = org_url.replace(hostname, hostname[4:])
+        o = urllib.parse.urlparse(url)
+        hostname = o.hostname
 
     if get_config('tests.http.csp-only'):
-        result_dict = merge_dicts(check_csp(url), csp_only_global_result_dict, True, True)
+        result_dict = merge_dicts(check_csp(org_url), csp_only_global_result_dict, True, True)
         if 'nof_pages' not in result_dict:
             result_dict['nof_pages'] = 1
         else:
@@ -57,18 +64,11 @@ def run_test(global_translation, url):
 
         csp_only_global_result_dict = result_dict
     else:
-        if hostname.startswith('www.'):
-            url = url.replace(hostname, hostname[4:])
-
-        o = urllib.parse.urlparse(url)
-        hostname = o.hostname
-
         result_dict = check_http_to_https(url)
-
         result_dict = check_tls_versions(url, result_dict)
-
+        if org_hostname != hostname:
+            result_dict = check_tls_versions(org_url, result_dict)
         result_dict = check_ip_version(result_dict)
-
         result_dict = check_http_version(url, result_dict)
 
     result_dict = cleanup(result_dict)
@@ -100,11 +100,6 @@ def check_tls_versions(url, result_dict):
     result_dict = check_tls_version_1_2(url, result_dict, o_domain)
     result_dict = check_tls_version_1_1(url, result_dict, o_domain)
     result_dict = check_tls_version_1_0(url, result_dict, o_domain)
-
-    # Firefox:
-    # security.tls.version.min
-    # security.tls.version.max
-
     return result_dict
 
 def check_tls_version_1_0(url, result_dict, o_domain):
@@ -123,9 +118,10 @@ def check_tls_version_1_0(url, result_dict, o_domain):
         browser = 'firefox'
         configuration = (
             ' --firefox.preference security.tls.version.min:1'
-            ' --firefox.preference security.tls.version.max:1')
+            ' --firefox.preference security.tls.version.max:1'
+            ' --pageCompleteCheckNetworkIdle true')
         url2 = change_url_to_test_url(url, 'TLSv1.0')
-        print('TLSv1.0')
+        print('TLSv1.0', o_domain)
         tmp_result = get_website_support_from_sitespeed(
                 url2,
                 o_domain,
@@ -160,7 +156,7 @@ def check_tls_version_1_1(url, result_dict, o_domain):
             ' --firefox.preference security.tls.version.min:2'
             ' --firefox.preference security.tls.version.max:2')
         url2 = change_url_to_test_url(url, 'TLSv1.1')
-        print('TLSv1.1')
+        print('TLSv1.1', o_domain)
         tmp_result = get_website_support_from_sitespeed(
                 url2,
                 o_domain,
@@ -195,7 +191,7 @@ def check_tls_version_1_2(url, result_dict, o_domain):
             ' --firefox.preference security.tls.version.min:3'
             ' --firefox.preference security.tls.version.max:3')
         url2 = change_url_to_test_url(url, 'TLSv1.2')
-        print('TLSv1.2')
+        print('TLSv1.2', o_domain)
         tmp_result = get_website_support_from_sitespeed(
                 url2,
                 o_domain,
@@ -230,7 +226,7 @@ def check_tls_version_1_3(url, result_dict, o_domain):
             ' --firefox.preference security.tls.version.min:4'
             ' --firefox.preference security.tls.version.max:4')
         url2 = change_url_to_test_url(url, 'TLSv1.3')
-        print('TLSv1.3')
+        print('TLSv1.3', o_domain)
         tmp_result = get_website_support_from_sitespeed(
                 url2,
                 o_domain,
@@ -263,7 +259,7 @@ def rate(org_domain, result_dict, global_translation, local_translation):
 
     org_www_domain = f'www.{org_domain}'
 
-    if result_dict['visits'] == 0 and 'failed' in result_dict:
+    if 'visits' in result_dict and result_dict['visits'] == 0 and 'failed' in result_dict:
         error_rating = Rating(
             global_translation,
             get_config('general.review.improve-only'))
@@ -822,6 +818,7 @@ def get_website_support_from_sitespeed(url, org_domain, configuration, browser, 
         '--visualMetricsPerceptual false '
         '--visualMetricsContentful false '
         '--browsertime.headless true '
+        '--silent true '
         f'--utc true -n {sitespeed_iterations}')
 
     if 'firefox' in browser:
@@ -877,13 +874,20 @@ def contains_value_for_all(result_dict, key, value):
     if result_dict is None:
         return False
 
-    has_value = True
+    nof_values = 0
+    nof_keys = 0
     for domain in result_dict.keys():
         if not isinstance(result_dict[domain], dict):
             continue
-        if key not in result_dict[domain] or value not in result_dict[domain][key]:
-            has_value = False
-    return has_value
+
+        if key in result_dict[domain]:
+            nof_keys += 1
+        else:
+            continue
+
+        if value in result_dict[domain][key]:
+            nof_values += 1
+    return nof_keys == nof_values and nof_keys != 0
 
 def check_http_version(url, result_dict):
     """

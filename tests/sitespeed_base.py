@@ -375,7 +375,7 @@ def modify_browertime_content_entity(entry):
 
     keys_to_remove = []
     for key in entry['response'].keys():
-        if key not in ('content', 'headers', 'httpVersion'):
+        if key not in ('content', 'headers', 'httpVersion', 'status'):
             keys_to_remove.append(key)
     for key in keys_to_remove:
         del entry['response'][key]

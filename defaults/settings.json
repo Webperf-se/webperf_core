@@ -40,7 +40,7 @@
             "docker": {
                 "use": false
             },
-            "timeout": 300,
+            "timeout": 30,
             "iterations": 2
         },
         "software": {

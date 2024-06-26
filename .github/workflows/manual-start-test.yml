@@ -35,7 +35,7 @@ jobs:
         platforms: linux/amd64
         load: true
         tags: ${{ env.TEST_TAG }}
-    - name: Run Test for url
+    - name: Test ${{ github.event.inputs.test }} for ${{ github.event.inputs.url }}
       run: |
         testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t ${{ github.event.inputs.test }} -r -s ${{ github.event.inputs.details }} -u ${{ github.event.inputs.url }})
         echo "$testresult"

@@ -2,17 +2,17 @@ name: "Manual - Run test against url"
 on:
   workflow_dispatch:
     inputs:
-      my_url:
+      url:
         description: 'Webpage url to test'
         required: true
         default: 'https://webperf.se/'
         type: string
-      my_test:
+      test:
         description: 'Test to run, comma separated list of numbers'
         required: true
         default: 'true'
         type: string
-      my_details:
+      details:
         description: 'Setting general.review.details'
         required: true
         default: 'true'
@@ -35,7 +35,7 @@ jobs:
         platforms: linux/amd64
         load: true
         tags: ${{ env.TEST_TAG }}
-    - name: Test ${{ github.event.inputs.my_test }} for ${{ github.event.inputs.my_url }}
+    - name: Run Test for url
       run: |
-        testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t ${{ github.event.inputs.my_test }} -r -s ${{ github.event.inputs.my_details }} -u ${{ github.event.inputs.my_url }})
+        testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t ${{ github.event.inputs.test }} -r -s ${{ github.event.inputs.details }} -u ${{ github.event.inputs.url }})
         echo "$testresult"

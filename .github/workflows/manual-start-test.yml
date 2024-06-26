@@ -17,6 +17,8 @@ on:
         required: true
         default: 'true'
         type: string
+env:
+  TEST_TAG: webperfse/webperf-core:test
 jobs:
   build:
     runs-on: ubuntu-latest

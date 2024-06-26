@@ -1,0 +1,41 @@
+name: "Manual - Run test against url"
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: 'Webpage url to test'
+        required: true
+        default: 'https://webperf.se/'
+        type: string
+      test:
+        description: 'Test to run, comma separated list of numbers'
+        required: true
+        default: 'true'
+        type: string
+      details:
+        description: 'Setting general.review.details'
+        required: true
+        default: 'true'
+        type: string
+env:
+  TEST_TAG: webperfse/webperf-core:test
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup QEMU # used to allow multiplatform docker builds
+      uses: docker/setup-qemu-action@v3
+    - name: Setup Docker Buildx # used to allow multiplatform docker builds
+      uses: docker/setup-buildx-action@v3
+    - name: Build the Docker image # used to allow multiplatform docker builds
+      uses: docker/build-push-action@v6
+      with:
+        context: .
+        platforms: linux/amd64
+        load: true
+        tags: ${{ env.TEST_TAG }}
+    - name: Test ${{ github.event.inputs.test }} for ${{ github.event.inputs.url }}
+      run: |
+        testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t ${{ github.event.inputs.test }} -r -s ${{ github.event.inputs.details }} -u ${{ github.event.inputs.url }})
+        echo "$testresult"

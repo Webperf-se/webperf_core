@@ -108,7 +108,7 @@ def get_data_for_url(url):
             '--browsertime.chrome.includeResponseBodies all --utc true '
             '--browsertime.chrome.args ignore-certificate-errors '
             f'-n {sitespeed_iterations}')
-    if 'nt' not in os.name:
+    if not ('nt' in os.name or 'Darwin' in os.uname().sysname):
         sitespeed_arg += ' --xvfb'
 
     sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'

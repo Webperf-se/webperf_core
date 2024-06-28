@@ -109,7 +109,7 @@ def update_user_agent():
 
     sitespeed_arg = f'--shm-size=1g {sitespeed_arg}'
 
-    if 'nt' not in os.name:
+    if not ('nt' in os.name or 'Darwin' in os.uname().sysname):
         sitespeed_arg += ' --xvfb'
     sitespeed_arg += (f' --outputFolder {result_folder_name} {url}')
 

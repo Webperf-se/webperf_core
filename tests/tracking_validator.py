@@ -767,7 +767,7 @@ def get_rating_from_sitespeed(url, local_translation, global_translation):
 
     sitespeed_arg = '--shm-size=1g -b chrome --plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --chrome.cdp.performance false --browsertime.chrome.timeline false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --browsertime.chrome.includeResponseBodies all --utc true --browsertime.chrome.args ignore-certificate-errors -n {0}'.format(
         sitespeed_iterations)
-    if 'nt' not in os.name:
+    if not ('nt' in os.name or 'Darwin' in os.uname().sysname):
         sitespeed_arg += ' --xvfb'
 
     sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'

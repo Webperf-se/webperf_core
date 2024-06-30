@@ -1411,7 +1411,7 @@ def append_csp_data(req_url, req_domain, res, org_domain, result):
         bool: True if there is a match in the CSP findings, False otherwise.
     """
     csp_findings_match = False
-    if 'content' in res and 'text' in res['content']:
+    if 'content' in res and 'text' in res['content'] and res['content']['text'] != '':
         if 'mimeType' in res['content'] and 'text/html' in res['content']['mimeType']:
             csp_findings_match = csp_findings_match or append_csp_data_for_html(
                 req_url,

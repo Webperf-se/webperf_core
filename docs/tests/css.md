@@ -53,7 +53,7 @@ Read more on the [general page for github actions](../getting-started-github-act
 
 * Download and install Node.js (version 20.x)
 * Download and install Google Chrome browser
-* Install NPM packages ( `npm install` )
+* Install NPM packages ( `npm install --production` )
 * Set `sitespeed_use_docker = False` in your `config.py`
 
 ##### Windows Specific

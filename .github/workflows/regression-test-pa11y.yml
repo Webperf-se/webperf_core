@@ -34,7 +34,7 @@ jobs:
       with:
         node-version: '20.x'
     - name: Setup npm packages
-      run: npm install
+      run: npm install --production
     # Havn't yet been able to start Google Chrome in headless mode in pa11y since move to Chrome in Pa11y 5
     - if: ${{ matrix.os == 'ubuntu-20.04' }}
       name: RUNNING TEST - LINUX

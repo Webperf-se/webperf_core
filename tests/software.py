@@ -1560,6 +1560,9 @@ def apply_rule_results_on_response_header(
         item, rule, req_url,
         hostname, match,
         match_name, match_version):
+    
+    is_found = False
+
     for result in rule['results']:
         name = None
         version = None

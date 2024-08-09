@@ -90,7 +90,7 @@ def get_rating_from_sitespeed(url, local_translation, global_translation):
 
     sitespeed_arg = f'--shm-size=1g {sitespeed_arg}'
 
-    if 'nt' not in os.name:
+    if not ('nt' in os.name or 'Darwin' in os.uname().sysname):
         sitespeed_arg += ' --xvfb'
 
     sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'
@@ -1560,6 +1560,9 @@ def apply_rule_results_on_response_header(
         item, rule, req_url,
         hostname, match,
         match_name, match_version):
+    
+    is_found = False
+
     for result in rule['results']:
         name = None
         version = None

@@ -1,4 +1,4 @@
-FROM sitespeedio/sitespeed.io:34.3.3
+FROM sitespeedio/sitespeed.io:34.9.0
 
 USER root
 
@@ -62,13 +62,7 @@ RUN chown --recursive sitespeedio:sitespeedio /usr/src/runner
 # Run everything after as non-privileged user.
 USER sitespeedio
 
-RUN npm install
-
-WORKDIR /usr/src/runner/node_modules/sitespeed.io/
-
-RUN npm install
-
-WORKDIR /usr/src/runner
+RUN npm install --production
 
 RUN python3.12 -m pip install -r requirements.txt --break-system-packages && \
     python3.12 -m pip install --upgrade pip --break-system-packages && \

@@ -629,7 +629,7 @@ def check_csp(url):
     o = urllib.parse.urlparse(url)
     o_domain = o.hostname
 
-    browser = 'firefox'
+    browser = 'chrome'
     configuration = ''
     print('CSP ONLY', o_domain)
     result_dict = get_website_support_from_sitespeed(
@@ -668,7 +668,7 @@ def check_http_to_https(url):
     else:
         http_url = url
 
-    browser = 'firefox'
+    browser = 'chrome'
     configuration = ''
     print('HTTP', o_domain)
     result_dict = get_website_support_from_sitespeed(
@@ -842,7 +842,7 @@ def get_website_support_from_sitespeed(url, org_domain, configuration, browser, 
 
     sitespeed_arg = f'--shm-size=1g {sitespeed_arg}'
 
-    if 'nt' not in os.name:
+    if not ('nt' in os.name or 'Darwin' in os.uname().sysname):
         sitespeed_arg += ' --xvfb'
 
     (_, filename) = get_result(
@@ -930,7 +930,7 @@ def check_http_version(url, result_dict):
         configuration = (
             ' --firefox.preference network.http.http2.enabled:true'
             ' --firefox.preference network.http.http3.enable:false'
-            ' --firefox.preference network.http.version:3.0')
+            ' --firefox.preference network.http.version:2.0')
         url2 = change_url_to_test_url(url, 'HTTPv2')
         print('HTTP/2')
         result_dict = merge_dicts(

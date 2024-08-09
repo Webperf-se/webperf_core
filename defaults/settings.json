@@ -12,7 +12,7 @@
             "details": false,
             "improve-only": true
         },
-        "useragent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:126.0) Gecko/20100101 Firefox/126.0",
+        "useragent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:127.0) Gecko/20100101 Firefox/127.0",
         "cache": {
             "use": false,
             "max-age": 60
@@ -40,7 +40,7 @@
             "docker": {
                 "use": false
             },
-            "timeout": 300,
+            "timeout": 30,
             "iterations": 2
         },
         "software": {

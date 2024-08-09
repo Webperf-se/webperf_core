@@ -48,6 +48,10 @@ def get_data_from_sitespeed(filename, org_domain):
         if 'log' in har_data:
             har_data = har_data['log']
 
+        # return zero visits if no entries
+        if len(har_data["entries"]) == 0:
+            return result
+
         for entry in har_data["entries"]:
             req = entry['request']
             res = entry['response']

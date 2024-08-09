@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
+import json
+import os
 from urllib.parse import ParseResult, urlunparse
 from datetime import datetime
 import urllib  # https://docs.python.org/3/library/urllib.parse.html
 from bs4 import BeautifulSoup
 from models import Rating
 from tests.utils import get_guid,\
-    get_http_content,get_http_content_with_status, get_translation
+    get_http_content, get_translation
+from tests.sitespeed_base import get_result
 from helpers.setting_helper import get_config
 
 def change_url_to_404_url(url):
@@ -38,6 +41,115 @@ def change_url_to_404_url(url):
     url2 = urlunparse(o2)
     return url2
 
+def get_http_content_with_status(url):
+    """
+    Retrieves HTTP content from the specified URL and returns the content along with its status.
+
+    Args:
+        url (str): The URL to fetch content from.
+
+    Returns:
+        tuple or None: A tuple containing the HTML content (as a string) and the HTTP status code.
+            If no content is available or an error occurs, returns None.
+    """
+    # We don't need extra iterations for what we are using it for
+    sitespeed_iterations = 1
+    sitespeed_arg = (
+            '--shm-size=1g -b chrome '
+            '--plugins.remove screenshot --plugins.remove html --plugins.remove metrics '
+            '--browsertime.screenshot false --screenshot false --screenshotLCP false '
+            '--browsertime.screenshotLCP false --chrome.cdp.performance false '
+            '--browsertime.chrome.timeline false --videoParams.createFilmstrip false '
+            '--visualMetrics false --visualMetricsPerceptual false '
+            '--visualMetricsContentful false --browsertime.headless true '
+            '--browsertime.chrome.includeResponseBodies all --utc true '
+            '--browsertime.chrome.args ignore-certificate-errors '
+            f'-n {sitespeed_iterations}')
+    if not ('nt' in os.name or 'Darwin' in os.uname().sysname):
+        sitespeed_arg += ' --xvfb'
+
+    sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'
+
+    (_, filename) = get_result(
+        url,
+        get_config('tests.sitespeed.docker.use'),
+        sitespeed_arg,
+        get_config('tests.sitespeed.timeout'))
+
+    data = identify_files(filename)
+
+    if data is None:
+        return None, None
+
+    if 'htmls' not in data:
+        return None, None
+
+    if len(data['htmls']) == 0:
+        return None, None
+
+    return data['htmls'][0]['content'], data['htmls'][0]['status']
+
+def identify_files(filename):
+    """
+    This function takes a filename as input and identifies different types of files in the HAR data.
+
+    The function reads the HAR data from the file, iterates over the entries,
+    and categorizes them into HTML and CSS files.
+    It also checks if the file is already cached and if not, it caches the file.
+
+    Parameters:
+    filename (str): The name of the file containing the HAR data.
+
+    Returns:
+    dict: A dictionary containing categorized file data.
+    The dictionary has four keys - 'htmls', 'elements', 'attributes', and 'resources'.
+    Each key maps to a list of dictionaries where each dictionary contains:
+    - 'url',
+    - 'content'
+    - 'index'
+    of the file.
+    """
+
+    data = {
+        'htmls': []
+    }
+
+    if not os.path.exists(filename):
+        return None
+
+    with open(filename, encoding='utf-8') as json_input_file:
+        har_data = json.load(json_input_file)
+
+        if 'log' in har_data:
+            har_data = har_data['log']
+
+        req_index = 1
+        for entry in har_data["entries"]:
+            req = entry['request']
+            res = entry['response']
+            req_url = req['url']
+
+            if 'content' not in res:
+                continue
+            if 'mimeType' not in res['content']:
+                continue
+            if 'size' not in res['content']:
+                continue
+            if res['content']['size'] <= 0:
+                continue
+            if 'status' not in res:
+                continue
+
+            if 'html' in res['content']['mimeType']:
+                data['htmls'].append({
+                    'url': req_url,
+                    'content': res['content']['text'],
+                    'status': res['status'],
+                    'index': req_index
+                    })
+            req_index += 1
+
+    return data
 
 def run_test(global_translation, org_url):
     """
@@ -57,16 +169,14 @@ def run_test(global_translation, org_url):
     url = change_url_to_404_url(org_url)
 
     # checks http status code and content for url
-    request_text, code = get_http_content_with_status(url, allow_redirects=True,
-                                                      use_text_instead_of_content=True)
+    request_text, code = get_http_content_with_status(url)
 
     # Error, was unable to load the page you requested.
-    if code is None and request_text == '':
+    if code is None and (request_text is None or request_text == ''):
         # very if we can connect to orginal url,
         # if not there is a bigger problem, geo block for example
-        request_text2, code2 = get_http_content_with_status(org_url, allow_redirects=True,
-                                                        use_text_instead_of_content=True)
-        if code2 is None and request_text2 == '':
+        request_text2, code2 = get_http_content_with_status(org_url)
+        if code2 is None and (request_text2 is None or request_text2 == ''):
             rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
             return (rating, result_dict)
 

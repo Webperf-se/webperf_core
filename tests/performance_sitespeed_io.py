@@ -208,7 +208,7 @@ def validate_on_mobile_using_validator(url, validator_config):
         f'{url}'
         f'{browertime_plugin_options}'
         )
-    if 'nt' not in os.name:
+    if not ('nt' in os.name or 'Darwin' in os.uname().sysname):
         arg = '--xvfb ' + arg
 
     result_dict = get_result_dict(get_result(arg), validator_config['name'])
@@ -283,7 +283,7 @@ def validate_on_desktop_using_validator(url, validator_config):
         f'{url}'
         f'{browertime_plugin_options}'
         )
-    if 'nt' not in os.name:
+    if not ('nt' in os.name or 'Darwin' in os.uname().sysname):
         arg = '--xvfb ' + arg
 
     result_dict = get_result_dict(get_result(arg), validator_config['name'])
@@ -316,7 +316,7 @@ def validate_on_desktop(url):
         '--preScript chrome-custom.cjs '
         f'{url}'
         )
-    if 'nt' not in os.name:
+    if not ('nt' in os.name or 'Darwin' in os.uname().sysname):
         arg = '--xvfb ' + arg
 
     result_dict = get_result_dict(get_result(arg), 'desktop')
@@ -348,7 +348,7 @@ def validate_on_mobile(url):
         '--preScript chrome-custom.cjs '
         f'{url}'
         )
-    if 'nt' not in os.name:
+    if not ('nt' in os.name or 'Darwin' in os.uname().sysname):
         arg = '--xvfb ' + arg
 
     result_dict = get_result_dict(get_result(arg), 'mobile')

@@ -41,3 +41,6 @@ msgstr "  - Antal (grupperade fel): {0}"
 
 msgid "TEXT_REVIEW_RATING_ITEMS"
 msgstr "- Antal fel: {0}"
+
+msgid "TEXT_REVIEW_DEPRECATED_ELEMENT"
+msgstr "Användningen av elementet `{0}>` är föråldrad."

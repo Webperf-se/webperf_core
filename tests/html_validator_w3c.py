@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 import re
+
+from bs4 import BeautifulSoup
 from models import Rating
-from tests.utils import get_friendly_url_name,\
+from tests.utils import get_friendly_url_name, get_http_content,\
     get_translation,\
     set_cache_file
 from tests.w3c_base import calculate_rating, get_data_for_url,\
@@ -97,7 +99,7 @@ def handle_html_markup_entry(entry, global_translation, local_translation, resul
     req_url = entry['url']
     name = get_friendly_url_name(global_translation, req_url, entry['index'])
     html = entry['content']
-    errors = get_errors_for_html(req_url, html)
+    errors = get_errors_for_html(req_url, html, local_translation)
     result_dict['errors']['all'].extend(errors)
     result_dict['errors']['html_files'].extend(errors)
     is_first_entry = entry['index'] <= 1
@@ -197,7 +199,61 @@ def is_start_html_error(error_message):
             return True
     return False
 
-def get_errors_for_html(url, html):
+def get_mdn_web_docs_deprecated_elements():
+    """
+    Returns a list of strings, of deprecated html elements.
+    """
+    elements = []
+
+    html = get_http_content(
+        ('https://developer.mozilla.org/'
+         'en-US/docs/Web/HTML/Element'
+         '#obsolete_and_deprecated_elements'))
+
+    soup = BeautifulSoup(html, 'lxml')
+
+    header = soup.find('h2', id = 'obsolete_and_deprecated_elements')
+    if header is None:
+        return []
+
+    section = header.parent
+    if section is None:
+        return []
+
+    tbody = section.find('tbody')
+    if tbody is None:
+        return []
+
+    table_rows = tbody.find_all('tr')
+    if table_rows is None:
+        return []
+
+    for table_row in table_rows:
+        if table_row is None:
+            continue
+
+        first_td = table_row.find('td')
+        if first_td is None:
+            continue
+
+        code = first_td.find('code')
+        if code is None:
+            continue
+
+        regex = r'(\&lt;|<)(?P<name>[^<>]+)(\&gt;|>)'
+        matches = re.search(regex, code.string)
+        if matches:
+            property_name = '<' + matches.group('name')
+            elements.append(property_name)
+
+    return sorted(list(set(elements)))
+
+
+# TODO: change this to just in time, right now it is called every time webperf_core is being called.
+html_deprecated_elements = get_mdn_web_docs_deprecated_elements()
+
+
+def get_errors_for_html(url, html, local_translation):
     """
     Caches the HTML content of a URL and retrieves the errors associated with it.
 
@@ -212,4 +268,13 @@ def get_errors_for_html(url, html):
     results = get_errors_for_url(
         'html',
         url)
+
+    for element in html_deprecated_elements:
+        if element not in html:
+            continue
+        results.append({
+                'type': 'error',
+                'message': local_translation('TEXT_REVIEW_DEPRECATED_ELEMENT').format(element)
+            })
+
     return results

@@ -43,4 +43,4 @@ msgid "TEXT_REVIEW_RATING_ITEMS"
 msgstr "- Number of errors: {0}"
 
 msgid "TEXT_REVIEW_DEPRECATED_ELEMENT"
-msgstr "The use of `{0}>` element is deprecated."
+msgstr "The use of “{0}” element is deprecated."

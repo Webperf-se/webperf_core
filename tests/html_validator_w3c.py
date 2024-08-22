@@ -13,7 +13,6 @@ from tests.w3c_base import calculate_rating, get_data_for_url,\
 from helpers.setting_helper import get_config
 
 # DEFAULTS
-HTML_REVIEW_GROUP_ERRORS = True
 HTML_START_STRINGS = [
         'Start tag seen without seeing a doctype first. Expected “<!DOCTYPE html>”',
         'Element “head” is missing a required instance of child element “title”.'
@@ -155,7 +154,7 @@ def create_review_and_rating(
 
             tmp = re.sub(
                 r"(“[^”]+”)", "X", error_message, 0, re.MULTILINE)
-            if HTML_REVIEW_GROUP_ERRORS:
+            if not get_config('general.review.details'):
                 error_message = tmp
 
             if msg_grouped_dict.get(error_message, False):
@@ -274,7 +273,7 @@ def get_errors_for_html(url, html, local_translation):
             continue
         results.append({
                 'type': 'error',
-                'message': local_translation('TEXT_REVIEW_DEPRECATED_ELEMENT').format(element)
+                'message': local_translation('TEXT_REVIEW_DEPRECATED_ELEMENT').format(element.replace('<', ''))
             })
 
     return results

@@ -57,7 +57,7 @@ jobs:
     - name: Verifing Software(s)
       run: python update_software.py -d ${{ secrets.GITHUB_TOKEN }}
     - name: Create pull request
-      uses: peter-evans/create-pull-request@v6
+      uses: peter-evans/create-pull-request@v7
       with:
         commit-message: Update software and license definitions
         branch: software-definition-updates

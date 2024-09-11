@@ -80,6 +80,18 @@ config_mapping = {
         "csp_only",
         "CSP_ONLY"): "bool|tests.http.csp-only",
     (
+        "csp-generate-hashes",
+        "tests.http.csp-generate-hashes"): "bool|tests.http.csp-generate-hashes",
+    (
+        "csp-generate-font-hashes",
+        "tests.http.csp-generate-font-hashes"): "bool|tests.http.csp-generate-font-hashes",
+    (
+        "csp-generate-img-hashes",
+        "tests.http.csp-generate-img-hashes"): "bool|tests.http.csp-generate-img-hashes",
+    (
+        "csp-generate-js-hashes",
+        "tests.http.csp-generate-js-hashes"): "bool|tests.http.csp-generate-js-hashes",
+    (
         "stealth",
         "tests.software.stealth.use",
         "software_use_stealth",

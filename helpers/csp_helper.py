@@ -8,6 +8,7 @@ from helpers.data_helper import append_domain_entry, extend_domain_entry_with_ke
 from helpers.hash_helper import create_sha256_hash
 from helpers.setting_helper import get_config
 from models import Rating
+from tests.utils import get_http_content
 
 # DEFAULTS
 CSP_POLICIES_SUPPORTED_SRC = [
@@ -1429,12 +1430,14 @@ def append_csp_data(req_url, req_domain, res, org_domain, result):
                 ('text/javascript' in res['content']['mimeType'] or\
                     'application/javascript' in res['content']['mimeType']):
             csp_findings_match = csp_findings_match or append_csp_data_for_js(
+                req_url,
                 req_domain,
                 res,
                 org_domain,
                 result)
     if 'mimeType' in res['content'] and 'image/' in res['content']['mimeType']:
         csp_findings_match = csp_findings_match or append_csp_data_for_images(
+            req_url,
             req_domain,
             org_domain,
             result)
@@ -1507,6 +1510,15 @@ def append_csp_data_for_fonts(req_url, req_domain, res, org_domain, result):
                     result[org_domain]['csp-findings']['quotes'].append(key2)
                     result[org_domain]['csp-findings']['font-sources'].append(key)
                 has_font_hash = True
+            elif get_config('tests.http.csp-generate-font-hashes') or\
+                  get_config('tests.http.csp-generate-hashes'):
+                font_content = get_http_content(req_url, True, False)
+                font_hash = create_sha256_hash(font_content)
+                key2 = f"{f'sha256-{font_hash}'}|{element_name}"
+                if key not in result[org_domain]['csp-findings']['quotes']:
+                    result[org_domain]['csp-findings']['quotes'].append(key2)
+                    result[org_domain]['csp-findings']['font-sources'].append(key)
+                has_font_hash = True
         else:
             has_font_hash = True
         csp_findings_match = True
@@ -1523,7 +1535,7 @@ def append_csp_data_for_fonts(req_url, req_domain, res, org_domain, result):
             csp_findings_match = True
     return csp_findings_match
 
-def append_csp_data_for_images(req_domain, org_domain, result):
+def append_csp_data_for_images(req_url, req_domain, org_domain, result):
     """
     Appends Content Security Policy (CSP) data for image content.
 
@@ -1531,6 +1543,7 @@ def append_csp_data_for_images(req_domain, org_domain, result):
     appends the appropriate CSP data for images to the result dictionary.
 
     Args:
+        req_url (str): The requested URL.
         req_domain (str): The requested domain.
         org_domain (str): The original domain.
         result (dict): The result dictionary where the CSP data will be appended.
@@ -1541,19 +1554,32 @@ def append_csp_data_for_images(req_domain, org_domain, result):
     csp_findings_match = False
     element_domain = req_domain
     element_name = 'img'
-    if element_domain == org_domain:
-        key = f'\'self\'|{element_name}'
+    has_img_hash = False
+
+    if get_config('tests.http.csp-generate-img-hashes') or\
+            get_config('tests.http.csp-generate-hashes'):
+        key = f'{req_url}|{element_name}'
+        font_content = get_http_content(req_url, True, False)
+        font_hash = create_sha256_hash(font_content)
+        key2 = f"{f'sha256-{font_hash}'}|{element_name}"
         if key not in result[org_domain]['csp-findings']['quotes']:
-            result[org_domain]['csp-findings']['quotes'].append(key)
-        csp_findings_match = True
-    else:
-        key = f'{element_domain}|{element_name}'
-        if key not in result[org_domain]['csp-findings']['host-sources']:
-            result[org_domain]['csp-findings']['host-sources'].append(key)
-        csp_findings_match = True
+            result[org_domain]['csp-findings']['quotes'].append(key2)
+        has_img_hash = True
+
+    if not has_img_hash:
+        if element_domain == org_domain:
+            key = f'\'self\'|{element_name}'
+            if key not in result[org_domain]['csp-findings']['quotes']:
+                result[org_domain]['csp-findings']['quotes'].append(key)
+            csp_findings_match = True
+        else:
+            key = f'{element_domain}|{element_name}'
+            if key not in result[org_domain]['csp-findings']['host-sources']:
+                result[org_domain]['csp-findings']['host-sources'].append(key)
+            csp_findings_match = True
     return csp_findings_match
 
-def append_csp_data_for_js(req_domain, res, org_domain, result):
+def append_csp_data_for_js(req_url, req_domain, res, org_domain, result):
     """
     Appends Content Security Policy (CSP) data for JavaScript content.
 
@@ -1563,6 +1589,7 @@ def append_csp_data_for_js(req_domain, res, org_domain, result):
     appends the appropriate CSP data.
 
     Args:
+        req_url (str): The requested URL.
         req_domain (str): The requested domain.
         res (dict): The response dictionary containing the JavaScript content.
         org_domain (str): The original domain.
@@ -1572,6 +1599,7 @@ def append_csp_data_for_js(req_domain, res, org_domain, result):
         bool: True if there is a match in the CSP findings, False otherwise.
     """
     csp_findings_match = False
+
     content = res['content']['text']
     if 'eval(' in content:
         key = '\'unsafe-eval\'|script'
@@ -1581,16 +1609,29 @@ def append_csp_data_for_js(req_domain, res, org_domain, result):
 
     element_domain = req_domain
     element_name = 'script'
-    if element_domain == org_domain:
-        key = f'\'self\'|{element_name}'
+    has_js_hash = False
+
+    if get_config('tests.http.csp-generate-js-hashes') or\
+            get_config('tests.http.csp-generate-hashes'):
+        key = f'{req_url}|{element_name}'
+        font_content = get_http_content(req_url, True, False)
+        font_hash = create_sha256_hash(font_content)
+        key2 = f"{f'sha256-{font_hash}'}|{element_name}"
         if key not in result[org_domain]['csp-findings']['quotes']:
-            result[org_domain]['csp-findings']['quotes'].append(key)
-        csp_findings_match = True
-    else:
-        key = f'{element_domain}|{element_name}'
-        if key not in result[org_domain]['csp-findings']['host-sources']:
-            result[org_domain]['csp-findings']['host-sources'].append(key)
-        csp_findings_match = True
+            result[org_domain]['csp-findings']['quotes'].append(key2)
+        has_js_hash = True
+
+    if not has_js_hash:
+        if element_domain == org_domain:
+            key = f'\'self\'|{element_name}'
+            if key not in result[org_domain]['csp-findings']['quotes']:
+                result[org_domain]['csp-findings']['quotes'].append(key)
+            csp_findings_match = True
+        else:
+            key = f'{element_domain}|{element_name}'
+            if key not in result[org_domain]['csp-findings']['host-sources']:
+                result[org_domain]['csp-findings']['host-sources'].append(key)
+            csp_findings_match = True
     return csp_findings_match
 
 def append_csp_data_for_css(req_domain, res, org_domain, result):

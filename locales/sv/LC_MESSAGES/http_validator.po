@@ -79,7 +79,7 @@ msgid "TEXT_REVIEW_HTTPS_SUPPORT"
 msgstr "- {0}, stödjer HTTPS"
 
 msgid "TEXT_REVIEW_HTTPS_NO_SUPPORT"
-msgstr "- {0}, inget HTTPS-stöd"
+msgstr "- {0}, finns HTTPS-stöd?"
 
 msgid "TEXT_REVIEW_HTTP_REDIRECT"
 msgstr "- {0}, omdirigerar med HTTP"

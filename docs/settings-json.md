@@ -117,6 +117,38 @@ Tells email test if it should do a operation over ipv6 also in email test (GitHu
 
 Tells HTTP test to ignore everything except the CSP subtest in the HTTP test (great if you run it against sitemap to get CSP recommendation)
 
+### tests.http.csp-generate-hashes `(Default = false)`
+
+Tells HTTP test to download resources one more time after visiting website to generate sha256 hashes
+for as many resources as possible. (great if you want to have a fast list of sha256 hashed you can use)
+This result in a different CSP recommendation than default as default CSP recommendation only takes in consider text based resources.
+
+### tests.http.csp-generate-strict-recommended-hashes `(Default = false)`
+
+Tells HTTP test to download resources one more time after visiting website to generate sha256 hashes
+for resource types commonly not as content dependent. (great if you run it against sitemap to get CSP recommendation)
+This result in a different CSP recommendation than default as default CSP recommendation only takes in consider text based resources.
+
+### tests.http.csp-generate-css-hashes `(Default = false)`
+
+Tells HTTP test to only download css resources one more time after visiting website to generate sha256 hashes.
+Please also see csp-generate-strict-recommended-hashes and tests.http.csp-generate-hashes.
+
+### tests.http.csp-generate-font-hashes `(Default = false)`
+
+Tells HTTP test to only download font resources one more time after visiting website to generate sha256 hashes.
+Please also see csp-generate-strict-recommended-hashes and tests.http.csp-generate-hashes.
+
+### tests.http.csp-generate-img-hashes `(Default = false)`
+
+Tells HTTP test to only download image resources one more time after visiting website to generate sha256 hashes.
+Please also see csp-generate-strict-recommended-hashes and tests.http.csp-generate-hashes.
+
+### tests.http.csp-generate-js-hashes `(Default = false)`
+
+Tells HTTP test to only download javascript resources one more time after visiting website to generate sha256 hashes.
+Please also see csp-generate-strict-recommended-hashes and tests.http.csp-generate-hashes.
+
 ### tests.lighthouse.disable-sandbox `(Default = false)`
 
 This variable tells lighthouse based test(s) to disable chrome sandbox or not.

@@ -2,7 +2,7 @@ FROM sitespeedio/sitespeed.io:34.11.1
 
 USER root
 
-ENV WEBPERF_RUNNER docker
+ENV WEBPERF_RUNNER=docker
 
 ENV PUPPETEER_SKIP_DOWNLOAD=true
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome
@@ -10,9 +10,9 @@ ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome
 ENV PATH="/usr/local/bin:${PATH}"
 
 # https://codereview.stackexchange.com/a/286565
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-ENV DEBIAN_FRONTEND noninteractive
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update &&\
     apt-get install -y --no-install-recommends curl gcc g++ gnupg unixodbc-dev openssl git default-jre default-jdk && \

@@ -83,6 +83,9 @@ config_mapping = {
         "csp-generate-hashes",
         "tests.http.csp-generate-hashes"): "bool|tests.http.csp-generate-hashes",
     (
+        "csp-generate-strict-recommended-hashes",
+        "tests.http.csp-generate-strict-recommended-hashes"): "bool|tests.http.csp-generate-strict-recommended-hashes",
+    (
         "csp-generate-font-hashes",
         "tests.http.csp-generate-font-hashes"): "bool|tests.http.csp-generate-font-hashes",
     (

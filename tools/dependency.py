@@ -110,6 +110,94 @@ def check_node():
 
     print('\t- Node:', 'OK')
 
+def check_requirements():
+    requirements_content = None
+    base_directory = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep).parent
+    webperf_dir = base_directory.resolve()
+    requirements_path = os.path.join(webperf_dir, 'requirements.txt')
+
+    if not os.path.exists(requirements_path):
+        print('\t- PIP Requirements:', 'Unable to find requirements.txt')
+        return
+
+    with open(requirements_path, 'r', encoding='utf-8', newline='') as requirements_file:
+        requirements_content = '\r\n'.join(requirements_file.readlines())
+
+    requirements_dependencies = {}
+    regex = r"^(?P<name>[a-zA-Z0-9\-]+)[=]+(?P<version>[0-9\.\_]+)"
+    matches = re.finditer(
+        regex, requirements_content, re.MULTILINE)
+    for _, match in enumerate(matches, start=1):
+        dependency_name = match.group('name')
+        dependency_version = match.group('version')
+        requirements_dependencies[dependency_name] = dependency_version
+
+    result, error = test_cmd('pip list')
+    # if python_error is not None or python_error != b'':
+    #     print('\t- Python:', 'ERROR:', python_error)
+    #     return
+    if result is None:
+        print('\t- PIP Requirements:', 'ERROR: Unknown return')
+        return
+
+    installed_dependencies = {}
+    regex = r"(?P<name>[a-zA-Z0-9\-]+)[ ]+(?P<version>[0-9\.\_]+)"
+    matches = re.finditer(
+        regex, result.replace('\\n', '\n').replace('\\r', '\r'), re.MULTILINE)
+    for _, match in enumerate(matches, start=1):
+        dependency_name = match.group('name')
+        dependency_version = match.group('version')
+        installed_dependencies[dependency_name] = dependency_version
+
+    print('\t- PIP Requirements:')
+    for dependency_name, dependency_version in requirements_dependencies.items():
+        if dependency_name not in installed_dependencies:
+            print(f'\t\t- {dependency_name}:', 'ERROR: Not found')
+            continue
+
+        dependency_installed_version = installed_dependencies[dependency_name]
+        if dependency_version != dependency_installed_version:
+            dependency_version = packaging.version.Version(dependency_version)
+            dependency_installed_version = packaging.version.Version(
+                dependency_installed_version)
+
+            if dependency_version.major is not dependency_installed_version.major:
+                print(
+                    f'\t\t- {dependency_name}:',
+                    'WARNING: wrong major version (',
+                    dependency_version,
+                    'vs',
+                    dependency_installed_version, ')')
+                continue
+
+            if dependency_version.minor is not dependency_installed_version.minor:
+                print(
+                    f'\t\t- {dependency_name}:',
+                    'WARNING: wrong minor version (',
+                    dependency_version,
+                    'vs',
+                    dependency_installed_version, ')')
+                continue
+
+            if dependency_version.micro is not dependency_installed_version.micro:
+                print(
+                    f'\t\t- {dependency_name}:',
+                    'WARNING: wrong micro version (',
+                    dependency_version,
+                    'vs',
+                    dependency_installed_version, ')')
+                continue
+
+            print(
+                f"\t\t- {dependency_name}: Wrong version used (",
+                dependency_version,
+                'vs',
+                dependency_installed_version, ')')
+            continue
+
+        print(
+            f"\t\t- {dependency_name}: OK")
 
 def check_package():
     base_directory = Path(os.path.dirname(
@@ -207,7 +295,7 @@ def main(argv):
         print(main.__doc__)
         # TODO: Check webperf_core version
         check_python()
-        # TODO: Check requirement.txt dependencies
+        check_requirements()
         check_node()
         check_package()
         check_java()

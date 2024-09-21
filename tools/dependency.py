@@ -112,12 +112,78 @@ def check_node():
 
 
 def check_package():
-    with open('package.json', encoding='utf-8') as json_input_file:
+    base_directory = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep).parent
+    webperf_dir = base_directory.resolve()
+
+    with open(os.path.join(webperf_dir, 'package.json'), encoding='utf-8') as json_input_file:
         package_info = json.load(json_input_file)
 
         if 'dependencies' in package_info:
             for dependency_name, dependency_version in package_info['dependencies'].items():
-                print(f"\n- {dependency_name} v{dependency_version}")
+                base_directory = Path(os.path.dirname(
+                    os.path.realpath(__file__)) + os.path.sep).parent
+                webperf_dir = base_directory.resolve()
+                dependency_package_path = os.path.join(
+                    webperf_dir,
+                    'node_modules',
+                    dependency_name,
+                    'package.json')
+                if not os.path.exists(dependency_package_path):
+                    print(f"\t\t- {dependency_name} v{dependency_version}: Not found")
+                    continue
+
+                with open(dependency_package_path, encoding='utf-8') as dependency_json_input_file:
+                    dependency_package_info = json.load(dependency_json_input_file)
+                    if 'version' not in dependency_package_info:
+                        print((
+                            f"\t\t- {dependency_name} "
+                            f"v{dependency_version}: Invalid package.json format"))
+                        continue
+
+                    dependency_installed_version = dependency_package_info['version']
+                    if dependency_version != dependency_installed_version:
+                        dependency_version = packaging.version.Version(dependency_version)
+                        dependency_installed_version = packaging.version.Version(
+                            dependency_installed_version)
+                        if dependency_version.major is not dependency_installed_version.major:
+                            print(
+                                f'\t\t- {dependency_name}:',
+                                'WARNING: wrong major version (',
+                                dependency_version,
+                                'vs',
+                                dependency_installed_version, ')')
+                            continue
+
+                        if dependency_version.minor is not dependency_installed_version.minor:
+                            print(
+                                f'\t\t- {dependency_name}:',
+                                'WARNING: wrong minor version (',
+                                dependency_version,
+                                'vs',
+                                dependency_installed_version, ')')
+                            continue
+
+                        if dependency_version.micro is not dependency_installed_version.micro:
+                            print(
+                                f'\t\t- {dependency_name}:',
+                                'WARNING: wrong micro version (',
+                                dependency_version,
+                                'vs',
+                                dependency_installed_version, ')')
+                            continue
+
+                        print(
+                            f"\t\t- {dependency_name}: Wrong version used (",
+                            dependency_version,
+                            'vs',
+                            dependency_installed_version, ')')
+                        continue
+
+                print(f"\t\t- {dependency_name}: OK")
+
+
+
 
 
 def main(argv):
@@ -142,8 +208,8 @@ def main(argv):
         # TODO: Check webperf_core version
         check_python()
         # TODO: Check requirement.txt dependencies
-        # TODO: Check package.json dependencies
         check_node()
+        check_package()
         check_java()
         # TODO: Check Chrome dependency
         # TODO: Check Firefox dependency

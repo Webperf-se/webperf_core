@@ -270,9 +270,74 @@ def check_package():
 
                 print(f"\t\t- {dependency_name}: OK")
 
+def check_chrome():
+    return check_browser('chrome')
 
+def check_firefox():
+    return check_browser('firefox')
 
+def check_browser(browser):
+    sitespeed_iterations = 1
+    sitespeed_arg = (
+        '--plugins.remove screenshot '
+        '--plugins.remove html '
+        '--plugins.remove metrics '
+        '--browsertime.screenshot false '
+        '--screenshot false '
+        '--screenshotLCP false '
+        '--browsertime.screenshotLCP false '
+        '--videoParams.createFilmstrip false '
+        '--visualMetrics false '
+        '--visualMetricsPerceptual false '
+        '--visualMetricsContentful false '
+        '--browsertime.headless true '
+        # '--silent true '
+        f'--utc true -n {sitespeed_iterations}')
 
+    if 'firefox' in browser:
+        sitespeed_arg = (
+            '-b firefox '
+            '--firefox.includeResponseBodies all '
+            '--firefox.preference privacy.trackingprotection.enabled:false '
+            '--firefox.preference privacy.donottrackheader.enabled:false '
+            '--firefox.preference browser.safebrowsing.malware.enabled:false '
+            '--firefox.preference browser.safebrowsing.phishing.enabled:false '
+            f'{sitespeed_arg}')
+    else:
+        sitespeed_arg = (
+            '-b chrome '
+            '--chrome.cdp.performance false '
+            '--browsertime.chrome.timeline false '
+            '--browsertime.chrome.includeResponseBodies all '
+            '--browsertime.chrome.args ignore-certificate-errors '
+            f'{sitespeed_arg}')
+
+    sitespeed_arg = f'--shm-size=1g {sitespeed_arg}'
+
+    if not ('nt' in os.name or 'Darwin' in os.uname().sysname):
+        sitespeed_arg += ' --xvfb'
+
+    sitespeed_arg += ' https://webperf.se'
+
+    command = (f"node node_modules{os.path.sep}sitespeed.io{os.path.sep}"
+        f"bin{os.path.sep}sitespeed.js {sitespeed_arg}")
+
+    result, error = test_cmd(command)
+
+    if len(error) > 0:
+        print(sitespeed_arg)
+        print(f'\t- {browser}:', 'ERROR: Exited with errors')
+        return
+
+    if result is None:
+        print(f'\t- {browser}:', 'ERROR: Exited with no result')
+        return
+
+    if 'Versions OS' not in result:
+        print(f'\t- {browser}:', 'ERROR: Invalid result')
+        return
+
+    print(f'\t- {browser}:', 'OK')
 
 def main(argv):
     """
@@ -299,8 +364,8 @@ def main(argv):
         check_node()
         check_package()
         check_java()
-        # TODO: Check Chrome dependency
-        # TODO: Check Firefox dependency
+        check_chrome()
+        check_firefox()
         # TODO: Check data files dependencies
         # TODO: Check Internet access (for required sources like MDN Web Reference)
 

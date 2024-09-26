@@ -162,6 +162,7 @@ def append_sri_data_for_html(req_url, req_domain, res, org_domain, result):
         group_src = re.search(regex_src, raw, re.IGNORECASE)
         if group_src is not None:
             src = group_src.group('src')
+            src = url_2_host_source(src, req_domain)
             print('\tsrc/href:', src)
 
         src_type = None
@@ -293,4 +294,6 @@ def url_2_host_source(url, domain):
         return url
     if ':' in url:
         return url
+    if url.startswith('/'):
+        url = url.strip('/')
     return f'https://{domain}/{url}'

@@ -141,8 +141,8 @@ def append_sri_data_for_html(req_url, req_domain, res, org_domain, result):
     # https://www.srihash.org/
     content = res['content']['text']
     regex = (
-                        r'(?P<raw>(?P<name>link|script)<.*? integrity="(?P<integrity>[^"]+)".*?>)'
-                    )
+        r'(?P<raw><(?P<name>link|script)[^<]*? integrity=["\'](?P<integrity>[^"\']+)["\'][^>]*?>)'
+        )
     matches = re.finditer(regex, content, re.MULTILINE)
     for _, match in enumerate(matches, start=1):
         raw = match.group('raw')
@@ -153,6 +153,40 @@ def append_sri_data_for_html(req_url, req_domain, res, org_domain, result):
         # - rel="stylesheet"
         # - rel="preload"
         # - rel="modulepreload"
+        print('B', raw)
+        print('\tname:', name)
+        print('\tintegrity:', integrity)
+
+        src = None
+        regex_src = r'(href|src)="(?P<src>[^"\']+)["\']'
+        group_src = re.search(regex_src, raw, re.IGNORECASE)
+        if group_src is not None:
+            src = group_src.group('src')
+            print('\tsrc/href:', src)
+
+        src_type = None
+        if name == 'script':
+            src_type = 'script'
+        else:
+            regex_type = r'(as)="(?P<as>[^"\']+)["\']'
+            group_type = re.search(regex_type, raw, re.IGNORECASE)
+            if group_type is not None:
+                tmp = group_type.group('as').lower()
+                if tmp in ('style', 'font', 'img', 'script'):
+                    src_type = tmp
+
+        if src_type is None:
+            regex_rel = r'(rel)="(?P<rel>[^"\']+)["\']'
+            group_rel = re.search(regex_rel, raw, re.IGNORECASE)
+            if group_rel is not None:
+                tmp = group_rel.group('rel').lower()
+                if tmp in ('stylesheet'):
+                    src_type = 'style'
+
+        print('\ttype:', src_type)
+
+
+        print('')
 
     csp_findings_match = csp_findings_match or append_csp_data_for_linked_resources(
         req_domain,

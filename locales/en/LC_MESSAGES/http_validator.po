@@ -191,3 +191,12 @@ msgstr "###### Recommended CSP Rating:{0}"
 
 msgid "TEXT_REVIEW_CSP_RECOMMENDED_TEXT"
 msgstr "\r\n##### Want to improve your Content-Security-Policy game?\r\nWhy not try the below Content-Security-Policy response header to get started using Content Security Policy?\r\nRemember, below recommendation is only based on a sample (read: {0} page(s)) of all pages on your website\r\nand based without clicking on anything.\r\n\r\n###### Recommended Content-Security-Policy policies:\r\n{1}\r\n{2}\r\nRead more: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy\r\n\r\n"
+
+msgid "TEXT_REVIEW_SRI_COMPLIANT"
+msgstr "- {0}, Subresource Integrity (SRI)"
+
+msgid "TEXT_REVIEW_SRI_NONE_COMPLIANT"
+msgstr "- {0}, Needs Subresource Integrity (SRI)"
+
+msgid "TEXT_REVIEW_SRI_WITH_ERRORS"
+msgstr "- {0}, Incorrectly using Subresource Integrity (SRI)"

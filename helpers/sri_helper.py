@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # pylint: disable=too-many-lines
 import base64
+import json
 import re
 import urllib
 import urllib.parse
@@ -141,101 +142,15 @@ def append_sri_data_for_html(req_url, req_domain, res, org_domain, result):
     # https://www.srihash.org/
     content = res['content']['text']
     # TODO: Should we match all elements and give penalty when used wrong?
-    regex = (
-        r'(?P<raw><(?P<name>link|script) [^>]*?>)'
-        )
-
-    matches = re.finditer(regex, content, re.MULTILINE | re.IGNORECASE)
-    for _, match in enumerate(matches, start=1):
-        raw = match.group('raw')
-        name = match.group('name').lower()
-
-        src = None
-        regex_src = r'(href|src)="(?P<src>[^"\']+)["\']'
-        group_src = re.search(regex_src, raw, re.IGNORECASE)
-        if group_src is not None:
-            src = group_src.group('src')
-            src = url_2_host_source(src, req_domain)
-
-        link_rel = None
-        regex_rel = r'(rel)="(?P<rel>[^"\']+)["\']'
-        group_rel = re.search(regex_rel, raw, re.IGNORECASE)
-        if group_rel is not None:
-            link_rel = group_rel.group('rel').lower()
-
-        should_have_integrity = False
-        if name in ('link'):
-            if link_rel in ('stylesheet', 'preload', 'modulepreload'):
-                should_have_integrity = True
-        elif name in ('script') and src is not None:
-            should_have_integrity = True
-
-        if should_have_integrity:
-            print('A', raw)
-            print('\tname:', name)
-            print('\tsrc/href:', src)
-            print('')
-
+    candidates = get_sri_candidates(req_domain, content)
+    nice_candidates = json.dumps(candidates, indent=3)
+    print('Candidates', nice_candidates)
     # regex = (
     #     r'(?P<raw><(?P<name>link|script)[^<]*? integrity=["\'](?P<integrity>[^"\']+)["\'][^>]*?>)'
     #     )
-    regex = (
-        r'(?P<raw><(?P<name>[a-z]+)[^<]*? integrity=["\'](?P<integrity>[^"\']+)["\'][^>]*?>)'
-        )
-    matches = re.finditer(regex, content, re.MULTILINE | re.IGNORECASE)
-    for _, match in enumerate(matches, start=1):
-        raw = match.group('raw')
-        name = match.group('name').lower()
-        integrity = match.group('integrity')
-
-        # link elements with attributes:
-        # - rel="stylesheet"
-        # - rel="preload"
-        # - rel="modulepreload"
-        print('B', raw)
-        print('\tname:', name)
-        print('\tintegrity:', integrity)
-
-        src = None
-        regex_src = r'(href|src)="(?P<src>[^"\']+)["\']'
-        group_src = re.search(regex_src, raw, re.IGNORECASE)
-        if group_src is not None:
-            src = group_src.group('src')
-            src = url_2_host_source(src, req_domain)
-            print('\tsrc/href:', src)
-
-        src_type = None
-        if name == 'script':
-            src_type = 'script'
-        else:
-            regex_type = r'(as)="(?P<as>[^"\']+)["\']'
-            group_type = re.search(regex_type, raw, re.IGNORECASE)
-            if group_type is not None:
-                tmp = group_type.group('as').lower()
-                if tmp in ('style', 'font', 'img', 'script'):
-                    src_type = tmp
-
-        link_rel = None
-        regex_rel = r'(rel)="(?P<rel>[^"\']+)["\']'
-        group_rel = re.search(regex_rel, raw, re.IGNORECASE)
-        if group_rel is not None:
-            link_rel = group_rel.group('rel').lower()
-            if src_type is None and link_rel in ('stylesheet'):
-                src_type = 'style'
-
-        print('\ttype:', src_type)
-        print('\trel:', link_rel)
-
-        if name in ('link'):
-            if link_rel not in ('stylesheet', 'preload', 'modulepreload'):
-                # TODO: Do something when using it incorrectly
-                print('WEBSITE WARNING: USING integrity incorrectly!')
-
-        if name not in ('link', 'script'):
-            # TODO: Do something when using it incorrectly
-            print('WEBSITE WARNING: USING integrity incorrectly!')
-
-        print('')
+    found_sris = get_sris(req_domain, content)
+    nice_found_sris = json.dumps(found_sris, indent=3)
+    print('SRI', nice_found_sris)
 
     csp_findings_match = csp_findings_match or append_csp_data_for_linked_resources(
         req_domain,
@@ -267,6 +182,121 @@ def append_sri_data_for_html(req_url, req_domain, res, org_domain, result):
                     result[org_domain]['csp-findings']['host-sources'].append(key)
                 csp_findings_match = True
     return csp_findings_match
+
+def get_sris(req_domain, content):
+    sri_list = []
+    regex = (
+        r'(?P<raw><(?P<name>[a-z]+)[^<]*? integrity=["\'](?P<integrity>[^"\']+)["\'][^>]*?>)'
+        )
+    matches = re.finditer(regex, content, re.MULTILINE | re.IGNORECASE)
+    for _, match in enumerate(matches, start=1):
+        raw = match.group('raw')
+        name = match.group('name').lower()
+        integrity = match.group('integrity')
+
+        # link elements with attributes:
+        # - rel="stylesheet"
+        # - rel="preload"
+        # - rel="modulepreload"
+        sri = {
+            'raw': raw,
+            'tag-name': name,
+            'integrity': integrity
+        }
+        # print('B', raw)
+        # print('\tname:', name)
+        # print('\tintegrity:', integrity)
+
+        src = None
+        regex_src = r'(href|src)="(?P<src>[^"\']+)["\']'
+        group_src = re.search(regex_src, raw, re.IGNORECASE)
+        if group_src is not None:
+            src = group_src.group('src')
+            src = url_2_host_source(src, req_domain)
+            sri['src'] = src
+            # print('\tsrc/href:', src)
+
+        src_type = None
+        if name == 'script':
+            src_type = 'script'
+        else:
+            regex_type = r'(as)="(?P<as>[^"\']+)["\']'
+            group_type = re.search(regex_type, raw, re.IGNORECASE)
+            if group_type is not None:
+                tmp = group_type.group('as').lower()
+                if tmp in ('style', 'font', 'img', 'script'):
+                    src_type = tmp
+
+        link_rel = None
+        regex_rel = r'(rel)="(?P<rel>[^"\']+)["\']'
+        group_rel = re.search(regex_rel, raw, re.IGNORECASE)
+        if group_rel is not None:
+            link_rel = group_rel.group('rel').lower()
+            if src_type is None and link_rel in ('stylesheet'):
+                src_type = 'style'
+
+        sri['type'] = src_type
+        sri['rel'] = link_rel
+        # print('\ttype:', src_type)
+        # print('\trel:', link_rel)
+
+        if name in ('link'):
+            if link_rel not in ('stylesheet', 'preload', 'modulepreload'):
+                # TODO: Do something when using it incorrectly
+                print('WEBSITE WARNING: USING integrity incorrectly!')
+
+        if name not in ('link', 'script'):
+            # TODO: Do something when using it incorrectly
+            print('WEBSITE WARNING: USING integrity incorrectly!')
+
+        print('')
+        sri_list.append(sri)
+
+    return sri_list
+
+def get_sri_candidates(req_domain, content):
+    candidates = []
+    regex = (
+        r'(?P<raw><(?P<name>link|script) [^>]*?>)'
+        )
+
+    matches = re.finditer(regex, content, re.MULTILINE | re.IGNORECASE)
+    for _, match in enumerate(matches, start=1):
+        raw = match.group('raw')
+        name = match.group('name').lower()
+
+        src = None
+        regex_src = r'(href|src)="(?P<src>[^"\']+)["\']'
+        group_src = re.search(regex_src, raw, re.IGNORECASE)
+        if group_src is not None:
+            src = group_src.group('src')
+            src = url_2_host_source(src, req_domain)
+
+        link_rel = None
+        regex_rel = r'(rel)="(?P<rel>[^"\']+)["\']'
+        group_rel = re.search(regex_rel, raw, re.IGNORECASE)
+        if group_rel is not None:
+            link_rel = group_rel.group('rel').lower()
+
+        should_have_integrity = False
+        if name in ('link'):
+            if link_rel in ('stylesheet', 'preload', 'modulepreload'):
+                should_have_integrity = True
+        elif name in ('script') and src is not None:
+            should_have_integrity = True
+
+        if should_have_integrity:
+            # print('A', raw)
+            # print('\tname:', name)
+            # print('\tsrc/href:', src)
+            # print('')
+            candidates.append({
+                'raw': raw,
+                'tag-name': name,
+                'src': src
+            })
+
+    return candidates
 
 def append_csp_data_for_linked_resources(req_domain, org_domain, result, content):
     """

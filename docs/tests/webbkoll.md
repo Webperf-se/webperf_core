@@ -1,7 +1,7 @@
-# Users’ integrity test against Webbkoll, provided by Dataskydd.net
+# Users’ integrity test against Webbkoll, provided by 5july.net
 [![Regression Test - Integrity & Security (Webbkoll) Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-webbkoll.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-webbkoll.yml)
 
-This test is using Webbkoll provided by Dataskydd.net to show how you handle user security and integrity.
+This test is using Webbkoll provided by 5july.net to show how you handle user security and integrity.
 
 ## What is being tested?
 
@@ -30,14 +30,14 @@ Lowest rating is as always 1.0
 
 ## Read more
 
-* https://webbkoll.dataskydd.net/
+* https://webbkoll.5july.net/
 
 ## How to setup?
 
 ### Prerequirements
 
 * Fork this repository
-* As we are using external service ( https://webbkoll.dataskydd.net/ ) your site needs to be publicly available and the machine running
+* As we are using external service ( https://webbkoll.5july.net/ ) your site needs to be publicly available and the machine running
 this test needs to be able to access external service.
 
 ### Setup with GitHub Actions

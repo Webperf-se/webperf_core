@@ -140,6 +140,7 @@ def append_sri_data_for_html(req_url, req_domain, res, org_domain, result):
     # Reference: https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity
     # https://www.srihash.org/
     content = res['content']['text']
+    # TODO: Should we match all elements and give penalty when used wrong?
     regex = (
         r'(?P<raw><(?P<name>link|script)[^<]*? integrity=["\'](?P<integrity>[^"\']+)["\'][^>]*?>)'
         )
@@ -176,16 +177,21 @@ def append_sri_data_for_html(req_url, req_domain, res, org_domain, result):
                 if tmp in ('style', 'font', 'img', 'script'):
                     src_type = tmp
 
-        if src_type is None:
-            regex_rel = r'(rel)="(?P<rel>[^"\']+)["\']'
-            group_rel = re.search(regex_rel, raw, re.IGNORECASE)
-            if group_rel is not None:
-                tmp = group_rel.group('rel').lower()
-                if tmp in ('stylesheet'):
-                    src_type = 'style'
+        link_rel = None
+        regex_rel = r'(rel)="(?P<rel>[^"\']+)["\']'
+        group_rel = re.search(regex_rel, raw, re.IGNORECASE)
+        if group_rel is not None:
+            link_rel = group_rel.group('rel').lower()
+            if src_type is None and link_rel in ('stylesheet'):
+                src_type = 'style'
 
         print('\ttype:', src_type)
+        print('\trel:', link_rel)
 
+        if name in ('link'):
+            if link_rel not in ('stylesheet', 'preload', 'modulepreload'):
+                # TODO: Do something when using it incorrectly
+                print('WEBSITE WARNING: USING integrity incorrectly!')
 
         print('')
 

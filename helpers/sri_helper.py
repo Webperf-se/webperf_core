@@ -145,12 +145,24 @@ def append_sri_data_for_html(req_url, req_domain, res, org_domain, result):
     candidates = get_sri_candidates(req_domain, content)
     nice_candidates = json.dumps(candidates, indent=3)
     print('Candidates', nice_candidates)
-    # regex = (
-    #     r'(?P<raw><(?P<name>link|script)[^<]*? integrity=["\'](?P<integrity>[^"\']+)["\'][^>]*?>)'
-    #     )
-    found_sris = get_sris(req_domain, content)
-    nice_found_sris = json.dumps(found_sris, indent=3)
-    print('SRI', nice_found_sris)
+
+    sri_list = get_sris(req_domain, content)
+    nice_sri_list = json.dumps(sri_list, indent=3)
+    print('SRI', nice_sri_list)
+
+    for sri in sri_list:
+        found_candidate = False
+        for candidate in candidates:
+            if candidate['raw'] == sri['raw']:
+                found_candidate = candidate
+                break
+
+        if found_candidate is not None:
+            candidates.remove(found_candidate)
+
+    nice_candidates = json.dumps(candidates, indent=3)
+    print('Candidates', nice_candidates)
+
 
     csp_findings_match = csp_findings_match or append_csp_data_for_linked_resources(
         req_domain,
@@ -243,10 +255,11 @@ def get_sris(req_domain, content):
         if name in ('link'):
             if link_rel not in ('stylesheet', 'preload', 'modulepreload'):
                 # TODO: Do something when using it incorrectly
+                sri['error'] = 'Using integrity attribute in combination with unallowed rel attribute value.'
                 print('WEBSITE WARNING: USING integrity incorrectly!')
-
-        if name not in ('link', 'script'):
+        elif name not in ('link', 'script'):
             # TODO: Do something when using it incorrectly
+            sri['error'] = 'Using integrity attribute on wrong element type.'
             print('WEBSITE WARNING: USING integrity incorrectly!')
 
         print('')

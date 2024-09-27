@@ -141,10 +141,13 @@ def append_sri_data_for_html(req_url, req_domain, res, org_domain, result):
     # https://www.srihash.org/
     content = res['content']['text']
     # TODO: Should we match all elements and give penalty when used wrong?
+    # regex = (
+    #     r'(?P<raw><(?P<name>link|script)[^<]*? integrity=["\'](?P<integrity>[^"\']+)["\'][^>]*?>)'
+    #     )
     regex = (
-        r'(?P<raw><(?P<name>link|script)[^<]*? integrity=["\'](?P<integrity>[^"\']+)["\'][^>]*?>)'
+        r'(?P<raw><(?P<name>[a-z]+)[^<]*? integrity=["\'](?P<integrity>[^"\']+)["\'][^>]*?>)'
         )
-    matches = re.finditer(regex, content, re.MULTILINE)
+    matches = re.finditer(regex, content, re.MULTILINE | re.IGNORECASE)
     for _, match in enumerate(matches, start=1):
         raw = match.group('raw')
         name = match.group('name').lower()
@@ -192,6 +195,10 @@ def append_sri_data_for_html(req_url, req_domain, res, org_domain, result):
             if link_rel not in ('stylesheet', 'preload', 'modulepreload'):
                 # TODO: Do something when using it incorrectly
                 print('WEBSITE WARNING: USING integrity incorrectly!')
+
+        if name not in ('link', 'script'):
+            # TODO: Do something when using it incorrectly
+            print('WEBSITE WARNING: USING integrity incorrectly!')
 
         print('')
 

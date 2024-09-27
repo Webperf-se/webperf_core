@@ -13,6 +13,7 @@ import dns.rdatatype
 from helpers.csp_helper import rate_csp
 from helpers.data_helper import append_domain_entry, has_domain_entry
 from helpers.sitespeed_helper import get_data_from_sitespeed
+from helpers.sri_helper import rate_sri
 from helpers.tls_helper import rate_transfer_layers
 from helpers.setting_helper import get_config
 from models import Rating
@@ -306,6 +307,13 @@ def rate(org_domain, result_dict, global_translation, local_translation):
             org_www_domain,
             domain,
             should_create_recommendation)
+        rating += rate_sri(
+            result_dict,
+            global_translation,
+            local_translation,
+            org_domain,
+            org_www_domain,
+            domain)
 
     return rating
 

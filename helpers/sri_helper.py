@@ -260,10 +260,8 @@ def append_sri_errors(name, sri, link_rel):
             sri['error'] = (
                     'Using integrity attribute in combination '
                     'with unallowed rel attribute value.')
-            print('WEBSITE WARNING: USING integrity incorrectly!')
     elif name not in ('link', 'script'):
         sri['error'] = 'Using integrity attribute on wrong element type.'
-        print('WEBSITE WARNING: USING integrity incorrectly!')
 
 def append_with_src(req_domain, raw, obj):
     """

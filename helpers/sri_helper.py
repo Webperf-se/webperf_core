@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-# pylint: disable=too-many-lines
-import json
 import re
 import urllib
 import urllib.parse
@@ -8,7 +6,7 @@ from helpers.data_helper import append_domain_entry
 from helpers.setting_helper import get_config
 from models import Rating
 
-# pylint: disable=too-many-arguments
+# pylint: disable=too-many-arguments,too-many-positional-arguments
 def rate_sri(result_dict, global_translation, local_translation,
              org_domain, org_www_domain, domain):
     """
@@ -72,7 +70,7 @@ def rate_sri(result_dict, global_translation, local_translation,
 
     return rating
 
-def append_sri_data(req_url, req_domain, res, org_domain, result):
+def append_sri_data(req_domain, res, result):
     """
     Appends Subresource Integrity (SRI) data for various types of content.
 
@@ -80,22 +78,18 @@ def append_sri_data(req_url, req_domain, res, org_domain, result):
     calls the appropriate function to append the SRI data to the result dictionary. 
 
     Args:
-        req_url (str): The requested URL.
         req_domain (str): The requested domain.
         res (dict): The response dictionary containing the content.
-        org_domain (str): The original domain.
         result (dict): The result dictionary where the CSP data will be appended.
     """
     if 'content' in res and 'text' in res['content']:
         if 'mimeType' in res['content'] and 'text/html' in res['content']['mimeType']:
             append_sri_data_for_html(
-                req_url,
                 req_domain,
                 res,
-                org_domain,
                 result)
 
-def append_sri_data_for_html(req_url, req_domain, res, org_domain, result):
+def append_sri_data_for_html(req_domain, res, result):
     """
     Appends Subresource Integrity (SRI) data for HTML content and linked resources.
 
@@ -104,10 +98,8 @@ def append_sri_data_for_html(req_url, req_domain, res, org_domain, result):
     It then appends the SRI data for these resources to the result dictionary.
 
     Args:
-        req_url (str): The requested URL.
         req_domain (str): The requested domain.
         res (dict): The response dictionary containing the HTML content.
-        org_domain (str): The original domain.
         result (dict): The result dictionary where the SRI data will be appended.
     """
     # Reference: https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity
@@ -155,6 +147,21 @@ def append_sri_data_for_html(req_url, req_domain, res, org_domain, result):
             result)
 
 def get_sris(req_domain, content):
+    """
+    Extracts Subresource Integrity (SRI) information from HTML content.
+
+    This function searches for HTML tags with 'integrity' attributes within the provided content,
+    extracts relevant SRI details, and processes them using helper functions to append additional
+    information. The results are returned as a list of dictionaries.
+
+    Args:
+        req_domain (str): The domain from which the request originated.
+        content (str): The HTML content to be parsed.
+
+    Returns:
+        list: A list of dictionaries,
+              each containing SRI information and additional processed data.
+    """
     sri_list = []
     regex = (
         r'(?P<raw><(?P<name>[a-z]+)[^<]*? integrity=["\'](?P<integrity>[^"\']+)["\'][^>]*?>)'
@@ -171,51 +178,143 @@ def get_sris(req_domain, content):
             'integrity': integrity
         }
 
-        src = None
-        regex_src = r'(href|src)="(?P<src>[^"\']+)["\']'
-        group_src = re.search(regex_src, raw, re.IGNORECASE)
-        if group_src is not None:
-            src = group_src.group('src')
-            sri['src'] = src
-            sri['src-same-origin'] = is_same_domain(src, req_domain)
-
-        src_type = None
-        if name == 'script':
-            src_type = 'script'
-        else:
-            regex_type = r'(as)="(?P<as>[^"\']+)["\']'
-            group_type = re.search(regex_type, raw, re.IGNORECASE)
-            if group_type is not None:
-                tmp = group_type.group('as').lower()
-                if tmp in ('style', 'font', 'img', 'script'):
-                    src_type = tmp
-
-        link_rel = None
-        regex_rel = r'(rel)="(?P<rel>[^"\']+)["\']'
-        group_rel = re.search(regex_rel, raw, re.IGNORECASE)
-        if group_rel is not None:
-            link_rel = group_rel.group('rel').lower()
-            if src_type is None and link_rel in ('stylesheet'):
-                src_type = 'style'
-
-        sri['type'] = src_type
-        sri['rel'] = link_rel
-
-        if name in ('link'):
-            if link_rel not in ('stylesheet', 'preload', 'modulepreload'):
-                # TODO: Do something when using it incorrectly
-                sri['error'] = 'Using integrity attribute in combination with unallowed rel attribute value.'
-                print('WEBSITE WARNING: USING integrity incorrectly!')
-        elif name not in ('link', 'script'):
-            # TODO: Do something when using it incorrectly
-            sri['error'] = 'Using integrity attribute on wrong element type.'
-            print('WEBSITE WARNING: USING integrity incorrectly!')
+        append_with_src(req_domain, raw, sri)
+        src_type = append_with_src_type(raw, name)
+        link_rel = append_with_rel(raw, sri, src_type)
+        append_sri_errors(name, sri, link_rel)
 
         sri_list.append(sri)
 
     return sri_list
 
+def append_with_src_type(raw, name):
+    """
+    Determines the source type of an HTML tag based on its attributes.
+
+    This function checks the tag name and
+    its attributes to identify the type of resource it represents.
+    If the tag is a 'script', it directly assigns 'script' as the source type.
+    For other tags, it searches for the 'as' attribute and
+    assigns the corresponding type if it matches known resource types.
+
+    Args:
+        raw (str): The raw HTML tag string.
+        name (str): The name of the HTML tag.
+
+    Returns:
+        str or None: The determined source type ('script', 'style', 'font', 'img')
+                     or None if not identified.
+    """
+    src_type = None
+    if name == 'script':
+        src_type = 'script'
+    else:
+        regex_type = r'(as)="(?P<as>[^"\']+)["\']'
+        group_type = re.search(regex_type, raw, re.IGNORECASE)
+        if group_type is not None:
+            tmp = group_type.group('as').lower()
+            if tmp in ('style', 'font', 'img', 'script'):
+                src_type = tmp
+    return src_type
+
+def append_with_rel(raw, sri, src_type):
+    """
+    Extracts and processes the 'rel' attribute from an HTML tag.
+
+    This function searches for the 'rel' attribute within the provided HTML tag string.
+    It assigns the corresponding source type if the 'rel' attribute indicates a stylesheet and
+    updates the SRI dictionary with the determined type and 'rel' attribute.
+
+    Args:
+        raw (str): The raw HTML tag string.
+        sri (dict): The dictionary containing SRI information to be updated.
+        src_type (str or None): The current source type,
+                                which may be updated based on the 'rel' attribute.
+
+    Returns:
+        str or None: The value of the 'rel' attribute if found, otherwise None.
+    """
+    link_rel = None
+    regex_rel = r'(rel)="(?P<rel>[^"\']+)["\']'
+    group_rel = re.search(regex_rel, raw, re.IGNORECASE)
+    if group_rel is not None:
+        link_rel = group_rel.group('rel').lower()
+        if src_type is None and link_rel in ('stylesheet'):
+            src_type = 'style'
+
+    sri['type'] = src_type
+    sri['rel'] = link_rel
+    return link_rel
+
+def append_sri_errors(name, sri, link_rel):
+    """
+    Validates the use of the integrity attribute in HTML tags and logs errors.
+
+    This function checks if the integrity attribute is used correctly based on the tag name and
+    its 'rel' attribute.
+    It updates the SRI dictionary with error messages if the integrity attribute is
+    used incorrectly and logs warnings.
+
+    Args:
+        name (str): The name of the HTML tag.
+        sri (dict): The dictionary containing SRI information to be updated.
+        link_rel (str or None): The value of the 'rel' attribute of the HTML tag.
+
+    Returns:
+        None
+    """
+    if name in ('link'):
+        if link_rel not in ('stylesheet', 'preload', 'modulepreload'):
+                # TODO: Do something when using it incorrectly
+            sri['error'] = (
+                    'Using integrity attribute in combination '
+                    'with unallowed rel attribute value.')
+            print('WEBSITE WARNING: USING integrity incorrectly!')
+    elif name not in ('link', 'script'):
+            # TODO: Do something when using it incorrectly
+        sri['error'] = 'Using integrity attribute on wrong element type.'
+        print('WEBSITE WARNING: USING integrity incorrectly!')
+
+def append_with_src(req_domain, raw, obj):
+    """
+    Extracts the source URL from an HTML tag and updates the SRI object.
+
+    This function searches for 'href' or 'src' attributes within the provided HTML tag string,
+    extracts the URL, and updates the SRI dictionary with the source URL and
+    a flag indicating if the source is from the same domain.
+
+    Args:
+        req_domain (str): The domain from which the request originated.
+        raw (str): The raw HTML tag string.
+        obj (dict): The dictionary containing SRI information to be updated.
+
+    Returns:
+        None
+    """
+    src = None
+    regex_src = r'(href|src)="(?P<src>[^"\']+)["\']'
+    group_src = re.search(regex_src, raw, re.IGNORECASE)
+    if group_src is not None:
+        src = group_src.group('src')
+        obj['src'] = src
+        obj['src-same-origin'] = is_same_domain(src, req_domain)
+
 def get_sri_candidates(req_domain, content):
+    """
+    Identifies HTML tags that should have Subresource Integrity (SRI) attributes.
+
+    This function searches for 'link' and 'script' tags within the provided HTML content,
+    determines if they should have SRI attributes based on their attributes and origin,
+    and returns a list of candidate tags.
+
+    Args:
+        req_domain (str): The domain from which the request originated.
+        content (str): The HTML content to be parsed.
+
+    Returns:
+        list: A list of dictionaries,
+              each representing a candidate tag that should have an SRI attribute.
+    """
     candidates = []
     regex = (
         r'(?P<raw><(?P<name>link|script) [^>]*?>)'
@@ -226,55 +325,45 @@ def get_sri_candidates(req_domain, content):
         raw = match.group('raw')
         name = match.group('name').lower()
 
-        src = None
-        src_same_origin = False
-        regex_src = r'(href|src)="(?P<src>[^"\']+)["\']'
-        group_src = re.search(regex_src, raw, re.IGNORECASE)
-        if group_src is not None:
-            src = group_src.group('src')
-            src_same_origin = is_same_domain(src, req_domain)
-
-        link_rel = None
-        regex_rel = r'(rel)="(?P<rel>[^"\']+)["\']'
-        group_rel = re.search(regex_rel, raw, re.IGNORECASE)
-        if group_rel is not None:
-            link_rel = group_rel.group('rel').lower()
+        candidate = {
+            'raw': raw,
+            'tag-name': name
+        }
+        append_with_src(req_domain, raw, candidate)
+        link_rel = append_with_rel(raw, candidate, None)
 
         should_have_integrity = False
         if name in ('link'):
             if link_rel in ('stylesheet', 'preload', 'modulepreload'):
                 should_have_integrity = True
-        elif name in ('script') and src is not None:
+        elif name in ('script') and candidate['src'] is not None:
             should_have_integrity = True
 
         # NOTE: Remove same domain resources
-        if should_have_integrity and src_same_origin:
+        if should_have_integrity and candidate['src-same-origin']:
             should_have_integrity = False
 
         if should_have_integrity:
-            candidates.append({
-                'raw': raw,
-                'tag-name': name,
-                'src': src,
-                'src-same-origin': src_same_origin
-            })
+            candidates.append(candidate)
 
     return candidates
 
 def is_same_domain(url, domain):
+    """
+    Check if given url is using same domain.
+
+    Args:
+        url (str): URL to check.
+        domain (str): Domain to compare with.
+
+    Returns:
+        bool: True if URL uses same domain, otherwise False.
+    """
     if url.startswith('//'):
         url = url.replace('//', 'https://')
-    elif url.startswith('https://'):
-        url = url
-    elif '://' in url:
-        url = url
-    elif ':' in url:
-        url = url
     elif url.startswith('/'):
         url = url.strip('/')
         url = f'https://{domain}/{url}'
 
-    o = urllib.parse.urlparse(url)
-    resource_domain = o.hostname
-
-    return domain == resource_domain
+    parsed_url = urllib.parse.urlparse(url)
+    return parsed_url.hostname == domain

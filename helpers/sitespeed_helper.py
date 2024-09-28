@@ -106,7 +106,7 @@ def get_data_from_sitespeed(filename, org_domain):
                 result)
 
             append_csp_data(req_url, req_domain, res, org_domain, result)
-            append_sri_data(req_url, req_domain, res, org_domain, result)
+            append_sri_data(req_domain, res, result)
 
     result['visits'] = 1
     return result

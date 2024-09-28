@@ -265,13 +265,11 @@ def append_sri_errors(name, sri, link_rel):
     """
     if name in ('link'):
         if link_rel not in ('stylesheet', 'preload', 'modulepreload'):
-                # TODO: Do something when using it incorrectly
             sri['error'] = (
                     'Using integrity attribute in combination '
                     'with unallowed rel attribute value.')
             print('WEBSITE WARNING: USING integrity incorrectly!')
     elif name not in ('link', 'script'):
-            # TODO: Do something when using it incorrectly
         sri['error'] = 'Using integrity attribute on wrong element type.'
         print('WEBSITE WARNING: USING integrity incorrectly!')
 

@@ -73,7 +73,7 @@ def run_test(global_translation, url):
         review = local_translation('TEXT_REVIEW_IS_VERY_BAD') + review
         points = 1.0
 
-    # give us result date (for when dataskydd.net generated report)
+    # give us result date (for when 5july.net generated report)
     extend_review_with_date_for_last_run(review, local_translation, result_title)
 
     rating.set_overall(points)
@@ -106,7 +106,7 @@ def extend_review_with_date_for_last_run(review, local_translation, result_title
 
 def get_html_content(orginal_url, lang_code, local_translation):
     """
-    Retrieves test result as HTML content from webbkollen website by dataskydd.
+    Retrieves test result as HTML content from webbkollen website by 5July.
 
     Args:
         orginal_url (str): The URL of the webpage to be retrieved.
@@ -127,7 +127,7 @@ def get_html_content(orginal_url, lang_code, local_translation):
     while has_refresh_statement:
         has_refresh_statement = False
         request = session.get(
-            (f'https://webbkoll.dataskydd.net/{lang_code}'
+            (f'https://webbkoll.5july.net/{lang_code}'
              f'/check?url={urllib.parse.quote(orginal_url)}'),
             allow_redirects=True,
             headers=headers,
@@ -145,7 +145,7 @@ def get_html_content(orginal_url, lang_code, local_translation):
                 '_csrf_token': csrf_value,
                 'url': orginal_url,
                 'submit': ''}
-            service_url = f'https://webbkoll.dataskydd.net/{lang_code}/check'
+            service_url = f'https://webbkoll.5july.net/{lang_code}/check'
             request = session.post(service_url, allow_redirects=True,
                                    headers=headers,
                                    timeout=get_config('general.request.timeout'),

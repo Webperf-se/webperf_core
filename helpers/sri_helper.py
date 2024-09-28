@@ -107,12 +107,7 @@ def append_sri_data_for_html(req_domain, res, result):
     content = res['content']['text']
 
     candidates = get_sri_candidates(req_domain, content)
-    # nice_candidates = json.dumps(candidates, indent=3)
-    # print('Candidates', nice_candidates)
-
     sri_list = get_sris(req_domain, content)
-    # nice_sri_list = json.dumps(sri_list, indent=3)
-    # print('SRI', nice_sri_list)
 
     sri_errors = []
 

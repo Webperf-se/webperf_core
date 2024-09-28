@@ -125,9 +125,6 @@ def append_sri_data_for_html(req_domain, res, result):
         if found_candidate is not None:
             candidates.remove(found_candidate)
 
-    # nice_candidates = json.dumps(candidates, indent=3)
-    # print('Candidates', nice_candidates)
-
     if len(sri_errors) > 0:
         append_domain_entry(
             req_domain,

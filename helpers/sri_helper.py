@@ -43,7 +43,7 @@ def rate_sri(result_dict, global_translation, local_translation,
             errors_str_list = ''
             errors = result_dict[domain]['sri-findings']['sri-errors']
             for error in errors:
-                errors_str_list += f"  - '{error}'\r\n"
+                errors_str_list += f"  - {error}\r\n"
 
             sub_rating.set_standards(3.0,
                     local_translation(
@@ -85,7 +85,7 @@ def rate_sri(result_dict, global_translation, local_translation,
             candidates_str_list = ''
             candidates = result_dict[domain]['sri-findings']['sri-candidates']
             for candidate in candidates:
-                candidates_str_list += f"  - '{candidate}'\r\n"
+                candidates_str_list += f"  - `{candidate}`\r\n"
 
             rating.set_integrity_and_security(1.0,
                 local_translation(

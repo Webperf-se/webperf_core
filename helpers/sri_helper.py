@@ -2,7 +2,8 @@
 import re
 import urllib
 import urllib.parse
-from helpers.data_helper import append_domain_entry
+from helpers.data_helper import append_domain_entry,\
+    append_domain_entry_with_key, has_domain_entry
 from helpers.setting_helper import get_config
 from models import Rating
 
@@ -61,12 +62,26 @@ def rate_sri(result_dict, global_translation, local_translation,
         rating += sub_rating
     elif 'HTML-FOUND' in result_dict[domain]['features'] and\
             (domain in (org_domain, org_www_domain)):
+
         rating = Rating(global_translation, get_config('general.review.improve-only'))
         rating.set_overall(1.0)
-        rating.set_standards(1.0,
-            local_translation('TEXT_REVIEW_SRI_NONE_COMPLIANT').format(domain))
-        rating.set_integrity_and_security(1.0,
-            local_translation('TEXT_REVIEW_SRI_NONE_COMPLIANT').format(domain))
+
+        if get_config('general.review.details') and \
+                has_domain_entry(domain, 'sri-findings', 'sri-candidates', result_dict):
+            candidates_str_list = ''
+            candidates = result_dict[domain]['sri-findings']['sri-candidates']
+            for candidate in candidates:
+                candidates_str_list += f"  - '{candidate}'\r\n"
+
+            rating.set_integrity_and_security(1.0,
+                local_translation(
+                    'TEXT_REVIEW_SRI_NONE_COMPLIANT_DETAILS'
+                    ).format(domain))
+            rating.integrity_and_security_review = rating.integrity_and_security_review +\
+                candidates_str_list
+        else:
+            rating.set_integrity_and_security(1.0,
+                local_translation('TEXT_REVIEW_SRI_NONE_COMPLIANT').format(domain))
 
     return rating
 
@@ -131,12 +146,28 @@ def append_sri_data_for_html(req_domain, res, result):
             'features',
             'SRI-WITH-ERRORS',
             result)
+        for sri_error in sri_errors:
+            append_domain_entry_with_key(
+                req_domain,
+                'sri-findings',
+                'sri-errors',
+                sri_error,
+                result)
+
     elif len(candidates) == 0:
         append_domain_entry(
             req_domain,
             'features',
             'SRI-COMPLIANT',
             result)
+    else:
+        for candidate in candidates:
+            append_domain_entry_with_key(
+                req_domain,
+                'sri-findings',
+                'sri-candidates',
+                candidate['raw'],
+                result)
 
 def get_sris(req_domain, content):
     """
@@ -324,7 +355,7 @@ def get_sri_candidates(req_domain, content):
         if name in ('link'):
             if link_rel in ('stylesheet', 'preload', 'modulepreload'):
                 should_have_integrity = True
-        elif name in ('script') and candidate['src'] is not None:
+        elif name in ('script') and ('src' in candidate and candidate['src'] is not None):
             should_have_integrity = True
 
         # NOTE: Remove same domain resources

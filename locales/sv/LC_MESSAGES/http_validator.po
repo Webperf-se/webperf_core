@@ -196,7 +196,10 @@ msgid "TEXT_REVIEW_SRI_COMPLIANT"
 msgstr "- {0}, Subresource Integrity (SRI)"
 
 msgid "TEXT_REVIEW_SRI_NONE_COMPLIANT"
-msgstr "- {0}, Kräver Subresource Integrity (SRI)"
+msgstr "- {0}, Subresource Integrity (SRI) krävs"
+
+msgid "TEXT_REVIEW_SRI_NONE_COMPLIANT_DETAILS"
+msgstr "- {0}, Subresource Integrity (SRI) krävs för följande HTML-element"
 
 msgid "TEXT_REVIEW_SRI_WITH_ERRORS"
-msgstr "- {0}, Använder Subresource Integrity (SRI) på felaktigt sätt"
+msgstr "- {0}, Subresource Integrity (SRI) används på felaktigt sätt"

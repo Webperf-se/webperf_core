@@ -37,14 +37,28 @@ def rate_sri(result_dict, global_translation, local_translation,
             global_translation,
             get_config('general.review.improve-only'))
         sub_rating.set_overall(3.0)
-        sub_rating.set_standards(3.0,
-                local_translation(
-                'TEXT_REVIEW_SRI_WITH_ERRORS'
-            ).format(domain))
-        sub_rating.set_integrity_and_security(3.0,
-                local_translation(
-                'TEXT_REVIEW_SRI_WITH_ERRORS'
-            ).format(domain))
+
+        if get_config('general.review.details') and \
+                has_domain_entry(domain, 'sri-findings', 'sri-errors', result_dict):
+            errors_str_list = ''
+            errors = result_dict[domain]['sri-findings']['sri-errors']
+            for error in errors:
+                errors_str_list += f"  - '{error}'\r\n"
+
+            sub_rating.set_standards(3.0,
+                    local_translation(
+                    'TEXT_REVIEW_SRI_WITH_ERRORS_DETAILS'
+                ).format(domain))
+
+            rating.standards_review = rating.standards_review +\
+                errors_str_list
+        else:
+            sub_rating.set_standards(3.0,
+                    local_translation(
+                    'TEXT_REVIEW_SRI_WITH_ERRORS'
+                ).format(domain))
+
+
         rating += sub_rating
     elif 'SRI-COMPLIANT' in result_dict[domain]['features']:
         sub_rating = Rating(

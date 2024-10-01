@@ -129,7 +129,7 @@ def check_requirements():
     matches = re.finditer(
         regex, requirements_content, re.MULTILINE)
     for _, match in enumerate(matches, start=1):
-        dependency_name = match.group('name')
+        dependency_name = match.group('name').lower()
         dependency_version = match.group('version')
         requirements_dependencies[dependency_name] = dependency_version
 
@@ -146,7 +146,7 @@ def check_requirements():
     matches = re.finditer(
         regex, result.replace('\\n', '\n').replace('\\r', '\r'), re.MULTILINE)
     for _, match in enumerate(matches, start=1):
-        dependency_name = match.group('name')
+        dependency_name = match.group('name').lower()
         dependency_version = match.group('version')
         installed_dependencies[dependency_name] = dependency_version
 

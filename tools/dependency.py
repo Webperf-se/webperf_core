@@ -325,8 +325,9 @@ def check_browser(browser):
     result, error = test_cmd(command)
 
     if len(error) > 0:
-        print(sitespeed_arg)
         print(f'\t- {browser}:', 'ERROR: Exited with errors')
+        print(f'\t\tSiteSpeed Arguments: {sitespeed_arg}')
+        print(f'\t\tError Message: {error}')
         return
 
     if result is None:

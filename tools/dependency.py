@@ -217,6 +217,28 @@ def check_package():
                     'node_modules',
                     dependency_name,
                     'package.json')
+                if dependency_name == 'vnu-jar':
+                    vnu_jar_path = os.path.join(
+                        webperf_dir,
+                        'node_modules',
+                        dependency_name,
+                        'build',
+                        'dist',
+                        'vnu.jar')
+                    if os.path.exists(vnu_jar_path):
+                        try:
+                            import zipfile
+                            archive = zipfile.ZipFile(vnu_jar_path, 'r')
+                            manifest_content = archive.read('META-INF/MANIFEST.MF').decode()
+                            if f'Implementation-Version: {dependency_version}' in manifest_content:
+                                print(f"\t\t- {dependency_name}: OK")
+                                continue
+                        except Exception as ex:
+                             print('ERROR', ex)
+                             _ = 1
+                        print(f"\t\t- {dependency_name}: Unknown version")
+                        continue
+
                 if not os.path.exists(dependency_package_path):
                     print(f"\t\t- {dependency_name} v{dependency_version}: Not found")
                     continue

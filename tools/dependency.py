@@ -64,7 +64,7 @@ def check_java():
     _, result = test_cmd('java -version')
 
     version = None
-    regex = r"java version \"(?P<version>[0-9\.\_]+)\""
+    regex = r"(?P<name>java|openjdk) version \"(?P<version>[0-9\.\_]+)\""
     matches = re.finditer(
         regex, result, re.MULTILINE)
     for _, match in enumerate(matches, start=1):

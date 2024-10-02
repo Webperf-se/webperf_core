@@ -47,6 +47,30 @@ jobs:
           echo "Error: WebPerf-core help command is NOT returning expected content"
           exit 1
         fi
+    - name: Check if dependency tool works
+      run: |
+        help=$(docker run ${{ env.TEST_TAG }} python tools/dependency.py)
+        echo "$help"
+        if [[ "$help" != *"Python: OK"* ]]; then
+          echo "Error: dependency tool - Error with Python"
+          exit 1
+        fi
+        if [[ "$help" != *"Node: OK"* ]]; then
+          echo "Error: dependency tool - Error with Node"
+          exit 1
+        fi
+        if [[ "$help" != *"Java: OK"* ]]; then
+          echo "Error: dependency tool - Error with Java"
+          exit 1
+        fi
+        if [[ "$help" != *"chrome: OK"* ]]; then
+          echo "Error: dependency tool - Error with Chrome"
+          exit 1
+        fi
+        if [[ "$help" != *"firefox: OK"* ]]; then
+          echo "Error: dependency tool - Error with Firefox"
+          exit 1
+        fi
     - name: Check if webperf_core can run Test 1
       if: always()
       run: |

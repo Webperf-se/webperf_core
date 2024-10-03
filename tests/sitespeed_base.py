@@ -183,7 +183,7 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
     Otherwise, it is run on the host system. The command is constructed using
     the provided `arg` and `timeout` parameters.
 
-    If the command execution exceeds the `timeout` multiplied by 10, a 
+    If the command execution exceeds the `timeout`, a 
     subprocess.TimeoutExpired exception is raised, and the process is terminated.
 
     Parameters:
@@ -196,7 +196,7 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
     """
     result = ''
     process = None
-    process_failsafe_timeout = timeout * 10
+    process_failsafe_timeout = timeout
     try:
         if sitespeed_use_docker:
             base_directory = Path(os.path.dirname(
@@ -207,7 +207,7 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
             command = (
                 f"docker run --rm -v {data_dir}:/sitespeed.io "
                 f"sitespeedio/sitespeed.io:{sitespeedio_version} "
-                f"--maxLoadTime {(timeout * 1000)} {arg}"
+                f"--maxLoadTime {(timeout)} {arg}"
                 )
 
             with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
@@ -222,7 +222,7 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
                 print('ERROR! Could not locate Firefox on the current system.')
         else:
             command = (f"node node_modules{os.path.sep}sitespeed.io{os.path.sep}"
-                       f"bin{os.path.sep}sitespeed.js --maxLoadTime {(timeout * 1000)} {arg}")
+                       f"bin{os.path.sep}sitespeed.js --maxLoadTime {(timeout)} {arg}")
 
             with subprocess.Popen(
                 command.split(), stdout=subprocess.PIPE) as process:

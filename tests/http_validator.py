@@ -122,7 +122,7 @@ def check_tls_version_1_0(url, result_dict, o_domain):
             ' --firefox.preference security.tls.version.max:1'
             ' --pageCompleteCheckNetworkIdle true')
         url2 = change_url_to_test_url(url, 'TLSv1.0')
-        print('TLSv1.0', o_domain)
+        print('TLSv1.0', o_domain, datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
         tmp_result = get_website_support_from_sitespeed(
                 url2,
                 o_domain,
@@ -157,7 +157,7 @@ def check_tls_version_1_1(url, result_dict, o_domain):
             ' --firefox.preference security.tls.version.min:2'
             ' --firefox.preference security.tls.version.max:2')
         url2 = change_url_to_test_url(url, 'TLSv1.1')
-        print('TLSv1.1', o_domain)
+        print('TLSv1.1', o_domain, datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
         tmp_result = get_website_support_from_sitespeed(
                 url2,
                 o_domain,
@@ -192,7 +192,7 @@ def check_tls_version_1_2(url, result_dict, o_domain):
             ' --firefox.preference security.tls.version.min:3'
             ' --firefox.preference security.tls.version.max:3')
         url2 = change_url_to_test_url(url, 'TLSv1.2')
-        print('TLSv1.2', o_domain)
+        print('TLSv1.2', o_domain, datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
         tmp_result = get_website_support_from_sitespeed(
                 url2,
                 o_domain,
@@ -227,7 +227,7 @@ def check_tls_version_1_3(url, result_dict, o_domain):
             ' --firefox.preference security.tls.version.min:4'
             ' --firefox.preference security.tls.version.max:4')
         url2 = change_url_to_test_url(url, 'TLSv1.3')
-        print('TLSv1.3', o_domain)
+        print('TLSv1.3', o_domain, datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
         tmp_result = get_website_support_from_sitespeed(
                 url2,
                 o_domain,
@@ -639,7 +639,7 @@ def check_csp(url):
 
     browser = 'chrome'
     configuration = ''
-    print('CSP ONLY', o_domain)
+    print('CSP ONLY', o_domain, datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
     result_dict = get_website_support_from_sitespeed(
         url,
         o_domain,
@@ -678,7 +678,7 @@ def check_http_to_https(url):
 
     browser = 'chrome'
     configuration = ''
-    print('HTTP', o_domain)
+    print('HTTP', o_domain, datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
     result_dict = get_website_support_from_sitespeed(
         http_url,
         o_domain,
@@ -691,7 +691,7 @@ def check_http_to_https(url):
         if not has_domain_entry(o_domain, 'schemes', 'HTTPS', result_dict):
             append_domain_entry(o_domain, 'schemes', 'HTTP-REDIRECT*', result_dict)
             https_url = url.replace('http://', 'https://')
-            print('HTTPS', o_domain)
+            print('HTTPS', o_domain, datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
             result_dict = merge_dicts(
                 get_website_support_from_sitespeed(
                     https_url,
@@ -712,7 +712,7 @@ def check_http_to_https(url):
         if not has_domain_entry(www_domain_key, 'schemes', 'HTTP', result_dict):
             append_domain_entry(www_domain_key, 'schemes', 'HTTPS-REDIRECT*', result_dict)
             www_http_url = http_url.replace(o_domain, www_domain_key)
-            print('HTTP', www_domain_key)
+            print('HTTP', www_domain_key, datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
             result_dict = merge_dicts(
                 get_website_support_from_sitespeed(
                     www_http_url,
@@ -923,7 +923,7 @@ def check_http_version(url, result_dict):
             ' --firefox.preference network.http.http2.enabled:false'
             ' --firefox.preference network.http.http3.enable:false')
         url2 = change_url_to_test_url(url, 'HTTPv1')
-        print('HTTP/1.1')
+        print('HTTP/1.1', o_domain, datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
         result_dict = merge_dicts(
             get_website_support_from_sitespeed(
                 url2,
@@ -940,7 +940,7 @@ def check_http_version(url, result_dict):
             ' --firefox.preference network.http.http3.enable:false'
             ' --firefox.preference network.http.version:2.0')
         url2 = change_url_to_test_url(url, 'HTTPv2')
-        print('HTTP/2')
+        print('HTTP/2', o_domain, datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
         result_dict = merge_dicts(
             get_website_support_from_sitespeed(
                 url2,
@@ -957,7 +957,7 @@ def check_http_version(url, result_dict):
             ' --firefox.preference network.http.http3.enable:true'
             ' --firefox.preference network.http.version:3.0')
         url2 = change_url_to_test_url(url, 'HTTPv3')
-        print('HTTP/3')
+        print('HTTP/3', o_domain, datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
         result_dict = merge_dicts(
             get_website_support_from_sitespeed(
                 url2,

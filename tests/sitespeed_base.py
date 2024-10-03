@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
+from datetime import datetime, timedelta
 import subprocess
 import time
 import json
@@ -217,7 +217,7 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
                 output, error = process.communicate(timeout=process_failsafe_timeout_in_seconds)
 
                 if error is not None:
-                    print('DEBUG get_result_using_no_cache(error)', error)
+                    print('\tDEBUG get_result_using_no_cache(error)', error)
 
                 result = str(output)
 
@@ -232,7 +232,7 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
                 output, error = process.communicate(timeout=process_failsafe_timeout_in_seconds)
 
                 if error is not None:
-                    print('DEBUG get_result_using_no_cache(error)', error)
+                    print('\tDEBUG get_result_using_no_cache(error)', error)
 
                 result = str(output)
 
@@ -240,11 +240,15 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
                 print('ERROR! Could not locate Firefox on the current system.')
     except subprocess.TimeoutExpired:
         if process is not None:
+            print(f'\tTimeout! Exceeded {timeout} seconds at', datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
             process.kill()
-            output, error = process.communicate()
-            result = str(output)
+            print(f'\tSubprocess killed! Exceeded {timeout} seconds at', datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+            # output, error = process.communicate(timeout=process_failsafe_timeout_in_seconds)
+            # result = str(output)
             process.terminate()
-        print('TIMEOUT!')
+            print(f'\tSubprocess terminated! Exceeded {timeout} seconds at', datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+        else:
+            print(f'\tTimeout! Exceeded {timeout} seconds at', datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
         return result
     return result
 

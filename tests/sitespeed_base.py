@@ -196,7 +196,8 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
     """
     result = ''
     process = None
-    process_failsafe_timeout = timeout
+    process_failsafe_timeout_in_seconds = timeout
+    timeout_in_ms = timeout * 1000
     try:
         if sitespeed_use_docker:
             base_directory = Path(os.path.dirname(
@@ -207,11 +208,11 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
             command = (
                 f"docker run --rm -v {data_dir}:/sitespeed.io "
                 f"sitespeedio/sitespeed.io:{sitespeedio_version} "
-                f"--maxLoadTime {(timeout)} {arg}"
+                f"--maxLoadTime {(timeout_in_ms)} {arg}"
                 )
 
             with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
-                output, error = process.communicate(timeout=process_failsafe_timeout)
+                output, error = process.communicate(timeout=process_failsafe_timeout_in_seconds)
 
                 if error is not None:
                     print('DEBUG get_result_using_no_cache(error)', error)
@@ -222,11 +223,11 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
                 print('ERROR! Could not locate Firefox on the current system.')
         else:
             command = (f"node node_modules{os.path.sep}sitespeed.io{os.path.sep}"
-                       f"bin{os.path.sep}sitespeed.js --maxLoadTime {(timeout)} {arg}")
+                       f"bin{os.path.sep}sitespeed.js --maxLoadTime {(timeout_in_ms)} {arg}")
 
             with subprocess.Popen(
                 command.split(), stdout=subprocess.PIPE) as process:
-                output, error = process.communicate(timeout=process_failsafe_timeout)
+                output, error = process.communicate(timeout=process_failsafe_timeout_in_seconds)
 
                 if error is not None:
                     print('DEBUG get_result_using_no_cache(error)', error)
@@ -237,8 +238,10 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
                 print('ERROR! Could not locate Firefox on the current system.')
     except subprocess.TimeoutExpired:
         if process is not None:
-            process.terminate()
             process.kill()
+            output, error = process.communicate()
+            result = str(output)
+            process.terminate()
         print('TIMEOUT!')
         return result
     return result

@@ -200,6 +200,8 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
     timeout_in_ms = timeout * 1000
     try:
         if sitespeed_use_docker:
+            # Docker process handicap
+            process_failsafe_timeout_in_seconds = timeout * 10
             base_directory = Path(os.path.dirname(
                 os.path.realpath(__file__)) + os.path.sep).parent
             data_dir = base_directory.resolve()

@@ -50,7 +50,7 @@ def main(argv):
                 update_licenses()
                 update_software_info()
     except Exception as ex: # pylint: disable=broad-exception-caught
-        info = get_error_info('', 'en', -1, False, ex)
+        info = get_error_info('', -1, ex)
         print('\n'.join(info).replace('\n\n','\n'))
 
         # write error to failure.log file
@@ -430,11 +430,11 @@ def extend_versions_for_openssl(versions):
 
 def extend_versions_for_openssl_vulnerabilities(versions):
     raw_data = get_http_content(
-        'https://www.openssl.org/news/vulnerabilities.html')
+        'https://openssl-library.org/news/vulnerabilities/')
 
     ver = sorted(versions.keys(), reverse=False)
 
-    section_regex = r'name="CVE[0-9\-]+">(?P<CVE>CVE[0-9\-]+)<\/a>.*?<dd>(?P<content>.*?)<dt><a'
+    section_regex = r'CVE[0-9\-]+">(?P<CVE>CVE[0-9-]+)<\/a>.*?<ul>(?P<content>.*?)<\/ul>'
     section_regex_matches = re.finditer(
         section_regex, raw_data, re.MULTILINE | re.S)
 
@@ -463,7 +463,7 @@ def extend_versions_for_openssl_vulnerabilities(versions):
 
 def extend_versions_for_openssl_end_of_life(versions):
     raw_data = get_http_content(
-        'https://www.openssl.org/policies/releasestrat.html')
+        'https://openssl-library.org/policies/releasestrat/index.html')
 
     end_of_life_branches = {}
 

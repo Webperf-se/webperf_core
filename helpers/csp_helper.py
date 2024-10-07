@@ -18,6 +18,7 @@ CSP_POLICIES_SUPPORTED_SRC = [
     'manifest-src','object-src','script-src-attr',
     'script-src-elem','style-src-attr','style-src-elem','worker-src']
 CSP_POLICIES_SELF_ALLOWED = [
+    'style-src-elem','style-src',
     'font-src','connect-src','frame-src','img-src','media-src',
     'frame-ancestors','base-uri','form-action','child-src','manifest-src']
 CSP_POLICIES_FALLBACK_SRC = [

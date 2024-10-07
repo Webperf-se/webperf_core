@@ -5,7 +5,7 @@ urllib3==2.2.3
 dnspython==2.6.1
 certifi==2024.8.30
 selenium==4.25.0
-IP2Location==8.10.3
+IP2Location==8.10.4
 Pillow==10.3.0
 OpenCV-Python==4.10.0.82
 Numpy==1.26.4

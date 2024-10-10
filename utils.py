@@ -115,7 +115,7 @@ def test(global_translation, site, test_type=None):
             site_test = SiteTests(site_id=site[0], type_of_test=test_type,
                                   rating=rating,
                                   test_date=datetime.now(),
-                                  json_check_data=jsondata).todata()
+                                  json_check_data=json_data).todata()
 
             return site_test
     except Exception as ex: # pylint: disable=broad-exception-caught

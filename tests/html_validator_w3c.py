@@ -273,7 +273,9 @@ def get_errors_for_html(url, html, local_translation):
             continue
         results.append({
                 'type': 'error',
-                'message': local_translation('TEXT_REVIEW_DEPRECATED_ELEMENT').format(element.replace('<', ''))
+                'message': local_translation(
+                    'TEXT_REVIEW_DEPRECATED_ELEMENT'
+                    ).format(element.replace('<', ''))
             })
 
     return results

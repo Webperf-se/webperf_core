@@ -74,6 +74,8 @@ def get_errors(test_type, params):
     with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
         output, _ = process.communicate(timeout=get_config('general.request.timeout') * 10)
 
+        print('A', output)
+
         json_result = json.loads(output)
         if 'messages' in json_result:
             errors = json_result['messages']

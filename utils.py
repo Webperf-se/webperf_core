@@ -99,23 +99,11 @@ def test(global_translation, site, test_type=None):
                 print(global_translation('TEXT_SITE_REVIEW'),
                       reviews)
 
-            json_data = ''
-            try:
-                json_data = the_test_result[1]
-                json_data = json.dumps(json_data)
-            except json.decoder.JSONDecodeError:
-                json_data = ''
-            except TypeError:
-                json_data = ''
-            except RecursionError:
-                json_data = ''
-
-            jsondata = str(json_data).encode('utf-8')  # --//--
-
+            json_data = the_test_result[1]
             site_test = SiteTests(site_id=site[0], type_of_test=test_type,
                                   rating=rating,
                                   test_date=datetime.now(),
-                                  json_check_data=jsondata).todata()
+                                  json_check_data=json_data).todata()
 
             return site_test
     except Exception as ex: # pylint: disable=broad-exception-caught

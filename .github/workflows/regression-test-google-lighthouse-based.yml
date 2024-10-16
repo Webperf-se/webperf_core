@@ -33,7 +33,7 @@ jobs:
       with:
         node-version: '20.x'
     - name: Setup npm packages
-      run: npm install --production
+      run: npm install --omit=dev
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: RUNNING TEST - LINUX
       run: |

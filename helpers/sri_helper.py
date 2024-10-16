@@ -50,7 +50,7 @@ def rate_sri(result_dict, global_translation, local_translation,
                     'TEXT_REVIEW_SRI_WITH_ERRORS_DETAILS'
                 ).format(domain))
 
-            rating.standards_review = rating.standards_review +\
+            sub_rating.standards_review = sub_rating.standards_review +\
                 errors_str_list
         else:
             sub_rating.set_standards(3.0,
@@ -77,8 +77,8 @@ def rate_sri(result_dict, global_translation, local_translation,
     elif 'HTML-FOUND' in result_dict[domain]['features'] and\
             (domain in (org_domain, org_www_domain)):
 
-        rating = Rating(global_translation, get_config('general.review.improve-only'))
-        rating.set_overall(1.0)
+        sub_rating = Rating(global_translation, get_config('general.review.improve-only'))
+        sub_rating.set_overall(1.0)
 
         if get_config('general.review.details') and \
                 has_domain_entry(domain, 'sri-findings', 'sri-candidates', result_dict):
@@ -87,15 +87,22 @@ def rate_sri(result_dict, global_translation, local_translation,
             for candidate in candidates:
                 candidates_str_list += f"  - `{candidate}`\r\n"
 
-            rating.set_integrity_and_security(1.0,
+            sub_rating.set_standards(1.0,
+                local_translation(
+                    'TEXT_REVIEW_SRI_NONE_COMPLIANT'
+                    ).format(domain))
+            sub_rating.set_integrity_and_security(1.0,
                 local_translation(
                     'TEXT_REVIEW_SRI_NONE_COMPLIANT_DETAILS'
                     ).format(domain))
-            rating.integrity_and_security_review = rating.integrity_and_security_review +\
+            sub_rating.integrity_and_security_review = sub_rating.integrity_and_security_review +\
                 candidates_str_list
         else:
-            rating.set_integrity_and_security(1.0,
+            sub_rating.set_standards(1.0,
                 local_translation('TEXT_REVIEW_SRI_NONE_COMPLIANT').format(domain))
+            sub_rating.set_integrity_and_security(1.0,
+                local_translation('TEXT_REVIEW_SRI_NONE_COMPLIANT').format(domain))
+        rating += sub_rating
 
     return rating
 
@@ -111,7 +118,9 @@ def append_sri_data(req_domain, res, result):
         res (dict): The response dictionary containing the content.
         result (dict): The result dictionary where the CSP data will be appended.
     """
-    if 'content' in res and 'text' in res['content']:
+
+    # TODO: Remove text empty check when sitespeed has fixed https://github.com/sitespeedio/sitespeed.io/issues/4295
+    if 'content' in res and 'text' in res['content'] and res['content']['text'] != '':
         if 'mimeType' in res['content'] and 'text/html' in res['content']['mimeType']:
             append_sri_data_for_html(
                 req_domain,
@@ -154,7 +163,13 @@ def append_sri_data_for_html(req_domain, res, result):
         if found_candidate is not None:
             candidates.remove(found_candidate)
 
+    is_sri_compliant = not has_domain_entry(req_domain,
+            'features',
+            'SRI-NONE-COMPLIANT',
+                result)
+
     if len(sri_errors) > 0:
+        is_sri_compliant = False
         append_domain_entry(
             req_domain,
             'features',
@@ -167,14 +182,10 @@ def append_sri_data_for_html(req_domain, res, result):
                 'sri-errors',
                 sri_error,
                 result)
-
     elif len(candidates) == 0:
-        append_domain_entry(
-            req_domain,
-            'features',
-            'SRI-COMPLIANT',
-            result)
+        is_sri_compliant = is_sri_compliant and True
     else:
+        is_sri_compliant = False
         for candidate in candidates:
             append_domain_entry_with_key(
                 req_domain,
@@ -182,6 +193,20 @@ def append_sri_data_for_html(req_domain, res, result):
                 'sri-candidates',
                 candidate['raw'],
                 result)
+
+    if is_sri_compliant:
+        append_domain_entry(
+            req_domain,
+            'features',
+            'SRI-COMPLIANT',
+            result)
+    else:
+        append_domain_entry(
+            req_domain,
+            'features',
+            'SRI-NONE-COMPLIANT',
+            result)
+
 
 def get_sris(req_domain, content):
     """

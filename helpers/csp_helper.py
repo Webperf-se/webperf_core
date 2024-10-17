@@ -18,6 +18,7 @@ CSP_POLICIES_SUPPORTED_SRC = [
     'manifest-src','object-src','script-src-attr',
     'script-src-elem','style-src-attr','style-src-elem','worker-src']
 CSP_POLICIES_SELF_ALLOWED = [
+    'style-src-elem','style-src',
     'font-src','connect-src','frame-src','img-src','media-src',
     'frame-ancestors','base-uri','form-action','child-src','manifest-src']
 CSP_POLICIES_FALLBACK_SRC = [
@@ -1412,6 +1413,7 @@ def append_csp_data(req_url, req_domain, res, org_domain, result):
         bool: True if there is a match in the CSP findings, False otherwise.
     """
     csp_findings_match = False
+    # TODO: Remove text empty check when sitespeed has fixed https://github.com/sitespeedio/sitespeed.io/issues/4295
     if 'content' in res and 'text' in res['content'] and res['content']['text'] != '':
         if 'mimeType' in res['content'] and 'text/html' in res['content']['mimeType']:
             csp_findings_match = csp_findings_match or append_csp_data_for_html(

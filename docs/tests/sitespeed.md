@@ -73,7 +73,7 @@ Read more on the [general page for github actions](../getting-started-github-act
 * Install ffmpeg `sudo apt install ffmpeg`
 * Download and install Node.js (version 20.x)
 * Download and install Google Chrome browser
-* Install NPM packages ( `npm install --production` )
+* Install NPM packages ( `npm install --omit=dev` )
 * Set `sitespeed_use_docker = False` in your `config.py`
 
 (You can always see [GitHub Actions SiteSpeed](../../.github/workflows/regression-test-sitespeed.yml) for all steps required line by line)
@@ -86,7 +86,7 @@ Read more on the [general page for github actions](../getting-started-github-act
 * Download and Install ffmpeg `https://ffmpeg.org/download.html#build-windows`
 * Download and install Node.js (version 20.x)
 * Download and install Google Chrome browser
-* Install NPM packages ( `npm install --production` )
+* Install NPM packages ( `npm install --omit=dev` )
 * Set `sitespeed_use_docker = False` in your `config.py`
 
 #### Using Docker image

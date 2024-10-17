@@ -2,10 +2,10 @@ beautifulsoup4==4.12.3
 lxml==5.3.0
 requests==2.32.3
 urllib3==2.2.3
-dnspython==2.6.1
+dnspython==2.7.0
 certifi==2024.8.30
 selenium==4.25.0
-IP2Location==8.10.3
+IP2Location==8.10.4
 Pillow==10.3.0
 OpenCV-Python==4.10.0.82
 Numpy==1.26.4

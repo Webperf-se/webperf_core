@@ -44,7 +44,7 @@ Read more on the [general page for github actions](../getting-started-github-act
 * Follow [general local setup steps for this repository](../getting-started-local.md)
 * Download and install Node.js (version 20.x)
 * Download and install Google Chrome browser
-* Install NPM packages ( `npm install --production` )
+* Install NPM packages ( `npm install --omit=dev` )
 
 ## FAQ
 

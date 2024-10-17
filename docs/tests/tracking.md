@@ -143,7 +143,7 @@ This section has not been written yet.
 * Download and install Node.js (version 20.x)
 * Download and install Google Chrome browser
 * Download and install Mozilla Firefox
-* Install NPM packages ( `npm install --production` )
+* Install NPM packages ( `npm install --omit=dev` )
 * Set `sitespeed_use_docker = False` in your `config.py`
 
 ##### Windows Specific

@@ -49,7 +49,7 @@ jobs:
         sudo apt-get --only-upgrade install google-chrome-stable
         google-chrome --version
     - name: Setup npm packages
-      run: npm install --production
+      run: npm install --omit=dev
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: RUNNING TEST - LINUX
       run: |

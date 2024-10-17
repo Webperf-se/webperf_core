@@ -213,7 +213,10 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
                 f"--maxLoadTime {(timeout_in_ms)} {arg}"
                 )
 
-            with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
+            with subprocess.Popen(
+                    command.split(),
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE) as process:
                 output, error = process.communicate(timeout=process_failsafe_timeout_in_seconds)
 
                 if error is not None:
@@ -228,7 +231,9 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
                        f"bin{os.path.sep}sitespeed.js --maxLoadTime {(timeout_in_ms)} {arg}")
 
             with subprocess.Popen(
-                command.split(), stdout=subprocess.PIPE) as process:
+                    command.split(),
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE) as process:
                 output, error = process.communicate(timeout=process_failsafe_timeout_in_seconds)
 
                 if error is not None:

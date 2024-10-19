@@ -7,7 +7,7 @@ import subprocess
 import sys
 from datetime import datetime
 import packaging.version
-from helpers.setting_helper import get_config
+from setting_helper import get_config
 
 def test_cmd(command):
     process_failsafe_timeout = 600

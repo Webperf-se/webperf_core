@@ -593,7 +593,7 @@ class SiteTests: # pylint: disable=too-many-instance-attributes,missing-class-do
             'report_perf': self.check_report_perf.decode('utf-8'),
             'report_a11y': self.check_report_a11y.decode('utf-8'),
             'report_stand': self.check_report_stand.decode('utf-8'),
-            'data': self.json_check_data.decode('utf-8')
+            'data': self.json_check_data
         }]
         return result
 

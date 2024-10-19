@@ -41,7 +41,8 @@
                 "use": false
             },
             "timeout": 30,
-            "iterations": 2
+            "iterations": 2,
+            "xvfb": false
         },
         "software": {
             "advisory": {

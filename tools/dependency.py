@@ -7,6 +7,7 @@ import subprocess
 import sys
 from datetime import datetime
 import packaging.version
+from setting_helper import get_config
 
 def test_cmd(command):
     process_failsafe_timeout = 600
@@ -336,7 +337,7 @@ def check_browser(browser):
 
     sitespeed_arg = f'--shm-size=1g {sitespeed_arg}'
 
-    if not ('nt' in os.name or 'Darwin' in os.uname().sysname):
+    if get_config('tests.sitespeed.xvfb'):
         sitespeed_arg += ' --xvfb'
 
     sitespeed_arg += ' https://webperf.se'

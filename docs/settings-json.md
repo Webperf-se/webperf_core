@@ -159,6 +159,11 @@ This is needed when using it in our docker image (IF not used in interactive mod
 This variable tells sitespeed based test(s) to use docker image version instead of NPM version.
 Please read more about this on [SiteSpeed test section](tests/sitespeed.md).
 
+### tests.sitespeed.iterations `(Default = 2)`
+
+This variable tells sitespeed based test(s) how many iterations it should do against the url to get the best measurement.
+Please read more about this on [SiteSpeed test section](tests/sitespeed.md).
+
 ### tests.sitespeed.timeout `(Default = 300 ms)`
 
 This variable tells sitespeed based test(s) how long it should wait for a url to load.
@@ -166,10 +171,10 @@ Setting this to a lower value may improve overall test speed if many urls are be
 it is not important if one or two tests fail.
 Please read more about this on [SiteSpeed test section](tests/sitespeed.md).
 
-### tests.sitespeed.iterations `(Default = 2)`
+### tests.sitespeed.xvfb `(Default = false)`
 
-This variable tells sitespeed based test(s) how many iterations it should do against the url to get the best measurement.
-Please read more about this on [SiteSpeed test section](tests/sitespeed.md).
+This variable tells sitespeed based test(s) to start xvfb before the browser is started.
+This is only relevant for linux based os.
 
 ### test.software.advisory.path `(Default = "")`
 This variable is ONLY used to generate a CVE and security related info for software.

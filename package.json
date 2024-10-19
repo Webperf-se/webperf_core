@@ -1,6 +1,6 @@
 {
   "name": "webperf_core",
-  "version": "2024.10.2",
+  "version": "2024.10.3",
   "description": "You probably want to read the documentation available at homepage.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,7 +12,7 @@
   "dependencies": {
     "lighthouse": "12.2.1",
     "pa11y": "8.0.0",
-    "sitespeed.io": "35.0.0",
+    "sitespeed.io": "35.2.0",
     "vnu-jar": "23.4.11",
     "yellowlabtools": "3.0.1"
   },

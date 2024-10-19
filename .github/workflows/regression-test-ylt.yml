@@ -39,7 +39,7 @@ jobs:
       run: sudo apt-get install libjpeg-dev libfontconfig
       shell: bash
     - name: Setup npm packages
-      run: npm install --production
+      run: npm install --omit=dev
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: RUNNING TEST - LINUX
       run: |

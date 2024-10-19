@@ -850,7 +850,7 @@ def get_website_support_from_sitespeed(url, org_domain, configuration, browser, 
 
     sitespeed_arg = f'--shm-size=1g {sitespeed_arg}'
 
-    if not ('nt' in os.name or 'Darwin' in os.uname().sysname):
+    if get_config('tests.sitespeed.xvfb'):
         sitespeed_arg += ' --xvfb'
 
     (_, filename) = get_result(

@@ -75,6 +75,9 @@ config_mapping = {
         "sitespeed_iterations",
         "SITESPEED_ITERATIONS"): "int|tests.sitespeed.iterations",
     (
+        "sitespeedxvfb",
+        "tests.sitespeed.xvfb"): "bool|tests.sitespeed.xvfb",
+    (
         "csponly",
         "tests.http.csp-only",
         "csp_only",

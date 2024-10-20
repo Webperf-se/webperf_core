@@ -44,6 +44,9 @@ msgstr "### Rating:"
 msgid "TEXT_SITE_REVIEW"
 msgstr "### Review:\n"
 
+msgid "TEXT_SITE_REVIEW_DATA"
+msgstr "### Data:\n"
+
 #: default.py:81
 msgid "TEXT_EXCEPTION"
 msgstr "Exception, someone should look at this!"

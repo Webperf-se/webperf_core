@@ -9,6 +9,7 @@
         },
         "review": {
             "show": false,
+            "data": false,
             "details": false,
             "improve-only": true
         },

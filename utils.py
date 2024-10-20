@@ -100,6 +100,11 @@ def test(global_translation, site, test_type=None):
                       reviews)
 
             json_data = the_test_result[1]
+            if get_config('general.review.data'):
+                nice_json_data = json.dumps(json_data, indent=3)
+                print(global_translation('TEXT_SITE_REVIEW_DATA'),
+                      f'```json\r\n{nice_json_data}\r\n```')
+
             site_test = SiteTests(site_id=site[0], type_of_test=test_type,
                                   rating=rating,
                                   test_date=datetime.now(),

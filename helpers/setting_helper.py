@@ -12,6 +12,9 @@ config_mapping = {
         "review",
         "general.review.show"): "bool|general.review.show",
     (
+        "review-data",
+        "general.review.data"): "bool|general.review.data",
+    (
         "details",
         "general.review.details",
         "use_detailed_report",

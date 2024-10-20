@@ -39,6 +39,9 @@ msgstr "### Betyg:"
 msgid "TEXT_SITE_REVIEW"
 msgstr "### Omdöme:\n"
 
+msgid "TEXT_SITE_REVIEW_DATA"
+msgstr "### Data:\n"
+
 msgid "TEXT_EXCEPTION"
 msgstr "Fel, någon behöver ta en titt på detta."
 

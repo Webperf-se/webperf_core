@@ -13,7 +13,7 @@
     "lighthouse": "12.2.1",
     "pa11y": "8.0.0",
     "sitespeed.io": "35.2.0",
-    "vnu-jar": "23.4.11",
+    "vnu-jar": "24.10.17",
     "yellowlabtools": "3.0.1"
   },
   "engines": {

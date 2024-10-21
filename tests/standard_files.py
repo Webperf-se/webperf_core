@@ -154,6 +154,9 @@ def validate_sitemaps(result_dict,
         'nof_items_no_duplicates': 0
     }
 
+    if get_config('general.review.details'):
+        sitemaps_dict['known_types_details'] = {}
+
     if result_dict['robots']['status'] != 'ok' or\
             'sitemap:' not in result_dict['robots']['content'].lower():
         rating.set_overall(1.0)
@@ -276,6 +279,9 @@ def validate_sitemap(sitemap_url,
             if sitemap_dict['is_duplicate']:
                 sitemaps_dict['is_duplicate'] = True
             sitemaps_dict['known_types'].update(sitemap_dict['known_types'])
+            if get_config('general.review.details') and 'known_types_details' in sitemap_dict:
+                    sitemaps_dict['known_types_details'].update(sitemap_dict['known_types_details'])
+
             sitemaps_dict['nof_items'] += sitemap_dict['nof_items']
             sitemaps_dict['nof_items_no_duplicates'] += sitemap_dict['nof_items_no_duplicates']
         else:
@@ -602,6 +608,9 @@ def create_sitemap_dict(sitemap_items, robots_domain):
         'nof_items_no_duplicates': nof_no_duplicates
     }
 
+    if get_config('general.review.details'):
+        sitemap_dict['known_types_details'] = {}
+
     item_types = {}
 
     for item_url in sitemap_items:
@@ -616,7 +625,7 @@ def create_sitemap_dict(sitemap_items, robots_domain):
 
         tmp = os.path.splitext(parsed_item_url.path)[1].strip('.').lower()
         ext_len = len(tmp)
-        if 2 <= ext_len >= 4:
+        if 2 <= ext_len <= 4:
             if tmp in KNOWN_EXTENSIONS:
                 item_type = tmp
         elif parsed_item_url.path.startswith('/download/'):
@@ -630,6 +639,8 @@ def create_sitemap_dict(sitemap_items, robots_domain):
 
     for key in keys:
         sitemap_dict['known_types'][key] = len(item_types[key])
+        if get_config('general.review.details'):
+            sitemap_dict['known_types_details'][key] = item_types[key]
 
     return sitemap_dict
 

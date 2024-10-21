@@ -625,7 +625,7 @@ def create_sitemap_dict(sitemap_items, robots_domain):
 
         tmp = os.path.splitext(parsed_item_url.path)[1].strip('.').lower()
         ext_len = len(tmp)
-        if 2 <= ext_len >= 4:
+        if 2 <= ext_len <= 4:
             if tmp in KNOWN_EXTENSIONS:
                 item_type = tmp
         elif parsed_item_url.path.startswith('/download/'):

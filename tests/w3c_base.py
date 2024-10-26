@@ -78,6 +78,11 @@ def get_errors(test_type, params):
         if 'messages' in json_result:
             errors = json_result['messages']
 
+    for error in errors:
+        if 'url' in error and get_config('general.cache.use'):
+            error['file'] = error['url']
+        error['url'] = url
+
     return errors
 
 def get_data_for_url(url):

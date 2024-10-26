@@ -46,7 +46,8 @@ def run_test(global_translation, url):
             'style_element': [],
             'style_attribute': [],
             'style_files': []
-        }
+        },
+        'sources': []
     }
 
     for html_entry in data['htmls']:
@@ -58,6 +59,14 @@ def run_test(global_translation, url):
             result_dict)
         rating += tmp_rating
         all_link_resources.extend(tmp_all_link_resources)
+
+    for resource_url in all_link_resources:
+        for entry in data['all']:
+            if resource_url == entry['url']:
+                result_dict['sources'].append({
+                    'url': resource_url,
+                    'index': entry['index']
+                })
 
     # 4 Check if website inlcuded css files in other ways
     for link_resource in all_link_resources:
@@ -123,8 +132,10 @@ def handle_html_markup_entry(entry, global_translation, url, local_translation, 
                 local_translation,
                 f'- `style=""` in: {name}')
 
-        # 2.3 GET ERRORS FROM SERVICE
-        # 2.4 CALCULATE SCORE
+    if 'has_style_elements' in result_dict or\
+            'has_style_attributes' in result_dict:
+        all_link_resources.append(req_url)
+
         # 3 FIND ALL <LINK> (rel=\"stylesheet\")
     (link_resources, errors) = get_errors_for_link_tags(html, url)
     if len(link_resources) > 0:

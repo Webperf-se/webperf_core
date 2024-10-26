@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 import re
-
 from bs4 import BeautifulSoup
 from models import Rating
 from tests.utils import get_friendly_url_name, get_http_content,\
@@ -41,7 +40,8 @@ def run_test(global_translation, url):
         'errors': {
             'all': [],
             'html_files': []
-        }
+        },
+        'sources': []
     }
 
     for html_entry in data['htmls']:
@@ -51,6 +51,9 @@ def run_test(global_translation, url):
             local_translation,
             result_dict)
         rating += tmp_rating
+        if 'content' in html_entry and html_entry['content'] != '':
+            del html_entry['content']
+            result_dict['sources'].append(html_entry)
 
     number_of_errors = len(result_dict['errors']['html_files'])
     points = rating.get_overall()
@@ -273,7 +276,9 @@ def get_errors_for_html(url, html, local_translation):
             continue
         results.append({
                 'type': 'error',
-                'message': local_translation('TEXT_REVIEW_DEPRECATED_ELEMENT').format(element.replace('<', ''))
+                'message': local_translation(
+                    'TEXT_REVIEW_DEPRECATED_ELEMENT'
+                    ).format(element.replace('<', ''))
             })
 
     return results

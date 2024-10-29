@@ -1,0 +1,19 @@
+{
+  "creditors": [
+    {
+      "name": "webperf-core",
+      "license": "MIT",
+      "usage": "",
+      "contributors": [
+        "7h3Rabbit",
+        "cockroacher",
+        "marcusosterberg",
+        "flowertwig-org",
+        "dependabot[bot]",
+        "krompaco",
+        "puggan",
+        "linulas"
+      ]
+    }
+  ]
+}

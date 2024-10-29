@@ -372,6 +372,7 @@ def get_http_content(url, allow_redirects=False, use_text_instead_of_content=Tru
         str or bytes: The content of the URL.
     """
     try:
+        print('A\tget_http_content', url)
         content = get_cache_file(
             url,
             use_text_instead_of_content,

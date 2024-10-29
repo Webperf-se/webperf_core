@@ -1,0 +1,32 @@
+{
+  "package.dependencies": {
+    "lighthouse": "12.2.1",
+    "pa11y": "8.0.0",
+    "sitespeed.io": "35.3.0",
+    "vnu-jar": "23.4.11",
+    "yellowlabtools": "3.0.1"
+  },
+  "websites": [
+    "https://api.github.com/repos/{0}/{1}",
+    "https://api.github.com/repos/{0}/{1}/{2}?state=closed&per_page=100",
+    "https://api.github.com/repos/{0}/{1}/{2}/{3}/labels",
+    "https://api.websitecarbon.com/site?url={url}",
+    "https://developer.mozilla.org/en-US/docs/Web/HTML/Element#obsolete_and_deprecated_elements",
+    "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference",
+    "https://developer.mozilla.org/en-US/docs/Web/HTML/Element",
+    "https://spdx.org/licenses/",
+    "https://nginx.org/en/security_advisories.html",
+    "https://www.cvedetails.com/vulnerability-list.php?vendor_id=26&product_id=3427&page=1",
+    "https://openssl-library.org/news/vulnerabilities/",
+    "https://openssl-library.org/policies/releasestrat/index.html",
+    "https://www.php.net/eol.php",
+    "https://httpd.apache.org/security/vulnerabilities_24.html",
+    "https://wordpress.org/plugins/{0}/advanced/",
+    "https://learn.microsoft.com/en-us/lifecycle/products/internet-information-services-iis",
+    "https://cdn.datatables.net/releases.html",
+    "https://nuget.optimizely.com/package/?id=EPiServer.Find",
+    "https://www.php.net/releases/",
+    "https://svn.apache.org/viewvc/httpd/httpd/tags/",
+    "https://mta-sts.{hostname}/.well-known/mta-sts.txt"
+  ]
+}

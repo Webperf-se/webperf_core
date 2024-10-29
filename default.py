@@ -173,6 +173,20 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
     def __init__(self):
         self.language = False
 
+    def show_credits(self, _):
+        """
+        Prints out the webperf_core credits and exits the program.
+
+        This function uses the provided language function to print out webperf_core credits.
+        After printing the help text, it ends the program.
+        """
+        print(self.language('TEXT_CREDITS'))
+        # Get all websites used by get_http_content
+        # - get_http_content\(['"\r\n\t ]+[^"']+["']
+        # Get all contributors of repo
+        # - https://api.github.com/repos/Webperf-se/webperf_core/contributors
+        sys.exit()
+
     def show_help(self, _):
         """
         Prints out the command usage help text and exits the program.
@@ -485,6 +499,7 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             ("--it", "--input-take"): self.set_input_take,
             ("-o", "--output"): self.set_output_filename,
             ("-r", "--review", "--report"): self.enable_reviews,
+            ("-c", "--credits", "--contributions"): self.show_credits,
             ("-s", "--setting"): self.set_setting,
             ("-ss", "--save-setting"): self.save_setting
         }
@@ -521,10 +536,11 @@ def main(argv):
     options.load_language(get_config('general.language'))
 
     try:
-        opts, _ = getopt.getopt(argv, "hu:t:i:o:rA:D:L:s:", [
+        opts, _ = getopt.getopt(argv, "hu:t:i:o:rA:D:L:s:c", [
                                    "help", "url=", "test=", "input=", "output=",
                                    "review", "report", "addUrl=", "deleteUrl=",
                                    "language=", "input-skip=", "input-take=",
+                                   "credits",
                                    "is=", "it=", "setting=", "save-setting="])
     except getopt.GetoptError:
         print(main.__doc__)

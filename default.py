@@ -499,7 +499,7 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             ("--it", "--input-take"): self.set_input_take,
             ("-o", "--output"): self.set_output_filename,
             ("-r", "--review", "--report"): self.enable_reviews,
-            ("-c", "--credits", "--contributions"): self.show_credits,
+            ("-c", "--credits", "--contributors"): self.show_credits,
             ("-s", "--setting"): self.set_setting,
             ("-ss", "--save-setting"): self.save_setting
         }
@@ -540,7 +540,7 @@ def main(argv):
                                    "help", "url=", "test=", "input=", "output=",
                                    "review", "report", "addUrl=", "deleteUrl=",
                                    "language=", "input-skip=", "input-take=",
-                                   "credits",
+                                   "credits", "contributors",
                                    "is=", "it=", "setting=", "save-setting="])
     except getopt.GetoptError:
         print(main.__doc__)

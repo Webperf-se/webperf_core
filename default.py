@@ -23,6 +23,7 @@ from engines.json_engine import read_sites as json_read_sites,\
 from engines.gov import write_tests as gov_write_tests
 from engines.sql import write_tests as sql_write_tests
 from engines.markdown_engine import write_tests as markdown_write_tests
+from helpers.credits_helper import get_credits
 from helpers.setting_helper import config_mapping, get_config, set_config, set_config_from_cmd
 from tests.utils import clean_cache_files
 from utils import TEST_FUNCS, TEST_ALL, restart_failures_log, test_sites
@@ -180,11 +181,8 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
         This function uses the provided language function to print out webperf_core credits.
         After printing the help text, it ends the program.
         """
-        print(self.language('TEXT_CREDITS'))
-        # Get all websites used by get_http_content
-        # - get_http_content\(['"\r\n\t ]+[^"']+["']
-        # Get all contributors of repo
-        # - https://api.github.com/repos/Webperf-se/webperf_core/contributors
+        creds = get_credits(self.language)
+        print(creds)
         sys.exit()
 
     def show_help(self, _):

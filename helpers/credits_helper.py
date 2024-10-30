@@ -5,9 +5,9 @@ import os
 from pathlib import Path
 import re
 import urllib
+import urllib.parse
 
 def get_credits(global_translation):
-    set_credits()
     text = '# Credits\r\n' # global_translation('TEXT_CREDITS')
     text += 'Following shows projects and contributors for webperf-core and its dependencies.\r\n'
     text += 'Many thanks to all of you! :D\r\n'
@@ -29,73 +29,101 @@ def get_credits(global_translation):
                 text += f'License: {creditor["license"]}\r\n'
             if 'usage' in creditor and len(creditor["usage"]) > 0:
                 text += f'usage: {creditor["usage"]}\r\n'
-            if 'contributors' in creditor and creditor["contributors"] != '':
+            if 'contributors' in creditor and len(creditor["contributors"]) > 0:
                 text += 'Contributors:\r\n'
                 for contributor in creditor["contributors"]:
                     text += f'- {contributor}\r\n'
+            text += '\r\n'
+
+    text += get_external_information_sources()
     return text
 
-def set_credits():
+def get_external_information_sources():
+    text = '## External Information Source(s):\r\n'
     # Get all contributors of repo
     # - https://api.github.com/repos/Webperf-se/webperf_core/contributors
     base_directory = os.path.join(Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent)
     py_files = get_py_files(base_directory)
-    nice = json.dumps(py_files, indent=3)
-    # print('B', nice)
 
-    urls = get_urls(py_files)
-    urls = sorted(urls)
+    grouped_urls = get_urls(py_files)
+    grouped_urls['all'] = sorted(grouped_urls['all'])
 
-    grouped_urls = {}
-    for url in urls:
-        parsed_url = urllib.parse.urlparse(url)
-        print(parsed_url.hostname)
-        if parsed_url.hostname not in grouped_urls:
-            grouped_urls[parsed_url.hostname] = []
-        grouped_urls[parsed_url.hostname].append(url)
+    for file_path, urls in grouped_urls.items():
+        last_sep_index = file_path.rfind(os.path.sep) + 1
+        file_name = file_path[last_sep_index:].lower()
+        if file_name == 'all':
+            continue
+        elif 'css_validator_w3c.py' in file_name:
+            text += '### CSS Validation Test Sources:\r\n'
+        elif 'html_validator_w3c.py' in file_name:
+            text += '### HTML Validation Test Sources:\r\n'
+        elif 'update_software.py' in file_name:
+            text += '### Software Test Sources:\r\n'
+        else:
+            text += f'### Unspecified ({file_name}) Sources:\r\n'
 
-
-    nice = json.dumps(grouped_urls, indent=3)
-    print('B', nice)
+        for url in urls:
+            text += f'- {url}\r\n'
+        text += '\r\n'
+    return text
 
 def get_urls(py_files):
-    urls = []
+    result = {
+        'all': []
+    }
     for py_file in py_files:
+        result[py_file] = []
         with open(py_file, 'r', encoding='utf-8', newline='') as file:
             content = ''.join(file.readlines())
             regex = r"get_http_content\((?P<url>[^\)]+)[\)]"
             matches = re.finditer(regex, content, re.MULTILINE | re.IGNORECASE)
             for _, match in enumerate(matches, start=1):
                 url = match.group('url').strip()
-                start_as_string = url.startswith('\'') or url.startswith('"')
-                ends_as_string = url.endswith('\'') or url.endswith('"')
-                if (start_as_string and ends_as_string):
-                    url = url.strip('\'').strip('"')
-                    urls.append(url)
-                elif start_as_string:
-                    url = url.strip('\'').strip('"')
-                    find_1 = url.find('\'')
-                    if find_1 != -1:
-                        url = url[:find_1]
-                    find_2 = url.find('"')
-                    if find_2 != -1:
-                        url = url[:find_2]
-                    urls.append(url)
-                else:
-                    url = url.strip('(').replace('\r', '').replace('\n','')\
-                        .replace('\t','').replace(' ','').replace('\'\'','')
-                    if url.startswith('\'') or url.startswith('"'):
-                        url = url.replace('\'', '').replace('"', '')
-                        urls.append(url)
-                        continue
-                    url = url.strip('f')
-                    if url.startswith('\'') or url.startswith('"'):
-                        url = url.replace('\'', '').replace('"', '')
-                        urls.append(url)
-                    # else:
-                    #     print(f'\t-{url}')
-    return urls
+                url = sanitize_url(url)
+                if url is None:
+                    continue
+                parsed_url = urllib.parse.urlparse(url)
+                if '{' in parsed_url.hostname:
+                    continue
+
+                result['all'].append(url)
+                result[py_file].append(url)
+
+        if len(result[py_file]) == 0:
+            del result[py_file]
+        else:
+            result[py_file] = sorted(result[py_file])
+    return result
+
+def sanitize_url(url):
+    start_as_string = url.startswith('\'') or url.startswith('"')
+    ends_as_string = url.endswith('\'') or url.endswith('"')
+    if (start_as_string and ends_as_string):
+        url = url.strip('\'').strip('"')
+        return url
+
+    if start_as_string:
+        url = url.strip('\'').strip('"')
+        find_1 = url.find('\'')
+        if find_1 != -1:
+            url = url[:find_1]
+        find_2 = url.find('"')
+        if find_2 != -1:
+            url = url[:find_2]
+        return url
+
+    url = url.strip('(').replace('\r', '').replace('\n','')\
+        .replace('\t','').replace(' ','').replace('\'\'','')
+    if url.startswith('\'') or url.startswith('"'):
+        url = url.replace('\'', '').replace('"', '')
+        return url
+
+    url = url.strip('f')
+    if url.startswith('\'') or url.startswith('"'):
+        url = url.replace('\'', '').replace('"', '')
+        return url
+    return None
 
 def get_py_files(base_directory):
     py_files = []
@@ -105,7 +133,6 @@ def get_py_files(base_directory):
             continue
 
         if len(sub_file_or_dir) < 4:
-            print('C', sub_file_or_dir)
             continue
 
         if sub_file_or_dir.lower().endswith(".py"):
@@ -122,6 +149,7 @@ def get_py_files(base_directory):
                 'cache',
                 'node_modules',
                 'LICENSE',
+                'tmp',
                 'locales'):
             continue
         else:

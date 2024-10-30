@@ -842,7 +842,7 @@ def set_wordpress_plugin_repository_info(item, name):
     print('Looking up wordpress plugin: {0}'.format(name))
 
     content = get_http_content(
-        'https://wordpress.org/plugins/{0}/advanced/'.format(name))
+        f'https://wordpress.org/plugins/{name}/advanced/')
 
     time.sleep(2.5)
 
@@ -907,7 +907,7 @@ def set_wordpress_plugin_repository_info(item, name):
 
 def set_github_repository_info(item, owner, repo):
     repo_content = get_http_content(
-        'https://api.github.com/repos/{0}/{1}'.format(owner, repo))
+        f'https://api.github.com/repos/{owner}/{repo}')
 
     github_info = None
     try:
@@ -969,7 +969,7 @@ def set_github_repository_info(item, owner, repo):
 
 def get_github_versions(owner, repo, source, security_label, version_prefix, name_key):
     versions_content = get_http_content(
-        'https://api.github.com/repos/{0}/{1}/{2}?state=closed&per_page=100'.format(owner, repo, source))
+        f'https://api.github.com/repos/{owner}/{repo}/{source}?state=closed&per_page=100')
 
     versions = []
     versions_dict = {}
@@ -1049,7 +1049,7 @@ def get_github_versions(owner, repo, source, security_label, version_prefix, nam
         if security_label != None:
             # https://api.github.com/repos/matomo-org/matomo/milestones/163/labels
             version_label_data = get_http_content(
-                'https://api.github.com/repos/{0}/{1}/{2}/{3}/labels'.format(owner, repo, source, versions_dict[version]['id']))
+                f"https://api.github.com/repos/{owner}/{repo}/{source}/{versions_dict[version]['id']}/labels")
             labels = json.loads(version_label_data)
 
             fixes_security = False

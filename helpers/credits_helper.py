@@ -4,9 +4,10 @@ import json
 import os
 from pathlib import Path
 import re
-
+import urllib
 
 def get_credits(global_translation):
+    set_credits()
     text = '# Credits\r\n' # global_translation('TEXT_CREDITS')
     text += 'Following shows projects and contributors for webperf-core and its dependencies.\r\n'
     text += 'Many thanks to all of you! :D\r\n'
@@ -45,7 +46,17 @@ def set_credits():
 
     urls = get_urls(py_files)
     urls = sorted(urls)
-    nice = json.dumps(urls, indent=3)
+
+    grouped_urls = {}
+    for url in urls:
+        parsed_url = urllib.parse.urlparse(url)
+        print(parsed_url.hostname)
+        if parsed_url.hostname not in grouped_urls:
+            grouped_urls[parsed_url.hostname] = []
+        grouped_urls[parsed_url.hostname].append(url)
+
+
+    nice = json.dumps(grouped_urls, indent=3)
     print('B', nice)
 
 def get_urls(py_files):

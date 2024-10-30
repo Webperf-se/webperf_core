@@ -140,7 +140,7 @@ def run_test(global_translation, url):
     """
 
     local_translation = get_translation(
-            'energy_efficiency_websitecarbon',
+            'energy_efficiency',
             get_config('general.language')
         )
 

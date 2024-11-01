@@ -87,8 +87,12 @@ def get_credits(global_translation):
                 text += 'Usage: Used to request content not normally requested by users, like robots.txt\r\n'
             elif 'urllib3' in name:
                 text += 'Usage: Used to parse url\r\n'
+            elif 'pylint' in name:
+                text += 'Usage: Used by our devs to ensure code quality\r\n'
             elif 'dnspython' in name:
                 text += 'Usage: Used to get and parse DNS content\r\n'
+            elif name in ('Pillow', 'OpenCV-Python', 'Numpy'):
+                text += 'Reguired by sitespeed.io\r\n'
             elif 'IP2Location' in name:
                 text += 'Usage: Used to get a proximate location related to IP/IP-range\r\n'
             elif 'packaging' in name:

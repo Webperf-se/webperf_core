@@ -76,16 +76,12 @@
         "video": "video.js",
         "vtt": "vtt.js",
         "vue.js": "vue",
-        "woocommerce-gutenberg-products-block": "woocommerce-blocks",
-        "webperf-core": "webperf_core"
+        "webperf-core": "webperf_core",
+        "woocommerce-gutenberg-products-block": "woocommerce-blocks"
     },
     "softwares": {
         "?": {
             "custom": true
-        },
-        "webperf_core": {
-            "github-owner": "Webperf-se",
-            "github-repo": "webperf_core"
         },
         "ac-gutenberg": {
             "type": "wordpress-plugin"
@@ -2696,6 +2692,10 @@
         "webien-site-widgets": {
             "type": "wordpress-plugin"
         },
+        "webperf_core": {
+            "github-owner": "Webperf-se",
+            "github-repo": "webperf_core"
+        },
         "webtoffee-gdpr-cookie-consent": {
             "type": "wordpress-plugin"
         },
@@ -2918,5 +2918,5 @@
             "github-repo": "zxcvbn"
         }
     },
-    "updated": "2024-02-18 20:36:34"
+    "updated": "2024-11-01 16:11:14"
 }

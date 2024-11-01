@@ -23,6 +23,7 @@ from engines.json_engine import read_sites as json_read_sites,\
 from engines.gov import write_tests as gov_write_tests
 from engines.sql import write_tests as sql_write_tests
 from engines.markdown_engine import write_tests as markdown_write_tests
+from helpers.credits_helper import get_credits, update_credits_markdown
 from helpers.setting_helper import config_mapping, get_config, set_config, set_config_from_cmd
 from tests.utils import clean_cache_files
 from utils import TEST_FUNCS, TEST_ALL, restart_failures_log, test_sites
@@ -172,6 +173,27 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
 
     def __init__(self):
         self.language = False
+
+    def update_credits(self, _):
+        """
+        Updated credits.md and prints out the webperf_core credits and exits the program.
+
+        This function uses the provided language function to print out webperf_core credits.
+        After printing the help text, it ends the program.
+        """
+        update_credits_markdown(self.language)
+        sys.exit()
+
+    def show_credits(self, _):
+        """
+        Prints out the webperf_core credits and exits the program.
+
+        This function uses the provided language function to print out webperf_core credits.
+        After printing the help text, it ends the program.
+        """
+        creds = get_credits(self.language)
+        print(creds)
+        sys.exit()
 
     def show_help(self, _):
         """
@@ -485,6 +507,8 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             ("--it", "--input-take"): self.set_input_take,
             ("-o", "--output"): self.set_output_filename,
             ("-r", "--review", "--report"): self.enable_reviews,
+            ("-c", "--credits", "--contributors"): self.show_credits,
+            ("--uc", "--update-credits"): self.update_credits,
             ("-s", "--setting"): self.set_setting,
             ("-ss", "--save-setting"): self.save_setting
         }
@@ -521,10 +545,12 @@ def main(argv):
     options.load_language(get_config('general.language'))
 
     try:
-        opts, _ = getopt.getopt(argv, "hu:t:i:o:rA:D:L:s:", [
+        opts, _ = getopt.getopt(argv, "hu:t:i:o:rA:D:L:s:c", [
                                    "help", "url=", "test=", "input=", "output=",
                                    "review", "report", "addUrl=", "deleteUrl=",
                                    "language=", "input-skip=", "input-take=",
+                                   "credits", "contributors",
+                                   "uc" ,"update-credits",
                                    "is=", "it=", "setting=", "save-setting="])
     except getopt.GetoptError:
         print(main.__doc__)

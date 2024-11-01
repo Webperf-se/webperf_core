@@ -76,6 +76,7 @@
         "video": "video.js",
         "vtt": "vtt.js",
         "vue.js": "vue",
+        "webperf-core": "webperf_core",
         "woocommerce-gutenberg-products-block": "woocommerce-blocks"
     },
     "softwares": {
@@ -1477,6 +1478,10 @@
             "github-owner": "sachinchoolur",
             "github-repo": "lightGallery"
         },
+        "lighthouse": {
+            "github-owner": "GoogleChrome",
+            "github-repo": "lighthouse"
+        },
         "lightslider": {
             "github-owner": "sachinchoolur",
             "github-repo": "lightslider"
@@ -1768,6 +1773,10 @@
         },
         "oxygen": {
             "type": "wordpress-plugin"
+        },
+        "pa11y": {
+            "github-owner": "pa11y",
+            "github-repo": "pa11y"
         },
         "packery": {
             "github-owner": "metafizzy",
@@ -2269,6 +2278,10 @@
         "sitepress-multilingual-cms": {
             "type": "wordpress-plugin"
         },
+        "sitespeed.io": {
+            "github-owner": "sitespeedio",
+            "github-repo": "sitespeed.io"
+        },
         "sizzle": {
             "github-owner": "jquery",
             "github-repo": "sizzle"
@@ -2616,6 +2629,10 @@
         "vizzit-analytics-for-wordpress": {
             "type": "wordpress-plugin"
         },
+        "vnu-jar": {
+            "github-owner": "validator",
+            "github-repo": "validator"
+        },
         "vtt.js": {
             "github-owner": "mozilla",
             "github-repo": "vtt.js"
@@ -2674,6 +2691,10 @@
         },
         "webien-site-widgets": {
             "type": "wordpress-plugin"
+        },
+        "webperf_core": {
+            "github-owner": "Webperf-se",
+            "github-repo": "webperf_core"
         },
         "webtoffee-gdpr-cookie-consent": {
             "type": "wordpress-plugin"
@@ -2867,6 +2888,10 @@
             "github-owner": "erlyaws",
             "github-repo": "yaws"
         },
+        "yellowlabtools": {
+            "github-owner": "YellowLabTools",
+            "github-repo": "YellowLabTools"
+        },
         "youtube-embed-plus": {
             "type": "wordpress-plugin"
         },
@@ -2893,5 +2918,5 @@
             "github-repo": "zxcvbn"
         }
     },
-    "updated": "2024-02-18 20:36:34"
+    "updated": "2024-11-01 16:11:14"
 }

@@ -76,6 +76,7 @@
         "video": "video.js",
         "vtt": "vtt.js",
         "vue.js": "vue",
+        "webperf-core": "webperf_core",
         "woocommerce-gutenberg-products-block": "woocommerce-blocks"
     },
     "softwares": {
@@ -49808,6 +49809,63 @@
             ],
             "archived": false
         },
+        "webperf_core": {
+            "github-owner": "Webperf-se",
+            "github-repo": "webperf_core",
+            "license": "mit",
+            "last_pushed_year": "2024",
+            "archived": false,
+            "contributors": [
+                "[7h3Rabbit](https://github.com/7h3Rabbit)",
+                "[cockroacher](https://github.com/cockroacher)",
+                "[marcusosterberg](https://github.com/marcusosterberg)",
+                "[flowertwig-org](https://github.com/flowertwig-org)",
+                "[dependabot[bot]](https://github.com/apps/dependabot)",
+                "[krompaco](https://github.com/krompaco)",
+                "[linulas](https://github.com/linulas)",
+                "[perlan](https://github.com/perlan)",
+                "[puggan](https://github.com/puggan)"
+            ],
+            "versions": {
+                "2024.11.0": [],
+                "2024.10.3": [],
+                "2024.10.2": [],
+                "2024.10.1": [],
+                "2024.10.0": [],
+                "2024.9.6": [],
+                "2024.9.5": [],
+                "2024.9.4": [],
+                "2024.9.3": [],
+                "2024.9.2": [],
+                "2024.9.1": [],
+                "2024.9.0": [],
+                "2024.8.3": [],
+                "2024.8.2": [],
+                "2024.8.1": [],
+                "2024.8.0": [],
+                "2024.7.1": [],
+                "2024.7.0": [],
+                "2024.6.5": [],
+                "2024.6.4": [],
+                "2024.6.3": [],
+                "2024.6.2": [],
+                "2024.6.1": [],
+                "2024.6.0": [],
+                "2024.5.4": [],
+                "2024.5.3": [],
+                "2024.5.2": [],
+                "2024.5.1": [],
+                "2024.5.0": [],
+                "2024.4.2": [],
+                "2024.4.1": [],
+                "2024.4.0": [],
+                "4.0": [],
+                "3.0": [],
+                "2.1": [],
+                "2.0.0": [],
+                "1.0.0": []
+            }
+        },
         "weglot": {
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
@@ -54342,5 +54400,5 @@
             }
         }
     },
-    "updated": "2024-11-01 14:47:05"
+    "updated": "2024-11-01 16:38:11"
 }

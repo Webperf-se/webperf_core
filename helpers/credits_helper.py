@@ -64,7 +64,7 @@ def get_credits(global_translation):
                 text += 'Usage: Used in Quality on frontend (Yellow Lab Tools) Test\r\n'
 
             if 'license' in software and software["license"] != '':
-                text += f'License: {software["license"]}\r\n'
+                text += f'License: {software["license"].upper()}\r\n'
 
             text += '\r\n'
 

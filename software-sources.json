@@ -85,26 +85,6 @@
         "ac-gutenberg": {
             "type": "wordpress-plugin"
         },
-        "lighthouse": {
-            "github-owner": "GoogleChrome",
-            "github-repo": "lighthouse"
-        },
-        "pa11y": {
-            "github-owner": "pa11y",
-            "github-repo": "pa11y"
-        },
-        "sitespeed.io": {
-            "github-owner": "sitespeedio",
-            "github-repo": "sitespeed.io"
-        },
-        "vnu-jar": {
-            "github-owner": "validator",
-            "github-repo": "validator"
-        },
-        "yellowlabtools": {
-            "github-owner": "YellowLabTools",
-            "github-repo": "YellowLabTools"
-        },
         "accessible-slick": {
             "github-owner": "accessible360",
             "github-repo": "accessible-slick"
@@ -1497,6 +1477,10 @@
             "github-owner": "sachinchoolur",
             "github-repo": "lightGallery"
         },
+        "lighthouse": {
+            "github-owner": "GoogleChrome",
+            "github-repo": "lighthouse"
+        },
         "lightslider": {
             "github-owner": "sachinchoolur",
             "github-repo": "lightslider"
@@ -1788,6 +1772,10 @@
         },
         "oxygen": {
             "type": "wordpress-plugin"
+        },
+        "pa11y": {
+            "github-owner": "pa11y",
+            "github-repo": "pa11y"
         },
         "packery": {
             "github-owner": "metafizzy",
@@ -2289,6 +2277,10 @@
         "sitepress-multilingual-cms": {
             "type": "wordpress-plugin"
         },
+        "sitespeed.io": {
+            "github-owner": "sitespeedio",
+            "github-repo": "sitespeed.io"
+        },
         "sizzle": {
             "github-owner": "jquery",
             "github-repo": "sizzle"
@@ -2636,6 +2628,10 @@
         "vizzit-analytics-for-wordpress": {
             "type": "wordpress-plugin"
         },
+        "vnu-jar": {
+            "github-owner": "validator",
+            "github-repo": "validator"
+        },
         "vtt.js": {
             "github-owner": "mozilla",
             "github-repo": "vtt.js"
@@ -2886,6 +2882,10 @@
         "yaws": {
             "github-owner": "erlyaws",
             "github-repo": "yaws"
+        },
+        "yellowlabtools": {
+            "github-owner": "YellowLabTools",
+            "github-repo": "YellowLabTools"
         },
         "youtube-embed-plus": {
             "type": "wordpress-plugin"

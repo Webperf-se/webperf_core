@@ -7,6 +7,17 @@ import re
 import urllib
 import urllib.parse
 
+def update_credits_markdown(global_translation):
+    creds = get_credits(global_translation)
+
+    base_directory = os.path.join(Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep).parent)
+    credits_path = os.path.join(base_directory, 'credits.md')
+
+    with open(credits_path, 'w', encoding='utf-8', newline='') as file:
+        file.write(creds)
+
+
 def get_credits(global_translation):
     text = '# Credits\r\n' # global_translation('TEXT_CREDITS')
     text += 'Following shows projects and contributors for webperf-core and its dependencies.\r\n'
@@ -16,23 +27,44 @@ def get_credits(global_translation):
     base_directory = os.path.join(Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent)
 
-    credits_path = os.path.join(base_directory, folder, 'credits.json')
-    if not os.path.exists(credits_path):
-        os.makedirs(credits_path)
+    software_full_path = os.path.join(base_directory, 'software-full.json')
+    softwares = None
+    with open(software_full_path, encoding='utf-8') as json_input_file:
+        tmp = json.load(json_input_file)
+        if 'softwares' in tmp:
+            softwares = tmp['softwares']
 
-    with open(credits_path, encoding='utf-8') as json_input_file:
+    package_path = os.path.join(base_directory, 'package.json')
+    with open(package_path, encoding='utf-8') as json_input_file:
         data = json.load(json_input_file)
         text += '\r\n'
-        for creditor in data['creditors']:
-            text += f'## {creditor["name"]}\r\n'
-            if 'license' in creditor and creditor["license"] != '':
-                text += f'License: {creditor["license"]}\r\n'
-            if 'usage' in creditor and len(creditor["usage"]) > 0:
-                text += f'usage: {creditor["usage"]}\r\n'
-            if 'contributors' in creditor and len(creditor["contributors"]) > 0:
-                text += 'Contributors:\r\n'
-                for contributor in creditor["contributors"]:
-                    text += f'- {contributor}\r\n'
+        for creditor_name, creditor_version in data['dependencies'].items():
+            print(creditor_name)
+            if creditor_name not in softwares:
+                print(f'{creditor_name} not found in {software_full_path}.')
+                continue
+
+            software = softwares[creditor_name]
+            # print(creditor_name, software)
+            text += f'## [{creditor_name}](https://www.npmjs.com/package/{creditor_name})\r\n'
+            if 'pa11y' in creditor_name:
+                text += 'Usage: Used in Accessibility (Pa11y) Test\r\n'
+            elif 'lighthouse' in creditor_name:
+                text += 'Usage: Used in Google Lighthouse based Tests\r\n'
+            elif 'sitespeed.io' in creditor_name:
+                text += 'Usage: Used in the background in most cases where we need to visit website as browser\r\n'
+            elif 'vnu-jar' in creditor_name:
+                text += 'Usage: Used in HTML and CSS Validation Test\r\n'
+            elif 'yellowlabtools' in creditor_name:
+                text += 'Usage: Used in Quality on frontend (Yellow Lab Tools) Test\r\n'
+
+            if 'license' in software and software["license"] != '':
+                text += f'License: {software["license"]}\r\n'
+
+            # if 'contributors' in creditor and len(creditor["contributors"]) > 0:
+            #     text += 'Contributors:\r\n'
+            #     for contributor in creditor["contributors"]:
+            #         text += f'- {contributor}\r\n'
             text += '\r\n'
 
     text += get_external_information_sources()

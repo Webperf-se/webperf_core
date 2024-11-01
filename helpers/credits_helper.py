@@ -33,6 +33,12 @@ def get_credits(global_translation):
         if 'softwares' in tmp:
             softwares = tmp['softwares']
 
+            if 'webperf_core' in softwares and len(softwares["webperf_core"]["contributors"]) > 0:
+                text += '\r\n'
+                text += 'Contributors:\r\n'
+                for contributor in softwares["webperf_core"]["contributors"]:
+                    text += f'- {contributor}\r\n'
+
     package_path = os.path.join(base_directory, 'package.json')
     with open(package_path, encoding='utf-8') as json_input_file:
         data = json.load(json_input_file)

@@ -965,6 +965,24 @@ def set_github_repository_info(item, owner, repo):
     if 'archived' in github_info and github_info['archived'] != None:
         item['archived'] = github_info['archived']
 
+    if 'webperf_core' in repo:
+        contributors_content = get_http_content(
+            f'https://api.github.com/repos/{owner}/{repo}/contributors')
+
+        contributors = []
+        contributors_info = None
+        try:
+            contributors_info = json.loads(contributors_content)
+            for contributor in contributors_info:
+                if not contributor['user_view_type']:
+                    continue
+                userinfo = f"[{contributor['login']}]({contributor['html_url']})"
+                contributors.append(userinfo)
+
+        except json.decoder.JSONDecodeError:
+            print(f'ERROR unable to read repository contributors! owner: {owner}, repo: {repo}')
+        item['contributors'] = contributors
+
     return
 
 def get_github_versions(owner, repo, source, security_label, version_prefix, name_key):

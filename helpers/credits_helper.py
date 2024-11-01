@@ -93,6 +93,8 @@ def get_credits(global_translation):
                 text += 'Usage: Used to get a proximate location related to IP/IP-range\r\n'
             elif 'packaging' in name:
                 text += 'Usage: Used to understand and compare software versions\r\n'
+            text += '\r\n'
+
 
     text += get_external_information_sources()
     return text

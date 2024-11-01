@@ -68,6 +68,15 @@ def get_credits(global_translation):
 
             text += '\r\n'
 
+    requirements_full_path = os.path.join(base_directory, 'requirements.txt')
+    with open(requirements_full_path, 'r', encoding='utf-8', newline='') as file:
+        content = ''.join(file.readlines())
+        regex = r"(?P<name>[^>=]+)==[0-9\\.]+"
+        matches = re.finditer(regex, content, re.MULTILINE | re.IGNORECASE)
+        for _, match in enumerate(matches, start=1):
+            name = match.group('name').strip()
+            text += f'## [{name}](https://pypi.org/project/{name}/)\r\n'
+
     text += get_external_information_sources()
     return text
 

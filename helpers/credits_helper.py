@@ -39,6 +39,10 @@ def get_credits(global_translation):
                 for contributor in softwares["webperf_core"]["contributors"]:
                     text += f'- {contributor}\r\n'
 
+
+    text += '\r\n\r\n'
+    text += '## Projects we depend on:\r\n'
+
     package_path = os.path.join(base_directory, 'package.json')
     with open(package_path, encoding='utf-8') as json_input_file:
         data = json.load(json_input_file)
@@ -50,7 +54,7 @@ def get_credits(global_translation):
 
             software = softwares[creditor_name]
             # print(creditor_name, software)
-            text += f'## [{creditor_name}](https://www.npmjs.com/package/{creditor_name})\r\n'
+            text += f'### [{creditor_name}](https://www.npmjs.com/package/{creditor_name})\r\n'
             if 'pa11y' in creditor_name:
                 text += 'Usage: Used in Accessibility (Pa11y) Test\r\n'
             elif 'lighthouse' in creditor_name:
@@ -74,7 +78,7 @@ def get_credits(global_translation):
         matches = re.finditer(regex, content, re.MULTILINE | re.IGNORECASE)
         for _, match in enumerate(matches, start=1):
             name = match.group('name').strip()
-            text += f'## [{name}](https://pypi.org/project/{name}/)\r\n'
+            text += f'### [{name}](https://pypi.org/project/{name}/)\r\n'
             if 'beautifulsoup4' in name:
                 text += 'Usage: Used to parse HTML content\r\n'
             elif 'lxml' in name:
@@ -115,12 +119,19 @@ def get_external_information_sources():
             text += '### HTML Validation Test Sources:\r\n'
         elif 'update_software.py' in file_name:
             text += '### Software Test Sources:\r\n'
+            text += '- https://github.com/github/advisory-database/tree/main/advisories/github-reviewed\r\n'
         else:
             text += f'### Unspecified ({file_name}) Sources:\r\n'
 
         for url in urls:
             text += f'- {url}\r\n'
         text += '\r\n'
+
+    text += '### Tracking and Privacy Test Sources:\r\n'
+    text += '- https://blocklistproject.github.io/Lists/alt-version/tracking-nl.txt\r\n'
+    text += '- https://blocklistproject.github.io/Lists/alt-version/ads-nl.txt\r\n'
+    text += '- https://raw.githubusercontent.com/disconnectme/disconnect-tracking-protection/master/services.json\r\n'
+ 
     return text
 
 def get_urls(py_files):

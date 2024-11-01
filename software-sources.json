@@ -85,6 +85,26 @@
         "ac-gutenberg": {
             "type": "wordpress-plugin"
         },
+        "lighthouse": {
+            "github-owner": "GoogleChrome",
+            "github-repo": "lighthouse"
+        },
+        "pa11y": {
+            "github-owner": "pa11y",
+            "github-repo": "pa11y"
+        },
+        "sitespeed.io": {
+            "github-owner": "sitespeedio",
+            "github-repo": "sitespeed.io"
+        },
+        "vnu-jar": {
+            "github-owner": "validator",
+            "github-repo": "validator"
+        },
+        "yellowlabtools": {
+            "github-owner": "YellowLabTools",
+            "github-repo": "YellowLabTools"
+        },
         "accessible-slick": {
             "github-owner": "accessible360",
             "github-repo": "accessible-slick"

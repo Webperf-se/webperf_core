@@ -1,6 +1,6 @@
 {
   "name": "webperf_core",
-  "version": "2024.10.3",
+  "version": "2024.11.0",
   "description": "You probably want to read the documentation available at homepage.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

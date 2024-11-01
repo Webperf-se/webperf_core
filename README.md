@@ -82,4 +82,10 @@ Why not look at third parties.
 
 
 
+# Credits
+
+We could not do this without all help from contributors and other projects we use.
+
+[Read more about them under credits](./CREDITS.md)
+
 

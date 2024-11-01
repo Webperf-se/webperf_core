@@ -56,6 +56,8 @@ jobs:
           advisories
     - name: Verifing Software(s)
       run: python update_software.py -d ${{ secrets.GITHUB_TOKEN }}
+    - name: Update CREDITS.md
+      run: python default.py --uc
     - name: Create pull request
       uses: peter-evans/create-pull-request@v7
       with:
@@ -70,6 +72,7 @@ jobs:
             - software-full.json
             - defaults/software-rules.json
             - defaults/settings.json
+            - CREDITS.md
         assignees: 7h3Rabbit
         reviewers: 7h3Rabbit
         add-paths: |
@@ -77,3 +80,4 @@ jobs:
           software-full.json
           defaults/software-rules.json
           defaults/settings.json
+          CREDITS.md

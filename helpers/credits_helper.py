@@ -12,7 +12,7 @@ def update_credits_markdown(global_translation):
 
     base_directory = os.path.join(Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent)
-    credits_path = os.path.join(base_directory, 'credits.md')
+    credits_path = os.path.join(base_directory, 'CREDITS.md')
 
     with open(credits_path, 'w', encoding='utf-8', newline='') as file:
         file.write(creds)
@@ -44,7 +44,6 @@ def get_credits(global_translation):
         data = json.load(json_input_file)
         text += '\r\n'
         for creditor_name, creditor_version in data['dependencies'].items():
-            print(creditor_name)
             if creditor_name not in softwares:
                 print(f'{creditor_name} not found in {software_full_path}.')
                 continue
@@ -76,6 +75,20 @@ def get_credits(global_translation):
         for _, match in enumerate(matches, start=1):
             name = match.group('name').strip()
             text += f'## [{name}](https://pypi.org/project/{name}/)\r\n'
+            if 'beautifulsoup4' in name:
+                text += 'Usage: Used to parse HTML content\r\n'
+            elif 'lxml' in name:
+                text += 'Usage: Used to parse XML content\r\n'
+            elif 'requests' in name:
+                text += 'Usage: Used to request content not normally requested by users, like robots.txt\r\n'
+            elif 'urllib3' in name:
+                text += 'Usage: Used to parse url\r\n'
+            elif 'dnspython' in name:
+                text += 'Usage: Used to get and parse DNS content\r\n'
+            elif 'IP2Location' in name:
+                text += 'Usage: Used to get a proximate location related to IP/IP-range\r\n'
+            elif 'packaging' in name:
+                text += 'Usage: Used to understand and compare software versions\r\n'
 
     text += get_external_information_sources()
     return text

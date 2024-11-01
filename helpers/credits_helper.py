@@ -66,10 +66,6 @@ def get_credits(global_translation):
             if 'license' in software and software["license"] != '':
                 text += f'License: {software["license"]}\r\n'
 
-            # if 'contributors' in creditor and len(creditor["contributors"]) > 0:
-            #     text += 'Contributors:\r\n'
-            #     for contributor in creditor["contributors"]:
-            #         text += f'- {contributor}\r\n'
             text += '\r\n'
 
     text += get_external_information_sources()

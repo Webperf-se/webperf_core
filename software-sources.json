@@ -76,11 +76,16 @@
         "video": "video.js",
         "vtt": "vtt.js",
         "vue.js": "vue",
-        "woocommerce-gutenberg-products-block": "woocommerce-blocks"
+        "woocommerce-gutenberg-products-block": "woocommerce-blocks",
+        "webperf-core": "webperf_core"
     },
     "softwares": {
         "?": {
             "custom": true
+        },
+        "webperf_core": {
+            "github-owner": "Webperf-se",
+            "github-repo": "webperf_core"
         },
         "ac-gutenberg": {
             "type": "wordpress-plugin"

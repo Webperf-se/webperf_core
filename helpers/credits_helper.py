@@ -23,7 +23,6 @@ def get_credits(global_translation):
     text += 'Following shows projects and contributors for webperf-core and its dependencies.\r\n'
     text += 'Many thanks to all of you! :D\r\n'
 
-    folder = 'defaults'
     base_directory = os.path.join(Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent)
 

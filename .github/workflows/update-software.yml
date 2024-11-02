@@ -56,6 +56,8 @@ jobs:
           advisories
     - name: Verifing Software(s)
       run: python update_software.py -d ${{ secrets.GITHUB_TOKEN }}
+    - name: Update HTML and CSS references (MDN Web Docs)
+      run: python update_mdn_sources.py
     - name: Update CREDITS.md
       run: python default.py --uc
     - name: Create pull request
@@ -72,6 +74,7 @@ jobs:
             - software-full.json
             - defaults/software-rules.json
             - defaults/settings.json
+            - defaults/mdn-rules.json
             - CREDITS.md
         assignees: 7h3Rabbit
         reviewers: 7h3Rabbit
@@ -80,4 +83,5 @@ jobs:
           software-full.json
           defaults/software-rules.json
           defaults/settings.json
+          defaults/mdn-rules.json
           CREDITS.md

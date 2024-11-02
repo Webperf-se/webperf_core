@@ -119,12 +119,10 @@ def get_external_information_sources():
         file_name = file_path[last_sep_index:].lower()
         if file_name == 'all':
             continue
-        elif 'css_validator_w3c.py' in file_name:
-            text += '### CSS Validation Test Sources:\r\n'
-        elif 'html_validator_w3c.py' in file_name:
-            text += '### HTML Validation Test Sources:\r\n'
+        elif 'update_mdn_sources.py' in file_name:
+            text += '### Update HTML and CSS Test Sources:\r\n'
         elif 'update_software.py' in file_name:
-            text += '### Software Test Sources:\r\n'
+            text += '### Update Software Test Sources:\r\n'
             text += '- https://github.com/github/advisory-database/tree/main/advisories/github-reviewed\r\n'
         else:
             text += f'### Unspecified ({file_name}) Sources:\r\n'

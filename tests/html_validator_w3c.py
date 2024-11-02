@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
+import json
+import os
+from pathlib import Path
 import re
-from bs4 import BeautifulSoup
 from models import Rating
-from tests.utils import get_friendly_url_name, get_http_content,\
-    get_translation,\
+from tests.utils import get_friendly_url_name, get_translation,\
     set_cache_file
 from tests.w3c_base import calculate_rating, get_data_for_url,\
     get_error_review, get_error_types_review,\
@@ -205,50 +206,21 @@ def get_mdn_web_docs_deprecated_elements():
     """
     Returns a list of strings, of deprecated html elements.
     """
-    elements = []
 
-    html = get_http_content(
-        ('https://developer.mozilla.org/'
-         'en-US/docs/Web/HTML/Element'
-         '#obsolete_and_deprecated_elements'))
+    base_directory = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep).parent
 
-    soup = BeautifulSoup(html, 'lxml')
+    file_path = os.path.join(base_directory, 'defaults', 'mdn-rules.json')
+    if not os.path.isfile(file_path):
+        print(f"ERROR: No {file_path} file found!")
+        return ({}, {})
 
-    header = soup.find('h2', id = 'obsolete_and_deprecated_elements')
-    if header is None:
-        return []
+    with open(file_path) as json_rules_file:
+        rules = json.load(json_rules_file)
+        html_rules = rules['html']
+        elements = html_rules['deprecated']['elements']
 
-    section = header.parent
-    if section is None:
-        return []
-
-    tbody = section.find('tbody')
-    if tbody is None:
-        return []
-
-    table_rows = tbody.find_all('tr')
-    if table_rows is None:
-        return []
-
-    for table_row in table_rows:
-        if table_row is None:
-            continue
-
-        first_td = table_row.find('td')
-        if first_td is None:
-            continue
-
-        code = first_td.find('code')
-        if code is None:
-            continue
-
-        regex = r'(\&lt;|<)(?P<name>[^<>]+)(\&gt;|>)'
-        matches = re.search(regex, code.string)
-        if matches:
-            property_name = '<' + matches.group('name')
-            elements.append(property_name)
-
-    return sorted(list(set(elements)))
+        return elements
 
 
 # TODO: change this to just in time, right now it is called every time webperf_core is being called.

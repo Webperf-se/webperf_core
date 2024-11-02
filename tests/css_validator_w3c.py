@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
+import json
+import os
+from pathlib import Path
 import re
 import urllib  # https://docs.python.org/3/library/urllib.parse.html
 from bs4 import BeautifulSoup
 from models import Rating
-from tests.utils import get_friendly_url_name, get_http_content,\
-    get_translation, set_cache_file
+from tests.utils import get_friendly_url_name, get_translation, set_cache_file
 from tests.w3c_base import calculate_rating, get_data_for_url,\
     get_error_review, get_error_types_review,\
     get_errors_for_url, get_rating, get_reviews_from_errors
@@ -497,41 +499,26 @@ def get_errors_for_style_tags(url, html):
 
     return (elements, results)
 
+
 def get_mdn_web_docs_css_features():
-    """
-    Returns a tuple containing 2 lists, first one of CSS features and
-    second of CSS functions keys formatted as non-existent properties.
-    """
-    features = {}
-    functions = {}
+    base_directory = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep).parent
 
-    html = get_http_content(
-        'https://developer.mozilla.org/en-US/docs/Web/CSS/Reference')
+    file_path = os.path.join(base_directory, 'defaults', 'mdn-rules.json')
+    if not os.path.isfile(file_path):
+        print(f"ERROR: No {file_path} file found!")
+        return ({}, {})
 
-    soup = BeautifulSoup(html, 'lxml')
+    with open(file_path) as json_rules_file:
+        rules = json.load(json_rules_file)
+        css_rules = rules['css']
 
-    index_element = soup.find('div', class_='index')
-    if index_element:
-        links = index_element.find_all('a')
-        for link in links:
-            regex = r'(?P<name>[a-z\-0-9]+)(?P<func>[()]{0,2})[ ]*'
-            matches = re.search(regex, link.string)
-            if matches:
-                property_name = matches.group('name')
-                is_function = matches.group('func') in '()'
-                if is_function:
-                    functions[f"{property_name}"] = link.get('href')
-                else:
-                    features[f"{property_name}"] = link.get('href')
-    else:
-        print('no index element found')
-    return (features, functions)
+        return (css_rules['features'], css_rules['functions'])
 
 # TODO: change this to just in time, right now it is called every time webperf_core is being called.
 css_spec = get_mdn_web_docs_css_features()
 css_features = css_spec[0]
 css_functions = css_spec[1]
-
 
 def get_properties_doesnt_exist_list():
     """

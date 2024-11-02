@@ -13,47 +13,68 @@ Contributors:
 - [perlan](https://github.com/perlan)
 - [puggan](https://github.com/puggan)
 
-## [lighthouse](https://www.npmjs.com/package/lighthouse)
+
+## Projects we depend on:
+
+### [lighthouse](https://www.npmjs.com/package/lighthouse)
 Usage: Used in Google Lighthouse based Tests
 License: APACHE-2.0
 
-## [pa11y](https://www.npmjs.com/package/pa11y)
+### [pa11y](https://www.npmjs.com/package/pa11y)
 Usage: Used in Accessibility (Pa11y) Test
 License: LGPL-3.0
 
-## [sitespeed.io](https://www.npmjs.com/package/sitespeed.io)
+### [sitespeed.io](https://www.npmjs.com/package/sitespeed.io)
 Usage: Used in the background in most cases where we need to visit website as browser
 License: MIT
 
-## [vnu-jar](https://www.npmjs.com/package/vnu-jar)
+### [vnu-jar](https://www.npmjs.com/package/vnu-jar)
 Usage: Used in HTML and CSS Validation Test
 License: MIT
 
-## [yellowlabtools](https://www.npmjs.com/package/yellowlabtools)
+### [yellowlabtools](https://www.npmjs.com/package/yellowlabtools)
 Usage: Used in Quality on frontend (Yellow Lab Tools) Test
 License: GPL-2.0
 
-## [beautifulsoup4](https://pypi.org/project/beautifulsoup4/)
+### [beautifulsoup4](https://pypi.org/project/beautifulsoup4/)
 Usage: Used to parse HTML content
-## [lxml](https://pypi.org/project/lxml/)
+
+### [lxml](https://pypi.org/project/lxml/)
 Usage: Used to parse XML content
-## [requests](https://pypi.org/project/requests/)
+
+### [requests](https://pypi.org/project/requests/)
 Usage: Used to request content not normally requested by users, like robots.txt
-## [urllib3](https://pypi.org/project/urllib3/)
+
+### [urllib3](https://pypi.org/project/urllib3/)
 Usage: Used to parse url
-## [dnspython](https://pypi.org/project/dnspython/)
+
+### [dnspython](https://pypi.org/project/dnspython/)
 Usage: Used to get and parse DNS content
-## [certifi](https://pypi.org/project/certifi/)
-## [selenium](https://pypi.org/project/selenium/)
-## [IP2Location](https://pypi.org/project/IP2Location/)
+
+### [certifi](https://pypi.org/project/certifi/)
+
+### [selenium](https://pypi.org/project/selenium/)
+
+### [IP2Location](https://pypi.org/project/IP2Location/)
 Usage: Used to get a proximate location related to IP/IP-range
-## [Pillow](https://pypi.org/project/Pillow/)
-## [OpenCV-Python](https://pypi.org/project/OpenCV-Python/)
-## [Numpy](https://pypi.org/project/Numpy/)
-## [cryptography](https://pypi.org/project/cryptography/)
-## [pylint](https://pypi.org/project/pylint/)
-## [packaging](https://pypi.org/project/packaging/)
+
+### [Pillow](https://pypi.org/project/Pillow/)
+Reguired by sitespeed.io
+
+### [OpenCV-Python](https://pypi.org/project/OpenCV-Python/)
+Reguired by sitespeed.io
+
+### [Numpy](https://pypi.org/project/Numpy/)
+Reguired by sitespeed.io
+
+### [cryptography](https://pypi.org/project/cryptography/)
+
+### [pylint](https://pypi.org/project/pylint/)
+Usage: Used by our devs to ensure code quality
+
+### [packaging](https://pypi.org/project/packaging/)
 Usage: Used to understand and compare software versions
+
 ## External Information Source(s):
 ### HTML Validation Test Sources:
 - https://developer.mozilla.org/en-US/docs/Web/HTML/Element#obsolete_and_deprecated_elements
@@ -62,6 +83,7 @@ Usage: Used to understand and compare software versions
 - https://developer.mozilla.org/en-US/docs/Web/CSS/Reference
 
 ### Software Test Sources:
+- https://github.com/github/advisory-database/tree/main/advisories/github-reviewed
 - https://api.github.com/repos/{owner}/{repo}
 - https://api.github.com/repos/{owner}/{repo}/contributors
 - https://api.github.com/repos/{owner}/{repo}/{source}/{versions_dict[version][id]}/labels
@@ -80,3 +102,7 @@ Usage: Used to understand and compare software versions
 - https://www.php.net/eol.php
 - https://www.php.net/releases/
 
+### Tracking and Privacy Test Sources:
+- https://blocklistproject.github.io/Lists/alt-version/tracking-nl.txt
+- https://blocklistproject.github.io/Lists/alt-version/ads-nl.txt
+- https://raw.githubusercontent.com/disconnectme/disconnect-tracking-protection/master/services.json

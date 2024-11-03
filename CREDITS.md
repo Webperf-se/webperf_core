@@ -76,13 +76,11 @@ Usage: Used by our devs to ensure code quality
 Usage: Used to understand and compare software versions
 
 ## External Information Source(s):
-### HTML Validation Test Sources:
+### Update HTML and CSS Test Sources:
+- https://developer.mozilla.org/en-US/docs/Web/CSS/Reference
 - https://developer.mozilla.org/en-US/docs/Web/HTML/Element#obsolete_and_deprecated_elements
 
-### CSS Validation Test Sources:
-- https://developer.mozilla.org/en-US/docs/Web/CSS/Reference
-
-### Software Test Sources:
+### Update Software Test Sources:
 - https://github.com/github/advisory-database/tree/main/advisories/github-reviewed
 - https://api.github.com/repos/{owner}/{repo}
 - https://api.github.com/repos/{owner}/{repo}/contributors

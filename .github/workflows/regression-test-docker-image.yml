@@ -35,8 +35,8 @@ jobs:
       run: |
         version=$(docker run ${{ env.TEST_TAG }} python --version)
         echo "Python version: $version"
-        if [[ "$version" != "Python 3.12"* ]]; then
-          echo "Error: Default python version is not 3.12 based, was we unable to change default version?"
+        if [[ "$version" != "Python 3.13"* ]]; then
+          echo "Error: Default python version is not 3.13 based, was we unable to change default version?"
           exit 1
         fi
     - name: Check if webperf_core help command works

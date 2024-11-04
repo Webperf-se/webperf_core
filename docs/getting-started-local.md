@@ -4,7 +4,7 @@ This method is best if you want to test/verify private websites like acceptance 
 it is also best/fastest when wanting to contribute with new tests, translations or other stuff.
 
 ## How to setup
-- [Download and install Python 3.12 (or later)](https://www.python.org/downloads/) if you don't have it installed already.
+- [Download and install Python 3.13 (or later)](https://www.python.org/downloads/) if you don't have it installed already.
 - [Fork webperf-core repository](https://github.com/Webperf-se/webperf_core/fork?fragment=1) or [download webperf-core](https://github.com/Webperf-se/webperf_core/archive/refs/heads/main.zip) to your machine.
 - Open the Terminal (Macos & Linux) or Command Prompt (Windows).
 - Navigate to where you downloaded (and unpacked) the source code. If you don’t know how to navigate in Terminal/CMD, read the [Windows guide](https://www.digitalcitizen.life/command-prompt-how-use-basic-commands) or [under Step 5 for Mac / Linux](https://computers.tutsplus.com/tutorials/navigating-the-terminal-a-gentle-introduction--mac-3855).

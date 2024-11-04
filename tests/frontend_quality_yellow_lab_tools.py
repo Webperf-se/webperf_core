@@ -31,7 +31,6 @@ def run_test(global_translation, url):
         rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
         return (rating, {'failed': True })
 
-    return_dict = {}
     yellow_lab = 0
 
     for key in result_dict['scoreProfiles']['generic'].keys():
@@ -71,7 +70,7 @@ def run_test(global_translation, url):
     print(global_translation('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    return (rating, return_dict)
+    return (rating, result_dict)
 
 def get_ylt_result(url):
     """

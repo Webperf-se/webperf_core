@@ -34,8 +34,6 @@ RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.13 3
 
 RUN update-alternatives --config python3
 
-# RUN apt install -y python3.13-distutils
-
 RUN wget https://bootstrap.pypa.io/get-pip.py
 
 RUN python3.13 get-pip.py

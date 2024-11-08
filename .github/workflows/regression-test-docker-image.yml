@@ -74,16 +74,16 @@ jobs:
     - name: Check if webperf_core can run Test 1
       if: always()
       run: |
-        testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 1 -r -i sites.json)
+        testresult=$(docker run -it --shm-size=4g -e MAX_OLD_SPACE_SIZE=3000 ${{ env.TEST_TAG }} python default.py -t 1 -r -i sites.json)
         echo "$testresult"
         if [[ "$testresult" == *"Unable to connect to Chrome"* ]]; then
           sleep 5
-          testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 1 -r -i sites.json)
+          testresult=$(docker run -it --shm-size=4g -e MAX_OLD_SPACE_SIZE=3000 ${{ env.TEST_TAG }} python default.py -t 1 -r -i sites.json)
           echo "$testresult"
         fi
         if [[ "$testresult" == *"Unable to connect to Chrome"* ]]; then
           sleep 5
-          testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 1 -r -i sites.json)
+          testresult=$(docker run -it --shm-size=4g -e MAX_OLD_SPACE_SIZE=3000 ${{ env.TEST_TAG }} python default.py -t 1 -r -i sites.json)
           echo "$testresult"
         fi
         if [[ "$testresult" != *"Performance:"* ]]; then
@@ -195,7 +195,7 @@ jobs:
     - name: Check if webperf_core can run Test 17
       if: always()
       run: |
-        testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 17 -r -i sites.json)
+        testresult=$(docker run -it --shm-size=4g -e MAX_OLD_SPACE_SIZE=3000 ${{ env.TEST_TAG }} python default.py -t 17 -r -i sites.json)
         echo "$testresult"
         if [[ "$testresult" != *"Integrity & Security:"* ]]; then
           echo "Error: WebPerf-core testresult is NOT returning expected review"
@@ -204,7 +204,7 @@ jobs:
     - name: Check if webperf_core can run Test 18
       if: always()
       run: |
-        testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 18 -r -i sites.json)
+        testresult=$(docker run -it --shm-size=4g -e MAX_OLD_SPACE_SIZE=3000 ${{ env.TEST_TAG }} python default.py -t 18 -r -i sites.json)
         echo "$testresult"
         if [[ "$testresult" != *"A11y:"* ]]; then
           echo "Error: WebPerf-core testresult is NOT returning expected review"

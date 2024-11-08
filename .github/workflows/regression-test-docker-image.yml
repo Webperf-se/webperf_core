@@ -86,7 +86,7 @@ jobs:
           testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 1 -r -i sites.json)
           echo "$testresult"
         fi
-        if [[ "$testresult" == *"Runtime error encountered"* ]]; then
+        if [[ "$testresult" == *"Error, was unable to load the page you requested"* ]]; then
           echo "Error: WebPerf-core testresult is NOT returning expected review"
           exit 1
         fi
@@ -118,7 +118,7 @@ jobs:
           testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 4 -r -i sites.json)
           echo "$testresult"
         fi
-        if [[ "$testresult" == *"Runtime error encountered"* ]]; then
+        if [[ "$testresult" == *"Error, was unable to load the page you requested"* ]]; then
           echo "Error: WebPerf-core testresult is NOT returning expected review"
           exit 1
         fi
@@ -141,7 +141,7 @@ jobs:
           testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 5 -r -i sites.json)
           echo "$testresult"
         fi
-        if [[ "$testresult" == *"Runtime error encountered"* ]]; then
+        if [[ "$testresult" == *"Error, was unable to load the page you requested"* ]]; then
           echo "Error: WebPerf-core testresult is NOT returning expected review"
           exit 1
         fi
@@ -191,7 +191,7 @@ jobs:
           testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 10 -r -i sites.json)
           echo "$testresult"
         fi
-        if [[ "$testresult" == *"Runtime error encountered"* ]]; then
+        if [[ "$testresult" == *"Error, was unable to load the page you requested"* ]]; then
           echo "Error: WebPerf-core testresult is NOT returning expected review"
           exit 1
         fi
@@ -259,7 +259,7 @@ jobs:
           testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 22 -r -i sites.json)
           echo "$testresult"
         fi
-        if [[ "$testresult" == *"Runtime error encountered"* ]]; then
+        if [[ "$testresult" == *"Error, was unable to load the page you requested"* ]]; then
           echo "Error: WebPerf-core testresult is NOT returning expected review"
           exit 1
         fi

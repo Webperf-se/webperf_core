@@ -50,7 +50,7 @@ def check_python():
         return
 
     version = packaging.version.Version(version)
-    repo_version = packaging.version.Version("3.12")
+    repo_version = packaging.version.Version("3.13")
     if version.major is not repo_version.major:
         print('\t- Python:', 'WARNING: wrong major version')
         return

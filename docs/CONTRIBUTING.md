@@ -43,7 +43,7 @@ Locate your pygettext.py file:
 ```locate pygettext.py```
 
 It might be as follows:  
-```/Library/Frameworks/Python.framework/Versions/3.8/share/doc/python3.8/examples/Tools/i18n/pygettext.py```
+```/Library/Frameworks/Python.framework/Versions/3.13/share/doc/python3.13/examples/Tools/i18n/pygettext.py```
 
 ### References
 

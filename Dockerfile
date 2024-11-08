@@ -26,19 +26,17 @@ RUN add-apt-repository ppa:deadsnakes/ppa -y
 
 RUN apt update
 
-RUN apt install -y python3.12 python3.12-venv
+RUN apt install -y python3.13 python3.13-venv
 
 RUN apt install -y python3-pip
 
-RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.12 311
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.13 311
 
 RUN update-alternatives --config python3
 
-RUN apt install -y python3.12-distutils
-
 RUN wget https://bootstrap.pypa.io/get-pip.py
 
-RUN python3.12 get-pip.py
+RUN python3.13 get-pip.py
 
 RUN apt -y autoremove
 
@@ -67,13 +65,13 @@ USER sitespeedio
 
 RUN npm install --omit=dev
 
-RUN python3.12 -m pip install -r requirements.txt --break-system-packages && \
-    python3.12 -m pip install --upgrade pip --break-system-packages && \
-    python3.12 -m pip install --upgrade setuptools --break-system-packages && \
-    python3.12 -m pip install pyssim Pillow image --break-system-packages
+RUN python3.13 -m pip install -r requirements.txt --break-system-packages && \
+    python3.13 -m pip install --upgrade pip --break-system-packages && \
+    python3.13 -m pip install --upgrade setuptools --break-system-packages && \
+    python3.13 -m pip install pyssim Pillow image --break-system-packages
 
-RUN python3.12 default.py --setting tests.lighthouse.disable-sandbox=true --setting tests.sitespeed.xvfb=true --save-setting settings.json
+RUN python3.13 default.py --setting tests.lighthouse.disable-sandbox=true --setting tests.sitespeed.xvfb=true --save-setting settings.json
 
 ENTRYPOINT []
 
-CMD ["python3.12", "default.py -h"]
+CMD ["python3.13", "default.py -h"]

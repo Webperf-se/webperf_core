@@ -52,6 +52,9 @@ WORKDIR /usr/src/runner
 
 RUN echo 'ALL ALL=NOPASSWD: /usr/sbin/tc, /usr/sbin/route, /usr/sbin/ip' > /etc/sudoers.d/tc
 
+# https://github.com/puppeteer/puppeteer/issues/8148#issuecomment-1397528849
+RUN Xvfb -ac :99 -screen 0 1280x1024x16 & export DISPLAY=:99
+
 RUN npm install -g node-gyp puppeteer
 
 # If own settings.json exists it will overwrite the default

@@ -62,7 +62,7 @@ RUN npm install -g node-gyp puppeteer
 COPY . /usr/src/runner
 
 # Use same parameters YLT/phantomas
-COPY /usr/src/runner/docker/pa11y-config.json /usr/src/runner/pa11y.json
+COPY ./docker/pa11y-config.json /usr/src/runner/pa11y.json
 
 RUN chown --recursive sitespeedio:sitespeedio /usr/src/runner
 

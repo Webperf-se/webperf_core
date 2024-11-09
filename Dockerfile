@@ -14,6 +14,9 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV DEBIAN_FRONTEND=noninteractive
 
+# YLT/phantomas should pick this up and use --no-sandbox
+ENV LAMBDA_TASK_ROOT=/trick/phantomas
+
 RUN apt-get update &&\
     apt-get install -y --no-install-recommends curl gcc g++ gnupg unixodbc-dev openssl git default-jre default-jdk && \
     apt-get install -y software-properties-common ca-certificates && \

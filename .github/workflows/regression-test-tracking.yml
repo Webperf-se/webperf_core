@@ -8,8 +8,8 @@ on:
   push:
     paths-ignore:
       - '**.md'
-      - 'software-full.json'
-      - 'software-sources.json'
+      - '**software-full.json'
+      - '**software-sources.json'
       - '**update-software.yml'
       - 'update_software.py'
       - '**software-rules.json'

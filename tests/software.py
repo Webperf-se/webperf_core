@@ -605,7 +605,7 @@ def get_softwares():
 
     file_path = f'{base_directory}{os.path.sep}data{os.path.sep}software-full.json'
     if not os.path.isfile(file_path):
-        file_path = f'{base_directory}{os.path.sep}software-full.json'
+        file_path = f'{base_directory}{os.path.sep}defaults{os.path.sep}software-full.json'
     if not os.path.isfile(file_path):
         print("ERROR: No software-full.json file found!")
         return {
@@ -623,7 +623,7 @@ def add_known_software_source(name, source_type, match, url):
 
     file_path = f'{base_directory}{os.path.sep}data{os.path.sep}software-sources.json'
     if not os.path.isfile(file_path):
-        file_path = f'{base_directory}{os.path.sep}software-sources.json'
+        file_path = f'{base_directory}{os.path.sep}defaults{os.path.sep}software-sources.json'
     if not os.path.isfile(file_path):
         print("ERROR: No software-sources.json file found!")
         return

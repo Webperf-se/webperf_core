@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - "software-full.json"
+      - "**software-full.json"
       - "Dockerfile"
   schedule:
     #  https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#onschedule

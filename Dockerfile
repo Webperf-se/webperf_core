@@ -61,6 +61,9 @@ RUN npm install -g node-gyp puppeteer
 # If own settings.json exists it will overwrite the default
 COPY . /usr/src/runner
 
+# Use same parameters YLT/phantomas
+COPY pa11y-docker-config.json /usr/src/runner/pa11y.json
+
 RUN chown --recursive sitespeedio:sitespeedio /usr/src/runner
 
 # Run everything after as non-privileged user.

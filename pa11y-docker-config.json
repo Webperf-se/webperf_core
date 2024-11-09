@@ -1,0 +1,6 @@
+{
+    "chromeLaunchConfig": {
+        "ignoreHTTPSErrors": false,
+        "args": ["--no-sandbox", "--no-zygote", "--disable-gpu", "--single-process"]
+    }
+}

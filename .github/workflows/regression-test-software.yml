@@ -4,7 +4,7 @@ on:
   push:
     paths-ignore:
       - '**.md'
-      - 'software-sources.json'
+      - '**software-sources.json'
       - '**update-software.yml'
       - 'Dockerfile'
       - '**regression-test-docker-image.yml'

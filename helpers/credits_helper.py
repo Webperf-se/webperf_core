@@ -26,7 +26,7 @@ def get_credits(global_translation):
     base_directory = os.path.join(Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent)
 
-    software_full_path = os.path.join(base_directory, 'software-full.json')
+    software_full_path = os.path.join(base_directory, 'defaults', 'software-full.json')
     softwares = None
     with open(software_full_path, encoding='utf-8') as json_input_file:
         tmp = json.load(json_input_file)

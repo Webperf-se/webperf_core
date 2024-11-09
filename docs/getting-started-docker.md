@@ -35,7 +35,7 @@ Lighthouse tests sometimes fail reporting NO_NAVSTART - retrying usually works. 
 
 You can base your own image on `webperfse/webperf-core` or your own local version of it. It can be convenient to have your repo or folder outside of the original repo.
 
-For example you can hold your own copies of [settings.json](settings-json.md) and `sites.json` in this separate folder.
+For example you can hold your own copies of [settings.json](settings-json.md) and `defaults/sites.json` in this separate folder.
 
 This can makes it easier to update and sync the original GitHub repository without having to re-apply your own changes.
 
@@ -45,7 +45,7 @@ Put a `Dockerfile` in the new folder. Content example:
 FROM webperfse/webperf-core:latest
 
 COPY settings.json /usr/src/runner/settings.json
-COPY sites.json /usr/src/runner/sites.json
+COPY defaults/sites.json /usr/src/runner/sites.json
 ```
 
 Build it from your new folder:
@@ -61,6 +61,6 @@ Run it:
 docker run -it --cap-add=SYS_ADMIN --cpus=".9" --shm-size=3g --rm my-own-webperf-runner:latest bash
 ```
 
-Now you are at bash but with separate [settings.json](settings-json.md) and `sites.json` files _burnt into_ the image.
+Now you are at bash but with separate [settings.json](settings-json.md) and `defaults/sites.json` files _burnt into_ the image.
 
 If you have PowerShell I recommend you also copy the _*.ps1_-files from the _./docker_ folder and adjust them to fit the custom image.

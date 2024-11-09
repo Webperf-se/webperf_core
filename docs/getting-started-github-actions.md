@@ -6,7 +6,7 @@ If you want to test/verify private websites you should probably look at one of t
 
 ## How to setup
 [Fork webperf-core repository](https://github.com/Webperf-se/webperf_core/fork?fragment=1)
-- Change `https://webperf.se/` in `sites.json` file to the url you want to test with.
+- Change `https://webperf.se/` in `defaults/sites.json` file to the url you want to test with.
   (If you want to test more then one, add them)
 - Remove tests you don't need from your `./github/workflows/` folder
   (You only need: `close-inactive-issues.yml`, `codeql-analysis.yml`, `pylint.yml`, `regression-test-translations.yml` and `update-software.yml` if you are contributing and are working on a Pull Request).

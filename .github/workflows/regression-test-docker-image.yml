@@ -247,16 +247,16 @@ jobs:
     - name: Check if webperf_core can run Test 22
       if: always()
       run: |
-        testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 22 -r -i sites.json)
+        testresult=$(docker run --shm-size=4g -e MAX_OLD_SPACE_SIZE=3000 ${{ env.TEST_TAG }} python default.py -t 22 -r -i sites.json)
         echo "$testresult"
         if [[ "$testresult" == *"Unable to connect to Chrome"* ]]; then
           sleep 5
-          testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 22 -r -i sites.json)
+          testresult=$(docker run --shm-size=4g -e MAX_OLD_SPACE_SIZE=3000 ${{ env.TEST_TAG }} python default.py -t 22 -r -i sites.json)
           echo "$testresult"
         fi
         if [[ "$testresult" == *"Unable to connect to Chrome"* ]]; then
           sleep 5
-          testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 22 -r -i sites.json)
+          testresult=$(docker run --shm-size=4g -e MAX_OLD_SPACE_SIZE=3000 ${{ env.TEST_TAG }} python default.py -t 22 -r -i sites.json)
           echo "$testresult"
         fi
         if [[ "$testresult" == *"Error, was unable to load the page you requested"* ]]; then

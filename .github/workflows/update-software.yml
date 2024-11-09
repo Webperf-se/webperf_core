@@ -70,8 +70,8 @@ jobs:
           This pull request is used to make it easier to keep the software definitions up to date.
           
           Following files may be touched:
-            - software-sources.json
-            - software-full.json
+            - defaults/software-sources.json
+            - defaults/software-full.json
             - defaults/software-rules.json
             - defaults/settings.json
             - defaults/mdn-rules.json
@@ -79,8 +79,8 @@ jobs:
         assignees: 7h3Rabbit
         reviewers: 7h3Rabbit
         add-paths: |
-          software-sources.json
-          software-full.json
+          defaults/software-sources.json
+          defaults/software-full.json
           defaults/software-rules.json
           defaults/settings.json
           defaults/mdn-rules.json

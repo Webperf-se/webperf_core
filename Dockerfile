@@ -14,6 +14,9 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV DEBIAN_FRONTEND=noninteractive
 
+# YLT/phantomas should pick this up and use --no-sandbox
+ENV LAMBDA_TASK_ROOT=/trick/phantomas
+
 RUN apt-get update &&\
     apt-get install -y --no-install-recommends curl gcc g++ gnupg unixodbc-dev openssl git default-jre default-jdk && \
     apt-get install -y software-properties-common ca-certificates && \
@@ -50,10 +53,16 @@ WORKDIR /usr/src/runner
 
 RUN echo 'ALL ALL=NOPASSWD: /usr/sbin/tc, /usr/sbin/route, /usr/sbin/ip' > /etc/sudoers.d/tc
 
+# https://github.com/puppeteer/puppeteer/issues/8148#issuecomment-1397528849
+RUN Xvfb -ac :99 -screen 0 1280x1024x16 & export DISPLAY=:99
+
 RUN npm install -g node-gyp puppeteer
 
 # If own settings.json exists it will overwrite the default
 COPY . /usr/src/runner
+
+# Use same parameters YLT/phantomas
+COPY pa11y-docker-config.json /usr/src/runner/pa11y.json
 
 RUN chown --recursive sitespeedio:sitespeedio /usr/src/runner
 

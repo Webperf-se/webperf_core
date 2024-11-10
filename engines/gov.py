@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import csv
-from models import SiteTests
+from helpers.models import SiteTests
 
 def write_tests(output_filename, site_tests, sites, _):
     """

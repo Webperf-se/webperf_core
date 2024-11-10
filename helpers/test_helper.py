@@ -3,7 +3,7 @@ import json
 from datetime import datetime
 import traceback
 from helpers.setting_helper import get_config, get_used_configuration
-from models import SiteTests
+from helpers.models import SiteTests
 from tests.page_not_found import run_test as run_test_page_not_found
 from tests.html_validator_w3c import run_test as run_test_html_validator_w3c
 from tests.css_validator_w3c import run_test as run_test_css_validator_w3c

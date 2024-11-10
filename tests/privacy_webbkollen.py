@@ -5,7 +5,7 @@ import urllib  # https://docs.python.org/3/library/urllib.parse.html
 import re
 import requests
 from bs4 import BeautifulSoup
-from models import Rating
+from helpers.models import Rating
 from tests.utils import get_translation
 from helpers.setting_helper import get_config
 

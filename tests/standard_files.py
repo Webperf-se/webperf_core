@@ -4,7 +4,7 @@ from urllib.parse import urlparse
 from datetime import datetime
 import re
 from bs4 import BeautifulSoup
-from models import Rating
+from helpers.models import Rating
 from tests.utils import get_root_url,\
     get_translation, has_redirect, get_http_content
 from engines.sitemap import read_sitemap

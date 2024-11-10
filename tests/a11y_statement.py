@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 import time
 import urllib.parse
 from bs4 import BeautifulSoup
-from models import Rating
+from helpers.models import Rating
 from helpers.setting_helper import get_config
 from tests.utils import get_http_content, get_translation
 

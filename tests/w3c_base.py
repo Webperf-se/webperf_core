@@ -3,7 +3,7 @@ from datetime import timedelta
 import os
 import subprocess
 import json
-from models import Rating
+from helpers.models import Rating
 from tests.sitespeed_base import get_result
 from tests.utils import get_cache_path_for_file,\
                         has_cache_file,\

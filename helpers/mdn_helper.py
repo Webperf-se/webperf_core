@@ -9,7 +9,7 @@ import os
 from bs4 import BeautifulSoup
 from tests.utils import get_http_content
 from helpers.setting_helper import get_config
-from utils import get_error_info
+from helpers.test_helper import get_error_info
 
 USE_CACHE = get_config('general.cache.use')
 CACHE_TIME_DELTA = timedelta(minutes=get_config('general.cache.max-age'))
@@ -45,28 +45,6 @@ def get_mdn_web_docs_css_features():
         print('no index element found')
 
     return (features, functions)
-
-def main(argv):
-    """
-    WebPerf Core - Update MDN Sources
-    """
-
-    try:
-        opts, _ = getopt.getopt(argv, "bd:", ["browser", "definitions="])
-    except getopt.GetoptError:
-        print('Error in getopt.')
-        print(main.__doc__)
-        sys.exit(2)
-
-    try:
-        update_mdn_rules()
-    except Exception as ex: # pylint: disable=broad-exception-caught
-        info = get_error_info('', -1, ex)
-        print('\n'.join(info).replace('\n\n','\n'))
-
-        # write error to failure.log file
-        with open('failures.log', 'a', encoding='utf-8') as outfile:
-            outfile.writelines(info)
 
 def get_mdn_web_docs_deprecated_elements():
     """

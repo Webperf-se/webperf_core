@@ -24,9 +24,11 @@ from engines.gov import write_tests as gov_write_tests
 from engines.sql import write_tests as sql_write_tests
 from engines.markdown_engine import write_tests as markdown_write_tests
 from helpers.credits_helper import get_credits, update_credits_markdown
-from helpers.setting_helper import config_mapping, get_config, set_config, set_config_from_cmd
+from helpers.mdn_helper import update_mdn_rules
+from helpers.setting_helper import config_mapping, get_config, set_config, set_config_from_cmd, set_runtime_config_only
+from helpers.test_helper import TEST_FUNCS, TEST_ALL, restart_failures_log, test_sites
+from helpers.update_software_helper import update_licenses, update_software_info, update_user_agent
 from tests.utils import clean_cache_files
-from utils import TEST_FUNCS, TEST_ALL, restart_failures_log, test_sites
 
 
 def validate_test_type(tmp_test_types):
@@ -183,6 +185,20 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
         """
         update_credits_markdown(self.language)
         sys.exit()
+
+    def update_browser(self, _):
+        update_user_agent()
+        sys.exit(0)
+
+    def update_mdn(self, _):
+        update_mdn_rules()
+        sys.exit(0)
+
+    def update_software_definitions(self, arg):
+        set_runtime_config_only("github.api.key", arg)
+        update_licenses()
+        update_software_info()
+        sys.exit(0)
 
     def show_credits(self, _):
         """
@@ -509,6 +525,9 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             ("-r", "--review", "--report"): self.enable_reviews,
             ("-c", "--credits", "--contributors"): self.show_credits,
             ("--uc", "--update-credits"): self.update_credits,
+            ("-b", "--update-browser"): self.update_browser,
+            ("-d", "--update-definitions"): self.update_software_definitions,
+            ("--ums", "--update-mdn-sources"): self.update_mdn,
             ("-s", "--setting"): self.set_setting,
             ("-ss", "--save-setting"): self.save_setting
         }
@@ -536,21 +555,25 @@ def main(argv):
     -A/--addUrl <site url>\t: website url (required in combination with -i/--input)
     -D/--deleteUrl <site url>\t: website url (required in combination with -i/--input)
     -L/--language <lang code>\t: language used for output(en = default/sv)
-    --setting <key>=<value>\t: override configuration for current run
+    -s/--setting <key>=<value>\t: override configuration for current run
                                   (use ? to list available settings)
     --save-setting <file path>\t: file path to configuration
+    -c/--credits/--contributors\t: prints out credits
+    --uc/--update-credits\t\t: Update credits.md file
     """
 
     options = CommandLineOptions()
     options.load_language(get_config('general.language'))
 
     try:
-        opts, _ = getopt.getopt(argv, "hu:t:i:o:rA:D:L:s:c", [
+        opts, _ = getopt.getopt(argv, "hu:t:i:o:rA:D:L:s:cbd:", [
                                    "help", "url=", "test=", "input=", "output=",
                                    "review", "report", "addUrl=", "deleteUrl=",
                                    "language=", "input-skip=", "input-take=",
                                    "credits", "contributors",
                                    "uc" ,"update-credits",
+                                   "ums", "update-mdn-sources",
+                                   "update-browser", "update-definitions=",
                                    "is=", "it=", "setting=", "save-setting="])
     except getopt.GetoptError:
         print(main.__doc__)

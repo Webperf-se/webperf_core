@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from helpers.setting_helper import get_config
-from models import Rating
+from helpers.models import Rating
 from tests import energy_efficiency_carbon_percentiles
 import tests.energy_efficiency_carbon_percentiles2022 as energy_efficiency_carbon_percentiles_2022
 from tests.performance_lighthouse import run_test as lighthouse_perf_run_test

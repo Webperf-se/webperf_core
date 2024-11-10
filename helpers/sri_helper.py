@@ -5,7 +5,7 @@ import urllib.parse
 from helpers.data_helper import append_domain_entry,\
     append_domain_entry_with_key, has_domain_entry
 from helpers.setting_helper import get_config
-from models import Rating
+from helpers.models import Rating
 
 # pylint: disable=too-many-arguments,too-many-positional-arguments
 def rate_sri(result_dict, global_translation, local_translation,

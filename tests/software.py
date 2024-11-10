@@ -11,7 +11,7 @@ from PIL.ExifTags import TAGS
 from PIL import Image
 # https://docs.python.org/3/library/urllib.parse.html
 import packaging.version
-from models import Rating, DefaultInfo
+from helpers.models import Rating, DefaultInfo
 from tests.sitespeed_base import get_result
 from tests.utils import get_http_content, get_translation, is_file_older_than
 from helpers.setting_helper import get_config

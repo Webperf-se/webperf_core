@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import getopt
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -13,8 +12,7 @@ import packaging.version
 from tests.sitespeed_base import get_browsertime_har_path,\
     get_result_using_no_cache, get_sanitized_browsertime
 from tests.utils import get_http_content
-from helpers.setting_helper import get_config, set_runtime_config_only, update_config
-from utils import get_error_info
+from helpers.setting_helper import get_config, update_config
 
 USE_CACHE = get_config('general.cache.use')
 CACHE_TIME_DELTA = timedelta(minutes=get_config('general.cache.max-age'))
@@ -26,36 +24,6 @@ github_adadvisory_database_path = get_config(
 # set in config.py this will be the default
 if github_adadvisory_database_path == '':
     github_adadvisory_database_path = 'advisory_database'
-
-
-def main(argv):
-    """
-    WebPerf Core - Software update
-    """
-
-    try:
-        opts, _ = getopt.getopt(argv, "bd:", ["browser", "definitions="])
-    except getopt.GetoptError:
-        print('Error in getopt.')
-        print(main.__doc__)
-        sys.exit(2)
-
-    try:
-        for opt, arg in opts:
-            if opt in ('-b', '--browser'):  # get browser user-agent
-                update_user_agent()
-                sys.exit(0)
-            if opt in ('-d', '--definitions'):
-                set_runtime_config_only("github.api.key", arg)
-                update_licenses()
-                update_software_info()
-    except Exception as ex: # pylint: disable=broad-exception-caught
-        info = get_error_info('', -1, ex)
-        print('\n'.join(info).replace('\n\n','\n'))
-
-        # write error to failure.log file
-        with open('failures.log', 'a', encoding='utf-8') as outfile:
-            outfile.writelines(info)
 
 def update_user_agent():
     sitespeed_use_docker = False
@@ -295,7 +263,7 @@ def update_licenses():
 
 def get_software_rules():
     base_directory = Path(os.path.dirname(
-        os.path.realpath(__file__)) + os.path.sep)
+        os.path.realpath(__file__)) + os.path.sep).parent
 
     file_path = '{0}{1}{2}{1}software-rules.json'.format(base_directory, os.path.sep, "defaults")
     if not os.path.isfile(file_path):
@@ -308,7 +276,7 @@ def get_software_rules():
 
 def save_software_rules(rules):
     base_directory = Path(os.path.dirname(
-        os.path.realpath(__file__)) + os.path.sep)
+        os.path.realpath(__file__)) + os.path.sep).parent
 
     file_path = '{0}{1}{2}{1}software-rules.json'.format(base_directory, os.path.sep, "defaults")
     if not os.path.isfile(file_path):
@@ -752,11 +720,11 @@ def extend_versions_from_github_advisory_database(software_name, versions):
 
 def set_softwares(filename, collection):
     base_directory = Path(os.path.dirname(
-        os.path.realpath(__file__)) + os.path.sep)
+        os.path.realpath(__file__)) + os.path.sep).parent
 
     file_path = '{0}{1}data{1}{2}'.format(base_directory, os.path.sep, filename)
     if not os.path.isfile(file_path):
-        file_path = '{0}{1}{2}'.format(base_directory, os.path.sep, filename)
+        file_path = '{0}{1}defaults{1}{2}'.format(base_directory, os.path.sep, filename)
     if not os.path.isfile(file_path):
         print("ERROR: No {0} file found!".format(filename))
 
@@ -771,11 +739,11 @@ def set_softwares(filename, collection):
 
 def get_software_sources(filename):
     base_directory = Path(os.path.dirname(
-        os.path.realpath(__file__)) + os.path.sep)
+        os.path.realpath(__file__)) + os.path.sep).parent
 
     file_path = '{0}{1}data{1}{2}'.format(base_directory, os.path.sep, filename)
     if not os.path.isfile(file_path):
-        file_path = '{0}{1}{2}'.format(base_directory, os.path.sep, filename)
+        file_path = '{0}{1}defaults{1}{2}'.format(base_directory, os.path.sep, filename)
     if not os.path.isfile(file_path):
         print("ERROR: No {0} file found!".format(filename))
         return {
@@ -973,9 +941,10 @@ def set_github_repository_info(item, owner, repo):
         contributors_info = None
         try:
             contributors_info = json.loads(contributors_content)
+            if 'status' in contributors_info:
+                print(f"GitHub API ERROR: {contributors_info['message']}")
+                sys.exit(2)
             for contributor in contributors_info:
-                if not contributor['user_view_type']:
-                    continue
                 userinfo = f"[{contributor['login']}]({contributor['html_url']})"
                 contributors.append(userinfo)
 

@@ -6,7 +6,7 @@ import re
 # https://docs.python.org/3/library/urllib.parse.html
 from urllib.parse import urlparse
 from datetime import datetime, timedelta, date
-from models import Rating
+from helpers.models import Rating
 from tests.utils import get_best_country_code, get_friendly_url_name,\
     get_translation, is_country_code_in_eu_or_on_exception_list
 from tests.sitespeed_base import get_result

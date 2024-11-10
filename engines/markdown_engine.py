@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import re
-from models import Rating
-from utils import get_version
+from helpers.models import Rating
+from helpers.test_helper import get_version
 
 
 def write_tests(output_filename, testresults, sites, global_translation):

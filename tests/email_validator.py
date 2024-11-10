@@ -11,7 +11,7 @@ import urllib.parse
 import time
 from bs4 import BeautifulSoup
 import dns
-from models import Rating
+from helpers.models import Rating
 from tests.utils import dns_lookup, get_best_country_code, \
     get_http_content, get_translation, \
     is_country_code_in_eu_or_on_exception_list, get_root_url

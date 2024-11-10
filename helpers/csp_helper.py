@@ -7,7 +7,7 @@ import urllib.parse
 from helpers.data_helper import append_domain_entry, extend_domain_entry_with_key
 from helpers.hash_helper import create_sha256_hash
 from helpers.setting_helper import get_config
-from models import Rating
+from helpers.models import Rating
 from tests.utils import get_http_content
 
 # DEFAULTS

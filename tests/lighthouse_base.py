@@ -4,7 +4,7 @@ import json
 import time
 from datetime import datetime, timedelta
 import subprocess
-from models import Rating
+from helpers.models import Rating
 from tests.utils import is_file_older_than,\
                         get_cache_path_for_rule,\
                         get_translation

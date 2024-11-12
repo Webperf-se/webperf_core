@@ -204,5 +204,5 @@ msgstr "- {0}, Subresource Integrity (SRI) krävs för följande HTML-element"
 msgid "TEXT_REVIEW_SRI_WITH_ERRORS"
 msgstr "- {0}, Subresource Integrity (SRI) används på felaktigt sätt"
 
-msgid "TEXT_REVIEW_SRI_WITH_ERRORS"
+msgid "TEXT_REVIEW_SRI_WITH_ERRORS_DETAILS"
 msgstr "- {0}, Subresource Integrity (SRI) har följande fel"

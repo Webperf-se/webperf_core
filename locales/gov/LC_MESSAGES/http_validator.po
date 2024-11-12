@@ -204,5 +204,5 @@ msgstr "- {0}, Subresource Integrity (SRI) is required for following entries"
 msgid "TEXT_REVIEW_SRI_WITH_ERRORS"
 msgstr "- {0}, Subresource Integrity (SRI) is used incorrectly"
 
-msgid "TEXT_REVIEW_SRI_WITH_ERRORS"
+msgid "TEXT_REVIEW_SRI_WITH_ERRORS_DETAILS"
 msgstr "- {0}, Subresource Integrity (SRI) has following errors"

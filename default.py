@@ -195,6 +195,14 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
         update_mdn_rules()
         sys.exit(0)
 
+    def prepare_release(self, argv):
+        update_release_version(argv)
+        sys.exit(0)
+
+    def create_release(self, argv):
+        set_new_release_version_in_env(argv)
+        sys.exit(0)
+
     def update_translations(self, _):
         if validate_translations():
             sys.exit(0)
@@ -541,6 +549,8 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             ("--ums", "--update-mdn-sources"): self.update_mdn,
             ("--ucr", "--update-carbon-rating"): self.update_carbon_rating,
             ("--ut", "--update-translations"): self.update_translations,
+            ("--pr", "--prepare-release"): self.prepare_release,
+            ("--cr", "--create-release"): self.create_release,
             ("-s", "--setting"): self.set_setting,
             ("-ss", "--save-setting"): self.save_setting
         }
@@ -588,6 +598,8 @@ def main(argv):
                                    "ums", "update-mdn-sources",
                                    "update-browser", "update-definitions=",
                                    "update-translations",
+                                   "pr=", "create-release=",
+                                   "cr=", "create-release=",
                                    "update-carbon-rating",
                                    "is=", "it=", "setting=", "save-setting="])
     except getopt.GetoptError:

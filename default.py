@@ -27,6 +27,7 @@ from helpers.credits_helper import get_credits, update_credits_markdown
 from helpers.mdn_helper import update_mdn_rules
 from helpers.setting_helper import config_mapping, get_config, set_config, set_config_from_cmd, set_runtime_config_only
 from helpers.test_helper import TEST_FUNCS, TEST_ALL, restart_failures_log, test_sites
+from helpers.translation_helper import validate_translations
 from helpers.update_software_helper import update_licenses, update_software_info, update_user_agent
 from tests.utils import clean_cache_files
 
@@ -193,6 +194,12 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
     def update_carbon_rating(self, _):
         update_mdn_rules()
         sys.exit(0)
+
+    def update_translations(self, _):
+        if validate_translations():
+            sys.exit(0)
+        else:
+            sys.exit(2)
 
     def update_mdn(self, _):
         update_mdn_rules()
@@ -533,6 +540,7 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             ("-d", "--update-definitions"): self.update_software_definitions,
             ("--ums", "--update-mdn-sources"): self.update_mdn,
             ("--ucr", "--update-carbon-rating"): self.update_carbon_rating,
+            ("--ut", "--update-translations"): self.update_translations,
             ("-s", "--setting"): self.set_setting,
             ("-ss", "--save-setting"): self.save_setting
         }
@@ -579,6 +587,7 @@ def main(argv):
                                    "uc" ,"update-credits",
                                    "ums", "update-mdn-sources",
                                    "update-browser", "update-definitions=",
+                                   "update-translations",
                                    "update-carbon-rating",
                                    "is=", "it=", "setting=", "save-setting="])
     except getopt.GetoptError:

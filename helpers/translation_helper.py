@@ -710,22 +710,3 @@ def has_dir_msgfmt_py(base_directory, depth):
         print('\t   Exception: Maximum recursion depth exceeded', ex)
 
     return None
-
-
-def main():
-    """
-    WebPerf Core - Validate Translations
-    Terminate the programme with an error if we're unable to
-    generate translations for all the modified language files
-
-    Usage:
-    verify_translations.py
-    """
-
-    if validate_translations():
-        sys.exit(0)
-    else:
-        sys.exit(2)
-
-if __name__ == '__main__':
-    main()

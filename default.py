@@ -190,6 +190,10 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
         update_user_agent()
         sys.exit(0)
 
+    def update_carbon_rating(self, _):
+        update_mdn_rules()
+        sys.exit(0)
+
     def update_mdn(self, _):
         update_mdn_rules()
         sys.exit(0)
@@ -528,6 +532,7 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             ("-b", "--update-browser"): self.update_browser,
             ("-d", "--update-definitions"): self.update_software_definitions,
             ("--ums", "--update-mdn-sources"): self.update_mdn,
+            ("--ucr", "--update-carbon-rating"): self.update_carbon_rating,
             ("-s", "--setting"): self.set_setting,
             ("-ss", "--save-setting"): self.save_setting
         }
@@ -574,6 +579,7 @@ def main(argv):
                                    "uc" ,"update-credits",
                                    "ums", "update-mdn-sources",
                                    "update-browser", "update-definitions=",
+                                   "update-carbon-rating",
                                    "is=", "it=", "setting=", "save-setting="])
     except getopt.GetoptError:
         print(main.__doc__)

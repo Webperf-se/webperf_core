@@ -129,10 +129,3 @@ def save_mdn_rules(rules):
     with open(file_path, 'w', encoding='utf-8') as outfile:
         json.dump(rules, outfile, indent=4)
     return rules
-
-
-"""
-If file is executed on itself then call a definition, mostly for testing purposes
-"""
-if __name__ == '__main__':
-    main(sys.argv[1:])

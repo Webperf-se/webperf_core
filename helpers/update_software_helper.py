@@ -1202,10 +1202,3 @@ def get_apache_httpd_versions():
     for version in versions:
         versions_dict[version] = []
     return versions_dict
-
-
-"""
-If file is executed on itself then call a definition, mostly for testing purposes
-"""
-if __name__ == '__main__':
-    main(sys.argv[1:])

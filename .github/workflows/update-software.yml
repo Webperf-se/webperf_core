@@ -44,7 +44,7 @@ jobs:
     - name: Setup npm packages
       run: npm install --omit=dev
     - name: Update USER_AGENT in our defaults/settings.json
-      run: python default.py -update-browser
+      run: python default.py --update-browser
     - name: Checkout advisory-database repo
       uses: actions/checkout@v4
       with:

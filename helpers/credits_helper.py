@@ -19,7 +19,7 @@ def update_credits_markdown(global_translation):
 
 
 def get_credits(global_translation):
-    text = '# Credits\r\n' # global_translation('TEXT_CREDITS')
+    text = '# Credits\r\n'
     text += 'Following shows projects and contributors for webperf-core and its dependencies.\r\n'
     text += 'Many thanks to all of you! :D\r\n'
 

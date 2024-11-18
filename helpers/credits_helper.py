@@ -197,7 +197,13 @@ def sanitize_url(url):
 
 def get_py_files(base_directory):
     py_files = []
-    sub_files_or_dirs = os.listdir(base_directory)
+    sub_files_or_dirs = []
+
+    try:
+        sub_files_or_dirs = os.listdir(base_directory)
+    except:
+        return py_files
+
     for sub_file_or_dir in sub_files_or_dirs:
         if sub_file_or_dir[0:1] == '.':
             continue

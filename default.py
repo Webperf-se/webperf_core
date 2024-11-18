@@ -24,7 +24,9 @@ from engines.gov import write_tests as gov_write_tests
 from engines.sql import write_tests as sql_write_tests
 from engines.markdown_engine import write_tests as markdown_write_tests
 from helpers.credits_helper import get_credits, update_credits_markdown
+from helpers.dependency_helper import dependency
 from helpers.mdn_helper import update_mdn_rules
+from helpers.release_helper import set_new_release_version_in_env, update_release_version
 from helpers.setting_helper import config_mapping, get_config, set_config, set_config_from_cmd, set_runtime_config_only
 from helpers.test_helper import TEST_FUNCS, TEST_ALL, restart_failures_log, test_sites
 from helpers.translation_helper import validate_translations
@@ -197,6 +199,10 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
 
     def prepare_release(self, argv):
         update_release_version(argv)
+        sys.exit(0)
+
+    def check_dependency(self, _):
+        dependency()
         sys.exit(0)
 
     def create_release(self, argv):
@@ -551,6 +557,7 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             ("--ut", "--update-translations"): self.update_translations,
             ("--pr", "--prepare-release"): self.prepare_release,
             ("--cr", "--create-release"): self.create_release,
+            ("--dep", "--dependency", "--check-dependency"): self.check_dependency,
             ("-s", "--setting"): self.set_setting,
             ("-ss", "--save-setting"): self.save_setting
         }
@@ -600,6 +607,7 @@ def main(argv):
                                    "update-translations",
                                    "pr=", "create-release=",
                                    "cr=", "create-release=",
+                                   "dep", "dependency", "check-dependency",
                                    "update-carbon-rating",
                                    "is=", "it=", "setting=", "save-setting="])
     except getopt.GetoptError:

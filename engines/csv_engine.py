@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import csv
-from models import Sites, SiteTests
+from helpers.models import Sites, SiteTests
 from engines.utils import use_item
 
 def write_tests(output_filename, site_tests, _, _2):

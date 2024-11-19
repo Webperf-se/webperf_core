@@ -1,9 +1,25 @@
 # -*- coding: utf-8 -*-
 
+import json
 import re
-from models import Rating
-from utils import get_version
+from helpers.models import Rating
 
+def get_version():
+    """
+    Retrieve the version information from the 'package.json' file.
+
+    Reads the 'package.json' file and extracts the version information.
+    If the version is found, it returns the version string; otherwise,
+    it returns a placeholder '?'.
+
+    Returns:
+        str: The version string or '?' if not found.
+    """
+    with open('package.json', encoding='utf-8') as json_input_file:
+        package_info = json.load(json_input_file)
+        if 'version' in package_info:
+            return package_info['version']
+    return '?'
 
 def write_tests(output_filename, testresults, sites, global_translation):
     """

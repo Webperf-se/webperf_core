@@ -5,7 +5,7 @@ import json
 import subprocess
 from tests.utils import get_translation
 from helpers.setting_helper import get_config
-from models import Rating
+from helpers.models import Rating
 
 def run_test(global_translation, url):
     """

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import os
+from pathlib import Path
 import sys
 import getopt
 import math
@@ -117,46 +119,15 @@ def generate_content(co2s, generated_date):
     return output_content
 
 
-def main(argv):
-    """
-    WebPerf Core Carbon Percentiles
+def update_carbon_percentiles(argv):
+    base_directory = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep).parent
 
-    Usage:
-    * run webperf-core test on all websites you want to
-      use for your percentiles (with json as output file)
-    * run this file against your output file, for example like this:
-      carbon_rating.py
-        -i data\\carbon-references-2022.json
-        -o tests\\energy_efficiency_carbon_percentiles.py
-
-    Options and arguments:
-    -h/--help\t\t\t: Help information on how to use script
-    -i/--input <file path>\t: input file path (.json)
-    -o/--output <file path>\t: output file path (.py)
-    """
-
-    output_filename = ''
-    input_filename = ''
-
-    try:
-        opts, _ = getopt.getopt(
-            argv, "hi:o:", ["help", "input=", "output="])
-    except getopt.GetoptError:
-        print(main.__doc__)
-        sys.exit(2)
-
-    if len(opts) == 0:
-        print(main.__doc__)
-        sys.exit(2)
-
-    for opt, arg in opts:
-        if opt in ('-h', '--help'):  # help
-            print(main.__doc__)
-            sys.exit(2)
-        elif opt in ("-i", "--input"):  # input file path
-            input_filename = arg
-        elif opt in ("-o", "--output"):  # output file path
-            output_filename = arg
+    output_filename = os.path.join(
+        base_directory,
+        'tests',
+        'energy_efficiency_carbon_percentiles.py')
+    input_filename = argv
 
     tests = read_tests(input_filename, 0, -1)
     generated_date = False
@@ -179,7 +150,3 @@ def main(argv):
     print(output_content)
     if len(output_filename) > 0:
         write(output_filename, output_content)
-
-
-if __name__ == '__main__':
-    main(sys.argv[1:])

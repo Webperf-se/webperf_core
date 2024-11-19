@@ -5,7 +5,7 @@ from urllib.parse import ParseResult, urlunparse
 from datetime import datetime
 import urllib  # https://docs.python.org/3/library/urllib.parse.html
 from bs4 import BeautifulSoup
-from models import Rating
+from helpers.models import Rating
 from tests.utils import get_guid,\
     get_http_content, get_translation
 from tests.sitespeed_base import get_result

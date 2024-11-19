@@ -7,7 +7,8 @@ import subprocess
 import sys
 from datetime import datetime
 import packaging.version
-from setting_helper import get_config
+
+from helpers.setting_helper import get_config
 
 def test_cmd(command):
     process_failsafe_timeout = 600
@@ -363,40 +364,14 @@ def check_browser(browser):
 
     print(f'\t- {browser}:', 'OK')
 
-def main(argv):
-    """
-    Verifies required dependencies for webperf-core
-    """
-    try:
-        opts, _ = getopt.getopt(argv, "hl:u:t:", [
-                                   "help", "last=", "update="])
-    except getopt.GetoptError:
-        print(main.__doc__)
-        sys.exit(2)
-
-
-    for opt, arg in opts:
-        if opt in ('-h', '--help'):  # help
-            print(main.__doc__)
-            sys.exit(0)
-
-    if len(opts) == 0:
-        print(main.__doc__)
-        # TODO: Check webperf_core version
-        check_python()
-        check_requirements()
-        check_node()
-        check_package()
-        check_java()
-        check_chrome()
-        check_firefox()
-        # TODO: Check data files dependencies
-        # TODO: Check Internet access (for required sources like MDN Web Reference)
-
-
-    # No match for command so return error code to fail verification
-    sys.exit(0)
-
-
-if __name__ == '__main__':
-    main(sys.argv[1:])
+def dependency():
+    # TODO: Check webperf_core version
+    check_python()
+    check_requirements()
+    check_node()
+    check_package()
+    check_java()
+    check_chrome()
+    check_firefox()
+    # TODO: Check data files dependencies
+    # TODO: Check Internet access (for required sources like MDN Web Reference)

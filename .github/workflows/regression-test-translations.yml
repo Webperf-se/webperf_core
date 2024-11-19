@@ -6,7 +6,7 @@ on:
       - '**software-full.json'
       - '**software-sources.json'
       - '**update-software.yml'
-      - 'update_software.py'
+      - '**update_software_helper.py'
       - '**software-rules.json'
       - 'Dockerfile'
       - '**regression-test-docker-image.yml'
@@ -29,10 +29,10 @@ jobs:
       run: pip install -r requirements.txt
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: Verifing Translation(s) - LINUX
-      run: python tools/verify_translations.py
+      run: python default.py --update-translations
     - if: ${{ matrix.os == 'windows-latest' }}
       name: Verifing Translation(s) - WINDOWS
-      run: python tools\verify_translations.py
+      run: python default.py --update-translations
     - if: ${{ matrix.os == 'windows-latest' }}
       name: Git Add any changes to Translation(s) - WINDOWS
       run: |

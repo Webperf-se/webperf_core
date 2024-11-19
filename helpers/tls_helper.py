@@ -2,7 +2,7 @@
 # https://docs.python.org/3/library/urllib.parse.html
 from helpers.data_helper import has_domain_entry
 from helpers.setting_helper import get_config
-from models import Rating
+from helpers.models import Rating
 
 def rate_transfer_layers(result_dict, global_translation, local_translation, domain):
     """

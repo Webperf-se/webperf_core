@@ -5,7 +5,7 @@ import os
 import re
 import subprocess
 from datetime import datetime
-from models import Rating
+from helpers.models import Rating
 from tests.utils import get_dependency_version, get_translation
 from helpers.setting_helper import get_config
 

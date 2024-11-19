@@ -119,9 +119,9 @@ def get_external_information_sources():
         file_name = file_path[last_sep_index:].lower()
         if file_name == 'all':
             continue
-        elif 'update_mdn_sources.py' in file_name:
+        elif 'mdn_helper.py' in file_name:
             text += '### Update HTML and CSS Test Sources:\r\n'
-        elif 'update_software.py' in file_name:
+        elif 'update_software_helper.py' in file_name:
             text += '### Update Software Test Sources:\r\n'
             text += '- https://github.com/github/advisory-database/tree/main/advisories/github-reviewed\r\n'
         else:
@@ -197,7 +197,13 @@ def sanitize_url(url):
 
 def get_py_files(base_directory):
     py_files = []
-    sub_files_or_dirs = os.listdir(base_directory)
+    sub_files_or_dirs = []
+
+    try:
+        sub_files_or_dirs = os.listdir(base_directory)
+    except:
+        return py_files
+
     for sub_file_or_dir in sub_files_or_dirs:
         if sub_file_or_dir[0:1] == '.':
             continue

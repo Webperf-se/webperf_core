@@ -6,7 +6,7 @@ from pathlib import Path
 import re
 import urllib  # https://docs.python.org/3/library/urllib.parse.html
 from bs4 import BeautifulSoup
-from models import Rating
+from helpers.models import Rating
 from tests.utils import get_friendly_url_name, get_translation, set_cache_file
 from tests.w3c_base import calculate_rating, get_data_for_url,\
     get_error_review, get_error_types_review,\

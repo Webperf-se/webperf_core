@@ -44,7 +44,7 @@ jobs:
     - name: Setup npm packages
       run: npm install --omit=dev
     - name: Update USER_AGENT in our defaults/settings.json
-      run: python update_software.py -b
+      run: python default.py --update-browser
     - name: Checkout advisory-database repo
       uses: actions/checkout@v4
       with:
@@ -55,11 +55,11 @@ jobs:
         sparse-checkout: |
           advisories
     - name: Verifing Software(s)
-      run: python update_software.py -d ${{ secrets.GITHUB_TOKEN }}
+      run: python default.py --update-definitions ${{ secrets.GITHUB_TOKEN }}
     - name: Update HTML and CSS references (MDN Web Docs)
-      run: python update_mdn_sources.py
+      run: python default.py --update-mdn-sources
     - name: Update CREDITS.md
-      run: python default.py --uc
+      run: python default.py --update-credits
     - name: Create pull request
       uses: peter-evans/create-pull-request@v7
       with:

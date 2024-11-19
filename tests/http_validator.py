@@ -16,7 +16,7 @@ from helpers.sitespeed_helper import get_data_from_sitespeed
 from helpers.sri_helper import rate_sri
 from helpers.tls_helper import rate_transfer_layers
 from helpers.setting_helper import get_config
-from models import Rating
+from helpers.models import Rating
 from tests.utils import change_url_to_test_url, dns_lookup,\
     get_translation, merge_dicts
 from tests.sitespeed_base import get_result

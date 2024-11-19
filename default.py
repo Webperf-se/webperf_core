@@ -5,12 +5,10 @@ import getopt
 import gettext
 from engines.sqlite import read_sites as sqlite_read_sites,\
     add_site as sqlite_add_site,\
-    delete_site as sqlite_delete_site,\
-    write_tests as sqlite_write_tests
+    delete_site as sqlite_delete_site
 from engines.csv_engine import read_sites as csv_read_sites,\
     add_site as csv_add_site,\
-    delete_site as csv_delete_site,\
-    write_tests as csv_write_tests
+    delete_site as csv_delete_site
 from engines.sitemap import read_sites as sitemap_read_sites
 from engines.sitespeed_result import read_sites as sitespeed_read_sites
 from engines.webperf import read_sites as webperf_read_sites,\
@@ -18,98 +16,20 @@ from engines.webperf import read_sites as webperf_read_sites,\
     delete_site as webperf_delete_site
 from engines.json_engine import read_sites as json_read_sites,\
     add_site as json_add_site,\
-    delete_site as json_delete_site,\
-    write_tests as json_write_tests
-from engines.gov import write_tests as gov_write_tests
-from engines.sql import write_tests as sql_write_tests
-from engines.markdown_engine import write_tests as markdown_write_tests
+    delete_site as json_delete_site
+from helpers.carbon_rating_helper import update_carbon_percentiles
 from helpers.credits_helper import get_credits, update_credits_markdown
-from helpers.setting_helper import config_mapping, get_config, set_config, set_config_from_cmd
+from helpers.dependency_helper import dependency
+from helpers.mdn_helper import update_mdn_rules
+from helpers.release_helper import set_new_release_version_in_env, update_release_version
+from helpers.setting_helper import config_mapping, get_config, set_config,\
+    set_config_from_cmd, set_runtime_config_only
+from helpers.test_helper import TEST_ALL,\
+    restart_failures_log, test_sites, validate_test_type, write_test_results
+from helpers.translation_helper import validate_translations
+from helpers.update_software_helper import filter_unknown_sources,\
+    update_licenses, update_software_info, update_user_agent
 from tests.utils import clean_cache_files
-from utils import TEST_FUNCS, TEST_ALL, restart_failures_log, test_sites
-
-
-def validate_test_type(tmp_test_types):
-    """
-    Validates the given test types against a list of valid tests.
-
-    This function iterates over the input list of test types,
-    checks each test type against a list of valid tests,
-    and appends the valid ones to a new list.
-    The new list of valid test types is then returned.
-
-    Parameters:
-    tmp_test_types (list): A list of test types to be validated.
-
-    Returns:
-    list: A list of valid test types.
-
-    Example:
-    >>> validate_test_type([6, 11, 21])
-    [6, 21]
-    """
-    test_types = []
-
-    remove_tests = []
-    valid_tests = TEST_FUNCS.keys()
-    for test_type in tmp_test_types:
-        if test_type in valid_tests:
-            test_types.append(test_type)
-            continue
-        if test_type < 0:
-            test_type = abs(test_type)
-            remove_tests.append(test_type)
-
-    if len(test_types) == 0:
-        test_types = list(valid_tests)
-
-    for test_type in remove_tests:
-        if test_type in valid_tests:
-            test_types.remove(test_type)
-
-    return test_types
-
-def write_test_results(sites, output_filename, test_results, global_translation):
-    """
-    Writes the test results to a file.
-
-    This function takes in a list of sites, an output filename,
-    and a list of test results. It determines the file type
-    based on the file extension of the output filename and writes the test results to
-    the file in the appropriate format.
-
-    Parameters:
-    sites (list): A list of sites for which the tests were run.
-    output_filename (str): The name of the output file.
-    test_results (list): A list of test results.
-    global_translation : GNUTranslations
-        An object that handles the translation of text in the context of internationalization.
-
-    Returns:
-    None
-    """
-    if len(output_filename) > 0:
-        file_ending = ""
-        file_long_ending = ""
-        if len(output_filename) > 4:
-            file_ending = output_filename[-4:].lower()
-        if len(output_filename) > 7:
-            file_long_ending = output_filename[-7:].lower()
-        if file_ending == ".csv":
-            write_tests = csv_write_tests
-        elif file_ending == ".gov":
-            write_tests = gov_write_tests
-        elif file_ending == ".sql":
-            write_tests = sql_write_tests
-        elif file_long_ending == ".sqlite":
-            write_tests = sqlite_write_tests
-        elif file_long_ending.endswith(".md"):
-            write_tests = markdown_write_tests
-        else:
-            write_tests = json_write_tests
-
-            # use loaded engine to write tests
-        write_tests(output_filename, test_results, sites, global_translation)
 
 def show_test_help(global_translation):
     """
@@ -183,6 +103,46 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
         """
         update_credits_markdown(self.language)
         sys.exit()
+
+    def update_browser(self, _):
+        update_user_agent()
+        sys.exit(0)
+
+    def update_carbon_rating(self, argv):
+        update_carbon_percentiles(argv)
+        sys.exit(0)
+
+    def prepare_release(self, argv):
+        update_release_version(argv)
+        sys.exit(0)
+
+    def check_dependency(self, _):
+        dependency()
+        sys.exit(0)
+
+    def create_release(self, argv):
+        set_new_release_version_in_env(argv)
+        sys.exit(0)
+
+    def find_unknown_sources(self, _):
+        filter_unknown_sources()
+        sys.exit(0)
+
+    def update_translations(self, _):
+        if validate_translations():
+            sys.exit(0)
+        else:
+            sys.exit(2)
+
+    def update_mdn(self, _):
+        update_mdn_rules()
+        sys.exit(0)
+
+    def update_software_definitions(self, arg):
+        set_runtime_config_only("github.api.key", arg)
+        update_licenses()
+        update_software_info()
+        sys.exit(0)
 
     def show_credits(self, _):
         """
@@ -509,6 +469,15 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             ("-r", "--review", "--report"): self.enable_reviews,
             ("-c", "--credits", "--contributors"): self.show_credits,
             ("--uc", "--update-credits"): self.update_credits,
+            ("-b", "--update-browser"): self.update_browser,
+            ("-d", "--update-definitions"): self.update_software_definitions,
+            ("--ums", "--update-mdn-sources"): self.update_mdn,
+            ("--ucr", "--update-carbon"): self.update_carbon_rating,
+            ("--ut", "--update-translations"): self.update_translations,
+            ("--pr", "--prepare-release"): self.prepare_release,
+            ("--cr", "--create-release"): self.create_release,
+            ("--fus", "--find-unknown-sources"): self.find_unknown_sources,
+            ("--dep", "--dependency", "--check-dependency"): self.check_dependency,
             ("-s", "--setting"): self.set_setting,
             ("-ss", "--save-setting"): self.save_setting
         }
@@ -536,21 +505,31 @@ def main(argv):
     -A/--addUrl <site url>\t: website url (required in combination with -i/--input)
     -D/--deleteUrl <site url>\t: website url (required in combination with -i/--input)
     -L/--language <lang code>\t: language used for output(en = default/sv)
-    --setting <key>=<value>\t: override configuration for current run
+    -s/--setting <key>=<value>\t: override configuration for current run
                                   (use ? to list available settings)
     --save-setting <file path>\t: file path to configuration
+    -c/--credits/--contributors\t: prints out credits
+    --uc/--update-credits\t\t: Update credits.md file
     """
 
     options = CommandLineOptions()
     options.load_language(get_config('general.language'))
 
     try:
-        opts, _ = getopt.getopt(argv, "hu:t:i:o:rA:D:L:s:c", [
+        opts, _ = getopt.getopt(argv, "hu:t:i:o:rA:D:L:s:cbd:", [
                                    "help", "url=", "test=", "input=", "output=",
                                    "review", "report", "addUrl=", "deleteUrl=",
                                    "language=", "input-skip=", "input-take=",
                                    "credits", "contributors",
                                    "uc" ,"update-credits",
+                                   "ums", "update-mdn-sources",
+                                   "update-browser", "update-definitions=",
+                                   "update-translations",
+                                   "pr=", "create-release=",
+                                   "cr=", "create-release=",
+                                   "dep", "dependency", "check-dependency",
+                                   "fus", "find-unknown-sources",
+                                   "update-carbon",
                                    "is=", "it=", "setting=", "save-setting="])
     except getopt.GetoptError:
         print(main.__doc__)

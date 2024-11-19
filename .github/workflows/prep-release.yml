@@ -35,7 +35,7 @@ jobs:
           include-hashes: false
       - name: Generate new release version
         id: newversion
-        run: python tools/release.py -u "${{ steps.changes.outputs.last-tag }}"
+        run: python default.py --prepare-release "${{ steps.changes.outputs.last-tag }}"
       - name: Create pull request
         uses: peter-evans/create-pull-request@v7
         with:

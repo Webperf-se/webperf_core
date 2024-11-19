@@ -9,7 +9,7 @@ import os
 from bs4 import BeautifulSoup
 from tests.utils import get_http_content
 from helpers.setting_helper import get_config
-from utils import get_error_info
+from helpers.test_helper import get_error_info
 
 USE_CACHE = get_config('general.cache.use')
 CACHE_TIME_DELTA = timedelta(minutes=get_config('general.cache.max-age'))
@@ -45,28 +45,6 @@ def get_mdn_web_docs_css_features():
         print('no index element found')
 
     return (features, functions)
-
-def main(argv):
-    """
-    WebPerf Core - Update MDN Sources
-    """
-
-    try:
-        opts, _ = getopt.getopt(argv, "bd:", ["browser", "definitions="])
-    except getopt.GetoptError:
-        print('Error in getopt.')
-        print(main.__doc__)
-        sys.exit(2)
-
-    try:
-        update_mdn_rules()
-    except Exception as ex: # pylint: disable=broad-exception-caught
-        info = get_error_info('', -1, ex)
-        print('\n'.join(info).replace('\n\n','\n'))
-
-        # write error to failure.log file
-        with open('failures.log', 'a', encoding='utf-8') as outfile:
-            outfile.writelines(info)
 
 def get_mdn_web_docs_deprecated_elements():
     """
@@ -141,7 +119,7 @@ def update_mdn_rules():
 
 def save_mdn_rules(rules):
     base_directory = Path(os.path.dirname(
-        os.path.realpath(__file__)) + os.path.sep)
+        os.path.realpath(__file__)) + os.path.sep).parent
 
     file_path = os.path.join(base_directory, 'defaults', 'mdn-rules.json')
 
@@ -151,10 +129,3 @@ def save_mdn_rules(rules):
     with open(file_path, 'w', encoding='utf-8') as outfile:
         json.dump(rules, outfile, indent=4)
     return rules
-
-
-"""
-If file is executed on itself then call a definition, mostly for testing purposes
-"""
-if __name__ == '__main__':
-    main(sys.argv[1:])

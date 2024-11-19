@@ -525,7 +525,7 @@ def main(argv):
                                    "ums", "update-mdn-sources",
                                    "update-browser", "update-definitions=",
                                    "update-translations",
-                                   "pr=", "create-release=",
+                                   "pr=", "prepare-release=",
                                    "cr=", "create-release=",
                                    "dep", "dependency", "check-dependency",
                                    "fus", "find-unknown-sources",

@@ -17,6 +17,7 @@ from engines.webperf import read_sites as webperf_read_sites,\
 from engines.json_engine import read_sites as json_read_sites,\
     add_site as json_add_site,\
     delete_site as json_delete_site
+from helpers.carbon_rating_helper import update_carbon_percentiles
 from helpers.credits_helper import get_credits, update_credits_markdown
 from helpers.dependency_helper import dependency
 from helpers.mdn_helper import update_mdn_rules
@@ -107,8 +108,8 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
         update_user_agent()
         sys.exit(0)
 
-    def update_carbon_rating(self, _):
-        update_mdn_rules()
+    def update_carbon_rating(self, argv):
+        update_carbon_percentiles(argv)
         sys.exit(0)
 
     def prepare_release(self, argv):
@@ -471,7 +472,7 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             ("-b", "--update-browser"): self.update_browser,
             ("-d", "--update-definitions"): self.update_software_definitions,
             ("--ums", "--update-mdn-sources"): self.update_mdn,
-            ("--ucr", "--update-carbon-rating"): self.update_carbon_rating,
+            ("--ucr", "--update-carbon"): self.update_carbon_rating,
             ("--ut", "--update-translations"): self.update_translations,
             ("--pr", "--prepare-release"): self.prepare_release,
             ("--cr", "--create-release"): self.create_release,
@@ -528,7 +529,7 @@ def main(argv):
                                    "cr=", "create-release=",
                                    "dep", "dependency", "check-dependency",
                                    "fus", "find-unknown-sources",
-                                   "update-carbon-rating",
+                                   "update-carbon",
                                    "is=", "it=", "setting=", "save-setting="])
     except getopt.GetoptError:
         print(main.__doc__)

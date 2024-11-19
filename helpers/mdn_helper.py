@@ -119,7 +119,7 @@ def update_mdn_rules():
 
 def save_mdn_rules(rules):
     base_directory = Path(os.path.dirname(
-        os.path.realpath(__file__)) + os.path.sep)
+        os.path.realpath(__file__)) + os.path.sep).parent
 
     file_path = os.path.join(base_directory, 'defaults', 'mdn-rules.json')
 

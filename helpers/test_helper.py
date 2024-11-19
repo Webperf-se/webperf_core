@@ -23,6 +23,10 @@ from tests.tracking_validator import run_test as run_test_tracking_validator
 from tests.email_validator import run_test as run_test_email_validator
 from tests.software import run_test as run_test_software
 from tests.a11y_statement import run_test as run_test_a11y_statement
+from engines.json_engine import write_tests as json_write_tests
+from engines.gov import write_tests as gov_write_tests
+from engines.sql import write_tests as sql_write_tests
+from engines.markdown_engine import write_tests as markdown_write_tests
 
 
 TEST_ALL = (TEST_UNKNOWN_01,
@@ -169,23 +173,6 @@ def get_error_info(url, test_type, ex):
     result.append('###############################################\n\n')
     return result
 
-def get_version():
-    """
-    Retrieve the version information from the 'package.json' file.
-
-    Reads the 'package.json' file and extracts the version information.
-    If the version is found, it returns the version string; otherwise,
-    it returns a placeholder '?'.
-
-    Returns:
-        str: The version string or '?' if not found.
-    """
-    with open('package.json', encoding='utf-8') as json_input_file:
-        package_info = json.load(json_input_file)
-        if 'version' in package_info:
-            return package_info['version']
-    return '?'
-
 def get_versions():
     """
     Retrieve version information from the 'package.json' file.
@@ -279,3 +266,85 @@ def test_sites(global_translation, sites, test_types=TEST_ALL):
         site_index += 1
 
     return results
+
+def validate_test_type(tmp_test_types):
+    """
+    Validates the given test types against a list of valid tests.
+
+    This function iterates over the input list of test types,
+    checks each test type against a list of valid tests,
+    and appends the valid ones to a new list.
+    The new list of valid test types is then returned.
+
+    Parameters:
+    tmp_test_types (list): A list of test types to be validated.
+
+    Returns:
+    list: A list of valid test types.
+
+    Example:
+    >>> validate_test_type([6, 11, 21])
+    [6, 21]
+    """
+    test_types = []
+
+    remove_tests = []
+    valid_tests = TEST_FUNCS.keys()
+    for test_type in tmp_test_types:
+        if test_type in valid_tests:
+            test_types.append(test_type)
+            continue
+        if test_type < 0:
+            test_type = abs(test_type)
+            remove_tests.append(test_type)
+
+    if len(test_types) == 0:
+        test_types = list(valid_tests)
+
+    for test_type in remove_tests:
+        if test_type in valid_tests:
+            test_types.remove(test_type)
+
+    return test_types
+
+def write_test_results(sites, output_filename, test_results, global_translation):
+    """
+    Writes the test results to a file.
+
+    This function takes in a list of sites, an output filename,
+    and a list of test results. It determines the file type
+    based on the file extension of the output filename and writes the test results to
+    the file in the appropriate format.
+
+    Parameters:
+    sites (list): A list of sites for which the tests were run.
+    output_filename (str): The name of the output file.
+    test_results (list): A list of test results.
+    global_translation : GNUTranslations
+        An object that handles the translation of text in the context of internationalization.
+
+    Returns:
+    None
+    """
+    if len(output_filename) > 0:
+        file_ending = ""
+        file_long_ending = ""
+        if len(output_filename) > 4:
+            file_ending = output_filename[-4:].lower()
+        if len(output_filename) > 7:
+            file_long_ending = output_filename[-7:].lower()
+        if file_ending == ".csv":
+            write_tests = csv_write_tests
+        elif file_ending == ".gov":
+            write_tests = gov_write_tests
+        elif file_ending == ".sql":
+            write_tests = sql_write_tests
+        elif file_long_ending == ".sqlite":
+            write_tests = sqlite_write_tests
+        elif file_long_ending.endswith(".md"):
+            write_tests = markdown_write_tests
+        else:
+            write_tests = json_write_tests
+
+            # use loaded engine to write tests
+        write_tests(output_filename, test_results, sites, global_translation)

@@ -55,7 +55,7 @@ jobs:
         sparse-checkout: |
           advisories
     - name: Verifing Software(s)
-      run: python default.py -update-definitions ${{ secrets.GITHUB_TOKEN }}
+      run: python default.py --update-definitions ${{ secrets.GITHUB_TOKEN }}
     - name: Update HTML and CSS references (MDN Web Docs)
       run: python default.py --update-mdn-sources
     - name: Update CREDITS.md

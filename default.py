@@ -27,10 +27,12 @@ from helpers.credits_helper import get_credits, update_credits_markdown
 from helpers.dependency_helper import dependency
 from helpers.mdn_helper import update_mdn_rules
 from helpers.release_helper import set_new_release_version_in_env, update_release_version
-from helpers.setting_helper import config_mapping, get_config, set_config, set_config_from_cmd, set_runtime_config_only
+from helpers.setting_helper import config_mapping, get_config, set_config,\
+    set_config_from_cmd, set_runtime_config_only
 from helpers.test_helper import TEST_FUNCS, TEST_ALL, restart_failures_log, test_sites
 from helpers.translation_helper import validate_translations
-from helpers.update_software_helper import update_licenses, update_software_info, update_user_agent
+from helpers.update_software_helper import filter_unknown_sources,\
+    update_licenses, update_software_info, update_user_agent
 from tests.utils import clean_cache_files
 
 
@@ -207,6 +209,10 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
 
     def create_release(self, argv):
         set_new_release_version_in_env(argv)
+        sys.exit(0)
+
+    def find_unknown_sources(self, _):
+        filter_unknown_sources()
         sys.exit(0)
 
     def update_translations(self, _):
@@ -557,6 +563,7 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             ("--ut", "--update-translations"): self.update_translations,
             ("--pr", "--prepare-release"): self.prepare_release,
             ("--cr", "--create-release"): self.create_release,
+            ("--fus", "--find-unknown-sources"): self.find_unknown_sources,
             ("--dep", "--dependency", "--check-dependency"): self.check_dependency,
             ("-s", "--setting"): self.set_setting,
             ("-ss", "--save-setting"): self.save_setting
@@ -608,6 +615,7 @@ def main(argv):
                                    "pr=", "create-release=",
                                    "cr=", "create-release=",
                                    "dep", "dependency", "check-dependency",
+                                   "fus", "find-unknown-sources",
                                    "update-carbon-rating",
                                    "is=", "it=", "setting=", "save-setting="])
     except getopt.GetoptError:

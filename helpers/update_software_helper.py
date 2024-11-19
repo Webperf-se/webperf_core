@@ -1202,3 +1202,41 @@ def get_apache_httpd_versions():
     for version in versions:
         versions_dict[version] = []
     return versions_dict
+
+def filter_unknown_sources():
+    collection = get_software_sources('software-unknown-sources.json')
+    known_collection = get_software_sources('software-sources.json')
+
+    names_to_remove = []
+    for key in collection.keys():
+        item = collection[key]
+
+        if len(key) < 3:
+            names_to_remove.append(key)
+            continue
+
+        if 'versions' not in item:
+            names_to_remove.append(key)
+            continue
+
+        versions = item['versions']
+        if 'unknown' in versions:
+            del versions['unknown']
+
+        if 'aliases' in known_collection and key in known_collection['aliases']:
+            names_to_remove.append(key)
+
+        if 'softwares' in known_collection and key in known_collection['softwares']:
+            names_to_remove.append(key)
+
+        # Change the below number to filter out how many versions should be minimum
+        if len(item['versions'].keys()) < 2:
+            names_to_remove.append(key)
+            continue
+
+    for key in names_to_remove:
+        print(f'\t- {key}')
+        if key in collection:
+            del collection[key]
+
+    set_softwares('software-unknown-sources-filtered.json', collection)

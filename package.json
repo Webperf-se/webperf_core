@@ -13,6 +13,8 @@
     "lighthouse": "12.2.2",
     "pa11y": "8.0.0",
     "sitespeed.io": "35.5.0",
+    "stylelint": "16.10.0",
+    "stylelint-config-standard-scss": "13.1.0",
     "vnu-jar": "23.4.11",
     "yellowlabtools": "3.0.1"
   },

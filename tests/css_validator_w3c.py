@@ -7,11 +7,11 @@ import re
 import urllib  # https://docs.python.org/3/library/urllib.parse.html
 from bs4 import BeautifulSoup
 from helpers.models import Rating
+from helpers.setting_helper import get_config
 from tests.utils import get_friendly_url_name, get_translation, set_cache_file
 from tests.w3c_base import calculate_rating, get_data_for_url,\
     get_error_review, get_error_types_review,\
     get_errors_for_url, get_rating, get_reviews_from_errors
-from helpers.setting_helper import get_config
 
 # DEFAULTS
 GROUP_ERROR_MSG_REGEX = r"(“[^”]+”)"

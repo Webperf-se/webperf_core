@@ -450,8 +450,11 @@ def get_errors_for_style_attributes(url, html):
     results = []
     temp_attribute_css = ''
 
+    # Lets use temp index to make every rule unique
+    index = 0
     for element in elements:
-        temp_attribute_css += '' + f"{element.name}{{{element['style']}}}"
+        temp_attribute_css += '' + f"{element.name}.temp-index-{index}{{{element['style']}}}"
+        index += 1
 
     if temp_attribute_css != '':
         tmp_url = f'{url}#styles-attributes'

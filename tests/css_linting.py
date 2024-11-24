@@ -537,7 +537,7 @@ def create_review_and_rating(errors, global_translation, local_translation, revi
     msg_grouped_for_rating_dict = {}
     if number_of_errors > 0:
         for item in errors:
-            error_message = item['text']
+            error_message = item['message']
             error_message_dict[error_message] = "1"
 
             tmp = re.sub(
@@ -545,7 +545,7 @@ def create_review_and_rating(errors, global_translation, local_translation, revi
             if not get_config('general.review.details'):
                 error_message = tmp
 
-            if msg_grouped_dict.get(item['text'], False):
+            if msg_grouped_dict.get(error_message, False):
                 msg_grouped_dict[error_message] = msg_grouped_dict[error_message] + 1
             else:
                 msg_grouped_dict[error_message] = 1

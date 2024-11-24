@@ -46,6 +46,7 @@ def get_errors(test_type, params):
     is_html = False
     is_css = False
     lint_file_path = None
+    file_path = None
 
     if 'css' in params or test_type == 'css':
         test_arg = ' --css --skip-non-css'
@@ -103,10 +104,17 @@ def get_errors(test_type, params):
                     continue
                 errors = source_info['warnings']
 
-    # for error in errors:
-    #     if 'url' in error and get_config('general.cache.use'):
-    #         error['file'] = error['url']
-    #     error['url'] = url
+    for error in errors:
+        error['url'] = url
+        # align with w3c json format
+        if 'severity' in error:
+            error['type'] = error['severity']
+            del error['severity']
+        if 'text' in error:
+            error['message'] = error['text']
+            del error['text']
+        if get_config('general.cache.use'):
+            error['file'] = file_path
 
     return errors
 

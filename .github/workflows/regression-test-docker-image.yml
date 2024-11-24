@@ -49,7 +49,7 @@ jobs:
         fi
     - name: Check if dependency tool works
       run: |
-        help=$(docker run ${{ env.TEST_TAG }} python tools/dependency.py)
+        help=$(docker run ${{ env.TEST_TAG }} python default.py --dependency)
         echo "$help"
         if [[ "$help" != *"Python: OK"* ]]; then
           echo "Error: dependency tool - Error with Python"

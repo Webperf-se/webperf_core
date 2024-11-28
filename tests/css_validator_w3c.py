@@ -400,6 +400,17 @@ def get_errors_for_link_tags(html, url):
             if resource_url.startswith('//'):
                 # do nothing, complete url
                 resource_url = parsed_url_scheme + ':' + resource_url
+            elif resource_url.startswith('../'):
+                # relative url, complement with dns
+                test_url = o.path
+                while resource_url.startswith('../'):
+                    rindex = test_url.rfind('/')
+                    test_url = f'{test_url[:rindex]}'
+                    rindex = test_url.rfind('/')
+                    test_url = f'{test_url[:rindex]}'
+
+                    resource_url = resource_url.lstrip('../')
+                resource_url = parsed_url + test_url + '/' + resource_url
             elif resource_url.startswith('/'):
                 # relative url, complement with dns
                 resource_url = parsed_url + resource_url
@@ -450,8 +461,11 @@ def get_errors_for_style_attributes(url, html):
     results = []
     temp_attribute_css = ''
 
+    # Lets use temp index to make every rule unique
+    index = 0
     for element in elements:
-        temp_attribute_css += '' + f"{element.name}{{{element['style']}}}"
+        temp_attribute_css += '' + f"{element.name}.temp-index-{index}{{{element['style']}}}"
+        index += 1
 
     if temp_attribute_css != '':
         tmp_url = f'{url}#styles-attributes'

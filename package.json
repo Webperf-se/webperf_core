@@ -1,6 +1,6 @@
 {
   "name": "webperf_core",
-  "version": "2024.11.7",
+  "version": "2024.11.8",
   "description": "You probably want to read the documentation available at homepage.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,7 +12,7 @@
   "dependencies": {
     "lighthouse": "12.2.2",
     "pa11y": "8.0.0",
-    "sitespeed.io": "35.5.0",
+    "sitespeed.io": "35.6.1",
     "stylelint": "16.10.0",
     "stylelint-config-standard": "36.0.1",
     "stylelint-config-standard-scss": "13.1.0",

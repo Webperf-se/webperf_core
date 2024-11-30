@@ -104,6 +104,7 @@ jobs:
         google-chrome --version
     - name: Setup npm packages
       run: npm install --omit=dev
+      timeout-minutes: 30
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: RUNNING TEST - LINUX
       run: |

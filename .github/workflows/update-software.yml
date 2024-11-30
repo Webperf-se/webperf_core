@@ -43,6 +43,7 @@ jobs:
         google-chrome --version
     - name: Setup npm packages
       run: npm install --omit=dev
+      timeout-minutes: 30
     - name: Update USER_AGENT in our defaults/settings.json
       run: python default.py --update-browser
     - name: Checkout advisory-database repo

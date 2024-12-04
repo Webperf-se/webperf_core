@@ -37,9 +37,11 @@ def get_data_from_sitespeed(filename, org_domain):
     }
 
     if filename == '':
+        result['failed'] = True
         return result
 
     if not os.path.exists(filename):
+        result['failed'] = True
         return result
 
     # Fix for content having unallowed chars
@@ -51,6 +53,7 @@ def get_data_from_sitespeed(filename, org_domain):
 
         # return zero visits if no entries
         if len(har_data["entries"]) == 0:
+            result['failed'] = True
             return result
 
         for entry in har_data["entries"]:

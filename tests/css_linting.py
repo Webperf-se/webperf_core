@@ -22,7 +22,7 @@ def run_test(global_translation, url):
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
 
-    local_translation = get_translation('css_validator_w3c', get_config('general.language'))
+    local_translation = get_translation('css_linting', get_config('general.language'))
 
     print(local_translation('TEXT_RUNNING_TEST'))
 

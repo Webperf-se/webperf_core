@@ -303,3 +303,12 @@ jobs:
           echo "Error: WebPerf-core testresult is NOT returning expected review"
           exit 1
         fi
+    - name: Check if webperf_core can run Test 27
+      if: always()
+      run: |
+        testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t 27 -r -i defaults/sites.json)
+        echo "$testresult"
+        if [[ "$testresult" != *"Standards:"* ]]; then
+          echo "Error: WebPerf-core testresult is NOT returning expected review"
+          exit 1
+        fi

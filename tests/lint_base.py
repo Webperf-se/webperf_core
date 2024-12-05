@@ -83,7 +83,8 @@ def get_errors(test_type, params):
 
         file_path = os.path.join(base_directory, file_path)
         lint_file_path = f"{file_path}-lint.json"
-        config_file_path = os.path.join(base_directory, "defaults","css-stylelint.json")
+        # We use "standard" in css-stylelint-standard.json because in the future we might want muliple files, like one for performance and so on...
+        config_file_path = os.path.join(base_directory, "defaults","css-stylelint-standard.json")
 
         arg = f'{file_path} -f json -o {lint_file_path} --config {config_file_path} --quiet'
 

@@ -72,6 +72,7 @@ def show_test_help(global_translation):
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_EMAIL'))
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_SOFTWARE'))
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_A11Y_STATEMENT'))
+    print(global_translation('TEXT_TEST_VALID_ARGUMENTS_CSS_LINT'))
     sys.exit()
 
 

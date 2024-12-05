@@ -9,19 +9,20 @@ from bs4 import BeautifulSoup
 from helpers.models import Rating
 from helpers.setting_helper import get_config
 from tests.utils import get_friendly_url_name, get_translation, set_cache_file
-from tests.w3c_base import calculate_rating, get_data_for_url,\
+from tests.lint_base import calculate_rating, get_data_for_url,\
     get_error_review, get_error_types_review,\
     get_errors_for_url, get_rating, get_reviews_from_errors
 
 # DEFAULTS
-GROUP_ERROR_MSG_REGEX = r"(“[^”]+”)"
+GROUP_ERROR_MSG_REGEX = r"(\"[^\"]+\")"
+FIRST_USED_AT_LINE_REGEX = r", first used at line [0-9]+"
 
 def run_test(global_translation, url):
     """
     Only work on a domain-level. Returns tuple with decimal for grade and string with review
     """
 
-    local_translation = get_translation('css_validator_w3c', get_config('general.language'))
+    local_translation = get_translation('css_linting', get_config('general.language'))
 
     print(local_translation('TEXT_RUNNING_TEST'))
 
@@ -85,6 +86,22 @@ def run_test(global_translation, url):
         local_translation,
         data,
         result_dict)
+
+    points = rating.get_overall()
+
+    review = ''
+    if points >= 5.0:
+        review = local_translation('TEXT_REVIEW_CSS_VERY_GOOD')
+    elif points >= 4.0:
+        review = local_translation('TEXT_REVIEW_CSS_IS_GOOD')
+    elif points >= 3.0:
+        review = local_translation('TEXT_REVIEW_CSS_IS_OK')
+    elif points > 1.0:
+        review = local_translation('TEXT_REVIEW_CSS_IS_BAD')
+    elif points <= 1.0:
+        review = local_translation('TEXT_REVIEW_CSS_IS_VERY_BAD')
+
+    rating.overall_review = review
 
     print(global_translation('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
@@ -193,22 +210,6 @@ def rate_css(global_translation, local_translation, data, result_dict):
 
     if not has_css_contenttypes:
         rating += rate_css_contenttypes(global_translation, local_translation)
-
-    points = rating.get_overall()
-
-    review = ''
-    if points >= 5.0:
-        review = local_translation('TEXT_REVIEW_CSS_VERY_GOOD')
-    elif points >= 4.0:
-        review = local_translation('TEXT_REVIEW_CSS_IS_GOOD')
-    elif points >= 3.0:
-        review = local_translation('TEXT_REVIEW_CSS_IS_OK')
-    elif points > 1.0:
-        review = local_translation('TEXT_REVIEW_CSS_IS_BAD')
-    elif points <= 1.0:
-        review = local_translation('TEXT_REVIEW_CSS_IS_VERY_BAD')
-
-    rating.overall_review = review
 
     return rating
 
@@ -529,34 +530,6 @@ def get_mdn_web_docs_css_features():
 
         return (css_rules['features'], css_rules['functions'])
 
-# TODO: change this to just in time, right now it is called every time webperf_core is being called.
-css_spec = get_mdn_web_docs_css_features()
-css_features = css_spec[0]
-css_functions = css_spec[1]
-
-def get_properties_doesnt_exist_list():
-    """
-    Returns a list of CSS feature keys formatted as non-existent properties.
-    """
-    result = []
-    css_features_keys = css_features.keys()
-    for item in css_features_keys:
-        result.append(f'Property “{item}” doesn\'t exist')
-    return result
-
-def get_function_is_not_a_value_list():
-    """
-    Returns a list of CSS function keys appended with an opening parenthesis.
-    """
-    result = []
-    css_functions_keys = css_functions.keys()
-    for item in css_functions_keys:
-        result.append(f'{item}(')
-    return result
-
-css_properties_doesnt_exist = get_properties_doesnt_exist_list()
-css_functions_no_support = get_function_is_not_a_value_list()
-
 
 def create_review_and_rating(errors, global_translation, local_translation, review_header):
     """
@@ -571,10 +544,6 @@ def create_review_and_rating(errors, global_translation, local_translation, revi
     Returns:
     Rating: The overall rating calculated based on the errors and translations.
     """
-    whitelisted_words = css_properties_doesnt_exist
-
-    whitelisted_words.append('“100%” is not a “font-stretch” value')
-    whitelisted_words.extend(css_functions_no_support)
 
     number_of_errors = len(errors)
 
@@ -584,27 +553,25 @@ def create_review_and_rating(errors, global_translation, local_translation, revi
     if number_of_errors > 0:
         for item in errors:
             error_message = item['message']
-            is_whitelisted = error_has_whitelisted_wording(error_message, whitelisted_words)
+            error_message_dict[error_message] = "1"
 
-            if is_whitelisted:
-                number_of_errors -= 1
+            error_message = re.sub(
+                FIRST_USED_AT_LINE_REGEX, "", error_message, 0, re.MULTILINE)
+
+            tmp = re.sub(
+                GROUP_ERROR_MSG_REGEX, "X", error_message, 0, re.MULTILINE)
+            if not get_config('general.review.details'):
+                error_message = tmp
+
+            if msg_grouped_dict.get(error_message, False):
+                msg_grouped_dict[error_message] = msg_grouped_dict[error_message] + 1
             else:
-                error_message_dict[error_message] = "1"
+                msg_grouped_dict[error_message] = 1
 
-                tmp = re.sub(
-                    GROUP_ERROR_MSG_REGEX, "X", error_message, 0, re.MULTILINE)
-                if not get_config('general.review.details'):
-                    error_message = tmp
-
-                if msg_grouped_dict.get(error_message, False):
-                    msg_grouped_dict[error_message] = msg_grouped_dict[error_message] + 1
-                else:
-                    msg_grouped_dict[error_message] = 1
-
-                if msg_grouped_for_rating_dict.get(tmp, False):
-                    msg_grouped_for_rating_dict[tmp] = msg_grouped_for_rating_dict[tmp] + 1
-                else:
-                    msg_grouped_for_rating_dict[tmp] = 1
+            if msg_grouped_for_rating_dict.get(tmp, False):
+                msg_grouped_for_rating_dict[tmp] = msg_grouped_for_rating_dict[tmp] + 1
+            else:
+                msg_grouped_for_rating_dict[tmp] = 1
 
 
     rating = Rating(global_translation, get_config('general.review.improve-only'))
@@ -621,21 +588,3 @@ def create_review_and_rating(errors, global_translation, local_translation, revi
         get_reviews_from_errors(msg_grouped_dict, local_translation)
 
     return rating
-
-def error_has_whitelisted_wording(error_message, whitelisted_words):
-    """
-    Checks if the error message contains any of the whitelisted words.
-
-    Parameters:
-    error_message (str): The error message to be checked.
-    whitelisted_words (list): The list of whitelisted words.
-
-    Returns:
-    bool: True if the error message contains a whitelisted word, False otherwise.
-    """
-    in_whitelisted = False
-    for whitelisted_word in whitelisted_words:
-        if whitelisted_word in error_message:
-            in_whitelisted = True
-            break
-    return in_whitelisted

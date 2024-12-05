@@ -92,11 +92,11 @@ msgstr "-t 2\t: 404 (Page not Found)"
 
 #: default.py:134
 msgid "TEXT_TEST_VALID_ARGUMENTS_HTML"
-msgstr "-t 6\t: HTML Validation"
+msgstr "-t 6\t: HTML Validation (w3c)"
 
 #: default.py:135
 msgid "TEXT_TEST_VALID_ARGUMENTS_CSS"
-msgstr "-t 7\t: CSS Validation"
+msgstr "-t 7\t: CSS Validation (w3c)"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_SITESPEED"
 msgstr "-t 15\t: Performance (Sitespeed.io)"
@@ -126,6 +126,9 @@ msgstr "-t 25\t: Software (Alpha)"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_A11Y_STATEMENT"
 msgstr "-t 26\t: Accessibility Statement (Alfa)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_CSS_LINT"
+msgstr "-t 27\t: CSS Lint (Stylelint)"
 
 #: default.py:137 default.py:141 default.py:146 default.py:213
 msgid "TEXT_COMMAND_USAGE"

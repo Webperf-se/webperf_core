@@ -351,9 +351,9 @@ def calculate_rating(number_of_error_types, number_of_errors):
     the rating for number of errors.
     """
 
-    rating_number_of_error_types = 5.0 - ((number_of_error_types / 2.0) / 5.0)
+    rating_number_of_error_types = 5.0 - (number_of_error_types / 5.0)
 
-    rating_number_of_errors = 5.0 - ((number_of_errors / 100.0) / 5.0)
+    rating_number_of_errors = 5.0 - ((number_of_errors / 2.0) / 5.0)
 
     rating_number_of_error_types = max(rating_number_of_error_types, 1.0)
     rating_number_of_errors = max(rating_number_of_errors, 1.0)

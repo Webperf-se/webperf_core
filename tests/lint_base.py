@@ -41,7 +41,6 @@ def get_errors(test_type, params):
 
     url = ''
     arg = ''
-    test_arg = ''
     errors = []
     is_html = False
     is_css = False
@@ -49,10 +48,8 @@ def get_errors(test_type, params):
     file_path = None
 
     if 'css' in params or test_type == 'css':
-        test_arg = ' --css --skip-non-css'
         is_css = True
     if 'html' in params or test_type == 'html':
-        test_arg = ' --html --skip-non-html'
         is_html = True
 
     if 'doc' in params:
@@ -353,7 +350,7 @@ def calculate_rating(number_of_error_types, number_of_errors):
 
     rating_number_of_error_types = 5.0 - (number_of_error_types / 5.0)
 
-    rating_number_of_errors = 5.0 - ((number_of_errors / 2.0) / 5.0)
+    rating_number_of_errors = 5.0 - ((number_of_errors / 1.0) / 5.0)
 
     rating_number_of_error_types = max(rating_number_of_error_types, 1.0)
     rating_number_of_errors = max(rating_number_of_errors, 1.0)

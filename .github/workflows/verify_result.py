@@ -689,7 +689,7 @@ def handle_validate_browsertime(browsertime_har_path):
         entity_index = 0
         for entity in browsertime_har['log']['entries']:
             if 'cache' not in entity:
-                print(f'log.entries[{cache}].id object is missing in browsertime.har file')
+                print(f'log.entries[{entity_index}].id object is missing in browsertime.har file')
                 sys.exit(2)
             if 'startedDateTime' not in page:
                 print(f'log.entries[{entity_index}].startedDateTime object is missing in browsertime.har file')

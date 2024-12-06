@@ -595,6 +595,17 @@ def handle_update_docker():
         print('Dockerfile requires update')
         set_file_content(our_docker_filepath, our_docker_content)
         print('Dockerfile was updated')
+
+        our_browsertime_har_yml_filepath = os.path.join(base_directory, '.github', 'workflows', 'regression-test-sitespeed-browsertime-har.yml')
+        if os.path.exists(our_browsertime_har_yml_filepath):
+            our_from_os = our_from_os.replace('FROM ', '')
+            sitespeed_from_os = sitespeed_from_os.replace('FROM ', '')
+
+            our_browsertime_har_yml_content = get_file_content(our_browsertime_har_yml_filepath)
+            our_browsertime_har_yml_content = our_browsertime_har_yml_content.replace(our_from_os, sitespeed_from_os)
+            print('regression-test-sitespeed-browsertime-har.yml requires update')
+            set_file_content(our_browsertime_har_yml_filepath, our_browsertime_har_yml_content)
+            print('regression-test-sitespeed-browsertime-har.yml was updated')
     else:
         print('Dockerfile is up to date')
 

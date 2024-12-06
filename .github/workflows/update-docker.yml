@@ -37,7 +37,9 @@ jobs:
           
           Following files may be touched:
             - Dockerfile
+            - .github/workflows/regression-test-sitespeed-browsertime-har.yml
         assignees: 7h3Rabbit
         reviewers: 7h3Rabbit
         add-paths: |
           Dockerfile
+          .github/workflows/regression-test-sitespeed-browsertime-har.yml

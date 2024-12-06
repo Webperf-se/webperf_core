@@ -1,0 +1,60 @@
+name: "Regression Test - Sitespeed.io - Browsertime.har fields and structure"
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '**verify_result.py'
+      - '**regression-test-sitespeed-browsertime-har.yml'
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+            matrix:
+                os: [ubuntu-latest]
+                browser: ['firefox', 'chrome']
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup QEMU # used to allow multiplatform docker builds
+      uses: docker/setup-qemu-action@v3
+    - name: Setup Docker Buildx # used to allow multiplatform docker builds
+      uses: docker/setup-buildx-action@v3
+    - name: Test includeResponseBodies using ${{ matrix.browser }}
+      if: always()
+      run: |
+        command="docker run --rm -v $(pwd):/sitespeed.io sitespeedio/sitespeed.io:35.7.0 -b ${{ matrix.browser }} -n 1 --chrome.includeResponseBodies html --firefox.includeResponseBodies html https://webperf.se"
+        echo "$command"
+        testresult=$($command)
+        echo "$testresult"
+        path=$(echo "$testresult" | grep -o "/sitespeed.io/.*")
+        if [ -n result ]; then
+          har_file=$(find $(pwd) -name "browsertime.har")
+          if [ -f "$har_file" ]; then
+            echo "Found browsertime.har at $har_file"
+            content=$(cat "$har_file")
+            if [[ "$content" != *"<!DOCTYPE html>"* ]]; then
+              echo "Error: browsertime.har is not including html file content"
+              exit 1
+            else
+              echo "browsertime.har is OK"
+            fi
+          else
+            echo "Error: browsertime.har not found in $path"
+            exit 1
+          fi
+        else
+          echo "Error: No path found starting with /sitespeed.io/"
+          exit 1
+        fi
+    # - name: Check out repository code
+    #   uses: actions/checkout@v4
+    # - name: Setup python
+    #   uses: actions/setup-python@v5
+    #   with:
+    #     python-version: '3.13' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+    #     architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+    # - name: Setup dependencies using pip
+    #   run: pip install -r requirements.txt
+    # - name: RUNNING TEST - LINUX
+    #   run: |
+    #      python default.py -t ${{ matrix.version }} -r -i defaults/sites.json -o data/testresult-${{ matrix.version }}.json --setting ${{ matrix.config }} --setting tests.sitespeed.xvfb=true
+    #      python .github/workflows/verify_result.py -t ${{ matrix.version }}

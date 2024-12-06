@@ -686,7 +686,88 @@ def handle_validate_browsertime(browsertime_har_path):
         if 'entries' not in browsertime_har['log']:
             print('log.entries array is missing in browsertime.har file')
             sys.exit(2)
+        entity_index = 0
+        for entity in browsertime_har['log']['entries']:
+            if 'cache' not in entity:
+                print(f'log.entries[{cache}].id object is missing in browsertime.har file')
+                sys.exit(2)
+            if 'startedDateTime' not in page:
+                print(f'log.entries[{entity_index}].startedDateTime object is missing in browsertime.har file')
+                sys.exit(2)
+            if 'timings' not in entity:
+                print(f'log.entries[{entity_index}].timings object is missing in browsertime.har file')
+                sys.exit(2)
+            if 'pageref' not in entity:
+                print(f'log.entries[{entity_index}].pageref object is missing in browsertime.har file')
+                sys.exit(2)
+            if 'time' not in entity:
+                print(f'log.entries[{entity_index}].time object is missing in browsertime.har file')
+                sys.exit(2)
+            if 'request' not in entity:
+                print(f'log.entries[{entity_index}].request object is missing in browsertime.har file')
+                sys.exit(2)
+            if 'method' not in entity['request']:
+                print(f'log.entries[{entity_index}].request.method object is missing in browsertime.har file')
+                sys.exit(2)
+            if 'url' not in entity['request']:
+                print(f'log.entries[{entity_index}].request.url object is missing in browsertime.har file')
+                sys.exit(2)
+            if 'queryString' not in entity['request']:
+                print(f'log.entries[{entity_index}].request.queryString object is missing in browsertime.har file')
+                sys.exit(2)
+            if 'headersSize' not in entity['request']:
+                print(f'log.entries[{entity_index}].request.headersSize object is missing in browsertime.har file')
+                sys.exit(2)
+            if 'bodySize' not in entity['request']:
+                print(f'log.entries[{entity_index}].request.bodySize object is missing in browsertime.har file')
+                sys.exit(2)
+            if 'cookies' not in entity['request']:
+                print(f'log.entries[{entity_index}].request.cookies array is missing in browsertime.har file')
+                sys.exit(2)
+            if 'httpVersion' not in entity['request']:
+                print(f'log.entries[{entity_index}].request.httpVersion object is missing in browsertime.har file')
+                sys.exit(2)
+            if 'headers' not in entity['request']:
+                print(f'log.entries[{entity_index}].request.headers array is missing in browsertime.har file')
+                sys.exit(2)
 
+            if 'response' not in entity:
+                print(f'log.entries[{entity_index}].response object is missing in browsertime.har file')
+                sys.exit(2)
+            if 'redirectURL' not in entity['response']:
+                print(f'log.entries[{entity_index}].response.redirectURL object is missing in browsertime.har file')
+                sys.exit(2)
+            if 'status' not in entity['response']:
+                print(f'log.entries[{entity_index}].response.status object is missing in browsertime.har file')
+                sys.exit(2)
+            if 'statusText' not in entity['response']:
+                print(f'log.entries[{entity_index}].response.statusText object is missing in browsertime.har file')
+                sys.exit(2)
+            if 'content' not in entity['response']:
+                print(f'log.entries[{entity_index}].response.content object is missing in browsertime.har file')
+                sys.exit(2)
+            if 'headersSize' not in entity['response']:
+                print(f'log.entries[{entity_index}].response.headersSize object is missing in browsertime.har file')
+                sys.exit(2)
+            if 'bodySize' not in entity['response']:
+                print(f'log.entries[{entity_index}].response.bodySize object is missing in browsertime.har file')
+                sys.exit(2)
+            if 'cookies' not in entity['response']:
+                print(f'log.entries[{entity_index}].response.cookies array is missing in browsertime.har file')
+                sys.exit(2)
+            if 'httpVersion' not in entity['response']:
+                print(f'log.entries[{entity_index}].response.httpVersion object is missing in browsertime.har file')
+                sys.exit(2)
+            if 'headers' not in entity['response']:
+                print(f'log.entries[{entity_index}].response.headers array is missing in browsertime.har file')
+                sys.exit(2)
+
+            entity_index += 1
+        if entity_index < 1:
+            print('log.entries array has less than 1 entry in browsertime.har file')
+            sys.exit(2)
+
+    print('browsertime.har file is OK')
     sys.exit(0)
 
 def handle_sample_config(arg):

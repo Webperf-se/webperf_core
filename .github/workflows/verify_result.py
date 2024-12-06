@@ -624,11 +624,69 @@ def handle_test_result(arg):
     else:
         sys.exit(2)
 
-def handle_validate_browsertime(arg):
-    base_directory = Path(os.path.dirname(
-        os.path.realpath(__file__)) + os.path.sep).parent.parent
-    print('file:', arg)
-    print_file_content(arg)
+def handle_validate_browsertime(browsertime_har_path):
+    with open(browsertime_har_path, encoding='utf-8') as json_input_file:
+        browsertime_har = json.load(json_input_file)
+        if 'log' not in browsertime_har:
+            print('log object is missing in browsertime.har file')
+            sys.exit(2)
+
+        if 'version' not in browsertime_har['log']:
+            print('log.version object is missing in browsertime.har file')
+            sys.exit(2)
+
+        if 'creator' not in browsertime_har['log']:
+            print('log.creator object is missing in browsertime.har file')
+            sys.exit(2)
+        if 'name' not in browsertime_har['log']['creator']:
+            print('log.creator.name object is missing in browsertime.har file')
+            sys.exit(2)
+        if 'version' not in browsertime_har['log']['creator']:
+            print('log.creator.version object is missing in browsertime.har file')
+            sys.exit(2)
+
+        if 'browser' not in browsertime_har['log']:
+            print('log.browser object is missing in browsertime.har file')
+            sys.exit(2)
+        if 'name' not in browsertime_har['log']['browser']:
+            print('log.browser.name object is missing in browsertime.har file')
+            sys.exit(2)
+        if 'version' not in browsertime_har['log']['browser']:
+            print('log.browser.version object is missing in browsertime.har file')
+            sys.exit(2)
+
+        if 'pages' not in browsertime_har['log']:
+            print('log.pages array is missing in browsertime.har file')
+            sys.exit(2)
+        page_index = 0
+        for page in browsertime_har['log']['pages']:
+            if 'id' not in page:
+                print(f'log.pages[{page_index}].id object is missing in browsertime.har file')
+                sys.exit(2)
+            if 'startedDateTime' not in page:
+                print(f'log.pages[{page_index}].startedDateTime object is missing in browsertime.har file')
+                sys.exit(2)
+            if 'title' not in page:
+                print(f'log.pages[{page_index}].title object is missing in browsertime.har file')
+                sys.exit(2)
+            if 'pageTimings' not in page:
+                print(f'log.pages[{page_index}].pageTimings object is missing in browsertime.har file')
+                sys.exit(2)
+            if '_url' not in page:
+                print(f'log.pages[{page_index}]._url object is missing in browsertime.har file')
+                sys.exit(2)
+            if '_meta' not in page:
+                print(f'log.pages[{page_index}]._meta object is missing in browsertime.har file')
+                sys.exit(2)
+            page_index += 1
+        if page_index < 1:
+            print('log.pages array has less than 1 page in browsertime.har file')
+            sys.exit(2)
+
+        if 'entries' not in browsertime_har['log']:
+            print('log.entries array is missing in browsertime.har file')
+            sys.exit(2)
+
     sys.exit(0)
 
 def handle_sample_config(arg):

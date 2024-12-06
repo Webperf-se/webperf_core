@@ -574,6 +574,7 @@ def create_review_and_rating(errors, global_translation, local_translation, revi
     whitelisted_words = css_properties_doesnt_exist
 
     whitelisted_words.append('“100%” is not a “font-stretch” value')
+    whitelisted_words.append('CSS: Unrecognized at-rule “@layer”')
     whitelisted_words.extend(css_functions_no_support)
 
     number_of_errors = len(errors)

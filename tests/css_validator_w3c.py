@@ -639,4 +639,9 @@ def error_has_whitelisted_wording(error_message, whitelisted_words):
         if whitelisted_word in error_message:
             in_whitelisted = True
             break
+
+    property_regex = r"CSS\: “\-\-[^”]+”\: Parse Error\."
+    if re.search(property_regex, error_message, re.MULTILINE) is not None:
+        in_whitelisted = True
+
     return in_whitelisted

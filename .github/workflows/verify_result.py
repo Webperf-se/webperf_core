@@ -467,8 +467,9 @@ def main(argv):
     """
 
     try:
-        opts, _ = getopt.getopt(argv, "hlt:d:s:", [
+        opts, _ = getopt.getopt(argv, "hlt:d:s:b:", [
                                    "help", "test=", "sample-config=",
+                                   "browsertime=",
                                    "language", "docker="])
     except getopt.GetoptError:
         print(main.__doc__)
@@ -488,6 +489,8 @@ def main(argv):
             handle_test_result(arg)
         elif opt in ("-d", "--docker"):  # docker
             handle_update_docker()
+        elif opt in ("-b", "--browsertime"):  # validate browsertime.har for supported browsers
+            handle_validate_browsertime(arg)
 
     # No match for command so return error code to fail verification
     sys.exit(2)
@@ -620,6 +623,13 @@ def handle_test_result(arg):
         sys.exit(0)
     else:
         sys.exit(2)
+
+def handle_validate_browsertime(arg):
+    base_directory = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep).parent.parent
+    print('file:', arg)
+    print_file_content(arg)
+    sys.exit(0)
 
 def handle_sample_config(arg):
     """ Terminate the programme with an error if we're unable to

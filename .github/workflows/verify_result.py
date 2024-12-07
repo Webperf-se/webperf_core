@@ -628,71 +628,94 @@ def handle_validate_browsertime(browsertime_har_path):
     with open(browsertime_har_path, encoding='utf-8') as json_input_file:
         browsertime_har = json.load(json_input_file)
         if 'log' not in browsertime_har:
-            print('log object is missing in browsertime.har file')
+            print('Error: log object is missing in browsertime.har file')
             sys.exit(2)
 
         if 'version' not in browsertime_har['log']:
-            print('log.version object is missing in browsertime.har file')
+            print('Error: log.version object is missing in browsertime.har file')
             sys.exit(2)
 
         if 'creator' not in browsertime_har['log']:
-            print('log.creator object is missing in browsertime.har file')
+            print('Error: log.creator object is missing in browsertime.har file')
             sys.exit(2)
         if 'name' not in browsertime_har['log']['creator']:
-            print('log.creator.name object is missing in browsertime.har file')
+            print('Error: log.creator.name object is missing in browsertime.har file')
             sys.exit(2)
         if 'version' not in browsertime_har['log']['creator']:
-            print('log.creator.version object is missing in browsertime.har file')
+            print('Error: log.creator.version object is missing in browsertime.har file')
             sys.exit(2)
 
         if 'browser' not in browsertime_har['log']:
-            print('log.browser object is missing in browsertime.har file')
+            print('Error: log.browser object is missing in browsertime.har file')
             sys.exit(2)
         if 'name' not in browsertime_har['log']['browser']:
-            print('log.browser.name object is missing in browsertime.har file')
+            print('Error: log.browser.name object is missing in browsertime.har file')
             sys.exit(2)
+        if browsertime_har['log']['browser']['name'] not in ('firefox', 'Chrome'):
+            print('Error: log.browser.name property has wrong value in browsertime.har file')
+            sys.exit(2)
+
         if 'version' not in browsertime_har['log']['browser']:
-            print('log.browser.version object is missing in browsertime.har file')
+            print('Error: log.browser.version object is missing in browsertime.har file')
+            sys.exit(2)
+        if re.match(r'[0-9\.]+', browsertime_har['log']['browser']['version'], re.IGNORECASE) is None:
+            print('Error: log.browser.name property has wrong value in browsertime.har file')
             sys.exit(2)
 
         if 'pages' not in browsertime_har['log']:
-            print('log.pages array is missing in browsertime.har file')
+            print('Error: log.pages array is missing in browsertime.har file')
             sys.exit(2)
         page_index = 0
         for page in browsertime_har['log']['pages']:
             if 'id' not in page:
                 print(f'log.pages[{page_index}].id object is missing in browsertime.har file')
                 sys.exit(2)
+            if f'page_{page_index +1 }' not in page['id']:
+                print(f'log.pages[{page_index}].id property has wrong value in browsertime.har file')
+                sys.exit(2)
+
             if 'startedDateTime' not in page:
                 print(f'log.pages[{page_index}].startedDateTime object is missing in browsertime.har file')
                 sys.exit(2)
+            if re.match(r'[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z', page['startedDateTime']) is None:
+                print(f'log.pages[{page_index}].startedDateTime property is wrong value in browsertime.har file')
+                sys.exit(2)
+
             if 'title' not in page:
                 print(f'log.pages[{page_index}].title object is missing in browsertime.har file')
                 sys.exit(2)
             if 'pageTimings' not in page:
                 print(f'log.pages[{page_index}].pageTimings object is missing in browsertime.har file')
                 sys.exit(2)
+
             if '_url' not in page:
                 print(f'log.pages[{page_index}]._url object is missing in browsertime.har file')
                 sys.exit(2)
+            if page['_url'] != 'https://webperf.se':
+                print(f'log.pages[{page_index}]._url property has wrong value in browsertime.har file')
+                sys.exit(2)
+
             if '_meta' not in page:
                 print(f'log.pages[{page_index}]._meta object is missing in browsertime.har file')
                 sys.exit(2)
             page_index += 1
         if page_index < 1:
-            print('log.pages array has less than 1 page in browsertime.har file')
+            print('Error: log.pages array has less than 1 page in browsertime.har file')
             sys.exit(2)
 
         if 'entries' not in browsertime_har['log']:
-            print('log.entries array is missing in browsertime.har file')
+            print('Error: log.entries array is missing in browsertime.har file')
             sys.exit(2)
         entity_index = 0
         for entity in browsertime_har['log']['entries']:
             if 'cache' not in entity:
                 print(f'log.entries[{entity_index}].id object is missing in browsertime.har file')
                 sys.exit(2)
-            if 'startedDateTime' not in page:
+            if 'startedDateTime' not in entity:
                 print(f'log.entries[{entity_index}].startedDateTime object is missing in browsertime.har file')
+                sys.exit(2)
+            if re.match(r'[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z', entity['startedDateTime']) is None:
+                print(f'log.entries[{entity_index}].startedDateTime property is wrong value in browsertime.har file')
                 sys.exit(2)
             if 'timings' not in entity:
                 print(f'log.entries[{entity_index}].timings object is missing in browsertime.har file')
@@ -700,21 +723,42 @@ def handle_validate_browsertime(browsertime_har_path):
             if 'pageref' not in entity:
                 print(f'log.entries[{entity_index}].pageref object is missing in browsertime.har file')
                 sys.exit(2)
+            if entity['pageref'] != 'page_1':
+                print(f'log.entries[{entity_index}].pageref property has wrong value in browsertime.har file')
+                sys.exit(2)
+
             if 'time' not in entity:
                 print(f'log.entries[{entity_index}].time object is missing in browsertime.har file')
                 sys.exit(2)
+            if not isinstance(entity['time'], float):
+                print(f'log.entries[{entity_index}].time property has wrong value in browsertime.har file')
+                sys.exit(2)
+
             if 'request' not in entity:
                 print(f'log.entries[{entity_index}].request object is missing in browsertime.har file')
                 sys.exit(2)
+
             if 'method' not in entity['request']:
                 print(f'log.entries[{entity_index}].request.method object is missing in browsertime.har file')
                 sys.exit(2)
+            if entity['request']['method'] not in ('GET','POST'):
+                print(f'log.entries[{entity_index}].request.method property has wrong value in browsertime.har file')
+                sys.exit(2)
+
             if 'url' not in entity['request']:
                 print(f'log.entries[{entity_index}].request.url object is missing in browsertime.har file')
                 sys.exit(2)
+            if entity_index == 0 and entity['request']['url'] != 'https://webperf.se/':
+                print(f'log.entries[{entity_index}].request.url property has wrong value in browsertime.har file')
+                sys.exit(2)
+
             if 'queryString' not in entity['request']:
                 print(f'log.entries[{entity_index}].request.queryString object is missing in browsertime.har file')
                 sys.exit(2)
+            if entity_index == 0 and entity['request']['queryString'] != []:
+                print(f'log.entries[{entity_index}].request.queryString property has wrong value in browsertime.har file')
+                sys.exit(2)
+
             if 'headersSize' not in entity['request']:
                 print(f'log.entries[{entity_index}].request.headersSize object is missing in browsertime.har file')
                 sys.exit(2)
@@ -764,7 +808,7 @@ def handle_validate_browsertime(browsertime_har_path):
 
             entity_index += 1
         if entity_index < 1:
-            print('log.entries array has less than 1 entry in browsertime.har file')
+            print('Error: log.entries array has less than 1 entry in browsertime.har file')
             sys.exit(2)
 
     print('browsertime.har file is OK')

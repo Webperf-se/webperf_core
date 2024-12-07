@@ -736,12 +736,12 @@ def rate_compatible_text(global_translation, local_translation, soup):
         test = match.group('test').lower()
         if 'inte' in test:
             rating.set_overall(
-                5.0, local_translation('TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_NOT_COMPATIBLE'))
+                1.0, local_translation('TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_NOT_COMPATIBLE'))
             rating.set_a11y(
                 1.0, local_translation('TEXT_REVIEW_COMPATIBLE_TEXT_A11Y_NOT_COMPATIBLE'))
         elif 'delvis' in test:
             rating.set_overall(
-                5.0, local_translation('TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_PARTLY_COMPATIBLE'))
+                3.0, local_translation('TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_PARTLY_COMPATIBLE'))
             rating.set_a11y(
                 3.0, local_translation('TEXT_REVIEW_COMPATIBLE_TEXT_A11Y_PARTLY_COMPATIBLE'))
         else:

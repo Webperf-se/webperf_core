@@ -143,6 +143,34 @@ def validate_entry_response(entry_index, entry):
     if 'content' not in entry['response']:
         print(f'Error: log.entries[{entry_index}].response.content is missing in browsertime.har file')
         is_ok = False
+    else:
+        if 'mimeType' not in entry['response']['content']:
+            print(f'Error: log.entries[{entry_index}].response.content.mimeType is missing in browsertime.har file')
+            is_ok = False
+        elif entry['response']['content']['mimeType'] not in ('text/html', 'text/html;charset=utf-8', 'text/html;charset=UTF-8', 'text/css', 'image/png', 'image/webp', 'text/javascript', 'font/woff2'):
+            print(f'Error: log.entries[{entry_index}].response.content.mimeType has wrong value, actual value: {entry['response']['content']['mimeType']}')
+            is_ok = False
+
+        if 'size' not in entry['response']['content']:
+            print(f'Error: log.entries[{entry_index}].response.content.size is missing in browsertime.har file')
+            is_ok = False
+        elif entry['response']['content']['size'] < 1 and ('status' not in entry['response'] and entry['response']['status'] != 204):
+            print(f'Error: log.entries[{entry_index}].response.content.size has wrong value, actual value: {entry['response']['content']['size']}')
+            is_ok = False
+
+        if 'text' not in entry['response']['content']:
+                if 'mimeType' in entry['response']['content'] and entry['response']['content']['mimeType'] in ('text/html;charset=utf-8', 'text/css', 'text/javascript'):
+                    print(f'Error: log.entries[{entry_index}].response.content.text is missing in browsertime.har file {entry['response']['content']['mimeType']}')
+                    is_ok = False
+        elif 'status' in entry['response'] and entry['response']['status'] == 204:
+            # ignore this
+            a = 1
+        elif len(entry['response']['content']['text']) < 1 and\
+                ('mimeType' in entry['response']['content'] and entry['response']['content']['mimeType'] in ('text/html', 'text/html;charset=utf-8', 'text/html;charset=UTF-8', 'text/css', 'text/javascript')):
+            print(f'Error: log.entries[{entry_index}].response.content.text has wrong value, actual value: {entry['response']['content']['text']}, content-type: {entry['response']['content']['mimeType']}')
+            is_ok = False
+
+
     if 'headersSize' not in entry['response']:
         print(f'Error: log.entries[{entry_index}].response.headersSize is missing in browsertime.har file')
         is_ok = False

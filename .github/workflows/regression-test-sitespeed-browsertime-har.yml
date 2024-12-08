@@ -29,7 +29,7 @@ jobs:
     - name: Testing sitespeed.io:s browsertime.har output using ${{ matrix.browser }}
       if: always()
       run: |
-        command="docker run --rm -v $(pwd):/sitespeed.io sitespeedio/sitespeed.io:35.7.0 -b ${{ matrix.browser }} -n 1 --chrome.includeResponseBodies html --firefox.includeResponseBodies html https://webperf.se"
+        command="docker run --rm -v $(pwd):/sitespeed.io sitespeedio/sitespeed.io:35.7.0 -b ${{ matrix.browser }} -n 1 --chrome.includeResponseBodies all --firefox.includeResponseBodies all https://webperf.se"
         echo "$command"
         testresult=$($command)
         echo "$testresult"

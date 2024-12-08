@@ -129,9 +129,17 @@ def validate_entry_response(entry_index, entry):
     if 'status' not in entry['response']:
         print(f'Error: log.entries[{entry_index}].response.status is missing in browsertime.har file')
         is_ok = False
+    elif entry['response']['status'] not in(200, 204):
+        print(f'Error: log.entries[{entry_index}].response.status has wrong value, actual value: {entry['response']['status']}')
+        is_ok = False
+
     if 'statusText' not in entry['response']:
         print(f'Error: log.entries[{entry_index}].response.statusText is missing in browsertime.har file')
         is_ok = False
+    elif entry['response']['statusText'] not in(""):
+        print(f'Error: log.entries[{entry_index}].response.statusText has wrong value, actual value: {entry['response']['statusText']}')
+        is_ok = False
+
     if 'content' not in entry['response']:
         print(f'Error: log.entries[{entry_index}].response.content is missing in browsertime.har file')
         is_ok = False
@@ -147,9 +155,36 @@ def validate_entry_response(entry_index, entry):
     if 'httpVersion' not in entry['response']:
         print(f'Error: log.entries[{entry_index}].response.httpVersion is missing in browsertime.har file')
         is_ok = False
+    is_ok = validate_entry_response_headers(entry_index, entry) and is_ok
+
+    return is_ok
+
+def validate_entry_response_headers(entry_index, entry):
+    is_ok = True
     if 'headers' not in entry['response']:
         print(f'Error: log.entries[{entry_index}].response.headers array is missing in browsertime.har file')
         is_ok = False
+    else:
+        header_index = 0
+        for header in entry['response']['headers']:
+            if 'name' not in header:
+                print(f'Error: log.entries[{entry_index}].response.headers[{header_index}].name is missing in browsertime.har file')
+                is_ok = False
+            elif re.match(r'[0-9a-z\-]+', header['name'], re.IGNORECASE) is None:
+                print(f'Error: log.entries[{entry_index}].response.headers[{header_index}].name has wrong name, actual value: {header['name']}')
+                is_ok = False
+
+            if 'value' not in header:
+                print(f'Error: log.entries[{entry_index}].response.headers[{header_index}].value is missing in browsertime.har file')
+                is_ok = False
+            elif re.match(r'[0-9a-z\-\.\"]+', header['value'], re.IGNORECASE) is None:
+                print(f'Error: log.entries[{entry_index}].response.headers[{header_index}].value has wrong value, actual value: {header['value']}')
+                is_ok = False
+            header_index += 1
+
+        if header_index < 1:
+            print(f'Error: log.entries[{entry_index}].response.headers array has less than 1 header in browsertime.har file')
+            is_ok = False
     return is_ok
 
 def validate_entry_request(entry_index, entry):
@@ -204,8 +239,35 @@ def validate_entry_request(entry_index, entry):
             print(f'Error: log.entries[{entry_index}].request.httpVersion has wrong value, actual value: {entry['request']['httpVersion']}')
             is_ok = False
 
-        if 'headers' not in entry['request']:
-            print(f'Error: log.entries[{entry_index}].request.headers array is missing in browsertime.har file')
+        is_ok = validate_entry_request_headers(entry_index, entry) and is_ok
+
+    return is_ok
+
+def validate_entry_request_headers(entry_index, entry):
+    is_ok = True
+    if 'headers' not in entry['request']:
+        print(f'Error: log.entries[{entry_index}].request.headers array is missing in browsertime.har file')
+        is_ok = False
+    else:
+        header_index = 0
+        for header in entry['request']['headers']:
+            if 'name' not in header:
+                print(f'Error: log.entries[{entry_index}].request.headers[{header_index}].name is missing in browsertime.har file')
+                is_ok = False
+            elif re.match(r'[\:0-9a-z\-]+', header['name'], re.IGNORECASE) is None:
+                print(f'Error: log.entries[{entry_index}].request.headers[{header_index}].name has wrong name, actual value: {header['name']}')
+                is_ok = False
+
+            if 'value' not in header:
+                print(f'Error: log.entries[{entry_index}].request.headers[{header_index}].value is missing in browsertime.har file')
+                is_ok = False
+            elif re.match(r'[0-9a-z\-\.\"\?/\*]*', header['value'], re.IGNORECASE) is None:
+                print(f'Error: log.entries[{entry_index}].request.headers[{header_index}].value has wrong value, actual value: {header['value']}')
+                is_ok = False
+            header_index += 1
+
+        if header_index < 1:
+            print(f'Error: log.entries[{entry_index}].request.headers array has less than 1 header in browsertime.har file')
             is_ok = False
     return is_ok
 

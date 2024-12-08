@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - '**verify_result.py'
+      - '**verify_browsertime_har.py'
       - '**regression-test-sitespeed-browsertime-har.yml'
 jobs:
   build:
@@ -38,7 +38,7 @@ jobs:
           har_file=$(find $(pwd) -name "browsertime.har")
           if [ -f "$har_file" ]; then
             echo "Found browsertime.har at $har_file"
-            python .github/workflows/verify_result.py --browsertime $har_file
+            python .github/workflows/verify_browsertime_har.py --browsertime $har_file
           else
             echo "Error: browsertime.har not found in $path"
             exit 1

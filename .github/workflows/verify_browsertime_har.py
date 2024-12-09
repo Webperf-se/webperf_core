@@ -6,10 +6,10 @@ import re
 
 def main(argv):
     """
-    WebPerf Core - Regression Test
+    WebPerf Core - Validate Sitespeed:s browsertime.har file
 
     Usage:
-    verify_result.py -h
+    verify_browsertime_har.py -h
 
     Options and arguments:
     -h/--help\t\t\t: Verify Help command
@@ -35,17 +35,25 @@ def main(argv):
         print(main.__doc__)
         sys.exit(2)
 
+    full_validation = False
+    validate = False
     for opt, arg in opts:
         if opt in ('-h', '--help'):  # help
             print(main.__doc__)
             sys.exit(0)
+        elif opt in ('-f', '--full'): # validate also stuff that is not used by webperf_core
+            full_validation = True
         elif opt in ("-b", "--browsertime"):  # validate browsertime.har for supported browsers
-            validate_browsertime(arg)
+            validate = True
+
+    if validate:
+        validate_browsertime(arg, full_validation)
+
 
     # No match for command so return error code to fail verification
     sys.exit(2)
 
-def validate_browsertime(browsertime_har_path):
+def validate_browsertime(browsertime_har_path, full_validation):
     is_ok = True
     with open(browsertime_har_path, encoding='utf-8') as json_input_file:
         browsertime_har = json.load(json_input_file)
@@ -53,14 +61,15 @@ def validate_browsertime(browsertime_har_path):
             print('Error: log is missing in browsertime.har file')
             sys.exit(2)
 
-        if 'version' not in browsertime_har['log']:
-            print('Error: log.version is missing in browsertime.har file')
-            is_ok = False
+        if full_validation:
+            if 'version' not in browsertime_har['log']:
+                print('Error: log.version is missing in browsertime.har file')
+                is_ok = False
+            is_ok = validate_creator(browsertime_har) and is_ok
+            is_ok = validate_browser(browsertime_har) and is_ok
 
-        is_ok = validate_creator(browsertime_har) and is_ok
-        is_ok = validate_browser(browsertime_har) and is_ok
-        is_ok = validate_pages(browsertime_har) and is_ok
-        is_ok = validate_entries(browsertime_har) and is_ok
+        is_ok = validate_pages(browsertime_har, full_validation) and is_ok
+        is_ok = validate_entries(browsertime_har, full_validation) and is_ok
 
     if is_ok:
         print('browsertime.har file is OK')
@@ -68,7 +77,7 @@ def validate_browsertime(browsertime_har_path):
     else:
         sys.exit(2)
 
-def validate_entries(browsertime_har):
+def validate_entries(browsertime_har, full_validation):
     is_ok = True
     if 'entries' not in browsertime_har['log']:
         print('Error: log.entries array is missing in browsertime.har file')
@@ -76,15 +85,25 @@ def validate_entries(browsertime_har):
     else:
         entry_index = 0
         for entry in browsertime_har['log']['entries']:
-            is_ok = validate_entry(entry_index, entry) and is_ok
+            is_ok = validate_entry(entry_index, entry, full_validation) and is_ok
             entry_index += 1
         if entry_index < 1:
             print('Error: log.entries array has less than 1 entry in browsertime.har file')
             is_ok = False
     return is_ok
 
-def validate_entry(entry_index, entry):
+def validate_entry(entry_index, entry, full_validation):
     is_ok = True
+
+    is_ok = validate_entry_request(entry_index, entry, full_validation) and is_ok
+    is_ok = validate_entry_response(entry_index, entry, full_validation) and is_ok
+
+    # TODO: Add validation to "serverIPAddress" (according to modify_browsertime_content_entity)
+    # TODO: Add validation to "httpVersion" (according to modify_browsertime_content_entity)
+
+    if not full_validation:
+        return is_ok
+
     if 'cache' not in entry:
         print(f'Error: log.entries[{entry_index}].id is missing in browsertime.har file')
         is_ok = False
@@ -114,30 +133,19 @@ def validate_entry(entry_index, entry):
         print(f'Error: log.entries[{entry_index}].time has wrong value, actual value: {entry['time']}')
         is_ok = False
 
-    is_ok = validate_entry_request(entry_index, entry) and is_ok
-    is_ok = validate_entry_response(entry_index, entry) and is_ok
     return is_ok
 
-def validate_entry_response(entry_index, entry):
+def validate_entry_response(entry_index, entry, full_validation):
     is_ok = True
     if 'response' not in entry:
         print(f'Error: log.entries[{entry_index}].response is missing in browsertime.har file')
         is_ok = False
-    if 'redirectURL' not in entry['response']:
-        print(f'Error: log.entries[{entry_index}].response.redirectURL is missing in browsertime.har file')
-        is_ok = False
+
     if 'status' not in entry['response']:
         print(f'Error: log.entries[{entry_index}].response.status is missing in browsertime.har file')
         is_ok = False
     elif entry['response']['status'] not in(200, 204):
         print(f'Error: log.entries[{entry_index}].response.status has wrong value, actual value: {entry['response']['status']}')
-        is_ok = False
-
-    if 'statusText' not in entry['response']:
-        print(f'Error: log.entries[{entry_index}].response.statusText is missing in browsertime.har file')
-        is_ok = False
-    elif entry['response']['statusText'] not in(""):
-        print(f'Error: log.entries[{entry_index}].response.statusText has wrong value, actual value: {entry['response']['statusText']}')
         is_ok = False
 
     if 'content' not in entry['response']:
@@ -170,6 +178,24 @@ def validate_entry_response(entry_index, entry):
             print(f'Error: log.entries[{entry_index}].response.content.text has wrong value, actual value: {entry['response']['content']['text']}, content-type: {entry['response']['content']['mimeType']}')
             is_ok = False
 
+    if 'httpVersion' not in entry['response']:
+        print(f'Error: log.entries[{entry_index}].response.httpVersion is missing in browsertime.har file')
+        is_ok = False
+    is_ok = validate_entry_response_headers(entry_index, entry) and is_ok
+
+    if not full_validation:
+        return is_ok
+
+    if 'redirectURL' not in entry['response']:
+        print(f'Error: log.entries[{entry_index}].response.redirectURL is missing in browsertime.har file')
+        is_ok = False
+
+    if 'statusText' not in entry['response']:
+        print(f'Error: log.entries[{entry_index}].response.statusText is missing in browsertime.har file')
+        is_ok = False
+    elif entry['response']['statusText'] not in(""):
+        print(f'Error: log.entries[{entry_index}].response.statusText has wrong value, actual value: {entry['response']['statusText']}')
+        is_ok = False
 
     if 'headersSize' not in entry['response']:
         print(f'Error: log.entries[{entry_index}].response.headersSize is missing in browsertime.har file')
@@ -180,10 +206,6 @@ def validate_entry_response(entry_index, entry):
     if 'cookies' not in entry['response']:
         print(f'Error: log.entries[{entry_index}].response.cookies array is missing in browsertime.har file')
         is_ok = False
-    if 'httpVersion' not in entry['response']:
-        print(f'Error: log.entries[{entry_index}].response.httpVersion is missing in browsertime.har file')
-        is_ok = False
-    is_ok = validate_entry_response_headers(entry_index, entry) and is_ok
 
     return is_ok
 
@@ -215,24 +237,27 @@ def validate_entry_response_headers(entry_index, entry):
             is_ok = False
     return is_ok
 
-def validate_entry_request(entry_index, entry):
+def validate_entry_request(entry_index, entry, full_validation):
     is_ok = True
     if 'request' not in entry:
         print(f'Error: log.entries[{entry_index}].request is missing in browsertime.har file')
         is_ok = False
     else:
-        if 'method' not in entry['request']:
-            print(f'Error: log.entries[{entry_index}].request.method is missing in browsertime.har file')
-            is_ok = False
-        elif entry['request']['method'] not in ('GET','POST'):
-            print(f'Error: log.entries[{entry_index}].request.method has wrong value, actual value: {entry['request']['method']}')
-            is_ok = False
-
         if 'url' not in entry['request']:
             print(f'Error: log.entries[{entry_index}].request.url is missing in browsertime.har file')
             is_ok = False
         elif entry_index == 0 and entry['request']['url'] != 'https://webperf.se/':
             print(f'Error: log.entries[{entry_index}].request.url has wrong value, actual value: {entry['request']['url']}')
+            is_ok = False
+
+        if not full_validation:
+            return is_ok
+
+        if 'method' not in entry['request']:
+            print(f'Error: log.entries[{entry_index}].request.method is missing in browsertime.har file')
+            is_ok = False
+        elif entry['request']['method'] not in ('GET','POST'):
+            print(f'Error: log.entries[{entry_index}].request.method has wrong value, actual value: {entry['request']['method']}')
             is_ok = False
 
         if 'queryString' not in entry['request']:
@@ -299,7 +324,7 @@ def validate_entry_request_headers(entry_index, entry):
             is_ok = False
     return is_ok
 
-def validate_pages(browsertime_har):
+def validate_pages(browsertime_har, full_validation):
     is_ok = True
     if 'pages' not in browsertime_har['log']:
         print('Error: log.pages array is missing in browsertime.har file')
@@ -307,15 +332,22 @@ def validate_pages(browsertime_har):
     else:
         page_index = 0
         for page in browsertime_har['log']['pages']:
-            is_ok = validate_page(page_index, page) and is_ok
+            is_ok = validate_page(page_index, page, full_validation) and is_ok
             page_index += 1
         if page_index < 1:
             print('Error: log.pages array has less than 1 page in browsertime.har file')
             is_ok = False
     return is_ok
 
-def validate_page(page_index, page):
+def validate_page(page_index, page, full_validation):
     is_ok = True
+    if page['_url'] != 'https://webperf.se':
+        print(f'Error: log.pages[{page_index}]._url has wrong value, actual value: {page['_url']}')
+        is_ok = False
+
+    if not full_validation:
+        return is_ok
+
     if 'id' not in page:
         print(f'Error: log.pages[{page_index}].id is missing in browsertime.har file')
         is_ok = False

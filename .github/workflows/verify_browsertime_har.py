@@ -288,7 +288,7 @@ def validate_entry_request(entry_index, entry, full_validation):
         if 'httpVersion' not in entry['request']:
             print(f'Error: log.entries[{entry_index}].request.httpVersion is missing in browsertime.har file')
             is_ok = False
-        elif entry['request']['httpVersion'] not in ('h2','h3'):
+        elif entry['request']['httpVersion'] not in ('http/1.1', 'h2','h3'):
             print(f'Error: log.entries[{entry_index}].request.httpVersion has wrong value, actual value: {entry['request']['httpVersion']}')
             is_ok = False
 

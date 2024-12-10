@@ -95,6 +95,10 @@ def get_errors(test_type, params):
     with subprocess.Popen(command.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE) as process:
         output, _ = process.communicate(timeout=get_config('general.request.timeout') * 10)
 
+        if not os.path.exists(lint_file_path):
+            print(f'WARNING: {url} resulted in no content (Probably because of redirect or referenced but not used)')
+            return errors
+
         with open(lint_file_path, encoding='utf-8') as json_input_file:
             json_result = json.load(json_input_file)
             for source_info in json_result:
@@ -214,6 +218,9 @@ def identify_files(filename):
                 continue
 
             if 'html' in res['content']['mimeType']:
+                if 'text' not in res['content']:
+                    print(f'TECHNICAL WARNING: {req_url} has no content (could be caused by redirect), file is ignored.')
+                    continue
                 if not has_cache_file(
                         req_url,
                         True,
@@ -227,6 +234,9 @@ def identify_files(filename):
                 data['all'].append(obj)
                 data['htmls'].append(obj)
             elif 'css' in res['content']['mimeType']:
+                if 'text' not in res['content']:
+                    print(f'TECHNICAL WARNING: {req_url} has no content (could be caused by redirect), file is ignored.')
+                    continue
                 if not has_cache_file(
                         req_url,
                         True,

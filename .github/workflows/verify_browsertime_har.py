@@ -175,8 +175,12 @@ def validate_entry_response(entry_index, entry, full_validation):
             a = 1
         elif len(entry['response']['content']['text']) < 1 and\
                 ('mimeType' in entry['response']['content'] and entry['response']['content']['mimeType'] in ('text/html', 'text/html;charset=utf-8', 'text/html;charset=UTF-8', 'text/css', 'text/javascript')):
-            print(f'Error: log.entries[{entry_index}].response.content.text has wrong value, actual value: {entry['response']['content']['text']}, content-type: {entry['response']['content']['mimeType']}')
-            is_ok = False
+            print(f'Warning: log.entries[{entry_index}].response.content.text has wrong value, actual value: {entry['response']['content']['text']}, content-type: {entry['response']['content']['mimeType']}')
+            # NOTE / WORKAROUND:
+            # We would prefer to be able to use Firefox for this but currently we have a workaround
+            # in place to only use chrome for when we need to read content of text based files.
+            if full_validation:
+                is_ok = False
 
     if 'httpVersion' not in entry['response']:
         print(f'Error: log.entries[{entry_index}].response.httpVersion is missing in browsertime.har file')

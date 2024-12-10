@@ -187,6 +187,10 @@ def rate_css(global_translation, local_translation, data, result_dict):
     errors = []
     for data_resource_info in data['resources']:
         has_css_contenttypes = True
+        result_dict['sources'].append({
+            'url': data_resource_info['url'],
+            'index': data_resource_info['index']
+        })
         errors += get_errors_for_url(
             'css',
             data_resource_info['url'])

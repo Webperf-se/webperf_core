@@ -9,6 +9,7 @@ import ssl
 import json
 import time
 import urllib  # https://docs.python.org/3/library/urllib.parse.html
+import urllib.parse
 import uuid
 import re
 import os
@@ -137,6 +138,14 @@ def get_cache_path_for_rule(url, cache_key_rule):
     Returns:
     str: The generated cache path.
     """
+
+    # Parse the URL into components 
+    tmp_parsed_url = urllib.parse.urlparse(url)
+    if tmp_parsed_url.query is not None and tmp_parsed_url.query != '':
+        if tmp_parsed_url.query.find('%') != -1:
+            unencoded_query = urllib.parse.unquote(tmp_parsed_url.query)
+            url = f"{tmp_parsed_url.scheme}://{tmp_parsed_url.netloc}{tmp_parsed_url.path}?{unencoded_query}"
+
     o = urlparse(url)
     hostname = o.hostname
     if hostname is None:

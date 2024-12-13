@@ -28,7 +28,7 @@ jobs:
       - name: Setup dependencies using pip
         run: pip install -r requirements.txt
       - name: Remove old package-lock.json
-        uses: actions/remove-file@v1
+        uses: JesseTG/rm@v1.0.0
         with:
           path: package-lock.json
       - name: Setup Node.js (v4 version 20.x)
@@ -37,15 +37,15 @@ jobs:
           node-version: '20.x'
       - name: Create new package-lock.json
         run: npm install --omit=dev
-      - name: 📋 Get Commits since last Release
-        id: changes
-        uses: simbo/changes-since-last-release-action@v1.0.1
-        with:
-          line-prefix: "* "
-          include-hashes: false
-      - name: Generate new release version
-        id: newversion
-        run: python default.py --prepare-release "${{ steps.changes.outputs.last-tag }}"
+      # - name: 📋 Get Commits since last Release
+      #   id: changes
+      #   uses: simbo/changes-since-last-release-action@v1.0.1
+      #   with:
+      #     line-prefix: "* "
+      #     include-hashes: false
+      # - name: Generate new release version
+      #   id: newversion
+      #   run: python default.py --prepare-release "${{ steps.changes.outputs.last-tag }}"
       - name: Create pull request
         uses: peter-evans/create-pull-request@v7
         with:

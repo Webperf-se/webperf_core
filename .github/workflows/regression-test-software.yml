@@ -1,4 +1,4 @@
-name: "Regression Test - Software (Alpha) Test"
+name: "Regression Test - Software Test"
 on: 
   workflow_dispatch:
   push:

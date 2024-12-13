@@ -54,7 +54,7 @@ Add a interesting ingress here.
 * [HTTP and Network](./docs/tests/http.md)
 * [Tracking & Integrity](./docs/tests/tracking.md)
 * [Email (Beta)](./docs/tests/email.md)
-* [Software (Alpha)](./docs/tests/software.md)
+* [Software](./docs/tests/software.md)
 * [Accessibility Statement (Alpha)](./docs/tests/a11y-statement.md)
 
 

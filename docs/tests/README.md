@@ -19,7 +19,7 @@ Add a small ingress here
 * [HTTP and Network](http.md)
 * [Tracking & Integrity](tracking.md)
 * [Email (Beta)](email.md)
-* [Software (Alpha)](software.md)
+* [Software](software.md)
 * [Accessibility Statement (Alpha)](a11y-statement.md)
 
 

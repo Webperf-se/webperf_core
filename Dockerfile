@@ -69,7 +69,7 @@ RUN chown --recursive sitespeedio:sitespeedio /usr/src/runner
 # Run everything after as non-privileged user.
 USER sitespeedio
 
-RUN npm ci
+RUN npm ci --omit=dev --omit=optional
 
 RUN python3.13 -m pip install -r requirements.txt --break-system-packages && \
     python3.13 -m pip install --upgrade pip --break-system-packages && \

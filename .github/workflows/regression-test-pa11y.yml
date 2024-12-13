@@ -35,7 +35,7 @@ jobs:
         node-version: '20.x'
         cache: 'npm'
     - name: Setup npm packages
-      run: npm ci
+      run: npm ci --omit=dev --omit=optional
       timeout-minutes: 30
     # Havn't yet been able to start Google Chrome in headless mode in pa11y since move to Chrome in Pa11y 5
     - if: ${{ matrix.os == 'ubuntu-20.04' }}

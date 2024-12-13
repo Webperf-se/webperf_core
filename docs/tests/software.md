@@ -140,7 +140,7 @@ TODO: Add links to blogs and articles showing how to remove info regarding what 
 
 * Download and install Node.js (version 20.x)
 * Download and install Google Chrome browser
-* Install NPM packages ( `npm install --omit=dev` )
+* Install NPM packages ( `npm install --omit=dev --omit=optional` )
 * Set `sitespeed_use_docker = False` in your `config.py`
 
 ##### Windows Specific

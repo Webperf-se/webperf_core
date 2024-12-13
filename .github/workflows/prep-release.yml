@@ -27,6 +27,16 @@ jobs:
           architecture: "x64" # optional x64 or x86. Defaults to x64 if not specified
       - name: Setup dependencies using pip
         run: pip install -r requirements.txt
+      - name: Remove old package-lock.json
+        uses: actions/remove-file@v1
+        with:
+          path: package-lock.json
+      - name: Setup Node.js (v4 version 20.x)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+      - name: Create new package-lock.json
+        run: npm install --omit=dev
       - name: 📋 Get Commits since last Release
         id: changes
         uses: simbo/changes-since-last-release-action@v1.0.1
@@ -51,3 +61,4 @@ jobs:
           reviewers: 7h3Rabbit
           add-paths: |
             package.json
+            package-lock.json

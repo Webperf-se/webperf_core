@@ -60,7 +60,7 @@ Valid arguments for option -t/--test:
 -t 22   : Energy Efficiency (Website Carbon Calculator)
 -t 23   : Tracking and Privacy (Beta)
 -t 24   : Email (Beta)
--t 25   : Software (Alpha)
+-t 25   : Software
 -t 26   : Accessibility Statement (Alfa)
 ```
 

@@ -106,7 +106,7 @@ msgid "TEXT_TEST_VALID_ARGUMENTS_EMAIL"
 msgstr "-t 24\t: Email (Beta)"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_SOFTWARE"
-msgstr "-t 25\t: Software (Alpha)"
+msgstr "-t 25\t: Software"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_A11Y_STATEMENT"
 msgstr "-t 26\t: Accessibility Statement (Alfa)"

@@ -16,7 +16,7 @@ msgstr ""
 
 
 msgid "TEXT_RUNNING_TEST"
-msgstr "## Test: 25 - Software (Alpha)\r\n"
+msgstr "## Test: 25 - Software\r\n"
 
 msgid "TEXT_NO_CMS"
 msgstr "GOV-IGNORE"

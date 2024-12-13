@@ -100,7 +100,7 @@ msgid "TEXT_TEST_VALID_ARGUMENTS_ENERGY_EFFICIENCY"
 msgstr "-t 22\t: Energy Efficiency (Website Carbon Calculator)"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_TRACKING"
-msgstr "-t 23\t: Tracking and Privacy (Beta)"
+msgstr "-t 23\t: Tracking and Privacy"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_EMAIL"
 msgstr "-t 24\t: Email (Beta)"

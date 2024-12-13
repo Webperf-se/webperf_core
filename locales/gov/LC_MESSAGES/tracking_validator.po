@@ -16,7 +16,7 @@ msgstr ""
 
 
 msgid "TEXT_RUNNING_TEST"
-msgstr "## Test: 23 - Tracking and Privacy (Beta)\r\n"
+msgstr "## Test: 23 - Tracking and Privacy\r\n"
 
 msgid "TEXT_VISITOR_ANALYTICS_USED"
 msgstr "  Visitor analytics used:\r\n"

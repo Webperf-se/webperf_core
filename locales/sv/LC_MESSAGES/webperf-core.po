@@ -100,7 +100,7 @@ msgid "TEXT_TEST_VALID_ARGUMENTS_ENERGY_EFFICIENCY"
 msgstr "-t 22\t: Energieffektivitet"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_TRACKING"
-msgstr "-t 23\t: Spårning och integritet (Beta)"
+msgstr "-t 23\t: Spårning och integritet"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_EMAIL"
 msgstr "-t 24\t: E-post (Beta)"

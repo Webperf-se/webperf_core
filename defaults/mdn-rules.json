@@ -4,6 +4,10 @@
         "functions": {
             "--": "/en-US/docs/Web/CSS/--*",
             "-webkit-line-clamp": "/en-US/docs/Web/CSS/-webkit-line-clamp",
+            "-webkit-text-fill-color": "/en-US/docs/Web/CSS/-webkit-text-fill-color",
+            "-webkit-text-stroke": "/en-US/docs/Web/CSS/-webkit-text-stroke",
+            "-webkit-text-stroke-color": "/en-US/docs/Web/CSS/-webkit-text-stroke-color",
+            "-webkit-text-stroke-width": "/en-US/docs/Web/CSS/-webkit-text-stroke-width",
             "abs": "/en-US/docs/Web/CSS/abs",
             "accent-color": "/en-US/docs/Web/CSS/accent-color",
             "acos": "/en-US/docs/Web/CSS/acos",
@@ -147,7 +151,6 @@
             "circle": "/en-US/docs/Web/CSS/basic-shape#circle()",
             "clamp": "/en-US/docs/Web/CSS/clamp",
             "clear": "/en-US/docs/Web/CSS/clear",
-            "clip": "/en-US/docs/Web/CSS/clip",
             "clip-path": "/en-US/docs/Web/CSS/clip-path",
             "clip-rule": "/en-US/docs/Web/CSS/clip-rule",
             "color": "/en-US/docs/Web/CSS/color",
@@ -241,6 +244,8 @@
             "flex-shrink": "/en-US/docs/Web/CSS/flex-shrink",
             "flex-wrap": "/en-US/docs/Web/CSS/flex-wrap",
             "float": "/en-US/docs/Web/CSS/float",
+            "flood-color": "/en-US/docs/Web/CSS/flood-color",
+            "flood-opacity": "/en-US/docs/Web/CSS/flood-opacity",
             "focus": "/en-US/docs/Web/CSS/:focus",
             "focus-visible": "/en-US/docs/Web/CSS/:focus-visible",
             "focus-within": "/en-US/docs/Web/CSS/:focus-within",
@@ -360,6 +365,7 @@
             "length-percentage": "/en-US/docs/Web/CSS/length-percentage",
             "letter-spacing": "/en-US/docs/Web/CSS/letter-spacing",
             "light-dark": "/en-US/docs/Web/CSS/color_value/light-dark",
+            "lighting-color": "/en-US/docs/Web/CSS/lighting-color",
             "line-break": "/en-US/docs/Web/CSS/line-break",
             "line-clamp": "/en-US/docs/Web/CSS/-webkit-line-clamp",
             "line-gap-override": "/en-US/docs/Web/CSS/@font-face/line-gap-override",
@@ -596,7 +602,6 @@
             "selection": "/en-US/docs/Web/CSS/::selection",
             "selector": null,
             "sepia": "/en-US/docs/Web/CSS/filter-function/sepia",
-            "shape": "/en-US/docs/Web/CSS/shape",
             "shape-image-threshold": "/en-US/docs/Web/CSS/shape-image-threshold",
             "shape-margin": "/en-US/docs/Web/CSS/shape-margin",
             "shape-outside": "/en-US/docs/Web/CSS/shape-outside",
@@ -613,6 +618,8 @@
             "src": "/en-US/docs/Web/CSS/@font-face/src",
             "starting-style": "/en-US/docs/Web/CSS/@starting-style",
             "steps": "/en-US/docs/Web/CSS/easing-function#steps_easing_function",
+            "stop-color": "/en-US/docs/Web/CSS/stop-color",
+            "stop-opacity": "/en-US/docs/Web/CSS/stop-opacity",
             "string": "/en-US/docs/Web/CSS/string",
             "stroke": "/en-US/docs/Web/CSS/stroke",
             "stroke-dasharray": "/en-US/docs/Web/CSS/stroke-dasharray",
@@ -755,5 +762,5 @@
         }
     },
     "loaded": true,
-    "updated": "2024-11-28 09:22:55"
+    "updated": "2024-12-14 18:43:57"
 }

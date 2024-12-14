@@ -13,7 +13,7 @@
             "details": false,
             "improve-only": true
         },
-        "useragent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:132.0) Gecko/20100101 Firefox/132.0",
+        "useragent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0",
         "cache": {
             "use": false,
             "max-age": 60

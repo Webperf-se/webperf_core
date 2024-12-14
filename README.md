@@ -47,6 +47,7 @@ Add a interesting ingress here.
 * [Validate 404 page (by default checks for Swedish text, though)](./docs/tests/page-not-found.md)
 * [Validate HTML (W3C)](./docs/tests/html.md)
 * [Validate CSS (W3C)](./docs/tests/css.md)
+* [Validate CSS (Linting)](./docs/tests/css-linting.md)
 * [Security, data-protecting & Integrity (Webbkoll)](./docs/tests/webbkoll.md)
 * [Frontend quality (YellowLab Tools)](./docs/tests/yellowlab.md)
 * [Energy Efficiency](./docs/tests/energy-efficiency.md)

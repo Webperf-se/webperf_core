@@ -52,12 +52,22 @@ jobs:
       run: npm install --omit=dev
       timeout-minutes: 30
     - if: ${{ matrix.os == 'ubuntu-latest' }}
-      name: RUNNING TEST - LINUX
+      name: RUNNING TEST - LINUX (no-errors)
       run: |
-         python default.py -t ${{ matrix.version }} -r -i defaults/sites.json -o data/testresult-${{ matrix.version }}.json --setting ${{ matrix.config }} --setting tests.sitespeed.xvfb=true
+         python default.py -t ${{ matrix.version }} -r -u https://webperf.se?webperf-core-test-27-no-errors -o data/testresult-${{ matrix.version }}.json --setting ${{ matrix.config }} --setting tests.sitespeed.xvfb=true --setting general.cache.use=true --setting tests.sitespeed.cache.folder=unittests
          python .github/workflows/verify_result.py -t ${{ matrix.version }}
     - if: ${{ matrix.os == 'windows-latest' }}
-      name: RUNNING TEST - WINDOWS
+      name: RUNNING TEST - WINDOWS (no-errors)
       run: |
-         python default.py -t ${{ matrix.version }} -r -i defaults\sites.json -o data\testresult-${{ matrix.version }}.json --setting ${{ matrix.config }}
+         python default.py -t ${{ matrix.version }} -r -u https://webperf.se?webperf-core-test-27-no-errors -o data\testresult-${{ matrix.version }}.json --setting ${{ matrix.config }} --setting general.cache.use=true --setting tests.sitespeed.cache.folder=unittests
+         python .github\workflows\verify_result.py -t ${{ matrix.version }}
+    - if: ${{ matrix.os == 'ubuntu-latest' }}
+      name: RUNNING TEST - LINUX (with-errors)
+      run: |
+         python default.py -t ${{ matrix.version }} -r -u https://webperf.se?webperf-core-test-27-with-errors -o data/testresult-${{ matrix.version }}.json --setting ${{ matrix.config }} --setting tests.sitespeed.xvfb=true --setting general.cache.use=true --setting tests.sitespeed.cache.folder=unittests
+         python .github/workflows/verify_result.py -t ${{ matrix.version }}
+    - if: ${{ matrix.os == 'windows-latest' }}
+      name: RUNNING TEST - WINDOWS (with-errors)
+      run: |
+         python default.py -t ${{ matrix.version }} -r -u https://webperf.se?webperf-core-test-27-with-errors -o data\testresult-${{ matrix.version }}.json --setting ${{ matrix.config }} --setting general.cache.use=true --setting tests.sitespeed.cache.folder=unittests
          python .github\workflows\verify_result.py -t ${{ matrix.version }}

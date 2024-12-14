@@ -41,7 +41,7 @@ jobs:
       run: sudo apt-get install libjpeg-dev libfontconfig
       shell: bash
     - name: Setup npm packages
-      run: npm ci --omit=dev --omit=optional
+      run: npm ci --only=production
       timeout-minutes: 30
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: RUNNING TEST - LINUX

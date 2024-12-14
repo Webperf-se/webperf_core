@@ -960,8 +960,13 @@ def get_github_versions(owner, repo, source, security_label, version_prefix, nam
 
     versions = []
     versions_dict = {}
+    version_info = None
+    try:
+        version_info = json.loads(versions_content)
+    except json.decoder.JSONDecodeError:
+        print(f'ERROR unable to read repository versions! owner: {owner}, repo: {repo}')
+        return versions_dict
 
-    version_info = json.loads(versions_content)
     for version in version_info:
         if source == 'milestones':
             id_key = 'number'

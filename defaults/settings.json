@@ -43,7 +43,10 @@
             },
             "timeout": 30,
             "iterations": 2,
-            "xvfb": false
+            "xvfb": false,
+            "cache": {
+                "folder": "cache"
+            }
         },
         "software": {
             "advisory": {

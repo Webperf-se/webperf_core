@@ -10,7 +10,7 @@
   "license": "MIT",
   "homepage": "https://github.com/Webperf-se/webperf_core/",
   "dependencies": {
-    "lighthouse": "12.2.2",
+    "lighthouse": "12.3.0",
     "pa11y": "8.0.0",
     "sitespeed.io": "35.7.0",
     "stylelint": "16.11.0",

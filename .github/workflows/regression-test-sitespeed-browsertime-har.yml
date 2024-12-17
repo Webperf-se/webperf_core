@@ -29,11 +29,13 @@ jobs:
     - name: Testing sitespeed.io:s browsertime.har output using ${{ matrix.browser }}
       if: always()
       run: |
+        echo "TEST A: $sitespeedversion"
         $sitespeedversion=$(python .github/workflows/verify_result.py --docker-sitespeed-version)
+        echo "TEST B: $sitespeedversion"
         command="docker run --rm -v $(pwd):/sitespeed.io $sitespeedversion -b ${{ matrix.browser }} -n 1 --chrome.includeResponseBodies all --firefox.includeResponseBodies all https://webperf.se"
-        echo "$command"
+        echo "TEST C: $command"
         testresult=$($command)
-        echo "$testresult"
+        echo "TEST D: $testresult"
         path=$(echo "$testresult" | grep -o "/sitespeed.io/.*")
         if [ -n "$path" ]; then
           har_file=$(find $(pwd) -name "browsertime.har")

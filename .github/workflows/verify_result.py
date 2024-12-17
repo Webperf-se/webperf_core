@@ -470,6 +470,7 @@ def main(argv):
         opts, _ = getopt.getopt(argv, "hlt:d:s:b:", [
                                    "help", "test=", "sample-config=",
                                    "browsertime=",
+                                   "docker-sitespeed-version",
                                    "language", "docker="])
     except getopt.GetoptError:
         print(main.__doc__)
@@ -489,6 +490,9 @@ def main(argv):
             handle_test_result(arg)
         elif opt in ("-d", "--docker"):  # docker
             handle_update_docker()
+        elif opt in ("--docker-sitespeed-version"):  # get docker version used
+            get_sitespeed_docker_image()
+            sys.exit(0)
 
     # No match for command so return error code to fail verification
     sys.exit(2)
@@ -564,6 +568,20 @@ def set_file_content(file_path, content):
     with open(file_path, 'w', encoding='utf-8', newline='') as file:
         file.write(content)
 
+def get_sitespeed_docker_image():
+    base_directory = Path(os.path.dirname(
+            os.path.realpath(__file__)) + os.path.sep).parent.parent
+
+    our_docker_filepath = os.path.join(base_directory, 'Dockerfile')
+    if not os.path.exists(our_docker_filepath):
+        print(f'Dockerfile doesn\'t exists at: {our_docker_filepath}')
+        return False
+
+    our_docker_content = get_file_content(our_docker_filepath)
+    our_from_os = get_base_os_from_dockerfile(our_docker_content)
+    our_from_os = our_from_os.replace('FROM ', '')
+    print(our_from_os)
+    return our_from_os
 
 def handle_update_docker():
     """ Terminate the programme with an error if updating docker contains unexpected content  """
@@ -596,17 +614,6 @@ def handle_update_docker():
         print('Dockerfile requires update')
         set_file_content(our_docker_filepath, our_docker_content)
         print('Dockerfile was updated')
-
-        our_browsertime_har_yml_filepath = os.path.join(base_directory, '.github', 'workflows', 'regression-test-sitespeed-browsertime-har.yml')
-        if os.path.exists(our_browsertime_har_yml_filepath):
-            our_from_os = our_from_os.replace('FROM ', '')
-            sitespeed_from_os = sitespeed_from_os.replace('FROM ', '')
-
-            our_browsertime_har_yml_content = get_file_content(our_browsertime_har_yml_filepath)
-            our_browsertime_har_yml_content = our_browsertime_har_yml_content.replace(our_from_os, sitespeed_from_os)
-            print('regression-test-sitespeed-browsertime-har.yml requires update')
-            set_file_content(our_browsertime_har_yml_filepath, our_browsertime_har_yml_content)
-            print('regression-test-sitespeed-browsertime-har.yml was updated')
     else:
         print('Dockerfile is up to date')
 

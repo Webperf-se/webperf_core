@@ -327,9 +327,15 @@ def modify_browsertime_content(input_filename, cookies, versions):
         del json_result['log']['creator']
         has_minified = True
     if 'pages' in json_result['log']:
-        has_minified = False
         for page in json_result['log']['pages']:
             keys_to_remove = []
+
+            # NOTE: Fix for inconsistancy in sitespeed handling of not being able to access webpage
+            # For some reason it will sometime not add _url field but add url in title field (See TLSv1.0 and TLSv1.1 testing)
+            if 'id' in page and 'failing_page' == page['id'] and '_url' not in page and 'title' in page:
+                page['_url'] = page['title']
+                has_minified = True
+
             for key in page.keys():
                 if key != '_url':
                     keys_to_remove.append(key)
@@ -337,14 +343,13 @@ def modify_browsertime_content(input_filename, cookies, versions):
                 del page[key]
                 has_minified = True
     if 'entries' in json_result['log']:
-        has_minified = False
         for entry in json_result['log']['entries']:
-            has_minified = modify_browertime_content_entity(entry)
+            has_minified = modify_browertime_content_entity(entry) or has_minified
 
     if has_minified:
         write_json(input_filename, json_result)
 
-    return result
+    return json_result
 
 def modify_browertime_content_entity(entry):
     """

@@ -128,7 +128,10 @@ config_mapping = {
         "mailipv6",
         "tests.email.support.ipv6",
         "email_network_support_ipv6_traffic",
-        "EMAIL_NETWORK_SUPPORT_IPV6_TRAFFIC"): "bool|tests.email.support.ipv6"
+        "EMAIL_NETWORK_SUPPORT_IPV6_TRAFFIC"): "bool|tests.email.support.ipv6",
+    (
+        "404url",
+        "tests.page-not-found.override-url"): "bool|tests.page-not-found.override-url"
 }
 
 

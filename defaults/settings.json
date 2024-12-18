@@ -57,6 +57,9 @@
                 "use": true
             }
         },
+        "page-not-found": {
+            "override-url": true
+        },
         "webbkoll": {
             "sleep": 20
         }

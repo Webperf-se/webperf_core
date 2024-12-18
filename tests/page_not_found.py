@@ -166,7 +166,10 @@ def run_test(global_translation, org_url):
     print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    url = change_url_to_404_url(org_url)
+    if get_config('tests.page-not-found.override-url'):
+        url = change_url_to_404_url(org_url)
+    else:
+        url = org_url
 
     # checks http status code and content for url
     request_text, code = get_http_content_with_status(url)

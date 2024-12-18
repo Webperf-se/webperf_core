@@ -402,7 +402,7 @@ def extend_versions_for_openssl_vulnerabilities(versions):
 
     ver = sorted(versions.keys(), reverse=False)
 
-    section_regex = r'CVE[0-9\-]+">(?P<CVE>CVE[0-9-]+)<\/a>.*?<ul>(?P<content>.*?)<\/ul>'
+    section_regex = r'<h4 id="(?P<CVE>CVE[0-9-]+)">.*?<dl>(?P<content>.*?)<\/dl>'
     section_regex_matches = re.finditer(
         section_regex, raw_data, re.MULTILINE | re.S)
 
@@ -410,7 +410,7 @@ def extend_versions_for_openssl_vulnerabilities(versions):
         cve = section_match.group('CVE')
         content = section_match.group('content')
 
-        regex = r'Fixed in OpenSSL (?P<fixed>[0-9\.a-z]+).*?\(Affected since (?P<start>[0-9\.a-z]+)'
+        regex = r'from (?P<start>[0-9\.a-z]+) before (?P<fixed>[0-9\.a-z]+)'
         matches = re.finditer(
             regex, content, re.MULTILINE | re.S)
 
@@ -881,7 +881,7 @@ def set_github_repository_info(item, owner, repo):
     try:
         github_info = json.loads(repo_content)
     except json.decoder.JSONDecodeError:
-        print(f'ERROR unable to read repository! owner: {owner}, repo: {repo}')
+        print(f'ERROR: unable to read repository! owner: {owner}, repo: {repo}')
 
     # Get license from github repo ("license.spdx_id") info: https://api.github.com/repos/matomo-org/matomo
     # for example: MIT, GPL-3.0
@@ -949,7 +949,7 @@ def set_github_repository_info(item, owner, repo):
                 contributors.append(userinfo)
 
         except json.decoder.JSONDecodeError:
-            print(f'ERROR unable to read repository contributors! owner: {owner}, repo: {repo}')
+            print(f'ERROR: unable to read repository contributors! owner: {owner}, repo: {repo}')
         item['contributors'] = contributors
 
     return
@@ -960,8 +960,13 @@ def get_github_versions(owner, repo, source, security_label, version_prefix, nam
 
     versions = []
     versions_dict = {}
+    version_info = None
+    try:
+        version_info = json.loads(versions_content)
+    except json.decoder.JSONDecodeError:
+        print(f'ERROR: unable to read repository versions! owner: {owner}, repo: {repo}')
+        return versions_dict
 
-    version_info = json.loads(versions_content)
     for version in version_info:
         if source == 'milestones':
             id_key = 'number'

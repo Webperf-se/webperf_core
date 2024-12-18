@@ -81,6 +81,9 @@ config_mapping = {
         "sitespeedxvfb",
         "tests.sitespeed.xvfb"): "bool|tests.sitespeed.xvfb",
     (
+        "sitespeedcustomcache",
+        "tests.sitespeed.cache.folder"): "string|tests.sitespeed.cache.folder",
+    (
         "csponly",
         "tests.http.csp-only",
         "csp_only",
@@ -125,7 +128,10 @@ config_mapping = {
         "mailipv6",
         "tests.email.support.ipv6",
         "email_network_support_ipv6_traffic",
-        "EMAIL_NETWORK_SUPPORT_IPV6_TRAFFIC"): "bool|tests.email.support.ipv6"
+        "EMAIL_NETWORK_SUPPORT_IPV6_TRAFFIC"): "bool|tests.email.support.ipv6",
+    (
+        "404url",
+        "tests.page-not-found.override-url"): "bool|tests.page-not-found.override-url"
 }
 
 

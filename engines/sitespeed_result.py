@@ -35,6 +35,46 @@ def get_url_from_file_content(input_filename):
 
     return None
 
+def read_sites_from_directory(directory, hostname_or_argument, input_skip, input_take):
+    sites = []
+
+    hostname = hostname_or_argument
+    if hostname_or_argument.endswith('.result'):
+        tmp_url = hostname_or_argument[:hostname_or_argument.rfind('.result')]
+        hostname = urlparse(tmp_url).hostname
+
+    base_directory = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep).parent
+
+    host_path = os.path.join(base_directory, directory, hostname) + os.path.sep
+
+    if not os.path.exists(host_path):
+        return sites
+
+    dirs = os.listdir(host_path)
+
+    urls = {}
+
+    for file_name in dirs:
+        if input_take != -1 and len(urls) >= input_take:
+            break
+
+        if not file_name.endswith('.har'):
+            continue
+
+        full_path = os.path.join(
+            host_path, file_name)
+
+        url = get_url_from_file_content(full_path)
+        urls[url] = full_path
+
+    current_index = 0
+    for url, har_path in urls.items():
+        if use_item(current_index, input_skip, input_take):
+            sites.append([har_path, url])
+        current_index += 1
+
+    return sites
 
 def read_sites(hostname_or_argument, input_skip, input_take):
     """
@@ -50,40 +90,4 @@ def read_sites(hostname_or_argument, input_skip, input_take):
     list: A list of sites where each site is represented as a
           list containing the path to the HAR file and the URL.
     """
-    sites = []
-    hostname = hostname_or_argument
-    if hostname_or_argument.endswith('.result'):
-        tmp_url = hostname_or_argument[:hostname_or_argument.rfind('.result')]
-        hostname = urlparse(tmp_url).hostname
-
-    base_directory = Path(os.path.dirname(
-        os.path.realpath(__file__)) + os.path.sep).parent
-
-    cache_dir = os.path.join(base_directory, 'cache', hostname) + os.path.sep
-    if not os.path.exists(cache_dir):
-        return sites
-
-    dirs = os.listdir(cache_dir)
-
-    urls = {}
-
-    for file_name in dirs:
-        if input_take != -1 and len(urls) >= input_take:
-            break
-
-        if not file_name.endswith('.har'):
-            continue
-
-        full_path = os.path.join(
-            cache_dir, file_name)
-
-        url = get_url_from_file_content(full_path)
-        urls[url] = full_path
-
-    current_index = 0
-    for url, har_path in urls.items():
-        if use_item(current_index, input_skip, input_take):
-            sites.append([har_path, url])
-        current_index += 1
-
-    return sites
+    return read_sites_from_directory('cache', hostname_or_argument, input_skip, input_take)

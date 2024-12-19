@@ -37,6 +37,8 @@ jobs:
           node-version: '20.x'
       - name: Create new package-lock.json
         run: npm install --omit=dev --omit=optional
+      - name: Remove fsevents package
+        run: python default.py --update-package-lock
       # - name: 📋 Get Commits since last Release
       #   id: changes
       #   uses: simbo/changes-since-last-release-action@v1.0.1

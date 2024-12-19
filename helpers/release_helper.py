@@ -61,6 +61,42 @@ def set_new_release_version_in_env(argv):
     with open(env_file, "a", encoding="utf-8") as myfile:
         myfile.write(f"NEW_VERSION={new_version}")
 
+def update_package_lock_json():
+    base_directory = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep).parent
+    with open(
+                f'{base_directory}{os.path.sep}package-lock.json',
+                encoding='utf-8'
+            ) as json_input_file:
+        package_info = json.load(json_input_file)
+        if 'packages' not in package_info:
+            print('packages object is missing')
+            return False
+
+        if 'node_modules/sitespeed.io/node_modules/chokidar' not in package_info['packages']:
+            print('chokidar object is missing in packages')
+            return True
+
+        if 'optionalDependencies' not in package_info['packages']['node_modules/sitespeed.io/node_modules/chokidar']:
+            print('optionalDependencies object is missing in node_modules/sitespeed.io/node_modules/chokidar')
+            return True
+
+        package_info['packages']['node_modules/sitespeed.io/node_modules/chokidar']['optionalDependencies'] = {}
+
+        if 'node_modules/sitespeed.io/node_modules/fsevents' not in package_info['packages']:
+            print('node_modules/sitespeed.io/node_modules/fsevents object is missing in packages')
+            return True
+
+        del package_info['packages']['node_modules/sitespeed.io/node_modules/fsevents']
+
+    with open(
+                f'{base_directory}{os.path.sep}package-lock.json',
+                'w',
+                encoding='utf-8'
+            ) as json_output_file:
+        json.dump(package_info, json_output_file, indent=2)
+    return True
+
 
 def update_release_version(argv):
     last_version = packaging.version.Version(argv)

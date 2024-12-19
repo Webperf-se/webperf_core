@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import json
+import os
 import re
 from datetime import datetime, timedelta
 import time
@@ -6,6 +8,7 @@ import urllib.parse
 from bs4 import BeautifulSoup
 from helpers.models import Rating
 from helpers.setting_helper import get_config
+from tests.sitespeed_base import get_result
 from tests.utils import get_http_content, get_translation
 
 DIGG_URL = 'https://www.digg.se/tdosanmalan'
@@ -154,9 +157,39 @@ def check_item(item, root_item, org_url_start, global_translation, local_transla
     statements = []
     content = None
     if item['url'] not in checked_urls:
-        content = get_http_content(item['url'], True)
+
+        # We don't need extra iterations for what we are using it for
+        sitespeed_iterations = 1
+        sitespeed_arg = (
+                '--shm-size=1g -b chrome '
+                '--plugins.remove screenshot --plugins.remove html --plugins.remove metrics '
+                '--browsertime.screenshot false --screenshot false --screenshotLCP false '
+                '--browsertime.screenshotLCP false --chrome.cdp.performance false '
+                '--browsertime.chrome.timeline false --videoParams.createFilmstrip false '
+                '--visualMetrics false --visualMetricsPerceptual false '
+                '--visualMetricsContentful false --browsertime.headless true '
+                '--browsertime.chrome.includeResponseBodies all --utc true '
+                '--browsertime.chrome.args ignore-certificate-errors '
+                f'-n {sitespeed_iterations}')
+        if get_config('tests.sitespeed.xvfb'):
+            sitespeed_arg += ' --xvfb'
+
+        sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'
+
+        (_, filename) = get_result(
+            item['url'],
+            get_config('tests.sitespeed.docker.use'),
+            sitespeed_arg,
+            get_config('tests.sitespeed.timeout'))
         time.sleep(1)
-        checked_urls[item['url']] = content
+        data = identify_files(filename)
+        if data is None:
+            return None
+
+        for html_entry in data['htmls']:
+            if content is None and html_entry['content'] is not None:
+                content = html_entry['content']            
+            checked_urls[html_entry['url']] = html_entry['content']
     else:
         content = checked_urls[item['url']]
         # return statements
@@ -193,6 +226,71 @@ def check_item(item, root_item, org_url_start, global_translation, local_transla
     if len(statements) > 0:
         return statements
     return None
+
+def identify_files(filename):
+    """
+    This function takes a filename as input and identifies different types of files in the HAR data.
+
+    The function reads the HAR data from the file, iterates over the entries,
+    and categorizes them into HTML files.
+    It also checks if the file is already cached and if not, it caches the file.
+
+    Parameters:
+    filename (str): The name of the file containing the HAR data.
+
+    Returns:
+    dict: A dictionary containing categorized file data.
+    The dictionary has two keys - 'all' and 'htmls'.
+    Each key maps to a list of dictionaries where each dictionary contains:
+    - 'url',
+    - 'content'
+    - 'index'
+    of the file.
+    """
+
+    data = {
+        'all': [],
+        'htmls': []
+    }
+
+    if not os.path.exists(filename):
+        return None
+
+    with open(filename, encoding='utf-8') as json_input_file:
+        har_data = json.load(json_input_file)
+
+        if 'log' in har_data:
+            har_data = har_data['log']
+
+        req_index = 1
+        for entry in har_data["entries"]:
+            req = entry['request']
+            res = entry['response']
+            req_url = req['url']
+
+            if 'content' not in res:
+                continue
+            if 'mimeType' not in res['content']:
+                continue
+            if 'size' not in res['content']:
+                continue
+            if res['content']['size'] <= 0:
+                continue
+
+            if 'html' in res['content']['mimeType']:
+                if 'text' not in res['content']:
+                    print(f'TECHNICAL WARNING: {req_url} has no content (could be caused by redirect), file is ignored.')
+                    continue
+                obj = {
+                    'url': req_url,
+                    'content': res['content']['text'],
+                    'index': req_index
+                    }
+                data['all'].append(obj)
+                data['htmls'].append(obj)
+            req_index += 1
+
+    return data
 
 
 def has_statement(item, global_translation, local_translation):

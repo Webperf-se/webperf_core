@@ -10,6 +10,8 @@ We are currently using local version of [W3C CSS Validation](https://validator.w
 Addition to test all of above sources (compared to only test inline styles that [W3C CSS Validation](https://validator.w3.org/nu/) do) we are also adding support for:
 - Draft CSS properties by using [MDN Web Docs - CSS reference](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference) as guidance.
 - `100%` as valid value of `font-stretch`
+- `@layer` as valid `at-rule`
+- Use of `custom properties` as valid
 - Draft CSS functions by using [MDN Web Docs - CSS reference](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference) as guidance.
 
 ## How are rating being calculated?

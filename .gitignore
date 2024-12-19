@@ -118,7 +118,7 @@ geckodriver.exe
 node_modules
 data
 sitespeed-result
-package-lock.json
+# package-lock.json
 # package.json
 sitespeed-rules.json
 vnu.jar

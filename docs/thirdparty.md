@@ -1,8 +1,15 @@
 # Third party extensions
 
-Here we will add all project we know about that use  or extends webperf-core.
+Here we will add all project we know about that use or extends webperf_core.
 Do you have project that you want to be added here?
 Let us know by [adding a GitHub issue](https://github.com/Webperf-se/webperf_core/issues/new/choose).
+
+### Webperf.se
+
+Webperf.se is the origin of the webperf_core repository and the community. In [December 2019 Webperf.se open-sourced](https://webperf.se/articles/webperf-core/) the tests with the intention and expectation that more people would benefit from the benchmarking with the results publicly available at Webperf.se in their continuous improvements.
+ 
+ * Author: [Marcus Österberg](https://github.com/marcusosterberg)
+ * Github repo: [Webperf-se public repos](https://github.com/orgs/Webperf-se/repositories)
 
 ### Webperf Core Leaderboard
 

@@ -33,6 +33,7 @@ jobs:
       with:
         node-version: '20.x'
         cache: 'npm'
+        cache-dependency-path: 'package-lock.json'
     - name: Setup node dependencies (ONLY used for Yellow Lab Tools)
       run: npm install -g node-gyp
       timeout-minutes: 30

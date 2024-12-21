@@ -34,6 +34,7 @@ jobs:
       with:
         node-version: '20.x'
         cache: 'npm'
+        cache-dependency-path: 'package-lock.json'
     - name: Setup npm packages
       run: npm ci --only=production
       timeout-minutes: 30

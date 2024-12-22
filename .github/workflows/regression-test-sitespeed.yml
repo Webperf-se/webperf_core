@@ -33,6 +33,8 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '20.x'
+        cache: 'npm'
+        cache-dependency-path: 'package-lock.json'
     - if: ${{ matrix.os == 'ubuntu-latest'  }}
       name: Setup SpeedIndex dependencies (ONLY used for Sitespeed) - Linux
       run: |
@@ -63,7 +65,7 @@ jobs:
         sudo apt-get --only-upgrade install google-chrome-stable
         google-chrome --version
     - name: Setup npm packages
-      run: npm install --omit=dev
+      run: npm ci --only=production
       timeout-minutes: 30
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: RUNNING TEST - LINUX

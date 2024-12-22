@@ -1228,6 +1228,11 @@ def handle_spf_ip4(section, result_dict, _, _2):
     Returns:
     None. Updates 'result_dict' in place.
     """
+
+    if not section.startswith('ip4:'):
+        result_dict['spf-uses-none-standard'] = True
+        return
+
     data = section[4:]
     if 'spf-ipv4' not in result_dict:
         result_dict['spf-ipv4'] = []
@@ -1244,6 +1249,9 @@ def handle_spf_ip6(section, result_dict, _, _2):
     Returns:
     None. Updates 'result_dict' in place.
     """
+    if not section.startswith('ip6:'):
+        result_dict['spf-uses-none-standard'] = True
+        return
     data = section[4:]
     if 'spf-ipv6' not in result_dict:
         result_dict['spf-ipv6'] = []
@@ -1263,6 +1271,12 @@ def handle_spf_include(section, result_dict, global_translation, local_translati
     validates the SPF policy of the domain,
     and updates the result dictionary with the validation results.
     """
+    if section.startswith('+'):
+        section = section[1:]
+
+    if not section.startswith('include:'):
+        result_dict['spf-uses-none-standard'] = True
+        return
     spf_domain = section[8:]
     subresult_dict = validate_spf_policy(
         global_translation, local_translation, spf_domain, result_dict)
@@ -1379,10 +1393,10 @@ def handle_spf_section(section, result_dict, global_translation, local_translati
     it's marked as non-standard in the result dictionary.
     """
     spf_section_handlers = {
-        "ip4:": handle_spf_ip4,
-        "ip6:": handle_spf_ip6,
-        "include:": handle_spf_include,
-        "+include:": handle_spf_include,
+        "ip4": handle_spf_ip4,
+        "ip6": handle_spf_ip6,
+        "include": handle_spf_include,
+        "+include": handle_spf_include,
         "?all": handle_spf_neutral_all,
         "~all": handle_spf_soft_all,
         "-all": handle_spf_hard_all,

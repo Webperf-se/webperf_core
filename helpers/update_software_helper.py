@@ -402,7 +402,7 @@ def extend_versions_for_openssl_vulnerabilities(versions):
 
     ver = sorted(versions.keys(), reverse=False)
 
-    section_regex = r'<h4 id="(?P<CVE>CVE[0-9-]+)">.*?<dl>(?P<content>.*?)<\/dl>'
+    section_regex = r'<h3 id="(?P<CVE>CVE[0-9-]+)">.*?<dl>(?P<content>.*?)<\/dl>'
     section_regex_matches = re.finditer(
         section_regex, raw_data, re.MULTILINE | re.S)
 

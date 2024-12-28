@@ -1097,6 +1097,9 @@ def identify_software(filename, origin_domain, rules):
 
         if '_software' in har_data:
             global_software = har_data['_software']
+        elif 'software' in har_data:
+            global_software = har_data['software']
+
         if 'cookies' in har_data:
             global_cookies = har_data['cookies']
 

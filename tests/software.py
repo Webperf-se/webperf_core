@@ -93,8 +93,6 @@ def get_rating_from_sitespeed(url, local_translation, global_translation):
     if get_config('tests.sitespeed.xvfb'):
         sitespeed_arg += ' --xvfb'
 
-    sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'
-
     (result_folder_name, filename) = get_result(
         url,
         get_config('tests.sitespeed.docker.use'),

@@ -29,19 +29,65 @@ jobs:
     - name: Testing sitespeed.io:s browsertime.har output using ${{ matrix.browser }}
       if: always()
       run: |
-        echo "TEST A"
         sitespeedversion=$(python .github/workflows/verify_result.py --docker-sitespeed-version)
-        echo "TEST B: $sitespeedversion"
         command="docker run --rm -v $(pwd):/sitespeed.io $sitespeedversion -b ${{ matrix.browser }} -n 1 --chrome.includeResponseBodies all --firefox.includeResponseBodies all https://webperf.se"
-        echo "TEST C: $command"
         testresult=$($command)
-        echo "TEST D: $testresult"
         path=$(echo "$testresult" | grep -o "/sitespeed.io/.*")
         if [ -n "$path" ]; then
           har_file=$(find $(pwd) -name "browsertime.har")
           if [ -f "$har_file" ]; then
             echo "Found browsertime.har at $har_file"
             python .github/workflows/verify_browsertime_har.py --browsertime $har_file
+          else
+            echo "Error: browsertime.har not found in $path"
+            exit 1
+          fi
+        else
+          echo "Error: No path found starting with /sitespeed.io/"
+          exit 1
+        fi
+    - name: Testing sitespeed.io:s browsertime.har with chrome-cookies.cjs output using ${{ matrix.browser }}
+      if: always()
+      run: |
+        sitespeedversion=$(python .github/workflows/verify_result.py --docker-sitespeed-version)
+        command="docker run --rm -v $(pwd):/sitespeed.io $sitespeedversion -b ${{ matrix.browser }} -n 1 --postScript chrome-cookies.cjs https://polisen.se"
+        testresult=$($command)
+        path=$(echo "$testresult" | grep -o "/sitespeed.io/.*")
+        if [ -n "$path" ]; then
+          har_file=$(find $(pwd) -name "browsertime.har")
+          if [ -f "$har_file" ]; then
+            echo "Found browsertime.har at $har_file"
+            python .github/workflows/verify_browsertime_har.py --browsertime $har_file
+            if grep -q '"cookies": [{"name": "EPiStateMarker", "value": "true", "domain":' "$har_file"; then
+              echo "EpiStateMarker found in $har_file"
+            else
+              echo "EpiStateMarker cookie not found in $har_file"
+              exit 1
+          else
+            echo "Error: browsertime.har not found in $path"
+            exit 1
+          fi
+        else
+          echo "Error: No path found starting with /sitespeed.io/"
+          exit 1
+        fi
+    - name: Testing sitespeed.io:s browsertime.har with chrome-versions.cjs output using ${{ matrix.browser }}
+      if: always()
+      run: |
+        sitespeedversion=$(python .github/workflows/verify_result.py --docker-sitespeed-version)
+        command="docker run --rm -v $(pwd):/sitespeed.io $sitespeedversion -b ${{ matrix.browser }} -n 1 --postScript chrome-versions.cjs https://webperf.se"
+        testresult=$($command)
+        path=$(echo "$testresult" | grep -o "/sitespeed.io/.*")
+        if [ -n "$path" ]; then
+          har_file=$(find $(pwd) -name "browsertime.har")
+          if [ -f "$har_file" ]; then
+            echo "Found browsertime.har at $har_file"
+            python .github/workflows/verify_browsertime_har.py --browsertime $har_file
+            if grep -q '"_software": {"jquery": ["2.2.4"],' "$har_file"; then
+              echo "jquery found in $har_file"
+            else
+              echo "jquery not found in $har_file"
+              exit 1
           else
             echo "Error: browsertime.har not found in $path"
             exit 1

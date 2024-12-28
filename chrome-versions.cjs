@@ -88,11 +88,11 @@ module.exports = async function (context, commands) {
     }
 
     versions = {
-        'jquery': jquery_versions,
-        'modernizr': modernizr_versions,
-        'core-js': core_js_versions,
-        'next.js': next_versions,
-        'alpinejs': alpine_versions
+        'jquery': [...new Set(jquery_versions)],
+        'modernizr': [...new Set(modernizr_versions)],
+        'core-js': [...new Set(core_js_versions)],
+        'next.js': [...new Set(next_versions)],
+        'alpinejs': [...new Set(alpine_versions)]
     }
 
 

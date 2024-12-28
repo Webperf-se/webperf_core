@@ -68,8 +68,6 @@ def get_http_content_with_status(url):
     if get_config('tests.sitespeed.xvfb'):
         sitespeed_arg += ' --xvfb'
 
-    sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'
-
     (_, filename) = get_result(
         url,
         get_config('tests.sitespeed.docker.use'),

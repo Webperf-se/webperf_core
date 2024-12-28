@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 from datetime import datetime
+import os
 import traceback
 from helpers.setting_helper import get_config, get_used_configuration
 from helpers.models import SiteTests
@@ -350,5 +351,26 @@ def write_test_results(sites, output_filename, test_results, global_translation)
         else:
             write_tests = json_write_tests
 
+        ensure_parent_path(output_filename)
+
             # use loaded engine to write tests
         write_tests(output_filename, test_results, sites, global_translation)
+
+def ensure_parent_path(output_filename):
+    """
+    Ensures that the parent directory of the output file exists.
+    This function takes an output filename and
+    ensures that the directory structure up to the file exists.
+    It handles both relative and absolute paths.
+    Parameters:
+        output_filename (str): The name of the output file.
+    Returns: None
+    """
+
+    # Get the absolute path of the output file
+    abs_path = os.path.abspath(output_filename)
+    # Get the parent directory of the output file
+    parent_dir = os.path.dirname(abs_path)
+    # Create the parent directory if it doesn't exist
+    if not os.path.exists(parent_dir):
+        os.makedirs(parent_dir)

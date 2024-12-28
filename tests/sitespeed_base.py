@@ -160,13 +160,27 @@ def get_cookies(test):
         dict: A dictionary containing the cookies.
     """
     regex = r"COOKIES:START: {\"cookies\":(?P<COOKIES>.+)} COOKIES:END"
-    cookies = '{}'
+    raw = '{}'
     matches = re.finditer(
         regex, test, re.MULTILINE)
     for _, match in enumerate(matches, start=1):
-        cookies = match.group('COOKIES')
-    cookies_json = json.loads(cookies)
-    return cookies_json
+        raw = match.group('COOKIES')
+    json_data = json.loads(raw)
+
+    cookies = []
+    for item_json in json_data:
+        cookie = {}
+        for key, value in item_json.items():
+            if key in ('name', 'value', 'domain', 'path', 'httpOnly', 'secure'):
+                cookie[key] = value
+            elif key in ('expires'):
+                if value != -1:
+                    cookie[key] = value
+            else:
+                cookie[f'_{key}'] = value
+        cookies.append(cookie)
+
+    return cookies
 
 
 def cleanup_results_dir(browsertime_path, path):
@@ -315,7 +329,7 @@ def modify_browsertime_content(input_filename, cookies, versions):
     # add cookies
     json_result['log']['cookies'] = cookies
     # add software name and versions
-    json_result['log']['software'] = versions
+    json_result['log']['_software'] = versions
 
     if 'version' in json_result['log']:
         del json_result['log']['version']

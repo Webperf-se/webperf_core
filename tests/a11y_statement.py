@@ -174,8 +174,6 @@ def check_item(item, root_item, org_url_start, global_translation, local_transla
         if get_config('tests.sitespeed.xvfb'):
             sitespeed_arg += ' --xvfb'
 
-        sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'
-
         (_, filename) = get_result(
             item['url'],
             get_config('tests.sitespeed.docker.use'),

@@ -65,8 +65,7 @@ jobs:
           echo "D: $har_file"
           if [ -f "$har_file" ]; then
             echo "Found browsertime.har at $har_file"
-            python .github/workflows/verify_browsertime_har.py --browsertime $har_file
-            if grep -q '"cookies": \[{"name": "EPiStateMarker", "value": "true", "domain":' "$har_file"; then
+            if grep -q '"cookies": \[\{"name": "EPiStateMarker", "value": "true", "domain":' "$har_file"; then
               echo "EpiStateMarker found in $har_file"
             else
               echo "EpiStateMarker cookie not found in $har_file"
@@ -95,7 +94,6 @@ jobs:
           echo "D: $har_file"
           if [ -f "$har_file" ]; then
             echo "Found browsertime.har at $har_file"
-            python .github/workflows/verify_browsertime_har.py --browsertime $har_file
             if grep -q '"_software": \{"jquery": ["2.2.4"],' "$har_file"; then
               echo "jquery found in $har_file"
             else

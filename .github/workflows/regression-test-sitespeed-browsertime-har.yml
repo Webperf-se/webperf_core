@@ -65,7 +65,9 @@ jobs:
           echo "D: $har_file"
           if [ -f "$har_file" ]; then
             echo "Found browsertime.har at $har_file"
-            if grep -q 'COOKIES:START:[ \r\n\t]+({.*?})[ \r\n\t]+COOKIES:END' "$testresult"; then
+            cookies=$(echo "$testresult" | grep -o "COOKIES:START:[ \r\n\t]+{.*?}[ \r\n\t]+COOKIES:END")
+            echo "E: $cookies"
+            if [ -n "$cookies" ]; then
               echo "EpiStateMarker found in $har_file"
             else
               echo "EpiStateMarker cookie not found in $har_file"
@@ -94,7 +96,9 @@ jobs:
           echo "D: $har_file"
           if [ -f "$har_file" ]; then
             echo "Found browsertime.har at $har_file"
-            if grep -q 'VERSIONS:START:[ \r\n\t]+({.*?})[ \r\n\t]+VERSIONS:END' "$testresult"; then
+            versions=$(echo "$testresult" | grep -o "VERSIONS:START:[ \r\n\t]+{.*?}[ \r\n\t]+VERSIONS:END")
+            echo "E: $versions"
+            if [ -n "$versions" ]; then
               echo "jquery found in $har_file"
             else
               echo "jquery not found in $har_file"

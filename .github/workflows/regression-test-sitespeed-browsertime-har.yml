@@ -68,9 +68,9 @@ jobs:
             cookies=$(echo "$testresult" | grep -o "COOKIES:START")
             echo "E: $cookies"
             if [ -n "$cookies" ]; then
-              echo "EpiStateMarker found in $har_file"
+              echo "Cookies found in $har_file"
             else
-              echo "EpiStateMarker cookie not found in $har_file"
+              echo "Cookies cookie not found in $har_file"
               exit 1
             fi
           else
@@ -99,9 +99,9 @@ jobs:
             versions=$(echo "$testresult" | grep -o "VERSIONS:START")
             echo "E: $versions"
             if [ -n "$versions" ]; then
-              echo "jquery found in $har_file"
+              echo "Versions found in $har_file"
             else
-              echo "jquery not found in $har_file"
+              echo "Versions not found in $har_file"
               exit 1
             fi
           else

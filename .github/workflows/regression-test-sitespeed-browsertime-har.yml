@@ -51,7 +51,9 @@ jobs:
       run: |
         sitespeedversion=$(python .github/workflows/verify_result.py --docker-sitespeed-version)
         command="docker run --rm -v $(pwd):/sitespeed.io $sitespeedversion -b ${{ matrix.browser }} -n 1 --postScript chrome-cookies.cjs https://polisen.se"
+        echo "A: $command"
         testresult=$($command)
+        echo "B: $testresult"
         path=$(echo "$testresult" | grep -o "/sitespeed.io/.*")
         if [ -n "$path" ]; then
           har_file=$(find $(pwd) -name "browsertime.har")
@@ -77,7 +79,9 @@ jobs:
       run: |
         sitespeedversion=$(python .github/workflows/verify_result.py --docker-sitespeed-version)
         command="docker run --rm -v $(pwd):/sitespeed.io $sitespeedversion -b ${{ matrix.browser }} -n 1 --postScript chrome-versions.cjs https://webperf.se"
+        echo "A: $command"
         testresult=$($command)
+        echo "B: $testresult"
         path=$(echo "$testresult" | grep -o "/sitespeed.io/.*")
         if [ -n "$path" ]; then
           har_file=$(find $(pwd) -name "browsertime.har")

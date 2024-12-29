@@ -10,7 +10,23 @@ on:
       - '**update_software_helper.py'
       - '**software-rules.json'
       - 'Dockerfile'
+      - '**regression-test-404.yml'
+      - '**regression-test-a11y-statement.yml'
+      - '**regression-test-css.yml'
       - '**regression-test-docker-image.yml'
+      - '**regression-test-email.yml'
+      - '**regression-test-google-lighthouse-based.yml'
+      - '**regression-test-html.yml'
+      - '**regression-test-http.yml'
+      - '**regression-test-lint-css.yml'
+      - '**regression-test-pa11y.yml'
+      - '**regression-test-sitespeed-browsertime-har.yml'
+      - '**regression-test-sitespeed.yml'
+      - '**regression-test-software.yml'
+      - '**regression-test-standard-files.yml'
+      - '**regression-test-tracking.yml'
+      - '**regression-test-translations.yml'
+      - '**regression-test-ylt.yml'
 jobs:
   build:
     runs-on: ${{ matrix.os }}

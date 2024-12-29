@@ -37,7 +37,7 @@ jobs:
         path=$(echo "$testresult" | grep -o "/sitespeed.io/.*")
         echo "C: $path"
         if [ -n "$path" ]; then
-          har_file=$(find $(pwd) -name "browsertime.har")
+          har_file=$(ls -t $(find $(pwd) -name "browsertime.har") | head -1)
           echo "D: $har_file"
           if [ -f "$har_file" ]; then
             echo "Found browsertime.har at $har_file"
@@ -61,7 +61,7 @@ jobs:
         path=$(echo "$testresult" | grep -o "/sitespeed.io/.*")
         echo "C: $path"
         if [ -n "$path" ]; then
-          har_file=$(find $(pwd) -name "browsertime.har")
+          har_file=$(ls -t $(find $(pwd) -name "browsertime.har") | head -1)
           echo "D: $har_file"
           if [ -f "$har_file" ]; then
             echo "Found browsertime.har at $har_file"
@@ -91,7 +91,7 @@ jobs:
         path=$(echo "$testresult" | grep -o "/sitespeed.io/.*")
         echo "C: $path"
         if [ -n "$path" ]; then
-          har_file=$(find $(pwd) -name "browsertime.har")
+          har_file=$(ls -t $(find $(pwd) -name "browsertime.har") | head -1)
           echo "D: $har_file"
           if [ -f "$har_file" ]; then
             echo "Found browsertime.har at $har_file"

@@ -51,14 +51,14 @@ jobs:
     - name: Setup node dependencies (ONLY used for Yellow Lab Tools)
       run: npm install -g node-gyp
       timeout-minutes: 30
-    - if: matrix.os == 'ubuntu-latest'
+    - if: matrix.os == 'ubuntu-22.04'
       name: Setup libjpeg and fontconfig (ONLY used for Yellow Lab Tools) - LINUX
       run: sudo apt-get install libjpeg-dev libfontconfig
       shell: bash
     - name: Setup npm packages
       run: npm install --omit=dev
       timeout-minutes: 30
-    - if: ${{ matrix.os == 'ubuntu-latest' }}
+    - if: ${{ matrix.os == 'ubuntu-22.04' }}
       name: RUNNING TEST - LINUX
       run: |
          python default.py -t ${{ matrix.version }} -r -i defaults/sites.json -o data/testresult-${{ matrix.version }}.json

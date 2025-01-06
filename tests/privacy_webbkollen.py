@@ -56,7 +56,7 @@ def run_test(global_translation, url):
         return (error_rating, {'failed': True })
 
     for result in results:
-        rating += rate_result(result, global_translation, local_translation)
+        rating += rate_result(result, global_translation, local_translation, return_dict)
 
     points = rating.get_integrity_and_security()
     if points >= 5:
@@ -163,7 +163,7 @@ def get_html_content(orginal_url, lang_code, local_translation):
         time.sleep(max(get_config('tests.webbkoll.sleep'), 5))
     return html_content
 
-def rate_result(result, global_translation, local_translation):# pylint: disable=too-many-locals
+def rate_result(result, global_translation, local_translation, return_dict):# pylint: disable=too-many-locals
     """
     Rates is calculated by the number of:
     successes, alerts, warnings, sub-alerts, and sub-warnings in the result.
@@ -247,6 +247,18 @@ def rate_result(result, global_translation, local_translation):# pylint: disable
                                     number_of_sub_alerts,
                                     number_of_sub_warnings,
                                     more_info)
+
+    header_key = re.sub(REGEX_ALLOWED_CHARS, '',
+                                    header.text, 0, re.MULTILINE).strip()
+
+    return_dict[header_key] = {
+        "number_of_success": number_of_success,
+        "number_of_alerts": number_of_alerts,
+        "number_of_warnings": number_of_warnings,
+        "number_of_sub_alerts": number_of_sub_alerts,
+        "number_of_sub_warnings": number_of_sub_warnings,
+        "more_info": more_info
+    }
 
     heading_rating.set_integrity_and_security(
         points_for_current_result, review)

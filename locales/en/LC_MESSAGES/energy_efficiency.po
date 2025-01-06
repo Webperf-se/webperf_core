@@ -19,7 +19,7 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 22 - Energy efficiency\n"
 
 msgid "TEXT_TRANSFER_SIZE"
-msgstr "- Network transfer size: {0:.0f} {1}\n"
+msgstr "- Network transfer size: {0:.2f} {1}\n"
 
 msgid "TEXT_WEBSITE_IS_VERY_GOOD"
 msgstr "- Webpage generates very little carbon dioxide!\n"

@@ -19,7 +19,7 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 22 - Energieffektivitet\n"
 
 msgid "TEXT_TRANSFER_SIZE"
-msgstr "- Nätverksstorlek: {0:.0f} {1}\n"
+msgstr "- Nätverksstorlek: {0:.2f} {1}\n"
 
 msgid "TEXT_WEBSITE_IS_VERY_GOOD"
 msgstr "- Webbsidan genererar väldigt lite koldioxid!\n"

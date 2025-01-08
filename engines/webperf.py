@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
+from datetime import timedelta
 import json
 import re
+import time
 from engines.utils import use_item
-from tests.utils import get_http_content
+from helpers.setting_helper import get_config
+from tests.utils import get_http_content, has_cache_file
 
 def read_sites(input_url, input_skip, input_take):
     """
@@ -60,6 +63,11 @@ def read_sites(input_url, input_skip, input_take):
             input_url = category_url
             found = True
 
+    if not found and ('all' in input_url or 'alla' in input_url):
+        for category_name, category_url in categories.items():
+            sites.extend(get_category_sites(f'https://webperf.se{category_url}', input_skip, input_take))
+        return sites
+
     if not found:
         for category_name, category_url in categories_fallback.items():
             if category_name in input_url:
@@ -83,7 +91,6 @@ def get_category_sites(input_url, input_skip, input_take):
     print(f'Retrieving sites from {input_url}')
     sites = []
     category_content = get_http_content(input_url)
-
     category_regex = r"<a href=\"(?P<detail_url>\/site\/[^\"]+)\""
     category_matches = re.finditer(
         category_regex, category_content, re.MULTILINE)
@@ -100,15 +107,24 @@ def get_category_sites(input_url, input_skip, input_take):
 
     detail_regex = r"Webbplats:<\/th>[ \r\n\t]+<td><a href=\"(?P<item_url>[^\"]+)\""
     current_index = 0
+    use_text_instead_of_content = True
     for detail_url in detailed_urls:
+        is_cached = has_cache_file(detail_url,
+                                   use_text_instead_of_content,
+                                   timedelta(minutes=get_config('general.cache.max-age')))
+        
         detail_content = get_http_content(detail_url)
+        if not is_cached:
+            time.sleep(10)
         detail_match = re.search(detail_regex, detail_content, re.MULTILINE)
         item_url = detail_match.group('item_url')
+        print(f'- {item_url}')
 
         sites.append([current_index, item_url])
         current_index += 1
 
     return sites
+
 
 
 def add_site(input_url, _, input_skip, input_take):

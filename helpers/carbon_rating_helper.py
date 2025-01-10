@@ -138,9 +138,7 @@ def update_carbon_percentiles(argv):
             generated_date = datetime.fromisoformat(
                 test[FIELD_INDEX_DATE]).strftime('%Y-%m-%d')
 
-        str_data = test[FIELD_INDEX_DATA].replace('\'', '"')
-        data = json.loads(str_data)
-        print(str_data)
+        data = test[FIELD_INDEX_DATA]
         co2s.append(data['co2'])
 
     if not generated_date:

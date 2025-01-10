@@ -60,8 +60,10 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
 
     result_folder_name = os.path.join(folder, hostname, f'{str(uuid.uuid4())}')
 
-    sitespeed_arg += (' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs '
-                      f'--outputFolder {result_folder_name} {url}')
+    sitespeed_arg += (' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'
+                      f' --outputFolder {result_folder_name}'
+                      f' --plugins.add ../../../@sitespeed.io/plugin-lighthouse/index.js'
+                      f' --plugins.add ../../../webperf-sitespeedio-plugin/index.js --sustainable.enable=true {url}')
 
     filename = ''
     # Should we use cache when available?
@@ -193,7 +195,21 @@ def cleanup_results_dir(browsertime_path, path):
         path (str): The path to the directory to be removed.
     """
     correct_path = f'{path}.har'
-    os.rename(browsertime_path, correct_path)
+    coach_path = browsertime_path.replace('browsertime.har', 'coach.json')
+    correct_coach_path = f'{path}-coach.json'
+    sustainable_path = browsertime_path.replace('browsertime.har', 'sustainable.json')
+    correct_sustainable_path = f'{path}-sustainable.json'
+    lighthouse_path = browsertime_path.replace('browsertime.har', 'lighthouse-lhr.json')
+    correct_lighthouse_path = f'{path}-lighthouse-lhr.json'
+
+    if os.path.exists(browsertime_path):
+        os.rename(browsertime_path, correct_path)
+    if os.path.exists(coach_path):
+        os.rename(coach_path, correct_coach_path)
+    if os.path.exists(sustainable_path):
+        os.rename(sustainable_path, correct_sustainable_path)
+    if os.path.exists(lighthouse_path):
+        os.rename(lighthouse_path, correct_lighthouse_path)
     shutil.rmtree(path)
 
 def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):

@@ -14,6 +14,7 @@ on:
       - '**regression-test-a11y-statement.yml'
       - '**regression-test-css.yml'
       - '**regression-test-docker-image.yml'
+      - '**regression-test-energy-efficiency.yml'
       - '**regression-test-google-lighthouse-based.yml'
       - '**regression-test-html.yml'
       - '**regression-test-http.yml'

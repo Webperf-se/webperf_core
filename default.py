@@ -530,7 +530,7 @@ def main(argv):
                                    "cr=", "create-release=",
                                    "dep", "dependency", "check-dependency",
                                    "fus", "find-unknown-sources",
-                                   "update-carbon",
+                                   "update-carbon=",
                                    "is=", "it=", "setting=", "save-setting="])
     except getopt.GetoptError:
         print(main.__doc__)

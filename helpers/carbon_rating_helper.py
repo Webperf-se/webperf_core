@@ -133,12 +133,19 @@ def update_carbon_percentiles(argv):
     generated_date = False
     co2s = []
 
+    test_index = -1
     for test in tests:
+        test_index += 1
         if not generated_date:
             generated_date = datetime.fromisoformat(
                 test[FIELD_INDEX_DATE]).strftime('%Y-%m-%d')
 
         data = test[FIELD_INDEX_DATA]
+        if 'co2' not in data:
+            nice = json.dumps(test, indent=3)
+            print(f'WARNING, ignored testresult because it was missing co2 data, index {test_index}. Test result:', nice)
+            continue
+
         co2s.append(data['co2'])
 
     if not generated_date:

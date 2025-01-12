@@ -61,9 +61,14 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
     result_folder_name = os.path.join(folder, hostname, f'{str(uuid.uuid4())}')
 
     sitespeed_arg += (' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'
-                      f' --outputFolder {result_folder_name}'
-                      f' --plugins.add ../../../@sitespeed.io/plugin-lighthouse/index.js'
-                      f' --plugins.add ../../../webperf-sitespeedio-plugin/index.js --sustainable.enable=true {url}')
+                      f' --outputFolder {result_folder_name}')
+    if sitespeed_use_docker:
+        sitespeed_arg += (f' --plugins.add node_modules/@sitespeed.io/plugin-lighthouse/index.js'
+                        f' --plugins.add node_modules/webperf-sitespeedio-plugin/index.js')
+    else:
+        sitespeed_arg += (f' --plugins.add ../../../@sitespeed.io/plugin-lighthouse/index.js'
+                        f' --plugins.add ../../../webperf-sitespeedio-plugin/index.js')
+        sitespeed_arg += (f' --sustainable.enable=true {url}')
 
     filename = ''
     # Should we use cache when available?

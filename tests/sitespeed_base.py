@@ -68,7 +68,7 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
     else:
         sitespeed_arg += (f' --plugins.add ../../../@sitespeed.io/plugin-lighthouse/index.js'
                         f' --plugins.add ../../../webperf-sitespeedio-plugin/index.js')
-        sitespeed_arg += (f' --sustainable.enable=true {url}')
+    sitespeed_arg += (f' --sustainable.enable=true {url}')
 
     filename = ''
     # Should we use cache when available?

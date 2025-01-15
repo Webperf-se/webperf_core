@@ -10,7 +10,8 @@ import shutil
 import urllib
 from urllib.parse import ParseResult, urlparse, urlunparse
 import uuid
-from tests.utils import get_dependency_version, is_file_older_than
+from tests.utils import change_url_to_test_url,\
+    get_dependency_version, is_file_older_than
 import engines.sitespeed_result as sitespeed_cache
 from helpers.setting_helper import get_config
 
@@ -59,6 +60,10 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
     hostname = o.hostname
 
     result_folder_name = os.path.join(folder, hostname, f'{str(uuid.uuid4())}')
+
+    if get_config('tests.sitespeed.mobile'):
+        url = change_url_to_test_url(url, 'mobile')
+        sitespeed_arg += (' --mobile')
 
     sitespeed_arg += (' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs '
                       f'--outputFolder {result_folder_name} {url}')

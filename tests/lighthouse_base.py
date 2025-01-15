@@ -222,9 +222,6 @@ def create_rating_from_audits(category, global_translation, json_content, return
     weight_dict = create_weight_dict(category, json_content)
     reviews = []
     for audit_key, item in json_content['audits'].items():
-        if 'numericValue' in item:
-            return_dict[audit_key] = item['numericValue']
-
         if audit_key not in weight_dict:
             continue
 
@@ -232,6 +229,8 @@ def create_rating_from_audits(category, global_translation, json_content, return
         review_item = create_rating_from_audit(item, category, global_translation, weight)
         if review_item is None:
             continue
+
+        return_dict[audit_key] = item
         reviews.append(review_item)
 
     sorted_reviews = sorted(reviews,

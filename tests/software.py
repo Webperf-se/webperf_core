@@ -93,8 +93,6 @@ def get_rating_from_sitespeed(url, local_translation, global_translation):
     if get_config('tests.sitespeed.xvfb'):
         sitespeed_arg += ' --xvfb'
 
-    sitespeed_arg += ' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs'
-
     (result_folder_name, filename) = get_result(
         url,
         get_config('tests.sitespeed.docker.use'),
@@ -1095,8 +1093,11 @@ def identify_software(filename, origin_domain, rules):
         if 'log' in har_data:
             har_data = har_data['log']
 
-        if 'software' in har_data:
+        if '_software' in har_data:
+            global_software = har_data['_software']
+        elif 'software' in har_data:
             global_software = har_data['software']
+
         if 'cookies' in har_data:
             global_cookies = har_data['cookies']
 

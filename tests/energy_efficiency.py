@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
+import json
+import os
 from helpers.setting_helper import get_config
 from helpers.models import Rating
 from tests import energy_efficiency_carbon_percentiles
-import tests.energy_efficiency_carbon_percentiles2022 as energy_efficiency_carbon_percentiles_2022
-from tests.performance_lighthouse import run_test as lighthouse_perf_run_test
+from tests.sitespeed_base import get_result
 from tests.utils import get_translation
 
 # Code below is built from: https://gitlab.com/wholegrain/carbon-api-2-0
@@ -97,11 +98,7 @@ def cleaner_than(co2, year='current'):
     # scale. We can look in to writing a cron job that will generate and export
     # from the database once a month, that is then loaded in this file.
 
-    percentiles = False
-    if year == '2022':
-        percentiles = energy_efficiency_carbon_percentiles_2022.get_percentiles()
-    else:
-        percentiles = energy_efficiency_carbon_percentiles.get_percentiles()
+    percentiles = energy_efficiency_carbon_percentiles.get_percentiles()
     position = 0
     # this should always be exactly 100 number of values
     for item in percentiles:
@@ -125,14 +122,32 @@ def format_bytes(size):
     tuple: A tuple containing the converted size and the unit used for the conversion.
            The size is a float and the unit is a string.
     """
-    power = 2**10
-    n = 0
-    power_labels = {0: '', 1: 'k', 2: 'm', 3: 'g', 4: 't'}
-    while size > power:
-        size /= power
-        n += 1
-    return size, power_labels[n]+'b'
 
+    # Conversion factors
+    KB = 1024
+    MB = KB * 1024
+    GB = MB * 1024
+    TB = GB * 1024
+    # Convert bytes to different units
+    kilobytes_value = size / KB
+    megabytes_value = size / MB
+    gigabytes_value = size / GB
+    terabytes_value = size / TB
+    # Determine the closest unit
+    if terabytes_value >= 1:
+        closest_value = terabytes_value
+        unit = "TB"
+    elif gigabytes_value >= 1:
+        closest_value = gigabytes_value
+        unit = "GB"
+    elif megabytes_value >= 1:
+        closest_value = megabytes_value
+        unit = "MB"
+    else:
+        closest_value = kilobytes_value
+        unit = "KB"
+
+    return float(f'{closest_value:.2f}'), unit
 
 def run_test(global_translation, url):
     """
@@ -151,8 +166,8 @@ def run_test(global_translation, url):
 
     result_dict = {}
     transfer_bytes = get_total_bytes_for_url(
-        global_translation,
-        url)
+        url,
+        result_dict)
     if transfer_bytes is None:
         rating = Rating(global_translation)
         rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
@@ -164,7 +179,6 @@ def run_test(global_translation, url):
     result_dict['co2'] = co2
 
     cleaner = cleaner_than(co2) * 100
-    cleaner_2022 = cleaner_than(co2, '2022') * 100
     result_dict['cleaner_than'] = cleaner
 
     review = ''
@@ -192,11 +206,6 @@ def run_test(global_translation, url):
                     int(cleaner),
                     latest_generated_date)
 
-    old_generated_date = energy_efficiency_carbon_percentiles_2022.get_generated_date()
-    review += local_translation("TEXT_BETTER_THAN").format(
-                    int(cleaner_2022),
-                    old_generated_date)
-
     transfer_info = format_bytes(transfer_bytes)
     review += local_translation("TEXT_TRANSFER_SIZE").format(transfer_info[0], transfer_info[1])
 
@@ -208,25 +217,79 @@ def run_test(global_translation, url):
 
     return (rating, result_dict)
 
-def get_total_bytes_for_url(global_translation, url):
+def get_total_bytes(filename, result_dict):
+    total_bytes = 0
+    sources = []
+    if not os.path.exists(filename):
+        return None
+
+    with open(filename, encoding='utf-8') as json_input_file:
+        har_data = json.load(json_input_file)
+
+        if 'log' in har_data:
+            har_data = har_data['log']
+
+        req_index = 1
+        for entry in har_data["entries"]:
+            req = entry['request']
+            res = entry['response']
+
+            if 'url' not in req:
+                continue
+
+            if 'content' not in res:
+                continue
+            if 'mimeType' not in res['content']:
+                continue
+            if 'size' not in res['content']:
+                continue
+
+            total_bytes += res['content']['size']
+            sources.append({
+                'url': req['url'],
+                'index': req_index,
+                'size': res['content']['size']
+            })
+            req_index += 1
+
+    result_dict['sources'] = sources
+    return total_bytes
+
+
+def get_total_bytes_for_url(url, result_dict):
     """
     Runs a Lighthouse performance test on a given URL and returns the total byte weight of the page.
 
     This function is specifically designed to work with multilingual websites.
-    It uses the 'global_translation'
-    to handle the language-specific aspects of the website.
 
     Parameters:
-    global_translation (dict): A dictionary containing language-specific translations.
     url (str): The URL of the webpage to run the Lighthouse performance test on.
 
     Returns:
-    int: The total byte weight of the webpage as determined by the Lighthouse performance test.
+    int: The total byte weight of the webpage as determined by the sitespeed test.
     """
-    lighthouse_perf_result = lighthouse_perf_run_test(global_translation, url, True)
 
-    if not lighthouse_perf_result[0].isused():
-        return None
+    # We don't need extra iterations for what we are using it for
+    sitespeed_iterations = 1
+    sitespeed_arg = (
+            '--shm-size=1g -b chrome '
+            '--plugins.remove screenshot --plugins.remove html --plugins.remove metrics '
+            '--browsertime.screenshot false --screenshot false --screenshotLCP false '
+            '--browsertime.screenshotLCP false --chrome.cdp.performance false '
+            '--browsertime.chrome.timeline false --videoParams.createFilmstrip false '
+            '--visualMetrics false --visualMetricsPerceptual false '
+            '--visualMetricsContentful false --browsertime.headless true '
+            '--browsertime.chrome.includeResponseBodies all --utc true '
+            '--browsertime.chrome.args ignore-certificate-errors '
+            f'-n {sitespeed_iterations}')
+    if get_config('tests.sitespeed.xvfb'):
+        sitespeed_arg += ' --xvfb'
 
-    transfer_bytes = lighthouse_perf_result[1]['total-byte-weight']
+    (_, filename) = get_result(
+        url,
+        get_config('tests.sitespeed.docker.use'),
+        sitespeed_arg,
+        get_config('tests.sitespeed.timeout'))
+
+    transfer_bytes = get_total_bytes(filename, result_dict)
     return transfer_bytes

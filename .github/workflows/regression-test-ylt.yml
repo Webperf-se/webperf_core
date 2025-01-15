@@ -10,13 +10,30 @@ on:
       - '**update_software_helper.py'
       - '**software-rules.json'
       - 'Dockerfile'
+      - '**regression-test-404.yml'
+      - '**regression-test-a11y-statement.yml'
+      - '**regression-test-css.yml'
       - '**regression-test-docker-image.yml'
+      - '**regression-test-email.yml'
+      - '**regression-test-energy-efficiency.yml'
+      - '**regression-test-google-lighthouse-based.yml'
+      - '**regression-test-html.yml'
+      - '**regression-test-http.yml'
+      - '**regression-test-lint-css.yml'
+      - '**regression-test-pa11y.yml'
+      - '**regression-test-sitespeed-browsertime-har.yml'
+      - '**regression-test-sitespeed.yml'
+      - '**regression-test-software.yml'
+      - '**regression-test-standard-files.yml'
+      - '**regression-test-tracking.yml'
+      - '**regression-test-translations.yml'
+      - '**regression-test-webbkoll.yml'
 jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
             matrix:
-                os: [ubuntu-latest, windows-latest]
+                os: [ubuntu-22.04, windows-latest]
                 version: [17]
     steps:
     - name: Check out repository code
@@ -37,14 +54,14 @@ jobs:
     - name: Setup node dependencies (ONLY used for Yellow Lab Tools)
       run: npm install -g node-gyp
       timeout-minutes: 30
-    - if: matrix.os == 'ubuntu-latest'
+    - if: matrix.os == 'ubuntu-22.04'
       name: Setup libjpeg and fontconfig (ONLY used for Yellow Lab Tools) - LINUX
       run: sudo apt-get install libjpeg-dev libfontconfig
       shell: bash
     - name: Setup npm packages
       run: npm ci --only=production
       timeout-minutes: 30
-    - if: ${{ matrix.os == 'ubuntu-latest' }}
+    - if: ${{ matrix.os == 'ubuntu-22.04' }}
       name: RUNNING TEST - LINUX
       run: |
          python default.py -t ${{ matrix.version }} -r -i defaults/sites.json -o data/testresult-${{ matrix.version }}.json

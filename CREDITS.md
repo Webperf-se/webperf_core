@@ -6,12 +6,13 @@ Contributors:
 - [7h3Rabbit](https://github.com/7h3Rabbit)
 - [cockroacher](https://github.com/cockroacher)
 - [marcusosterberg](https://github.com/marcusosterberg)
-- [flowertwig-org](https://github.com/flowertwig-org)
 - [dependabot[bot]](https://github.com/apps/dependabot)
+- [flowertwig-org](https://github.com/flowertwig-org)
 - [krompaco](https://github.com/krompaco)
 - [linulas](https://github.com/linulas)
 - [perlan](https://github.com/perlan)
 - [puggan](https://github.com/puggan)
+- [peterk](https://github.com/peterk)
 
 
 ## Projects we depend on:

@@ -402,7 +402,7 @@ def extend_versions_for_openssl_vulnerabilities(versions):
 
     ver = sorted(versions.keys(), reverse=False)
 
-    section_regex = r'<h4 id="(?P<CVE>CVE[0-9-]+)">.*?<dl>(?P<content>.*?)<\/dl>'
+    section_regex = r'<h3 id="(?P<CVE>CVE[0-9-]+)">.*?<dl>(?P<content>.*?)<\/dl>'
     section_regex_matches = re.finditer(
         section_regex, raw_data, re.MULTILINE | re.S)
 
@@ -726,6 +726,8 @@ def set_softwares(filename, collection):
     if not os.path.isfile(file_path):
         file_path = '{0}{1}defaults{1}{2}'.format(base_directory, os.path.sep, filename)
     if not os.path.isfile(file_path):
+        file_path = '{0}{1}{2}'.format(base_directory, os.path.sep, filename)
+    if not os.path.isfile(file_path):
         print("ERROR: No {0} file found!".format(filename))
 
     print('set_software_sources', file_path)
@@ -742,6 +744,8 @@ def get_software_sources(filename):
         os.path.realpath(__file__)) + os.path.sep).parent
 
     file_path = '{0}{1}data{1}{2}'.format(base_directory, os.path.sep, filename)
+    if not os.path.isfile(file_path):
+        file_path = '{0}{1}{2}'.format(base_directory, os.path.sep, filename)
     if not os.path.isfile(file_path):
         file_path = '{0}{1}defaults{1}{2}'.format(base_directory, os.path.sep, filename)
     if not os.path.isfile(file_path):
@@ -1218,6 +1222,9 @@ def filter_unknown_sources():
 
         if len(key) < 3:
             names_to_remove.append(key)
+            continue
+
+        if isinstance(item, bool):
             continue
 
         if 'versions' not in item:

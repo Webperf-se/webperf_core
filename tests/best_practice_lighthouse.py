@@ -2,7 +2,7 @@
 from helpers.setting_helper import get_config
 from tests.lighthouse_base import run_test as lighthouse_base_run_test, get_lighthouse_translations
 
-def run_test(global_translation, url, strategy='mobile', category='best-practices'):
+def run_test(global_translation, url, category='best-practices'):
     """
     Analyzes URL with Lighthouse Best-practices.
     """
@@ -13,7 +13,6 @@ def run_test(global_translation, url, strategy='mobile', category='best-practice
     # pylint: disable=duplicate-code
     return lighthouse_base_run_test(
         url,
-        strategy,
         category,
         False,
         translations)

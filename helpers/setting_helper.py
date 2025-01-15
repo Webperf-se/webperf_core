@@ -60,9 +60,6 @@ config_mapping = {
         "css_review_group_errors",
         "CSS_REVIEW_GROUP_ERRORS"): "bool|tests.css.group",
     (
-        "disable-sandbox",
-        "tests.lighthouse.disable-sandbox"): "bool|tests.lighthouse.disable-sandbox",
-    (
         "sitespeeddocker",
         "tests.sitespeed.docker.use",
         "sitespeed_use_docker",

@@ -155,11 +155,6 @@ Please also see csp-generate-strict-recommended-hashes and tests.http.csp-genera
 Tells HTTP test to only download javascript resources one more time after visiting website to generate sha256 hashes.
 Please also see csp-generate-strict-recommended-hashes and tests.http.csp-generate-hashes.
 
-### tests.lighthouse.disable-sandbox `(Default = false)`
-
-This variable tells lighthouse based test(s) to disable chrome sandbox or not.
-This is needed when using it in our docker image (IF not used in interactive mode).
-
 ### tests.sitespeed.docker.use `(Default = false)`
 
 This variable tells sitespeed based test(s) to use docker image version instead of NPM version.

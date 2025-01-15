@@ -43,7 +43,7 @@ def get_lighthouse_translations(module_name, lang_code, global_translation):
         'global': global_translation
     }
 
-def run_test(url, strategy, category, silance, lighthouse_translations):
+def run_test(url, category, silance, lighthouse_translations):
     """
     https://www.googleapis.com/pagespeedonline/v5/runPagespeed?
         category=(performance/accessibility/best-practices/seo)
@@ -64,8 +64,7 @@ def run_test(url, strategy, category, silance, lighthouse_translations):
 
     json_content = get_json_result(
             lang_code,
-            url,
-            strategy
+            url
         )
 
     return_dict = {}
@@ -443,7 +442,7 @@ def str_to_json(content, url):
 
     return json_content
 
-def get_json_result_using_caching(lang_code, url, strategy):
+def get_json_result_using_caching(lang_code, url):
     """
     Retrieves the JSON result of a Lighthouse audit for a URL using caching.
 
@@ -454,14 +453,12 @@ def get_json_result_using_caching(lang_code, url, strategy):
     Parameters:
     lang_code (str): The locale to use for the audit.
     url (str): The URL to audit.
-    strategy (str): The form factor to use for the audit (e.g., 'mobile' or 'desktop').
 
     Returns:
     dict: The JSON result of the audit, either from the cache or a new audit.
     """
 
     # TODO: re add lang code logic
-    # TODO: re add strategy logic
 
     # We don't need extra iterations for what we are using it for
     sitespeed_iterations = 1
@@ -510,7 +507,7 @@ def get_json_result_using_caching(lang_code, url, strategy):
         return str_to_json('\n'.join(file.readlines()), url)
 
 
-def get_json_result(lang_code, url, strategy):
+def get_json_result(lang_code, url):
     """
     Retrieves the JSON result of a Lighthouse audit for a specific URL.
     This function uses either the Google Pagespeed API or
@@ -522,12 +519,10 @@ def get_json_result(lang_code, url, strategy):
     Parameters:
     lang_code (str): The locale to use for the audit.
     url (str): The URL to audit.
-    strategy (str):
-        The form factor to use for the audit (e.g., 'mobile' or 'desktop').
 
     Returns:
     dict: The JSON result of the audit.
     """
     check_url = url.strip()
 
-    return get_json_result_using_caching(lang_code, check_url, strategy)
+    return get_json_result_using_caching(lang_code, check_url)

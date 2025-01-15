@@ -476,6 +476,14 @@ def get_json_result_using_caching(lang_code, url, strategy):
             '--browsertime.chrome.includeResponseBodies all --utc true '
             '--browsertime.chrome.args ignore-certificate-errors '
             f'-n {sitespeed_iterations}')
+
+    if get_config('tests.sitespeed.docker.use'):
+        sitespeed_arg += (f' --plugins.add node_modules/@sitespeed.io/plugin-lighthouse/index.js'
+                        f' --plugins.add node_modules/webperf-sitespeedio-plugin/index.js')
+    else:
+        sitespeed_arg += (f' --plugins.add ../../../@sitespeed.io/plugin-lighthouse/index.js'
+                        f' --plugins.add ../../../webperf-sitespeedio-plugin/index.js')
+
     if get_config('tests.sitespeed.xvfb'):
         sitespeed_arg += ' --xvfb'
     (_, filename) = get_result(

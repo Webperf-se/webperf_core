@@ -157,6 +157,7 @@
             ],
             "archived": false,
             "versions": {
+                "3.4.0": [],
                 "3.3.4": [],
                 "3.3.3": [],
                 "3.3.2": [],
@@ -614,6 +615,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "2.5.1": [],
                 "2.5.0": [],
                 "2.4.1": [],
                 "2.4.0": [],
@@ -669,6 +671,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "1.12.6": [],
                 "1.12.5": [],
                 "1.12.4": [],
                 "1.12.3": [],
@@ -824,6 +827,10 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "10.5.2": [],
+                "10.5.1": [],
+                "10.5.0": [],
+                "10.4.0": [],
                 "10.3.4": [],
                 "10.3.3": [],
                 "10.3.2": [],
@@ -1091,8 +1098,8 @@
                 "3.11": [],
                 "3.10": [],
                 "3.06": [],
-                "3.05": [],
                 "3.5": [],
+                "3.05": [],
                 "3.0": [],
                 "1.7": [],
                 "1.6": [],
@@ -1198,13 +1205,14 @@
             "github-owner": "algolia",
             "github-repo": "algoliasearch-client-javascript",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js",
                 "typescript"
             ],
             "archived": false,
             "versions": {
+                "5.19.0": [],
                 "5.18.0": [],
                 "5.17.1": [],
                 "5.17.0": [],
@@ -1261,7 +1269,7 @@
             "github-owner": "alpinejs",
             "github-repo": "alpine",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "archived": false,
             "versions": {
                 "3.14.8": [],
@@ -1484,7 +1492,7 @@
             "github-owner": "angular",
             "github-repo": "angular",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js",
                 "pwa",
@@ -1492,6 +1500,7 @@
             ],
             "archived": false,
             "versions": {
+                "19.0.6": [],
                 "19.0.5": [],
                 "19.0.4": [],
                 "19.0.3": [],
@@ -1518,8 +1527,6 @@
                 "18.1.2": [],
                 "18.1.1": [],
                 "18.1.0": [],
-                "18.0.7": [],
-                "18.0.6": [],
                 "10.2.5": []
             }
         },
@@ -6427,7 +6434,7 @@
             "github-repo": "ApplicationInsights-JS",
             "github-source": "releases",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js",
                 "typescript"
@@ -6531,6 +6538,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "4.4.10": [],
                 "4.4.9": [],
                 "4.4.8": [],
                 "4.4.7": [],
@@ -6785,12 +6793,13 @@
             "github-owner": "algolia",
             "github-repo": "autocomplete",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "typescript"
             ],
             "archived": false,
             "versions": {
+                "1.17.9": [],
                 "1.17.8": [],
                 "1.17.7": [],
                 "1.17.6": [],
@@ -6868,8 +6877,7 @@
                 "0.24.2": [],
                 "0.24.1": [],
                 "0.24.0": [],
-                "0.23.0": [],
-                "0.22.1": []
+                "0.23.0": []
             }
         },
         "autonumeric": {
@@ -7162,9 +7170,141 @@
         "auxin-elements": {
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
-            "versions": {},
-            "archived": true,
-            "notice": "Critical! This plugin has been closed as of December 16, 2024 and is not available for download. This closure is temporary, pending a full review."
+            "versions": {
+                "2.17.1": [],
+                "2.17.0": [],
+                "2.16.4": [],
+                "2.16.3": [],
+                "2.16.2": [],
+                "2.16.1": [],
+                "2.16.0": [],
+                "2.15.9": [],
+                "2.15.8": [],
+                "2.15.7": [],
+                "2.15.6": [],
+                "2.15.5": [],
+                "2.15.4": [],
+                "2.15.2": [],
+                "2.15.0": [],
+                "2.14.0": [],
+                "2.12.0": [],
+                "2.11.2": [],
+                "2.11.1": [],
+                "2.11.0": [],
+                "2.10.9": [],
+                "2.10.8": [],
+                "2.10.7": [],
+                "2.10.5": [],
+                "2.10.3": [],
+                "2.10.1": [],
+                "2.10.0": [],
+                "2.9.22": [],
+                "2.9.21": [],
+                "2.9.20": [],
+                "2.9.19": [],
+                "2.9.18": [],
+                "2.9.17": [],
+                "2.9.16": [],
+                "2.9.15": [],
+                "2.9.14": [],
+                "2.9.12": [],
+                "2.9.8": [],
+                "2.9.7": [],
+                "2.9.6": [],
+                "2.9.5": [],
+                "2.9.4": [],
+                "2.9.3": [],
+                "2.9.2": [],
+                "2.9.0": [],
+                "2.8.9": [],
+                "2.8.7": [],
+                "2.8.6": [],
+                "2.8.5": [],
+                "2.8.4": [],
+                "2.8.3": [],
+                "2.8.2": [],
+                "2.8.1": [],
+                "2.8.0": [],
+                "2.7.14": [],
+                "2.7.13": [],
+                "2.7.12": [],
+                "2.7.11": [],
+                "2.7.10": [],
+                "2.7.9": [],
+                "2.7.8": [],
+                "2.7.7": [],
+                "2.7.6": [],
+                "2.7.5": [],
+                "2.7.4": [],
+                "2.7.3": [],
+                "2.7.2": [],
+                "2.7.1": [],
+                "2.7.0": [],
+                "2.6.20": [],
+                "2.6.19": [],
+                "2.6.17": [],
+                "2.6.16": [],
+                "2.6.15": [],
+                "2.6.14": [],
+                "2.6.13": [],
+                "2.6.12": [],
+                "2.6.10": [],
+                "2.6.7": [],
+                "2.6.5": [],
+                "2.6.4": [],
+                "2.6.2": [],
+                "2.6.1": [],
+                "2.6.0": [],
+                "2.5.20": [],
+                "2.5.19": [],
+                "2.5.17": [],
+                "2.5.16": [],
+                "2.5.15": [],
+                "2.5.14": [],
+                "2.5.13": [],
+                "2.5.12": [],
+                "2.5.11": [],
+                "2.5.10": [],
+                "2.5.9": [],
+                "2.5.8": [],
+                "2.5.7": [],
+                "2.5.3": [],
+                "2.5.2": [],
+                "2.5.1": [],
+                "2.5.0": [],
+                "2.4.19": [],
+                "2.4.18": [],
+                "2.4.16": [],
+                "2.4.14": [],
+                "2.4.13": [],
+                "2.4.12": [],
+                "2.4.9": [],
+                "1.7.2": [],
+                "1.7.0": [],
+                "1.6.4": [],
+                "1.6.2": [],
+                "1.6.0": [],
+                "1.5.2": [],
+                "1.5.0": [],
+                "1.4.2": [],
+                "1.4.1": [],
+                "1.4.0": [],
+                "1.3.14": [],
+                "1.3.10": [],
+                "1.3.6": [],
+                "1.3.3": [],
+                "1.3.2": [],
+                "1.3.1": [],
+                "1.3.0": [],
+                "1.1.0": [],
+                "1.0.9": [],
+                "1.0.6": [],
+                "1.0.3": [],
+                "1.0.2": [],
+                "1.0.1": [],
+                "1.0.0": []
+            },
+            "archived": false
         },
         "auxin-portfolio": {
             "type": "wordpress-plugin",
@@ -7267,7 +7407,7 @@
             "github-owner": "axios",
             "github-repo": "axios",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
@@ -7739,7 +7879,7 @@
             "github-owner": "babel",
             "github-repo": "babel",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "es6",
                 "js",
@@ -7747,6 +7887,8 @@
             ],
             "archived": false,
             "versions": {
+                "7.26.6": [],
+                "7.26.5": [],
                 "7.26.4": [],
                 "7.26.3": [],
                 "7.26.2": [],
@@ -7826,10 +7968,7 @@
                 "7.20.7": [],
                 "7.20.6": [],
                 "7.20.5": [],
-                "7.20.4": [],
-                "7.20.3": [],
-                "7.20.2": [],
-                "7.20.1": []
+                "7.20.4": []
             }
         },
         "babel-plugin-utf-8-regex": {
@@ -8138,6 +8277,8 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "5.10.16": [],
+                "5.10.15": [],
                 "5.10.14": [],
                 "5.10.13": [],
                 "5.10.12": [],
@@ -8237,6 +8378,8 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "4.4.0": [],
+                "4.3.1": [],
                 "4.3.0": [],
                 "4.2.1": [],
                 "4.2.0": [],
@@ -8496,7 +8639,7 @@
             "github-owner": "twbs",
             "github-repo": "bootstrap",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js",
                 "sass",
@@ -9550,7 +9693,7 @@
             "github-owner": "bugsnag",
             "github-repo": "bugsnag-js",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js",
                 "typescript"
@@ -9663,7 +9806,7 @@
             "github-owner": "kkapsner",
             "github-repo": "CanvasBlocker",
             "license": "mpl-2.0",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
@@ -9942,7 +10085,7 @@
             "github-owner": "chartjs",
             "github-repo": "Chart.js",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
@@ -10296,7 +10439,7 @@
             "github-owner": "microsoft",
             "github-repo": "clarity",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "typescript"
             ],
@@ -10320,7 +10463,7 @@
             "github-owner": "jedwatson",
             "github-repo": "classnames",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
@@ -10850,7 +10993,7 @@
             "github-owner": "react-native-community",
             "github-repo": "cli",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js",
                 "typescript"
@@ -10982,7 +11125,7 @@
             "github-owner": "kurkle",
             "github-repo": "color",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
@@ -11038,7 +11181,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
-                "7.2.0": [],
+                "7.1.5": [],
                 "7.1.4": [],
                 "7.1.0": [],
                 "7.0.5": [],
@@ -11088,6 +11231,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "6.0.2": [],
                 "6.0.1": [],
                 "6.0": [],
                 "5.9.8": [],
@@ -11743,6 +11887,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "2.5.4": [],
                 "2.5.3": [],
                 "2.5.2": [],
                 "2.5.1": [],
@@ -11854,7 +11999,7 @@
             "github-owner": "orestbida",
             "github-repo": "cookieconsent",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
@@ -12068,8 +12213,8 @@
                 "1.5": [],
                 "1.3": [],
                 "1.03": [],
-                "1.02": [],
                 "1.2": [],
+                "1.02": [],
                 "1.1": [],
                 "1.01": [],
                 "1.0": []
@@ -12094,7 +12239,7 @@
             "github-owner": "vuejs",
             "github-repo": "core",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "typescript"
             ],
@@ -12173,13 +12318,14 @@
             "github-owner": "zloirock",
             "github-repo": "core-js",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "es6",
                 "js"
             ],
             "archived": false,
             "versions": {
+                "3.40.0": [],
                 "3.39.0": [],
                 "3.38.1": [],
                 "3.38.0": [],
@@ -12277,8 +12423,7 @@
                 "3.8.2": [],
                 "3.8.1": [],
                 "3.8.0": [],
-                "3.7.0": [],
-                "3.6.5": []
+                "3.7.0": []
             }
         },
         "cornerstone": {
@@ -12785,6 +12930,8 @@
         "datatables": {
             "custom": true,
             "versions": {
+                "2.2.1": [],
+                "2.2.0": [],
                 "2.1.8": [],
                 "2.1.7": [],
                 "2.1.6": [],
@@ -13144,13 +13291,14 @@
             "github-owner": "denoland",
             "github-repo": "deno",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js",
                 "typescript"
             ],
             "archived": false,
             "versions": {
+                "2.1.5": [],
                 "2.1.4": [],
                 "2.1.3": [],
                 "2.1.2": [],
@@ -13249,8 +13397,7 @@
                 "1.29.4": [],
                 "1.29.3": [],
                 "1.29.2": [],
-                "1.29.1": [],
-                "1.29.0": []
+                "1.29.1": []
             }
         },
         "detect-passive-events": {
@@ -13631,6 +13778,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "3.3.04": [],
                 "3.3.03": [],
                 "3.3.02": [],
                 "3.3.01": [],
@@ -14314,6 +14462,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "3.26.3": [],
                 "3.26.2": [],
                 "3.26.1": [],
                 "3.26.0": [],
@@ -15405,6 +15554,7 @@
         "epifind": {
             "custom": true,
             "versions": {
+                "16.3.2": [],
                 "16.3.0": [],
                 "16.2.0": [],
                 "16.1.0": [],
@@ -15693,12 +15843,13 @@
             "github-owner": "eslint",
             "github-repo": "eslint",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
             "archived": false,
             "versions": {
+                "9.18.0": [],
                 "9.17.0": [],
                 "9.16.0": [],
                 "9.15.0": [],
@@ -15786,14 +15937,14 @@
                 "7.31.0": [],
                 "7.30.0": [],
                 "7.29.0": [],
-                "7.28.0": [],
-                "7.27.0": []
+                "7.28.0": []
             }
         },
         "essential-addons-for-elementor-lite": {
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "6.0.15": [],
                 "6.0.14": [],
                 "6.0.13": [],
                 "6.0.12": [],
@@ -16149,6 +16300,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "5.18.0": [],
                 "5.17.0.1": [],
                 "5.17.0": [],
                 "5.16.1": [],
@@ -16733,6 +16885,10 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "3.0.8": [],
+                "3.0.7.1": [],
+                "3.0.6.1": [],
+                "3.0.6": [],
                 "3.0.5.2": [],
                 "3.0.5.1": [],
                 "3.0.5": [],
@@ -16866,7 +17022,7 @@
             "github-owner": "expressjs",
             "github-repo": "express",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
@@ -17460,6 +17616,8 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "5.0.1": [],
+                "5.0.0": [],
                 "4.4.16": [],
                 "4.4.15": [],
                 "4.4.14": [],
@@ -17898,9 +18056,11 @@
             "github-owner": "facebook",
             "github-repo": "flow",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "archived": false,
             "versions": {
+                "0.258.1": [],
+                "0.258.0": [],
                 "0.257.1": [],
                 "0.257.0": [],
                 "0.256.0": [],
@@ -17998,9 +18158,7 @@
                 "0.202.1": [],
                 "0.202.0": [],
                 "0.201.0": [],
-                "0.200.1": [],
-                "0.200.0": [],
-                "0.199.1": []
+                "0.200.1": []
             }
         },
         "fluidvids": {
@@ -18028,7 +18186,7 @@
             "github-owner": "theKashey",
             "github-repo": "focus-lock",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "typescript"
             ],
@@ -18088,12 +18246,14 @@
             "github-owner": "focus-trap",
             "github-repo": "focus-trap",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
             "archived": false,
             "versions": {
+                "7.6.4": [],
+                "7.6.3": [],
                 "7.6.2": [],
                 "7.6.1": [],
                 "7.6.0": [],
@@ -18176,12 +18336,14 @@
             "github-owner": "focus-trap",
             "github-repo": "focus-trap-react",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
             "archived": false,
             "versions": {
+                "11.0.3": [],
+                "11.0.2": [],
                 "11.0.1": [],
                 "11.0.0": [],
                 "10.3.1": [],
@@ -19511,7 +19673,7 @@
             "github-owner": "gatsbyjs",
             "github-repo": "gatsby",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "graphql",
                 "js"
@@ -19824,6 +19986,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "3.6.7": [],
                 "3.6.6": [],
                 "3.6.5": [],
                 "3.6.4": [],
@@ -19932,7 +20095,7 @@
             "github-owner": "mozilla",
             "github-repo": "gecko-dev",
             "license": null,
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
@@ -20182,7 +20345,7 @@
             "github-owner": "toji",
             "github-repo": "gl-matrix",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
@@ -20617,6 +20780,12 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "3.10.0": [],
+                "3.9.3": [],
+                "3.9.2": [],
+                "3.9.1": [],
+                "3.9.0": [],
+                "3.8.13": [],
                 "3.8.12": [],
                 "3.8.11": [],
                 "3.8.10": [],
@@ -20853,12 +21022,13 @@
             "github-repo": "gutenberg",
             "github-source": "releases",
             "license": null,
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
             "archived": false,
             "versions": {
+                "20.0.0": [],
                 "19.9.0": [],
                 "19.8.0": [],
                 "19.7.0": [],
@@ -20912,8 +21082,7 @@
                 "17.3.1": [],
                 "17.3.0": [],
                 "17.2.4": [],
-                "17.2.3": [],
-                "17.2.2": []
+                "17.2.3": []
             }
         },
         "hammer.js": {
@@ -21183,6 +21352,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "2.0.5": [],
                 "2.0.4": [],
                 "2.0.3": [],
                 "2.0.2": [],
@@ -21433,7 +21603,7 @@
             "github-owner": "highcharts",
             "github-repo": "highcharts",
             "license": null,
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "typescript"
             ],
@@ -21757,7 +21927,7 @@
             "github-owner": "highlightjs",
             "github-repo": "highlight.js",
             "license": "bsd-3-clause",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
@@ -22050,10 +22220,6 @@
                 "7.0": [
                     "highlight.js vulnerability",
                     "CVE-2020-26237"
-                ],
-                "6.2": [
-                    "highlight.js vulnerability",
-                    "CVE-2020-26237"
                 ]
             }
         },
@@ -22075,7 +22241,7 @@
             "github-owner": "video-dev",
             "github-repo": "hls.js",
             "license": null,
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js",
                 "typescript",
@@ -22083,6 +22249,7 @@
             ],
             "archived": false,
             "versions": {
+                "1.5.19": [],
                 "1.5.18": [],
                 "1.5.17": [],
                 "1.5.16": [],
@@ -22231,6 +22398,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "1.6.0": [],
                 "1.5.8": [],
                 "1.5.7": [],
                 "1.5.6": [],
@@ -22284,7 +22452,7 @@
             "github-owner": "mnater",
             "github-repo": "Hyphenopoly",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js",
                 "typescript"
@@ -22342,7 +22510,7 @@
             "github-owner": "twbs",
             "github-repo": "icons",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "font",
                 "js",
@@ -22388,6 +22556,9 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "11.5.1": [],
+                "11.5.0": [],
+                "11.4.2": [],
                 "11.4.1.2": [],
                 "11.4.1.1": [],
                 "11.4.1": [],
@@ -22853,7 +23024,7 @@
             "github-owner": "davidjbradshaw",
             "github-repo": "iframe-resizer",
             "license": null,
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
@@ -23360,13 +23531,14 @@
             "github-owner": "jackocnr",
             "github-repo": "intl-tel-input",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js",
                 "typescript"
             ],
             "archived": false,
             "versions": {
+                "25.2.1": [],
                 "25.2.0": [],
                 "25.1.1": [],
                 "25.1.0": [],
@@ -23465,8 +23637,7 @@
                 "21.0.2": [],
                 "21.0.1": [],
                 "21.0.0": [],
-                "20.3.0": [],
-                "20.2.0": []
+                "20.3.0": []
             }
         },
         "ion.rangeslider": {
@@ -23889,6 +24060,8 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "14.2": [],
+                "14.1": [],
                 "14.0": [],
                 "13.9.1": [],
                 "13.9": [],
@@ -24600,7 +24773,7 @@
             "github-owner": "jquery",
             "github-repo": "jquery",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
@@ -25321,7 +25494,7 @@
             "github-owner": "jquery",
             "github-repo": "jquery-migrate",
             "license": null,
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
@@ -25653,7 +25826,7 @@
             "github-owner": "jquery",
             "github-repo": "jquery-ui",
             "license": null,
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
@@ -26353,7 +26526,7 @@
             "github-owner": "js-cookie",
             "github-repo": "js-cookie",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
@@ -27360,6 +27533,8 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "3.4.4": [],
+                "3.4.3": [],
                 "3.4.2": [],
                 "3.4.1": [],
                 "3.4.0": [],
@@ -28198,12 +28373,13 @@
             "github-owner": "google",
             "github-repo": "libphonenumber",
             "license": "apache-2.0",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "c++"
             ],
             "archived": false,
             "versions": {
+                "8.13.53": [],
                 "8.13.52": [],
                 "8.13.51": [],
                 "8.13.50": [],
@@ -28302,8 +28478,7 @@
                 "8.12.15": [],
                 "8.12.14": [],
                 "8.12.13": [],
-                "8.12.12": [],
-                "8.12.11": []
+                "8.12.12": []
             }
         },
         "libphonenumber-js": {
@@ -28817,7 +28992,7 @@
             "github-owner": "GoogleChrome",
             "github-repo": "lighthouse",
             "license": "apache-2.0",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js",
                 "pwa"
@@ -29695,6 +29870,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "5.0": [],
                 "4.4.1": [],
                 "4.4": [],
                 "4.3.1": [],
@@ -29791,6 +29967,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "4.9.20": [],
                 "4.9.19": [],
                 "4.9.18": [],
                 "4.9.17": [],
@@ -30130,7 +30307,7 @@
             "github-owner": "mapbox",
             "github-repo": "mapbox-gl-js",
             "license": null,
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js",
                 "typescript",
@@ -30138,6 +30315,7 @@
             ],
             "archived": false,
             "versions": {
+                "3.9.2": [],
                 "3.9.1": [],
                 "3.9.0": [],
                 "3.8.0": [],
@@ -30262,13 +30440,15 @@
             "github-owner": "markedjs",
             "github-repo": "marked",
             "license": null,
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js",
                 "markdown"
             ],
             "archived": false,
             "versions": {
+                "15.0.6": [],
+                "15.0.5": [],
                 "15.0.4": [],
                 "15.0.3": [],
                 "15.0.2": [],
@@ -30423,14 +30603,6 @@
                 "3.0.0": [
                     "CVE-2022-21681",
                     "CVE-2022-21680"
-                ],
-                "2.1.3": [
-                    "CVE-2022-21681",
-                    "CVE-2022-21680"
-                ],
-                "2.1.2": [
-                    "CVE-2022-21681",
-                    "CVE-2022-21680"
                 ]
             }
         },
@@ -30494,12 +30666,13 @@
             "github-owner": "mui",
             "github-repo": "material-ui",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "typescript"
             ],
             "archived": false,
             "versions": {
+                "6.3.1": [],
                 "6.3.0": [],
                 "6.2.1": [],
                 "6.2.0": [],
@@ -30517,6 +30690,7 @@
                 "6.0.2": [],
                 "6.0.1": [],
                 "6.0.0": [],
+                "5.16.14": [],
                 "5.16.13": [],
                 "5.16.12": [],
                 "5.16.11": [],
@@ -30574,9 +30748,7 @@
                 "5.14.1": [],
                 "5.14.0": [],
                 "5.13.7": [],
-                "5.13.6": [],
-                "5.13.5": [],
-                "5.13.4": []
+                "5.13.6": []
             }
         },
         "matomo": {
@@ -30584,7 +30756,7 @@
             "github-repo": "matomo",
             "github-security-label": "c: Security",
             "license": "gpl-3.0",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "mysql",
                 "php"
@@ -30850,8 +31022,7 @@
                 "1.0.2": [],
                 "1.0.1": []
             },
-            "archived": false,
-            "notice": "Warning! This plugin hasn't been tested with the latest 3 major releases of WordPress. It may no longer be maintained or supported and may have compatibility issues when used with more recent versions of WordPress."
+            "archived": false
         },
         "mmenu-js": {
             "github-owner": "FrDH",
@@ -31550,7 +31721,7 @@
             "github-owner": "mswjs",
             "github-repo": "msw",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "typescript"
             ],
@@ -31662,7 +31833,7 @@
             "github-owner": "Simonwep",
             "github-repo": "nanopop",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "typescript"
             ],
@@ -31948,19 +32119,19 @@
             "github-owner": "vercel",
             "github-repo": "next.js",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
             "archived": false,
             "versions": {
+                "15.1.4": [],
                 "15.1.3": [],
                 "15.1.2": [],
                 "15.1.1": [],
                 "15.1.0": [],
                 "15.0.4": [],
-                "15.0.3": [],
-                "15.0.2": []
+                "15.0.3": []
             }
         },
         "nextjs-google-analytics": {
@@ -32007,7 +32178,7 @@
             "github-owner": "nginx",
             "github-repo": "nginx",
             "license": "bsd-2-clause",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "c"
             ],
@@ -32861,18 +33032,20 @@
             "github-owner": "nodejs",
             "github-repo": "node",
             "license": null,
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
             "archived": false,
             "versions": {
+                "23.6.0": [],
                 "23.5.0": [],
                 "23.4.0": [],
                 "23.3.0": [],
                 "23.2.0": [],
                 "23.1.0": [],
                 "23.0.0": [],
+                "22.13.0": [],
                 "22.12.0": [],
                 "22.11.0": [],
                 "22.10.0": [],
@@ -32964,9 +33137,7 @@
                 "18.14.0": [],
                 "18.13.0": [],
                 "18.12.1": [],
-                "18.12.0": [],
-                "18.11.0": [],
-                "18.10.0": []
+                "18.12.0": []
             }
         },
         "nuxt-graphql-request": {
@@ -33261,7 +33432,7 @@
             "github-prefix": "OpenSSL ",
             "github-key": "name",
             "license": "apache-2.0",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "c"
             ],
@@ -34423,12 +34594,13 @@
             "github-owner": "odoo",
             "github-repo": "owl",
             "license": null,
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "typescript"
             ],
             "archived": false,
             "versions": {
+                "2.5.3": [],
                 "2.5.2": [],
                 "2.5.1": [],
                 "2.5.0": [],
@@ -35020,7 +35192,7 @@
             "github-owner": "mholt",
             "github-repo": "PapaParse",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
@@ -35373,12 +35545,13 @@
             "github-owner": "mozilla",
             "github-repo": "pdf.js",
             "license": "apache-2.0",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
             "archived": false,
             "versions": {
+                "4.10.38": [],
                 "4.9.155": [],
                 "4.9.124": [],
                 "4.8.69": [],
@@ -35471,12 +35644,13 @@
             "github-owner": "foliojs",
             "github-repo": "pdfkit",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
             "archived": false,
             "versions": {
+                "0.16.0": [],
                 "0.15.2": [],
                 "0.15.1": [],
                 "0.15.0": [],
@@ -36274,538 +36448,538 @@
                     "END_OF_LIFE (2 years, 1 month ago)"
                 ],
                 "7.3.33": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.32": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.31": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.30": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.29": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.28": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.27": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.26": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.25": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.24": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.23": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.22": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.21": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.20": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.19": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.18": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.17": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.16": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.15": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.14": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.13": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.12": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.11": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.10": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.9": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.8": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.7": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.6": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.5": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.4": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.3": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.2": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.1": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.3.0": [
-                    "END_OF_LIFE (3 years ago)"
+                    "END_OF_LIFE (3 years, 1 month ago)"
                 ],
                 "7.2.34": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.33": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.32": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.31": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.30": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.29": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.28": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.27": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.26": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.25": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.24": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.23": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.22": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.21": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.20": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.19": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.18": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.17": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.16": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.15": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.14": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.13": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.12": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.11": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.10": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.9": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.8": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.7": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.6": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.5": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.4": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.3": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.2": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.1": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.2.0": [
-                    "END_OF_LIFE (4 years ago)"
+                    "END_OF_LIFE (4 years, 1 month ago)"
                 ],
                 "7.1.33": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.32": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.31": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.30": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.29": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.28": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.27": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.26": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.25": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.24": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.23": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.22": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.21": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.20": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.19": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.18": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.17": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.16": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.15": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.14": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.13": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.12": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.11": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.10": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.9": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.8": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.7": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.6": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.5": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.4": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.3": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.2": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.1": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.1.0": [
-                    "END_OF_LIFE (5 years ago)"
+                    "END_OF_LIFE (5 years, 1 month ago)"
                 ],
                 "7.0.33": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.32": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.31": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.30": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.29": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.28": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.27": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.26": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.25": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.24": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.23": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.22": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.21": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.20": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.19": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.18": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.17": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.16": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.15": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.14": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.13": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.12": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.11": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.10": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.9": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.8": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.7": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.6": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.5": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.4": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.3": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.2": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.1": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "7.0.0": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.40": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.39": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.38": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.37": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.36": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.35": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.34": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.33": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.32": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.31": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.30": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.29": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.28": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.27": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.26": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.25": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.24": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.23": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.22": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.21": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.20": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.19": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.18": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.17": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.16": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.15": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.14": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.13": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.12": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.11": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.10": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.9": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.8": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.7": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.6": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.5": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.4": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.3": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.2": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.1": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.6.0": [
-                    "END_OF_LIFE (5 years, 11 months ago)"
+                    "END_OF_LIFE (6 years ago)"
                 ],
                 "5.5.38": [
                     "END_OF_LIFE (8 years, 5 months ago)"
@@ -36925,283 +37099,283 @@
                     "END_OF_LIFE (8 years, 5 months ago)"
                 ],
                 "5.4.45": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.44": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.43": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.42": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.41": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.40": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.39": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.38": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.37": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.36": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.35": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.34": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.33": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.32": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.31": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.30": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.29": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.28": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.27": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.26": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.25": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.24": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.23": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.22": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.21": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.20": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.19": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.18": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.17": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.16": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.15": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.14": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.13": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.12": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.11": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.10": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.9": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.8": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.7": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.6": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.5": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.4": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.3": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.2": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.1": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.4.0": [
-                    "END_OF_LIFE (9 years, 3 months ago)"
+                    "END_OF_LIFE (9 years, 4 months ago)"
                 ],
                 "5.3.29": [
-                    "END_OF_LIFE (10 years, 4 months ago)"
+                    "END_OF_LIFE (10 years, 5 months ago)"
                 ],
                 "5.3.28": [
-                    "END_OF_LIFE (10 years, 4 months ago)"
+                    "END_OF_LIFE (10 years, 5 months ago)"
                 ],
                 "5.3.27": [
-                    "END_OF_LIFE (10 years, 4 months ago)"
+                    "END_OF_LIFE (10 years, 5 months ago)"
                 ],
                 "5.3.26": [
-                    "END_OF_LIFE (10 years, 4 months ago)"
+                    "END_OF_LIFE (10 years, 5 months ago)"
                 ],
                 "5.3.25": [
-                    "END_OF_LIFE (10 years, 4 months ago)"
+                    "END_OF_LIFE (10 years, 5 months ago)"
                 ],
                 "5.3.24": [
-                    "END_OF_LIFE (10 years, 4 months ago)"
+                    "END_OF_LIFE (10 years, 5 months ago)"
                 ],
                 "5.3.23": [
-                    "END_OF_LIFE (10 years, 4 months ago)"
+                    "END_OF_LIFE (10 years, 5 months ago)"
                 ],
                 "5.3.22": [
-                    "END_OF_LIFE (10 years, 4 months ago)"
+                    "END_OF_LIFE (10 years, 5 months ago)"
                 ],
                 "5.3.21": [
-                    "END_OF_LIFE (10 years, 4 months ago)"
+                    "END_OF_LIFE (10 years, 5 months ago)"
                 ],
                 "5.3.20": [
-                    "END_OF_LIFE (10 years, 4 months ago)"
+                    "END_OF_LIFE (10 years, 5 months ago)"
                 ],
                 "5.3.19": [
-                    "END_OF_LIFE (10 years, 4 months ago)"
+                    "END_OF_LIFE (10 years, 5 months ago)"
                 ],
                 "5.3.18": [
-                    "END_OF_LIFE (10 years, 4 months ago)"
+                    "END_OF_LIFE (10 years, 5 months ago)"
                 ],
                 "5.3.17": [
-                    "END_OF_LIFE (10 years, 4 months ago)"
+                    "END_OF_LIFE (10 years, 5 months ago)"
                 ],
                 "5.3.16": [
-                    "END_OF_LIFE (10 years, 4 months ago)"
+                    "END_OF_LIFE (10 years, 5 months ago)"
                 ],
                 "5.3.15": [
-                    "END_OF_LIFE (10 years, 4 months ago)"
+                    "END_OF_LIFE (10 years, 5 months ago)"
                 ],
                 "5.3.14": [
-                    "END_OF_LIFE (10 years, 4 months ago)"
+                    "END_OF_LIFE (10 years, 5 months ago)"
                 ],
                 "5.3.13": [
-                    "END_OF_LIFE (10 years, 4 months ago)"
+                    "END_OF_LIFE (10 years, 5 months ago)"
                 ],
                 "5.3.12": [
-                    "END_OF_LIFE (10 years, 4 months ago)"
+                    "END_OF_LIFE (10 years, 5 months ago)"
                 ],
                 "5.3.11": [
-                    "END_OF_LIFE (10 years, 4 months ago)"
+                    "END_OF_LIFE (10 years, 5 months ago)"
                 ],
                 "5.3.10": [
-                    "END_OF_LIFE (10 years, 4 months ago)"
+                    "END_OF_LIFE (10 years, 5 months ago)"
                 ],
                 "5.3.9": [
-                    "END_OF_LIFE (10 years, 4 months ago)"
+                    "END_OF_LIFE (10 years, 5 months ago)"
                 ],
                 "5.3.8": [
-                    "END_OF_LIFE (10 years, 4 months ago)"
+                    "END_OF_LIFE (10 years, 5 months ago)"
                 ],
                 "5.3.7": [
-                    "END_OF_LIFE (10 years, 4 months ago)"
+                    "END_OF_LIFE (10 years, 5 months ago)"
                 ],
                 "5.3.6": [
-                    "END_OF_LIFE (10 years, 4 months ago)"
+                    "END_OF_LIFE (10 years, 5 months ago)"
                 ],
                 "5.3.5": [
-                    "END_OF_LIFE (10 years, 4 months ago)"
+                    "END_OF_LIFE (10 years, 5 months ago)"
                 ],
                 "5.3.4": [
-                    "END_OF_LIFE (10 years, 4 months ago)"
+                    "END_OF_LIFE (10 years, 5 months ago)"
                 ],
                 "5.3.3": [
-                    "END_OF_LIFE (10 years, 4 months ago)"
+                    "END_OF_LIFE (10 years, 5 months ago)"
                 ],
                 "5.3.2": [
-                    "END_OF_LIFE (10 years, 4 months ago)"
+                    "END_OF_LIFE (10 years, 5 months ago)"
                 ],
                 "5.3.1": [
-                    "END_OF_LIFE (10 years, 4 months ago)"
+                    "END_OF_LIFE (10 years, 5 months ago)"
                 ],
                 "5.3.0": [
-                    "END_OF_LIFE (10 years, 4 months ago)"
+                    "END_OF_LIFE (10 years, 5 months ago)"
                 ],
                 "5.2.17": [
-                    "END_OF_LIFE (13 years, 11 months ago)"
+                    "END_OF_LIFE (14 years ago)"
                 ],
                 "5.2.16": [
-                    "END_OF_LIFE (13 years, 11 months ago)"
+                    "END_OF_LIFE (14 years ago)"
                 ],
                 "5.2.15": [
-                    "END_OF_LIFE (13 years, 11 months ago)"
+                    "END_OF_LIFE (14 years ago)"
                 ],
                 "5.2.14": [
-                    "END_OF_LIFE (13 years, 11 months ago)"
+                    "END_OF_LIFE (14 years ago)"
                 ],
                 "5.2.13": [
-                    "END_OF_LIFE (13 years, 11 months ago)"
+                    "END_OF_LIFE (14 years ago)"
                 ],
                 "5.2.12": [
-                    "END_OF_LIFE (13 years, 11 months ago)"
+                    "END_OF_LIFE (14 years ago)"
                 ],
                 "5.2.11": [
-                    "END_OF_LIFE (13 years, 11 months ago)"
+                    "END_OF_LIFE (14 years ago)"
                 ],
                 "5.2.10": [
-                    "END_OF_LIFE (13 years, 11 months ago)"
+                    "END_OF_LIFE (14 years ago)"
                 ],
                 "5.2.9": [
-                    "END_OF_LIFE (13 years, 11 months ago)"
+                    "END_OF_LIFE (14 years ago)"
                 ],
                 "5.2.8": [
-                    "END_OF_LIFE (13 years, 11 months ago)"
+                    "END_OF_LIFE (14 years ago)"
                 ],
                 "5.2.6": [
-                    "END_OF_LIFE (13 years, 11 months ago)"
+                    "END_OF_LIFE (14 years ago)"
                 ],
                 "5.2.5": [
-                    "END_OF_LIFE (13 years, 11 months ago)"
+                    "END_OF_LIFE (14 years ago)"
                 ],
                 "5.2.4": [
-                    "END_OF_LIFE (13 years, 11 months ago)"
+                    "END_OF_LIFE (14 years ago)"
                 ],
                 "5.2.3": [
-                    "END_OF_LIFE (13 years, 11 months ago)"
+                    "END_OF_LIFE (14 years ago)"
                 ],
                 "5.2.2": [
-                    "END_OF_LIFE (13 years, 11 months ago)"
+                    "END_OF_LIFE (14 years ago)"
                 ],
                 "5.2.1": [
-                    "END_OF_LIFE (13 years, 11 months ago)"
+                    "END_OF_LIFE (14 years ago)"
                 ],
                 "5.2.0": [
-                    "END_OF_LIFE (13 years, 11 months ago)"
+                    "END_OF_LIFE (14 years ago)"
                 ],
                 "5.1.6": [
                     "END_OF_LIFE (18 years, 4 months ago)"
@@ -37225,109 +37399,109 @@
                     "END_OF_LIFE (18 years, 4 months ago)"
                 ],
                 "5.0.5": [
-                    "END_OF_LIFE (19 years, 3 months ago)"
+                    "END_OF_LIFE (19 years, 4 months ago)"
                 ],
                 "5.0.4": [
-                    "END_OF_LIFE (19 years, 3 months ago)"
+                    "END_OF_LIFE (19 years, 4 months ago)"
                 ],
                 "5.0.3": [
-                    "END_OF_LIFE (19 years, 3 months ago)"
+                    "END_OF_LIFE (19 years, 4 months ago)"
                 ],
                 "5.0.2": [
-                    "END_OF_LIFE (19 years, 3 months ago)"
+                    "END_OF_LIFE (19 years, 4 months ago)"
                 ],
                 "5.0.1": [
-                    "END_OF_LIFE (19 years, 3 months ago)"
+                    "END_OF_LIFE (19 years, 4 months ago)"
                 ],
                 "5.0.0": [
-                    "END_OF_LIFE (19 years, 3 months ago)"
+                    "END_OF_LIFE (19 years, 4 months ago)"
                 ],
                 "4.4.9": [
-                    "END_OF_LIFE (16 years, 4 months ago)"
+                    "END_OF_LIFE (16 years, 5 months ago)"
                 ],
                 "4.4.8": [
-                    "END_OF_LIFE (16 years, 4 months ago)"
+                    "END_OF_LIFE (16 years, 5 months ago)"
                 ],
                 "4.4.7": [
-                    "END_OF_LIFE (16 years, 4 months ago)"
+                    "END_OF_LIFE (16 years, 5 months ago)"
                 ],
                 "4.4.6": [
-                    "END_OF_LIFE (16 years, 4 months ago)"
+                    "END_OF_LIFE (16 years, 5 months ago)"
                 ],
                 "4.4.5": [
-                    "END_OF_LIFE (16 years, 4 months ago)"
+                    "END_OF_LIFE (16 years, 5 months ago)"
                 ],
                 "4.4.4": [
-                    "END_OF_LIFE (16 years, 4 months ago)"
+                    "END_OF_LIFE (16 years, 5 months ago)"
                 ],
                 "4.4.3": [
-                    "END_OF_LIFE (16 years, 4 months ago)"
+                    "END_OF_LIFE (16 years, 5 months ago)"
                 ],
                 "4.4.2": [
-                    "END_OF_LIFE (16 years, 4 months ago)"
+                    "END_OF_LIFE (16 years, 5 months ago)"
                 ],
                 "4.4.1": [
-                    "END_OF_LIFE (16 years, 4 months ago)"
+                    "END_OF_LIFE (16 years, 5 months ago)"
                 ],
                 "4.4.0": [
-                    "END_OF_LIFE (16 years, 4 months ago)"
+                    "END_OF_LIFE (16 years, 5 months ago)"
                 ],
                 "4.3.11": [
-                    "END_OF_LIFE (19 years, 8 months ago)"
+                    "END_OF_LIFE (19 years, 9 months ago)"
                 ],
                 "4.3.10": [
-                    "END_OF_LIFE (19 years, 8 months ago)"
+                    "END_OF_LIFE (19 years, 9 months ago)"
                 ],
                 "4.3.9": [
-                    "END_OF_LIFE (19 years, 8 months ago)"
+                    "END_OF_LIFE (19 years, 9 months ago)"
                 ],
                 "4.3.8": [
-                    "END_OF_LIFE (19 years, 8 months ago)"
+                    "END_OF_LIFE (19 years, 9 months ago)"
                 ],
                 "4.3.7": [
-                    "END_OF_LIFE (19 years, 8 months ago)"
+                    "END_OF_LIFE (19 years, 9 months ago)"
                 ],
                 "4.3.6": [
-                    "END_OF_LIFE (19 years, 8 months ago)"
+                    "END_OF_LIFE (19 years, 9 months ago)"
                 ],
                 "4.3.5": [
-                    "END_OF_LIFE (19 years, 8 months ago)"
+                    "END_OF_LIFE (19 years, 9 months ago)"
                 ],
                 "4.3.4": [
-                    "END_OF_LIFE (19 years, 8 months ago)"
+                    "END_OF_LIFE (19 years, 9 months ago)"
                 ],
                 "4.3.3": [
-                    "END_OF_LIFE (19 years, 8 months ago)"
+                    "END_OF_LIFE (19 years, 9 months ago)"
                 ],
                 "4.3.2": [
-                    "END_OF_LIFE (19 years, 8 months ago)"
+                    "END_OF_LIFE (19 years, 9 months ago)"
                 ],
                 "4.3.1": [
-                    "END_OF_LIFE (19 years, 8 months ago)"
+                    "END_OF_LIFE (19 years, 9 months ago)"
                 ],
                 "4.3.0": [
-                    "END_OF_LIFE (19 years, 8 months ago)"
+                    "END_OF_LIFE (19 years, 9 months ago)"
                 ],
                 "4.2.3": [
-                    "END_OF_LIFE (22 years, 3 months ago)"
+                    "END_OF_LIFE (22 years, 4 months ago)"
                 ],
                 "4.2.2": [
-                    "END_OF_LIFE (22 years, 3 months ago)"
+                    "END_OF_LIFE (22 years, 4 months ago)"
                 ],
                 "4.2.1": [
-                    "END_OF_LIFE (22 years, 3 months ago)"
+                    "END_OF_LIFE (22 years, 4 months ago)"
                 ],
                 "4.2.0": [
-                    "END_OF_LIFE (22 years, 3 months ago)"
+                    "END_OF_LIFE (22 years, 4 months ago)"
                 ],
                 "4.1.2": [
-                    "END_OF_LIFE (22 years, 9 months ago)"
+                    "END_OF_LIFE (22 years, 10 months ago)"
                 ],
                 "4.1.1": [
-                    "END_OF_LIFE (22 years, 9 months ago)"
+                    "END_OF_LIFE (22 years, 10 months ago)"
                 ],
                 "4.1.0": [
-                    "END_OF_LIFE (22 years, 9 months ago)"
+                    "END_OF_LIFE (22 years, 10 months ago)"
                 ],
                 "4.0.6": [
                     "END_OF_LIFE (23 years, 6 months ago)"
@@ -37660,7 +37834,7 @@
             "github-repo": "analytics",
             "github-source": "releases",
             "license": "agpl-3.0",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "archived": false,
             "versions": {
                 "2.1.4": [],
@@ -37956,7 +38130,7 @@
             "github-owner": "floating-ui",
             "github-repo": "floating-ui",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "typescript"
             ],
@@ -38209,6 +38383,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "2.3.3": [],
                 "2.3.2": [],
                 "2.3.1": [],
                 "2.3.0": [],
@@ -38439,12 +38614,13 @@
             "github-owner": "prebid",
             "github-repo": "Prebid.js",
             "license": "apache-2.0",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
             "archived": false,
             "versions": {
+                "9.26.0": [],
                 "9.25.0": [],
                 "9.24.0": [],
                 "9.23.0": [],
@@ -38543,20 +38719,20 @@
                 "7.46.0": [],
                 "7.45.0": [],
                 "7.44.0": [],
-                "7.43.0": [],
-                "7.42.0": []
+                "7.43.0": []
             }
         },
         "prebid.js": {
             "github-owner": "prebid",
             "github-repo": "Prebid.js",
             "license": "apache-2.0",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
             "archived": false,
             "versions": {
+                "9.26.0": [],
                 "9.25.0": [],
                 "9.24.0": [],
                 "9.23.0": [],
@@ -38655,14 +38831,17 @@
                 "7.46.0": [],
                 "7.45.0": [],
                 "7.44.0": [],
-                "7.43.0": [],
-                "7.42.0": []
+                "7.43.0": []
             }
         },
         "premium-addons-for-elementor": {
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "4.10.76": [],
+                "4.10.75": [],
+                "4.10.74": [],
+                "4.10.73": [],
                 "4.10.72": [],
                 "4.10.71": [],
                 "4.10.70": [],
@@ -39124,6 +39303,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "2.1.45": [],
                 "2.1.44": [],
                 "2.1.43": [],
                 "2.1.42": [],
@@ -39795,7 +39975,7 @@
             "github-owner": "facebook",
             "github-repo": "react",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
@@ -39987,12 +40167,13 @@
             "github-owner": "gpbl",
             "github-repo": "react-day-picker",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "typescript"
             ],
             "archived": false,
             "versions": {
+                "9.5.0": [],
                 "9.4.4": [],
                 "9.4.3": [],
                 "9.4.2": [],
@@ -40392,13 +40573,15 @@
             "github-owner": "remarkjs",
             "github-repo": "react-markdown",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js",
                 "markdown"
             ],
             "archived": false,
             "versions": {
+                "9.0.3": [],
+                "9.0.2": [],
                 "9.0.1": [],
                 "9.0.0": [],
                 "8.0.7": [],
@@ -41622,7 +41805,7 @@
             "github-owner": "mozilla",
             "github-repo": "rhino",
             "license": null,
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
@@ -41766,6 +41949,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "1.7.1006": [],
                 "1.7.1005": [],
                 "1.7.1004": [],
                 "1.7.1003": [],
@@ -41901,7 +42085,7 @@
             "github-owner": "apostrophecms",
             "github-repo": "sanitize-html",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
@@ -42207,7 +42391,7 @@
             "github-owner": "yowainwright",
             "github-repo": "scrolldir",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
@@ -42636,7 +42820,7 @@
             "github-owner": "selectize",
             "github-repo": "selectize.js",
             "license": "apache-2.0",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js",
                 "scss"
@@ -42841,13 +43025,14 @@
             "github-owner": "getsentry",
             "github-repo": "sentry-javascript",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js",
                 "typescript"
             ],
             "archived": false,
             "versions": {
+                "8.48.0": [],
                 "8.47.0": [],
                 "8.46.0": [],
                 "8.45.1": [],
@@ -43036,7 +43221,7 @@
             "github-owner": "yowainwright",
             "github-repo": "shave",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "typescript"
             ],
@@ -43251,6 +43436,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "3.9.25": [],
                 "3.9.24": [],
                 "3.9.23": [],
                 "3.9.22": [],
@@ -43337,7 +43523,7 @@
             "github-owner": "hodgef",
             "github-repo": "simple-keyboard",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
@@ -43403,6 +43589,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "8.5.1": [],
                 "8.5.0": [],
                 "8.4.12": [],
                 "8.4.11": [],
@@ -43887,7 +44074,7 @@
             "github-owner": "sitespeedio",
             "github-repo": "sitespeed.io",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
@@ -43990,9 +44177,7 @@
                 "29.3.0": [],
                 "29.2.1": [],
                 "29.2.0": [],
-                "29.1.3": [],
-                "29.1.2": [],
-                "29.1.1": []
+                "29.1.3": []
             }
         },
         "sizzle": {
@@ -44658,7 +44843,7 @@
             "github-owner": "storyblok",
             "github-repo": "storyblok-js",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js",
                 "typescript"
@@ -44860,7 +45045,7 @@
             "github-owner": "styled-components",
             "github-repo": "styled-components",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "typescript"
             ],
@@ -45231,12 +45416,19 @@
             "github-owner": "sweetalert2",
             "github-repo": "sweetalert2",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
             "archived": false,
             "versions": {
+                "11.15.10": [],
+                "11.15.9": [],
+                "11.15.8": [],
+                "11.15.7": [],
+                "11.15.6": [],
+                "11.15.5": [],
+                "11.15.4": [],
                 "11.15.3": [],
                 "11.15.2": [],
                 "11.15.1": [],
@@ -45329,14 +45521,7 @@
                 "11.4.35": [],
                 "11.4.34": [],
                 "11.4.33": [],
-                "11.4.32": [],
-                "11.4.31": [],
-                "11.4.30": [],
-                "11.4.29": [],
-                "11.4.28": [],
-                "11.4.27": [],
-                "11.4.26": [],
-                "11.4.25": []
+                "11.4.32": []
             }
         },
         "systemjs": {
@@ -45453,7 +45638,7 @@
             "github-owner": "focus-trap",
             "github-repo": "tabbable",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
@@ -45549,6 +45734,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "3.0.1": [],
                 "3.0": [],
                 "2.4.4": [],
                 "2.4.3": [],
@@ -45621,7 +45807,7 @@
             "github-owner": "matomo-org",
             "github-repo": "tag-manager",
             "license": "gpl-3.0",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "php"
             ],
@@ -45631,7 +45817,7 @@
             "github-owner": "tailwindlabs",
             "github-repo": "tailwindcss",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "typescript"
             ],
@@ -45709,8 +45895,7 @@
                 "2.2.18": [],
                 "2.2.17": [],
                 "2.2.16": [],
-                "2.2.15": [],
-                "2.2.14": []
+                "2.2.15": []
             }
         },
         "teachpress": {
@@ -46255,6 +46440,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "2.10.44": [],
                 "2.10.43": [],
                 "2.10.42": [],
                 "2.10.41": [],
@@ -46415,13 +46601,14 @@
             "github-owner": "add2cal",
             "github-repo": "timezones-ical-library",
             "license": "apache-2.0",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "c",
                 "js"
             ],
             "archived": false,
             "versions": {
+                "1.9.1": [],
                 "1.9.0": [],
                 "1.8.3": [],
                 "1.8.2": [],
@@ -46999,7 +47186,7 @@
             "github-owner": "trpc",
             "github-repo": "trpc",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "typescript"
             ],
@@ -47343,7 +47530,7 @@
             "github-owner": "Microsoft",
             "github-repo": "TypeScript-wiki",
             "license": "cc-by-4.0",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
@@ -47353,6 +47540,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "2.18.0": [],
                 "2.17.0": [],
                 "2.16.5": [],
                 "2.16.4": [],
@@ -48145,12 +48333,14 @@
             "github-owner": "uuidjs",
             "github-repo": "uuid",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "typescript"
             ],
             "archived": false,
             "versions": {
+                "11.0.5": [],
+                "11.0.4": [],
                 "11.0.3": [],
                 "11.0.2": [],
                 "11.0.1": [],
@@ -48202,7 +48392,7 @@
             "github-owner": "verlok",
             "github-repo": "vanilla-lazyload",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js",
                 "webp"
@@ -48767,12 +48957,13 @@
             "github-owner": "vitejs",
             "github-repo": "vite",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "typescript"
             ],
             "archived": false,
             "versions": {
+                "6.0.7": [],
                 "6.0.6": [],
                 "6.0.5": [],
                 "6.0.4": [],
@@ -49323,12 +49514,13 @@
             "github-owner": "vuejs",
             "github-repo": "devtools",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "typescript"
             ],
             "archived": false,
             "versions": {
+                "7.7.0": [],
                 "7.6.8": [],
                 "7.6.7": [],
                 "7.6.6": [],
@@ -49828,7 +50020,7 @@
             "github-owner": "Webperf-se",
             "github-repo": "webperf_core",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "archived": false,
             "contributors": [
                 "[7h3Rabbit](https://github.com/7h3Rabbit)",
@@ -49843,6 +50035,10 @@
                 "[peterk](https://github.com/peterk)"
             ],
             "versions": {
+                "2025.1.3": [],
+                "2025.1.2": [],
+                "2025.1.1": [],
+                "2025.1.0": [],
                 "2024.12.10": [],
                 "2024.12.9": [],
                 "2024.12.8": [],
@@ -50001,7 +50197,7 @@
             "github-owner": "wet-boew",
             "github-repo": "wet-boew",
             "license": null,
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "archived": false,
             "versions": {
                 "4.0.83": [],
@@ -50505,6 +50701,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "9.5.1": [],
                 "9.5.0": [],
                 "9.4.3": [],
                 "9.4.2": [],
@@ -50843,6 +51040,8 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "9.1.0": [],
+                "9.0.0": [],
                 "8.9.0": [],
                 "8.8.2": [],
                 "8.8.1": [],
@@ -51047,7 +51246,7 @@
             "github-owner": "WordPress",
             "github-repo": "WordPress",
             "license": null,
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "php"
             ],
@@ -51233,6 +51432,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "6.30.04": [],
                 "6.30.03": [],
                 "6.30.02": [],
                 "6.30.01": [],
@@ -51854,6 +52054,13 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "9.0.00.006": [],
+                "9.0.00.005": [],
+                "9.0.00.004": [],
+                "9.0.00.003": [],
+                "9.0.00.002": [],
+                "9.0.00.001": [],
+                "9.0.00.000": [],
                 "8.9.03.010": [],
                 "8.9.03.009": [],
                 "8.9.03.008": [],
@@ -52313,6 +52520,8 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "14.12": [],
+                "14.11.4": [],
                 "14.11.3": [],
                 "14.11.2": [],
                 "14.11.1": [],
@@ -52638,6 +52847,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "4.7.6": [],
                 "4.7.5": [],
                 "4.7.4": [],
                 "4.7.3": [],
@@ -52752,6 +52962,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "4.15.20": [],
                 "4.15.19": [],
                 "4.15.18": [],
                 "4.15.17": [],
@@ -52946,6 +53157,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "3.1.9": [],
                 "3.1.8": [],
                 "3.1.7": [],
                 "3.1.6": [],
@@ -53315,6 +53527,8 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "34.1": [],
+                "34.0": [],
                 "33.3": [],
                 "33.2": [],
                 "33.1": [],
@@ -53381,6 +53595,8 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "8.5.13": [],
+                "8.5.12": [],
                 "8.5.11": [],
                 "8.5.10": [],
                 "8.5.9": [],
@@ -53543,7 +53759,7 @@
             "github-owner": "websockets",
             "github-repo": "ws",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
@@ -54055,7 +54271,7 @@
             "github-owner": "statelyai",
             "github-repo": "xstate",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js",
                 "typescript"
@@ -54379,15 +54595,17 @@
             "github-owner": "pmndrs",
             "github-repo": "zustand",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "typescript"
             ],
             "archived": false,
             "versions": {
+                "5.0.3": [],
                 "5.0.2": [],
                 "5.0.1": [],
                 "5.0.0": [],
+                "4.5.6": [],
                 "4.5.5": [],
                 "4.5.4": [],
                 "4.5.3": [],
@@ -54464,9 +54682,7 @@
                 "3.0.3": [],
                 "3.0.2": [],
                 "3.0.1": [],
-                "3.0.0": [],
-                "2.2.4": [],
-                "2.2.2": []
+                "3.0.0": []
             }
         },
         "zxcvbn": {
@@ -54509,5 +54725,5 @@
             }
         }
     },
-    "updated": "2024-12-28 12:33:00"
+    "updated": "2025-01-14 09:19:55"
 }

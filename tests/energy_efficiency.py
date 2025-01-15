@@ -145,6 +145,7 @@ def format_bytes(size):
         unit = "MB"
     else:
         closest_value = kilobytes_value
+        unit = "KB"
 
     return float(f'{closest_value:.2f}'), unit
 

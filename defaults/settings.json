@@ -39,6 +39,7 @@
                 "use": false
             },
             "timeout": 30,
+            "mobile": false,
             "iterations": 2,
             "xvfb": false,
             "cache": {

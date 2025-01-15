@@ -177,6 +177,10 @@ Setting this to a lower value may improve overall test speed if many urls are be
 it is not important if one or two tests fail.
 Please read more about this on [SiteSpeed test section](tests/sitespeed.md).
 
+### tests.sitespeed.mobile `(Default = false)`
+
+This variable tells sitespeed based test(s) to simulate mobile browser.
+
 ### tests.sitespeed.xvfb `(Default = false)`
 
 This variable tells sitespeed based test(s) to start xvfb before the browser is started.

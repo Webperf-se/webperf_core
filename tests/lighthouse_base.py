@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 import subprocess
 from helpers.models import Rating
 from tests.sitespeed_base import get_result
-from tests.utils import is_file_older_than,\
+from tests.utils import change_url_to_test_url, is_file_older_than,\
                         get_cache_path_for_rule,\
                         get_translation
 from helpers.setting_helper import get_config
@@ -484,14 +484,16 @@ def get_json_result_using_caching(lang_code, url, strategy):
         sitespeed_arg,
         get_config('tests.sitespeed.timeout'))
 
-    # TODO: should we add logic to run lighthouse with different url if file doesn't exist?
-    if not os.path.exists(filename):
-        return {}
-
     result_file = filename.replace('.har', '-lighthouse-lhr.json')
     if not os.path.exists(result_file):
-        # TODO: should we add logic to run lighthouse with different url if file doesn't exist?
-        return {}
+        # we  run lighthouse with different url if file doesn't exist
+        alternative_url = change_url_to_test_url(url, 'lighthouse')
+        (_, filename) = get_result(
+            alternative_url,
+            get_config('tests.sitespeed.docker.use'),
+            sitespeed_arg,
+            get_config('tests.sitespeed.timeout'))
+        result_file = filename.replace('.har', '-lighthouse-lhr.json')
 
     if is_file_older_than(result_file, timedelta(minutes=get_config('general.cache.max-age'))):
         return {}

@@ -5,7 +5,8 @@ import time
 from datetime import datetime, timedelta
 import subprocess
 from helpers.models import Rating
-from tests.utils import is_file_older_than,\
+from tests.sitespeed_base import get_result
+from tests.utils import change_url_to_test_url, is_file_older_than,\
                         get_cache_path_for_rule,\
                         get_translation
 from helpers.setting_helper import get_config
@@ -42,7 +43,7 @@ def get_lighthouse_translations(module_name, lang_code, global_translation):
         'global': global_translation
     }
 
-def run_test(url, strategy, category, silance, lighthouse_translations):
+def run_test(url, category, silance, lighthouse_translations):
     """
     https://www.googleapis.com/pagespeedonline/v5/runPagespeed?
         category=(performance/accessibility/best-practices/seo)
@@ -63,9 +64,7 @@ def run_test(url, strategy, category, silance, lighthouse_translations):
 
     json_content = get_json_result(
             lang_code,
-            url,
-            strategy,
-            category
+            url
         )
 
     return_dict = {}
@@ -443,7 +442,7 @@ def str_to_json(content, url):
 
     return json_content
 
-def get_json_result_using_caching(lang_code, url, strategy):
+def get_json_result_using_caching(lang_code, url):
     """
     Retrieves the JSON result of a Lighthouse audit for a URL using caching.
 
@@ -454,55 +453,64 @@ def get_json_result_using_caching(lang_code, url, strategy):
     Parameters:
     lang_code (str): The locale to use for the audit.
     url (str): The URL to audit.
-    strategy (str): The form factor to use for the audit (e.g., 'mobile' or 'desktop').
 
     Returns:
     dict: The JSON result of the audit, either from the cache or a new audit.
     """
-    cache_key_rule = 'lighthouse-{0}'
-    cache_path = get_cache_path_for_rule(url, cache_key_rule)
 
-    if not os.path.exists(cache_path):
-        os.makedirs(cache_path)
+    # TODO: re add lang code logic
 
-    result_file = os.path.join(cache_path, 'result.json')
-    command = (
-        f"node node_modules{os.path.sep}lighthouse{os.path.sep}cli{os.path.sep}index.js"
-        f" --output json --output-path {result_file} --locale {lang_code}"
-        f" --form-factor {strategy} --chrome-flags=\"--headless\" --quiet")
+    # We don't need extra iterations for what we are using it for
+    sitespeed_iterations = 1
+    sitespeed_arg = (
+            '--shm-size=1g -b chrome '
+            '--plugins.remove screenshot --plugins.remove html --plugins.remove metrics '
+            '--browsertime.screenshot false --screenshot false --screenshotLCP false '
+            '--browsertime.screenshotLCP false --chrome.cdp.performance false '
+            '--browsertime.chrome.timeline false --videoParams.createFilmstrip false '
+            '--visualMetrics false --visualMetricsPerceptual false '
+            '--visualMetricsContentful false --browsertime.headless true '
+            '--browsertime.chrome.includeResponseBodies all --utc true '
+            '--browsertime.chrome.args ignore-certificate-errors '
+            f'-n {sitespeed_iterations}')
 
-    artifacts_file = os.path.join(cache_path, 'artifacts.json')
-    if os.path.exists(result_file) and \
-        not is_file_older_than(result_file, timedelta(minutes=get_config('general.cache.max-age'))):
-
-        file_created_timestamp = os.path.getctime(result_file)
-        file_created_date = time.ctime(file_created_timestamp)
-        print((f'Cached entry found from {file_created_date},'
-            ' using it instead of calling website again.'))
-        with open(result_file, 'r', encoding='utf-8', newline='') as file:
-            return str_to_json('\n'.join(file.readlines()), url)
-    elif os.path.exists(artifacts_file) and \
-        not is_file_older_than(
-            artifacts_file,
-            timedelta(minutes=get_config('general.cache.max-age'))):
-
-        file_created_timestamp = os.path.getctime(artifacts_file)
-        file_created_date = time.ctime(file_created_timestamp)
-        print((
-            f'Cached entry found from {file_created_date},'
-            ' using it instead of calling website again.'))
-        command += f" -A={cache_path}"
+    if get_config('tests.sitespeed.docker.use'):
+        sitespeed_arg += (f' --plugins.add node_modules/@sitespeed.io/plugin-lighthouse/index.js'
+                        f' --plugins.add node_modules/webperf-sitespeedio-plugin/index.js')
     else:
-        command += f" -GA={cache_path} {url}"
+        sitespeed_arg += (f' --plugins.add ../../../@sitespeed.io/plugin-lighthouse/index.js'
+                        f' --plugins.add ../../../webperf-sitespeedio-plugin/index.js')
+    if lang_code not in ('en', 'gov'):
+        url = change_url_to_test_url(url, f'lighthouse-locale-{lang_code}')
+        sitespeed_arg += (f' --lighthouse.flags ./defaults/lighthouse-flags-locale-{lang_code}.json')
 
-    with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
-        _, _ = process.communicate(timeout=get_config('general.request.timeout') * 10)
-        with open(result_file, 'r', encoding='utf-8', newline='') as file:
-            return str_to_json('\n'.join(file.readlines()), url)
+    if get_config('tests.sitespeed.xvfb'):
+        sitespeed_arg += ' --xvfb'
+    (_, filename) = get_result(
+        url,
+        get_config('tests.sitespeed.docker.use'),
+        sitespeed_arg,
+        get_config('tests.sitespeed.timeout'))
+
+    result_file = filename.replace('.har', '-lighthouse-lhr.json')
+    if not os.path.exists(result_file):
+        # we  run lighthouse with different url if file doesn't exist
+        url = change_url_to_test_url(url, 'lighthouse')
+        (_, filename) = get_result(
+            url,
+            get_config('tests.sitespeed.docker.use'),
+            sitespeed_arg,
+            get_config('tests.sitespeed.timeout'))
+        result_file = filename.replace('.har', '-lighthouse-lhr.json')
+
+    if is_file_older_than(result_file, timedelta(minutes=get_config('general.cache.max-age'))):
+        return {}
+
+    with open(result_file, 'r', encoding='utf-8', newline='') as file:
+        return str_to_json('\n'.join(file.readlines()), url)
 
 
-
-def get_json_result(lang_code, url, strategy, category):
+def get_json_result(lang_code, url):
     """
     Retrieves the JSON result of a Lighthouse audit for a specific URL.
     This function uses either the Google Pagespeed API or
@@ -514,35 +522,10 @@ def get_json_result(lang_code, url, strategy, category):
     Parameters:
     lang_code (str): The locale to use for the audit.
     url (str): The URL to audit.
-    strategy (str):
-        The form factor to use for the audit (e.g., 'mobile' or 'desktop').
-    category (str):
-        The category of audits to perform (e.g., 'performance' or 'accessibility').
 
     Returns:
     dict: The JSON result of the audit.
     """
-    json_content = {}
     check_url = url.strip()
 
-    if get_config('general.cache.use'):
-        return get_json_result_using_caching(lang_code, check_url, strategy)
-
-    command = (
-        f"node node_modules{os.path.sep}lighthouse{os.path.sep}cli{os.path.sep}index.js"
-        f" {check_url} --output json --output-path stdout --locale {lang_code}"
-        f" --only-categories {category} --form-factor {strategy}"
-        " --chrome-flags=\"--headless\" --quiet")
-
-    if get_config('tests.lighthouse.disable-sandbox'):
-        command += (
-            " --chrome-flags=\"--no-sandbox\""
-            )
-
-
-    with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
-        output, _ = process.communicate(timeout=get_config('general.request.timeout') * 10)
-        get_content = output
-        json_content = str_to_json(get_content, check_url)
-
-    return json_content
+    return get_json_result_using_caching(lang_code, check_url)

@@ -56,10 +56,18 @@ jobs:
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: RUNNING TEST - LINUX
       run: |
-         python default.py -t ${{ matrix.version }} -r -i defaults/sites.json -o data/testresult-${{ matrix.version }}.json
+         python default.py -t ${{ matrix.version }} -r -u https://webperf.se?webperf-core-test-${{ matrix.version }} -o data/testresult-${{ matrix.version }}.json --setting tests.sitespeed.xvfb=true --setting general.cache.use=true --setting general.cache.max-age=5256000 --setting tests.sitespeed.cache.folder=unittests
          python .github/workflows/verify_result.py -t ${{ matrix.version }}
     - if: ${{ matrix.os == 'windows-latest' }}
       name: RUNNING TEST - WINDOWS
       run: |
-         python default.py -t ${{ matrix.version }} -r -i defaults\sites.json -o data\testresult-${{ matrix.version }}.json
+         python default.py -t ${{ matrix.version }} -r -u https://webperf.se?webperf-core-test-${{ matrix.version }} -o data\testresult-${{ matrix.version }}.json --setting general.cache.use=true --setting general.cache.max-age=5256000 --setting tests.sitespeed.cache.folder=unittests
          python .github\workflows\verify_result.py -t ${{ matrix.version }}
+    - if: ${{ matrix.os == 'ubuntu-latest' && matrix.version == 1 }}
+      name: RUNNING TEST - LINUX
+      run: |
+         node node_modules/sitespeed.io/bin/sitespeed.js -b chrome --xvfb --plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --chrome.cdp.performance false --browsertime.chrome.timeline false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --browsertime.chrome.includeResponseBodies all --utc true --browsertime.chrome.args ignore-certificate-errors -n 1 --plugins.add ../../../@sitespeed.io/plugin-lighthouse/index.js --plugins.add ../../../webperf-sitespeedio-plugin/index.js --sustainable.enable=true https://webperf.se?webperf-core-test-${{ matrix.version }}
+    - if: ${{ matrix.os == 'windows-latest' && matrix.version == 1 }}
+      name: RUNNING TEST - WINDOWS
+      run: |
+         node node_modules\sitespeed.io\bin\sitespeed.js -b chrome --plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --chrome.cdp.performance false --browsertime.chrome.timeline false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --browsertime.chrome.includeResponseBodies all --utc true --browsertime.chrome.args ignore-certificate-errors -n 1 --plugins.add ../../../@sitespeed.io/plugin-lighthouse/index.js --plugins.add ../../../webperf-sitespeedio-plugin/index.js --sustainable.enable=true https://webperf.se?webperf-core-test-${{ matrix.version }}

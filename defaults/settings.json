@@ -34,9 +34,6 @@
         "http": {
             "csp-only": false
         },
-        "lighthouse": {
-            "disable-sandbox": false
-        },
         "sitespeed": {
             "docker": {
                 "use": false

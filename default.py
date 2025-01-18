@@ -335,6 +335,9 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
         if len(self.test_types) == 0:
             show_test_help(self.language)
 
+    def enable_mobile(self, _):
+        self.set_setting('tests.sitespeed.mobile=true')
+
     def enable_reviews(self, _):
         """
         Enables the display of reviews for the instance.
@@ -471,6 +474,7 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             ("-t", "--test"): self.set_test_types,
             ("-i", "--input"): self.set_input_handlers,
             ("--is", "--input-skip"): self.set_input_skip,
+            ("-m", "--mobile"): self.enable_mobile,
             ("--it", "--input-take"): self.set_input_take,
             ("-o", "--output"): self.set_output_filename,
             ("-r", "--review", "--report"): self.enable_reviews,
@@ -524,10 +528,11 @@ def main(argv):
     options.load_language(get_config('general.language'))
 
     try:
-        opts, _ = getopt.getopt(argv, "hu:t:i:o:rA:D:L:s:cbd:", [
+        opts, _ = getopt.getopt(argv, "hu:t:i:o:rA:D:L:s:cbd:m", [
                                    "help", "url=", "test=", "input=", "output=",
                                    "review", "report", "addUrl=", "deleteUrl=",
                                    "language=", "input-skip=", "input-take=",
+                                   "mobile",
                                    "credits", "contributors",
                                    "uc" ,"update-credits",
                                    "ums", "update-mdn-sources",

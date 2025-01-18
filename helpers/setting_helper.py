@@ -68,6 +68,9 @@ config_mapping = {
         "sitespeed_use_docker",
         "SITESPEED_USE_DOCKER"): "bool|tests.sitespeed.docker.use",
     (
+        "mobile",
+        "tests.sitespeed.mobile"): "bool|tests.sitespeed.mobile",
+    (
         "sitespeedtimeout",
         "tests.sitespeed.timeout",
         "sitespeed_timeout",

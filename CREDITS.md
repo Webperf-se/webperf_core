@@ -17,10 +17,6 @@ Contributors:
 
 ## Projects we depend on:
 
-### [lighthouse](https://www.npmjs.com/package/lighthouse)
-Usage: Used in Google Lighthouse based Tests
-License: APACHE-2.0
-
 ### [pa11y](https://www.npmjs.com/package/pa11y)
 Usage: Used in Accessibility (Pa11y) Test
 License: LGPL-3.0

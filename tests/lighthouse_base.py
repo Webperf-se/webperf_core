@@ -480,6 +480,9 @@ def get_json_result_using_caching(lang_code, url):
     else:
         sitespeed_arg += (f' --plugins.add ../../../@sitespeed.io/plugin-lighthouse/index.js'
                         f' --plugins.add ../../../webperf-sitespeedio-plugin/index.js')
+    if lang_code not in ('en', 'gov'):
+        url = change_url_to_test_url(url, f'lighthouse-locale-{lang_code}')
+        sitespeed_arg += (f' --lighthouse.flags ./defaults/lighthouse-flags-locale-{lang_code}.json')
 
     if get_config('tests.sitespeed.xvfb'):
         sitespeed_arg += ' --xvfb'
@@ -492,9 +495,9 @@ def get_json_result_using_caching(lang_code, url):
     result_file = filename.replace('.har', '-lighthouse-lhr.json')
     if not os.path.exists(result_file):
         # we  run lighthouse with different url if file doesn't exist
-        alternative_url = change_url_to_test_url(url, 'lighthouse')
+        url = change_url_to_test_url(url, 'lighthouse')
         (_, filename) = get_result(
-            alternative_url,
+            url,
             get_config('tests.sitespeed.docker.use'),
             sitespeed_arg,
             get_config('tests.sitespeed.timeout'))

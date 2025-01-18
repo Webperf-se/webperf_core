@@ -59,6 +59,8 @@ jobs:
       run: python default.py --update-definitions ${{ secrets.GITHUB_TOKEN }}
     - name: Update HTML and CSS references (MDN Web Docs)
       run: python default.py --update-mdn-sources
+    - name: Update Stylelint Standard Rules
+      run: python default.py --update-stylelint-rules
     - name: Update CREDITS.md
       run: python default.py --update-credits
     - name: Create pull request
@@ -71,6 +73,7 @@ jobs:
           This pull request is used to make it easier to keep the software definitions up to date.
           
           Following files may be touched:
+            - defaults/css-stylelint-standard.json
             - defaults/software-sources.json
             - defaults/software-full.json
             - defaults/software-rules.json
@@ -80,6 +83,7 @@ jobs:
         assignees: 7h3Rabbit
         reviewers: 7h3Rabbit
         add-paths: |
+          defaults/css-stylelint-standard.json
           defaults/software-sources.json
           defaults/software-full.json
           defaults/software-rules.json

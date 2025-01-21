@@ -124,7 +124,6 @@ def save_mdn_rules(rules):
     file_path = os.path.join(base_directory, 'defaults', 'mdn-rules.json')
 
     rules["loaded"] = True
-    rules["updated"] = f'{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}'
 
     with open(file_path, 'w', encoding='utf-8') as outfile:
         json.dump(rules, outfile, indent=4)

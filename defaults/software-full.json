@@ -1501,6 +1501,7 @@
             ],
             "archived": false,
             "versions": {
+                "19.1.2": [],
                 "19.1.1": [],
                 "19.1.0": [],
                 "19.0.7": [],
@@ -10301,7 +10302,7 @@
             "github-owner": "Choices-js",
             "github-repo": "choices",
             "license": "mit",
-            "last_pushed_year": "2024",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
@@ -10508,6 +10509,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "6.48": [],
                 "6.47": [],
                 "6.46": [],
                 "6.45.2": [],
@@ -14471,6 +14473,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "3.26.5": [],
                 "3.26.4": [],
                 "3.26.3": [],
                 "3.26.2": [],
@@ -15955,6 +15958,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "6.1.0": [],
                 "6.0.15": [],
                 "6.0.14": [],
                 "6.0.13": [],
@@ -20788,6 +20792,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "3.10.1": [],
                 "3.10.0": [],
                 "3.9.3": [],
                 "3.9.2": [],
@@ -21219,6 +21224,8 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "3.16.0": [],
+                "3.15.2": [],
                 "3.15.1": [],
                 "3.15.0": [],
                 "3.14.1": [],
@@ -22332,6 +22339,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "2.2.05": [],
                 "2.2.04": [],
                 "2.2.03": [],
                 "2.2.02": [],
@@ -22563,6 +22571,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "11.5.1.1": [],
                 "11.5.1": [],
                 "11.5.0": [],
                 "11.4.2": [],
@@ -29139,6 +29148,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "7.7.2": [],
                 "7.7.1": [],
                 "7.7": [],
                 "7.6.11": [],
@@ -31867,6 +31877,8 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "8.6.5": [],
+                "8.6.4": [],
                 "8.6.3": [],
                 "8.6.2": [],
                 "8.6.1": [],
@@ -33447,16 +33459,21 @@
             ],
             "archived": false,
             "versions": {
-                "3.4.0": [],
+                "3.4.0": [
+                    "CVE-2024-13176"
+                ],
                 "3.3.2": [
+                    "CVE-2024-13176",
                     "CVE-2024-9143"
                 ],
                 "3.3.1": [
+                    "CVE-2024-13176",
                     "CVE-2024-9143",
                     "CVE-2024-6119",
                     "CVE-2024-5535"
                 ],
                 "3.3.0": [
+                    "CVE-2024-13176",
                     "CVE-2024-9143",
                     "CVE-2024-6119",
                     "CVE-2024-5535",
@@ -33464,14 +33481,17 @@
                     "CVE-2024-4603"
                 ],
                 "3.2.3": [
+                    "CVE-2024-13176",
                     "CVE-2024-9143"
                 ],
                 "3.2.2": [
+                    "CVE-2024-13176",
                     "CVE-2024-9143",
                     "CVE-2024-6119",
                     "CVE-2024-5535"
                 ],
                 "3.2.1": [
+                    "CVE-2024-13176",
                     "CVE-2024-9143",
                     "CVE-2024-6119",
                     "CVE-2024-5535",
@@ -33480,6 +33500,7 @@
                     "CVE-2024-2511"
                 ],
                 "3.2.0": [
+                    "CVE-2024-13176",
                     "CVE-2024-9143",
                     "CVE-2024-6119",
                     "CVE-2024-5535",
@@ -33491,14 +33512,17 @@
                     "CVE-2023-6129"
                 ],
                 "3.1.7": [
+                    "CVE-2024-13176",
                     "CVE-2024-9143"
                 ],
                 "3.1.6": [
+                    "CVE-2024-13176",
                     "CVE-2024-9143",
                     "CVE-2024-6119",
                     "CVE-2024-5535"
                 ],
                 "3.1.5": [
+                    "CVE-2024-13176",
                     "CVE-2024-9143",
                     "CVE-2024-6119",
                     "CVE-2024-5535",
@@ -33507,6 +33531,7 @@
                     "CVE-2024-2511"
                 ],
                 "3.1.4": [
+                    "CVE-2024-13176",
                     "CVE-2024-9143",
                     "CVE-2024-6119",
                     "CVE-2024-5535",
@@ -33518,6 +33543,7 @@
                     "CVE-2023-6129"
                 ],
                 "3.1.3": [
+                    "CVE-2024-13176",
                     "CVE-2024-9143",
                     "CVE-2024-6119",
                     "CVE-2024-5535",
@@ -33530,6 +33556,7 @@
                     "CVE-2023-5363"
                 ],
                 "3.1.2": [
+                    "CVE-2024-13176",
                     "CVE-2024-9143",
                     "CVE-2024-6119",
                     "CVE-2024-5535",
@@ -33543,6 +33570,7 @@
                     "CVE-2023-4807"
                 ],
                 "3.1.1": [
+                    "CVE-2024-13176",
                     "CVE-2024-9143",
                     "CVE-2024-6119",
                     "CVE-2024-5535",
@@ -33559,6 +33587,7 @@
                     "CVE-2023-2975"
                 ],
                 "3.1.0": [
+                    "CVE-2024-13176",
                     "CVE-2024-9143",
                     "CVE-2024-6119",
                     "CVE-2024-5535",
@@ -33579,14 +33608,17 @@
                     "CVE-2023-0464"
                 ],
                 "3.0.15": [
+                    "CVE-2024-13176",
                     "CVE-2024-9143"
                 ],
                 "3.0.14": [
+                    "CVE-2024-13176",
                     "CVE-2024-9143",
                     "CVE-2024-6119",
                     "CVE-2024-5535"
                 ],
                 "3.0.13": [
+                    "CVE-2024-13176",
                     "CVE-2024-9143",
                     "CVE-2024-6119",
                     "CVE-2024-5535",
@@ -33595,6 +33627,7 @@
                     "CVE-2024-2511"
                 ],
                 "3.0.12": [
+                    "CVE-2024-13176",
                     "CVE-2024-9143",
                     "CVE-2024-6119",
                     "CVE-2024-5535",
@@ -33606,6 +33639,7 @@
                     "CVE-2023-6129"
                 ],
                 "3.0.11": [
+                    "CVE-2024-13176",
                     "CVE-2024-9143",
                     "CVE-2024-6119",
                     "CVE-2024-5535",
@@ -33618,6 +33652,7 @@
                     "CVE-2023-5363"
                 ],
                 "3.0.10": [
+                    "CVE-2024-13176",
                     "CVE-2024-9143",
                     "CVE-2024-6119",
                     "CVE-2024-5535",
@@ -33631,6 +33666,7 @@
                     "CVE-2023-4807"
                 ],
                 "3.0.9": [
+                    "CVE-2024-13176",
                     "CVE-2024-9143",
                     "CVE-2024-6119",
                     "CVE-2024-5535",
@@ -33647,6 +33683,7 @@
                     "CVE-2023-2975"
                 ],
                 "3.0.8": [
+                    "CVE-2024-13176",
                     "CVE-2024-9143",
                     "CVE-2024-6119",
                     "CVE-2024-5535",
@@ -33668,6 +33705,7 @@
                     "CVE-2023-0464"
                 ],
                 "3.0.7": [
+                    "CVE-2024-13176",
                     "CVE-2024-9143",
                     "CVE-2024-6119",
                     "CVE-2024-5535",
@@ -33697,6 +33735,7 @@
                     "CVE-2022-4203"
                 ],
                 "3.0.5": [
+                    "CVE-2024-13176",
                     "CVE-2024-9143",
                     "CVE-2024-6119",
                     "CVE-2024-5535",
@@ -33729,6 +33768,7 @@
                     "CVE-2022-3358"
                 ],
                 "3.0.4": [
+                    "CVE-2024-13176",
                     "CVE-2024-9143",
                     "CVE-2024-6119",
                     "CVE-2024-5535",
@@ -33763,6 +33803,7 @@
                     "CVE-2022-2097"
                 ],
                 "3.0.3": [
+                    "CVE-2024-13176",
                     "CVE-2024-9143",
                     "CVE-2024-6119",
                     "CVE-2024-5535",
@@ -33797,6 +33838,7 @@
                     "CVE-2022-2068"
                 ],
                 "3.0.2": [
+                    "CVE-2024-13176",
                     "CVE-2024-9143",
                     "CVE-2024-6119",
                     "CVE-2024-5535",
@@ -33835,6 +33877,7 @@
                     "CVE-2022-1292"
                 ],
                 "3.0.1": [
+                    "CVE-2024-13176",
                     "CVE-2024-9143",
                     "CVE-2024-6119",
                     "CVE-2024-5535",
@@ -33874,6 +33917,7 @@
                     "CVE-2022-0778"
                 ],
                 "3.0.0": [
+                    "CVE-2024-13176",
                     "CVE-2024-9143",
                     "CVE-2024-6119",
                     "CVE-2024-5535",
@@ -36994,121 +37038,121 @@
                     "END_OF_LIFE (6 years ago)"
                 ],
                 "5.5.38": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.37": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.36": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.35": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.34": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.33": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.32": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.31": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.30": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.29": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.28": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.27": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.26": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.25": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.24": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.23": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.22": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.21": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.20": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.19": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.18": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.17": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.16": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.15": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.14": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.13": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.12": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.11": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.10": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.9": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.8": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.7": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.6": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.5": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.4": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.3": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.2": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.1": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.5.0": [
-                    "END_OF_LIFE (8 years, 5 months ago)"
+                    "END_OF_LIFE (8 years, 6 months ago)"
                 ],
                 "5.4.45": [
                     "END_OF_LIFE (9 years, 4 months ago)"
@@ -44097,6 +44141,8 @@
             ],
             "archived": false,
             "versions": {
+                "36.0.1": [],
+                "36.0.0": [],
                 "35.7.5": [],
                 "35.7.4": [],
                 "35.7.3": [],
@@ -44192,9 +44238,7 @@
                 "29.5.0": [],
                 "29.4.0": [],
                 "29.3.0": [],
-                "29.2.1": [],
-                "29.2.0": [],
-                "29.1.3": []
+                "29.2.1": []
             }
         },
         "sizzle": {
@@ -47559,6 +47603,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "2.18.1": [],
                 "2.18.0": [],
                 "2.17.0": [],
                 "2.16.5": [],
@@ -48982,6 +49027,10 @@
             ],
             "archived": false,
             "versions": {
+                "6.0.11": [],
+                "6.0.10": [],
+                "6.0.9": [],
+                "6.0.8": [],
                 "6.0.7": [],
                 "6.0.6": [],
                 "6.0.5": [],
@@ -48990,6 +49039,9 @@
                 "6.0.2": [],
                 "6.0.1": [],
                 "6.0.0": [],
+                "5.4.14": [],
+                "5.4.13": [],
+                "5.4.12": [],
                 "5.4.11": [],
                 "5.4.10": [],
                 "5.4.9": [],
@@ -49150,11 +49202,6 @@
                     "CVE-2024-31207"
                 ],
                 "5.1.1": [
-                    "CVE-2024-45812",
-                    "CVE-2024-45811",
-                    "CVE-2024-31207"
-                ],
-                "5.1.0": [
                     "CVE-2024-45812",
                     "CVE-2024-45811",
                     "CVE-2024-31207"
@@ -49824,6 +49871,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "2.8.3": [],
                 "2.8.1": [],
                 "2.8.0": [],
                 "2.7.7": [],
@@ -50054,6 +50102,7 @@
                 "[peterk](https://github.com/peterk)"
             ],
             "versions": {
+                "2025.1.5": [],
                 "2025.1.4": [],
                 "2025.1.3": [],
                 "2025.1.2": [],
@@ -50121,7 +50170,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
-                "4.3.0": [],
+                "4.2.9": [],
                 "4.2.8": [],
                 "4.2.7": [],
                 "4.2.6": [],
@@ -50723,6 +50772,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "9.5.2": [],
                 "9.5.1": [],
                 "9.5.0": [],
                 "9.4.3": [],
@@ -52077,6 +52127,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "9.0.00.009": [],
                 "9.0.00.008": [],
                 "9.0.00.007": [],
                 "9.0.00.006": [],
@@ -54753,5 +54804,5 @@
             }
         }
     },
-    "updated": "2025-01-18 22:44:50"
+    "updated": "2025-01-21 11:41:05"
 }

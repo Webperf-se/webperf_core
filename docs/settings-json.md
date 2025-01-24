@@ -90,6 +90,11 @@ resulting in less requests and strain on the url you are testing.
 
 See `general.cache.max-age` setting to determine how long.
 
+### general.cache.folder `(Default = "cache")`
+This tells webperf-core what foldername to use for cache.
+This take no effect unless `general.cache.use` is set to `true`.
+
+
 ### general.cache.max-age `(Default = 60 minutes)`
 This tells webperf-core how long to use cached resources in minutes.
 This take no effect unless `general.cache.use` is set to `true`.

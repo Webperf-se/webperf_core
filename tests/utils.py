@@ -153,7 +153,7 @@ def get_cache_path_for_rule(url, cache_key_rule):
 
     folder = 'tmp'
     if get_config('general.cache.use'):
-        folder = 'cache'
+        folder = get_config('general.cache.folder')
 
     folder_path = os.path.join(folder)
     if not os.path.exists(folder_path):
@@ -298,10 +298,13 @@ def clean_cache_files():
             shutil.rmtree(base_directory)
         return
     file_ending = '.cache'
-    folder = 'cache'
+    folder = get_config('general.cache.folder')
     base_directory = os.path.join(Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent, folder)
 
+    clean_folder(folder, base_directory, file_ending)
+
+def clean_folder(folder, base_directory, file_ending):
     if not os.path.exists(base_directory):
         return
 

@@ -54,7 +54,7 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
     """
     folder = 'tmp'
     if get_config('general.cache.use'):
-        folder = 'cache'
+        folder = get_config('general.cache.folder')
 
     o = urlparse(url)
     hostname = o.hostname
@@ -110,13 +110,7 @@ def get_cached_result(url, hostname):
 
     filename = ''
     result_folder_name = ''
-    sites = []
-
-    custom_cache_folder = get_config('tests.sitespeed.cache.folder')
-    if custom_cache_folder:
-        sites = sitespeed_cache.read_sites_from_directory(custom_cache_folder, hostname, -1, -1)
-    else:
-        sites = sitespeed_cache.read_sites(hostname, -1, -1)
+    sites = sitespeed_cache.read_sites(hostname, -1, -1)
 
     for site in sites:
         if url == site[1] or url2 == site[1]:

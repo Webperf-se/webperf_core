@@ -32,7 +32,7 @@ def update_user_agent():
 
     folder = 'tmp'
     if USE_CACHE:
-        folder = 'cache'
+        folder = get_config('general.cache.folder')
 
     url = "https://webperf.se/"
     o = urlparse(url)

@@ -16,6 +16,7 @@
         "useragent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0",
         "cache": {
             "use": false,
+            "folder": "cache",
             "max-age": 60
         }
     },
@@ -41,10 +42,7 @@
             "timeout": 30,
             "mobile": false,
             "iterations": 2,
-            "xvfb": false,
-            "cache": {
-                "folder": "cache"
-            }
+            "xvfb": false
         },
         "software": {
             "advisory": {

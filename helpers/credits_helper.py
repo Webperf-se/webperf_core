@@ -7,6 +7,8 @@ import re
 import urllib
 import urllib.parse
 
+from helpers.setting_helper import get_config
+
 def update_credits_markdown(global_translation):
     creds = get_credits(global_translation)
 
@@ -204,6 +206,7 @@ def get_py_files(base_directory):
     except:
         return py_files
 
+    cache_folder = get_config('general.cache.folder')
     for sub_file_or_dir in sub_files_or_dirs:
         if sub_file_or_dir[0:1] == '.':
             continue
@@ -226,7 +229,8 @@ def get_py_files(base_directory):
                 'node_modules',
                 'LICENSE',
                 'tmp',
-                'locales'):
+                'locales',
+                cache_folder):
             continue
         else:
             sub_py_files = get_py_files( os.path.join(base_directory, sub_file_or_dir) )

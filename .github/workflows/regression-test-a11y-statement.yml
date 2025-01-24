@@ -69,10 +69,10 @@ jobs:
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: RUNNING TEST - LINUX
       run: |
-         python default.py -t ${{ matrix.version }} -r -u https://msb.se?webperf-core-test-26 -o data/testresult-${{ matrix.version }}.json --setting general.cache.use=true --setting general.cache.max-age=5256000 --setting tests.sitespeed.cache.folder=unittests
+         python default.py -t ${{ matrix.version }} -r -u https://msb.se?webperf-core-test-26 -o data/testresult-${{ matrix.version }}.json --setting general.cache.use=true --setting general.cache.max-age=5256000 --setting general.cache.folder=unittests
          python .github/workflows/verify_result.py -t ${{ matrix.version }}
     - if: ${{ matrix.os == 'windows-latest' }}
       name: RUNNING TEST - WINDOWS
       run: |
-         python default.py -t ${{ matrix.version }} -r -u https://msb.se?webperf-core-test-26 -o data\testresult-${{ matrix.version }}.json --setting general.cache.use=true --setting general.cache.max-age=5256000 --setting tests.sitespeed.cache.folder=unittests
+         python default.py -t ${{ matrix.version }} -r -u https://msb.se?webperf-core-test-26 -o data\testresult-${{ matrix.version }}.json --setting general.cache.use=true --setting general.cache.max-age=5256000 --setting general.cache.folder=unittests
          python .github\workflows\verify_result.py -t ${{ matrix.version }}

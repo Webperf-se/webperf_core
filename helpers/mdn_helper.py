@@ -1,18 +1,11 @@
 # -*- coding: utf-8 -*-
-import getopt
-import sys
-from datetime import datetime, timedelta
 from pathlib import Path
 import json
 import re
 import os
 from bs4 import BeautifulSoup
 from tests.utils import get_http_content
-from helpers.setting_helper import get_config
-from helpers.test_helper import get_error_info
 
-USE_CACHE = get_config('general.cache.use')
-CACHE_TIME_DELTA = timedelta(minutes=get_config('general.cache.max-age'))
 CONFIG_WARNINGS = {}
 
 def get_mdn_web_docs_css_features():

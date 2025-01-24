@@ -4,6 +4,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 import re
 from engines.utils import use_item
+from helpers.setting_helper import get_config
 
 def get_url_from_file_content(input_filename):
     """
@@ -90,4 +91,5 @@ def read_sites(hostname_or_argument, input_skip, input_take):
     list: A list of sites where each site is represented as a
           list containing the path to the HAR file and the URL.
     """
-    return read_sites_from_directory('cache', hostname_or_argument, input_skip, input_take)
+    cache_folder = get_config('general.cache.folder')
+    return read_sites_from_directory(cache_folder, hostname_or_argument, input_skip, input_take)

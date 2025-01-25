@@ -31,8 +31,6 @@ def update_stylelint_rules():
             rules[rule_name] = True
         elif 'no-nonstandard' in rule_name:
             rules[rule_name] = True
-        elif 'no-important' in rule_name:
-            rules[rule_name] = True
 
     stylelint_standard_path = os.path.join(base_directory, 'defaults', 'css-stylelint-standard.json')
     with open(stylelint_standard_path, 'w', encoding='utf-8') as outfile:

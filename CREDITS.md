@@ -17,10 +17,6 @@ Contributors:
 
 ## Projects we depend on:
 
-### [lighthouse](https://www.npmjs.com/package/lighthouse)
-Usage: Used in Google Lighthouse based Tests
-License: APACHE-2.0
-
 ### [pa11y](https://www.npmjs.com/package/pa11y)
 Usage: Used in Accessibility (Pa11y) Test
 License: LGPL-3.0
@@ -77,6 +73,10 @@ Usage: Used by our devs to ensure code quality
 Usage: Used to understand and compare software versions
 
 ## External Information Source(s):
+### Update HTML and CSS Test Sources:
+- https://developer.mozilla.org/en-US/docs/Web/CSS/Reference
+- https://developer.mozilla.org/en-US/docs/Web/HTML/Element#obsolete_and_deprecated_elements
+
 ### Update Software Test Sources:
 - https://github.com/github/advisory-database/tree/main/advisories/github-reviewed
 - https://api.github.com/repos/{owner}/{repo}
@@ -96,10 +96,6 @@ Usage: Used to understand and compare software versions
 - https://www.cvedetails.com/vulnerability-list.php?vendor_id=26&product_id=3427&page=1
 - https://www.php.net/eol.php
 - https://www.php.net/releases/
-
-### Update HTML and CSS Test Sources:
-- https://developer.mozilla.org/en-US/docs/Web/CSS/Reference
-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element#obsolete_and_deprecated_elements
 
 ### Tracking and Privacy Test Sources:
 - https://blocklistproject.github.io/Lists/alt-version/tracking-nl.txt

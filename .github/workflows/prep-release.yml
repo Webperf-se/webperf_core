@@ -61,6 +61,7 @@ jobs:
             ${{ steps.changes.outputs.log }}
           assignees: 7h3Rabbit
           reviewers: 7h3Rabbit
+          labels: ignore-for-release
           add-paths: |
             package.json
             package-lock.json

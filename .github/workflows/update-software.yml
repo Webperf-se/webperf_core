@@ -46,8 +46,23 @@ jobs:
     - name: Setup npm packages
       run: npm ci --only=production
       timeout-minutes: 30
-    - name: Update USER_AGENT in our defaults/settings.json
+    - name: Update USER_AGENT
       run: python default.py --update-browser
+    - name: Update USER_AGENT - Create pull request
+      uses: peter-evans/create-pull-request@v7
+      with:
+        commit-message: Update default user agent
+        branch: user-agent-updates
+        title: Update default user agent
+        body: |
+          Update default user agent.
+          
+          Following files may be touched:
+            - defaults/settings.json
+        assignees: 7h3Rabbit,cockroacher,marcusosterberg
+        reviewers: 7h3Rabbit,cockroacher,marcusosterberg
+        add-paths: |
+          defaults/settings.json
     - name: Checkout advisory-database repo
       uses: actions/checkout@v4
       with:
@@ -57,38 +72,94 @@ jobs:
           advisory_database
         sparse-checkout: |
           advisories
-    - name: Verifing Software(s)
+    - name: Software Definitions - Update
       run: python default.py --update-definitions ${{ secrets.GITHUB_TOKEN }}
+    - name: Software Definitions - Create pull request
+      uses: peter-evans/create-pull-request@v7
+      with:
+        commit-message: Update software, cve info and license definitions
+        branch: software-definition-updates
+        title: Update Software Inventory with Latest Versions and CVEs
+        body: |
+          This PR updates the software inventory to include the latest 100 versions of identified software.
+          It also includes known Common Vulnerabilities and Exposures (CVEs) for each software version,
+          along with basic source information such as license type, last updated date, and the technology used.
+          
+          Following files may be touched:
+            - defaults/software-sources.json
+            - defaults/software-full.json
+            - defaults/software-rules.json
+        assignees: 7h3Rabbit,cockroacher,marcusosterberg
+        reviewers: 7h3Rabbit,cockroacher,marcusosterberg
+        add-paths: |
+          defaults/software-sources.json
+          defaults/software-full.json
+          defaults/software-rules.json
     - name: Update HTML and CSS references (MDN Web Docs)
       run: python default.py --update-mdn-sources
+    - name: Update HTML and CSS references (MDN Web Docs) - Create pull request
+      uses: peter-evans/create-pull-request@v7
+      with:
+        commit-message: Update HTML and CSS references
+        branch: html-css-ref-updates
+        title: Updated HTML and CSS references (MDN Web Docs)
+        body: |
+          Updated HTML and CSS references from MDN Web Docs.
+          
+          Following files may be touched:
+            - defaults/mdn-rules.json
+        assignees: 7h3Rabbit,cockroacher,marcusosterberg
+        reviewers: 7h3Rabbit,cockroacher,marcusosterberg
+        add-paths: |
+          defaults/mdn-rules.json
     - name: Update Stylelint Standard Rules
       run: python default.py --update-stylelint-rules
-    - name: Update CREDITS.md
-      run: python default.py --update-credits
     - name: Create pull request
       uses: peter-evans/create-pull-request@v7
       with:
-        commit-message: Update software and license definitions
-        branch: software-definition-updates
-        title: Scheduled Software Definition Update
+        commit-message: Update Stylelint Configuration with Latest Rules
+        branch: stylelint-rules-updates
+        title: Update Stylelint Configuration with Latest Rules
+        body: |
+          This PR updates the stylelint configuration to include the latest rules from the most recent version of stylelint.
+          The focus is on rules that prevent the use of:
+          - unknown
+          - deprecated
+          - invalid
+          - vendor-prefixed
+          - empty
+          - non-standard
+          - important declarations
+
+          Specifically done by including all rules where name contains any followed:
+          - rule name include 'no-unknown'
+          - rule name include 'no-deprecated'
+          - rule name include 'no-invalid'
+          - rule name include 'no-vendor'
+          - rule name include 'no-empty'
+          - rule name include 'no-nonstandard'
+          - rule name include 'no-important'
+
+          Following files may be touched:
+            - defaults/css-stylelint-standard.json
+        assignees: 7h3Rabbit,cockroacher,marcusosterberg
+        reviewers: 7h3Rabbit,cockroacher,marcusosterberg
+        add-paths: |
+          defaults/css-stylelint-standard.json
+    - name: Update CREDITS.md
+      run: python default.py --update-credits
+    - name: Update CREDITS.md - Create pull request
+      uses: peter-evans/create-pull-request@v7
+      with:
+        commit-message: Update CREDITS.md
+        branch: credits-updates
+        title: Update CREDITS.md
         body: |
           This pull request is used to make it easier to keep the software definitions up to date.
           
           Following files may be touched:
-            - defaults/css-stylelint-standard.json
-            - defaults/software-sources.json
-            - defaults/software-full.json
-            - defaults/software-rules.json
-            - defaults/settings.json
-            - defaults/mdn-rules.json
             - CREDITS.md
-        assignees: 7h3Rabbit
-        reviewers: 7h3Rabbit
+        assignees: 7h3Rabbit,cockroacher,marcusosterberg,marcusosterberg
+        reviewers: 7h3Rabbit,cockroacher,marcusosterberg
         add-paths: |
-          defaults/css-stylelint-standard.json
-          defaults/software-sources.json
-          defaults/software-full.json
-          defaults/software-rules.json
-          defaults/settings.json
-          defaults/mdn-rules.json
           CREDITS.md

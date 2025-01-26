@@ -1,6 +1,6 @@
 {
   "name": "webperf_core",
-  "version": "2025.1.4",
+  "version": "2025.1.8",
   "description": "You probably want to read the documentation available at homepage.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,11 +10,11 @@
   "license": "MIT",
   "homepage": "https://github.com/Webperf-se/webperf_core/",
   "dependencies": {
-    "@sitespeed.io/plugin": "0.0.6",
+    "@sitespeed.io/plugin": "1.0.0",
     "@sitespeed.io/plugin-lighthouse": "12.1.0",
     "pa11y": "8.0.0",
     "sitespeed.io": "35.7.5",
-    "stylelint": "16.13.0",
+    "stylelint": "16.13.2",
     "vnu-jar": "23.4.11",
     "webperf-sitespeedio-plugin": "2025.1.2",
     "yellowlabtools": "3.0.1"

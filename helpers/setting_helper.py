@@ -82,7 +82,8 @@ config_mapping = {
         "tests.sitespeed.xvfb"): "bool|tests.sitespeed.xvfb",
     (
         "sitespeedcustomcache",
-        "tests.sitespeed.cache.folder"): "string|tests.sitespeed.cache.folder",
+        "general.cache.folder",
+        "tests.sitespeed.cache.folder"): "string|general.cache.folder",
     (
         "csponly",
         "tests.http.csp-only",

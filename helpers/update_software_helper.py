@@ -32,7 +32,7 @@ def update_user_agent():
 
     folder = 'tmp'
     if USE_CACHE:
-        folder = 'cache'
+        folder = get_config('general.cache.folder')
 
     url = "https://webperf.se/"
     o = urlparse(url)
@@ -733,7 +733,6 @@ def set_softwares(filename, collection):
     print('set_software_sources', file_path)
 
     collection["loaded"] = True
-    collection["updated"] = '{0}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
     data = json.dumps(collection, indent=4)
     with open(file_path, 'w', encoding='utf-8', newline='') as file:

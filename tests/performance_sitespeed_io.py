@@ -242,16 +242,16 @@ def get_browsertime_plugin_options(validator_config):
         for header in validator_config['headers']:
             browertime_plugin_options += (
                 f' --browsertime.webperf.header0{index}'
-                f' {header['name'].replace(' ', '%20').replace('=', '%3D')}='
-                f'{header['value'].replace(' ', '%20').replace('=', '%3D')}')
+                f" {header['name'].replace(' ', '%20').replace('=', '%3D')}="
+                f"{header['value'].replace(' ', '%20').replace('=', '%3D')}")
             index += 1
     if 'htmls' in validator_config:
         index = 1
         for header in validator_config['htmls']:
             browertime_plugin_options += (
                 f' --browsertime.webperf.HTML0{index}'
-                f' {header['replace'].replace(' ', '%20').replace('=', '%3D')}='
-                f'{header['replaceWith'].replace(' ', '%20').replace('=', '%3D')}')
+                f" {header['replace'].replace(' ', '%20').replace('=', '%3D')}="
+                f"{header['replaceWith'].replace(' ', '%20').replace('=', '%3D')}")
             index += 1
     return browertime_plugin_options
 

@@ -80,7 +80,7 @@ def validate_po_file(locales_dir, locale_name, language_sub_directory, file, msg
         if not os.path.exists(file_mo):
             print(
                 (f'  Expected compiled translation file not found, '
-                  f'file: "{file.replace('.po', '.mo')}"'))
+                  f"file: \"{file.replace('.po', '.mo')}\""))
             return False
 
         clear_cache = True
@@ -477,7 +477,7 @@ def validate_locales(base_directory, msg_ids):
 
     if len(available_languages) > 0:
         print('')
-        print(f'  Available Languages: {', '.join(available_languages)}')
+        print(f"  Available Languages: {', '.join(available_languages)}")
     else:
         print('  No languages found')
 

@@ -304,10 +304,11 @@ def validate_msg_ids(available_languages, msg_ids):
         for msg in msg_list:
             msg_langs.append(msg['locale_name'])
         nof_langs = len(msg_langs)
+        tmp_str = '","'.join(msg_langs)
         if nof_langs < nof_languages:
-            print(f"  # msgid \"{msg_id}\" only in \"{'\",\"'.join(msg_langs)}\"")
+            print(f"  # msgid \"{msg_id}\" only in \"{tmp_str}\"")
         else:
-            print(f"  # msgid \"{msg_id}\" occur multiple times \"{'\",\"'.join(msg_langs)}\"")
+            print(f"  # msgid \"{msg_id}\" occur multiple times \"{tmp_str}\"")
 
     if len(msg_ids_with_missing_language) > 0:
         is_valid = False

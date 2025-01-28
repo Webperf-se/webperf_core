@@ -55,7 +55,7 @@ def get_errors(test_type, params):
 
         if 'https://' not in url and 'http://' not in url:
             raise ValueError(
-                f'Tested url must start with \'https://\' or \'http://\': {url}')
+                f"Tested url must start with \'https://\' or \'http://\': {url}")
 
         file_path = get_cache_path_for_file(url, True)
         if is_html:

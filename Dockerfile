@@ -24,23 +24,6 @@ RUN apt-get update &&\
     update-ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
-# NOTE: Python speed improvements from: https://tecadmin.net/how-to-install-python-3-12-on-ubuntu/
-# RUN add-apt-repository ppa:deadsnakes/ppa -y
-
-# RUN apt update
-
-# RUN apt install -y python3.13 python3.13-venv
-
-# RUN apt install -y python3-pip
-
-# RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.13 311
-
-# RUN update-alternatives --config python3
-
-# RUN wget https://bootstrap.pypa.io/get-pip.py
-
-# RUN python3.13 get-pip.py
-
 RUN apt -y autoremove
 
 # Add user so we don't need --no-sandbox.

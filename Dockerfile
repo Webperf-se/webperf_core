@@ -66,15 +66,15 @@ COPY pa11y-docker-config.json /usr/src/runner/pa11y.json
 
 RUN chown --recursive sitespeedio:sitespeedio /usr/src/runner
 
-# Run everything after as non-privileged user.
-USER sitespeedio
-
-RUN npm install --omit=dev
-
 RUN python3 -m pip install -r requirements.txt --break-system-packages && \
     python3 -m pip install --upgrade pip --break-system-packages && \
     python3 -m pip install --upgrade setuptools --break-system-packages && \
     python3 -m pip install pyssim Pillow image --break-system-packages
+
+# Run everything after as non-privileged user.
+USER sitespeedio
+
+RUN npm install --omit=dev
 
 RUN python3 default.py --setting tests.sitespeed.xvfb=true --save-setting settings.json
 

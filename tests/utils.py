@@ -394,7 +394,7 @@ def get_http_content(url, allow_redirects=False, use_text_instead_of_content=Tru
         headers = {'user-agent': get_config('useragent')}
         hostname = urlparse(url).hostname
         if hostname == 'api.github.com' and get_config('github.api.key') is not None:
-            headers['authorization'] = f'Bearer {get_config('github.api.key')}'
+            headers['authorization'] = f"Bearer {get_config('github.api.key')}"
         response = requests.get(url, allow_redirects=allow_redirects,
                          headers=headers, timeout=get_config('general.request.timeout')*2)
 

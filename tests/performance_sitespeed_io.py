@@ -203,7 +203,7 @@ def validate_on_mobile_using_validator(url, validator_config):
         '--speedIndex true '
         '--browsertime.videoParams.createFilmstrip false '
         '--browsertime.chrome.args ignore-certificate-errors '
-        f'-n {get_config('tests.sitespeed.iterations')} '
+        f"-n {get_config('tests.sitespeed.iterations')} "
         '--preScript chrome-custom.cjs '
         f'{url}'
         f'{browertime_plugin_options}'
@@ -242,16 +242,16 @@ def get_browsertime_plugin_options(validator_config):
         for header in validator_config['headers']:
             browertime_plugin_options += (
                 f' --browsertime.webperf.header0{index}'
-                f' {header['name'].replace(' ', '%20').replace('=', '%3D')}='
-                f'{header['value'].replace(' ', '%20').replace('=', '%3D')}')
+                f" {header['name'].replace(' ', '%20').replace('=', '%3D')}="
+                f"{header['value'].replace(' ', '%20').replace('=', '%3D')}")
             index += 1
     if 'htmls' in validator_config:
         index = 1
         for header in validator_config['htmls']:
             browertime_plugin_options += (
                 f' --browsertime.webperf.HTML0{index}'
-                f' {header['replace'].replace(' ', '%20').replace('=', '%3D')}='
-                f'{header['replaceWith'].replace(' ', '%20').replace('=', '%3D')}')
+                f" {header['replace'].replace(' ', '%20').replace('=', '%3D')}="
+                f"{header['replaceWith'].replace(' ', '%20').replace('=', '%3D')}")
             index += 1
     return browertime_plugin_options
 
@@ -278,7 +278,7 @@ def validate_on_desktop_using_validator(url, validator_config):
         '--speedIndex true '
         '--browsertime.videoParams.createFilmstrip false '
         '--browsertime.chrome.args ignore-certificate-errors '
-        f'-n {get_config('tests.sitespeed.iterations')} '
+        f"-n {get_config('tests.sitespeed.iterations')} "
         '--preScript chrome-custom.cjs '
         f'{url}'
         f'{browertime_plugin_options}'
@@ -312,7 +312,7 @@ def validate_on_desktop(url):
         '--speedIndex true '
         '--browsertime.videoParams.createFilmstrip false '
         '--browsertime.chrome.args ignore-certificate-errors '
-        f'-n {get_config('tests.sitespeed.iterations')} '
+        f"-n {get_config('tests.sitespeed.iterations')} "
         '--preScript chrome-custom.cjs '
         f'{url}'
         )
@@ -344,7 +344,7 @@ def validate_on_mobile(url):
         '--speedIndex true '
         '--browsertime.videoParams.createFilmstrip false '
         '--browsertime.chrome.args ignore-certificate-errors '
-        f'-n {get_config('tests.sitespeed.iterations')} '
+        f"-n {get_config('tests.sitespeed.iterations')} "
         '--preScript chrome-custom.cjs '
         f'{url}'
         )

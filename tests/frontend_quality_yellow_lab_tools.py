@@ -136,7 +136,7 @@ def add_category_ratings(global_translation, local_translation, result_dict):
         if 'label' not in rule['policy']:
             continue
 
-        rule_label = f'- {local_translation(rule['policy']['label'])}'
+        rule_label = f"- {local_translation(rule['policy']['label'])}"
 
         # only do stuff for rules we know how to place in category
         if rule_key in performance_keys:

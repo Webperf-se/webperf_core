@@ -149,14 +149,14 @@ def validate_entry(entry_index, entry, page_refs, full_validation):
         print(f'Error: log.entries[{entry_index}].pageref is missing in browsertime.har file')
         is_ok = False
     elif entry['pageref'] not in page_refs:
-        print(f'Error: log.entries[{entry_index}].pageref has wrong value, actual value: {entry['pageref']}')
+        print(f"Error: log.entries[{entry_index}].pageref has wrong value, actual value: {entry['pageref']}")
         is_ok = False
 
     if 'time' not in entry:
         print(f'Error: log.entries[{entry_index}].time is missing in browsertime.har file')
         is_ok = False
     elif not isinstance(entry['time'], float) and  not isinstance(entry['time'], int):
-        print(f'Error: log.entries[{entry_index}].time has wrong value, actual value: {entry['time']}')
+        print(f"Error: log.entries[{entry_index}].time has wrong value, actual value: {entry['time']}")
         is_ok = False
 
     return is_ok
@@ -171,7 +171,7 @@ def validate_entry_response(entry_index, entry, full_validation):
         print(f'Error: log.entries[{entry_index}].response.status is missing in browsertime.har file')
         is_ok = False
     elif not isinstance(entry['response']['status'], int):
-        print(f'Error: log.entries[{entry_index}].response.status has wrong value, actual value: {entry['response']['status']}')
+        print(f"Error: log.entries[{entry_index}].response.status has wrong value, actual value: {entry['response']['status']}")
         is_ok = False
     elif entry['response']['status'] not in (
             100, 101, 102, 103,
@@ -183,7 +183,7 @@ def validate_entry_response(entry_index, entry, full_validation):
             431, 451,
             500, 501, 502, 503, 504, 505, 506, 507, 508, 510, 511
             ):
-        print(f'Error: log.entries[{entry_index}].response.status has wrong value, actual value: {entry['response']['status']}')
+        print(f"Error: log.entries[{entry_index}].response.status has wrong value, actual value: {entry['response']['status']}")
         is_ok = False
 
     if 'content' not in entry['response']:
@@ -194,26 +194,26 @@ def validate_entry_response(entry_index, entry, full_validation):
             print(f'Error: log.entries[{entry_index}].response.content.mimeType is missing in browsertime.har file')
             is_ok = False
         elif entry['response']['content']['mimeType'] not in ('text/html', 'text/html;charset=utf-8', 'text/html;charset=UTF-8', 'text/css', 'image/png', 'image/webp', 'text/javascript', 'font/woff2'):
-            print(f'Error: log.entries[{entry_index}].response.content.mimeType has wrong value, actual value: {entry['response']['content']['mimeType']}')
+            print(f"Error: log.entries[{entry_index}].response.content.mimeType has wrong value, actual value: {entry['response']['content']['mimeType']}")
             is_ok = False
 
         if 'size' not in entry['response']['content']:
             print(f'Error: log.entries[{entry_index}].response.content.size is missing in browsertime.har file')
             is_ok = False
         elif not isinstance(entry['response']['content']['size'], int):
-            print(f'Error: log.entries[{entry_index}].response.content.size has wrong value, actual value: {entry['response']['content']['size']}')
+            print(f"Error: log.entries[{entry_index}].response.content.size has wrong value, actual value: {entry['response']['content']['size']}")
             is_ok = False
         elif entry['response']['content']['size'] < 1 and ('status' not in entry['response'] and entry['response']['status'] != 204):
-            print(f'Error: log.entries[{entry_index}].response.content.size has wrong value, actual value: {entry['response']['content']['size']}')
+            print(f"Error: log.entries[{entry_index}].response.content.size has wrong value, actual value: {entry['response']['content']['size']}")
             is_ok = False
 
         if full_validation and 'compression' in entry['response']['content'] and not isinstance(entry['response']['content']['compression'], int):
-            print(f'Error: log.entries[{entry_index}].response.content.compression has wrong value type, actual value type: {type(entry['response']['content']['compression'])}')
+            print(f"Error: log.entries[{entry_index}].response.content.compression has wrong value type, actual value type: {type(entry['response']['content']['compression'])}")
             is_ok = False
 
         if 'text' not in entry['response']['content']:
                 if 'mimeType' in entry['response']['content'] and entry['response']['content']['mimeType'] in ('text/html;charset=utf-8', 'text/css', 'text/javascript'):
-                    print(f'Error: log.entries[{entry_index}].response.content.text is missing in browsertime.har file {entry['response']['content']['mimeType']}')
+                    print(f"Error: log.entries[{entry_index}].response.content.text is missing in browsertime.har file {entry['response']['content']['mimeType']}")
                     is_ok = False
         elif 'status' in entry['response'] and entry['response']['status'] == 204:
             # ignore this
@@ -224,7 +224,7 @@ def validate_entry_response(entry_index, entry, full_validation):
             # We would prefer to be able to use Firefox for this but currently we have a workaround
             # in place to only use chrome for when we need to read content of text based files.
             if full_validation:
-                print(f'Error: log.entries[{entry_index}].response.content.text has wrong value, actual value: {entry['response']['content']['text']}, content-type: {entry['response']['content']['mimeType']}')
+                print(f"Error: log.entries[{entry_index}].response.content.text has wrong value, actual value: {entry['response']['content']['text']}, content-type: {entry['response']['content']['mimeType']}")
                 is_ok = False
 
     if 'httpVersion' not in entry['response']:
@@ -243,7 +243,7 @@ def validate_entry_response(entry_index, entry, full_validation):
         print(f'Error: log.entries[{entry_index}].response.statusText is missing in browsertime.har file')
         is_ok = False
     elif not isinstance(entry['response']['statusText'], str):
-        print(f'Error: log.entries[{entry_index}].response.statusText has wrong value, actual value: {entry['response']['statusText']}')
+        print(f"Error: log.entries[{entry_index}].response.statusText has wrong value, actual value: {entry['response']['statusText']}")
         is_ok = False
 
     if 'headersSize' not in entry['response']:
@@ -270,14 +270,14 @@ def validate_entry_response_headers(entry_index, entry):
                 print(f'Error: log.entries[{entry_index}].response.headers[{header_index}].name is missing in browsertime.har file')
                 is_ok = False
             elif re.match(r'[0-9a-z\-]+', header['name'], re.IGNORECASE) is None:
-                print(f'Error: log.entries[{entry_index}].response.headers[{header_index}].name has wrong name, actual value: {header['name']}')
+                print(f"Error: log.entries[{entry_index}].response.headers[{header_index}].name has wrong name, actual value: {header['name']}")
                 is_ok = False
 
             if 'value' not in header:
                 print(f'Error: log.entries[{entry_index}].response.headers[{header_index}].value is missing in browsertime.har file')
                 is_ok = False
             elif re.match(r'[0-9a-z\-\.\"]+', header['value'], re.IGNORECASE) is None:
-                print(f'Error: log.entries[{entry_index}].response.headers[{header_index}].value has wrong value, actual value: {header['value']}')
+                print(f"Error: log.entries[{entry_index}].response.headers[{header_index}].value has wrong value, actual value: {header['value']}")
                 is_ok = False
             header_index += 1
 
@@ -297,10 +297,10 @@ def validate_entry_request(entry_index, entry, full_validation):
             is_ok = False
         else:
             if entry_index == 0 and entry['request']['url'] != 'https://webperf.se/':
-                print(f'Error: log.entries[{entry_index}].request.url has wrong value, actual value: {entry['request']['url']}')
+                print(f"Error: log.entries[{entry_index}].request.url has wrong value, actual value: {entry['request']['url']}")
                 is_ok = False
             if not entry['request']['url'].startswith('http://') and not entry['request']['url'].startswith('https://'):
-                print(f'Error: log.entries[{entry_index}].request.url has wrong value, actual value: {entry['request']['url']}')
+                print(f"Error: log.entries[{entry_index}].request.url has wrong value, actual value: {entry['request']['url']}")
                 is_ok = False
 
         if not full_validation:
@@ -310,36 +310,36 @@ def validate_entry_request(entry_index, entry, full_validation):
             print(f'Error: log.entries[{entry_index}].request.method is missing in browsertime.har file')
             is_ok = False
         elif entry['request']['method'] not in ('GET','POST', 'HEAD', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'TRACE', 'PATCH'):
-            print(f'Error: log.entries[{entry_index}].request.method has wrong value, actual value: {entry['request']['method']}')
+            print(f"Error: log.entries[{entry_index}].request.method has wrong value, actual value: {entry['request']['method']}")
             is_ok = False
 
         if 'queryString' not in entry['request']:
             print(f'Error: log.entries[{entry_index}].request.queryString is missing in browsertime.har file')
             is_ok = False
         elif entry_index == 0 and entry['request']['queryString'] != []:
-            print(f'Error: log.entries[{entry_index}].request.queryString has wrong value, actual value: {entry['request']['queryString']}')
+            print(f"Error: log.entries[{entry_index}].request.queryString has wrong value, actual value: {entry['request']['queryString']}")
             is_ok = False
 
         if 'headersSize' not in entry['request']:
             print(f'Error: log.entries[{entry_index}].request.headersSize is missing in browsertime.har file')
             is_ok = False
         elif not isinstance(entry['request']['headersSize'], int):
-            print(f'Error: log.entries[{entry_index}].request.headersSize has wrong value, actual value: {entry['request']['headersSize']}')
+            print(f"Error: log.entries[{entry_index}].request.headersSize has wrong value, actual value: {entry['request']['headersSize']}")
             is_ok = False
         # NOTE: Not required by HAR specification 1.2
         # elif entry['request']['headersSize'] == -1:
-        #     print(f'Warning: log.entries[{entry_index}].request.headersSize has wrong value, actual value: {entry['request']['headersSize']}')
+        #     print(f"Warning: log.entries[{entry_index}].request.headersSize has wrong value, actual value: {entry['request']['headersSize']}")
         #     is_ok = False
 
         if 'bodySize' not in entry['request']:
             print(f'Error: log.entries[{entry_index}].request.bodySize is missing in browsertime.har file')
             is_ok = False
         elif not isinstance(entry['request']['bodySize'], int):
-            print(f'Error: log.entries[{entry_index}].request.bodySize has wrong value, actual value: {entry['request']['bodySize']}')
+            print(f"Error: log.entries[{entry_index}].request.bodySize has wrong value, actual value: {entry['request']['bodySize']}")
             is_ok = False
         # NOTE: Not required by HAR specification 1.2
         # elif entry['request']['bodySize'] != 0:
-        #     print(f'Error: log.entries[{entry_index}].request.bodySize has wrong value, actual value: {entry['request']['bodySize']}')
+        #     print(f"Error: log.entries[{entry_index}].request.bodySize has wrong value, actual value: {entry['request']['bodySize']}")
         #     is_ok = False
 
         if 'cookies' not in entry['request']:
@@ -350,7 +350,7 @@ def validate_entry_request(entry_index, entry, full_validation):
             print(f'Error: log.entries[{entry_index}].request.httpVersion is missing in browsertime.har file')
             is_ok = False
         elif entry['request']['httpVersion'] not in ('http/1.1', 'h2','h3'):
-            print(f'Error: log.entries[{entry_index}].request.httpVersion has wrong value, actual value: {entry['request']['httpVersion']}')
+            print(f"Error: log.entries[{entry_index}].request.httpVersion has wrong value, actual value: {entry['request']['httpVersion']}")
             is_ok = False
 
         is_ok = validate_entry_request_headers(entry_index, entry) and is_ok
@@ -369,14 +369,14 @@ def validate_entry_request_headers(entry_index, entry):
                 print(f'Error: log.entries[{entry_index}].request.headers[{header_index}].name is missing in browsertime.har file')
                 is_ok = False
             elif re.match(r'[\:0-9a-z\-]+', header['name'], re.IGNORECASE) is None:
-                print(f'Error: log.entries[{entry_index}].request.headers[{header_index}].name has wrong name, actual value: {header['name']}')
+                print(f"Error: log.entries[{entry_index}].request.headers[{header_index}].name has wrong name, actual value: {header['name']}")
                 is_ok = False
 
             if 'value' not in header:
                 print(f'Error: log.entries[{entry_index}].request.headers[{header_index}].value is missing in browsertime.har file')
                 is_ok = False
             elif re.match(r'[0-9a-z\-\.\"\?/\*]*', header['value'], re.IGNORECASE) is None:
-                print(f'Error: log.entries[{entry_index}].request.headers[{header_index}].value has wrong value, actual value: {header['value']}')
+                print(f"Error: log.entries[{entry_index}].request.headers[{header_index}].value has wrong value, actual value: {header['value']}")
                 is_ok = False
             header_index += 1
 
@@ -409,7 +409,7 @@ def validate_page(page_index, page, full_validation):
     is_ok = True
     page_ref = None
     if page['_url'] != 'https://webperf.se':
-        print(f'Error: log.pages[{page_index}]._url has wrong value, actual value: {page['_url']}')
+        print(f"Error: log.pages[{page_index}]._url has wrong value, actual value: {page['_url']}")
         is_ok = False
 
     if not full_validation:
@@ -419,7 +419,7 @@ def validate_page(page_index, page, full_validation):
         print(f'Error: log.pages[{page_index}].id is missing in browsertime.har file')
         is_ok = False
     elif f'page_{page_index +1 }' not in page['id']:
-        print(f'Error: log.pages[{page_index}].id has wrong value, actual value: {page['id']}')
+        print(f"Error: log.pages[{page_index}].id has wrong value, actual value: {page['id']}")
         is_ok = False
         page_ref = page['id']
     else:
@@ -444,21 +444,21 @@ def validate_page(page_index, page, full_validation):
             print(f'Error: log.pages[{page_index}].pageTimings.onContentLoad is missing in browsertime.har file')
             is_ok = False
         elif not isinstance(page['pageTimings']['onContentLoad'], float) and not isinstance(page['pageTimings']['onContentLoad'], int):
-            print(f'Error: log.pages[{page_index}].pageTimings.onContentLoad has wrong value, actual value: {page['pageTimings']['onContentLoad']}')
+            print(f"Error: log.pages[{page_index}].pageTimings.onContentLoad has wrong value, actual value: {page['pageTimings']['onContentLoad']}")
             is_ok = False
 
         if 'onLoad' not in page['pageTimings']:
             print(f'Error: log.pages[{page_index}].pageTimings.onLoad is missing in browsertime.har file')
             is_ok = False
         elif not isinstance(page['pageTimings']['onLoad'], float) and not isinstance(page['pageTimings']['onLoad'], int):
-            print(f'Error: log.pages[{page_index}].pageTimings.onLoad has wrong value, actual value: {page['pageTimings']['onLoad']}')
+            print(f"Error: log.pages[{page_index}].pageTimings.onLoad has wrong value, actual value: {page['pageTimings']['onLoad']}")
             is_ok = False
 
     if '_url' not in page:
         print(f'Error: log.pages[{page_index}]._url is missing in browsertime.har file')
         is_ok = False
     if page['_url'] != 'https://webperf.se':
-        print(f'Error: log.pages[{page_index}]._url has wrong value, actual value: {page['_url']}')
+        print(f"Error: log.pages[{page_index}]._url has wrong value, actual value: {page['_url']}")
         is_ok = False
 
     if '_meta' not in page:
@@ -476,14 +476,14 @@ def validate_browser(browsertime_har):
             print('Error: log.browser.name is missing in browsertime.har file')
             is_ok = False
         if browsertime_har['log']['browser']['name'] not in ('firefox', 'Chrome'):
-            print(f'Error: log.browser.name has wrong value, actual value: {browsertime_har['log']['browser']['name']}')
+            print(f"Error: log.browser.name has wrong value, actual value: {browsertime_har['log']['browser']['name']}")
             is_ok = False
 
         if 'version' not in browsertime_har['log']['browser']:
             print('Error: log.browser.version is missing in browsertime.har file')
             is_ok = False
         if re.match(r'[0-9\.]+', browsertime_har['log']['browser']['version'], re.IGNORECASE) is None:
-            print(f'Error: log.browser.name has wrong value, actual value: {browsertime_har['log']['browser']['version']}')
+            print(f"Error: log.browser.name has wrong value, actual value: {browsertime_har['log']['browser']['version']}")
             is_ok = False
     return is_ok
 

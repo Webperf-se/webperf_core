@@ -80,7 +80,7 @@ def validate_po_file(locales_dir, locale_name, language_sub_directory, file, msg
         if not os.path.exists(file_mo):
             print(
                 (f'  Expected compiled translation file not found, '
-                  f'file: "{file.replace('.po', '.mo')}"'))
+                  f"file: \"{file.replace('.po', '.mo')}\""))
             return False
 
         clear_cache = True
@@ -304,10 +304,11 @@ def validate_msg_ids(available_languages, msg_ids):
         for msg in msg_list:
             msg_langs.append(msg['locale_name'])
         nof_langs = len(msg_langs)
+        tmp_str = '","'.join(msg_langs)
         if nof_langs < nof_languages:
-            print(f"  # msgid \"{msg_id}\" only in \"{'\",\"'.join(msg_langs)}\"")
+            print(f"  # msgid \"{msg_id}\" only in \"{tmp_str}\"")
         else:
-            print(f"  # msgid \"{msg_id}\" occur multiple times \"{'\",\"'.join(msg_langs)}\"")
+            print(f"  # msgid \"{msg_id}\" occur multiple times \"{tmp_str}\"")
 
     if len(msg_ids_with_missing_language) > 0:
         is_valid = False
@@ -477,7 +478,7 @@ def validate_locales(base_directory, msg_ids):
 
     if len(available_languages) > 0:
         print('')
-        print(f'  Available Languages: {', '.join(available_languages)}')
+        print(f"  Available Languages: {', '.join(available_languages)}")
     else:
         print('  No languages found')
 
@@ -523,9 +524,8 @@ def validate_locale(msg_ids, locales_dir,
             if msgfmt_path is not None:
                 print(
                             '  - Trying to generate .mo file so it matches .po file')
-                bash_command = (f"python {msgfmt_path} -o "
-                                        f"{os.path.join(lang_sub_directory,
-                                                        file.replace('.po', '.mo'))} "
+                bash_command = (f"python {msgfmt_path} -o ",
+                                        f"{os.path.join(lang_sub_directory, file.replace('.po', '.mo'))} ",
                                         f"{os.path.join(lang_sub_directory, file)}")
 
                 with subprocess.Popen(

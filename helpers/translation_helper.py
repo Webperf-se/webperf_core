@@ -523,9 +523,8 @@ def validate_locale(msg_ids, locales_dir,
             if msgfmt_path is not None:
                 print(
                             '  - Trying to generate .mo file so it matches .po file')
-                bash_command = (f"python {msgfmt_path} -o "
-                                        f"{os.path.join(lang_sub_directory,
-                                                        file.replace('.po', '.mo'))} "
+                bash_command = (f"python {msgfmt_path} -o ",
+                                        f"{os.path.join(lang_sub_directory, file.replace('.po', '.mo'))} ",
                                         f"{os.path.join(lang_sub_directory, file)}")
 
                 with subprocess.Popen(

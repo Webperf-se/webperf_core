@@ -161,9 +161,7 @@ def get_error_info(url, test_type, ex):
     result.extend(get_versions())
     result.extend(['###############################################',
         '\n# Information:',
-        f"\nDateTime: { \
-            datetime.now().strftime('%Y-%m-%d %H:%M:%S') \
-        }",
+        f"\nDateTime: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
         f'\nUrl: {url}',
         f'\nTest Type(s): {test_type}',
         '\n###############################################'

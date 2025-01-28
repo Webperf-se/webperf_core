@@ -25,21 +25,21 @@ RUN apt-get update &&\
     rm -rf /var/lib/apt/lists/*
 
 # NOTE: Python speed improvements from: https://tecadmin.net/how-to-install-python-3-12-on-ubuntu/
-RUN add-apt-repository ppa:deadsnakes/ppa -y
+# RUN add-apt-repository ppa:deadsnakes/ppa -y
 
-RUN apt update
+# RUN apt update
 
-RUN apt install -y python3.13 python3.13-venv
+# RUN apt install -y python3.13 python3.13-venv
 
-RUN apt install -y python3-pip
+# RUN apt install -y python3-pip
 
-RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.13 311
+# RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.13 311
 
-RUN update-alternatives --config python3
+# RUN update-alternatives --config python3
 
-RUN wget https://bootstrap.pypa.io/get-pip.py
+# RUN wget https://bootstrap.pypa.io/get-pip.py
 
-RUN python3.13 get-pip.py
+# RUN python3.13 get-pip.py
 
 RUN apt -y autoremove
 
@@ -71,13 +71,13 @@ USER sitespeedio
 
 RUN npm install --omit=dev
 
-RUN python3.13 -m pip install -r requirements.txt --break-system-packages && \
-    python3.13 -m pip install --upgrade pip --break-system-packages && \
-    python3.13 -m pip install --upgrade setuptools --break-system-packages && \
-    python3.13 -m pip install pyssim Pillow image --break-system-packages
+RUN python3 -m pip install -r requirements.txt --break-system-packages && \
+    python3 -m pip install --upgrade pip --break-system-packages && \
+    python3 -m pip install --upgrade setuptools --break-system-packages && \
+    python3 -m pip install pyssim Pillow image --break-system-packages
 
-RUN python3.13 default.py --setting tests.sitespeed.xvfb=true --save-setting settings.json
+RUN python3 default.py --setting tests.sitespeed.xvfb=true --save-setting settings.json
 
 ENTRYPOINT []
 
-CMD ["python3.13", "default.py -h"]
+CMD ["python3", "default.py -h"]

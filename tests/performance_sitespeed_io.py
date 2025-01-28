@@ -203,7 +203,7 @@ def validate_on_mobile_using_validator(url, validator_config):
         '--speedIndex true '
         '--browsertime.videoParams.createFilmstrip false '
         '--browsertime.chrome.args ignore-certificate-errors '
-        f'-n {get_config('tests.sitespeed.iterations')} '
+        f"-n {get_config('tests.sitespeed.iterations')} "
         '--preScript chrome-custom.cjs '
         f'{url}'
         f'{browertime_plugin_options}'
@@ -278,7 +278,7 @@ def validate_on_desktop_using_validator(url, validator_config):
         '--speedIndex true '
         '--browsertime.videoParams.createFilmstrip false '
         '--browsertime.chrome.args ignore-certificate-errors '
-        f'-n {get_config('tests.sitespeed.iterations')} '
+        f"-n {get_config('tests.sitespeed.iterations')} "
         '--preScript chrome-custom.cjs '
         f'{url}'
         f'{browertime_plugin_options}'
@@ -312,7 +312,7 @@ def validate_on_desktop(url):
         '--speedIndex true '
         '--browsertime.videoParams.createFilmstrip false '
         '--browsertime.chrome.args ignore-certificate-errors '
-        f'-n {get_config('tests.sitespeed.iterations')} '
+        f"-n {get_config('tests.sitespeed.iterations')} "
         '--preScript chrome-custom.cjs '
         f'{url}'
         )
@@ -344,7 +344,7 @@ def validate_on_mobile(url):
         '--speedIndex true '
         '--browsertime.videoParams.createFilmstrip false '
         '--browsertime.chrome.args ignore-certificate-errors '
-        f'-n {get_config('tests.sitespeed.iterations')} '
+        f"-n {get_config('tests.sitespeed.iterations')} "
         '--preScript chrome-custom.cjs '
         f'{url}'
         )

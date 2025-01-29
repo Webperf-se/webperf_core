@@ -449,6 +449,9 @@ def get_browsertime_har_path(parent_path):
     if not os.path.exists(parent_path):
         return ''
 
+    if not os.path.isdir(parent_path):
+        return ''
+
     sub_dirs = os.listdir(parent_path)
     if 'browsertime.har' in sub_dirs:
         return os.path.join(parent_path, 'browsertime.har')

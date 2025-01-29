@@ -77,17 +77,13 @@ def check_java():
 
 def check_node():
     result, error = test_cmd('node -v')
-    # if python_error is not None or python_error != b'':
-    #     print('\t- Python:', 'ERROR:', python_error)
-    #     return
     if result is None:
         print('\t- Node:', 'ERROR: Unknown return')
         return
 
     version = None
     regex = r"v(?P<version>[0-9\.]+)"
-    matches = re.finditer(
-        regex, result, re.MULTILINE)
+    matches = re.finditer(regex, result, re.MULTILINE)
     for _, match in enumerate(matches, start=1):
         version = match.group('version')
 
@@ -97,12 +93,15 @@ def check_node():
 
     version = packaging.version.Version(version)
     repo_version = packaging.version.Version("20.17")
-    if version.major is not repo_version.major:
-        print('\t- Node:', 'WARNING: wrong major version')
+
+    # Check if the major version is between 20 and 22
+    if not (20 <= version.major <= 22):
+        print('\t- Node:', 'WARNING: Major version not between 20 and 22')
         return
 
-    if version.minor < repo_version.minor:
-        print('\t- Node:', 'WARNING: wrong minor version')
+    # Check if the minor version is at least as high as the repository's minor version
+    if version.major == repo_version.major and version.minor < repo_version.minor:
+        print('\t- Node:', 'WARNING: Minor version is below required')
         return
 
     print('\t- Node:', 'OK')

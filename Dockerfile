@@ -1,4 +1,4 @@
-FROM sitespeedio/sitespeed.io:36.2.1
+FROM sitespeedio/sitespeed.io:36.2.2
 
 USER root
 

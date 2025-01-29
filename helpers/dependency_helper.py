@@ -47,11 +47,11 @@ def check_python():
         print('\t- Python:', 'ERROR: Unable to get version')
         return
 
-    version = version.Version(version)
+    version = packaging.version.Version(version)
     
     # Define acceptable versions
-    acceptable_versions = [version.Version('3.10'), version.Version('3.11'), 
-                           version.Version('3.12'), version.Version('3.13')]
+    acceptable_versions = [packaging.version.Version('3.10'), packaging.version.Version('3.11'), 
+                           packaging.version.Version('3.12'), packaging.version.Version('3.13')]
 
     if version not in acceptable_versions:
         print('\t- Python:', 'WARNING: version not in supported range (3.10-3.13)')

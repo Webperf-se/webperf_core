@@ -38,20 +38,18 @@ def check_python():
         return
 
     version = None
-    regex = r"Python (?P<version>[0-9\.]+)"
+    regex = r"Python (?P<major>[0-9]+)\.(?P<minor>[0-9]+)"
     matches = re.finditer(regex, result, re.MULTILINE)
     for _, match in enumerate(matches, start=1):
-        version = match.group('version')
+        version = packaging.version.Version(f"{match.group('major')}.{match.group('minor')}")
 
     if version is None:
         print('\t- Python:', 'ERROR: Unable to get version')
         return
 
-    version = packaging.version.Version(version)
-    
-    # Define acceptable versions
-    acceptable_versions = [packaging.version.Version('3.10'), packaging.version.Version('3.11'), 
-                           packaging.version.Version('3.12'), packaging.version.Version('3.13')]
+    # Define acceptable versions, only considering major and minor
+    acceptable_versions = {packaging.version.Version('3.10'), packaging.version.Version('3.11'), 
+                           packaging.version.Version('3.12'), packaging.version.Version('3.13')}
 
     if version not in acceptable_versions:
         print('\t- Python:', 'WARNING: version not in supported range (3.10-3.13)')

@@ -20,6 +20,6 @@
     "yellowlabtools": "3.0.1"
   },
   "engines": {
-    "node": "20.x"
+    "node": ">=20.x"
   }
 }

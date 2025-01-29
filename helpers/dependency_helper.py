@@ -30,19 +30,16 @@ def test_cmd(command):
             process.kill()
         return result, 'Not found.'
 
+
 def check_python():
     result, error = test_cmd('python -V')
-    # if python_error is not None or python_error != b'':
-    #     print('\t- Python:', 'ERROR:', python_error)
-    #     return
     if result is None:
         print('\t- Python:', 'ERROR: Unknown return')
         return
 
     version = None
     regex = r"Python (?P<version>[0-9\.]+)"
-    matches = re.finditer(
-        regex, result, re.MULTILINE)
+    matches = re.finditer(regex, result, re.MULTILINE)
     for _, match in enumerate(matches, start=1):
         version = match.group('version')
 
@@ -50,14 +47,14 @@ def check_python():
         print('\t- Python:', 'ERROR: Unable to get version')
         return
 
-    version = packaging.version.Version(version)
-    repo_version = packaging.version.Version("3.13")
-    if version.major is not repo_version.major:
-        print('\t- Python:', 'WARNING: wrong major version')
-        return
+    version = version.Version(version)
+    
+    # Define acceptable versions
+    acceptable_versions = [version.Version('3.10'), version.Version('3.11'), 
+                           version.Version('3.12'), version.Version('3.13')]
 
-    if version.minor is not repo_version.minor:
-        print('\t- Python:', 'WARNING: wrong minor version')
+    if version not in acceptable_versions:
+        print('\t- Python:', 'WARNING: version not in supported range (3.10-3.13)')
         return
 
     print('\t- Python:', 'OK')

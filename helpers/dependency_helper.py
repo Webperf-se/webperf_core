@@ -30,34 +30,29 @@ def test_cmd(command):
             process.kill()
         return result, 'Not found.'
 
+
 def check_python():
     result, error = test_cmd('python -V')
-    # if python_error is not None or python_error != b'':
-    #     print('\t- Python:', 'ERROR:', python_error)
-    #     return
     if result is None:
         print('\t- Python:', 'ERROR: Unknown return')
         return
 
     version = None
-    regex = r"Python (?P<version>[0-9\.]+)"
-    matches = re.finditer(
-        regex, result, re.MULTILINE)
+    regex = r"Python (?P<major>[0-9]+)\.(?P<minor>[0-9]+)"
+    matches = re.finditer(regex, result, re.MULTILINE)
     for _, match in enumerate(matches, start=1):
-        version = match.group('version')
+        version = packaging.version.Version(f"{match.group('major')}.{match.group('minor')}")
 
     if version is None:
         print('\t- Python:', 'ERROR: Unable to get version')
         return
 
-    version = packaging.version.Version(version)
-    repo_version = packaging.version.Version("3.13")
-    if version.major is not repo_version.major:
-        print('\t- Python:', 'WARNING: wrong major version')
-        return
+    # Define acceptable versions, only considering major and minor
+    acceptable_versions = {packaging.version.Version('3.10'), packaging.version.Version('3.11'), 
+                           packaging.version.Version('3.12'), packaging.version.Version('3.13')}
 
-    if version.minor is not repo_version.minor:
-        print('\t- Python:', 'WARNING: wrong minor version')
+    if version not in acceptable_versions:
+        print('\t- Python:', 'WARNING: version not in supported range (3.10-3.13)')
         return
 
     print('\t- Python:', 'OK')
@@ -82,17 +77,13 @@ def check_java():
 
 def check_node():
     result, error = test_cmd('node -v')
-    # if python_error is not None or python_error != b'':
-    #     print('\t- Python:', 'ERROR:', python_error)
-    #     return
     if result is None:
         print('\t- Node:', 'ERROR: Unknown return')
         return
 
     version = None
     regex = r"v(?P<version>[0-9\.]+)"
-    matches = re.finditer(
-        regex, result, re.MULTILINE)
+    matches = re.finditer(regex, result, re.MULTILINE)
     for _, match in enumerate(matches, start=1):
         version = match.group('version')
 
@@ -102,12 +93,15 @@ def check_node():
 
     version = packaging.version.Version(version)
     repo_version = packaging.version.Version("20.17")
-    if version.major is not repo_version.major:
-        print('\t- Node:', 'WARNING: wrong major version')
+
+    # Check if the major version is between 20 and 22
+    if not (20 <= version.major <= 22):
+        print('\t- Node:', 'WARNING: Major version not between 20 and 22')
         return
 
-    if version.minor < repo_version.minor:
-        print('\t- Node:', 'WARNING: wrong minor version')
+    # Check if the minor version is at least as high as the repository's minor version
+    if version.major == repo_version.major and version.minor < repo_version.minor:
+        print('\t- Node:', 'WARNING: Minor version is below required')
         return
 
     print('\t- Node:', 'OK')

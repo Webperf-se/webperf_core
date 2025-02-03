@@ -13,7 +13,7 @@
     "@sitespeed.io/plugin": "1.0.0",
     "@sitespeed.io/plugin-lighthouse": "12.3.0",
     "pa11y": "8.0.0",
-    "sitespeed.io": "36.2.2",
+    "sitespeed.io": "36.2.5",
     "stylelint": "16.14.1",
     "vnu-jar": "23.4.11",
     "webperf-sitespeedio-plugin": "2025.1.4",

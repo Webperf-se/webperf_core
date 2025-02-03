@@ -41,6 +41,19 @@
                     "url": "https://api.userway.org/"
                 }
             ]
+        },
+        {
+            "name": "AudioEye",
+            "description": "",
+            "website": "https://www.audioeye.com",
+            "urls": [
+                {
+                    "url": "https://wsmcdn.audioeye.com/"
+                },
+                {
+                    "url": "https://wsv3cdn.audioeye.com/"
+                }
+            ]
         }
     ]
 }

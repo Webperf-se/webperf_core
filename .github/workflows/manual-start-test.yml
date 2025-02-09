@@ -10,7 +10,7 @@ on:
       test:
         description: 'Test to run, comma separated list of numbers'
         required: true
-        default: '1,2,4,5,6,7,9,10,15,20,21,22,23,24,25,26,27'
+        default: '1,2,4,5,6,7,9,10,15,20,21,22,23,24,25,26,27,28'
         type: string
       details:
         description: 'Setting general.review.details'

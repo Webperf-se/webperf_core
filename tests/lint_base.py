@@ -46,6 +46,7 @@ def get_errors(test_type, params):
     is_css = False
     lint_file_path = None
     file_path = None
+    command = None
 
     if 'css' in params or test_type == 'css':
         is_css = True
@@ -60,6 +61,9 @@ def get_errors(test_type, params):
                 f"Tested url must start with \'https://\' or \'http://\': {url}")
 
         file_path = get_cache_path_for_file(url, True)
+        base_directory = Path(os.path.dirname(
+            os.path.realpath(__file__)) + os.path.sep).parent
+
         if is_html:
             html_file_ending_fix = file_path.replace('.cache', '.cache.html')
             html_file_ending_fix = html_file_ending_fix.replace('.tmp', '.tmp.html')
@@ -75,19 +79,24 @@ def get_errors(test_type, params):
                 os.rename(file_path, css_file_ending_fix)
             file_path = css_file_ending_fix
 
-        base_directory = Path(os.path.dirname(
-            os.path.realpath(__file__)) + os.path.sep).parent
 
         file_path = os.path.join(base_directory, file_path)
-        lint_file_path = f"{file_path}-lint.json"
+        lint_file_path = f"{file_path}-{test_type}-lint.json"
+
+    if is_css:
         # We use "standard" in css-stylelint-standard.json because in the future we might want muliple files, like one for performance and so on...
         config_file_path = os.path.join(base_directory, "defaults","css-stylelint-standard.json")
 
         arg = f'{file_path} -f json -o {lint_file_path} --config {config_file_path} --quiet'
-
-    command = (
-        f"node node_modules{os.path.sep}stylelint{os.path.sep}bin"
-        f"{os.path.sep}stylelint.mjs {arg}")
+        command = (
+            f"node node_modules{os.path.sep}stylelint{os.path.sep}bin"
+            f"{os.path.sep}stylelint.mjs {arg}")
+    else:
+        # https://html-validate.org/rules/presets.html
+        arg = f'-f json={lint_file_path} --preset standard {file_path}'
+        command = (
+            f"node node_modules{os.path.sep}html-validate{os.path.sep}bin"
+            f"{os.path.sep}html-validate.mjs {arg}")
 
     if lint_file_path is None:
         return errors
@@ -102,9 +111,10 @@ def get_errors(test_type, params):
         with open(lint_file_path, encoding='utf-8') as json_input_file:
             json_result = json.load(json_input_file)
             for source_info in json_result:
-                if 'warnings' not in source_info:
-                    continue
-                errors = source_info['warnings']
+                if 'warnings' in source_info:
+                    errors = source_info['warnings']
+                elif 'messages' in source_info:
+                    errors = source_info['messages']
 
     for error in errors:
         error['url'] = url

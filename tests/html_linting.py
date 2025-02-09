@@ -105,6 +105,12 @@ def handle_html_markup_entry(entry, global_translation, local_translation, resul
 
     return rating
 
+def replacer(match):
+    text = match.group(1)
+    text = re.sub(r'(["])', '“', text, 1)
+    text = re.sub(r'(["])', '”', text, 1)
+    return text
+
 def create_review_and_rating(
         is_first_entry,
         errors,
@@ -133,6 +139,8 @@ def create_review_and_rating(
     if number_of_errors > 0:
         for item in errors:
             error_message = item['message']
+
+            error_message = re.sub(r'(["][^"]+["])', replacer, error_message)
 
             error_message_dict[error_message] = "1"
 

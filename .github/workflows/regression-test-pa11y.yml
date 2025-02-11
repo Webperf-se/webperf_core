@@ -34,7 +34,7 @@ jobs:
     strategy:
             matrix:
                 # os: [ubuntu-latest, windows-latest]
-                os: [ubuntu-20.04, windows-latest]
+                os: [ubuntu-latest, windows-latest]
                 version: [18]
     steps:
     - name: Check out repository code
@@ -54,7 +54,7 @@ jobs:
       run: npm install --omit=dev
       timeout-minutes: 30
     # Havn't yet been able to start Google Chrome in headless mode in pa11y since move to Chrome in Pa11y 5
-    - if: ${{ matrix.os == 'ubuntu-20.04' }}
+    - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: RUNNING TEST - LINUX
       run: |
          python default.py -t ${{ matrix.version }} -r -i defaults/sites.json -o data/testresult-${{ matrix.version }}.json

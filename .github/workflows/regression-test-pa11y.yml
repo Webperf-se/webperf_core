@@ -34,11 +34,19 @@ jobs:
     strategy:
             matrix:
                 # os: [ubuntu-latest, windows-latest]
-                os: [ubuntu-20.04, windows-latest]
+                os: [ubuntu-latest, windows-latest]
                 version: [18]
     steps:
     - name: Check out repository code
       uses: actions/checkout@v4
+    - if: ${{ matrix.os == 'ubuntu-latest'  }}
+      name: Setup Google Chrome browser (ONLY used for Sitespeed) - Linux
+      run: |
+        wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - 
+        sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+        sudo apt-get update
+        sudo apt-get --only-upgrade install google-chrome-stable
+        google-chrome --version
     - name: Setup python
       uses: actions/setup-python@v5
       with:
@@ -53,8 +61,7 @@ jobs:
     - name: Setup npm packages
       run: npm install --omit=dev
       timeout-minutes: 30
-    # Havn't yet been able to start Google Chrome in headless mode in pa11y since move to Chrome in Pa11y 5
-    - if: ${{ matrix.os == 'ubuntu-20.04' }}
+    - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: RUNNING TEST - LINUX
       run: |
          python default.py -t ${{ matrix.version }} -r -i defaults/sites.json -o data/testresult-${{ matrix.version }}.json

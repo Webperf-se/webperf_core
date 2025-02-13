@@ -74,7 +74,7 @@ def run_test(global_translation, url):
     # Extrahera alla nycklar
     result_urls = list(checked_urls.keys())
 
-    return_dict['checked-urls'] = checked_urls
+    return_dict['checked-urls'] = result_urls
     return_dict['statements'] = statements
 
     return (rating, return_dict)

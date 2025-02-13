@@ -74,6 +74,7 @@ def run_test(global_translation, url):
     # Extrahera alla nycklar
     result_urls = list(checked_urls.keys())
 
+    return_dict['items'] = start_item
     return_dict['checked-urls'] = result_urls
     return_dict['statements'] = statements
 
@@ -188,11 +189,12 @@ def check_item(item, root_item, org_url_start, global_translation, local_transla
         time.sleep(1)
         data = identify_files(filename)
         if data is None:
+            checked_urls[item['url']] = None
             return None
 
         for html_entry in data['htmls']:
             if content is None and html_entry['content'] is not None:
-                content = html_entry['content']            
+                content = html_entry['content']
             checked_urls[html_entry['url']] = html_entry['content']
     else:
         content = checked_urls[item['url']]

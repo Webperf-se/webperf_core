@@ -71,6 +71,9 @@ def run_test(global_translation, url):
     print(global_translation('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
+    return_dict['checked-urls'] = checked_urls
+    return_dict['statements'] = statements
+
     return (rating, return_dict)
 
 def get_rating_not_set_rating(url, return_dict, local_translation, global_translation):

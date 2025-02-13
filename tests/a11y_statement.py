@@ -71,6 +71,9 @@ def run_test(global_translation, url):
     print(global_translation('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
+    # Extrahera alla nycklar
+    result_urls = list(checked_urls.keys())
+
     return_dict['checked-urls'] = checked_urls
     return_dict['statements'] = statements
 

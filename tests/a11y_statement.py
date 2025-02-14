@@ -207,6 +207,7 @@ def check_item(item, root_item, org_url_start, global_translation, local_transla
         item['items'] = item['root']['items']
 
     item['validated'] = True
+    item['links-all'] = []
     item['links-interesting'] = get_interesting_urls(
         item, content, org_url_start, item['depth'] + 1)
 
@@ -1023,7 +1024,8 @@ def get_interesting_urls(item, content, org_url_start, depth):
         url = f"{link.get('href')}"
         if url is None:
             continue
-
+        if url == '':
+            continue
         if url.endswith('.pdf'):
             continue
         if url.startswith('//'):

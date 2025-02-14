@@ -54,7 +54,9 @@ def run_test(global_translation, url):
 
     if statements is not None:
         for statement in statements:
+            del statement['root']
             del statement['links-all']
+            del statement['links-interesting']
             for item in start_item['items']:
                 if statement['url'] == item['url'] and statement['depth'] > item['depth']:
                     statement['depth'] = item['depth']

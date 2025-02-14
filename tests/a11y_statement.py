@@ -71,6 +71,13 @@ def run_test(global_translation, url):
     print(global_translation('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
+    # Extrahera alla nycklar
+    result_urls = list(checked_urls.keys())
+
+    return_dict['items'] = start_item
+    return_dict['checked-urls'] = result_urls
+    return_dict['statements'] = statements
+
     return (rating, return_dict)
 
 def get_rating_not_set_rating(url, return_dict, local_translation, global_translation):
@@ -182,11 +189,12 @@ def check_item(item, root_item, org_url_start, global_translation, local_transla
         time.sleep(1)
         data = identify_files(filename)
         if data is None:
+            checked_urls[item['url']] = None
             return None
 
         for html_entry in data['htmls']:
             if content is None and html_entry['content'] is not None:
-                content = html_entry['content']            
+                content = html_entry['content']
             checked_urls[html_entry['url']] = html_entry['content']
     else:
         content = checked_urls[item['url']]
@@ -199,8 +207,9 @@ def check_item(item, root_item, org_url_start, global_translation, local_transla
         item['items'] = item['root']['items']
 
     item['validated'] = True
-    item['children'] = get_interesting_urls(
-        content, org_url_start, item['depth'] + 1)
+    item['links-all'] = []
+    item['links-interesting'] = get_interesting_urls(
+        item, content, org_url_start, item['depth'] + 1)
 
     item['content'] = content
     if has_statement(item, global_translation, local_translation):
@@ -209,7 +218,7 @@ def check_item(item, root_item, org_url_start, global_translation, local_transla
     elif item['depth'] < 2:
         del item['content']
         child_index = 0
-        for child_pair in item['children'].items():
+        for child_pair in item['links-interesting'].items():
             if child_index > 10:
                 break
             child_index += 1
@@ -986,7 +995,7 @@ def get_text_precision(text):
     return 0.1
 
 
-def get_interesting_urls(content, org_url_start, depth):
+def get_interesting_urls(item, content, org_url_start, depth):
     """
     Extracts and returns interesting URLs from the given HTML content.
 
@@ -1012,14 +1021,10 @@ def get_interesting_urls(content, org_url_start, depth):
     links = soup.find_all("a")
 
     for link in links:
-        if not link.find(string=re.compile(
-                r"(om [a-z]+|(tillg(.{1,6}|ä|&auml;|&#228;)nglighet(sredog(.{1,6}|ö|&ouml;|&#246;)relse){0,1}))", # pylint: disable=line-too-long
-                flags=re.MULTILINE | re.IGNORECASE)):
-            continue
-
         url = f"{link.get('href')}"
-
         if url is None:
+            continue
+        if url == '':
             continue
         if url.endswith('.pdf'):
             continue
@@ -1029,14 +1034,22 @@ def get_interesting_urls(content, org_url_start, depth):
             url = f'{org_url_start}{url}'
         if url.startswith('#'):
             continue
-
         if not url.startswith(org_url_start):
             continue
 
         text = link.get_text().strip()
-
         precision =  get_text_precision(text)
+        info = get_default_info(
+            url, text, 'url.text', precision, depth)
+        item['links-all'].append(info)
 
+        if not link.find(string=re.compile(
+                r"(om [a-z]+|(tillg(.{1,6}|ä|&auml;|&#228;)nglighet(sredog(.{1,6}|ö|&ouml;|&#246;)relse){0,1}))", # pylint: disable=line-too-long
+                flags=re.MULTILINE | re.IGNORECASE)):
+            continue
+
+        text = link.get_text().strip()
+        precision =  get_text_precision(text)
         info = get_default_info(
             url, text, 'url.text', precision, depth)
         if url not in checked_urls:

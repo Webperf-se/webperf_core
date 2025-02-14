@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+q# -*- coding: utf-8 -*-
 import json
 import os
 import re
@@ -190,7 +190,6 @@ def check_item(item, root_item, org_url_start, global_translation, local_transla
             checked_urls[html_entry['url']] = html_entry['content']
     else:
         content = checked_urls[item['url']]
-        # return statements
 
     item['root'] = root_item
     if root_item is None:
@@ -199,7 +198,8 @@ def check_item(item, root_item, org_url_start, global_translation, local_transla
         item['items'] = item['root']['items']
 
     item['validated'] = True
-    item['children'] = get_interesting_urls(
+    item['links-all'] = []
+    item['links-interesting'] = get_interesting_urls(item,
         content, org_url_start, item['depth'] + 1)
 
     item['content'] = content
@@ -209,7 +209,7 @@ def check_item(item, root_item, org_url_start, global_translation, local_transla
     elif item['depth'] < 2:
         del item['content']
         child_index = 0
-        for child_pair in item['children'].items():
+        for child_pair in item['links-interesting'].items():
             if child_index > 10:
                 break
             child_index += 1
@@ -986,7 +986,7 @@ def get_text_precision(text):
     return 0.1
 
 
-def get_interesting_urls(content, org_url_start, depth):
+def get_interesting_urls(item, content, org_url_start, depth):
     """
     Extracts and returns interesting URLs from the given HTML content.
 
@@ -1012,16 +1012,8 @@ def get_interesting_urls(content, org_url_start, depth):
     links = soup.find_all("a")
 
     for link in links:
-        if not link.find(string=re.compile(
-                r"(om [a-z]+|(tillg(.{1,6}|ä|&auml;|&#228;)nglighet(sredog(.{1,6}|ö|&ouml;|&#246;)relse){0,1}))", # pylint: disable=line-too-long
-                flags=re.MULTILINE | re.IGNORECASE)):
-            continue
-
         url = f"{link.get('href')}"
-
         if url is None:
-            continue
-        if url.endswith('.pdf'):
             continue
         if url.startswith('//'):
             continue
@@ -1031,6 +1023,15 @@ def get_interesting_urls(content, org_url_start, depth):
             continue
 
         if not url.startswith(org_url_start):
+            continue
+
+        if url.endswith('.pdf'):
+            continue
+
+        item['links-all'].append(url)
+        if not link.find(string=re.compile(
+                r"(om [a-z]+|(tillg(.{1,6}|ä|&auml;|&#228;)nglighet(sredog(.{1,6}|ö|&ouml;|&#246;)relse){0,1}))", # pylint: disable=line-too-long
+                flags=re.MULTILINE | re.IGNORECASE)):
             continue
 
         text = link.get_text().strip()

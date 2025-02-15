@@ -451,7 +451,9 @@ def sum_overall_software_used(local_translation, result):
     categories = ['cms', 'webserver', 'os',
                   'analytics', 'tech', 'license', 'meta',
                   'js', 'css',
-                  'lang', 'img', 'img.software', 'img.os', 'img.device', 'video']
+                  'lang', 'img', 'img.software', 'img.os', 'img.device', 'video',
+                  'a11y-overlay'
+                  ]
 
     for category in categories:
         if category in result:
@@ -497,6 +499,7 @@ def convert_item_to_domain_data(data):
             if 'is-latest-version' in match:
                 result[category][name]['is-latest-version'] = match['is-latest-version']
             append_item_tech_to_result(result, match)
+            append_item_a11y_overlays_to_result(item['url'], result, match)
             append_item_img_to_result(result, match)
 
             if result[category][name][version]['precision'] < precision:
@@ -526,6 +529,26 @@ def append_item_img_to_result(result, match):
                                 "precision": 0.8
                             }
                         }
+
+def append_item_a11y_overlays_to_result(item_url, result, match):
+    if 'a11y-overlay' in match:
+                # if software has info about tech, add it
+        if 'a11y-overlay' not in result:
+            result['a11y-overlay'] = {}
+        for tech in match['a11y-overlay']:
+            if tech not in result['a11y-overlay']:
+                result['a11y-overlay'][tech] = {
+                            "?": {
+                                "name": tech,
+                                "precision": 0.8
+                            }
+                        }
+                if 'A11Y_OVERLAY' not in result['issues']:
+                    result['issues']['A11Y_OVERLAY'] = {
+                                    'softwares': [tech],
+                                    'resources': [item_url],
+                                    'sub-issues': []
+                                }
 
 def append_item_tech_to_result(result, match):
     if 'tech' in match:
@@ -841,7 +864,7 @@ def enrich_data_from_javascript(item, rules):
     for match in item['matches']:
         if match['category'] != 'js':
             return
-        if 'license-txt' in item:
+        if 'license-txt' in match:
             content = get_http_content(
                 match['license-txt'].lower(), allow_redirects=True)
             lookup_response_content(

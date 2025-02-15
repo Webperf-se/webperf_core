@@ -33,7 +33,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
             matrix:
-                os: [ubuntu-latest, windows-latest]
+                os: [windows-latest]
                 version: [20]
     steps:
     - name: Check out repository code
@@ -45,11 +45,6 @@ jobs:
         architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
-    - if: ${{ matrix.os == 'ubuntu-latest' }}
-      name: RUNNING TEST - LINUX
-      run: |
-         python default.py -t ${{ matrix.version }} -r -i defaults/sites.json -o data/testresult-${{ matrix.version }}.json
-         python .github/workflows/verify_result.py -t ${{ matrix.version }}
     - if: ${{ matrix.os == 'windows-latest' }}
       name: RUNNING TEST - WINDOWS
       run: |

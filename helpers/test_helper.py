@@ -9,6 +9,7 @@ from tests.page_not_found import run_test as run_test_page_not_found
 from tests.html_validator_w3c import run_test as run_test_html_validator_w3c
 from tests.css_validator_w3c import run_test as run_test_css_validator_w3c
 from tests.css_linting import run_test as run_test_lint_css
+from tests.html_linting import run_test as run_test_lint_html
 from tests.privacy_webbkollen import run_test as run_test_privacy_webbkollen
 from tests.performance_lighthouse import run_test as run_test_performance_lighthouse
 from tests.seo_lighthouse import run_test as run_test_seo_lighthouse
@@ -43,8 +44,8 @@ TEST_ALL = (TEST_UNKNOWN_01,
             TEST_UNKNOWN_19,
             TEST_WEBBKOLL, TEST_HTTP, TEST_ENERGY_EFFICIENCY, TEST_TRACKING,
             TEST_EMAIL, TEST_SOFTWARE, TEST_A11Y_STATEMENT,
-            TEST_LINT_CSS#, TEST_LINT_HTML, TEST
-            ) = range(28)
+            TEST_LINT_CSS, TEST_LINT_HTML #, TEST
+            ) = range(29)
 
 TEST_FUNCS = {
         TEST_PAGE_NOT_FOUND: run_test_page_not_found,
@@ -65,7 +66,8 @@ TEST_FUNCS = {
         TEST_EMAIL: run_test_email_validator,
         TEST_SOFTWARE: run_test_software,
         TEST_A11Y_STATEMENT: run_test_a11y_statement,
-        TEST_LINT_CSS: run_test_lint_css
+        TEST_LINT_CSS: run_test_lint_css,
+        TEST_LINT_HTML: run_test_lint_html
     }
 
 CONFIG_WARNINGS = {}

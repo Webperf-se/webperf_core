@@ -3,7 +3,7 @@
         "features": {},
         "functions": {
             "--": "/en-US/docs/Web/CSS/--*",
-            "-webkit-line-clamp": "/en-US/docs/Web/CSS/-webkit-line-clamp",
+            "-webkit-line-clamp": "/en-US/docs/Web/CSS/line-clamp",
             "-webkit-text-fill-color": "/en-US/docs/Web/CSS/-webkit-text-fill-color",
             "-webkit-text-stroke": "/en-US/docs/Web/CSS/-webkit-text-stroke",
             "-webkit-text-stroke-color": "/en-US/docs/Web/CSS/-webkit-text-stroke-color",
@@ -376,7 +376,7 @@
             "light-dark": "/en-US/docs/Web/CSS/color_value/light-dark",
             "lighting-color": "/en-US/docs/Web/CSS/lighting-color",
             "line-break": "/en-US/docs/Web/CSS/line-break",
-            "line-clamp": "/en-US/docs/Web/CSS/-webkit-line-clamp",
+            "line-clamp": "/en-US/docs/Web/CSS/line-clamp",
             "line-gap-override": "/en-US/docs/Web/CSS/@font-face/line-gap-override",
             "line-height": "/en-US/docs/Web/CSS/line-height",
             "line-height-step": "/en-US/docs/Web/CSS/line-height-step",

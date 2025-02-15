@@ -527,6 +527,8 @@ def validate_locale(msg_ids, locales_dir,
                 bash_command = (f"python {msgfmt_path} -o ",
                                         f"{os.path.join(lang_sub_directory, file.replace('.po', '.mo'))} ",
                                         f"{os.path.join(lang_sub_directory, file)}")
+                # Konvertera tuple till sträng
+                bash_command = "".join(bash_command)
 
                 with subprocess.Popen(
                             bash_command.split(),

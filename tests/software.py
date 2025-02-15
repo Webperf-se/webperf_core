@@ -179,6 +179,7 @@ def rate_software_security_result(local_translation, global_translation, result)
     has_source_issues = False
     # has_multiple_versions_issues = False
     has_end_of_life_issues = False
+    has_a11y_overlay_issues = False
 
     for issue_type in result['issues']:
         if issue_type.startswith('CVE'):
@@ -205,10 +206,16 @@ def rate_software_security_result(local_translation, global_translation, result)
                 result,
                 local_translation,
                 global_translation)
-
         elif issue_type.startswith('END_OF_LIFE'):
             has_end_of_life_issues = True
             rating += rate_software_end_of_life(
+                local_translation,
+                global_translation,
+                result,
+                issue_type)
+        elif issue_type.startswith('A11Y_OVERLAY'):
+            has_a11y_overlay_issues = True
+            rating += rate_use_of_a11y_overlay(
                 local_translation,
                 global_translation,
                 result,
@@ -221,13 +228,15 @@ def rate_software_security_result(local_translation, global_translation, result)
         has_behind_issues,
         has_source_issues,
         has_end_of_life_issues,
+        has_a11y_overlay_issues,
         local_translation,
         global_translation)
 
     return rating
 
 def rate_software_no_issues(has_cve_issues, has_behind_issues, has_source_issues,
-                            has_end_of_life_issues, local_translation, global_translation):
+                            has_end_of_life_issues, has_a11y_overlay_issues,
+                            local_translation, global_translation):
     rating = Rating(global_translation, get_config('general.review.improve-only'))
     if not has_cve_issues:
         points = 5.0
@@ -284,7 +293,47 @@ def rate_software_no_issues(has_cve_issues, has_behind_issues, has_source_issues
         else:
             sub_rating.set_integrity_and_security(points)
         rating += sub_rating
+
+    if not has_a11y_overlay_issues:
+        points = 5.0
+        sub_rating = Rating(
+            global_translation,
+            get_config('general.review.improve-only'))
+        sub_rating.set_overall(points)
+        if get_config('general.review.details'):
+            sub_rating.set_a11y(
+                points,
+                local_translation('TEXT_DETAILED_REVIEW_NO_A11Y_OVERLAY'))
+        else:
+            sub_rating.set_a11y(points)
+        rating += sub_rating
+
     return rating
+
+def rate_use_of_a11y_overlay(local_translation, global_translation, result, issue_type):
+    points = 1.75
+    sub_rating = Rating(
+        global_translation,
+        get_config('general.review.improve-only'))
+    sub_rating.set_overall(points)
+    sub_rating.set_a11y(points)
+
+    if get_config('general.review.details'):
+        text = local_translation(f'TEXT_DETAILED_REVIEW_{issue_type}')\
+                    .replace('#POINTS#', str(sub_rating.get_a11y()))
+        text += '\r\n'
+        text += local_translation('TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE')
+        text += '\r\n'
+        for software in result['issues'][issue_type]['softwares']:
+            text += f'- {software}\r\n'
+
+        text += '\r\n'
+        text += local_translation('TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES')
+        text += '\r\n'
+        for resource in result['issues'][issue_type]['resources']:
+            text += f'- {resource}\r\n'
+        sub_rating.a11y_review = text
+    return sub_rating
 
 def rate_software_end_of_life(local_translation, global_translation, result, issue_type):
     points = 1.75

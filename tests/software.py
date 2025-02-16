@@ -311,7 +311,7 @@ def rate_software_no_issues(has_cve_issues, has_behind_issues, has_source_issues
     return rating
 
 def rate_use_of_a11y_overlay(local_translation, global_translation, result, issue_type):
-    points = 1.75
+    points = 1.0
     sub_rating = Rating(
         global_translation,
         get_config('general.review.improve-only'))
@@ -501,7 +501,7 @@ def sum_overall_software_used(local_translation, result):
                   'analytics', 'tech', 'license', 'meta',
                   'js', 'css',
                   'lang', 'img', 'img.software', 'img.os', 'img.device', 'video',
-                  'a11y-overlay'
+                  'a11y_overlay'
                   ]
 
     for category in categories:
@@ -580,24 +580,20 @@ def append_item_img_to_result(result, match):
                         }
 
 def append_item_a11y_overlays_to_result(item_url, result, match):
-    if 'a11y-overlay' in match:
-                # if software has info about tech, add it
-        if 'a11y-overlay' not in result:
-            result['a11y-overlay'] = {}
-        for tech in match['a11y-overlay']:
-            if tech not in result['a11y-overlay']:
-                result['a11y-overlay'][tech] = {
-                            "?": {
-                                "name": tech,
-                                "precision": 0.8
-                            }
-                        }
-                if 'A11Y_OVERLAY' not in result['issues']:
-                    result['issues']['A11Y_OVERLAY'] = {
-                                    'softwares': [tech],
-                                    'resources': [item_url],
-                                    'sub-issues': []
-                                }
+    if 'a11y_overlay' != match['category']:
+        return
+
+    if 'A11Y_OVERLAY' not in result['issues']:
+        result['issues']['A11Y_OVERLAY'] = {
+            'softwares': [match['name']],
+            'resources': [item_url],
+            'sub-issues': []
+        }
+    else:
+        if match['name'] not in result['issues']['A11Y_OVERLAY']['softwares']:
+            result['issues']['A11Y_OVERLAY']['softwares'].append(match['name'])
+        if item_url not in result['issues']['A11Y_OVERLAY']['resources']:
+            result['issues']['A11Y_OVERLAY']['resources'].append(item_url)
 
 def append_item_tech_to_result(result, match):
     if 'tech' in match:

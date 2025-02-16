@@ -70,7 +70,7 @@ msgid "TEXT_USED_SECURITY"
 msgstr "- Leaking information"
 
 msgid "TEXT_USED_A11Y_OVERLAY"
-msgstr "- Accessibility overlays"
+msgstr "- Accessibility overlays used: {0}"
 
 msgid "UPDATE_AVAILABLE"
 msgstr "- Update(s) available"

@@ -70,7 +70,7 @@ msgid "TEXT_USED_SECURITY"
 msgstr "- Läcker information"
 
 msgid "TEXT_USED_A11Y_OVERLAY"
-msgstr "- Tillgänglighetsöverlägg"
+msgstr "- Tillgänglighetsöverlägg: {0}"
 
 msgid "UPDATE_AVAILABLE"
 msgstr "- Uppdatering(ar) tillgängliga"

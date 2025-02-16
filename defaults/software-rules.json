@@ -2,6 +2,58 @@
     "urls": [
         {
             "use": true,
+            "description": "AccessiBe - Sometimes referred to as Accessiway?",
+            "website": "https://accessibe.com",
+            "match": "(?P<debug>acsbapp\\.com)",
+            "results": [
+                {
+                    "category": "a11y_overlay",
+                    "name": "AccessiBe",
+                    "precision": 0.6
+                }
+            ]
+        },
+        {
+            "use": true,
+            "description": "EqualWeb",
+            "website": "https://www.equalweb.com",
+            "match": "(?P<debug>nagich\\.com)",
+            "results": [
+                {
+                    "category": "a11y_overlay",
+                    "name": "EqualWeb",
+                    "precision": 0.6
+                }
+            ]
+        },
+        {
+            "use": true,
+            "description": "UserWay",
+            "website": "https://userway.org",
+            "match": "(?P<debug>userway\\.org)",
+            "results": [
+                {
+                    "category": "a11y_overlay",
+                    "name": "UserWay",
+                    "precision": 0.6
+                }
+            ]
+        },
+        {
+            "use": true,
+            "description": "AudioEye",
+            "website": "https://www.audioeye.com",
+            "match": "(?P<debug>audioeye\\.com)",
+            "results": [
+                {
+                    "category": "a11y_overlay",
+                    "name": "AudioEye",
+                    "precision": 0.6
+                }
+            ]
+        },
+        {
+            "use": true,
             "description": "EpiServer CMS",
             "match": "(?P<debug>\\/contentassets\\/|\\/siteassets\\/|\\/globalassets\\/)",
             "results": [

@@ -1,0 +1,59 @@
+{
+    "overlays": [
+        {
+            "name": "AccessiBe",
+            "description": "Sometimes referred to as Accessiway?",
+            "website": "https://accessibe.com",
+            "urls": [
+                {
+                    "url": "https://acsbapp.com/"
+                },
+                {
+                    "url": "https://cdn.acsbapp.com"
+                },
+                {
+                    "url": "https://accesswidget-log-receiver.acsbapp.com/"
+                }
+            ]
+        },
+        {
+            "name": "EqualWeb",
+            "description": "",
+            "website": "https://www.equalweb.com",
+            "urls": [
+                {
+                    "url": "https://aacdn.nagich.com/"
+                },
+                {
+                    "url": "https://ocr.nagich.com/"
+                }
+            ]
+        },
+        {
+            "name": "UserWay",
+            "description": "",
+            "website": "https://userway.org",
+            "urls": [
+                {
+                    "url": "https://cdn.userway.org/"
+                },
+                {
+                    "url": "https://api.userway.org/"
+                }
+            ]
+        },
+        {
+            "name": "AudioEye",
+            "description": "",
+            "website": "https://www.audioeye.com",
+            "urls": [
+                {
+                    "url": "https://wsmcdn.audioeye.com/"
+                },
+                {
+                    "url": "https://wsv3cdn.audioeye.com/"
+                }
+            ]
+        }
+    ]
+}

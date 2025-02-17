@@ -109,6 +109,8 @@ def get_rating_not_set_rating(url, return_dict, local_translation, global_transl
         return_dict['failed'] = True
         return rating
 
+    rating.set_a11y(1.0, local_translation(
+        'TEXT_REVIEW_NO_ACCESSIBILITY_STATEMENT'))
     rating.set_overall(1.0, local_translation(
         'TEXT_REVIEW_NO_ACCESSIBILITY_STATEMENT'))
     rating.overall_review = local_translation('TEXT_REVIEW_CALLED_URL').format(
@@ -434,6 +436,8 @@ def rate_statement(statement, global_translation, local_translation):
     else:
         tmp = rating.overall_review.replace('GOV-IGNORE', '').strip('\r\n\t ')
         if len(tmp) > 0:
+            rating.set_a11y(1.0, local_translation(
+                'TEXT_REVIEW_NO_ACCESSIBILITY_STATEMENT'))
             rating.set_overall(1.0, local_translation(
                 'TEXT_REVIEW_NO_ACCESSIBILITY_STATEMENT'))
             rating.overall_review = local_translation('TEXT_REVIEW_CALLED_URL').format(

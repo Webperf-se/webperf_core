@@ -241,6 +241,7 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
             command = (
                 f"docker run --rm -v {data_dir}:/sitespeed.io "
                 f"sitespeedio/sitespeed.io:{sitespeedio_version} "
+                "--plugins.remove assets --plugins.remove budget --plugins.remove coach --plugins.remove pagexray --plugins.remove thirdparty --plugins.remove domains "
                 f"--maxLoadTime {(timeout * 1000)} {arg}"
                 )
 

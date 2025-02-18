@@ -116,7 +116,7 @@ jobs:
       if: always()
       run: |
         sitespeedversion=$(python .github/workflows/verify_result.py --docker-sitespeed-version)
-        command="docker run -v $(pwd):/sitespeed.io $sitespeedversion -b ${{ matrix.browser }} -n 1 --plugins.remove assets --plugins.remove budget --plugins.remove coach --plugins.remove pagexray --plugins.remove thirdparty --plugins.remove domains --plugins.remove html --plugins.list https://webperf.se"
+        command="docker run -v $(pwd):/sitespeed.io $sitespeedversion -b ${{ matrix.browser }} -n 1 --plugins.remove assets --plugins.remove budget --plugins.remove coach --plugins.remove pagexray --plugins.remove thirdparty --plugins.remove domains --plugins.list https://webperf.se"
         echo "A: $command"
         testresult=$($command)
         echo "B: $testresult"

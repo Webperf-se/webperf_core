@@ -496,16 +496,6 @@ def validate_mta_sts_policy(global_translation, rating, result_dict, local_trans
         rows = content.split('\r\n')
         if len(rows) == 1:
             rows = content.split('\n')
-            if len(rows) > 1:
-                # https://www.rfc-editor.org/rfc/rfc8461#section-3.2
-                mta_sts_records_wrong_linebreak_rating = Rating(
-                    global_translation, get_config('general.review.improve-only'))
-                mta_sts_records_wrong_linebreak_rating.set_overall(1.0)
-                mta_sts_records_wrong_linebreak_rating.set_integrity_and_security(
-                    2.5, local_translation('TEXT_REVIEW_MTA_STS_DNS_RECORD_WRONG_LINEBREAK'))
-                mta_sts_records_wrong_linebreak_rating.set_standards(
-                    1.0, local_translation('TEXT_REVIEW_MTA_STS_DNS_RECORD_WRONG_LINEBREAK'))
-                rating += mta_sts_records_wrong_linebreak_rating
 
         for row in rows:
             if row == '':

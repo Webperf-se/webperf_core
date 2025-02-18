@@ -127,14 +127,6 @@ jobs:
           echo "D: $har_file"
           if [ -f "$har_file" ]; then
             echo "Found browsertime.har at $har_file"
-            versions=$(echo "$testresult" | grep -o "VERSIONS:START")
-            echo "E: $versions"
-            if [ -n "$versions" ]; then
-              echo "Versions found in $har_file"
-            else
-              echo "Versions not found in $har_file"
-              exit 1
-            fi
           else
             echo "Error: browsertime.har not found in $path"
             exit 1

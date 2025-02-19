@@ -245,6 +245,7 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
                 f"--maxLoadTime {(timeout * 1000)} {arg}"
                 )
 
+            print('Command:', command)
             with subprocess.Popen(command.split(), stdout=subprocess.PIPE) as process:
                 output, error = process.communicate(timeout=process_failsafe_timeout)
 
@@ -257,8 +258,11 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
                 print('ERROR! Could not locate Firefox on the current system.')
         else:
             command = (f"node node_modules{os.path.sep}sitespeed.io{os.path.sep}"
-                       f"bin{os.path.sep}sitespeed.js --maxLoadTime {(timeout * 1000)} {arg}")
+                       f"bin{os.path.sep}sitespeed.js "
+                       "--plugins.remove assets --plugins.remove budget --plugins.remove coach --plugins.remove pagexray --plugins.remove thirdparty --plugins.remove domains "
+                       f"--maxLoadTime {(timeout * 1000)} {arg}")
 
+            print('Command:', command)
             with subprocess.Popen(
                 command.split(), stdout=subprocess.PIPE) as process:
                 output, error = process.communicate(timeout=process_failsafe_timeout)

@@ -1,6 +1,6 @@
 {
   "name": "webperf_core",
-  "version": "2025.2.8",
+  "version": "2025.2.9",
   "description": "You probably want to read the documentation available at homepage.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,7 +14,7 @@
     "@sitespeed.io/plugin-lighthouse": "12.3.0",
     "html-validate": "9.3.0",
     "pa11y": "8.0.0",
-    "sitespeed.io": "36.3.0",
+    "sitespeed.io": "36.4.1",
     "stylelint": "16.14.1",
     "vnu-jar": "23.4.11",
     "webperf-sitespeedio-plugin": "2025.2.0",

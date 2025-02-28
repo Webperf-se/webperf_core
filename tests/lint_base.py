@@ -93,7 +93,7 @@ def get_errors(test_type, params):
 
     if is_css:
         config_file_path = os.path.join(base_directory, "defaults", "css-stylelint-standard.json")
-        arg = f'{file_path} -f json -o {lint_file_path} --config {config_file_path} --quiet'
+        arg = f'{file_path} -f json --output-file {lint_file_path} --config {config_file_path} --quiet'
         command = (
             f"node node_modules{os.path.sep}stylelint{os.path.sep}bin"
             f"{os.path.sep}stylelint.mjs {arg}")

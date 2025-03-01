@@ -68,12 +68,12 @@ def run_test(global_translation, url):
 
     for script_resource in all_script_resources:
         data_resource_info_to_remove = None
-        for data_resource_info in data['resources']:
+        for data_resource_info in data['scripts']:
             if data_resource_info['url'] == script_resource:
                 data_resource_info_to_remove = data_resource_info
                 break
         if data_resource_info_to_remove is not None:
-            data['resources'].remove(data_resource_info_to_remove)
+            data['scripts'].remove(data_resource_info_to_remove)
 
     rating += rate_js(
         global_translation,
@@ -165,7 +165,7 @@ def rate_js(global_translation, local_translation, data, result_dict):
     rating = Rating(global_translation, get_config('general.review.improve-only'))
     has_js_contenttypes = False
     errors = []
-    for data_resource_info in data['resources']:
+    for data_resource_info in data['scripts']:
         has_js_contenttypes = True
         result_dict['sources'].append({
             'url': data_resource_info['url'],

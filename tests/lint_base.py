@@ -188,7 +188,7 @@ def identify_files(filename):
     This function takes a filename as input and identifies different types of files in the HAR data.
 
     The function reads the HAR data from the file, iterates over the entries,
-    and categorizes them into HTML and CSS files.
+    and categorizes them into HTML, CSS, and JavaScript files.
     It also checks if the file is already cached and if not, it caches the file.
 
     Parameters:
@@ -203,13 +203,13 @@ def identify_files(filename):
     - 'index'
     of the file.
     """
-
     data = {
         'all': [],
         'htmls': [],
         'elements': [],
         'attributes': [],
-        'resources': []
+        'resources': [],
+        'scripts': []  # Added to categorize JavaScript files
     }
 
     if not os.path.exists(filename):
@@ -249,7 +249,7 @@ def identify_files(filename):
                     'url': req_url,
                     'content': res['content']['text'],
                     'index': req_index
-                    }
+                }
                 data['all'].append(obj)
                 data['htmls'].append(obj)
             elif 'css' in res['content']['mimeType']:
@@ -265,9 +265,25 @@ def identify_files(filename):
                     'url': req_url,
                     'content': res['content']['text'],
                     'index': req_index
-                    }
+                }
                 data['all'].append(obj)
                 data['resources'].append(obj)
+            elif 'javascript' in res['content']['mimeType']:  # Added to handle JavaScript files
+                if 'text' not in res['content']:
+                    print(f'TECHNICAL WARNING: {req_url} has no content (could be caused by redirect), file is ignored.')
+                    continue
+                if not has_cache_file(
+                        req_url,
+                        True,
+                        timedelta(minutes=get_config('general.cache.max-age'))):
+                    set_cache_file(req_url, res['content']['text'], True)
+                obj = {
+                    'url': req_url,
+                    'content': res['content']['text'],
+                    'index': req_index
+                }
+                data['all'].append(obj)
+                data['scripts'].append(obj)  # Added to categorize JavaScript files
             req_index += 1
 
     return data

@@ -98,7 +98,7 @@ def get_errors(test_type, params):
             f"node node_modules{os.path.sep}stylelint{os.path.sep}bin"
             f"{os.path.sep}stylelint.mjs {arg}")
     elif is_js:
-        config_file_path = os.path.join(base_directory, "defaults", "js-eslint-standard.json")
+        config_file_path = os.path.join(base_directory, "defaults", "js-eslint-standard.mjs")
         arg = f'{file_path} -f json -o {lint_file_path} --config {config_file_path} --quiet'
         command = (
             f"node node_modules{os.path.sep}eslint{os.path.sep}bin"

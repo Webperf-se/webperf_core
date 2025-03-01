@@ -13,7 +13,7 @@ from tests.utils import get_cache_path_for_file,\
 
 def get_errors_for_url(test_type, url):
     """
-    Returns CSS errors for a given URL in JSON format.
+    Returns errors for a given URL in JSON format.
     """
     params = {'doc': url, 'out': 'json', 'level': 'error'}
     return get_errors(test_type, params)
@@ -23,27 +23,27 @@ def get_errors(test_type, params):
     This function takes a test type and parameters as input and
     returns any errors found during the test.
 
-    The function checks if the test type is 'css' or 'html' and
+    The function checks if the test type is 'css', 'html', or 'js' and
     sets the test arguments accordingly.
     It then checks if a document URL is provided in the parameters.
     If the URL does not start with 'https://' or 'http://', it raises a ValueError.
     It then checks if the file is cached and if not, it caches the file.
-    It then runs a command using the vnu.jar validator and returns any errors found.
+    It then runs a command using the appropriate linter and returns any errors found.
 
     Parameters:
-    test_type (str): The type of the test to be run. It can be 'css' or 'html'.
+    test_type (str): The type of the test to be run. It can be 'css', 'html', or 'js'.
     params (dict): A dictionary containing the parameters for the test.
     It should contain a 'doc' key with the URL of the document to be tested.
 
     Returns:
     list: A list of dictionaries where each dictionary represents an error message.
     """
-
     url = ''
     arg = ''
     errors = []
     is_html = False
     is_css = False
+    is_js = False
     lint_file_path = None
     file_path = None
     command = None
@@ -52,6 +52,8 @@ def get_errors(test_type, params):
         is_css = True
     if 'html' in params or test_type == 'html':
         is_html = True
+    if 'js' in params or test_type == 'js':
+        is_js = True
 
     if 'doc' in params:
         url = params['doc']
@@ -78,21 +80,30 @@ def get_errors(test_type, params):
                     and not os.path.exists(css_file_ending_fix):
                 os.rename(file_path, css_file_ending_fix)
             file_path = css_file_ending_fix
-
+        elif is_js:
+            js_file_ending_fix = file_path.replace('.cache', '.cache.js')
+            js_file_ending_fix = js_file_ending_fix.replace('.tmp', '.tmp.js')
+            if has_cache_file(url, True, timedelta(minutes=get_config('general.cache.max-age'))) \
+                    and not os.path.exists(js_file_ending_fix):
+                os.rename(file_path, js_file_ending_fix)
+            file_path = js_file_ending_fix
 
         file_path = os.path.join(base_directory, file_path)
         lint_file_path = f"{file_path}-{test_type}-lint.json"
 
     if is_css:
-        # We use "standard" in css-stylelint-standard.json because in the future we might want muliple files, like one for performance and so on...
-        config_file_path = os.path.join(base_directory, "defaults","css-stylelint-standard.json")
-
-        arg = f'{file_path} -f json -o {lint_file_path} --config {config_file_path} --quiet'
+        config_file_path = os.path.join(base_directory, "defaults", "css-stylelint-standard.json")
+        arg = f'{file_path} -f json --output-file {lint_file_path} --config {config_file_path} --quiet'
         command = (
             f"node node_modules{os.path.sep}stylelint{os.path.sep}bin"
             f"{os.path.sep}stylelint.mjs {arg}")
+    elif is_js:
+        config_file_path = os.path.join(base_directory, "defaults", "js-eslint-standard.mjs")
+        arg = f'{file_path} -f json -o {lint_file_path} --config {config_file_path} --quiet'
+        command = (
+            f"node node_modules{os.path.sep}eslint{os.path.sep}bin"
+            f"{os.path.sep}eslint.js {arg}")
     else:
-        # https://html-validate.org/rules/presets.html
         arg = f'-f json={lint_file_path} --preset standard {file_path}'
         command = (
             f"node node_modules{os.path.sep}html-validate{os.path.sep}bin"
@@ -177,7 +188,7 @@ def identify_files(filename):
     This function takes a filename as input and identifies different types of files in the HAR data.
 
     The function reads the HAR data from the file, iterates over the entries,
-    and categorizes them into HTML and CSS files.
+    and categorizes them into HTML, CSS, and JavaScript files.
     It also checks if the file is already cached and if not, it caches the file.
 
     Parameters:
@@ -192,13 +203,13 @@ def identify_files(filename):
     - 'index'
     of the file.
     """
-
     data = {
         'all': [],
         'htmls': [],
         'elements': [],
         'attributes': [],
-        'resources': []
+        'resources': [],
+        'scripts': []  # Added to categorize JavaScript files
     }
 
     if not os.path.exists(filename):
@@ -238,7 +249,7 @@ def identify_files(filename):
                     'url': req_url,
                     'content': res['content']['text'],
                     'index': req_index
-                    }
+                }
                 data['all'].append(obj)
                 data['htmls'].append(obj)
             elif 'css' in res['content']['mimeType']:
@@ -254,9 +265,25 @@ def identify_files(filename):
                     'url': req_url,
                     'content': res['content']['text'],
                     'index': req_index
-                    }
+                }
                 data['all'].append(obj)
                 data['resources'].append(obj)
+            elif 'javascript' in res['content']['mimeType']:  # Added to handle JavaScript files
+                if 'text' not in res['content']:
+                    print(f'TECHNICAL WARNING: {req_url} has no content (could be caused by redirect), file is ignored.')
+                    continue
+                if not has_cache_file(
+                        req_url,
+                        True,
+                        timedelta(minutes=get_config('general.cache.max-age'))):
+                    set_cache_file(req_url, res['content']['text'], True)
+                obj = {
+                    'url': req_url,
+                    'content': res['content']['text'],
+                    'index': req_index
+                }
+                data['all'].append(obj)
+                data['scripts'].append(obj)  # Added to categorize JavaScript files
             req_index += 1
 
     return data

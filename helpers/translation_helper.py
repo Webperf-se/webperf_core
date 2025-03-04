@@ -527,6 +527,8 @@ def validate_locale(msg_ids, locales_dir,
                 bash_command = (f"python {msgfmt_path} -o ",
                                         f"{os.path.join(lang_sub_directory, file.replace('.po', '.mo'))} ",
                                         f"{os.path.join(lang_sub_directory, file)}")
+                # Konvertera tuple till sträng
+                bash_command = "".join(bash_command)
 
                 with subprocess.Popen(
                             bash_command.split(),
@@ -652,6 +654,9 @@ def ensure_msgfmt_py():
         base_directory = Path(os.path.dirname(
             os.path.realpath(__file__)) + os.path.sep).parent
         data_dir = os.path.join(base_directory.resolve(), 'data') + os.sep
+        if not os.path.exists(data_dir):
+            os.makedirs(data_dir)
+
         filename = 'msgfmt.py'
         file_path = os.path.join(data_dir,filename)
 

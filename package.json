@@ -1,6 +1,6 @@
 {
   "name": "webperf_core",
-  "version": "2025.2.0",
+  "version": "2025.3.1",
   "description": "You probably want to read the documentation available at homepage.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,11 +12,14 @@
   "dependencies": {
     "@sitespeed.io/plugin": "1.0.0",
     "@sitespeed.io/plugin-lighthouse": "12.3.0",
+    "html-validate": "9.4.1",
     "pa11y": "8.0.0",
-    "sitespeed.io": "36.2.5",
-    "stylelint": "16.14.1",
+    "sitespeed.io": "36.4.1",
+    "stylelint": "16.15.0",
+    "eslint": "9.21.0",
+    "globals": "16.0.0",
     "vnu-jar": "23.4.11",
-    "webperf-sitespeedio-plugin": "2025.1.4",
+    "webperf-sitespeedio-plugin": "2025.2.1",
     "yellowlabtools": "3.0.1"
   },
   "engines": {

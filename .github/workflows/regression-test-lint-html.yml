@@ -1,4 +1,4 @@
-name: "Regression Test - Quality on frontend (Yellow Lab Tools) Test"
+name: "Regression Test - HTML Linting Test"
 on:
   workflow_dispatch:
   push:
@@ -28,13 +28,19 @@ on:
       - '**regression-test-tracking.yml'
       - '**regression-test-translations.yml'
       - '**regression-test-webbkoll.yml'
+      - '**regression-test-ylt.yml'
 jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
             matrix:
-                os: [windows-latest]
-                version: [17]
+                os: [ubuntu-latest, windows-latest]
+                config: ['SITESPEED_USE_DOCKER=False']
+                version: [28]
+                include:
+                  - os: ubuntu-latest
+                    config: 'SITESPEED_USE_DOCKER=True'
+                    version: 28
     steps:
     - name: Check out repository code
       uses: actions/checkout@v4
@@ -45,21 +51,31 @@ jobs:
         architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
+    - name: Java Version
+      run: java -version
     - name: Setup Node.js (v4 version 20.x)
       uses: actions/setup-node@v4
       with:
         node-version: '20.x'
-        cache: 'npm'
-        cache-dependency-path: 'package-lock.json'
-    - name: Setup node dependencies (ONLY used for Yellow Lab Tools)
-      run: npm install -g node-gyp
-      timeout-minutes: 30
+    - if: ${{ matrix.os == 'ubuntu-latest' }}
+      shell: bash
+      name: Setup Google Chrome browser (ONLY used for Sitespeed)
+      run: |
+        wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - 
+        sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+        sudo apt-get update
+        sudo apt-get --only-upgrade install google-chrome-stable
+        google-chrome --version
     - name: Setup npm packages
-      run: npm ci --only=production
+      run: npm install --omit=dev
       timeout-minutes: 30
+    - if: ${{ matrix.os == 'ubuntu-latest' }}
+      name: RUNNING TEST - LINUX
+      run: |
+         python default.py -t ${{ matrix.version }} -r -u https://msb.se?webperf-core-test-28 -o data/testresult-${{ matrix.version }}.json --setting ${{ matrix.config }} --setting tests.sitespeed.xvfb=true --setting general.cache.use=true --setting general.cache.max-age=5256000 --setting general.cache.folder=unittests
+         python .github/workflows/verify_result.py -t ${{ matrix.version }}
     - if: ${{ matrix.os == 'windows-latest' }}
       name: RUNNING TEST - WINDOWS
       run: |
-         python default.py -t ${{ matrix.version }} -r -i defaults\sites.json -o data\testresult-${{ matrix.version }}.json
+         python default.py -t ${{ matrix.version }} -r -u https://msb.se?webperf-core-test-28 -o data\testresult-${{ matrix.version }}.json --setting ${{ matrix.config }} --setting general.cache.use=true --setting general.cache.max-age=5256000 --setting general.cache.folder=unittests
          python .github\workflows\verify_result.py -t ${{ matrix.version }}
-      

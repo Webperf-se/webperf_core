@@ -105,6 +105,12 @@ def ensure_csp_policy_fallbacks(domain, result_dict):
         append_csp_policy('style-src-attr', style_items, domain, result_dict)
         append_csp_policy('style-src-elem', style_items, domain, result_dict)
 
+    # Add child-src policies to all who uses it as fallback
+    if 'child-src' in result_dict[domain]['csp-policies']:
+        child_items = result_dict[domain]['csp-policies']['child-src']
+        append_csp_policy('frame-src', child_items, domain, result_dict)
+        append_csp_policy('worker-src', child_items, domain, result_dict)
+
     # Add script-src policies to all who uses it as fallback
     if 'script-src' in result_dict[domain]['csp-policies']:
         script_items = result_dict[domain]['csp-policies']['script-src']
@@ -112,11 +118,6 @@ def ensure_csp_policy_fallbacks(domain, result_dict):
         append_csp_policy('script-src-elem', script_items, domain, result_dict)
         append_csp_policy('worker-src', script_items, domain, result_dict)
 
-    # Add child-src policies to all who uses it as fallback
-    if 'child-src' in result_dict[domain]['csp-policies']:
-        child_items = result_dict[domain]['csp-policies']['child-src']
-        append_csp_policy('frame-src', child_items, domain, result_dict)
-        append_csp_policy('worker-src', child_items, domain, result_dict)
 
     # Add default-src policies to all who uses it as fallback
     if 'default-src' in result_dict[domain]['csp-policies']:

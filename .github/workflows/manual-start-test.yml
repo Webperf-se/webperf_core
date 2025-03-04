@@ -22,6 +22,11 @@ on:
         required: true
         default: 'false'
         type: string
+      improve:
+        description: 'Setting general.review.improve-only'
+        required: true
+        default: 'true'
+        type: string
 env:
   TEST_TAG: webperfse/webperf-core:test
 jobs:
@@ -42,5 +47,5 @@ jobs:
         tags: ${{ env.TEST_TAG }}
     - name: Test ${{ github.event.inputs.test }} for ${{ github.event.inputs.url }}
       run: |
-        testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t ${{ github.event.inputs.test }} -r --setting general.review.details=${{ github.event.inputs.details }} --setting general.review.data=${{ github.event.inputs.data }} -u ${{ github.event.inputs.url }})
+        testresult=$(docker run ${{ env.TEST_TAG }} python default.py -t ${{ github.event.inputs.test }} -r --setting general.review.details=${{ github.event.inputs.details }} --setting general.review.data=${{ github.event.inputs.data }} --setting general.review.improve-only=${{ github.event.inputs.improve }} -u ${{ github.event.inputs.url }})
         echo "$testresult"

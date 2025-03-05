@@ -90,6 +90,14 @@
             "github-owner": "accessible360",
             "github-repo": "accessible-slick"
         },
+        "html-validate": {
+            "github-owner": "html-validate",
+            "github-repo": "html-validate"
+        },
+        "stylelint": {
+            "github-owner": "stylelint",
+            "github-repo": "stylelint"
+        },
         "accordion": {
             "github-owner": "michu2k",
             "github-repo": "Accordion"

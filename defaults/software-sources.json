@@ -90,14 +90,6 @@
             "github-owner": "accessible360",
             "github-repo": "accessible-slick"
         },
-        "html-validate": {
-            "github-owner": "html-validate",
-            "github-repo": "html-validate"
-        },
-        "stylelint": {
-            "github-owner": "stylelint",
-            "github-repo": "stylelint"
-        },
         "accordion": {
             "github-owner": "michu2k",
             "github-repo": "Accordion"
@@ -1080,6 +1072,10 @@
         },
         "ht-slider-for-elementor": {
             "type": "wordpress-plugin"
+        },
+        "html-validate": {
+            "github-owner": "html-validate",
+            "github-repo": "html-validate"
         },
         "html5-responsive-faq": {
             "type": "wordpress-plugin"
@@ -2387,6 +2383,10 @@
         "styled-components": {
             "github-owner": "styled-components",
             "github-repo": "styled-components"
+        },
+        "stylelint": {
+            "github-owner": "stylelint",
+            "github-repo": "stylelint"
         },
         "superjson": {
             "github-owner": "blitz-js",

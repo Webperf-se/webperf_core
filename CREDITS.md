@@ -81,7 +81,7 @@ Usage: Used to understand and compare software versions
 - https://api.github.com/repos/{owner}/{repo}
 - https://api.github.com/repos/{owner}/{repo}/contributors
 - https://api.github.com/repos/{owner}/{repo}/{source}/{versions_dict[version][id]}/labels
-- https://api.github.com/repos/{owner}/{repo}/{source}?state=closed&per_page=100
+- https://api.github.com/repos/{owner}/{repo}/{source}?state=closed&per_page=100&page={page_index}
 - https://cdn.datatables.net/releases.html
 - https://httpd.apache.org/security/vulnerabilities_24.html
 - https://learn.microsoft.com/en-us/lifecycle/products/internet-information-services-iis
@@ -90,7 +90,6 @@ Usage: Used to understand and compare software versions
 - https://openssl-library.org/news/vulnerabilities/
 - https://openssl-library.org/policies/releasestrat/index.html
 - https://spdx.org/licenses/
-- https://svn.apache.org/viewvc/httpd/httpd/tags/
 - https://wordpress.org/plugins/{name}/advanced/
 - https://www.cvedetails.com/vulnerability-list.php?vendor_id=26&product_id=3427&page=1
 - https://www.php.net/eol.php

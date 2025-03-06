@@ -90,7 +90,6 @@ Usage: Used to understand and compare software versions
 - https://openssl-library.org/news/vulnerabilities/
 - https://openssl-library.org/policies/releasestrat/index.html
 - https://spdx.org/licenses/
-- https://svn.apache.org/viewvc/httpd/httpd/tags/
 - https://wordpress.org/plugins/{name}/advanced/
 - https://www.cvedetails.com/vulnerability-list.php?vendor_id=26&product_id=3427&page=1
 - https://www.php.net/eol.php

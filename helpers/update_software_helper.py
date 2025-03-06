@@ -966,7 +966,7 @@ def get_github_versions(owner, repo, source, number_of_pages, security_label, ve
 
     page_upper_limit = number_of_pages + 1
 
-    for page_index in range(1, page_upper_limit)
+    for page_index in range(1, page_upper_limit):
         versions_content = get_http_content(
             f'https://api.github.com/repos/{owner}/{repo}/{source}?state=closed&per_page=100&page={page_index}')
 

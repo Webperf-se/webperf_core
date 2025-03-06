@@ -190,7 +190,6 @@ def update_software_info():
             versions = get_iis_versions()
             versions = extend_versions_for_iis(versions)
         elif key == 'apache':
-            versions = get_apache_httpd_versions()
             versions = extend_versions_for_apache_httpd(versions)
         elif key == 'datatables':
             versions = get_datatables_versions()
@@ -1180,31 +1179,6 @@ def get_php_versions():
                 versions.append(name)
         except:
             print('ERROR: Unable to parse version for php for version value ', name)
-
-    versions = sorted(versions, key=packaging.version.Version, reverse=True)
-    for version in versions:
-        versions_dict[version] = []
-    return versions_dict
-
-def get_apache_httpd_versions():
-    # newer_versions = []
-    content = get_http_content(
-        'https://svn.apache.org/viewvc/httpd/httpd/tags/')
-    regex = r"<a name=\"(?P<version>[0-9\.]+(\-[0-9\.\-a-zA-Z]+){0,1})\""
-    matches = re.finditer(regex, content, re.MULTILINE)
-
-    versions = []
-    versions_dict = {}
-
-    for matchNum, match in enumerate(matches, start=1):
-        name = match.group('version')
-        try:
-            name_version = packaging.version.parse(name)
-            # Ignore dev and pre releases, for example Matomo 5.0.0-rc3
-            if not name_version.is_prerelease:
-                versions.append(name)
-        except:
-            print('ERROR: Unable to parse version for apache httpd for version value ', name)
 
     versions = sorted(versions, key=packaging.version.Version, reverse=True)
     for version in versions:

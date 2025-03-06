@@ -193,7 +193,8 @@
             "type": "wordpress-plugin"
         },
         "apache": {
-            "custom": true
+            "github-owner": "apache",
+            "github-repo": "httpd"
         },
         "api-event-manager-integration": {
             "type": "wordpress-plugin"

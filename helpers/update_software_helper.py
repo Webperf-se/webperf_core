@@ -154,6 +154,7 @@ def update_software_info():
             github_release_source = 'tags'
             github_version_prefix = None
             github_version_key = None
+            github_release_pages = 1
 
             if 'github-owner' in item:
                 github_ower = item['github-owner']
@@ -161,6 +162,8 @@ def update_software_info():
                 github_repo = item['github-repo']
             if 'github-source' in item:
                 github_release_source = item['github-source']
+            if 'github-source-pages' in item:
+                github_release_pages = item['github-source-pages']
 
             if 'github-security' in item:
                 github_release_source = item['github-security']
@@ -178,6 +181,7 @@ def update_software_info():
                     github_ower,
                     github_repo,
                     github_release_source,
+                    github_release_pages,
                     github_security,
                     github_version_prefix,
                     github_version_key)
@@ -956,85 +960,89 @@ def set_github_repository_info(item, owner, repo):
 
     return
 
-def get_github_versions(owner, repo, source, security_label, version_prefix, name_key):
-    versions_content = get_http_content(
-        f'https://api.github.com/repos/{owner}/{repo}/{source}?state=closed&per_page=100')
-
+def get_github_versions(owner, repo, source, number_of_pages, security_label, version_prefix, name_key):
     versions = []
     versions_dict = {}
-    version_info = None
-    try:
-        version_info = json.loads(versions_content)
-    except json.decoder.JSONDecodeError:
-        print(f'ERROR: unable to read repository versions! owner: {owner}, repo: {repo}')
-        return versions_dict
 
-    for version in version_info:
-        if source == 'milestones':
-            id_key = 'number'
-            if name_key is None:
-                name_key = 'title'
-            date_key = 'closed_at'
-        elif source == 'tags':
-            id_key = None
-            if name_key is None:
-                name_key = 'name'
-            date_key = None
-        else:
-            id_key = 'id'
-            # we uses tag_name instead of name as bootstrap is missing "name" for some releases
-            if name_key is None:
-                name_key = 'tag_name'
-            date_key = 'published_at'
+    page_upper_limit = number_of_pages + 1
 
-        if name_key not in version:
-            continue
+    for page_index in range(1, page_upper_limit)
+        versions_content = get_http_content(
+            f'https://api.github.com/repos/{owner}/{repo}/{source}?state=closed&per_page=100&page={page_index}')
 
-        id = None
-        name = None
-        name2 = None
-        date = None
-
-        if id_key in version:
-            id = '{0}'.format(version[id_key])
-
-        if date_key in version:
-            date = version[date_key]
-
-        key = version[name_key]
-        if key != None and version_prefix != None:
-            key = key.removeprefix(version_prefix)
-
-        # NOTE: We do this to handle jquery dual release format "1.12.4/2.2.4"
-        regex = r"^([v]|release\-){0,1}(?P<name>[0-9\.\-a-zA-Z]+)([\/](?P<name2>[0-9\.\-a-zA-Z]+)){0,1}"
-        matches = re.finditer(regex, key)
-        for matchNum, match in enumerate(matches, start=1):
-            name = match.group('name')
-            name2 = match.group('name2')
-
-        if name == None:
-            continue
-
+        version_info = None
         try:
-            name = name.strip('.')
-            if owner == 'openssl':
-                name = ''.join(["+" + str(c) if c.isalpha() else c for c in name])
-            name_version = packaging.version.parse(name)
-            # Ignore dev and pre releases, for example Matomo 5.0.0-rc3
-            if not name_version.is_prerelease:
-                versions.append(name)
-        except:
-            print('ERROR: Unable to parse version for repo: ', owner, repo, 'with value:', name)
+            version_info = json.loads(versions_content)
+        except json.decoder.JSONDecodeError:
+            print(f'ERROR: unable to read repository versions! owner: {owner}, repo: {repo}')
+            return versions_dict
 
-        if name2 != None:
+        for version in version_info:
+            if source == 'milestones':
+                id_key = 'number'
+                if name_key is None:
+                    name_key = 'title'
+                date_key = 'closed_at'
+            elif source == 'tags':
+                id_key = None
+                if name_key is None:
+                    name_key = 'name'
+                date_key = None
+            else:
+                id_key = 'id'
+                # we uses tag_name instead of name as bootstrap is missing "name" for some releases
+                if name_key is None:
+                    name_key = 'tag_name'
+                date_key = 'published_at'
+
+            if name_key not in version:
+                continue
+
+            id = None
+            name = None
+            name2 = None
+            date = None
+
+            if id_key in version:
+                id = '{0}'.format(version[id_key])
+
+            if date_key in version:
+                date = version[date_key]
+
+            key = version[name_key]
+            if key != None and version_prefix != None:
+                key = key.removeprefix(version_prefix)
+
+            # NOTE: We do this to handle jquery dual release format "1.12.4/2.2.4"
+            regex = r"^([v]|release\-){0,1}(?P<name>[0-9\.\-a-zA-Z]+)([\/](?P<name2>[0-9\.\-a-zA-Z]+)){0,1}"
+            matches = re.finditer(regex, key)
+            for matchNum, match in enumerate(matches, start=1):
+                name = match.group('name')
+                name2 = match.group('name2')
+
+            if name == None:
+                continue
+
             try:
-                name2 = name2.strip('.')
-                name2_version = packaging.version.parse(name2)
+                name = name.strip('.')
+                if owner == 'openssl':
+                    name = ''.join(["+" + str(c) if c.isalpha() else c for c in name])
+                name_version = packaging.version.parse(name)
                 # Ignore dev and pre releases, for example Matomo 5.0.0-rc3
-                if not name2_version.is_prerelease:
-                    versions.append(name2)
+                if not name_version.is_prerelease:
+                    versions.append(name)
             except:
-                print('ERROR: Unable to parse version for repo: ', owner, repo, 'with value:', name2)
+                print('ERROR: Unable to parse version for repo: ', owner, repo, 'with value:', name)
+
+            if name2 != None:
+                try:
+                    name2 = name2.strip('.')
+                    name2_version = packaging.version.parse(name2)
+                    # Ignore dev and pre releases, for example Matomo 5.0.0-rc3
+                    if not name2_version.is_prerelease:
+                        versions.append(name2)
+                except:
+                    print('ERROR: Unable to parse version for repo: ', owner, repo, 'with value:', name2)
 
     versions = sorted(versions, key=packaging.version.Version, reverse=True)
 

@@ -194,7 +194,8 @@
         },
         "apache": {
             "github-owner": "apache",
-            "github-repo": "httpd"
+            "github-repo": "httpd",
+            "github-source-pages": 3
         },
         "api-event-manager-integration": {
             "type": "wordpress-plugin"

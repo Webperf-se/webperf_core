@@ -9,6 +9,7 @@ Contributors:
 - [dependabot[bot]](https://github.com/apps/dependabot)
 - [flowertwig-org](https://github.com/flowertwig-org)
 - [krompaco](https://github.com/krompaco)
+- [aze2099](https://github.com/aze2099)
 - [linulas](https://github.com/linulas)
 - [perlan](https://github.com/perlan)
 - [puggan](https://github.com/puggan)

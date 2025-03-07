@@ -17,12 +17,18 @@ Contributors:
 
 ## Projects we depend on:
 
+### [html-validate](https://www.npmjs.com/package/html-validate)
+License: MIT
+
 ### [pa11y](https://www.npmjs.com/package/pa11y)
 Usage: Used in Accessibility (Pa11y) Test
 License: LGPL-3.0
 
 ### [sitespeed.io](https://www.npmjs.com/package/sitespeed.io)
 Usage: Used in the background in most cases where we need to visit website as browser
+License: MIT
+
+### [stylelint](https://www.npmjs.com/package/stylelint)
 License: MIT
 
 ### [eslint](https://www.npmjs.com/package/eslint)

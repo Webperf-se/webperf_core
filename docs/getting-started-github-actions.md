@@ -24,9 +24,9 @@ If you want to test or verify private websites, you should consider one of the o
 Usually, you'd choose the 'main' branch.
   - "Webpage url to test": Enter your URL here.
   - "Test to run, comma separated list of numbers": Choose which test or tests to run, separated by commas. You can find a list of the testnumbers explained (in Swedish) at https://webperf.se/articles/webperf-core-server/
-  - "Setting general.review.details": If set to True will result in showing a more detailed review when available. This is good todo when it is time to actually fix some of the issues and not only track where you are.
-  - "Setting general.review.data": If set to true you will include the test data as JSON.
-  - "Setting general.review.improve-only": display the areas for improvement.
+  - "Setting general.review.details": If set to True, it will show a more detailed review when available. This is useful when it's time to actually fix some of the issues and not just track progress.
+  - "Setting general.review.data": If set to True, it will include the test data as JSON, which is tech oriented and can be a useful tool for your IT department to help resolve any issues. 
+  - "Setting general.review.improve-only": If set to True, it will only display areas that can be improved.
 
 6. **Trigger the workflow**: After selecting your branch, just click the 'Run workflow' button and you're good to go! Once the workflow is triggered, it may take a few minutes to complete. Some tests run quickly, while others take longer. Running multiple tests simultaneously can significantly increase the total runtime.
 

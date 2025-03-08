@@ -15,7 +15,7 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 msgid "TEXT_RUNNING_TEST"
-msgstr "## Test: 27 - JS\n"
+msgstr "## Test: 29 - JS\n"
 
 msgid "TEXT_REVIEW_JS_VERY_GOOD"
 msgstr "- JS är välbyggd!\n"

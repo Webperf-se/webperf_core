@@ -14,7 +14,7 @@ from tests.lint_base import calculate_rating, get_data_for_url,\
     get_errors_for_url, get_rating, get_reviews_from_errors
 
 # DEFAULTS
-GROUP_ERROR_MSG_REGEX = r"(\"[^\"]+\")"
+GROUP_ERROR_MSG_REGEX = r"(\'[^\']+\")"
 FIRST_USED_AT_LINE_REGEX = r", first used at line [0-9]+"
 
 def run_test(global_translation, url):

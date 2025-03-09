@@ -420,7 +420,6 @@ def create_review_and_rating(errors, global_translation, local_translation, revi
         for item in errors:
             error_message = item['message']
 
-            error_message = re.sub(
                             error_message = re.sub(r"(['][^']+['])", replacer, error_message)
 
             error_message_dict[error_message] = "1"

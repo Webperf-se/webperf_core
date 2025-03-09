@@ -122,12 +122,23 @@ def handle_html_markup_entry(entry, global_translation, url, local_translation, 
     req_url = entry['url']
     name = get_friendly_url_name(global_translation, req_url, entry['index'])
     html = entry['content']
-    (elements, errors) = get_errors_for_script_tags(req_url, html)
+    (elements, errors) = get_errors_for_script_tags(req_url, 'security', html)
     if len(elements) > 0:
         result_dict['has_script_elements'] = True
         result_dict['errors']['all'].extend(errors)
         result_dict['errors']['script_element'].extend(errors)
         rating += create_review_and_rating(
+                'security',
+                errors,
+                global_translation,
+                local_translation,
+                f'- `<script>` in: {name}')
+
+        (_, errors) = get_errors_for_script_tags(req_url, 'standard', html)
+        result_dict['errors']['all'].extend(errors)
+        result_dict['errors']['script_element'].extend(errors)
+        rating += create_review_and_rating(
+                'standard',
                 errors,
                 global_translation,
                 local_translation,
@@ -143,10 +154,22 @@ def handle_html_markup_entry(entry, global_translation, url, local_translation, 
         result_dict['errors']['all'].extend(errors)
         result_dict['errors']['script_files'].extend(errors)
         rating += create_review_and_rating(
+                'security',
                 errors,
                 global_translation,
                 local_translation,
                 f'- `<script src=\"...\">` in: {name}')
+
+        (_, errors) = get_errors_for_script_files(html, url)
+        result_dict['errors']['all'].extend(errors)
+        result_dict['errors']['script_files'].extend(errors)
+        rating += create_review_and_rating(
+                'standard',
+                errors,
+                global_translation,
+                local_translation,
+                f'- `<script src=\"...\">` in: {name}')
+
     return all_script_resources, rating
 
 def rate_js(global_translation, local_translation, data, result_dict):
@@ -190,7 +213,7 @@ def rate_js(global_translation, local_translation, data, result_dict):
             'standard',
             data_resource_info['url'])
         rating += create_review_and_rating(
-            'security',
+            'standard',
             errors,
             global_translation,
             local_translation,
@@ -223,6 +246,11 @@ def rate_js_contenttypes(global_translation, local_translation):
         global_translation,
         get_config('general.review.improve-only'))
     errors_type_rating.set_overall(5.0)
+    errors_type_rating.set_integrity_and_security(5.0,
+            '- `content-type=\".*javascript.*\"`' + local_translation(
+                'TEXT_REVIEW_RATING_GROUPED'
+            ).format(
+            0, 0.0))
     errors_type_rating.set_standards(5.0,
             '- `content-type=\".*javascript.*\"`' + local_translation(
                 'TEXT_REVIEW_RATING_GROUPED'
@@ -234,6 +262,9 @@ def rate_js_contenttypes(global_translation, local_translation):
         global_translation,
         get_config('general.review.improve-only'))
     errors_rating.set_overall(5.0)
+    errors_rating.set_integrity_and_security(5.0,
+            '- `content-type=\".*javascript.*\"`' +\
+            local_translation('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0))
     errors_rating.set_standards(5.0,
             '- `content-type=\".*javascript.*\"`' +\
             local_translation('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0))
@@ -257,6 +288,8 @@ def rate_script_files(global_translation, local_translation):
         get_config('general.review.improve-only'))
     txt = '- `<script src=\"...\">`' +\
                local_translation('TEXT_REVIEW_RATING_GROUPED').format(0, 0.0)
+    errors_type_rating.set_overall(5.0)
+    errors_type_rating.set_integrity_and_security(5.0, txt)
     errors_type_rating.set_standards(5.0, txt)
     rating += errors_type_rating
 
@@ -264,6 +297,9 @@ def rate_script_files(global_translation, local_translation):
         global_translation,
         get_config('general.review.improve-only'))
     errors_rating.set_overall(5.0)
+    errors_rating.set_integrity_and_security(5.0,
+            '- `<script src=\"...\">`' +\
+            local_translation('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0))
     errors_rating.set_standards(5.0,
             '- `<script src=\"...\">`' +\
             local_translation('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0))
@@ -290,6 +326,9 @@ def rate_script_elements(global_translation, local_translation):
         global_translation,
         get_config('general.review.improve-only'))
     errors_type_rating.set_overall(5.0)
+    errors_type_rating.set_integrity_and_security(5.0,
+            '- `<script>`' + local_translation('TEXT_REVIEW_RATING_GROUPED').format(
+            0, 0.0))
     errors_type_rating.set_standards(5.0,
             '- `<script>`' + local_translation('TEXT_REVIEW_RATING_GROUPED').format(
             0, 0.0))
@@ -299,6 +338,8 @@ def rate_script_elements(global_translation, local_translation):
         global_translation,
         get_config('general.review.improve-only'))
     errors_rating.set_overall(5.0)
+    errors_rating.set_integrity_and_security(5.0,
+            '- `<script>`' + local_translation('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0))
     errors_rating.set_standards(5.0,
             '- `<script>`' + local_translation('TEXT_REVIEW_RATING_ITEMS').format(0, 0.0))
     rating += errors_rating
@@ -374,7 +415,7 @@ def get_errors_for_script_files(html, url):
 
     return (matching_elements, results)
 
-def get_errors_for_script_tags(url, html):
+def get_errors_for_script_tags(url, html, category):
     """
     Extracts the 'script' tags from the HTML of a given URL and checks for JS errors.
 
@@ -405,11 +446,7 @@ def get_errors_for_script_tags(url, html):
         set_cache_file(tmp_url, temp_inline_js, True)
         results = get_errors_for_url(
             'js',
-            'security',
-            tmp_url)
-        results = get_errors_for_url(
-            'js',
-            'standard',
+            category,
             tmp_url)
         temp_inline_js = ''
 

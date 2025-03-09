@@ -185,7 +185,9 @@
             "type": "wordpress-plugin"
         },
         "apache": {
-            "custom": true
+            "github-owner": "apache",
+            "github-repo": "httpd",
+            "github-source-pages": 3
         },
         "api-event-manager-integration": {
             "type": "wordpress-plugin"
@@ -1070,6 +1072,10 @@
         },
         "ht-slider-for-elementor": {
             "type": "wordpress-plugin"
+        },
+        "html-validate": {
+            "github-owner": "html-validate",
+            "github-repo": "html-validate"
         },
         "html5-responsive-faq": {
             "type": "wordpress-plugin"
@@ -2377,6 +2383,10 @@
         "styled-components": {
             "github-owner": "styled-components",
             "github-repo": "styled-components"
+        },
+        "stylelint": {
+            "github-owner": "stylelint",
+            "github-repo": "stylelint"
         },
         "superjson": {
             "github-owner": "blitz-js",

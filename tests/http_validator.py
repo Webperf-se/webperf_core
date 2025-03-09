@@ -923,7 +923,7 @@ def check_http_version(url, result_dict):
             ' --firefox.preference network.http.http2.enabled:false'
             ' --firefox.preference network.http.http3.enable:false')
         url2 = change_url_to_test_url(url, 'HTTPv1')
-        print('HTTP/1.1')
+        print('HTTP/1.1', o_domain)
         result_dict = merge_dicts(
             get_website_support_from_sitespeed(
                 url2,
@@ -940,7 +940,7 @@ def check_http_version(url, result_dict):
             ' --firefox.preference network.http.http3.enable:false'
             ' --firefox.preference network.http.version:2.0')
         url2 = change_url_to_test_url(url, 'HTTPv2')
-        print('HTTP/2')
+        print('HTTP/2', o_domain)
         result_dict = merge_dicts(
             get_website_support_from_sitespeed(
                 url2,
@@ -957,7 +957,7 @@ def check_http_version(url, result_dict):
             ' --firefox.preference network.http.http3.enable:true'
             ' --firefox.preference network.http.version:3.0')
         url2 = change_url_to_test_url(url, 'HTTPv3')
-        print('HTTP/3')
+        print('HTTP/3', o_domain)
         result_dict = merge_dicts(
             get_website_support_from_sitespeed(
                 url2,

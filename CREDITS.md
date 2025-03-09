@@ -9,6 +9,7 @@ Contributors:
 - [dependabot[bot]](https://github.com/apps/dependabot)
 - [flowertwig-org](https://github.com/flowertwig-org)
 - [krompaco](https://github.com/krompaco)
+- [aze2099](https://github.com/aze2099)
 - [linulas](https://github.com/linulas)
 - [perlan](https://github.com/perlan)
 - [puggan](https://github.com/puggan)
@@ -17,12 +18,21 @@ Contributors:
 
 ## Projects we depend on:
 
+### [html-validate](https://www.npmjs.com/package/html-validate)
+License: MIT
+
 ### [pa11y](https://www.npmjs.com/package/pa11y)
 Usage: Used in Accessibility (Pa11y) Test
 License: LGPL-3.0
 
 ### [sitespeed.io](https://www.npmjs.com/package/sitespeed.io)
 Usage: Used in the background in most cases where we need to visit website as browser
+License: MIT
+
+### [stylelint](https://www.npmjs.com/package/stylelint)
+License: MIT
+
+### [eslint](https://www.npmjs.com/package/eslint)
 License: MIT
 
 ### [vnu-jar](https://www.npmjs.com/package/vnu-jar)
@@ -73,16 +83,12 @@ Usage: Used by our devs to ensure code quality
 Usage: Used to understand and compare software versions
 
 ## External Information Source(s):
-### Update HTML and CSS Test Sources:
-- https://developer.mozilla.org/en-US/docs/Web/CSS/Reference
-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element#obsolete_and_deprecated_elements
-
 ### Update Software Test Sources:
 - https://github.com/github/advisory-database/tree/main/advisories/github-reviewed
 - https://api.github.com/repos/{owner}/{repo}
 - https://api.github.com/repos/{owner}/{repo}/contributors
 - https://api.github.com/repos/{owner}/{repo}/{source}/{versions_dict[version][id]}/labels
-- https://api.github.com/repos/{owner}/{repo}/{source}?state=closed&per_page=100
+- https://api.github.com/repos/{owner}/{repo}/{source}?state=closed&per_page=100&page={page_index}
 - https://cdn.datatables.net/releases.html
 - https://httpd.apache.org/security/vulnerabilities_24.html
 - https://learn.microsoft.com/en-us/lifecycle/products/internet-information-services-iis
@@ -91,11 +97,14 @@ Usage: Used to understand and compare software versions
 - https://openssl-library.org/news/vulnerabilities/
 - https://openssl-library.org/policies/releasestrat/index.html
 - https://spdx.org/licenses/
-- https://svn.apache.org/viewvc/httpd/httpd/tags/
 - https://wordpress.org/plugins/{name}/advanced/
 - https://www.cvedetails.com/vulnerability-list.php?vendor_id=26&product_id=3427&page=1
 - https://www.php.net/eol.php
 - https://www.php.net/releases/
+
+### Update HTML and CSS Test Sources:
+- https://developer.mozilla.org/en-US/docs/Web/CSS/Reference
+- https://developer.mozilla.org/en-US/docs/Web/HTML/Element#obsolete_and_deprecated_elements
 
 ### Tracking and Privacy Test Sources:
 - https://blocklistproject.github.io/Lists/alt-version/tracking-nl.txt

@@ -173,6 +173,11 @@ def rate_js(global_translation, local_translation, data, result_dict):
         })
         errors += get_errors_for_url(
             'js',
+            'security',
+            data_resource_info['url'])
+        errors += get_errors_for_url(
+            'js',
+            'standard',
             data_resource_info['url'])
         request_index = data_resource_info['index']
         name = get_friendly_url_name(global_translation, data_resource_info['url'], request_index)
@@ -349,6 +354,11 @@ def get_errors_for_script_files(html, url):
 
         results += get_errors_for_url(
             'js',
+            'security',
+            resource_url)
+        results += get_errors_for_url(
+            'js',
+            'standard',
             resource_url)
         resource_index += 1
         matching_elements.append(resource_url)
@@ -386,6 +396,11 @@ def get_errors_for_script_tags(url, html):
         set_cache_file(tmp_url, temp_inline_js, True)
         results = get_errors_for_url(
             'js',
+            'security',
+            tmp_url)
+        results = get_errors_for_url(
+            'js',
+            'standard',
             tmp_url)
         temp_inline_js = ''
 

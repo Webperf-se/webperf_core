@@ -189,6 +189,7 @@ def get_errors_for_html(url, html):
     set_cache_file(url, html, True)
     results = get_errors_for_url(
         'html',
+        'standard',
         url)
 
     return results

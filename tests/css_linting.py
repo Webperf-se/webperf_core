@@ -193,6 +193,7 @@ def rate_css(global_translation, local_translation, data, result_dict):
         })
         errors += get_errors_for_url(
             'css',
+            'standard',
             data_resource_info['url'])
         request_index = data_resource_info['index']
         name = get_friendly_url_name(global_translation, data_resource_info['url'], request_index)
@@ -427,6 +428,7 @@ def get_errors_for_link_tags(html, url):
             # 3.1 GET ERRORS FROM SERVICE (FOR EVERY <LINK>) AND CALCULATE SCORE
             results += get_errors_for_url(
                 'css',
+                'standard',
                 resource_url)
             resource_index += 1
             matching_elements.append(resource_url)
@@ -477,6 +479,7 @@ def get_errors_for_style_attributes(url, html):
         set_cache_file(tmp_url, temp_attribute_css, True)
         results = get_errors_for_url(
             'css',
+            'standard',
             tmp_url)
         temp_attribute_css = ''
 
@@ -513,6 +516,7 @@ def get_errors_for_style_tags(url, html):
         set_cache_file(tmp_url, temp_inline_css, True)
         results = get_errors_for_url(
             'css',
+            'standard',
             tmp_url)
         temp_inline_css = ''
 

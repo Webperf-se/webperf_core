@@ -171,17 +171,26 @@ def rate_js(global_translation, local_translation, data, result_dict):
             'url': data_resource_info['url'],
             'index': data_resource_info['index']
         })
+        request_index = data_resource_info['index']
+        name = get_friendly_url_name(global_translation, data_resource_info['url'], request_index)
+
         errors += get_errors_for_url(
             'js',
             'security',
             data_resource_info['url'])
+        rating += create_review_and_rating(
+            'security',
+            errors,
+            global_translation,
+            local_translation,
+            f'- `content-type=\".*javascript.*\"` in: {name}')
+
         errors += get_errors_for_url(
             'js',
             'standard',
             data_resource_info['url'])
-        request_index = data_resource_info['index']
-        name = get_friendly_url_name(global_translation, data_resource_info['url'], request_index)
         rating += create_review_and_rating(
+            'security',
             errors,
             global_translation,
             local_translation,
@@ -412,7 +421,7 @@ def replacer(match):
     text = re.sub(r'([\'])', '”', text, 1)
     return text
 
-def create_review_and_rating(errors, global_translation, local_translation, review_header):
+def create_review_and_rating(category, errors, global_translation, local_translation, review_header):
     """
     Creates a review and rating based on the provided errors and translations.
 
@@ -458,12 +467,17 @@ def create_review_and_rating(errors, global_translation, local_translation, revi
     number_of_error_types = len(msg_grouped_for_rating_dict)
 
     rating += get_rating(
+        category,
         global_translation,
         get_error_types_review(review_header, number_of_error_types, local_translation),
         get_error_review(review_header, number_of_errors, local_translation),
         calculate_rating(number_of_error_types, number_of_errors))
 
-    rating.standards_review = rating.standards_review +\
-        get_reviews_from_errors(msg_grouped_dict, local_translation)
+    if category == 'security':
+        rating.integrity_and_security_review = rating.integrity_and_security_review +\
+            get_reviews_from_errors(msg_grouped_dict, local_translation)
+    elif category == 'standard':
+        rating.standards_review = rating.standards_review +\
+            get_reviews_from_errors(msg_grouped_dict, local_translation)
 
     return rating

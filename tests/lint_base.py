@@ -294,6 +294,7 @@ def identify_files(filename):
     return data
 
 def get_rating(global_translation,
+               category,
                error_types_review,
                error_review,
                result):
@@ -314,14 +315,20 @@ def get_rating(global_translation,
         global_translation,
         get_config('general.review.improve-only'))
     errors_type_rating.set_overall(result[0])
-    errors_type_rating.set_standards(result[0], error_types_review)
+    if category == 'security':
+        errors_type_rating.set_integrity_and_security(result[0], error_types_review)
+    elif category == 'standard':
+        errors_type_rating.set_standards(result[0], error_types_review)
     rating += errors_type_rating
 
     errors_rating = Rating(
         global_translation,
         get_config('general.review.improve-only'))
     errors_rating.set_overall(result[1])
-    errors_rating.set_standards(result[1], error_review)
+    if category == 'security':
+        errors_rating.set_integrity_and_security(result[1], error_review)
+    elif category == 'standard':
+        errors_rating.set_standards(result[1], error_review)
     rating += errors_rating
     return rating
 

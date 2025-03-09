@@ -391,6 +391,12 @@ def get_errors_for_script_tags(url, html):
 
     return (elements, results)
 
+def replacer(match):
+    text = match.group(1)
+    text = re.sub(r'([\'])', '“', text, 1)
+    text = re.sub(r'([\'])', '”', text, 1)
+    return text
+
 def create_review_and_rating(errors, global_translation, local_translation, review_header):
     """
     Creates a review and rating based on the provided errors and translations.
@@ -413,13 +419,11 @@ def create_review_and_rating(errors, global_translation, local_translation, revi
     if number_of_errors > 0:
         for item in errors:
             error_message = item['message']
+            error_message = re.sub(r"(['][^']+['])", replacer, error_message)
             error_message_dict[error_message] = "1"
 
-            error_message = re.sub(
-                FIRST_USED_AT_LINE_REGEX, "", error_message, 0, re.MULTILINE)
-
             tmp = re.sub(
-                GROUP_ERROR_MSG_REGEX, "X", error_message, 0, re.MULTILINE)
+                r"(“[^”]+”)", "X", error_message, 0, re.MULTILINE)
             if not get_config('general.review.details'):
                 error_message = tmp
 

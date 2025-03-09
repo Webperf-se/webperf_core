@@ -23,15 +23,27 @@ jobs:
           architecture: "x64" # optional x64 or x86. Defaults to x64 if not specified
       - name: Setup dependencies using pip
         run: pip install -r requirements.txt
-      - name: 📋 Get Commits since last Release
-        id: changes
-        uses: simbo/changes-since-last-release-action@v1.0.1
+      - name: Remove old package-lock.json
+        uses: JesseTG/rm@v1.0.0
         with:
-          line-prefix: "* "
-          include-hashes: false
-      - name: Generate new release version
-        id: newversion
-        run: python default.py --prepare-release "${{ steps.changes.outputs.last-tag }}"
+          path: package-lock.json
+      - name: Setup Node.js (v4 version 20.x)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+      - name: Create new package-lock.json
+        run: npm install --omit=dev --omit=optional
+      - name: Remove fsevents package
+        run: python default.py --update-package-lock
+      # - name: 📋 Get Commits since last Release
+      #   id: changes
+      #   uses: simbo/changes-since-last-release-action@v1.0.1
+      #   with:
+      #     line-prefix: "* "
+      #     include-hashes: false
+      # - name: Generate new release version
+      #   id: newversion
+      #   run: python default.py --prepare-release "${{ steps.changes.outputs.last-tag }}"
       - name: Create pull request
         uses: peter-evans/create-pull-request@v7
         with:
@@ -48,3 +60,4 @@ jobs:
           labels: ignore-for-release
           add-paths: |
             package.json
+            package-lock.json

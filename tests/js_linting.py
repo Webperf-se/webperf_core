@@ -391,6 +391,12 @@ def get_errors_for_script_tags(url, html):
 
     return (elements, results)
 
+def replacer(match):
+    text = match.group(1)
+    text = re.sub(r'([\'])', '“', text, 1)
+    text = re.sub(r'([\'])', '”', text, 1)
+    return text
+
 def create_review_and_rating(errors, global_translation, local_translation, review_header):
     """
     Creates a review and rating based on the provided errors and translations.

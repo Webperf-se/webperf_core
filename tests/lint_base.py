@@ -47,6 +47,7 @@ def get_errors(test_type, test_category, params):
     lint_file_path = None
     file_path = None
     command = None
+    config_file_path = None
 
     if 'css' in params or test_type == 'css':
         is_css = True
@@ -89,7 +90,7 @@ def get_errors(test_type, test_category, params):
             file_path = js_file_ending_fix
 
         file_path = os.path.join(base_directory, file_path)
-        lint_file_path = f"{file_path}-{test_type}-lint.json"
+        lint_file_path = f"{file_path}-{test_type}-{test_category}-lint.json"
 
     if is_css:
         config_file_path = os.path.join(base_directory, "defaults", "css-stylelint-standard.json")
@@ -98,7 +99,6 @@ def get_errors(test_type, test_category, params):
             f"node node_modules{os.path.sep}stylelint{os.path.sep}bin"
             f"{os.path.sep}stylelint.mjs {arg}")
     elif is_js:
-        config_file_path = os.path.join(base_directory, "defaults", "js-eslint-all.mjs")
         if test_category == 'standard':
             config_file_path = os.path.join(base_directory, "defaults", "js-eslint-standard.mjs")
         elif test_category == 'security':
@@ -315,20 +315,20 @@ def get_rating(global_translation,
         global_translation,
         get_config('general.review.improve-only'))
     errors_type_rating.set_overall(result[0])
-    if category == 'security':
-        errors_type_rating.set_integrity_and_security(result[0], error_types_review)
-    elif category == 'standard':
+    if category == 'standard':
         errors_type_rating.set_standards(result[0], error_types_review)
+    elif category == 'security':
+        errors_type_rating.set_integrity_and_security(result[0], error_types_review)
     rating += errors_type_rating
 
     errors_rating = Rating(
         global_translation,
         get_config('general.review.improve-only'))
     errors_rating.set_overall(result[1])
-    if category == 'security':
-        errors_rating.set_integrity_and_security(result[1], error_review)
-    elif category == 'standard':
+    if category == 'standard':
         errors_rating.set_standards(result[1], error_review)
+    elif category == 'security':
+        errors_rating.set_integrity_and_security(result[1], error_review)
     rating += errors_rating
     return rating
 

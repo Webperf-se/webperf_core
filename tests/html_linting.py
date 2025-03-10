@@ -166,6 +166,7 @@ def create_review_and_rating(
 
     rating += get_rating(
         global_translation,
+        'standard',
         get_error_types_review(review_header, number_of_error_types, local_translation),
         get_error_review(review_header, number_of_errors, local_translation),
         calculate_rating(number_of_error_types, number_of_errors))

@@ -12,7 +12,7 @@
   "dependencies": {
     "@sitespeed.io/plugin": "1.0.0",
     "@sitespeed.io/plugin-lighthouse": "12.3.0",
-    "html-validate": "9.4.1",
+    "html-validate": "9.5.0",
     "pa11y": "8.0.0",
     "sitespeed.io": "37.0.0",
     "stylelint": "16.15.0",

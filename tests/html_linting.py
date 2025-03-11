@@ -166,6 +166,7 @@ def create_review_and_rating(
 
     rating += get_rating(
         global_translation,
+        'standard',
         get_error_types_review(review_header, number_of_error_types, local_translation),
         get_error_review(review_header, number_of_errors, local_translation),
         calculate_rating(number_of_error_types, number_of_errors))
@@ -189,6 +190,7 @@ def get_errors_for_html(url, html):
     set_cache_file(url, html, True)
     results = get_errors_for_url(
         'html',
+        'standard',
         url)
 
     return results

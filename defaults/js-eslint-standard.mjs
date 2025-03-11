@@ -19,7 +19,6 @@ export default [{
             args: "after-used",
             ignoreRestSiblings: false,
         }],
-        eqeqeq: ["error", "always"],
         semi: "off",
         quotes: "off",
         indent: "off",

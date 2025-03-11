@@ -476,10 +476,10 @@ def get_json_result_using_caching(lang_code, url):
 
     if get_config('tests.sitespeed.docker.use'):
         sitespeed_arg += (f' --plugins.add node_modules/@sitespeed.io/plugin-lighthouse/index.js'
-                        f' --plugins.add node_modules/webperf-sitespeedio-plugin/index.js')
+                        f' --plugins.add node_modules/webperf-sitespeedio-plugin/lib/index.js')
     else:
         sitespeed_arg += (f' --plugins.add ../../../@sitespeed.io/plugin-lighthouse/index.js'
-                        f' --plugins.add ../../../webperf-sitespeedio-plugin/index.js')
+                        f' --plugins.add ../../../webperf-sitespeedio-plugin/lib/index.js')
     if lang_code not in ('en', 'gov'):
         url = change_url_to_test_url(url, f'lighthouse-locale-{lang_code}')
         sitespeed_arg += (f' --lighthouse.flags ./defaults/lighthouse-flags-locale-{lang_code}.json')

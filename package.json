@@ -14,7 +14,7 @@
     "@sitespeed.io/plugin-lighthouse": "12.3.0",
     "html-validate": "9.5.0",
     "pa11y": "8.0.0",
-    "sitespeed.io": "37.0.0",
+    "sitespeed.io": "37.1.1",
     "stylelint": "16.15.0",
     "eslint": "9.22.0",
     "globals": "16.0.0",

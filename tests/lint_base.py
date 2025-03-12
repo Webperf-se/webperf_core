@@ -11,14 +11,14 @@ from tests.utils import get_cache_path_for_file,\
                         has_cache_file,\
                         set_cache_file
 
-def get_errors_for_url(test_type, url):
+def get_errors_for_url(test_type, test_category, url):
     """
     Returns errors for a given URL in JSON format.
     """
     params = {'doc': url, 'out': 'json', 'level': 'error'}
-    return get_errors(test_type, params)
+    return get_errors(test_type, test_category, params)
 
-def get_errors(test_type, params):
+def get_errors(test_type, test_category, params):
     """
     This function takes a test type and parameters as input and
     returns any errors found during the test.
@@ -47,6 +47,7 @@ def get_errors(test_type, params):
     lint_file_path = None
     file_path = None
     command = None
+    config_file_path = None
 
     if 'css' in params or test_type == 'css':
         is_css = True
@@ -89,7 +90,7 @@ def get_errors(test_type, params):
             file_path = js_file_ending_fix
 
         file_path = os.path.join(base_directory, file_path)
-        lint_file_path = f"{file_path}-{test_type}-lint.json"
+        lint_file_path = f"{file_path}-{test_type}-{test_category}-lint.json"
 
     if is_css:
         config_file_path = os.path.join(base_directory, "defaults", "css-stylelint-standard.json")
@@ -98,7 +99,11 @@ def get_errors(test_type, params):
             f"node node_modules{os.path.sep}stylelint{os.path.sep}bin"
             f"{os.path.sep}stylelint.mjs {arg}")
     elif is_js:
-        config_file_path = os.path.join(base_directory, "defaults", "js-eslint-standard.mjs")
+        if test_category == 'standard':
+            config_file_path = os.path.join(base_directory, "defaults", "js-eslint-standard.mjs")
+        elif test_category == 'security':
+            config_file_path = os.path.join(base_directory, "defaults", "js-eslint-security.mjs")
+
         arg = f'{file_path} -f json -o {lint_file_path} --config {config_file_path} --quiet'
         command = (
             f"node node_modules{os.path.sep}eslint{os.path.sep}bin"
@@ -289,6 +294,7 @@ def identify_files(filename):
     return data
 
 def get_rating(global_translation,
+               category,
                error_types_review,
                error_review,
                result):
@@ -309,14 +315,20 @@ def get_rating(global_translation,
         global_translation,
         get_config('general.review.improve-only'))
     errors_type_rating.set_overall(result[0])
-    errors_type_rating.set_standards(result[0], error_types_review)
+    if category == 'standard':
+        errors_type_rating.set_standards(result[0], error_types_review)
+    elif category == 'security':
+        errors_type_rating.set_integrity_and_security(result[0], error_types_review)
     rating += errors_type_rating
 
     errors_rating = Rating(
         global_translation,
         get_config('general.review.improve-only'))
     errors_rating.set_overall(result[1])
-    errors_rating.set_standards(result[1], error_review)
+    if category == 'standard':
+        errors_rating.set_standards(result[1], error_review)
+    elif category == 'security':
+        errors_rating.set_integrity_and_security(result[1], error_review)
     rating += errors_rating
     return rating
 

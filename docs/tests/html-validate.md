@@ -38,8 +38,8 @@ Read more on the [general page for github actions](../getting-started-github-act
 ### Setup Locally
 
 * Follow [general local setup steps for this repository](../getting-started-local.md)
-* It is highly recommended to set `cache_when_possible` to `True` and to set `cache_time_delta` to
-* It is highly recommended to set `cache_time_delta` to at least 12 hours (Fail to do so may result in banning of service like github).
+* It is highly recommended to set [general.cache.use](../settings-json.md) to `true`
+* It is highly recommended to set [general.cache.max-age](../settings-json.md) to at least 12 hours (Fail to do so may result in banning of service like github).
 * Depending on your preference, follow below NPM package or Docker image steps below.
 
 ##### Windows Specific
@@ -49,7 +49,7 @@ Read more on the [general page for github actions](../getting-started-github-act
 #### Using Docker image
 
 * Make sure Docker command is globally accessible on your system.
-* Set `sitespeed_use_docker = True` in your `config.py`
+* Set [tests.sitespeed.docker.use](../settings-json.md) to `true` in your `settings.json`
 
 ## FAQ
 

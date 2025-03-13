@@ -144,6 +144,7 @@ jobs:
         reviewers: 7h3Rabbit,cockroacher,marcusosterberg
         add-paths: |
           defaults/css-stylelint-standard.json
+          defaults/css-stylelint-standard-sv.json
     - name: Update CREDITS.md
       run: python default.py --update-credits
     - name: Update CREDITS.md - Create pull request

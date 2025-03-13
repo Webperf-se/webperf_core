@@ -15,6 +15,7 @@ DIGG_URL = 'https://www.digg.se/tdosanmalan'
 
 checked_urls = {}
 canonical = 'https://www.digg.se/tdosanmalan' # pylint: disable=invalid-name
+printed_max_pages_reached = False
 
 def run_test(global_translation, url):
     """
@@ -31,6 +32,8 @@ def run_test(global_translation, url):
     Returns:
     tuple: A tuple containing the rating (an instance of the Rating class) and a dictionary.
     """
+    global printed_max_pages_reached # pylint: disable=global-statement
+    printed_max_pages_reached = False
     local_translation = get_translation(
             'a11y_statement',
             get_config('general.language')
@@ -168,7 +171,11 @@ def check_item(item, root_item, org_url_start, global_translation, local_transla
     """
     statements = []
     content = None
-    if len(checked_urls) > get_config('tests.a11y-statement.max-nof-pages'):
+    global printed_max_pages_reached # pylint: disable=global-statement
+    if len(checked_urls) > get_config('tests.a11y-statement.max-nof-pages') + 1:
+        if not printed_max_pages_reached:
+            print(local_translation('TEXT_MAX_PAGES_REACHED'))
+            printed_max_pages_reached = True
         return None
 
     if item['url'] not in checked_urls:

@@ -98,3 +98,5 @@ msgstr "- Self-indicates that the website is fully compliant with the legal requ
 msgid "TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_NOT_FOUND"
 msgstr "- Lacks any specific statement on the legal compliancy"
 
+msgid "TEXT_MAX_PAGES_REACHED"
+msgstr "Maximum number of pages that can be tested has been reached"

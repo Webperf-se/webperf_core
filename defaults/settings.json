@@ -26,6 +26,9 @@
         }
     },
     "tests": {
+        "a11y-statement": {
+            "max-nof-pages": 10
+        },
         "email": {
             "support": {
                 "port25": false,

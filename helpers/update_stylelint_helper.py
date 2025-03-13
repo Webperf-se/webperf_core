@@ -30,6 +30,9 @@ def update_stylelint_rules():
         elif 'no-nonstandard' in rule_name:
             rules[rule_name] = True
 
+    # Sort the rules dictionary by key
+    rules = dict(sorted(rules.items()))
+
     stylelint_standard_path = os.path.join(base_directory, 'defaults', 'css-stylelint-standard.json')
     with open(stylelint_standard_path, 'w', encoding='utf-8') as outfile:
         json.dump({

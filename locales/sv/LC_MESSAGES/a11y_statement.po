@@ -97,3 +97,6 @@ msgstr "- Anger själv att webbplats är helt förenlig med lagkraven"
 
 msgid "TEXT_REVIEW_COMPATIBLE_TEXT_OVERALL_NOT_FOUND"
 msgstr "- Saknar helt formulering om följsamhet till lagkraven"
+
+msgid "TEXT_MAX_PAGES_REACHED"
+msgstr "Max antal sidor som kan testas har uppnåtts"

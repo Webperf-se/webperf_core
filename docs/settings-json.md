@@ -116,6 +116,10 @@ Only required if you use GitHub Actions, it is required for workflows to be allo
 
 Section for test specific settings.
 
+### tests.a11y-statement.max-nof-pages `(Default = 10)`
+
+This variable sets the maximum number of pages to be tested for accessibility statements. It is useful to limit the scope of the test to a manageable number of pages, especially for large websites.
+
 ### tests.email.support.port25 `(Default = false)`
 
 Tells email test if it should do a operation email test (most consumer ISP don't allow this)

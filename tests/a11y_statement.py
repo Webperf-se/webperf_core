@@ -168,6 +168,9 @@ def check_item(item, root_item, org_url_start, global_translation, local_transla
     """
     statements = []
     content = None
+    if len(checked_urls) > get_config('tests.a11y-statement.max-nof-pages'):
+        return None
+
     if item['url'] not in checked_urls:
 
         # We don't need extra iterations for what we are using it for

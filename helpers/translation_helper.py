@@ -160,7 +160,7 @@ def diff_mo_and_po_file(locale_name, language, file_mo, msg_ids):
         # Make sure every text in .po file is present (and equal) in .mo file
         file_po_content = get_file_content(file_po)
 
-        regex = r"msgid \"(?P<id>[^\"]+)\"[^m]+msgstr \"(?P<text>[^\"]+)\""
+        regex = r"^msgid \"(?P<id>.+)\"[^m]+^msgstr \"(?P<text>.+)\"$"
         matches = re.finditer(
             regex, file_po_content, re.MULTILINE)
         for _, match in enumerate(matches, start=1):
@@ -188,14 +188,17 @@ def diff_mo_and_po_file(locale_name, language, file_mo, msg_ids):
             if lang_txt == msg_id and msg_id != msg_txt:
                 print(
                     f'  - Could not find text for msgid "{msg_id}" in file: {file_mo}')
+                print(f'  - msgid: {msg_id}')
+                print_limited_message('expected text', msg_txt, 135)
+                print_limited_message('recived text', lang_txt, 135)
                 n_of_errors += 1
                 continue
             if lang_txt != msg_txt:
                 print(
                     '  ## Text missmatch:')
                 print(f'  - msgid: {msg_id}')
-                print_limited_message('expected text', msg_txt, 15)
-                print_limited_message('recived text', lang_txt, 15)
+                print_limited_message('expected text', msg_txt, 135)
+                print_limited_message('recived text', lang_txt, 135)
 
                 n_of_errors += 1
                 continue
@@ -412,6 +415,24 @@ def validate_python_file(current_file, msg_ids):
         print('    - OK')
     return file_is_valid
 
+def get_locales(base_directory):
+    available_languages = []
+    locales_dir = os.path.join(base_directory.resolve(), 'locales') + os.sep
+    locale_directories = os.listdir(locales_dir)
+
+    for locale_name in locale_directories:
+        current_number_of_valid_translations = 0
+
+        if locale_name[0:1] == '.':
+            continue
+
+        lang_sub_directory = os.path.join(
+            locales_dir, locale_name, "LC_MESSAGES")
+
+        if os.path.exists(lang_sub_directory):
+            available_languages.append(locale_name)
+
+    return available_languages
 
 def validate_locales(base_directory, msg_ids):
     """
@@ -440,41 +461,33 @@ def validate_locales(base_directory, msg_ids):
 
     is_valid = True
 
-    available_languages = []
+    available_languages = get_locales(base_directory)
     locales_dir = os.path.join(base_directory.resolve(), 'locales') + os.sep
-    locale_directories = os.listdir(locales_dir)
 
     number_of_valid_translations = 0
 
-    for locale_name in locale_directories:
+    for locale_name in available_languages:
         current_number_of_valid_translations = 0
-
-        if locale_name[0:1] == '.':
-            continue
 
         lang_sub_directory = os.path.join(
             locales_dir, locale_name, "LC_MESSAGES")
 
-        if os.path.exists(lang_sub_directory):
-            available_languages.append(locale_name)
+        if not validate_locale(msg_ids,
+                                locales_dir,
+                                locale_name,
+                                current_number_of_valid_translations,
+                                lang_sub_directory):
+            is_valid = False
 
-            if not validate_locale(msg_ids,
-                                   locales_dir,
-                                   locale_name,
-                                   current_number_of_valid_translations,
-                                   lang_sub_directory):
-                is_valid = False
+        if number_of_valid_translations == 0:
+            number_of_valid_translations = current_number_of_valid_translations
 
-            if number_of_valid_translations == 0:
-                number_of_valid_translations = current_number_of_valid_translations
-
-            if number_of_valid_translations != current_number_of_valid_translations:
-                print(
-                    '  Different number of translation files for languages.'
-                     'One or more language is missing a translation')
-                is_valid = False
-                continue
-
+        if number_of_valid_translations != current_number_of_valid_translations:
+            print(
+                '  Different number of translation files for languages.'
+                'One or more language is missing a translation')
+            is_valid = False
+            continue
 
     if len(available_languages) > 0:
         print('')

@@ -481,12 +481,11 @@ def rate_updated_date(global_translation, local_translation, soup):
     Rating: The Rating object with the updated overall rating.
     """
     rating = Rating(global_translation, get_config('general.review.improve-only'))
-    dates = []
-
     element = soup.find('body')
     if element is None:
         return rating
 
+    dates = []
     element_text = element.get_text()
 
     regexes = [
@@ -720,10 +719,12 @@ def rate_evaluation_method(global_translation, local_translation, soup):
     Returns:
     rating (Rating object): The 'Rating' object with the overall rating set.
     """
-    match = soup.find(string=re.compile(
-        "(sj(.{1, 6}|ä|&auml;|&#228;)lvskattning|intern[a]{0,1} kontroller|intern[a]{0,1} test(ning|er){0,1}]|utvärderingsmetod|tillgänglighetsexpert(er){0,1}|funka|etu ab|siteimprove|oberoende granskning|oberoende tillgänglighetsgranskning(ar){0,1}|tillgänglighetskonsult(er){0,1}|med hjälp av|egna tester|oberoende experter|Hur vi testat webbplats(en){0,1}|vi testat webbplatsen|intervjuer|rutiner|checklistor|checklista|utbildningar|automatiserade|automatisk|maskinell|kontrollverktyg)", # pylint: disable=line-too-long
-        flags=re.MULTILINE | re.IGNORECASE))
     rating = Rating(global_translation, get_config('general.review.improve-only'))
+    element = soup.find('body')
+    if element is None:
+        return rating
+    text = element.get_text()
+    match = re.search(r"(sj(.{1, 6}|ä|&auml;|&#228;)lvskattning|intern[a]{0,1} kontroller|intern[a]{0,1} test(ning|er){0,1}]|utvärderingsmetod|tillgänglighetsexpert(er){0,1}|funka|etu ab|siteimprove|oberoende granskning|oberoende tillgänglighetsgranskning(ar){0,1}|tillgänglighetskonsult(er){0,1}|med hjälp av|egna tester|oberoende experter|Hur vi testat webbplats(en){0,1}|vi testat webbplatsen|intervjuer|rutiner|checklistor|checklista|utbildningar|automatiserade|automatisk|maskinell|kontrollverktyg)", text, flags=re.MULTILINE | re.IGNORECASE)
     if match:
         rating.set_overall(
             5.0, local_translation('TEXT_REVIEW_EVALUATION_METHOD_FOUND'))
@@ -752,9 +753,13 @@ def rate_unreasonably_burdensome_accommodation(global_translation, local_transla
     Returns:
     rating (Rating object): The 'Rating' object with the overall and accessibility ratings set.
     """
-    match = soup.find(string=re.compile(
-        "(Oskäligt betungande anpassning|12[ \t\r\n]§ lagen)", flags=re.MULTILINE | re.IGNORECASE))
     rating = Rating(global_translation, get_config('general.review.improve-only'))
+    element = soup.find('body')
+    if element is None:
+        return rating
+
+    text = element.get_text()
+    match = re.search(r"(Oskäligt betungande anpassning|12[ \t\r\n]§ lagen)", text, flags=re.MULTILINE | re.IGNORECASE)
     if match:
         rating.set_overall(
             5.0, local_translation('TEXT_REVIEW_ADAPTATION_FOUND'))
@@ -838,13 +843,15 @@ def rate_compatible_text(global_translation, local_translation, soup):
     Returns:
     Rating: A Rating object containing the overall and accessibility (a11y) ratings of the text.
     """
-    element = soup.find(string=re.compile(
-        "(?P<test>helt|delvis|inte) förenlig", flags=re.MULTILINE | re.IGNORECASE))
+
     rating = Rating(global_translation, get_config('general.review.improve-only'))
-    if element:
-        text = element.get_text()
-        regex = r'(?P<test>helt|delvis|inte) förenlig'
-        match = re.search(regex, text, flags=re.IGNORECASE)
+    element = soup.find('body')
+    if element is None:
+        return rating
+
+    text = element.get_text()
+    match = re.search(r'(?P<test>helt|delvis|inte) förenlig', text, flags=re.IGNORECASE)
+    if match:
         test = match.group('test').lower()
         if 'inte' in test:
             rating.set_overall(
@@ -1050,15 +1057,12 @@ def get_interesting_urls(item, content, org_url_start, depth):
             url, text, 'url.text', precision, depth)
         item['links-all'].append(info)
 
-        if not link.find(string=re.compile(
-                r"(om [a-z]+|(tillg(.{1,6}|ä|&auml;|&#228;)nglighet(sredog(.{1,6}|ö|&ouml;|&#246;)relse){0,1}))", # pylint: disable=line-too-long
-                flags=re.MULTILINE | re.IGNORECASE)):
+        match = re.search(
+            r"(om [a-z]+|(tillg(.{1,6}|ä|&auml;|&#228;)nglighet(sredog(.{1,6}|ö|&ouml;|&#246;)relse){0,1}))",
+            text, flags=re.MULTILINE | re.IGNORECASE)
+        if not match:
             continue
 
-        text = link.get_text().strip()
-        precision =  get_text_precision(text)
-        info = get_default_info(
-            url, text, 'url.text', precision, depth)
         if url not in checked_urls:
             urls[url] = info
 

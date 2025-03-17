@@ -8,7 +8,7 @@ selenium==4.29.0
 IP2Location==8.10.5
 Pillow==11.1.0
 OpenCV-Python==4.11.0.86
-Numpy==2.2.3
+Numpy==2.2.4
 cryptography==44.0.2
 pylint==3.3.4
 packaging==24.2

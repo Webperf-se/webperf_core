@@ -70,7 +70,7 @@ msgid "TEXT_USED_SECURITY"
 msgstr "- Läcker information"
 
 msgid "TEXT_USED_A11Y_OVERLAY"
-msgstr "- Tillgänglighetsöverlägg: {0}"
+msgstr "- Tillgänglighetslager: {0}"
 
 msgid "UPDATE_AVAILABLE"
 msgstr "- Uppdatering(ar) tillgängliga"
@@ -175,7 +175,7 @@ msgid "TEXT_DETAILED_REVIEW_END_OF_LIFE"
 msgstr "##### Mjukvara används som tycks ha nått sitt bäst före datum"
 
 msgid "TEXT_DETAILED_REVIEW_NO_A11Y_OVERLAY"
-msgstr "##### Du ser ej ut att använda tillgänglighetsöverlägg mjukvara"
+msgstr "##### Du ser ej ut att använda tillgänglighetslager-mjukvara"
 
 msgid "TEXT_DETAILED_REVIEW_A11Y_OVERLAY"
-msgstr "##### Du ser ut att använda tillgänglighetsöverlägg mjukvara"
+msgstr "##### Du ser ut att använda tillgänglighetslager-mjukvara"

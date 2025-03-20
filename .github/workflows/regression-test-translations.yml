@@ -25,7 +25,6 @@ on:
       - '**regression-test-software.yml'
       - '**regression-test-standard-files.yml'
       - '**regression-test-tracking.yml'
-      - '**regression-test-translations.yml'
       - '**regression-test-webbkoll.yml'
       - '**regression-test-ylt.yml'
 jobs:
@@ -34,7 +33,6 @@ jobs:
     strategy:
             matrix:
                 os: [windows-latest]
-                #os: [ubuntu-latest, windows-latest]
     steps:
     - name: Check out repository code
       uses: actions/checkout@v4
@@ -45,14 +43,10 @@ jobs:
         architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
-    - if: ${{ matrix.os == 'ubuntu-latest' }}
-      name: Verifing Translation(s) - LINUX
+    - name: Verifing Translation(s)
       run: python default.py --update-translations
-    - if: ${{ matrix.os == 'windows-latest' }}
-      name: Verifing Translation(s) - WINDOWS
-      run: python default.py --update-translations
-    - if: ${{ matrix.os == 'windows-latest' }}
-      name: Git Add any changes to Translation(s) - WINDOWS
+    - if: always()
+      name: Git Add any changes to Translation(s)
       run: |
         git config --global user.name 'GitHub Action'
         git config --global user.email '7h3Rabbit@users.noreply.github.com'

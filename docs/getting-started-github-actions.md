@@ -23,7 +23,7 @@ If you want to test or verify private websites, you should consider one of the o
 5. **Choose the branch**: A dropdown menu will appear where you can select the branch where your changes are.
 Usually, you'd choose the 'main' branch.
   - "Webpage url to test": Enter your URL here.
-  - "Test to run, comma separated list of numbers": Choose which test or tests to run, separated by commas. You can find a list of the testnumbers explained (in Swedish) at https://webperf.se/articles/webperf-core-server/
+  - "Test to run, comma separated list of numbers": Choose which test or tests to run, separated by commas. [Here you can find a list of the testnumbers explained](tests/README.md).
   - "Setting general.review.details": If set to True, it will show a more detailed review when available. This is useful when it's time to actually fix some of the issues and not just track progress.
   - "Setting general.review.data": If set to True, it will include the test data as JSON, which is tech oriented and can be a useful tool for your IT department to help resolve any issues. 
   - "Setting general.review.improve-only": If set to True, it will only display areas that can be improved.

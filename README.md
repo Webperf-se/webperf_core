@@ -35,8 +35,7 @@ but you can run this project in many ways and what you choose depends on your ne
 
 # Tests
 
-Add a interesting ingress here.
-[Read more about our tests](./docs/tests/README.md) or go directly to a specific test below.
+Webperf Core consists of many different tests. [Read general information about our tests](./docs/tests/README.md) or go directly to a specific test below.
 
 * [Accessibility (Pa11y)](./docs/tests/pa11y.md)
 * [Accessibility (Lighthouse)](./docs/tests/google-lighthouse-a11y.md)
@@ -58,6 +57,9 @@ Add a interesting ingress here.
 * [Email (Beta)](./docs/tests/email.md)
 * [Software](./docs/tests/software.md)
 * [Accessibility Statement (Alpha)](./docs/tests/a11y-statement.md)
+* [CSS](./docs/tests/css-linting.md)
+* [HTML](./docs/tests/html-validate.md)
+* [Javascript](./docs/tests/js-linting.md)
 
 
 # Contribute
@@ -89,5 +91,3 @@ Why not look at third parties.
 We could not do this without all help from contributors and other projects we use.
 
 [Read more about them under credits](./CREDITS.md)
-
-

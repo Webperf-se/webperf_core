@@ -91,17 +91,16 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
 
         # cleanup_results_dir(filename_old, result_folder_name)
         # return (result_folder_name, filename)
+    host_folder = os.path.join(folder, hostname)
     if os.path.exists(data):
         sub_dirs = os.listdir(data)
         for sub_dir in sub_dirs:
-            os.rename(os.path.join(data, sub_dir), f'{result_folder_name}-{sub_dir}')
+            os.rename(os.path.join(data, sub_dir), os.path.join(host_folder, sub_dir))
 
-        shutil.rmtree(data)
-
-    pages = os.path.join(result_folder_name, 'pages')
-    if os.path.exists(pages):
-        shutil.rmtree(pages)
-    return (result_folder_name, '')
+    if os.path.exists(result_folder_name):
+        shutil.rmtree(result_folder_name)
+    
+    return (host_folder, '')
 
 def get_cached_result(url, hostname):
     """

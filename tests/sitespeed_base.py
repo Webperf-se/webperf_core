@@ -65,7 +65,7 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
         url = change_url_to_test_url(url, 'mobile')
         sitespeed_arg += (' --mobile')
 
-    sitespeed_arg += (' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs '
+    sitespeed_arg += (' --plugins.add plugin-webperf-core --postScript chrome-cookies.cjs --postScript chrome-versions.cjs '
                       f'--outputFolder {result_folder_name} {url}')
 
     filename = ''
@@ -81,17 +81,26 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
     cookies_json = get_cookies(test)
     versions_json = get_versions(test)
 
-    filename_old = get_browsertime_har_path(os.path.join(result_folder_name, 'pages'))
+    data = os.path.join(result_folder_name, 'data')
 
-    filename = f'{result_folder_name}.har'
+    # if os.path.exists(filename_old):
+        # modify_browsertime_content(filename_old, cookies_json, versions_json)
+        # json_path = os.path.join(result_folder_name, 'data', 'webperf-core.json')
+        # if os.path.exists(json_path):
+        #     os.rename(json_path, f'{result_folder_name}-webperf-core.json')
 
-    if os.path.exists(filename_old):
-        modify_browsertime_content(filename_old, cookies_json, versions_json)
-        cleanup_results_dir(filename_old, result_folder_name)
-        return (result_folder_name, filename)
+        # cleanup_results_dir(filename_old, result_folder_name)
+        # return (result_folder_name, filename)
+    if os.path.exists(data):
+        sub_dirs = os.listdir(data)
+        for sub_dir in sub_dirs:
+            os.rename(os.path.join(data, sub_dir), f'{result_folder_name}-{sub_dir}')
 
-    if os.path.exists(result_folder_name):
-        shutil.rmtree(result_folder_name)
+        shutil.rmtree(data)
+
+    pages = os.path.join(result_folder_name, 'pages')
+    if os.path.exists(pages):
+        shutil.rmtree(pages)
     return (result_folder_name, '')
 
 def get_cached_result(url, hostname):

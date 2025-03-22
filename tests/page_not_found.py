@@ -11,36 +11,6 @@ from tests.utils import get_guid,\
 from tests.sitespeed_base import get_result
 from helpers.setting_helper import get_config
 
-def change_url_to_404_url(url):
-    """
-    This function modifies the given URL to simulate a 404 error page by appending a unique path.
-    It ensures that the total length of the new path does not exceed 200 characters.
-
-    Parameters:
-    url (str): The original URL to be modified.
-
-    Returns:
-    url2 (str): The modified URL simulating a 404 error page.
-    """
-    o = urllib.parse.urlparse(url)
-
-    path = f'{get_guid(5)}/finns-det-en-sida/pa-den-har-adressen/testanrop/'
-    if len(o.path) + len(path) < 200:
-        if o.path.endswith('/'):
-            path = f'{o.path}{path}'
-        else:
-            path = f'{o.path}/{path}'
-
-    o2 = ParseResult(
-        scheme=o.scheme,
-        netloc=o.netloc,
-        path=path,
-        params=o.params,
-        query=o.query,
-        fragment=o.fragment)
-    url2 = urlunparse(o2)
-    return url2
-
 def get_http_content_with_status(url):
     """
     Retrieves HTTP content from the specified URL and returns the content along with its status.
@@ -56,6 +26,7 @@ def get_http_content_with_status(url):
     sitespeed_iterations = 1
     sitespeed_arg = (
             '--shm-size=1g -b chrome '
+            '--plugins.add plugin-pagenotfound '
             '--plugins.remove screenshot --plugins.remove html --plugins.remove metrics '
             '--browsertime.screenshot false --screenshot false --screenshotLCP false '
             '--browsertime.screenshotLCP false --chrome.cdp.performance false '
@@ -68,16 +39,26 @@ def get_http_content_with_status(url):
     if get_config('tests.sitespeed.xvfb'):
         sitespeed_arg += ' --xvfb'
 
-    (_, filename) = get_result(
+    if get_config('tests.page-not-found.override-url'):
+        sitespeed_arg += ' --plugin-pagenotfound.override-url=true'
+
+    (folder, _) = get_result(
         url,
         get_config('tests.sitespeed.docker.use'),
         sitespeed_arg,
         get_config('tests.sitespeed.timeout'))
 
-    data = identify_files(filename)
+    filename =  f'{folder}-webperf-core.json'
+    data = get_webperf_json(filename)
+    print('A', filename)
+    print('B', data)
 
     if data is None:
         return None, None
+
+    if 'page-not-found' not in data:
+        return None, None
+    data = data['page-not-found']
 
     if 'htmls' not in data:
         return None, None
@@ -87,67 +68,13 @@ def get_http_content_with_status(url):
 
     return data['htmls'][0]['content'], data['htmls'][0]['status']
 
-def identify_files(filename):
-    """
-    This function takes a filename as input and identifies different types of files in the HAR data.
-
-    The function reads the HAR data from the file, iterates over the entries,
-    and categorizes them into HTML and CSS files.
-    It also checks if the file is already cached and if not, it caches the file.
-
-    Parameters:
-    filename (str): The name of the file containing the HAR data.
-
-    Returns:
-    dict: A dictionary containing categorized file data.
-    The dictionary has four keys - 'htmls', 'elements', 'attributes', and 'resources'.
-    Each key maps to a list of dictionaries where each dictionary contains:
-    - 'url',
-    - 'content'
-    - 'index'
-    of the file.
-    """
-
-    data = {
-        'htmls': []
-    }
-
+def get_webperf_json(filename):
     if not os.path.exists(filename):
         return None
 
     with open(filename, encoding='utf-8') as json_input_file:
         har_data = json.load(json_input_file)
-
-        if 'log' in har_data:
-            har_data = har_data['log']
-
-        req_index = 1
-        for entry in har_data["entries"]:
-            req = entry['request']
-            res = entry['response']
-            req_url = req['url']
-
-            if 'content' not in res:
-                continue
-            if 'mimeType' not in res['content']:
-                continue
-            if 'size' not in res['content']:
-                continue
-            if res['content']['size'] <= 0:
-                continue
-            if 'status' not in res:
-                continue
-
-            if 'html' in res['content']['mimeType']:
-                data['htmls'].append({
-                    'url': req_url,
-                    'content': res['content']['text'],
-                    'status': res['status'],
-                    'index': req_index
-                    })
-            req_index += 1
-
-    return data
+        return har_data
 
 def run_test(global_translation, org_url):
     """
@@ -164,22 +91,19 @@ def run_test(global_translation, org_url):
     print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    if get_config('tests.page-not-found.override-url'):
-        url = change_url_to_404_url(org_url)
-    else:
-        url = org_url
-
     # checks http status code and content for url
-    request_text, code = get_http_content_with_status(url)
+    request_text, code = get_http_content_with_status(org_url)
 
     # Error, was unable to load the page you requested.
     if code is None and (request_text is None or request_text == ''):
+        rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
+        return (rating, result_dict)
         # very if we can connect to orginal url,
         # if not there is a bigger problem, geo block for example
-        request_text2, code2 = get_http_content_with_status(org_url)
-        if code2 is None and (request_text2 is None or request_text2 == ''):
-            rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
-            return (rating, result_dict)
+        # request_text2, code2 = get_http_content_with_status(org_url)
+        # if code2 is None and (request_text2 is None or request_text2 == ''):
+        #     rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
+        #     return (rating, result_dict)
 
     if code is None:
         code = 'unknown'
@@ -301,7 +225,6 @@ def rate_response_header1(global_translation, result_dict, local_translation, so
         rating_h1.set_a11y(1.0, local_translation('TEXT_REVIEW_MAIN_HEADER'))
     return rating_h1
 
-
 def rate_response_title(global_translation, result_dict, local_translation, soup):
     """
     Rates the response title. If a title is found in the HTML soup,
@@ -321,7 +244,6 @@ def rate_response_title(global_translation, result_dict, local_translation, soup
         rating_title.set_standards(1.0, local_translation('TEXT_REVIEW_NO_TITLE'))
         rating_title.set_a11y(1.0, local_translation('TEXT_REVIEW_NO_TITLE'))
     return rating_title
-
 
 def rate_response_status_code(global_translation, local_translation, code):
     """
@@ -344,7 +266,6 @@ def rate_response_status_code(global_translation, local_translation, code):
 
     return rating_404
 
-
 def get_supported_lang_code_or_default(soup):
     """
     Returns the language code ('sv' or 'en') from the HTML soup if present,
@@ -359,7 +280,6 @@ def get_supported_lang_code_or_default(soup):
             return 'en'
     return 'sv'
 
-
 def get_404_texts(lang_code):
     """
     Returns a list of Swedish or English phrases commonly used in 404 error messages.
@@ -367,7 +287,6 @@ def get_404_texts(lang_code):
     if 'en' in lang_code:
         return get_404_texts_in_english()
     return get_404_texts_in_swedish()
-
 
 def get_404_texts_in_english():
     """
@@ -504,7 +423,6 @@ def get_404_texts_in_english():
         'went wrong'
     ]
     return four_o_four_strings
-
 
 def get_404_texts_in_swedish():
     """

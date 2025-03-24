@@ -130,6 +130,26 @@ def run_test(global_translation, org_url):
             1.0, local_translation('TEXT_REVIEW_ERROR_MSG_UNDER_150'))
     rating += rating_text_is_150_or_more
 
+    rating_other_404s = Rating(
+        global_translation,
+        get_config('general.review.improve-only'))
+    nof_other_404_responses = 0
+    if 'other-404-responses' in result_dict:
+        nof_other_404_responses = len(result_dict['other-404-responses'])
+
+    if nof_other_404_responses == 0:
+        rating_other_404s.set_overall(
+            5.0, local_translation('TEXT_REVIEW_ERROR_MSG_NO_UNEXPECTED_404'))
+        rating_other_404s.set_standards(
+            5.0, local_translation('TEXT_REVIEW_ERROR_MSG_NO_UNEXPECTED_404'))
+    else:
+        rating_other_404s.set_overall(
+            1.0, local_translation('TEXT_REVIEW_ERROR_MSG_UNEXPECTED_404').format(nof_other_404_responses))
+        rating_other_404s.set_standards(
+            1.0, local_translation('TEXT_REVIEW_ERROR_MSG_UNEXPECTED_404').format(nof_other_404_responses))
+    rating += rating_other_404s
+
+
     print(global_translation('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 

@@ -33,5 +33,11 @@ msgstr "- Saknas text som beskriver att ett fel uppstått (på svenska, eller en
 msgid "TEXT_REVIEW_ERROR_MSG_UNDER_150"
 msgstr "- Är information är under 150 tecken, vilket tyder på att användaren inte får tillräckligt med information för att vägledas vidare?"
 
+msgid "TEXT_REVIEW_ERROR_MSG_NO_UNEXPECTED_404"
+msgstr "- Inga oförutsedda 404 påträffades."
+
+msgid "TEXT_REVIEW_ERROR_MSG_UNEXPECTED_404"
+msgstr "- påträffade {0} st oförutsedda 404:or."
+
 msgid "TEXT_REVIEW_NO_REMARKS"
 msgstr "- Inga anmärkningar."

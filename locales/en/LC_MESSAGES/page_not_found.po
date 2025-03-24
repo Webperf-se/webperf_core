@@ -33,5 +33,11 @@ msgstr "- Is it lacking text describing that an error has occurred (in Swedish O
 msgid "TEXT_REVIEW_ERROR_MSG_UNDER_150"
 msgstr "- Is text content length is less than 150 characters, which indicates that the user is not being referred, nor advised?"
 
+msgid "TEXT_REVIEW_ERROR_MSG_NO_UNEXPECTED_404"
+msgstr "- No unexpected 404"
+
+msgid "TEXT_REVIEW_ERROR_MSG_UNEXPECTED_404"
+msgstr "- Found {0} number of unexpected 404 responses"
+
 msgid "TEXT_REVIEW_NO_REMARKS"
 msgstr "- No remarks"

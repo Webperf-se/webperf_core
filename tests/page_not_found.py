@@ -5,10 +5,11 @@ import urllib
 from urllib.parse import ParseResult, urlparse, urlunparse
 from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
+import uuid
 from helpers.models import Rating
 from tests.utils import get_guid,\
-    get_http_content, get_translation, is_file_older_than
-import uuid
+    get_http_content, get_translation, is_file_older_than,\
+    change_url_to_test_url
 from tests.sitespeed_base import get_result, get_result_using_no_cache
 from helpers.setting_helper import get_config, set_runtime_config_only
 
@@ -76,6 +77,17 @@ def create_webperf_json(url):
         sitespeed_arg += ' --plugin-pagenotfound.override-url=true'
 
     (folder, _) = get_result(url,
+        get_config('tests.sitespeed.docker.use'),
+        sitespeed_arg,
+        get_config('tests.sitespeed.timeout'))
+
+    filename =  os.path.join(folder, 'webperf-core.json')
+    data = get_webperf_json(filename)
+    if data is not None:
+        return data
+
+    test_url = change_url_to_test_url(url, '404')
+    (folder, _) = get_result(test_url,
         get_config('tests.sitespeed.docker.use'),
         sitespeed_arg,
         get_config('tests.sitespeed.timeout'))

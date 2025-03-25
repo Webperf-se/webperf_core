@@ -111,8 +111,6 @@ def run_test(global_translation, org_url):
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     result_dict = get_knowledge_data(org_url)
-    nice_data = json.dumps(result_dict, indent=3)
-    print('A', nice_data)
     # TODO: Handle where result_dict is None
     # TODO: Handle when unable to access website
 

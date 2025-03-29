@@ -164,6 +164,18 @@ Please also see csp-generate-strict-recommended-hashes and tests.http.csp-genera
 Tells HTTP test to only download javascript resources one more time after visiting website to generate sha256 hashes.
 Please also see csp-generate-strict-recommended-hashes and tests.http.csp-generate-hashes.
 
+### test.sitespeed.browser `(Default = "chrome")`
+With this setting you can change to use edge as browser for sitespeed based tests.
+For now this is more or less useless for none windows users.
+BUT for windows users, this setting makes it possible use edge instead
+of chrome,
+meaning you don't need to download an extra browser just for testing.
+Valid values are:
+- chrome
+- edge
+NOTE: Firefox is not supported yet because of missing functionality making
+it impossible to collect resource content.
+
 ### tests.sitespeed.docker.use `(Default = false)`
 
 This variable tells sitespeed based test(s) to use docker image version instead of NPM version.
@@ -194,13 +206,6 @@ This is only relevant for linux based os.
 This variable is ONLY used to generate a CVE and security related info for software.
 Tell software update tool the path to where you have repo of: https://github.com/github/advisory-database
 
-### test.software.browser `(Default = "chrome")`
-For now this is more or less useless for none developers.
-In the future the goal is to make it possible to decide what browser to use when running tests.
-Valid values are:
-- chrome
-- firefox
-- edge
 
 ### test.software.stealth.use `(Default = true)`
 Tell software test to use stealth mode or not.

@@ -5,6 +5,7 @@ from pathlib import Path
 import subprocess
 import json
 from helpers.models import Rating
+from helpers.browser_helper import get_chromium_browser
 from helpers.setting_helper import get_config
 from tests.sitespeed_base import get_result
 from tests.utils import get_cache_path_for_file,\
@@ -167,7 +168,7 @@ def get_data_for_url(url):
     # We don't need extra iterations for what we are using it for
     sitespeed_iterations = 1
     sitespeed_arg = (
-            '--shm-size=1g -b chrome '
+            f'--shm-size=1g -b {get_chromium_browser()} '
             '--plugins.remove screenshot --plugins.remove html --plugins.remove metrics '
             '--browsertime.screenshot false --screenshot false --screenshotLCP false '
             '--browsertime.screenshotLCP false --chrome.cdp.performance false '

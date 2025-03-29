@@ -8,6 +8,7 @@ import urllib.parse
 from bs4 import BeautifulSoup
 from helpers.models import Rating
 from helpers.setting_helper import get_config
+from helpers.browser_helper import get_chromium_browser
 from tests.sitespeed_base import get_result
 from tests.utils import get_http_content, get_translation
 
@@ -183,7 +184,7 @@ def check_item(item, root_item, org_url_start, global_translation, local_transla
         # We don't need extra iterations for what we are using it for
         sitespeed_iterations = 1
         sitespeed_arg = (
-                '--shm-size=1g -b chrome '
+                f'--shm-size=1g -b {get_chromium_browser()} '
                 '--plugins.remove screenshot --plugins.remove html --plugins.remove metrics '
                 '--browsertime.screenshot false --screenshot false --screenshotLCP false '
                 '--browsertime.screenshotLCP false --chrome.cdp.performance false '

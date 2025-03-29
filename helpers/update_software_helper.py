@@ -9,10 +9,11 @@ import time
 from urllib.parse import urlparse
 import uuid
 import packaging.version
+from helpers.setting_helper import get_config, update_config
+from helpers.browser_helper import get_chromium_browser
 from tests.sitespeed_base import get_browsertime_har_path,\
     get_result_using_no_cache, get_sanitized_browsertime
 from tests.utils import get_http_content
-from helpers.setting_helper import get_config, update_config
 
 USE_CACHE = get_config('general.cache.use')
 CACHE_TIME_DELTA = timedelta(minutes=get_config('general.cache.max-age'))
@@ -68,7 +69,7 @@ def update_user_agent():
             f'{sitespeed_arg}')
     else:
         sitespeed_arg = (
-            '-b chrome '
+            f'-b {get_chromium_browser()} '
             '--chrome.cdp.performance false '
             '--browsertime.chrome.timeline false '
             '--browsertime.chrome.includeResponseBodies all '

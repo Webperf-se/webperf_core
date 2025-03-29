@@ -16,6 +16,7 @@ from helpers.sitespeed_helper import get_data_from_sitespeed
 from helpers.sri_helper import rate_sri
 from helpers.tls_helper import rate_transfer_layers
 from helpers.setting_helper import get_config
+from helpers.browser_helper import get_chromium_browser
 from helpers.models import Rating
 from tests.utils import change_url_to_test_url, dns_lookup,\
     get_translation, merge_dicts
@@ -841,7 +842,7 @@ def get_website_support_from_sitespeed(url, org_domain, configuration, browser, 
             f'{sitespeed_arg}')
     else:
         sitespeed_arg = (
-            '-b chrome '
+            f'-b {get_chromium_browser()} '
             '--chrome.cdp.performance false '
             '--browsertime.chrome.timeline false '
             '--browsertime.chrome.includeResponseBodies all '

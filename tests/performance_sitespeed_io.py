@@ -6,8 +6,9 @@ import re
 import subprocess
 from datetime import datetime
 from helpers.models import Rating
-from tests.utils import get_dependency_version, get_translation
 from helpers.setting_helper import get_config
+from helpers.browser_helper import get_chromium_browser
+from tests.utils import get_dependency_version, get_translation
 
 def get_result(arg):
     """
@@ -194,7 +195,7 @@ def validate_on_mobile_using_validator(url, validator_config):
     browertime_plugin_options = get_browsertime_plugin_options(validator_config)
     arg = (
         '--shm-size=1g '
-        '-b chrome '
+        f'-b {get_chromium_browser()} '
         '--mobile true '
         '--chrome.CPUThrottlingRate 3 '
         '--connectivity.profile 3gfast '
@@ -271,7 +272,7 @@ def validate_on_desktop_using_validator(url, validator_config):
 
     arg = (
         '--shm-size=1g '
-        '-b chrome '
+        f'-b {get_chromium_browser()} '
         '--connectivity.profile native '
         '--visualMetrics true '
         '--plugins.remove screenshot '
@@ -305,7 +306,7 @@ def validate_on_desktop(url):
     """
     arg = (
         '--shm-size=1g '
-        '-b chrome '
+        f'-b {get_chromium_browser()} '
         '--connectivity.profile native '
         '--visualMetrics true '
         '--plugins.remove screenshot '
@@ -336,7 +337,7 @@ def validate_on_mobile(url):
     """
     arg = (
         '--shm-size=1g '
-        '-b chrome '
+        f'-b {get_chromium_browser()} '
         '--mobile true '
         '--connectivity.profile 3gfast '
         '--visualMetrics true '

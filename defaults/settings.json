@@ -39,6 +39,7 @@
             "csp-only": false
         },
         "sitespeed": {
+            "browser": "chrome",
             "docker": {
                 "use": false
             },

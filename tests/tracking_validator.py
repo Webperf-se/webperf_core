@@ -766,8 +766,7 @@ def get_rating_from_sitespeed(url, local_translation, global_translation):
     # We don't need extra iterations for what we are using it for
     sitespeed_iterations = 1
 
-    sitespeed_arg = f'--shm-size=1g -b {get_chromium_browser()} --plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --chrome.cdp.performance false --browsertime.chrome.timeline false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --browsertime.chrome.includeResponseBodies all --utc true --browsertime.chrome.args ignore-certificate-errors -n {0}'.format(
-        sitespeed_iterations)
+    sitespeed_arg = f'--shm-size=1g -b {get_chromium_browser()} --plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --chrome.cdp.performance false --browsertime.chrome.timeline false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --browsertime.chrome.includeResponseBodies all --utc true --browsertime.chrome.args ignore-certificate-errors -n {sitespeed_iterations}'
     if get_config('tests.sitespeed.xvfb'):
         sitespeed_arg += ' --xvfb'
 

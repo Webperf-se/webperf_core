@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
 import uuid
 from helpers.models import Rating
+from helpers.browser_helper import get_chromium_browser
 from tests.utils import get_guid,\
     get_http_content, get_translation, is_file_older_than,\
     change_url_to_test_url
@@ -59,7 +60,7 @@ def create_webperf_json(url):
     # We don't need extra iterations for what we are using it for
     sitespeed_iterations = 1
     sitespeed_arg = (
-            '--shm-size=1g -b chrome '
+            f'--shm-size=1g -b {get_chromium_browser()} '
             '--plugins.add plugin-pagenotfound '
             '--plugins.remove screenshot --plugins.remove html --plugins.remove metrics '
             '--browsertime.screenshot false --screenshot false --screenshotLCP false '

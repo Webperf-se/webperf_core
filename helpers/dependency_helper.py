@@ -9,6 +9,7 @@ from datetime import datetime
 import packaging.version
 
 from helpers.setting_helper import get_config
+from helpers.browser_helper import get_chromium_browser
 
 def test_cmd(command):
     process_failsafe_timeout = 600
@@ -288,8 +289,8 @@ def check_package():
 
                 print(f"\t\t- {dependency_name}: OK")
 
-def check_chrome():
-    return check_browser('chrome')
+def check_chromium():
+    return check_browser(get_chromium_browser())
 
 def check_firefox():
     return check_browser('firefox')
@@ -321,9 +322,9 @@ def check_browser(browser):
             '--firefox.preference browser.safebrowsing.malware.enabled:false '
             '--firefox.preference browser.safebrowsing.phishing.enabled:false '
             f'{sitespeed_arg}')
-    else:
+    elif browser in ('chrome', 'edge'):
         sitespeed_arg = (
-            '-b chrome '
+            f'-b {browser} '
             '--chrome.cdp.performance false '
             '--browsertime.chrome.timeline false '
             '--browsertime.chrome.includeResponseBodies all '
@@ -365,7 +366,7 @@ def dependency():
     check_node()
     check_package()
     check_java()
-    check_chrome()
+    check_chromium()
     check_firefox()
     # TODO: Check data files dependencies
     # TODO: Check Internet access (for required sources like MDN Web Reference)

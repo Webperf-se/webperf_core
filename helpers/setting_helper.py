@@ -60,6 +60,9 @@ config_mapping = {
         "css_review_group_errors",
         "CSS_REVIEW_GROUP_ERRORS"): "bool|tests.css.group",
     (
+        "browser",
+        "tests.sitespeed.browser"): "string|tests.sitespeed.browser",
+    (
         "sitespeeddocker",
         "tests.sitespeed.docker.use",
         "sitespeed_use_docker",
@@ -115,11 +118,6 @@ config_mapping = {
         "software_github_adadvisory_database_path",
         "SOFTWARE_GITHUB_ADADVISORY_DATABASE_PATH"
     ): "string|tests.software.advisory.path",
-    (
-        "browser",
-        "tests.software.browser",
-        "software_browser",
-        "SOFTWARE_BROWSER"): "string|tests.software.browser",
     (
         "mailport25",
         "tests.email.support.port25",

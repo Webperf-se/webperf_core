@@ -4,11 +4,12 @@ import json
 import time
 from datetime import datetime, timedelta
 import subprocess
+from urllib.parse import ParseResult, urlparse, urlunparse
 from helpers.models import Rating
 from tests.sitespeed_base import get_result
 from tests.utils import change_url_to_test_url, is_file_older_than,\
                         get_cache_path_for_rule,\
-                        get_translation
+                        get_translation, standardize_url
 from helpers.setting_helper import get_config
 
 # look for words indicating item is insecure
@@ -442,23 +443,63 @@ def str_to_json(content, url):
 
     return json_content
 
-def get_json_result_using_caching(lang_code, url):
-    """
-    Retrieves the JSON result of a Lighthouse audit for a URL using caching.
+def get_folder(url):
+    folder = 'tmp'
+    if get_config('general.cache.use'):
+        folder = get_config('general.cache.folder')
 
-    This function uses a local Lighthouse CLI to perform the audit. If a cached result
-    exists and is not older than the defined cache time delta, it will be used instead
-    of performing a new audit.
+    o = urlparse(url)
+    hostname = o.hostname
+
+    folder_name = os.path.join(folder, hostname)
+    return folder_name
+
+def get_json_result_using_caching(lang_code, url):
+    url = standardize_url(url)
+    folder = get_folder(url)
+    if not os.path.exists(folder):
+        return None
+    filenames = os.listdir(folder)
+    for filename in filenames:
+        if not filename.startswith('lighthouse-lhr-') or not filename.endswith('.json'):
+            continue
+
+        filepath = os.path.join(folder, filename)
+        if is_file_older_than(filepath, timedelta(minutes=get_config('general.cache.max-age'))):
+            continue
+
+        with open(filepath, 'r', encoding='utf-8', newline='') as file:
+            lighthouse_json = str_to_json('\n'.join(file.readlines()), url)
+            if 'requestedUrl' not in lighthouse_json:
+                continue
+
+            requestedUrl = standardize_url(lighthouse_json['requestedUrl'])
+            if requestedUrl == url:
+                return lighthouse_json
+    return None
+
+def get_json_result(lang_code, url):
+    """
+    Retrieves the JSON result of a Lighthouse audit for a specific URL.
+    This function uses either the Google Pagespeed API or
+    a local Lighthouse CLI to perform the audit,
+    depending on whether a valid API key is provided.
+    If caching is enabled, it will attempt to retrieve
+    the result from the cache before performing a new audit.
 
     Parameters:
     lang_code (str): The locale to use for the audit.
     url (str): The URL to audit.
 
     Returns:
-    dict: The JSON result of the audit, either from the cache or a new audit.
+    dict: The JSON result of the audit.
     """
+    url = url.strip()
 
     # TODO: re add lang code logic
+    lighthouse_json = get_json_result_using_caching(lang_code, url)
+    if lighthouse_json is not None:
+        return lighthouse_json
 
     # We don't need extra iterations for what we are using it for
     sitespeed_iterations = 1
@@ -483,51 +524,32 @@ def get_json_result_using_caching(lang_code, url):
     lighthouse_lang_code = lang_code
     if lighthouse_lang_code in ('gov'):
         lighthouse_lang_code = 'en'
-    url = change_url_to_test_url(url, f'lighthouse-locale-{lighthouse_lang_code}')
+    if lighthouse_lang_code not in ('en'):
+        url = change_url_to_test_url(url, f'lighthouse-locale-{lighthouse_lang_code}')
     sitespeed_arg += (f' --lighthouse.flags ./defaults/lighthouse-flags-locale-{lighthouse_lang_code}.json')
 
     if get_config('tests.sitespeed.xvfb'):
         sitespeed_arg += ' --xvfb'
+    (folder, filename) = get_result(
+        url,
+        get_config('tests.sitespeed.docker.use'),
+        sitespeed_arg,
+        get_config('tests.sitespeed.timeout'))
+
+    lighthouse_json = get_json_result_using_caching(lang_code, url)
+    if lighthouse_json is not None:
+        return lighthouse_json
+
+    # we  run lighthouse with different url if file doesn't exist
+    url = change_url_to_test_url(url, 'lighthouse')
     (_, filename) = get_result(
         url,
         get_config('tests.sitespeed.docker.use'),
         sitespeed_arg,
         get_config('tests.sitespeed.timeout'))
 
-    result_file = filename.replace('.har', '-lighthouse-lhr.json')
-    if not os.path.exists(result_file):
-        # we  run lighthouse with different url if file doesn't exist
-        url = change_url_to_test_url(url, 'lighthouse')
-        (_, filename) = get_result(
-            url,
-            get_config('tests.sitespeed.docker.use'),
-            sitespeed_arg,
-            get_config('tests.sitespeed.timeout'))
-        result_file = filename.replace('.har', '-lighthouse-lhr.json')
+    lighthouse_json = get_json_result_using_caching(lang_code, url)
+    if lighthouse_json is not None:
+        return lighthouse_json
 
-    if is_file_older_than(result_file, timedelta(minutes=get_config('general.cache.max-age'))):
-        return {}
-
-    with open(result_file, 'r', encoding='utf-8', newline='') as file:
-        return str_to_json('\n'.join(file.readlines()), url)
-
-
-def get_json_result(lang_code, url):
-    """
-    Retrieves the JSON result of a Lighthouse audit for a specific URL.
-    This function uses either the Google Pagespeed API or
-    a local Lighthouse CLI to perform the audit,
-    depending on whether a valid API key is provided.
-    If caching is enabled, it will attempt to retrieve
-    the result from the cache before performing a new audit.
-
-    Parameters:
-    lang_code (str): The locale to use for the audit.
-    url (str): The URL to audit.
-
-    Returns:
-    dict: The JSON result of the audit.
-    """
-    check_url = url.strip()
-
-    return get_json_result_using_caching(lang_code, check_url)
+    return {}

@@ -72,6 +72,16 @@ def get_translation(module_name, lang_code):
         localedir='locales', languages=[lang_code])
     return language.gettext
 
+def standardize_url(url):
+    o = urllib.parse.urlparse(url)
+
+    path = o.path
+    if path == '':
+        path = '/'
+    o2 = ParseResult(
+        scheme=o.scheme, netloc=o.netloc, path=path,
+        params=o.params, query=o.query, fragment=o.fragment)
+    return urlunparse(o2)
 
 def change_url_to_test_url(url, test_name):
     """
@@ -99,7 +109,7 @@ def change_url_to_test_url(url, test_name):
     o2 = ParseResult(
         scheme=o.scheme, netloc=o.netloc, path=o.path,
         params=o.params, query=new_query, fragment=o.fragment)
-    return urlunparse(o2)
+    return standardize_url(urlunparse(o2))
 
 
 def is_file_older_than(file, delta):

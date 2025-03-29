@@ -20,7 +20,7 @@
     "globals": "16.0.0",
     "vnu-jar": "23.4.11",
     "plugin-pagenotfound":"2025.3.7",
-    "plugin-webperf-core": "2025.3.7",
+    "plugin-webperf-core": "2025.3.8",
     "yellowlabtools": "3.0.1"
   },
   "engines": {

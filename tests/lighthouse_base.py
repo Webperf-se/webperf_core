@@ -480,9 +480,11 @@ def get_json_result_using_caching(lang_code, url):
     else:
         sitespeed_arg += (f' --plugins.add ../../../@sitespeed.io/plugin-lighthouse/index.js'
                         f' --plugins.add ../../../plugin-webperf-core/lib/index.js')
-    if lang_code not in ('en', 'gov'):
-        url = change_url_to_test_url(url, f'lighthouse-locale-{lang_code}')
-        sitespeed_arg += (f' --lighthouse.flags ./defaults/lighthouse-flags-locale-{lang_code}.json')
+    lighthouse_lang_code = lang_code
+    if lighthouse_lang_code in ('gov'):
+        lighthouse_lang_code = 'en'
+    url = change_url_to_test_url(url, f'lighthouse-locale-{lighthouse_lang_code}')
+    sitespeed_arg += (f' --lighthouse.flags ./defaults/lighthouse-flags-locale-{lighthouse_lang_code}.json')
 
     if get_config('tests.sitespeed.xvfb'):
         sitespeed_arg += ' --xvfb'

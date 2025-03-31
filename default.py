@@ -29,7 +29,6 @@ from helpers.test_helper import TEST_ALL,\
 from helpers.translation_helper import validate_translations
 from helpers.update_software_helper import filter_unknown_sources,\
     update_licenses, update_software_info, update_user_agent
-from helpers.update_stylelint_helper import update_stylelint_rules
 from tests.utils import clean_cache_files
 
 def show_test_help(global_translation):
@@ -107,10 +106,6 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
         """
         update_credits_markdown(self.language)
         sys.exit()
-
-    def update_stylelint(self, _):
-        update_stylelint_rules()
-        sys.exit(0)
 
     def update_browser(self, _):
         update_user_agent()
@@ -482,7 +477,6 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             ("-c", "--credits", "--contributors"): self.show_credits,
             ("--uc", "--update-credits"): self.update_credits,
             ("-b", "--update-browser"): self.update_browser,
-            ("--usr", "--update-stylelint-rules"): self.update_stylelint,
             ("-d", "--update-definitions"): self.update_software_definitions,
             ("--ums", "--update-mdn-sources"): self.update_mdn,
             ("--ucr", "--update-carbon"): self.update_carbon_rating,
@@ -538,7 +532,6 @@ def main(argv):
                                    "uc" ,"update-credits",
                                    "ums", "update-mdn-sources",
                                    "update-browser", "update-definitions=",
-                                   "usr", "update-stylelint-rules",
                                    "update-translations",
                                    "pr=", "prepare-release=",
                                    "cr=", "create-release=",

@@ -1212,6 +1212,9 @@ def identify_software(filename, origin_domain, rules):
         lookup_cookies(
             data[0], global_cookies, rules)
 
+    if global_software is None:
+        return data
+
     for software_name in global_software.keys():
         versions = global_software[software_name]
         if len(versions) == 0:
@@ -1227,9 +1230,13 @@ def cleanup_duplicates(item):
     item['matches'] = list(set(item['matches']))
 
 def cleanup_used_global_software(global_software, item):
+    if global_software is None:
+        return
+
     for match in item['matches']:
         if match['name'] in global_software and match['version'] in global_software[match['name']]:
             global_software[match['name']].remove(match['version'])
+
 
 
 def lookup_response_mimetype(item, response_mimetype):

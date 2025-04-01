@@ -100,7 +100,8 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
     if os.path.exists(result_folder_name):
         shutil.rmtree(result_folder_name)
     
-    return (host_folder, '')
+    tmp_result_folder_name2, filename2 = get_cached_result(url, hostname)
+    return (tmp_result_folder_name2, filename2)
 
 def get_cached_result(url, hostname):
     """

@@ -11,8 +11,6 @@ from tests.sitespeed_base import create_webperf_json,\
     calculate_rating
 from tests.html_validator_w3c import run_test as run_test_html_validator_w3c
 from tests.css_validator_w3c import run_test as run_test_css_validator_w3c
-from tests.html_linting import run_test as run_test_lint_html
-from tests.js_linting import run_test as run_test_lint_js
 from tests.privacy_webbkollen import run_test as run_test_privacy_webbkollen
 from tests.performance_lighthouse import run_test as run_test_performance_lighthouse
 from tests.seo_lighthouse import run_test as run_test_seo_lighthouse
@@ -28,12 +26,13 @@ from tests.energy_efficiency import run_test as run_test_energy_efficiency
 from tests.tracking_validator import run_test as run_test_tracking_validator
 from tests.email_validator import run_test as run_test_email_validator
 from tests.software import run_test as run_test_software
-from tests.a11y_statement import run_test as run_test_a11y_statement
 from engines.json_engine import write_tests as json_write_tests
 from engines.gov import write_tests as gov_write_tests
 from engines.sql import write_tests as sql_write_tests
 from engines.markdown_engine import write_tests as markdown_write_tests
 
+def run_dummy_test(global_translation, url):
+    return []
 
 TEST_ALL = (TEST_UNKNOWN_01,
             TEST_GOOGLE_LIGHTHOUSE, TEST_PAGE_NOT_FOUND,
@@ -51,7 +50,7 @@ TEST_ALL = (TEST_UNKNOWN_01,
             ) = range(30)
 
 TEST_ALL_FUNCS = {
-        TEST_PAGE_NOT_FOUND: run_test_standard_files,
+        TEST_PAGE_NOT_FOUND: run_dummy_test,
         TEST_HTML: run_test_html_validator_w3c,
         TEST_CSS: run_test_css_validator_w3c,
         TEST_WEBBKOLL: run_test_privacy_webbkollen,
@@ -68,15 +67,14 @@ TEST_ALL_FUNCS = {
         TEST_TRACKING: run_test_tracking_validator,
         TEST_EMAIL: run_test_email_validator,
         TEST_SOFTWARE: run_test_software,
-        TEST_A11Y_STATEMENT: run_test_a11y_statement,
-        TEST_LINT_CSS: run_test_standard_files,
-        TEST_LINT_HTML: run_test_lint_html,
-        TEST_LINT_JS: run_test_lint_js
+        TEST_A11Y_STATEMENT: run_dummy_test,
+        TEST_LINT_CSS: run_dummy_test,
+        TEST_LINT_HTML: run_dummy_test,
+        TEST_LINT_JS: run_dummy_test
     }
 
 
 TEST_FUNCS = {
-        # TEST_PAGE_NOT_FOUND: run_test_page_not_found,
         TEST_HTML: run_test_html_validator_w3c,
         TEST_CSS: run_test_css_validator_w3c,
         TEST_WEBBKOLL: run_test_privacy_webbkollen,
@@ -92,11 +90,7 @@ TEST_FUNCS = {
         TEST_ENERGY_EFFICIENCY: run_test_energy_efficiency,
         TEST_TRACKING: run_test_tracking_validator,
         TEST_EMAIL: run_test_email_validator,
-        TEST_SOFTWARE: run_test_software,
-        TEST_A11Y_STATEMENT: run_test_a11y_statement,
-        # TEST_LINT_CSS: run_test_lint_css,
-        TEST_LINT_HTML: run_test_lint_html,
-        TEST_LINT_JS: run_test_lint_js
+        TEST_SOFTWARE: run_test_software
     }
 
 TEST_USE_SITESPEED = {

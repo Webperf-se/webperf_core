@@ -33,10 +33,6 @@ jobs:
                 os: [ubuntu-latest, windows-latest]
                 config: ['SITESPEED_USE_DOCKER=False']
                 version: [2]
-                include:
-                  - os: ubuntu-latest
-                    config: 'SITESPEED_USE_DOCKER=True'
-                    version: 2
     steps:
     - name: Check out repository code
       uses: actions/checkout@v4
@@ -72,5 +68,5 @@ jobs:
     - if: ${{ matrix.os == 'windows-latest' }}
       name: RUNNING TEST - WINDOWS
       run: |
-         python default.py -t ${{ matrix.version }} -b edge -r -u http://127.0.0.1:3000/ -o data\testresult-${{ matrix.version }}.json --setting ${{ matrix.config }}
+         python default.py -t ${{ matrix.version }} -r -u http://127.0.0.1:3000/ -o data\testresult-${{ matrix.version }}.json --setting tests.sitespeed.browser=edge --setting ${{ matrix.config }}
          python .github\workflows\verify_result.py -t ${{ matrix.version }}

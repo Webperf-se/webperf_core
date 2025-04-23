@@ -62,13 +62,15 @@ jobs:
         google-chrome --version
     - name: Setup npm packages
       run: npm install
+    - name: Start local HTTP server
+      run: (npm run start-server&)
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: RUNNING TEST - LINUX
       run: |
-         python default.py -t ${{ matrix.version }} -r -u https://webperf.se/2f08c/finns-det-en-sida/pa-den-har-adressen/testanrop/?webperf-core-test-2 -o data/testresult-${{ matrix.version }}.json --setting ${{ matrix.config }} --setting tests.sitespeed.xvfb=true --setting tests.page-not-found.override-url=false --setting general.cache.use=true --setting general.cache.max-age=5256000 --setting general.cache.folder=unittests
+         python default.py -t ${{ matrix.version }} -r -u http://127.0.0.1:3000/ -o data/testresult-${{ matrix.version }}.json --setting ${{ matrix.config }} --setting tests.sitespeed.xvfb=true
          python .github/workflows/verify_result.py -t ${{ matrix.version }}
     - if: ${{ matrix.os == 'windows-latest' }}
       name: RUNNING TEST - WINDOWS
       run: |
-         python default.py -t ${{ matrix.version }} -r -u https://webperf.se/2f08c/finns-det-en-sida/pa-den-har-adressen/testanrop/?webperf-core-test-2 -o data\testresult-${{ matrix.version }}.json --setting ${{ matrix.config }} --setting tests.page-not-found.override-url=false --setting general.cache.use=true --setting general.cache.max-age=5256000 --setting general.cache.folder=unittests
+         python default.py -t ${{ matrix.version }} -b edge -r -u http://127.0.0.1:3000/ -o data\testresult-${{ matrix.version }}.json --setting ${{ matrix.config }}
          python .github\workflows\verify_result.py -t ${{ matrix.version }}

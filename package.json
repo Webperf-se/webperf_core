@@ -1,13 +1,18 @@
 {
   "name": "webperf_core",
   "version": "2025.4.1",
+  "type": "module",
   "description": "You probably want to read the documentation available at homepage.",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Webperf-se/webperf_core.git"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Webperf-se/webperf_core/issues"
+  },
   "homepage": "https://github.com/Webperf-se/webperf_core/",
   "dependencies": {
     "@sitespeed.io/plugin": "1.0.0",
@@ -26,6 +31,38 @@
     "plugin-accessibility-statement": "2025.4.8",
     "plugin-webperf-core": "2025.4.10",
     "yellowlabtools": "3.0.1"
+  },
+  "lint-staged": {
+    "*.js": [
+      "npm run lint:fix",
+      "prettier --write --single-quote",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "devDependencies": {
+    "eslint": "9.22.0",
+    "eslint-config-prettier": "10.1.1",
+    "eslint-plugin-prettier": "5.2.3",
+    "eslint-plugin-unicorn": "57.0.0",
+    "husky": "9.1.7",
+    "lint-staged": "15.5.0",
+    "prettier": "3.5.3",
+    "serve": "14.2.4",
+    "serve-handler": "6.1.6",
+    "typescript": "5.7.2"
+  },
+  "scripts": {
+    "test": "ava",
+    "start-server": "serve unittests/data/",
+    "stop-server": "sudo pkill serve",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "eslint-check": "eslint --print-config .eslintrc.json | eslint-config-prettier-check"
   },
   "engines": {
     "node": ">=20.x"

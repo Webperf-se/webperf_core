@@ -1,4 +1,4 @@
-beautifulsoup4==4.13.3
+beautifulsoup4==4.13.4
 lxml==5.3.2
 requests==2.32.3
 urllib3==2.4.0
@@ -11,4 +11,4 @@ OpenCV-Python==4.11.0.86
 Numpy==2.2.4
 cryptography==44.0.2
 pylint==3.3.6
-packaging==24.2
+packaging==25.0

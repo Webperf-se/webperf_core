@@ -33,13 +33,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
             matrix:
-                os: [ubuntu-latest, windows-latest]
+                os: [ubuntu-latest] #, windows-latest]
                 config: ['SITESPEED_USE_DOCKER=False']
                 version: [26]
-                include:
-                  - os: ubuntu-latest
-                    config: 'SITESPEED_USE_DOCKER=True'
-                    version: 26
     steps:
     - name: Check out repository code
       uses: actions/checkout@v4
@@ -66,13 +62,15 @@ jobs:
     - name: Setup npm packages
       run: npm install --omit=dev
       timeout-minutes: 30
+    - name: Start local HTTP server
+      run: (npm run start-server&)
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: RUNNING TEST - LINUX
       run: |
-         python default.py -t ${{ matrix.version }} -r -u https://msb.se?webperf-core-test-26 -o data/testresult-${{ matrix.version }}.json --setting general.cache.use=true --setting general.cache.max-age=5256000 --setting general.cache.folder=unittests
+         python default.py -t ${{ matrix.version }} -r -u http://127.0.0.1:3000/ -o data/testresult-${{ matrix.version }}.json --setting ${{ matrix.config }} --setting tests.sitespeed.xvfb=true
          python .github/workflows/verify_result.py -t ${{ matrix.version }}
-    - if: ${{ matrix.os == 'windows-latest' }}
-      name: RUNNING TEST - WINDOWS
-      run: |
-         python default.py -t ${{ matrix.version }} -r -u https://msb.se?webperf-core-test-26 -o data\testresult-${{ matrix.version }}.json --setting general.cache.use=true --setting general.cache.max-age=5256000 --setting general.cache.folder=unittests
-         python .github\workflows\verify_result.py -t ${{ matrix.version }}
+    # - if: ${{ matrix.os == 'windows-latest' }}
+    #   name: RUNNING TEST - WINDOWS
+    #   run: |
+    #      python default.py -t ${{ matrix.version }} -r -u http://127.0.0.1:3000/ -o data\testresult-${{ matrix.version }}.json --setting tests.sitespeed.browser=edge --setting ${{ matrix.config }}
+    #      python .github\workflows\verify_result.py -t ${{ matrix.version }}

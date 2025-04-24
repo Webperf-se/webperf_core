@@ -12,11 +12,7 @@ from tests.sitespeed_base import create_webperf_json,\
 from tests.html_validator_w3c import run_test as run_test_html_validator_w3c
 from tests.css_validator_w3c import run_test as run_test_css_validator_w3c
 from tests.privacy_webbkollen import run_test as run_test_privacy_webbkollen
-from tests.performance_lighthouse import run_test as run_test_performance_lighthouse
-from tests.seo_lighthouse import run_test as run_test_seo_lighthouse
-from tests.best_practice_lighthouse import run_test as run_test_best_practice_lighthouse
 from tests.standard_files import run_test as run_test_standard_files
-from tests.a11y_lighthouse import run_test as run_test_a11y_lighthouse
 from tests.performance_sitespeed_io import run_test as run_test_performance_sitespeed_io
 from tests.frontend_quality_yellow_lab_tools import \
      run_test as run_test_frontend_quality_yellow_lab_tools
@@ -54,11 +50,11 @@ TEST_ALL_FUNCS = {
         TEST_HTML: run_test_html_validator_w3c,
         TEST_CSS: run_test_css_validator_w3c,
         TEST_WEBBKOLL: run_test_privacy_webbkollen,
-        TEST_GOOGLE_LIGHTHOUSE: run_test_performance_lighthouse,
-        TEST_GOOGLE_LIGHTHOUSE_SEO: run_test_seo_lighthouse,
-        TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE: run_test_best_practice_lighthouse,
+        TEST_GOOGLE_LIGHTHOUSE: run_dummy_test,
+        TEST_GOOGLE_LIGHTHOUSE_SEO: run_dummy_test,
+        TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE: run_dummy_test,
         TEST_STANDARD_FILES:run_test_standard_files,
-        TEST_GOOGLE_LIGHTHOUSE_A11Y: run_test_a11y_lighthouse,
+        TEST_GOOGLE_LIGHTHOUSE_A11Y: run_dummy_test,
         TEST_SITESPEED: run_test_performance_sitespeed_io,
         TEST_YELLOW_LAB_TOOLS: run_test_frontend_quality_yellow_lab_tools,
         TEST_PA11Y: run_test_a11y_pa11y,
@@ -78,11 +74,7 @@ TEST_FUNCS = {
         TEST_HTML: run_test_html_validator_w3c,
         TEST_CSS: run_test_css_validator_w3c,
         TEST_WEBBKOLL: run_test_privacy_webbkollen,
-        TEST_GOOGLE_LIGHTHOUSE: run_test_performance_lighthouse,
-        TEST_GOOGLE_LIGHTHOUSE_SEO: run_test_seo_lighthouse,
-        TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE: run_test_best_practice_lighthouse,
         TEST_STANDARD_FILES:run_test_standard_files,
-        TEST_GOOGLE_LIGHTHOUSE_A11Y: run_test_a11y_lighthouse,
         TEST_SITESPEED: run_test_performance_sitespeed_io,
         TEST_YELLOW_LAB_TOOLS: run_test_frontend_quality_yellow_lab_tools,
         TEST_PA11Y: run_test_a11y_pa11y,
@@ -99,14 +91,14 @@ TEST_USE_SITESPEED = {
         TEST_LINT_CSS: 'plugin-css',
         TEST_LINT_HTML: 'plugin-html',
         TEST_LINT_JS: 'plugin-javascript',
+        TEST_GOOGLE_LIGHTHOUSE: '@sitespeed.io/plugin-lighthouse',
+        TEST_GOOGLE_LIGHTHOUSE_SEO: '@sitespeed.io/plugin-lighthouse',
+        TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE: '@sitespeed.io/plugin-lighthouse',
+        TEST_GOOGLE_LIGHTHOUSE_A11Y: '@sitespeed.io/plugin-lighthouse',
     }
 
 TEST_USE_SITESPEED_TOMORROW = {
-        TEST_GOOGLE_LIGHTHOUSE: run_test_performance_lighthouse,
-        TEST_GOOGLE_LIGHTHOUSE_SEO: run_test_seo_lighthouse,
-        TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE: run_test_best_practice_lighthouse,
         TEST_STANDARD_FILES:run_test_standard_files,
-        TEST_GOOGLE_LIGHTHOUSE_A11Y: run_test_a11y_lighthouse,
         TEST_SITESPEED: run_test_performance_sitespeed_io,
         TEST_HTTP: run_test_http_validator,
         TEST_ENERGY_EFFICIENCY: run_test_energy_efficiency,

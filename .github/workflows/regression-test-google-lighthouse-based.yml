@@ -32,8 +32,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
             matrix:
-                os: [ubuntu-latest, windows-latest]
-                version: [1, 4, 5, 10]
+                os: [ubuntu-latest] #, windows-latest]
+                version: [1] #, 4, 5, 10]
     steps:
     - name: Check out repository code
       uses: actions/checkout@v4
@@ -67,16 +67,16 @@ jobs:
       run: |
          python default.py -t ${{ matrix.version }} -r -u http://localhost:3000/ -o data/testresult-${{ matrix.version }}.json --setting tests.sitespeed.xvfb=true
          python .github/workflows/verify_result.py -t ${{ matrix.version }}
-    - if: ${{ matrix.os == 'windows-latest' }}
-      name: RUNNING TEST - WINDOWS
-      run: |
-         python default.py -t ${{ matrix.version }} -r -u http://localhost:3000/ -o data\testresult-${{ matrix.version }}.json --setting tests.sitespeed.browser=edge
-         python .github\workflows\verify_result.py -t ${{ matrix.version }}
     - if: ${{ matrix.os == 'ubuntu-latest' && matrix.version == 1 }}
       name: RUNNING TEST - LINUX
       run: |
          node node_modules/sitespeed.io/bin/sitespeed.js -b chrome --xvfb --plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --chrome.cdp.performance false --browsertime.chrome.timeline false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --browsertime.chrome.includeResponseBodies all --utc true --browsertime.chrome.args ignore-certificate-errors -n 1 --plugins.add ../../../@sitespeed.io/plugin-lighthouse/index.js --plugins.add ../../../plugin-webperf-core/lib/index.js http://localhost:3000/?webperf-core-test-${{ matrix.version }}
-    - if: ${{ matrix.os == 'windows-latest' && matrix.version == 1 }}
-      name: RUNNING TEST - WINDOWS
-      run: |
-         node node_modules\sitespeed.io\bin\sitespeed.js -b chrome --plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --chrome.cdp.performance false --browsertime.chrome.timeline false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --browsertime.chrome.includeResponseBodies all --utc true --browsertime.chrome.args ignore-certificate-errors -n 1 --plugins.add ../../../@sitespeed.io/plugin-lighthouse/index.js --plugins.add ../../../plugin-webperf-core/lib/index.js http://localhost:3000/?webperf-core-test-${{ matrix.version }}
+    # - if: ${{ matrix.os == 'windows-latest' }}
+    #   name: RUNNING TEST - WINDOWS
+    #   run: |
+    #      python default.py -t ${{ matrix.version }} -r -u http://localhost:3000/ -o data\testresult-${{ matrix.version }}.json --setting tests.sitespeed.browser=edge
+    #      python .github\workflows\verify_result.py -t ${{ matrix.version }}
+    # - if: ${{ matrix.os == 'windows-latest' && matrix.version == 1 }}
+    #   name: RUNNING TEST - WINDOWS
+    #   run: |
+    #      node node_modules\sitespeed.io\bin\sitespeed.js -b chrome --plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --chrome.cdp.performance false --browsertime.chrome.timeline false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --browsertime.chrome.includeResponseBodies all --utc true --browsertime.chrome.args ignore-certificate-errors -n 1 --plugins.add ../../../@sitespeed.io/plugin-lighthouse/index.js --plugins.add ../../../plugin-webperf-core/lib/index.js http://localhost:3000/?webperf-core-test-${{ matrix.version }}

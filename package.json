@@ -58,7 +58,7 @@
   },
   "scripts": {
     "test": "ava",
-    "start-server": "serve -l 127.0.0.1 unittests/data/",
+    "start-server": "serve -l http://127.0.0.1:3000 unittests/data/",
     "stop-server": "sudo pkill serve",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

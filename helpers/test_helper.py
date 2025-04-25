@@ -33,7 +33,8 @@ def run_dummy_test(global_translation, url):
 TEST_ALL = (TEST_UNKNOWN_01,
             TEST_GOOGLE_LIGHTHOUSE, TEST_PAGE_NOT_FOUND,
             TEST_UNKNOWN_03,
-            TEST_GOOGLE_LIGHTHOUSE_SEO, TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE, TEST_HTML, TEST_CSS,
+            TEST_GOOGLE_LIGHTHOUSE_SEO, TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE,
+            TEST_DEPRECATED, TEST_DEPRECATED,
             TEST_DEPRECATED, TEST_STANDARD_FILES, TEST_GOOGLE_LIGHTHOUSE_A11Y,
             TEST_UNKNOWN_11, TEST_UNKNOWN_12, TEST_UNKNOWN_13, TEST_UNKNOWN_14,
             TEST_SITESPEED,
@@ -47,8 +48,6 @@ TEST_ALL = (TEST_UNKNOWN_01,
 
 TEST_ALL_FUNCS = {
         TEST_PAGE_NOT_FOUND: run_dummy_test,
-        TEST_HTML: run_test_html_validator_w3c,
-        TEST_CSS: run_test_css_validator_w3c,
         TEST_WEBBKOLL: run_test_privacy_webbkollen,
         TEST_GOOGLE_LIGHTHOUSE: run_dummy_test,
         TEST_GOOGLE_LIGHTHOUSE_SEO: run_dummy_test,
@@ -71,8 +70,6 @@ TEST_ALL_FUNCS = {
 
 
 TEST_FUNCS = {
-        TEST_HTML: run_test_html_validator_w3c,
-        TEST_CSS: run_test_css_validator_w3c,
         TEST_WEBBKOLL: run_test_privacy_webbkollen,
         TEST_STANDARD_FILES:run_test_standard_files,
         TEST_SITESPEED: run_test_performance_sitespeed_io,

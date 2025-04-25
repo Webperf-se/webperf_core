@@ -20,7 +20,6 @@ from engines.json_engine import read_sites as json_read_sites,\
 from helpers.carbon_rating_helper import update_carbon_percentiles
 from helpers.credits_helper import get_credits, update_credits_markdown
 from helpers.dependency_helper import dependency
-from helpers.mdn_helper import update_mdn_rules
 from helpers.release_helper import set_new_release_version_in_env, update_release_version
 from helpers.setting_helper import config_mapping, get_config, set_config,\
     set_config_from_cmd, set_runtime_config_only
@@ -29,7 +28,6 @@ from helpers.test_helper import TEST_ALL,\
 from helpers.translation_helper import validate_translations
 from helpers.update_software_helper import filter_unknown_sources,\
     update_licenses, update_software_info, update_user_agent
-from helpers.update_stylelint_helper import update_stylelint_rules
 from tests.utils import clean_cache_files
 
 def show_test_help(global_translation):
@@ -108,10 +106,6 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
         update_credits_markdown(self.language)
         sys.exit()
 
-    def update_stylelint(self, _):
-        update_stylelint_rules()
-        sys.exit(0)
-
     def update_browser(self, _):
         update_user_agent()
         sys.exit(0)
@@ -141,10 +135,6 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             sys.exit(0)
         else:
             sys.exit(2)
-
-    def update_mdn(self, _):
-        update_mdn_rules()
-        sys.exit(0)
 
     def update_software_definitions(self, arg):
         set_runtime_config_only("github.api.key", arg)
@@ -482,9 +472,7 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             ("-c", "--credits", "--contributors"): self.show_credits,
             ("--uc", "--update-credits"): self.update_credits,
             ("-b", "--update-browser"): self.update_browser,
-            ("--usr", "--update-stylelint-rules"): self.update_stylelint,
             ("-d", "--update-definitions"): self.update_software_definitions,
-            ("--ums", "--update-mdn-sources"): self.update_mdn,
             ("--ucr", "--update-carbon"): self.update_carbon_rating,
             ("--ut", "--update-translations"): self.update_translations,
             ("--pr", "--prepare-release"): self.prepare_release,

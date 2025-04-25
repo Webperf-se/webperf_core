@@ -51,7 +51,7 @@ jobs:
       env:
         IP2LOCATION_DOWNLOAD_URL: ${{ secrets.IP2LOCATION_DOWNLOAD_URL }}
       name: Download IP2LOCATION DB (Using repository secret) - Linux
-      run: wget -q -O data/IP2LOCATION-LITE-DB1.IPV6.BIN $IP2LOCATION_DOWNLOAD_URL
+      run: wget --create-dirs -q -O data/IP2LOCATION-LITE-DB1.IPV6.BIN $IP2LOCATION_DOWNLOAD_URL
     - if: ${{ matrix.os == 'windows-latest' }}
       continue-on-error: true
       shell: pwsh

@@ -14,6 +14,81 @@ from tests.utils import change_url_to_test_url,\
     get_dependency_version, is_file_older_than
 import engines.sitespeed_result as sitespeed_cache
 from helpers.setting_helper import get_config
+from helpers.browser_helper import get_chromium_browser
+
+def calculate_rating(rating, result_dict):
+    issues_standard =[]
+    issues_security = []
+    issues_a11y = []
+    issues_performance = []
+    for group_name, info in result_dict["groups"].items():
+        for issue in info["issues"]:
+            if get_config('general.review.improve-only') and issue["severity"] == "resolved":
+                continue
+            if issue['category'] == 'standard':
+                issues_standard.append(f"{issue['rule']} ({issue['severity']})")
+            elif issue['category'] == 'security':
+                issues_security.append(f"{issue['rule']} ({issue['severity']})")
+            elif issue['category'] == 'a11y':
+                issues_a11y.append(f"{issue['rule']} ({issue['severity']})")
+            elif issue['category'] == 'performance':
+                issues_performance.append(f"{issue['rule']} ({issue['severity']})")
+
+        if 'overall' in info["score"]:
+            overall = (info["score"]["overall"] / 100) * 5
+            rating.set_overall(overall)
+        if 'standard' in info["score"]:
+            standard = (info["score"]["standard"] / 100) * 5
+            rating.set_standards(standard)
+            rating.standards_review = "\n".join([f"- {item}" for item in issues_standard]) + "\n"
+        if 'security' in info["score"]:
+            security = (info["score"]["security"] / 100) * 5
+            rating.set_integrity_and_security(security)
+            rating.integrity_and_security_review = "\n".join([f"- {item}" for item in issues_security]) + "\n"
+        if 'a11y' in info["score"]:
+            a11y = (info["score"]["a11y"] / 100) * 5
+            rating.set_a11y(a11y)
+            rating.a11y_review = "\n".join([f"- {item}" for item in issues_a11y]) + "\n"
+        if 'performance' in info["score"]:
+            performance = (info["score"]["performance"] / 100) * 5
+            rating.set_performance(performance)
+            rating.performance_review = "\n".join([f"- {item}" for item in issues_performance]) + "\n"
+    return rating
+
+
+def get_webperf_json(filename):
+    if not os.path.exists(filename):
+        return None
+
+    data_str = get_sanitized_browsertime(filename)
+    return json.loads(data_str)
+
+def create_webperf_json(url, sitespeed_plugins):
+    # We don't need extra iterations for what we are using it for
+    sitespeed_iterations = 1
+    sitespeed_arg = (
+            f'--shm-size=1g -b {get_chromium_browser()} '
+            f'{sitespeed_plugins}'
+            # '--plugins.remove screenshot --plugins.remove html --plugins.remove metrics '
+            '--plugins.remove screenshot --plugins.remove metrics '
+            '--browsertime.screenshot false --screenshot false --screenshotLCP false '
+            '--browsertime.screenshotLCP false --chrome.cdp.performance false '
+            '--browsertime.chrome.timeline false --videoParams.createFilmstrip false '
+            '--visualMetrics false --visualMetricsPerceptual false '
+            '--visualMetricsContentful false --browsertime.headless true '
+            '--utc true '
+            '--browsertime.chrome.args ignore-certificate-errors '
+            f'-n {sitespeed_iterations}')
+    if get_config('tests.sitespeed.xvfb'):
+        sitespeed_arg += ' --xvfb'
+
+    (folder, filename) = get_result(url,
+        get_config('tests.sitespeed.docker.use'),
+        sitespeed_arg,
+        get_config('tests.sitespeed.timeout'))
+
+    data = get_webperf_json(filename)
+    return data
 
 def to_firefox_url_format(url):
     """
@@ -53,9 +128,6 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
         tuple: The name of the result folder and the filename of the HAR file.
     """
     folder = 'tmp'
-    if get_config('general.cache.use'):
-        folder = get_config('general.cache.folder')
-
     o = urlparse(url)
     hostname = o.hostname
 
@@ -65,15 +137,10 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
         url = change_url_to_test_url(url, 'mobile')
         sitespeed_arg += (' --mobile')
 
-    sitespeed_arg += (' --plugins.add plugin-webperf-core --postScript chrome-cookies.cjs --postScript chrome-versions.cjs '
+    sitespeed_arg += (' --postScript chrome-cookies.cjs --postScript chrome-versions.cjs '
                       f'--outputFolder {result_folder_name} {url}')
 
     filename = ''
-    # Should we use cache when available?
-    if get_config('general.cache.use'):
-        tmp_result_folder_name, filename = get_cached_result(url, hostname)
-        if filename != '':
-            return (tmp_result_folder_name, filename)
 
     test = get_result_using_no_cache(sitespeed_use_docker, sitespeed_arg, timeout)
     test = test.replace('\\n', '\r\n').replace('\\\\', '\\')
@@ -81,62 +148,10 @@ def get_result(url, sitespeed_use_docker, sitespeed_arg, timeout):
     cookies_json = get_cookies(test)
     versions_json = get_versions(test)
 
-    data = os.path.join(result_folder_name, 'data')
+    folder = os.path.join(result_folder_name, 'data')
+    filename = os.path.join(result_folder_name, 'data', 'webperf-core.json')
 
-    # if os.path.exists(filename_old):
-        # modify_browsertime_content(filename_old, cookies_json, versions_json)
-        # json_path = os.path.join(result_folder_name, 'data', 'webperf-core.json')
-        # if os.path.exists(json_path):
-        #     os.rename(json_path, f'{result_folder_name}-webperf-core.json')
-
-        # cleanup_results_dir(filename_old, result_folder_name)
-        # return (result_folder_name, filename)
-    host_folder = os.path.join(folder, hostname)
-    if os.path.exists(data):
-        sub_dirs = os.listdir(data)
-        for sub_dir in sub_dirs:
-            os.rename(os.path.join(data, sub_dir), os.path.join(host_folder, sub_dir))
-
-    if os.path.exists(result_folder_name):
-        shutil.rmtree(result_folder_name)
-    
-    tmp_result_folder_name2, filename2 = get_cached_result(url, hostname)
-    return (tmp_result_folder_name2, filename2)
-
-def get_cached_result(url, hostname):
-    """
-    Retrieves the cached result for a given URL and hostname.
-
-    Args:
-        url (str): The URL to be tested.
-        hostname (str): The hostname of the site.
-
-    Returns:
-        tuple: The name of the result folder and the filename of the HAR file.
-    """
-    # added for firefox support
-    url2 = to_firefox_url_format(url)
-
-    filename = ''
-    result_folder_name = ''
-    sites = sitespeed_cache.read_sites(hostname, -1, -1)
-
-    for site in sites:
-        if url == site[1] or url2 == site[1]:
-            filename = site[0]
-
-            if is_file_older_than(filename, timedelta(minutes=get_config('general.cache.max-age'))):
-                filename = ''
-                continue
-
-            result_folder_name = filename[:filename.rfind(os.path.sep)]
-
-            file_created_timestamp = os.path.getctime(filename)
-            file_created_date = time.ctime(file_created_timestamp)
-            print((f'Cached entry found from {file_created_date},'
-                       ' using it instead of calling website again.'))
-            break
-    return result_folder_name,filename
+    return (folder, filename)
 
 def get_versions(test):
     """

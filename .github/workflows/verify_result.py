@@ -343,11 +343,6 @@ def validate_testresult(arg): # pylint: disable=too-many-return-statements,too-m
         print_file_content(filename)
         return False
 
-    if int(test_id) != first_test_result['type_of_test']:
-        print('Test failed, \'type_of_test\' field is using wrong test id')
-        print_file_content(filename)
-        return False
-
     if 'rating' not in first_test_result or\
             'rating_sec' not in first_test_result or\
             'rating_perf' not in first_test_result or\

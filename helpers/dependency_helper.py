@@ -58,24 +58,6 @@ def check_python():
 
     print('\t- Python:', 'OK')
 
-def check_java():
-    _, result = test_cmd('java -version')
-
-    version = None
-    regex = r"(?P<name>java|openjdk) version \"(?P<version>[0-9\.\_]+)\""
-    matches = re.finditer(
-        regex, result, re.MULTILINE)
-    for _, match in enumerate(matches, start=1):
-        version = match.group('version')
-
-    if version is None:
-        print('\t- Java:', 'ERROR: Unable to get version')
-        return
-
-    # TODO: Check java version
-
-    print('\t- Java:', 'OK')
-
 def check_node():
     result, error = test_cmd('node -v')
     if result is None:
@@ -365,7 +347,6 @@ def dependency():
     check_requirements()
     check_node()
     check_package()
-    check_java()
     check_chromium()
     check_firefox()
     # TODO: Check data files dependencies

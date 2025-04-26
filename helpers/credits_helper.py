@@ -121,8 +121,6 @@ def get_external_information_sources():
         file_name = file_path[last_sep_index:].lower()
         if file_name == 'all':
             continue
-        elif 'mdn_helper.py' in file_name:
-            text += '### Update HTML and CSS Test Sources:\r\n'
         elif 'update_software_helper.py' in file_name:
             text += '### Update Software Test Sources:\r\n'
             text += '- https://github.com/github/advisory-database/tree/main/advisories/github-reviewed\r\n'

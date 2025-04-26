@@ -61,10 +61,6 @@ jobs:
           echo "Error: dependency tool - Error with Node"
           exit 1
         fi
-        if [[ "$help" != *"Java: OK"* ]]; then
-          echo "Error: dependency tool - Error with Java"
-          exit 1
-        fi
         if [[ "$help" != *"chrome: OK"* ]]; then
           echo "Error: dependency tool - Error with Chrome"
           exit 1

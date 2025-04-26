@@ -44,10 +44,6 @@ Webperf Core consists of many different tests. [Read general information about o
 * [Best practice on Web (Lighthouse)](./docs/tests/google-lighthouse-best-practice.md)
 * [SEO best practise (Lighthouse)](./docs/tests/google-lighthouse-seo.md)
 * [Validate 404 page (by default checks for Swedish text, though)](./docs/tests/page-not-found.md)
-* [Validate HTML (W3C)](./docs/tests/html.md)
-* [Validate CSS (W3C)](./docs/tests/css.md)
-* [Validate CSS (Linting)](./docs/tests/css-linting.md)
-* [Validate JS (Linting)](./docs/tests/js-linting.md)
 * [Security, data-protecting & Integrity (Webbkoll)](./docs/tests/webbkoll.md)
 * [Frontend quality (YellowLab Tools)](./docs/tests/yellowlab.md)
 * [Energy Efficiency](./docs/tests/energy-efficiency.md)
@@ -57,9 +53,9 @@ Webperf Core consists of many different tests. [Read general information about o
 * [Email (Beta)](./docs/tests/email.md)
 * [Software](./docs/tests/software.md)
 * [Accessibility Statement (Alpha)](./docs/tests/a11y-statement.md)
-* [CSS](./docs/tests/css-linting.md)
-* [HTML](./docs/tests/html-validate.md)
-* [Javascript](./docs/tests/js-linting.md)
+* [CSS (StyleLint)](./docs/tests/css-linting.md)
+* [HTML (html-validate)](./docs/tests/html-validate.md)
+* [Javascript (ESlint)](./docs/tests/js-linting.md)
 
 
 # Contribute

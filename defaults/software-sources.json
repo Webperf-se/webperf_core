@@ -90,9 +90,41 @@
             "github-owner": "accessible360",
             "github-repo": "accessible-slick"
         },
+        "@sitespeed.io/plugin": {
+            "github-owner": "sitespeedio",
+            "github-repo": "plugin"
+        },
+        "@sitespeed.io/plugin-lighthouse": {
+            "github-owner": "sitespeedio",
+            "github-repo": "plugin-lighthouse"
+        },
         "accordion": {
             "github-owner": "michu2k",
             "github-repo": "Accordion"
+        },
+        "plugin-css": {
+            "github-owner": "Webperf-se",
+            "github-repo": "plugin-css"
+        },
+        "plugin-html": {
+            "github-owner": "Webperf-se",
+            "github-repo": "plugin-html"
+        },
+        "plugin-javascript": {
+            "github-owner": "Webperf-se",
+            "github-repo": "plugin-javascript"
+        },
+        "plugin-pagenotfound": {
+            "github-owner": "Webperf-se",
+            "github-repo": "plugin-pagenotfound"
+        },
+        "plugin-accessibility-statement": {
+            "github-owner": "Webperf-se",
+            "github-repo": "plugin-accessibility-statement"
+        },
+        "plugin-webperf-core": {
+            "github-owner": "Webperf-se",
+            "github-repo": "plugin-webperf-core"
         },
         "accordion-blocks": {
             "type": "wordpress-plugin"

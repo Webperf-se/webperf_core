@@ -32,13 +32,12 @@ TODO: Why do we have this and what good does it do?
 
 ### General Regression Test
 * [![CodeQL (Security and Code Quality)](https://github.com/Webperf-se/webperf_core/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/codeql-analysis.yml)
+* [![PyLint (Security and Code Quality)](https://github.com/Webperf-se/webperf_core/actions/workflows/pylint.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/pylint.yml)
 * [![Regression Test - Verify Translation(s)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-translations.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-translations.yml)
 
 ### Test Specifict Regression Tests
 * [![Regression Test - Google Lighthouse Based Test(s)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-google-lighthouse-based.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-google-lighthouse-based.yml)
 * [![Regression Test - 404 (Page not Found) Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-404.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-404.yml)
-* [![Regression Test - HTML Validation Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-html.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-html.yml)
-* [![Regression Test - CSS Validation Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-css.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-css.yml)
 * [![Regression Test - CSS Linting Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-lint-css.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-css-lint.yml)
 * [![Regression Test - JS Linting Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-lint-js.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-js-lint.yml)
 * [![Regression Test - Integrity & Security (Webbkoll) Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-webbkoll.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-webbkoll.yml)

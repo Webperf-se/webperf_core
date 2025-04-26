@@ -27,8 +27,7 @@ These are the tests available in Webperf Core. In most cases, you select a test 
 
 ## Code Quality
 
-Add a small ingress here.
-TODO: Why do we have this and what good does it do?
+Quick overview of all current status of our regression tests.
 
 ### General Regression Test
 * [![CodeQL (Security and Code Quality)](https://github.com/Webperf-se/webperf_core/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/codeql-analysis.yml)

@@ -90,14 +90,6 @@ msgstr "-t 18\t: Accessibility (Pa11y)"
 msgid "TEXT_TEST_VALID_ARGUMENTS_PAGE_NOT_FOUND"
 msgstr "-t 2\t: 404 (Page not Found)"
 
-#: default.py:134
-msgid "TEXT_TEST_VALID_ARGUMENTS_HTML"
-msgstr "-t 6\t: HTML Validation (w3c)"
-
-#: default.py:135
-msgid "TEXT_TEST_VALID_ARGUMENTS_CSS"
-msgstr "-t 7\t: CSS Validation (w3c)"
-
 msgid "TEXT_TEST_VALID_ARGUMENTS_SITESPEED"
 msgstr "-t 15\t: Performance (Sitespeed.io)"
 

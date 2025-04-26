@@ -9,8 +9,6 @@ from helpers.models import SiteTests
 from tests.utils import get_translation
 from tests.sitespeed_base import create_webperf_json,\
     calculate_rating
-from tests.html_validator_w3c import run_test as run_test_html_validator_w3c
-from tests.css_validator_w3c import run_test as run_test_css_validator_w3c
 from tests.privacy_webbkollen import run_test as run_test_privacy_webbkollen
 from tests.standard_files import run_test as run_test_standard_files
 from tests.performance_sitespeed_io import run_test as run_test_performance_sitespeed_io

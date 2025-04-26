@@ -78,12 +78,6 @@ msgstr "-t 18\t: Tillgänglighet (Pa11y)"
 msgid "TEXT_TEST_VALID_ARGUMENTS_PAGE_NOT_FOUND"
 msgstr "-t 2\t: 404 (sida finns inte)"
 
-msgid "TEXT_TEST_VALID_ARGUMENTS_HTML"
-msgstr "-t 6\t: HTML-validering (w3c)"
-
-msgid "TEXT_TEST_VALID_ARGUMENTS_CSS"
-msgstr "-t 7\t: CSS-validering (w3c)"
-
 msgid "TEXT_TEST_VALID_ARGUMENTS_SITESPEED"
 msgstr "-t 15\t: Prestanda (Sitespeed.io)"
 

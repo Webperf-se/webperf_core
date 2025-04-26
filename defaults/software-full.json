@@ -83,6 +83,52 @@
         "?": {
             "custom": true
         },
+        "@sitespeed.io/plugin": {
+            "github-owner": "sitespeedio",
+            "github-repo": "plugin",
+            "license": "mit",
+            "last_pushed_year": "2025",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "0.0.6": [],
+                "0.0.5": [],
+                "0.0.4": [],
+                "0.0.3": [],
+                "0.0.2": []
+            }
+        },
+        "@sitespeed.io/plugin-lighthouse": {
+            "github-owner": "sitespeedio",
+            "github-repo": "plugin-lighthouse",
+            "license": "mit",
+            "last_pushed_year": "2025",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "12.3.0": [],
+                "12.1.0": [],
+                "12.0.0": [],
+                "11.3.2": [],
+                "11.3.1": [],
+                "11.3.0": [],
+                "11.2.0": [],
+                "11.1.0": [],
+                "10.2.0": [],
+                "10.1.0": [],
+                "10.0.2": [],
+                "9.5.0": [],
+                "9.4.0": [],
+                "9.3.2": [],
+                "1.2.0": [],
+                "1.1.0": [],
+                "1.0.0": []
+            }
+        },
         "accessible-slick": {
             "github-owner": "accessible360",
             "github-repo": "accessible-slick",
@@ -356,6 +402,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "1.8.13": [],
                 "1.8.12": [],
                 "1.8.11": [],
                 "1.8.10": [],
@@ -1045,6 +1092,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "4.12.6": [],
                 "4.12.5": [],
                 "4.12.4": [],
                 "4.12.3": [],
@@ -1232,6 +1280,7 @@
             ],
             "archived": false,
             "versions": {
+                "5.23.4": [],
                 "5.23.3": [],
                 "5.23.2": [],
                 "5.23.1": [],
@@ -1531,6 +1580,8 @@
             ],
             "archived": false,
             "versions": {
+                "19.2.8": [],
+                "19.2.7": [],
                 "19.2.6": [],
                 "19.2.5": [],
                 "19.2.4": [],
@@ -1555,9 +1606,6 @@
                 "19.0.2": [],
                 "19.0.1": [],
                 "19.0.0": [],
-                "18.2.13": [],
-                "18.2.12": [],
-                "18.2.11": [],
                 "10.2.5": []
             }
         },
@@ -6884,6 +6932,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "4.4.18": [],
                 "4.4.17": [],
                 "4.4.16": [],
                 "4.4.14": [],
@@ -7152,6 +7201,7 @@
             ],
             "archived": false,
             "versions": {
+                "1.19.0": [],
                 "1.18.1": [],
                 "1.18.0": [],
                 "1.17.9": [],
@@ -7229,8 +7279,7 @@
                 "0.27.0": [],
                 "0.26.0": [],
                 "0.25.0": [],
-                "0.24.2": [],
-                "0.24.1": []
+                "0.24.2": []
             }
         },
         "autonumeric": {
@@ -7773,6 +7822,7 @@
             ],
             "archived": false,
             "versions": {
+                "1.9.0": [],
                 "1.8.4": [],
                 "1.8.3": [],
                 "1.8.2": [],
@@ -8291,14 +8341,6 @@
                     "CVE-2021-3749",
                     "CVE-2020-28168",
                     "CVE-2019-10742"
-                ],
-                "0.5.2": [
-                    "CVE-2025-27152",
-                    "CVE-2024-39338",
-                    "CVE-2023-45857",
-                    "CVE-2021-3749",
-                    "CVE-2020-28168",
-                    "CVE-2019-10742"
                 ]
             }
         },
@@ -8704,6 +8746,8 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "5.10.29": [],
+                "5.10.28": [],
                 "5.10.27": [],
                 "5.10.26": [],
                 "5.10.25": [],
@@ -8954,12 +8998,14 @@
                 "1.4.3": [],
                 "1.3.3": []
             },
-            "archived": false
+            "archived": false,
+            "notice": "Warning! This plugin hasn't been tested with the latest 3 major releases of WordPress. It may no longer be maintained or supported and may have compatibility issues when used with more recent versions of WordPress."
         },
         "blocks-animation": {
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "3.0.10": [],
                 "3.0.9": [],
                 "3.0.8": [],
                 "3.0.7": [],
@@ -9045,9 +9091,9 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "5.3.0": [],
+                "5.2.9": [],
                 "5.2.8": [],
-                "5.2.6": [],
-                "5.2.5": [],
                 "4.9.8": []
             },
             "archived": false
@@ -10148,6 +10194,7 @@
             ],
             "archived": false,
             "versions": {
+                "8.3.2": [],
                 "8.3.1": [],
                 "8.3.0": [],
                 "8.2.0": [],
@@ -10216,8 +10263,7 @@
                 "7.8.2": [],
                 "7.8.1": [],
                 "7.8.0": [],
-                "7.7.0": [],
-                "7.6.1": []
+                "7.7.0": []
             }
         },
         "bxslider": {
@@ -10586,6 +10632,7 @@
             ],
             "archived": false,
             "versions": {
+                "4.4.9": [],
                 "4.4.8": [],
                 "4.4.7": [],
                 "4.4.6": [],
@@ -10701,9 +10748,6 @@
                     "CVE-2020-7746"
                 ],
                 "2.0.0": [
-                    "CVE-2020-7746"
-                ],
-                "1.1.1": [
                     "CVE-2020-7746"
                 ]
             }
@@ -10998,6 +11042,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "6.54": [],
                 "6.53": [],
                 "6.52": [],
                 "6.51": [],
@@ -11509,6 +11554,7 @@
             "versions": {
                 "18.0.0": [],
                 "17.0.0": [],
+                "16.0.3": [],
                 "16.0.2": [],
                 "16.0.1": [],
                 "16.0.0": [],
@@ -11564,10 +11610,7 @@
                 "11.3.6": [],
                 "11.3.5": [],
                 "11.3.4": [],
-                "11.3.3": [],
-                "11.3.2": [],
-                "11.3.1": [],
-                "11.3.0": []
+                "11.3.3": []
             }
         },
         "clicky-menus": {
@@ -11580,6 +11623,7 @@
             ],
             "archived": false,
             "versions": {
+                "1.3.0": [],
                 "1.2.0": [],
                 "1.0.0": []
             }
@@ -11686,6 +11730,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "7.4.0": [],
                 "7.3.1": [],
                 "7.3.0": [],
                 "7.2.0": [],
@@ -11936,6 +11981,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "3.3.22": [],
                 "3.3.21": [],
                 "3.3.20": [],
                 "3.3.19": [],
@@ -11980,6 +12026,7 @@
                 "2011.2.02": [],
                 "2011.2.01": [],
                 "2011.1.03": [],
+                "4.3.2": [],
                 "4.3.1": [],
                 "4.2.9": [],
                 "4.2.8": [],
@@ -12293,6 +12340,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "3.2.9": [],
                 "3.2.8": [],
                 "3.2.7": [],
                 "3.2.6": [],
@@ -13365,6 +13413,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "1.7.4": [],
                 "1.7.3": [],
                 "1.7.0": [],
                 "1.6.0": [],
@@ -13819,6 +13868,9 @@
             ],
             "archived": false,
             "versions": {
+                "2.2.12": [],
+                "2.2.11": [],
+                "2.2.10": [],
                 "2.2.9": [],
                 "2.2.8": [],
                 "2.2.7": [],
@@ -13915,10 +13967,7 @@
                 "1.34.0": [],
                 "1.33.4": [],
                 "1.33.3": [],
-                "1.33.2": [],
-                "1.33.1": [],
-                "1.33.0": [],
-                "1.32.5": []
+                "1.33.2": []
             }
         },
         "detect-passive-events": {
@@ -14299,6 +14348,8 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "3.3.13": [],
+                "3.3.12": [],
                 "3.3.11": [],
                 "3.3.10": [],
                 "3.3.09": [],
@@ -14583,6 +14634,9 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "2.3.14": [],
+                "2.3.13": [],
+                "2.3.12": [],
                 "2.3.11": [],
                 "2.3.10": [],
                 "2.3.9": [],
@@ -14821,7 +14875,7 @@
             "github-owner": "Superhands89",
             "github-repo": "EasyScrollDots",
             "license": "gpl-3.0",
-            "last_pushed_year": "2022",
+            "last_pushed_year": "2025",
             "tech": [
                 "js"
             ],
@@ -14990,12 +15044,14 @@
                 "1.0.1": [],
                 "1.0.0": []
             },
-            "archived": false
+            "archived": false,
+            "notice": "Warning! This plugin hasn't been tested with the latest 3 major releases of WordPress. It may no longer be maintained or supported and may have compatibility issues when used with more recent versions of WordPress."
         },
         "elementor": {
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "3.28.3": [],
                 "3.28.2": [],
                 "3.28.1": [],
                 "3.28.0": [],
@@ -16118,12 +16174,14 @@
                 "0.11": [],
                 "0.10": []
             },
-            "archived": false
+            "archived": false,
+            "notice": "Warning! This plugin hasn't been tested with the latest 3 major releases of WordPress. It may no longer be maintained or supported and may have compatibility issues when used with more recent versions of WordPress."
         },
         "embed-lottie-player": {
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "1.1.8": [],
                 "1.1.7": [],
                 "1.1.6": [],
                 "1.1.5": [],
@@ -16147,6 +16205,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "4.4.5": [],
                 "4.4.4": [],
                 "4.4.3": [],
                 "1.0": []
@@ -16494,6 +16553,8 @@
             ],
             "archived": false,
             "versions": {
+                "9.25.1": [],
+                "9.25.0": [],
                 "9.24.0": [],
                 "9.23.0": [],
                 "9.22.0": [],
@@ -16591,6 +16652,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "6.1.10": [],
                 "6.1.9": [],
                 "6.1.8": [],
                 "6.1.7": [],
@@ -18742,6 +18804,7 @@
             "last_pushed_year": "2025",
             "archived": false,
             "versions": {
+                "0.268.0": [],
                 "0.267.0": [],
                 "0.266.1": [],
                 "0.266.0": [],
@@ -18840,8 +18903,7 @@
                 "0.211.1": [],
                 "0.211.0": [],
                 "0.210.2": [],
-                "0.210.1": [],
-                "0.210.0": []
+                "0.210.1": []
             }
         },
         "fluidvids": {
@@ -19619,7 +19681,8 @@
                 "1.5.1": [],
                 "1.5": []
             },
-            "archived": false
+            "archived": false,
+            "notice": "Warning! This plugin hasn't been tested with the latest 3 major releases of WordPress. It may no longer be maintained or supported and may have compatibility issues when used with more recent versions of WordPress."
         },
         "formidable": {
             "type": "wordpress-plugin",
@@ -19747,6 +19810,9 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "1.42.1": [],
+                "1.42.0": [],
+                "1.41.2": [],
                 "1.41.1": [],
                 "1.40.0": [],
                 "1.39.3": [],
@@ -20679,6 +20745,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "3.7.8": [],
                 "3.7.7": [],
                 "3.7.6": [],
                 "3.7.5": [],
@@ -21484,6 +21551,8 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "3.13.0": [],
+                "3.12.3": [],
                 "3.12.2": [],
                 "3.12.1": [],
                 "3.12.0": [],
@@ -21594,6 +21663,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "3.0.7": [],
                 "3.0.6": [],
                 "3.0.5": [],
                 "3.0.4": [],
@@ -21741,6 +21811,7 @@
             ],
             "archived": false,
             "versions": {
+                "20.7.0": [],
                 "20.6.0": [],
                 "20.5.0": [],
                 "20.4.0": [],
@@ -21791,8 +21862,7 @@
                 "17.6.6": [],
                 "17.6.5": [],
                 "17.6.4": [],
-                "17.6.3": [],
-                "17.6.2": []
+                "17.6.3": []
             }
         },
         "hammer.js": {
@@ -22066,6 +22136,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "2.2.4": [],
                 "2.2.3": [],
                 "2.2.2": [],
                 "2.2.1": [],
@@ -23050,6 +23121,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "2.2.09": [],
                 "2.2.08": [],
                 "2.2.07": [],
                 "2.2.06": [],
@@ -23127,6 +23199,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "1.6.4": [],
                 "1.6.3": [],
                 "1.6.2": [],
                 "1.6.1": [],
@@ -23391,6 +23464,8 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "11.5.8": [],
+                "11.5.7.1": [],
                 "11.5.7": [],
                 "11.5.6.1": [],
                 "11.5.6": [],
@@ -23880,6 +23955,8 @@
             ],
             "archived": false,
             "versions": {
+                "5.4.6": [],
+                "5.4.5": [],
                 "5.4.4": [],
                 "5.4.3": [],
                 "5.4.2": [],
@@ -23976,9 +24053,7 @@
                 "2.8.10": [],
                 "2.8.9": [],
                 "2.8.8": [],
-                "2.8.7": [],
-                "2.8.6": [],
-                "2.8.5": []
+                "2.8.7": []
             }
         },
         "iis": {
@@ -26960,110 +27035,134 @@
                 "1.21.0": [],
                 "1.20.1": [],
                 "1.20.0": [],
-                "1.19.5": [],
+                "1.19.5": [
+                    "CVE-2025-3573"
+                ],
                 "1.19.4": [
+                    "CVE-2025-3573",
                     "CVE-2022-31147"
                 ],
                 "1.19.3": [
+                    "CVE-2025-3573",
                     "CVE-2022-31147",
                     "CVE-2021-43306"
                 ],
                 "1.19.2": [
+                    "CVE-2025-3573",
                     "CVE-2022-31147",
                     "CVE-2021-43306",
                     "CVE-2021-21252"
                 ],
                 "1.19.1": [
+                    "CVE-2025-3573",
                     "CVE-2022-31147",
                     "CVE-2021-43306",
                     "CVE-2021-21252"
                 ],
                 "1.19.0": [
+                    "CVE-2025-3573",
                     "CVE-2022-31147",
                     "CVE-2021-43306",
                     "CVE-2021-21252"
                 ],
                 "1.18.0": [
+                    "CVE-2025-3573",
                     "CVE-2022-31147",
                     "CVE-2021-43306",
                     "CVE-2021-21252"
                 ],
                 "1.17.0": [
+                    "CVE-2025-3573",
                     "CVE-2022-31147",
                     "CVE-2021-43306",
                     "CVE-2021-21252"
                 ],
                 "1.16.0": [
+                    "CVE-2025-3573",
                     "CVE-2022-31147",
                     "CVE-2021-43306",
                     "CVE-2021-21252"
                 ],
                 "1.15.1": [
+                    "CVE-2025-3573",
                     "CVE-2022-31147",
                     "CVE-2021-43306",
                     "CVE-2021-21252"
                 ],
                 "1.15.0": [
+                    "CVE-2025-3573",
                     "CVE-2022-31147",
                     "CVE-2021-43306",
                     "CVE-2021-21252"
                 ],
                 "1.14.0": [
+                    "CVE-2025-3573",
                     "CVE-2022-31147",
                     "CVE-2021-43306",
                     "CVE-2021-21252"
                 ],
                 "1.13.1": [
+                    "CVE-2025-3573",
                     "CVE-2022-31147",
                     "CVE-2021-43306",
                     "CVE-2021-21252"
                 ],
                 "1.13.0": [
+                    "CVE-2025-3573",
                     "CVE-2022-31147",
                     "CVE-2021-43306",
                     "CVE-2021-21252"
                 ],
                 "1.12.0": [
+                    "CVE-2025-3573",
                     "CVE-2022-31147",
                     "CVE-2021-43306",
                     "CVE-2021-21252"
                 ],
                 "1.11.1": [
+                    "CVE-2025-3573",
                     "CVE-2022-31147",
                     "CVE-2021-43306",
                     "CVE-2021-21252"
                 ],
                 "1.11.0": [
+                    "CVE-2025-3573",
                     "CVE-2022-31147",
                     "CVE-2021-43306",
                     "CVE-2021-21252"
                 ],
                 "1.10.0": [
+                    "CVE-2025-3573",
                     "CVE-2022-31147",
                     "CVE-2021-43306",
                     "CVE-2021-21252"
                 ],
                 "1.9.0": [
+                    "CVE-2025-3573",
                     "CVE-2022-31147",
                     "CVE-2021-43306",
                     "CVE-2021-21252"
                 ],
                 "1.8.1": [
+                    "CVE-2025-3573",
                     "CVE-2022-31147",
                     "CVE-2021-43306",
                     "CVE-2021-21252"
                 ],
                 "1.8.0": [
+                    "CVE-2025-3573",
                     "CVE-2022-31147",
                     "CVE-2021-43306",
                     "CVE-2021-21252"
                 ],
                 "1.7.0": [
+                    "CVE-2025-3573",
                     "CVE-2022-31147",
                     "CVE-2021-43306",
                     "CVE-2021-21252"
                 ],
                 "1.6.0": [
+                    "CVE-2025-3573",
                     "CVE-2022-31147",
                     "CVE-2021-43306",
                     "CVE-2021-21252"
@@ -28309,6 +28408,9 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "3.5.3": [],
+                "3.5.2": [],
+                "3.5.1": [],
                 "3.5.0": [],
                 "3.4.11": [],
                 "3.4.10": [],
@@ -29166,6 +29268,7 @@
             ],
             "archived": false,
             "versions": {
+                "9.0.4": [],
                 "9.0.3": [],
                 "9.0.2": [],
                 "9.0.1": [],
@@ -29264,8 +29367,7 @@
                 "8.12.22": [],
                 "8.12.21": [],
                 "8.12.20": [],
-                "8.12.19": [],
-                "8.12.18": []
+                "8.12.19": []
             }
         },
         "libphonenumber-js": {
@@ -29918,6 +30020,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "7.8": [],
                 "7.7.3": [],
                 "7.7.2": [],
                 "7.7.1": [],
@@ -30047,6 +30150,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "7.0.1": [],
                 "7.0.0.1": [],
                 "6.5.4": [],
                 "5.7.0.1": [],
@@ -30314,6 +30418,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "3.6.4": [],
                 "3.6.3": [],
                 "3.6.2": [],
                 "3.6.1": [],
@@ -30628,6 +30733,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "5.3": [],
                 "5.2": [],
                 "5.1": [],
                 "5.0": [],
@@ -30727,6 +30833,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "4.10.2": [],
                 "4.10.1": [],
                 "4.10.0": [],
                 "4.9.21": [],
@@ -30921,6 +31028,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "3.1.97": [],
                 "3.1.96": [],
                 "3.1.95": [],
                 "3.1.94": [],
@@ -31083,6 +31191,7 @@
             ],
             "archived": false,
             "versions": {
+                "3.11.1": [],
                 "3.11.0": [],
                 "3.10.0": [],
                 "3.9.4": [],
@@ -31214,11 +31323,14 @@
             "license": null,
             "last_pushed_year": "2025",
             "tech": [
-                "markdown",
-                "typescript"
+                "js",
+                "markdown"
             ],
             "archived": false,
             "versions": {
+                "15.0.11": [],
+                "15.0.10": [],
+                "15.0.9": [],
                 "15.0.8": [],
                 "15.0.7": [],
                 "15.0.6": [],
@@ -31355,18 +31467,6 @@
                     "CVE-2022-21680"
                 ],
                 "3.0.5": [
-                    "CVE-2022-21681",
-                    "CVE-2022-21680"
-                ],
-                "3.0.4": [
-                    "CVE-2022-21681",
-                    "CVE-2022-21680"
-                ],
-                "3.0.3": [
-                    "CVE-2022-21681",
-                    "CVE-2022-21680"
-                ],
-                "3.0.2": [
                     "CVE-2022-21681",
                     "CVE-2022-21680"
                 ]
@@ -31545,8 +31645,7 @@
                 "4.13.0": [],
                 "4.12.3": [],
                 "4.12.2": [],
-                "4.12.1": [],
-                "4.12.0": []
+                "4.12.1": []
             }
         },
         "matter-wrap": {
@@ -31578,6 +31677,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "1.4.1": [],
                 "1.4.0": [],
                 "1.3.9": [],
                 "1.3.8": [],
@@ -31629,6 +31729,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "0.13.17": [],
                 "0.13.16": [],
                 "0.13.15": [],
                 "0.13.14": [],
@@ -32480,6 +32581,7 @@
             ],
             "archived": false,
             "versions": {
+                "2.7.5": [],
                 "2.7.4": [],
                 "2.7.3": [],
                 "2.7.2": [],
@@ -32578,8 +32680,7 @@
                 "0.49.0": [],
                 "0.48.3": [],
                 "0.48.2": [],
-                "0.48.1": [],
-                "0.48.0": []
+                "0.48.1": []
             }
         },
         "nanopop": {
@@ -32611,6 +32712,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "8.7.7": [],
                 "8.7.6": [],
                 "8.7.5": [],
                 "8.7.4": [],
@@ -32891,6 +32993,7 @@
             ],
             "archived": false,
             "versions": {
+                "15.3.1": [],
                 "15.3.0": [],
                 "15.2.5": [],
                 "15.2.4": [],
@@ -32950,6 +33053,8 @@
             ],
             "archived": false,
             "versions": {
+                "1.28.0": [],
+                "1.27.5": [],
                 "1.27.4": [],
                 "1.27.3": [],
                 "1.27.2": [
@@ -33800,34 +33905,6 @@
                     "CVE-2018-16844",
                     "CVE-2018-16845",
                     "CVE-2017-7529"
-                ],
-                "1.11.5": [
-                    "CVE-2025-23419",
-                    "CVE-2024-7347",
-                    "CVE-2022-41741",
-                    "CVE-2022-41742",
-                    "CVE-2021-23017",
-                    "CVE-2019-9511",
-                    "CVE-2019-9513",
-                    "CVE-2019-9516",
-                    "CVE-2018-16843",
-                    "CVE-2018-16844",
-                    "CVE-2018-16845",
-                    "CVE-2017-7529"
-                ],
-                "1.11.4": [
-                    "CVE-2025-23419",
-                    "CVE-2024-7347",
-                    "CVE-2022-41741",
-                    "CVE-2022-41742",
-                    "CVE-2021-23017",
-                    "CVE-2019-9511",
-                    "CVE-2019-9513",
-                    "CVE-2019-9516",
-                    "CVE-2018-16843",
-                    "CVE-2018-16844",
-                    "CVE-2018-16845",
-                    "CVE-2017-7529"
                 ]
             }
         },
@@ -33835,6 +33912,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "3.10.0": [],
                 "3.9.2": [],
                 "3.9.1": [],
                 "3.9.0": [],
@@ -33900,6 +33978,7 @@
                 "23.2.0": [],
                 "23.1.0": [],
                 "23.0.0": [],
+                "22.15.0": [],
                 "22.14.0": [],
                 "22.13.1": [],
                 "22.13.0": [],
@@ -33931,6 +34010,7 @@
                 "21.2.0": [],
                 "21.1.0": [],
                 "21.0.0": [],
+                "20.19.1": [],
                 "20.19.0": [],
                 "20.18.3": [],
                 "20.18.2": [],
@@ -33984,9 +34064,7 @@
                 "18.20.3": [],
                 "18.20.2": [],
                 "18.20.1": [],
-                "18.20.0": [],
-                "18.19.1": [],
-                "18.19.0": []
+                "18.20.0": []
             }
         },
         "nuxt-graphql-request": {
@@ -34128,6 +34206,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "2.4.6": [],
                 "2.4.5": [],
                 "2.4.4": [],
                 "2.4.3": [],
@@ -36509,6 +36588,7 @@
             ],
             "archived": false,
             "versions": {
+                "0.17.0": [],
                 "0.16.0": [],
                 "0.15.2": [],
                 "0.15.1": [],
@@ -37135,94 +37215,94 @@
                 "8.1.1": [],
                 "8.1.0": [],
                 "8.0.30": [
-                    "END_OF_LIFE (1 year, 4 months ago)"
+                    "END_OF_LIFE (1 year, 5 months ago)"
                 ],
                 "8.0.29": [
-                    "END_OF_LIFE (1 year, 4 months ago)"
+                    "END_OF_LIFE (1 year, 5 months ago)"
                 ],
                 "8.0.28": [
-                    "END_OF_LIFE (1 year, 4 months ago)"
+                    "END_OF_LIFE (1 year, 5 months ago)"
                 ],
                 "8.0.27": [
-                    "END_OF_LIFE (1 year, 4 months ago)"
+                    "END_OF_LIFE (1 year, 5 months ago)"
                 ],
                 "8.0.26": [
-                    "END_OF_LIFE (1 year, 4 months ago)"
+                    "END_OF_LIFE (1 year, 5 months ago)"
                 ],
                 "8.0.25": [
-                    "END_OF_LIFE (1 year, 4 months ago)"
+                    "END_OF_LIFE (1 year, 5 months ago)"
                 ],
                 "8.0.24": [
-                    "END_OF_LIFE (1 year, 4 months ago)"
+                    "END_OF_LIFE (1 year, 5 months ago)"
                 ],
                 "8.0.23": [
-                    "END_OF_LIFE (1 year, 4 months ago)"
+                    "END_OF_LIFE (1 year, 5 months ago)"
                 ],
                 "8.0.22": [
-                    "END_OF_LIFE (1 year, 4 months ago)"
+                    "END_OF_LIFE (1 year, 5 months ago)"
                 ],
                 "8.0.21": [
-                    "END_OF_LIFE (1 year, 4 months ago)"
+                    "END_OF_LIFE (1 year, 5 months ago)"
                 ],
                 "8.0.20": [
-                    "END_OF_LIFE (1 year, 4 months ago)"
+                    "END_OF_LIFE (1 year, 5 months ago)"
                 ],
                 "8.0.19": [
-                    "END_OF_LIFE (1 year, 4 months ago)"
+                    "END_OF_LIFE (1 year, 5 months ago)"
                 ],
                 "8.0.18": [
-                    "END_OF_LIFE (1 year, 4 months ago)"
+                    "END_OF_LIFE (1 year, 5 months ago)"
                 ],
                 "8.0.17": [
-                    "END_OF_LIFE (1 year, 4 months ago)"
+                    "END_OF_LIFE (1 year, 5 months ago)"
                 ],
                 "8.0.16": [
-                    "END_OF_LIFE (1 year, 4 months ago)"
+                    "END_OF_LIFE (1 year, 5 months ago)"
                 ],
                 "8.0.15": [
-                    "END_OF_LIFE (1 year, 4 months ago)"
+                    "END_OF_LIFE (1 year, 5 months ago)"
                 ],
                 "8.0.14": [
-                    "END_OF_LIFE (1 year, 4 months ago)"
+                    "END_OF_LIFE (1 year, 5 months ago)"
                 ],
                 "8.0.13": [
-                    "END_OF_LIFE (1 year, 4 months ago)"
+                    "END_OF_LIFE (1 year, 5 months ago)"
                 ],
                 "8.0.12": [
-                    "END_OF_LIFE (1 year, 4 months ago)"
+                    "END_OF_LIFE (1 year, 5 months ago)"
                 ],
                 "8.0.11": [
-                    "END_OF_LIFE (1 year, 4 months ago)"
+                    "END_OF_LIFE (1 year, 5 months ago)"
                 ],
                 "8.0.10": [
-                    "END_OF_LIFE (1 year, 4 months ago)"
+                    "END_OF_LIFE (1 year, 5 months ago)"
                 ],
                 "8.0.9": [
-                    "END_OF_LIFE (1 year, 4 months ago)"
+                    "END_OF_LIFE (1 year, 5 months ago)"
                 ],
                 "8.0.8": [
-                    "END_OF_LIFE (1 year, 4 months ago)"
+                    "END_OF_LIFE (1 year, 5 months ago)"
                 ],
                 "8.0.7": [
-                    "END_OF_LIFE (1 year, 4 months ago)"
+                    "END_OF_LIFE (1 year, 5 months ago)"
                 ],
                 "8.0.6": [
-                    "END_OF_LIFE (1 year, 4 months ago)"
+                    "END_OF_LIFE (1 year, 5 months ago)"
                 ],
                 "8.0.5": [
-                    "END_OF_LIFE (1 year, 4 months ago)"
+                    "END_OF_LIFE (1 year, 5 months ago)"
                 ],
                 "8.0.3": [
-                    "END_OF_LIFE (1 year, 4 months ago)"
+                    "END_OF_LIFE (1 year, 5 months ago)"
                 ],
                 "8.0.2": [
-                    "END_OF_LIFE (1 year, 4 months ago)"
+                    "END_OF_LIFE (1 year, 5 months ago)"
                 ],
                 "8.0.1": [
-                    "END_OF_LIFE (1 year, 4 months ago)"
+                    "END_OF_LIFE (1 year, 5 months ago)"
                 ],
                 "8.0.0": [
-                    "END_OF_LIFE (1 year, 4 months ago)"
+                    "END_OF_LIFE (1 year, 5 months ago)"
                 ],
                 "7.4.33": [
                     "END_OF_LIFE (2 years, 4 months ago)"
@@ -37855,121 +37935,121 @@
                     "END_OF_LIFE (6 years, 3 months ago)"
                 ],
                 "5.5.38": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.37": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.36": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.35": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.34": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.33": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.32": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.31": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.30": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.29": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.28": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.27": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.26": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.25": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.24": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.23": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.22": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.21": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.20": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.19": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.18": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.17": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.16": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.15": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.14": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.13": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.12": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.11": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.10": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.9": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.8": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.7": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.6": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.5": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.4": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.3": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.2": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.1": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.5.0": [
-                    "END_OF_LIFE (8 years, 8 months ago)"
+                    "END_OF_LIFE (8 years, 9 months ago)"
                 ],
                 "5.4.45": [
                     "END_OF_LIFE (9 years, 7 months ago)"
@@ -38251,25 +38331,25 @@
                     "END_OF_LIFE (14 years, 3 months ago)"
                 ],
                 "5.1.6": [
-                    "END_OF_LIFE (18 years, 7 months ago)"
+                    "END_OF_LIFE (18 years, 8 months ago)"
                 ],
                 "5.1.5": [
-                    "END_OF_LIFE (18 years, 7 months ago)"
+                    "END_OF_LIFE (18 years, 8 months ago)"
                 ],
                 "5.1.4": [
-                    "END_OF_LIFE (18 years, 7 months ago)"
+                    "END_OF_LIFE (18 years, 8 months ago)"
                 ],
                 "5.1.3": [
-                    "END_OF_LIFE (18 years, 7 months ago)"
+                    "END_OF_LIFE (18 years, 8 months ago)"
                 ],
                 "5.1.2": [
-                    "END_OF_LIFE (18 years, 7 months ago)"
+                    "END_OF_LIFE (18 years, 8 months ago)"
                 ],
                 "5.1.1": [
-                    "END_OF_LIFE (18 years, 7 months ago)"
+                    "END_OF_LIFE (18 years, 8 months ago)"
                 ],
                 "5.1.0": [
-                    "END_OF_LIFE (18 years, 7 months ago)"
+                    "END_OF_LIFE (18 years, 8 months ago)"
                 ],
                 "5.0.5": [
                     "END_OF_LIFE (19 years, 7 months ago)"
@@ -38377,25 +38457,25 @@
                     "END_OF_LIFE (23 years, 1 month ago)"
                 ],
                 "4.0.6": [
-                    "END_OF_LIFE (23 years, 9 months ago)"
+                    "END_OF_LIFE (23 years, 10 months ago)"
                 ],
                 "4.0.5": [
-                    "END_OF_LIFE (23 years, 9 months ago)"
+                    "END_OF_LIFE (23 years, 10 months ago)"
                 ],
                 "4.0.4": [
-                    "END_OF_LIFE (23 years, 9 months ago)"
+                    "END_OF_LIFE (23 years, 10 months ago)"
                 ],
                 "4.0.3": [
-                    "END_OF_LIFE (23 years, 9 months ago)"
+                    "END_OF_LIFE (23 years, 10 months ago)"
                 ],
                 "4.0.2": [
-                    "END_OF_LIFE (23 years, 9 months ago)"
+                    "END_OF_LIFE (23 years, 10 months ago)"
                 ],
                 "4.0.1": [
-                    "END_OF_LIFE (23 years, 9 months ago)"
+                    "END_OF_LIFE (23 years, 10 months ago)"
                 ],
                 "4.0.0": [
-                    "END_OF_LIFE (23 years, 9 months ago)"
+                    "END_OF_LIFE (23 years, 10 months ago)"
                 ]
             }
         },
@@ -38550,6 +38630,8 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "10.2.0.1": [],
+                "10.2.0": [],
                 "10.1.3": [],
                 "10.1.2.1": [],
                 "10.1.1.2": [],
@@ -38894,10 +38976,179 @@
                 "1.0.0": []
             }
         },
+        "plugin-accessibility-statement": {
+            "github-owner": "Webperf-se",
+            "github-repo": "plugin-accessibility-statement",
+            "license": "mit",
+            "last_pushed_year": "2025",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "2025.4.9": [],
+                "2025.4.8": [],
+                "2025.4.7": [],
+                "2025.4.6": [],
+                "2025.4.5": [],
+                "2025.4.4": [],
+                "2025.4.3": [],
+                "2025.4.2": [],
+                "2025.4.1": [],
+                "2025.4.0": []
+            }
+        },
+        "plugin-css": {
+            "github-owner": "Webperf-se",
+            "github-repo": "plugin-css",
+            "license": "mit",
+            "last_pushed_year": "2025",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "2025.4.10": [],
+                "2025.4.9": [],
+                "2025.4.8": [],
+                "2025.4.7": [],
+                "2025.4.6": [],
+                "2025.4.5": [],
+                "2025.4.4": [],
+                "2025.4.3": [],
+                "2025.4.2": [],
+                "2025.4.1": [],
+                "2025.4.0": [],
+                "2025.3.3": [],
+                "2025.3.2": [],
+                "2025.3.1": [],
+                "2025.3.0": []
+            }
+        },
+        "plugin-html": {
+            "github-owner": "Webperf-se",
+            "github-repo": "plugin-html",
+            "license": "mit",
+            "last_pushed_year": "2025",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "2025.4.6": [],
+                "2025.4.5": [],
+                "2025.4.4": [],
+                "2025.4.3": [],
+                "2025.4.2": [],
+                "2025.4.1": [],
+                "2025.4.0": []
+            }
+        },
+        "plugin-javascript": {
+            "github-owner": "Webperf-se",
+            "github-repo": "plugin-javascript",
+            "license": "mit",
+            "last_pushed_year": "2025",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "2025.4.8": [],
+                "2025.4.7": [],
+                "2025.4.6": [],
+                "2025.4.5": [],
+                "2025.4.4": [],
+                "2025.4.3": [],
+                "2025.4.2": [],
+                "2025.4.1": [],
+                "2025.4.0": [],
+                "2025.3.2": [],
+                "2025.3.1": [],
+                "2025.3.0": []
+            }
+        },
+        "plugin-pagenotfound": {
+            "github-owner": "Webperf-se",
+            "github-repo": "plugin-pagenotfound",
+            "license": "mit",
+            "last_pushed_year": "2025",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "2025.4.7": [],
+                "2025.4.6": [],
+                "2025.4.5": [],
+                "2025.4.4": [],
+                "2025.4.3": [],
+                "2025.4.2": [],
+                "2025.4.1": [],
+                "2025.4.0": [],
+                "2025.3.7": [],
+                "2025.3.6": [],
+                "2025.3.5": [],
+                "2025.3.4": [],
+                "2025.3.3": [],
+                "2025.3.2": [],
+                "2025.3.1": [],
+                "2025.3.0": []
+            }
+        },
+        "plugin-webperf-core": {
+            "github-owner": "Webperf-se",
+            "github-repo": "plugin-webperf-core",
+            "license": "mit",
+            "last_pushed_year": "2025",
+            "tech": [
+                "js"
+            ],
+            "archived": false,
+            "versions": {
+                "2025.4.11": [],
+                "2025.4.10": [],
+                "2025.4.9": [],
+                "2025.4.8": [],
+                "2025.4.7": [],
+                "2025.4.6": [],
+                "2025.4.5": [],
+                "2025.4.4": [],
+                "2025.4.3": [],
+                "2025.4.2": [],
+                "2025.4.1": [],
+                "2025.4.0": [],
+                "2025.3.8": [],
+                "2025.3.7": [],
+                "2025.3.6": [],
+                "2025.3.5": [],
+                "2025.3.4": [],
+                "2025.3.3": [],
+                "2025.3.2": [],
+                "2025.3.1": [],
+                "2025.3.0": [],
+                "2025.2.1": [],
+                "2025.2.0": [],
+                "2025.1.4": [],
+                "2025.1.3": [],
+                "2025.1.2": [],
+                "2025.1.1": [],
+                "2025.1.0": [],
+                "2024.6.7": [],
+                "2024.6.6": [],
+                "2024.6.5": [],
+                "2024.6.4": [],
+                "2024.6.3": [],
+                "2024.6.2": [],
+                "2024.6.1": [],
+                "2024.6.0": []
+            }
+        },
         "pojo-accessibility": {
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "3.1.0": [],
                 "3.0.3": [],
                 "3.0.2": [],
                 "3.0.1": [],
@@ -39519,6 +39770,8 @@
             ],
             "archived": false,
             "versions": {
+                "9.41.0": [],
+                "9.40.0": [],
                 "9.39.0": [],
                 "9.38.0": [],
                 "9.37.0": [],
@@ -39616,9 +39869,7 @@
                 "8.1.0": [],
                 "8.0.0": [],
                 "7.54.5": [],
-                "7.54.4": [],
-                "7.54.3": [],
-                "7.54.2": []
+                "7.54.4": []
             }
         },
         "prebid.js": {
@@ -39631,6 +39882,8 @@
             ],
             "archived": false,
             "versions": {
+                "9.41.0": [],
+                "9.40.0": [],
                 "9.39.0": [],
                 "9.38.0": [],
                 "9.37.0": [],
@@ -39728,15 +39981,16 @@
                 "8.1.0": [],
                 "8.0.0": [],
                 "7.54.5": [],
-                "7.54.4": [],
-                "7.54.3": [],
-                "7.54.2": []
+                "7.54.4": []
             }
         },
         "premium-addons-for-elementor": {
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "4.11.4": [],
+                "4.11.3": [],
+                "4.11.2": [],
                 "4.11.1": [],
                 "4.11.0": [],
                 "4.10.90": [],
@@ -40218,6 +40472,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "2.2.2": [],
                 "2.2.1": [],
                 "2.2.0": [],
                 "2.1.55": [],
@@ -40409,6 +40664,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "3.0.8": [],
                 "3.0.7": [],
                 "3.0.6": [],
                 "3.0.5": [],
@@ -41099,6 +41355,7 @@
             ],
             "archived": false,
             "versions": {
+                "9.6.7": [],
                 "9.6.6": [],
                 "9.6.5": [],
                 "9.6.4": [],
@@ -42539,6 +42796,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "4.5.0": [],
                 "4.4.2": [],
                 "4.4.1": [],
                 "4.4.0": [],
@@ -42638,6 +42896,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "1.7.14": [],
                 "1.7.13": [],
                 "1.7.12": [],
                 "1.7.11": [],
@@ -42830,6 +43089,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "1.7.1016": [],
                 "1.7.1015": [],
                 "1.7.1014": [],
                 "1.7.1013": [],
@@ -42981,6 +43241,7 @@
             ],
             "archived": false,
             "versions": {
+                "2.16.0": [],
                 "2.15.0": [],
                 "2.14.0": [],
                 "2.13.1": [],
@@ -43544,7 +43805,8 @@
                 "1.0.1": [],
                 "1.0": []
             },
-            "archived": false
+            "archived": false,
+            "notice": "Warning! This plugin hasn't been tested with the latest 3 major releases of WordPress. It may no longer be maintained or supported and may have compatibility issues when used with more recent versions of WordPress."
         },
         "searchwp-modal-search-form": {
             "type": "wordpress-plugin",
@@ -43569,7 +43831,8 @@
                 "0.1.1": [],
                 "0.1": []
             },
-            "archived": false
+            "archived": false,
+            "notice": "Warning! This plugin hasn't been tested with the latest 3 major releases of WordPress. It may no longer be maintained or supported and may have compatibility issues when used with more recent versions of WordPress."
         },
         "secure-filters": {
             "github-owner": "salesforce",
@@ -43927,6 +44190,8 @@
             ],
             "archived": false,
             "versions": {
+                "9.14.0": [],
+                "9.13.0": [],
                 "9.12.0": [],
                 "9.11.0": [],
                 "9.10.1": [],
@@ -43979,8 +44244,6 @@
                 "8.26.0": [],
                 "8.25.0": [],
                 "8.24.0": [],
-                "8.23.0": [],
-                "8.22.0": [],
                 "3.27.2": [],
                 "3.27.1": [],
                 "2.0.2": [],
@@ -44606,7 +44869,8 @@
                 "1.01": [],
                 "1.0": []
             },
-            "archived": false
+            "archived": false,
+            "notice": "Warning! This plugin hasn't been tested with the latest 3 major releases of WordPress. It may no longer be maintained or supported and may have compatibility issues when used with more recent versions of WordPress."
         },
         "simple-social-icons": {
             "type": "wordpress-plugin",
@@ -44767,6 +45031,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "2.31.5": [],
                 "2.31.4": [],
                 "2.31.3": [],
                 "2.31.2": [],
@@ -44981,6 +45246,7 @@
             ],
             "archived": false,
             "versions": {
+                "37.4.2": [],
                 "37.4.1": [],
                 "37.4.0": [],
                 "37.3.2": [],
@@ -45077,8 +45343,7 @@
                 "32.1.0": [],
                 "32.0.0": [],
                 "31.2.1": [],
-                "31.2.0": [],
-                "31.1.1": []
+                "31.2.0": []
             }
         },
         "sizzle": {
@@ -45445,7 +45710,8 @@
                 "1.2.1": [],
                 "1.0": []
             },
-            "archived": false
+            "archived": false,
+            "notice": "Warning! This plugin hasn't been tested with the latest 3 major releases of WordPress. It may no longer be maintained or supported and may have compatibility issues when used with more recent versions of WordPress."
         },
         "social-media-icons-widget": {
             "type": "wordpress-plugin",
@@ -45715,6 +45981,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "1.7": [],
                 "1.6.3": [],
                 "1.6.2": [],
                 "1.6.1": [],
@@ -46030,6 +46297,8 @@
             ],
             "archived": false,
             "versions": {
+                "16.19.1": [],
+                "16.19.0": [],
                 "16.18.0": [],
                 "16.17.0": [],
                 "16.16.0": [],
@@ -46247,12 +46516,6 @@
                 "13.5.0": [
                     "stylelint vulnerability"
                 ],
-                "13.4.1": [
-                    "stylelint vulnerability"
-                ],
-                "13.4.0": [
-                    "stylelint vulnerability"
-                ],
                 "0.1.0": [
                     "stylelint vulnerability"
                 ]
@@ -46268,6 +46531,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "2.5.61": [],
                 "2.5.60": [],
                 "2.5.59": [],
                 "2.5.58": [],
@@ -46581,6 +46845,9 @@
             ],
             "archived": false,
             "versions": {
+                "11.19.1": [],
+                "11.19.0": [],
+                "11.18.0": [],
                 "11.17.2": [],
                 "11.17.1": [],
                 "11.17.0": [],
@@ -46677,10 +46944,7 @@
                 "11.6.1": [],
                 "11.6.0": [],
                 "11.5.2": [],
-                "11.5.1": [],
-                "11.5.0": [],
-                "11.4.38": [],
-                "11.4.37": []
+                "11.5.1": []
             }
         },
         "systemjs": {
@@ -46986,6 +47250,7 @@
             ],
             "archived": false,
             "versions": {
+                "4.1.4": [],
                 "4.1.3": [],
                 "4.1.2": [],
                 "4.1.1": [],
@@ -47058,8 +47323,7 @@
                 "3.0.20": [],
                 "3.0.19": [],
                 "3.0.18": [],
-                "3.0.17": [],
-                "3.0.16": []
+                "3.0.17": []
             }
         },
         "teachpress": {
@@ -48173,6 +48437,8 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "2.9.11": [],
+                "2.9.10": [],
                 "2.9.9": [],
                 "2.9.8": [],
                 "2.9.7": [],
@@ -48384,6 +48650,7 @@
             ],
             "archived": false,
             "versions": {
+                "11.1.1": [],
                 "11.1.0": [],
                 "11.0.4": [],
                 "11.0.3": [],
@@ -48738,6 +49005,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "2.19.6": [],
                 "2.19.5": [],
                 "2.19.4": [],
                 "2.19.3": [],
@@ -49535,6 +49803,13 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "2.6.4": [],
+                "2.6.3": [],
+                "2.6.2": [],
+                "2.6.1": [],
+                "2.6.0": [],
+                "2.5.9": [],
+                "2.5.8": [],
                 "2.5.7": [],
                 "2.5.6": [],
                 "2.5.5": [],
@@ -49856,6 +50131,9 @@
             ],
             "archived": false,
             "versions": {
+                "8.23.3": [],
+                "8.23.2": [],
+                "8.23.1": [],
                 "8.23.0": [],
                 "8.22.0": [],
                 "8.21.1": [],
@@ -49969,15 +50247,6 @@
                     "CVE-2021-23414"
                 ],
                 "7.12.4": [
-                    "CVE-2021-23414"
-                ],
-                "7.12.3": [
-                    "CVE-2021-23414"
-                ],
-                "7.12.2": [
-                    "CVE-2021-23414"
-                ],
-                "7.12.1": [
                     "CVE-2021-23414"
                 ]
             }
@@ -50176,6 +50445,10 @@
             ],
             "archived": false,
             "versions": {
+                "6.3.3": [],
+                "6.3.2": [],
+                "6.3.1": [],
+                "6.3.0": [],
                 "6.2.6": [],
                 "6.2.5": [
                     "CVE-2025-32395"
@@ -50503,42 +50776,6 @@
                     "CVE-2024-45811"
                 ],
                 "5.3.5": [
-                    "CVE-2025-32395",
-                    "CVE-2025-31486",
-                    "CVE-2025-31125",
-                    "CVE-2025-30208",
-                    "CVE-2025-24010",
-                    "CVE-2024-45812",
-                    "CVE-2024-45811"
-                ],
-                "5.3.4": [
-                    "CVE-2025-32395",
-                    "CVE-2025-31486",
-                    "CVE-2025-31125",
-                    "CVE-2025-30208",
-                    "CVE-2025-24010",
-                    "CVE-2024-45812",
-                    "CVE-2024-45811"
-                ],
-                "5.3.3": [
-                    "CVE-2025-32395",
-                    "CVE-2025-31486",
-                    "CVE-2025-31125",
-                    "CVE-2025-30208",
-                    "CVE-2025-24010",
-                    "CVE-2024-45812",
-                    "CVE-2024-45811"
-                ],
-                "5.3.2": [
-                    "CVE-2025-32395",
-                    "CVE-2025-31486",
-                    "CVE-2025-31125",
-                    "CVE-2025-30208",
-                    "CVE-2025-24010",
-                    "CVE-2024-45812",
-                    "CVE-2024-45811"
-                ],
-                "5.3.1": [
                     "CVE-2025-32395",
                     "CVE-2025-31486",
                     "CVE-2025-31125",
@@ -50927,6 +51164,9 @@
             ],
             "archived": false,
             "versions": {
+                "7.7.5": [],
+                "7.7.4": [],
+                "7.7.3": [],
                 "7.7.2": [],
                 "7.7.1": [],
                 "7.7.0": [],
@@ -51214,6 +51454,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "2.8.7": [],
                 "2.8.6": [],
                 "2.8.5": [],
                 "2.8.4": [],
@@ -51450,6 +51691,7 @@
                 "[peterk](https://github.com/peterk)"
             ],
             "versions": {
+                "2025.4.1": [],
                 "2025.4.0": [],
                 "2025.3.12": [],
                 "2025.3.11": [],
@@ -52091,6 +52333,8 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "3.7.3": [],
+                "3.7.1": [],
                 "3.7.0": [],
                 "3.6.9": [],
                 "3.6.8": [],
@@ -52158,6 +52402,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "9.8.1": [],
                 "9.8.0": [],
                 "9.7.1": [],
                 "9.7.0": [],
@@ -52504,6 +52749,8 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "9.4.0": [],
+                "9.3.2": [],
                 "9.3.1": [],
                 "9.3.0": [],
                 "9.2.0": [],
@@ -52720,6 +52967,7 @@
             ],
             "archived": false,
             "versions": {
+                "6.8": [],
                 "6.7.2": [],
                 "6.7.1": [],
                 "6.7": [],
@@ -52818,8 +53066,7 @@
                 "5.6.3": [],
                 "5.6.2": [],
                 "5.6.1": [],
-                "5.6": [],
-                "5.5.15": []
+                "5.6": []
             }
         },
         "wordpress-social-login": {
@@ -52900,6 +53147,11 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "6.30.30": [],
+                "6.30.29": [],
+                "6.30.28": [],
+                "6.30.27": [],
+                "6.30.26": [],
                 "6.30.25": [],
                 "6.30.23": [],
                 "6.30.22": [],
@@ -53423,6 +53675,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "3.5.0": [],
                 "3.4.7": [],
                 "3.4.6": [],
                 "3.4.5": [],
@@ -53494,7 +53747,8 @@
                 "1.3.3": [],
                 "1.3.2": []
             },
-            "archived": false
+            "archived": false,
+            "notice": "Warning! This plugin hasn't been tested with the latest 3 major releases of WordPress. It may no longer be maintained or supported and may have compatibility issues when used with more recent versions of WordPress."
         },
         "wp-pagenavi": {
             "type": "wordpress-plugin",
@@ -53546,9 +53800,11 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "9.0.07.001": [],
                 "9.0.06.003": [],
                 "9.0.06.002": [],
                 "9.0.06.001": [],
+                "9.0.05.005": [],
                 "9.0.05.004": [],
                 "9.0.05.003": [],
                 "9.0.05.002": [],
@@ -53862,6 +54118,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "3.18.0": [],
                 "3.17.1": [],
                 "3.17.0": [],
                 "3.16.6": [],
@@ -54040,6 +54297,8 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "14.13.2": [],
+                "14.13.1": [],
                 "14.13": [],
                 "14.12.6": [],
                 "14.12.5": [],
@@ -54313,6 +54572,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "2.2.250": [],
                 "2.2.241": [],
                 "2.2.240": [],
                 "2.2.237": [],
@@ -54493,6 +54753,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "4.15.22": [],
                 "4.15.21": [],
                 "4.15.20.1": [],
                 "4.15.20": [],
@@ -54690,6 +54951,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "3.1.10": [],
                 "3.1.9": [],
                 "3.1.8": [],
                 "3.1.7": [],
@@ -54755,6 +55017,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "1.9.4.2": [],
                 "1.9.4.1": [],
                 "1.9.3.2": [],
                 "1.9.3.1": [],
@@ -55068,6 +55331,8 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "36.1": [],
+                "36.0": [],
                 "35.0": [],
                 "34.2": [],
                 "34.1": [],
@@ -55879,6 +56144,7 @@
             "type": "wordpress-plugin",
             "last_pushed_year": "2024",
             "versions": {
+                "14.2.1.3": [],
                 "14.2.1.2": [],
                 "14.2.1": [],
                 "14.2": [],

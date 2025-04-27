@@ -124,9 +124,3 @@ msgstr "Javascript, disallow with statements ({0})"
 
 msgid "no-with (resolved)"
 msgstr "Javascript, disallow with statements (resolved)"
-
-msgid "no-return-await (unresolved)"
-msgstr "Javascript, disallow unnecessary return await ({0})"
-
-msgid "no-return-await (resolved)"
-msgstr "Javascript, disallow unnecessary return await (resolved)"

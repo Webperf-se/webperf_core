@@ -47,7 +47,8 @@ def read_sites_from_directory(directory, hostname_or_argument, input_skip, input
     base_directory = Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent
 
-    host_path = os.path.join(base_directory, directory, hostname) + os.path.sep
+    # host_path = os.path.join(base_directory, directory, hostname) + os.path.sep
+    host_path = directory
 
     if not os.path.exists(host_path):
         return sites

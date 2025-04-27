@@ -16,6 +16,7 @@ from helpers.browser_helper import get_chromium_browser
 from helpers.setting_helper import get_config
 from tests.sitespeed_base import get_result
 from tests.utils import get_http_content, get_translation, is_file_older_than
+from engines.sitespeed_result import read_sites_from_directory
 
 # Debug flags for every category here,
 # this so we can print out raw values (so we can add more allowed once)
@@ -59,6 +60,7 @@ def get_rating_from_sitespeed(url, local_translation, global_translation):
         '--plugins.remove screenshot '
         '--plugins.remove html '
         '--plugins.remove metrics '
+        '--plugins.add plugin-webperf-core '
         '--browsertime.screenshot false '
         '--screenshot false '
         '--screenshotLCP false '
@@ -103,9 +105,14 @@ def get_rating_from_sitespeed(url, local_translation, global_translation):
     o = urlparse(url)
     origin_domain = o.hostname
 
+    browsertime_Hars = read_sites_from_directory(result_folder_name, origin_domain, -1, -1)
+    if len(browsertime_Hars) < 1:
+        rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
+        return (rating, {'failed': True })
+
     rating = Rating(global_translation, get_config('general.review.improve-only'))
     rules = get_rules()
-    data = identify_software(filename, origin_domain, rules)
+    data = identify_software(browsertime_Hars[0][0], origin_domain, rules)
     if data is None:
         rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
         return (rating, {'failed': True })

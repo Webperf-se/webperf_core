@@ -314,7 +314,7 @@ def test_site(global_translation, site, test_types):
             other_tests.append(test_id)
 
     if len(sitespeed_plugins) > 0:
-        sitespeed_plugins += f'--plugins.add plugin-webperf-core '
+        sitespeed_plugins += '--plugins.add plugin-webperf-core '
         tests.extend(test_with_sitespeed(global_translation,
             site,
             sitespeed_plugins))

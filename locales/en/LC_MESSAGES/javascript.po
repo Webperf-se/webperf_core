@@ -18,115 +18,115 @@ msgstr ""
 # {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
 
 msgid "rule-id (unresolved)"
-msgstr "Text to show instead of msgid, showed for severity levels (critical, error and warning)"
+msgstr "Javascript, text to show instead of msgid, showed for severity levels (critical, error and warning)"
 
 msgid "rule-id (resolved)"
-msgstr "Text to show instead of msgid, here unique on severity level resolved"
+msgstr "Javascript, text to show instead of msgid, here unique on severity level resolved"
 
 msgid "rule-id"
-msgstr "Text to show instead of msgid, here independent of severity level"
+msgstr "Javascript, text to show instead of msgid, here independent of severity level"
 
 # End of Examples
 
 
 msgid "eqeqeq (unresolved)"
-msgstr "Require the use of === and !== ({0})"
+msgstr "Javascript, require the use of === and !== ({0})"
 
 msgid "eqeqeq (resolved)"
-msgstr "Require the use of === and !== (resolved)"
+msgstr "Javascript, require the use of === and !== (resolved)"
 
 msgid "no-undef (unresolved)"
-msgstr "Disallow the use of undeclared variables unless mentioned in /*global */ comments ({0})"
+msgstr "Javascript, disallow the use of undeclared variables unless mentioned in /*global */ comments ({0})"
 
 msgid "no-undef (resolved)"
-msgstr "Disallow the use of undeclared variables unless mentioned in /*global */ comments (resolved)"
+msgstr "Javascript, disallow the use of undeclared variables unless mentioned in /*global */ comments (resolved)"
 
 msgid "no-unmodified-loop-condition (unresolved)"
-msgstr "Disallow unmodified loop conditions ({0})"
+msgstr "Javascript, disallow unmodified loop conditions ({0})"
 
 msgid "no-unmodified-loop-condition (resolved)"
-msgstr "Disallow unmodified loop conditions (resolved)"
+msgstr "Javascript, disallow unmodified loop conditions (resolved)"
 
 msgid "no-unused-vars (unresolved)"
-msgstr "Disallow unused variables ({0})"
+msgstr "Javascript, disallow unused variables ({0})"
 
 msgid "no-unused-vars (resolved)"
-msgstr "Disallow unused variables (resolved)"
+msgstr "Javascript, disallow unused variables (resolved)"
 
 msgid "no-useless-escape (unresolved)"
-msgstr "Disallow unnecessary escape characters ({0})"
+msgstr "Javascript, disallow unnecessary escape characters ({0})"
 
 msgid "no-useless-escape (resolved)"
-msgstr "Disallow unnecessary escape characters (resolved)"
+msgstr "Javascript, disallow unnecessary escape characters (resolved)"
 
 msgid "no-console (unresolved)"
-msgstr "Disallow the use of console ({0})"
+msgstr "Javascript, disallow the use of console ({0})"
 
 msgid "no-console (resolved)"
-msgstr "Disallow the use of console (resolved)"
+msgstr "Javascript, disallow the use of console (resolved)"
 
 msgid "no-prototype-builtins (unresolved)"
-msgstr "Disallow calling some Object.prototype methods directly on objects ({0})"
+msgstr "Javascript, disallow calling some Object.prototype methods directly on objects ({0})"
 
 msgid "no-prototype-builtins (resolved)"
-msgstr "Disallow calling some Object.prototype methods directly on objects (resolved)"
+msgstr "Javascript, disallow calling some Object.prototype methods directly on objects (resolved)"
 
 msgid "no-new-func (unresolved)"
-msgstr "Disallow new operators with the Function object ({0})"
+msgstr "Javascript, disallow new operators with the Function object ({0})"
 
 msgid "no-new-func (resolved)"
-msgstr "Disallow new operators with the Function object (resolved)"
+msgstr "Javascript, disallow new operators with the Function object (resolved)"
 
 msgid "require-await (unresolved)"
-msgstr "Disallow async functions which have no await expression ({0})"
+msgstr "Javascript, disallow async functions which have no await expression ({0})"
 
 msgid "require-await (resolved)"
-msgstr "Disallow async functions which have no await expression (resolved)"
+msgstr "Javascript, disallow async functions which have no await expression (resolved)"
 
 msgid "no-useless-concat (unresolved)"
-msgstr "Disallow unnecessary concatenation of literals or template literals ({0})"
+msgstr "Javascript, disallow unnecessary concatenation of literals or template literals ({0})"
 
 msgid "no-useless-concat (resolved)"
-msgstr "Disallow unnecessary concatenation of literals or template literals (resolved)"
+msgstr "Javascript, disallow unnecessary concatenation of literals or template literals (resolved)"
 
 msgid "no-script-url (unresolved)"
-msgstr "Disallow javascript: URLs ({0})"
+msgstr "Javascript, disallow javascript: URLs ({0})"
 
 msgid "no-script-url (resolved)"
-msgstr "Disallow javascript: URLs (resolved)"
+msgstr "Javascript, disallow javascript: URLs (resolved)"
 
 msgid "no-eval (unresolved)"
-msgstr "Disallow the use of eval() ({0})"
+msgstr "Javascript, disallow the use of eval() ({0})"
 
 msgid "no-eval (resolved)"
-msgstr "Disallow the use of eval() (resolved)"
+msgstr "Javascript, disallow the use of eval() (resolved)"
 
 msgid "no-implied-eval (unresolved)"
-msgstr "Disallow the use of eval()-like methods ({0})"
+msgstr "Javascript, disallow the use of eval()-like methods ({0})"
 
 msgid "no-implied-eval (resolved)"
-msgstr "Disallow the use of eval()-like methods (resolved)"
+msgstr "Javascript, disallow the use of eval()-like methods (resolved)"
 
 msgid "no-unsafe-finally (unresolved)"
-msgstr "Disallow control flow statements in finally blocks ({0})"
+msgstr "Javascript, disallow control flow statements in finally blocks ({0})"
 
 msgid "no-unsafe-finally (resolved)"
-msgstr "Disallow control flow statements in finally blocks (resolved)"
+msgstr "Javascript, disallow control flow statements in finally blocks (resolved)"
 
 msgid "no-unsafe-negation (unresolved)"
-msgstr "Disallow negating the left operand of relational operators ({0})"
+msgstr "Javascript, disallow negating the left operand of relational operators ({0})"
 
 msgid "no-unsafe-negation (resolved)"
-msgstr "Disallow negating the left operand of relational operators (resolved)"
+msgstr "Javascript, disallow negating the left operand of relational operators (resolved)"
 
 msgid "no-with (unresolved)"
-msgstr "Disallow with statements ({0})"
+msgstr "Javascript, disallow with statements ({0})"
 
 msgid "no-with (resolved)"
-msgstr "Disallow with statements (resolved)"
+msgstr "Javascript, disallow with statements (resolved)"
 
 msgid "no-return-await (unresolved)"
-msgstr "Disallow unnecessary return await ({0})"
+msgstr "Javascript, disallow unnecessary return await ({0})"
 
 msgid "no-return-await (resolved)"
-msgstr "Disallow unnecessary return await (resolved)"
+msgstr "Javascript, disallow unnecessary return await (resolved)"

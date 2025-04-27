@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2025-04-27 11:36\n"
-"PO-Revision-Date: 2025-04-27 11:36\n"
+"POT-Creation-Date: 2025-04-27 12:00\n"
+"PO-Revision-Date: 2025-04-27 12:00\n"
 "Last-Translator: Your-Name-Hear <your-email-here@webperf.se>\n"
 "Language-Team: English <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
@@ -29,23 +29,23 @@ msgstr "Text to show instead of msgid, here independent of severity level"
 # End of Examples
 
 
-msgid "server-response-time (unresolved)"
-msgstr "server-response-time ({0})"
+msgid "largest-contentful-paint-element (unresolved)"
+msgstr "largest-contentful-paint-element ({0})"
 
-msgid "server-response-time (resolved)"
-msgstr "server-response-time (resolved)"
+msgid "largest-contentful-paint-element (resolved)"
+msgstr "largest-contentful-paint-element (resolved)"
 
-msgid "speed-index (unresolved)"
-msgstr "speed-index ({0})"
+msgid "unused-css-rules (unresolved)"
+msgstr "unused-css-rules ({0})"
 
-msgid "speed-index (resolved)"
-msgstr "speed-index (resolved)"
+msgid "unused-css-rules (resolved)"
+msgstr "unused-css-rules (resolved)"
 
-msgid "unminified-javascript (unresolved)"
-msgstr "unminified-javascript ({0})"
+msgid "unused-javascript (unresolved)"
+msgstr "unused-javascript ({0})"
 
-msgid "unminified-javascript (resolved)"
-msgstr "unminified-javascript (resolved)"
+msgid "unused-javascript (resolved)"
+msgstr "unused-javascript (resolved)"
 
 msgid "legacy-javascript (unresolved)"
 msgstr "legacy-javascript ({0})"
@@ -53,23 +53,23 @@ msgstr "legacy-javascript ({0})"
 msgid "legacy-javascript (resolved)"
 msgstr "legacy-javascript (resolved)"
 
-msgid "uses-long-cache-ttl (unresolved)"
-msgstr "uses-long-cache-ttl ({0})"
+msgid "cumulative-layout-shift (unresolved)"
+msgstr "cumulative-layout-shift ({0})"
 
-msgid "uses-long-cache-ttl (resolved)"
-msgstr "uses-long-cache-ttl (resolved)"
+msgid "cumulative-layout-shift (resolved)"
+msgstr "cumulative-layout-shift (resolved)"
 
-msgid "dom-size (unresolved)"
-msgstr "dom-size ({0})"
+msgid "duplicated-javascript (unresolved)"
+msgstr "duplicated-javascript ({0})"
 
-msgid "dom-size (resolved)"
-msgstr "dom-size (resolved)"
+msgid "duplicated-javascript (resolved)"
+msgstr "duplicated-javascript (resolved)"
 
-msgid "first-contentful-paint (unresolved)"
-msgstr "first-contentful-paint ({0})"
+msgid "layout-shifts (unresolved)"
+msgstr "layout-shifts ({0})"
 
-msgid "first-contentful-paint (resolved)"
-msgstr "first-contentful-paint (resolved)"
+msgid "layout-shifts (resolved)"
+msgstr "layout-shifts (resolved)"
 
 msgid "largest-contentful-paint (unresolved)"
 msgstr "largest-contentful-paint ({0})"
@@ -77,17 +77,35 @@ msgstr "largest-contentful-paint ({0})"
 msgid "largest-contentful-paint (resolved)"
 msgstr "largest-contentful-paint (resolved)"
 
+msgid "uses-long-cache-ttl (unresolved)"
+msgstr "uses-long-cache-ttl ({0})"
+
+msgid "uses-long-cache-ttl (resolved)"
+msgstr "uses-long-cache-ttl (resolved)"
+
+msgid "first-contentful-paint (unresolved)"
+msgstr "first-contentful-paint ({0})"
+
+msgid "first-contentful-paint (resolved)"
+msgstr "first-contentful-paint (resolved)"
+
+msgid "render-blocking-resources (unresolved)"
+msgstr "render-blocking-resources ({0})"
+
+msgid "render-blocking-resources (resolved)"
+msgstr "render-blocking-resources (resolved)"
+
 msgid "total-blocking-time (unresolved)"
 msgstr "total-blocking-time ({0})"
 
 msgid "total-blocking-time (resolved)"
 msgstr "total-blocking-time (resolved)"
 
-msgid "cumulative-layout-shift (unresolved)"
-msgstr "cumulative-layout-shift ({0})"
+msgid "speed-index (unresolved)"
+msgstr "speed-index ({0})"
 
-msgid "cumulative-layout-shift (resolved)"
-msgstr "cumulative-layout-shift (resolved)"
+msgid "speed-index (resolved)"
+msgstr "speed-index (resolved)"
 
 msgid "interactive (unresolved)"
 msgstr "interactive ({0})"
@@ -100,12 +118,6 @@ msgstr "max-potential-fid ({0})"
 
 msgid "max-potential-fid (resolved)"
 msgstr "max-potential-fid (resolved)"
-
-msgid "render-blocking-resources (unresolved)"
-msgstr "render-blocking-resources ({0})"
-
-msgid "render-blocking-resources (resolved)"
-msgstr "render-blocking-resources (resolved)"
 
 msgid "uses-responsive-images (unresolved)"
 msgstr "uses-responsive-images ({0})"
@@ -125,17 +137,11 @@ msgstr "unminified-css ({0})"
 msgid "unminified-css (resolved)"
 msgstr "unminified-css (resolved)"
 
-msgid "unused-css-rules (unresolved)"
-msgstr "unused-css-rules ({0})"
+msgid "unminified-javascript (unresolved)"
+msgstr "unminified-javascript ({0})"
 
-msgid "unused-css-rules (resolved)"
-msgstr "unused-css-rules (resolved)"
-
-msgid "unused-javascript (unresolved)"
-msgstr "unused-javascript ({0})"
-
-msgid "unused-javascript (resolved)"
-msgstr "unused-javascript (resolved)"
+msgid "unminified-javascript (resolved)"
+msgstr "unminified-javascript (resolved)"
 
 msgid "uses-optimized-images (unresolved)"
 msgstr "uses-optimized-images ({0})"
@@ -161,6 +167,12 @@ msgstr "uses-rel-preconnect ({0})"
 msgid "uses-rel-preconnect (resolved)"
 msgstr "uses-rel-preconnect (resolved)"
 
+msgid "server-response-time (unresolved)"
+msgstr "server-response-time ({0})"
+
+msgid "server-response-time (resolved)"
+msgstr "server-response-time (resolved)"
+
 msgid "redirects (unresolved)"
 msgstr "redirects ({0})"
 
@@ -173,23 +185,17 @@ msgstr "efficient-animated-content ({0})"
 msgid "efficient-animated-content (resolved)"
 msgstr "efficient-animated-content (resolved)"
 
-msgid "duplicated-javascript (unresolved)"
-msgstr "duplicated-javascript ({0})"
-
-msgid "duplicated-javascript (resolved)"
-msgstr "duplicated-javascript (resolved)"
-
 msgid "total-byte-weight (unresolved)"
 msgstr "total-byte-weight ({0})"
 
 msgid "total-byte-weight (resolved)"
 msgstr "total-byte-weight (resolved)"
 
-msgid "critical-request-chains (unresolved)"
-msgstr "critical-request-chains ({0})"
+msgid "dom-size (unresolved)"
+msgstr "dom-size ({0})"
 
-msgid "critical-request-chains (resolved)"
-msgstr "critical-request-chains (resolved)"
+msgid "dom-size (resolved)"
+msgstr "dom-size (resolved)"
 
 msgid "bootup-time (unresolved)"
 msgstr "bootup-time ({0})"
@@ -209,18 +215,6 @@ msgstr "font-display ({0})"
 msgid "font-display (resolved)"
 msgstr "font-display (resolved)"
 
-msgid "third-party-summary (unresolved)"
-msgstr "third-party-summary ({0})"
-
-msgid "third-party-summary (resolved)"
-msgstr "third-party-summary (resolved)"
-
-msgid "largest-contentful-paint-element (unresolved)"
-msgstr "largest-contentful-paint-element ({0})"
-
-msgid "largest-contentful-paint-element (resolved)"
-msgstr "largest-contentful-paint-element (resolved)"
-
 msgid "uses-passive-event-listeners (unresolved)"
 msgstr "uses-passive-event-listeners ({0})"
 
@@ -232,6 +226,12 @@ msgstr "no-document-write ({0})"
 
 msgid "no-document-write (resolved)"
 msgstr "no-document-write (resolved)"
+
+msgid "long-tasks (unresolved)"
+msgstr "long-tasks ({0})"
+
+msgid "long-tasks (resolved)"
+msgstr "long-tasks (resolved)"
 
 msgid "unsized-images (unresolved)"
 msgstr "unsized-images ({0})"
@@ -419,11 +419,11 @@ msgstr "image-redundant-alt ({0})"
 msgid "image-redundant-alt (resolved)"
 msgstr "image-redundant-alt (resolved)"
 
-msgid "label (unresolved)"
-msgstr "label ({0})"
+msgid "link-in-text-block (unresolved)"
+msgstr "link-in-text-block ({0})"
 
-msgid "label (resolved)"
-msgstr "label (resolved)"
+msgid "link-in-text-block (resolved)"
+msgstr "link-in-text-block (resolved)"
 
 msgid "link-name (unresolved)"
 msgstr "link-name ({0})"
@@ -449,23 +449,11 @@ msgstr "meta-viewport ({0})"
 msgid "meta-viewport (resolved)"
 msgstr "meta-viewport (resolved)"
 
-msgid "skip-link (unresolved)"
-msgstr "skip-link ({0})"
-
-msgid "skip-link (resolved)"
-msgstr "skip-link (resolved)"
-
 msgid "target-size (unresolved)"
 msgstr "target-size ({0})"
 
 msgid "target-size (resolved)"
 msgstr "target-size (resolved)"
-
-msgid "identical-links-same-purpose (unresolved)"
-msgstr "identical-links-same-purpose ({0})"
-
-msgid "identical-links-same-purpose (resolved)"
-msgstr "identical-links-same-purpose (resolved)"
 
 msgid "is-on-https (unresolved)"
 msgstr "is-on-https ({0})"
@@ -491,6 +479,12 @@ msgstr "csp-xss ({0})"
 msgid "csp-xss (resolved)"
 msgstr "csp-xss (resolved)"
 
+msgid "has-hsts (unresolved)"
+msgstr "has-hsts ({0})"
+
+msgid "has-hsts (resolved)"
+msgstr "has-hsts (resolved)"
+
 msgid "origin-isolation (unresolved)"
 msgstr "origin-isolation ({0})"
 
@@ -514,12 +508,6 @@ msgstr "image-size-responsive ({0})"
 
 msgid "image-size-responsive (resolved)"
 msgstr "image-size-responsive (resolved)"
-
-msgid "viewport (unresolved)"
-msgstr "viewport ({0})"
-
-msgid "viewport (resolved)"
-msgstr "viewport (resolved)"
 
 msgid "font-size (unresolved)"
 msgstr "font-size ({0})"
@@ -581,12 +569,6 @@ msgstr "is-crawlable ({0})"
 msgid "is-crawlable (resolved)"
 msgstr "is-crawlable (resolved)"
 
-msgid "document-title (unresolved)"
-msgstr "document-title ({0})"
-
-msgid "document-title (resolved)"
-msgstr "document-title (resolved)"
-
 msgid "meta-description (unresolved)"
 msgstr "meta-description ({0})"
 
@@ -617,12 +599,6 @@ msgstr "robots-txt ({0})"
 msgid "robots-txt (resolved)"
 msgstr "robots-txt (resolved)"
 
-msgid "image-alt (unresolved)"
-msgstr "image-alt ({0})"
-
-msgid "image-alt (resolved)"
-msgstr "image-alt (resolved)"
-
 msgid "hreflang (unresolved)"
 msgstr "hreflang ({0})"
 
@@ -634,6 +610,24 @@ msgstr "canonical ({0})"
 
 msgid "canonical (resolved)"
 msgstr "canonical (resolved)"
+
+msgid "critical-request-chains (unresolved)"
+msgstr "critical-request-chains ({0})"
+
+msgid "critical-request-chains (resolved)"
+msgstr "critical-request-chains (resolved)"
+
+msgid "input-button-name (unresolved)"
+msgstr "input-button-name ({0})"
+
+msgid "input-button-name (resolved)"
+msgstr "input-button-name (resolved)"
+
+msgid "label (unresolved)"
+msgstr "label ({0})"
+
+msgid "label (resolved)"
+msgstr "label (resolved)"
 
 msgid "first-meaningful-paint (unresolved)"
 msgstr "first-meaningful-paint ({0})"
@@ -653,6 +647,12 @@ msgstr "user-timings ({0})"
 msgid "user-timings (resolved)"
 msgstr "user-timings (resolved)"
 
+msgid "third-party-summary (unresolved)"
+msgstr "third-party-summary ({0})"
+
+msgid "third-party-summary (resolved)"
+msgstr "third-party-summary (resolved)"
+
 msgid "third-party-facades (unresolved)"
 msgstr "third-party-facades ({0})"
 
@@ -664,18 +664,6 @@ msgstr "lcp-lazy-loaded ({0})"
 
 msgid "lcp-lazy-loaded (resolved)"
 msgstr "lcp-lazy-loaded (resolved)"
-
-msgid "layout-shifts (unresolved)"
-msgstr "layout-shifts ({0})"
-
-msgid "layout-shifts (resolved)"
-msgstr "layout-shifts (resolved)"
-
-msgid "long-tasks (unresolved)"
-msgstr "long-tasks ({0})"
-
-msgid "long-tasks (resolved)"
-msgstr "long-tasks (resolved)"
 
 msgid "non-composited-animations (unresolved)"
 msgstr "non-composited-animations ({0})"
@@ -797,23 +785,11 @@ msgstr "html-xml-lang-mismatch ({0})"
 msgid "html-xml-lang-mismatch (resolved)"
 msgstr "html-xml-lang-mismatch (resolved)"
 
-msgid "input-button-name (unresolved)"
-msgstr "input-button-name ({0})"
-
-msgid "input-button-name (resolved)"
-msgstr "input-button-name (resolved)"
-
 msgid "input-image-alt (unresolved)"
 msgstr "input-image-alt ({0})"
 
 msgid "input-image-alt (resolved)"
 msgstr "input-image-alt (resolved)"
-
-msgid "link-in-text-block (unresolved)"
-msgstr "link-in-text-block ({0})"
-
-msgid "link-in-text-block (resolved)"
-msgstr "link-in-text-block (resolved)"
 
 msgid "meta-refresh (unresolved)"
 msgstr "meta-refresh ({0})"
@@ -832,6 +808,12 @@ msgstr "select-name ({0})"
 
 msgid "select-name (resolved)"
 msgstr "select-name (resolved)"
+
+msgid "skip-link (unresolved)"
+msgstr "skip-link ({0})"
+
+msgid "skip-link (resolved)"
+msgstr "skip-link (resolved)"
 
 msgid "tabindex (unresolved)"
 msgstr "tabindex ({0})"
@@ -935,6 +917,12 @@ msgstr "empty-heading ({0})"
 msgid "empty-heading (resolved)"
 msgstr "empty-heading (resolved)"
 
+msgid "identical-links-same-purpose (unresolved)"
+msgstr "identical-links-same-purpose ({0})"
+
+msgid "identical-links-same-purpose (resolved)"
+msgstr "identical-links-same-purpose (resolved)"
+
 msgid "landmark-one-main (unresolved)"
 msgstr "landmark-one-main ({0})"
 
@@ -964,12 +952,6 @@ msgstr "redirects-http ({0})"
 
 msgid "redirects-http (resolved)"
 msgstr "redirects-http (resolved)"
-
-msgid "has-hsts (unresolved)"
-msgstr "has-hsts ({0})"
-
-msgid "has-hsts (resolved)"
-msgstr "has-hsts (resolved)"
 
 msgid "structured-data (unresolved)"
 msgstr "structured-data ({0})"

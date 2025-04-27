@@ -50,6 +50,8 @@ def calculate_rating(rating, result_dict):
                             get_config('general.language')
                         )
                     text = local_translation(text_primarykey)
+                    if '{0}' in text:
+                            text = local_translation(text_primarykey).format(issue['severity'])
                     if text == text_primarykey:
                         print(f"no translation found for: {issue['test']}, and language: {get_config('general.language')}. Adding it so you can translate it.")
                         create_or_append_translation(issue['test'], get_config('general.language'), text_secondarykey)

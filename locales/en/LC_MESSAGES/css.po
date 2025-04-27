@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2025-04-27 11:32\n"
-"PO-Revision-Date: 2025-04-27 11:32\n"
+"POT-Creation-Date: 2025-04-27 12:00\n"
+"PO-Revision-Date: 2025-04-27 12:00\n"
 "Last-Translator: Your-Name-Hear <your-email-here@webperf.se>\n"
 "Language-Team: English <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
@@ -29,17 +29,29 @@ msgstr "Text to show instead of msgid, here independent of severity level"
 # End of Examples
 
 
+msgid "function-no-unknown (unresolved)"
+msgstr "function-no-unknown ({0})"
+
+msgid "function-no-unknown (resolved)"
+msgstr "function-no-unknown (resolved)"
+
 msgid "declaration-property-value-no-unknown (unresolved)"
 msgstr "declaration-property-value-no-unknown ({0})"
 
 msgid "declaration-property-value-no-unknown (resolved)"
 msgstr "declaration-property-value-no-unknown (resolved)"
 
-msgid "declaration-property-value-keyword-no-deprecated (unresolved)"
-msgstr "declaration-property-value-keyword-no-deprecated ({0})"
+msgid "selector-type-no-unknown (unresolved)"
+msgstr "selector-type-no-unknown ({0})"
 
-msgid "declaration-property-value-keyword-no-deprecated (resolved)"
-msgstr "declaration-property-value-keyword-no-deprecated (resolved)"
+msgid "selector-type-no-unknown (resolved)"
+msgstr "selector-type-no-unknown (resolved)"
+
+msgid "at-rule-prelude-no-invalid (unresolved)"
+msgstr "at-rule-prelude-no-invalid ({0})"
+
+msgid "at-rule-prelude-no-invalid (resolved)"
+msgstr "at-rule-prelude-no-invalid (resolved)"
 
 msgid "annotation-no-unknown (unresolved)"
 msgstr "annotation-no-unknown ({0})"
@@ -71,12 +83,6 @@ msgstr "at-rule-no-unknown ({0})"
 msgid "at-rule-no-unknown (resolved)"
 msgstr "at-rule-no-unknown (resolved)"
 
-msgid "at-rule-prelude-no-invalid (unresolved)"
-msgstr "at-rule-prelude-no-invalid ({0})"
-
-msgid "at-rule-prelude-no-invalid (resolved)"
-msgstr "at-rule-prelude-no-invalid (resolved)"
-
 msgid "block-no-empty (unresolved)"
 msgstr "block-no-empty ({0})"
 
@@ -95,17 +101,17 @@ msgstr "comment-no-empty ({0})"
 msgid "comment-no-empty (resolved)"
 msgstr "comment-no-empty (resolved)"
 
+msgid "declaration-property-value-keyword-no-deprecated (unresolved)"
+msgstr "declaration-property-value-keyword-no-deprecated ({0})"
+
+msgid "declaration-property-value-keyword-no-deprecated (resolved)"
+msgstr "declaration-property-value-keyword-no-deprecated (resolved)"
+
 msgid "function-linear-gradient-no-nonstandard-direction (unresolved)"
 msgstr "function-linear-gradient-no-nonstandard-direction ({0})"
 
 msgid "function-linear-gradient-no-nonstandard-direction (resolved)"
 msgstr "function-linear-gradient-no-nonstandard-direction (resolved)"
-
-msgid "function-no-unknown (unresolved)"
-msgstr "function-no-unknown ({0})"
-
-msgid "function-no-unknown (resolved)"
-msgstr "function-no-unknown (resolved)"
 
 msgid "media-feature-name-no-unknown (unresolved)"
 msgstr "media-feature-name-no-unknown ({0})"
@@ -184,12 +190,6 @@ msgstr "selector-pseudo-element-no-unknown ({0})"
 
 msgid "selector-pseudo-element-no-unknown (resolved)"
 msgstr "selector-pseudo-element-no-unknown (resolved)"
-
-msgid "selector-type-no-unknown (unresolved)"
-msgstr "selector-type-no-unknown ({0})"
-
-msgid "selector-type-no-unknown (resolved)"
-msgstr "selector-type-no-unknown (resolved)"
 
 msgid "syntax-string-no-invalid (unresolved)"
 msgstr "syntax-string-no-invalid ({0})"

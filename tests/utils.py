@@ -121,7 +121,7 @@ def create_or_append_translation(module_name, lang_code, text_key):
             '# End of Examples\n\n'
             )
 
-    if f'msgid "{text_key}" (unresolved)' not in content:
+    if f'msgid "{text_key} (unresolved)"' not in content:
         content_to_append = (
                 '\n'
                 f'msgid "{text_key} (unresolved)"\n'
@@ -129,7 +129,7 @@ def create_or_append_translation(module_name, lang_code, text_key):
             )
         content += content_to_append
 
-    if f'msgid "{text_key}" (resolved)' not in content:
+    if f'msgid "{text_key} (resolved)"' not in content:
         content_to_append = (
                 '\n'
                 f'msgid "{text_key} (resolved)"\n'

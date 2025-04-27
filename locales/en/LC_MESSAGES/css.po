@@ -1,0 +1,204 @@
+# Copyright (C) 2025 WebPerf
+# FIRST AUTHOR <your-email-here@webperf.se>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2025-04-27 12:00\n"
+"PO-Revision-Date: 2025-04-27 12:00\n"
+"Last-Translator: Your-Name-Hear <your-email-here@webperf.se>\n"
+"Language-Team: English <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+#
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Text to show instead of msgid, showed for severity levels (critical, error and warning)"
+
+msgid "rule-id (resolved)"
+msgstr "Text to show instead of msgid, here unique on severity level resolved"
+
+msgid "rule-id"
+msgstr "Text to show instead of msgid, here independent of severity level"
+
+# End of Examples
+
+
+msgid "function-no-unknown (unresolved)"
+msgstr "function-no-unknown ({0})"
+
+msgid "function-no-unknown (resolved)"
+msgstr "function-no-unknown (resolved)"
+
+msgid "declaration-property-value-no-unknown (unresolved)"
+msgstr "declaration-property-value-no-unknown ({0})"
+
+msgid "declaration-property-value-no-unknown (resolved)"
+msgstr "declaration-property-value-no-unknown (resolved)"
+
+msgid "selector-type-no-unknown (unresolved)"
+msgstr "selector-type-no-unknown ({0})"
+
+msgid "selector-type-no-unknown (resolved)"
+msgstr "selector-type-no-unknown (resolved)"
+
+msgid "at-rule-prelude-no-invalid (unresolved)"
+msgstr "at-rule-prelude-no-invalid ({0})"
+
+msgid "at-rule-prelude-no-invalid (resolved)"
+msgstr "at-rule-prelude-no-invalid (resolved)"
+
+msgid "annotation-no-unknown (unresolved)"
+msgstr "annotation-no-unknown ({0})"
+
+msgid "annotation-no-unknown (resolved)"
+msgstr "annotation-no-unknown (resolved)"
+
+msgid "at-rule-descriptor-no-unknown (unresolved)"
+msgstr "at-rule-descriptor-no-unknown ({0})"
+
+msgid "at-rule-descriptor-no-unknown (resolved)"
+msgstr "at-rule-descriptor-no-unknown (resolved)"
+
+msgid "at-rule-descriptor-value-no-unknown (unresolved)"
+msgstr "at-rule-descriptor-value-no-unknown ({0})"
+
+msgid "at-rule-descriptor-value-no-unknown (resolved)"
+msgstr "at-rule-descriptor-value-no-unknown (resolved)"
+
+msgid "at-rule-no-deprecated (unresolved)"
+msgstr "at-rule-no-deprecated ({0})"
+
+msgid "at-rule-no-deprecated (resolved)"
+msgstr "at-rule-no-deprecated (resolved)"
+
+msgid "at-rule-no-unknown (unresolved)"
+msgstr "at-rule-no-unknown ({0})"
+
+msgid "at-rule-no-unknown (resolved)"
+msgstr "at-rule-no-unknown (resolved)"
+
+msgid "block-no-empty (unresolved)"
+msgstr "block-no-empty ({0})"
+
+msgid "block-no-empty (resolved)"
+msgstr "block-no-empty (resolved)"
+
+msgid "color-no-invalid-hex (unresolved)"
+msgstr "color-no-invalid-hex ({0})"
+
+msgid "color-no-invalid-hex (resolved)"
+msgstr "color-no-invalid-hex (resolved)"
+
+msgid "comment-no-empty (unresolved)"
+msgstr "comment-no-empty ({0})"
+
+msgid "comment-no-empty (resolved)"
+msgstr "comment-no-empty (resolved)"
+
+msgid "declaration-property-value-keyword-no-deprecated (unresolved)"
+msgstr "declaration-property-value-keyword-no-deprecated ({0})"
+
+msgid "declaration-property-value-keyword-no-deprecated (resolved)"
+msgstr "declaration-property-value-keyword-no-deprecated (resolved)"
+
+msgid "function-linear-gradient-no-nonstandard-direction (unresolved)"
+msgstr "function-linear-gradient-no-nonstandard-direction ({0})"
+
+msgid "function-linear-gradient-no-nonstandard-direction (resolved)"
+msgstr "function-linear-gradient-no-nonstandard-direction (resolved)"
+
+msgid "media-feature-name-no-unknown (unresolved)"
+msgstr "media-feature-name-no-unknown ({0})"
+
+msgid "media-feature-name-no-unknown (resolved)"
+msgstr "media-feature-name-no-unknown (resolved)"
+
+msgid "media-feature-name-value-no-unknown (unresolved)"
+msgstr "media-feature-name-value-no-unknown ({0})"
+
+msgid "media-feature-name-value-no-unknown (resolved)"
+msgstr "media-feature-name-value-no-unknown (resolved)"
+
+msgid "media-query-no-invalid (unresolved)"
+msgstr "media-query-no-invalid ({0})"
+
+msgid "media-query-no-invalid (resolved)"
+msgstr "media-query-no-invalid (resolved)"
+
+msgid "named-grid-areas-no-invalid (unresolved)"
+msgstr "named-grid-areas-no-invalid ({0})"
+
+msgid "named-grid-areas-no-invalid (resolved)"
+msgstr "named-grid-areas-no-invalid (resolved)"
+
+msgid "no-empty-source (unresolved)"
+msgstr "no-empty-source ({0})"
+
+msgid "no-empty-source (resolved)"
+msgstr "no-empty-source (resolved)"
+
+msgid "no-invalid-double-slash-comments (unresolved)"
+msgstr "no-invalid-double-slash-comments ({0})"
+
+msgid "no-invalid-double-slash-comments (resolved)"
+msgstr "no-invalid-double-slash-comments (resolved)"
+
+msgid "no-invalid-position-at-import-rule (unresolved)"
+msgstr "no-invalid-position-at-import-rule ({0})"
+
+msgid "no-invalid-position-at-import-rule (resolved)"
+msgstr "no-invalid-position-at-import-rule (resolved)"
+
+msgid "no-unknown-animations (unresolved)"
+msgstr "no-unknown-animations ({0})"
+
+msgid "no-unknown-animations (resolved)"
+msgstr "no-unknown-animations (resolved)"
+
+msgid "no-unknown-custom-media (unresolved)"
+msgstr "no-unknown-custom-media ({0})"
+
+msgid "no-unknown-custom-media (resolved)"
+msgstr "no-unknown-custom-media (resolved)"
+
+msgid "no-unknown-custom-properties (unresolved)"
+msgstr "no-unknown-custom-properties ({0})"
+
+msgid "no-unknown-custom-properties (resolved)"
+msgstr "no-unknown-custom-properties (resolved)"
+
+msgid "property-no-unknown (unresolved)"
+msgstr "property-no-unknown ({0})"
+
+msgid "property-no-unknown (resolved)"
+msgstr "property-no-unknown (resolved)"
+
+msgid "selector-pseudo-class-no-unknown (unresolved)"
+msgstr "selector-pseudo-class-no-unknown ({0})"
+
+msgid "selector-pseudo-class-no-unknown (resolved)"
+msgstr "selector-pseudo-class-no-unknown (resolved)"
+
+msgid "selector-pseudo-element-no-unknown (unresolved)"
+msgstr "selector-pseudo-element-no-unknown ({0})"
+
+msgid "selector-pseudo-element-no-unknown (resolved)"
+msgstr "selector-pseudo-element-no-unknown (resolved)"
+
+msgid "syntax-string-no-invalid (unresolved)"
+msgstr "syntax-string-no-invalid ({0})"
+
+msgid "syntax-string-no-invalid (resolved)"
+msgstr "syntax-string-no-invalid (resolved)"
+
+msgid "unit-no-unknown (unresolved)"
+msgstr "unit-no-unknown ({0})"
+
+msgid "unit-no-unknown (resolved)"
+msgstr "unit-no-unknown (resolved)"

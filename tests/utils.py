@@ -72,6 +72,74 @@ def get_translation(module_name, lang_code):
         localedir='locales', languages=[lang_code])
     return language.gettext
 
+def create_or_append_translation(module_name, lang_code, text_key):
+    base_directory = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep).parent
+    locales_dir = os.path.join(base_directory.resolve(), 'locales') + os.sep
+    lang_dir = os.path.join(locales_dir, lang_code, 'LC_MESSAGES') + os.sep
+    if not os.path.exists(lang_dir):
+        os.makedirs(lang_dir)
+
+    module_filepath = os.path.join(lang_dir, f'{module_name}.po')
+
+    content = None
+    if os.path.exists(module_filepath):
+        with open(module_filepath, 'r', encoding='utf-8', newline='') as file:
+            content = ''.join(file.readlines())
+    else:
+        this_year = datetime.now().year
+        today = datetime.now().strftime("%Y-%m-%d %H:%M%z")
+        content = (
+            f'# Copyright (C) {this_year} WebPerf\n'
+            f'# FIRST AUTHOR <your-email-here@webperf.se>, {this_year}.\n'
+            '#\n'
+            'msgid ""\n'
+            'msgstr ""\n'
+            '"Project-Id-Version: PACKAGE VERSION\\n"\n'
+            f'"POT-Creation-Date: {today}\\n"\n'
+            f'"PO-Revision-Date: {today}\\n"\n'
+            '"Last-Translator: Your-Name-Hear <your-email-here@webperf.se>\\n"\n'
+            '"Language-Team: English <team@webperf.se>\\n"\n'
+            '"MIME-Version: 1.0\\n"\n'
+            '"Content-Type: text/plain; charset=UTF-8\\n"\n'
+            '"Content-Transfer-Encoding: 8bit\\n"\n'
+            '"Generated-By: pygettext.py 1.5\\n"\n'
+            '#\n'
+            '# Example(s):\n'
+            '# Please note that msgid has to be unique in each file.\n'
+            '# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).\n'
+            '\n'
+            f'msgid "rule-id (unresolved)"\n'
+            f'msgstr "Text to show instead of msgid, showed for severity levels (critical, error and warning)"\n'
+            '\n'
+            f'msgid "rule-id (resolved)"\n'
+            f'msgstr "Text to show instead of msgid, here unique on severity level resolved"\n'
+            '\n'
+            f'msgid "rule-id"\n'
+            f'msgstr "Text to show instead of msgid, here independent of severity level"\n'
+            '\n'
+            '# End of Examples\n\n'
+            )
+
+    if f'msgid "{text_key} (unresolved)"' not in content:
+        content_to_append = (
+                '\n'
+                f'msgid "{text_key} (unresolved)"\n'
+                f'msgstr "{text_key} ({{0}})"\n'
+            )
+        content += content_to_append
+
+    if f'msgid "{text_key} (resolved)"' not in content:
+        content_to_append = (
+                '\n'
+                f'msgid "{text_key} (resolved)"\n'
+                f'msgstr "{text_key} (resolved)"\n'
+            )
+        content += content_to_append
+
+    with open(module_filepath, 'w', encoding='utf-8', newline='') as file:
+        file.write(content)
+
 def standardize_url(url):
     o = urllib.parse.urlparse(url)
 

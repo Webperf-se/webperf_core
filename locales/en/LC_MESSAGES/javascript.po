@@ -1,0 +1,132 @@
+# Copyright (C) 2025 WebPerf
+# FIRST AUTHOR <your-email-here@webperf.se>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2025-04-27 17:08\n"
+"PO-Revision-Date: 2025-04-27 17:08\n"
+"Last-Translator: Your-Name-Hear <your-email-here@webperf.se>\n"
+"Language-Team: English <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+#
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Text to show instead of msgid, showed for severity levels (critical, error and warning)"
+
+msgid "rule-id (resolved)"
+msgstr "Text to show instead of msgid, here unique on severity level resolved"
+
+msgid "rule-id"
+msgstr "Text to show instead of msgid, here independent of severity level"
+
+# End of Examples
+
+
+msgid "eqeqeq (unresolved)"
+msgstr "eqeqeq ({0})"
+
+msgid "eqeqeq (resolved)"
+msgstr "eqeqeq (resolved)"
+
+msgid "no-undef (unresolved)"
+msgstr "no-undef ({0})"
+
+msgid "no-undef (resolved)"
+msgstr "no-undef (resolved)"
+
+msgid "no-unmodified-loop-condition (unresolved)"
+msgstr "no-unmodified-loop-condition ({0})"
+
+msgid "no-unmodified-loop-condition (resolved)"
+msgstr "no-unmodified-loop-condition (resolved)"
+
+msgid "no-unused-vars (unresolved)"
+msgstr "no-unused-vars ({0})"
+
+msgid "no-unused-vars (resolved)"
+msgstr "no-unused-vars (resolved)"
+
+msgid "no-useless-escape (unresolved)"
+msgstr "no-useless-escape ({0})"
+
+msgid "no-useless-escape (resolved)"
+msgstr "no-useless-escape (resolved)"
+
+msgid "no-console (unresolved)"
+msgstr "no-console ({0})"
+
+msgid "no-console (resolved)"
+msgstr "no-console (resolved)"
+
+msgid "no-prototype-builtins (unresolved)"
+msgstr "no-prototype-builtins ({0})"
+
+msgid "no-prototype-builtins (resolved)"
+msgstr "no-prototype-builtins (resolved)"
+
+msgid "no-new-func (unresolved)"
+msgstr "no-new-func ({0})"
+
+msgid "no-new-func (resolved)"
+msgstr "no-new-func (resolved)"
+
+msgid "require-await (unresolved)"
+msgstr "require-await ({0})"
+
+msgid "require-await (resolved)"
+msgstr "require-await (resolved)"
+
+msgid "no-useless-concat (unresolved)"
+msgstr "no-useless-concat ({0})"
+
+msgid "no-useless-concat (resolved)"
+msgstr "no-useless-concat (resolved)"
+
+msgid "no-script-url (unresolved)"
+msgstr "no-script-url ({0})"
+
+msgid "no-script-url (resolved)"
+msgstr "no-script-url (resolved)"
+
+msgid "no-eval (unresolved)"
+msgstr "no-eval ({0})"
+
+msgid "no-eval (resolved)"
+msgstr "no-eval (resolved)"
+
+msgid "no-implied-eval (unresolved)"
+msgstr "no-implied-eval ({0})"
+
+msgid "no-implied-eval (resolved)"
+msgstr "no-implied-eval (resolved)"
+
+msgid "no-unsafe-finally (unresolved)"
+msgstr "no-unsafe-finally ({0})"
+
+msgid "no-unsafe-finally (resolved)"
+msgstr "no-unsafe-finally (resolved)"
+
+msgid "no-unsafe-negation (unresolved)"
+msgstr "no-unsafe-negation ({0})"
+
+msgid "no-unsafe-negation (resolved)"
+msgstr "no-unsafe-negation (resolved)"
+
+msgid "no-with (unresolved)"
+msgstr "no-with ({0})"
+
+msgid "no-with (resolved)"
+msgstr "no-with (resolved)"
+
+msgid "no-return-await (unresolved)"
+msgstr "no-return-await ({0})"
+
+msgid "no-return-await (resolved)"
+msgstr "no-return-await (resolved)"

@@ -132,9 +132,6 @@ def get_rating_from_sitespeed(url, local_translation, global_translation):
     rating.integrity_and_security_review = rating.integrity_and_security_review\
         .replace('GOV-IGNORE', '').strip('\r\n\t ')
 
-    if not get_config('general.cache.use'):
-        os.remove(filename)
-
     return (rating, result)
 
 

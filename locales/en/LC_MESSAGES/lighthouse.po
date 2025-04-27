@@ -1,0 +1,978 @@
+# Copyright (C) 2025 WebPerf
+# FIRST AUTHOR <your-email-here@webperf.se>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2025-04-27 11:36\n"
+"PO-Revision-Date: 2025-04-27 11:36\n"
+"Last-Translator: Your-Name-Hear <your-email-here@webperf.se>\n"
+"Language-Team: English <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+#
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Text to show instead of msgid, showed for severity levels (critical, error and warning)"
+
+msgid "rule-id (resolved)"
+msgstr "Text to show instead of msgid, here unique on severity level resolved"
+
+msgid "rule-id"
+msgstr "Text to show instead of msgid, here independent of severity level"
+
+# End of Examples
+
+
+msgid "server-response-time (unresolved)"
+msgstr "server-response-time ({0})"
+
+msgid "server-response-time (resolved)"
+msgstr "server-response-time (resolved)"
+
+msgid "speed-index (unresolved)"
+msgstr "speed-index ({0})"
+
+msgid "speed-index (resolved)"
+msgstr "speed-index (resolved)"
+
+msgid "unminified-javascript (unresolved)"
+msgstr "unminified-javascript ({0})"
+
+msgid "unminified-javascript (resolved)"
+msgstr "unminified-javascript (resolved)"
+
+msgid "legacy-javascript (unresolved)"
+msgstr "legacy-javascript ({0})"
+
+msgid "legacy-javascript (resolved)"
+msgstr "legacy-javascript (resolved)"
+
+msgid "uses-long-cache-ttl (unresolved)"
+msgstr "uses-long-cache-ttl ({0})"
+
+msgid "uses-long-cache-ttl (resolved)"
+msgstr "uses-long-cache-ttl (resolved)"
+
+msgid "dom-size (unresolved)"
+msgstr "dom-size ({0})"
+
+msgid "dom-size (resolved)"
+msgstr "dom-size (resolved)"
+
+msgid "first-contentful-paint (unresolved)"
+msgstr "first-contentful-paint ({0})"
+
+msgid "first-contentful-paint (resolved)"
+msgstr "first-contentful-paint (resolved)"
+
+msgid "largest-contentful-paint (unresolved)"
+msgstr "largest-contentful-paint ({0})"
+
+msgid "largest-contentful-paint (resolved)"
+msgstr "largest-contentful-paint (resolved)"
+
+msgid "total-blocking-time (unresolved)"
+msgstr "total-blocking-time ({0})"
+
+msgid "total-blocking-time (resolved)"
+msgstr "total-blocking-time (resolved)"
+
+msgid "cumulative-layout-shift (unresolved)"
+msgstr "cumulative-layout-shift ({0})"
+
+msgid "cumulative-layout-shift (resolved)"
+msgstr "cumulative-layout-shift (resolved)"
+
+msgid "interactive (unresolved)"
+msgstr "interactive ({0})"
+
+msgid "interactive (resolved)"
+msgstr "interactive (resolved)"
+
+msgid "max-potential-fid (unresolved)"
+msgstr "max-potential-fid ({0})"
+
+msgid "max-potential-fid (resolved)"
+msgstr "max-potential-fid (resolved)"
+
+msgid "render-blocking-resources (unresolved)"
+msgstr "render-blocking-resources ({0})"
+
+msgid "render-blocking-resources (resolved)"
+msgstr "render-blocking-resources (resolved)"
+
+msgid "uses-responsive-images (unresolved)"
+msgstr "uses-responsive-images ({0})"
+
+msgid "uses-responsive-images (resolved)"
+msgstr "uses-responsive-images (resolved)"
+
+msgid "offscreen-images (unresolved)"
+msgstr "offscreen-images ({0})"
+
+msgid "offscreen-images (resolved)"
+msgstr "offscreen-images (resolved)"
+
+msgid "unminified-css (unresolved)"
+msgstr "unminified-css ({0})"
+
+msgid "unminified-css (resolved)"
+msgstr "unminified-css (resolved)"
+
+msgid "unused-css-rules (unresolved)"
+msgstr "unused-css-rules ({0})"
+
+msgid "unused-css-rules (resolved)"
+msgstr "unused-css-rules (resolved)"
+
+msgid "unused-javascript (unresolved)"
+msgstr "unused-javascript ({0})"
+
+msgid "unused-javascript (resolved)"
+msgstr "unused-javascript (resolved)"
+
+msgid "uses-optimized-images (unresolved)"
+msgstr "uses-optimized-images ({0})"
+
+msgid "uses-optimized-images (resolved)"
+msgstr "uses-optimized-images (resolved)"
+
+msgid "modern-image-formats (unresolved)"
+msgstr "modern-image-formats ({0})"
+
+msgid "modern-image-formats (resolved)"
+msgstr "modern-image-formats (resolved)"
+
+msgid "uses-text-compression (unresolved)"
+msgstr "uses-text-compression ({0})"
+
+msgid "uses-text-compression (resolved)"
+msgstr "uses-text-compression (resolved)"
+
+msgid "uses-rel-preconnect (unresolved)"
+msgstr "uses-rel-preconnect ({0})"
+
+msgid "uses-rel-preconnect (resolved)"
+msgstr "uses-rel-preconnect (resolved)"
+
+msgid "redirects (unresolved)"
+msgstr "redirects ({0})"
+
+msgid "redirects (resolved)"
+msgstr "redirects (resolved)"
+
+msgid "efficient-animated-content (unresolved)"
+msgstr "efficient-animated-content ({0})"
+
+msgid "efficient-animated-content (resolved)"
+msgstr "efficient-animated-content (resolved)"
+
+msgid "duplicated-javascript (unresolved)"
+msgstr "duplicated-javascript ({0})"
+
+msgid "duplicated-javascript (resolved)"
+msgstr "duplicated-javascript (resolved)"
+
+msgid "total-byte-weight (unresolved)"
+msgstr "total-byte-weight ({0})"
+
+msgid "total-byte-weight (resolved)"
+msgstr "total-byte-weight (resolved)"
+
+msgid "critical-request-chains (unresolved)"
+msgstr "critical-request-chains ({0})"
+
+msgid "critical-request-chains (resolved)"
+msgstr "critical-request-chains (resolved)"
+
+msgid "bootup-time (unresolved)"
+msgstr "bootup-time ({0})"
+
+msgid "bootup-time (resolved)"
+msgstr "bootup-time (resolved)"
+
+msgid "mainthread-work-breakdown (unresolved)"
+msgstr "mainthread-work-breakdown ({0})"
+
+msgid "mainthread-work-breakdown (resolved)"
+msgstr "mainthread-work-breakdown (resolved)"
+
+msgid "font-display (unresolved)"
+msgstr "font-display ({0})"
+
+msgid "font-display (resolved)"
+msgstr "font-display (resolved)"
+
+msgid "third-party-summary (unresolved)"
+msgstr "third-party-summary ({0})"
+
+msgid "third-party-summary (resolved)"
+msgstr "third-party-summary (resolved)"
+
+msgid "largest-contentful-paint-element (unresolved)"
+msgstr "largest-contentful-paint-element ({0})"
+
+msgid "largest-contentful-paint-element (resolved)"
+msgstr "largest-contentful-paint-element (resolved)"
+
+msgid "uses-passive-event-listeners (unresolved)"
+msgstr "uses-passive-event-listeners ({0})"
+
+msgid "uses-passive-event-listeners (resolved)"
+msgstr "uses-passive-event-listeners (resolved)"
+
+msgid "no-document-write (unresolved)"
+msgstr "no-document-write ({0})"
+
+msgid "no-document-write (resolved)"
+msgstr "no-document-write (resolved)"
+
+msgid "unsized-images (unresolved)"
+msgstr "unsized-images ({0})"
+
+msgid "unsized-images (resolved)"
+msgstr "unsized-images (resolved)"
+
+msgid "viewport (unresolved)"
+msgstr "viewport ({0})"
+
+msgid "viewport (resolved)"
+msgstr "viewport (resolved)"
+
+msgid "network-requests (unresolved)"
+msgstr "network-requests ({0})"
+
+msgid "network-requests (resolved)"
+msgstr "network-requests (resolved)"
+
+msgid "network-rtt (unresolved)"
+msgstr "network-rtt ({0})"
+
+msgid "network-rtt (resolved)"
+msgstr "network-rtt (resolved)"
+
+msgid "network-server-latency (unresolved)"
+msgstr "network-server-latency ({0})"
+
+msgid "network-server-latency (resolved)"
+msgstr "network-server-latency (resolved)"
+
+msgid "main-thread-tasks (unresolved)"
+msgstr "main-thread-tasks ({0})"
+
+msgid "main-thread-tasks (resolved)"
+msgstr "main-thread-tasks (resolved)"
+
+msgid "diagnostics (unresolved)"
+msgstr "diagnostics ({0})"
+
+msgid "diagnostics (resolved)"
+msgstr "diagnostics (resolved)"
+
+msgid "metrics (unresolved)"
+msgstr "metrics ({0})"
+
+msgid "metrics (resolved)"
+msgstr "metrics (resolved)"
+
+msgid "screenshot-thumbnails (unresolved)"
+msgstr "screenshot-thumbnails ({0})"
+
+msgid "screenshot-thumbnails (resolved)"
+msgstr "screenshot-thumbnails (resolved)"
+
+msgid "final-screenshot (unresolved)"
+msgstr "final-screenshot ({0})"
+
+msgid "final-screenshot (resolved)"
+msgstr "final-screenshot (resolved)"
+
+msgid "script-treemap-data (unresolved)"
+msgstr "script-treemap-data ({0})"
+
+msgid "script-treemap-data (resolved)"
+msgstr "script-treemap-data (resolved)"
+
+msgid "resource-summary (unresolved)"
+msgstr "resource-summary ({0})"
+
+msgid "resource-summary (resolved)"
+msgstr "resource-summary (resolved)"
+
+msgid "aria-allowed-attr (unresolved)"
+msgstr "aria-allowed-attr ({0})"
+
+msgid "aria-allowed-attr (resolved)"
+msgstr "aria-allowed-attr (resolved)"
+
+msgid "aria-allowed-role (unresolved)"
+msgstr "aria-allowed-role ({0})"
+
+msgid "aria-allowed-role (resolved)"
+msgstr "aria-allowed-role (resolved)"
+
+msgid "aria-conditional-attr (unresolved)"
+msgstr "aria-conditional-attr ({0})"
+
+msgid "aria-conditional-attr (resolved)"
+msgstr "aria-conditional-attr (resolved)"
+
+msgid "aria-deprecated-role (unresolved)"
+msgstr "aria-deprecated-role ({0})"
+
+msgid "aria-deprecated-role (resolved)"
+msgstr "aria-deprecated-role (resolved)"
+
+msgid "aria-hidden-body (unresolved)"
+msgstr "aria-hidden-body ({0})"
+
+msgid "aria-hidden-body (resolved)"
+msgstr "aria-hidden-body (resolved)"
+
+msgid "aria-hidden-focus (unresolved)"
+msgstr "aria-hidden-focus ({0})"
+
+msgid "aria-hidden-focus (resolved)"
+msgstr "aria-hidden-focus (resolved)"
+
+msgid "aria-prohibited-attr (unresolved)"
+msgstr "aria-prohibited-attr ({0})"
+
+msgid "aria-prohibited-attr (resolved)"
+msgstr "aria-prohibited-attr (resolved)"
+
+msgid "aria-required-attr (unresolved)"
+msgstr "aria-required-attr ({0})"
+
+msgid "aria-required-attr (resolved)"
+msgstr "aria-required-attr (resolved)"
+
+msgid "aria-roles (unresolved)"
+msgstr "aria-roles ({0})"
+
+msgid "aria-roles (resolved)"
+msgstr "aria-roles (resolved)"
+
+msgid "aria-valid-attr-value (unresolved)"
+msgstr "aria-valid-attr-value ({0})"
+
+msgid "aria-valid-attr-value (resolved)"
+msgstr "aria-valid-attr-value (resolved)"
+
+msgid "aria-valid-attr (unresolved)"
+msgstr "aria-valid-attr ({0})"
+
+msgid "aria-valid-attr (resolved)"
+msgstr "aria-valid-attr (resolved)"
+
+msgid "button-name (unresolved)"
+msgstr "button-name ({0})"
+
+msgid "button-name (resolved)"
+msgstr "button-name (resolved)"
+
+msgid "color-contrast (unresolved)"
+msgstr "color-contrast ({0})"
+
+msgid "color-contrast (resolved)"
+msgstr "color-contrast (resolved)"
+
+msgid "document-title (unresolved)"
+msgstr "document-title ({0})"
+
+msgid "document-title (resolved)"
+msgstr "document-title (resolved)"
+
+msgid "heading-order (unresolved)"
+msgstr "heading-order ({0})"
+
+msgid "heading-order (resolved)"
+msgstr "heading-order (resolved)"
+
+msgid "html-has-lang (unresolved)"
+msgstr "html-has-lang ({0})"
+
+msgid "html-has-lang (resolved)"
+msgstr "html-has-lang (resolved)"
+
+msgid "html-lang-valid (unresolved)"
+msgstr "html-lang-valid ({0})"
+
+msgid "html-lang-valid (resolved)"
+msgstr "html-lang-valid (resolved)"
+
+msgid "image-alt (unresolved)"
+msgstr "image-alt ({0})"
+
+msgid "image-alt (resolved)"
+msgstr "image-alt (resolved)"
+
+msgid "image-redundant-alt (unresolved)"
+msgstr "image-redundant-alt ({0})"
+
+msgid "image-redundant-alt (resolved)"
+msgstr "image-redundant-alt (resolved)"
+
+msgid "label (unresolved)"
+msgstr "label ({0})"
+
+msgid "label (resolved)"
+msgstr "label (resolved)"
+
+msgid "link-name (unresolved)"
+msgstr "link-name ({0})"
+
+msgid "link-name (resolved)"
+msgstr "link-name (resolved)"
+
+msgid "list (unresolved)"
+msgstr "list ({0})"
+
+msgid "list (resolved)"
+msgstr "list (resolved)"
+
+msgid "listitem (unresolved)"
+msgstr "listitem ({0})"
+
+msgid "listitem (resolved)"
+msgstr "listitem (resolved)"
+
+msgid "meta-viewport (unresolved)"
+msgstr "meta-viewport ({0})"
+
+msgid "meta-viewport (resolved)"
+msgstr "meta-viewport (resolved)"
+
+msgid "skip-link (unresolved)"
+msgstr "skip-link ({0})"
+
+msgid "skip-link (resolved)"
+msgstr "skip-link (resolved)"
+
+msgid "target-size (unresolved)"
+msgstr "target-size ({0})"
+
+msgid "target-size (resolved)"
+msgstr "target-size (resolved)"
+
+msgid "identical-links-same-purpose (unresolved)"
+msgstr "identical-links-same-purpose ({0})"
+
+msgid "identical-links-same-purpose (resolved)"
+msgstr "identical-links-same-purpose (resolved)"
+
+msgid "is-on-https (unresolved)"
+msgstr "is-on-https ({0})"
+
+msgid "is-on-https (resolved)"
+msgstr "is-on-https (resolved)"
+
+msgid "geolocation-on-start (unresolved)"
+msgstr "geolocation-on-start ({0})"
+
+msgid "geolocation-on-start (resolved)"
+msgstr "geolocation-on-start (resolved)"
+
+msgid "notification-on-start (unresolved)"
+msgstr "notification-on-start ({0})"
+
+msgid "notification-on-start (resolved)"
+msgstr "notification-on-start (resolved)"
+
+msgid "csp-xss (unresolved)"
+msgstr "csp-xss ({0})"
+
+msgid "csp-xss (resolved)"
+msgstr "csp-xss (resolved)"
+
+msgid "origin-isolation (unresolved)"
+msgstr "origin-isolation ({0})"
+
+msgid "origin-isolation (resolved)"
+msgstr "origin-isolation (resolved)"
+
+msgid "paste-preventing-inputs (unresolved)"
+msgstr "paste-preventing-inputs ({0})"
+
+msgid "paste-preventing-inputs (resolved)"
+msgstr "paste-preventing-inputs (resolved)"
+
+msgid "image-aspect-ratio (unresolved)"
+msgstr "image-aspect-ratio ({0})"
+
+msgid "image-aspect-ratio (resolved)"
+msgstr "image-aspect-ratio (resolved)"
+
+msgid "image-size-responsive (unresolved)"
+msgstr "image-size-responsive ({0})"
+
+msgid "image-size-responsive (resolved)"
+msgstr "image-size-responsive (resolved)"
+
+msgid "viewport (unresolved)"
+msgstr "viewport ({0})"
+
+msgid "viewport (resolved)"
+msgstr "viewport (resolved)"
+
+msgid "font-size (unresolved)"
+msgstr "font-size ({0})"
+
+msgid "font-size (resolved)"
+msgstr "font-size (resolved)"
+
+msgid "doctype (unresolved)"
+msgstr "doctype ({0})"
+
+msgid "doctype (resolved)"
+msgstr "doctype (resolved)"
+
+msgid "charset (unresolved)"
+msgstr "charset ({0})"
+
+msgid "charset (resolved)"
+msgstr "charset (resolved)"
+
+msgid "js-libraries (unresolved)"
+msgstr "js-libraries ({0})"
+
+msgid "js-libraries (resolved)"
+msgstr "js-libraries (resolved)"
+
+msgid "deprecations (unresolved)"
+msgstr "deprecations ({0})"
+
+msgid "deprecations (resolved)"
+msgstr "deprecations (resolved)"
+
+msgid "third-party-cookies (unresolved)"
+msgstr "third-party-cookies ({0})"
+
+msgid "third-party-cookies (resolved)"
+msgstr "third-party-cookies (resolved)"
+
+msgid "errors-in-console (unresolved)"
+msgstr "errors-in-console ({0})"
+
+msgid "errors-in-console (resolved)"
+msgstr "errors-in-console (resolved)"
+
+msgid "valid-source-maps (unresolved)"
+msgstr "valid-source-maps ({0})"
+
+msgid "valid-source-maps (resolved)"
+msgstr "valid-source-maps (resolved)"
+
+msgid "inspector-issues (unresolved)"
+msgstr "inspector-issues ({0})"
+
+msgid "inspector-issues (resolved)"
+msgstr "inspector-issues (resolved)"
+
+msgid "is-crawlable (unresolved)"
+msgstr "is-crawlable ({0})"
+
+msgid "is-crawlable (resolved)"
+msgstr "is-crawlable (resolved)"
+
+msgid "document-title (unresolved)"
+msgstr "document-title ({0})"
+
+msgid "document-title (resolved)"
+msgstr "document-title (resolved)"
+
+msgid "meta-description (unresolved)"
+msgstr "meta-description ({0})"
+
+msgid "meta-description (resolved)"
+msgstr "meta-description (resolved)"
+
+msgid "http-status-code (unresolved)"
+msgstr "http-status-code ({0})"
+
+msgid "http-status-code (resolved)"
+msgstr "http-status-code (resolved)"
+
+msgid "link-text (unresolved)"
+msgstr "link-text ({0})"
+
+msgid "link-text (resolved)"
+msgstr "link-text (resolved)"
+
+msgid "crawlable-anchors (unresolved)"
+msgstr "crawlable-anchors ({0})"
+
+msgid "crawlable-anchors (resolved)"
+msgstr "crawlable-anchors (resolved)"
+
+msgid "robots-txt (unresolved)"
+msgstr "robots-txt ({0})"
+
+msgid "robots-txt (resolved)"
+msgstr "robots-txt (resolved)"
+
+msgid "image-alt (unresolved)"
+msgstr "image-alt ({0})"
+
+msgid "image-alt (resolved)"
+msgstr "image-alt (resolved)"
+
+msgid "hreflang (unresolved)"
+msgstr "hreflang ({0})"
+
+msgid "hreflang (resolved)"
+msgstr "hreflang (resolved)"
+
+msgid "canonical (unresolved)"
+msgstr "canonical ({0})"
+
+msgid "canonical (resolved)"
+msgstr "canonical (resolved)"
+
+msgid "first-meaningful-paint (unresolved)"
+msgstr "first-meaningful-paint ({0})"
+
+msgid "first-meaningful-paint (resolved)"
+msgstr "first-meaningful-paint (resolved)"
+
+msgid "prioritize-lcp-image (unresolved)"
+msgstr "prioritize-lcp-image ({0})"
+
+msgid "prioritize-lcp-image (resolved)"
+msgstr "prioritize-lcp-image (resolved)"
+
+msgid "user-timings (unresolved)"
+msgstr "user-timings ({0})"
+
+msgid "user-timings (resolved)"
+msgstr "user-timings (resolved)"
+
+msgid "third-party-facades (unresolved)"
+msgstr "third-party-facades ({0})"
+
+msgid "third-party-facades (resolved)"
+msgstr "third-party-facades (resolved)"
+
+msgid "lcp-lazy-loaded (unresolved)"
+msgstr "lcp-lazy-loaded ({0})"
+
+msgid "lcp-lazy-loaded (resolved)"
+msgstr "lcp-lazy-loaded (resolved)"
+
+msgid "layout-shifts (unresolved)"
+msgstr "layout-shifts ({0})"
+
+msgid "layout-shifts (resolved)"
+msgstr "layout-shifts (resolved)"
+
+msgid "long-tasks (unresolved)"
+msgstr "long-tasks ({0})"
+
+msgid "long-tasks (resolved)"
+msgstr "long-tasks (resolved)"
+
+msgid "non-composited-animations (unresolved)"
+msgstr "non-composited-animations ({0})"
+
+msgid "non-composited-animations (resolved)"
+msgstr "non-composited-animations (resolved)"
+
+msgid "accesskeys (unresolved)"
+msgstr "accesskeys ({0})"
+
+msgid "accesskeys (resolved)"
+msgstr "accesskeys (resolved)"
+
+msgid "aria-command-name (unresolved)"
+msgstr "aria-command-name ({0})"
+
+msgid "aria-command-name (resolved)"
+msgstr "aria-command-name (resolved)"
+
+msgid "aria-dialog-name (unresolved)"
+msgstr "aria-dialog-name ({0})"
+
+msgid "aria-dialog-name (resolved)"
+msgstr "aria-dialog-name (resolved)"
+
+msgid "aria-input-field-name (unresolved)"
+msgstr "aria-input-field-name ({0})"
+
+msgid "aria-input-field-name (resolved)"
+msgstr "aria-input-field-name (resolved)"
+
+msgid "aria-meter-name (unresolved)"
+msgstr "aria-meter-name ({0})"
+
+msgid "aria-meter-name (resolved)"
+msgstr "aria-meter-name (resolved)"
+
+msgid "aria-progressbar-name (unresolved)"
+msgstr "aria-progressbar-name ({0})"
+
+msgid "aria-progressbar-name (resolved)"
+msgstr "aria-progressbar-name (resolved)"
+
+msgid "aria-required-children (unresolved)"
+msgstr "aria-required-children ({0})"
+
+msgid "aria-required-children (resolved)"
+msgstr "aria-required-children (resolved)"
+
+msgid "aria-required-parent (unresolved)"
+msgstr "aria-required-parent ({0})"
+
+msgid "aria-required-parent (resolved)"
+msgstr "aria-required-parent (resolved)"
+
+msgid "aria-text (unresolved)"
+msgstr "aria-text ({0})"
+
+msgid "aria-text (resolved)"
+msgstr "aria-text (resolved)"
+
+msgid "aria-toggle-field-name (unresolved)"
+msgstr "aria-toggle-field-name ({0})"
+
+msgid "aria-toggle-field-name (resolved)"
+msgstr "aria-toggle-field-name (resolved)"
+
+msgid "aria-tooltip-name (unresolved)"
+msgstr "aria-tooltip-name ({0})"
+
+msgid "aria-tooltip-name (resolved)"
+msgstr "aria-tooltip-name (resolved)"
+
+msgid "aria-treeitem-name (unresolved)"
+msgstr "aria-treeitem-name ({0})"
+
+msgid "aria-treeitem-name (resolved)"
+msgstr "aria-treeitem-name (resolved)"
+
+msgid "bypass (unresolved)"
+msgstr "bypass ({0})"
+
+msgid "bypass (resolved)"
+msgstr "bypass (resolved)"
+
+msgid "definition-list (unresolved)"
+msgstr "definition-list ({0})"
+
+msgid "definition-list (resolved)"
+msgstr "definition-list (resolved)"
+
+msgid "dlitem (unresolved)"
+msgstr "dlitem ({0})"
+
+msgid "dlitem (resolved)"
+msgstr "dlitem (resolved)"
+
+msgid "duplicate-id-aria (unresolved)"
+msgstr "duplicate-id-aria ({0})"
+
+msgid "duplicate-id-aria (resolved)"
+msgstr "duplicate-id-aria (resolved)"
+
+msgid "form-field-multiple-labels (unresolved)"
+msgstr "form-field-multiple-labels ({0})"
+
+msgid "form-field-multiple-labels (resolved)"
+msgstr "form-field-multiple-labels (resolved)"
+
+msgid "frame-title (unresolved)"
+msgstr "frame-title ({0})"
+
+msgid "frame-title (resolved)"
+msgstr "frame-title (resolved)"
+
+msgid "html-xml-lang-mismatch (unresolved)"
+msgstr "html-xml-lang-mismatch ({0})"
+
+msgid "html-xml-lang-mismatch (resolved)"
+msgstr "html-xml-lang-mismatch (resolved)"
+
+msgid "input-button-name (unresolved)"
+msgstr "input-button-name ({0})"
+
+msgid "input-button-name (resolved)"
+msgstr "input-button-name (resolved)"
+
+msgid "input-image-alt (unresolved)"
+msgstr "input-image-alt ({0})"
+
+msgid "input-image-alt (resolved)"
+msgstr "input-image-alt (resolved)"
+
+msgid "link-in-text-block (unresolved)"
+msgstr "link-in-text-block ({0})"
+
+msgid "link-in-text-block (resolved)"
+msgstr "link-in-text-block (resolved)"
+
+msgid "meta-refresh (unresolved)"
+msgstr "meta-refresh ({0})"
+
+msgid "meta-refresh (resolved)"
+msgstr "meta-refresh (resolved)"
+
+msgid "object-alt (unresolved)"
+msgstr "object-alt ({0})"
+
+msgid "object-alt (resolved)"
+msgstr "object-alt (resolved)"
+
+msgid "select-name (unresolved)"
+msgstr "select-name ({0})"
+
+msgid "select-name (resolved)"
+msgstr "select-name (resolved)"
+
+msgid "tabindex (unresolved)"
+msgstr "tabindex ({0})"
+
+msgid "tabindex (resolved)"
+msgstr "tabindex (resolved)"
+
+msgid "table-duplicate-name (unresolved)"
+msgstr "table-duplicate-name ({0})"
+
+msgid "table-duplicate-name (resolved)"
+msgstr "table-duplicate-name (resolved)"
+
+msgid "td-headers-attr (unresolved)"
+msgstr "td-headers-attr ({0})"
+
+msgid "td-headers-attr (resolved)"
+msgstr "td-headers-attr (resolved)"
+
+msgid "th-has-data-cells (unresolved)"
+msgstr "th-has-data-cells ({0})"
+
+msgid "th-has-data-cells (resolved)"
+msgstr "th-has-data-cells (resolved)"
+
+msgid "valid-lang (unresolved)"
+msgstr "valid-lang ({0})"
+
+msgid "valid-lang (resolved)"
+msgstr "valid-lang (resolved)"
+
+msgid "video-caption (unresolved)"
+msgstr "video-caption ({0})"
+
+msgid "video-caption (resolved)"
+msgstr "video-caption (resolved)"
+
+msgid "focusable-controls (unresolved)"
+msgstr "focusable-controls ({0})"
+
+msgid "focusable-controls (resolved)"
+msgstr "focusable-controls (resolved)"
+
+msgid "interactive-element-affordance (unresolved)"
+msgstr "interactive-element-affordance ({0})"
+
+msgid "interactive-element-affordance (resolved)"
+msgstr "interactive-element-affordance (resolved)"
+
+msgid "logical-tab-order (unresolved)"
+msgstr "logical-tab-order ({0})"
+
+msgid "logical-tab-order (resolved)"
+msgstr "logical-tab-order (resolved)"
+
+msgid "visual-order-follows-dom (unresolved)"
+msgstr "visual-order-follows-dom ({0})"
+
+msgid "visual-order-follows-dom (resolved)"
+msgstr "visual-order-follows-dom (resolved)"
+
+msgid "focus-traps (unresolved)"
+msgstr "focus-traps ({0})"
+
+msgid "focus-traps (resolved)"
+msgstr "focus-traps (resolved)"
+
+msgid "managed-focus (unresolved)"
+msgstr "managed-focus ({0})"
+
+msgid "managed-focus (resolved)"
+msgstr "managed-focus (resolved)"
+
+msgid "use-landmarks (unresolved)"
+msgstr "use-landmarks ({0})"
+
+msgid "use-landmarks (resolved)"
+msgstr "use-landmarks (resolved)"
+
+msgid "offscreen-content-hidden (unresolved)"
+msgstr "offscreen-content-hidden ({0})"
+
+msgid "offscreen-content-hidden (resolved)"
+msgstr "offscreen-content-hidden (resolved)"
+
+msgid "custom-controls-labels (unresolved)"
+msgstr "custom-controls-labels ({0})"
+
+msgid "custom-controls-labels (resolved)"
+msgstr "custom-controls-labels (resolved)"
+
+msgid "custom-controls-roles (unresolved)"
+msgstr "custom-controls-roles ({0})"
+
+msgid "custom-controls-roles (resolved)"
+msgstr "custom-controls-roles (resolved)"
+
+msgid "empty-heading (unresolved)"
+msgstr "empty-heading ({0})"
+
+msgid "empty-heading (resolved)"
+msgstr "empty-heading (resolved)"
+
+msgid "landmark-one-main (unresolved)"
+msgstr "landmark-one-main ({0})"
+
+msgid "landmark-one-main (resolved)"
+msgstr "landmark-one-main (resolved)"
+
+msgid "label-content-name-mismatch (unresolved)"
+msgstr "label-content-name-mismatch ({0})"
+
+msgid "label-content-name-mismatch (resolved)"
+msgstr "label-content-name-mismatch (resolved)"
+
+msgid "table-fake-caption (unresolved)"
+msgstr "table-fake-caption ({0})"
+
+msgid "table-fake-caption (resolved)"
+msgstr "table-fake-caption (resolved)"
+
+msgid "td-has-header (unresolved)"
+msgstr "td-has-header ({0})"
+
+msgid "td-has-header (resolved)"
+msgstr "td-has-header (resolved)"
+
+msgid "redirects-http (unresolved)"
+msgstr "redirects-http ({0})"
+
+msgid "redirects-http (resolved)"
+msgstr "redirects-http (resolved)"
+
+msgid "has-hsts (unresolved)"
+msgstr "has-hsts ({0})"
+
+msgid "has-hsts (resolved)"
+msgstr "has-hsts (resolved)"
+
+msgid "structured-data (unresolved)"
+msgstr "structured-data ({0})"
+
+msgid "structured-data (resolved)"
+msgstr "structured-data (resolved)"

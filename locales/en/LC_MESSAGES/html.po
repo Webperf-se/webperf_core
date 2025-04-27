@@ -1,0 +1,198 @@
+# Copyright (C) 2025 WebPerf
+# FIRST AUTHOR <your-email-here@webperf.se>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2025-04-27 11:32\n"
+"PO-Revision-Date: 2025-04-27 11:32\n"
+"Last-Translator: Your-Name-Hear <your-email-here@webperf.se>\n"
+"Language-Team: English <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+#
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Text to show instead of msgid, showed for severity levels (critical, error and warning)"
+
+msgid "rule-id (resolved)"
+msgstr "Text to show instead of msgid, here unique on severity level resolved"
+
+msgid "rule-id"
+msgstr "Text to show instead of msgid, here independent of severity level"
+
+# End of Examples
+
+
+msgid "attr-spacing (unresolved)"
+msgstr "attr-spacing ({0})"
+
+msgid "attr-spacing (resolved)"
+msgstr "attr-spacing (resolved)"
+
+msgid "attribute-allowed-values (unresolved)"
+msgstr "attribute-allowed-values ({0})"
+
+msgid "attribute-allowed-values (resolved)"
+msgstr "attribute-allowed-values (resolved)"
+
+msgid "attribute-misuse (unresolved)"
+msgstr "attribute-misuse ({0})"
+
+msgid "attribute-misuse (resolved)"
+msgstr "attribute-misuse (resolved)"
+
+msgid "close-attr (unresolved)"
+msgstr "close-attr ({0})"
+
+msgid "close-attr (resolved)"
+msgstr "close-attr (resolved)"
+
+msgid "close-order (unresolved)"
+msgstr "close-order ({0})"
+
+msgid "close-order (resolved)"
+msgstr "close-order (resolved)"
+
+msgid "deprecated (unresolved)"
+msgstr "deprecated ({0})"
+
+msgid "deprecated (resolved)"
+msgstr "deprecated (resolved)"
+
+msgid "deprecated-rule (unresolved)"
+msgstr "deprecated-rule ({0})"
+
+msgid "deprecated-rule (resolved)"
+msgstr "deprecated-rule (resolved)"
+
+msgid "doctype-html (unresolved)"
+msgstr "doctype-html ({0})"
+
+msgid "doctype-html (resolved)"
+msgstr "doctype-html (resolved)"
+
+msgid "element-name (unresolved)"
+msgstr "element-name ({0})"
+
+msgid "element-name (resolved)"
+msgstr "element-name (resolved)"
+
+msgid "element-permitted-content (unresolved)"
+msgstr "element-permitted-content ({0})"
+
+msgid "element-permitted-content (resolved)"
+msgstr "element-permitted-content (resolved)"
+
+msgid "element-permitted-occurrences (unresolved)"
+msgstr "element-permitted-occurrences ({0})"
+
+msgid "element-permitted-occurrences (resolved)"
+msgstr "element-permitted-occurrences (resolved)"
+
+msgid "element-permitted-order (unresolved)"
+msgstr "element-permitted-order ({0})"
+
+msgid "element-permitted-order (resolved)"
+msgstr "element-permitted-order (resolved)"
+
+msgid "element-permitted-parent (unresolved)"
+msgstr "element-permitted-parent ({0})"
+
+msgid "element-permitted-parent (resolved)"
+msgstr "element-permitted-parent (resolved)"
+
+msgid "element-required-attributes (unresolved)"
+msgstr "element-required-attributes ({0})"
+
+msgid "element-required-attributes (resolved)"
+msgstr "element-required-attributes (resolved)"
+
+msgid "element-required-content (unresolved)"
+msgstr "element-required-content ({0})"
+
+msgid "element-required-content (resolved)"
+msgstr "element-required-content (resolved)"
+
+msgid "map-dup-name (unresolved)"
+msgstr "map-dup-name ({0})"
+
+msgid "map-dup-name (resolved)"
+msgstr "map-dup-name (resolved)"
+
+msgid "map-id-name (unresolved)"
+msgstr "map-id-name ({0})"
+
+msgid "map-id-name (resolved)"
+msgstr "map-id-name (resolved)"
+
+msgid "no-deprecated-attr (unresolved)"
+msgstr "no-deprecated-attr ({0})"
+
+msgid "no-deprecated-attr (resolved)"
+msgstr "no-deprecated-attr (resolved)"
+
+msgid "no-dup-attr (unresolved)"
+msgstr "no-dup-attr ({0})"
+
+msgid "no-dup-attr (resolved)"
+msgstr "no-dup-attr (resolved)"
+
+msgid "no-dup-id (unresolved)"
+msgstr "no-dup-id ({0})"
+
+msgid "no-dup-id (resolved)"
+msgstr "no-dup-id (resolved)"
+
+msgid "no-multiple-main (unresolved)"
+msgstr "no-multiple-main ({0})"
+
+msgid "no-multiple-main (resolved)"
+msgstr "no-multiple-main (resolved)"
+
+msgid "no-raw-characters (unresolved)"
+msgstr "no-raw-characters ({0})"
+
+msgid "no-raw-characters (resolved)"
+msgstr "no-raw-characters (resolved)"
+
+msgid "no-unused-disable (unresolved)"
+msgstr "no-unused-disable ({0})"
+
+msgid "no-unused-disable (resolved)"
+msgstr "no-unused-disable (resolved)"
+
+msgid "script-element (unresolved)"
+msgstr "script-element ({0})"
+
+msgid "script-element (resolved)"
+msgstr "script-element (resolved)"
+
+msgid "unrecognized-char-ref (unresolved)"
+msgstr "unrecognized-char-ref ({0})"
+
+msgid "unrecognized-char-ref (resolved)"
+msgstr "unrecognized-char-ref (resolved)"
+
+msgid "valid-autocomplete (unresolved)"
+msgstr "valid-autocomplete ({0})"
+
+msgid "valid-autocomplete (resolved)"
+msgstr "valid-autocomplete (resolved)"
+
+msgid "valid-id (unresolved)"
+msgstr "valid-id ({0})"
+
+msgid "valid-id (resolved)"
+msgstr "valid-id (resolved)"
+
+msgid "void-content (unresolved)"
+msgstr "void-content ({0})"
+
+msgid "void-content (resolved)"
+msgstr "void-content (resolved)"

@@ -11,7 +11,8 @@ import urllib
 from urllib.parse import ParseResult, urlparse, urlunparse
 import uuid
 from tests.utils import change_url_to_test_url,\
-    get_dependency_version, is_file_older_than
+    get_dependency_version, is_file_older_than,\
+    get_translation, create_or_append_translation
 import engines.sitespeed_result as sitespeed_cache
 from helpers.setting_helper import get_config
 from helpers.browser_helper import get_chromium_browser
@@ -25,14 +26,46 @@ def calculate_rating(rating, result_dict):
         for issue in info["issues"]:
             if get_config('general.review.improve-only') and issue["severity"] == "resolved":
                 continue
+
+            text = None
+            if 'text' in issue:
+                text = issue['text']
+            elif 'test' not in issue:
+                text = f"{issue['rule']} ({issue['severity']})"
+            else:
+                severity_key = None
+                if issue['severity'] in ('resolved'):
+                    severity_key = 'resolved'
+                elif issue['severity'] in ('critical', 'error', 'warning'):
+                    severity_key = 'unresolved'
+                elif issue['severity'] in ('info'):
+                    severity_key = 'info'
+                else:
+                    severity_key = 'unknown'
+                text_primarykey = f"{issue['rule']} ({severity_key})"
+                text_secondarykey = f"{issue['rule']}"
+                try:
+                    local_translation = get_translation(
+                            issue['test'],
+                            get_config('general.language')
+                        )
+                    text = local_translation(text_primarykey)
+                    if text == text_primarykey:
+                        print(f"no translation found for: {issue['test']}, and language: {get_config('general.language')}. Adding it so you can translate it.")
+                        create_or_append_translation(issue['test'], get_config('general.language'), text_secondarykey)
+                except FileNotFoundError:
+                    text = text_primarykey
+                    print(f"no translation found for: {issue['test']}, adding file for language: {get_config('general.language')} so you can translate it.")
+                    create_or_append_translation(issue['test'], get_config('general.language'), text_secondarykey)
+
             if issue['category'] == 'standard':
-                issues_standard.append(f"{issue['rule']} ({issue['severity']})")
+                issues_standard.append(text)
             elif issue['category'] == 'security':
-                issues_security.append(f"{issue['rule']} ({issue['severity']})")
+                issues_security.append(text)
             elif issue['category'] == 'a11y':
-                issues_a11y.append(f"{issue['rule']} ({issue['severity']})")
+                issues_a11y.append(text)
             elif issue['category'] == 'performance':
-                issues_performance.append(f"{issue['rule']} ({issue['severity']})")
+                issues_performance.append(text)
 
         if 'overall' in info["score"]:
             overall = (info["score"]["overall"] / 100) * 5

@@ -18,7 +18,12 @@ Contributors:
 
 ## Projects we depend on:
 
-### [html-validate](https://www.npmjs.com/package/html-validate)
+### [@sitespeed.io/plugin](https://www.npmjs.com/package/@sitespeed.io/plugin)
+Usage: Used in the background in most cases where we need to visit website as browser
+License: MIT
+
+### [@sitespeed.io/plugin-lighthouse](https://www.npmjs.com/package/@sitespeed.io/plugin-lighthouse)
+Usage: Used in Google Lighthouse based Tests
 License: MIT
 
 ### [pa11y](https://www.npmjs.com/package/pa11y)
@@ -29,14 +34,22 @@ License: LGPL-3.0
 Usage: Used in the background in most cases where we need to visit website as browser
 License: MIT
 
-### [stylelint](https://www.npmjs.com/package/stylelint)
+### [plugin-css](https://www.npmjs.com/package/plugin-css)
 License: MIT
 
-### [eslint](https://www.npmjs.com/package/eslint)
+### [plugin-html](https://www.npmjs.com/package/plugin-html)
 License: MIT
 
-### [vnu-jar](https://www.npmjs.com/package/vnu-jar)
-Usage: Used in HTML and CSS Validation Test
+### [plugin-javascript](https://www.npmjs.com/package/plugin-javascript)
+License: MIT
+
+### [plugin-pagenotfound](https://www.npmjs.com/package/plugin-pagenotfound)
+License: MIT
+
+### [plugin-accessibility-statement](https://www.npmjs.com/package/plugin-accessibility-statement)
+License: MIT
+
+### [plugin-webperf-core](https://www.npmjs.com/package/plugin-webperf-core)
 License: MIT
 
 ### [yellowlabtools](https://www.npmjs.com/package/yellowlabtools)
@@ -101,10 +114,6 @@ Usage: Used to understand and compare software versions
 - https://www.cvedetails.com/vulnerability-list.php?vendor_id=26&product_id=3427&page=1
 - https://www.php.net/eol.php
 - https://www.php.net/releases/
-
-### Update HTML and CSS Test Sources:
-- https://developer.mozilla.org/en-US/docs/Web/CSS/Reference
-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element#obsolete_and_deprecated_elements
 
 ### Tracking and Privacy Test Sources:
 - https://blocklistproject.github.io/Lists/alt-version/tracking-nl.txt

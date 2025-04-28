@@ -826,6 +826,7 @@ def get_website_support_from_sitespeed(url, org_domain, configuration, browser, 
         '--plugins.remove screenshot '
         '--plugins.remove html '
         '--plugins.remove metrics '
+        '--plugins.add plugin-webperf-core '
         '--browsertime.screenshot false '
         '--screenshot false '
         '--screenshotLCP false '

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from pathlib import Path
+from urllib.parse import urlparse
 import os
 import json
 import re
@@ -12,6 +13,7 @@ from helpers.browser_helper import get_chromium_browser
 from tests.utils import get_best_country_code, get_friendly_url_name,\
     get_translation, is_country_code_in_eu_or_on_exception_list
 from tests.sitespeed_base import get_result
+from engines.sitespeed_result import read_sites_from_directory
 
 def get_domains_from_url(url):
     domains = set()
@@ -766,7 +768,19 @@ def get_rating_from_sitespeed(url, local_translation, global_translation):
     # We don't need extra iterations for what we are using it for
     sitespeed_iterations = 1
 
-    sitespeed_arg = f'--shm-size=1g -b {get_chromium_browser()} --plugins.remove screenshot --plugins.remove html --plugins.remove metrics --browsertime.screenshot false --screenshot false --screenshotLCP false --browsertime.screenshotLCP false --chrome.cdp.performance false --browsertime.chrome.timeline false --videoParams.createFilmstrip false --visualMetrics false --visualMetricsPerceptual false --visualMetricsContentful false --browsertime.headless true --browsertime.chrome.includeResponseBodies all --utc true --browsertime.chrome.args ignore-certificate-errors -n {sitespeed_iterations}'
+    sitespeed_arg = (
+        f'--shm-size=1g -b {get_chromium_browser()} '
+        '--plugins.add plugin-webperf-core '
+        '--plugins.remove screenshot --plugins.remove html --plugins.remove metrics '
+        '--browsertime.screenshot false --screenshot false --screenshotLCP false '
+        '--browsertime.screenshotLCP false --chrome.cdp.performance false '
+        '--browsertime.chrome.timeline false --videoParams.createFilmstrip false '
+        '--visualMetrics false --visualMetricsPerceptual false '
+        '--visualMetricsContentful false '
+        '--browsertime.headless true '
+        '--browsertime.chrome.includeResponseBodies all '
+        '--utc true --browsertime.chrome.args '
+        'ignore-certificate-errors -n {sitespeed_iterations}')
     if get_config('tests.sitespeed.xvfb'):
         sitespeed_arg += ' --xvfb'
 
@@ -776,7 +790,15 @@ def get_rating_from_sitespeed(url, local_translation, global_translation):
         sitespeed_arg,
         get_config('tests.sitespeed.timeout'))
 
-    http_archive_content = get_file_content(filename)
+    o = urlparse(url)
+    origin_domain = o.hostname
+
+    browsertime_Hars = read_sites_from_directory(result_folder_name, origin_domain, -1, -1)
+    if len(browsertime_Hars) < 1:
+        rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
+        return (rating, {'failed': True })
+
+    http_archive_content = get_file_content(browsertime_Hars[0][0])
     if http_archive_content is None:
         return rating
 

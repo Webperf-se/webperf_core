@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
+from urllib.parse import urlparse
 import json
 import os
 from helpers.setting_helper import get_config
@@ -8,6 +9,7 @@ from helpers.models import Rating
 from tests import energy_efficiency_carbon_percentiles
 from tests.sitespeed_base import get_result
 from tests.utils import get_translation
+from engines.sitespeed_result import read_sites_from_directory
 
 # Code below is built from: https://gitlab.com/wholegrain/carbon-api-2-0
 
@@ -274,6 +276,7 @@ def get_total_bytes_for_url(url, result_dict):
     sitespeed_iterations = 1
     sitespeed_arg = (
             f'--shm-size=1g -b {get_chromium_browser()} '
+            '--plugins.add plugin-webperf-core '
             '--plugins.remove screenshot --plugins.remove html --plugins.remove metrics '
             '--browsertime.screenshot false --screenshot false --screenshotLCP false '
             '--browsertime.screenshotLCP false --chrome.cdp.performance false '
@@ -286,11 +289,19 @@ def get_total_bytes_for_url(url, result_dict):
     if get_config('tests.sitespeed.xvfb'):
         sitespeed_arg += ' --xvfb'
 
-    (_, filename) = get_result(
+    (result_folder_name, filename) = get_result(
         url,
         get_config('tests.sitespeed.docker.use'),
         sitespeed_arg,
         get_config('tests.sitespeed.timeout'))
 
-    transfer_bytes = get_total_bytes(filename, result_dict)
+    o = urlparse(url)
+    origin_domain = o.hostname
+
+    browsertime_Hars = read_sites_from_directory(result_folder_name, origin_domain, -1, -1)
+    if len(browsertime_Hars) < 1:
+        rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
+        return (rating, {'failed': True })
+
+    transfer_bytes = get_total_bytes(browsertime_Hars[0][0], result_dict)
     return transfer_bytes

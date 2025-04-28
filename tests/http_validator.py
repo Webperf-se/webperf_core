@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 from datetime import datetime
-import urllib
-import urllib.parse
+from urllib.parse import urlparse
 # https://docs.python.org/3/library/urllib.parse.html
 import dns.name
 import dns.query
@@ -21,6 +20,7 @@ from helpers.models import Rating
 from tests.utils import change_url_to_test_url, dns_lookup,\
     get_translation, merge_dicts
 from tests.sitespeed_base import get_result
+from engines.sitespeed_result import read_sites_from_directory
 
 csp_only_global_result_dict = {}
 
@@ -47,18 +47,18 @@ def run_test(global_translation, url):
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     # We must take in consideration "www." subdomains...
-    o = urllib.parse.urlparse(url)
+    o = urlparse(url)
     org_hostname = o.hostname
     org_url = url
 
     hostname = org_hostname
     if hostname.startswith('www.'):
         url = org_url.replace(hostname, hostname[4:])
-        o = urllib.parse.urlparse(url)
+        o = urlparse(url)
         hostname = o.hostname
 
     if get_config('tests.http.csp-only'):
-        result_dict = merge_dicts(check_csp(org_url), csp_only_global_result_dict, True, True)
+        result_dict = merge_dicts(check_csp(org_url, global_translation), csp_only_global_result_dict, True, True)
         if 'nof_pages' not in result_dict:
             result_dict['nof_pages'] = 1
         else:
@@ -66,12 +66,12 @@ def run_test(global_translation, url):
 
         csp_only_global_result_dict = result_dict
     else:
-        result_dict = check_http_to_https(url)
-        result_dict = check_tls_versions(url, result_dict)
+        result_dict = check_http_to_https(url, global_translation)
+        result_dict = check_tls_versions(url, result_dict, global_translation)
         if org_hostname != hostname:
-            result_dict = check_tls_versions(org_url, result_dict)
+            result_dict = check_tls_versions(org_url, result_dict, global_translation)
         result_dict = check_ip_version(result_dict)
-        result_dict = check_http_version(url, result_dict)
+        result_dict = check_http_version(url, result_dict, global_translation)
 
     result_dict = cleanup(result_dict)
 
@@ -82,7 +82,7 @@ def run_test(global_translation, url):
 
     return (rating, result_dict)
 
-def check_tls_versions(url, result_dict):
+def check_tls_versions(url, result_dict, global_translation):
     """
     Checks the TLS versions for all domains in the result dictionary.
 
@@ -95,16 +95,16 @@ def check_tls_versions(url, result_dict):
         dict: The updated result dictionary with the TLS version information for each domain.
     """
 
-    o = urllib.parse.urlparse(url)
+    o = urlparse(url)
     o_domain = o.hostname
 
-    result_dict = check_tls_version_1_3(url, result_dict, o_domain)
-    result_dict = check_tls_version_1_2(url, result_dict, o_domain)
-    result_dict = check_tls_version_1_1(url, result_dict, o_domain)
-    result_dict = check_tls_version_1_0(url, result_dict, o_domain)
+    result_dict = check_tls_version_1_3(url, result_dict, o_domain, global_translation)
+    result_dict = check_tls_version_1_2(url, result_dict, o_domain, global_translation)
+    result_dict = check_tls_version_1_1(url, result_dict, o_domain, global_translation)
+    result_dict = check_tls_version_1_0(url, result_dict, o_domain, global_translation)
     return result_dict
 
-def check_tls_version_1_0(url, result_dict, o_domain):
+def check_tls_version_1_0(url, result_dict, o_domain, global_translation):
     """
     Checks if the given URL supports TLSv1.0 and updates the result dictionary.
 
@@ -129,7 +129,8 @@ def check_tls_version_1_0(url, result_dict, o_domain):
                 o_domain,
                 configuration,
                 browser,
-                get_config('tests.sitespeed.timeout'))
+                get_config('tests.sitespeed.timeout'),
+                global_translation)
         if 'visits' in tmp_result and tmp_result['visits'] > 0:
             for domain, domain_categories in tmp_result.items():
                 if not isinstance(domain_categories, dict):
@@ -140,7 +141,7 @@ def check_tls_version_1_0(url, result_dict, o_domain):
             result_dict, True, True)
     return result_dict
 
-def check_tls_version_1_1(url, result_dict, o_domain):
+def check_tls_version_1_1(url, result_dict, o_domain, global_translation):
     """
     Checks if the given URL supports TLSv1.1 and updates the result dictionary.
 
@@ -164,7 +165,8 @@ def check_tls_version_1_1(url, result_dict, o_domain):
                 o_domain,
                 configuration,
                 browser,
-                get_config('tests.sitespeed.timeout'))
+                get_config('tests.sitespeed.timeout'),
+                global_translation)
         if 'visits' in tmp_result and tmp_result['visits'] > 0:
             for domain, domain_categories in tmp_result.items():
                 if not isinstance(domain_categories, dict):
@@ -175,7 +177,7 @@ def check_tls_version_1_1(url, result_dict, o_domain):
             result_dict, True, True)
     return result_dict
 
-def check_tls_version_1_2(url, result_dict, o_domain):
+def check_tls_version_1_2(url, result_dict, o_domain, global_translation):
     """
     Checks if the given URL supports TLSv1.2 and updates the result dictionary.
 
@@ -199,7 +201,8 @@ def check_tls_version_1_2(url, result_dict, o_domain):
                 o_domain,
                 configuration,
                 browser,
-                get_config('tests.sitespeed.timeout'))
+                get_config('tests.sitespeed.timeout'),
+                global_translation)
         if 'visits' in tmp_result and tmp_result['visits'] > 0:
             for domain, domain_categories in tmp_result.items():
                 if not isinstance(domain_categories, dict):
@@ -210,7 +213,7 @@ def check_tls_version_1_2(url, result_dict, o_domain):
             result_dict, True, True)
     return result_dict
 
-def check_tls_version_1_3(url, result_dict, o_domain):
+def check_tls_version_1_3(url, result_dict, o_domain, global_translation):
     """
     Checks if the given URL supports TLSv1.3 and updates the result dictionary.
 
@@ -234,7 +237,8 @@ def check_tls_version_1_3(url, result_dict, o_domain):
                 o_domain,
                 configuration,
                 browser,
-                get_config('tests.sitespeed.timeout'))
+                get_config('tests.sitespeed.timeout'),
+                global_translation)
         if 'visits' in tmp_result and tmp_result['visits'] > 0:
             for domain, domain_categories in tmp_result.items():
                 if not isinstance(domain_categories, dict):
@@ -630,12 +634,12 @@ def cleanup(result_dict):
                 result_dict[domain][subkey] = sorted(list(set(result_dict[domain][subkey])))
     return result_dict
 
-def check_csp(url):
+def check_csp(url, global_translation):
     """
     This function checks the Content Security Policy (CSP) of a given URL.
     The function returns a dictionary with the result.
     """
-    o = urllib.parse.urlparse(url)
+    o = urlparse(url)
     o_domain = o.hostname
 
     browser = 'chrome'
@@ -646,11 +650,12 @@ def check_csp(url):
         o_domain,
         configuration,
         browser,
-        get_config('tests.sitespeed.timeout'))
+        get_config('tests.sitespeed.timeout'),
+        global_translation)
 
     return result_dict
 
-def check_http_to_https(url):
+def check_http_to_https(url, global_translation):
     """
     Checks and updates the scheme support (HTTP to HTTPS) for a given URL and
     its associated domains. This function parses the given URL and
@@ -669,7 +674,7 @@ def check_http_to_https(url):
               feature details for each domain associated with the URL.
     """
     http_url = ''
-    o = urllib.parse.urlparse(url)
+    o = urlparse(url)
     o_domain = o.hostname
 
     if o.scheme == 'https':
@@ -685,7 +690,8 @@ def check_http_to_https(url):
         o_domain,
         configuration,
         browser,
-        get_config('tests.sitespeed.timeout'))
+        get_config('tests.sitespeed.timeout'),
+        global_translation)
 
     # If website redirects to www. domain without first redirecting to HTTPS, make sure we test it.
     if o_domain in result_dict:
@@ -699,7 +705,8 @@ def check_http_to_https(url):
                     o_domain,
                     configuration,
                     browser,
-                    get_config('tests.sitespeed.timeout')),
+                    get_config('tests.sitespeed.timeout'),
+                    global_translation),
                 result_dict, True, True)
         else:
             append_domain_entry(o_domain, 'schemes', 'HTTPS-REDIRECT*', result_dict)
@@ -720,7 +727,8 @@ def check_http_to_https(url):
                     www_domain_key,
                     configuration,
                     browser,
-                    get_config('tests.sitespeed.timeout')),
+                    get_config('tests.sitespeed.timeout'),
+                    global_translation),
                 result_dict,True, True)
         else:
             append_domain_entry(www_domain_key, 'schemes', 'HTTPS-REDIRECT*', result_dict)
@@ -791,7 +799,7 @@ def check_ip_version(result_dict):
 
     return result_dict
 
-def get_website_support_from_sitespeed(url, org_domain, configuration, browser, timeout):
+def get_website_support_from_sitespeed(url, org_domain, configuration, browser, timeout, global_translation):
     """
     Checks the website support using SiteSpeed for a given URL and browser configuration,
     and returns the results.
@@ -818,6 +826,7 @@ def get_website_support_from_sitespeed(url, org_domain, configuration, browser, 
         '--plugins.remove screenshot '
         '--plugins.remove html '
         '--plugins.remove metrics '
+        '--plugins.add plugin-webperf-core '
         '--browsertime.screenshot false '
         '--screenshot false '
         '--screenshotLCP false '
@@ -854,10 +863,17 @@ def get_website_support_from_sitespeed(url, org_domain, configuration, browser, 
     if get_config('tests.sitespeed.xvfb'):
         sitespeed_arg += ' --xvfb'
 
-    (_, filename) = get_result(
+    (result_folder_name, filename) = get_result(
         url, get_config('tests.sitespeed.docker.use'), sitespeed_arg, timeout)
 
-    result = get_data_from_sitespeed(filename, org_domain)
+    o = urlparse(url)
+    url_domain = o.hostname
+
+    browsertime_Hars = read_sites_from_directory(result_folder_name, url_domain, -1, -1)
+    if len(browsertime_Hars) < 1:
+        return {'failed': True }
+
+    result = get_data_from_sitespeed(browsertime_Hars[0][0], url_domain)
     return result
 
 def contains_value_for_all(result_dict, key, value):
@@ -898,7 +914,7 @@ def contains_value_for_all(result_dict, key, value):
             nof_values += 1
     return nof_keys == nof_values and nof_keys != 0
 
-def check_http_version(url, result_dict):
+def check_http_version(url, result_dict, global_translation):
     """
     Checks the HTTP version supported by a given URL and updates a result dictionary.
 
@@ -915,7 +931,7 @@ def check_http_version(url, result_dict):
     dict: The result dictionary updated with the HTTP version support information.
     """
 
-    o = urllib.parse.urlparse(url)
+    o = urlparse(url)
     o_domain = o.hostname
 
     if not contains_value_for_all(result_dict, 'protocols', 'HTTP/1.1'):
@@ -931,7 +947,8 @@ def check_http_version(url, result_dict):
                 o_domain,
                 configuration,
                 browser,
-                get_config('tests.sitespeed.timeout')),
+                get_config('tests.sitespeed.timeout'),
+                global_translation),
             result_dict, True, True)
 
     if not contains_value_for_all(result_dict, 'protocols', 'HTTP/2'):
@@ -948,7 +965,8 @@ def check_http_version(url, result_dict):
                 o_domain,
                 configuration,
                 browser,
-                get_config('tests.sitespeed.timeout')),
+                get_config('tests.sitespeed.timeout'),
+                global_translation),
             result_dict, True, True)
 
     if not contains_value_for_all(result_dict, 'protocols', 'HTTP/3'):
@@ -965,7 +983,8 @@ def check_http_version(url, result_dict):
                 o_domain,
                 configuration,
                 browser,
-                get_config('tests.sitespeed.timeout')),
+                get_config('tests.sitespeed.timeout'),
+                global_translation),
             result_dict, True, True)
 
     return result_dict

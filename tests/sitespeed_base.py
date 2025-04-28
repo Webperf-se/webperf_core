@@ -18,6 +18,7 @@ from helpers.setting_helper import get_config
 from helpers.browser_helper import get_chromium_browser
 
 def calculate_rating(rating, result_dict):
+    issues_other = []
     issues_standard =[]
     issues_security = []
     issues_a11y = []
@@ -68,10 +69,13 @@ def calculate_rating(rating, result_dict):
                 issues_a11y.append(text)
             elif issue['category'] == 'performance':
                 issues_performance.append(text)
+            else:
+                issues_other.append(text)
 
         if 'overall' in info["score"]:
             overall = (info["score"]["overall"] / 100) * 5
             rating.set_overall(overall)
+            rating.overall_review = "\n".join([f"- {item}" for item in issues_other]) + "\n"
         if 'standard' in info["score"]:
             standard = (info["score"]["standard"] / 100) * 5
             rating.set_standards(standard)

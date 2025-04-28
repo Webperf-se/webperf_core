@@ -28,12 +28,12 @@ from engines.markdown_engine import write_tests as markdown_write_tests
 def run_dummy_test(global_translation, url):
     return []
 
-TEST_ALL = (TEST_UNKNOWN_01,
-            TEST_GOOGLE_LIGHTHOUSE, TEST_PAGE_NOT_FOUND,
+TEST_ALL = (TEST_UNKNOWN_00,
+            TEST_DEPRECATED, TEST_PAGE_NOT_FOUND,
             TEST_UNKNOWN_03,
-            TEST_GOOGLE_LIGHTHOUSE_SEO, TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE,
             TEST_DEPRECATED, TEST_DEPRECATED,
-            TEST_DEPRECATED, TEST_STANDARD_FILES, TEST_GOOGLE_LIGHTHOUSE_A11Y,
+            TEST_DEPRECATED, TEST_DEPRECATED,
+            TEST_DEPRECATED, TEST_STANDARD_FILES, TEST_DEPRECATED,
             TEST_UNKNOWN_11, TEST_UNKNOWN_12, TEST_UNKNOWN_13, TEST_UNKNOWN_14,
             TEST_SITESPEED,
             TEST_UNKNOWN_16,
@@ -41,17 +41,14 @@ TEST_ALL = (TEST_UNKNOWN_01,
             TEST_UNKNOWN_19,
             TEST_WEBBKOLL, TEST_HTTP, TEST_ENERGY_EFFICIENCY, TEST_TRACKING,
             TEST_EMAIL, TEST_SOFTWARE, TEST_A11Y_STATEMENT,
-            TEST_LINT_CSS, TEST_LINT_HTML, TEST_LINT_JS
-            ) = range(30)
+            TEST_LINT_CSS, TEST_LINT_HTML, TEST_LINT_JS,
+            TEST_GOOGLE_LIGHTHOUSE
+            ) = range(31)
 
 TEST_ALL_FUNCS = {
         TEST_PAGE_NOT_FOUND: run_dummy_test,
         TEST_WEBBKOLL: run_test_privacy_webbkollen,
-        TEST_GOOGLE_LIGHTHOUSE: run_dummy_test,
-        TEST_GOOGLE_LIGHTHOUSE_SEO: run_dummy_test,
-        TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE: run_dummy_test,
         TEST_STANDARD_FILES:run_test_standard_files,
-        TEST_GOOGLE_LIGHTHOUSE_A11Y: run_dummy_test,
         TEST_SITESPEED: run_test_performance_sitespeed_io,
         TEST_YELLOW_LAB_TOOLS: run_test_frontend_quality_yellow_lab_tools,
         TEST_PA11Y: run_test_a11y_pa11y,
@@ -63,7 +60,8 @@ TEST_ALL_FUNCS = {
         TEST_A11Y_STATEMENT: run_dummy_test,
         TEST_LINT_CSS: run_dummy_test,
         TEST_LINT_HTML: run_dummy_test,
-        TEST_LINT_JS: run_dummy_test
+        TEST_LINT_JS: run_dummy_test,
+        TEST_GOOGLE_LIGHTHOUSE: run_dummy_test
     }
 
 
@@ -86,10 +84,7 @@ TEST_USE_SITESPEED = {
         TEST_LINT_CSS: 'plugin-css',
         TEST_LINT_HTML: 'plugin-html',
         TEST_LINT_JS: 'plugin-javascript',
-        TEST_GOOGLE_LIGHTHOUSE: '@sitespeed.io/plugin-lighthouse',
-        TEST_GOOGLE_LIGHTHOUSE_SEO: '@sitespeed.io/plugin-lighthouse',
-        TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE: '@sitespeed.io/plugin-lighthouse',
-        TEST_GOOGLE_LIGHTHOUSE_A11Y: '@sitespeed.io/plugin-lighthouse',
+        TEST_GOOGLE_LIGHTHOUSE: '@sitespeed.io/plugin-lighthouse'
     }
 
 TEST_USE_SITESPEED_TOMORROW = {

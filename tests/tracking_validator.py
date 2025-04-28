@@ -780,7 +780,7 @@ def get_rating_from_sitespeed(url, local_translation, global_translation):
         '--browsertime.headless true '
         '--browsertime.chrome.includeResponseBodies all '
         '--utc true --browsertime.chrome.args '
-        'ignore-certificate-errors -n {sitespeed_iterations}')
+        f'ignore-certificate-errors -n {sitespeed_iterations}')
     if get_config('tests.sitespeed.xvfb'):
         sitespeed_arg += ' --xvfb'
 

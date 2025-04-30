@@ -117,8 +117,8 @@ Finished: 2024-05-19 15:00:48
 ```
 
 
-Run ALL test except tests `17` and `20` with review, show all reviews against one specific url ([https://webperf.se/](https://webperf.se/)):
-`python default.py -r -t -17,-20 -u https://webperf.se/`
+Run ALL test except tests `18` and `20` with review, show all reviews against one specific url ([https://webperf.se/](https://webperf.se/)):
+`python default.py -r -t -18,-20 -u https://webperf.se/`
 
 ```shell
 ###############################################

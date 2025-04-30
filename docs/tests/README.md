@@ -4,13 +4,8 @@ These are the tests available in Webperf Core. In most cases, you select a test 
 
 ## List of Tests
 
-* 1 - [Website performance (Lighthouse)](google-lighthouse-performance.md)
 * 2 - [Validate 404 page (by default checks for Swedish text, though)](page-not-found.md)
-* 4 - [SEO best practise (Lighthouse)](google-lighthouse-seo.md)
-* 5 - [Best practice on Web (Lighthouse)](google-lighthouse-best-practice.md)
-* 8 - [Progressive Web Apps (Lighthouse)](google-lighthouse-pwa.md)
 * 9 - [Standard files](standard.md)
-* 10 - [Accessibility (Lighthouse)](google-lighthouse-a11y.md)
 * 15 - [Website performance (SiteSpeed)](sitespeed.md)
 * 18 - [Accessibility (Pa11y)](pa11y.md)
 * 20 - [Security, data-protecting & Integrity (Webbkoll)](webbkoll.md)
@@ -23,6 +18,8 @@ These are the tests available in Webperf Core. In most cases, you select a test 
 * 27 - [CSS (StyleLint)](css-linting.md)
 * 28 - [HTML (html-validate)](html-validate.md)
 * 29 - [Javascript (ESlint)](js-linting.md)
+* 30 - [Accessibility, Best practice, Performance, SEO (Google Lighthouse)](google-lighthouse.md)
+
 
 ## Code Quality
 

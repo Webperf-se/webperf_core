@@ -44,14 +44,10 @@ List available test:
 
 ```shell
 Valid arguments for option -t/--test:
--t 1    : Performance (Google Lighthouse)
 -t 2    : 404 (Page not Found)
--t 4    : SEO (Google Lighthouse)
--t 5    : Best Practice (Google Lighthouse)
 -t 6    : HTML Validation
 -t 7    : CSS Validation
 -t 9    : Standard files
--t 10   : Accessibility (Google Lighthouse)
 -t 15   : Performance (Sitespeed.io)
 -t 18   : Accessibility (Pa11y)
 -t 20   : Integrity & Security (Webbkoll)

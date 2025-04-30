@@ -52,13 +52,8 @@ def show_test_help(global_translation):
         SystemExit: This function always ends the program after printing the help text.
     """
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS'))
-    print(global_translation('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE'))
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_PAGE_NOT_FOUND'))
-    print(global_translation('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_SEO'))
-    print(global_translation(
-                'TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_BEST_PRACTICE'))
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_STANDARD_FILES'))
-    print(global_translation('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_A11Y'))
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_SITESPEED'))
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_PA11Y'))
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_WEBBKOLL'))

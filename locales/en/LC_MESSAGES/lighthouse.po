@@ -30,220 +30,220 @@ msgstr "Text to show instead of msgid, here independent of severity level"
 
 
 msgid "largest-contentful-paint-element (unresolved)"
-msgstr "largest-contentful-paint-element ({0})"
+msgstr "Largest Contentful Paint element ({0})"
 
 msgid "largest-contentful-paint-element (resolved)"
-msgstr "largest-contentful-paint-element (resolved)"
+msgstr "Largest Contentful Paint element (resolved)"
 
 msgid "unused-css-rules (unresolved)"
-msgstr "unused-css-rules ({0})"
+msgstr "Reduce unused CSS ({0})"
 
 msgid "unused-css-rules (resolved)"
-msgstr "unused-css-rules (resolved)"
+msgstr "Reduce unused CSS (resolved)"
 
 msgid "unused-javascript (unresolved)"
-msgstr "unused-javascript ({0})"
+msgstr "Reduce unused JavaScript ({0})"
 
 msgid "unused-javascript (resolved)"
-msgstr "unused-javascript (resolved)"
+msgstr "Reduce unused JavaScript (resolved)"
 
 msgid "legacy-javascript (unresolved)"
-msgstr "legacy-javascript ({0})"
+msgstr "Avoid serving legacy JavaScript to modern browsers ({0})"
 
 msgid "legacy-javascript (resolved)"
-msgstr "legacy-javascript (resolved)"
+msgstr "Avoid serving legacy JavaScript to modern browsers (resolved)"
 
 msgid "cumulative-layout-shift (unresolved)"
-msgstr "cumulative-layout-shift ({0})"
+msgstr "Cumulative Layout Shift ({0})"
 
 msgid "cumulative-layout-shift (resolved)"
-msgstr "cumulative-layout-shift (resolved)"
+msgstr "Cumulative Layout Shift (resolved)"
 
 msgid "duplicated-javascript (unresolved)"
-msgstr "duplicated-javascript ({0})"
+msgstr "Remove duplicate modules in JavaScript bundles ({0})"
 
 msgid "duplicated-javascript (resolved)"
-msgstr "duplicated-javascript (resolved)"
+msgstr "Remove duplicate modules in JavaScript bundles (resolved)"
 
 msgid "layout-shifts (unresolved)"
-msgstr "layout-shifts ({0})"
+msgstr "Avoid large layout shifts ({0})"
 
 msgid "layout-shifts (resolved)"
-msgstr "layout-shifts (resolved)"
+msgstr "Avoid large layout shifts (resolved)"
 
 msgid "largest-contentful-paint (unresolved)"
-msgstr "largest-contentful-paint ({0})"
+msgstr "Largest Contentful Paint ({0})"
 
 msgid "largest-contentful-paint (resolved)"
-msgstr "largest-contentful-paint (resolved)"
+msgstr "Largest Contentful Paint (resolved)"
 
 msgid "uses-long-cache-ttl (unresolved)"
-msgstr "uses-long-cache-ttl ({0})"
+msgstr "Serve static assets with an efficient cache policy ({0})"
 
 msgid "uses-long-cache-ttl (resolved)"
-msgstr "uses-long-cache-ttl (resolved)"
+msgstr "Serve static assets with an efficient cache policy (resolved)"
 
 msgid "first-contentful-paint (unresolved)"
-msgstr "first-contentful-paint ({0})"
+msgstr "First Contentful Paint ({0})"
 
 msgid "first-contentful-paint (resolved)"
-msgstr "first-contentful-paint (resolved)"
+msgstr "First Contentful Paint (resolved)"
 
 msgid "render-blocking-resources (unresolved)"
-msgstr "render-blocking-resources ({0})"
+msgstr "Eliminate render-blocking resources ({0})"
 
 msgid "render-blocking-resources (resolved)"
-msgstr "render-blocking-resources (resolved)"
+msgstr "Eliminate render-blocking resources (resolved)"
 
 msgid "total-blocking-time (unresolved)"
-msgstr "total-blocking-time ({0})"
+msgstr "Total Blocking Time ({0})"
 
 msgid "total-blocking-time (resolved)"
-msgstr "total-blocking-time (resolved)"
+msgstr "Total Blocking Time (resolved)"
 
 msgid "speed-index (unresolved)"
-msgstr "speed-index ({0})"
+msgstr "Speed Index ({0})"
 
 msgid "speed-index (resolved)"
-msgstr "speed-index (resolved)"
+msgstr "Speed Index (resolved)"
 
 msgid "interactive (unresolved)"
-msgstr "interactive ({0})"
+msgstr "Time to Interactive ({0})"
 
 msgid "interactive (resolved)"
-msgstr "interactive (resolved)"
+msgstr "Time to Interactive (resolved)"
 
 msgid "max-potential-fid (unresolved)"
-msgstr "max-potential-fid ({0})"
+msgstr "Max Potential First Input Delay ({0})"
 
 msgid "max-potential-fid (resolved)"
-msgstr "max-potential-fid (resolved)"
+msgstr "Max Potential First Input Delay (resolved)"
 
 msgid "uses-responsive-images (unresolved)"
-msgstr "uses-responsive-images ({0})"
+msgstr "Properly size images ({0})"
 
 msgid "uses-responsive-images (resolved)"
-msgstr "uses-responsive-images (resolved)"
+msgstr "Properly size images (resolved)"
 
 msgid "offscreen-images (unresolved)"
-msgstr "offscreen-images ({0})"
+msgstr "Defer offscreen images ({0})"
 
 msgid "offscreen-images (resolved)"
-msgstr "offscreen-images (resolved)"
+msgstr "Defer offscreen images (resolved)"
 
 msgid "unminified-css (unresolved)"
-msgstr "unminified-css ({0})"
+msgstr "Minify CSS ({0})"
 
 msgid "unminified-css (resolved)"
-msgstr "unminified-css (resolved)"
+msgstr "Minify CSS (resolved)"
 
 msgid "unminified-javascript (unresolved)"
-msgstr "unminified-javascript ({0})"
+msgstr "Minify JavaScript ({0})"
 
 msgid "unminified-javascript (resolved)"
-msgstr "unminified-javascript (resolved)"
+msgstr "Minify JavaScript (resolved)"
 
 msgid "uses-optimized-images (unresolved)"
-msgstr "uses-optimized-images ({0})"
+msgstr "Efficiently encode images ({0})"
 
 msgid "uses-optimized-images (resolved)"
-msgstr "uses-optimized-images (resolved)"
+msgstr "Efficiently encode images (resolved)"
 
 msgid "modern-image-formats (unresolved)"
-msgstr "modern-image-formats ({0})"
+msgstr "Serve images in next-gen formats ({0})"
 
 msgid "modern-image-formats (resolved)"
-msgstr "modern-image-formats (resolved)"
+msgstr "Serve images in next-gen formats (resolved)"
 
 msgid "uses-text-compression (unresolved)"
-msgstr "uses-text-compression ({0})"
+msgstr "Enable text compression ({0})"
 
 msgid "uses-text-compression (resolved)"
-msgstr "uses-text-compression (resolved)"
+msgstr "Enable text compression (resolved)"
 
 msgid "uses-rel-preconnect (unresolved)"
-msgstr "uses-rel-preconnect ({0})"
+msgstr "Preconnect to required origins ({0})"
 
 msgid "uses-rel-preconnect (resolved)"
-msgstr "uses-rel-preconnect (resolved)"
+msgstr "Preconnect to required origins (resolved)"
 
 msgid "server-response-time (unresolved)"
-msgstr "server-response-time ({0})"
+msgstr "Initial server response time was short ({0})"
 
 msgid "server-response-time (resolved)"
-msgstr "server-response-time (resolved)"
+msgstr "Initial server response time was short (resolved)"
 
 msgid "redirects (unresolved)"
-msgstr "redirects ({0})"
+msgstr "Avoid multiple page redirects ({0})"
 
 msgid "redirects (resolved)"
-msgstr "redirects (resolved)"
+msgstr "Avoid multiple page redirects (resolved)"
 
 msgid "efficient-animated-content (unresolved)"
-msgstr "efficient-animated-content ({0})"
+msgstr "Use video formats for animated content ({0})"
 
 msgid "efficient-animated-content (resolved)"
-msgstr "efficient-animated-content (resolved)"
+msgstr "Use video formats for animated content (resolved)"
 
 msgid "total-byte-weight (unresolved)"
-msgstr "total-byte-weight ({0})"
+msgstr "Avoids enormous network payloads ({0})"
 
 msgid "total-byte-weight (resolved)"
-msgstr "total-byte-weight (resolved)"
+msgstr "Avoids enormous network payloads (resolved)"
 
 msgid "dom-size (unresolved)"
-msgstr "dom-size ({0})"
+msgstr "Avoid an excessive DOM size ({0})"
 
 msgid "dom-size (resolved)"
-msgstr "dom-size (resolved)"
+msgstr "Avoid an excessive DOM size (resolved)"
 
 msgid "bootup-time (unresolved)"
-msgstr "bootup-time ({0})"
+msgstr "JavaScript execution time ({0})"
 
 msgid "bootup-time (resolved)"
-msgstr "bootup-time (resolved)"
+msgstr "JavaScript execution time (resolved)"
 
 msgid "mainthread-work-breakdown (unresolved)"
-msgstr "mainthread-work-breakdown ({0})"
+msgstr "Minimizes main-thread work ({0})"
 
 msgid "mainthread-work-breakdown (resolved)"
-msgstr "mainthread-work-breakdown (resolved)"
+msgstr "Minimizes main-thread work (resolved)"
 
 msgid "font-display (unresolved)"
-msgstr "font-display ({0})"
+msgstr "All text remains visible during webfont loads ({0})"
 
 msgid "font-display (resolved)"
-msgstr "font-display (resolved)"
+msgstr "All text remains visible during webfont loads (resolved)"
 
 msgid "uses-passive-event-listeners (unresolved)"
-msgstr "uses-passive-event-listeners ({0})"
+msgstr "Uses passive listeners to improve scrolling performance ({0})"
 
 msgid "uses-passive-event-listeners (resolved)"
-msgstr "uses-passive-event-listeners (resolved)"
+msgstr "Uses passive listeners to improve scrolling performance (resolved)"
 
 msgid "no-document-write (unresolved)"
-msgstr "no-document-write ({0})"
+msgstr "Javascript, avoids `document.write()` ({0})"
 
 msgid "no-document-write (resolved)"
-msgstr "no-document-write (resolved)"
+msgstr "Javascript, avoids `document.write() (resolved)"
 
 msgid "long-tasks (unresolved)"
-msgstr "long-tasks ({0})"
+msgstr "Avoid long main-thread tasks ({0})"
 
 msgid "long-tasks (resolved)"
-msgstr "long-tasks (resolved)"
+msgstr "Avoid long main-thread tasks (resolved)"
 
 msgid "unsized-images (unresolved)"
-msgstr "unsized-images ({0})"
+msgstr "Image elements have explicit `width` and `height` ({0})"
 
 msgid "unsized-images (resolved)"
-msgstr "unsized-images (resolved)"
+msgstr "Image elements have explicit `width` and `height` (resolved)"
 
 msgid "viewport (unresolved)"
-msgstr "viewport ({0})"
+msgstr "`[user-scalable=\"no\"]` is not used in the `<meta name=\"viewport\">` element and the `[maximum-scale]` attribute is not less than 5. ({0})"
 
 msgid "viewport (resolved)"
-msgstr "viewport (resolved)"
+msgstr "`[user-scalable=\"no\"]` is not used in the `<meta name=\"viewport\">` element and the `[maximum-scale]` attribute is not less than 5. (resolved)"
 
 msgid "network-requests (unresolved)"
 msgstr "network-requests ({0})"

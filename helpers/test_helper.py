@@ -12,8 +12,6 @@ from tests.sitespeed_base import create_webperf_json,\
 from tests.privacy_webbkollen import run_test as run_test_privacy_webbkollen
 from tests.standard_files import run_test as run_test_standard_files
 from tests.performance_sitespeed_io import run_test as run_test_performance_sitespeed_io
-from tests.frontend_quality_yellow_lab_tools import \
-     run_test as run_test_frontend_quality_yellow_lab_tools
 from tests.a11y_pa11y import run_test as run_test_a11y_pa11y
 from tests.http_validator import run_test as run_test_http_validator
 from tests.energy_efficiency import run_test as run_test_energy_efficiency
@@ -37,7 +35,7 @@ TEST_ALL = (TEST_UNKNOWN_00,
             TEST_UNKNOWN_11, TEST_UNKNOWN_12, TEST_UNKNOWN_13, TEST_UNKNOWN_14,
             TEST_SITESPEED,
             TEST_UNKNOWN_16,
-            TEST_YELLOW_LAB_TOOLS, TEST_PA11Y,
+            TEST_DEPRECATED, TEST_PA11Y,
             TEST_UNKNOWN_19,
             TEST_WEBBKOLL, TEST_HTTP, TEST_ENERGY_EFFICIENCY, TEST_TRACKING,
             TEST_EMAIL, TEST_SOFTWARE, TEST_A11Y_STATEMENT,
@@ -50,7 +48,6 @@ TEST_ALL_FUNCS = {
         TEST_WEBBKOLL: run_test_privacy_webbkollen,
         TEST_STANDARD_FILES:run_test_standard_files,
         TEST_SITESPEED: run_test_performance_sitespeed_io,
-        TEST_YELLOW_LAB_TOOLS: run_test_frontend_quality_yellow_lab_tools,
         TEST_PA11Y: run_test_a11y_pa11y,
         TEST_HTTP: run_test_http_validator,
         TEST_ENERGY_EFFICIENCY: run_test_energy_efficiency,
@@ -69,7 +66,6 @@ TEST_FUNCS = {
         TEST_WEBBKOLL: run_test_privacy_webbkollen,
         TEST_STANDARD_FILES:run_test_standard_files,
         TEST_SITESPEED: run_test_performance_sitespeed_io,
-        TEST_YELLOW_LAB_TOOLS: run_test_frontend_quality_yellow_lab_tools,
         TEST_PA11Y: run_test_a11y_pa11y,
         TEST_HTTP: run_test_http_validator,
         TEST_ENERGY_EFFICIENCY: run_test_energy_efficiency,

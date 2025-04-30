@@ -52,10 +52,6 @@ License: MIT
 ### [plugin-webperf-core](https://www.npmjs.com/package/plugin-webperf-core)
 License: MIT
 
-### [yellowlabtools](https://www.npmjs.com/package/yellowlabtools)
-Usage: Used in Quality on frontend (Yellow Lab Tools) Test
-License: GPL-2.0
-
 ### [beautifulsoup4](https://pypi.org/project/beautifulsoup4/)
 Usage: Used to parse HTML content
 

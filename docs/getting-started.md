@@ -53,7 +53,6 @@ Valid arguments for option -t/--test:
 -t 9    : Standard files
 -t 10   : Accessibility (Google Lighthouse)
 -t 15   : Performance (Sitespeed.io)
--t 17   : Quality on frontend (Yellow Lab Tools)
 -t 18   : Accessibility (Pa11y)
 -t 20   : Integrity & Security (Webbkoll)
 -t 21   : HTTP & Network

@@ -299,7 +299,7 @@ def test_site(global_translation, site, test_types):
 
     sitespeed_plugins = ''
     other_tests = []
-    for test_id in TEST_ALL:
+    for test_id in TEST_ALL_FUNCS:
         if test_id not in test_types:
             continue
         
@@ -395,7 +395,7 @@ def validate_test_type(tmp_test_types):
             test_type = abs(test_type)
             remove_tests.append(test_type)
 
-    if len(test_types) == 0:
+    if len(tmp_test_types) == 0:
         test_types = list(valid_tests)
 
     for test_type in remove_tests:

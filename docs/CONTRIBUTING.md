@@ -102,7 +102,6 @@ We use some great libraries and tools to make webperf_core happen,
 if you love it, please consider funding/supporting some of the projects we use either by
 using the Sponsor button or by manually visiting one of them:
 - [sitespeed.io](https://github.com/sitespeedio/sitespeed.io)
-- [Yellow Lab Tools](https://github.com/YellowLabTools/YellowLabTools)
 
 If we use your tool, library and you have started a funding/sponsor/support, please let us
 know so we can add you :)

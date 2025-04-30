@@ -41,7 +41,6 @@ Webperf Core consists of many different tests. [Read general information about o
 * [Website performance (SiteSpeed)](./docs/tests/sitespeed.md)
 * [Validate 404 page (by default checks for Swedish text, though)](./docs/tests/page-not-found.md)
 * [Security, data-protecting & Integrity (Webbkoll)](./docs/tests/webbkoll.md)
-* [Frontend quality (YellowLab Tools)](./docs/tests/yellowlab.md)
 * [Energy Efficiency](./docs/tests/energy-efficiency.md)
 * [Standard files](./docs/tests/standard.md)
 * [HTTP and Network](./docs/tests/http.md)

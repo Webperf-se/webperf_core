@@ -57,9 +57,6 @@ msgstr "Klar: {0}\n"
 msgid "TEXT_TEST_VALID_ARGUMENTS"
 msgstr "Giltiga argument att välja på -t/--test:"
 
-msgid "TEXT_TEST_VALID_ARGUMENTS_YELLOW_LAB_TOOLS"
-msgstr "-t 17\t: Kvalitet på frontend (Yellow Lab Tools)"
-
 msgid "TEXT_TEST_VALID_ARGUMENTS_PA11Y"
 msgstr "-t 18\t: Tillgänglighet (Pa11y)"
 

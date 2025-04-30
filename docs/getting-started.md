@@ -49,7 +49,6 @@ Valid arguments for option -t/--test:
 -t 7    : CSS Validation
 -t 9    : Standard files
 -t 15   : Performance (Sitespeed.io)
--t 17   : Quality on frontend (Yellow Lab Tools)
 -t 18   : Accessibility (Pa11y)
 -t 20   : Integrity & Security (Webbkoll)
 -t 21   : HTTP & Network
@@ -114,8 +113,8 @@ Finished: 2024-05-19 15:00:48
 ```
 
 
-Run ALL test except tests `17` and `20` with review, show all reviews against one specific url ([https://webperf.se/](https://webperf.se/)):
-`python default.py -r -t -17,-20 -u https://webperf.se/`
+Run ALL test except tests `18` and `20` with review, show all reviews against one specific url ([https://webperf.se/](https://webperf.se/)):
+`python default.py -r -t -18,-20 -u https://webperf.se/`
 
 ```shell
 ###############################################

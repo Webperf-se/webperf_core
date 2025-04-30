@@ -24,8 +24,7 @@
     "plugin-javascript": "2025.4.10",
     "plugin-pagenotfound": "2025.4.9",
     "plugin-accessibility-statement": "2025.4.9",
-    "plugin-webperf-core": "2025.4.11",
-    "yellowlabtools": "3.0.1"
+    "plugin-webperf-core": "2025.4.11"
   },
   "lint-staged": {
     "*.js": [

@@ -38,7 +38,7 @@ def show_test_help(global_translation):
     print out help text for a variety of test arguments.
     The help text includes information about valid arguments for
     different types of tests such as Google Lighthouse, HTML, CSS,
-    Sitespeed, Yellow Lab Tools, Pa11y, Webbkoll, HTTP, Energy Efficiency,
+    Sitespeed, Pa11y, Webbkoll, HTTP, Energy Efficiency,
     Tracking, Email, Software, and A11Y Statement.
 
     Args:
@@ -55,7 +55,6 @@ def show_test_help(global_translation):
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_PAGE_NOT_FOUND'))
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_STANDARD_FILES'))
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_SITESPEED'))
-    print(global_translation('TEXT_TEST_VALID_ARGUMENTS_YELLOW_LAB_TOOLS'))
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_PA11Y'))
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_WEBBKOLL'))
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_HTTP'))

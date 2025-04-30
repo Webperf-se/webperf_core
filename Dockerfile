@@ -14,7 +14,7 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV DEBIAN_FRONTEND=noninteractive
 
-# YLT/phantomas should pick this up and use --no-sandbox
+# phantomas should pick this up and use --no-sandbox
 ENV LAMBDA_TASK_ROOT=/trick/phantomas
 
 RUN apt-get update &&\
@@ -44,7 +44,7 @@ RUN npm install -g node-gyp puppeteer
 # If own settings.json exists it will overwrite the default
 COPY . /usr/src/runner
 
-# Use same parameters YLT/phantomas
+# Use same parameters phantomas
 COPY pa11y-docker-config.json /usr/src/runner/pa11y.json
 
 RUN chown --recursive sitespeedio:sitespeedio /usr/src/runner

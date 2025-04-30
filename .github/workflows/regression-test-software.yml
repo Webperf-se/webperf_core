@@ -24,7 +24,6 @@ on:
       - '**regression-test-tracking.yml'
       - '**regression-test-translations.yml'
       - '**regression-test-webbkoll.yml'
-      - '**regression-test-ylt.yml'
 jobs:
   build:
     runs-on: ${{ matrix.os }}

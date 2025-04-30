@@ -57,9 +57,6 @@ msgstr "Finished: {0}\n"
 msgid "TEXT_TEST_VALID_ARGUMENTS"
 msgstr "Valid arguments for option -t/--test:"
 
-msgid "TEXT_TEST_VALID_ARGUMENTS_YELLOW_LAB_TOOLS"
-msgstr "-t 17\t: Quality on frontend (Yellow Lab Tools)"
-
 msgid "TEXT_TEST_VALID_ARGUMENTS_PA11Y"
 msgstr "-t 18\t: Accessibility (Pa11y)"
 

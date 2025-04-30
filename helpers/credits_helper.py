@@ -65,8 +65,6 @@ def get_credits(global_translation):
                 text += 'Usage: Used in the background in most cases where we need to visit website as browser\r\n'
             elif 'vnu-jar' in creditor_name:
                 text += 'Usage: Used in HTML and CSS Validation Test\r\n'
-            elif 'yellowlabtools' in creditor_name:
-                text += 'Usage: Used in Quality on frontend (Yellow Lab Tools) Test\r\n'
 
             if 'license' in software and software["license"] != '':
                 text += f'License: {software["license"].upper()}\r\n'

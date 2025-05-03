@@ -3,7 +3,7 @@
 Following is copied from slack community threads.
 Right now the info is only in swedish.
 
-# Create your own copy of our repository
+## Create your own copy of our repository
 
 - Sign up for a free account at https://github.com
 - Sign in with your new account.
@@ -16,7 +16,7 @@ when you are done with all changes,
 go to the Pull requests tab and press the button for creating a new pull request.
 when you have done that we will get a notification and look at your suggested changes.
 
-# General info about translation
+## General info about translation
 
 All hjälp med att skriva texter mottages tacksamt :smiley: 
 
@@ -46,7 +46,10 @@ Det som skiljer de engelska och svenska filerna är att de ligger i olika katalo
 en för engelska och sv för svenska.
 
 
-# Test specifics about translation
+## Test specifics about translation
+
+
+### CSS Test
 
 För CSS Test kan ni få reda på mer om reglen genom att gå till stylelint på följande adress:
             https://stylelint.io/user-guide/rules/{rule-id}

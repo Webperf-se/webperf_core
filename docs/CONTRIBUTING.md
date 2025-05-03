@@ -22,28 +22,23 @@ Welcome to our open-source project! We appreciate your interest in contributing.
 
 The multiple language support is built on `gettext` in Python.
 
+#### Change existing translation
+
+For quick and easy changes we recommend doing it directly in your favorite browser, no coding knowledge needed or even a coding environment.
+
+[read more on how to change texts here](translation.md)
+
 #### How to support new language
 You could either follow the more technical suggestions below, or you perhaps would like an application such as [Poedit](https://poedit.net) (available on Macos, Linux and Windows).
 
-To create a new language source file:  
-```python3 <your path to pygettext.py > -d webperf-core -o locales/webperf-core.pot default.py checks.py```
-(or copy an existing one)
+To create a new language source file: copy the english (en) one.
+if this is the first test translated to the new language, copy all folders and files in the english (en) folder.
 
 Copy the file to your locale, for Swedish it would be:  
-```locales/sv/LC_MESSAGES/webperf-core.pot```
-
-Rename the file extension from `.pot` to `.po`
+```locales/sv/LC_MESSAGES/webperf-core.po```
 
 After you have translated everything you should check it in, GitHub will take your change and generate .mo files when needed.
 You now have support for a new language, please send it to the official repository using a pull request :)
-
-#### How to find pygettext.py
-
-Locate your pygettext.py file:  
-```locate pygettext.py```
-
-It might be as follows:  
-```/Library/Frameworks/Python.framework/Versions/3.13/share/doc/python3.13/examples/Tools/i18n/pygettext.py```
 
 ### References
 

@@ -3,6 +3,20 @@
 Following is copied from slack community threads.
 Right now the info is only in swedish.
 
+# Create your own copy of our repository
+
+- Sign up for a free account at https://github.com
+- Sign in with your new account.
+- Go to https://github.com/Webperf-se/webperf_core/
+- Press the "Fork" button
+
+You now have your own copy where you can do all your changes in.
+
+when you are done with all changes,
+go to the Pull requests tab and press the button for creating a new pull request.
+when you have done that we will get a notification and look at your suggested changes.
+
+# General info about translation
 
 All hjälp med att skriva texter mottages tacksamt :smiley: 
 
@@ -30,6 +44,9 @@ Första delen i msgid innan mellanrum (på bild två inringat med grönt) är re
 Generellt för alla tester är att de har språkstöd, vi börjar men engelska men sedan skulle de även behöva översättas till svenska.
 Det som skiljer de engelska och svenska filerna är att de ligger i olika kataloger.
 en för engelska och sv för svenska.
+
+
+# Test specifics about translation
 
 För CSS Test kan ni få reda på mer om reglen genom att gå till stylelint på följande adress:
             https://stylelint.io/user-guide/rules/{rule-id}

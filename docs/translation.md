@@ -1,71 +1,70 @@
 # Translation
 
-Following is copied from slack community threads.
-Right now the info is only in swedish.
+The following is copied from Slack community threads.  
+Currently, the information is only available in Swedish.
 
-## Create your own copy of our repository
+## Create Your Own Copy of Our Repository
 
-- Sign up for a free account at https://github.com
+- Sign up for a free account at [GitHub](https://github.com).
 - Sign in with your new account.
-- Go to https://github.com/Webperf-se/webperf_core/
-- Press the "Fork" button
+- Go to [Webperf Core Repository](https://github.com/Webperf-se/webperf_core/).
+- Press the "Fork" button.
 
-You now have your own copy where you can do all your changes in.
+You now have your own copy where you can make all your changes.
 
-when you are done with all changes,
-go to the Pull requests tab and press the button for creating a new pull request.
-when you have done that we will get a notification and look at your suggested changes.
+When you are done with all the changes,  
+go to the "Pull requests" tab and press the button to create a new pull request.  
+Once you do that, we will receive a notification and review your suggested changes.
 
-## General info about translation
+## General Information About Translation
 
-All hjälp med att skriva texter mottages tacksamt :smiley: 
+All help with writing texts is greatly appreciated! 😃  
 
-Ingen kodkunskap behövs, allt kan göras direkt i webbläsaren på GitHub :slightly_smiling_face: 
+No coding knowledge is required; everything can be done directly in the browser on GitHub. 🙂  
 
-Följande filer behöver uppdateras:
- 404 Test (engelska) https://github.com/Webperf-se/webperf_core/blob/main/locales%2Fen%2FLC_MESSAGES%2F404.po
- A11y Statement Test (engelska) https://github.com/Webperf-se/webperf_core/blob/main/locales%2Fen%2FLC_MESSAGES%2Fa11y-statement.po
- CSS Test https://github.com/Webperf-se/webperf_core/blob/main/locales%2Fen%2FLC_MESSAGES%2Fcss.po
- HTML Test (engelska)  https://github.com/Webperf-se/webperf_core/blob/main/locales%2Fen%2FLC_MESSAGES%2Fhtml.po
- Javascript Test https://github.com/Webperf-se/webperf_core/blob/main/locales%2Fen%2FLC_MESSAGES%2Fjavascript.po
- Lighthouse Test https://github.com/Webperf-se/webperf_core/blob/main/locales%2Fen%2FLC_MESSAGES%2Flighthouse.po
+The following files need to be updated:  
+- [404 Test (English)](https://github.com/Webperf-se/webperf_core/blob/main/locales%2Fen%2FLC_MESSAGES%2F404.po)  
+- [A11y Statement Test (English)](https://github.com/Webperf-se/webperf_core/blob/main/locales%2Fen%2FLC_MESSAGES%2Fa11y-statement.po)  
+- [CSS Test](https://github.com/Webperf-se/webperf_core/blob/main/locales%2Fen%2FLC_MESSAGES%2Fcss.po)  
+- [HTML Test (English)](https://github.com/Webperf-se/webperf_core/blob/main/locales%2Fen%2FLC_MESSAGES%2Fhtml.po)  
+- [Javascript Test](https://github.com/Webperf-se/webperf_core/blob/main/locales%2Fen%2FLC_MESSAGES%2Fjavascript.po)  
+- [Lighthouse Test](https://github.com/Webperf-se/webperf_core/blob/main/locales%2Fen%2FLC_MESSAGES%2Flighthouse.po)  
 
-I denna tråd kommer jag berätta för varje text hur ni tar reda på vilken text som bör vara där.
+In this thread, I will explain for each text how you can figure out what text should be there.
 
-Generellt för alla .po filer gäller:
-Texterna i varje fil ovan fungerar på följande sätt.
-Det finns en text för avklarade regler (resolved) och en text för regler som fortfarande behöver åtgärdas (unresolved).
-Det är texten mellan de två " på varje rad som börjar med msgstr som behöver få en mer lättförståelig text.
+### General Notes for `.po` Files
+The texts in each of the files above work as follows:  
+There is a text for completed rules (resolved) and a text for rules that still need to be addressed (unresolved).  
+The text between the two `"` on each line that starts with `msgstr` needs to be more understandable.  
 
-På rader där texten i msgstr börjar med samma text som msgid är helt oöversatta.
+On lines where the text in `msgstr` starts with the same text as `msgid`, it is completely untranslated.  
 
-Första delen i msgid innan mellanrum (på bild två inringat med grönt) är regel id, detta är bra att ha koll på för att få mer info om vilken text som är vettig att skriva. Mer om det i text specifikt för varje fil.
+The first part of `msgid` before the space (in the second image circled in green) is the rule ID.  
+This is useful for getting more information about what text makes sense to write.  
+More on this in the text specific to each file.
 
-Generellt för alla tester är att de har språkstöd, vi börjar men engelska men sedan skulle de även behöva översättas till svenska.
-Det som skiljer de engelska och svenska filerna är att de ligger i olika kataloger.
-en för engelska och sv för svenska.
+### General Notes for All Tests
+All tests have language support.  
+We start with English, but later they also need to be translated into Swedish.  
+The difference between the English and Swedish files is that they are in different directories:  
+`en` for English and `sv` for Swedish.
 
-
-## Test specifics about translation
-
+## Test-Specific Notes About Translation
 
 ### CSS Test
+For the CSS Test, you can find out more about the rule by visiting the Stylelint website at the following address:  
+`https://stylelint.io/user-guide/rules/{rule-id}`  
 
-För CSS Test kan ni få reda på mer om reglen genom att gå till stylelint på följande adress:
-            https://stylelint.io/user-guide/rules/{rule-id}
+Replace `{rule-id}` with the rule ID you want to get more information about.
 
-Ersätt {rule-id} med den regel id ni vill få mer information om.
-
-Tex: 
-För unit-no-unkown är adressen:
-https://stylelint.io/user-guide/rules/unit-no-unkown
-
+For example:  
+For `unit-no-unknown`, the address is:  
+[https://stylelint.io/user-guide/rules/unit-no-unknown](https://stylelint.io/user-guide/rules/unit-no-unknown).
 
 ### Javascript Test
-För Javascript Test är adressen:
-            https://eslint.org/docs/latest/rules/{rule-id}
-
+For the Javascript Test, the address is:  
+`https://eslint.org/docs/latest/rules/{rule-id}`
 
 ### HTML Test
-För HTML Test är adressen:
- https://html-validate.org/rules/{rule-id}.html
+For the HTML Test, the address is:  
+[https://html-validate.org/rules/{rule-id}.html](https://html-validate.org/rules/{rule-id}.html)

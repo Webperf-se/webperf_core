@@ -59,3 +59,13 @@ Ersätt {rule-id} med den regel id ni vill få mer information om.
 Tex: 
 För unit-no-unkown är adressen:
 https://stylelint.io/user-guide/rules/unit-no-unkown
+
+
+### Javascript Test
+För Javascript Test är adressen:
+            https://eslint.org/docs/latest/rules/{rule-id}
+
+
+### HTML Test
+För HTML Test är adressen:
+ https://html-validate.org/rules/{rule-id}.html

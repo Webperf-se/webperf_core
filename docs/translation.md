@@ -1,7 +1,6 @@
 # Translation
 
-The following is copied from Slack community threads.  
-Currently, the information is only available in Swedish.
+The following is copied from Slack community threads,translated from Swedish.
 
 ## Create Your Own Copy of Our Repository
 

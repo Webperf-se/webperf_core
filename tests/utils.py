@@ -1032,6 +1032,113 @@ def merge_dicts(dict1, dict2, sort, make_distinct):
 
     return dict1
 
+def calculate_score(issues):
+    category_scores = {'overall': 100}
+
+    for issue in issues:
+        if issue['category'] not in category_scores:
+            category_scores[issue['category']] = 100
+
+        if issue['severity'] == 'critical':
+            category_scores[issue['category']] -= 25
+        elif issue['severity'] == 'error':
+            category_scores[issue['category']] -= 10
+        elif issue['severity'] == 'warning':
+            category_scores[issue['category']] -= 1
+
+    scores = [value for key, value in category_scores.items() if key != 'overall']  # Exclude 'overall' from calculation
+    total = sum(scores)
+    category_scores['overall'] = total / len(scores) if scores else 100  # Use average
+
+    return category_scores
+
+def calculate_rating(rating, result_dict):
+    issues_other = []
+    issues_standard =[]
+    issues_security = []
+    issues_a11y = []
+    issues_performance = []
+    for group_name, info in result_dict["groups"].items():
+        for issue in info["issues"]:
+            if get_config('general.review.improve-only') and issue["severity"] == "resolved":
+                continue
+
+            text = None
+            # if 'text' in issue:
+            #     text = issue['text']
+            # elif 'test' not in issue:
+            if 'test' not in issue:
+                text = f"{issue['rule']} ({issue['severity']})"
+            else:
+                severity_key = None
+                if issue['severity'] in ('resolved'):
+                    severity_key = 'resolved'
+                elif issue['severity'] in ('critical', 'error', 'warning'):
+                    severity_key = 'unresolved'
+                elif issue['severity'] in ('info'):
+                    severity_key = 'info'
+                else:
+                    severity_key = 'unknown'
+                text_primarykey = f"{issue['rule']} ({severity_key})"
+                text_secondarykey = f"{issue['rule']}"
+                try:
+                    local_translation = get_translation(
+                            issue['test'],
+                            get_config('general.language')
+                        )
+                    text = local_translation(text_primarykey)
+                    if '{0}' in text:
+                            text = local_translation(text_primarykey).format(issue['severity'])
+                    if text == text_primarykey:
+                        print(f"no translation found for: {issue['test']}, and language: {get_config('general.language')}. Adding it so you can translate it.")
+                        create_or_append_translation(issue['test'], get_config('general.language'), text_secondarykey)
+                except FileNotFoundError:
+                    text = text_primarykey
+                    print(f"no translation found for: {issue['test']}, adding file for language: {get_config('general.language')} so you can translate it.")
+                    create_or_append_translation(issue['test'], get_config('general.language'), text_secondarykey)
+
+            if issue['category'] == 'standard':
+                issues_standard.append(text)
+            elif issue['category'] == 'security':
+                issues_security.append(text)
+            elif issue['category'] == 'a11y':
+                issues_a11y.append(text)
+            elif issue['category'] == 'performance':
+                issues_performance.append(text)
+            else:
+                issues_other.append(text)
+
+        if "score" not in info:
+            # Calculate Score (for python packages who has not calculated this yet)
+            info["score"] = calculate_score(info["issues"])
+
+        if 'overall' in info["score"]:
+            overall = (info["score"]["overall"] / 100) * 5
+            rating.set_overall(overall)
+            if len(issues_other) > 0:
+                rating.overall_review = "\n".join([f"- {item}" for item in issues_other]) + "\n"
+        if 'standard' in info["score"]:
+            standard = (info["score"]["standard"] / 100) * 5
+            rating.set_standards(standard)
+            if len(issues_standard) > 0:
+                rating.standards_review = "\n".join([f"- {item}" for item in issues_standard]) + "\n"
+        if 'security' in info["score"]:
+            security = (info["score"]["security"] / 100) * 5
+            rating.set_integrity_and_security(security)
+            if len(issues_security) > 0:
+                rating.integrity_and_security_review = "\n".join([f"- {item}" for item in issues_security]) + "\n"
+        if 'a11y' in info["score"]:
+            a11y = (info["score"]["a11y"] / 100) * 5
+            rating.set_a11y(a11y)
+            if len(issues_a11y) > 0:
+                rating.a11y_review = "\n".join([f"- {item}" for item in issues_a11y]) + "\n"
+        if 'performance' in info["score"]:
+            performance = (info["score"]["performance"] / 100) * 5
+            rating.set_performance(performance)
+            if len(issues_performance) > 0:
+                rating.performance_review = "\n".join([f"- {item}" for item in issues_performance]) + "\n"
+    return rating
+
 
 def sort_testresult_issues(data):
     # Define the severity ranking
@@ -1042,6 +1149,9 @@ def sort_testresult_issues(data):
         "info": 4,
         "resolved": 5
     }
+
+    if "groups" not in data:
+        return
 
     # Access all groups in the JSON
     groups = data["groups"]

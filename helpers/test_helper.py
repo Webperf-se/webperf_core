@@ -7,9 +7,8 @@ from helpers.models import Rating
 from helpers.setting_helper import get_config, get_used_configuration
 from helpers.models import SiteTests
 from tests.utils import get_translation, merge_dicts,\
-    sort_testresult_issues
-from tests.sitespeed_base import create_webperf_json,\
-    calculate_rating
+    sort_testresult_issues, calculate_rating
+from tests.sitespeed_base import create_webperf_json
 from tests.privacy_webbkollen import run_test as run_test_privacy_webbkollen
 from tests.standard_files import run_test as run_test_standard_files
 from tests.performance_sitespeed_io import run_test as run_test_performance_sitespeed_io
@@ -323,11 +322,10 @@ def test_site(global_translation, site, test_types):
         if test_data is None:
             continue
         
-        calculate_rating(rating, test_data['data'])
         big_data = merge_dicts(big_data, test_data['data'], False, False)
 
-
     sort_testresult_issues(big_data)
+    rating = calculate_rating(rating, big_data)
 
     site_test = SiteTests(
         -1,  # site_id is not used in this case

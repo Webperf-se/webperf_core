@@ -7,7 +7,8 @@ from bs4 import BeautifulSoup
 from helpers.models import Rating
 from tests.utils import get_root_url,\
     get_translation, has_redirect,\
-    get_http_content, flatten_issues_dict
+    get_http_content, flatten_issues_dict,\
+    calculate_rating
 from engines.sitemap import read_sitemap
 from helpers.setting_helper import get_config
 
@@ -81,10 +82,6 @@ ALL_RULES = {
 }
 
 def run_test(global_translation, url):
-    local_translation = get_translation('standard_files', get_config('general.language'))
-
-    print(local_translation('TEXT_RUNNING_TEST'))
-
     print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
@@ -101,18 +98,17 @@ def run_test(global_translation, url):
         }
 
     # robots.txt
-    add_robots_issues(result_dict, local_translation)
+    add_robots_issues(result_dict)
 
     # sitemap.xml
     add_sitemaps_issues(
-        result_dict,
-        local_translation)
+        result_dict)
 
     # rss feed
-    add_feed_issues(result_dict, local_translation)
+    add_feed_issues(result_dict)
 
     # security.txt
-    add_security_txt_issues(result_dict, local_translation)
+    add_security_txt_issues(result_dict)
 
     addResolvedIssues(url, domain, result_dict)
 
@@ -133,12 +129,13 @@ def run_test(global_translation, url):
 
     result_dict['groups'][domain]['issues'] = flatten_issues_dict(result_dict['groups'][domain]['issues'])
 
-
     tmp = result_dict['groups']
 
     result_dict = {
         "groups": tmp
     }
+
+    rating = calculate_rating(rating, result_dict)
 
     print(global_translation('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
@@ -152,11 +149,10 @@ def addResolvedIssues(url, domain, result_dict):
             result_dict['groups'][domain]['issues'][rule_id]['severity'] = 'resolved'
             result_dict['groups'][domain]['issues'][rule_id]['category'] = rule['category']
 
-def addIssue(result_dict, rule_id, text, url):
+def addIssue(result_dict, rule_id, url):
     domain = get_domain(result_dict['url'])
     result_dict['groups'][domain]['issues'][rule_id] = {
         'test': 'standard-files',
-        'text': text,
         'rule': rule_id,
         'category': ALL_RULES[rule_id]['category'],
         'severity': ALL_RULES[rule_id]['severity'],
@@ -165,8 +161,7 @@ def addIssue(result_dict, rule_id, text, url):
                 'url': url,
                 'rule': rule_id,
                 'category': ALL_RULES[rule_id]['category'],
-                'severity': ALL_RULES[rule_id]['severity'],
-                'text': text
+                'severity': ALL_RULES[rule_id]['severity']
             }
         ]
     }
@@ -182,7 +177,7 @@ def addResolvedIssue(result_dict, rule_id, url):
     }
 
 
-def add_robots_issues(result_dict, local_translation):
+def add_robots_issues(result_dict):
     robots_dict = {
         'url': result_dict['root_url'] + 'robots.txt'
     }
@@ -202,7 +197,6 @@ def add_robots_issues(result_dict, local_translation):
         addIssue(
             result_dict,
             'no-robots-txt',
-            local_translation("TEXT_ROBOTS_MISSING"),
             robots_dict['url'])
 
     else:
@@ -210,8 +204,7 @@ def add_robots_issues(result_dict, local_translation):
 
     result_dict['robots'] = robots_dict
 
-def add_sitemaps_issues(result_dict,
-                      local_translation):
+def add_sitemaps_issues(result_dict):
     sitemaps_dict = {
         'nof_sitemaps': 0,
         'sitemap_urls_in_robots': [],
@@ -236,7 +229,6 @@ def add_sitemaps_issues(result_dict,
         addIssue(
             result_dict,
             'no-sitemap-in-robots-txt',
-            local_translation("TEXT_SITEMAP_MISSING"),
             result_dict['url'])
         return
 
@@ -255,7 +247,6 @@ def add_sitemaps_issues(result_dict,
         addIssue(
             result_dict,
             'no-valid-sitemap-found',
-            local_translation("TEXT_SITEMAP_FOUND"),
             result_dict['url'])
         return
 
@@ -267,8 +258,7 @@ def add_sitemaps_issues(result_dict,
             robots_domain)
     add_sitemap_issues(
         result_dict,
-        sitemaps_dict,
-        local_translation)
+        sitemaps_dict)
 
     result_dict['sitemap'] = sitemaps_dict
 
@@ -326,7 +316,7 @@ def cleanup_sites_dict(sitemaps_dict):
             del sitemaps_dict["sitemaps"][sitemapindex]
 
 
-def add_sitemap_issues(result_dict, sitemaps_dict, local_translation):
+def add_sitemap_issues(result_dict, sitemaps_dict):
     total_nof_items = sitemaps_dict['nof_items']
     total_nof_items_no_duplicates = sitemaps_dict['nof_items_no_duplicates']
     sitemaps = sitemaps_dict['sitemaps']
@@ -334,19 +324,15 @@ def add_sitemap_issues(result_dict, sitemaps_dict, local_translation):
     if total_nof_items > 0:
         add_sitemap_use_https_only_issues(
             result_dict,
-            sitemaps_dict,
-            local_translation)
+            sitemaps_dict)
         add_sitemap_use_same_domain_issues(
             result_dict,
-            sitemaps_dict,
-            local_translation)
+            sitemaps_dict)
         add_sitemap_use_of_duplicates_issues(result_dict,
-                                    local_translation,
                                     total_nof_items,
                                     total_nof_items_no_duplicates)
         add_sitemap_use_known_types_issues(result_dict,
                                     sitemaps_dict,
-                                    local_translation,
                                     total_nof_items)
 
         sitemaps_is_duplicated = sitemaps_dict['is_duplicate']
@@ -354,7 +340,6 @@ def add_sitemap_issues(result_dict, sitemaps_dict, local_translation):
             addIssue(
                 result_dict,
                 'no-duplicates-sitemap',
-                local_translation("TEXT_SITEMAP_IS_DUPLICATED"),
                 result_dict['url'])
 
     # loop sitemaps and see if any single sitemap exsits amount
@@ -365,28 +350,23 @@ def add_sitemap_issues(result_dict, sitemaps_dict, local_translation):
             addIssue(
                 result_dict,
                 'invalid-sitemap-too-large',
-                local_translation("TEXT_SITEMAP_TOO_LARGE"),
                 result_dict['url'])
         elif nof_items == 0:
             addIssue(
                 result_dict,
                 'no-items-sitemap',
-                local_translation("TEXT_SITEMAP_BROKEN"),
                 result_dict['url'])
 
     add_sitemap_any_items_issues(sitemaps_dict,
-                           local_translation,
                            total_nof_items)
 
 def add_sitemap_any_items_issues(sitemaps_dict,
-                           local_translation,
                            total_nof_items):
     if total_nof_items == 0:
         sitemaps_dict['status'] = "sitemap(s) seem to be broken"
         addIssue(
                 result_dict,
                 'no-items-sitemap',
-                local_translation("TEXT_SITEMAP_BROKEN"),
                 result_dict['url'])
         return sub_rating
 
@@ -394,7 +374,6 @@ def add_sitemap_any_items_issues(sitemaps_dict,
 
 def add_sitemap_use_known_types_issues(result_dict,
                                  sitemaps_dict,
-                                 local_translation,
                                  total_nof_items):
     if total_nof_items == 0:
         return
@@ -404,34 +383,29 @@ def add_sitemap_use_known_types_issues(result_dict,
         addIssue(
                 result_dict,
                 'no-unknown-types-sitemap',
-                local_translation("TEXT_SITEMAP_NOT_ONLY_WEBPAGES"),
                 result_dict['url'])
 
 def add_sitemap_use_of_duplicates_issues(result_dict,
-                                   local_translation,
                                    total_nof_items,
                                    total_nof_items_no_duplicates):
     if total_nof_items !=  total_nof_items_no_duplicates:
         addIssue(
                 result_dict,
                 'no-duplicates-sitemap',
-                local_translation("TEXT_SITEMAP_INCLUDE_DUPLICATES"),
                 result_dict['url'])
 
-def add_sitemap_use_same_domain_issues(result_dict, sitemaps_dict, local_translation):
+def add_sitemap_use_same_domain_issues(result_dict, sitemaps_dict):
     if not sitemaps_dict['use_same_domain']:
         addIssue(
                 result_dict,
                 'no-same-domain-sitemap',
-                local_translation("TEXT_SITEMAP_NOT_SAME_DOMAIN_AS_ROBOTS_TXT"),
                 result_dict['url'])
 
-def add_sitemap_use_https_only_issues(result_dict, sitemaps_dict, local_translation):
+def add_sitemap_use_https_only_issues(result_dict, sitemaps_dict):
     if not sitemaps_dict['use_https_only']:
         addIssue(
                 result_dict,
                 'no-https-sitemap',
-                local_translation("TEXT_SITEMAP_NOT_STARTING_WITH_HTTPS_SCHEME"),
                 result_dict['url'])
 
 def create_sitemap_dict(sitemap_items, robots_domain):
@@ -500,7 +474,7 @@ def is_feed(tag):
     return False
 
 
-def add_feed_issues(result_dict, local_translation):
+def add_feed_issues(result_dict):
     feed_dict = {
         'nof_feeds': 0,
         'feeds': []
@@ -517,7 +491,6 @@ def add_feed_issues(result_dict, local_translation):
         addIssue(
                 result_dict,
                 'no-rss-feed',
-                local_translation("TEXT_RSS_FEED_MISSING"),
                 result_dict['url'])
     elif feed_dict['nof_feeds'] > 0:
         feed_dict['status'] = 'found in meta'
@@ -526,7 +499,7 @@ def add_feed_issues(result_dict, local_translation):
 
     result_dict['feeds'] = feed_dict
 
-def add_security_txt_issues(result_dict, local_translation):
+def add_security_txt_issues(result_dict):
     root_url = result_dict['root_url']
     security_dict = {
         'txts': {
@@ -557,22 +530,18 @@ def add_security_txt_issues(result_dict, local_translation):
         addIssue(
                 result_dict,
                 'no-security-txt',
-                local_translation("TEXT_SECURITY_MISSING"),
                 security_wellknown_url)
         addIssue(
                 result_dict,
                 'invalid-security-txt',
-                local_translation("TEXT_SECURITY_WRONG_CONTENT"),
                 result_dict['url'])
         addIssue(
                 result_dict,
                 'no-security-txt-contact',
-                local_translation("TEXT_SECURITY_REQUIRED_CONTACT_MISSING"),
                 result_dict['url'])
         addIssue(
                 result_dict,
                 'no-security-txt-expires',
-                local_translation("TEXT_SECURITY_REQUIRED_EXPIRES_MISSING"),
                 result_dict['url'])
 
         result_dict['security'] = security_dict
@@ -580,12 +549,10 @@ def add_security_txt_issues(result_dict, local_translation):
 
     security_wellknown_result = validate_securitytxt_content(
         result_dict,
-        security_wellknown_content,
-        local_translation)
+        security_wellknown_content)
     security_root_result = validate_securitytxt_content(
         result_dict,
-        security_root_content,
-        local_translation)
+        security_root_content)
 
     security_dict['txts'][security_wellknown_url] = security_wellknown_result
     security_dict['txts'][security_root_url] = security_root_result
@@ -603,7 +570,7 @@ def add_security_txt_issues(result_dict, local_translation):
     return
 
 
-def validate_securitytxt_content(result_dict, content, local_translation):
+def validate_securitytxt_content(result_dict, content):
     security_dict = {}
     if content is None or ('<html' in content.lower()):
         # Html (404 page?) content instead of expected content
@@ -612,7 +579,6 @@ def validate_securitytxt_content(result_dict, content, local_translation):
         addIssue(
                 result_dict,
                 'invalid-security-txt',
-                local_translation("TEXT_SECURITY_WRONG_CONTENT"),
                 result_dict['url'])
     elif ('contact:' in content.lower() and 'expires:' in content.lower()):
         # Everything seems ok
@@ -625,7 +591,6 @@ def validate_securitytxt_content(result_dict, content, local_translation):
         addIssue(
                 result_dict,
                 'no-security-txt-contact',
-                local_translation("TEXT_SECURITY_REQUIRED_CONTACT_MISSING"),
                 result_dict['url'])
     elif not 'expires:' in content.lower():
         # Missing required Expires (added in version 10 of draft)
@@ -634,7 +599,6 @@ def validate_securitytxt_content(result_dict, content, local_translation):
         addIssue(
                 result_dict,
                 'no-security-txt-expires',
-                local_translation("TEXT_SECURITY_REQUIRED_EXPIRES_MISSING"),
                 result_dict['url'])
     else:
         security_dict['severity'] = ALL_RULES['no-security-txt-expires']['severity']
@@ -642,12 +606,10 @@ def validate_securitytxt_content(result_dict, content, local_translation):
         addIssue(
                 result_dict,
                 'no-security-txt-expires',
-                local_translation("TEXT_SECURITY_REQUIRED_EXPIRES_MISSING"),
                 result_dict['url'])
         addIssue(
                 result_dict,
                 'no-security-txt-contact',
-                local_translation("TEXT_SECURITY_REQUIRED_CONTACT_MISSING"),
                 result_dict['url'])
 
     return security_dict

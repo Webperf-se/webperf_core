@@ -1058,6 +1058,10 @@ def calculate_rating(rating, result_dict):
     issues_security = []
     issues_a11y = []
     issues_performance = []
+
+    if "groups" not in result_dict:
+        return rating
+
     for group_name, info in result_dict["groups"].items():
         for issue in info["issues"]:
             if get_config('general.review.improve-only') and issue["severity"] == "resolved":

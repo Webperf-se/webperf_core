@@ -1032,6 +1032,41 @@ def merge_dicts(dict1, dict2, sort, make_distinct):
 
     return dict1
 
+
+def sort_testresult_issues(data):
+    # Define the severity ranking
+    severity_order = {
+        "critical": 1,
+        "error": 2,
+        "warning": 3,
+        "info": 4,
+        "resolved": 5
+    }
+
+    # Access all groups in the JSON
+    groups = data["groups"]
+
+    # Iterate over each group and sort its issues
+    for group_name, group_data in groups.items():
+        issues = group_data.get("issues", [])
+        
+        # Sort issues by severity (primary) and number of subIssues (secondary)
+        sorted_issues = sorted(
+            issues,
+            key=lambda x: (severity_order.get(x["severity"], float('inf')), -len(x.get("subIssues", [])))
+        )
+        # Update the group's issues with the sorted list
+        group_data["issues"] = sorted_issues
+
+def flatten_issues_dict(data):
+    flattened = []
+
+    for issue_key, issue_value in data.items():
+        base_info = {k: v for k, v in issue_value.items()}
+        flattened.append(base_info)
+
+    return flattened
+
 def merge_dict_values(dict1, dict2, domain, sort, make_distinct):
     """
     Merges the values of two dictionaries based on a common domain.

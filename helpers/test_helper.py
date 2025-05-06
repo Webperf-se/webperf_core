@@ -6,7 +6,8 @@ import traceback
 from helpers.models import Rating
 from helpers.setting_helper import get_config, get_used_configuration
 from helpers.models import SiteTests
-from tests.utils import get_translation
+from tests.utils import get_translation, merge_dicts,\
+    sort_testresult_issues
 from tests.sitespeed_base import create_webperf_json,\
     calculate_rating
 from tests.privacy_webbkollen import run_test as run_test_privacy_webbkollen
@@ -314,6 +315,29 @@ def test_site(global_translation, site, test_types):
         tests.extend(test(global_translation,
             site,
             test_type=test_id))
+
+    rating = Rating(global_translation)
+    site_test = None
+    big_data = {}
+    for test_data in tests:
+        if test_data is None:
+            continue
+        
+        calculate_rating(rating, test_data['data'])
+        big_data = merge_dicts(big_data, test_data['data'], False, False)
+
+
+    sort_testresult_issues(big_data)
+
+    site_test = SiteTests(
+        -1,  # site_id is not used in this case
+        type_of_test=-1,
+        rating=rating,
+        test_date=datetime.now(),
+        json_check_data=big_data).todata()
+
+    tests = []
+    tests.append(site_test[0])
 
     return tests
 

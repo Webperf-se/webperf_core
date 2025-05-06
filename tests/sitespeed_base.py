@@ -12,10 +12,31 @@ from urllib.parse import ParseResult, urlparse, urlunparse
 import uuid
 from tests.utils import change_url_to_test_url,\
     get_dependency_version, is_file_older_than,\
-    get_translation, create_or_append_translation
+    get_translation, create_or_append_translation,\
+    flatten_issues_dict
 import engines.sitespeed_result as sitespeed_cache
 from helpers.setting_helper import get_config
 from helpers.browser_helper import get_chromium_browser
+
+def calculate_score(issues):
+    category_scores = {'overall': 100}
+
+    for issue in issues:
+        if issue['category'] not in category_scores:
+            category_scores[issue['category']] = 100
+
+        if issue['severity'] == 'critical':
+            category_scores[issue['category']] -= 25
+        elif issue['severity'] == 'error':
+            category_scores[issue['category']] -= 10
+        elif issue['severity'] == 'warning':
+            category_scores[issue['category']] -= 1
+
+    scores = [value for key, value in category_scores.items() if key != 'overall']  # Exclude 'overall' from calculation
+    total = sum(scores)
+    category_scores['overall'] = total / len(scores) if scores else 100  # Use average
+
+    return category_scores
 
 def calculate_rating(rating, result_dict):
     issues_other = []
@@ -71,6 +92,10 @@ def calculate_rating(rating, result_dict):
                 issues_performance.append(text)
             else:
                 issues_other.append(text)
+
+        if "score" not in info:
+            # Calculate Score (for python packages who has not calculated this yet)
+            info["score"] = calculate_score(info["issues"])
 
         if 'overall' in info["score"]:
             overall = (info["score"]["overall"] / 100) * 5

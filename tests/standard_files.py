@@ -82,9 +82,6 @@ ALL_RULES = {
 }
 
 def run_test(global_translation, url):
-    print(global_translation('TEXT_TEST_START').format(
-        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
-
     rating = Rating(global_translation, get_config('general.review.improve-only'))
     result_dict = {
         'url': url,
@@ -136,9 +133,6 @@ def run_test(global_translation, url):
     }
 
     rating = calculate_rating(rating, result_dict)
-
-    print(global_translation('TEXT_TEST_END').format(
-        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     return (rating, result_dict)
 

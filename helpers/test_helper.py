@@ -122,22 +122,19 @@ def test(global_translation, site, test_type=None):
         if test_type not in TEST_FUNCS:
             return []
 
+        print(global_translation('TEXT_TEST_START').format(
+            datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
         run_test = TEST_FUNCS[test_type]
         the_test_result = run_test(global_translation, site[1])
 
+        print(global_translation('TEXT_TEST_END').format(
+            datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
         if the_test_result is not None:
             rating = the_test_result[0]
-            reviews = rating.get_reviews()
-            print(global_translation('TEXT_SITE_RATING'), rating)
-            if get_config('general.review.show'):
-                print(global_translation('TEXT_SITE_REVIEW'),
-                      reviews)
 
             json_data = the_test_result[1]
-            if get_config('general.review.data'):
-                nice_json_data = json.dumps(json_data, indent=3)
-                print(global_translation('TEXT_SITE_REVIEW_DATA'),
-                      f'```json\r\n{nice_json_data}\r\n```')
 
             site_test = SiteTests(site_id=site[0], type_of_test=test_type,
                                   rating=rating,
@@ -245,16 +242,8 @@ def test_with_sitespeed(global_translation, site, sitespeed_plugins):
 
         if result_dict is not None:
             reviews = rating.get_reviews()
-            print(global_translation('TEXT_SITE_RATING'), rating)
-            if get_config('general.review.show'):
-                print(global_translation('TEXT_SITE_REVIEW'),
-                      reviews)
 
             json_data = result_dict
-            if get_config('general.review.data'):
-                nice_json_data = json.dumps(json_data, indent=3)
-                print(global_translation('TEXT_SITE_REVIEW_DATA'),
-                      f'```json\r\n{nice_json_data}\r\n```')
 
             site_test = SiteTests(site_id=site[0], type_of_test=-1,
                                   rating=rating,
@@ -326,6 +315,20 @@ def test_site(global_translation, site, test_types):
 
     sort_testresult_issues(big_data)
     rating = calculate_rating(rating, big_data)
+
+    reviews = rating.get_reviews()
+    print(global_translation('TEXT_SITE_RATING'), rating)
+    if get_config('general.review.show'):
+        print(
+            global_translation('TEXT_SITE_REVIEW'),
+            reviews)
+
+    if get_config('general.review.data'):
+        nice_json_data = json.dumps(big_data, indent=3)
+        print(
+            global_translation('TEXT_SITE_REVIEW_DATA'),
+            f'```json\r\n{nice_json_data}\r\n```')
+
 
     site_test = SiteTests(
         -1,  # site_id is not used in this case

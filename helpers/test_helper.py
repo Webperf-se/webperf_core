@@ -310,24 +310,27 @@ def test_site(global_translation, site, test_types):
     for test_data in tests:
         if test_data is None:
             continue
-        
+        if "data" not in test_data:
+            continue
+
         big_data = merge_dicts(big_data, test_data['data'], False, False)
 
     sort_testresult_issues(big_data)
     rating = calculate_rating(rating, big_data)
 
-    reviews = rating.get_reviews()
-    print(global_translation('TEXT_SITE_RATING'), rating)
-    if get_config('general.review.show'):
-        print(
-            global_translation('TEXT_SITE_REVIEW'),
-            reviews)
+    if rating.isused():
+        reviews = rating.get_reviews()
+        print(global_translation('TEXT_SITE_RATING'), rating)
+        if get_config('general.review.show'):
+            print(
+                global_translation('TEXT_SITE_REVIEW'),
+                reviews)
 
-    if get_config('general.review.data'):
-        nice_json_data = json.dumps(big_data, indent=3)
-        print(
-            global_translation('TEXT_SITE_REVIEW_DATA'),
-            f'```json\r\n{nice_json_data}\r\n```')
+        if get_config('general.review.data'):
+            nice_json_data = json.dumps(big_data, indent=3)
+            print(
+                global_translation('TEXT_SITE_REVIEW_DATA'),
+                f'```json\r\n{nice_json_data}\r\n```')
 
 
     site_test = SiteTests(

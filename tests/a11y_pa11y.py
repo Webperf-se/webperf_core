@@ -48,22 +48,24 @@ def run_test(global_translation, url):
     }
 
     domain = get_domain(url)
-    result_dict['groups'][domain] = {
+    return_dict['groups'][domain] = {
             'issues': {}
         }
 
-    return_dict = json_result
     errors = json_result
 
-    result_dict['groups'][domain]['issues'] = get_unique_errors(errors)
-    result_dict['groups'][domain]['issues'] = flatten_issues_dict(result_dict['groups'][domain]['issues'])
+    return_dict['groups'][domain]['issues'] = get_unique_errors(errors)
+    return_dict['groups'][domain]['issues'] = flatten_issues_dict(return_dict['groups'][domain]['issues'])
 
-    nice_json_data = json.dumps(result_dict, indent=3)
+    nice_json_data = json.dumps(return_dict, indent=3)
     print(
         global_translation('TEXT_SITE_REVIEW_DATA'),
         f'```json\r\n{nice_json_data}\r\n```')
 
-    rating = calculate_rating(rating, result_dict)
+    rating = Rating(
+        global_translation,
+        get_config('general.review.improve-only'))
+    rating = calculate_rating(rating, return_dict)
 
     return (rating, return_dict)
 

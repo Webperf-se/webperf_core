@@ -80,23 +80,24 @@ def get_unique_errors(errors):
     for error in errors:
         if 'message' in error:
             err_mess = error['message'].replace('This', 'A')
-            error_review = f'- {err_mess}\n'
+            err_severity = error["type"]
+            error_review = f'{err_mess} ({err_severity})\n'
             if error_review not in unique_errors:
                 unique_errors[error_review] = {
                     "test": "pa11y",
-                    "text": error["message"],
+                    "text": error_review,
                     "rule": error["code"],
                     "category": "a11y",
-                    "severity": error["type"],
+                    "severity": err_severity,
                     "subIssues": []
                     }
 
             unique_errors[error_review]["subIssues"].append({
                     "test": "pa11y",
-                    "text": error["message"],
+                    "text": error_review,
                     "rule": error["code"],
                     "category": "a11y",
-                    "severity": error["type"],
+                    "severity": err_severity,
                     "extra": error
                     })
             

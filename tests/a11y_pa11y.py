@@ -43,19 +43,27 @@ def run_test(global_translation, url):
 
     num_errors = len(json_result)
 
+    return_dict = {
+        "groups": {}
+    }
+
+    domain = get_domain(url)
+    result_dict['groups'][domain] = {
+            'issues': {}
+        }
+
     return_dict = json_result
     errors = json_result
 
-    unique_errors = get_unique_errors(errors)
+    result_dict['groups'][domain]['issues'] = get_unique_errors(errors)
+    result_dict['groups'][domain]['issues'] = flatten_issues_dict(result_dict['groups'][domain]['issues'])
 
-    nice_json_data = json.dumps(unique_errors, indent=3)
+    nice_json_data = json.dumps(result_dict, indent=3)
     print(
         global_translation('TEXT_SITE_REVIEW_DATA'),
         f'```json\r\n{nice_json_data}\r\n```')
 
-    rating = Rating(
-        global_translation,
-        get_config('general.review.improve-only'))
+    rating = calculate_rating(rating, result_dict)
 
     return (rating, return_dict)
 
@@ -72,8 +80,24 @@ def get_unique_errors(errors):
             err_mess = error['message'].replace('This', 'A')
             error_review = f'- {err_mess}\n'
             if error_review not in unique_errors:
-                unique_errors[error_review] = []
-            unique_errors[error_review].append(error)
+                unique_errors[error_review] = {
+                    "test": "pa11y",
+                    "text": error["message"],
+                    "rule": error["code"],
+                    "category": "a11y",
+                    "severity": error["type"],
+                    "subIssues": []
+                    }
+
+            unique_errors[error_review]["subIssues"].append({
+                    "test": "pa11y",
+                    "text": error["message"],
+                    "rule": error["code"],
+                    "category": "a11y",
+                    "severity": error["type"],
+                    "extra": error
+                    })
+            
     return unique_errors
 
 def get_pa11y_errors(url, use_axe):

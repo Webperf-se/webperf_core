@@ -32,6 +32,13 @@ IP2_LOCATION_DB = {
     'database': None
 }
 
+def get_domain(url):
+    """
+    Extracts the domain name from a given URL.
+    """
+    parsed_url = urlparse(url)
+    return parsed_url.hostname
+
 def get_dependency_version(dependency_name):
     """
     Retrieves the version of a specified dependency from the 'package.json' file.

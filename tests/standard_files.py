@@ -8,7 +8,7 @@ from helpers.models import Rating
 from tests.utils import get_root_url,\
     get_translation, has_redirect,\
     get_http_content, flatten_issues_dict,\
-    calculate_rating
+    calculate_rating, get_domain
 from engines.sitemap import read_sitemap
 from helpers.setting_helper import get_config
 
@@ -255,13 +255,6 @@ def add_sitemaps_issues(result_dict):
         sitemaps_dict)
 
     result_dict['sitemap'] = sitemaps_dict
-
-def get_domain(url):
-    """
-    Extracts the domain name from a given URL.
-    """
-    parsed_url = urlparse(url)
-    return parsed_url.hostname
 
 def validate_sitemap(sitemap_url,
                      sitemaps_dict,

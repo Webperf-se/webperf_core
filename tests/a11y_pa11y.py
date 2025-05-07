@@ -5,7 +5,7 @@ from datetime import datetime
 import json
 from tests.utils import get_translation,\
     get_http_content, flatten_issues_dict,\
-    calculate_rating
+    calculate_rating, get_domain
 from helpers.setting_helper import get_config
 from helpers.models import Rating
 

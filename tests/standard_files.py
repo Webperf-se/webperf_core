@@ -352,9 +352,11 @@ def add_sitemap_issues(result_dict, sitemaps_dict):
                 result_dict['url'])
 
     add_sitemap_any_items_issues(sitemaps_dict,
+                           result_dict
                            total_nof_items)
 
 def add_sitemap_any_items_issues(sitemaps_dict,
+                           result_dict,
                            total_nof_items):
     if total_nof_items == 0:
         sitemaps_dict['status'] = "sitemap(s) seem to be broken"
@@ -362,7 +364,7 @@ def add_sitemap_any_items_issues(sitemaps_dict,
                 result_dict,
                 'no-items-sitemap',
                 result_dict['url'])
-        return sub_rating
+        return
 
     sitemaps_dict['status'] = "sitemap(s) seem ok"
 
@@ -528,25 +530,29 @@ def add_security_txt_issues(result_dict):
         addIssue(
                 result_dict,
                 'invalid-security-txt',
-                result_dict['url'])
+                security_wellknown_url)
         addIssue(
                 result_dict,
                 'no-security-txt-contact',
-                result_dict['url'])
+                security_wellknown_url)
         addIssue(
                 result_dict,
                 'no-security-txt-expires',
-                result_dict['url'])
+                security_wellknown_url)
 
         result_dict['security'] = security_dict
         return
 
     security_wellknown_result = validate_securitytxt_content(
         result_dict,
-        security_wellknown_content)
+        security_wellknown_content,
+        security_wellknown_url
+        )
     security_root_result = validate_securitytxt_content(
         result_dict,
-        security_root_content)
+        security_root_content,
+        security_root_url
+        )
 
     security_dict['txts'][security_wellknown_url] = security_wellknown_result
     security_dict['txts'][security_root_url] = security_root_result
@@ -564,7 +570,7 @@ def add_security_txt_issues(result_dict):
     return
 
 
-def validate_securitytxt_content(result_dict, content):
+def validate_securitytxt_content(result_dict, content, url):
     security_dict = {}
     if content is None or ('<html' in content.lower()):
         # Html (404 page?) content instead of expected content
@@ -573,7 +579,7 @@ def validate_securitytxt_content(result_dict, content):
         addIssue(
                 result_dict,
                 'invalid-security-txt',
-                result_dict['url'])
+                url)
     elif ('contact:' in content.lower() and 'expires:' in content.lower()):
         # Everything seems ok
         security_dict['severity'] = 'resolved'
@@ -585,7 +591,7 @@ def validate_securitytxt_content(result_dict, content):
         addIssue(
                 result_dict,
                 'no-security-txt-contact',
-                result_dict['url'])
+                url)
     elif not 'expires:' in content.lower():
         # Missing required Expires (added in version 10 of draft)
         security_dict['severity'] = ALL_RULES['no-security-txt-expires']['severity']
@@ -593,17 +599,17 @@ def validate_securitytxt_content(result_dict, content):
         addIssue(
                 result_dict,
                 'no-security-txt-expires',
-                result_dict['url'])
+                url)
     else:
         security_dict['severity'] = ALL_RULES['no-security-txt-expires']['severity']
         security_dict['status'] = 'wrong content, no contact or expires'
         addIssue(
                 result_dict,
                 'no-security-txt-expires',
-                result_dict['url'])
+                url)
         addIssue(
                 result_dict,
                 'no-security-txt-contact',
-                result_dict['url'])
+                url)
 
     return security_dict

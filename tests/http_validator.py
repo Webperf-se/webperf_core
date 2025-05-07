@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import json
 from datetime import datetime
 from urllib.parse import urlparse
 # https://docs.python.org/3/library/urllib.parse.html
@@ -88,7 +89,7 @@ def run_test(global_translation, url):
             reviews)
 
     if get_config('general.review.data'):
-        nice_json_data = json.dumps(big_data, indent=3)
+        nice_json_data = json.dumps(result_dict, indent=3)
         print(
             global_translation('TEXT_SITE_REVIEW_DATA'),
             f'```json\r\n{nice_json_data}\r\n```')

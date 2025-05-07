@@ -313,6 +313,8 @@ def test_site(global_translation, site, test_types):
         if "data" not in test_data:
             continue
 
+        if "groups" not in test_data["data"]:
+            abc = 1
         big_data = merge_dicts(big_data, test_data['data'], False, False)
 
     sort_testresult_issues(big_data)
@@ -333,15 +335,15 @@ def test_site(global_translation, site, test_types):
                 f'```json\r\n{nice_json_data}\r\n```')
 
 
-    site_test = SiteTests(
-        -1,  # site_id is not used in this case
-        type_of_test=-1,
-        rating=rating,
-        test_date=datetime.now(),
-        json_check_data=big_data).todata()
+        site_test = SiteTests(
+            -1,  # site_id is not used in this case
+            type_of_test=-1,
+            rating=rating,
+            test_date=datetime.now(),
+            json_check_data=big_data).todata()
 
-    tests = []
-    tests.append(site_test[0])
+        tests = []
+        tests.append(site_test[0])
 
     return tests
 

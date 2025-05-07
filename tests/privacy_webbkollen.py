@@ -4,6 +4,7 @@ import time
 import urllib  # https://docs.python.org/3/library/urllib.parse.html
 import re
 import requests
+import json
 from bs4 import BeautifulSoup
 from helpers.models import Rating
 from tests.utils import get_translation
@@ -90,7 +91,7 @@ def run_test(global_translation, url):
             reviews)
 
     if get_config('general.review.data'):
-        nice_json_data = json.dumps(big_data, indent=3)
+        nice_json_data = json.dumps(return_dict, indent=3)
         print(
             global_translation('TEXT_SITE_REVIEW_DATA'),
             f'```json\r\n{nice_json_data}\r\n```')

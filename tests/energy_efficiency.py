@@ -226,7 +226,7 @@ def run_test(global_translation, url):
             reviews)
 
     if get_config('general.review.data'):
-        nice_json_data = json.dumps(big_data, indent=3)
+        nice_json_data = json.dumps(result_dict, indent=3)
         print(
             global_translation('TEXT_SITE_REVIEW_DATA'),
             f'```json\r\n{nice_json_data}\r\n```')
@@ -313,8 +313,7 @@ def get_total_bytes_for_url(url, result_dict):
 
     browsertime_Hars = read_sites_from_directory(result_folder_name, origin_domain, -1, -1)
     if len(browsertime_Hars) < 1:
-        rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
-        return (rating, {'failed': True })
+        return -1
 
     transfer_bytes = get_total_bytes(browsertime_Hars[0][0], result_dict)
     return transfer_bytes

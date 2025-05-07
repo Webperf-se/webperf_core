@@ -352,7 +352,7 @@ def add_sitemap_issues(result_dict, sitemaps_dict):
                 result_dict['url'])
 
     add_sitemap_any_items_issues(sitemaps_dict,
-                           result_dict
+                           result_dict,
                            total_nof_items)
 
 def add_sitemap_any_items_issues(sitemaps_dict,

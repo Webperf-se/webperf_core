@@ -52,8 +52,13 @@ jobs:
       run: npm install --omit=dev
       timeout-minutes: 30
     # Havn't yet been able to start Google Chrome in headless mode in pa11y since move to Chrome in Pa11y 5
+    # - if: ${{ matrix.os == 'windows-latest' }}
+    #   name: RUNNING TEST - WINDOWS
+    #   run: |
+    #      python default.py -t ${{ matrix.version }} -r -i defaults\sites.json -o data\testresult-${{ matrix.version }}.json
+    #      python .github\workflows\verify_result.py -t ${{ matrix.version }}
     - if: ${{ matrix.os == 'windows-latest' }}
       name: RUNNING TEST - WINDOWS
       run: |
-         python default.py -t ${{ matrix.version }} -r -i defaults\sites.json -o data\testresult-${{ matrix.version }}.json
+         python default.py -t ${{ matrix.version }} -r -u https://www.huddinge.se -o data\testresult-${{ matrix.version }}.json
          python .github\workflows\verify_result.py -t ${{ matrix.version }}

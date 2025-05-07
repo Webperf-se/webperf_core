@@ -1077,6 +1077,8 @@ def calculate_rating(rating, result_dict):
             text = None
             if 'test' not in issue:
                 text = f"{issue['rule']} ({issue['severity']})"
+            elif 'text' in issue:
+                text = issue['text']
             else:
                 severity_key = None
                 if issue['severity'] in ('resolved'):

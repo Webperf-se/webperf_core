@@ -57,11 +57,6 @@ def run_test(global_translation, url):
     return_dict['groups'][domain]['issues'] = get_unique_errors(errors)
     return_dict['groups'][domain]['issues'] = flatten_issues_dict(return_dict['groups'][domain]['issues'])
 
-    nice_json_data = json.dumps(return_dict, indent=3)
-    print(
-        global_translation('TEXT_SITE_REVIEW_DATA'),
-        f'```json\r\n{nice_json_data}\r\n```')
-
     rating = Rating(
         global_translation,
         get_config('general.review.improve-only'))
@@ -79,9 +74,9 @@ def get_unique_errors(errors):
     unique_errors = {}
     for error in errors:
         if 'message' in error:
-            err_mess = error['message'].replace('This', 'A')
+            err_mess = error['message']
             err_severity = error["type"]
-            error_review = f'{err_mess} ({err_severity})\n'
+            error_review = f'{err_mess} ({err_severity})'
             if error_review not in unique_errors:
                 unique_errors[error_review] = {
                     "test": "pa11y",

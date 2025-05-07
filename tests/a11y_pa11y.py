@@ -73,7 +73,7 @@ def get_unique_errors(errors):
             error_review = f'- {err_mess}\n'
             if error_review not in unique_errors:
                 unique_errors[error_review] = []
-            unique_errors[unique_errors].add(error)
+            unique_errors[error_review].add(error)
     return unique_errors
 
 def get_pa11y_errors(url, use_axe):

@@ -1,0 +1,197 @@
+# Copyright (C) 2025 WebPerf
+# Marcus J Österberg <m@webperf.se>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2025-04-27 12:00\n"
+"PO-Revision-Date: 2025-05-09 23:00\n"
+"Last-Translator: Marcus J Österberg <m@webperf.se>\n"
+"Language-Team: English <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+#
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Text to show instead of msgid, showed for severity levels (critical, error and warning)"
+
+msgid "rule-id (resolved)"
+msgstr "Text to show instead of msgid, here unique on severity level resolved"
+
+msgid "rule-id"
+msgstr "Text to show instead of msgid, here independent of severity level"
+
+# End of Examples
+
+msgid "attr-spacing (unresolved)"
+msgstr "attribut-mellanrum ({0})"
+
+msgid "attr-spacing (resolved)"
+msgstr "attribut-mellanrum (löst)"
+
+msgid "attribute-allowed-values (unresolved)"
+msgstr "attribut-tillåtna-värden ({0})"
+
+msgid "attribute-allowed-values (resolved)"
+msgstr "attribut-tillåtna-värden (löst)"
+
+msgid "attribute-misuse (unresolved)"
+msgstr "attribut-felaktig-användning ({0})"
+
+msgid "attribute-misuse (resolved)"
+msgstr "attribut-felaktig-användning (löst)"
+
+msgid "close-attr (unresolved)"
+msgstr "stäng-attribut ({0})"
+
+msgid "close-attr (resolved)"
+msgstr "stäng-attribut (löst)"
+
+msgid "close-order (unresolved)"
+msgstr "stängnings-ordning ({0})"
+
+msgid "close-order (resolved)"
+msgstr "stängnings-ordning (löst)"
+
+msgid "deprecated (unresolved)"
+msgstr "utfasad ({0})"
+
+msgid "deprecated (resolved)"
+msgstr "utfasad (löst)"
+
+msgid "deprecated-rule (unresolved)"
+msgstr "utfasad-regel ({0})"
+
+msgid "deprecated-rule (resolved)"
+msgstr "utfasad-regel (löst)"
+
+msgid "doctype-html (unresolved)"
+msgstr "doctype-html ({0})"
+
+msgid "doctype-html (resolved)"
+msgstr "doctype-html (löst)"
+
+msgid "element-name (unresolved)"
+msgstr "element-namn ({0})"
+
+msgid "element-name (resolved)"
+msgstr "element-namn (löst)"
+
+msgid "element-permitted-content (unresolved)"
+msgstr "element-tillåtet-innehåll ({0})"
+
+msgid "element-permitted-content (resolved)"
+msgstr "element-tillåtet-innehåll (löst)"
+
+msgid "element-permitted-occurrences (unresolved)"
+msgstr "element-tillåtna-förekomster ({0})"
+
+msgid "element-permitted-occurrences (resolved)"
+msgstr "element-tillåtna-förekomster (löst)"
+
+msgid "element-permitted-order (unresolved)"
+msgstr "element-tillåten-ordning ({0})"
+
+msgid "element-permitted-order (resolved)"
+msgstr "element-tillåten-ordning (löst)"
+
+msgid "element-permitted-parent (unresolved)"
+msgstr "element-tillåten-förälder ({0})"
+
+msgid "element-permitted-parent (resolved)"
+msgstr "element-tillåten-förälder (löst)"
+
+msgid "element-required-attributes (unresolved)"
+msgstr "element-obligatoriska-attribut ({0})"
+
+msgid "element-required-attributes (resolved)"
+msgstr "element-obligatoriska-attribut (löst)"
+
+msgid "element-required-content (unresolved)"
+msgstr "element-obligatoriskt-innehåll ({0})"
+
+msgid "element-required-content (resolved)"
+msgstr "element-obligatoriskt-innehåll (löst)"
+
+msgid "map-dup-name (unresolved)"
+msgstr "karta-dubblett-namn ({0})"
+
+msgid "map-dup-name (resolved)"
+msgstr "karta-dubblett-namn (löst)"
+
+msgid "map-id-name (unresolved)"
+msgstr "karta-id-namn ({0})"
+
+msgid "map-id-name (resolved)"
+msgstr "karta-id-namn (löst)"
+
+msgid "no-deprecated-attr (unresolved)"
+msgstr "inga-utfasade-attribut ({0})"
+
+msgid "no-deprecated-attr (resolved)"
+msgstr "inga-utfasade-attribut (löst)"
+
+msgid "no-dup-attr (unresolved)"
+msgstr "inga-dubblett-attribut ({0})"
+
+msgid "no-dup-attr (resolved)"
+msgstr "inga-dubblett-attribut (löst)"
+
+msgid "no-dup-id (unresolved)"
+msgstr "inga-dubblett-id ({0})"
+
+msgid "no-dup-id (resolved)"
+msgstr "inga-dubblett-id (löst)"
+
+msgid "no-multiple-main (unresolved)"
+msgstr "inga-multipla-main ({0})"
+
+msgid "no-multiple-main (resolved)"
+msgstr "inga-multipla-main (löst)"
+
+msgid "no-raw-characters (unresolved)"
+msgstr "inga-rå-tecken ({0})"
+
+msgid "no-raw-characters (resolved)"
+msgstr "inga-rå-tecken (löst)"
+
+msgid "no-unused-disable (unresolved)"
+msgstr "ingen-oanvänd-inaktivering ({0})"
+
+msgid "no-unused-disable (resolved)"
+msgstr "ingen-oanvänd-inaktivering (löst)"
+
+msgid "script-element (unresolved)"
+msgstr "script-element ({0})"
+
+msgid "script-element (resolved)"
+msgstr "script-element (löst)"
+
+msgid "unrecognized-char-ref (unresolved)"
+msgstr "okänd-tecken-referens ({0})"
+
+msgid "unrecognized-char-ref (resolved)"
+msgstr "okänd-tecken-referens (löst)"
+
+msgid "valid-autocomplete (unresolved)"
+msgstr "giltig-autocomplete ({0})"
+
+msgid "valid-autocomplete (resolved)"
+msgstr "giltig-autocomplete (löst)"
+
+msgid "valid-id (unresolved)"
+msgstr "giltigt-id ({0})"
+
+msgid "valid-id (resolved)"
+msgstr "giltigt-id (löst)"
+
+msgid "void-content (unresolved)"
+msgstr "tomt-innehåll ({0})"
+
+msgid "void-content (resolved)"
+msgstr "tomt-innehåll (löst)"

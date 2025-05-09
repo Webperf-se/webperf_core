@@ -1,0 +1,204 @@
+# Copyright (C) 2025 WebPerf
+# FIRST AUTHOR <your-email-here@webperf.se>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2025-04-27 12:00\n"
+"PO-Revision-Date: 2025-05-09 23:00\n"
+"Last-Translator: Marcus J Österberg <m@webperf.se>\n"
+"Language-Team: English <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+#
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Text to show instead of msgid, showed for severity levels (critical, error and warning)"
+
+msgid "rule-id (resolved)"
+msgstr "Text to show instead of msgid, here unique on severity level resolved"
+
+msgid "rule-id"
+msgstr "Text to show instead of msgid, here independent of severity level"
+
+# End of Examples
+
+
+msgid "function-no-unknown (unresolved)"
+msgstr "funktion-okänd ({0})"
+
+msgid "function-no-unknown (resolved)"
+msgstr "funktion-okänd (löst)"
+
+msgid "declaration-property-value-no-unknown (unresolved)"
+msgstr "deklaration-egenskap-värde-okänt ({0})"
+
+msgid "declaration-property-value-no-unknown (resolved)"
+msgstr "deklaration-egenskap-värde-okänt (löst)"
+
+msgid "selector-type-no-unknown (unresolved)"
+msgstr "väljare-typ-okänd ({0})"
+
+msgid "selector-type-no-unknown (resolved)"
+msgstr "väljare-typ-okänd (löst)"
+
+msgid "at-rule-prelude-no-invalid (unresolved)"
+msgstr "at-regel-inledning-ogiltig ({0})"
+
+msgid "at-rule-prelude-no-invalid (resolved)"
+msgstr "at-regel-inledning-ogiltig (löst)"
+
+msgid "annotation-no-unknown (unresolved)"
+msgstr "annotering-okänd ({0})"
+
+msgid "annotation-no-unknown (resolved)"
+msgstr "annotering-okänd (löst)"
+
+msgid "at-rule-descriptor-no-unknown (unresolved)"
+msgstr "at-regel-deskriptor-okänd ({0})"
+
+msgid "at-rule-descriptor-no-unknown (resolved)"
+msgstr "at-regel-deskriptor-okänd (löst)"
+
+msgid "at-rule-descriptor-value-no-unknown (unresolved)"
+msgstr "at-regel-deskriptor-värde-okänt ({0})"
+
+msgid "at-rule-descriptor-value-no-unknown (resolved)"
+msgstr "at-regel-deskriptor-värde-okänt (löst)"
+
+msgid "at-rule-no-deprecated (unresolved)"
+msgstr "at-regel-utfasad ({0})"
+
+msgid "at-rule-no-deprecated (resolved)"
+msgstr "at-regel-utfasad (löst)"
+
+msgid "at-rule-no-unknown (unresolved)"
+msgstr "at-regel-okänd ({0})"
+
+msgid "at-rule-no-unknown (resolved)"
+msgstr "at-regel-okänd (löst)"
+
+msgid "block-no-empty (unresolved)"
+msgstr "block-tomt ({0})"
+
+msgid "block-no-empty (resolved)"
+msgstr "block-tomt (löst)"
+
+msgid "color-no-invalid-hex (unresolved)"
+msgstr "färg-ogiltig-hex ({0})"
+
+msgid "color-no-invalid-hex (resolved)"
+msgstr "färg-ogiltig-hex (löst)"
+
+msgid "comment-no-empty (unresolved)"
+msgstr "kommentar-tom ({0})"
+
+msgid "comment-no-empty (resolved)"
+msgstr "kommentar-tom (löst)"
+
+msgid "declaration-property-value-keyword-no-deprecated (unresolved)"
+msgstr "deklaration-egenskap-värde-nyckelord-utfasat ({0})"
+
+msgid "declaration-property-value-keyword-no-deprecated (resolved)"
+msgstr "deklaration-egenskap-värde-nyckelord-utfasat (löst)"
+
+msgid "function-linear-gradient-no-nonstandard-direction (unresolved)"
+msgstr "funktion-linjär-gradient-icke-standard-riktning ({0})"
+
+msgid "function-linear-gradient-no-nonstandard-direction (resolved)"
+msgstr "funktion-linjär-gradient-icke-standard-riktning (löst)"
+
+msgid "media-feature-name-no-unknown (unresolved)"
+msgstr "media-egenskap-namn-okänt ({0})"
+
+msgid "media-feature-name-no-unknown (resolved)"
+msgstr "media-egenskap-namn-okänt (löst)"
+
+msgid "media-feature-name-value-no-unknown (unresolved)"
+msgstr "media-egenskap-namn-värde-okänt ({0})"
+
+msgid "media-feature-name-value-no-unknown (resolved)"
+msgstr "media-egenskap-namn-värde-okänt (löst)"
+
+msgid "media-query-no-invalid (unresolved)"
+msgstr "media-fråga-ogiltig ({0})"
+
+msgid "media-query-no-invalid (resolved)"
+msgstr "media-fråga-ogiltig (löst)"
+
+msgid "named-grid-areas-no-invalid (unresolved)"
+msgstr "namngivna-rutnät-områden-ogiltiga ({0})"
+
+msgid "named-grid-areas-no-invalid (resolved)"
+msgstr "namngivna-rutnät-områden-ogiltiga (löst)"
+
+msgid "no-empty-source (unresolved)"
+msgstr "ingen-tom-källkod ({0})"
+
+msgid "no-empty-source (resolved)"
+msgstr "ingen-tom-källkod (löst)"
+
+msgid "no-invalid-double-slash-comments (unresolved)"
+msgstr "inga-ogiltiga-dubbel-snedstreck-kommentarer ({0})"
+
+msgid "no-invalid-double-slash-comments (resolved)"
+msgstr "inga-ogiltiga-dubbel-snedstreck-kommentarer (löst)"
+
+msgid "no-invalid-position-at-import-rule (unresolved)"
+msgstr "ingen-ogiltig-position-för-import-regel ({0})"
+
+msgid "no-invalid-position-at-import-rule (resolved)"
+msgstr "ingen-ogiltig-position-för-import-regel (löst)"
+
+msgid "no-unknown-animations (unresolved)"
+msgstr "inga-okända-animeringar ({0})"
+
+msgid "no-unknown-animations (resolved)"
+msgstr "inga-okända-animeringar (löst)"
+
+msgid "no-unknown-custom-media (unresolved)"
+msgstr "inga-okända-anpassade-media ({0})"
+
+msgid "no-unknown-custom-media (resolved)"
+msgstr "inga-okända-anpassade-media (löst)"
+
+msgid "no-unknown-custom-properties (unresolved)"
+msgstr "inga-okända-anpassade-egenskaper ({0})"
+
+msgid "no-unknown-custom-properties (resolved)"
+msgstr "inga-okända-anpassade-egenskaper (löst)"
+
+msgid "property-no-unknown (unresolved)"
+msgstr "egenskap-okänd ({0})"
+
+msgid "property-no-unknown (resolved)"
+msgstr "egenskap-okänd (löst)"
+
+msgid "selector-pseudo-class-no-unknown (unresolved)"
+msgstr "väljare-pseudo-klass-okänd ({0})"
+
+msgid "selector-pseudo-class-no-unknown (resolved)"
+msgstr "väljare-pseudo-klass-okänd (löst)"
+
+msgid "selector-pseudo-element-no-unknown (unresolved)"
+msgstr "väljare-pseudo-element-okänt ({0})"
+
+msgid "selector-pseudo-element-no-unknown (resolved)"
+msgstr "väljare-pseudo-element-okänt (löst)"
+
+msgid "syntax-string-no-invalid (unresolved)"
+msgstr "syntax-sträng-ogiltig ({0})"
+
+msgid "syntax-string-no-invalid (resolved)"
+msgstr "syntax-sträng-ogiltig (löst)"
+
+msgid "unit-no-unknown (unresolved)"
+msgstr "enhet-okänd ({0})"
+
+msgid "unit-no-unknown (resolved)"
+msgstr "enhet-okänd (löst)"

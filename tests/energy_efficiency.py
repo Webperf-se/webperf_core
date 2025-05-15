@@ -8,7 +8,8 @@ from helpers.browser_helper import get_chromium_browser
 from helpers.models import Rating
 from tests import energy_efficiency_carbon_percentiles
 from tests.sitespeed_base import get_result
-from tests.utils import get_translation
+from tests.utils import get_translation, flatten_issues_dict,\
+    calculate_rating, get_domain
 from engines.sitespeed_result import read_sites_from_directory
 
 # Code below is built from: https://gitlab.com/wholegrain/carbon-api-2-0
@@ -18,6 +19,53 @@ RETURNING_VISITOR_PERCENTAGE = 0.75
 FIRST_TIME_VIEWING_PERCENTAGE = 0.25
 PERCENTAGE_OF_DATA_LOADED_ON_SUBSEQUENT_LOAD = 0.02
 CARBON_PER_KWG_GRID = 475
+
+ALL_RULES = {
+    'carbon-dioxide-percentile-95': {
+        'severity': 'warning',
+        'category': 'sustainable'
+    },
+    'carbon-dioxide-percentile-90': {
+        'severity': 'warning',
+        'category': 'sustainable'
+    },
+    'carbon-dioxide-percentile-80': {
+        'severity': 'warning',
+        'category': 'sustainable',
+    },
+    'carbon-dioxide-percentile-70': {
+        'severity': 'error',
+        'category': 'sustainable',
+    },
+    'carbon-dioxide-percentile-60': {
+        'severity': 'error',
+        'category': 'sustainable',
+    },
+    'carbon-dioxide-percentile-50': {
+        'severity': 'error',
+        'category': 'sustainable',
+    },
+    'carbon-dioxide-percentile-40': {
+        'severity': 'error',
+        'category': 'sustainable',
+    },
+    'carbon-dioxide-percentile-30': {
+        'severity': 'error',
+        'category': 'sustainable',
+    },
+    'carbon-dioxide-percentile-20': {
+        'severity': 'error',
+        'category': 'sustainable',
+    },
+    'carbon-dioxide-percentile-10': {
+        'severity': 'critical',
+        'category': 'sustainable',
+    },
+    'carbon-dioxide-percentile-05': {
+        'severity': 'critical',
+        'category': 'sustainable',
+    },
+}
 
 def adjust_data_transfer(transfer_bytes):
     """
@@ -167,7 +215,14 @@ def run_test(global_translation, url):
     print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    result_dict = {}
+    result_dict = {
+        'groups': {}
+    }
+
+    domain = get_domain(url)
+    result_dict['groups'][domain] = {
+            'issues': {}
+        }
     transfer_bytes = get_total_bytes_for_url(
         url,
         result_dict)
@@ -192,16 +247,83 @@ def run_test(global_translation, url):
     if cleaner >= 95:
         points = 5.0
 
-    if cleaner >= 90:
-        review = local_translation("TEXT_WEBSITE_IS_VERY_GOOD")
-    elif cleaner >= 70:
-        review = local_translation("TEXT_WEBSITE_IS_GOOD")
-    elif cleaner >= 50:
-        review = local_translation("TEXT_WEBSITE_IS_OK")
-    elif cleaner >= 30:
-        review = local_translation("TEXT_WEBSITE_IS_BAD")
-    elif cleaner < 30:
-        review = local_translation("TEXT_WEBSITE_IS_VERY_BAD")
+    if cleaner <= 5:
+        addIssue(result_dict, 'carbon-dioxide-percentile-05', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-10', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-20', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-30', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-40', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-50', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-60', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-70', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-80', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-90', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-95', url)
+    elif cleaner <= 10:
+        addIssue(result_dict, 'carbon-dioxide-percentile-10', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-20', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-30', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-40', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-50', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-60', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-70', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-80', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-90', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-95', url)
+    elif cleaner <= 20:
+        addIssue(result_dict, 'carbon-dioxide-percentile-20', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-30', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-40', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-50', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-60', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-70', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-80', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-90', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-95', url)
+    elif cleaner <= 30:
+        addIssue(result_dict, 'carbon-dioxide-percentile-30', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-40', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-50', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-60', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-70', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-80', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-90', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-95', url)
+    elif cleaner <= 40:
+        addIssue(result_dict, 'carbon-dioxide-percentile-40', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-50', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-60', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-70', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-80', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-90', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-95', url)
+    elif cleaner <= 50:
+        addIssue(result_dict, 'carbon-dioxide-percentile-50', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-60', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-70', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-80', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-90', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-95', url)
+    elif cleaner <= 60:
+        addIssue(result_dict, 'carbon-dioxide-percentile-60', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-70', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-80', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-90', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-95', url)
+    elif cleaner <= 70:
+        addIssue(result_dict, 'carbon-dioxide-percentile-70', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-80', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-90', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-95', url)
+    elif cleaner <= 80:
+        addIssue(result_dict, 'carbon-dioxide-percentile-80', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-90', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-95', url)
+    elif cleaner <= 90:
+        addIssue(result_dict, 'carbon-dioxide-percentile-90', url)
+        addIssue(result_dict, 'carbon-dioxide-percentile-95', url)
+    elif cleaner <= 95:
+        addIssue(result_dict, 'carbon-dioxide-percentile-95', url)
 
     review += local_translation("TEXT_GRAMS_OF_CO2").format(round(co2, 2))
     latest_generated_date = energy_efficiency_carbon_percentiles.get_generated_date()
@@ -231,7 +353,49 @@ def run_test(global_translation, url):
             global_translation('TEXT_SITE_REVIEW_DATA'),
             f'```json\r\n{nice_json_data}\r\n```')
 
+    addResolvedIssues(url, domain, result_dict)
+
+    result_dict['groups'][domain]['issues'] = flatten_issues_dict(result_dict['groups'][domain]['issues'])
+
+    rating = calculate_rating(rating, result_dict)
+
     return (rating, result_dict)
+
+def addResolvedIssues(url, domain, result_dict):
+    for rule_id, rule in ALL_RULES.items():
+        if rule_id not in result_dict['groups'][domain]['issues']:
+            addResolvedIssue(result_dict, rule_id, url)
+            result_dict['groups'][domain]['issues'][rule_id]['severity'] = 'resolved'
+            result_dict['groups'][domain]['issues'][rule_id]['category'] = rule['category']
+
+
+def addResolvedIssue(result_dict, rule_id, url):
+    domain = get_domain(url)
+    result_dict['groups'][domain]['issues'][rule_id] = {
+        'test': 'energy-efficiency',
+        'rule': rule_id,
+        'category': 'sustainable',
+        'severity': 'resolved',
+        'subIssues': []
+    }
+
+
+def addIssue(result_dict, rule_id, url):
+    domain = get_domain(url)
+    result_dict['groups'][domain]['issues'][rule_id] = {
+        'test': 'energy-efficiency',
+        'rule': rule_id,
+        'category': ALL_RULES[rule_id]['category'],
+        'severity': ALL_RULES[rule_id]['severity'],
+        'subIssues': [
+            {
+                'url': url,
+                'rule': rule_id,
+                'category': ALL_RULES[rule_id]['category'],
+                'severity': ALL_RULES[rule_id]['severity']
+            }
+        ]
+    }
 
 def get_total_bytes(filename, result_dict):
     total_bytes = 0

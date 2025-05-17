@@ -1059,7 +1059,7 @@ def calculate_score(issues):
 
     return category_scores
 
-def calculate_rating(rating, result_dict):
+def calculate_rating(global_translation, rating, result_dict):
     issues_other = []
     issues_standard =[]
     issues_security = []
@@ -1106,6 +1106,19 @@ def calculate_rating(rating, result_dict):
                     text = text_primarykey
                     print(f"no translation found for: {issue['test']}, adding file for language: {get_config('general.language')} so you can translate it.")
                     create_or_append_translation(issue['test'], get_config('general.language'), text_secondarykey)
+
+            if get_config('general.review.details'):
+                if 'resources' in issue:
+                    a1 ="\n  - ".join([f"{item}" for item in issue['resources']])
+                    more_info = global_translation('TEXT_DETAILS_MORE_INFO')
+                    # More info
+                    text = f"{text}\n  {more_info}:\n  - {a1}\n"
+                if 'subIssues' in issue and len(issue['subIssues']) > 0:
+                    unique_urls = set(subItem['url'] for subItem in issue['subIssues'])
+                    a2 = "\n  - ".join(unique_urls)
+                    urls_with_issues  = global_translation('TEXT_DETAILS_URLS_WITH_ISSUES')
+                    # Url(s) with issues
+                    text = f"{text}\n  {urls_with_issues}:\n  - {a2}\n"
 
             if issue['category'] == 'standard':
                 issues_standard.append(text)

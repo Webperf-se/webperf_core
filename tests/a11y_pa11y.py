@@ -60,7 +60,7 @@ def run_test(global_translation, url):
     rating = Rating(
         global_translation,
         get_config('general.review.improve-only'))
-    rating = calculate_rating(rating, return_dict)
+    rating = calculate_rating(global_translation, rating, return_dict)
 
     return (rating, return_dict)
 

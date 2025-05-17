@@ -132,7 +132,7 @@ def run_test(global_translation, url):
         "groups": tmp
     }
 
-    rating = calculate_rating(rating, result_dict)
+    rating = calculate_rating(global_translation, rating, result_dict)
 
     return (rating, result_dict)
 

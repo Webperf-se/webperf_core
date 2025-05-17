@@ -235,7 +235,7 @@ def test_with_sitespeed(global_translation, site, sitespeed_plugins):
         # TODO: Handle where result_dict is None
         # TODO: Handle when unable to access website
 
-        calculate_rating(rating, result_dict)
+        calculate_rating(global_translation, rating, result_dict)
 
         print(global_translation('TEXT_TEST_END').format(
             datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
@@ -318,7 +318,7 @@ def test_site(global_translation, site, test_types):
         big_data = merge_dicts(big_data, test_data['data'], False, False)
 
     sort_testresult_issues(big_data)
-    rating = calculate_rating(rating, big_data)
+    rating = calculate_rating(global_translation, rating, big_data)
 
     if rating.isused():
         reviews = rating.get_reviews()

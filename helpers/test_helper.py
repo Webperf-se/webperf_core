@@ -6,9 +6,9 @@ import traceback
 from helpers.models import Rating
 from helpers.setting_helper import get_config, get_used_configuration
 from helpers.models import SiteTests
-from tests.utils import get_translation
-from tests.sitespeed_base import create_webperf_json,\
-    calculate_rating
+from tests.utils import get_translation, merge_dicts,\
+    sort_testresult_issues, calculate_rating
+from tests.sitespeed_base import create_webperf_json
 from tests.privacy_webbkollen import run_test as run_test_privacy_webbkollen
 from tests.standard_files import run_test as run_test_standard_files
 from tests.performance_sitespeed_io import run_test as run_test_performance_sitespeed_io
@@ -122,22 +122,19 @@ def test(global_translation, site, test_type=None):
         if test_type not in TEST_FUNCS:
             return []
 
+        print(global_translation('TEXT_TEST_START').format(
+            datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
         run_test = TEST_FUNCS[test_type]
         the_test_result = run_test(global_translation, site[1])
 
+        print(global_translation('TEXT_TEST_END').format(
+            datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
         if the_test_result is not None:
             rating = the_test_result[0]
-            reviews = rating.get_reviews()
-            print(global_translation('TEXT_SITE_RATING'), rating)
-            if get_config('general.review.show'):
-                print(global_translation('TEXT_SITE_REVIEW'),
-                      reviews)
 
             json_data = the_test_result[1]
-            if get_config('general.review.data'):
-                nice_json_data = json.dumps(json_data, indent=3)
-                print(global_translation('TEXT_SITE_REVIEW_DATA'),
-                      f'```json\r\n{nice_json_data}\r\n```')
 
             site_test = SiteTests(site_id=site[0], type_of_test=test_type,
                                   rating=rating,
@@ -238,23 +235,15 @@ def test_with_sitespeed(global_translation, site, sitespeed_plugins):
         # TODO: Handle where result_dict is None
         # TODO: Handle when unable to access website
 
-        calculate_rating(rating, result_dict)
+        calculate_rating(global_translation, rating, result_dict)
 
         print(global_translation('TEXT_TEST_END').format(
             datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
         if result_dict is not None:
             reviews = rating.get_reviews()
-            print(global_translation('TEXT_SITE_RATING'), rating)
-            if get_config('general.review.show'):
-                print(global_translation('TEXT_SITE_REVIEW'),
-                      reviews)
 
             json_data = result_dict
-            if get_config('general.review.data'):
-                nice_json_data = json.dumps(json_data, indent=3)
-                print(global_translation('TEXT_SITE_REVIEW_DATA'),
-                      f'```json\r\n{nice_json_data}\r\n```')
 
             site_test = SiteTests(site_id=site[0], type_of_test=-1,
                                   rating=rating,
@@ -314,6 +303,47 @@ def test_site(global_translation, site, test_types):
         tests.extend(test(global_translation,
             site,
             test_type=test_id))
+
+    rating = Rating(global_translation)
+    site_test = None
+    big_data = {}
+    for test_data in tests:
+        if test_data is None:
+            continue
+        if "data" not in test_data:
+            continue
+
+        if "groups" not in test_data["data"]:
+            abc = 1
+        big_data = merge_dicts(big_data, test_data['data'], False, False)
+
+    sort_testresult_issues(big_data)
+    rating = calculate_rating(global_translation, rating, big_data)
+
+    if rating.isused():
+        reviews = rating.get_reviews()
+        print(global_translation('TEXT_SITE_RATING'), rating)
+        if get_config('general.review.show'):
+            print(
+                global_translation('TEXT_SITE_REVIEW'),
+                reviews)
+
+        if get_config('general.review.data'):
+            nice_json_data = json.dumps(big_data, indent=3)
+            print(
+                global_translation('TEXT_SITE_REVIEW_DATA'),
+                f'```json\r\n{nice_json_data}\r\n```')
+
+
+        site_test = SiteTests(
+            -1,  # site_id is not used in this case
+            type_of_test=-1,
+            rating=rating,
+            test_date=datetime.now(),
+            json_check_data=big_data).todata()
+
+        tests = []
+        tests.append(site_test[0])
 
     return tests
 

@@ -143,3 +143,9 @@ msgstr "#{0}: "
 
 msgid "TEXT_REQUEST_WEBPAGE"
 msgstr "#{0}: Webpage "
+
+msgid "TEXT_DETAILS_MORE_INFO"
+msgstr "More info"
+
+msgid "TEXT_DETAILS_URLS_WITH_ISSUES"
+msgstr "Url(s) with issues"

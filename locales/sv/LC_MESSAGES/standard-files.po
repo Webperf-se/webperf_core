@@ -1,0 +1,121 @@
+# Swedish
+# Copyright (C) 2025 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2025-05-06 19:30\n"
+"PO-Revision-Date: 2025-05-06 19:30\n"
+"Last-Translator: mattias <mattias@webperf.se>\n"
+"Language-Team: Swedish <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+#
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Text som visas istället för msgid, visas för allvarlighetsnivåerna (kritisk, fel och varning)"
+
+msgid "rule-id (resolved)"
+msgstr "Text som visas istället för msgid, här unikt för allvarlighetsnivån löst"
+
+msgid "rule-id"
+msgstr "Text som visas istället för msgid, här oberoende av allvarlighetsnivå"
+
+# End of Examples
+
+
+msgid "no-duplicates-sitemap (unresolved)"
+msgstr "Sitemap, inga dubbletter av Url:er i <loc> är tillåtna ({0})"
+
+msgid "no-duplicates-sitemap (resolved)"
+msgstr "Sitemap, inga dubbletter av Url:er i <loc> är tillåtna (löst)"
+
+msgid "no-robots-txt (unresolved)"
+msgstr "robots.txt saknas, får inte laddas ner eller har inte förväntat innehåll ({0})"
+
+msgid "no-robots-txt (resolved)"
+msgstr "robots.txt saknas, får inte laddas ner eller har inte förväntat innehåll (löst)"
+
+msgid "no-sitemap-in-robots-txt (unresolved)"
+msgstr "Sitemap anges inte i robots.txt ({0})"
+
+msgid "no-sitemap-in-robots-txt (resolved)"
+msgstr "Sitemap anges inte i robots.txt (löst)"
+
+msgid "no-valid-sitemap-found (unresolved)"
+msgstr "Sitemap, ingen giltig sitemap hittades ({0})"
+
+msgid "no-valid-sitemap-found (resolved)"
+msgstr "Sitemap, ingen giltig sitemap hittades (löst)"
+
+msgid "no-same-domain-sitemap (unresolved)"
+msgstr "Sitemap, Url i <loc> måste använda samma domän som robots.txt ({0})"
+
+msgid "no-same-domain-sitemap (resolved)"
+msgstr "Sitemap, Url i <loc> måste använda samma domän som robots.txt (löst)"
+
+msgid "no-https-sitemap (unresolved)"
+msgstr "Sitemap, Url i <loc> måste börja med https:// ({0})"
+
+msgid "no-https-sitemap (resolved)"
+msgstr "Sitemap, Url i <loc> måste börja med https:// (löst)"
+
+msgid "no-unknown-types-sitemap (unresolved)"
+msgstr "Sitemap, listar annat än webbsidor ({0})"
+
+msgid "no-unknown-types-sitemap (resolved)"
+msgstr "Sitemap, listar annat än webbsidor (löst)"
+
+msgid "invalid-sitemap-too-large (unresolved)"
+msgstr "Sitemap, överskrider 50 000 objekt ({0})"
+
+msgid "invalid-sitemap-too-large (resolved)"
+msgstr "Sitemap, överskrider 50 000 objekt (löst)"
+
+msgid "no-items-sitemap (unresolved)"
+msgstr "Sitemap, har inga objekt ({0})"
+
+msgid "no-items-sitemap (resolved)"
+msgstr "Sitemap, har inga objekt (löst)"
+
+msgid "no-rss-feed (unresolved)"
+msgstr "Feed saknas i HTML:ens metadata ({0})"
+
+msgid "no-rss-feed (resolved)"
+msgstr "Feed saknas i HTML:ens metadata (löst)"
+
+msgid "no-security-txt (unresolved)"
+msgstr "security.txt saknas ({0})"
+
+msgid "no-security-txt (resolved)"
+msgstr "security.txt saknas (löst)"
+
+msgid "invalid-security-txt (unresolved)"
+msgstr "security.txt har felaktigt innehåll ({0})"
+
+msgid "invalid-security-txt (resolved)"
+msgstr "security.txt har felaktigt innehåll (löst)"
+
+msgid "no-security-txt-contact (unresolved)"
+msgstr "security.txt saknar nödvändig kontaktinformation ({0})"
+
+msgid "no-security-txt-contact (resolved)"
+msgstr "security.txt saknar nödvändig kontaktinformation (löst)"
+
+msgid "no-security-txt-expires (unresolved)"
+msgstr "security.txt kräver utgångsinformation (tillägg i utkast v10) saknas ({0})"
+
+msgid "no-security-txt-expires (resolved)"
+msgstr "security.txt kräver utgångsinformation (tillägg i utkast v10) saknas (löst)"
+
+msgid "no-network (unresolved)"
+msgstr "Test misslyckades, kunde inte nå webbplatsen ({0})"
+
+msgid "no-network (resolved)"
+msgstr "Test misslyckades, kunde inte nå webbplatsen (löst)"

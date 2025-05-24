@@ -1,13 +1,14 @@
+# Swedish
 # Copyright (C) 2025 WebPerf
-# Marcus J Österberg <m@webperf.se>, 2025.
+# FIRST AUTHOR <mattias@webperf.se>, 2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2025-04-27 12:00\n"
-"PO-Revision-Date: 2025-05-09 23:00\n"
-"Last-Translator: Marcus J Österberg <m@webperf.se>\n"
-"Language-Team: English <team@webperf.se>\n"
+"PO-Revision-Date: 2025-04-27 12:00\n"
+"Last-Translator: Mattias <mattias@webperf.se>\n"
+"Language-Team: Swedish <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,22 +19,22 @@ msgstr ""
 # {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
 
 msgid "rule-id (unresolved)"
-msgstr "Text to show instead of msgid, showed for severity levels (critical, error and warning)"
+msgstr "Text som visas istället för msgid, visas för allvarlighetsnivåerna (critical, error och warning)"
 
 msgid "rule-id (resolved)"
-msgstr "Text to show instead of msgid, here unique on severity level resolved"
+msgstr "Text som visas istället för msgid, här unikt på allvarlighetsnivå (resolved)"
 
 msgid "rule-id"
-msgstr "Text to show instead of msgid, here independent of severity level"
+msgstr "Text som visas istället för msgid, här oberoende av allvarlighetsnivå"
 
 # End of Examples
 
 
 msgid "largest-contentful-paint-element (unresolved)"
-msgstr "LCP-element ({0})"
+msgstr "Största innehållsrika elementet ({0})"
 
 msgid "largest-contentful-paint-element (resolved)"
-msgstr "LCP-element (löst)"
+msgstr "Största innehållsrika elementet (löst)"
 
 msgid "unused-css-rules (unresolved)"
 msgstr "Minska oanvänd CSS ({0})"
@@ -48,10 +49,10 @@ msgid "unused-javascript (resolved)"
 msgstr "Minska oanvänd JavaScript (löst)"
 
 msgid "legacy-javascript (unresolved)"
-msgstr "Undvik att skicka äldre JavaScript till moderna webbläsare ({0})"
+msgstr "Undvik att leverera äldre JavaScript till moderna webbläsare ({0})"
 
 msgid "legacy-javascript (resolved)"
-msgstr "Undvik att skicka äldre JavaScript till moderna webbläsare (löst)"
+msgstr "Undvik att leverera äldre JavaScript till moderna webbläsare (löst)"
 
 msgid "cumulative-layout-shift (unresolved)"
 msgstr "Kumulativ layoutförskjutning ({0})"
@@ -60,10 +61,10 @@ msgid "cumulative-layout-shift (resolved)"
 msgstr "Kumulativ layoutförskjutning (löst)"
 
 msgid "duplicated-javascript (unresolved)"
-msgstr "Ta bort dubblettmoduler i JavaScript-paket ({0})"
+msgstr "Ta bort duplicerade moduler i JavaScript-buntar ({0})"
 
 msgid "duplicated-javascript (resolved)"
-msgstr "Ta bort dubblettmoduler i JavaScript-paket (löst)"
+msgstr "Ta bort duplicerade moduler i JavaScript-buntar (löst)"
 
 msgid "layout-shifts (unresolved)"
 msgstr "Undvik stora layoutförskjutningar ({0})"
@@ -72,28 +73,28 @@ msgid "layout-shifts (resolved)"
 msgstr "Undvik stora layoutförskjutningar (löst)"
 
 msgid "largest-contentful-paint (unresolved)"
-msgstr "LCP ({0})"
+msgstr "Största innehållsrika målning ({0})"
 
 msgid "largest-contentful-paint (resolved)"
-msgstr "LCP (löst)"
+msgstr "Största innehållsrika målning (löst)"
 
 msgid "uses-long-cache-ttl (unresolved)"
-msgstr "Statiska resurser behöver en effektiv cachepolicy ({0})"
+msgstr "Servera statiska resurser med effektiv cachepolicy ({0})"
 
 msgid "uses-long-cache-ttl (resolved)"
-msgstr "Statiska resurser har en effektiv cachepolicy"
+msgstr "Servera statiska resurser med effektiv cachepolicy (löst)"
 
 msgid "first-contentful-paint (unresolved)"
-msgstr "FCP ({0})"
+msgstr "Första innehållsrika målning ({0})"
 
 msgid "first-contentful-paint (resolved)"
-msgstr "Bra FCP"
+msgstr "Första innehållsrika målning (löst)"
 
 msgid "render-blocking-resources (unresolved)"
 msgstr "Eliminera renderingsblockerande resurser ({0})"
 
 msgid "render-blocking-resources (resolved)"
-msgstr "Renderingsblockerande resurser är bra"
+msgstr "Eliminera renderingsblockerande resurser (löst)"
 
 msgid "total-blocking-time (unresolved)"
 msgstr "Total blockeringstid ({0})"
@@ -102,172 +103,172 @@ msgid "total-blocking-time (resolved)"
 msgstr "Total blockeringstid (löst)"
 
 msgid "speed-index (unresolved)"
-msgstr "Speedindex ({0})"
+msgstr "Hastighetsindex ({0})"
 
 msgid "speed-index (resolved)"
-msgstr "Bra speedindex"
+msgstr "Hastighetsindex (löst)"
 
 msgid "interactive (unresolved)"
 msgstr "Tid till interaktivitet ({0})"
 
 msgid "interactive (resolved)"
-msgstr "Tid till interaktivitet är bra"
+msgstr "Tid till interaktivitet (löst)"
 
 msgid "max-potential-fid (unresolved)"
-msgstr "Maximal potentiell första inmatningsfördröjning ({0})"
+msgstr "Max potentiell första inmatningsfördröjning ({0})"
 
 msgid "max-potential-fid (resolved)"
-msgstr "Maximal potentiell första inmatningsfördröjning (löst)"
+msgstr "Max potentiell första inmatningsfördröjning (löst)"
 
 msgid "uses-responsive-images (unresolved)"
-msgstr "Storleksanpassa bilder ({0})"
+msgstr "Anpassa bildstorlekar korrekt ({0})"
 
 msgid "uses-responsive-images (resolved)"
-msgstr "Bilder är korrekt storleksanpassade"
+msgstr "Anpassa bildstorlekar korrekt (löst)"
 
 msgid "offscreen-images (unresolved)"
-msgstr "Skjut upp laddning av bilder utanför skärmen ({0})"
+msgstr "Skjut upp bilder utanför skärmen ({0})"
 
 msgid "offscreen-images (resolved)"
-msgstr "Skjut upp laddning av bilder utanför skärmen (löst)"
+msgstr "Skjut upp bilder utanför skärmen (löst)"
 
 msgid "unminified-css (unresolved)"
 msgstr "Minifiera CSS ({0})"
 
 msgid "unminified-css (resolved)"
-msgstr "CSS är minifierad"
+msgstr "Minifiera CSS (löst)"
 
 msgid "unminified-javascript (unresolved)"
 msgstr "Minifiera JavaScript ({0})"
 
 msgid "unminified-javascript (resolved)"
-msgstr "JavaScript är minifierad"
+msgstr "Minifiera JavaScript (löst)"
 
 msgid "uses-optimized-images (unresolved)"
-msgstr "Koda bilder effektivt ({0})"
+msgstr "Effektiv kodning av bilder ({0})"
 
 msgid "uses-optimized-images (resolved)"
-msgstr "Bilder är effektivt kodade"
+msgstr "Effektiv kodning av bilder (löst)"
 
 msgid "modern-image-formats (unresolved)"
-msgstr "Servera bilder i moderna format ({0})"
+msgstr "Servera bilder i nästa generations format ({0})"
 
 msgid "modern-image-formats (resolved)"
-msgstr "Bilder serveras i moderna format"
+msgstr "Servera bilder i nästa generations format (löst)"
 
 msgid "uses-text-compression (unresolved)"
 msgstr "Aktivera textkomprimering ({0})"
 
 msgid "uses-text-compression (resolved)"
-msgstr "Textkomprimering ser bra ut"
+msgstr "Aktivera textkomprimering (löst)"
 
 msgid "uses-rel-preconnect (unresolved)"
-msgstr "Förkoppla till nödvändiga ursprung ({0})"
+msgstr "Föranslut till nödvändiga ursprung ({0})"
 
 msgid "uses-rel-preconnect (resolved)"
-msgstr "Förkoppla till nödvändiga ursprung (löst)"
+msgstr "Föranslut till nödvändiga ursprung (löst)"
 
 msgid "server-response-time (unresolved)"
-msgstr "Serverns svarstid är inte bra ({0})"
+msgstr "Initial serverresponstid var kort ({0})"
 
 msgid "server-response-time (resolved)"
-msgstr "Serverns svarstid är bra"
+msgstr "Initial serverresponstid var kort (löst)"
 
 msgid "redirects (unresolved)"
 msgstr "Undvik flera sidomdirigeringar ({0})"
 
 msgid "redirects (resolved)"
-msgstr "Sidomdirigeringar undviks"
+msgstr "Undvik flera sidomdirigeringar (löst)"
 
 msgid "efficient-animated-content (unresolved)"
 msgstr "Använd videoformat för animerat innehåll ({0})"
 
 msgid "efficient-animated-content (resolved)"
-msgstr "Använder videoformat för animerat innehåll"
+msgstr "Använd videoformat för animerat innehåll (löst)"
 
 msgid "total-byte-weight (unresolved)"
-msgstr "Undvik enorma nätverkslaster ({0})"
+msgstr "Undvik enorma nätverkspayloads ({0})"
 
 msgid "total-byte-weight (resolved)"
-msgstr "Undviker enorma nätverkslaster"
+msgstr "Undvik enorma nätverkspayloads (löst)"
 
 msgid "dom-size (unresolved)"
-msgstr "Undvik en för stor DOM-storlek ({0})"
+msgstr "Undvik överdriven DOM-storlek ({0})"
 
 msgid "dom-size (resolved)"
-msgstr "Undviker en för stor DOM-storlek"
+msgstr "Undvik överdriven DOM-storlek (löst)"
 
 msgid "bootup-time (unresolved)"
-msgstr "JavaScript-exekveringstid ({0})"
+msgstr "JavaScript-körningstid ({0})"
 
 msgid "bootup-time (resolved)"
-msgstr "JavaScript-exekveringstid är bra"
+msgstr "JavaScript-körningstid (löst)"
 
 msgid "mainthread-work-breakdown (unresolved)"
 msgstr "Minimera arbete på huvudtråden ({0})"
 
 msgid "mainthread-work-breakdown (resolved)"
-msgstr "Minimerar arbete på huvudtråden"
+msgstr "Minimera arbete på huvudtråden (löst)"
 
 msgid "font-display (unresolved)"
-msgstr "Inte all text förblir synlig under laddning av webbfonter ({0})"
+msgstr "All text ska förbli synlig under webfont-laddning ({0})"
 
 msgid "font-display (resolved)"
-msgstr "All text förblir synlig under laddning av webbfonter"
+msgstr "All text förblir synlig under webfont-laddning (löst)"
 
 msgid "uses-passive-event-listeners (unresolved)"
-msgstr "Använde passiva händelselyssnare för att förbättra rullningsprestanda ({0})"
+msgstr "Använd passiva lyssnare för att förbättra rullningsprestanda ({0})"
 
 msgid "uses-passive-event-listeners (resolved)"
-msgstr "Använder passiva händelselyssnare för att förbättra rullningsprestanda"
+msgstr "Använder passiva lyssnare för att förbättra rullningsprestanda (löst)"
 
 msgid "no-document-write (unresolved)"
-msgstr "Javascript, undvike `document.write()` ({0})"
+msgstr "Javascript, undvik `document.write()` ({0})"
 
 msgid "no-document-write (resolved)"
-msgstr "Javascript, undviker `document.write()`"
+msgstr "Javascript, undviker `document.write() (löst)"
 
 msgid "long-tasks (unresolved)"
-msgstr "Undvik långa uppgifter på huvudtråden ({0})"
+msgstr "Undvik långa huvudtrådsuppgifter ({0})"
 
 msgid "long-tasks (resolved)"
-msgstr "Undviker långa uppgifter på huvudtråden"
+msgstr "Undviker långa huvudtrådsuppgifter (löst)"
 
 msgid "unsized-images (unresolved)"
-msgstr "Bildelement har inte explicit `width` och `height` ({0})"
+msgstr "Bildelement ska ha explicit `width` och `height` ({0})"
 
 msgid "unsized-images (resolved)"
-msgstr "Bildelement har explicit `width` och `height`"
+msgstr "Bildelement har explicit `width` och `height` (löst)"
 
 msgid "viewport (unresolved)"
-msgstr "`[user-scalable=\"no\"]` används i `<meta name=\"viewport\">`-elementet och `[maximum-scale]`-attributet är inte mindre än 5. ({0})"
+msgstr "Ska ha en <meta name=\"viewport\">-tagg med width eller initial-scale ({0})"
 
 msgid "viewport (resolved)"
-msgstr "`[user-scalable=\"no\"]` används inte i `<meta name=\"viewport\">`-elementet och `[maximum-scale]`-attributet är inte mindre än 5."
+msgstr "Har en <meta name=\"viewport\">-tagg med width eller initial-scale (löst)"
 
 msgid "network-requests (unresolved)"
 msgstr "Nätverksförfrågningar ({0})"
 
 msgid "network-requests (resolved)"
-msgstr "Nätverksförfrågningar är bra"
+msgstr "Nätverksförfrågningar (löst)"
 
 msgid "network-rtt (unresolved)"
-msgstr "Nätverks RTT ({0})"
+msgstr "Nätverkets rundturstider ({0})"
 
 msgid "network-rtt (resolved)"
-msgstr "Nätverks RTT är bra"
+msgstr "Nätverkets rundturstider (löst)"
 
 msgid "network-server-latency (unresolved)"
-msgstr "Nätverksserver latens ({0})"
+msgstr "Serverns backend-fördröjningar ({0})"
 
 msgid "network-server-latency (resolved)"
-msgstr "Nätverksserver latens är bra"
+msgstr "Serverns backend-fördröjningar (löst)"
 
 msgid "main-thread-tasks (unresolved)"
-msgstr "Huvudtrådens uppgifter ({0})"
+msgstr "Huvudtrådsuppgifter ({0})"
 
 msgid "main-thread-tasks (resolved)"
-msgstr "Huvudtrådens uppgifter är rimliga"
+msgstr "Huvudtrådsuppgifter (löst)"
 
 msgid "diagnostics (unresolved)"
 msgstr "Diagnostik ({0})"
@@ -282,679 +283,211 @@ msgid "metrics (resolved)"
 msgstr "Mätvärden (löst)"
 
 msgid "screenshot-thumbnails (unresolved)"
-msgstr "Skärmdumps-miniatyrer ({0})"
+msgstr "Skärmdumpsminiatyrer ({0})"
 
 msgid "screenshot-thumbnails (resolved)"
-msgstr "Skärmdumps-miniatyrer (löst)"
+msgstr "Skärmdumpsminiatyrer (löst)"
 
 msgid "final-screenshot (unresolved)"
-msgstr "Slutlig skärmdump ({0})"
+msgstr "slutlig skärmdump ({0})"
 
 msgid "final-screenshot (resolved)"
-msgstr "Slutlig skärmdump (löst)"
+msgstr "slutlig skärmdump (löst)"
 
 msgid "script-treemap-data (unresolved)"
-msgstr "Script-trädkarta-data ({0})"
+msgstr "script-treemap-data ({0})"
 
 msgid "script-treemap-data (resolved)"
-msgstr "Script-trädkarta-data (löst)"
+msgstr "script-treemap-data (löst)"
 
 msgid "resource-summary (unresolved)"
-msgstr "Sammanfattning av resurser ({0})"
+msgstr "resurssammanfattning ({0})"
 
 msgid "resource-summary (resolved)"
-msgstr "Sammanfattning av resurser är bra"
+msgstr "resurssammanfattning (löst)"
 
 msgid "aria-allowed-attr (unresolved)"
-msgstr "ARIA: tillåtna-attribut ({0})"
+msgstr "`[aria-*]`-attribut ska matcha sina roller ({0})"
 
 msgid "aria-allowed-attr (resolved)"
-msgstr "ARIA: tillåtna-attribut (löst)"
+msgstr "`[aria-*]`-attribut matchar sina roller (löst)"
 
 msgid "aria-allowed-role (unresolved)"
-msgstr "ARIA: tillåten-roll ({0})"
+msgstr "Ska använda ARIA-roller endast på kompatibla element ({0})"
 
 msgid "aria-allowed-role (resolved)"
-msgstr "ARIA: tillåten-roll (löst)"
+msgstr "Använder ARIA-roller endast på kompatibla element (löst)"
 
 msgid "aria-conditional-attr (unresolved)"
-msgstr "ARIA: villkorliga-attribut ({0})"
+msgstr "ARIA-attribut ska användas enligt specifikation för elementets roll ({0})"
 
 msgid "aria-conditional-attr (resolved)"
-msgstr "ARIA: villkorliga-attribut (löst)"
+msgstr "ARIA-attribut används enligt specifikation för elementets roll (löst)"
 
 msgid "aria-deprecated-role (unresolved)"
-msgstr "ARIA: utfasad-roll ({0})"
+msgstr "Föråldrade ARIA-roller användes ({0})"
 
 msgid "aria-deprecated-role (resolved)"
-msgstr "ARIA: utfasad-roll (löst)"
+msgstr "Föråldrade ARIA-roller användes inte (löst)"
 
 msgid "aria-hidden-body (unresolved)"
-msgstr "ARIA: dold-body ({0})"
+msgstr "`[aria-hidden=\"true\"]` finns på dokumentets `<body>` ({0})"
 
 msgid "aria-hidden-body (resolved)"
-msgstr "ARIA: dold-body (löst)"
+msgstr "`[aria-hidden=\"true\"]` finns inte på dokumentets `<body>` (löst)"
 
 msgid "aria-hidden-focus (unresolved)"
-msgstr "ARIA: dold-fokus ({0})"
+msgstr "`[aria-hidden=\"true\"]`-element innehåller inte fokuserbara underordnade ({0})"
 
 msgid "aria-hidden-focus (resolved)"
-msgstr "ARIA: dold-fokus (löst)"
+msgstr "`[aria-hidden=\"true\"]`-element innehåller inte fokuserbara underordnade (löst)"
 
 msgid "aria-prohibited-attr (unresolved)"
-msgstr "ARIA: förbjudna-attribut ({0})"
+msgstr "Element ska endast använda tillåtna ARIA-attribut ({0})"
 
 msgid "aria-prohibited-attr (resolved)"
-msgstr "ARIA: förbjudna-attribut (löst)"
+msgstr "Element använder endast tillåtna ARIA-attribut (löst)"
 
 msgid "aria-required-attr (unresolved)"
-msgstr "ARIA: obligatoriska-attribut ({0})"
+msgstr "`[role]` ska ha alla nödvändiga `[aria-*]`-attribut ({0})"
 
 msgid "aria-required-attr (resolved)"
-msgstr "ARIA: obligatoriska-attribut (löst)"
+msgstr "`[role]` har alla nödvändiga `[aria-*]`-attribut (löst)"
 
 msgid "aria-roles (unresolved)"
-msgstr "ARIA: roller ({0})"
+msgstr "`[role]`-värden är inte giltiga ({0})"
 
 msgid "aria-roles (resolved)"
-msgstr "ARIA: roller (löst)"
+msgstr "`[role]`-värden är giltiga (löst)"
 
 msgid "aria-valid-attr-value (unresolved)"
-msgstr "ARIA: giltigt-attribut-värde ({0})"
+msgstr "`[aria-*]`-attribut har ogiltiga värden ({0})"
 
 msgid "aria-valid-attr-value (resolved)"
-msgstr "ARIA: giltigt-attribut-värde (löst)"
+msgstr "`[aria-*]`-attribut har giltiga värden (löst)"
 
 msgid "aria-valid-attr (unresolved)"
-msgstr "ARIA: giltigt-attribut ({0})"
+msgstr "`[aria-*]`-attribut är ogiltiga eller felstavade ({0})"
 
 msgid "aria-valid-attr (resolved)"
-msgstr "ARIA: giltigt-attribut (löst)"
+msgstr "`[aria-*]`-attribut är giltiga och inte felstavade (löst)"
 
 msgid "button-name (unresolved)"
-msgstr "knapp-namn ({0})"
+msgstr "Knappar ska ha ett tillgängligt namn ({0})"
 
 msgid "button-name (resolved)"
-msgstr "knapp-namn (löst)"
+msgstr "Knappar har ett tillgängligt namn (löst)"
 
 msgid "color-contrast (unresolved)"
-msgstr "färgkontrast ({0})"
+msgstr "Bakgrunds- och förgrundsfärger ska ha tillräcklig kontrast ({0})"
 
 msgid "color-contrast (resolved)"
-msgstr "färgkontrast (löst)"
+msgstr "Bakgrunds- och förgrundsfärger har tillräcklig kontrast (löst)"
 
 msgid "document-title (unresolved)"
-msgstr "dokument-titel ({0})"
+msgstr "Dokumentet ska ha ett `<title>`-element ({0})"
 
 msgid "document-title (resolved)"
-msgstr "dokument-titel (löst)"
+msgstr "Dokumentet har ett `<title>`-element (löst)"
 
 msgid "heading-order (unresolved)"
-msgstr "rubrik-ordning ({0})"
+msgstr "Rubrikelement ska visas i sekventiellt fallande ordning ({0})"
 
 msgid "heading-order (resolved)"
-msgstr "rubrik-ordning (löst)"
+msgstr "Rubrikelement visas i sekventiellt fallande ordning (löst)"
 
 msgid "html-has-lang (unresolved)"
-msgstr "html-har-språk ({0})"
+msgstr "`<html>`-elementet ska ha ett `[lang]`-attribut ({0})"
 
 msgid "html-has-lang (resolved)"
-msgstr "html-har-språk (löst)"
+msgstr "`<html>`-elementet har ett `[lang]`-attribut (löst)"
 
 msgid "html-lang-valid (unresolved)"
-msgstr "html-språk-giltigt ({0})"
+msgstr "`<html>`-elementet ska ha ett giltigt värde för sitt `[lang]`-attribut ({0})"
 
 msgid "html-lang-valid (resolved)"
-msgstr "html-språk-giltigt (löst)"
+msgstr "`<html>`-elementet har ett giltigt värde för sitt `[lang]`-attribut (löst)"
 
 msgid "image-alt (unresolved)"
-msgstr "bild-alt ({0})"
+msgstr "Bildelement ska ha `[alt]`-attribut ({0})"
 
 msgid "image-alt (resolved)"
-msgstr "bild-alt (löst)"
+msgstr "Bildelement har `[alt]`-attribut (löst)"
 
 msgid "image-redundant-alt (unresolved)"
-msgstr "bild-redundant-alt ({0})"
+msgstr "Bildelement ska inte ha `[alt]`-attribut som är redundant text ({0})"
 
 msgid "image-redundant-alt (resolved)"
-msgstr "bild-redundant-alt (löst)"
+msgstr "Bildelement har inte `[alt]`-attribut som är redundant text (löst)"
 
 msgid "link-in-text-block (unresolved)"
-msgstr "länk-i-textblock ({0})"
+msgstr "Länkar är inte urskiljbara utan att förlita sig på färg ({0})"
 
 msgid "link-in-text-block (resolved)"
-msgstr "länk-i-textblock (löst)"
+msgstr "Länkar är urskiljbara utan att förlita sig på färg (löst)"
 
 msgid "link-name (unresolved)"
-msgstr "länk-namn ({0})"
+msgstr "Länkar ska ha ett urskiljbart namn ({0})"
 
 msgid "link-name (resolved)"
-msgstr "länk-namn (löst)"
+msgstr "Länkar har ett urskiljbart namn (löst)"
 
 msgid "list (unresolved)"
-msgstr "lista ({0})"
+msgstr "Listor ska endast innehålla `<li>`-element och skriptstödelement (`<script>` och `<template>`) ({0})"
 
 msgid "list (resolved)"
-msgstr "lista (löst)"
+msgstr "Listor innehåller endast `<li>`-element och skriptstödelement (`<script>` och `<template>`) (löst)"
 
 msgid "listitem (unresolved)"
-msgstr "listpost ({0})"
+msgstr "Listobjekt (`<li>`) är inte placerade inom `<ul>`, `<ol>` eller `<menu>`-förälderelement ({0})"
 
 msgid "listitem (resolved)"
-msgstr "listpost (löst)"
+msgstr "Listobjekt (`<li>`) är placerade inom `<ul>`, `<ol>` eller `<menu>`-förälderelement (löst)"
 
 msgid "meta-viewport (unresolved)"
-msgstr "meta-viewport ({0})"
+msgstr "`[user-scalable=\"no\"]` används i `<meta name=\"viewport\">`-elementet eller `[maximum-scale]`-attributet är mindre än 5 ({0})"
 
 msgid "meta-viewport (resolved)"
-msgstr "meta-viewport (löst)"
+msgstr "`[user-scalable=\"no\"]` används inte i `<meta name=\"viewport\">`-elementet och `[maximum-scale]`-attributet är inte mindre än 5 (löst)"
 
 msgid "target-size (unresolved)"
-msgstr "mål-storlek ({0})"
+msgstr "Tryckmål ska ha tillräcklig storlek och avstånd ({0})"
 
 msgid "target-size (resolved)"
-msgstr "mål-storlek (löst)"
+msgstr "Tryckmål har tillräcklig storlek och avstånd (löst)"
 
 msgid "is-on-https (unresolved)"
-msgstr "är-på-https ({0})"
+msgstr "Använder inte HTTPS ({0})"
 
 msgid "is-on-https (resolved)"
-msgstr "är-på-https (löst)"
-
-msgid "geolocation-on-start (unresolved)"
-msgstr "geolokalisering-vid-start ({0})"
-
-msgid "geolocation-on-start (resolved)"
-msgstr "geolokalisering-vid-start (löst)"
-
-msgid "notification-on-start (unresolved)"
-msgstr "notifiering-vid-start ({0})"
-
-msgid "notification-on-start (resolved)"
-msgstr "notifiering-vid-start (löst)"
-
-msgid "csp-xss (unresolved)"
-msgstr "csp-xss ({0})"
-
-msgid "csp-xss (resolved)"
-msgstr "csp-xss (löst)"
-
-msgid "has-hsts (unresolved)"
-msgstr "har-hsts ({0})"
-
-msgid "has-hsts (resolved)"
-msgstr "har-hsts (löst)"
-
-msgid "origin-isolation (unresolved)"
-msgstr "ursprungs-isolering ({0})"
-
-msgid "origin-isolation (resolved)"
-msgstr "ursprungs-isolering (löst)"
-
-msgid "paste-preventing-inputs (unresolved)"
-msgstr "klistra-in-förhindrade-inmatningar ({0})"
-
-msgid "paste-preventing-inputs (resolved)"
-msgstr "klistra-in-förhindrade-inmatningar (löst)"
-
-msgid "image-aspect-ratio (unresolved)"
-msgstr "bild-proportioner ({0})"
-
-msgid "image-aspect-ratio (resolved)"
-msgstr "bild-proportioner (löst)"
-
-msgid "image-size-responsive (unresolved)"
-msgstr "bild-storlek-responsiv ({0})"
-
-msgid "image-size-responsive (resolved)"
-msgstr "bild-storlek-responsiv (löst)"
-
-msgid "font-size (unresolved)"
-msgstr "teckenstorlek ({0})"
-
-msgid "font-size (resolved)"
-msgstr "teckenstorlek (löst)"
-
-msgid "doctype (unresolved)"
-msgstr "doctype ({0})"
-
-msgid "doctype (resolved)"
-msgstr "doctype (löst)"
-
-msgid "charset (unresolved)"
-msgstr "teckenkodning ({0})"
-
-msgid "charset (resolved)"
-msgstr "teckenkodning (löst)"
-
-msgid "js-libraries (unresolved)"
-msgstr "js-bibliotek ({0})"
-
-msgid "js-libraries (resolved)"
-msgstr "js-bibliotek (löst)"
-
-msgid "deprecations (unresolved)"
-msgstr "utfasningar ({0})"
-
-msgid "deprecations (resolved)"
-msgstr "utfasningar (löst)"
-
-msgid "third-party-cookies (unresolved)"
-msgstr "tredjepartscookies ({0})"
-
-msgid "third-party-cookies (resolved)"
-msgstr "tredjepartscookies (löst)"
-
-msgid "errors-in-console (unresolved)"
-msgstr "fel-i-konsolen ({0})"
-
-msgid "errors-in-console (resolved)"
-msgstr "fel-i-konsolen (löst)"
-
-msgid "valid-source-maps (unresolved)"
-msgstr "giltiga-källkartor ({0})"
-
-msgid "valid-source-maps (resolved)"
-msgstr "giltiga-källkartor (löst)"
-
-msgid "inspector-issues (unresolved)"
-msgstr "inspektörs-problem ({0})"
-
-msgid "inspector-issues (resolved)"
-msgstr "inspektörs-problem (löst)"
-
-msgid "is-crawlable (unresolved)"
-msgstr "är-indexeringsbar ({0})"
-
-msgid "is-crawlable (resolved)"
-msgstr "är-indexeringsbar (löst)"
-
-msgid "meta-description (unresolved)"
-msgstr "meta-beskrivning ({0})"
-
-msgid "meta-description (resolved)"
-msgstr "meta-beskrivning (löst)"
-
-msgid "http-status-code (unresolved)"
-msgstr "http-statuskod ({0})"
-
-msgid "http-status-code (resolved)"
-msgstr "http-statuskod (löst)"
-
-msgid "link-text (unresolved)"
-msgstr "länk-text ({0})"
-
-msgid "link-text (resolved)"
-msgstr "länk-text (löst)"
-
-msgid "crawlable-anchors (unresolved)"
-msgstr "indexeringsbara-ankare ({0})"
-
-msgid "crawlable-anchors (resolved)"
-msgstr "indexeringsbara-ankare (löst)"
-
-msgid "robots-txt (unresolved)"
-msgstr "robots-txt ({0})"
-
-msgid "robots-txt (resolved)"
-msgstr "robots-txt (löst)"
-
-msgid "hreflang (unresolved)"
-msgstr "hreflang ({0})"
-
-msgid "hreflang (resolved)"
-msgstr "hreflang (löst)"
-
-msgid "canonical (unresolved)"
-msgstr "kanonisk ({0})"
-
-msgid "canonical (resolved)"
-msgstr "kanonisk (löst)"
-
-msgid "critical-request-chains (unresolved)"
-msgstr "kritiska-förfrågningskedjor ({0})"
-
-msgid "critical-request-chains (resolved)"
-msgstr "kritiska-förfrågningskedjor (löst)"
-
-msgid "input-button-name (unresolved)"
-msgstr "inmatnings-knapp-namn ({0})"
-
-msgid "input-button-name (resolved)"
-msgstr "inmatnings-knapp-namn (löst)"
-
-msgid "label (unresolved)"
-msgstr "etikett ({0})"
-
-msgid "label (resolved)"
-msgstr "etikett (löst)"
-
-msgid "first-meaningful-paint (unresolved)"
-msgstr "första-meningsfulla-rendrering ({0})"
-
-msgid "first-meaningful-paint (resolved)"
-msgstr "första-meningsfulla-rendrering (löst)"
-
-msgid "prioritize-lcp-image (unresolved)"
-msgstr "prioritera-lcp-bild ({0})"
-
-msgid "prioritize-lcp-image (resolved)"
-msgstr "prioritera-lcp-bild (löst)"
-
-msgid "user-timings (unresolved)"
-msgstr "användar-tider ({0})"
-
-msgid "user-timings (resolved)"
-msgstr "användar-tider (löst)"
-
-msgid "third-party-summary (unresolved)"
-msgstr "tredjepartssammanfattning ({0})"
-
-msgid "third-party-summary (resolved)"
-msgstr "tredjepartssammanfattning (löst)"
-
-msgid "third-party-facades (unresolved)"
-msgstr "tredjeparts-fasader ({0})"
-
-msgid "third-party-facades (resolved)"
-msgstr "tredjeparts-fasader (löst)"
-
-msgid "lcp-lazy-loaded (unresolved)"
-msgstr "lcp-lat-laddad ({0})"
-
-msgid "lcp-lazy-loaded (resolved)"
-msgstr "lcp-lat-laddad (löst)"
-
-msgid "non-composited-animations (unresolved)"
-msgstr "icke-sammansatta-animeringar ({0})"
-
-msgid "non-composited-animations (resolved)"
-msgstr "icke-sammansatta-animeringar (löst)"
-
-msgid "accesskeys (unresolved)"
-msgstr "snabbtangenter ({0})"
-
-msgid "accesskeys (resolved)"
-msgstr "snabbtangenter (löst)"
-
-msgid "aria-command-name (unresolved)"
-msgstr "ARIA: kommando-namn ({0})"
-
-msgid "aria-command-name (resolved)"
-msgstr "ARIA: kommando-namn (löst)"
-
-msgid "aria-dialog-name (unresolved)"
-msgstr "ARIA: dialog-namn ({0})"
-
-msgid "aria-dialog-name (resolved)"
-msgstr "ARIA: dialog-namn (löst)"
-
-msgid "aria-input-field-name (unresolved)"
-msgstr "ARIA: inmatningsfält-namn ({0})"
-
-msgid "aria-input-field-name (resolved)"
-msgstr "ARIA: inmatningsfält-namn (löst)"
-
-msgid "aria-meter-name (unresolved)"
-msgstr "ARIA: mätare-namn ({0})"
-
-msgid "aria-meter-name (resolved)"
-msgstr "ARIA: mätare-namn (löst)"
-
-msgid "aria-progressbar-name (unresolved)"
-msgstr "ARIA: förloppsmätare-namn ({0})"
-
-msgid "aria-progressbar-name (resolved)"
-msgstr "ARIA: förloppsmätare-namn (löst)"
-
-msgid "aria-required-children (unresolved)"
-msgstr "ARIA: obligatoriska-barn ({0})"
-
-msgid "aria-required-children (resolved)"
-msgstr "ARIA: obligatoriska-barn (löst)"
-
-msgid "aria-required-parent (unresolved)"
-msgstr "ARIA: obligatorisk-förälder ({0})"
-
-msgid "aria-required-parent (resolved)"
-msgstr "ARIA: obligatorisk-förälder (löst)"
-
-msgid "aria-text (unresolved)"
-msgstr "ARIA: text ({0})"
-
-msgid "aria-text (resolved)"
-msgstr "ARIA: text (löst)"
-
-msgid "aria-toggle-field-name (unresolved)"
-msgstr "ARIA: växlingsfält-namn ({0})"
-
-msgid "aria-toggle-field-name (resolved)"
-msgstr "ARIA: växlingsfält-namn (löst)"
-
-msgid "aria-tooltip-name (unresolved)"
-msgstr "ARIA: verktygstips-namn ({0})"
-
-msgid "aria-tooltip-name (resolved)"
-msgstr "ARIA: verktygstips-namn (löst)"
-
-msgid "aria-treeitem-name (unresolved)"
-msgstr "ARIA: trädpost-namn ({0})"
-
-msgid "aria-treeitem-name (resolved)"
-msgstr "ARIA: trädpost-namn (löst)"
-
-msgid "bypass (unresolved)"
-msgstr "kringgå ({0})"
-
-msgid "bypass (resolved)"
-msgstr "kringgå (löst)"
-
-msgid "definition-list (unresolved)"
-msgstr "definitionslista ({0})"
-
-msgid "definition-list (resolved)"
-msgstr "definitionslista (löst)"
-
-msgid "dlitem (unresolved)"
-msgstr "dl-post ({0})"
-
-msgid "dlitem (resolved)"
-msgstr "dl-post (löst)"
-
-msgid "duplicate-id-aria (unresolved)"
-msgstr "dubblett-id-aria ({0})"
-
-msgid "duplicate-id-aria (resolved)"
-msgstr "dubblett-id-aria (löst)"
-
-msgid "form-field-multiple-labels (unresolved)"
-msgstr "formulärfält-multipla-etiketter ({0})"
-
-msgid "form-field-multiple-labels (resolved)"
-msgstr "formulärfält-multipla-etiketter (löst)"
-
-msgid "frame-title (unresolved)"
-msgstr "ram-titel ({0})"
-
-msgid "frame-title (resolved)"
-msgstr "ram-titel (löst)"
-
-msgid "html-xml-lang-mismatch (unresolved)"
-msgstr "html-xml-språk-missmatch ({0})"
-
-msgid "html-xml-lang-mismatch (resolved)"
-msgstr "html-xml-språk-missmatch (löst)"
-
-msgid "input-image-alt (unresolved)"
-msgstr "inmatning-bild-alt ({0})"
-
-msgid "input-image-alt (resolved)"
-msgstr "inmatning-bild-alt (löst)"
-
-msgid "meta-refresh (unresolved)"
-msgstr "meta-uppdatera ({0})"
-
-msgid "meta-refresh (resolved)"
-msgstr "meta-uppdatera (löst)"
-
-msgid "object-alt (unresolved)"
-msgstr "objekt-alt ({0})"
-
-msgid "object-alt (resolved)"
-msgstr "objekt-alt (löst)"
-
-msgid "select-name (unresolved)"
-msgstr "rullgardin-namn ({0})"
-
-msgid "select-name (resolved)"
-msgstr "rullgardin-namn (löst)"
-
-msgid "skip-link (unresolved)"
-msgstr "hoppa-över-länk ({0})"
-
-msgid "skip-link (resolved)"
-msgstr "hoppa-över-länk (löst)"
-
-msgid "tabindex (unresolved)"
-msgstr "tabindex ({0})"
-
-msgid "tabindex (resolved)"
-msgstr "tabindex (löst)"
-
-msgid "table-duplicate-name (unresolved)"
-msgstr "tabell-dubblett-namn ({0})"
-
-msgid "table-duplicate-name (resolved)"
-msgstr "tabell-dubblett-namn (löst)"
-
-msgid "td-headers-attr (unresolved)"
-msgstr "td-headers-attribut ({0})"
-
-msgid "td-headers-attr (resolved)"
-msgstr "td-headers-attribut (löst)"
-
-msgid "th-has-data-cells (unresolved)"
-msgstr "th-har-dataceller ({0})"
-
-msgid "th-has-data-cells (resolved)"
-msgstr "th-har-dataceller (löst)"
-
-msgid "valid-lang (unresolved)"
-msgstr "giltigt-språk ({0})"
-
-msgid "valid-lang (resolved)"
-msgstr "giltigt-språk (löst)"
-
-msgid "video-caption (unresolved)"
-msgstr "video-textning ({0})"
-
-msgid "video-caption (resolved)"
-msgstr "video-textning (löst)"
-
-msgid "focusable-controls (unresolved)"
-msgstr "fokuserbara-kontroller ({0})"
-
-msgid "focusable-controls (resolved)"
-msgstr "fokuserbara-kontroller (löst)"
-
-msgid "interactive-element-affordance (unresolved)"
-msgstr "interaktivt-element-affordans ({0})"
-
-msgid "interactive-element-affordance (resolved)"
-msgstr "interaktivt-element-affordans (löst)"
-
-msgid "logical-tab-order (unresolved)"
-msgstr "logisk-tabb-ordning ({0})"
-
-msgid "logical-tab-order (resolved)"
-msgstr "logisk-tabb-ordning (löst)"
-
-msgid "visual-order-follows-dom (unresolved)"
-msgstr "visuell-ordning-följer-dom ({0})"
-
-msgid "visual-order-follows-dom (resolved)"
-msgstr "visuell-ordning-följer-dom (löst)"
-
-msgid "focus-traps (unresolved)"
-msgstr "fokus-fällor ({0})"
-
-msgid "focus-traps (resolved)"
-msgstr "fokus-fällor (löst)"
-
-msgid "managed-focus (unresolved)"
-msgstr "hanterat-fokus ({0})"
-
-msgid "managed-focus (resolved)"
-msgstr "hanterat-fokus (löst)"
-
-msgid "use-landmarks (unresolved)"
-msgstr "använd-landmärken ({0})"
-
-msgid "use-landmarks (resolved)"
-msgstr "använd-landmärken (löst)"
-
-msgid "offscreen-content-hidden (unresolved)"
-msgstr "innehåll-utanför-skärmen-dolt ({0})"
-
-msgid "offscreen-content-hidden (resolved)"
-msgstr "innehåll-utanför-skärmen-dolt (löst)"
-
-msgid "custom-controls-labels (unresolved)"
-msgstr "anpassade-kontroller-etiketter ({0})"
-
-msgid "custom-controls-labels (resolved)"
-msgstr "anpassade-kontroller-etiketter (löst)"
-
-msgid "custom-controls-roles (unresolved)"
-msgstr "anpassade-kontroller-roller ({0})"
-
-msgid "custom-controls-roles (resolved)"
-msgstr "anpassade-kontroller-roller (löst)"
-
-msgid "empty-heading (unresolved)"
-msgstr "tom-rubrik ({0})"
-
-msgid "empty-heading (resolved)"
-msgstr "tom-rubrik (löst)"
-
-msgid "identical-links-same-purpose (unresolved)"
-msgstr "identiska-länkar-samma-syfte ({0})"
-
-msgid "identical-links-same-purpose (resolved)"
-msgstr "identiska-länkar-samma-syfte (löst)"
-
-msgid "landmark-one-main (unresolved)"
-msgstr "landmärke-en-main ({0})"
-
-msgid "landmark-one-main (resolved)"
-msgstr "landmärke-en-main (löst)"
-
-msgid "label-content-name-mismatch (unresolved)"
-msgstr "etikett-innehåll-namn-missmatch ({0})"
-
-msgid "label-content-name-mismatch (resolved)"
-msgstr "etikett-innehåll-namn-missmatch (löst)"
-
-msgid "table-fake-caption (unresolved)"
-msgstr "tabell-falsk-rubrik ({0})"
-
-msgid "table-fake-caption (resolved)"
-msgstr "tabell-falsk-rubrik (löst)"
-
-msgid "td-has-header (unresolved)"
-msgstr "td-har-rubrik ({0})"
-
-msgid "td-has-header (resolved)"
-msgstr "td-har-rubrik (löst)"
+msgstr "Använder HTTPS (löst)"
 
 msgid "redirects-http (unresolved)"
-msgstr "omdirigerar-http ({0})"
+msgstr "Omdirigerar inte HTTP-trafik till HTTPS ({0})"
 
 msgid "redirects-http (resolved)"
-msgstr "omdirigerar-http (löst)"
+msgstr "Omdirigerar HTTP-trafik till HTTPS (löst)"
 
-msgid "structured-data (unresolved)"
-msgstr "strukturerad-data ({0})"
+msgid "image-size-responsive (unresolved)"
+msgstr "Serverar bilder med låg upplösning ({0})"
 
-msgid "structured-data (resolved)"
-msgstr "strukturerad-data (löst)"
+msgid "image-size-responsive (resolved)"
+msgstr "Serverar bilder med låg upplösning (löst)"
+
+msgid "aria-required-children (unresolved)"
+msgstr "Element med en ARIA `[role]` som kräver att barn innehåller en specifik `[role]` har alla nödvändiga barn ({0})"
+
+msgid "aria-required-children (resolved)"
+msgstr "Element med en ARIA `[role]` som kräver att barn innehåller en specifik `[role]` har alla nödvändiga barn (löst)"
+
+msgid "aria-required-parent (unresolved)"
+msgstr "`[role]` är placerade inom sitt nödvändiga förälderelement ({0})"
+
+msgid "aria-required-parent (resolved)"
+msgstr "`[role]` är placerade inom sitt nödvändiga förälderelement (löst)"
+
+msgid "inspector-issues (unresolved)"
+msgstr "Problem i panelen `Issues` i Chrome Devtools ({0})"
+
+msgid "inspector-issues (resolved)"
+msgstr "Inga problem i panelen `Issues` i Chrome Devtools (löst)"

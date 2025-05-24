@@ -1,0 +1,492 @@
+# Copyright (C) 2025 WebPerf
+# FIRST AUTHOR <your-email-here@webperf.se>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2025-04-27 12:00\n"
+"PO-Revision-Date: 2025-04-27 12:00\n"
+"Last-Translator: Your-Name-Hear <your-email-here@webperf.se>\n"
+"Language-Team: English <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+#
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Text to show instead of msgid, showed for severity levels (critical, error and warning)"
+
+msgid "rule-id (resolved)"
+msgstr "Text to show instead of msgid, here unique on severity level resolved"
+
+msgid "rule-id"
+msgstr "Text to show instead of msgid, here independent of severity level"
+
+# End of Examples
+
+
+msgid "largest-contentful-paint-element (unresolved)"
+msgstr "Largest Contentful Paint element ({0})"
+
+msgid "largest-contentful-paint-element (resolved)"
+msgstr "Largest Contentful Paint element (resolved)"
+
+msgid "unused-css-rules (unresolved)"
+msgstr "Reduce unused CSS ({0})"
+
+msgid "unused-css-rules (resolved)"
+msgstr "Reduce unused CSS (resolved)"
+
+msgid "unused-javascript (unresolved)"
+msgstr "Reduce unused JavaScript ({0})"
+
+msgid "unused-javascript (resolved)"
+msgstr "Reduce unused JavaScript (resolved)"
+
+msgid "legacy-javascript (unresolved)"
+msgstr "Avoid serving legacy JavaScript to modern browsers ({0})"
+
+msgid "legacy-javascript (resolved)"
+msgstr "Avoid serving legacy JavaScript to modern browsers (resolved)"
+
+msgid "cumulative-layout-shift (unresolved)"
+msgstr "Cumulative Layout Shift ({0})"
+
+msgid "cumulative-layout-shift (resolved)"
+msgstr "Cumulative Layout Shift (resolved)"
+
+msgid "duplicated-javascript (unresolved)"
+msgstr "Remove duplicate modules in JavaScript bundles ({0})"
+
+msgid "duplicated-javascript (resolved)"
+msgstr "Remove duplicate modules in JavaScript bundles (resolved)"
+
+msgid "layout-shifts (unresolved)"
+msgstr "Avoid large layout shifts ({0})"
+
+msgid "layout-shifts (resolved)"
+msgstr "Avoid large layout shifts (resolved)"
+
+msgid "largest-contentful-paint (unresolved)"
+msgstr "Largest Contentful Paint ({0})"
+
+msgid "largest-contentful-paint (resolved)"
+msgstr "Largest Contentful Paint (resolved)"
+
+msgid "uses-long-cache-ttl (unresolved)"
+msgstr "Serve static assets with an efficient cache policy ({0})"
+
+msgid "uses-long-cache-ttl (resolved)"
+msgstr "Serve static assets with an efficient cache policy (resolved)"
+
+msgid "first-contentful-paint (unresolved)"
+msgstr "First Contentful Paint ({0})"
+
+msgid "first-contentful-paint (resolved)"
+msgstr "First Contentful Paint (resolved)"
+
+msgid "render-blocking-resources (unresolved)"
+msgstr "Eliminate render-blocking resources ({0})"
+
+msgid "render-blocking-resources (resolved)"
+msgstr "Eliminate render-blocking resources (resolved)"
+
+msgid "total-blocking-time (unresolved)"
+msgstr "Total Blocking Time ({0})"
+
+msgid "total-blocking-time (resolved)"
+msgstr "Total Blocking Time (resolved)"
+
+msgid "speed-index (unresolved)"
+msgstr "Speed Index ({0})"
+
+msgid "speed-index (resolved)"
+msgstr "Speed Index (resolved)"
+
+msgid "interactive (unresolved)"
+msgstr "Time to Interactive ({0})"
+
+msgid "interactive (resolved)"
+msgstr "Time to Interactive (resolved)"
+
+msgid "max-potential-fid (unresolved)"
+msgstr "Max Potential First Input Delay ({0})"
+
+msgid "max-potential-fid (resolved)"
+msgstr "Max Potential First Input Delay (resolved)"
+
+msgid "uses-responsive-images (unresolved)"
+msgstr "Properly size images ({0})"
+
+msgid "uses-responsive-images (resolved)"
+msgstr "Properly size images (resolved)"
+
+msgid "offscreen-images (unresolved)"
+msgstr "Defer offscreen images ({0})"
+
+msgid "offscreen-images (resolved)"
+msgstr "Defer offscreen images (resolved)"
+
+msgid "unminified-css (unresolved)"
+msgstr "Minify CSS ({0})"
+
+msgid "unminified-css (resolved)"
+msgstr "Minify CSS (resolved)"
+
+msgid "unminified-javascript (unresolved)"
+msgstr "Minify JavaScript ({0})"
+
+msgid "unminified-javascript (resolved)"
+msgstr "Minify JavaScript (resolved)"
+
+msgid "uses-optimized-images (unresolved)"
+msgstr "Efficiently encode images ({0})"
+
+msgid "uses-optimized-images (resolved)"
+msgstr "Efficiently encode images (resolved)"
+
+msgid "modern-image-formats (unresolved)"
+msgstr "Serve images in next-gen formats ({0})"
+
+msgid "modern-image-formats (resolved)"
+msgstr "Serve images in next-gen formats (resolved)"
+
+msgid "uses-text-compression (unresolved)"
+msgstr "Enable text compression ({0})"
+
+msgid "uses-text-compression (resolved)"
+msgstr "Enable text compression (resolved)"
+
+msgid "uses-rel-preconnect (unresolved)"
+msgstr "Preconnect to required origins ({0})"
+
+msgid "uses-rel-preconnect (resolved)"
+msgstr "Preconnect to required origins (resolved)"
+
+msgid "server-response-time (unresolved)"
+msgstr "Initial server response time was short ({0})"
+
+msgid "server-response-time (resolved)"
+msgstr "Initial server response time was short (resolved)"
+
+msgid "redirects (unresolved)"
+msgstr "Avoid multiple page redirects ({0})"
+
+msgid "redirects (resolved)"
+msgstr "Avoid multiple page redirects (resolved)"
+
+msgid "efficient-animated-content (unresolved)"
+msgstr "Use video formats for animated content ({0})"
+
+msgid "efficient-animated-content (resolved)"
+msgstr "Use video formats for animated content (resolved)"
+
+msgid "total-byte-weight (unresolved)"
+msgstr "Avoids enormous network payloads ({0})"
+
+msgid "total-byte-weight (resolved)"
+msgstr "Avoids enormous network payloads (resolved)"
+
+msgid "dom-size (unresolved)"
+msgstr "Avoid an excessive DOM size ({0})"
+
+msgid "dom-size (resolved)"
+msgstr "Avoid an excessive DOM size (resolved)"
+
+msgid "bootup-time (unresolved)"
+msgstr "JavaScript execution time ({0})"
+
+msgid "bootup-time (resolved)"
+msgstr "JavaScript execution time (resolved)"
+
+msgid "mainthread-work-breakdown (unresolved)"
+msgstr "Minimizes main-thread work ({0})"
+
+msgid "mainthread-work-breakdown (resolved)"
+msgstr "Minimizes main-thread work (resolved)"
+
+msgid "font-display (unresolved)"
+msgstr "All text should remains visible during webfont loads ({0})"
+
+msgid "font-display (resolved)"
+msgstr "All text remains visible during webfont loads (resolved)"
+
+msgid "uses-passive-event-listeners (unresolved)"
+msgstr "Use passive listeners to improve scrolling performance ({0})"
+
+msgid "uses-passive-event-listeners (resolved)"
+msgstr "Uses passive listeners to improve scrolling performance (resolved)"
+
+msgid "no-document-write (unresolved)"
+msgstr "Javascript, avoid `document.write()` ({0})"
+
+msgid "no-document-write (resolved)"
+msgstr "Javascript, avoids `document.write() (resolved)"
+
+msgid "long-tasks (unresolved)"
+msgstr "Avoid long main-thread tasks ({0})"
+
+msgid "long-tasks (resolved)"
+msgstr "Avoids long main-thread tasks (resolved)"
+
+msgid "unsized-images (unresolved)"
+msgstr "Image elements should have explicit `width` and `height` ({0})"
+
+msgid "unsized-images (resolved)"
+msgstr "Image elements have explicit `width` and `height` (resolved)"
+
+msgid "viewport (unresolved)"
+msgstr "Should have a <meta name=\"viewport\"> tag with width or initial-scale ({0})"
+
+msgid "viewport (resolved)"
+msgstr "Has a <meta name=\"viewport\"> tag with width or initial-scale (resolved)"
+
+msgid "network-requests (unresolved)"
+msgstr "Network Requests ({0})"
+
+msgid "network-requests (resolved)"
+msgstr "Network Requests (resolved)"
+
+msgid "network-rtt (unresolved)"
+msgstr "Network Round Trip Times ({0})"
+
+msgid "network-rtt (resolved)"
+msgstr "Network Round Trip Times (resolved)"
+
+msgid "network-server-latency (unresolved)"
+msgstr "Server Backend Latencies ({0})"
+
+msgid "network-server-latency (resolved)"
+msgstr "Server Backend Latencies (resolved)"
+
+msgid "main-thread-tasks (unresolved)"
+msgstr "Main thread tasks ({0})"
+
+msgid "main-thread-tasks (resolved)"
+msgstr "Main thread tasks (resolved)"
+
+msgid "diagnostics (unresolved)"
+msgstr "Diagnostics ({0})"
+
+msgid "diagnostics (resolved)"
+msgstr "Diagnostics (resolved)"
+
+msgid "metrics (unresolved)"
+msgstr "Metrics ({0})"
+
+msgid "metrics (resolved)"
+msgstr "Metrics (resolved)"
+
+msgid "screenshot-thumbnails (unresolved)"
+msgstr "Screenshot Thumbnails ({0})"
+
+msgid "screenshot-thumbnails (resolved)"
+msgstr "Screenshot Thumbnails (resolved)"
+
+msgid "final-screenshot (unresolved)"
+msgstr "final-screenshot ({0})"
+
+msgid "final-screenshot (resolved)"
+msgstr "final-screenshot (resolved)"
+
+msgid "script-treemap-data (unresolved)"
+msgstr "script-treemap-data ({0})"
+
+msgid "script-treemap-data (resolved)"
+msgstr "script-treemap-data (resolved)"
+
+msgid "resource-summary (unresolved)"
+msgstr "resource-summary ({0})"
+
+msgid "resource-summary (resolved)"
+msgstr "resource-summary (resolved)"
+
+msgid "aria-allowed-attr (unresolved)"
+msgstr "`[aria-*]` attributes should match their roles ({0})"
+
+msgid "aria-allowed-attr (resolved)"
+msgstr "`[aria-*]` attributes match their roles (resolved)"
+
+msgid "aria-allowed-role (unresolved)"
+msgstr "Should use ARIA roles only on compatible elements ({0})"
+
+msgid "aria-allowed-role (resolved)"
+msgstr "Uses ARIA roles only on compatible elements (resolved)"
+
+msgid "aria-conditional-attr (unresolved)"
+msgstr "ARIA attributes should be used as specified for the element's role ({0})"
+
+msgid "aria-conditional-attr (resolved)"
+msgstr "ARIA attributes are used as specified for the element's role (resolved)"
+
+msgid "aria-deprecated-role (unresolved)"
+msgstr "Deprecated ARIA roles were used ({0})"
+
+msgid "aria-deprecated-role (resolved)"
+msgstr "Deprecated ARIA roles were not used (resolved)"
+
+msgid "aria-hidden-body (unresolved)"
+msgstr "`[aria-hidden=\"true\"]` is present on the document `<body>` ({0})"
+
+msgid "aria-hidden-body (resolved)"
+msgstr "`[aria-hidden=\"true\"]` is not present on the document `<body>` (resolved)"
+
+msgid "aria-hidden-focus (unresolved)"
+msgstr "`[aria-hidden=\"true\"]` elements do not contain focusable descendents ({0})"
+
+msgid "aria-hidden-focus (resolved)"
+msgstr "`[aria-hidden=\"true\"]` elements do not contain focusable descendents (resolved)"
+
+msgid "aria-prohibited-attr (unresolved)"
+msgstr "Elements should use only permitted ARIA attributes ({0})"
+
+msgid "aria-prohibited-attr (resolved)"
+msgstr "Elements use only permitted ARIA attributes (resolved)"
+
+msgid "aria-required-attr (unresolved)"
+msgstr "`[role]`s should have all required `[aria-*]` attributes ({0})"
+
+msgid "aria-required-attr (resolved)"
+msgstr "`[role]`s have all required `[aria-*]` attributes (resolved)"
+
+msgid "aria-roles (unresolved)"
+msgstr "`[role]` values are not valid ({0})"
+
+msgid "aria-roles (resolved)"
+msgstr "`[role]` values are valid (resolved)"
+
+msgid "aria-valid-attr-value (unresolved)"
+msgstr "`[aria-*]` attributes have invalid values ({0})"
+
+msgid "aria-valid-attr-value (resolved)"
+msgstr "`[aria-*]` attributes have valid values (resolved)"
+
+msgid "aria-valid-attr (unresolved)"
+msgstr "`[aria-*]` attributes are invalid or misspelled ({0})"
+
+msgid "aria-valid-attr (resolved)"
+msgstr "`[aria-*]` attributes are valid and not misspelled (resolved)"
+
+msgid "button-name (unresolved)"
+msgstr "Buttons should have an accessible name ({0})"
+
+msgid "button-name (resolved)"
+msgstr "Buttons have an accessible name (resolved)"
+
+msgid "color-contrast (unresolved)"
+msgstr "Background and foreground colors should have a sufficient contrast ratio ({0})"
+
+msgid "color-contrast (resolved)"
+msgstr "Background and foreground colors have a sufficient contrast ratio (resolved)"
+
+msgid "document-title (unresolved)"
+msgstr "Document should have a `<title>` element ({0})"
+
+msgid "document-title (resolved)"
+msgstr "Document has a `<title>` element (resolved)"
+
+msgid "heading-order (unresolved)"
+msgstr "Heading elements should appear in a sequentially-descending order ({0})"
+
+msgid "heading-order (resolved)"
+msgstr "Heading elements appear in a sequentially-descending order (resolved)"
+
+msgid "html-has-lang (unresolved)"
+msgstr "`<html>` element should have a `[lang]` attribute ({0})"
+
+msgid "html-has-lang (resolved)"
+msgstr "`<html>` element has a `[lang]` attribute (resolved)"
+
+msgid "html-lang-valid (unresolved)"
+msgstr "`<html>` element should have a valid value for its `[lang]` attribute ({0})"
+
+msgid "html-lang-valid (resolved)"
+msgstr "`<html>` element has a valid value for its `[lang]` attribute (resolved)"
+
+msgid "image-alt (unresolved)"
+msgstr "Image elements should have `[alt]` attributes ({0})"
+
+msgid "image-alt (resolved)"
+msgstr "Image elements have `[alt]` attributes (resolved)"
+
+msgid "image-redundant-alt (unresolved)"
+msgstr "Image elements should not have `[alt]` attributes that are redundant text ({0})"
+
+msgid "image-redundant-alt (resolved)"
+msgstr "Image elements do not have `[alt]` attributes that are redundant text (resolved)"
+
+msgid "link-in-text-block (unresolved)"
+msgstr "Links are npt distinguishable without relying on color ({0})"
+
+msgid "link-in-text-block (resolved)"
+msgstr "Links are distinguishable without relying on color (resolved)"
+
+msgid "link-name (unresolved)"
+msgstr "Links should have a discernible name ({0})"
+
+msgid "link-name (resolved)"
+msgstr "Links have a discernible name (resolved)"
+
+msgid "list (unresolved)"
+msgstr "Lists should contain only `<li>` elements and script supporting elements (`<script>` and `<template>`) ({0})"
+
+msgid "list (resolved)"
+msgstr "Lists contain only `<li>` elements and script supporting elements (`<script>` and `<template>`) (resolved)"
+
+msgid "listitem (unresolved)"
+msgstr "List items (`<li>`) are not contained within `<ul>`, `<ol>` or `<menu>` parent elements ({0})"
+
+msgid "listitem (resolved)"
+msgstr "List items (`<li>`) are contained within `<ul>`, `<ol>` or `<menu>` parent elements (resolved)"
+
+msgid "meta-viewport (unresolved)"
+msgstr "`[user-scalable=\"no\"]` is used in the `<meta name=\"viewport\">` element or the `[maximum-scale]` attribute is less than 5 ({0})"
+
+msgid "meta-viewport (resolved)"
+msgstr "`[user-scalable=\"no\"]` is not used in the `<meta name=\"viewport\">` element and the `[maximum-scale]` attribute is not less than 5 (resolved)"
+
+msgid "target-size (unresolved)"
+msgstr "Touch targets should have sufficient size and spacing ({0})"
+
+msgid "target-size (resolved)"
+msgstr "Touch targets have sufficient size and spacing (resolved)"
+
+msgid "is-on-https (unresolved)"
+msgstr "Is not using HTTPS ({0})"
+
+msgid "is-on-https (resolved)"
+msgstr "Uses HTTPS (resolved)"
+
+msgid "redirects-http (unresolved)"
+msgstr "Is not redirecting HTTP traffic to HTTPS ({0})"
+
+msgid "redirects-http (resolved)"
+msgstr "Redirects HTTP traffic to HTTPS (resolved)"
+
+msgid "image-size-responsive (unresolved)"
+msgstr "Serves images with low resolution ({0})"
+
+msgid "image-size-responsive (resolved)"
+msgstr "Serves images with low resolution (resolved)"
+
+msgid "aria-required-children (unresolved)"
+msgstr "Elements with an ARIA `[role]` that require children to contain a specific `[role]` have all required children ({0})"
+
+msgid "aria-required-children (resolved)"
+msgstr "Elements with an ARIA `[role]` that require children to contain a specific `[role]` have all required children (resolved)"
+
+msgid "aria-required-parent (unresolved)"
+msgstr "`[role]`s are contained by their required parent element ({0})"
+
+msgid "aria-required-parent (resolved)"
+msgstr "`[role]`s are contained by their required parent element (resolved)"
+
+msgid "inspector-issues (unresolved)"
+msgstr "Issues in the `Issues` panel in Chrome Devtools ({0})"
+
+msgid "inspector-issues (resolved)"
+msgstr "No issues in the `Issues` panel in Chrome Devtools (resolved)"

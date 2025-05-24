@@ -105,7 +105,7 @@ def create_or_append_translation(module_name, lang_code, text_key):
             '"Project-Id-Version: PACKAGE VERSION\\n"\n'
             f'"POT-Creation-Date: {today}\\n"\n'
             f'"PO-Revision-Date: {today}\\n"\n'
-            '"Last-Translator: Your-Name-Hear <your-email-here@webperf.se>\\n"\n'
+            '"Last-Translator: Your-Name-Here <your-email-here@webperf.se>\\n"\n'
             '"Language-Team: English <team@webperf.se>\\n"\n'
             '"MIME-Version: 1.0\\n"\n'
             '"Content-Type: text/plain; charset=UTF-8\\n"\n'

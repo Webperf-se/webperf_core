@@ -143,3 +143,9 @@ msgstr "#{0}: "
 
 msgid "TEXT_REQUEST_WEBPAGE"
 msgstr "#{0}: Webbsida "
+
+msgid "TEXT_DETAILS_MORE_INFO"
+msgstr "Mer information"
+
+msgid "TEXT_DETAILS_URLS_WITH_ISSUES"
+msgstr "Webbadress(er) med förbättringspotential"

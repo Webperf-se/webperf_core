@@ -106,11 +106,11 @@ def get_rating_from_sitespeed(url, local_translation, global_translation):
     origin_domain = o.hostname
 
     browsertime_Hars = read_sites_from_directory(result_folder_name, origin_domain, -1, -1)
+    rating = Rating(global_translation, get_config('general.review.improve-only'))
     if len(browsertime_Hars) < 1:
         rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
         return (rating, {'failed': True })
 
-    rating = Rating(global_translation, get_config('general.review.improve-only'))
     rules = get_rules()
     data = identify_software(browsertime_Hars[0][0], origin_domain, rules)
     if data is None:
@@ -1721,6 +1721,19 @@ def run_test(global_translation, url):
 
         with open('debug.json', 'w', encoding='utf-8', newline='') as file:
             file.write(nice_raw)
+
+    reviews = rating.get_reviews()
+    print(global_translation('TEXT_SITE_RATING'), rating)
+    if get_config('general.review.show'):
+        print(
+            global_translation('TEXT_SITE_REVIEW'),
+            reviews)
+
+    if get_config('general.review.data'):
+        nice_json_data = json.dumps(result_dict, indent=3)
+        print(
+            global_translation('TEXT_SITE_REVIEW_DATA'),
+            f'```json\r\n{nice_json_data}\r\n```')
 
 
     return (rating, result_dict)

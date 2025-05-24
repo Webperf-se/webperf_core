@@ -32,6 +32,13 @@ IP2_LOCATION_DB = {
     'database': None
 }
 
+def get_domain(url):
+    """
+    Extracts the domain name from a given URL.
+    """
+    parsed_url = urlparse(url)
+    return parsed_url.hostname
+
 def get_dependency_version(dependency_name):
     """
     Retrieves the version of a specified dependency from the 'package.json' file.
@@ -98,7 +105,7 @@ def create_or_append_translation(module_name, lang_code, text_key):
             '"Project-Id-Version: PACKAGE VERSION\\n"\n'
             f'"POT-Creation-Date: {today}\\n"\n'
             f'"PO-Revision-Date: {today}\\n"\n'
-            '"Last-Translator: Your-Name-Hear <your-email-here@webperf.se>\\n"\n'
+            '"Last-Translator: Your-Name-Here <your-email-here@webperf.se>\\n"\n'
             '"Language-Team: English <team@webperf.se>\\n"\n'
             '"MIME-Version: 1.0\\n"\n'
             '"Content-Type: text/plain; charset=UTF-8\\n"\n'
@@ -1031,6 +1038,167 @@ def merge_dicts(dict1, dict2, sort, make_distinct):
             dict1[domain] += value
 
     return dict1
+
+def calculate_score(issues):
+    category_scores = {'overall': 100}
+
+    for issue in issues:
+        if issue['category'] not in category_scores:
+            category_scores[issue['category']] = 100
+
+        if issue['severity'] == 'critical':
+            category_scores[issue['category']] -= 25
+        elif issue['severity'] == 'error':
+            category_scores[issue['category']] -= 10
+        elif issue['severity'] == 'warning':
+            category_scores[issue['category']] -= 1
+
+    scores = [value for key, value in category_scores.items() if key != 'overall']  # Exclude 'overall' from calculation
+    total = sum(scores)
+    category_scores['overall'] = total / len(scores) if scores else 100  # Use average
+
+    return category_scores
+
+def calculate_rating(global_translation, rating, result_dict):
+    issues_other = []
+    issues_standard =[]
+    issues_security = []
+    issues_a11y = []
+    issues_performance = []
+
+    if "groups" not in result_dict:
+        return rating
+
+    for group_name, info in result_dict["groups"].items():
+        for issue in info["issues"]:
+            if get_config('general.review.improve-only') and issue["severity"] == "resolved":
+                continue
+
+            text = None
+            if 'test' not in issue:
+                text = f"{issue['rule']} ({issue['severity']})"
+            elif 'text' in issue:
+                text = issue['text']
+            else:
+                severity_key = None
+                if issue['severity'] in ('resolved'):
+                    severity_key = 'resolved'
+                elif issue['severity'] in ('critical', 'error', 'warning'):
+                    severity_key = 'unresolved'
+                elif issue['severity'] in ('info'):
+                    severity_key = 'info'
+                else:
+                    severity_key = 'unknown'
+                text_primarykey = f"{issue['rule']} ({severity_key})"
+                text_secondarykey = f"{issue['rule']}"
+                try:
+                    local_translation = get_translation(
+                            issue['test'],
+                            get_config('general.language')
+                        )
+                    text = local_translation(text_primarykey)
+                    if '{0}' in text:
+                            text = local_translation(text_primarykey).format(issue['severity'])
+                    if text == text_primarykey:
+                        print(f"no translation found for: {issue['test']}, and language: {get_config('general.language')}. Adding it so you can translate it.")
+                        create_or_append_translation(issue['test'], get_config('general.language'), text_secondarykey)
+                except FileNotFoundError:
+                    text = text_primarykey
+                    print(f"no translation found for: {issue['test']}, adding file for language: {get_config('general.language')} so you can translate it.")
+                    create_or_append_translation(issue['test'], get_config('general.language'), text_secondarykey)
+
+            if get_config('general.review.details'):
+                if 'resources' in issue:
+                    a1 ="\n  - ".join([f"{item}" for item in issue['resources']])
+                    more_info = global_translation('TEXT_DETAILS_MORE_INFO')
+                    # More info
+                    text = f"{text}\n  {more_info}:\n  - {a1}\n"
+                if 'subIssues' in issue and len(issue['subIssues']) > 0:
+                    unique_urls = set(subItem['url'] for subItem in issue['subIssues'])
+                    a2 = "\n  - ".join(unique_urls)
+                    urls_with_issues  = global_translation('TEXT_DETAILS_URLS_WITH_ISSUES')
+                    # Url(s) with issues
+                    text = f"{text}\n  {urls_with_issues}:\n  - {a2}\n"
+
+            if issue['category'] == 'standard':
+                issues_standard.append(text)
+            elif issue['category'] == 'security':
+                issues_security.append(text)
+            elif issue['category'] == 'a11y':
+                issues_a11y.append(text)
+            elif issue['category'] == 'performance':
+                issues_performance.append(text)
+            else:
+                issues_other.append(text)
+
+        if "score" not in info:
+            # Calculate Score (for python packages who has not calculated this yet)
+            info["score"] = calculate_score(info["issues"])
+
+        if 'overall' in info["score"]:
+            overall = (info["score"]["overall"] / 100) * 5
+            rating.set_overall(overall)
+            if len(issues_other) > 0:
+                rating.overall_review = "\n".join([f"- {item}" for item in issues_other]) + "\n"
+        if 'standard' in info["score"]:
+            standard = (info["score"]["standard"] / 100) * 5
+            rating.set_standards(standard)
+            if len(issues_standard) > 0:
+                rating.standards_review = "\n".join([f"- {item}" for item in issues_standard]) + "\n"
+        if 'security' in info["score"]:
+            security = (info["score"]["security"] / 100) * 5
+            rating.set_integrity_and_security(security)
+            if len(issues_security) > 0:
+                rating.integrity_and_security_review = "\n".join([f"- {item}" for item in issues_security]) + "\n"
+        if 'a11y' in info["score"]:
+            a11y = (info["score"]["a11y"] / 100) * 5
+            rating.set_a11y(a11y)
+            if len(issues_a11y) > 0:
+                rating.a11y_review = "\n".join([f"- {item}" for item in issues_a11y]) + "\n"
+        if 'performance' in info["score"]:
+            performance = (info["score"]["performance"] / 100) * 5
+            rating.set_performance(performance)
+            if len(issues_performance) > 0:
+                rating.performance_review = "\n".join([f"- {item}" for item in issues_performance]) + "\n"
+    return rating
+
+
+def sort_testresult_issues(data):
+    # Define the severity ranking
+    severity_order = {
+        "critical": 1,
+        "error": 2,
+        "warning": 3,
+        "info": 4,
+        "resolved": 5
+    }
+
+    if "groups" not in data:
+        return
+
+    # Access all groups in the JSON
+    groups = data["groups"]
+
+    # Iterate over each group and sort its issues
+    for group_name, group_data in groups.items():
+        issues = group_data.get("issues", [])
+        
+        # Sort issues by severity (primary) and number of subIssues (secondary)
+        sorted_issues = sorted(
+            issues,
+            key=lambda x: (severity_order.get(x["severity"], float('inf')), -len(x.get("subIssues", [])))
+        )
+        # Update the group's issues with the sorted list
+        group_data["issues"] = sorted_issues
+
+def flatten_issues_dict(data):
+    flattened = []
+
+    for issue_key, issue_value in data.items():
+        base_info = {k: v for k, v in issue_value.items()}
+        flattened.append(base_info)
+
+    return flattened
 
 def merge_dict_values(dict1, dict2, domain, sort, make_distinct):
     """

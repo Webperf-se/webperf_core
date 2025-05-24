@@ -12,87 +12,12 @@ from urllib.parse import ParseResult, urlparse, urlunparse
 import uuid
 from tests.utils import change_url_to_test_url,\
     get_dependency_version, is_file_older_than,\
-    get_translation, create_or_append_translation
+    get_translation, create_or_append_translation,\
+    flatten_issues_dict
 import engines.sitespeed_result as sitespeed_cache
 from helpers.setting_helper import get_config
 from helpers.browser_helper import get_chromium_browser
 
-def calculate_rating(rating, result_dict):
-    issues_other = []
-    issues_standard =[]
-    issues_security = []
-    issues_a11y = []
-    issues_performance = []
-    for group_name, info in result_dict["groups"].items():
-        for issue in info["issues"]:
-            if get_config('general.review.improve-only') and issue["severity"] == "resolved":
-                continue
-
-            text = None
-            if 'text' in issue:
-                text = issue['text']
-            elif 'test' not in issue:
-                text = f"{issue['rule']} ({issue['severity']})"
-            else:
-                severity_key = None
-                if issue['severity'] in ('resolved'):
-                    severity_key = 'resolved'
-                elif issue['severity'] in ('critical', 'error', 'warning'):
-                    severity_key = 'unresolved'
-                elif issue['severity'] in ('info'):
-                    severity_key = 'info'
-                else:
-                    severity_key = 'unknown'
-                text_primarykey = f"{issue['rule']} ({severity_key})"
-                text_secondarykey = f"{issue['rule']}"
-                try:
-                    local_translation = get_translation(
-                            issue['test'],
-                            get_config('general.language')
-                        )
-                    text = local_translation(text_primarykey)
-                    if '{0}' in text:
-                            text = local_translation(text_primarykey).format(issue['severity'])
-                    if text == text_primarykey:
-                        print(f"no translation found for: {issue['test']}, and language: {get_config('general.language')}. Adding it so you can translate it.")
-                        create_or_append_translation(issue['test'], get_config('general.language'), text_secondarykey)
-                except FileNotFoundError:
-                    text = text_primarykey
-                    print(f"no translation found for: {issue['test']}, adding file for language: {get_config('general.language')} so you can translate it.")
-                    create_or_append_translation(issue['test'], get_config('general.language'), text_secondarykey)
-
-            if issue['category'] == 'standard':
-                issues_standard.append(text)
-            elif issue['category'] == 'security':
-                issues_security.append(text)
-            elif issue['category'] == 'a11y':
-                issues_a11y.append(text)
-            elif issue['category'] == 'performance':
-                issues_performance.append(text)
-            else:
-                issues_other.append(text)
-
-        if 'overall' in info["score"]:
-            overall = (info["score"]["overall"] / 100) * 5
-            rating.set_overall(overall)
-            rating.overall_review = "\n".join([f"- {item}" for item in issues_other]) + "\n"
-        if 'standard' in info["score"]:
-            standard = (info["score"]["standard"] / 100) * 5
-            rating.set_standards(standard)
-            rating.standards_review = "\n".join([f"- {item}" for item in issues_standard]) + "\n"
-        if 'security' in info["score"]:
-            security = (info["score"]["security"] / 100) * 5
-            rating.set_integrity_and_security(security)
-            rating.integrity_and_security_review = "\n".join([f"- {item}" for item in issues_security]) + "\n"
-        if 'a11y' in info["score"]:
-            a11y = (info["score"]["a11y"] / 100) * 5
-            rating.set_a11y(a11y)
-            rating.a11y_review = "\n".join([f"- {item}" for item in issues_a11y]) + "\n"
-        if 'performance' in info["score"]:
-            performance = (info["score"]["performance"] / 100) * 5
-            rating.set_performance(performance)
-            rating.performance_review = "\n".join([f"- {item}" for item in issues_performance]) + "\n"
-    return rating
 
 
 def get_webperf_json(filename):

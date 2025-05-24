@@ -210,19 +210,19 @@ msgid "mainthread-work-breakdown (resolved)"
 msgstr "Minimizes main-thread work (resolved)"
 
 msgid "font-display (unresolved)"
-msgstr "All text remains visible during webfont loads ({0})"
+msgstr "All text should remains visible during webfont loads ({0})"
 
 msgid "font-display (resolved)"
 msgstr "All text remains visible during webfont loads (resolved)"
 
 msgid "uses-passive-event-listeners (unresolved)"
-msgstr "Uses passive listeners to improve scrolling performance ({0})"
+msgstr "Use passive listeners to improve scrolling performance ({0})"
 
 msgid "uses-passive-event-listeners (resolved)"
 msgstr "Uses passive listeners to improve scrolling performance (resolved)"
 
 msgid "no-document-write (unresolved)"
-msgstr "Javascript, avoids `document.write()` ({0})"
+msgstr "Javascript, avoid `document.write()` ({0})"
 
 msgid "no-document-write (resolved)"
 msgstr "Javascript, avoids `document.write() (resolved)"
@@ -231,16 +231,16 @@ msgid "long-tasks (unresolved)"
 msgstr "Avoid long main-thread tasks ({0})"
 
 msgid "long-tasks (resolved)"
-msgstr "Avoid long main-thread tasks (resolved)"
+msgstr "Avoids long main-thread tasks (resolved)"
 
 msgid "unsized-images (unresolved)"
-msgstr "Image elements have explicit `width` and `height` ({0})"
+msgstr "Image elements should have explicit `width` and `height` ({0})"
 
 msgid "unsized-images (resolved)"
 msgstr "Image elements have explicit `width` and `height` (resolved)"
 
 msgid "viewport (unresolved)"
-msgstr "Has a <meta name=\"viewport\"> tag with width or initial-scale ({0})"
+msgstr "Should have a <meta name=\"viewport\"> tag with width or initial-scale ({0})"
 
 msgid "viewport (resolved)"
 msgstr "Has a <meta name=\"viewport\"> tag with width or initial-scale (resolved)"
@@ -306,31 +306,31 @@ msgid "resource-summary (resolved)"
 msgstr "resource-summary (resolved)"
 
 msgid "aria-allowed-attr (unresolved)"
-msgstr "`[aria-*]` attributes match their roles ({0})"
+msgstr "`[aria-*]` attributes should match their roles ({0})"
 
 msgid "aria-allowed-attr (resolved)"
 msgstr "`[aria-*]` attributes match their roles (resolved)"
 
 msgid "aria-allowed-role (unresolved)"
-msgstr "Uses ARIA roles only on compatible elements ({0})"
+msgstr "Should use ARIA roles only on compatible elements ({0})"
 
 msgid "aria-allowed-role (resolved)"
 msgstr "Uses ARIA roles only on compatible elements (resolved)"
 
 msgid "aria-conditional-attr (unresolved)"
-msgstr "ARIA attributes are used as specified for the element's role ({0})"
+msgstr "ARIA attributes should be used as specified for the element's role ({0})"
 
 msgid "aria-conditional-attr (resolved)"
 msgstr "ARIA attributes are used as specified for the element's role (resolved)"
 
 msgid "aria-deprecated-role (unresolved)"
-msgstr "Deprecated ARIA roles were not used ({0})"
+msgstr "Deprecated ARIA roles were used ({0})"
 
 msgid "aria-deprecated-role (resolved)"
 msgstr "Deprecated ARIA roles were not used (resolved)"
 
 msgid "aria-hidden-body (unresolved)"
-msgstr "`[aria-hidden=\"true\"]` is not present on the document `<body>` ({0})"
+msgstr "`[aria-hidden=\"true\"]` is present on the document `<body>` ({0})"
 
 msgid "aria-hidden-body (resolved)"
 msgstr "`[aria-hidden=\"true\"]` is not present on the document `<body>` (resolved)"
@@ -342,127 +342,127 @@ msgid "aria-hidden-focus (resolved)"
 msgstr "`[aria-hidden=\"true\"]` elements do not contain focusable descendents (resolved)"
 
 msgid "aria-prohibited-attr (unresolved)"
-msgstr "Elements use only permitted ARIA attributes ({0})"
+msgstr "Elements should use only permitted ARIA attributes ({0})"
 
 msgid "aria-prohibited-attr (resolved)"
 msgstr "Elements use only permitted ARIA attributes (resolved)"
 
 msgid "aria-required-attr (unresolved)"
-msgstr "`[role]`s have all required `[aria-*]` attributes ({0})"
+msgstr "`[role]`s should have all required `[aria-*]` attributes ({0})"
 
 msgid "aria-required-attr (resolved)"
 msgstr "`[role]`s have all required `[aria-*]` attributes (resolved)"
 
 msgid "aria-roles (unresolved)"
-msgstr "`[role]` values are valid ({0})"
+msgstr "`[role]` values are not valid ({0})"
 
 msgid "aria-roles (resolved)"
 msgstr "`[role]` values are valid (resolved)"
 
 msgid "aria-valid-attr-value (unresolved)"
-msgstr "`[aria-*]` attributes have valid values ({0})"
+msgstr "`[aria-*]` attributes have invalid values ({0})"
 
 msgid "aria-valid-attr-value (resolved)"
 msgstr "`[aria-*]` attributes have valid values (resolved)"
 
 msgid "aria-valid-attr (unresolved)"
-msgstr "`[aria-*]` attributes are valid and not misspelled ({0})"
+msgstr "`[aria-*]` attributes are invalid or misspelled ({0})"
 
 msgid "aria-valid-attr (resolved)"
 msgstr "`[aria-*]` attributes are valid and not misspelled (resolved)"
 
 msgid "button-name (unresolved)"
-msgstr "Buttons have an accessible name ({0})"
+msgstr "Buttons should have an accessible name ({0})"
 
 msgid "button-name (resolved)"
 msgstr "Buttons have an accessible name (resolved)"
 
 msgid "color-contrast (unresolved)"
-msgstr "Background and foreground colors have a sufficient contrast ratio ({0})"
+msgstr "Background and foreground colors should have a sufficient contrast ratio ({0})"
 
 msgid "color-contrast (resolved)"
 msgstr "Background and foreground colors have a sufficient contrast ratio (resolved)"
 
 msgid "document-title (unresolved)"
-msgstr "Document has a `<title>` element ({0})"
+msgstr "Document should have a `<title>` element ({0})"
 
 msgid "document-title (resolved)"
 msgstr "Document has a `<title>` element (resolved)"
 
 msgid "heading-order (unresolved)"
-msgstr "Heading elements appear in a sequentially-descending order ({0})"
+msgstr "Heading elements should appear in a sequentially-descending order ({0})"
 
 msgid "heading-order (resolved)"
 msgstr "Heading elements appear in a sequentially-descending order (resolved)"
 
 msgid "html-has-lang (unresolved)"
-msgstr "`<html>` element has a `[lang]` attribute ({0})"
+msgstr "`<html>` element should have a `[lang]` attribute ({0})"
 
 msgid "html-has-lang (resolved)"
 msgstr "`<html>` element has a `[lang]` attribute (resolved)"
 
 msgid "html-lang-valid (unresolved)"
-msgstr "`<html>` element has a valid value for its `[lang]` attribute ({0})"
+msgstr "`<html>` element should have a valid value for its `[lang]` attribute ({0})"
 
 msgid "html-lang-valid (resolved)"
 msgstr "`<html>` element has a valid value for its `[lang]` attribute (resolved)"
 
 msgid "image-alt (unresolved)"
-msgstr "Image elements have `[alt]` attributes ({0})"
+msgstr "Image elements should have `[alt]` attributes ({0})"
 
 msgid "image-alt (resolved)"
 msgstr "Image elements have `[alt]` attributes (resolved)"
 
 msgid "image-redundant-alt (unresolved)"
-msgstr "Image elements do not have `[alt]` attributes that are redundant text ({0})"
+msgstr "Image elements should not have `[alt]` attributes that are redundant text ({0})"
 
 msgid "image-redundant-alt (resolved)"
 msgstr "Image elements do not have `[alt]` attributes that are redundant text (resolved)"
 
 msgid "link-in-text-block (unresolved)"
-msgstr "Links are distinguishable without relying on color ({0})"
+msgstr "Links are npt distinguishable without relying on color ({0})"
 
 msgid "link-in-text-block (resolved)"
 msgstr "Links are distinguishable without relying on color (resolved)"
 
 msgid "link-name (unresolved)"
-msgstr "Links have a discernible name ({0})"
+msgstr "Links should have a discernible name ({0})"
 
 msgid "link-name (resolved)"
 msgstr "Links have a discernible name (resolved)"
 
 msgid "list (unresolved)"
-msgstr "Lists contain only `<li>` elements and script supporting elements (`<script>` and `<template>`) ({0})"
+msgstr "Lists should contain only `<li>` elements and script supporting elements (`<script>` and `<template>`) ({0})"
 
 msgid "list (resolved)"
 msgstr "Lists contain only `<li>` elements and script supporting elements (`<script>` and `<template>`) (resolved)"
 
 msgid "listitem (unresolved)"
-msgstr "List items (`<li>`) are contained within `<ul>`, `<ol>` or `<menu>` parent elements ({0})"
+msgstr "List items (`<li>`) are not contained within `<ul>`, `<ol>` or `<menu>` parent elements ({0})"
 
 msgid "listitem (resolved)"
 msgstr "List items (`<li>`) are contained within `<ul>`, `<ol>` or `<menu>` parent elements (resolved)"
 
 msgid "meta-viewport (unresolved)"
-msgstr "`[user-scalable=\"no\"]` is not used in the `<meta name=\"viewport\">` element and the `[maximum-scale]` attribute is not less than 5 ({0})"
+msgstr "`[user-scalable=\"no\"]` is used in the `<meta name=\"viewport\">` element or the `[maximum-scale]` attribute is less than 5 ({0})"
 
 msgid "meta-viewport (resolved)"
 msgstr "`[user-scalable=\"no\"]` is not used in the `<meta name=\"viewport\">` element and the `[maximum-scale]` attribute is not less than 5 (resolved)"
 
 msgid "target-size (unresolved)"
-msgstr "Touch targets have sufficient size and spacing ({0})"
+msgstr "Touch targets should have sufficient size and spacing ({0})"
 
 msgid "target-size (resolved)"
 msgstr "Touch targets have sufficient size and spacing (resolved)"
 
 msgid "is-on-https (unresolved)"
-msgstr "Uses HTTPS ({0})"
+msgstr "Is not using HTTPS ({0})"
 
 msgid "is-on-https (resolved)"
 msgstr "Uses HTTPS (resolved)"
 
 msgid "redirects-http (unresolved)"
-msgstr "Redirects HTTP traffic to HTTPS ({0})"
+msgstr "Is not redirecting HTTP traffic to HTTPS ({0})"
 
 msgid "redirects-http (resolved)"
 msgstr "Redirects HTTP traffic to HTTPS (resolved)"
@@ -486,7 +486,7 @@ msgid "aria-required-parent (resolved)"
 msgstr "`[role]`s are contained by their required parent element (resolved)"
 
 msgid "inspector-issues (unresolved)"
-msgstr "No issues in the `Issues` panel in Chrome Devtools ({0})"
+msgstr "Issues in the `Issues` panel in Chrome Devtools ({0})"
 
 msgid "inspector-issues (resolved)"
 msgstr "No issues in the `Issues` panel in Chrome Devtools (resolved)"

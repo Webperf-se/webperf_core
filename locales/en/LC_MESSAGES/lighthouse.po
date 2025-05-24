@@ -210,19 +210,19 @@ msgid "mainthread-work-breakdown (resolved)"
 msgstr "Minimizes main-thread work (resolved)"
 
 msgid "font-display (unresolved)"
-msgstr "All text remains visible during webfont loads ({0})"
+msgstr "All text should remains visible during webfont loads ({0})"
 
 msgid "font-display (resolved)"
 msgstr "All text remains visible during webfont loads (resolved)"
 
 msgid "uses-passive-event-listeners (unresolved)"
-msgstr "Uses passive listeners to improve scrolling performance ({0})"
+msgstr "Use passive listeners to improve scrolling performance ({0})"
 
 msgid "uses-passive-event-listeners (resolved)"
 msgstr "Uses passive listeners to improve scrolling performance (resolved)"
 
 msgid "no-document-write (unresolved)"
-msgstr "Javascript, avoids `document.write()` ({0})"
+msgstr "Javascript, avoid `document.write()` ({0})"
 
 msgid "no-document-write (resolved)"
 msgstr "Javascript, avoids `document.write() (resolved)"
@@ -231,61 +231,61 @@ msgid "long-tasks (unresolved)"
 msgstr "Avoid long main-thread tasks ({0})"
 
 msgid "long-tasks (resolved)"
-msgstr "Avoid long main-thread tasks (resolved)"
+msgstr "Avoids long main-thread tasks (resolved)"
 
 msgid "unsized-images (unresolved)"
-msgstr "Image elements have explicit `width` and `height` ({0})"
+msgstr "Image elements should have explicit `width` and `height` ({0})"
 
 msgid "unsized-images (resolved)"
 msgstr "Image elements have explicit `width` and `height` (resolved)"
 
 msgid "viewport (unresolved)"
-msgstr "`[user-scalable=\"no\"]` is not used in the `<meta name=\"viewport\">` element and the `[maximum-scale]` attribute is not less than 5. ({0})"
+msgstr "Should have a <meta name=\"viewport\"> tag with width or initial-scale ({0})"
 
 msgid "viewport (resolved)"
-msgstr "`[user-scalable=\"no\"]` is not used in the `<meta name=\"viewport\">` element and the `[maximum-scale]` attribute is not less than 5. (resolved)"
+msgstr "Has a <meta name=\"viewport\"> tag with width or initial-scale (resolved)"
 
 msgid "network-requests (unresolved)"
-msgstr "network-requests ({0})"
+msgstr "Network Requests ({0})"
 
 msgid "network-requests (resolved)"
-msgstr "network-requests (resolved)"
+msgstr "Network Requests (resolved)"
 
 msgid "network-rtt (unresolved)"
-msgstr "network-rtt ({0})"
+msgstr "Network Round Trip Times ({0})"
 
 msgid "network-rtt (resolved)"
-msgstr "network-rtt (resolved)"
+msgstr "Network Round Trip Times (resolved)"
 
 msgid "network-server-latency (unresolved)"
-msgstr "network-server-latency ({0})"
+msgstr "Server Backend Latencies ({0})"
 
 msgid "network-server-latency (resolved)"
-msgstr "network-server-latency (resolved)"
+msgstr "Server Backend Latencies (resolved)"
 
 msgid "main-thread-tasks (unresolved)"
-msgstr "main-thread-tasks ({0})"
+msgstr "Main thread tasks ({0})"
 
 msgid "main-thread-tasks (resolved)"
-msgstr "main-thread-tasks (resolved)"
+msgstr "Main thread tasks (resolved)"
 
 msgid "diagnostics (unresolved)"
-msgstr "diagnostics ({0})"
+msgstr "Diagnostics ({0})"
 
 msgid "diagnostics (resolved)"
-msgstr "diagnostics (resolved)"
+msgstr "Diagnostics (resolved)"
 
 msgid "metrics (unresolved)"
-msgstr "metrics ({0})"
+msgstr "Metrics ({0})"
 
 msgid "metrics (resolved)"
-msgstr "metrics (resolved)"
+msgstr "Metrics (resolved)"
 
 msgid "screenshot-thumbnails (unresolved)"
-msgstr "screenshot-thumbnails ({0})"
+msgstr "Screenshot Thumbnails ({0})"
 
 msgid "screenshot-thumbnails (resolved)"
-msgstr "screenshot-thumbnails (resolved)"
+msgstr "Screenshot Thumbnails (resolved)"
 
 msgid "final-screenshot (unresolved)"
 msgstr "final-screenshot ({0})"
@@ -306,655 +306,187 @@ msgid "resource-summary (resolved)"
 msgstr "resource-summary (resolved)"
 
 msgid "aria-allowed-attr (unresolved)"
-msgstr "aria-allowed-attr ({0})"
+msgstr "`[aria-*]` attributes should match their roles ({0})"
 
 msgid "aria-allowed-attr (resolved)"
-msgstr "aria-allowed-attr (resolved)"
+msgstr "`[aria-*]` attributes match their roles (resolved)"
 
 msgid "aria-allowed-role (unresolved)"
-msgstr "aria-allowed-role ({0})"
+msgstr "Should use ARIA roles only on compatible elements ({0})"
 
 msgid "aria-allowed-role (resolved)"
-msgstr "aria-allowed-role (resolved)"
+msgstr "Uses ARIA roles only on compatible elements (resolved)"
 
 msgid "aria-conditional-attr (unresolved)"
-msgstr "aria-conditional-attr ({0})"
+msgstr "ARIA attributes should be used as specified for the element's role ({0})"
 
 msgid "aria-conditional-attr (resolved)"
-msgstr "aria-conditional-attr (resolved)"
+msgstr "ARIA attributes are used as specified for the element's role (resolved)"
 
 msgid "aria-deprecated-role (unresolved)"
-msgstr "aria-deprecated-role ({0})"
+msgstr "Deprecated ARIA roles were used ({0})"
 
 msgid "aria-deprecated-role (resolved)"
-msgstr "aria-deprecated-role (resolved)"
+msgstr "Deprecated ARIA roles were not used (resolved)"
 
 msgid "aria-hidden-body (unresolved)"
-msgstr "aria-hidden-body ({0})"
+msgstr "`[aria-hidden=\"true\"]` is present on the document `<body>` ({0})"
 
 msgid "aria-hidden-body (resolved)"
-msgstr "aria-hidden-body (resolved)"
+msgstr "`[aria-hidden=\"true\"]` is not present on the document `<body>` (resolved)"
 
 msgid "aria-hidden-focus (unresolved)"
-msgstr "aria-hidden-focus ({0})"
+msgstr "`[aria-hidden=\"true\"]` elements do not contain focusable descendents ({0})"
 
 msgid "aria-hidden-focus (resolved)"
-msgstr "aria-hidden-focus (resolved)"
+msgstr "`[aria-hidden=\"true\"]` elements do not contain focusable descendents (resolved)"
 
 msgid "aria-prohibited-attr (unresolved)"
-msgstr "aria-prohibited-attr ({0})"
+msgstr "Elements should use only permitted ARIA attributes ({0})"
 
 msgid "aria-prohibited-attr (resolved)"
-msgstr "aria-prohibited-attr (resolved)"
+msgstr "Elements use only permitted ARIA attributes (resolved)"
 
 msgid "aria-required-attr (unresolved)"
-msgstr "aria-required-attr ({0})"
+msgstr "`[role]`s should have all required `[aria-*]` attributes ({0})"
 
 msgid "aria-required-attr (resolved)"
-msgstr "aria-required-attr (resolved)"
+msgstr "`[role]`s have all required `[aria-*]` attributes (resolved)"
 
 msgid "aria-roles (unresolved)"
-msgstr "aria-roles ({0})"
+msgstr "`[role]` values are not valid ({0})"
 
 msgid "aria-roles (resolved)"
-msgstr "aria-roles (resolved)"
+msgstr "`[role]` values are valid (resolved)"
 
 msgid "aria-valid-attr-value (unresolved)"
-msgstr "aria-valid-attr-value ({0})"
+msgstr "`[aria-*]` attributes have invalid values ({0})"
 
 msgid "aria-valid-attr-value (resolved)"
-msgstr "aria-valid-attr-value (resolved)"
+msgstr "`[aria-*]` attributes have valid values (resolved)"
 
 msgid "aria-valid-attr (unresolved)"
-msgstr "aria-valid-attr ({0})"
+msgstr "`[aria-*]` attributes are invalid or misspelled ({0})"
 
 msgid "aria-valid-attr (resolved)"
-msgstr "aria-valid-attr (resolved)"
+msgstr "`[aria-*]` attributes are valid and not misspelled (resolved)"
 
 msgid "button-name (unresolved)"
-msgstr "button-name ({0})"
+msgstr "Buttons should have an accessible name ({0})"
 
 msgid "button-name (resolved)"
-msgstr "button-name (resolved)"
+msgstr "Buttons have an accessible name (resolved)"
 
 msgid "color-contrast (unresolved)"
-msgstr "color-contrast ({0})"
+msgstr "Background and foreground colors should have a sufficient contrast ratio ({0})"
 
 msgid "color-contrast (resolved)"
-msgstr "color-contrast (resolved)"
+msgstr "Background and foreground colors have a sufficient contrast ratio (resolved)"
 
 msgid "document-title (unresolved)"
-msgstr "document-title ({0})"
+msgstr "Document should have a `<title>` element ({0})"
 
 msgid "document-title (resolved)"
-msgstr "document-title (resolved)"
+msgstr "Document has a `<title>` element (resolved)"
 
 msgid "heading-order (unresolved)"
-msgstr "heading-order ({0})"
+msgstr "Heading elements should appear in a sequentially-descending order ({0})"
 
 msgid "heading-order (resolved)"
-msgstr "heading-order (resolved)"
+msgstr "Heading elements appear in a sequentially-descending order (resolved)"
 
 msgid "html-has-lang (unresolved)"
-msgstr "html-has-lang ({0})"
+msgstr "`<html>` element should have a `[lang]` attribute ({0})"
 
 msgid "html-has-lang (resolved)"
-msgstr "html-has-lang (resolved)"
+msgstr "`<html>` element has a `[lang]` attribute (resolved)"
 
 msgid "html-lang-valid (unresolved)"
-msgstr "html-lang-valid ({0})"
+msgstr "`<html>` element should have a valid value for its `[lang]` attribute ({0})"
 
 msgid "html-lang-valid (resolved)"
-msgstr "html-lang-valid (resolved)"
+msgstr "`<html>` element has a valid value for its `[lang]` attribute (resolved)"
 
 msgid "image-alt (unresolved)"
-msgstr "image-alt ({0})"
+msgstr "Image elements should have `[alt]` attributes ({0})"
 
 msgid "image-alt (resolved)"
-msgstr "image-alt (resolved)"
+msgstr "Image elements have `[alt]` attributes (resolved)"
 
 msgid "image-redundant-alt (unresolved)"
-msgstr "image-redundant-alt ({0})"
+msgstr "Image elements should not have `[alt]` attributes that are redundant text ({0})"
 
 msgid "image-redundant-alt (resolved)"
-msgstr "image-redundant-alt (resolved)"
+msgstr "Image elements do not have `[alt]` attributes that are redundant text (resolved)"
 
 msgid "link-in-text-block (unresolved)"
-msgstr "link-in-text-block ({0})"
+msgstr "Links are npt distinguishable without relying on color ({0})"
 
 msgid "link-in-text-block (resolved)"
-msgstr "link-in-text-block (resolved)"
+msgstr "Links are distinguishable without relying on color (resolved)"
 
 msgid "link-name (unresolved)"
-msgstr "link-name ({0})"
+msgstr "Links should have a discernible name ({0})"
 
 msgid "link-name (resolved)"
-msgstr "link-name (resolved)"
+msgstr "Links have a discernible name (resolved)"
 
 msgid "list (unresolved)"
-msgstr "list ({0})"
+msgstr "Lists should contain only `<li>` elements and script supporting elements (`<script>` and `<template>`) ({0})"
 
 msgid "list (resolved)"
-msgstr "list (resolved)"
+msgstr "Lists contain only `<li>` elements and script supporting elements (`<script>` and `<template>`) (resolved)"
 
 msgid "listitem (unresolved)"
-msgstr "listitem ({0})"
+msgstr "List items (`<li>`) are not contained within `<ul>`, `<ol>` or `<menu>` parent elements ({0})"
 
 msgid "listitem (resolved)"
-msgstr "listitem (resolved)"
+msgstr "List items (`<li>`) are contained within `<ul>`, `<ol>` or `<menu>` parent elements (resolved)"
 
 msgid "meta-viewport (unresolved)"
-msgstr "meta-viewport ({0})"
+msgstr "`[user-scalable=\"no\"]` is used in the `<meta name=\"viewport\">` element or the `[maximum-scale]` attribute is less than 5 ({0})"
 
 msgid "meta-viewport (resolved)"
-msgstr "meta-viewport (resolved)"
+msgstr "`[user-scalable=\"no\"]` is not used in the `<meta name=\"viewport\">` element and the `[maximum-scale]` attribute is not less than 5 (resolved)"
 
 msgid "target-size (unresolved)"
-msgstr "target-size ({0})"
+msgstr "Touch targets should have sufficient size and spacing ({0})"
 
 msgid "target-size (resolved)"
-msgstr "target-size (resolved)"
+msgstr "Touch targets have sufficient size and spacing (resolved)"
 
 msgid "is-on-https (unresolved)"
-msgstr "is-on-https ({0})"
+msgstr "Is not using HTTPS ({0})"
 
 msgid "is-on-https (resolved)"
-msgstr "is-on-https (resolved)"
-
-msgid "geolocation-on-start (unresolved)"
-msgstr "geolocation-on-start ({0})"
-
-msgid "geolocation-on-start (resolved)"
-msgstr "geolocation-on-start (resolved)"
-
-msgid "notification-on-start (unresolved)"
-msgstr "notification-on-start ({0})"
-
-msgid "notification-on-start (resolved)"
-msgstr "notification-on-start (resolved)"
-
-msgid "csp-xss (unresolved)"
-msgstr "csp-xss ({0})"
-
-msgid "csp-xss (resolved)"
-msgstr "csp-xss (resolved)"
-
-msgid "has-hsts (unresolved)"
-msgstr "has-hsts ({0})"
-
-msgid "has-hsts (resolved)"
-msgstr "has-hsts (resolved)"
-
-msgid "origin-isolation (unresolved)"
-msgstr "origin-isolation ({0})"
-
-msgid "origin-isolation (resolved)"
-msgstr "origin-isolation (resolved)"
-
-msgid "paste-preventing-inputs (unresolved)"
-msgstr "paste-preventing-inputs ({0})"
-
-msgid "paste-preventing-inputs (resolved)"
-msgstr "paste-preventing-inputs (resolved)"
-
-msgid "image-aspect-ratio (unresolved)"
-msgstr "image-aspect-ratio ({0})"
-
-msgid "image-aspect-ratio (resolved)"
-msgstr "image-aspect-ratio (resolved)"
-
-msgid "image-size-responsive (unresolved)"
-msgstr "image-size-responsive ({0})"
-
-msgid "image-size-responsive (resolved)"
-msgstr "image-size-responsive (resolved)"
-
-msgid "font-size (unresolved)"
-msgstr "font-size ({0})"
-
-msgid "font-size (resolved)"
-msgstr "font-size (resolved)"
-
-msgid "doctype (unresolved)"
-msgstr "doctype ({0})"
-
-msgid "doctype (resolved)"
-msgstr "doctype (resolved)"
-
-msgid "charset (unresolved)"
-msgstr "charset ({0})"
-
-msgid "charset (resolved)"
-msgstr "charset (resolved)"
-
-msgid "js-libraries (unresolved)"
-msgstr "js-libraries ({0})"
-
-msgid "js-libraries (resolved)"
-msgstr "js-libraries (resolved)"
-
-msgid "deprecations (unresolved)"
-msgstr "deprecations ({0})"
-
-msgid "deprecations (resolved)"
-msgstr "deprecations (resolved)"
-
-msgid "third-party-cookies (unresolved)"
-msgstr "third-party-cookies ({0})"
-
-msgid "third-party-cookies (resolved)"
-msgstr "third-party-cookies (resolved)"
-
-msgid "errors-in-console (unresolved)"
-msgstr "errors-in-console ({0})"
-
-msgid "errors-in-console (resolved)"
-msgstr "errors-in-console (resolved)"
-
-msgid "valid-source-maps (unresolved)"
-msgstr "valid-source-maps ({0})"
-
-msgid "valid-source-maps (resolved)"
-msgstr "valid-source-maps (resolved)"
-
-msgid "inspector-issues (unresolved)"
-msgstr "inspector-issues ({0})"
-
-msgid "inspector-issues (resolved)"
-msgstr "inspector-issues (resolved)"
-
-msgid "is-crawlable (unresolved)"
-msgstr "is-crawlable ({0})"
-
-msgid "is-crawlable (resolved)"
-msgstr "is-crawlable (resolved)"
-
-msgid "meta-description (unresolved)"
-msgstr "meta-description ({0})"
-
-msgid "meta-description (resolved)"
-msgstr "meta-description (resolved)"
-
-msgid "http-status-code (unresolved)"
-msgstr "http-status-code ({0})"
-
-msgid "http-status-code (resolved)"
-msgstr "http-status-code (resolved)"
-
-msgid "link-text (unresolved)"
-msgstr "link-text ({0})"
-
-msgid "link-text (resolved)"
-msgstr "link-text (resolved)"
-
-msgid "crawlable-anchors (unresolved)"
-msgstr "crawlable-anchors ({0})"
-
-msgid "crawlable-anchors (resolved)"
-msgstr "crawlable-anchors (resolved)"
-
-msgid "robots-txt (unresolved)"
-msgstr "robots-txt ({0})"
-
-msgid "robots-txt (resolved)"
-msgstr "robots-txt (resolved)"
-
-msgid "hreflang (unresolved)"
-msgstr "hreflang ({0})"
-
-msgid "hreflang (resolved)"
-msgstr "hreflang (resolved)"
-
-msgid "canonical (unresolved)"
-msgstr "canonical ({0})"
-
-msgid "canonical (resolved)"
-msgstr "canonical (resolved)"
-
-msgid "critical-request-chains (unresolved)"
-msgstr "critical-request-chains ({0})"
-
-msgid "critical-request-chains (resolved)"
-msgstr "critical-request-chains (resolved)"
-
-msgid "input-button-name (unresolved)"
-msgstr "input-button-name ({0})"
-
-msgid "input-button-name (resolved)"
-msgstr "input-button-name (resolved)"
-
-msgid "label (unresolved)"
-msgstr "label ({0})"
-
-msgid "label (resolved)"
-msgstr "label (resolved)"
-
-msgid "first-meaningful-paint (unresolved)"
-msgstr "first-meaningful-paint ({0})"
-
-msgid "first-meaningful-paint (resolved)"
-msgstr "first-meaningful-paint (resolved)"
-
-msgid "prioritize-lcp-image (unresolved)"
-msgstr "prioritize-lcp-image ({0})"
-
-msgid "prioritize-lcp-image (resolved)"
-msgstr "prioritize-lcp-image (resolved)"
-
-msgid "user-timings (unresolved)"
-msgstr "user-timings ({0})"
-
-msgid "user-timings (resolved)"
-msgstr "user-timings (resolved)"
-
-msgid "third-party-summary (unresolved)"
-msgstr "third-party-summary ({0})"
-
-msgid "third-party-summary (resolved)"
-msgstr "third-party-summary (resolved)"
-
-msgid "third-party-facades (unresolved)"
-msgstr "third-party-facades ({0})"
-
-msgid "third-party-facades (resolved)"
-msgstr "third-party-facades (resolved)"
-
-msgid "lcp-lazy-loaded (unresolved)"
-msgstr "lcp-lazy-loaded ({0})"
-
-msgid "lcp-lazy-loaded (resolved)"
-msgstr "lcp-lazy-loaded (resolved)"
-
-msgid "non-composited-animations (unresolved)"
-msgstr "non-composited-animations ({0})"
-
-msgid "non-composited-animations (resolved)"
-msgstr "non-composited-animations (resolved)"
-
-msgid "accesskeys (unresolved)"
-msgstr "accesskeys ({0})"
-
-msgid "accesskeys (resolved)"
-msgstr "accesskeys (resolved)"
-
-msgid "aria-command-name (unresolved)"
-msgstr "aria-command-name ({0})"
-
-msgid "aria-command-name (resolved)"
-msgstr "aria-command-name (resolved)"
-
-msgid "aria-dialog-name (unresolved)"
-msgstr "aria-dialog-name ({0})"
-
-msgid "aria-dialog-name (resolved)"
-msgstr "aria-dialog-name (resolved)"
-
-msgid "aria-input-field-name (unresolved)"
-msgstr "aria-input-field-name ({0})"
-
-msgid "aria-input-field-name (resolved)"
-msgstr "aria-input-field-name (resolved)"
-
-msgid "aria-meter-name (unresolved)"
-msgstr "aria-meter-name ({0})"
-
-msgid "aria-meter-name (resolved)"
-msgstr "aria-meter-name (resolved)"
-
-msgid "aria-progressbar-name (unresolved)"
-msgstr "aria-progressbar-name ({0})"
-
-msgid "aria-progressbar-name (resolved)"
-msgstr "aria-progressbar-name (resolved)"
-
-msgid "aria-required-children (unresolved)"
-msgstr "aria-required-children ({0})"
-
-msgid "aria-required-children (resolved)"
-msgstr "aria-required-children (resolved)"
-
-msgid "aria-required-parent (unresolved)"
-msgstr "aria-required-parent ({0})"
-
-msgid "aria-required-parent (resolved)"
-msgstr "aria-required-parent (resolved)"
-
-msgid "aria-text (unresolved)"
-msgstr "aria-text ({0})"
-
-msgid "aria-text (resolved)"
-msgstr "aria-text (resolved)"
-
-msgid "aria-toggle-field-name (unresolved)"
-msgstr "aria-toggle-field-name ({0})"
-
-msgid "aria-toggle-field-name (resolved)"
-msgstr "aria-toggle-field-name (resolved)"
-
-msgid "aria-tooltip-name (unresolved)"
-msgstr "aria-tooltip-name ({0})"
-
-msgid "aria-tooltip-name (resolved)"
-msgstr "aria-tooltip-name (resolved)"
-
-msgid "aria-treeitem-name (unresolved)"
-msgstr "aria-treeitem-name ({0})"
-
-msgid "aria-treeitem-name (resolved)"
-msgstr "aria-treeitem-name (resolved)"
-
-msgid "bypass (unresolved)"
-msgstr "bypass ({0})"
-
-msgid "bypass (resolved)"
-msgstr "bypass (resolved)"
-
-msgid "definition-list (unresolved)"
-msgstr "definition-list ({0})"
-
-msgid "definition-list (resolved)"
-msgstr "definition-list (resolved)"
-
-msgid "dlitem (unresolved)"
-msgstr "dlitem ({0})"
-
-msgid "dlitem (resolved)"
-msgstr "dlitem (resolved)"
-
-msgid "duplicate-id-aria (unresolved)"
-msgstr "duplicate-id-aria ({0})"
-
-msgid "duplicate-id-aria (resolved)"
-msgstr "duplicate-id-aria (resolved)"
-
-msgid "form-field-multiple-labels (unresolved)"
-msgstr "form-field-multiple-labels ({0})"
-
-msgid "form-field-multiple-labels (resolved)"
-msgstr "form-field-multiple-labels (resolved)"
-
-msgid "frame-title (unresolved)"
-msgstr "frame-title ({0})"
-
-msgid "frame-title (resolved)"
-msgstr "frame-title (resolved)"
-
-msgid "html-xml-lang-mismatch (unresolved)"
-msgstr "html-xml-lang-mismatch ({0})"
-
-msgid "html-xml-lang-mismatch (resolved)"
-msgstr "html-xml-lang-mismatch (resolved)"
-
-msgid "input-image-alt (unresolved)"
-msgstr "input-image-alt ({0})"
-
-msgid "input-image-alt (resolved)"
-msgstr "input-image-alt (resolved)"
-
-msgid "meta-refresh (unresolved)"
-msgstr "meta-refresh ({0})"
-
-msgid "meta-refresh (resolved)"
-msgstr "meta-refresh (resolved)"
-
-msgid "object-alt (unresolved)"
-msgstr "object-alt ({0})"
-
-msgid "object-alt (resolved)"
-msgstr "object-alt (resolved)"
-
-msgid "select-name (unresolved)"
-msgstr "select-name ({0})"
-
-msgid "select-name (resolved)"
-msgstr "select-name (resolved)"
-
-msgid "skip-link (unresolved)"
-msgstr "skip-link ({0})"
-
-msgid "skip-link (resolved)"
-msgstr "skip-link (resolved)"
-
-msgid "tabindex (unresolved)"
-msgstr "tabindex ({0})"
-
-msgid "tabindex (resolved)"
-msgstr "tabindex (resolved)"
-
-msgid "table-duplicate-name (unresolved)"
-msgstr "table-duplicate-name ({0})"
-
-msgid "table-duplicate-name (resolved)"
-msgstr "table-duplicate-name (resolved)"
-
-msgid "td-headers-attr (unresolved)"
-msgstr "td-headers-attr ({0})"
-
-msgid "td-headers-attr (resolved)"
-msgstr "td-headers-attr (resolved)"
-
-msgid "th-has-data-cells (unresolved)"
-msgstr "th-has-data-cells ({0})"
-
-msgid "th-has-data-cells (resolved)"
-msgstr "th-has-data-cells (resolved)"
-
-msgid "valid-lang (unresolved)"
-msgstr "valid-lang ({0})"
-
-msgid "valid-lang (resolved)"
-msgstr "valid-lang (resolved)"
-
-msgid "video-caption (unresolved)"
-msgstr "video-caption ({0})"
-
-msgid "video-caption (resolved)"
-msgstr "video-caption (resolved)"
-
-msgid "focusable-controls (unresolved)"
-msgstr "focusable-controls ({0})"
-
-msgid "focusable-controls (resolved)"
-msgstr "focusable-controls (resolved)"
-
-msgid "interactive-element-affordance (unresolved)"
-msgstr "interactive-element-affordance ({0})"
-
-msgid "interactive-element-affordance (resolved)"
-msgstr "interactive-element-affordance (resolved)"
-
-msgid "logical-tab-order (unresolved)"
-msgstr "logical-tab-order ({0})"
-
-msgid "logical-tab-order (resolved)"
-msgstr "logical-tab-order (resolved)"
-
-msgid "visual-order-follows-dom (unresolved)"
-msgstr "visual-order-follows-dom ({0})"
-
-msgid "visual-order-follows-dom (resolved)"
-msgstr "visual-order-follows-dom (resolved)"
-
-msgid "focus-traps (unresolved)"
-msgstr "focus-traps ({0})"
-
-msgid "focus-traps (resolved)"
-msgstr "focus-traps (resolved)"
-
-msgid "managed-focus (unresolved)"
-msgstr "managed-focus ({0})"
-
-msgid "managed-focus (resolved)"
-msgstr "managed-focus (resolved)"
-
-msgid "use-landmarks (unresolved)"
-msgstr "use-landmarks ({0})"
-
-msgid "use-landmarks (resolved)"
-msgstr "use-landmarks (resolved)"
-
-msgid "offscreen-content-hidden (unresolved)"
-msgstr "offscreen-content-hidden ({0})"
-
-msgid "offscreen-content-hidden (resolved)"
-msgstr "offscreen-content-hidden (resolved)"
-
-msgid "custom-controls-labels (unresolved)"
-msgstr "custom-controls-labels ({0})"
-
-msgid "custom-controls-labels (resolved)"
-msgstr "custom-controls-labels (resolved)"
-
-msgid "custom-controls-roles (unresolved)"
-msgstr "custom-controls-roles ({0})"
-
-msgid "custom-controls-roles (resolved)"
-msgstr "custom-controls-roles (resolved)"
-
-msgid "empty-heading (unresolved)"
-msgstr "empty-heading ({0})"
-
-msgid "empty-heading (resolved)"
-msgstr "empty-heading (resolved)"
-
-msgid "identical-links-same-purpose (unresolved)"
-msgstr "identical-links-same-purpose ({0})"
-
-msgid "identical-links-same-purpose (resolved)"
-msgstr "identical-links-same-purpose (resolved)"
-
-msgid "landmark-one-main (unresolved)"
-msgstr "landmark-one-main ({0})"
-
-msgid "landmark-one-main (resolved)"
-msgstr "landmark-one-main (resolved)"
-
-msgid "label-content-name-mismatch (unresolved)"
-msgstr "label-content-name-mismatch ({0})"
-
-msgid "label-content-name-mismatch (resolved)"
-msgstr "label-content-name-mismatch (resolved)"
-
-msgid "table-fake-caption (unresolved)"
-msgstr "table-fake-caption ({0})"
-
-msgid "table-fake-caption (resolved)"
-msgstr "table-fake-caption (resolved)"
-
-msgid "td-has-header (unresolved)"
-msgstr "td-has-header ({0})"
-
-msgid "td-has-header (resolved)"
-msgstr "td-has-header (resolved)"
+msgstr "Uses HTTPS (resolved)"
 
 msgid "redirects-http (unresolved)"
-msgstr "redirects-http ({0})"
+msgstr "Is not redirecting HTTP traffic to HTTPS ({0})"
 
 msgid "redirects-http (resolved)"
-msgstr "redirects-http (resolved)"
+msgstr "Redirects HTTP traffic to HTTPS (resolved)"
 
-msgid "structured-data (unresolved)"
-msgstr "structured-data ({0})"
+msgid "image-size-responsive (unresolved)"
+msgstr "Serves images with low resolution ({0})"
 
-msgid "structured-data (resolved)"
-msgstr "structured-data (resolved)"
+msgid "image-size-responsive (resolved)"
+msgstr "Serves images with low resolution (resolved)"
+
+msgid "aria-required-children (unresolved)"
+msgstr "Elements with an ARIA `[role]` that require children to contain a specific `[role]` have all required children ({0})"
+
+msgid "aria-required-children (resolved)"
+msgstr "Elements with an ARIA `[role]` that require children to contain a specific `[role]` have all required children (resolved)"
+
+msgid "aria-required-parent (unresolved)"
+msgstr "`[role]`s are contained by their required parent element ({0})"
+
+msgid "aria-required-parent (resolved)"
+msgstr "`[role]`s are contained by their required parent element (resolved)"
+
+msgid "inspector-issues (unresolved)"
+msgstr "Issues in the `Issues` panel in Chrome Devtools ({0})"
+
+msgid "inspector-issues (resolved)"
+msgstr "No issues in the `Issues` panel in Chrome Devtools (resolved)"

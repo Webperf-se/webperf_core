@@ -30,175 +30,175 @@ msgstr "Text to show instead of msgid, here independent of severity level"
 
 
 msgid "function-no-unknown (unresolved)"
-msgstr "funktion-okänd ({0})"
+msgstr "CSS, Disallow unknown functions ({0})"
 
 msgid "function-no-unknown (resolved)"
-msgstr "funktion-okänd (löst)"
+msgstr "CSS, Disallow unknown functions (resolved)"
 
 msgid "declaration-property-value-no-unknown (unresolved)"
-msgstr "deklaration-egenskap-värde-okänt ({0})"
+msgstr "CSS, Disallow unknown values for properties within declarations ({0})"
 
 msgid "declaration-property-value-no-unknown (resolved)"
-msgstr "deklaration-egenskap-värde-okänt (löst)"
+msgstr "CSS, Disallow unknown values for properties within declarations (resolved)"
 
 msgid "selector-type-no-unknown (unresolved)"
-msgstr "väljare-typ-okänd ({0})"
+msgstr "CSS, Disallow unknown type selectors ({0})"
 
 msgid "selector-type-no-unknown (resolved)"
-msgstr "väljare-typ-okänd (löst)"
+msgstr "CSS, Disallow unknown type selectors (resolved)"
 
 msgid "at-rule-prelude-no-invalid (unresolved)"
-msgstr "at-regel-inledning-ogiltig ({0})"
+msgstr "CSS, Disallow invalid preludes for at-rules ({0})"
 
 msgid "at-rule-prelude-no-invalid (resolved)"
-msgstr "at-regel-inledning-ogiltig (löst)"
+msgstr "CSS, Disallow invalid preludes for at-rules (resolved)"
 
 msgid "annotation-no-unknown (unresolved)"
-msgstr "annotering-okänd ({0})"
+msgstr "CSS, Disallow unknown annotations ({0})"
 
 msgid "annotation-no-unknown (resolved)"
-msgstr "annotering-okänd (löst)"
+msgstr "CSS, Disallow unknown annotations (resolved)"
 
 msgid "at-rule-descriptor-no-unknown (unresolved)"
-msgstr "at-regel-deskriptor-okänd ({0})"
+msgstr "CSS, Disallow unknown descriptors for at-rules ({0})"
 
 msgid "at-rule-descriptor-no-unknown (resolved)"
-msgstr "at-regel-deskriptor-okänd (löst)"
+msgstr "CSS, Disallow unknown descriptors for at-rules (resolved)"
 
 msgid "at-rule-descriptor-value-no-unknown (unresolved)"
-msgstr "at-regel-deskriptor-värde-okänt ({0})"
+msgstr "CSS, Disallow unknown values for descriptors within at-rules ({0})"
 
 msgid "at-rule-descriptor-value-no-unknown (resolved)"
-msgstr "at-regel-deskriptor-värde-okänt (löst)"
+msgstr "CSS, Disallow unknown values for descriptors within at-rules (resolved)"
 
 msgid "at-rule-no-deprecated (unresolved)"
-msgstr "at-regel-utfasad ({0})"
+msgstr "CSS, Disallow deprecated at-rules ({0})"
 
 msgid "at-rule-no-deprecated (resolved)"
-msgstr "at-regel-utfasad (löst)"
+msgstr "CSS, Disallow deprecated at-rules (resolved)"
 
 msgid "at-rule-no-unknown (unresolved)"
-msgstr "at-regel-okänd ({0})"
+msgstr "CSS, Disallow unknown at-rules ({0})"
 
 msgid "at-rule-no-unknown (resolved)"
-msgstr "at-regel-okänd (löst)"
+msgstr "CSS, Disallow unknown at-rules (resolved)"
 
 msgid "block-no-empty (unresolved)"
-msgstr "block-tomt ({0})"
+msgstr "CSS, Disallow empty blocks ({0})"
 
 msgid "block-no-empty (resolved)"
-msgstr "block-tomt (löst)"
+msgstr "CSS, Disallow empty blocks (resolved)"
 
 msgid "color-no-invalid-hex (unresolved)"
-msgstr "färg-ogiltig-hex ({0})"
+msgstr "CSS, Disallow invalid hex colors ({0})"
 
 msgid "color-no-invalid-hex (resolved)"
-msgstr "färg-ogiltig-hex (löst)"
+msgstr "CSS, Disallow invalid hex colors (resolved)"
 
 msgid "comment-no-empty (unresolved)"
-msgstr "kommentar-tom ({0})"
+msgstr "CSS, Disallow empty comments ({0})"
 
 msgid "comment-no-empty (resolved)"
-msgstr "kommentar-tom (löst)"
+msgstr "CSS, Disallow empty comments (resolved)"
 
 msgid "declaration-property-value-keyword-no-deprecated (unresolved)"
-msgstr "deklaration-egenskap-värde-nyckelord-utfasat ({0})"
+msgstr "CSS, Disallow deprecated keywords for properties within declarations ({0})"
 
 msgid "declaration-property-value-keyword-no-deprecated (resolved)"
-msgstr "deklaration-egenskap-värde-nyckelord-utfasat (löst)"
+msgstr "CSS, Disallow deprecated keywords for properties within declarations (resolved)"
 
 msgid "function-linear-gradient-no-nonstandard-direction (unresolved)"
-msgstr "funktion-linjär-gradient-icke-standard-riktning ({0})"
+msgstr "CSS, Disallow non-standard direction values for linear gradient functions ({0})"
 
 msgid "function-linear-gradient-no-nonstandard-direction (resolved)"
-msgstr "funktion-linjär-gradient-icke-standard-riktning (löst)"
+msgstr "CSS, Disallow non-standard direction values for linear gradient functions (resolved)"
 
 msgid "media-feature-name-no-unknown (unresolved)"
-msgstr "media-egenskap-namn-okänt ({0})"
+msgstr "CSS, Disallow unknown media feature names ({0})"
 
 msgid "media-feature-name-no-unknown (resolved)"
-msgstr "media-egenskap-namn-okänt (löst)"
+msgstr "CSS, Disallow unknown media feature names (resolved)"
 
 msgid "media-feature-name-value-no-unknown (unresolved)"
-msgstr "media-egenskap-namn-värde-okänt ({0})"
+msgstr "CSS, Disallow unknown values for media features ({0})"
 
 msgid "media-feature-name-value-no-unknown (resolved)"
-msgstr "media-egenskap-namn-värde-okänt (löst)"
+msgstr "CSS, Disallow unknown values for media features (resolved)"
 
 msgid "media-query-no-invalid (unresolved)"
-msgstr "media-fråga-ogiltig ({0})"
+msgstr "CSS, Disallow invalid media queries ({0})"
 
 msgid "media-query-no-invalid (resolved)"
-msgstr "media-fråga-ogiltig (löst)"
+msgstr "CSS, Disallow invalid media queries (resolved)"
 
 msgid "named-grid-areas-no-invalid (unresolved)"
-msgstr "namngivna-rutnät-områden-ogiltiga ({0})"
+msgstr "CSS, Disallow invalid named grid areas ({0})"
 
 msgid "named-grid-areas-no-invalid (resolved)"
-msgstr "namngivna-rutnät-områden-ogiltiga (löst)"
+msgstr "CSS, Disallow invalid named grid areas (resolved)"
 
 msgid "no-empty-source (unresolved)"
-msgstr "ingen-tom-källkod ({0})"
+msgstr "CSS, Disallow empty sources ({0})"
 
 msgid "no-empty-source (resolved)"
-msgstr "ingen-tom-källkod (löst)"
+msgstr "CSS, Disallow empty sources (resolved)"
 
 msgid "no-invalid-double-slash-comments (unresolved)"
-msgstr "inga-ogiltiga-dubbel-snedstreck-kommentarer ({0})"
+msgstr "CSS, Disallow invalid double-slash comments ({0})"
 
 msgid "no-invalid-double-slash-comments (resolved)"
-msgstr "inga-ogiltiga-dubbel-snedstreck-kommentarer (löst)"
+msgstr "CSS, Disallow invalid double-slash comments (resolved)"
 
 msgid "no-invalid-position-at-import-rule (unresolved)"
-msgstr "ingen-ogiltig-position-för-import-regel ({0})"
+msgstr "CSS, Disallow invalid position `@import` rules ({0})"
 
 msgid "no-invalid-position-at-import-rule (resolved)"
-msgstr "ingen-ogiltig-position-för-import-regel (löst)"
+msgstr "CSS, Disallow invalid position `@import` rules (resolved)"
 
 msgid "no-unknown-animations (unresolved)"
-msgstr "inga-okända-animeringar ({0})"
+msgstr "CSS, Disallow unknown animations ({0})"
 
 msgid "no-unknown-animations (resolved)"
-msgstr "inga-okända-animeringar (löst)"
+msgstr "CSS, Disallow unknown animations (resolved)"
 
 msgid "no-unknown-custom-media (unresolved)"
-msgstr "inga-okända-anpassade-media ({0})"
+msgstr "CSS, Disallow unknown custom media queries ({0})"
 
 msgid "no-unknown-custom-media (resolved)"
-msgstr "inga-okända-anpassade-media (löst)"
+msgstr "CSS, Disallow unknown custom media queries (resolved)"
 
 msgid "no-unknown-custom-properties (unresolved)"
-msgstr "inga-okända-anpassade-egenskaper ({0})"
+msgstr "CSS, Disallow unknown custom properties ({0})"
 
 msgid "no-unknown-custom-properties (resolved)"
-msgstr "inga-okända-anpassade-egenskaper (löst)"
+msgstr "CSS, Tillåt inte okända egna egenskaper (löst)"
 
 msgid "property-no-unknown (unresolved)"
-msgstr "egenskap-okänd ({0})"
+msgstr "CSS, Tillåt inte okända egenskaper ({0})"
 
 msgid "property-no-unknown (resolved)"
-msgstr "egenskap-okänd (löst)"
+msgstr "CSS, Tillåt inte okända egenskaper (löst)"
 
 msgid "selector-pseudo-class-no-unknown (unresolved)"
-msgstr "väljare-pseudo-klass-okänd ({0})"
+msgstr "CSS, Tillåt inte okända pseudoklass-selektorer ({0})"
 
 msgid "selector-pseudo-class-no-unknown (resolved)"
-msgstr "väljare-pseudo-klass-okänd (löst)"
+msgstr "CSS, Tillåt inte okända pseudoklass-selektorer (löst)"
 
 msgid "selector-pseudo-element-no-unknown (unresolved)"
-msgstr "väljare-pseudo-element-okänt ({0})"
+msgstr "CSS, Tillåt inte okända pseudoelement-selektorer ({0})"
 
 msgid "selector-pseudo-element-no-unknown (resolved)"
-msgstr "väljare-pseudo-element-okänt (löst)"
+msgstr "CSS, Tillåt inte okända pseudoelement-selektorer (löst)"
 
 msgid "syntax-string-no-invalid (unresolved)"
-msgstr "syntax-sträng-ogiltig ({0})"
+msgstr "CSS, Tillåt inte ogiltiga syntaxsträngar ({0})"
 
 msgid "syntax-string-no-invalid (resolved)"
-msgstr "syntax-sträng-ogiltig (löst)"
+msgstr "CSS, Tillåt inte ogiltiga syntaxsträngar (löst)"
 
 msgid "unit-no-unknown (unresolved)"
-msgstr "enhet-okänd ({0})"
+msgstr "CSS, Tillåt inte okända enheter ({0})"
 
 msgid "unit-no-unknown (resolved)"
-msgstr "enhet-okänd (löst)"
+msgstr "CSS, Tillåt inte okända enheter (löst)"

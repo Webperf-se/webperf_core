@@ -29,55 +29,55 @@ msgstr "Text to show instead of msgid, here independent of severity level"
 # End of Examples
 
 msgid "has-unexpected-404-response (unresolved)"
-msgstr "Has unexpected 404 response ({0})"
+msgstr "Page not found, has unexpected 404 response ({0})"
 
 msgid "has-unexpected-404-response (resolved)"
-msgstr "Has expected 404 response (resolved)"
+msgstr "Page not found, has expected 404 response (resolved)"
 
 msgid "no-valid-title-found (unresolved)"
-msgstr "No valid title found ({0})"
+msgstr "Page not found, no valid title found ({0})"
 
 msgid "no-valid-title-found (resolved)"
-msgstr "Valid title found (resolved)"
+msgstr "Page not found, valid title found (resolved)"
 
 msgid "no-valid-h1-found (unresolved)"
-msgstr "No valid h1 header found ({0})"
+msgstr "Page not found, no valid h1 header found ({0})"
 
 msgid "no-valid-h1-found (resolved)"
-msgstr "Valid h1 header found (resolved)"
+msgstr "Page not found, valid h1 header found (resolved)"
 
 msgid "no-valid-text-found (unresolved)"
-msgstr "No valid text found ({0})"
+msgstr "Page not found, no valid text found ({0})"
 
 msgid "no-valid-text-found (resolved)"
-msgstr "Valid text found (resolved)"
+msgstr "Page not found, valid text found (resolved)"
 
 msgid "invalid-text-found (unresolved)"
-msgstr "Invalid text found ({0})"
+msgstr "Page not found, invalid text found ({0})"
 
 msgid "invalid-text-found (resolved)"
-msgstr "Valid text found (resolved)"
+msgstr "Page not found, valid text found (resolved)"
 
 msgid "no-valid-response-status-code (unresolved)"
-msgstr "No valid 404 response status code used ({0})"
+msgstr "Page not found, no valid 404 response status code used ({0})"
 
 msgid "no-valid-response-status-code (resolved)"
-msgstr "Valid 404 response status code used (resolved)"
+msgstr "Page not found, valid 404 response status code used (resolved)"
 
 msgid "no-unsupported-locale-use (unresolved)"
-msgstr "Unsupported locale used ({0})"
+msgstr "Page not found, unsupported locale used ({0})"
 
 msgid "no-unsupported-locale-use (resolved)"
-msgstr "Used supported locale (resolved)"
+msgstr "Page not found, used supported locale (resolved)"
 
 msgid "no-valid-not-found-text-in-body (unresolved)"
-msgstr "No valid body text found, may because it is too short ({0})"
+msgstr "Page not found, no valid body text found, may because it is too short ({0})"
 
 msgid "no-valid-not-found-text-in-body (resolved)"
-msgstr "Valid body text found (resolved)"
+msgstr "Page not found, valid body text found (resolved)"
 
 msgid "no-network (unresolved)"
-msgstr "No network ({0})"
+msgstr "Page not found, no network ({0})"
 
 msgid "no-network (resolved)"
-msgstr "Network is usable (resolved)"
+msgstr "Page not found, network is usable (resolved)"

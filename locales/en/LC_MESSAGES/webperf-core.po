@@ -149,3 +149,15 @@ msgstr "More info"
 
 msgid "TEXT_DETAILS_URLS_WITH_ISSUES"
 msgstr "Url(s) with issues"
+
+msgid "TEXT_SEVERITY_CRITICAL"
+msgstr "critical"
+
+msgid "TEXT_SEVERITY_ERROR"
+msgstr "error"
+
+msgid "TEXT_SEVERITY_WARNING"
+msgstr "warning"
+
+msgid "TEXT_SEVERITY_RESOLVED"
+msgstr "resolved"

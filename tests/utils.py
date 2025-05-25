@@ -1074,9 +1074,10 @@ def calculate_rating(global_translation, rating, result_dict):
             if get_config('general.review.improve-only') and issue["severity"] == "resolved":
                 continue
 
+            severity_text = global_translation(f"TEXT_SEVERITY_{issue['severity'].upper()}")
             text = None
             if 'test' not in issue:
-                text = f"{issue['rule']} ({issue['severity']})"
+                text = f"{issue['rule']} ({severity_text})"
             elif 'text' in issue:
                 text = issue['text']
             else:
@@ -1098,7 +1099,7 @@ def calculate_rating(global_translation, rating, result_dict):
                         )
                     text = local_translation(text_primarykey)
                     if '{0}' in text:
-                            text = local_translation(text_primarykey).format(issue['severity'])
+                            text = local_translation(text_primarykey).format(severity_text)
                     if text == text_primarykey:
                         print(f"no translation found for: {issue['test']}, and language: {get_config('general.language')}. Adding it so you can translate it.")
                         create_or_append_translation(issue['test'], get_config('general.language'), text_secondarykey)

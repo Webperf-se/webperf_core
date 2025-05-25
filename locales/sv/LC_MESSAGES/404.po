@@ -29,7 +29,7 @@ msgstr "Text to show instead of msgid, here independent of severity level"
 # End of Examples
 
 msgid "has-unexpected-404-response (unresolved)"
-msgstr "Har oväntat 404-svar (olöst)"
+msgstr "Har oväntat 404-svar ({0})"
 
 msgid "has-unexpected-404-response (resolved)"
 msgstr "Har korrekt 404-svar"

@@ -32,19 +32,19 @@ msgid "has-unexpected-404-response (unresolved)"
 msgstr "Har oväntat 404-svar ({0})"
 
 msgid "has-unexpected-404-response (resolved)"
-msgstr "Har korrekt 404-svar"
+msgstr "Har korrekt 404-svar (löst)"
 
 msgid "no-valid-title-found (unresolved)"
 msgstr "Ingen giltig titel hittades ({0})"
 
 msgid "no-valid-title-found (resolved)"
-msgstr "Giltig titel hittad"
+msgstr "Giltig titel hittad (löst)"
 
 msgid "no-valid-h1-found (unresolved)"
 msgstr "Ingen giltig h1 hittades ({0})"
 
 msgid "no-valid-h1-found (resolved)"
-msgstr "Korrekt h1 hittades"
+msgstr "Korrekt h1 hittades (löst)"
 
 msgid "no-valid-text-found (unresolved)"
 msgstr "ingen-giltig-text-hittad ({0})"
@@ -62,7 +62,7 @@ msgid "no-valid-response-status-code (unresolved)"
 msgstr "Felaktig svarskod ({0})"
 
 msgid "no-valid-response-status-code (resolved)"
-msgstr "Korrekt svarskod"
+msgstr "Korrekt svarskod (löst)"
 
 msgid "no-unsupported-locale-use (unresolved)"
 msgstr "ingen-ickestödd-användning-av-språk ({0})"
@@ -80,4 +80,4 @@ msgid "no-network (unresolved)"
 msgstr "Inget nätverk ({0})"
 
 msgid "no-network (resolved)"
-msgstr "Nätverk fungerar"
+msgstr "Nätverk fungerar (löst)"

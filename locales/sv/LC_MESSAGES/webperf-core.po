@@ -149,3 +149,15 @@ msgstr "Mer information"
 
 msgid "TEXT_DETAILS_URLS_WITH_ISSUES"
 msgstr "Webbadress(er) med förbättringspotential"
+
+msgid "TEXT_SEVERITY_CRITICAL"
+msgstr "kritiskt fel"
+
+msgid "TEXT_SEVERITY_ERROR"
+msgstr "fel"
+
+msgid "TEXT_SEVERITY_WARNING"
+msgstr "varning"
+
+msgid "TEXT_SEVERITY_RESOLVED"
+msgstr "löst"

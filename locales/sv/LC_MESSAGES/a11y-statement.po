@@ -30,10 +30,10 @@ msgstr "Text to show instead of msgid, here independent of severity level"
 
 
 msgid "compatible-word-partly (unresolved)"
-msgstr "Delvis följsam ({0})"
+msgstr "Anger själv att webbplats endast är delvis följsam ({0})"
 
 msgid "compatible-word-partly (resolved)"
-msgstr "Delvis följsam (löst)"
+msgstr "Anger själv att webbplats endast är delvis följsam (löst)"
 
 msgid "no-network (unresolved)"
 msgstr "Inget nätverk ({0})"
@@ -81,13 +81,13 @@ msgid "no-evaluation-method (unresolved)"
 msgstr "Anger ingen utvärderingsmetod ({0})"
 
 msgid "no-evaluation-method (resolved)"
-msgstr "Anger sin utvärderingsmetod"
+msgstr "Anger sin utvärderingsmetod (löst)"
 
 msgid "has-canonical-notification-function-link (unresolved)"
 msgstr "Har inte korrekt länk för anmälan ({0})"
 
 msgid "has-canonical-notification-function-link (resolved)"
-msgstr "Har korrekt länk för anmälan"
+msgstr "Har korrekt länk för anmälan (löst)"
 
 msgid "has-old-notification-function-link (unresolved)"
 msgstr "Har en gammal länk för anmälan ({0})"
@@ -99,19 +99,19 @@ msgid "no-notification-function-link (unresolved)"
 msgstr "Ingen länk för anmälan-funktion ({0})"
 
 msgid "no-notification-function-link (resolved)"
-msgstr "Har länk för anmälan-funktion"
+msgstr "Har länk för anmälan-funktion (löst)"
 
 msgid "compatible-word-not (unresolved)"
-msgstr "ej-kompatibelt-ord ({0})"
+msgstr "Anger själv att webbplats ej är kompatibel ({0})"
 
 msgid "compatible-word-not (resolved)"
-msgstr "ej-kompatibelt-ord (löst)"
+msgstr "Anger själv att webbplats ej är kompatibel (löst)"
 
 msgid "no-compatible-word (unresolved)"
-msgstr "inget-kompatibelt-ord ({0})"
+msgstr "Ingen text om följdsamhet hittades ({0})"
 
 msgid "no-compatible-word (resolved)"
-msgstr "inget-kompatibelt-ord (löst)"
+msgstr "Ingen text om följdsamhet hittades (löst)"
 
 msgid "has-unreasonably-burdensome-accommodation (unresolved)"
 msgstr "Hävdar oskäligt betungande anpassning ({0})"
@@ -123,4 +123,4 @@ msgid "no-a11y-statement (unresolved)"
 msgstr "Ingen tillgänglighetsredogörelse hittades ({0})"
 
 msgid "no-a11y-statement (resolved)"
-msgstr "Tillgänglighetsredogörelse hittad"
+msgstr "Tillgänglighetsredogörelse hittad (löst)"

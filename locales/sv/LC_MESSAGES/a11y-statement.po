@@ -81,13 +81,13 @@ msgid "no-evaluation-method (unresolved)"
 msgstr "Anger ingen utvärderingsmetod ({0})"
 
 msgid "no-evaluation-method (resolved)"
-msgstr "Anger sin utvärderingsmetod"
+msgstr "Anger sin utvärderingsmetod (löst)"
 
 msgid "has-canonical-notification-function-link (unresolved)"
 msgstr "Har inte korrekt länk för anmälan ({0})"
 
 msgid "has-canonical-notification-function-link (resolved)"
-msgstr "Har korrekt länk för anmälan"
+msgstr "Har korrekt länk för anmälan (löst)"
 
 msgid "has-old-notification-function-link (unresolved)"
 msgstr "Har en gammal länk för anmälan ({0})"
@@ -99,7 +99,7 @@ msgid "no-notification-function-link (unresolved)"
 msgstr "Ingen länk för anmälan-funktion ({0})"
 
 msgid "no-notification-function-link (resolved)"
-msgstr "Har länk för anmälan-funktion"
+msgstr "Har länk för anmälan-funktion (löst)"
 
 msgid "compatible-word-not (unresolved)"
 msgstr "ej-kompatibelt-ord ({0})"
@@ -123,4 +123,4 @@ msgid "no-a11y-statement (unresolved)"
 msgstr "Ingen tillgänglighetsredogörelse hittades ({0})"
 
 msgid "no-a11y-statement (resolved)"
-msgstr "Tillgänglighetsredogörelse hittad"
+msgstr "Tillgänglighetsredogörelse hittad (löst)"

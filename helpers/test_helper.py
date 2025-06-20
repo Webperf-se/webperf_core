@@ -282,6 +282,7 @@ def test_site(global_translation, site, test_types):
     """
     tests = []
 
+    site_id = site[0]
     sitespeed_plugins = ''
     other_tests = []
     for test_id in TEST_ALL_FUNCS:
@@ -336,7 +337,7 @@ def test_site(global_translation, site, test_types):
 
 
         site_test = SiteTests(
-            -1,  # site_id is not used in this case
+            site_id,
             type_of_test=-1,
             rating=rating,
             test_date=datetime.now(),

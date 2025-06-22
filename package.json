@@ -26,37 +26,16 @@
     "plugin-accessibility-statement": "2025.6.0",
     "plugin-webperf-core": "2025.6.0"
   },
-  "lint-staged": {
-    "*.js": [
-      "npm run lint:fix",
-      "prettier --write --single-quote",
-      "git add"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "devDependencies": {
     "eslint": "9.29.0",
-    "eslint-config-prettier": "10.1.5",
-    "eslint-plugin-prettier": "5.4.1",
-    "eslint-plugin-unicorn": "59.0.1",
-    "husky": "9.1.7",
-    "lint-staged": "16.1.2",
-    "prettier": "3.5.3",
     "serve": "14.2.4",
-    "serve-handler": "6.1.6",
-    "typescript": "5.8.3"
+    "serve-handler": "6.1.6"
   },
   "scripts": {
-    "test": "ava",
     "start-server": "serve unittests/data/",
     "stop-server": "sudo pkill serve",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "eslint-check": "eslint --print-config .eslintrc.json | eslint-config-prettier-check"
+    "lint:fix": "eslint . --fix"
   },
   "engines": {
     "node": ">=20.x"

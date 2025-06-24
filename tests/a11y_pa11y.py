@@ -54,7 +54,7 @@ def run_test(global_translation, url):
 
     errors = json_result
 
-    return_dict['groups'][domain]['issues'] = get_unique_errors(errors)
+    return_dict['groups'][domain]['issues'] = get_unique_errors(url, errors)
     return_dict['groups'][domain]['issues'] = flatten_issues_dict(return_dict['groups'][domain]['issues'])
 
     rating = Rating(
@@ -64,7 +64,7 @@ def run_test(global_translation, url):
 
     return (rating, return_dict)
 
-def get_unique_errors(errors):
+def get_unique_errors(url, errors):
     """
     Gets unique errors from a list of many errors
 
@@ -89,6 +89,7 @@ def get_unique_errors(errors):
 
             unique_errors[error_review]["subIssues"].append({
                     "test": "pa11y",
+                    "url": url,
                     "text": error_review,
                     "rule": error["code"],
                     "category": "a11y",

@@ -548,19 +548,19 @@ def validate_securitytxt_content(result_dict, content, url):
         addIssue(
                 result_dict,
                 'no-security-txt',
-                security_wellknown_url)
+                url)
         addIssue(
                 result_dict,
                 'invalid-security-txt',
-                security_wellknown_url)
+                url)
         addIssue(
                 result_dict,
                 'no-security-txt-contact',
-                security_wellknown_url)
+                url)
         addIssue(
                 result_dict,
                 'no-security-txt-expires',
-                security_wellknown_url)
+                url)
 
         result_dict['security'] = security_dict
         return

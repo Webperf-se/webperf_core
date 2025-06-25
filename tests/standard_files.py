@@ -506,35 +506,6 @@ def add_security_txt_issues(result_dict):
     security_root_url = root_url + 'security.txt'
     security_root_content = get_http_content(security_root_url, True)
 
-    if security_wellknown_content == '' and security_root_content == '':
-        # Can't find security.txt (not giving us 200 as status code)
-        security_dict['status'] = 'missing'
-        security_dict['txts'][security_wellknown_url] = {
-            'status': 'missing'
-        }
-        security_dict['txts'][security_root_url] = {
-            'status': 'missing'
-        }
-
-        addIssue(
-                result_dict,
-                'no-security-txt',
-                security_wellknown_url)
-        addIssue(
-                result_dict,
-                'invalid-security-txt',
-                security_wellknown_url)
-        addIssue(
-                result_dict,
-                'no-security-txt-contact',
-                security_wellknown_url)
-        addIssue(
-                result_dict,
-                'no-security-txt-expires',
-                security_wellknown_url)
-
-        result_dict['security'] = security_dict
-        return
 
     security_wellknown_result = validate_securitytxt_content(
         result_dict,
@@ -565,6 +536,35 @@ def add_security_txt_issues(result_dict):
 
 def validate_securitytxt_content(result_dict, content, url):
     security_dict = {}
+
+
+    if content == '':
+        # Can't find security.txt (not giving us 200 as status code)
+        security_dict['status'] = 'missing'
+        security_dict['txts'][url] = {
+            'status': 'missing'
+        }
+
+        addIssue(
+                result_dict,
+                'no-security-txt',
+                security_wellknown_url)
+        addIssue(
+                result_dict,
+                'invalid-security-txt',
+                security_wellknown_url)
+        addIssue(
+                result_dict,
+                'no-security-txt-contact',
+                security_wellknown_url)
+        addIssue(
+                result_dict,
+                'no-security-txt-expires',
+                security_wellknown_url)
+
+        result_dict['security'] = security_dict
+        return
+
     if content is None or ('<html' in content.lower()):
         # Html (404 page?) content instead of expected content
         security_dict['severity'] = ALL_RULES['invalid-security-txt']['severity']

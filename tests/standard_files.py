@@ -563,7 +563,7 @@ def validate_securitytxt_content(result_dict, content, url):
                 url)
 
         result_dict['security'] = security_dict
-        return
+        return security_dict
 
     if content is None or ('<html' in content.lower()):
         # Html (404 page?) content instead of expected content

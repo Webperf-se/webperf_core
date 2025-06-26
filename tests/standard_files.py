@@ -138,6 +138,8 @@ def run_test(global_translation, url):
 
 def addResolvedIssues(url, domain, result_dict):
     for rule_id, rule in ALL_RULES.items():
+        if rule_id == 'no-network':
+            continue
         if rule_id not in result_dict['groups'][domain]['issues']:
             addResolvedIssue(result_dict, rule_id, url)
             result_dict['groups'][domain]['issues'][rule_id]['severity'] = 'resolved'

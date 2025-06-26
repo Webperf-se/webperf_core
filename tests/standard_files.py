@@ -145,20 +145,29 @@ def addResolvedIssues(url, domain, result_dict):
 
 def addIssue(result_dict, rule_id, url):
     domain = get_domain(result_dict['url'])
-    result_dict['groups'][domain]['issues'][rule_id] = {
-        'test': 'standard-files',
-        'rule': rule_id,
-        'category': ALL_RULES[rule_id]['category'],
-        'severity': ALL_RULES[rule_id]['severity'],
-        'subIssues': [
-            {
-                'url': url,
-                'rule': rule_id,
-                'category': ALL_RULES[rule_id]['category'],
-                'severity': ALL_RULES[rule_id]['severity']
-            }
-        ]
-    }
+    if rule_id not in result_dict['groups'][domain]['issues']:
+        result_dict['groups'][domain]['issues'][rule_id] = {
+            'test': 'standard-files',
+            'rule': rule_id,
+            'category': ALL_RULES[rule_id]['category'],
+            'severity': ALL_RULES[rule_id]['severity'],
+            'subIssues': [
+                {
+                    'url': url,
+                    'rule': rule_id,
+                    'category': ALL_RULES[rule_id]['category'],
+                    'severity': ALL_RULES[rule_id]['severity']
+                }
+            ]
+        }
+    else:
+        result_dict['groups'][domain]['issues'][rule_id]['subIssues'].append({
+            'url': url,
+            'rule': rule_id,
+            'category': ALL_RULES[rule_id]['category'],
+            'severity': ALL_RULES[rule_id]['severity']
+        })
+
 
 def addResolvedIssue(result_dict, rule_id, url):
     domain = get_domain(result_dict['url'])

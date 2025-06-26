@@ -491,77 +491,74 @@ def add_feed_issues(result_dict):
 def add_security_txt_issues(result_dict):
     root_url = result_dict['root_url']
     security_dict = {
-        'txts': {
-
-        }
+        'txts': {}
     }
 
-    # normal location for security.txt
+    # First, check .well-known/security.txt
     security_wellknown_url = root_url + '.well-known/security.txt'
-    security_wellknown_content = get_http_content(
-        security_wellknown_url, True)
-
-    # Note: security.txt can also be placed in root if
-    # for example technical reasons prohibit use of /.well-known/
-    security_root_url = root_url + 'security.txt'
-    security_root_content = get_http_content(security_root_url, True)
-
-    if security_wellknown_content == '' and security_root_content == '':
-        # Can't find security.txt (not giving us 200 as status code)
-        security_dict['status'] = 'missing'
-        security_dict['txts'][security_wellknown_url] = {
-            'status': 'missing'
-        }
-        security_dict['txts'][security_root_url] = {
-            'status': 'missing'
-        }
-
-        addIssue(
-                result_dict,
-                'no-security-txt',
-                security_wellknown_url)
-        addIssue(
-                result_dict,
-                'invalid-security-txt',
-                security_wellknown_url)
-        addIssue(
-                result_dict,
-                'no-security-txt-contact',
-                security_wellknown_url)
-        addIssue(
-                result_dict,
-                'no-security-txt-expires',
-                security_wellknown_url)
-
-        result_dict['security'] = security_dict
-        return
-
+    security_wellknown_content = get_http_content(security_wellknown_url, True)
     security_wellknown_result = validate_securitytxt_content(
         result_dict,
         security_wellknown_content,
         security_wellknown_url
-        )
-    security_root_result = validate_securitytxt_content(
-        result_dict,
-        security_root_content,
-        security_root_url
-        )
-
+    )
     security_dict['txts'][security_wellknown_url] = security_wellknown_result
-    security_dict['txts'][security_root_url] = security_root_result
+
+    # Only check root location if well-known is missing or wrong content
+    check_root = (security_wellknown_result['status'] == 'missing' or security_wellknown_result['status'] == 'wrong content')
+    if check_root:
+        security_root_url = root_url + 'security.txt'
+        security_root_content = get_http_content(security_root_url, True)
+        security_root_result = validate_securitytxt_content(
+            result_dict,
+            security_root_content,
+            security_root_url
+        )
+        security_dict['txts'][security_root_url] = security_root_result
+    else:
+        # Mark root location as not checked
+        security_dict['txts'][root_url + 'security.txt'] = {
+            'status': 'not checked',
+            'severity': 'resolved'
+        }
+
+    # Now, pass if either location is ok
+    status_ok = False
+    for txt in security_dict['txts'].values():
+        if txt['status'] == 'ok':
+            status_ok = True
+            break
+
+    if status_ok:
+        security_dict['status'] = 'ok'
+        # Remove any previously added issues for security.txt for this result_dict
+        domain = get_domain(result_dict['url'])
+        issues = result_dict['groups'][domain]['issues']
+        for rule_id in ['no-security-txt', 'invalid-security-txt', 'no-security-txt-contact', 'no-security-txt-expires']:
+            if rule_id in issues:
+                # Mark as resolved
+                issues[rule_id]['severity'] = 'resolved'
+    else:
+        # Compose issues for both locations if neither is ok
+        for url, txt in security_dict['txts'].items():
+            if txt['status'] == 'missing':
+                addIssue(result_dict, 'no-security-txt', url)
+                addIssue(result_dict, 'invalid-security-txt', url)
+                addIssue(result_dict, 'no-security-txt-contact', url)
+                addIssue(result_dict, 'no-security-txt-expires', url)
+            elif txt['status'] == 'wrong content':
+                addIssue(result_dict, 'invalid-security-txt', url)
+                # Check which fields are missing
+                if 'contact' in txt.get('status_detail', ''):
+                    addIssue(result_dict, 'no-security-txt-contact', url)
+                if 'expires' in txt.get('status_detail', ''):
+                    addIssue(result_dict, 'no-security-txt-expires', url)
+            elif txt['status'] == 'required contact missing':
+                addIssue(result_dict, 'no-security-txt-contact', url)
+            elif txt['status'] == 'required expires missing':
+                addIssue(result_dict, 'no-security-txt-expires', url)
+
     result_dict['security'] = security_dict
-
-    if security_dict['txts'][security_wellknown_url]['severity'] == security_dict['txts'][security_root_url]['severity']:
-        result_dict['security']['status'] = security_dict['txts'][security_wellknown_url]['status']
-        return
-
-    if security_dict['txts'][security_wellknown_url]['severity'] > security_dict['txts'][security_root_url]['severity']:
-        result_dict['security']['status'] = security_dict['txts'][security_wellknown_url]['status']
-        return
-
-    result_dict['security']['status'] = security_dict['txts'][security_root_url]['status']
-    return
-
 
 def validate_securitytxt_content(result_dict, content, url):
     security_dict = {}

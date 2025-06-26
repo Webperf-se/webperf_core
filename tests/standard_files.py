@@ -515,12 +515,6 @@ def add_security_txt_issues(result_dict):
             security_root_url
         )
         security_dict['txts'][security_root_url] = security_root_result
-    else:
-        # Mark root location as not checked
-        security_dict['txts'][root_url + 'security.txt'] = {
-            'status': 'not checked',
-            'severity': 'resolved'
-        }
 
     # Now, pass if either location is ok
     status_ok = False
@@ -534,10 +528,11 @@ def add_security_txt_issues(result_dict):
         # Remove any previously added issues for security.txt for this result_dict
         domain = get_domain(result_dict['url'])
         issues = result_dict['groups'][domain]['issues']
-        for rule_id in ['no-security-txt', 'invalid-security-txt', 'no-security-txt-contact', 'no-security-txt-expires']:
+        for rule_id in ['no-security-txt', 'invalid-security-txt', 'no-security-txt-contact', 'no-security-txt-expires', 'no-security-txt-expires']:
             if rule_id in issues:
                 # Mark as resolved
                 issues[rule_id]['severity'] = 'resolved'
+                issues[rule_id]['subIssues'] = []                
     else:
         # Compose issues for both locations if neither is ok
         for url, txt in security_dict['txts'].items():
@@ -548,16 +543,19 @@ def add_security_txt_issues(result_dict):
                 addIssue(result_dict, 'no-security-txt-expires', url)
             elif txt['status'] == 'wrong content':
                 addIssue(result_dict, 'invalid-security-txt', url)
-                # Check which fields are missing
-                if 'contact' in txt.get('status_detail', ''):
-                    addIssue(result_dict, 'no-security-txt-contact', url)
-                if 'expires' in txt.get('status_detail', ''):
-                    addIssue(result_dict, 'no-security-txt-expires', url)
             elif txt['status'] == 'required contact missing':
                 addIssue(result_dict, 'no-security-txt-contact', url)
             elif txt['status'] == 'required expires missing':
                 addIssue(result_dict, 'no-security-txt-expires', url)
-
+            elif txt['status'] == 'wrong content, no contact or expires':
+                addIssue(
+                        result_dict,
+                        'no-security-txt-expires',
+                        url)
+                addIssue(
+                        result_dict,
+                        'no-security-txt-contact',
+                        url)
     result_dict['security'] = security_dict
 
 def validate_securitytxt_content(result_dict, content, url):

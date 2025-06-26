@@ -560,7 +560,7 @@ def add_security_txt_issues(result_dict):
 
 def validate_securitytxt_content(result_dict, content, url):
     security_dict = {}
-    if content is None or ('<html' in content.lower()):
+    if content is None or content == '' or ('<html' in content.lower()):
         # Html (404 page?) content instead of expected content
         security_dict['severity'] = ALL_RULES['invalid-security-txt']['severity']
         security_dict['status'] = 'wrong content'

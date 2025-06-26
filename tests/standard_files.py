@@ -554,6 +554,8 @@ def add_security_txt_issues(result_dict):
                 addIssue(result_dict, 'no-security-txt-expires', url)
             elif txt['status'] == 'wrong content':
                 addIssue(result_dict, 'invalid-security-txt', url)
+                addIssue(result_dict, 'no-security-txt-contact', url)
+                addIssue(result_dict, 'no-security-txt-expires', url)
             elif txt['status'] == 'required contact missing':
                 addIssue(result_dict, 'no-security-txt-contact', url)
             elif txt['status'] == 'required expires missing':

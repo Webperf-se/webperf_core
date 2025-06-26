@@ -490,49 +490,39 @@ def add_feed_issues(result_dict):
 
 def add_security_txt_issues(result_dict):
     root_url = result_dict['root_url']
-    security_dict = {
-        'txts': {
+    security_dict = {'txts': {}}
 
-        }
-    }
-
-    # normal location for security.txt
+    # Check .well-known/security.txt first
     security_wellknown_url = root_url + '.well-known/security.txt'
-    security_wellknown_content = get_http_content(
-        security_wellknown_url, True)
-
-    # Note: security.txt can also be placed in root if
-    # for example technical reasons prohibit use of /.well-known/
-    security_root_url = root_url + 'security.txt'
-    security_root_content = get_http_content(security_root_url, True)
-
-
+    security_wellknown_content = get_http_content(security_wellknown_url, True)
     security_wellknown_result = validate_securitytxt_content(
         result_dict,
         security_wellknown_content,
         security_wellknown_url
-        )
-    security_root_result = validate_securitytxt_content(
-        result_dict,
-        security_root_content,
-        security_root_url
-        )
-
+    )
     security_dict['txts'][security_wellknown_url] = security_wellknown_result
-    security_dict['txts'][security_root_url] = security_root_result
-    result_dict['security'] = security_dict
 
-    if security_dict['txts'][security_wellknown_url]['severity'] == security_dict['txts'][security_root_url]['severity']:
-        result_dict['security']['status'] = security_dict['txts'][security_wellknown_url]['status']
+    # Only check root if missing, wrong content, or html/404, but NOT just missing contact or expires
+    if security_wellknown_result.get('status') in ['missing', 'wrong content']:
+        security_root_url = root_url + 'security.txt'
+        security_root_content = get_http_content(security_root_url, True)
+        security_root_result = validate_securitytxt_content(
+            result_dict,
+            security_root_content,
+            security_root_url
+        )
+        security_dict['txts'][security_root_url] = security_root_result
+        # Use the better result
+        if security_root_result.get('status') == 'ok':
+            result_dict['security'] = {'status': 'ok', 'txts': security_dict['txts']}
+            return
+        else:
+            result_dict['security'] = {'status': security_root_result.get('status'), 'txts': security_dict['txts']}
+            return
+    else:
+        # If .well-known/security.txt is found but missing contact or expires, do NOT check root, just report
+        result_dict['security'] = {'status': security_wellknown_result.get('status'), 'txts': security_dict['txts']}
         return
-
-    if security_dict['txts'][security_wellknown_url]['severity'] > security_dict['txts'][security_root_url]['severity']:
-        result_dict['security']['status'] = security_dict['txts'][security_wellknown_url]['status']
-        return
-
-    result_dict['security']['status'] = security_dict['txts'][security_root_url]['status']
-    return
-
 
 def validate_securitytxt_content(result_dict, content, url):
     security_dict = {}

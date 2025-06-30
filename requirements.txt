@@ -4,7 +4,7 @@ requests==2.32.4
 urllib3==2.4.0
 dnspython==2.7.0
 certifi==2025.6.15
-selenium==4.33.0
+selenium==4.34.0
 IP2Location==8.10.5
 Pillow==11.2.1
 OpenCV-Python==4.11.0.86

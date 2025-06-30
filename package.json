@@ -18,7 +18,7 @@
     "@sitespeed.io/plugin": "1.0.0",
     "@sitespeed.io/plugin-lighthouse": "12.3.0",
     "pa11y": "9.0.0",
-    "sitespeed.io": "37.8.0",
+    "sitespeed.io": "37.9.0",
     "plugin-css": "2025.6.3",
     "plugin-html": "2025.6.2",
     "plugin-javascript": "2025.6.1",

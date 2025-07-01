@@ -6,7 +6,7 @@ dnspython==2.7.0
 certifi==2025.6.15
 selenium==4.34.0
 IP2Location==8.10.5
-Pillow==11.2.1
+Pillow==11.3.0
 OpenCV-Python==4.11.0.86
 Numpy==2.2.4
 cryptography==45.0.4

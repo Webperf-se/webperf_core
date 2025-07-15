@@ -23,7 +23,7 @@
     "plugin-html": "2025.7.0",
     "plugin-javascript": "2025.7.2",
     "plugin-pagenotfound": "2025.6.2",
-    "plugin-accessibility-statement": "2025.7.1",
+    "plugin-accessibility-statement": "2025.7.2",
     "plugin-webperf-core": "2025.6.0"
   },
   "devDependencies": {

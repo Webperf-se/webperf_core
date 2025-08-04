@@ -3,7 +3,7 @@ lxml==6.0.0
 requests==2.32.4
 urllib3==2.5.0
 dnspython==2.7.0
-certifi==2025.7.14
+certifi==2025.8.3
 selenium==4.34.2
 IP2Location==8.10.5
 Pillow==11.3.0

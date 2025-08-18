@@ -35,7 +35,7 @@ jobs:
                 version: [2]
     steps:
     - name: Check out repository code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
     - name: Setup python
       uses: actions/setup-python@v5
       with:

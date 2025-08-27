@@ -9,7 +9,6 @@ from datetime import datetime
 import packaging.version
 
 from helpers.setting_helper import get_config
-from helpers.browser_helper import get_chromium_browser
 
 def test_cmd(command):
     process_failsafe_timeout = 600
@@ -31,42 +30,69 @@ def test_cmd(command):
             process.kill()
         return result, 'Not found.'
 
-
 def check_python():
     result, error = test_cmd('python -V')
+    # if python_error is not None or python_error != b'':
+    #     print('\t- Python:', 'ERROR:', python_error)
+    #     return
     if result is None:
         print('\t- Python:', 'ERROR: Unknown return')
         return
 
     version = None
-    regex = r"Python (?P<major>[0-9]+)\.(?P<minor>[0-9]+)"
-    matches = re.finditer(regex, result, re.MULTILINE)
+    regex = r"Python (?P<version>[0-9\.]+)"
+    matches = re.finditer(
+        regex, result, re.MULTILINE)
     for _, match in enumerate(matches, start=1):
-        version = packaging.version.Version(f"{match.group('major')}.{match.group('minor')}")
+        version = match.group('version')
 
     if version is None:
         print('\t- Python:', 'ERROR: Unable to get version')
         return
 
-    # Define acceptable versions, only considering major and minor
-    acceptable_versions = {packaging.version.Version('3.10'), packaging.version.Version('3.11'), 
-                           packaging.version.Version('3.12'), packaging.version.Version('3.13')}
+    version = packaging.version.Version(version)
+    repo_version = packaging.version.Version("3.13")
+    if version.major is not repo_version.major:
+        print('\t- Python:', 'WARNING: wrong major version')
+        return
 
-    if version not in acceptable_versions:
-        print('\t- Python:', 'WARNING: version not in supported range (3.10-3.13)')
+    if version.minor is not repo_version.minor:
+        print('\t- Python:', 'WARNING: wrong minor version')
         return
 
     print('\t- Python:', 'OK')
 
+def check_java():
+    _, result = test_cmd('java -version')
+
+    version = None
+    regex = r"(?P<name>java|openjdk) version \"(?P<version>[0-9\.\_]+)\""
+    matches = re.finditer(
+        regex, result, re.MULTILINE)
+    for _, match in enumerate(matches, start=1):
+        version = match.group('version')
+
+    if version is None:
+        print('\t- Java:', 'ERROR: Unable to get version')
+        return
+
+    # TODO: Check java version
+
+    print('\t- Java:', 'OK')
+
 def check_node():
     result, error = test_cmd('node -v')
+    # if python_error is not None or python_error != b'':
+    #     print('\t- Python:', 'ERROR:', python_error)
+    #     return
     if result is None:
         print('\t- Node:', 'ERROR: Unknown return')
         return
 
     version = None
     regex = r"v(?P<version>[0-9\.]+)"
-    matches = re.finditer(regex, result, re.MULTILINE)
+    matches = re.finditer(
+        regex, result, re.MULTILINE)
     for _, match in enumerate(matches, start=1):
         version = match.group('version')
 
@@ -76,15 +102,12 @@ def check_node():
 
     version = packaging.version.Version(version)
     repo_version = packaging.version.Version("20.17")
-
-    # Check if the major version is between 20 and 22
-    if not (20 <= version.major <= 22):
-        print('\t- Node:', 'WARNING: Major version not between 20 and 22')
+    if version.major is not repo_version.major:
+        print('\t- Node:', 'WARNING: wrong major version')
         return
 
-    # Check if the minor version is at least as high as the repository's minor version
-    if version.major == repo_version.major and version.minor < repo_version.minor:
-        print('\t- Node:', 'WARNING: Minor version is below required')
+    if version.minor < repo_version.minor:
+        print('\t- Node:', 'WARNING: wrong minor version')
         return
 
     print('\t- Node:', 'OK')
@@ -271,8 +294,8 @@ def check_package():
 
                 print(f"\t\t- {dependency_name}: OK")
 
-def check_chromium():
-    return check_browser(get_chromium_browser())
+def check_chrome():
+    return check_browser('chrome')
 
 def check_firefox():
     return check_browser('firefox')
@@ -304,9 +327,9 @@ def check_browser(browser):
             '--firefox.preference browser.safebrowsing.malware.enabled:false '
             '--firefox.preference browser.safebrowsing.phishing.enabled:false '
             f'{sitespeed_arg}')
-    elif browser in ('chrome', 'edge'):
+    else:
         sitespeed_arg = (
-            f'-b {browser} '
+            '-b chrome '
             '--chrome.cdp.performance false '
             '--browsertime.chrome.timeline false '
             '--browsertime.chrome.includeResponseBodies all '
@@ -347,7 +370,8 @@ def dependency():
     check_requirements()
     check_node()
     check_package()
-    check_chromium()
+    check_java()
+    check_chrome()
     check_firefox()
     # TODO: Check data files dependencies
     # TODO: Check Internet access (for required sources like MDN Web Reference)

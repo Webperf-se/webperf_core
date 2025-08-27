@@ -1,15 +1,12 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
-from urllib.parse import urlparse
 import json
 import os
 from helpers.setting_helper import get_config
-from helpers.browser_helper import get_chromium_browser
 from helpers.models import Rating
 from tests import energy_efficiency_carbon_percentiles
 from tests.sitespeed_base import get_result
 from tests.utils import get_translation
-from engines.sitespeed_result import read_sites_from_directory
 
 # Code below is built from: https://gitlab.com/wholegrain/carbon-api-2-0
 
@@ -218,19 +215,6 @@ def run_test(global_translation, url):
     print(global_translation('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    reviews = rating.get_reviews()
-    print(global_translation('TEXT_SITE_RATING'), rating)
-    if get_config('general.review.show'):
-        print(
-            global_translation('TEXT_SITE_REVIEW'),
-            reviews)
-
-    if get_config('general.review.data'):
-        nice_json_data = json.dumps(result_dict, indent=3)
-        print(
-            global_translation('TEXT_SITE_REVIEW_DATA'),
-            f'```json\r\n{nice_json_data}\r\n```')
-
     return (rating, result_dict)
 
 def get_total_bytes(filename, result_dict):
@@ -288,8 +272,7 @@ def get_total_bytes_for_url(url, result_dict):
     # We don't need extra iterations for what we are using it for
     sitespeed_iterations = 1
     sitespeed_arg = (
-            f'--shm-size=1g -b {get_chromium_browser()} '
-            '--plugins.add plugin-webperf-core '
+            '--shm-size=1g -b chrome '
             '--plugins.remove screenshot --plugins.remove html --plugins.remove metrics '
             '--browsertime.screenshot false --screenshot false --screenshotLCP false '
             '--browsertime.screenshotLCP false --chrome.cdp.performance false '
@@ -302,18 +285,11 @@ def get_total_bytes_for_url(url, result_dict):
     if get_config('tests.sitespeed.xvfb'):
         sitespeed_arg += ' --xvfb'
 
-    (result_folder_name, filename) = get_result(
+    (_, filename) = get_result(
         url,
         get_config('tests.sitespeed.docker.use'),
         sitespeed_arg,
         get_config('tests.sitespeed.timeout'))
 
-    o = urlparse(url)
-    origin_domain = o.hostname
-
-    browsertime_Hars = read_sites_from_directory(result_folder_name, origin_domain, -1, -1)
-    if len(browsertime_Hars) < 1:
-        return -1
-
-    transfer_bytes = get_total_bytes(browsertime_Hars[0][0], result_dict)
+    transfer_bytes = get_total_bytes(filename, result_dict)
     return transfer_bytes

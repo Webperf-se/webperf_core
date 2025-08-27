@@ -83,14 +83,6 @@
         "?": {
             "custom": true
         },
-        "@sitespeed.io/plugin": {
-            "github-owner": "sitespeedio",
-            "github-repo": "plugin"
-        },
-        "@sitespeed.io/plugin-lighthouse": {
-            "github-owner": "sitespeedio",
-            "github-repo": "plugin-lighthouse"
-        },
         "ac-gutenberg": {
             "type": "wordpress-plugin"
         },
@@ -193,9 +185,7 @@
             "type": "wordpress-plugin"
         },
         "apache": {
-            "github-owner": "apache",
-            "github-repo": "httpd",
-            "github-source-pages": 3
+            "custom": true
         },
         "api-event-manager-integration": {
             "type": "wordpress-plugin"
@@ -1081,10 +1071,6 @@
         "ht-slider-for-elementor": {
             "type": "wordpress-plugin"
         },
-        "html-validate": {
-            "github-owner": "html-validate",
-            "github-repo": "html-validate"
-        },
         "html5-responsive-faq": {
             "type": "wordpress-plugin"
         },
@@ -1895,30 +1881,6 @@
             "github-owner": "vimeo",
             "github-repo": "player.js"
         },
-        "plugin-accessibility-statement": {
-            "github-owner": "Webperf-se",
-            "github-repo": "plugin-accessibility-statement"
-        },
-        "plugin-css": {
-            "github-owner": "Webperf-se",
-            "github-repo": "plugin-css"
-        },
-        "plugin-html": {
-            "github-owner": "Webperf-se",
-            "github-repo": "plugin-html"
-        },
-        "plugin-javascript": {
-            "github-owner": "Webperf-se",
-            "github-repo": "plugin-javascript"
-        },
-        "plugin-pagenotfound": {
-            "github-owner": "Webperf-se",
-            "github-repo": "plugin-pagenotfound"
-        },
-        "plugin-webperf-core": {
-            "github-owner": "Webperf-se",
-            "github-repo": "plugin-webperf-core"
-        },
         "pointofviews": {
             "type": "wordpress-plugin"
         },
@@ -2415,10 +2377,6 @@
         "styled-components": {
             "github-owner": "styled-components",
             "github-repo": "styled-components"
-        },
-        "stylelint": {
-            "github-owner": "stylelint",
-            "github-repo": "stylelint"
         },
         "superjson": {
             "github-owner": "blitz-js",
@@ -2930,6 +2888,10 @@
             "github-owner": "erlyaws",
             "github-repo": "yaws"
         },
+        "yellowlabtools": {
+            "github-owner": "YellowLabTools",
+            "github-repo": "YellowLabTools"
+        },
         "youtube-embed-plus": {
             "type": "wordpress-plugin"
         },
@@ -2955,5 +2917,6 @@
             "github-owner": "dropbox",
             "github-repo": "zxcvbn"
         }
-    }
+    },
+    "updated": "2024-11-01 16:11:14"
 }

@@ -3,95 +3,70 @@ import json
 from datetime import datetime
 import os
 import traceback
-from helpers.models import Rating
 from helpers.setting_helper import get_config, get_used_configuration
 from helpers.models import SiteTests
-from tests.utils import get_translation, merge_dicts,\
-    sort_testresult_issues, calculate_rating
-from tests.sitespeed_base import create_webperf_json
+from tests.page_not_found import run_test as run_test_page_not_found
+from tests.html_validator_w3c import run_test as run_test_html_validator_w3c
+from tests.css_validator_w3c import run_test as run_test_css_validator_w3c
+from tests.css_linting import run_test as run_test_lint_css
 from tests.privacy_webbkollen import run_test as run_test_privacy_webbkollen
+from tests.performance_lighthouse import run_test as run_test_performance_lighthouse
+from tests.seo_lighthouse import run_test as run_test_seo_lighthouse
+from tests.best_practice_lighthouse import run_test as run_test_best_practice_lighthouse
 from tests.standard_files import run_test as run_test_standard_files
+from tests.a11y_lighthouse import run_test as run_test_a11y_lighthouse
 from tests.performance_sitespeed_io import run_test as run_test_performance_sitespeed_io
+from tests.frontend_quality_yellow_lab_tools import \
+     run_test as run_test_frontend_quality_yellow_lab_tools
 from tests.a11y_pa11y import run_test as run_test_a11y_pa11y
 from tests.http_validator import run_test as run_test_http_validator
 from tests.energy_efficiency import run_test as run_test_energy_efficiency
 from tests.tracking_validator import run_test as run_test_tracking_validator
 from tests.email_validator import run_test as run_test_email_validator
 from tests.software import run_test as run_test_software
+from tests.a11y_statement import run_test as run_test_a11y_statement
 from engines.json_engine import write_tests as json_write_tests
 from engines.gov import write_tests as gov_write_tests
 from engines.sql import write_tests as sql_write_tests
 from engines.markdown_engine import write_tests as markdown_write_tests
 
-def run_dummy_test(global_translation, url):
-    return []
 
-TEST_ALL = (TEST_UNKNOWN_00,
-            TEST_DEPRECATED, TEST_PAGE_NOT_FOUND,
+TEST_ALL = (TEST_UNKNOWN_01,
+            TEST_GOOGLE_LIGHTHOUSE, TEST_PAGE_NOT_FOUND,
             TEST_UNKNOWN_03,
-            TEST_DEPRECATED, TEST_DEPRECATED,
-            TEST_DEPRECATED, TEST_DEPRECATED,
-            TEST_DEPRECATED, TEST_STANDARD_FILES, TEST_DEPRECATED,
+            TEST_GOOGLE_LIGHTHOUSE_SEO, TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE, TEST_HTML, TEST_CSS,
+            TEST_DEPRECATED, TEST_STANDARD_FILES, TEST_GOOGLE_LIGHTHOUSE_A11Y,
             TEST_UNKNOWN_11, TEST_UNKNOWN_12, TEST_UNKNOWN_13, TEST_UNKNOWN_14,
             TEST_SITESPEED,
             TEST_UNKNOWN_16,
-            TEST_DEPRECATED, TEST_PA11Y,
+            TEST_YELLOW_LAB_TOOLS, TEST_PA11Y,
             TEST_UNKNOWN_19,
             TEST_WEBBKOLL, TEST_HTTP, TEST_ENERGY_EFFICIENCY, TEST_TRACKING,
             TEST_EMAIL, TEST_SOFTWARE, TEST_A11Y_STATEMENT,
-            TEST_LINT_CSS, TEST_LINT_HTML, TEST_LINT_JS,
-            TEST_GOOGLE_LIGHTHOUSE
-            ) = range(31)
+            TEST_LINT_CSS#, TEST_LINT_HTML, TEST
+            ) = range(28)
 
-TEST_ALL_FUNCS = {
-        TEST_PAGE_NOT_FOUND: run_dummy_test,
+TEST_FUNCS = {
+        TEST_PAGE_NOT_FOUND: run_test_page_not_found,
+        TEST_HTML: run_test_html_validator_w3c,
+        TEST_CSS: run_test_css_validator_w3c,
         TEST_WEBBKOLL: run_test_privacy_webbkollen,
+        TEST_GOOGLE_LIGHTHOUSE: run_test_performance_lighthouse,
+        TEST_GOOGLE_LIGHTHOUSE_SEO: run_test_seo_lighthouse,
+        TEST_GOOGLE_LIGHTHOUSE_BEST_PRACTICE: run_test_best_practice_lighthouse,
         TEST_STANDARD_FILES:run_test_standard_files,
+        TEST_GOOGLE_LIGHTHOUSE_A11Y: run_test_a11y_lighthouse,
         TEST_SITESPEED: run_test_performance_sitespeed_io,
+        TEST_YELLOW_LAB_TOOLS: run_test_frontend_quality_yellow_lab_tools,
         TEST_PA11Y: run_test_a11y_pa11y,
         TEST_HTTP: run_test_http_validator,
         TEST_ENERGY_EFFICIENCY: run_test_energy_efficiency,
         TEST_TRACKING: run_test_tracking_validator,
         TEST_EMAIL: run_test_email_validator,
         TEST_SOFTWARE: run_test_software,
-        TEST_A11Y_STATEMENT: run_dummy_test,
-        TEST_LINT_CSS: run_dummy_test,
-        TEST_LINT_HTML: run_dummy_test,
-        TEST_LINT_JS: run_dummy_test,
-        TEST_GOOGLE_LIGHTHOUSE: run_dummy_test
+        TEST_A11Y_STATEMENT: run_test_a11y_statement,
+        TEST_LINT_CSS: run_test_lint_css
     }
-
-
-TEST_FUNCS = {
-        TEST_WEBBKOLL: run_test_privacy_webbkollen,
-        TEST_STANDARD_FILES:run_test_standard_files,
-        TEST_SITESPEED: run_test_performance_sitespeed_io,
-        TEST_PA11Y: run_test_a11y_pa11y,
-        TEST_HTTP: run_test_http_validator,
-        TEST_ENERGY_EFFICIENCY: run_test_energy_efficiency,
-        TEST_TRACKING: run_test_tracking_validator,
-        TEST_EMAIL: run_test_email_validator,
-        TEST_SOFTWARE: run_test_software
-    }
-
-TEST_USE_SITESPEED = {
-        TEST_PAGE_NOT_FOUND: 'plugin-pagenotfound',
-        TEST_A11Y_STATEMENT: 'plugin-accessibility-statement',
-        TEST_LINT_CSS: 'plugin-css',
-        TEST_LINT_HTML: 'plugin-html',
-        TEST_LINT_JS: 'plugin-javascript',
-        TEST_GOOGLE_LIGHTHOUSE: '@sitespeed.io/plugin-lighthouse'
-    }
-
-TEST_USE_SITESPEED_TOMORROW = {
-        TEST_STANDARD_FILES:run_test_standard_files,
-        TEST_SITESPEED: run_test_performance_sitespeed_io,
-        TEST_HTTP: run_test_http_validator,
-        TEST_ENERGY_EFFICIENCY: run_test_energy_efficiency,
-        TEST_TRACKING: run_test_tracking_validator,
-        TEST_SOFTWARE: run_test_software
-    }
-
 
 CONFIG_WARNINGS = {}
 
@@ -122,19 +97,22 @@ def test(global_translation, site, test_type=None):
         if test_type not in TEST_FUNCS:
             return []
 
-        print(global_translation('TEXT_TEST_START').format(
-            datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
-
         run_test = TEST_FUNCS[test_type]
         the_test_result = run_test(global_translation, site[1])
 
-        print(global_translation('TEXT_TEST_END').format(
-            datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
-
         if the_test_result is not None:
             rating = the_test_result[0]
+            reviews = rating.get_reviews()
+            print(global_translation('TEXT_SITE_RATING'), rating)
+            if get_config('general.review.show'):
+                print(global_translation('TEXT_SITE_REVIEW'),
+                      reviews)
 
             json_data = the_test_result[1]
+            if get_config('general.review.data'):
+                nice_json_data = json.dumps(json_data, indent=3)
+                print(global_translation('TEXT_SITE_REVIEW_DATA'),
+                      f'```json\r\n{nice_json_data}\r\n```')
 
             site_test = SiteTests(site_id=site[0], type_of_test=test_type,
                                   rating=rating,
@@ -183,7 +161,9 @@ def get_error_info(url, test_type, ex):
     result.extend(get_versions())
     result.extend(['###############################################',
         '\n# Information:',
-        f"\nDateTime: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+        f"\nDateTime: { \
+            datetime.now().strftime('%Y-%m-%d %H:%M:%S') \
+        }",
         f'\nUrl: {url}',
         f'\nTest Type(s): {test_type}',
         '\n###############################################'
@@ -223,48 +203,7 @@ def get_versions():
             result.append("\n")
     return result
 
-def test_with_sitespeed(global_translation, site, sitespeed_plugins):
-    try:
-        rating = Rating(global_translation)
-        result_dict = {}
-
-        print(global_translation('TEXT_TEST_START').format(
-            datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
-
-        result_dict = create_webperf_json(site[1], sitespeed_plugins)
-        # TODO: Handle where result_dict is None
-        # TODO: Handle when unable to access website
-
-        calculate_rating(global_translation, rating, result_dict)
-
-        print(global_translation('TEXT_TEST_END').format(
-            datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
-
-        if result_dict is not None:
-            reviews = rating.get_reviews()
-
-            json_data = result_dict
-
-            site_test = SiteTests(site_id=site[0], type_of_test=-1,
-                                  rating=rating,
-                                  test_date=datetime.now(),
-                                  json_check_data=json_data).todata()
-
-            return site_test
-    except Exception as ex: # pylint: disable=broad-exception-caught
-        print(global_translation('TEXT_TEST_END').format(
-            datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
-        info = get_error_info(site[1], -1, ex)
-        print('\n'.join(info).replace('\n\n','\n'))
-
-        # write error to failure.log file
-        with open('failures.log', 'a', encoding='utf-8') as outfile:
-            outfile.writelines(info)
-
-    return []
-
-
-def test_site(global_translation, site, test_types):
+def test_site(global_translation, site, test_types=TEST_ALL):
     """
     This function runs a series of tests on a website and returns a list of all the test results.
 
@@ -273,7 +212,7 @@ def test_site(global_translation, site, test_types):
         An object that handles the translation of text in the context of internationalization.
     site : tuple
         A tuple containing the site ID and the website URL.
-    test_types : list
+    test_types : list, optional
         A list of test types to be run. If not provided, all tests will be run.
 
     Returns:
@@ -282,74 +221,16 @@ def test_site(global_translation, site, test_types):
     """
     tests = []
 
-    site_id = site[0]
-    sitespeed_plugins = ''
-    other_tests = []
-    for test_id in TEST_ALL_FUNCS:
-        if test_id not in test_types:
-            continue
-        
-        if test_id in TEST_USE_SITESPEED.keys():
-            sitespeed_plugins += f'--plugins.add {TEST_USE_SITESPEED[test_id]} '
-        else:
-            other_tests.append(test_id)
-
-    if len(sitespeed_plugins) > 0:
-        sitespeed_plugins += '--plugins.add plugin-webperf-core '
-        tests.extend(test_with_sitespeed(global_translation,
-            site,
-            sitespeed_plugins))
-
-    for test_id in other_tests:
-        tests.extend(test(global_translation,
-            site,
-            test_type=test_id))
-
-    rating = Rating(global_translation)
-    site_test = None
-    big_data = {}
-    for test_data in tests:
-        if test_data is None:
-            continue
-        if "data" not in test_data:
-            continue
-
-        if "groups" not in test_data["data"]:
-            abc = 1
-        big_data = merge_dicts(big_data, test_data['data'], False, False)
-
-    sort_testresult_issues(big_data)
-    rating = calculate_rating(global_translation, rating, big_data)
-
-    if rating.isused():
-        reviews = rating.get_reviews()
-        print(global_translation('TEXT_SITE_RATING'), rating)
-        if get_config('general.review.show'):
-            print(
-                global_translation('TEXT_SITE_REVIEW'),
-                reviews)
-
-        if get_config('general.review.data'):
-            nice_json_data = json.dumps(big_data, indent=3)
-            print(
-                global_translation('TEXT_SITE_REVIEW_DATA'),
-                f'```json\r\n{nice_json_data}\r\n```')
-
-
-        site_test = SiteTests(
-            site_id,
-            type_of_test=-1,
-            rating=rating,
-            test_date=datetime.now(),
-            json_check_data=big_data).todata()
-
-        tests = []
-        tests.append(site_test[0])
+    for test_id in TEST_ALL:
+        if test_id in test_types:
+            tests.extend(test(global_translation,
+                            site,
+                            test_type=test_id))
 
     return tests
 
 
-def test_sites(global_translation, sites, test_types):
+def test_sites(global_translation, sites, test_types=TEST_ALL):
     """
     This function runs a series of tests on multiple websites and
     returns a list of all the test results.
@@ -359,7 +240,7 @@ def test_sites(global_translation, sites, test_types):
         An object that handles the translation of text in the context of internationalization.
     sites : list
         A list of tuples, each containing the site ID and the website URL.
-    test_types : list
+    test_types : list, optional
         A list of test types to be run. If not provided, all tests will be run.
 
     Returns:
@@ -413,7 +294,7 @@ def validate_test_type(tmp_test_types):
     test_types = []
 
     remove_tests = []
-    valid_tests = TEST_ALL_FUNCS.keys()
+    valid_tests = TEST_FUNCS.keys()
     for test_type in tmp_test_types:
         if test_type in valid_tests:
             test_types.append(test_type)
@@ -422,7 +303,7 @@ def validate_test_type(tmp_test_types):
             test_type = abs(test_type)
             remove_tests.append(test_type)
 
-    if len(tmp_test_types) == 0:
+    if len(test_types) == 0:
         test_types = list(valid_tests)
 
     for test_type in remove_tests:

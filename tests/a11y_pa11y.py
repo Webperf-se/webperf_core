@@ -3,9 +3,7 @@ import os
 import subprocess
 from datetime import datetime
 import json
-from tests.utils import get_translation,\
-    get_http_content, flatten_issues_dict,\
-    calculate_rating, get_domain
+from tests.utils import get_translation
 from helpers.setting_helper import get_config
 from helpers.models import Rating
 
@@ -24,6 +22,15 @@ def run_test(global_translation, url):
     Returns:
     tuple: A tuple containing the rating object and the results of the accessibility test.
     """
+    local_translation = get_translation(
+            'a11y_pa11y',
+            get_config('general.language')
+        )
+
+    print(local_translation('TEXT_RUNNING_TEST'))
+
+    print(global_translation('TEXT_TEST_START').format(
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     use_axe = False
     json_result = get_pa11y_errors(url, use_axe)
@@ -43,61 +50,137 @@ def run_test(global_translation, url):
 
     num_errors = len(json_result)
 
-    return_dict = {
-        "groups": {}
-    }
-
-    domain = get_domain(url)
-    return_dict['groups'][domain] = {
-            'issues': {}
-        }
-
+    return_dict = json_result
     errors = json_result
 
-    return_dict['groups'][domain]['issues'] = get_unique_errors(url, errors)
-    return_dict['groups'][domain]['issues'] = flatten_issues_dict(return_dict['groups'][domain]['issues'])
+    unique_errors = get_unique_errors(errors)
+    num_unique_errors = len(unique_errors)
 
-    rating = Rating(
-        global_translation,
-        get_config('general.review.improve-only'))
-    rating = calculate_rating(global_translation, rating, return_dict)
+    rating = rate_errors(global_translation,
+                         local_translation,
+                         num_errors,
+                         unique_errors,
+                         num_unique_errors)
 
     return (rating, return_dict)
 
-def get_unique_errors(url, errors):
+def get_unique_errors(errors):
     """
     Gets unique errors from a list of many errors
 
     Parameters:
     errors (list): The list of errors.
     """
-    unique_errors = {}
+    unique_errors = set()
     for error in errors:
         if 'message' in error:
-            err_mess = error['message']
-            err_severity = error["type"]
-            error_review = f'{err_mess} ({err_severity})'
-            if error_review not in unique_errors:
-                unique_errors[error_review] = {
-                    "test": "pa11y",
-                    "text": error_review,
-                    "rule": error["code"],
-                    "category": "a11y",
-                    "severity": err_severity,
-                    "subIssues": []
-                    }
-
-            unique_errors[error_review]["subIssues"].append({
-                    "test": "pa11y",
-                    "url": url,
-                    "text": error_review,
-                    "rule": error["code"],
-                    "category": "a11y",
-                    "severity": err_severity,
-                    "extra": error
-                    })
-            
+            err_mess = error['message'].replace('This', 'A')
+            error_review = f'- {err_mess}\n'
+            unique_errors.add(error_review)
     return unique_errors
+
+def rate_errors(
+        global_translation,
+        local_translation,
+        num_errors,
+        unique_errors,
+        num_unique_errors):
+    """
+    Rates the accessibility errors based on their quantity and type.
+
+    This function calculates ratings for the number of unique error types and the total 
+    number of errors. It then generates a review based on these ratings and the unique 
+    errors. The overall rating and review are determined based on the calculated ratings.
+
+    Parameters:
+    global_translation (function): Function to translate text to a global language.
+    local_translation (function): Function to translate text to a local language.
+    num_errors (int): The total number of errors.
+    unique_errors (list): The list of unique errors.
+    num_unique_errors (int): The number of unique error types.
+
+    Returns:
+    Rating: An object of the Rating class with the calculated ratings and reviews.
+    """
+    points_tuples = calculate_rating(num_unique_errors, num_errors)
+    review = ''
+
+    rating = Rating(
+        global_translation,
+        get_config('general.review.improve-only'))
+    errors_type_rating = Rating(
+        global_translation,
+        get_config('general.review.improve-only'))
+    errors_type_rating.set_overall(points_tuples[0])
+    errors_type_rating.set_a11y(points_tuples[0],
+                                local_translation('TEXT_REVIEW_RATING_GROUPED').format(
+                                    num_unique_errors,
+                                    0.0))
+    rating += errors_type_rating
+
+    errors_rating = Rating(
+        global_translation,
+        get_config('general.review.improve-only'))
+    errors_rating.set_overall(points_tuples[1])
+    errors_rating.set_a11y(points_tuples[1], local_translation(
+        'TEXT_REVIEW_RATING_ITEMS').format(num_errors, 0.0))
+    rating += errors_rating
+
+    i = 1
+    if len(unique_errors) > 0:
+        review += local_translation('TEXT_REVIEW_A11Y_PROBLEMS')
+    for error in unique_errors:
+        review += error
+        i += 1
+        if i > 10:
+            review += local_translation('TEXT_REVIEW_A11Y_TOO_MANY_PROBLEMS')
+            break
+
+    rating.a11y_review = rating.a11y_review + review
+    overall = rating.get_overall()
+    if overall == 5:
+        rating.overall_review = local_translation('TEXT_REVIEW_A11Y_VERY_GOOD')
+    elif overall >= 4:
+        rating.overall_review = local_translation('TEXT_REVIEW_A11Y_IS_GOOD')
+    elif overall > 2:
+        rating.overall_review = local_translation('TEXT_REVIEW_A11Y_IS_VERY_BAD')
+    elif overall > 3:
+        rating.overall_review = local_translation('TEXT_REVIEW_A11Y_IS_BAD')
+    elif overall > 4:
+        rating.overall_review = local_translation('TEXT_REVIEW_A11Y_IS_OK')
+
+    print(global_translation('TEXT_TEST_END').format(
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+    return rating
+
+
+def calculate_rating(number_of_error_types, number_of_errors):
+    """
+    Calculates ratings based on the number of error types and total errors.
+
+    This function calculates two ratings: one based on the number of error types and 
+    another based on the total number of errors. The ratings are calculated such that 
+    a higher number of errors or error types results in a lower rating. The minimum 
+    rating is 1.0.
+
+    Parameters:
+    number_of_error_types (int): The number of different types of errors.
+    number_of_errors (int): The total number of errors.
+
+    Returns:
+    tuple: A tuple containing the rating based on the number of error types and the 
+           rating based on the total number of errors.
+    """
+    rating_number_of_error_types = 5.0 - (number_of_error_types / 5.0)
+
+    rating_number_of_errors = 5.0 - ((number_of_errors / 2.0) / 5.0)
+
+    rating_number_of_error_types = max(rating_number_of_error_types, 1.0)
+    rating_number_of_errors = max(rating_number_of_errors, 1.0)
+
+    return (rating_number_of_error_types, rating_number_of_errors)
+
 
 def get_pa11y_errors(url, use_axe):
     """

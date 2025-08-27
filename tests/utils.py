@@ -32,13 +32,6 @@ IP2_LOCATION_DB = {
     'database': None
 }
 
-def get_domain(url):
-    """
-    Extracts the domain name from a given URL.
-    """
-    parsed_url = urlparse(url)
-    return parsed_url.hostname
-
 def get_dependency_version(dependency_name):
     """
     Retrieves the version of a specified dependency from the 'package.json' file.
@@ -79,84 +72,6 @@ def get_translation(module_name, lang_code):
         localedir='locales', languages=[lang_code])
     return language.gettext
 
-def create_or_append_translation(module_name, lang_code, text_key):
-    base_directory = Path(os.path.dirname(
-        os.path.realpath(__file__)) + os.path.sep).parent
-    locales_dir = os.path.join(base_directory.resolve(), 'locales') + os.sep
-    lang_dir = os.path.join(locales_dir, lang_code, 'LC_MESSAGES') + os.sep
-    if not os.path.exists(lang_dir):
-        os.makedirs(lang_dir)
-
-    module_filepath = os.path.join(lang_dir, f'{module_name}.po')
-
-    content = None
-    if os.path.exists(module_filepath):
-        with open(module_filepath, 'r', encoding='utf-8', newline='') as file:
-            content = ''.join(file.readlines())
-    else:
-        this_year = datetime.now().year
-        today = datetime.now().strftime("%Y-%m-%d %H:%M%z")
-        content = (
-            f'# Copyright (C) {this_year} WebPerf\n'
-            f'# FIRST AUTHOR <your-email-here@webperf.se>, {this_year}.\n'
-            '#\n'
-            'msgid ""\n'
-            'msgstr ""\n'
-            '"Project-Id-Version: PACKAGE VERSION\\n"\n'
-            f'"POT-Creation-Date: {today}\\n"\n'
-            f'"PO-Revision-Date: {today}\\n"\n'
-            '"Last-Translator: Your-Name-Here <your-email-here@webperf.se>\\n"\n'
-            '"Language-Team: English <team@webperf.se>\\n"\n'
-            '"MIME-Version: 1.0\\n"\n'
-            '"Content-Type: text/plain; charset=UTF-8\\n"\n'
-            '"Content-Transfer-Encoding: 8bit\\n"\n'
-            '"Generated-By: pygettext.py 1.5\\n"\n'
-            '#\n'
-            '# Example(s):\n'
-            '# Please note that msgid has to be unique in each file.\n'
-            '# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).\n'
-            '\n'
-            f'msgid "rule-id (unresolved)"\n'
-            f'msgstr "Text to show instead of msgid, showed for severity levels (critical, error and warning)"\n'
-            '\n'
-            f'msgid "rule-id (resolved)"\n'
-            f'msgstr "Text to show instead of msgid, here unique on severity level resolved"\n'
-            '\n'
-            f'msgid "rule-id"\n'
-            f'msgstr "Text to show instead of msgid, here independent of severity level"\n'
-            '\n'
-            '# End of Examples\n\n'
-            )
-
-    if f'msgid "{text_key} (unresolved)"' not in content:
-        content_to_append = (
-                '\n'
-                f'msgid "{text_key} (unresolved)"\n'
-                f'msgstr "{text_key} ({{0}})"\n'
-            )
-        content += content_to_append
-
-    if f'msgid "{text_key} (resolved)"' not in content:
-        content_to_append = (
-                '\n'
-                f'msgid "{text_key} (resolved)"\n'
-                f'msgstr "{text_key} (resolved)"\n'
-            )
-        content += content_to_append
-
-    with open(module_filepath, 'w', encoding='utf-8', newline='') as file:
-        file.write(content)
-
-def standardize_url(url):
-    o = urllib.parse.urlparse(url)
-
-    path = o.path
-    if path == '':
-        path = '/'
-    o2 = ParseResult(
-        scheme=o.scheme, netloc=o.netloc, path=path,
-        params=o.params, query=o.query, fragment=o.fragment)
-    return urlunparse(o2)
 
 def change_url_to_test_url(url, test_name):
     """
@@ -184,7 +99,7 @@ def change_url_to_test_url(url, test_name):
     o2 = ParseResult(
         scheme=o.scheme, netloc=o.netloc, path=o.path,
         params=o.params, query=new_query, fragment=o.fragment)
-    return standardize_url(urlunparse(o2))
+    return urlunparse(o2)
 
 
 def is_file_older_than(file, delta):
@@ -238,7 +153,7 @@ def get_cache_path_for_rule(url, cache_key_rule):
 
     folder = 'tmp'
     if get_config('general.cache.use'):
-        folder = get_config('general.cache.folder')
+        folder = 'cache'
 
     folder_path = os.path.join(folder)
     if not os.path.exists(folder_path):
@@ -383,13 +298,10 @@ def clean_cache_files():
             shutil.rmtree(base_directory)
         return
     file_ending = '.cache'
-    folder = get_config('general.cache.folder')
+    folder = 'cache'
     base_directory = os.path.join(Path(os.path.dirname(
         os.path.realpath(__file__)) + os.path.sep).parent, folder)
 
-    clean_folder(folder, base_directory, file_ending)
-
-def clean_folder(folder, base_directory, file_ending):
     if not os.path.exists(base_directory):
         return
 
@@ -479,7 +391,7 @@ def get_http_content(url, allow_redirects=False, use_text_instead_of_content=Tru
         headers = {'user-agent': get_config('useragent')}
         hostname = urlparse(url).hostname
         if hostname == 'api.github.com' and get_config('github.api.key') is not None:
-            headers['authorization'] = f"Bearer {get_config('github.api.key')}"
+            headers['authorization'] = f'Bearer {get_config('github.api.key')}'
         response = requests.get(url, allow_redirects=allow_redirects,
                          headers=headers, timeout=get_config('general.request.timeout')*2)
 
@@ -1038,168 +950,6 @@ def merge_dicts(dict1, dict2, sort, make_distinct):
             dict1[domain] += value
 
     return dict1
-
-def calculate_score(issues):
-    category_scores = {'overall': 100}
-
-    for issue in issues:
-        if issue['category'] not in category_scores:
-            category_scores[issue['category']] = 100
-
-        if issue['severity'] == 'critical':
-            category_scores[issue['category']] -= 25
-        elif issue['severity'] == 'error':
-            category_scores[issue['category']] -= 10
-        elif issue['severity'] == 'warning':
-            category_scores[issue['category']] -= 1
-
-    scores = [value for key, value in category_scores.items() if key != 'overall']  # Exclude 'overall' from calculation
-    total = sum(scores)
-    category_scores['overall'] = total / len(scores) if scores else 100  # Use average
-
-    return category_scores
-
-def calculate_rating(global_translation, rating, result_dict):
-    issues_other = []
-    issues_standard =[]
-    issues_security = []
-    issues_a11y = []
-    issues_performance = []
-
-    if "groups" not in result_dict:
-        return rating
-
-    for group_name, info in result_dict["groups"].items():
-        for issue in info["issues"]:
-            if get_config('general.review.improve-only') and issue["severity"] == "resolved":
-                continue
-
-            severity_text = global_translation(f"TEXT_SEVERITY_{issue['severity'].upper()}")
-            text = None
-            if 'test' not in issue:
-                text = f"{issue['rule']} ({severity_text})"
-            elif 'text' in issue:
-                text = issue['text']
-            else:
-                severity_key = None
-                if issue['severity'] in ('resolved'):
-                    severity_key = 'resolved'
-                elif issue['severity'] in ('critical', 'error', 'warning'):
-                    severity_key = 'unresolved'
-                elif issue['severity'] in ('info'):
-                    severity_key = 'info'
-                else:
-                    severity_key = 'unknown'
-                text_primarykey = f"{issue['rule']} ({severity_key})"
-                text_secondarykey = f"{issue['rule']}"
-                try:
-                    local_translation = get_translation(
-                            issue['test'],
-                            get_config('general.language')
-                        )
-                    text = local_translation(text_primarykey)
-                    if '{0}' in text:
-                            text = local_translation(text_primarykey).format(severity_text)
-                    if text == text_primarykey:
-                        print(f"no translation found for: {issue['test']}, and language: {get_config('general.language')}. Adding it so you can translate it.")
-                        create_or_append_translation(issue['test'], get_config('general.language'), text_secondarykey)
-                except FileNotFoundError:
-                    text = text_primarykey
-                    print(f"no translation found for: {issue['test']}, adding file for language: {get_config('general.language')} so you can translate it.")
-                    create_or_append_translation(issue['test'], get_config('general.language'), text_secondarykey)
-
-            if get_config('general.review.details'):
-                if 'resources' in issue:
-                    a1 ="\n  - ".join([f"{item}" for item in issue['resources']])
-                    more_info = global_translation('TEXT_DETAILS_MORE_INFO')
-                    # More info
-                    text = f"{text}\n  {more_info}:\n  - {a1}\n"
-                if 'subIssues' in issue and len(issue['subIssues']) > 0:
-                    unique_urls = set(subItem['url'] for subItem in issue['subIssues'])
-                    a2 = "\n  - ".join(unique_urls)
-                    urls_with_issues  = global_translation('TEXT_DETAILS_URLS_WITH_ISSUES')
-                    # Url(s) with issues
-                    text = f"{text}\n  {urls_with_issues}:\n  - {a2}\n"
-
-            if issue['category'] == 'standard':
-                issues_standard.append(text)
-            elif issue['category'] == 'security':
-                issues_security.append(text)
-            elif issue['category'] == 'a11y':
-                issues_a11y.append(text)
-            elif issue['category'] == 'performance':
-                issues_performance.append(text)
-            else:
-                issues_other.append(text)
-
-        if "score" not in info:
-            # Calculate Score (for python packages who has not calculated this yet)
-            info["score"] = calculate_score(info["issues"])
-
-        if 'overall' in info["score"]:
-            overall = (info["score"]["overall"] / 100) * 5
-            rating.set_overall(overall)
-            if len(issues_other) > 0:
-                rating.overall_review = "\n".join([f"- {item}" for item in issues_other]) + "\n"
-        if 'standard' in info["score"]:
-            standard = (info["score"]["standard"] / 100) * 5
-            rating.set_standards(standard)
-            if len(issues_standard) > 0:
-                rating.standards_review = "\n".join([f"- {item}" for item in issues_standard]) + "\n"
-        if 'security' in info["score"]:
-            security = (info["score"]["security"] / 100) * 5
-            rating.set_integrity_and_security(security)
-            if len(issues_security) > 0:
-                rating.integrity_and_security_review = "\n".join([f"- {item}" for item in issues_security]) + "\n"
-        if 'a11y' in info["score"]:
-            a11y = (info["score"]["a11y"] / 100) * 5
-            rating.set_a11y(a11y)
-            if len(issues_a11y) > 0:
-                rating.a11y_review = "\n".join([f"- {item}" for item in issues_a11y]) + "\n"
-        if 'performance' in info["score"]:
-            performance = (info["score"]["performance"] / 100) * 5
-            rating.set_performance(performance)
-            if len(issues_performance) > 0:
-                rating.performance_review = "\n".join([f"- {item}" for item in issues_performance]) + "\n"
-    return rating
-
-
-def sort_testresult_issues(data):
-    # Define the severity ranking
-    severity_order = {
-        "critical": 1,
-        "error": 2,
-        "warning": 3,
-        "info": 4,
-        "resolved": 5
-    }
-
-    if "groups" not in data:
-        return
-
-    # Access all groups in the JSON
-    groups = data["groups"]
-
-    # Iterate over each group and sort its issues
-    for group_name, group_data in groups.items():
-        issues = group_data.get("issues", [])
-        
-        # Sort issues by severity (primary) and number of subIssues (secondary)
-        sorted_issues = sorted(
-            issues,
-            key=lambda x: (severity_order.get(x["severity"], float('inf')), -len(x.get("subIssues", [])))
-        )
-        # Update the group's issues with the sorted list
-        group_data["issues"] = sorted_issues
-
-def flatten_issues_dict(data):
-    flattened = []
-
-    for issue_key, issue_value in data.items():
-        base_info = {k: v for k, v in issue_value.items()}
-        flattened.append(base_info)
-
-    return flattened
 
 def merge_dict_values(dict1, dict2, domain, sort, make_distinct):
     """

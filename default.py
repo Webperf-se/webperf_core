@@ -20,6 +20,7 @@ from engines.json_engine import read_sites as json_read_sites,\
 from helpers.carbon_rating_helper import update_carbon_percentiles
 from helpers.credits_helper import get_credits, update_credits_markdown
 from helpers.dependency_helper import dependency
+from helpers.mdn_helper import update_mdn_rules
 from helpers.release_helper import set_new_release_version_in_env, update_release_version
 from helpers.setting_helper import config_mapping, get_config, set_config,\
     set_config_from_cmd, set_runtime_config_only
@@ -38,7 +39,7 @@ def show_test_help(global_translation):
     print out help text for a variety of test arguments.
     The help text includes information about valid arguments for
     different types of tests such as Google Lighthouse, HTML, CSS,
-    Sitespeed, Pa11y, Webbkoll, HTTP, Energy Efficiency,
+    Sitespeed, Yellow Lab Tools, Pa11y, Webbkoll, HTTP, Energy Efficiency,
     Tracking, Email, Software, and A11Y Statement.
 
     Args:
@@ -52,9 +53,17 @@ def show_test_help(global_translation):
         SystemExit: This function always ends the program after printing the help text.
     """
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS'))
+    print(global_translation('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE'))
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_PAGE_NOT_FOUND'))
+    print(global_translation('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_SEO'))
+    print(global_translation(
+                'TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_BEST_PRACTICE'))
+    print(global_translation('TEXT_TEST_VALID_ARGUMENTS_HTML'))
+    print(global_translation('TEXT_TEST_VALID_ARGUMENTS_CSS'))
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_STANDARD_FILES'))
+    print(global_translation('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE_A11Y'))
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_SITESPEED'))
+    print(global_translation('TEXT_TEST_VALID_ARGUMENTS_YELLOW_LAB_TOOLS'))
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_PA11Y'))
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_WEBBKOLL'))
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_HTTP'))
@@ -64,9 +73,6 @@ def show_test_help(global_translation):
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_SOFTWARE'))
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_A11Y_STATEMENT'))
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_CSS_LINT'))
-    print(global_translation('TEXT_TEST_VALID_ARGUMENTS_HTML_LINT'))
-    print(global_translation('TEXT_TEST_VALID_ARGUMENTS_JS_LINT'))
-    print(global_translation('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE'))
     sys.exit()
 
 
@@ -128,6 +134,10 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             sys.exit(0)
         else:
             sys.exit(2)
+
+    def update_mdn(self, _):
+        update_mdn_rules()
+        sys.exit(0)
 
     def update_software_definitions(self, arg):
         set_runtime_config_only("github.api.key", arg)
@@ -319,9 +329,6 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
         if len(self.test_types) == 0:
             show_test_help(self.language)
 
-    def enable_mobile(self, _):
-        self.set_setting('tests.sitespeed.mobile=true')
-
     def enable_reviews(self, _):
         """
         Enables the display of reviews for the instance.
@@ -458,7 +465,6 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             ("-t", "--test"): self.set_test_types,
             ("-i", "--input"): self.set_input_handlers,
             ("--is", "--input-skip"): self.set_input_skip,
-            ("-m", "--mobile"): self.enable_mobile,
             ("--it", "--input-take"): self.set_input_take,
             ("-o", "--output"): self.set_output_filename,
             ("-r", "--review", "--report"): self.enable_reviews,
@@ -466,6 +472,7 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             ("--uc", "--update-credits"): self.update_credits,
             ("-b", "--update-browser"): self.update_browser,
             ("-d", "--update-definitions"): self.update_software_definitions,
+            ("--ums", "--update-mdn-sources"): self.update_mdn,
             ("--ucr", "--update-carbon"): self.update_carbon_rating,
             ("--ut", "--update-translations"): self.update_translations,
             ("--pr", "--prepare-release"): self.prepare_release,
@@ -510,13 +517,13 @@ def main(argv):
     options.load_language(get_config('general.language'))
 
     try:
-        opts, _ = getopt.getopt(argv, "hu:t:i:o:rA:D:L:s:cbd:m", [
+        opts, _ = getopt.getopt(argv, "hu:t:i:o:rA:D:L:s:cbd:", [
                                    "help", "url=", "test=", "input=", "output=",
                                    "review", "report", "addUrl=", "deleteUrl=",
                                    "language=", "input-skip=", "input-take=",
-                                   "mobile",
                                    "credits", "contributors",
                                    "uc" ,"update-credits",
+                                   "ums", "update-mdn-sources",
                                    "update-browser", "update-definitions=",
                                    "update-translations",
                                    "pr=", "prepare-release=",

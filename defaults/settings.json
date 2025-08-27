@@ -13,10 +13,9 @@
             "details": false,
             "improve-only": true
         },
-        "useragent": "Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0",
+        "useragent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0",
         "cache": {
             "use": false,
-            "folder": "cache",
             "max-age": 60
         }
     },
@@ -26,9 +25,6 @@
         }
     },
     "tests": {
-        "a11y-statement": {
-            "max-nof-pages": 10
-        },
         "email": {
             "support": {
                 "port25": false,
@@ -38,15 +34,19 @@
         "http": {
             "csp-only": false
         },
+        "lighthouse": {
+            "disable-sandbox": false
+        },
         "sitespeed": {
-            "browser": "chrome",
             "docker": {
                 "use": false
             },
             "timeout": 30,
-            "mobile": false,
             "iterations": 2,
-            "xvfb": false
+            "xvfb": false,
+            "cache": {
+                "folder": "cache"
+            }
         },
         "software": {
             "advisory": {

@@ -6,9 +6,8 @@ import re
 import subprocess
 from datetime import datetime
 from helpers.models import Rating
-from helpers.setting_helper import get_config
-from helpers.browser_helper import get_chromium_browser
 from tests.utils import get_dependency_version, get_translation
+from helpers.setting_helper import get_config
 
 def get_result(arg):
     """
@@ -112,19 +111,6 @@ def run_test(global_translation, url):
     print(global_translation('TEXT_TEST_END').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    reviews = rating.get_reviews()
-    print(global_translation('TEXT_SITE_RATING'), rating)
-    if get_config('general.review.show'):
-        print(
-            global_translation('TEXT_SITE_REVIEW'),
-            reviews)
-
-    if get_config('general.review.data'):
-        nice_json_data = json.dumps(result_dict, indent=3)
-        print(
-            global_translation('TEXT_SITE_REVIEW_DATA'),
-            f'```json\r\n{nice_json_data}\r\n```')
-
     return (rating, result_dict)
 
 def rate_custom_result_dict( # pylint: disable=too-many-arguments,too-many-locals
@@ -208,7 +194,7 @@ def validate_on_mobile_using_validator(url, validator_config):
     browertime_plugin_options = get_browsertime_plugin_options(validator_config)
     arg = (
         '--shm-size=1g '
-        f'-b {get_chromium_browser()} '
+        '-b chrome '
         '--mobile true '
         '--chrome.CPUThrottlingRate 3 '
         '--connectivity.profile 3gfast '
@@ -217,7 +203,7 @@ def validate_on_mobile_using_validator(url, validator_config):
         '--speedIndex true '
         '--browsertime.videoParams.createFilmstrip false '
         '--browsertime.chrome.args ignore-certificate-errors '
-        f"-n {get_config('tests.sitespeed.iterations')} "
+        f'-n {get_config('tests.sitespeed.iterations')} '
         '--preScript chrome-custom.cjs '
         f'{url}'
         f'{browertime_plugin_options}'
@@ -256,16 +242,16 @@ def get_browsertime_plugin_options(validator_config):
         for header in validator_config['headers']:
             browertime_plugin_options += (
                 f' --browsertime.webperf.header0{index}'
-                f" {header['name'].replace(' ', '%20').replace('=', '%3D')}="
-                f"{header['value'].replace(' ', '%20').replace('=', '%3D')}")
+                f' {header['name'].replace(' ', '%20').replace('=', '%3D')}='
+                f'{header['value'].replace(' ', '%20').replace('=', '%3D')}')
             index += 1
     if 'htmls' in validator_config:
         index = 1
         for header in validator_config['htmls']:
             browertime_plugin_options += (
                 f' --browsertime.webperf.HTML0{index}'
-                f" {header['replace'].replace(' ', '%20').replace('=', '%3D')}="
-                f"{header['replaceWith'].replace(' ', '%20').replace('=', '%3D')}")
+                f' {header['replace'].replace(' ', '%20').replace('=', '%3D')}='
+                f'{header['replaceWith'].replace(' ', '%20').replace('=', '%3D')}')
             index += 1
     return browertime_plugin_options
 
@@ -285,14 +271,14 @@ def validate_on_desktop_using_validator(url, validator_config):
 
     arg = (
         '--shm-size=1g '
-        f'-b {get_chromium_browser()} '
+        '-b chrome '
         '--connectivity.profile native '
         '--visualMetrics true '
         '--plugins.remove screenshot '
         '--speedIndex true '
         '--browsertime.videoParams.createFilmstrip false '
         '--browsertime.chrome.args ignore-certificate-errors '
-        f"-n {get_config('tests.sitespeed.iterations')} "
+        f'-n {get_config('tests.sitespeed.iterations')} '
         '--preScript chrome-custom.cjs '
         f'{url}'
         f'{browertime_plugin_options}'
@@ -319,14 +305,14 @@ def validate_on_desktop(url):
     """
     arg = (
         '--shm-size=1g '
-        f'-b {get_chromium_browser()} '
+        '-b chrome '
         '--connectivity.profile native '
         '--visualMetrics true '
         '--plugins.remove screenshot '
         '--speedIndex true '
         '--browsertime.videoParams.createFilmstrip false '
         '--browsertime.chrome.args ignore-certificate-errors '
-        f"-n {get_config('tests.sitespeed.iterations')} "
+        f'-n {get_config('tests.sitespeed.iterations')} '
         '--preScript chrome-custom.cjs '
         f'{url}'
         )
@@ -350,7 +336,7 @@ def validate_on_mobile(url):
     """
     arg = (
         '--shm-size=1g '
-        f'-b {get_chromium_browser()} '
+        '-b chrome '
         '--mobile true '
         '--connectivity.profile 3gfast '
         '--visualMetrics true '
@@ -358,7 +344,7 @@ def validate_on_mobile(url):
         '--speedIndex true '
         '--browsertime.videoParams.createFilmstrip false '
         '--browsertime.chrome.args ignore-certificate-errors '
-        f"-n {get_config('tests.sitespeed.iterations')} "
+        f'-n {get_config('tests.sitespeed.iterations')} '
         '--preScript chrome-custom.cjs '
         f'{url}'
         )

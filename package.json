@@ -1,43 +1,23 @@
 {
   "name": "webperf_core",
-  "version": "2025.7.3",
-  "type": "module",
+  "version": "2025.1.4",
   "description": "You probably want to read the documentation available at homepage.",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Webperf-se/webperf_core.git"
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Webperf-se/webperf_core/issues"
-  },
   "homepage": "https://github.com/Webperf-se/webperf_core/",
   "dependencies": {
-    "@sitespeed.io/plugin": "1.0.0",
-    "@sitespeed.io/plugin-lighthouse": "12.3.0",
-    "pa11y": "9.0.0",
-    "sitespeed.io": "38.0.0",
-    "plugin-css": "2025.7.2",
-    "plugin-html": "2025.7.0",
-    "plugin-javascript": "2025.7.3",
-    "plugin-pagenotfound": "2025.7.1",
-    "plugin-accessibility-statement": "2025.7.3",
-    "plugin-webperf-core": "2025.7.0"
-  },
-  "devDependencies": {
-    "eslint": "9.31.0",
-    "serve": "14.2.4",
-    "serve-handler": "6.1.6"
-  },
-  "scripts": {
-    "start-server": "serve unittests/data/",
-    "stop-server": "sudo pkill serve",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lighthouse": "12.3.0",
+    "pa11y": "8.0.0",
+    "sitespeed.io": "35.7.5",
+    "stylelint": "16.13.0",
+    "vnu-jar": "23.4.11",
+    "yellowlabtools": "3.0.1"
   },
   "engines": {
-    "node": ">=20.x"
+    "node": "20.x"
   }
 }

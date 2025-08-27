@@ -1,7 +1,14 @@
 # Google Lighthouse based Tests
 [![Regression Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-google-lighthouse-based.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-google-lighthouse-based.yml)
 
-This is a general page for the lighthouse test that are using Google Lighthouse in the background.
+This is a general page for all tests that are using Google Lighthouse in the background.
+
+Following tests are using Google Lighthouse in the background:
+* [Google Lighthouse accessibility with Axe](google-lighthouse-a11y.md)
+* [Google Lighthouse performance](google-lighthouse-performance.md)
+* [Google Lighthouse best practice](google-lighthouse-best-practice.md)
+* [Google Lighthouse SEO](google-lighthouse-seo.md)
+* [Energy efficiency](energy-efficiency.md)
 
 ## How to setup?
 

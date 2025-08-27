@@ -7,8 +7,6 @@ import re
 import urllib
 import urllib.parse
 
-from helpers.setting_helper import get_config
-
 def update_credits_markdown(global_translation):
     creds = get_credits(global_translation)
 
@@ -65,6 +63,8 @@ def get_credits(global_translation):
                 text += 'Usage: Used in the background in most cases where we need to visit website as browser\r\n'
             elif 'vnu-jar' in creditor_name:
                 text += 'Usage: Used in HTML and CSS Validation Test\r\n'
+            elif 'yellowlabtools' in creditor_name:
+                text += 'Usage: Used in Quality on frontend (Yellow Lab Tools) Test\r\n'
 
             if 'license' in software and software["license"] != '':
                 text += f'License: {software["license"].upper()}\r\n'
@@ -119,6 +119,8 @@ def get_external_information_sources():
         file_name = file_path[last_sep_index:].lower()
         if file_name == 'all':
             continue
+        elif 'mdn_helper.py' in file_name:
+            text += '### Update HTML and CSS Test Sources:\r\n'
         elif 'update_software_helper.py' in file_name:
             text += '### Update Software Test Sources:\r\n'
             text += '- https://github.com/github/advisory-database/tree/main/advisories/github-reviewed\r\n'
@@ -202,7 +204,6 @@ def get_py_files(base_directory):
     except:
         return py_files
 
-    cache_folder = get_config('general.cache.folder')
     for sub_file_or_dir in sub_files_or_dirs:
         if sub_file_or_dir[0:1] == '.':
             continue
@@ -225,8 +226,7 @@ def get_py_files(base_directory):
                 'node_modules',
                 'LICENSE',
                 'tmp',
-                'locales',
-                cache_folder):
+                'locales'):
             continue
         else:
             sub_py_files = get_py_files( os.path.join(base_directory, sub_file_or_dir) )

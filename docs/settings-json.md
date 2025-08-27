@@ -90,11 +90,6 @@ resulting in less requests and strain on the url you are testing.
 
 See `general.cache.max-age` setting to determine how long.
 
-### general.cache.folder `(Default = "cache")`
-This tells webperf-core what foldername to use for cache.
-This take no effect unless `general.cache.use` is set to `true`.
-
-
 ### general.cache.max-age `(Default = 60 minutes)`
 This tells webperf-core how long to use cached resources in minutes.
 This take no effect unless `general.cache.use` is set to `true`.
@@ -115,10 +110,6 @@ Only required if you use GitHub Actions, it is required for workflows to be allo
 ## tests
 
 Section for test specific settings.
-
-### tests.a11y-statement.max-nof-pages `(Default = 10)`
-
-This variable sets the maximum number of pages to be tested for accessibility statements. It is useful to limit the scope of the test to a manageable number of pages, especially for large websites.
 
 ### tests.email.support.port25 `(Default = false)`
 
@@ -164,17 +155,10 @@ Please also see csp-generate-strict-recommended-hashes and tests.http.csp-genera
 Tells HTTP test to only download javascript resources one more time after visiting website to generate sha256 hashes.
 Please also see csp-generate-strict-recommended-hashes and tests.http.csp-generate-hashes.
 
-### test.sitespeed.browser `(Default = "chrome")`
-With this setting you can change to use edge as browser for sitespeed based tests.
-For now this is more or less useless for none windows users.
-BUT for windows users, this setting makes it possible use edge instead
-of chrome,
-meaning you don't need to download an extra browser just for testing.
-Valid values are:
-- chrome
-- edge
-NOTE: Firefox is not supported yet because of missing functionality making
-it impossible to collect resource content.
+### tests.lighthouse.disable-sandbox `(Default = false)`
+
+This variable tells lighthouse based test(s) to disable chrome sandbox or not.
+This is needed when using it in our docker image (IF not used in interactive mode).
 
 ### tests.sitespeed.docker.use `(Default = false)`
 
@@ -193,10 +177,6 @@ Setting this to a lower value may improve overall test speed if many urls are be
 it is not important if one or two tests fail.
 Please read more about this on [SiteSpeed test section](tests/sitespeed.md).
 
-### tests.sitespeed.mobile `(Default = false)`
-
-This variable tells sitespeed based test(s) to simulate mobile browser.
-
 ### tests.sitespeed.xvfb `(Default = false)`
 
 This variable tells sitespeed based test(s) to start xvfb before the browser is started.
@@ -206,6 +186,13 @@ This is only relevant for linux based os.
 This variable is ONLY used to generate a CVE and security related info for software.
 Tell software update tool the path to where you have repo of: https://github.com/github/advisory-database
 
+### test.software.browser `(Default = "chrome")`
+For now this is more or less useless for none developers.
+In the future the goal is to make it possible to decide what browser to use when running tests.
+Valid values are:
+- chrome
+- firefox
+- edge
 
 ### test.software.stealth.use `(Default = true)`
 Tell software test to use stealth mode or not.

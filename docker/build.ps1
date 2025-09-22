@@ -1,3 +1,3 @@
 CD ..
-docker build -t "webperf-runner:latest" .
+docker build -t "webperf-core:latest" .
 CD docker

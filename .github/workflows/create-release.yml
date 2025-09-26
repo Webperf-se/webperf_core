@@ -16,7 +16,7 @@ jobs:
         with:
           fetch-depth: 0 # [!] we need to checkout with tags and commit history
       - name: Setup python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.x" # Version range or exact version of a Python version to use, using SemVer's version range syntax
           architecture: "x64" # optional x64 or x86. Defaults to x64 if not specified

@@ -202,3 +202,21 @@ msgstr "CSS, Tillåt inte okända enheter ({0})"
 
 msgid "unit-no-unknown (resolved)"
 msgstr "CSS, Tillåt inte okända enheter (löst)"
+
+msgid "media-type-no-deprecated (unresolved)"
+msgstr "CSS, Tillåt inte inaktuella medietyper ({0})"
+
+msgid "media-type-no-deprecated (resolved)"
+msgstr "CSS, Tillåt inte inaktuella medietyper (löst)"
+
+msgid "no-invalid-position-declaration (unresolved)"
+msgstr "CSS, Tillåt inte ogiltiga positionsdeklarationer ({0})"
+
+msgid "no-invalid-position-declaration (resolved)"
+msgstr "CSS, Tillåt inte ogiltiga positionsdeklarationer (löst)"
+
+msgid "property-no-deprecated (unresolved)"
+msgstr "CSS, Tillåt inte inaktuella egenskaper ({0})"
+
+msgid "property-no-deprecated (resolved)"
+msgstr "CSS, Tillåt inte inaktuella egenskaper (löst)"

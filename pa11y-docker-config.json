@@ -1,6 +1,6 @@
 {
     "chromeLaunchConfig": {
         "ignoreHTTPSErrors": false,
-        "args": ["--no-sandbox", "--no-zygote", "--disable-gpu", "--single-process"]
+        "args": ["--no-sandbox", "--no-zygote", "--disable-gpu", "--disable-features=FedCm"]
     }
 }

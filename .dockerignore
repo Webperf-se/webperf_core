@@ -12,3 +12,4 @@ node_modules
 geckodriver.log
 software-unknown-sources.json
 vnu.jar
+package-lock.json

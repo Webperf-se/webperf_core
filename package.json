@@ -18,12 +18,12 @@
     "@sitespeed.io/plugin": "1.0.0",
     "@sitespeed.io/plugin-lighthouse": "12.3.0",
     "pa11y": "9.0.0",
-    "sitespeed.io": "38.0.0",
-    "plugin-css": "2025.7.2",
-    "plugin-html": "2025.7.0",
-    "plugin-javascript": "2025.7.3",
-    "plugin-pagenotfound": "2025.7.1",
-    "plugin-accessibility-statement": "2025.7.3",
+    "sitespeed.io": "38.3.0",
+    "plugin-css": "2025.9.0",
+    "plugin-html": "2025.9.0",
+    "plugin-javascript": "2025.9.0",
+    "plugin-pagenotfound": "2025.9.0",
+    "plugin-accessibility-statement": "2025.9.0",
     "plugin-webperf-core": "2025.7.0"
   },
   "devDependencies": {

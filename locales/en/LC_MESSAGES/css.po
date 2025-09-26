@@ -202,3 +202,21 @@ msgstr "CSS, Disallow unknown units ({0})"
 
 msgid "unit-no-unknown (resolved)"
 msgstr "CSS, Disallow unknown units (resolved)"
+
+msgid "media-type-no-deprecated (unresolved)"
+msgstr "CSS, Disallow deprecated media types ({0})"
+
+msgid "media-type-no-deprecated (resolved)"
+msgstr "CSS, Disallow deprecated media types (resolved)"
+
+msgid "no-invalid-position-declaration (unresolved)"
+msgstr "CSS, Disallow invalid position declarations ({0})"
+
+msgid "no-invalid-position-declaration (resolved)"
+msgstr "CSS, Disallow invalid position declarations (resolved)"
+
+msgid "property-no-deprecated (unresolved)"
+msgstr "CSS, Disallow deprecated properties ({0})"
+
+msgid "property-no-deprecated (resolved)"
+msgstr "CSS, Disallow deprecated properties (resolved)"

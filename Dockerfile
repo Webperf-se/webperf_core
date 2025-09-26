@@ -1,4 +1,4 @@
-FROM sitespeedio/sitespeed.io:38.0.0
+FROM sitespeedio/sitespeed.io:38.3.0
 
 USER root
 
@@ -39,7 +39,7 @@ RUN echo 'ALL ALL=NOPASSWD: /usr/sbin/tc, /usr/sbin/route, /usr/sbin/ip' > /etc/
 # https://github.com/puppeteer/puppeteer/issues/8148#issuecomment-1397528849
 RUN Xvfb -ac :99 -screen 0 1280x1024x16 & export DISPLAY=:99
 
-RUN npm install -g node-gyp puppeteer
+RUN npm install -g node-gyp puppeteer-core npm-check-updates
 
 # If own settings.json exists it will overwrite the default
 COPY . /usr/src/runner

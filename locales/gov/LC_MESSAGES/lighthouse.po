@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2025-04-27 12:00\n"
-"PO-Revision-Date: 2025-04-27 12:00\n"
+"PO-Revision-Date: 2025-10-15 18:00\n"
 "Last-Translator: Your-Name-Hear <your-email-here@webperf.se>\n"
 "Language-Team: English <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
@@ -490,3 +490,99 @@ msgstr "Issues in the `Issues` panel in Chrome Devtools ({0})"
 
 msgid "inspector-issues (resolved)"
 msgstr "No issues in the `Issues` panel in Chrome Devtools (resolved)"
+
+msgid "cls-culprits-insight (unresolved)"
+msgstr "Layout shift culprits ({0})"
+
+msgid "cls-culprits-insight (resolved)"
+msgstr "Layout shift culprits (resolved)"
+
+msgid "document-latency-insight (unresolved)"
+msgstr "Document request latency ({0})"
+
+msgid "document-latency-insight (resolved)"
+msgstr "Document request latency (resolved)"
+
+msgid "dom-size-insight (unresolved)"
+msgstr "Optimize DOM size ({0})"
+
+msgid "dom-size-insight (resolved)"
+msgstr "Optimize DOM size (resolved)"
+
+msgid "duplicated-javascript-insight (unresolved)"
+msgstr "Duplicated JavaScript ({0})"
+
+msgid "duplicated-javascript-insight (resolved)"
+msgstr "Duplicated JavaScript (resolved)"
+
+msgid "font-display-insight (unresolved)"
+msgstr "Font display ({0})"
+
+msgid "font-display-insight (resolved)"
+msgstr "Font display (resolved)"
+
+msgid "image-delivery-insight (unresolved)"
+msgstr "Improve image delivery ({0})"
+
+msgid "image-delivery-insight (resolved)"
+msgstr "Improve image delivery (resolved)"
+
+msgid "interaction-to-next-paint-insight (unresolved)"
+msgstr "INP breakdown ({0})"
+
+msgid "interaction-to-next-paint-insight (resolved)"
+msgstr "INP breakdown (resolved)"
+
+msgid "lcp-discovery-insight (unresolved)"
+msgstr "LCP request discovery ({0})"
+
+msgid "lcp-discovery-insight (resolved)"
+msgstr "LCP request discovery (resolved)"
+
+msgid "lcp-phases-insight (unresolved)"
+msgstr "LCP breakdown ({0})"
+
+msgid "lcp-phases-insight (resolved)"
+msgstr "LCP breakdown (resolved)"
+
+msgid "legacy-javascript-insight (unresolved)"
+msgstr "Legacy JavaScript ({0})"
+
+msgid "legacy-javascript-insight (resolved)"
+msgstr "Legacy JavaScript (resolved)"
+
+msgid "modern-http-insight (unresolved)"
+msgstr "Modern HTTP ({0})"
+
+msgid "modern-http-insight (resolved)"
+msgstr "Modern HTTP (resolved)"
+
+msgid "network-dependency-tree-insight (unresolved)"
+msgstr "Network dependency tree ({0})"
+
+msgid "network-dependency-tree-insight (resolved)"
+msgstr "Network dependency tree (resolved)"
+
+msgid "render-blocking-insight (unresolved)"
+msgstr "Render-blocking requests ({0})"
+
+msgid "render-blocking-insight (resolved)"
+msgstr "Render-blocking requests (resolved)"
+
+msgid "third-parties-insight (unresolved)"
+msgstr "3rd parties ({0})"
+
+msgid "third-parties-insight (resolved)"
+msgstr "3rd parties (resolved)"
+
+msgid "use-cache-insight (unresolved)"
+msgstr "Use efficient cache lifetimes ({0})"
+
+msgid "use-cache-insight (resolved)"
+msgstr "Use efficient cache lifetimes (resolved)"
+
+msgid "viewport-insight (unresolved)"
+msgstr "Optimize viewport for mobile ({0})"
+
+msgid "viewport-insight (resolved)"
+msgstr "Optimize viewport for mobile (resolved)"

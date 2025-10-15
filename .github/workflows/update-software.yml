@@ -58,8 +58,8 @@ jobs:
           
           Following files may be touched:
             - defaults/settings.json
-        assignees: 7h3Rabbit,cockroacher,marcusosterberg
-        reviewers: 7h3Rabbit,cockroacher,marcusosterberg
+        assignees: cockroacher,marcusosterberg
+        reviewers: cockroacher,marcusosterberg
         add-paths: |
           defaults/settings.json
     - name: Checkout advisory-database repo
@@ -88,8 +88,8 @@ jobs:
             - defaults/software-sources.json
             - defaults/software-full.json
             - defaults/software-rules.json
-        assignees: 7h3Rabbit,cockroacher,marcusosterberg
-        reviewers: 7h3Rabbit,cockroacher,marcusosterberg
+        assignees: cockroacher,marcusosterberg
+        reviewers: cockroacher,marcusosterberg
         add-paths: |
           defaults/software-sources.json
           defaults/software-full.json
@@ -107,7 +107,7 @@ jobs:
           
           Following files may be touched:
             - CREDITS.md
-        assignees: 7h3Rabbit,cockroacher,marcusosterberg,marcusosterberg
-        reviewers: 7h3Rabbit,cockroacher,marcusosterberg
+        assignees: cockroacher,marcusosterberg,marcusosterberg
+        reviewers: cockroacher,marcusosterberg
         add-paths: |
           CREDITS.md

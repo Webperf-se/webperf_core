@@ -491,3 +491,99 @@ msgstr "Problem i panelen `Issues` i Chrome Devtools ({0})"
 
 msgid "inspector-issues (resolved)"
 msgstr "Inga problem i panelen `Issues` i Chrome Devtools (löst)"
+
+msgid "cls-culprits-insight (unresolved)"
+msgstr "Resultat för layoutförskjutning ({0})"
+
+msgid "cls-culprits-insight (resolved)"
+msgstr "Resultat för layoutförskjutning (löst)"
+
+msgid "document-latency-insight (unresolved)"
+msgstr "Fördröjning av dokumentbegäran ({0})"
+
+msgid "document-latency-insight (resolved)"
+msgstr "Fördröjning av dokumentbegäran (löst)"
+
+msgid "dom-size-insight (unresolved)"
+msgstr "Optimera DOM-storlek ({0})"
+
+msgid "dom-size-insight (resolved)"
+msgstr "Optimera DOM-storlek (löst)"
+
+msgid "duplicated-javascript-insight (unresolved)"
+msgstr "Duplicerad JavaScript ({0})"
+
+msgid "duplicated-javascript-insight (resolved)"
+msgstr "Duplicerad JavaScript (löst)"
+
+msgid "font-display-insight (unresolved)"
+msgstr "Teckensnittsvisning ({0})"
+
+msgid "font-display-insight (resolved)"
+msgstr "Teckensnittsvisning (löst)"
+
+msgid "image-delivery-insight (unresolved)"
+msgstr "Förbättra bildleveransen ({0})"
+
+msgid "image-delivery-insight (resolved)"
+msgstr "Förbättra bildleveransen (löst)"
+
+msgid "interaction-to-next-paint-insight (unresolved)"
+msgstr "Interaktion till nästa uppritning ({0})"
+
+msgid "interaction-to-next-paint-insight (resolved)"
+msgstr "Interaktion till nästa uppritning (löst)"
+
+msgid "lcp-discovery-insight (unresolved)"
+msgstr "Upptäcka LCP-begäran ({0})"
+
+msgid "lcp-discovery-insight (resolved)"
+msgstr "Upptäcka LCP-begäran (löst)"
+
+msgid "lcp-phases-insight (unresolved)"
+msgstr "LCP-fördelning ({0})"
+
+msgid "lcp-phases-insight (resolved)"
+msgstr "LCP-fördelning (löst)"
+
+msgid "legacy-javascript-insight (unresolved)"
+msgstr "Äldre JavaScript ({0})"
+
+msgid "legacy-javascript-insight (resolved)"
+msgstr "Äldre JavaScript (löst)"
+
+msgid "modern-http-insight (unresolved)"
+msgstr "Modern HTTP ({0})"
+
+msgid "modern-http-insight (resolved)"
+msgstr "Modern HTTP (löst)"
+
+msgid "network-dependency-tree-insight (unresolved)"
+msgstr "Nätverksberoendeträd ({0})"
+
+msgid "network-dependency-tree-insight (resolved)"
+msgstr "Nätverksberoendeträd (löst)"
+
+msgid "render-blocking-insight (unresolved)"
+msgstr "Begäranden om renderingsblockering ({0})"
+
+msgid "render-blocking-insight (resolved)"
+msgstr "Begäranden om renderingsblockering (löst)"
+
+msgid "third-parties-insight (unresolved)"
+msgstr "Tredje part ({0})"
+
+msgid "third-parties-insight (resolved)"
+msgstr "Tredje part (löst)"
+
+msgid "use-cache-insight (unresolved)"
+msgstr "Använd effektiva cachelivslängder ({0})"
+
+msgid "use-cache-insight (resolved)"
+msgstr "Använd effektiva cachelivslängder (löst)"
+
+msgid "viewport-insight (unresolved)"
+msgstr "Optimera visningsområde för mobila enheter ({0})"
+
+msgid "viewport-insight (resolved)"
+msgstr "Optimera visningsområde för mobila enheter (löst)"

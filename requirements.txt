@@ -10,5 +10,5 @@ Pillow==11.3.0
 OpenCV-Python==4.12.0.88
 Numpy==2.2.4
 cryptography==46.0.2
-pylint==3.3.8
+pylint==4.0.2
 packaging==25.0

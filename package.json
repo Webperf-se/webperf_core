@@ -18,7 +18,7 @@
     "@sitespeed.io/plugin": "1.0.0",
     "@sitespeed.io/plugin-lighthouse": "13.0.0",
     "pa11y": "9.0.1",
-    "sitespeed.io": "38.4.1",
+    "sitespeed.io": "38.6.0",
     "plugin-css": "2025.10.0",
     "plugin-html": "2025.10.0",
     "plugin-javascript": "2025.10.0",
@@ -27,7 +27,7 @@
     "plugin-webperf-core": "2025.10.0"
   },
   "devDependencies": {
-    "eslint": "9.37.0",
+    "eslint": "9.39.0",
     "serve": "14.2.5",
     "serve-handler": "6.1.6"
   },

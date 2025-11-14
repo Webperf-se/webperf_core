@@ -5,8 +5,8 @@ Many thanks to all of you! :D
 Contributors:
 - [7h3Rabbit](https://github.com/7h3Rabbit)
 - [cockroacher](https://github.com/cockroacher)
-- [marcusosterberg](https://github.com/marcusosterberg)
 - [dependabot[bot]](https://github.com/apps/dependabot)
+- [marcusosterberg](https://github.com/marcusosterberg)
 - [flowertwig-org](https://github.com/flowertwig-org)
 - [krompaco](https://github.com/krompaco)
 - [aze2099](https://github.com/aze2099)

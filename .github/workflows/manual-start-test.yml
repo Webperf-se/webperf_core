@@ -38,7 +38,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
     - name: Setup QEMU # used to allow multiplatform docker builds
       uses: docker/setup-qemu-action@v3
     - name: Setup Docker Buildx # used to allow multiplatform docker builds

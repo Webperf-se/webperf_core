@@ -1,6 +1,6 @@
 {
   "name": "webperf_core",
-  "version": "2025.10.0",
+  "version": "2025.11.2",
   "type": "module",
   "description": "You probably want to read the documentation available at homepage.",
   "repository": {
@@ -19,15 +19,15 @@
     "@sitespeed.io/plugin-lighthouse": "13.0.0",
     "pa11y": "9.0.1",
     "sitespeed.io": "38.6.0",
-    "plugin-css": "2025.11.0",
-    "plugin-html": "2025.11.0",
-    "plugin-javascript": "2025.11.0",
-    "plugin-pagenotfound": "2025.11.0",
-    "plugin-accessibility-statement": "2025.11.0",
-    "plugin-webperf-core": "2025.11.0"
+    "plugin-css": "2025.11.1",
+    "plugin-html": "2025.11.1",
+    "plugin-javascript": "2025.11.1",
+    "plugin-pagenotfound": "2025.11.1",
+    "plugin-accessibility-statement": "2025.11.1",
+    "plugin-webperf-core": "2025.11.1"
   },
   "devDependencies": {
-    "eslint": "9.39.0",
+    "eslint": "9.39.1",
     "serve": "14.2.5",
     "serve-handler": "6.1.6"
   },

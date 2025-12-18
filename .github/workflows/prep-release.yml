@@ -33,7 +33,7 @@ jobs:
         id: newversion
         run: python default.py --prepare-release "${{ steps.changes.outputs.last-tag }}"
       - name: Create pull request
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           commit-message: Updated version in package.json to latest
           branch: update-version-in-package-json

@@ -77,8 +77,8 @@ def check_node():
     version = packaging.version.Version(version)
     repo_version = packaging.version.Version("20.17")
 
-    # Check if the major version is between 20 and 22
-    if not (20 <= version.major <= 22):
+    # Check if the major version is between 20 and 24
+    if not (20 <= version.major <= 24):
         print('\t- Node:', 'WARNING: Major version not between 20 and 22')
         return
 

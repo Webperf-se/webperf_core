@@ -48,7 +48,7 @@ jobs:
     - name: Update USER_AGENT
       run: python default.py --update-browser
     - name: Update USER_AGENT - Create pull request
-      uses: peter-evans/create-pull-request@v7
+      uses: peter-evans/create-pull-request@v8
       with:
         commit-message: Update default user agent
         branch: user-agent-updates
@@ -74,7 +74,7 @@ jobs:
     - name: Software Definitions - Update
       run: python default.py --update-definitions ${{ secrets.GITHUB_TOKEN }}
     - name: Software Definitions - Create pull request
-      uses: peter-evans/create-pull-request@v7
+      uses: peter-evans/create-pull-request@v8
       with:
         commit-message: Update software, cve info and license definitions
         branch: software-definition-updates
@@ -97,7 +97,7 @@ jobs:
     - name: Update CREDITS.md
       run: python default.py --update-credits
     - name: Update CREDITS.md - Create pull request
-      uses: peter-evans/create-pull-request@v7
+      uses: peter-evans/create-pull-request@v8
       with:
         commit-message: Update CREDITS.md
         branch: credits-updates

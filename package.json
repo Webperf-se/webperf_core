@@ -24,7 +24,7 @@
     "plugin-javascript": "2025.12.1",
     "plugin-pagenotfound": "2025.12.0",
     "plugin-accessibility-statement": "2025.12.0",
-    "plugin-webperf-core": "2025.12.0"
+    "plugin-webperf-core": "2025.12.1"
   },
   "devDependencies": {
     "eslint": "9.39.2",

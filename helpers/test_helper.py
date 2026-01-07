@@ -223,7 +223,24 @@ def get_versions():
             result.append("\n")
     return result
 
-def test_with_sitespeed(global_translation, site, sitespeed_plugins):
+def test_with_sitespeed(global_translation, site, sitespeed_plugins, sitespeed_test_types):
+    """
+    Run sitespeed-based tests on a website.
+
+    Parameters:
+    global_translation : GNUTranslations
+        An object that handles the translation of text in the context of internationalization.
+    site : tuple
+        A tuple containing the site ID and the website URL.
+    sitespeed_plugins : str
+        A string containing the sitespeed plugins to use.
+    sitespeed_test_types : list
+        A list of test type IDs that are being run via sitespeed.
+
+    Returns:
+    list
+        A list containing the test results.
+    """
     try:
         rating = Rating(global_translation)
         result_dict = {}
@@ -245,7 +262,13 @@ def test_with_sitespeed(global_translation, site, sitespeed_plugins):
 
             json_data = result_dict
 
-            site_test = SiteTests(site_id=site[0], type_of_test=-1,
+            # Beräkna type_of_test baserat på vilka sitespeed-tester som kördes
+            if len(sitespeed_test_types) == 1:
+                current_type_of_test = sitespeed_test_types[0]
+            else:
+                current_type_of_test = -1
+
+            site_test = SiteTests(site_id=site[0], type_of_test=current_type_of_test,
                                   rating=rating,
                                   test_date=datetime.now(),
                                   json_check_data=json_data).todata()
@@ -254,7 +277,7 @@ def test_with_sitespeed(global_translation, site, sitespeed_plugins):
     except Exception as ex: # pylint: disable=broad-exception-caught
         print(global_translation('TEXT_TEST_END').format(
             datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
-        info = get_error_info(site[1], -1, ex)
+        info = get_error_info(site[1], sitespeed_test_types, ex)
         print('\n'.join(info).replace('\n\n','\n'))
 
         # write error to failure.log file
@@ -284,6 +307,7 @@ def test_site(global_translation, site, test_types):
 
     site_id = site[0]
     sitespeed_plugins = ''
+    sitespeed_test_types = []
     other_tests = []
     for test_id in TEST_ALL_FUNCS:
         if test_id not in test_types:
@@ -291,6 +315,7 @@ def test_site(global_translation, site, test_types):
         
         if test_id in TEST_USE_SITESPEED.keys():
             sitespeed_plugins += f'--plugins.add {TEST_USE_SITESPEED[test_id]} '
+            sitespeed_test_types.append(test_id)
         else:
             other_tests.append(test_id)
 
@@ -298,7 +323,8 @@ def test_site(global_translation, site, test_types):
         sitespeed_plugins += '--plugins.add plugin-webperf-core '
         tests.extend(test_with_sitespeed(global_translation,
             site,
-            sitespeed_plugins))
+            sitespeed_plugins,
+            sitespeed_test_types))
 
     for test_id in other_tests:
         tests.extend(test(global_translation,
@@ -335,10 +361,15 @@ def test_site(global_translation, site, test_types):
                 global_translation('TEXT_SITE_REVIEW_DATA'),
                 f'```json\r\n{nice_json_data}\r\n```')
 
+        # Beräkna type_of_test baserat på vilka tester som kördes
+        if len(test_types) == 1:
+            final_type_of_test = test_types[0]
+        else:
+            final_type_of_test = -1
 
         site_test = SiteTests(
             site_id,
-            type_of_test=-1,
+            type_of_test=final_type_of_test,
             rating=rating,
             test_date=datetime.now(),
             json_check_data=big_data).todata()

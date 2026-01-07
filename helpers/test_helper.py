@@ -22,6 +22,8 @@ from engines.json_engine import write_tests as json_write_tests
 from engines.gov import write_tests as gov_write_tests
 from engines.sql import write_tests as sql_write_tests
 from engines.markdown_engine import write_tests as markdown_write_tests
+from engines.csv_engine import write_tests as csv_write_tests
+from engines.sqlite import write_tests as sqlite_write_tests
 
 def run_dummy_test(global_translation, url):
     return []

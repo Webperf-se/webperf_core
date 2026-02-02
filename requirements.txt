@@ -9,6 +9,6 @@ IP2Location==8.11.0
 Pillow==12.1.0
 OpenCV-Python==4.13.0.90
 Numpy==2.4.1
-cryptography==46.0.3
+cryptography==46.0.4
 pylint==4.0.4
 packaging==25.0

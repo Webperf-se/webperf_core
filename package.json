@@ -16,7 +16,7 @@
   "homepage": "https://github.com/Webperf-se/webperf_core/",
   "dependencies": {
     "@sitespeed.io/plugin": "1.0.0",
-    "@sitespeed.io/plugin-lighthouse": "13.0.0",
+    "@sitespeed.io/plugin-lighthouse": "13.0.1",
     "pa11y": "9.0.1",
     "sitespeed.io": "39.4.2",
     "plugin-css": "2026.1.1",

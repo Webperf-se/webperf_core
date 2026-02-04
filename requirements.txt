@@ -11,4 +11,4 @@ OpenCV-Python==4.13.0.90
 Numpy==2.4.2
 cryptography==46.0.4
 pylint==4.0.4
-packaging==25.0
+packaging==26.0

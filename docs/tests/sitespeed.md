@@ -71,7 +71,7 @@ Read more on the [general page for github actions](../getting-started-github-act
 * Install setuptools `python -m pip install --upgrade setuptools`
 * Install ... `python -m pip install pyssim Pillow image`
 * Install ffmpeg `sudo apt install ffmpeg`
-* Download and install Node.js (version 20.x)
+* Download and install Node.js (version 24.x)
 * Download and install Google Chrome browser
 * Install NPM packages ( `npm install --omit=dev` )
 * Set `sitespeed_use_docker = False` in your `config.py`

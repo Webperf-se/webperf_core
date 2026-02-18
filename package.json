@@ -1,6 +1,6 @@
 {
   "name": "webperf_core",
-  "version": "2026.2.0",
+  "version": "2026.2.1",
   "type": "module",
   "description": "You probably want to read the documentation available at homepage.",
   "repository": {
@@ -17,7 +17,7 @@
   "dependencies": {
     "@sitespeed.io/plugin": "1.0.0",
     "@sitespeed.io/plugin-lighthouse": "13.0.1",
-    "pa11y": "9.0.1",
+    "pa11y": "9.1.0",
     "sitespeed.io": "39.4.2",
     "plugin-css": "2026.1.1",
     "plugin-html": "2026.1.1",
@@ -38,6 +38,6 @@
     "lint:fix": "eslint . --fix"
   },
   "engines": {
-    "node": ">=20.x"
+    "node": ">=24.x"
   }
 }

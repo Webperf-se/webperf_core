@@ -23,7 +23,7 @@ jobs:
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
     - name: Setup QEMU # used to allow multiplatform docker builds
-      uses: docker/setup-qemu-action@v3
+      uses: docker/setup-qemu-action@v4
     - name: Setup Docker Buildx # used to allow multiplatform docker builds
       uses: docker/setup-buildx-action@v3
     - name: Testing sitespeed.io:s browsertime.har output using ${{ matrix.browser }}

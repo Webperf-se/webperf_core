@@ -29,7 +29,7 @@
   "devDependencies": {
     "eslint": "10.0.3",
     "serve": "14.2.6",
-    "serve-handler": "6.1.6"
+    "serve-handler": "6.1.7"
   },
   "scripts": {
     "start-server": "serve unittests/data/",

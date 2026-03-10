@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "eslint": "10.0.3",
-    "serve": "14.2.5",
+    "serve": "14.2.6",
     "serve-handler": "6.1.6"
   },
   "scripts": {

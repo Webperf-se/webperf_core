@@ -18,7 +18,7 @@ jobs:
     - name: Setup QEMU # used to allow multiplatform docker builds
       uses: docker/setup-qemu-action@v4
     - name: Setup Docker Buildx # used to allow multiplatform docker builds
-      uses: docker/setup-buildx-action@v3
+      uses: docker/setup-buildx-action@v4
     # - name: Login to Docker Hub
     #   uses: docker/login-action@v3
     #   with:

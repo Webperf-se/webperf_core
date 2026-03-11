@@ -2954,6 +2954,888 @@
         "zxcvbn": {
             "github-owner": "dropbox",
             "github-repo": "zxcvbn"
+        },
+        "material-design-icons": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/google/material-design-icons/tags",
+            "github-owner": "google",
+            "github-repo": "material-design-icons",
+            "url": "https://assets.prd.heyflow.com/builder/widget/latest/webview.js"
+        },
+        "av1-rtp-spec": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/aomediacodec/av1-rtp-spec/tags",
+            "github-owner": "aomediacodec",
+            "github-repo": "av1-rtp-spec",
+            "url": "https://widget.lifeinside.io/v4/latest/widget.umd.js"
+        },
+        "json-js": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/douglascrockford/JSON-js/tags",
+            "github-owner": "douglascrockford",
+            "github-repo": "JSON-js",
+            "url": "https://aadcdn.msauth.net/shared/1.0/content/js/ConvergedLogin_PCore_rSGxz-l0oiYlHQlR2WHEXA2.js"
+        },
+        "burst-statistics": {
+            "type": "wordpress-plugin"
+        },
+        "common": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/Limepark/common/tags",
+            "github-owner": "Limepark",
+            "github-repo": "common",
+            "url": "https://kungsbacka.se/download/18.51f49f9317c1158e1c2690b5/1567590695367/utils.js"
+        },
+        "react-datepicker": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/Hacker0x01/react-datepicker/tags",
+            "github-owner": "Hacker0x01",
+            "github-repo": "react-datepicker",
+            "url": "https://www.elite.se/dist/client/assets/DatePicker-923a6565.js"
+        },
+        "docs": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/formatjs/docs/tags",
+            "github-owner": "formatjs",
+            "github-repo": "docs",
+            "url": "https://static.proposales.com/embed.js"
+        },
+        "contact-form-7-multi-step-module": {
+            "type": "wordpress-plugin"
+        },
+        "wp-font-awesome": {
+            "type": "wordpress-plugin"
+        },
+        "blog": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/artsy/blog/tags",
+            "github-owner": "artsy",
+            "github-repo": "blog",
+            "url": "https://demokraterna.se/wp-content/themes/enfold/js/avia-compat.js?ver=7.0"
+        },
+        "wp-themes": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/KriesiMedia/wp-themes/tags",
+            "github-owner": "KriesiMedia",
+            "github-repo": "wp-themes",
+            "url": "https://demokraterna.se/wp-content/themes/enfold/config-templatebuilder/avia-shortcodes/gallery/gallery.js?ver=7.0"
+        },
+        "google-site-kit": {
+            "type": "wordpress-plugin"
+        },
+        "modern-events-calendar-lite": {
+            "type": "wordpress-plugin"
+        },
+        "responsive-lightbox": {
+            "type": "wordpress-plugin"
+        },
+        "wp-djpopup-1.2.8": {
+            "type": "wordpress-plugin"
+        },
+        "closure-library": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/google/closure-library/tags",
+            "github-owner": "google",
+            "github-repo": "closure-library",
+            "url": "https://form.apsis.one/bundle.ec343.esm.js"
+        },
+        "ut-shortcodes": {
+            "type": "wordpress-plugin"
+        },
+        "gp-premium": {
+            "type": "wordpress-plugin"
+        },
+        "supabase": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/orgs/supabase/tags",
+            "github-owner": "orgs",
+            "github-repo": "supabase",
+            "url": "https://www.med.se/assets/index-C6_scxGf.js"
+        },
+        "bootstrap-timepicker": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/jdewit/bootstrap-timepicker/tags",
+            "github-owner": "jdewit",
+            "github-repo": "bootstrap-timepicker",
+            "url": "https://socialdemokraterna.ungapped.io/Plugins/bootstrap-timepicker/bootstrap-timepicker.js"
+        },
+        "jquery-boilerplate": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/jquery-boilerplate/jquery-boilerplate/tags",
+            "github-owner": "jquery-boilerplate",
+            "github-repo": "jquery-boilerplate",
+            "url": "https://socialdemokraterna.ungapped.io/plugins/intl-tel-input-master/js/intlTelInput.js"
+        },
+        "region-flags": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/behdad/region-flags/tags",
+            "github-owner": "behdad",
+            "github-repo": "region-flags",
+            "url": "https://socialdemokraterna.ungapped.io/plugins/intl-tel-input-master/js/intlTelInput.js"
+        },
+        "interactive-3d-flipbook-powered-physics-engine": {
+            "type": "wordpress-plugin"
+        },
+        "superslides": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/nicinabox/superslides/tags",
+            "github-owner": "nicinabox",
+            "github-repo": "superslides",
+            "url": "https://varframtid.se/wp-content/themes/clean-business/js/scripts.js?ver=6.8.3"
+        },
+        "quotes-and-tips": {
+            "type": "wordpress-plugin"
+        },
+        "spider-contacts": {
+            "type": "wordpress-plugin"
+        },
+        "catalog": {
+            "type": "wordpress-plugin"
+        },
+        "spider-event-calendar": {
+            "type": "wordpress-plugin"
+        },
+        "widget-logic": {
+            "type": "wordpress-plugin"
+        },
+        "3d-flipbook-dflip-lite": {
+            "type": "wordpress-plugin"
+        },
+        "facebook-like-box-responsive": {
+            "type": "wordpress-plugin"
+        },
+        "twig.js": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/schmittjoh/twig.js/tags",
+            "github-owner": "schmittjoh",
+            "github-repo": "twig.js",
+            "url": "https://55b558c7-resources.builder.misssite.com/a840a0f989/compiled/published-v10-site-libs.js"
+        },
+        "social-feed-by-arrowplugins-premium-1.4.2": {
+            "type": "wordpress-plugin"
+        },
+        "team-builder": {
+            "type": "wordpress-plugin"
+        },
+        "codebird-php": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/jublonet/codebird-php/tags",
+            "github-owner": "jublonet",
+            "github-repo": "codebird-php",
+            "url": "https://drevvikenpartiet.se/wp-content/plugins/social-feed-by-arrowplugins-premium-1.4.2/bower_components/codebird-js/codebird.js?ver=6.9.1"
+        },
+        "hurrytimer": {
+            "type": "wordpress-plugin"
+        },
+        "wp-rss-aggregator": {
+            "type": "wordpress-plugin"
+        },
+        "embed-any-document": {
+            "type": "wordpress-plugin"
+        },
+        "super-rss-reader": {
+            "type": "wordpress-plugin"
+        },
+        "impeka-wpb-extension": {
+            "type": "wordpress-plugin"
+        },
+        "flying-pages": {
+            "type": "wordpress-plugin"
+        },
+        "jquery.appear": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/bas2k/jquery.appear/tags",
+            "github-owner": "bas2k",
+            "github-repo": "jquery.appear",
+            "url": "https://piratpartiet.se/wp-content/themes/impeka/js/extras.min.js?ver=2.0.3"
+        },
+        "countup.js": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/inorganik/countUp.js/tags",
+            "github-owner": "inorganik",
+            "github-repo": "countUp.js",
+            "url": "https://piratpartiet.se/wp-content/plugins/impeka-wpb-extension/assets/js/ext-extras.min.js?ver=2.0.3"
+        },
+        "webgl-noise": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/ashima/webgl-noise/tags",
+            "github-owner": "ashima",
+            "github-repo": "webgl-noise",
+            "url": "https://static1.squarespace.com/static/vta/5c5a519771c10ba3470d8101/scripts/1589.bc4627b731c5f9226711.js"
+        },
+        "cyclosm-cartocss-style": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/cyclosm/cyclosm-cartocss-style/tags",
+            "github-owner": "cyclosm",
+            "github-repo": "cyclosm-cartocss-style",
+            "url": "https://d16pu24ux8h2ex.cloudfront.net/js/bundles/H24DLiveMode/2c7f98b343ab2d0dd631008d77d9c495.gz.js"
+        },
+        "page-visits-counter-lite": {
+            "type": "wordpress-plugin"
+        },
+        "timeline-and-history-slider": {
+            "type": "wordpress-plugin"
+        },
+        "go-x-post-editor": {
+            "type": "wordpress-plugin"
+        },
+        "go-x-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "bricks-advanced-themer": {
+            "type": "wordpress-plugin"
+        },
+        "automaticcss-plugin": {
+            "type": "wordpress-plugin"
+        },
+        "wp-social-reviews": {
+            "type": "wordpress-plugin"
+        },
+        "bricksextras": {
+            "type": "wordpress-plugin"
+        },
+        "alpine": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/alpinejs/alpine/tags",
+            "github-owner": "alpinejs",
+            "github-repo": "alpine",
+            "url": "https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js?ver=1.0.0"
+        },
+        "purecounterjs": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/srexi/purecounterjs/tags",
+            "github-owner": "srexi",
+            "github-repo": "purecounterjs",
+            "url": "https://huddingepartiet.se/wp-content/themes/huddingepartiet/assets/js/purecounter_vanilla.js?ver=1.0.0"
+        },
+        "facebook-conversion-pixel": {
+            "type": "wordpress-plugin"
+        },
+        "yop-poll": {
+            "type": "wordpress-plugin"
+        },
+        "poll-maker": {
+            "type": "wordpress-plugin"
+        },
+        "embedpress": {
+            "type": "wordpress-plugin"
+        },
+        "menu-image": {
+            "type": "wordpress-plugin"
+        },
+        "elementskit-lite": {
+            "type": "wordpress-plugin"
+        },
+        "dompurify": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/cure53/DOMPurify/tags",
+            "github-owner": "cure53",
+            "github-repo": "DOMPurify",
+            "url": "https://kommunisterna.org/misc/jquery-html-prefilter-3.5.0-backport.js?v=1.7.2"
+        },
+        "titu-usp": {
+            "type": "wordpress-plugin"
+        },
+        "cresta-social-share-counter": {
+            "type": "wordpress-plugin"
+        },
+        "reading-progress-bar": {
+            "type": "wordpress-plugin"
+        },
+        "simple-banner": {
+            "type": "wordpress-plugin"
+        },
+        "waitforimages": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/alexanderdickson/waitForImages/tags",
+            "github-owner": "alexanderdickson",
+            "github-repo": "waitForImages",
+            "url": "https://www.salasbasta.nu/wp-content/themes/ashe/assets/js/custom-plugins.js?ver=1.8.2"
+        },
+        "wp-polls": {
+            "type": "wordpress-plugin"
+        },
+        "password-policy-manager": {
+            "type": "wordpress-plugin"
+        },
+        "wp-charts-and-graphs": {
+            "type": "wordpress-plugin"
+        },
+        "wp-job-manager": {
+            "type": "wordpress-plugin"
+        },
+        "feeds-for-youtube": {
+            "type": "wordpress-plugin"
+        },
+        "all-in-one-wp-security-and-firewall": {
+            "type": "wordpress-plugin"
+        },
+        "wp-meta-and-date-remover": {
+            "type": "wordpress-plugin"
+        },
+        "simple-google-recaptcha": {
+            "type": "wordpress-plugin"
+        },
+        "widget-options": {
+            "type": "wordpress-plugin"
+        },
+        "otter-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "the-post-grid": {
+            "type": "wordpress-plugin"
+        },
+        "microsoft-authentication-library-for-js": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/azuread/microsoft-authentication-library-for-js/tags",
+            "github-owner": "azuread",
+            "github-repo": "microsoft-authentication-library-for-js",
+            "url": "https://app-frontend-qh2ihd35f2je6.azurewebsites.net/static/js/main.c0cb0c10.js"
+        },
+        "react-pdf": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/wojtekmaj/react-pdf/tags",
+            "github-owner": "wojtekmaj",
+            "github-repo": "react-pdf",
+            "url": "https://app-frontend-qh2ihd35f2je6.azurewebsites.net/static/js/main.c0cb0c10.js"
+        },
+        "rules": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/act-rules/rules/tags",
+            "github-owner": "act-rules",
+            "github-repo": "rules",
+            "url": "https://acsbapp.com/apps/app/dist/js/app.js"
+        },
+        "wp-statistics-widgets": {
+            "type": "wordpress-plugin"
+        },
+        "survey-maker": {
+            "type": "wordpress-plugin"
+        },
+        "user-submitted-posts": {
+            "type": "wordpress-plugin"
+        },
+        "wp-statistics-mini-chart": {
+            "type": "wordpress-plugin"
+        },
+        "filebird-document-library": {
+            "type": "wordpress-plugin"
+        },
+        "inputevent": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/marcandre/inputevent/tags",
+            "github-owner": "marcandre",
+            "github-repo": "inputevent",
+            "url": "https://overtornea.se/wp-content/plugins/user-submitted-posts/resources/jquery.parsley.min.js?ver=20260113"
+        },
+        "wp-grid-builder": {
+            "type": "wordpress-plugin"
+        },
+        "peity": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/benpickles/peity/tags",
+            "github-owner": "benpickles",
+            "github-repo": "peity",
+            "url": "https://overtornea.se/wp-content/plugins/wp-statistics-mini-chart/assets/js/jquery.peity.min.js?ver=3.3.0"
+        },
+        "broken-link-detector": {
+            "type": "wordpress-plugin"
+        },
+        "vite-plugin-vue": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/vitejs/vite-plugin-vue/tags",
+            "github-owner": "vitejs",
+            "github-repo": "vite-plugin-vue",
+            "url": "https://www.atvidaberg.se/download/18.3760529b18de5402f1defe91/1718885464581/bundle.js?v=6"
+        },
+        "router": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/vuejs/router/tags",
+            "github-owner": "vuejs",
+            "github-repo": "router",
+            "url": "https://www.atvidaberg.se/download/18.3760529b18de5402f1defe91/1718885464581/bundle.js?v=6"
+        },
+        "etranslation-multilingual": {
+            "type": "wordpress-plugin"
+        },
+        "issues-tracker": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/Crocoblock/issues-tracker/tags",
+            "github-owner": "Crocoblock",
+            "github-repo": "issues-tracker",
+            "url": "https://www.alvesta.se/wp-content/plugins/jet-engine/assets/js/frontend.js?ver=3.4.2"
+        },
+        "webtoffee-cookie-consent": {
+            "type": "wordpress-plugin"
+        },
+        "wp-media-folder": {
+            "type": "wordpress-plugin"
+        },
+        "authors.txt": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/polymer/AUTHORS.txt/tags",
+            "github-owner": "polymer",
+            "github-repo": "AUTHORS.txt",
+            "url": "https://www.nacka.se/gui/_dist/js/all.min.sv.js?4"
+        },
+        "patents.txt": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/polymer/PATENTS.txt/tags",
+            "github-owner": "polymer",
+            "github-repo": "PATENTS.txt",
+            "url": "https://www.nacka.se/gui/_dist/js/all.min.sv.js?4"
+        },
+        "license.txt": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/polymer/LICENSE.txt/tags",
+            "github-owner": "polymer",
+            "github-repo": "LICENSE.txt",
+            "url": "https://www.nacka.se/gui/_dist/js/all.min.sv.js?4"
+        },
+        "contributors.txt": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/polymer/CONTRIBUTORS.txt/tags",
+            "github-owner": "polymer",
+            "github-repo": "CONTRIBUTORS.txt",
+            "url": "https://www.nacka.se/gui/_dist/js/all.min.sv.js?4"
+        },
+        "jquery-marcopolo": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/jstayton/jquery-marcopolo/tags",
+            "github-owner": "jstayton",
+            "github-repo": "jquery-marcopolo",
+            "url": "https://www.nacka.se/gui/_dist/js/all.min.sv.js?4"
+        },
+        "js": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/jserz/js/tags",
+            "github-owner": "jserz",
+            "github-repo": "js",
+            "url": "https://lidkoping.se/download/18.10ecb45e177b1e7fdae12a16/1614787366671/mmenu.polyfills.js"
+        },
+        "validate-element-name": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/sindresorhus/validate-element-name/tags",
+            "github-owner": "sindresorhus",
+            "github-repo": "validate-element-name",
+            "url": "https://www.lessebo.se/webapp-resource/2.5b7a62d6192bd21b9621094/360.3de350c219545ea25bd3084d/1741685884148/webapp-assets.js"
+        },
+        "app_service_email": {
+            "type": "wordpress-plugin"
+        },
+        "ee-simple-file-list-access": {
+            "type": "wordpress-plugin"
+        },
+        "ultimate-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "litepicker": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/wakirin/Litepicker/tags",
+            "github-owner": "wakirin",
+            "github-repo": "Litepicker",
+            "url": "https://www.norrtalje.se/Scripts/litepicker.js?v=639056350220000000"
+        },
+        "local_vizzit-analytics-for-wordpress": {
+            "type": "wordpress-plugin"
+        },
+        "html5-boilerplate": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/h5bp/html5-boilerplate/tags",
+            "github-owner": "h5bp",
+            "github-repo": "html5-boilerplate",
+            "url": "https://customer.simpliform.se/js/ce/latest"
+        },
+        "municipio-customisation": {
+            "type": "wordpress-plugin"
+        },
+        "modularity-alingsashero": {
+            "type": "wordpress-plugin"
+        },
+        "modularity-shape-divider": {
+            "type": "wordpress-plugin"
+        },
+        "lottie-player": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/LottieFiles/lottie-player/tags",
+            "github-owner": "LottieFiles",
+            "github-repo": "lottie-player",
+            "url": "https://unpkg.com/@lottiefiles/lottie-player@2.0.12/dist/lottie-player.js"
+        },
+        "super-video-player": {
+            "type": "wordpress-plugin"
+        },
+        "hast-util-to-jsx-runtime": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/syntax-tree/hast-util-to-jsx-runtime/tags",
+            "github-owner": "syntax-tree",
+            "github-repo": "hast-util-to-jsx-runtime",
+            "url": "https://riksarkivet.se/_next/static/chunks/a8d40f3f3e1f777f.js"
+        },
+        "ecmascript-string-left-right-trim": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/sebmarkbage/ecmascript-string-left-right-trim/tags",
+            "github-owner": "sebmarkbage",
+            "github-repo": "ecmascript-string-left-right-trim",
+            "url": "https://www.sakerhetspolisen.se/download/18.310a187117da376c6602f04/1651833175327/main.bundle.js"
+        },
+        "iconify": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/iconify/iconify/tags",
+            "github-owner": "iconify",
+            "github-repo": "iconify",
+            "url": "https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js?ver=2.0.0"
+        },
+        "viewport-min-width-polyfill": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/brendanlong/viewport-min-width-polyfill/tags",
+            "github-owner": "brendanlong",
+            "github-repo": "viewport-min-width-polyfill",
+            "url": "https://sametinget.se/javascript/libs/viewport-min-width.js"
+        },
+        "preact": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/developit/preact/tags",
+            "github-owner": "developit",
+            "github-repo": "preact",
+            "url": "https://www.riksbank.se/Static/js/main.7894732406e295b05e4d.bundle.js"
+        },
+        "mobx": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/mobxjs/mobx/tags",
+            "github-owner": "mobxjs",
+            "github-repo": "mobx",
+            "url": "https://www.sfv.se/_next/static/chunks/6468630d-51a362b374526a25.js"
+        },
+        "react-router": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/remix-run/react-router/tags",
+            "github-owner": "remix-run",
+            "github-repo": "react-router",
+            "url": "https://www.mtm.se/app/themes/mtm/dist/js/index.js?ver=e67d0ee73271a97147f0"
+        },
+        "remix": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/remix-run/remix/tags",
+            "github-owner": "remix-run",
+            "github-repo": "remix",
+            "url": "https://www.mtm.se/app/themes/mtm/dist/js/index.js?ver=e67d0ee73271a97147f0"
+        },
+        "bluebird": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/petkaantonov/bluebird/tags",
+            "github-owner": "petkaantonov",
+            "github-repo": "bluebird",
+            "url": "https://www.mtm.se/app/themes/mtm/dist/js/index.js?ver=e67d0ee73271a97147f0"
+        },
+        "css-parse": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/visionmedia/css-parse/tags",
+            "github-owner": "visionmedia",
+            "github-repo": "css-parse",
+            "url": "https://www.mtm.se/app/themes/mtm/dist/js/index.js?ver=e67d0ee73271a97147f0"
+        },
+        "wappalyzer": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/HTTPArchive/wappalyzer/tags",
+            "github-owner": "HTTPArchive",
+            "github-repo": "wappalyzer",
+            "url": "https://www.mtm.se/app/themes/mtm/dist/js/index.js?ver=e67d0ee73271a97147f0"
+        },
+        "bun": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/oven-sh/bun/tags",
+            "github-owner": "oven-sh",
+            "github-repo": "bun",
+            "url": "https://www.mtm.se/app/themes/mtm/dist/js/index.js?ver=e67d0ee73271a97147f0"
+        },
+        "url-search-params": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/ungap/url-search-params./tags",
+            "github-owner": "ungap",
+            "github-repo": "url-search-params.",
+            "url": "https://www.mtm.se/app/themes/mtm/dist/js/index.js?ver=e67d0ee73271a97147f0"
+        },
+        "create-react-app": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/facebook/create-react-app/tags",
+            "github-owner": "facebook",
+            "github-repo": "create-react-app",
+            "url": "https://www.pts.se/assets/js/main.js?v=GlQIZpW97ztz3qzikjGITjNb_u1C9mXLy4KIJsPy1tU"
+        },
+        "pattern-fill": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/highcharts/pattern-fill/tags",
+            "github-owner": "highcharts",
+            "github-repo": "pattern-fill",
+            "url": "https://www.trafa.se/static/js/bundles?v=wgDAGAA7_sF1cqJNKyjzA36kS9jQXsCo_399LRT4KVI1"
+        },
+        "itc-consent-mode": {
+            "type": "wordpress-plugin"
+        },
+        "bbpowerpack": {
+            "type": "wordpress-plugin"
+        },
+        "forms-for-campaign-monitor": {
+            "type": "wordpress-plugin"
+        },
+        "react-quill": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/zenoamaro/react-quill/tags",
+            "github-owner": "zenoamaro",
+            "github-repo": "react-quill",
+            "url": "https://www.livsmedelsverket.se/dist/main.Cc_vMbnG.js"
+        },
+        "iconv-lite": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/ashtuchkin/iconv-lite/tags",
+            "github-owner": "ashtuchkin",
+            "github-repo": "iconv-lite",
+            "url": "https://www.livsmedelsverket.se/dist/assets/pdfmake-BNTfGGdx.js"
+        },
+        "wp-consent-api": {
+            "type": "wordpress-plugin"
+        },
+        "srcset-polyfill": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/borismus/srcset-polyfill/tags",
+            "github-owner": "borismus",
+            "github-repo": "srcset-polyfill",
+            "url": "https://www.av.se/Static/js/app.js?v=515ipUppRjPWKnW1q29cPfXgQ_K2xSARI1rEsYQ15Mw1"
+        },
+        "airbrake-js": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/airbrake/airbrake-js/tags",
+            "github-owner": "airbrake",
+            "github-repo": "airbrake-js",
+            "url": "https://widget.sndcdn.com/widget-9-284db6c233bb.js"
+        },
+        "object-hash": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/puleos/object-hash/tags",
+            "github-owner": "puleos",
+            "github-repo": "object-hash",
+            "url": "https://www.socialstyrelsen.se/bundles/js?v=fefd6sgkDNDHgc1XNgK14K_qDFTpZLPazNfoXKWQxJo1"
+        },
+        "ua-parser-js": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/faisalman/ua-parser-js/tags",
+            "github-owner": "faisalman",
+            "github-repo": "ua-parser-js",
+            "url": "https://widget.netigate.se/prod/widget.min.js?v=2026-02-05T01:2"
+        },
+        "json-stat": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/badosa/JSON-stat/tags",
+            "github-owner": "badosa",
+            "github-repo": "JSON-stat",
+            "url": "https://www.konj.se/scripts/vendor/json-stat.js"
+        },
+        "complianz-gdpr-premium": {
+            "type": "wordpress-plugin"
+        },
+        "wp-external-links": {
+            "type": "wordpress-plugin"
+        },
+        "jquery.hotkeys": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/tzuryby/jquery.hotkeys/tags",
+            "github-owner": "tzuryby",
+            "github-repo": "jquery.hotkeys",
+            "url": "https://artportalen.se/Content/Scripts/master?v=X1LQhxHJRglT3_P6yODD_T6GRyJT9g0wohKic8SGGOc1"
+        },
+        "jquery-tmpl": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/jquery/jquery-tmpl/tags",
+            "github-owner": "jquery",
+            "github-repo": "jquery-tmpl",
+            "url": "https://artportalen.se/Content/Scripts/master?v=X1LQhxHJRglT3_P6yODD_T6GRyJT9g0wohKic8SGGOc1"
+        },
+        "dropzone": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/enyo/dropzone/tags",
+            "github-owner": "enyo",
+            "github-repo": "dropzone",
+            "url": "https://artportalen.se/Content/Scripts/master2?v=xEEILUqU0YOmzAdASh1VPwXSeuMftuTS1OE2sheaLh01"
+        },
+        "history.js": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/balupton/History.js/tags",
+            "github-owner": "balupton",
+            "github-repo": "History.js",
+            "url": "https://artportalen.se/Content/Scripts/master2?v=xEEILUqU0YOmzAdASh1VPwXSeuMftuTS1OE2sheaLh01"
+        },
+        "ios-imagefile-megapixel": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/stomita/ios-imagefile-megapixel/tags",
+            "github-owner": "stomita",
+            "github-repo": "ios-imagefile-megapixel",
+            "url": "https://artportalen.se/Content/Scripts/master2?v=xEEILUqU0YOmzAdASh1VPwXSeuMftuTS1OE2sheaLh01"
+        },
+        "slug": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/Trott/slug/tags",
+            "github-owner": "Trott",
+            "github-repo": "slug",
+            "url": "https://cdn.jifo.co/js/dist/embed_flex_viewer-8027468bc5f82eee6886-1-webpack.js"
+        },
+        "jotai": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/pmndrs/jotai/tags",
+            "github-owner": "pmndrs",
+            "github-repo": "jotai",
+            "url": "https://cdn.jifo.co/js/dist/embed_flex_viewer-8027468bc5f82eee6886-1-webpack.js"
+        },
+        "slackdown": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/blockmar/slackdown/tags",
+            "github-owner": "blockmar",
+            "github-repo": "slackdown",
+            "url": "https://cloud.tagbox.com/app/theme/widget/js/slackdown.js?ver=1"
+        },
+        "react-emojione": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/pladaria/react-emojione/tags",
+            "github-owner": "pladaria",
+            "github-repo": "react-emojione",
+            "url": "https://widget.tagembed.com/widget/static/js/2466.94ae40a230cc293c59bc.chunk.js?v=202601230639"
+        },
+        "sa-global-search": {
+            "type": "wordpress-plugin"
+        },
+        "sa-sunt-gpt": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-accordion": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-ankarpunkt": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-banner": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-button": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-components": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-cta-card": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-fou": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-global-share": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-hero-section-tools": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-horizontal-accordion": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-image-bottom-right": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-infobox": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-innehall": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-introbox": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-lanklista-ankarpunkt": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-lista-fritext": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-newsletter-signup": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-nyhetsbrev": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-ordlista": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-overline": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-overview-card": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-page-divider": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-sektionsbox": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-sidfot-sponsorloggor": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-styled-link": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-timer-tests": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-verktyg-video": {
+            "type": "wordpress-plugin"
+        },
+        "easy-tables-vc": {
+            "type": "wordpress-plugin"
+        },
+        "sa-content-filtering": {
+            "type": "wordpress-plugin"
+        },
+        "say-what": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-hero-section": {
+            "type": "wordpress-plugin"
+        },
+        "sa-ui": {
+            "type": "wordpress-plugin"
+        },
+        "fulltext-search-pro": {
+            "type": "wordpress-plugin"
+        },
+        "kadence-simple-share": {
+            "type": "wordpress-plugin"
+        },
+        "wp-sentry-integration": {
+            "type": "wordpress-plugin"
+        },
+        "typescript": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/microsoft/TypeScript/tags",
+            "github-owner": "microsoft",
+            "github-repo": "TypeScript",
+            "url": "https://www.regelradet.se/webapp-resource/2.4288834418e65aed20fbdfe/360.5a5f74d1190100fe6331e1fc/1719494434399/webapp-assets.js"
+        },
+        "rollup": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/rollup/rollup/tags",
+            "github-owner": "rollup",
+            "github-repo": "rollup",
+            "url": "https://unpkg.com/react@16.14.0/umd/react.development.js"
+        },
+        "mobx-state-tree": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/mobxjs/mobx-state-tree/tags",
+            "github-owner": "mobxjs",
+            "github-repo": "mobx-state-tree",
+            "url": "https://www.kolada.se/boot-1.4.50.js"
+        },
+        "blocksy-companion": {
+            "type": "wordpress-plugin"
+        },
+        "tablefilter": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/koalyptus/TableFilter/tags",
+            "github-owner": "koalyptus",
+            "github-repo": "TableFilter",
+            "url": "https://www.svanen.se/Static/dist/app.dccc26d2e256420c9135.js"
+        },
+        "overlappingmarkerspiderfier": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/jawj/OverlappingMarkerSpiderfier/tags",
+            "github-owner": "jawj",
+            "github-repo": "OverlappingMarkerSpiderfier",
+            "url": "https://www.mitthem.se/lib/googleMaps/oms.min.js?v=7KIjBtinmKAMxTxdv2j8RF0IDv2_CrrDS2LYyl6v8H0"
+        },
+        "css": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/ridjohansen/css/tags",
+            "github-owner": "ridjohansen",
+            "github-repo": "css",
+            "url": "https://www.soltakab.se/wp-content/themes/uncode/library/js/init.js?ver=1509187731"
+        },
+        "customevent-polyfill": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/d4tocchini/customevent-polyfill/tags",
+            "github-owner": "d4tocchini",
+            "github-repo": "customevent-polyfill",
+            "url": "https://www.soltakab.se/wp-content/themes/uncode/library/js/init.js?ver=1509187731"
+        },
+        "jcarousel": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/jsor/jcarousel/tags",
+            "github-owner": "jsor",
+            "github-repo": "jcarousel",
+            "url": "https://www.soltakab.se/wp-content/themes/uncode/library/js/plugins.js?ver=1509187731"
+        },
+        "smartscroll": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/lukeshumard/smartscroll/tags",
+            "github-owner": "lukeshumard",
+            "github-repo": "smartscroll",
+            "url": "https://www.soltakab.se/wp-content/themes/uncode/library/js/plugins.js?ver=1509187731"
+        },
+        "jquery.smartresize.js": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/lrbabe/jquery.smartresize.js/tags",
+            "github-owner": "lrbabe",
+            "github-repo": "jquery.smartresize.js",
+            "url": "https://www.soltakab.se/wp-content/themes/uncode/library/js/plugins.js?ver=1509187731"
+        },
+        "jquery-hashchange": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/cowboy/jquery-hashchange/tags",
+            "github-owner": "cowboy",
+            "github-repo": "jquery-hashchange",
+            "url": "https://www.soltakab.se/wp-content/themes/uncode/library/js/plugins.js?ver=1509187731"
+        },
+        "bootstrap-tab-history": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/mnarayan01/bootstrap-tab-history/tags",
+            "github-owner": "mnarayan01",
+            "github-repo": "bootstrap-tab-history",
+            "url": "https://www.soltakab.se/wp-content/themes/uncode/library/js/plugins.js?ver=1509187731"
+        },
+        "svgpathconverter": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/Waest/SVGPathConverter/tags",
+            "github-owner": "Waest",
+            "github-repo": "SVGPathConverter",
+            "url": "https://www.soltakab.se/wp-content/themes/uncode/library/js/plugins.js?ver=1509187731"
+        },
+        "igniteup": {
+            "type": "wordpress-plugin"
+        },
+        "karma-order-forms": {
+            "type": "wordpress-plugin"
+        },
+        "js-storage": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/julien-maurel/js-storage/tags",
+            "github-owner": "julien-maurel",
+            "github-repo": "js-storage",
+            "url": "https://cdn.jsdelivr.net/npm/js-storage@1.1.0/js.storage.min.js?ver=0.00006900%201770254855"
+        },
+        "web-features": {
+            "note": "BEFORE COMMIT, VERIFY THAT REPO EXIST, IS NOT REDIRECTED TO OTHER REPO AND HAVE TAGS/RELEASE VERSIONS IN SEMVERSION FORMAT (1.2.3). Remove this note if following url is OK: https://github.com/web-platform-dx/web-features/tags",
+            "github-owner": "web-platform-dx",
+            "github-repo": "web-features",
+            "url": "https://widget.lifeinside.io/v4/latest/widget.umd.js"
         }
     }
 }

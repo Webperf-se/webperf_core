@@ -201,3 +201,9 @@ msgstr "Tillåt inte void-element med innehåll ({0})"
 
 msgid "void-content (resolved)"
 msgstr "Tillåt inte void-element med innehåll (löst)"
+
+msgid "parser-error (unresolved)"
+msgstr "parser-error ({0})"
+
+msgid "parser-error (resolved)"
+msgstr "parser-error (resolved)"

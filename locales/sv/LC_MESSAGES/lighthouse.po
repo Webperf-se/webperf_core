@@ -587,3 +587,99 @@ msgstr "Optimera visningsområde för mobila enheter ({0})"
 
 msgid "viewport-insight (resolved)"
 msgstr "Optimera visningsområde för mobila enheter (löst)"
+
+msgid "cache-insight (unresolved)"
+msgstr "cache-insight ({0})"
+
+msgid "cache-insight (resolved)"
+msgstr "cache-insight (resolved)"
+
+msgid "forced-reflow-insight (unresolved)"
+msgstr "forced-reflow-insight ({0})"
+
+msgid "forced-reflow-insight (resolved)"
+msgstr "forced-reflow-insight (resolved)"
+
+msgid "deprecations (unresolved)"
+msgstr "deprecations ({0})"
+
+msgid "deprecations (resolved)"
+msgstr "deprecations (resolved)"
+
+msgid "third-party-cookies (unresolved)"
+msgstr "third-party-cookies ({0})"
+
+msgid "third-party-cookies (resolved)"
+msgstr "third-party-cookies (resolved)"
+
+msgid "errors-in-console (unresolved)"
+msgstr "errors-in-console ({0})"
+
+msgid "errors-in-console (resolved)"
+msgstr "errors-in-console (resolved)"
+
+msgid "meta-description (unresolved)"
+msgstr "meta-description ({0})"
+
+msgid "meta-description (resolved)"
+msgstr "meta-description (resolved)"
+
+msgid "label-content-name-mismatch (unresolved)"
+msgstr "label-content-name-mismatch ({0})"
+
+msgid "label-content-name-mismatch (resolved)"
+msgstr "label-content-name-mismatch (resolved)"
+
+msgid "lcp-breakdown-insight (unresolved)"
+msgstr "lcp-breakdown-insight ({0})"
+
+msgid "lcp-breakdown-insight (resolved)"
+msgstr "lcp-breakdown-insight (resolved)"
+
+msgid "image-aspect-ratio (unresolved)"
+msgstr "image-aspect-ratio ({0})"
+
+msgid "image-aspect-ratio (resolved)"
+msgstr "image-aspect-ratio (resolved)"
+
+msgid "link-text (unresolved)"
+msgstr "link-text ({0})"
+
+msgid "link-text (resolved)"
+msgstr "link-text (resolved)"
+
+msgid "crawlable-anchors (unresolved)"
+msgstr "crawlable-anchors ({0})"
+
+msgid "crawlable-anchors (resolved)"
+msgstr "crawlable-anchors (resolved)"
+
+msgid "is-crawlable (unresolved)"
+msgstr "is-crawlable ({0})"
+
+msgid "is-crawlable (resolved)"
+msgstr "is-crawlable (resolved)"
+
+msgid "robots-txt (unresolved)"
+msgstr "robots-txt ({0})"
+
+msgid "robots-txt (resolved)"
+msgstr "robots-txt (resolved)"
+
+msgid "tabindex (unresolved)"
+msgstr "tabindex ({0})"
+
+msgid "tabindex (resolved)"
+msgstr "tabindex (resolved)"
+
+msgid "valid-source-maps (unresolved)"
+msgstr "valid-source-maps ({0})"
+
+msgid "valid-source-maps (resolved)"
+msgstr "valid-source-maps (resolved)"
+
+msgid "td-has-header (unresolved)"
+msgstr "td-has-header ({0})"
+
+msgid "td-has-header (resolved)"
+msgstr "td-has-header (resolved)"

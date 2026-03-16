@@ -25,7 +25,7 @@ jobs:
     - name: Setup Node.js (v4 version 20.x)
       uses: actions/setup-node@v6
       with:
-        node-version: '20.x'
+        node-version: '24.x'
     - name: Setup SpeedIndex dependencies (ONLY used for Sitespeed) - Linux
       run: |
         sudo apt-get update -y

@@ -27,7 +27,7 @@ Follow the instructions below depending on what you choose.
 
 Benefit of this option is that you can use it to test pre production urls like your AcceptanceTest environment.
 
-* Download and install Node.js (version 20.x)
+* Download and install Node.js (version 24.x)
 * Install NPM packages ( `npm install --omit=dev` )
 
 ## Read more

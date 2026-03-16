@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2021-02-02 20:45+0200\n"
-"PO-Revision-Date: 2021-06-20 16:08+0200\n"
+"PO-Revision-Date: 2026-02-14 15:00+0200\n"
 "Last-Translator: mattias <mattias@webperf.se>\n"
 "Language-Team: Swedish <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
@@ -22,13 +22,13 @@ msgid "TEXT_RUNNING_TEST_CSP_ONLY"
 msgstr "## Test: 21 - Content Security Policy (Endast)\n"
 
 msgid "TEXT_REVIEW_TLS1_3_SUPPORT"
-msgstr "- TLSv1.3 stöd"
+msgstr "- {0}, TLSv1.3 stöd"
 
 msgid "TEXT_REVIEW_TLS1_3_NO_SUPPORT"
-msgstr "- Inget TLSv1.3 stöd"
+msgstr "- {0}, Inget TLSv1.3 stöd"
 
 msgid "TEXT_REVIEW_TLS1_2_SUPPORT"
-msgstr "- TLSv1.2 stöd"
+msgstr "- {0}, TLSv1.2 stöd"
 
 msgid "TEXT_REVIEW_TLS1_2_NO_SUPPORT"
 msgstr "- {0}, inget stöd för transportlagret: TLSv1.2"
@@ -40,40 +40,40 @@ msgid "TEXT_REVIEW_TLS1_1_NO_SUPPORT"
 msgstr "- {0}, inget stöd för transportlagret: TLSv1.1"
 
 msgid "TEXT_REVIEW_TLS1_0_SUPPORT"
-msgstr "- TLSv1.0 stöd, vilket är osäkert"
+msgstr "- {0}, TLSv1.0 stöd, vilket är osäkert"
 
 msgid "TEXT_REVIEW_TLS1_0_NO_SUPPORT"
-msgstr "- Inget TLSv1.0 stöd"
+msgstr "- {0}, Inget TLSv1.0 stöd"
 
 msgid "TEXT_REVIEW_IP_VERSION_IPV6_SUPPORT"
-msgstr "- IPv6 stöd"
+msgstr "- {0}, IPv6 stöd"
 
 msgid "TEXT_REVIEW_IP_VERSION_IPV6_NO_SUPPORT"
-msgstr "- Inget IPv6 stöd"
+msgstr "- {0}, Inget IPv6 stöd"
 
 msgid "TEXT_REVIEW_IP_VERSION_IPV4_SUPPORT"
-msgstr "- IPv4 stöd"
+msgstr "- {0}, IPv4 stöd"
 
 msgid "TEXT_REVIEW_IP_VERSION_IPV4_NO_SUPPORT"
-msgstr "- Inget IPv4 stöd"
+msgstr "- {0}, Inget IPv4 stöd"
 
 msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_SUPPORT"
-msgstr "- HTTPv1.1 stöd"
+msgstr "- {0}, HTTPv1.1 stöd"
 
 msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_NO_SUPPORT"
-msgstr "- Inget HTTPv1.1 stöd"
+msgstr "- {0}, Inget HTTPv1.1 stöd"
 
 msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_2_SUPPORT"
-msgstr "- HTTPv2 stöd"
+msgstr "- {0}, HTTPv2 stöd"
 
 msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_2_NO_SUPPORT"
-msgstr "- Inget stöd för HTTPv2"
+msgstr "- {0}, Inget stöd för HTTPv2"
 
 msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_3_SUPPORT"
-msgstr "- Stödjer HTTPv3"
+msgstr "- {0}, Stödjer HTTPv3"
 
 msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_3_NO_SUPPORT"
-msgstr "- Inget stöd för HTTPv3"
+msgstr "- {0}, Inget stöd för HTTPv3"
 
 msgid "TEXT_REVIEW_HTTPS_SUPPORT"
 msgstr "- {0}, stödjer HTTPS"

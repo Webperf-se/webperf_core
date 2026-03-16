@@ -140,7 +140,7 @@ This section has not been written yet.
 
 #### Using NPM package
 
-* Download and install Node.js (version 20.x)
+* Download and install Node.js (version 24.x)
 * Download and install Google Chrome browser
 * Download and install Mozilla Firefox
 * Install NPM packages ( `npm install --omit=dev` )

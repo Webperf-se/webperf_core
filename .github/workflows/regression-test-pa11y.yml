@@ -44,10 +44,10 @@ jobs:
         architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
     - name: Setup dependencies using pip
       run: pip install -r requirements.txt
-    - name: Setup Node.js (v4 version 20.x)
+    - name: Setup Node.js (v4 version 24.x)
       uses: actions/setup-node@v6
       with:
-        node-version: '20.x'
+        node-version: '24.x'
     - name: Setup npm packages
       run: npm install --omit=dev
       timeout-minutes: 30

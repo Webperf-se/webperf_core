@@ -10,7 +10,7 @@ it is also best/fastest when wanting to contribute with new tests, translations 
 - Navigate to where you downloaded (and unpacked) the source code. If you don’t know how to navigate in Terminal/CMD, read the [Windows guide](https://www.digitalcitizen.life/command-prompt-how-use-basic-commands) or [under Step 5 for Mac / Linux](https://computers.tutsplus.com/tutorials/navigating-the-terminal-a-gentle-introduction--mac-3855).
 - Update Python Package manager by typing following and hit Enter: `python -m pip install --upgrade pip`
 - Install required Python packages by typing following and hit Enter: `pip install -r requirements.txt`
-- Download and install Node.js (version 20.x)
+- Download and install Node.js (version 24.x)
 - Download and install Google Chrome browser
 * Download and install Mozilla Firefox
 - Install required npm packages by typing following and hit Enter: `npm install --omit=dev`

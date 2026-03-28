@@ -1,0 +1,127 @@
+# Danish
+# Copyright (C) 2022 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2021-04-24 09:15+0200\n"
+"PO-Revision-Date: 2022-02-09 19:30+0200\n"
+"Last-Translator: mattias <mattias@webperf.se>\n"
+"Language-Team: Danish <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 23 - Sporing og privatlivsbeskyttelse\r\n"
+
+msgid "TEXT_VISITOR_ANALYTICS_USED"
+msgstr "  Besøgsanalyse bruges:\r\n"
+
+msgid "TEXT_TRACKING"
+msgstr "##### Sporing"
+
+msgid "TEXT_TRACKING_FOUND_ALLOWED"
+msgstr "  - {0} - Sporing fundet, tilladt at have {1} st"
+
+msgid "TEXT_TRACKING_FOUND"
+msgstr "  - {0} - Sporing fundet"
+
+msgid "TEXT_TRACKING_MAX_SHOWED"
+msgstr "  - Flere end  {0} sporings&shy;forespørgsler fundet, skjuler resten"
+
+msgid "TEXT_TRACKING_TOTAL_FOUND"
+msgstr "  - Fandt i alt {0} sporings&shy;forespørgsler.\n"
+
+msgid "TEXT_TRACKING_REFERENCE"
+msgstr "{0} - Har reference til {1}"
+
+msgid "TEXT_FINGERPRINTING"
+msgstr "##### Identifikations&shy;teknikker"
+
+msgid "TEXT_FINGERPRINTING_FOUND"
+msgstr "  - {0} - Identifikations&shy;teknikker fundet.\n"
+
+msgid "TEXT_FINGERPRINTING_MAX_SHOWED"
+msgstr "  - Fandt i alt {0} identifikations&shy;forespørgsler"
+
+msgid "TEXT_FINGERPRINTING_TOTAL_FOUND"
+msgstr "  - Fandt i alt {0} identifikations&shy;forespørgsler.\n"
+
+msgid "TEXT_ADS"
+msgstr "##### Annoncører"
+
+msgid "TEXT_ADS_FOUND_ALLOWED"
+msgstr "  - {0} - Annoncør&shy;forespørgsel fundet, tilladt at have {1} st"
+
+msgid "TEXT_ADS_FOUND"
+msgstr "  - {0} - Annoncør&shy;forespørgsel fundet"
+
+msgid "TEXT_ADS_MAX_SHOWED"
+msgstr "  - Flere end {0} annoncør&shy;forespørgsler fundet, skjuler resten"
+
+msgid "TEXT_ADS_TOTAL_FOUND"
+msgstr "  - Fandt i alt {0} annoncør&shy;forespørgsler.\n"
+
+msgid "TEXT_COOKIES_HAS_THIRDPARTY"
+msgstr "  - Tredjeparts&shy;cookies: {0}"
+
+msgid "TEXT_COOKIE_HAS_OVER_1YEAR"
+msgstr "  - Gyldige over 1 år: {0}"
+
+msgid "TEXT_COOKIE_HAS_OVER_9MONTH"
+msgstr "  - Gyldige over 9 måneder: {0}"
+
+msgid "TEXT_COOKIE_HAS_OVER_6MONTH"
+msgstr "  - Gyldige over 6 måneder: {0}"
+
+msgid "TEXT_COOKIE_HAS_OVER_3MONTH"
+msgstr "  - Gyldige over 3 måneder: {0}"
+
+msgid "TEXT_COOKIE_NOT_SECURE"
+msgstr "  - Intet krav om sikker overførsel: {0}"
+
+msgid "TEXT_COOKIE_HAS_ANALYTICS_COOKIE"
+msgstr "  - Bruger analysecookies uden samtykke: {0}"
+
+msgid "TEXT_COOKIE_LESS_THEN_3MONTH"
+msgstr "  - Gyldighedsperiode er kortere end 3 måneder"
+
+msgid "TEXT_COOKIE_SECURE"
+msgstr "  - Kræver sikker overførsel"
+
+msgid "TEXT_COOKIE_NO_ANALYTICS_COOKIE"
+msgstr "  - Bruger ikke analysecookies uden samtykke"
+
+msgid "TEXT_COOKIE"
+msgstr "##### Cookies"
+
+msgid "TEXT_GDPR_COUNTRIES"
+msgstr "  Antal forskellige lande: {0}\r\n"
+
+msgid "TEXT_GDPR_NONE_COMPLIANT_COUNTRIES"
+msgstr "  Lande uden tilstrækkeligt niveau af databeskyttelse: {0}\r\n"
+
+msgid "TEXT_GDPR_NONE_COMPLIANT_COUNTRIES_REQUESTS"
+msgstr "  {0}, {1} forespørgsler:\r\n"
+
+msgid "TEXT_GDPR_PAGE_IN_SWEDEN"
+msgstr "  Siden blev sendt fra Sverige: {0}\r\n"
+
+msgid "TEXT_GDPR_True"
+msgstr "Ja"
+
+msgid "TEXT_GDPR_False"
+msgstr "Nej"
+
+msgid "TEXT_GDPR_HAS_POINTS"
+msgstr "##### Databeskyttelsesforordningen og Schrems II-dommen"
+
+msgid "TEXT_GDPR_NO_POINTS"
+msgstr "##### Databeskyttelsesforordningen og Schrems II-dommen"
+
+msgid "TEXT_GDPR_MAX_SHOWED"
+msgstr "  - Flere end {0} forespørgsler fundet, skjuler resten\r\n"

@@ -1,0 +1,126 @@
+# Copyright (C) 2025 WebPerf
+# Marcus J Österberg <m@webperf.se>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2025-04-27 12:00\n"
+"PO-Revision-Date: 2025-05-09 23:00\n"
+"Last-Translator: Marcus J Österberg <m@webperf.se>\n"
+"Language-Team: Icelandic <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+#
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Text to show instead of msgid, showed for severity levels (critical, error and warning)"
+
+msgid "rule-id (resolved)"
+msgstr "Text to show instead of msgid, here unique on severity level resolved"
+
+msgid "rule-id"
+msgstr "Text to show instead of msgid, here independent of severity level"
+
+# End of Examples
+
+
+msgid "compatible-word-partly (unresolved)"
+msgstr "Gefur sjálft til kynna að vefsvæðið er aðeins að hluta samhæft ({0})"
+
+msgid "compatible-word-partly (resolved)"
+msgstr "Gefur sjálft til kynna að vefsvæðið er aðeins að hluta samhæft (leyst)"
+
+msgid "no-network (unresolved)"
+msgstr "Ekkert net ({0})"
+
+msgid "no-network (resolved)"
+msgstr "Ekkert net (leyst)"
+
+msgid "no-updated-date (unresolved)"
+msgstr "Engin uppfærsludagsetning ({0})"
+
+msgid "no-updated-date (resolved)"
+msgstr "Uppfærsludagsetning (leyst)"
+
+msgid "updated-date-older-than-1years (unresolved)"
+msgstr "Uppfærsludagsetning eldra en 1 år ({0})"
+
+msgid "updated-date-older-than-1years (resolved)"
+msgstr "Uppfærsludagsetning eldra en 1 år (leyst)"
+
+msgid "updated-date-older-than-2years (unresolved)"
+msgstr "Uppfærsludagsetning eldra en 2 år ({0})"
+
+msgid "updated-date-older-than-2years (resolved)"
+msgstr "Uppfærsludagsetning eldra en 2 år (leyst)"
+
+msgid "updated-date-older-than-3years (unresolved)"
+msgstr "Uppfærsludagsetning eldra en 3 år ({0})"
+
+msgid "updated-date-older-than-3years (resolved)"
+msgstr "Uppfærsludagsetning eldra en 3 år (leyst)"
+
+msgid "updated-date-older-than-4years (unresolved)"
+msgstr "Uppfærsludagsetning eldra en 4 år ({0})"
+
+msgid "updated-date-older-than-4years (resolved)"
+msgstr "Uppfærsludagsetning eldra en 4 år (leyst)"
+
+msgid "updated-date-older-than-5years (unresolved)"
+msgstr "Uppfærsludagsetning eldra en 5 år ({0})"
+
+msgid "updated-date-older-than-5years (resolved)"
+msgstr "Uppfærsludagsetning eldra en 5 år (leyst)"
+
+msgid "no-evaluation-method (unresolved)"
+msgstr "Tilgreinir enga matsaðferð ({0})"
+
+msgid "no-evaluation-method (resolved)"
+msgstr "Tilgreinir matsaðferð sína (leyst)"
+
+msgid "has-canonical-notification-function-link (unresolved)"
+msgstr "Hefur ekki rétta tengil fyrir tilkynningu ({0})"
+
+msgid "has-canonical-notification-function-link (resolved)"
+msgstr "Hefur réttan tengil fyrir tilkynningu (leyst)"
+
+msgid "has-old-notification-function-link (unresolved)"
+msgstr "Hefur gamlan tengil fyrir tilkynningu ({0})"
+
+msgid "has-old-notification-function-link (resolved)"
+msgstr "Hefur gamlan tengil fyrir tilkynningu (leyst)"
+
+msgid "no-notification-function-link (unresolved)"
+msgstr "Enginn tengill fyrir tilkynningarvirkni ({0})"
+
+msgid "no-notification-function-link (resolved)"
+msgstr "Hefur tengil fyrir tilkynningarvirkni (leyst)"
+
+msgid "compatible-word-not (unresolved)"
+msgstr "Gefur sjálft til kynna að vefsvæðið er ekki samhæft ({0})"
+
+msgid "compatible-word-not (resolved)"
+msgstr "Gefur sjálft til kynna að vefsvæðið er ekki samhæft (leyst)"
+
+msgid "no-compatible-word (unresolved)"
+msgstr "Enginn texti um samræmi fannst ({0})"
+
+msgid "no-compatible-word (resolved)"
+msgstr "Enginn texti um samræmi fannst (leyst)"
+
+msgid "has-unreasonably-burdensome-accommodation (unresolved)"
+msgstr "Heldur fram ósanngjarnlega íþyngjandi aðlögun ({0})"
+
+msgid "has-unreasonably-burdensome-accommodation (resolved)"
+msgstr "Heldur fram ósanngjarnlega íþyngjandi aðlögun (leyst)"
+
+msgid "no-a11y-statement (unresolved)"
+msgstr "Engin aðgengisyfirlýsing fannst ({0})"
+
+msgid "no-a11y-statement (resolved)"
+msgstr "Aðgengisyfirlýsing hittad (leyst)"

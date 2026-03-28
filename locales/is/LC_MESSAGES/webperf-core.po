@@ -1,0 +1,163 @@
+# Icelandic
+# Copyright (C) 2020 Webperf
+# FIRST AUTHOR <m@webperf.se>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2020-05-23 17:29+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: cockroacher <cockroacher@noyb.eu>\n"
+"Language-Team: Icelandic <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_WEBSITE_URL_ADDED"
+msgstr "Vefsvæði með vistfangi: {0} hefur verið bætt við\n"
+
+msgid "TEXT_WEBSITE_URL_DELETED"
+msgstr "Vefsvæði með vistfangi: {0} hefur verið fjarlægt\n"
+
+msgid "TEXT_TEST_START_HEADER"
+msgstr "###############################################"
+
+msgid "TEXT_TESTING_NUMBER_OF_SITES"
+msgstr "Vefföng sem eru prófuð {0}"
+
+msgid "TEXT_TESTING_SITE"
+msgstr "# Prófar vistfang {0}"
+
+msgid "TEXT_WEBSITE_X_OF_Y"
+msgstr "Vefsvæði {0} af {1}.\n"
+
+msgid "TEXT_SITE_RATING"
+msgstr "### Einkunn:"
+
+msgid "TEXT_SITE_REVIEW"
+msgstr "### Umsögn:\n"
+
+msgid "TEXT_SITE_REVIEW_DATA"
+msgstr "### Data:\n"
+
+msgid "TEXT_EXCEPTION"
+msgstr "Villa, einhver þarf að skoða þetta."
+
+msgid "TEXT_SITE_UNAVAILABLE"
+msgstr "Villa, ekki tókst að hlaða inn umbeðinni síðu."
+
+msgid "TEXT_TEST_START"
+msgstr "Byrjað: {0}"
+
+msgid "TEXT_TEST_END"
+msgstr "Lokið: {0}\n"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS"
+msgstr "Gild viðföng til að velja úr -t/--test:"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_PA11Y"
+msgstr "-t 18\t: Aðgengi (Pa11y)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_PAGE_NOT_FOUND"
+msgstr "-t 2\t: 404 (síða finnst ekki)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_SITESPEED"
+msgstr "-t 15\t: Afköst (Sitespeed.io)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_WEBBKOLL"
+msgstr "-t 20\t: Persónuvernd og öryggi (Webbkoll)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_STANDARD_FILES"
+msgstr "-t 9\t: Staðalskrár"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_HTTP"
+msgstr "-t 21\t: HTTP & nätverk"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_ENERGY_EFFICIENCY"
+msgstr "-t 22\t: Orkunýtni"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_TRACKING"
+msgstr "-t 23\t: Rakning og persónuvernd"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_EMAIL"
+msgstr "-t 24\t: Tölvupóstur (Beta)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_SOFTWARE"
+msgstr "-t 25\t: Hugbúnaður (Alfa)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_A11Y_STATEMENT"
+msgstr "-t 26\t: Aðgengisyfirlýsing (Alfa)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_CSS_LINT"
+msgstr "-t 27\t: CSS-validering (Stylelint)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_HTML_LINT"
+msgstr "-t 28\t: HTML-validering (html-validate)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_JS_LINT"
+msgstr "-t 29\t: JS Lint (ESLint)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE"
+msgstr "-t 30\t: Aðgengi, Góðar venjur, Afköst og Leitarvélabestun (Lighthouse)"
+
+msgid "TEXT_COMMAND_USAGE"
+msgstr "\n\tWebPerf Core\n\n\tNotist svona:\n\tdefault.py -u https://webperf.se\n\n\tValkostir og viðföng:\n\t-h/--help\t\t\t: Hjálp og hvernig þú notar skriftuna\n\t-u/--url <site url>\t\t: vistfang vefsvæðis til að prófa\n\t-t/--test <test nummer>\t\t: keyrðu tiltekið próf (sláðu inn ? til að birta tiltæk próf)\n\t-r/--review\t\t\t: sýnir umsagnir beint í flugstöðinni\n\t-i/--input <file path>\t\t: slóð á inntaksskrá (.json/.sqlite)\n\t-i/--input-skip <nummer>\t: fjöldi til að sleppa\n\t-i/--input-take <nummer>\t: fjöldi til að prófa\n\t-o/--output <file path>\t\t: slóð á úttaksskrá (.json/.csv/.sql/.sqlite/.md)\n\t-A/--addUrl <site url>\t\t: vistfang/slóð vefsvæðis (krafa þegar þú notar -i/--input)\n\t-D/--deleteUrl <site url>\t: vistfang/slóð vefsvæðis (krafa þegar þú notar -i/--input)\n\t-L/--language <lang code>\t: tungumál sem notað er fyrir úttak(en = default/sv)\n\t--setting <lykill>=<gildi>\t: Notaðu stillingu fyrir núverandi keyrslu\n\t\t\t\t\t  (sláðu inn ? til að birta tiltækar stillingar)\n\t--save-setting <skráarnafn>\t: Búðu til eigin stillingaskrá úr núverandi stillingum\n\t\t\t\t\t  (Þú ættir að nota 'settings.json')\n\t-c/--credits/--contributors\t: Sýna verkefni og fólk sem við erum þakklát fyrir\n\n\n\tÍtarlegir valkostir og viðföng:\n\t--dependency\t\t\t: Validates your installation of WebPerf_core\n\t--find-unknown-sources\t\t: Filters out interesting software from software-unknown-sources.json\n\t--update-credits\t\t: Updates CREDITS.md\n\t--update-browser\t\t: Updates general.useragent in defaults/settings.json\n\t--update-definitions <api-key>\t: Updates software info in defaults/software-sources.json\n\t--update-carbon <file path>\t: Updates carbon percentile in energy_efficiency_carbon_percentiles.py\n\t--update-translations\t\t: Validates and updates translation files\n\t--prepare-release\t\t: Updates package.json in preparation of new release\n\t--create-release\t\t: Creates new release for github and docker hub"
+
+msgid "TEXT_TEST_REVIEW_OVERVIEW"
+msgstr "\r\n#### Yfirgripandi:\r\n{0}"
+
+msgid "TEXT_TEST_REVIEW_INTEGRITY_SECURITY"
+msgstr "#### Persónuvernd og öryggi:\r\n{0}"
+
+msgid "TEXT_TEST_REVIEW_PERFORMANCE"
+msgstr "#### Afköst:\r\n{0}"
+
+msgid "TEXT_TEST_REVIEW_ALLY"
+msgstr "#### Aðgengi:\r\n{0}"
+
+msgid "TEXT_TEST_REVIEW_STANDARDS"
+msgstr "#### Standarder:\r\n{0}"
+
+msgid "TEXT_TEST_REVIEW_RATING_ITEM"
+msgstr "{0} ( {1:.2f} einkunn )\r\n"
+
+msgid "TEXT_TEST_RATING_OVERVIEW"
+msgstr "\r\n- Yfirgripandi: {0}\r\n"
+
+msgid "TEXT_TEST_RATING_INTEGRITY_SECURITY"
+msgstr "- Persónuvernd og öryggi: {0}\r\n"
+
+msgid "TEXT_TEST_RATING_PERFORMANCE"
+msgstr "- Afköst: {0}\r\n"
+
+msgid "TEXT_TEST_RATING_ALLY"
+msgstr "- Aðgengi: {0}\r\n"
+
+msgid "TEXT_TEST_RATING_STANDARDS"
+msgstr "- Standarder: {0}\r\n"
+
+msgid "TEXT_REQUEST_UNKNOWN"
+msgstr "#{0}: "
+
+msgid "TEXT_REQUEST_WEBPAGE"
+msgstr "#{0}: Vefsíða "
+
+msgid "TEXT_DETAILS_MORE_INFO"
+msgstr "Frekari upplýsingar"
+
+msgid "TEXT_DETAILS_URLS_WITH_ISSUES"
+msgstr "Veffang/-föng með umbótamöguleika"
+
+msgid "TEXT_SEVERITY_CRITICAL"
+msgstr "alvarlegt villa"
+
+msgid "TEXT_SEVERITY_ERROR"
+msgstr "fel"
+
+msgid "TEXT_SEVERITY_WARNING"
+msgstr "viðvörun"
+
+msgid "TEXT_SEVERITY_RESOLVED"
+msgstr "leyst"

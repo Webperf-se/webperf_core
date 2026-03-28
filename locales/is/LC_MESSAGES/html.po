@@ -7,7 +7,7 @@ msgstr ""
 "POT-Creation-Date: 2025-04-27 12:00\n"
 "PO-Revision-Date: 2025-05-09 23:00\n"
 "Last-Translator: Marcus J Österberg <m@webperf.se>\n"
-"Language-Team: English <team@webperf.se>\n"
+"Language-Team: Icelandic <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -29,178 +29,178 @@ msgstr "Text to show instead of msgid, here independent of severity level"
 # End of Examples
 
 msgid "attr-spacing (unresolved)"
-msgstr "Kräv att attribut separeras med blanksteg ({0})"
+msgstr "Krefjast þess að eigindi séu aðskilin með bilum ({0})"
 
 msgid "attr-spacing (resolved)"
-msgstr "Kräv att attribut separeras med blanksteg (löst)"
+msgstr "Krefjast þess að eigindi séu aðskilin með bilum (leyst)"
 
 msgid "attribute-allowed-values (unresolved)"
-msgstr "Validera tillåtna attributvärden ({0})"
+msgstr "Staðfesta leyfileg eigindisgildi ({0})"
 
 msgid "attribute-allowed-values (resolved)"
-msgstr "Validera tillåtna attributvärden (löst)"
+msgstr "Staðfesta leyfileg eigindisgildi (leyst)"
 
 msgid "attribute-misuse (unresolved)"
-msgstr "Kräv att attribut används i rätt kontext ({0})"
+msgstr "Krefjast þess að eigindi séu notuð í réttu samhengi ({0})"
 
 msgid "attribute-misuse (resolved)"
-msgstr "Kräv att attribut används i rätt kontext (löst)"
+msgstr "Krefjast þess að eigindi séu notuð í réttu samhengi (leyst)"
 
 msgid "close-attr (unresolved)"
-msgstr "Tillåt inte attribut på sluttaggar ({0})"
+msgstr "Ekki leyfa eigindi á lokamerkjum ({0})"
 
 msgid "close-attr (resolved)"
-msgstr "Tillåt inte attribut på sluttaggar (löst)"
+msgstr "Ekki leyfa eigindi á lokamerkjum (leyst)"
 
 msgid "close-order (unresolved)"
-msgstr "Kräv att element stängs i rätt ordning ({0})"
+msgstr "Krefjast þess að einingar séu lokaðar í réttri röð ({0})"
 
 msgid "close-order (resolved)"
-msgstr "Kräv att element stängs i rätt ordning (löst)"
+msgstr "Krefjast þess að einingar séu lokaðar í réttri röð (leyst)"
 
 msgid "deprecated (unresolved)"
-msgstr "Tillåt inte användning av föråldrade element ({0})"
+msgstr "Ekki leyfa notkun úreltra eininga ({0})"
 
 msgid "deprecated (resolved)"
-msgstr "Tillåt inte användning av föråldrade element (löst)"
+msgstr "Ekki leyfa notkun úreltra eininga (leyst)"
 
 msgid "deprecated-rule (unresolved)"
-msgstr "Tillåt inte användning av föråldrade regler ({0})"
+msgstr "Ekki leyfa notkun úreltra reglna ({0})"
 
 msgid "deprecated-rule (resolved)"
-msgstr "Tillåt inte användning av föråldrade regler (löst)"
+msgstr "Ekki leyfa notkun úreltra reglna (leyst)"
 
 msgid "doctype-html (unresolved)"
-msgstr "Kräv användning av \"html\" doctype ({0})"
+msgstr "Krefjast notkunar á \"html\" doctype ({0})"
 
 msgid "doctype-html (resolved)"
-msgstr "Kräv användning av \"html\" doctype (löst)"
+msgstr "Krefjast notkunar á \"html\" doctype (leyst)"
 
 msgid "element-name (unresolved)"
-msgstr "Tillåt inte ogiltiga elementnamn ({0})"
+msgstr "Ekki leyfa ógild einingaheiti ({0})"
 
 msgid "element-name (resolved)"
-msgstr "Tillåt inte ogiltiga elementnamn (löst)"
+msgstr "Ekki leyfa ógild einingaheiti (leyst)"
 
 msgid "element-permitted-content (unresolved)"
-msgstr "Validera tillåtet innehåll ({0})"
+msgstr "Staðfesta leyfilegt innihald ({0})"
 
 msgid "element-permitted-content (resolved)"
-msgstr "Validera tillåtet innehåll (löst)"
+msgstr "Staðfesta leyfilegt innihald (leyst)"
 
 msgid "element-permitted-occurrences (unresolved)"
-msgstr "Validera tillåtet antal förekomster av element ({0})"
+msgstr "Staðfesta leyfilegan fjölda tilvika eininga ({0})"
 
 msgid "element-permitted-occurrences (resolved)"
-msgstr "Validera tillåtet antal förekomster av element (löst)"
+msgstr "Staðfesta leyfilegan fjölda tilvika eininga (leyst)"
 
 msgid "element-permitted-order (unresolved)"
-msgstr "Validera nödvändig elementordning ({0})"
+msgstr "Staðfesta nauðsynlega einingaröð ({0})"
 
 msgid "element-permitted-order (resolved)"
-msgstr "Validera nödvändig elementordning (löst)"
+msgstr "Staðfesta nauðsynlega einingaröð (leyst)"
 
 msgid "element-permitted-parent (unresolved)"
-msgstr "Validera tillåten elementförälder ({0})"
+msgstr "Staðfesta leyfilega foreldrieiningu ({0})"
 
 msgid "element-permitted-parent (resolved)"
-msgstr "Validera tillåten elementförälder (löst)"
+msgstr "Staðfesta leyfilega foreldrieiningu (leyst)"
 
 msgid "element-required-attributes (unresolved)"
-msgstr "Säkerställ att obligatoriska attribut är satta ({0})"
+msgstr "Tryggja að nauðsynleg eigindi séu sett ({0})"
 
 msgid "element-required-attributes (resolved)"
-msgstr "Säkerställ att obligatoriska attribut är satta (löst)"
+msgstr "Tryggja að nauðsynleg eigindi séu sett (leyst)"
 
 msgid "element-required-content (unresolved)"
-msgstr "Säkerställ att obligatoriska element finns ({0})"
+msgstr "Tryggja að nauðsynlegar einingar séu til staðar ({0})"
 
 msgid "element-required-content (resolved)"
-msgstr "Säkerställ att obligatoriska element finns (löst)"
+msgstr "Tryggja að nauðsynlegar einingar séu til staðar (leyst)"
 
 msgid "map-dup-name (unresolved)"
-msgstr "Kräv att `<map name>` är unikt ({0})"
+msgstr "Krefjast þess að `<map name>` sé einstakt ({0})"
 
 msgid "map-dup-name (resolved)"
-msgstr "Kräv att `<map name>` är unikt (löst)"
+msgstr "Krefjast þess að `<map name>` sé einstakt (leyst)"
 
 msgid "map-id-name (unresolved)"
-msgstr "Kräv att name och id matchar på `<map>`-element ({0})"
+msgstr "Krefjast þess að name og id stemmi á `<map>`-element ({0})"
 
 msgid "map-id-name (resolved)"
-msgstr "Kräv att name och id matchar på `<map>`-element (löst)"
+msgstr "Krefjast þess að name og id stemmi á `<map>`-element (leyst)"
 
 msgid "no-deprecated-attr (unresolved)"
-msgstr "Tillåt inte användning av föråldrade attribut ({0})"
+msgstr "Ekki leyfa notkun úreltra eiginda ({0})"
 
 msgid "no-deprecated-attr (resolved)"
-msgstr "Tillåt inte användning av föråldrade attribut (löst)"
+msgstr "Ekki leyfa notkun úreltra eiginda (leyst)"
 
 msgid "no-dup-attr (unresolved)"
-msgstr "Tillåt inte dubblerade attribut ({0})"
+msgstr "Ekki leyfa tvöfölduð eigindi ({0})"
 
 msgid "no-dup-attr (resolved)"
-msgstr "Tillåt inte dubblerade attribut (löst)"
+msgstr "Ekki leyfa tvöfölduð eigindi (leyst)"
 
 msgid "no-dup-id (unresolved)"
-msgstr "Tillåt inte dubblerade ID:n ({0})"
+msgstr "Ekki leyfa tvöfölduð auðkenni ({0})"
 
 msgid "no-dup-id (resolved)"
-msgstr "Tillåt inte dubblerade ID:n (löst)"
+msgstr "Ekki leyfa tvöfölduð auðkenni (leyst)"
 
 msgid "no-main (unresolved)"
-msgstr "Tillåt inte användning av `<main>` ({0})"
+msgstr "Ekki leyfa notkun á `<main>` ({0})"
 
 msgid "no-main (resolved)"
-msgstr "Tillåt inte användning av `<main>` (löst)"
+msgstr "Ekki leyfa notkun á `<main>` (leyst)"
 
 msgid "no-multiple-main (unresolved)"
-msgstr "Tillåt inte flera `<main>` ({0})"
+msgstr "Ekki leyfa margar `<main>` ({0})"
 
 msgid "no-multiple-main (resolved)"
-msgstr "Tillåt inte flera `<main>` (löst)"
+msgstr "Ekki leyfa margar `<main>` (leyst)"
 
 msgid "no-raw-characters (unresolved)"
-msgstr "Tillåt inte användning av oescaperade specialtecken ({0})"
+msgstr "Ekki leyfa notkun á óöruggum sérstöfum ({0})"
 
 msgid "no-raw-characters (resolved)"
-msgstr "Tillåt inte användning av oescaperade specialtecken (löst)"
+msgstr "Ekki leyfa notkun á óöruggum sérstöfum (leyst)"
 
 msgid "no-unused-disable (unresolved)"
-msgstr "Tillåt inte oanvända disable-direktiv ({0})"
+msgstr "Ekki leyfa ónotuð disable-tilskipanir ({0})"
 
 msgid "no-unused-disable (resolved)"
-msgstr "Tillåt inte oanvända disable-direktiv (löst)"
+msgstr "Ekki leyfa ónotuð disable-tilskipanir (leyst)"
 
 msgid "script-element (unresolved)"
-msgstr "Kräv sluttagg för `<script>` ({0})"
+msgstr "Krefjast lokamerkis fyrir `<script>` ({0})"
 
 msgid "script-element (resolved)"
-msgstr "Kräv sluttagg för `<script>` (löst)"
+msgstr "Krefjast lokamerkis fyrir `<script>` (leyst)"
 
 msgid "unrecognized-char-ref (unresolved)"
-msgstr "Tillåt inte okända teckenreferenser ({0})"
+msgstr "Ekki leyfa óþekktar stafatilvísanir ({0})"
 
 msgid "unrecognized-char-ref (resolved)"
-msgstr "Tillåt inte okända teckenreferenser (löst)"
+msgstr "Ekki leyfa óþekktar stafatilvísanir (leyst)"
 
 msgid "valid-autocomplete (unresolved)"
-msgstr "Kräv att autocomplete-attributet är giltigt ({0})"
+msgstr "Krefjast þess að autocomplete-eigindið sé gilt ({0})"
 
 msgid "valid-autocomplete (resolved)"
-msgstr "Kräv att autocomplete-attributet är giltigt (löst)"
+msgstr "Krefjast þess að autocomplete-eigindið sé gilt (leyst)"
 
 msgid "valid-id (unresolved)"
-msgstr "Kräv att `id` är en giltig identifierare ({0})"
+msgstr "Krefjast þess að `id` sé gilt auðkenni ({0})"
 
 msgid "valid-id (resolved)"
-msgstr "Kräv att `id` är en giltig identifierare (löst)"
+msgstr "Krefjast þess að `id` sé gilt auðkenni (leyst)"
 
 msgid "void-content (unresolved)"
-msgstr "Tillåt inte void-element med innehåll ({0})"
+msgstr "Ekki leyfa void-einingar með innihaldi ({0})"
 
 msgid "void-content (resolved)"
-msgstr "Tillåt inte void-element med innehåll (löst)"
+msgstr "Ekki leyfa void-einingar með innihaldi (leyst)"
 
 msgid "parser-error (unresolved)"
 msgstr "parser-error ({0})"

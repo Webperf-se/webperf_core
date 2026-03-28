@@ -1,0 +1,55 @@
+# Icelandic
+# Copyright (C) 2020 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2020-12-12 20:45+0200\n"
+"PO-Revision-Date: 2021-06-16 19:30+0200\n"
+"Last-Translator: mattias <mattias@webperf.se>\n"
+"Language-Team: Icelandic <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 20 - Privacy (Webbkollen)\n"
+
+msgid "TEXT_REVIEW_VERY_GOOD"
+msgstr "- Vefsvæðið er virkilega gott í persónuvernd!\n"
+
+msgid "TEXT_REVIEW_IS_GOOD"
+msgstr "- Vefsvæðið gæti orðið betra, en er alveg í lagi.\n"
+
+msgid "TEXT_REVIEW_IS_OK"
+msgstr "- Ásættanleg persónuvernd en ætti nok að verða betri.\n"
+
+msgid "TEXT_REVIEW_IS_BAD"
+msgstr "- Slæm persónuvernd.\n"
+
+msgid "TEXT_REVIEW_IS_VERY_BAD"
+msgstr "- Mjög slæm persónuvernd fyrir notendur!\n"
+
+msgid "TEXT_RESULT_NOT_READY"
+msgstr "Þjónustan er ekki tilbúin með niðurstöðu ennþá, bíður í {0} sekunder\n"
+
+msgid "TEXT_REVIEW_CATEGORY_VERY_GOOD"
+msgstr " er gott!"
+
+msgid "TEXT_REVIEW_CATEGORY_IS_GOOD"
+msgstr " er gott, en hefur {0} viðvörun/viðvaranir."
+
+msgid "TEXT_REVIEW_CATEGORY_IS_OK"
+msgstr " er í lagi, en hefur {0} villur og {1} viðvörun/viðvaranir."
+
+msgid "TEXT_REVIEW_CATEGORY_IS_BAD"
+msgstr " er ekki svo gott."
+
+msgid "TEXT_REVIEW_CATEGORY_IS_VERY_BAD"
+msgstr " er slæmt."
+
+msgid "TEXT_REVIEW_GENERATED"
+msgstr "- Niðurstaða búin til: {0} (Biðminni 24klst)\n"

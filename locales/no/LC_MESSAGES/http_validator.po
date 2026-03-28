@@ -1,0 +1,208 @@
+# Norwegian
+# Copyright (C) 2020 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2021-02-02 20:45+0200\n"
+"PO-Revision-Date: 2026-02-14 15:00+0200\n"
+"Last-Translator: mattias <mattias@webperf.se>\n"
+"Language-Team: Norwegian Bokmål <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 21 - HTTP\n"
+
+msgid "TEXT_RUNNING_TEST_CSP_ONLY"
+msgstr "## Test: 21 - Content Security Policy (Endast)\n"
+
+msgid "TEXT_REVIEW_TLS1_3_SUPPORT"
+msgstr "- {0}, TLSv1.3-støtte"
+
+msgid "TEXT_REVIEW_TLS1_3_NO_SUPPORT"
+msgstr "- {0}, Ingen TLSv1.3-støtte"
+
+msgid "TEXT_REVIEW_TLS1_2_SUPPORT"
+msgstr "- {0}, TLSv1.2-støtte"
+
+msgid "TEXT_REVIEW_TLS1_2_NO_SUPPORT"
+msgstr "- {0}, ingen støtte for transportlaget: TLSv1.2"
+
+msgid "TEXT_REVIEW_TLS1_1_SUPPORT"
+msgstr "- {0}, støtter usikkert transportlag: TLSv1.1"
+
+msgid "TEXT_REVIEW_TLS1_1_NO_SUPPORT"
+msgstr "- {0}, ingen støtte for transportlaget: TLSv1.1"
+
+msgid "TEXT_REVIEW_TLS1_0_SUPPORT"
+msgstr "- {0}, TLSv1.0-støtte, noe som er usikkert"
+
+msgid "TEXT_REVIEW_TLS1_0_NO_SUPPORT"
+msgstr "- {0}, Ingen TLSv1.0-støtte"
+
+msgid "TEXT_REVIEW_IP_VERSION_IPV6_SUPPORT"
+msgstr "- {0}, IPv6-støtte"
+
+msgid "TEXT_REVIEW_IP_VERSION_IPV6_NO_SUPPORT"
+msgstr "- {0}, Inget IPv6-støtte"
+
+msgid "TEXT_REVIEW_IP_VERSION_IPV4_SUPPORT"
+msgstr "- {0}, IPv4-støtte"
+
+msgid "TEXT_REVIEW_IP_VERSION_IPV4_NO_SUPPORT"
+msgstr "- {0}, Inget IPv4-støtte"
+
+msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_SUPPORT"
+msgstr "- {0}, HTTPv1.1-støtte"
+
+msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_NO_SUPPORT"
+msgstr "- {0}, Inget HTTPv1.1-støtte"
+
+msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_2_SUPPORT"
+msgstr "- {0}, HTTPv2-støtte"
+
+msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_2_NO_SUPPORT"
+msgstr "- {0}, Ingen støtte for HTTPv2"
+
+msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_3_SUPPORT"
+msgstr "- {0}, Støtter HTTPv3"
+
+msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_3_NO_SUPPORT"
+msgstr "- {0}, Ingen støtte for HTTPv3"
+
+msgid "TEXT_REVIEW_HTTPS_SUPPORT"
+msgstr "- {0}, støtter HTTPS"
+
+msgid "TEXT_REVIEW_HTTPS_NO_SUPPORT"
+msgstr "- {0}, finnes HTTPS-støtte?"
+
+msgid "TEXT_REVIEW_HTTP_REDIRECT"
+msgstr "- {0}, omdirigerer med HTTP"
+
+msgid "TEXT_REVIEW_HTTPS_REDIRECT"
+msgstr "- {0}, omdirigerer med HTTPS"
+
+msgid "TEXT_REVIEW_HSTS_INVALIDATE"
+msgstr "- {0}, bruker ikke HSTS på grunn av omdirigering"
+
+msgid "TEXT_REVIEW_HSTS_PRELOAD_FOUND"
+msgstr "- {0}, bruker 'preload' i HSTS og 'max-age' med 1 år eller mer"
+
+msgid "TEXT_REVIEW_HSTS_PRELOAD_FOUND_AND_MAXAGE_1YEAR"
+msgstr "- {0}, bruker 'preload' i HSTS og 'max-age' med 1 år eller mer"
+
+msgid "TEXT_REVIEW_HSTS_MAXAGE_1YEAR_MAY_USE_PRELOAD"
+msgstr "- {0}, bruker 'max-age' på 1 år eller mer, du vil nok bruke HSTS"
+
+msgid "TEXT_REVIEW_HSTS_MAXAGE_1YEAR"
+msgstr "- {0}, bruker 'max-age' på 1 år eller mer for HSTS"
+
+msgid "TEXT_REVIEW_HSTS_MAXAGE_6MONTHS"
+msgstr "- {0}, 'max-age' i HSTS er mindre enn 6 måneder"
+
+msgid "TEXT_REVIEW_HSTS_MAXAGE_1MONTH"
+msgstr "- {0}, 'max-age' i HSTS er mindre enn 1 måned"
+
+msgid "TEXT_REVIEW_HSTS_MAXAGE_NOT_FOUND"
+msgstr "- {0}, 'max-age' mangler i HSTS"
+
+msgid "TEXT_REVIEW_HSTS_MAXAGE_TOO_LOW"
+msgstr "- {0}, 'max-age' i HSTS er mindre enn 1 år"
+
+msgid "TEXT_REVIEW_HSTS_USE_PARENTDOMAIN"
+msgstr "- {0}, kun forelderen bruker HSTS, også barnet bør bruke HSTS"
+
+msgid "TEXT_REVIEW_HSTS_NOT_FOUND"
+msgstr "- {0}, bruker ikke HSTS"
+
+msgid "TEXT_REVIEW_NO_REMARKS"
+msgstr "- Ingen merknad"
+
+msgid "TEXT_REVIEW_CSP_NOT_FOUND" 
+msgstr "- {0}, bruker ikke CSP"
+
+msgid "TEXT_REVIEW_CSP" 
+msgstr "- {0}, innholdssikkerhetspolicy (CSP)"
+
+msgid "TEXT_REVIEW_CSP_UNSUPPORTED_IN_META" 
+msgstr "- {0}, bruker en CSP-policy i meta-elementer som ikke er tillatt"
+
+msgid "TEXT_REVIEW_CSP_POLICY_DEPRECATED" 
+msgstr "- {1}, bruker utdatert CSP-policy '{0}'"
+
+msgid "TEXT_REVIEW_CSP_MALFORMED" 
+msgstr "- {1}, CSP-policy '{0}' er feilaktig formatert"
+
+msgid "TEXT_REVIEW_CSP_POLICY_FOUND" 
+msgstr "- {1}, CSP-policy '{0}' ble funnet"
+
+msgid "TEXT_REVIEW_CSP_POLICY_NOT_FOUND" 
+msgstr "- {1}, CSP-policy '{0}' mangler"
+
+msgid "TEXT_REVIEW_CSP_POLICY_NOT_DEPRECATED" 
+msgstr "- {1}, bruker ikke utdatert CSP-policy '{0}'"
+
+msgid "TEXT_REVIEW_CSP_POLICY_USE_WILDCARD" 
+msgstr "- {1}, CSP-policy '{0}' bruker jokertegn i slutten av vertskilden"
+
+msgid "TEXT_REVIEW_CSP_POLICY_NOT_USE_WILDCARD" 
+msgstr "- {1}, bruker ikke jokertegn i CSP-policy '{0}'"
+
+msgid "TEXT_REVIEW_CSP_POLICY_USE_UNSAFE_SCHEME" 
+msgstr "- {2}, CSP-policy '{0}' bruker usikkert skjema {1}"
+
+msgid "TEXT_REVIEW_CSP_POLICY_REUSE_NONCE" 
+msgstr "- {1}, CSP-policy '{0}' gjenbruker samme 'nonce' mellom besøk"
+
+msgid "TEXT_REVIEW_CSP_POLICY_MULTIUSE_NONCE" 
+msgstr "- {2}, CSP-policy '{0}' bruker flere {1}"
+
+msgid "TEXT_REVIEW_CSP_POLICY_NONE_NOT_ALONE" 
+msgstr "- {1}, CSP-policy '{0}' bruker ikke 'none' alene"
+
+msgid "TEXT_REVIEW_CSP_POLICY_USE_15_OR_MORE_DOMAINS" 
+msgstr "- {2}, CSP-policy '{0}' bruker {1} med over 15 domener"
+
+msgid "TEXT_REVIEW_CSP_POLICY_IS_USING" 
+msgstr "- {2}, CSP-policy '{0}' bruker {1}"
+
+msgid "TEXT_REVIEW_CSP_POLICY_IS_NOT_USING" 
+msgstr "- {2}, CSP-policy '{0}' bruker inte {1}"
+
+msgid "TEXT_REVIEW_CSP_WILDCARDS" 
+msgstr "wildcard(s)"
+
+msgid "TEXT_REVIEW_CSP_WILDCARD_SUBDOMAIN" 
+msgstr "jokertegn underdomene fra opprinnelse"
+
+msgid "TEXT_REVIEW_CSP_SUBDOMAIN" 
+msgstr "underdomene fra opprinnelse"
+
+msgid "TEXT_REVIEW_CSP_DOMAIN" 
+msgstr "domene"
+
+msgid "TEXT_REVIEW_CSP_RECOMMENDED_RATING" 
+msgstr "###### Anbefalt CSP-vurdering:{0}"
+
+msgid "TEXT_REVIEW_CSP_RECOMMENDED_TEXT"
+msgstr "\r\n##### Vil du forbedre din Content Security Policy (CSP)?\r\nHvorfor ikke prøve følgende CSP-svarhode for å komme i gang med CSP?\r\nHusk, nedenstående anbefaling er kun basert på et utvalg (läs: {0} sida(or)) av alle sider på nettstedet ditt og er basert uten å klikke på noe.\r\n\r\n###### Anbefalte policyer:\r\n{1}\r\n{2}\r\nLes mer: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy\r\n\r\n"
+
+msgid "TEXT_REVIEW_SRI_COMPLIANT"
+msgstr "- {0}, Subresource Integrity (SRI)"
+
+msgid "TEXT_REVIEW_SRI_NONE_COMPLIANT"
+msgstr "- {0}, Subresource Integrity (SRI) kreves"
+
+msgid "TEXT_REVIEW_SRI_NONE_COMPLIANT_DETAILS"
+msgstr "- {0}, Subresource Integrity (SRI) kreves for følgende HTML-elementer"
+
+msgid "TEXT_REVIEW_SRI_WITH_ERRORS"
+msgstr "- {0}, Subresource Integrity (SRI) brukes på feilaktig måte"
+
+msgid "TEXT_REVIEW_SRI_WITH_ERRORS_DETAILS"
+msgstr "- {0}, Subresource Integrity (SRI) har følgende feil"

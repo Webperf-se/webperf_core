@@ -7,7 +7,7 @@ msgstr ""
 "POT-Creation-Date: 2025-04-27 12:00\n"
 "PO-Revision-Date: 2025-05-09 23:00\n"
 "Last-Translator: Marcus J Österberg <m@webperf.se>\n"
-"Language-Team: English <team@webperf.se>\n"
+"Language-Team: Icelandic <team@webperf.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -171,55 +171,55 @@ msgid "no-unknown-custom-properties (unresolved)"
 msgstr "CSS, Disallow unknown custom properties ({0})"
 
 msgid "no-unknown-custom-properties (resolved)"
-msgstr "CSS, Tillåt inte okända egna egenskaper (löst)"
+msgstr "CSS, Ekki leyfa óþekkt sérsniðin eigindi (leyst)"
 
 msgid "property-no-unknown (unresolved)"
-msgstr "CSS, Tillåt inte okända egenskaper ({0})"
+msgstr "CSS, Ekki leyfa óþekkt eigindi ({0})"
 
 msgid "property-no-unknown (resolved)"
-msgstr "CSS, Tillåt inte okända egenskaper (löst)"
+msgstr "CSS, Ekki leyfa óþekkt eigindi (leyst)"
 
 msgid "selector-pseudo-class-no-unknown (unresolved)"
-msgstr "CSS, Tillåt inte okända pseudoklass-selektorer ({0})"
+msgstr "CSS, Ekki leyfa óþekkta gerviflokka-velja ({0})"
 
 msgid "selector-pseudo-class-no-unknown (resolved)"
-msgstr "CSS, Tillåt inte okända pseudoklass-selektorer (löst)"
+msgstr "CSS, Ekki leyfa óþekkta gerviflokka-velja (leyst)"
 
 msgid "selector-pseudo-element-no-unknown (unresolved)"
-msgstr "CSS, Tillåt inte okända pseudoelement-selektorer ({0})"
+msgstr "CSS, Ekki leyfa óþekkta gervieiningar-velja ({0})"
 
 msgid "selector-pseudo-element-no-unknown (resolved)"
-msgstr "CSS, Tillåt inte okända pseudoelement-selektorer (löst)"
+msgstr "CSS, Ekki leyfa óþekkta gervieiningar-velja (leyst)"
 
 msgid "syntax-string-no-invalid (unresolved)"
-msgstr "CSS, Tillåt inte ogiltiga syntaxsträngar ({0})"
+msgstr "CSS, Ekki leyfa ógildar setningafræðistrengi ({0})"
 
 msgid "syntax-string-no-invalid (resolved)"
-msgstr "CSS, Tillåt inte ogiltiga syntaxsträngar (löst)"
+msgstr "CSS, Ekki leyfa ógildar setningafræðistrengi (leyst)"
 
 msgid "unit-no-unknown (unresolved)"
-msgstr "CSS, Tillåt inte okända enheter ({0})"
+msgstr "CSS, Ekki leyfa óþekktar einingar ({0})"
 
 msgid "unit-no-unknown (resolved)"
-msgstr "CSS, Tillåt inte okända enheter (löst)"
+msgstr "CSS, Ekki leyfa óþekktar einingar (leyst)"
 
 msgid "media-type-no-deprecated (unresolved)"
-msgstr "CSS, Tillåt inte inaktuella medietyper ({0})"
+msgstr "CSS, Ekki leyfa úreltar miðlungerðir ({0})"
 
 msgid "media-type-no-deprecated (resolved)"
-msgstr "CSS, Tillåt inte inaktuella medietyper (löst)"
+msgstr "CSS, Ekki leyfa úreltar miðlungerðir (leyst)"
 
 msgid "no-invalid-position-declaration (unresolved)"
-msgstr "CSS, Tillåt inte ogiltiga positionsdeklarationer ({0})"
+msgstr "CSS, Ekki leyfa ógildar staðsetningaryfirlýsingar ({0})"
 
 msgid "no-invalid-position-declaration (resolved)"
-msgstr "CSS, Tillåt inte ogiltiga positionsdeklarationer (löst)"
+msgstr "CSS, Ekki leyfa ógildar staðsetningaryfirlýsingar (leyst)"
 
 msgid "property-no-deprecated (unresolved)"
-msgstr "CSS, Tillåt inte inaktuella egenskaper ({0})"
+msgstr "CSS, Ekki leyfa úrelt eigindi ({0})"
 
 msgid "property-no-deprecated (resolved)"
-msgstr "CSS, Tillåt inte inaktuella egenskaper (löst)"
+msgstr "CSS, Ekki leyfa úrelt eigindi (leyst)"
 
 msgid "CssSyntaxError (unresolved)"
 msgstr "CssSyntaxError ({0})"

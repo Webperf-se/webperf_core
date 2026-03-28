@@ -1,0 +1,49 @@
+# Finnish
+# Copyright (C) 2020 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2021-02-06 23:14+0200\n"
+"PO-Revision-Date: 2021-12-12 10:08+0200\n"
+"Last-Translator: mattias <mattias@webperf.se>\n"
+"Language-Team: Finnish <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 22 - Energiatehokkuus\n"
+
+msgid "TEXT_TRANSFER_SIZE"
+msgstr "- Verkkokoko: {0:.2f} {1}\n"
+
+msgid "TEXT_WEBSITE_IS_VERY_GOOD"
+msgstr "- Verkkosivu tuottaa erittäin vähän hiilidioksidia!\n"
+
+msgid "TEXT_WEBSITE_IS_GOOD"
+msgstr "- Verkkosivu tuottaa melko vähän hiilidioksidia.\n"
+
+msgid "TEXT_WEBSITE_IS_OK"
+msgstr "- Keskimääräinen hiilidioksidin osalta.\n"
+
+msgid "TEXT_WEBSITE_IS_BAD"
+msgstr "- Verkkosivu tuottaa paljon hiilidioksidia :/\n"
+
+msgid "TEXT_WEBSITE_IS_VERY_BAD"
+msgstr "- Verkkosivu on todella huono! Tuottaa paljon hiilidioksidia jokaisella sivunäytöllä :(\n"
+
+msgid "TEXT_GRAMS_OF_CO2"
+msgstr "- Hiilidioksidi per sivunäyttö: {} gram\n"
+
+msgid "TEXT_GREEN_ENERGY_TRUE"
+msgstr "- Verkkosivusto näyttää käyttävän vihreää energiaa.\n"
+
+msgid "TEXT_GREEN_ENERGY_FALSE"
+msgstr "- Ei voitu todeta käyttääkö verkkosivusto vihreää energiaa.\n"
+
+msgid "TEXT_BETTER_THAN"
+msgstr "- Verkkosivu on vihreämpi kuin {0} % testatuista verkkosivustoista sivustolla webperf.se (Viite päivitetty: {1}).\n"

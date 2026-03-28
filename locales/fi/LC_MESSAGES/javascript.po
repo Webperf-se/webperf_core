@@ -1,0 +1,126 @@
+# Copyright (C) 2025 WebPerf
+# Marcus J Österberg <m@webperf.se>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2025-04-27 17:08\n"
+"PO-Revision-Date: 2025-05-09 23:00\n"
+"Last-Translator: Marcus J Österberg <m@webperf.se>\n"
+"Language-Team: Finnish <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+#
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Javascript, text to show instead of msgid, showed for severity levels (critical, error and warning)"
+
+msgid "rule-id (resolved)"
+msgstr "Javascript, text to show instead of msgid, here unique on severity level resolved"
+
+msgid "rule-id"
+msgstr "Javascript, text to show instead of msgid, here independent of severity level"
+
+# End of Examples
+
+
+msgid "eqeqeq (unresolved)"
+msgstr "Javascript, vaadi käyttöä === och !== ({0})"
+
+msgid "eqeqeq (resolved)"
+msgstr "Javascript, vaadi käyttöä === och !== (ratkaistu)"
+
+msgid "no-undef (unresolved)"
+msgstr "Javascript, kiellä deklaroimattomien muuttujien käyttö ellei niitä mainita /*global */ kommentarer ({0})"
+
+msgid "no-undef (resolved)"
+msgstr "Javascript, kiellä deklaroimattomien muuttujien käyttö ellei niitä mainita /*global */ kommentarer (ratkaistu)"
+
+msgid "no-unmodified-loop-condition (unresolved)"
+msgstr "Javascript, kiellä muokkaamattomat silmukkaehdot ({0})"
+
+msgid "no-unmodified-loop-condition (resolved)"
+msgstr "Javascript, kiellä muokkaamattomat silmukkaehdot (ratkaistu)"
+
+msgid "no-unused-vars (unresolved)"
+msgstr "Javascript, kiellä käyttämättömät muuttujat ({0})"
+
+msgid "no-unused-vars (resolved)"
+msgstr "Javascript, kiellä käyttämättömät muuttujat (ratkaistu)"
+
+msgid "no-useless-escape (unresolved)"
+msgstr "Javascript, kiellä tarpeettomat escape-merkit ({0})"
+
+msgid "no-useless-escape (resolved)"
+msgstr "Javascript, kiellä tarpeettomat escape-merkit (ratkaistu)"
+
+msgid "no-console (unresolved)"
+msgstr "Javascript, kiellä console-käyttö ({0})"
+
+msgid "no-console (resolved)"
+msgstr "Javascript, kiellä console-käyttö (ratkaistu)"
+
+msgid "no-prototype-builtins (unresolved)"
+msgstr "Javascript, kiellä tiettyjen Object.prototype-metodien suora kutsu objekteilla ({0})"
+
+msgid "no-prototype-builtins (resolved)"
+msgstr "Javascript, kiellä tiettyjen Object.prototype-metodien suora kutsu objekteilla (ratkaistu)"
+
+msgid "no-new-func (unresolved)"
+msgstr "Javascript, kiellä new-operaattorit Function-objektilla ({0})"
+
+msgid "no-new-func (resolved)"
+msgstr "Javascript, kiellä new-operaattorit Function-objektilla (ratkaistu)"
+
+msgid "require-await (unresolved)"
+msgstr "Javascript, kiellä async-funktiot joista puuttuu await-lausekkeet ({0})"
+
+msgid "require-await (resolved)"
+msgstr "Javascript, kiellä async-funktiot joista puuttuu await-lausekkeet (ratkaistu)"
+
+msgid "no-useless-concat (unresolved)"
+msgstr "Javascript, kiellä tarpeeton literaalien tai mallien yhdistäminen ({0})"
+
+msgid "no-useless-concat (resolved)"
+msgstr "Javascript, kiellä tarpeeton literaalien tai mallien yhdistäminen (ratkaistu)"
+
+msgid "no-script-url (unresolved)"
+msgstr "Javascript, kiellä javascript: URL-osoitteet ({0})"
+
+msgid "no-script-url (resolved)"
+msgstr "Javascript, kiellä javascript: URL-osoitteet (ratkaistu)"
+
+msgid "no-eval (unresolved)"
+msgstr "Javascript, kiellä eval()-käyttö ({0})"
+
+msgid "no-eval (resolved)"
+msgstr "Javascript, kiellä eval()-käyttö (ratkaistu)"
+
+msgid "no-implied-eval (unresolved)"
+msgstr "Javascript, kiellä eval()-käyttö-liknande metoder ({0})"
+
+msgid "no-implied-eval (resolved)"
+msgstr "Javascript, kiellä eval()-käyttö-liknande metoder (ratkaistu)"
+
+msgid "no-unsafe-finally (unresolved)"
+msgstr "Javascript, kiellä ohjausvuolausekkeet finally-lohkoissa ({0})"
+
+msgid "no-unsafe-finally (resolved)"
+msgstr "Javascript, kiellä ohjausvuolausekkeet finally-lohkoissa (ratkaistu)"
+
+msgid "no-unsafe-negation (unresolved)"
+msgstr "Javascript, kiellä vasemman operandin negaatio relaatio-operaattoreissa ({0})"
+
+msgid "no-unsafe-negation (resolved)"
+msgstr "Javascript, kiellä vasemman operandin negaatio relaatio-operaattoreissa (ratkaistu)"
+
+msgid "no-with (unresolved)"
+msgstr "Javascript, kiellä with-lausekkeet ({0})"
+
+msgid "no-with (resolved)"
+msgstr "Javascript, kiellä with-lausekkeet (ratkaistu)"

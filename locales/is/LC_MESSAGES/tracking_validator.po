@@ -1,0 +1,127 @@
+# Icelandic
+# Copyright (C) 2022 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2021-04-24 09:15+0200\n"
+"PO-Revision-Date: 2022-02-09 19:30+0200\n"
+"Last-Translator: mattias <mattias@webperf.se>\n"
+"Language-Team: Icelandic <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 23 - Rakning og persónuvernd\r\n"
+
+msgid "TEXT_VISITOR_ANALYTICS_USED"
+msgstr "  Gestaagreining er notuð:\r\n"
+
+msgid "TEXT_TRACKING"
+msgstr "##### Rakning"
+
+msgid "TEXT_TRACKING_FOUND_ALLOWED"
+msgstr "  - {0} - Rakning fannst, leyfilegt að hafa {1} st"
+
+msgid "TEXT_TRACKING_FOUND"
+msgstr "  - {0} - Rakning fannst"
+
+msgid "TEXT_TRACKING_MAX_SHOWED"
+msgstr "  - Fleiri en  {0} rakningar&shy;beiðnir fundust, felur restina"
+
+msgid "TEXT_TRACKING_TOTAL_FOUND"
+msgstr "  - Fann samtals {0} rakningar&shy;beiðnir.\n"
+
+msgid "TEXT_TRACKING_REFERENCE"
+msgstr "{0} - Hefur tilvísun í {1}"
+
+msgid "TEXT_FINGERPRINTING"
+msgstr "##### Auðkenningar&shy;tækni"
+
+msgid "TEXT_FINGERPRINTING_FOUND"
+msgstr "  - {0} - Auðkenningar&shy;tækni fannst.\n"
+
+msgid "TEXT_FINGERPRINTING_MAX_SHOWED"
+msgstr "  - Fann samtals {0} auðkenningar&shy;beiðnir"
+
+msgid "TEXT_FINGERPRINTING_TOTAL_FOUND"
+msgstr "  - Fann samtals {0} auðkenningar&shy;beiðnir.\n"
+
+msgid "TEXT_ADS"
+msgstr "##### Auglýsendur"
+
+msgid "TEXT_ADS_FOUND_ALLOWED"
+msgstr "  - {0} - Auglýsanda&shy;beiðni fannst, leyfilegt að hafa {1} st"
+
+msgid "TEXT_ADS_FOUND"
+msgstr "  - {0} - Auglýsanda&shy;beiðni fannst"
+
+msgid "TEXT_ADS_MAX_SHOWED"
+msgstr "  - Fleiri en {0} auglýsanda&shy;beiðnir fundust, felur restina"
+
+msgid "TEXT_ADS_TOTAL_FOUND"
+msgstr "  - Fann samtals {0} auglýsanda&shy;beiðnir.\n"
+
+msgid "TEXT_COOKIES_HAS_THIRDPARTY"
+msgstr "  - Þriðjaaðila&shy;smákökur: {0}"
+
+msgid "TEXT_COOKIE_HAS_OVER_1YEAR"
+msgstr "  - Gildar yfir 1 ár: {0}"
+
+msgid "TEXT_COOKIE_HAS_OVER_9MONTH"
+msgstr "  - Gildar yfir 9 mánuði: {0}"
+
+msgid "TEXT_COOKIE_HAS_OVER_6MONTH"
+msgstr "  - Gildar yfir 6 mánuði: {0}"
+
+msgid "TEXT_COOKIE_HAS_OVER_3MONTH"
+msgstr "  - Gildar yfir 3 mánuði: {0}"
+
+msgid "TEXT_COOKIE_NOT_SECURE"
+msgstr "  - Engin krafa um örugga flutning: {0}"
+
+msgid "TEXT_COOKIE_HAS_ANALYTICS_COOKIE"
+msgstr "  - Notar greiningarsmákökur án samþykkis: {0}"
+
+msgid "TEXT_COOKIE_LESS_THEN_3MONTH"
+msgstr "  - Gildistími er styttri en 3 mánuðir"
+
+msgid "TEXT_COOKIE_SECURE"
+msgstr "  - Krefst öruggrar flutnings"
+
+msgid "TEXT_COOKIE_NO_ANALYTICS_COOKIE"
+msgstr "  - Notar ekki greiningarsmákökur án samþykkis"
+
+msgid "TEXT_COOKIE"
+msgstr "##### Smákökur"
+
+msgid "TEXT_GDPR_COUNTRIES"
+msgstr "  Fjöldi mismunandi landa: {0}\r\n"
+
+msgid "TEXT_GDPR_NONE_COMPLIANT_COUNTRIES"
+msgstr "  Lönd án fullnægjandi gagnaverndar: {0}\r\n"
+
+msgid "TEXT_GDPR_NONE_COMPLIANT_COUNTRIES_REQUESTS"
+msgstr "  {0}, {1} beiðnir:\r\n"
+
+msgid "TEXT_GDPR_PAGE_IN_SWEDEN"
+msgstr "  Síðan var send frá Svíþjóð: {0}\r\n"
+
+msgid "TEXT_GDPR_True"
+msgstr "Ja"
+
+msgid "TEXT_GDPR_False"
+msgstr "Nej"
+
+msgid "TEXT_GDPR_HAS_POINTS"
+msgstr "##### Persónuverndarreglugerðin og Schrems II-dómurinn"
+
+msgid "TEXT_GDPR_NO_POINTS"
+msgstr "##### Persónuverndarreglugerðin og Schrems II-dómurinn"
+
+msgid "TEXT_GDPR_MAX_SHOWED"
+msgstr "  - Fleiri en {0} beiðnir fundust, felur restina\r\n"

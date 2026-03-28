@@ -1,0 +1,126 @@
+# Copyright (C) 2025 WebPerf
+# Marcus J Österberg <m@webperf.se>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2025-04-27 17:08\n"
+"PO-Revision-Date: 2025-05-09 23:00\n"
+"Last-Translator: Marcus J Österberg <m@webperf.se>\n"
+"Language-Team: Icelandic <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+#
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Javascript, text to show instead of msgid, showed for severity levels (critical, error and warning)"
+
+msgid "rule-id (resolved)"
+msgstr "Javascript, text to show instead of msgid, here unique on severity level resolved"
+
+msgid "rule-id"
+msgstr "Javascript, text to show instead of msgid, here independent of severity level"
+
+# End of Examples
+
+
+msgid "eqeqeq (unresolved)"
+msgstr "Javascript, krefjast notkunar á === och !== ({0})"
+
+msgid "eqeqeq (resolved)"
+msgstr "Javascript, krefjast notkunar á === och !== (leyst)"
+
+msgid "no-undef (unresolved)"
+msgstr "Javascript, banna notkun ólýstra breyta nema þær séu nefndar í /*global */ kommentarer ({0})"
+
+msgid "no-undef (resolved)"
+msgstr "Javascript, banna notkun ólýstra breyta nema þær séu nefndar í /*global */ kommentarer (leyst)"
+
+msgid "no-unmodified-loop-condition (unresolved)"
+msgstr "Javascript, banna óbreytt lykkjuskilyrði ({0})"
+
+msgid "no-unmodified-loop-condition (resolved)"
+msgstr "Javascript, banna óbreytt lykkjuskilyrði (leyst)"
+
+msgid "no-unused-vars (unresolved)"
+msgstr "Javascript, banna ónotaðar breytur ({0})"
+
+msgid "no-unused-vars (resolved)"
+msgstr "Javascript, banna ónotaðar breytur (leyst)"
+
+msgid "no-useless-escape (unresolved)"
+msgstr "Javascript, banna óþarfa flóttastafi ({0})"
+
+msgid "no-useless-escape (resolved)"
+msgstr "Javascript, banna óþarfa flóttastafi (leyst)"
+
+msgid "no-console (unresolved)"
+msgstr "Javascript, banna notkun á console ({0})"
+
+msgid "no-console (resolved)"
+msgstr "Javascript, banna notkun á console (leyst)"
+
+msgid "no-prototype-builtins (unresolved)"
+msgstr "Javascript, banna bein köll á ákveðnar Object.prototype-aðferðir á hlutum ({0})"
+
+msgid "no-prototype-builtins (resolved)"
+msgstr "Javascript, banna bein köll á ákveðnar Object.prototype-aðferðir á hlutum (leyst)"
+
+msgid "no-new-func (unresolved)"
+msgstr "Javascript, banna new-virkja með Function-hlutnum ({0})"
+
+msgid "no-new-func (resolved)"
+msgstr "Javascript, banna new-virkja með Function-hlutnum (leyst)"
+
+msgid "require-await (unresolved)"
+msgstr "Javascript, banna async-föll sem skortir await-segðir ({0})"
+
+msgid "require-await (resolved)"
+msgstr "Javascript, banna async-föll sem skortir await-segðir (leyst)"
+
+msgid "no-useless-concat (unresolved)"
+msgstr "Javascript, banna óþarfa sameiningu bókstafa eða sniðmáta ({0})"
+
+msgid "no-useless-concat (resolved)"
+msgstr "Javascript, banna óþarfa sameiningu bókstafa eða sniðmáta (leyst)"
+
+msgid "no-script-url (unresolved)"
+msgstr "Javascript, banna javascript: vefslóðir ({0})"
+
+msgid "no-script-url (resolved)"
+msgstr "Javascript, banna javascript: vefslóðir (leyst)"
+
+msgid "no-eval (unresolved)"
+msgstr "Javascript, banna notkun á eval() ({0})"
+
+msgid "no-eval (resolved)"
+msgstr "Javascript, banna notkun á eval() (leyst)"
+
+msgid "no-implied-eval (unresolved)"
+msgstr "Javascript, banna notkun á eval()-liknande metoder ({0})"
+
+msgid "no-implied-eval (resolved)"
+msgstr "Javascript, banna notkun á eval()-liknande metoder (leyst)"
+
+msgid "no-unsafe-finally (unresolved)"
+msgstr "Javascript, banna stýriflæðissegðir í finally-kubbum ({0})"
+
+msgid "no-unsafe-finally (resolved)"
+msgstr "Javascript, banna stýriflæðissegðir í finally-kubbum (leyst)"
+
+msgid "no-unsafe-negation (unresolved)"
+msgstr "Javascript, banna neitun á vinstri þætti í vensluvirkjum ({0})"
+
+msgid "no-unsafe-negation (resolved)"
+msgstr "Javascript, banna neitun á vinstri þætti í vensluvirkjum (leyst)"
+
+msgid "no-with (unresolved)"
+msgstr "Javascript, banna with-segðir ({0})"
+
+msgid "no-with (resolved)"
+msgstr "Javascript, banna with-segðir (leyst)"

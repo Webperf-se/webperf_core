@@ -1,0 +1,126 @@
+# Copyright (C) 2025 WebPerf
+# Marcus J Österberg <m@webperf.se>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2025-04-27 17:08\n"
+"PO-Revision-Date: 2025-05-09 23:00\n"
+"Last-Translator: Marcus J Österberg <m@webperf.se>\n"
+"Language-Team: Norwegian Bokmål <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+#
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Javascript, text to show instead of msgid, showed for severity levels (critical, error and warning)"
+
+msgid "rule-id (resolved)"
+msgstr "Javascript, text to show instead of msgid, here unique on severity level resolved"
+
+msgid "rule-id"
+msgstr "Javascript, text to show instead of msgid, here independent of severity level"
+
+# End of Examples
+
+
+msgid "eqeqeq (unresolved)"
+msgstr "Javascript, krev bruk av === og !== ({0})"
+
+msgid "eqeqeq (resolved)"
+msgstr "Javascript, krev bruk av === og !== (løst)"
+
+msgid "no-undef (unresolved)"
+msgstr "Javascript, forby bruk av udeklarerte variabler om de ikke nevnes i /*global */ kommentarer ({0})"
+
+msgid "no-undef (resolved)"
+msgstr "Javascript, forby bruk av udeklarerte variabler om de ikke nevnes i /*global */ kommentarer (løst)"
+
+msgid "no-unmodified-loop-condition (unresolved)"
+msgstr "Javascript, forby umodifiserte løkkevilkår ({0})"
+
+msgid "no-unmodified-loop-condition (resolved)"
+msgstr "Javascript, forby umodifiserte løkkevilkår (løst)"
+
+msgid "no-unused-vars (unresolved)"
+msgstr "Javascript, forby ubrukte variabler ({0})"
+
+msgid "no-unused-vars (resolved)"
+msgstr "Javascript, forby ubrukte variabler (løst)"
+
+msgid "no-useless-escape (unresolved)"
+msgstr "Javascript, forby unødvendige escape-tegn ({0})"
+
+msgid "no-useless-escape (resolved)"
+msgstr "Javascript, forby unødvendige escape-tegn (løst)"
+
+msgid "no-console (unresolved)"
+msgstr "Javascript, forby bruk av console ({0})"
+
+msgid "no-console (resolved)"
+msgstr "Javascript, forby bruk av console (løst)"
+
+msgid "no-prototype-builtins (unresolved)"
+msgstr "Javascript, forby direktkall av visse Object.prototype-metoder på objekter ({0})"
+
+msgid "no-prototype-builtins (resolved)"
+msgstr "Javascript, forby direktkall av visse Object.prototype-metoder på objekter (løst)"
+
+msgid "no-new-func (unresolved)"
+msgstr "Javascript, forby new-operatorer med Function-objektet ({0})"
+
+msgid "no-new-func (resolved)"
+msgstr "Javascript, forby new-operatorer med Function-objektet (løst)"
+
+msgid "require-await (unresolved)"
+msgstr "Javascript, forby async-funksjoner som mangler await-uttrykk ({0})"
+
+msgid "require-await (resolved)"
+msgstr "Javascript, forby async-funksjoner som mangler await-uttrykk (løst)"
+
+msgid "no-useless-concat (unresolved)"
+msgstr "Javascript, forby unødvendig sammenslåing av literaler eller maler ({0})"
+
+msgid "no-useless-concat (resolved)"
+msgstr "Javascript, forby unødvendig sammenslåing av literaler eller maler (løst)"
+
+msgid "no-script-url (unresolved)"
+msgstr "Javascript, forby javascript: URLer ({0})"
+
+msgid "no-script-url (resolved)"
+msgstr "Javascript, forby javascript: URLer (løst)"
+
+msgid "no-eval (unresolved)"
+msgstr "Javascript, forby bruk av eval() ({0})"
+
+msgid "no-eval (resolved)"
+msgstr "Javascript, forby bruk av eval() (løst)"
+
+msgid "no-implied-eval (unresolved)"
+msgstr "Javascript, forby bruk av eval()-liknande metoder ({0})"
+
+msgid "no-implied-eval (resolved)"
+msgstr "Javascript, forby bruk av eval()-liknande metoder (løst)"
+
+msgid "no-unsafe-finally (unresolved)"
+msgstr "Javascript, forby kontrollflytsuttrykk i finally-blokker ({0})"
+
+msgid "no-unsafe-finally (resolved)"
+msgstr "Javascript, forby kontrollflytsuttrykk i finally-blokker (løst)"
+
+msgid "no-unsafe-negation (unresolved)"
+msgstr "Javascript, forby negering av venstre operand i relasjonelle operatorer ({0})"
+
+msgid "no-unsafe-negation (resolved)"
+msgstr "Javascript, forby negering av venstre operand i relasjonelle operatorer (løst)"
+
+msgid "no-with (unresolved)"
+msgstr "Javascript, forby with-uttrykk ({0})"
+
+msgid "no-with (resolved)"
+msgstr "Javascript, forby with-uttrykk (løst)"

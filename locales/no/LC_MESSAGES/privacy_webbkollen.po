@@ -1,0 +1,55 @@
+# Norwegian
+# Copyright (C) 2020 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2020-12-12 20:45+0200\n"
+"PO-Revision-Date: 2021-06-16 19:30+0200\n"
+"Last-Translator: mattias <mattias@webperf.se>\n"
+"Language-Team: Norwegian Bokmål <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 20 - Privacy (Webbkollen)\n"
+
+msgid "TEXT_REVIEW_VERY_GOOD"
+msgstr "- Nettstedet er virkelig bra på personvern!\n"
+
+msgid "TEXT_REVIEW_IS_GOOD"
+msgstr "- Nettstedet kan bli bedre, men er helt ok.\n"
+
+msgid "TEXT_REVIEW_IS_OK"
+msgstr "- Ok personvern, men bør nok bli bedre.\n"
+
+msgid "TEXT_REVIEW_IS_BAD"
+msgstr "- Dårlig personvern.\n"
+
+msgid "TEXT_REVIEW_IS_VERY_BAD"
+msgstr "- Virkelig dårlig personvern for brukerne!\n"
+
+msgid "TEXT_RESULT_NOT_READY"
+msgstr "Tjenesten er ikke klar med et resultat ennå, venter ytterligere {0} sekunder\n"
+
+msgid "TEXT_REVIEW_CATEGORY_VERY_GOOD"
+msgstr " er bra!"
+
+msgid "TEXT_REVIEW_CATEGORY_IS_GOOD"
+msgstr " er bra, men har {0} advarsel/advarsler."
+
+msgid "TEXT_REVIEW_CATEGORY_IS_OK"
+msgstr " er ok, men har {0} feil og {1} advarsel/advarsler."
+
+msgid "TEXT_REVIEW_CATEGORY_IS_BAD"
+msgstr " er ikke så bra."
+
+msgid "TEXT_REVIEW_CATEGORY_IS_VERY_BAD"
+msgstr " er dårlig."
+
+msgid "TEXT_REVIEW_GENERATED"
+msgstr "- Resultat opprettet: {0} (Bufres 24t)\n"

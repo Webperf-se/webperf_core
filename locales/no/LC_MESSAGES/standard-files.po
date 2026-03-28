@@ -1,0 +1,121 @@
+# Norwegian
+# Copyright (C) 2025 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2025-05-06 19:30\n"
+"PO-Revision-Date: 2025-05-06 19:30\n"
+"Last-Translator: mattias <mattias@webperf.se>\n"
+"Language-Team: Norwegian Bokmål <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+#
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Text som visas istället för msgid, visas för allvarlighetsnivåerna (kritisk, feil og advarsel)"
+
+msgid "rule-id (resolved)"
+msgstr "Text som visas istället för msgid, här unikt för allvarlighetsnivån løst"
+
+msgid "rule-id"
+msgstr "Tekst som vises i stedet for msgid, her uavhengig av alvorlighetsnivå"
+
+# End of Examples
+
+
+msgid "no-duplicates-sitemap (unresolved)"
+msgstr "Sitemap, ingen duplikater av URL-er i <loc> er tillatt ({0})"
+
+msgid "no-duplicates-sitemap (resolved)"
+msgstr "Sitemap, ingen duplikater av URL-er i <loc> er tillatt (løst)"
+
+msgid "no-robots-txt (unresolved)"
+msgstr "robots.txt mangler, kan ikke lastes ned eller har ikke forventet innhold ({0})"
+
+msgid "no-robots-txt (resolved)"
+msgstr "robots.txt mangler, kan ikke lastes ned eller har ikke forventet innhold (løst)"
+
+msgid "no-sitemap-in-robots-txt (unresolved)"
+msgstr "Sitemap angis ikke i robots.txt ({0})"
+
+msgid "no-sitemap-in-robots-txt (resolved)"
+msgstr "Sitemap angis ikke i robots.txt (løst)"
+
+msgid "no-valid-sitemap-found (unresolved)"
+msgstr "Sitemap, ingen giltig sitemap ble funnet ({0})"
+
+msgid "no-valid-sitemap-found (resolved)"
+msgstr "Sitemap, ingen giltig sitemap ble funnet (løst)"
+
+msgid "no-same-domain-sitemap (unresolved)"
+msgstr "Sitemap, URL i <loc> må bruke samme domene som robots.txt ({0})"
+
+msgid "no-same-domain-sitemap (resolved)"
+msgstr "Sitemap, URL i <loc> må bruke samme domene som robots.txt (løst)"
+
+msgid "no-https-sitemap (unresolved)"
+msgstr "Sitemap, URL i <loc> må begynne med https:// ({0})"
+
+msgid "no-https-sitemap (resolved)"
+msgstr "Sitemap, URL i <loc> må begynne med https:// (løst)"
+
+msgid "no-unknown-types-sitemap (unresolved)"
+msgstr "Sitemap, lister annet enn nettsider ({0})"
+
+msgid "no-unknown-types-sitemap (resolved)"
+msgstr "Sitemap, lister annet enn nettsider (løst)"
+
+msgid "invalid-sitemap-too-large (unresolved)"
+msgstr "Sitemap, overskrider 50 000 objekter ({0})"
+
+msgid "invalid-sitemap-too-large (resolved)"
+msgstr "Sitemap, overskrider 50 000 objekter (løst)"
+
+msgid "no-items-sitemap (unresolved)"
+msgstr "Sitemap, har ingen objekter ({0})"
+
+msgid "no-items-sitemap (resolved)"
+msgstr "Sitemap, har ingen objekter (løst)"
+
+msgid "no-rss-feed (unresolved)"
+msgstr "Feed mangler i HTML:ens metadata ({0})"
+
+msgid "no-rss-feed (resolved)"
+msgstr "Feed mangler i HTML:ens metadata (løst)"
+
+msgid "no-security-txt (unresolved)"
+msgstr "security.txt mangler ({0})"
+
+msgid "no-security-txt (resolved)"
+msgstr "security.txt mangler (løst)"
+
+msgid "invalid-security-txt (unresolved)"
+msgstr "security.txt har feilaktig innhold ({0})"
+
+msgid "invalid-security-txt (resolved)"
+msgstr "security.txt har feilaktig innhold (løst)"
+
+msgid "no-security-txt-contact (unresolved)"
+msgstr "security.txt mangler nødvendig kontaktinformasjon ({0})"
+
+msgid "no-security-txt-contact (resolved)"
+msgstr "security.txt mangler nødvendig kontaktinformasjon (løst)"
+
+msgid "no-security-txt-expires (unresolved)"
+msgstr "security.txt krever utløpsinformasjon (tillegg i utkast v10) mangler ({0})"
+
+msgid "no-security-txt-expires (resolved)"
+msgstr "security.txt krever utløpsinformasjon (tillegg i utkast v10) mangler (løst)"
+
+msgid "no-network (unresolved)"
+msgstr "Test mislyktes, kunne ikke nå nettstedet ({0})"
+
+msgid "no-network (resolved)"
+msgstr "Test mislyktes, kunne ikke nå nettstedet (løst)"

@@ -1421,13 +1421,16 @@ def handle_spf_section(section, result_dict, global_translation, local_translati
         "exp=": handle_spf_noop,
     }
 
+    found_handler = False
     for option, handler in spf_section_handlers.items():
         if section.startswith(option):
             handler(section, result_dict, global_translation, local_translation)
-        else:
-            if 'spf-uses-none-standard' not in result_dict:
-                result_dict['spf-uses-none-standard'] = []
-            result_dict['spf-uses-none-standard'].append('no webperf-core handler available for section: {0}'.format(section))
+            found_handler = True
+
+    if not found_handler:
+        if 'spf-uses-none-standard' not in result_dict:
+            result_dict['spf-uses-none-standard'] = []
+        result_dict['spf-uses-none-standard'].append('no webperf-core handler available for section: {0}'.format(section))
 
 def handle_dmarc_p(data, result_dict, local_translation):
     """

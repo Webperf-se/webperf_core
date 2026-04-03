@@ -367,7 +367,7 @@
         {
             "use": true,
             "description": "https://wordpress.org/plugins/<name>/advanced/",
-            "match": "(?P<debug>/wp-content/plugins/(?P<name>[^/]+)/)",
+            "match": "(?P<debug>/(wp-content|app)/plugins/(?P<n>[^/]+)/)",
             "results": [
                 {
                     "category": "wordpress-plugin",
@@ -377,7 +377,7 @@
         }, {
     "use": true,
     "description": "https://wordpress.org/themes/<n>/",
-    "match": "(?P<debug>/wp-content/themes/(?P<n>[^/]+)/)",
+    "match": "(?P<debug>/(wp-content|app)/themes/(?P<n>[^/]+)/)",
     "results": [
         {
             "category": "wordpress-theme",

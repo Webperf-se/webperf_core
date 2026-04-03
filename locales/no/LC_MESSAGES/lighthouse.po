@@ -589,13 +589,37 @@ msgid "viewport-insight (resolved)"
 msgstr "Optimaliser visningsområde for mobile enheter (løst)"
 
 msgid "cache-insight (unresolved)"
-msgstr "cache-insight ({0})"
+msgstr "Cache-innsikt ({0})"
 
 msgid "cache-insight (resolved)"
-msgstr "cache-insight (resolved)"
+msgstr "Cache-innsikt (løst)"
 
 msgid "label-content-name-mismatch (unresolved)"
-msgstr "label-content-name-mismatch ({0})"
+msgstr "Etikett og innholdsnavn stemmer ikke overens ({0})"
 
 msgid "label-content-name-mismatch (resolved)"
-msgstr "label-content-name-mismatch (resolved)"
+msgstr "Etikett og innholdsnavn stemmer overens (løst)"
+
+msgid "errors-in-console (unresolved)"
+msgstr "Feil i nettleserkonsollen ({0})"
+
+msgid "errors-in-console (resolved)"
+msgstr "Ingen feil i nettleserkonsollen (løst)"
+
+msgid "valid-source-maps (unresolved)"
+msgstr "Gyldige kildekart ({0})"
+
+msgid "valid-source-maps (resolved)"
+msgstr "Gyldige kildekart (løst)"
+
+msgid "meta-description (unresolved)"
+msgstr "Dokumentet har ikke en metabeskrivelse ({0})"
+
+msgid "meta-description (resolved)"
+msgstr "Dokumentet har en metabeskrivelse (løst)"
+
+msgid "robots-txt (unresolved)"
+msgstr "robots.txt er ikke gyldig ({0})"
+
+msgid "robots-txt (resolved)"
+msgstr "robots.txt er gyldig (løst)"

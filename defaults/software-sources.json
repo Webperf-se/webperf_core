@@ -1695,6 +1695,11 @@
         "municipio-elasticsearch": {
             "type": "wordpress-plugin"
         },
+        "municipio": {
+            "type": "wordpress-theme",
+            "github-owner": "helsingborg-stad",
+            "github-repo": "Municipio"
+        },
         "myfontswebfontskit": {
             "type": "wordpress-plugin"
         },

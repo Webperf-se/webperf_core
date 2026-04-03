@@ -179,3 +179,6 @@ msgstr "##### Du ser ej ut att använda tillgänglighetslager-mjukvara"
 
 msgid "TEXT_DETAILED_REVIEW_A11Y_OVERLAY"
 msgstr "##### Du ser ut att använda tillgänglighetslager-mjukvara"
+
+msgid "TEXT_USED_WORDPRESS-THEME"
+msgstr "- WordPress-tema: {0}"

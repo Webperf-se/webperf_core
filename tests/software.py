@@ -506,7 +506,8 @@ def sum_overall_software_used(local_translation, result):
                   'analytics', 'tech', 'license', 'meta',
                   'js', 'css',
                   'lang', 'img', 'img.software', 'img.os', 'img.device', 'video',
-                  'a11y_overlay'
+                  'a11y_overlay',
+                  'wordpress-theme'
                   ]
 
     for category in categories:
@@ -738,6 +739,10 @@ def add_known_software_source(name, source_type, match, url):
             collection['softwares'][name] = {
                 'type': 'wordpress-plugin'
             }
+        elif source_type == 'wordpress-theme':
+            collection['softwares'][name] = {
+                'type': 'wordpress-theme'
+            }
 
     data = json.dumps(collection, indent=4)
     with open(file_path, 'w', encoding='utf-8', newline='') as file:
@@ -818,6 +823,8 @@ def enrich_versions(collection, item):
                         add_known_software_source(match['name'], 'github', match, item['url'])
                     elif 'wordpress-plugin' in match['category']:
                         add_known_software_source(match['name'], 'wordpress', match, item['url'])
+                    elif 'wordpress-theme' in match['category']:
+                        add_known_software_source(match['name'], 'wordpress-theme', match, item['url'])
                     else:
                         add_unknown_software_source(match['name'], match['version'], item['url'])
                     continue

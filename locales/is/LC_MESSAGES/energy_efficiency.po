@@ -1,0 +1,49 @@
+# Icelandic
+# Copyright (C) 2020 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2021-02-06 23:14+0200\n"
+"PO-Revision-Date: 2021-12-12 10:08+0200\n"
+"Last-Translator: mattias <mattias@webperf.se>\n"
+"Language-Team: Icelandic <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 22 - Orkunýtni\n"
+
+msgid "TEXT_TRANSFER_SIZE"
+msgstr "- Netstærð: {0:.2f} {1}\n"
+
+msgid "TEXT_WEBSITE_IS_VERY_GOOD"
+msgstr "- Vefsíðan framleiðir mjög lítið koltvísýring!\n"
+
+msgid "TEXT_WEBSITE_IS_GOOD"
+msgstr "- Vefsíðan framleiðir nokkuð lítið koltvísýring.\n"
+
+msgid "TEXT_WEBSITE_IS_OK"
+msgstr "- Meðallag þegar kemur að koltvísýringi.\n"
+
+msgid "TEXT_WEBSITE_IS_BAD"
+msgstr "- Vefsíðan framleiðir talsvert af koltvísýringi :/\n"
+
+msgid "TEXT_WEBSITE_IS_VERY_BAD"
+msgstr "- Vefsíðan er mjög slæm! Framleiðir mikið af koltvísýringi fyrir hverja síðuskoðun :(\n"
+
+msgid "TEXT_GRAMS_OF_CO2"
+msgstr "- Koltvísýringur á síðuskoðun: {} gram\n"
+
+msgid "TEXT_GREEN_ENERGY_TRUE"
+msgstr "- Vefsvæðið virðist keyrð á grænni orku.\n"
+
+msgid "TEXT_GREEN_ENERGY_FALSE"
+msgstr "- Gat ekki séð hvort vefsvæðið notar græna orku.\n"
+
+msgid "TEXT_BETTER_THAN"
+msgstr "- Vefsíðan er grænni en {0} % af prófuðum vefsvæðum á webperf.se (Tilvísun uppfærð: {1}).\n"

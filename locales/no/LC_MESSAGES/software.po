@@ -1,0 +1,181 @@
+# Norwegian
+# Copyright (C) 2023 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2023-01-02 14:45+0200\n"
+"PO-Revision-Date: 2023-09-30 21:40+0200\n"
+"Last-Translator: mattias <mattias@webperf.se>\n"
+"Language-Team: Norwegian Bokmål <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 25 - Programvare (Alfa)\r\n"
+
+msgid "TEXT_NO_CMS"
+msgstr "- Intet eller ukjent CMS brukes på hoveddomenet"
+
+msgid "TEXT_USED_CMS"
+msgstr "- Innholdshåndteringssystem: {0}"
+
+msgid "TEXT_USED_WEBSERVER"
+msgstr "- Webserver: {0}"
+
+msgid "TEXT_USED_OS"
+msgstr "- Operativsystem: {0}"
+
+msgid "TEXT_USED_ANALYTICS"
+msgstr "- Besøksanalyse: {0}"
+
+msgid "TEXT_USED_TECH"
+msgstr "- Teknologi: {0}"
+
+msgid "TEXT_USED_JS"
+msgstr "- JS-rammeverk/bibliotek: {0}"
+
+msgid "TEXT_USED_CSS"
+msgstr "- CSS-rammeverk/bibliotek: {0}"
+
+msgid "TEXT_USED_LANG"
+msgstr "- Språk: {0}"
+
+msgid "TEXT_USED_IMG"
+msgstr "- Bildeformat: {0}"
+
+msgid "TEXT_USED_IMG.SOFTWARE"
+msgstr "- Bildeprogramvare: {0}"
+
+msgid "TEXT_USED_IMG.OS"
+msgstr "- Bilde&shy;operativsystem: {0}"
+
+msgid "TEXT_USED_IMG.DEVICE"
+msgstr "- Bilde&shy;maskinvare {0}"
+
+msgid "TEXT_USED_VIDEO"
+msgstr "- Videoformat: {0}"
+
+msgid "TEXT_USED_META"
+msgstr "- Metadata: {0}"
+
+msgid "TEXT_USED_LICENSE"
+msgstr "- Lisenser: {0}"
+
+msgid "TEXT_USED_SECURITY"
+msgstr "- Lekker informasjon"
+
+msgid "TEXT_USED_A11Y_OVERLAY"
+msgstr "- Tilgjengelighetslag: {0}"
+
+msgid "UPDATE_AVAILABLE"
+msgstr "- Oppdatering(er) tilgjengelige"
+
+msgid "KNOWN_SECURITY_ISSUES"
+msgstr "- Har kjente sikkerhetsproblemer"
+
+msgid "TEXT_DETAILED_REVIEW_CVE"
+msgstr "##### Programvare relatert til CVE-er ( #POINTS# vurdering )\r\n\r\n###### Introduksjon:\r\nProgramvareversjonen som brukes påvirkes av sårbarheten som er beskrevet nedenfor.\r\nI de fleste tilfeller kan du løse et CVE-relatert problem ved å oppdatere programvaren til nyeste versjon.\r\nI noen sjeldne tilfeller finnes det ingen oppdatering, og du må vurdere å ikke bruke programvaren som påvirkes.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND100"
+msgstr "##### Programvare ligger etter >=100 versjoner ( #POINTS# vurdering )\r\n\r\n###### Introduksjon:\r\nProgramvare som brukes ligger etter 100 eller fler versjoner sammenlignet med nyeste versjon.\r\nDette er en veldig god indikator på at du må oppdatere til nyeste versjon.\r\nDet indikerer også at du ikke har en god pakkerutine for programvaren din. \r\nDu kan fikse dette ved å oppdatere programvaren til nyeste versjon.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND075"
+msgstr "##### Programvare ligger etter >=75 versjoner ( #POINTS# vurdering )\r\n\r\n###### Introduksjon:\r\nProgramvare som brukes ligger etter 75 eller fler versjoner sammenlignet med nyeste.\r\nDette er en veldig god indikator på at du må oppdatere til nyeste versjon.\r\nDet indikerer også at du ikke har en god pakkerutine for programvaren din. \r\nDu kan fikse dette ved å oppdatere programvaren til nyeste versjon.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND050"
+msgstr "##### Programvare ligger etter >=50 versjoner ( #POINTS# vurdering )\r\n\r\n###### Introduksjon:\r\nProgramvare som brukes ligger etter 50 eller fler versjoner sammenlignet med nyeste.\r\nDette er en veldig god indikator på at du må oppdatere til nyeste versjon.\r\nDet indikerer også at du ikke har en god pakkerutine for programvaren din. \r\nDu kan fikse dette ved å oppdatere programvaren til nyeste versjon.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND025"
+msgstr "##### Programvare ligger etter >=25 versjoner ( #POINTS# vurdering )\r\n\r\n###### Introduksjon:\r\nProgramvare som brukes ligger etter 25 eller fler versjoner sammenlignet med nyeste.\r\nDette er en god indikator på at du må oppdatere til nyeste versjon.\r\nDet indikerer også at du ikke har en god pakkerutine for programvaren din.\ r\nDu kan fikse dette ved å oppdatere programvaren til nyeste versjon.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND010"
+msgstr "##### Programvare ligger etter >=10 versjoner ( #POINTS# vurdering )\r\n\r\n###### Introduksjon:\r\nProgramvare som brukes ligger etter 10 eller fler versjoner sammenlignet med nyeste.\r\nDette er en delvis god indikator på at du må oppdatere til nyeste versjon.\r\nDet indikerer også at du ikke har en god pakkerutine for programvaren din. \r\nDu kan fikse dette ved å oppdatere programvaren til nyeste versjon.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND001"
+msgstr "##### Programvare ligger etter >=1 versjoner ( #POINTS# vurdering )\r\n\r\n###### Introduksjon:\r\nProgramvare som brukes ligger etter 1 eller fler versjoner sammenlignet med den nyeste.\r\nDette er en liten indikator på at du må oppdatere til nyeste versjon.\r\nDu kan fikse dette ved å oppdatere programvaren til nyeste versjon.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_LATEST_LEAKING_NAME_AND_VERSION"
+msgstr "##### Programvarens navn og versjon lekkes ( #POINTS# vurdering )\r\n\r\n###### Introduksjon:\r\nDu ser ut til å bruke nyeste versjon, MEN du lekker navn og versjon av programvare som brukes.\r\nDette gjør det lettere for noen å finne sårbarheter å bruke mot deg, alt fra ZERO-DAY til kjente sikkerhetsproblemer.\r\nFor å løse dette må du skjule navn og versjon, se programvarens dokumentasjon for hvordan du gjør dette.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNKNOWN_LEAKING_NAME_AND_VERSION"
+msgstr "##### Programvarens navn og versjon lekkes ( #POINTS# vurdering )\r\n\r\n###### Introduksjon:\r\nDu lekker navn og versjon av programvare som brukes.\r\nDette gjør det lettere for noen å finne sårbarheter å bruke mot deg, alt fra ZERO-DAY til kjente sikkerhetsproblemer.\r\nFor å løse dette må du skjule navn og versjon, se programvarens dokumentasjon for hvordan du gjør dette.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_LEAKING_NAME"
+msgstr "##### Programvarens navn lekkes ( #POINTS# vurdering )\r\n\r\n###### Introduksjon:\r\nDu lekker programvarenavn som brukes.\r\nDette gjør det lettere for noen å finne sårbarheter å bruke mot deg, alt fra ZERO-DAY til kjente sikkerhetsproblemer.\r\nFor å løse dette må du skjule navnet, vennligst se programvarens dokumentasjon for hvordan man gjør dette.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_MULTIPLE_VERSIONS"
+msgstr "##### Flere versjoner av samme programvare ( #POINTS# vurdering )\r\n\r\n###### Introduksjon:\r\nDu bruker flere versjoner av samme programvare.\r\nDette kan forårsakes om du inkluderer ressurser fra eksterne kilder eller på grunn av feilkonfigurasjon.\r\nDette er en liten indikator på at du ikke har så mye kontroll som du sannsynligvis burde.\r\nDet indikerer også at du ikke har en god pakkerutine for programvaren din.\r\nDu kan fikse dette ved å oppdatere programvaren til nyeste versjon eller nyeste versjon som du bruker for alle instanser.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_REFERENCES"
+msgstr "###### Referanser:"
+
+msgid "TEXT_DETAILED_REVIEW_DETECTED_VERSIONS"
+msgstr "###### Upptäckta versjoner:"
+
+msgid "TEXT_DETAILED_REVIEW_DETECTED_RESOURCES"
+msgstr "###### Oppdagede ressurser:"
+
+msgid "TEXT_DETAILED_REVIEW_MORE_THEN_5_SOURCES"
+msgstr "- Mer enn 5 ressurser. Skjuler resten."
+
+msgid "TEXT_DETAILED_REVIEW_ARCHIVED_SOURCE"
+msgstr "##### Programvaren er merket som arkivert ( #POINTS# vurdering )\r\n\r\n###### Introduksjon:\r\nDet ser ut som du bruker programvare som er merket som arkivert, dette betyr at den ikke får ny funksjonalitet eller sikkerhetsoppdateringer.\r\nFor å løse dette må du finne en annen programvare som oppfyller dine behov, ofte peker utviklerne på et alternativ som de synes er bra fra stedet du fant programvaren.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_CVES"
+msgstr "###### Vanlige sårbarheter og eksponeringer"
+
+msgid "TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE"
+msgstr "###### Oppdaget programvare:"
+
+msgid "TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES"
+msgstr "###### Berørte ressurser:"
+
+msgid "TEXT_DETAILED_REVIEW_NO_CVE"
+msgstr "##### Ingen vanlige sårbarheter og eksponeringer funnet"
+
+msgid "TEXT_DETAILED_REVIEW_NO_BEHIND"
+msgstr "##### Det ser ut som att du bruker nyeste versjon av all programvare vi finner"
+
+msgid "TEXT_DETAILED_REVIEW_NO_UNMAINTAINED"
+msgstr "##### Programvare ser ut til å vedlikeholdes"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_10_YEARS"
+msgstr "##### Programvare mangler feilrettinger eller andre endringer de siste 10 årene ( #POINTS# vurdering )\r\n\r\n###### Introduksjon:\r\nDet ser ut som du bruker programvare som ikke lenger vedlikeholdes, dette betyr at den ikke får ny funksjonalitet eller sikkerhetsoppdateringer.\r\nFor å løse dette må du finne en annen programvare som oppfyller dine behov, ofte peker utviklerne på et alternativ som de synes er bra fra stedet du fant programvaren.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_9_YEARS"
+msgstr "##### Programvare mangler feilrettinger eller andre endringer de siste 9 årene ( #POINTS# vurdering )\r\n\r\n###### Introduksjon:\r\nDet ser ut som du bruker programvare som ikke lenger vedlikeholdes, dette betyr at den ikke får ny funksjonalitet eller sikkerhetsoppdateringer.\r\nFor å løse dette må du finne en annen programvare som oppfyller dine behov, ofte peker utviklerne på et alternativ som de synes er bra fra stedet du fant programvaren.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_8_YEARS"
+msgstr "##### Programvare mangler feilrettinger eller andre endringer de siste 8 årene ( #POINTS# vurdering )\r\n\r\n###### Introduksjon:\r\nDet ser ut som du bruker programvare som ikke lenger vedlikeholdes, dette betyr at den ikke får ny funksjonalitet eller sikkerhetsoppdateringer.\r\nFor å løse dette må du finne en annen programvare som oppfyller dine behov, ofte peker utviklerne på et alternativ som de synes er bra fra stedet du fant programvaren.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_7_YEARS"
+msgstr "##### Programvare mangler feilrettinger eller andre endringer de siste 7 årene ( #POINTS# vurdering )\r\n\r\n###### Introduksjon:\r\nDet ser ut som du bruker programvare som ikke lenger vedlikeholdes, dette betyr at den ikke får ny funksjonalitet eller sikkerhetsoppdateringer.\r\nFor å løse dette må du finne en annen programvare som oppfyller dine behov, ofte peker utviklerne på et alternativ som de synes er bra fra stedet du fant programvaren.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_6_YEARS"
+msgstr "##### Programvare mangler feilrettinger eller andre endringer de siste 6 årene ( #POINTS# vurdering )\r\n\r\n###### Introduksjon:\r\nDet ser ut som du bruker programvare som ikke lenger vedlikeholdes, dette betyr at den ikke får ny funksjonalitet eller sikkerhetsoppdateringer.\r\nFor å løse dette må du finne en annen programvare som oppfyller dine behov, ofte peker utviklerne på et alternativ som de synes er bra fra stedet du fant programvaren.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_5_YEARS"
+msgstr "##### Programvare mangler feilrettinger eller andre endringer de siste 5 årene ( #POINTS# vurdering )\r\n\r\n###### Introduksjon:\r\nDet ser ut som du bruker programvare som ikke lenger vedlikeholdes, dette betyr at den ikke får ny funksjonalitet eller sikkerhetsoppdateringer.\r\nFor å løse dette må du finne en annen programvare som oppfyller dine behov, ofte peker utviklerne på et alternativ som de synes er bra fra stedet du fant programvaren.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_4_YEARS"
+msgstr "##### Programvare mangler feilrettinger eller andre endringer de siste 4 årene ( #POINTS# vurdering )\r\n\r\n###### Introduksjon:\r\nDet ser ut som du bruker programvare som ikke lenger vedlikeholdes, dette betyr at den ikke får ny funksjonalitet eller sikkerhetsoppdateringer.\r\nFor å løse dette må du finne en annen programvare som oppfyller dine behov, ofte peker utviklerne på et alternativ som de synes er bra fra stedet du fant programvaren.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_3_YEARS"
+msgstr "##### Programvare mangler feilrettinger eller andre endringer de siste 3 årene ( #POINTS# vurdering )\r\n\r\n###### Introduksjon:\r\nDet ser ut som du bruker programvare som ikke lenger vedlikeholdes, dette betyr at den ikke får ny funksjonalitet eller sikkerhetsoppdateringer.\r\nFor å løse dette må du finne en annen programvare som oppfyller dine behov, ofte peker utviklerne på et alternativ som de synes er bra fra stedet du fant programvaren.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_NO_END_OF_LIFE"
+msgstr "##### Programvare som brukes ser ikke ut til å ha nådd sin sluttdato"
+
+msgid "TEXT_DETAILED_REVIEW_END_OF_LIFE"
+msgstr "##### Programvare som brukes ser ut til å ha nådd sin sluttdato"
+
+msgid "TEXT_DETAILED_REVIEW_NO_A11Y_OVERLAY"
+msgstr "##### Du ser ikke ut til å bruke tilgjengelighetslag-programvare"
+
+msgid "TEXT_DETAILED_REVIEW_A11Y_OVERLAY"
+msgstr "##### Du ser ut til å bruke tilgjengelighetslag-programvare"

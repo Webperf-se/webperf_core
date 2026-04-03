@@ -1,0 +1,163 @@
+# Danish
+# Copyright (C) 2020 Webperf
+# FIRST AUTHOR <m@webperf.se>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2020-05-23 17:29+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: cockroacher <cockroacher@noyb.eu>\n"
+"Language-Team: Danish <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_WEBSITE_URL_ADDED"
+msgstr "Websted med adresse: {0} er blevet tilføjet\n"
+
+msgid "TEXT_WEBSITE_URL_DELETED"
+msgstr "Websted med adresse: {0} er blevet fjernet\n"
+
+msgid "TEXT_TEST_START_HEADER"
+msgstr "###############################################"
+
+msgid "TEXT_TESTING_NUMBER_OF_SITES"
+msgstr "Webadresser som testes {0}"
+
+msgid "TEXT_TESTING_SITE"
+msgstr "# Tester adresse {0}"
+
+msgid "TEXT_WEBSITE_X_OF_Y"
+msgstr "Websted {0} af {1}.\n"
+
+msgid "TEXT_SITE_RATING"
+msgstr "### Vurdering:"
+
+msgid "TEXT_SITE_REVIEW"
+msgstr "### Vurdering:\n"
+
+msgid "TEXT_SITE_REVIEW_DATA"
+msgstr "### Data:\n"
+
+msgid "TEXT_EXCEPTION"
+msgstr "Fejl, nogen skal se på dette."
+
+msgid "TEXT_SITE_UNAVAILABLE"
+msgstr "Fejl, det var ikke muligt at indlæse den ønskede side."
+
+msgid "TEXT_TEST_START"
+msgstr "Startet: {0}"
+
+msgid "TEXT_TEST_END"
+msgstr "Færdig: {0}\n"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS"
+msgstr "Gyldige argumenter at vælge imellem -t/--test:"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_PA11Y"
+msgstr "-t 18\t: Tilgængelighed (Pa11y)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_PAGE_NOT_FOUND"
+msgstr "-t 2\t: 404 (side findes ikke)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_SITESPEED"
+msgstr "-t 15\t: Ydeevne (Sitespeed.io)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_WEBBKOLL"
+msgstr "-t 20\t: Privatlivsbeskyttelse og sikkerhed (Webbkoll)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_STANDARD_FILES"
+msgstr "-t 9\t: Standardfiler"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_HTTP"
+msgstr "-t 21\t: HTTP & nätverk"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_ENERGY_EFFICIENCY"
+msgstr "-t 22\t: Energieffektivitet"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_TRACKING"
+msgstr "-t 23\t: Sporing og privatlivsbeskyttelse"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_EMAIL"
+msgstr "-t 24\t: E-mail (Beta)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_SOFTWARE"
+msgstr "-t 25\t: Software (Alfa)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_A11Y_STATEMENT"
+msgstr "-t 26\t: Tilgængelighedserklæring (Alfa)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_CSS_LINT"
+msgstr "-t 27\t: CSS-validering (Stylelint)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_HTML_LINT"
+msgstr "-t 28\t: HTML-validering (html-validate)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_JS_LINT"
+msgstr "-t 29\t: JS Lint (ESLint)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE"
+msgstr "-t 30\t: Tilgængelighed, God praksis, Ydeevne og Søgemaskineoptimering (Lighthouse)"
+
+msgid "TEXT_COMMAND_USAGE"
+msgstr "\n\tWebPerf Core\n\n\tBrug sådan:\n\tdefault.py -u https://webperf.se\n\n\tValg og argumenter:\n\t-h/--help\t\t\t: Hjælp og hvordan du bruger scriptet\n\t-u/--url <site url>\t\t: webstedets adresse at teste\n\t-t/--test <test nummer>\t\t: kør en specifik test (angiv ? for at vise tilgængelige tests)\n\t-r/--review\t\t\t: viser vurderinger direkte i terminalen\n\t-i/--input <file path>\t\t: filsti for input-fil (.json/.sqlite)\n\t-i/--input-skip <nummer>\t: antal at springe over\n\t-i/--input-take <nummer>\t: antal at teste\n\t-o/--output <file path>\t\t: filsti til output-fil (.json/.csv/.sql/.sqlite/.md)\n\t-A/--addUrl <site url>\t\t: webstedets adresse/url (et krav når du bruger -i/--input)\n\t-D/--deleteUrl <site url>\t: webstedets adresse/url (et krav når du bruger -i/--input)\n\t-L/--language <lang code>\t: sprog der bruges til output(en = default/sv)\n\t--setting <nøgle>=<værdi>\t: Brug indstilling for aktuel kørsel\n\t\t\t\t\t  (angiv ? for at vise tilgængelige indstillinger)\n\t--save-setting <filnavn>\t: Opret egen indstillingsfil fra aktuelle indstillinger\n\t\t\t\t\t  (Du bør bruge 'settings.json')\n\t-c/--credits/--contributors\t: Vis projekter og mennesker vi er taknemmelige for\n\n\n\tAvancerede valg og argumenter:\n\t--dependency\t\t\t: Validates your installation of WebPerf_core\n\t--find-unknown-sources\t\t: Filters out interesting software from software-unknown-sources.json\n\t--update-credits\t\t: Updates CREDITS.md\n\t--update-browser\t\t: Updates general.useragent in defaults/settings.json\n\t--update-definitions <api-key>\t: Updates software info in defaults/software-sources.json\n\t--update-carbon <file path>\t: Updates carbon percentile in energy_efficiency_carbon_percentiles.py\n\t--update-translations\t\t: Validates and updates translation files\n\t--prepare-release\t\t: Updates package.json in preparation of new release\n\t--create-release\t\t: Creates new release for github and docker hub"
+
+msgid "TEXT_TEST_REVIEW_OVERVIEW"
+msgstr "\r\n#### Overordnet:\r\n{0}"
+
+msgid "TEXT_TEST_REVIEW_INTEGRITY_SECURITY"
+msgstr "#### Privatlivsbeskyttelse og sikkerhed:\r\n{0}"
+
+msgid "TEXT_TEST_REVIEW_PERFORMANCE"
+msgstr "#### Ydeevne:\r\n{0}"
+
+msgid "TEXT_TEST_REVIEW_ALLY"
+msgstr "#### Tilgængelighed:\r\n{0}"
+
+msgid "TEXT_TEST_REVIEW_STANDARDS"
+msgstr "#### Standarder:\r\n{0}"
+
+msgid "TEXT_TEST_REVIEW_RATING_ITEM"
+msgstr "{0} ( {1:.2f} vurdering )\r\n"
+
+msgid "TEXT_TEST_RATING_OVERVIEW"
+msgstr "\r\n- Overordnet: {0}\r\n"
+
+msgid "TEXT_TEST_RATING_INTEGRITY_SECURITY"
+msgstr "- Privatlivsbeskyttelse og sikkerhed: {0}\r\n"
+
+msgid "TEXT_TEST_RATING_PERFORMANCE"
+msgstr "- Ydeevne: {0}\r\n"
+
+msgid "TEXT_TEST_RATING_ALLY"
+msgstr "- Tilgængelighed: {0}\r\n"
+
+msgid "TEXT_TEST_RATING_STANDARDS"
+msgstr "- Standarder: {0}\r\n"
+
+msgid "TEXT_REQUEST_UNKNOWN"
+msgstr "#{0}: "
+
+msgid "TEXT_REQUEST_WEBPAGE"
+msgstr "#{0}: Webside "
+
+msgid "TEXT_DETAILS_MORE_INFO"
+msgstr "Mere information"
+
+msgid "TEXT_DETAILS_URLS_WITH_ISSUES"
+msgstr "Webadresse(r) med forbedringspotentiale"
+
+msgid "TEXT_SEVERITY_CRITICAL"
+msgstr "kritisk fejl"
+
+msgid "TEXT_SEVERITY_ERROR"
+msgstr "fel"
+
+msgid "TEXT_SEVERITY_WARNING"
+msgstr "advarsel"
+
+msgid "TEXT_SEVERITY_RESOLVED"
+msgstr "løst"

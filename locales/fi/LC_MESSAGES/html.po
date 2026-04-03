@@ -1,0 +1,215 @@
+# Copyright (C) 2025 WebPerf
+# Marcus J Österberg <m@webperf.se>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2025-04-27 12:00\n"
+"PO-Revision-Date: 2025-05-09 23:00\n"
+"Last-Translator: Marcus J Österberg <m@webperf.se>\n"
+"Language-Team: Finnish <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+#
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Text to show instead of msgid, showed for severity levels (critical, error and warning)"
+
+msgid "rule-id (resolved)"
+msgstr "Text to show instead of msgid, here unique on severity level resolved"
+
+msgid "rule-id"
+msgstr "Text to show instead of msgid, here independent of severity level"
+
+# End of Examples
+
+msgid "attr-spacing (unresolved)"
+msgstr "Vaadi attribuuttien erottamista välilyönnillä ({0})"
+
+msgid "attr-spacing (resolved)"
+msgstr "Vaadi attribuuttien erottamista välilyönnillä (ratkaistu)"
+
+msgid "attribute-allowed-values (unresolved)"
+msgstr "Validoi sallitut attribuuttiarvot ({0})"
+
+msgid "attribute-allowed-values (resolved)"
+msgstr "Validoi sallitut attribuuttiarvot (ratkaistu)"
+
+msgid "attribute-misuse (unresolved)"
+msgstr "Vaadi attribuuttien käyttöä oikeassa kontekstissa ({0})"
+
+msgid "attribute-misuse (resolved)"
+msgstr "Vaadi attribuuttien käyttöä oikeassa kontekstissa (ratkaistu)"
+
+msgid "close-attr (unresolved)"
+msgstr "Älä salli attribuutteja sulkutageissa ({0})"
+
+msgid "close-attr (resolved)"
+msgstr "Älä salli attribuutteja sulkutageissa (ratkaistu)"
+
+msgid "close-order (unresolved)"
+msgstr "Vaadi elementtien sulkemista oikeassa järjestyksessä ({0})"
+
+msgid "close-order (resolved)"
+msgstr "Vaadi elementtien sulkemista oikeassa järjestyksessä (ratkaistu)"
+
+msgid "deprecated (unresolved)"
+msgstr "Älä salli vanhentuneiden elementtien käyttöä ({0})"
+
+msgid "deprecated (resolved)"
+msgstr "Älä salli vanhentuneiden elementtien käyttöä (ratkaistu)"
+
+msgid "deprecated-rule (unresolved)"
+msgstr "Älä salli vanhentuneiden sääntöjen käyttöä ({0})"
+
+msgid "deprecated-rule (resolved)"
+msgstr "Älä salli vanhentuneiden sääntöjen käyttöä (ratkaistu)"
+
+msgid "doctype-html (unresolved)"
+msgstr "Vaadi käyttöä \"html\" doctype ({0})"
+
+msgid "doctype-html (resolved)"
+msgstr "Vaadi käyttöä \"html\" doctype (ratkaistu)"
+
+msgid "element-name (unresolved)"
+msgstr "Älä salli virheellisiä elementtinimiä ({0})"
+
+msgid "element-name (resolved)"
+msgstr "Älä salli virheellisiä elementtinimiä (ratkaistu)"
+
+msgid "element-permitted-content (unresolved)"
+msgstr "Validoi sallittu sisältö ({0})"
+
+msgid "element-permitted-content (resolved)"
+msgstr "Validoi sallittu sisältö (ratkaistu)"
+
+msgid "element-permitted-occurrences (unresolved)"
+msgstr "Validoi sallittu elementtien esiintymismäärä ({0})"
+
+msgid "element-permitted-occurrences (resolved)"
+msgstr "Validoi sallittu elementtien esiintymismäärä (ratkaistu)"
+
+msgid "element-permitted-order (unresolved)"
+msgstr "Validoi vaadittu elementtijärjestys ({0})"
+
+msgid "element-permitted-order (resolved)"
+msgstr "Validoi vaadittu elementtijärjestys (ratkaistu)"
+
+msgid "element-permitted-parent (unresolved)"
+msgstr "Validoi sallittu isäntäelementti ({0})"
+
+msgid "element-permitted-parent (resolved)"
+msgstr "Validoi sallittu isäntäelementti (ratkaistu)"
+
+msgid "element-required-attributes (unresolved)"
+msgstr "Varmista pakolliset attribuutit asetettu ({0})"
+
+msgid "element-required-attributes (resolved)"
+msgstr "Varmista pakolliset attribuutit asetettu (ratkaistu)"
+
+msgid "element-required-content (unresolved)"
+msgstr "Varmista pakolliset elementit olemassa ({0})"
+
+msgid "element-required-content (resolved)"
+msgstr "Varmista pakolliset elementit olemassa (ratkaistu)"
+
+msgid "map-dup-name (unresolved)"
+msgstr "Vaadi `<map name>` yksilölliseksi ({0})"
+
+msgid "map-dup-name (resolved)"
+msgstr "Vaadi `<map name>` yksilölliseksi (ratkaistu)"
+
+msgid "map-id-name (unresolved)"
+msgstr "Vaadi name ja id vastaavuus `<map>`-element ({0})"
+
+msgid "map-id-name (resolved)"
+msgstr "Vaadi name ja id vastaavuus `<map>`-element (ratkaistu)"
+
+msgid "no-deprecated-attr (unresolved)"
+msgstr "Älä salli vanhentuneiden attribuuttien käyttöä ({0})"
+
+msgid "no-deprecated-attr (resolved)"
+msgstr "Älä salli vanhentuneiden attribuuttien käyttöä (ratkaistu)"
+
+msgid "no-dup-attr (unresolved)"
+msgstr "Älä salli kaksinkertaisia attribuutteja ({0})"
+
+msgid "no-dup-attr (resolved)"
+msgstr "Älä salli kaksinkertaisia attribuutteja (ratkaistu)"
+
+msgid "no-dup-id (unresolved)"
+msgstr "Älä salli kaksinkertaisia ID-tunnuksia ({0})"
+
+msgid "no-dup-id (resolved)"
+msgstr "Älä salli kaksinkertaisia ID-tunnuksia (ratkaistu)"
+
+msgid "no-main (unresolved)"
+msgstr "Älä salli `<main>`-elementin käyttöä ({0})"
+
+msgid "no-main (resolved)"
+msgstr "Älä salli `<main>`-elementin käyttöä (ratkaistu)"
+
+msgid "no-multiple-main (unresolved)"
+msgstr "Älä salli useita `<main>`-elementtejä ({0})"
+
+msgid "no-multiple-main (resolved)"
+msgstr "Älä salli useita `<main>`-elementtejä (ratkaistu)"
+
+msgid "no-raw-characters (unresolved)"
+msgstr "Älä salli koodaamattomien erikoismerkkien käyttöä ({0})"
+
+msgid "no-raw-characters (resolved)"
+msgstr "Älä salli koodaamattomien erikoismerkkien käyttöä (ratkaistu)"
+
+msgid "no-unused-disable (unresolved)"
+msgstr "Älä salli käyttämättömiä disable-direktiivejä ({0})"
+
+msgid "no-unused-disable (resolved)"
+msgstr "Älä salli käyttämättömiä disable-direktiivejä (ratkaistu)"
+
+msgid "script-element (unresolved)"
+msgstr "Vaadi sulkutagi `<script>` ({0})"
+
+msgid "script-element (resolved)"
+msgstr "Vaadi sulkutagi `<script>` (ratkaistu)"
+
+msgid "unrecognized-char-ref (unresolved)"
+msgstr "Älä salli tuntemattomia merkkiviittauksia ({0})"
+
+msgid "unrecognized-char-ref (resolved)"
+msgstr "Älä salli tuntemattomia merkkiviittauksia (ratkaistu)"
+
+msgid "valid-autocomplete (unresolved)"
+msgstr "Vaadi autocomplete-attribuutin kelvollisuus ({0})"
+
+msgid "valid-autocomplete (resolved)"
+msgstr "Vaadi autocomplete-attribuutin kelvollisuus (ratkaistu)"
+
+msgid "valid-id (unresolved)"
+msgstr "Vaadi `id` kelvolliseksi tunnisteeksi ({0})"
+
+msgid "valid-id (resolved)"
+msgstr "Vaadi `id` kelvolliseksi tunnisteeksi (ratkaistu)"
+
+msgid "void-content (unresolved)"
+msgstr "Älä salli void-elementtejä sisällön kanssa ({0})"
+
+msgid "void-content (resolved)"
+msgstr "Älä salli void-elementtejä sisällön kanssa (ratkaistu)"
+
+msgid "parser-error (unresolved)"
+msgstr "parser-error ({0})"
+
+msgid "parser-error (resolved)"
+msgstr "parser-error (resolved)"
+
+msgid "no-network (unresolved)"
+msgstr "no-network ({0})"
+
+msgid "no-network (resolved)"
+msgstr "no-network (resolved)"

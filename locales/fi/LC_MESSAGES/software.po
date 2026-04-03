@@ -1,0 +1,181 @@
+# Finnish
+# Copyright (C) 2023 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2023-01-02 14:45+0200\n"
+"PO-Revision-Date: 2023-09-30 21:40+0200\n"
+"Last-Translator: mattias <mattias@webperf.se>\n"
+"Language-Team: Finnish <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 25 - Ohjelmisto (Alfa)\r\n"
+
+msgid "TEXT_NO_CMS"
+msgstr "- Ei tunnistettua sisällönhallintajärjestelmää päädomainilla"
+
+msgid "TEXT_USED_CMS"
+msgstr "- Sisällönhallintajärjestelmä: {0}"
+
+msgid "TEXT_USED_WEBSERVER"
+msgstr "- Verkkopalvelin: {0}"
+
+msgid "TEXT_USED_OS"
+msgstr "- Operativsystem: {0}"
+
+msgid "TEXT_USED_ANALYTICS"
+msgstr "- Kävijäanalyysi: {0}"
+
+msgid "TEXT_USED_TECH"
+msgstr "- Teknologia: {0}"
+
+msgid "TEXT_USED_JS"
+msgstr "- JS-kehys/kirjasto: {0}"
+
+msgid "TEXT_USED_CSS"
+msgstr "- CSS-kehys/kirjasto: {0}"
+
+msgid "TEXT_USED_LANG"
+msgstr "- Språk: {0}"
+
+msgid "TEXT_USED_IMG"
+msgstr "- Kuvaformaatti: {0}"
+
+msgid "TEXT_USED_IMG.SOFTWARE"
+msgstr "- Kuvaohjelmisto: {0}"
+
+msgid "TEXT_USED_IMG.OS"
+msgstr "- Kuva&shy;käyttöjärjestelmä: {0}"
+
+msgid "TEXT_USED_IMG.DEVICE"
+msgstr "- Kuva&shy;laitteisto {0}"
+
+msgid "TEXT_USED_VIDEO"
+msgstr "- Videoformat: {0}"
+
+msgid "TEXT_USED_META"
+msgstr "- Metadata: {0}"
+
+msgid "TEXT_USED_LICENSE"
+msgstr "- Lisenssit: {0}"
+
+msgid "TEXT_USED_SECURITY"
+msgstr "- Vuotaa tietoja"
+
+msgid "TEXT_USED_A11Y_OVERLAY"
+msgstr "- Saavutettavuusslager: {0}"
+
+msgid "UPDATE_AVAILABLE"
+msgstr "- Päivityksiä saatavilla"
+
+msgid "KNOWN_SECURITY_ISSUES"
+msgstr "- Tunnettu tietoturvaongelmia"
+
+msgid "TEXT_DETAILED_REVIEW_CVE"
+msgstr "##### CVE-haavoittuvuuksiin liittyvä ohjelmisto ( #POINTS# arvosana )\r\n\r\n###### Johdanto:\r\nMjukvaruversionen som används påverkas av sårbarheten som beskrivs nedan.\r\nI de flesta fall kan du åtgärda ett CVE-relaterat problem genom att uppdatera programvaran till senaste version.\r\nI vissa sällsynta fall finns det ingen uppdatering och du måste överväga att inte använda programvaran som påverkas.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND100"
+msgstr "##### Ohjelmisto on jäljessä >=100 versioner ( #POINTS# arvosana )\r\n\r\n###### Johdanto:\r\nProgramvara som används ligger efter 100 eller fler versioner jämfört med senaste versionen.\r\nDetta är en mycket bra indikator på att du behöver uppdatera till senaste versionen.\r\nDet indikerar också att du inte har en bra paketrutin för din programvara. \r\nDu kan fixa detta genom att uppdatera programvaran till senaste versionen.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND075"
+msgstr "##### Ohjelmisto on jäljessä >=75 versioner ( #POINTS# arvosana )\r\n\r\n###### Johdanto:\r\nProgramvara som används ligger bakom 75 eller fler versioner jämfört med senaste.\r\nDetta är en mycket bra indikator på att du behöver uppdatera till senaste version.\r\nDet indikerar också att du inte har en bra paketrutin för din programvara. \r\nDu kan fixa detta genom att uppdatera programvaran till senaste versionen.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND050"
+msgstr "##### Ohjelmisto on jäljessä >=50 versioner ( #POINTS# arvosana )\r\n\r\n###### Johdanto:\r\nProgramvara som används ligger bakom 50 eller fler versioner jämfört med senaste.\r\nDetta är en mycket bra indikator på att du behöver uppdatera till senaste version.\r\nDet indikerar också att du inte har en bra paketrutin för din programvara. \r\nDu kan fixa detta genom att uppdatera programvaran till senaste versionen.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND025"
+msgstr "##### Ohjelmisto on jäljessä >=25 versioner ( #POINTS# arvosana )\r\n\r\n###### Johdanto:\r\nProgramvara som används ligger bakom 25 eller fler versioner jämfört med senaste.\r\nDetta är en bra indikator på att du behöver uppdatera till senaste version.\r\nDet indikerar också att du inte har en bra paketrutin för din programvara.\ r\nDu kan fixa detta genom att uppdatera programvaran till senaste versionen.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND010"
+msgstr "##### Ohjelmisto on jäljessä >=10 versioner ( #POINTS# arvosana )\r\n\r\n###### Johdanto:\r\nProgramvara som används ligger bakom 10 eller fler versioner jämfört med senaste.\r\nDetta är en halvbra indikator på att du behöver uppdatera till senaste version.\r\nDet indikerar också att du inte har en bra paketrutin för din programvara. \r\nDu kan fixa detta genom att uppdatera programvaran till senaste versionen.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND001"
+msgstr "##### Ohjelmisto on jäljessä >=1 versioner ( #POINTS# arvosana )\r\n\r\n###### Johdanto:\r\nProgramvara som används ligger bakom 1 eller fler versioner jämfört med den senaste.\r\nDetta är en liten indikator som du behöver uppdatera till senaste versionen.\r\nDu kan fixa detta genom att uppdatera programvaran till senaste versionen.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_LATEST_LEAKING_NAME_AND_VERSION"
+msgstr "##### Mjukvarans namn och version läcks ( #POINTS# arvosana )\r\n\r\n###### Johdanto:\r\nDu verkar använda den senaste versionen MEN du läcker namn och version av programvara som används.\r\nDetta gör det lättare för någon att hitta sårbarheter att använda mot dig, allt från ZERO-DAY till kända säkerhetsproblem.\r\nFör att åtgärda detta du måste dölja namn och version, se programvarans dokumentation om hur du gör detta.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNKNOWN_LEAKING_NAME_AND_VERSION"
+msgstr "##### Mjukvarans namn och version läcks ( #POINTS# arvosana )\r\n\r\n###### Johdanto:\r\nDu läcker namn och version av programvara som används.\r\nDetta gör det lättare för någon att hitta sårbarheter att använda mot dig, allt från ZERO-DAY till kända säkerhetsproblem.\r\nFör att åtgärda detta måste du dölja namn och version, se programvarans dokumentation om hur du gör detta.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_LEAKING_NAME"
+msgstr "##### Mjukvarans namn läcks ( #POINTS# arvosana )\r\n\r\n###### Johdanto:\r\nDu läcker mjukvarunamn som används.\r\nDetta gör det lättare för någon att hitta sårbarheter att använda mot dig, allt från ZERO-DAY till kända säkerhetsproblem.\r\nFör att åtgärda detta måste du dölja namnet, vänligen se programvarans dokumentation om hur man gör detta.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_MULTIPLE_VERSIONS"
+msgstr "##### Multipla versioner av samma mjukvara ( #POINTS# arvosana )\r\n\r\n###### Johdanto:\r\nDu käyttää flera versioner av samma programvara.\r\nDetta kan orsakas om du inkluderar resurser från externa källor eller på grund av felkonfiguration.\r\nDetta är en liten indikator på att du inte har så mycket kontroll som du förmodligen borde.\r\nDet indikerar också att du inte har en bra paketrutin för din programvara.\r\nDu kan fixa detta genom att uppdatera programvaran till den senaste versionen eller den senaste versionen som du käyttää för alla instanser.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_REFERENCES"
+msgstr "###### Viitteet:"
+
+msgid "TEXT_DETAILED_REVIEW_DETECTED_VERSIONS"
+msgstr "###### Havaitut versiot:"
+
+msgid "TEXT_DETAILED_REVIEW_DETECTED_RESOURCES"
+msgstr "###### Havaitut resurssit:"
+
+msgid "TEXT_DETAILED_REVIEW_MORE_THEN_5_SOURCES"
+msgstr "- Yli 5 resurser. Döljer resten."
+
+msgid "TEXT_DETAILED_REVIEW_ARCHIVED_SOURCE"
+msgstr "##### Mjukvaran är markerad som arkiverad ( #POINTS# rating )\r\n\r\n###### Johdanto:\r\nDet ser ut som du käyttää mjukvara som är markerad som arkiverad, detta innebär att den ej får ny funktionalitet eller säkerhetsuppdateringar.\r\nFör att åtgärda detta måste du hitta en annan mjukvara som uppfyller dina behov, ofta pekar utvecklarna på ett alternativ som de tycker är bra från det ställe du hittade mjukvaran.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_CVES"
+msgstr "###### Yleiset haavoittuvuudet ja altistumiset"
+
+msgid "TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE"
+msgstr "###### Havaitut ohjelmistot:"
+
+msgid "TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES"
+msgstr "###### Vaikutusalueen resurssit:"
+
+msgid "TEXT_DETAILED_REVIEW_NO_CVE"
+msgstr "##### Inga vanliga sårbarheter och exponeringar hittade"
+
+msgid "TEXT_DETAILED_REVIEW_NO_BEHIND"
+msgstr "##### Det ser ut som att du käyttää senaste versionen på all mjukvara vi hittar"
+
+msgid "TEXT_DETAILED_REVIEW_NO_UNMAINTAINED"
+msgstr "##### Mjukvara ser ut att underhållas"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_10_YEARS"
+msgstr "##### Mjukvara saknar buggrättnningar eller andra ändringar de senaste 10 åren ( #POINTS# rating )\r\n\r\n###### Johdanto:\r\nDet ser ut som du käyttää mjukvara som inte längre underhålls, detta innebär att den ej får ny funktionalitet eller säkerhetsuppdateringar.\r\nFör att åtgärda detta måste du hitta en annan mjukvara som uppfyller dina behov, ofta pekar utvecklarna på ett alternativ som de tycker är bra från det ställe du hittade mjukvaran.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_9_YEARS"
+msgstr "##### Mjukvara saknar buggrättnningar eller andra ändringar de senaste 9 åren ( #POINTS# rating )\r\n\r\n###### Johdanto:\r\nDet ser ut som du käyttää mjukvara som inte längre underhålls, detta innebär att den ej får ny funktionalitet eller säkerhetsuppdateringar.\r\nFör att åtgärda detta måste du hitta en annan mjukvara som uppfyller dina behov, ofta pekar utvecklarna på ett alternativ som de tycker är bra från det ställe du hittade mjukvaran.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_8_YEARS"
+msgstr "##### Mjukvara saknar buggrättnningar eller andra ändringar de senaste 8 åren ( #POINTS# rating )\r\n\r\n###### Johdanto:\r\nDet ser ut som du käyttää mjukvara som inte längre underhålls, detta innebär att den ej får ny funktionalitet eller säkerhetsuppdateringar.\r\nFör att åtgärda detta måste du hitta en annan mjukvara som uppfyller dina behov, ofta pekar utvecklarna på ett alternativ som de tycker är bra från det ställe du hittade mjukvaran.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_7_YEARS"
+msgstr "##### Mjukvara saknar buggrättnningar eller andra ändringar de senaste 7 åren ( #POINTS# rating )\r\n\r\n###### Johdanto:\r\nDet ser ut som du käyttää mjukvara som inte längre underhålls, detta innebär att den ej får ny funktionalitet eller säkerhetsuppdateringar.\r\nFör att åtgärda detta måste du hitta en annan mjukvara som uppfyller dina behov, ofta pekar utvecklarna på ett alternativ som de tycker är bra från det ställe du hittade mjukvaran.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_6_YEARS"
+msgstr "##### Mjukvara saknar buggrättnningar eller andra ändringar de senaste 6 åren ( #POINTS# rating )\r\n\r\n###### Johdanto:\r\nDet ser ut som du käyttää mjukvara som inte längre underhålls, detta innebär att den ej får ny funktionalitet eller säkerhetsuppdateringar.\r\nFör att åtgärda detta måste du hitta en annan mjukvara som uppfyller dina behov, ofta pekar utvecklarna på ett alternativ som de tycker är bra från det ställe du hittade mjukvaran.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_5_YEARS"
+msgstr "##### Mjukvara saknar buggrättnningar eller andra ändringar de senaste 5 åren ( #POINTS# rating )\r\n\r\n###### Johdanto:\r\nDet ser ut som du käyttää mjukvara som inte längre underhålls, detta innebär att den ej får ny funktionalitet eller säkerhetsuppdateringar.\r\nFör att åtgärda detta måste du hitta en annan mjukvara som uppfyller dina behov, ofta pekar utvecklarna på ett alternativ som de tycker är bra från det ställe du hittade mjukvaran.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_4_YEARS"
+msgstr "##### Mjukvara saknar buggrättnningar eller andra ändringar de senaste 4 åren ( #POINTS# rating )\r\n\r\n###### Johdanto:\r\nDet ser ut som du käyttää mjukvara som inte längre underhålls, detta innebär att den ej får ny funktionalitet eller säkerhetsuppdateringar.\r\nFör att åtgärda detta måste du hitta en annan mjukvara som uppfyller dina behov, ofta pekar utvecklarna på ett alternativ som de tycker är bra från det ställe du hittade mjukvaran.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_3_YEARS"
+msgstr "##### Mjukvara saknar buggrättnningar eller andra ändringar de senaste 3 åren ( #POINTS# rating )\r\n\r\n###### Johdanto:\r\nDet ser ut som du käyttää mjukvara som inte längre underhålls, detta innebär att den ej får ny funktionalitet eller säkerhetsuppdateringar.\r\nFör att åtgärda detta måste du hitta en annan mjukvara som uppfyller dina behov, ofta pekar utvecklarna på ett alternativ som de tycker är bra från det ställe du hittade mjukvaran.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_NO_END_OF_LIFE"
+msgstr "##### Mjukvara som används ser ej ut att ha nått sitt bäst före datum"
+
+msgid "TEXT_DETAILED_REVIEW_END_OF_LIFE"
+msgstr "##### Mjukvara används som tycks ha nått sitt bäst före datum"
+
+msgid "TEXT_DETAILED_REVIEW_NO_A11Y_OVERLAY"
+msgstr "##### Du ser ej ut att använda tillgänglighetslager-mjukvara"
+
+msgid "TEXT_DETAILED_REVIEW_A11Y_OVERLAY"
+msgstr "##### Du ser ut att använda tillgänglighetslager-mjukvara"

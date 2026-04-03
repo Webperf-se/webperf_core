@@ -1,0 +1,49 @@
+# Norwegian
+# Copyright (C) 2020 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2021-02-06 23:14+0200\n"
+"PO-Revision-Date: 2021-12-12 10:08+0200\n"
+"Last-Translator: mattias <mattias@webperf.se>\n"
+"Language-Team: Norwegian Bokmål <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 22 - Energieffektivitet\n"
+
+msgid "TEXT_TRANSFER_SIZE"
+msgstr "- Nettverksstørrelse: {0:.2f} {1}\n"
+
+msgid "TEXT_WEBSITE_IS_VERY_GOOD"
+msgstr "- Nettsiden genererer veldig lite karbondioksid!\n"
+
+msgid "TEXT_WEBSITE_IS_GOOD"
+msgstr "- Nettsiden genererer ganske lite karbondioksid.\n"
+
+msgid "TEXT_WEBSITE_IS_OK"
+msgstr "- Gjennomsnittlig når det gjelder karbondioksid.\n"
+
+msgid "TEXT_WEBSITE_IS_BAD"
+msgstr "- Nettsiden genererer ganske mye karbondioksid :/\n"
+
+msgid "TEXT_WEBSITE_IS_VERY_BAD"
+msgstr "- Nettsiden er virkelig dårlig! Skaper masse karbondioksid for hver sidevisning :(\n"
+
+msgid "TEXT_GRAMS_OF_CO2"
+msgstr "- Karbondioksid per sidevisning: {} gram\n"
+
+msgid "TEXT_GREEN_ENERGY_TRUE"
+msgstr "- Nettstedet ser ut til å drives med grønn energi.\n"
+
+msgid "TEXT_GREEN_ENERGY_FALSE"
+msgstr "- Kunne ikke se om nettstedet bruker grønn energi.\n"
+
+msgid "TEXT_BETTER_THAN"
+msgstr "- Nettsiden er grønnere enn {0} % av testede nettsteder på webperf.se (Referanse oppdatert: {1}).\n"

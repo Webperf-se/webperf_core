@@ -1,0 +1,126 @@
+# Copyright (C) 2025 WebPerf
+# Marcus J Österberg <m@webperf.se>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2025-04-27 12:00\n"
+"PO-Revision-Date: 2025-05-09 23:00\n"
+"Last-Translator: Marcus J Österberg <m@webperf.se>\n"
+"Language-Team: Danish <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+#
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Text to show instead of msgid, showed for severity levels (critical, error and warning)"
+
+msgid "rule-id (resolved)"
+msgstr "Text to show instead of msgid, here unique on severity level resolved"
+
+msgid "rule-id"
+msgstr "Text to show instead of msgid, here independent of severity level"
+
+# End of Examples
+
+
+msgid "compatible-word-partly (unresolved)"
+msgstr "Angiver selv at webstedet kun er delvist i overensstemmelse ({0})"
+
+msgid "compatible-word-partly (resolved)"
+msgstr "Angiver selv at webstedet kun er delvist i overensstemmelse (løst)"
+
+msgid "no-network (unresolved)"
+msgstr "Intet netværk ({0})"
+
+msgid "no-network (resolved)"
+msgstr "Intet netværk (løst)"
+
+msgid "no-updated-date (unresolved)"
+msgstr "Ingen opdateringsdato ({0})"
+
+msgid "no-updated-date (resolved)"
+msgstr "Opdateringsdato (løst)"
+
+msgid "updated-date-older-than-1years (unresolved)"
+msgstr "Opdateringsdato ældre end 1 år ({0})"
+
+msgid "updated-date-older-than-1years (resolved)"
+msgstr "Opdateringsdato ældre end 1 år (løst)"
+
+msgid "updated-date-older-than-2years (unresolved)"
+msgstr "Opdateringsdato ældre end 2 år ({0})"
+
+msgid "updated-date-older-than-2years (resolved)"
+msgstr "Opdateringsdato ældre end 2 år (løst)"
+
+msgid "updated-date-older-than-3years (unresolved)"
+msgstr "Opdateringsdato ældre end 3 år ({0})"
+
+msgid "updated-date-older-than-3years (resolved)"
+msgstr "Opdateringsdato ældre end 3 år (løst)"
+
+msgid "updated-date-older-than-4years (unresolved)"
+msgstr "Opdateringsdato ældre end 4 år ({0})"
+
+msgid "updated-date-older-than-4years (resolved)"
+msgstr "Opdateringsdato ældre end 4 år (løst)"
+
+msgid "updated-date-older-than-5years (unresolved)"
+msgstr "Opdateringsdato ældre end 5 år ({0})"
+
+msgid "updated-date-older-than-5years (resolved)"
+msgstr "Opdateringsdato ældre end 5 år (løst)"
+
+msgid "no-evaluation-method (unresolved)"
+msgstr "Angiver ingen evalueringsmetode ({0})"
+
+msgid "no-evaluation-method (resolved)"
+msgstr "Angiver sin evalueringsmetode (løst)"
+
+msgid "has-canonical-notification-function-link (unresolved)"
+msgstr "Har ikke korrekt link til anmeldelse ({0})"
+
+msgid "has-canonical-notification-function-link (resolved)"
+msgstr "Har korrekt link til anmeldelse (løst)"
+
+msgid "has-old-notification-function-link (unresolved)"
+msgstr "Har et gammelt link til anmeldelse ({0})"
+
+msgid "has-old-notification-function-link (resolved)"
+msgstr "Har et gammelt link til anmeldelse (løst)"
+
+msgid "no-notification-function-link (unresolved)"
+msgstr "Ingen link til anmeldelsesfunktion ({0})"
+
+msgid "no-notification-function-link (resolved)"
+msgstr "Har link til anmeldelsesfunktion (løst)"
+
+msgid "compatible-word-not (unresolved)"
+msgstr "Angiver selv at webstedet ikke er kompatibelt ({0})"
+
+msgid "compatible-word-not (resolved)"
+msgstr "Angiver selv at webstedet ikke er kompatibelt (løst)"
+
+msgid "no-compatible-word (unresolved)"
+msgstr "Ingen tekst om overensstemmelse blev fundet ({0})"
+
+msgid "no-compatible-word (resolved)"
+msgstr "Ingen tekst om overensstemmelse blev fundet (løst)"
+
+msgid "has-unreasonably-burdensome-accommodation (unresolved)"
+msgstr "Hævder urimelig byrdefuld tilpasning ({0})"
+
+msgid "has-unreasonably-burdensome-accommodation (resolved)"
+msgstr "Hævder urimelig byrdefuld tilpasning (løst)"
+
+msgid "no-a11y-statement (unresolved)"
+msgstr "Ingen tilgængelighedserklæring blev fundet ({0})"
+
+msgid "no-a11y-statement (resolved)"
+msgstr "Tilgængelighedserklæring hittad (løst)"

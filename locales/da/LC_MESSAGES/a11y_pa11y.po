@@ -1,0 +1,51 @@
+# Danish
+# Copyright (C) 2022 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2020-12-12 10:45+0200\n"
+"PO-Revision-Date: 2022-02-18 17:15+0200\n"
+"Last-Translator: Mattias <mattias@webperf.se>\n"
+"Language-Team: Danish <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 18 - Tilgængelighed (Pa11y)\n"
+
+msgid "TEXT_REVIEW_A11Y_VERY_GOOD"
+msgstr "- Webstedet har ingen åbenlyse fejl inden for tilgængelighed! Godt, men foretag manuelle undersøgelser for en sikkerheds skyld!\n"
+
+msgid "TEXT_REVIEW_A11Y_IS_GOOD"
+msgstr "- Webstedet kan blive mere tilgængeligt, men er ret ok.\n"
+
+msgid "TEXT_REVIEW_A11Y_IS_OK"
+msgstr "- Gennemsnitlig tilgængelighed, men kan blive bedre på automatiske tests.\n"
+
+msgid "TEXT_REVIEW_A11Y_IS_BAD"
+msgstr "- Webstedet er dårligt til tilgængelighed for funktions&shy;hæmmede personer.\n"
+
+msgid "TEXT_REVIEW_A11Y_IS_VERY_BAD"
+msgstr "- Meget dårlig tilgængelighed!\n"
+
+msgid "TEXT_REVIEW_A11Y_NUMBER_OF_PROBLEMS"
+msgstr "- Antal tilgængeligheds&shy;problemer: {} st"
+
+msgid "TEXT_REVIEW_A11Y_TOO_MANY_PROBLEMS"
+msgstr "- Info: For mange unikke problemer til at liste dem alle.\n"
+
+msgid "TEXT_REVIEW_A11Y_PROBLEMS"
+msgstr "\n##### Problem:\n"
+
+msgid "TEXT_REVIEW_ERRORS_ITEM"
+msgstr "  - {0} (totalt {1} st)\n"
+
+msgid "TEXT_REVIEW_RATING_GROUPED"
+msgstr "- Antal grupperede fejl: {0}"
+
+msgid "TEXT_REVIEW_RATING_ITEMS"
+msgstr "- Antal fejl: {0}"

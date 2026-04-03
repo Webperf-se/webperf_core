@@ -1,0 +1,83 @@
+# Copyright (C) 2025 WebPerf
+# Marcus J Österberg <m@webperf.se>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2025-04-27 12:00\n"
+"PO-Revision-Date: 2025-05-09 23:00\n"
+"Last-Translator: Marcus J Österberg <m@webperf.se>\n"
+"Language-Team: Danish <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+#
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Text to show instead of msgid, showed for severity levels (critical, error and warning)"
+
+msgid "rule-id (resolved)"
+msgstr "Text to show instead of msgid, here unique on severity level resolved"
+
+msgid "rule-id"
+msgstr "Text to show instead of msgid, here independent of severity level"
+
+# End of Examples
+
+msgid "has-unexpected-404-response (unresolved)"
+msgstr "Har uventet 404-svar ({0})"
+
+msgid "has-unexpected-404-response (resolved)"
+msgstr "Har korrekt 404-svar (løst)"
+
+msgid "no-valid-title-found (unresolved)"
+msgstr "Ingen gyldig titel blev fundet ({0})"
+
+msgid "no-valid-title-found (resolved)"
+msgstr "Gyldig titel fundet (løst)"
+
+msgid "no-valid-h1-found (unresolved)"
+msgstr "Ingen gyldig h1 blev fundet ({0})"
+
+msgid "no-valid-h1-found (resolved)"
+msgstr "Korrekt h1 fundet (løst)"
+
+msgid "no-valid-text-found (unresolved)"
+msgstr "ingen-gyldig-tekst-fundet ({0})"
+
+msgid "no-valid-text-found (resolved)"
+msgstr "ingen-gyldig-tekst-fundet (løst)"
+
+msgid "invalid-text-found (unresolved)"
+msgstr "ugyldig-tekst-fundet ({0})"
+
+msgid "invalid-text-found (resolved)"
+msgstr "ugyldig-tekst-fundet (løst)"
+
+msgid "no-valid-response-status-code (unresolved)"
+msgstr "Forkert svarkode ({0})"
+
+msgid "no-valid-response-status-code (resolved)"
+msgstr "Korrekt svarkode (løst)"
+
+msgid "no-unsupported-locale-use (unresolved)"
+msgstr "ingen-ustøttet-brug-af-sprog ({0})"
+
+msgid "no-unsupported-locale-use (resolved)"
+msgstr "ingen-ustøttet-brug-af-sprog (løst)"
+
+msgid "no-valid-not-found-text-in-body (unresolved)"
+msgstr "ingen-gyldig-ikke-fundet-tekst-i-indhold ({0})"
+
+msgid "no-valid-not-found-text-in-body (resolved)"
+msgstr "ingen-gyldig-ikke-fundet-tekst-i-indhold (løst)"
+
+msgid "no-network (unresolved)"
+msgstr "Intet netværk ({0})"
+
+msgid "no-network (resolved)"
+msgstr "Netværk fungerer (løst)"

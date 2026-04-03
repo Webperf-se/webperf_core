@@ -1,0 +1,235 @@
+# Icelandic
+# Copyright (C) 2022 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2022-12-09 17:04+0200\n"
+"PO-Revision-Date: 2024-04-03 21:30+0200\n"
+"Last-Translator: mattias <mattias@webperf.se>\n"
+"Language-Team: Icelandic <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 24 - Tölvupóstur (Beta)\n"
+
+msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_SUPPORT"
+msgstr "- MTA-STS DNS-færsla fannst"
+
+msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_NO_SUPPORT"
+msgstr "- MTA-STS DNS-færsla fannst inte"
+
+msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_WRONG_LINEBREAK"
+msgstr "- MTA-STS TXT notar ekki CRLF fyrir línuskil"
+
+msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_NOT_ENFORCED"
+msgstr "- MTA-STS TXT er ekki í þvingunarham"
+
+msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_VALID_MODE"
+msgstr "- MTA-STS TXT mode-gildið er rétt"
+
+msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_INVALID_MODE"
+msgstr "- MTA-STS TXT mode-gildið er rangt"
+
+msgid "TEXT_REVIEW_MTA_STS_TXT_SUPPORT"
+msgstr "- MTA-STS TXT lítur vel út"
+
+msgid "TEXT_REVIEW_MTA_STS_TXT_INVALID_FORMAT"
+msgstr "- MTA-STS TXT hefur rangt snið"
+
+msgid "TEXT_REVIEW_MTA_STS_TXT_NO_SUPPORT"
+msgstr "- MTA-STS TXT fannst ekki"
+
+msgid "TEXT_REVIEW_SPF_TO_MANY_DNS_LOOKUPS"
+msgstr "- SPF DNS-færsla veldur of mörgum DNS-uppflettingum"
+
+msgid "TEXT_REVIEW_SPF_DNS_RECORD_SUPPORT"
+msgstr "- SPF DNS-færsla fannst"
+
+msgid "TEXT_REVIEW_SPF_DNS_RECORD_NO_SUPPORT"
+msgstr "- SPF DNS-færsla fannst inte"
+
+msgid "TEXT_REVIEW_SPF_DNS_DOUBLE_SPACE_RECORD"
+msgstr "- SPF DNS-færsla notar tvö bil í stað eins"
+
+msgid "TEXT_REVIEW_SPF_DNS_NEUTRALFAIL_RECORD"
+msgstr "- SPF DNS-færsla notar hlutlausa bilun"
+
+msgid "TEXT_REVIEW_SPF_DNS_SOFTFAIL_RECORD"
+msgstr "- SPF DNS-færsla notar mjúka bilun"
+
+msgid "TEXT_REVIEW_SPF_DNS_HARDFAIL_RECORD"
+msgstr "- SPF DNS-færsla notar harða bilun"
+
+msgid "TEXT_REVIEW_SPF_DNS_IGNORE_RECORD_NO_SUPPORT"
+msgstr "- SPF DNS-færsla er stillt á að vera hunsuð"
+
+msgid "TEXT_REVIEW_SPF_DNS_RECORD_PTR_USED"
+msgstr "- SPF DNS-færsla notar rangt PTR"
+
+msgid "TEXT_REVIEW_SPF_UNKNOWN_SECTION"
+msgstr "- SPF DNS-færsla hefur óleyfilegt innihald"
+
+msgid "TEXT_REVIEW_IPV6_OPERATION_SUPPORT"
+msgstr "- IPV6_OPERATION_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV6_OPERATION_NO_SUPPORT"
+msgstr "- IPV6_OPERATION_NO_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV6_OPERATION_STARTTLS_SUPPORT"
+msgstr "- IPV6_OPERATION_STARTTLS_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV6_OPERATION_STARTTLS_NO_SUPPORT"
+msgstr "- IPV6_OPERATION_STARTTLS_NO_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV4_OPERATION_SUPPORT"
+msgstr "- IPV4_OPERATION_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV4_OPERATION_NO_SUPPORT"
+msgstr "- IPV4_OPERATION_NO_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV4_OPERATION_STARTTLS_SUPPORT"
+msgstr "- IPV4_OPERATION_STARTTLS_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV4_OPERATION_STARTTLS_NO_SUPPORT"
+msgstr "- IPV4_OPERATION_STARTTLS_NO_SUPPORT"
+
+msgid "TEXT_REVIEW_MX_NO_SUPPORT"
+msgstr "- MX DNS-færsla fannst ekki"
+
+msgid "TEXT_REVIEW_MX_ALTERATIVE"
+msgstr "- Notar annað tölvupóstlén: {0}\r\n{1}"
+
+msgid "TEXT_REVIEW_IPV4_REDUNDANCE"
+msgstr "- MX DNS IPv4-færsla er ofaukið"
+
+msgid "TEXT_REVIEW_IPV4_SUPPORT"
+msgstr "- MX DNS IPv4-færsla fannst"
+
+msgid "TEXT_REVIEW_IPV4_NO_REDUNDANCE"
+msgstr "- MX DNS IPv4-færsla skortir ofaukni"
+
+msgid "TEXT_REVIEW_IPV4_NO_SUPPORT"
+msgstr "- MX DNS IPv4-færsla fannst inte"
+
+msgid "TEXT_REVIEW_IPV6_REDUNDANCE"
+msgstr "- MX DNS IPv6-færsla hefur ofaukni"
+
+msgid "TEXT_REVIEW_IPV6_SUPPORT"
+msgstr "- MX DNS IPv6-færsla fannst"
+
+msgid "TEXT_REVIEW_IPV6_NO_REDUNDANCE"
+msgstr "- MX DNS IPv6-færsla skortir ofaukni"
+
+msgid "TEXT_REVIEW_IPV6_NO_SUPPORT"
+msgstr "- MX DNS IPv6-færsla fannst inte"
+
+msgid "TEXT_REVIEW_MX_GDPR"
+msgstr "- MX DNS-þjónar í GDPR-öruggu landi: {0}"
+
+msgid "TEXT_REVIEW_MX_NONE_GDPR"
+msgstr "- MX DNS-þjónar í löndum án fullnægjandi gagnaverndar: {0}"
+
+msgid "TEXT_REVIEW_SPF_GDPR"
+msgstr "- SPF-þjónar í löndum með fullnægjandi gagnavernd: {0}"
+
+msgid "TEXT_REVIEW_SPF_NONE_GDPR"
+msgstr "- SPF-þjónar í löndum án fullnægjandi gagnaverndar: {0}"
+
+msgid "TEXT_REVIEW_DMARC_SUPPORT"
+msgstr "- DMARC DNS-færsla fannst"
+
+msgid "TEXT_REVIEW_DMARC_NO_SUPPORT"
+msgstr "- DMARC DNS-færsla fannst inte"
+
+msgid "TEXT_REVIEW_DMARC_EMPTY_SECTION_WHILE_PARSE"
+msgstr "- DMARC DNS-færsla er rangt sniðuð"
+
+msgid "TEXT_REVIEW_DMARC_PAIR_INVALID"
+msgstr "- DMARC DNS-færsla hefur rangan hluta"
+
+msgid "TEXT_REVIEW_DMARC_POLICY_INVALID"
+msgstr "- DMARC DNS-færsla hefur ógilt Policy-gildi"
+
+msgid "TEXT_REVIEW_DMARC_SUBPOLICY_INVALID"
+msgstr "- DMARC DNS-færsla hefur ógilt undirstefnugildi"
+
+msgid "TEXT_REVIEW_DMARC_PCT_INVALID"
+msgstr "- DMARC DNS-færsla hefur ógilt PCT-gildi"
+
+msgid "TEXT_REVIEW_DMARC_ADKIM_INVALID"
+msgstr "- DMARC DNS-færsla hefur ógilt ADKIM-gildi"
+
+msgid "TEXT_REVIEW_DMARC_ASPF_INVALID"
+msgstr "- DMARC DNS-færsla hefur ógilt ASPF-gildi"
+
+msgid "TEXT_REVIEW_DMARC_RI_INVALID"
+msgstr "- DMARC DNS-færsla hefur ógilt RI-gildi"
+
+msgid "TEXT_REVIEW_DMARC_FO_INVALID"
+msgstr "- DMARC DNS-færsla hefur ógilt FO-gildi"
+
+msgid "TEXT_REVIEW_DMARC_RF_INVALID"
+msgstr "- DMARC DNS-færsla hefur ógilt RF-gildi"
+
+msgid "TEXT_REVIEW_DMARC_USES_FO_BUT_NO_RUF"
+msgstr "- DMARC DNS-færsla notar FO en skortir RUF"
+
+msgid "TEXT_REVIEW_DMARC_NO_PARSE_ERRORS"
+msgstr "- DMARC DNS-færsla virðist vera rétt sniðuð"
+
+msgid "TEXT_REVIEW_DMARC_PCT_USES_DEFAULT"
+msgstr "- DMARC DNS-færsla notaði sjálfgefna gildið fyrir PCT, það er óþarft"
+
+msgid "TEXT_REVIEW_DMARC_ADKIM_USES_DEFAULT"
+msgstr "- DMARC DNS-færsla notaði sjálfgefna gildið fyrir ADKIM, það er óþarft"
+
+msgid "TEXT_REVIEW_DMARC_ASPF_USES_DEFAULT"
+msgstr "- DMARC DNS-færsla notaði sjálfgefna gildið fyrir ASPF, það er óþarft"
+
+msgid "TEXT_REVIEW_DMARC_RI_USES_DEFAULT"
+msgstr "- DMARC DNS-færsla notaði sjálfgefna gildið fyrir RI, það er óþarft"
+
+msgid "TEXT_REVIEW_DMARC_FO_USES_DEFAULT"
+msgstr "- DMARC DNS-færsla notaði sjálfgefna gildið fyrir FO, það er óþarft"
+
+msgid "TEXT_REVIEW_DMARC_RF_USES_DEFAULT"
+msgstr "- DMARC DNS-færsla notaði sjálfgefna gildið fyrir RF, það er óþarft"
+
+msgid "TEXT_REVIEW_DMARC_POLICY_REJECT"
+msgstr "- DMARC DNS-færsla notar 'rejected' fyrir stefnu"
+
+msgid "TEXT_REVIEW_DMARC_POLICY_QUARANTINE"
+msgstr "- DMARC DNS-færsla notar 'quarantine' fyrir stefnu"
+
+msgid "TEXT_REVIEW_DMARC_POLICY_NONE"
+msgstr "- DMARC DNS-færsla notar 'none' fyrir stefnu"
+
+msgid "TEXT_REVIEW_DMARC_NO_POLICY"
+msgstr "- DMARC DNS-færsla skortir stefnu"
+
+msgid "TEXT_REVIEW_DMARC_SUBPOLICY_REDUNDANT"
+msgstr "- DMARC DNS-færslan undirstefna samsvarar stefnu, undirstefna er óþörf"
+
+msgid "TEXT_REVIEW_DMARC_SUBPOLICY_QUARANTINE"
+msgstr "- DMARC DNS-færsla notar 'quarantine' fyrir undirstefnu"
+
+msgid "TEXT_REVIEW_DMARC_SUBPOLICY_REJECT"
+msgstr "- DMARC DNS-færsla notar 'rejected' fyrir undirstefnu"
+
+msgid "TEXT_REVIEW_DMARC_SUBPOLICY_NONE"
+msgstr "- DMARC DNS-færsla notar 'none' fyrir undirstefnu"
+
+msgid "TEXT_REVIEW_DMARC_PCT_NOT_100"
+msgstr "- DMARC DNS-færsla notar PCT minna en 100"
+
+msgid "TEXT_REVIEW_DMARC_PCT"
+msgstr "- DMARC DNS-færsla notar PCT"
+
+msgid "TEXT_REVIEW_DMARC_NO_WARNINGS"
+msgstr "- DMARC DNS-færsla hefur engar viðvaranir"

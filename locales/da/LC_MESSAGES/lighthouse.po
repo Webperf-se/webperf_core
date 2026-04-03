@@ -1,0 +1,601 @@
+# Danish
+# Copyright (C) 2025 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2025-04-27 12:00\n"
+"PO-Revision-Date: 2025-10-15 18:00\n"
+"Last-Translator: Mattias <mattias@webperf.se>\n"
+"Language-Team: Danish <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+#
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Tekst der vises i stedet for msgid, vises for alvorlighedsniveauerne (critical, error og warning)"
+
+msgid "rule-id (resolved)"
+msgstr "Tekst der vises i stedet for msgid, her unikt på alvorlighedsniveau (resolved)"
+
+msgid "rule-id"
+msgstr "Tekst der vises i stedet for msgid, her uafhængigt af alvorlighedsniveau"
+
+# End of Examples
+
+
+msgid "largest-contentful-paint-element (unresolved)"
+msgstr "Største indholdsrige element ({0})"
+
+msgid "largest-contentful-paint-element (resolved)"
+msgstr "Største indholdsrige element (løst)"
+
+msgid "unused-css-rules (unresolved)"
+msgstr "Reducer ubrugt CSS ({0})"
+
+msgid "unused-css-rules (resolved)"
+msgstr "Reducer ubrugt CSS (løst)"
+
+msgid "unused-javascript (unresolved)"
+msgstr "Reducer ubrugt JavaScript ({0})"
+
+msgid "unused-javascript (resolved)"
+msgstr "Reducer ubrugt JavaScript (løst)"
+
+msgid "legacy-javascript (unresolved)"
+msgstr "Undgå at levere ældre JavaScript til moderne browsere ({0})"
+
+msgid "legacy-javascript (resolved)"
+msgstr "Undgå at levere ældre JavaScript til moderne browsere (løst)"
+
+msgid "cumulative-layout-shift (unresolved)"
+msgstr "Kumulativ layoutforskydning ({0})"
+
+msgid "cumulative-layout-shift (resolved)"
+msgstr "Kumulativ layoutforskydning (løst)"
+
+msgid "duplicated-javascript (unresolved)"
+msgstr "Fjern duplikerede moduler i JavaScript-bundter ({0})"
+
+msgid "duplicated-javascript (resolved)"
+msgstr "Fjern duplikerede moduler i JavaScript-bundter (løst)"
+
+msgid "layout-shifts (unresolved)"
+msgstr "Undgå store layoutforskydninger ({0})"
+
+msgid "layout-shifts (resolved)"
+msgstr "Undgå store layoutforskydninger (løst)"
+
+msgid "largest-contentful-paint (unresolved)"
+msgstr "Største indholdsrige maling ({0})"
+
+msgid "largest-contentful-paint (resolved)"
+msgstr "Største indholdsrige maling (løst)"
+
+msgid "uses-long-cache-ttl (unresolved)"
+msgstr "Server statiske ressourcer med effektiv cachepolitik ({0})"
+
+msgid "uses-long-cache-ttl (resolved)"
+msgstr "Server statiske ressourcer med effektiv cachepolitik (løst)"
+
+msgid "first-contentful-paint (unresolved)"
+msgstr "Første indholdsrige maling ({0})"
+
+msgid "first-contentful-paint (resolved)"
+msgstr "Første indholdsrige maling (løst)"
+
+msgid "render-blocking-resources (unresolved)"
+msgstr "Eliminer gengivelseblokerende ressourcer ({0})"
+
+msgid "render-blocking-resources (resolved)"
+msgstr "Eliminer gengivelseblokerende ressourcer (løst)"
+
+msgid "total-blocking-time (unresolved)"
+msgstr "Total blokeringstid ({0})"
+
+msgid "total-blocking-time (resolved)"
+msgstr "Total blokeringstid (løst)"
+
+msgid "speed-index (unresolved)"
+msgstr "Hastighedsindeks ({0})"
+
+msgid "speed-index (resolved)"
+msgstr "Hastighedsindeks (løst)"
+
+msgid "interactive (unresolved)"
+msgstr "Tid til interaktivitet ({0})"
+
+msgid "interactive (resolved)"
+msgstr "Tid til interaktivitet (løst)"
+
+msgid "max-potential-fid (unresolved)"
+msgstr "Maks potentiel første inputforsinkelse ({0})"
+
+msgid "max-potential-fid (resolved)"
+msgstr "Maks potentiel første inputforsinkelse (løst)"
+
+msgid "uses-responsive-images (unresolved)"
+msgstr "Tilpas billedstørrelser korrekt ({0})"
+
+msgid "uses-responsive-images (resolved)"
+msgstr "Tilpas billedstørrelser korrekt (løst)"
+
+msgid "offscreen-images (unresolved)"
+msgstr "Udskyd billeder uden for skærmen ({0})"
+
+msgid "offscreen-images (resolved)"
+msgstr "Udskyd billeder uden for skærmen (løst)"
+
+msgid "unminified-css (unresolved)"
+msgstr "Minificer CSS ({0})"
+
+msgid "unminified-css (resolved)"
+msgstr "Minificer CSS (løst)"
+
+msgid "unminified-javascript (unresolved)"
+msgstr "Minificer JavaScript ({0})"
+
+msgid "unminified-javascript (resolved)"
+msgstr "Minificer JavaScript (løst)"
+
+msgid "uses-optimized-images (unresolved)"
+msgstr "Effektiv kodning af billeder ({0})"
+
+msgid "uses-optimized-images (resolved)"
+msgstr "Effektiv kodning af billeder (løst)"
+
+msgid "modern-image-formats (unresolved)"
+msgstr "Server billeder i næste generations format ({0})"
+
+msgid "modern-image-formats (resolved)"
+msgstr "Server billeder i næste generations format (løst)"
+
+msgid "uses-text-compression (unresolved)"
+msgstr "Aktiver tekstkomprimering ({0})"
+
+msgid "uses-text-compression (resolved)"
+msgstr "Aktiver tekstkomprimering (løst)"
+
+msgid "uses-rel-preconnect (unresolved)"
+msgstr "Forhåndstilslut til nødvendige oprindelser ({0})"
+
+msgid "uses-rel-preconnect (resolved)"
+msgstr "Forhåndstilslut til nødvendige oprindelser (løst)"
+
+msgid "server-response-time (unresolved)"
+msgstr "Indledende serverresponstid var kort ({0})"
+
+msgid "server-response-time (resolved)"
+msgstr "Indledende serverresponstid var kort (løst)"
+
+msgid "redirects (unresolved)"
+msgstr "Undgå flere sideomdirigeringer ({0})"
+
+msgid "redirects (resolved)"
+msgstr "Undgå flere sideomdirigeringer (løst)"
+
+msgid "efficient-animated-content (unresolved)"
+msgstr "Brug videoformat til animeret indhold ({0})"
+
+msgid "efficient-animated-content (resolved)"
+msgstr "Brug videoformat til animeret indhold (løst)"
+
+msgid "total-byte-weight (unresolved)"
+msgstr "Undgå enorme netværkspayloads ({0})"
+
+msgid "total-byte-weight (resolved)"
+msgstr "Undgå enorme netværkspayloads (løst)"
+
+msgid "dom-size (unresolved)"
+msgstr "Undgå overdreven DOM-størrelse ({0})"
+
+msgid "dom-size (resolved)"
+msgstr "Undgå overdreven DOM-størrelse (løst)"
+
+msgid "bootup-time (unresolved)"
+msgstr "JavaScript-kørselstid ({0})"
+
+msgid "bootup-time (resolved)"
+msgstr "JavaScript-kørselstid (løst)"
+
+msgid "mainthread-work-breakdown (unresolved)"
+msgstr "Minimer arbejde på hovedtråden ({0})"
+
+msgid "mainthread-work-breakdown (resolved)"
+msgstr "Minimer arbejde på hovedtråden (løst)"
+
+msgid "font-display (unresolved)"
+msgstr "Al tekst skal forblive synlig under webfont-indlæsning ({0})"
+
+msgid "font-display (resolved)"
+msgstr "Al tekst forbliver synlig under webfont-indlæsning (løst)"
+
+msgid "uses-passive-event-listeners (unresolved)"
+msgstr "Brug passive lyttere til at forbedre scrolleydelse ({0})"
+
+msgid "uses-passive-event-listeners (resolved)"
+msgstr "Bruger passive lyttere til at forbedre scrolleydelse (løst)"
+
+msgid "no-document-write (unresolved)"
+msgstr "Javascript, undgå `document.write()` ({0})"
+
+msgid "no-document-write (resolved)"
+msgstr "Javascript, undgår `document.write() (løst)"
+
+msgid "long-tasks (unresolved)"
+msgstr "Undgå lange hovedtrådsopgaver ({0})"
+
+msgid "long-tasks (resolved)"
+msgstr "Undgår lange hovedtrådsopgaver (løst)"
+
+msgid "unsized-images (unresolved)"
+msgstr "Billedelementer skal have eksplicit `width` och `height` ({0})"
+
+msgid "unsized-images (resolved)"
+msgstr "Billedelementer har eksplicit `width` och `height` (løst)"
+
+msgid "viewport (unresolved)"
+msgstr "Skal have en <meta name=\"viewport\">-tagg med width eller initial-scale ({0})"
+
+msgid "viewport (resolved)"
+msgstr "Har en <meta name=\"viewport\">-tagg med width eller initial-scale (løst)"
+
+msgid "network-requests (unresolved)"
+msgstr "Nätverksforespørgsler ({0})"
+
+msgid "network-requests (resolved)"
+msgstr "Nätverksforespørgsler (løst)"
+
+msgid "network-rtt (unresolved)"
+msgstr "Netværkets rundturstider ({0})"
+
+msgid "network-rtt (resolved)"
+msgstr "Netværkets rundturstider (løst)"
+
+msgid "network-server-latency (unresolved)"
+msgstr "Serverens backend-forsinkelser ({0})"
+
+msgid "network-server-latency (resolved)"
+msgstr "Serverens backend-forsinkelser (løst)"
+
+msgid "main-thread-tasks (unresolved)"
+msgstr "Hovedtrådsopgaver ({0})"
+
+msgid "main-thread-tasks (resolved)"
+msgstr "Hovedtrådsopgaver (løst)"
+
+msgid "diagnostics (unresolved)"
+msgstr "Diagnostik ({0})"
+
+msgid "diagnostics (resolved)"
+msgstr "Diagnostik (løst)"
+
+msgid "metrics (unresolved)"
+msgstr "Måleværdier ({0})"
+
+msgid "metrics (resolved)"
+msgstr "Måleværdier (løst)"
+
+msgid "screenshot-thumbnails (unresolved)"
+msgstr "Skærmdumpsminiaturer ({0})"
+
+msgid "screenshot-thumbnails (resolved)"
+msgstr "Skærmdumpsminiaturer (løst)"
+
+msgid "final-screenshot (unresolved)"
+msgstr "endelig skærmdump ({0})"
+
+msgid "final-screenshot (resolved)"
+msgstr "endelig skærmdump (løst)"
+
+msgid "script-treemap-data (unresolved)"
+msgstr "script-treemap-data ({0})"
+
+msgid "script-treemap-data (resolved)"
+msgstr "script-treemap-data (løst)"
+
+msgid "resource-summary (unresolved)"
+msgstr "ressourceoversigt ({0})"
+
+msgid "resource-summary (resolved)"
+msgstr "ressourceoversigt (løst)"
+
+msgid "aria-allowed-attr (unresolved)"
+msgstr "`[aria-*]`-attributter skal matche deres roller ({0})"
+
+msgid "aria-allowed-attr (resolved)"
+msgstr "`[aria-*]`-attributter matcher deres roller (løst)"
+
+msgid "aria-allowed-role (unresolved)"
+msgstr "Skal bruge ARIA-roller kun på kompatible elementer ({0})"
+
+msgid "aria-allowed-role (resolved)"
+msgstr "Bruger ARIA-roller kun på kompatible elementer (løst)"
+
+msgid "aria-conditional-attr (unresolved)"
+msgstr "ARIA-attributter skal bruges i henhold til specifikation for elementets rolle ({0})"
+
+msgid "aria-conditional-attr (resolved)"
+msgstr "ARIA-attributter bruges i henhold til specifikation for elementets rolle (løst)"
+
+msgid "aria-deprecated-role (unresolved)"
+msgstr "Forældede ARIA-roller blev brugt ({0})"
+
+msgid "aria-deprecated-role (resolved)"
+msgstr "Forældede ARIA-roller blev brugt inte (løst)"
+
+msgid "aria-hidden-body (unresolved)"
+msgstr "`[aria-hidden=\"true\"]` findes på dokumentets `<body>` ({0})"
+
+msgid "aria-hidden-body (resolved)"
+msgstr "`[aria-hidden=\"true\"]` findes ikke på dokumentets `<body>` (løst)"
+
+msgid "aria-hidden-focus (unresolved)"
+msgstr "`[aria-hidden=\"true\"]`-elementer indeholder ikke fokuserbare underordnede ({0})"
+
+msgid "aria-hidden-focus (resolved)"
+msgstr "`[aria-hidden=\"true\"]`-elementer indeholder ikke fokuserbare underordnede (løst)"
+
+msgid "aria-prohibited-attr (unresolved)"
+msgstr "Elementer skal kun bruge tilladte ARIA-attributter ({0})"
+
+msgid "aria-prohibited-attr (resolved)"
+msgstr "Elementer bruger kun tilladte ARIA-attributter (løst)"
+
+msgid "aria-required-attr (unresolved)"
+msgstr "`[role]` skal have alle nødvendige `[aria-*]`-attribut ({0})"
+
+msgid "aria-required-attr (resolved)"
+msgstr "`[role]` har alle nødvendige `[aria-*]`-attribut (løst)"
+
+msgid "aria-roles (unresolved)"
+msgstr "`[role]`-værdier er ikke gyldige ({0})"
+
+msgid "aria-roles (resolved)"
+msgstr "`[role]`-værdier er gyldige (løst)"
+
+msgid "aria-valid-attr-value (unresolved)"
+msgstr "`[aria-*]`-attributter har ugyldige værdier ({0})"
+
+msgid "aria-valid-attr-value (resolved)"
+msgstr "`[aria-*]`-attributter har gyldige værdier (løst)"
+
+msgid "aria-valid-attr (unresolved)"
+msgstr "`[aria-*]`-attributter er ugyldige eller fejlstavede ({0})"
+
+msgid "aria-valid-attr (resolved)"
+msgstr "`[aria-*]`-attributter er gyldige og ikke fejlstavede (løst)"
+
+msgid "button-name (unresolved)"
+msgstr "Knapper skal have et tilgængeligt navn ({0})"
+
+msgid "button-name (resolved)"
+msgstr "Knapper har et tilgængeligt navn (løst)"
+
+msgid "color-contrast (unresolved)"
+msgstr "Baggrunds- og forgrundsfarverne skal have tilstrækkelig kontrast ({0})"
+
+msgid "color-contrast (resolved)"
+msgstr "Baggrunds- og forgrundsfarverne har tilstrækkelig kontrast (løst)"
+
+msgid "document-title (unresolved)"
+msgstr "Dokumentet skal have et `<title>`-element ({0})"
+
+msgid "document-title (resolved)"
+msgstr "Dokumentet har et `<title>`-element (løst)"
+
+msgid "heading-order (unresolved)"
+msgstr "Overskriftselementer skal vises i sekventielt faldende rækkefølge ({0})"
+
+msgid "heading-order (resolved)"
+msgstr "Overskriftselementer vises i sekventielt faldende rækkefølge (løst)"
+
+msgid "html-has-lang (unresolved)"
+msgstr "`<html>`-elementet skal have et `[lang]`-attribut ({0})"
+
+msgid "html-has-lang (resolved)"
+msgstr "`<html>`-elementet har et `[lang]`-attribut (løst)"
+
+msgid "html-lang-valid (unresolved)"
+msgstr "`<html>`-elementet skal have et gyldig værdi for sit `[lang]`-attribut ({0})"
+
+msgid "html-lang-valid (resolved)"
+msgstr "`<html>`-elementet har et gyldig værdi for sit `[lang]`-attribut (løst)"
+
+msgid "image-alt (unresolved)"
+msgstr "Billedelementer skal have `[alt]`-attribut ({0})"
+
+msgid "image-alt (resolved)"
+msgstr "Billedelementer har `[alt]`-attribut (løst)"
+
+msgid "image-redundant-alt (unresolved)"
+msgstr "Billedelementer skal ikke have `[alt]`-attribut som er redundant tekst ({0})"
+
+msgid "image-redundant-alt (resolved)"
+msgstr "Billedelementer har inte `[alt]`-attribut som er redundant tekst (løst)"
+
+msgid "link-in-text-block (unresolved)"
+msgstr "Links er ikke adskillelige uden at stole på farve ({0})"
+
+msgid "link-in-text-block (resolved)"
+msgstr "Links er adskillelige uden at stole på farve (løst)"
+
+msgid "link-name (unresolved)"
+msgstr "Links skal have et skelneligt navn ({0})"
+
+msgid "link-name (resolved)"
+msgstr "Links har et skelneligt navn (løst)"
+
+msgid "list (unresolved)"
+msgstr "Lister skal kun indeholde `<li>`-element og scriptstøtteelementer (`<script>` och `<template>`) ({0})"
+
+msgid "list (resolved)"
+msgstr "Lister indeholder kun `<li>`-element og scriptstøtteelementer (`<script>` och `<template>`) (løst)"
+
+msgid "listitem (unresolved)"
+msgstr "Listeelementer (`<li>`) er ikke placeret inden for `<ul>`, `<ol>` eller `<menu>`-forældreelementer ({0})"
+
+msgid "listitem (resolved)"
+msgstr "Listeelementer (`<li>`) er placeret inden for `<ul>`, `<ol>` eller `<menu>`-forældreelementer (løst)"
+
+msgid "meta-viewport (unresolved)"
+msgstr "`[user-scalable=\"no\"]` bruges i `<meta name=\"viewport\">`-elementet eller `[maximum-scale]`-attributten er mindre end 5 ({0})"
+
+msgid "meta-viewport (resolved)"
+msgstr "`[user-scalable=\"no\"]` bruges ikke i `<meta name=\"viewport\">`-elementet og `[maximum-scale]`-attributten er ikke mindre end 5 (løst)"
+
+msgid "target-size (unresolved)"
+msgstr "Trykmål skal have tilstrækkelig størrelse og afstand ({0})"
+
+msgid "target-size (resolved)"
+msgstr "Trykmål har tilstrækkelig størrelse og afstand (løst)"
+
+msgid "is-on-https (unresolved)"
+msgstr "Bruger ikke HTTPS ({0})"
+
+msgid "is-on-https (resolved)"
+msgstr "Bruger HTTPS (løst)"
+
+msgid "redirects-http (unresolved)"
+msgstr "Omdirigerer ikke HTTP-trafik til HTTPS ({0})"
+
+msgid "redirects-http (resolved)"
+msgstr "Omdirigerer HTTP-trafik til HTTPS (løst)"
+
+msgid "image-size-responsive (unresolved)"
+msgstr "Serverer billeder med lav opløsning ({0})"
+
+msgid "image-size-responsive (resolved)"
+msgstr "Serverer billeder med lav opløsning (løst)"
+
+msgid "aria-required-children (unresolved)"
+msgstr "Element med en ARIA `[role]` der kræver at børn indeholder en specifik `[role]` har alle nødvendige barn ({0})"
+
+msgid "aria-required-children (resolved)"
+msgstr "Element med en ARIA `[role]` der kræver at børn indeholder en specifik `[role]` har alle nødvendige barn (løst)"
+
+msgid "aria-required-parent (unresolved)"
+msgstr "`[role]` er placeret inden for sitt nödvändiga forældreelementer ({0})"
+
+msgid "aria-required-parent (resolved)"
+msgstr "`[role]` er placeret inden for sitt nödvändiga forældreelementer (løst)"
+
+msgid "inspector-issues (unresolved)"
+msgstr "Problemer i panelet `Issues` i Chrome Devtools ({0})"
+
+msgid "inspector-issues (resolved)"
+msgstr "Ingen problemer i panelet `Issues` i Chrome Devtools (løst)"
+
+msgid "cls-culprits-insight (unresolved)"
+msgstr "Resultat for layoutforskydning ({0})"
+
+msgid "cls-culprits-insight (resolved)"
+msgstr "Resultat for layoutforskydning (løst)"
+
+msgid "document-latency-insight (unresolved)"
+msgstr "Forsinkelse af dokumentforespørgsel ({0})"
+
+msgid "document-latency-insight (resolved)"
+msgstr "Forsinkelse af dokumentforespørgsel (løst)"
+
+msgid "dom-size-insight (unresolved)"
+msgstr "Optimer DOM-størrelse ({0})"
+
+msgid "dom-size-insight (resolved)"
+msgstr "Optimer DOM-størrelse (løst)"
+
+msgid "duplicated-javascript-insight (unresolved)"
+msgstr "Duplikeret JavaScript ({0})"
+
+msgid "duplicated-javascript-insight (resolved)"
+msgstr "Duplikeret JavaScript (løst)"
+
+msgid "font-display-insight (unresolved)"
+msgstr "Skrifttypevisning ({0})"
+
+msgid "font-display-insight (resolved)"
+msgstr "Skrifttypevisning (løst)"
+
+msgid "image-delivery-insight (unresolved)"
+msgstr "Forbedre billedleveringen ({0})"
+
+msgid "image-delivery-insight (resolved)"
+msgstr "Forbedre billedleveringen (løst)"
+
+msgid "interaction-to-next-paint-insight (unresolved)"
+msgstr "Interaktion til næste optegning ({0})"
+
+msgid "interaction-to-next-paint-insight (resolved)"
+msgstr "Interaktion til næste optegning (løst)"
+
+msgid "lcp-discovery-insight (unresolved)"
+msgstr "Opdage LCP-forespørgsel ({0})"
+
+msgid "lcp-discovery-insight (resolved)"
+msgstr "Opdage LCP-forespørgsel (løst)"
+
+msgid "lcp-phases-insight (unresolved)"
+msgstr "LCP-fordeling ({0})"
+
+msgid "lcp-phases-insight (resolved)"
+msgstr "LCP-fordeling (løst)"
+
+msgid "legacy-javascript-insight (unresolved)"
+msgstr "Ældre JavaScript ({0})"
+
+msgid "legacy-javascript-insight (resolved)"
+msgstr "Ældre JavaScript (løst)"
+
+msgid "modern-http-insight (unresolved)"
+msgstr "Moderne HTTP ({0})"
+
+msgid "modern-http-insight (resolved)"
+msgstr "Moderne HTTP (løst)"
+
+msgid "network-dependency-tree-insight (unresolved)"
+msgstr "Netværksafhængighedstræ ({0})"
+
+msgid "network-dependency-tree-insight (resolved)"
+msgstr "Netværksafhængighedstræ (løst)"
+
+msgid "render-blocking-insight (unresolved)"
+msgstr "Gengivelseblokerende forespørgsler ({0})"
+
+msgid "render-blocking-insight (resolved)"
+msgstr "Gengivelseblokerende forespørgsler (løst)"
+
+msgid "third-parties-insight (unresolved)"
+msgstr "Tredjepart ({0})"
+
+msgid "third-parties-insight (resolved)"
+msgstr "Tredjepart (løst)"
+
+msgid "use-cache-insight (unresolved)"
+msgstr "Brug effektive cachelevetider ({0})"
+
+msgid "use-cache-insight (resolved)"
+msgstr "Brug effektive cachelevetider (løst)"
+
+msgid "viewport-insight (unresolved)"
+msgstr "Optimer visningsområde for mobile enheder ({0})"
+
+msgid "viewport-insight (resolved)"
+msgstr "Optimer visningsområde for mobile enheder (løst)"
+
+msgid "cache-insight (unresolved)"
+msgstr "cache-insight ({0})"
+
+msgid "cache-insight (resolved)"
+msgstr "cache-insight (resolved)"
+
+msgid "label-content-name-mismatch (unresolved)"
+msgstr "label-content-name-mismatch ({0})"
+
+msgid "label-content-name-mismatch (resolved)"
+msgstr "label-content-name-mismatch (resolved)"

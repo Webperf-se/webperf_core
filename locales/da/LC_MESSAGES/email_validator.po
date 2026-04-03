@@ -1,0 +1,235 @@
+# Danish
+# Copyright (C) 2022 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2022-12-09 17:04+0200\n"
+"PO-Revision-Date: 2024-04-03 21:30+0200\n"
+"Last-Translator: mattias <mattias@webperf.se>\n"
+"Language-Team: Danish <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 24 - E-mail (Beta)\n"
+
+msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_SUPPORT"
+msgstr "- MTA-STS DNS-post fundet"
+
+msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_NO_SUPPORT"
+msgstr "- MTA-STS DNS-post fundet inte"
+
+msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_WRONG_LINEBREAK"
+msgstr "- MTA-STS TXT bruger ikke CRLF til linjeskift"
+
+msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_NOT_ENFORCED"
+msgstr "- MTA-STS TXT er ikke i tvunget tilstand"
+
+msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_VALID_MODE"
+msgstr "- MTA-STS TXT mode-værdien er korrekt"
+
+msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_INVALID_MODE"
+msgstr "- MTA-STS TXT mode-værdien er forkert"
+
+msgid "TEXT_REVIEW_MTA_STS_TXT_SUPPORT"
+msgstr "- MTA-STS TXT ser godt ud"
+
+msgid "TEXT_REVIEW_MTA_STS_TXT_INVALID_FORMAT"
+msgstr "- MTA-STS TXT har et forkert format"
+
+msgid "TEXT_REVIEW_MTA_STS_TXT_NO_SUPPORT"
+msgstr "- MTA-STS TXT ikke fundet"
+
+msgid "TEXT_REVIEW_SPF_TO_MANY_DNS_LOOKUPS"
+msgstr "- SPF DNS-post forårsager for mange DNS-opslag"
+
+msgid "TEXT_REVIEW_SPF_DNS_RECORD_SUPPORT"
+msgstr "- SPF DNS-post fundet"
+
+msgid "TEXT_REVIEW_SPF_DNS_RECORD_NO_SUPPORT"
+msgstr "- SPF DNS-post fundet inte"
+
+msgid "TEXT_REVIEW_SPF_DNS_DOUBLE_SPACE_RECORD"
+msgstr "- SPF DNS-post bruger to mellemrum i stedet for ét"
+
+msgid "TEXT_REVIEW_SPF_DNS_NEUTRALFAIL_RECORD"
+msgstr "- SPF DNS-post bruger neutralt fejlresultat"
+
+msgid "TEXT_REVIEW_SPF_DNS_SOFTFAIL_RECORD"
+msgstr "- SPF DNS-post bruger blødt fejlresultat"
+
+msgid "TEXT_REVIEW_SPF_DNS_HARDFAIL_RECORD"
+msgstr "- SPF DNS-post bruger hårdt fejlresultat"
+
+msgid "TEXT_REVIEW_SPF_DNS_IGNORE_RECORD_NO_SUPPORT"
+msgstr "- SPF DNS-post er konfigureret til at blive ignoreret"
+
+msgid "TEXT_REVIEW_SPF_DNS_RECORD_PTR_USED"
+msgstr "- SPF DNS-post bruger forkert PTR"
+
+msgid "TEXT_REVIEW_SPF_UNKNOWN_SECTION"
+msgstr "- SPF DNS-post har utilladtindhold"
+
+msgid "TEXT_REVIEW_IPV6_OPERATION_SUPPORT"
+msgstr "- IPV6_OPERATION_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV6_OPERATION_NO_SUPPORT"
+msgstr "- IPV6_OPERATION_NO_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV6_OPERATION_STARTTLS_SUPPORT"
+msgstr "- IPV6_OPERATION_STARTTLS_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV6_OPERATION_STARTTLS_NO_SUPPORT"
+msgstr "- IPV6_OPERATION_STARTTLS_NO_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV4_OPERATION_SUPPORT"
+msgstr "- IPV4_OPERATION_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV4_OPERATION_NO_SUPPORT"
+msgstr "- IPV4_OPERATION_NO_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV4_OPERATION_STARTTLS_SUPPORT"
+msgstr "- IPV4_OPERATION_STARTTLS_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV4_OPERATION_STARTTLS_NO_SUPPORT"
+msgstr "- IPV4_OPERATION_STARTTLS_NO_SUPPORT"
+
+msgid "TEXT_REVIEW_MX_NO_SUPPORT"
+msgstr "- MX DNS-post ikke fundet"
+
+msgid "TEXT_REVIEW_MX_ALTERATIVE"
+msgstr "- Bruger alternativt e-maildomæne: {0}\r\n{1}"
+
+msgid "TEXT_REVIEW_IPV4_REDUNDANCE"
+msgstr "- MX DNS IPv4-post er redundant"
+
+msgid "TEXT_REVIEW_IPV4_SUPPORT"
+msgstr "- MX DNS IPv4-post fundet"
+
+msgid "TEXT_REVIEW_IPV4_NO_REDUNDANCE"
+msgstr "- MX DNS IPv4-post mangler redundans"
+
+msgid "TEXT_REVIEW_IPV4_NO_SUPPORT"
+msgstr "- MX DNS IPv4-post fundet inte"
+
+msgid "TEXT_REVIEW_IPV6_REDUNDANCE"
+msgstr "- MX DNS IPv6-post har redundans"
+
+msgid "TEXT_REVIEW_IPV6_SUPPORT"
+msgstr "- MX DNS IPv6-post fundet"
+
+msgid "TEXT_REVIEW_IPV6_NO_REDUNDANCE"
+msgstr "- MX DNS IPv6-post mangler redundans"
+
+msgid "TEXT_REVIEW_IPV6_NO_SUPPORT"
+msgstr "- MX DNS IPv6-post fundet inte"
+
+msgid "TEXT_REVIEW_MX_GDPR"
+msgstr "- MX DNS-servere i GDPR-sikkert land: {0}"
+
+msgid "TEXT_REVIEW_MX_NONE_GDPR"
+msgstr "- MX DNS-servere i lande uden tilstrækkeligt niveau af databeskyttelse: {0}"
+
+msgid "TEXT_REVIEW_SPF_GDPR"
+msgstr "- SPF-servere i lande med tilstrækkeligt niveau af databeskyttelse: {0}"
+
+msgid "TEXT_REVIEW_SPF_NONE_GDPR"
+msgstr "- SPF-servere i lande uden tilstrækkeligt niveau af databeskyttelse: {0}"
+
+msgid "TEXT_REVIEW_DMARC_SUPPORT"
+msgstr "- DMARC DNS-post fundet"
+
+msgid "TEXT_REVIEW_DMARC_NO_SUPPORT"
+msgstr "- DMARC DNS-post fundet inte"
+
+msgid "TEXT_REVIEW_DMARC_EMPTY_SECTION_WHILE_PARSE"
+msgstr "- DMARC DNS-post er forkert formateret"
+
+msgid "TEXT_REVIEW_DMARC_PAIR_INVALID"
+msgstr "- DMARC DNS-post har en forkert sektion"
+
+msgid "TEXT_REVIEW_DMARC_POLICY_INVALID"
+msgstr "- DMARC DNS-post har en ugyldig Policy-værdi"
+
+msgid "TEXT_REVIEW_DMARC_SUBPOLICY_INVALID"
+msgstr "- DMARC DNS-post har en ugyldig underpolicy-værdi"
+
+msgid "TEXT_REVIEW_DMARC_PCT_INVALID"
+msgstr "- DMARC DNS-post har en ugyldig PCT-værdi"
+
+msgid "TEXT_REVIEW_DMARC_ADKIM_INVALID"
+msgstr "- DMARC DNS-post har en ugyldig ADKIM-værdi"
+
+msgid "TEXT_REVIEW_DMARC_ASPF_INVALID"
+msgstr "- DMARC DNS-post har en ugyldig ASPF-værdi"
+
+msgid "TEXT_REVIEW_DMARC_RI_INVALID"
+msgstr "- DMARC DNS-post har en ugyldig RI-værdi"
+
+msgid "TEXT_REVIEW_DMARC_FO_INVALID"
+msgstr "- DMARC DNS-post har en ugyldig FO-værdi"
+
+msgid "TEXT_REVIEW_DMARC_RF_INVALID"
+msgstr "- DMARC DNS-post har en ugyldig RF-værdi"
+
+msgid "TEXT_REVIEW_DMARC_USES_FO_BUT_NO_RUF"
+msgstr "- DMARC DNS-post bruger FO men mangler RUF"
+
+msgid "TEXT_REVIEW_DMARC_NO_PARSE_ERRORS"
+msgstr "- DMARC DNS-post ser ud til at være korrekt formateret"
+
+msgid "TEXT_REVIEW_DMARC_PCT_USES_DEFAULT"
+msgstr "- DMARC DNS-post brugte standardværdien for PCT, det er overflødigt"
+
+msgid "TEXT_REVIEW_DMARC_ADKIM_USES_DEFAULT"
+msgstr "- DMARC DNS-post brugte standardværdien for ADKIM, det er overflødigt"
+
+msgid "TEXT_REVIEW_DMARC_ASPF_USES_DEFAULT"
+msgstr "- DMARC DNS-post brugte standardværdien for ASPF, det er overflødigt"
+
+msgid "TEXT_REVIEW_DMARC_RI_USES_DEFAULT"
+msgstr "- DMARC DNS-post brugte standardværdien for RI, det er overflødigt"
+
+msgid "TEXT_REVIEW_DMARC_FO_USES_DEFAULT"
+msgstr "- DMARC DNS-post brugte standardværdien for FO, det er overflødigt"
+
+msgid "TEXT_REVIEW_DMARC_RF_USES_DEFAULT"
+msgstr "- DMARC DNS-post brugte standardværdien for RF, det er overflødigt"
+
+msgid "TEXT_REVIEW_DMARC_POLICY_REJECT"
+msgstr "- DMARC DNS-post bruger 'rejected' for policy"
+
+msgid "TEXT_REVIEW_DMARC_POLICY_QUARANTINE"
+msgstr "- DMARC DNS-post bruger 'quarantine' for policy"
+
+msgid "TEXT_REVIEW_DMARC_POLICY_NONE"
+msgstr "- DMARC DNS-post bruger 'none' for policy"
+
+msgid "TEXT_REVIEW_DMARC_NO_POLICY"
+msgstr "- DMARC DNS-post mangler policy"
+
+msgid "TEXT_REVIEW_DMARC_SUBPOLICY_REDUNDANT"
+msgstr "- DMARC DNS-postens underpolicy svarer til policy, underpolicy er overflødig"
+
+msgid "TEXT_REVIEW_DMARC_SUBPOLICY_QUARANTINE"
+msgstr "- DMARC DNS-post bruger 'quarantine' for underpolicy"
+
+msgid "TEXT_REVIEW_DMARC_SUBPOLICY_REJECT"
+msgstr "- DMARC DNS-post bruger 'rejected' for underpolicy"
+
+msgid "TEXT_REVIEW_DMARC_SUBPOLICY_NONE"
+msgstr "- DMARC DNS-post bruger 'none' for underpolicy"
+
+msgid "TEXT_REVIEW_DMARC_PCT_NOT_100"
+msgstr "- DMARC DNS-post bruger PCT mindre end 100"
+
+msgid "TEXT_REVIEW_DMARC_PCT"
+msgstr "- DMARC DNS-post bruger PCT"
+
+msgid "TEXT_REVIEW_DMARC_NO_WARNINGS"
+msgstr "- DMARC DNS-post har ingen advarsler"

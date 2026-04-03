@@ -512,8 +512,10 @@ def sum_overall_software_used(local_translation, result):
 
     for category in categories:
         if category in result:
-            texts.append(local_translation(f'TEXT_USED_{category.upper()}')\
-                .format(', '.join(sorted(result[category].keys()))))
+            names = [k for k in result[category].keys() if k is not None]
+            if len(names) > 0:
+                texts.append(local_translation(f'TEXT_USED_{category.upper()}')\
+                    .format(', '.join(sorted(names))))
 
     return texts
 
@@ -1439,6 +1441,8 @@ def lookup_request_url(item, rules, origin_domain):
 
             if 'name' in groups:
                 match_name = groups['name']
+            elif 'n' in groups:
+                match_name = groups['n']
             if 'version' in groups:
                 match_version = groups['version']
 

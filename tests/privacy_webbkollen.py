@@ -13,6 +13,27 @@ from helpers.setting_helper import get_config
 # DEFAULTS
 REGEX_ALLOWED_CHARS = r"[^\u00E5\u00E4\u00F6\u00C5\u00C4\u00D6a-zA-Zå-öÅ-Ö 0-9\-:\/]+"
 
+# Webbkoll (5july.net) only supports a subset of the languages
+# that webperf_core supports. Unsupported languages fall back to English
+# for the API request while the local review output still uses the
+# user's chosen language.
+WEBBKOLL_SUPPORTED_LANGUAGES = ('en', 'sv', 'de', 'no')
+
+def get_webbkoll_language(lang_code):
+    """
+    Returns a language code supported by Webbkoll.
+    Falls back to English for unsupported languages (e.g. 'da', 'fi', 'is').
+
+    Args:
+        lang_code (str): The language code to check.
+
+    Returns:
+        str: A language code that Webbkoll supports.
+    """
+    if lang_code in WEBBKOLL_SUPPORTED_LANGUAGES:
+        return lang_code
+    return 'en'
+
 def run_test(global_translation, url):
     """
     This function runs a webbkollen (privacy) test on a given URL and
@@ -43,8 +64,10 @@ def run_test(global_translation, url):
     print(global_translation('TEXT_TEST_START').format(
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
-    # Get result from webbkollen website
-    html_content = get_html_content(url, get_config('general.language'), local_translation)
+    # Map the user's language to one Webbkoll actually supports.
+    # The local_translation still uses the user's chosen language for review output.
+    webbkoll_lang = get_webbkoll_language(get_config('general.language'))
+    html_content = get_html_content(url, webbkoll_lang, local_translation)
     soup2 = BeautifulSoup(html_content, 'html.parser')
 
     results = soup2.find_all(class_="result")

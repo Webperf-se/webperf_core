@@ -27,7 +27,7 @@
     "plugin-webperf-core": "2025.12.1"
   },
   "devDependencies": {
-    "eslint": "10.1.0",
+    "eslint": "10.2.0",
     "serve": "14.2.6",
     "serve-handler": "6.1.7"
   },

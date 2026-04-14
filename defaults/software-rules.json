@@ -374,17 +374,18 @@
                     "precision": 0.6
                 }
             ]
-        }, {
-    "use": true,
-    "description": "https://wordpress.org/themes/<n>/",
-    "match": "(?P<debug>/(wp-content|app)/themes/(?P<n>[^/]+)/)",
-    "results": [
+        },
         {
-            "category": "wordpress-theme",
-            "precision": 0.6
+            "use": true,
+            "description": "https://wordpress.org/themes/<n>/",
+            "match": "(?P<debug>/(wp-content|app)/themes/(?P<n>[^/]+)/)",
+            "results": [
+                {
+                    "category": "wordpress-theme",
+                    "precision": 0.6
+                }
+            ]
         }
-    ]
-}
     ],
     "headers": [
         {

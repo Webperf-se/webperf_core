@@ -47,7 +47,7 @@ jobs:
           provenance: false
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/webperf-core:v${{ env.NEW_VERSION }},${{ secrets.DOCKERHUB_USERNAME }}/webperf-core:latest
       - name: Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: "${{ env.NEW_VERSION }}"
           make_latest: "true"

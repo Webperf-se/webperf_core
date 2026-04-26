@@ -1,5 +1,5 @@
 beautifulsoup4==4.14.3
-lxml==6.0.2
+lxml==6.1.0
 requests==2.33.1
 urllib3==2.6.3
 dnspython==2.8.0

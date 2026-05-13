@@ -354,8 +354,8 @@ def append_with_src(req_domain, raw, obj):
     group_src = re.search(regex_src, raw, re.IGNORECASE)
     if group_src is not None:
         src = group_src.group('src')
-        obj['src'] = src
-        obj['src-same-origin'] = is_same_domain(src, req_domain)
+    obj['src'] = src
+    obj['src-same-origin'] = is_same_domain(src, req_domain) if src is not None else False
 
 def get_sri_candidates(req_domain, content):
     """

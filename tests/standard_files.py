@@ -117,8 +117,8 @@ def run_test(global_translation, url):
         addIssue(
             result_dict,
             'no-network',
-            global_translation('TEXT_SITE_UNAVAILABLE'),
-            result_dict['url'])
+            result_dict['url'],
+            global_translation('TEXT_SITE_UNAVAILABLE'))
 
         result_dict['groups'][domain]['issues'] = flatten_issues_dict(result_dict['groups'][domain]['issues'])
 
@@ -145,30 +145,27 @@ def addResolvedIssues(url, domain, result_dict):
             result_dict['groups'][domain]['issues'][rule_id]['severity'] = 'resolved'
             result_dict['groups'][domain]['issues'][rule_id]['category'] = rule['category']
 
-def addIssue(result_dict, rule_id, url):
+def addIssue(result_dict, rule_id, url, text=None):
     domain = get_domain(result_dict['url'])
+    sub_issue = {
+        'url': url,
+        'rule': rule_id,
+        'category': ALL_RULES[rule_id]['category'],
+        'severity': ALL_RULES[rule_id]['severity']
+    }
+    if text is not None:
+        sub_issue['text'] = text
+
     if rule_id not in result_dict['groups'][domain]['issues']:
         result_dict['groups'][domain]['issues'][rule_id] = {
             'test': 'standard-files',
             'rule': rule_id,
             'category': ALL_RULES[rule_id]['category'],
             'severity': ALL_RULES[rule_id]['severity'],
-            'subIssues': [
-                {
-                    'url': url,
-                    'rule': rule_id,
-                    'category': ALL_RULES[rule_id]['category'],
-                    'severity': ALL_RULES[rule_id]['severity']
-                }
-            ]
+            'subIssues': [sub_issue]
         }
     else:
-        result_dict['groups'][domain]['issues'][rule_id]['subIssues'].append({
-            'url': url,
-            'rule': rule_id,
-            'category': ALL_RULES[rule_id]['category'],
-            'severity': ALL_RULES[rule_id]['severity']
-        })
+        result_dict['groups'][domain]['issues'][rule_id]['subIssues'].append(sub_issue)
 
 
 def addResolvedIssue(result_dict, rule_id, url):

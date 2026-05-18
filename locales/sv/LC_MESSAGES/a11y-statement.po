@@ -108,10 +108,10 @@ msgid "compatible-word-not (resolved)"
 msgstr "Anger själv att webbplats ej är kompatibel (löst)"
 
 msgid "no-compatible-word (unresolved)"
-msgstr "Ingen text om följdsamhet hittades ({0})"
+msgstr "Ingen text om följsamhet hittades ({0})"
 
 msgid "no-compatible-word (resolved)"
-msgstr "Ingen text om följdsamhet hittades (löst)"
+msgstr "Ingen text om följsamhet hittades (löst)"
 
 msgid "has-unreasonably-burdensome-accommodation (unresolved)"
 msgstr "Hävdar oskäligt betungande anpassning ({0})"

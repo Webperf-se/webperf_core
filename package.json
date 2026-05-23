@@ -19,12 +19,12 @@
     "@sitespeed.io/plugin-lighthouse": "13.0.1",
     "pa11y": "9.1.1",
     "sitespeed.io": "41.0.1",
-    "plugin-css": "2026.1.1",
+    "plugin-css": "2026.5.1",
     "plugin-html": "2026.1.1",
-    "plugin-javascript": "2026.1.0",
-    "plugin-pagenotfound": "2026.1.1",
-    "plugin-accessibility-statement": "2026.1.2",
-    "plugin-webperf-core": "2025.12.1"
+    "plugin-javascript": "2026.5.1",
+    "plugin-pagenotfound": "2026.5.1",
+    "plugin-accessibility-statement": "2026.5.1",
+    "plugin-webperf-core": "2026.5.1"
   },
   "devDependencies": {
     "eslint": "10.4.0",

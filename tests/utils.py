@@ -25,6 +25,7 @@ import dns.exception
 import dns.name
 
 from helpers.setting_helper import get_config
+from helpers.http_helper import http_get_with_fallback
 
 CONFIG_WARNINGS = {}
 IP2_LOCATION_DB = {
@@ -480,8 +481,11 @@ def get_http_content(url, allow_redirects=False, use_text_instead_of_content=Tru
         hostname = urlparse(url).hostname
         if hostname == 'api.github.com' and get_config('github.api.key') is not None:
             headers['authorization'] = f"Bearer {get_config('github.api.key')}"
-        response = requests.get(url, allow_redirects=allow_redirects,
-                         headers=headers, timeout=get_config('general.request.timeout')*2)
+        response = http_get_with_fallback(
+            url,
+            headers=headers,
+            timeout=get_config('general.request.timeout')*2,
+            allow_redirects=allow_redirects)
 
         if use_text_instead_of_content:
             content = response.text

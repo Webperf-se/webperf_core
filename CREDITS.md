@@ -55,11 +55,11 @@ License: MIT
 ### [beautifulsoup4](https://pypi.org/project/beautifulsoup4/)
 Usage: Used to parse HTML content
 
-### [lxml](https://pypi.org/project/lxml/)
-Usage: Used to parse XML content
-
 ### [requests](https://pypi.org/project/requests/)
 Usage: Used to request content not normally requested by users, like robots.txt
+
+### [lxml](https://pypi.org/project/lxml/)
+Usage: Used to parse XML content
 
 ### [urllib3](https://pypi.org/project/urllib3/)
 Usage: Used to parse url

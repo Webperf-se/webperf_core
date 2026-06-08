@@ -313,7 +313,7 @@ def get_total_bytes_for_url(url, result_dict):
 
     browsertime_Hars = read_sites_from_directory(result_folder_name, origin_domain, -1, -1)
     if len(browsertime_Hars) < 1:
-        return -1
+        return None
 
     transfer_bytes = get_total_bytes(browsertime_Hars[0][0], result_dict)
     return transfer_bytes

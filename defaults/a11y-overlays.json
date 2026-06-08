@@ -1,8 +1,21 @@
 {
     "overlays": [
         {
+            "name": "AccessiWay",
+            "description": "accessiBe's European reseller; own acswapp.com loader on top of the acsbapp.com engine",
+            "website": "https://www.accessiway.com",
+            "urls": [
+                {
+                    "url": "https://embeds.acswapp.com/"
+                },
+                {
+                    "url": "https://www.accessiway.com/"
+                }
+            ]
+        },
+        {
             "name": "AccessiBe",
-            "description": "Sometimes referred to as Accessiway?",
+            "description": "",
             "website": "https://accessibe.com",
             "urls": [
                 {
@@ -52,6 +65,58 @@
                 },
                 {
                     "url": "https://wsv3cdn.audioeye.com/"
+                }
+            ]
+        },
+        {
+            "name": "WCAGready/EaseAccess24",
+            "description": "Accessibility overlay served from easeaccess24.com",
+            "website": "https://www.wcagready.com",
+            "urls": [
+                {
+                    "url": "https://widget.easeaccess24.com/"
+                },
+                {
+                    "url": "https://app.easeaccess24.com/"
+                },
+                {
+                    "url": "https://ui.easeaccess24.com/"
+                },
+                {
+                    "url": "https://crawler.easeaccess24.com/"
+                }
+            ]
+        },
+        {
+            "name": "Elementor",
+            "description": "Elementor accessibility widget (cdn.elementor.com/a11y/), not the general page builder",
+            "website": "https://elementor.com/features/accessibility/",
+            "urls": [
+                {
+                    "url": "https://cdn.elementor.com/a11y/"
+                }
+            ]
+        },
+        {
+            "name": "Accessibly",
+            "description": "Accessibility overlay by On The Map",
+            "website": "https://accessibly.app",
+            "urls": [
+                {
+                    "url": "https://cdn.accessibly.app/"
+                }
+            ]
+        },
+        {
+            "name": "Eye-Able",
+            "description": "Accessibility overlay by Web Inclusion GmbH",
+            "website": "https://eye-able.com",
+            "urls": [
+                {
+                    "url": "https://eye-able.com/"
+                },
+                {
+                    "url": "https://eye-able-cdn.com/"
                 }
             ]
         }

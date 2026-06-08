@@ -2,7 +2,20 @@
     "urls": [
         {
             "use": true,
-            "description": "AccessiBe - Sometimes referred to as Accessiway?",
+            "description": "AccessiWay - accessiBe's European reseller; uses its own acswapp.com loader on top of the acsbapp.com engine",
+            "website": "https://www.accessiway.com",
+            "match": "(?P<debug>acswapp\\.com|accessiway\\.com)",
+            "results": [
+                {
+                    "category": "a11y_overlay",
+                    "name": "AccessiWay",
+                    "precision": 0.6
+                }
+            ]
+        },
+        {
+            "use": true,
+            "description": "AccessiBe",
             "website": "https://accessibe.com",
             "match": "(?P<debug>acsbapp\\.com)",
             "results": [
@@ -35,6 +48,58 @@
                 {
                     "category": "a11y_overlay",
                     "name": "UserWay",
+                    "precision": 0.6
+                }
+            ]
+        },
+        {
+            "use": true,
+            "description": "WCAGready / EaseAccess24",
+            "website": "https://www.wcagready.com",
+            "match": "(?P<debug>easeaccess24\\.com|wcagready\\.com)",
+            "results": [
+                {
+                    "category": "a11y_overlay",
+                    "name": "WCAGready/EaseAccess24",
+                    "precision": 0.6
+                }
+            ]
+        },
+        {
+            "use": true,
+            "description": "Elementor accessibility widget (the /a11y/ path; not the general page builder)",
+            "website": "https://elementor.com/features/accessibility/",
+            "match": "(?P<debug>elementor\\.com\\/a11y\\/)",
+            "results": [
+                {
+                    "category": "a11y_overlay",
+                    "name": "Elementor",
+                    "precision": 0.6
+                }
+            ]
+        },
+        {
+            "use": true,
+            "description": "Accessibly (by On The Map)",
+            "website": "https://accessibly.app",
+            "match": "(?P<debug>accessibly\\.app)",
+            "results": [
+                {
+                    "category": "a11y_overlay",
+                    "name": "Accessibly",
+                    "precision": 0.6
+                }
+            ]
+        },
+        {
+            "use": true,
+            "description": "Eye-Able (matches CDN-hosted and self-hosted loader/widget)",
+            "website": "https://eye-able.com",
+            "match": "(?P<debug>eye-able|eyeable\\/ea_dynamicloading_|eyeable\\.js)",
+            "results": [
+                {
+                    "category": "a11y_overlay",
+                    "name": "Eye-Able",
                     "precision": 0.6
                 }
             ]

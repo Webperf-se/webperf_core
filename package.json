@@ -18,13 +18,13 @@
     "@sitespeed.io/plugin": "1.0.2",
     "@sitespeed.io/plugin-lighthouse": "13.0.1",
     "pa11y": "9.1.1",
-    "sitespeed.io": "41.3.0",
+    "sitespeed.io": "41.3.3",
     "plugin-css": "2026.6.1",
     "plugin-html": "2026.6.0",
     "plugin-javascript": "2026.6.0",
     "plugin-pagenotfound": "2026.6.0",
     "plugin-accessibility-statement": "2026.6.0",
-    "plugin-webperf-core": "2026.6.0"
+    "plugin-webperf-core": "2026.6.1"
   },
   "devDependencies": {
     "eslint": "10.4.1",

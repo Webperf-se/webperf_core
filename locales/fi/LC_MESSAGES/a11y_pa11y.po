@@ -39,10 +39,10 @@ msgid "TEXT_REVIEW_A11Y_TOO_MANY_PROBLEMS"
 msgstr "- Info: Liian monta ainutlaatuista ongelmaa listattavaksi.\n"
 
 msgid "TEXT_REVIEW_A11Y_PROBLEMS"
-msgstr "\n##### Problem:\n"
+msgstr "\n##### Ongelmat:\n"
 
 msgid "TEXT_REVIEW_ERRORS_ITEM"
-msgstr "  - {0} (totalt {1} st)\n"
+msgstr "  - {0} (yhteensä {1} kpl)\n"
 
 msgid "TEXT_REVIEW_RATING_GROUPED"
 msgstr "- Ryhmiteltyjen virheiden määrä: {0}"

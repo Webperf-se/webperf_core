@@ -31,571 +31,571 @@ msgstr "Texti sem birtist í stað msgid, hér óháð alvarleikastigi"
 
 
 msgid "largest-contentful-paint-element (unresolved)"
-msgstr "Stærsti efnisríki einingin ({0})"
+msgstr "Stærsti hluti efnisins er lengi að birtast ({0})"
 
 msgid "largest-contentful-paint-element (resolved)"
-msgstr "Stærsti efnisríki einingin (leyst)"
+msgstr "Stærsti hluti efnisins birtist hratt (leyst)"
 
 msgid "unused-css-rules (unresolved)"
-msgstr "Draga úr ónotuðu CSS ({0})"
+msgstr "Fjarlægðu útlitskóða (CSS) sem er ekki notaður svo síðan hlaðist hraðar ({0})"
 
 msgid "unused-css-rules (resolved)"
-msgstr "Draga úr ónotuðu CSS (leyst)"
+msgstr "Síðan hleður engum ónotuðum útlitskóða (CSS) (leyst)"
 
 msgid "unused-javascript (unresolved)"
-msgstr "Draga úr ónotuðu JavaScript ({0})"
+msgstr "Fjarlægðu forritskóða (JavaScript) sem er ekki notaður svo síðan hlaðist hraðar ({0})"
 
 msgid "unused-javascript (resolved)"
-msgstr "Draga úr ónotuðu JavaScript (leyst)"
+msgstr "Síðan hleður engum ónotuðum forritskóða (JavaScript) (leyst)"
 
 msgid "legacy-javascript (unresolved)"
-msgstr "Forðast að afhenda eldra JavaScript til nútíma vafra ({0})"
+msgstr "Síðan sendir að óþörfu gamaldags forritskóða til nútímavafra ({0})"
 
 msgid "legacy-javascript (resolved)"
-msgstr "Forðast að afhenda eldra JavaScript til nútíma vafra (leyst)"
+msgstr "Síðan sendir ekki gamaldags forritskóða til nútímavafra (leyst)"
 
 msgid "cumulative-layout-shift (unresolved)"
-msgstr "Uppsöfnuð skipulagsbreyting ({0})"
+msgstr "Efnið hoppar til á meðan síðan hleðst ({0})"
 
 msgid "cumulative-layout-shift (resolved)"
-msgstr "Uppsöfnuð skipulagsbreyting (leyst)"
+msgstr "Efnið helst kyrrt á meðan síðan hleðst (leyst)"
 
 msgid "duplicated-javascript (unresolved)"
-msgstr "Fjarlægja tvíteknar einingar í JavaScript-búntum ({0})"
+msgstr "Sami forritskóðinn (JavaScript) er hlaðinn oftar en einu sinni ({0})"
 
 msgid "duplicated-javascript (resolved)"
-msgstr "Fjarlægja tvíteknar einingar í JavaScript-búntum (leyst)"
+msgstr "Enginn forritskóði (JavaScript) er hlaðinn tvisvar (leyst)"
 
 msgid "layout-shifts (unresolved)"
-msgstr "Forðast stórar skipulagsbreytingar ({0})"
+msgstr "Efnið færist skyndilega og getur fengið gesti til að smella vitlaust ({0})"
 
 msgid "layout-shifts (resolved)"
-msgstr "Forðast stórar skipulagsbreytingar (leyst)"
+msgstr "Efnið færist ekki skyndilega (leyst)"
 
 msgid "largest-contentful-paint (unresolved)"
-msgstr "Stærsta efnisríka málning ({0})"
+msgstr "Það tekur langan tíma þar til meginefni síðunnar birtist ({0})"
 
 msgid "largest-contentful-paint (resolved)"
-msgstr "Stærsta efnisríka málning (leyst)"
+msgstr "Meginefni síðunnar birtist hratt (leyst)"
 
 msgid "uses-long-cache-ttl (unresolved)"
-msgstr "Þjóna kyrrstæðum auðlindum með skilvirkri biðminnis-stefnu ({0})"
+msgstr "Leyfðu vafra endurkomandi gesta að geyma skrár svo síðan hlaðist hraðar næst ({0})"
 
 msgid "uses-long-cache-ttl (resolved)"
-msgstr "Þjóna kyrrstæðum auðlindum með skilvirkri biðminnis-stefnu (leyst)"
+msgstr "Vafri endurkomandi gesta geymir skrár svo síðan hlaðist hraðar (leyst)"
 
 msgid "first-contentful-paint (unresolved)"
-msgstr "Fyrsta efnisríka málning ({0})"
+msgstr "Það tekur langan tíma þar til nokkuð birtist á síðunni ({0})"
 
 msgid "first-contentful-paint (resolved)"
-msgstr "Fyrsta efnisríka málning (leyst)"
+msgstr "Eitthvað birtist hratt á síðunni (leyst)"
 
 msgid "render-blocking-resources (unresolved)"
-msgstr "Útrýma myndun-blokkerandi auðlindum ({0})"
+msgstr "Sumar skrár hægja á svo síðan birtist seinna ({0})"
 
 msgid "render-blocking-resources (resolved)"
-msgstr "Útrýma myndun-blokkerandi auðlindum (leyst)"
+msgstr "Engar skrár hægja á þegar síðan birtist (leyst)"
 
 msgid "total-blocking-time (unresolved)"
-msgstr "Heildar lokunar tími ({0})"
+msgstr "Síðan er upptekin lengi og bregst hægt við smellum ({0})"
 
 msgid "total-blocking-time (resolved)"
-msgstr "Heildar lokunar tími (leyst)"
+msgstr "Síðan bregst hratt við smellum (leyst)"
 
 msgid "speed-index (unresolved)"
-msgstr "Hraðavísitala ({0})"
+msgstr "Það tekur langan tíma þar til síðan lítur út fyrir að vera fullhlaðin ({0})"
 
 msgid "speed-index (resolved)"
-msgstr "Hraðavísitala (leyst)"
+msgstr "Síðan lítur hratt út fyrir að vera fullhlaðin (leyst)"
 
 msgid "interactive (unresolved)"
-msgstr "Tími til gagnvirkni ({0})"
+msgstr "Það tekur langan tíma þar til hægt er að nota síðuna ({0})"
 
 msgid "interactive (resolved)"
-msgstr "Tími til gagnvirkni (leyst)"
+msgstr "Hægt er að nota síðuna hratt (leyst)"
 
 msgid "max-potential-fid (unresolved)"
-msgstr "Hámarks mögulegt fyrstu innsláttar seinkun ({0})"
+msgstr "Síðan getur brugðist hægt við fyrsta smelli gestsins ({0})"
 
 msgid "max-potential-fid (resolved)"
-msgstr "Hámarks mögulegt fyrstu innsláttar seinkun (leyst)"
+msgstr "Síðan bregst hratt við fyrsta smelli gestsins (leyst)"
 
 msgid "uses-responsive-images (unresolved)"
-msgstr "Stilla myndastærðir rétt ({0})"
+msgstr "Myndirnar eru stærri en þarf fyrir skjáinn ({0})"
 
 msgid "uses-responsive-images (resolved)"
-msgstr "Stilla myndastærðir rétt (leyst)"
+msgstr "Myndirnar eru í hæfilegri stærð fyrir skjáinn (leyst)"
 
 msgid "offscreen-images (unresolved)"
-msgstr "Fresta myndum utan skjás ({0})"
+msgstr "Hladdu myndum sem sjást ekki strax fyrst þegar þeirra er þörf ({0})"
 
 msgid "offscreen-images (resolved)"
-msgstr "Fresta myndum utan skjás (leyst)"
+msgstr "Myndir sem sjást ekki strax hlaðast fyrst þegar þeirra er þörf (leyst)"
 
 msgid "unminified-css (unresolved)"
-msgstr "Þjappa CSS ({0})"
+msgstr "Útlitskóðann (CSS) má þjappa svo síðan hlaðist hraðar ({0})"
 
 msgid "unminified-css (resolved)"
-msgstr "Þjappa CSS (leyst)"
+msgstr "Útlitskóðinn (CSS) er þjappaður (leyst)"
 
 msgid "unminified-javascript (unresolved)"
-msgstr "Þjappa JavaScript ({0})"
+msgstr "Forritskóðann (JavaScript) má þjappa svo síðan hlaðist hraðar ({0})"
 
 msgid "unminified-javascript (resolved)"
-msgstr "Þjappa JavaScript (leyst)"
+msgstr "Forritskóðinn (JavaScript) er þjappaður (leyst)"
 
 msgid "uses-optimized-images (unresolved)"
-msgstr "Skilvirk kóðun mynda ({0})"
+msgstr "Myndirnar má þjappa svo þær hlaðist hraðar ({0})"
 
 msgid "uses-optimized-images (resolved)"
-msgstr "Skilvirk kóðun mynda (leyst)"
+msgstr "Myndirnar eru þjappaðar (leyst)"
 
 msgid "modern-image-formats (unresolved)"
-msgstr "Þjóna myndum á næstu kynslóðar sniði ({0})"
+msgstr "Vistaðu myndir á nútímalegu sniði svo þær hlaðist hraðar ({0})"
 
 msgid "modern-image-formats (resolved)"
-msgstr "Þjóna myndum á næstu kynslóðar sniði (leyst)"
+msgstr "Myndirnar eru vistaðar á nútímalegu sniði (leyst)"
 
 msgid "uses-text-compression (unresolved)"
-msgstr "Virkja textaþjöppun ({0})"
+msgstr "Kveiktu á textaþjöppun svo síðan hlaðist hraðar ({0})"
 
 msgid "uses-text-compression (resolved)"
-msgstr "Virkja textaþjöppun (leyst)"
+msgstr "Textinn er þjappaður svo síðan hlaðist hraðar (leyst)"
 
 msgid "uses-rel-preconnect (unresolved)"
-msgstr "Fortengja við nauðsynlegan uppruna ({0})"
+msgstr "Undirbúðu tenginguna við aðrar vefsíður svo þær hlaðist hraðar ({0})"
 
 msgid "uses-rel-preconnect (resolved)"
-msgstr "Fortengja við nauðsynlegan uppruna (leyst)"
+msgstr "Tengingin við aðrar vefsíður er undirbúin (leyst)"
 
 msgid "server-response-time (unresolved)"
-msgstr "Upphaflegur svartími miðlara var stuttur ({0})"
+msgstr "Vefþjónninn er seinn að svara ({0})"
 
 msgid "server-response-time (resolved)"
-msgstr "Upphaflegur svartími miðlara var stuttur (leyst)"
+msgstr "Vefþjónninn svarar hratt (leyst)"
 
 msgid "redirects (unresolved)"
-msgstr "Forðast margar endurbeingar síðu ({0})"
+msgstr "Gestinum er vísað áfram oft áður en rétta síðan birtist ({0})"
 
 msgid "redirects (resolved)"
-msgstr "Forðast margar endurbeingar síðu (leyst)"
+msgstr "Gestinum er ekki vísað áfram að óþörfu (leyst)"
 
 msgid "efficient-animated-content (unresolved)"
-msgstr "Nota vídeósnið fyrir hreyfimynda innihald ({0})"
+msgstr "Notaðu myndband í stað þungra hreyfimynda (GIF) ({0})"
 
 msgid "efficient-animated-content (resolved)"
-msgstr "Nota vídeósnið fyrir hreyfimynda innihald (leyst)"
+msgstr "Hreyfingar nota myndband í stað þungra myndskráa (leyst)"
 
 msgid "total-byte-weight (unresolved)"
-msgstr "Forðast gríðarstórar netálagsupplýsingar ({0})"
+msgstr "Síðan hleður mjög miklum gögnum ({0})"
 
 msgid "total-byte-weight (resolved)"
-msgstr "Forðast gríðarstórar netálagsupplýsingar (leyst)"
+msgstr "Síðan hleður hæfilegu magni gagna (leyst)"
 
 msgid "dom-size (unresolved)"
-msgstr "Forðast of mikla DOM-stærð ({0})"
+msgstr "Síðan er of flókin og verður þung að birta ({0})"
 
 msgid "dom-size (resolved)"
-msgstr "Forðast of mikla DOM-stærð (leyst)"
+msgstr "Síðan er hæfilega flókin að birta (leyst)"
 
 msgid "bootup-time (unresolved)"
-msgstr "JavaScript-keyrslutími ({0})"
+msgstr "Forritskóðinn (JavaScript) er lengi að keyra ({0})"
 
 msgid "bootup-time (resolved)"
-msgstr "JavaScript-keyrslutími (leyst)"
+msgstr "Forritskóðinn (JavaScript) keyrir hratt (leyst)"
 
 msgid "mainthread-work-breakdown (unresolved)"
-msgstr "Lágmarka vinnu á aðalþræði ({0})"
+msgstr "Vafrinn þarf að vinna of mikið við að byggja upp síðuna ({0})"
 
 msgid "mainthread-work-breakdown (resolved)"
-msgstr "Lágmarka vinnu á aðalþræði (leyst)"
+msgstr "Vafrinn þarf ekki að vinna of mikið við síðuna (leyst)"
 
 msgid "font-display (unresolved)"
-msgstr "Allur texti skal haldast sýnilegur við webfont-hleðslu ({0})"
+msgstr "Textinn er ósýnilegur á meðan sérletur hleðst ({0})"
 
 msgid "font-display (resolved)"
-msgstr "Allur texti helst sýnilegur við webfont-hleðslu (leyst)"
+msgstr "Textinn helst sýnilegur á meðan sérletur hleðst (leyst)"
 
 msgid "uses-passive-event-listeners (unresolved)"
-msgstr "Nota óvirka hlustara til að bæta skrunafköst ({0})"
+msgstr "Hægt er að gera síðuna mýkri að skruna ({0})"
 
 msgid "uses-passive-event-listeners (resolved)"
-msgstr "Notar óvirka hlustara til að bæta skrunafköst (leyst)"
+msgstr "Síðan er mjúk að skruna (leyst)"
 
 msgid "no-document-write (unresolved)"
-msgstr "Javascript, forðast `document.write()` ({0})"
+msgstr "Gömul tækni (document.write) hægir á hleðslunni ({0})"
 
 msgid "no-document-write (resolved)"
-msgstr "Javascript, forðast `document.write() (leyst)"
+msgstr "Síðan notar ekki gömlu document.write-tæknina sem hægir á hleðslunni (leyst)"
 
 msgid "long-tasks (unresolved)"
-msgstr "Forðast löng aðalþráðarverkefni ({0})"
+msgstr "Sum verkefni læsa síðunni um stund ({0})"
 
 msgid "long-tasks (resolved)"
-msgstr "Forðast löng aðalþráðarverkefni (leyst)"
+msgstr "Engin verkefni læsa síðunni lengi (leyst)"
 
 msgid "unsized-images (unresolved)"
-msgstr "Myndaeiningar skulu hafa sérstakt `width` och `height` ({0})"
+msgstr "Myndir hafa ekki tilgreinda stærð, sem fær síðuna til að hoppa ({0})"
 
 msgid "unsized-images (resolved)"
-msgstr "Myndaeiningar hafa sérstakt `width` och `height` (leyst)"
+msgstr "Myndir hafa tilgreinda stærð svo síðan hoppi ekki (leyst)"
 
 msgid "viewport (unresolved)"
-msgstr "Ska ha en <meta name=\"viewport\">-tagg med width eller initial-scale ({0})"
+msgstr "Síðuna vantar stillingu til að birtast rétt í síma ({0})"
 
 msgid "viewport (resolved)"
-msgstr "Har en <meta name=\"viewport\">-tagg med width eller initial-scale (leyst)"
+msgstr "Síðan hefur stillingu til að birtast rétt í síma (leyst)"
 
 msgid "network-requests (unresolved)"
-msgstr "Nätverksbeiðnir ({0})"
+msgstr "Allt sem síðan sækir af netinu ({0})"
 
 msgid "network-requests (resolved)"
-msgstr "Nätverksbeiðnir (leyst)"
+msgstr "Allt sem síðan sækir af netinu (leyst)"
 
 msgid "network-rtt (unresolved)"
-msgstr "Ferðatímar netsins ({0})"
+msgstr "Hve langan tíma gögn eru fram og til baka á netinu ({0})"
 
 msgid "network-rtt (resolved)"
-msgstr "Ferðatímar netsins (leyst)"
+msgstr "Hve langan tíma gögn eru fram og til baka á netinu (leyst)"
 
 msgid "network-server-latency (unresolved)"
-msgstr "Bakenda-seinkanir miðlara ({0})"
+msgstr "Töf í vefþjóninum áður en hann svarar ({0})"
 
 msgid "network-server-latency (resolved)"
-msgstr "Bakenda-seinkanir miðlara (leyst)"
+msgstr "Töf í vefþjóninum áður en hann svarar (leyst)"
 
 msgid "main-thread-tasks (unresolved)"
-msgstr "Aðalþráðarverkefni ({0})"
+msgstr "Verkefni sem vafrinn vinnur fyrir síðuna ({0})"
 
 msgid "main-thread-tasks (resolved)"
-msgstr "Aðalþráðarverkefni (leyst)"
+msgstr "Verkefni sem vafrinn vinnur fyrir síðuna (leyst)"
 
 msgid "diagnostics (unresolved)"
-msgstr "Greining ({0})"
+msgstr "Tæknilegar upplýsingar um síðuna ({0})"
 
 msgid "diagnostics (resolved)"
-msgstr "Greining (leyst)"
+msgstr "Tæknilegar upplýsingar um síðuna (leyst)"
 
 msgid "metrics (unresolved)"
-msgstr "Mæligildi ({0})"
+msgstr "Mælingar á afköstum síðunnar ({0})"
 
 msgid "metrics (resolved)"
-msgstr "Mæligildi (leyst)"
+msgstr "Mælingar á afköstum síðunnar (leyst)"
 
 msgid "screenshot-thumbnails (unresolved)"
-msgstr "Smámyndir af skjáskotum ({0})"
+msgstr "Smámyndir af því hvernig síðan hleðst ({0})"
 
 msgid "screenshot-thumbnails (resolved)"
-msgstr "Smámyndir af skjáskotum (leyst)"
+msgstr "Smámyndir af því hvernig síðan hleðst (leyst)"
 
 msgid "final-screenshot (unresolved)"
-msgstr "lokaskjáskot ({0})"
+msgstr "Mynd af síðunni þegar hún var fullhlaðin ({0})"
 
 msgid "final-screenshot (resolved)"
-msgstr "lokaskjáskot (leyst)"
+msgstr "Mynd af síðunni þegar hún var fullhlaðin (leyst)"
 
 msgid "script-treemap-data (unresolved)"
-msgstr "script-treemap-data ({0})"
+msgstr "Yfirlit yfir forritskóða síðunnar ({0})"
 
 msgid "script-treemap-data (resolved)"
-msgstr "script-treemap-data (leyst)"
+msgstr "Yfirlit yfir forritskóða síðunnar (leyst)"
 
 msgid "resource-summary (unresolved)"
-msgstr "auðlindayfirlit ({0})"
+msgstr "Samantekt á því sem síðan sækir ({0})"
 
 msgid "resource-summary (resolved)"
-msgstr "auðlindayfirlit (leyst)"
+msgstr "Samantekt á því sem síðan sækir (leyst)"
 
 msgid "aria-allowed-attr (unresolved)"
-msgstr "`[aria-*]`-attribut ska matcha sina roller ({0})"
+msgstr "Einhver aðgengismerking (ARIA) passar ekki við einingarnar sem hún er á ({0})"
 
 msgid "aria-allowed-attr (resolved)"
-msgstr "`[aria-*]`-attribut matchar sina roller (leyst)"
+msgstr "Aðgengismerking (ARIA) passar við einingarnar sem hún er á (leyst)"
 
 msgid "aria-allowed-role (unresolved)"
-msgstr "Ska använda ARIA-roller endast på kompatibla element ({0})"
+msgstr "Aðgengishlutverk (ARIA) eru notuð á einingar sem styðja þau ekki ({0})"
 
 msgid "aria-allowed-role (resolved)"
-msgstr "Använder ARIA-roller endast på kompatibla element (leyst)"
+msgstr "Aðgengishlutverk (ARIA) eru aðeins notuð á einingar sem styðja þau (leyst)"
 
 msgid "aria-conditional-attr (unresolved)"
-msgstr "ARIA-attribut ska användas enligt specifikation för elementets roll ({0})"
+msgstr "Einhver aðgengismerking (ARIA) er ekki notuð eftir reglunum ({0})"
 
 msgid "aria-conditional-attr (resolved)"
-msgstr "ARIA-attribut används enligt specifikation för elementets roll (leyst)"
+msgstr "Aðgengismerking (ARIA) er notuð eftir reglunum (leyst)"
 
 msgid "aria-deprecated-role (unresolved)"
-msgstr "Föråldrade ARIA-roller användes ({0})"
+msgstr "Úrelt aðgengishlutverk (ARIA) eru notuð ({0})"
 
 msgid "aria-deprecated-role (resolved)"
-msgstr "Föråldrade ARIA-roller användes inte (leyst)"
+msgstr "Engin úrelt aðgengishlutverk (ARIA) eru notuð (leyst)"
 
 msgid "aria-hidden-body (unresolved)"
-msgstr "`[aria-hidden=\"true\"]` finns på dokumentets `<body>` ({0})"
+msgstr "Öll síðan er falin fyrir skjálesurum ({0})"
 
 msgid "aria-hidden-body (resolved)"
-msgstr "`[aria-hidden=\"true\"]` finns inte på dokumentets `<body>` (leyst)"
+msgstr "Síðan er ekki falin fyrir skjálesurum (leyst)"
 
 msgid "aria-hidden-focus (unresolved)"
-msgstr "`[aria-hidden=\"true\"]`-element innehåller inte fokuserbara underordnade ({0})"
+msgstr "Faldar einingar nást samt með lyklaborðinu ({0})"
 
 msgid "aria-hidden-focus (resolved)"
-msgstr "`[aria-hidden=\"true\"]`-element innehåller inte fokuserbara underordnade (leyst)"
+msgstr "Faldar einingar nást ekki með lyklaborðinu (leyst)"
 
 msgid "aria-prohibited-attr (unresolved)"
-msgstr "Element ska endast använda tillåtna ARIA-attribut ({0})"
+msgstr "Sumar einingar hafa aðgengismerkingu (ARIA) sem er ekki leyfð þar ({0})"
 
 msgid "aria-prohibited-attr (resolved)"
-msgstr "Element notar endast tillåtna ARIA-attribut (leyst)"
+msgstr "Einingar hafa aðeins leyfða aðgengismerkingu (ARIA) (leyst)"
 
 msgid "aria-required-attr (unresolved)"
-msgstr "`[role]` ska ha alla nödvändiga `[aria-*]`-attribut ({0})"
+msgstr "Sumar einingar vantar nauðsynlega aðgengismerkingu (ARIA) ({0})"
 
 msgid "aria-required-attr (resolved)"
-msgstr "`[role]` har alla nödvändiga `[aria-*]`-attribut (leyst)"
+msgstr "Einingar hafa nauðsynlega aðgengismerkingu (ARIA) (leyst)"
 
 msgid "aria-roles (unresolved)"
-msgstr "`[role]`-värden är inte giltiga ({0})"
+msgstr "Sum aðgengishlutverk (ARIA) hafa ógild gildi ({0})"
 
 msgid "aria-roles (resolved)"
-msgstr "`[role]`-värden är giltiga (leyst)"
+msgstr "Aðgengishlutverk (ARIA) hafa gild gildi (leyst)"
 
 msgid "aria-valid-attr-value (unresolved)"
-msgstr "`[aria-*]`-attribut har ogiltiga värden ({0})"
+msgstr "Einhver aðgengismerking (ARIA) hefur ógild gildi ({0})"
 
 msgid "aria-valid-attr-value (resolved)"
-msgstr "`[aria-*]`-attribut har giltiga värden (leyst)"
+msgstr "Aðgengismerking (ARIA) hefur gild gildi (leyst)"
 
 msgid "aria-valid-attr (unresolved)"
-msgstr "`[aria-*]`-attribut är ogiltiga eller felstavade ({0})"
+msgstr "Einhver aðgengismerking (ARIA) er rangt stafsett eða ógild ({0})"
 
 msgid "aria-valid-attr (resolved)"
-msgstr "`[aria-*]`-attribut är giltiga och inte felstavade (leyst)"
+msgstr "Aðgengismerking (ARIA) er rétt stafsett og gild (leyst)"
 
 msgid "button-name (unresolved)"
-msgstr "Hnappar skulu hafa aðgengilegt heiti ({0})"
+msgstr "Hnappa vantar heiti sem skjálesari getur lesið upp ({0})"
 
 msgid "button-name (resolved)"
-msgstr "Hnappar hafa aðgengilegt heiti (leyst)"
+msgstr "Hnappar hafa heiti sem skjálesari getur lesið upp (leyst)"
 
 msgid "color-contrast (unresolved)"
-msgstr "Bakgrunns- og forgrunnslitur skulu hafa nægjanlegan andstæðu ({0})"
+msgstr "Textinn hefur of litla birtuskil við bakgrunninn og er torlesinn ({0})"
 
 msgid "color-contrast (resolved)"
-msgstr "Bakgrunns- og forgrunnslitur hafa nægjanlegan andstæðu (leyst)"
+msgstr "Textinn hefur nægjanleg birtuskil við bakgrunninn (leyst)"
 
 msgid "document-title (unresolved)"
-msgstr "Skjalið skal hafa `<title>`-element ({0})"
+msgstr "Síðan hefur engan titil ({0})"
 
 msgid "document-title (resolved)"
-msgstr "Skjalið hefur `<title>`-element (leyst)"
+msgstr "Síðan hefur titil (leyst)"
 
 msgid "heading-order (unresolved)"
-msgstr "Fyrirsagnaeiningar skulu birtast í röð lækkandi ({0})"
+msgstr "Fyrirsagnirnar koma ekki í réttri röð ({0})"
 
 msgid "heading-order (resolved)"
-msgstr "Fyrirsagnaeiningar birtast í röð lækkandi (leyst)"
+msgstr "Fyrirsagnirnar koma í réttri röð (leyst)"
 
 msgid "html-has-lang (unresolved)"
-msgstr "`<html>`-elementet ska ha ett `[lang]`-attribut ({0})"
+msgstr "Síðan tilgreinir ekki á hvaða tungumáli hún er skrifuð ({0})"
 
 msgid "html-has-lang (resolved)"
-msgstr "`<html>`-elementet har ett `[lang]`-attribut (leyst)"
+msgstr "Síðan tilgreinir á hvaða tungumáli hún er skrifuð (leyst)"
 
 msgid "html-lang-valid (unresolved)"
-msgstr "`<html>`-elementet ska ha ett giltigt värde för sitt `[lang]`-attribut ({0})"
+msgstr "Tungumálastilling síðunnar er ógild ({0})"
 
 msgid "html-lang-valid (resolved)"
-msgstr "`<html>`-elementet har ett giltigt värde för sitt `[lang]`-attribut (leyst)"
+msgstr "Tungumálastilling síðunnar er gild (leyst)"
 
 msgid "image-alt (unresolved)"
-msgstr "Bildelement ska ha `[alt]`-attribut ({0})"
+msgstr "Myndir vantar staðgengilstexta fyrir skjálesara ({0})"
 
 msgid "image-alt (resolved)"
-msgstr "Bildelement har `[alt]`-attribut (leyst)"
+msgstr "Myndir hafa staðgengilstexta fyrir skjálesara (leyst)"
 
 msgid "image-redundant-alt (unresolved)"
-msgstr "Bildelement ska inte ha `[alt]`-attribut som är redundant text ({0})"
+msgstr "Staðgengilstexti myndanna endurtekur texta sem er þegar við hliðina ({0})"
 
 msgid "image-redundant-alt (resolved)"
-msgstr "Bildelement har inte `[alt]`-attribut som är redundant text (leyst)"
+msgstr "Staðgengilstexti myndanna endurtekur ekki texta sem er þegar við hliðina (leyst)"
 
 msgid "link-in-text-block (unresolved)"
-msgstr "Tenglar eru ekki aðgreinanlegir án þess að reiða sig á lit ({0})"
+msgstr "Tenglar þekkjast aðeins á litnum og eru erfiðir að sjá ({0})"
 
 msgid "link-in-text-block (resolved)"
-msgstr "Tenglar eru aðgreinanlegir án þess að reiða sig á lit (leyst)"
+msgstr "Tenglar þekkjast einnig án litar (leyst)"
 
 msgid "link-name (unresolved)"
-msgstr "Tenglar skulu hafa auðgreint heiti ({0})"
+msgstr "Tengla vantar texta sem lýsir hvert þeir leiða ({0})"
 
 msgid "link-name (resolved)"
-msgstr "Tenglar hafa auðgreint heiti (leyst)"
+msgstr "Tenglar hafa texta sem lýsir hvert þeir leiða (leyst)"
 
 msgid "list (unresolved)"
-msgstr "Listor ska endast innehålla `<li>`-element och skriptstödelement (`<script>` och `<template>`) ({0})"
+msgstr "Listar innihalda annað en listaliði ({0})"
 
 msgid "list (resolved)"
-msgstr "Listor innehåller endast `<li>`-element och skriptstödelement (`<script>` och `<template>`) (leyst)"
+msgstr "Listar innihalda aðeins listaliði (leyst)"
 
 msgid "listitem (unresolved)"
-msgstr "Listobjekt (`<li>`) är inte placerade inom `<ul>`, `<ol>` eller `<menu>`-förälderelement ({0})"
+msgstr "Listaliðir eru utan við raunverulegan lista ({0})"
 
 msgid "listitem (resolved)"
-msgstr "Listobjekt (`<li>`) är placerade inom `<ul>`, `<ol>` eller `<menu>`-förälderelement (leyst)"
+msgstr "Listaliðir eru inni í raunverulegum lista (leyst)"
 
 msgid "meta-viewport (unresolved)"
-msgstr "`[user-scalable=\"no\"]` används i `<meta name=\"viewport\">`-elementet eller `[maximum-scale]`-attributet är mindre än 5 ({0})"
+msgstr "Síðan kemur í veg fyrir að gestir geti aðdregið (zoom) ({0})"
 
 msgid "meta-viewport (resolved)"
-msgstr "`[user-scalable=\"no\"]` används inte i `<meta name=\"viewport\">`-elementet och `[maximum-scale]`-attributet är inte mindre än 5 (leyst)"
+msgstr "Gestir geta aðdregið (zoom) á síðunni (leyst)"
 
 msgid "target-size (unresolved)"
-msgstr "Snertimörk skulu hafa nægjanlega stærð og bil ({0})"
+msgstr "Snertifletir eru of litlir eða of þétt saman ({0})"
 
 msgid "target-size (resolved)"
-msgstr "Snertimörk hafa nægjanlega stærð og bil (leyst)"
+msgstr "Snertifletir eru nógu stórir og með bili (leyst)"
 
 msgid "is-on-https (unresolved)"
-msgstr "Notar ekki HTTPS ({0})"
+msgstr "Síðan notar ekki örugga tengingu (HTTPS) ({0})"
 
 msgid "is-on-https (resolved)"
-msgstr "Notar HTTPS (leyst)"
+msgstr "Síðan notar örugga tengingu (HTTPS) (leyst)"
 
 msgid "redirects-http (unresolved)"
-msgstr "Endurbeinar ekki HTTP-umferð til HTTPS ({0})"
+msgstr "Óöruggri umferð (HTTP) er ekki vísað yfir á örugga (HTTPS) ({0})"
 
 msgid "redirects-http (resolved)"
-msgstr "Endurbeinar HTTP-umferð til HTTPS (leyst)"
+msgstr "Óöruggri umferð (HTTP) er vísað yfir á örugga (HTTPS) (leyst)"
 
 msgid "image-size-responsive (unresolved)"
-msgstr "Þjónar myndum með lága upplausn ({0})"
+msgstr "Myndir birtast óskýrar af því að upplausn þeirra er of lág ({0})"
 
 msgid "image-size-responsive (resolved)"
-msgstr "Þjónar myndum með lága upplausn (leyst)"
+msgstr "Myndir birtast skýrar með réttri upplausn (leyst)"
 
 msgid "aria-required-children (unresolved)"
-msgstr "Element med en ARIA `[role]` som kräver att barn innehåller en specifik `[role]` har alla nödvändiga barn ({0})"
+msgstr "Sumar einingar vantar undireiningarnar sem hjálpartæki krefjast ({0})"
 
 msgid "aria-required-children (resolved)"
-msgstr "Element med en ARIA `[role]` som kräver att barn innehåller en specifik `[role]` har alla nödvändiga barn (leyst)"
+msgstr "Einingar hafa undireiningarnar sem hjálpartæki krefjast (leyst)"
 
 msgid "aria-required-parent (unresolved)"
-msgstr "`[role]` är placerade inom sitt nödvändiga förälderelement ({0})"
+msgstr "Sumar einingar eru ekki inni í yfireiningunni sem hjálpartæki krefjast ({0})"
 
 msgid "aria-required-parent (resolved)"
-msgstr "`[role]` är placerade inom sitt nödvändiga förälderelement (leyst)"
+msgstr "Einingar eru inni í yfireiningunni sem hjálpartæki krefjast (leyst)"
 
 msgid "inspector-issues (unresolved)"
-msgstr "Vandamál í spjaldinu `Issues` i Chrome Devtools ({0})"
+msgstr "Vafrinn greinir frá vandamálum á síðunni ({0})"
 
 msgid "inspector-issues (resolved)"
-msgstr "Engin vandamál í spjaldinu `Issues` i Chrome Devtools (leyst)"
+msgstr "Vafrinn greinir ekki frá neinum vandamálum á síðunni (leyst)"
 
 msgid "cls-culprits-insight (unresolved)"
-msgstr "Niðurstöður skipulagsbreytinga ({0})"
+msgstr "Það sem fær efnið til að hoppa til ({0})"
 
 msgid "cls-culprits-insight (resolved)"
-msgstr "Niðurstöður skipulagsbreytinga (leyst)"
+msgstr "Ekkert fær efnið til að hoppa til (leyst)"
 
 msgid "document-latency-insight (unresolved)"
-msgstr "Seinkun skjalsbeiðni ({0})"
+msgstr "Það tekur langan tíma að sækja síðuna sjálfa ({0})"
 
 msgid "document-latency-insight (resolved)"
-msgstr "Seinkun skjalsbeiðni (leyst)"
+msgstr "Síðan sjálf er sótt hratt (leyst)"
 
 msgid "dom-size-insight (unresolved)"
-msgstr "Fínstilla DOM-stærð ({0})"
+msgstr "Gerðu síðuna minna flókna svo hún birtist hraðar ({0})"
 
 msgid "dom-size-insight (resolved)"
-msgstr "Fínstilla DOM-stærð (leyst)"
+msgstr "Síðan er hæfilega flókin (leyst)"
 
 msgid "duplicated-javascript-insight (unresolved)"
-msgstr "Tvítekið JavaScript ({0})"
+msgstr "Sami forritskóðinn (JavaScript) er hlaðinn oftar en einu sinni ({0})"
 
 msgid "duplicated-javascript-insight (resolved)"
-msgstr "Tvítekið JavaScript (leyst)"
+msgstr "Forritskóði (JavaScript) er ekki hlaðinn tvisvar (leyst)"
 
 msgid "font-display-insight (unresolved)"
-msgstr "Letursýning ({0})"
+msgstr "Textinn getur orðið ósýnilegur á meðan letur hleðst ({0})"
 
 msgid "font-display-insight (resolved)"
-msgstr "Letursýning (leyst)"
+msgstr "Textinn helst sýnilegur á meðan letur hleðst (leyst)"
 
 msgid "image-delivery-insight (unresolved)"
-msgstr "Bæta myndaafhendingu ({0})"
+msgstr "Myndirnar má afhenda á snjallari hátt svo þær hlaðist hraðar ({0})"
 
 msgid "image-delivery-insight (resolved)"
-msgstr "Bæta myndaafhendingu (leyst)"
+msgstr "Myndirnar eru afhentar á skilvirkan hátt (leyst)"
 
 msgid "interaction-to-next-paint-insight (unresolved)"
-msgstr "Samskipti til næstu teikningar ({0})"
+msgstr "Síðan bregst hægt við smellum og snertingum ({0})"
 
 msgid "interaction-to-next-paint-insight (resolved)"
-msgstr "Samskipti til næstu teikningar (leyst)"
+msgstr "Síðan bregst hratt við smellum og snertingum (leyst)"
 
 msgid "lcp-discovery-insight (unresolved)"
-msgstr "Uppgötva LCP-beiðni ({0})"
+msgstr "Vafrinn getur fundið aðalmyndina hraðar ({0})"
 
 msgid "lcp-discovery-insight (resolved)"
-msgstr "Uppgötva LCP-beiðni (leyst)"
+msgstr "Vafrinn finnur aðalmyndina hratt (leyst)"
 
 msgid "lcp-phases-insight (unresolved)"
-msgstr "LCP-dreifing ({0})"
+msgstr "Yfirferð á því hvers vegna meginefnið birtist seint ({0})"
 
 msgid "lcp-phases-insight (resolved)"
-msgstr "LCP-dreifing (leyst)"
+msgstr "Meginefnið birtist hratt (leyst)"
 
 msgid "legacy-javascript-insight (unresolved)"
-msgstr "Eldra JavaScript ({0})"
+msgstr "Gamaldags forritskóði er sendur til nútímavafra ({0})"
 
 msgid "legacy-javascript-insight (resolved)"
-msgstr "Eldra JavaScript (leyst)"
+msgstr "Gamaldags forritskóði er ekki sendur að óþörfu (leyst)"
 
 msgid "modern-http-insight (unresolved)"
-msgstr "Nútíma HTTP ({0})"
+msgstr "Síðan getur notað nútímalegri og hraðari nettækni ({0})"
 
 msgid "modern-http-insight (resolved)"
-msgstr "Nútíma HTTP (leyst)"
+msgstr "Síðan notar nútímalega nettækni (leyst)"
 
 msgid "network-dependency-tree-insight (unresolved)"
-msgstr "Netháðtré ({0})"
+msgstr "Skrár hlaðast í keðju sem hægir á síðunni ({0})"
 
 msgid "network-dependency-tree-insight (resolved)"
-msgstr "Netháðtré (leyst)"
+msgstr "Skrár hlaðast án óþarfa keðja (leyst)"
 
 msgid "render-blocking-insight (unresolved)"
-msgstr "Beiðnir um myndun-blokkun ({0})"
+msgstr "Sumar skrár hægja á þegar síðan á að birtast ({0})"
 
 msgid "render-blocking-insight (resolved)"
-msgstr "Beiðnir um myndun-blokkun (leyst)"
+msgstr "Engar skrár hægja á þegar síðan birtist (leyst)"
 
 msgid "third-parties-insight (unresolved)"
-msgstr "Þriðji aðili ({0})"
+msgstr "Kóði frá öðrum vefsíðum hefur áhrif á afköstin ({0})"
 
 msgid "third-parties-insight (resolved)"
-msgstr "Þriðji aðili (leyst)"
+msgstr "Kóði frá öðrum vefsíðum hefur ekki marktæk áhrif á afköstin (leyst)"
 
 msgid "use-cache-insight (unresolved)"
-msgstr "Nota skilvirka biðminnislíftíma ({0})"
+msgstr "Leyfðu vafra gesta að geyma skrár lengur svo síðan hlaðist hraðar ({0})"
 
 msgid "use-cache-insight (resolved)"
-msgstr "Nota skilvirka biðminnislíftíma (leyst)"
+msgstr "Vafri gesta geymir skrár svo síðan hlaðist hraðar (leyst)"
 
 msgid "viewport-insight (unresolved)"
-msgstr "Fínstilla birtingarsvæði fyrir farsíma ({0})"
+msgstr "Aðlagaðu síðuna svo hún birtist vel í síma ({0})"
 
 msgid "viewport-insight (resolved)"
-msgstr "Fínstilla birtingarsvæði fyrir farsíma (leyst)"
+msgstr "Síðan birtist vel í síma (leyst)"
 
 msgid "cache-insight (unresolved)"
-msgstr "cache-insight ({0})"
+msgstr "Leyfðu vafranum að geyma skrár svo síðan hlaðist hraðar ({0})"
 
 msgid "cache-insight (resolved)"
-msgstr "cache-insight (resolved)"
+msgstr "Vafrinn geymir skrár svo síðan hlaðist hraðar (leyst)"
 
 msgid "label-content-name-mismatch (unresolved)"
-msgstr "label-content-name-mismatch ({0})"
+msgstr "Sýnilegur texti hnapps passar ekki við þann sem skjálesari les upp ({0})"
 
 msgid "label-content-name-mismatch (resolved)"
-msgstr "label-content-name-mismatch (resolved)"
+msgstr "Sýnilegur texti hnapps passar við þann sem skjálesari les upp (leyst)"

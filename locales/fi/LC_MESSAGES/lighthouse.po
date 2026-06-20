@@ -31,571 +31,571 @@ msgstr "Teksti joka näytetään msgid:n sijaan, tässä riippumatta vakavuustas
 
 
 msgid "largest-contentful-paint-element (unresolved)"
-msgstr "Suurin sisältörikas elementti ({0})"
+msgstr "Sivun suurin sisältö ilmestyy hitaasti ({0})"
 
 msgid "largest-contentful-paint-element (resolved)"
-msgstr "Suurin sisältörikas elementti (ratkaistu)"
+msgstr "Sivun suurin sisältö ilmestyy nopeasti (ratkaistu)"
 
 msgid "unused-css-rules (unresolved)"
-msgstr "Vähennä käyttämätöntä CSS:ää ({0})"
+msgstr "Poista käyttämätön ulkoasukoodi (CSS), jotta sivu latautuu nopeammin ({0})"
 
 msgid "unused-css-rules (resolved)"
-msgstr "Vähennä käyttämätöntä CSS:ää (ratkaistu)"
+msgstr "Sivu ei lataa käyttämätöntä ulkoasukoodia (CSS) (ratkaistu)"
 
 msgid "unused-javascript (unresolved)"
-msgstr "Vähennä käyttämätöntä JavaScriptiä ({0})"
+msgstr "Poista käyttämätön ohjelmakoodi (JavaScript), jotta sivu latautuu nopeammin ({0})"
 
 msgid "unused-javascript (resolved)"
-msgstr "Vähennä käyttämätöntä JavaScriptiä (ratkaistu)"
+msgstr "Sivu ei lataa käyttämätöntä ohjelmakoodia (JavaScript) (ratkaistu)"
 
 msgid "legacy-javascript (unresolved)"
-msgstr "Vältä vanhan JavaScriptin toimittamista nykyaikaisiin selaimiin ({0})"
+msgstr "Sivu lähettää turhaan vanhanaikaista ohjelmakoodia nykyaikaisiin selaimiin ({0})"
 
 msgid "legacy-javascript (resolved)"
-msgstr "Vältä vanhan JavaScriptin toimittamista nykyaikaisiin selaimiin (ratkaistu)"
+msgstr "Sivu ei lähetä vanhanaikaista ohjelmakoodia nykyaikaisiin selaimiin (ratkaistu)"
 
 msgid "cumulative-layout-shift (unresolved)"
-msgstr "Kumulatiivinen asettelumuutos ({0})"
+msgstr "Sisältö hyppii sivun latautuessa ({0})"
 
 msgid "cumulative-layout-shift (resolved)"
-msgstr "Kumulatiivinen asettelumuutos (ratkaistu)"
+msgstr "Sisältö pysyy paikallaan sivun latautuessa (ratkaistu)"
 
 msgid "duplicated-javascript (unresolved)"
-msgstr "Poista JavaScript-pakettien kaksoiskappaleet ({0})"
+msgstr "Sama ohjelmakoodi (JavaScript) ladataan useita kertoja ({0})"
 
 msgid "duplicated-javascript (resolved)"
-msgstr "Poista JavaScript-pakettien kaksoiskappaleet (ratkaistu)"
+msgstr "Mitään ohjelmakoodia (JavaScript) ei ladata kahdesti (ratkaistu)"
 
 msgid "layout-shifts (unresolved)"
-msgstr "Vältä suuria asettelumuutoksia ({0})"
+msgstr "Sisältö liikkuu yllättäen ja voi saada kävijän klikkaamaan väärin ({0})"
 
 msgid "layout-shifts (resolved)"
-msgstr "Vältä suuria asettelumuutoksia (ratkaistu)"
+msgstr "Sisältö ei liiku yllättäen (ratkaistu)"
 
 msgid "largest-contentful-paint (unresolved)"
-msgstr "Suurin sisältörikas piirto ({0})"
+msgstr "Sivun pääsisällön ilmestyminen kestää kauan ({0})"
 
 msgid "largest-contentful-paint (resolved)"
-msgstr "Suurin sisältörikas piirto (ratkaistu)"
+msgstr "Sivun pääsisältö ilmestyy nopeasti (ratkaistu)"
 
 msgid "uses-long-cache-ttl (unresolved)"
-msgstr "Tarjoa staattisia resursseja tehokkaalla välimuistipolitiikalla ({0})"
+msgstr "Anna palaavien kävijöiden selaimen tallentaa tiedostoja, jotta sivu latautuu ensi kerralla nopeammin ({0})"
 
 msgid "uses-long-cache-ttl (resolved)"
-msgstr "Tarjoa staattisia resursseja tehokkaalla välimuistipolitiikalla (ratkaistu)"
+msgstr "Palaavien kävijöiden selain tallentaa tiedostoja, jotta sivu latautuu nopeammin (ratkaistu)"
 
 msgid "first-contentful-paint (unresolved)"
-msgstr "Ensimmäinen sisältörikas piirto ({0})"
+msgstr "Kestää kauan ennen kuin sivulla näkyy mitään ({0})"
 
 msgid "first-contentful-paint (resolved)"
-msgstr "Ensimmäinen sisältörikas piirto (ratkaistu)"
+msgstr "Sivulla näkyy nopeasti jotain (ratkaistu)"
 
 msgid "render-blocking-resources (unresolved)"
-msgstr "Poista renderöinnin estävät resurssit ({0})"
+msgstr "Jotkin tiedostot hidastavat, joten sivu näkyy myöhemmin ({0})"
 
 msgid "render-blocking-resources (resolved)"
-msgstr "Poista renderöinnin estävät resurssit (ratkaistu)"
+msgstr "Mitkään tiedostot eivät hidasta sivun näkymistä (ratkaistu)"
 
 msgid "total-blocking-time (unresolved)"
-msgstr "Kokonaisestymisaika ({0})"
+msgstr "Sivu on kauan varattuna ja reagoi hitaasti klikkauksiin ({0})"
 
 msgid "total-blocking-time (resolved)"
-msgstr "Kokonaisestymisaika (ratkaistu)"
+msgstr "Sivu reagoi nopeasti klikkauksiin (ratkaistu)"
 
 msgid "speed-index (unresolved)"
-msgstr "Nopeusindeksi ({0})"
+msgstr "Kestää kauan ennen kuin sivu näyttää latautuneelta ({0})"
 
 msgid "speed-index (resolved)"
-msgstr "Nopeusindeksi (ratkaistu)"
+msgstr "Sivu näyttää nopeasti latautuneelta (ratkaistu)"
 
 msgid "interactive (unresolved)"
-msgstr "Aika interaktiivisuuteen ({0})"
+msgstr "Kestää kauan ennen kuin sivua voi käyttää ({0})"
 
 msgid "interactive (resolved)"
-msgstr "Aika interaktiivisuuteen (ratkaistu)"
+msgstr "Sivua voi käyttää nopeasti (ratkaistu)"
 
 msgid "max-potential-fid (unresolved)"
-msgstr "Suurin mahdollinen ensimmäisen syötteen viive ({0})"
+msgstr "Sivu voi reagoida hitaasti kävijän ensimmäiseen klikkaukseen ({0})"
 
 msgid "max-potential-fid (resolved)"
-msgstr "Suurin mahdollinen ensimmäisen syötteen viive (ratkaistu)"
+msgstr "Sivu reagoi nopeasti kävijän ensimmäiseen klikkaukseen (ratkaistu)"
 
 msgid "uses-responsive-images (unresolved)"
-msgstr "Mukauta kuvakoot oikein ({0})"
+msgstr "Kuvat ovat suurempia kuin näytölle tarvitaan ({0})"
 
 msgid "uses-responsive-images (resolved)"
-msgstr "Mukauta kuvakoot oikein (ratkaistu)"
+msgstr "Kuvat ovat sopivan kokoisia näytölle (ratkaistu)"
 
 msgid "offscreen-images (unresolved)"
-msgstr "Lykkää näytön ulkopuolisia kuvia ({0})"
+msgstr "Lataa kuvat, jotka eivät näy heti, vasta kun niitä tarvitaan ({0})"
 
 msgid "offscreen-images (resolved)"
-msgstr "Lykkää näytön ulkopuolisia kuvia (ratkaistu)"
+msgstr "Heti näkymättömät kuvat ladataan vasta kun niitä tarvitaan (ratkaistu)"
 
 msgid "unminified-css (unresolved)"
-msgstr "Pienennä CSS ({0})"
+msgstr "Ulkoasukoodi (CSS) voidaan tiivistää, jotta sivu latautuu nopeammin ({0})"
 
 msgid "unminified-css (resolved)"
-msgstr "Pienennä CSS (ratkaistu)"
+msgstr "Ulkoasukoodi (CSS) on tiivistetty (ratkaistu)"
 
 msgid "unminified-javascript (unresolved)"
-msgstr "Pienennä JavaScript ({0})"
+msgstr "Ohjelmakoodi (JavaScript) voidaan tiivistää, jotta sivu latautuu nopeammin ({0})"
 
 msgid "unminified-javascript (resolved)"
-msgstr "Pienennä JavaScript (ratkaistu)"
+msgstr "Ohjelmakoodi (JavaScript) on tiivistetty (ratkaistu)"
 
 msgid "uses-optimized-images (unresolved)"
-msgstr "Kuvien tehokas koodaus ({0})"
+msgstr "Kuvat voidaan tiivistää, jotta ne latautuvat nopeammin ({0})"
 
 msgid "uses-optimized-images (resolved)"
-msgstr "Kuvien tehokas koodaus (ratkaistu)"
+msgstr "Kuvat on tiivistetty (ratkaistu)"
 
 msgid "modern-image-formats (unresolved)"
-msgstr "Tarjoa kuvia seuraavan sukupolven formaateissa ({0})"
+msgstr "Tallenna kuvat nykyaikaisiin muotoihin, jotta ne latautuvat nopeammin ({0})"
 
 msgid "modern-image-formats (resolved)"
-msgstr "Tarjoa kuvia seuraavan sukupolven formaateissa (ratkaistu)"
+msgstr "Kuvat tallennetaan nykyaikaisiin muotoihin (ratkaistu)"
 
 msgid "uses-text-compression (unresolved)"
-msgstr "Ota tekstin pakkaus käyttöön ({0})"
+msgstr "Ota tekstin pakkaus käyttöön, jotta sivu latautuu nopeammin ({0})"
 
 msgid "uses-text-compression (resolved)"
-msgstr "Ota tekstin pakkaus käyttöön (ratkaistu)"
+msgstr "Teksti pakataan, jotta sivu latautuu nopeammin (ratkaistu)"
 
 msgid "uses-rel-preconnect (unresolved)"
-msgstr "Esikytkeydy tarvittaviin alkuperiin ({0})"
+msgstr "Valmistele yhteys muihin sivustoihin, jotta ne latautuvat nopeammin ({0})"
 
 msgid "uses-rel-preconnect (resolved)"
-msgstr "Esikytkeydy tarvittaviin alkuperiin (ratkaistu)"
+msgstr "Yhteys muihin sivustoihin valmistellaan (ratkaistu)"
 
 msgid "server-response-time (unresolved)"
-msgstr "Alkuperäinen palvelinvastausaika oli lyhyt ({0})"
+msgstr "Palvelin vastaa hitaasti ({0})"
 
 msgid "server-response-time (resolved)"
-msgstr "Alkuperäinen palvelinvastausaika oli lyhyt (ratkaistu)"
+msgstr "Palvelin vastaa nopeasti (ratkaistu)"
 
 msgid "redirects (unresolved)"
-msgstr "Vältä useita sivuuudelleenohjauksia ({0})"
+msgstr "Kävijä ohjataan eteenpäin useita kertoja ennen oikean sivun näkymistä ({0})"
 
 msgid "redirects (resolved)"
-msgstr "Vältä useita sivuuudelleenohjauksia (ratkaistu)"
+msgstr "Kävijää ei ohjata eteenpäin turhaan (ratkaistu)"
 
 msgid "efficient-animated-content (unresolved)"
-msgstr "Käytä videoformaattia animoidulle sisällölle ({0})"
+msgstr "Käytä videota raskaiden animoitujen kuvien (GIF) sijaan ({0})"
 
 msgid "efficient-animated-content (resolved)"
-msgstr "Käytä videoformaattia animoidulle sisällölle (ratkaistu)"
+msgstr "Animaatiot käyttävät videota raskaiden kuvatiedostojen sijaan (ratkaistu)"
 
 msgid "total-byte-weight (unresolved)"
-msgstr "Vältä valtavia verkkokuormia ({0})"
+msgstr "Sivu lataa erittäin paljon dataa ({0})"
 
 msgid "total-byte-weight (resolved)"
-msgstr "Vältä valtavia verkkokuormia (ratkaistu)"
+msgstr "Sivu lataa sopivan määrän dataa (ratkaistu)"
 
 msgid "dom-size (unresolved)"
-msgstr "Vältä liiallista DOM-kokoa ({0})"
+msgstr "Sivu on liian monimutkainen ja raskas näyttää ({0})"
 
 msgid "dom-size (resolved)"
-msgstr "Vältä liiallista DOM-kokoa (ratkaistu)"
+msgstr "Sivu on sopivan monimutkainen näyttää (ratkaistu)"
 
 msgid "bootup-time (unresolved)"
-msgstr "JavaScript-suoritusaika ({0})"
+msgstr "Ohjelmakoodin (JavaScript) suoritus kestää kauan ({0})"
 
 msgid "bootup-time (resolved)"
-msgstr "JavaScript-suoritusaika (ratkaistu)"
+msgstr "Ohjelmakoodi (JavaScript) suoritetaan nopeasti (ratkaistu)"
 
 msgid "mainthread-work-breakdown (unresolved)"
-msgstr "Minimoi pääsäikeen työ ({0})"
+msgstr "Selaimen täytyy tehdä liikaa työtä sivun rakentamiseksi ({0})"
 
 msgid "mainthread-work-breakdown (resolved)"
-msgstr "Minimoi pääsäikeen työ (ratkaistu)"
+msgstr "Selaimen ei tarvitse tehdä liikaa työtä sivun kanssa (ratkaistu)"
 
 msgid "font-display (unresolved)"
-msgstr "Kaiken tekstin tulee pysyä näkyvissä webfontin latauksen aikana ({0})"
+msgstr "Teksti on näkymätön, kun erikoiskirjasimet latautuvat ({0})"
 
 msgid "font-display (resolved)"
-msgstr "Kaikki teksti pysyy näkyvissä webfontin latauksen aikana (ratkaistu)"
+msgstr "Teksti pysyy näkyvissä, kun erikoiskirjasimet latautuvat (ratkaistu)"
 
 msgid "uses-passive-event-listeners (unresolved)"
-msgstr "Käytä passiivisia kuuntelijoita vierityskyvyn parantamiseksi ({0})"
+msgstr "Sivusta voidaan tehdä sujuvampi vierittää ({0})"
 
 msgid "uses-passive-event-listeners (resolved)"
-msgstr "Käyttää passiivisia kuuntelijoita vierityskyvyn parantamiseksi (ratkaistu)"
+msgstr "Sivu on sujuva vierittää (ratkaistu)"
 
 msgid "no-document-write (unresolved)"
-msgstr "Javascript, vältä `document.write()` ({0})"
+msgstr "Vanha tekniikka (document.write) hidastaa latautumista ({0})"
 
 msgid "no-document-write (resolved)"
-msgstr "Javascript, välttää `document.write() (ratkaistu)"
+msgstr "Sivu ei käytä vanhaa document.write-tekniikkaa, joka hidastaa latautumista (ratkaistu)"
 
 msgid "long-tasks (unresolved)"
-msgstr "Vältä pitkiä pääsäikeen tehtäviä ({0})"
+msgstr "Jotkin tehtävät lukitsevat sivun hetkeksi ({0})"
 
 msgid "long-tasks (resolved)"
-msgstr "Välttää pitkiä pääsäikeen tehtäviä (ratkaistu)"
+msgstr "Mitkään tehtävät eivät lukitse sivua pitkäksi aikaa (ratkaistu)"
 
 msgid "unsized-images (unresolved)"
-msgstr "Kuvaelementeillä tulee olla eksplisiittinen `width` och `height` ({0})"
+msgstr "Kuvilta puuttuu määritetty koko, mikä saa sivun hyppimään ({0})"
 
 msgid "unsized-images (resolved)"
-msgstr "Kuvaelementeillä on eksplisiittinen `width` och `height` (ratkaistu)"
+msgstr "Kuvilla on määritetty koko, joten sivu ei hyppi (ratkaistu)"
 
 msgid "viewport (unresolved)"
-msgstr "Ska ha en <meta name=\"viewport\">-tagg med width eller initial-scale ({0})"
+msgstr "Sivulta puuttuu asetus, jolla se näkyy oikein mobiilissa ({0})"
 
 msgid "viewport (resolved)"
-msgstr "Har en <meta name=\"viewport\">-tagg med width eller initial-scale (ratkaistu)"
+msgstr "Sivulla on asetus, jolla se näkyy oikein mobiilissa (ratkaistu)"
 
 msgid "network-requests (unresolved)"
-msgstr "Nätverkspyyntöjä ({0})"
+msgstr "Kaikki, mitä sivu hakee verkosta ({0})"
 
 msgid "network-requests (resolved)"
-msgstr "Nätverkspyyntöjä (ratkaistu)"
+msgstr "Kaikki, mitä sivu hakee verkosta (ratkaistu)"
 
 msgid "network-rtt (unresolved)"
-msgstr "Verkon edestakainen viive ({0})"
+msgstr "Kuinka kauan data kulkee edestakaisin verkossa ({0})"
 
 msgid "network-rtt (resolved)"
-msgstr "Verkon edestakainen viive (ratkaistu)"
+msgstr "Kuinka kauan data kulkee edestakaisin verkossa (ratkaistu)"
 
 msgid "network-server-latency (unresolved)"
-msgstr "Palvelimen taustajärjestelmän viiveet ({0})"
+msgstr "Viive palvelimessa ennen vastaamista ({0})"
 
 msgid "network-server-latency (resolved)"
-msgstr "Palvelimen taustajärjestelmän viiveet (ratkaistu)"
+msgstr "Viive palvelimessa ennen vastaamista (ratkaistu)"
 
 msgid "main-thread-tasks (unresolved)"
-msgstr "Pääsäikeen tehtävät ({0})"
+msgstr "Tehtävät, jotka selain suorittaa sivulle ({0})"
 
 msgid "main-thread-tasks (resolved)"
-msgstr "Pääsäikeen tehtävät (ratkaistu)"
+msgstr "Tehtävät, jotka selain suorittaa sivulle (ratkaistu)"
 
 msgid "diagnostics (unresolved)"
-msgstr "Diagnostiikka ({0})"
+msgstr "Teknistä tietoa sivusta ({0})"
 
 msgid "diagnostics (resolved)"
-msgstr "Diagnostiikka (ratkaistu)"
+msgstr "Teknistä tietoa sivusta (ratkaistu)"
 
 msgid "metrics (unresolved)"
-msgstr "Mittausarvot ({0})"
+msgstr "Sivun suorituskyvyn mittaukset ({0})"
 
 msgid "metrics (resolved)"
-msgstr "Mittausarvot (ratkaistu)"
+msgstr "Sivun suorituskyvyn mittaukset (ratkaistu)"
 
 msgid "screenshot-thumbnails (unresolved)"
-msgstr "Kuvakaappausten pikkukuvat ({0})"
+msgstr "Pienoiskuvat siitä, miten sivu latautuu ({0})"
 
 msgid "screenshot-thumbnails (resolved)"
-msgstr "Kuvakaappausten pikkukuvat (ratkaistu)"
+msgstr "Pienoiskuvat siitä, miten sivu latautuu (ratkaistu)"
 
 msgid "final-screenshot (unresolved)"
-msgstr "lopullinen kuvakaappaus ({0})"
+msgstr "Kuva sivusta, kun se on latautunut valmiiksi ({0})"
 
 msgid "final-screenshot (resolved)"
-msgstr "lopullinen kuvakaappaus (ratkaistu)"
+msgstr "Kuva sivusta, kun se on latautunut valmiiksi (ratkaistu)"
 
 msgid "script-treemap-data (unresolved)"
-msgstr "script-treemap-data ({0})"
+msgstr "Yleiskuva sivun ohjelmakoodista ({0})"
 
 msgid "script-treemap-data (resolved)"
-msgstr "script-treemap-data (ratkaistu)"
+msgstr "Yleiskuva sivun ohjelmakoodista (ratkaistu)"
 
 msgid "resource-summary (unresolved)"
-msgstr "resurssien yhteenveto ({0})"
+msgstr "Yhteenveto siitä, mitä sivu hakee ({0})"
 
 msgid "resource-summary (resolved)"
-msgstr "resurssien yhteenveto (ratkaistu)"
+msgstr "Yhteenveto siitä, mitä sivu hakee (ratkaistu)"
 
 msgid "aria-allowed-attr (unresolved)"
-msgstr "`[aria-*]`-attribut ska matcha sina roller ({0})"
+msgstr "Jokin saavutettavuusmerkintä (ARIA) ei sovi elementteihin, joissa se on ({0})"
 
 msgid "aria-allowed-attr (resolved)"
-msgstr "`[aria-*]`-attribut matchar sina roller (ratkaistu)"
+msgstr "Saavutettavuusmerkinnät (ARIA) sopivat elementteihin, joissa ne ovat (ratkaistu)"
 
 msgid "aria-allowed-role (unresolved)"
-msgstr "Ska använda ARIA-roller endast på kompatibla element ({0})"
+msgstr "Saavutettavuusrooleja (ARIA) käytetään elementeissä, jotka eivät tue niitä ({0})"
 
 msgid "aria-allowed-role (resolved)"
-msgstr "Använder ARIA-roller endast på kompatibla element (ratkaistu)"
+msgstr "Saavutettavuusrooleja (ARIA) käytetään vain elementeissä, jotka tukevat niitä (ratkaistu)"
 
 msgid "aria-conditional-attr (unresolved)"
-msgstr "ARIA-attribut ska användas enligt specifikation för elementets roll ({0})"
+msgstr "Jokin saavutettavuusmerkintä (ARIA) ei ole sääntöjen mukainen ({0})"
 
 msgid "aria-conditional-attr (resolved)"
-msgstr "ARIA-attribut används enligt specifikation för elementets roll (ratkaistu)"
+msgstr "Saavutettavuusmerkinnät (ARIA) ovat sääntöjen mukaisia (ratkaistu)"
 
 msgid "aria-deprecated-role (unresolved)"
-msgstr "Föråldrade ARIA-roller användes ({0})"
+msgstr "Vanhentuneita saavutettavuusrooleja (ARIA) käytetään ({0})"
 
 msgid "aria-deprecated-role (resolved)"
-msgstr "Föråldrade ARIA-roller användes inte (ratkaistu)"
+msgstr "Vanhentuneita saavutettavuusrooleja (ARIA) ei käytetä (ratkaistu)"
 
 msgid "aria-hidden-body (unresolved)"
-msgstr "`[aria-hidden=\"true\"]` finns på dokumentets `<body>` ({0})"
+msgstr "Koko sivu on piilotettu ruudunlukijoilta ({0})"
 
 msgid "aria-hidden-body (resolved)"
-msgstr "`[aria-hidden=\"true\"]` finns inte på dokumentets `<body>` (ratkaistu)"
+msgstr "Sivua ei ole piilotettu ruudunlukijoilta (ratkaistu)"
 
 msgid "aria-hidden-focus (unresolved)"
-msgstr "`[aria-hidden=\"true\"]`-element innehåller inte fokuserbara underordnade ({0})"
+msgstr "Piilotettuihin elementteihin pääsee silti näppäimistöllä ({0})"
 
 msgid "aria-hidden-focus (resolved)"
-msgstr "`[aria-hidden=\"true\"]`-element innehåller inte fokuserbara underordnade (ratkaistu)"
+msgstr "Piilotettuihin elementteihin ei pääse näppäimistöllä (ratkaistu)"
 
 msgid "aria-prohibited-attr (unresolved)"
-msgstr "Element ska endast använda tillåtna ARIA-attribut ({0})"
+msgstr "Joillakin elementeillä on saavutettavuusmerkintöjä (ARIA), jotka eivät ole siinä sallittuja ({0})"
 
 msgid "aria-prohibited-attr (resolved)"
-msgstr "Element käyttää endast tillåtna ARIA-attribut (ratkaistu)"
+msgstr "Elementeillä on vain sallittuja saavutettavuusmerkintöjä (ARIA) (ratkaistu)"
 
 msgid "aria-required-attr (unresolved)"
-msgstr "`[role]` ska ha alla nödvändiga `[aria-*]`-attribut ({0})"
+msgstr "Joiltakin elementeiltä puuttuu vaadittuja saavutettavuusmerkintöjä (ARIA) ({0})"
 
 msgid "aria-required-attr (resolved)"
-msgstr "`[role]` har alla nödvändiga `[aria-*]`-attribut (ratkaistu)"
+msgstr "Elementeillä on vaaditut saavutettavuusmerkinnät (ARIA) (ratkaistu)"
 
 msgid "aria-roles (unresolved)"
-msgstr "`[role]`-värden är inte giltiga ({0})"
+msgstr "Joillakin saavutettavuusrooleilla (ARIA) on virheellisiä arvoja ({0})"
 
 msgid "aria-roles (resolved)"
-msgstr "`[role]`-värden är giltiga (ratkaistu)"
+msgstr "Saavutettavuusrooleilla (ARIA) on kelvolliset arvot (ratkaistu)"
 
 msgid "aria-valid-attr-value (unresolved)"
-msgstr "`[aria-*]`-attribut har ogiltiga värden ({0})"
+msgstr "Joillakin saavutettavuusmerkinnöillä (ARIA) on virheellisiä arvoja ({0})"
 
 msgid "aria-valid-attr-value (resolved)"
-msgstr "`[aria-*]`-attribut har giltiga värden (ratkaistu)"
+msgstr "Saavutettavuusmerkinnöillä (ARIA) on kelvolliset arvot (ratkaistu)"
 
 msgid "aria-valid-attr (unresolved)"
-msgstr "`[aria-*]`-attribut är ogiltiga eller felstavade ({0})"
+msgstr "Jokin saavutettavuusmerkintä (ARIA) on kirjoitettu väärin tai virheellinen ({0})"
 
 msgid "aria-valid-attr (resolved)"
-msgstr "`[aria-*]`-attribut är giltiga och inte felstavade (ratkaistu)"
+msgstr "Saavutettavuusmerkinnät (ARIA) on kirjoitettu oikein ja ovat kelvollisia (ratkaistu)"
 
 msgid "button-name (unresolved)"
-msgstr "Painikkeilla tulee olla saavutettava nimi ({0})"
+msgstr "Painikkeilta puuttuu nimi, jonka ruudunlukija voi lukea ääneen ({0})"
 
 msgid "button-name (resolved)"
-msgstr "Painikkeilla on saavutettava nimi (ratkaistu)"
+msgstr "Painikkeilla on nimi, jonka ruudunlukija voi lukea ääneen (ratkaistu)"
 
 msgid "color-contrast (unresolved)"
-msgstr "Bakgrunds- och förgrundsfärger ska ha tillräcklig kontrast ({0})"
+msgstr "Tekstin kontrasti taustaa vasten on liian heikko ja vaikealukuinen ({0})"
 
 msgid "color-contrast (resolved)"
-msgstr "Bakgrunds- och förgrundsfärger har tillräcklig kontrast (ratkaistu)"
+msgstr "Tekstin kontrasti taustaa vasten on riittävä (ratkaistu)"
 
 msgid "document-title (unresolved)"
-msgstr "Dokumentet ska ha ett `<title>`-element ({0})"
+msgstr "Sivulla ei ole otsikkoa ({0})"
 
 msgid "document-title (resolved)"
-msgstr "Dokumentet har ett `<title>`-element (ratkaistu)"
+msgstr "Sivulla on otsikko (ratkaistu)"
 
 msgid "heading-order (unresolved)"
-msgstr "Rubrikelement ska visas i sekventiellt fallande ordning ({0})"
+msgstr "Otsikot eivät ole oikeassa järjestyksessä ({0})"
 
 msgid "heading-order (resolved)"
-msgstr "Rubrikelement visas i sekventiellt fallande ordning (ratkaistu)"
+msgstr "Otsikot ovat oikeassa järjestyksessä (ratkaistu)"
 
 msgid "html-has-lang (unresolved)"
-msgstr "`<html>`-elementet ska ha ett `[lang]`-attribut ({0})"
+msgstr "Sivu ei ilmoita, millä kielellä se on kirjoitettu ({0})"
 
 msgid "html-has-lang (resolved)"
-msgstr "`<html>`-elementet har ett `[lang]`-attribut (ratkaistu)"
+msgstr "Sivu ilmoittaa, millä kielellä se on kirjoitettu (ratkaistu)"
 
 msgid "html-lang-valid (unresolved)"
-msgstr "`<html>`-elementet ska ha ett giltigt värde för sitt `[lang]`-attribut ({0})"
+msgstr "Sivun kieliasetus on virheellinen ({0})"
 
 msgid "html-lang-valid (resolved)"
-msgstr "`<html>`-elementet har ett giltigt värde för sitt `[lang]`-attribut (ratkaistu)"
+msgstr "Sivun kieliasetus on kelvollinen (ratkaistu)"
 
 msgid "image-alt (unresolved)"
-msgstr "Bildelement ska ha `[alt]`-attribut ({0})"
+msgstr "Kuvilta puuttuu vaihtoehtoinen teksti ruudunlukijoille ({0})"
 
 msgid "image-alt (resolved)"
-msgstr "Bildelement har `[alt]`-attribut (ratkaistu)"
+msgstr "Kuvilla on vaihtoehtoinen teksti ruudunlukijoille (ratkaistu)"
 
 msgid "image-redundant-alt (unresolved)"
-msgstr "Bildelement ska inte ha `[alt]`-attribut som är redundant text ({0})"
+msgstr "Kuvien vaihtoehtoinen teksti toistaa tekstiä, joka on jo vieressä ({0})"
 
 msgid "image-redundant-alt (resolved)"
-msgstr "Bildelement har inte `[alt]`-attribut som är redundant text (ratkaistu)"
+msgstr "Kuvien vaihtoehtoinen teksti ei toista tekstiä, joka on jo vieressä (ratkaistu)"
 
 msgid "link-in-text-block (unresolved)"
-msgstr "Länkar är inte urskiljbara utan att förlita sig på färg ({0})"
+msgstr "Linkit erottuvat vain väristä ja ovat vaikeita huomata ({0})"
 
 msgid "link-in-text-block (resolved)"
-msgstr "Länkar är urskiljbara utan att förlita sig på färg (ratkaistu)"
+msgstr "Linkit erottuvat myös ilman väriä (ratkaistu)"
 
 msgid "link-name (unresolved)"
-msgstr "Länkar ska ha ett urskiljbart namn ({0})"
+msgstr "Linkeiltä puuttuu teksti, joka kertoo minne ne johtavat ({0})"
 
 msgid "link-name (resolved)"
-msgstr "Länkar har ett urskiljbart namn (ratkaistu)"
+msgstr "Linkeillä on teksti, joka kertoo minne ne johtavat (ratkaistu)"
 
 msgid "list (unresolved)"
-msgstr "Listor ska endast innehålla `<li>`-element och skriptstödelement (`<script>` och `<template>`) ({0})"
+msgstr "Listat sisältävät muutakin kuin listakohtia ({0})"
 
 msgid "list (resolved)"
-msgstr "Listor innehåller endast `<li>`-element och skriptstödelement (`<script>` och `<template>`) (ratkaistu)"
+msgstr "Listat sisältävät vain listakohtia (ratkaistu)"
 
 msgid "listitem (unresolved)"
-msgstr "Listobjekt (`<li>`) är inte placerade inom `<ul>`, `<ol>` eller `<menu>`-förälderelement ({0})"
+msgstr "Listakohdat ovat oikean listan ulkopuolella ({0})"
 
 msgid "listitem (resolved)"
-msgstr "Listobjekt (`<li>`) är placerade inom `<ul>`, `<ol>` eller `<menu>`-förälderelement (ratkaistu)"
+msgstr "Listakohdat ovat oikean listan sisällä (ratkaistu)"
 
 msgid "meta-viewport (unresolved)"
-msgstr "`[user-scalable=\"no\"]` används i `<meta name=\"viewport\">`-elementet eller `[maximum-scale]`-attributet är mindre än 5 ({0})"
+msgstr "Sivu estää kävijää zoomaamasta ({0})"
 
 msgid "meta-viewport (resolved)"
-msgstr "`[user-scalable=\"no\"]` används inte i `<meta name=\"viewport\">`-elementet och `[maximum-scale]`-attributet är inte mindre än 5 (ratkaistu)"
+msgstr "Kävijä voi zoomata sivulla (ratkaistu)"
 
 msgid "target-size (unresolved)"
-msgstr "Kosketuskohteiden tulee olla riittävän suuria ja etäällä toisistaan ({0})"
+msgstr "Kosketuskohteet ovat liian pieniä tai liian lähekkäin ({0})"
 
 msgid "target-size (resolved)"
 msgstr "Kosketuskohteet ovat riittävän suuria ja etäällä toisistaan (ratkaistu)"
 
 msgid "is-on-https (unresolved)"
-msgstr "Ei käytä HTTPS:ää ({0})"
+msgstr "Sivu ei käytä suojattua yhteyttä (HTTPS) ({0})"
 
 msgid "is-on-https (resolved)"
-msgstr "Käyttää HTTPS:ää (ratkaistu)"
+msgstr "Sivu käyttää suojattua yhteyttä (HTTPS) (ratkaistu)"
 
 msgid "redirects-http (unresolved)"
-msgstr "Ei uudelleenohjaa HTTP-liikennettä HTTPS:ään ({0})"
+msgstr "Suojaamatonta liikennettä (HTTP) ei ohjata suojattuun (HTTPS) ({0})"
 
 msgid "redirects-http (resolved)"
-msgstr "Uudelleenohjaa HTTP-liikenteen HTTPS:ään (ratkaistu)"
+msgstr "Suojaamaton liikenne (HTTP) ohjataan suojattuun (HTTPS) (ratkaistu)"
 
 msgid "image-size-responsive (unresolved)"
-msgstr "Serverar bilder med låg upplösning ({0})"
+msgstr "Kuvat näkyvät sumeina, koska niiden tarkkuus on liian matala ({0})"
 
 msgid "image-size-responsive (resolved)"
-msgstr "Serverar bilder med låg upplösning (ratkaistu)"
+msgstr "Kuvat näkyvät terävinä oikealla tarkkuudella (ratkaistu)"
 
 msgid "aria-required-children (unresolved)"
-msgstr "Element med en ARIA `[role]` som kräver att barn innehåller en specifik `[role]` har alla nödvändiga barn ({0})"
+msgstr "Joiltakin elementeiltä puuttuvat alielementit, joita apuvälineet edellyttävät ({0})"
 
 msgid "aria-required-children (resolved)"
-msgstr "Element med en ARIA `[role]` som kräver att barn innehåller en specifik `[role]` har alla nödvändiga barn (ratkaistu)"
+msgstr "Elementeillä on alielementit, joita apuvälineet edellyttävät (ratkaistu)"
 
 msgid "aria-required-parent (unresolved)"
-msgstr "`[role]` är placerade inom sitt nödvändiga förälderelement ({0})"
+msgstr "Jotkin elementit eivät ole yläelementin sisällä, jota apuvälineet edellyttävät ({0})"
 
 msgid "aria-required-parent (resolved)"
-msgstr "`[role]` är placerade inom sitt nödvändiga förälderelement (ratkaistu)"
+msgstr "Elementit ovat yläelementin sisällä, jota apuvälineet edellyttävät (ratkaistu)"
 
 msgid "inspector-issues (unresolved)"
-msgstr "Problem i panelen `Issues` i Chrome Devtools ({0})"
+msgstr "Selain raportoi ongelmia sivulla ({0})"
 
 msgid "inspector-issues (resolved)"
-msgstr "Inga problem i panelen `Issues` i Chrome Devtools (ratkaistu)"
+msgstr "Selain ei raportoi ongelmia sivulla (ratkaistu)"
 
 msgid "cls-culprits-insight (unresolved)"
-msgstr "Resultat för layoutförskjutning ({0})"
+msgstr "Se, mikä saa sisällön hyppimään ({0})"
 
 msgid "cls-culprits-insight (resolved)"
-msgstr "Resultat för layoutförskjutning (ratkaistu)"
+msgstr "Mikään ei saa sisältöä hyppimään (ratkaistu)"
 
 msgid "document-latency-insight (unresolved)"
-msgstr "Fördröjning av dokumentbegäran ({0})"
+msgstr "Itse sivun hakeminen kestää kauan ({0})"
 
 msgid "document-latency-insight (resolved)"
-msgstr "Fördröjning av dokumentbegäran (ratkaistu)"
+msgstr "Itse sivu haetaan nopeasti (ratkaistu)"
 
 msgid "dom-size-insight (unresolved)"
-msgstr "Optimera DOM-storlek ({0})"
+msgstr "Tee sivusta vähemmän monimutkainen, jotta se näkyy nopeammin ({0})"
 
 msgid "dom-size-insight (resolved)"
-msgstr "Optimera DOM-storlek (ratkaistu)"
+msgstr "Sivu on sopivan monimutkainen (ratkaistu)"
 
 msgid "duplicated-javascript-insight (unresolved)"
-msgstr "Duplicerad JavaScript ({0})"
+msgstr "Sama ohjelmakoodi (JavaScript) ladataan useita kertoja ({0})"
 
 msgid "duplicated-javascript-insight (resolved)"
-msgstr "Duplicerad JavaScript (ratkaistu)"
+msgstr "Ohjelmakoodia (JavaScript) ei ladata kahdesti (ratkaistu)"
 
 msgid "font-display-insight (unresolved)"
-msgstr "Teckensnittsvisning ({0})"
+msgstr "Teksti voi muuttua näkymättömäksi, kun kirjasimet latautuvat ({0})"
 
 msgid "font-display-insight (resolved)"
-msgstr "Teckensnittsvisning (ratkaistu)"
+msgstr "Teksti pysyy näkyvissä, kun kirjasimet latautuvat (ratkaistu)"
 
 msgid "image-delivery-insight (unresolved)"
-msgstr "Förbättra bildleveransen ({0})"
+msgstr "Kuvat voidaan toimittaa fiksummin, jotta ne latautuvat nopeammin ({0})"
 
 msgid "image-delivery-insight (resolved)"
-msgstr "Förbättra bildleveransen (ratkaistu)"
+msgstr "Kuvat toimitetaan tehokkaasti (ratkaistu)"
 
 msgid "interaction-to-next-paint-insight (unresolved)"
-msgstr "Interaktion till nästa uppritning ({0})"
+msgstr "Sivu reagoi hitaasti klikkauksiin ja kosketuksiin ({0})"
 
 msgid "interaction-to-next-paint-insight (resolved)"
-msgstr "Interaktion till nästa uppritning (ratkaistu)"
+msgstr "Sivu reagoi nopeasti klikkauksiin ja kosketuksiin (ratkaistu)"
 
 msgid "lcp-discovery-insight (unresolved)"
-msgstr "Upptäcka LCP-begäran ({0})"
+msgstr "Selain voi löytää pääkuvan nopeammin ({0})"
 
 msgid "lcp-discovery-insight (resolved)"
-msgstr "Upptäcka LCP-begäran (ratkaistu)"
+msgstr "Selain löytää pääkuvan nopeasti (ratkaistu)"
 
 msgid "lcp-phases-insight (unresolved)"
-msgstr "LCP-fördelning ({0})"
+msgstr "Selvitys siitä, miksi pääsisältö ilmestyy myöhään ({0})"
 
 msgid "lcp-phases-insight (resolved)"
-msgstr "LCP-fördelning (ratkaistu)"
+msgstr "Pääsisältö ilmestyy nopeasti (ratkaistu)"
 
 msgid "legacy-javascript-insight (unresolved)"
-msgstr "Äldre JavaScript ({0})"
+msgstr "Vanhanaikaista ohjelmakoodia lähetetään nykyaikaisiin selaimiin ({0})"
 
 msgid "legacy-javascript-insight (resolved)"
-msgstr "Äldre JavaScript (ratkaistu)"
+msgstr "Vanhanaikaista ohjelmakoodia ei lähetetä turhaan (ratkaistu)"
 
 msgid "modern-http-insight (unresolved)"
-msgstr "Modern HTTP ({0})"
+msgstr "Sivu voi käyttää nykyaikaisempaa ja nopeampaa verkkotekniikkaa ({0})"
 
 msgid "modern-http-insight (resolved)"
-msgstr "Modern HTTP (ratkaistu)"
+msgstr "Sivu käyttää nykyaikaista verkkotekniikkaa (ratkaistu)"
 
 msgid "network-dependency-tree-insight (unresolved)"
-msgstr "Nätverksberoendeträd ({0})"
+msgstr "Tiedostot latautuvat ketjussa, joka hidastaa sivua ({0})"
 
 msgid "network-dependency-tree-insight (resolved)"
-msgstr "Nätverksberoendeträd (ratkaistu)"
+msgstr "Tiedostot latautuvat ilman turhia ketjuja (ratkaistu)"
 
 msgid "render-blocking-insight (unresolved)"
-msgstr "Begäranden om renderingsblockering ({0})"
+msgstr "Jotkin tiedostot hidastavat, kun sivun pitäisi näkyä ({0})"
 
 msgid "render-blocking-insight (resolved)"
-msgstr "Begäranden om renderingsblockering (ratkaistu)"
+msgstr "Mitkään tiedostot eivät hidasta sivun näkymistä (ratkaistu)"
 
 msgid "third-parties-insight (unresolved)"
-msgstr "Tredje part ({0})"
+msgstr "Muiden sivustojen koodi vaikuttaa suorituskykyyn ({0})"
 
 msgid "third-parties-insight (resolved)"
-msgstr "Tredje part (ratkaistu)"
+msgstr "Muiden sivustojen koodi ei vaikuta suorituskykyyn merkittävästi (ratkaistu)"
 
 msgid "use-cache-insight (unresolved)"
-msgstr "Använd effektiva cachelivslängder ({0})"
+msgstr "Anna kävijöiden selaimen säilyttää tiedostoja pidempään, jotta sivu latautuu nopeammin ({0})"
 
 msgid "use-cache-insight (resolved)"
-msgstr "Använd effektiva cachelivslängder (ratkaistu)"
+msgstr "Kävijöiden selain säilyttää tiedostoja, jotta sivu latautuu nopeammin (ratkaistu)"
 
 msgid "viewport-insight (unresolved)"
-msgstr "Optimera visningsområde för mobila enheter ({0})"
+msgstr "Mukauta sivu näkymään hyvin mobiilissa ({0})"
 
 msgid "viewport-insight (resolved)"
-msgstr "Optimera visningsområde för mobila enheter (ratkaistu)"
+msgstr "Sivu näkyy hyvin mobiilissa (ratkaistu)"
 
 msgid "cache-insight (unresolved)"
-msgstr "cache-insight ({0})"
+msgstr "Anna selaimen tallentaa tiedostoja, jotta sivu latautuu nopeammin ({0})"
 
 msgid "cache-insight (resolved)"
-msgstr "cache-insight (resolved)"
+msgstr "Selain tallentaa tiedostoja, jotta sivu latautuu nopeammin (ratkaistu)"
 
 msgid "label-content-name-mismatch (unresolved)"
-msgstr "label-content-name-mismatch ({0})"
+msgstr "Painikkeen näkyvä teksti ei vastaa sitä, minkä ruudunlukija lukee ({0})"
 
 msgid "label-content-name-mismatch (resolved)"
-msgstr "label-content-name-mismatch (resolved)"
+msgstr "Painikkeen näkyvä teksti vastaa sitä, minkä ruudunlukija lukee (ratkaistu)"

@@ -73,7 +73,7 @@ msgid "TEXT_TEST_VALID_ARGUMENTS_STANDARD_FILES"
 msgstr "-t 9\t: Standardfiler"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_HTTP"
-msgstr "-t 21\t: HTTP & nätverk"
+msgstr "-t 21\t: HTTP & netværk"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_ENERGY_EFFICIENCY"
 msgstr "-t 22\t: Energieffektivitet"

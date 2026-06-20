@@ -203,13 +203,13 @@ msgid "void-content (resolved)"
 msgstr "Älä salli void-elementtejä sisällön kanssa (ratkaistu)"
 
 msgid "parser-error (unresolved)"
-msgstr "parser-error ({0})"
+msgstr "Älä salli jäsennysvirheitä HTML:ssä ({0})"
 
 msgid "parser-error (resolved)"
-msgstr "parser-error (resolved)"
+msgstr "Älä salli jäsennysvirheitä HTML:ssä (ratkaistu)"
 
 msgid "no-network (unresolved)"
-msgstr "no-network ({0})"
+msgstr "Testi ei tavoittanut sivustoa ({0})"
 
 msgid "no-network (resolved)"
-msgstr "no-network (resolved)"
+msgstr "Testi ei tavoittanut sivustoa (ratkaistu)"

@@ -19,7 +19,7 @@ msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 21 - HTTP\n"
 
 msgid "TEXT_RUNNING_TEST_CSP_ONLY"
-msgstr "## Test: 21 - Content Security Policy (Endast)\n"
+msgstr "## Test: 21 - Content Security Policy (Aðeins)\n"
 
 msgid "TEXT_REVIEW_TLS1_3_SUPPORT"
 msgstr "- {0}, TLSv1.3-stuðningur"
@@ -136,7 +136,7 @@ msgid "TEXT_REVIEW_CSP_POLICY_DEPRECATED"
 msgstr "- {1}, notar föråldrad CSP-policy '{0}'"
 
 msgid "TEXT_REVIEW_CSP_MALFORMED" 
-msgstr "- {1}, CSP-policy '{0}' är felaktigt formaterad"
+msgstr "- {1}, CSP-stefna '{0}' er ranglega sniðin"
 
 msgid "TEXT_REVIEW_CSP_POLICY_FOUND" 
 msgstr "- {1}, CSP-policy '{0}' fannst"
@@ -178,31 +178,31 @@ msgid "TEXT_REVIEW_CSP_WILDCARDS"
 msgstr "wildcard(s)"
 
 msgid "TEXT_REVIEW_CSP_WILDCARD_SUBDOMAIN" 
-msgstr "wildcard underdomän från ursprung"
+msgstr "algilt undirlén frá uppruna"
 
 msgid "TEXT_REVIEW_CSP_SUBDOMAIN" 
-msgstr "underdomän från ursprung"
+msgstr "undirlén frá uppruna"
 
 msgid "TEXT_REVIEW_CSP_DOMAIN" 
-msgstr "domän"
+msgstr "lén"
 
 msgid "TEXT_REVIEW_CSP_RECOMMENDED_RATING" 
 msgstr "###### Rekommenderat CSP-einkunn:{0}"
 
 msgid "TEXT_REVIEW_CSP_RECOMMENDED_TEXT"
-msgstr "\r\n##### Vill du förbättra din Content Security Policy (CSP)?\r\nVarför inte prova följande CSP-svarshuvud för att komma igång med CSP?\r\nKom ihåg, nedanstående rekommendation är endast baserad på ett urval (läs: {0} sida(or)) av alla sidor på din webbplats och baseras utan att klicka på något.\r\n\r\n###### Rekommenderade policyer:\r\n{1}\r\n{2}\r\nLäs mer: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy\r\n\r\n"
+msgstr "\r\n##### Viltu bæta Content Security Policy (CSP) þína?\r\nAf hverju ekki að prófa eftirfarandi CSP-svarhaus til að byrja með CSP?\r\nMundu að eftirfarandi tillaga byggist aðeins á úrtaki (lestu: {0} síða/síður) af öllum síðum vefsvæðisins og byggist á því að smella ekki á neitt.\r\n\r\n###### Ráðlagðar stefnur:\r\n{1}\r\n{2}\r\nLestu meira: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy\r\n\r\n"
 
 msgid "TEXT_REVIEW_SRI_COMPLIANT"
 msgstr "- {0}, Subresource Integrity (SRI)"
 
 msgid "TEXT_REVIEW_SRI_NONE_COMPLIANT"
-msgstr "- {0}, Subresource Integrity (SRI) krävs"
+msgstr "- {0}, Subresource Integrity (SRI) er krafist"
 
 msgid "TEXT_REVIEW_SRI_NONE_COMPLIANT_DETAILS"
-msgstr "- {0}, Subresource Integrity (SRI) krävs för följande HTML-element"
+msgstr "- {0}, Subresource Integrity (SRI) er krafist fyrir eftirfarandi HTML-einingar"
 
 msgid "TEXT_REVIEW_SRI_WITH_ERRORS"
-msgstr "- {0}, Subresource Integrity (SRI) används på felaktigt sätt"
+msgstr "- {0}, Subresource Integrity (SRI) er notað á rangan hátt"
 
 msgid "TEXT_REVIEW_SRI_WITH_ERRORS_DETAILS"
-msgstr "- {0}, Subresource Integrity (SRI) har följande fel"
+msgstr "- {0}, Subresource Integrity (SRI) hefur eftirfarandi villur"

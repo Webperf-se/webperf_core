@@ -203,13 +203,13 @@ msgid "void-content (resolved)"
 msgstr "Ekki leyfa void-einingar með innihaldi (leyst)"
 
 msgid "parser-error (unresolved)"
-msgstr "parser-error ({0})"
+msgstr "Ekki leyfa þáttunarvillur í HTML ({0})"
 
 msgid "parser-error (resolved)"
-msgstr "parser-error (resolved)"
+msgstr "Ekki leyfa þáttunarvillur í HTML (leyst)"
 
 msgid "no-network (unresolved)"
-msgstr "no-network ({0})"
+msgstr "Prófið náði ekki til vefsvæðisins ({0})"
 
 msgid "no-network (resolved)"
-msgstr "no-network (resolved)"
+msgstr "Prófið náði ekki til vefsvæðisins (leyst)"

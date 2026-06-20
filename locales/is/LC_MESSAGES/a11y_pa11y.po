@@ -39,10 +39,10 @@ msgid "TEXT_REVIEW_A11Y_TOO_MANY_PROBLEMS"
 msgstr "- Upplýsingar: Of mörg einstök vandamál til að skrá öll.\n"
 
 msgid "TEXT_REVIEW_A11Y_PROBLEMS"
-msgstr "\n##### Problem:\n"
+msgstr "\n##### Vandamál:\n"
 
 msgid "TEXT_REVIEW_ERRORS_ITEM"
-msgstr "  - {0} (totalt {1} st)\n"
+msgstr "  - {0} (alls {1} stk.)\n"
 
 msgid "TEXT_REVIEW_RATING_GROUPED"
 msgstr "- Fjöldi hópkaðra villna: {0}"

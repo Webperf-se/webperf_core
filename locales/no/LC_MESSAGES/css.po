@@ -30,205 +30,205 @@ msgstr "Text to show instead of msgid, here independent of severity level"
 
 
 msgid "function-no-unknown (unresolved)"
-msgstr "CSS, Disallow unknown functions ({0})"
+msgstr "CSS, Tillat ikke ukjente funksjoner ({0})"
 
 msgid "function-no-unknown (resolved)"
-msgstr "CSS, Disallow unknown functions (resolved)"
+msgstr "CSS, Tillat ikke ukjente funksjoner (løst)"
 
 msgid "declaration-property-value-no-unknown (unresolved)"
-msgstr "CSS, Disallow unknown values for properties within declarations ({0})"
+msgstr "CSS, Tillat ikke ukjente verdier for egenskaper i deklarasjoner ({0})"
 
 msgid "declaration-property-value-no-unknown (resolved)"
-msgstr "CSS, Disallow unknown values for properties within declarations (resolved)"
+msgstr "CSS, Tillat ikke ukjente verdier for egenskaper i deklarasjoner (løst)"
 
 msgid "selector-type-no-unknown (unresolved)"
-msgstr "CSS, Disallow unknown type selectors ({0})"
+msgstr "CSS, Tillat ikke ukjente typeselektorer ({0})"
 
 msgid "selector-type-no-unknown (resolved)"
-msgstr "CSS, Disallow unknown type selectors (resolved)"
+msgstr "CSS, Tillat ikke ukjente typeselektorer (løst)"
 
 msgid "at-rule-prelude-no-invalid (unresolved)"
-msgstr "CSS, Disallow invalid preludes for at-rules ({0})"
+msgstr "CSS, Tillat ikke ugyldige preludier for at-regler ({0})"
 
 msgid "at-rule-prelude-no-invalid (resolved)"
-msgstr "CSS, Disallow invalid preludes for at-rules (resolved)"
+msgstr "CSS, Tillat ikke ugyldige preludier for at-regler (løst)"
 
 msgid "annotation-no-unknown (unresolved)"
-msgstr "CSS, Disallow unknown annotations ({0})"
+msgstr "CSS, Tillat ikke ukjente annotasjoner ({0})"
 
 msgid "annotation-no-unknown (resolved)"
-msgstr "CSS, Disallow unknown annotations (resolved)"
+msgstr "CSS, Tillat ikke ukjente annotasjoner (løst)"
 
 msgid "at-rule-descriptor-no-unknown (unresolved)"
-msgstr "CSS, Disallow unknown descriptors for at-rules ({0})"
+msgstr "CSS, Tillat ikke ukjente deskriptorer for at-regler ({0})"
 
 msgid "at-rule-descriptor-no-unknown (resolved)"
-msgstr "CSS, Disallow unknown descriptors for at-rules (resolved)"
+msgstr "CSS, Tillat ikke ukjente deskriptorer for at-regler (løst)"
 
 msgid "at-rule-descriptor-value-no-unknown (unresolved)"
-msgstr "CSS, Disallow unknown values for descriptors within at-rules ({0})"
+msgstr "CSS, Tillat ikke ukjente verdier for deskriptorer i at-regler ({0})"
 
 msgid "at-rule-descriptor-value-no-unknown (resolved)"
-msgstr "CSS, Disallow unknown values for descriptors within at-rules (resolved)"
+msgstr "CSS, Tillat ikke ukjente verdier for deskriptorer i at-regler (løst)"
 
 msgid "at-rule-no-deprecated (unresolved)"
-msgstr "CSS, Disallow deprecated at-rules ({0})"
+msgstr "CSS, Tillat ikke utdaterte at-regler ({0})"
 
 msgid "at-rule-no-deprecated (resolved)"
-msgstr "CSS, Disallow deprecated at-rules (resolved)"
+msgstr "CSS, Tillat ikke utdaterte at-regler (løst)"
 
 msgid "at-rule-no-unknown (unresolved)"
-msgstr "CSS, Disallow unknown at-rules ({0})"
+msgstr "CSS, Tillat ikke ukjente at-regler ({0})"
 
 msgid "at-rule-no-unknown (resolved)"
-msgstr "CSS, Disallow unknown at-rules (resolved)"
+msgstr "CSS, Tillat ikke ukjente at-regler (løst)"
 
 msgid "block-no-empty (unresolved)"
-msgstr "CSS, Disallow empty blocks ({0})"
+msgstr "CSS, Tillat ikke tomme blokker ({0})"
 
 msgid "block-no-empty (resolved)"
-msgstr "CSS, Disallow empty blocks (resolved)"
+msgstr "CSS, Tillat ikke tomme blokker (løst)"
 
 msgid "color-no-invalid-hex (unresolved)"
-msgstr "CSS, Disallow invalid hex colors ({0})"
+msgstr "CSS, Tillat ikke ugyldige heksfarger ({0})"
 
 msgid "color-no-invalid-hex (resolved)"
-msgstr "CSS, Disallow invalid hex colors (resolved)"
+msgstr "CSS, Tillat ikke ugyldige heksfarger (løst)"
 
 msgid "comment-no-empty (unresolved)"
-msgstr "CSS, Disallow empty comments ({0})"
+msgstr "CSS, Tillat ikke tomme kommentarer ({0})"
 
 msgid "comment-no-empty (resolved)"
-msgstr "CSS, Disallow empty comments (resolved)"
+msgstr "CSS, Tillat ikke tomme kommentarer (løst)"
 
 msgid "declaration-property-value-keyword-no-deprecated (unresolved)"
-msgstr "CSS, Disallow deprecated keywords for properties within declarations ({0})"
+msgstr "CSS, Tillat ikke utdaterte nøkkelord for egenskaper i deklarasjoner ({0})"
 
 msgid "declaration-property-value-keyword-no-deprecated (resolved)"
-msgstr "CSS, Disallow deprecated keywords for properties within declarations (resolved)"
+msgstr "CSS, Tillat ikke utdaterte nøkkelord for egenskaper i deklarasjoner (løst)"
 
 msgid "function-linear-gradient-no-nonstandard-direction (unresolved)"
-msgstr "CSS, Disallow non-standard direction values for linear gradient functions ({0})"
+msgstr "CSS, Tillat ikke ikke-standardiserte retningsverdier for lineære gradientfunksjoner ({0})"
 
 msgid "function-linear-gradient-no-nonstandard-direction (resolved)"
-msgstr "CSS, Disallow non-standard direction values for linear gradient functions (resolved)"
+msgstr "CSS, Tillat ikke ikke-standardiserte retningsverdier for lineære gradientfunksjoner (løst)"
 
 msgid "media-feature-name-no-unknown (unresolved)"
-msgstr "CSS, Disallow unknown media feature names ({0})"
+msgstr "CSS, Tillat ikke ukjente navn på mediefunksjoner ({0})"
 
 msgid "media-feature-name-no-unknown (resolved)"
-msgstr "CSS, Disallow unknown media feature names (resolved)"
+msgstr "CSS, Tillat ikke ukjente navn på mediefunksjoner (løst)"
 
 msgid "media-feature-name-value-no-unknown (unresolved)"
-msgstr "CSS, Disallow unknown values for media features ({0})"
+msgstr "CSS, Tillat ikke ukjente verdier for mediefunksjoner ({0})"
 
 msgid "media-feature-name-value-no-unknown (resolved)"
-msgstr "CSS, Disallow unknown values for media features (resolved)"
+msgstr "CSS, Tillat ikke ukjente verdier for mediefunksjoner (løst)"
 
 msgid "media-query-no-invalid (unresolved)"
-msgstr "CSS, Disallow invalid media queries ({0})"
+msgstr "CSS, Tillat ikke ugyldige media queries ({0})"
 
 msgid "media-query-no-invalid (resolved)"
-msgstr "CSS, Disallow invalid media queries (resolved)"
+msgstr "CSS, Tillat ikke ugyldige media queries (løst)"
 
 msgid "named-grid-areas-no-invalid (unresolved)"
-msgstr "CSS, Disallow invalid named grid areas ({0})"
+msgstr "CSS, Tillat ikke ugyldige navngitte rutenettområder ({0})"
 
 msgid "named-grid-areas-no-invalid (resolved)"
-msgstr "CSS, Disallow invalid named grid areas (resolved)"
+msgstr "CSS, Tillat ikke ugyldige navngitte rutenettområder (løst)"
 
 msgid "no-empty-source (unresolved)"
-msgstr "CSS, Disallow empty sources ({0})"
+msgstr "CSS, Tillat ikke tomme kilder ({0})"
 
 msgid "no-empty-source (resolved)"
-msgstr "CSS, Disallow empty sources (resolved)"
+msgstr "CSS, Tillat ikke tomme kilder (løst)"
 
 msgid "no-invalid-double-slash-comments (unresolved)"
-msgstr "CSS, Disallow invalid double-slash comments ({0})"
+msgstr "CSS, Tillat ikke ugyldige dobbel-skråstrek-kommentarer ({0})"
 
 msgid "no-invalid-double-slash-comments (resolved)"
-msgstr "CSS, Disallow invalid double-slash comments (resolved)"
+msgstr "CSS, Tillat ikke ugyldige dobbel-skråstrek-kommentarer (løst)"
 
 msgid "no-invalid-position-at-import-rule (unresolved)"
-msgstr "CSS, Disallow invalid position `@import` rules ({0})"
+msgstr "CSS, Tillat ikke feilplasserte `@import`-regler ({0})"
 
 msgid "no-invalid-position-at-import-rule (resolved)"
-msgstr "CSS, Disallow invalid position `@import` rules (resolved)"
+msgstr "CSS, Tillat ikke feilplasserte `@import`-regler (løst)"
 
 msgid "no-unknown-animations (unresolved)"
-msgstr "CSS, Disallow unknown animations ({0})"
+msgstr "CSS, Tillat ikke ukjente animasjoner ({0})"
 
 msgid "no-unknown-animations (resolved)"
-msgstr "CSS, Disallow unknown animations (resolved)"
+msgstr "CSS, Tillat ikke ukjente animasjoner (løst)"
 
 msgid "no-unknown-custom-media (unresolved)"
-msgstr "CSS, Disallow unknown custom media queries ({0})"
+msgstr "CSS, Tillat ikke ukjente egendefinerte media queries ({0})"
 
 msgid "no-unknown-custom-media (resolved)"
-msgstr "CSS, Disallow unknown custom media queries (resolved)"
+msgstr "CSS, Tillat ikke ukjente egendefinerte media queries (løst)"
 
 msgid "no-unknown-custom-properties (unresolved)"
-msgstr "CSS, Disallow unknown custom properties ({0})"
+msgstr "CSS, Tillat ikke ukjente egendefinerte egenskaper ({0})"
 
 msgid "no-unknown-custom-properties (resolved)"
-msgstr "CSS, Ikke tillat ukjente egendefinerte egenskaper (løst)"
+msgstr "CSS, Tillat ikke ukjente egendefinerte egenskaper (løst)"
 
 msgid "property-no-unknown (unresolved)"
-msgstr "CSS, Ikke tillat ukjente egenskaper ({0})"
+msgstr "CSS, Tillat ikke ukjente egenskaper ({0})"
 
 msgid "property-no-unknown (resolved)"
-msgstr "CSS, Ikke tillat ukjente egenskaper (løst)"
+msgstr "CSS, Tillat ikke ukjente egenskaper (løst)"
 
 msgid "selector-pseudo-class-no-unknown (unresolved)"
-msgstr "CSS, Ikke tillat ukjente pseudoklasse-selektorer ({0})"
+msgstr "CSS, Tillat ikke ukjente pseudoklasse-selektorer ({0})"
 
 msgid "selector-pseudo-class-no-unknown (resolved)"
-msgstr "CSS, Ikke tillat ukjente pseudoklasse-selektorer (løst)"
+msgstr "CSS, Tillat ikke ukjente pseudoklasse-selektorer (løst)"
 
 msgid "selector-pseudo-element-no-unknown (unresolved)"
-msgstr "CSS, Ikke tillat ukjente pseudoelement-selektorer ({0})"
+msgstr "CSS, Tillat ikke ukjente pseudoelement-selektorer ({0})"
 
 msgid "selector-pseudo-element-no-unknown (resolved)"
-msgstr "CSS, Ikke tillat ukjente pseudoelement-selektorer (løst)"
+msgstr "CSS, Tillat ikke ukjente pseudoelement-selektorer (løst)"
 
 msgid "syntax-string-no-invalid (unresolved)"
-msgstr "CSS, Ikke tillat ugyldige syntaksstrenger ({0})"
+msgstr "CSS, Tillat ikke ugyldige syntaksstrenger ({0})"
 
 msgid "syntax-string-no-invalid (resolved)"
-msgstr "CSS, Ikke tillat ugyldige syntaksstrenger (løst)"
+msgstr "CSS, Tillat ikke ugyldige syntaksstrenger (løst)"
 
 msgid "unit-no-unknown (unresolved)"
-msgstr "CSS, Ikke tillat ukjente enheter ({0})"
+msgstr "CSS, Tillat ikke ukjente enheter ({0})"
 
 msgid "unit-no-unknown (resolved)"
-msgstr "CSS, Ikke tillat ukjente enheter (løst)"
+msgstr "CSS, Tillat ikke ukjente enheter (løst)"
 
 msgid "media-type-no-deprecated (unresolved)"
-msgstr "CSS, Ikke tillat utdaterte medietyper ({0})"
+msgstr "CSS, Tillat ikke utdaterte medietyper ({0})"
 
 msgid "media-type-no-deprecated (resolved)"
-msgstr "CSS, Ikke tillat utdaterte medietyper (løst)"
+msgstr "CSS, Tillat ikke utdaterte medietyper (løst)"
 
 msgid "no-invalid-position-declaration (unresolved)"
-msgstr "CSS, Ikke tillat ugyldige posisjonsdeklarasjoner ({0})"
+msgstr "CSS, Tillat ikke ugyldige posisjonsdeklarasjoner ({0})"
 
 msgid "no-invalid-position-declaration (resolved)"
-msgstr "CSS, Ikke tillat ugyldige posisjonsdeklarasjoner (løst)"
+msgstr "CSS, Tillat ikke ugyldige posisjonsdeklarasjoner (løst)"
 
 msgid "property-no-deprecated (unresolved)"
-msgstr "CSS, Ikke tillat utdaterte egenskaper ({0})"
+msgstr "CSS, Tillat ikke utdaterte egenskaper ({0})"
 
 msgid "property-no-deprecated (resolved)"
-msgstr "CSS, Ikke tillat utdaterte egenskaper (løst)"
+msgstr "CSS, Tillat ikke utdaterte egenskaper (løst)"
 
 msgid "CssSyntaxError (unresolved)"
-msgstr "CssSyntaxError ({0})"
+msgstr "CSS, Syntaksfeil ({0})"
 
 msgid "CssSyntaxError (resolved)"
-msgstr "CssSyntaxError (resolved)"
+msgstr "CSS, Syntaksfeil (løst)"
 
 msgid "no-network (unresolved)"
-msgstr "no-network ({0})"
+msgstr "CSS, Testen kunne ikke nå nettstedet ({0})"
 
 msgid "no-network (resolved)"
-msgstr "no-network (resolved)"
+msgstr "CSS, Testen kunne ikke nå nettstedet (løst)"

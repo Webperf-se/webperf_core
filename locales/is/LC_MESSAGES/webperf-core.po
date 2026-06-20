@@ -73,7 +73,7 @@ msgid "TEXT_TEST_VALID_ARGUMENTS_STANDARD_FILES"
 msgstr "-t 9\t: Staðalskrár"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_HTTP"
-msgstr "-t 21\t: HTTP & nätverk"
+msgstr "-t 21\t: HTTP & netkerfi"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_ENERGY_EFFICIENCY"
 msgstr "-t 22\t: Orkunýtni"
@@ -91,10 +91,10 @@ msgid "TEXT_TEST_VALID_ARGUMENTS_A11Y_STATEMENT"
 msgstr "-t 26\t: Aðgengisyfirlýsing (Alfa)"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_CSS_LINT"
-msgstr "-t 27\t: CSS-validering (Stylelint)"
+msgstr "-t 27\t: CSS-staðfesting (Stylelint)"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_HTML_LINT"
-msgstr "-t 28\t: HTML-validering (html-validate)"
+msgstr "-t 28\t: HTML-staðfesting (html-validate)"
 
 msgid "TEXT_TEST_VALID_ARGUMENTS_JS_LINT"
 msgstr "-t 29\t: JS Lint (ESLint)"
@@ -118,7 +118,7 @@ msgid "TEXT_TEST_REVIEW_ALLY"
 msgstr "#### Aðgengi:\r\n{0}"
 
 msgid "TEXT_TEST_REVIEW_STANDARDS"
-msgstr "#### Standarder:\r\n{0}"
+msgstr "#### Staðlar:\r\n{0}"
 
 msgid "TEXT_TEST_REVIEW_RATING_ITEM"
 msgstr "{0} ( {1:.2f} einkunn )\r\n"
@@ -136,7 +136,7 @@ msgid "TEXT_TEST_RATING_ALLY"
 msgstr "- Aðgengi: {0}\r\n"
 
 msgid "TEXT_TEST_RATING_STANDARDS"
-msgstr "- Standarder: {0}\r\n"
+msgstr "- Staðlar: {0}\r\n"
 
 msgid "TEXT_REQUEST_UNKNOWN"
 msgstr "#{0}: "

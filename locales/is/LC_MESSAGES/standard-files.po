@@ -31,7 +31,7 @@ msgstr "Texti sem birtist í stað msgid, hér óháð alvarleikastigi"
 
 
 msgid "no-duplicates-sitemap (unresolved)"
-msgstr "Sitemap, inga dubbletter av Url:er i <loc> är tillåtna ({0})"
+msgstr "Sitemap, tvítekningar á slóðum í <loc> eru ekki leyfðar ({0})"
 
 msgid "no-duplicates-sitemap (resolved)"
 msgstr "Sitemap, inga dubbletter av Url:er i <loc> är tillåtna (leyst)"
@@ -43,7 +43,7 @@ msgid "no-robots-txt (resolved)"
 msgstr "robots.txt vantar, får inte laddas ner eller har inte förväntat innehåll (leyst)"
 
 msgid "no-sitemap-in-robots-txt (unresolved)"
-msgstr "Sitemap anges inte i robots.txt ({0})"
+msgstr "Sitemap er ekki tilgreint í robots.txt ({0})"
 
 msgid "no-sitemap-in-robots-txt (resolved)"
 msgstr "Sitemap anges inte i robots.txt (leyst)"
@@ -55,31 +55,31 @@ msgid "no-valid-sitemap-found (resolved)"
 msgstr "Sitemap, ingen giltig sitemap fannst (leyst)"
 
 msgid "no-same-domain-sitemap (unresolved)"
-msgstr "Sitemap, Url i <loc> måste använda samma domän som robots.txt ({0})"
+msgstr "Sitemap, slóð í <loc> verður að nota sama lén og robots.txt ({0})"
 
 msgid "no-same-domain-sitemap (resolved)"
 msgstr "Sitemap, Url i <loc> måste använda samma domän som robots.txt (leyst)"
 
 msgid "no-https-sitemap (unresolved)"
-msgstr "Sitemap, Url i <loc> måste börja med https:// ({0})"
+msgstr "Sitemap, slóð í <loc> verður að byrja á https:// ({0})"
 
 msgid "no-https-sitemap (resolved)"
 msgstr "Sitemap, Url i <loc> måste börja med https:// (leyst)"
 
 msgid "no-unknown-types-sitemap (unresolved)"
-msgstr "Sitemap, listar annat än webbsidor ({0})"
+msgstr "Sitemap listar annað en vefsíður ({0})"
 
 msgid "no-unknown-types-sitemap (resolved)"
 msgstr "Sitemap, listar annat än webbsidor (leyst)"
 
 msgid "invalid-sitemap-too-large (unresolved)"
-msgstr "Sitemap, överskrider 50 000 objekt ({0})"
+msgstr "Sitemap fer yfir 50.000 hluti ({0})"
 
 msgid "invalid-sitemap-too-large (resolved)"
 msgstr "Sitemap, överskrider 50 000 objekt (leyst)"
 
 msgid "no-items-sitemap (unresolved)"
-msgstr "Sitemap, har inga objekt ({0})"
+msgstr "Sitemap hefur enga hluti ({0})"
 
 msgid "no-items-sitemap (resolved)"
 msgstr "Sitemap, har inga objekt (leyst)"
@@ -97,13 +97,13 @@ msgid "no-security-txt (resolved)"
 msgstr "security.txt vantar (leyst)"
 
 msgid "invalid-security-txt (unresolved)"
-msgstr "security.txt har felaktigt innehåll ({0})"
+msgstr "security.txt hefur rangt innihald ({0})"
 
 msgid "invalid-security-txt (resolved)"
 msgstr "security.txt har felaktigt innehåll (leyst)"
 
 msgid "no-security-txt-contact (unresolved)"
-msgstr "security.txt saknar nödvändig kontaktinformation ({0})"
+msgstr "security.txt vantar nauðsynlegar tengiliðaupplýsingar ({0})"
 
 msgid "no-security-txt-contact (resolved)"
 msgstr "security.txt saknar nödvändig kontaktinformation (leyst)"
@@ -115,7 +115,7 @@ msgid "no-security-txt-expires (resolved)"
 msgstr "security.txt kräver utgångsinformation (tillägg i utkast v10) vantar (leyst)"
 
 msgid "no-network (unresolved)"
-msgstr "Test misslyckades, kunde inte nå webbplatsen ({0})"
+msgstr "Prófið mistókst, náði ekki sambandi við vefsvæðið ({0})"
 
 msgid "no-network (resolved)"
 msgstr "Test misslyckades, kunde inte nå webbplatsen (leyst)"

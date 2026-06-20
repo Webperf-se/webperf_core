@@ -203,13 +203,13 @@ msgid "void-content (resolved)"
 msgstr "Tillad ikke void-elementer med indhold (løst)"
 
 msgid "parser-error (unresolved)"
-msgstr "parser-error ({0})"
+msgstr "Tillad ikke fortolkningsfejl i HTML ({0})"
 
 msgid "parser-error (resolved)"
-msgstr "parser-error (resolved)"
+msgstr "Tillad ikke fortolkningsfejl i HTML (løst)"
 
 msgid "no-network (unresolved)"
-msgstr "no-network ({0})"
+msgstr "Testen kunne ikke nå webstedet ({0})"
 
 msgid "no-network (resolved)"
-msgstr "no-network (resolved)"
+msgstr "Testen kunne ikke nå webstedet (løst)"

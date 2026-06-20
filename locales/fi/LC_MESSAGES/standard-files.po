@@ -31,7 +31,7 @@ msgstr "Teksti joka näytetään msgid:n sijaan, tässä riippumatta vakavuustas
 
 
 msgid "no-duplicates-sitemap (unresolved)"
-msgstr "Sitemap, inga dubbletter av Url:er i <loc> är tillåtna ({0})"
+msgstr "Sitemap, kaksoiskappaleita Url-osoitteista <loc>-elementissä ei sallita ({0})"
 
 msgid "no-duplicates-sitemap (resolved)"
 msgstr "Sitemap, inga dubbletter av Url:er i <loc> är tillåtna (ratkaistu)"
@@ -43,7 +43,7 @@ msgid "no-robots-txt (resolved)"
 msgstr "robots.txt puuttuu, får inte laddas ner eller har inte förväntat innehåll (ratkaistu)"
 
 msgid "no-sitemap-in-robots-txt (unresolved)"
-msgstr "Sitemap anges inte i robots.txt ({0})"
+msgstr "Sitemapia ei ole ilmoitettu robots.txt-tiedostossa ({0})"
 
 msgid "no-sitemap-in-robots-txt (resolved)"
 msgstr "Sitemap anges inte i robots.txt (ratkaistu)"
@@ -55,31 +55,31 @@ msgid "no-valid-sitemap-found (resolved)"
 msgstr "Sitemap, ingen giltig sitemap löytyi (ratkaistu)"
 
 msgid "no-same-domain-sitemap (unresolved)"
-msgstr "Sitemap, Url i <loc> måste använda samma domän som robots.txt ({0})"
+msgstr "Sitemap, <loc>-elementin Url:n on käytettävä samaa verkkotunnusta kuin robots.txt ({0})"
 
 msgid "no-same-domain-sitemap (resolved)"
 msgstr "Sitemap, Url i <loc> måste använda samma domän som robots.txt (ratkaistu)"
 
 msgid "no-https-sitemap (unresolved)"
-msgstr "Sitemap, Url i <loc> måste börja med https:// ({0})"
+msgstr "Sitemap, <loc>-elementin Url:n on alettava https:// ({0})"
 
 msgid "no-https-sitemap (resolved)"
 msgstr "Sitemap, Url i <loc> måste börja med https:// (ratkaistu)"
 
 msgid "no-unknown-types-sitemap (unresolved)"
-msgstr "Sitemap, listar annat än webbsidor ({0})"
+msgstr "Sitemap listaa muutakin kuin verkkosivuja ({0})"
 
 msgid "no-unknown-types-sitemap (resolved)"
 msgstr "Sitemap, listar annat än webbsidor (ratkaistu)"
 
 msgid "invalid-sitemap-too-large (unresolved)"
-msgstr "Sitemap, överskrider 50 000 objekt ({0})"
+msgstr "Sitemap ylittää 50 000 kohdetta ({0})"
 
 msgid "invalid-sitemap-too-large (resolved)"
 msgstr "Sitemap, överskrider 50 000 objekt (ratkaistu)"
 
 msgid "no-items-sitemap (unresolved)"
-msgstr "Sitemap, har inga objekt ({0})"
+msgstr "Sitemapissa ei ole kohteita ({0})"
 
 msgid "no-items-sitemap (resolved)"
 msgstr "Sitemap, har inga objekt (ratkaistu)"
@@ -97,13 +97,13 @@ msgid "no-security-txt (resolved)"
 msgstr "security.txt puuttuu (ratkaistu)"
 
 msgid "invalid-security-txt (unresolved)"
-msgstr "security.txt har felaktigt innehåll ({0})"
+msgstr "security.txt sisältää virheellistä sisältöä ({0})"
 
 msgid "invalid-security-txt (resolved)"
 msgstr "security.txt har felaktigt innehåll (ratkaistu)"
 
 msgid "no-security-txt-contact (unresolved)"
-msgstr "security.txt saknar nödvändig kontaktinformation ({0})"
+msgstr "security.txt-tiedostosta puuttuu tarvittavat yhteystiedot ({0})"
 
 msgid "no-security-txt-contact (resolved)"
 msgstr "security.txt saknar nödvändig kontaktinformation (ratkaistu)"
@@ -115,7 +115,7 @@ msgid "no-security-txt-expires (resolved)"
 msgstr "security.txt kräver utgångsinformation (tillägg i utkast v10) puuttuu (ratkaistu)"
 
 msgid "no-network (unresolved)"
-msgstr "Test misslyckades, kunde inte nå webbplatsen ({0})"
+msgstr "Testi epäonnistui, sivustoon ei saatu yhteyttä ({0})"
 
 msgid "no-network (resolved)"
 msgstr "Test misslyckades, kunde inte nå webbplatsen (ratkaistu)"

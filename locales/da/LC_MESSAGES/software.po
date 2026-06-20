@@ -43,7 +43,7 @@ msgid "TEXT_USED_CSS"
 msgstr "- CSS-framework/bibliotek: {0}"
 
 msgid "TEXT_USED_LANG"
-msgstr "- Språk: {0}"
+msgstr "- Sprog: {0}"
 
 msgid "TEXT_USED_IMG"
 msgstr "- Billedformat: {0}"
@@ -91,7 +91,7 @@ msgid "TEXT_DETAILED_REVIEW_BEHIND050"
 msgstr "##### Software ligger bagefter >=50 versioner ( #POINTS# vurdering )\r\n\r\n###### Introduktion:\r\nSoftware der bruges ligger bagefter 50 eller flere versioner sammenlignet med nyeste.\r\nDette er en meget god indikator for at du skal opdatere til nyeste version.\r\nDet indikerer også at du ikke har en god pakkehåndtering for din software. \r\nDu kan løse dette ved at opdatere softwaren til nyeste version.\r\n\r\n"
 
 msgid "TEXT_DETAILED_REVIEW_BEHIND025"
-msgstr "##### Software ligger bagefter >=25 versioner ( #POINTS# vurdering )\r\n\r\n###### Introduktion:\r\nSoftware der bruges ligger bagefter 25 eller flere versioner sammenlignet med nyeste.\r\nDette er en god indikator for at du skal opdatere til nyeste version.\r\nDet indikerer også at du ikke har en god pakkehåndtering for din software.\ r\nDu kan løse dette ved at opdatere softwaren til nyeste version.\r\n\r\n"
+msgstr "##### Software ligger bagefter >=25 versioner ( #POINTS# vurdering )\r\n\r\n###### Introduktion:\r\nSoftware der bruges ligger bagefter 25 eller flere versioner sammenlignet med nyeste.\r\nDette er en god indikator for at du skal opdatere til nyeste version.\r\nDet indikerer også at du ikke har en god pakkehåndtering for din software.\r\nDu kan løse dette ved at opdatere softwaren til nyeste version.\r\n\r\n"
 
 msgid "TEXT_DETAILED_REVIEW_BEHIND010"
 msgstr "##### Software ligger bagefter >=10 versioner ( #POINTS# vurdering )\r\n\r\n###### Introduktion:\r\nSoftware der bruges ligger bagefter 10 eller flere versioner sammenlignet med nyeste.\r\nDette er en delvist god indikator for at du skal opdatere til nyeste version.\r\nDet indikerer også at du ikke har en god pakkehåndtering for din software. \r\nDu kan løse dette ved at opdatere softwaren til nyeste version.\r\n\r\n"

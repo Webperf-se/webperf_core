@@ -30,172 +30,172 @@ msgstr "Text to show instead of msgid, here independent of severity level"
 
 
 msgid "function-no-unknown (unresolved)"
-msgstr "CSS, Disallow unknown functions ({0})"
+msgstr "CSS, Ekki leyfa óþekktar aðgerðir ({0})"
 
 msgid "function-no-unknown (resolved)"
-msgstr "CSS, Disallow unknown functions (resolved)"
+msgstr "CSS, Ekki leyfa óþekktar aðgerðir (leyst)"
 
 msgid "declaration-property-value-no-unknown (unresolved)"
-msgstr "CSS, Disallow unknown values for properties within declarations ({0})"
+msgstr "CSS, Ekki leyfa óþekkt gildi fyrir eiginleika í yfirlýsingum ({0})"
 
 msgid "declaration-property-value-no-unknown (resolved)"
-msgstr "CSS, Disallow unknown values for properties within declarations (resolved)"
+msgstr "CSS, Ekki leyfa óþekkt gildi fyrir eiginleika í yfirlýsingum (leyst)"
 
 msgid "selector-type-no-unknown (unresolved)"
-msgstr "CSS, Disallow unknown type selectors ({0})"
+msgstr "CSS, Ekki leyfa óþekkta tegundarveljara ({0})"
 
 msgid "selector-type-no-unknown (resolved)"
-msgstr "CSS, Disallow unknown type selectors (resolved)"
+msgstr "CSS, Ekki leyfa óþekkta tegundarveljara (leyst)"
 
 msgid "at-rule-prelude-no-invalid (unresolved)"
-msgstr "CSS, Disallow invalid preludes for at-rules ({0})"
+msgstr "CSS, Ekki leyfa ógilda forleiki fyrir at-reglur ({0})"
 
 msgid "at-rule-prelude-no-invalid (resolved)"
-msgstr "CSS, Disallow invalid preludes for at-rules (resolved)"
+msgstr "CSS, Ekki leyfa ógilda forleiki fyrir at-reglur (leyst)"
 
 msgid "annotation-no-unknown (unresolved)"
-msgstr "CSS, Disallow unknown annotations ({0})"
+msgstr "CSS, Ekki leyfa óþekktar útskýringar ({0})"
 
 msgid "annotation-no-unknown (resolved)"
-msgstr "CSS, Disallow unknown annotations (resolved)"
+msgstr "CSS, Ekki leyfa óþekktar útskýringar (leyst)"
 
 msgid "at-rule-descriptor-no-unknown (unresolved)"
-msgstr "CSS, Disallow unknown descriptors for at-rules ({0})"
+msgstr "CSS, Ekki leyfa óþekkta lýsendur fyrir at-reglur ({0})"
 
 msgid "at-rule-descriptor-no-unknown (resolved)"
-msgstr "CSS, Disallow unknown descriptors for at-rules (resolved)"
+msgstr "CSS, Ekki leyfa óþekkta lýsendur fyrir at-reglur (leyst)"
 
 msgid "at-rule-descriptor-value-no-unknown (unresolved)"
-msgstr "CSS, Disallow unknown values for descriptors within at-rules ({0})"
+msgstr "CSS, Ekki leyfa óþekkt gildi fyrir lýsendur í at-reglum ({0})"
 
 msgid "at-rule-descriptor-value-no-unknown (resolved)"
-msgstr "CSS, Disallow unknown values for descriptors within at-rules (resolved)"
+msgstr "CSS, Ekki leyfa óþekkt gildi fyrir lýsendur í at-reglum (leyst)"
 
 msgid "at-rule-no-deprecated (unresolved)"
-msgstr "CSS, Disallow deprecated at-rules ({0})"
+msgstr "CSS, Ekki leyfa úreltar at-reglur ({0})"
 
 msgid "at-rule-no-deprecated (resolved)"
-msgstr "CSS, Disallow deprecated at-rules (resolved)"
+msgstr "CSS, Ekki leyfa úreltar at-reglur (leyst)"
 
 msgid "at-rule-no-unknown (unresolved)"
-msgstr "CSS, Disallow unknown at-rules ({0})"
+msgstr "CSS, Ekki leyfa óþekktar at-reglur ({0})"
 
 msgid "at-rule-no-unknown (resolved)"
-msgstr "CSS, Disallow unknown at-rules (resolved)"
+msgstr "CSS, Ekki leyfa óþekktar at-reglur (leyst)"
 
 msgid "block-no-empty (unresolved)"
-msgstr "CSS, Disallow empty blocks ({0})"
+msgstr "CSS, Ekki leyfa tómar blokkir ({0})"
 
 msgid "block-no-empty (resolved)"
-msgstr "CSS, Disallow empty blocks (resolved)"
+msgstr "CSS, Ekki leyfa tómar blokkir (leyst)"
 
 msgid "color-no-invalid-hex (unresolved)"
-msgstr "CSS, Disallow invalid hex colors ({0})"
+msgstr "CSS, Ekki leyfa ógilda hex-liti ({0})"
 
 msgid "color-no-invalid-hex (resolved)"
-msgstr "CSS, Disallow invalid hex colors (resolved)"
+msgstr "CSS, Ekki leyfa ógilda hex-liti (leyst)"
 
 msgid "comment-no-empty (unresolved)"
-msgstr "CSS, Disallow empty comments ({0})"
+msgstr "CSS, Ekki leyfa tómar athugasemdir ({0})"
 
 msgid "comment-no-empty (resolved)"
-msgstr "CSS, Disallow empty comments (resolved)"
+msgstr "CSS, Ekki leyfa tómar athugasemdir (leyst)"
 
 msgid "declaration-property-value-keyword-no-deprecated (unresolved)"
-msgstr "CSS, Disallow deprecated keywords for properties within declarations ({0})"
+msgstr "CSS, Ekki leyfa úrelt stikkorð fyrir eiginleika í yfirlýsingum ({0})"
 
 msgid "declaration-property-value-keyword-no-deprecated (resolved)"
-msgstr "CSS, Disallow deprecated keywords for properties within declarations (resolved)"
+msgstr "CSS, Ekki leyfa úrelt stikkorð fyrir eiginleika í yfirlýsingum (leyst)"
 
 msgid "function-linear-gradient-no-nonstandard-direction (unresolved)"
-msgstr "CSS, Disallow non-standard direction values for linear gradient functions ({0})"
+msgstr "CSS, Ekki leyfa óstöðluð stefnugildi fyrir línuleg stigulsföll ({0})"
 
 msgid "function-linear-gradient-no-nonstandard-direction (resolved)"
-msgstr "CSS, Disallow non-standard direction values for linear gradient functions (resolved)"
+msgstr "CSS, Ekki leyfa óstöðluð stefnugildi fyrir línuleg stigulsföll (leyst)"
 
 msgid "media-feature-name-no-unknown (unresolved)"
-msgstr "CSS, Disallow unknown media feature names ({0})"
+msgstr "CSS, Ekki leyfa óþekkt heiti á miðlunareiginleikum ({0})"
 
 msgid "media-feature-name-no-unknown (resolved)"
-msgstr "CSS, Disallow unknown media feature names (resolved)"
+msgstr "CSS, Ekki leyfa óþekkt heiti á miðlunareiginleikum (leyst)"
 
 msgid "media-feature-name-value-no-unknown (unresolved)"
-msgstr "CSS, Disallow unknown values for media features ({0})"
+msgstr "CSS, Ekki leyfa óþekkt gildi fyrir miðlunareiginleika ({0})"
 
 msgid "media-feature-name-value-no-unknown (resolved)"
-msgstr "CSS, Disallow unknown values for media features (resolved)"
+msgstr "CSS, Ekki leyfa óþekkt gildi fyrir miðlunareiginleika (leyst)"
 
 msgid "media-query-no-invalid (unresolved)"
-msgstr "CSS, Disallow invalid media queries ({0})"
+msgstr "CSS, Ekki leyfa ógildar miðlunarfyrirspurnir ({0})"
 
 msgid "media-query-no-invalid (resolved)"
-msgstr "CSS, Disallow invalid media queries (resolved)"
+msgstr "CSS, Ekki leyfa ógildar miðlunarfyrirspurnir (leyst)"
 
 msgid "named-grid-areas-no-invalid (unresolved)"
-msgstr "CSS, Disallow invalid named grid areas ({0})"
+msgstr "CSS, Ekki leyfa ógild nefnd rúðunetssvæði ({0})"
 
 msgid "named-grid-areas-no-invalid (resolved)"
-msgstr "CSS, Disallow invalid named grid areas (resolved)"
+msgstr "CSS, Ekki leyfa ógild nefnd rúðunetssvæði (leyst)"
 
 msgid "no-empty-source (unresolved)"
-msgstr "CSS, Disallow empty sources ({0})"
+msgstr "CSS, Ekki leyfa tómar heimildir ({0})"
 
 msgid "no-empty-source (resolved)"
-msgstr "CSS, Disallow empty sources (resolved)"
+msgstr "CSS, Ekki leyfa tómar heimildir (leyst)"
 
 msgid "no-invalid-double-slash-comments (unresolved)"
-msgstr "CSS, Disallow invalid double-slash comments ({0})"
+msgstr "CSS, Ekki leyfa ógildar tvískástriks-athugasemdir ({0})"
 
 msgid "no-invalid-double-slash-comments (resolved)"
-msgstr "CSS, Disallow invalid double-slash comments (resolved)"
+msgstr "CSS, Ekki leyfa ógildar tvískástriks-athugasemdir (leyst)"
 
 msgid "no-invalid-position-at-import-rule (unresolved)"
-msgstr "CSS, Disallow invalid position `@import` rules ({0})"
+msgstr "CSS, Ekki leyfa rangt staðsettar `@import`-reglur ({0})"
 
 msgid "no-invalid-position-at-import-rule (resolved)"
-msgstr "CSS, Disallow invalid position `@import` rules (resolved)"
+msgstr "CSS, Ekki leyfa rangt staðsettar `@import`-reglur (leyst)"
 
 msgid "no-unknown-animations (unresolved)"
-msgstr "CSS, Disallow unknown animations ({0})"
+msgstr "CSS, Ekki leyfa óþekktar hreyfingar ({0})"
 
 msgid "no-unknown-animations (resolved)"
-msgstr "CSS, Disallow unknown animations (resolved)"
+msgstr "CSS, Ekki leyfa óþekktar hreyfingar (leyst)"
 
 msgid "no-unknown-custom-media (unresolved)"
-msgstr "CSS, Disallow unknown custom media queries ({0})"
+msgstr "CSS, Ekki leyfa óþekktar sérsniðnar miðlunarfyrirspurnir ({0})"
 
 msgid "no-unknown-custom-media (resolved)"
-msgstr "CSS, Disallow unknown custom media queries (resolved)"
+msgstr "CSS, Ekki leyfa óþekktar sérsniðnar miðlunarfyrirspurnir (leyst)"
 
 msgid "no-unknown-custom-properties (unresolved)"
-msgstr "CSS, Disallow unknown custom properties ({0})"
+msgstr "CSS, Ekki leyfa óþekkta sérsniðna eiginleika ({0})"
 
 msgid "no-unknown-custom-properties (resolved)"
-msgstr "CSS, Ekki leyfa óþekkt sérsniðin eigindi (leyst)"
+msgstr "CSS, Ekki leyfa óþekkta sérsniðna eiginleika (leyst)"
 
 msgid "property-no-unknown (unresolved)"
-msgstr "CSS, Ekki leyfa óþekkt eigindi ({0})"
+msgstr "CSS, Ekki leyfa óþekkta eiginleika ({0})"
 
 msgid "property-no-unknown (resolved)"
-msgstr "CSS, Ekki leyfa óþekkt eigindi (leyst)"
+msgstr "CSS, Ekki leyfa óþekkta eiginleika (leyst)"
 
 msgid "selector-pseudo-class-no-unknown (unresolved)"
-msgstr "CSS, Ekki leyfa óþekkta gerviflokka-velja ({0})"
+msgstr "CSS, Ekki leyfa óþekkta gerviflokka-veljara ({0})"
 
 msgid "selector-pseudo-class-no-unknown (resolved)"
-msgstr "CSS, Ekki leyfa óþekkta gerviflokka-velja (leyst)"
+msgstr "CSS, Ekki leyfa óþekkta gerviflokka-veljara (leyst)"
 
 msgid "selector-pseudo-element-no-unknown (unresolved)"
-msgstr "CSS, Ekki leyfa óþekkta gervieiningar-velja ({0})"
+msgstr "CSS, Ekki leyfa óþekkta gervieininga-veljara ({0})"
 
 msgid "selector-pseudo-element-no-unknown (resolved)"
-msgstr "CSS, Ekki leyfa óþekkta gervieiningar-velja (leyst)"
+msgstr "CSS, Ekki leyfa óþekkta gervieininga-veljara (leyst)"
 
 msgid "syntax-string-no-invalid (unresolved)"
-msgstr "CSS, Ekki leyfa ógildar setningafræðistrengi ({0})"
+msgstr "CSS, Ekki leyfa ógilda málskipanarstrengi ({0})"
 
 msgid "syntax-string-no-invalid (resolved)"
-msgstr "CSS, Ekki leyfa ógildar setningafræðistrengi (leyst)"
+msgstr "CSS, Ekki leyfa ógilda málskipanarstrengi (leyst)"
 
 msgid "unit-no-unknown (unresolved)"
 msgstr "CSS, Ekki leyfa óþekktar einingar ({0})"
@@ -204,10 +204,10 @@ msgid "unit-no-unknown (resolved)"
 msgstr "CSS, Ekki leyfa óþekktar einingar (leyst)"
 
 msgid "media-type-no-deprecated (unresolved)"
-msgstr "CSS, Ekki leyfa úreltar miðlungerðir ({0})"
+msgstr "CSS, Ekki leyfa úreltar miðlunartegundir ({0})"
 
 msgid "media-type-no-deprecated (resolved)"
-msgstr "CSS, Ekki leyfa úreltar miðlungerðir (leyst)"
+msgstr "CSS, Ekki leyfa úreltar miðlunartegundir (leyst)"
 
 msgid "no-invalid-position-declaration (unresolved)"
 msgstr "CSS, Ekki leyfa ógildar staðsetningaryfirlýsingar ({0})"
@@ -216,19 +216,19 @@ msgid "no-invalid-position-declaration (resolved)"
 msgstr "CSS, Ekki leyfa ógildar staðsetningaryfirlýsingar (leyst)"
 
 msgid "property-no-deprecated (unresolved)"
-msgstr "CSS, Ekki leyfa úrelt eigindi ({0})"
+msgstr "CSS, Ekki leyfa úrelta eiginleika ({0})"
 
 msgid "property-no-deprecated (resolved)"
-msgstr "CSS, Ekki leyfa úrelt eigindi (leyst)"
+msgstr "CSS, Ekki leyfa úrelta eiginleika (leyst)"
 
 msgid "CssSyntaxError (unresolved)"
-msgstr "CssSyntaxError ({0})"
+msgstr "CSS, Málskipanarvilla ({0})"
 
 msgid "CssSyntaxError (resolved)"
-msgstr "CssSyntaxError (resolved)"
+msgstr "CSS, Málskipanarvilla (leyst)"
 
 msgid "no-network (unresolved)"
-msgstr "no-network ({0})"
+msgstr "CSS, Prófið náði ekki til vefsvæðisins ({0})"
 
 msgid "no-network (resolved)"
-msgstr "no-network (resolved)"
+msgstr "CSS, Prófið náði ekki til vefsvæðisins (leyst)"

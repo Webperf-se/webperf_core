@@ -28,7 +28,7 @@ msgid "TEXT_USED_WEBSERVER"
 msgstr "- Verkkopalvelin: {0}"
 
 msgid "TEXT_USED_OS"
-msgstr "- Operativsystem: {0}"
+msgstr "- Käyttöjärjestelmä: {0}"
 
 msgid "TEXT_USED_ANALYTICS"
 msgstr "- Kävijäanalyysi: {0}"
@@ -43,7 +43,7 @@ msgid "TEXT_USED_CSS"
 msgstr "- CSS-kehys/kirjasto: {0}"
 
 msgid "TEXT_USED_LANG"
-msgstr "- Språk: {0}"
+msgstr "- Kieli: {0}"
 
 msgid "TEXT_USED_IMG"
 msgstr "- Kuvaformaatti: {0}"
@@ -58,10 +58,10 @@ msgid "TEXT_USED_IMG.DEVICE"
 msgstr "- Kuva&shy;laitteisto {0}"
 
 msgid "TEXT_USED_VIDEO"
-msgstr "- Videoformat: {0}"
+msgstr "- Videomuoto: {0}"
 
 msgid "TEXT_USED_META"
-msgstr "- Metadata: {0}"
+msgstr "- Metatiedot: {0}"
 
 msgid "TEXT_USED_LICENSE"
 msgstr "- Lisenssit: {0}"
@@ -91,7 +91,7 @@ msgid "TEXT_DETAILED_REVIEW_BEHIND050"
 msgstr "##### Ohjelmisto on jäljessä >=50 versioner ( #POINTS# arvosana )\r\n\r\n###### Johdanto:\r\nProgramvara som används ligger bakom 50 eller fler versioner jämfört med senaste.\r\nDetta är en mycket bra indikator på att du behöver uppdatera till senaste version.\r\nDet indikerar också att du inte har en bra paketrutin för din programvara. \r\nDu kan fixa detta genom att uppdatera programvaran till senaste versionen.\r\n\r\n"
 
 msgid "TEXT_DETAILED_REVIEW_BEHIND025"
-msgstr "##### Ohjelmisto on jäljessä >=25 versioner ( #POINTS# arvosana )\r\n\r\n###### Johdanto:\r\nProgramvara som används ligger bakom 25 eller fler versioner jämfört med senaste.\r\nDetta är en bra indikator på att du behöver uppdatera till senaste version.\r\nDet indikerar också att du inte har en bra paketrutin för din programvara.\ r\nDu kan fixa detta genom att uppdatera programvaran till senaste versionen.\r\n\r\n"
+msgstr "##### Ohjelmisto on jäljessä >=25 versioner ( #POINTS# arvosana )\r\n\r\n###### Johdanto:\r\nProgramvara som används ligger bakom 25 eller fler versioner jämfört med senaste.\r\nDetta är en bra indikator på att du behöver uppdatera till senaste version.\r\nDet indikerar också att du inte har en bra paketrutin för din programvara.\r\nDu kan fixa detta genom att uppdatera programvaran till senaste versionen.\r\n\r\n"
 
 msgid "TEXT_DETAILED_REVIEW_BEHIND010"
 msgstr "##### Ohjelmisto on jäljessä >=10 versioner ( #POINTS# arvosana )\r\n\r\n###### Johdanto:\r\nProgramvara som används ligger bakom 10 eller fler versioner jämfört med senaste.\r\nDetta är en halvbra indikator på att du behöver uppdatera till senaste version.\r\nDet indikerar också att du inte har en bra paketrutin för din programvara. \r\nDu kan fixa detta genom att uppdatera programvaran till senaste versionen.\r\n\r\n"
@@ -136,13 +136,13 @@ msgid "TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES"
 msgstr "###### Vaikutusalueen resurssit:"
 
 msgid "TEXT_DETAILED_REVIEW_NO_CVE"
-msgstr "##### Inga vanliga sårbarheter och exponeringar hittade"
+msgstr "##### Yleisiä haavoittuvuuksia ja altistumisia ei löytynyt"
 
 msgid "TEXT_DETAILED_REVIEW_NO_BEHIND"
 msgstr "##### Det ser ut som att du käyttää senaste versionen på all mjukvara vi hittar"
 
 msgid "TEXT_DETAILED_REVIEW_NO_UNMAINTAINED"
-msgstr "##### Mjukvara ser ut att underhållas"
+msgstr "##### Ohjelmistoa näytetään ylläpidettävän"
 
 msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_10_YEARS"
 msgstr "##### Mjukvara saknar buggrättnningar eller andra ändringar de senaste 10 åren ( #POINTS# rating )\r\n\r\n###### Johdanto:\r\nDet ser ut som du käyttää mjukvara som inte längre underhålls, detta innebär att den ej får ny funktionalitet eller säkerhetsuppdateringar.\r\nFör att åtgärda detta måste du hitta en annan mjukvara som uppfyller dina behov, ofta pekar utvecklarna på ett alternativ som de tycker är bra från det ställe du hittade mjukvaran.\r\n\r\n"
@@ -169,16 +169,16 @@ msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_3_YEARS"
 msgstr "##### Mjukvara saknar buggrättnningar eller andra ändringar de senaste 3 åren ( #POINTS# rating )\r\n\r\n###### Johdanto:\r\nDet ser ut som du käyttää mjukvara som inte längre underhålls, detta innebär att den ej får ny funktionalitet eller säkerhetsuppdateringar.\r\nFör att åtgärda detta måste du hitta en annan mjukvara som uppfyller dina behov, ofta pekar utvecklarna på ett alternativ som de tycker är bra från det ställe du hittade mjukvaran.\r\n\r\n"
 
 msgid "TEXT_DETAILED_REVIEW_NO_END_OF_LIFE"
-msgstr "##### Mjukvara som används ser ej ut att ha nått sitt bäst före datum"
+msgstr "##### Käytössä oleva ohjelmisto ei näytä saavuttaneen elinkaarensa loppua"
 
 msgid "TEXT_DETAILED_REVIEW_END_OF_LIFE"
-msgstr "##### Mjukvara används som tycks ha nått sitt bäst före datum"
+msgstr "##### Käytössä on ohjelmistoa, joka näyttää saavuttaneen elinkaarensa lopun"
 
 msgid "TEXT_DETAILED_REVIEW_NO_A11Y_OVERLAY"
-msgstr "##### Du ser ej ut att använda tillgänglighetslager-mjukvara"
+msgstr "##### Et näytä käyttävän saavutettavuuspeite-ohjelmistoa"
 
 msgid "TEXT_DETAILED_REVIEW_A11Y_OVERLAY"
-msgstr "##### Du ser ut att använda tillgänglighetslager-mjukvara"
+msgstr "##### Näytät käyttävän saavutettavuuspeite-ohjelmistoa"
 
 msgid "TEXT_USED_WORDPRESS-THEME"
 msgstr "- WordPress-teema: {0}"

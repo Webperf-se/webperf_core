@@ -46,6 +46,9 @@ License: MIT
 ### [plugin-pagenotfound](https://www.npmjs.com/package/plugin-pagenotfound)
 License: MIT
 
+### [plugin-standard-files](https://www.npmjs.com/package/plugin-standard-files)
+License: MIT
+
 ### [plugin-accessibility-statement](https://www.npmjs.com/package/plugin-accessibility-statement)
 License: MIT
 

@@ -48,7 +48,7 @@ TEST_ALL = (TEST_UNKNOWN_00,
 TEST_ALL_FUNCS = {
         TEST_PAGE_NOT_FOUND: run_dummy_test,
         TEST_WEBBKOLL: run_test_privacy_webbkollen,
-        TEST_STANDARD_FILES:run_test_standard_files,
+        TEST_STANDARD_FILES: run_dummy_test,
         TEST_SITESPEED: run_test_performance_sitespeed_io,
         TEST_PA11Y: run_test_a11y_pa11y,
         TEST_HTTP: run_test_http_validator,
@@ -78,6 +78,7 @@ TEST_FUNCS = {
 
 TEST_USE_SITESPEED = {
         TEST_PAGE_NOT_FOUND: 'plugin-pagenotfound',
+        TEST_STANDARD_FILES: 'plugin-standard-files',
         TEST_A11Y_STATEMENT: 'plugin-accessibility-statement',
         TEST_LINT_CSS: 'plugin-css',
         TEST_LINT_HTML: 'plugin-html',
@@ -86,7 +87,6 @@ TEST_USE_SITESPEED = {
     }
 
 TEST_USE_SITESPEED_TOMORROW = {
-        TEST_STANDARD_FILES:run_test_standard_files,
         TEST_SITESPEED: run_test_performance_sitespeed_io,
         TEST_HTTP: run_test_http_validator,
         TEST_ENERGY_EFFICIENCY: run_test_energy_efficiency,

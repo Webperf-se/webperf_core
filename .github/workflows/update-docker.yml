@@ -14,7 +14,7 @@ jobs:
                 config: ["SOFTWARE_GITHUB_ADADVISORY_DATABASE_PATH=advisory_database"]
     steps:
     - name: Check out repository code
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
     - name: Setup python
       uses: actions/setup-python@v6
       with:

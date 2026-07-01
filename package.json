@@ -19,16 +19,16 @@
     "@sitespeed.io/plugin-lighthouse": "13.0.1",
     "pa11y": "9.1.1",
     "sitespeed.io": "41.3.3",
-    "plugin-css": "2026.6.1",
-    "plugin-html": "2026.6.0",
+    "plugin-css": "2026.6.2",
+    "plugin-html": "2026.6.1",
     "plugin-javascript": "2026.6.0",
-    "plugin-pagenotfound": "2026.6.0",
+    "plugin-pagenotfound": "2026.6.1",
     "plugin-standard-files": "2026.6.3",
     "plugin-accessibility-statement": "2026.6.0",
     "plugin-webperf-core": "2026.6.1"
   },
   "devDependencies": {
-    "eslint": "10.5.0",
+    "eslint": "10.6.0",
     "serve": "14.2.6",
     "serve-handler": "6.1.7"
   },

@@ -52,6 +52,7 @@ Webperf Core consists of many different tests. [Read general information about o
 * [HTML (html-validate)](./docs/tests/html-validate.md)
 * [Javascript (ESlint)](./docs/tests/js-linting.md)
 * [Accessibility, Best practice, Performance, SEO (Google Lighthouse)](./docs/tests/google-lighthouse.md)
+* [Users' privacy (Webbkoll backend)](./docs/tests/privacy.md)
 
 
 # Contribute

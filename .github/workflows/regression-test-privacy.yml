@@ -1,4 +1,4 @@
-name: "Regression Test - HTTP & Network Test"
+name: "Regression Test - Users' privacy (Webbkoll backend) Test"
 on:
   workflow_dispatch:
   push:
@@ -12,15 +12,15 @@ on:
       - 'Dockerfile'
       - '**regression-test-404.yml'
       - '**regression-test-a11y-statement.yml'
-      - '**regression-test-css.yml'
       - '**regression-test-docker-image.yml'
       - '**regression-test-email.yml'
       - '**regression-test-energy-efficiency.yml'
       - '**regression-test-google-lighthouse-based.yml'
-      - '**regression-test-html.yml'
+      - '**regression-test-http.yml'
       - '**regression-test-lint-css.yml'
+      - '**regression-test-lint-html.yml'
+      - '**regression-test-lint-js.yml'
       - '**regression-test-pa11y.yml'
-      - '**regression-test-privacy.yml'
       - '**regression-test-sitespeed-browsertime-har.yml'
       - '**regression-test-sitespeed.yml'
       - '**regression-test-software.yml'
@@ -33,9 +33,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
             matrix:
-                os: [ubuntu-latest] #, windows-latest]
-                config: ['CSP_ONLY=False', 'CSP_ONLY=True']
-                version: [21]
+                os: [ubuntu-latest]
+                version: [31]
     steps:
     - name: Check out repository code
       uses: actions/checkout@v7
@@ -50,15 +49,6 @@ jobs:
       uses: actions/setup-node@v6
       with:
         node-version: '24.x'
-    - if: ${{ matrix.os == 'ubuntu-latest' }}
-      shell: bash
-      name: Setup Google Chrome browser (ONLY used for Sitespeed)
-      run: |
-        wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - 
-        sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
-        sudo apt-get update
-        sudo apt-get --only-upgrade install google-chrome-stable
-        google-chrome --version
     - name: Setup npm packages
       run: npm install
       timeout-minutes: 30
@@ -67,5 +57,5 @@ jobs:
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: RUNNING TEST - LINUX
       run: |
-         python default.py -t ${{ matrix.version }} -r -u http://localhost:3000/ -o data/testresult-${{ matrix.version }}.json --setting ${{ matrix.config }} --setting tests.sitespeed.xvfb=true
+         python default.py -t ${{ matrix.version }} -r -u http://localhost:3000/ -o data/testresult-${{ matrix.version }}.json
          python .github/workflows/verify_result.py -t ${{ matrix.version }}

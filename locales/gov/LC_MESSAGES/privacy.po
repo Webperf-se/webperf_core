@@ -1,0 +1,94 @@
+# English.
+# Copyright (C) 2026 WebPerf
+# FIRST AUTHOR <m@webperf.se>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2026-07-09 12:00+0200\n"
+"PO-Revision-Date: 2026-07-09 12:00+0200\n"
+"Last-Translator: marcus <m@webperf.se>\n"
+"Language-Team: English <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 31 - Privacy (Webbkoll)\n"
+
+msgid "TEXT_SERVICE_UNAVAILABLE"
+msgstr "Could not reach the webbkoll-backend service at {0}\n"
+
+msgid "TEXT_REVIEW_VERY_GOOD"
+msgstr "- The website is great on privacy!\n"
+
+msgid "TEXT_REVIEW_IS_GOOD"
+msgstr "- The site could be better, but is pretty good.\n"
+
+msgid "TEXT_REVIEW_IS_OK"
+msgstr "- About average privacy settings, but should get better.\n"
+
+msgid "TEXT_REVIEW_IS_BAD"
+msgstr "- Rather poor on user privacy.\n"
+
+msgid "TEXT_REVIEW_IS_VERY_BAD"
+msgstr "- Very bad privacy!\n"
+
+msgid "TEXT_REVIEW_HTTPS_VERY_GOOD"
+msgstr "- HTTPS is used and no insecure requests are made"
+
+msgid "TEXT_REVIEW_HTTPS_NO_HTTPS"
+msgstr "the website does not use HTTPS"
+
+msgid "TEXT_REVIEW_HTTPS_MIXED_CONTENT"
+msgstr "{0} resource(s) are loaded over insecure HTTP (mixed content)"
+
+msgid "TEXT_REVIEW_HTTPS_OLD_TLS"
+msgstr "an outdated TLS version is used ({0})"
+
+msgid "TEXT_REVIEW_REFERRER_POLICY_VERY_GOOD"
+msgstr "- Referrer policy protects your visitors ({0})"
+
+msgid "TEXT_REVIEW_REFERRER_POLICY_MISSING"
+msgstr "no referrer policy is set, browsers may leak visited addresses to other websites"
+
+msgid "TEXT_REVIEW_REFERRER_POLICY_LEAKY"
+msgstr "the referrer policy ({0}) may leak visited addresses to other websites"
+
+msgid "TEXT_REVIEW_COOKIES_VERY_GOOD"
+msgstr "- No problematic cookies are used"
+
+msgid "TEXT_REVIEW_COOKIES_THIRD_PARTY"
+msgstr "{0} third party cookie(s), visitors may be tracked across websites"
+
+msgid "TEXT_REVIEW_COOKIES_LONG_LIVED"
+msgstr "{0} cookie(s) live longer than a year"
+
+msgid "TEXT_REVIEW_COOKIES_NOT_SECURE"
+msgstr "{0} cookie(s) are missing the Secure attribute"
+
+msgid "TEXT_REVIEW_THIRD_PARTY_VERY_GOOD"
+msgstr "- No third party requests are made"
+
+msgid "TEXT_REVIEW_THIRD_PARTY_REQUESTS"
+msgstr "requests are made to {0} third party domain(s)"
+
+msgid "TEXT_REVIEW_THIRD_PARTY_TRACKERS"
+msgstr "{0} known tracker domain(s) are contacted"
+
+msgid "TEXT_REVIEW_HEADERS_VERY_GOOD"
+msgstr "- Privacy and security related HTTP headers are in place"
+
+msgid "TEXT_REVIEW_HEADERS_HSTS_MISSING"
+msgstr "the Strict-Transport-Security (HSTS) header is missing"
+
+msgid "TEXT_REVIEW_HEADERS_HSTS_SHORT"
+msgstr "HSTS max-age is shorter than 6 months"
+
+msgid "TEXT_REVIEW_HEADERS_XCTO_MISSING"
+msgstr "the X-Content-Type-Options header is missing or invalid"
+
+msgid "TEXT_REVIEW_HEADERS_XFO_MISSING"
+msgstr "there is no protection against the website being embedded on other websites (X-Frame-Options or frame-ancestors)"

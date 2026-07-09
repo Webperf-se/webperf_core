@@ -1,0 +1,94 @@
+# Finnish.
+# Copyright (C) 2026 WebPerf
+# FIRST AUTHOR <m@webperf.se>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2026-07-09 12:00+0200\n"
+"PO-Revision-Date: 2026-07-09 12:00+0200\n"
+"Last-Translator: marcus <m@webperf.se>\n"
+"Language-Team: Finnish <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Testi: 31 - Yksityisyys (Webbkoll)\n"
+
+msgid "TEXT_SERVICE_UNAVAILABLE"
+msgstr "Webbkoll-backend-palveluun osoitteessa {0} ei saatu yhteyttä\n"
+
+msgid "TEXT_REVIEW_VERY_GOOD"
+msgstr "- Sivusto on erinomainen yksityisyyden suhteen!\n"
+
+msgid "TEXT_REVIEW_IS_GOOD"
+msgstr "- Sivusto voisi olla parempi, mutta on melko hyvä.\n"
+
+msgid "TEXT_REVIEW_IS_OK"
+msgstr "- Keskimääräiset yksityisyysasetukset, mutta parannettavaa on.\n"
+
+msgid "TEXT_REVIEW_IS_BAD"
+msgstr "- Melko heikko käyttäjien yksityisyys.\n"
+
+msgid "TEXT_REVIEW_IS_VERY_BAD"
+msgstr "- Erittäin huono yksityisyys!\n"
+
+msgid "TEXT_REVIEW_HTTPS_VERY_GOOD"
+msgstr "- HTTPS on käytössä eikä suojaamattomia pyyntöjä tehdä"
+
+msgid "TEXT_REVIEW_HTTPS_NO_HTTPS"
+msgstr "sivusto ei käytä HTTPS:ää"
+
+msgid "TEXT_REVIEW_HTTPS_MIXED_CONTENT"
+msgstr "{0} resurssia ladataan suojaamattoman HTTP:n yli (mixed content)"
+
+msgid "TEXT_REVIEW_HTTPS_OLD_TLS"
+msgstr "käytössä on vanhentunut TLS-versio ({0})"
+
+msgid "TEXT_REVIEW_REFERRER_POLICY_VERY_GOOD"
+msgstr "- Referrer-käytäntö suojaa kävijöitä ({0})"
+
+msgid "TEXT_REVIEW_REFERRER_POLICY_MISSING"
+msgstr "referrer-käytäntöä ei ole asetettu, selaimet voivat vuotaa vierailtuja osoitteita muille sivustoille"
+
+msgid "TEXT_REVIEW_REFERRER_POLICY_LEAKY"
+msgstr "referrer-käytäntö ({0}) voi vuotaa vierailtuja osoitteita muille sivustoille"
+
+msgid "TEXT_REVIEW_COOKIES_VERY_GOOD"
+msgstr "- Ongelmallisia evästeitä ei käytetä"
+
+msgid "TEXT_REVIEW_COOKIES_THIRD_PARTY"
+msgstr "{0} kolmannen osapuolen evästettä, kävijöitä voidaan seurata sivustojen välillä"
+
+msgid "TEXT_REVIEW_COOKIES_LONG_LIVED"
+msgstr "{0} evästettä säilyy yli vuoden"
+
+msgid "TEXT_REVIEW_COOKIES_NOT_SECURE"
+msgstr "{0} evästeeltä puuttuu Secure-attribuutti"
+
+msgid "TEXT_REVIEW_THIRD_PARTY_VERY_GOOD"
+msgstr "- Kolmansille osapuolille ei tehdä pyyntöjä"
+
+msgid "TEXT_REVIEW_THIRD_PARTY_REQUESTS"
+msgstr "pyyntöjä tehdään {0} kolmannen osapuolen verkkotunnukseen"
+
+msgid "TEXT_REVIEW_THIRD_PARTY_TRACKERS"
+msgstr "{0} tunnettuun seurantaverkkotunnukseen otetaan yhteyttä"
+
+msgid "TEXT_REVIEW_HEADERS_VERY_GOOD"
+msgstr "- Yksityisyyteen ja turvallisuuteen liittyvät HTTP-otsakkeet ovat kunnossa"
+
+msgid "TEXT_REVIEW_HEADERS_HSTS_MISSING"
+msgstr "Strict-Transport-Security (HSTS) -otsake puuttuu"
+
+msgid "TEXT_REVIEW_HEADERS_HSTS_SHORT"
+msgstr "HSTS max-age on lyhyempi kuin 6 kuukautta"
+
+msgid "TEXT_REVIEW_HEADERS_XCTO_MISSING"
+msgstr "X-Content-Type-Options-otsake puuttuu tai on virheellinen"
+
+msgid "TEXT_REVIEW_HEADERS_XFO_MISSING"
+msgstr "suojaus puuttuu sivuston upottamista vastaan muille sivustoille (X-Frame-Options tai frame-ancestors)"

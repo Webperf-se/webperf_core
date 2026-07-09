@@ -1,0 +1,94 @@
+# Danish.
+# Copyright (C) 2026 WebPerf
+# FIRST AUTHOR <m@webperf.se>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2026-07-09 12:00+0200\n"
+"PO-Revision-Date: 2026-07-09 12:00+0200\n"
+"Last-Translator: marcus <m@webperf.se>\n"
+"Language-Team: Danish <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 31 - Privatliv (Webbkoll)\n"
+
+msgid "TEXT_SERVICE_UNAVAILABLE"
+msgstr "Kunne ikke nå webbkoll-backend-tjenesten på {0}\n"
+
+msgid "TEXT_REVIEW_VERY_GOOD"
+msgstr "- Webstedet er rigtig godt til privatliv!\n"
+
+msgid "TEXT_REVIEW_IS_GOOD"
+msgstr "- Webstedet kunne være bedre, men er ret godt.\n"
+
+msgid "TEXT_REVIEW_IS_OK"
+msgstr "- Omtrent gennemsnitligt privatliv, men bør blive bedre.\n"
+
+msgid "TEXT_REVIEW_IS_BAD"
+msgstr "- Ret dårligt privatliv.\n"
+
+msgid "TEXT_REVIEW_IS_VERY_BAD"
+msgstr "- Meget dårligt privatliv for brugerne!\n"
+
+msgid "TEXT_REVIEW_HTTPS_VERY_GOOD"
+msgstr "- HTTPS bruges og der laves ingen usikre kald"
+
+msgid "TEXT_REVIEW_HTTPS_NO_HTTPS"
+msgstr "webstedet bruger ikke HTTPS"
+
+msgid "TEXT_REVIEW_HTTPS_MIXED_CONTENT"
+msgstr "{0} ressourcer indlæses over usikker HTTP (mixed content)"
+
+msgid "TEXT_REVIEW_HTTPS_OLD_TLS"
+msgstr "en forældet TLS-version bruges ({0})"
+
+msgid "TEXT_REVIEW_REFERRER_POLICY_VERY_GOOD"
+msgstr "- Referrer-politikken beskytter dine besøgende ({0})"
+
+msgid "TEXT_REVIEW_REFERRER_POLICY_MISSING"
+msgstr "ingen referrer-politik er sat, browsere kan lække besøgte adresser til andre websteder"
+
+msgid "TEXT_REVIEW_REFERRER_POLICY_LEAKY"
+msgstr "referrer-politikken ({0}) kan lække besøgte adresser til andre websteder"
+
+msgid "TEXT_REVIEW_COOKIES_VERY_GOOD"
+msgstr "- Ingen problematiske cookies bruges"
+
+msgid "TEXT_REVIEW_COOKIES_THIRD_PARTY"
+msgstr "{0} tredjepartscookies, besøgende kan spores på tværs af websteder"
+
+msgid "TEXT_REVIEW_COOKIES_LONG_LIVED"
+msgstr "{0} cookies lever længere end et år"
+
+msgid "TEXT_REVIEW_COOKIES_NOT_SECURE"
+msgstr "{0} cookies mangler attributten Secure"
+
+msgid "TEXT_REVIEW_THIRD_PARTY_VERY_GOOD"
+msgstr "- Der laves ingen kald til tredjepart"
+
+msgid "TEXT_REVIEW_THIRD_PARTY_REQUESTS"
+msgstr "der laves kald til {0} tredjepartsdomæner"
+
+msgid "TEXT_REVIEW_THIRD_PARTY_TRACKERS"
+msgstr "{0} kendte sporingsdomæner kontaktes"
+
+msgid "TEXT_REVIEW_HEADERS_VERY_GOOD"
+msgstr "- HTTP-headers for privatliv og sikkerhed er på plads"
+
+msgid "TEXT_REVIEW_HEADERS_HSTS_MISSING"
+msgstr "headeren Strict-Transport-Security (HSTS) mangler"
+
+msgid "TEXT_REVIEW_HEADERS_HSTS_SHORT"
+msgstr "HSTS max-age er kortere end 6 måneder"
+
+msgid "TEXT_REVIEW_HEADERS_XCTO_MISSING"
+msgstr "headeren X-Content-Type-Options mangler eller er ugyldig"
+
+msgid "TEXT_REVIEW_HEADERS_XFO_MISSING"
+msgstr "der mangler beskyttelse mod at webstedet indlejres på andre websteder (X-Frame-Options eller frame-ancestors)"

@@ -1,0 +1,94 @@
+# Norwegian.
+# Copyright (C) 2026 WebPerf
+# FIRST AUTHOR <m@webperf.se>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2026-07-09 12:00+0200\n"
+"PO-Revision-Date: 2026-07-09 12:00+0200\n"
+"Last-Translator: marcus <m@webperf.se>\n"
+"Language-Team: Norwegian <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 31 - Personvern (Webbkoll)\n"
+
+msgid "TEXT_SERVICE_UNAVAILABLE"
+msgstr "Kunne ikke nå webbkoll-backend-tjenesten på {0}\n"
+
+msgid "TEXT_REVIEW_VERY_GOOD"
+msgstr "- Nettstedet er veldig bra på personvern!\n"
+
+msgid "TEXT_REVIEW_IS_GOOD"
+msgstr "- Nettstedet kunne vært bedre, men er ganske bra.\n"
+
+msgid "TEXT_REVIEW_IS_OK"
+msgstr "- Omtrent gjennomsnittlig personvern, men bør bli bedre.\n"
+
+msgid "TEXT_REVIEW_IS_BAD"
+msgstr "- Ganske dårlig personvern.\n"
+
+msgid "TEXT_REVIEW_IS_VERY_BAD"
+msgstr "- Veldig dårlig personvern for brukerne!\n"
+
+msgid "TEXT_REVIEW_HTTPS_VERY_GOOD"
+msgstr "- HTTPS brukes og ingen usikre kall gjøres"
+
+msgid "TEXT_REVIEW_HTTPS_NO_HTTPS"
+msgstr "nettstedet bruker ikke HTTPS"
+
+msgid "TEXT_REVIEW_HTTPS_MIXED_CONTENT"
+msgstr "{0} ressurser lastes over usikker HTTP (mixed content)"
+
+msgid "TEXT_REVIEW_HTTPS_OLD_TLS"
+msgstr "en utdatert TLS-versjon brukes ({0})"
+
+msgid "TEXT_REVIEW_REFERRER_POLICY_VERY_GOOD"
+msgstr "- Referrer-policyen beskytter dine besøkende ({0})"
+
+msgid "TEXT_REVIEW_REFERRER_POLICY_MISSING"
+msgstr "ingen referrer-policy er satt, nettlesere kan lekke besøkte adresser til andre nettsteder"
+
+msgid "TEXT_REVIEW_REFERRER_POLICY_LEAKY"
+msgstr "referrer-policyen ({0}) kan lekke besøkte adresser til andre nettsteder"
+
+msgid "TEXT_REVIEW_COOKIES_VERY_GOOD"
+msgstr "- Ingen problematiske informasjonskapsler brukes"
+
+msgid "TEXT_REVIEW_COOKIES_THIRD_PARTY"
+msgstr "{0} tredjeparts informasjonskapsler, besøkende kan spores på tvers av nettsteder"
+
+msgid "TEXT_REVIEW_COOKIES_LONG_LIVED"
+msgstr "{0} informasjonskapsler lever lenger enn ett år"
+
+msgid "TEXT_REVIEW_COOKIES_NOT_SECURE"
+msgstr "{0} informasjonskapsler mangler attributtet Secure"
+
+msgid "TEXT_REVIEW_THIRD_PARTY_VERY_GOOD"
+msgstr "- Ingen kall gjøres til tredjepart"
+
+msgid "TEXT_REVIEW_THIRD_PARTY_REQUESTS"
+msgstr "kall gjøres til {0} tredjepartsdomener"
+
+msgid "TEXT_REVIEW_THIRD_PARTY_TRACKERS"
+msgstr "{0} kjente sporingsdomener kontaktes"
+
+msgid "TEXT_REVIEW_HEADERS_VERY_GOOD"
+msgstr "- HTTP-headere for personvern og sikkerhet er på plass"
+
+msgid "TEXT_REVIEW_HEADERS_HSTS_MISSING"
+msgstr "headeren Strict-Transport-Security (HSTS) mangler"
+
+msgid "TEXT_REVIEW_HEADERS_HSTS_SHORT"
+msgstr "HSTS max-age er kortere enn 6 måneder"
+
+msgid "TEXT_REVIEW_HEADERS_XCTO_MISSING"
+msgstr "headeren X-Content-Type-Options mangler eller er ugyldig"
+
+msgid "TEXT_REVIEW_HEADERS_XFO_MISSING"
+msgstr "beskyttelse mangler mot at nettstedet bygges inn på andre nettsteder (X-Frame-Options eller frame-ancestors)"

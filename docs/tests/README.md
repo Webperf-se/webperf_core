@@ -19,6 +19,7 @@ These are the tests available in Webperf Core. In most cases, you select a test 
 * 28 - [HTML (html-validate)](html-validate.md)
 * 29 - [Javascript (ESlint)](js-linting.md)
 * 30 - [Accessibility, Best practice, Performance, SEO (Google Lighthouse)](google-lighthouse.md)
+* 31 - [Users' privacy (Webbkoll backend)](privacy.md)
 
 
 ## Code Quality
@@ -44,3 +45,4 @@ Quick overview of all current status of our regression tests.
 * [![Regression Test - Software Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-software.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-software.yml)
 * [![Regression Test - Email Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-email.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-email.yml)
 * [![Regression Test - Accessibility Statement Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-a11y-statement.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-a11y-statement.yml)
+* [![Regression Test - Users' privacy (Webbkoll backend) Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-privacy.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-privacy.yml)

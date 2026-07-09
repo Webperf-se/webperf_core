@@ -22,6 +22,7 @@ on:
       - '**regression-test-lint-css.yml'
       - '**regression-test-lint-html.yml'
       - '**regression-test-pa11y.yml'
+      - '**regression-test-privacy.yml'
       - '**regression-test-sitespeed-browsertime-har.yml'
       - '**regression-test-sitespeed.yml'
       - '**regression-test-software.yml'

@@ -61,7 +61,8 @@
             "override-url": true
         },
         "webbkoll": {
-            "sleep": 20
+            "sleep": 20,
+            "api-url": "http://localhost:8100"
         }
     }
 }

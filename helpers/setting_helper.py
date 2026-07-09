@@ -55,6 +55,11 @@ config_mapping = {
         "webbkoll_sleep",
         "WEBBKOLL_SLEEP"): "int|tests.webbkoll.sleep",
     (
+        "webbkollapiurl",
+        "tests.webbkoll.api-url",
+        "webbkoll_api_url",
+        "WEBBKOLL_API_URL"): "string|tests.webbkoll.api-url",
+    (
         "tests.w3c.group",
         "tests.css.group",
         "css_review_group_errors",

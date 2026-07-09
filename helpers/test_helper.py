@@ -10,6 +10,7 @@ from tests.utils import get_translation, merge_dicts,\
     sort_testresult_issues, calculate_rating
 from tests.sitespeed_base import create_webperf_json
 from tests.privacy_webbkollen import run_test as run_test_privacy_webbkollen
+from tests.privacy import run_test as run_test_privacy
 from tests.standard_files import run_test as run_test_standard_files
 from tests.performance_sitespeed_io import run_test as run_test_performance_sitespeed_io
 from tests.a11y_pa11y import run_test as run_test_a11y_pa11y
@@ -42,8 +43,9 @@ TEST_ALL = (TEST_UNKNOWN_00,
             TEST_WEBBKOLL, TEST_HTTP, TEST_ENERGY_EFFICIENCY, TEST_TRACKING,
             TEST_EMAIL, TEST_SOFTWARE, TEST_A11Y_STATEMENT,
             TEST_LINT_CSS, TEST_LINT_HTML, TEST_LINT_JS,
-            TEST_GOOGLE_LIGHTHOUSE
-            ) = range(31)
+            TEST_GOOGLE_LIGHTHOUSE,
+            TEST_PRIVACY
+            ) = range(32)
 
 TEST_ALL_FUNCS = {
         TEST_PAGE_NOT_FOUND: run_dummy_test,
@@ -60,7 +62,8 @@ TEST_ALL_FUNCS = {
         TEST_LINT_CSS: run_dummy_test,
         TEST_LINT_HTML: run_dummy_test,
         TEST_LINT_JS: run_dummy_test,
-        TEST_GOOGLE_LIGHTHOUSE: run_dummy_test
+        TEST_GOOGLE_LIGHTHOUSE: run_dummy_test,
+        TEST_PRIVACY: run_test_privacy
     }
 
 
@@ -73,7 +76,8 @@ TEST_FUNCS = {
         TEST_ENERGY_EFFICIENCY: run_test_energy_efficiency,
         TEST_TRACKING: run_test_tracking_validator,
         TEST_EMAIL: run_test_email_validator,
-        TEST_SOFTWARE: run_test_software
+        TEST_SOFTWARE: run_test_software,
+        TEST_PRIVACY: run_test_privacy
     }
 
 TEST_USE_SITESPEED = {

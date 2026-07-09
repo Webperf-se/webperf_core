@@ -1,0 +1,94 @@
+# Swedish.
+# Copyright (C) 2026 WebPerf
+# FIRST AUTHOR <m@webperf.se>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2026-07-09 12:00+0200\n"
+"PO-Revision-Date: 2026-07-09 12:00+0200\n"
+"Last-Translator: marcus <m@webperf.se>\n"
+"Language-Team: Swedish <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 31 - Integritet (Webbkoll)\n"
+
+msgid "TEXT_SERVICE_UNAVAILABLE"
+msgstr "Kunde inte nå webbkoll-backend-tjänsten på {0}\n"
+
+msgid "TEXT_REVIEW_VERY_GOOD"
+msgstr "- Webbplatsen är riktigt bra på integritet!\n"
+
+msgid "TEXT_REVIEW_IS_GOOD"
+msgstr "- Webbplatsen kan bli bättre, men är helt ok.\n"
+
+msgid "TEXT_REVIEW_IS_OK"
+msgstr "- Ok integritet men borde nog bli bättre.\n"
+
+msgid "TEXT_REVIEW_IS_BAD"
+msgstr "- Dålig integritet.\n"
+
+msgid "TEXT_REVIEW_IS_VERY_BAD"
+msgstr "- Riktigt dålig integritet för användarna!\n"
+
+msgid "TEXT_REVIEW_HTTPS_VERY_GOOD"
+msgstr "- HTTPS används och inga osäkra anrop görs"
+
+msgid "TEXT_REVIEW_HTTPS_NO_HTTPS"
+msgstr "webbplatsen använder inte HTTPS"
+
+msgid "TEXT_REVIEW_HTTPS_MIXED_CONTENT"
+msgstr "{0} resurser laddas över osäker HTTP (mixed content)"
+
+msgid "TEXT_REVIEW_HTTPS_OLD_TLS"
+msgstr "en föråldrad TLS-version används ({0})"
+
+msgid "TEXT_REVIEW_REFERRER_POLICY_VERY_GOOD"
+msgstr "- Referrer-policyn skyddar dina besökare ({0})"
+
+msgid "TEXT_REVIEW_REFERRER_POLICY_MISSING"
+msgstr "ingen referrer-policy är satt, webbläsare kan läcka besökta adresser till andra webbplatser"
+
+msgid "TEXT_REVIEW_REFERRER_POLICY_LEAKY"
+msgstr "referrer-policyn ({0}) kan läcka besökta adresser till andra webbplatser"
+
+msgid "TEXT_REVIEW_COOKIES_VERY_GOOD"
+msgstr "- Inga problematiska kakor används"
+
+msgid "TEXT_REVIEW_COOKIES_THIRD_PARTY"
+msgstr "{0} tredjepartskakor, besökare kan spåras mellan webbplatser"
+
+msgid "TEXT_REVIEW_COOKIES_LONG_LIVED"
+msgstr "{0} kakor lever längre än ett år"
+
+msgid "TEXT_REVIEW_COOKIES_NOT_SECURE"
+msgstr "{0} kakor saknar attributet Secure"
+
+msgid "TEXT_REVIEW_THIRD_PARTY_VERY_GOOD"
+msgstr "- Inga anrop görs till tredje part"
+
+msgid "TEXT_REVIEW_THIRD_PARTY_REQUESTS"
+msgstr "anrop görs till {0} tredjepartsdomäner"
+
+msgid "TEXT_REVIEW_THIRD_PARTY_TRACKERS"
+msgstr "{0} kända spårningsdomäner kontaktas"
+
+msgid "TEXT_REVIEW_HEADERS_VERY_GOOD"
+msgstr "- HTTP-headers för integritet och säkerhet är på plats"
+
+msgid "TEXT_REVIEW_HEADERS_HSTS_MISSING"
+msgstr "headern Strict-Transport-Security (HSTS) saknas"
+
+msgid "TEXT_REVIEW_HEADERS_HSTS_SHORT"
+msgstr "HSTS max-age är kortare än 6 månader"
+
+msgid "TEXT_REVIEW_HEADERS_XCTO_MISSING"
+msgstr "headern X-Content-Type-Options saknas eller är felaktig"
+
+msgid "TEXT_REVIEW_HEADERS_XFO_MISSING"
+msgstr "skydd saknas mot att webbplatsen bäddas in på andra webbplatser (X-Frame-Options eller frame-ancestors)"

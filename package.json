@@ -1,6 +1,6 @@
 {
   "name": "webperf_core",
-  "version": "2026.7.0",
+  "version": "2026.7.1",
   "type": "module",
   "description": "You probably want to read the documentation available at homepage.",
   "repository": {
@@ -18,7 +18,7 @@
     "@sitespeed.io/plugin": "1.0.2",
     "@sitespeed.io/plugin-lighthouse": "13.0.1",
     "pa11y": "9.1.1",
-    "sitespeed.io": "41.3.3",
+    "sitespeed.io": "41.4.1",
     "webbkoll-backend": "git+https://codeberg.org/marcusosterberg/webbkoll-backend.git",
     "plugin-css": "2026.6.2",
     "plugin-html": "2026.6.1",

@@ -6,9 +6,9 @@ dnspython==2.8.0
 certifi==2026.6.17
 selenium==4.45.0
 IP2Location==8.11.0
-Pillow==12.2.0
+Pillow==12.3.0
 OpenCV-Python==5.0.0.93
-Numpy==2.5.0
+Numpy==2.5.1
 cryptography==49.0.0
 pylint==4.0.6
 packaging==26.2

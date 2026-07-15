@@ -245,8 +245,20 @@ def get_total_bytes(filename, result_dict):
         if 'log' in har_data:
             har_data = har_data['log']
 
+        # A HAR can contain more than one page, for example when a concurrent
+        # browsertime run ends up in the same browser session (crossed
+        # DevTools port) and navigates to another website mid-recording.
+        # Only requests belonging to the first page are the tested website's.
+        first_page_id = None
+        if 'pages' in har_data and len(har_data['pages']) > 0:
+            first_page_id = har_data['pages'][0].get('id')
+
         req_index = 1
         for entry in har_data["entries"]:
+            if first_page_id is not None and \
+                    entry.get('pageref', first_page_id) != first_page_id:
+                continue
+
             req = entry['request']
             res = entry['response']
 

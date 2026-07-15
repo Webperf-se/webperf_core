@@ -14,6 +14,7 @@ import packaging.version
 from helpers.models import Rating, DefaultInfo
 from helpers.browser_helper import get_chromium_browser
 from helpers.setting_helper import get_config
+from helpers.sitespeed_helper import get_first_page_entries
 from tests.sitespeed_base import get_result
 from tests.utils import get_http_content, get_translation, is_file_older_than
 from engines.sitespeed_result import read_sites_from_directory
@@ -1183,7 +1184,13 @@ def identify_software(filename, origin_domain, rules):
         if 'cookies' in har_data:
             global_cookies = har_data['cookies']
 
-        for entry in har_data["entries"]:
+        entries = get_first_page_entries(har_data, origin_domain)
+
+        # fail if the recording isn't of the tested website
+        if entries is None or len(entries) == 0:
+            return None
+
+        for entry in entries:
             req = entry['request']
             res = entry['response']
             req_url = req['url']

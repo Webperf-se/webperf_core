@@ -10,6 +10,7 @@ from datetime import datetime, timedelta, date
 from helpers.models import Rating
 from helpers.setting_helper import get_config
 from helpers.browser_helper import get_chromium_browser
+from helpers.sitespeed_helper import get_first_page_entries
 from tests.utils import get_best_country_code, get_friendly_url_name,\
     get_translation, is_country_code_in_eu_or_on_exception_list
 from tests.sitespeed_base import get_result
@@ -800,6 +801,26 @@ def get_rating_from_sitespeed(url, local_translation, global_translation):
 
     http_archive_content = get_file_content(browsertime_Hars[0][0])
     if http_archive_content is None:
+        return rating
+
+    # Filter the recording to the tested website's own page before rating,
+    # so requests recorded from another page (for example a concurrent
+    # browsertime run in the same browser session after a crossed DevTools
+    # port) aren't attributed to the tested website.
+    try:
+        har_data = json.loads(http_archive_content)
+        entries = get_first_page_entries(har_data, origin_domain)
+
+        # fail if the recording isn't of the tested website
+        if entries is None:
+            return rating
+
+        if 'log' in har_data:
+            har_data['log']['entries'] = entries
+        else:
+            har_data['entries'] = entries
+        http_archive_content = json.dumps(har_data)
+    except json.JSONDecodeError:
         return rating
 
     # TODO: Read sitespeed manual on how to return localStorage

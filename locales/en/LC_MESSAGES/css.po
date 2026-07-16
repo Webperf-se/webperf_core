@@ -220,3 +220,9 @@ msgstr "CSS, Disallow deprecated properties ({0})"
 
 msgid "property-no-deprecated (resolved)"
 msgstr "CSS, Disallow deprecated properties (resolved)"
+
+msgid "selector-no-deprecated (unresolved)"
+msgstr "selector-no-deprecated ({0})"
+
+msgid "selector-no-deprecated (resolved)"
+msgstr "selector-no-deprecated (resolved)"

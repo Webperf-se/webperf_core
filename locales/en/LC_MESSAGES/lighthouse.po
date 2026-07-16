@@ -586,3 +586,27 @@ msgstr "Adapt the page so it displays well on mobile ({0})"
 
 msgid "viewport-insight (resolved)"
 msgstr "The page displays well on mobile (resolved)"
+
+msgid "cache-insight (unresolved)"
+msgstr "cache-insight ({0})"
+
+msgid "cache-insight (resolved)"
+msgstr "cache-insight (resolved)"
+
+msgid "valid-source-maps (unresolved)"
+msgstr "valid-source-maps ({0})"
+
+msgid "valid-source-maps (resolved)"
+msgstr "valid-source-maps (resolved)"
+
+msgid "errors-in-console (unresolved)"
+msgstr "errors-in-console ({0})"
+
+msgid "errors-in-console (resolved)"
+msgstr "errors-in-console (resolved)"
+
+msgid "meta-description (unresolved)"
+msgstr "meta-description ({0})"
+
+msgid "meta-description (resolved)"
+msgstr "meta-description (resolved)"

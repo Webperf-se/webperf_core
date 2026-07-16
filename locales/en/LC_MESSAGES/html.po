@@ -195,3 +195,9 @@ msgstr "Disallow void element with content ({0})"
 
 msgid "void-content (resolved)"
 msgstr "Disallow void element with content (resolved)"
+
+msgid "parser-error (unresolved)"
+msgstr "parser-error ({0})"
+
+msgid "parser-error (resolved)"
+msgstr "parser-error (resolved)"

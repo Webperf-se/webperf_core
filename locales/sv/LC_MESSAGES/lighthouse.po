@@ -851,3 +851,9 @@ msgstr "Sidans två språkangivelser stämmer inte överens ({0})"
 
 msgid "html-xml-lang-mismatch (resolved)"
 msgstr "Sidans språkangivelser stämmer överens (löst)"
+
+msgid "paste-preventing-inputs (unresolved)"
+msgstr "paste-preventing-inputs ({0})"
+
+msgid "paste-preventing-inputs (resolved)"
+msgstr "paste-preventing-inputs (resolved)"

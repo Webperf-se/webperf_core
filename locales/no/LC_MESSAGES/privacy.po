@@ -14,7 +14,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: pygettext.py 1.5\n"
 
-
 msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 31 - Personvern (Webbkoll)\n"
 
@@ -92,3 +91,21 @@ msgstr "headeren X-Content-Type-Options mangler eller er ugyldig"
 
 msgid "TEXT_REVIEW_HEADERS_XFO_MISSING"
 msgstr "beskyttelse mangler mot at nettstedet bygges inn på andre nettsteder (X-Frame-Options eller frame-ancestors)"
+
+msgid "TEXT_REVIEW_HEADERS_HSTS_NO_SUBDOMAINS"
+msgstr "HSTS dekker ikke underdomener (includeSubDomains)"
+
+msgid "TEXT_REVIEW_HEADERS_HSTS_NO_PRELOAD"
+msgstr "HSTS er ikke klar for preloading (preload)"
+
+msgid "TEXT_REVIEW_SRI_VERY_GOOD"
+msgstr "- Alle skript og stilark bruker Subresource Integrity (SRI)"
+
+msgid "TEXT_REVIEW_SRI_MISSING"
+msgstr "{0} skript eller stilark lastes inn uten Subresource Integrity (SRI)"
+
+msgid "TEXT_REVIEW_COOKIES_NOT_HTTP_ONLY"
+msgstr "{0} informasjonskapsel/-kapsler mangler HttpOnly-attributtet"
+
+msgid "TEXT_REVIEW_COOKIES_WEAK_SAME_SITE"
+msgstr "{0} informasjonskapsel/-kapsler mangler et sterkt SameSite-attributt (Lax eller Strict)"

@@ -14,7 +14,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: pygettext.py 1.5\n"
 
-
 msgid "TEXT_RUNNING_TEST"
 msgstr "## Próf: 31 - Persónuvernd (Webbkoll)\n"
 
@@ -92,3 +91,21 @@ msgstr "X-Content-Type-Options hausinn vantar eða er ógildur"
 
 msgid "TEXT_REVIEW_HEADERS_XFO_MISSING"
 msgstr "vörn vantar gegn því að vefurinn sé felldur inn á aðra vefi (X-Frame-Options eða frame-ancestors)"
+
+msgid "TEXT_REVIEW_HEADERS_HSTS_NO_SUBDOMAINS"
+msgstr "HSTS nær ekki yfir undirlén (includeSubDomains)"
+
+msgid "TEXT_REVIEW_HEADERS_HSTS_NO_PRELOAD"
+msgstr "HSTS er ekki tilbúið fyrir preloading (preload)"
+
+msgid "TEXT_REVIEW_SRI_VERY_GOOD"
+msgstr "- Öll skriftur og stílblöð nota Subresource Integrity (SRI)"
+
+msgid "TEXT_REVIEW_SRI_MISSING"
+msgstr "{0} skriftur eða stílblöð eru hlaðin án Subresource Integrity (SRI)"
+
+msgid "TEXT_REVIEW_COOKIES_NOT_HTTP_ONLY"
+msgstr "{0} vafrakökur vantar HttpOnly-eiginleikann"
+
+msgid "TEXT_REVIEW_COOKIES_WEAK_SAME_SITE"
+msgstr "{0} vafrakökur vantar sterkan SameSite-eiginleika (Lax eða Strict)"

@@ -14,7 +14,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: pygettext.py 1.5\n"
 
-
 msgid "TEXT_RUNNING_TEST"
 msgstr "## Test: 31 - Integritet (Webbkoll)\n"
 
@@ -92,3 +91,21 @@ msgstr "headern X-Content-Type-Options saknas eller är felaktig"
 
 msgid "TEXT_REVIEW_HEADERS_XFO_MISSING"
 msgstr "skydd saknas mot att webbplatsen bäddas in på andra webbplatser (X-Frame-Options eller frame-ancestors)"
+
+msgid "TEXT_REVIEW_HEADERS_HSTS_NO_SUBDOMAINS"
+msgstr "HSTS omfattar inte underdomäner (includeSubDomains)"
+
+msgid "TEXT_REVIEW_HEADERS_HSTS_NO_PRELOAD"
+msgstr "HSTS är inte förberedd för preloading (preload)"
+
+msgid "TEXT_REVIEW_SRI_VERY_GOOD"
+msgstr "- Alla skript och stilmallar använder Subresource Integrity (SRI)"
+
+msgid "TEXT_REVIEW_SRI_MISSING"
+msgstr "{0} skript eller stilmall(ar) läses in utan Subresource Integrity (SRI)"
+
+msgid "TEXT_REVIEW_COOKIES_NOT_HTTP_ONLY"
+msgstr "{0} kaka/kakor saknar attributet HttpOnly"
+
+msgid "TEXT_REVIEW_COOKIES_WEAK_SAME_SITE"
+msgstr "{0} kaka/kakor saknar ett starkt SameSite-attribut (Lax eller Strict)"

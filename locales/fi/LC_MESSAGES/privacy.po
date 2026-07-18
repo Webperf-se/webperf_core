@@ -14,7 +14,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: pygettext.py 1.5\n"
 
-
 msgid "TEXT_RUNNING_TEST"
 msgstr "## Testi: 31 - Yksityisyys (Webbkoll)\n"
 
@@ -92,3 +91,21 @@ msgstr "X-Content-Type-Options-otsake puuttuu tai on virheellinen"
 
 msgid "TEXT_REVIEW_HEADERS_XFO_MISSING"
 msgstr "suojaus puuttuu sivuston upottamista vastaan muille sivustoille (X-Frame-Options tai frame-ancestors)"
+
+msgid "TEXT_REVIEW_HEADERS_HSTS_NO_SUBDOMAINS"
+msgstr "HSTS ei kata aliverkkotunnuksia (includeSubDomains)"
+
+msgid "TEXT_REVIEW_HEADERS_HSTS_NO_PRELOAD"
+msgstr "HSTS ei ole valmis esilataukseen (preload)"
+
+msgid "TEXT_REVIEW_SRI_VERY_GOOD"
+msgstr "- Kaikki skriptit ja tyylitiedostot käyttävät Subresource Integrityä (SRI)"
+
+msgid "TEXT_REVIEW_SRI_MISSING"
+msgstr "{0} skripti(ä) tai tyylitiedosto(a) ladataan ilman Subresource Integrityä (SRI)"
+
+msgid "TEXT_REVIEW_COOKIES_NOT_HTTP_ONLY"
+msgstr "{0} eväste(ttä) ilman HttpOnly-määritettä"
+
+msgid "TEXT_REVIEW_COOKIES_WEAK_SAME_SITE"
+msgstr "{0} eväste(ttä) ilman vahvaa SameSite-määritettä (Lax tai Strict)"

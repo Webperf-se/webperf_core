@@ -16,11 +16,13 @@ from tests.tracking_validator import get_domains_from_blocklistproject_file
 
 # Referrer policies that protect the visitor from leaking
 # the visited address to other websites.
+# 'strict-origin-when-cross-origin' (the modern browser default) is
+# deliberately NOT included: it still leaks the origin cross-site, which
+# Webbkoll (test 20) also flags as a warning.
 GOOD_REFERRER_POLICIES = (
     'no-referrer',
     'same-origin',
-    'strict-origin',
-    'strict-origin-when-cross-origin')
+    'strict-origin')
 
 ONE_YEAR_IN_SECONDS = 365 * 24 * 60 * 60
 HSTS_MIN_MAX_AGE = 15768000  # 6 months
@@ -151,6 +153,8 @@ def run_test(global_translation, url):
     rating += rate_third_parties(data, final_url, local_translation,
                                  global_translation, return_dict)
     rating += rate_headers(data, local_translation, global_translation, return_dict)
+    rating += rate_sri(data, local_translation, global_translation, return_dict)
+    collect_localstorage(data, return_dict)
 
     points = rating.get_integrity_and_security()
     if points >= 5:
@@ -399,6 +403,8 @@ def rate_cookies(data, final_url, local_translation, global_translation, return_
     nof_third_party = 0
     nof_long_lived = 0
     nof_not_secure = 0
+    nof_not_http_only = 0
+    nof_weak_same_site = 0
     for cookie in cookies:
         cookie_domain = cookie.get('domain', '').lstrip('.')
         if not is_first_party(cookie_domain, first_party_domains):
@@ -409,6 +415,12 @@ def rate_cookies(data, final_url, local_translation, global_translation, return_
             nof_long_lived += 1
         if uses_https and not cookie.get('secure', False):
             nof_not_secure += 1
+        if not cookie.get('httpOnly', False):
+            nof_not_http_only += 1
+        # 'None' (must be paired with Secure) and an unset/empty value leave
+        # the cookie exposed to cross-site requests. 'Lax' and 'Strict' are ok.
+        if cookie.get('sameSite', '').strip().lower() not in ('lax', 'strict'):
+            nof_weak_same_site += 1
 
     reviews = []
     points = 5.0
@@ -424,6 +436,14 @@ def rate_cookies(data, final_url, local_translation, global_translation, return_
         points -= min(0.25 * nof_not_secure, 1.0)
         reviews.append(local_translation(
             'TEXT_REVIEW_COOKIES_NOT_SECURE').format(nof_not_secure))
+    if nof_not_http_only > 0:
+        points -= min(0.25 * nof_not_http_only, 1.0)
+        reviews.append(local_translation(
+            'TEXT_REVIEW_COOKIES_NOT_HTTP_ONLY').format(nof_not_http_only))
+    if nof_weak_same_site > 0:
+        points -= min(0.25 * nof_weak_same_site, 1.0)
+        reviews.append(local_translation(
+            'TEXT_REVIEW_COOKIES_WEAK_SAME_SITE').format(nof_weak_same_site))
 
     points = max(points, 1.0)
     if len(reviews) == 0:
@@ -435,7 +455,9 @@ def rate_cookies(data, final_url, local_translation, global_translation, return_
         'nof_cookies': len(cookies),
         'nof_third_party': nof_third_party,
         'nof_long_lived': nof_long_lived,
-        'nof_not_secure': nof_not_secure
+        'nof_not_secure': nof_not_secure,
+        'nof_not_http_only': nof_not_http_only,
+        'nof_weak_same_site': nof_weak_same_site
     }
 
     rating.set_integrity_and_security(points, review)
@@ -520,6 +542,7 @@ def rate_headers(data, local_translation, global_translation, return_dict):
             points -= 1.5
             reviews.append(local_translation('TEXT_REVIEW_HEADERS_HSTS_MISSING'))
         else:
+            hsts_lower = hsts.lower()
             max_age = 0
             regex = r"max-age=(?P<seconds>[0-9]+)"
             matches = re.finditer(regex, hsts, re.IGNORECASE)
@@ -528,6 +551,12 @@ def rate_headers(data, local_translation, global_translation, return_dict):
             if max_age < HSTS_MIN_MAX_AGE:
                 points -= 0.5
                 reviews.append(local_translation('TEXT_REVIEW_HEADERS_HSTS_SHORT'))
+            if 'includesubdomains' not in hsts_lower:
+                points -= 0.5
+                reviews.append(local_translation('TEXT_REVIEW_HEADERS_HSTS_NO_SUBDOMAINS'))
+            if 'preload' not in hsts_lower:
+                points -= 0.25
+                reviews.append(local_translation('TEXT_REVIEW_HEADERS_HSTS_NO_PRELOAD'))
 
     if headers.get('x-content-type-options', '').strip().lower() != 'nosniff':
         points -= 0.5
@@ -553,3 +582,85 @@ def rate_headers(data, local_translation, global_translation, return_dict):
 
     rating.set_integrity_and_security(points, review)
     return rating
+
+def get_sri_subresources(content):
+    """
+    Counts scripts and stylesheets in the rendered content that are loaded
+    with a src/href but without a Subresource Integrity (integrity) attribute.
+
+    A subresource loaded without SRI can be tampered with in transit or at
+    the origin, so a missing integrity attribute lowers the rating.
+
+    Returns:
+        tuple: (nof_subresources, nof_without_integrity)
+    """
+    nof_total = 0
+    nof_missing = 0
+
+    for match in re.finditer(r'<script\b[^>]*>', content, re.IGNORECASE):
+        tag = match.group(0)
+        if re.search(r'\ssrc\s*=', tag, re.IGNORECASE) is None:
+            continue
+        nof_total += 1
+        if re.search(r'\sintegrity\s*=', tag, re.IGNORECASE) is None:
+            nof_missing += 1
+
+    for match in re.finditer(r'<link\b[^>]*>', content, re.IGNORECASE):
+        tag = match.group(0)
+        if re.search(r'\shref\s*=', tag, re.IGNORECASE) is None:
+            continue
+        rel_match = re.search(r'\srel\s*=\s*["\']?(?P<rel>[^"\'>]+)', tag, re.IGNORECASE)
+        rel = rel_match.group('rel').strip().lower() if rel_match else ''
+        if 'stylesheet' not in rel:
+            continue
+        nof_total += 1
+        if re.search(r'\sintegrity\s*=', tag, re.IGNORECASE) is None:
+            nof_missing += 1
+
+    return nof_total, nof_missing
+
+def rate_sri(data, local_translation, global_translation, return_dict):
+    """
+    Rates Subresource Integrity (SRI) usage:
+    how many scripts and stylesheets are loaded without an integrity attribute.
+    """
+    rating = Rating(
+        global_translation,
+        get_config('general.review.improve-only'))
+
+    content = data.get('content', '')
+    nof_total, nof_missing = get_sri_subresources(content)
+
+    points = 5.0
+    if nof_missing > 0:
+        points -= min(0.5 * nof_missing, 4.0)
+        review = '- ' + local_translation('TEXT_REVIEW_SRI_MISSING').format(nof_missing)
+    else:
+        review = local_translation('TEXT_REVIEW_SRI_VERY_GOOD')
+
+    points = max(points, 1.0)
+
+    return_dict['sri'] = {
+        'nof_subresources': nof_total,
+        'nof_without_integrity': nof_missing
+    }
+
+    rating.set_integrity_and_security(points, review)
+    return rating
+
+def collect_localstorage(data, return_dict):
+    """
+    Records localStorage usage in the raw review data without affecting
+    the rating.
+
+    Unlike cookies, localStorage is same-origin only and is never
+    automatically sent with requests, so on its own it is a weak privacy
+    signal and is commonly used for benign functional state (theme,
+    language, consent choices, form drafts). Webbkoll and the predecessor
+    test 20 therefore report it as information only, which we mirror here.
+    """
+    local_storage = data.get('localStorage')
+    nof_keys = len(local_storage) if isinstance(local_storage, dict) else 0
+    return_dict['localstorage'] = {
+        'nof_keys': nof_keys
+    }

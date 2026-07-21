@@ -69,8 +69,8 @@
             "timeout": 180,
             "ipv6": false,
             "registrable": true,
-            "warning-penalty": 0.5,
-            "error-penalty": 1.0,
+            "warning-penalty": 0.75,
+            "error-penalty": 1.5,
             "profile": {
                 "use": false
             }

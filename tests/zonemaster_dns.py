@@ -47,8 +47,8 @@ from urllib.parse import urlparse
 # many criteria ran) which keeps results predictable, and it spreads the scale:
 # a flawless zone stays 5.0 while an ordinary one with a handful of warnings
 # lands around 3. NOTICE-level hygiene never affects the rating.
-ERROR_PENALTY = 1.0     # points removed per confirmed error
-WARNING_PENALTY = 0.5   # points removed per confirmed warning
+ERROR_PENALTY = 1.5     # points removed per confirmed error (2x a warning)
+WARNING_PENALTY = 0.75  # points removed per confirmed warning
 NOTICE_PENALTY = 0.0    # notices never affect the rating
 
 # --- Zonemaster severity ------------------------------------------------------

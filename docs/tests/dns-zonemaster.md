@@ -34,7 +34,7 @@ engine produces many messages.
 
 - The worst level per test case is aggregated into one "criterion".
 - A CRITICAL → 1.0 (the delegation is broken).
-- Otherwise: `rating = 5 − (1.0·errors + 0.5·warnings)`, with a floor of 1.0.
+- Otherwise: `rating = 5 − (1.5·errors + 0.75·warnings)`, with a floor of 1.0.
 
 This is an **absolute deduction** (the same style as the Webbkoll test): each confirmed
 deficiency removes a fixed number of points, independent of how many criteria ran. That
@@ -43,13 +43,17 @@ keeps results predictable — a warning always costs the same — and spreads th
 | confirmed deficiencies | rating |
 | --- | --- |
 | none (flawless) | 5.0 |
-| 1 warning | 4.5 |
-| 2 warnings (or 1 error) | 4.0 |
-| ~4 warnings (an ordinary zone) | 3.0 |
-| 8 warnings | 1.0 (floor) |
+| 1 warning | 4.25 |
+| 2 warnings (or 1 error) | 3.5 |
+| 3 warnings | 2.75 |
+| 4 warnings | 2.0 |
+| 6 warnings (or 3 errors) | 1.0 (floor) |
 
-NOTICE-level hygiene never lowers the rating. The per-warning and per-error costs are knobs,
-exposed as settings (`tests.dns.warning-penalty`, `tests.dns.error-penalty`).
+The costs (0.75 per warning, 1.5 per error) were calibrated against a 99-site municipality
+batch to give a good 1–5 spread: ~40% of the sites were flawless (5.0) and the rest fall off
+roughly evenly across 4, 3, 2 and 1. NOTICE-level hygiene never lowers the rating. The
+per-warning and per-error costs are knobs, exposed as settings
+(`tests.dns.warning-penalty`, `tests.dns.error-penalty`).
 
 The overall banner text "very good" is reserved for a flawless **5.0**; anything with a
 confirmed deficiency reads as "good" or lower.
@@ -100,8 +104,8 @@ rating offline from saved raw JSON.
 | `tests.dns.timeout` | `dnstimeout` | `180` | Seconds per domain. |
 | `tests.dns.ipv6` | `dnsipv6` | `false` | Enable IPv6 queries (needs IPv6 in Docker). |
 | `tests.dns.registrable` | `dnsregistrable` | `true` | Test the registrable domain (strip `www`) vs the exact hostname. |
-| `tests.dns.warning-penalty` | `dnswarningpenalty` | `0.5` | Points removed per confirmed warning (higher = harsher). |
-| `tests.dns.error-penalty` | `dnserrorpenalty` | `1.0` | Points removed per confirmed error. |
+| `tests.dns.warning-penalty` | `dnswarningpenalty` | `0.75` | Points removed per confirmed warning (higher = harsher). |
+| `tests.dns.error-penalty` | `dnserrorpenalty` | `1.5` | Points removed per confirmed error. |
 | `tests.dns.profile.use` | `dnsprofile` | `false` | Also push the weights into Zonemaster via the bundled complete profile. |
 | `tests.dns.image` | `dnsimage` | `zonemaster/cli` | Docker image (pin a version here). |
 
@@ -166,7 +170,7 @@ Read more on the [general page for github actions](../getting-started-github-act
   to decide.
 - **External dependencies:** the ASN lookups require Cymru/RIPE to answer; otherwise
   Connectivity03/04 are undetermined and should not be penalized.
-- **Calibration:** is 0.5 per warning / 1.0 per error the right balance for our
+- **Calibration:** is 0.75 per warning / 1.5 per error the right balance for our
   audience (public sector), which values standards compliance highly?
 
 ## License

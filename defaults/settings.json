@@ -63,6 +63,17 @@
         "webbkoll": {
             "sleep": 20,
             "api-url": "http://localhost:8100"
+        },
+        "dns": {
+            "image": "zonemaster/cli",
+            "timeout": 180,
+            "ipv6": false,
+            "registrable": true,
+            "threshold": 0.5,
+            "error-weight": 2.0,
+            "profile": {
+                "use": false
+            }
         }
     }
 }

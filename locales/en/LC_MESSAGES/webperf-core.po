@@ -164,3 +164,6 @@ msgstr "warning"
 
 msgid "TEXT_SEVERITY_RESOLVED"
 msgstr "resolved"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_DNS"
+msgstr "-t 32\t: DNS (Zonemaster)"

@@ -44,7 +44,9 @@ from urllib.parse import urlparse
 ERROR_WEIGHT = 2.0      # one error weighs as two warnings
 WARNING_WEIGHT = 1.0
 NOTICE_WEIGHT = 0.0     # notices do not affect the rating by default (shown in report)
-THRESHOLD = 0.5         # share of "damaged" criteria that gives the floor 1.0
+THRESHOLD = 0.25        # share of "damaged" criteria that gives the floor 1.0
+                        # (0.25 => a quarter of the criteria warning already floors it;
+                        #  this makes confirmed deficiencies bite hard)
 
 # --- Zonemaster severity ------------------------------------------------------
 
@@ -431,7 +433,8 @@ def run_test(global_translation, url):
         return (rating, {'failed': True, 'url': url, 'domain': domain})
 
     review = build_review(scored, local_translation)
-    if points >= 4.5:
+    if points >= 5.0:
+        # "Very good" is reserved for a flawless 5.0 (no confirmed deficiencies).
         review = local_translation('TEXT_REVIEW_VERY_GOOD') + review
     elif points >= 3.5:
         review = local_translation('TEXT_REVIEW_IS_GOOD') + review

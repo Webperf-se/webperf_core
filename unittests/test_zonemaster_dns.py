@@ -114,6 +114,10 @@ class ScoreTests(unittest.TestCase):
 
 class RunTestTests(unittest.TestCase):
     def setUp(self):
+        # Pin the language so the localized review text is deterministic
+        # regardless of any cached/root settings.json.
+        from helpers.setting_helper import set_runtime_config_only
+        set_runtime_config_only('general.language', 'en')
         self.global_translation = gettext.translation(
             'webperf-core', localedir='locales', languages=['en']).gettext
         self._orig = zonemaster_dns.run_zonemaster
@@ -146,6 +150,30 @@ class RunTestTests(unittest.TestCase):
         zonemaster_dns.run_zonemaster = lambda *a, **k: raw
         rating, _data = zonemaster_dns.run_test(self.global_translation, "https://example.com")
         self.assertEqual(rating.get_overall(), 1.0)
+
+    def test_very_good_banner_reserved_for_flawless_five(self):
+        local = gettext.translation(
+            'zonemaster_dns', localedir='locales', languages=['en']).gettext
+        very_good = local('TEXT_REVIEW_VERY_GOOD').strip()
+        is_good = local('TEXT_REVIEW_IS_GOOD').strip()
+
+        # One confirmed warning => below 5.0 => "good", never "very good".
+        raw = ([_rec("IPV4_ONE_ASN", "Connectivity03", "WARNING", "Same AS")]
+               + [_rec("OK", f"Basic{i:02d}", "INFO") for i in range(1, 20)])
+        zonemaster_dns.run_zonemaster = lambda *a, **k: raw
+        rating, _ = zonemaster_dns.run_test(self.global_translation, "https://x.example")
+        self.assertLess(rating.get_overall(), 5.0)
+        self.assertIn(is_good, rating.overall_review)
+        self.assertNotIn(very_good, rating.overall_review)
+
+    def test_deductions_are_twice_as_hard(self):
+        # A single warning now deducts twice what threshold 0.5 would (0.25 default).
+        entries = zonemaster_dns.normalize_entries(
+            [_rec("IPV4_ONE_ASN", "Connectivity03", "WARNING")]
+            + [_rec("OK", f"Basic{i:02d}", "INFO") for i in range(1, 20)])
+        soft = 5.0 - zonemaster_dns.score(entries, threshold=0.5)["rating"]
+        hard = 5.0 - zonemaster_dns.score(entries, threshold=0.25)["rating"]
+        self.assertAlmostEqual(hard, 2 * soft, places=2)
 
 
 if __name__ == "__main__":

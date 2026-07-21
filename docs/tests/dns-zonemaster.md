@@ -35,13 +35,16 @@ engine produces many messages.
 - The worst level per test case is aggregated into one "criterion".
 - A CRITICAL → 1.0 (the delegation is broken).
 - `penalty = (2·errors + 1·warnings) / criteria_that_ran`
-- `rating = 5 − 4 · min(1, penalty / 0.5)`, with a floor of 1.0.
+- `rating = 5 − 4 · min(1, penalty / 0.25)`, with a floor of 1.0.
 
-Calibration: when roughly **half of the criteria warn** the rating lands on 1.0, while a
-handful of warnings on an otherwise healthy domain only lowers it marginally. The
-`THRESHOLD` (0.5) and the error weight (2×) are knobs, exposed as settings
-(`tests.dns.threshold`, `tests.dns.error-weight`). `min()`/the floor give a natural ceiling —
-no free fall.
+Calibration: when roughly **a quarter of the criteria warn** the rating lands on 1.0.
+Confirmed deficiencies (warnings and errors) are weighted to bite hard — a domain has to be
+flawless to keep a 5.0 — while NOTICE-level hygiene never lowers the rating. The `THRESHOLD`
+(0.25) and the error weight (2×) are knobs, exposed as settings (`tests.dns.threshold`,
+`tests.dns.error-weight`). `min()`/the floor give a natural ceiling — no free fall.
+
+The overall banner text "very good" is reserved for a flawless **5.0**; anything with a
+confirmed deficiency reads as "good" or lower.
 
 The 1.0–5.0 rating is mapped onto the Rating model as:
 
@@ -89,7 +92,7 @@ rating offline from saved raw JSON.
 | `tests.dns.timeout` | `dnstimeout` | `180` | Seconds per domain. |
 | `tests.dns.ipv6` | `dnsipv6` | `false` | Enable IPv6 queries (needs IPv6 in Docker). |
 | `tests.dns.registrable` | `dnsregistrable` | `true` | Test the registrable domain (strip `www`) vs the exact hostname. |
-| `tests.dns.threshold` | `dnsthreshold` | `0.5` | Calibration: share of damaged criteria that hits the floor. |
+| `tests.dns.threshold` | `dnsthreshold` | `0.25` | Calibration: share of damaged criteria that hits the floor (lower = harsher). |
 | `tests.dns.error-weight` | `dnserrorweight` | `2.0` | Calibration: how many warnings an error weighs. |
 | `tests.dns.profile.use` | `dnsprofile` | `false` | Also push the weights into Zonemaster via the bundled complete profile. |
 | `tests.dns.image` | `dnsimage` | `zonemaster/cli` | Docker image (pin a version here). |
@@ -155,7 +158,7 @@ Read more on the [general page for github actions](../getting-started-github-act
   to decide.
 - **External dependencies:** the ASN lookups require Cymru/RIPE to answer; otherwise
   Connectivity03/04 are undetermined and should not be penalized.
-- **Calibration:** is "half warn → 1.0" and error = 2× warning the right balance for our
+- **Calibration:** is "a quarter warn → 1.0" and error = 2× warning the right balance for our
   audience (public sector), which values standards compliance highly?
 
 ## License

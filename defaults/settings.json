@@ -69,7 +69,7 @@
             "timeout": 180,
             "ipv6": false,
             "registrable": true,
-            "threshold": 0.5,
+            "threshold": 0.25,
             "error-weight": 2.0,
             "profile": {
                 "use": false

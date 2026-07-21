@@ -41,12 +41,15 @@ from urllib.parse import urlparse
 
 # --- Calibration knobs (defaults; overridable via settings/CLI) ---------------
 
-ERROR_WEIGHT = 2.0      # one error weighs as two warnings
-WARNING_WEIGHT = 1.0
-NOTICE_WEIGHT = 0.0     # notices do not affect the rating by default (shown in report)
-THRESHOLD = 0.25        # share of "damaged" criteria that gives the floor 1.0
-                        # (0.25 => a quarter of the criteria warning already floors it;
-                        #  this makes confirmed deficiencies bite hard)
+# Absolute per-deficiency deduction (same style as the Webbkoll test): start at
+# 5.0, subtract a fixed cost per confirmed deficiency, floor at 1.0. This is
+# denominator-independent (a warning always costs the same, regardless of how
+# many criteria ran) which keeps results predictable, and it spreads the scale:
+# a flawless zone stays 5.0 while an ordinary one with a handful of warnings
+# lands around 3. NOTICE-level hygiene never affects the rating.
+ERROR_PENALTY = 1.0     # points removed per confirmed error
+WARNING_PENALTY = 0.5   # points removed per confirmed warning
+NOTICE_PENALTY = 0.0    # notices never affect the rating
 
 # --- Zonemaster severity ------------------------------------------------------
 
@@ -232,20 +235,19 @@ def normalize_entries(raw, apply_overrides=True):
 # --- Rating -------------------------------------------------------------------
 
 def _rating_from_counts(total, n_crit, n_err, n_warn, n_notice, # pylint: disable=too-many-arguments
-                        threshold, error_weight, warning_weight, notice_weight):
-    """Turn severity counts into a 1.0-5.0 rating using the quota model."""
+                        error_penalty, warning_penalty, notice_penalty):
+    """Turn severity counts into a 1.0-5.0 rating via absolute deduction."""
     if total == 0:
         return -1.0
     if n_crit:
         return 1.0
-    penalty = (error_weight * n_err + warning_weight * n_warn
-               + notice_weight * n_notice) / total
-    rating = 5.0 - 4.0 * min(1.0, penalty / threshold)
-    return round(max(1.0, rating), 2)
+    deduction = (error_penalty * n_err + warning_penalty * n_warn
+                 + notice_penalty * n_notice)
+    return round(max(1.0, 5.0 - deduction), 2)
 
 
-def score(entries, threshold=THRESHOLD, error_weight=ERROR_WEIGHT,
-          warning_weight=WARNING_WEIGHT, notice_weight=NOTICE_WEIGHT):
+def score(entries, error_penalty=ERROR_PENALTY, warning_penalty=WARNING_PENALTY,
+          notice_penalty=NOTICE_PENALTY):
     """Aggregate the worst level per criterion and compute rating + evidence.
 
     Returns the overall rating plus integrity/security and standards
@@ -279,8 +281,8 @@ def score(entries, threshold=THRESHOLD, error_weight=ERROR_WEIGHT,
     total, n_crit, n_err, n_warn, n_notice = counts(all_items)
 
     def rate(items):
-        return _rating_from_counts(*counts(items), threshold,
-                                   error_weight, warning_weight, notice_weight)
+        return _rating_from_counts(*counts(items),
+                                   error_penalty, warning_penalty, notice_penalty)
 
     # Evidence per module (only criteria with a warning or worse).
     issues = {}
@@ -424,8 +426,8 @@ def run_test(global_translation, url):
     entries = normalize_entries(raw)
     scored = score(
         entries,
-        threshold=float(get_config('tests.dns.threshold')),
-        error_weight=float(get_config('tests.dns.error-weight')))
+        error_penalty=float(get_config('tests.dns.error-penalty')),
+        warning_penalty=float(get_config('tests.dns.warning-penalty')))
 
     points = scored["rating"]
     if points == -1.0:
@@ -525,8 +527,8 @@ def _rescore_dir(directory, args):
         with open(os.path.join(directory, name), encoding="utf-8") as file_handle:
             raw = json.load(file_handle)
         entries = normalize_entries(raw)
-        result = score(entries, threshold=args.threshold,
-                       error_weight=args.error_weight)
+        result = score(entries, error_penalty=args.error_penalty,
+                       warning_penalty=args.warning_penalty)
         result.update({"url": name, "domain": name[:-5]})
         results.append(result)
     return results
@@ -546,10 +548,10 @@ def _build_arg_parser():
                         help="do not pass the bundled severity profile")
     parser.add_argument("--save-dir", help="save raw JSON per domain here")
     parser.add_argument("--from-dir", help="rescore from saved raw JSON (no DNS)")
-    parser.add_argument("--threshold", type=float, default=THRESHOLD,
-                        help="calibration (from-dir)")
-    parser.add_argument("--error-weight", type=float, default=ERROR_WEIGHT,
-                        help="calibration (from-dir)")
+    parser.add_argument("--warning-penalty", type=float, default=WARNING_PENALTY,
+                        help="points removed per warning (calibration, from-dir)")
+    parser.add_argument("--error-penalty", type=float, default=ERROR_PENALTY,
+                        help="points removed per error (calibration, from-dir)")
     parser.add_argument("--json-out", action="store_true", help="machine-readable summary")
     return parser
 

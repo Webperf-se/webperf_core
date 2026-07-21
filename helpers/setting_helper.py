@@ -152,11 +152,11 @@ config_mapping = {
         "dnsprofile",
         "tests.dns.profile.use"): "bool|tests.dns.profile.use",
     (
-        "dnsthreshold",
-        "tests.dns.threshold"): "string|tests.dns.threshold",
+        "dnswarningpenalty",
+        "tests.dns.warning-penalty"): "string|tests.dns.warning-penalty",
     (
-        "dnserrorweight",
-        "tests.dns.error-weight"): "string|tests.dns.error-weight"
+        "dnserrorpenalty",
+        "tests.dns.error-penalty"): "string|tests.dns.error-penalty"
 }
 
 

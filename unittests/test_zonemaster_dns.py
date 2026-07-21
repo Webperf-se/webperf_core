@@ -84,14 +84,24 @@ class ScoreTests(unittest.TestCase):
         self.assertEqual(scored["n_notice"], 1)
         self.assertEqual(scored["rating"], 5.0)
 
-    def test_warning_lowers_but_stays_above_floor(self):
+    def test_absolute_deduction_per_warning(self):
+        # Each warning removes a flat 0.5, independent of how many criteria ran.
         entries = zonemaster_dns.normalize_entries(
             [_rec("IPV4_ONE_ASN", "Connectivity03", "WARNING")]
             + [_rec("OK", f"Basic{i:02d}", "INFO") for i in range(1, 20)])
-        scored = zonemaster_dns.score(entries)
-        self.assertEqual(scored["n_warning"], 1)
-        self.assertGreater(scored["rating"], 4.0)
-        self.assertLess(scored["rating"], 5.0)
+        self.assertEqual(zonemaster_dns.score(entries)["rating"], 4.5)
+
+        four = zonemaster_dns.normalize_entries(
+            [_rec("IPV4_ONE_ASN", f"Connectivity{i:02d}", "WARNING") for i in range(1, 5)]
+            + [_rec("OK", f"Basic{i:02d}", "INFO") for i in range(1, 20)])
+        # An ordinary zone with ~4 warnings lands at 3.0.
+        self.assertEqual(zonemaster_dns.score(four)["rating"], 3.0)
+
+    def test_error_costs_twice_a_warning(self):
+        entries = zonemaster_dns.normalize_entries(
+            [_rec("X", "Basic02", "ERROR")]
+            + [_rec("OK", f"Basic{i:02d}", "INFO") for i in range(3, 13)])
+        self.assertEqual(zonemaster_dns.score(entries)["rating"], 4.0)
 
     def test_security_subrating_uses_dnssec_and_consistency(self):
         entries = zonemaster_dns.normalize_entries([
@@ -103,13 +113,12 @@ class ScoreTests(unittest.TestCase):
         self.assertLess(scored["rating_security"], 5.0)
         self.assertEqual(scored["rating_standards"], 5.0)
 
-    def test_threshold_and_error_weight_are_applied(self):
+    def test_penalties_are_configurable(self):
         entries = zonemaster_dns.normalize_entries(
-            [_rec("X", "Basic02", "ERROR")]
-            + [_rec("OK", f"Basic{i:02d}", "INFO") for i in range(3, 13)])
-        strict = zonemaster_dns.score(entries, threshold=0.3, error_weight=3.0)["rating"]
-        lenient = zonemaster_dns.score(entries, threshold=0.5, error_weight=2.0)["rating"]
-        self.assertLess(strict, lenient)
+            [_rec("IPV4_ONE_ASN", "Connectivity03", "WARNING")]
+            + [_rec("OK", f"Basic{i:02d}", "INFO") for i in range(1, 20)])
+        self.assertEqual(zonemaster_dns.score(entries, warning_penalty=0.5)["rating"], 4.5)
+        self.assertEqual(zonemaster_dns.score(entries, warning_penalty=1.0)["rating"], 4.0)
 
 
 class RunTestTests(unittest.TestCase):
@@ -166,14 +175,16 @@ class RunTestTests(unittest.TestCase):
         self.assertIn(is_good, rating.overall_review)
         self.assertNotIn(very_good, rating.overall_review)
 
-    def test_deductions_are_twice_as_hard(self):
-        # A single warning now deducts twice what threshold 0.5 would (0.25 default).
-        entries = zonemaster_dns.normalize_entries(
+    def test_deduction_is_denominator_independent(self):
+        # One warning costs 0.5 whether it sits among 10 criteria or 40.
+        small = zonemaster_dns.normalize_entries(
             [_rec("IPV4_ONE_ASN", "Connectivity03", "WARNING")]
-            + [_rec("OK", f"Basic{i:02d}", "INFO") for i in range(1, 20)])
-        soft = 5.0 - zonemaster_dns.score(entries, threshold=0.5)["rating"]
-        hard = 5.0 - zonemaster_dns.score(entries, threshold=0.25)["rating"]
-        self.assertAlmostEqual(hard, 2 * soft, places=2)
+            + [_rec("OK", f"Basic{i:02d}", "INFO") for i in range(1, 10)])
+        large = zonemaster_dns.normalize_entries(
+            [_rec("IPV4_ONE_ASN", "Connectivity03", "WARNING")]
+            + [_rec("OK", f"Basic{i:02d}", "INFO") for i in range(1, 40)])
+        self.assertEqual(zonemaster_dns.score(small)["rating"], 4.5)
+        self.assertEqual(zonemaster_dns.score(large)["rating"], 4.5)
 
 
 if __name__ == "__main__":

@@ -34,14 +34,22 @@ engine produces many messages.
 
 - The worst level per test case is aggregated into one "criterion".
 - A CRITICAL → 1.0 (the delegation is broken).
-- `penalty = (2·errors + 1·warnings) / criteria_that_ran`
-- `rating = 5 − 4 · min(1, penalty / 0.25)`, with a floor of 1.0.
+- Otherwise: `rating = 5 − (1.0·errors + 0.5·warnings)`, with a floor of 1.0.
 
-Calibration: when roughly **a quarter of the criteria warn** the rating lands on 1.0.
-Confirmed deficiencies (warnings and errors) are weighted to bite hard — a domain has to be
-flawless to keep a 5.0 — while NOTICE-level hygiene never lowers the rating. The `THRESHOLD`
-(0.25) and the error weight (2×) are knobs, exposed as settings (`tests.dns.threshold`,
-`tests.dns.error-weight`). `min()`/the floor give a natural ceiling — no free fall.
+This is an **absolute deduction** (the same style as the Webbkoll test): each confirmed
+deficiency removes a fixed number of points, independent of how many criteria ran. That
+keeps results predictable — a warning always costs the same — and spreads the scale:
+
+| confirmed deficiencies | rating |
+| --- | --- |
+| none (flawless) | 5.0 |
+| 1 warning | 4.5 |
+| 2 warnings (or 1 error) | 4.0 |
+| ~4 warnings (an ordinary zone) | 3.0 |
+| 8 warnings | 1.0 (floor) |
+
+NOTICE-level hygiene never lowers the rating. The per-warning and per-error costs are knobs,
+exposed as settings (`tests.dns.warning-penalty`, `tests.dns.error-penalty`).
 
 The overall banner text "very good" is reserved for a flawless **5.0**; anything with a
 confirmed deficiency reads as "good" or lower.
@@ -92,8 +100,8 @@ rating offline from saved raw JSON.
 | `tests.dns.timeout` | `dnstimeout` | `180` | Seconds per domain. |
 | `tests.dns.ipv6` | `dnsipv6` | `false` | Enable IPv6 queries (needs IPv6 in Docker). |
 | `tests.dns.registrable` | `dnsregistrable` | `true` | Test the registrable domain (strip `www`) vs the exact hostname. |
-| `tests.dns.threshold` | `dnsthreshold` | `0.25` | Calibration: share of damaged criteria that hits the floor (lower = harsher). |
-| `tests.dns.error-weight` | `dnserrorweight` | `2.0` | Calibration: how many warnings an error weighs. |
+| `tests.dns.warning-penalty` | `dnswarningpenalty` | `0.5` | Points removed per confirmed warning (higher = harsher). |
+| `tests.dns.error-penalty` | `dnserrorpenalty` | `1.0` | Points removed per confirmed error. |
 | `tests.dns.profile.use` | `dnsprofile` | `false` | Also push the weights into Zonemaster via the bundled complete profile. |
 | `tests.dns.image` | `dnsimage` | `zonemaster/cli` | Docker image (pin a version here). |
 
@@ -122,7 +130,7 @@ The module is also a stand-alone CLI for calibration without re-querying DNS:
 # Save raw JSON per domain
 python tests/zonemaster_dns.py -f gov-domains.txt --workers 4 --save-dir raw/
 # Rescore offline while trying different knobs (no DNS traffic)
-python tests/zonemaster_dns.py --from-dir raw/ --threshold 0.4 --error-weight 3.0
+python tests/zonemaster_dns.py --from-dir raw/ --warning-penalty 0.75 --error-penalty 1.5
 ```
 
 ## Read more
@@ -158,7 +166,7 @@ Read more on the [general page for github actions](../getting-started-github-act
   to decide.
 - **External dependencies:** the ASN lookups require Cymru/RIPE to answer; otherwise
   Connectivity03/04 are undetermined and should not be penalized.
-- **Calibration:** is "a quarter warn → 1.0" and error = 2× warning the right balance for our
+- **Calibration:** is 0.5 per warning / 1.0 per error the right balance for our
   audience (public sector), which values standards compliance highly?
 
 ## License

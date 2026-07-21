@@ -7,7 +7,7 @@ import json
 import subprocess
 import time
 import urllib.parse
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urljoin
 import requests
 from helpers.models import Rating
 from helpers.setting_helper import get_config
@@ -153,7 +153,7 @@ def run_test(global_translation, url):
     rating += rate_third_parties(data, final_url, local_translation,
                                  global_translation, return_dict)
     rating += rate_headers(data, local_translation, global_translation, return_dict)
-    rating += rate_sri(data, local_translation, global_translation, return_dict)
+    rating += rate_sri(data, final_url, local_translation, global_translation, return_dict)
     collect_localstorage(data, return_dict)
 
     points = rating.get_integrity_and_security()
@@ -583,23 +583,46 @@ def rate_headers(data, local_translation, global_translation, return_dict):
     rating.set_integrity_and_security(points, review)
     return rating
 
-def get_sri_subresources(content):
+def is_third_party_subresource(tag, attr, final_url, first_party_domains):
     """
-    Counts scripts and stylesheets in the rendered content that are loaded
-    with a src/href but without a Subresource Integrity (integrity) attribute.
+    Resolves the src/href URL of a subresource tag against final_url and
+    returns True only when it points to a third-party (cross-origin) host.
 
-    A subresource loaded without SRI can be tampered with in transit or at
-    the origin, so a missing integrity attribute lowers the rating.
+    SRI provides no meaningful protection for same-origin subresources: an
+    attacker able to tamper with a first-party file at the origin can equally
+    rewrite the integrity attribute that references it. SRI's purpose is
+    pinning third-party resources, so only those are considered here.
+    Relative URLs (same-origin by definition) are treated as first party.
+    """
+    url_match = re.search(
+        attr + r'\s*=\s*["\']?(?P<url>[^"\'>\s]+)', tag, re.IGNORECASE)
+    if url_match is None:
+        return False
+    hostname = urlparse(urljoin(final_url, url_match.group('url'))).hostname
+    return not is_first_party(hostname, first_party_domains)
+
+def get_sri_subresources(content, final_url):
+    """
+    Counts third-party scripts and stylesheets in the rendered content that
+    are loaded with a src/href but without a Subresource Integrity (integrity)
+    attribute.
+
+    Only cross-origin subresources are counted, since SRI is what protects a
+    resource the site does not control from being tampered with; a missing
+    integrity attribute on such a resource lowers the rating.
 
     Returns:
         tuple: (nof_subresources, nof_without_integrity)
     """
     nof_total = 0
     nof_missing = 0
+    first_party_domains = get_first_party_domains(final_url)
 
     for match in re.finditer(r'<script\b[^>]*>', content, re.IGNORECASE):
         tag = match.group(0)
         if re.search(r'\ssrc\s*=', tag, re.IGNORECASE) is None:
+            continue
+        if not is_third_party_subresource(tag, r'\ssrc', final_url, first_party_domains):
             continue
         nof_total += 1
         if re.search(r'\sintegrity\s*=', tag, re.IGNORECASE) is None:
@@ -613,23 +636,26 @@ def get_sri_subresources(content):
         rel = rel_match.group('rel').strip().lower() if rel_match else ''
         if 'stylesheet' not in rel:
             continue
+        if not is_third_party_subresource(tag, r'\shref', final_url, first_party_domains):
+            continue
         nof_total += 1
         if re.search(r'\sintegrity\s*=', tag, re.IGNORECASE) is None:
             nof_missing += 1
 
     return nof_total, nof_missing
 
-def rate_sri(data, local_translation, global_translation, return_dict):
+def rate_sri(data, final_url, local_translation, global_translation, return_dict):
     """
     Rates Subresource Integrity (SRI) usage:
-    how many scripts and stylesheets are loaded without an integrity attribute.
+    how many third-party scripts and stylesheets are loaded without an
+    integrity attribute.
     """
     rating = Rating(
         global_translation,
         get_config('general.review.improve-only'))
 
     content = data.get('content', '')
-    nof_total, nof_missing = get_sri_subresources(content)
+    nof_total, nof_missing = get_sri_subresources(content, final_url)
 
     points = 5.0
     if nof_missing > 0:

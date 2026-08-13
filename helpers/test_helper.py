@@ -19,6 +19,7 @@ from tests.energy_efficiency import run_test as run_test_energy_efficiency
 from tests.tracking_validator import run_test as run_test_tracking_validator
 from tests.email_validator import run_test as run_test_email_validator
 from tests.software import run_test as run_test_software
+from tests.zonemaster_dns import run_test as run_test_dns
 from engines.json_engine import write_tests as json_write_tests
 from engines.gov import write_tests as gov_write_tests
 from engines.sql import write_tests as sql_write_tests
@@ -44,8 +45,9 @@ TEST_ALL = (TEST_UNKNOWN_00,
             TEST_EMAIL, TEST_SOFTWARE, TEST_A11Y_STATEMENT,
             TEST_LINT_CSS, TEST_LINT_HTML, TEST_LINT_JS,
             TEST_GOOGLE_LIGHTHOUSE,
-            TEST_PRIVACY
-            ) = range(32)
+            TEST_PRIVACY,
+            TEST_DNS
+            ) = range(33)
 
 TEST_ALL_FUNCS = {
         TEST_PAGE_NOT_FOUND: run_dummy_test,
@@ -63,7 +65,8 @@ TEST_ALL_FUNCS = {
         TEST_LINT_HTML: run_dummy_test,
         TEST_LINT_JS: run_dummy_test,
         TEST_GOOGLE_LIGHTHOUSE: run_dummy_test,
-        TEST_PRIVACY: run_test_privacy
+        TEST_PRIVACY: run_test_privacy,
+        TEST_DNS: run_test_dns
     }
 
 
@@ -77,7 +80,8 @@ TEST_FUNCS = {
         TEST_TRACKING: run_test_tracking_validator,
         TEST_EMAIL: run_test_email_validator,
         TEST_SOFTWARE: run_test_software,
-        TEST_PRIVACY: run_test_privacy
+        TEST_PRIVACY: run_test_privacy,
+        TEST_DNS: run_test_dns
     }
 
 TEST_USE_SITESPEED = {

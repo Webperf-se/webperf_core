@@ -1,0 +1,73 @@
+# gov translation for the DNS (Zonemaster) test.
+# Copyright (C) 2026 WebPerf
+# FIRST AUTHOR <team@webperf.se>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2026-07-21 12:00+0000\n"
+"PO-Revision-Date: 2026-07-21 12:00+0000\n"
+"Last-Translator: WebPerf <team@webperf.se>\n"
+"Language-Team: gov <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 32 - DNS (Zonemaster)\n"
+
+msgid "TEXT_TESTED_ZONE"
+msgstr "- Tested zone: {0}\n"
+
+msgid "TEXT_TESTED_ZONE_FROM"
+msgstr "- Tested zone: {0} (from {1})\n"
+
+msgid "TEXT_REVIEW_VERY_GOOD"
+msgstr "- The DNS setup is great!\n"
+
+msgid "TEXT_REVIEW_IS_GOOD"
+msgstr "- The DNS setup is good, with minor remarks.\n"
+
+msgid "TEXT_REVIEW_IS_OK"
+msgstr "- About average DNS setup, but should be improved.\n"
+
+msgid "TEXT_REVIEW_IS_BAD"
+msgstr "- Rather poor DNS setup.\n"
+
+msgid "TEXT_REVIEW_IS_VERY_BAD"
+msgstr "- Very poor DNS setup!\n"
+
+msgid "TEXT_REVIEW_NO_TESTCASES"
+msgstr "- No DNS test cases could be run (check the domain and network access).\n"
+
+msgid "TEXT_REVIEW_BROKEN_DELEGATION"
+msgstr "- Broken delegation: the domain cannot be resolved reliably.\n"
+
+msgid "TEXT_REVIEW_CRITERIA_SUMMARY"
+msgstr "- {0} of {1} criteria without remark.\n"
+
+msgid "TEXT_REVIEW_NOTICES"
+msgstr "- {0} notice(s) (no rating impact).\n"
+
+msgid "TEXT_REVIEW_ISSUE"
+msgstr "- {0} [{1}] {2}: {3}\n"
+
+msgid "TEXT_REVIEW_MORE"
+msgstr "- {0}: (+{1} more)\n"
+
+msgid "TEXT_SEVERITY_CRITICAL"
+msgstr "critical"
+
+msgid "TEXT_SEVERITY_ERROR"
+msgstr "error"
+
+msgid "TEXT_SEVERITY_WARNING"
+msgstr "warning"
+
+msgid "TEXT_REVIEW_STANDARDS"
+msgstr "- DNS standards compliance (delegation, reachability, syntax)."
+
+msgid "TEXT_REVIEW_INTEGRITY_SECURITY"
+msgstr "- DNS integrity & security (DNSSEC, answer consistency)."

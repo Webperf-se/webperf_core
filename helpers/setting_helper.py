@@ -135,7 +135,28 @@ config_mapping = {
         "EMAIL_NETWORK_SUPPORT_IPV6_TRAFFIC"): "bool|tests.email.support.ipv6",
     (
         "404url",
-        "tests.page-not-found.override-url"): "bool|tests.page-not-found.override-url"
+        "tests.page-not-found.override-url"): "bool|tests.page-not-found.override-url",
+    (
+        "dnsimage",
+        "tests.dns.image"): "string|tests.dns.image",
+    (
+        "dnstimeout",
+        "tests.dns.timeout"): "int|tests.dns.timeout",
+    (
+        "dnsipv6",
+        "tests.dns.ipv6"): "bool|tests.dns.ipv6",
+    (
+        "dnsregistrable",
+        "tests.dns.registrable"): "bool|tests.dns.registrable",
+    (
+        "dnsprofile",
+        "tests.dns.profile.use"): "bool|tests.dns.profile.use",
+    (
+        "dnswarningpenalty",
+        "tests.dns.warning-penalty"): "string|tests.dns.warning-penalty",
+    (
+        "dnserrorpenalty",
+        "tests.dns.error-penalty"): "string|tests.dns.error-penalty"
 }
 
 

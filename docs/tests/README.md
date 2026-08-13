@@ -20,6 +20,7 @@ These are the tests available in Webperf Core. In most cases, you select a test 
 * 29 - [Javascript (ESlint)](js-linting.md)
 * 30 - [Accessibility, Best practice, Performance, SEO (Google Lighthouse)](google-lighthouse.md)
 * 31 - [Users' privacy (Webbkoll backend)](privacy.md)
+* 32 - [DNS (Zonemaster)](dns-zonemaster.md)
 
 
 ## Code Quality

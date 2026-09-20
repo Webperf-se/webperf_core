@@ -1,6 +1,6 @@
 {
   "name": "webperf_core",
-  "version": "2026.7.2",
+  "version": "2026.8.0",
   "type": "module",
   "description": "You probably want to read the documentation available at homepage.",
   "repository": {
@@ -18,18 +18,18 @@
     "@sitespeed.io/plugin": "1.0.2",
     "@sitespeed.io/plugin-lighthouse": "13.0.1",
     "pa11y": "9.1.1",
-    "sitespeed.io": "41.4.1",
+    "sitespeed.io": "42.5.1",
     "webbkoll-backend": "git+https://codeberg.org/marcusosterberg/webbkoll-backend.git",
     "plugin-css": "2026.7.0",
     "plugin-html": "2026.7.0",
     "plugin-javascript": "2026.7.0",
     "plugin-pagenotfound": "2026.7.0",
-    "plugin-standard-files": "2026.7.0",
+    "plugin-standard-files": "2026.8.0",
     "plugin-accessibility-statement": "2026.7.0",
     "plugin-webperf-core": "2026.7.0"
   },
   "devDependencies": {
-    "eslint": "10.7.0",
+    "eslint": "10.8.0",
     "serve": "14.2.6",
     "serve-handler": "6.1.7"
   },

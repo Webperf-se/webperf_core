@@ -13,7 +13,7 @@
             "details": false,
             "improve-only": true
         },
-        "useragent": "Mozilla/5.0 (X11; Linux x86_64; rv:152.0) Gecko/20100101 Firefox/152.0",
+        "useragent": "Mozilla/5.0 (X11; Linux x86_64; rv:155.0) Gecko/20100101 Firefox/155.0",
         "cache": {
             "use": false,
             "folder": "cache",
@@ -63,6 +63,17 @@
         "webbkoll": {
             "sleep": 20,
             "api-url": "http://localhost:8100"
+        },
+        "dns": {
+            "image": "zonemaster/cli",
+            "timeout": 180,
+            "ipv6": false,
+            "registrable": true,
+            "warning-penalty": 0.75,
+            "error-penalty": 1.5,
+            "profile": {
+                "use": false
+            }
         }
     }
 }

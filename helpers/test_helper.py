@@ -259,8 +259,18 @@ def test_with_sitespeed(global_translation, site, sitespeed_plugins, sitespeed_t
             datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
         result_dict = create_webperf_json(site[1], sitespeed_plugins)
-        # TODO: Handle where result_dict is None
         # TODO: Handle when unable to access website
+
+        # No result at all - sitespeed was killed by the failsafe timeout, or
+        # never produced a webperf json. calculate_rating() would raise
+        # TypeError on the None, which only surfaced as an unrelated-looking
+        # traceback in failures.log. Report no result instead, so the caller
+        # keeps the previous rating rather than storing a made up one.
+        if result_dict is None:
+            print(global_translation('TEXT_SITE_UNAVAILABLE'))
+            print(global_translation('TEXT_TEST_END').format(
+                datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+            return []
 
         calculate_rating(global_translation, rating, result_dict)
 

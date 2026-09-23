@@ -14,12 +14,40 @@ module.exports = async function (context, commands) {
         ]
     });
 
+    // Continue a paused request without touching it. Used whenever we cannot
+    // safely rewrite the response, so that one odd response never stalls the run.
+    const releaseRequest = async function (requestId) {
+        try {
+            // Verified against Chromium 150: continueRequest releases a pause in
+            // the Response stage too, so one call covers both stages.
+            await cdpClient.send('Fetch.continueRequest', { requestId: requestId });
+        } catch (err) {
+            // Request already gone, or a future Chrome stopped accepting this in
+            // the Response stage. Logged rather than swallowed, because a pause
+            // that is never released stalls the page load until browsertime
+            // times out.
+            context.log.warning("COULD NOT RELEASE REQUEST: " + err.message);
+        }
+    };
+
     cdpClient.on('Fetch.requestPaused', async function (reqEvent) {
         if (reqEvent == undefined) {
             return
         }
         const requestId = reqEvent.requestId;
         let responseHeaders = reqEvent.responseHeaders || [];
+
+        // Paused before the response arrived (network error, or a response with
+        // no retrievable body such as 401/204/304). Fetch.getResponseBody would
+        // reject with "Can only get response body on requests captured after
+        // headers received", and because this listener is async that rejection
+        // is unhandled and takes down the whole node process - which loses the
+        // entire sitespeed run, not just this request.
+        if (reqEvent.responseErrorReason != undefined ||
+            reqEvent.responseStatusCode == undefined) {
+            await releaseRequest(requestId);
+            return
+        }
 
         if ('webperf' in context.options) {
             for (var i = 1; i <= 9; i++) {
@@ -53,9 +81,18 @@ module.exports = async function (context, commands) {
         //     responseHeaders: responseHeaders
         // });
 
-        bodyResult = await cdpClient.send('Fetch.getResponseBody', {
-            requestId: requestId
-        });
+        let bodyResult;
+        try {
+            bodyResult = await cdpClient.send('Fetch.getResponseBody', {
+                requestId: requestId
+            });
+        } catch (err) {
+            // Body was not retrievable after all. Let the request through
+            // untouched rather than letting the rejection kill the process.
+            context.log.warning("COULD NOT READ RESPONSE BODY: " + err.message);
+            await releaseRequest(requestId);
+            return
+        }
 
         body = ''
         if (bodyResult.base64Encoded) {
@@ -78,11 +115,16 @@ module.exports = async function (context, commands) {
         }
 
 
-        return cdpClient.send('Fetch.fulfillRequest', {
-            requestId: requestId,
-            responseCode: reqEvent.responseStatusCode,
-            responseHeaders: responseHeaders,
-            body: bodyResult.body
-        });
+        try {
+            return await cdpClient.send('Fetch.fulfillRequest', {
+                requestId: requestId,
+                responseCode: reqEvent.responseStatusCode,
+                responseHeaders: responseHeaders,
+                body: bodyResult.body
+            });
+        } catch (err) {
+            context.log.warning("COULD NOT FULFILL REQUEST: " + err.message);
+            await releaseRequest(requestId);
+        }
     });
 }

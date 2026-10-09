@@ -10,7 +10,7 @@ All tests use the same five rating fields and the same 1 to 5 scale. How they ar
 * 9 - [Standard files](standard.md)
 * 15 - [Website performance (SiteSpeed)](sitespeed.md)
 * 18 - [Accessibility (Pa11y)](pa11y.md)
-* 20 - [Security, data-protecting & Integrity (Webbkoll)](webbkoll.md)
+* 20 - [Security, data-protecting & Integrity (Webbkoll)](webbkoll.md), replaced by test 31
 * 21 - [HTTP and Network](http.md)
 * 22 - [Energy Efficiency](energy-efficiency.md)
 * 23 - [Tracking & Integrity](tracking.md)

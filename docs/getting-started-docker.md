@@ -114,9 +114,8 @@ The JSON output always contains the full `data` of every test, including every i
 ### Tests with requirements outside the container
 
 - Test 32 (DNS) starts the `zonemaster/cli` Docker image itself, so it needs a Docker daemon. It cannot run inside the container without mounting the Docker socket. Run it from the host instead, see [dns-zonemaster.md](tests/dns-zonemaster.md).
-- Test 20 (Webbkoll) calls the public service at webbkoll.5july.net.
 - Test 24 (Email) needs the IP2Location database file `data/IP2LOCATION-LITE-DB1.IPV6.BIN` for the GDPR part of its rating, see above.
-- Test 31 (Privacy) needs a self-hosted Webbkoll backend, see [privacy.md](tests/privacy.md).
+- Test 31 (Privacy) starts its own copy of webbkoll-backend from `node_modules` on localhost:8100, which works inside the image. To use a backend elsewhere, set `tests.webbkoll.api-url`, see [privacy.md](tests/privacy.md).
 
 ## Change settings / configuration
 

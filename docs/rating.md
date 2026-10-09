@@ -30,7 +30,7 @@ Example: one `error` and two `warning` in `standard` and nothing else gives stan
 
 ### Tests with their own logic
 
-Tests 15, 20 to 25, 31 and 32 are Python tests that build their rating from sub checks. Each sub check creates its own `Rating` with `set_overall()`, `set_integrity_and_security()` and so on, and the sub checks are added together with `Rating.__add__`, which averages every category over the ratings that set it.
+Tests 15, 21 to 25, 31 and 32 are Python tests that build their rating from sub checks. Each sub check creates its own `Rating` with `set_overall()`, `set_integrity_and_security()` and so on, and the sub checks are added together with `Rating.__add__`, which averages every category over the ratings that set it.
 
 Some tests use their own formula instead of the issue table:
 
@@ -47,7 +47,7 @@ Whether `best-practices` and `seo` should be mapped to a rating field is an open
 
 ## Which test sets which rating
 
-Taken from the `set_*` calls in each Python test and the `category` values in each plugin.
+Taken from the `set_*` calls in each Python test and the `category` values in each plugin. Test 20 is left out: it is replaced by test 31 and kept only for old results.
 
 | Test | Overall | Security | Performance | A11y | Standards | Other categories |
 |---|---|---|---|---|---|---|
@@ -55,7 +55,6 @@ Taken from the `set_*` calls in each Python test and the `category` values in ea
 | 9 Standard files | x | x | | | x | technical |
 | 15 Sitespeed | x | | x | | | |
 | 18 Pa11y | x | | | x | | |
-| 20 Webbkoll | x | x | | | | |
 | 21 HTTP | x | x | | | x | |
 | 22 Energy efficiency | x | | | | | |
 | 23 Tracking | x | x | | | | |
@@ -82,7 +81,7 @@ Taken from the `set_*` calls in each Python test and the `category` values in ea
 | 29 | `plugin-javascript/eslint.config.js`. ESLint severity 1 becomes `warning`, 2 becomes `error`. |
 | 30 | `getSeverityFromScore()` in `plugin-webperf-core/lib/lighthouseConverter.js`: audit score 90 or more is `resolved`, 50 or more is `warning`, below 50 is `error`. An audit that cannot be read is `critical`. |
 | Showstoppers | `plugin-webperf-core/lib/score.js` and `SHOWSTOPPER_RULES` in [tests/utils.py](../tests/utils.py) |
-| 15, 20 to 25, 31, 32 | In each test's file under [tests/](../tests/) |
+| 15, 21 to 25, 31, 32 | In each test's file under [tests/](../tests/) |
 
 ## Combined runs
 
@@ -108,4 +107,4 @@ Before pull request [#1615](https://github.com/Webperf-se/webperf_core/pull/1615
 - Test 2 looks for phrases that a 404 page is expected to contain, in the language of the page's `lang` attribute. Only the languages with a file in `plugin-pagenotfound/locale/` are supported. See [page-not-found.md](tests/page-not-found.md).
 - Test 22 is relative to percentiles from Webperf.se's own measurements, which are mostly Swedish sites. See [energy-efficiency.md](tests/energy-efficiency.md).
 - Test 26 checks for a Swedish accessibility statement as required by the Swedish DOS act and described by DIGG. It gives a `no-a11y-statement` showstopper on sites that follow other countries' rules. See [a11y-statement.md](tests/a11y-statement.md).
-- Tests 20, 23 and 31 rate against the GDPR and EU adequacy decisions. They are about where data goes, not about language, so they apply to any site with visitors in the EU.
+- Tests 23 and 31 rate against the GDPR and EU adequacy decisions. They are about where data goes, not about language, so they apply to any site with visitors in the EU.

@@ -1,4 +1,6 @@
 # Users’ integrity test against Webbkoll, provided by 5july.net
+
+**Replaced by test 31.** This test scrapes the hosted Webbkoll site at webbkoll.5july.net and breaks when its markup changes. Use [Users' privacy (Webbkoll backend)](privacy.md) instead, which rates the same things from a self-hosted backend. Test 20 is kept so old results can be reproduced.
 [![Regression Test - Integrity & Security (Webbkoll) Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-webbkoll.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-webbkoll.yml)
 
 This test is using Webbkoll provided by 5july.net to show how you handle user security and integrity.

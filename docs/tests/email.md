@@ -64,7 +64,35 @@ other countries agencies.
 
 ## How are rating being calculated?
 
-This section has not been written yet.
+This test has its own logic, see [How ratings are calculated](../rating.md). It runs DNS lookups for the domain (with a leading `www.` removed) and creates one `Rating` per finding. All of them are added with `Rating.__add__`, so every category is the unweighted mean of the findings that set it. The code is in [tests/email_validator.py](../../tests/email_validator.py). `O` is overall, `S` security, `St` standards.
+
+| Check | Condition | O | S | St |
+|---|---|---|---|---|
+| MX over IPv4 | 2 or more mail servers with A records | 5.0 | 5.0 | 5.0 |
+| | Exactly 1 | 2.5 | 1.0 | 5.0 |
+| | None | 1.0 | | 1.0 |
+| MX over IPv6 | Same scale for AAAA records | | | |
+| MX country | Every server IP in the EU or on the adequacy list: 5.0. Any elsewhere: 1.0 | 5.0 / 1.0 | 5.0 / 1.0 | |
+| MTA-STS DNS | `_mta-sts` TXT record with `v=STSv1` present / missing | 5.0 / 1.0 | 5.0 / 1.0 | 5.0 / 1.0 |
+| MTA-STS policy file | `mta-sts.txt` with version, mode, mx and max_age / present but incomplete / missing | 5.0 / 2.0 / 1.0 | 5.0 / 1.0 / 1.0 | 5.0 / 1.0 / 1.0 |
+| MTA-STS mode | `enforce` adds nothing. `testing` or `none` / unknown value | 3.0 / 1.0 | 1.0 / 1.0 | 5.0 / 1.0 |
+| SPF record | `v=spf1` TXT record found / missing | 5.0 / 1.0 | 5.0 / 1.0 | 5.0 / 1.0 |
+| SPF `all` | `-all` / `~all` / `?all` / `+all` | 5.0 / 5.0 / 3.0 / 2.0 | 5.0 / 2.0 / 2.0 / 1.0 | 5.0 / 5.0 / 5.0 / 2.5 |
+| SPF `ptr` | Used | 1.0 | | 1.0 |
+| SPF syntax | Unknown term / double space | 1.0 / 1.5 | | 1.0 / 1.5 |
+| SPF DNS lookups | 10 or more lookups through `include:` | 1.0 | | 1.0 |
+| SPF country | `ip4:` and `ip6:` entries in the EU or adequacy list / elsewhere | 5.0 / 1.0 | 5.0 / 1.0 | |
+| DMARC record | `v=DMARC1` TXT record found / missing | 5.0 / 1.0 | 5.0 / 1.0 | 5.0 / 1.0 |
+| DMARC `p=` | `reject` / `quarantine` / `none` / missing or invalid | 5.0 / 4.0 / 3.0 / 1.0 | 5.0 / 4.0 / 1.0 / 1.0 | 5.0 / 5.0 / 5.0 / 1.0 |
+| DMARC `sp=` | Same values as `p=`, or 3.0 when it only repeats `p=` | | | |
+| DMARC `pct=` | 100 / below 100 | 5.0 / 3.0 | 5.0 / 1.0 | 5.0 |
+| DMARC syntax | Per invalid tag 1.0, none 5.0. Per tag that only states a default value 3.0, none 5.0 | | | |
+
+The SPF lookup limit is the only check that sets `rating_perf`: 10 or more lookups give performance 4.0 next to the 1.0 for overall and standards, because every `include:` costs the receiving mail server a DNS query and RFC 7208 stops evaluating at 10.
+
+Two checks are off by default. With `tests.email.support.port25` set to `true` the test also connects to every IPv4 mail server on port 25 and rates "all servers answer" and "all servers offer STARTTLS" with 5.0 or 1.0 for overall and standards. With `tests.email.support.ipv6` as well, the same is done over IPv6. Most networks block outgoing port 25, which is why both are off.
+
+DNS lookups go to the resolver in `general.dns.address`, 8.8.8.8 by default. A lookup that times out is treated as "no record" and rated 1.0, so run the test from a network that allows DNS to that address. A missing IP2Location database makes every country `unknown`, which counts as compliant, so the two country checks then give 5.0 for everyone. Review texts follow `general.language`; the points do not depend on language.
 
 ## Read more
 

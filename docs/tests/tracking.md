@@ -109,7 +109,25 @@ Please note that this section is relative to the number of none advertising requ
 
 ## How are rating being calculated?
 
-This section has not been written yet.
+This test has its own logic, see [How ratings are calculated](../rating.md). Five checks run on one sitespeed.io visit of the page: cookies, GDPR, tracking, fingerprinting and advertising. Every check sets overall and security to the same points, and the five are added with `Rating.__add__`, so the final `rating` and `rating_sec` are the same number: the mean of the five checks. The code is in [tests/tracking_validator.py](../../tests/tracking_validator.py).
+
+| Check | Condition | Points |
+|---|---|---|
+| Cookies: third party | n cookies whose domain is not the page's hostname | 5.0 minus 0.5 per cookie |
+| Cookies: lifetime | Only the longest group that has cookies counts. n cookies valid more than 1 year: 5.0 minus 5 per cookie. More than 9 months: minus 4 per cookie. More than 6 or 3 months: minus 3 per cookie. A month is 31 days. | |
+| Cookies: not secure | n cookies without the `Secure` flag | 5.0 minus 3 per cookie |
+| Cookies: analytics | n cookies whose name matches an entry in `defaults/analytics-rules.json` | 5.0 minus 3 per cookie |
+| Cookies, total | Mean of the four rows above. No cookies at all gives 5.0 | |
+| GDPR | Country of every request's server IP, from IP2Location. All in the EU or on the adequacy list: 5.0. Any other country: 1.0 | 5.0 or 1.0 |
+| Tracking | Every request is rated: a request to a domain on the blocklistproject tracking list, or whose URL or response body matches `defaults/analytics-rules.json`, is a tracker. The first two trackers give 5.0, every further tracker 1.0, every other request 5.0. The check is the mean over all requests | |
+| Fingerprinting | Any request to a domain in the Disconnect `FingerprintingInvasive` or `FingerprintingGeneral` lists | 1.0, otherwise 5.0 |
+| Advertising | Same as tracking, with the blocklistproject ads list and two allowed ad requests | |
+
+All points are clamped to 1.0 to 5.0, so two cookies valid more than a year already give 1.0 for that row.
+
+Because tracking and advertising are means over all requests, a page with 100 requests of which 5 are trackers scores 3 trackers at 1.0 and 97 requests at 5.0, giving 4.88. A page with 10 requests and the same 5 trackers gets 3.8. The number of other requests therefore matters as much as the number of trackers.
+
+What happens when data is missing: a missing blocklist or Disconnect file prints a warning and gives 5.0 for that check. A missing IP2Location database makes every country `unknown`, which is on the exception list, so GDPR gives 5.0 for every site. If you run the Docker image without `data/IP2LOCATION-LITE-DB1.IPV6.BIN`, the GDPR check is passed by everyone. Review texts follow `general.language`; the points do not depend on language.
 
 ## Read more
 

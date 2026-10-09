@@ -11,9 +11,6 @@ from engines.csv_engine import read_sites as csv_read_sites,\
     delete_site as csv_delete_site
 from engines.sitemap import read_sites as sitemap_read_sites
 from engines.sitespeed_result import read_sites as sitespeed_read_sites
-from engines.webperf import read_sites as webperf_read_sites,\
-    add_site as webperf_add_site,\
-    delete_site as webperf_delete_site
 from engines.json_engine import read_sites as json_read_sites,\
     add_site as json_add_site,\
     delete_site as json_delete_site
@@ -378,10 +375,6 @@ class CommandLineOptions: # pylint: disable=too-many-instance-attributes,missing
             read_sites = sitemap_read_sites
         elif file_long_ending == ".result":
             read_sites = sitespeed_read_sites
-        elif file_long_ending == ".webprf":
-            read_sites = webperf_read_sites
-            add_site = webperf_add_site
-            delete_site = webperf_delete_site
         else:
             read_sites = json_read_sites
             add_site = json_add_site

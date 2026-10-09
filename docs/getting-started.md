@@ -186,6 +186,5 @@ Finished: 2024-05-25 22:26:52
 | `.sqlite` | The `sites` table of a webperf-core SQLite database. |
 | `.xml`, `.xml.gz` | A sitemap, every URL in it becomes a site. Can be a URL such as `https://example.com/sitemap.xml`. |
 | `.result` | The URLs from earlier sitespeed.io runs stored under `general.cache.folder`. |
-| `.webprf` | Not a file. The name before the ending is a category on webperf.se and the site list is fetched from there: `kommuner.webprf`, `regioner.webprf`, `offentlig-sektor.webprf`, `digitalt.webprf`, `webbyraer.webprf`, `toplist.webprf`, or `alla.webprf` for every category. The categories are read live from https://webperf.se/sites/, so the list can change. |
 
 `--input-skip` and `--input-take` apply to every format.

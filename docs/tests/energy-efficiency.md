@@ -68,13 +68,10 @@ As you can read above, this are required if you want to have a up to date refere
 It is also needed if you want to have your own reference to rate against, for example your own websites last year or your closes competition.
 
 #### Create new baseline
-You do this by running Energy efficiency against a list of all sites you want to compare against.
-For example:
+You do this by running Energy efficiency against a list of all sites you want to compare against, for example every municipality in your country or your own sites from last year. Put them in a CSV file (see [input formats](../getting-started.md#input-formats)) and run:
 ```
-python default.py -i kommuner.webprf -t 22 -o data/carbon-references-kommuner.json
+python default.py -i reference-sites.csv -t 22 -o data/carbon-references.json
 ```
-
-`kommuner.webprf` is not a file. The `.webprf` ending tells webperf-core to fetch the site list of that category from webperf.se, here all Swedish municipalities. See [input formats](../getting-started.md#input-formats) for the other categories and for using your own list instead.
 
 #### Calculate new percentiles
 You now have a baseline to create your carbon percentiles from.

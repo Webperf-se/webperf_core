@@ -70,7 +70,7 @@ npm install --omit=dev
 python3 default.py -t ?                      # list tests
 python3 default.py -s ?                      # list settings
 python3 default.py -u https://example.com -t 21 -r -o reports/t21.json
-python3 -m unittest discover -s unittests -t .   # offline unit tests
+python3 -m unittest discover -s unittests        # offline unit tests
 pylint $(git ls-files '*.py') --generated-members json,ssl,datetime --disable C0114 --errors-only
 ```
 

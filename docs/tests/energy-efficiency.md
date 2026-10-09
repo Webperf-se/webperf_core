@@ -29,10 +29,32 @@ Only `rating` is set. The review text says the CO2 in grams per page view, the p
 
 Two things follow from this. A page that is cleaner than 60 % of the reference pages gets 3.0 whatever its absolute weight, and the same page gets a different rating when the reference changes. The reference shipped with webperf-core comes from Webperf.se's own lists, mostly Swedish public sector sites. If you test sites in another country or sector, generate your own reference as described below, otherwise you are comparing with Swedish municipalities.
 
+## How this relates to online carbon calculators
+
+People compare this test with [websitecarbon.com](https://www.websitecarbon.com/) and similar tools and ask why the numbers differ. They differ for four reasons.
+
+**A different model.** Our code uses the 2020 model from Wholegrain Digital's [carbon-api-2-0](https://gitlab.com/wholegrain/carbon-api-2-0), the earlier engine behind websitecarbon.com: 1.805 kWh per GB and a world average grid of 475 g CO2 per kWh. Websitecarbon.com has since moved to the [Sustainable Web Design Model](https://sustainablewebdesign.org/estimating-digital-emissions/), version 4 as of July 2025. That model counts 0.194 kWh per GB for data centres, networks and devices together, uses 494 g per kWh, and adds embodied emissions. The two models give different grams for the same page:
+
+| Page weight | This test | Sustainable Web Design v4 (websitecarbon.com) |
+|---|---|---|
+| 1.0 MB | 0.63 g | about 0.15 g |
+| 2.4 MB | 1.52 g | about 0.36 g |
+
+The right-hand column is read from the [Digital Carbon Ratings](https://sustainablewebdesign.org/digital-carbon-ratings/) bands, where 2.4 MB is the F threshold. The gram figures from this test are therefore not comparable with websitecarbon.com or with any tool built on [CO2.js](https://www.thegreenwebfoundation.org/co2-js/), the Green Web Foundation library that implements the Sustainable Web Design Model.
+
+**No green hosting check.** Websitecarbon.com looks the domain up in the Green Web Foundation directory and lowers the data centre part for verified green hosts. This test does not, so a site on green hosting gets no credit here.
+
+**A different page weight.** The weight comes from our own sitespeed.io run, with our browser settings and no interaction with cookie banners. Online tools load the page in their own browser and may see other scripts, other image sizes or a consent dialog. Compare the transfer size in the review text with the size the other tool reports before comparing CO2.
+
+**A different scale.** The 1 to 5 rating is a percentile against pages Webperf.se has measured, mostly Swedish public sector sites. Websitecarbon.com gives A+ to F from fixed gram thresholds based on the HTTP Archive crawl of June 2023. A page can be rated 4.0 here and get an F there, or the reverse, without either tool being wrong. They answer different questions: "lighter than most Swedish public sites?" versus "below a fixed global threshold?".
+
+If you need numbers that match websitecarbon.com, run CO2.js on the transfer size from `data['total-byte-weight']` in the JSON output. Moving this test to the Sustainable Web Design Model would change every rating and require new percentiles, so it is not a small change.
+
 ## Read more
 
-* https://www.websitecarbon.com/
-* https://www.thegreenwebfoundation.org/
+* [carbon-api-2-0](https://gitlab.com/wholegrain/carbon-api-2-0), the model this test uses
+* [Sustainable Web Design Model](https://sustainablewebdesign.org/estimating-digital-emissions/), the model websitecarbon.com uses
+* [CO2.js](https://www.thegreenwebfoundation.org/co2-js/) by the Green Web Foundation
 
 ## How to setup?
 

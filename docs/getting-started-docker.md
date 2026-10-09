@@ -59,6 +59,65 @@ If you have PowerShell we recommend you also copy the _*.ps1_-files from the _./
 - _Option 2:_ Build the image using command in [docker/run-with-mounted-folder.ps1](../docker/run-with-mounted-folder.ps1) or by running the ps1-script in PowerShell - this allows for writing report files to folder on host machine.
 - When container is running and you are at bash you can run `python default.py -h` and start tests according to the documentation - all dependencies are already set up in the image.
 
+## Run tests from the host without entering the container
+
+You do not have to open a shell in the container. Mount a folder for input and output and pass the command on the command line. The image runs as the user `sitespeedio`, so the mounted folder must be writable for that user:
+
+```
+mkdir -p reports
+chmod a+rwx reports
+```
+
+Put your sites in `reports/sites.csv`. The format is a header row followed by one site per row:
+
+```
+id,website
+1,https://www.uni-bielefeld.de
+2,https://www.uni-koeln.de
+```
+
+A file with one URL per line and no header also works; the row number is then used as id.
+
+Run one test and write the result to the mounted folder:
+
+```
+docker run --rm --shm-size=4g -e MAX_OLD_SPACE_SIZE=3000 \
+  -v "$PWD/reports:/usr/src/runner/reports" \
+  webperfse/webperf-core:latest \
+  python3 default.py -i reports/sites.csv -t 28 -o reports/test-28.json
+```
+
+Test numbers are comma separated, so `-t 2,28` runs both. Repeating `-t` only keeps the last one. A run with more than one test adds a combined entry with `type_of_test: -1` to the output, see [How ratings are calculated](rating.md). To get one file per test, loop over the tests instead:
+
+```
+for t in 2 9 18 21 22 23 24 25 26 27 28 29 30; do
+  docker run --rm --shm-size=4g -e MAX_OLD_SPACE_SIZE=3000 \
+    -v "$PWD/reports:/usr/src/runner/reports" \
+    webperfse/webperf-core:latest \
+    python3 default.py -i reports/sites.csv -t $t -o reports/test-$t.json \
+    2>&1 | tee reports/test-$t.log
+done
+```
+
+`tee` keeps the console output in a file next to the result. When a test fails for a site, the reason is printed there, and unhandled errors go to `failures.log`. That file is written to the working directory inside the container, `/usr/src/runner`, unless you point `general.failures-log` at the mounted folder: `-s general.failures-log=reports/failures.log`.
+
+For long lists, `--is <n>` (input skip) and `--it <n>` (input take) select a slice of the input file, so you can run in batches and restart where you left off:
+
+```
+python3 default.py -i reports/sites.csv --is 100 --it 50 -t 28 -o reports/test-28-batch3.json
+```
+
+### What is in the output
+
+The JSON output always contains the full `data` of every test, including every issue with its rule, severity and the pages it was found on. The settings `general.review.details` and `general.review.improve-only` only change the review texts in `report`, `report_sec` and the other report fields. You do not need to change them to get complete data.
+
+### Tests with requirements outside the container
+
+- Test 32 (DNS) starts the `zonemaster/cli` Docker image itself, so it needs a Docker daemon. It cannot run inside the container without mounting the Docker socket. Run it from the host instead, see [dns-zonemaster.md](tests/dns-zonemaster.md).
+- Test 20 (Webbkoll) calls the public service at webbkoll.5july.net.
+- Test 24 (Email) needs the IP2Location database file `data/IP2LOCATION-LITE-DB1.IPV6.BIN` for the GDPR part of its rating, see above.
+- Test 31 (Privacy) needs a self-hosted Webbkoll backend, see [privacy.md](tests/privacy.md).
+
 ## Change settings / configuration
 
 Easiest and fastest way is to use the `--setting` command that only change the setting for current run.

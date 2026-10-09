@@ -1,18 +1,19 @@
 # Accessibility Statement
 [![Regression Test - Accessibility Statement Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-a11y-statement.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-a11y-statement.yml)
 
-Add small description of what this test is.
+This test looks for an accessibility statement and rates it against Swedish law. It runs as the sitespeed.io plugin [plugin-accessibility-statement](https://github.com/Webperf-se/plugin-accessibility-statement).
 
 ## What is being tested?
 
-This test looks for and rates your accessibility statement.
-This test is currently calibrated only for swedish.
+The test is built on the Swedish act on accessibility to digital public service (lagen (2018:1937) om tillgänglighet till digital offentlig service, "DOS-lagen") and the guidance from DIGG, the Swedish Agency for Digital Government. It looks for Swedish wording such as "helt förenlig", "delvis förenlig" and "inte förenlig", and for a link to DIGG's notification form.
+
+Because of this the test does not give meaningful results for sites outside Sweden. A site that follows another country's implementation of the EU Web Accessibility Directive has none of the Swedish markers, so the test reports `no-a11y-statement` with severity `critical`. That rule is a showstopper (see [How ratings are calculated](../rating.md)), which sets the a11y score to 0 and `rating_a11y` to 1.0 even if a correct statement exists in another language. Treat `rating_a11y` from this test as undefined for non-Swedish sites. How to avoid that false result is being discussed in the plugin's [issues](https://github.com/Webperf-se/plugin-accessibility-statement/issues).
 
 It rates on many "shall" statements from the [Swedish Agency for Digital Government](https://digg.se/kunskap-och-stod/digital-tillganglighet/skapa-en-tillganglighetsredogorelse)
 
 ## How are rating being calculated?
 
-We are calculating rating based on:
+Each check is a rule with a fixed severity, defined in `rules` in `lib/harAnalyzer.js` of the plugin, and the score follows the issue based model in [How ratings are calculated](../rating.md). The checks are:
 - IF we can find an accessibility statement.
 - On what link depth we find the accessibility statement.
 - IF we can find "helt förenlig", "delvis förenlig" or "inte förenlig"

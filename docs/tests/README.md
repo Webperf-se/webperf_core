@@ -2,9 +2,11 @@
 
 These are the tests available in Webperf Core. In most cases, you select a test by its number.
 
+All tests use the same five rating fields and the same 1 to 5 scale. How they are calculated, which test sets which field, and what happens when several tests run together is described in [How ratings are calculated](../rating.md).
+
 ## List of Tests
 
-* 2 - [Validate 404 page (by default checks for Swedish text, though)](page-not-found.md)
+* 2 - [Validate 404 page (phrases in Swedish and English today, selected by the page's `lang`)](page-not-found.md)
 * 9 - [Standard files](standard.md)
 * 15 - [Website performance (SiteSpeed)](sitespeed.md)
 * 18 - [Accessibility (Pa11y)](pa11y.md)
@@ -18,7 +20,7 @@ These are the tests available in Webperf Core. In most cases, you select a test 
 * 27 - [CSS (StyleLint)](css-linting.md)
 * 28 - [HTML (html-validate)](html-validate.md)
 * 29 - [Javascript (ESlint)](js-linting.md)
-* 30 - [Accessibility, Best practice, Performance, SEO (Google Lighthouse)](google-lighthouse.md)
+* 30 - [Accessibility, Best practice, Performance, SEO (Google Lighthouse)](google-lighthouse-based.md)
 * 31 - [Users' privacy (Webbkoll backend)](privacy.md)
 * 32 - [DNS (Zonemaster)](dns-zonemaster.md)
 

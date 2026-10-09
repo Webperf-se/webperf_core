@@ -25,6 +25,7 @@ import dns.exception
 import dns.name
 
 from helpers.setting_helper import get_config
+from helpers.models import Rating
 
 CONFIG_WARNINGS = {}
 IP2_LOCATION_DB = {
@@ -1039,129 +1040,199 @@ def merge_dicts(dict1, dict2, sort, make_distinct):
 
     return dict1
 
+# Rules whose failure zeroes their whole category instead of the normal
+# severity deduction. Keep in sync with `showstopperRules` in
+# plugin-webperf-core/lib/score.js, which calculates the same score on the
+# sitespeed.io side. unittests/test_rating.py compares the two lists when
+# node_modules is present.
+SHOWSTOPPER_RULES = frozenset([
+    'no-a11y-statement'
+])
+
+SEVERITY_DEDUCTION = {
+    'critical': 25,
+    'error': 10,
+    'warning': 1
+}
+
 def calculate_score(issues):
+    """
+    Calculates the score per category from a list of issues.
+
+    Every category starts at 100 and every issue deducts points based on
+    its severity (see SEVERITY_DEDUCTION). A rule in SHOWSTOPPER_RULES that
+    is not resolved sets its category to 0 regardless of other issues.
+    'overall' is the average of all other categories.
+
+    Mirrors calculateScore() in plugin-webperf-core/lib/score.js.
+
+    Parameters:
+    issues (list): Issues with at least 'category', 'severity' and 'rule'.
+
+    Returns:
+    dict: Score per category plus 'overall'.
+    """
     category_scores = {'overall': 100}
+    zeroed_categories = set()
 
     for issue in issues:
-        if issue['category'] not in category_scores:
-            category_scores[issue['category']] = 100
+        category = issue['category']
+        if category not in category_scores:
+            category_scores[category] = 100
 
-        if issue['severity'] == 'critical':
-            category_scores[issue['category']] -= 25
-        elif issue['severity'] == 'error':
-            category_scores[issue['category']] -= 10
-        elif issue['severity'] == 'warning':
-            category_scores[issue['category']] -= 1
+        if issue.get('rule') in SHOWSTOPPER_RULES and issue['severity'] != 'resolved':
+            zeroed_categories.add(category)
+            continue
 
-    scores = [value for key, value in category_scores.items() if key != 'overall']  # Exclude 'overall' from calculation
-    total = sum(scores)
-    category_scores['overall'] = total / len(scores) if scores else 100  # Use average
+        category_scores[category] -= SEVERITY_DEDUCTION.get(issue['severity'], 0)
+
+    for category in zeroed_categories:
+        category_scores[category] = 0
+
+    scores = [value for key, value in category_scores.items() if key != 'overall']
+    category_scores['overall'] = sum(scores) / len(scores) if scores else 100
 
     return category_scores
 
 def calculate_rating(global_translation, rating, result_dict):
-    issues_other = []
-    issues_standard =[]
-    issues_security = []
-    issues_a11y = []
-    issues_performance = []
+    """
+    Combines the rating of every group in result_dict with `rating`.
 
+    Every group gets its own Rating (see calculate_group_rating) and the
+    groups are combined with Rating.__add__, which averages each category
+    and concatenates the review texts. This keeps the result independent
+    of the order of the groups.
+
+    A group without a 'score' gets one calculated from its issues.
+
+    Parameters:
+    global_translation : GNUTranslations
+    rating (Rating): Rating to combine the groups with, typically empty.
+    result_dict (dict): Test data with a 'groups' dict.
+
+    Returns:
+    Rating: A new Rating. The passed rating is not modified.
+    """
     if "groups" not in result_dict:
         return rating
 
-    for group_name, info in result_dict["groups"].items():
-        for issue in info["issues"]:
-            if get_config('general.review.improve-only') and issue["severity"] == "resolved":
-                continue
-
-            severity_text = global_translation(f"TEXT_SEVERITY_{issue['severity'].upper()}")
-            text = None
-            if 'test' not in issue:
-                text = f"{issue['rule']} ({severity_text})"
-            elif 'text' in issue:
-                text = issue['text']
-            else:
-                severity_key = None
-                if issue['severity'] in ('resolved'):
-                    severity_key = 'resolved'
-                elif issue['severity'] in ('critical', 'error', 'warning'):
-                    severity_key = 'unresolved'
-                elif issue['severity'] in ('info'):
-                    severity_key = 'info'
-                else:
-                    severity_key = 'unknown'
-                text_primarykey = f"{issue['rule']} ({severity_key})"
-                text_secondarykey = f"{issue['rule']}"
-                try:
-                    local_translation = get_translation(
-                            issue['test'],
-                            get_config('general.language')
-                        )
-                    text = local_translation(text_primarykey)
-                    if '{0}' in text:
-                            text = local_translation(text_primarykey).format(severity_text)
-                    if text == text_primarykey:
-                        print(f"no translation found for: {issue['test']}, and language: {get_config('general.language')}. Adding it so you can translate it.")
-                        create_or_append_translation(issue['test'], get_config('general.language'), text_secondarykey)
-                except FileNotFoundError:
-                    text = text_primarykey
-                    print(f"no translation found for: {issue['test']}, adding file for language: {get_config('general.language')} so you can translate it.")
-                    create_or_append_translation(issue['test'], get_config('general.language'), text_secondarykey)
-
-            if get_config('general.review.details'):
-                if 'resources' in issue:
-                    a1 ="\n  - ".join([f"{item}" for item in issue['resources']])
-                    more_info = global_translation('TEXT_DETAILS_MORE_INFO')
-                    # More info
-                    text = f"{text}\n  {more_info}:\n  - {a1}\n"
-                if 'subIssues' in issue and len(issue['subIssues']) > 0:
-                    unique_urls = set(subItem['url'] for subItem in issue['subIssues'])
-                    a2 = "\n  - ".join(unique_urls)
-                    urls_with_issues  = global_translation('TEXT_DETAILS_URLS_WITH_ISSUES')
-                    # Url(s) with issues
-                    text = f"{text}\n  {urls_with_issues}:\n  - {a2}\n"
-
-            if issue['category'] == 'standard':
-                issues_standard.append(text)
-            elif issue['category'] == 'security':
-                issues_security.append(text)
-            elif issue['category'] == 'a11y':
-                issues_a11y.append(text)
-            elif issue['category'] == 'performance':
-                issues_performance.append(text)
-            else:
-                issues_other.append(text)
-
+    for info in result_dict["groups"].values():
         if "score" not in info:
-            # Calculate Score (for python packages who has not calculated this yet)
+            # Python based tests (pa11y) do not calculate the score themselves
             info["score"] = calculate_score(info["issues"])
+        rating = rating + calculate_group_rating(global_translation, info)
 
-        if 'overall' in info["score"]:
-            overall = (info["score"]["overall"] / 100) * 5
-            rating.set_overall(overall)
-            if len(issues_other) > 0:
-                rating.overall_review = "\n".join([f"- {item}" for item in issues_other]) + "\n"
-        if 'standard' in info["score"]:
-            standard = (info["score"]["standard"] / 100) * 5
-            rating.set_standards(standard)
-            if len(issues_standard) > 0:
-                rating.standards_review = "\n".join([f"- {item}" for item in issues_standard]) + "\n"
-        if 'security' in info["score"]:
-            security = (info["score"]["security"] / 100) * 5
-            rating.set_integrity_and_security(security)
-            if len(issues_security) > 0:
-                rating.integrity_and_security_review = "\n".join([f"- {item}" for item in issues_security]) + "\n"
-        if 'a11y' in info["score"]:
-            a11y = (info["score"]["a11y"] / 100) * 5
-            rating.set_a11y(a11y)
-            if len(issues_a11y) > 0:
-                rating.a11y_review = "\n".join([f"- {item}" for item in issues_a11y]) + "\n"
-        if 'performance' in info["score"]:
-            performance = (info["score"]["performance"] / 100) * 5
-            rating.set_performance(performance)
-            if len(issues_performance) > 0:
-                rating.performance_review = "\n".join([f"- {item}" for item in issues_performance]) + "\n"
     return rating
+
+def calculate_group_rating(global_translation, info):
+    """
+    Creates the Rating for one group, based on its 'score' and 'issues'.
+
+    Parameters:
+    global_translation : GNUTranslations
+    info (dict): Group with 'score' and 'issues'.
+
+    Returns:
+    Rating: Rating of the group with review texts per category.
+    """
+    issues_by_category = {
+        'standard': [],
+        'security': [],
+        'a11y': [],
+        'performance': [],
+        'other': []
+    }
+
+    for issue in info["issues"]:
+        if get_config('general.review.improve-only') and issue["severity"] == "resolved":
+            continue
+
+        text = get_issue_review_text(global_translation, issue)
+        category = issue['category']
+        if category not in issues_by_category:
+            category = 'other'
+        issues_by_category[category].append(text)
+
+    rating = Rating(global_translation)
+    score = info["score"]
+
+    def review_text(category):
+        items = issues_by_category[category]
+        if len(items) == 0:
+            return ''
+        return "\n".join([f"- {item}" for item in items]) + "\n"
+
+    if 'overall' in score:
+        rating.set_overall((score["overall"] / 100) * 5)
+        rating.overall_review = review_text('other')
+    if 'standard' in score:
+        rating.set_standards((score["standard"] / 100) * 5)
+        rating.standards_review = review_text('standard')
+    if 'security' in score:
+        rating.set_integrity_and_security((score["security"] / 100) * 5)
+        rating.integrity_and_security_review = review_text('security')
+    if 'a11y' in score:
+        rating.set_a11y((score["a11y"] / 100) * 5)
+        rating.a11y_review = review_text('a11y')
+    if 'performance' in score:
+        rating.set_performance((score["performance"] / 100) * 5)
+        rating.performance_review = review_text('performance')
+
+    return rating
+
+def get_issue_review_text(global_translation, issue):
+    """
+    Returns the translated review text for one issue, including details
+    (resources and urls) when general.review.details is enabled.
+    """
+    severity_text = global_translation(f"TEXT_SEVERITY_{issue['severity'].upper()}")
+    text = None
+    if 'test' not in issue:
+        text = f"{issue['rule']} ({severity_text})"
+    elif 'text' in issue:
+        text = issue['text']
+    else:
+        severity_key = None
+        if issue['severity'] in ('resolved'):
+            severity_key = 'resolved'
+        elif issue['severity'] in ('critical', 'error', 'warning'):
+            severity_key = 'unresolved'
+        elif issue['severity'] in ('info'):
+            severity_key = 'info'
+        else:
+            severity_key = 'unknown'
+        text_primarykey = f"{issue['rule']} ({severity_key})"
+        text_secondarykey = f"{issue['rule']}"
+        try:
+            local_translation = get_translation(
+                    issue['test'],
+                    get_config('general.language')
+                )
+            text = local_translation(text_primarykey)
+            if '{0}' in text:
+                text = local_translation(text_primarykey).format(severity_text)
+            if text == text_primarykey:
+                print(f"no translation found for: {issue['test']}, and language: {get_config('general.language')}. Adding it so you can translate it.")
+                create_or_append_translation(issue['test'], get_config('general.language'), text_secondarykey)
+        except FileNotFoundError:
+            text = text_primarykey
+            print(f"no translation found for: {issue['test']}, adding file for language: {get_config('general.language')} so you can translate it.")
+            create_or_append_translation(issue['test'], get_config('general.language'), text_secondarykey)
+
+    if get_config('general.review.details'):
+        if 'resources' in issue:
+            a1 ="\n  - ".join([f"{item}" for item in issue['resources']])
+            more_info = global_translation('TEXT_DETAILS_MORE_INFO')
+            # More info
+            text = f"{text}\n  {more_info}:\n  - {a1}\n"
+        if 'subIssues' in issue and len(issue['subIssues']) > 0:
+            unique_urls = set(subItem['url'] for subItem in issue['subIssues'])
+            a2 = "\n  - ".join(unique_urls)
+            urls_with_issues  = global_translation('TEXT_DETAILS_URLS_WITH_ISSUES')
+            # Url(s) with issues
+            text = f"{text}\n  {urls_with_issues}:\n  - {a2}\n"
+
+    return text
 
 
 def sort_testresult_issues(data):

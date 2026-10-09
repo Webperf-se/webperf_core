@@ -18,7 +18,7 @@
     "@sitespeed.io/plugin": "1.0.2",
     "@sitespeed.io/plugin-lighthouse": "13.0.1",
     "pa11y": "9.1.1",
-    "sitespeed.io": "42.5.1",
+    "sitespeed.io": "42.6.0",
     "webbkoll-backend": "git+https://codeberg.org/marcusosterberg/webbkoll-backend.git",
     "plugin-css": "2026.7.0",
     "plugin-html": "2026.7.0",
@@ -29,7 +29,7 @@
     "plugin-webperf-core": "2026.7.0"
   },
   "devDependencies": {
-    "eslint": "10.8.0",
+    "eslint": "10.10.0",
     "serve": "14.2.6",
     "serve-handler": "6.1.7"
   },

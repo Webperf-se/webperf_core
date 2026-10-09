@@ -93,6 +93,8 @@ config_mapping = {
         "general.cache.folder",
         "tests.sitespeed.cache.folder"): "string|general.cache.folder",
     (
+        "general.failures-log",): "string|general.failures-log",
+    (
         "csponly",
         "tests.http.csp-only",
         "csp_only",

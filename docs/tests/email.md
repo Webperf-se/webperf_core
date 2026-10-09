@@ -123,6 +123,3 @@ DNS lookups go to the resolver in `general.dns.address`, 8.8.8.8 by default. A l
 * Place `IP2LOCATION-LITE-DB1.IPV6.BIN` file in a folder called "data" in the WebPerf-core folder ( data/IP2LOCATION-LITE-DB1.IPV6.BIN )
 
 
-## FAQ
-
-No frequently asked questions yet :)

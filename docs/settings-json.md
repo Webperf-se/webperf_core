@@ -3,11 +3,11 @@
 With your own `settings.json` file you are able to use the same settings
 every time you run webperf core, unlike using `--settings` that only affect current run.
 
-# Why copy and rename defaults/config.py?
+# Why copy and rename defaults/settings.json?
 
 You *ONLY* need to copy defaults/settings.json IF you want to permanently change any settings.
 Most people can use the default settings and only use `--settings` for when temporarly changing settings.
-You should not change settings directly in defaults/config.py,
+You should not change settings directly in defaults/settings.json,
 the reason for this is because if you download a new version of the code, your settings or data should not be overwritten by accident.
 
 Because of this you need to copy `defaults/settings.json` and name the new version `settings.json` and place it in root folder.

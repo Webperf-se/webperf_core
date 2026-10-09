@@ -130,9 +130,8 @@ TODO: Add links to blogs and articles showing how to remove info regarding what 
 ### Setup Locally
 
 * Follow [general local setup steps for this repository](../getting-started-local.md)
-* We recommend you to make use `software_use_stealth` is set to `True`, change this to `False` at your own risk.
-* It is highly recommended to set `cache_when_possible` to `True` and to set `cache_time_delta` to
-* It is highly recommended to set `cache_time_delta` to at least 12 hours (Fail to do so may result in banning of service like github).
+* Keep `tests.software.stealth.use` at `true` (the default). Change it to `false` at your own risk.
+* Set `general.cache.use` to `true` and `general.cache.max-age` to at least `720` (minutes, 12 hours) in your `settings.json`. Without the cache, repeated runs can get you blocked by services like GitHub.
 * If you want to get more detailed information, please set `general.review.details` to `True`.
 * Depending on your preference, follow below NPM package or Docker image steps below.
 
@@ -141,7 +140,7 @@ TODO: Add links to blogs and articles showing how to remove info regarding what 
 * Download and install Node.js (version 24.x)
 * Download and install Google Chrome browser
 * Install NPM packages ( `npm install --omit=dev` )
-* Set `sitespeed_use_docker = False` in your `config.py`
+* Keep `tests.sitespeed.docker.use` at `false` (the default) in your `settings.json`
 
 ##### Windows Specific
 
@@ -150,7 +149,7 @@ TODO: Add links to blogs and articles showing how to remove info regarding what 
 #### Using Docker image
 
 * Make sure Docker command is globally accessible on your system.
-* Set `sitespeed_use_docker = True` in your `config.py`
+* Set `tests.sitespeed.docker.use` to `true` in your `settings.json`, or pass `-s tests.sitespeed.docker.use=true`
 
 
 ## FAQ
@@ -166,8 +165,8 @@ Make sure your system has access to following addresses:
 * Access to https://svn.apache.org/*
 * Access to https://api.github.com/*
 
-Fork https://github.com/github/advisory-database and set `software_github_adadvisory_database_path` variable in `config.py` to the path of that folder.
+Fork https://github.com/github/advisory-database and set `tests.software.advisory.path` in your `settings.json` to the path of that folder.
 
-Make sure you add a valid GitHub API key in your `config.py`.
+Make sure you add a valid GitHub API key as `github.api.key` in your `settings.json`.
 
 run `update_software.py`

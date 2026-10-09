@@ -81,8 +81,6 @@ Settings that change what is rated: `tests.http.csp-only` skips everything excep
 
 ## Read more
 
-Links to other sources where you can test or read more
-
 * https://www.ssllabs.com/ssltest/
 * https://http3check.net/
 
@@ -99,8 +97,7 @@ Read more on the [general page for github actions](../getting-started-github-act
 ### Setup Locally
 
 * Follow [general local setup steps for this repository](../getting-started-local.md)
-* It is highly recommended to set `cache_when_possible` to `True` and to set `cache_time_delta` to
-* It is highly recommended to set `cache_time_delta` to at least 12 hours (Fail to do so may result in banning of service like github).
+* Set `general.cache.use` to `true` and `general.cache.max-age` to at least `720` (minutes, 12 hours) in your `settings.json`. Without the cache, repeated runs can get you blocked by services like GitHub.
 
 #### Using NPM package
 
@@ -108,7 +105,7 @@ Read more on the [general page for github actions](../getting-started-github-act
 * Download and install Google Chrome browser
 * Download and install Mozilla Firefox browser
 * Install NPM packages ( `npm install --omit=dev` )
-* Set `sitespeed_use_docker = False` in your `config.py`
+* Keep `tests.sitespeed.docker.use` at `false` (the default) in your `settings.json`
 
 ##### Windows Specific
 
@@ -117,14 +114,14 @@ Read more on the [general page for github actions](../getting-started-github-act
 #### Using Docker image
 
 * Make sure Docker command is globally accessible on your system.
-* Set `sitespeed_use_docker = True` in your `config.py`
+* Set `tests.sitespeed.docker.use` to `true` in your `settings.json`, or pass `-s tests.sitespeed.docker.use=true`
 
 ## FAQ
 
 ### How to get CSP recommendation for website
 Did you know you can get a CSP recommendation for all/part of your website?
 Do the following and webperf_core will give a CSP recommendation for more than 1 page.
-* Set `csp_only = True` in your `config.py`
+* Set `tests.http.csp-only` to `true` in your `settings.json`, or pass `-s tests.http.csp-only=true`
 * Point webperf_core to your sitemap or your own list pages you want to test.
 
 Example, below will take first 25 items from sitemap:

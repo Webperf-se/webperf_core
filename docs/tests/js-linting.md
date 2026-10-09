@@ -39,6 +39,3 @@ Read more on the [general page for github actions](../getting-started-github-act
 * Make sure Docker command is globally accessible on your system.
 * Set [tests.sitespeed.docker.use](../settings-json.md) to `true` in your `settings.json`
 
-## FAQ
-
-No frequently asked questions yet :)

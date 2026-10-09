@@ -28,7 +28,8 @@ Each check is a rule with a fixed severity, defined in `rules` in `lib/harAnalyz
 
 ## How to setup?
 
-This section has not been written yet.
+This test is using Sitespeed.io in the background
+so please follow instructions on page about [Sitespeed.io Based Test](./sitespeed.md). `tests.a11y-statement.max-nof-pages` (default 10) limits how many pages are followed when looking for the statement.
 
 ### Prerequirements
 
@@ -41,8 +42,4 @@ Read more on the [general page for github actions](../getting-started-github-act
 ### Setup Locally
 
 * Follow [general local setup steps for this repository](../getting-started-local.md)
-
-## FAQ
-
-No frequently asked questions yet :)
 

@@ -15,7 +15,7 @@ Welcome to our open-source project! We appreciate your interest in contributing.
 ## Getting Started
 - Fork this repository and clone it to your local machine.
 - Install any necessary dependencies, you can read more about it in the [Getting Started on Local machine.](getting-started-local.md)
-- Familiarize yourself with the project structure and coding conventions.
+- Read [AGENTS.md](../AGENTS.md) for the repository layout, how a run works and the conventions.
 
 ## Translations
 ### Want to add another language? 
@@ -78,6 +78,25 @@ Feel free to ask questions or start discussions related to the project. We also 
    - `enhancement` - For highlighted features
    - `bug` - For highlighted features
 - **Review Process:** Your pull request will be reviewed by maintainers. Be responsive to feedback.
+
+## Before you open a pull request
+
+Run what CI runs:
+
+```
+pylint $(git ls-files '*.py') --generated-members json,ssl,datetime --disable C0114 --errors-only
+python3 -m unittest discover -s unittests
+```
+
+A change to how a rating is calculated starts with a unit test in `unittests/` that fails before the change. Say in the pull request what a site rated before and after.
+
+## Adding a test
+
+- Register the number in `TEST_ALL_FUNCS` in `helpers/test_helper.py`, and in `TEST_USE_SITESPEED` if it runs as a sitespeed.io plugin.
+- A Python test is one file under `tests/` with `run_test(global_translation, url)` returning `(Rating, dict)`.
+- Add a translation file per language under `locales/`, see [translation.md](translation.md).
+- Write the doc page from [tests/test-template.md](tests/test-template.md) and add the test to [tests/README.md](tests/README.md). `unittests/test_registry.py` fails until the list and the registry match.
+- Add a regression workflow under `.github/workflows/` modelled on an existing `regression-test-*.yml`.
 
 ## Code of Conduct
 We expect all contributors to follow our Code of Conduct. Treat others with respect and kindness.

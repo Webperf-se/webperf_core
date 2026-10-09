@@ -1,7 +1,7 @@
 # Website performance with Sitespeed.io
 [![Regression Test - Performance (Sitespeed.io) Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-sitespeed.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-sitespeed.yml)
 
-Add small description of what this test is.
+This test measures how fast the page loads in a real browser, using [sitespeed.io](https://www.sitespeed.io/) and Browsertime, and rates the result on desktop and mobile. Every other sitespeed.io based test (2, 9, 25 to 30) shares the setup described on this page.
 
 ## What is being tested?
 
@@ -48,7 +48,7 @@ For `TTFB (Time to First Byte)` you will get 5.0 points if you are at or below `
 
 ## How to setup?
 
-This section has not been written yet.
+sitespeed.io is installed from `package.json` and run from `node_modules`, or from its Docker image when `tests.sitespeed.docker.use` is `true`. The number of iterations is `tests.sitespeed.iterations` (default 2), the browser `tests.sitespeed.browser` (default `chrome`) and the timeout per run `tests.sitespeed.timeout` seconds. The Docker image `webperfse/webperf-core` has everything below installed.
 
 ### Prerequirements
 
@@ -74,7 +74,7 @@ Read more on the [general page for github actions](../getting-started-github-act
 * Download and install Node.js (version 24.x)
 * Download and install Google Chrome browser
 * Install NPM packages ( `npm install --omit=dev` )
-* Set `sitespeed_use_docker = False` in your `config.py`
+* Keep `tests.sitespeed.docker.use` at `false` (the default) in your `settings.json`
 
 (You can always see [GitHub Actions SiteSpeed](../../.github/workflows/regression-test-sitespeed.yml) for all steps required line by line)
 
@@ -87,14 +87,10 @@ Read more on the [general page for github actions](../getting-started-github-act
 * Download and install Node.js (version 20.x)
 * Download and install Google Chrome browser
 * Install NPM packages ( `npm install --omit=dev` )
-* Set `sitespeed_use_docker = False` in your `config.py`
+* Keep `tests.sitespeed.docker.use` at `false` (the default) in your `settings.json`
 
 #### Using Docker image
 
 * Make sure Docker command is globally accessible on your system.
-* Set `sitespeed_use_docker = True` in your `config.py`
-
-## FAQ
-
-No frequently asked questions yet :)
+* Set `tests.sitespeed.docker.use` to `true` in your `settings.json`, or pass `-s tests.sitespeed.docker.use=true`
 

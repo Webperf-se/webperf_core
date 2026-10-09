@@ -26,6 +26,12 @@ It tries to do this by giving you a weighted list of improvment you can (and pro
 Easiest setup for testing public websites are by using GitHub Actions
 but you can run this project in many ways and what you choose depends on your needs.
 
+The quickest way to see a result is the Docker image, which has every dependency installed:
+
+```
+docker run --rm --shm-size=4g webperfse/webperf-core:latest python3 default.py -u https://example.com -t 21 -r
+```
+
 [Read more about how to get started](./docs/getting-started.md)
 
 - [Using GitHub Actions](./docs/getting-started-github-actions.md)
@@ -35,24 +41,7 @@ but you can run this project in many ways and what you choose depends on your ne
 
 # Tests
 
-Webperf Core consists of many different tests. [Read general information about our tests](./docs/tests/README.md) or go directly to a specific test below.
-
-* [Accessibility (Pa11y)](./docs/tests/pa11y.md)
-* [Website performance (SiteSpeed)](./docs/tests/sitespeed.md)
-* [Validate 404 page (by default checks for Swedish text, though)](./docs/tests/page-not-found.md)
-* [Security, data-protecting & Integrity (Webbkoll)](./docs/tests/webbkoll.md)
-* [Energy Efficiency](./docs/tests/energy-efficiency.md)
-* [Standard files](./docs/tests/standard.md)
-* [HTTP and Network](./docs/tests/http.md)
-* [Tracking & Integrity](./docs/tests/tracking.md)
-* [Email (Beta)](./docs/tests/email.md)
-* [Software](./docs/tests/software.md)
-* [Accessibility Statement (Alpha)](./docs/tests/a11y-statement.md)
-* [CSS (StyleLint)](./docs/tests/css-linting.md)
-* [HTML (html-validate)](./docs/tests/html-validate.md)
-* [Javascript (ESlint)](./docs/tests/js-linting.md)
-* [Accessibility, Best practice, Performance, SEO (Google Lighthouse)](./docs/tests/google-lighthouse.md)
-* [Users' privacy (Webbkoll backend)](./docs/tests/privacy.md)
+Webperf Core consists of 17 tests, selected by number. [The list of tests](./docs/tests/README.md) links to a page per test with what it checks, how it rates and what it needs. [How ratings are calculated](./docs/rating.md) explains the five rating fields and the scale they share.
 
 
 # Contribute

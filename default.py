@@ -494,7 +494,7 @@ def main(argv):
     Options and arguments:
     -h/--help\t\t\t: Help information on how to use script
     -u/--url <site url>\t\t: website url to test against
-    -t/--test <test number>\t: run ONE test (use ? to list available tests)
+    -t/--test <test numbers>\t: test number(s), comma separated (use ? to list available tests)
     -r/--review\t\t\t: show reviews in terminal
     -i/--input <file path>\t: input file path (.json/.sqlite)
     -o/--output <file path>\t: output file path (.json/.csv/.sql/.sqlite/.md)

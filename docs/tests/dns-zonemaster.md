@@ -180,6 +180,3 @@ Zonemaster as an external tool via Docker and do not embed its source, so there 
 license obligations beyond keeping their copyright/license notice if we ever distribute
 their code.
 
-## FAQ
-
-No frequently asked questions yet :)

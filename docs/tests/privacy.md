@@ -67,6 +67,3 @@ run it on localhost or a private network.
 
 * Follow [general local setup steps for this repository](../getting-started-local.md)
 
-## FAQ
-
-No frequently asked questions yet :)

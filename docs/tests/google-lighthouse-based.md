@@ -1,42 +1,26 @@
 # Google Lighthouse based Tests
 [![Regression Test](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-google-lighthouse-based.yml/badge.svg)](https://github.com/Webperf-se/webperf_core/actions/workflows/regression-test-google-lighthouse-based.yml)
 
-This is a general page for the lighthouse test that are using Google Lighthouse in the background.
+This is test 30. It runs [Google Lighthouse](https://developer.chrome.com/docs/lighthouse) through sitespeed.io's `@sitespeed.io/plugin-lighthouse` and turns the audits into issues.
+
+## What is being tested?
+
+Every Lighthouse audit in the categories performance, accessibility, best practices and SEO. Lighthouse runs once per page in the same browser session as the other sitespeed.io based tests.
+
+## How are rating being calculated?
+
+`plugin-webperf-core/lib/lighthouseConverter.js` converts each audit to an issue. The audit's score decides the severity: 90 or more is `resolved`, 50 to 89 is `warning`, below 50 is `error`. An audit that cannot be read is `critical`. The issue keeps Lighthouse's category name, except that `accessibility` becomes `a11y`.
+
+The score then follows the issue based model in [How ratings are calculated](../rating.md). `performance` sets `rating_perf` and `a11y` sets `rating_a11y`. `best-practices` and `seo` have no rating field of their own: they count in `rating` and their issues show in the overall review text.
 
 ## How to setup?
 
-This section has not been written yet.
-
-### Prerequirements
-
-* Fork this repository
-
-### Setup with GitHub Actions
-
-Read more on the [general page for github actions](../getting-started-github-actions.md).
-
-### Setup Locally
-
-This section has not been written yet.
-* Follow [general local setup steps for this repository](../getting-started-local.md)
-
-You can run this test by letting webperf-core call Google API:s (googleapis.com) or install a local version on your system.
-Follow the instructions below depending on what you choose.
-
-#### Using NPM package
-
-Benefit of this option is that you can use it to test pre production urls like your AcceptanceTest environment.
-
-* Download and install Node.js (version 24.x)
-* Install NPM packages ( `npm install --omit=dev` )
+This test is using Sitespeed.io in the background
+so please follow instructions on page about [Sitespeed.io Based Test](./sitespeed.md). Nothing is sent to Google; Lighthouse runs locally in Chrome.
 
 ## Read more
 
-Links to other sources where you can test or read more
 * https://web.dev/
 * https://pagespeed.web.dev/
 
 
-## FAQ
-
-No frequently asked questions yet :)

@@ -83,7 +83,3 @@ default.py --update-carbon data\carbon-references-kommuner.json
 
 For webperf-core will now have updated `tests\energy_efficiency_carbon_percentiles.py` to use your new percentiles.
 
-## FAQ
-
-No frequently asked questions yet :)
-

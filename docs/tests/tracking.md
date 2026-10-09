@@ -162,7 +162,7 @@ What happens when data is missing: a missing blocklist or Disconnect file prints
 * Download and install Google Chrome browser
 * Download and install Mozilla Firefox
 * Install NPM packages ( `npm install --omit=dev` )
-* Set `sitespeed_use_docker = False` in your `config.py`
+* Keep `tests.sitespeed.docker.use` at `false` (the default) in your `settings.json`
 
 ##### Windows Specific
 
@@ -171,9 +171,6 @@ What happens when data is missing: a missing blocklist or Disconnect file prints
 #### Using Docker image
 
 * Make sure Docker command is globally accessible on your system.
-* Set `sitespeed_use_docker = True` in your `config.py`
+* Set `tests.sitespeed.docker.use` to `true` in your `settings.json`, or pass `-s tests.sitespeed.docker.use=true`
 
 
-## FAQ
-
-No frequently asked questions yet :)

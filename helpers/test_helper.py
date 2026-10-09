@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import copy
 import json
 from datetime import datetime
 import os
@@ -120,8 +121,9 @@ def test(global_translation, site, test_type=None):
 
     Returns:
     list
-        A list containing the test results. If an exception occurs during the test,
-        the function will log the exception and return None.
+        A list of (Rating, dict) tuples, one per test result, where the dict
+        is the entry as returned by SiteTests.todata(). If an exception
+        occurs during the test, it is logged and an empty list is returned.
 
     Raises:
     Exception
@@ -151,25 +153,45 @@ def test(global_translation, site, test_type=None):
                                   test_date=datetime.now(),
                                   json_check_data=json_data).todata()
 
-            return site_test
+            return [(rating, site_test[0])]
     except Exception as ex: # pylint: disable=broad-exception-caught
         print(global_translation('TEXT_TEST_END').format(
             datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
         info = get_error_info(site[1], test_type, ex)
         print('\n'.join(info).replace('\n\n','\n'))
 
-        # write error to failure.log file
-        with open('failures.log', 'a', encoding='utf-8') as outfile:
-            outfile.writelines(info)
+        write_failure(info)
 
     return []
+
+def get_failures_log_path():
+    """
+    Returns the path of the failures log from the setting
+    general.failures-log, with 'failures.log' in the working directory
+    as fallback.
+    """
+    path = get_config('general.failures-log')
+    if path is None or path == '':
+        path = 'failures.log'
+    return path
+
+def write_failure(info):
+    """
+    Appends error information (see get_error_info) to the failures log.
+    """
+    path = get_failures_log_path()
+    ensure_parent_path(path)
+    with open(path, 'a', encoding='utf-8') as outfile:
+        outfile.writelines(info)
 
 def restart_failures_log():
     """
     Restart failures log by removing all content in it,
     this is so we always start fresh.
     """
-    with open('failures.log', 'w', encoding='utf-8') as outfile:
+    path = get_failures_log_path()
+    ensure_parent_path(path)
+    with open(path, 'w', encoding='utf-8') as outfile:
         outfile.writelines('')
 
 def get_error_info(url, test_type, ex):
@@ -249,7 +271,8 @@ def test_with_sitespeed(global_translation, site, sitespeed_plugins, sitespeed_t
 
     Returns:
     list
-        A list containing the test results.
+        A list of (Rating, dict) tuples, one per test result, where the dict
+        is the entry as returned by SiteTests.todata().
     """
     try:
         rating = Rating(global_translation)
@@ -272,7 +295,7 @@ def test_with_sitespeed(global_translation, site, sitespeed_plugins, sitespeed_t
                 datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
             return []
 
-        calculate_rating(global_translation, rating, result_dict)
+        rating = calculate_rating(global_translation, rating, result_dict)
 
         print(global_translation('TEXT_TEST_END').format(
             datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
@@ -293,16 +316,14 @@ def test_with_sitespeed(global_translation, site, sitespeed_plugins, sitespeed_t
                                   test_date=datetime.now(),
                                   json_check_data=json_data).todata()
 
-            return site_test
+            return [(rating, site_test[0])]
     except Exception as ex: # pylint: disable=broad-exception-caught
         print(global_translation('TEXT_TEST_END').format(
             datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
         info = get_error_info(site[1], sitespeed_test_types, ex)
         print('\n'.join(info).replace('\n\n','\n'))
 
-        # write error to failure.log file
-        with open('failures.log', 'a', encoding='utf-8') as outfile:
-            outfile.writelines(info)
+        write_failure(info)
 
     return []
 
@@ -310,6 +331,10 @@ def test_with_sitespeed(global_translation, site, sitespeed_plugins, sitespeed_t
 def test_site(global_translation, site, test_types):
     """
     This function runs a series of tests on a website and returns a list of all the test results.
+
+    Every test keeps its own entry in the result. When more than one test
+    ran, one extra entry with type_of_test -1 is added for the whole run,
+    see combine_test_results() for how it is calculated.
 
     Parameters:
     global_translation : GNUTranslations
@@ -323,7 +348,7 @@ def test_site(global_translation, site, test_types):
     list
         A list containing the results of all the tests run on the website.
     """
-    tests = []
+    results = []
 
     site_id = site[0]
     sitespeed_plugins = ''
@@ -332,7 +357,7 @@ def test_site(global_translation, site, test_types):
     for test_id in TEST_ALL_FUNCS:
         if test_id not in test_types:
             continue
-        
+
         if test_id in TEST_USE_SITESPEED.keys():
             sitespeed_plugins += f'--plugins.add {TEST_USE_SITESPEED[test_id]} '
             sitespeed_test_types.append(test_id)
@@ -341,63 +366,96 @@ def test_site(global_translation, site, test_types):
 
     if len(sitespeed_plugins) > 0:
         sitespeed_plugins += '--plugins.add plugin-webperf-core '
-        tests.extend(test_with_sitespeed(global_translation,
+        results.extend(test_with_sitespeed(global_translation,
             site,
             sitespeed_plugins,
             sitespeed_test_types))
 
     for test_id in other_tests:
-        tests.extend(test(global_translation,
+        results.extend(test(global_translation,
             site,
             test_type=test_id))
 
-    rating = Rating(global_translation)
-    site_test = None
-    big_data = {}
-    for test_data in tests:
-        if test_data is None:
-            continue
-        if "data" not in test_data:
-            continue
+    tests = [entry for _, entry in results]
+    if len(results) == 0:
+        return tests
 
-        if "groups" not in test_data["data"]:
-            abc = 1
-        big_data = merge_dicts(big_data, test_data['data'], False, False)
+    rating, big_data = combine_test_results(global_translation, results)
 
-    sort_testresult_issues(big_data)
-    rating = calculate_rating(global_translation, rating, big_data)
-
-    if rating.isused():
-        reviews = rating.get_reviews()
+    # Tests without groups print their own rating, so only print the site
+    # rating when it says something new: a combined run or an issue based test.
+    is_combined_run = len(results) > 1
+    if rating.isused() and (is_combined_run or has_groups(results[0][1])):
         print(global_translation('TEXT_SITE_RATING'), rating)
         if get_config('general.review.show'):
             print(
                 global_translation('TEXT_SITE_REVIEW'),
-                reviews)
+                rating.get_reviews())
 
-        if get_config('general.review.data'):
+        if get_config('general.review.data') and len(big_data) > 0:
             nice_json_data = json.dumps(big_data, indent=3)
             print(
                 global_translation('TEXT_SITE_REVIEW_DATA'),
                 f'```json\r\n{nice_json_data}\r\n```')
 
-        # Beräkna type_of_test baserat på vilka tester som kördes
-        if len(test_types) == 1:
-            final_type_of_test = test_types[0]
-        else:
-            final_type_of_test = -1
-
-        site_test = SiteTests(
+    if is_combined_run and rating.isused():
+        tests.extend(SiteTests(
             site_id,
-            type_of_test=final_type_of_test,
+            type_of_test=-1,
             rating=rating,
             test_date=datetime.now(),
-            json_check_data=big_data).todata()
-
-        tests = []
-        tests.append(site_test[0])
+            json_check_data=big_data).todata())
 
     return tests
+
+def has_groups(entry):
+    """
+    Returns True when a test result entry has issue based data
+    (a 'groups' dict), as written by the sitespeed.io plugins and pa11y.
+    """
+    data = entry.get('data')
+    return isinstance(data, dict) and 'groups' in data
+
+def combine_test_results(global_translation, results):
+    """
+    Combines the results of several tests on the same site into one
+    Rating and one data dict.
+
+    Issue based tests (the sitespeed.io plugins and pa11y) write their
+    findings to data['groups']. Their issues are merged per group and the
+    score is recalculated from the merged issues, so that findings from
+    every test count even when they share a category. Tests without groups
+    contribute their Rating instead. Rating.__add__ then averages every
+    category over the contributing ratings: one for the merged groups and
+    one per other test.
+
+    Parameters:
+    global_translation : GNUTranslations
+        An object that handles the translation of text in the context of internationalization.
+    results : list
+        (Rating, dict) tuples as returned by test() and test_with_sitespeed().
+
+    Returns:
+    tuple
+        (Rating, dict) with the combined rating and the merged data of all tests.
+    """
+    combined = Rating(global_translation)
+    big_data = {}
+    for rating, entry in results:
+        data = entry.get('data')
+        if isinstance(data, dict):
+            # Copy so every test keeps its own data untouched by the merge
+            big_data = merge_dicts(big_data, copy.deepcopy(data), False, False)
+        if not has_groups(entry):
+            combined = combined + rating
+
+    for group in big_data.get('groups', {}).values():
+        # A stored score only covers the test that wrote it
+        group.pop('score', None)
+
+    sort_testresult_issues(big_data)
+    combined = calculate_rating(global_translation, combined, big_data)
+    return (combined, big_data)
 
 
 def test_sites(global_translation, sites, test_types):

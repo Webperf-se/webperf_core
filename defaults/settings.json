@@ -18,7 +18,8 @@
             "use": false,
             "folder": "cache",
             "max-age": 60
-        }
+        },
+        "failures-log": "failures.log"
     },
     "github": {
         "api": {

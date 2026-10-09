@@ -71,8 +71,10 @@ It is also needed if you want to have your own reference to rate against, for ex
 You do this by running Energy efficiency against a list of all sites you want to compare against.
 For example:
 ```
-python default.py -i kommuner.webprf -t 22 -o data\carbon-references-kommuner.json
+python default.py -i kommuner.webprf -t 22 -o data/carbon-references-kommuner.json
 ```
+
+`kommuner.webprf` is not a file. The `.webprf` ending tells webperf-core to fetch the site list of that category from webperf.se, here all Swedish municipalities. See [input formats](../getting-started.md#input-formats) for the other categories and for using your own list instead.
 
 #### Calculate new percentiles
 You now have a baseline to create your carbon percentiles from.

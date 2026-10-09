@@ -23,7 +23,7 @@ you can view more general information below.
 | -u/--url <site url> | website url to test against |
 | -t/--test <test number> | run ONE test (use ? to list available tests) |
 | -r/--review | show reviews in terminal |
-| -i/--input <file path> | input file path (.json/.sqlite/.csv/.xml) |
+| -i/--input <file path> | input file path, see [input formats](#input-formats) |
 | --input-skip <number> | number of items to skip |
 | --input-take <number> | number of items to take |
 | -o/--output <file path> | output file path (.json/.sqlite/.csv/.sql/.md) |
@@ -174,3 +174,18 @@ Finished: 2024-05-25 22:26:52
 - Self-indicates that website is not compliant with legal requirements ( 1.00 rating )
 
 ```
+
+## Input formats
+
+`-i` decides how to read the site list from the file ending:
+
+| Ending | What is read |
+|---|---|
+| `.json` | A list of sites, the format `-A` writes. Also the default for any other ending. |
+| `.csv` | A header row `id,website` followed by one site per row, or one URL per line without a header. |
+| `.sqlite` | The `sites` table of a webperf-core SQLite database. |
+| `.xml`, `.xml.gz` | A sitemap, every URL in it becomes a site. Can be a URL such as `https://example.com/sitemap.xml`. |
+| `.result` | The URLs from earlier sitespeed.io runs stored under `general.cache.folder`. |
+| `.webprf` | Not a file. The name before the ending is a category on webperf.se and the site list is fetched from there: `kommuner.webprf`, `regioner.webprf`, `offentlig-sektor.webprf`, `digitalt.webprf`, `webbyraer.webprf`, `toplist.webprf`, or `alla.webprf` for every category. The categories are read live from https://webperf.se/sites/, so the list can change. |
+
+`--input-skip` and `--input-take` apply to every format.

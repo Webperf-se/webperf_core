@@ -328,6 +328,20 @@ def test_with_sitespeed(global_translation, site, sitespeed_plugins, sitespeed_t
     return []
 
 
+def get_a11y_statement_country_arg():
+    """
+    Returns the sitespeed.io argument that tells plugin-accessibility-statement
+    which country's rules to use, from the setting tests.a11y-statement.country.
+    An empty setting lets the plugin choose from the TLD and the page's lang.
+    """
+    country = get_config('tests.a11y-statement.country')
+    if not country:
+        return ''
+    country = str(country).strip().lower()
+    if not country.isalpha():
+        return ''
+    return f'--allystatement.country {country} '
+
 def test_site(global_translation, site, test_types):
     """
     This function runs a series of tests on a website and returns a list of all the test results.
@@ -360,6 +374,8 @@ def test_site(global_translation, site, test_types):
 
         if test_id in TEST_USE_SITESPEED.keys():
             sitespeed_plugins += f'--plugins.add {TEST_USE_SITESPEED[test_id]} '
+            if test_id == TEST_A11Y_STATEMENT:
+                sitespeed_plugins += get_a11y_statement_country_arg()
             sitespeed_test_types.append(test_id)
         else:
             other_tests.append(test_id)

@@ -95,6 +95,8 @@ config_mapping = {
     (
         "general.failures-log",): "string|general.failures-log",
     (
+        "tests.a11y-statement.country",): "string|tests.a11y-statement.country",
+    (
         "csponly",
         "tests.http.csp-only",
         "csp_only",

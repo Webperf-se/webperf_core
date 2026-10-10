@@ -128,6 +128,13 @@ Section for test specific settings.
 
 This variable sets the maximum number of pages to be tested for accessibility statements. It is useful to limit the scope of the test to a manageable number of pages, especially for large websites.
 
+### tests.a11y-statement.country `(Default = "")`
+Which country's rules test 26 rates the accessibility statement against, as a two letter code:
+`se`, `dk`, `no`, `fi`, `is`, `de`, `fr`, `es` or `it`.
+Empty lets the plugin choose from the site's top level domain and then from the page's `lang`.
+Set it when every site you test follows one country's law, for example `se` for Swedish
+public sector sites on `.com` or `.org`, so that a site in English is still rated by Swedish rules.
+
 ### tests.email.support.port25 `(Default = false)`
 
 Tells email test if it should do a operation email test (most consumer ISP don't allow this)

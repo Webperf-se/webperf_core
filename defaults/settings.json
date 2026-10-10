@@ -28,7 +28,8 @@
     },
     "tests": {
         "a11y-statement": {
-            "max-nof-pages": 10
+            "max-nof-pages": 10,
+            "country": ""
         },
         "email": {
             "support": {

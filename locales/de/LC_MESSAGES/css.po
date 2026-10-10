@@ -1,0 +1,224 @@
+# German
+# Copyright (C) 2025 WebPerf
+# FIRST AUTHOR <Mattias@webperf.se>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2025-04-27 12:00\n"
+"PO-Revision-Date: 2025-04-27 12:00\n"
+"Last-Translator: Mattias <Mattias@webperf.se>\n"
+"Language-Team: German <team@webperf.se>\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+#
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Text, der anstelle der msgid angezeigt wird, für die Schweregrade (kritisch, Fehler und Warnung)"
+
+msgid "rule-id (resolved)"
+msgstr "Text, der anstelle der msgid angezeigt wird, hier speziell für den Schweregrad behoben"
+
+msgid "rule-id"
+msgstr "Text, der anstelle der msgid angezeigt wird, hier unabhängig vom Schweregrad"
+
+# End of Examples
+
+
+msgid "function-no-unknown (unresolved)"
+msgstr "CSS, Verbietet unbekannte Funktionen ({0})"
+
+msgid "function-no-unknown (resolved)"
+msgstr "CSS, Verbietet unbekannte Funktionen (behoben)"
+
+msgid "declaration-property-value-no-unknown (unresolved)"
+msgstr "CSS, Verbietet unbekannte Werte für Eigenschaften in Deklarationen ({0})"
+
+msgid "declaration-property-value-no-unknown (resolved)"
+msgstr "CSS, Verbietet unbekannte Werte für Eigenschaften in Deklarationen (behoben)"
+
+msgid "selector-type-no-unknown (unresolved)"
+msgstr "CSS, Verbietet unbekannte Typselektoren ({0})"
+
+msgid "selector-type-no-unknown (resolved)"
+msgstr "CSS, Verbietet unbekannte Typselektoren (behoben)"
+
+msgid "at-rule-prelude-no-invalid (unresolved)"
+msgstr "CSS, Verbietet ungültige Präludien für At-Regeln ({0})"
+
+msgid "at-rule-prelude-no-invalid (resolved)"
+msgstr "CSS, Verbietet ungültige Präludien für At-Regeln (behoben)"
+
+msgid "annotation-no-unknown (unresolved)"
+msgstr "CSS, Verbietet unbekannte Annotationen ({0})"
+
+msgid "annotation-no-unknown (resolved)"
+msgstr "CSS, Verbietet unbekannte Annotationen (behoben)"
+
+msgid "at-rule-descriptor-no-unknown (unresolved)"
+msgstr "CSS, Verbietet unbekannte Deskriptoren für At-Regeln ({0})"
+
+msgid "at-rule-descriptor-no-unknown (resolved)"
+msgstr "CSS, Verbietet unbekannte Deskriptoren für At-Regeln (behoben)"
+
+msgid "at-rule-descriptor-value-no-unknown (unresolved)"
+msgstr "CSS, Verbietet unbekannte Werte für Deskriptoren in At-Regeln ({0})"
+
+msgid "at-rule-descriptor-value-no-unknown (resolved)"
+msgstr "CSS, Verbietet unbekannte Werte für Deskriptoren in At-Regeln (behoben)"
+
+msgid "at-rule-no-deprecated (unresolved)"
+msgstr "CSS, Verbietet veraltete At-Regeln ({0})"
+
+msgid "at-rule-no-deprecated (resolved)"
+msgstr "CSS, Verbietet veraltete At-Regeln (behoben)"
+
+msgid "at-rule-no-unknown (unresolved)"
+msgstr "CSS, Verbietet unbekannte At-Regeln ({0})"
+
+msgid "at-rule-no-unknown (resolved)"
+msgstr "CSS, Verbietet unbekannte At-Regeln (behoben)"
+
+msgid "block-no-empty (unresolved)"
+msgstr "CSS, Verbietet leere Blöcke ({0})"
+
+msgid "block-no-empty (resolved)"
+msgstr "CSS, Verbietet leere Blöcke (behoben)"
+
+msgid "color-no-invalid-hex (unresolved)"
+msgstr "CSS, Verbietet ungültige Hex-Farben ({0})"
+
+msgid "color-no-invalid-hex (resolved)"
+msgstr "CSS, Verbietet ungültige Hex-Farben (behoben)"
+
+msgid "comment-no-empty (unresolved)"
+msgstr "CSS, Verbietet leere Kommentare ({0})"
+
+msgid "comment-no-empty (resolved)"
+msgstr "CSS, Verbietet leere Kommentare (behoben)"
+
+msgid "declaration-property-value-keyword-no-deprecated (unresolved)"
+msgstr "CSS, Verbietet veraltete Schlüsselwörter für Eigenschaften in Deklarationen ({0})"
+
+msgid "declaration-property-value-keyword-no-deprecated (resolved)"
+msgstr "CSS, Verbietet veraltete Schlüsselwörter für Eigenschaften in Deklarationen (behoben)"
+
+msgid "function-linear-gradient-no-nonstandard-direction (unresolved)"
+msgstr "CSS, Verbietet nicht standardkonforme Richtungswerte für lineare Gradientenfunktionen ({0})"
+
+msgid "function-linear-gradient-no-nonstandard-direction (resolved)"
+msgstr "CSS, Verbietet nicht standardkonforme Richtungswerte für lineare Gradientenfunktionen (behoben)"
+
+msgid "media-feature-name-no-unknown (unresolved)"
+msgstr "CSS, Verbietet unbekannte Namen von Media Features ({0})"
+
+msgid "media-feature-name-no-unknown (resolved)"
+msgstr "CSS, Verbietet unbekannte Namen von Media Features (behoben)"
+
+msgid "media-feature-name-value-no-unknown (unresolved)"
+msgstr "CSS, Verbietet unbekannte Werte für Media Features ({0})"
+
+msgid "media-feature-name-value-no-unknown (resolved)"
+msgstr "CSS, Verbietet unbekannte Werte für Media Features (behoben)"
+
+msgid "media-query-no-invalid (unresolved)"
+msgstr "CSS, Verbietet ungültige Media Queries ({0})"
+
+msgid "media-query-no-invalid (resolved)"
+msgstr "CSS, Verbietet ungültige Media Queries (behoben)"
+
+msgid "named-grid-areas-no-invalid (unresolved)"
+msgstr "CSS, Verbietet ungültige benannte Grid-Bereiche ({0})"
+
+msgid "named-grid-areas-no-invalid (resolved)"
+msgstr "CSS, Verbietet ungültige benannte Grid-Bereiche (behoben)"
+
+msgid "no-empty-source (unresolved)"
+msgstr "CSS, Verbietet leere Quellen ({0})"
+
+msgid "no-empty-source (resolved)"
+msgstr "CSS, Verbietet leere Quellen (behoben)"
+
+msgid "no-invalid-double-slash-comments (unresolved)"
+msgstr "CSS, Verbietet ungültige Doppel-Schrägstrich-Kommentare ({0})"
+
+msgid "no-invalid-double-slash-comments (resolved)"
+msgstr "CSS, Verbietet ungültige Doppel-Schrägstrich-Kommentare (behoben)"
+
+msgid "no-invalid-position-at-import-rule (unresolved)"
+msgstr "CSS, Verbietet `@import`-Regeln an ungültiger Position ({0})"
+
+msgid "no-invalid-position-at-import-rule (resolved)"
+msgstr "CSS, Verbietet `@import`-Regeln an ungültiger Position (behoben)"
+
+msgid "no-unknown-animations (unresolved)"
+msgstr "CSS, Verbietet unbekannte Animationen ({0})"
+
+msgid "no-unknown-animations (resolved)"
+msgstr "CSS, Verbietet unbekannte Animationen (behoben)"
+
+msgid "no-unknown-custom-media (unresolved)"
+msgstr "CSS, Verbietet unbekannte benutzerdefinierte Media Queries ({0})"
+
+msgid "no-unknown-custom-media (resolved)"
+msgstr "CSS, Verbietet unbekannte benutzerdefinierte Media Queries (behoben)"
+
+msgid "no-unknown-custom-properties (unresolved)"
+msgstr "CSS, Verbietet unbekannte benutzerdefinierte Eigenschaften ({0})"
+
+msgid "no-unknown-custom-properties (resolved)"
+msgstr "CSS, Verbietet unbekannte benutzerdefinierte Eigenschaften (behoben)"
+
+msgid "property-no-unknown (unresolved)"
+msgstr "CSS, Verbietet unbekannte Eigenschaften ({0})"
+
+msgid "property-no-unknown (resolved)"
+msgstr "CSS, Verbietet unbekannte Eigenschaften (behoben)"
+
+msgid "selector-pseudo-class-no-unknown (unresolved)"
+msgstr "CSS, Verbietet unbekannte Pseudoklassen-Selektoren ({0})"
+
+msgid "selector-pseudo-class-no-unknown (resolved)"
+msgstr "CSS, Verbietet unbekannte Pseudoklassen-Selektoren (behoben)"
+
+msgid "selector-pseudo-element-no-unknown (unresolved)"
+msgstr "CSS, Verbietet unbekannte Pseudoelement-Selektoren ({0})"
+
+msgid "selector-pseudo-element-no-unknown (resolved)"
+msgstr "CSS, Verbietet unbekannte Pseudoelement-Selektoren (behoben)"
+
+msgid "syntax-string-no-invalid (unresolved)"
+msgstr "CSS, Verbietet ungültige Syntax-Strings ({0})"
+
+msgid "syntax-string-no-invalid (resolved)"
+msgstr "CSS, Verbietet ungültige Syntax-Strings (behoben)"
+
+msgid "unit-no-unknown (unresolved)"
+msgstr "CSS, Verbietet unbekannte Einheiten ({0})"
+
+msgid "unit-no-unknown (resolved)"
+msgstr "CSS, Verbietet unbekannte Einheiten (behoben)"
+
+msgid "media-type-no-deprecated (unresolved)"
+msgstr "CSS, Verbietet veraltete Medientypen ({0})"
+
+msgid "media-type-no-deprecated (resolved)"
+msgstr "CSS, Verbietet veraltete Medientypen (behoben)"
+
+msgid "no-invalid-position-declaration (unresolved)"
+msgstr "CSS, Verbietet Deklarationen an ungültiger Position ({0})"
+
+msgid "no-invalid-position-declaration (resolved)"
+msgstr "CSS, Verbietet Deklarationen an ungültiger Position (behoben)"
+
+msgid "property-no-deprecated (unresolved)"
+msgstr "CSS, Verbietet veraltete Eigenschaften ({0})"
+
+msgid "property-no-deprecated (resolved)"
+msgstr "CSS, Verbietet veraltete Eigenschaften (behoben)"

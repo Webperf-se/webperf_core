@@ -1,0 +1,199 @@
+# German
+# Copyright (C) 2025 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2025-04-27 12:00\n"
+"PO-Revision-Date: 2025-04-27 12:00\n"
+"Last-Translator: Mattias <mattias@webperf.se>\n"
+"Language-Team: German <team@webperf.se>\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+#
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Text, der anstelle der msgid angezeigt wird, für die Schweregrade (kritisch, Fehler und Warnung)"
+
+msgid "rule-id (resolved)"
+msgstr "Text, der anstelle der msgid angezeigt wird, hier speziell für den Schweregrad behoben"
+
+msgid "rule-id"
+msgstr "Text, der anstelle der msgid angezeigt wird, hier unabhängig vom Schweregrad"
+
+# End of Examples
+
+msgid "attr-spacing (unresolved)"
+msgstr "Attribute müssen durch Leerzeichen getrennt sein ({0})"
+
+msgid "attr-spacing (resolved)"
+msgstr "Attribute müssen durch Leerzeichen getrennt sein (behoben)"
+
+msgid "attribute-allowed-values (unresolved)"
+msgstr "Erlaubte Attributwerte prüfen ({0})"
+
+msgid "attribute-allowed-values (resolved)"
+msgstr "Erlaubte Attributwerte prüfen (behoben)"
+
+msgid "attribute-misuse (unresolved)"
+msgstr "Attribute müssen im richtigen Kontext verwendet werden ({0})"
+
+msgid "attribute-misuse (resolved)"
+msgstr "Attribute müssen im richtigen Kontext verwendet werden (behoben)"
+
+msgid "close-attr (unresolved)"
+msgstr "End-Tags dürfen keine Attribute haben ({0})"
+
+msgid "close-attr (resolved)"
+msgstr "End-Tags dürfen keine Attribute haben (behoben)"
+
+msgid "close-order (unresolved)"
+msgstr "Elemente müssen in der richtigen Reihenfolge geschlossen werden ({0})"
+
+msgid "close-order (resolved)"
+msgstr "Elemente müssen in der richtigen Reihenfolge geschlossen werden (behoben)"
+
+msgid "deprecated (unresolved)"
+msgstr "Keine veralteten Elemente verwenden ({0})"
+
+msgid "deprecated (resolved)"
+msgstr "Keine veralteten Elemente verwenden (behoben)"
+
+msgid "deprecated-rule (unresolved)"
+msgstr "Keine veralteten Regeln verwenden ({0})"
+
+msgid "deprecated-rule (resolved)"
+msgstr "Keine veralteten Regeln verwenden (behoben)"
+
+msgid "doctype-html (unresolved)"
+msgstr "Der Doctype `html` muss verwendet werden ({0})"
+
+msgid "doctype-html (resolved)"
+msgstr "Der Doctype `html` muss verwendet werden (behoben)"
+
+msgid "element-name (unresolved)"
+msgstr "Keine ungültigen Elementnamen ({0})"
+
+msgid "element-name (resolved)"
+msgstr "Keine ungültigen Elementnamen (behoben)"
+
+msgid "element-permitted-content (unresolved)"
+msgstr "Erlaubten Inhalt prüfen ({0})"
+
+msgid "element-permitted-content (resolved)"
+msgstr "Erlaubten Inhalt prüfen (behoben)"
+
+msgid "element-permitted-occurrences (unresolved)"
+msgstr "Erlaubte Anzahl von Elementvorkommen prüfen ({0})"
+
+msgid "element-permitted-occurrences (resolved)"
+msgstr "Erlaubte Anzahl von Elementvorkommen prüfen (behoben)"
+
+msgid "element-permitted-order (unresolved)"
+msgstr "Erforderliche Reihenfolge der Elemente prüfen ({0})"
+
+msgid "element-permitted-order (resolved)"
+msgstr "Erforderliche Reihenfolge der Elemente prüfen (behoben)"
+
+msgid "element-permitted-parent (unresolved)"
+msgstr "Erlaubtes Elternelement prüfen ({0})"
+
+msgid "element-permitted-parent (resolved)"
+msgstr "Erlaubtes Elternelement prüfen (behoben)"
+
+msgid "element-required-attributes (unresolved)"
+msgstr "Erforderliche Attribute müssen gesetzt sein ({0})"
+
+msgid "element-required-attributes (resolved)"
+msgstr "Erforderliche Attribute müssen gesetzt sein (behoben)"
+
+msgid "element-required-content (unresolved)"
+msgstr "Erforderliche Elemente müssen vorhanden sein ({0})"
+
+msgid "element-required-content (resolved)"
+msgstr "Erforderliche Elemente müssen vorhanden sein (behoben)"
+
+msgid "map-dup-name (unresolved)"
+msgstr "`<map name>` muss eindeutig sein ({0})"
+
+msgid "map-dup-name (resolved)"
+msgstr "`<map name>` muss eindeutig sein (behoben)"
+
+msgid "map-id-name (unresolved)"
+msgstr "name und id müssen bei `<map>`-Elementen übereinstimmen ({0})"
+
+msgid "map-id-name (resolved)"
+msgstr "name und id müssen bei `<map>`-Elementen übereinstimmen (behoben)"
+
+msgid "no-deprecated-attr (unresolved)"
+msgstr "Keine veralteten Attribute verwenden ({0})"
+
+msgid "no-deprecated-attr (resolved)"
+msgstr "Keine veralteten Attribute verwenden (behoben)"
+
+msgid "no-dup-attr (unresolved)"
+msgstr "Keine doppelten Attribute ({0})"
+
+msgid "no-dup-attr (resolved)"
+msgstr "Keine doppelten Attribute (behoben)"
+
+msgid "no-dup-id (unresolved)"
+msgstr "Keine doppelten IDs ({0})"
+
+msgid "no-dup-id (resolved)"
+msgstr "Keine doppelten IDs (behoben)"
+
+msgid "no-multiple-main (unresolved)"
+msgstr "Nicht mehrere `<main>` ({0})"
+
+msgid "no-multiple-main (resolved)"
+msgstr "Nicht mehrere `<main>` (behoben)"
+
+msgid "no-raw-characters (unresolved)"
+msgstr "Keine nicht maskierten Sonderzeichen verwenden ({0})"
+
+msgid "no-raw-characters (resolved)"
+msgstr "Keine nicht maskierten Sonderzeichen verwenden (behoben)"
+
+msgid "no-unused-disable (unresolved)"
+msgstr "Keine ungenutzten Deaktivierungsdirektiven ({0})"
+
+msgid "no-unused-disable (resolved)"
+msgstr "Keine ungenutzten Deaktivierungsdirektiven (behoben)"
+
+msgid "script-element (unresolved)"
+msgstr "End-Tag für `<script>` ist erforderlich ({0})"
+
+msgid "script-element (resolved)"
+msgstr "End-Tag für `<script>` ist erforderlich (behoben)"
+
+msgid "unrecognized-char-ref (unresolved)"
+msgstr "Keine unbekannten Zeichenreferenzen ({0})"
+
+msgid "unrecognized-char-ref (resolved)"
+msgstr "Keine unbekannten Zeichenreferenzen (behoben)"
+
+msgid "valid-autocomplete (unresolved)"
+msgstr "Das autocomplete-Attribut muss gültig sein ({0})"
+
+msgid "valid-autocomplete (resolved)"
+msgstr "Das autocomplete-Attribut muss gültig sein (behoben)"
+
+msgid "valid-id (unresolved)"
+msgstr "`id` muss ein gültiger Bezeichner sein ({0})"
+
+msgid "valid-id (resolved)"
+msgstr "`id` muss ein gültiger Bezeichner sein (behoben)"
+
+msgid "void-content (unresolved)"
+msgstr "Keine leeren Elemente (void) mit Inhalt ({0})"
+
+msgid "void-content (resolved)"
+msgstr "Keine leeren Elemente (void) mit Inhalt (behoben)"

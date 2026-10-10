@@ -1,0 +1,85 @@
+# German
+# Copyright (C) 2025 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2025-04-27 12:00\n"
+"PO-Revision-Date: 2025-04-27 12:00\n"
+"Last-Translator: Mattias <mattias@webperf.se>\n"
+"Language-Team: German <team@webperf.se>\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+#
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Text, der anstelle der msgid angezeigt wird, für die Schweregrade (kritisch, Fehler und Warnung)"
+
+msgid "rule-id (resolved)"
+msgstr "Text, der anstelle der msgid angezeigt wird, hier speziell für den Schweregrad behoben"
+
+msgid "rule-id"
+msgstr "Text, der anstelle der msgid angezeigt wird, hier unabhängig vom Schweregrad"
+
+# End of Examples
+
+msgid "has-unexpected-404-response (unresolved)"
+msgstr "Seite nicht gefunden, unerwartete 404-Antwort ({0})"
+
+msgid "has-unexpected-404-response (resolved)"
+msgstr "Seite nicht gefunden, erwartete 404-Antwort (behoben)"
+
+msgid "no-valid-title-found (unresolved)"
+msgstr "Seite nicht gefunden, kein gültiger Titel gefunden ({0})"
+
+msgid "no-valid-title-found (resolved)"
+msgstr "Seite nicht gefunden, gültiger Titel gefunden (behoben)"
+
+msgid "no-valid-h1-found (unresolved)"
+msgstr "Seite nicht gefunden, keine gültige h1-Überschrift gefunden ({0})"
+
+msgid "no-valid-h1-found (resolved)"
+msgstr "Seite nicht gefunden, gültige h1-Überschrift gefunden (behoben)"
+
+msgid "no-valid-text-found (unresolved)"
+msgstr "Seite nicht gefunden, kein gültiger Text gefunden ({0})"
+
+msgid "no-valid-text-found (resolved)"
+msgstr "Seite nicht gefunden, gültiger Text gefunden (behoben)"
+
+msgid "invalid-text-found (unresolved)"
+msgstr "Seite nicht gefunden, ungültiger Text gefunden ({0})"
+
+msgid "invalid-text-found (resolved)"
+msgstr "Seite nicht gefunden, gültiger Text gefunden (behoben)"
+
+msgid "no-valid-response-status-code (unresolved)"
+msgstr "Seite nicht gefunden, kein gültiger 404-Statuscode verwendet ({0})"
+
+msgid "no-valid-response-status-code (resolved)"
+msgstr "Seite nicht gefunden, gültiger 404-Statuscode verwendet (behoben)"
+
+msgid "no-unsupported-locale-use (unresolved)"
+msgstr "Seite nicht gefunden, nicht unterstützte Sprache verwendet ({0})"
+
+msgid "no-unsupported-locale-use (resolved)"
+msgstr "Seite nicht gefunden, unterstützte Sprache verwendet (behoben)"
+
+msgid "no-valid-not-found-text-in-body (unresolved)"
+msgstr "Seite nicht gefunden, kein gültiger Text im Seiteninhalt gefunden, möglicherweise weil er zu kurz ist ({0})"
+
+msgid "no-valid-not-found-text-in-body (resolved)"
+msgstr "Seite nicht gefunden, gültiger Text im Seiteninhalt gefunden (behoben)"
+
+msgid "no-network (unresolved)"
+msgstr "Seite nicht gefunden, kein Netzwerk ({0})"
+
+msgid "no-network (resolved)"
+msgstr "Seite nicht gefunden, Netzwerk ist nutzbar (behoben)"

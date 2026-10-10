@@ -1,0 +1,185 @@
+# German (default).
+# Copyright (C) 2023 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2023-01-02 14:45+0200\n"
+"PO-Revision-Date: 2023-09-30 21:40+0200\n"
+"Last-Translator: mattias <mattias@webperf.se>\n"
+"Language-Team: German <team@webperf.se>\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 25 - Software\r\n"
+
+msgid "TEXT_NO_CMS"
+msgstr "- Kein oder unbekanntes CMS auf der Hauptdomain verwendet"
+
+msgid "TEXT_USED_CMS"
+msgstr "- Verwendetes CMS: {0}"
+
+msgid "TEXT_USED_WEBSERVER"
+msgstr "- Verwendeter Webserver: {0}"
+
+msgid "TEXT_USED_OS"
+msgstr "- Verwendetes Betriebssystem: {0}"
+
+msgid "TEXT_USED_ANALYTICS"
+msgstr "- Verwendete Analyse: {0}"
+
+msgid "TEXT_USED_TECH"
+msgstr "- Verwendete Technologie: {0}"
+
+msgid "TEXT_USED_JS"
+msgstr "- Verwendete Javascript-Bibliotheken: {0}"
+
+msgid "TEXT_USED_CSS"
+msgstr "- Verwendete CSS-Bibliotheken: {0}"
+
+msgid "TEXT_USED_LANG"
+msgstr "- Gefundene Sprachen: {0}"
+
+msgid "TEXT_USED_IMG"
+msgstr "- Verwendete Bildformate: {0}"
+
+msgid "TEXT_USED_IMG.SOFTWARE"
+msgstr "- Verwendete Bildsoftware: {0}"
+
+msgid "TEXT_USED_IMG.OS"
+msgstr "- Betriebssystem der Bilder: {0}"
+
+msgid "TEXT_USED_IMG.DEVICE"
+msgstr "- Gerät der Bilder: {0}"
+
+msgid "TEXT_USED_VIDEO"
+msgstr "- Verwendete Videoformate: {0}"
+
+msgid "TEXT_USED_META"
+msgstr "- Verwendete Metadaten: {0}"
+
+msgid "TEXT_USED_LICENSE"
+msgstr "- Verwendete Lizenz(en): {0}"
+
+msgid "TEXT_USED_SECURITY"
+msgstr "- Informationen werden preisgegeben"
+
+msgid "TEXT_USED_A11Y_OVERLAY"
+msgstr "- Verwendete Barrierefreiheits-Overlays: {0}"
+
+msgid "UPDATE_AVAILABLE"
+msgstr "- Update(s) verfügbar"
+
+msgid "KNOWN_SECURITY_ISSUES"
+msgstr "- Hat bekannte Sicherheitsprobleme"
+
+msgid "TEXT_DETAILED_REVIEW_CVE"
+msgstr "##### Software mit Bezug zu CVEs ( #POINTS# Bewertung )\r\n\r\n###### Einführung:\r\nDie verwendete Softwareversion ist von der unten beschriebenen Schwachstelle betroffen.\r\nMeist können Sie ein CVE-Problem beheben, indem Sie die Software auf die neueste Version aktualisieren.\r\nIn seltenen Fällen gibt es kein Update und Sie sollten erwägen, die betroffene Software nicht mehr zu verwenden.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND100"
+msgstr "##### Software liegt >=100 Versionen zurück ( #POINTS# Bewertung )\r\n\r\n###### Einführung:\r\nDie verwendete Software liegt 100 oder mehr Versionen hinter der neuesten zurück.\r\nDas ist ein sehr deutlicher Hinweis, dass Sie auf die neueste Version aktualisieren müssen.\r\nEs deutet auch darauf hin, dass Sie keine gute Paketroutine für Ihre Software haben.\r\nSie können dies beheben, indem Sie die Software auf die neueste Version aktualisieren.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND075"
+msgstr "##### Software liegt >=75 Versionen zurück ( #POINTS# Bewertung )\r\n\r\n###### Einführung:\r\nDie verwendete Software liegt 75 oder mehr Versionen hinter der neuesten zurück.\r\nDas ist ein sehr deutlicher Hinweis, dass Sie auf die neueste Version aktualisieren müssen.\r\nEs deutet auch darauf hin, dass Sie keine gute Paketroutine für Ihre Software haben.\r\nSie können dies beheben, indem Sie die Software auf die neueste Version aktualisieren.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND050"
+msgstr "##### Software liegt >=50 Versionen zurück ( #POINTS# Bewertung )\r\n\r\n###### Einführung:\r\nDie verwendete Software liegt 50 oder mehr Versionen hinter der neuesten zurück.\r\nDas ist ein sehr deutlicher Hinweis, dass Sie auf die neueste Version aktualisieren müssen.\r\nEs deutet auch darauf hin, dass Sie keine gute Paketroutine für Ihre Software haben.\r\nSie können dies beheben, indem Sie die Software auf die neueste Version aktualisieren.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND025"
+msgstr "##### Software liegt >=25 Versionen zurück ( #POINTS# Bewertung )\r\n\r\n###### Einführung:\r\nDie verwendete Software liegt 25 oder mehr Versionen hinter der neuesten zurück.\r\nDas ist ein deutlicher Hinweis, dass Sie auf die neueste Version aktualisieren müssen.\r\nEs deutet auch darauf hin, dass Sie keine gute Paketroutine für Ihre Software haben.\r\nSie können dies beheben, indem Sie die Software auf die neueste Version aktualisieren.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND010"
+msgstr "##### Software liegt >=10 Versionen zurück ( #POINTS# Bewertung )\r\n\r\n###### Einführung:\r\nDie verwendete Software liegt 10 oder mehr Versionen hinter der neuesten zurück.\r\nDas ist ein mittlerer Hinweis, dass Sie auf die neueste Version aktualisieren müssen.\r\nEs deutet auch darauf hin, dass Sie keine gute Paketroutine für Ihre Software haben.\r\nSie können dies beheben, indem Sie die Software auf die neueste Version aktualisieren.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND001"
+msgstr "##### Software liegt >=1 Versionen zurück ( #POINTS# Bewertung )\r\n\r\n###### Einführung:\r\nDie verwendete Software liegt 1 oder mehr Versionen hinter der neuesten zurück.\r\nDas ist ein kleiner Hinweis, dass Sie auf die neueste Version aktualisieren müssen.\r\nSie können dies beheben, indem Sie die Software auf die neueste Version aktualisieren.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_LATEST_LEAKING_NAME_AND_VERSION"
+msgstr "##### Softwareversion und -name werden preisgegeben\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNKNOWN_LEAKING_NAME_AND_VERSION"
+msgstr "##### Softwareversion und -name werden preisgegeben ( #POINTS# Bewertung )\r\n\r\n###### Einführung:\r\nSie geben Name und Version der verwendeten Software preis.\r\nDas macht es leichter, Schwachstellen gegen Sie zu finden, von ZERO-DAY bis zu bekannten Sicherheitsproblemen.\r\nUm dies zu beheben, müssen Sie Name und Version verbergen. Wie das geht, steht in der Dokumentation der Software.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_LEAKING_NAME"
+msgstr "##### Softwarename wird preisgegeben ( #POINTS# Bewertung )\r\n\r\n###### Einführung:\r\nSie geben den Namen der verwendeten Software preis.\r\nDas macht es leichter, Schwachstellen gegen Sie zu finden, von ZERO-DAY bis zu bekannten Sicherheitsproblemen.\r\nUm dies zu beheben, müssen Sie den Namen verbergen. Wie das geht, steht in der Dokumentation der Software.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_MULTIPLE_VERSIONS"
+msgstr "##### Mehrere Versionen derselben Software ( #POINTS# Bewertung )\r\n\r\n###### Einführung:\r\nSie verwenden mehrere Versionen derselben Software.\r\nDas kann an Ressourcen aus externen Quellen oder an einer Fehlkonfiguration liegen.\r\nEs ist ein kleiner Hinweis, dass Sie weniger Kontrolle haben, als Sie vermutlich haben sollten.\r\nEs deutet auch darauf hin, dass Sie keine gute Paketroutine für Ihre Software haben.\r\nSie können dies beheben, indem Sie die Software überall auf die neueste Version oder auf die neueste von Ihnen verwendete Version aktualisieren.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_REFERENCES"
+msgstr "###### Referenz(en):"
+
+msgid "TEXT_DETAILED_REVIEW_DETECTED_VERSIONS"
+msgstr "###### Erkannte Version(en):"
+
+msgid "TEXT_DETAILED_REVIEW_DETECTED_RESOURCES"
+msgstr "###### Erkannte Ressource(n):"
+
+msgid "TEXT_DETAILED_REVIEW_MORE_THEN_5_SOURCES"
+msgstr "- Mehr als 5 Quellen, der Rest wird ausgeblendet."
+
+msgid "TEXT_DETAILED_REVIEW_ARCHIVED_SOURCE"
+msgstr "##### Software wurde als archiviert markiert ( #POINTS# Bewertung )\r\n\r\n###### Einführung:\r\nSie scheinen Software zu verwenden, die als archiviert markiert wurde. Sie erhält also keine neuen Funktionen oder Sicherheitsupdates.\r\nUm dies zu beheben, müssen Sie eine Alternative finden. Oft weisen Entwickler Ihnen den richtigen Weg, wenn Sie die Quelle besuchen, von der Sie die Software haben.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_CVES"
+msgstr "###### Common Vulnerabilities and Exposures"
+
+msgid "TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE"
+msgstr "###### Erkannte Software:"
+
+msgid "TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES"
+msgstr "###### Betroffene Ressource(n):"
+
+msgid "TEXT_DETAILED_REVIEW_NO_CVE"
+msgstr "##### KEINE Common Vulnerabilities and Exposures gefunden"
+
+msgid "TEXT_DETAILED_REVIEW_NO_BEHIND"
+msgstr "##### Sie scheinen bei aller Software, die wir erkennen können, auf dem neuesten Stand zu sein"
+
+msgid "TEXT_DETAILED_REVIEW_NO_UNMAINTAINED"
+msgstr "##### Die verwendete Open-Source-Software scheint gepflegt zu werden"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_10_YEARS"
+msgstr "##### Open-Source-Software wird seit mehr als 10 Jahren nicht mehr gepflegt ( #POINTS# Bewertung )\r\n\r\n###### Einführung:\r\nSie scheinen Software zu verwenden, die nicht mehr gepflegt wird. Sie erhält also keine neuen Funktionen oder Sicherheitsupdates.\r\nUm dies zu beheben, müssen Sie eine Alternative finden. Oft weisen Entwickler Ihnen den richtigen Weg, wenn Sie die Quelle besuchen, von der Sie die Software haben.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_9_YEARS"
+msgstr "##### Open-Source-Software wird seit mehr als 9 Jahren nicht mehr gepflegt ( #POINTS# Bewertung )\r\n\r\n###### Einführung:\r\nSie scheinen Software zu verwenden, die nicht mehr gepflegt wird. Sie erhält also keine neuen Funktionen oder Sicherheitsupdates.\r\nUm dies zu beheben, müssen Sie eine Alternative finden. Oft weisen Entwickler Ihnen den richtigen Weg, wenn Sie die Quelle besuchen, von der Sie die Software haben.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_8_YEARS"
+msgstr "##### Open-Source-Software wird seit mehr als 8 Jahren nicht mehr gepflegt ( #POINTS# Bewertung )\r\n\r\n###### Einführung:\r\nSie scheinen Software zu verwenden, die nicht mehr gepflegt wird. Sie erhält also keine neuen Funktionen oder Sicherheitsupdates.\r\nUm dies zu beheben, müssen Sie eine Alternative finden. Oft weisen Entwickler Ihnen den richtigen Weg, wenn Sie die Quelle besuchen, von der Sie die Software haben.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_7_YEARS"
+msgstr "##### Open-Source-Software wird seit mehr als 7 Jahren nicht mehr gepflegt ( #POINTS# Bewertung )\r\n\r\n###### Einführung:\r\nSie scheinen Software zu verwenden, die nicht mehr gepflegt wird. Sie erhält also keine neuen Funktionen oder Sicherheitsupdates.\r\nUm dies zu beheben, müssen Sie eine Alternative finden. Oft weisen Entwickler Ihnen den richtigen Weg, wenn Sie die Quelle besuchen, von der Sie die Software haben.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_6_YEARS"
+msgstr "##### Open-Source-Software wird seit mehr als 6 Jahren nicht mehr gepflegt ( #POINTS# Bewertung )\r\n\r\n###### Einführung:\r\nSie scheinen Software zu verwenden, die nicht mehr gepflegt wird. Sie erhält also keine neuen Funktionen oder Sicherheitsupdates.\r\nUm dies zu beheben, müssen Sie eine Alternative finden. Oft weisen Entwickler Ihnen den richtigen Weg, wenn Sie die Quelle besuchen, von der Sie die Software haben.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_5_YEARS"
+msgstr "##### Open-Source-Software wird seit mehr als 5 Jahren nicht mehr gepflegt ( #POINTS# Bewertung )\r\n\r\n###### Einführung:\r\nSie scheinen Software zu verwenden, die nicht mehr gepflegt wird. Sie erhält also keine neuen Funktionen oder Sicherheitsupdates.\r\nUm dies zu beheben, müssen Sie eine Alternative finden. Oft weisen Entwickler Ihnen den richtigen Weg, wenn Sie die Quelle besuchen, von der Sie die Software haben.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_4_YEARS"
+msgstr "##### Open-Source-Software wird seit mehr als 4 Jahren nicht mehr gepflegt ( #POINTS# Bewertung )\r\n\r\n###### Einführung:\r\nSie scheinen Software zu verwenden, die nicht mehr gepflegt wird. Sie erhält also keine neuen Funktionen oder Sicherheitsupdates.\r\nUm dies zu beheben, müssen Sie eine Alternative finden. Oft weisen Entwickler Ihnen den richtigen Weg, wenn Sie die Quelle besuchen, von der Sie die Software haben.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_3_YEARS"
+msgstr "##### Open-Source-Software wird seit mehr als 3 Jahren nicht mehr gepflegt ( #POINTS# Bewertung )\r\n\r\n###### Einführung:\r\nSie scheinen Software zu verwenden, die nicht mehr gepflegt wird. Sie erhält also keine neuen Funktionen oder Sicherheitsupdates.\r\nUm dies zu beheben, müssen Sie eine Alternative finden. Oft weisen Entwickler Ihnen den richtigen Weg, wenn Sie die Quelle besuchen, von der Sie die Software haben.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_NO_END_OF_LIFE"
+msgstr "##### Sie scheinen keine 'END OF LIFE'-Software zu verwenden"
+
+msgid "TEXT_DETAILED_REVIEW_END_OF_LIFE"
+msgstr "##### Sie scheinen 'END OF LIFE'-Software zu verwenden"
+
+msgid "TEXT_DETAILED_REVIEW_NO_A11Y_OVERLAY"
+msgstr "##### Sie scheinen keine Barrierefreiheits-Overlay-Software zu verwenden"
+
+msgid "TEXT_DETAILED_REVIEW_A11Y_OVERLAY"
+msgstr "##### Sie scheinen Barrierefreiheits-Overlay-Software zu verwenden"
+
+msgid "TEXT_USED_WORDPRESS-THEME"
+msgstr "- WordPress-Theme: {0}"

@@ -1,0 +1,122 @@
+# Italian
+# Copyright (C) 2026 WebPerf
+# FIRST AUTHOR <team@webperf.se>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2021-02-02 20:45+0200\n"
+"PO-Revision-Date: 2026-10-10 12:00+0200\n"
+"Last-Translator: webperf <team@webperf.se>\n"
+"Language-Team: Italian <team@webperf.se>\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+#
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Testo da mostrare al posto del msgid, mostrato per i livelli di gravità (critico, errore e avviso)"
+
+msgid "rule-id (resolved)"
+msgstr "Testo da mostrare al posto del msgid, qui specifico per il livello di gravità risolto"
+
+msgid "rule-id"
+msgstr "Testo da mostrare al posto del msgid, qui indipendente dal livello di gravità"
+
+# End of Examples
+
+
+msgid "no-duplicates-sitemap (unresolved)"
+msgstr "Sitemap, non sono consentiti URL duplicati in <loc> ({0})"
+
+msgid "no-duplicates-sitemap (resolved)"
+msgstr "Sitemap, non sono consentiti URL duplicati in <loc> (risolto)"
+
+msgid "no-robots-txt (unresolved)"
+msgstr "robots.txt è mancante, non è scaricabile o non ha il contenuto atteso ({0})"
+
+msgid "no-robots-txt (resolved)"
+msgstr "robots.txt è mancante, non è scaricabile o non ha il contenuto atteso (risolto)"
+
+msgid "no-sitemap-in-robots-txt (unresolved)"
+msgstr "La sitemap non è specificata in robots.txt ({0})"
+
+msgid "no-sitemap-in-robots-txt (resolved)"
+msgstr "La sitemap non è specificata in robots.txt (risolto)"
+
+msgid "no-valid-sitemap-found (unresolved)"
+msgstr "Sitemap, nessuna sitemap valida trovata ({0})"
+
+msgid "no-valid-sitemap-found (resolved)"
+msgstr "Sitemap, nessuna sitemap valida trovata (risolto)"
+
+msgid "no-same-domain-sitemap (unresolved)"
+msgstr "Sitemap, l'URL in <loc> deve usare lo stesso dominio di robots.txt ({0})"
+
+msgid "no-same-domain-sitemap (resolved)"
+msgstr "Sitemap, l'URL in <loc> deve usare lo stesso dominio di robots.txt (risolto)"
+
+msgid "no-https-sitemap (unresolved)"
+msgstr "Sitemap, l'URL in <loc> deve iniziare con https:// ({0})"
+
+msgid "no-https-sitemap (resolved)"
+msgstr "Sitemap, l'URL in <loc> deve iniziare con https:// (risolto)"
+
+msgid "no-unknown-types-sitemap (unresolved)"
+msgstr "Sitemap, elenca contenuti diversi dalle pagine web ({0})"
+
+msgid "no-unknown-types-sitemap (resolved)"
+msgstr "Sitemap, elenca contenuti diversi dalle pagine web (risolto)"
+
+msgid "invalid-sitemap-too-large (unresolved)"
+msgstr "Sitemap, supera le 50 000 voci ({0})"
+
+msgid "invalid-sitemap-too-large (resolved)"
+msgstr "Sitemap, supera le 50 000 voci (risolto)"
+
+msgid "no-items-sitemap (unresolved)"
+msgstr "Sitemap, non ha voci ({0})"
+
+msgid "no-items-sitemap (resolved)"
+msgstr "Sitemap, non ha voci (risolto)"
+
+msgid "no-rss-feed (unresolved)"
+msgstr "Il feed è mancante nei metadati dell'HTML ({0})"
+
+msgid "no-rss-feed (resolved)"
+msgstr "Il feed è mancante nei metadati dell'HTML (risolto)"
+
+msgid "no-security-txt (unresolved)"
+msgstr "security.txt è mancante ({0})"
+
+msgid "no-security-txt (resolved)"
+msgstr "security.txt è mancante (risolto)"
+
+msgid "invalid-security-txt (unresolved)"
+msgstr "security.txt ha contenuto errato ({0})"
+
+msgid "invalid-security-txt (resolved)"
+msgstr "security.txt ha contenuto errato (risolto)"
+
+msgid "no-security-txt-contact (unresolved)"
+msgstr "A security.txt mancano le informazioni di contatto obbligatorie ({0})"
+
+msgid "no-security-txt-contact (resolved)"
+msgstr "A security.txt mancano le informazioni di contatto obbligatorie (risolto)"
+
+msgid "no-security-txt-expires (unresolved)"
+msgstr "A security.txt mancano le informazioni di scadenza obbligatorie (aggiunte nella bozza v10) ({0})"
+
+msgid "no-security-txt-expires (resolved)"
+msgstr "A security.txt mancano le informazioni di scadenza obbligatorie (aggiunte nella bozza v10) (risolto)"
+
+msgid "no-network (unresolved)"
+msgstr "Test fallito, impossibile accedere al sito web ({0})"
+
+msgid "no-network (resolved)"
+msgstr "Test fallito, impossibile accedere al sito web (risolto)"

@@ -1,0 +1,15 @@
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Texte affiché à la place du msgid, pour les niveaux de gravité (critique, erreur et avertissement)"
+
+msgid "rule-id (resolved)"
+msgstr "Texte affiché à la place du msgid, ici uniquement pour le niveau de gravité résolu"
+
+msgid "rule-id"
+msgstr "Texte affiché à la place du msgid, ici indépendamment du niveau de gravité"
+
+# End of Examples
+

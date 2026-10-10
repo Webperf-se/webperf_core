@@ -1,0 +1,52 @@
+# Italian
+# Copyright (C) 2026 WebPerf
+# FIRST AUTHOR <team@webperf.se>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2021-02-02 20:45+0200\n"
+"PO-Revision-Date: 2026-10-10 12:00+0200\n"
+"Last-Translator: webperf <team@webperf.se>\n"
+"Language-Team: Italian <team@webperf.se>\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 18 - Accessibilità (Pa11y)\n"
+
+msgid "TEXT_REVIEW_A11Y_VERY_GOOD"
+msgstr "- Il sito web non presenta problemi evidenti di accessibilità!\n"
+
+msgid "TEXT_REVIEW_A11Y_IS_GOOD"
+msgstr "- Il sito web potrebbe essere più accessibile, ma è piuttosto buono!\n"
+
+msgid "TEXT_REVIEW_A11Y_IS_OK"
+msgstr "- L'accessibilità è nella media, ma deve migliorare.\n"
+
+msgid "TEXT_REVIEW_A11Y_IS_BAD"
+msgstr "- Il sito web ha un'accessibilità piuttosto scarsa ed è pessimo per le persone con disabilità!\n"
+
+msgid "TEXT_REVIEW_A11Y_IS_VERY_BAD"
+msgstr "- L'accessibilità è davvero pessima! Probabilmente sia per le persone con disabilità sia per chiunque di noi abbia bisogno di accessibilità!\n"
+
+msgid "TEXT_REVIEW_A11Y_NUMBER_OF_PROBLEMS"
+msgstr "- Numero di problemi di accessibilità: {}"
+
+msgid "TEXT_REVIEW_A11Y_TOO_MANY_PROBLEMS"
+msgstr "- Info: troppi problemi distinti per elencarli tutti.\n"
+
+msgid "TEXT_REVIEW_A11Y_PROBLEMS"
+msgstr "\n##### Problemi:\n"
+
+msgid "TEXT_REVIEW_ERRORS_ITEM"
+msgstr "  - {0} (numero di problemi di questo tipo: {1})\n"
+
+msgid "TEXT_REVIEW_RATING_GROUPED"
+msgstr "- Numero di tipi di problemi: {0}"
+
+msgid "TEXT_REVIEW_RATING_ITEMS"
+msgstr "- Numero di problemi: {0}"

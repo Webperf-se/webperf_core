@@ -1,0 +1,208 @@
+# French
+# Copyright (C) 2026 WebPerf
+# FIRST AUTHOR <team@webperf.se>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2026-10-09 12:00\n"
+"PO-Revision-Date: 2026-10-09 12:00\n"
+"Last-Translator: WebPerf <team@webperf.se>\n"
+"Language-Team: French <team@webperf.se>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 21 - HTTP\n"
+
+msgid "TEXT_RUNNING_TEST_CSP_ONLY"
+msgstr "## Test: 21 - Content Security Policy (uniquement)\n"
+
+msgid "TEXT_REVIEW_TLS1_3_SUPPORT"
+msgstr "- {0}, prise en charge de TLSv1.3"
+
+msgid "TEXT_REVIEW_TLS1_3_NO_SUPPORT"
+msgstr "- {0}, aucune prise en charge de la couche de transport : TLSv1.3"
+
+msgid "TEXT_REVIEW_TLS1_2_SUPPORT"
+msgstr "- {0}, prise en charge de TLSv1.2"
+
+msgid "TEXT_REVIEW_TLS1_2_NO_SUPPORT"
+msgstr "- {0}, aucune prise en charge de la couche de transport : TLSv1.2"
+
+msgid "TEXT_REVIEW_TLS1_1_SUPPORT"
+msgstr "- {0}, prend en charge une couche de transport non sécurisée : TLSv1.1"
+
+msgid "TEXT_REVIEW_TLS1_1_NO_SUPPORT"
+msgstr "- {0}, aucune prise en charge de la couche de transport : TLSv1.1"
+
+msgid "TEXT_REVIEW_TLS1_0_SUPPORT"
+msgstr "- {0}, prend en charge une couche de transport non sécurisée : TLSv1.0"
+
+msgid "TEXT_REVIEW_TLS1_0_NO_SUPPORT"
+msgstr "- {0}, aucune prise en charge de la couche de transport : TLSv1.0"
+
+msgid "TEXT_REVIEW_IP_VERSION_IPV6_SUPPORT"
+msgstr "- {0}, prise en charge d'IPv6"
+
+msgid "TEXT_REVIEW_IP_VERSION_IPV6_NO_SUPPORT"
+msgstr "- {0}, aucune prise en charge d'IPv6"
+
+msgid "TEXT_REVIEW_IP_VERSION_IPV4_SUPPORT"
+msgstr "- {0}, prise en charge d'IPv4"
+
+msgid "TEXT_REVIEW_IP_VERSION_IPV4_NO_SUPPORT"
+msgstr "- {0}, aucune prise en charge d'IPv4"
+
+msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_SUPPORT"
+msgstr "- {0}, prise en charge de HTTPv1.1"
+
+msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_1_1_NO_SUPPORT"
+msgstr "- {0}, aucune prise en charge de HTTPv1.1"
+
+msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_2_SUPPORT"
+msgstr "- {0}, prise en charge de HTTPv2"
+
+msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_2_NO_SUPPORT"
+msgstr "- {0}, aucune prise en charge de HTTPv2"
+
+msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_3_SUPPORT"
+msgstr "- {0}, prise en charge de HTTPv3"
+
+msgid "TEXT_REVIEW_HTTP_VERSION_HTTP_3_NO_SUPPORT"
+msgstr "- {0}, aucune prise en charge de HTTPv3"
+
+msgid "TEXT_REVIEW_HTTPS_SUPPORT"
+msgstr "- {0}, prise en charge de HTTPS"
+
+msgid "TEXT_REVIEW_HTTPS_NO_SUPPORT"
+msgstr "- {0}, prise en charge de HTTPS ?"
+
+msgid "TEXT_REVIEW_HTTP_REDIRECT"
+msgstr "- {0}, utilise une redirection HTTP"
+
+msgid "TEXT_REVIEW_HTTPS_REDIRECT"
+msgstr "- {0}, utilise une redirection HTTPS"
+
+msgid "TEXT_REVIEW_HSTS_INVALIDATE"
+msgstr "- {0}, n'utilise PAS HSTS à cause d'une redirection"
+
+msgid "TEXT_REVIEW_HSTS_PRELOAD_FOUND"
+msgstr "- {0}, utilise 'preload' dans HSTS et un max-age d'au moins 1 an"
+
+msgid "TEXT_REVIEW_HSTS_PRELOAD_FOUND_AND_MAXAGE_1YEAR"
+msgstr "- {0}, utilise 'preload' dans HSTS et un max-age d'au moins 1 an"
+
+msgid "TEXT_REVIEW_HSTS_MAXAGE_1YEAR_MAY_USE_PRELOAD"
+msgstr "- {0}, utilise un max-age d'au moins 1 an, vous pourriez envisager d'utiliser HSTS"
+
+msgid "TEXT_REVIEW_HSTS_MAXAGE_1YEAR"
+msgstr "- {0}, utilise un max-age d'au moins 1 an pour HSTS"
+
+msgid "TEXT_REVIEW_HSTS_MAXAGE_6MONTHS"
+msgstr "- {0}, le max-age utilisé dans HSTS est inférieur à 6 mois"
+
+msgid "TEXT_REVIEW_HSTS_MAXAGE_1MONTH"
+msgstr "- {0}, le max-age utilisé dans HSTS est inférieur à 1 mois"
+
+msgid "TEXT_REVIEW_HSTS_MAXAGE_NOT_FOUND"
+msgstr "- {0}, max-age est absent de HSTS"
+
+msgid "TEXT_REVIEW_HSTS_MAXAGE_TOO_LOW"
+msgstr "- {0}, le max-age utilisé dans HSTS est inférieur à 1 an"
+
+msgid "TEXT_REVIEW_HSTS_USE_PARENTDOMAIN"
+msgstr "- {0}, seul le HSTS du domaine parent est utilisé, le sous-domaine devrait aussi utiliser HSTS"
+
+msgid "TEXT_REVIEW_HSTS_NOT_FOUND"
+msgstr "- {0}, n'utilise PAS HSTS"
+
+msgid "TEXT_REVIEW_NO_REMARKS"
+msgstr "- Aucune remarque"
+
+msgid "TEXT_REVIEW_CSP_NOT_FOUND"
+msgstr "- {0}, n'utilise PAS de CSP"
+
+msgid "TEXT_REVIEW_CSP"
+msgstr "- {0}, Content Security Policy (CSP)"
+
+msgid "TEXT_REVIEW_CSP_UNSUPPORTED_IN_META"
+msgstr "- {0}, utilise dans un élément meta une politique CSP qui n'y est pas autorisée"
+
+msgid "TEXT_REVIEW_CSP_POLICY_DEPRECATED"
+msgstr "- {1}, utilise la politique CSP obsolète '{0}'"
+
+msgid "TEXT_REVIEW_CSP_MALFORMED"
+msgstr "- {1}, la politique CSP '{0}' est mal formée"
+
+msgid "TEXT_REVIEW_CSP_POLICY_FOUND"
+msgstr "- {1}, politique CSP '{0}' trouvée"
+
+msgid "TEXT_REVIEW_CSP_POLICY_NOT_FOUND"
+msgstr "- {1}, la politique CSP '{0}' est absente"
+
+msgid "TEXT_REVIEW_CSP_POLICY_NOT_DEPRECATED"
+msgstr "- {1}, n'utilise PAS la politique CSP obsolète '{0}'"
+
+msgid "TEXT_REVIEW_CSP_POLICY_USE_WILDCARD"
+msgstr "- {1}, la politique CSP '{0}' utilise un joker à la fin de host-source"
+
+msgid "TEXT_REVIEW_CSP_POLICY_NOT_USE_WILDCARD"
+msgstr "- {1}, n'utilise PAS de joker dans la politique CSP '{0}'"
+
+msgid "TEXT_REVIEW_CSP_POLICY_USE_UNSAFE_SCHEME"
+msgstr "- {2}, la politique CSP '{0}' utilise le schéma non sécurisé {1}"
+
+msgid "TEXT_REVIEW_CSP_POLICY_REUSE_NONCE"
+msgstr "- {1}, la politique CSP '{0}' réutilise le même 'nonce' entre les visites"
+
+msgid "TEXT_REVIEW_CSP_POLICY_MULTIUSE_NONCE"
+msgstr "- {2}, la politique CSP '{0}' utilise plusieurs {1}"
+
+msgid "TEXT_REVIEW_CSP_POLICY_NONE_NOT_ALONE"
+msgstr "- {1}, la politique CSP '{0}' n'utilise PAS 'none' seul"
+
+msgid "TEXT_REVIEW_CSP_POLICY_USE_15_OR_MORE_DOMAINS"
+msgstr "- {2}, la politique CSP '{0}' utilise {1} avec plus de 15 domaines"
+
+msgid "TEXT_REVIEW_CSP_POLICY_IS_USING"
+msgstr "- {2}, la politique CSP '{0}' utilise {1}"
+
+msgid "TEXT_REVIEW_CSP_POLICY_IS_NOT_USING"
+msgstr "- {2}, la politique CSP '{0}' n'utilise PAS {1}"
+
+msgid "TEXT_REVIEW_CSP_WILDCARDS"
+msgstr "joker(s)"
+
+msgid "TEXT_REVIEW_CSP_WILDCARD_SUBDOMAIN"
+msgstr "sous-domaine joker de l'origine"
+
+msgid "TEXT_REVIEW_CSP_SUBDOMAIN"
+msgstr "sous-domaine de l'origine"
+
+msgid "TEXT_REVIEW_CSP_DOMAIN"
+msgstr "domaine"
+
+msgid "TEXT_REVIEW_CSP_RECOMMENDED_RATING"
+msgstr "###### Note CSP recommandée :{0}"
+
+msgid "TEXT_REVIEW_CSP_RECOMMENDED_TEXT"
+msgstr "\r\n##### Vous voulez améliorer votre Content-Security-Policy ?\r\nPourquoi ne pas essayer l'en-tête de réponse Content-Security-Policy ci-dessous pour commencer à utiliser Content Security Policy ?\r\nRappel : la recommandation ci-dessous repose uniquement sur un échantillon (soit {0} page(s)) de toutes les pages de votre site web,\r\net sans avoir cliqué sur quoi que ce soit.\r\n\r\n###### Politiques Content-Security-Policy recommandées :\r\n{1}\r\n{2}\r\nEn savoir plus : https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy\r\n\r\n"
+
+msgid "TEXT_REVIEW_SRI_COMPLIANT"
+msgstr "- {0}, Subresource Integrity (SRI)"
+
+msgid "TEXT_REVIEW_SRI_NONE_COMPLIANT"
+msgstr "- {0}, Subresource Integrity (SRI) est requis"
+
+msgid "TEXT_REVIEW_SRI_NONE_COMPLIANT_DETAILS"
+msgstr "- {0}, Subresource Integrity (SRI) est requis pour les entrées suivantes"
+
+msgid "TEXT_REVIEW_SRI_WITH_ERRORS"
+msgstr "- {0}, Subresource Integrity (SRI) est utilisé de façon incorrecte"
+
+msgid "TEXT_REVIEW_SRI_WITH_ERRORS_DETAILS"
+msgstr "- {0}, Subresource Integrity (SRI) présente les erreurs suivantes"

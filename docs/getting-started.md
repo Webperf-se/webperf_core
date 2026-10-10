@@ -29,7 +29,7 @@ you can view more general information below.
 | -o/--output <file path> | output file path (.json/.sqlite/.csv/.sql/.md) |
 | -a/--addUrl <site url> | website url (required in compination with -i/--input) |
 | -d/--deleteUrl <site url> | website url (required in compination with -i/--input) |
-| -L/--language <lang code> | language used for output(en = default/sv) |
+| -L/--language <lang code> | language of the review texts: en (default), sv, da, no, fi, is, de, fr, es, it |
 | -s/--setting <key>=<value> | override configuration for current run (use ? to list available settings) |
 
 

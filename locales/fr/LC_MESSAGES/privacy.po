@@ -1,0 +1,112 @@
+# French
+# Copyright (C) 2026 WebPerf
+# FIRST AUTHOR <team@webperf.se>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2026-10-09 12:00\n"
+"PO-Revision-Date: 2026-10-09 12:00\n"
+"Last-Translator: WebPerf <team@webperf.se>\n"
+"Language-Team: French <team@webperf.se>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 31 - Vie privée (Webbkoll)\n"
+
+msgid "TEXT_SERVICE_UNAVAILABLE"
+msgstr "Impossible de joindre le service webbkoll-backend à l'adresse {0}\n"
+
+msgid "TEXT_REVIEW_VERY_GOOD"
+msgstr "- Le site web est excellent en matière de vie privée !\n"
+
+msgid "TEXT_REVIEW_IS_GOOD"
+msgstr "- Le site pourrait faire mieux, mais il est plutôt bon.\n"
+
+msgid "TEXT_REVIEW_IS_OK"
+msgstr "- Réglages de vie privée dans la moyenne, mais à améliorer.\n"
+
+msgid "TEXT_REVIEW_IS_BAD"
+msgstr "- Plutôt faible en matière de vie privée des utilisateurs.\n"
+
+msgid "TEXT_REVIEW_IS_VERY_BAD"
+msgstr "- Très mauvaise protection de la vie privée !\n"
+
+msgid "TEXT_REVIEW_HTTPS_VERY_GOOD"
+msgstr "- HTTPS est utilisé et aucune requête non sécurisée n'est effectuée"
+
+msgid "TEXT_REVIEW_HTTPS_NO_HTTPS"
+msgstr "le site web n'utilise pas HTTPS"
+
+msgid "TEXT_REVIEW_HTTPS_MIXED_CONTENT"
+msgstr "{0} ressource(s) chargée(s) via HTTP non sécurisé (contenu mixte)"
+
+msgid "TEXT_REVIEW_HTTPS_OLD_TLS"
+msgstr "une version obsolète de TLS est utilisée ({0})"
+
+msgid "TEXT_REVIEW_REFERRER_POLICY_VERY_GOOD"
+msgstr "- La politique de référent protège vos visiteurs ({0})"
+
+msgid "TEXT_REVIEW_REFERRER_POLICY_MISSING"
+msgstr "aucune politique de référent n'est définie, les navigateurs peuvent divulguer les adresses visitées à d'autres sites web"
+
+msgid "TEXT_REVIEW_REFERRER_POLICY_LEAKY"
+msgstr "la politique de référent ({0}) peut divulguer les adresses visitées à d'autres sites web"
+
+msgid "TEXT_REVIEW_COOKIES_VERY_GOOD"
+msgstr "- Aucun cookie problématique n'est utilisé"
+
+msgid "TEXT_REVIEW_COOKIES_THIRD_PARTY"
+msgstr "{0} cookie(s) tiers, les visiteurs peuvent être suivis d'un site web à l'autre"
+
+msgid "TEXT_REVIEW_COOKIES_LONG_LIVED"
+msgstr "{0} cookie(s) ont une durée de vie supérieure à un an"
+
+msgid "TEXT_REVIEW_COOKIES_NOT_SECURE"
+msgstr "{0} cookie(s) sans l'attribut Secure"
+
+msgid "TEXT_REVIEW_THIRD_PARTY_VERY_GOOD"
+msgstr "- Aucune requête vers des tiers n'est effectuée"
+
+msgid "TEXT_REVIEW_THIRD_PARTY_REQUESTS"
+msgstr "des requêtes sont effectuées vers {0} domaine(s) tiers"
+
+msgid "TEXT_REVIEW_THIRD_PARTY_TRACKERS"
+msgstr "{0} domaine(s) de pistage connu(s) sont contactés"
+
+msgid "TEXT_REVIEW_HEADERS_VERY_GOOD"
+msgstr "- Les en-têtes HTTP liés à la vie privée et à la sécurité sont en place"
+
+msgid "TEXT_REVIEW_HEADERS_HSTS_MISSING"
+msgstr "l'en-tête Strict-Transport-Security (HSTS) est absent"
+
+msgid "TEXT_REVIEW_HEADERS_HSTS_SHORT"
+msgstr "le max-age de HSTS est inférieur à 6 mois"
+
+msgid "TEXT_REVIEW_HEADERS_XCTO_MISSING"
+msgstr "l'en-tête X-Content-Type-Options est absent ou invalide"
+
+msgid "TEXT_REVIEW_HEADERS_XFO_MISSING"
+msgstr "il n'y a aucune protection contre l'intégration du site web dans d'autres sites web (X-Frame-Options ou frame-ancestors)"
+
+msgid "TEXT_REVIEW_HEADERS_HSTS_NO_SUBDOMAINS"
+msgstr "HSTS ne couvre pas les sous-domaines (includeSubDomains)"
+
+msgid "TEXT_REVIEW_HEADERS_HSTS_NO_PRELOAD"
+msgstr "HSTS n'est pas prêt pour le préchargement (preload)"
+
+msgid "TEXT_REVIEW_SRI_VERY_GOOD"
+msgstr "- Tous les scripts et feuilles de style utilisent Subresource Integrity (SRI)"
+
+msgid "TEXT_REVIEW_SRI_MISSING"
+msgstr "{0} script(s) ou feuille(s) de style chargé(s) sans Subresource Integrity (SRI)"
+
+msgid "TEXT_REVIEW_COOKIES_NOT_HTTP_ONLY"
+msgstr "{0} cookie(s) sans l'attribut HttpOnly"
+
+msgid "TEXT_REVIEW_COOKIES_WEAK_SAME_SITE"
+msgstr "{0} cookie(s) sans attribut SameSite suffisamment strict (Lax ou Strict)"

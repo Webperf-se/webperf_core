@@ -500,7 +500,7 @@ def main(argv):
     -o/--output <file path>\t: output file path (.json/.csv/.sql/.sqlite/.md)
     -A/--addUrl <site url>\t: website url (required in combination with -i/--input)
     -D/--deleteUrl <site url>\t: website url (required in combination with -i/--input)
-    -L/--language <lang code>\t: language used for output(en = default/sv)
+    -L/--language <lang code>\t: language used for output (en = default, sv, da, no, fi, is, de, fr, es, it)
     -s/--setting <key>=<value>\t: override configuration for current run
                                   (use ? to list available settings)
     --save-setting <file path>\t: file path to configuration

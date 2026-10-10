@@ -1,0 +1,590 @@
+# German
+# Copyright (C) 2025 WebPerf
+# FIRST AUTHOR <your-email-here@webperf.se>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2025-04-27 12:00\n"
+"PO-Revision-Date: 2025-10-15 18:00\n"
+"Last-Translator: Your-Name-Here <your-email-here@webperf.se>\n"
+"Language-Team: German <team@webperf.se>\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+#
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Text, der anstelle der msgid angezeigt wird, für die Schweregrade (kritisch, Fehler und Warnung)"
+
+msgid "rule-id (resolved)"
+msgstr "Text, der anstelle der msgid angezeigt wird, hier speziell für den Schweregrad behoben"
+
+msgid "rule-id"
+msgstr "Text, der anstelle der msgid angezeigt wird, hier unabhängig vom Schweregrad"
+
+# End of Examples
+
+
+msgid "largest-contentful-paint-element (unresolved)"
+msgstr "Der größte Inhalt braucht lange, bis er erscheint ({0})"
+
+msgid "largest-contentful-paint-element (resolved)"
+msgstr "Der größte Inhalt erscheint schnell (behoben)"
+
+msgid "unused-css-rules (unresolved)"
+msgstr "Entfernen Sie ungenutzten Design-Code (CSS), damit die Seite schneller lädt ({0})"
+
+msgid "unused-css-rules (resolved)"
+msgstr "Die Seite lädt keinen ungenutzten Design-Code (CSS) (behoben)"
+
+msgid "unused-javascript (unresolved)"
+msgstr "Entfernen Sie ungenutzten Programmcode (JavaScript), damit die Seite schneller lädt ({0})"
+
+msgid "unused-javascript (resolved)"
+msgstr "Die Seite lädt keinen ungenutzten Programmcode (JavaScript) (behoben)"
+
+msgid "legacy-javascript (unresolved)"
+msgstr "Die Seite sendet unnötig veralteten Programmcode an moderne Browser ({0})"
+
+msgid "legacy-javascript (resolved)"
+msgstr "Die Seite sendet keinen veralteten Programmcode an moderne Browser (behoben)"
+
+msgid "cumulative-layout-shift (unresolved)"
+msgstr "Inhalte springen umher, während die Seite lädt ({0})"
+
+msgid "cumulative-layout-shift (resolved)"
+msgstr "Inhalte bleiben stehen, während die Seite lädt (behoben)"
+
+msgid "duplicated-javascript (unresolved)"
+msgstr "Derselbe Programmcode (JavaScript) wird mehr als einmal geladen ({0})"
+
+msgid "duplicated-javascript (resolved)"
+msgstr "Kein Programmcode (JavaScript) wird doppelt geladen (behoben)"
+
+msgid "layout-shifts (unresolved)"
+msgstr "Inhalte verschieben sich plötzlich, sodass Besucher womöglich das Falsche anklicken ({0})"
+
+msgid "layout-shifts (resolved)"
+msgstr "Inhalte verschieben sich nicht plötzlich (behoben)"
+
+msgid "largest-contentful-paint (unresolved)"
+msgstr "Es dauert lange, bis der Hauptinhalt der Seite erscheint ({0})"
+
+msgid "largest-contentful-paint (resolved)"
+msgstr "Der Hauptinhalt der Seite erscheint schnell (behoben)"
+
+msgid "uses-long-cache-ttl (unresolved)"
+msgstr "Lassen Sie die Browser wiederkehrender Besucher Dateien speichern, damit die Seite beim nächsten Mal schneller lädt ({0})"
+
+msgid "uses-long-cache-ttl (resolved)"
+msgstr "Die Browser wiederkehrender Besucher speichern Dateien, sodass die Seite schneller lädt (behoben)"
+
+msgid "first-contentful-paint (unresolved)"
+msgstr "Es dauert lange, bis überhaupt etwas auf der Seite erscheint ({0})"
+
+msgid "first-contentful-paint (resolved)"
+msgstr "Auf der Seite erscheint schnell etwas (behoben)"
+
+msgid "render-blocking-resources (unresolved)"
+msgstr "Einige Dateien halten die Seite auf, sodass sie später angezeigt wird ({0})"
+
+msgid "render-blocking-resources (resolved)"
+msgstr "Keine Dateien halten die Anzeige der Seite auf (behoben)"
+
+msgid "total-blocking-time (unresolved)"
+msgstr "Die Seite ist lange beschäftigt und reagiert träge auf Klicks ({0})"
+
+msgid "total-blocking-time (resolved)"
+msgstr "Die Seite reagiert schnell auf Klicks (behoben)"
+
+msgid "speed-index (unresolved)"
+msgstr "Es dauert lange, bis die Seite fertig geladen aussieht ({0})"
+
+msgid "speed-index (resolved)"
+msgstr "Die Seite sieht schnell fertig geladen aus (behoben)"
+
+msgid "interactive (unresolved)"
+msgstr "Es dauert lange, bis die Seite benutzbar ist ({0})"
+
+msgid "interactive (resolved)"
+msgstr "Die Seite ist schnell benutzbar (behoben)"
+
+msgid "max-potential-fid (unresolved)"
+msgstr "Die Seite reagiert möglicherweise langsam auf den ersten Klick des Besuchers ({0})"
+
+msgid "max-potential-fid (resolved)"
+msgstr "Die Seite reagiert schnell auf den ersten Klick des Besuchers (behoben)"
+
+msgid "uses-responsive-images (unresolved)"
+msgstr "Die Bilder sind größer, als es für den Bildschirm nötig ist ({0})"
+
+msgid "uses-responsive-images (resolved)"
+msgstr "Die Bilder haben die passende Größe für den Bildschirm (behoben)"
+
+msgid "offscreen-images (unresolved)"
+msgstr "Laden Sie nicht sofort sichtbare Bilder erst, wenn sie gebraucht werden ({0})"
+
+msgid "offscreen-images (resolved)"
+msgstr "Nicht sofort sichtbare Bilder werden erst bei Bedarf geladen (behoben)"
+
+msgid "unminified-css (unresolved)"
+msgstr "Der Design-Code (CSS) kann komprimiert werden, damit die Seite schneller lädt ({0})"
+
+msgid "unminified-css (resolved)"
+msgstr "Der Design-Code (CSS) ist komprimiert (behoben)"
+
+msgid "unminified-javascript (unresolved)"
+msgstr "Der Programmcode (JavaScript) kann komprimiert werden, damit die Seite schneller lädt ({0})"
+
+msgid "unminified-javascript (resolved)"
+msgstr "Der Programmcode (JavaScript) ist komprimiert (behoben)"
+
+msgid "uses-optimized-images (unresolved)"
+msgstr "Die Bilder können komprimiert werden, damit sie schneller laden ({0})"
+
+msgid "uses-optimized-images (resolved)"
+msgstr "Die Bilder sind komprimiert (behoben)"
+
+msgid "modern-image-formats (unresolved)"
+msgstr "Speichern Sie Bilder in modernen Formaten, damit sie schneller laden ({0})"
+
+msgid "modern-image-formats (resolved)"
+msgstr "Die Bilder sind in modernen Formaten gespeichert (behoben)"
+
+msgid "uses-text-compression (unresolved)"
+msgstr "Aktivieren Sie die Textkomprimierung, damit die Seite schneller lädt ({0})"
+
+msgid "uses-text-compression (resolved)"
+msgstr "Text wird komprimiert, sodass die Seite schneller lädt (behoben)"
+
+msgid "uses-rel-preconnect (unresolved)"
+msgstr "Bereiten Sie die Verbindung zu anderen Websites vor, damit diese schneller laden ({0})"
+
+msgid "uses-rel-preconnect (resolved)"
+msgstr "Die Verbindung zu anderen Websites ist vorbereitet (behoben)"
+
+msgid "server-response-time (unresolved)"
+msgstr "Der Server antwortet langsam ({0})"
+
+msgid "server-response-time (resolved)"
+msgstr "Der Server antwortet schnell (behoben)"
+
+msgid "redirects (unresolved)"
+msgstr "Besucher werden mehrmals weitergeleitet, bevor die richtige Seite erscheint ({0})"
+
+msgid "redirects (resolved)"
+msgstr "Besucher werden nicht unnötig weitergeleitet (behoben)"
+
+msgid "efficient-animated-content (unresolved)"
+msgstr "Verwenden Sie Video statt schwerer animierter Bilder (GIF) ({0})"
+
+msgid "efficient-animated-content (resolved)"
+msgstr "Animationen verwenden Video statt schwerer Bilddateien (behoben)"
+
+msgid "total-byte-weight (unresolved)"
+msgstr "Die Seite lädt eine sehr große Datenmenge ({0})"
+
+msgid "total-byte-weight (resolved)"
+msgstr "Die Seite lädt eine angemessene Datenmenge (behoben)"
+
+msgid "dom-size (unresolved)"
+msgstr "Die Seite ist zu komplex und lässt sich nur schwer darstellen ({0})"
+
+msgid "dom-size (resolved)"
+msgstr "Die Seite ist angemessen komplex in der Darstellung (behoben)"
+
+msgid "bootup-time (unresolved)"
+msgstr "Der Programmcode (JavaScript) braucht lange zur Ausführung ({0})"
+
+msgid "bootup-time (resolved)"
+msgstr "Der Programmcode (JavaScript) läuft schnell (behoben)"
+
+msgid "mainthread-work-breakdown (unresolved)"
+msgstr "Der Browser muss zu viel Arbeit leisten, um die Seite aufzubauen ({0})"
+
+msgid "mainthread-work-breakdown (resolved)"
+msgstr "Der Browser muss für die Seite nicht zu viel Arbeit leisten (behoben)"
+
+msgid "font-display (unresolved)"
+msgstr "Text ist unsichtbar, während eigene Schriftarten laden ({0})"
+
+msgid "font-display (resolved)"
+msgstr "Text bleibt sichtbar, während eigene Schriftarten laden (behoben)"
+
+msgid "uses-passive-event-listeners (unresolved)"
+msgstr "Die Seite könnte flüssiger scrollen ({0})"
+
+msgid "uses-passive-event-listeners (resolved)"
+msgstr "Die Seite scrollt flüssig (behoben)"
+
+msgid "no-document-write (unresolved)"
+msgstr "Eine alte Technik (document.write) verlangsamt das Laden ({0})"
+
+msgid "no-document-write (resolved)"
+msgstr "Die Seite verwendet nicht die alte Technik document.write, die das Laden verlangsamt (behoben)"
+
+msgid "long-tasks (unresolved)"
+msgstr "Einige Aufgaben blockieren die Seite eine Zeit lang ({0})"
+
+msgid "long-tasks (resolved)"
+msgstr "Keine Aufgaben blockieren die Seite lange (behoben)"
+
+msgid "unsized-images (unresolved)"
+msgstr "Bilder haben keine feste Größe, wodurch die Seite springt ({0})"
+
+msgid "unsized-images (resolved)"
+msgstr "Bilder haben eine feste Größe, sodass die Seite nicht springt (behoben)"
+
+msgid "viewport (unresolved)"
+msgstr "Der Seite fehlt die Einstellung, um auf Mobilgeräten korrekt angezeigt zu werden ({0})"
+
+msgid "viewport (resolved)"
+msgstr "Die Seite hat die Einstellung, um auf Mobilgeräten korrekt angezeigt zu werden (behoben)"
+
+msgid "network-requests (unresolved)"
+msgstr "Alles, was die Seite aus dem Netzwerk abruft ({0})"
+
+msgid "network-requests (resolved)"
+msgstr "Alles, was die Seite aus dem Netzwerk abruft (behoben)"
+
+msgid "network-rtt (unresolved)"
+msgstr "Wie lange Daten im Netzwerk hin und zurück brauchen ({0})"
+
+msgid "network-rtt (resolved)"
+msgstr "Wie lange Daten im Netzwerk hin und zurück brauchen (behoben)"
+
+msgid "network-server-latency (unresolved)"
+msgstr "Verzögerung im Server, bevor er antwortet ({0})"
+
+msgid "network-server-latency (resolved)"
+msgstr "Verzögerung im Server, bevor er antwortet (behoben)"
+
+msgid "main-thread-tasks (unresolved)"
+msgstr "Aufgaben, die der Browser für die Seite ausführt ({0})"
+
+msgid "main-thread-tasks (resolved)"
+msgstr "Aufgaben, die der Browser für die Seite ausführt (behoben)"
+
+msgid "diagnostics (unresolved)"
+msgstr "Technische Informationen über die Seite ({0})"
+
+msgid "diagnostics (resolved)"
+msgstr "Technische Informationen über die Seite (behoben)"
+
+msgid "metrics (unresolved)"
+msgstr "Messwerte zur Leistung der Seite ({0})"
+
+msgid "metrics (resolved)"
+msgstr "Messwerte zur Leistung der Seite (behoben)"
+
+msgid "screenshot-thumbnails (unresolved)"
+msgstr "Kleine Bilder davon, wie die Seite lädt ({0})"
+
+msgid "screenshot-thumbnails (resolved)"
+msgstr "Kleine Bilder davon, wie die Seite lädt (behoben)"
+
+msgid "final-screenshot (unresolved)"
+msgstr "Bild der Seite, nachdem sie fertig geladen ist ({0})"
+
+msgid "final-screenshot (resolved)"
+msgstr "Bild der Seite, nachdem sie fertig geladen ist (behoben)"
+
+msgid "script-treemap-data (unresolved)"
+msgstr "Übersicht über den Programmcode der Seite ({0})"
+
+msgid "script-treemap-data (resolved)"
+msgstr "Übersicht über den Programmcode der Seite (behoben)"
+
+msgid "resource-summary (unresolved)"
+msgstr "Zusammenfassung dessen, was die Seite abruft ({0})"
+
+msgid "resource-summary (resolved)"
+msgstr "Zusammenfassung dessen, was die Seite abruft (behoben)"
+
+msgid "aria-allowed-attr (unresolved)"
+msgstr "Einige Barrierefreiheits-Auszeichnungen (ARIA) passen nicht zu den Elementen, an denen sie stehen ({0})"
+
+msgid "aria-allowed-attr (resolved)"
+msgstr "Barrierefreiheits-Auszeichnungen (ARIA) passen zu den Elementen, an denen sie stehen (behoben)"
+
+msgid "aria-allowed-role (unresolved)"
+msgstr "Barrierefreiheits-Rollen (ARIA) werden an Elementen verwendet, die sie nicht unterstützen ({0})"
+
+msgid "aria-allowed-role (resolved)"
+msgstr "Barrierefreiheits-Rollen (ARIA) werden nur an Elementen verwendet, die sie unterstützen (behoben)"
+
+msgid "aria-conditional-attr (unresolved)"
+msgstr "Einige Barrierefreiheits-Auszeichnungen (ARIA) werden nicht regelkonform verwendet ({0})"
+
+msgid "aria-conditional-attr (resolved)"
+msgstr "Barrierefreiheits-Auszeichnungen (ARIA) werden regelkonform verwendet (behoben)"
+
+msgid "aria-deprecated-role (unresolved)"
+msgstr "Veraltete Barrierefreiheits-Rollen (ARIA) werden verwendet ({0})"
+
+msgid "aria-deprecated-role (resolved)"
+msgstr "Es werden keine veralteten Barrierefreiheits-Rollen (ARIA) verwendet (behoben)"
+
+msgid "aria-hidden-body (unresolved)"
+msgstr "Die gesamte Seite ist für Screenreader verborgen ({0})"
+
+msgid "aria-hidden-body (resolved)"
+msgstr "Die Seite ist für Screenreader nicht verborgen (behoben)"
+
+msgid "aria-hidden-focus (unresolved)"
+msgstr "Verborgene Elemente sind weiterhin per Tastatur erreichbar ({0})"
+
+msgid "aria-hidden-focus (resolved)"
+msgstr "Verborgene Elemente sind per Tastatur nicht erreichbar (behoben)"
+
+msgid "aria-prohibited-attr (unresolved)"
+msgstr "Einige Elemente haben Barrierefreiheits-Auszeichnungen (ARIA), die dort nicht erlaubt sind ({0})"
+
+msgid "aria-prohibited-attr (resolved)"
+msgstr "Elemente haben nur erlaubte Barrierefreiheits-Auszeichnungen (ARIA) (behoben)"
+
+msgid "aria-required-attr (unresolved)"
+msgstr "Einigen Elementen fehlen erforderliche Barrierefreiheits-Auszeichnungen (ARIA) ({0})"
+
+msgid "aria-required-attr (resolved)"
+msgstr "Elemente haben die erforderlichen Barrierefreiheits-Auszeichnungen (ARIA) (behoben)"
+
+msgid "aria-roles (unresolved)"
+msgstr "Einige Barrierefreiheits-Rollen (ARIA) haben ungültige Werte ({0})"
+
+msgid "aria-roles (resolved)"
+msgstr "Barrierefreiheits-Rollen (ARIA) haben gültige Werte (behoben)"
+
+msgid "aria-valid-attr-value (unresolved)"
+msgstr "Einige Barrierefreiheits-Auszeichnungen (ARIA) haben ungültige Werte ({0})"
+
+msgid "aria-valid-attr-value (resolved)"
+msgstr "Barrierefreiheits-Auszeichnungen (ARIA) haben gültige Werte (behoben)"
+
+msgid "aria-valid-attr (unresolved)"
+msgstr "Einige Barrierefreiheits-Auszeichnungen (ARIA) sind falsch geschrieben oder ungültig ({0})"
+
+msgid "aria-valid-attr (resolved)"
+msgstr "Barrierefreiheits-Auszeichnungen (ARIA) sind korrekt geschrieben und gültig (behoben)"
+
+msgid "button-name (unresolved)"
+msgstr "Schaltflächen fehlt ein Name, den ein Screenreader vorlesen kann ({0})"
+
+msgid "button-name (resolved)"
+msgstr "Schaltflächen haben einen Namen, den ein Screenreader vorlesen kann (behoben)"
+
+msgid "color-contrast (unresolved)"
+msgstr "Text hat zu wenig Kontrast zum Hintergrund und ist schwer lesbar ({0})"
+
+msgid "color-contrast (resolved)"
+msgstr "Text hat genug Kontrast zum Hintergrund (behoben)"
+
+msgid "document-title (unresolved)"
+msgstr "Die Seite hat keinen Titel ({0})"
+
+msgid "document-title (resolved)"
+msgstr "Die Seite hat einen Titel (behoben)"
+
+msgid "heading-order (unresolved)"
+msgstr "Die Überschriften sind nicht in der richtigen Reihenfolge ({0})"
+
+msgid "heading-order (resolved)"
+msgstr "Die Überschriften sind in der richtigen Reihenfolge (behoben)"
+
+msgid "html-has-lang (unresolved)"
+msgstr "Die Seite gibt nicht an, in welcher Sprache sie geschrieben ist ({0})"
+
+msgid "html-has-lang (resolved)"
+msgstr "Die Seite gibt an, in welcher Sprache sie geschrieben ist (behoben)"
+
+msgid "html-lang-valid (unresolved)"
+msgstr "Die Spracheinstellung der Seite ist ungültig ({0})"
+
+msgid "html-lang-valid (resolved)"
+msgstr "Die Spracheinstellung der Seite ist gültig (behoben)"
+
+msgid "image-alt (unresolved)"
+msgstr "Bildern fehlt ein Alternativtext für Screenreader ({0})"
+
+msgid "image-alt (resolved)"
+msgstr "Bilder haben einen Alternativtext für Screenreader (behoben)"
+
+msgid "image-redundant-alt (unresolved)"
+msgstr "Der Alternativtext von Bildern wiederholt Text, der bereits daneben steht ({0})"
+
+msgid "image-redundant-alt (resolved)"
+msgstr "Der Alternativtext von Bildern wiederholt keinen Text, der bereits daneben steht (behoben)"
+
+msgid "link-in-text-block (unresolved)"
+msgstr "Links sind nur an der Farbe zu erkennen und schwer zu sehen ({0})"
+
+msgid "link-in-text-block (resolved)"
+msgstr "Links sind auch ohne Farbe zu erkennen (behoben)"
+
+msgid "link-name (unresolved)"
+msgstr "Links fehlt ein Text, der beschreibt, wohin sie führen ({0})"
+
+msgid "link-name (resolved)"
+msgstr "Links haben einen Text, der beschreibt, wohin sie führen (behoben)"
+
+msgid "list (unresolved)"
+msgstr "Listen enthalten andere Dinge als Listeneinträge ({0})"
+
+msgid "list (resolved)"
+msgstr "Listen enthalten nur Listeneinträge (behoben)"
+
+msgid "listitem (unresolved)"
+msgstr "Listeneinträge stehen außerhalb einer echten Liste ({0})"
+
+msgid "listitem (resolved)"
+msgstr "Listeneinträge stehen innerhalb einer echten Liste (behoben)"
+
+msgid "meta-viewport (unresolved)"
+msgstr "Die Seite hindert Besucher am Zoomen ({0})"
+
+msgid "meta-viewport (resolved)"
+msgstr "Besucher können auf der Seite zoomen (behoben)"
+
+msgid "target-size (unresolved)"
+msgstr "Tippziele sind zu klein oder liegen zu dicht beieinander ({0})"
+
+msgid "target-size (resolved)"
+msgstr "Tippziele sind groß genug und haben ausreichend Abstand (behoben)"
+
+msgid "is-on-https (unresolved)"
+msgstr "Die Seite verwendet keine sichere Verbindung (HTTPS) ({0})"
+
+msgid "is-on-https (resolved)"
+msgstr "Die Seite verwendet eine sichere Verbindung (HTTPS) (behoben)"
+
+msgid "redirects-http (unresolved)"
+msgstr "Unsicherer Datenverkehr (HTTP) wird nicht auf sicheren (HTTPS) weitergeleitet ({0})"
+
+msgid "redirects-http (resolved)"
+msgstr "Unsicherer Datenverkehr (HTTP) wird auf sicheren (HTTPS) weitergeleitet (behoben)"
+
+msgid "image-size-responsive (unresolved)"
+msgstr "Bilder wirken unscharf, weil ihre Auflösung zu niedrig ist ({0})"
+
+msgid "image-size-responsive (resolved)"
+msgstr "Bilder wirken scharf in der richtigen Auflösung (behoben)"
+
+msgid "aria-required-children (unresolved)"
+msgstr "Einigen Elementen fehlen die Kindelemente, die Hilfstechnologien benötigen ({0})"
+
+msgid "aria-required-children (resolved)"
+msgstr "Elemente haben die Kindelemente, die Hilfstechnologien benötigen (behoben)"
+
+msgid "aria-required-parent (unresolved)"
+msgstr "Einige Elemente stehen nicht in dem Elternelement, das Hilfstechnologien benötigen ({0})"
+
+msgid "aria-required-parent (resolved)"
+msgstr "Elemente stehen in dem Elternelement, das Hilfstechnologien benötigen (behoben)"
+
+msgid "inspector-issues (unresolved)"
+msgstr "Der Browser meldet Probleme auf der Seite ({0})"
+
+msgid "inspector-issues (resolved)"
+msgstr "Der Browser meldet keine Probleme auf der Seite (behoben)"
+
+msgid "cls-culprits-insight (unresolved)"
+msgstr "Was die Inhalte umherspringen lässt ({0})"
+
+msgid "cls-culprits-insight (resolved)"
+msgstr "Nichts lässt die Inhalte umherspringen (behoben)"
+
+msgid "document-latency-insight (unresolved)"
+msgstr "Es dauert lange, die Seite selbst abzurufen ({0})"
+
+msgid "document-latency-insight (resolved)"
+msgstr "Die Seite selbst wird schnell abgerufen (behoben)"
+
+msgid "dom-size-insight (unresolved)"
+msgstr "Machen Sie die Seite weniger komplex, damit sie schneller angezeigt wird ({0})"
+
+msgid "dom-size-insight (resolved)"
+msgstr "Die Seite ist angemessen komplex (behoben)"
+
+msgid "duplicated-javascript-insight (unresolved)"
+msgstr "Derselbe Programmcode (JavaScript) wird mehr als einmal geladen ({0})"
+
+msgid "duplicated-javascript-insight (resolved)"
+msgstr "Programmcode (JavaScript) wird nicht doppelt geladen (behoben)"
+
+msgid "font-display-insight (unresolved)"
+msgstr "Text kann unsichtbar werden, während Schriftarten laden ({0})"
+
+msgid "font-display-insight (resolved)"
+msgstr "Text bleibt sichtbar, während Schriftarten laden (behoben)"
+
+msgid "image-delivery-insight (unresolved)"
+msgstr "Die Bilder können geschickter ausgeliefert werden, damit sie schneller laden ({0})"
+
+msgid "image-delivery-insight (resolved)"
+msgstr "Die Bilder werden effizient ausgeliefert (behoben)"
+
+msgid "interaction-to-next-paint-insight (unresolved)"
+msgstr "Die Seite reagiert langsam auf Klicks und Berührungen ({0})"
+
+msgid "interaction-to-next-paint-insight (resolved)"
+msgstr "Die Seite reagiert schnell auf Klicks und Berührungen (behoben)"
+
+msgid "lcp-discovery-insight (unresolved)"
+msgstr "Das Hauptbild kann vom Browser schneller gefunden werden ({0})"
+
+msgid "lcp-discovery-insight (resolved)"
+msgstr "Der Browser findet das Hauptbild schnell (behoben)"
+
+msgid "lcp-phases-insight (unresolved)"
+msgstr "Eine Aufschlüsselung, warum der Hauptinhalt spät erscheint ({0})"
+
+msgid "lcp-phases-insight (resolved)"
+msgstr "Der Hauptinhalt erscheint schnell (behoben)"
+
+msgid "legacy-javascript-insight (unresolved)"
+msgstr "Veralteter Programmcode wird an moderne Browser gesendet ({0})"
+
+msgid "legacy-javascript-insight (resolved)"
+msgstr "Es wird kein veralteter Programmcode unnötig gesendet (behoben)"
+
+msgid "modern-http-insight (unresolved)"
+msgstr "Die Seite kann eine modernere, schnellere Netzwerktechnik verwenden ({0})"
+
+msgid "modern-http-insight (resolved)"
+msgstr "Die Seite verwendet moderne Netzwerktechnik (behoben)"
+
+msgid "network-dependency-tree-insight (unresolved)"
+msgstr "Dateien laden in einer Kette, die die Seite verlangsamt ({0})"
+
+msgid "network-dependency-tree-insight (resolved)"
+msgstr "Dateien laden ohne unnötige Ketten (behoben)"
+
+msgid "render-blocking-insight (unresolved)"
+msgstr "Einige Dateien halten die Seite auf, kurz bevor sie angezeigt wird ({0})"
+
+msgid "render-blocking-insight (resolved)"
+msgstr "Keine Dateien halten die Anzeige der Seite auf (behoben)"
+
+msgid "third-parties-insight (unresolved)"
+msgstr "Code von anderen Websites beeinträchtigt die Leistung ({0})"
+
+msgid "third-parties-insight (resolved)"
+msgstr "Code von anderen Websites beeinträchtigt die Leistung kaum (behoben)"
+
+msgid "use-cache-insight (unresolved)"
+msgstr "Lassen Sie die Browser der Besucher Dateien länger speichern, damit die Seite schneller lädt ({0})"
+
+msgid "use-cache-insight (resolved)"
+msgstr "Die Browser der Besucher speichern Dateien, sodass die Seite schneller lädt (behoben)"
+
+msgid "viewport-insight (unresolved)"
+msgstr "Passen Sie die Seite an, damit sie auf Mobilgeräten gut angezeigt wird ({0})"
+
+msgid "viewport-insight (resolved)"
+msgstr "Die Seite wird auf Mobilgeräten gut angezeigt (behoben)"

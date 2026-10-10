@@ -1,0 +1,235 @@
+# French
+# Copyright (C) 2026 WebPerf
+# FIRST AUTHOR <team@webperf.se>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2026-10-09 12:00\n"
+"PO-Revision-Date: 2026-10-09 12:00\n"
+"Last-Translator: WebPerf <team@webperf.se>\n"
+"Language-Team: French <team@webperf.se>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 24 - E-mail (Bêta)\n"
+
+msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_SUPPORT"
+msgstr "- Enregistrement DNS MTA-STS trouvé"
+
+msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_NO_SUPPORT"
+msgstr "- Enregistrement DNS MTA-STS introuvable"
+
+msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_WRONG_LINEBREAK"
+msgstr "- Le TXT MTA-STS n'utilise pas CRLF comme saut de ligne"
+
+msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_NOT_ENFORCED"
+msgstr "- Le TXT MTA-STS n'est pas en mode « enforce »"
+
+msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_VALID_MODE"
+msgstr "- La valeur du mode du TXT MTA-STS est valide"
+
+msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_INVALID_MODE"
+msgstr "- La valeur du mode du TXT MTA-STS est invalide"
+
+msgid "TEXT_REVIEW_MTA_STS_TXT_SUPPORT"
+msgstr "- Le TXT MTA-STS semble correct"
+
+msgid "TEXT_REVIEW_MTA_STS_TXT_INVALID_FORMAT"
+msgstr "- Le TXT MTA-STS a un format invalide"
+
+msgid "TEXT_REVIEW_MTA_STS_TXT_NO_SUPPORT"
+msgstr "- TXT MTA-STS introuvable"
+
+msgid "TEXT_REVIEW_SPF_TO_MANY_DNS_LOOKUPS"
+msgstr "- L'enregistrement DNS SPF provoque trop de recherches DNS"
+
+msgid "TEXT_REVIEW_SPF_DNS_RECORD_SUPPORT"
+msgstr "- Enregistrement DNS SPF trouvé"
+
+msgid "TEXT_REVIEW_SPF_DNS_RECORD_NO_SUPPORT"
+msgstr "- Enregistrement DNS SPF introuvable"
+
+msgid "TEXT_REVIEW_SPF_DNS_DOUBLE_SPACE_RECORD"
+msgstr "- L'enregistrement DNS SPF utilise deux espaces au lieu d'un"
+
+msgid "TEXT_REVIEW_SPF_DNS_NEUTRALFAIL_RECORD"
+msgstr "- L'enregistrement DNS SPF utilise un échec neutre (neutral fail)"
+
+msgid "TEXT_REVIEW_SPF_DNS_SOFTFAIL_RECORD"
+msgstr "- L'enregistrement DNS SPF utilise un échec souple (soft fail)"
+
+msgid "TEXT_REVIEW_SPF_DNS_HARDFAIL_RECORD"
+msgstr "- L'enregistrement DNS SPF utilise un échec strict (hard fail)"
+
+msgid "TEXT_REVIEW_SPF_DNS_IGNORE_RECORD_NO_SUPPORT"
+msgstr "- L'enregistrement DNS SPF est configuré pour être ignoré"
+
+msgid "TEXT_REVIEW_SPF_DNS_RECORD_PTR_USED"
+msgstr "- L'enregistrement DNS SPF utilise PTR à tort"
+
+msgid "TEXT_REVIEW_SPF_UNKNOWN_SECTION"
+msgstr "- L'enregistrement DNS SPF contient du contenu non autorisé"
+
+msgid "TEXT_REVIEW_IPV6_OPERATION_SUPPORT"
+msgstr "- IPV6_OPERATION_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV6_OPERATION_NO_SUPPORT"
+msgstr "- IPV6_OPERATION_NO_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV6_OPERATION_STARTTLS_SUPPORT"
+msgstr "- IPV6_OPERATION_STARTTLS_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV6_OPERATION_STARTTLS_NO_SUPPORT"
+msgstr "- IPV6_OPERATION_STARTTLS_NO_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV4_OPERATION_SUPPORT"
+msgstr "- IPV4_OPERATION_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV4_OPERATION_NO_SUPPORT"
+msgstr "- IPV4_OPERATION_NO_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV4_OPERATION_STARTTLS_SUPPORT"
+msgstr "- IPV4_OPERATION_STARTTLS_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV4_OPERATION_STARTTLS_NO_SUPPORT"
+msgstr "- IPV4_OPERATION_STARTTLS_NO_SUPPORT"
+
+msgid "TEXT_REVIEW_MX_NO_SUPPORT"
+msgstr "- Enregistrement DNS MX introuvable"
+
+msgid "TEXT_REVIEW_MX_ALTERATIVE"
+msgstr "- Utilisation d'un domaine e-mail alternatif : {0}\r\n{1}"
+
+msgid "TEXT_REVIEW_IPV4_REDUNDANCE"
+msgstr "- Redondance de l'enregistrement DNS MX IPv4"
+
+msgid "TEXT_REVIEW_IPV4_SUPPORT"
+msgstr "- Enregistrement DNS MX IPv4 trouvé"
+
+msgid "TEXT_REVIEW_IPV4_NO_REDUNDANCE"
+msgstr "- L'enregistrement DNS MX IPv4 n'a pas de redondance"
+
+msgid "TEXT_REVIEW_IPV4_NO_SUPPORT"
+msgstr "- Enregistrement DNS MX IPv4 introuvable"
+
+msgid "TEXT_REVIEW_IPV6_REDUNDANCE"
+msgstr "- Redondance de l'enregistrement DNS MX IPv6"
+
+msgid "TEXT_REVIEW_IPV6_SUPPORT"
+msgstr "- Enregistrement DNS MX IPv6 trouvé"
+
+msgid "TEXT_REVIEW_IPV6_NO_REDUNDANCE"
+msgstr "- L'enregistrement DNS MX IPv6 n'a pas de redondance"
+
+msgid "TEXT_REVIEW_IPV6_NO_SUPPORT"
+msgstr "- Enregistrement DNS MX IPv6 introuvable"
+
+msgid "TEXT_REVIEW_MX_GDPR"
+msgstr "- Serveurs DNS MX dans des pays conformes au RGPD : {0}"
+
+msgid "TEXT_REVIEW_MX_NONE_GDPR"
+msgstr "- Serveurs DNS MX dans des pays non conformes au RGPD : {0}"
+
+msgid "TEXT_REVIEW_SPF_GDPR"
+msgstr "- Serveurs SPF dans des pays conformes au RGPD : {0}"
+
+msgid "TEXT_REVIEW_SPF_NONE_GDPR"
+msgstr "- Serveurs SPF dans des pays non conformes au RGPD : {0}"
+
+msgid "TEXT_REVIEW_DMARC_SUPPORT"
+msgstr "- Enregistrement DNS DMARC trouvé"
+
+msgid "TEXT_REVIEW_DMARC_NO_SUPPORT"
+msgstr "- Enregistrement DNS DMARC introuvable"
+
+msgid "TEXT_REVIEW_DMARC_EMPTY_SECTION_WHILE_PARSE"
+msgstr "- L'enregistrement DNS DMARC est mal formé"
+
+msgid "TEXT_REVIEW_DMARC_PAIR_INVALID"
+msgstr "- L'enregistrement DNS DMARC contient une section mal formée"
+
+msgid "TEXT_REVIEW_DMARC_POLICY_INVALID"
+msgstr "- L'enregistrement DNS DMARC a une valeur POLICY invalide"
+
+msgid "TEXT_REVIEW_DMARC_SUBPOLICY_INVALID"
+msgstr "- L'enregistrement DNS DMARC a une valeur SUBPOLICY invalide"
+
+msgid "TEXT_REVIEW_DMARC_PCT_INVALID"
+msgstr "- L'enregistrement DNS DMARC a une valeur PCT invalide"
+
+msgid "TEXT_REVIEW_DMARC_ADKIM_INVALID"
+msgstr "- L'enregistrement DNS DMARC a une valeur ADKIM invalide"
+
+msgid "TEXT_REVIEW_DMARC_ASPF_INVALID"
+msgstr "- L'enregistrement DNS DMARC a une valeur ASPF invalide"
+
+msgid "TEXT_REVIEW_DMARC_RI_INVALID"
+msgstr "- L'enregistrement DNS DMARC a une valeur RI invalide"
+
+msgid "TEXT_REVIEW_DMARC_FO_INVALID"
+msgstr "- L'enregistrement DNS DMARC a une valeur FO invalide"
+
+msgid "TEXT_REVIEW_DMARC_RF_INVALID"
+msgstr "- L'enregistrement DNS DMARC a une valeur RF invalide"
+
+msgid "TEXT_REVIEW_DMARC_USES_FO_BUT_NO_RUF"
+msgstr "- L'enregistrement DNS DMARC utilise FO mais RUF est absent"
+
+msgid "TEXT_REVIEW_DMARC_NO_PARSE_ERRORS"
+msgstr "- L'enregistrement DNS DMARC semble correctement formé"
+
+msgid "TEXT_REVIEW_DMARC_PCT_USES_DEFAULT"
+msgstr "- L'enregistrement DNS DMARC utilise la valeur par défaut pour PCT, elle est redondante"
+
+msgid "TEXT_REVIEW_DMARC_ADKIM_USES_DEFAULT"
+msgstr "- L'enregistrement DNS DMARC utilise la valeur par défaut pour ADKIM, elle est redondante"
+
+msgid "TEXT_REVIEW_DMARC_ASPF_USES_DEFAULT"
+msgstr "- L'enregistrement DNS DMARC utilise la valeur par défaut pour ASPF, elle est redondante"
+
+msgid "TEXT_REVIEW_DMARC_RI_USES_DEFAULT"
+msgstr "- L'enregistrement DNS DMARC utilise la valeur par défaut pour RI, elle est redondante"
+
+msgid "TEXT_REVIEW_DMARC_FO_USES_DEFAULT"
+msgstr "- L'enregistrement DNS DMARC utilise la valeur par défaut pour FO, elle est redondante"
+
+msgid "TEXT_REVIEW_DMARC_RF_USES_DEFAULT"
+msgstr "- L'enregistrement DNS DMARC utilise la valeur par défaut pour RF, elle est redondante"
+
+msgid "TEXT_REVIEW_DMARC_POLICY_REJECT"
+msgstr "- L'enregistrement DNS DMARC utilise 'rejected' comme politique"
+
+msgid "TEXT_REVIEW_DMARC_POLICY_QUARANTINE"
+msgstr "- L'enregistrement DNS DMARC utilise 'quarantine' comme politique"
+
+msgid "TEXT_REVIEW_DMARC_POLICY_NONE"
+msgstr "- L'enregistrement DNS DMARC utilise 'none' comme politique"
+
+msgid "TEXT_REVIEW_DMARC_NO_POLICY"
+msgstr "- L'enregistrement DNS DMARC n'a pas de politique"
+
+msgid "TEXT_REVIEW_DMARC_SUBPOLICY_REDUNDANT"
+msgstr "- La sous-politique de l'enregistrement DNS DMARC est identique à la politique, la sous-politique est redondante"
+
+msgid "TEXT_REVIEW_DMARC_SUBPOLICY_QUARANTINE"
+msgstr "- L'enregistrement DNS DMARC utilise 'quarantine' comme sous-politique"
+
+msgid "TEXT_REVIEW_DMARC_SUBPOLICY_REJECT"
+msgstr "- L'enregistrement DNS DMARC utilise 'rejected' comme sous-politique"
+
+msgid "TEXT_REVIEW_DMARC_SUBPOLICY_NONE"
+msgstr "- L'enregistrement DNS DMARC utilise 'none' comme sous-politique"
+
+msgid "TEXT_REVIEW_DMARC_PCT_NOT_100"
+msgstr "- L'enregistrement DNS DMARC utilise un PCT inférieur à 100"
+
+msgid "TEXT_REVIEW_DMARC_PCT"
+msgstr "- L'enregistrement DNS DMARC utilise PCT"
+
+msgid "TEXT_REVIEW_DMARC_NO_WARNINGS"
+msgstr "- L'enregistrement DNS DMARC n'a aucun avertissement"

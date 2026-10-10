@@ -1,0 +1,50 @@
+# Spanish
+# Copyright (C) 2020 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2020-05-23 14:06+0200\n"
+"PO-Revision-Date: 2026-10-10 12:00\n"
+"Last-Translator: mattias <mattias@webperf.se>\n"
+"Language-Team: Spanish <team@webperf.se>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 22 - Eficiencia energética\n"
+
+msgid "TEXT_TRANSFER_SIZE"
+msgstr "- Tamaño de transferencia de red: {0:.2f} {1}\n"
+
+msgid "TEXT_WEBSITE_IS_VERY_GOOD"
+msgstr "- La página web genera muy poco dióxido de carbono.\n"
+
+msgid "TEXT_WEBSITE_IS_GOOD"
+msgstr "- La página web genera poco dióxido de carbono.\n"
+
+msgid "TEXT_WEBSITE_IS_OK"
+msgstr "- En la media en cuanto a dióxido de carbono.\n"
+
+msgid "TEXT_WEBSITE_IS_BAD"
+msgstr "- La página web genera más dióxido de carbono del deseable :/\n"
+
+msgid "TEXT_WEBSITE_IS_VERY_BAD"
+msgstr "- El sitio web genera mucho dióxido de carbono en cada visita de página :(\n"
+
+msgid "TEXT_GRAMS_OF_CO2"
+msgstr "- Dióxido de carbono por visita de página: {} gramo(s)\n"
+
+msgid "TEXT_GREEN_ENERGY_TRUE"
+msgstr "- El sitio web parece funcionar con energía renovable.\n"
+
+msgid "TEXT_GREEN_ENERGY_FALSE"
+msgstr "- No se pudo verificar si el sitio web usa energía renovable.\n"
+
+msgid "TEXT_BETTER_THAN"
+msgstr "- Más ecológico que el {0} % de los sitios web probados por webperf.se (referencia actualizada: {1}).\n"

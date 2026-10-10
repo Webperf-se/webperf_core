@@ -44,9 +44,15 @@ More on this in the text specific to each file.
 
 ### General Notes for All Tests
 All tests have language support.  
-We start with English, but later they also need to be translated into Swedish.  
-The difference between the English and Swedish files is that they are in different directories:  
-`en` for English and `sv` for Swedish.
+English is the reference. Every test has one `.po` file per language under `locales/<lang>/LC_MESSAGES/`, and every language must have the same msgids as English.
+
+Supported languages: `en` English, `sv` Swedish, `da` Danish, `no` Norwegian, `fi` Finnish, `is` Icelandic, `de` German, `fr` French, `es` Spanish, `it` Italian. Select one with `-L <code>` or `general.language`.
+
+German, French, Spanish and Italian were machine translated in October 2026 and have not yet been reviewed by native speakers. Corrections are welcome as pull requests that change only the `.po` file and its compiled `.mo`:
+
+```
+python3 data/msgfmt.py -o locales/de/LC_MESSAGES/http_validator.mo locales/de/LC_MESSAGES/http_validator.po
+```
 
 ## Test-Specific Notes About Translation
 

@@ -1,0 +1,122 @@
+# French
+# Copyright (C) 2026 WebPerf
+# FIRST AUTHOR <team@webperf.se>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2025-05-06 19:30\n"
+"PO-Revision-Date: 2026-10-10 12:00\n"
+"Last-Translator: WebPerf <team@webperf.se>\n"
+"Language-Team: French <team@webperf.se>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+#
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Texte affiché à la place du msgid, pour les niveaux de gravité (critique, erreur et avertissement)"
+
+msgid "rule-id (resolved)"
+msgstr "Texte affiché à la place du msgid, ici uniquement pour le niveau de gravité résolu"
+
+msgid "rule-id"
+msgstr "Texte affiché à la place du msgid, ici indépendamment du niveau de gravité"
+
+# End of Examples
+
+
+msgid "no-duplicates-sitemap (unresolved)"
+msgstr "Sitemap, aucune URL en double n'est autorisée dans <loc> ({0})"
+
+msgid "no-duplicates-sitemap (resolved)"
+msgstr "Sitemap, aucune URL en double n'est autorisée dans <loc> (résolu)"
+
+msgid "no-robots-txt (unresolved)"
+msgstr "robots.txt est absent, son téléchargement n'est pas autorisé ou il n'a pas le contenu attendu ({0})"
+
+msgid "no-robots-txt (resolved)"
+msgstr "robots.txt est absent, son téléchargement n'est pas autorisé ou il n'a pas le contenu attendu (résolu)"
+
+msgid "no-sitemap-in-robots-txt (unresolved)"
+msgstr "Le sitemap n'est pas indiqué dans robots.txt ({0})"
+
+msgid "no-sitemap-in-robots-txt (resolved)"
+msgstr "Le sitemap n'est pas indiqué dans robots.txt (résolu)"
+
+msgid "no-valid-sitemap-found (unresolved)"
+msgstr "Sitemap, aucun sitemap valide trouvé ({0})"
+
+msgid "no-valid-sitemap-found (resolved)"
+msgstr "Sitemap, aucun sitemap valide trouvé (résolu)"
+
+msgid "no-same-domain-sitemap (unresolved)"
+msgstr "Sitemap, l'URL dans <loc> doit utiliser le même domaine que robots.txt ({0})"
+
+msgid "no-same-domain-sitemap (resolved)"
+msgstr "Sitemap, l'URL dans <loc> doit utiliser le même domaine que robots.txt (résolu)"
+
+msgid "no-https-sitemap (unresolved)"
+msgstr "Sitemap, l'URL dans <loc> doit commencer par https:// ({0})"
+
+msgid "no-https-sitemap (resolved)"
+msgstr "Sitemap, l'URL dans <loc> doit commencer par https:// (résolu)"
+
+msgid "no-unknown-types-sitemap (unresolved)"
+msgstr "Sitemap, liste d'autres éléments que des pages web ({0})"
+
+msgid "no-unknown-types-sitemap (resolved)"
+msgstr "Sitemap, liste d'autres éléments que des pages web (résolu)"
+
+msgid "invalid-sitemap-too-large (unresolved)"
+msgstr "Sitemap, dépasse 50 000 éléments ({0})"
+
+msgid "invalid-sitemap-too-large (resolved)"
+msgstr "Sitemap, dépasse 50 000 éléments (résolu)"
+
+msgid "no-items-sitemap (unresolved)"
+msgstr "Sitemap, ne contient aucun élément ({0})"
+
+msgid "no-items-sitemap (resolved)"
+msgstr "Sitemap, ne contient aucun élément (résolu)"
+
+msgid "no-rss-feed (unresolved)"
+msgstr "Le flux est absent des métadonnées HTML ({0})"
+
+msgid "no-rss-feed (resolved)"
+msgstr "Le flux est absent des métadonnées HTML (résolu)"
+
+msgid "no-security-txt (unresolved)"
+msgstr "security.txt est absent ({0})"
+
+msgid "no-security-txt (resolved)"
+msgstr "security.txt est absent (résolu)"
+
+msgid "invalid-security-txt (unresolved)"
+msgstr "security.txt a un contenu incorrect ({0})"
+
+msgid "invalid-security-txt (resolved)"
+msgstr "security.txt a un contenu incorrect (résolu)"
+
+msgid "no-security-txt-contact (unresolved)"
+msgstr "security.txt ne contient pas les coordonnées de contact obligatoires ({0})"
+
+msgid "no-security-txt-contact (resolved)"
+msgstr "security.txt ne contient pas les coordonnées de contact obligatoires (résolu)"
+
+msgid "no-security-txt-expires (unresolved)"
+msgstr "security.txt ne contient pas l'information d'expiration obligatoire (ajoutée dans le brouillon v10) ({0})"
+
+msgid "no-security-txt-expires (resolved)"
+msgstr "security.txt ne contient pas l'information d'expiration obligatoire (ajoutée dans le brouillon v10) (résolu)"
+
+msgid "no-network (unresolved)"
+msgstr "Échec du test, impossible d'accéder au site web ({0})"
+
+msgid "no-network (resolved)"
+msgstr "Échec du test, impossible d'accéder au site web (résolu)"

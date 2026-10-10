@@ -1,0 +1,185 @@
+# French
+# Copyright (C) 2026 WebPerf
+# FIRST AUTHOR <team@webperf.se>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2026-10-09 12:00\n"
+"PO-Revision-Date: 2026-10-10 12:00\n"
+"Last-Translator: WebPerf <team@webperf.se>\n"
+"Language-Team: French <team@webperf.se>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 25 - Logiciels\r\n"
+
+msgid "TEXT_NO_CMS"
+msgstr "- Aucun CMS utilisé, ou CMS inconnu, sur le domaine principal"
+
+msgid "TEXT_USED_CMS"
+msgstr "- CMS utilisé : {0}"
+
+msgid "TEXT_USED_WEBSERVER"
+msgstr "- Serveur web utilisé : {0}"
+
+msgid "TEXT_USED_OS"
+msgstr "- Système d'exploitation utilisé : {0}"
+
+msgid "TEXT_USED_ANALYTICS"
+msgstr "- Outils d'analyse d'audience utilisés : {0}"
+
+msgid "TEXT_USED_TECH"
+msgstr "- Technologies utilisées : {0}"
+
+msgid "TEXT_USED_JS"
+msgstr "- Bibliothèques Javascript utilisées : {0}"
+
+msgid "TEXT_USED_CSS"
+msgstr "- Bibliothèques CSS utilisées : {0}"
+
+msgid "TEXT_USED_LANG"
+msgstr "- Langages trouvés : {0}"
+
+msgid "TEXT_USED_IMG"
+msgstr "- Formats d'image utilisés : {0}"
+
+msgid "TEXT_USED_IMG.SOFTWARE"
+msgstr "- Logiciel d'image utilisé : {0}"
+
+msgid "TEXT_USED_IMG.OS"
+msgstr "- Système d'exploitation d'image utilisé : {0}"
+
+msgid "TEXT_USED_IMG.DEVICE"
+msgstr "- Appareil d'image utilisé : {0}"
+
+msgid "TEXT_USED_VIDEO"
+msgstr "- Formats vidéo utilisés : {0}"
+
+msgid "TEXT_USED_META"
+msgstr "- Métadonnées utilisées : {0}"
+
+msgid "TEXT_USED_LICENSE"
+msgstr "- Licence(s) utilisée(s) : {0}"
+
+msgid "TEXT_USED_SECURITY"
+msgstr "- Fuite d'informations"
+
+msgid "TEXT_USED_A11Y_OVERLAY"
+msgstr "- Surcouches d'accessibilité utilisées : {0}"
+
+msgid "UPDATE_AVAILABLE"
+msgstr "- Mise(s) à jour disponible(s)"
+
+msgid "KNOWN_SECURITY_ISSUES"
+msgstr "- Présente une ou plusieurs failles de sécurité connues"
+
+msgid "TEXT_DETAILED_REVIEW_CVE"
+msgstr "##### Logiciels concernés par des CVE ( note #POINTS# )\r\n\r\n###### Introduction :\r\nLa version du logiciel utilisée est affectée par la vulnérabilité décrite ci-dessous.\r\nDans la plupart des cas, vous pouvez corriger un problème lié à une CVE en mettant le logiciel à jour vers la dernière version.\r\nDans de rares cas, il n'existe pas de mise à jour et vous devez envisager de ne plus utiliser le logiciel concerné.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND100"
+msgstr "##### Le logiciel a >=100 versions de retard ( note #POINTS# )\r\n\r\n###### Introduction :\r\nLe logiciel utilisé a 100 versions de retard ou plus par rapport à la dernière.\r\nC'est un très bon indicateur que vous devez passer à la dernière version.\r\nCela indique aussi que vous n'avez pas de bonne routine de gestion des paquets pour vos logiciels.\r\nVous pouvez corriger cela en mettant le logiciel à jour vers la dernière version.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND075"
+msgstr "##### Le logiciel a >=75 versions de retard ( note #POINTS# )\r\n\r\n###### Introduction :\r\nLe logiciel utilisé a 75 versions de retard ou plus par rapport à la dernière.\r\nC'est un très bon indicateur que vous devez passer à la dernière version.\r\nCela indique aussi que vous n'avez pas de bonne routine de gestion des paquets pour vos logiciels.\r\nVous pouvez corriger cela en mettant le logiciel à jour vers la dernière version.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND050"
+msgstr "##### Le logiciel a >=50 versions de retard ( note #POINTS# )\r\n\r\n###### Introduction :\r\nLe logiciel utilisé a 50 versions de retard ou plus par rapport à la dernière.\r\nC'est un très bon indicateur que vous devez passer à la dernière version.\r\nCela indique aussi que vous n'avez pas de bonne routine de gestion des paquets pour vos logiciels.\r\nVous pouvez corriger cela en mettant le logiciel à jour vers la dernière version.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND025"
+msgstr "##### Le logiciel a >=25 versions de retard ( note #POINTS# )\r\n\r\n###### Introduction :\r\nLe logiciel utilisé a 25 versions de retard ou plus par rapport à la dernière.\r\nC'est un bon indicateur que vous devez passer à la dernière version.\r\nCela indique aussi que vous n'avez pas de bonne routine de gestion des paquets pour vos logiciels.\r\nVous pouvez corriger cela en mettant le logiciel à jour vers la dernière version.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND010"
+msgstr "##### Le logiciel a >=10 versions de retard ( note #POINTS# )\r\n\r\n###### Introduction :\r\nLe logiciel utilisé a 10 versions de retard ou plus par rapport à la dernière.\r\nC'est un indicateur assez fiable que vous devez passer à la dernière version.\r\nCela indique aussi que vous n'avez pas de bonne routine de gestion des paquets pour vos logiciels.\r\nVous pouvez corriger cela en mettant le logiciel à jour vers la dernière version.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND001"
+msgstr "##### Le logiciel a >=1 version de retard ( note #POINTS# )\r\n\r\n###### Introduction :\r\nLe logiciel utilisé a 1 version de retard ou plus par rapport à la dernière.\r\nC'est un léger indicateur que vous devez passer à la dernière version.\r\nVous pouvez corriger cela en mettant le logiciel à jour vers la dernière version.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_LATEST_LEAKING_NAME_AND_VERSION"
+msgstr "##### Le nom et la version du logiciel sont divulgués\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNKNOWN_LEAKING_NAME_AND_VERSION"
+msgstr "##### Le nom et la version du logiciel sont divulgués ( note #POINTS# )\r\n\r\n###### Introduction :\r\nVous divulguez le nom et la version des logiciels utilisés.\r\nCela permet à un tiers de trouver plus facilement des vulnérabilités à exploiter contre vous, des failles ZERO-DAY aux problèmes de sécurité connus.\r\nPour corriger cela, vous devez masquer le nom et la version ; consultez la documentation du logiciel pour savoir comment faire.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_LEAKING_NAME"
+msgstr "##### Le nom du logiciel est divulgué ( note #POINTS# )\r\n\r\n###### Introduction :\r\nVous divulguez le nom des logiciels utilisés.\r\nCela permet à un tiers de trouver plus facilement des vulnérabilités à exploiter contre vous, des failles ZERO-DAY aux problèmes de sécurité connus.\r\nPour corriger cela, vous devez masquer le nom ; consultez la documentation du logiciel pour savoir comment faire.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_MULTIPLE_VERSIONS"
+msgstr "##### Plusieurs versions du même logiciel ( note #POINTS# )\r\n\r\n###### Introduction :\r\nVous utilisez plusieurs versions du même logiciel.\r\nCela peut être dû à l'inclusion de ressources provenant de sources externes ou à une mauvaise configuration.\r\nC'est un léger indicateur que vous n'avez pas autant de contrôle que vous le devriez probablement.\r\nCela indique aussi que vous n'avez pas de bonne routine de gestion des paquets pour vos logiciels.\r\nVous pouvez corriger cela en mettant le logiciel à jour vers la dernière version, ou vers la version la plus récente que vous utilisez, pour toutes les instances.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_REFERENCES"
+msgstr "###### Référence(s) :"
+
+msgid "TEXT_DETAILED_REVIEW_DETECTED_VERSIONS"
+msgstr "###### Version(s) détectée(s) :"
+
+msgid "TEXT_DETAILED_REVIEW_DETECTED_RESOURCES"
+msgstr "###### Ressource(s) détectée(s) :"
+
+msgid "TEXT_DETAILED_REVIEW_MORE_THEN_5_SOURCES"
+msgstr "- Plus de 5 sources, les autres sont masquées."
+
+msgid "TEXT_DETAILED_REVIEW_ARCHIVED_SOURCE"
+msgstr "##### Le logiciel a été marqué comme archivé ( note #POINTS# )\r\n\r\n###### Introduction :\r\nVous semblez utiliser un logiciel marqué comme archivé, ce qui signifie qu'il ne reçoit plus de nouvelles fonctionnalités ni de mises à jour de sécurité.\r\nPour corriger cela, vous devez trouver une alternative ; les développeurs indiquent souvent la bonne direction à l'endroit où vous avez obtenu le logiciel.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_CVES"
+msgstr "###### Vulnérabilités et expositions courantes (CVE)"
+
+msgid "TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE"
+msgstr "###### Logiciel(s) détecté(s) :"
+
+msgid "TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES"
+msgstr "###### Ressource(s) concernée(s) :"
+
+msgid "TEXT_DETAILED_REVIEW_NO_CVE"
+msgstr "##### AUCUNE vulnérabilité ou exposition courante (CVE) trouvée"
+
+msgid "TEXT_DETAILED_REVIEW_NO_BEHIND"
+msgstr "##### Vous semblez à jour pour tous les logiciels que nous pouvons identifier"
+
+msgid "TEXT_DETAILED_REVIEW_NO_UNMAINTAINED"
+msgstr "##### Les logiciels open source utilisés semblent maintenus"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_10_YEARS"
+msgstr "##### Le logiciel open source n'a pas évolué depuis plus de 10 ans ( note #POINTS# )\r\n\r\n###### Introduction :\r\nVous semblez utiliser un logiciel qui n'est plus maintenu, ce qui signifie qu'il ne reçoit plus de nouvelles fonctionnalités ni de mises à jour de sécurité.\r\nPour corriger cela, vous devez trouver une alternative ; les développeurs indiquent souvent la bonne direction à l'endroit où vous avez obtenu le logiciel.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_9_YEARS"
+msgstr "##### Le logiciel open source n'a pas évolué depuis plus de 9 ans ( note #POINTS# )\r\n\r\n###### Introduction :\r\nVous semblez utiliser un logiciel qui n'est plus maintenu, ce qui signifie qu'il ne reçoit plus de nouvelles fonctionnalités ni de mises à jour de sécurité.\r\nPour corriger cela, vous devez trouver une alternative ; les développeurs indiquent souvent la bonne direction à l'endroit où vous avez obtenu le logiciel.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_8_YEARS"
+msgstr "##### Le logiciel open source n'a pas évolué depuis plus de 8 ans ( note #POINTS# )\r\n\r\n###### Introduction :\r\nVous semblez utiliser un logiciel qui n'est plus maintenu, ce qui signifie qu'il ne reçoit plus de nouvelles fonctionnalités ni de mises à jour de sécurité.\r\nPour corriger cela, vous devez trouver une alternative ; les développeurs indiquent souvent la bonne direction à l'endroit où vous avez obtenu le logiciel.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_7_YEARS"
+msgstr "##### Le logiciel open source n'a pas évolué depuis plus de 7 ans ( note #POINTS# )\r\n\r\n###### Introduction :\r\nVous semblez utiliser un logiciel qui n'est plus maintenu, ce qui signifie qu'il ne reçoit plus de nouvelles fonctionnalités ni de mises à jour de sécurité.\r\nPour corriger cela, vous devez trouver une alternative ; les développeurs indiquent souvent la bonne direction à l'endroit où vous avez obtenu le logiciel.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_6_YEARS"
+msgstr "##### Le logiciel open source n'a pas évolué depuis plus de 6 ans ( note #POINTS# )\r\n\r\n###### Introduction :\r\nVous semblez utiliser un logiciel qui n'est plus maintenu, ce qui signifie qu'il ne reçoit plus de nouvelles fonctionnalités ni de mises à jour de sécurité.\r\nPour corriger cela, vous devez trouver une alternative ; les développeurs indiquent souvent la bonne direction à l'endroit où vous avez obtenu le logiciel.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_5_YEARS"
+msgstr "##### Le logiciel open source n'a pas évolué depuis plus de 5 ans ( note #POINTS# )\r\n\r\n###### Introduction :\r\nVous semblez utiliser un logiciel qui n'est plus maintenu, ce qui signifie qu'il ne reçoit plus de nouvelles fonctionnalités ni de mises à jour de sécurité.\r\nPour corriger cela, vous devez trouver une alternative ; les développeurs indiquent souvent la bonne direction à l'endroit où vous avez obtenu le logiciel.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_4_YEARS"
+msgstr "##### Le logiciel open source n'a pas évolué depuis plus de 4 ans ( note #POINTS# )\r\n\r\n###### Introduction :\r\nVous semblez utiliser un logiciel qui n'est plus maintenu, ce qui signifie qu'il ne reçoit plus de nouvelles fonctionnalités ni de mises à jour de sécurité.\r\nPour corriger cela, vous devez trouver une alternative ; les développeurs indiquent souvent la bonne direction à l'endroit où vous avez obtenu le logiciel.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_3_YEARS"
+msgstr "##### Le logiciel open source n'a pas évolué depuis plus de 3 ans ( note #POINTS# )\r\n\r\n###### Introduction :\r\nVous semblez utiliser un logiciel qui n'est plus maintenu, ce qui signifie qu'il ne reçoit plus de nouvelles fonctionnalités ni de mises à jour de sécurité.\r\nPour corriger cela, vous devez trouver une alternative ; les développeurs indiquent souvent la bonne direction à l'endroit où vous avez obtenu le logiciel.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_NO_END_OF_LIFE"
+msgstr "##### Vous ne semblez pas utiliser de logiciel en fin de vie ('END OF LIFE')"
+
+msgid "TEXT_DETAILED_REVIEW_END_OF_LIFE"
+msgstr "##### Vous semblez utiliser un logiciel en fin de vie ('END OF LIFE')"
+
+msgid "TEXT_DETAILED_REVIEW_NO_A11Y_OVERLAY"
+msgstr "##### Vous ne semblez pas utiliser de surcouche d'accessibilité"
+
+msgid "TEXT_DETAILED_REVIEW_A11Y_OVERLAY"
+msgstr "##### Vous semblez utiliser une surcouche d'accessibilité"
+
+msgid "TEXT_USED_WORDPRESS-THEME"
+msgstr "- Thème WordPress : {0}"

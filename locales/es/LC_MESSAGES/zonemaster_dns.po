@@ -1,0 +1,74 @@
+# Spanish
+# Copyright (C) 2025 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2025-04-27 12:00\n"
+"PO-Revision-Date: 2026-10-10 12:00\n"
+"Last-Translator: Mattias <mattias@webperf.se>\n"
+"Language-Team: Spanish <team@webperf.se>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 32 - DNS (Zonemaster)\n"
+
+msgid "TEXT_TESTED_ZONE"
+msgstr "- Zona probada: {0}\n"
+
+msgid "TEXT_TESTED_ZONE_FROM"
+msgstr "- Zona probada: {0} (a partir de {1})\n"
+
+msgid "TEXT_REVIEW_VERY_GOOD"
+msgstr "- La configuración DNS es excelente.\n"
+
+msgid "TEXT_REVIEW_IS_GOOD"
+msgstr "- La configuración DNS es buena, con observaciones menores.\n"
+
+msgid "TEXT_REVIEW_IS_OK"
+msgstr "- Configuración DNS en la media, pero debería mejorarse.\n"
+
+msgid "TEXT_REVIEW_IS_BAD"
+msgstr "- Configuración DNS bastante deficiente.\n"
+
+msgid "TEXT_REVIEW_IS_VERY_BAD"
+msgstr "- Configuración DNS muy deficiente.\n"
+
+msgid "TEXT_REVIEW_NO_TESTCASES"
+msgstr "- No se pudo ejecutar ningún caso de prueba DNS (compruebe el dominio y el acceso a la red).\n"
+
+msgid "TEXT_REVIEW_BROKEN_DELEGATION"
+msgstr "- Delegación rota: el dominio no se puede resolver de forma fiable.\n"
+
+msgid "TEXT_REVIEW_CRITERIA_SUMMARY"
+msgstr "- {0} de {1} criterios sin observaciones.\n"
+
+msgid "TEXT_REVIEW_NOTICES"
+msgstr "- {0} aviso(s) (sin efecto en la puntuación).\n"
+
+msgid "TEXT_REVIEW_ISSUE"
+msgstr "- {0} [{1}] {2}: {3}\n"
+
+msgid "TEXT_REVIEW_MORE"
+msgstr "- {0}: (+{1} más)\n"
+
+msgid "TEXT_SEVERITY_CRITICAL"
+msgstr "crítico"
+
+msgid "TEXT_SEVERITY_ERROR"
+msgstr "error"
+
+msgid "TEXT_SEVERITY_WARNING"
+msgstr "advertencia"
+
+msgid "TEXT_REVIEW_STANDARDS"
+msgstr "- Cumplimiento de estándares DNS (delegación, conectividad, sintaxis)."
+
+msgid "TEXT_REVIEW_INTEGRITY_SECURITY"
+msgstr "- Integridad y seguridad DNS (DNSSEC, coherencia de las respuestas)."

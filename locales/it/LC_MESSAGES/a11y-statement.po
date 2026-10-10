@@ -1,0 +1,128 @@
+# Italian
+# Copyright (C) 2026 WebPerf
+# FIRST AUTHOR <team@webperf.se>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2021-02-02 20:45+0200\n"
+"PO-Revision-Date: 2026-10-10 12:00+0200\n"
+"Last-Translator: webperf <team@webperf.se>\n"
+"Language-Team: Italian <team@webperf.se>\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+#
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Testo da mostrare al posto del msgid, mostrato per i livelli di gravità (critico, errore e avviso)"
+
+msgid "rule-id (resolved)"
+msgstr "Testo da mostrare al posto del msgid, qui specifico per il livello di gravità risolto"
+
+msgid "rule-id"
+msgstr "Testo da mostrare al posto del msgid, qui indipendente dal livello di gravità"
+
+# End of Examples
+
+
+msgid "compatible-word-partly (unresolved)"
+msgstr "Dichiarazione di accessibilità, usa 'parzialmente conforme' ({0})"
+
+msgid "compatible-word-partly (resolved)"
+msgstr "Dichiarazione di accessibilità, usa 'parzialmente conforme' (risolto)"
+
+msgid "no-network (unresolved)"
+msgstr "no-network ({0})"
+
+msgid "no-network (resolved)"
+msgstr "no-network (risolto)"
+
+msgid "no-updated-date (unresolved)"
+msgstr "Dichiarazione di accessibilità, nessuna data di aggiornamento disponibile ({0})"
+
+msgid "no-updated-date (resolved)"
+msgstr "Dichiarazione di accessibilità, data di aggiornamento disponibile (risolto)"
+
+msgid "updated-date-older-than-1years (unresolved)"
+msgstr "Dichiarazione di accessibilità, la data di aggiornamento risale a più di un anno fa ({0})"
+
+msgid "updated-date-older-than-1years (resolved)"
+msgstr "Dichiarazione di accessibilità, la data di aggiornamento risale a più di un anno fa (risolto)"
+
+msgid "updated-date-older-than-2years (unresolved)"
+msgstr "Dichiarazione di accessibilità, la data di aggiornamento risale a più di due anni fa ({0})"
+
+msgid "updated-date-older-than-2years (resolved)"
+msgstr "Dichiarazione di accessibilità, la data di aggiornamento risale a più di due anni fa (risolto)"
+
+msgid "updated-date-older-than-3years (unresolved)"
+msgstr "Dichiarazione di accessibilità, la data di aggiornamento risale a più di tre anni fa ({0})"
+
+msgid "updated-date-older-than-3years (resolved)"
+msgstr "Dichiarazione di accessibilità, la data di aggiornamento risale a più di tre anni fa (risolto)"
+
+msgid "updated-date-older-than-4years (unresolved)"
+msgstr "Dichiarazione di accessibilità, la data di aggiornamento risale a più di quattro anni fa ({0})"
+
+msgid "updated-date-older-than-4years (resolved)"
+msgstr "Dichiarazione di accessibilità, la data di aggiornamento risale a più di quattro anni fa (risolto)"
+
+msgid "updated-date-older-than-5years (unresolved)"
+msgstr "Dichiarazione di accessibilità, la data di aggiornamento risale a più di cinque anni fa ({0})"
+
+msgid "updated-date-older-than-5years (resolved)"
+msgstr "Dichiarazione di accessibilità, la data di aggiornamento risale a più di cinque anni fa (risolto)"
+
+msgid "no-evaluation-method (unresolved)"
+msgstr "Dichiarazione di accessibilità, nessun metodo di valutazione specificato ({0})"
+
+msgid "no-evaluation-method (resolved)"
+msgstr "Dichiarazione di accessibilità, nessun metodo di valutazione specificato (risolto)"
+
+msgid "has-canonical-notification-function-link (unresolved)"
+msgstr "Dichiarazione di accessibilità, esiste un collegamento canonico alla funzione di segnalazione ({0})"
+
+msgid "has-canonical-notification-function-link (resolved)"
+msgstr "Dichiarazione di accessibilità, esiste un collegamento canonico alla funzione di segnalazione (risolto)"
+
+msgid "has-old-notification-function-link (unresolved)"
+msgstr "Dichiarazione di accessibilità, è stato trovato un vecchio collegamento alla funzione di segnalazione ({0})"
+
+msgid "has-old-notification-function-link (resolved)"
+msgstr "Dichiarazione di accessibilità, è stato trovato un vecchio collegamento alla funzione di segnalazione (risolto)"
+
+msgid "no-notification-function-link (unresolved)"
+msgstr "Dichiarazione di accessibilità, nessun collegamento alla funzione di segnalazione trovato ({0})"
+
+msgid "no-notification-function-link (resolved)"
+msgstr "Dichiarazione di accessibilità, nessun collegamento alla funzione di segnalazione trovato (risolto)"
+
+msgid "compatible-word-not (unresolved)"
+msgstr "Dichiarazione di accessibilità, è presente la dicitura 'non conforme' ({0})"
+
+msgid "compatible-word-not (resolved)"
+msgstr "Dichiarazione di accessibilità, è presente la dicitura 'non conforme' (risolto)"
+
+msgid "no-compatible-word (unresolved)"
+msgstr "Dichiarazione di accessibilità, manca la parola 'conforme' ({0})"
+
+msgid "no-compatible-word (resolved)"
+msgstr "Dichiarazione di accessibilità, manca la parola 'conforme' (risolto)"
+
+msgid "has-unreasonably-burdensome-accommodation (unresolved)"
+msgstr "Dichiarazione di accessibilità, è stato individuato un onere sproporzionato ({0})"
+
+msgid "has-unreasonably-burdensome-accommodation (resolved)"
+msgstr "Dichiarazione di accessibilità, è stato individuato un onere sproporzionato (risolto)"
+
+msgid "no-a11y-statement (unresolved)"
+msgstr "Dichiarazione di accessibilità, nessuna dichiarazione di accessibilità trovata ({0})"
+
+msgid "no-a11y-statement (resolved)"
+msgstr "Dichiarazione di accessibilità, nessuna dichiarazione di accessibilità trovata (risolto)"

@@ -1,0 +1,185 @@
+# Italian
+# Copyright (C) 2026 WebPerf
+# FIRST AUTHOR <team@webperf.se>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2021-02-02 20:45+0200\n"
+"PO-Revision-Date: 2026-10-10 12:00+0200\n"
+"Last-Translator: webperf <team@webperf.se>\n"
+"Language-Team: Italian <team@webperf.se>\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 25 - Software\r\n"
+
+msgid "TEXT_NO_CMS"
+msgstr "- Nessun CMS o CMS sconosciuto sul dominio principale"
+
+msgid "TEXT_USED_CMS"
+msgstr "- CMS in uso: {0}"
+
+msgid "TEXT_USED_WEBSERVER"
+msgstr "- Server web in uso: {0}"
+
+msgid "TEXT_USED_OS"
+msgstr "- Sistema operativo in uso: {0}"
+
+msgid "TEXT_USED_ANALYTICS"
+msgstr "- Strumenti di analisi in uso: {0}"
+
+msgid "TEXT_USED_TECH"
+msgstr "- Tecnologia in uso: {0}"
+
+msgid "TEXT_USED_JS"
+msgstr "- Librerie Javascript in uso: {0}"
+
+msgid "TEXT_USED_CSS"
+msgstr "- Librerie CSS in uso: {0}"
+
+msgid "TEXT_USED_LANG"
+msgstr "- Linguaggi trovati: {0}"
+
+msgid "TEXT_USED_IMG"
+msgstr "- Formati immagine in uso: {0}"
+
+msgid "TEXT_USED_IMG.SOFTWARE"
+msgstr "- Software per immagini in uso: {0}"
+
+msgid "TEXT_USED_IMG.OS"
+msgstr "- Sistema operativo per immagini in uso: {0}"
+
+msgid "TEXT_USED_IMG.DEVICE"
+msgstr "- Dispositivo per immagini in uso: {0}"
+
+msgid "TEXT_USED_VIDEO"
+msgstr "- Formati video in uso: {0}"
+
+msgid "TEXT_USED_META"
+msgstr "- Metadati in uso: {0}"
+
+msgid "TEXT_USED_LICENSE"
+msgstr "- Licenza/e in uso: {0}"
+
+msgid "TEXT_USED_SECURITY"
+msgstr "- Divulgazione di informazioni"
+
+msgid "TEXT_USED_A11Y_OVERLAY"
+msgstr "- Overlay di accessibilità in uso: {0}"
+
+msgid "UPDATE_AVAILABLE"
+msgstr "- Aggiornamento/i disponibile/i"
+
+msgid "KNOWN_SECURITY_ISSUES"
+msgstr "- Ha problemi di sicurezza noti"
+
+msgid "TEXT_DETAILED_REVIEW_CVE"
+msgstr "##### Software associato a CVE ( valutazione #POINTS# )\r\n\r\n###### Introduzione:\r\nLa versione del software in uso è interessata dalla vulnerabilità descritta di seguito.\r\nNella maggior parte dei casi un problema legato a una CVE si risolve aggiornando il software all'ultima versione.\r\nIn rari casi non esiste un aggiornamento ed è necessario valutare di non usare il software interessato.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND100"
+msgstr "##### Il software è indietro di >=100 versioni ( valutazione #POINTS# )\r\n\r\n###### Introduzione:\r\nIl software in uso è indietro di 100 o più versioni rispetto all'ultima.\r\nQuesto è un ottimo indicatore della necessità di aggiornare all'ultima versione.\r\nIndica anche che non esiste una buona routine di gestione dei pacchetti software.\r\nSi può risolvere aggiornando il software all'ultima versione.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND075"
+msgstr "##### Il software è indietro di >=75 versioni ( valutazione #POINTS# )\r\n\r\n###### Introduzione:\r\nIl software in uso è indietro di 75 o più versioni rispetto all'ultima.\r\nQuesto è un ottimo indicatore della necessità di aggiornare all'ultima versione.\r\nIndica anche che non esiste una buona routine di gestione dei pacchetti software.\r\nSi può risolvere aggiornando il software all'ultima versione.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND050"
+msgstr "##### Il software è indietro di >=50 versioni ( valutazione #POINTS# )\r\n\r\n###### Introduzione:\r\nIl software in uso è indietro di 50 o più versioni rispetto all'ultima.\r\nQuesto è un ottimo indicatore della necessità di aggiornare all'ultima versione.\r\nIndica anche che non esiste una buona routine di gestione dei pacchetti software.\r\nSi può risolvere aggiornando il software all'ultima versione.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND025"
+msgstr "##### Il software è indietro di >=25 versioni ( valutazione #POINTS# )\r\n\r\n###### Introduzione:\r\nIl software in uso è indietro di 25 o più versioni rispetto all'ultima.\r\nQuesto è un buon indicatore della necessità di aggiornare all'ultima versione.\r\nIndica anche che non esiste una buona routine di gestione dei pacchetti software.\r\nSi può risolvere aggiornando il software all'ultima versione.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND010"
+msgstr "##### Il software è indietro di >=10 versioni ( valutazione #POINTS# )\r\n\r\n###### Introduzione:\r\nIl software in uso è indietro di 10 o più versioni rispetto all'ultima.\r\nQuesto è un discreto indicatore della necessità di aggiornare all'ultima versione.\r\nIndica anche che non esiste una buona routine di gestione dei pacchetti software.\r\nSi può risolvere aggiornando il software all'ultima versione.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_BEHIND001"
+msgstr "##### Il software è indietro di >=1 versioni ( valutazione #POINTS# )\r\n\r\n###### Introduzione:\r\nIl software in uso è indietro di 1 o più versioni rispetto all'ultima.\r\nQuesto è un piccolo indicatore della necessità di aggiornare all'ultima versione.\r\nSi può risolvere aggiornando il software all'ultima versione.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_LATEST_LEAKING_NAME_AND_VERSION"
+msgstr "##### Nome e versione del software sono esposti\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNKNOWN_LEAKING_NAME_AND_VERSION"
+msgstr "##### Nome e versione del software sono esposti ( valutazione #POINTS# )\r\n\r\n###### Introduzione:\r\nIl nome e la versione del software in uso sono esposti.\r\nQuesto rende più facile per qualcuno trovare vulnerabilità da sfruttare, dagli zero-day ai problemi di sicurezza noti.\r\nPer risolvere è necessario nascondere nome e versione; consultare la documentazione del software per sapere come fare.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_LEAKING_NAME"
+msgstr "##### Il nome del software è esposto ( valutazione #POINTS# )\r\n\r\n###### Introduzione:\r\nIl nome del software in uso è esposto.\r\nQuesto rende più facile per qualcuno trovare vulnerabilità da sfruttare, dagli zero-day ai problemi di sicurezza noti.\r\nPer risolvere è necessario nascondere il nome; consultare la documentazione del software per sapere come fare.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_MULTIPLE_VERSIONS"
+msgstr "##### Più versioni dello stesso software ( valutazione #POINTS# )\r\n\r\n###### Introduzione:\r\nSono in uso più versioni dello stesso software.\r\nQuesto può accadere se si includono risorse da fonti esterne o per un errore di configurazione.\r\nÈ un piccolo indicatore di un controllo inferiore a quello che probabilmente servirebbe.\r\nIndica anche che non esiste una buona routine di gestione dei pacchetti software.\r\nSi può risolvere aggiornando il software all'ultima versione, o all'ultima versione in uso, per tutte le istanze.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_REFERENCES"
+msgstr "###### Riferimento/i:"
+
+msgid "TEXT_DETAILED_REVIEW_DETECTED_VERSIONS"
+msgstr "###### Versione/i rilevata/e:"
+
+msgid "TEXT_DETAILED_REVIEW_DETECTED_RESOURCES"
+msgstr "###### Risorsa/e rilevata/e:"
+
+msgid "TEXT_DETAILED_REVIEW_MORE_THEN_5_SOURCES"
+msgstr "- Più di 5 fonti, le altre sono nascoste."
+
+msgid "TEXT_DETAILED_REVIEW_ARCHIVED_SOURCE"
+msgstr "##### Il software è stato contrassegnato come archiviato ( valutazione #POINTS# )\r\n\r\n###### Introduzione:\r\nSembra in uso un software contrassegnato come archiviato: non riceve più nuove funzionalità né aggiornamenti di sicurezza.\r\nPer risolvere è necessario trovare un'alternativa; spesso gli sviluppatori indicano la direzione giusta nel luogo da cui il software è stato ottenuto.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_CVES"
+msgstr "###### Common Vulnerabilities and Exposures"
+
+msgid "TEXT_DETAILED_REVIEW_DETECTED_SOFTWARE"
+msgstr "###### Software rilevato/i:"
+
+msgid "TEXT_DETAILED_REVIEW_AFFECTED_RESOURCES"
+msgstr "###### Risorsa/e interessata/e:"
+
+msgid "TEXT_DETAILED_REVIEW_NO_CVE"
+msgstr "##### NESSUNA Common Vulnerabilities and Exposures trovata"
+
+msgid "TEXT_DETAILED_REVIEW_NO_BEHIND"
+msgstr "##### Tutto il software identificabile sembra aggiornato"
+
+msgid "TEXT_DETAILED_REVIEW_NO_UNMAINTAINED"
+msgstr "##### Il software open source in uso sembra mantenuto"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_10_YEARS"
+msgstr "##### Il software open source è fermo da più di 10 anni ( valutazione #POINTS# )\r\n\r\n###### Introduzione:\r\nSembra in uso un software non più mantenuto: non riceve più nuove funzionalità né aggiornamenti di sicurezza.\r\nPer risolvere è necessario trovare un'alternativa; spesso gli sviluppatori indicano la direzione giusta nel luogo da cui il software è stato ottenuto.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_9_YEARS"
+msgstr "##### Il software open source è fermo da più di 9 anni ( valutazione #POINTS# )\r\n\r\n###### Introduzione:\r\nSembra in uso un software non più mantenuto: non riceve più nuove funzionalità né aggiornamenti di sicurezza.\r\nPer risolvere è necessario trovare un'alternativa; spesso gli sviluppatori indicano la direzione giusta nel luogo da cui il software è stato ottenuto.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_8_YEARS"
+msgstr "##### Il software open source è fermo da più di 8 anni ( valutazione #POINTS# )\r\n\r\n###### Introduzione:\r\nSembra in uso un software non più mantenuto: non riceve più nuove funzionalità né aggiornamenti di sicurezza.\r\nPer risolvere è necessario trovare un'alternativa; spesso gli sviluppatori indicano la direzione giusta nel luogo da cui il software è stato ottenuto.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_7_YEARS"
+msgstr "##### Il software open source è fermo da più di 7 anni ( valutazione #POINTS# )\r\n\r\n###### Introduzione:\r\nSembra in uso un software non più mantenuto: non riceve più nuove funzionalità né aggiornamenti di sicurezza.\r\nPer risolvere è necessario trovare un'alternativa; spesso gli sviluppatori indicano la direzione giusta nel luogo da cui il software è stato ottenuto.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_6_YEARS"
+msgstr "##### Il software open source è fermo da più di 6 anni ( valutazione #POINTS# )\r\n\r\n###### Introduzione:\r\nSembra in uso un software non più mantenuto: non riceve più nuove funzionalità né aggiornamenti di sicurezza.\r\nPer risolvere è necessario trovare un'alternativa; spesso gli sviluppatori indicano la direzione giusta nel luogo da cui il software è stato ottenuto.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_5_YEARS"
+msgstr "##### Il software open source è fermo da più di 5 anni ( valutazione #POINTS# )\r\n\r\n###### Introduzione:\r\nSembra in uso un software non più mantenuto: non riceve più nuove funzionalità né aggiornamenti di sicurezza.\r\nPer risolvere è necessario trovare un'alternativa; spesso gli sviluppatori indicano la direzione giusta nel luogo da cui il software è stato ottenuto.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_4_YEARS"
+msgstr "##### Il software open source è fermo da più di 4 anni ( valutazione #POINTS# )\r\n\r\n###### Introduzione:\r\nSembra in uso un software non più mantenuto: non riceve più nuove funzionalità né aggiornamenti di sicurezza.\r\nPer risolvere è necessario trovare un'alternativa; spesso gli sviluppatori indicano la direzione giusta nel luogo da cui il software è stato ottenuto.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_UNMAINTAINED_SOURCE_3_YEARS"
+msgstr "##### Il software open source è fermo da più di 3 anni ( valutazione #POINTS# )\r\n\r\n###### Introduzione:\r\nSembra in uso un software non più mantenuto: non riceve più nuove funzionalità né aggiornamenti di sicurezza.\r\nPer risolvere è necessario trovare un'alternativa; spesso gli sviluppatori indicano la direzione giusta nel luogo da cui il software è stato ottenuto.\r\n\r\n"
+
+msgid "TEXT_DETAILED_REVIEW_NO_END_OF_LIFE"
+msgstr "##### Non sembra in uso software 'END OF LIFE'"
+
+msgid "TEXT_DETAILED_REVIEW_END_OF_LIFE"
+msgstr "##### Sembra in uso software 'END OF LIFE'"
+
+msgid "TEXT_DETAILED_REVIEW_NO_A11Y_OVERLAY"
+msgstr "##### Non sembra in uso un software di overlay per l'accessibilità"
+
+msgid "TEXT_DETAILED_REVIEW_A11Y_OVERLAY"
+msgstr "##### Sembra in uso un software di overlay per l'accessibilità"
+
+msgid "TEXT_USED_WORDPRESS-THEME"
+msgstr "- Tema WordPress: {0}"

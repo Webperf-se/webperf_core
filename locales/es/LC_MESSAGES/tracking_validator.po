@@ -1,0 +1,129 @@
+# Spanish
+# Copyright (C) 2022 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2021-04-17 10:45+0200\n"
+"PO-Revision-Date: 2026-10-10 12:00\n"
+"Last-Translator: mattias <mattias@webperf.se>\n"
+"Language-Team: Spanish <team@webperf.se>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 23 - Rastreo y privacidad\r\n"
+
+msgid "TEXT_VISITOR_ANALYTICS_USED"
+msgstr "  Analítica de visitantes usada:\r\n"
+
+msgid "TEXT_TRACKING"
+msgstr "##### Rastreo"
+
+msgid "TEXT_TRACKING_FOUND_ALLOWED"
+msgstr "  - {0} - Rastreo encontrado, se permiten {1}"
+
+msgid "TEXT_TRACKING_FOUND"
+msgstr "  - {0} - Rastreo encontrado"
+
+msgid "TEXT_TRACKING_MAX_SHOWED"
+msgstr "  - Más de {0} solicitudes encontradas, se omite el resto"
+
+msgid "TEXT_TRACKING_TOTAL_FOUND"
+msgstr "  - Un total de {0} solicitudes de rastreo encontradas.\n"
+
+msgid "TEXT_TRACKING_REFERENCE"
+msgstr "{0} - Tiene referencias a {1}"
+
+msgid "TEXT_FINGERPRINTING"
+msgstr "##### Tecnología de fingerprinting/identificación"
+
+msgid "TEXT_FINGERPRINTING_FOUND"
+msgstr "  - {0} - Fingerprinting/identificación encontrado.\n"
+
+msgid "TEXT_FINGERPRINTING_MAX_SHOWED"
+msgstr "  - Más de {0} solicitudes encontradas, se omite el resto."
+
+msgid "TEXT_FINGERPRINTING_TOTAL_FOUND"
+msgstr "  - Un total de {0} solicitudes de rastreo encontradas.\n"
+
+msgid "TEXT_ADS"
+msgstr "##### Anuncios"
+
+msgid "TEXT_ADS_FOUND_ALLOWED"
+msgstr "  - {0} - Solicitud a servidor de anuncios encontrada, se permiten {1}"
+
+msgid "TEXT_ADS_FOUND"
+msgstr "  - {0} - Solicitud a servidor de anuncios encontrada"
+
+msgid "TEXT_ADS_MAX_SHOWED"
+msgstr "  - Más de {0} solicitudes encontradas, se omite el resto"
+
+msgid "TEXT_ADS_TOTAL_FOUND"
+msgstr "  - Un total de {0} solicitudes a servidores de anuncios encontradas.\n"
+
+msgid "TEXT_COOKIES_HAS_THIRDPARTY"
+msgstr "  - De terceros: {0}"
+
+msgid "TEXT_COOKIE_HAS_OVER_1YEAR"
+msgstr "  - Válida más de 1 año: {0}"
+
+msgid "TEXT_COOKIE_HAS_OVER_9MONTH"
+msgstr "  - Válida más de 9 meses: {0}"
+
+msgid "TEXT_COOKIE_HAS_OVER_6MONTH"
+msgstr "  - Válida más de 6 meses: {0}"
+
+msgid "TEXT_COOKIE_HAS_OVER_3MONTH"
+msgstr "  - Válida más de 3 meses: {0}"
+
+msgid "TEXT_COOKIE_NOT_SECURE"
+msgstr "  - Sin requisito de transferencia segura: {0}"
+
+msgid "TEXT_COOKIE_HAS_ANALYTICS_COOKIE"
+msgstr "  - Usa cookie(s) de analítica sin consentimiento: {0}"
+
+msgid "TEXT_COOKIE_LESS_THEN_3MONTH"
+msgstr "  - Válida menos de 3 meses"
+
+msgid "TEXT_COOKIE_SECURE"
+msgstr "  - Requiere transferencia segura"
+
+msgid "TEXT_COOKIE_NO_ANALYTICS_COOKIE"
+msgstr "  - No usa cookies de analítica sin consentimiento"
+
+msgid "TEXT_COOKIE"
+msgstr "##### Cookies"
+
+msgid "TEXT_GDPR_COUNTRIES"
+msgstr "  Número de países: {0}\r\n"
+
+msgid "TEXT_GDPR_NONE_COMPLIANT_COUNTRIES"
+msgstr "  Países sin un nivel adecuado de protección de datos: {0}\r\n"
+
+msgid "TEXT_GDPR_NONE_COMPLIANT_COUNTRIES_REQUESTS"
+msgstr "  {0}, {1} solicitud(es):\r\n"
+
+msgid "TEXT_GDPR_PAGE_IN_SWEDEN"
+msgstr "  Página alojada en Suecia: {0}\r\n"
+
+msgid "TEXT_GDPR_True"
+msgstr "Sí"
+
+msgid "TEXT_GDPR_False"
+msgstr "No"
+
+msgid "TEXT_GDPR_HAS_POINTS"
+msgstr "##### RGPD y Schrems"
+
+msgid "TEXT_GDPR_NO_POINTS"
+msgstr "##### RGPD y Schrems"
+
+msgid "TEXT_GDPR_MAX_SHOWED"
+msgstr "  - Más de {0} solicitudes encontradas, se omite el resto\r\n"
+

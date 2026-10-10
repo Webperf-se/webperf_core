@@ -1,0 +1,50 @@
+# Italian
+# Copyright (C) 2026 WebPerf
+# FIRST AUTHOR <team@webperf.se>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2021-02-02 20:45+0200\n"
+"PO-Revision-Date: 2026-10-10 12:00+0200\n"
+"Last-Translator: webperf <team@webperf.se>\n"
+"Language-Team: Italian <team@webperf.se>\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 22 - Efficienza energetica\n"
+
+msgid "TEXT_TRANSFER_SIZE"
+msgstr "- Dimensione del trasferimento di rete: {0:.2f} {1}\n"
+
+msgid "TEXT_WEBSITE_IS_VERY_GOOD"
+msgstr "- La pagina web genera pochissima anidride carbonica!\n"
+
+msgid "TEXT_WEBSITE_IS_GOOD"
+msgstr "- La pagina web genera poca anidride carbonica!\n"
+
+msgid "TEXT_WEBSITE_IS_OK"
+msgstr "- Nella media per quanto riguarda l'anidride carbonica.\n"
+
+msgid "TEXT_WEBSITE_IS_BAD"
+msgstr "- La pagina web genera più anidride carbonica del dovuto :/\n"
+
+msgid "TEXT_WEBSITE_IS_VERY_BAD"
+msgstr "- Il sito web genera molta anidride carbonica a ogni visualizzazione di pagina :(\n"
+
+msgid "TEXT_GRAMS_OF_CO2"
+msgstr "- Anidride carbonica per visualizzazione di pagina: {} grammi\n"
+
+msgid "TEXT_GREEN_ENERGY_TRUE"
+msgstr "- Il sito web sembra utilizzare energia rinnovabile!\n"
+
+msgid "TEXT_GREEN_ENERGY_FALSE"
+msgstr "- Impossibile verificare se il sito web utilizza energia rinnovabile.\n"
+
+msgid "TEXT_BETTER_THAN"
+msgstr "- Più ecologico del {0} % dei siti web testati da webperf.se (riferimento aggiornato: {1}).\n"

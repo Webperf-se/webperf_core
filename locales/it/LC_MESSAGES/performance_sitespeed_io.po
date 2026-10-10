@@ -1,0 +1,44 @@
+# Italian
+# Copyright (C) 2026 WebPerf
+# FIRST AUTHOR <team@webperf.se>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2021-02-02 20:45+0200\n"
+"PO-Revision-Date: 2026-10-10 12:00+0200\n"
+"Last-Translator: webperf <team@webperf.se>\n"
+"Language-Team: Italian <team@webperf.se>\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 15 - Prestazioni (Sitespeed.io)\n"
+
+msgid "TEXT_REVIEW_VERY_GOOD"
+msgstr "- Il sito web è davvero veloce!\n"
+
+msgid "TEXT_REVIEW_IS_GOOD"
+msgstr "- Il sito web è veloce.\n"
+
+msgid "TEXT_REVIEW_IS_OK"
+msgstr "- Velocità nella media.\n"
+
+msgid "TEXT_REVIEW_IS_BAD"
+msgstr "- Il sito web è piuttosto lento.\n"
+
+msgid "TEXT_REVIEW_IS_VERY_BAD"
+msgstr "- Il sito web è molto lento!\n"
+
+msgid "TEXT_REVIEW_LOAD_TIME"
+msgstr "- Tempo di caricamento: {}\n"
+
+msgid "TEXT_REVIEW_LOAD_TIME_SECONDS"
+msgstr "- Tempo di caricamento: 0.{} sec\n"
+
+msgid "TEXT_REVIEW_NUMBER_OF_REQUESTS"
+msgstr "- Numero di richieste: {}"

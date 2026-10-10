@@ -1,0 +1,223 @@
+# French
+# Copyright (C) 2026 WebPerf
+# FIRST AUTHOR <team@webperf.se>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2026-10-09 12:00\n"
+"PO-Revision-Date: 2026-10-09 12:00\n"
+"Last-Translator: WebPerf <team@webperf.se>\n"
+"Language-Team: French <team@webperf.se>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Texte affiché à la place du msgid, pour les niveaux de gravité (critique, erreur et avertissement)"
+
+msgid "rule-id (resolved)"
+msgstr "Texte affiché à la place du msgid, ici uniquement pour le niveau de gravité résolu"
+
+msgid "rule-id"
+msgstr "Texte affiché à la place du msgid, ici indépendamment du niveau de gravité"
+
+# End of Examples
+
+msgid "function-no-unknown (unresolved)"
+msgstr "CSS, interdire les fonctions inconnues ({0})"
+
+msgid "function-no-unknown (resolved)"
+msgstr "CSS, interdire les fonctions inconnues (résolu)"
+
+msgid "declaration-property-value-no-unknown (unresolved)"
+msgstr "CSS, interdire les valeurs inconnues pour les propriétés dans les déclarations ({0})"
+
+msgid "declaration-property-value-no-unknown (resolved)"
+msgstr "CSS, interdire les valeurs inconnues pour les propriétés dans les déclarations (résolu)"
+
+msgid "selector-type-no-unknown (unresolved)"
+msgstr "CSS, interdire les sélecteurs de type inconnus ({0})"
+
+msgid "selector-type-no-unknown (resolved)"
+msgstr "CSS, interdire les sélecteurs de type inconnus (résolu)"
+
+msgid "at-rule-prelude-no-invalid (unresolved)"
+msgstr "CSS, interdire les préludes invalides pour les règles @ ({0})"
+
+msgid "at-rule-prelude-no-invalid (resolved)"
+msgstr "CSS, interdire les préludes invalides pour les règles @ (résolu)"
+
+msgid "annotation-no-unknown (unresolved)"
+msgstr "CSS, interdire les annotations inconnues ({0})"
+
+msgid "annotation-no-unknown (resolved)"
+msgstr "CSS, interdire les annotations inconnues (résolu)"
+
+msgid "at-rule-descriptor-no-unknown (unresolved)"
+msgstr "CSS, interdire les descripteurs inconnus pour les règles @ ({0})"
+
+msgid "at-rule-descriptor-no-unknown (resolved)"
+msgstr "CSS, interdire les descripteurs inconnus pour les règles @ (résolu)"
+
+msgid "at-rule-descriptor-value-no-unknown (unresolved)"
+msgstr "CSS, interdire les valeurs inconnues pour les descripteurs dans les règles @ ({0})"
+
+msgid "at-rule-descriptor-value-no-unknown (resolved)"
+msgstr "CSS, interdire les valeurs inconnues pour les descripteurs dans les règles @ (résolu)"
+
+msgid "at-rule-no-deprecated (unresolved)"
+msgstr "CSS, interdire les règles @ obsolètes ({0})"
+
+msgid "at-rule-no-deprecated (resolved)"
+msgstr "CSS, interdire les règles @ obsolètes (résolu)"
+
+msgid "at-rule-no-unknown (unresolved)"
+msgstr "CSS, interdire les règles @ inconnues ({0})"
+
+msgid "at-rule-no-unknown (resolved)"
+msgstr "CSS, interdire les règles @ inconnues (résolu)"
+
+msgid "block-no-empty (unresolved)"
+msgstr "CSS, interdire les blocs vides ({0})"
+
+msgid "block-no-empty (resolved)"
+msgstr "CSS, interdire les blocs vides (résolu)"
+
+msgid "color-no-invalid-hex (unresolved)"
+msgstr "CSS, interdire les couleurs hexadécimales invalides ({0})"
+
+msgid "color-no-invalid-hex (resolved)"
+msgstr "CSS, interdire les couleurs hexadécimales invalides (résolu)"
+
+msgid "comment-no-empty (unresolved)"
+msgstr "CSS, interdire les commentaires vides ({0})"
+
+msgid "comment-no-empty (resolved)"
+msgstr "CSS, interdire les commentaires vides (résolu)"
+
+msgid "declaration-property-value-keyword-no-deprecated (unresolved)"
+msgstr "CSS, interdire les mots-clés obsolètes pour les propriétés dans les déclarations ({0})"
+
+msgid "declaration-property-value-keyword-no-deprecated (resolved)"
+msgstr "CSS, interdire les mots-clés obsolètes pour les propriétés dans les déclarations (résolu)"
+
+msgid "function-linear-gradient-no-nonstandard-direction (unresolved)"
+msgstr "CSS, interdire les valeurs de direction non standard pour les fonctions de dégradé linéaire ({0})"
+
+msgid "function-linear-gradient-no-nonstandard-direction (resolved)"
+msgstr "CSS, interdire les valeurs de direction non standard pour les fonctions de dégradé linéaire (résolu)"
+
+msgid "media-feature-name-no-unknown (unresolved)"
+msgstr "CSS, interdire les noms de caractéristiques média inconnus ({0})"
+
+msgid "media-feature-name-no-unknown (resolved)"
+msgstr "CSS, interdire les noms de caractéristiques média inconnus (résolu)"
+
+msgid "media-feature-name-value-no-unknown (unresolved)"
+msgstr "CSS, interdire les valeurs inconnues pour les caractéristiques média ({0})"
+
+msgid "media-feature-name-value-no-unknown (resolved)"
+msgstr "CSS, interdire les valeurs inconnues pour les caractéristiques média (résolu)"
+
+msgid "media-query-no-invalid (unresolved)"
+msgstr "CSS, interdire les requêtes média invalides ({0})"
+
+msgid "media-query-no-invalid (resolved)"
+msgstr "CSS, interdire les requêtes média invalides (résolu)"
+
+msgid "named-grid-areas-no-invalid (unresolved)"
+msgstr "CSS, interdire les zones de grille nommées invalides ({0})"
+
+msgid "named-grid-areas-no-invalid (resolved)"
+msgstr "CSS, interdire les zones de grille nommées invalides (résolu)"
+
+msgid "no-empty-source (unresolved)"
+msgstr "CSS, interdire les sources vides ({0})"
+
+msgid "no-empty-source (resolved)"
+msgstr "CSS, interdire les sources vides (résolu)"
+
+msgid "no-invalid-double-slash-comments (unresolved)"
+msgstr "CSS, interdire les commentaires à double barre oblique invalides ({0})"
+
+msgid "no-invalid-double-slash-comments (resolved)"
+msgstr "CSS, interdire les commentaires à double barre oblique invalides (résolu)"
+
+msgid "no-invalid-position-at-import-rule (unresolved)"
+msgstr "CSS, interdire les règles `@import` mal positionnées ({0})"
+
+msgid "no-invalid-position-at-import-rule (resolved)"
+msgstr "CSS, interdire les règles `@import` mal positionnées (résolu)"
+
+msgid "no-unknown-animations (unresolved)"
+msgstr "CSS, interdire les animations inconnues ({0})"
+
+msgid "no-unknown-animations (resolved)"
+msgstr "CSS, interdire les animations inconnues (résolu)"
+
+msgid "no-unknown-custom-media (unresolved)"
+msgstr "CSS, interdire les requêtes média personnalisées inconnues ({0})"
+
+msgid "no-unknown-custom-media (resolved)"
+msgstr "CSS, interdire les requêtes média personnalisées inconnues (résolu)"
+
+msgid "no-unknown-custom-properties (unresolved)"
+msgstr "CSS, interdire les propriétés personnalisées inconnues ({0})"
+
+msgid "no-unknown-custom-properties (resolved)"
+msgstr "CSS, interdire les propriétés personnalisées inconnues (résolu)"
+
+msgid "property-no-unknown (unresolved)"
+msgstr "CSS, interdire les propriétés inconnues ({0})"
+
+msgid "property-no-unknown (resolved)"
+msgstr "CSS, interdire les propriétés inconnues (résolu)"
+
+msgid "selector-pseudo-class-no-unknown (unresolved)"
+msgstr "CSS, interdire les sélecteurs de pseudo-classe inconnus ({0})"
+
+msgid "selector-pseudo-class-no-unknown (resolved)"
+msgstr "CSS, interdire les sélecteurs de pseudo-classe inconnus (résolu)"
+
+msgid "selector-pseudo-element-no-unknown (unresolved)"
+msgstr "CSS, interdire les sélecteurs de pseudo-élément inconnus ({0})"
+
+msgid "selector-pseudo-element-no-unknown (resolved)"
+msgstr "CSS, interdire les sélecteurs de pseudo-élément inconnus (résolu)"
+
+msgid "syntax-string-no-invalid (unresolved)"
+msgstr "CSS, interdire les chaînes de syntaxe invalides ({0})"
+
+msgid "syntax-string-no-invalid (resolved)"
+msgstr "CSS, interdire les chaînes de syntaxe invalides (résolu)"
+
+msgid "unit-no-unknown (unresolved)"
+msgstr "CSS, interdire les unités inconnues ({0})"
+
+msgid "unit-no-unknown (resolved)"
+msgstr "CSS, interdire les unités inconnues (résolu)"
+
+msgid "media-type-no-deprecated (unresolved)"
+msgstr "CSS, interdire les types de média obsolètes ({0})"
+
+msgid "media-type-no-deprecated (resolved)"
+msgstr "CSS, interdire les types de média obsolètes (résolu)"
+
+msgid "no-invalid-position-declaration (unresolved)"
+msgstr "CSS, interdire les déclarations mal positionnées ({0})"
+
+msgid "no-invalid-position-declaration (resolved)"
+msgstr "CSS, interdire les déclarations mal positionnées (résolu)"
+
+msgid "property-no-deprecated (unresolved)"
+msgstr "CSS, interdire les propriétés obsolètes ({0})"
+
+msgid "property-no-deprecated (resolved)"
+msgstr "CSS, interdire les propriétés obsolètes (résolu)"

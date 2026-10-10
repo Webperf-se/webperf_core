@@ -1,0 +1,49 @@
+# French
+# Copyright (C) 2026 WebPerf
+# FIRST AUTHOR <team@webperf.se>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2026-10-09 12:00\n"
+"PO-Revision-Date: 2026-10-09 12:00\n"
+"Last-Translator: WebPerf <team@webperf.se>\n"
+"Language-Team: French <team@webperf.se>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 22 - Efficacité énergétique\n"
+
+msgid "TEXT_TRANSFER_SIZE"
+msgstr "- Taille du transfert réseau : {0:.2f} {1}\n"
+
+msgid "TEXT_WEBSITE_IS_VERY_GOOD"
+msgstr "- La page web génère très peu de dioxyde de carbone !\n"
+
+msgid "TEXT_WEBSITE_IS_GOOD"
+msgstr "- La page web génère peu de dioxyde de carbone !\n"
+
+msgid "TEXT_WEBSITE_IS_OK"
+msgstr "- Dans la moyenne concernant le dioxyde de carbone.\n"
+
+msgid "TEXT_WEBSITE_IS_BAD"
+msgstr "- La page web génère plus de dioxyde de carbone que souhaitable :/\n"
+
+msgid "TEXT_WEBSITE_IS_VERY_BAD"
+msgstr "- Le site web génère beaucoup de dioxyde de carbone, à chaque page vue :(\n"
+
+msgid "TEXT_GRAMS_OF_CO2"
+msgstr "- Dioxyde de carbone par page vue : {} gramme(s)\n"
+
+msgid "TEXT_GREEN_ENERGY_TRUE"
+msgstr "- Le site web semble fonctionner avec de l'énergie renouvelable !\n"
+
+msgid "TEXT_GREEN_ENERGY_FALSE"
+msgstr "- Impossible de vérifier si le site web utilise de l'énergie renouvelable.\n"
+
+msgid "TEXT_BETTER_THAN"
+msgstr "- Plus vert que {0} % des sites web testés par webperf.se (référence mise à jour : {1}).\n"

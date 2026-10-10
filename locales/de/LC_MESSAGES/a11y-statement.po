@@ -1,0 +1,128 @@
+# German
+# Copyright (C) 2025 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2025-04-27 12:00\n"
+"PO-Revision-Date: 2025-04-27 12:00\n"
+"Last-Translator: Mattias <mattias@webperf.se>\n"
+"Language-Team: German <team@webperf.se>\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+#
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Text, der anstelle der msgid angezeigt wird, für die Schweregrade (kritisch, Fehler und Warnung)"
+
+msgid "rule-id (resolved)"
+msgstr "Text, der anstelle der msgid angezeigt wird, hier speziell für den Schweregrad behoben"
+
+msgid "rule-id"
+msgstr "Text, der anstelle der msgid angezeigt wird, hier unabhängig vom Schweregrad"
+
+# End of Examples
+
+
+msgid "compatible-word-partly (unresolved)"
+msgstr "Erklärung zur Barrierefreiheit, verwendet „teilweise vereinbar“ ({0})"
+
+msgid "compatible-word-partly (resolved)"
+msgstr "Erklärung zur Barrierefreiheit, verwendet „teilweise vereinbar“ (behoben)"
+
+msgid "no-network (unresolved)"
+msgstr "no-network ({0})"
+
+msgid "no-network (resolved)"
+msgstr "no-network (behoben)"
+
+msgid "no-updated-date (unresolved)"
+msgstr "Erklärung zur Barrierefreiheit, kein Aktualisierungsdatum vorhanden ({0})"
+
+msgid "no-updated-date (resolved)"
+msgstr "Erklärung zur Barrierefreiheit, Aktualisierungsdatum vorhanden (behoben)"
+
+msgid "updated-date-older-than-1years (unresolved)"
+msgstr "Erklärung zur Barrierefreiheit, das Aktualisierungsdatum ist älter als ein Jahr ({0})"
+
+msgid "updated-date-older-than-1years (resolved)"
+msgstr "Erklärung zur Barrierefreiheit, das Aktualisierungsdatum ist älter als ein Jahr (behoben)"
+
+msgid "updated-date-older-than-2years (unresolved)"
+msgstr "Erklärung zur Barrierefreiheit, das Aktualisierungsdatum ist älter als zwei Jahre ({0})"
+
+msgid "updated-date-older-than-2years (resolved)"
+msgstr "Erklärung zur Barrierefreiheit, das Aktualisierungsdatum ist älter als zwei Jahre (behoben)"
+
+msgid "updated-date-older-than-3years (unresolved)"
+msgstr "Erklärung zur Barrierefreiheit, das Aktualisierungsdatum ist älter als drei Jahre ({0})"
+
+msgid "updated-date-older-than-3years (resolved)"
+msgstr "Erklärung zur Barrierefreiheit, das Aktualisierungsdatum ist älter als drei Jahre (behoben)"
+
+msgid "updated-date-older-than-4years (unresolved)"
+msgstr "Erklärung zur Barrierefreiheit, das Aktualisierungsdatum ist älter als vier Jahre ({0})"
+
+msgid "updated-date-older-than-4years (resolved)"
+msgstr "Erklärung zur Barrierefreiheit, das Aktualisierungsdatum ist älter als vier Jahre (behoben)"
+
+msgid "updated-date-older-than-5years (unresolved)"
+msgstr "Erklärung zur Barrierefreiheit, das Aktualisierungsdatum ist älter als fünf Jahre ({0})"
+
+msgid "updated-date-older-than-5years (resolved)"
+msgstr "Erklärung zur Barrierefreiheit, das Aktualisierungsdatum ist älter als fünf Jahre (behoben)"
+
+msgid "no-evaluation-method (unresolved)"
+msgstr "Erklärung zur Barrierefreiheit, keine Bewertungsmethode angegeben ({0})"
+
+msgid "no-evaluation-method (resolved)"
+msgstr "Erklärung zur Barrierefreiheit, keine Bewertungsmethode angegeben (behoben)"
+
+msgid "has-canonical-notification-function-link (unresolved)"
+msgstr "Erklärung zur Barrierefreiheit, ein kanonischer Link zum Feedback-Mechanismus ist vorhanden ({0})"
+
+msgid "has-canonical-notification-function-link (resolved)"
+msgstr "Erklärung zur Barrierefreiheit, ein kanonischer Link zum Feedback-Mechanismus ist vorhanden (behoben)"
+
+msgid "has-old-notification-function-link (unresolved)"
+msgstr "Erklärung zur Barrierefreiheit, ein veralteter Link zum Feedback-Mechanismus wurde gefunden ({0})"
+
+msgid "has-old-notification-function-link (resolved)"
+msgstr "Erklärung zur Barrierefreiheit, ein veralteter Link zum Feedback-Mechanismus wurde gefunden (behoben)"
+
+msgid "no-notification-function-link (unresolved)"
+msgstr "Erklärung zur Barrierefreiheit, kein Link zum Feedback-Mechanismus gefunden ({0})"
+
+msgid "no-notification-function-link (resolved)"
+msgstr "Erklärung zur Barrierefreiheit, kein Link zum Feedback-Mechanismus gefunden (behoben)"
+
+msgid "compatible-word-not (unresolved)"
+msgstr "Erklärung zur Barrierefreiheit, das Wort „nicht vereinbar“ ist vorhanden ({0})"
+
+msgid "compatible-word-not (resolved)"
+msgstr "Erklärung zur Barrierefreiheit, das Wort „nicht vereinbar“ ist vorhanden (behoben)"
+
+msgid "no-compatible-word (unresolved)"
+msgstr "Erklärung zur Barrierefreiheit, das Wort „vereinbar“ fehlt ({0})"
+
+msgid "no-compatible-word (resolved)"
+msgstr "Erklärung zur Barrierefreiheit, das Wort „vereinbar“ fehlt (behoben)"
+
+msgid "has-unreasonably-burdensome-accommodation (unresolved)"
+msgstr "Erklärung zur Barrierefreiheit, eine unverhältnismäßige Belastung wurde angegeben ({0})"
+
+msgid "has-unreasonably-burdensome-accommodation (resolved)"
+msgstr "Erklärung zur Barrierefreiheit, eine unverhältnismäßige Belastung wurde angegeben (behoben)"
+
+msgid "no-a11y-statement (unresolved)"
+msgstr "Erklärung zur Barrierefreiheit, es wurde keine Erklärung zur Barrierefreiheit gefunden ({0})"
+
+msgid "no-a11y-statement (resolved)"
+msgstr "Erklärung zur Barrierefreiheit, es wurde keine Erklärung zur Barrierefreiheit gefunden (behoben)"

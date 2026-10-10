@@ -1,0 +1,74 @@
+# de translation for the DNS (Zonemaster) test.
+# Copyright (C) 2026 WebPerf
+# FIRST AUTHOR <team@webperf.se>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2026-07-21 12:00+0000\n"
+"PO-Revision-Date: 2026-07-21 12:00+0000\n"
+"Last-Translator: WebPerf <team@webperf.se>\n"
+"Language-Team: German <team@webperf.se>\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 32 - DNS (Zonemaster)\n"
+
+msgid "TEXT_TESTED_ZONE"
+msgstr "- Getestete Zone: {0}\n"
+
+msgid "TEXT_TESTED_ZONE_FROM"
+msgstr "- Getestete Zone: {0} (von {1})\n"
+
+msgid "TEXT_REVIEW_VERY_GOOD"
+msgstr "- Die DNS-Konfiguration ist hervorragend!\n"
+
+msgid "TEXT_REVIEW_IS_GOOD"
+msgstr "- Die DNS-Konfiguration ist gut, mit kleinen Anmerkungen.\n"
+
+msgid "TEXT_REVIEW_IS_OK"
+msgstr "- Etwa durchschnittliche DNS-Konfiguration, sollte aber verbessert werden.\n"
+
+msgid "TEXT_REVIEW_IS_BAD"
+msgstr "- Eher schlechte DNS-Konfiguration.\n"
+
+msgid "TEXT_REVIEW_IS_VERY_BAD"
+msgstr "- Sehr schlechte DNS-Konfiguration!\n"
+
+msgid "TEXT_REVIEW_NO_TESTCASES"
+msgstr "- Es konnten keine DNS-Testfälle ausgeführt werden (prüfen Sie die Domain und den Netzwerkzugang).\n"
+
+msgid "TEXT_REVIEW_BROKEN_DELEGATION"
+msgstr "- Fehlerhafte Delegation: Die Domain kann nicht zuverlässig aufgelöst werden.\n"
+
+msgid "TEXT_REVIEW_CRITERIA_SUMMARY"
+msgstr "- {0} von {1} Kriterien ohne Anmerkung.\n"
+
+msgid "TEXT_REVIEW_NOTICES"
+msgstr "- {0} Hinweis(e) (keine Auswirkung auf die Bewertung).\n"
+
+msgid "TEXT_REVIEW_ISSUE"
+msgstr "- {0} [{1}] {2}: {3}\n"
+
+msgid "TEXT_REVIEW_MORE"
+msgstr "- {0}: (+{1} weitere)\n"
+
+msgid "TEXT_SEVERITY_CRITICAL"
+msgstr "kritisch"
+
+msgid "TEXT_SEVERITY_ERROR"
+msgstr "Fehler"
+
+msgid "TEXT_SEVERITY_WARNING"
+msgstr "Warnung"
+
+msgid "TEXT_REVIEW_STANDARDS"
+msgstr "- Einhaltung der DNS-Standards (Delegation, Erreichbarkeit, Syntax)."
+
+msgid "TEXT_REVIEW_INTEGRITY_SECURITY"
+msgstr "- DNS-Integrität und -Sicherheit (DNSSEC, Antwortkonsistenz)."

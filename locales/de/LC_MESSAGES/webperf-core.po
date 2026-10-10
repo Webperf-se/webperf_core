@@ -1,0 +1,170 @@
+# German (default).
+# Copyright (C) 2020 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2020-05-23 14:06+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: cockroacher <cockroacher@noyb.eu>\n"
+"Language-Team: German <team@webperf.se>\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_WEBSITE_URL_ADDED"
+msgstr "Website mit der URL: {0} wurde hinzugefügt\n"
+
+msgid "TEXT_WEBSITE_URL_DELETED"
+msgstr "Website mit der URL: {0} wurde gelöscht\n"
+
+msgid "TEXT_TEST_START_HEADER"
+msgstr "###############################################"
+
+msgid "TEXT_TESTING_NUMBER_OF_SITES"
+msgstr "Anzahl der getesteten Websites {0}"
+
+msgid "TEXT_TESTING_SITE"
+msgstr "# Teste Website {0}\n"
+
+msgid "TEXT_WEBSITE_X_OF_Y"
+msgstr "Website {0} von {1}.\n"
+
+msgid "TEXT_SITE_RATING"
+msgstr "### Bewertung:"
+
+msgid "TEXT_SITE_REVIEW"
+msgstr "### Bewertungstext:\n"
+
+msgid "TEXT_SITE_REVIEW_DATA"
+msgstr "### Daten:\n"
+
+msgid "TEXT_EXCEPTION"
+msgstr "Ausnahme, jemand sollte sich das ansehen!"
+
+msgid "TEXT_SITE_UNAVAILABLE"
+msgstr "Fehler, die angeforderte Seite konnte nicht geladen werden."
+
+msgid "TEXT_TEST_START"
+msgstr "Gestartet: {0}"
+
+msgid "TEXT_TEST_END"
+msgstr "Beendet: {0}\n"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS"
+msgstr "Gültige Argumente für die Option -t/--test:"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_PA11Y"
+msgstr "-t 18\t: Barrierefreiheit (Pa11y)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_PAGE_NOT_FOUND"
+msgstr "-t 2\t: 404 (Seite nicht gefunden)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_SITESPEED"
+msgstr "-t 15\t: Leistung (Sitespeed.io)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_WEBBKOLL"
+msgstr "-t 20\t: Integrität & Sicherheit (Webbkoll)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_STANDARD_FILES"
+msgstr "-t 9\t: Standarddateien"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_HTTP"
+msgstr "-t 21\t: HTTP & Netzwerk"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_ENERGY_EFFICIENCY"
+msgstr "-t 22\t: Energieeffizienz (Website Carbon Calculator)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_TRACKING"
+msgstr "-t 23\t: Tracking und Datenschutz"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_EMAIL"
+msgstr "-t 24\t: E-Mail (Beta)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_SOFTWARE"
+msgstr "-t 25\t: Software"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_A11Y_STATEMENT"
+msgstr "-t 26\t: Erklärung zur Barrierefreiheit (Alfa)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_CSS_LINT"
+msgstr "-t 27\t: CSS Lint (Stylelint)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_HTML_LINT"
+msgstr "-t 28\t: HTML Lint (html-validate)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_JS_LINT"
+msgstr "-t 29\t: JS Lint (ESLint)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE"
+msgstr "-t 30\t: Barrierefreiheit, Best Practices, Leistung & SEO (Lighthouse)"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_PRIVACY"
+msgstr "-t 31\t: Datenschutz (Webbkoll)"
+
+msgid "TEXT_COMMAND_USAGE"
+msgstr "\n\tWebPerf Core\n\n\tVerwendung:\n\tdefault.py -u https://webperf.se\n\n\tOptionen und Argumente:\n\t-h/--help\t\t\t: Hilfe zur Verwendung des Skripts\n\t-u/--url <site url>\t\t: URL der zu testenden Website\n\t-t/--test <test number>\t\t: EINEN Test ausführen (? listet verfügbare Tests auf)\n\t-r/--review\t\t\t: Bewertungstexte im Terminal anzeigen\n\t-i/--input <file path>\t\t: Pfad der Eingabedatei (.json/.sqlite/.sitemap/<category name>.webprf)\n\t-i/--input-skip <number>\t: Anzahl zu überspringender Einträge\n\t-i/--input-take <number>\t: Anzahl zu verwendender Einträge\n\t-o/--output <file path>\t\t: Pfad der Ausgabedatei (.json/.csv/.sql/.sqlite/.md)\n\t-A/--addUrl <site url>\t\t: Website-URL (erforderlich zusammen mit -i/--input)\n\t-D/--deleteUrl <site url>\t: Website-URL (erforderlich zusammen mit -i/--input)\n\t-L/--language <lang code>\t: Sprache der Ausgabe (en = Standard/sv)\n\t--setting <key>=<value>\t\t: Konfiguration für den aktuellen Lauf überschreiben\n\t\t\t\t\t  (? listet verfügbare Einstellungen auf)\n\t--save-setting <filename>\t: eigene Konfiguration aus der aktuell verwendeten erstellen\n\t\t\t\t\t  (Sie sollten 'settings.json' verwenden)\n\t-c/--credits/--contributors\t: Projekte und Personen anzeigen, denen wir danken\n\n\n\tErweiterte Optionen und Argumente:\n\t--dependency\t\t\t: Prüft Ihre Installation von WebPerf_core\n\t--find-unknown-sources\t\t: Filtert interessante Software aus software-unknown-sources.json\n\t--update-credits\t\t: Aktualisiert CREDITS.md\n\t--update-browser\t\t: Aktualisiert general.useragent in defaults/settings.json\n\t--update-definitions <api-key>\t: Aktualisiert Software-Informationen in defaults/software-sources.json\n\t--update-carbon <file path>\t: Aktualisiert das CO2-Perzentil in energy_efficiency_carbon_percentiles.py\n\t--update-translations\t\t: Prüft und aktualisiert Übersetzungsdateien\n\t--prepare-release\t\t: Aktualisiert package.json zur Vorbereitung eines neuen Releases\n\t--create-release\t\t: Erstellt ein neues Release für GitHub und Docker Hub"
+
+msgid "TEXT_TEST_REVIEW_OVERVIEW"
+msgstr "\r\n#### Gesamt:\r\n{0}"
+
+msgid "TEXT_TEST_REVIEW_INTEGRITY_SECURITY"
+msgstr "#### Integrität & Sicherheit:\r\n{0}"
+
+msgid "TEXT_TEST_REVIEW_PERFORMANCE"
+msgstr "#### Leistung:\r\n{0}"
+
+msgid "TEXT_TEST_REVIEW_ALLY"
+msgstr "#### Barrierefreiheit:\r\n{0}"
+
+msgid "TEXT_TEST_REVIEW_STANDARDS"
+msgstr "#### Standards:\r\n{0}"
+
+msgid "TEXT_TEST_REVIEW_RATING_ITEM"
+msgstr "{0} ( {1:.2f} Bewertung )\r\n"
+
+msgid "TEXT_TEST_RATING_OVERVIEW"
+msgstr "\r\n- Gesamt: {0}\r\n"
+
+msgid "TEXT_TEST_RATING_INTEGRITY_SECURITY"
+msgstr "- Integrität & Sicherheit: {0}\r\n"
+
+msgid "TEXT_TEST_RATING_PERFORMANCE"
+msgstr "- Leistung: {0}\r\n"
+
+msgid "TEXT_TEST_RATING_ALLY"
+msgstr "- Barrierefreiheit: {0}\r\n"
+
+msgid "TEXT_TEST_RATING_STANDARDS"
+msgstr "- Standards: {0}\r\n"
+
+msgid "TEXT_REQUEST_UNKNOWN"
+msgstr "#{0}: "
+
+msgid "TEXT_REQUEST_WEBPAGE"
+msgstr "#{0}: Webseite "
+
+msgid "TEXT_DETAILS_MORE_INFO"
+msgstr "Weitere Informationen"
+
+msgid "TEXT_DETAILS_URLS_WITH_ISSUES"
+msgstr "URL(s) mit Problemen"
+
+msgid "TEXT_SEVERITY_CRITICAL"
+msgstr "kritisch"
+
+msgid "TEXT_SEVERITY_ERROR"
+msgstr "Fehler"
+
+msgid "TEXT_SEVERITY_WARNING"
+msgstr "Warnung"
+
+msgid "TEXT_SEVERITY_RESOLVED"
+msgstr "behoben"
+
+msgid "TEXT_TEST_VALID_ARGUMENTS_DNS"
+msgstr "-t 32\t: DNS (Zonemaster)"

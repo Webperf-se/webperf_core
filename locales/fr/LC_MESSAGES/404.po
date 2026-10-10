@@ -1,0 +1,85 @@
+# French
+# Copyright (C) 2026 WebPerf
+# FIRST AUTHOR <team@webperf.se>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2026-10-09 12:00\n"
+"PO-Revision-Date: 2026-10-09 12:00\n"
+"Last-Translator: WebPerf <team@webperf.se>\n"
+"Language-Team: French <team@webperf.se>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Texte affiché à la place du msgid, pour les niveaux de gravité (critique, erreur et avertissement)"
+
+msgid "rule-id (resolved)"
+msgstr "Texte affiché à la place du msgid, ici uniquement pour le niveau de gravité résolu"
+
+msgid "rule-id"
+msgstr "Texte affiché à la place du msgid, ici indépendamment du niveau de gravité"
+
+# End of Examples
+
+msgid "has-unexpected-404-response (unresolved)"
+msgstr "Page introuvable, réponse 404 inattendue ({0})"
+
+msgid "has-unexpected-404-response (resolved)"
+msgstr "Page introuvable, réponse 404 attendue (résolu)"
+
+msgid "no-valid-title-found (unresolved)"
+msgstr "Page introuvable, aucun titre valide trouvé ({0})"
+
+msgid "no-valid-title-found (resolved)"
+msgstr "Page introuvable, titre valide trouvé (résolu)"
+
+msgid "no-valid-h1-found (unresolved)"
+msgstr "Page introuvable, aucun titre h1 valide trouvé ({0})"
+
+msgid "no-valid-h1-found (resolved)"
+msgstr "Page introuvable, titre h1 valide trouvé (résolu)"
+
+msgid "no-valid-text-found (unresolved)"
+msgstr "Page introuvable, aucun texte valide trouvé ({0})"
+
+msgid "no-valid-text-found (resolved)"
+msgstr "Page introuvable, texte valide trouvé (résolu)"
+
+msgid "invalid-text-found (unresolved)"
+msgstr "Page introuvable, texte invalide trouvé ({0})"
+
+msgid "invalid-text-found (resolved)"
+msgstr "Page introuvable, texte valide trouvé (résolu)"
+
+msgid "no-valid-response-status-code (unresolved)"
+msgstr "Page introuvable, aucun code de statut de réponse 404 valide utilisé ({0})"
+
+msgid "no-valid-response-status-code (resolved)"
+msgstr "Page introuvable, code de statut de réponse 404 valide utilisé (résolu)"
+
+msgid "no-unsupported-locale-use (unresolved)"
+msgstr "Page introuvable, paramètre régional non pris en charge ({0})"
+
+msgid "no-unsupported-locale-use (resolved)"
+msgstr "Page introuvable, paramètre régional pris en charge (résolu)"
+
+msgid "no-valid-not-found-text-in-body (unresolved)"
+msgstr "Page introuvable, aucun texte valide trouvé dans le corps, peut-être parce qu'il est trop court ({0})"
+
+msgid "no-valid-not-found-text-in-body (resolved)"
+msgstr "Page introuvable, texte valide trouvé dans le corps (résolu)"
+
+msgid "no-network (unresolved)"
+msgstr "Page introuvable, pas de réseau ({0})"
+
+msgid "no-network (resolved)"
+msgstr "Page introuvable, le réseau est utilisable (résolu)"

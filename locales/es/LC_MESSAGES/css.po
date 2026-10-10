@@ -1,0 +1,224 @@
+# Spanish
+# Copyright (C) 2025 WebPerf
+# FIRST AUTHOR <Mattias@webperf.se>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2025-04-27 12:00\n"
+"PO-Revision-Date: 2026-10-10 12:00\n"
+"Last-Translator: Mattias <Mattias@webperf.se>\n"
+"Language-Team: Spanish <team@webperf.se>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+#
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Texto que se muestra en lugar del msgid, para los niveles de gravedad (crítico, error y advertencia)"
+
+msgid "rule-id (resolved)"
+msgstr "Texto que se muestra en lugar del msgid, aquí solo para el nivel de gravedad resuelto"
+
+msgid "rule-id"
+msgstr "Texto que se muestra en lugar del msgid, aquí independiente del nivel de gravedad"
+
+# End of Examples
+
+
+msgid "function-no-unknown (unresolved)"
+msgstr "CSS, no se permiten funciones desconocidas ({0})"
+
+msgid "function-no-unknown (resolved)"
+msgstr "CSS, no se permiten funciones desconocidas (resuelto)"
+
+msgid "declaration-property-value-no-unknown (unresolved)"
+msgstr "CSS, no se permiten valores desconocidos para propiedades en declaraciones ({0})"
+
+msgid "declaration-property-value-no-unknown (resolved)"
+msgstr "CSS, no se permiten valores desconocidos para propiedades en declaraciones (resuelto)"
+
+msgid "selector-type-no-unknown (unresolved)"
+msgstr "CSS, no se permiten selectores de tipo desconocidos ({0})"
+
+msgid "selector-type-no-unknown (resolved)"
+msgstr "CSS, no se permiten selectores de tipo desconocidos (resuelto)"
+
+msgid "at-rule-prelude-no-invalid (unresolved)"
+msgstr "CSS, no se permiten preludios no válidos en reglas-at ({0})"
+
+msgid "at-rule-prelude-no-invalid (resolved)"
+msgstr "CSS, no se permiten preludios no válidos en reglas-at (resuelto)"
+
+msgid "annotation-no-unknown (unresolved)"
+msgstr "CSS, no se permiten anotaciones desconocidas ({0})"
+
+msgid "annotation-no-unknown (resolved)"
+msgstr "CSS, no se permiten anotaciones desconocidas (resuelto)"
+
+msgid "at-rule-descriptor-no-unknown (unresolved)"
+msgstr "CSS, no se permiten descriptores desconocidos en reglas-at ({0})"
+
+msgid "at-rule-descriptor-no-unknown (resolved)"
+msgstr "CSS, no se permiten descriptores desconocidos en reglas-at (resuelto)"
+
+msgid "at-rule-descriptor-value-no-unknown (unresolved)"
+msgstr "CSS, no se permiten valores desconocidos para descriptores en reglas-at ({0})"
+
+msgid "at-rule-descriptor-value-no-unknown (resolved)"
+msgstr "CSS, no se permiten valores desconocidos para descriptores en reglas-at (resuelto)"
+
+msgid "at-rule-no-deprecated (unresolved)"
+msgstr "CSS, no se permiten reglas-at obsoletas ({0})"
+
+msgid "at-rule-no-deprecated (resolved)"
+msgstr "CSS, no se permiten reglas-at obsoletas (resuelto)"
+
+msgid "at-rule-no-unknown (unresolved)"
+msgstr "CSS, no se permiten reglas-at desconocidas ({0})"
+
+msgid "at-rule-no-unknown (resolved)"
+msgstr "CSS, no se permiten reglas-at desconocidas (resuelto)"
+
+msgid "block-no-empty (unresolved)"
+msgstr "CSS, no se permiten bloques vacíos ({0})"
+
+msgid "block-no-empty (resolved)"
+msgstr "CSS, no se permiten bloques vacíos (resuelto)"
+
+msgid "color-no-invalid-hex (unresolved)"
+msgstr "CSS, no se permiten colores hexadecimales no válidos ({0})"
+
+msgid "color-no-invalid-hex (resolved)"
+msgstr "CSS, no se permiten colores hexadecimales no válidos (resuelto)"
+
+msgid "comment-no-empty (unresolved)"
+msgstr "CSS, no se permiten comentarios vacíos ({0})"
+
+msgid "comment-no-empty (resolved)"
+msgstr "CSS, no se permiten comentarios vacíos (resuelto)"
+
+msgid "declaration-property-value-keyword-no-deprecated (unresolved)"
+msgstr "CSS, no se permiten palabras clave obsoletas para propiedades en declaraciones ({0})"
+
+msgid "declaration-property-value-keyword-no-deprecated (resolved)"
+msgstr "CSS, no se permiten palabras clave obsoletas para propiedades en declaraciones (resuelto)"
+
+msgid "function-linear-gradient-no-nonstandard-direction (unresolved)"
+msgstr "CSS, no se permiten valores de dirección no estándar en funciones de degradado lineal ({0})"
+
+msgid "function-linear-gradient-no-nonstandard-direction (resolved)"
+msgstr "CSS, no se permiten valores de dirección no estándar en funciones de degradado lineal (resuelto)"
+
+msgid "media-feature-name-no-unknown (unresolved)"
+msgstr "CSS, no se permiten nombres de características de medios desconocidos ({0})"
+
+msgid "media-feature-name-no-unknown (resolved)"
+msgstr "CSS, no se permiten nombres de características de medios desconocidos (resuelto)"
+
+msgid "media-feature-name-value-no-unknown (unresolved)"
+msgstr "CSS, no se permiten valores desconocidos para características de medios ({0})"
+
+msgid "media-feature-name-value-no-unknown (resolved)"
+msgstr "CSS, no se permiten valores desconocidos para características de medios (resuelto)"
+
+msgid "media-query-no-invalid (unresolved)"
+msgstr "CSS, no se permiten consultas de medios (media queries) no válidas ({0})"
+
+msgid "media-query-no-invalid (resolved)"
+msgstr "CSS, no se permiten consultas de medios (media queries) no válidas (resuelto)"
+
+msgid "named-grid-areas-no-invalid (unresolved)"
+msgstr "CSS, no se permiten áreas de cuadrícula con nombre no válidas ({0})"
+
+msgid "named-grid-areas-no-invalid (resolved)"
+msgstr "CSS, no se permiten áreas de cuadrícula con nombre no válidas (resuelto)"
+
+msgid "no-empty-source (unresolved)"
+msgstr "CSS, no se permiten archivos fuente vacíos ({0})"
+
+msgid "no-empty-source (resolved)"
+msgstr "CSS, no se permiten archivos fuente vacíos (resuelto)"
+
+msgid "no-invalid-double-slash-comments (unresolved)"
+msgstr "CSS, no se permiten comentarios con doble barra no válidos ({0})"
+
+msgid "no-invalid-double-slash-comments (resolved)"
+msgstr "CSS, no se permiten comentarios con doble barra no válidos (resuelto)"
+
+msgid "no-invalid-position-at-import-rule (unresolved)"
+msgstr "CSS, no se permiten reglas `@import` en posición no válida ({0})"
+
+msgid "no-invalid-position-at-import-rule (resolved)"
+msgstr "CSS, no se permiten reglas `@import` en posición no válida (resuelto)"
+
+msgid "no-unknown-animations (unresolved)"
+msgstr "CSS, no se permiten animaciones desconocidas ({0})"
+
+msgid "no-unknown-animations (resolved)"
+msgstr "CSS, no se permiten animaciones desconocidas (resuelto)"
+
+msgid "no-unknown-custom-media (unresolved)"
+msgstr "CSS, no se permiten consultas de medios personalizadas desconocidas ({0})"
+
+msgid "no-unknown-custom-media (resolved)"
+msgstr "CSS, no se permiten consultas de medios personalizadas desconocidas (resuelto)"
+
+msgid "no-unknown-custom-properties (unresolved)"
+msgstr "CSS, no se permiten propiedades personalizadas desconocidas ({0})"
+
+msgid "no-unknown-custom-properties (resolved)"
+msgstr "CSS, no se permiten propiedades personalizadas desconocidas (resuelto)"
+
+msgid "property-no-unknown (unresolved)"
+msgstr "CSS, no se permiten propiedades desconocidas ({0})"
+
+msgid "property-no-unknown (resolved)"
+msgstr "CSS, no se permiten propiedades desconocidas (resuelto)"
+
+msgid "selector-pseudo-class-no-unknown (unresolved)"
+msgstr "CSS, no se permiten selectores de pseudoclase desconocidos ({0})"
+
+msgid "selector-pseudo-class-no-unknown (resolved)"
+msgstr "CSS, no se permiten selectores de pseudoclase desconocidos (resuelto)"
+
+msgid "selector-pseudo-element-no-unknown (unresolved)"
+msgstr "CSS, no se permiten selectores de pseudoelemento desconocidos ({0})"
+
+msgid "selector-pseudo-element-no-unknown (resolved)"
+msgstr "CSS, no se permiten selectores de pseudoelemento desconocidos (resuelto)"
+
+msgid "syntax-string-no-invalid (unresolved)"
+msgstr "CSS, no se permiten cadenas de sintaxis no válidas ({0})"
+
+msgid "syntax-string-no-invalid (resolved)"
+msgstr "CSS, no se permiten cadenas de sintaxis no válidas (resuelto)"
+
+msgid "unit-no-unknown (unresolved)"
+msgstr "CSS, no se permiten unidades desconocidas ({0})"
+
+msgid "unit-no-unknown (resolved)"
+msgstr "CSS, no se permiten unidades desconocidas (resuelto)"
+
+msgid "media-type-no-deprecated (unresolved)"
+msgstr "CSS, no se permiten tipos de medios obsoletos ({0})"
+
+msgid "media-type-no-deprecated (resolved)"
+msgstr "CSS, no se permiten tipos de medios obsoletos (resuelto)"
+
+msgid "no-invalid-position-declaration (unresolved)"
+msgstr "CSS, no se permiten declaraciones en posición no válida ({0})"
+
+msgid "no-invalid-position-declaration (resolved)"
+msgstr "CSS, no se permiten declaraciones en posición no válida (resuelto)"
+
+msgid "property-no-deprecated (unresolved)"
+msgstr "CSS, no se permiten propiedades obsoletas ({0})"
+
+msgid "property-no-deprecated (resolved)"
+msgstr "CSS, no se permiten propiedades obsoletas (resuelto)"

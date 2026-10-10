@@ -1,0 +1,199 @@
+# Spanish
+# Copyright (C) 2025 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2025-04-27 12:00\n"
+"PO-Revision-Date: 2026-10-10 12:00\n"
+"Last-Translator: Mattias <mattias@webperf.se>\n"
+"Language-Team: Spanish <team@webperf.se>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+#
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Texto que se muestra en lugar del msgid, para los niveles de gravedad (crítico, error y advertencia)"
+
+msgid "rule-id (resolved)"
+msgstr "Texto que se muestra en lugar del msgid, aquí solo para el nivel de gravedad resuelto"
+
+msgid "rule-id"
+msgstr "Texto que se muestra en lugar del msgid, aquí independiente del nivel de gravedad"
+
+# End of Examples
+
+msgid "attr-spacing (unresolved)"
+msgstr "Los atributos deben estar separados por espacios en blanco ({0})"
+
+msgid "attr-spacing (resolved)"
+msgstr "Los atributos deben estar separados por espacios en blanco (resuelto)"
+
+msgid "attribute-allowed-values (unresolved)"
+msgstr "Validar los valores de atributo permitidos ({0})"
+
+msgid "attribute-allowed-values (resolved)"
+msgstr "Validar los valores de atributo permitidos (resuelto)"
+
+msgid "attribute-misuse (unresolved)"
+msgstr "Los atributos deben usarse en el contexto correcto ({0})"
+
+msgid "attribute-misuse (resolved)"
+msgstr "Los atributos deben usarse en el contexto correcto (resuelto)"
+
+msgid "close-attr (unresolved)"
+msgstr "No se permiten atributos en las etiquetas de cierre ({0})"
+
+msgid "close-attr (resolved)"
+msgstr "No se permiten atributos en las etiquetas de cierre (resuelto)"
+
+msgid "close-order (unresolved)"
+msgstr "Los elementos deben cerrarse en el orden correcto ({0})"
+
+msgid "close-order (resolved)"
+msgstr "Los elementos deben cerrarse en el orden correcto (resuelto)"
+
+msgid "deprecated (unresolved)"
+msgstr "No se permite el uso de elementos obsoletos ({0})"
+
+msgid "deprecated (resolved)"
+msgstr "No se permite el uso de elementos obsoletos (resuelto)"
+
+msgid "deprecated-rule (unresolved)"
+msgstr "No se permite el uso de reglas obsoletas ({0})"
+
+msgid "deprecated-rule (resolved)"
+msgstr "No se permite el uso de reglas obsoletas (resuelto)"
+
+msgid "doctype-html (unresolved)"
+msgstr "Se requiere el uso del doctype `html` ({0})"
+
+msgid "doctype-html (resolved)"
+msgstr "Se requiere el uso del doctype `html` (resuelto)"
+
+msgid "element-name (unresolved)"
+msgstr "No se permiten nombres de elemento no válidos ({0})"
+
+msgid "element-name (resolved)"
+msgstr "No se permiten nombres de elemento no válidos (resuelto)"
+
+msgid "element-permitted-content (unresolved)"
+msgstr "Validar el contenido permitido ({0})"
+
+msgid "element-permitted-content (resolved)"
+msgstr "Validar el contenido permitido (resuelto)"
+
+msgid "element-permitted-occurrences (unresolved)"
+msgstr "Validar el número permitido de apariciones de un elemento ({0})"
+
+msgid "element-permitted-occurrences (resolved)"
+msgstr "Validar el número permitido de apariciones de un elemento (resuelto)"
+
+msgid "element-permitted-order (unresolved)"
+msgstr "Validar el orden requerido de los elementos ({0})"
+
+msgid "element-permitted-order (resolved)"
+msgstr "Validar el orden requerido de los elementos (resuelto)"
+
+msgid "element-permitted-parent (unresolved)"
+msgstr "Validar el elemento padre permitido ({0})"
+
+msgid "element-permitted-parent (resolved)"
+msgstr "Validar el elemento padre permitido (resuelto)"
+
+msgid "element-required-attributes (unresolved)"
+msgstr "Asegurar que los atributos requeridos están definidos ({0})"
+
+msgid "element-required-attributes (resolved)"
+msgstr "Asegurar que los atributos requeridos están definidos (resuelto)"
+
+msgid "element-required-content (unresolved)"
+msgstr "Asegurar que los elementos requeridos están presentes ({0})"
+
+msgid "element-required-content (resolved)"
+msgstr "Asegurar que los elementos requeridos están presentes (resuelto)"
+
+msgid "map-dup-name (unresolved)"
+msgstr "`<map name>` debe ser único ({0})"
+
+msgid "map-dup-name (resolved)"
+msgstr "`<map name>` debe ser único (resuelto)"
+
+msgid "map-id-name (unresolved)"
+msgstr "name e id deben coincidir en los elementos `<map>` ({0})"
+
+msgid "map-id-name (resolved)"
+msgstr "name e id deben coincidir en los elementos `<map>` (resuelto)"
+
+msgid "no-deprecated-attr (unresolved)"
+msgstr "No se permite el uso de atributos obsoletos ({0})"
+
+msgid "no-deprecated-attr (resolved)"
+msgstr "No se permite el uso de atributos obsoletos (resuelto)"
+
+msgid "no-dup-attr (unresolved)"
+msgstr "No se permiten atributos duplicados ({0})"
+
+msgid "no-dup-attr (resolved)"
+msgstr "No se permiten atributos duplicados (resuelto)"
+
+msgid "no-dup-id (unresolved)"
+msgstr "No se permiten ID duplicados ({0})"
+
+msgid "no-dup-id (resolved)"
+msgstr "No se permiten ID duplicados (resuelto)"
+
+msgid "no-multiple-main (unresolved)"
+msgstr "No se permiten varios `<main>` ({0})"
+
+msgid "no-multiple-main (resolved)"
+msgstr "No se permiten varios `<main>` (resuelto)"
+
+msgid "no-raw-characters (unresolved)"
+msgstr "No se permite el uso de caracteres especiales sin escapar ({0})"
+
+msgid "no-raw-characters (resolved)"
+msgstr "No se permite el uso de caracteres especiales sin escapar (resuelto)"
+
+msgid "no-unused-disable (unresolved)"
+msgstr "No se permiten directivas disable sin usar ({0})"
+
+msgid "no-unused-disable (resolved)"
+msgstr "No se permiten directivas disable sin usar (resuelto)"
+
+msgid "script-element (unresolved)"
+msgstr "Se requiere etiqueta de cierre para `<script>` ({0})"
+
+msgid "script-element (resolved)"
+msgstr "Se requiere etiqueta de cierre para `<script>` (resuelto)"
+
+msgid "unrecognized-char-ref (unresolved)"
+msgstr "No se permiten referencias de caracteres no reconocidas ({0})"
+
+msgid "unrecognized-char-ref (resolved)"
+msgstr "No se permiten referencias de caracteres no reconocidas (resuelto)"
+
+msgid "valid-autocomplete (unresolved)"
+msgstr "El atributo autocomplete debe ser válido ({0})"
+
+msgid "valid-autocomplete (resolved)"
+msgstr "El atributo autocomplete debe ser válido (resuelto)"
+
+msgid "valid-id (unresolved)"
+msgstr "`id` debe ser un identificador válido ({0})"
+
+msgid "valid-id (resolved)"
+msgstr "`id` debe ser un identificador válido (resuelto)"
+
+msgid "void-content (unresolved)"
+msgstr "No se permiten elementos vacíos (void) con contenido ({0})"
+
+msgid "void-content (resolved)"
+msgstr "No se permiten elementos vacíos (void) con contenido (resuelto)"

@@ -1,0 +1,127 @@
+# French
+# Copyright (C) 2026 WebPerf
+# FIRST AUTHOR <team@webperf.se>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2026-10-09 12:00\n"
+"PO-Revision-Date: 2026-10-09 12:00\n"
+"Last-Translator: WebPerf <team@webperf.se>\n"
+"Language-Team: French <team@webperf.se>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Javascript, texte affiché à la place du msgid, pour les niveaux de gravité (critique, erreur et avertissement)"
+
+msgid "rule-id (resolved)"
+msgstr "Javascript, texte affiché à la place du msgid, ici uniquement pour le niveau de gravité résolu"
+
+msgid "rule-id"
+msgstr "Javascript, texte affiché à la place du msgid, ici indépendamment du niveau de gravité"
+
+# End of Examples
+
+msgid "eqeqeq (unresolved)"
+msgstr "Javascript, exiger l'utilisation de === et !== ({0})"
+
+msgid "eqeqeq (resolved)"
+msgstr "Javascript, exiger l'utilisation de === et !== (résolu)"
+
+msgid "no-undef (unresolved)"
+msgstr "Javascript, interdire l'utilisation de variables non déclarées sauf si elles sont mentionnées dans des commentaires /*global */ ({0})"
+
+msgid "no-undef (resolved)"
+msgstr "Javascript, interdire l'utilisation de variables non déclarées sauf si elles sont mentionnées dans des commentaires /*global */ (résolu)"
+
+msgid "no-unmodified-loop-condition (unresolved)"
+msgstr "Javascript, interdire les conditions de boucle non modifiées ({0})"
+
+msgid "no-unmodified-loop-condition (resolved)"
+msgstr "Javascript, interdire les conditions de boucle non modifiées (résolu)"
+
+msgid "no-unused-vars (unresolved)"
+msgstr "Javascript, interdire les variables inutilisées ({0})"
+
+msgid "no-unused-vars (resolved)"
+msgstr "Javascript, interdire les variables inutilisées (résolu)"
+
+msgid "no-useless-escape (unresolved)"
+msgstr "Javascript, interdire les caractères d'échappement inutiles ({0})"
+
+msgid "no-useless-escape (resolved)"
+msgstr "Javascript, interdire les caractères d'échappement inutiles (résolu)"
+
+msgid "no-console (unresolved)"
+msgstr "Javascript, interdire l'utilisation de console ({0})"
+
+msgid "no-console (resolved)"
+msgstr "Javascript, interdire l'utilisation de console (résolu)"
+
+msgid "no-prototype-builtins (unresolved)"
+msgstr "Javascript, interdire l'appel direct de certaines méthodes de Object.prototype sur des objets ({0})"
+
+msgid "no-prototype-builtins (resolved)"
+msgstr "Javascript, interdire l'appel direct de certaines méthodes de Object.prototype sur des objets (résolu)"
+
+msgid "no-new-func (unresolved)"
+msgstr "Javascript, interdire l'opérateur new avec l'objet Function ({0})"
+
+msgid "no-new-func (resolved)"
+msgstr "Javascript, interdire l'opérateur new avec l'objet Function (résolu)"
+
+msgid "require-await (unresolved)"
+msgstr "Javascript, interdire les fonctions async sans expression await ({0})"
+
+msgid "require-await (resolved)"
+msgstr "Javascript, interdire les fonctions async sans expression await (résolu)"
+
+msgid "no-useless-concat (unresolved)"
+msgstr "Javascript, interdire la concaténation inutile de littéraux ou de littéraux de gabarit ({0})"
+
+msgid "no-useless-concat (resolved)"
+msgstr "Javascript, interdire la concaténation inutile de littéraux ou de littéraux de gabarit (résolu)"
+
+msgid "no-script-url (unresolved)"
+msgstr "Javascript, interdire les URL javascript: ({0})"
+
+msgid "no-script-url (resolved)"
+msgstr "Javascript, interdire les URL javascript: (résolu)"
+
+msgid "no-eval (unresolved)"
+msgstr "Javascript, interdire l'utilisation de eval() ({0})"
+
+msgid "no-eval (resolved)"
+msgstr "Javascript, interdire l'utilisation de eval() (résolu)"
+
+msgid "no-implied-eval (unresolved)"
+msgstr "Javascript, interdire l'utilisation de méthodes similaires à eval() ({0})"
+
+msgid "no-implied-eval (resolved)"
+msgstr "Javascript, interdire l'utilisation de méthodes similaires à eval() (résolu)"
+
+msgid "no-unsafe-finally (unresolved)"
+msgstr "Javascript, interdire les instructions de contrôle de flux dans les blocs finally ({0})"
+
+msgid "no-unsafe-finally (resolved)"
+msgstr "Javascript, interdire les instructions de contrôle de flux dans les blocs finally (résolu)"
+
+msgid "no-unsafe-negation (unresolved)"
+msgstr "Javascript, interdire la négation de l'opérande gauche des opérateurs relationnels ({0})"
+
+msgid "no-unsafe-negation (resolved)"
+msgstr "Javascript, interdire la négation de l'opérande gauche des opérateurs relationnels (résolu)"
+
+msgid "no-with (unresolved)"
+msgstr "Javascript, interdire les instructions with ({0})"
+
+msgid "no-with (resolved)"
+msgstr "Javascript, interdire les instructions with (résolu)"

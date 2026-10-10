@@ -1,0 +1,85 @@
+# Italian
+# Copyright (C) 2026 WebPerf
+# FIRST AUTHOR <team@webperf.se>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2021-02-02 20:45+0200\n"
+"PO-Revision-Date: 2026-10-10 12:00+0200\n"
+"Last-Translator: webperf <team@webperf.se>\n"
+"Language-Team: Italian <team@webperf.se>\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+#
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Testo da mostrare al posto del msgid, mostrato per i livelli di gravità (critico, errore e avviso)"
+
+msgid "rule-id (resolved)"
+msgstr "Testo da mostrare al posto del msgid, qui specifico per il livello di gravità risolto"
+
+msgid "rule-id"
+msgstr "Testo da mostrare al posto del msgid, qui indipendente dal livello di gravità"
+
+# End of Examples
+
+msgid "has-unexpected-404-response (unresolved)"
+msgstr "Pagina non trovata, risposta 404 inattesa ({0})"
+
+msgid "has-unexpected-404-response (resolved)"
+msgstr "Pagina non trovata, risposta 404 attesa (risolto)"
+
+msgid "no-valid-title-found (unresolved)"
+msgstr "Pagina non trovata, nessun titolo valido trovato ({0})"
+
+msgid "no-valid-title-found (resolved)"
+msgstr "Pagina non trovata, titolo valido trovato (risolto)"
+
+msgid "no-valid-h1-found (unresolved)"
+msgstr "Pagina non trovata, nessuna intestazione h1 valida trovata ({0})"
+
+msgid "no-valid-h1-found (resolved)"
+msgstr "Pagina non trovata, intestazione h1 valida trovata (risolto)"
+
+msgid "no-valid-text-found (unresolved)"
+msgstr "Pagina non trovata, nessun testo valido trovato ({0})"
+
+msgid "no-valid-text-found (resolved)"
+msgstr "Pagina non trovata, testo valido trovato (risolto)"
+
+msgid "invalid-text-found (unresolved)"
+msgstr "Pagina non trovata, testo non valido trovato ({0})"
+
+msgid "invalid-text-found (resolved)"
+msgstr "Pagina non trovata, testo valido trovato (risolto)"
+
+msgid "no-valid-response-status-code (unresolved)"
+msgstr "Pagina non trovata, codice di stato della risposta 404 non valido ({0})"
+
+msgid "no-valid-response-status-code (resolved)"
+msgstr "Pagina non trovata, codice di stato della risposta 404 valido (risolto)"
+
+msgid "no-unsupported-locale-use (unresolved)"
+msgstr "Pagina non trovata, impostazione locale non supportata ({0})"
+
+msgid "no-unsupported-locale-use (resolved)"
+msgstr "Pagina non trovata, impostazione locale supportata (risolto)"
+
+msgid "no-valid-not-found-text-in-body (unresolved)"
+msgstr "Pagina non trovata, nessun testo valido nel corpo della pagina, forse perché troppo breve ({0})"
+
+msgid "no-valid-not-found-text-in-body (resolved)"
+msgstr "Pagina non trovata, testo valido nel corpo della pagina trovato (risolto)"
+
+msgid "no-network (unresolved)"
+msgstr "Pagina non trovata, nessuna connessione di rete ({0})"
+
+msgid "no-network (resolved)"
+msgstr "Pagina non trovata, la rete è utilizzabile (risolto)"

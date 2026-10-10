@@ -1,0 +1,52 @@
+# German
+# Copyright (C) 2022 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2020-12-12 10:45+0200\n"
+"PO-Revision-Date: 2022-02-18 17:15+0200\n"
+"Last-Translator: Mattias <mattias@webperf.se>\n"
+"Language-Team: German <team@webperf.se>\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 18 - Barrierefreiheit (Pa11y)\n"
+
+msgid "TEXT_REVIEW_A11Y_VERY_GOOD"
+msgstr "- Die Website hat keine erkennbaren Probleme mit der Barrierefreiheit!\n"
+
+msgid "TEXT_REVIEW_A11Y_IS_GOOD"
+msgstr "- Die Website könnte barrierefreier sein, ist aber recht gut!\n"
+
+msgid "TEXT_REVIEW_A11Y_IS_OK"
+msgstr "- Die Barrierefreiheit ist etwa durchschnittlich, muss aber besser werden.\n"
+
+msgid "TEXT_REVIEW_A11Y_IS_BAD"
+msgstr "- Die Website ist bei der Barrierefreiheit ziemlich schlecht und für Menschen mit Behinderungen kaum nutzbar!\n"
+
+msgid "TEXT_REVIEW_A11Y_IS_VERY_BAD"
+msgstr "- Die Barrierefreiheit ist wirklich schlecht! Vermutlich sowohl für Menschen mit Behinderungen als auch für alle anderen, wenn sie Barrierefreiheit brauchen!\n"
+
+msgid "TEXT_REVIEW_A11Y_NUMBER_OF_PROBLEMS"
+msgstr "- Anzahl der Probleme mit der Barrierefreiheit: {}"
+
+msgid "TEXT_REVIEW_A11Y_TOO_MANY_PROBLEMS"
+msgstr "- Info: Zu viele verschiedene Probleme, um alle aufzulisten.\n"
+
+msgid "TEXT_REVIEW_A11Y_PROBLEMS"
+msgstr "\n##### Probleme:\n"
+
+msgid "TEXT_REVIEW_ERRORS_ITEM"
+msgstr "  - {0} (Anzahl der Probleme dieser Art: {1})\n"
+
+msgid "TEXT_REVIEW_RATING_GROUPED"
+msgstr "- Anzahl der Problemarten: {0}"
+
+msgid "TEXT_REVIEW_RATING_ITEMS"
+msgstr "- Anzahl der Probleme: {0}"

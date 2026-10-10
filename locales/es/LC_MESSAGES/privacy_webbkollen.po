@@ -1,0 +1,56 @@
+# Spanish
+# Copyright (C) 2020 WebPerf
+# FIRST AUTHOR <mattias@webperf.se>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2020-05-23 14:06+0200\n"
+"PO-Revision-Date: 2026-10-10 12:00\n"
+"Last-Translator: mattias <mattias@webperf.se>\n"
+"Language-Team: Spanish <team@webperf.se>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 20 - Privacidad (Webbkollen)\n"
+
+msgid "TEXT_REVIEW_VERY_GOOD"
+msgstr "- El sitio web protege muy bien la privacidad.\n"
+
+msgid "TEXT_REVIEW_IS_GOOD"
+msgstr "- El sitio podría mejorar, pero es bastante bueno.\n"
+
+msgid "TEXT_REVIEW_IS_OK"
+msgstr "- Configuración de privacidad en la media, pero debería mejorar.\n"
+
+msgid "TEXT_REVIEW_IS_BAD"
+msgstr "- Bastante deficiente en cuanto a la privacidad de los usuarios.\n"
+
+msgid "TEXT_REVIEW_IS_VERY_BAD"
+msgstr "- Privacidad muy deficiente.\n"
+
+msgid "TEXT_RESULT_NOT_READY"
+msgstr "El servicio aún no tiene un resultado listo, se esperan otros {0} segundos\n"
+
+msgid "TEXT_REVIEW_CATEGORY_VERY_GOOD"
+msgstr " está bien."
+
+msgid "TEXT_REVIEW_CATEGORY_IS_GOOD"
+msgstr " está bien, pero con {0} advertencia(s)."
+
+msgid "TEXT_REVIEW_CATEGORY_IS_OK"
+msgstr " es aceptable, con {0} error(es) y {1} advertencia(s)."
+
+msgid "TEXT_REVIEW_CATEGORY_IS_BAD"
+msgstr " no está muy bien."
+
+msgid "TEXT_REVIEW_CATEGORY_IS_VERY_BAD"
+msgstr " está bastante mal."
+
+msgid "TEXT_REVIEW_GENERATED"
+msgstr "- Resultado generado: {0} (en caché durante 24 horas)\n"

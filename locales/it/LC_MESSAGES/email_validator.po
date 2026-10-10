@@ -1,0 +1,236 @@
+# Italian
+# Copyright (C) 2026 WebPerf
+# FIRST AUTHOR <team@webperf.se>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2021-02-02 20:45+0200\n"
+"PO-Revision-Date: 2026-10-10 12:00+0200\n"
+"Last-Translator: webperf <team@webperf.se>\n"
+"Language-Team: Italian <team@webperf.se>\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+msgid "TEXT_RUNNING_TEST"
+msgstr "## Test: 24 - Email (Beta)\n"
+
+msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_SUPPORT"
+msgstr "- Record DNS MTA-STS trovato"
+
+msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_NO_SUPPORT"
+msgstr "- Record DNS MTA-STS non trovato"
+
+msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_WRONG_LINEBREAK"
+msgstr "- Il TXT MTA-STS non usa CRLF per le interruzioni di riga"
+
+msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_NOT_ENFORCED"
+msgstr "- Il TXT MTA-STS non è applicato tramite mode"
+
+msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_VALID_MODE"
+msgstr "- Il valore mode del TXT MTA-STS è valido"
+
+msgid "TEXT_REVIEW_MTA_STS_DNS_RECORD_INVALID_MODE"
+msgstr "- Il valore mode del TXT MTA-STS non è valido"
+
+msgid "TEXT_REVIEW_MTA_STS_TXT_SUPPORT"
+msgstr "- Il TXT MTA-STS sembra corretto"
+
+msgid "TEXT_REVIEW_MTA_STS_TXT_INVALID_FORMAT"
+msgstr "- Il TXT MTA-STS ha un formato non valido"
+
+msgid "TEXT_REVIEW_MTA_STS_TXT_NO_SUPPORT"
+msgstr "- TXT MTA-STS non trovato"
+
+msgid "TEXT_REVIEW_SPF_TO_MANY_DNS_LOOKUPS"
+msgstr "- Il record DNS SPF causa troppe ricerche DNS"
+
+msgid "TEXT_REVIEW_SPF_DNS_RECORD_SUPPORT"
+msgstr "- Record DNS SPF trovato"
+
+msgid "TEXT_REVIEW_SPF_DNS_RECORD_NO_SUPPORT"
+msgstr "- Record DNS SPF non trovato"
+
+msgid "TEXT_REVIEW_SPF_DNS_DOUBLE_SPACE_RECORD"
+msgstr "- Il record DNS SPF usa due spazi invece di uno"
+
+msgid "TEXT_REVIEW_SPF_DNS_NEUTRALFAIL_RECORD"
+msgstr "- Il record DNS SPF usa neutral fail"
+
+msgid "TEXT_REVIEW_SPF_DNS_SOFTFAIL_RECORD"
+msgstr "- Il record DNS SPF usa soft fail"
+
+msgid "TEXT_REVIEW_SPF_DNS_HARDFAIL_RECORD"
+msgstr "- Il record DNS SPF usa hard fail"
+
+msgid "TEXT_REVIEW_SPF_DNS_IGNORE_RECORD_NO_SUPPORT"
+msgstr "- Il record DNS SPF è configurato per essere ignorato"
+
+msgid "TEXT_REVIEW_SPF_DNS_RECORD_PTR_USED"
+msgstr "- Il record DNS SPF usa erroneamente PTR"
+
+msgid "TEXT_REVIEW_SPF_UNKNOWN_SECTION"
+msgstr "- Il record DNS SPF ha contenuto non consentito"
+
+msgid "TEXT_REVIEW_IPV6_OPERATION_SUPPORT"
+msgstr "- IPV6_OPERATION_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV6_OPERATION_NO_SUPPORT"
+msgstr "- IPV6_OPERATION_NO_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV6_OPERATION_STARTTLS_SUPPORT"
+msgstr "- IPV6_OPERATION_STARTTLS_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV6_OPERATION_STARTTLS_NO_SUPPORT"
+msgstr "- IPV6_OPERATION_STARTTLS_NO_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV4_OPERATION_SUPPORT"
+msgstr "- IPV4_OPERATION_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV4_OPERATION_NO_SUPPORT"
+msgstr "- IPV4_OPERATION_NO_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV4_OPERATION_STARTTLS_SUPPORT"
+msgstr "- IPV4_OPERATION_STARTTLS_SUPPORT"
+
+msgid "TEXT_REVIEW_IPV4_OPERATION_STARTTLS_NO_SUPPORT"
+msgstr "- IPV4_OPERATION_STARTTLS_NO_SUPPORT"
+
+msgid "TEXT_REVIEW_MX_NO_SUPPORT"
+msgstr "- Record DNS MX non trovato"
+
+msgid "TEXT_REVIEW_MX_ALTERATIVE"
+msgstr "- Uso di un dominio email alternativo: {0}\r\n{1}"
+
+msgid "TEXT_REVIEW_IPV4_REDUNDANCE"
+msgstr "- Ridondanza del record DNS MX IPv4"
+
+msgid "TEXT_REVIEW_IPV4_SUPPORT"
+msgstr "- Record DNS MX IPv4 trovato"
+
+msgid "TEXT_REVIEW_IPV4_NO_REDUNDANCE"
+msgstr "- Il record DNS MX IPv4 non ha ridondanza"
+
+msgid "TEXT_REVIEW_IPV4_NO_SUPPORT"
+msgstr "- Record DNS MX IPv4 non trovato"
+
+msgid "TEXT_REVIEW_IPV6_REDUNDANCE"
+msgstr "- Ridondanza del record DNS MX IPv6"
+
+msgid "TEXT_REVIEW_IPV6_SUPPORT"
+msgstr "- Record DNS MX IPv6 trovato"
+
+msgid "TEXT_REVIEW_IPV6_NO_REDUNDANCE"
+msgstr "- Il record DNS MX IPv6 non ha ridondanza"
+
+msgid "TEXT_REVIEW_IPV6_NO_SUPPORT"
+msgstr "- Record DNS MX IPv6 non trovato"
+
+msgid "TEXT_REVIEW_MX_GDPR"
+msgstr "- Server DNS MX in paesi conformi al GDPR: {0}"
+
+msgid "TEXT_REVIEW_MX_NONE_GDPR"
+msgstr "- Server DNS MX in paesi non conformi al GDPR: {0}"
+
+msgid "TEXT_REVIEW_SPF_GDPR"
+msgstr "- Server SPF in paesi conformi al GDPR: {0}"
+
+msgid "TEXT_REVIEW_SPF_NONE_GDPR"
+msgstr "- Server SPF in paesi non conformi al GDPR: {0}"
+
+msgid "TEXT_REVIEW_DMARC_SUPPORT"
+msgstr "- Record DNS DMARC trovato"
+
+msgid "TEXT_REVIEW_DMARC_NO_SUPPORT"
+msgstr "- Record DNS DMARC non trovato"
+
+msgid "TEXT_REVIEW_DMARC_EMPTY_SECTION_WHILE_PARSE"
+msgstr "- Il record DNS DMARC è malformato"
+
+msgid "TEXT_REVIEW_DMARC_PAIR_INVALID"
+msgstr "- Il record DNS DMARC ha una sezione malformata"
+
+msgid "TEXT_REVIEW_DMARC_POLICY_INVALID"
+msgstr "- Il record DNS DMARC ha un valore POLICY non valido"
+
+msgid "TEXT_REVIEW_DMARC_SUBPOLICY_INVALID"
+msgstr "- Il record DNS DMARC ha un valore SUBPOLICY non valido"
+
+msgid "TEXT_REVIEW_DMARC_PCT_INVALID"
+msgstr "- Il record DNS DMARC ha un valore PCT non valido"
+
+msgid "TEXT_REVIEW_DMARC_ADKIM_INVALID"
+msgstr "- Il record DNS DMARC ha un valore ADKIM non valido"
+
+msgid "TEXT_REVIEW_DMARC_ASPF_INVALID"
+msgstr "- Il record DNS DMARC ha un valore ASPF non valido"
+
+msgid "TEXT_REVIEW_DMARC_RI_INVALID"
+msgstr "- Il record DNS DMARC ha un valore RI non valido"
+
+msgid "TEXT_REVIEW_DMARC_FO_INVALID"
+msgstr "- Il record DNS DMARC ha un valore FO non valido"
+
+msgid "TEXT_REVIEW_DMARC_RF_INVALID"
+msgstr "- Il record DNS DMARC ha un valore RF non valido"
+
+msgid "TEXT_REVIEW_DMARC_USES_FO_BUT_NO_RUF"
+msgstr "- Il record DNS DMARC usa FO ma manca RUF"
+
+msgid "TEXT_REVIEW_DMARC_NO_PARSE_ERRORS"
+msgstr "- Il record DNS DMARC sembra formattato correttamente"
+
+msgid "TEXT_REVIEW_DMARC_PCT_USES_DEFAULT"
+msgstr "- Il record DNS DMARC usa il valore predefinito per PCT, è ridondante"
+
+msgid "TEXT_REVIEW_DMARC_ADKIM_USES_DEFAULT"
+msgstr "- Il record DNS DMARC usa il valore predefinito per ADKIM, è ridondante"
+
+msgid "TEXT_REVIEW_DMARC_ASPF_USES_DEFAULT"
+msgstr "- Il record DNS DMARC usa il valore predefinito per ASPF, è ridondante"
+
+msgid "TEXT_REVIEW_DMARC_RI_USES_DEFAULT"
+msgstr "- Il record DNS DMARC usa il valore predefinito per RI, è ridondante"
+
+msgid "TEXT_REVIEW_DMARC_FO_USES_DEFAULT"
+msgstr "- Il record DNS DMARC usa il valore predefinito per FO, è ridondante"
+
+msgid "TEXT_REVIEW_DMARC_RF_USES_DEFAULT"
+msgstr "- Il record DNS DMARC usa il valore predefinito per RF, è ridondante"
+
+msgid "TEXT_REVIEW_DMARC_POLICY_REJECT"
+msgstr "- Il record DNS DMARC usa 'rejected' come policy"
+
+msgid "TEXT_REVIEW_DMARC_POLICY_QUARANTINE"
+msgstr "- Il record DNS DMARC usa 'quarantine' come policy"
+
+msgid "TEXT_REVIEW_DMARC_POLICY_NONE"
+msgstr "- Il record DNS DMARC usa 'none' come policy"
+
+msgid "TEXT_REVIEW_DMARC_NO_POLICY"
+msgstr "- Al record DNS DMARC manca la policy"
+
+msgid "TEXT_REVIEW_DMARC_SUBPOLICY_REDUNDANT"
+msgstr "- Nel record DNS DMARC la subpolicy è uguale alla policy, la subpolicy è ridondante"
+
+msgid "TEXT_REVIEW_DMARC_SUBPOLICY_QUARANTINE"
+msgstr "- Il record DNS DMARC usa 'quarantine' come subpolicy"
+
+msgid "TEXT_REVIEW_DMARC_SUBPOLICY_REJECT"
+msgstr "- Il record DNS DMARC usa 'rejected' come subpolicy"
+
+msgid "TEXT_REVIEW_DMARC_SUBPOLICY_NONE"
+msgstr "- Il record DNS DMARC usa 'none' come subpolicy"
+
+msgid "TEXT_REVIEW_DMARC_PCT_NOT_100"
+msgstr "- Il record DNS DMARC usa un PCT inferiore a 100"
+
+msgid "TEXT_REVIEW_DMARC_PCT"
+msgstr "- Il record DNS DMARC usa PCT"
+
+msgid "TEXT_REVIEW_DMARC_NO_WARNINGS"
+msgstr "- Il record DNS DMARC non ha avvisi"

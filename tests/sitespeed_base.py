@@ -31,7 +31,7 @@ def create_webperf_json(url, sitespeed_plugins):
     # We don't need extra iterations for what we are using it for
     sitespeed_iterations = 1
     sitespeed_arg = (
-            f'--shm-size=1g -b {get_chromium_browser()} '
+            f'-b {get_chromium_browser()} '
             f'{sitespeed_plugins}'
             # '--plugins.remove screenshot --plugins.remove html --plugins.remove metrics '
             '--plugins.remove screenshot --plugins.remove metrics '
@@ -227,7 +227,10 @@ def get_result_using_no_cache(sitespeed_use_docker, arg, timeout):
 
             sitespeedio_version = get_dependency_version('sitespeed.io')
             command = (
-                f"docker run --rm -v {data_dir}:/sitespeed.io "
+                # Chrome in Docker needs more shared memory than the default
+                # 64 MB, or tabs crash on heavy pages. --shm-size is a docker
+                # option; it used to be passed to sitespeed.io, which ignored it.
+                f"docker run --rm --shm-size=1g -v {data_dir}:/sitespeed.io "
                 f"sitespeedio/sitespeed.io:{sitespeedio_version} "
                 f"--maxLoadTime {(timeout * 1000)} {arg}"
                 )

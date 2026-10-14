@@ -173,16 +173,14 @@ def diff_mo_and_po_file(locale_name, language, file_mo, msg_ids):
             msg_txt = match.group('text')
             lang_txt = language.gettext(msg_id).replace(
                 '\n', '\\n').replace(
-                '\r', '\\r').replace('\t', '\\t')
+                '\r', '\\r').replace('\t', '\\t').replace('"', '\\"')
             if msg_id not in msg_ids:
                 msg_ids[msg_id] = []
-
-            tmp = file_po.split('\\')
 
             msg_ids[msg_id].append({
                     'text': msg_txt,
                     'locale_name': locale_name,
-                    'location': tmp[len(tmp) - 1]
+                    'location': os.path.basename(file_po)
                 })
 
             if lang_txt == msg_id and msg_id != msg_txt:

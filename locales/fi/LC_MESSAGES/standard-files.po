@@ -60,6 +60,12 @@ msgstr "Sitemap, <loc>-elementin Url:n on käytettävä samaa verkkotunnusta kui
 msgid "no-same-domain-sitemap (resolved)"
 msgstr "Sitemap, Url i <loc> måste använda samma domän som robots.txt (ratkaistu)"
 
+msgid "no-same-host-sitemapindex (unresolved)"
+msgstr "Sitemap, sitemapindex saa viitata vain saman verkkotunnuksen sitemapeihin – hakukoneet ohittavat muut verkkotunnukset ({0})"
+
+msgid "no-same-host-sitemapindex (resolved)"
+msgstr "Sitemap, sitemapindex viittaa vain saman verkkotunnuksen sitemapeihin (ratkaistu)"
+
 msgid "no-https-sitemap (unresolved)"
 msgstr "Sitemap, <loc>-elementin Url:n on alettava https:// ({0})"
 

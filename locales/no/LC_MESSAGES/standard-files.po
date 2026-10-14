@@ -60,6 +60,12 @@ msgstr "Sitemap, URL i <loc> må bruke samme domene som robots.txt ({0})"
 msgid "no-same-domain-sitemap (resolved)"
 msgstr "Sitemap, URL i <loc> må bruke samme domene som robots.txt (løst)"
 
+msgid "no-same-host-sitemapindex (unresolved)"
+msgstr "Sitemap, sitemapindex kan bare peke på sitemaps på samme domene – andre domener ignoreres av søkemotorer ({0})"
+
+msgid "no-same-host-sitemapindex (resolved)"
+msgstr "Sitemap, sitemapindex peker bare på sitemaps på samme domene (løst)"
+
 msgid "no-https-sitemap (unresolved)"
 msgstr "Sitemap, URL i <loc> må begynne med https:// ({0})"
 

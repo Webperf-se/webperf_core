@@ -84,6 +84,12 @@ msgstr "Sitemap, har ingen objekter ({0})"
 msgid "no-items-sitemap (resolved)"
 msgstr "Sitemap, har ingen objekter (løst)"
 
+msgid "unreadable-sitemap (unresolved)"
+msgstr "Sitemap, kunne ikke leses ({0})"
+
+msgid "unreadable-sitemap (resolved)"
+msgstr "Sitemap, kunne ikke leses (løst)"
+
 msgid "no-rss-feed (unresolved)"
 msgstr "Feed mangler i HTML:ens metadata ({0})"
 

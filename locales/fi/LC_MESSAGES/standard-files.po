@@ -84,6 +84,12 @@ msgstr "Sitemapissa ei ole kohteita ({0})"
 msgid "no-items-sitemap (resolved)"
 msgstr "Sitemap, har inga objekt (ratkaistu)"
 
+msgid "unreadable-sitemap (unresolved)"
+msgstr "Sitemapia ei voitu lukea ({0})"
+
+msgid "unreadable-sitemap (resolved)"
+msgstr "Sitemapia ei voitu lukea (ratkaistu)"
+
 msgid "no-rss-feed (unresolved)"
 msgstr "Feed puuttuu i HTML:ens metadata ({0})"
 

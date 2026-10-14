@@ -68,6 +68,7 @@ def show_test_help(global_translation):
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_JS_LINT'))
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_GOOGLE_LIGHTHOUSE'))
     print(global_translation('TEXT_TEST_VALID_ARGUMENTS_PRIVACY'))
+    print(global_translation('TEXT_TEST_VALID_ARGUMENTS_DNS'))
     sys.exit()
 
 

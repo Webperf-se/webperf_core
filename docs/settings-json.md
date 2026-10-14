@@ -99,6 +99,14 @@ This take no effect unless `general.cache.use` is set to `true`.
 This tells webperf-core how long to use cached resources in minutes.
 This take no effect unless `general.cache.use` is set to `true`.
 
+### general.failures-log `(Default = "failures.log")`
+Path of the file where unhandled errors from tests are written.
+The file is emptied at the start of every run.
+The path is relative to the working directory, which is `/usr/src/runner`
+inside the Docker image, so point it at a mounted folder
+(for example `-s general.failures-log=reports/failures.log`)
+if you want to read it from the host.
+
 
 
 

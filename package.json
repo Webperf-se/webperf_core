@@ -20,13 +20,13 @@
     "pa11y": "9.1.1",
     "sitespeed.io": "42.7.0",
     "webbkoll-backend": "git+https://codeberg.org/marcusosterberg/webbkoll-backend.git",
-    "plugin-css": "2026.7.0",
-    "plugin-html": "2026.7.0",
-    "plugin-javascript": "2026.7.0",
-    "plugin-pagenotfound": "2026.7.0",
-    "plugin-standard-files": "2026.8.0",
-    "plugin-accessibility-statement": "2026.7.0",
-    "plugin-webperf-core": "2026.7.0"
+    "plugin-css": "2026.10.0",
+    "plugin-html": "2026.10.0",
+    "plugin-javascript": "2026.10.0",
+    "plugin-pagenotfound": "2026.10.1",
+    "plugin-standard-files": "2026.10.2",
+    "plugin-accessibility-statement": "2026.10.1",
+    "plugin-webperf-core": "2026.10.0"
   },
   "devDependencies": {
     "eslint": "10.12.0",

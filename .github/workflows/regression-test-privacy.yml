@@ -52,10 +52,8 @@ jobs:
     - name: Setup npm packages
       run: npm install
       timeout-minutes: 30
-    - name: Start local HTTP server
-      run: (npm run start-server&)
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: RUNNING TEST - LINUX
       run: |
-         python default.py -t ${{ matrix.version }} -r -u http://localhost:3000/ -o data/testresult-${{ matrix.version }}.json
+         python default.py -t ${{ matrix.version }} -r -i defaults/sites.json -o data/testresult-${{ matrix.version }}.json
          python .github/workflows/verify_result.py -t ${{ matrix.version }}

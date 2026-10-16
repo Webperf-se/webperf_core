@@ -124,3 +124,9 @@ msgstr "Ingen tillgänglighetsredogörelse hittades ({0})"
 
 msgid "no-a11y-statement (resolved)"
 msgstr "Tillgänglighetsredogörelse hittad (löst)"
+
+msgid "statement-is-page-section (unresolved)"
+msgstr "Redogörelsen är ett avsnitt på en annan sida och har ingen egen sida ({0})"
+
+msgid "statement-is-page-section (resolved)"
+msgstr "Redogörelsen har en egen sida (löst)"

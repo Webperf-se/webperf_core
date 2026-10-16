@@ -124,3 +124,9 @@ msgstr "Accessibility statement, no accessibility statement was found ({0})"
 
 msgid "no-a11y-statement (resolved)"
 msgstr "Accessibility statement, no accessibility statement was found (resolved)"
+
+msgid "statement-is-page-section (unresolved)"
+msgstr "Accessibility statement, the statement is a section of another page and not a page of its own ({0})"
+
+msgid "statement-is-page-section (resolved)"
+msgstr "Accessibility statement, the statement has a page of its own (resolved)"

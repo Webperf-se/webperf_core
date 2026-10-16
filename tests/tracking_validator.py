@@ -826,26 +826,26 @@ def get_rating_from_sitespeed(url, local_translation, global_translation):
     # TODO: Read sitespeed manual on how to return localStorage
 
     # - Cookies ( 5.00 rating )
-    rating += rate_cookies(http_archive_content, url, local_translation, _)
+    rating += rate_cookies(http_archive_content, url, local_translation, global_translation)
 
     # - GDPR and Schrems ( 5.00 rating )
-    rating += rate_gdpr_and_schrems(http_archive_content, local_translation, _)
+    rating += rate_gdpr_and_schrems(http_archive_content, local_translation, global_translation)
 
     website_urls = get_urls_from_har(http_archive_content)
 
     # - Tracking ( 5.00 rating )
     try:
-        rating += rate_tracking(website_urls, local_translation, _)
+        rating += rate_tracking(website_urls, local_translation, global_translation)
     except Exception as ex:
         print('tracking exception', ex)
     # - Fingerprinting/Identifying technique ( 5.00 rating )
     try:
-        rating += rate_fingerprint(website_urls, local_translation, _)
+        rating += rate_fingerprint(website_urls, local_translation, global_translation)
     except Exception as ex:
         print('fingerprint exception', ex)
     # - Ads ( 5.00 rating )
     try:
-        rating += rate_ads(website_urls, local_translation, _)
+        rating += rate_ads(website_urls, local_translation, global_translation)
     except Exception as ex:
         print('ads exception', ex)
 

@@ -3,12 +3,22 @@ import json
 from pathlib import Path
 import os
 import re
+import statistics
 import subprocess
 from datetime import datetime
 from helpers.models import Rating
 from helpers.setting_helper import get_config
 from helpers.browser_helper import get_chromium_browser
 from tests.utils import get_dependency_version, get_translation
+
+# Metrics scored on a linear scale (5.0 minus 1.0 per started 500 ms above the
+# credit). Matched on exact key: earlier a substring check on 'Load' also caught
+# 'DOMContentLoaded' by accident. DOMContentLoaded is kept here on purpose so
+# current ratings stay the same; whether it should count is an open question.
+LINEAR_SCORED_METRICS = (
+    'SpeedIndex', 'FirstVisualChange', 'VisualComplete85', 'Load', 'DOMContentLoaded',
+)
+
 
 def get_result(arg):
     """
@@ -604,7 +614,7 @@ def get_data_for_entry(mode, key, values):
 
     This function calculates the median, range, points, and message for a given performance metric.
     It processes the values, which are in milliseconds or seconds,
-    and calculates the total, biggest, median, and range.
+    and calculates the median and range.
     It also gets the full name of the metric and calculates the points.
 
     Parameters:
@@ -615,11 +625,7 @@ def get_data_for_entry(mode, key, values):
     Returns:
     dict: A dictionary containing the median, range, mode, points, message, and values.
     """
-    biggest = 0
-    total = 0
-    value_range = 0
-    result = 0
-    median = 0
+    numbers = []
     for value in values:
         number = 0
         if 'ms' in value:
@@ -627,16 +633,14 @@ def get_data_for_entry(mode, key, values):
         elif 's' in value:
             number = float(
                     value.replace('s', '')) * 1000
-        total += number
-        biggest = max(biggest, number)
-    value_count = len(values)
-    if value_count < 2:
-        value_range = 0
-        result = total
-    else:
-        median = total / value_count
-        value_range = biggest - median
-        result = median
+        numbers.append(number)
+
+    value_range = 0
+    median = 0
+    if len(numbers) > 0:
+        median = statistics.median(numbers)
+        value_range = max(numbers) - median
+    result = median
 
     fullname = get_fullname(key)
     points = get_points(mode, key, result, median)
@@ -702,20 +706,18 @@ def get_points(mode, key, result, median):
     For more information on SpeedIndex, refer to: https://docs.webpagetest.org/metrics/speedindex/
     """
     points = -1
-    if 'TTFB' in key:
+    if key == 'TTFB':
         points = get_ttfb_points(mode, median)
-    elif 'TBT' in key:
+    elif key == 'TBT':
         points = get_tbt_points(median)
-    elif 'FCP' in key:
+    elif key == 'FCP':
         points = get_fcp_points(median)
-    elif 'LCP' in key:
+    elif key == 'LCP':
         points = get_lcp_points(mode, median)
-    elif 'CLS' in key:
+    elif key == 'CLS':
         points = get_cls_points(median)
 
-    elif 'SpeedIndex' in key or\
-              'FirstVisualChange' in key or\
-              'VisualComplete85' in key or 'Load' in key:
+    elif key in LINEAR_SCORED_METRICS:
             # https://docs.webpagetest.org/metrics/speedindex/
         adjustment = 500
         if 'mobile' in mode:

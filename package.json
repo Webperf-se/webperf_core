@@ -25,7 +25,7 @@
     "plugin-javascript": "2026.10.0",
     "plugin-pagenotfound": "2026.10.1",
     "plugin-standard-files": "2026.10.2",
-    "plugin-accessibility-statement": "2026.10.1",
+    "plugin-accessibility-statement": "2026.10.2",
     "plugin-webperf-core": "2026.10.0"
   },
   "devDependencies": {

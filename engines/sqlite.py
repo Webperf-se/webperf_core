@@ -169,7 +169,7 @@ def write_tests(output_filename, site_tests, _, _2):
         if is_rating or is_report:
             print('db -', str_ex)
             ensure_latest_db_version(output_filename)
-            write_tests(output_filename, site_tests, _)
+            write_tests(output_filename, site_tests, _, _2)
             print('db - upgrading db')
         else:
             print('db exception', str_ex)

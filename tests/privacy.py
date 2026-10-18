@@ -136,6 +136,11 @@ def run_test(global_translation, url):
         datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
     data = get_backend_data(url, local_translation)
+    if data is not None and not data.get('success', False):
+        # The backend only returns a generic reason and keeps the details in
+        # its own log, so point at it. Otherwise a failure leaves no trace.
+        log_path = os.path.join('node_modules', 'webbkoll-backend', 'webbkoll-backend.log')
+        print(f"webbkoll-backend: {data.get('reason', 'unknown reason')} (details: {log_path})")
     if data is None or not data.get('success', False):
         error_rating = Rating(
             global_translation,

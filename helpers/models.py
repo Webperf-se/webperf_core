@@ -152,8 +152,10 @@ class Rating: # pylint: disable=too-many-instance-attributes,missing-class-docst
             review (str, optional): The review text.
         """
         review = review.replace('GOV-IGNORE', '')
+        # Clamp once so the stored value and the review text always agree
+        points = self.ensure_correct_points_range(points)
 
-        self.overall = self.ensure_correct_points_range(points)
+        self.overall = points
         self.is_set = True
 
         if review == '':
@@ -184,8 +186,10 @@ class Rating: # pylint: disable=too-many-instance-attributes,missing-class-docst
             review (str, optional): The review text.
         """
         review = review.replace('GOV-IGNORE', '')
+        # Clamp once so the stored value and the review text always agree
+        points = self.ensure_correct_points_range(points)
 
-        self.integrity_and_security = self.ensure_correct_points_range(points)
+        self.integrity_and_security = points
         self.is_set = True
 
         if review == '':
@@ -216,8 +220,10 @@ class Rating: # pylint: disable=too-many-instance-attributes,missing-class-docst
             review (str, optional): The review text.
         """
         review = review.replace('GOV-IGNORE', '')
+        # Clamp once so the stored value and the review text always agree
+        points = self.ensure_correct_points_range(points)
 
-        self.performance = self.ensure_correct_points_range(points)
+        self.performance = points
         self.is_set = True
 
         if review == '':
@@ -249,8 +255,10 @@ class Rating: # pylint: disable=too-many-instance-attributes,missing-class-docst
             review (str, optional): The review text.
         """
         review = review.replace('GOV-IGNORE', '')
+        # Clamp once so the stored value and the review text always agree
+        points = self.ensure_correct_points_range(points)
 
-        self.standards = self.ensure_correct_points_range(points)
+        self.standards = points
         self.is_set = True
 
         if review == '':
@@ -283,8 +291,10 @@ class Rating: # pylint: disable=too-many-instance-attributes,missing-class-docst
             review (str, optional): The review text.
         """
         review = review.replace('GOV-IGNORE', '')
+        # Clamp once so the stored value and the review text always agree
+        points = self.ensure_correct_points_range(points)
 
-        self.a11y = self.ensure_correct_points_range(points)
+        self.a11y = points
         self.is_set = True
 
         if review == '':

@@ -49,3 +49,6 @@ msgstr "- Fjöldi hópkaðra villna: {0}"
 
 msgid "TEXT_REVIEW_RATING_ITEMS"
 msgstr "- Fjöldi villna: {0}"
+
+msgid "TEXT_REVIEW_NEEDS_MANUAL_REVIEW"
+msgstr "Þarfnast handvirkrar skoðunar: sjálfvirka prófunin gat ekki skorið úr um hvort þetta sé vandamál. Látið einhvern með sérþekkingu á aðgengi fara yfir það."

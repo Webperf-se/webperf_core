@@ -49,3 +49,6 @@ msgstr "- Number of types of issues: {0}"
 
 msgid "TEXT_REVIEW_RATING_ITEMS"
 msgstr "- Number of issues: {0}"
+
+msgid "TEXT_REVIEW_NEEDS_MANUAL_REVIEW"
+msgstr "Needs manual review: the automated test could not determine whether this is a problem. Ask someone with accessibility expertise to check it."

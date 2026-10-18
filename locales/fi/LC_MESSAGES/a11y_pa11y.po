@@ -49,3 +49,6 @@ msgstr "- Ryhmiteltyjen virheiden määrä: {0}"
 
 msgid "TEXT_REVIEW_RATING_ITEMS"
 msgstr "- Virheiden määrä: {0}"
+
+msgid "TEXT_REVIEW_NEEDS_MANUAL_REVIEW"
+msgstr "Vaatii manuaalisen tarkistuksen: automaattinen testi ei pystynyt päättelemään, onko tämä ongelma. Pyydä saavutettavuuden asiantuntijaa tarkistamaan asia."

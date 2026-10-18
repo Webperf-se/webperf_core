@@ -49,3 +49,6 @@ msgstr "- Antal grupperade fel: {0}"
 
 msgid "TEXT_REVIEW_RATING_ITEMS"
 msgstr "- Antal fel: {0}"
+
+msgid "TEXT_REVIEW_NEEDS_MANUAL_REVIEW"
+msgstr "Kräver manuell granskning: det automatiska testet kunde inte avgöra om detta är ett problem. Låt någon med kompetens inom tillgänglighet kontrollera det."

@@ -18,7 +18,7 @@
     "@sitespeed.io/plugin": "1.0.2",
     "@sitespeed.io/plugin-lighthouse": "13.0.1",
     "pa11y": "10.0.0",
-    "sitespeed.io": "42.7.0",
+    "sitespeed.io": "42.9.0",
     "webbkoll-backend": "git+https://codeberg.org/marcusosterberg/webbkoll-backend.git",
     "plugin-css": "2026.10.0",
     "plugin-html": "2026.10.0",

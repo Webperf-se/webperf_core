@@ -65,15 +65,55 @@ def get_first_page_entries(har_data, origin_domain=None):
             return None
 
     pages = har_data.get('pages', [])
-    if len(pages) == 0:
-        return entries
+    first_page_id = pages[0].get('id') if len(pages) > 0 else None
+    if first_page_id is not None:
+        entries = [entry for entry in entries
+                   if entry.get('pageref', first_page_id) == first_page_id]
 
-    first_page_id = pages[0].get('id')
-    if first_page_id is None:
+    if origin_domain is None:
         return entries
+    return drop_foreign_navigation(entries, origin_domain)
 
-    return [entry for entry in entries
-            if entry.get('pageref', first_page_id) == first_page_id]
+def drop_foreign_navigation(entries, origin_domain):
+    """
+    Cuts the entries at the first top level navigation to another website.
+
+    A crossed DevTools session can navigate the tested tab to another
+    website without starting a new HAR page, so every request after the
+    navigation keeps the tested page's pageref. A top level navigation
+    (a document request started by the browser itself, not by a parser or
+    script as iframes are) to a host that isn't the tested one, or reached
+    through its redirects, marks where the foreign page load begins.
+    Everything from there on is dropped.
+
+    Parameters:
+    entries (list): HAR entries, already limited to the first page.
+    origin_domain (str): Hostname of the tested website.
+
+    Returns:
+    list: The entries before the foreign navigation, or all of them.
+    """
+    allowed_hosts = [origin_domain]
+    for index, entry in enumerate(entries):
+        req_url = entry.get('request', {}).get('url', '')
+        host = urllib.parse.urlparse(req_url).hostname
+        if host is None:
+            continue
+
+        # Follow redirects of top level navigations (example.se -> www.example.se)
+        redirect_url = entry.get('response', {}).get('redirectURL')
+        if redirect_url and any(hostname_matches(host, h) for h in allowed_hosts):
+            redirect_host = urllib.parse.urlparse(
+                urllib.parse.urljoin(req_url, redirect_url)).hostname
+            if redirect_host is not None:
+                allowed_hosts.append(redirect_host)
+
+        is_top_level_navigation = entry.get('_resourceType') == 'document' \
+            and entry.get('_initiator_type') == 'other'
+        if is_top_level_navigation and \
+                not any(hostname_matches(host, h) for h in allowed_hosts):
+            return entries[:index]
+    return entries
 
 def get_data_from_sitespeed(filename, org_domain):
     """

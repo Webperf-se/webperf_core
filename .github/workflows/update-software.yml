@@ -26,6 +26,7 @@ jobs:
       uses: actions/setup-node@v7
       with:
         node-version: '24.x'
+        check-latest: true
     - name: Setup SpeedIndex dependencies (ONLY used for Sitespeed) - Linux
       run: |
         sudo apt-get update -y

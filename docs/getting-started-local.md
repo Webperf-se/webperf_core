@@ -24,3 +24,13 @@ You can list all available settings by writing `--setting ?`.
 
 If you want to change your settings in a more permanent way you can do so by creating a settings.json file,
 read more about it at [settings.json](settings-json.md).
+
+## Node.js version requirement (engine-strict)
+The repository contains an `.npmrc` with `engine-strict=true`, and `package.json` requires Node.js `>=24.22.1`. If your Node.js is older, `npm install` stops with an `EBADENGINE` error instead of only printing a warning. Upgrade Node.js and run the command again.
+
+This is on purpose. webperf-core analyzes websites you don't control, and some of the tests run Node.js code on responses from those websites. Node.js before 24.22.1 has a flaw in its Brotli decoder ([CVE-2026-111497](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases)) that can lead to remote code execution on your machine. On a local setup nothing separates that from your files and credentials, which is why this is checked when installing.
+
+Things to know:
+- The check only runs when you run `npm install`. If you installed before upgrading the requirement, check `node --version` yourself.
+- Don't work around it with `--engine-strict=false` unless you run on a machine where it doesn't matter if it is compromised.
+- The Docker image (`webperfse/webperf-core`) ships with a patched Node.js, but only from the release built after this change. Run `docker pull webperfse/webperf-core:latest` to be sure you have it.

@@ -56,8 +56,18 @@ jobs:
     - name: Setup npm packages
       run: npm install
       timeout-minutes: 30
+    # Ubuntu 24.04 blocks unprivileged user namespaces through AppArmor, so
+    # Chrome started by webbkoll-backend can't set up its sandbox and fails to
+    # launch. Allow them instead of running Chrome with --no-sandbox.
+    - if: ${{ matrix.os == 'ubuntu-latest' }}
+      name: Allow Chrome's sandbox (unprivileged user namespaces)
+      run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: RUNNING TEST - LINUX
       run: |
          python default.py -t ${{ matrix.version }} -r -i defaults/sites.json -o data/testresult-${{ matrix.version }}.json
          python .github/workflows/verify_result.py -t ${{ matrix.version }}
+    # The backend writes the reason for a failed check to its own log only.
+    - if: ${{ failure() }}
+      name: Show webbkoll-backend log
+      run: tail -n 50 node_modules/webbkoll-backend/webbkoll-backend.log || true

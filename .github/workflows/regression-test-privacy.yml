@@ -58,10 +58,16 @@ jobs:
       timeout-minutes: 30
     # Ubuntu 24.04 blocks unprivileged user namespaces through AppArmor, so
     # Chrome started by webbkoll-backend can't set up its sandbox and fails to
-    # launch. Allow them instead of running Chrome with --no-sandbox.
+    # launch. Allow them instead of running Chrome with --no-sandbox. Only
+    # when the setting exists, so a runner image without it doesn't fail here.
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: Allow Chrome's sandbox (unprivileged user namespaces)
-      run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+      run: |
+        if sysctl -n kernel.apparmor_restrict_unprivileged_userns > /dev/null 2>&1; then
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+        else
+          echo "kernel.apparmor_restrict_unprivileged_userns does not exist on this runner, nothing to change"
+        fi
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: RUNNING TEST - LINUX
       run: |

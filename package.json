@@ -20,7 +20,7 @@
     "pa11y": "10.0.0",
     "sitespeed.io": "42.10.0",
     "webbkoll-backend": "git+https://codeberg.org/marcusosterberg/webbkoll-backend.git",
-    "plugin-css": "2026.10.1",
+    "plugin-css": "2026.10.2",
     "plugin-html": "2026.10.1",
     "plugin-javascript": "2026.10.1",
     "plugin-pagenotfound": "2026.10.2",

@@ -420,6 +420,8 @@ def run_test(global_translation, url):
             use_ipv6=get_config('tests.dns.ipv6'),
             profile_path=_profile_path() if get_config('tests.dns.profile.use') else None)
     except RuntimeError as exc:
+        # Say why, otherwise a timeout or a missing Docker leaves no trace
+        print(f"zonemaster: {exc}")
         rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
         return (rating, {'failed': True, 'url': url, 'domain': domain, 'error': str(exc)})
 

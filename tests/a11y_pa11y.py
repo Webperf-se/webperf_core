@@ -58,7 +58,10 @@ def run_test(global_translation, url):
 
     domain = get_domain(url)
     return_dict['groups'][domain] = {
-            'issues': {}
+            'issues': {},
+            # pa11y only checks accessibility. Listing the category makes a page
+            # where pa11y finds nothing get an a11y rating (5.0) instead of none.
+            'categories': ['a11y']
         }
 
     errors = json_result

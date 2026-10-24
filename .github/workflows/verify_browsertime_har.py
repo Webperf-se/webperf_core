@@ -193,7 +193,9 @@ def validate_entry_response(entry_index, entry, full_validation):
         if 'mimeType' not in entry['response']['content']:
             print(f'Error: log.entries[{entry_index}].response.content.mimeType is missing in browsertime.har file')
             is_ok = False
-        elif entry['response']['content']['mimeType'] not in ('text/html', 'text/html;charset=utf-8', 'text/html;charset=UTF-8', 'text/css', 'image/png', 'image/webp', 'text/javascript', 'font/woff2'):
+        # Compare the media type only: browsers report parameters such as
+        # ";charset=utf-8" differently, and they don't change the type.
+        elif entry['response']['content']['mimeType'].split(';')[0].strip().lower() not in ('text/html', 'text/css', 'image/png', 'image/webp', 'image/x-icon', 'text/javascript', 'font/woff2'):
             print(f"Error: log.entries[{entry_index}].response.content.mimeType has wrong value, actual value: {entry['response']['content']['mimeType']}")
             is_ok = False
 

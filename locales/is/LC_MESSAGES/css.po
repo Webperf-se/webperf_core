@@ -232,3 +232,20 @@ msgstr "CSS, Prófið náði ekki til vefsvæðisins ({0})"
 
 msgid "no-network (resolved)"
 msgstr "CSS, Prófið náði ekki til vefsvæðisins (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "selector-no-deprecated (resolved)"
+msgstr "CSS, Ekki leyfa úrelta veljara (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "selector-no-deprecated (unresolved)"
+msgstr "CSS, Ekki leyfa úrelta veljara ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "selector-no-invalid (resolved)"
+msgstr "CSS, Ekki leyfa ógilda veljara (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "selector-no-invalid (unresolved)"
+msgstr "CSS, Ekki leyfa ógilda veljara ({0})"
+

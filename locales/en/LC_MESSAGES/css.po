@@ -220,3 +220,28 @@ msgstr "CSS, Disallow deprecated properties ({0})"
 
 msgid "property-no-deprecated (resolved)"
 msgstr "CSS, Disallow deprecated properties (resolved)"
+
+msgid "CssSyntaxError (resolved)"
+msgstr "CSS, Syntax error (resolved)"
+
+msgid "CssSyntaxError (unresolved)"
+msgstr "CSS, Syntax error ({0})"
+
+msgid "no-network (resolved)"
+msgstr "CSS, The test could not reach the website (resolved)"
+
+msgid "no-network (unresolved)"
+msgstr "CSS, The test could not reach the website ({0})"
+
+msgid "selector-no-deprecated (resolved)"
+msgstr "CSS, Disallow deprecated selectors (resolved)"
+
+msgid "selector-no-deprecated (unresolved)"
+msgstr "CSS, Disallow deprecated selectors ({0})"
+
+msgid "selector-no-invalid (resolved)"
+msgstr "CSS, Disallow invalid selectors (resolved)"
+
+msgid "selector-no-invalid (unresolved)"
+msgstr "CSS, Disallow invalid selectors ({0})"
+

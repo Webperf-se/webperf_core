@@ -124,3 +124,12 @@ msgstr "Engin aðgengisyfirlýsing fannst ({0})"
 
 msgid "no-a11y-statement (resolved)"
 msgstr "Aðgengisyfirlýsing hittad (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "statement-is-page-section (resolved)"
+msgstr "Yfirlýsingin hefur sína eigin síðu (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "statement-is-page-section (unresolved)"
+msgstr "Yfirlýsingin er hluti af annarri síðu og hefur ekki sína eigin síðu ({0})"
+

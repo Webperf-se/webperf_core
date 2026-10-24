@@ -10,6 +10,13 @@ on:
 permissions:
   contents: read
 
+# Queue runs instead of running them side by side. A push to main and a
+# manual run started right after it would otherwise both compute the same
+# version, both push to Docker Hub and both add release notes.
+concurrency:
+  group: create-release
+  cancel-in-progress: false
+
 jobs:
   build:
     permissions:
@@ -36,14 +43,23 @@ jobs:
       - name: Generate new release version
         id: newversion
         run: python default.py --create-release "${{ steps.changes.outputs.last-tag }}"
+      # NEW_VERSION stays empty when package.json does not hold the next
+      # version (any other change to package.json on main). Without this the
+      # image was pushed as webperf-core:v and :latest, and the release failed.
+      - name: Stop when there is no new version
+        if: env.NEW_VERSION == ''
+        run: echo "package.json does not hold a new version, nothing to release."
       - name: Login to Docker Hub
+        if: env.NEW_VERSION != ''
         uses: docker/login-action@v4
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Set up Docker Buildx
+        if: env.NEW_VERSION != ''
         uses: docker/setup-buildx-action@v4
       - name: Build and push
+        if: env.NEW_VERSION != ''
         uses: docker/build-push-action@v7
         with:
           context: .
@@ -52,6 +68,7 @@ jobs:
           provenance: false
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/webperf-core:v${{ env.NEW_VERSION }},${{ secrets.DOCKERHUB_USERNAME }}/webperf-core:latest
       - name: Release
+        if: env.NEW_VERSION != ''
         uses: softprops/action-gh-release@v3
         with:
           tag_name: "${{ env.NEW_VERSION }}"

@@ -251,3 +251,12 @@ jobs:
           echo "Error: WebPerf-core testresult is NOT returning expected review"
           exit 1
         fi
+    - name: Check if webperf_core can run Test 31
+      if: always()
+      run: |
+        testresult=$(docker run --shm-size=4g ${{ env.TEST_TAG }} python default.py -t 31 -r -i defaults/sites.json)
+        echo "$testresult"
+        if [[ "$testresult" != *"Integrity & Security:"* ]]; then
+          echo "Error: WebPerf-core testresult is NOT returning expected review"
+          exit 1
+        fi

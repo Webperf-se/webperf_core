@@ -28,6 +28,9 @@ on:
       - '**regression-test-standard-files.yml'
       - '**regression-test-tracking.yml'
       - '**regression-test-translations.yml'
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}

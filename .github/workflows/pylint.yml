@@ -4,6 +4,9 @@ on:
     paths:
       - '**.py'
       - '**pylint.yml'
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest

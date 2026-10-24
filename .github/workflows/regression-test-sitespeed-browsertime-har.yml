@@ -5,6 +5,9 @@ on:
     paths:
       - '**verify_browsertime_har.py'
       - '**regression-test-sitespeed-browsertime-har.yml'
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}

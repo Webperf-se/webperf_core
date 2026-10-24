@@ -27,8 +27,13 @@ on:
       - '**regression-test-standard-files.yml'
       - '**regression-test-tracking.yml'
       - '**regression-test-webbkoll.yml'
+permissions:
+  contents: read
+
 jobs:
   build:
+    permissions:
+      contents: write
     runs-on: ${{ matrix.os }}
     strategy:
             matrix:

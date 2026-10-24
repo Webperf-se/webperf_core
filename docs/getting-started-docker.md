@@ -85,4 +85,4 @@ docker run -it --shm-size=4g --cap-add=SYS_ADMIN -e CHROMIUM_NO_SANDBOX= --rm we
 
 Lighthouse tests sometimes fail reporting NO_NAVSTART - retrying usually works. Seems to be a somewhat often reported issue with Chrome/Lighthouse and Docker.
 
-Test 32 (DNS, Zonemaster) does not work inside the image. It starts the `zonemaster/cli` image with `docker run`, and there is no Docker inside the container. Run test 32 from a local install on a machine with Docker instead, see [DNS (Zonemaster)](tests/dns-zonemaster.md).
+Test 32 (DNS, Zonemaster) does not work inside the image and ends with "zonemaster: docker was not found in PATH". It starts the `zonemaster/cli` image with `docker run`, and there is no Docker inside the container. Run test 32 from a local install on a machine with Docker instead, see [DNS (Zonemaster)](tests/dns-zonemaster.md).

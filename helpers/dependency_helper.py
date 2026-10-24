@@ -141,7 +141,7 @@ def check_requirements():
             dependency_installed_version = packaging.version.Version(
                 dependency_installed_version)
 
-            if dependency_version.major is not dependency_installed_version.major:
+            if dependency_version.major != dependency_installed_version.major:
                 print(
                     f'\t\t- {dependency_name}:',
                     'WARNING: wrong major version (',
@@ -150,7 +150,7 @@ def check_requirements():
                     dependency_installed_version, ')')
                 continue
 
-            if dependency_version.minor is not dependency_installed_version.minor:
+            if dependency_version.minor != dependency_installed_version.minor:
                 print(
                     f'\t\t- {dependency_name}:',
                     'WARNING: wrong minor version (',
@@ -159,7 +159,7 @@ def check_requirements():
                     dependency_installed_version, ')')
                 continue
 
-            if dependency_version.micro is not dependency_installed_version.micro:
+            if dependency_version.micro != dependency_installed_version.micro:
                 print(
                     f'\t\t- {dependency_name}:',
                     'WARNING: wrong micro version (',
@@ -232,10 +232,18 @@ def check_package():
 
                     dependency_installed_version = dependency_package_info['version']
                     if dependency_version != dependency_installed_version:
-                        dependency_version = packaging.version.Version(dependency_version)
-                        dependency_installed_version = packaging.version.Version(
-                            dependency_installed_version)
-                        if dependency_version.major is not dependency_installed_version.major:
+                        try:
+                            dependency_version = packaging.version.Version(dependency_version)
+                            dependency_installed_version = packaging.version.Version(
+                                dependency_installed_version)
+                        except packaging.version.InvalidVersion:
+                            # Not a version number (for example a git URL), so there
+                            # is nothing to compare the installed version with.
+                            print((
+                                f"\t\t- {dependency_name}: OK "
+                                f"(v{dependency_installed_version} from {dependency_version})"))
+                            continue
+                        if dependency_version.major != dependency_installed_version.major:
                             print(
                                 f'\t\t- {dependency_name}:',
                                 'WARNING: wrong major version (',
@@ -244,7 +252,7 @@ def check_package():
                                 dependency_installed_version, ')')
                             continue
 
-                        if dependency_version.minor is not dependency_installed_version.minor:
+                        if dependency_version.minor != dependency_installed_version.minor:
                             print(
                                 f'\t\t- {dependency_name}:',
                                 'WARNING: wrong minor version (',
@@ -253,7 +261,7 @@ def check_package():
                                 dependency_installed_version, ')')
                             continue
 
-                        if dependency_version.micro is not dependency_installed_version.micro:
+                        if dependency_version.micro != dependency_installed_version.micro:
                             print(
                                 f'\t\t- {dependency_name}:',
                                 'WARNING: wrong micro version (',

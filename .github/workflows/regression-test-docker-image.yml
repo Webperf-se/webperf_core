@@ -31,6 +31,22 @@ jobs:
         platforms: linux/amd64
         load: true
         tags: ${{ env.TEST_TAG }}
+    - name: Check that Node.js is patched for Node2Shell (CVE-2026-111497)
+      run: |
+        required="24.22.1"
+        version=$(docker run --rm --entrypoint node ${{ env.TEST_TAG }} --version)
+        version="${version#v}"
+        echo "Node version: $version (required: >= $required)"
+        if ! [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          echo "Error: could not parse Node version '$version'"
+          exit 1
+        fi
+        # sort -V compares numerically per segment, so 24.9.0 < 24.22.1
+        lowest=$(printf '%s\n%s\n' "$required" "$version" | sort -V | head -n 1)
+        if [ "$lowest" != "$required" ]; then
+          echo "Error: Node $version is older than $required and is vulnerable to Node2Shell (CVE-2026-111497)"
+          exit 1
+        fi
     - name: Check if we have correct python version
       run: |
         version=$(docker run ${{ env.TEST_TAG }} python --version)

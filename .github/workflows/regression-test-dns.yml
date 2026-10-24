@@ -52,8 +52,11 @@ jobs:
     # Test 32 runs Zonemaster through `docker run zonemaster/cli`, so it needs
     # Docker on the runner. That is also why it can't run inside the
     # webperf-core image and is not part of the Docker image test.
+    # Zonemaster queries the zone's, the TLD's and the root's name servers. From
+    # a GitHub runner that took more than the default 180 s (about 35 s on a
+    # home connection), so CI gives it longer.
     - if: ${{ matrix.os == 'ubuntu-latest' }}
       name: RUNNING TEST - LINUX
       run: |
-         python default.py -t ${{ matrix.version }} -r -i defaults/sites.json -o data/testresult-${{ matrix.version }}.json
+         python default.py --setting tests.dns.timeout=600 -t ${{ matrix.version }} -r -i defaults/sites.json -o data/testresult-${{ matrix.version }}.json
          python .github/workflows/verify_result.py -t ${{ matrix.version }}

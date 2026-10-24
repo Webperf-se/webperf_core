@@ -1055,7 +1055,7 @@ SEVERITY_DEDUCTION = {
     'warning': 1
 }
 
-def calculate_score(issues):
+def calculate_score(issues, categories=None):
     """
     Calculates the score per category from a list of issues.
 
@@ -1066,13 +1066,19 @@ def calculate_score(issues):
 
     Mirrors calculateScore() in plugin-webperf-core/lib/score.js.
 
+    A category listed in `categories` is scored even without issues (100),
+    so a test that checked a category and found nothing still rates it.
+
     Parameters:
     issues (list): Issues with at least 'category', 'severity' and 'rule'.
+    categories (list): Categories the test checked, optional.
 
     Returns:
     dict: Score per category plus 'overall'.
     """
     category_scores = {'overall': 100}
+    for category in categories or []:
+        category_scores[category] = 100
     zeroed_categories = set()
 
     for issue in issues:
@@ -1119,7 +1125,7 @@ def calculate_rating(global_translation, rating, result_dict):
     for info in result_dict["groups"].values():
         if "score" not in info:
             # Python based tests (pa11y) do not calculate the score themselves
-            info["score"] = calculate_score(info["issues"])
+            info["score"] = calculate_score(info["issues"], info.get("categories"))
         rating = rating + calculate_group_rating(global_translation, info)
 
     return rating

@@ -195,3 +195,22 @@ msgstr "Disallow void element with content ({0})"
 
 msgid "void-content (resolved)"
 msgstr "Disallow void element with content (resolved)"
+
+msgid "no-main (resolved)"
+msgstr "Disallow use of `<main>` (resolved)"
+
+msgid "no-main (unresolved)"
+msgstr "Disallow use of `<main>` ({0})"
+
+msgid "no-network (resolved)"
+msgstr "The test could not reach the website (resolved)"
+
+msgid "no-network (unresolved)"
+msgstr "The test could not reach the website ({0})"
+
+msgid "parser-error (resolved)"
+msgstr "Disallow parse errors in HTML (resolved)"
+
+msgid "parser-error (unresolved)"
+msgstr "Disallow parse errors in HTML ({0})"
+

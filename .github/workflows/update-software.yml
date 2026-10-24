@@ -5,8 +5,14 @@ on:
   #  https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#onschedule
   #  * is a special character in YAML so you have to quote this string
     - cron: '30 8 14,28 * *'
+permissions:
+  contents: read
+
 jobs:
   build:
+    permissions:
+      contents: write
+      pull-requests: write
     runs-on: ${{ matrix.os }}
     strategy:
             matrix:

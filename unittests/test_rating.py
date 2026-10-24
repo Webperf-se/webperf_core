@@ -103,6 +103,26 @@ class ScoreTests(unittest.TestCase):
         self.assertEqual(js_rules, set(utils.SHOWSTOPPER_RULES))
 
 
+class CheckedCategoryTests(unittest.TestCase):
+    def test_checked_category_without_issues_scores_100(self):
+        self.assertEqual(utils.calculate_score([], ['a11y']), {'overall': 100, 'a11y': 100})
+
+    def test_without_checked_categories_nothing_changes(self):
+        issues = [{'category': 'a11y', 'severity': 'critical', 'rule': 'image-alt'}]
+        self.assertEqual(utils.calculate_score(issues, None), utils.calculate_score(issues))
+        self.assertEqual(utils.calculate_score([]), {'overall': 100})
+
+    def test_issues_still_deduct_in_a_checked_category(self):
+        issues = [{'category': 'a11y', 'severity': 'critical', 'rule': 'image-alt'}]
+        self.assertEqual(utils.calculate_score(issues, ['a11y']), utils.calculate_score(issues))
+
+    def test_page_without_pa11y_issues_gets_a11y_rating(self):
+        result = {'groups': {'webperf.se': {'issues': [], 'categories': ['a11y']}}}
+        rating = utils.calculate_rating(_translation, Rating(_translation), result)
+        self.assertEqual(rating.get_a11y(), 5.0)
+        self.assertEqual(rating.get_overall(), 5.0)
+
+
 class GroupTests(unittest.TestCase):
     """A run with more than one group must not let the last group win."""
 

@@ -599,3 +599,340 @@ msgstr "Painikkeen näkyvä teksti ei vastaa sitä, minkä ruudunlukija lukee ({
 
 msgid "label-content-name-mismatch (resolved)"
 msgstr "Painikkeen näkyvä teksti vastaa sitä, minkä ruudunlukija lukee (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "accesskeys (resolved)"
+msgstr "Sivun pikanäppäimet ovat yksilöllisiä (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "accesskeys (unresolved)"
+msgstr "Sivun pikanäppäimet ovat ristiriidassa keskenään ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "aria-command-name (resolved)"
+msgstr "Saavutettavuusroolin painikkeilla on nimi ruudunlukijoille (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "aria-command-name (unresolved)"
+msgstr "Saavutettavuusroolin painikkeilta puuttuu nimi ruudunlukijoille ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "aria-dialog-name (resolved)"
+msgstr "Valintaikkunoilla on nimi ruudunlukijoille (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "aria-dialog-name (unresolved)"
+msgstr "Valintaikkunoilta puuttuu nimi ruudunlukijoille ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "aria-input-field-name (resolved)"
+msgstr "Syöttökentillä on nimi ruudunlukijoille (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "aria-input-field-name (unresolved)"
+msgstr "Syöttökentiltä puuttuu nimi ruudunlukijoille ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "aria-progressbar-name (resolved)"
+msgstr "Edistymispalkeilla on nimi ruudunlukijoille (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "aria-progressbar-name (unresolved)"
+msgstr "Edistymispalkeilta puuttuu nimi ruudunlukijoille ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "aria-text (resolved)"
+msgstr "Tekstiksi merkityt elementit on rakennettu oikein ruudunlukijoille (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "aria-text (unresolved)"
+msgstr "Tekstiksi merkityt elementit on rakennettu väärin ruudunlukijoille ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "aria-toggle-field-name (resolved)"
+msgstr "Päälle/pois-kytkimillä on nimi ruudunlukijoille (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "aria-toggle-field-name (unresolved)"
+msgstr "Päälle/pois-kytkimiltä puuttuu nimi ruudunlukijoille ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "canonical (resolved)"
+msgstr "Sivulla on oikea pääosoite (canonical) hakukoneille (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "canonical (unresolved)"
+msgstr "Sivulta puuttuu pääosoite (canonical) hakukoneille, tai se on väärä ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "charset (resolved)"
+msgstr "Sivu ilmoittaa merkistökoodauksensa (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "charset (unresolved)"
+msgstr "Sivu ei ilmoita merkistökoodaustaan, mikä voi aiheuttaa outoja merkkejä ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "crawlable-anchors (resolved)"
+msgstr "Hakukoneet voivat seurata linkkejä (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "crawlable-anchors (unresolved)"
+msgstr "Hakukoneet eivät voi seurata joitakin linkkejä ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "definition-list (resolved)"
+msgstr "Määritelmäluettelot on rakennettu oikein (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "definition-list (unresolved)"
+msgstr "Määritelmäluettelot on rakennettu väärin ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "deprecations (resolved)"
+msgstr "Sivu ei käytä vanhentunutta tekniikkaa (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "deprecations (unresolved)"
+msgstr "Sivu käyttää vanhentunutta tekniikkaa, joka lakkaa pian toimimasta ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "dlitem (resolved)"
+msgstr "Määritelmäluettelon kohdat ovat oikeassa paikassa (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "dlitem (unresolved)"
+msgstr "Määritelmäluettelon kohdat ovat väärässä paikassa ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "doctype (resolved)"
+msgstr "Sivulla on oikea dokumenttityyppi (doctype) (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "doctype (unresolved)"
+msgstr "Sivulta puuttuu oikea dokumenttityyppi (doctype) ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "errors-in-console (resolved)"
+msgstr "Sivu ei näytä virheilmoituksia selaimessa (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "errors-in-console (unresolved)"
+msgstr "Sivu näyttää virheilmoituksia selaimessa ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "forced-reflow-insight (resolved)"
+msgstr "Sivu ei laske asetteluaan uudelleen turhaan (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "forced-reflow-insight (unresolved)"
+msgstr "Sivu laskee asettelunsa uudelleen turhaan ja hidastuu ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "frame-title (resolved)"
+msgstr "Upotetuilla kehyksillä on kuvaava otsikko (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "frame-title (unresolved)"
+msgstr "Upotetuilta kehyksiltä puuttuu kuvaava otsikko ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "geolocation-on-start (resolved)"
+msgstr "Sivu ei kysy sijaintiasi heti käynnin alussa (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "geolocation-on-start (unresolved)"
+msgstr "Sivu kysyy sijaintiasi heti käynnin alussa ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "hreflang (resolved)"
+msgstr "Sivun kieliversiot on ilmoitettu oikein (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "hreflang (unresolved)"
+msgstr "Sivun kieliversiot on ilmoitettu väärin ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "html-xml-lang-mismatch (resolved)"
+msgstr "Sivun kielimerkinnät vastaavat toisiaan (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "html-xml-lang-mismatch (unresolved)"
+msgstr "Sivun kaksi kielimerkintää eivät vastaa toisiaan ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "http-status-code (resolved)"
+msgstr "Palvelin vastaa ilman virhekoodia (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "http-status-code (unresolved)"
+msgstr "Palvelin vastaa virhekoodilla ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "image-aspect-ratio (resolved)"
+msgstr "Kuvat näytetään oikeissa mittasuhteissa (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "image-aspect-ratio (unresolved)"
+msgstr "Kuvat näytetään väärissä mittasuhteissa ja näyttävät venytetyiltä ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "input-button-name (resolved)"
+msgstr "Lomakkeiden painikkeissa on teksti (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "input-button-name (unresolved)"
+msgstr "Lomakkeiden painikkeista puuttuu teksti ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "input-image-alt (resolved)"
+msgstr "Kuvapainikkeilla on vaihtoehtoinen teksti ruudunlukijoille (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "input-image-alt (unresolved)"
+msgstr "Kuvapainikkeilta puuttuu vaihtoehtoinen teksti ruudunlukijoille ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "is-crawlable (resolved)"
+msgstr "Hakukoneet voivat indeksoida sivun (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "is-crawlable (unresolved)"
+msgstr "Sivu estää hakukoneita indeksoimasta sitä ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "label (resolved)"
+msgstr "Lomakekentillä on kuvaava nimiö (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "label (unresolved)"
+msgstr "Lomakekentiltä puuttuu kuvaava nimiö ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "landmark-one-main (resolved)"
+msgstr "Sivulla on selkeä pääalue ruudunlukijoille (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "landmark-one-main (unresolved)"
+msgstr "Sivulta puuttuu selkeä pääalue ruudunlukijoille ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "lcp-breakdown-insight (resolved)"
+msgstr "Pääsisältö tulee näkyviin nopeasti (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "lcp-breakdown-insight (unresolved)"
+msgstr "Erittely siitä, miksi pääsisältö tulee näkyviin myöhään ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "link-text (resolved)"
+msgstr "Linkkitekstit ovat selkeitä ja kuvaavia (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "link-text (unresolved)"
+msgstr "Linkkitekstit ovat epäselviä, kuten \"napsauta tästä\" ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "meta-description (resolved)"
+msgstr "Sivulla on lyhyt kuvaus hakukoneille (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "meta-description (unresolved)"
+msgstr "Sivulta puuttuu lyhyt kuvaus hakukoneille ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "meta-refresh (resolved)"
+msgstr "Sivu ei lataudu uudelleen automaattisesti (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "meta-refresh (unresolved)"
+msgstr "Sivu latautuu uudelleen automaattisesti, mikä häiritsee kävijöitä ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "notification-on-start (resolved)"
+msgstr "Sivu ei pyydä lupaa lähettää ilmoituksia heti käynnin alussa (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "notification-on-start (unresolved)"
+msgstr "Sivu pyytää lupaa lähettää ilmoituksia heti käynnin alussa ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "object-alt (resolved)"
+msgstr "Upotetulla sisällöllä on vaihtoehtoinen teksti ruudunlukijoille (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "object-alt (unresolved)"
+msgstr "Upotetulta sisällöltä puuttuu vaihtoehtoinen teksti ruudunlukijoille ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "robots-txt (resolved)"
+msgstr "Hakukoneita ohjaava tiedosto (robots.txt) on kunnossa (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "robots-txt (unresolved)"
+msgstr "Hakukoneita ohjaavassa tiedostossa (robots.txt) on virheitä ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "select-name (resolved)"
+msgstr "Pudotusvalikoilla on kuvaava nimiö (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "select-name (unresolved)"
+msgstr "Pudotusvalikoilta puuttuu kuvaava nimiö ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "skip-link (resolved)"
+msgstr "Sivulla on linkki, jolla pääsee suoraan sisältöön (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "skip-link (unresolved)"
+msgstr "Sivulta puuttuu linkki, jolla pääsee suoraan sisältöön ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "tabindex (resolved)"
+msgstr "Sivun näppäimistöjärjestys on looginen (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "tabindex (unresolved)"
+msgstr "Sivun näppäimistöjärjestystä on muutettu ja se voi hämmentää ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "table-fake-caption (resolved)"
+msgstr "Taulukoissa on oikea otsikko (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "table-fake-caption (unresolved)"
+msgstr "Taulukoissa käytetään tavallisia soluja oikean otsikon sijaan ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "td-has-header (resolved)"
+msgstr "Taulukon solut on liitetty otsikoihinsa (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "td-has-header (unresolved)"
+msgstr "Taulukon soluja ei ole liitetty otsikoihinsa ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "third-party-cookies (resolved)"
+msgstr "Sivu ei käytä muiden sivustojen evästeitä (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "third-party-cookies (unresolved)"
+msgstr "Sivu käyttää muiden sivustojen evästeitä ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "valid-lang (resolved)"
+msgstr "Tekstin kielimerkinnät ovat kelvollisia (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "valid-lang (unresolved)"
+msgstr "Tekstin kielimerkinnät ovat virheellisiä ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "valid-source-maps (resolved)"
+msgstr "Virheenjäljitystiedostot (source maps) ovat kelvollisia (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "valid-source-maps (unresolved)"
+msgstr "Virheenjäljitystiedostot (source maps) puuttuvat tai ovat virheellisiä ({0})"
+

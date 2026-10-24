@@ -124,3 +124,12 @@ msgstr "Ingen tilgængelighedserklæring blev fundet ({0})"
 
 msgid "no-a11y-statement (resolved)"
 msgstr "Tilgængelighedserklæring hittad (løst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "statement-is-page-section (resolved)"
+msgstr "Erklæringen har sin egen side (løst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "statement-is-page-section (unresolved)"
+msgstr "Erklæringen er et afsnit på en anden side og har ikke sin egen side ({0})"
+

@@ -27,8 +27,13 @@ on:
       - '**regression-test-standard-files.yml'
       - '**regression-test-tracking.yml'
       - '**regression-test-webbkoll.yml'
+permissions:
+  contents: read
+
 jobs:
   build:
+    permissions:
+      contents: write
     runs-on: ${{ matrix.os }}
     strategy:
             matrix:
@@ -47,9 +52,17 @@ jobs:
       run: python default.py --update-translations
     - if: always()
       name: Git Add any changes to Translation(s)
+      # bash, since the default shell on windows-latest is PowerShell
+      shell: bash
       run: |
+        git add locales/
+        # git commit fails when there is nothing to commit, which made this
+        # step, and the job, fail on every run with up to date translations.
+        if git diff --cached --quiet; then
+          echo "No changed translations to commit."
+          exit 0
+        fi
         git config --global user.name 'GitHub Action'
         git config --global user.email '7h3Rabbit@users.noreply.github.com'
-        git add locales/
         git commit -m "Added changed Translation(s)"
         git push

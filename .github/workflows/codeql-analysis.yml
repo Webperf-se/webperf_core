@@ -20,6 +20,9 @@ on:
       - '**update_software_helper.py'
       - '**software-rules.json'
 #on: [ push, pull_request ]
+permissions:
+  contents: read
+
 jobs:
   analyze:
     name: Analyze

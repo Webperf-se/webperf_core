@@ -26,6 +26,9 @@ on:
       - '**regression-test-software.yml'
       - '**regression-test-standard-files.yml'
       - '**regression-test-tracking.yml'
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}

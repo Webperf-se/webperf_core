@@ -1,0 +1,126 @@
+# Copyright (C) 2025 WebPerf
+# FIRST AUTHOR <your-email-here@webperf.se>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2025-04-27 17:08\n"
+"PO-Revision-Date: 2025-04-27 17:08\n"
+"Last-Translator: Your-Name-Here <your-email-here@webperf.se>\n"
+"Language-Team: English <team@webperf.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+#
+# Example(s):
+# Please note that msgid has to be unique in each file.
+# {0} in msgstr will add the severity, one of (critical, error, warning, resolved).
+
+msgid "rule-id (unresolved)"
+msgstr "Javascript, text to show instead of msgid, showed for severity levels (critical, error and warning)"
+
+msgid "rule-id (resolved)"
+msgstr "Javascript, text to show instead of msgid, here unique on severity level resolved"
+
+msgid "rule-id"
+msgstr "Javascript, text to show instead of msgid, here independent of severity level"
+
+# End of Examples
+
+
+msgid "eqeqeq (unresolved)"
+msgstr "Javascript, require the use of === and !== ({0})"
+
+msgid "eqeqeq (resolved)"
+msgstr "Javascript, require the use of === and !== (resolved)"
+
+msgid "no-undef (unresolved)"
+msgstr "Javascript, disallow the use of undeclared variables unless mentioned in /*global */ comments ({0})"
+
+msgid "no-undef (resolved)"
+msgstr "Javascript, disallow the use of undeclared variables unless mentioned in /*global */ comments (resolved)"
+
+msgid "no-unmodified-loop-condition (unresolved)"
+msgstr "Javascript, disallow unmodified loop conditions ({0})"
+
+msgid "no-unmodified-loop-condition (resolved)"
+msgstr "Javascript, disallow unmodified loop conditions (resolved)"
+
+msgid "no-unused-vars (unresolved)"
+msgstr "Javascript, disallow unused variables ({0})"
+
+msgid "no-unused-vars (resolved)"
+msgstr "Javascript, disallow unused variables (resolved)"
+
+msgid "no-useless-escape (unresolved)"
+msgstr "Javascript, disallow unnecessary escape characters ({0})"
+
+msgid "no-useless-escape (resolved)"
+msgstr "Javascript, disallow unnecessary escape characters (resolved)"
+
+msgid "no-console (unresolved)"
+msgstr "Javascript, disallow the use of console ({0})"
+
+msgid "no-console (resolved)"
+msgstr "Javascript, disallow the use of console (resolved)"
+
+msgid "no-prototype-builtins (unresolved)"
+msgstr "Javascript, disallow calling some Object.prototype methods directly on objects ({0})"
+
+msgid "no-prototype-builtins (resolved)"
+msgstr "Javascript, disallow calling some Object.prototype methods directly on objects (resolved)"
+
+msgid "no-new-func (unresolved)"
+msgstr "Javascript, disallow new operators with the Function object ({0})"
+
+msgid "no-new-func (resolved)"
+msgstr "Javascript, disallow new operators with the Function object (resolved)"
+
+msgid "require-await (unresolved)"
+msgstr "Javascript, disallow async functions which have no await expression ({0})"
+
+msgid "require-await (resolved)"
+msgstr "Javascript, disallow async functions which have no await expression (resolved)"
+
+msgid "no-useless-concat (unresolved)"
+msgstr "Javascript, disallow unnecessary concatenation of literals or template literals ({0})"
+
+msgid "no-useless-concat (resolved)"
+msgstr "Javascript, disallow unnecessary concatenation of literals or template literals (resolved)"
+
+msgid "no-script-url (unresolved)"
+msgstr "Javascript, disallow javascript: URLs ({0})"
+
+msgid "no-script-url (resolved)"
+msgstr "Javascript, disallow javascript: URLs (resolved)"
+
+msgid "no-eval (unresolved)"
+msgstr "Javascript, disallow the use of eval() ({0})"
+
+msgid "no-eval (resolved)"
+msgstr "Javascript, disallow the use of eval() (resolved)"
+
+msgid "no-implied-eval (unresolved)"
+msgstr "Javascript, disallow the use of eval()-like methods ({0})"
+
+msgid "no-implied-eval (resolved)"
+msgstr "Javascript, disallow the use of eval()-like methods (resolved)"
+
+msgid "no-unsafe-finally (unresolved)"
+msgstr "Javascript, disallow control flow statements in finally blocks ({0})"
+
+msgid "no-unsafe-finally (resolved)"
+msgstr "Javascript, disallow control flow statements in finally blocks (resolved)"
+
+msgid "no-unsafe-negation (unresolved)"
+msgstr "Javascript, disallow negating the left operand of relational operators ({0})"
+
+msgid "no-unsafe-negation (resolved)"
+msgstr "Javascript, disallow negating the left operand of relational operators (resolved)"
+
+msgid "no-with (unresolved)"
+msgstr "Javascript, disallow with statements ({0})"
+
+msgid "no-with (resolved)"
+msgstr "Javascript, disallow with statements (resolved)"

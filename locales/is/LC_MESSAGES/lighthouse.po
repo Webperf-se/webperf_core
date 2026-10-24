@@ -599,3 +599,340 @@ msgstr "Sýnilegur texti hnapps passar ekki við þann sem skjálesari les upp (
 
 msgid "label-content-name-mismatch (resolved)"
 msgstr "Sýnilegur texti hnapps passar við þann sem skjálesari les upp (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "accesskeys (resolved)"
+msgstr "Flýtilyklar á síðunni eru einstakir (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "accesskeys (unresolved)"
+msgstr "Flýtilyklar á síðunni rekast á ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "aria-command-name (resolved)"
+msgstr "Hnappar með aðgengishlutverk hafa heiti fyrir skjálesara (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "aria-command-name (unresolved)"
+msgstr "Hnappa með aðgengishlutverk vantar heiti fyrir skjálesara ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "aria-dialog-name (resolved)"
+msgstr "Gluggar hafa heiti fyrir skjálesara (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "aria-dialog-name (unresolved)"
+msgstr "Glugga vantar heiti fyrir skjálesara ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "aria-input-field-name (resolved)"
+msgstr "Innsláttarreitir hafa heiti fyrir skjálesara (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "aria-input-field-name (unresolved)"
+msgstr "Innsláttarreiti vantar heiti fyrir skjálesara ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "aria-progressbar-name (resolved)"
+msgstr "Framvindustikur hafa heiti fyrir skjálesara (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "aria-progressbar-name (unresolved)"
+msgstr "Framvindustikur vantar heiti fyrir skjálesara ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "aria-text (resolved)"
+msgstr "Einingar merktar sem texti eru rétt uppbyggðar fyrir skjálesara (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "aria-text (unresolved)"
+msgstr "Einingar merktar sem texti eru rangt uppbyggðar fyrir skjálesara ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "aria-toggle-field-name (resolved)"
+msgstr "Kveikja/slökkva-rofar hafa heiti fyrir skjálesara (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "aria-toggle-field-name (unresolved)"
+msgstr "Kveikja/slökkva-rofa vantar heiti fyrir skjálesara ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "canonical (resolved)"
+msgstr "Síðan hefur rétt aðalvistfang (canonical) fyrir leitarvélar (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "canonical (unresolved)"
+msgstr "Síðuna vantar aðalvistfang (canonical) fyrir leitarvélar, eða það er rangt ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "charset (resolved)"
+msgstr "Síðan tilgreinir stafakóðun sína (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "charset (unresolved)"
+msgstr "Síðan tilgreinir ekki stafakóðun sína, sem getur valdið undarlegum stöfum ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "crawlable-anchors (resolved)"
+msgstr "Leitarvélar geta fylgt tenglunum (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "crawlable-anchors (unresolved)"
+msgstr "Leitarvélar geta ekki fylgt sumum tenglum ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "definition-list (resolved)"
+msgstr "Skilgreiningalistar eru rétt uppbyggðir (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "definition-list (unresolved)"
+msgstr "Skilgreiningalistar eru rangt uppbyggðir ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "deprecations (resolved)"
+msgstr "Síðan notar ekki úrelta tækni (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "deprecations (unresolved)"
+msgstr "Síðan notar úrelta tækni sem hættir brátt að virka ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "dlitem (resolved)"
+msgstr "Atriði í skilgreiningalista eru rétt staðsett (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "dlitem (unresolved)"
+msgstr "Atriði í skilgreiningalista eru rangt staðsett ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "doctype (resolved)"
+msgstr "Síðan hefur rétta skjalagerð (doctype) (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "doctype (unresolved)"
+msgstr "Síðuna vantar rétta skjalagerð (doctype) ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "errors-in-console (resolved)"
+msgstr "Síðan sýnir engin villuboð í vafranum (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "errors-in-console (unresolved)"
+msgstr "Síðan sýnir villuboð í vafranum ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "forced-reflow-insight (resolved)"
+msgstr "Síðan endurreiknar ekki útlit sitt að óþörfu (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "forced-reflow-insight (unresolved)"
+msgstr "Síðan endurreiknar útlit sitt að óþörfu og verður hæg ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "frame-title (resolved)"
+msgstr "Innfelldir rammar hafa lýsandi titil (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "frame-title (unresolved)"
+msgstr "Innfellda ramma vantar lýsandi titil ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "geolocation-on-start (resolved)"
+msgstr "Síðan biður ekki um staðsetningu þína strax við heimsókn (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "geolocation-on-start (unresolved)"
+msgstr "Síðan biður um staðsetningu þína strax við heimsókn ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "hreflang (resolved)"
+msgstr "Tungumálaútgáfur síðunnar eru rétt tilgreindar (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "hreflang (unresolved)"
+msgstr "Tungumálaútgáfur síðunnar eru rangt tilgreindar ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "html-xml-lang-mismatch (resolved)"
+msgstr "Tungumálatilgreiningar síðunnar passa saman (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "html-xml-lang-mismatch (unresolved)"
+msgstr "Tvær tungumálatilgreiningar síðunnar passa ekki saman ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "http-status-code (resolved)"
+msgstr "Þjónninn svarar án villukóða (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "http-status-code (unresolved)"
+msgstr "Þjónninn svarar með villukóða ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "image-aspect-ratio (resolved)"
+msgstr "Myndir birtast í réttum hlutföllum (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "image-aspect-ratio (unresolved)"
+msgstr "Myndir birtast í röngum hlutföllum og virðast teygðar ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "input-button-name (resolved)"
+msgstr "Hnappar í eyðublöðum hafa texta (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "input-button-name (unresolved)"
+msgstr "Hnappa í eyðublöðum vantar texta ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "input-image-alt (resolved)"
+msgstr "Myndhnappar hafa staðgengilstexta fyrir skjálesara (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "input-image-alt (unresolved)"
+msgstr "Myndhnappa vantar staðgengilstexta fyrir skjálesara ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "is-crawlable (resolved)"
+msgstr "Leitarvélar geta skráð síðuna (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "is-crawlable (unresolved)"
+msgstr "Síðan kemur í veg fyrir að leitarvélar skrái hana ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "label (resolved)"
+msgstr "Reitir í eyðublöðum hafa lýsandi merki (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "label (unresolved)"
+msgstr "Reiti í eyðublöðum vantar lýsandi merki ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "landmark-one-main (resolved)"
+msgstr "Síðan hefur skýrt aðalsvæði fyrir skjálesara (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "landmark-one-main (unresolved)"
+msgstr "Síðuna vantar skýrt aðalsvæði fyrir skjálesara ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "lcp-breakdown-insight (resolved)"
+msgstr "Aðalefnið birtist fljótt (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "lcp-breakdown-insight (unresolved)"
+msgstr "Sundurliðun á því hvers vegna aðalefnið birtist seint ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "link-text (resolved)"
+msgstr "Tenglatextar eru skýrir og lýsandi (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "link-text (unresolved)"
+msgstr "Tenglatextar eru óskýrir, eins og \"smelltu hér\" ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "meta-description (resolved)"
+msgstr "Síðan hefur stutta lýsingu fyrir leitarvélar (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "meta-description (unresolved)"
+msgstr "Síðuna vantar stutta lýsingu fyrir leitarvélar ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "meta-refresh (resolved)"
+msgstr "Síðan endurhleðst ekki sjálfkrafa (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "meta-refresh (unresolved)"
+msgstr "Síðan endurhleðst sjálfkrafa, sem truflar gesti ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "notification-on-start (resolved)"
+msgstr "Síðan biður ekki um að senda tilkynningar strax við heimsókn (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "notification-on-start (unresolved)"
+msgstr "Síðan biður um að senda tilkynningar strax við heimsókn ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "object-alt (resolved)"
+msgstr "Innfellt efni hefur staðgengilstexta fyrir skjálesara (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "object-alt (unresolved)"
+msgstr "Innfellt efni vantar staðgengilstexta fyrir skjálesara ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "robots-txt (resolved)"
+msgstr "Skráin sem stýrir leitarvélum (robots.txt) er rétt (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "robots-txt (unresolved)"
+msgstr "Skráin sem stýrir leitarvélum (robots.txt) inniheldur villur ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "select-name (resolved)"
+msgstr "Fellivalmyndir hafa lýsandi merki (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "select-name (unresolved)"
+msgstr "Fellivalmyndir vantar lýsandi merki ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "skip-link (resolved)"
+msgstr "Síðan hefur tengil til að hoppa beint í efnið (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "skip-link (unresolved)"
+msgstr "Síðuna vantar tengil til að hoppa beint í efnið ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "tabindex (resolved)"
+msgstr "Lyklaborðsröðin á síðunni er rökrétt (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "tabindex (unresolved)"
+msgstr "Lyklaborðsröðinni á síðunni hefur verið breytt og hún getur ruglað ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "table-fake-caption (resolved)"
+msgstr "Töflur nota raunverulegan titil (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "table-fake-caption (unresolved)"
+msgstr "Töflur nota venjulega reiti í stað raunverulegs titils ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "td-has-header (resolved)"
+msgstr "Töflureitir eru tengdir fyrirsögnum sínum (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "td-has-header (unresolved)"
+msgstr "Töflureitir eru ekki tengdir fyrirsögnum sínum ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "third-party-cookies (resolved)"
+msgstr "Síðan notar ekki vafrakökur frá öðrum vefsvæðum (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "third-party-cookies (unresolved)"
+msgstr "Síðan notar vafrakökur frá öðrum vefsvæðum ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "valid-lang (resolved)"
+msgstr "Tungumálatilgreiningar í textanum eru gildar (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "valid-lang (unresolved)"
+msgstr "Tungumálatilgreiningar í textanum eru ógildar ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "valid-source-maps (resolved)"
+msgstr "Villuleitarskrár (source maps) eru gildar (leyst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "valid-source-maps (unresolved)"
+msgstr "Villuleitarskrár (source maps) vantar eða eru ógildar ({0})"
+

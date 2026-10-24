@@ -124,3 +124,12 @@ msgstr "Saavutettavuusselostetta ei löytynyt ({0})"
 
 msgid "no-a11y-statement (resolved)"
 msgstr "Saavutettavuusseloste hittad (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "statement-is-page-section (resolved)"
+msgstr "Selosteella on oma sivunsa (ratkaistu)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "statement-is-page-section (unresolved)"
+msgstr "Seloste on osio toisella sivulla eikä sillä ole omaa sivua ({0})"
+

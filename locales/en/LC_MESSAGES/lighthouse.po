@@ -586,3 +586,268 @@ msgstr "Adapt the page so it displays well on mobile ({0})"
 
 msgid "viewport-insight (resolved)"
 msgstr "The page displays well on mobile (resolved)"
+
+msgid "accesskeys (resolved)"
+msgstr "Keyboard shortcuts on the page are unique (resolved)"
+
+msgid "accesskeys (unresolved)"
+msgstr "Keyboard shortcuts on the page clash with each other ({0})"
+
+msgid "aria-command-name (resolved)"
+msgstr "Buttons with an accessibility role have a name for screen readers (resolved)"
+
+msgid "aria-command-name (unresolved)"
+msgstr "Buttons with an accessibility role are missing a name for screen readers ({0})"
+
+msgid "aria-dialog-name (resolved)"
+msgstr "Dialogs have a name for screen readers (resolved)"
+
+msgid "aria-dialog-name (unresolved)"
+msgstr "Dialogs are missing a name for screen readers ({0})"
+
+msgid "aria-input-field-name (resolved)"
+msgstr "Input fields have a name for screen readers (resolved)"
+
+msgid "aria-input-field-name (unresolved)"
+msgstr "Input fields are missing a name for screen readers ({0})"
+
+msgid "aria-progressbar-name (resolved)"
+msgstr "Progress bars have a name for screen readers (resolved)"
+
+msgid "aria-progressbar-name (unresolved)"
+msgstr "Progress bars are missing a name for screen readers ({0})"
+
+msgid "aria-text (resolved)"
+msgstr "Elements marked as text are built correctly for screen readers (resolved)"
+
+msgid "aria-text (unresolved)"
+msgstr "Elements marked as text are built incorrectly for screen readers ({0})"
+
+msgid "aria-toggle-field-name (resolved)"
+msgstr "On/off switches have a name for screen readers (resolved)"
+
+msgid "aria-toggle-field-name (unresolved)"
+msgstr "On/off switches are missing a name for screen readers ({0})"
+
+msgid "cache-insight (resolved)"
+msgstr "The browser stores files so the page loads faster (resolved)"
+
+msgid "cache-insight (unresolved)"
+msgstr "Let the browser store files so the page loads faster ({0})"
+
+msgid "canonical (resolved)"
+msgstr "The page has the right main address (canonical) for search engines (resolved)"
+
+msgid "canonical (unresolved)"
+msgstr "The page is missing a main address (canonical) for search engines, or it is wrong ({0})"
+
+msgid "charset (resolved)"
+msgstr "The page declares its character encoding (resolved)"
+
+msgid "charset (unresolved)"
+msgstr "The page doesn't declare its character encoding, which can give garbled characters ({0})"
+
+msgid "crawlable-anchors (resolved)"
+msgstr "Search engines can follow the links (resolved)"
+
+msgid "crawlable-anchors (unresolved)"
+msgstr "Search engines can't follow some links ({0})"
+
+msgid "definition-list (resolved)"
+msgstr "Definition lists are built correctly (resolved)"
+
+msgid "definition-list (unresolved)"
+msgstr "Definition lists are built incorrectly ({0})"
+
+msgid "deprecations (resolved)"
+msgstr "The page doesn't use deprecated technology (resolved)"
+
+msgid "deprecations (unresolved)"
+msgstr "The page uses deprecated technology that will soon stop working ({0})"
+
+msgid "dlitem (resolved)"
+msgstr "Items in a definition list are placed correctly (resolved)"
+
+msgid "dlitem (unresolved)"
+msgstr "Items in a definition list are placed incorrectly ({0})"
+
+msgid "doctype (resolved)"
+msgstr "The page has a correct document type (doctype) (resolved)"
+
+msgid "doctype (unresolved)"
+msgstr "The page is missing a correct document type (doctype) ({0})"
+
+msgid "errors-in-console (resolved)"
+msgstr "The page shows no error messages in the browser (resolved)"
+
+msgid "errors-in-console (unresolved)"
+msgstr "The page shows error messages in the browser ({0})"
+
+msgid "forced-reflow-insight (resolved)"
+msgstr "The page doesn't recalculate its layout unnecessarily (resolved)"
+
+msgid "forced-reflow-insight (unresolved)"
+msgstr "The page recalculates its layout unnecessarily and becomes sluggish ({0})"
+
+msgid "frame-title (resolved)"
+msgstr "Embedded frames have a descriptive title (resolved)"
+
+msgid "frame-title (unresolved)"
+msgstr "Embedded frames are missing a descriptive title ({0})"
+
+msgid "geolocation-on-start (resolved)"
+msgstr "The page doesn't ask for your location as soon as you visit (resolved)"
+
+msgid "geolocation-on-start (unresolved)"
+msgstr "The page asks for your location as soon as you visit ({0})"
+
+msgid "hreflang (resolved)"
+msgstr "Language versions of the page are declared correctly (resolved)"
+
+msgid "hreflang (unresolved)"
+msgstr "Language versions of the page are declared incorrectly ({0})"
+
+msgid "html-xml-lang-mismatch (resolved)"
+msgstr "The page's language declarations match (resolved)"
+
+msgid "html-xml-lang-mismatch (unresolved)"
+msgstr "The page's two language declarations don't match ({0})"
+
+msgid "http-status-code (resolved)"
+msgstr "The server responds without an error code (resolved)"
+
+msgid "http-status-code (unresolved)"
+msgstr "The server responds with an error code ({0})"
+
+msgid "image-aspect-ratio (resolved)"
+msgstr "Images are shown with the right proportions (resolved)"
+
+msgid "image-aspect-ratio (unresolved)"
+msgstr "Images are shown with the wrong proportions and look stretched ({0})"
+
+msgid "input-button-name (resolved)"
+msgstr "Buttons in forms have a text (resolved)"
+
+msgid "input-button-name (unresolved)"
+msgstr "Buttons in forms are missing a text ({0})"
+
+msgid "input-image-alt (resolved)"
+msgstr "Image buttons have alternative text for screen readers (resolved)"
+
+msgid "input-image-alt (unresolved)"
+msgstr "Image buttons are missing alternative text for screen readers ({0})"
+
+msgid "is-crawlable (resolved)"
+msgstr "Search engines can index the page (resolved)"
+
+msgid "is-crawlable (unresolved)"
+msgstr "The page blocks search engines from indexing it ({0})"
+
+msgid "label (resolved)"
+msgstr "Form fields have a descriptive label (resolved)"
+
+msgid "label (unresolved)"
+msgstr "Form fields are missing a descriptive label ({0})"
+
+msgid "label-content-name-mismatch (resolved)"
+msgstr "A button's visible text matches what screen readers read out (resolved)"
+
+msgid "label-content-name-mismatch (unresolved)"
+msgstr "A button's visible text doesn't match what screen readers read out ({0})"
+
+msgid "landmark-one-main (resolved)"
+msgstr "The page has a clear main area for screen readers (resolved)"
+
+msgid "landmark-one-main (unresolved)"
+msgstr "The page is missing a clear main area for screen readers ({0})"
+
+msgid "lcp-breakdown-insight (resolved)"
+msgstr "The main content shows up quickly (resolved)"
+
+msgid "lcp-breakdown-insight (unresolved)"
+msgstr "Breakdown of why the main content shows up late ({0})"
+
+msgid "link-text (resolved)"
+msgstr "Link texts are clear and descriptive (resolved)"
+
+msgid "link-text (unresolved)"
+msgstr "Link texts are unclear, like \"click here\" ({0})"
+
+msgid "meta-description (resolved)"
+msgstr "The page has a short description for search engines (resolved)"
+
+msgid "meta-description (unresolved)"
+msgstr "The page is missing a short description for search engines ({0})"
+
+msgid "meta-refresh (resolved)"
+msgstr "The page doesn't reload automatically (resolved)"
+
+msgid "meta-refresh (unresolved)"
+msgstr "The page reloads automatically, which disturbs visitors ({0})"
+
+msgid "notification-on-start (resolved)"
+msgstr "The page doesn't ask to send notifications as soon as you visit (resolved)"
+
+msgid "notification-on-start (unresolved)"
+msgstr "The page asks to send notifications as soon as you visit ({0})"
+
+msgid "object-alt (resolved)"
+msgstr "Embedded content has alternative text for screen readers (resolved)"
+
+msgid "object-alt (unresolved)"
+msgstr "Embedded content is missing alternative text for screen readers ({0})"
+
+msgid "robots-txt (resolved)"
+msgstr "The file that guides search engines (robots.txt) is valid (resolved)"
+
+msgid "robots-txt (unresolved)"
+msgstr "The file that guides search engines (robots.txt) has errors ({0})"
+
+msgid "select-name (resolved)"
+msgstr "Drop-down menus have a descriptive label (resolved)"
+
+msgid "select-name (unresolved)"
+msgstr "Drop-down menus are missing a descriptive label ({0})"
+
+msgid "skip-link (resolved)"
+msgstr "The page has a link to skip straight to the content (resolved)"
+
+msgid "skip-link (unresolved)"
+msgstr "The page is missing a link to skip straight to the content ({0})"
+
+msgid "tabindex (resolved)"
+msgstr "The keyboard order on the page is logical (resolved)"
+
+msgid "tabindex (unresolved)"
+msgstr "The keyboard order on the page has been altered and can confuse ({0})"
+
+msgid "table-fake-caption (resolved)"
+msgstr "Tables use a real caption (resolved)"
+
+msgid "table-fake-caption (unresolved)"
+msgstr "Tables use ordinary cells instead of a real caption ({0})"
+
+msgid "td-has-header (resolved)"
+msgstr "Table cells are linked to their headers (resolved)"
+
+msgid "td-has-header (unresolved)"
+msgstr "Table cells are not linked to their headers ({0})"
+
+msgid "third-party-cookies (resolved)"
+msgstr "The page doesn't use cookies from other websites (resolved)"
+
+msgid "third-party-cookies (unresolved)"
+msgstr "The page uses cookies from other websites ({0})"
+
+msgid "valid-lang (resolved)"
+msgstr "Language declarations in the text are valid (resolved)"
+
+msgid "valid-lang (unresolved)"
+msgstr "Language declarations in the text are invalid ({0})"
+
+msgid "valid-source-maps (resolved)"
+msgstr "Debugging files (source maps) are valid (resolved)"
+
+msgid "valid-source-maps (unresolved)"
+msgstr "Debugging files (source maps) are missing or invalid ({0})"
+

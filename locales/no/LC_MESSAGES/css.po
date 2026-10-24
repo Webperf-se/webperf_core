@@ -232,3 +232,20 @@ msgstr "CSS, Testen kunne ikke nå nettstedet ({0})"
 
 msgid "no-network (resolved)"
 msgstr "CSS, Testen kunne ikke nå nettstedet (løst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "selector-no-deprecated (resolved)"
+msgstr "CSS, Tillat ikke utdaterte selektorer (løst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "selector-no-deprecated (unresolved)"
+msgstr "CSS, Tillat ikke utdaterte selektorer ({0})"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "selector-no-invalid (resolved)"
+msgstr "CSS, Tillat ikke ugyldige selektorer (løst)"
+
+# Machine translated 2026-10-24, needs review by a native speaker
+msgid "selector-no-invalid (unresolved)"
+msgstr "CSS, Tillat ikke ugyldige selektorer ({0})"
+

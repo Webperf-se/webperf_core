@@ -133,3 +133,6 @@ msgstr "Erklæringen har sin egen side (løst)"
 msgid "statement-is-page-section (unresolved)"
 msgstr "Erklæringen er et afsnit på en anden side og har ikke sin egen side ({0})"
 
+
+msgid "no-country-rules (info)"
+msgstr "Der blev ikke fundet regler for hjemmesidens land, så erklæringen blev ikke vurderet"

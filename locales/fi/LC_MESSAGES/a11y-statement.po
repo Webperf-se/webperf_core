@@ -133,3 +133,6 @@ msgstr "Selosteella on oma sivunsa (ratkaistu)"
 msgid "statement-is-page-section (unresolved)"
 msgstr "Seloste on osio toisella sivulla eikä sillä ole omaa sivua ({0})"
 
+
+msgid "no-country-rules (info)"
+msgstr "Verkkosivuston maalle ei löytynyt sääntöjä, joten selostetta ei arvioitu"

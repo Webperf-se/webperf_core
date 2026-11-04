@@ -131,3 +131,6 @@ msgstr "Accessibility statement, the statement has a page of its own (resolved)"
 msgid "statement-is-page-section (unresolved)"
 msgstr "Accessibility statement, the statement is a section of another page and not a page of its own ({0})"
 
+
+msgid "no-country-rules (info)"
+msgstr "Accessibility statement, no rules were found for the website's country, so the statement was not rated"

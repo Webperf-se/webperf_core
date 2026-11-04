@@ -80,10 +80,29 @@ def get_translation(module_name, lang_code):
         localedir='locales', languages=[lang_code])
     return language.gettext
 
-def create_or_append_translation(module_name, lang_code, text_key):
-    base_directory = Path(os.path.dirname(
-        os.path.realpath(__file__)) + os.path.sep).parent
-    locales_dir = os.path.join(base_directory.resolve(), 'locales') + os.sep
+def create_or_append_translation(module_name, lang_code, text_key,
+                                 severity_key=None, locales_dir=None):
+    """
+    Adds placeholder translations for a rule to the .po file of a module.
+
+    A rule always gets the '(unresolved)' and '(resolved)' keys. A rule that
+    is reported with another severity key, for example 'info', also gets a
+    key for that, because that is the key looked up when the issue is shown.
+
+    Parameters:
+    module_name (str): The test the rule belongs to, also the .po file name.
+    lang_code (str): The language to add the placeholders for.
+    text_key (str): The rule id.
+    severity_key (str): Extra key to add, 'info' when the rule has severity
+        info, optional.
+    locales_dir (str): The locales directory, defaults to the one in this
+        repository, optional.
+    """
+    if locales_dir is None:
+        base_directory = Path(os.path.dirname(
+            os.path.realpath(__file__)) + os.path.sep).parent
+        locales_dir = os.path.join(base_directory.resolve(), 'locales')
+    locales_dir = os.path.join(locales_dir, '')
     lang_dir = os.path.join(locales_dir, lang_code, 'LC_MESSAGES') + os.sep
     if not os.path.exists(lang_dir):
         os.makedirs(lang_dir)
@@ -142,6 +161,14 @@ def create_or_append_translation(module_name, lang_code, text_key):
                 '\n'
                 f'msgid "{text_key} (resolved)"\n'
                 f'msgstr "{text_key} (resolved)"\n'
+            )
+        content += content_to_append
+
+    if severity_key == 'info' and f'msgid "{text_key} (info)"' not in content:
+        content_to_append = (
+                '\n'
+                f'msgid "{text_key} (info)"\n'
+                f'msgstr "{text_key} (info)"\n'
             )
         content += content_to_append
 
@@ -1219,11 +1246,11 @@ def get_issue_review_text(global_translation, issue):
                 text = local_translation(text_primarykey).format(severity_text)
             if text == text_primarykey:
                 print(f"no translation found for: {issue['test']}, and language: {get_config('general.language')}. Adding it so you can translate it.")
-                create_or_append_translation(issue['test'], get_config('general.language'), text_secondarykey)
+                create_or_append_translation(issue['test'], get_config('general.language'), text_secondarykey, severity_key)
         except FileNotFoundError:
             text = text_primarykey
             print(f"no translation found for: {issue['test']}, adding file for language: {get_config('general.language')} so you can translate it.")
-            create_or_append_translation(issue['test'], get_config('general.language'), text_secondarykey)
+            create_or_append_translation(issue['test'], get_config('general.language'), text_secondarykey, severity_key)
 
     if get_config('general.review.details'):
         if 'resources' in issue:

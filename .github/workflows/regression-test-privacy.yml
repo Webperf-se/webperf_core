@@ -12,6 +12,7 @@ on:
       - 'Dockerfile'
       - '**regression-test-404.yml'
       - '**regression-test-a11y-statement.yml'
+      - '**regression-test-dns.yml'
       - '**regression-test-docker-image.yml'
       - '**regression-test-email.yml'
       - '**regression-test-energy-efficiency.yml'

@@ -67,6 +67,22 @@ You can list all available settings by writing `--setting ?`.
 If you want to change your settings in a more permanent way you can do so by creating a settings.json file. 
 Read more about it at [settings.json](settings-json.md).
 
+## Chrome sandbox in the container
+
+The image sets `CHROMIUM_NO_SANDBOX=1`, so the Chrome that webbkoll-backend uses for test 31 runs without its sandbox. With a plain `docker run`, Docker's default seccomp profile blocks the user namespaces the sandbox needs, and Chrome would not start at all. pa11y (test 18) already runs Chrome with `--no-sandbox` in the image.
+
+The container and the non-root user `sitespeedio` it runs as are then what stands between a tested website and your machine. Keep that in mind for folders you mount into the container.
+
+If you want to keep Chrome's sandbox, give the container the access it needs and clear the variable:
+
+```
+docker run -it --shm-size=4g --cap-add=SYS_ADMIN -e CHROMIUM_NO_SANDBOX= --rm webperfse/webperf-core:latest bash
+```
+
+`--security-opt seccomp=unconfined` works instead of `--cap-add=SYS_ADMIN`. Both widen what everything in the container may do with the host's kernel, which is why they are not the default.
+
 ## Known issues
 
 Lighthouse tests sometimes fail reporting NO_NAVSTART - retrying usually works. Seems to be a somewhat often reported issue with Chrome/Lighthouse and Docker.
+
+Test 32 (DNS, Zonemaster) does not work inside the image and ends with "zonemaster: docker was not found in PATH". It starts the `zonemaster/cli` image with `docker run`, and there is no Docker inside the container. Run test 32 from a local install on a machine with Docker instead, see [DNS (Zonemaster)](tests/dns-zonemaster.md).

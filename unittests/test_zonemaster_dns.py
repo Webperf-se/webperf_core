@@ -23,6 +23,17 @@ def _rec(tag, testcase, level, message="msg"):
     return {"tag": tag, "testcase": testcase, "level": level, "message": message}
 
 
+# zonemaster-cli v9.0.1 output for med.se when the container had no working DNS.
+_UNREACHABLE = [
+    _rec("GLOBAL_VERSION", "Unspecified", "INFO", "Using version v9.0.1 of the Zonemaster engine."),
+    _rec("B01_PARENT_NOT_FOUND", "Basic01", "WARNING", "The parent zone cannot be found."),
+    _rec("B01_NO_CHILD", "Basic01", "ERROR",
+         '"med.se" does not exist as a DNS zone. Try to test "se" instead.'),
+    _rec("CANNOT_CONTINUE", "Unspecified", "CRITICAL",
+         "Not enough data about med.se was found to be able to run tests."),
+]
+
+
 class ModuleAndDomainTests(unittest.TestCase):
     def test_module_from_testcase(self):
         self.assertEqual(zonemaster_dns.module_from_testcase("Basic01"), "Basic")
@@ -118,6 +129,16 @@ class ScoreTests(unittest.TestCase):
         self.assertLess(scored["rating_security"], 5.0)
         self.assertEqual(scored["rating_standards"], 5.0)
 
+    def test_cannot_continue_is_not_rated(self):
+        # Real output when the container cannot reach any name server: Basic01
+        # reports an ERROR, but Zonemaster stopped, so this must not become 3.5.
+        entries = zonemaster_dns.normalize_entries(_UNREACHABLE)
+        scored = zonemaster_dns.score(entries)
+        self.assertEqual(scored["rating"], -1.0)
+        self.assertEqual(scored["rating_standards"], -1.0)
+        self.assertEqual(scored["rating_security"], -1.0)
+        self.assertIn("Not enough data", scored["aborted"])
+
     def test_penalties_are_configurable(self):
         entries = zonemaster_dns.normalize_entries(
             [_rec("IPV4_ONE_ASN", "Connectivity03", "WARNING")]
@@ -157,6 +178,13 @@ class RunTestTests(unittest.TestCase):
         rating, data = zonemaster_dns.run_test(self.global_translation, "https://example.com")
         self.assertTrue(data.get("failed"))
         # No score set => overall stays unset (-1), so the run is not counted as a bad site.
+        self.assertEqual(rating.get_overall(), -1)
+
+    def test_run_test_cannot_continue_is_failed(self):
+        zonemaster_dns.run_zonemaster = lambda *a, **k: _UNREACHABLE
+        rating, data = zonemaster_dns.run_test(self.global_translation, "https://www.med.se")
+        self.assertTrue(data.get("failed"))
+        self.assertIn("Not enough data", data["error"])
         self.assertEqual(rating.get_overall(), -1)
 
     def test_run_test_broken_delegation_is_one(self):

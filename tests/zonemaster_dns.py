@@ -62,6 +62,10 @@ RANK_WARNING = LEVEL_RANK["WARNING"]
 RANK_ERROR = LEVEL_RANK["ERROR"]
 RANK_CRITICAL = LEVEL_RANK["CRITICAL"]
 
+# Tags Zonemaster emits when it stops before running the test cases. Such a run
+# is a failed test (rating -1), not a broken zone.
+ABORT_TAGS = ("CANNOT_CONTINUE",)
+
 DOCKER_IMAGE = "zonemaster/cli"
 PROFILE_FILENAME = "webperf-dns.profile.json"
 
@@ -227,7 +231,7 @@ def normalize_entries(raw, apply_overrides=True):
             # Only lower severity, so an engine-side profile can never be undone.
             if LEVEL_RANK.get(override, 0) < LEVEL_RANK.get(level, 0):
                 level = override
-        out.append({"level": level, "module": module,
+        out.append({"level": level, "module": module, "tag": tag,
                     "testcase": testcase, "message": message})
     return out
 
@@ -254,6 +258,19 @@ def score(entries, error_penalty=ERROR_PENALTY, warning_penalty=WARNING_PENALTY,
     sub-ratings (computed over the module subsets), the severity counts and the
     issues grouped by module.
     """
+    # Zonemaster gave up before running its test cases (e.g. the container could
+    # not reach any name server). The few results it did emit say nothing about
+    # the zone, so the run must not produce a rating.
+    aborted = next((e for e in entries if e.get("tag") in ABORT_TAGS), None)
+    if aborted:
+        return {
+            "rating": -1.0, "rating_security": -1.0, "rating_standards": -1.0,
+            "total": 0,
+            "n_critical": 0, "n_error": 0, "n_warning": 0, "n_notice": 0,
+            "issues_by_module": {},
+            "aborted": aborted["message"] or aborted["tag"],
+        }
+
     worst = {}   # testcase -> {"rank", "message", "module"}
     for entry in entries:
         module, testcase = entry["module"], entry["testcase"]
@@ -434,7 +451,12 @@ def run_test(global_translation, url):
     points = scored["rating"]
     if points == -1.0:
         rating.overall_review = local_translation('TEXT_REVIEW_NO_TESTCASES')
-        return (rating, {'failed': True, 'url': url, 'domain': domain})
+        failed = {'failed': True, 'url': url, 'domain': domain}
+        if scored.get("aborted"):
+            # Say why, otherwise an unreachable resolver looks like an empty zone
+            print(f"zonemaster: {scored['aborted']}")
+            failed['error'] = scored["aborted"]
+        return (rating, failed)
 
     review = build_review(scored, local_translation)
     if points >= 5.0:

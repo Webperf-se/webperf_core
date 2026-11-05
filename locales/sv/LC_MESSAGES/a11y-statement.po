@@ -130,3 +130,6 @@ msgstr "Redogörelsen är ett avsnitt på en annan sida och har ingen egen sida 
 
 msgid "statement-is-page-section (resolved)"
 msgstr "Redogörelsen har en egen sida (löst)"
+
+msgid "no-country-rules (info)"
+msgstr "Inga regler för webbplatsens land hittades, redogörelsen bedömdes inte"

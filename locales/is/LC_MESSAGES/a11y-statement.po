@@ -133,3 +133,6 @@ msgstr "Yfirlýsingin hefur sína eigin síðu (leyst)"
 msgid "statement-is-page-section (unresolved)"
 msgstr "Yfirlýsingin er hluti af annarri síðu og hefur ekki sína eigin síðu ({0})"
 
+
+msgid "no-country-rules (info)"
+msgstr "Engar reglur fundust fyrir land vefsvæðisins, því var yfirlýsingin ekki metin"

@@ -5,6 +5,9 @@ This test is validating all used HTML on the url specified. Making use of the [h
 ## Differences compared to vanilla html-validate
 We are using  
 * the built-in preset: ``--preset standard``
+* `valid-id` in relaxed mode, so only empty IDs and IDs with whitespace are errors, as in the HTML standard
+* `id-pattern` as a warning for IDs outside `/^[A-Za-z_][A-Za-z0-9_:-]*$/`, for example IDs with emoji, non-ASCII letters or periods
+* `no-missing-references` as an error, for `for`, `aria-labelledby` and similar attributes that point to an ID that does not exist
 * sitespeed to visit the website
 * sitespeed's HAR file to identify HTML files used during the visit
 * all files whose mimetype contains 'html'

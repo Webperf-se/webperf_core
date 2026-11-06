@@ -196,6 +196,18 @@ msgstr "Kræv at `id` er en gyldig identifikator ({0})"
 msgid "valid-id (resolved)"
 msgstr "Kræv at `id` er en gyldig identifikator (løst)"
 
+msgid "id-pattern (unresolved)"
+msgstr "Kræv at `id` kun indeholder almindelige tegn ({0})"
+
+msgid "id-pattern (resolved)"
+msgstr "Kræv at `id` kun indeholder almindelige tegn (løst)"
+
+msgid "no-missing-references (unresolved)"
+msgstr "Tillad ikke henvisninger til manglende ID'er ({0})"
+
+msgid "no-missing-references (resolved)"
+msgstr "Tillad ikke henvisninger til manglende ID'er (løst)"
+
 msgid "void-content (unresolved)"
 msgstr "Tillad ikke void-elementer med indhold ({0})"
 

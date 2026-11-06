@@ -196,6 +196,18 @@ msgstr "Kräv att `id` är en giltig identifierare ({0})"
 msgid "valid-id (resolved)"
 msgstr "Kräv att `id` är en giltig identifierare (löst)"
 
+msgid "id-pattern (unresolved)"
+msgstr "Kräv att `id` bara innehåller vanliga tecken ({0})"
+
+msgid "id-pattern (resolved)"
+msgstr "Kräv att `id` bara innehåller vanliga tecken (löst)"
+
+msgid "no-missing-references (unresolved)"
+msgstr "Tillåt inte hänvisningar till ID:n som saknas ({0})"
+
+msgid "no-missing-references (resolved)"
+msgstr "Tillåt inte hänvisningar till ID:n som saknas (löst)"
+
 msgid "void-content (unresolved)"
 msgstr "Tillåt inte void-element med innehåll ({0})"
 

@@ -196,6 +196,18 @@ msgstr "Vaadi `id` kelvolliseksi tunnisteeksi ({0})"
 msgid "valid-id (resolved)"
 msgstr "Vaadi `id` kelvolliseksi tunnisteeksi (ratkaistu)"
 
+msgid "id-pattern (unresolved)"
+msgstr "Vaadi, että `id` sisältää vain tavallisia merkkejä ({0})"
+
+msgid "id-pattern (resolved)"
+msgstr "Vaadi, että `id` sisältää vain tavallisia merkkejä (ratkaistu)"
+
+msgid "no-missing-references (unresolved)"
+msgstr "Älä salli viittauksia puuttuviin ID-tunnuksiin ({0})"
+
+msgid "no-missing-references (resolved)"
+msgstr "Älä salli viittauksia puuttuviin ID-tunnuksiin (ratkaistu)"
+
 msgid "void-content (unresolved)"
 msgstr "Älä salli void-elementtejä sisällön kanssa ({0})"
 

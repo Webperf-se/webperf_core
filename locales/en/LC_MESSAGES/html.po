@@ -190,6 +190,18 @@ msgstr "Require `id` to be a valid identifier ({0})"
 msgid "valid-id (resolved)"
 msgstr "Require `id` to be a valid identifier (resolved)"
 
+msgid "id-pattern (unresolved)"
+msgstr "Require `id` to use only common characters ({0})"
+
+msgid "id-pattern (resolved)"
+msgstr "Require `id` to use only common characters (resolved)"
+
+msgid "no-missing-references (unresolved)"
+msgstr "Disallow references to missing IDs ({0})"
+
+msgid "no-missing-references (resolved)"
+msgstr "Disallow references to missing IDs (resolved)"
+
 msgid "void-content (unresolved)"
 msgstr "Disallow void element with content ({0})"
 

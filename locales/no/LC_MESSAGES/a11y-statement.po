@@ -83,11 +83,8 @@ msgstr "Angir ingen evalueringsmetode ({0})"
 msgid "no-evaluation-method (resolved)"
 msgstr "Angir sin evalueringsmetode (løst)"
 
-msgid "has-canonical-notification-function-link (unresolved)"
-msgstr "Har ikke korrekt lenke for varsling ({0})"
-
-msgid "has-canonical-notification-function-link (resolved)"
-msgstr "Har korrekt lenke for varsling (løst)"
+msgid "has-canonical-notification-function-link (info)"
+msgstr "Erklæringen viser til riktig tilsynsmyndighet for klager"
 
 msgid "has-old-notification-function-link (unresolved)"
 msgstr "Har en gammel lenke for varsling ({0})"

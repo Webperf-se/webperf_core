@@ -24,7 +24,7 @@
     "plugin-html": "2026.10.2",
     "plugin-javascript": "2026.10.2",
     "plugin-pagenotfound": "2026.10.3",
-    "plugin-standard-files": "2026.10.4",
+    "plugin-standard-files": "2026.11.0",
     "plugin-accessibility-statement": "2026.10.4",
     "plugin-webperf-core": "2026.10.2"
   },

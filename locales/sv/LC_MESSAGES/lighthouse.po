@@ -851,3 +851,159 @@ msgstr "Sidans två språkangivelser stämmer inte överens ({0})"
 
 msgid "html-xml-lang-mismatch (resolved)"
 msgstr "Sidans språkangivelser stämmer överens (löst)"
+
+msgid "presentation-role-conflict (unresolved)"
+msgstr "Element märkta som dekoration har egenskaper som motsäger det ({0})"
+
+msgid "presentation-role-conflict (resolved)"
+msgstr "Element märkta som dekoration har inga motstridiga egenskaper (löst)"
+
+msgid "paste-preventing-inputs (unresolved)"
+msgstr "Inmatningsfält hindrar besökare från att klistra in text ({0})"
+
+msgid "paste-preventing-inputs (resolved)"
+msgstr "Inmatningsfält låter besökare klistra in text (löst)"
+
+msgid "inp-breakdown-insight (unresolved)"
+msgstr "Sidan svarar långsamt på klick och tangenttryck ({0})"
+
+msgid "inp-breakdown-insight (resolved)"
+msgstr "Ingen långsam respons på klick och tangenttryck uppmättes (löst)"
+
+msgid "aria-meter-name (unresolved)"
+msgstr "Mätare saknar ett namn för skärmläsare ({0})"
+
+msgid "aria-meter-name (resolved)"
+msgstr "Mätare har ett namn för skärmläsare (löst)"
+
+msgid "aria-tooltip-name (unresolved)"
+msgstr "Inforutor (tooltips) saknar ett namn för skärmläsare ({0})"
+
+msgid "aria-tooltip-name (resolved)"
+msgstr "Inforutor (tooltips) har ett namn för skärmläsare (löst)"
+
+msgid "aria-treeitem-name (unresolved)"
+msgstr "Poster i trädmenyer saknar ett namn för skärmläsare ({0})"
+
+msgid "aria-treeitem-name (resolved)"
+msgstr "Poster i trädmenyer har ett namn för skärmläsare (löst)"
+
+msgid "td-headers-attr (unresolved)"
+msgstr "Tabellceller hänvisar till rubriker utanför sin egen tabell ({0})"
+
+msgid "td-headers-attr (resolved)"
+msgstr "Tabellceller hänvisar till rubriker i sin egen tabell (löst)"
+
+msgid "autocomplete-valid (unresolved)"
+msgstr "Formulärfält har ogiltiga värden för automatisk ifyllning ({0})"
+
+msgid "autocomplete-valid (resolved)"
+msgstr "Formulärfält har giltiga värden för automatisk ifyllning (löst)"
+
+msgid "svg-img-alt (unresolved)"
+msgstr "SVG-bilder saknar alternativ text för skärmläsare ({0})"
+
+msgid "svg-img-alt (resolved)"
+msgstr "SVG-bilder har alternativ text för skärmläsare (löst)"
+
+msgid "csp-xss (unresolved)"
+msgstr "Säkerhetspolicyn (CSP) skyddar inte tillräckligt mot XSS-attacker ({0})"
+
+msgid "csp-xss (resolved)"
+msgstr "Säkerhetspolicyn (CSP) skyddar mot XSS-attacker (löst)"
+
+msgid "has-hsts (unresolved)"
+msgstr "Sidan saknar HSTS eller har en svag HSTS-inställning ({0})"
+
+msgid "has-hsts (resolved)"
+msgstr "Sidan har en stark HSTS-inställning (löst)"
+
+msgid "origin-isolation (unresolved)"
+msgstr "Sidan isolerar sig inte från andra webbplatsers fönster (COOP) ({0})"
+
+msgid "origin-isolation (resolved)"
+msgstr "Sidan isolerar sig från andra webbplatsers fönster (COOP) (löst)"
+
+msgid "clickjacking-mitigation (unresolved)"
+msgstr "Sidan saknar skydd mot att bäddas in av andra webbplatser ({0})"
+
+msgid "clickjacking-mitigation (resolved)"
+msgstr "Sidan har skydd mot att bäddas in av andra webbplatser (löst)"
+
+msgid "trusted-types-xss (unresolved)"
+msgstr "Sidan använder inte Trusted Types mot XSS i JavaScript ({0})"
+
+msgid "trusted-types-xss (resolved)"
+msgstr "Sidan använder Trusted Types mot XSS i JavaScript (löst)"
+
+msgid "non-composited-animations (unresolved)"
+msgstr "Animeringar körs utan grafikkortets hjälp och kan hacka ({0})"
+
+msgid "non-composited-animations (resolved)"
+msgstr "Animeringar körs med grafikkortets hjälp (löst)"
+
+msgid "bypass (unresolved)"
+msgstr "Sidan saknar sätt att hoppa förbi upprepat innehåll, som en hopplänk ({0})"
+
+msgid "bypass (resolved)"
+msgstr "Sidan har sätt att hoppa förbi upprepat innehåll (löst)"
+
+msgid "empty-heading (unresolved)"
+msgstr "Rubriker saknar text ({0})"
+
+msgid "empty-heading (resolved)"
+msgstr "Rubriker har text (löst)"
+
+msgid "identical-links-same-purpose (unresolved)"
+msgstr "Länkar med samma text leder till olika mål ({0})"
+
+msgid "identical-links-same-purpose (resolved)"
+msgstr "Länkar med samma text leder till samma mål (löst)"
+
+msgid "table-duplicate-name (unresolved)"
+msgstr "Tabeller har samma text i rubrik och sammanfattning ({0})"
+
+msgid "table-duplicate-name (resolved)"
+msgstr "Tabeller har olika text i rubrik och sammanfattning (löst)"
+
+msgid "duplicate-id-aria (unresolved)"
+msgstr "Id som skärmläsare använder förekommer flera gånger ({0})"
+
+msgid "duplicate-id-aria (resolved)"
+msgstr "Id som skärmläsare använder är unika (löst)"
+
+msgid "form-field-multiple-labels (unresolved)"
+msgstr "Formulärfält har flera etiketter ({0})"
+
+msgid "form-field-multiple-labels (resolved)"
+msgstr "Formulärfält har en etikett var (löst)"
+
+msgid "th-has-data-cells (unresolved)"
+msgstr "Tabellrubriker saknar celler att beskriva ({0})"
+
+msgid "th-has-data-cells (resolved)"
+msgstr "Tabellrubriker beskriver celler i tabellen (löst)"
+
+msgid "video-caption (unresolved)"
+msgstr "Videor saknar undertexter ({0})"
+
+msgid "video-caption (resolved)"
+msgstr "Videor har undertexter (löst)"
+
+msgid "baseline (unresolved)"
+msgstr "Webbfunktioner på sidan och hur brett webbläsare stöder dem (Baseline) ({0})"
+
+msgid "baseline (resolved)"
+msgstr "Webbfunktioner på sidan och hur brett webbläsare stöder dem (Baseline) (löst)"
+
+msgid "user-timings (unresolved)"
+msgstr "Sidans egna tidsmätningar (User Timing) ({0})"
+
+msgid "user-timings (resolved)"
+msgstr "Sidans egna tidsmätningar (User Timing) (löst)"
+
+msgid "js-libraries (unresolved)"
+msgstr "JavaScript-bibliotek som hittades på sidan ({0})"
+
+msgid "js-libraries (resolved)"
+msgstr "JavaScript-bibliotek som hittades på sidan (löst)"

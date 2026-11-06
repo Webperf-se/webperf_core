@@ -851,3 +851,158 @@ msgstr "Debugging files (source maps) are valid (resolved)"
 msgid "valid-source-maps (unresolved)"
 msgstr "Debugging files (source maps) are missing or invalid ({0})"
 
+msgid "presentation-role-conflict (unresolved)"
+msgstr "Elements marked as decorative have attributes that contradict it ({0})"
+
+msgid "presentation-role-conflict (resolved)"
+msgstr "Elements marked as decorative have no conflicting attributes (resolved)"
+
+msgid "paste-preventing-inputs (unresolved)"
+msgstr "Input fields stop visitors from pasting text ({0})"
+
+msgid "paste-preventing-inputs (resolved)"
+msgstr "Input fields let visitors paste text (resolved)"
+
+msgid "inp-breakdown-insight (unresolved)"
+msgstr "The page responds slowly to clicks and key presses ({0})"
+
+msgid "inp-breakdown-insight (resolved)"
+msgstr "No slow response to clicks and key presses was measured (resolved)"
+
+msgid "aria-meter-name (unresolved)"
+msgstr "Meters are missing a name for screen readers ({0})"
+
+msgid "aria-meter-name (resolved)"
+msgstr "Meters have a name for screen readers (resolved)"
+
+msgid "aria-tooltip-name (unresolved)"
+msgstr "Tooltips are missing a name for screen readers ({0})"
+
+msgid "aria-tooltip-name (resolved)"
+msgstr "Tooltips have a name for screen readers (resolved)"
+
+msgid "aria-treeitem-name (unresolved)"
+msgstr "Items in tree menus are missing a name for screen readers ({0})"
+
+msgid "aria-treeitem-name (resolved)"
+msgstr "Items in tree menus have a name for screen readers (resolved)"
+
+msgid "td-headers-attr (unresolved)"
+msgstr "Table cells refer to headers outside their own table ({0})"
+
+msgid "td-headers-attr (resolved)"
+msgstr "Table cells refer to headers in their own table (resolved)"
+
+msgid "autocomplete-valid (unresolved)"
+msgstr "Form fields have invalid autofill values ({0})"
+
+msgid "autocomplete-valid (resolved)"
+msgstr "Form fields have valid autofill values (resolved)"
+
+msgid "svg-img-alt (unresolved)"
+msgstr "SVG images are missing alternative text for screen readers ({0})"
+
+msgid "svg-img-alt (resolved)"
+msgstr "SVG images have alternative text for screen readers (resolved)"
+
+msgid "csp-xss (unresolved)"
+msgstr "The security policy (CSP) doesn't protect well enough against XSS attacks ({0})"
+
+msgid "csp-xss (resolved)"
+msgstr "The security policy (CSP) protects against XSS attacks (resolved)"
+
+msgid "has-hsts (unresolved)"
+msgstr "The page is missing HSTS or has a weak HSTS setting ({0})"
+
+msgid "has-hsts (resolved)"
+msgstr "The page has a strong HSTS setting (resolved)"
+
+msgid "origin-isolation (unresolved)"
+msgstr "The page doesn't isolate itself from other websites' windows (COOP) ({0})"
+
+msgid "origin-isolation (resolved)"
+msgstr "The page isolates itself from other websites' windows (COOP) (resolved)"
+
+msgid "clickjacking-mitigation (unresolved)"
+msgstr "The page isn't protected against being embedded by other websites ({0})"
+
+msgid "clickjacking-mitigation (resolved)"
+msgstr "The page is protected against being embedded by other websites (resolved)"
+
+msgid "trusted-types-xss (unresolved)"
+msgstr "The page doesn't use Trusted Types against XSS in JavaScript ({0})"
+
+msgid "trusted-types-xss (resolved)"
+msgstr "The page uses Trusted Types against XSS in JavaScript (resolved)"
+
+msgid "non-composited-animations (unresolved)"
+msgstr "Animations run without help from the graphics card and may stutter ({0})"
+
+msgid "non-composited-animations (resolved)"
+msgstr "Animations run with help from the graphics card (resolved)"
+
+msgid "bypass (unresolved)"
+msgstr "The page has no way to skip repeated content, such as a skip link ({0})"
+
+msgid "bypass (resolved)"
+msgstr "The page has a way to skip repeated content (resolved)"
+
+msgid "empty-heading (unresolved)"
+msgstr "Headings are missing text ({0})"
+
+msgid "empty-heading (resolved)"
+msgstr "Headings have text (resolved)"
+
+msgid "identical-links-same-purpose (unresolved)"
+msgstr "Links with the same text lead to different places ({0})"
+
+msgid "identical-links-same-purpose (resolved)"
+msgstr "Links with the same text lead to the same place (resolved)"
+
+msgid "table-duplicate-name (unresolved)"
+msgstr "Tables have the same text in caption and summary ({0})"
+
+msgid "table-duplicate-name (resolved)"
+msgstr "Tables have different text in caption and summary (resolved)"
+
+msgid "duplicate-id-aria (unresolved)"
+msgstr "IDs used by screen readers appear more than once ({0})"
+
+msgid "duplicate-id-aria (resolved)"
+msgstr "IDs used by screen readers are unique (resolved)"
+
+msgid "form-field-multiple-labels (unresolved)"
+msgstr "Form fields have more than one label ({0})"
+
+msgid "form-field-multiple-labels (resolved)"
+msgstr "Form fields have one label each (resolved)"
+
+msgid "th-has-data-cells (unresolved)"
+msgstr "Table headers have no cells to describe ({0})"
+
+msgid "th-has-data-cells (resolved)"
+msgstr "Table headers describe cells in the table (resolved)"
+
+msgid "video-caption (unresolved)"
+msgstr "Videos are missing captions ({0})"
+
+msgid "video-caption (resolved)"
+msgstr "Videos have captions (resolved)"
+
+msgid "baseline (unresolved)"
+msgstr "Web features on the page and how widely browsers support them (Baseline) ({0})"
+
+msgid "baseline (resolved)"
+msgstr "Web features on the page and how widely browsers support them (Baseline) (resolved)"
+
+msgid "user-timings (unresolved)"
+msgstr "The page's own timing marks (User Timing) ({0})"
+
+msgid "user-timings (resolved)"
+msgstr "The page's own timing marks (User Timing) (resolved)"
+
+msgid "js-libraries (unresolved)"
+msgstr "JavaScript libraries found on the page ({0})"
+
+msgid "js-libraries (resolved)"
+msgstr "JavaScript libraries found on the page (resolved)"

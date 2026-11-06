@@ -26,12 +26,15 @@
     "plugin-pagenotfound": "2026.10.3",
     "plugin-standard-files": "2026.11.0",
     "plugin-accessibility-statement": "2026.10.4",
-    "plugin-webperf-core": "2026.10.2"
+    "plugin-webperf-core": "2026.11.0"
   },
   "devDependencies": {
     "eslint": "10.14.0",
     "serve": "14.2.6",
     "serve-handler": "6.1.7"
+  },
+  "overrides": {
+    "lighthouse": "13.5.0"
   },
   "scripts": {
     "start-server": "serve unittests/data/",

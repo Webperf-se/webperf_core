@@ -936,3 +936,158 @@ msgstr "Villuleitarskrár (source maps) eru gildar (leyst)"
 msgid "valid-source-maps (unresolved)"
 msgstr "Villuleitarskrár (source maps) vantar eða eru ógildar ({0})"
 
+msgid "presentation-role-conflict (unresolved)"
+msgstr "Einingar merktar sem skraut hafa eiginleika sem stangast á við það ({0})"
+
+msgid "presentation-role-conflict (resolved)"
+msgstr "Einingar merktar sem skraut hafa enga misvísandi eiginleika (leyst)"
+
+msgid "paste-preventing-inputs (unresolved)"
+msgstr "Innsláttarreitir hindra gesti í að líma inn texta ({0})"
+
+msgid "paste-preventing-inputs (resolved)"
+msgstr "Innsláttarreitir leyfa gestum að líma inn texta (leyst)"
+
+msgid "inp-breakdown-insight (unresolved)"
+msgstr "Síðan bregst hægt við smellum og ásláttum ({0})"
+
+msgid "inp-breakdown-insight (resolved)"
+msgstr "Engin hæg viðbrögð við smellum og ásláttum mældust (leyst)"
+
+msgid "aria-meter-name (unresolved)"
+msgstr "Mæla vantar heiti fyrir skjálesara ({0})"
+
+msgid "aria-meter-name (resolved)"
+msgstr "Mælar hafa heiti fyrir skjálesara (leyst)"
+
+msgid "aria-tooltip-name (unresolved)"
+msgstr "Ábendingar (tooltips) vantar heiti fyrir skjálesara ({0})"
+
+msgid "aria-tooltip-name (resolved)"
+msgstr "Ábendingar (tooltips) hafa heiti fyrir skjálesara (leyst)"
+
+msgid "aria-treeitem-name (unresolved)"
+msgstr "Atriði í trévalmyndum vantar heiti fyrir skjálesara ({0})"
+
+msgid "aria-treeitem-name (resolved)"
+msgstr "Atriði í trévalmyndum hafa heiti fyrir skjálesara (leyst)"
+
+msgid "td-headers-attr (unresolved)"
+msgstr "Töflureitir vísa í fyrirsagnir utan eigin töflu ({0})"
+
+msgid "td-headers-attr (resolved)"
+msgstr "Töflureitir vísa í fyrirsagnir í eigin töflu (leyst)"
+
+msgid "autocomplete-valid (unresolved)"
+msgstr "Reitir í eyðublöðum hafa ógild gildi fyrir sjálfvirka útfyllingu ({0})"
+
+msgid "autocomplete-valid (resolved)"
+msgstr "Reitir í eyðublöðum hafa gild gildi fyrir sjálfvirka útfyllingu (leyst)"
+
+msgid "svg-img-alt (unresolved)"
+msgstr "SVG-myndir vantar staðgengilstexta fyrir skjálesara ({0})"
+
+msgid "svg-img-alt (resolved)"
+msgstr "SVG-myndir hafa staðgengilstexta fyrir skjálesara (leyst)"
+
+msgid "csp-xss (unresolved)"
+msgstr "Öryggisstefnan (CSP) ver ekki nægilega gegn XSS-árásum ({0})"
+
+msgid "csp-xss (resolved)"
+msgstr "Öryggisstefnan (CSP) ver gegn XSS-árásum (leyst)"
+
+msgid "has-hsts (unresolved)"
+msgstr "Síðan er án HSTS eða með veika HSTS-stillingu ({0})"
+
+msgid "has-hsts (resolved)"
+msgstr "Síðan er með sterka HSTS-stillingu (leyst)"
+
+msgid "origin-isolation (unresolved)"
+msgstr "Síðan einangrar sig ekki frá gluggum annarra vefsvæða (COOP) ({0})"
+
+msgid "origin-isolation (resolved)"
+msgstr "Síðan einangrar sig frá gluggum annarra vefsvæða (COOP) (leyst)"
+
+msgid "clickjacking-mitigation (unresolved)"
+msgstr "Síðan er ekki varin gegn því að vera felld inn í önnur vefsvæði ({0})"
+
+msgid "clickjacking-mitigation (resolved)"
+msgstr "Síðan er varin gegn því að vera felld inn í önnur vefsvæði (leyst)"
+
+msgid "trusted-types-xss (unresolved)"
+msgstr "Síðan notar ekki Trusted Types gegn XSS í JavaScript ({0})"
+
+msgid "trusted-types-xss (resolved)"
+msgstr "Síðan notar Trusted Types gegn XSS í JavaScript (leyst)"
+
+msgid "non-composited-animations (unresolved)"
+msgstr "Hreyfimyndir keyra án hjálpar skjákortsins og geta hikstað ({0})"
+
+msgid "non-composited-animations (resolved)"
+msgstr "Hreyfimyndir keyra með hjálp skjákortsins (leyst)"
+
+msgid "bypass (unresolved)"
+msgstr "Síðan býður ekki upp á leið til að hoppa yfir endurtekið efni, t.d. hopptengil ({0})"
+
+msgid "bypass (resolved)"
+msgstr "Síðan býður upp á leið til að hoppa yfir endurtekið efni (leyst)"
+
+msgid "empty-heading (unresolved)"
+msgstr "Fyrirsagnir vantar texta ({0})"
+
+msgid "empty-heading (resolved)"
+msgstr "Fyrirsagnir hafa texta (leyst)"
+
+msgid "identical-links-same-purpose (unresolved)"
+msgstr "Tenglar með sama texta vísa á ólíka staði ({0})"
+
+msgid "identical-links-same-purpose (resolved)"
+msgstr "Tenglar með sama texta vísa á sama stað (leyst)"
+
+msgid "table-duplicate-name (unresolved)"
+msgstr "Töflur hafa sama texta í titli og samantekt ({0})"
+
+msgid "table-duplicate-name (resolved)"
+msgstr "Töflur hafa ólíkan texta í titli og samantekt (leyst)"
+
+msgid "duplicate-id-aria (unresolved)"
+msgstr "Auðkenni (id) sem skjálesarar nota koma fyrir oftar en einu sinni ({0})"
+
+msgid "duplicate-id-aria (resolved)"
+msgstr "Auðkenni (id) sem skjálesarar nota eru einkvæm (leyst)"
+
+msgid "form-field-multiple-labels (unresolved)"
+msgstr "Reitir í eyðublöðum hafa fleiri en einn merkimiða ({0})"
+
+msgid "form-field-multiple-labels (resolved)"
+msgstr "Hver reitur í eyðublöðum hefur einn merkimiða (leyst)"
+
+msgid "th-has-data-cells (unresolved)"
+msgstr "Töflufyrirsagnir hafa enga reiti til að lýsa ({0})"
+
+msgid "th-has-data-cells (resolved)"
+msgstr "Töflufyrirsagnir lýsa reitum í töflunni (leyst)"
+
+msgid "video-caption (unresolved)"
+msgstr "Myndskeið vantar skjátexta ({0})"
+
+msgid "video-caption (resolved)"
+msgstr "Myndskeið hafa skjátexta (leyst)"
+
+msgid "baseline (unresolved)"
+msgstr "Vefeiginleikar á síðunni og hve víðtækan stuðning vafrar veita þeim (Baseline) ({0})"
+
+msgid "baseline (resolved)"
+msgstr "Vefeiginleikar á síðunni og hve víðtækan stuðning vafrar veita þeim (Baseline) (leyst)"
+
+msgid "user-timings (unresolved)"
+msgstr "Eigin tímamælingar síðunnar (User Timing) ({0})"
+
+msgid "user-timings (resolved)"
+msgstr "Eigin tímamælingar síðunnar (User Timing) (leyst)"
+
+msgid "js-libraries (unresolved)"
+msgstr "JavaScript-söfn sem fundust á síðunni ({0})"
+
+msgid "js-libraries (resolved)"
+msgstr "JavaScript-söfn sem fundust á síðunni (leyst)"

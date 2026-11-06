@@ -936,3 +936,158 @@ msgstr "Fejlfindingsfiler (source maps) er gyldige (løst)"
 msgid "valid-source-maps (unresolved)"
 msgstr "Fejlfindingsfiler (source maps) mangler eller er ugyldige ({0})"
 
+msgid "presentation-role-conflict (unresolved)"
+msgstr "Elementer markeret som dekoration har egenskaber, der modsiger det ({0})"
+
+msgid "presentation-role-conflict (resolved)"
+msgstr "Elementer markeret som dekoration har ingen modstridende egenskaber (løst)"
+
+msgid "paste-preventing-inputs (unresolved)"
+msgstr "Indtastningsfelter forhindrer besøgende i at indsætte tekst ({0})"
+
+msgid "paste-preventing-inputs (resolved)"
+msgstr "Indtastningsfelter lader besøgende indsætte tekst (løst)"
+
+msgid "inp-breakdown-insight (unresolved)"
+msgstr "Siden reagerer langsomt på klik og tastetryk ({0})"
+
+msgid "inp-breakdown-insight (resolved)"
+msgstr "Der blev ikke målt langsom reaktion på klik og tastetryk (løst)"
+
+msgid "aria-meter-name (unresolved)"
+msgstr "Målere mangler et navn til skærmlæsere ({0})"
+
+msgid "aria-meter-name (resolved)"
+msgstr "Målere har et navn til skærmlæsere (løst)"
+
+msgid "aria-tooltip-name (unresolved)"
+msgstr "Værktøjstip mangler et navn til skærmlæsere ({0})"
+
+msgid "aria-tooltip-name (resolved)"
+msgstr "Værktøjstip har et navn til skærmlæsere (løst)"
+
+msgid "aria-treeitem-name (unresolved)"
+msgstr "Punkter i træmenuer mangler et navn til skærmlæsere ({0})"
+
+msgid "aria-treeitem-name (resolved)"
+msgstr "Punkter i træmenuer har et navn til skærmlæsere (løst)"
+
+msgid "td-headers-attr (unresolved)"
+msgstr "Tabelceller henviser til overskrifter uden for deres egen tabel ({0})"
+
+msgid "td-headers-attr (resolved)"
+msgstr "Tabelceller henviser til overskrifter i deres egen tabel (løst)"
+
+msgid "autocomplete-valid (unresolved)"
+msgstr "Formularfelter har ugyldige værdier til automatisk udfyldning ({0})"
+
+msgid "autocomplete-valid (resolved)"
+msgstr "Formularfelter har gyldige værdier til automatisk udfyldning (løst)"
+
+msgid "svg-img-alt (unresolved)"
+msgstr "SVG-billeder mangler alternativ tekst til skærmlæsere ({0})"
+
+msgid "svg-img-alt (resolved)"
+msgstr "SVG-billeder har alternativ tekst til skærmlæsere (løst)"
+
+msgid "csp-xss (unresolved)"
+msgstr "Sikkerhedspolitikken (CSP) beskytter ikke godt nok mod XSS-angreb ({0})"
+
+msgid "csp-xss (resolved)"
+msgstr "Sikkerhedspolitikken (CSP) beskytter mod XSS-angreb (løst)"
+
+msgid "has-hsts (unresolved)"
+msgstr "Siden mangler HSTS eller har en svag HSTS-indstilling ({0})"
+
+msgid "has-hsts (resolved)"
+msgstr "Siden har en stærk HSTS-indstilling (løst)"
+
+msgid "origin-isolation (unresolved)"
+msgstr "Siden isolerer sig ikke fra andre websteders vinduer (COOP) ({0})"
+
+msgid "origin-isolation (resolved)"
+msgstr "Siden isolerer sig fra andre websteders vinduer (COOP) (løst)"
+
+msgid "clickjacking-mitigation (unresolved)"
+msgstr "Siden er ikke beskyttet mod at blive indlejret af andre websteder ({0})"
+
+msgid "clickjacking-mitigation (resolved)"
+msgstr "Siden er beskyttet mod at blive indlejret af andre websteder (løst)"
+
+msgid "trusted-types-xss (unresolved)"
+msgstr "Siden bruger ikke Trusted Types mod XSS i JavaScript ({0})"
+
+msgid "trusted-types-xss (resolved)"
+msgstr "Siden bruger Trusted Types mod XSS i JavaScript (løst)"
+
+msgid "non-composited-animations (unresolved)"
+msgstr "Animationer kører uden hjælp fra grafikkortet og kan hakke ({0})"
+
+msgid "non-composited-animations (resolved)"
+msgstr "Animationer kører med hjælp fra grafikkortet (løst)"
+
+msgid "bypass (unresolved)"
+msgstr "Siden har ingen måde at springe gentaget indhold over, fx et spring-over-link ({0})"
+
+msgid "bypass (resolved)"
+msgstr "Siden har en måde at springe gentaget indhold over (løst)"
+
+msgid "empty-heading (unresolved)"
+msgstr "Overskrifter mangler tekst ({0})"
+
+msgid "empty-heading (resolved)"
+msgstr "Overskrifter har tekst (løst)"
+
+msgid "identical-links-same-purpose (unresolved)"
+msgstr "Links med samme tekst fører til forskellige steder ({0})"
+
+msgid "identical-links-same-purpose (resolved)"
+msgstr "Links med samme tekst fører til samme sted (løst)"
+
+msgid "table-duplicate-name (unresolved)"
+msgstr "Tabeller har samme tekst i titel og resumé ({0})"
+
+msgid "table-duplicate-name (resolved)"
+msgstr "Tabeller har forskellig tekst i titel og resumé (løst)"
+
+msgid "duplicate-id-aria (unresolved)"
+msgstr "Id'er, som skærmlæsere bruger, forekommer flere gange ({0})"
+
+msgid "duplicate-id-aria (resolved)"
+msgstr "Id'er, som skærmlæsere bruger, er unikke (løst)"
+
+msgid "form-field-multiple-labels (unresolved)"
+msgstr "Formularfelter har flere etiketter ({0})"
+
+msgid "form-field-multiple-labels (resolved)"
+msgstr "Formularfelter har én etiket hver (løst)"
+
+msgid "th-has-data-cells (unresolved)"
+msgstr "Tabeloverskrifter har ingen celler at beskrive ({0})"
+
+msgid "th-has-data-cells (resolved)"
+msgstr "Tabeloverskrifter beskriver celler i tabellen (løst)"
+
+msgid "video-caption (unresolved)"
+msgstr "Videoer mangler undertekster ({0})"
+
+msgid "video-caption (resolved)"
+msgstr "Videoer har undertekster (løst)"
+
+msgid "baseline (unresolved)"
+msgstr "Webfunktioner på siden og hvor bredt browsere understøtter dem (Baseline) ({0})"
+
+msgid "baseline (resolved)"
+msgstr "Webfunktioner på siden og hvor bredt browsere understøtter dem (Baseline) (løst)"
+
+msgid "user-timings (unresolved)"
+msgstr "Sidens egne tidsmålinger (User Timing) ({0})"
+
+msgid "user-timings (resolved)"
+msgstr "Sidens egne tidsmålinger (User Timing) (løst)"
+
+msgid "js-libraries (unresolved)"
+msgstr "JavaScript-biblioteker fundet på siden ({0})"
+
+msgid "js-libraries (resolved)"
+msgstr "JavaScript-biblioteker fundet på siden (løst)"

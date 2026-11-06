@@ -928,3 +928,158 @@ msgstr "Språkangivelser i teksten er gyldige (løst)"
 msgid "valid-lang (unresolved)"
 msgstr "Språkangivelser i teksten er ugyldige ({0})"
 
+msgid "presentation-role-conflict (unresolved)"
+msgstr "Elementer merket som dekorasjon har egenskaper som motsier det ({0})"
+
+msgid "presentation-role-conflict (resolved)"
+msgstr "Elementer merket som dekorasjon har ingen motstridende egenskaper (løst)"
+
+msgid "paste-preventing-inputs (unresolved)"
+msgstr "Inndatafelt hindrer besøkende i å lime inn tekst ({0})"
+
+msgid "paste-preventing-inputs (resolved)"
+msgstr "Inndatafelt lar besøkende lime inn tekst (løst)"
+
+msgid "inp-breakdown-insight (unresolved)"
+msgstr "Siden reagerer tregt på klikk og tastetrykk ({0})"
+
+msgid "inp-breakdown-insight (resolved)"
+msgstr "Det ble ikke målt treg respons på klikk og tastetrykk (løst)"
+
+msgid "aria-meter-name (unresolved)"
+msgstr "Målere mangler et navn for skjermlesere ({0})"
+
+msgid "aria-meter-name (resolved)"
+msgstr "Målere har et navn for skjermlesere (løst)"
+
+msgid "aria-tooltip-name (unresolved)"
+msgstr "Verktøytips mangler et navn for skjermlesere ({0})"
+
+msgid "aria-tooltip-name (resolved)"
+msgstr "Verktøytips har et navn for skjermlesere (løst)"
+
+msgid "aria-treeitem-name (unresolved)"
+msgstr "Punkter i tremenyer mangler et navn for skjermlesere ({0})"
+
+msgid "aria-treeitem-name (resolved)"
+msgstr "Punkter i tremenyer har et navn for skjermlesere (løst)"
+
+msgid "td-headers-attr (unresolved)"
+msgstr "Tabellceller viser til overskrifter utenfor sin egen tabell ({0})"
+
+msgid "td-headers-attr (resolved)"
+msgstr "Tabellceller viser til overskrifter i sin egen tabell (løst)"
+
+msgid "autocomplete-valid (unresolved)"
+msgstr "Skjemafelt har ugyldige verdier for automatisk utfylling ({0})"
+
+msgid "autocomplete-valid (resolved)"
+msgstr "Skjemafelt har gyldige verdier for automatisk utfylling (løst)"
+
+msgid "svg-img-alt (unresolved)"
+msgstr "SVG-bilder mangler alternativ tekst for skjermlesere ({0})"
+
+msgid "svg-img-alt (resolved)"
+msgstr "SVG-bilder har alternativ tekst for skjermlesere (løst)"
+
+msgid "csp-xss (unresolved)"
+msgstr "Sikkerhetspolicyen (CSP) beskytter ikke godt nok mot XSS-angrep ({0})"
+
+msgid "csp-xss (resolved)"
+msgstr "Sikkerhetspolicyen (CSP) beskytter mot XSS-angrep (løst)"
+
+msgid "has-hsts (unresolved)"
+msgstr "Siden mangler HSTS eller har en svak HSTS-innstilling ({0})"
+
+msgid "has-hsts (resolved)"
+msgstr "Siden har en sterk HSTS-innstilling (løst)"
+
+msgid "origin-isolation (unresolved)"
+msgstr "Siden isolerer seg ikke fra andre nettsteders vinduer (COOP) ({0})"
+
+msgid "origin-isolation (resolved)"
+msgstr "Siden isolerer seg fra andre nettsteders vinduer (COOP) (løst)"
+
+msgid "clickjacking-mitigation (unresolved)"
+msgstr "Siden er ikke beskyttet mot å bli bygd inn av andre nettsteder ({0})"
+
+msgid "clickjacking-mitigation (resolved)"
+msgstr "Siden er beskyttet mot å bli bygd inn av andre nettsteder (løst)"
+
+msgid "trusted-types-xss (unresolved)"
+msgstr "Siden bruker ikke Trusted Types mot XSS i JavaScript ({0})"
+
+msgid "trusted-types-xss (resolved)"
+msgstr "Siden bruker Trusted Types mot XSS i JavaScript (løst)"
+
+msgid "non-composited-animations (unresolved)"
+msgstr "Animasjoner kjører uten hjelp fra grafikkortet og kan hakke ({0})"
+
+msgid "non-composited-animations (resolved)"
+msgstr "Animasjoner kjører med hjelp fra grafikkortet (løst)"
+
+msgid "bypass (unresolved)"
+msgstr "Siden har ingen måte å hoppe over gjentatt innhold på, som en hopp-over-lenke ({0})"
+
+msgid "bypass (resolved)"
+msgstr "Siden har en måte å hoppe over gjentatt innhold på (løst)"
+
+msgid "empty-heading (unresolved)"
+msgstr "Overskrifter mangler tekst ({0})"
+
+msgid "empty-heading (resolved)"
+msgstr "Overskrifter har tekst (løst)"
+
+msgid "identical-links-same-purpose (unresolved)"
+msgstr "Lenker med samme tekst fører til ulike steder ({0})"
+
+msgid "identical-links-same-purpose (resolved)"
+msgstr "Lenker med samme tekst fører til samme sted (løst)"
+
+msgid "table-duplicate-name (unresolved)"
+msgstr "Tabeller har samme tekst i tittel og sammendrag ({0})"
+
+msgid "table-duplicate-name (resolved)"
+msgstr "Tabeller har ulik tekst i tittel og sammendrag (løst)"
+
+msgid "duplicate-id-aria (unresolved)"
+msgstr "ID-er som skjermlesere bruker, forekommer flere ganger ({0})"
+
+msgid "duplicate-id-aria (resolved)"
+msgstr "ID-er som skjermlesere bruker, er unike (løst)"
+
+msgid "form-field-multiple-labels (unresolved)"
+msgstr "Skjemafelt har flere etiketter ({0})"
+
+msgid "form-field-multiple-labels (resolved)"
+msgstr "Skjemafelt har én etikett hver (løst)"
+
+msgid "th-has-data-cells (unresolved)"
+msgstr "Tabelloverskrifter har ingen celler å beskrive ({0})"
+
+msgid "th-has-data-cells (resolved)"
+msgstr "Tabelloverskrifter beskriver celler i tabellen (løst)"
+
+msgid "video-caption (unresolved)"
+msgstr "Videoer mangler teksting ({0})"
+
+msgid "video-caption (resolved)"
+msgstr "Videoer har teksting (løst)"
+
+msgid "baseline (unresolved)"
+msgstr "Nettfunksjoner på siden og hvor bredt nettlesere støtter dem (Baseline) ({0})"
+
+msgid "baseline (resolved)"
+msgstr "Nettfunksjoner på siden og hvor bredt nettlesere støtter dem (Baseline) (løst)"
+
+msgid "user-timings (unresolved)"
+msgstr "Sidens egne tidsmålinger (User Timing) ({0})"
+
+msgid "user-timings (resolved)"
+msgstr "Sidens egne tidsmålinger (User Timing) (løst)"
+
+msgid "js-libraries (unresolved)"
+msgstr "JavaScript-biblioteker funnet på siden ({0})"
+
+msgid "js-libraries (resolved)"
+msgstr "JavaScript-biblioteker funnet på siden (løst)"

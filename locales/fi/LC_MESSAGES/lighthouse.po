@@ -936,3 +936,158 @@ msgstr "Virheenjäljitystiedostot (source maps) ovat kelvollisia (ratkaistu)"
 msgid "valid-source-maps (unresolved)"
 msgstr "Virheenjäljitystiedostot (source maps) puuttuvat tai ovat virheellisiä ({0})"
 
+msgid "presentation-role-conflict (unresolved)"
+msgstr "Koristeeksi merkityillä elementeillä on sen kanssa ristiriitaisia ominaisuuksia ({0})"
+
+msgid "presentation-role-conflict (resolved)"
+msgstr "Koristeeksi merkityillä elementeillä ei ole ristiriitaisia ominaisuuksia (ratkaistu)"
+
+msgid "paste-preventing-inputs (unresolved)"
+msgstr "Syöttökentät estävät kävijöitä liittämästä tekstiä ({0})"
+
+msgid "paste-preventing-inputs (resolved)"
+msgstr "Syöttökentät sallivat tekstin liittämisen (ratkaistu)"
+
+msgid "inp-breakdown-insight (unresolved)"
+msgstr "Sivu reagoi hitaasti napsautuksiin ja näppäinpainalluksiin ({0})"
+
+msgid "inp-breakdown-insight (resolved)"
+msgstr "Hidasta reagointia napsautuksiin ja näppäinpainalluksiin ei mitattu (ratkaistu)"
+
+msgid "aria-meter-name (unresolved)"
+msgstr "Mittareilta puuttuu nimi ruudunlukijoille ({0})"
+
+msgid "aria-meter-name (resolved)"
+msgstr "Mittareilla on nimi ruudunlukijoille (ratkaistu)"
+
+msgid "aria-tooltip-name (unresolved)"
+msgstr "Työkaluvihjeiltä puuttuu nimi ruudunlukijoille ({0})"
+
+msgid "aria-tooltip-name (resolved)"
+msgstr "Työkaluvihjeillä on nimi ruudunlukijoille (ratkaistu)"
+
+msgid "aria-treeitem-name (unresolved)"
+msgstr "Puuvalikoiden kohteilta puuttuu nimi ruudunlukijoille ({0})"
+
+msgid "aria-treeitem-name (resolved)"
+msgstr "Puuvalikoiden kohteilla on nimi ruudunlukijoille (ratkaistu)"
+
+msgid "td-headers-attr (unresolved)"
+msgstr "Taulukon solut viittaavat otsikoihin oman taulukkonsa ulkopuolella ({0})"
+
+msgid "td-headers-attr (resolved)"
+msgstr "Taulukon solut viittaavat otsikoihin omassa taulukossaan (ratkaistu)"
+
+msgid "autocomplete-valid (unresolved)"
+msgstr "Lomakekentillä on virheellisiä automaattisen täytön arvoja ({0})"
+
+msgid "autocomplete-valid (resolved)"
+msgstr "Lomakekentillä on kelvolliset automaattisen täytön arvot (ratkaistu)"
+
+msgid "svg-img-alt (unresolved)"
+msgstr "SVG-kuvilta puuttuu vaihtoehtoinen teksti ruudunlukijoille ({0})"
+
+msgid "svg-img-alt (resolved)"
+msgstr "SVG-kuvilla on vaihtoehtoinen teksti ruudunlukijoille (ratkaistu)"
+
+msgid "csp-xss (unresolved)"
+msgstr "Tietoturvakäytäntö (CSP) ei suojaa riittävästi XSS-hyökkäyksiltä ({0})"
+
+msgid "csp-xss (resolved)"
+msgstr "Tietoturvakäytäntö (CSP) suojaa XSS-hyökkäyksiltä (ratkaistu)"
+
+msgid "has-hsts (unresolved)"
+msgstr "Sivulta puuttuu HSTS tai sen HSTS-asetus on heikko ({0})"
+
+msgid "has-hsts (resolved)"
+msgstr "Sivulla on vahva HSTS-asetus (ratkaistu)"
+
+msgid "origin-isolation (unresolved)"
+msgstr "Sivu ei eristä itseään muiden sivustojen ikkunoista (COOP) ({0})"
+
+msgid "origin-isolation (resolved)"
+msgstr "Sivu eristää itsensä muiden sivustojen ikkunoista (COOP) (ratkaistu)"
+
+msgid "clickjacking-mitigation (unresolved)"
+msgstr "Sivua ei ole suojattu upottamiselta muille sivustoille ({0})"
+
+msgid "clickjacking-mitigation (resolved)"
+msgstr "Sivu on suojattu upottamiselta muille sivustoille (ratkaistu)"
+
+msgid "trusted-types-xss (unresolved)"
+msgstr "Sivu ei käytä Trusted Types -suojausta JavaScriptin XSS-hyökkäyksiä vastaan ({0})"
+
+msgid "trusted-types-xss (resolved)"
+msgstr "Sivu käyttää Trusted Types -suojausta JavaScriptin XSS-hyökkäyksiä vastaan (ratkaistu)"
+
+msgid "non-composited-animations (unresolved)"
+msgstr "Animaatiot toimivat ilman näytönohjaimen apua ja voivat nykiä ({0})"
+
+msgid "non-composited-animations (resolved)"
+msgstr "Animaatiot toimivat näytönohjaimen avulla (ratkaistu)"
+
+msgid "bypass (unresolved)"
+msgstr "Sivulla ei ole tapaa ohittaa toistuvaa sisältöä, kuten ohituslinkkiä ({0})"
+
+msgid "bypass (resolved)"
+msgstr "Sivulla on tapa ohittaa toistuva sisältö (ratkaistu)"
+
+msgid "empty-heading (unresolved)"
+msgstr "Otsikoista puuttuu teksti ({0})"
+
+msgid "empty-heading (resolved)"
+msgstr "Otsikoissa on teksti (ratkaistu)"
+
+msgid "identical-links-same-purpose (unresolved)"
+msgstr "Samannimiset linkit johtavat eri kohteisiin ({0})"
+
+msgid "identical-links-same-purpose (resolved)"
+msgstr "Samannimiset linkit johtavat samaan kohteeseen (ratkaistu)"
+
+msgid "table-duplicate-name (unresolved)"
+msgstr "Taulukoiden otsikossa ja tiivistelmässä on sama teksti ({0})"
+
+msgid "table-duplicate-name (resolved)"
+msgstr "Taulukoiden otsikossa ja tiivistelmässä on eri teksti (ratkaistu)"
+
+msgid "duplicate-id-aria (unresolved)"
+msgstr "Ruudunlukijoiden käyttämät tunnisteet (id) esiintyvät useammin kuin kerran ({0})"
+
+msgid "duplicate-id-aria (resolved)"
+msgstr "Ruudunlukijoiden käyttämät tunnisteet (id) ovat yksilöllisiä (ratkaistu)"
+
+msgid "form-field-multiple-labels (unresolved)"
+msgstr "Lomakekentillä on useita selitteitä ({0})"
+
+msgid "form-field-multiple-labels (resolved)"
+msgstr "Jokaisella lomakekentällä on yksi selite (ratkaistu)"
+
+msgid "th-has-data-cells (unresolved)"
+msgstr "Taulukon otsikoilla ei ole kuvattavia soluja ({0})"
+
+msgid "th-has-data-cells (resolved)"
+msgstr "Taulukon otsikot kuvaavat taulukon soluja (ratkaistu)"
+
+msgid "video-caption (unresolved)"
+msgstr "Videoilta puuttuu tekstitys ({0})"
+
+msgid "video-caption (resolved)"
+msgstr "Videoissa on tekstitys (ratkaistu)"
+
+msgid "baseline (unresolved)"
+msgstr "Sivun verkko-ominaisuudet ja niiden selaintuki (Baseline) ({0})"
+
+msgid "baseline (resolved)"
+msgstr "Sivun verkko-ominaisuudet ja niiden selaintuki (Baseline) (ratkaistu)"
+
+msgid "user-timings (unresolved)"
+msgstr "Sivun omat ajanmittaukset (User Timing) ({0})"
+
+msgid "user-timings (resolved)"
+msgstr "Sivun omat ajanmittaukset (User Timing) (ratkaistu)"
+
+msgid "js-libraries (unresolved)"
+msgstr "Sivulta löytyneet JavaScript-kirjastot ({0})"
+
+msgid "js-libraries (resolved)"
+msgstr "Sivulta löytyneet JavaScript-kirjastot (ratkaistu)"

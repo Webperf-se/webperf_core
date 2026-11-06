@@ -83,11 +83,8 @@ msgstr "Ei ilmoita arviointimenetelmää ({0})"
 msgid "no-evaluation-method (resolved)"
 msgstr "Ilmoittaa arviointimenetelmänsä (ratkaistu)"
 
-msgid "has-canonical-notification-function-link (unresolved)"
-msgstr "Ei oikeaa linkkiä ilmoitukseen ({0})"
-
-msgid "has-canonical-notification-function-link (resolved)"
-msgstr "Oikea linkki ilmoitukseen (ratkaistu)"
+msgid "has-canonical-notification-function-link (info)"
+msgstr "Seloste viittaa oikeaan valvontaviranomaiseen kanteluita varten"
 
 msgid "has-old-notification-function-link (unresolved)"
 msgstr "Vanha linkki ilmoitukseen ({0})"

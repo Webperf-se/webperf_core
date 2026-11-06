@@ -83,11 +83,8 @@ msgstr "Angiver ingen evalueringsmetode ({0})"
 msgid "no-evaluation-method (resolved)"
 msgstr "Angiver sin evalueringsmetode (løst)"
 
-msgid "has-canonical-notification-function-link (unresolved)"
-msgstr "Har ikke korrekt link til anmeldelse ({0})"
-
-msgid "has-canonical-notification-function-link (resolved)"
-msgstr "Har korrekt link til anmeldelse (løst)"
+msgid "has-canonical-notification-function-link (info)"
+msgstr "Erklæringen henviser til den rette tilsynsmyndighed for klager"
 
 msgid "has-old-notification-function-link (unresolved)"
 msgstr "Har et gammelt link til anmeldelse ({0})"

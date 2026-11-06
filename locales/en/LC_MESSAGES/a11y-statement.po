@@ -83,11 +83,8 @@ msgstr "Accessibility statement, no evaluation method specified ({0})"
 msgid "no-evaluation-method (resolved)"
 msgstr "Accessibility statement, no evaluation method specified (resolved)"
 
-msgid "has-canonical-notification-function-link (unresolved)"
-msgstr "Accessibility statement, a canonical notification function link exists ({0})"
-
-msgid "has-canonical-notification-function-link (resolved)"
-msgstr "Accessibility statement, a canonical notification function link exists (resolved)"
+msgid "has-canonical-notification-function-link (info)"
+msgstr "Accessibility statement refers to the correct enforcement body for complaints"
 
 msgid "has-old-notification-function-link (unresolved)"
 msgstr "Accessibility statement, an old notification function link was found ({0})"

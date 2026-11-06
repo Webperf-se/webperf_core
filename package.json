@@ -33,6 +33,9 @@
     "serve": "14.2.6",
     "serve-handler": "6.1.7"
   },
+  "overrides": {
+    "lighthouse": "13.5.0"
+  },
   "scripts": {
     "start-server": "serve unittests/data/",
     "stop-server": "sudo pkill serve",

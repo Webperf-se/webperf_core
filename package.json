@@ -21,7 +21,7 @@
     "sitespeed.io": "42.10.0",
     "webbkoll-backend": "git+https://codeberg.org/marcusosterberg/webbkoll-backend.git",
     "plugin-css": "2026.10.2",
-    "plugin-html": "2026.10.2",
+    "plugin-html": "2026.11.0",
     "plugin-javascript": "2026.10.2",
     "plugin-pagenotfound": "2026.10.3",
     "plugin-standard-files": "2026.11.0",

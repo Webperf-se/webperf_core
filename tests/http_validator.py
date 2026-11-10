@@ -985,10 +985,23 @@ def check_http_version(url, result_dict, global_translation):
 
     if not contains_value_for_all(result_dict, 'protocols', 'HTTP/3'):
         browser = 'firefox'
+        # Firefox only learns about HTTP/3 from an Alt-Svc header received over TCP,
+        # so a domain that only answers with a redirect never gets an HTTP/3 request.
+        # Load the page once with --preURL (not recorded in the HAR) so every
+        # origin's Alt-Svc is known before the measured visit.
+        # The fragment survives redirects, which keeps the warm-up's final URL different
+        # from the measured one. Without it browsertime thinks the navigation never
+        # happened for sites that drop the query string when redirecting (google.se).
+        # The HTTP cache is disabled (the Alt-Svc cache is separate) so the measured
+        # visit requests every resource again instead of reusing the warm-up's copies.
+        warmup_url = change_url_to_test_url(url, 'HTTPv3-warmup') + '#webperf-core-warmup'
         configuration = (
             ' --firefox.preference network.http.http2.enabled:false'
             ' --firefox.preference network.http.http3.enable:true'
-            ' --firefox.preference network.http.version:3.0')
+            ' --firefox.preference network.http.version:3.0'
+            ' --firefox.preference browser.cache.disk.enable:false'
+            ' --firefox.preference browser.cache.memory.enable:false'
+            f' --preURL {warmup_url}')
         url2 = change_url_to_test_url(url, 'HTTPv3')
         print('HTTP/3', o_domain)
         result_dict = merge_dicts(

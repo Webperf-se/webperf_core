@@ -20,7 +20,7 @@
     "pa11y": "10.0.0",
     "sitespeed.io": "43.0.0",
     "webbkoll-backend": "git+https://codeberg.org/marcusosterberg/webbkoll-backend.git",
-    "plugin-css": "2026.10.2",
+    "plugin-css": "2026.11.0",
     "plugin-html": "2026.11.0",
     "plugin-javascript": "2026.10.2",
     "plugin-pagenotfound": "2026.10.3",
@@ -30,8 +30,8 @@
   },
   "devDependencies": {
     "eslint": "10.14.0",
-    "serve": "14.2.6",
-    "serve-handler": "6.1.7"
+    "serve": "14.2.8",
+    "serve-handler": "6.1.8"
   },
   "overrides": {
     "lighthouse": "13.5.0"

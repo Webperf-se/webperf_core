@@ -57,7 +57,9 @@ COPY pa11y-docker-config.json /usr/src/runner/pa11y.json
 
 RUN chown --recursive sitespeedio:sitespeedio /usr/src/runner
 
-RUN python3 -m pip install -r requirements.txt --break-system-packages && \
+# The base image removes pip from /opt/venv (first on PATH), put it back
+RUN python3 -m ensurepip --upgrade && \
+    python3 -m pip install -r requirements.txt --break-system-packages && \
     python3 -m pip install --upgrade pip --break-system-packages && \
     python3 -m pip install --upgrade setuptools --break-system-packages && \
     python3 -m pip install pyssim Pillow image --break-system-packages

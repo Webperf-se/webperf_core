@@ -31,7 +31,7 @@
   "devDependencies": {
     "eslint": "10.14.0",
     "serve": "14.2.6",
-    "serve-handler": "6.1.7"
+    "serve-handler": "6.1.8"
   },
   "overrides": {
     "lighthouse": "13.5.0"

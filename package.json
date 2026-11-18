@@ -1,6 +1,6 @@
 {
   "name": "webperf_core",
-  "version": "2026.11.0",
+  "version": "2026.11.1",
   "type": "module",
   "description": "You probably want to read the documentation available at homepage.",
   "repository": {
@@ -18,10 +18,10 @@
     "@sitespeed.io/plugin": "1.0.2",
     "@sitespeed.io/plugin-lighthouse": "13.0.1",
     "pa11y": "10.0.0",
-    "sitespeed.io": "42.10.0",
+    "sitespeed.io": "43.0.0",
     "webbkoll-backend": "git+https://codeberg.org/marcusosterberg/webbkoll-backend.git",
-    "plugin-css": "2026.10.2",
-    "plugin-html": "2026.11.0",
+    "plugin-css": "2026.11.0",
+    "plugin-html": "2026.11.1",
     "plugin-javascript": "2026.10.2",
     "plugin-pagenotfound": "2026.10.3",
     "plugin-standard-files": "2026.11.0",
@@ -30,11 +30,14 @@
   },
   "devDependencies": {
     "eslint": "10.14.0",
-    "serve": "14.2.6",
-    "serve-handler": "6.1.7"
+    "serve": "14.2.8",
+    "serve-handler": "6.1.8"
   },
   "overrides": {
     "lighthouse": "13.5.0"
+  },
+  "allowScripts": {
+    "puppeteer": true
   },
   "scripts": {
     "start-server": "serve unittests/data/",

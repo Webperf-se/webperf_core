@@ -47,16 +47,16 @@ msgid "no-valid-h1-found (resolved)"
 msgstr "Page not found, valid h1 header found (resolved)"
 
 msgid "no-valid-text-found (unresolved)"
-msgstr "Page not found, no valid text found ({0})"
+msgstr "Page not found, no body text found ({0})"
 
 msgid "no-valid-text-found (resolved)"
-msgstr "Page not found, valid text found (resolved)"
+msgstr "Page not found, body text found (resolved)"
 
 msgid "invalid-text-found (unresolved)"
-msgstr "Page not found, invalid text found ({0})"
+msgstr "Page not found, too little body text ({0})"
 
 msgid "invalid-text-found (resolved)"
-msgstr "Page not found, valid text found (resolved)"
+msgstr "Page not found, enough body text (resolved)"
 
 msgid "no-valid-response-status-code (unresolved)"
 msgstr "Page not found, no valid 404 response status code used ({0})"
@@ -65,16 +65,16 @@ msgid "no-valid-response-status-code (resolved)"
 msgstr "Page not found, valid 404 response status code used (resolved)"
 
 msgid "no-unsupported-locale-use (unresolved)"
-msgstr "Page not found, unsupported locale used ({0})"
+msgstr "Page not found, page language missing from the test's phrase list ({0})"
 
 msgid "no-unsupported-locale-use (resolved)"
-msgstr "Page not found, used supported locale (resolved)"
+msgstr "Page not found, page language supported by the test (resolved)"
 
 msgid "no-valid-not-found-text-in-body (unresolved)"
-msgstr "Page not found, no valid body text found, may because it is too short ({0})"
+msgstr "Page not found, no text tells visitors the page doesn't exist ({0})"
 
 msgid "no-valid-not-found-text-in-body (resolved)"
-msgstr "Page not found, valid body text found (resolved)"
+msgstr "Page not found, text tells visitors the page doesn't exist (resolved)"
 
 msgid "no-network (unresolved)"
 msgstr "Page not found, no network ({0})"

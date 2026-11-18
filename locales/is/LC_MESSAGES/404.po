@@ -47,16 +47,16 @@ msgid "no-valid-h1-found (resolved)"
 msgstr "Rétt h1 fannst (leyst)"
 
 msgid "no-valid-text-found (unresolved)"
-msgstr "enginn-gildur-texti-fannst ({0})"
+msgstr "Enginn meginmálstexti fannst ({0})"
 
 msgid "no-valid-text-found (resolved)"
-msgstr "enginn-gildur-texti-fannst (leyst)"
+msgstr "Meginmálstexti fannst (leyst)"
 
 msgid "invalid-text-found (unresolved)"
-msgstr "ógildur-texti-fannst ({0})"
+msgstr "Of lítill meginmálstexti ({0})"
 
 msgid "invalid-text-found (resolved)"
-msgstr "ógildur-texti-fannst (leyst)"
+msgstr "Nægur meginmálstexti (leyst)"
 
 msgid "no-valid-response-status-code (unresolved)"
 msgstr "Röng svarkóði ({0})"
@@ -65,16 +65,16 @@ msgid "no-valid-response-status-code (resolved)"
 msgstr "Rétt svarkóði (leyst)"
 
 msgid "no-unsupported-locale-use (unresolved)"
-msgstr "engin-óstudd-notkun-tungumáls ({0})"
+msgstr "Tungumál síðunnar vantar í orðasafn prófsins ({0})"
 
 msgid "no-unsupported-locale-use (resolved)"
-msgstr "engin-óstudd-notkun-tungumáls (leyst)"
+msgstr "Prófið styður tungumál síðunnar (leyst)"
 
 msgid "no-valid-not-found-text-in-body (unresolved)"
-msgstr "enginn-gildur-ekki-fundinn-texti-í-innihaldi ({0})"
+msgstr "Enginn texti um að síðan finnist ekki ({0})"
 
 msgid "no-valid-not-found-text-in-body (resolved)"
-msgstr "enginn-gildur-ekki-fundinn-texti-í-innihaldi (leyst)"
+msgstr "Texti um að síðan finnist ekki fannst (leyst)"
 
 msgid "no-network (unresolved)"
 msgstr "Ekkert net ({0})"

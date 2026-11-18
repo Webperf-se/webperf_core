@@ -68,6 +68,18 @@ def run_test(global_translation, url):
         csp_only_global_result_dict = result_dict
     else:
         result_dict = check_http_to_https(url, global_translation)
+
+        # Most checks below run in Firefox and read a run that didn't load
+        # as "not supported". If a browser can't run at all, stop here
+        # instead of reporting that as findings about the website.
+        error_rating = check_browsers_can_load(
+            url, result_dict, global_translation, local_translation)
+        if error_rating is not None:
+            print(error_rating.overall_review)
+            print(global_translation('TEXT_TEST_END').format(
+                datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+            return (error_rating, {'failed': True, 'visits': 0})
+
         result_dict = check_tls_versions(url, result_dict, global_translation)
         if org_hostname != hostname:
             result_dict = check_tls_versions(org_url, result_dict, global_translation)
@@ -95,6 +107,80 @@ def run_test(global_translation, url):
             f'```json\r\n{nice_json_data}\r\n```')
 
     return (rating, result_dict)
+
+def has_visits(result_dict):
+    """
+    Returns True if at least one sitespeed run behind result_dict loaded the page.
+    """
+    return result_dict is not None and result_dict.get('visits', 0) > 0
+
+def get_unavailable_browser(chromium_loaded, firefox_loaded):
+    """
+    Decides which browser, if any, is unable to run, based on whether the
+    same URL loaded in the Chromium based browser and in Firefox.
+
+    Returns:
+        None if both loaded, 'firefox' or 'chromium' if only that one failed,
+        and 'both' if neither loaded (most likely the website is unavailable).
+    """
+    if chromium_loaded and firefox_loaded:
+        return None
+    if chromium_loaded:
+        return 'firefox'
+    if firefox_loaded:
+        return 'chromium'
+    return 'both'
+
+def check_browsers_can_load(url, result_dict, global_translation, local_translation):
+    """
+    Loads the same URL as check_http_to_https in Firefox, without any TLS or
+    HTTP version restrictions, to make sure both browsers the test depends on work.
+
+    The TLS and HTTP version checks treat a Firefox run that didn't load the
+    page as "not supported". If Firefox can't start at all (for example a
+    missing Geckodriver), every domain would get false findings, so the test
+    has to stop instead.
+
+    Returns:
+        None if both browsers loaded the page, otherwise a Rating without
+        any points (-1) that explains why the test was stopped.
+    """
+    o = urlparse(url)
+    http_url = url.replace('https://', 'http://') if o.scheme == 'https' else url
+
+    print('Firefox', o.hostname)
+    firefox_result = get_website_support_from_sitespeed(
+        http_url,
+        o.hostname,
+        '',
+        'firefox',
+        get_config('tests.sitespeed.timeout'),
+        global_translation)
+
+    unavailable = get_unavailable_browser(
+        has_visits(result_dict), has_visits(firefox_result))
+    if unavailable is None:
+        return None
+
+    error_rating = Rating(
+        global_translation,
+        get_config('general.review.improve-only'))
+
+    if unavailable == 'both':
+        error_rating.overall_review = global_translation('TEXT_SITE_UNAVAILABLE')
+        return error_rating
+
+    chromium = get_chromium_browser()
+    chromium_name = 'Edge' if chromium == 'edge' else 'Chrome'
+    chromium_driver = 'Edgedriver' if chromium == 'edge' else 'Chromedriver'
+    if unavailable == 'firefox':
+        names = ('Firefox', chromium_name, 'Geckodriver')
+    else:
+        names = (chromium_name, 'Firefox', chromium_driver)
+
+    error_rating.overall_review = local_translation(
+        'TEXT_BROWSER_UNAVAILABLE').format(*names)
+    return error_rating
 
 def check_tls_versions(url, result_dict, global_translation):
     """

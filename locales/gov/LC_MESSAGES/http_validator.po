@@ -206,3 +206,6 @@ msgstr "- {0}, Subresource Integrity (SRI) is used incorrectly"
 
 msgid "TEXT_REVIEW_SRI_WITH_ERRORS_DETAILS"
 msgstr "- {0}, Subresource Integrity (SRI) has following errors"
+
+msgid "TEXT_BROWSER_UNAVAILABLE"
+msgstr "{0} could not load the website, although {1} could. Check that {0} and its driver ({2}) are installed. The test was stopped so that no incorrect results are reported."

@@ -47,16 +47,16 @@ msgid "no-valid-h1-found (resolved)"
 msgstr "Oikea h1 löytyi (ratkaistu)"
 
 msgid "no-valid-text-found (unresolved)"
-msgstr "ei-kelvollista-tekstiä-löytynyt ({0})"
+msgstr "Leipätekstiä ei löytynyt ({0})"
 
 msgid "no-valid-text-found (resolved)"
-msgstr "ei-kelvollista-tekstiä-löytynyt (ratkaistu)"
+msgstr "Leipäteksti löytyi (ratkaistu)"
 
 msgid "invalid-text-found (unresolved)"
-msgstr "virheellinen-teksti-löytyi ({0})"
+msgstr "Liian vähän leipätekstiä ({0})"
 
 msgid "invalid-text-found (resolved)"
-msgstr "virheellinen-teksti-löytyi (ratkaistu)"
+msgstr "Riittävästi leipätekstiä (ratkaistu)"
 
 msgid "no-valid-response-status-code (unresolved)"
 msgstr "Virheellinen vastauskoodi ({0})"
@@ -65,16 +65,16 @@ msgid "no-valid-response-status-code (resolved)"
 msgstr "Oikea vastauskoodi (ratkaistu)"
 
 msgid "no-unsupported-locale-use (unresolved)"
-msgstr "ei-tukematonta-kielen-käyttöä ({0})"
+msgstr "Sivun kieli puuttuu testin fraasilistasta ({0})"
 
 msgid "no-unsupported-locale-use (resolved)"
-msgstr "ei-tukematonta-kielen-käyttöä (ratkaistu)"
+msgstr "Testi tukee sivun kieltä (ratkaistu)"
 
 msgid "no-valid-not-found-text-in-body (unresolved)"
-msgstr "ei-kelvollista-ei-löytynyt-tekstiä-sisällössä ({0})"
+msgstr "Sivu ei kerro, ettei sitä löydy ({0})"
 
 msgid "no-valid-not-found-text-in-body (resolved)"
-msgstr "ei-kelvollista-ei-löytynyt-tekstiä-sisällössä (ratkaistu)"
+msgstr "Sivu kertoo, ettei sitä löydy (ratkaistu)"
 
 msgid "no-network (unresolved)"
 msgstr "Ei verkkoa ({0})"

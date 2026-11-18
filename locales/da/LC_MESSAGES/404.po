@@ -47,16 +47,16 @@ msgid "no-valid-h1-found (resolved)"
 msgstr "Korrekt h1 fundet (løst)"
 
 msgid "no-valid-text-found (unresolved)"
-msgstr "ingen-gyldig-tekst-fundet ({0})"
+msgstr "Ingen brødtekst fundet ({0})"
 
 msgid "no-valid-text-found (resolved)"
-msgstr "ingen-gyldig-tekst-fundet (løst)"
+msgstr "Brødtekst fundet (løst)"
 
 msgid "invalid-text-found (unresolved)"
-msgstr "ugyldig-tekst-fundet ({0})"
+msgstr "For lidt brødtekst ({0})"
 
 msgid "invalid-text-found (resolved)"
-msgstr "ugyldig-tekst-fundet (løst)"
+msgstr "Tilstrækkelig brødtekst (løst)"
 
 msgid "no-valid-response-status-code (unresolved)"
 msgstr "Forkert svarkode ({0})"
@@ -65,16 +65,16 @@ msgid "no-valid-response-status-code (resolved)"
 msgstr "Korrekt svarkode (løst)"
 
 msgid "no-unsupported-locale-use (unresolved)"
-msgstr "ingen-ustøttet-brug-af-sprog ({0})"
+msgstr "Sidens sprog mangler i testens frasliste ({0})"
 
 msgid "no-unsupported-locale-use (resolved)"
-msgstr "ingen-ustøttet-brug-af-sprog (løst)"
+msgstr "Sidens sprog understøttes af testen (løst)"
 
 msgid "no-valid-not-found-text-in-body (unresolved)"
-msgstr "ingen-gyldig-ikke-fundet-tekst-i-indhold ({0})"
+msgstr "Ingen tekst om at siden ikke findes ({0})"
 
 msgid "no-valid-not-found-text-in-body (resolved)"
-msgstr "ingen-gyldig-ikke-fundet-tekst-i-indhold (løst)"
+msgstr "Tekst om at siden ikke findes blev fundet (løst)"
 
 msgid "no-network (unresolved)"
 msgstr "Intet netværk ({0})"

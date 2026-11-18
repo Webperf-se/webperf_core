@@ -36,6 +36,9 @@
   "overrides": {
     "lighthouse": "13.5.0"
   },
+  "allowScripts": {
+    "puppeteer": true
+  },
   "scripts": {
     "start-server": "serve unittests/data/",
     "stop-server": "sudo pkill serve",

@@ -38,7 +38,7 @@ Things to know:
 ## Chrome or Firefox doesn't start (missing browser drivers)
 sitespeed.io needs a driver to control each browser. Chrome uses Chromedriver, Firefox uses Geckodriver and Edge uses Edgedriver. `npm install` doesn't download any of them. Each driver is downloaded into `node_modules` the first time a test starts that browser. If that download fails, the browser never starts and you get one of these symptoms:
 - Chrome fails with `Could not start chrome with 3 tries`, followed by `No data to collect`.
-- Firefox runs end after a few seconds without loading the page. Tests don't always stop with an error then. The HTTP test (21), for example, runs most of its checks in Firefox and finishes much faster than usual, and it reports that every domain lacks TLS 1.2 and TLS 1.3 support.
+- Firefox runs end after a few seconds without loading the page. The HTTP test (21) then stops without a rating and says that Firefox could not load the website, although Chrome could. Other tests don't always stop with an error.
 
 The most common reasons the download fails are:
 - `npm install` was run with `sudo`, so `node_modules` is owned by root and can't be written to when you run the tests as yourself. Take back ownership with `sudo chown -R "$(whoami)" node_modules` (macOS & Linux), and run `npm install` without `sudo` from now on.

@@ -47,16 +47,16 @@ msgid "no-valid-h1-found (resolved)"
 msgstr "Korrekt h1 hittades (löst)"
 
 msgid "no-valid-text-found (unresolved)"
-msgstr "ingen-giltig-text-hittad ({0})"
+msgstr "Ingen brödtext hittades ({0})"
 
 msgid "no-valid-text-found (resolved)"
-msgstr "ingen-giltig-text-hittad (löst)"
+msgstr "Brödtext hittades (löst)"
 
 msgid "invalid-text-found (unresolved)"
-msgstr "ogiltig-text-hittad ({0})"
+msgstr "För lite brödtext ({0})"
 
 msgid "invalid-text-found (resolved)"
-msgstr "ogiltig-text-hittad (löst)"
+msgstr "Tillräckligt med brödtext (löst)"
 
 msgid "no-valid-response-status-code (unresolved)"
 msgstr "Felaktig svarskod ({0})"
@@ -65,16 +65,16 @@ msgid "no-valid-response-status-code (resolved)"
 msgstr "Korrekt svarskod (löst)"
 
 msgid "no-unsupported-locale-use (unresolved)"
-msgstr "ingen-ickestödd-användning-av-språk ({0})"
+msgstr "Sidans språk saknas i testets fraslista ({0})"
 
 msgid "no-unsupported-locale-use (resolved)"
-msgstr "ingen-ickestödd-användning-av-språk (löst)"
+msgstr "Sidans språk stöds av testet (löst)"
 
 msgid "no-valid-not-found-text-in-body (unresolved)"
-msgstr "ingen-giltig-inte-hittad-text-i-innehåll ({0})"
+msgstr "Ingen text om att sidan inte finns ({0})"
 
 msgid "no-valid-not-found-text-in-body (resolved)"
-msgstr "ingen-giltig-inte-hittad-text-i-innehåll (löst)"
+msgstr "Text om att sidan inte finns hittades (löst)"
 
 msgid "no-network (unresolved)"
 msgstr "Inget nätverk ({0})"

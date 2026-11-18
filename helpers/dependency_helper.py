@@ -75,19 +75,35 @@ def check_node():
         return
 
     version = packaging.version.Version(version)
-    repo_version = packaging.version.Version("20.17")
+    required_version = get_required_node_version()
 
-    # Check if the major version is between 20 and 24
-    if not (20 <= version.major <= 24):
-        print('\t- Node:', 'WARNING: Major version not between 20 and 22')
-        return
-
-    # Check if the minor version is at least as high as the repository's minor version
-    if version.major == repo_version.major and version.minor < repo_version.minor:
-        print('\t- Node:', 'WARNING: Minor version is below required')
+    # No upper limit, newer Node.js versions are expected to work
+    # (the sitespeed.io Docker image moves to new major versions on its own).
+    if required_version is not None and version < required_version:
+        print('\t- Node:',
+              f'WARNING: Version {version} is below required {required_version}')
         return
 
     print('\t- Node:', 'OK')
+
+def get_required_node_version():
+    """
+    Returns the minimum Node.js version from "engines.node" in package.json
+    (for example ">=24.22.1"), or None if it is missing or can't be read.
+    """
+    base_directory = Path(os.path.dirname(
+        os.path.realpath(__file__)) + os.path.sep).parent
+    package_path = os.path.join(base_directory.resolve(), 'package.json')
+    try:
+        with open(package_path, encoding='utf-8') as json_input_file:
+            engines_node = json.load(json_input_file).get('engines', {}).get('node', '')
+    except (OSError, ValueError):
+        return None
+
+    match = re.search(r"[0-9]+(\.[0-9]+)*", engines_node)
+    if match is None:
+        return None
+    return packaging.version.Version(match.group(0))
 
 def check_requirements():
     requirements_content = None

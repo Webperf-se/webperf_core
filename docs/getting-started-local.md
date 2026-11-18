@@ -13,7 +13,7 @@ it is also best/fastest when wanting to contribute with new tests, translations 
 - Download and install Node.js 24.22.1 or later. Earlier 24.x versions contain a Brotli decoder flaw that can allow remote code execution when a response from a tested website is decompressed ([CVE-2026-111497, Node.js security release October 2026](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases)).
 - Download and install Google Chrome browser
 * Download and install Mozilla Firefox
-- Install required npm packages by typing following and hit Enter: `npm install --omit=dev`
+- Install required npm packages by typing following and hit Enter: `npm install --omit=dev` (don't use `sudo`, see [Chrome doesn't start](#chrome-doesnt-start-could-not-start-chrome-with-3-tries))
 - Validate that core functionality is working by typing following and hit Enter `python default.py -h`
 - If the output looks something like example in [options and arguments](getting-started.md#options-and-arguments) you have successfully setup the general parts of webperf-core.
 - Please look at/return to the [specific test](tests/README.md) you want to run to make sure it doesn't require more steps.
@@ -34,3 +34,20 @@ Things to know:
 - The check only runs when you run `npm install`. If you installed before upgrading the requirement, check `node --version` yourself.
 - Don't work around it with `--engine-strict=false` unless you run on a machine where it doesn't matter if it is compromised.
 - The Docker image (`webperfse/webperf-core`) ships with a patched Node.js, but only from the release built after this change. Run `docker pull webperfse/webperf-core:latest` to be sure you have it.
+
+## Chrome doesn't start ("Could not start chrome with 3 tries")
+If a test that uses sitespeed.io fails with this, followed by `No data to collect`, Chromedriver is usually missing.
+
+`npm install` doesn't download Chromedriver. It is downloaded into `node_modules` the first time a test starts Chrome. If that download fails, you only get the error above. The most common reasons are:
+- `npm install` was run with `sudo`, so `node_modules` is owned by root and can't be written to when you run the tests as yourself. Take back ownership with `sudo chown -R "$(whoami)" node_modules` (macOS & Linux), and run `npm install` without `sudo` from now on.
+- The machine has no internet access, or a firewall blocks `storage.googleapis.com`, when the test runs.
+
+You can download Chromedriver yourself, so you see any error directly and don't depend on internet access when testing:
+
+```
+node node_modules/sitespeed.io/node_modules/@sitespeed.io/chromedriver/install.js
+```
+
+If that path doesn't exist, look for `@sitespeed.io/chromedriver` directly under `node_modules` instead. Run the command again after every `npm install`, as it may replace the package.
+
+The Docker image already contains Chromedriver, so this doesn't apply there.

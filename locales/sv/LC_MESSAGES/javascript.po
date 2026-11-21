@@ -124,3 +124,9 @@ msgstr "Javascript, förbjud with-uttryck ({0})"
 
 msgid "no-with (resolved)"
 msgstr "Javascript, förbjud with-uttryck (löst)"
+
+msgid "ssr-friendly/no-dom-globals-in-module-scope (unresolved)"
+msgstr "Javascript, förbjud webbläsarobjekt (som window och document) direkt när filen laddas ({0})"
+
+msgid "ssr-friendly/no-dom-globals-in-module-scope (resolved)"
+msgstr "Javascript, förbjud webbläsarobjekt (som window och document) direkt när filen laddas (löst)"

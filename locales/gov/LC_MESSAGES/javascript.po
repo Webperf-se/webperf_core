@@ -124,3 +124,9 @@ msgstr "Javascript, disallow with statements ({0})"
 
 msgid "no-with (resolved)"
 msgstr "Javascript, disallow with statements (resolved)"
+
+msgid "ssr-friendly/no-dom-globals-in-module-scope (unresolved)"
+msgstr "Javascript, disallow browser globals (like window and document) at module load ({0})"
+
+msgid "ssr-friendly/no-dom-globals-in-module-scope (resolved)"
+msgstr "Javascript, disallow browser globals (like window and document) at module load (resolved)"

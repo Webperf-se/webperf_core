@@ -249,3 +249,14 @@ msgstr "CSS, Ekki leyfa ógilda veljara (leyst)"
 msgid "selector-no-invalid (unresolved)"
 msgstr "CSS, Ekki leyfa ógilda veljara ({0})"
 
+msgid "value-no-invalid (unresolved)"
+msgstr "CSS, Ekki leyfa ógild gildi eiginleika ({0})"
+
+msgid "value-no-invalid (resolved)"
+msgstr "CSS, Ekki leyfa ógild gildi eiginleika (leyst)"
+
+msgid "at-charset-rule-no-invalid (unresolved)"
+msgstr "CSS, Ekki leyfa rangt skrifaðar eða rangt staðsettar @charset-reglur (stafakóðun) ({0})"
+
+msgid "at-charset-rule-no-invalid (resolved)"
+msgstr "CSS, Ekki leyfa rangt skrifaðar eða rangt staðsettar @charset-reglur (stafakóðun) (leyst)"

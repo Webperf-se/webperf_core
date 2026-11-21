@@ -2959,6 +2959,3450 @@
         "zxcvbn": {
             "github-owner": "dropbox",
             "github-repo": "zxcvbn"
+        },
+        "burst-statistics": {
+            "type": "wordpress-plugin"
+        },
+        "under-construction-page": {
+            "type": "wordpress-plugin"
+        },
+        "bricks-advanced-themer": {
+            "type": "wordpress-plugin"
+        },
+        "automaticcss-plugin": {
+            "type": "wordpress-plugin"
+        },
+        "wp-social-reviews": {
+            "type": "wordpress-plugin"
+        },
+        "bricksextras": {
+            "type": "wordpress-plugin"
+        },
+        "post-views-counter": {
+            "type": "wordpress-plugin"
+        },
+        "reading-progress-bar": {
+            "type": "wordpress-plugin"
+        },
+        "embed-any-document": {
+            "type": "wordpress-plugin"
+        },
+        "cresta-social-share-counter": {
+            "type": "wordpress-plugin"
+        },
+        "facebook-conversion-pixel": {
+            "type": "wordpress-plugin"
+        },
+        "poll-maker": {
+            "type": "wordpress-plugin"
+        },
+        "embedpress": {
+            "type": "wordpress-plugin"
+        },
+        "menu-image": {
+            "type": "wordpress-plugin"
+        },
+        "elementskit-lite": {
+            "type": "wordpress-plugin"
+        },
+        "contact-form-7-multi-step-module": {
+            "type": "wordpress-plugin"
+        },
+        "wp-font-awesome": {
+            "type": "wordpress-plugin"
+        },
+        "google-site-kit": {
+            "type": "wordpress-plugin"
+        },
+        "responsive-lightbox": {
+            "type": "wordpress-plugin"
+        },
+        "wp-rss-aggregator": {
+            "type": "wordpress-plugin"
+        },
+        "super-rss-reader": {
+            "type": "wordpress-plugin"
+        },
+        "impeka-wpb-extension": {
+            "type": "wordpress-plugin"
+        },
+        "flying-pages": {
+            "type": "wordpress-plugin"
+        },
+        "wp-consent-api": {
+            "type": "wordpress-plugin"
+        },
+        "wp-polls": {
+            "type": "wordpress-plugin"
+        },
+        "feeds-for-youtube": {
+            "type": "wordpress-plugin"
+        },
+        "all-in-one-wp-security-and-firewall": {
+            "type": "wordpress-plugin"
+        },
+        "contact-form-7-honeypot": {
+            "type": "wordpress-plugin"
+        },
+        "like-box": {
+            "type": "wordpress-plugin"
+        },
+        "ut-shortcodes": {
+            "type": "wordpress-plugin"
+        },
+        "dg-divi-carousel": {
+            "type": "wordpress-plugin"
+        },
+        "team-builder": {
+            "type": "wordpress-plugin"
+        },
+        "hurrytimer": {
+            "type": "wordpress-plugin"
+        },
+        "simple-google-recaptcha": {
+            "type": "wordpress-plugin"
+        },
+        "widget-options": {
+            "type": "wordpress-plugin"
+        },
+        "page-visits-counter-lite": {
+            "type": "wordpress-plugin"
+        },
+        "yootheme-flipbox": {
+            "type": "wordpress-plugin"
+        },
+        "yootheme-plyr-router-starter": {
+            "type": "wordpress-plugin"
+        },
+        "vp-yootheme-section-popup": {
+            "type": "wordpress-plugin"
+        },
+        "apsis-newsletter-eu": {
+            "type": "wordpress-plugin"
+        },
+        "3d-flipbook-dflip-lite": {
+            "type": "wordpress-plugin"
+        },
+        "wps-visitor-counter": {
+            "type": "wordpress-plugin"
+        },
+        "titu-usp": {
+            "type": "wordpress-plugin"
+        },
+        "the-post-grid": {
+            "type": "wordpress-plugin"
+        },
+        "nu-medlemsform": {
+            "type": "wordpress-plugin"
+        },
+        "interactive-3d-flipbook-powered-physics-engine": {
+            "type": "wordpress-plugin"
+        },
+        "quotes-and-tips": {
+            "type": "wordpress-plugin"
+        },
+        "spider-contacts": {
+            "type": "wordpress-plugin"
+        },
+        "catalog": {
+            "type": "wordpress-plugin"
+        },
+        "spider-event-calendar": {
+            "type": "wordpress-plugin"
+        },
+        "go-x-post-editor": {
+            "type": "wordpress-plugin"
+        },
+        "go-x-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "pressidium-cookie-consent": {
+            "type": "wordpress-plugin"
+        },
+        "modular-ai": {
+            "type": "wordpress-plugin"
+        },
+        "modularity-opening-hours": {
+            "type": "wordpress-plugin"
+        },
+        "municipio-customisation": {
+            "type": "wordpress-plugin"
+        },
+        "typesense-search": {
+            "type": "wordpress-plugin"
+        },
+        "modularity-alingsashero": {
+            "type": "wordpress-plugin"
+        },
+        "modularity-shape-divider": {
+            "type": "wordpress-plugin"
+        },
+        "broken-link-detector": {
+            "type": "wordpress-plugin"
+        },
+        "wp-media-folder": {
+            "type": "wordpress-plugin"
+        },
+        "etranslation-multilingual": {
+            "type": "wordpress-plugin"
+        },
+        "jet-smart-filters": {
+            "type": "wordpress-plugin"
+        },
+        "advanced-gutenberg-pro": {
+            "type": "wordpress-plugin"
+        },
+        "local_vizzit-analytics-for-wordpress": {
+            "type": "wordpress-plugin"
+        },
+        "modularity-service-info": {
+            "type": "wordpress-plugin"
+        },
+        "modularity-toc": {
+            "type": "wordpress-plugin"
+        },
+        "lidingo-icon-bridge": {
+            "type": "wordpress-plugin"
+        },
+        "lidingo-customisation": {
+            "type": "wordpress-plugin"
+        },
+        "api-alarm-integration": {
+            "type": "wordpress-plugin"
+        },
+        "municipio-cloud-hoor-customizations": {
+            "type": "wordpress-plugin"
+        },
+        "municipio-rekai": {
+            "type": "wordpress-plugin"
+        },
+        "whitespace-tracking-gdpr": {
+            "type": "wordpress-plugin"
+        },
+        "viva-toc": {
+            "type": "wordpress-plugin"
+        },
+        "tranas-plugins": {
+            "type": "wordpress-plugin"
+        },
+        "x_visit-5": {
+            "type": "wordpress-plugin"
+        },
+        "satermodularity": {
+            "type": "wordpress-plugin"
+        },
+        "eventon-lite": {
+            "type": "wordpress-plugin"
+        },
+        "customer-feedback-master": {
+            "type": "wordpress-plugin"
+        },
+        "complianz-gdpr-premium": {
+            "type": "wordpress-plugin"
+        },
+        "instant-css": {
+            "type": "wordpress-plugin"
+        },
+        "consid-event": {
+            "type": "wordpress-plugin"
+        },
+        "mabel-business-hours-indicator-pro": {
+            "type": "wordpress-plugin"
+        },
+        "survey-maker": {
+            "type": "wordpress-plugin"
+        },
+        "filebird-document-library": {
+            "type": "wordpress-plugin"
+        },
+        "wp-grid-builder": {
+            "type": "wordpress-plugin"
+        },
+        "statify": {
+            "type": "wordpress-plugin"
+        },
+        "app_service_email": {
+            "type": "wordpress-plugin"
+        },
+        "ultimate-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "wp-widget-in-navigation": {
+            "type": "wordpress-plugin"
+        },
+        "uncode-daves-wordpress-live-search": {
+            "type": "wordpress-plugin"
+        },
+        "email-subscribers": {
+            "type": "wordpress-plugin"
+        },
+        "wp-file-download": {
+            "type": "wordpress-plugin"
+        },
+        "accessibility-checker": {
+            "type": "wordpress-plugin"
+        },
+        "helpful-pro": {
+            "type": "wordpress-plugin"
+        },
+        "coblocks": {
+            "type": "wordpress-plugin"
+        },
+        "wplegalpages": {
+            "type": "wordpress-plugin"
+        },
+        "filebird-document-library-pro": {
+            "type": "wordpress-plugin"
+        },
+        "template-events-calendar": {
+            "type": "wordpress-plugin"
+        },
+        "jquery-collapse-o-matic": {
+            "type": "wordpress-plugin"
+        },
+        "sidebar-login": {
+            "type": "wordpress-plugin"
+        },
+        "webtoffee-cookie-consent": {
+            "type": "wordpress-plugin"
+        },
+        "foobox-image-lightbox": {
+            "type": "wordpress-plugin"
+        },
+        "download-monitor": {
+            "type": "wordpress-plugin"
+        },
+        "wp-slimstat": {
+            "type": "wordpress-plugin"
+        },
+        "colibri-page-builder-pro": {
+            "type": "wordpress-plugin"
+        },
+        "bbpowerpack": {
+            "type": "wordpress-plugin"
+        },
+        "consid-elementor-widgets": {
+            "type": "wordpress-plugin"
+        },
+        "wp-event-manager-registrations": {
+            "type": "wordpress-plugin"
+        },
+        "ml-slider": {
+            "type": "wordpress-plugin"
+        },
+        "getwid": {
+            "type": "wordpress-plugin"
+        },
+        "vr-sunet-embed": {
+            "type": "wordpress-plugin"
+        },
+        "genteknik-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "tooltipproecommerce": {
+            "type": "wordpress-plugin"
+        },
+        "super-video-player": {
+            "type": "wordpress-plugin"
+        },
+        "cookie-preferences-button": {
+            "type": "wordpress-plugin"
+        },
+        "finsam-calculator": {
+            "type": "wordpress-plugin"
+        },
+        "wp-browser-update": {
+            "type": "wordpress-plugin"
+        },
+        "wp-typography": {
+            "type": "wordpress-plugin"
+        },
+        "wpdatatables": {
+            "type": "wordpress-plugin"
+        },
+        "soliloquy-lite": {
+            "type": "wordpress-plugin"
+        },
+        "autocomplete-for-relevanssi": {
+            "type": "wordpress-plugin"
+        },
+        "forms-for-campaign-monitor": {
+            "type": "wordpress-plugin"
+        },
+        "happiness-menu-widget": {
+            "type": "wordpress-plugin"
+        },
+        "happiness-news-widget": {
+            "type": "wordpress-plugin"
+        },
+        "happiness-steps-menu": {
+            "type": "wordpress-plugin"
+        },
+        "okf-linklister": {
+            "type": "wordpress-plugin"
+        },
+        "happiness-linklist": {
+            "type": "wordpress-plugin"
+        },
+        "happiness-supportlist": {
+            "type": "wordpress-plugin"
+        },
+        "restrict-date-for-contact-form-7": {
+            "type": "wordpress-plugin"
+        },
+        "sa-global-search": {
+            "type": "wordpress-plugin"
+        },
+        "sa-sunt-gpt": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-accordion": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-ankarpunkt": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-banner": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-button": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-components": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-cta-card": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-fou": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-global-share": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-hero-section-tools": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-horizontal-accordion": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-image-bottom-right": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-infobox": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-innehall": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-introbox": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-lanklista-ankarpunkt": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-lista-fritext": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-newsletter-signup": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-nyhetsbrev": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-ordlista": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-overline": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-overview-card": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-page-divider": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-sektionsbox": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-sidfot-sponsorloggor": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-styled-link": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-timer-tests": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-verktyg-video": {
+            "type": "wordpress-plugin"
+        },
+        "easy-tables-vc": {
+            "type": "wordpress-plugin"
+        },
+        "sa-content-filtering": {
+            "type": "wordpress-plugin"
+        },
+        "nelio-ab-testing": {
+            "type": "wordpress-plugin"
+        },
+        "say-what": {
+            "type": "wordpress-plugin"
+        },
+        "sa-vc-hero-section": {
+            "type": "wordpress-plugin"
+        },
+        "sa-ui": {
+            "type": "wordpress-plugin"
+        },
+        "kadence-simple-share": {
+            "type": "wordpress-plugin"
+        },
+        "wp-sentry-integration": {
+            "type": "wordpress-plugin"
+        },
+        "multipurpose-block": {
+            "type": "wordpress-plugin"
+        },
+        "stackable-ultimate-gutenberg-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "ultimate-addons-for-gutenberg-skolahemma": {
+            "type": "wordpress-plugin"
+        },
+        "foogallery": {
+            "type": "wordpress-plugin"
+        },
+        "jquery-updater": {
+            "type": "wordpress-plugin"
+        },
+        "featured-image-from-url": {
+            "type": "wordpress-plugin"
+        },
+        "mb-viltolycka": {
+            "type": "wordpress-plugin"
+        },
+        "astra-addon-3": {
+            "type": "wordpress-plugin"
+        },
+        "qala-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "wp-external-links": {
+            "type": "wordpress-plugin"
+        },
+        "wordpress-popular-posts": {
+            "type": "wordpress-plugin"
+        },
+        "advanced-ads-slider": {
+            "type": "wordpress-plugin"
+        },
+        "bravepopup-pro": {
+            "type": "wordpress-plugin"
+        },
+        "embeddings": {
+            "type": "wordpress-plugin"
+        },
+        "prenly-connect-wp": {
+            "type": "wordpress-plugin"
+        },
+        "advanced-ads": {
+            "type": "wordpress-plugin"
+        },
+        "mission-news-pro": {
+            "type": "wordpress-plugin"
+        },
+        "mailpoet": {
+            "type": "wordpress-plugin"
+        },
+        "mediaconnect": {
+            "type": "wordpress-plugin"
+        },
+        "rule-wp": {
+            "type": "wordpress-plugin"
+        },
+        "custom-creator-rss": {
+            "type": "wordpress-plugin"
+        },
+        "simple-lightbox": {
+            "type": "wordpress-plugin"
+        },
+        "internet-archive-wayback-machine-link-fixer": {
+            "type": "wordpress-plugin"
+        },
+        "wp-gallery-custom-links": {
+            "type": "wordpress-plugin"
+        },
+        "haus-billboard": {
+            "type": "wordpress-plugin"
+        },
+        "haus-geblod-blood-levels": {
+            "type": "wordpress-plugin"
+        },
+        "haus-geblod-location": {
+            "type": "wordpress-plugin"
+        },
+        "haus-geblod-map": {
+            "type": "wordpress-plugin"
+        },
+        "webien-search": {
+            "type": "wordpress-plugin"
+        },
+        "haus-geblod-setup": {
+            "type": "wordpress-plugin"
+        },
+        "haus-setup": {
+            "type": "wordpress-plugin"
+        },
+        "learnpress": {
+            "type": "wordpress-plugin"
+        },
+        "rocket-lazy-load": {
+            "type": "wordpress-plugin"
+        },
+        "theme-my-login": {
+            "type": "wordpress-plugin"
+        },
+        "unlimited-elements-for-elementor": {
+            "type": "wordpress-plugin"
+        },
+        "accesspress-social-counter": {
+            "type": "wordpress-plugin"
+        },
+        "caxton": {
+            "type": "wordpress-plugin"
+        },
+        "kliken-marketing-for-google": {
+            "type": "wordpress-plugin"
+        },
+        "astra-widgets": {
+            "type": "wordpress-plugin"
+        },
+        "astra-addon": {
+            "type": "wordpress-plugin"
+        },
+        "wedocs": {
+            "type": "wordpress-plugin"
+        },
+        "woo-product-slider-block": {
+            "type": "wordpress-plugin"
+        },
+        "visual-portfolio": {
+            "type": "wordpress-plugin"
+        },
+        "convertpro": {
+            "type": "wordpress-plugin"
+        },
+        "ultimate-addons-for-contact-form-7": {
+            "type": "wordpress-plugin"
+        },
+        "all-in-one-seo-pack": {
+            "type": "wordpress-plugin"
+        },
+        "gravityformsrecaptcha": {
+            "type": "wordpress-plugin"
+        },
+        "consent-magic-pro": {
+            "type": "wordpress-plugin"
+        },
+        "pixelyoursite-pro": {
+            "type": "wordpress-plugin"
+        },
+        "wp-post-modal": {
+            "type": "wordpress-plugin"
+        },
+        "types": {
+            "type": "wordpress-plugin"
+        },
+        "postman-widget": {
+            "type": "wordpress-plugin"
+        },
+        "polylang": {
+            "type": "wordpress-plugin"
+        },
+        "skansen-skolklasser": {
+            "type": "wordpress-plugin"
+        },
+        "intervaro-cookie-notice-master": {
+            "type": "wordpress-plugin"
+        },
+        "youcruit-job-listings": {
+            "type": "wordpress-plugin"
+        },
+        "wp-sentry": {
+            "type": "wordpress-plugin"
+        },
+        "goodlayers-core": {
+            "type": "wordpress-plugin"
+        },
+        "google-analyticator": {
+            "type": "wordpress-plugin"
+        },
+        "wp-google-map-plugin": {
+            "type": "wordpress-plugin"
+        },
+        "graphite": {
+            "type": "wordpress-plugin"
+        },
+        "neve-pro-addon": {
+            "type": "wordpress-plugin"
+        },
+        "yop-poll-pro": {
+            "type": "wordpress-plugin"
+        },
+        "otter-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "quiz-maker": {
+            "type": "wordpress-plugin"
+        },
+        "quiz-maker-advanced-display-quizzes": {
+            "type": "wordpress-plugin"
+        },
+        "quiz-maker-generate-quiz": {
+            "type": "wordpress-plugin"
+        },
+        "cookie-consent": {
+            "type": "wordpress-plugin"
+        },
+        "ays-popup-box": {
+            "type": "wordpress-plugin"
+        },
+        "wp-opening-hours": {
+            "type": "wordpress-plugin"
+        },
+        "eventon": {
+            "type": "wordpress-plugin"
+        },
+        "eventon-daily-view": {
+            "type": "wordpress-plugin"
+        },
+        "eventon-full-cal": {
+            "type": "wordpress-plugin"
+        },
+        "simple-lazy-load-videos": {
+            "type": "wordpress-plugin"
+        },
+        "torro-forms": {
+            "type": "wordpress-plugin"
+        },
+        "sureforms-pro": {
+            "type": "wordpress-plugin"
+        },
+        "woocommerce-multilingual": {
+            "type": "wordpress-plugin"
+        },
+        "awsm-team": {
+            "type": "wordpress-plugin"
+        },
+        "booking": {
+            "type": "wordpress-plugin"
+        },
+        "getanewsletter": {
+            "type": "wordpress-plugin"
+        },
+        "custom-price-for-woocommerce": {
+            "type": "wordpress-plugin"
+        },
+        "custom-field-list-widget": {
+            "type": "wordpress-plugin"
+        },
+        "woocommerce-gateway-swish-ecommerce": {
+            "type": "wordpress-plugin"
+        },
+        "gs-logo-slider": {
+            "type": "wordpress-plugin"
+        },
+        "gp-premium": {
+            "type": "wordpress-plugin"
+        },
+        "fooevents-calendar": {
+            "type": "wordpress-plugin"
+        },
+        "fooevents": {
+            "type": "wordpress-plugin"
+        },
+        "ultimate-elementor": {
+            "type": "wordpress-plugin"
+        },
+        "woo-discount-rules-pro": {
+            "type": "wordpress-plugin"
+        },
+        "google-analytics-dashboard-for-wp": {
+            "type": "wordpress-plugin"
+        },
+        "woo-discount-rules": {
+            "type": "wordpress-plugin"
+        },
+        "aeroseum-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "content-control": {
+            "type": "wordpress-plugin"
+        },
+        "opening-hours": {
+            "type": "wordpress-plugin"
+        },
+        "official-facebook-pixel": {
+            "type": "wordpress-plugin"
+        },
+        "malmokonsthall": {
+            "type": "wordpress-plugin"
+        },
+        "musea-shows": {
+            "type": "wordpress-plugin"
+        },
+        "ultimate-carousel-for-visual-composer": {
+            "type": "wordpress-plugin"
+        },
+        "polylang-if-not-found": {
+            "type": "wordpress-plugin"
+        },
+        "login-with-azure": {
+            "type": "wordpress-plugin"
+        },
+        "social-warfare": {
+            "type": "wordpress-plugin"
+        },
+        "tm-timeline": {
+            "type": "wordpress-plugin"
+        },
+        "elementor-procent-openinghours": {
+            "type": "wordpress-plugin"
+        },
+        "cookieconsentmanager-gcv2": {
+            "type": "wordpress-plugin"
+        },
+        "yith-woocommerce-pdf-invoice-premium": {
+            "type": "wordpress-plugin"
+        },
+        "yith-woocommerce-ajax-product-filter-premium": {
+            "type": "wordpress-plugin"
+        },
+        "side-cart-woocommerce": {
+            "type": "wordpress-plugin"
+        },
+        "divi-plus": {
+            "type": "wordpress-plugin"
+        },
+        "yith-woocommerce-booking-premium": {
+            "type": "wordpress-plugin"
+        },
+        "gg-lightbox": {
+            "type": "wordpress-plugin"
+        },
+        "owlslider": {
+            "type": "wordpress-plugin"
+        },
+        "montania-cookie-consent": {
+            "type": "wordpress-plugin"
+        },
+        "bridge-core": {
+            "type": "wordpress-plugin"
+        },
+        "justified-image-grid": {
+            "type": "wordpress-plugin"
+        },
+        "column-shortcodes": {
+            "type": "wordpress-plugin"
+        },
+        "document-emberdder": {
+            "type": "wordpress-plugin"
+        },
+        "event-tickets-plus": {
+            "type": "wordpress-plugin"
+        },
+        "responsive-gallery-grid": {
+            "type": "wordpress-plugin"
+        },
+        "clear-cache-everywhere": {
+            "type": "wordpress-plugin"
+        },
+        "shopwp-pro": {
+            "type": "wordpress-plugin"
+        },
+        "wpml-multilingual-cms": {
+            "type": "wordpress-plugin"
+        },
+        "magasin3-audioplayer": {
+            "type": "wordpress-plugin"
+        },
+        "noor-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "norrlandsoperan-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "wp-show-more": {
+            "type": "wordpress-plugin"
+        },
+        "google-analytics-premium": {
+            "type": "wordpress-plugin"
+        },
+        "bambora-online-checkout": {
+            "type": "wordpress-plugin"
+        },
+        "woocommerce-bookings": {
+            "type": "wordpress-plugin"
+        },
+        "woocommerce-product-bundles": {
+            "type": "wordpress-plugin"
+        },
+        "woocommerce-product-addons": {
+            "type": "wordpress-plugin"
+        },
+        "museum-post-types-and-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "generateblocks-pro": {
+            "type": "wordpress-plugin"
+        },
+        "borlabs-cookie": {
+            "type": "wordpress-plugin"
+        },
+        "ewww-image-optimizer": {
+            "type": "wordpress-plugin"
+        },
+        "flow-flow-social-streams": {
+            "type": "wordpress-plugin"
+        },
+        "drag-and-drop-multiple-file-upload-contact-form-7": {
+            "type": "wordpress-plugin"
+        },
+        "print-o-matic": {
+            "type": "wordpress-plugin"
+        },
+        "acurax-social-media-widget": {
+            "type": "wordpress-plugin"
+        },
+        "google-language-translator": {
+            "type": "wordpress-plugin"
+        },
+        "lightbox-gallery": {
+            "type": "wordpress-plugin"
+        },
+        "thielska-opening-hours": {
+            "type": "wordpress-plugin"
+        },
+        "cleaner-gallery": {
+            "type": "wordpress-plugin"
+        },
+        "custom-event-calendar": {
+            "type": "wordpress-plugin"
+        },
+        "gappointments": {
+            "type": "wordpress-plugin"
+        },
+        "g-cookies": {
+            "type": "wordpress-plugin"
+        },
+        "gt-events": {
+            "type": "wordpress-plugin"
+        },
+        "woocommerce-memberships": {
+            "type": "wordpress-plugin"
+        },
+        "woocommerce-menu-bar-cart": {
+            "type": "wordpress-plugin"
+        },
+        "audioigniter": {
+            "type": "wordpress-plugin"
+        },
+        "simple-signup-form": {
+            "type": "wordpress-plugin"
+        },
+        "my-social-widget": {
+            "type": "wordpress-plugin"
+        },
+        "ultimate-social-media-plus": {
+            "type": "wordpress-plugin"
+        },
+        "add-facebook": {
+            "type": "wordpress-plugin"
+        },
+        "eh-stripe-payment-gateway": {
+            "type": "wordpress-plugin"
+        },
+        "xa-woocommerce-subscriptions": {
+            "type": "wordpress-plugin"
+        },
+        "woocommerce-name-your-price": {
+            "type": "wordpress-plugin"
+        },
+        "wp-rss-retriever": {
+            "type": "wordpress-plugin"
+        },
+        "modern-events-calendar-lite": {
+            "type": "wordpress-plugin"
+        },
+        "metronet-profile-picture": {
+            "type": "wordpress-plugin"
+        },
+        "geodirectory": {
+            "type": "wordpress-plugin"
+        },
+        "iks-menu": {
+            "type": "wordpress-plugin"
+        },
+        "hero-block": {
+            "type": "wordpress-plugin"
+        },
+        "woocommerce-paypal-payments": {
+            "type": "wordpress-plugin"
+        },
+        "powerpack-lite-for-elementor": {
+            "type": "wordpress-plugin"
+        },
+        "optimization-detective": {
+            "type": "wordpress-plugin"
+        },
+        "image-prioritizer": {
+            "type": "wordpress-plugin"
+        },
+        "testify": {
+            "type": "wordpress-plugin"
+        },
+        "flying-press": {
+            "type": "wordpress-plugin"
+        },
+        "additional-product-fields-for-woocommerce": {
+            "type": "wordpress-plugin"
+        },
+        "bb-theme-builder": {
+            "type": "wordpress-plugin"
+        },
+        "smart-slider-3": {
+            "type": "wordpress-plugin"
+        },
+        "responsive-youtube-vimeo-popup": {
+            "type": "wordpress-plugin"
+        },
+        "relevanssi-live-ajax-search": {
+            "type": "wordpress-plugin"
+        },
+        "wp-simple-firewall": {
+            "type": "wordpress-plugin"
+        },
+        "ajax-search-suggestions": {
+            "type": "wordpress-plugin"
+        },
+        "readabler": {
+            "type": "wordpress-plugin"
+        },
+        "wp-postviews": {
+            "type": "wordpress-plugin"
+        },
+        "the-plus-addons-for-elementor-page-builder": {
+            "type": "wordpress-plugin"
+        },
+        "quantcast-choice": {
+            "type": "wordpress-plugin"
+        },
+        "accessibility-plugin-onetap-pro": {
+            "type": "wordpress-plugin"
+        },
+        "flexible-shipping": {
+            "type": "wordpress-plugin"
+        },
+        "bellows-accordion-menu": {
+            "type": "wordpress-plugin"
+        },
+        "sg-cachepress": {
+            "type": "wordpress-plugin"
+        },
+        "uncode-privacy": {
+            "type": "wordpress-plugin"
+        },
+        "wp-event-manager-recurring-events": {
+            "type": "wordpress-plugin"
+        },
+        "anwp-post-grid-for-elementor": {
+            "type": "wordpress-plugin"
+        },
+        "ocean-product-sharing": {
+            "type": "wordpress-plugin"
+        },
+        "ocean-social-sharing": {
+            "type": "wordpress-plugin"
+        },
+        "google-listings-and-ads": {
+            "type": "wordpress-plugin"
+        },
+        "qsm-export-results": {
+            "type": "wordpress-plugin"
+        },
+        "divi-modules-pro": {
+            "type": "wordpress-plugin"
+        },
+        "dizo-image-hover": {
+            "type": "wordpress-plugin"
+        },
+        "divi-areas-pro": {
+            "type": "wordpress-plugin"
+        },
+        "interactive-geo-maps": {
+            "type": "wordpress-plugin"
+        },
+        "generation-essentials": {
+            "type": "wordpress-plugin"
+        },
+        "woo-product-slider": {
+            "type": "wordpress-plugin"
+        },
+        "wp-google-analytics-events": {
+            "type": "wordpress-plugin"
+        },
+        "simple-membership": {
+            "type": "wordpress-plugin"
+        },
+        "woocommerce-pdf-invoice": {
+            "type": "wordpress-plugin"
+        },
+        "apply-online": {
+            "type": "wordpress-plugin"
+        },
+        "mega-addons-for-visual-composer": {
+            "type": "wordpress-plugin"
+        },
+        "woo-donations": {
+            "type": "wordpress-plugin"
+        },
+        "masterslider": {
+            "type": "wordpress-plugin"
+        },
+        "jupiter-donut": {
+            "type": "wordpress-plugin"
+        },
+        "checkout-field-editor-and-manager-for-woocommerce": {
+            "type": "wordpress-plugin"
+        },
+        "templatesnext-toolkit": {
+            "type": "wordpress-plugin"
+        },
+        "fub-pictogram": {
+            "type": "wordpress-plugin"
+        },
+        "wp-featherlight": {
+            "type": "wordpress-plugin"
+        },
+        "fub-customization": {
+            "type": "wordpress-plugin"
+        },
+        "shortcodes-ultimate": {
+            "type": "wordpress-plugin"
+        },
+        "custom-fonts": {
+            "type": "wordpress-plugin"
+        },
+        "divi-assistant": {
+            "type": "wordpress-plugin"
+        },
+        "wpforms-form-locker": {
+            "type": "wordpress-plugin"
+        },
+        "woo-custom-product-addons-pro": {
+            "type": "wordpress-plugin"
+        },
+        "profile-builder": {
+            "type": "wordpress-plugin"
+        },
+        "divi-event-calendar-module": {
+            "type": "wordpress-plugin"
+        },
+        "ds-divi-breadcrumbs": {
+            "type": "wordpress-plugin"
+        },
+        "advanced-iframe": {
+            "type": "wordpress-plugin"
+        },
+        "divi-blog-extras": {
+            "type": "wordpress-plugin"
+        },
+        "wp-armour-extended": {
+            "type": "wordpress-plugin"
+        },
+        "page-views-count": {
+            "type": "wordpress-plugin"
+        },
+        "memberarea": {
+            "type": "wordpress-plugin"
+        },
+        "wp-font-awesome-share-icons": {
+            "type": "wordpress-plugin"
+        },
+        "wp-twitter-feeds": {
+            "type": "wordpress-plugin"
+        },
+        "g-wcag": {
+            "type": "wordpress-plugin"
+        },
+        "gt-events-master": {
+            "type": "wordpress-plugin"
+        },
+        "gt-media-folders": {
+            "type": "wordpress-plugin"
+        },
+        "rtp-pdf": {
+            "type": "wordpress-plugin"
+        },
+        "rtp-roles": {
+            "type": "wordpress-plugin"
+        },
+        "image-and-media-byline-credits": {
+            "type": "wordpress-plugin"
+        },
+        "very-simple-event-list": {
+            "type": "wordpress-plugin"
+        },
+        "trx_utils": {
+            "type": "wordpress-plugin"
+        },
+        "gdpr-cookie-compliance-addon": {
+            "type": "wordpress-plugin"
+        },
+        "show-posts": {
+            "type": "wordpress-plugin"
+        },
+        "user-access-manager": {
+            "type": "wordpress-plugin"
+        },
+        "wp-members": {
+            "type": "wordpress-plugin"
+        },
+        "so-widgets-bundle": {
+            "type": "wordpress-plugin"
+        },
+        "the-retailer-extender": {
+            "type": "wordpress-plugin"
+        },
+        "hookmeup": {
+            "type": "wordpress-plugin"
+        },
+        "the-retailer-deprecated": {
+            "type": "wordpress-plugin"
+        },
+        "the-retailer-portfolio": {
+            "type": "wordpress-plugin"
+        },
+        "mb-fibromyalgi": {
+            "type": "wordpress-plugin"
+        },
+        "addon-elements-for-elementor-page-builder": {
+            "type": "wordpress-plugin"
+        },
+        "stripe-payments": {
+            "type": "wordpress-plugin"
+        },
+        "houdini-slider-module": {
+            "type": "wordpress-plugin"
+        },
+        "qi-addons-for-elementor": {
+            "type": "wordpress-plugin"
+        },
+        "easy-login-woocommerce": {
+            "type": "wordpress-plugin"
+        },
+        "hide-admin-bar-based-on-user-roles": {
+            "type": "wordpress-plugin"
+        },
+        "activecampaign-subscription-forms": {
+            "type": "wordpress-plugin"
+        },
+        "simple-tags": {
+            "type": "wordpress-plugin"
+        },
+        "wp-latest-posts": {
+            "type": "wordpress-plugin"
+        },
+        "futurion": {
+            "type": "wordpress-plugin"
+        },
+        "destiny-elements": {
+            "type": "wordpress-plugin"
+        },
+        "onecom-themes-plugins": {
+            "type": "wordpress-plugin"
+        },
+        "lazy-load-for-videos": {
+            "type": "wordpress-plugin"
+        },
+        "gravity-forms-zero-spam": {
+            "type": "wordpress-plugin"
+        },
+        "easy-foundation-shortcodes": {
+            "type": "wordpress-plugin"
+        },
+        "beautiful-taxonomy-filters": {
+            "type": "wordpress-plugin"
+        },
+        "rotatingtweets": {
+            "type": "wordpress-plugin"
+        },
+        "addthis": {
+            "type": "wordpress-plugin"
+        },
+        "the-events-calendar-category-colors": {
+            "type": "wordpress-plugin"
+        },
+        "easy-image-collage": {
+            "type": "wordpress-plugin"
+        },
+        "podcast-subscribe-buttons": {
+            "type": "wordpress-plugin"
+        },
+        "svg-vector-icon-plugin": {
+            "type": "wordpress-plugin"
+        },
+        "mc4wp-premium": {
+            "type": "wordpress-plugin"
+        },
+        "actionable-google-analytics": {
+            "type": "wordpress-plugin"
+        },
+        "blocks-for-eventbrite": {
+            "type": "wordpress-plugin"
+        },
+        "bf-form": {
+            "type": "wordpress-plugin"
+        },
+        "dt-the7-core": {
+            "type": "wordpress-plugin"
+        },
+        "gravity-forms-placeholders": {
+            "type": "wordpress-plugin"
+        },
+        "boxzilla": {
+            "type": "wordpress-plugin"
+        },
+        "mondido-woocommerce": {
+            "type": "wordpress-plugin"
+        },
+        "popups-for-divi": {
+            "type": "wordpress-plugin"
+        },
+        "wow-carousel-for-divi-lite": {
+            "type": "wordpress-plugin"
+        },
+        "mousewheel-smooth-scroll": {
+            "type": "wordpress-plugin"
+        },
+        "brave-popup-builder": {
+            "type": "wordpress-plugin"
+        },
+        "content-protector": {
+            "type": "wordpress-plugin"
+        },
+        "kadence-woo-extras": {
+            "type": "wordpress-plugin"
+        },
+        "kadence-pro": {
+            "type": "wordpress-plugin"
+        },
+        "simple-restrict": {
+            "type": "wordpress-plugin"
+        },
+        "complianz-gdpr-premium-multisite": {
+            "type": "wordpress-plugin"
+        },
+        "daext-helpful": {
+            "type": "wordpress-plugin"
+        },
+        "cvp-analytics": {
+            "type": "wordpress-plugin"
+        },
+        "jquery-colorbox": {
+            "type": "wordpress-plugin"
+        },
+        "widget-logic": {
+            "type": "wordpress-plugin"
+        },
+        "woocommerce-subscriptions": {
+            "type": "wordpress-plugin"
+        },
+        "woo-variation-swatches": {
+            "type": "wordpress-plugin"
+        },
+        "give": {
+            "type": "wordpress-plugin"
+        },
+        "give-currency-switcher": {
+            "type": "wordpress-plugin"
+        },
+        "give-recurring": {
+            "type": "wordpress-plugin"
+        },
+        "menu-cart-for-woocommerce": {
+            "type": "wordpress-plugin"
+        },
+        "slide-anything": {
+            "type": "wordpress-plugin"
+        },
+        "spotlight-social-photo-feeds": {
+            "type": "wordpress-plugin"
+        },
+        "mailoptin": {
+            "type": "wordpress-plugin"
+        },
+        "beaf-before-and-after-gallery": {
+            "type": "wordpress-plugin"
+        },
+        "image-map-pro-wordpress": {
+            "type": "wordpress-plugin"
+        },
+        "easy-columns": {
+            "type": "wordpress-plugin"
+        },
+        "social-icons-widget-by-wpzoom": {
+            "type": "wordpress-plugin"
+        },
+        "unyson": {
+            "type": "wordpress-plugin"
+        },
+        "wpzoom-shortcodes": {
+            "type": "wordpress-plugin"
+        },
+        "wp-meta-and-date-remover": {
+            "type": "wordpress-plugin"
+        },
+        "give-fee-recovery": {
+            "type": "wordpress-plugin"
+        },
+        "give-stripe": {
+            "type": "wordpress-plugin"
+        },
+        "redux-framework": {
+            "type": "wordpress-plugin"
+        },
+        "revolution-slider": {
+            "type": "wordpress-plugin"
+        },
+        "dgt-framework": {
+            "type": "wordpress-plugin"
+        },
+        "visualcomposer": {
+            "type": "wordpress-plugin"
+        },
+        "nks-custom": {
+            "type": "wordpress-plugin"
+        },
+        "wpc-variations-radio-buttons": {
+            "type": "wordpress-plugin"
+        },
+        "interactive-world-maps": {
+            "type": "wordpress-plugin"
+        },
+        "search-in-place": {
+            "type": "wordpress-plugin"
+        },
+        "content_timeline": {
+            "type": "wordpress-plugin"
+        },
+        "divi-testimonial-slider": {
+            "type": "wordpress-plugin"
+        },
+        "divi-builder": {
+            "type": "wordpress-plugin"
+        },
+        "tooltips-for-gravity-forms-free": {
+            "type": "wordpress-plugin"
+        },
+        "ubermenu": {
+            "type": "wordpress-plugin"
+        },
+        "responsive-progress-bar": {
+            "type": "wordpress-plugin"
+        },
+        "poll-wp": {
+            "type": "wordpress-plugin"
+        },
+        "progress-bar": {
+            "type": "wordpress-plugin"
+        },
+        "ultimeter": {
+            "type": "wordpress-plugin"
+        },
+        "qterest": {
+            "type": "wordpress-plugin"
+        },
+        "wp-job-manager": {
+            "type": "wordpress-plugin"
+        },
+        "social-polls-by-opinionstage": {
+            "type": "wordpress-plugin"
+        },
+        "popupbuilder-geo-targeting": {
+            "type": "wordpress-plugin"
+        },
+        "popup-builder": {
+            "type": "wordpress-plugin"
+        },
+        "give-form-field-manager": {
+            "type": "wordpress-plugin"
+        },
+        "yith-woocommerce-wishlist": {
+            "type": "wordpress-plugin"
+        },
+        "af-donations": {
+            "type": "wordpress-plugin"
+        },
+        "af_mailchimp": {
+            "type": "wordpress-plugin"
+        },
+        "wp-responsive-table": {
+            "type": "wordpress-plugin"
+        },
+        "ultimate-post": {
+            "type": "wordpress-plugin"
+        },
+        "eventon-rsvp": {
+            "type": "wordpress-plugin"
+        },
+        "simple-facebook": {
+            "type": "wordpress-plugin"
+        },
+        "wp-responsive-menu": {
+            "type": "wordpress-plugin"
+        },
+        "itc-consent-mode": {
+            "type": "wordpress-plugin"
+        },
+        "everest-forms-pro": {
+            "type": "wordpress-plugin"
+        },
+        "arcmember-iframe": {
+            "type": "wordpress-plugin"
+        },
+        "bs-swiper": {
+            "type": "wordpress-plugin"
+        },
+        "user-submitted-posts": {
+            "type": "wordpress-plugin"
+        },
+        "wp-smartcrop": {
+            "type": "wordpress-plugin"
+        },
+        "html5-video-player": {
+            "type": "wordpress-plugin"
+        },
+        "swish": {
+            "type": "wordpress-plugin"
+        },
+        "uncode-js_composer": {
+            "type": "wordpress-plugin"
+        },
+        "tlp-team": {
+            "type": "wordpress-plugin"
+        },
+        "yith-woocommerce-advanced-product-options-premium": {
+            "type": "wordpress-plugin"
+        },
+        "yith-easy-login-register-popup-for-woocommerce": {
+            "type": "wordpress-plugin"
+        },
+        "yith-woocommerce-subscription-premium": {
+            "type": "wordpress-plugin"
+        },
+        "wp-google-map-gold": {
+            "type": "wordpress-plugin"
+        },
+        "pdf-embedder": {
+            "type": "wordpress-plugin"
+        },
+        "product-open-pricing-name-your-price-for-woocommerce": {
+            "type": "wordpress-plugin"
+        },
+        "divi-accessibility-master": {
+            "type": "wordpress-plugin"
+        },
+        "reusable-content-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "nd-elements": {
+            "type": "wordpress-plugin"
+        },
+        "ova-events": {
+            "type": "wordpress-plugin"
+        },
+        "arcmemberiframe17": {
+            "type": "wordpress-plugin"
+        },
+        "breeze": {
+            "type": "wordpress-plugin"
+        },
+        "accessibility-checker-pro": {
+            "type": "wordpress-plugin"
+        },
+        "easy-load-more": {
+            "type": "wordpress-plugin"
+        },
+        "read-meter": {
+            "type": "wordpress-plugin"
+        },
+        "give-funds": {
+            "type": "wordpress-plugin"
+        },
+        "oxy-ninja": {
+            "type": "wordpress-plugin"
+        },
+        "video-embed-thumbnail-generator": {
+            "type": "wordpress-plugin"
+        },
+        "apsis-pro-for-wp": {
+            "type": "wordpress-plugin"
+        },
+        "woocommerce-google-analytics-integration": {
+            "type": "wordpress-plugin"
+        },
+        "donation": {
+            "type": "wordpress-plugin"
+        },
+        "donationplus": {
+            "type": "wordpress-plugin"
+        },
+        "reviews-feed": {
+            "type": "wordpress-plugin"
+        },
+        "ultimate-member": {
+            "type": "wordpress-plugin"
+        },
+        "advanced-product-fields-for-woocommerce": {
+            "type": "wordpress-plugin"
+        },
+        "itc-donate": {
+            "type": "wordpress-plugin"
+        },
+        "custom-page-templates-by-vegacorp": {
+            "type": "wordpress-plugin"
+        },
+        "q2w3-fixed-widget": {
+            "type": "wordpress-plugin"
+        },
+        "contact-widgets": {
+            "type": "wordpress-plugin"
+        },
+        "podcast-player": {
+            "type": "wordpress-plugin"
+        },
+        "social-wall": {
+            "type": "wordpress-plugin"
+        },
+        "official-mailerlite-sign-up-forms": {
+            "type": "wordpress-plugin"
+        },
+        "bm-navigation-shelf": {
+            "type": "wordpress-plugin"
+        },
+        "haus-wp-setup": {
+            "type": "wordpress-plugin"
+        },
+        "site-widgets": {
+            "type": "wordpress-plugin"
+        },
+        "gtm-server-side": {
+            "type": "wordpress-plugin"
+        },
+        "facebook-for-woocommerce": {
+            "type": "wordpress-plugin"
+        },
+        "gavobevis": {
+            "type": "wordpress-plugin"
+        },
+        "tpwf-block": {
+            "type": "wordpress-plugin"
+        },
+        "woo-product-page-social-share": {
+            "type": "wordpress-plugin"
+        },
+        "wp-payment-gateway": {
+            "type": "wordpress-plugin"
+        },
+        "variation-swatches-for-woocommerce": {
+            "type": "wordpress-plugin"
+        },
+        "carousel-slider": {
+            "type": "wordpress-plugin"
+        },
+        "woocommerce-currency-switcher": {
+            "type": "wordpress-plugin"
+        },
+        "woo-poly-integration": {
+            "type": "wordpress-plugin"
+        },
+        "addons-for-divi": {
+            "type": "wordpress-plugin"
+        },
+        "conditional-checkout-fields-for-woocommerce": {
+            "type": "wordpress-plugin"
+        },
+        "mondidowoocommerce-master": {
+            "type": "wordpress-plugin"
+        },
+        "advanced-product-fields-for-woocommerce-extended": {
+            "type": "wordpress-plugin"
+        },
+        "donation-for-woocommerce": {
+            "type": "wordpress-plugin"
+        },
+        "e2pdf": {
+            "type": "wordpress-plugin"
+        },
+        "woocommerce-gateway-paypal-express-checkout": {
+            "type": "wordpress-plugin"
+        },
+        "ari-fancy-lightbox": {
+            "type": "wordpress-plugin"
+        },
+        "astra-pro-sites": {
+            "type": "wordpress-plugin"
+        },
+        "post-grid-carousel-ultimate": {
+            "type": "wordpress-plugin"
+        },
+        "responsive-accordion-and-collapse": {
+            "type": "wordpress-plugin"
+        },
+        "wpc-name-your-price": {
+            "type": "wordpress-plugin"
+        },
+        "ai-engine-pro": {
+            "type": "wordpress-plugin"
+        },
+        "hw-gdpr-cookies": {
+            "type": "wordpress-plugin"
+        },
+        "essential-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "gravityforms-profundo": {
+            "type": "wordpress-plugin"
+        },
+        "malinky-ajax-pagination": {
+            "type": "wordpress-plugin"
+        },
+        "evdy-helper": {
+            "type": "wordpress-plugin"
+        },
+        "memorial-pages": {
+            "type": "wordpress-plugin"
+        },
+        "exclusive-addons-for-elementor": {
+            "type": "wordpress-plugin"
+        },
+        "charitable": {
+            "type": "wordpress-plugin"
+        },
+        "template-core": {
+            "type": "wordpress-plugin"
+        },
+        "eu-map": {
+            "type": "wordpress-plugin"
+        },
+        "thim-framework": {
+            "type": "wordpress-plugin"
+        },
+        "tp-event": {
+            "type": "wordpress-plugin"
+        },
+        "forget-about-shortcode-buttons": {
+            "type": "wordpress-plugin"
+        },
+        "accessibility-widget": {
+            "type": "wordpress-plugin"
+        },
+        "mild-cloud-cdn-main": {
+            "type": "wordpress-plugin"
+        },
+        "butique": {
+            "type": "wordpress-plugin"
+        },
+        "analyticswp": {
+            "type": "wordpress-plugin"
+        },
+        "dflip": {
+            "type": "wordpress-plugin"
+        },
+        "nicepage": {
+            "type": "wordpress-plugin"
+        },
+        "wp-courses": {
+            "type": "wordpress-plugin"
+        },
+        "youtube-feed-pro": {
+            "type": "wordpress-plugin"
+        },
+        "zakat-calculator": {
+            "type": "wordpress-plugin"
+        },
+        "wp-banner": {
+            "type": "wordpress-plugin"
+        },
+        "gtm-ecommerce-woo-pro": {
+            "type": "wordpress-plugin"
+        },
+        "greenshift-animation-and-page-builder-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "blocksy-companion": {
+            "type": "wordpress-plugin"
+        },
+        "divi-machine": {
+            "type": "wordpress-plugin"
+        },
+        "easy-social-icons": {
+            "type": "wordpress-plugin"
+        },
+        "magtarm-recurring-payments": {
+            "type": "wordpress-plugin"
+        },
+        "gravity-forms-sticky-list": {
+            "type": "wordpress-plugin"
+        },
+        "payer-for-woocommerce": {
+            "type": "wordpress-plugin"
+        },
+        "simple-payson-payment": {
+            "type": "wordpress-plugin"
+        },
+        "shareme": {
+            "type": "wordpress-plugin"
+        },
+        "lcp-ajax-pagination": {
+            "type": "wordpress-plugin"
+        },
+        "list-category-posts": {
+            "type": "wordpress-plugin"
+        },
+        "wp-socializer": {
+            "type": "wordpress-plugin"
+        },
+        "wp-google-maps-pro": {
+            "type": "wordpress-plugin"
+        },
+        "wp-crowdfunding": {
+            "type": "wordpress-plugin"
+        },
+        "folders": {
+            "type": "wordpress-plugin"
+        },
+        "advanced-woo-search": {
+            "type": "wordpress-plugin"
+        },
+        "mercyships-payment": {
+            "type": "wordpress-plugin"
+        },
+        "woo-profile-pic": {
+            "type": "wordpress-plugin"
+        },
+        "wordpress-store-locator": {
+            "type": "wordpress-plugin"
+        },
+        "simply-schedule-appointments": {
+            "type": "wordpress-plugin"
+        },
+        "webba-booking": {
+            "type": "wordpress-plugin"
+        },
+        "pta-volunteer-sign-up-sheets": {
+            "type": "wordpress-plugin"
+        },
+        "wp-bootstrap-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "ecpat-vuxenstod-questionnaire": {
+            "type": "wordpress-plugin"
+        },
+        "ecpat-bookable": {
+            "type": "wordpress-plugin"
+        },
+        "ecpat-ukraine-bookable": {
+            "type": "wordpress-plugin"
+        },
+        "ilmenite-cookie-consent": {
+            "type": "wordpress-plugin"
+        },
+        "to-top": {
+            "type": "wordpress-plugin"
+        },
+        "modern-events-calendar": {
+            "type": "wordpress-plugin"
+        },
+        "supreme-modules-pro-for-divi": {
+            "type": "wordpress-plugin"
+        },
+        "smart-recent-posts-widget": {
+            "type": "wordpress-plugin"
+        },
+        "tankbar-multiblock": {
+            "type": "wordpress-plugin"
+        },
+        "flowpaper-lite-pdf-flipbook": {
+            "type": "wordpress-plugin"
+        },
+        "wp-memorial-sheet": {
+            "type": "wordpress-plugin"
+        },
+        "divi-team-members": {
+            "type": "wordpress-plugin"
+        },
+        "spectra-pro": {
+            "type": "wordpress-plugin"
+        },
+        "product-input-fields-for-woocommerce": {
+            "type": "wordpress-plugin"
+        },
+        "wd-facebook-feed": {
+            "type": "wordpress-plugin"
+        },
+        "pirate-forms": {
+            "type": "wordpress-plugin"
+        },
+        "drop-shadow-boxes": {
+            "type": "wordpress-plugin"
+        },
+        "ajax-load-more": {
+            "type": "wordpress-plugin"
+        },
+        "ktk-donations": {
+            "type": "wordpress-plugin"
+        },
+        "issuu-magazine-display": {
+            "type": "wordpress-plugin"
+        },
+        "creative-mail-by-constant-contact": {
+            "type": "wordpress-plugin"
+        },
+        "gt-knowledgebank": {
+            "type": "wordpress-plugin"
+        },
+        "tjanstetandlakarna-members": {
+            "type": "wordpress-plugin"
+        },
+        "woo-product-bundle": {
+            "type": "wordpress-plugin"
+        },
+        "add-to-cart-direct-checkout-for-woocommerce": {
+            "type": "wordpress-plugin"
+        },
+        "varningslistan": {
+            "type": "wordpress-plugin"
+        },
+        "folders-pro": {
+            "type": "wordpress-plugin"
+        },
+        "full-screen-menu-for-elementor": {
+            "type": "wordpress-plugin"
+        },
+        "ninja-forms-conditionals": {
+            "type": "wordpress-plugin"
+        },
+        "eduadmin-booking": {
+            "type": "wordpress-plugin"
+        },
+        "fully-background-manager": {
+            "type": "wordpress-plugin"
+        },
+        "widgets-on-pages": {
+            "type": "wordpress-plugin"
+        },
+        "ultimate-multistep-pro": {
+            "type": "wordpress-plugin"
+        },
+        "ultimate-repeater": {
+            "type": "wordpress-plugin"
+        },
+        "menu-in-post": {
+            "type": "wordpress-plugin"
+        },
+        "ultimate-ip-geolocation": {
+            "type": "wordpress-plugin"
+        },
+        "hide-metadata": {
+            "type": "wordpress-plugin"
+        },
+        "catfolders-document-gallery": {
+            "type": "wordpress-plugin"
+        },
+        "sscp": {
+            "type": "wordpress-plugin"
+        },
+        "fluentform": {
+            "type": "wordpress-plugin"
+        },
+        "stackable-ultimate-gutenberg-blocks-premium": {
+            "type": "wordpress-plugin"
+        },
+        "frosting-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "must-have-cookie": {
+            "type": "wordpress-plugin"
+        },
+        "divi-modules-accessibility-sidebar": {
+            "type": "wordpress-plugin"
+        },
+        "divi-responsive-helper": {
+            "type": "wordpress-plugin"
+        },
+        "ideon-companies": {
+            "type": "wordpress-plugin"
+        },
+        "a-z-listing": {
+            "type": "wordpress-plugin"
+        },
+        "divi-mad-menu": {
+            "type": "wordpress-plugin"
+        },
+        "pwa": {
+            "type": "wordpress-plugin"
+        },
+        "bdthemes-prime-slider-lite": {
+            "type": "wordpress-plugin"
+        },
+        "powerpack-elements": {
+            "type": "wordpress-plugin"
+        },
+        "query-filter-main": {
+            "type": "wordpress-plugin"
+        },
+        "mild-carousel-block": {
+            "type": "wordpress-plugin"
+        },
+        "instant-search-interactivity-main": {
+            "type": "wordpress-plugin"
+        },
+        "mild-ajax-load-more": {
+            "type": "wordpress-plugin"
+        },
+        "mild-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "auto-region-functions": {
+            "type": "wordpress-plugin"
+        },
+        "cmb-export": {
+            "type": "wordpress-plugin"
+        },
+        "cmb-import": {
+            "type": "wordpress-plugin"
+        },
+        "hollertz-activities": {
+            "type": "wordpress-plugin"
+        },
+        "chalmers-activities": {
+            "type": "wordpress-plugin"
+        },
+        "ele-custom-skin-pro": {
+            "type": "wordpress-plugin"
+        },
+        "unlimited-elementor-inner-sections-by-boomdevs": {
+            "type": "wordpress-plugin"
+        },
+        "gravityformsgoogleanalytics": {
+            "type": "wordpress-plugin"
+        },
+        "qala-elastic-search-new": {
+            "type": "wordpress-plugin"
+        },
+        "qala-sgtm": {
+            "type": "wordpress-plugin"
+        },
+        "ptkaccessibility": {
+            "type": "wordpress-plugin"
+        },
+        "grown-revenue-room": {
+            "type": "wordpress-plugin"
+        },
+        "easy-table-of-contents": {
+            "type": "wordpress-plugin"
+        },
+        "site-reviews": {
+            "type": "wordpress-plugin"
+        },
+        "gravity-forms": {
+            "type": "wordpress-plugin"
+        },
+        "document-embedder-addons-for-elementor": {
+            "type": "wordpress-plugin"
+        },
+        "piotnet-addons-for-elementor-pro": {
+            "type": "wordpress-plugin"
+        },
+        "jetformbuilder": {
+            "type": "wordpress-plugin"
+        },
+        "jet-form-builder-save-progress": {
+            "type": "wordpress-plugin"
+        },
+        "klaviyo": {
+            "type": "wordpress-plugin"
+        },
+        "wn-chatbot": {
+            "type": "wordpress-plugin"
+        },
+        "macs-react-jobs": {
+            "type": "wordpress-plugin"
+        },
+        "404page": {
+            "type": "wordpress-plugin"
+        },
+        "cg-archive-shortcode": {
+            "type": "wordpress-plugin"
+        },
+        "wp-macs-forms": {
+            "type": "wordpress-plugin"
+        },
+        "people-slider-s": {
+            "type": "wordpress-plugin"
+        },
+        "custom-text-formats": {
+            "type": "wordpress-plugin"
+        },
+        "pardot": {
+            "type": "wordpress-plugin"
+        },
+        "gt-gated-content": {
+            "type": "wordpress-plugin"
+        },
+        "mbp-hubspot-latest-news-block": {
+            "type": "wordpress-plugin"
+        },
+        "embed-pdf-viewer": {
+            "type": "wordpress-plugin"
+        },
+        "jarvaveckan": {
+            "type": "wordpress-plugin"
+        },
+        "profile-builder-pro": {
+            "type": "wordpress-plugin"
+        },
+        "iis-faq": {
+            "type": "wordpress-plugin"
+        },
+        "iis-mailchimp": {
+            "type": "wordpress-plugin"
+        },
+        "display-post-types": {
+            "type": "wordpress-plugin"
+        },
+        "widgetkit": {
+            "type": "wordpress-plugin"
+        },
+        "disclaimer-popup": {
+            "type": "wordpress-plugin"
+        },
+        "lsr_pantamera_express": {
+            "type": "wordpress-plugin"
+        },
+        "generate-pdf-using-contact-form-7": {
+            "type": "wordpress-plugin"
+        },
+        "template-editor": {
+            "type": "wordpress-plugin"
+        },
+        "splide-carousel": {
+            "type": "wordpress-plugin"
+        },
+        "geab-calculator": {
+            "type": "wordpress-plugin"
+        },
+        "geab-price-history": {
+            "type": "wordpress-plugin"
+        },
+        "vistrom-sms-service-api-client": {
+            "type": "wordpress-plugin"
+        },
+        "wp-search-with-algolia": {
+            "type": "wordpress-plugin"
+        },
+        "objekt-widgets": {
+            "type": "wordpress-plugin"
+        },
+        "customizations": {
+            "type": "wordpress-plugin"
+        },
+        "meddelanden": {
+            "type": "wordpress-plugin"
+        },
+        "postcode-checker": {
+            "type": "wordpress-plugin"
+        },
+        "tundran-faq-popup": {
+            "type": "wordpress-plugin"
+        },
+        "enhanced-text-to-speech": {
+            "type": "wordpress-plugin"
+        },
+        "wp-fb-you-vimeo-twit-insta-stream": {
+            "type": "wordpress-plugin"
+        },
+        "cff-carousel": {
+            "type": "wordpress-plugin"
+        },
+        "crm-plugin": {
+            "type": "wordpress-plugin"
+        },
+        "stanga-plugin": {
+            "type": "wordpress-plugin"
+        },
+        "woocommerce-products-filter": {
+            "type": "wordpress-plugin"
+        },
+        "cookie-consent-manager": {
+            "type": "wordpress-plugin"
+        },
+        "bostadsvaljaren": {
+            "type": "wordpress-plugin"
+        },
+        "jet-theme-core": {
+            "type": "wordpress-plugin"
+        },
+        "divi-100-back-to-top": {
+            "type": "wordpress-plugin"
+        },
+        "divi-overlays": {
+            "type": "wordpress-plugin"
+        },
+        "ajax-search-pro": {
+            "type": "wordpress-plugin"
+        },
+        "acf-focal-point": {
+            "type": "wordpress-plugin"
+        },
+        "fancybox-for-wordpress": {
+            "type": "wordpress-plugin"
+        },
+        "equal-height-columns": {
+            "type": "wordpress-plugin"
+        },
+        "matchheight": {
+            "type": "wordpress-plugin"
+        },
+        "omraden-kartor": {
+            "type": "wordpress-plugin"
+        },
+        "wpfront-notification-bar": {
+            "type": "wordpress-plugin"
+        },
+        "wp-super-faq": {
+            "type": "wordpress-plugin"
+        },
+        "data-tables-generator-by-supsystic": {
+            "type": "wordpress-plugin"
+        },
+        "sk-translate": {
+            "type": "wordpress-plugin"
+        },
+        "tabs-responsive": {
+            "type": "wordpress-plugin"
+        },
+        "mystickymenu-pro": {
+            "type": "wordpress-plugin"
+        },
+        "armada-file-archive": {
+            "type": "wordpress-plugin"
+        },
+        "armada-sidepanel": {
+            "type": "wordpress-plugin"
+        },
+        "ellibot_forms_2_0_special": {
+            "type": "wordpress-plugin"
+        },
+        "nbab-campaigns": {
+            "type": "wordpress-plugin"
+        },
+        "keydesign-addon": {
+            "type": "wordpress-plugin"
+        },
+        "friendly-captcha": {
+            "type": "wordpress-plugin"
+        },
+        "simple-banner": {
+            "type": "wordpress-plugin"
+        },
+        "wp-responsive-recent-post-slider": {
+            "type": "wordpress-plugin"
+        },
+        "facetwp": {
+            "type": "wordpress-plugin"
+        },
+        "stratum": {
+            "type": "wordpress-plugin"
+        },
+        "master-slider": {
+            "type": "wordpress-plugin"
+        },
+        "trx_addons": {
+            "type": "wordpress-plugin"
+        },
+        "posts-table-pro": {
+            "type": "wordpress-plugin"
+        },
+        "zoacres-core": {
+            "type": "wordpress-plugin"
+        },
+        "modularity-nsva-addons": {
+            "type": "wordpress-plugin"
+        },
+        "nsva-notiser": {
+            "type": "wordpress-plugin"
+        },
+        "modularity-nsva-relevanssi": {
+            "type": "wordpress-plugin"
+        },
+        "municipio-nsva-addons": {
+            "type": "wordpress-plugin"
+        },
+        "talker": {
+            "type": "wordpress-plugin"
+        },
+        "devvn-image-hotspot-hdl": {
+            "type": "wordpress-plugin"
+        },
+        "hdl-tool-kit": {
+            "type": "wordpress-plugin"
+        },
+        "notificaton": {
+            "type": "wordpress-plugin"
+        },
+        "api-event-manager-integration-master": {
+            "type": "wordpress-plugin"
+        },
+        "tiymce_expandable_readmore": {
+            "type": "wordpress-plugin"
+        },
+        "generator-for-pdf": {
+            "type": "wordpress-plugin"
+        },
+        "qala-elastic-core": {
+            "type": "wordpress-plugin"
+        },
+        "qala-polylang": {
+            "type": "wordpress-plugin"
+        },
+        "qala-block-areas": {
+            "type": "wordpress-plugin"
+        },
+        "qala-breadcrumbs": {
+            "type": "wordpress-plugin"
+        },
+        "qala-mixshake": {
+            "type": "wordpress-plugin"
+        },
+        "maps-marker-pro": {
+            "type": "wordpress-plugin"
+        },
+        "pro-elements": {
+            "type": "wordpress-plugin"
+        },
+        "wpconsent-cookies-banner-privacy-suite": {
+            "type": "wordpress-plugin"
+        },
+        "elpriser-plugin": {
+            "type": "wordpress-plugin"
+        },
+        "swift-iframe-actions": {
+            "type": "wordpress-plugin"
+        },
+        "divi-module-breadcrumbs": {
+            "type": "wordpress-plugin"
+        },
+        "divi_module_timeline": {
+            "type": "wordpress-plugin"
+        },
+        "job-sync": {
+            "type": "wordpress-plugin"
+        },
+        "faq-shortcode": {
+            "type": "wordpress-plugin"
+        },
+        "beaver-builder-lite-version": {
+            "type": "wordpress-plugin"
+        },
+        "ginger": {
+            "type": "wordpress-plugin"
+        },
+        "divi-contact-form-helper": {
+            "type": "wordpress-plugin"
+        },
+        "sabai": {
+            "type": "wordpress-plugin"
+        },
+        "solaredge": {
+            "type": "wordpress-plugin"
+        },
+        "gyan-elements": {
+            "type": "wordpress-plugin"
+        },
+        "hammy": {
+            "type": "wordpress-plugin"
+        },
+        "mystickymenu": {
+            "type": "wordpress-plugin"
+        },
+        "wp-and-divi-icons": {
+            "type": "wordpress-plugin"
+        },
+        "font-resizer": {
+            "type": "wordpress-plugin"
+        },
+        "spiffy-calendar": {
+            "type": "wordpress-plugin"
+        },
+        "swift-color-box": {
+            "type": "wordpress-plugin"
+        },
+        "swift-index": {
+            "type": "wordpress-plugin"
+        },
+        "wp-mailto-links": {
+            "type": "wordpress-plugin"
+        },
+        "wpicons-pro": {
+            "type": "wordpress-plugin"
+        },
+        "cmp-external-api": {
+            "type": "wordpress-plugin"
+        },
+        "dp-divi-filtergrid": {
+            "type": "wordpress-plugin"
+        },
+        "baslider": {
+            "type": "wordpress-plugin"
+        },
+        "houzez-theme-functionality": {
+            "type": "wordpress-plugin"
+        },
+        "divi-image-helper": {
+            "type": "wordpress-plugin"
+        },
+        "divi-breadcrumbs-module-ultimate": {
+            "type": "wordpress-plugin"
+        },
+        "help-dialog": {
+            "type": "wordpress-plugin"
+        },
+        "help-dialog-pro": {
+            "type": "wordpress-plugin"
+        },
+        "divi-contact-module-pro-master": {
+            "type": "wordpress-plugin"
+        },
+        "divi-dynamic-helper": {
+            "type": "wordpress-plugin"
+        },
+        "cryptx": {
+            "type": "wordpress-plugin"
+        },
+        "sinch-core": {
+            "type": "wordpress-plugin"
+        },
+        "cbis-wordpress": {
+            "type": "wordpress-plugin"
+        },
+        "cookie-bar": {
+            "type": "wordpress-plugin"
+        },
+        "thirstyaffiliates": {
+            "type": "wordpress-plugin"
+        },
+        "thirstyaffiliates-pro": {
+            "type": "wordpress-plugin"
+        },
+        "like-posts": {
+            "type": "wordpress-plugin"
+        },
+        "ymc-smart-filter": {
+            "type": "wordpress-plugin"
+        },
+        "favorites": {
+            "type": "wordpress-plugin"
+        },
+        "real-time-auto-find-and-replace": {
+            "type": "wordpress-plugin"
+        },
+        "sydney-toolbox": {
+            "type": "wordpress-plugin"
+        },
+        "easy-facebook-likebox": {
+            "type": "wordpress-plugin"
+        },
+        "lightbox-plus": {
+            "type": "wordpress-plugin"
+        },
+        "visitvarmland-map-plugin": {
+            "type": "wordpress-plugin"
+        },
+        "cb-widget": {
+            "type": "wordpress-plugin"
+        },
+        "jet-popup": {
+            "type": "wordpress-plugin"
+        },
+        "social-icons": {
+            "type": "wordpress-plugin"
+        },
+        "total-theme-core": {
+            "type": "wordpress-plugin"
+        },
+        "photoswipe-masonry": {
+            "type": "wordpress-plugin"
+        },
+        "wpem-divi-elements": {
+            "type": "wordpress-plugin"
+        },
+        "jet-blog": {
+            "type": "wordpress-plugin"
+        },
+        "theplus_elementor_addon": {
+            "type": "wordpress-plugin"
+        },
+        "fixed-toc": {
+            "type": "wordpress-plugin"
+        },
+        "accordion-plugin": {
+            "type": "wordpress-plugin"
+        },
+        "cc-child-pages": {
+            "type": "wordpress-plugin"
+        },
+        "divi-form-transformer": {
+            "type": "wordpress-plugin"
+        },
+        "glesys-mega-menu": {
+            "type": "wordpress-plugin"
+        },
+        "breadcrumbs-divi-module": {
+            "type": "wordpress-plugin"
+        },
+        "divi-custom-button": {
+            "type": "wordpress-plugin"
+        },
+        "divi-custom-cards": {
+            "type": "wordpress-plugin"
+        },
+        "divi-custom-counter": {
+            "type": "wordpress-plugin"
+        },
+        "divi-custom-usps": {
+            "type": "wordpress-plugin"
+        },
+        "divi-faq-module": {
+            "type": "wordpress-plugin"
+        },
+        "divi-image-text-module-simple": {
+            "type": "wordpress-plugin"
+        },
+        "divi-image-text-module": {
+            "type": "wordpress-plugin"
+        },
+        "divi-iso-module": {
+            "type": "wordpress-plugin"
+        },
+        "divi-jobs-board": {
+            "type": "wordpress-plugin"
+        },
+        "divi-logo-banner": {
+            "type": "wordpress-plugin"
+        },
+        "divi-pricing-module": {
+            "type": "wordpress-plugin"
+        },
+        "divi-recent-news": {
+            "type": "wordpress-plugin"
+        },
+        "divi-social-proof-simple": {
+            "type": "wordpress-plugin"
+        },
+        "divi-social-proof-standard": {
+            "type": "wordpress-plugin"
+        },
+        "glesys-hero-plugin": {
+            "type": "wordpress-plugin"
+        },
+        "glesys-turnstile": {
+            "type": "wordpress-plugin"
+        },
+        "blocksy-companion-pro": {
+            "type": "wordpress-plugin"
+        },
+        "captcha-eu": {
+            "type": "wordpress-plugin"
+        },
+        "woocommerce-product-slider-pro": {
+            "type": "wordpress-plugin"
+        },
+        "wp-carousel-pro": {
+            "type": "wordpress-plugin"
+        },
+        "sgn-store-listing": {
+            "type": "wordpress-plugin"
+        },
+        "sgn-ts-plugin": {
+            "type": "wordpress-plugin"
+        },
+        "vertex-search-by-kurosh": {
+            "type": "wordpress-plugin"
+        },
+        "woocommerce-status-actions": {
+            "type": "wordpress-plugin"
+        },
+        "conj-powerpack": {
+            "type": "wordpress-plugin"
+        },
+        "gtm-datalayer-by-kurosh": {
+            "type": "wordpress-plugin"
+        },
+        "shipmondo-for-woocommerce": {
+            "type": "wordpress-plugin"
+        },
+        "wp-recipe-maker": {
+            "type": "wordpress-plugin"
+        },
+        "slicewp": {
+            "type": "wordpress-plugin"
+        },
+        "woocommerce-wishlists": {
+            "type": "wordpress-plugin"
+        },
+        "wp-ultimate-recipe": {
+            "type": "wordpress-plugin"
+        },
+        "woocommerce-product-recommendations": {
+            "type": "wordpress-plugin"
+        },
+        "wcpb-product-badges": {
+            "type": "wordpress-plugin"
+        },
+        "ajax-search-for-woocommerce-premium": {
+            "type": "wordpress-plugin"
+        },
+        "back-in-stock-notifier-for-woocommerce": {
+            "type": "wordpress-plugin"
+        },
+        "woocommerce-smart-coupons": {
+            "type": "wordpress-plugin"
+        },
+        "valu-gutenberg-enhancements": {
+            "type": "wordpress-plugin"
+        },
+        "valu-block-juicer": {
+            "type": "wordpress-plugin"
+        },
+        "valu-interactive-tabs": {
+            "type": "wordpress-plugin"
+        },
+        "fusion": {
+            "type": "wordpress-plugin"
+        },
+        "flatco_lomakkeet": {
+            "type": "wordpress-plugin"
+        },
+        "divi-100-hamburger-menu-1": {
+            "type": "wordpress-plugin"
+        },
+        "miniorange-login-with-eve-online-google-facebook": {
+            "type": "wordpress-plugin"
+        },
+        "zf-social-share-kotka": {
+            "type": "wordpress-plugin"
+        },
+        "sticky-side-buttons": {
+            "type": "wordpress-plugin"
+        },
+        "responsive-posts-carousel": {
+            "type": "wordpress-plugin"
+        },
+        "contact-list": {
+            "type": "wordpress-plugin"
+        },
+        "eleslider": {
+            "type": "wordpress-plugin"
+        },
+        "contact-list-pro": {
+            "type": "wordpress-plugin"
+        },
+        "ajax-filter-posts": {
+            "type": "wordpress-plugin"
+        },
+        "gridmaster-pro": {
+            "type": "wordpress-plugin"
+        },
+        "pwd-cookie-consent": {
+            "type": "wordpress-plugin"
+        },
+        "joroinen-chat": {
+            "type": "wordpress-plugin"
+        },
+        "dg-readspeaker": {
+            "type": "wordpress-plugin"
+        },
+        "kuortane-ep-kalenteri": {
+            "type": "wordpress-plugin"
+        },
+        "kuortane-harrastukset": {
+            "type": "wordpress-plugin"
+        },
+        "yop-poll": {
+            "type": "wordpress-plugin"
+        },
+        "yotuwp-easy-youtube-embed": {
+            "type": "wordpress-plugin"
+        },
+        "verifone-bluecommerce-for-woocommerce": {
+            "type": "wordpress-plugin"
+        },
+        "accessibility-onetap": {
+            "type": "wordpress-plugin"
+        },
+        "minmax-quantity-for-woocommerce": {
+            "type": "wordpress-plugin"
+        },
+        "posti-shipping": {
+            "type": "wordpress-plugin"
+        },
+        "dg-product-carousel": {
+            "type": "wordpress-plugin"
+        },
+        "indeed-my-logos": {
+            "type": "wordpress-plugin"
+        },
+        "woocommerce-category-accordion": {
+            "type": "wordpress-plugin"
+        },
+        "wt-smart-coupons-for-woocommerce": {
+            "type": "wordpress-plugin"
+        },
+        "timeline-module-for-divi": {
+            "type": "wordpress-plugin"
+        },
+        "ultimate-posts-widget": {
+            "type": "wordpress-plugin"
+        },
+        "tenweb-speed-optimizer": {
+            "type": "wordpress-plugin"
+        },
+        "h5p": {
+            "type": "wordpress-plugin"
+        },
+        "syntax-highlighting-code-block": {
+            "type": "wordpress-plugin"
+        },
+        "cubescom_event_annouce": {
+            "type": "wordpress-plugin"
+        },
+        "water-consumption-counter": {
+            "type": "wordpress-plugin"
+        },
+        "meita-extra": {
+            "type": "wordpress-plugin"
+        },
+        "360-image": {
+            "type": "wordpress-plugin"
+        },
+        "acf-beautiful-flexible": {
+            "type": "wordpress-plugin"
+        },
+        "acf-columns": {
+            "type": "wordpress-plugin"
+        },
+        "acf-image-aspect-ratio-crop": {
+            "type": "wordpress-plugin"
+        },
+        "acf-mapbox-hoyry": {
+            "type": "wordpress-plugin"
+        },
+        "advanced-custom-fields-table-field": {
+            "type": "wordpress-plugin"
+        },
+        "streamcast": {
+            "type": "wordpress-plugin"
+        },
+        "download-attachments": {
+            "type": "wordpress-plugin"
+        },
+        "joki-ict": {
+            "type": "wordpress-plugin"
+        },
+        "oxyextras": {
+            "type": "wordpress-plugin"
+        },
+        "morgan-a11y-overlay-search": {
+            "type": "wordpress-plugin"
+        },
+        "morgan-content-filter-pro": {
+            "type": "wordpress-plugin"
+        },
+        "better-post-filter-widgets-for-elementor": {
+            "type": "wordpress-plugin"
+        },
+        "the-events-calendar-community-events": {
+            "type": "wordpress-plugin"
+        },
+        "wp-user-frontend-pro": {
+            "type": "wordpress-plugin"
+        },
+        "wp-user-frontend": {
+            "type": "wordpress-plugin"
+        },
+        "valu-crisis": {
+            "type": "wordpress-plugin"
+        },
+        "valu-gallery-slider": {
+            "type": "wordpress-plugin"
+        },
+        "social-feed-by-arrowplugins": {
+            "type": "wordpress-plugin"
+        },
+        "wp-cookiebot-helper": {
+            "type": "wordpress-plugin"
+        },
+        "dustpress-js": {
+            "type": "wordpress-plugin"
+        },
+        "supportcandy": {
+            "type": "wordpress-plugin"
+        },
+        "pie-calendar": {
+            "type": "wordpress-plugin"
+        },
+        "lightweight-social-icons": {
+            "type": "wordpress-plugin"
+        },
+        "satakunta-events-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "valu-wp-lazy-load": {
+            "type": "wordpress-plugin"
+        },
+        "breadcrumbspress": {
+            "type": "wordpress-plugin"
+        },
+        "carousel-block": {
+            "type": "wordpress-plugin"
+        },
+        "sassy-social-share": {
+            "type": "wordpress-plugin"
+        },
+        "feed-them-social": {
+            "type": "wordpress-plugin"
+        },
+        "pwd-teuva-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "divi-100-hamburger-menu": {
+            "type": "wordpress-plugin"
+        },
+        "panorama": {
+            "type": "wordpress-plugin"
+        },
+        "ptv-integration": {
+            "type": "wordpress-plugin"
+        },
+        "sipoo-timeline-block": {
+            "type": "wordpress-plugin"
+        },
+        "nomon-cookie-notification": {
+            "type": "wordpress-plugin"
+        },
+        "best-share-buttons": {
+            "type": "wordpress-plugin"
+        },
+        "johku": {
+            "type": "wordpress-plugin"
+        },
+        "consent-magic-pro-2": {
+            "type": "wordpress-plugin"
+        },
+        "pixelyoursite-pro-2": {
+            "type": "wordpress-plugin"
+        },
+        "hoyry-yritysrekisteri": {
+            "type": "wordpress-plugin"
+        },
+        "acf-image-crop-add-on": {
+            "type": "wordpress-plugin"
+        },
+        "polylang-pro": {
+            "type": "wordpress-plugin"
+        },
+        "gutentor": {
+            "type": "wordpress-plugin"
+        },
+        "add-search-to-menu-premium": {
+            "type": "wordpress-plugin"
+        },
+        "auth0": {
+            "type": "wordpress-plugin"
+        },
+        "garden-gnome-package": {
+            "type": "wordpress-plugin"
+        },
+        "pwd-siuntio-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "pwd-siuntio-events": {
+            "type": "wordpress-plugin"
+        },
+        "organization-chart": {
+            "type": "wordpress-plugin"
+        },
+        "pdf-smart-viewer-for-elementor": {
+            "type": "wordpress-plugin"
+        },
+        "iggo-contact-manager": {
+            "type": "wordpress-plugin"
+        },
+        "gridible": {
+            "type": "wordpress-plugin"
+        },
+        "jcodigital-active-overlay": {
+            "type": "wordpress-plugin"
+        },
+        "dynamic-archive": {
+            "type": "wordpress-plugin"
+        },
+        "hion-ai-search": {
+            "type": "wordpress-plugin"
+        },
+        "wp-security-hardening": {
+            "type": "wordpress-plugin"
+        },
+        "import-facebook-events": {
+            "type": "wordpress-plugin"
+        },
+        "events-calendar-modules-for-divi": {
+            "type": "wordpress-plugin"
+        },
+        "event-calendar-wd": {
+            "type": "wordpress-plugin"
+        },
+        "avidly-overlay-search-custom": {
+            "type": "wordpress-plugin"
+        },
+        "announcer": {
+            "type": "wordpress-plugin"
+        },
+        "flow-flow": {
+            "type": "wordpress-plugin"
+        },
+        "instagram-widget-by-wpzoom": {
+            "type": "wordpress-plugin"
+        },
+        "bsk-pdf-manager": {
+            "type": "wordpress-plugin"
+        },
+        "date-time-picker-field": {
+            "type": "wordpress-plugin"
+        },
+        "poolarna-pool-tools-0cc1dbf4c9cb": {
+            "type": "wordpress-plugin"
+        },
+        "yhteystiedot": {
+            "type": "wordpress-plugin"
+        },
+        "ax-social-stream": {
+            "type": "wordpress-plugin"
+        },
+        "framill-contacts": {
+            "type": "wordpress-plugin"
+        },
+        "framill-javascript-plugins": {
+            "type": "wordpress-plugin"
+        },
+        "burst-pro": {
+            "type": "wordpress-plugin"
+        },
+        "pwd-service-editor-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "pwd-events": {
+            "type": "wordpress-plugin"
+        },
+        "mastercity": {
+            "type": "wordpress-plugin"
+        },
+        "child-theme-generator": {
+            "type": "wordpress-plugin"
+        },
+        "extendify": {
+            "type": "wordpress-plugin"
+        },
+        "tablepress-premium": {
+            "type": "wordpress-plugin"
+        },
+        "super-socializer": {
+            "type": "wordpress-plugin"
+        },
+        "photonic": {
+            "type": "wordpress-plugin"
+        },
+        "screenreader": {
+            "type": "wordpress-plugin"
+        },
+        "pwd-huittinen-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "pwd-huittinen-cpt-events": {
+            "type": "wordpress-plugin"
+        },
+        "pwd-huittinen-cpt-hobbies": {
+            "type": "wordpress-plugin"
+        },
+        "satakunta-events": {
+            "type": "wordpress-plugin"
+        },
+        "jquery-validation-for-contact-form-7-pro": {
+            "type": "wordpress-plugin"
+        },
+        "meks-easy-instagram-widget": {
+            "type": "wordpress-plugin"
+        },
+        "ks-hankasalmi-events": {
+            "type": "wordpress-plugin"
+        },
+        "tribe-ext-list-venues-organizers-shortcodes": {
+            "type": "wordpress-plugin"
+        },
+        "ghostkit": {
+            "type": "wordpress-plugin"
+        },
+        "divi-accessibility": {
+            "type": "wordpress-plugin"
+        },
+        "bradmax-player": {
+            "type": "wordpress-plugin"
+        },
+        "markuk_evastevaroitus": {
+            "type": "wordpress-plugin"
+        },
+        "wp-media-category-management": {
+            "type": "wordpress-plugin"
+        },
+        "rss-feed-widget": {
+            "type": "wordpress-plugin"
+        },
+        "advanced-tabs-block": {
+            "type": "wordpress-plugin"
+        },
+        "ml-slider-pro": {
+            "type": "wordpress-plugin"
+        },
+        "photoblocks-grid-gallery": {
+            "type": "wordpress-plugin"
+        },
+        "wpb-popup-for-contact-form-7": {
+            "type": "wordpress-plugin"
+        },
+        "valu-block-google-translate": {
+            "type": "wordpress-plugin"
+        },
+        "valu-megamenu": {
+            "type": "wordpress-plugin"
+        },
+        "valu-language-switcher": {
+            "type": "wordpress-plugin"
+        },
+        "valu-carousel": {
+            "type": "wordpress-plugin"
+        },
+        "valu-custom-feed": {
+            "type": "wordpress-plugin"
+        },
+        "valu-tabs": {
+            "type": "wordpress-plugin"
+        },
+        "registrations-for-the-events-calendar-pro": {
+            "type": "wordpress-plugin"
+        },
+        "sircon-nav": {
+            "type": "wordpress-plugin"
+        },
+        "otw-blog-manager": {
+            "type": "wordpress-plugin"
+        },
+        "vc-weather": {
+            "type": "wordpress-plugin"
+        },
+        "easy-social-share-buttons3": {
+            "type": "wordpress-plugin"
+        },
+        "easy-widget-columns": {
+            "type": "wordpress-plugin"
+        },
+        "calendarize-it": {
+            "type": "wordpress-plugin"
+        },
+        "pwa-for-wp": {
+            "type": "wordpress-plugin"
+        },
+        "employee-staff-directory": {
+            "type": "wordpress-plugin"
+        },
+        "anywhere-elementor-pro": {
+            "type": "wordpress-plugin"
+        },
+        "bookly-responsive-appointment-booking-tool": {
+            "type": "wordpress-plugin"
+        },
+        "weforms-business": {
+            "type": "wordpress-plugin"
+        },
+        "weforms": {
+            "type": "wordpress-plugin"
+        },
+        "templatera": {
+            "type": "wordpress-plugin"
+        },
+        "wp-google-search": {
+            "type": "wordpress-plugin"
+        },
+        "valu-disruption-notice": {
+            "type": "wordpress-plugin"
+        },
+        "nv_cookies": {
+            "type": "wordpress-plugin"
+        },
+        "nv_tv": {
+            "type": "wordpress-plugin"
+        },
+        "xtheme-searchengine": {
+            "type": "wordpress-plugin"
+        },
+        "eventon-slider-addon": {
+            "type": "wordpress-plugin"
+        },
+        "tib-api": {
+            "type": "wordpress-plugin"
+        },
+        "wasaline": {
+            "type": "wordpress-plugin"
+        },
+        "enfold-custom-header": {
+            "type": "wordpress-plugin"
+        },
+        "geotargetingwp": {
+            "type": "wordpress-plugin"
+        },
+        "wasaline-additional-functions": {
+            "type": "wordpress-plugin"
+        },
+        "wpvr-pro": {
+            "type": "wordpress-plugin"
+        },
+        "formidable-pro": {
+            "type": "wordpress-plugin"
+        },
+        "wp-venkalendern": {
+            "type": "wordpress-plugin"
+        },
+        "upcoming-flights-blue": {
+            "type": "wordpress-plugin"
+        },
+        "wp-cloudy": {
+            "type": "wordpress-plugin"
+        },
+        "accordion-item": {
+            "type": "wordpress-plugin"
+        },
+        "blog-feed": {
+            "type": "wordpress-plugin"
+        },
+        "booking-widget": {
+            "type": "wordpress-plugin"
+        },
+        "cabin-card-horizontal": {
+            "type": "wordpress-plugin"
+        },
+        "cabin-card": {
+            "type": "wordpress-plugin"
+        },
+        "cabin-feed": {
+            "type": "wordpress-plugin"
+        },
+        "cover-carousel": {
+            "type": "wordpress-plugin"
+        },
+        "custom-listing-slider": {
+            "type": "wordpress-plugin"
+        },
+        "icon-highlight": {
+            "type": "wordpress-plugin"
+        },
+        "inpage-navigation": {
+            "type": "wordpress-plugin"
+        },
+        "news-feed": {
+            "type": "wordpress-plugin"
+        },
+        "offer-card": {
+            "type": "wordpress-plugin"
+        },
+        "online-schedule": {
+            "type": "wordpress-plugin"
+        },
+        "selected-cabins-carousel": {
+            "type": "wordpress-plugin"
+        },
+        "selected-offers-carousel": {
+            "type": "wordpress-plugin"
+        },
+        "starter-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "traveltips-feed": {
+            "type": "wordpress-plugin"
+        },
+        "passenger-schedule": {
+            "type": "wordpress-plugin"
+        },
+        "growthstack": {
+            "type": "wordpress-plugin"
+        },
+        "salient-nectar-slider": {
+            "type": "wordpress-plugin"
+        },
+        "wp-isp-plugin": {
+            "type": "wordpress-plugin"
+        },
+        "igniteup": {
+            "type": "wordpress-plugin"
+        },
+        "karma-order-forms": {
+            "type": "wordpress-plugin"
+        },
+        "gaia": {
+            "type": "wordpress-plugin"
+        },
+        "qn-cookie-bar": {
+            "type": "wordpress-plugin"
+        },
+        "faq-manager": {
+            "type": "wordpress-plugin"
+        },
+        "ht-knowledge-base": {
+            "type": "wordpress-plugin"
+        },
+        "heroic-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "heroic-table-of-contents": {
+            "type": "wordpress-plugin"
+        },
+        "diviflash": {
+            "type": "wordpress-plugin"
+        },
+        "divi-blurb-extended": {
+            "type": "wordpress-plugin"
+        },
+        "nextgen-download-gallery": {
+            "type": "wordpress-plugin"
+        },
+        "embed-any-document-plus": {
+            "type": "wordpress-plugin"
+        },
+        "bamboo-columns": {
+            "type": "wordpress-plugin"
+        },
+        "simply-gallery-block": {
+            "type": "wordpress-plugin"
+        },
+        "wordpress-easy-paypal-payment-or-donation-accept-plugin": {
+            "type": "wordpress-plugin"
+        },
+        "dartstatistik": {
+            "type": "wordpress-plugin"
+        },
+        "wp-file-upload": {
+            "type": "wordpress-plugin"
+        },
+        "dynamic-surveys": {
+            "type": "wordpress-plugin"
+        },
+        "table-addons-for-elementor": {
+            "type": "wordpress-plugin"
+        },
+        "sp-news-and-widget": {
+            "type": "wordpress-plugin"
+        },
+        "facebook-page-feed-graph-api": {
+            "type": "wordpress-plugin"
+        },
+        "sbk": {
+            "type": "wordpress-plugin"
+        },
+        "sbk-rapportering": {
+            "type": "wordpress-plugin"
+        },
+        "sbk-fakturor": {
+            "type": "wordpress-plugin"
+        },
+        "sbk-tavlingsansokan": {
+            "type": "wordpress-plugin"
+        },
+        "sbk-kalendarium": {
+            "type": "wordpress-plugin"
+        },
+        "sbk-tavlingskort": {
+            "type": "wordpress-plugin"
+        },
+        "sbk-ads": {
+            "type": "wordpress-plugin"
+        },
+        "sbk-medals": {
+            "type": "wordpress-plugin"
+        },
+        "sbk-underforbund": {
+            "type": "wordpress-plugin"
+        },
+        "sbk-risk-calculator": {
+            "type": "wordpress-plugin"
+        },
+        "goodblocks-2": {
+            "type": "wordpress-plugin"
+        },
+        "bulletin-announcements": {
+            "type": "wordpress-plugin"
+        },
+        "almega-chatbot": {
+            "type": "wordpress-plugin"
+        },
+        "cookiebot": {
+            "type": "wordpress-plugin"
+        },
+        "bt-bb-ab": {
+            "type": "wordpress-plugin"
+        },
+        "jet-reviews": {
+            "type": "wordpress-plugin"
+        },
+        "float-menu": {
+            "type": "wordpress-plugin"
+        },
+        "wp-retina-2x-pro": {
+            "type": "wordpress-plugin"
+        },
+        "wp-lazysizes-master": {
+            "type": "wordpress-plugin"
+        },
+        "meomblocks": {
+            "type": "wordpress-plugin"
+        },
+        "range-slider-for-elementor-forms": {
+            "type": "wordpress-plugin"
+        },
+        "wavo-elementor-addons": {
+            "type": "wordpress-plugin"
+        },
+        "dt-website-navigation": {
+            "type": "wordpress-plugin"
+        },
+        "dt-website-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "dt-schema": {
+            "type": "wordpress-plugin"
+        },
+        "producks-jobads": {
+            "type": "wordpress-plugin"
+        },
+        "visual-portfolio-pro": {
+            "type": "wordpress-plugin"
+        },
+        "kubio": {
+            "type": "wordpress-plugin"
+        },
+        "fullwidth-templates": {
+            "type": "wordpress-plugin"
+        },
+        "modularity-module-groups": {
+            "type": "wordpress-plugin"
+        },
+        "modularity-navigation": {
+            "type": "wordpress-plugin"
+        },
+        "modularity-posts-extensions": {
+            "type": "wordpress-plugin"
+        },
+        "municipio-cloud-nora-customizations": {
+            "type": "wordpress-plugin"
+        },
+        "municipio-theme-extensions": {
+            "type": "wordpress-plugin"
+        },
+        "aria-accessibility-toolkit": {
+            "type": "wordpress-plugin"
+        },
+        "paid-memberships-pro": {
+            "type": "wordpress-plugin"
+        },
+        "print-my-blog": {
+            "type": "wordpress-plugin"
+        },
+        "simply-gallery-block-premium": {
+            "type": "wordpress-plugin"
+        },
+        "wpbot-pro-professional": {
+            "type": "wordpress-plugin"
+        },
+        "hiq-exhibitions": {
+            "type": "wordpress-plugin"
+        },
+        "advanced-nocaptcha-and-invisible-captcha-pro": {
+            "type": "wordpress-plugin"
+        },
+        "grid-shortcodes": {
+            "type": "wordpress-plugin"
+        },
+        "swish-simple-donation": {
+            "type": "wordpress-plugin"
+        },
+        "columns": {
+            "type": "wordpress-plugin"
+        },
+        "give-gift-aid": {
+            "type": "wordpress-plugin"
+        },
+        "give-tributes": {
+            "type": "wordpress-plugin"
+        },
+        "insamling-treskablinoll": {
+            "type": "wordpress-plugin"
+        },
+        "cookie-notice-and-consent-banner": {
+            "type": "wordpress-plugin"
+        },
+        "smart-post-show-pro": {
+            "type": "wordpress-plugin"
+        },
+        "universally-language-translation-multilingual-tool": {
+            "type": "wordpress-plugin"
+        },
+        "um-widgets-elementor-pro-premium": {
+            "type": "wordpress-plugin"
+        },
+        "albacross": {
+            "type": "wordpress-plugin"
+        },
+        "automatic-youtube-gallery": {
+            "type": "wordpress-plugin"
+        },
+        "awt-blocks": {
+            "type": "wordpress-plugin"
+        },
+        "jcore-dynamic-archive": {
+            "type": "wordpress-plugin"
+        },
+        "municipio-quality-extensions": {
+            "type": "wordpress-plugin"
+        },
+        "hardypress": {
+            "type": "wordpress-plugin"
+        },
+        "tiktok-for-business": {
+            "type": "wordpress-plugin"
+        },
+        "horizontal-scrolling-announcements": {
+            "type": "wordpress-plugin"
         }
     }
 }

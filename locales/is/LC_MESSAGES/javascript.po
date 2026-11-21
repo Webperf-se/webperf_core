@@ -124,3 +124,9 @@ msgstr "Javascript, banna with-segðir ({0})"
 
 msgid "no-with (resolved)"
 msgstr "Javascript, banna with-segðir (leyst)"
+
+msgid "ssr-friendly/no-dom-globals-in-module-scope (unresolved)"
+msgstr "Javascript, banna vafrahluti (eins og window og document) beint þegar skráin er hlaðin ({0})"
+
+msgid "ssr-friendly/no-dom-globals-in-module-scope (resolved)"
+msgstr "Javascript, banna vafrahluti (eins og window og document) beint þegar skráin er hlaðin (leyst)"

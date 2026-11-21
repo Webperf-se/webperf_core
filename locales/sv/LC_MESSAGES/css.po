@@ -244,3 +244,15 @@ msgstr "CSS, Tillåt inte ogiltiga selektorer ({0})"
 
 msgid "selector-no-invalid (resolved)"
 msgstr "CSS, Tillåt inte ogiltiga selektorer (löst)"
+
+msgid "value-no-invalid (unresolved)"
+msgstr "CSS, Tillåt inte ogiltiga värden för egenskaper ({0})"
+
+msgid "value-no-invalid (resolved)"
+msgstr "CSS, Tillåt inte ogiltiga värden för egenskaper (löst)"
+
+msgid "at-charset-rule-no-invalid (unresolved)"
+msgstr "CSS, Tillåt inte felskrivna eller felplacerade @charset-regler (teckenkodning) ({0})"
+
+msgid "at-charset-rule-no-invalid (resolved)"
+msgstr "CSS, Tillåt inte felskrivna eller felplacerade @charset-regler (teckenkodning) (löst)"

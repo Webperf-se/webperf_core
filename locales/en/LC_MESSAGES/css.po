@@ -245,3 +245,14 @@ msgstr "CSS, Disallow invalid selectors (resolved)"
 msgid "selector-no-invalid (unresolved)"
 msgstr "CSS, Disallow invalid selectors ({0})"
 
+msgid "value-no-invalid (unresolved)"
+msgstr "CSS, Disallow invalid property values ({0})"
+
+msgid "value-no-invalid (resolved)"
+msgstr "CSS, Disallow invalid property values (resolved)"
+
+msgid "at-charset-rule-no-invalid (unresolved)"
+msgstr "CSS, Disallow malformed or misplaced @charset rules ({0})"
+
+msgid "at-charset-rule-no-invalid (resolved)"
+msgstr "CSS, Disallow malformed or misplaced @charset rules (resolved)"

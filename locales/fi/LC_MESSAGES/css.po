@@ -249,3 +249,14 @@ msgstr "CSS, Älä salli virheellisiä valitsimia (ratkaistu)"
 msgid "selector-no-invalid (unresolved)"
 msgstr "CSS, Älä salli virheellisiä valitsimia ({0})"
 
+msgid "value-no-invalid (unresolved)"
+msgstr "CSS, Älä salli virheellisiä ominaisuuksien arvoja ({0})"
+
+msgid "value-no-invalid (resolved)"
+msgstr "CSS, Älä salli virheellisiä ominaisuuksien arvoja (ratkaistu)"
+
+msgid "at-charset-rule-no-invalid (unresolved)"
+msgstr "CSS, Älä salli väärin kirjoitettuja tai väärin sijoitettuja @charset-sääntöjä (merkistökoodaus) ({0})"
+
+msgid "at-charset-rule-no-invalid (resolved)"
+msgstr "CSS, Älä salli väärin kirjoitettuja tai väärin sijoitettuja @charset-sääntöjä (merkistökoodaus) (ratkaistu)"

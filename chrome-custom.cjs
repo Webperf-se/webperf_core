@@ -2,8 +2,31 @@
  * USED FOR SITESPEED TEST (TO test real no javascript gain)!!!
  * Right now sitespeed doesn't support blocking specific content type so this is our workaround
  */
+// Reads --browsertime.webperf.<prefix>01..09 options, encoded as
+// "<from>=<to>" with spaces as %20 and literal equals signs as %3D.
+const getPluginOptionPairs = function (context, prefix) {
+    const pairs = [];
+    const options = (context.options && context.options.webperf) || {};
+    for (let i = 1; i <= 9; i++) {
+        const key = prefix + '0' + i;
+        if (!(key in options)) {
+            continue;
+        }
+        const parts = String(options[key]).replaceAll('%20', ' ').split('=');
+        pairs.push([parts[0].replaceAll('%3D', '='), (parts[1] || '').replaceAll('%3D', '=')]);
+    }
+    return pairs;
+};
+
 module.exports = async function (context, commands) {
-    cdpClient = commands.cdp.engineDelegate.getCDPClient()
+    // No options is the normal case (the baseline desktop and mobile runs),
+    // so it is not logged.
+    const headerOptions = getPluginOptionPairs(context, 'header')
+        .map(([name, value]) => ({ name: name, value: value }));
+    const htmlOptions = getPluginOptionPairs(context, 'HTML')
+        .map(([replace, replaceWith]) => ({ replace: replace, replaceWith: replaceWith }));
+
+    const cdpClient = commands.cdp.engineDelegate.getCDPClient()
     await cdpClient.send('Fetch.enable', {
         patterns: [
             {
@@ -49,31 +72,19 @@ module.exports = async function (context, commands) {
             return
         }
 
-        if ('webperf' in context.options) {
-            for (var i = 1; i <= 9; i++) {
-                const key = 'header0X'.replace('X', i);
-                if (!(key in context.options.webperf)) {
-                    // context.log.warning("NO " + key + " OPTIONS");
-                    continue;
-                }
-                pair = context.options.webperf[key].replaceAll('%20', ' ').split('=');
-                const newServerHeader = { name: pair[0].replaceAll('%3D', '='), value: pair[1].replaceAll('%3D', '=') };
-                const foundHeaderIndex = responseHeaders.findIndex(
-                    h => h.name === pair[0].replaceAll('%3D', '=')
-                );
-                if (foundHeaderIndex) {
-                    context.log.warning("ADDED HTTP HEADER: " + pair[0].replaceAll('%3D', '=') + " = " + pair[1].replaceAll('%3D', '='));
-                    responseHeaders[foundHeaderIndex] = newServerHeader;
-                } else {
-                    context.log.warning("OVERRITE HTTP HEADER: " + pair[0].replaceAll('%3D', '=') + " = " + pair[1].replaceAll('%3D', '='));
-                    responseHeaders.push(newServerHeader);
-                }
+        for (const header of headerOptions) {
+            // HTTP header names are case-insensitive, and HTTP/2 delivers them in lower case.
+            const foundHeaderIndex = responseHeaders.findIndex(
+                h => h.name.toLowerCase() === header.name.toLowerCase()
+            );
+            if (foundHeaderIndex !== -1) {
+                context.log.warning("OVERWRITE HTTP HEADER: " + header.name + " = " + header.value);
+                responseHeaders[foundHeaderIndex] = header;
+            } else {
+                context.log.warning("ADDED HTTP HEADER: " + header.name + " = " + header.value);
+                responseHeaders.push(header);
             }
-        } else {
-            context.log.warning("NO PLUGIN OPTIONS");
         }
-
-        reqEvent.responseHeaders = responseHeaders;
         // HACK: for some reason we cant get this to work, so we will use workaround by calling fulfillRequest instead
         // return cdpClient.send('Fetch.continueResponse', {
         //     requestId: requestId,
@@ -94,33 +105,26 @@ module.exports = async function (context, commands) {
             return
         }
 
-        body = ''
-        if (bodyResult.base64Encoded) {
-            body = atob(bodyResult.body)
-        }
+        // Fetch.fulfillRequest expects the body base64 encoded.
+        let responseBody = bodyResult.base64Encoded
+            ? bodyResult.body
+            : Buffer.from(bodyResult.body, 'utf8').toString('base64');
 
-        if ('webperf' in context.options) {
-            for (var i = 1; i <= 9; i++) {
-                const key = 'HTML0X'.replace('X', i);
-                if (!(key in context.options.webperf)) {
-                    // context.log.warning("NO " + key + " OPTIONS");
-                    continue;
-                }
-                pair = context.options.webperf[key].replaceAll('%20', ' ').split('=');
-                context.log.warning("HTML CHANGED: " + pair[0].replaceAll('%3D', '=') + " = " + pair[1].replaceAll('%3D', '='));
-                body = body.replace(pair[0].replaceAll('%3D', '='), pair[1].replaceAll('%3D', '='))
+        if (htmlOptions.length > 0) {
+            let body = Buffer.from(responseBody, 'base64').toString('utf8');
+            for (const html of htmlOptions) {
+                context.log.warning("HTML CHANGED: " + html.replace + " = " + html.replaceWith);
+                body = body.replace(html.replace, html.replaceWith);
             }
-        } else {
-            context.log.warning("NO PLUGIN OPTIONS");
+            responseBody = Buffer.from(body, 'utf8').toString('base64');
         }
-
 
         try {
             return await cdpClient.send('Fetch.fulfillRequest', {
                 requestId: requestId,
                 responseCode: reqEvent.responseStatusCode,
                 responseHeaders: responseHeaders,
-                body: bodyResult.body
+                body: responseBody
             });
         } catch (err) {
             context.log.warning("COULD NOT FULFILL REQUEST: " + err.message);
